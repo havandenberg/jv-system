@@ -8,29 +8,31 @@ import {
   Switch,
 } from 'react-router-dom';
 
+import Dashboard from 'components/dashboard';
+import Nav from 'components/nav';
+import Reports from 'components/reports';
+import Inspections from 'components/reports/inspections';
 import { GlobalContextProvider } from 'context/global';
 import Global from 'ui/global';
 import l from 'ui/layout';
 import th from 'ui/theme';
-import ty from 'ui/typography';
 
 const Main = styled(l.Div)({
   margin: '0 auto',
   maxWidth: th.widths.maxPage,
-  minHeight: '100vh',
+  paddingTop: th.heights.nav,
 });
 
 const App = () => (
   <Router>
     <GlobalContextProvider>
       <ThemeProvider theme={th}>
+        <Nav />
         <Main>
           <Switch>
-            <Route
-              exact
-              path="/"
-              component={() => <ty.TitleText center>Boilerplate</ty.TitleText>}
-            />
+            <Route exact path="/" component={Dashboard} />
+            <Route exact path="/reports" component={Reports} />
+            <Route exact path="/reports/inspections" component={Inspections} />
             <Redirect to="/" />
           </Switch>
         </Main>

@@ -28,7 +28,10 @@ export const colors = {
 };
 
 // Layout
-export const heights = {};
+export const heights = {
+  nav: 150,
+  navButton: 78,
+};
 
 export const sizes = {
   fill: '100%',
