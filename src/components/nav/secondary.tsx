@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 
-import l from 'ui/layout';
+import l, { divPropsSet } from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 import { NavItemProps } from './item';
@@ -9,23 +9,23 @@ import { NavItemProps } from './item';
 const navItems: { [key: string]: NavItemProps[] } = {
   reports: [
     { text: 'Inspections', to: 'inspections' },
-    { disabled: true, text: 'Market', to: 'market' },
+    // { disabled: true, text: 'Market', to: 'market' },
   ],
 };
 
-const NavItem = styled(l.Flex)(
+export const NavItem = styled(l.Flex)(
   ({ active, disabled }: { active?: boolean; disabled?: boolean }) => ({
     alignItems: 'center',
     cursor: disabled ? 'default' : 'pointer',
     justifyContent: 'center',
     height: th.sizes.fill,
     opacity: active ? 1 : th.opacities.secondary,
-    padding: `0 ${th.spacing.lg}`,
     transition: th.transitions.default,
     ':hover': {
       opacity: disabled ? undefined : 1,
     },
   }),
+  ...divPropsSet,
 );
 
 interface SecondaryNavProps {
@@ -47,7 +47,7 @@ const SecondaryNav = ({ activePathname }: SecondaryNavProps) => {
         const active = activePathname === pathname;
         return (
           <l.AreaLink key={idx} to={disabled ? '#' : pathname}>
-            <NavItem active={active} disabled={disabled}>
+            <NavItem active={active} disabled={disabled} px={th.spacing.lg}>
               <ty.LargeText>{text}</ty.LargeText>
             </NavItem>
           </l.AreaLink>

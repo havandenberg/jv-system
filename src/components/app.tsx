@@ -19,8 +19,9 @@ import th from 'ui/theme';
 
 const Main = styled(l.Div)({
   margin: '0 auto',
-  maxWidth: th.widths.maxPage,
-  paddingTop: th.heights.nav,
+  maxWidth: th.widths.maxContent,
+  marginTop: th.heights.nav,
+  paddingTop: th.spacing.lg,
 });
 
 const App = () => (
