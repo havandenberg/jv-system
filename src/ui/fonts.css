@@ -1,0 +1,23 @@
+@font-face {
+  font-family: Nunito;
+  font-weight: 500;
+  src: url('../assets/fonts/nunito-regular.woff2');
+}
+
+@font-face {
+  font-family: Nunito;
+  font-weight: 700;
+  src: url('../assets/fonts/nunito-bold.woff2');
+}
+
+@font-face {
+  font-family: TrajanPro;
+  font-weight: 500;
+  src: url('../assets/fonts/trajanpro-regular.woff2');
+}
+
+@font-face {
+  font-family: TrajanPro;
+  font-weight: 700;
+  src: url('../assets/fonts/trajanpro-bold.woff2');
+}
