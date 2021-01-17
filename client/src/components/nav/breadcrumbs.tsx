@@ -22,9 +22,9 @@ const Breadcrumbs = ({
     {breadcrumbs.map(({ text, to }, idx) => {
       const active = pathname === to;
       return (
-        <>
+        <React.Fragment key={idx}>
           {idx > 0 && <l.Img height={th.sizes.xs} src={ChevronImg} />}
-          <l.AreaLink key={idx} to={active ? '#' : to}>
+          <l.AreaLink to={active ? '#' : to}>
             <NavItem
               active={active}
               cursor={active ? 'default' : 'pointer'}
@@ -33,7 +33,7 @@ const Breadcrumbs = ({
               <ty.BodyText>{text}</ty.BodyText>
             </NavItem>
           </l.AreaLink>
-        </>
+        </React.Fragment>
       );
     })}
   </l.Flex>
