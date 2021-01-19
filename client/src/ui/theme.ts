@@ -6,11 +6,13 @@ export const colors = {
   black: '#00080F',
   white: '#FFFFFF',
   brand: {
-    containerBackground: '#DEEBF5',
-    containerBackgroundAccent: '#D0E0EB',
-    primary: '#03294A',
+    containerBackground: 'rgba(3,41,74,0.05)',
+    containerBackgroundAccent: 'rgba(3,41,74,0.1)',
+    primary: 'rgb(3,41,74)',
     primaryAccent: '#064C89',
-    secondary: '#D2CD2E',
+    secondary: 'rgba(3,41,74,0.7)',
+    disabled: 'rgba(3,41,74,0.4)',
+    logo: '#D2CD2E',
   },
   text: {
     default: '#03294A',

@@ -11,6 +11,8 @@ import { PeruInspectionReport } from 'types/inspections';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
+import Graph from './graph';
+import { getAvgConditionChartData, getAvgQualityChartData } from './utils';
 
 const breadcrumbs = (id: string) => [
   { text: 'All Inspections', to: '/reports/inspections' },
@@ -154,6 +156,8 @@ const Details = () => {
   }
 
   const values = getValues(reportData);
+  const avgQualityData = getAvgQualityChartData(reportData);
+  const avgConditionData = getAvgConditionChartData(reportData);
 
   return (
     <Page breadcrumbs={breadcrumbs(id)} title={`Inspection Report - ${id}`}>
@@ -180,7 +184,12 @@ const Details = () => {
           <ty.SmallText mb={th.spacing.sm} secondary>
             QC Comments
           </ty.SmallText>
-          <ty.BodyText>{reportData.comments}</ty.BodyText>
+          <ty.BodyText mb={th.spacing.xl}>{reportData.comments}</ty.BodyText>
+          <l.Flex justifyBetween mb={th.spacing.xl} width={800}>
+            <Graph data={avgQualityData} title="Average Quality (%)" />
+            <l.Div width={th.spacing.lg} />
+            <Graph data={avgConditionData} title="Average Condition (%)" />
+          </l.Flex>
         </l.Div>
         <l.Div width={th.spacing.lg} />
         <l.Scroll flex={3} height={th.sizes.fill}>

@@ -16,6 +16,7 @@ export interface Pallet {
   sunburnPct: number;
   undersizedBunchesPct: number;
   othersDefectsPct: number;
+  totalQualityDefectsPct: number;
   stemDehyPct: number;
   glassyWeakPct: number;
   decayPct: number;
@@ -24,6 +25,8 @@ export interface Pallet {
   wetStickyPct: number;
   waterberriesPct: number;
   shatterPct: number;
+  totalConditionDefectsPct: number;
+  totalDefectsPct: number;
 }
 
 export interface PeruInspectionReport {
