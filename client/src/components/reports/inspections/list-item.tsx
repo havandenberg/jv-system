@@ -61,7 +61,7 @@ const ListItem = ({ data }: { data: PeruInspectionReport }) => {
         <GridContainer gridTemplateColumns={gridTemplateColumns}>
           {columns.map(({ key }) => (
             <l.Flex
-              alignItems="center"
+              alignCenter
               height={th.sizes.fill}
               key={key}
               px={th.spacing.sm}
@@ -89,9 +89,9 @@ const ListItem = ({ data }: { data: PeruInspectionReport }) => {
               </l.Div>
             ))}
           </l.Flex>
-          <l.FlexCentered height={th.sizes.fill}>
+          <l.Flex centered height={th.sizes.fill}>
             <l.Img height={th.spacing.md} src={ChevronImg} />
-          </l.FlexCentered>
+          </l.Flex>
         </GridContainer>
       </l.AreaLink>
       <Lightbox />

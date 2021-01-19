@@ -44,7 +44,7 @@ const SecondaryNav = ({ activePathname }: SecondaryNavProps) => {
     <l.Flex flex={1}>
       {items.map(({ disabled, to, text }, idx) => {
         const pathname = `/${baseUrl}/${to}`;
-        const active = activePathname === pathname;
+        const active = activePathname.includes(pathname);
         return (
           <l.AreaLink key={idx} to={disabled ? '#' : pathname}>
             <NavItem active={active} disabled={disabled} px={th.spacing.lg}>

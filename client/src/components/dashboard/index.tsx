@@ -1,7 +1,7 @@
 import React from 'react';
 
-import ty from 'ui/typography';
+import Page from 'components/page';
 
-const Dashboard = () => <ty.TitleText>Dashboard</ty.TitleText>;
+const Dashboard = () => <Page title="Dashboard" />;
 
 export default Dashboard;

@@ -9,6 +9,8 @@ import {
   SpaceSetProps,
   textSet,
   TextSetProps,
+  textShadow,
+  TextShadowProps,
   transformSet,
   TransformSetProps,
   transition,
@@ -32,9 +34,11 @@ export type TextProps = SpaceSetProps &
   OpacityProps &
   LayoutSetProps &
   TextSetProps &
+  TextShadowProps &
   TransformSetProps &
   TransitionProps &
-  CustomTextProps;
+  CustomTextProps &
+  any;
 
 const customProps = ({
   bold,
@@ -63,12 +67,13 @@ export const textPropsSet = [
   opacity,
   spaceSet,
   textSet,
+  textShadow,
   transformSet,
   transition,
   customProps,
 ];
 
-const StyledText = styled.p<TextProps & any>(textPropsSet);
+const StyledText = styled.p<TextProps>(textPropsSet);
 const textComponent = (type: keyof typeof th.textStyles = 'body') => ({
   children,
   ...rest
@@ -87,7 +92,7 @@ const LargeText = textComponent('large');
 const DisplayText = textComponent('display');
 const HugeText = textComponent('huge');
 
-const TitleText = styled.h1<TextProps & any>(th.textStyles.title, textPropsSet);
+const TitleText = styled.h1<TextProps>(th.textStyles.title, textPropsSet);
 
 export default {
   BodyText,

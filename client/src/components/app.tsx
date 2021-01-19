@@ -10,33 +10,39 @@ import {
 } from 'react-router-dom';
 
 import Dashboard from 'components/dashboard';
+import Footer from 'components/footer';
 import Nav from 'components/nav';
 import Reports from 'components/reports';
 import Inspections from 'components/reports/inspections';
+import InspectionDetails from 'components/reports/inspections/details';
 import { GlobalContextProvider } from 'context/global';
 import Global from 'ui/global';
 import l from 'ui/layout';
 import th from 'ui/theme';
 
-const Main = styled(l.Div)({
-  margin: '0 auto',
-  maxWidth: th.widths.maxContent,
-  marginTop: th.heights.nav,
-  paddingTop: th.spacing.lg,
+const Main = styled(l.Flex)({
+  flexDirection: 'column',
+  minHeight: '100vh',
 });
 
 const App = () => (
   <Router>
     <GlobalContextProvider>
       <ThemeProvider theme={th}>
-        <Nav />
         <Main>
+          <Nav />
           <Switch>
             <Route exact path="/" component={Dashboard} />
             <Route exact path="/reports" component={Reports} />
             <Route exact path="/reports/inspections" component={Inspections} />
+            <Route
+              exact
+              path="/reports/inspections/:id"
+              component={InspectionDetails}
+            />
             <Redirect to="/" />
           </Switch>
+          <Footer />
         </Main>
         <Global />
       </ThemeProvider>

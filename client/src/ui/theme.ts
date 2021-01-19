@@ -33,6 +33,7 @@ export const colors = {
 export const heights = {
   nav: 150,
   navButton: 78,
+  pageHeader: 136,
 };
 
 export const sizes = {
@@ -109,7 +110,10 @@ export const breakpointQueries = {
 
 export const opacities = { disabled: 0.4, secondary: 0.7 };
 
-export const shadows = {};
+export const shadows = {
+  contentBottom: `0 10px 6px -4px ${colors.brand.containerBackgroundAccent}`,
+  contentTop: `0 -10px 6px -4px ${colors.brand.containerBackgroundAccent}`,
+};
 
 export const transitions = {
   default: 'all 0.3s ease',
@@ -136,8 +140,7 @@ export const scrollStyles = (showScrollBar: boolean) => ({
   },
   '::-webkit-scrollbar-thumb': {
     '-webkit-border-radius': 20,
-    '-webkit-box-shadow':
-      'inset -1px -1px 0px rgba(0, 0, 0, 0.05), inset 1px 1px 0px rgba(0, 0, 0, 0.05)',
+    '-webkit-box-shadow': `inset -1px -1px 0px ${colors.brand.primary}, inset 1px 1px 0px ${colors.brand.primary}`,
     backgroundClip: 'padding-box',
     backgroundColor: colors.white,
     border: showScrollBar ? '8px solid rgba(0, 0, 0, 0)' : 0,

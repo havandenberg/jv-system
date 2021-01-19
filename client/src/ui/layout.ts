@@ -4,6 +4,8 @@ import {
   BackgroundSetProps,
   borderSet,
   BorderSetProps,
+  BoxShadowProps,
+  boxShadow,
   displaySet,
   DisplaySetProps,
   flexSet,
@@ -37,6 +39,7 @@ interface CustomDivProps {
   alignCenter?: boolean;
   alignEnd?: boolean;
   alignStart?: boolean;
+  centered?: boolean;
   column?: boolean;
   columnOnMobile?: boolean;
   columnReverseOnMobile?: boolean;
@@ -54,6 +57,7 @@ const customOptions: (props: CustomDivProps) => any = ({
   alignCenter,
   alignEnd,
   alignStart,
+  centered,
   column,
   columnOnMobile,
   columnReverseOnMobile,
@@ -70,7 +74,7 @@ const customOptions: (props: CustomDivProps) => any = ({
     ? 'flex-start'
     : alignEnd
     ? 'flex-end'
-    : alignCenter
+    : alignCenter || centered
     ? 'center'
     : undefined,
   flexDirection: column ? 'column' : undefined,
@@ -81,10 +85,10 @@ const customOptions: (props: CustomDivProps) => any = ({
     ? 'flex-start'
     : justifyEnd
     ? 'flex-end'
-    : justifyCenter
+    : justifyCenter || centered
     ? 'center'
     : justifyBetween
-    ? 'flex-between'
+    ? 'space-between'
     : undefined,
   position: relative ? 'relative' : undefined,
   [th.breakpointQueries.small]:
@@ -95,6 +99,7 @@ const customOptions: (props: CustomDivProps) => any = ({
 
 export type DivProps = BackgroundSetProps &
   BorderSetProps &
+  BoxShadowProps &
   DisplaySetProps &
   FlexSetProps &
   GridSetProps &
@@ -108,6 +113,7 @@ export type DivProps = BackgroundSetProps &
 export const divPropsSet = [
   backgroundSet,
   borderSet,
+  boxShadow,
   displaySet,
   flexSet,
   gridSet,
@@ -122,13 +128,9 @@ export const divPropsSet = [
 const Div = styled.div<DivProps>(divPropsSet);
 const Span = styled.span<DivProps>(divPropsSet);
 
-const Flex = styled(Div)<DivProps>({ display: 'flex' }, divPropsSet);
-const FlexCentered = styled(Div)<DivProps>(
-  { display: 'flex', alignItems: 'center', justifyContent: 'center' },
-  divPropsSet,
-);
+const Flex = styled(Div)({ display: 'flex' }, divPropsSet);
 
-const Grid = styled(Div)<DivProps>(
+const Grid = styled(Div)(
   {
     display: 'grid',
   },
@@ -165,7 +167,7 @@ export type ImgProps = HeightProps &
   WidthProps;
 const Img = styled.img<ImgProps>(height, size, spaceSet, transition, width);
 
-const GalleryWrapper = styled(Div)<DivProps>(
+const GalleryWrapper = styled(Div)(
   {
     display: 'block',
     minHeight: '1px',
@@ -180,7 +182,6 @@ export default {
   Anchor,
   Div,
   Flex,
-  FlexCentered,
   GalleryWrapper,
   Grid,
   Img,

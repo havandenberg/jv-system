@@ -1,7 +1,7 @@
 import React from 'react';
 
-import ty from 'ui/typography';
+import Page from 'components/page';
 
-const Reports = () => <ty.TitleText center>Reports</ty.TitleText>;
+const Reports = () => <Page title="Reports" />;
 
 export default Reports;

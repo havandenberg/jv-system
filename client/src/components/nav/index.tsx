@@ -25,6 +25,16 @@ const navItems: NavItemProps[] = [
   },
 ];
 
+const Wrapper = styled(l.Flex)({
+  background: th.colors.background,
+  height: th.heights.nav,
+  left: 0,
+  position: 'fixed',
+  right: 0,
+  top: 0,
+  zIndex: 11,
+});
+
 const Logo = styled(l.AreaLink)({
   background: th.colors.brand.primary,
   borderTopRightRadius: th.borderRadii.default,
@@ -35,14 +45,7 @@ const Logo = styled(l.AreaLink)({
 });
 
 const Nav = ({ location: { pathname } }: RouteComponentProps) => (
-  <l.Flex
-    bg={th.colors.background}
-    h={th.heights.nav}
-    position="fixed"
-    top={0}
-    left={0}
-    right={0}
-  >
+  <Wrapper>
     <Logo to="/">
       <l.Flex justifyCenter>
         <l.Img height={100} src={LogoImg} width={136} />
@@ -52,12 +55,12 @@ const Nav = ({ location: { pathname } }: RouteComponentProps) => (
       <l.Div height={24} />
       <l.Flex bg={th.colors.brand.primary} height={th.heights.navButton}>
         {navItems.map((item, idx) => (
-          <NavItem active={pathname === item.to} key={idx} {...item} />
+          <NavItem active={pathname.includes(item.to)} key={idx} {...item} />
         ))}
       </l.Flex>
       <SecondaryNav activePathname={pathname} />
     </l.Flex>
-  </l.Flex>
+  </Wrapper>
 );
 
 export default withRouter(Nav);

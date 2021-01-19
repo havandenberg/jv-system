@@ -7,7 +7,7 @@ import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 
-interface BreadcrumbProps {
+export interface BreadcrumbProps {
   text: string;
   to: string;
 }
@@ -23,7 +23,7 @@ const Breadcrumbs = ({
       const active = pathname === to;
       return (
         <React.Fragment key={idx}>
-          {idx > 0 && <l.Img height={th.sizes.xs} src={ChevronImg} />}
+          {idx > 0 && <l.Img height={10} src={ChevronImg} />}
           <l.AreaLink to={active ? '#' : to}>
             <NavItem
               active={active}

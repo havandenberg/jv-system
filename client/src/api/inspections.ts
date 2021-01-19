@@ -22,8 +22,9 @@ const initialState: State = {
   loading: false,
 };
 
-export const useInspections = () => {
+export const useInspections = (id?: string) => {
   const [{ data, loading }, setState] = useState(initialState);
+  const single = data.find((report) => report.containerId === id);
 
   useEffect(() => {
     if (!loading && data.length === 0) {
@@ -34,5 +35,5 @@ export const useInspections = () => {
     }
   }, [data, loading]);
 
-  return { data, loading };
+  return { data: id ? [single] : data, loading };
 };
