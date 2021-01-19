@@ -1,6 +1,12 @@
-import axios from 'axios';
-export const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+import { setup } from 'axios-cache-adapter';
 
-export default axios.create({
-  baseURL: process.env.REACT_APP_API_BASE_URL,
+export const API_BASE = process.env.REACT_APP_API_BASE_URL;
+
+const api = setup({
+  baseURL: API_BASE,
+  cache: {
+    maxAge: 15 * 60 * 1000,
+  },
 });
+
+export default api;

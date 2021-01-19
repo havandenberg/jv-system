@@ -6,6 +6,8 @@ export const colors = {
   black: '#00080F',
   white: '#FFFFFF',
   brand: {
+    containerBackground: '#DEEBF5',
+    containerBackgroundAccent: '#D0E0EB',
     primary: '#03294A',
     primaryAccent: '#064C89',
     secondary: '#D2CD2E',

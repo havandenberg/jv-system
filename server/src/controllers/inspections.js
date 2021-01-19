@@ -18,11 +18,14 @@ const inspectionsController = (request, response) => {
       fs.readFile(`${dataRoot}/${reportDir}/data.json`, (error, content) => {
         if (!error) {
           const reportData = JSON.parse(content);
+          const imagesDir = `${dataRoot}/${reportDir}/images`;
           const images = fs
-            .readdirSync(`${dataRoot}/${reportDir}/images`)
-            .filter((file) => path.extname(file).toLowerCase() === '.jpg')
-            .map((file) => file);
-          reportData.images = images;
+            .readdirSync(imagesDir)
+            .filter(
+              (imageFile) => path.extname(imageFile).toLowerCase() === '.jpg',
+            )
+            .map((imageFile) => path.join(`/${reportDir}/images`, imageFile));
+          reportData.imageUrls = images;
           results.push(reportData);
         }
         callback();

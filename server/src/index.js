@@ -11,3 +11,5 @@ server.use(cors());
 server.listen(port, () => console.log('JV server live on ' + port));
 
 server.get('/reports/inspections', inspectionsController);
+const inspectionsDataRoot = process.env.INSPECTIONS_DIRECTORY;
+server.use(express.static(inspectionsDataRoot));

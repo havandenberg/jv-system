@@ -14,6 +14,8 @@ import {
   HeightProps,
   layoutSet,
   LayoutSetProps,
+  overflowSet,
+  OverflowSetProps,
   positionSet,
   PositionSetProps,
   size,
@@ -97,6 +99,7 @@ export type DivProps = BackgroundSetProps &
   FlexSetProps &
   GridSetProps &
   LayoutSetProps &
+  OverflowSetProps &
   PositionSetProps &
   SpaceSetProps &
   TransformSetProps &
@@ -109,9 +112,10 @@ export const divPropsSet = [
   flexSet,
   gridSet,
   layoutSet,
+  overflowSet,
+  positionSet,
   spaceSet,
   transformSet,
-  positionSet,
   customOptions,
 ];
 
@@ -119,6 +123,10 @@ const Div = styled.div<DivProps>(divPropsSet);
 const Span = styled.span<DivProps>(divPropsSet);
 
 const Flex = styled(Div)<DivProps>({ display: 'flex' }, divPropsSet);
+const FlexCentered = styled(Div)<DivProps>(
+  { display: 'flex', alignItems: 'center', justifyContent: 'center' },
+  divPropsSet,
+);
 
 const Grid = styled(Div)<DivProps>(
   {
@@ -157,9 +165,12 @@ export type ImgProps = HeightProps &
   WidthProps;
 const Img = styled.img<ImgProps>(height, size, spaceSet, transition, width);
 
-const Primary = styled(Span)<DivProps>(
+const GalleryWrapper = styled(Div)<DivProps>(
   {
-    color: th.colors.brand.primary,
+    display: 'block',
+    minHeight: '1px',
+    overflow: 'auto',
+    width: '100%',
   },
   divPropsSet,
 );
@@ -169,8 +180,9 @@ export default {
   Anchor,
   Div,
   Flex,
+  FlexCentered,
+  GalleryWrapper,
   Grid,
-  Primary,
   Img,
   Scroll,
   Span,

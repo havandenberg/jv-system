@@ -27,20 +27,28 @@ export interface Pallet {
 }
 
 export interface PeruInspectionReport {
+  avgBunchesPerBox: number;
+  avgNetWeight: number;
   bagsPerBox: string;
+  bagType: string;
   brand: string;
+  brixAvg: number;
+  brixMax: number;
+  brixMin: number;
   category: string;
   comments: string;
+  conditionScore: number;
   containerId: string;
-  destination: string;
   departureWeek: string;
+  destination: string;
   exporter: string;
-  inspectionDate: Date;
   imageUrls: string[];
+  inspectionDate: Date;
   packingDate: Date;
   packingHouse: string;
   packingMaterial: string;
   pallets: Pallet[];
   presentation: string;
+  qualityScore: number;
   variety: string;
 }
