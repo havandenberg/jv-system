@@ -23,6 +23,9 @@ const TableHeader = styled.th({
   '> div > span': {
     padding: th.spacing.sm,
   },
+  ':first-child': {
+    transform: 'translateX(24px)',
+  },
   ':last-child': {
     fontWeight: 700,
   },
@@ -58,11 +61,13 @@ const Table = ({ pallets }: TableProps) => {
   const filteredPallets = pallets.filter((pallet) => pallet.id !== 'average');
   return (
     <>
-      <ty.CaptionText secondary>Pallet Data</ty.CaptionText>
+      <ty.CaptionText mb={th.spacing.sm} secondary>
+        Pallet Data
+      </ty.CaptionText>
       <l.Flex justifyCenter>
         <TabBar />
       </l.Flex>
-      <l.Div height={150} />
+      <l.Div height={160} />
       <StyledTable>
         <thead>
           <tr>

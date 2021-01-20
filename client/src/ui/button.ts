@@ -25,7 +25,6 @@ const primaryStyles = {
   border: th.borders.primary,
   color: th.colors.white,
   fontSize: th.fontSizes.body,
-  letterSpacing: '0.53px',
   padding: th.spacing.md,
 };
 

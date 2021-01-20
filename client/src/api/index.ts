@@ -1,12 +1,14 @@
 import { setup } from 'axios-cache-adapter';
 
-export const API_BASE = process.env.REACT_APP_API_BASE_URL;
+import useInspections from 'api/inspections';
+
+const baseURL = process.env.REACT_APP_API_BASE_URL;
 
 const api = setup({
-  baseURL: API_BASE,
+  baseURL,
   cache: {
     maxAge: 15 * 60 * 1000,
   },
 });
 
-export default api;
+export default { baseURL, client: api, useInspections };

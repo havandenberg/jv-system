@@ -1,52 +1,22 @@
 import React from 'react';
 import styled from '@emotion/styled';
 
-import { API_BASE } from 'api';
+import api from 'api';
 import Chevron from 'assets/images/chevron';
 import useLightbox from 'hooks/use-lightbox';
 import { PeruInspectionReport } from 'components/reports/inspections/types';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
+import { listLabels } from './data-utils';
 import { gridTemplateColumns } from '.';
-
-interface Column {
-  key: keyof PeruInspectionReport;
-  label: string;
-}
-
-export const columns: Column[] = [
-  {
-    key: 'inspectionDate',
-    label: 'Inspection Date',
-  },
-  {
-    key: 'containerId',
-    label: 'Container ID',
-  },
-  {
-    key: 'exporter',
-    label: 'Exporter',
-  },
-  {
-    key: 'variety',
-    label: 'Variety',
-  },
-  {
-    key: 'qualityScore',
-    label: 'Quality',
-  },
-  {
-    key: 'conditionScore',
-    label: 'Condition',
-  },
-];
 
 const GridContainer = styled(l.Grid)({
   background: th.colors.brand.containerBackground,
   border: th.borders.primary,
   borderRadius: th.borderRadii.default,
   height: th.sizes.lg,
+  paddingLeft: th.spacing.sm,
   transition: th.transitions.default,
   ':hover': {
     background: th.colors.brand.containerBackgroundAccent,
@@ -59,7 +29,7 @@ const ListItem = ({ data }: { data: PeruInspectionReport }) => {
     <>
       <l.AreaLink to={`/reports/inspections/${data.containerId}`}>
         <GridContainer gridTemplateColumns={gridTemplateColumns}>
-          {columns.map(({ key }) => (
+          {listLabels.map(({ key }) => (
             <l.Flex
               alignCenter
               height={th.sizes.fill}
@@ -84,7 +54,7 @@ const ListItem = ({ data }: { data: PeruInspectionReport }) => {
                   height={60}
                   py={th.spacing.tn}
                   mr={th.spacing.tn}
-                  src={`${API_BASE}${imageUrl}`}
+                  src={`${api.baseURL}${imageUrl}`}
                 />
               </l.Div>
             ))}

@@ -2,8 +2,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { useParams } from 'react-router-dom';
 
-import { API_BASE } from 'api';
-import { useInspections } from 'api/inspections';
+import api from 'api';
 import Page from 'components/page';
 import FeaturedValue from 'components/featured-value';
 import useLightbox from 'hooks/use-lightbox';
@@ -29,14 +28,16 @@ const BaseDataContainer = styled(l.Grid)({
   border: th.borders.primary,
   borderRadius: th.borderRadii.default,
   gridTemplateColumns: 'repeat(5, 1fr)',
-  padding: `${th.spacing.sm} ${th.spacing.md}`,
+  paddingLeft: th.spacing.md,
+  paddingRight: th.spacing.sm,
+  paddingTop: th.spacing.sm,
 });
 
 const Details = () => {
   const { id } = useParams<{
     id: string;
   }>();
-  const { data } = useInspections(id);
+  const { data } = api.useInspections(id);
   const reportData = data[0];
   const { Lightbox, openLightbox } = useLightbox(
     reportData ? reportData.imageUrls : [],
@@ -56,7 +57,13 @@ const Details = () => {
         <l.Div flex={8}>
           <BaseDataContainer>
             {baseLabels.map(({ key, label }, idx) => (
-              <l.Div height={th.sizes.fill} key={idx} py={th.spacing.sm}>
+              <l.Div
+                height={th.sizes.fill}
+                key={idx}
+                pb={th.spacing.md}
+                pr={th.spacing.sm}
+                pt={th.spacing.sm}
+              >
                 <ty.CaptionText mb={th.spacing.sm} secondary>
                   {label}
                 </ty.CaptionText>
@@ -64,7 +71,12 @@ const Details = () => {
               </l.Div>
             ))}
           </BaseDataContainer>
-          <l.Flex justifyBetween my={th.spacing.xl} width={th.sizes.fill}>
+          <l.Flex
+            justifyBetween
+            mb={th.spacing.xl}
+            mt={th.spacing.lg}
+            width={th.sizes.fill}
+          >
             {featuredValues.map((value, idx) => (
               <React.Fragment key={idx}>
                 <FeaturedValue {...value} />
@@ -79,9 +91,12 @@ const Details = () => {
           </ty.CaptionText>
           <ty.BodyText mb={th.spacing.xl}>{reportData.comments}</ty.BodyText>
           <l.Flex justifyBetween mb={th.spacing.md} width={700}>
-            <Chart data={avgQualityData} title="Average Quality (%)" />
+            <Chart data={avgQualityData} title="Average Quality Defects (%)" />
             <l.Div width={th.spacing.md} />
-            <Chart data={avgConditionData} title="Average Condition (%)" />
+            <Chart
+              data={avgConditionData}
+              title="Average Condition Defects (%)"
+            />
           </l.Flex>
           <Table pallets={reportData.pallets} />
           <l.Div height={th.spacing.lg} />
@@ -106,7 +121,7 @@ const Details = () => {
                   width={th.sizes.fill}
                   py={th.spacing.tn}
                   mr={th.spacing.tn}
-                  src={`${API_BASE}${imageUrl}`}
+                  src={`${api.baseURL}${imageUrl}`}
                 />
               </l.Div>
             ))}

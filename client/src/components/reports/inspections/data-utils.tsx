@@ -1,3 +1,5 @@
+import { contains, omit, reduce, values } from 'ramda';
+
 import { Tab } from 'components/tab-bar';
 import {
   Pallet,
@@ -13,6 +15,33 @@ interface LabelInfo<T> {
 }
 
 export type ReportLabelInfo = LabelInfo<PeruInspectionReport>;
+
+export const listLabels: ReportLabelInfo[] = [
+  {
+    key: 'inspectionDate',
+    label: 'Inspection Date',
+  },
+  {
+    key: 'containerId',
+    label: 'Container ID',
+  },
+  {
+    key: 'exporter',
+    label: 'Exporter',
+  },
+  {
+    key: 'variety',
+    label: 'Variety',
+  },
+  {
+    key: 'qualityScore',
+    label: 'Quality',
+  },
+  {
+    key: 'conditionScore',
+    label: 'Condition',
+  },
+];
 
 export const baseLabels: ReportLabelInfo[] = [
   {
@@ -126,9 +155,9 @@ export const getFeaturedValues = (data: PeruInspectionReport) => [
             mb={th.spacing.xs}
             mx={th.spacing.sm}
           >
-            <ty.SmallText inverted secondary>
+            <ty.CaptionText inverted secondary>
               {label}
-            </ty.SmallText>
+            </ty.CaptionText>
             <ty.LargeText inverted my={0}>
               {data[key]}
             </ty.LargeText>
@@ -159,7 +188,7 @@ const avgQualityLabels: PalletLabelInfo[] = [
   { key: 'russetScarsPct', label: 'Russet / Scars' },
   { key: 'sunburnPct', label: 'Sunburn' },
   { key: 'undersizedBunchesPct', label: 'Undersized Bunches' },
-  { key: 'othersDefectsPct', label: 'Others Defects' },
+  { key: 'otherDefectsPct', label: 'Other Defects' },
 ];
 
 export const getAvgQualityChartLabels = getAvgData(avgQualityLabels);
@@ -219,7 +248,7 @@ export const tableLabels: { [key: string]: PalletLabelInfo[] } = {
     { key: 'russetScarsPct', label: 'Russet / Scars (<5%)' },
     { key: 'sunburnPct', label: 'Sunburn (0%)' },
     { key: 'undersizedBunchesPct', label: 'Undersized Bunches (10%)' },
-    { key: 'othersDefectsPct', label: 'Others Defects (%)' },
+    { key: 'otherDefectsPct', label: 'Other Defects (%)' },
     { key: 'totalQualityDefectsPct', label: 'Total Quality Defects (%)' },
   ],
   conditionDefects: [
@@ -242,3 +271,23 @@ export const tableLabels: { [key: string]: PalletLabelInfo[] } = {
 export const getTableData: (selectedTabId: string) => PalletLabelInfo[] = (
   selectedTabId,
 ) => tableLabels[selectedTabId];
+
+export const filterInspectionReports = (
+  reports: PeruInspectionReport[],
+  search: string,
+  startDate?: Date,
+  endDate?: Date,
+) =>
+  reports.filter((report) =>
+    reduce(
+      (containsSearch: boolean, value: string) =>
+        containsSearch || contains(search.toLowerCase(), value.toLowerCase()),
+      false,
+      values(omit(['pallets'], report)).map((value) => `${value}`),
+    ),
+  );
+
+export const sortInspectionReports = (
+  sortOption: keyof PeruInspectionReport,
+  reports: PeruInspectionReport[],
+) => reports;

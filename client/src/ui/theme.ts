@@ -33,6 +33,7 @@ export const colors = {
 
 // Layout
 export const heights = {
+  input: 40,
   nav: 150,
   navButton: 78,
   pageHeader: 136,
@@ -94,10 +95,11 @@ export const borders = {
   black: `1px solid ${colors.black}`,
   error: `1px solid ${colors.status.error}`,
   primary: `1px solid ${colors.brand.primary}`,
+  secondary: `1px solid ${colors.brand.secondary}`,
   transparent: '1px solid transparent',
 };
 
-export const borderRadii = { circle: '50%', default: 6, input: 3 };
+export const borderRadii = { circle: '50%', default: 6, input: 30 };
 
 export const breakpoints = [320, 700, 999];
 
@@ -182,6 +184,7 @@ export const textStyles = {
   },
   common: {
     color: colors.text.default,
+    letterSpacing: 0.5,
   },
 };
 

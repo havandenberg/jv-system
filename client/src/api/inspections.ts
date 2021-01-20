@@ -4,7 +4,7 @@ import api from 'api';
 import { PeruInspectionReport } from 'components/reports/inspections/types';
 
 const fetchInspections = (callback: (data: PeruInspectionReport[]) => void) => {
-  api.get('/reports/inspections').then(({ data }) => {
+  api.client.get('/reports/inspections').then(({ data }) => {
     const inspections: PeruInspectionReport[] = data;
     callback(inspections);
   });
@@ -22,7 +22,7 @@ const initialState: State = {
   loading: false,
 };
 
-export const useInspections = (id?: string) => {
+const useInspections = (id?: string) => {
   const [{ data, loading }, setState] = useState(initialState);
   const single = data.find((report) => report.containerId === id);
 
@@ -35,5 +35,7 @@ export const useInspections = (id?: string) => {
     }
   }, [data, loading]);
 
-  return { data: id ? [single] : data, loading };
+  return { data: id && single ? [single] : data, loading };
 };
+
+export default useInspections;

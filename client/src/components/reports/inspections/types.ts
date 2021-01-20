@@ -15,7 +15,7 @@ export interface Pallet {
   russetScarsPct: number;
   sunburnPct: number;
   undersizedBunchesPct: number;
-  othersDefectsPct: number;
+  otherDefectsPct: number;
   totalQualityDefectsPct: number;
   stemDehyPct: number;
   glassyWeakPct: number;
