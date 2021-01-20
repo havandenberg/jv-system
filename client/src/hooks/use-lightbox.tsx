@@ -41,7 +41,7 @@ const useLightbox = (imageUrls: string[]) => {
     isOpen ? (
       <Lightbox
         animationDuration={0}
-        imagePadding={64}
+        imagePadding={80}
         mainSrc={`${API_BASE}${imageUrls[photoIndex]}`}
         nextSrc={`${API_BASE}${imageUrls[nextIndex()]}`}
         prevSrc={`${API_BASE}${imageUrls[prevIndex()]}`}

@@ -5,30 +5,30 @@ import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 
-const Panel = styled(l.Flex)({
+const Wrapper = styled(l.Flex)({
   alignItems: 'center',
   borderRadius: th.borderRadii.default,
   background: th.colors.brand.primary,
   flexDirection: 'column',
-  height: 120,
+  height: 110,
   justifyContent: 'space-between',
   minWidth: 100,
   padding: th.spacing.md,
 });
 
-const ValuePanel = ({
+const FeaturedValue = ({
   label,
   value,
 }: {
   label: string;
   value: React.ReactNode;
 }) => (
-  <Panel>
+  <Wrapper>
     <ty.CaptionText center inverted secondary mb={th.spacing.sm}>
       {label}
     </ty.CaptionText>
     {value}
-  </Panel>
+  </Wrapper>
 );
 
-export default ValuePanel;
+export default FeaturedValue;

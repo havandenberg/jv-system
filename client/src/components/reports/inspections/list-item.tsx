@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import { API_BASE } from 'api';
 import Chevron from 'assets/images/chevron';
 import useLightbox from 'hooks/use-lightbox';
-import { PeruInspectionReport } from 'types/inspections';
+import { PeruInspectionReport } from 'components/reports/inspections/types';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';

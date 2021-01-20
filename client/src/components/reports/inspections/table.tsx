@@ -1,76 +1,12 @@
 import React from 'react';
 import styled from '@emotion/styled';
 
-import { Tab, useTabBar } from 'components/tab-bar';
-import { Pallet } from 'types/inspections';
+import { useTabBar } from 'components/tab-bar';
+import { Pallet } from 'components/reports/inspections/types';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
-import { ChartData, getAvgPallet } from './utils';
-
-const tabs: Tab[] = [
-  {
-    id: 'general',
-    text: 'General',
-  },
-  {
-    id: 'qualityDefects',
-    text: 'Quality Defects',
-  },
-  {
-    id: 'conditionDefects',
-    text: 'Condition Defects',
-  },
-];
-
-const data: { [key: string]: ChartData[] } = {
-  general: [
-    { key: 'id', label: 'Pallet Number' },
-    { key: 'size', label: 'Size' },
-    { key: 'netWeight', label: 'Net Weight (kg)' },
-    { key: 'openingScore', label: 'Opening Score' },
-    { key: 'colorScore', label: 'Color Score' },
-    { key: 'stemScore', label: 'Stem Score' },
-    { key: 'textureScore', label: 'Berry Texture Score' },
-    { key: 'bunchesPerBox', label: 'Bunches / Box' },
-    { key: 'brix', label: 'Brix' },
-    { key: 'qualityScore', label: 'Quality Score' },
-    { key: 'conditionScore', label: 'Condition Score' },
-    { key: 'totalQualityDefectsPct', label: 'Total Quality Defects (%)' },
-    {
-      key: 'totalConditionDefectsPct',
-      label: 'Total Condition Defects (<3%)',
-    },
-    { key: 'totalDefectsPct', label: 'TOTAL DEFECTS (<3%)' },
-  ],
-  qualityDefects: [
-    { key: 'id', label: 'Pallet Number' },
-    { key: 'stragglyTightPct', label: 'Straggly / Tight Bunches (0%)' },
-    { key: 'surfaceDiscPct', label: 'Surface Discoloration (0%)' },
-    { key: 'russetScarsPct', label: 'Russet / Scars (<5%)' },
-    { key: 'sunburnPct', label: 'Sunburn (0%)' },
-    { key: 'undersizedBunchesPct', label: 'Undersized Bunches (10%)' },
-    { key: 'othersDefectsPct', label: 'Others Defects (%)' },
-    { key: 'totalQualityDefectsPct', label: 'Total Quality Defects (%)' },
-  ],
-  conditionDefects: [
-    { key: 'id', label: 'Pallet Number' },
-    { key: 'stemDehyPct', label: 'Stem Dehydration (<10%)' },
-    { key: 'glassyWeakPct', label: 'Glassy / Weak (0%)' },
-    { key: 'decayPct', label: 'Decay (0%)' },
-    { key: 'splitCrushedPct', label: 'Split / Crushed Berries (0%)' },
-    { key: 'drySplitPct', label: 'Dry Split (<3%)' },
-    { key: 'wetStickyPct', label: 'Wet & Sticky (0%)' },
-    { key: 'waterberriesPct', label: 'Waterberries (0%)' },
-    { key: 'shatterPct', label: 'Shatter (<3%)' },
-    {
-      key: 'totalConditionDefectsPct',
-      label: 'Total Condition Defects (<3%)',
-    },
-  ],
-};
-
-const getTableData = (selectedTabId: string) => data[selectedTabId];
+import { getTableData, getAvgPallet, tableTabs } from './data-utils';
 
 const StyledTable = styled.table({
   borderCollapse: 'collapse',
@@ -116,7 +52,7 @@ interface TableProps {
 }
 
 const Table = ({ pallets }: TableProps) => {
-  const { selectedTabId, TabBar } = useTabBar(tabs);
+  const { selectedTabId, TabBar } = useTabBar(tableTabs);
   const tableData = getTableData(selectedTabId);
   const averagePallet = getAvgPallet(pallets);
   const filteredPallets = pallets.filter((pallet) => pallet.id !== 'average');

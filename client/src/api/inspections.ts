@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import api from 'api';
-import { PeruInspectionReport } from 'types/inspections';
+import { PeruInspectionReport } from 'components/reports/inspections/types';
 
 const fetchInspections = (callback: (data: PeruInspectionReport[]) => void) => {
   api.get('/reports/inspections').then(({ data }) => {

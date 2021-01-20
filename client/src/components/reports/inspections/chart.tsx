@@ -11,13 +11,14 @@ import {
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
+import { PalletLabelInfo } from './data-utils';
 
-interface GraphProps {
-  data: any[];
+interface ChartProps {
+  data: PalletLabelInfo[];
   title: string;
 }
 
-const Graph = ({ data, title }: GraphProps) => (
+const Chart = ({ data, title }: ChartProps) => (
   <l.Div width="50%">
     <ty.CaptionText mb={th.spacing.lg} secondary>
       {title}
@@ -51,4 +52,4 @@ const Graph = ({ data, title }: GraphProps) => (
   </l.Div>
 );
 
-export default Graph;
+export default Chart;
