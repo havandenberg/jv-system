@@ -12,6 +12,7 @@ import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 import Graph from './graph';
+import Table from './table';
 import { getAvgConditionChartData, getAvgQualityChartData } from './utils';
 
 const breadcrumbs = (id: string) => [
@@ -166,9 +167,9 @@ const Details = () => {
           <GridContainer gridTemplateColumns={gridTemplateColumns}>
             {columns.map(({ key, label }, idx) => (
               <l.Div height={th.sizes.fill} key={idx} py={th.spacing.sm}>
-                <ty.SmallText mb={th.spacing.sm} secondary>
+                <ty.CaptionText mb={th.spacing.sm} secondary>
                   {label}
-                </ty.SmallText>
+                </ty.CaptionText>
                 <ty.BodyText>{reportData[key]}</ty.BodyText>
               </l.Div>
             ))}
@@ -181,21 +182,23 @@ const Details = () => {
               </React.Fragment>
             ))}
           </l.Flex>
-          <ty.SmallText mb={th.spacing.sm} secondary>
+          <ty.CaptionText mb={th.spacing.sm} secondary>
             QC Comments
-          </ty.SmallText>
+          </ty.CaptionText>
           <ty.BodyText mb={th.spacing.xl}>{reportData.comments}</ty.BodyText>
-          <l.Flex justifyBetween mb={th.spacing.xl} width={800}>
+          <l.Flex justifyBetween mb={th.spacing.md} width={700}>
             <Graph data={avgQualityData} title="Average Quality (%)" />
-            <l.Div width={th.spacing.lg} />
+            <l.Div width={th.spacing.md} />
             <Graph data={avgConditionData} title="Average Condition (%)" />
           </l.Flex>
+          <Table pallets={reportData.pallets} />
+          <l.Div height={th.spacing.lg} />
         </l.Div>
         <l.Div width={th.spacing.lg} />
-        <l.Scroll flex={3} height={th.sizes.fill}>
-          <ty.SmallText mb={th.spacing.sm} secondary>
+        <l.Div flex={3}>
+          <ty.CaptionText mb={th.spacing.md} secondary>
             Images
-          </ty.SmallText>
+          </ty.CaptionText>
           <l.Flex column pr={th.spacing.tn}>
             {reportData.imageUrls.map((imageUrl, idx) => (
               <l.Div
@@ -216,7 +219,7 @@ const Details = () => {
               </l.Div>
             ))}
           </l.Flex>
-        </l.Scroll>
+        </l.Div>
       </l.Flex>
       <Lightbox />
     </Page>

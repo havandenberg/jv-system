@@ -1,7 +1,7 @@
 import React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 
-import ChevronImg from 'assets/images/chevron.svg';
+import Chevron from 'assets/images/chevron';
 import { NavItem } from 'components/nav/secondary';
 import l from 'ui/layout';
 import th from 'ui/theme';
@@ -23,7 +23,7 @@ const Breadcrumbs = ({
       const active = pathname === to;
       return (
         <React.Fragment key={idx}>
-          {idx > 0 && <l.Img height={10} src={ChevronImg} />}
+          {idx > 0 && <Chevron height={10} />}
           <l.AreaLink to={active ? '#' : to}>
             <NavItem
               active={active}

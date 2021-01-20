@@ -10,7 +10,7 @@ import ty from 'ui/typography';
 const Content = styled(l.Div)(
   ({ extraPaddingTop = 0 }: { extraPaddingTop?: number }) => ({
     margin: '0 auto',
-    paddingBottom: th.spacing.md,
+    paddingBottom: th.spacing.lg,
     paddingTop: th.heights.nav + th.heights.pageHeader + extraPaddingTop,
     width: th.widths.maxContent,
   }),

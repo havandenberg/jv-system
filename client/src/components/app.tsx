@@ -15,6 +15,7 @@ import Nav from 'components/nav';
 import Reports from 'components/reports';
 import Inspections from 'components/reports/inspections';
 import InspectionDetails from 'components/reports/inspections/details';
+import ScrollToTop from 'components/scroll-to-top';
 import { GlobalContextProvider } from 'context/global';
 import Global from 'ui/global';
 import l from 'ui/layout';
@@ -43,6 +44,7 @@ const App = () => (
             <Redirect to="/" />
           </Switch>
           <Footer />
+          <ScrollToTop />
         </Main>
         <Global />
       </ThemeProvider>

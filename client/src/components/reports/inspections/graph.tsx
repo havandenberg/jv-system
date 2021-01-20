@@ -19,21 +19,32 @@ interface GraphProps {
 
 const Graph = ({ data, title }: GraphProps) => (
   <l.Div width="50%">
-    <l.Flex justifyCenter mb={th.spacing.lg}>
-      <ty.LargeText secondary>{title}</ty.LargeText>
-    </l.Flex>
-    <ResponsiveContainer width="100%" height={450}>
+    <ty.CaptionText mb={th.spacing.lg} secondary>
+      {title}
+    </ty.CaptionText>
+    <ResponsiveContainer width="100%" height={400}>
       <BarChart barSize={24} data={data} margin={{ left: 32 }}>
-        <CartesianGrid stroke={th.colors.brand.disabled} horizontal={false} />
+        <CartesianGrid stroke={th.colors.brand.containerBackgroundAccent} />
         <XAxis
           angle={-60}
           dataKey="label"
-          stroke={th.colors.brand.secondary}
           height={200}
           interval={0}
+          stroke={th.colors.brand.secondary}
           textAnchor="end"
+          tick={{
+            fontSize: th.fontSizes.caption,
+          }}
         />
-        <YAxis stroke={th.colors.brand.secondary} unit="%" width={40} />
+        <YAxis
+          allowDecimals={false}
+          stroke={th.colors.brand.secondary}
+          tick={{
+            fontSize: th.fontSizes.caption,
+          }}
+          unit="%"
+          width={35}
+        />
         <Bar dataKey="value" fill={th.colors.brand.primary} />
       </BarChart>
     </ResponsiveContainer>

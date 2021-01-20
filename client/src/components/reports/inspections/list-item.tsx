@@ -2,7 +2,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 
 import { API_BASE } from 'api';
-import ChevronImg from 'assets/images/chevron.svg';
+import Chevron from 'assets/images/chevron';
 import useLightbox from 'hooks/use-lightbox';
 import { PeruInspectionReport } from 'types/inspections';
 import l from 'ui/layout';
@@ -90,7 +90,7 @@ const ListItem = ({ data }: { data: PeruInspectionReport }) => {
             ))}
           </l.Flex>
           <l.Flex centered height={th.sizes.fill}>
-            <l.Img height={th.spacing.md} src={ChevronImg} />
+            <Chevron height={th.spacing.md} />
           </l.Flex>
         </GridContainer>
       </l.AreaLink>

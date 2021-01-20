@@ -1,6 +1,9 @@
 import { Pallet, PeruInspectionReport } from 'types/inspections';
 
-interface ChartData {
+export const getAvgPallet = (pallets: Pallet[]) =>
+  pallets.find((pallet) => pallet.id === 'average');
+
+export interface ChartData {
   key: keyof Pallet;
   label: string;
 }
@@ -8,7 +11,7 @@ interface ChartData {
 const getAvgData = (chartData: ChartData[]) => (
   reportData: PeruInspectionReport,
 ) => {
-  const data = reportData.pallets.find((pallet) => pallet.id === 'average');
+  const data = getAvgPallet(reportData.pallets);
   return data
     ? chartData.map(({ key, label }) => ({ key, label, value: data[key] }))
     : [];
