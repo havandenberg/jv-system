@@ -10,7 +10,7 @@ import th from 'ui/theme';
 import ty from 'ui/typography';
 import { isAfter, isBefore, isEqual } from 'date-fns';
 
-interface LabelInfo<T> {
+export interface LabelInfo<T> {
   key: keyof T;
   label: string;
 }

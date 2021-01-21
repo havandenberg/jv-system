@@ -66,7 +66,6 @@ const ClearWrapper = styled(IconWrapper)({
 });
 
 const PickerWrapper = styled(l.Div)({
-  background: th.colors.white,
   left: 0,
   paddingTop: th.spacing.sm,
   position: 'absolute',
@@ -134,6 +133,7 @@ const DateRangePicker = ({ onChange, onClear, ranges, ...rest }: Props) => {
             moveRangeOnFirstSelection={false}
             onChange={onChange}
             ranges={ranges || defaultRange}
+            rangeColors={[th.colors.brand.primaryAccent]}
             showSelectionPreview={true}
             {...rest}
           />

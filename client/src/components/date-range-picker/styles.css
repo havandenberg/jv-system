@@ -1,6 +1,13 @@
+.rdrDateRangePickerWrapper {
+  border: 1px solid #03294a;
+  border-radius: 6px;
+}
+
 .rdrCalendarWrapper {
-  color: #000000;
+  background: #eaf5ff;
+  border-radius: 6px;
   font-size: 12px;
+  font-family: Nunito;
 }
 
 .rdrDateDisplayWrapper {
@@ -40,6 +47,7 @@
 .rdrMonthAndYearWrapper {
   -webkit-box-align: center;
   align-items: center;
+  font-family: Nunito;
   height: 60px;
   padding-top: 10px;
 }
@@ -99,6 +107,7 @@
   margin: auto;
   -webkit-transform: translate(-3px, 0px);
   transform: translate(-3px, 0px);
+  font-family: Nunito;
 }
 
 .rdrPprevButton i {
@@ -188,7 +197,7 @@
   width: 18px;
   height: 2px;
   border-radius: 2px;
-  background: #3d91ff;
+  background: #064c89;
 }
 
 .rdrDayToday:not(.rdrDayPassive) .rdrInRange ~ .rdrDayNumber span:after,
@@ -320,28 +329,34 @@
 .rdrDefinedRangesWrapper {
   font-size: 12px;
   width: 180px;
-  border-right: solid 1px #eff2f7;
-  background: #fff;
+  border-right: solid 1px #03294a;
+  background: #eaf5ff;
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
 }
 
 .rdrDefinedRangesWrapper .rdrStaticRangeSelected {
+  background: rgba(3, 41, 74, 0.1);
   color: currentColor;
   font-weight: 600;
 }
 
 .rdrStaticRange {
   border: 0;
+  border-top-left-radius: 6px;
   cursor: pointer;
+  color: #03294a;
   display: block;
+  font-family: Nunito;
   outline: 0;
-  border-bottom: 1px solid #eff2f7;
+  border-bottom: 1px solid rgba(3, 41, 74, 0.4);
   padding: 0;
-  background: #fff;
+  background: #eaf5ff;
 }
 
 .rdrStaticRange:hover .rdrStaticRangeLabel,
 .rdrStaticRange:focus .rdrStaticRangeLabel {
-  background: #eff2f7;
+  background: rgba(3, 41, 74, 0.1);
 }
 
 .rdrStaticRangeLabel {

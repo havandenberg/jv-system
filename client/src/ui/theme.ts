@@ -206,6 +206,9 @@ export const globalStyles = {
     ...textStyles.common,
     ...textStyles.body,
   },
+  'select, input': {
+    fontFamily: fontFamilies.body,
+  },
 };
 
 export default {

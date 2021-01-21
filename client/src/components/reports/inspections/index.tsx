@@ -4,18 +4,20 @@ import { Range } from 'react-date-range';
 
 import api from 'api';
 import Empty from 'components/empty';
+import Loading from 'components/loading';
 import Page from 'components/page';
 import useDateRange from 'hooks/use-date-range';
 import useSearch from 'hooks/use-search';
+import useSort from 'hooks/use-sort';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 import { filterInspectionReports, listLabels } from './data-utils';
 import ListItem from './list-item';
-import Loading from 'components/loading';
+import { PeruInspectionReport } from './types';
 
 const breadcrumbs = [{ text: 'All Inspections', to: '/reports/inspections' }];
-export const gridTemplateColumns = '3fr 4fr 4fr 4fr 2fr 2fr 6fr 30px';
+export const gridTemplateColumns = '3.5fr 4fr 4fr 4fr 2fr 2fr 6fr 30px';
 
 const Inspections = () => {
   const { data, loading } = api.useInspections();
@@ -23,6 +25,10 @@ const Inspections = () => {
   const { selectedDates, DateRangePicker } = useDateRange();
   const { startDate, endDate } =
     (selectedDates && (selectedDates as Range[])[0]) || {};
+  const { sortableLabels } = useSort<PeruInspectionReport>(
+    'inspectionDate',
+    listLabels,
+  );
 
   if (!data) {
     return null;
@@ -52,11 +58,7 @@ const Inspections = () => {
               mb={th.spacing.sm}
               pl={th.spacing.sm}
             >
-              {listLabels.map(({ label }, idx) => (
-                <ty.SmallText key={idx} px={th.spacing.sm} secondary>
-                  {label}
-                </ty.SmallText>
-              ))}
+              {sortableLabels}
               <ty.SmallText px={th.spacing.sm} secondary>
                 Images
               </ty.SmallText>
