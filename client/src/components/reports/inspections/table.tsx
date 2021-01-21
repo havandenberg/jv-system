@@ -23,7 +23,7 @@ const TableHeader = styled.th({
   '> div > span': {
     padding: th.spacing.sm,
   },
-  ':first-child': {
+  ':first-of-type': {
     transform: 'translateX(24px)',
   },
   ':last-child': {

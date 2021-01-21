@@ -6,7 +6,7 @@ import CloseImg from 'assets/images/close';
 import l from 'ui/layout';
 import th from 'ui/theme';
 
-const INPUT_WIDTH = 300;
+const INPUT_WIDTH = th.widths.input;
 const ICON_WIDTH = 48;
 const DEFAULT_PADDING = 16;
 const CLEAR_WIDTH = 40;
@@ -27,7 +27,7 @@ const Wrapper = styled(l.Div)(
   }),
 );
 
-const IconWrapper = styled(l.Flex)({
+export const IconWrapper = styled(l.Flex)({
   alignItems: 'center',
   height: th.sizes.fill,
   justifyContent: 'center',
@@ -36,9 +36,10 @@ const IconWrapper = styled(l.Flex)({
   width: ICON_WIDTH,
 });
 
-const ClearWrapper = styled(IconWrapper)({
+export const ClearWrapper = styled(IconWrapper)({
   cursor: 'pointer',
   opacity: 0.8,
+  right: 0,
   transition: th.transitions.default,
   width: CLEAR_WIDTH,
   ':hover': {
@@ -81,7 +82,7 @@ const StyledTextInput = styled.input(
 
 export interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
   Icon?: React.ReactNode;
-  onClear?: () => void;
+  onClear: () => void;
 }
 
 const TextInput = ({
@@ -108,10 +109,8 @@ const TextInput = ({
   };
 
   const handleClear = () => {
-    if (onClear) {
-      onClear();
-      inputRef.current && inputRef.current.focus();
-    }
+    onClear();
+    inputRef.current && inputRef.current.focus();
   };
 
   const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
@@ -139,7 +138,7 @@ const TextInput = ({
         {...rest}
       />
       {value && (
-        <ClearWrapper onClick={handleClear} right={0}>
+        <ClearWrapper onClick={handleClear}>
           <CloseImg height={12} />
         </ClearWrapper>
       )}

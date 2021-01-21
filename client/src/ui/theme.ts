@@ -8,7 +8,7 @@ export const colors = {
   brand: {
     containerBackground: 'rgba(3,41,74,0.05)',
     containerBackgroundAccent: 'rgba(3,41,74,0.1)',
-    primary: 'rgb(3,41,74)',
+    primary: '#03294A',
     primaryAccent: '#064C89',
     secondary: 'rgba(3,41,74,0.7)',
     disabled: 'rgba(3,41,74,0.4)',
@@ -63,6 +63,7 @@ export const spacing = {
 };
 
 export const widths = {
+  input: 300,
   maxContent: '1024px',
   maxPage: '1440px',
 };

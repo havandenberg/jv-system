@@ -17,6 +17,7 @@ import {
   getFeaturedValues,
 } from './data-utils';
 import Table from './table';
+import Loading from 'components/loading';
 
 const breadcrumbs = (id: string) => [
   { text: 'All Inspections', to: '/reports/inspections' },
@@ -37,7 +38,7 @@ const Details = () => {
   const { id } = useParams<{
     id: string;
   }>();
-  const { data } = api.useInspections(id);
+  const { data, loading } = api.useInspections(id);
   const reportData = data[0];
   const { Lightbox, openLightbox } = useLightbox(
     reportData ? reportData.imageUrls : [],
@@ -53,81 +54,88 @@ const Details = () => {
 
   return (
     <Page breadcrumbs={breadcrumbs(id)} title={`Inspection Report - ${id}`}>
-      <l.Flex alignStart flex={1}>
-        <l.Div flex={8}>
-          <BaseDataContainer>
-            {baseLabels.map(({ key, label }, idx) => (
-              <l.Div
-                height={th.sizes.fill}
-                key={idx}
-                pb={th.spacing.md}
-                pr={th.spacing.sm}
-                pt={th.spacing.sm}
-              >
-                <ty.CaptionText mb={th.spacing.sm} secondary>
-                  {label}
-                </ty.CaptionText>
-                <ty.BodyText>{reportData[key]}</ty.BodyText>
-              </l.Div>
-            ))}
-          </BaseDataContainer>
-          <l.Flex
-            justifyBetween
-            mb={th.spacing.xl}
-            mt={th.spacing.lg}
-            width={th.sizes.fill}
-          >
-            {featuredValues.map((value, idx) => (
-              <React.Fragment key={idx}>
-                <FeaturedValue {...value} />
-                {idx < featuredValues.length - 1 && (
-                  <l.Div width={th.spacing.md} />
-                )}
-              </React.Fragment>
-            ))}
-          </l.Flex>
-          <ty.CaptionText mb={th.spacing.sm} secondary>
-            QC Comments
-          </ty.CaptionText>
-          <ty.BodyText mb={th.spacing.xl}>{reportData.comments}</ty.BodyText>
-          <l.Flex justifyBetween mb={th.spacing.md} width={700}>
-            <Chart data={avgQualityData} title="Average Quality Defects (%)" />
-            <l.Div width={th.spacing.md} />
-            <Chart
-              data={avgConditionData}
-              title="Average Condition Defects (%)"
-            />
-          </l.Flex>
-          <Table pallets={reportData.pallets} />
-          <l.Div height={th.spacing.lg} />
-        </l.Div>
-        <l.Div width={th.spacing.lg} />
-        <l.Div flex={3}>
-          <ty.CaptionText mb={th.spacing.md} secondary>
-            Images
-          </ty.CaptionText>
-          <l.Flex column pr={th.spacing.tn}>
-            {reportData.imageUrls.map((imageUrl, idx) => (
-              <l.Div
-                cursor="pointer"
-                key={idx}
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  openLightbox(idx);
-                }}
-              >
-                <l.Img
-                  width={th.sizes.fill}
-                  py={th.spacing.tn}
-                  mr={th.spacing.tn}
-                  src={`${api.baseURL}${imageUrl}`}
-                />
-              </l.Div>
-            ))}
-          </l.Flex>
-        </l.Div>
-      </l.Flex>
+      {!reportData || loading ? (
+        <Loading />
+      ) : (
+        <l.Flex alignStart flex={1}>
+          <l.Div flex={8}>
+            <BaseDataContainer>
+              {baseLabels.map(({ key, label }, idx) => (
+                <l.Div
+                  height={th.sizes.fill}
+                  key={idx}
+                  pb={th.spacing.md}
+                  pr={th.spacing.sm}
+                  pt={th.spacing.sm}
+                >
+                  <ty.CaptionText mb={th.spacing.sm} secondary>
+                    {label}
+                  </ty.CaptionText>
+                  <ty.BodyText>{reportData[key]}</ty.BodyText>
+                </l.Div>
+              ))}
+            </BaseDataContainer>
+            <l.Flex
+              justifyBetween
+              mb={th.spacing.xl}
+              mt={th.spacing.lg}
+              width={th.sizes.fill}
+            >
+              {featuredValues.map((value, idx) => (
+                <React.Fragment key={idx}>
+                  <FeaturedValue {...value} />
+                  {idx < featuredValues.length - 1 && (
+                    <l.Div width={th.spacing.md} />
+                  )}
+                </React.Fragment>
+              ))}
+            </l.Flex>
+            <ty.CaptionText mb={th.spacing.sm} secondary>
+              QC Comments
+            </ty.CaptionText>
+            <ty.BodyText mb={th.spacing.xl}>{reportData.comments}</ty.BodyText>
+            <l.Flex justifyBetween mb={th.spacing.md} width={700}>
+              <Chart
+                data={avgQualityData}
+                title="Average Quality Defects (%)"
+              />
+              <l.Div width={th.spacing.md} />
+              <Chart
+                data={avgConditionData}
+                title="Average Condition Defects (%)"
+              />
+            </l.Flex>
+            <Table pallets={reportData.pallets} />
+            <l.Div height={th.spacing.lg} />
+          </l.Div>
+          <l.Div width={th.spacing.lg} />
+          <l.Div flex={3}>
+            <ty.CaptionText mb={th.spacing.md} secondary>
+              Images
+            </ty.CaptionText>
+            <l.Flex column pr={th.spacing.tn}>
+              {reportData.imageUrls.map((imageUrl, idx) => (
+                <l.Div
+                  cursor="pointer"
+                  key={idx}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    openLightbox(idx);
+                  }}
+                >
+                  <l.Img
+                    width={th.sizes.fill}
+                    py={th.spacing.tn}
+                    mr={th.spacing.tn}
+                    src={`${api.baseURL}${imageUrl}`}
+                  />
+                </l.Div>
+              ))}
+            </l.Flex>
+          </l.Div>
+        </l.Flex>
+      )}
       <Lightbox />
     </Page>
   );

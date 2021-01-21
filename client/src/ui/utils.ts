@@ -38,3 +38,14 @@ export const scrollToId = (id: string = 'top', customOptions?: object) =>
     ...theme.scrollOptions,
     ...customOptions,
   });
+
+export const hexColorWithTransparency = (
+  hexColor: string,
+  transparency: number,
+) => {
+  const alphaHexValue =
+    transparency < 1
+      ? (transparency * 255).toString(16)
+      : transparency.toString(16);
+  return `${hexColor}${alphaHexValue.slice(0, 2)}`;
+};

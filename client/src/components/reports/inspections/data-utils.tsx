@@ -1,4 +1,4 @@
-import { contains, omit, reduce, values } from 'ramda';
+import { contains, omit, pick, reduce, values } from 'ramda';
 
 import { Tab } from 'components/tab-bar';
 import {
@@ -8,6 +8,7 @@ import {
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
+import { isAfter, isBefore, isEqual } from 'date-fns';
 
 interface LabelInfo<T> {
   key: keyof T;
@@ -272,20 +273,38 @@ export const getTableData: (selectedTabId: string) => PalletLabelInfo[] = (
   selectedTabId,
 ) => tableLabels[selectedTabId];
 
+const isDateBetween = (date: Date, startDate: Date, endDate: Date) => {
+  const isValidStart = isAfter(date, startDate) || isEqual(date, startDate);
+  const isValidEnd = isBefore(date, endDate) || isEqual(date, endDate);
+  return isValidStart && isValidEnd;
+};
+
 export const filterInspectionReports = (
   reports: PeruInspectionReport[],
   search: string,
   startDate?: Date,
   endDate?: Date,
 ) =>
-  reports.filter((report) =>
-    reduce(
+  reports.filter((report) => {
+    const hasValidDate =
+      !startDate ||
+      !endDate ||
+      reduce(
+        (validDate: boolean, date: Date) =>
+          validDate || isDateBetween(date, startDate, endDate),
+        false,
+        values(pick(['inspectionDate', 'departureDate'], report)).map(
+          (value) => new Date(value),
+        ),
+      );
+    const hasValidSearch = reduce(
       (containsSearch: boolean, value: string) =>
         containsSearch || contains(search.toLowerCase(), value.toLowerCase()),
       false,
       values(omit(['pallets'], report)).map((value) => `${value}`),
-    ),
-  );
+    );
+    return hasValidDate && hasValidSearch;
+  });
 
 export const sortInspectionReports = (
   sortOption: keyof PeruInspectionReport,
