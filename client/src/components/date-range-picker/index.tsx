@@ -72,6 +72,15 @@ const PickerWrapper = styled(l.Div)({
   top: th.heights.input + 2,
 });
 
+export const formatDate = (date: Date) => format(date, 'MM/dd/yyyy');
+
+export const getFormattedDateRange = (startDate: Date, endDate: Date) => {
+  const formattedStartDate = formatDate(startDate);
+  const formattedEndDate = formatDate(endDate);
+  const isSameDate = formattedStartDate === formattedEndDate;
+  return `${formattedStartDate}${isSameDate ? '' : ' - ' + formattedEndDate}`;
+};
+
 const defaultRange = [
   {
     startDate: new Date(),
@@ -93,10 +102,10 @@ const DateRangePicker = ({ onChange, onClear, ranges, ...rest }: Props) => {
   const hasValue = !!(selectedDates && selectedDates.endDate);
   const formattedDateRange =
     hasValue && selectedDates
-      ? `${format(selectedDates.startDate as Date, 'MM/dd/yyyy')} - ${format(
+      ? getFormattedDateRange(
+          selectedDates.startDate as Date,
           selectedDates.endDate as Date,
-          'MM/dd/yyyy',
-        )}`
+        )
       : 'All dates';
 
   const handleClear = (e: React.MouseEvent) => {

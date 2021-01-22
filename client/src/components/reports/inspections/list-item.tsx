@@ -15,7 +15,6 @@ const GridContainer = styled(l.Grid)({
   background: th.colors.brand.containerBackground,
   border: th.borders.primary,
   borderRadius: th.borderRadii.default,
-  height: th.sizes.lg,
   paddingLeft: th.spacing.sm,
   transition: th.transitions.default,
   ':hover': {
@@ -24,24 +23,23 @@ const GridContainer = styled(l.Grid)({
 });
 
 const ListItem = ({ data }: { data: PeruInspectionReport }) => {
-  const { Lightbox, openLightbox } = useLightbox(data.imageUrls);
+  const { Lightbox, openLightbox } = useLightbox(
+    data.imageUrls,
+    data.containerId,
+  );
   return (
-    <>
+    <l.Div mb={th.spacing.sm}>
       <l.AreaLink to={`/reports/inspections/${data.containerId}`}>
         <GridContainer gridTemplateColumns={gridTemplateColumns}>
           {listLabels.map(({ key }) => (
-            <l.Flex
-              alignCenter
-              height={th.sizes.fill}
-              key={key}
-              px={th.spacing.sm}
-            >
+            <l.Flex alignCenter key={key} p={th.spacing.sm}>
               <ty.BodyText>{data[key]}</ty.BodyText>
             </l.Flex>
           ))}
           <l.Flex overflow="hidden" px={th.spacing.sm}>
             {data.imageUrls.map((imageUrl, idx) => (
-              <l.Div
+              <l.Flex
+                alignCenter
                 cursor="pointer"
                 key={idx}
                 onClick={(e) => {
@@ -56,7 +54,7 @@ const ListItem = ({ data }: { data: PeruInspectionReport }) => {
                   mr={th.spacing.tn}
                   src={`${api.baseURL}${imageUrl}`}
                 />
-              </l.Div>
+              </l.Flex>
             ))}
           </l.Flex>
           <l.Flex centered height={th.sizes.fill}>
@@ -65,7 +63,7 @@ const ListItem = ({ data }: { data: PeruInspectionReport }) => {
         </GridContainer>
       </l.AreaLink>
       <Lightbox />
-    </>
+    </l.Div>
   );
 };
 

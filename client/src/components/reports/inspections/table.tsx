@@ -58,7 +58,9 @@ const Table = ({ pallets }: TableProps) => {
   const { selectedTabId, TabBar } = useTabBar(tableTabs);
   const tableData = getTableData(selectedTabId);
   const averagePallet = getAvgPallet(pallets);
-  const filteredPallets = pallets.filter((pallet) => pallet.id !== 'average');
+  const filteredPallets = pallets.filter(
+    (pallet) => pallet.id.toLowerCase() !== 'average',
+  );
   return (
     <>
       <ty.CaptionText mb={th.spacing.sm} secondary>

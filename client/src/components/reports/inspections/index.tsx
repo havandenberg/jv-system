@@ -12,7 +12,7 @@ import useSort from 'hooks/use-sort';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
-import { filterInspectionReports, listLabels } from './data-utils';
+import { filterInspectionReports, listLabels, sortItems } from './data-utils';
 import ListItem from './list-item';
 import { PeruInspectionReport } from './types';
 
@@ -25,7 +25,7 @@ const Inspections = () => {
   const { selectedDates, DateRangePicker } = useDateRange();
   const { startDate, endDate } =
     (selectedDates && (selectedDates as Range[])[0]) || {};
-  const { sortableLabels } = useSort<PeruInspectionReport>(
+  const { sortOption, sortableLabels } = useSort<PeruInspectionReport>(
     'inspectionDate',
     listLabels,
   );
@@ -34,11 +34,9 @@ const Inspections = () => {
     return null;
   }
 
-  const filteredReports = filterInspectionReports(
-    data,
-    search,
-    startDate,
-    endDate,
+  const filteredReports = sortItems(
+    sortOption,
+    filterInspectionReports(data, search, startDate, endDate),
   );
 
   return (

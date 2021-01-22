@@ -1,4 +1,4 @@
-import { contains, omit, pick, reduce, values } from 'ramda';
+import { contains, omit, pick, prop, reduce, sortBy, values } from 'ramda';
 
 import { Tab } from 'components/tab-bar';
 import {
@@ -9,6 +9,7 @@ import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 import { isAfter, isBefore, isEqual } from 'date-fns';
+import { SortState } from 'hooks/use-sort';
 
 export interface LabelInfo<T> {
   key: keyof T;
@@ -172,7 +173,7 @@ export const getFeaturedValues = (data: PeruInspectionReport) => [
 export type PalletLabelInfo = LabelInfo<Pallet>;
 
 export const getAvgPallet = (pallets: Pallet[]) =>
-  pallets.find((pallet) => pallet.id === 'average');
+  pallets.find((pallet) => pallet.id.toLowerCase() === 'average');
 
 const getAvgData = (chartData: PalletLabelInfo[]) => (
   reportData: PeruInspectionReport,
@@ -306,7 +307,10 @@ export const filterInspectionReports = (
     return hasValidDate && hasValidSearch;
   });
 
-export const sortInspectionReports = (
-  sortOption: keyof PeruInspectionReport,
-  reports: PeruInspectionReport[],
-) => reports;
+export const sortItems = <T extends {}>(
+  sortOption: SortState<T>,
+  items: T[],
+) => {
+  const sortedItems = sortBy(prop(`${sortOption.sortKey}`), items);
+  return sortOption.isDescending ? sortedItems : sortedItems.reverse();
+};

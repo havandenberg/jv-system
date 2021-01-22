@@ -8,7 +8,7 @@ const initialState = {
   photoIndex: 0,
 };
 
-const useLightbox = (imageUrls: string[]) => {
+const useLightbox = (imageUrls: string[], title?: string) => {
   const [{ isOpen, photoIndex }, setState] = useState(initialState);
 
   const closeLightbox = () => {
@@ -41,7 +41,9 @@ const useLightbox = (imageUrls: string[]) => {
     isOpen ? (
       <Lightbox
         animationDuration={0}
+        imageCaption={imageUrls[photoIndex]}
         imagePadding={80}
+        imageTitle={title}
         mainSrc={`${api.baseURL}${imageUrls[photoIndex]}`}
         nextSrc={`${api.baseURL}${imageUrls[nextIndex()]}`}
         prevSrc={`${api.baseURL}${imageUrls[prevIndex()]}`}
