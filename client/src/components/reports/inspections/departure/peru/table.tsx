@@ -2,7 +2,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 
 import { useTabBar } from 'components/tab-bar';
-import { Pallet } from 'components/reports/inspections/types';
+import { Pallet } from 'components/reports/inspections/departure/peru/types';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';

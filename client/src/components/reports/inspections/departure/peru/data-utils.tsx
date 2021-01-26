@@ -1,10 +1,20 @@
-import { contains, omit, pick, prop, reduce, sortBy, values } from 'ramda';
+import {
+  contains,
+  includes,
+  omit,
+  pick,
+  prop,
+  reduce,
+  sort,
+  sortBy,
+  values,
+} from 'ramda';
 
 import { Tab } from 'components/tab-bar';
 import {
   Pallet,
   PeruInspectionReport,
-} from 'components/reports/inspections/types';
+} from 'components/reports/inspections/departure/peru/types';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
@@ -307,10 +317,30 @@ export const filterInspectionReports = (
     return hasValidDate && hasValidSearch;
   });
 
-export const sortItems = <T extends {}>(
-  sortOption: SortState<T>,
-  items: T[],
+const sortByInspectionDate = (items: PeruInspectionReport[]) =>
+  sort((a: PeruInspectionReport, b: PeruInspectionReport) => {
+    return (
+      new Date(a.inspectionDate).getTime() -
+      new Date(b.inspectionDate).getTime()
+    );
+  }, items);
+
+export const sortItems = (
+  sortOption: SortState<PeruInspectionReport>,
+  items: PeruInspectionReport[],
 ) => {
-  const sortedItems = sortBy(prop(`${sortOption.sortKey}`), items);
-  return sortOption.isDescending ? sortedItems : sortedItems.reverse();
+  const sortedItems =
+    sortOption.sortKey === 'inspectionDate'
+      ? sortByInspectionDate(items)
+      : sortBy(prop(sortOption.sortKey) as any, items);
+  const sortedItemsReversed = includes(`${sortOption.sortKey}`, [
+    'inspectionDate',
+    'qualityScore',
+    'conditionScore',
+  ])
+    ? sortedItems.reverse()
+    : sortedItems;
+  return sortOption.isDescending
+    ? sortedItemsReversed
+    : sortedItemsReversed.reverse();
 };

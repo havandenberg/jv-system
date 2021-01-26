@@ -1,6 +1,6 @@
 import { setup } from 'axios-cache-adapter';
 
-import useInspections from 'api/inspections';
+import useInspections from 'api/routes/inspections';
 import useGet from 'api/use-get';
 
 const baseURL = process.env.REACT_APP_API_BASE_URL;

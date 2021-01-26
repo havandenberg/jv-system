@@ -16,8 +16,8 @@ import {
   getAvgQualityChartLabels,
   getFeaturedValues,
 } from './data-utils';
+import { InspectionsDataMessage } from './index';
 import Table from './table';
-import Loading from 'components/loading';
 
 const breadcrumbs = (id: string) => [
   { text: 'All Inspections', to: '/reports/inspections' },
@@ -38,25 +38,19 @@ const Details = () => {
   const { id } = useParams<{
     id: string;
   }>();
-  const { data, loading } = api.useInspections(id);
+  const { data, error, hasData, loading } = api.useInspections(id);
   const reportData = data[0];
   const { Lightbox, openLightbox } = useLightbox(
-    reportData ? reportData.imageUrls : [],
+    hasData ? reportData.imageUrls : [],
   );
 
-  if (!reportData) {
-    return null;
-  }
-
-  const featuredValues = getFeaturedValues(reportData);
-  const avgQualityData = getAvgQualityChartLabels(reportData);
-  const avgConditionData = getAvgConditionChartData(reportData);
+  const featuredValues = hasData ? getFeaturedValues(reportData) : [];
+  const avgQualityData = hasData ? getAvgQualityChartLabels(reportData) : [];
+  const avgConditionData = hasData ? getAvgConditionChartData(reportData) : [];
 
   return (
     <Page breadcrumbs={breadcrumbs(id)} title={`Inspection Report - ${id}`}>
-      {!reportData || loading ? (
-        <Loading />
-      ) : (
+      {hasData ? (
         <l.Flex alignStart flex={1}>
           <l.Div flex={8}>
             <BaseDataContainer>
@@ -135,6 +129,8 @@ const Details = () => {
             </l.Flex>
           </l.Div>
         </l.Flex>
+      ) : (
+        <InspectionsDataMessage data={data} error={error} loading={loading} />
       )}
       <Lightbox />
     </Page>

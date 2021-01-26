@@ -139,6 +139,8 @@ const inspectionsController = (request, response) => {
                   }
                 },
               );
+            } else {
+              callback();
             }
           });
         } else {

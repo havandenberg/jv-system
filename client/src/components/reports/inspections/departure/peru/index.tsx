@@ -1,10 +1,8 @@
 import React from 'react';
-import { isEmpty } from 'ramda';
 import { Range } from 'react-date-range';
 
 import api from 'api';
-import Empty from 'components/empty';
-import Loading from 'components/loading';
+import { DataMessage, DataMessageProps } from 'components/page/message';
 import Page from 'components/page';
 import useDateRange from 'hooks/use-date-range';
 import useSearch from 'hooks/use-search';
@@ -15,12 +13,17 @@ import ty from 'ui/typography';
 import { filterInspectionReports, listLabels, sortItems } from './data-utils';
 import ListItem from './list-item';
 import { PeruInspectionReport } from './types';
+import { isEmpty } from 'ramda';
 
 const breadcrumbs = [{ text: 'All Inspections', to: '/reports/inspections' }];
 export const gridTemplateColumns = '3.5fr 4fr 4fr 4fr 2fr 2fr 6fr 30px';
 
+export const InspectionsDataMessage = <T extends {}>(
+  dataProps: DataMessageProps<T>,
+) => <DataMessage {...dataProps} />;
+
 const Inspections = () => {
-  const { data, loading } = api.useInspections();
+  const { data, error, hasData, loading } = api.useInspections();
   const { search, Search } = useSearch();
   const { selectedDates, DateRangePicker } = useDateRange();
   const { startDate, endDate } =
@@ -30,14 +33,12 @@ const Inspections = () => {
     listLabels,
   );
 
-  if (!data) {
-    return null;
-  }
-
-  const filteredReports = sortItems(
-    sortOption,
-    filterInspectionReports(data, search, startDate, endDate),
-  );
+  const filteredReports = hasData
+    ? sortItems(
+        sortOption,
+        filterInspectionReports(data, search, startDate, endDate),
+      )
+    : [];
 
   return (
     <Page
@@ -66,17 +67,20 @@ const Inspections = () => {
       }
       title="Peru Grape Inspection Reports"
     >
-      {!data || loading ? (
-        <Loading />
-      ) : isEmpty(filteredReports) ? (
-        <Empty
-          header="No Reports Found 😔"
-          text="Modify search and date parameters to view more results."
-        />
-      ) : (
+      {hasData && !isEmpty(filteredReports) ? (
         filteredReports.map((inspection, idx) => (
           <ListItem data={inspection} key={idx} />
         ))
+      ) : (
+        <InspectionsDataMessage
+          data={filteredReports}
+          error={error}
+          loading={loading}
+          emptyProps={{
+            header: 'No Reports Found 😔',
+            text: 'Modify search and date parameters to view more results.',
+          }}
+        />
       )}
     </Page>
   );

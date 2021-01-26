@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { LabelInfo } from 'components/reports/inspections/data-utils';
+import { LabelInfo } from 'components/reports/inspections/departure/peru/data-utils';
 import SortLabel from 'components/sort-label';
 
 export interface SortState<T> {

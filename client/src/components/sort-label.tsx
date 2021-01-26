@@ -5,7 +5,7 @@ import { SortState } from 'hooks/use-sort';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
-import { LabelInfo } from './reports/inspections/data-utils';
+import { LabelInfo } from './reports/inspections/departure/peru/data-utils';
 import UpArrow from 'assets/images/up-arrow';
 
 const ARROW_SIDE_LENGTH = 14;
