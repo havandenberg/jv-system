@@ -72,13 +72,13 @@ const PickerWrapper = styled(l.Div)({
   top: th.heights.input + 2,
 });
 
-export const formatDate = (date: Date) => format(date, 'MM/dd/yyyy');
+export const formatDate = (date: Date) => format(date, 'yyyy-MM-dd');
 
 export const getFormattedDateRange = (startDate: Date, endDate: Date) => {
   const formattedStartDate = formatDate(startDate);
   const formattedEndDate = formatDate(endDate);
   const isSameDate = formattedStartDate === formattedEndDate;
-  return `${formattedStartDate}${isSameDate ? '' : ' - ' + formattedEndDate}`;
+  return `${formattedStartDate}${isSameDate ? '' : ' : ' + formattedEndDate}`;
 };
 
 const defaultRange = [
@@ -99,6 +99,7 @@ const DateRangePicker = ({ onChange, onClear, ranges, ...rest }: Props) => {
     setShow(false);
   });
   const selectedDates = ranges && ranges[0];
+  console.log(selectedDates);
   const hasValue = !!(selectedDates && selectedDates.endDate);
   const formattedDateRange =
     hasValue && selectedDates

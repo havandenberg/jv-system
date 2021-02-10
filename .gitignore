@@ -11,6 +11,10 @@
 # production
 */build
 
+# source
+db/db_data
+*/dist
+
 # misc
 *.DS_Store
 *.env

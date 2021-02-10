@@ -6,6 +6,7 @@ import api from 'api';
 import Page from 'components/page';
 import FeaturedValue from 'components/featured-value';
 import useLightbox from 'hooks/use-lightbox';
+import { PeruDepartureInspection, PeruDepartureInspectionPallet } from 'types';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
@@ -38,19 +39,22 @@ const Details = () => {
   const { id } = useParams<{
     id: string;
   }>();
-  const { data, error, hasData, loading } = api.useInspections(id);
-  const reportData = data[0];
+  const { data, error, loading } = api.usePeruDepartureInspection(id);
+  const reportData = data && data.nodes[0];
   const { Lightbox, openLightbox } = useLightbox(
-    hasData ? reportData.imageUrls : [],
+    reportData ? reportData.imageUrls || [] : [],
+    reportData ? reportData.containerId : undefined,
   );
 
-  const featuredValues = hasData ? getFeaturedValues(reportData) : [];
-  const avgQualityData = hasData ? getAvgQualityChartLabels(reportData) : [];
-  const avgConditionData = hasData ? getAvgConditionChartData(reportData) : [];
+  const featuredValues = reportData ? getFeaturedValues(reportData) : [];
+  const avgQualityData = reportData ? getAvgQualityChartLabels(reportData) : [];
+  const avgConditionData = reportData
+    ? getAvgConditionChartData(reportData)
+    : [];
 
   return (
     <Page breadcrumbs={breadcrumbs(id)} title={`Inspection Report - ${id}`}>
-      {hasData ? (
+      {reportData ? (
         <l.Flex alignStart flex={1}>
           <l.Div flex={8}>
             <BaseDataContainer>
@@ -99,7 +103,12 @@ const Details = () => {
                 title="Average Condition Defects (%)"
               />
             </l.Flex>
-            <Table pallets={reportData.pallets} />
+            <Table
+              pallets={
+                reportData.peruDepartureInspectionPalletsByContainerId
+                  .nodes as PeruDepartureInspectionPallet[]
+              }
+            />
             <l.Div height={th.spacing.lg} />
           </l.Div>
           <l.Div width={th.spacing.lg} />
@@ -108,29 +117,35 @@ const Details = () => {
               Images
             </ty.CaptionText>
             <l.Flex column pr={th.spacing.tn}>
-              {reportData.imageUrls.map((imageUrl, idx) => (
-                <l.Div
-                  cursor="pointer"
-                  key={idx}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    openLightbox(idx);
-                  }}
-                >
-                  <l.Img
-                    width={th.sizes.fill}
-                    py={th.spacing.tn}
-                    mr={th.spacing.tn}
-                    src={`${api.baseURL}${imageUrl}`}
-                  />
-                </l.Div>
-              ))}
+              {(reportData.imageUrls || []).map(
+                (imageUrl: string, idx: number) => (
+                  <l.Div
+                    cursor="pointer"
+                    key={idx}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      openLightbox(idx);
+                    }}
+                  >
+                    <l.Img
+                      width={th.sizes.fill}
+                      py={th.spacing.tn}
+                      mr={th.spacing.tn}
+                      src={`${api.baseURL}/${imageUrl}`}
+                    />
+                  </l.Div>
+                ),
+              )}
             </l.Flex>
           </l.Div>
         </l.Flex>
       ) : (
-        <InspectionsDataMessage data={data} error={error} loading={loading} />
+        <InspectionsDataMessage
+          data={data ? (data.nodes as PeruDepartureInspection[]) || [] : []}
+          error={error}
+          loading={loading}
+        />
       )}
       <Lightbox />
     </Page>

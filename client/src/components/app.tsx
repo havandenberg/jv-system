@@ -1,4 +1,5 @@
 import React from 'react';
+import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 import { ThemeProvider } from '@emotion/react';
 import styled from '@emotion/styled';
 import 'react-image-lightbox/style.css';
@@ -8,18 +9,24 @@ import {
   Route,
   Switch,
 } from 'react-router-dom';
+import { QueryParamProvider } from 'use-query-params';
 
 import Dashboard from 'components/dashboard';
 import Footer from 'components/footer';
 import Nav from 'components/nav';
 import Reports from 'components/reports';
-import Inspections from 'components/reports/inspections/departure/peru';
-import InspectionDetails from 'components/reports/inspections/departure/peru/details';
+import Inspections from 'components/reports/inspections/peru-departure';
+import InspectionDetails from 'components/reports/inspections/peru-departure/details';
 import ScrollToTop from 'components/scroll-to-top';
 import { GlobalContextProvider } from 'context/global';
 import Global from 'ui/global';
 import l from 'ui/layout';
 import th from 'ui/theme';
+
+const client = new ApolloClient({
+  uri: process.env.REACT_APP_DATABASE_API_URL,
+  cache: new InMemoryCache(),
+});
 
 const Main = styled(l.Flex)({
   flexDirection: 'column',
@@ -27,29 +34,37 @@ const Main = styled(l.Flex)({
 });
 
 const App = () => (
-  <Router>
-    <GlobalContextProvider>
-      <ThemeProvider theme={th}>
-        <Main>
-          <Nav />
-          <Switch>
-            <Route exact path="/" component={Dashboard} />
-            <Route exact path="/reports" component={Reports} />
-            <Route exact path="/reports/inspections" component={Inspections} />
-            <Route
-              exact
-              path="/reports/inspections/:id"
-              component={InspectionDetails}
-            />
-            <Redirect to="/" />
-          </Switch>
-          <Footer />
-          <ScrollToTop />
-        </Main>
-        <Global />
-      </ThemeProvider>
-    </GlobalContextProvider>
-  </Router>
+  <ApolloProvider client={client}>
+    <Router>
+      <GlobalContextProvider>
+        <QueryParamProvider ReactRouterRoute={Route}>
+          <ThemeProvider theme={th}>
+            <Main>
+              <Nav />
+              <Switch>
+                <Route exact path="/" component={Dashboard} />
+                <Route exact path="/reports" component={Reports} />
+                <Route
+                  exact
+                  path="/reports/inspections"
+                  component={Inspections}
+                />
+                <Route
+                  exact
+                  path="/reports/inspections/:id"
+                  component={InspectionDetails}
+                />
+                <Redirect to="/" />
+              </Switch>
+              <Footer />
+              <ScrollToTop />
+            </Main>
+            <Global />
+          </ThemeProvider>
+        </QueryParamProvider>
+      </GlobalContextProvider>
+    </Router>
+  </ApolloProvider>
 );
 
 export default App;

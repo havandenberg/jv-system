@@ -2,7 +2,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 
 import { useTabBar } from 'components/tab-bar';
-import { Pallet } from 'components/reports/inspections/departure/peru/types';
+import { PeruDepartureInspectionPallet } from 'types';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
@@ -51,7 +51,7 @@ const TableFooter = styled(TableData)({
 });
 
 interface TableProps {
-  pallets: Pallet[];
+  pallets: PeruDepartureInspectionPallet[];
 }
 
 const Table = ({ pallets }: TableProps) => {
@@ -59,7 +59,7 @@ const Table = ({ pallets }: TableProps) => {
   const tableData = getTableData(selectedTabId);
   const averagePallet = getAvgPallet(pallets);
   const filteredPallets = pallets.filter(
-    (pallet) => pallet.id.toLowerCase() !== 'average',
+    (pallet) => pallet.palletId.toLowerCase() !== 'average',
   );
   return (
     <>

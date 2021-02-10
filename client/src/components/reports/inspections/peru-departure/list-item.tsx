@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import api from 'api';
 import Chevron from 'assets/images/chevron';
 import useLightbox from 'hooks/use-lightbox';
-import { PeruInspectionReport } from 'components/reports/inspections/departure/peru/types';
+import { PeruDepartureInspection } from 'types';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
@@ -22,9 +22,9 @@ const GridContainer = styled(l.Grid)({
   },
 });
 
-const ListItem = ({ data }: { data: PeruInspectionReport }) => {
+const ListItem = ({ data }: { data: PeruDepartureInspection }) => {
   const { Lightbox, openLightbox } = useLightbox(
-    data.imageUrls,
+    data.imageUrls || [],
     data.containerId,
   );
   return (
@@ -37,7 +37,7 @@ const ListItem = ({ data }: { data: PeruInspectionReport }) => {
             </l.Flex>
           ))}
           <l.Flex overflow="hidden" px={th.spacing.sm}>
-            {data.imageUrls.map((imageUrl, idx) => (
+            {(data.imageUrls || []).map((imageUrl, idx) => (
               <l.Flex
                 alignCenter
                 cursor="pointer"
@@ -52,7 +52,7 @@ const ListItem = ({ data }: { data: PeruInspectionReport }) => {
                   height={60}
                   py={th.spacing.tn}
                   mr={th.spacing.tn}
-                  src={`${api.baseURL}${imageUrl}`}
+                  src={`${api.baseURL}/${imageUrl}`}
                 />
               </l.Flex>
             ))}

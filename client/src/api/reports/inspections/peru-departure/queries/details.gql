@@ -1,0 +1,61 @@
+query PERU_DEPARTURE_INSPECTION_DETAILS($id: String) {
+  peruDepartureInspections(condition: { containerId: $id }) {
+    nodes {
+      avgBunchesPerBox
+      avgNetWeight
+      bagType
+      bagsPerBox
+      brand
+      brixAvg
+      brixMax
+      brixMin
+      exporter
+      destination
+      departureWeek
+      containerId
+      conditionScore
+      comments
+      category
+      imageUrls
+      inspectionDate
+      packingDate
+      packingHouse
+      packingMaterial
+      presentation
+      qualityScore
+      variety
+      peruDepartureInspectionPalletsByContainerId {
+        nodes {
+          brix
+          bunchesPerBox
+          colorScore
+          conditionScore
+          decayPct
+          drySplitPct
+          glassyWeakPct
+          netWeight
+          openingScore
+          palletId
+          otherDefectsPct
+          qualityScore
+          russetScarsPct
+          shatterPct
+          size
+          splitCrushedPct
+          stemDehyPct
+          stemScore
+          stragglyTightPct
+          sunburnPct
+          textureScore
+          surfaceDiscPct
+          totalConditionDefectsPct
+          totalDefectsPct
+          totalQualityDefectsPct
+          waterberriesPct
+          undersizedBunchesPct
+          wetStickyPct
+        }
+      }
+    }
+  }
+}

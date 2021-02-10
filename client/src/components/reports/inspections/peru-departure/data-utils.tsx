@@ -1,32 +1,15 @@
-import {
-  contains,
-  includes,
-  omit,
-  pick,
-  prop,
-  reduce,
-  sort,
-  sortBy,
-  values,
-} from 'ramda';
-
 import { Tab } from 'components/tab-bar';
-import {
-  Pallet,
-  PeruInspectionReport,
-} from 'components/reports/inspections/departure/peru/types';
+import { PeruDepartureInspectionPallet, PeruDepartureInspection } from 'types';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
-import { isAfter, isBefore, isEqual } from 'date-fns';
-import { SortState } from 'hooks/use-sort';
 
 export interface LabelInfo<T> {
   key: keyof T;
   label: string;
 }
 
-export type ReportLabelInfo = LabelInfo<PeruInspectionReport>;
+export type ReportLabelInfo = LabelInfo<PeruDepartureInspection>;
 
 export const listLabels: ReportLabelInfo[] = [
   {
@@ -118,7 +101,7 @@ export const baseLabels: ReportLabelInfo[] = [
   },
 ];
 
-export const getFeaturedValues = (data: PeruInspectionReport) => [
+export const getFeaturedValues = (data: PeruDepartureInspection) => [
   {
     label: 'Quality Score',
     value: (
@@ -180,15 +163,18 @@ export const getFeaturedValues = (data: PeruInspectionReport) => [
   },
 ];
 
-export type PalletLabelInfo = LabelInfo<Pallet>;
+export type PalletLabelInfo = LabelInfo<PeruDepartureInspectionPallet>;
 
-export const getAvgPallet = (pallets: Pallet[]) =>
-  pallets.find((pallet) => pallet.id.toLowerCase() === 'average');
+export const getAvgPallet = (pallets: PeruDepartureInspectionPallet[]) =>
+  pallets.find((pallet) => pallet.palletId.toLowerCase() === 'average');
 
 const getAvgData = (chartData: PalletLabelInfo[]) => (
-  reportData: PeruInspectionReport,
+  reportData: PeruDepartureInspection,
 ) => {
-  const data = getAvgPallet(reportData.pallets);
+  const data = getAvgPallet(
+    reportData.peruDepartureInspectionPalletsByContainerId
+      .nodes as PeruDepartureInspectionPallet[],
+  );
   return data
     ? chartData.map(({ key, label }) => ({ key, label, value: data[key] }))
     : [];
@@ -235,7 +221,7 @@ export const tableTabs: Tab[] = [
 
 export const tableLabels: { [key: string]: PalletLabelInfo[] } = {
   general: [
-    { key: 'id', label: 'Pallet Number' },
+    { key: 'palletId', label: 'Pallet Number' },
     { key: 'size', label: 'Size' },
     { key: 'netWeight', label: 'Net Weight (kg)' },
     { key: 'openingScore', label: 'Opening Score' },
@@ -254,7 +240,7 @@ export const tableLabels: { [key: string]: PalletLabelInfo[] } = {
     { key: 'totalDefectsPct', label: 'TOTAL DEFECTS (<3%)' },
   ],
   qualityDefects: [
-    { key: 'id', label: 'Pallet Number' },
+    { key: 'palletId', label: 'Pallet Number' },
     { key: 'stragglyTightPct', label: 'Straggly / Tight Bunches (0%)' },
     { key: 'surfaceDiscPct', label: 'Surface Discoloration (0%)' },
     { key: 'russetScarsPct', label: 'Russet / Scars (<5%)' },
@@ -264,7 +250,7 @@ export const tableLabels: { [key: string]: PalletLabelInfo[] } = {
     { key: 'totalQualityDefectsPct', label: 'Total Quality Defects (%)' },
   ],
   conditionDefects: [
-    { key: 'id', label: 'Pallet Number' },
+    { key: 'palletId', label: 'Pallet Number' },
     { key: 'stemDehyPct', label: 'Stem Dehydration (<10%)' },
     { key: 'glassyWeakPct', label: 'Glassy / Weak (0%)' },
     { key: 'decayPct', label: 'Decay (0%)' },
@@ -283,64 +269,3 @@ export const tableLabels: { [key: string]: PalletLabelInfo[] } = {
 export const getTableData: (selectedTabId: string) => PalletLabelInfo[] = (
   selectedTabId,
 ) => tableLabels[selectedTabId];
-
-const isDateBetween = (date: Date, startDate: Date, endDate: Date) => {
-  const isValidStart = isAfter(date, startDate) || isEqual(date, startDate);
-  const isValidEnd = isBefore(date, endDate) || isEqual(date, endDate);
-  return isValidStart && isValidEnd;
-};
-
-export const filterInspectionReports = (
-  reports: PeruInspectionReport[],
-  search: string,
-  startDate?: Date,
-  endDate?: Date,
-) =>
-  reports.filter((report) => {
-    const hasValidDate =
-      !startDate ||
-      !endDate ||
-      reduce(
-        (validDate: boolean, date: Date) =>
-          validDate || isDateBetween(date, startDate, endDate),
-        false,
-        values(pick(['inspectionDate', 'departureDate'], report)).map(
-          (value) => new Date(value),
-        ),
-      );
-    const hasValidSearch = reduce(
-      (containsSearch: boolean, value: string) =>
-        containsSearch || contains(search.toLowerCase(), value.toLowerCase()),
-      false,
-      values(omit(['pallets'], report)).map((value) => `${value}`),
-    );
-    return hasValidDate && hasValidSearch;
-  });
-
-const sortByInspectionDate = (items: PeruInspectionReport[]) =>
-  sort((a: PeruInspectionReport, b: PeruInspectionReport) => {
-    return (
-      new Date(a.inspectionDate).getTime() -
-      new Date(b.inspectionDate).getTime()
-    );
-  }, items);
-
-export const sortItems = (
-  sortOption: SortState<PeruInspectionReport>,
-  items: PeruInspectionReport[],
-) => {
-  const sortedItems =
-    sortOption.sortKey === 'inspectionDate'
-      ? sortByInspectionDate(items)
-      : sortBy(prop(sortOption.sortKey) as any, items);
-  const sortedItemsReversed = includes(`${sortOption.sortKey}`, [
-    'inspectionDate',
-    'qualityScore',
-    'conditionScore',
-  ])
-    ? sortedItems.reverse()
-    : sortedItems;
-  return sortOption.isDescending
-    ? sortedItemsReversed
-    : sortedItemsReversed.reverse();
-};

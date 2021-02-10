@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from '@emotion/styled';
 
-import { SortState } from 'hooks/use-sort';
+import { SortOrder, SORT_ORDER } from 'hooks/use-sort';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
-import { LabelInfo } from './reports/inspections/departure/peru/data-utils';
+import { LabelInfo } from './reports/inspections/peru-departure/data-utils';
 import UpArrow from 'assets/images/up-arrow';
 
 const ARROW_SIDE_LENGTH = 14;
@@ -40,17 +40,19 @@ const ChevronWrapper = styled(l.Div)(
 );
 
 interface Props<T> {
-  activeOption: SortState<T>;
+  sortBy: keyof T;
+  sortOrder: SortOrder;
   handleSortChange: (sortKey: keyof T) => void;
   labelInfo: LabelInfo<T>;
 }
 
 const SortLabel = <T extends {}>({
-  activeOption,
+  sortBy,
+  sortOrder,
   handleSortChange,
   labelInfo: { key, label },
 }: Props<T>) => {
-  const active = activeOption.sortKey === key;
+  const active = sortBy === key;
   return (
     <Wrapper
       active={active}
@@ -61,7 +63,10 @@ const SortLabel = <T extends {}>({
       <ty.SmallText pr={th.spacing.sm} px={th.spacing.sm}>
         {label}
       </ty.SmallText>
-      <ChevronWrapper active={active} isDescending={activeOption.isDescending}>
+      <ChevronWrapper
+        active={active}
+        isDescending={sortOrder === SORT_ORDER.DESC}
+      >
         <UpArrow
           fill={th.colors.brand.primary}
           height={ARROW_SIDE_LENGTH}

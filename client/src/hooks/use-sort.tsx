@@ -1,33 +1,54 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 
-import { LabelInfo } from 'components/reports/inspections/departure/peru/data-utils';
+import { LabelInfo } from 'components/reports/inspections/peru-departure/data-utils';
 import SortLabel from 'components/sort-label';
+import { useSortQueryParams } from 'hooks/use-query-params';
 
-export interface SortState<T> {
-  sortKey: keyof T;
-  isDescending: boolean;
-}
+export type SortOrder = 'ASC' | 'DESC';
 
-const useSort = <T extends {}>(defaultKey: keyof T, labels: LabelInfo<T>[]) => {
-  const [sortOption, setSortOption] = useState({
-    sortKey: defaultKey,
-    isDescending: true,
-  });
+export const SORT_ORDER: { [key in SortOrder]: SortOrder } = {
+  ASC: 'ASC',
+  DESC: 'DESC',
+};
 
-  const handleSortChange = (newKey: keyof T) => {
-    const { sortKey, isDescending } = sortOption;
-    if (sortKey === newKey) {
-      setSortOption({ sortKey, isDescending: !isDescending });
+const useSort = <T extends {}>(
+  defaultSortBy: keyof T,
+  defaultSortOrder: SortOrder = SORT_ORDER.DESC,
+  labels: LabelInfo<T>[],
+) => {
+  const [{ sortBy, sortOrder }, setSortParams] = useSortQueryParams();
+
+  const handleSortChange = (newSortBy: keyof T) => {
+    if (sortBy === newSortBy) {
+      setSortParams({
+        sortBy,
+        sortOrder:
+          sortOrder === SORT_ORDER.DESC ? SORT_ORDER.ASC : SORT_ORDER.DESC,
+      });
     } else {
-      setSortOption({ sortKey: newKey, isDescending: true });
+      setSortParams({ sortBy: newSortBy, sortOrder: defaultSortOrder });
     }
   };
 
+  useEffect(() => {
+    if (!sortBy) {
+      setSortParams({ sortBy: defaultSortBy, sortOrder });
+    }
+  }, [defaultSortBy, setSortParams, sortBy, sortOrder]);
+
+  useEffect(() => {
+    if (!sortOrder) {
+      setSortParams({ sortBy, sortOrder: defaultSortOrder });
+    }
+  }, [defaultSortOrder, setSortParams, sortBy, sortOrder]);
+
   return {
-    sortOption,
+    sortBy,
+    sortOrder,
     sortableLabels: labels.map((labelInfo, idx) => (
       <SortLabel<T>
-        activeOption={sortOption}
+        sortBy={sortBy}
+        sortOrder={sortOrder}
         handleSortChange={handleSortChange}
         key={idx}
         labelInfo={labelInfo}

@@ -1,0 +1,94 @@
+version: '3'
+
+services:
+  db:
+    container_name: 'jv-db'
+    image: 'postgres:13'
+    env_file:
+      - ./.env
+    ports:
+      - '5432:5432'
+    restart: always
+    volumes:
+      - db-data:/var/lib/postgresql/data
+  db-admin:
+    container_name: jv-dbadmin
+    image: dpage/pgadmin4
+    depends_on:
+      - db
+    env_file:
+      - ./.env
+    ports:
+      - '8080:80'
+    restart: always
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+      - pgadmin-servers:/pgadmin4/servers.json
+  graphql:
+    container_name: jv-graphql
+    build: ./graphql
+    depends_on:
+      - db
+    env_file:
+      - ./.env
+    ports:
+      - 5433:5433
+    restart: always
+    command:
+      [
+        '--connection',
+        '${DATABASE_URL}',
+        '--port',
+        '5433',
+        '--schema',
+        'public',
+        '--append-plugins',
+        'postgraphile-plugin-connection-filter,@graphile-contrib/pg-simplify-inflector,custom-plugin',
+        '--watch',
+        '--dynamic-json',
+        '--enhance-graphiql',
+        '--graphiql',
+        '/',
+        '--extended-errors',
+        'hint,detail,errcode',
+        '--show-error-stack=json',
+        '--cors',
+      ]
+    volumes:
+      - ${INSPECTIONS_DIRECTORY}:/peru-departure-inspections
+  server:
+    container_name: 'jv-server'
+    build: ./server
+    depends_on:
+      - db
+    env_file:
+      - ./.env
+    ports:
+      - '3001:3001'
+    restart: always
+    volumes:
+      - ./server:/server
+      - server_nodemodules:/server/node_modules
+      - ${INSPECTIONS_DIRECTORY}:/server/static/peru-departure-inspections
+  client:
+    container_name: 'jv-client'
+    build: ./client
+    depends_on:
+      - db
+      - graphql
+      - server
+    env_file:
+      - ./.env
+    ports:
+      - '3000:3000'
+    restart: always
+    volumes:
+      - ./client:/client
+      - client_nodemodules:/client/node_modules
+
+volumes:
+  db-data:
+  pgadmin-data:
+  pgadmin-servers:
+  client_nodemodules:
+  server_nodemodules:

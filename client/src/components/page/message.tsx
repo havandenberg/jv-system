@@ -1,13 +1,18 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { CSSProperties } from 'onno-react';
+import { isEmpty } from 'ramda';
 import ClipLoader from 'react-spinners/ClipLoader';
 
-import { UseGetState } from 'api/use-get';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
-import { isEmpty } from 'ramda';
+
+export interface QueryState<T> {
+  data: T[];
+  error: any;
+  loading: boolean;
+}
 
 const Wrapper = styled(l.Flex)({
   alignItems: 'center',
@@ -69,7 +74,7 @@ export const Loading = ({ text = 'Loading data...' }: MessageProps) => (
   />
 );
 
-export interface DataMessageProps<T> extends UseGetState<T> {
+export interface DataMessageProps<T> extends QueryState<T> {
   emptyProps?: MessageProps;
   errorProps?: MessageProps;
   loadingProps?: MessageProps;

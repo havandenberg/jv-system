@@ -1,9 +1,8 @@
 import { setup } from 'axios-cache-adapter';
 
-import useInspections from 'api/routes/inspections';
-import useGet from 'api/use-get';
+import * as peruDepartureInspections from 'api/reports/inspections/peru-departure';
 
-const baseURL = process.env.REACT_APP_API_BASE_URL;
+const baseURL = process.env.REACT_APP_SERVER_URL;
 
 const api = setup({
   baseURL,
@@ -12,4 +11,4 @@ const api = setup({
   },
 });
 
-export default { baseURL, client: api, useGet, useInspections };
+export default { baseURL, client: api, ...peruDepartureInspections };

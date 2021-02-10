@@ -44,9 +44,9 @@ const useLightbox = (imageUrls: string[], title?: string) => {
         imageCaption={imageUrls[photoIndex]}
         imagePadding={80}
         imageTitle={title}
-        mainSrc={`${api.baseURL}${imageUrls[photoIndex]}`}
-        nextSrc={`${api.baseURL}${imageUrls[nextIndex()]}`}
-        prevSrc={`${api.baseURL}${imageUrls[prevIndex()]}`}
+        mainSrc={`${api.baseURL}/${imageUrls[photoIndex]}`}
+        nextSrc={`${api.baseURL}/${imageUrls[nextIndex()]}`}
+        prevSrc={`${api.baseURL}/${imageUrls[prevIndex()]}`}
         onCloseRequest={closeLightbox}
         onMoveNextRequest={handleNextPhoto}
         onMovePrevRequest={handlePrevPhoto}

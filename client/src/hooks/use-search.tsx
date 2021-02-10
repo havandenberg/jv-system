@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import SearchImg from 'assets/images/search';
 import TextInput, { TextInputProps } from 'ui/input';
 import th from 'ui/theme';
+import { useSearchQueryParam } from './use-query-params';
 
 const useSearch = (props?: TextInputProps) => {
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useSearchQueryParam();
 
   return {
     search,
@@ -13,13 +14,13 @@ const useSearch = (props?: TextInputProps) => {
       <TextInput
         Icon={<SearchImg height={th.sizes.sm} />}
         onClear={() => {
-          setSearch('');
+          setSearch(undefined, 'replaceIn');
         }}
         onChange={(e) => {
-          setSearch(e.target.value);
+          setSearch(e.target.value || undefined, 'replaceIn');
         }}
         placeholder="Search"
-        value={search}
+        value={search || ''}
         {...props}
       />
     ),

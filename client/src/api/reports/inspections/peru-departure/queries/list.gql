@@ -1,0 +1,34 @@
+query PERU_DEPARTURE_INSPECTIONS_LIST(
+  $endDate: Date
+  $orderBy: [PeruDepartureInspectionsOrderBy!]
+  $search: String
+  $startDate: Date
+) {
+  peruDepartureInspections(
+    filter: {
+      searchText: { includesInsensitive: $search }
+      or: {
+        inspectionDate: {
+          greaterThanOrEqualTo: $startDate
+          lessThanOrEqualTo: $endDate
+        }
+        packingDate: {
+          greaterThanOrEqualTo: $startDate
+          lessThanOrEqualTo: $endDate
+        }
+      }
+    }
+    orderBy: $orderBy
+  ) {
+    nodes {
+      containerId
+      conditionScore
+      exporter
+      imageUrls
+      inspectionDate
+      packingDate
+      qualityScore
+      variety
+    }
+  }
+}
