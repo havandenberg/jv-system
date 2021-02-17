@@ -8,17 +8,19 @@ import { PeruDepartureInspection } from 'types';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
+
+import { gridTemplateColumns } from '..';
 import { listLabels } from './data-utils';
-import { gridTemplateColumns } from '.';
 
 const GridContainer = styled(l.Grid)({
   background: th.colors.brand.containerBackground,
-  border: th.borders.primary,
+  border: th.borders.disabled,
   borderRadius: th.borderRadii.default,
   paddingLeft: th.spacing.sm,
   transition: th.transitions.default,
   ':hover': {
     background: th.colors.brand.containerBackgroundAccent,
+    border: th.borders.secondary,
   },
 });
 
@@ -26,11 +28,15 @@ const ListItem = ({ data }: { data: PeruDepartureInspection }) => {
   const { Lightbox, openLightbox } = useLightbox(
     data.imageUrls || [],
     data.containerId,
+    `${api.baseURL}/`,
   );
   return (
     <l.Div mb={th.spacing.sm}>
       <l.AreaLink to={`/reports/inspections/${data.containerId}`}>
         <GridContainer gridTemplateColumns={gridTemplateColumns}>
+          <l.Flex alignCenter pl={th.spacing.sm}>
+            <ty.BodyText>D</ty.BodyText>
+          </l.Flex>
           {listLabels.map(({ key }) => (
             <l.Flex alignCenter key={key} p={th.spacing.sm}>
               <ty.BodyText>{data[key]}</ty.BodyText>

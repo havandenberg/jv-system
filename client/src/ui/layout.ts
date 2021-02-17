@@ -150,16 +150,6 @@ export const AreaLink = styled(RouterLink)<DivProps>(
   divPropsSet,
 );
 
-export interface ScrollProps {
-  showScrollBar?: boolean;
-}
-const Scroll = styled(Div)<DivProps & ScrollProps & any>(
-  ({ showScrollBar = true }: { showScrollBar: boolean }) => ({
-    ...th.scrollStyles(showScrollBar),
-  }),
-  divPropsSet,
-);
-
 export type ImgProps = HeightProps &
   SizeProps &
   SpaceSetProps &
@@ -185,6 +175,5 @@ export default {
   GalleryWrapper,
   Grid,
   Img,
-  Scroll,
   Span,
 };

@@ -1,14 +1,12 @@
 import { useState } from 'react';
 import Lightbox from 'react-image-lightbox';
 
-import api from 'api';
-
 const initialState = {
   isOpen: false,
   photoIndex: 0,
 };
 
-const useLightbox = (imageUrls: string[], title?: string) => {
+const useLightbox = (imageUrls: string[], title?: string, baseSrc?: string) => {
   const [{ isOpen, photoIndex }, setState] = useState(initialState);
 
   const closeLightbox = () => {
@@ -44,9 +42,9 @@ const useLightbox = (imageUrls: string[], title?: string) => {
         imageCaption={imageUrls[photoIndex]}
         imagePadding={80}
         imageTitle={title}
-        mainSrc={`${api.baseURL}/${imageUrls[photoIndex]}`}
-        nextSrc={`${api.baseURL}/${imageUrls[nextIndex()]}`}
-        prevSrc={`${api.baseURL}/${imageUrls[prevIndex()]}`}
+        mainSrc={`${baseSrc || ''}${imageUrls[photoIndex]}`}
+        nextSrc={`${baseSrc || ''}${imageUrls[nextIndex()]}`}
+        prevSrc={`${baseSrc || ''}${imageUrls[prevIndex()]}`}
         onCloseRequest={closeLightbox}
         onMoveNextRequest={handleNextPhoto}
         onMovePrevRequest={handlePrevPhoto}

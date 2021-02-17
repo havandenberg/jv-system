@@ -3,10 +3,14 @@ query PERU_DEPARTURE_INSPECTIONS_LIST(
   $orderBy: [PeruDepartureInspectionsOrderBy!]
   $search: String
   $startDate: Date
+  $exporter: [String!]
+  $variety: [String!]
 ) {
   peruDepartureInspections(
     filter: {
       searchText: { includesInsensitive: $search }
+      exporter: { in: $exporter }
+      variety: { in: $variety }
       or: {
         inspectionDate: {
           greaterThanOrEqualTo: $startDate
@@ -30,5 +34,6 @@ query PERU_DEPARTURE_INSPECTIONS_LIST(
       qualityScore
       variety
     }
+    totalCount
   }
 }

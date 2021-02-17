@@ -28,6 +28,7 @@ const Header = styled(l.Div)(({ shadow }: { shadow?: boolean }) => ({
 }));
 
 interface Props {
+  actions?: React.ReactNode;
   breadcrumbs?: BreadcrumbProps[];
   children?: React.ReactNode;
   extraPaddingTop?: number;
@@ -36,6 +37,7 @@ interface Props {
 }
 
 const Page = ({
+  actions,
   breadcrumbs,
   children,
   extraPaddingTop,
@@ -52,7 +54,12 @@ const Page = ({
               <Breadcrumbs breadcrumbs={breadcrumbs} />
             </l.Div>
           )}
-          <ty.TitleText mb={th.spacing.lg}>{title}</ty.TitleText>
+          <l.Flex alignCenter justifyBetween mb={th.spacing.lg}>
+            <ty.TitleText mb={0} mr={th.spacing.lg} mt={th.spacing.sm}>
+              {title}
+            </ty.TitleText>
+            {actions && <l.Flex>{actions}</l.Flex>}
+          </l.Flex>
           {headerChildren}
         </l.Div>
       </Header>

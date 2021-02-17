@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 
 import { LabelInfo } from 'components/reports/inspections/peru-departure/data-utils';
-import SortLabel from 'components/sort-label';
+import ColumnLabel from 'components/column-label';
 import { useSortQueryParams } from 'hooks/use-query-params';
 
 export type SortOrder = 'ASC' | 'DESC';
@@ -11,14 +11,14 @@ export const SORT_ORDER: { [key in SortOrder]: SortOrder } = {
   DESC: 'DESC',
 };
 
-const useSort = <T extends {}>(
+const useColumns = <T extends {}>(
   defaultSortBy: keyof T,
   defaultSortOrder: SortOrder = SORT_ORDER.DESC,
   labels: LabelInfo<T>[],
 ) => {
   const [{ sortBy, sortOrder }, setSortParams] = useSortQueryParams();
 
-  const handleSortChange = (newSortBy: keyof T) => {
+  const handleSortChange = (newSortBy: keyof T, newSortOrder?: SortOrder) => {
     if (sortBy === newSortBy) {
       setSortParams({
         sortBy,
@@ -26,7 +26,10 @@ const useSort = <T extends {}>(
           sortOrder === SORT_ORDER.DESC ? SORT_ORDER.ASC : SORT_ORDER.DESC,
       });
     } else {
-      setSortParams({ sortBy: newSortBy, sortOrder: defaultSortOrder });
+      setSortParams({
+        sortBy: newSortBy,
+        sortOrder: newSortOrder || defaultSortOrder,
+      });
     }
   };
 
@@ -42,19 +45,15 @@ const useSort = <T extends {}>(
     }
   }, [defaultSortOrder, setSortParams, sortBy, sortOrder]);
 
-  return {
-    sortBy,
-    sortOrder,
-    sortableLabels: labels.map((labelInfo, idx) => (
-      <SortLabel<T>
-        sortBy={sortBy}
-        sortOrder={sortOrder}
-        handleSortChange={handleSortChange}
-        key={idx}
-        labelInfo={labelInfo}
-      />
-    )),
-  };
+  return labels.map((labelInfo, idx) => (
+    <ColumnLabel<T>
+      sortBy={sortBy}
+      sortOrder={sortOrder}
+      handleSortChange={handleSortChange}
+      key={idx}
+      labelInfo={labelInfo}
+    />
+  ));
 };
 
-export default useSort;
+export default useColumns;

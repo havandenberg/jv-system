@@ -15,7 +15,7 @@ import Dashboard from 'components/dashboard';
 import Footer from 'components/footer';
 import Nav from 'components/nav';
 import Reports from 'components/reports';
-import Inspections from 'components/reports/inspections/peru-departure';
+import Inspections from 'components/reports/inspections';
 import InspectionDetails from 'components/reports/inspections/peru-departure/details';
 import ScrollToTop from 'components/scroll-to-top';
 import { GlobalContextProvider } from 'context/global';

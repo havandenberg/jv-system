@@ -1,0 +1,5 @@
+query DISTINCT_VALUES($columnName: String, $tableName: String) {
+  distinctValues(columnName: $columnName, tableName: $tableName) {
+    nodes
+  }
+}

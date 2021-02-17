@@ -14,18 +14,20 @@ const extendSchemaPlugin = makeExtendSchemaPlugin({
     PeruDepartureInspection: {
       async imageUrls({ containerId }) {
         const imagesDir = `${dataRoot}/${containerId}/images`;
-        const images = fs
-          .readdirSync(imagesDir)
-          .filter(
-            (imageFile) => path.extname(imageFile).toLowerCase() === '.jpg',
-          )
-          .map((imageFile) =>
-            path.join(
-              `peru-departure-inspections/${containerId}/images`,
-              imageFile,
-            ),
-          );
-        return images;
+        if (fs.existsSync(imagesDir)) {
+          return fs
+            .readdirSync(imagesDir)
+            .filter(
+              (imageFile) => path.extname(imageFile).toLowerCase() === '.jpg',
+            )
+            .map((imageFile) =>
+              path.join(
+                `peru-departure-inspections/${containerId}/images`,
+                imageFile,
+              ),
+            );
+        }
+        return [];
       },
     },
   },

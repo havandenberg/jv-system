@@ -43,7 +43,7 @@ services:
         '--schema',
         'public',
         '--append-plugins',
-        'postgraphile-plugin-connection-filter,@graphile-contrib/pg-simplify-inflector,custom-plugin',
+        'postgraphile-plugin-connection-filter,postgraphile-plugin-nested-mutations,@graphile-contrib/pg-simplify-inflector,custom-plugin',
         '--watch',
         '--dynamic-json',
         '--enhance-graphiql',

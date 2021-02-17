@@ -6,6 +6,7 @@ import { PeruDepartureInspectionPallet } from 'types';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
+
 import { getTableData, getAvgPallet, tableTabs } from './data-utils';
 
 const StyledTable = styled.table({

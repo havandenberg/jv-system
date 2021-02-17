@@ -97,6 +97,7 @@ export const borders = {
   error: `1px solid ${colors.status.error}`,
   primary: `1px solid ${colors.brand.primary}`,
   secondary: `1px solid ${colors.brand.secondary}`,
+  disabled: `1px solid ${colors.brand.disabled}`,
   transparent: '1px solid transparent',
 };
 
@@ -116,6 +117,7 @@ export const breakpointQueries = {
 export const opacities = { disabled: 0.4, secondary: 0.7 };
 
 export const shadows = {
+  box: `${colors.brand.disabled} 0px 5px 15px`,
   contentBottom: `0 10px 6px -4px ${colors.brand.containerBackgroundAccent}`,
   contentTop: `0 -10px 6px -4px ${colors.brand.containerBackgroundAccent}`,
 };
@@ -129,30 +131,6 @@ export const scrollOptions = {
   offset: -100,
   smooth: 'true',
 };
-
-export const scrollStyles = (showScrollBar: boolean) => ({
-  '::-webkit-scrollbar': {
-    height: showScrollBar ? 18 : 0,
-    width: showScrollBar ? 18 : 0,
-  },
-  '::-webkit-scrollbar-button': {
-    display: 'none',
-    height: 0,
-    width: 0,
-  },
-  '::-webkit-scrollbar-corner': {
-    backgroundColor: 'transparent',
-  },
-  '::-webkit-scrollbar-thumb': {
-    '-webkit-border-radius': 20,
-    '-webkit-box-shadow': `inset -1px -1px 0px ${colors.brand.primary}, inset 1px 1px 0px ${colors.brand.primary}`,
-    backgroundClip: 'padding-box',
-    backgroundColor: colors.white,
-    border: showScrollBar ? '8px solid rgba(0, 0, 0, 0)' : 0,
-    height: showScrollBar ? 4 : 0,
-  },
-  overflow: 'auto',
-});
 
 export const textStyles = {
   small: {
@@ -186,6 +164,7 @@ export const textStyles = {
   common: {
     color: colors.text.default,
     letterSpacing: 0.5,
+    transition: transitions.default,
   },
 };
 
@@ -206,7 +185,7 @@ export const globalStyles = {
     ...textStyles.common,
     ...textStyles.body,
   },
-  'select, input': {
+  'button, select, input': {
     fontFamily: fontFamilies.body,
   },
 };
@@ -225,7 +204,6 @@ export default {
   lineHeights,
   opacities,
   scrollOptions,
-  scrollStyles,
   shadows,
   sizes,
   spacing,

@@ -14,7 +14,7 @@ const CLEAR_WIDTH = 40;
 const Wrapper = styled(l.Div)(
   ({ hasValue, focused }: { hasValue?: boolean; focused?: boolean }) => ({
     background: th.colors.brand.containerBackground,
-    border: hasValue || focused ? th.borders.primary : th.borders.secondary,
+    border: hasValue || focused ? th.borders.secondary : th.borders.disabled,
     borderRadius: th.borderRadii.input,
     cursor: 'text',
     height: th.heights.input,
@@ -22,7 +22,7 @@ const Wrapper = styled(l.Div)(
     transition: th.transitions.default,
     width: INPUT_WIDTH,
     ':hover': {
-      border: th.borders.primary,
+      border: th.borders.secondary,
     },
   }),
 );

@@ -16,7 +16,7 @@ export const dateRangeParamSet = {
 export const searchParam = 'search';
 const sortParamSet = { sortBy: StringParam, sortOrder: StringParam };
 
-const useQuerySet = (
+export const useQuerySet = (
   paramSet: QueryParamConfigMap,
   defaultUpdateType: UpdateType = 'pushIn',
 ) => {

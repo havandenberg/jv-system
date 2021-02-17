@@ -35,6 +35,7 @@ export type Query = Node & {
   peruDepartureInspectionPallets?: Maybe<PeruDepartureInspectionPalletsConnection>;
   peruDepartureInspection?: Maybe<PeruDepartureInspection>;
   peruDepartureInspectionPallet?: Maybe<PeruDepartureInspectionPallet>;
+  distinctValues?: Maybe<Scalars['String']>;
   /** Reads a single `PeruDepartureInspection` using its globally unique `ID`. */
   peruDepartureInspectionByNodeId?: Maybe<PeruDepartureInspection>;
   /** Reads a single `PeruDepartureInspectionPallet` using its globally unique `ID`. */
@@ -83,6 +84,13 @@ export type QueryPeruDepartureInspectionArgs = {
 /** The root query type which gives access points into the data universe. */
 export type QueryPeruDepartureInspectionPalletArgs = {
   palletId: Scalars['String'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryDistinctValuesArgs = {
+  tableName?: Maybe<Scalars['String']>;
+  columnName?: Maybe<Scalars['String']>;
 };
 
 

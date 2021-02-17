@@ -11,6 +11,7 @@ import {
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
+
 import { PalletLabelInfo } from './data-utils';
 
 interface ChartProps {

@@ -11,7 +11,6 @@ const Close = ({
       height="311pt"
       viewBox="0 0 311 311.077"
       width="311pt"
-      xmlns="http://www.w3.org/2000/svg"
       fill={fill}
       {...rest}
     >

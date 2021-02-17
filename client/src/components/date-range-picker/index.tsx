@@ -21,14 +21,14 @@ const Control = styled(l.Flex)(
   ({ hasValue, show }: { hasValue?: boolean; show?: boolean }) => ({
     alignItems: 'center',
     background: th.colors.brand.containerBackground,
-    border: hasValue || show ? th.borders.primary : th.borders.secondary,
+    border: hasValue || show ? th.borders.secondary : th.borders.disabled,
     borderRadius: th.borderRadii.input,
     cursor: 'pointer',
     height: th.heights.input,
     transition: th.transitions.default,
     width: th.widths.input,
     ':hover': {
-      border: th.borders.primary,
+      border: th.borders.secondary,
       '> p': {
         opacity: hasValue ? 1 : th.opacities.secondary,
       },
@@ -99,7 +99,6 @@ const DateRangePicker = ({ onChange, onClear, ranges, ...rest }: Props) => {
     setShow(false);
   });
   const selectedDates = ranges && ranges[0];
-  console.log(selectedDates);
   const hasValue = !!(selectedDates && selectedDates.endDate);
   const formattedDateRange =
     hasValue && selectedDates

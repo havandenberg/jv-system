@@ -7,9 +7,12 @@ import Page from 'components/page';
 import FeaturedValue from 'components/featured-value';
 import useLightbox from 'hooks/use-lightbox';
 import { PeruDepartureInspection, PeruDepartureInspectionPallet } from 'types';
+import b from 'ui/button';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
+
+import { InspectionsDataMessage } from '..';
 import Chart from './chart';
 import {
   baseLabels,
@@ -17,7 +20,6 @@ import {
   getAvgQualityChartLabels,
   getFeaturedValues,
 } from './data-utils';
-import { InspectionsDataMessage } from './index';
 import Table from './table';
 
 const breadcrumbs = (id: string) => [
@@ -44,6 +46,7 @@ const Details = () => {
   const { Lightbox, openLightbox } = useLightbox(
     reportData ? reportData.imageUrls || [] : [],
     reportData ? reportData.containerId : undefined,
+    `${api.baseURL}/`,
   );
 
   const featuredValues = reportData ? getFeaturedValues(reportData) : [];
@@ -53,7 +56,16 @@ const Details = () => {
     : [];
 
   return (
-    <Page breadcrumbs={breadcrumbs(id)} title={`Inspection Report - ${id}`}>
+    <Page
+      actions={[
+        <b.Primary key={0} mr={th.spacing.sm}>
+          View Arrival
+        </b.Primary>,
+        <b.Primary key={1}>Compare</b.Primary>,
+      ]}
+      breadcrumbs={breadcrumbs(id)}
+      title="Departure Inspection"
+    >
       {reportData ? (
         <l.Flex alignStart flex={1}>
           <l.Div flex={8}>

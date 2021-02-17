@@ -1,0 +1,7 @@
+mutation CREATE_PERU_DEPARTURE_INSPECTION(
+  $input: CreatePeruDepartureInspectionInput!
+) {
+  createPeruDepartureInspection(input: $input) {
+    clientMutationId
+  }
+}

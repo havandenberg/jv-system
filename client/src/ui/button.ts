@@ -7,10 +7,13 @@ import th from './theme';
 const defaultStyles = {
   background: 'transparent',
   border: 0,
-  borderRadius: th.borderRadii.input,
+  borderRadius: th.borderRadii.default,
   cursor: 'pointer',
+  height: th.heights.input,
+  letterSpacing: 1.2,
   margin: 0,
   padding: 0,
+  ':focus': { outline: 0 },
 };
 
 export const Default = styled.button<DivProps & TextProps>(
@@ -21,11 +24,17 @@ export const Default = styled.button<DivProps & TextProps>(
 
 const primaryStyles = {
   ...defaultStyles,
-  background: th.colors.brand.primary,
-  border: th.borders.primary,
-  color: th.colors.white,
+  background: th.colors.brand.containerBackground,
+  border: th.borders.disabled,
+  color: th.colors.brand.secondary,
   fontSize: th.fontSizes.body,
-  padding: th.spacing.md,
+  padding: `0 ${th.spacing.md}`,
+  transition: th.transitions.default,
+  ':hover': {
+    background: th.colors.brand.containerBackgroundAccent,
+    border: th.borders.secondary,
+    color: th.colors.brand.primary,
+  },
 };
 
 const Primary = styled.button<DivProps & TextProps>(

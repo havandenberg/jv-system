@@ -2,6 +2,7 @@ FROM node:alpine
 
 RUN npm install -g postgraphile
 RUN npm install -g postgraphile-plugin-connection-filter
+RUN npm install -g postgraphile-plugin-nested-mutations
 RUN npm install -g @graphile-contrib/pg-simplify-inflector
 
 COPY ./custom-plugin /tmp/custom-plugin

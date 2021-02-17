@@ -26,6 +26,7 @@ interface CustomTextProps {
   disabled?: boolean;
   inverted?: boolean;
   italic?: boolean;
+  link?: boolean;
   nowrap?: boolean;
   secondary?: boolean;
 }
@@ -46,19 +47,24 @@ const customProps = ({
   disabled,
   inverted,
   italic,
+  link,
   nowrap,
   secondary,
 }: CustomTextProps): any => ({
   color: inverted ? th.colors.text.inv : undefined,
+  cursor: link ? 'pointer' : undefined,
   fontStyle: italic ? 'italic' : undefined,
   fontWeight: bold ? 700 : undefined,
   opacity: disabled
     ? th.opacities.disabled
-    : secondary
+    : secondary || link
     ? th.opacities.secondary
     : 1,
   textAlign: center ? 'center' : undefined,
   whiteSpace: nowrap ? 'nowrap' : undefined,
+  ':hover': {
+    opacity: link ? 1 : undefined,
+  },
 });
 
 export const textPropsSet = [

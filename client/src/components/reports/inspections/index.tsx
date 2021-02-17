@@ -6,16 +6,18 @@ import { DataMessage, DataMessageProps } from 'components/page/message';
 import Page from 'components/page';
 import useDateRange from 'hooks/use-date-range';
 import useSearch from 'hooks/use-search';
-import useSort, { SORT_ORDER } from 'hooks/use-sort';
+import useColumns, { SORT_ORDER } from 'hooks/use-columns';
 import { PeruDepartureInspection } from 'types';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
-import { listLabels } from './data-utils';
-import ListItem from './list-item';
+
+import ImportInspectionsModal from './import';
+import { listLabels } from './peru-departure/data-utils';
+import ListItem from './peru-departure/list-item';
 
 const breadcrumbs = [{ text: 'All Inspections', to: '/reports/inspections' }];
-export const gridTemplateColumns = '3.5fr 4fr 4fr 4fr 2fr 2fr 6fr 30px';
+export const gridTemplateColumns = '50px 3.5fr 4fr 4fr 4fr 2fr 2fr 6fr 30px';
 
 export const InspectionsDataMessage = <T extends {}>(
   dataProps: DataMessageProps<T>,
@@ -26,7 +28,7 @@ const Inspections = () => {
   const inspections = data ? data.nodes : [];
   const { Search } = useSearch();
   const { DateRangePicker } = useDateRange();
-  const { sortableLabels } = useSort<PeruDepartureInspection>(
+  const columnLabels = useColumns<PeruDepartureInspection>(
     'inspectionDate',
     SORT_ORDER.DESC,
     listLabels,
@@ -34,30 +36,39 @@ const Inspections = () => {
 
   return (
     <Page
+      actions={<ImportInspectionsModal />}
       breadcrumbs={breadcrumbs}
-      extraPaddingTop={98}
+      extraPaddingTop={122}
       headerChildren={
         <>
-          <l.Flex mb={th.spacing.lg}>
+          <l.Flex mb={th.spacing.sm}>
             {Search}
             <l.Div width={th.spacing.md} />
             {DateRangePicker}
           </l.Flex>
           {!loading && (
-            <l.Grid
-              gridTemplateColumns={gridTemplateColumns}
-              mb={th.spacing.sm}
-              pl={th.spacing.sm}
-            >
-              {sortableLabels}
-              <ty.SmallText px={th.spacing.sm} secondary>
-                Images
+            <>
+              <ty.SmallText mb={th.spacing.lg} pl={th.spacing.sm}>
+                Results: {data ? data.totalCount : '-'}
               </ty.SmallText>
-            </l.Grid>
+              <l.Grid
+                gridTemplateColumns={gridTemplateColumns}
+                mb={th.spacing.sm}
+                pl={th.spacing.sm}
+              >
+                <ty.SmallText pr={th.spacing.sm} secondary>
+                  Type
+                </ty.SmallText>
+                {columnLabels}
+                <ty.SmallText px={th.spacing.sm} secondary>
+                  Images
+                </ty.SmallText>
+              </l.Grid>
+            </>
           )}
         </>
       }
-      title="Peru Grape Inspection Reports"
+      title="Product Inspection Reports"
     >
       {inspections && !isEmpty(inspections) ? (
         inspections.map(
