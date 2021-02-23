@@ -22,7 +22,7 @@ const Dropzone = styled(l.Flex)({
   borderRadius: th.borderRadii.default,
   cursor: 'pointer',
   height: th.spacing.xxl,
-  marginBottom: th.spacing.lg,
+  marginBottom: th.spacing.md,
   transition: th.transitions.default,
   ':hover': {
     background: th.colors.brand.containerBackgroundAccent,
@@ -79,7 +79,7 @@ const ImportInspectionsModal = () => {
         <input {...getInputProps()} />
       </Dropzone>
       {loadingFiles.length > 0 && (
-        <l.Div mb={th.spacing.md}>
+        <l.Div mt={th.spacing.md}>
           <l.Flex alignCenter mb={th.spacing.md}>
             <ty.BodyText italic mr={th.spacing.md}>
               Processing data files
@@ -101,7 +101,7 @@ const ImportInspectionsModal = () => {
       )}
       {groupedFiles[InspectionType.PERU_DEPARTURE] && (
         <>
-          <ty.BodyText mb={th.spacing.md} secondary>
+          <ty.BodyText my={th.spacing.md} secondary>
             Peru Departure Inspections:
           </ty.BodyText>
           {groupedFiles[InspectionType.PERU_DEPARTURE].map((fileData) => (

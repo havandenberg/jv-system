@@ -55,7 +55,8 @@ services:
         '--cors',
       ]
     volumes:
-      - ${INSPECTIONS_DIRECTORY}:/peru-departure-inspections
+      - ${PERU_INSPECTIONS_DIRECTORY}:/peru-departure-inspections
+      - ${CHILE_INSPECTIONS_DIRECTORY}:/chile-departure-inspections
   server:
     container_name: 'jv-server'
     build: ./server
@@ -69,7 +70,23 @@ services:
     volumes:
       - ./server:/server
       - server_nodemodules:/server/node_modules
-      - ${INSPECTIONS_DIRECTORY}:/server/static/peru-departure-inspections
+      - ${PERU_INSPECTIONS_DIRECTORY}:/server/static/peru-departure-inspections
+      - ${CHILE_INSPECTIONS_DIRECTORY}:/server/static/chile-departure-inspections
+  cdi-service:
+    container_name: 'jv-cdi-service'
+    build: ./cdi-service
+    depends_on:
+      - db
+      - graphql
+    env_file:
+      - ./.env
+    ports:
+      - '3002:3002'
+    restart: always
+    volumes:
+      - ./cdi-service:/cdi-service
+      - cdi-service_nodemodules:/cdi-service/node_modules
+      - ${CHILE_INSPECTIONS_DIRECTORY}:/chile-departure-inspections
   client:
     container_name: 'jv-client'
     build: ./client
@@ -90,5 +107,6 @@ volumes:
   db-data:
   pgadmin-data:
   pgadmin-servers:
+  cdi-service_nodemodules:
   client_nodemodules:
   server_nodemodules:

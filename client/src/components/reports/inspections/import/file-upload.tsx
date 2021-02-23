@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { pluck, remove } from 'ramda';
 import { useDropzone } from 'react-dropzone';
 import PulseLoader from 'react-spinners/PulseLoader';
-import XLSX from 'xlsx';
+import XLSX, { ParsingOptions } from 'xlsx';
 
 import api from 'api';
 import CloseImg from 'assets/images/close';
@@ -80,21 +80,27 @@ export interface ParsedInspectionData {
 const parseInspectionData = (
   file: XLSX.WorkBook,
   fileName: string,
-): ParsedInspectionData => {
+  bufferType: ParsingOptions['type'],
+  setFileData: (fileData: ParsedInspectionData) => void,
+) => {
   if (validatePDIDataFile(file)) {
-    return {
-      data: parsePDIDataFile(file),
+    const workbook = XLSX.read(file, {
+      sheetRows: 100,
+      type: bufferType,
+    });
+    setFileData({
+      data: parsePDIDataFile(workbook),
       fileName,
       images: [],
       type: InspectionType.PERU_DEPARTURE,
-    };
+    });
   } else {
-    return {
+    setFileData({
       data: undefined,
       fileName,
       images: [],
       type: InspectionType.UNKNOWN,
-    };
+    });
   }
 };
 
@@ -151,7 +157,7 @@ const FileUpload = ({ fileData, raw, removeFile, setFileData }: Props) => {
         imageData.append('image', image);
       });
       uploadData()
-        .then((result) => {
+        .then(() => {
           setImagesUploadStatus((prevState) => ({
             ...prevState,
             imagesLoading: true,
@@ -199,12 +205,7 @@ const FileUpload = ({ fileData, raw, removeFile, setFileData }: Props) => {
       reader.onload = (e) => {
         const result = e.target && e.target.result;
         let workbook = XLSX.read(result, { type });
-        if (validatePDIDataFile(workbook))
-          workbook = XLSX.read(result, {
-            sheetRows: 100,
-            type,
-          });
-        setFileData(parseInspectionData(workbook, raw.name));
+        parseInspectionData(workbook, raw.name, type, setFileData);
       };
       if (type) reader.readAsBinaryString(raw);
       else reader.readAsArrayBuffer(raw);
