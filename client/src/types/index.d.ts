@@ -44,6 +44,8 @@ export type Query = Node & {
   chileDepartureInspectionPallet?: Maybe<ChileDepartureInspectionPallet>;
   peruDepartureInspection?: Maybe<PeruDepartureInspection>;
   peruDepartureInspectionPallet?: Maybe<PeruDepartureInspectionPallet>;
+  /** Reads and enables pagination through a set of `ChileDepartureInspection`. */
+  chileDepartureInspections?: Maybe<ChileDepartureInspectionsConnection>;
   distinctValues?: Maybe<DistinctValuesConnection>;
   /** Reads a single `ChileDepartureInspectionPallet` using its globally unique `ID`. */
   chileDepartureInspectionPalletByNodeId?: Maybe<ChileDepartureInspectionPallet>;
@@ -114,6 +116,19 @@ export type QueryPeruDepartureInspectionArgs = {
 /** The root query type which gives access points into the data universe. */
 export type QueryPeruDepartureInspectionPalletArgs = {
   id: Scalars['BigInt'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryChileDepartureInspectionsArgs = {
+  orderBy?: Maybe<Scalars['String']>;
+  sortOrder?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  filter?: Maybe<ChileDepartureInspectionFilter>;
 };
 
 
@@ -670,7 +685,6 @@ export type ChileDepartureInspectionPallet = Node & {
   scoreName: Scalars['String'];
   reportLink: Scalars['String'];
   imagesLink: Scalars['String'];
-  imageUrls?: Maybe<Array<Scalars['String']>>;
 };
 
 /** A `ChileDepartureInspectionPallet` edge in the connection. */
@@ -1208,6 +1222,82 @@ export type PeruDepartureInspectionsEdge = {
   cursor?: Maybe<Scalars['Cursor']>;
   /** The `PeruDepartureInspection` at the end of the edge. */
   node?: Maybe<PeruDepartureInspection>;
+};
+
+/** A filter to be used against `ChileDepartureInspection` object types. All fields are combined with a logical ‘and.’ */
+export type ChileDepartureInspectionFilter = {
+  /** Filter by the object’s `lotNumber` field. */
+  lotNumber?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspectionDate` field. */
+  inspectionDate?: Maybe<DateFilter>;
+  /** Filter by the object’s `packingDate` field. */
+  packingDate?: Maybe<DateFilter>;
+  /** Filter by the object’s `shipper` field. */
+  shipper?: Maybe<StringFilter>;
+  /** Filter by the object’s `variety` field. */
+  variety?: Maybe<StringFilter>;
+  /** Filter by the object’s `qualityScore` field. */
+  qualityScore?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `conditionScore` field. */
+  conditionScore?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `avgNetWeight` field. */
+  avgNetWeight?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `avgBunchesCount` field. */
+  avgBunchesCount?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `brixAvg` field. */
+  brixAvg?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `brixMin` field. */
+  brixMin?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `brixMax` field. */
+  brixMax?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `searchText` field. */
+  searchText?: Maybe<StringFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<ChileDepartureInspectionFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<ChileDepartureInspectionFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<ChileDepartureInspectionFilter>;
+};
+
+/** A connection to a list of `ChileDepartureInspection` values. */
+export type ChileDepartureInspectionsConnection = {
+  __typename?: 'ChileDepartureInspectionsConnection';
+  /** A list of `ChileDepartureInspection` objects. */
+  nodes: Array<Maybe<ChileDepartureInspection>>;
+  /** A list of edges which contains the `ChileDepartureInspection` and cursor to aid in pagination. */
+  edges: Array<ChileDepartureInspectionsEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `ChileDepartureInspection` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+export type ChileDepartureInspection = {
+  __typename?: 'ChileDepartureInspection';
+  lotNumber?: Maybe<Scalars['String']>;
+  inspectionDate?: Maybe<Scalars['Date']>;
+  packingDate?: Maybe<Scalars['Date']>;
+  shipper?: Maybe<Scalars['String']>;
+  variety?: Maybe<Scalars['String']>;
+  qualityScore?: Maybe<Scalars['BigFloat']>;
+  conditionScore?: Maybe<Scalars['BigFloat']>;
+  avgNetWeight?: Maybe<Scalars['BigFloat']>;
+  avgBunchesCount?: Maybe<Scalars['BigFloat']>;
+  brixAvg?: Maybe<Scalars['BigFloat']>;
+  brixMin?: Maybe<Scalars['BigFloat']>;
+  brixMax?: Maybe<Scalars['BigFloat']>;
+  searchText?: Maybe<Scalars['String']>;
+  imageUrls?: Maybe<Array<Scalars['String']>>;
+};
+
+/** A `ChileDepartureInspection` edge in the connection. */
+export type ChileDepartureInspectionsEdge = {
+  __typename?: 'ChileDepartureInspectionsEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `ChileDepartureInspection` at the end of the edge. */
+  node?: Maybe<ChileDepartureInspection>;
 };
 
 /** A connection to a list of `String` values. */

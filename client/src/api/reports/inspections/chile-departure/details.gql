@@ -1,0 +1,68 @@
+query CHILE_DEPARTURE_INSPECTION_DETAILS($lotNumber: String) {
+  chileDepartureInspections(
+    filter: { lotNumber: { equalTo: $lotNumber } }
+    orderBy: "inspection_date"
+    sortOrder: "DESC"
+  ) {
+    nodes {
+      avgNetWeight
+      avgBunchesCount
+      brixAvg
+      brixMax
+      brixMin
+      conditionScore
+      imageUrls
+      qualityScore
+    }
+  }
+  chileDepartureInspectionPallets(condition: { lotNumber: $lotNumber }) {
+    nodes {
+      boxesCount
+      brix
+      bunchesCount
+      color
+      conditionScore
+      decayPct
+      diameterMax
+      diameterMin
+      drySplitPct
+      glassyWeakPct
+      grower
+      id
+      inspectionDate
+      label
+      locationName
+      lotNumber
+      netWeight
+      openAppearance
+      otherDefectsPct
+      packingDate
+      packingType
+      palletNumber
+      productName
+      productType
+      qualityScore
+      reportLink
+      russetScarsPct
+      scoreName
+      shatterPct
+      shipper
+      size
+      splitCrushedPct
+      stem
+      stemDehyPct
+      stragglyTightPct
+      sunburnPct
+      supervisor
+      surfaceDiscPct
+      temperature
+      texture
+      totalConditionDefectsPct
+      totalQualityDefectsPct
+      undersizedBunchesPct
+      variety
+      waterberriesPct
+      wetStickyPct
+    }
+  }
+}

@@ -1,0 +1,41 @@
+query CHILE_DEPARTURE_INSPECTIONS_LIST(
+  $endDate: Date
+  $orderBy: String
+  $sortOrder: String
+  $search: String
+  $startDate: Date
+  $exporter: [String!]
+  $variety: [String!]
+) {
+  chileDepartureInspections(
+    filter: {
+      searchText: { includesInsensitive: $search }
+      shipper: { in: $exporter }
+      variety: { in: $variety }
+      or: {
+        inspectionDate: {
+          greaterThanOrEqualTo: $startDate
+          lessThanOrEqualTo: $endDate
+        }
+        packingDate: {
+          greaterThanOrEqualTo: $startDate
+          lessThanOrEqualTo: $endDate
+        }
+      }
+    }
+    orderBy: $orderBy
+    sortOrder: $sortOrder
+  ) {
+    nodes {
+      lotNumber
+      conditionScore
+      imageUrls
+      inspectionDate
+      packingDate
+      qualityScore
+      shipper
+      variety
+    }
+    totalCount
+  }
+}

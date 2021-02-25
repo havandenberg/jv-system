@@ -1,20 +1,13 @@
 import { mapObjIndexed, pathOr } from 'ramda';
 import XLSX from 'xlsx';
 
+import { LabelInfo } from 'components/column-label';
 import { formatDate } from 'components/date-range-picker';
-import { Tab } from 'components/tab-bar';
-import { SortOrder, SORT_ORDER } from 'hooks/use-columns';
+import { SORT_ORDER } from 'hooks/use-columns';
 import { PeruDepartureInspectionPallet, PeruDepartureInspection } from 'types';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
-
-export interface LabelInfo<T> {
-  defaultSortOrder?: SortOrder;
-  filterable?: boolean;
-  key: keyof T;
-  label: string;
-}
 
 export type ReportLabelInfo = LabelInfo<PeruDepartureInspection>;
 
@@ -216,53 +209,37 @@ const avgConditionLabels: PalletLabelInfo[] = [
 
 export const getAvgConditionChartData = getAvgData(avgConditionLabels);
 
-export const tableTabs: Tab[] = [
-  {
-    id: 'general',
-    text: 'General',
-  },
-  {
-    id: 'qualityDefects',
-    text: 'Quality Defects',
-  },
-  {
-    id: 'conditionDefects',
-    text: 'Condition Defects',
-  },
-];
-
 export const tableLabels: { [key: string]: PalletLabelInfo[] } = {
   general: [
     { key: 'palletId', label: 'Pallet Number' },
     { key: 'size', label: 'Size' },
     { key: 'netWeight', label: 'Net Weight (kg)' },
-    { key: 'openingScore', label: 'opening Score' },
+    { key: 'openingScore', label: 'Opening Score' },
     { key: 'colorScore', label: 'Color Score' },
     { key: 'stemScore', label: 'Stem Score' },
     { key: 'textureScore', label: 'Berry Texture Score' },
     { key: 'bunchesPerBox', label: 'Bunches / Box' },
     { key: 'brix', label: '°Brix' },
-    { key: 'qualityScore', label: 'Quality Score' },
-    { key: 'conditionScore', label: 'Condition Score' },
-    { key: 'totalQualityDefectsPct', label: 'Total Quality Defects (%)' },
-    {
-      key: 'totalConditionDefectsPct',
-      label: 'Total Condition Defects (<3%)',
-    },
-    { key: 'totalDefectsPct', label: 'TOTAL DEFECTS (<3%)' },
+    { key: 'totalDefectsPct', label: 'TOTAL DEFECTS (<3%)', boldColumn: true },
   ],
   qualityDefects: [
     { key: 'palletId', label: 'Pallet Number' },
+    { key: 'qualityScore', label: 'Quality Score' },
     { key: 'stragglyTightPct', label: 'Straggly / Tight Bunches (0%)' },
     { key: 'surfaceDiscPct', label: 'Surface Discoloration (0%)' },
     { key: 'russetScarsPct', label: 'Russet / Scars (<5%)' },
     { key: 'sunburnPct', label: 'Sunburn (0%)' },
     { key: 'undersizedBunchesPct', label: 'Undersized Bunches (10%)' },
     { key: 'otherDefectsPct', label: 'Other Defects (%)' },
-    { key: 'totalQualityDefectsPct', label: 'Total Quality Defects (%)' },
+    {
+      key: 'totalQualityDefectsPct',
+      label: 'Total Quality Defects (%)',
+      boldColumn: true,
+    },
   ],
   conditionDefects: [
     { key: 'palletId', label: 'Pallet Number' },
+    { key: 'conditionScore', label: 'Condition Score' },
     { key: 'stemDehyPct', label: 'Stem Dehydration (<10%)' },
     { key: 'glassyWeakPct', label: 'Glassy / Weak (0%)' },
     { key: 'decayPct', label: 'Decay (0%)' },
@@ -274,6 +251,7 @@ export const tableLabels: { [key: string]: PalletLabelInfo[] } = {
     {
       key: 'totalConditionDefectsPct',
       label: 'Total Condition Defects (<3%)',
+      boldColumn: true,
     },
   ],
 };

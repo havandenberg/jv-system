@@ -7,7 +7,10 @@ import Page from 'components/page';
 import { DataMessage } from 'components/page/message';
 import FeaturedValue from 'components/featured-value';
 import useLightbox from 'hooks/use-lightbox';
-import { PeruDepartureInspectionPallet } from 'types';
+import {
+  ChileDepartureInspection,
+  ChileDepartureInspectionPallet,
+} from 'types';
 import b from 'ui/button';
 import l from 'ui/layout';
 import th from 'ui/theme';
@@ -18,9 +21,9 @@ import Table from '../table';
 import Chart from './chart';
 import {
   baseLabels,
-  getAvgConditionChartData,
+  defectsKeys,
   getAvgPallet,
-  getAvgQualityChartLabels,
+  getChartData,
   getFeaturedValues,
   getTableData,
 } from './data-utils';
@@ -28,9 +31,9 @@ import {
 const breadcrumbs = (id: string) => [
   {
     text: 'All Inspections',
-    to: `/reports/inspections?reportType=${InspectionType.PERU_DEPARTURE}`,
+    to: `/reports/inspections?reportType=${InspectionType.CHILE_DEPARTURE}`,
   },
-  { text: id, to: `/reports/inspections/d-peru/${id}` },
+  { text: id, to: `/reports/inspections/d-chile/${id}` },
 ];
 
 const BaseDataContainer = styled(l.Grid)({
@@ -47,22 +50,34 @@ const Details = () => {
   const { id } = useParams<{
     id: string;
   }>();
-  const { data, error, loading } = api.usePeruDepartureInspection(id);
-  const reportData = data && data.nodes[0];
+  const { data, error, loading } = api.useChileDepartureInspection(id);
+  const pallets = (data
+    ? data.pallets
+    : []) as ChileDepartureInspectionPallet[];
+  const reportData = pallets[0];
+  const imageUrls = data ? data.imageUrls || [] : [];
   const { Lightbox, openLightbox } = useLightbox(
-    reportData ? reportData.imageUrls || [] : [],
-    reportData ? reportData.containerId : undefined,
+    imageUrls,
+    reportData ? `${reportData.lotId}` : undefined,
     `${api.baseURL}/`,
   );
 
-  const featuredValues = reportData ? getFeaturedValues(reportData) : [];
-  const avgQualityData = reportData ? getAvgQualityChartLabels(reportData) : [];
-  const avgConditionData = reportData
-    ? getAvgConditionChartData(reportData)
+  const featuredValues = reportData
+    ? getFeaturedValues(data as ChileDepartureInspection)
     : [];
-  const pallets = reportData
-    ? (reportData.peruDepartureInspectionPalletsByContainerId
-        .nodes as PeruDepartureInspectionPallet[])
+  const chartData = reportData
+    ? getChartData(pallets as ChileDepartureInspectionPallet[])
+    : [];
+  const avgPallet = getAvgPallet(pallets) as ChileDepartureInspectionPallet;
+  const avgPalletDefects = avgPallet
+    ? Object.keys(defectsKeys)
+        .filter(
+          (key) => avgPallet[key as keyof ChileDepartureInspectionPallet] > 0,
+        )
+        .map((key) => ({
+          label: defectsKeys[key],
+          value: avgPallet[key as keyof ChileDepartureInspectionPallet],
+        }))
     : [];
 
   return (
@@ -74,13 +89,13 @@ const Details = () => {
         <b.Primary key={1}>Compare</b.Primary>,
       ]}
       breadcrumbs={breadcrumbs(id)}
-      title="Departure Inspection - Peru"
+      title="Departure Inspection - Chile"
     >
       {reportData ? (
         <l.Flex alignStart flex={1}>
           <l.Div flex={8}>
             <BaseDataContainer>
-              {baseLabels.map(({ key, label }, idx) => (
+              {baseLabels.map(({ key, label, transformValue }, idx) => (
                 <l.Div
                   height={th.sizes.fill}
                   key={idx}
@@ -91,7 +106,11 @@ const Details = () => {
                   <ty.CaptionText mb={th.spacing.sm} secondary>
                     {label}
                   </ty.CaptionText>
-                  <ty.BodyText>{reportData[key]}</ty.BodyText>
+                  <ty.BodyText>
+                    {transformValue
+                      ? transformValue(reportData[key])
+                      : reportData[key]}
+                  </ty.BodyText>
                 </l.Div>
               ))}
             </BaseDataContainer>
@@ -110,27 +129,28 @@ const Details = () => {
                 </React.Fragment>
               ))}
             </l.Flex>
-            <ty.CaptionText mb={th.spacing.sm} secondary>
-              QC Comments
-            </ty.CaptionText>
-            <ty.BodyText mb={th.spacing.xl}>{reportData.comments}</ty.BodyText>
-            <l.Flex justifyBetween mb={th.spacing.md} width={700}>
-              <Chart
-                data={avgQualityData}
-                title="Average Quality Defects (%)"
-              />
+            <l.Flex justifyBetween mb={th.spacing.lg} width={700}>
+              <Chart data={chartData} title="Pallets By Condition" />
               <l.Div width={th.spacing.md} />
-              <Chart
-                data={avgConditionData}
-                title="Average Condition Defects (%)"
-              />
+              {avgPalletDefects.length > 0 ? (
+                <l.Div>
+                  <ty.CaptionText mb={th.spacing.lg} secondary>
+                    Main Defects (%)
+                  </ty.CaptionText>
+                  <l.Div>
+                    {avgPalletDefects.map(({ label, value }) => (
+                      <ty.BodyText mb={th.spacing.sm}>
+                        {label}: {value}
+                      </ty.BodyText>
+                    ))}
+                  </l.Div>
+                </l.Div>
+              ) : null}
             </l.Flex>
-            <Table<PeruDepartureInspectionPallet>
-              avgPallet={getAvgPallet(pallets)}
+            <Table<ChileDepartureInspectionPallet>
+              avgPallet={avgPallet}
               getTableData={getTableData}
-              pallets={pallets.filter(
-                (pallet) => pallet.palletId.toLowerCase() !== 'average',
-              )}
+              pallets={pallets}
             />
             <l.Div height={th.spacing.lg} />
           </l.Div>
@@ -140,32 +160,30 @@ const Details = () => {
               Images
             </ty.CaptionText>
             <l.Flex column pr={th.spacing.tn}>
-              {(reportData.imageUrls || []).map(
-                (imageUrl: string, idx: number) => (
-                  <l.Div
-                    cursor="pointer"
-                    key={idx}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      openLightbox(idx);
-                    }}
-                  >
-                    <l.Img
-                      width={th.sizes.fill}
-                      py={th.spacing.tn}
-                      mr={th.spacing.tn}
-                      src={`${api.baseURL}/${imageUrl}`}
-                    />
-                  </l.Div>
-                ),
-              )}
+              {imageUrls.map((imageUrl: string, idx: number) => (
+                <l.Div
+                  cursor="pointer"
+                  key={idx}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    openLightbox(idx);
+                  }}
+                >
+                  <l.Img
+                    width={th.sizes.fill}
+                    py={th.spacing.tn}
+                    mr={th.spacing.tn}
+                    src={`${api.baseURL}/${imageUrl}`}
+                  />
+                </l.Div>
+              ))}
             </l.Flex>
           </l.Div>
         </l.Flex>
       ) : (
         <DataMessage
-          data={data ? (data.nodes as any[]) || [] : []}
+          data={data?.pallets || []}
           error={error}
           loading={loading}
         />

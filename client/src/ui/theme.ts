@@ -23,6 +23,7 @@ export const colors = {
     success: '#06D6A0',
     error: '#F76C5E',
     warning: '#F4D35E',
+    warningSecondary: '#E77728',
   },
   overlay: {
     dark: 'rgba(32,32,32,0.64)',

@@ -1,5 +1,6 @@
 import { setup } from 'axios-cache-adapter';
 
+import * as chileDepartureInspections from 'api/reports/inspections/chile-departure';
 import * as peruDepartureInspections from 'api/reports/inspections/peru-departure';
 
 const baseURL = process.env.REACT_APP_SERVER_URL;
@@ -11,4 +12,9 @@ const api = setup({
   },
 });
 
-export default { baseURL, client: api, ...peruDepartureInspections };
+export default {
+  baseURL,
+  client: api,
+  ...chileDepartureInspections,
+  ...peruDepartureInspections,
+};

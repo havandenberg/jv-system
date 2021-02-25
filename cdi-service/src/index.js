@@ -1,11 +1,10 @@
 const path = require('path');
 require('dotenv').config({ path: path.resolve(__dirname, '../../.env') });
+const decompress = require('decompress');
 const { GraphQLClient, gql } = require('graphql-request');
 const cron = require('node-cron');
 const fetch = require('node-fetch');
 const { pluck, uniqBy } = require('ramda');
-const https = require('https');
-const unzipper = require('unzipper');
 const XLSX = require('xlsx');
 
 const graphQLClient = new GraphQLClient(process.env.DATABASE_API_URL);
@@ -18,7 +17,7 @@ const BATCH_CREATE_CHILE_DEPARTURE_INSPECTION_PALLET = gql`
       clientMutationId
       chileDepartureInspectionPallets {
         imagesLink
-        lotId
+        lotNumber
       }
     }
   }
@@ -69,57 +68,59 @@ const fetchChileDepartureInspections = () =>
                 (endIndex > -1 ? endIndex : dataArray.length) - startIndex
               }`,
             );
-            const newPallets = dataArray.slice(1, 50).map((pallet) => ({
-              id: pallet[57],
-              lotId: pallet[56],
-              lotNumber: pallet[0],
-              locationName: pallet[1],
-              shipper: pallet[4],
-              inspectionDate: pallet[6],
-              productName: pallet[7],
-              packingType: pallet[8],
-              productType: pallet[9],
-              palletCount: parseFloat(pallet[10]),
-              supervisor: pallet[12],
-              palletNumber: pallet[15],
-              boxesCount: parseFloat(pallet[16]),
-              netWeight: parseFloat(pallet[18]),
-              grower: pallet[19],
-              size: pallet[20],
-              variety: pallet[21],
-              packingDate: pallet[23],
-              label: pallet[25],
-              temperature: pallet[26],
-              openAppearance: pallet[28],
-              color: pallet[29],
-              stem: pallet[30],
-              texture: pallet[31],
-              bunchesCount: parseFloat(pallet[32]) || -1,
-              brix: parseFloat(pallet[33]),
-              diameterMin: parseFloat(pallet[34]) || -1,
-              diameterMax: parseFloat(pallet[35]) || -1,
-              stragglyTightPct: parseFloat(pallet[36]),
-              surfaceDiscPct: parseFloat(pallet[37]),
-              russetScarsPct: parseFloat(pallet[38]),
-              sunburnPct: parseFloat(pallet[39]),
-              undersizedBunchesPct: parseFloat(pallet[40]),
-              otherDefectsPct: parseFloat(pallet[41]),
-              stemDehyPct: parseFloat(pallet[42]),
-              glassyWeakPct: parseFloat(pallet[43]),
-              decayPct: parseFloat(pallet[44]),
-              splitCrushedPct: parseFloat(pallet[45]),
-              drySplitPct: parseFloat(pallet[46]),
-              wetStickyPct: parseFloat(pallet[47]),
-              waterberriesPct: parseFloat(pallet[48]),
-              shatterPct: parseFloat(pallet[49]),
-              totalQualityDefectsPct: parseFloat(pallet[50]),
-              totalConditionDefectsPct: parseFloat(pallet[51]),
-              qualityScore: parseFloat(pallet[52]),
-              conditionScore: parseFloat(pallet[53]),
-              scoreName: pallet[55],
-              reportLink: pallet[58],
-              imagesLink: pallet[59],
-            }));
+            const newPallets = dataArray
+              .slice(startIndex, endIndex)
+              .map((pallet) => ({
+                id: pallet[57],
+                lotId: pallet[56],
+                lotNumber: pallet[0],
+                locationName: pallet[1],
+                shipper: pallet[4],
+                inspectionDate: pallet[6],
+                productName: pallet[7],
+                packingType: pallet[8],
+                productType: pallet[9],
+                palletCount: parseFloat(pallet[10]),
+                supervisor: pallet[12],
+                palletNumber: pallet[15],
+                boxesCount: parseFloat(pallet[16]),
+                netWeight: parseFloat(pallet[18]),
+                grower: pallet[19],
+                size: pallet[20],
+                variety: pallet[21],
+                packingDate: pallet[23],
+                label: pallet[25],
+                temperature: pallet[26],
+                openAppearance: pallet[28],
+                color: pallet[29],
+                stem: pallet[30],
+                texture: pallet[31],
+                bunchesCount: parseFloat(pallet[32]) || -1,
+                brix: parseFloat(pallet[33]),
+                diameterMin: parseFloat(pallet[34]) || -1,
+                diameterMax: parseFloat(pallet[35]) || -1,
+                stragglyTightPct: parseFloat(pallet[36]),
+                surfaceDiscPct: parseFloat(pallet[37]),
+                russetScarsPct: parseFloat(pallet[38]),
+                sunburnPct: parseFloat(pallet[39]),
+                undersizedBunchesPct: parseFloat(pallet[40]),
+                otherDefectsPct: parseFloat(pallet[41]),
+                stemDehyPct: parseFloat(pallet[42]),
+                glassyWeakPct: parseFloat(pallet[43]),
+                decayPct: parseFloat(pallet[44]),
+                splitCrushedPct: parseFloat(pallet[45]),
+                drySplitPct: parseFloat(pallet[46]),
+                wetStickyPct: parseFloat(pallet[47]),
+                waterberriesPct: parseFloat(pallet[48]),
+                shatterPct: parseFloat(pallet[49]),
+                totalQualityDefectsPct: parseFloat(pallet[50]),
+                totalConditionDefectsPct: parseFloat(pallet[51]),
+                qualityScore: parseFloat(pallet[52]),
+                conditionScore: parseFloat(pallet[53]),
+                scoreName: pallet[55],
+                reportLink: pallet[58],
+                imagesLink: pallet[59],
+              }));
             graphQLClient
               .request(BATCH_CREATE_CHILE_DEPARTURE_INSPECTION_PALLET, {
                 input: {
@@ -133,26 +134,32 @@ const fetchChileDepartureInspections = () =>
                   },
                 }) => {
                   const newLots = uniqBy(
-                    (pt) => pt.lotId,
+                    (pt) => pt.lotNumber,
                     chileDepartureInspectionPallets,
                   );
                   console.log(
                     `Lots added to database: ${JSON.stringify(
-                      pluck('lotId', newLots),
+                      pluck('lotNumber', newLots),
                     )}`,
                   );
                   newLots.forEach((newLot) => {
-                    https.get(newLot.imagesLink, (res) => {
-                      res.pipe(
-                        unzipper
-                          .Extract({
-                            path: `/chile-departure-inspections/${newLot.lotId}`,
-                          })
-                          .on('close', () => {
-                            console.log(`Images added: ${newLot.lotId}`);
-                          }),
-                      );
-                    });
+                    fetch(newLot.imagesLink)
+                      .then((res) => res.buffer())
+                      .then((res) => {
+                        decompress(
+                          res,
+                          `/chile-departure-inspections/${newLot.lotNumber}`,
+                          {
+                            filter: (file) =>
+                              !file.path.includes('thum') &&
+                              path.extname(file.path) === '.jpg',
+                          },
+                        ).then((files) => {
+                          console.log(
+                            `${files.length} images added: ${newLot.lotNumber}`,
+                          );
+                        });
+                      });
                   });
                 },
               )

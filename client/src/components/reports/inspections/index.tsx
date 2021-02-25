@@ -1,50 +1,138 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { isEmpty } from 'ramda';
 
 import api from 'api';
-import { DataMessage, DataMessageProps } from 'components/page/message';
+import { DataMessage } from 'components/page/message';
 import Page from 'components/page';
+import { Tab, useTabBar } from 'components/tab-bar';
 import useDateRange from 'hooks/use-date-range';
 import useSearch from 'hooks/use-search';
 import useColumns, { SORT_ORDER } from 'hooks/use-columns';
-import { PeruDepartureInspection } from 'types';
+import { useSortQueryParams } from 'hooks/use-query-params';
+import { ChileDepartureInspection, PeruDepartureInspection } from 'types';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 
 import ImportInspectionsModal from './import';
-import { listLabels } from './peru-departure/data-utils';
-import ListItem from './peru-departure/list-item';
+import { InspectionType } from './import/file-upload';
+import { listLabels as chileListLabels } from './chile-departure/data-utils';
+import { listLabels as peruListLabels } from './peru-departure/data-utils';
+import ListItem from './list-item';
 
-const breadcrumbs = [{ text: 'All Inspections', to: '/reports/inspections' }];
-export const gridTemplateColumns = '50px 3.5fr 4fr 4fr 4fr 2fr 2fr 6fr 30px';
+const breadcrumbs = (params: string = '') => [
+  { text: 'All Inspections', to: `/reports/inspections${params}` },
+];
+export const gridTemplateColumns = '3.5fr 4fr 4fr 4fr 2fr 2fr 6fr 30px';
 
-export const InspectionsDataMessage = <T extends {}>(
-  dataProps: DataMessageProps<T>,
-) => <DataMessage {...dataProps} />;
+const tabs: Tab[] = [
+  {
+    id: InspectionType.PSA_ARRIVAL,
+    text: 'Arrival',
+    disabled: true,
+  },
+  {
+    id: InspectionType.PERU_DEPARTURE,
+    text: 'D - Peru',
+  },
+  {
+    id: InspectionType.CHILE_DEPARTURE,
+    text: 'D - Chile',
+  },
+];
 
 const Inspections = () => {
-  const { data, error, loading } = api.usePeruDepartureInspections();
-  const inspections = data ? data.nodes : [];
-  const { Search } = useSearch();
+  const chileQuery = api.useChileDepartureInspections();
+  const peruQuery = api.usePeruDepartureInspections();
+
   const { DateRangePicker } = useDateRange();
-  const columnLabels = useColumns<PeruDepartureInspection>(
+  const { Search } = useSearch();
+  const [{ sortBy, sortOrder }, setSortParams] = useSortQueryParams();
+  const { selectedTabId, TabBar } = useTabBar(
+    tabs,
+    InspectionType.PERU_DEPARTURE,
+    true,
+  );
+
+  const query =
+    selectedTabId === InspectionType.PERU_DEPARTURE ? peruQuery : chileQuery;
+  const { data, loading, error } = query;
+  const inspections = data ? data.nodes : [];
+
+  const peruColumnLabels = useColumns<PeruDepartureInspection>(
     'inspectionDate',
     SORT_ORDER.DESC,
-    listLabels,
+    peruListLabels,
+    'peru_departure_inspection',
   );
+
+  const chileColumnLabels = useColumns<ChileDepartureInspection>(
+    'inspectionDate',
+    SORT_ORDER.DESC,
+    chileListLabels,
+    'chile_departure_inspection_pallet',
+  );
+
+  const columnLabels =
+    selectedTabId === InspectionType.PERU_DEPARTURE
+      ? peruColumnLabels
+      : chileColumnLabels;
+
+  useEffect(() => {
+    if (selectedTabId === InspectionType.PERU_DEPARTURE) {
+      if (sortBy === 'shipper') {
+        setSortParams({ sortBy: 'exporter', sortOrder });
+      } else if (sortBy === 'lotId') {
+        setSortParams({ sortBy: 'containerId', sortOrder });
+      }
+    } else {
+      if (sortBy === 'exporter') {
+        setSortParams({ sortBy: 'shipper', sortOrder });
+      } else if (sortBy === 'containerId') {
+        setSortParams({ sortBy: 'lotId', sortOrder });
+      }
+    }
+  }, [selectedTabId, setSortParams, sortBy, sortOrder]);
+
+  const listItems = () =>
+    inspections &&
+    (inspections as Array<
+      PeruDepartureInspection | ChileDepartureInspection
+    >).map((inspection, idx) => {
+      const peruInspection = inspection as PeruDepartureInspection;
+      const chileInspection = inspection as ChileDepartureInspection;
+      return selectedTabId === InspectionType.PERU_DEPARTURE ? (
+        <ListItem<PeruDepartureInspection>
+          data={peruInspection}
+          key={idx}
+          lightboxTitle={peruInspection.containerId}
+          listLabels={peruListLabels}
+          slug={`d-peru/${peruInspection.containerId}`}
+        />
+      ) : (
+        <ListItem<ChileDepartureInspection>
+          data={chileInspection}
+          key={idx}
+          lightboxTitle={`${chileInspection.lotNumber}`}
+          listLabels={chileListLabels}
+          slug={`d-chile/${chileInspection.lotNumber}`}
+        />
+      );
+    });
 
   return (
     <Page
       actions={<ImportInspectionsModal />}
-      breadcrumbs={breadcrumbs}
+      breadcrumbs={breadcrumbs(`?reportType=${selectedTabId}`)}
       extraPaddingTop={122}
       headerChildren={
         <>
-          <l.Flex mb={th.spacing.sm}>
+          <l.Flex alignCenter mb={th.spacing.sm}>
             {Search}
             <l.Div width={th.spacing.md} />
             {DateRangePicker}
+            <l.Div width={th.spacing.md} />
+            <TabBar />
           </l.Flex>
           {!loading && (
             <>
@@ -56,9 +144,6 @@ const Inspections = () => {
                 mb={th.spacing.sm}
                 pl={th.spacing.sm}
               >
-                <ty.SmallText pr={th.spacing.sm} secondary>
-                  Type
-                </ty.SmallText>
                 {columnLabels}
                 <ty.SmallText px={th.spacing.sm} secondary>
                   Images
@@ -70,14 +155,11 @@ const Inspections = () => {
       }
       title="Product Inspection Reports"
     >
-      {inspections && !isEmpty(inspections) ? (
-        inspections.map(
-          (inspection, idx) =>
-            inspection && <ListItem data={inspection} key={idx} />,
-        )
+      {!isEmpty(inspections) ? (
+        listItems()
       ) : (
-        <InspectionsDataMessage
-          data={(inspections as PeruDepartureInspection[]) || []}
+        <DataMessage
+          data={inspections}
           error={error}
           loading={loading}
           emptyProps={{

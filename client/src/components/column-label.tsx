@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import styled from '@emotion/styled';
 
 import FilterPanel from 'components/filter-panel';
-import { LabelInfo } from 'components/reports/inspections/peru-departure/data-utils';
 import { SortOrder, SORT_ORDER } from 'hooks/use-columns';
 import l from 'ui/layout';
 import th from 'ui/theme';
@@ -36,11 +35,21 @@ const ChevronWrapper = styled(l.Div)(({ flip }: { flip: boolean }) => ({
   width: ARROW_SIDE_LENGTH,
 }));
 
+export interface LabelInfo<T> {
+  defaultSortOrder?: SortOrder;
+  filterable?: boolean;
+  key: keyof T;
+  label: string;
+  transformValue?: (val: any) => any;
+  boldColumn?: boolean;
+}
+
 interface Props<T> {
   sortBy: keyof T;
   sortOrder: SortOrder;
   handleSortChange: (sortKey: keyof T, sortOrder?: SortOrder) => void;
   labelInfo: LabelInfo<T>;
+  tableName: string;
 }
 
 const ColumnLabel = <T extends {}>({
@@ -48,6 +57,7 @@ const ColumnLabel = <T extends {}>({
   sortOrder,
   handleSortChange,
   labelInfo: { defaultSortOrder, filterable, key, label },
+  tableName,
 }: Props<T>) => {
   const active = sortBy === key;
   const [hover, setHover] = useState(false);
@@ -85,7 +95,7 @@ const ColumnLabel = <T extends {}>({
         <l.Div cursor="pointer" position="absolute" left={-11} top={-1}>
           <FilterPanel<T>
             filterKey={key}
-            tableName="peru_departure_inspection"
+            tableName={tableName}
             visible={hover}
           />
         </l.Div>

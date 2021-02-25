@@ -16,7 +16,8 @@ import Footer from 'components/footer';
 import Nav from 'components/nav';
 import Reports from 'components/reports';
 import Inspections from 'components/reports/inspections';
-import InspectionDetails from 'components/reports/inspections/peru-departure/details';
+import ChileInspectionDetails from 'components/reports/inspections/chile-departure/details';
+import PeruInspectionDetails from 'components/reports/inspections/peru-departure/details';
 import ScrollToTop from 'components/scroll-to-top';
 import { GlobalContextProvider } from 'context/global';
 import Global from 'ui/global';
@@ -51,8 +52,13 @@ const App = () => (
                 />
                 <Route
                   exact
-                  path="/reports/inspections/:id"
-                  component={InspectionDetails}
+                  path="/reports/inspections/d-peru/:id"
+                  component={PeruInspectionDetails}
+                />
+                <Route
+                  exact
+                  path="/reports/inspections/d-chile/:id"
+                  component={ChileInspectionDetails}
                 />
                 <Redirect to="/" />
               </Switch>

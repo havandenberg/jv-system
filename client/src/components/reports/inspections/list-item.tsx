@@ -3,14 +3,13 @@ import styled from '@emotion/styled';
 
 import api from 'api';
 import Chevron from 'assets/images/chevron';
+import { LabelInfo } from 'components/column-label';
 import useLightbox from 'hooks/use-lightbox';
-import { PeruDepartureInspection } from 'types';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 
-import { gridTemplateColumns } from '..';
-import { listLabels } from './data-utils';
+import { gridTemplateColumns } from '.';
 
 const GridContainer = styled(l.Grid)({
   background: th.colors.brand.containerBackground,
@@ -24,21 +23,33 @@ const GridContainer = styled(l.Grid)({
   },
 });
 
-const ListItem = ({ data }: { data: PeruDepartureInspection }) => {
+const ListItem = <T extends { imageUrls?: string[] | null }>({
+  data,
+  lightboxTitle,
+  listLabels,
+  slug,
+}: {
+  data: T;
+  lightboxTitle: string;
+  listLabels: LabelInfo<T>[];
+  slug: string;
+}) => {
   const { Lightbox, openLightbox } = useLightbox(
     data.imageUrls || [],
-    data.containerId,
+    lightboxTitle,
     `${api.baseURL}/`,
   );
   return (
     <l.Div mb={th.spacing.sm}>
-      <l.AreaLink to={`/reports/inspections/${data.containerId}`}>
+      <l.AreaLink to={`/reports/inspections/${slug}`}>
         <GridContainer gridTemplateColumns={gridTemplateColumns}>
-          <l.Flex alignCenter pl={th.spacing.sm}>
-            <ty.BodyText>D</ty.BodyText>
-          </l.Flex>
           {listLabels.map(({ key }) => (
-            <l.Flex alignCenter key={key} p={th.spacing.sm}>
+            <l.Flex
+              alignCenter
+              key={`${key}`}
+              overflow="hidden"
+              p={th.spacing.sm}
+            >
               <ty.BodyText>{data[key]}</ty.BodyText>
             </l.Flex>
           ))}

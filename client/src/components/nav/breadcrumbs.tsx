@@ -9,7 +9,7 @@ import ty from 'ui/typography';
 
 export interface BreadcrumbProps {
   text: string;
-  to: string;
+  to?: string;
 }
 
 const Breadcrumbs = ({
@@ -20,16 +20,12 @@ const Breadcrumbs = ({
 } & RouteComponentProps) => (
   <l.Flex alignCenter>
     {breadcrumbs.map(({ text, to }, idx) => {
-      const active = pathname === to;
+      const active = !!to && pathname === to;
       return (
         <React.Fragment key={idx}>
           {idx > 0 && <Chevron height={10} />}
-          <l.AreaLink to={active ? '#' : to}>
-            <NavItem
-              active={active}
-              cursor={active ? 'default' : 'pointer'}
-              px={th.spacing.sm}
-            >
+          <l.AreaLink to={active || !to ? '#' : to}>
+            <NavItem active={active} disabled={!to} px={th.spacing.sm}>
               <ty.BodyText>{text}</ty.BodyText>
             </NavItem>
           </l.AreaLink>

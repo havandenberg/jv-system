@@ -6,14 +6,14 @@ const dataRoot = '/chile-departure-inspections';
 
 const extendSchemaPlugin = makeExtendSchemaPlugin({
   typeDefs: gql`
-    extend type ChileDepartureInspectionPallet {
-      imageUrls: [String!] @requires(columns: ["lot_id"])
+    extend type ChileDepartureInspection {
+      imageUrls: [String!] @requires(columns: ["lot_number"])
     }
   `,
   resolvers: {
-    ChileDepartureInspectionPallet: {
-      async imageUrls({ lotId }) {
-        const imagesDir = `${dataRoot}/${lotId}`;
+    ChileDepartureInspection: {
+      async imageUrls({ lotNumber }) {
+        const imagesDir = `${dataRoot}/${lotNumber}`;
         if (fs.existsSync(imagesDir)) {
           return fs
             .readdirSync(imagesDir)
@@ -21,7 +21,7 @@ const extendSchemaPlugin = makeExtendSchemaPlugin({
               (imageFile) => path.extname(imageFile).toLowerCase() === '.jpg',
             )
             .map((imageFile) =>
-              path.join(`chile-departure-inspections/${lotId}`, imageFile),
+              path.join(`chile-departure-inspections/${lotNumber}`, imageFile),
             );
         }
         return [];

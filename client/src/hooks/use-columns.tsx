@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 
-import { LabelInfo } from 'components/reports/inspections/peru-departure/data-utils';
-import ColumnLabel from 'components/column-label';
+import ColumnLabel, { LabelInfo } from 'components/column-label';
 import { useSortQueryParams } from 'hooks/use-query-params';
 
 export type SortOrder = 'ASC' | 'DESC';
@@ -15,6 +14,7 @@ const useColumns = <T extends {}>(
   defaultSortBy: keyof T,
   defaultSortOrder: SortOrder = SORT_ORDER.DESC,
   labels: LabelInfo<T>[],
+  tableName: string,
 ) => {
   const [{ sortBy, sortOrder }, setSortParams] = useSortQueryParams();
 
@@ -35,13 +35,13 @@ const useColumns = <T extends {}>(
 
   useEffect(() => {
     if (!sortBy) {
-      setSortParams({ sortBy: defaultSortBy, sortOrder });
+      setSortParams({ sortBy: defaultSortBy, sortOrder }, 'replaceIn');
     }
   }, [defaultSortBy, setSortParams, sortBy, sortOrder]);
 
   useEffect(() => {
     if (!sortOrder) {
-      setSortParams({ sortBy, sortOrder: defaultSortOrder });
+      setSortParams({ sortBy, sortOrder: defaultSortOrder }, 'replaceIn');
     }
   }, [defaultSortOrder, setSortParams, sortBy, sortOrder]);
 
@@ -52,6 +52,7 @@ const useColumns = <T extends {}>(
       handleSortChange={handleSortChange}
       key={idx}
       labelInfo={labelInfo}
+      tableName={tableName}
     />
   ));
 };

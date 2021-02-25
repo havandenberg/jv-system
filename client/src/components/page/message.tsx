@@ -8,12 +8,6 @@ import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 
-export interface QueryState<T> {
-  data: T[];
-  error: any;
-  loading: boolean;
-}
-
 const Wrapper = styled(l.Flex)({
   alignItems: 'center',
   background: th.colors.brand.containerBackground,
@@ -74,20 +68,26 @@ export const Loading = ({ text = 'Loading data...' }: MessageProps) => (
   />
 );
 
-export interface DataMessageProps<T> extends QueryState<T> {
+interface QueryState {
+  data: any[];
+  error: any;
+  loading: boolean;
+}
+
+export interface DataMessageProps extends QueryState {
   emptyProps?: MessageProps;
   errorProps?: MessageProps;
   loadingProps?: MessageProps;
 }
 
-export const DataMessage = <T extends {}>({
+export const DataMessage = ({
   data,
   emptyProps,
   error,
   errorProps,
   loading,
   loadingProps,
-}: DataMessageProps<T>) => {
+}: DataMessageProps) => {
   if (error) {
     return <Error {...errorProps} />;
   }
