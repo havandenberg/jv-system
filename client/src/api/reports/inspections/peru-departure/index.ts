@@ -1,11 +1,9 @@
-import { useMutation, useQuery } from '@apollo/client';
-import axios from 'axios';
+import { useQuery } from '@apollo/client';
 import { add } from 'date-fns';
 import { loader } from 'graphql.macro';
 import { pathOr } from 'ramda';
 import { StringParam } from 'use-query-params';
 
-import api from 'api';
 import { formatDate } from 'components/date-range-picker';
 import { SORT_ORDER } from 'hooks/use-columns';
 import {
@@ -14,9 +12,8 @@ import {
   useSearchQueryParam,
   useSortQueryParams,
 } from 'hooks/use-query-params';
-import { Mutation, Query } from 'types';
+import { Query } from 'types';
 
-const CREATE_PERU_DEPARTURE_INSPECTION = loader('./create.gql');
 const INSPECTION_DETAILS_QUERY = loader('./details.gql');
 const INSPECTIONS_LIST_QUERY = loader('./list.gql');
 const DISTINCT_VALUES_QUERY = loader('../../../distinct-values.gql');
@@ -46,25 +43,52 @@ export const usePeruDepartureInspections = () => {
       tableName: 'peru_departure_inspection',
     },
   });
+  const exporterDefaultList: string[] = pathOr(
+    [],
+    ['distinctValues', 'nodes'],
+    exporterDefault,
+  );
+  const filteredExporters = exporter
+    ? exporter
+        .split(',')
+        .filter((val: string) =>
+          exporterDefaultList.length > 0
+            ? exporterDefaultList.includes(val)
+            : false,
+        )
+    : [];
+
   const { data: varietyDefault } = useQuery<Query>(DISTINCT_VALUES_QUERY, {
     variables: {
       columnName: 'variety',
       tableName: 'peru_departure_inspection',
     },
   });
+  const varietyDefaultList: string[] = pathOr(
+    [],
+    ['distinctValues', 'nodes'],
+    varietyDefault,
+  );
+  const filteredVarieties = variety
+    ? variety
+        .split(',')
+        .filter((val: string) =>
+          varietyDefaultList.length > 0
+            ? varietyDefaultList.includes(val)
+            : false,
+        )
+    : [];
 
   const { data, error, loading } = useQuery<Query>(INSPECTIONS_LIST_QUERY, {
     variables: {
       endDate,
-      exporter: exporter
-        ? exporter.split(',')
-        : pathOr([], ['distinctValues', 'nodes'], exporterDefault),
+      exporter:
+        filteredExporters.length > 0 ? filteredExporters : exporterDefaultList,
       orderBy,
       search,
       startDate,
-      variety: variety
-        ? variety.split(',')
-        : pathOr([], ['distinctValues', 'nodes'], varietyDefault),
+      variety:
+        filteredVarieties.length > 0 ? filteredVarieties : varietyDefaultList,
     },
   });
 
@@ -85,20 +109,3 @@ export const usePeruDepartureInspection = (id: string) => {
     loading,
   };
 };
-
-export const useCreatePeruDepartureInspection = (input: any) =>
-  useMutation<Mutation>(CREATE_PERU_DEPARTURE_INSPECTION, {
-    variables: {
-      input,
-    },
-  });
-
-export const postPeruDepartureInspectionImages = (
-  data: FormData,
-  containerId: string,
-) =>
-  axios.post(`${api.baseURL}/peru-departure-inspections`, data, {
-    headers: {
-      'container-id': containerId,
-    },
-  });

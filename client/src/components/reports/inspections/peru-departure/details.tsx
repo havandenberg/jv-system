@@ -13,7 +13,7 @@ import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 
-import { InspectionType } from '../import/file-upload';
+import { InspectionType } from '..';
 import Table from '../table';
 import Chart from './chart';
 import {

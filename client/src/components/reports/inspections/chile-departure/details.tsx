@@ -16,7 +16,7 @@ import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 
-import { InspectionType } from '../import/file-upload';
+import { InspectionType } from '..';
 import Table from '../table';
 import Chart from './chart';
 import {
@@ -139,7 +139,7 @@ const Details = () => {
                   </ty.CaptionText>
                   <l.Div>
                     {avgPalletDefects.map(({ label, value }) => (
-                      <ty.BodyText mb={th.spacing.sm}>
+                      <ty.BodyText key={label} mb={th.spacing.sm}>
                         {label}: {value}
                       </ty.BodyText>
                     ))}

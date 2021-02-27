@@ -1231,7 +1231,7 @@ export type ChileDepartureInspectionFilter = {
   /** Filter by the object’s `inspectionDate` field. */
   inspectionDate?: Maybe<DateFilter>;
   /** Filter by the object’s `packingDate` field. */
-  packingDate?: Maybe<DateFilter>;
+  packingDate?: Maybe<StringFilter>;
   /** Filter by the object’s `shipper` field. */
   shipper?: Maybe<StringFilter>;
   /** Filter by the object’s `variety` field. */
@@ -1277,7 +1277,7 @@ export type ChileDepartureInspection = {
   __typename?: 'ChileDepartureInspection';
   lotNumber?: Maybe<Scalars['String']>;
   inspectionDate?: Maybe<Scalars['Date']>;
-  packingDate?: Maybe<Scalars['Date']>;
+  packingDate?: Maybe<Scalars['String']>;
   shipper?: Maybe<Scalars['String']>;
   variety?: Maybe<Scalars['String']>;
   qualityScore?: Maybe<Scalars['BigFloat']>;

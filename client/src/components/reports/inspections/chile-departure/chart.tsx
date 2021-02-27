@@ -33,22 +33,19 @@ const Chart = ({ data, title }: ChartProps) => (
           outerRadius={100}
           fill={th.colors.brand.primary}
           paddingAngle={2}
-          labelLine={false}
-          label
         >
-          {data.map((entry, index) => {
-            console.log(entry);
-            return (
-              <Cell
-                key={`cell-${index}`}
-                fill={COLORS[entry.label] || th.colors.brand.primary}
-              />
-            );
-          })}
+          {data.map((entry, index) => (
+            <Cell
+              key={`cell-${index}`}
+              fill={COLORS[entry.label] || th.colors.brand.primary}
+            />
+          ))}
         </Pie>
         <Legend
           align="right"
-          formatter={(value) => `${value} (%)`}
+          formatter={(value, { payload }) =>
+            `${value} (${(payload as any).value}%)`
+          }
           layout="vertical"
           verticalAlign="middle"
         />

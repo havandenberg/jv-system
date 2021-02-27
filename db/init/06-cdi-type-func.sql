@@ -1,7 +1,7 @@
 CREATE TYPE chile_departure_inspection AS (
 	lot_number text,
 	inspection_date date,
-	packing_date date,
+	packing_date text,
 	shipper text,
 	variety text,
 	quality_score numeric,

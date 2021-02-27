@@ -1,6 +1,6 @@
 FROM node:alpine
 
-WORKDIR /cdi-service
+WORKDIR /inspections-service
 COPY package.json yarn.lock ./
 RUN yarn
 COPY . .

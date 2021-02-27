@@ -17,10 +17,6 @@ query CHILE_DEPARTURE_INSPECTIONS_LIST(
           greaterThanOrEqualTo: $startDate
           lessThanOrEqualTo: $endDate
         }
-        packingDate: {
-          greaterThanOrEqualTo: $startDate
-          lessThanOrEqualTo: $endDate
-        }
       }
     }
     orderBy: $orderBy

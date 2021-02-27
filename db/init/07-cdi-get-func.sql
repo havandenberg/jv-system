@@ -8,7 +8,7 @@ $$
 			SELECT
 				lot_number,
 				inspection_date,
-				packing_date,
+				STRING_AGG(CAST(packing_date AS text), '',''),
 				shipper,
 				variety,
 				ROUND(AVG(quality_score)) AS quality_score,
@@ -46,7 +46,7 @@ $$
 					score_name
 				), '''') AS search_text
 		FROM chile_departure_inspection_pallet
-		GROUP BY lot_number, inspection_date, packing_date, shipper, variety
+		GROUP BY lot_number, inspection_date, shipper, variety
 		ORDER BY %I %s', order_by, sort_order);
 	END;
 $$;

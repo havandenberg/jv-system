@@ -1,13 +1,9 @@
-const path = require('path');
-require('dotenv').config({ path: path.resolve(__dirname, '../../.env') });
 const decompress = require('decompress');
-const { GraphQLClient, gql } = require('graphql-request');
-const cron = require('node-cron');
 const fetch = require('node-fetch');
 const { pluck, uniqBy } = require('ramda');
 const XLSX = require('xlsx');
 
-const graphQLClient = new GraphQLClient(process.env.DATABASE_API_URL);
+const { gql, gqlClient, DISTINCT_VALUES } = require('../api');
 
 const BATCH_CREATE_CHILE_DEPARTURE_INSPECTION_PALLET = gql`
   mutation BATCH_CREATE_CHILE_DEPARTURE_INSPECTION_PALLET(
@@ -23,21 +19,15 @@ const BATCH_CREATE_CHILE_DEPARTURE_INSPECTION_PALLET = gql`
   }
 `;
 
-const DISTINCT_VALUES = gql`
-  query DISTINCT_VALUES($columnName: String, $tableName: String) {
-    distinctValues(columnName: $columnName, tableName: $tableName) {
-      nodes
-    }
-  }
-`;
-
-const fetchChileDepartureInspections = () =>
+const fetchChileDepartureInspections = () => {
+  console.log(
+    `\nFetching chile departure inspections: ${new Date().toLocaleString()}`,
+  );
   fetch(process.env.CDI_API_URL, {
     method: 'GET',
   })
     .then((response) => response.blob())
     .then(async (res) => {
-      console.log(`Fetching new inspections: ${new Date().toLocaleString()}`);
       const file = XLSX.read(await res.arrayBuffer(), { type: 'array' });
       const isValid =
         file.SheetNames.length === 1 && file.SheetNames[0] === 'Sheet1';
@@ -53,7 +43,7 @@ const fetchChileDepartureInspections = () =>
           .split('\n')
           .filter((row) => row.length > 0)
           .map((row) => row.split('|').map((cell) => cell.trim()));
-        graphQLClient
+        gqlClient
           .request(DISTINCT_VALUES, {
             columnName: 'id',
             tableName: 'chile_departure_inspection_pallet',
@@ -121,7 +111,7 @@ const fetchChileDepartureInspections = () =>
                 reportLink: pallet[58],
                 imagesLink: pallet[59],
               }));
-            graphQLClient
+            gqlClient
               .request(BATCH_CREATE_CHILE_DEPARTURE_INSPECTION_PALLET, {
                 input: {
                   newPallets,
@@ -169,8 +159,7 @@ const fetchChileDepartureInspections = () =>
       }
     })
     .catch((e) => console.log(e));
-
-cron.schedule('0 0 1 * *', fetchChileDepartureInspections);
+};
 
 module.exports = {
   fetchChileDepartureInspections,

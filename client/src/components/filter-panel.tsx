@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useQuery } from '@apollo/client';
 import styled from '@emotion/styled';
 import { loader } from 'graphql.macro';
@@ -6,6 +6,7 @@ import { pathOr } from 'ramda';
 
 import FilterImg from 'assets/images/filter';
 import useOutsideClickRef from 'hooks/use-outside-click-ref';
+import usePrevious from 'hooks/use-previous';
 import { useQueryValue } from 'hooks/use-query-params';
 import { Query } from 'types';
 import Checkbox from 'ui/checkbox';
@@ -63,9 +64,8 @@ const FilterPanel = <T extends {}>({
   const ref = useOutsideClickRef(() => {
     setShow(false);
   });
-  const [queryValue, setQueryValue] = useQueryValue(`${filterKey}`);
-  const filterValues: string[] = queryValue ? queryValue.split(',') : [];
-  const [selectedValues, setSelectedValues] = useState<string[]>(filterValues);
+  const [tabId] = useQueryValue('reportType');
+  const previousTabId = usePrevious(tabId);
 
   const { data } = useQuery<Query>(DISTINCT_VALUES_QUERY, {
     variables: {
@@ -74,13 +74,29 @@ const FilterPanel = <T extends {}>({
     },
   });
   const filterOptions: string[] = pathOr([], ['distinctValues', 'nodes'], data);
+  const previousFilterOptions = usePrevious(filterOptions);
+  const [queryValue, setQueryValue] = useQueryValue(`${filterKey}`);
+  const queryValueList = queryValue ? queryValue.split(',') : [];
+  const externalFilterValues = queryValueList.filter((val: string) =>
+    filterOptions ? !filterOptions.includes(val) : false,
+  );
+  const filterValues = queryValueList.filter((val: string) =>
+    filterOptions ? filterOptions.includes(val) : false,
+  );
+  const [selectedValues, setSelectedValues] = useState<string[]>(filterValues);
   const dirty =
     selectedValues.sort().join(',') !== filterValues.sort().join(',');
 
   const apply = () => {
     const allValues = [0, filterOptions.length].includes(selectedValues.length);
-    if (allValues) setSelectedValues([]);
-    setQueryValue(allValues ? undefined : selectedValues.join(','));
+    if (allValues) setSelectedValues(externalFilterValues);
+    setQueryValue(
+      allValues
+        ? externalFilterValues.length > 0
+          ? externalFilterValues.join(',')
+          : undefined
+        : [...externalFilterValues, ...selectedValues].join(','),
+    );
     setShow(false);
   };
 
@@ -103,6 +119,18 @@ const FilterPanel = <T extends {}>({
   const toggleShow = () => {
     setShow(!show);
   };
+
+  useEffect(() => {
+    if (filterOptions && !previousFilterOptions) {
+      setSelectedValues(filterValues);
+    }
+  }, [filterOptions, filterValues, previousFilterOptions]);
+
+  useEffect(() => {
+    if (tabId !== previousTabId) {
+      setSelectedValues(filterValues);
+    }
+  }, [filterValues, previousTabId, tabId]);
 
   return (
     <l.Div relative ref={ref}>

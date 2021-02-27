@@ -14,8 +14,6 @@ import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 
-import ImportInspectionsModal from './import';
-import { InspectionType } from './import/file-upload';
 import { listLabels as chileListLabels } from './chile-departure/data-utils';
 import { listLabels as peruListLabels } from './peru-departure/data-utils';
 import ListItem from './list-item';
@@ -24,6 +22,13 @@ const breadcrumbs = (params: string = '') => [
   { text: 'All Inspections', to: `/reports/inspections${params}` },
 ];
 export const gridTemplateColumns = '3.5fr 4fr 4fr 4fr 2fr 2fr 6fr 30px';
+
+export enum InspectionType {
+  PERU_DEPARTURE = 'peru_departure_inspection',
+  CHILE_DEPARTURE = 'chile_departure_inspection',
+  PSA_ARRIVAL = 'psa_arrival_inspection',
+  UNKNOWN = 'unknown',
+}
 
 const tabs: Tab[] = [
   {
@@ -82,14 +87,14 @@ const Inspections = () => {
     if (selectedTabId === InspectionType.PERU_DEPARTURE) {
       if (sortBy === 'shipper') {
         setSortParams({ sortBy: 'exporter', sortOrder });
-      } else if (sortBy === 'lotId') {
+      } else if (sortBy === 'lotNumber') {
         setSortParams({ sortBy: 'containerId', sortOrder });
       }
     } else {
       if (sortBy === 'exporter') {
         setSortParams({ sortBy: 'shipper', sortOrder });
       } else if (sortBy === 'containerId') {
-        setSortParams({ sortBy: 'lotId', sortOrder });
+        setSortParams({ sortBy: 'lotNumber', sortOrder });
       }
     }
   }, [selectedTabId, setSortParams, sortBy, sortOrder]);
@@ -122,7 +127,6 @@ const Inspections = () => {
 
   return (
     <Page
-      actions={<ImportInspectionsModal />}
       breadcrumbs={breadcrumbs(`?reportType=${selectedTabId}`)}
       extraPaddingTop={122}
       headerChildren={

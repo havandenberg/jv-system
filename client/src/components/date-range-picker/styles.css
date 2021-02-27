@@ -2,6 +2,7 @@
   border: 1px solid rgba(3, 41, 74, 0.7);
   border-radius: 6px;
   box-shadow: rgba(3, 41, 74, 0.4) 0px 5px 15px;
+  font-family: Nunito;
 }
 
 .rdrCalendarWrapper {
@@ -375,6 +376,7 @@
 .rdrInputRange {
   -webkit-box-align: center;
   align-items: center;
+  color: rgba(3, 41, 74, 1);
   padding: 5px 20px;
 }
 

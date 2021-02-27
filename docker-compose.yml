@@ -72,9 +72,9 @@ services:
       - server_nodemodules:/server/node_modules
       - ${PERU_INSPECTIONS_DIRECTORY}:/server/static/peru-departure-inspections
       - ${CHILE_INSPECTIONS_DIRECTORY}:/server/static/chile-departure-inspections
-  cdi-service:
-    container_name: 'jv-cdi-service'
-    build: ./cdi-service
+  inspections-service:
+    container_name: 'jv-inspections-service'
+    build: ./inspections-service
     depends_on:
       - db
       - graphql
@@ -84,9 +84,10 @@ services:
       - '3002:3002'
     restart: always
     volumes:
-      - ./cdi-service:/cdi-service
-      - cdi-service_nodemodules:/cdi-service/node_modules
+      - ./inspections-service:/inspections-service
+      - inspections-service_nodemodules:/inspections-service/node_modules
       - ${CHILE_INSPECTIONS_DIRECTORY}:/chile-departure-inspections
+      - ${PERU_INSPECTIONS_DIRECTORY}:/peru-departure-inspections
   client:
     container_name: 'jv-client'
     build: ./client
@@ -107,6 +108,6 @@ volumes:
   db-data:
   pgadmin-data:
   pgadmin-servers:
-  cdi-service_nodemodules:
+  inspections-service_nodemodules:
   client_nodemodules:
   server_nodemodules:

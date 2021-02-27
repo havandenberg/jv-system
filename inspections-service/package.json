@@ -1,5 +1,5 @@
 {
-  "name": "cdi-service",
+  "name": "inspections-service",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
@@ -9,13 +9,16 @@
     "graphql": "^15.5.0",
     "graphql-request": "^3.4.0",
     "node-cron": "^2.0.3",
+    "node-ews": "^3.4.2",
     "node-fetch": "^2.6.1",
     "nodemon": "^2.0.7",
     "ramda": "^0.27.1",
+    "wetransfert": "^2.3.0",
     "xlsx": "^0.16.9"
   },
   "scripts": {
-    "run-once": "node src/run-once.js",
+    "cdi-run-once": "node src/chile-departure/run-once.js",
+    "pdi-run-once": "node src/peru-departure/run-once.js",
     "start": "nodemon src/index.js"
   }
 }
