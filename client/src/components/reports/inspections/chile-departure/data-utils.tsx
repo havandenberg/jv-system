@@ -15,31 +15,37 @@ export const listLabels: ReportLabelInfo[] = [
   {
     key: 'inspectionDate',
     label: 'Inspection Date',
+    sortable: true,
   },
   {
     defaultSortOrder: SORT_ORDER.DESC,
     key: 'lotNumber',
     label: 'Lot Number',
+    sortable: true,
   },
   {
     defaultSortOrder: SORT_ORDER.ASC,
     key: 'shipper',
     label: 'Shipper',
     filterable: true,
+    sortable: true,
   },
   {
     defaultSortOrder: SORT_ORDER.ASC,
     key: 'variety',
     label: 'Variety',
     filterable: true,
+    sortable: true,
   },
   {
     key: 'qualityScore',
     label: 'Quality',
+    sortable: true,
   },
   {
     key: 'conditionScore',
     label: 'Condition',
+    sortable: true,
   },
 ];
 

@@ -139,6 +139,7 @@ const Grid = styled(Div)(
 
 export const Anchor = styled.a<DivProps>(
   {
+    textDecoration: 'none',
     ':link': {
       color: th.colors.brand.primaryAccent,
     },

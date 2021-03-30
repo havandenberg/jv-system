@@ -1,0 +1,22 @@
+query INTERNAL_CONTACT_LIST(
+  $orderBy: [PersonContactsOrderBy!]
+  $search: String
+) {
+  personContacts(
+    condition: { companyId: "jac-vandenberg" }
+    filter: { searchText: { includesInsensitive: $search } }
+    orderBy: $orderBy
+  ) {
+    nodes {
+      id
+      firstName
+      lastName
+      email
+      cellPhone
+      workPhone
+      roles
+      imageSrc
+    }
+    totalCount
+  }
+}

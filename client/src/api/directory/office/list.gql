@@ -1,0 +1,18 @@
+query OFFICE_LIST($orderBy: [OfficesOrderBy!], $search: String) {
+  offices(
+    filter: { searchText: { includesInsensitive: $search } }
+    orderBy: $orderBy
+  ) {
+    nodes {
+      officeName
+      phone
+      officeDescription
+      companyId
+      id
+      company {
+        companyName
+      }
+    }
+    totalCount
+  }
+}

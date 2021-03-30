@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 
 import api from 'api';
 import Chevron from 'assets/images/chevron';
+import { baseDataTransforms } from 'components/base-data';
 import { LabelInfo } from 'components/column-label';
 import useLightbox from 'hooks/use-lightbox';
 import l from 'ui/layout';
@@ -43,14 +44,18 @@ const ListItem = <T extends { imageUrls?: string[] | null }>({
     <l.Div mb={th.spacing.sm}>
       <l.AreaLink to={`/reports/inspections/${slug}`}>
         <GridContainer gridTemplateColumns={gridTemplateColumns}>
-          {listLabels.map(({ key }) => (
+          {listLabels.map(({ key, transformKey }) => (
             <l.Flex
               alignCenter
               key={`${key}`}
               overflow="hidden"
               p={th.spacing.sm}
             >
-              <ty.BodyText>{data[key]}</ty.BodyText>
+              <ty.BodyText>
+                {transformKey
+                  ? baseDataTransforms[transformKey](data[key])
+                  : data[key]}
+              </ty.BodyText>
             </l.Flex>
           ))}
           <l.Flex overflow="hidden" px={th.spacing.sm}>

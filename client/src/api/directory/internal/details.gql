@@ -1,0 +1,24 @@
+query INTERNAL_CONTACT_DETAILS($id: BigInt!) {
+  personContact(id: $id) {
+    companyId
+    cellPhone
+    contactAliasPersonContacts {
+      nodes {
+        alias {
+          aliasName
+        }
+      }
+    }
+    email
+    firstName
+    homePhone
+    imageSrc
+    isPrimary
+    lastName
+    preferredMethod
+    roles
+    secondaryEmail
+    workExtension
+    workPhone
+  }
+}

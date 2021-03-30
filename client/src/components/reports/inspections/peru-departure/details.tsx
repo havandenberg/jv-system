@@ -1,19 +1,18 @@
 import React from 'react';
-import styled from '@emotion/styled';
 import { useParams } from 'react-router-dom';
 
 import api from 'api';
+import BaseData from 'components/base-data';
 import Page from 'components/page';
 import { DataMessage } from 'components/page/message';
 import FeaturedValue from 'components/featured-value';
 import useLightbox from 'hooks/use-lightbox';
-import { PeruDepartureInspectionPallet } from 'types';
+import { PeruDepartureInspection, PeruDepartureInspectionPallet } from 'types';
 import b from 'ui/button';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 
-import { InspectionType } from '..';
 import Table from '../table';
 import Chart from './chart';
 import {
@@ -28,20 +27,10 @@ import {
 const breadcrumbs = (id: string) => [
   {
     text: 'All Inspections',
-    to: `/reports/inspections?reportType=${InspectionType.PERU_DEPARTURE}`,
+    to: `/reports/inspections/d-peru`,
   },
   { text: id, to: `/reports/inspections/d-peru/${id}` },
 ];
-
-const BaseDataContainer = styled(l.Grid)({
-  background: th.colors.brand.containerBackground,
-  border: th.borders.primary,
-  borderRadius: th.borderRadii.default,
-  gridTemplateColumns: 'repeat(5, 1fr)',
-  paddingLeft: th.spacing.md,
-  paddingRight: th.spacing.sm,
-  paddingTop: th.spacing.sm,
-});
 
 const Details = () => {
   const { id } = useParams<{
@@ -79,22 +68,10 @@ const Details = () => {
       {reportData ? (
         <l.Flex alignStart flex={1}>
           <l.Div flex={8}>
-            <BaseDataContainer>
-              {baseLabels.map(({ key, label }, idx) => (
-                <l.Div
-                  height={th.sizes.fill}
-                  key={idx}
-                  pb={th.spacing.md}
-                  pr={th.spacing.sm}
-                  pt={th.spacing.sm}
-                >
-                  <ty.CaptionText mb={th.spacing.sm} secondary>
-                    {label}
-                  </ty.CaptionText>
-                  <ty.BodyText>{reportData[key]}</ty.BodyText>
-                </l.Div>
-              ))}
-            </BaseDataContainer>
+            <BaseData<PeruDepartureInspection>
+              data={reportData}
+              labels={baseLabels}
+            />
             <l.Flex
               justifyBetween
               mb={th.spacing.xl}

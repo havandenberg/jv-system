@@ -10,7 +10,6 @@ import SecondaryNav from './secondary';
 
 const navItems: NavItemProps[] = [
   {
-    disabled: true,
     text: 'Directory',
     to: '/directory',
   },

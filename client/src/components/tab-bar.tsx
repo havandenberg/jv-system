@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
+import { useParams } from 'react-router-dom';
 
+import { useQueryValue } from 'hooks/use-query-params';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
-import { useQueryValue } from 'hooks/use-query-params';
 
 export interface Tab {
   id: string;
   text: string;
+  to?: string;
   disabled?: boolean;
 }
 
@@ -39,28 +41,36 @@ const StyledTab = styled(l.Div)(
 );
 
 interface Props {
-  onSelectTab: (tabId: string) => void;
+  onSelectTab?: (tabId: string) => void;
   selectedTabId: string;
   tabs: Tab[];
 }
 
 const TabBar = ({ onSelectTab, selectedTabId, tabs }: Props) => (
   <l.Flex>
-    {tabs.map(({ disabled, id, text }, idx) => {
+    {tabs.map(({ disabled, id, text, to }, idx) => {
       const selected = selectedTabId === id;
       const isLast = idx + 1 === tabs.length;
-      return (
+      const tab = (
         <StyledTab
-          key={id}
           disabled={disabled}
+          key={id}
           mr={isLast ? undefined : th.spacing.md}
           onClick={() => {
-            !disabled && onSelectTab(id);
+            !disabled && onSelectTab && onSelectTab(id);
           }}
           selected={selected}
         >
           <ty.CaptionText>{text}</ty.CaptionText>
         </StyledTab>
+      );
+
+      return to && !disabled ? (
+        <l.AreaLink key={id} to={to || '#'}>
+          {tab}
+        </l.AreaLink>
+      ) : (
+        tab
       );
     })}
   </l.Flex>
@@ -70,31 +80,49 @@ export default TabBar;
 
 export const useTabBar = (
   tabs: Tab[],
+  isRoute?: boolean,
   defaultTabId?: string,
-  useQuery?: boolean,
+  paramName?: string,
 ) => {
-  const [selectedTabId, onSelectTab] = useState(
-    defaultTabId || (tabs[0] && tabs[0].id),
+  const { routeTabId } = useParams<{
+    routeTabId: string;
+  }>();
+  const firstTab = tabs[0] && tabs[0].id;
+  const [stateTabId, setStateTabId] = useState(
+    defaultTabId || isRoute ? routeTabId || firstTab : firstTab,
   );
-  const [selectedTabIdQuery, setSelectedTabQuery] = useQueryValue('reportType');
+  const [queryTabId, setQueryTabId] = useQueryValue(paramName || '');
+  const selectedTabId = isRoute
+    ? routeTabId
+    : paramName
+    ? queryTabId || stateTabId
+    : stateTabId;
+
+  const handleSelectTab = (tabId: string) => {
+    if (paramName) {
+      setQueryTabId(tabId);
+    } else {
+      setStateTabId(tabId);
+    }
+  };
 
   useEffect(() => {
-    if (useQuery && !selectedTabIdQuery) {
-      setSelectedTabQuery(defaultTabId || (tabs[0] && tabs[0].id));
+    if (paramName && !queryTabId) {
+      setQueryTabId(defaultTabId || firstTab);
     }
-  }, [defaultTabId, selectedTabIdQuery, setSelectedTabQuery, tabs, useQuery]);
+  }, [defaultTabId, firstTab, paramName, queryTabId, setQueryTabId]);
 
   const Component = () => (
     <TabBar
-      onSelectTab={useQuery ? setSelectedTabQuery : onSelectTab}
-      selectedTabId={selectedTabIdQuery || selectedTabId}
+      onSelectTab={isRoute ? undefined : handleSelectTab}
+      selectedTabId={selectedTabId}
       tabs={tabs}
     />
   );
 
   return {
-    selectedTabId: selectedTabIdQuery || selectedTabId,
-    onSelectTab: useQuery ? setSelectedTabQuery : onSelectTab,
+    selectedTabId,
+    handleSelectTab,
     TabBar: Component,
   };
 };

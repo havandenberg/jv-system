@@ -35,6 +35,14 @@ const primaryStyles = {
     border: th.borders.secondary,
     color: th.colors.brand.primary,
   },
+  ':disabled': {
+    cursor: 'default',
+    ':hover': {
+      background: th.colors.brand.containerBackground,
+      border: th.borders.disabled,
+      color: th.colors.brand.secondary,
+    },
+  },
 };
 
 const Primary = styled.button<DivProps & TextProps>(

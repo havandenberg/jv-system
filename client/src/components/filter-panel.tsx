@@ -9,7 +9,7 @@ import useOutsideClickRef from 'hooks/use-outside-click-ref';
 import usePrevious from 'hooks/use-previous';
 import { useQueryValue } from 'hooks/use-query-params';
 import { Query } from 'types';
-import Checkbox from 'ui/checkbox';
+import { FilterCheckbox } from 'ui/checkbox';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
@@ -173,7 +173,7 @@ const FilterPanel = <T extends {}>({
             </l.Flex>
           </l.Flex>
           {filterOptions.map((option) => (
-            <Checkbox
+            <FilterCheckbox
               checked={selectedValues.includes(option)}
               key={option}
               label={option}

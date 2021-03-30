@@ -21,4 +21,50 @@ CREATE TABLE peru_departure_inspection (
 	presentation TEXT NOT NULL,
 	quality_score NUMERIC NOT NULL,
 	variety TEXT NOT NULL
-)
+);
+
+INSERT INTO peru_departure_inspection (
+	avg_bunches_per_box,
+	avg_net_weight,
+	bags_per_box,
+	brand,
+	brix_avg,
+	brix_max,
+	brix_min,
+	category,
+	comments,
+	condition_score,
+	container_id,
+	departure_week,
+	destination,
+	exporter,
+	inspection_date,
+	packing_date,
+	packing_house,
+	packing_material,
+	presentation,
+	quality_score,
+	variety
+) VALUES (
+	14,
+	8.23,
+	9,
+	'ECOSAC',
+	17,
+	14.9,
+	13,
+	'Cat. 1',
+	'Some bunches with low °Brix and berries with lack of color.',
+	3,
+	'BMOU9310631',
+	'52',
+	'UNITED STATES',
+	'ECOSAC AGRICOLA',
+	'12/17/2020',
+	'12/17/2020',
+	'ECOSAC AGRICOLA',
+	'Carton Box',
+	'8.2 kg',
+	1,
+	'RED GLOBE'
+);

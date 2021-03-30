@@ -1,4 +1,3 @@
-
 CREATE FUNCTION public.peru_departure_inspection_search_text(IN inspection peru_departure_inspection)
     RETURNS text
     LANGUAGE 'sql'

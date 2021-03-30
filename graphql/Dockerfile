@@ -4,6 +4,7 @@ RUN npm install -g postgraphile
 RUN npm install -g postgraphile-plugin-connection-filter
 RUN npm install -g postgraphile-plugin-nested-mutations
 RUN npm install -g @graphile-contrib/pg-simplify-inflector
+RUN npm install -g @graphile-contrib/pg-many-to-many
 
 COPY ./custom-plugin /tmp/custom-plugin
 RUN cd /tmp/custom-plugin && npm pack
