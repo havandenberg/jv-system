@@ -9,7 +9,11 @@ import { NavItemProps } from './item';
 const navItems: { [key: string]: NavItemProps[] } = {
   reports: [
     { text: 'Inspections', to: 'inspections' },
-    // { disabled: true, text: 'Market', to: 'market' },
+    { disabled: true, text: 'Movement', to: 'movement' },
+  ],
+  inventory: [
+    { text: 'Price Sheet', to: 'price-sheet' },
+    { disabled: true, text: 'Agenda', to: 'agenda' },
   ],
 };
 

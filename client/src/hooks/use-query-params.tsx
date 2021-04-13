@@ -12,6 +12,7 @@ type UpdateType = UrlUpdateType | undefined;
 export const dateRangeParamSet = {
   startDate: StringParam,
   endDate: StringParam,
+  date: StringParam,
 };
 export const searchParam = 'search';
 const sortParamSet = { sortBy: StringParam, sortOrder: StringParam };

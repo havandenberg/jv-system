@@ -1,0 +1,86 @@
+query PRICE_ENTRIES($endDate: Date, $startDate: Date) {
+  priceCategories(
+    filter: {
+      priceProductsByCategoryId: {
+        some: {
+          priceSizesByProductId: {
+            some: {
+              priceEntriesBySizeId: {
+                some: {
+                  entryDate: {
+                    greaterThanOrEqualTo: $startDate
+                    lessThanOrEqualTo: $endDate
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ) {
+    nodes {
+      categoryName
+      id
+      sortOrder
+      priceProductsByCategoryId(
+        filter: {
+          priceSizesByProductId: {
+            some: {
+              priceEntriesBySizeId: {
+                some: {
+                  entryDate: {
+                    greaterThanOrEqualTo: $startDate
+                    lessThanOrEqualTo: $endDate
+                  }
+                }
+              }
+            }
+          }
+        }
+      ) {
+        nodes {
+          categoryId
+          color
+          id
+          productName
+          sortOrder
+          priceSizesByProductId(
+            filter: {
+              priceEntriesBySizeId: {
+                some: {
+                  entryDate: {
+                    greaterThanOrEqualTo: $startDate
+                    lessThanOrEqualTo: $endDate
+                  }
+                }
+              }
+            }
+          ) {
+            nodes {
+              id
+              sizeName
+              productId
+              priceEntriesBySizeId(
+                filter: {
+                  entryDate: {
+                    greaterThanOrEqualTo: $startDate
+                    lessThanOrEqualTo: $endDate
+                  }
+                }
+              ) {
+                nodes {
+                  content
+                  entryDate
+                  entryDescription
+                  id
+                  sizeId
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

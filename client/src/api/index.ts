@@ -5,6 +5,7 @@ import * as peruDepartureInspections from 'api/reports/inspections/peru-departur
 import * as internalDirectory from 'api/directory/internal';
 import * as companyDirectory from 'api/directory/company';
 import * as officeDirectory from 'api/directory/office';
+import * as priceSheet from 'api/price-sheet';
 
 const baseURL = process.env.REACT_APP_SERVER_URL;
 
@@ -23,4 +24,5 @@ export default {
   ...internalDirectory,
   ...companyDirectory,
   ...officeDirectory,
+  ...priceSheet,
 };

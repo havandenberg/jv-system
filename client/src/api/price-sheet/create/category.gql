@@ -1,0 +1,7 @@
+mutation PRICE_CATEGORY_CREATE($priceCategory: PriceCategoryInput!) {
+  createPriceCategory(input: { priceCategory: $priceCategory }) {
+    priceCategory {
+      id
+    }
+  }
+}

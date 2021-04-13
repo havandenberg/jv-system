@@ -60,54 +60,65 @@ const SendEmailModal = ({
         return trigger;
       }}
     >
-      <ty.TitleText>Create New Email</ty.TitleText>
-      <ty.BodyText mb={th.spacing.lg}>
-        You have selected the following contacts to send an email to. You may
-        edit your selection below and continue when ready.
-      </ty.BodyText>
-      <l.Flex column>
-        <LineItemCheckbox
-          checked={isAllSelected}
-          label={<ty.CaptionText ml={th.spacing.md}>Select All</ty.CaptionText>}
-          onChange={toggleAll}
-        />
-        {Object.keys(selectedEmails).map((key) => {
-          const items = selectedEmails[key as keyof SelectionState];
-          if (isEmpty(items)) return null;
-          return (
-            <Fragment key={key}>
-              <ty.BodyText my={th.spacing.md}>{sentenceCase(key)}</ty.BodyText>
-              {items.map(({ description, email, id }) => (
-                <l.Div key={id} mb={th.spacing.sm}>
-                  <LineItemCheckbox
-                    checked={finalEmails.includes(email)}
-                    label={
-                      <l.Grid
-                        gridTemplateColumns="1fr 1fr"
-                        ml={th.spacing.md}
-                        width={th.sizes.fill}
-                      >
-                        <ty.CaptionText>{email}</ty.CaptionText>
-                        <ty.CaptionText>{description}</ty.CaptionText>
-                      </l.Grid>
-                    }
-                    onChange={() => toggleEmail(email)}
-                  />
-                </l.Div>
-              ))}
-            </Fragment>
-          );
-        })}
-      </l.Flex>
-      <l.Flex justifyCenter mt={th.spacing.xl}>
-        <l.Anchor
-          href={
-            finalEmails.length > 0 ? `mailto:${finalEmails.join(',')}` : '#'
-          }
-        >
-          <b.Primary disabled={isEmpty(finalEmails)}>Continue</b.Primary>
-        </l.Anchor>
-      </l.Flex>
+      {({ hide }) => (
+        <>
+          <ty.TitleText>Create New Email</ty.TitleText>
+          <ty.BodyText mb={th.spacing.lg}>
+            You have selected the following contacts to send an email to. You
+            may edit your selection below and continue when ready.
+          </ty.BodyText>
+          <l.Flex column>
+            <LineItemCheckbox
+              checked={isAllSelected}
+              label={
+                <ty.CaptionText ml={th.spacing.md}>Select All</ty.CaptionText>
+              }
+              onChange={toggleAll}
+            />
+            {Object.keys(selectedEmails).map((key) => {
+              const items = selectedEmails[key as keyof SelectionState];
+              if (isEmpty(items)) return null;
+              return (
+                <Fragment key={key}>
+                  <ty.BodyText my={th.spacing.md}>
+                    {sentenceCase(key)}
+                  </ty.BodyText>
+                  {items.map(({ description, email, id }) => (
+                    <l.Div key={id} mb={th.spacing.sm}>
+                      <LineItemCheckbox
+                        checked={finalEmails.includes(email)}
+                        label={
+                          <l.Grid
+                            gridTemplateColumns="1fr 1fr"
+                            ml={th.spacing.md}
+                            width={th.sizes.fill}
+                          >
+                            <ty.CaptionText>{email}</ty.CaptionText>
+                            <ty.CaptionText>{description}</ty.CaptionText>
+                          </l.Grid>
+                        }
+                        onChange={() => toggleEmail(email)}
+                      />
+                    </l.Div>
+                  ))}
+                </Fragment>
+              );
+            })}
+          </l.Flex>
+          <l.Flex justifyCenter mt={th.spacing.xl}>
+            <l.Anchor
+              href={
+                finalEmails.length > 0 ? `mailto:${finalEmails.join(',')}` : '#'
+              }
+            >
+              <b.Primary mr={th.spacing.md} onClick={hide}>
+                Cancel
+              </b.Primary>
+              <b.Primary disabled={isEmpty(finalEmails)}>Continue</b.Primary>
+            </l.Anchor>
+          </l.Flex>
+        </>
+      )}
     </Modal>
   );
 };

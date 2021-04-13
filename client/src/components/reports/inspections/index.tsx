@@ -6,8 +6,10 @@ import { Tab, useTabBar } from 'components/tab-bar';
 import useDateRange from 'hooks/use-date-range';
 import useSearch from 'hooks/use-search';
 
-import PeruDepartureInspections from './peru-departure';
 import ChileDepartureInspections from './chile-departure';
+import ChileInspectionDetails from './chile-departure/details';
+import PeruDepartureInspections from './peru-departure';
+import PeruInspectionDetails from './peru-departure/details';
 
 export const breadcrumbs = (type: string) => [
   { text: 'All Inspections', to: `/reports/inspections/${type}` },
@@ -60,6 +62,11 @@ const Inspections = () => {
   return (
     <Switch>
       <Route
+        exact
+        path="/reports/inspections/d-peru/:id"
+        component={PeruInspectionDetails}
+      />
+      <Route
         path={`/reports/inspections/${InspectionTypes.PERU_DEPARTURE}`}
         render={() => (
           <PeruDepartureInspections
@@ -67,6 +74,11 @@ const Inspections = () => {
             {...components}
           />
         )}
+      />
+      <Route
+        exact
+        path="/reports/inspections/d-chile/:id"
+        component={ChileInspectionDetails}
       />
       <Route
         path={`/reports/inspections/${InspectionTypes.CHILE_DEPARTURE}`}

@@ -4,7 +4,7 @@ import ReactModal from 'react-modal';
 import th from 'ui/theme';
 
 interface Props {
-  children: React.ReactNode;
+  children: ({ hide }: { hide: () => void }) => React.ReactNode;
   trigger: (show: () => void) => React.ReactNode;
 }
 
@@ -35,12 +35,11 @@ const Modal = ({ children, trigger }: Props) => {
             borderRadius: th.borderRadii.default,
             inset: 0,
             position: 'relative',
-            height: '70%',
             width: '50%',
           },
         }}
       >
-        {children}
+        {children({ hide })}
       </ReactModal>
     </>
   );

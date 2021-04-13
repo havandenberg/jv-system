@@ -1,0 +1,7 @@
+mutation PRICE_SIZE_CREATE($priceSize: PriceSizeInput!) {
+  createPriceSize(input: { priceSize: $priceSize }) {
+    priceSize {
+      id
+    }
+  }
+}

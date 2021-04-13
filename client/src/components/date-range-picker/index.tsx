@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import 'react-date-range/dist/styles.css';
 import './styles.css';
 import styled from '@emotion/styled';
-import { format } from 'date-fns';
+import { format, getISOWeek } from 'date-fns';
 import {
   DateRangePicker as DateRange,
   DateRangePickerProps,
@@ -74,7 +74,14 @@ const PickerWrapper = styled(l.Div)({
 
 export const formatDate = (date: Date) => format(date, 'yyyy-MM-dd');
 
-export const getFormattedDateRange = (startDate: Date, endDate: Date) => {
+export const getFormattedDateRange = (
+  startDate: Date,
+  endDate: Date,
+  showAsWeekNumber?: boolean,
+) => {
+  if (showAsWeekNumber) {
+    return `Week ${getISOWeek(startDate)}`;
+  }
   const formattedStartDate = formatDate(startDate);
   const formattedEndDate = formatDate(endDate);
   const isSameDate = formattedStartDate === formattedEndDate;
@@ -89,11 +96,18 @@ const defaultRange = [
   },
 ];
 
-interface Props extends DateRangePickerProps {
+export interface DateRangeProps extends DateRangePickerProps {
   onClear: () => void;
+  showAsWeekNumber?: boolean;
 }
 
-const DateRangePicker = ({ onChange, onClear, ranges, ...rest }: Props) => {
+const DateRangePicker = ({
+  onChange,
+  onClear,
+  ranges,
+  showAsWeekNumber,
+  ...rest
+}: DateRangeProps) => {
   const [show, setShow] = useState(false);
   const ref = useOutsideClickRef(() => {
     setShow(false);
@@ -105,6 +119,7 @@ const DateRangePicker = ({ onChange, onClear, ranges, ...rest }: Props) => {
       ? getFormattedDateRange(
           selectedDates.startDate as Date,
           selectedDates.endDate as Date,
+          showAsWeekNumber,
         )
       : 'All dates';
 

@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { OnChangeProps, Range } from 'react-date-range';
 
-import DateRangePicker, { formatDate } from 'components/date-range-picker';
+import DateRangePicker, {
+  DateRangeProps,
+  formatDate,
+} from 'components/date-range-picker';
 import { useDateRangeQueryParams } from 'hooks/use-query-params';
 
-const useDateRange = () => {
+const useDateRange = (props?: Omit<DateRangeProps, 'onClear'>) => {
   const [
     { startDate, endDate },
     setDateRangeParams,
@@ -15,15 +18,15 @@ const useDateRange = () => {
     startDate && endDate
       ? [
           {
-            startDate: new Date(startDate),
-            endDate: new Date(endDate),
+            startDate: new Date(startDate.replace(/-/g, '/')),
+            endDate: new Date(endDate.replace(/-/g, '/')),
             key: 'selection',
           },
         ]
       : undefined,
   );
 
-  const handleChange = (changeProps: OnChangeProps) => {
+  const handleDateChange = (changeProps: OnChangeProps) => {
     const range = (changeProps as { selection: Range }).selection;
     const dateRangeParams = {
       startDate: range.startDate ? formatDate(range.startDate) : undefined,
@@ -39,12 +42,17 @@ const useDateRange = () => {
   };
 
   return {
+    handleDateChange,
     selectedDates,
     DateRangePicker: (
       <DateRangePicker
-        onChange={handleChange}
+        onChange={handleDateChange}
         onClear={handleClear}
         ranges={selectedDates as Range[]}
+        staticRanges={[]}
+        inputRanges={[]}
+        focusedRange={[0, 0]}
+        {...props}
       />
     ),
   };

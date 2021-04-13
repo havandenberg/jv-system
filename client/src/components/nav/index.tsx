@@ -14,9 +14,8 @@ const navItems: NavItemProps[] = [
     to: '/directory',
   },
   {
-    disabled: true,
     text: 'Inventory',
-    to: '/inventory',
+    to: '/inventory/price-sheet',
   },
   {
     text: 'Reports',

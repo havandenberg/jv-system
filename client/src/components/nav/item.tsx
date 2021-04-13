@@ -27,19 +27,17 @@ export interface NavItemProps {
 }
 
 const NavItem = ({ active, disabled, text, to }: NavItemProps) => (
-  <l.Div mr={th.spacing.md}>
-    <l.AreaLink to={disabled ? '#' : to}>
-      <Button
-        active={active}
-        cursor={disabled ? 'default' : 'pointer'}
-        disabled={disabled}
-      >
-        <ty.DisplayText inverted fontSize={th.fontSizes.large}>
-          {text}
-        </ty.DisplayText>
-      </Button>
-    </l.AreaLink>
-  </l.Div>
+  <l.AreaLink to={disabled ? '#' : to}>
+    <Button
+      active={active}
+      cursor={disabled ? 'default' : 'pointer'}
+      disabled={disabled}
+    >
+      <ty.DisplayText inverted fontSize={th.fontSizes.large}>
+        {text}
+      </ty.DisplayText>
+    </Button>
+  </l.AreaLink>
 );
 
 export default NavItem;

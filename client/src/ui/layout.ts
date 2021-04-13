@@ -156,6 +156,16 @@ export const AreaLink = styled(RouterLink)<DivProps>(
   divPropsSet,
 );
 
+const HoverButton = styled(Flex)({
+  alignItems: 'center',
+  cursor: 'pointer',
+  opacity: th.opacities.secondary,
+  transition: th.transitions.default,
+  ':hover': {
+    opacity: 1,
+  },
+});
+
 export type ImgProps = HeightProps &
   SizeProps &
   SpaceSetProps &
@@ -180,6 +190,7 @@ export default {
   Flex,
   GalleryWrapper,
   Grid,
+  HoverButton,
   Img,
   Span,
 };

@@ -1,0 +1,27 @@
+mutation PRICE_SHEET_UPDATE(
+  $categories: [PriceCategoryInput]!
+  $products: [PriceProductInput]!
+  $sizes: [PriceSizeInput]!
+  $entries: [PriceEntryInput]!
+) {
+  bulkUpsertPriceCategory(input: { categories: $categories }) {
+    priceCategories {
+      id
+    }
+  }
+  bulkUpsertPriceProduct(input: { products: $products }) {
+    priceProducts {
+      id
+    }
+  }
+  bulkUpsertPriceSize(input: { sizes: $sizes }) {
+    priceSizes {
+      id
+    }
+  }
+  bulkUpsertPriceEntry(input: { entries: $entries }) {
+    priceEntries {
+      id
+    }
+  }
+}

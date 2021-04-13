@@ -49,16 +49,18 @@ const Page = ({
     <Content extraPaddingTop={extraPaddingTop}>
       <Header shadow={scrollPosition.y < 0}>
         <l.Div maxWidth={th.widths.maxContent} mx="auto" width={th.sizes.fill}>
-          {breadcrumbs && (
-            <l.Div mb={th.spacing.sm}>
-              <Breadcrumbs breadcrumbs={breadcrumbs} />
-            </l.Div>
-          )}
-          <l.Flex alignCenter justifyBetween mb={th.spacing.lg}>
-            <ty.TitleText mb={0} mr={th.spacing.lg} mt={th.spacing.sm}>
-              {title}
-            </ty.TitleText>
-            {actions && <l.Flex>{actions}</l.Flex>}
+          <l.Flex justifyEnd column height={102}>
+            {breadcrumbs && (
+              <l.Div mb={th.spacing.sm}>
+                <Breadcrumbs breadcrumbs={breadcrumbs} />
+              </l.Div>
+            )}
+            <l.Flex alignCenter justifyBetween mb={th.spacing.lg}>
+              <ty.TitleText mb={0} mr={th.spacing.lg} mt={th.spacing.sm}>
+                {title}
+              </ty.TitleText>
+              {actions && <l.Flex>{actions}</l.Flex>}
+            </l.Flex>
           </l.Flex>
           {headerChildren}
         </l.Div>

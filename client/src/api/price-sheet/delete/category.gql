@@ -1,0 +1,7 @@
+mutation PRICE_CATEGORY_DELETE($id: BigInt!) {
+  deletePriceCategory(input: { id: $id }) {
+    priceCategory {
+      id
+    }
+  }
+}

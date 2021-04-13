@@ -9,17 +9,21 @@ import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 
-const GridContainer = styled(l.Grid)({
-  background: th.colors.brand.containerBackground,
-  border: th.borders.disabled,
-  borderRadius: th.borderRadii.default,
-  paddingLeft: th.spacing.sm,
-  transition: th.transitions.default,
-  ':hover': {
-    background: th.colors.brand.containerBackgroundAccent,
-    border: th.borders.secondary,
-  },
-});
+const GridContainer = styled(l.Grid)(
+  ({ selected }: { selected?: boolean }) => ({
+    background: selected
+      ? th.colors.brand.containerBackgroundAccent
+      : th.colors.brand.containerBackground,
+    border: selected ? th.borders.secondary : th.borders.disabled,
+    borderRadius: th.borderRadii.default,
+    paddingLeft: th.spacing.sm,
+    transition: th.transitions.default,
+    ':hover': {
+      background: th.colors.brand.containerBackgroundAccent,
+      border: th.borders.secondary,
+    },
+  }),
+);
 
 const ListItem = <T extends {}>({
   data,
@@ -38,7 +42,10 @@ const ListItem = <T extends {}>({
 }) => (
   <l.Div mb={th.spacing.sm}>
     <l.AreaLink to={`/directory/${slug}`}>
-      <GridContainer gridTemplateColumns={gridTemplateColumns}>
+      <GridContainer
+        gridTemplateColumns={gridTemplateColumns}
+        selected={selected}
+      >
         <l.Flex justifyStart centered height={th.sizes.fill}>
           <LineItemCheckbox checked={selected} onChange={onSelectItem} />
         </l.Flex>

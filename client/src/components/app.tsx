@@ -16,9 +16,7 @@ import Directory from 'components/directory';
 import Footer from 'components/footer';
 import Nav from 'components/nav';
 import Reports from 'components/reports';
-import Inspections from 'components/reports/inspections';
-import ChileInspectionDetails from 'components/reports/inspections/chile-departure/details';
-import PeruInspectionDetails from 'components/reports/inspections/peru-departure/details';
+import Inventory from 'components/inventory';
 import ScrollToTop from 'components/scroll-to-top';
 import { GlobalContextProvider } from 'context/global';
 import Global from 'ui/global';
@@ -46,21 +44,8 @@ const App = () => (
               <Switch>
                 <Route exact path="/" component={Dashboard} />
                 <Route path="/directory/:routeTabId?" component={Directory} />
-                <Route exact path="/reports" component={Reports} />
-                <Route
-                  exact
-                  path="/reports/inspections/d-peru/:id"
-                  component={PeruInspectionDetails}
-                />
-                <Route
-                  exact
-                  path="/reports/inspections/d-chile/:id"
-                  component={ChileInspectionDetails}
-                />
-                <Route
-                  path="/reports/inspections/:routeTabId?"
-                  component={Inspections}
-                />
+                <Route path="/reports" component={Reports} />
+                <Route path="/inventory" component={Inventory} />
                 <Redirect to="/" />
               </Switch>
               <Footer />

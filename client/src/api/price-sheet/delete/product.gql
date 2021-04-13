@@ -1,0 +1,7 @@
+mutation PRICE_PRODUCT_DELETE($id: BigInt!) {
+  deletePriceProduct(input: { id: $id }) {
+    priceProduct {
+      id
+    }
+  }
+}

@@ -1,7 +1,10 @@
 import React from 'react';
+import { Route } from 'react-router-dom';
 
-import Page from 'components/page';
+import Inspections from 'components/reports/inspections';
 
-const Reports = () => <Page title="Reports" />;
+const Reports = () => (
+  <Route path="/reports/inspections/:routeTabId?" component={Inspections} />
+);
 
 export default Reports;

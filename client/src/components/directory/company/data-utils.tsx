@@ -39,10 +39,7 @@ export const baseLabels: CompanyLabelInfo[] = [
   {
     key: 'primaryContact',
     label: 'Primary Contact',
-    getValue: (data) => {
-      console.log(data.primaryContact?.contactName || '');
-      return data.primaryContact?.contactName || '';
-    },
+    getValue: (data) => data.primaryContact?.contactName || '',
   },
   {
     key: 'website',

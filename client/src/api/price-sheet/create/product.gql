@@ -1,0 +1,7 @@
+mutation PRICE_PRODUCT_CREATE($priceProduct: PriceProductInput!) {
+  createPriceProduct(input: { priceProduct: $priceProduct }) {
+    priceProduct {
+      id
+    }
+  }
+}

@@ -34,26 +34,6 @@ services:
     ports:
       - 5433:5433
     restart: always
-    command:
-      [
-        '--connection',
-        '${DATABASE_URL}',
-        '--port',
-        '5433',
-        '--schema',
-        'public',
-        '--append-plugins',
-        'postgraphile-plugin-connection-filter,postgraphile-plugin-nested-mutations,@graphile-contrib/pg-simplify-inflector,@graphile-contrib/pg-many-to-many,custom-plugin',
-        '--watch',
-        '--dynamic-json',
-        '--enhance-graphiql',
-        '--graphiql',
-        '/',
-        '--extended-errors',
-        'hint,detail,errcode',
-        '--show-error-stack=json',
-        '--cors',
-      ]
     volumes:
       - ${PERU_INSPECTIONS_DIRECTORY}:/peru-departure-inspections
       - ${CHILE_INSPECTIONS_DIRECTORY}:/chile-departure-inspections
