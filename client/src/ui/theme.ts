@@ -97,6 +97,7 @@ export const borders = {
   black: `1px solid ${colors.black}`,
   error: `1px solid ${colors.status.error}`,
   primary: `1px solid ${colors.brand.primary}`,
+  primaryAccent: `1px solid ${colors.brand.primaryAccent}`,
   secondary: `1px solid ${colors.brand.secondary}`,
   disabled: `1px solid ${colors.brand.disabled}`,
   transparent: '1px solid transparent',

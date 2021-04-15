@@ -49,9 +49,6 @@ const useDateRange = (props?: Omit<DateRangeProps, 'onClear'>) => {
         onChange={handleDateChange}
         onClear={handleClear}
         ranges={selectedDates as Range[]}
-        staticRanges={[]}
-        inputRanges={[]}
-        focusedRange={[0, 0]}
         {...props}
       />
     ),

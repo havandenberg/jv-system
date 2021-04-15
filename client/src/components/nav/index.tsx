@@ -15,7 +15,7 @@ const navItems: NavItemProps[] = [
   },
   {
     text: 'Inventory',
-    to: '/inventory/price-sheet',
+    to: '/inventory',
   },
   {
     text: 'Reports',

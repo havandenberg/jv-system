@@ -10,7 +10,7 @@ import l from 'ui/layout';
 import { getDateOfISOWeek, getWeekNumber, isCurrentWeek } from 'utils/date';
 
 import { gridTemplateColumns } from '.';
-import AddItem from './add-item';
+import AddItem from '../../add-item';
 import { PriceSheetProps } from './types';
 
 interface Props extends PriceSheetProps {
@@ -79,16 +79,16 @@ const Sizes = (props: Props) => {
               )}
               <EditableCell
                 defaultChildren={
-                  <ty.CaptionText pl={th.spacing.sm}>
+                  <ty.SmallText pl={th.spacing.sm}>
                     {entryDescription.value}
-                  </ty.CaptionText>
+                  </ty.SmallText>
                 }
                 editing={editing}
                 inputProps={{
                   fontWeight: entryDescription.dirty ? 'bold' : undefined,
                   marginLeft: th.spacing.sm,
                   paddingLeft: th.spacing.xs,
-                  width: 357,
+                  width: 304,
                 }}
                 onChange={(e) => {
                   if (entry) {
@@ -117,9 +117,9 @@ const Sizes = (props: Props) => {
               />
               <EditableCell
                 defaultChildren={
-                  <ty.CaptionText center flex={1}>
+                  <ty.SmallText center flex={1}>
                     {sizeName.value}
-                  </ty.CaptionText>
+                  </ty.SmallText>
                 }
                 editing={editing}
                 inputProps={{
@@ -159,9 +159,9 @@ const Sizes = (props: Props) => {
                 return (
                   <EditableCell
                     defaultChildren={
-                      <ty.CaptionText center flex={1}>
+                      <ty.SmallText center flex={1}>
                         {content.value || '-'}
-                      </ty.CaptionText>
+                      </ty.SmallText>
                     }
                     editing={editing}
                     highlight={isCurrentWeek(selectedWeekNumber + i)}

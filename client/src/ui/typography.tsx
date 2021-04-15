@@ -100,6 +100,8 @@ const HugeText = textComponent('huge');
 
 const TitleText = styled.h1<TextProps>(th.textStyles.title, textPropsSet);
 
+const Span = styled.span<TextProps>(textPropsSet);
+
 export default {
   BodyText,
   CaptionText,
@@ -107,6 +109,7 @@ export default {
   HugeText,
   LargeText,
   SmallText,
+  Span,
   TitleText,
   Text,
 };

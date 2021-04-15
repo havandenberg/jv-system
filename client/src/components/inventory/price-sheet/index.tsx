@@ -11,6 +11,7 @@ import Page from 'components/page';
 import useDateRange from 'hooks/use-date-range';
 import usePrevious from 'hooks/use-previous';
 import { useDateRangeQueryParams } from 'hooks/use-query-params';
+import useScrollToTop from 'hooks/use-scroll-to-top';
 import {
   Maybe,
   PriceCategory,
@@ -43,7 +44,7 @@ import {
 } from './types';
 import { getAllItems } from './utils';
 
-export const gridTemplateColumns = '4fr 1fr 1.5fr repeat(4, 1fr)';
+export const gridTemplateColumns = '3fr 1fr 1.3fr repeat(4, 1fr)';
 
 const initialChangesState: PriceSheetChanges = {
   categoryUpdates: [],
@@ -75,11 +76,15 @@ const initialNewItemNextIds = {
 };
 
 const PriceSheet = () => {
+  useScrollToTop();
   const [editing, setEditing] = useState(false);
   const { DateRangePicker, handleDateChange } = useDateRange({
     showAsWeekNumber: true,
     maxDate: endOfISOWeek(add(new Date(), { weeks: 4 })),
     minDate: editing ? startOfISOWeek(new Date()) : undefined,
+    staticRanges: [],
+    inputRanges: [],
+    focusedRange: [0, 0],
   });
 
   const [{ startDate = formatDate(new Date()) }] = useDateRangeQueryParams();
@@ -989,9 +994,15 @@ const PriceSheet = () => {
             Edit
           </b.Primary>
         ),
-        <b.Primary key={1} ml={th.spacing.md} onClick={() => {}}>
-          Agenda
-        </b.Primary>,
+        !editing && (
+          <l.AreaLink
+            key={1}
+            ml={th.spacing.md}
+            to={`/inventory/agenda?endDate=${startDate}&startDate=${startDate}`}
+          >
+            <b.Primary width={126}>Agenda</b.Primary>
+          </l.AreaLink>
+        ),
       ]}
       breadcrumbs={[]}
       extraPaddingTop={122}

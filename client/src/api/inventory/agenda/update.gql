@@ -1,0 +1,7 @@
+mutation AGENDA_ITEMS_UPDATE($items: [AgendaItemInput]!) {
+  bulkUpsertAgendaItem(input: { items: $items }) {
+    agendaItems {
+      id
+    }
+  }
+}

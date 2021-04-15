@@ -11,16 +11,16 @@ export type Scalars = {
   Float: number;
   /** A location in a connection that can be used for resuming pagination. */
   Cursor: any;
-  /** The day, does not include a time. */
-  Date: any;
-  /** A floating point number that requires more precision than IEEE 754 binary 64 */
-  BigFloat: any;
   /**
    * A signed eight-byte integer. The upper big integer values are greater than the
    * max value for a JavaScript number. Therefore all big integers will be output as
    * strings and not numbers.
    */
   BigInt: any;
+  /** The day, does not include a time. */
+  Date: any;
+  /** A floating point number that requires more precision than IEEE 754 binary 64 */
+  BigFloat: any;
 };
 
 /** The root query type which gives access points into the data universe. */
@@ -35,6 +35,8 @@ export type Query = Node & {
   nodeId: Scalars['ID'];
   /** Fetches an object given its globally unique `ID`. */
   node?: Maybe<Node>;
+  /** Reads and enables pagination through a set of `AgendaItem`. */
+  agendaItems?: Maybe<AgendaItemsConnection>;
   /** Reads and enables pagination through a set of `ChileDepartureInspectionPallet`. */
   chileDepartureInspectionPallets?: Maybe<ChileDepartureInspectionPalletsConnection>;
   /** Reads and enables pagination through a set of `Company`. */
@@ -59,6 +61,7 @@ export type Query = Node & {
   priceProducts?: Maybe<PriceProductsConnection>;
   /** Reads and enables pagination through a set of `PriceSize`. */
   priceSizes?: Maybe<PriceSizesConnection>;
+  agendaItem?: Maybe<AgendaItem>;
   chileDepartureInspectionPallet?: Maybe<ChileDepartureInspectionPallet>;
   company?: Maybe<Company>;
   contactAlias?: Maybe<ContactAlias>;
@@ -74,6 +77,8 @@ export type Query = Node & {
   /** Reads and enables pagination through a set of `ChileDepartureInspection`. */
   chileDepartureInspections?: Maybe<ChileDepartureInspectionsConnection>;
   distinctValues?: Maybe<DistinctValuesConnection>;
+  /** Reads a single `AgendaItem` using its globally unique `ID`. */
+  agendaItemByNodeId?: Maybe<AgendaItem>;
   /** Reads a single `ChileDepartureInspectionPallet` using its globally unique `ID`. */
   chileDepartureInspectionPalletByNodeId?: Maybe<ChileDepartureInspectionPallet>;
   /** Reads a single `Company` using its globally unique `ID`. */
@@ -104,6 +109,19 @@ export type Query = Node & {
 /** The root query type which gives access points into the data universe. */
 export type QueryNodeArgs = {
   nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryAgendaItemsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<AgendaItemsOrderBy>>;
+  condition?: Maybe<AgendaItemCondition>;
+  filter?: Maybe<AgendaItemFilter>;
 };
 
 
@@ -264,6 +282,12 @@ export type QueryPriceSizesArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
+export type QueryAgendaItemArgs = {
+  id: Scalars['BigInt'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
 export type QueryChileDepartureInspectionPalletArgs = {
   id: Scalars['String'];
 };
@@ -363,6 +387,12 @@ export type QueryDistinctValuesArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
+export type QueryAgendaItemByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
 export type QueryChileDepartureInspectionPalletByNodeIdArgs = {
   nodeId: Scalars['ID'];
 };
@@ -439,6 +469,257 @@ export type Node = {
   nodeId: Scalars['ID'];
 };
 
+
+/** Methods to use when ordering `AgendaItem`. */
+export enum AgendaItemsOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  ContentAsc = 'CONTENT_ASC',
+  ContentDesc = 'CONTENT_DESC',
+  ItemDateAsc = 'ITEM_DATE_ASC',
+  ItemDateDesc = 'ITEM_DATE_DESC',
+  SortOrderAsc = 'SORT_ORDER_ASC',
+  SortOrderDesc = 'SORT_ORDER_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
+/**
+ * A condition to be used against `AgendaItem` object types. All fields are tested
+ * for equality and combined with a logical ‘and.’
+ */
+export type AgendaItemCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `content` field. */
+  content?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `itemDate` field. */
+  itemDate?: Maybe<Scalars['Date']>;
+  /** Checks for equality with the object’s `sortOrder` field. */
+  sortOrder?: Maybe<Scalars['Int']>;
+};
+
+
+
+/** A filter to be used against `AgendaItem` object types. All fields are combined with a logical ‘and.’ */
+export type AgendaItemFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `content` field. */
+  content?: Maybe<StringFilter>;
+  /** Filter by the object’s `itemDate` field. */
+  itemDate?: Maybe<DateFilter>;
+  /** Filter by the object’s `sortOrder` field. */
+  sortOrder?: Maybe<IntFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<AgendaItemFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<AgendaItemFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<AgendaItemFilter>;
+};
+
+/** A filter to be used against BigInt fields. All fields are combined with a logical ‘and.’ */
+export type BigIntFilter = {
+  /** Is null (if `true` is specified) or is not null (if `false` is specified). */
+  isNull?: Maybe<Scalars['Boolean']>;
+  /** Equal to the specified value. */
+  equalTo?: Maybe<Scalars['BigInt']>;
+  /** Not equal to the specified value. */
+  notEqualTo?: Maybe<Scalars['BigInt']>;
+  /** Not equal to the specified value, treating null like an ordinary value. */
+  distinctFrom?: Maybe<Scalars['BigInt']>;
+  /** Equal to the specified value, treating null like an ordinary value. */
+  notDistinctFrom?: Maybe<Scalars['BigInt']>;
+  /** Included in the specified list. */
+  in?: Maybe<Array<Scalars['BigInt']>>;
+  /** Not included in the specified list. */
+  notIn?: Maybe<Array<Scalars['BigInt']>>;
+  /** Less than the specified value. */
+  lessThan?: Maybe<Scalars['BigInt']>;
+  /** Less than or equal to the specified value. */
+  lessThanOrEqualTo?: Maybe<Scalars['BigInt']>;
+  /** Greater than the specified value. */
+  greaterThan?: Maybe<Scalars['BigInt']>;
+  /** Greater than or equal to the specified value. */
+  greaterThanOrEqualTo?: Maybe<Scalars['BigInt']>;
+};
+
+/** A filter to be used against String fields. All fields are combined with a logical ‘and.’ */
+export type StringFilter = {
+  /** Is null (if `true` is specified) or is not null (if `false` is specified). */
+  isNull?: Maybe<Scalars['Boolean']>;
+  /** Equal to the specified value. */
+  equalTo?: Maybe<Scalars['String']>;
+  /** Not equal to the specified value. */
+  notEqualTo?: Maybe<Scalars['String']>;
+  /** Not equal to the specified value, treating null like an ordinary value. */
+  distinctFrom?: Maybe<Scalars['String']>;
+  /** Equal to the specified value, treating null like an ordinary value. */
+  notDistinctFrom?: Maybe<Scalars['String']>;
+  /** Included in the specified list. */
+  in?: Maybe<Array<Scalars['String']>>;
+  /** Not included in the specified list. */
+  notIn?: Maybe<Array<Scalars['String']>>;
+  /** Less than the specified value. */
+  lessThan?: Maybe<Scalars['String']>;
+  /** Less than or equal to the specified value. */
+  lessThanOrEqualTo?: Maybe<Scalars['String']>;
+  /** Greater than the specified value. */
+  greaterThan?: Maybe<Scalars['String']>;
+  /** Greater than or equal to the specified value. */
+  greaterThanOrEqualTo?: Maybe<Scalars['String']>;
+  /** Contains the specified string (case-sensitive). */
+  includes?: Maybe<Scalars['String']>;
+  /** Does not contain the specified string (case-sensitive). */
+  notIncludes?: Maybe<Scalars['String']>;
+  /** Contains the specified string (case-insensitive). */
+  includesInsensitive?: Maybe<Scalars['String']>;
+  /** Does not contain the specified string (case-insensitive). */
+  notIncludesInsensitive?: Maybe<Scalars['String']>;
+  /** Starts with the specified string (case-sensitive). */
+  startsWith?: Maybe<Scalars['String']>;
+  /** Does not start with the specified string (case-sensitive). */
+  notStartsWith?: Maybe<Scalars['String']>;
+  /** Starts with the specified string (case-insensitive). */
+  startsWithInsensitive?: Maybe<Scalars['String']>;
+  /** Does not start with the specified string (case-insensitive). */
+  notStartsWithInsensitive?: Maybe<Scalars['String']>;
+  /** Ends with the specified string (case-sensitive). */
+  endsWith?: Maybe<Scalars['String']>;
+  /** Does not end with the specified string (case-sensitive). */
+  notEndsWith?: Maybe<Scalars['String']>;
+  /** Ends with the specified string (case-insensitive). */
+  endsWithInsensitive?: Maybe<Scalars['String']>;
+  /** Does not end with the specified string (case-insensitive). */
+  notEndsWithInsensitive?: Maybe<Scalars['String']>;
+  /** Matches the specified pattern (case-sensitive). An underscore (_) matches any single character; a percent sign (%) matches any sequence of zero or more characters. */
+  like?: Maybe<Scalars['String']>;
+  /** Does not match the specified pattern (case-sensitive). An underscore (_) matches any single character; a percent sign (%) matches any sequence of zero or more characters. */
+  notLike?: Maybe<Scalars['String']>;
+  /** Matches the specified pattern (case-insensitive). An underscore (_) matches any single character; a percent sign (%) matches any sequence of zero or more characters. */
+  likeInsensitive?: Maybe<Scalars['String']>;
+  /** Does not match the specified pattern (case-insensitive). An underscore (_) matches any single character; a percent sign (%) matches any sequence of zero or more characters. */
+  notLikeInsensitive?: Maybe<Scalars['String']>;
+  /** Equal to the specified value (case-insensitive). */
+  equalToInsensitive?: Maybe<Scalars['String']>;
+  /** Not equal to the specified value (case-insensitive). */
+  notEqualToInsensitive?: Maybe<Scalars['String']>;
+  /** Not equal to the specified value, treating null like an ordinary value (case-insensitive). */
+  distinctFromInsensitive?: Maybe<Scalars['String']>;
+  /** Equal to the specified value, treating null like an ordinary value (case-insensitive). */
+  notDistinctFromInsensitive?: Maybe<Scalars['String']>;
+  /** Included in the specified list (case-insensitive). */
+  inInsensitive?: Maybe<Array<Scalars['String']>>;
+  /** Not included in the specified list (case-insensitive). */
+  notInInsensitive?: Maybe<Array<Scalars['String']>>;
+  /** Less than the specified value (case-insensitive). */
+  lessThanInsensitive?: Maybe<Scalars['String']>;
+  /** Less than or equal to the specified value (case-insensitive). */
+  lessThanOrEqualToInsensitive?: Maybe<Scalars['String']>;
+  /** Greater than the specified value (case-insensitive). */
+  greaterThanInsensitive?: Maybe<Scalars['String']>;
+  /** Greater than or equal to the specified value (case-insensitive). */
+  greaterThanOrEqualToInsensitive?: Maybe<Scalars['String']>;
+};
+
+/** A filter to be used against Date fields. All fields are combined with a logical ‘and.’ */
+export type DateFilter = {
+  /** Is null (if `true` is specified) or is not null (if `false` is specified). */
+  isNull?: Maybe<Scalars['Boolean']>;
+  /** Equal to the specified value. */
+  equalTo?: Maybe<Scalars['Date']>;
+  /** Not equal to the specified value. */
+  notEqualTo?: Maybe<Scalars['Date']>;
+  /** Not equal to the specified value, treating null like an ordinary value. */
+  distinctFrom?: Maybe<Scalars['Date']>;
+  /** Equal to the specified value, treating null like an ordinary value. */
+  notDistinctFrom?: Maybe<Scalars['Date']>;
+  /** Included in the specified list. */
+  in?: Maybe<Array<Scalars['Date']>>;
+  /** Not included in the specified list. */
+  notIn?: Maybe<Array<Scalars['Date']>>;
+  /** Less than the specified value. */
+  lessThan?: Maybe<Scalars['Date']>;
+  /** Less than or equal to the specified value. */
+  lessThanOrEqualTo?: Maybe<Scalars['Date']>;
+  /** Greater than the specified value. */
+  greaterThan?: Maybe<Scalars['Date']>;
+  /** Greater than or equal to the specified value. */
+  greaterThanOrEqualTo?: Maybe<Scalars['Date']>;
+};
+
+/** A filter to be used against Int fields. All fields are combined with a logical ‘and.’ */
+export type IntFilter = {
+  /** Is null (if `true` is specified) or is not null (if `false` is specified). */
+  isNull?: Maybe<Scalars['Boolean']>;
+  /** Equal to the specified value. */
+  equalTo?: Maybe<Scalars['Int']>;
+  /** Not equal to the specified value. */
+  notEqualTo?: Maybe<Scalars['Int']>;
+  /** Not equal to the specified value, treating null like an ordinary value. */
+  distinctFrom?: Maybe<Scalars['Int']>;
+  /** Equal to the specified value, treating null like an ordinary value. */
+  notDistinctFrom?: Maybe<Scalars['Int']>;
+  /** Included in the specified list. */
+  in?: Maybe<Array<Scalars['Int']>>;
+  /** Not included in the specified list. */
+  notIn?: Maybe<Array<Scalars['Int']>>;
+  /** Less than the specified value. */
+  lessThan?: Maybe<Scalars['Int']>;
+  /** Less than or equal to the specified value. */
+  lessThanOrEqualTo?: Maybe<Scalars['Int']>;
+  /** Greater than the specified value. */
+  greaterThan?: Maybe<Scalars['Int']>;
+  /** Greater than or equal to the specified value. */
+  greaterThanOrEqualTo?: Maybe<Scalars['Int']>;
+};
+
+/** A connection to a list of `AgendaItem` values. */
+export type AgendaItemsConnection = {
+  __typename?: 'AgendaItemsConnection';
+  /** A list of `AgendaItem` objects. */
+  nodes: Array<Maybe<AgendaItem>>;
+  /** A list of edges which contains the `AgendaItem` and cursor to aid in pagination. */
+  edges: Array<AgendaItemsEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `AgendaItem` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+export type AgendaItem = Node & {
+  __typename?: 'AgendaItem';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  content: Scalars['String'];
+  itemDate: Scalars['Date'];
+  sortOrder: Scalars['Int'];
+};
+
+/** A `AgendaItem` edge in the connection. */
+export type AgendaItemsEdge = {
+  __typename?: 'AgendaItemsEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `AgendaItem` at the end of the edge. */
+  node?: Maybe<AgendaItem>;
+};
+
+/** Information about pagination in a connection. */
+export type PageInfo = {
+  __typename?: 'PageInfo';
+  /** When paginating forwards, are there more items? */
+  hasNextPage: Scalars['Boolean'];
+  /** When paginating backwards, are there more items? */
+  hasPreviousPage: Scalars['Boolean'];
+  /** When paginating backwards, the cursor to continue. */
+  startCursor?: Maybe<Scalars['Cursor']>;
+  /** When paginating forwards, the cursor to continue. */
+  endCursor?: Maybe<Scalars['Cursor']>;
+};
 
 /** Methods to use when ordering `ChileDepartureInspectionPallet`. */
 export enum ChileDepartureInspectionPalletsOrderBy {
@@ -651,7 +932,6 @@ export type ChileDepartureInspectionPalletCondition = {
 };
 
 
-
 /** A filter to be used against `ChileDepartureInspectionPallet` object types. All fields are combined with a logical ‘and.’ */
 export type ChileDepartureInspectionPalletFilter = {
   /** Filter by the object’s `id` field. */
@@ -760,110 +1040,6 @@ export type ChileDepartureInspectionPalletFilter = {
   not?: Maybe<ChileDepartureInspectionPalletFilter>;
 };
 
-/** A filter to be used against String fields. All fields are combined with a logical ‘and.’ */
-export type StringFilter = {
-  /** Is null (if `true` is specified) or is not null (if `false` is specified). */
-  isNull?: Maybe<Scalars['Boolean']>;
-  /** Equal to the specified value. */
-  equalTo?: Maybe<Scalars['String']>;
-  /** Not equal to the specified value. */
-  notEqualTo?: Maybe<Scalars['String']>;
-  /** Not equal to the specified value, treating null like an ordinary value. */
-  distinctFrom?: Maybe<Scalars['String']>;
-  /** Equal to the specified value, treating null like an ordinary value. */
-  notDistinctFrom?: Maybe<Scalars['String']>;
-  /** Included in the specified list. */
-  in?: Maybe<Array<Scalars['String']>>;
-  /** Not included in the specified list. */
-  notIn?: Maybe<Array<Scalars['String']>>;
-  /** Less than the specified value. */
-  lessThan?: Maybe<Scalars['String']>;
-  /** Less than or equal to the specified value. */
-  lessThanOrEqualTo?: Maybe<Scalars['String']>;
-  /** Greater than the specified value. */
-  greaterThan?: Maybe<Scalars['String']>;
-  /** Greater than or equal to the specified value. */
-  greaterThanOrEqualTo?: Maybe<Scalars['String']>;
-  /** Contains the specified string (case-sensitive). */
-  includes?: Maybe<Scalars['String']>;
-  /** Does not contain the specified string (case-sensitive). */
-  notIncludes?: Maybe<Scalars['String']>;
-  /** Contains the specified string (case-insensitive). */
-  includesInsensitive?: Maybe<Scalars['String']>;
-  /** Does not contain the specified string (case-insensitive). */
-  notIncludesInsensitive?: Maybe<Scalars['String']>;
-  /** Starts with the specified string (case-sensitive). */
-  startsWith?: Maybe<Scalars['String']>;
-  /** Does not start with the specified string (case-sensitive). */
-  notStartsWith?: Maybe<Scalars['String']>;
-  /** Starts with the specified string (case-insensitive). */
-  startsWithInsensitive?: Maybe<Scalars['String']>;
-  /** Does not start with the specified string (case-insensitive). */
-  notStartsWithInsensitive?: Maybe<Scalars['String']>;
-  /** Ends with the specified string (case-sensitive). */
-  endsWith?: Maybe<Scalars['String']>;
-  /** Does not end with the specified string (case-sensitive). */
-  notEndsWith?: Maybe<Scalars['String']>;
-  /** Ends with the specified string (case-insensitive). */
-  endsWithInsensitive?: Maybe<Scalars['String']>;
-  /** Does not end with the specified string (case-insensitive). */
-  notEndsWithInsensitive?: Maybe<Scalars['String']>;
-  /** Matches the specified pattern (case-sensitive). An underscore (_) matches any single character; a percent sign (%) matches any sequence of zero or more characters. */
-  like?: Maybe<Scalars['String']>;
-  /** Does not match the specified pattern (case-sensitive). An underscore (_) matches any single character; a percent sign (%) matches any sequence of zero or more characters. */
-  notLike?: Maybe<Scalars['String']>;
-  /** Matches the specified pattern (case-insensitive). An underscore (_) matches any single character; a percent sign (%) matches any sequence of zero or more characters. */
-  likeInsensitive?: Maybe<Scalars['String']>;
-  /** Does not match the specified pattern (case-insensitive). An underscore (_) matches any single character; a percent sign (%) matches any sequence of zero or more characters. */
-  notLikeInsensitive?: Maybe<Scalars['String']>;
-  /** Equal to the specified value (case-insensitive). */
-  equalToInsensitive?: Maybe<Scalars['String']>;
-  /** Not equal to the specified value (case-insensitive). */
-  notEqualToInsensitive?: Maybe<Scalars['String']>;
-  /** Not equal to the specified value, treating null like an ordinary value (case-insensitive). */
-  distinctFromInsensitive?: Maybe<Scalars['String']>;
-  /** Equal to the specified value, treating null like an ordinary value (case-insensitive). */
-  notDistinctFromInsensitive?: Maybe<Scalars['String']>;
-  /** Included in the specified list (case-insensitive). */
-  inInsensitive?: Maybe<Array<Scalars['String']>>;
-  /** Not included in the specified list (case-insensitive). */
-  notInInsensitive?: Maybe<Array<Scalars['String']>>;
-  /** Less than the specified value (case-insensitive). */
-  lessThanInsensitive?: Maybe<Scalars['String']>;
-  /** Less than or equal to the specified value (case-insensitive). */
-  lessThanOrEqualToInsensitive?: Maybe<Scalars['String']>;
-  /** Greater than the specified value (case-insensitive). */
-  greaterThanInsensitive?: Maybe<Scalars['String']>;
-  /** Greater than or equal to the specified value (case-insensitive). */
-  greaterThanOrEqualToInsensitive?: Maybe<Scalars['String']>;
-};
-
-/** A filter to be used against Date fields. All fields are combined with a logical ‘and.’ */
-export type DateFilter = {
-  /** Is null (if `true` is specified) or is not null (if `false` is specified). */
-  isNull?: Maybe<Scalars['Boolean']>;
-  /** Equal to the specified value. */
-  equalTo?: Maybe<Scalars['Date']>;
-  /** Not equal to the specified value. */
-  notEqualTo?: Maybe<Scalars['Date']>;
-  /** Not equal to the specified value, treating null like an ordinary value. */
-  distinctFrom?: Maybe<Scalars['Date']>;
-  /** Equal to the specified value, treating null like an ordinary value. */
-  notDistinctFrom?: Maybe<Scalars['Date']>;
-  /** Included in the specified list. */
-  in?: Maybe<Array<Scalars['Date']>>;
-  /** Not included in the specified list. */
-  notIn?: Maybe<Array<Scalars['Date']>>;
-  /** Less than the specified value. */
-  lessThan?: Maybe<Scalars['Date']>;
-  /** Less than or equal to the specified value. */
-  lessThanOrEqualTo?: Maybe<Scalars['Date']>;
-  /** Greater than the specified value. */
-  greaterThan?: Maybe<Scalars['Date']>;
-  /** Greater than or equal to the specified value. */
-  greaterThanOrEqualTo?: Maybe<Scalars['Date']>;
-};
-
 /** A filter to be used against BigFloat fields. All fields are combined with a logical ‘and.’ */
 export type BigFloatFilter = {
   /** Is null (if `true` is specified) or is not null (if `false` is specified). */
@@ -965,19 +1141,6 @@ export type ChileDepartureInspectionPalletsEdge = {
   cursor?: Maybe<Scalars['Cursor']>;
   /** The `ChileDepartureInspectionPallet` at the end of the edge. */
   node?: Maybe<ChileDepartureInspectionPallet>;
-};
-
-/** Information about pagination in a connection. */
-export type PageInfo = {
-  __typename?: 'PageInfo';
-  /** When paginating forwards, are there more items? */
-  hasNextPage: Scalars['Boolean'];
-  /** When paginating backwards, are there more items? */
-  hasPreviousPage: Scalars['Boolean'];
-  /** When paginating backwards, the cursor to continue. */
-  startCursor?: Maybe<Scalars['Cursor']>;
-  /** When paginating forwards, the cursor to continue. */
-  endCursor?: Maybe<Scalars['Cursor']>;
 };
 
 /** Methods to use when ordering `Company`. */
@@ -1156,33 +1319,6 @@ export type PersonContactFilter = {
   /** Negates the expression. */
   not?: Maybe<PersonContactFilter>;
 };
-
-/** A filter to be used against BigInt fields. All fields are combined with a logical ‘and.’ */
-export type BigIntFilter = {
-  /** Is null (if `true` is specified) or is not null (if `false` is specified). */
-  isNull?: Maybe<Scalars['Boolean']>;
-  /** Equal to the specified value. */
-  equalTo?: Maybe<Scalars['BigInt']>;
-  /** Not equal to the specified value. */
-  notEqualTo?: Maybe<Scalars['BigInt']>;
-  /** Not equal to the specified value, treating null like an ordinary value. */
-  distinctFrom?: Maybe<Scalars['BigInt']>;
-  /** Equal to the specified value, treating null like an ordinary value. */
-  notDistinctFrom?: Maybe<Scalars['BigInt']>;
-  /** Included in the specified list. */
-  in?: Maybe<Array<Scalars['BigInt']>>;
-  /** Not included in the specified list. */
-  notIn?: Maybe<Array<Scalars['BigInt']>>;
-  /** Less than the specified value. */
-  lessThan?: Maybe<Scalars['BigInt']>;
-  /** Less than or equal to the specified value. */
-  lessThanOrEqualTo?: Maybe<Scalars['BigInt']>;
-  /** Greater than the specified value. */
-  greaterThan?: Maybe<Scalars['BigInt']>;
-  /** Greater than or equal to the specified value. */
-  greaterThanOrEqualTo?: Maybe<Scalars['BigInt']>;
-};
-
 
 /** A filter to be used against Boolean fields. All fields are combined with a logical ‘and.’ */
 export type BooleanFilter = {
@@ -2330,32 +2466,6 @@ export type PriceCategoryFilter = {
   not?: Maybe<PriceCategoryFilter>;
 };
 
-/** A filter to be used against Int fields. All fields are combined with a logical ‘and.’ */
-export type IntFilter = {
-  /** Is null (if `true` is specified) or is not null (if `false` is specified). */
-  isNull?: Maybe<Scalars['Boolean']>;
-  /** Equal to the specified value. */
-  equalTo?: Maybe<Scalars['Int']>;
-  /** Not equal to the specified value. */
-  notEqualTo?: Maybe<Scalars['Int']>;
-  /** Not equal to the specified value, treating null like an ordinary value. */
-  distinctFrom?: Maybe<Scalars['Int']>;
-  /** Equal to the specified value, treating null like an ordinary value. */
-  notDistinctFrom?: Maybe<Scalars['Int']>;
-  /** Included in the specified list. */
-  in?: Maybe<Array<Scalars['Int']>>;
-  /** Not included in the specified list. */
-  notIn?: Maybe<Array<Scalars['Int']>>;
-  /** Less than the specified value. */
-  lessThan?: Maybe<Scalars['Int']>;
-  /** Less than or equal to the specified value. */
-  lessThanOrEqualTo?: Maybe<Scalars['Int']>;
-  /** Greater than the specified value. */
-  greaterThan?: Maybe<Scalars['Int']>;
-  /** Greater than or equal to the specified value. */
-  greaterThanOrEqualTo?: Maybe<Scalars['Int']>;
-};
-
 /** A filter to be used against many `PriceProduct` object types. All fields are combined with a logical ‘and.’ */
 export type PriceCategoryToManyPriceProductFilter = {
   /** Every related `PriceProduct` matches the filter criteria. All fields are combined with a logical ‘and.’ */
@@ -2825,6 +2935,8 @@ export type DistinctValueEdge = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type Mutation = {
   __typename?: 'Mutation';
+  /** Creates a single `AgendaItem`. */
+  createAgendaItem?: Maybe<CreateAgendaItemPayload>;
   /** Creates a single `ChileDepartureInspectionPallet`. */
   createChileDepartureInspectionPallet?: Maybe<CreateChileDepartureInspectionPalletPayload>;
   /** Creates a single `Company`. */
@@ -2849,6 +2961,10 @@ export type Mutation = {
   createPriceProduct?: Maybe<CreatePriceProductPayload>;
   /** Creates a single `PriceSize`. */
   createPriceSize?: Maybe<CreatePriceSizePayload>;
+  /** Updates a single `AgendaItem` using its globally unique id and a patch. */
+  updateAgendaItemByNodeId?: Maybe<UpdateAgendaItemPayload>;
+  /** Updates a single `AgendaItem` using a unique key and a patch. */
+  updateAgendaItem?: Maybe<UpdateAgendaItemPayload>;
   /** Updates a single `ChileDepartureInspectionPallet` using its globally unique id and a patch. */
   updateChileDepartureInspectionPalletByNodeId?: Maybe<UpdateChileDepartureInspectionPalletPayload>;
   /** Updates a single `ChileDepartureInspectionPallet` using a unique key and a patch. */
@@ -2897,6 +3013,10 @@ export type Mutation = {
   updatePriceSizeByNodeId?: Maybe<UpdatePriceSizePayload>;
   /** Updates a single `PriceSize` using a unique key and a patch. */
   updatePriceSize?: Maybe<UpdatePriceSizePayload>;
+  /** Deletes a single `AgendaItem` using its globally unique id. */
+  deleteAgendaItemByNodeId?: Maybe<DeleteAgendaItemPayload>;
+  /** Deletes a single `AgendaItem` using a unique key. */
+  deleteAgendaItem?: Maybe<DeleteAgendaItemPayload>;
   /** Deletes a single `ChileDepartureInspectionPallet` using its globally unique id. */
   deleteChileDepartureInspectionPalletByNodeId?: Maybe<DeleteChileDepartureInspectionPalletPayload>;
   /** Deletes a single `ChileDepartureInspectionPallet` using a unique key. */
@@ -2950,6 +3070,12 @@ export type Mutation = {
   bulkUpsertPriceEntry?: Maybe<BulkUpsertPriceEntryPayload>;
   bulkUpsertPriceProduct?: Maybe<BulkUpsertPriceProductPayload>;
   bulkUpsertPriceSize?: Maybe<BulkUpsertPriceSizePayload>;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateAgendaItemArgs = {
+  input: CreateAgendaItemInput;
 };
 
 
@@ -3022,6 +3148,18 @@ export type MutationCreatePriceProductArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreatePriceSizeArgs = {
   input: CreatePriceSizeInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateAgendaItemByNodeIdArgs = {
+  input: UpdateAgendaItemByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateAgendaItemArgs = {
+  input: UpdateAgendaItemInput;
 };
 
 
@@ -3166,6 +3304,18 @@ export type MutationUpdatePriceSizeByNodeIdArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdatePriceSizeArgs = {
   input: UpdatePriceSizeInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteAgendaItemByNodeIdArgs = {
+  input: DeleteAgendaItemByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteAgendaItemArgs = {
+  input: DeleteAgendaItemInput;
 };
 
 
@@ -3340,6 +3490,47 @@ export type MutationBulkUpsertPriceProductArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationBulkUpsertPriceSizeArgs = {
   input: BulkUpsertPriceSizeInput;
+};
+
+/** All input for the create `AgendaItem` mutation. */
+export type CreateAgendaItemInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `AgendaItem` to be created by this mutation. */
+  agendaItem: AgendaItemInput;
+};
+
+/** An input for mutations affecting `AgendaItem` */
+export type AgendaItemInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  content: Scalars['String'];
+  itemDate: Scalars['Date'];
+  sortOrder: Scalars['Int'];
+};
+
+/** The output of our create `AgendaItem` mutation. */
+export type CreateAgendaItemPayload = {
+  __typename?: 'CreateAgendaItemPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `AgendaItem` that was created by this mutation. */
+  agendaItem?: Maybe<AgendaItem>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `AgendaItem`. May be used by Relay 1. */
+  agendaItemEdge?: Maybe<AgendaItemsEdge>;
+};
+
+
+/** The output of our create `AgendaItem` mutation. */
+export type CreateAgendaItemPayloadAgendaItemEdgeArgs = {
+  orderBy?: Maybe<Array<AgendaItemsOrderBy>>;
 };
 
 /** All input for the create `ChileDepartureInspectionPallet` mutation. */
@@ -5367,6 +5558,61 @@ export type CreatePriceSizePayloadPriceSizeEdgeArgs = {
   orderBy?: Maybe<Array<PriceSizesOrderBy>>;
 };
 
+/** All input for the `updateAgendaItemByNodeId` mutation. */
+export type UpdateAgendaItemByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `AgendaItem` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `AgendaItem` being updated. */
+  patch: AgendaItemPatch;
+};
+
+/** Represents an update to a `AgendaItem`. Fields that are set will be updated. */
+export type AgendaItemPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  content?: Maybe<Scalars['String']>;
+  itemDate?: Maybe<Scalars['Date']>;
+  sortOrder?: Maybe<Scalars['Int']>;
+};
+
+/** The output of our update `AgendaItem` mutation. */
+export type UpdateAgendaItemPayload = {
+  __typename?: 'UpdateAgendaItemPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `AgendaItem` that was updated by this mutation. */
+  agendaItem?: Maybe<AgendaItem>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `AgendaItem`. May be used by Relay 1. */
+  agendaItemEdge?: Maybe<AgendaItemsEdge>;
+};
+
+
+/** The output of our update `AgendaItem` mutation. */
+export type UpdateAgendaItemPayloadAgendaItemEdgeArgs = {
+  orderBy?: Maybe<Array<AgendaItemsOrderBy>>;
+};
+
+/** All input for the `updateAgendaItem` mutation. */
+export type UpdateAgendaItemInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `AgendaItem` being updated. */
+  patch: AgendaItemPatch;
+  id: Scalars['BigInt'];
+};
+
 /** All input for the `updateChileDepartureInspectionPalletByNodeId` mutation. */
 export type UpdateChileDepartureInspectionPalletByNodeIdInput = {
   /**
@@ -5998,6 +6244,50 @@ export type UpdatePriceSizeInput = {
   clientMutationId?: Maybe<Scalars['String']>;
   /** An object where the defined keys will be set on the `PriceSize` being updated. */
   patch: PriceSizePatch;
+  id: Scalars['BigInt'];
+};
+
+/** All input for the `deleteAgendaItemByNodeId` mutation. */
+export type DeleteAgendaItemByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `AgendaItem` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** The output of our delete `AgendaItem` mutation. */
+export type DeleteAgendaItemPayload = {
+  __typename?: 'DeleteAgendaItemPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `AgendaItem` that was deleted by this mutation. */
+  agendaItem?: Maybe<AgendaItem>;
+  deletedAgendaItemNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `AgendaItem`. May be used by Relay 1. */
+  agendaItemEdge?: Maybe<AgendaItemsEdge>;
+};
+
+
+/** The output of our delete `AgendaItem` mutation. */
+export type DeleteAgendaItemPayloadAgendaItemEdgeArgs = {
+  orderBy?: Maybe<Array<AgendaItemsOrderBy>>;
+};
+
+/** All input for the `deleteAgendaItem` mutation. */
+export type DeleteAgendaItemInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
   id: Scalars['BigInt'];
 };
 

@@ -78,8 +78,11 @@ export const getFormattedDateRange = (
   startDate: Date,
   endDate: Date,
   showAsWeekNumber?: boolean,
+  showLongDate?: boolean,
 ) => {
-  if (showAsWeekNumber) {
+  if (showLongDate) {
+    return format(startDate, 'EEE, MMM d, yyyy');
+  } else if (showAsWeekNumber) {
     return `Week ${getISOWeek(startDate)}`;
   }
   const formattedStartDate = formatDate(startDate);
@@ -99,6 +102,7 @@ const defaultRange = [
 export interface DateRangeProps extends DateRangePickerProps {
   onClear: () => void;
   showAsWeekNumber?: boolean;
+  showLongDate?: boolean;
 }
 
 const DateRangePicker = ({
@@ -106,6 +110,7 @@ const DateRangePicker = ({
   onClear,
   ranges,
   showAsWeekNumber,
+  showLongDate,
   ...rest
 }: DateRangeProps) => {
   const [show, setShow] = useState(false);
@@ -120,6 +125,7 @@ const DateRangePicker = ({
           selectedDates.startDate as Date,
           selectedDates.endDate as Date,
           showAsWeekNumber,
+          showLongDate,
         )
       : 'All dates';
 

@@ -11,7 +11,7 @@ import ty from 'ui/typography';
 
 import Products from './products';
 import { PriceSheetProps } from './types';
-import AddItem from './add-item';
+import AddItem from '../../add-item';
 
 interface Props extends PriceSheetProps {
   items: PriceCategory[];
@@ -90,7 +90,7 @@ const Categories = (props: Props) => {
                       autoFocus: category.id < 0 && !category.categoryName,
                       fontWeight: categoryName.dirty ? 'bold' : undefined,
                       paddingLeft: th.spacing.xs,
-                      width: 250,
+                      width: 200,
                     }}
                     onChange={(e) =>
                       handleCategoryChange(
@@ -105,7 +105,7 @@ const Categories = (props: Props) => {
                     value={categoryName.value}
                   />
                   {editing && (
-                    <l.Div position="absolute" left={338}>
+                    <l.Div position="absolute" left={280}>
                       <SortControl
                         disableUp={idx === 0}
                         disableDown={idx >= items.length - 1}

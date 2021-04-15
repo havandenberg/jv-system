@@ -14,6 +14,7 @@ export const dateRangeParamSet = {
   endDate: StringParam,
   date: StringParam,
 };
+export const idParam = 'id';
 export const searchParam = 'search';
 const sortParamSet = { sortBy: StringParam, sortOrder: StringParam };
 
@@ -48,6 +49,8 @@ export const useDateRangeQueryParams = (updateType?: UpdateType) =>
   useQuerySet(dateRangeParamSet, updateType);
 
 export const useSearchQueryParam = () => useQueryValue(searchParam);
+
+export const useIDQueryParam = () => useQueryValue(idParam);
 
 export const useSortQueryParams = (updateType?: UpdateType) =>
   useQuerySet(sortParamSet, updateType);

@@ -14,7 +14,7 @@ import { contrastColor, getRandomColor } from 'ui/utils';
 import { getDateOfISOWeek, getWeekNumber, isCurrentWeek } from 'utils/date';
 
 import { gridTemplateColumns } from '.';
-import AddItem from './add-item';
+import AddItem from '../../add-item';
 import Sizes from './sizes';
 import { PriceSheetProps } from './types';
 
@@ -66,7 +66,7 @@ const Products = (props: Props) => {
         const textColor = contrastColor(color.value);
 
         return (
-          <l.Div key={product.id} mb={th.spacing.md}>
+          <l.Div key={product.id} mt={th.spacing.sm}>
             <Expandable
               disabled={editing}
               isOpen={!isItemCollapsed('products', product.id)}
@@ -78,43 +78,11 @@ const Products = (props: Props) => {
                   gridTemplateColumns={gridTemplateColumns}
                   relative
                 >
-                  {editing && (
-                    <RemoveButton
-                      confirmTitle="Confirm Remove Product"
-                      confirmContent={
-                        <>
-                          <ty.BodyText
-                            mb={th.spacing.md}
-                          >{`Are you sure you want to remove product ${product.productName}?`}</ty.BodyText>
-                          <ty.BodyText>
-                            This will remove all attached sizes and price
-                            entries for the currently selected date and all
-                            future dates.
-                          </ty.BodyText>
-                        </>
-                      }
-                      handleRemove={() =>
-                        handleRemoveItem(
-                          'products',
-                          product.id,
-                          parseInt(
-                            getProductValue(product, 'sortOrder').value,
-                            10,
-                          ),
-                        )
-                      }
-                      shouldConfirm={product.id >= 0}
-                      triggerProps={{
-                        position: 'absolute',
-                        left: `-${th.sizes.icon}`,
-                      }}
-                    />
-                  )}
                   <EditableCell
                     defaultChildren={
-                      <ty.CaptionText color={textColor} ml={th.spacing.sm}>
+                      <ty.SmallText color={textColor} ml={th.spacing.sm}>
                         {productName.value}
-                      </ty.CaptionText>
+                      </ty.SmallText>
                     }
                     editing={editing}
                     inputProps={{
@@ -123,7 +91,7 @@ const Products = (props: Props) => {
                       fontWeight: productName.dirty ? 'bold' : undefined,
                       marginLeft: th.spacing.sm,
                       paddingLeft: th.spacing.xs,
-                      width: 290,
+                      width: 232,
                     }}
                     onChange={(e) => {
                       const { id, categoryId, color, sortOrder } = product;
@@ -142,9 +110,40 @@ const Products = (props: Props) => {
                   />
                   {editing && (
                     <>
-                      <l.Div position="absolute" left={313}>
+                      <RemoveButton
+                        confirmTitle="Confirm Remove Product"
+                        confirmContent={
+                          <>
+                            <ty.BodyText
+                              mb={th.spacing.md}
+                            >{`Are you sure you want to remove product ${product.productName}?`}</ty.BodyText>
+                            <ty.BodyText>
+                              This will remove all attached sizes and price
+                              entries for the currently selected date and all
+                              future dates.
+                            </ty.BodyText>
+                          </>
+                        }
+                        handleRemove={() =>
+                          handleRemoveItem(
+                            'products',
+                            product.id,
+                            parseInt(
+                              getProductValue(product, 'sortOrder').value,
+                              10,
+                            ),
+                          )
+                        }
+                        shouldConfirm={product.id >= 0}
+                        triggerProps={{
+                          position: 'absolute',
+                          left: `-${th.sizes.icon}`,
+                        }}
+                      />
+                      <l.Div position="absolute" left={255}>
                         <ColorPicker
-                          color={color.value}
+                          activeColor={color.value}
+                          color={textColor}
                           onChange={(newColor) => {
                             const {
                               id,
@@ -165,8 +164,9 @@ const Products = (props: Props) => {
                           }}
                         />
                       </l.Div>
-                      <l.Div position="absolute" left={338}>
+                      <l.Div position="absolute" left={280}>
                         <SortControl
+                          color={textColor}
                           disableUp={idx === 0}
                           disableDown={idx >= items.length - 1}
                           onDown={() => {
@@ -181,9 +181,9 @@ const Products = (props: Props) => {
                   )}
                   <EditableCell
                     defaultChildren={
-                      <ty.CaptionText center color={textColor} flex={1}>
+                      <ty.SmallText center color={textColor} flex={1}>
                         {entryDescription.value}
-                      </ty.CaptionText>
+                      </ty.SmallText>
                     }
                     editing={editing}
                     inputProps={{
@@ -232,9 +232,9 @@ const Products = (props: Props) => {
                       return (
                         <EditableCell
                           defaultChildren={
-                            <ty.CaptionText center color={textColor} flex={1}>
+                            <ty.SmallText center color={textColor} flex={1}>
                               {content.value}
-                            </ty.CaptionText>
+                            </ty.SmallText>
                           }
                           editing={editing}
                           highlight={isCurrentWeek(selectedWeekNumber + i)}

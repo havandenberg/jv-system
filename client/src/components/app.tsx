@@ -39,7 +39,7 @@ const App = () => (
       <GlobalContextProvider>
         <QueryParamProvider ReactRouterRoute={Route}>
           <ThemeProvider theme={th}>
-            <Main>
+            <Main id="main">
               <Nav />
               <Switch>
                 <Route exact path="/" component={Dashboard} />

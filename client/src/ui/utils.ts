@@ -33,7 +33,7 @@ export const isTabletUp = () =>
 export const isTiny = () =>
   typeof window !== 'undefined' && window.innerWidth < TINY_BREAKPOINT;
 
-export const scrollToId = (id: string = 'top', customOptions?: object) =>
+export const scrollToId = (id: string = 'main', customOptions?: object) =>
   Scroll.scroller.scrollTo(id, {
     ...th.scrollOptions,
     ...customOptions,
@@ -96,24 +96,42 @@ export const contrastColor = (
 };
 
 export const defaultColorSet = [
-  '#F34236',
-  '#E81E63',
-  '#9D27B0',
-  '#673AB7',
-  '#3F51B5',
-  '#2196F3',
-  '#03A9F4',
-  '#00BCD4',
-  '#009688',
-  '#4CAF50',
-  '#8BC34A',
-  '#CDDC39',
-  '#FFEB3B',
-  '#FFC107',
-  '#FF9800',
-  '#FF5722',
-  '#795548',
-  '#607D8B',
+  '#F44E3B',
+  '#D33115',
+  '#9F0500',
+  '#FE9200',
+  '#E27300',
+  '#C45100',
+  '#FCDC00',
+  '#FCC400',
+  '#FB9E00',
+  '#DBDF00',
+  '#B0BC00',
+  '#808900',
+  '#A4DD00',
+  '#68BC00',
+  '#194D33',
+  '#68CCCA',
+  '#16A5A5',
+  '#0C797D',
+  '#73D8FF',
+  '#009CE0',
+  '#0062B1',
+  '#AEA1FF',
+  '#7B64FF',
+  '#653294',
+  '#FDA1FF',
+  '#FA28FF',
+  '#AB149E',
+  '#4D4D4D',
+  '#333333',
+  '#000000',
+  '#999999',
+  '#808080',
+  '#666666',
+  '#FFFFFF',
+  '#CCCCCC',
+  '#CCCCCC',
 ];
 
 export const getRandomColor = (colorSet: string[] = defaultColorSet) =>

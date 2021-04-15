@@ -1,0 +1,10 @@
+query AGENDA_ITEMS($date: Date) {
+  agendaItems(condition: { itemDate: $date }, orderBy: SORT_ORDER_ASC) {
+    nodes {
+      content
+      id
+      itemDate
+      sortOrder
+    }
+  }
+}

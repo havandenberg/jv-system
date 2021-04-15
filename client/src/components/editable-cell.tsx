@@ -17,7 +17,7 @@ import l from 'ui/layout';
 import th from 'ui/theme';
 import { hexColorWithTransparency } from 'ui/utils';
 
-const CELL_HEIGHT = th.sizes.sm;
+const CELL_HEIGHT = th.sizes.icon;
 
 const Input = styled.input(
   {
@@ -32,6 +32,24 @@ const Input = styled.input(
   width,
 );
 
+const Wrapper = styled(l.Flex)(
+  ({
+    highlight,
+    showBorder,
+  }: {
+    highlight?: boolean;
+    showBorder?: boolean;
+  }) => ({
+    alignItems: 'center',
+    background: highlight ? th.colors.brand.containerBackground : undefined,
+    height: CELL_HEIGHT,
+    borderLeft: showBorder ? th.borders.disabled : undefined,
+    ':first-child': {
+      borderLeft: 0,
+    },
+  }),
+);
+
 interface Props {
   defaultChildren: React.ReactNode;
   editing: boolean;
@@ -43,6 +61,7 @@ interface Props {
     FontWeightProps &
     WidthProps;
   onChange: React.ChangeEventHandler<HTMLInputElement>;
+  showBorder?: boolean;
   value: string;
 }
 
@@ -52,19 +71,16 @@ const EditableCell = ({
   highlight,
   inputProps,
   onChange,
+  showBorder = true,
   value,
 }: Props) => (
-  <l.Flex
-    alignCenter
-    bg={highlight ? th.colors.brand.containerBackground : undefined}
-    height={CELL_HEIGHT}
-  >
+  <Wrapper highlight={highlight} showBorder={!editing && showBorder}>
     {editing ? (
       <Input type="text" onChange={onChange} value={value} {...inputProps} />
     ) : (
       defaultChildren
     )}
-  </l.Flex>
+  </Wrapper>
 );
 
 export default EditableCell;

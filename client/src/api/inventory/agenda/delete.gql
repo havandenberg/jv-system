@@ -1,0 +1,7 @@
+mutation AGENDA_ITEM_DELETE($id: BigInt!) {
+  deleteAgendaItem(input: { id: $id }) {
+    agendaItem {
+      id
+    }
+  }
+}

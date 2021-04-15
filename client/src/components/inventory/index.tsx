@@ -1,10 +1,15 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 
+import Agenda from 'components/inventory/agenda';
 import PriceSheet from 'components/inventory/price-sheet';
 
 const Inventory = () => (
-  <Route path="/inventory/price-sheet" component={PriceSheet} />
+  <Switch>
+    <Route exact path="/inventory/price-sheet" component={PriceSheet} />
+    <Route exact path="/inventory/agenda" component={Agenda} />
+    <Redirect to="/inventory/price-sheet" />
+  </Switch>
 );
 
 export default Inventory;
