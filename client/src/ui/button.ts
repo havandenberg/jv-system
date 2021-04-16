@@ -8,6 +8,7 @@ const defaultStyles = {
   background: 'transparent',
   border: 0,
   borderRadius: th.borderRadii.default,
+  boxShadow: th.shadows.boxLight,
   cursor: 'pointer',
   height: th.heights.input,
   letterSpacing: 1.2,

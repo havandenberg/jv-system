@@ -50,9 +50,9 @@ const fetchChileDepartureInspections = () => {
           })
           .then(({ distinctValues: { nodes } }) => {
             const startIndex = 1;
-            const endIndex = dataArray.findIndex((row) =>
-              nodes.includes(row[57]),
-            );
+            const endIndex = dataArray
+              .reverse()
+              .findIndex((row) => nodes.includes(row[57]));
             console.log(
               `New pallets found: ${
                 (endIndex > -1 ? endIndex : dataArray.length) - startIndex

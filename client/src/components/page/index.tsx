@@ -33,7 +33,7 @@ interface Props {
   children?: React.ReactNode;
   extraPaddingTop?: number;
   headerChildren?: React.ReactNode;
-  title: string;
+  title?: string;
 }
 
 const Page = ({
@@ -49,18 +49,22 @@ const Page = ({
     <Content extraPaddingTop={extraPaddingTop}>
       <Header shadow={scrollPosition.y < 0}>
         <l.Div maxWidth={th.widths.maxContent} mx="auto" width={th.sizes.fill}>
-          <l.Flex justifyEnd column height={102}>
+          <l.Flex justifyEnd column>
             {breadcrumbs && (
-              <l.Div mb={th.spacing.sm}>
+              <l.Div height={22} mb={th.spacing.sm}>
                 <Breadcrumbs breadcrumbs={breadcrumbs} />
               </l.Div>
             )}
-            <l.Flex alignCenter justifyBetween mb={th.spacing.lg}>
-              <ty.TitleText mb={0} mr={th.spacing.lg} mt={th.spacing.sm}>
-                {title}
-              </ty.TitleText>
-              {actions && <l.Flex>{actions}</l.Flex>}
-            </l.Flex>
+            {(title || actions) && (
+              <l.Flex alignCenter justifyBetween mb={th.spacing.lg}>
+                {title && (
+                  <ty.TitleText mb={0} mr={th.spacing.lg} mt={th.spacing.sm}>
+                    {title}
+                  </ty.TitleText>
+                )}
+                {actions && <l.Flex>{actions}</l.Flex>}
+              </l.Flex>
+            )}
           </l.Flex>
           {headerChildren}
         </l.Div>

@@ -16,6 +16,7 @@ const Wrapper = styled(l.Div)(
     background: th.colors.brand.containerBackground,
     border: hasValue || focused ? th.borders.secondary : th.borders.disabled,
     borderRadius: th.borderRadii.input,
+    boxShadow: th.shadows.boxLight,
     cursor: 'text',
     height: th.heights.input,
     position: 'relative',

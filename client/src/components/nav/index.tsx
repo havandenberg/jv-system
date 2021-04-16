@@ -1,25 +1,59 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 import LogoImg from 'assets/images/jv-logo-white.png';
 import l from 'ui/layout';
 import th from 'ui/theme';
+
 import NavItem, { NavItemProps } from './item';
 import SecondaryNav from './secondary';
 
-const navItems: NavItemProps[] = [
+export interface NavItemType extends NavItemProps {
+  secondaryItems?: NavItemProps[];
+  dashboardItems?: NavItemProps[];
+}
+
+export const navItems: NavItemType[] = [
   {
     text: 'Directory',
     to: '/directory',
+    dashboardItems: [
+      { disabled: true, text: 'Aliases', to: 'aliases' },
+      { text: 'Customers', to: 'customers' },
+      { text: 'Internal', to: 'internal' },
+      { text: 'Offices', to: 'offices' },
+      { text: 'Shippers', to: 'shippers' },
+    ],
   },
   {
-    text: 'Inventory',
-    to: '/inventory',
+    text: 'Sales',
+    to: '/sales',
+    dashboardItems: [
+      { disabled: true, text: 'Inventory', to: 'inventory' },
+      { text: 'Price Sheet', to: 'price-sheet' },
+      { text: 'Agenda', to: 'agenda' },
+    ],
+    secondaryItems: [
+      { disabled: true, text: 'Inventory', to: 'inventory' },
+      { text: 'Price Sheet', to: 'price-sheet' },
+      { text: 'Agenda', to: 'agenda' },
+    ],
   },
   {
+    baseUrl: 'reports',
     text: 'Reports',
     to: '/reports/inspections',
+    dashboardItems: [
+      { text: 'Inspections', to: 'inspections' },
+      { disabled: true, text: 'Market', to: 'market' },
+      { disabled: true, text: 'Movement', to: 'movement' },
+    ],
+    secondaryItems: [
+      { text: 'Inspections', to: 'inspections' },
+      { disabled: true, text: 'Market', to: 'market' },
+      { disabled: true, text: 'Movement', to: 'movement' },
+    ],
   },
 ];
 
@@ -42,23 +76,50 @@ const Logo = styled(l.AreaLink)({
   width: 246,
 });
 
-const Nav = ({ location: { pathname } }: RouteComponentProps) => (
-  <Wrapper>
-    <Logo to="/">
-      <l.Flex justifyCenter>
-        <l.Img height={100} src={LogoImg} width={136} />
-      </l.Flex>
-    </Logo>
-    <l.Flex column flex={1}>
-      <l.Div height={24} />
-      <l.Flex bg={th.colors.brand.primary} height={th.heights.navButton}>
-        {navItems.map((item, idx) => (
-          <NavItem active={pathname.includes(item.to)} key={idx} {...item} />
-        ))}
-      </l.Flex>
-      <SecondaryNav activePathname={pathname} />
-    </l.Flex>
-  </Wrapper>
-);
+const Nav = () => {
+  const { pathname } = useLocation();
+  const activeItem = navItems.find((it) => pathname.includes(it.to));
+  const activeBaseUrl = activeItem ? activeItem.baseUrl || activeItem.to : '';
+  const activeSecondaryItems = activeItem && activeItem.secondaryItems;
 
-export default withRouter(Nav);
+  const [hoverTo, setHoverTo] = useState('');
+  const hoverItem = navItems.find((it) => hoverTo === it.to);
+  const hoverSecondaryItems = hoverItem && hoverItem.secondaryItems;
+  const secondaryItems = hoverItem
+    ? hoverSecondaryItems
+      ? hoverSecondaryItems
+      : []
+    : activeSecondaryItems
+    ? activeSecondaryItems
+    : [];
+
+  return (
+    <Wrapper>
+      <Logo to="/">
+        <l.Flex justifyCenter>
+          <l.Img height={100} src={LogoImg} width={136} />
+        </l.Flex>
+      </Logo>
+      <l.Flex column flex={1}>
+        <l.Div height={24} />
+        <l.Flex bg={th.colors.brand.primary} height={th.heights.navButton}>
+          {navItems.map((item, idx) => (
+            <NavItem
+              active={pathname.includes(item.to)}
+              key={idx}
+              {...item}
+              setHover={setHoverTo}
+            />
+          ))}
+        </l.Flex>
+        <SecondaryNav
+          activePathname={pathname}
+          baseUrl={activeBaseUrl}
+          navItems={secondaryItems}
+        />
+      </l.Flex>
+    </Wrapper>
+  );
+};
+
+export default Nav;

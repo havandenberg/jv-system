@@ -16,7 +16,7 @@ import Directory from 'components/directory';
 import Footer from 'components/footer';
 import Nav from 'components/nav';
 import Reports from 'components/reports';
-import Inventory from 'components/inventory';
+import Sales from 'components/sales';
 import ScrollToTop from 'components/scroll-to-top';
 import { GlobalContextProvider } from 'context/global';
 import Global from 'ui/global';
@@ -45,7 +45,7 @@ const App = () => (
                 <Route exact path="/" component={Dashboard} />
                 <Route path="/directory/:routeTabId?" component={Directory} />
                 <Route path="/reports" component={Reports} />
-                <Route path="/inventory" component={Inventory} />
+                <Route path="/sales" component={Sales} />
                 <Redirect to="/" />
               </Switch>
               <Footer />

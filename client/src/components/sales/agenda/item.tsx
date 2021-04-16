@@ -62,6 +62,7 @@ const AgendaItem = ({
       background: th.colors.background,
     },
     toolbar: editing,
+    tabIndex: item.id,
   };
 
   const handleEdit = () => {
@@ -86,7 +87,7 @@ const AgendaItem = ({
           <JoditEditor
             ref={ref}
             value={item.content}
-            key={item.id}
+            key={`${item.id}-${item.sortOrder}`}
             config={config as JoditProps['config']}
             onBlur={(content) => handleChange([{ ...item, content }])}
           />

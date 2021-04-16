@@ -120,6 +120,7 @@ export const opacities = { disabled: 0.4, secondary: 0.7 };
 
 export const shadows = {
   box: `${colors.brand.disabled} 0px 5px 15px`,
+  boxLight: `${colors.brand.disabled} 0px 2px 4px`,
   contentBottom: `0 10px 6px -4px ${colors.brand.containerBackgroundAccent}`,
   contentTop: `0 -10px 6px -4px ${colors.brand.containerBackgroundAccent}`,
 };

@@ -139,7 +139,7 @@
   padding: 0;
 }
 
-.rdrMonths.rdrMonthsVertical .rdrMonth:first-child .rdrMonthName {
+.rdrMonths.rdrMonthsVertical .rdrMonth:first-of-type .rdrMonthName {
   display: none;
 }
 
@@ -335,6 +335,11 @@
   background: #eaf5ff;
   border-top-left-radius: 6px;
   border-bottom-left-radius: 6px;
+}
+
+.hideDefinedRanges > .rdrDefinedRangesWrapper {
+  border-right: none;
+  width: 0px;
 }
 
 .rdrDefinedRangesWrapper .rdrStaticRangeSelected {

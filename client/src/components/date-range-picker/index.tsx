@@ -23,6 +23,7 @@ const Control = styled(l.Flex)(
     background: th.colors.brand.containerBackground,
     border: hasValue || show ? th.borders.secondary : th.borders.disabled,
     borderRadius: th.borderRadii.input,
+    boxShadow: th.shadows.boxLight,
     cursor: 'pointer',
     height: th.heights.input,
     transition: th.transitions.default,
@@ -100,17 +101,21 @@ const defaultRange = [
 ];
 
 export interface DateRangeProps extends DateRangePickerProps {
+  hideDefinedRanges?: boolean;
   onClear: () => void;
   showAsWeekNumber?: boolean;
   showLongDate?: boolean;
+  singleSelection?: boolean;
 }
 
 const DateRangePicker = ({
+  hideDefinedRanges,
   onChange,
   onClear,
   ranges,
   showAsWeekNumber,
   showLongDate,
+  singleSelection,
   ...rest
 }: DateRangeProps) => {
   const [show, setShow] = useState(false);
@@ -159,12 +164,20 @@ const DateRangePicker = ({
       {show && (
         <PickerWrapper>
           <DateRange
+            className={hideDefinedRanges ? 'hideDefinedRanges' : undefined}
             direction="horizontal"
             moveRangeOnFirstSelection={false}
             onChange={onChange}
             ranges={ranges || defaultRange}
             rangeColors={[th.colors.brand.primaryAccent]}
             showSelectionPreview={true}
+            {...(singleSelection
+              ? {
+                  focusedRange: [0, 0],
+                  inputRanges: [],
+                  staticRanges: [],
+                }
+              : undefined)}
             {...rest}
           />
         </PickerWrapper>

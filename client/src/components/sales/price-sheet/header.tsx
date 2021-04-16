@@ -14,6 +14,8 @@ import DoubleArrowInCircle from 'assets/images/double-arrow-in-circle';
 
 const WeekArrowButton = styled(l.HoverButton)({
   position: 'absolute',
+  borderRadius: '50%',
+  boxShadow: th.shadows.boxLight,
   top: 14,
 });
 
@@ -67,7 +69,12 @@ const Header = ({
         <ty.BodyText>Product</ty.BodyText>
         {!editing && (
           <>
-            <l.HoverButton ml={th.spacing.sm} onClick={collapseAllItems}>
+            <l.HoverButton
+              borderRadius="50%"
+              boxShadow={th.shadows.boxLight}
+              ml={th.spacing.sm}
+              onClick={collapseAllItems}
+            >
               <DoubleArrowInCircle
                 fill={th.colors.brand.primary}
                 height={th.sizes.xs}
@@ -75,6 +82,8 @@ const Header = ({
               />
             </l.HoverButton>
             <l.HoverButton
+              borderRadius="50%"
+              boxShadow={th.shadows.boxLight}
               ml={th.spacing.sm}
               onClick={expandAllItems}
               transform="scaleY(-1)"
@@ -92,12 +101,16 @@ const Header = ({
       {times((i) => {
         const isFirst = i === 0;
         const isCurrentWeekVal = isCurrentWeek(selectedWeekNumber + i);
+        const border = isCurrentWeekVal ? th.borders.disabled : undefined;
         return (
           <l.Flex
             alignCenter
             bg={
               isCurrentWeekVal ? th.colors.brand.containerBackground : undefined
             }
+            borderLeft={border}
+            borderRight={border}
+            borderTop={isCurrentWeekVal ? th.borders.disabled : undefined}
             column
             justifyCenter
             key={i}
@@ -106,7 +119,7 @@ const Header = ({
           >
             <l.Flex alignCenter position="relative">
               {isFirst && showBackwardArrow && (
-                <WeekArrowButton left={-30} onClick={handleBackward}>
+                <WeekArrowButton left={-26} onClick={handleBackward}>
                   <ArrowInCircle
                     fill={th.colors.brand.primary}
                     height={th.sizes.xs}
@@ -122,7 +135,7 @@ const Header = ({
                 <WeekArrowButton
                   onClick={handleForward}
                   transform="scaleX(-1)"
-                  right={-30}
+                  right={-26}
                 >
                   <ArrowInCircle
                     fill={th.colors.brand.primary}

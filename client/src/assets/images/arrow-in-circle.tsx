@@ -2,7 +2,7 @@ import React from 'react';
 
 import th from 'ui/theme';
 
-const ArrowInCircle = ({
+const ArrowInCircleLeft = ({
   fill = th.colors.brand.secondary,
   ...rest
 }: React.SVGProps<SVGSVGElement>) => (
@@ -14,4 +14,4 @@ const ArrowInCircle = ({
   </svg>
 );
 
-export default ArrowInCircle;
+export default ArrowInCircleLeft;

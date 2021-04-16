@@ -20,6 +20,7 @@ const StyledTab = styled(l.Div)(
       ? th.colors.brand.primary
       : th.colors.brand.containerBackground,
     borderRadius: 20,
+    boxShadow: th.shadows.boxLight,
     cursor: disabled ? 'default' : 'pointer',
     opacity: disabled ? th.opacities.disabled : 1,
     padding: `${th.spacing.sm} ${th.spacing.md}`,

@@ -81,7 +81,7 @@ const OfficeDirectory = ({
           )}
         </>
       }
-      title="Directory"
+      title="Office Directory"
     >
       {!isEmpty(items) ? (
         items.map(

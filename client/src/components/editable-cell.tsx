@@ -44,7 +44,7 @@ const Wrapper = styled(l.Flex)(
     background: highlight ? th.colors.brand.containerBackground : undefined,
     height: CELL_HEIGHT,
     borderLeft: showBorder ? th.borders.disabled : undefined,
-    ':first-child': {
+    ':first-of-type': {
       borderLeft: 0,
     },
   }),

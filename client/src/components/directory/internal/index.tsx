@@ -81,7 +81,7 @@ const InternalDirectory = ({
           )}
         </>
       }
-      title="Directory"
+      title="Internal Directory"
     >
       {!isEmpty(items) ? (
         items.map(

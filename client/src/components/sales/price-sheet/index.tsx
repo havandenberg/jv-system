@@ -79,12 +79,11 @@ const PriceSheet = () => {
   useScrollToTop();
   const [editing, setEditing] = useState(false);
   const { DateRangePicker, handleDateChange } = useDateRange({
-    showAsWeekNumber: true,
+    hideDefinedRanges: true,
+    singleSelection: true,
     maxDate: endOfISOWeek(add(new Date(), { weeks: 4 })),
     minDate: editing ? startOfISOWeek(new Date()) : undefined,
-    staticRanges: [],
-    inputRanges: [],
-    focusedRange: [0, 0],
+    showAsWeekNumber: true,
   });
 
   const [{ startDate = formatDate(new Date()) }] = useDateRangeQueryParams();
@@ -998,7 +997,7 @@ const PriceSheet = () => {
           <l.AreaLink
             key={1}
             ml={th.spacing.md}
-            to={`/inventory/agenda?endDate=${startDate}&startDate=${startDate}`}
+            to={`/sales/agenda?endDate=${startDate}&startDate=${startDate}`}
           >
             <b.Primary width={126}>Agenda</b.Primary>
           </l.AreaLink>

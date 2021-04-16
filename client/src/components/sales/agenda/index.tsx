@@ -28,11 +28,10 @@ import { AgendaItemUpdate } from './types';
 const Agenda = () => {
   useScrollToTop();
   const { DateRangePicker, handleDateChange } = useDateRange({
-    showLongDate: true,
     disabledDay: (date: Date) => ![1, 3].includes(getDay(date)),
-    staticRanges: [],
-    inputRanges: [],
-    focusedRange: [0, 0],
+    hideDefinedRanges: true,
+    showLongDate: true,
+    singleSelection: true,
   });
 
   const [{ startDate: startDateQuery }] = useDateRangeQueryParams();
@@ -213,17 +212,23 @@ const Agenda = () => {
       actions={[
         <l.AreaLink
           key={0}
-          to={`/inventory/price-sheet?endDate=${startDateQuery}&startDate=${startDateQuery}`}
+          to={`/sales/price-sheet?endDate=${startDateQuery}&startDate=${startDateQuery}`}
         >
           <b.Primary>Price Sheet</b.Primary>
         </l.AreaLink>,
       ]}
+      breadcrumbs={[]}
       extraPaddingTop={122}
       headerChildren={
         <>
           <l.Flex alignCenter>
             {DateRangePicker}
-            <l.HoverButton ml={th.spacing.md} onClick={handleBackward}>
+            <l.HoverButton
+              borderRadius="50%"
+              boxShadow={th.shadows.boxLight}
+              ml={th.spacing.md}
+              onClick={handleBackward}
+            >
               <ArrowInCircle
                 fill={th.colors.brand.primary}
                 height={th.sizes.icon}
@@ -231,6 +236,8 @@ const Agenda = () => {
               />
             </l.HoverButton>
             <l.HoverButton
+              borderRadius="50%"
+              boxShadow={th.shadows.boxLight}
               ml={th.spacing.md}
               onClick={handleForward}
               transform="scaleX(-1)"
@@ -244,18 +251,18 @@ const Agenda = () => {
           </l.Flex>
           <l.Flex my={th.sizes.icon}>
             <ty.BodyText flex={1}>
-              <ty.Span bold>Short Term:</ty.Span> Loading weeks{' '}
-              <ty.Span bold>{selectedWeekNumber}</ty.Span>{' '}
-              {`(${getDateOfISOWeek(selectedWeekNumber, 'M/d')})`} -{' '}
-              <ty.Span bold>{selectedWeekNumber + 1}</ty.Span>{' '}
-              {`(${getDateOfISOWeek(selectedWeekNumber + 1, 'M/d')})`}
-            </ty.BodyText>
-            <ty.BodyText flex={1}>
               <ty.Span bold>Long Term:</ty.Span> Loading weeks{' '}
               <ty.Span bold>{selectedWeekNumber + 2}</ty.Span>{' '}
               {`(${getDateOfISOWeek(selectedWeekNumber + 2, 'M/d')})`} -{' '}
               <ty.Span bold>{selectedWeekNumber + 3}</ty.Span>{' '}
               {`(${getDateOfISOWeek(selectedWeekNumber + 3, 'M/d')})`}
+            </ty.BodyText>
+            <ty.BodyText flex={1}>
+              <ty.Span bold>Short Term:</ty.Span> Loading weeks{' '}
+              <ty.Span bold>{selectedWeekNumber}</ty.Span>{' '}
+              {`(${getDateOfISOWeek(selectedWeekNumber, 'M/d')})`} -{' '}
+              <ty.Span bold>{selectedWeekNumber + 1}</ty.Span>{' '}
+              {`(${getDateOfISOWeek(selectedWeekNumber + 1, 'M/d')})`}
             </ty.BodyText>
           </l.Flex>
         </>

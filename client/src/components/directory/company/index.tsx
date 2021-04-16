@@ -89,7 +89,7 @@ const CompanyDirectory = ({
           )}
         </>
       }
-      title="Directory"
+      title={`${companyType === 'shipper' ? 'Shipper' : 'Customer'} Directory`}
     >
       {!isEmpty(items) ? (
         items.map(

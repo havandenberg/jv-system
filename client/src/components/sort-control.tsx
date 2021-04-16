@@ -77,7 +77,7 @@ const SortControl = ({
   sideLength = th.sizes.xs,
   arrowSideLength = ARROW_SIDE_LENGTH,
 }: Props) => (
-  <l.Flex>
+  <l.Flex borderRadius={th.borderRadii.default} boxShadow={th.shadows.boxLight}>
     <TopButton
       color={color}
       disabled={disableUp}

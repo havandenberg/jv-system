@@ -21,17 +21,21 @@ const Button = styled(l.Flex)(
 
 export interface NavItemProps {
   active?: boolean;
+  baseUrl?: string;
   disabled?: boolean;
+  setHover?: (to: string) => void;
   text: string;
   to: string;
 }
 
-const NavItem = ({ active, disabled, text, to }: NavItemProps) => (
+const NavItem = ({ active, disabled, setHover, text, to }: NavItemProps) => (
   <l.AreaLink to={disabled ? '#' : to}>
     <Button
       active={active}
       cursor={disabled ? 'default' : 'pointer'}
       disabled={disabled}
+      onMouseEnter={() => setHover && setHover(to)}
+      onMouseLeave={() => setHover && setHover('')}
     >
       <ty.DisplayText inverted fontSize={th.fontSizes.large}>
         {text}
