@@ -1,5 +1,6 @@
 FROM node:alpine
 
+RUN npm install -g tslib
 RUN npm install -g postgraphile
 RUN npm install -g postgraphile-plugin-connection-filter
 RUN npm install -g postgraphile-plugin-atomic-mutations
