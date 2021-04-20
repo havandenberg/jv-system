@@ -1,9 +1,3 @@
-CREATE TABLE price_category (
-    id BIGSERIAL PRIMARY KEY,
-    category_name TEXT NOT NULL,
-    sort_order INT NOT NULL
-);
-
 INSERT INTO price_category (
     category_name,
     sort_order
@@ -18,14 +12,6 @@ INSERT INTO price_category (
 ) VALUES (
     'Grapes',
     1
-);
-
-CREATE TABLE price_product (
-    id BIGSERIAL PRIMARY KEY,
-    category_id BIGINT NOT NULL REFERENCES price_category(id) ON DELETE CASCADE,
-    color TEXT NOT NULL,
-    product_name TEXT NOT NULL,
-    sort_order INT NOT NULL
 );
 
 INSERT INTO price_product (
@@ -62,12 +48,6 @@ INSERT INTO price_product (
     '#92D04F',
     'Sweet Globes / Timpsons / Ivory / Arra15',
     0
-);
-
-CREATE TABLE price_size (
-    id BIGSERIAL PRIMARY KEY,
-    product_id BIGINT NOT NULL REFERENCES price_product(id) ON DELETE CASCADE,
-    size_name TEXT NOT NULL
 );
 
 INSERT INTO price_size (
@@ -140,14 +120,6 @@ INSERT INTO price_size (
 ) VALUES (
     3,
     'ML'
-);
-
-CREATE TABLE price_entry (
-    id BIGSERIAL PRIMARY KEY,
-    size_id BIGINT NOT NULL REFERENCES price_size(id) ON DELETE CASCADE,
-    entry_date DATE NOT NULL,
-    entry_description TEXT NOT NULL,
-    content TEXT NOT NULL
 );
 
 INSERT INTO price_entry (

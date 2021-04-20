@@ -1,3 +1,4 @@
+-- migrate:up
 CREATE FUNCTION public.peru_departure_inspection_search_text(IN inspection peru_departure_inspection)
     RETURNS text
     LANGUAGE 'sql'
@@ -30,3 +31,6 @@ SELECT CONCAT (
 		inspection.variety
 	) FROM peru_departure_inspection
 $BODY$;
+
+-- migrate:down
+DROP FUNCTION peru_departure_inspection_search_text;

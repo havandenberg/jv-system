@@ -12,6 +12,7 @@
 */build
 
 # source
+db/backups
 db/db_data
 */dist
 

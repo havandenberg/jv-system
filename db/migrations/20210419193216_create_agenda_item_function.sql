@@ -1,3 +1,4 @@
+-- migrate:up
 CREATE FUNCTION bulk_upsert_agenda_item(
   items agenda_item[]
 )
@@ -30,3 +31,6 @@ AS $$
 	RETURN;
   END;
 $$ LANGUAGE plpgsql VOLATILE STRICT SET search_path FROM CURRENT;
+
+-- migrate:down
+DROP FUNCTION bulk_upsert_agenda_item;

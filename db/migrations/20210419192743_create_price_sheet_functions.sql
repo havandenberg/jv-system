@@ -1,3 +1,4 @@
+-- migrate:up
 CREATE FUNCTION bulk_upsert_price_category(
   categories price_category[]
 )
@@ -109,23 +110,32 @@ AS $$
         size_id,
         entry_date, 
         entry_description,
-        content
+        content,
+        highlight
       )
         VALUES (
           COALESCE(e.id, (select nextval('price_entry_id_seq'))),
           e.size_id,
           e.entry_date,
           e.entry_description,
-          e.content
+          e.content,
+          e.highlight
         )
       ON CONFLICT (id) DO UPDATE SET
         size_id=EXCLUDED.size_id,
         entry_date=EXCLUDED.entry_date,
         entry_description=EXCLUDED.entry_description,
-        content=EXCLUDED.content
+        content=EXCLUDED.content,
+        highlight=EXCLUDED.highlight
     	RETURNING * INTO vals;
     	RETURN NEXT vals;
 	END LOOP;
 	RETURN;
   END;
 $$ LANGUAGE plpgsql VOLATILE STRICT SET search_path FROM CURRENT;
+
+-- migrate:down
+DROP FUNCTION bulk_upsert_price_category;
+DROP FUNCTION bulk_upsert_price_product;
+DROP FUNCTION bulk_upsert_price_size;
+DROP FUNCTION bulk_upsert_price_entry;

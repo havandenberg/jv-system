@@ -1,3 +1,29 @@
+-- migrate:up
+CREATE TABLE peru_departure_inspection (
+	container_id TEXT NOT NULL PRIMARY KEY,
+	avg_bunches_per_box NUMERIC NOT NULL,
+	avg_net_weight NUMERIC NOT NULL,
+	bags_per_box NUMERIC NOT NULL,
+	bag_type TEXT,
+	brand TEXT NOT NULL,
+	brix_avg NUMERIC NOT NULL,
+	brix_max NUMERIC NOT NULL,
+	brix_min NUMERIC NOT NULL,
+	category TEXT NOT NULL,
+	comments TEXT NOT NULL,
+	condition_score NUMERIC NOT NULL,
+	departure_week TEXT NOT NULL,
+	destination TEXT NOT NULL,
+	exporter TEXT NOT NULL,
+	inspection_date DATE NOT NULL,
+	packing_date DATE NOT NULL,
+	packing_house TEXT NOT NULL,
+	packing_material TEXT NOT NULL,
+	presentation TEXT NOT NULL,
+	quality_score NUMERIC NOT NULL,
+	variety TEXT NOT NULL
+);
+
 CREATE TABLE peru_departure_inspection_pallet (
 	id BIGSERIAL PRIMARY KEY,
 	pallet_id TEXT NOT NULL,
@@ -35,64 +61,6 @@ CREATE TABLE peru_departure_inspection_pallet (
 		ON DELETE CASCADE
 );
 
-INSERT INTO peru_departure_inspection_pallet (
-	pallet_id,
-	container_id,
-	size,
-	net_weight,
-	opening_score,
-	color_score,
-	stem_score,
-	texture_score,
-	bunches_per_box,
-	brix,
-	quality_score,
-	condition_score,
-	straggly_tight_pct,
-	surface_disc_pct,
-	russet_scars_pct,
-	sunburn_pct,
-	undersized_bunches_pct,
-	other_defects_pct,
-	total_quality_defects_pct,
-	stem_dehy_pct,
-	glassy_weak_pct,
-	decay_pct,
-	split_crushed_pct,
-	dry_split_pct,
-	wet_sticky_pct,
-	waterberries_pct,
-	shatter_pct,
-	total_condition_defects_pct,
-	total_defects_pct
-) VALUES (
-	'average',
-	'BMOU9310631',
-	'',
-	8.23,
-	1,
-	2,
-	1,
-	1,
-	14,
-	14.9,
-	1,
-	3,
-	0.8,
-	0.0,
-	0.4,
-	0.0,
-	1.1,
-	0.0,
-	2.4,
-	0.0,
-	3.5,
-	0.0,
-	0.0,
-	0.0,
-	0.0,
-	0.1,
-	1.9,
-	10.7,
-	11.3
-);
+-- migrate:down
+DROP TABLE peru_departure_inspection;
+DROP TABLE peru_departure_inspection_pallet;
