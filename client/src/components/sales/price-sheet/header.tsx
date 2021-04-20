@@ -62,7 +62,7 @@ const Header = ({
     <l.Grid
       alignCenter
       gridTemplateColumns={`${th.sizes.icon} ${gridTemplateColumns}`}
-      mt={th.spacing.lg}
+      mt={th.spacing.md}
     >
       <l.Div />
       <l.Flex alignCenter transform="translateX(-25px)">
@@ -70,7 +70,7 @@ const Header = ({
         {!editing && (
           <>
             <l.HoverButton
-              borderRadius="50%"
+              borderRadius={th.borderRadii.circle}
               boxShadow={th.shadows.boxLight}
               ml={th.spacing.sm}
               onClick={collapseAllItems}
@@ -82,7 +82,7 @@ const Header = ({
               />
             </l.HoverButton>
             <l.HoverButton
-              borderRadius="50%"
+              borderRadius={th.borderRadii.circle}
               boxShadow={th.shadows.boxLight}
               ml={th.spacing.sm}
               onClick={expandAllItems}

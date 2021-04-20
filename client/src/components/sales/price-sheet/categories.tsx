@@ -80,6 +80,7 @@ const Categories = (props: Props) => {
                     />
                   )}
                   <EditableCell
+                    content={categoryName}
                     defaultChildren={
                       <ty.BodyText bold ml={`-${th.spacing.tn}`}>
                         {categoryName.value}
@@ -88,7 +89,6 @@ const Categories = (props: Props) => {
                     editing={editing}
                     inputProps={{
                       autoFocus: category.id < 0 && !category.categoryName,
-                      fontWeight: categoryName.dirty ? 'bold' : undefined,
                       paddingLeft: th.spacing.xs,
                       width: 200,
                     }}
@@ -102,7 +102,6 @@ const Categories = (props: Props) => {
                         'categoryName',
                       )
                     }
-                    value={categoryName.value}
                   />
                   {editing && (
                     <l.Div position="absolute" left={280}>

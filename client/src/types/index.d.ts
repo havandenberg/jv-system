@@ -61,6 +61,8 @@ export type Query = Node & {
   priceProducts?: Maybe<PriceProductsConnection>;
   /** Reads and enables pagination through a set of `PriceSize`. */
   priceSizes?: Maybe<PriceSizesConnection>;
+  /** Reads and enables pagination through a set of `SchemaMigration`. */
+  schemaMigrations?: Maybe<SchemaMigrationsConnection>;
   agendaItem?: Maybe<AgendaItem>;
   chileDepartureInspectionPallet?: Maybe<ChileDepartureInspectionPallet>;
   company?: Maybe<Company>;
@@ -74,6 +76,7 @@ export type Query = Node & {
   priceEntry?: Maybe<PriceEntry>;
   priceProduct?: Maybe<PriceProduct>;
   priceSize?: Maybe<PriceSize>;
+  schemaMigration?: Maybe<SchemaMigration>;
   /** Reads and enables pagination through a set of `ChileDepartureInspection`. */
   chileDepartureInspections?: Maybe<ChileDepartureInspectionsConnection>;
   distinctValues?: Maybe<DistinctValuesConnection>;
@@ -103,6 +106,8 @@ export type Query = Node & {
   priceProductByNodeId?: Maybe<PriceProduct>;
   /** Reads a single `PriceSize` using its globally unique `ID`. */
   priceSizeByNodeId?: Maybe<PriceSize>;
+  /** Reads a single `SchemaMigration` using its globally unique `ID`. */
+  schemaMigrationByNodeId?: Maybe<SchemaMigration>;
 };
 
 
@@ -282,6 +287,19 @@ export type QueryPriceSizesArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
+export type QuerySchemaMigrationsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<SchemaMigrationsOrderBy>>;
+  condition?: Maybe<SchemaMigrationCondition>;
+  filter?: Maybe<SchemaMigrationFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
 export type QueryAgendaItemArgs = {
   id: Scalars['BigInt'];
 };
@@ -357,6 +375,12 @@ export type QueryPriceProductArgs = {
 /** The root query type which gives access points into the data universe. */
 export type QueryPriceSizeArgs = {
   id: Scalars['BigInt'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QuerySchemaMigrationArgs = {
+  version: Scalars['String'];
 };
 
 
@@ -460,6 +484,12 @@ export type QueryPriceProductByNodeIdArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryPriceSizeByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QuerySchemaMigrationByNodeIdArgs = {
   nodeId: Scalars['ID'];
 };
 
@@ -2488,6 +2518,8 @@ export type PriceProductFilter = {
   productName?: Maybe<StringFilter>;
   /** Filter by the object’s `sortOrder` field. */
   sortOrder?: Maybe<IntFilter>;
+  /** Filter by the object’s `productRootId` field. */
+  productRootId?: Maybe<BigIntFilter>;
   /** Filter by the object’s `priceSizesByProductId` relation. */
   priceSizesByProductId?: Maybe<PriceProductToManyPriceSizeFilter>;
   /** Some related `priceSizesByProductId` exist. */
@@ -2556,6 +2588,8 @@ export type PriceEntryFilter = {
   entryDescription?: Maybe<StringFilter>;
   /** Filter by the object’s `content` field. */
   content?: Maybe<StringFilter>;
+  /** Filter by the object’s `highlight` field. */
+  highlight?: Maybe<BooleanFilter>;
   /** Filter by the object’s `size` relation. */
   size?: Maybe<PriceSizeFilter>;
   /** Checks for all expressions in this list. */
@@ -2662,6 +2696,7 @@ export type PriceProduct = Node & {
   category?: Maybe<PriceCategory>;
   /** Reads and enables pagination through a set of `PriceSize`. */
   priceSizesByProductId: PriceSizesConnection;
+  productRootId?: Maybe<Scalars['BigInt']>;
 };
 
 
@@ -2753,6 +2788,8 @@ export enum PriceEntriesOrderBy {
   EntryDescriptionDesc = 'ENTRY_DESCRIPTION_DESC',
   ContentAsc = 'CONTENT_ASC',
   ContentDesc = 'CONTENT_DESC',
+  HighlightAsc = 'HIGHLIGHT_ASC',
+  HighlightDesc = 'HIGHLIGHT_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
 }
@@ -2772,6 +2809,8 @@ export type PriceEntryCondition = {
   entryDescription?: Maybe<Scalars['String']>;
   /** Checks for equality with the object’s `content` field. */
   content?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `highlight` field. */
+  highlight?: Maybe<Scalars['Boolean']>;
 };
 
 /** A connection to a list of `PriceEntry` values. */
@@ -2796,6 +2835,7 @@ export type PriceEntry = Node & {
   entryDate: Scalars['Date'];
   entryDescription: Scalars['String'];
   content: Scalars['String'];
+  highlight: Scalars['Boolean'];
   /** Reads a single `PriceSize` that is related to this `PriceEntry`. */
   size?: Maybe<PriceSize>;
 };
@@ -2834,6 +2874,65 @@ export type PriceCategoriesEdge = {
   cursor?: Maybe<Scalars['Cursor']>;
   /** The `PriceCategory` at the end of the edge. */
   node?: Maybe<PriceCategory>;
+};
+
+/** Methods to use when ordering `SchemaMigration`. */
+export enum SchemaMigrationsOrderBy {
+  Natural = 'NATURAL',
+  VersionAsc = 'VERSION_ASC',
+  VersionDesc = 'VERSION_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
+/**
+ * A condition to be used against `SchemaMigration` object types. All fields are
+ * tested for equality and combined with a logical ‘and.’
+ */
+export type SchemaMigrationCondition = {
+  /** Checks for equality with the object’s `version` field. */
+  version?: Maybe<Scalars['String']>;
+};
+
+/** A filter to be used against `SchemaMigration` object types. All fields are combined with a logical ‘and.’ */
+export type SchemaMigrationFilter = {
+  /** Filter by the object’s `version` field. */
+  version?: Maybe<StringFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<SchemaMigrationFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<SchemaMigrationFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<SchemaMigrationFilter>;
+};
+
+/** A connection to a list of `SchemaMigration` values. */
+export type SchemaMigrationsConnection = {
+  __typename?: 'SchemaMigrationsConnection';
+  /** A list of `SchemaMigration` objects. */
+  nodes: Array<Maybe<SchemaMigration>>;
+  /** A list of edges which contains the `SchemaMigration` and cursor to aid in pagination. */
+  edges: Array<SchemaMigrationsEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `SchemaMigration` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+export type SchemaMigration = Node & {
+  __typename?: 'SchemaMigration';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  version: Scalars['String'];
+};
+
+/** A `SchemaMigration` edge in the connection. */
+export type SchemaMigrationsEdge = {
+  __typename?: 'SchemaMigrationsEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `SchemaMigration` at the end of the edge. */
+  node?: Maybe<SchemaMigration>;
 };
 
 /** A filter to be used against `ChileDepartureInspection` object types. All fields are combined with a logical ‘and.’ */
@@ -2961,6 +3060,8 @@ export type Mutation = {
   createPriceProduct?: Maybe<CreatePriceProductPayload>;
   /** Creates a single `PriceSize`. */
   createPriceSize?: Maybe<CreatePriceSizePayload>;
+  /** Creates a single `SchemaMigration`. */
+  createSchemaMigration?: Maybe<CreateSchemaMigrationPayload>;
   /** Updates a single `AgendaItem` using its globally unique id and a patch. */
   updateAgendaItemByNodeId?: Maybe<UpdateAgendaItemPayload>;
   /** Updates a single `AgendaItem` using a unique key and a patch. */
@@ -3013,6 +3114,10 @@ export type Mutation = {
   updatePriceSizeByNodeId?: Maybe<UpdatePriceSizePayload>;
   /** Updates a single `PriceSize` using a unique key and a patch. */
   updatePriceSize?: Maybe<UpdatePriceSizePayload>;
+  /** Updates a single `SchemaMigration` using its globally unique id and a patch. */
+  updateSchemaMigrationByNodeId?: Maybe<UpdateSchemaMigrationPayload>;
+  /** Updates a single `SchemaMigration` using a unique key and a patch. */
+  updateSchemaMigration?: Maybe<UpdateSchemaMigrationPayload>;
   /** Deletes a single `AgendaItem` using its globally unique id. */
   deleteAgendaItemByNodeId?: Maybe<DeleteAgendaItemPayload>;
   /** Deletes a single `AgendaItem` using a unique key. */
@@ -3065,7 +3170,12 @@ export type Mutation = {
   deletePriceSizeByNodeId?: Maybe<DeletePriceSizePayload>;
   /** Deletes a single `PriceSize` using a unique key. */
   deletePriceSize?: Maybe<DeletePriceSizePayload>;
+  /** Deletes a single `SchemaMigration` using its globally unique id. */
+  deleteSchemaMigrationByNodeId?: Maybe<DeleteSchemaMigrationPayload>;
+  /** Deletes a single `SchemaMigration` using a unique key. */
+  deleteSchemaMigration?: Maybe<DeleteSchemaMigrationPayload>;
   batchCreateChileDepartureInspectionPallet?: Maybe<BatchCreateChileDepartureInspectionPalletPayload>;
+  bulkUpsertAgendaItem?: Maybe<BulkUpsertAgendaItemPayload>;
   bulkUpsertPriceCategory?: Maybe<BulkUpsertPriceCategoryPayload>;
   bulkUpsertPriceEntry?: Maybe<BulkUpsertPriceEntryPayload>;
   bulkUpsertPriceProduct?: Maybe<BulkUpsertPriceProductPayload>;
@@ -3148,6 +3258,12 @@ export type MutationCreatePriceProductArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreatePriceSizeArgs = {
   input: CreatePriceSizeInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateSchemaMigrationArgs = {
+  input: CreateSchemaMigrationInput;
 };
 
 
@@ -3308,6 +3424,18 @@ export type MutationUpdatePriceSizeArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateSchemaMigrationByNodeIdArgs = {
+  input: UpdateSchemaMigrationByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateSchemaMigrationArgs = {
+  input: UpdateSchemaMigrationInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteAgendaItemByNodeIdArgs = {
   input: DeleteAgendaItemByNodeIdInput;
 };
@@ -3464,8 +3592,26 @@ export type MutationDeletePriceSizeArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteSchemaMigrationByNodeIdArgs = {
+  input: DeleteSchemaMigrationByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteSchemaMigrationArgs = {
+  input: DeleteSchemaMigrationInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationBatchCreateChileDepartureInspectionPalletArgs = {
   input: BatchCreateChileDepartureInspectionPalletInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationBulkUpsertAgendaItemArgs = {
+  input: BulkUpsertAgendaItemInput;
 };
 
 
@@ -5277,6 +5423,7 @@ export type UpdatePriceEntryOnPriceEntryForPriceEntrySizeIdFkeyPatch = {
   entryDate?: Maybe<Scalars['Date']>;
   entryDescription?: Maybe<Scalars['String']>;
   content?: Maybe<Scalars['String']>;
+  highlight?: Maybe<Scalars['Boolean']>;
   priceSizeToSizeId?: Maybe<PriceEntrySizeIdFkeyInput>;
 };
 
@@ -5355,6 +5502,7 @@ export type PriceEntryPatch = {
   entryDate?: Maybe<Scalars['Date']>;
   entryDescription?: Maybe<Scalars['String']>;
   content?: Maybe<Scalars['String']>;
+  highlight?: Maybe<Scalars['Boolean']>;
   priceSizeToSizeId?: Maybe<PriceEntrySizeIdFkeyInput>;
 };
 
@@ -5364,6 +5512,7 @@ export type PriceEntrySizeIdFkeyPriceEntryCreateInput = {
   entryDate: Scalars['Date'];
   entryDescription: Scalars['String'];
   content: Scalars['String'];
+  highlight: Scalars['Boolean'];
   priceSizeToSizeId?: Maybe<PriceEntrySizeIdFkeyInput>;
 };
 
@@ -5441,6 +5590,7 @@ export type PriceEntryInput = {
   entryDate: Scalars['Date'];
   entryDescription: Scalars['String'];
   content: Scalars['String'];
+  highlight: Scalars['Boolean'];
   priceSizeToSizeId?: Maybe<PriceEntrySizeIdFkeyInput>;
 };
 
@@ -5556,6 +5706,44 @@ export type CreatePriceSizePayload = {
 /** The output of our create `PriceSize` mutation. */
 export type CreatePriceSizePayloadPriceSizeEdgeArgs = {
   orderBy?: Maybe<Array<PriceSizesOrderBy>>;
+};
+
+/** All input for the create `SchemaMigration` mutation. */
+export type CreateSchemaMigrationInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `SchemaMigration` to be created by this mutation. */
+  schemaMigration: SchemaMigrationInput;
+};
+
+/** An input for mutations affecting `SchemaMigration` */
+export type SchemaMigrationInput = {
+  version: Scalars['String'];
+};
+
+/** The output of our create `SchemaMigration` mutation. */
+export type CreateSchemaMigrationPayload = {
+  __typename?: 'CreateSchemaMigrationPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `SchemaMigration` that was created by this mutation. */
+  schemaMigration?: Maybe<SchemaMigration>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `SchemaMigration`. May be used by Relay 1. */
+  schemaMigrationEdge?: Maybe<SchemaMigrationsEdge>;
+};
+
+
+/** The output of our create `SchemaMigration` mutation. */
+export type CreateSchemaMigrationPayloadSchemaMigrationEdgeArgs = {
+  orderBy?: Maybe<Array<SchemaMigrationsOrderBy>>;
 };
 
 /** All input for the `updateAgendaItemByNodeId` mutation. */
@@ -6247,6 +6435,58 @@ export type UpdatePriceSizeInput = {
   id: Scalars['BigInt'];
 };
 
+/** All input for the `updateSchemaMigrationByNodeId` mutation. */
+export type UpdateSchemaMigrationByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `SchemaMigration` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `SchemaMigration` being updated. */
+  patch: SchemaMigrationPatch;
+};
+
+/** Represents an update to a `SchemaMigration`. Fields that are set will be updated. */
+export type SchemaMigrationPatch = {
+  version?: Maybe<Scalars['String']>;
+};
+
+/** The output of our update `SchemaMigration` mutation. */
+export type UpdateSchemaMigrationPayload = {
+  __typename?: 'UpdateSchemaMigrationPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `SchemaMigration` that was updated by this mutation. */
+  schemaMigration?: Maybe<SchemaMigration>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `SchemaMigration`. May be used by Relay 1. */
+  schemaMigrationEdge?: Maybe<SchemaMigrationsEdge>;
+};
+
+
+/** The output of our update `SchemaMigration` mutation. */
+export type UpdateSchemaMigrationPayloadSchemaMigrationEdgeArgs = {
+  orderBy?: Maybe<Array<SchemaMigrationsOrderBy>>;
+};
+
+/** All input for the `updateSchemaMigration` mutation. */
+export type UpdateSchemaMigrationInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `SchemaMigration` being updated. */
+  patch: SchemaMigrationPatch;
+  version: Scalars['String'];
+};
+
 /** All input for the `deleteAgendaItemByNodeId` mutation. */
 export type DeleteAgendaItemByNodeIdInput = {
   /**
@@ -6836,6 +7076,50 @@ export type DeletePriceSizeInput = {
   id: Scalars['BigInt'];
 };
 
+/** All input for the `deleteSchemaMigrationByNodeId` mutation. */
+export type DeleteSchemaMigrationByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `SchemaMigration` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** The output of our delete `SchemaMigration` mutation. */
+export type DeleteSchemaMigrationPayload = {
+  __typename?: 'DeleteSchemaMigrationPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `SchemaMigration` that was deleted by this mutation. */
+  schemaMigration?: Maybe<SchemaMigration>;
+  deletedSchemaMigrationNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `SchemaMigration`. May be used by Relay 1. */
+  schemaMigrationEdge?: Maybe<SchemaMigrationsEdge>;
+};
+
+
+/** The output of our delete `SchemaMigration` mutation. */
+export type DeleteSchemaMigrationPayloadSchemaMigrationEdgeArgs = {
+  orderBy?: Maybe<Array<SchemaMigrationsOrderBy>>;
+};
+
+/** All input for the `deleteSchemaMigration` mutation. */
+export type DeleteSchemaMigrationInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  version: Scalars['String'];
+};
+
 /** All input for the `batchCreateChileDepartureInspectionPallet` mutation. */
 export type BatchCreateChileDepartureInspectionPalletInput = {
   /**
@@ -6855,6 +7139,29 @@ export type BatchCreateChileDepartureInspectionPalletPayload = {
    */
   clientMutationId?: Maybe<Scalars['String']>;
   chileDepartureInspectionPallets?: Maybe<Array<Maybe<ChileDepartureInspectionPallet>>>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** All input for the `bulkUpsertAgendaItem` mutation. */
+export type BulkUpsertAgendaItemInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  items: Array<Maybe<AgendaItemInput>>;
+};
+
+/** The output of our `bulkUpsertAgendaItem` mutation. */
+export type BulkUpsertAgendaItemPayload = {
+  __typename?: 'BulkUpsertAgendaItemPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  agendaItems?: Maybe<Array<Maybe<AgendaItem>>>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
 };

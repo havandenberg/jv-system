@@ -234,6 +234,7 @@ const PriceSheet = () => {
           content: e.content,
           entryDate: e.entryDate,
           entryDescription: e.entryDescription,
+          highlight: e.highlight,
           sizeId: e.sizeId,
           id: parseInt(e.id, 10),
         })),
@@ -250,6 +251,7 @@ const PriceSheet = () => {
         content: e.content,
         entryDate: e.entryDate,
         entryDescription: e.entryDescription,
+        highlight: e.highlight,
       }))
       .forEach((e, idx) => {
         setUpdateLoading((prevLoading) => [...prevLoading, `entry-${idx}`]);
@@ -271,6 +273,7 @@ const PriceSheet = () => {
               entryDate: e.entryDate,
               entryDescription: e.entryDescription,
               content: e.content,
+              highlight: e.highlight,
             })),
         },
       }))
@@ -301,6 +304,7 @@ const PriceSheet = () => {
                     entryDate: e.entryDate,
                     entryDescription: e.entryDescription,
                     content: e.content,
+                    highlight: e.highlight,
                   })),
               },
             })),
@@ -337,6 +341,7 @@ const PriceSheet = () => {
                           entryDate: e.entryDate,
                           entryDescription: e.entryDescription,
                           content: e.content,
+                          highlight: e.highlight,
                         })),
                     },
                   })),
@@ -1004,7 +1009,7 @@ const PriceSheet = () => {
         ),
       ]}
       breadcrumbs={[]}
-      extraPaddingTop={122}
+      extraPaddingTop={108}
       headerChildren={
         <>
           <l.Flex>{DateRangePicker}</l.Flex>

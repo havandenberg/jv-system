@@ -17,7 +17,7 @@ export type ProductUpdate = Pick<
 export type SizeUpdate = Pick<PriceSize, 'id' | 'productId' | 'sizeName'>;
 export type EntryUpdate = Pick<
   PriceEntry,
-  'id' | 'content' | 'entryDate' | 'entryDescription' | 'sizeId'
+  'id' | 'content' | 'entryDate' | 'entryDescription' | 'highlight' | 'sizeId'
 >;
 export type UpdateType =
   | CategoryUpdate
@@ -44,7 +44,7 @@ export type NewSize = Pick<
 >;
 export type NewEntry = Pick<
   PriceEntry,
-  'id' | 'content' | 'entryDate' | 'entryDescription' | 'sizeId'
+  'id' | 'content' | 'entryDate' | 'entryDescription' | 'highlight' | 'sizeId'
 >;
 
 export interface PriceSheetChanges {

@@ -78,6 +78,7 @@ const Sizes = (props: Props) => {
                 />
               )}
               <EditableCell
+                content={entryDescription}
                 defaultChildren={
                   <ty.SmallText pl={th.spacing.sm}>
                     {entryDescription.value}
@@ -92,30 +93,31 @@ const Sizes = (props: Props) => {
                 }}
                 onChange={(e) => {
                   if (entry) {
-                    const { id, entryDate, content, sizeId } = entry;
                     handleEntryChange(
                       {
-                        id,
-                        content,
-                        entryDate,
+                        id: entry.id,
+                        content: entry.content,
+                        entryDate: entry.entryDate,
                         entryDescription: e.target.value,
-                        sizeId,
+                        highlight: entry.highlight,
+                        sizeId: entry.sizeId,
                       },
                       'entryDescription',
                     );
                   } else {
                     handleNewEntry({
                       id: -1,
+                      content: '',
                       entryDate: getDateOfISOWeek(selectedWeekNumber),
                       entryDescription: e.target.value,
-                      content: '',
+                      highlight: false,
                       sizeId: size.id,
                     });
                   }
                 }}
-                value={entryDescription.value}
               />
               <EditableCell
+                content={sizeName}
                 defaultChildren={
                   <ty.SmallText center flex={1}>
                     {sizeName.value}
@@ -138,7 +140,6 @@ const Sizes = (props: Props) => {
                     'sizeName',
                   );
                 }}
-                value={sizeName.value}
               />
               {times((i) => {
                 const data = size.priceEntriesBySizeId.nodes.find(
@@ -151,20 +152,36 @@ const Sizes = (props: Props) => {
                     ) ===
                       selectedWeekNumber + i,
                 );
-                const content = getEntryValue(
-                  data,
-                  'content',
-                  editing ? '' : '-',
-                );
+                const content = getEntryValue(data, 'content');
+                const highlight = getEntryValue(data, 'highlight');
                 return (
                   <EditableCell
+                    content={content}
                     defaultChildren={
                       <ty.SmallText center flex={1}>
                         {content.value || '-'}
                       </ty.SmallText>
                     }
                     editing={editing}
-                    highlight={isCurrentWeek(selectedWeekNumber + i)}
+                    handleHighlight={
+                      data
+                        ? () => {
+                            handleEntryChange(
+                              {
+                                id: data.id,
+                                content: data.content,
+                                entryDate: data.entryDate,
+                                entryDescription: data.entryDescription,
+                                highlight: !Boolean(highlight.value),
+                                sizeId: data.sizeId,
+                              },
+                              'highlight',
+                            );
+                          }
+                        : undefined
+                    }
+                    highlight={Boolean(highlight.value)}
+                    secondaryHighlight={isCurrentWeek(selectedWeekNumber + i)}
                     inputProps={{
                       fontWeight: content.dirty ? 'bold' : undefined,
                       textAlign: 'center',
@@ -172,33 +189,28 @@ const Sizes = (props: Props) => {
                     key={i}
                     onChange={(e) => {
                       if (data) {
-                        const {
-                          id,
-                          entryDate,
-                          entryDescription,
-                          sizeId,
-                        } = data;
                         handleEntryChange(
                           {
-                            id,
-                            entryDate,
-                            entryDescription,
+                            id: data.id,
                             content: e.target.value,
-                            sizeId,
+                            entryDate: data.entryDate,
+                            entryDescription: data.entryDescription,
+                            highlight: e.target.value !== data.content,
+                            sizeId: data.sizeId,
                           },
                           'content',
                         );
                       } else {
                         handleNewEntry({
                           id: -1,
+                          content: e.target.value,
+                          highlight: true,
                           entryDate: getDateOfISOWeek(selectedWeekNumber + i),
                           entryDescription: '',
-                          content: e.target.value,
                           sizeId: size.id,
                         });
                       }
                     }}
-                    value={content.value}
                   />
                 );
               }, 5)}
@@ -206,7 +218,7 @@ const Sizes = (props: Props) => {
           )
         );
       })}
-      {editing && product.productName && (
+      {editing && (
         <l.Div ml={th.spacing.lg}>
           <AddItem
             disabled={disableAdd}

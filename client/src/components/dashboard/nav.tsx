@@ -41,59 +41,57 @@ const SecondaryItemWrapper = styled(l.Flex)({
   },
 });
 
-const DashboardNav = () => {
-  return (
-    <l.Grid
-      gridGap={th.spacing.md}
-      gridTemplateColumns="repeat(2, 1fr)"
-      justifyBetween
-      width="70%"
-    >
-      {navItems.map((it) => (
-        <l.Div relative>
-          <l.AreaLink to={it.to}>
-            <ItemWrapper>
-              <ty.LargeText
-                className="title"
-                color={th.colors.brand.primary}
-                mt={th.sizes.md}
-              >
-                {it.text}
-              </ty.LargeText>
-            </ItemWrapper>
-          </l.AreaLink>
-          {it.dashboardItems && (
-            <l.Flex
-              alignCenter
-              bottom={40}
-              flexWrap="wrap"
-              left="50%"
-              justifyCenter
-              position="absolute"
-              transform="translateX(-50%)"
-              height={76}
-              width={300}
+const DashboardNav = () => (
+  <l.Grid
+    gridGap={th.spacing.lg}
+    gridTemplateColumns="repeat(3, 1fr)"
+    justifyBetween
+    width={th.sizes.fill}
+  >
+    {navItems.map((it, idx) => (
+      <l.Div key={idx} relative>
+        <l.AreaLink to={it.to}>
+          <ItemWrapper>
+            <ty.LargeText
+              className="title"
+              color={th.colors.brand.primary}
+              mt={th.sizes.md}
             >
-              {it.dashboardItems.map((i) => {
-                const pathname = `${it.baseUrl || it.to}/${i.to}`;
-                return (
-                  !i.disabled && (
-                    <l.AreaLink to={pathname} width={100}>
-                      <SecondaryItemWrapper>
-                        <ty.BodyText center color={th.colors.brand.secondary}>
-                          {i.text}
-                        </ty.BodyText>
-                      </SecondaryItemWrapper>
-                    </l.AreaLink>
-                  )
-                );
-              })}
-            </l.Flex>
-          )}
-        </l.Div>
-      ))}
-    </l.Grid>
-  );
-};
+              {it.text}
+            </ty.LargeText>
+          </ItemWrapper>
+        </l.AreaLink>
+        {it.dashboardItems && (
+          <l.Flex
+            alignCenter
+            bottom={40}
+            flexWrap="wrap"
+            left="50%"
+            justifyCenter
+            position="absolute"
+            transform="translateX(-50%)"
+            height={76}
+            width={300}
+          >
+            {it.dashboardItems.map((i, idx) => {
+              const pathname = `${it.baseUrl || it.to}/${i.to}`;
+              return (
+                !i.disabled && (
+                  <l.AreaLink key={idx} to={pathname} width={100}>
+                    <SecondaryItemWrapper>
+                      <ty.BodyText center color={th.colors.brand.secondary}>
+                        {i.text}
+                      </ty.BodyText>
+                    </SecondaryItemWrapper>
+                  </l.AreaLink>
+                )
+              );
+            })}
+          </l.Flex>
+        )}
+      </l.Div>
+    ))}
+  </l.Grid>
+);
 
 export default DashboardNav;

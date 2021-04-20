@@ -50,7 +50,20 @@ const Products = (props: Props) => {
 
         const productRoot = product.priceSizesByProductId.nodes.find(
           (size) => size?.sizeName === 'product-root',
-        );
+        ) || {
+          id: -1,
+          sizeName: 'product-root',
+          productId: product.id,
+          priceEntriesBySizeId: {
+            edges: [],
+            nodes: [],
+            pageInfo: {
+              hasNextPage: false,
+              hasPreviousPage: false,
+            },
+            totalCount: 0,
+          },
+        };
 
         const entry =
           productRoot &&
@@ -79,6 +92,7 @@ const Products = (props: Props) => {
                   relative
                 >
                   <EditableCell
+                    content={productName}
                     defaultChildren={
                       <ty.SmallText color={textColor} ml={th.spacing.sm}>
                         {productName.value}
@@ -106,7 +120,6 @@ const Products = (props: Props) => {
                         'productName',
                       );
                     }}
-                    value={productName.value}
                   />
                   {editing && (
                     <>
@@ -180,6 +193,7 @@ const Products = (props: Props) => {
                     </>
                   )}
                   <EditableCell
+                    content={entryDescription}
                     defaultChildren={
                       <ty.SmallText center color={textColor} flex={1}>
                         {entryDescription.value}
@@ -193,91 +207,88 @@ const Products = (props: Props) => {
                     }}
                     onChange={(e) => {
                       if (entry) {
-                        const { id, content, entryDate, sizeId } = entry;
                         handleEntryChange(
                           {
-                            id,
-                            content,
-                            entryDate,
+                            id: entry.id,
+                            content: entry.content,
+                            entryDate: entry.entryDate,
                             entryDescription: e.target.value,
-                            sizeId,
+                            highlight: entry.highlight,
+                            sizeId: entry.sizeId,
                           },
                           'entryDescription',
                         );
-                      } else if (productRoot) {
+                      } else {
                         handleNewEntry({
                           id: -1,
+                          content: '',
                           entryDate: getDateOfISOWeek(selectedWeekNumber),
                           entryDescription: e.target.value,
-                          content: '',
-                          sizeId: productRoot.id,
+                          highlight: false,
+                          sizeId: product.productRootId,
                         });
                       }
                     }}
-                    value={entryDescription.value}
                   />
-                  {productRoot &&
-                    times((i) => {
-                      const data = productRoot.priceEntriesBySizeId.nodes.find(
-                        (e) =>
-                          e &&
-                          getWeekNumber(
-                            typeof e.entryDate === 'string'
-                              ? new Date(e.entryDate.replace(/-/g, '/'))
-                              : e.entryDate,
-                          ) ===
-                            selectedWeekNumber + i,
-                      );
-                      const content = getEntryValue(data, 'content');
-                      return (
-                        <EditableCell
-                          defaultChildren={
-                            <ty.SmallText center color={textColor} flex={1}>
-                              {content.value}
-                            </ty.SmallText>
-                          }
-                          editing={editing}
-                          highlight={isCurrentWeek(selectedWeekNumber + i)}
-                          inputProps={{
-                            color: textColor,
-                            fontWeight: content.dirty ? 'bold' : undefined,
-                            textAlign: 'center',
-                          }}
-                          key={i}
-                          onChange={(e) => {
-                            if (data) {
-                              const {
-                                id,
-                                entryDate,
-                                entryDescription,
-                                sizeId,
-                              } = data;
-                              handleEntryChange(
-                                {
-                                  id,
-                                  entryDate,
-                                  entryDescription,
-                                  content: e.target.value,
-                                  sizeId,
-                                },
-                                'content',
-                              );
-                            } else {
-                              handleNewEntry({
-                                id: -1,
-                                entryDate: getDateOfISOWeek(
-                                  selectedWeekNumber + i,
-                                ),
-                                entryDescription: '',
+                  {times((i) => {
+                    const data = productRoot.priceEntriesBySizeId.nodes.find(
+                      (e) =>
+                        e &&
+                        getWeekNumber(
+                          typeof e.entryDate === 'string'
+                            ? new Date(e.entryDate.replace(/-/g, '/'))
+                            : e.entryDate,
+                        ) ===
+                          selectedWeekNumber + i,
+                    );
+                    const content = getEntryValue(data, 'content');
+                    return (
+                      <EditableCell
+                        content={content}
+                        defaultChildren={
+                          <ty.SmallText center color={textColor} flex={1}>
+                            {content.value}
+                          </ty.SmallText>
+                        }
+                        editing={editing}
+                        secondaryHighlight={isCurrentWeek(
+                          selectedWeekNumber + i,
+                        )}
+                        inputProps={{
+                          color: textColor,
+                          fontWeight: content.dirty ? 'bold' : undefined,
+                          textAlign: 'center',
+                        }}
+                        key={i}
+                        onChange={(e) => {
+                          if (data) {
+                            handleEntryChange(
+                              {
+                                id: data.id,
                                 content: e.target.value,
-                                sizeId: productRoot.id,
-                              });
-                            }
-                          }}
-                          value={content.value}
-                        />
-                      );
-                    }, 5)}
+                                entryDate: data.entryDate,
+                                entryDescription: data.entryDescription,
+                                highlight: data.highlight,
+                                sizeId: data.sizeId,
+                              },
+                              'content',
+                            );
+                          } else {
+                            handleNewEntry({
+                              id: -1,
+                              content: e.target.value,
+                              entryDate: getDateOfISOWeek(
+                                selectedWeekNumber + i,
+                              ),
+                              entryDescription: '',
+                              highlight: false,
+                              sizeId: product.productRootId,
+                            });
+                          }
+                        }}
+                      />
+                    );
+                  }, 5)}
                 </l.Grid>
               }
               content={<Sizes {...props} product={product} />}
@@ -288,7 +299,7 @@ const Products = (props: Props) => {
           </l.Div>
         );
       })}
-      {editing && category.categoryName && (
+      {editing && (
         <l.Div ml={th.spacing.md}>
           <AddItem
             disabled={disableAdd}

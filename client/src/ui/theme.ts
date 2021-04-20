@@ -30,6 +30,7 @@ export const colors = {
     medium: 'rgba(32,32,32,0.32)',
     light: 'rgba(32,32,32,0.08)',
   },
+  cellHighlight: '#FEFF00',
 };
 
 // Layout

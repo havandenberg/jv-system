@@ -21,7 +21,7 @@ const Dashboard = () => (
       </ty.LargeText>
     }
   >
-    <l.Flex mt={th.spacing.lg}>
+    <l.Flex mt={th.spacing.xl}>
       <DashboardNav />
     </l.Flex>
   </Page>

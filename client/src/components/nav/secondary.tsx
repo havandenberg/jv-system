@@ -22,7 +22,7 @@ export const NavItem = styled(l.Flex)(
   ...divPropsSet,
 );
 
-interface SecondaryNavProps {
+export interface SecondaryNavProps {
   activePathname: string;
   baseUrl: string;
   navItems: NavItemProps[];
@@ -33,7 +33,7 @@ const SecondaryNav = ({
   baseUrl,
   navItems,
 }: SecondaryNavProps) => (
-  <l.Flex flex={1}>
+  <l.Flex flex={1} height={th.sizes.md} pt={th.spacing.xs}>
     {navItems.map(({ disabled, to, text }, idx) => {
       const pathname = `${baseUrl}/${to}`;
       const active = activePathname.includes(pathname);

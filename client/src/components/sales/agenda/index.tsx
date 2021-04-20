@@ -224,7 +224,7 @@ const Agenda = () => {
           <l.Flex alignCenter>
             {DateRangePicker}
             <l.HoverButton
-              borderRadius="50%"
+              borderRadius={th.borderRadii.circle}
               boxShadow={th.shadows.boxLight}
               ml={th.spacing.md}
               onClick={handleBackward}
@@ -236,7 +236,7 @@ const Agenda = () => {
               />
             </l.HoverButton>
             <l.HoverButton
-              borderRadius="50%"
+              borderRadius={th.borderRadii.circle}
               boxShadow={th.shadows.boxLight}
               ml={th.spacing.md}
               onClick={handleForward}

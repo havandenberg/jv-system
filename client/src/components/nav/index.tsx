@@ -35,25 +35,17 @@ export const navItems: NavItemType[] = [
       { text: 'Agenda', to: 'agenda' },
     ],
     secondaryItems: [
-      { disabled: true, text: 'Inventory', to: 'inventory' },
+      // { disabled: true, text: 'Inventory', to: 'inventory' },
       { text: 'Price Sheet', to: 'price-sheet' },
       { text: 'Agenda', to: 'agenda' },
     ],
   },
   {
-    baseUrl: 'reports',
+    baseUrl: '/reports',
     text: 'Reports',
     to: '/reports/inspections',
-    dashboardItems: [
-      { text: 'Inspections', to: 'inspections' },
-      { disabled: true, text: 'Market', to: 'market' },
-      { disabled: true, text: 'Movement', to: 'movement' },
-    ],
-    secondaryItems: [
-      { text: 'Inspections', to: 'inspections' },
-      { disabled: true, text: 'Market', to: 'market' },
-      { disabled: true, text: 'Movement', to: 'movement' },
-    ],
+    dashboardItems: [{ text: 'Inspections', to: 'inspections' }],
+    secondaryItems: [{ text: 'Inspections', to: 'inspections' }],
   },
 ];
 
@@ -84,6 +76,7 @@ const Nav = () => {
 
   const [hoverTo, setHoverTo] = useState('');
   const hoverItem = navItems.find((it) => hoverTo === it.to);
+  const hoverBaseUrl = hoverItem ? hoverItem.baseUrl || hoverItem.to : '';
   const hoverSecondaryItems = hoverItem && hoverItem.secondaryItems;
   const secondaryItems = hoverItem
     ? hoverSecondaryItems
@@ -100,23 +93,34 @@ const Nav = () => {
           <l.Img height={100} src={LogoImg} width={136} />
         </l.Flex>
       </Logo>
-      <l.Flex column flex={1}>
+      <l.Flex column flex={1} relative>
         <l.Div height={24} />
-        <l.Flex bg={th.colors.brand.primary} height={th.heights.navButton}>
-          {navItems.map((item, idx) => (
-            <NavItem
-              active={pathname.includes(item.to)}
-              key={idx}
-              {...item}
-              setHover={setHoverTo}
+        <l.Flex
+          bg={th.colors.brand.primary}
+          height={th.heights.navButton}
+          position="absolute"
+          top={24}
+          width="100%"
+        >
+          <l.Div onMouseLeave={() => setHoverTo('')}>
+            <l.Flex height={th.heights.navButton}>
+              {navItems.map((item, idx) => (
+                <NavItem
+                  active={pathname.includes(item.to)}
+                  hover={hoverItem && hoverItem.to === item.to}
+                  key={idx}
+                  {...item}
+                  setHover={setHoverTo}
+                />
+              ))}
+            </l.Flex>
+            <SecondaryNav
+              activePathname={pathname}
+              baseUrl={hoverBaseUrl || activeBaseUrl}
+              navItems={secondaryItems}
             />
-          ))}
+          </l.Div>
         </l.Flex>
-        <SecondaryNav
-          activePathname={pathname}
-          baseUrl={activeBaseUrl}
-          navItems={secondaryItems}
-        />
       </l.Flex>
     </Wrapper>
   );
