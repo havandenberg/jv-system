@@ -40,6 +40,7 @@ export const useChileDepartureInspections = () => {
     variables: {
       columnName: 'shipper',
       tableName: 'chile_departure_inspection_pallet',
+      schemaName: 'inspection',
     },
   });
   const exporterDefaultList: string[] = pathOr(
@@ -61,6 +62,7 @@ export const useChileDepartureInspections = () => {
     variables: {
       columnName: 'variety',
       tableName: 'chile_departure_inspection_pallet',
+      schemaName: 'inspection',
     },
   });
   const varietyDefaultList: string[] = pathOr(

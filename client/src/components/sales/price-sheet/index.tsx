@@ -198,13 +198,6 @@ const PriceSheet = () => {
   };
 
   const handleEdit = () => {
-    handleDateChange({
-      selection: {
-        startDate: new Date(),
-        endDate: new Date(),
-        key: 'selection',
-      },
-    });
     expandAllItems();
     setEditing(true);
   };

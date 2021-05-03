@@ -38,6 +38,7 @@ const CompanyDirectory = ({
     'companyName',
     SORT_ORDER.ASC,
     listLabels,
+    'directory',
     'company',
   );
 

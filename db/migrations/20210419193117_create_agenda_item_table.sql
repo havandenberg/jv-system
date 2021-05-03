@@ -1,5 +1,5 @@
 -- migrate:up
-CREATE TABLE agenda_item (
+CREATE TABLE sales.agenda_item (
     id BIGSERIAL PRIMARY KEY,
     content TEXT NOT NULL,
     item_date DATE NOT NULL,
@@ -7,4 +7,4 @@ CREATE TABLE agenda_item (
 );
 
 -- migrate:down
-DROP TABLE agenda_item;
+DROP TABLE sales.agenda_item;

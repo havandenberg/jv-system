@@ -1,9 +1,9 @@
 -- migrate:up
-CREATE FUNCTION distinct_values(table_name text, column_name text) RETURNS SETOF text AS $$
+CREATE FUNCTION public.distinct_values(schema_name text, table_name text, column_name text) RETURNS SETOF text AS $$
 	BEGIN
-		RETURN QUERY EXECUTE format('select distinct %I from %I', column_name, table_name);
+		RETURN QUERY EXECUTE format('select distinct %I from %I.%I', column_name, schema_name, table_name);
 	END;
 $$ LANGUAGE plpgsql STABLE;
 
 -- migrate:down
-DROP FUNCTION distinct_values;
+DROP FUNCTION public.distinct_values;

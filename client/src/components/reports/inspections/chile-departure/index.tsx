@@ -27,6 +27,7 @@ const ChileDepartureInspections = ({
     'inspectionDate',
     SORT_ORDER.DESC,
     listLabels,
+    'inspection',
     'chile_departure_inspection_pallet',
   );
 

@@ -41,6 +41,7 @@ export const usePeruDepartureInspections = () => {
     variables: {
       columnName: 'exporter',
       tableName: 'peru_departure_inspection',
+      schemaName: 'inspection',
     },
   });
   const exporterDefaultList: string[] = pathOr(
@@ -62,6 +63,7 @@ export const usePeruDepartureInspections = () => {
     variables: {
       columnName: 'variety',
       tableName: 'peru_departure_inspection',
+      schemaName: 'inspection',
     },
   });
   const varietyDefaultList: string[] = pathOr(

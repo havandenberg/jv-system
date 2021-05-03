@@ -1,5 +1,5 @@
 -- migrate:up
-CREATE TABLE chile_departure_inspection_pallet (
+CREATE TABLE inspection.chile_departure_inspection_pallet (
 	id TEXT PRIMARY KEY,
 	lot_id TEXT NOT NULL,
 	lot_number TEXT NOT NULL,
@@ -51,7 +51,7 @@ CREATE TABLE chile_departure_inspection_pallet (
 	images_link TEXT NOT NULL
 );
 
-CREATE TYPE chile_departure_inspection AS (
+CREATE TYPE inspection.chile_departure_inspection AS (
 	lot_number text,
 	inspection_date date,
 	packing_date text,
@@ -68,5 +68,5 @@ CREATE TYPE chile_departure_inspection AS (
 );
 
 -- migrate:down
-DROP TABLE chile_departure_inspection_pallet;
-DROP TYPE chile_departure_inspection;
+DROP TABLE inspection.chile_departure_inspection_pallet;
+DROP TYPE inspection.chile_departure_inspection;

@@ -55,6 +55,7 @@ interface Props<T> {
   sortOrder: SortOrder;
   handleSortChange: (sortKey: keyof T, sortOrder?: SortOrder) => void;
   labelInfo: LabelInfo<T>;
+  schemaName: string;
   tableName: string;
 }
 
@@ -63,6 +64,7 @@ const ColumnLabel = <T extends {}>({
   sortOrder,
   handleSortChange,
   labelInfo: { defaultSortOrder, filterable, key, label, sortable },
+  schemaName,
   tableName,
 }: Props<T>) => {
   const active = sortBy === key;
@@ -108,6 +110,7 @@ const ColumnLabel = <T extends {}>({
         <l.Div cursor="pointer" position="absolute" left={-11} top={-1}>
           <FilterPanel<T>
             filterKey={key}
+            schemaName={schemaName}
             tableName={tableName}
             visible={hover}
           />

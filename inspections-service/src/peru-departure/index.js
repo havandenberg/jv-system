@@ -37,6 +37,7 @@ const fetchPeruDepartureInspections = () => {
     .request(DISTINCT_VALUES, {
       columnName: 'container_id',
       tableName: 'peru_departure_inspection',
+      schemaName: 'inspection',
     })
     .then(({ distinctValues: { nodes } }) => {
       ews

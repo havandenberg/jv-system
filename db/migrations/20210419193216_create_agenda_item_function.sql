@@ -1,22 +1,22 @@
 -- migrate:up
-CREATE FUNCTION bulk_upsert_agenda_item(
-  items agenda_item[]
+CREATE FUNCTION sales.bulk_upsert_agenda_item(
+  items sales.agenda_item[]
 )
-RETURNS setof agenda_item
+RETURNS setof sales.agenda_item
 AS $$
   DECLARE
-    i agenda_item;
-    vals agenda_item;
+    i sales.agenda_item;
+    vals sales.agenda_item;
   BEGIN
     FOREACH i IN ARRAY items LOOP
-      INSERT INTO agenda_item(
+      INSERT INTO sales.agenda_item(
         id,
         content,
         item_date,
         sort_order
       )
         VALUES (
-          COALESCE(i.id, (select nextval('agenda_item_id_seq'))),
+          COALESCE(i.id, (select nextval('sales.agenda_item_id_seq'))),
           i.content,
           i.item_date,
           i.sort_order
@@ -33,4 +33,4 @@ AS $$
 $$ LANGUAGE plpgsql VOLATILE STRICT SET search_path FROM CURRENT;
 
 -- migrate:down
-DROP FUNCTION bulk_upsert_agenda_item;
+DROP FUNCTION sales.bulk_upsert_agenda_item;

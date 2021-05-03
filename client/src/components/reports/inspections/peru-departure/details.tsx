@@ -57,10 +57,12 @@ const Details = () => {
   return (
     <Page
       actions={[
-        <b.Primary key={0} mr={th.spacing.sm}>
+        <b.Primary disabled key={0} mr={th.spacing.sm}>
           View Arrival
         </b.Primary>,
-        <b.Primary key={1}>Compare</b.Primary>,
+        <b.Primary disabled key={1}>
+          Compare
+        </b.Primary>,
       ]}
       breadcrumbs={breadcrumbs(id)}
       title="Departure Inspection - Peru"

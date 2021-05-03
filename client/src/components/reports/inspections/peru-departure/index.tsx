@@ -27,6 +27,7 @@ const PeruDepartureInspections = ({
     'inspectionDate',
     SORT_ORDER.DESC,
     listLabels,
+    'inspection',
     'peru_departure_inspection',
   );
 

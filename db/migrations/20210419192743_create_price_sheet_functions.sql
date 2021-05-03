@@ -1,5 +1,5 @@
 -- migrate:up
-CREATE FUNCTION bulk_upsert_price_category(
+CREATE FUNCTION sales.bulk_upsert_price_category(
   categories price_category[]
 )
 RETURNS setof price_category
@@ -29,7 +29,7 @@ AS $$
   END;
 $$ LANGUAGE plpgsql VOLATILE STRICT SET search_path FROM CURRENT;
 
-CREATE FUNCTION bulk_upsert_price_product(
+CREATE FUNCTION sales.bulk_upsert_price_product(
   products price_product[]
 )
 RETURNS setof price_product
@@ -65,7 +65,7 @@ AS $$
   END;
 $$ LANGUAGE plpgsql VOLATILE STRICT SET search_path FROM CURRENT;
 
-CREATE FUNCTION bulk_upsert_price_size(
+CREATE FUNCTION sales.bulk_upsert_price_size(
   sizes price_size[]
 )
 RETURNS setof price_size
@@ -95,17 +95,17 @@ AS $$
   END;
 $$ LANGUAGE plpgsql VOLATILE STRICT SET search_path FROM CURRENT;
 
-CREATE FUNCTION bulk_upsert_price_entry(
-  entries price_entry[]
+CREATE FUNCTION sales.bulk_upsert_price_entry(
+  entries sales.price_entry[]
 )
-RETURNS setof price_entry
+RETURNS setof sales.price_entry
 AS $$
   DECLARE
-    e price_entry;
-    vals price_entry;
+    e sales.price_entry;
+    vals sales.price_entry;
   BEGIN
     FOREACH e IN ARRAY entries LOOP
-      INSERT INTO price_entry(
+      INSERT INTO sales.price_entry(
         id,
         size_id,
         entry_date, 
@@ -114,7 +114,7 @@ AS $$
         highlight
       )
         VALUES (
-          COALESCE(e.id, (select nextval('price_entry_id_seq'))),
+          COALESCE(e.id, (select nextval('sales.price_entry_id_seq'))),
           e.size_id,
           e.entry_date,
           e.entry_description,
@@ -135,7 +135,7 @@ AS $$
 $$ LANGUAGE plpgsql VOLATILE STRICT SET search_path FROM CURRENT;
 
 -- migrate:down
-DROP FUNCTION bulk_upsert_price_category;
-DROP FUNCTION bulk_upsert_price_product;
-DROP FUNCTION bulk_upsert_price_size;
-DROP FUNCTION bulk_upsert_price_entry;
+DROP FUNCTION sales.bulk_upsert_price_category;
+DROP FUNCTION sales.bulk_upsert_price_product;
+DROP FUNCTION sales.bulk_upsert_price_size;
+DROP FUNCTION sales.bulk_upsert_price_entry;

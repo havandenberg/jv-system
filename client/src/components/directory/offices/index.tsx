@@ -32,6 +32,7 @@ const OfficeDirectory = ({
     'officeName',
     SORT_ORDER.ASC,
     listLabels,
+    'directory',
     'office',
   );
 

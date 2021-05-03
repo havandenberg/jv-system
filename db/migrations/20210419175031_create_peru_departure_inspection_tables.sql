@@ -1,5 +1,5 @@
 -- migrate:up
-CREATE TABLE peru_departure_inspection (
+CREATE TABLE inspection.peru_departure_inspection (
 	container_id TEXT NOT NULL PRIMARY KEY,
 	avg_bunches_per_box NUMERIC NOT NULL,
 	avg_net_weight NUMERIC NOT NULL,
@@ -24,7 +24,7 @@ CREATE TABLE peru_departure_inspection (
 	variety TEXT NOT NULL
 );
 
-CREATE TABLE peru_departure_inspection_pallet (
+CREATE TABLE inspection.peru_departure_inspection_pallet (
 	id BIGSERIAL PRIMARY KEY,
 	pallet_id TEXT NOT NULL,
 	container_id TEXT NOT NULL,
@@ -57,10 +57,10 @@ CREATE TABLE peru_departure_inspection_pallet (
 	total_defects_pct NUMERIC NOT NULL,
 	CONSTRAINT fk_container
 		FOREIGN KEY(container_id)
-		REFERENCES peru_departure_inspection(container_id)
+		REFERENCES inspection.peru_departure_inspection(container_id)
 		ON DELETE CASCADE
 );
 
 -- migrate:down
-DROP TABLE peru_departure_inspection;
-DROP TABLE peru_departure_inspection_pallet;
+DROP TABLE inspection.peru_departure_inspection;
+DROP TABLE inspection.peru_departure_inspection_pallet;

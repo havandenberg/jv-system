@@ -1,5 +1,13 @@
-query DISTINCT_VALUES($columnName: String, $tableName: String) {
-  distinctValues(columnName: $columnName, tableName: $tableName) {
+query DISTINCT_VALUES(
+  $columnName: String
+  $tableName: String
+  $schemaName: String
+) {
+  distinctValues(
+    columnName: $columnName
+    tableName: $tableName
+    schemaName: $schemaName
+  ) {
     nodes
   }
 }

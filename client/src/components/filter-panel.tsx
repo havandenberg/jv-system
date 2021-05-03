@@ -53,10 +53,12 @@ const Trigger = styled(l.Div)(
 
 const FilterPanel = <T extends {}>({
   filterKey,
+  schemaName,
   tableName,
   visible,
 }: {
   filterKey: keyof T;
+  schemaName: string;
   tableName: string;
   visible: boolean;
 }) => {
@@ -71,6 +73,7 @@ const FilterPanel = <T extends {}>({
     variables: {
       columnName: filterKey,
       tableName,
+      schemaName,
     },
   });
   const filterOptions: string[] = pathOr([], ['distinctValues', 'nodes'], data);

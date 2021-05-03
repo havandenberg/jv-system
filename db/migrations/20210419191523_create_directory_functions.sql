@@ -1,5 +1,5 @@
 -- migrate:up
-CREATE FUNCTION public.person_contact_search_text(IN person person_contact)
+CREATE FUNCTION directory.person_contact_search_text(IN person directory.person_contact)
     RETURNS text
     LANGUAGE 'sql'
     STABLE
@@ -17,10 +17,10 @@ SELECT CONCAT (
 		person.work_extension,
 		person.preferred_method,
 		person.roles
-	) FROM person_contact
+	) FROM directory.person_contact
 $BODY$;
 
-CREATE FUNCTION public.office_search_text(IN o office)
+CREATE FUNCTION directory.office_search_text(IN o directory.office)
     RETURNS TEXT
     LANGUAGE 'sql'
     STABLE
@@ -40,13 +40,13 @@ SELECT CONCAT (
 		o.postal_state,
 		o.zip_code,
 		c.company_name
-	) FROM office oo FULL JOIN company c ON (o.company_id = c.id) WHERE o.id = oo.id
+	) FROM directory.office oo FULL JOIN directory.company c ON (o.company_id = c.id) WHERE o.id = oo.id
 $BODY$;
 
-CREATE TYPE company_primary_contact AS (contact_name text, email text);
+CREATE TYPE directory.company_primary_contact AS (contact_name text, email text);
 
-CREATE FUNCTION public.company_primary_contact(IN c company)
-    RETURNS company_primary_contact
+CREATE FUNCTION directory.company_primary_contact(IN c company)
+    RETURNS directory.company_primary_contact
     LANGUAGE 'sql'
     STABLE
     PARALLEL UNSAFE
@@ -56,10 +56,10 @@ SELECT CONCAT (
 		first_name,
 		' ',
 		last_name
-	) as contact_name, email FROM person_contact WHERE company_id = c.id AND is_primary = true
+	) as contact_name, email FROM directory.person_contact WHERE company_id = c.id AND is_primary = true
 $BODY$;
 
-CREATE FUNCTION public.company_search_text(IN c company)
+CREATE FUNCTION directory.company_search_text(IN c directory.company)
     RETURNS text
     LANGUAGE 'sql'
     STABLE
@@ -71,12 +71,12 @@ SELECT CONCAT (
 		c.company_type,
 		c.notes,
 		c.website
-	) FROM company
+	) FROM directory.company
 $BODY$;
 
 -- migrate:down
-DROP FUNCTION person_contact_search_text;
-DROP FUNCTION office_search_text;
-DROP TYPE company_primary_contact;
-DROP FUNCTION company_primary_contact;
-DROP FUNCTION company_search_text;
+DROP FUNCTION directory.person_contact_search_text;
+DROP FUNCTION directory.office_search_text;
+DROP TYPE directory.company_primary_contact;
+DROP FUNCTION directory.company_primary_contact;
+DROP FUNCTION directory.company_search_text;

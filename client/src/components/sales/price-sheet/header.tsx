@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import styled from '@emotion/styled';
-import { add, format, getISOWeek, startOfISOWeek } from 'date-fns';
+import { add, format, startOfISOWeek } from 'date-fns';
 import { times } from 'ramda';
 
 import ArrowInCircle from 'assets/images/arrow-in-circle';
@@ -37,8 +37,6 @@ const Header = ({
   startDate,
 }: Props) => {
   const showForwardArrow = selectedWeekNumber < getCurrentWeekNumber() + 3;
-  const showBackwardArrow =
-    !editing || selectedWeekNumber > getISOWeek(new Date());
 
   const handleBackward = () => handleWeekChange(-1);
   const handleForward = () => handleWeekChange(1);
@@ -46,8 +44,7 @@ const Header = ({
   const handleKeyDown = (event: KeyboardEvent) => {
     if (event.ctrlKey) {
       if (event.code === 'ArrowRight' && showForwardArrow) handleForward();
-      else if (event.code === 'ArrowLeft' && showBackwardArrow)
-        handleBackward();
+      else if (event.code === 'ArrowLeft') handleBackward();
     }
   };
 
@@ -118,7 +115,7 @@ const Header = ({
             pt={th.spacing.xs}
           >
             <l.Flex alignCenter position="relative">
-              {isFirst && showBackwardArrow && (
+              {isFirst && (
                 <WeekArrowButton left={-26} onClick={handleBackward}>
                   <ArrowInCircle
                     fill={th.colors.brand.primary}

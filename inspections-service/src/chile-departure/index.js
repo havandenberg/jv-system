@@ -47,6 +47,7 @@ const fetchChileDepartureInspections = () => {
           .request(DISTINCT_VALUES, {
             columnName: 'id',
             tableName: 'chile_departure_inspection_pallet',
+            tableName: 'inspection',
           })
           .then(({ distinctValues: { nodes } }) => {
             const startIndex = 1;

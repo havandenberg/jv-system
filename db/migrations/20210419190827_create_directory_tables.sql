@@ -1,5 +1,5 @@
 -- migrate:up
-CREATE TABLE company (
+CREATE TABLE directory.company (
 	id TEXT PRIMARY KEY,
 	company_name TEXT NOT NULL,
 	company_type TEXT NOT NULL,
@@ -8,10 +8,10 @@ CREATE TABLE company (
 	website TEXT NOT NULL
 );
 
-CREATE TABLE person_contact (
+CREATE TABLE directory.person_contact (
 	id BIGSERIAL PRIMARY KEY,
 	company_id TEXT
-		REFERENCES company(id)
+		REFERENCES directory.company(id)
 		ON DELETE SET NULL,
 	first_name TEXT NOT NULL,
 	last_name TEXT NOT NULL,
@@ -27,10 +27,10 @@ CREATE TABLE person_contact (
 	roles TEXT NOT NULL
 );
 
-CREATE TABLE office (
+CREATE TABLE directory.office (
 	id TEXT PRIMARY KEY,
 	company_id TEXT
-		REFERENCES company(id)
+		REFERENCES directory.company(id)
 		ON DELETE SET NULL,
 	office_name TEXT NOT NULL,
 	office_description TEXT NOT NULL,
@@ -46,6 +46,6 @@ CREATE TABLE office (
 );
 
 -- migrate:down
-DROP TABLE person_contact;
-DROP TABLE company;
-DROP TABLE office;
+DROP TABLE directory.person_contact;
+DROP TABLE directory.company;
+DROP TABLE directory.office;

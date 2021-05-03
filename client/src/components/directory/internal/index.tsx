@@ -32,6 +32,7 @@ const InternalDirectory = ({
     'lastName',
     SORT_ORDER.ASC,
     listLabels,
+    'directory',
     'person_contact',
   );
 
