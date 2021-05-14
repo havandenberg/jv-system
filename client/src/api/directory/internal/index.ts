@@ -1,6 +1,7 @@
 import { useQuery } from '@apollo/client';
 import { loader } from 'graphql.macro';
 
+import { getOrderByString } from 'api/utils';
 import { SORT_ORDER } from 'hooks/use-columns';
 import {
   useSearchQueryParam,
@@ -13,12 +14,9 @@ const INTERNAL_CONTACT_LIST_QUERY = loader('./list.gql');
 
 export const useInternalContacts = () => {
   const [search = ''] = useSearchQueryParam();
-  const [
-    { sortBy = 'lastName', sortOrder = SORT_ORDER.ASC },
-  ] = useSortQueryParams();
-  const orderBy = `${sortBy
-    .replace(/([a-z])([A-Z])/, '$1_$2')
-    .toUpperCase()}_${sortOrder}`;
+  const [{ sortBy = 'lastName', sortOrder = SORT_ORDER.ASC }] =
+    useSortQueryParams();
+  const orderBy = getOrderByString(sortBy, sortOrder);
 
   const { data, error, loading } = useQuery<Query>(
     INTERNAL_CONTACT_LIST_QUERY,

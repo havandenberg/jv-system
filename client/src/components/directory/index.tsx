@@ -4,19 +4,21 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import { Tab, useTabBar } from 'components/tab-bar';
 import useSearch from 'hooks/use-search';
 
-import CompanyDirectory from './company';
-import CompanyDetails from './company/details';
+import CustomerDirectory from './customers';
+import CustomerDetails from './customers/details';
+import ShipperDirectory from './shippers';
+import ShipperDetails from './shippers/details';
 import InternalDirectory from './internal';
 import InternalDetails from './internal/details';
-import OfficeDirectory from './offices';
-import OfficeDetails from './offices/details';
+import WarehouseDirectory from './warehouses';
+import WarehouseDetails from './warehouses/details';
 import SendEmailModal from './send-email';
 
 export const breadcrumbs = [{ text: 'Directory', to: `/directory` }];
 
 export enum DirectoryTypes {
   ALIASES = 'aliases',
-  OFFICES = 'offices',
+  WAREHOUSES = 'warehouses',
   INTERNAL = 'internal',
   SHIPPERS = 'shippers',
   CUSTOMERS = 'customers',
@@ -40,9 +42,9 @@ const tabs: Tab[] = [
     to: `/directory/${DirectoryTypes.INTERNAL}`,
   },
   {
-    id: DirectoryTypes.OFFICES,
-    text: 'Offices',
-    to: `/directory/${DirectoryTypes.OFFICES}`,
+    id: DirectoryTypes.WAREHOUSES,
+    text: 'Warehouses',
+    to: `/directory/${DirectoryTypes.WAREHOUSES}`,
   },
   {
     id: DirectoryTypes.SHIPPERS,
@@ -59,15 +61,15 @@ interface SelectedItem {
 
 export interface SelectionState {
   aliases: SelectedItem[];
-  offices: SelectedItem[];
   internal: SelectedItem[];
   shippers: SelectedItem[];
   customers: SelectedItem[];
+  warehouses: SelectedItem[];
 }
 
 const initialSelectionState = {
   aliases: [],
-  offices: [],
+  warehouses: [],
   internal: [],
   shippers: [],
   customers: [],
@@ -147,14 +149,13 @@ const Directory = () => {
       <Route
         exact
         path="/directory/shippers/:id"
-        render={() => <CompanyDetails companyType="shipper" />}
+        render={() => <ShipperDetails />}
       />
       <Route
         exact
         path="/directory/shippers"
         render={() => (
-          <CompanyDirectory
-            companyType="shipper"
+          <ShipperDirectory
             selectedItems={selectedItems['shippers']}
             selectItem={selectItem('shippers')}
             {...subDirectoryProps}
@@ -164,28 +165,31 @@ const Directory = () => {
       <Route
         exact
         path="/directory/customers/:id"
-        render={() => <CompanyDetails companyType="customer" />}
+        render={() => <CustomerDetails />}
       />
       <Route
         exact
         path="/directory/customers"
         render={() => (
-          <CompanyDirectory
-            companyType="customer"
+          <CustomerDirectory
             selectedItems={selectedItems['customers']}
             selectItem={selectItem('customers')}
             {...subDirectoryProps}
           />
         )}
       />
-      <Route exact path="/directory/offices/:id" component={OfficeDetails} />
       <Route
         exact
-        path="/directory/offices"
+        path="/directory/warehouses/:id"
+        component={WarehouseDetails}
+      />
+      <Route
+        exact
+        path="/directory/warehouses"
         render={() => (
-          <OfficeDirectory
-            selectedItems={selectedItems['offices']}
-            selectItem={selectItem('offices')}
+          <WarehouseDirectory
+            selectedItems={selectedItems['warehouses']}
+            selectItem={selectItem('warehouses')}
             {...subDirectoryProps}
           />
         )}

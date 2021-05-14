@@ -1,0 +1,26 @@
+query CUSTOMER_LIST(
+  $city: [String!]
+  $postalState: [String!]
+  $orderBy: [CustomersOrderBy!]
+  $search: String
+) {
+  customers(
+    condition: { active: true }
+    filter: {
+      city: { in: $city }
+      searchText: { includesInsensitive: $search }
+      postalState: { in: $postalState }
+    }
+    orderBy: $orderBy
+  ) {
+    nodes {
+      id
+      city
+      customerName
+      phone
+      postalState
+      zipCode
+    }
+    totalCount
+  }
+}

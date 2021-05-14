@@ -1,10 +1,7 @@
-query INTERNAL_CONTACT_LIST(
-  $orderBy: [PersonContactsOrderBy!]
-  $search: String
-) {
+query INTERNAL_CONTACT_LIST($orderBy: [PersonContactsOrderBy!]) {
   personContacts(
-    condition: { companyId: "jac-vandenberg" }
-    filter: { searchText: { includesInsensitive: $search } }
+    condition: { isInternal: true }
+    # filter: { searchText: { includesInsensitive: $search } }
     orderBy: $orderBy
   ) {
     nodes {

@@ -1,14 +1,7 @@
 query INTERNAL_CONTACT_DETAILS($id: BigInt!) {
   personContact(id: $id) {
-    companyId
     cellPhone
-    contactAliasPersonContacts {
-      nodes {
-        alias {
-          aliasName
-        }
-      }
-    }
+    customerId
     email
     firstName
     homePhone
@@ -18,6 +11,8 @@ query INTERNAL_CONTACT_DETAILS($id: BigInt!) {
     preferredMethod
     roles
     secondaryEmail
+    shipperId
+    warehouseId
     workExtension
     workPhone
   }

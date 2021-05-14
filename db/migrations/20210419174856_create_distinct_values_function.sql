@@ -5,5 +5,12 @@ CREATE FUNCTION public.distinct_values(schema_name text, table_name text, column
 	END;
 $$ LANGUAGE plpgsql STABLE;
 
+CREATE SCHEMA directory;
+CREATE SCHEMA inspection;
+CREATE SCHEMA sales;
+
 -- migrate:down
 DROP FUNCTION public.distinct_values;
+DROP SCHEMA directory;
+DROP SCHEMA inspection;
+DROP SCHEMA sales;

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useQuery } from '@apollo/client';
+import { OperationVariables, useQuery } from '@apollo/client';
 import styled from '@emotion/styled';
+import { snakeCase } from 'change-case';
 import { loader } from 'graphql.macro';
 import { pathOr } from 'ramda';
 
@@ -10,27 +11,30 @@ import usePrevious from 'hooks/use-previous';
 import { useQueryValue } from 'hooks/use-query-params';
 import { Query } from 'types';
 import { FilterCheckbox } from 'ui/checkbox';
-import l from 'ui/layout';
+import l, { DivProps, divPropsSet } from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 
 const DISTINCT_VALUES_QUERY = loader('../api/distinct-values.gql');
 
-const Panel = styled(l.Div)({
-  borderRadius: th.borderRadii.default,
-  border: th.borders.secondary,
-  background: th.colors.background,
-  boxShadow: th.shadows.box,
-  cursor: 'default',
-  height: 300,
-  left: `-${th.spacing.xs}`,
-  padding: th.spacing.sm,
-  opacity: 1,
-  position: 'absolute',
-  top: 24,
-  width: 300,
-  zIndex: 5,
-});
+const Panel = styled(l.Div)(
+  {
+    borderRadius: th.borderRadii.default,
+    border: th.borders.secondary,
+    background: th.colors.background,
+    boxShadow: th.shadows.box,
+    cursor: 'default',
+    maxHeight: 300,
+    left: `-${th.spacing.xs}`,
+    padding: th.spacing.sm,
+    opacity: 1,
+    position: 'absolute',
+    top: 24,
+    width: 300,
+    zIndex: 5,
+  },
+  divPropsSet,
+);
 
 const Trigger = styled(l.Div)(
   ({
@@ -51,32 +55,66 @@ const Trigger = styled(l.Div)(
   }),
 );
 
-const FilterPanel = <T extends {}>({
-  filterKey,
-  schemaName,
-  tableName,
-  visible,
-}: {
+const SearchInput = styled.input({ width: 100 });
+
+export interface FilterPanelProps {
+  columnCount?: number;
+  customStyles?: DivProps;
+  queryProps?: {
+    query: any;
+    queryName: string;
+    queryVariables?: OperationVariables;
+  };
+  showSearch?: boolean;
+}
+
+interface Props<T> extends FilterPanelProps {
   filterKey: keyof T;
   schemaName: string;
   tableName: string;
   visible: boolean;
-}) => {
+}
+
+const FilterPanel = <T extends {}>({
+  columnCount = 2,
+  customStyles,
+  filterKey,
+  queryProps,
+  schemaName,
+  showSearch,
+  tableName,
+  visible,
+}: Props<T>) => {
   const [show, setShow] = useState(false);
+  const [search, setSearch] = useState('');
   const ref = useOutsideClickRef(() => {
     setShow(false);
   });
   const [tabId] = useQueryValue('reportType');
   const previousTabId = usePrevious(tabId);
 
-  const { data } = useQuery<Query>(DISTINCT_VALUES_QUERY, {
-    variables: {
-      columnName: filterKey,
-      tableName,
-      schemaName,
-    },
+  const defaultQueryVariables = {
+    columnName: snakeCase(`${filterKey}`),
+    tableName,
+    schemaName,
+  };
+
+  const query = queryProps ? queryProps.query : DISTINCT_VALUES_QUERY;
+  const queryName = queryProps ? queryProps.queryName : 'distinctValues';
+  const variables = queryProps
+    ? queryProps.queryVariables || defaultQueryVariables
+    : defaultQueryVariables;
+
+  const { data } = useQuery<Query>(query, {
+    variables,
   });
-  const filterOptions: string[] = pathOr([], ['distinctValues', 'nodes'], data);
+  const filterOptions: string[] = pathOr([], [queryName, 'nodes'], data)
+    .filter(
+      (option: string) =>
+        !!option && option.toLowerCase().includes(search.toLowerCase()),
+    )
+    .map((option: string) => option.trim())
+    .sort();
   const previousFilterOptions = usePrevious(filterOptions);
   const [queryValue, setQueryValue] = useQueryValue(`${filterKey}`);
   const queryValueList = queryValue ? queryValue.split(',') : [];
@@ -146,17 +184,28 @@ const FilterPanel = <T extends {}>({
         <FilterImg height={14} width={14} />
       </Trigger>
       {show && (
-        <Panel key={`${filterKey}`}>
+        <Panel key={`${filterKey}`} {...customStyles}>
           <l.Flex
+            alignCenter
             justifyBetween
             mb={th.spacing.sm}
             mt={th.spacing.xs}
             mx={th.spacing.xs}
             pb={th.spacing.xs}
           >
-            <ty.CaptionText mr={th.spacing.md} secondary>
-              Filter by:
-            </ty.CaptionText>
+            <l.Flex alignCenter>
+              <ty.CaptionText mr={th.spacing.sm} secondary>
+                Filter by:
+              </ty.CaptionText>
+              {showSearch && (
+                <SearchInput
+                  onChange={(e) => {
+                    setSearch(e.target.value);
+                  }}
+                  value={search}
+                />
+              )}
+            </l.Flex>
             <l.Flex>
               {selectedValues.length > 0 && (
                 <ty.CaptionText link onClick={clear} secondary>
@@ -175,14 +224,20 @@ const FilterPanel = <T extends {}>({
               )}
             </l.Flex>
           </l.Flex>
-          {filterOptions.map((option) => (
-            <FilterCheckbox
-              checked={selectedValues.includes(option)}
-              key={option}
-              label={option}
-              onChange={() => handleFilterChange(option)}
-            />
-          ))}
+          <l.Grid
+            gridTemplateColumns={`repeat(${columnCount}, 1fr)`}
+            maxHeight={260}
+            overflowY="auto"
+          >
+            {filterOptions.map((option) => (
+              <FilterCheckbox
+                checked={selectedValues.includes(option)}
+                key={option}
+                label={option}
+                onChange={() => handleFilterChange(option)}
+              />
+            ))}
+          </l.Grid>
         </Panel>
       )}
     </l.Div>

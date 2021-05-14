@@ -1,12 +1,22 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import SearchImg from 'assets/images/search';
 import TextInput, { TextInputProps } from 'ui/input';
 import th from 'ui/theme';
 import { useSearchQueryParam } from './use-query-params';
+import useDebounce from './use-debounce';
 
 const useSearch = (props?: TextInputProps) => {
   const [search, setSearch] = useSearchQueryParam();
+  const [localSearch, setLocalSearch] = useState<string | undefined>();
+
+  const debouncedSearch = useDebounce(localSearch);
+
+  useEffect(() => {
+    if (debouncedSearch !== search) {
+      setSearch(debouncedSearch, 'replaceIn');
+    }
+  }, [debouncedSearch, search, setSearch]);
 
   return {
     search,
@@ -14,13 +24,13 @@ const useSearch = (props?: TextInputProps) => {
       <TextInput
         Icon={<SearchImg height={th.sizes.sm} />}
         onClear={() => {
-          setSearch(undefined, 'replaceIn');
+          setLocalSearch(undefined);
         }}
         onChange={(e) => {
-          setSearch(e.target.value || undefined, 'replaceIn');
+          setLocalSearch(e.target.value || undefined);
         }}
         placeholder="Search"
-        value={search || ''}
+        value={localSearch || ''}
         {...props}
       />
     ),

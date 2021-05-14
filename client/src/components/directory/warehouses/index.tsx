@@ -4,8 +4,9 @@ import { isEmpty } from 'ramda';
 import api from 'api';
 import { DataMessage } from 'components/page/message';
 import Page from 'components/page';
+import VirtualizedList from 'components/virtualized-list';
 import useColumns, { SORT_ORDER } from 'hooks/use-columns';
-import { Office } from 'types';
+import { Warehouse } from 'types';
 import { LineItemCheckbox } from 'ui/checkbox';
 import l from 'ui/layout';
 import th from 'ui/theme';
@@ -15,9 +16,9 @@ import { breadcrumbs, SubDirectoryProps } from '..';
 import ListItem from '../list-item';
 import { listLabels } from './data-utils';
 
-const gridTemplateColumns = '30px 1fr 1fr 1fr 2fr 30px';
+const gridTemplateColumns = '30px 2.5fr 1.5fr 1.5fr 0.5fr 30px';
 
-const OfficeDirectory = ({
+const WarehouseDirectory = ({
   actions,
   Search,
   selectedItems,
@@ -25,15 +26,15 @@ const OfficeDirectory = ({
   TabBar,
   toggleSelectAll,
 }: SubDirectoryProps) => {
-  const { data, loading, error } = api.useOffices();
+  const { data, loading, error } = api.useWarehouses();
   const items = data ? data.nodes : [];
 
-  const columnLabels = useColumns<Office>(
-    'officeName',
+  const columnLabels = useColumns<Warehouse>(
+    'warehouseName',
     SORT_ORDER.ASC,
     listLabels,
     'directory',
-    'office',
+    'warehouse',
   );
 
   const isAllSelected =
@@ -42,10 +43,10 @@ const OfficeDirectory = ({
   const handleSelectAll = () => {
     toggleSelectAll(
       isAllSelected,
-      (items as Office[]).map((office) => ({
-        id: office.id,
+      (items as Warehouse[]).map((warehouse) => ({
+        id: warehouse.id,
         email: '',
-        description: ` - Office`,
+        description: ` - Warehouse`,
       })),
     );
   };
@@ -71,6 +72,7 @@ const OfficeDirectory = ({
                 gridTemplateColumns={gridTemplateColumns}
                 mb={th.spacing.sm}
                 pl={th.spacing.sm}
+                pr={data ? (data.totalCount > 12 ? th.spacing.md : 0) : 0}
               >
                 <LineItemCheckbox
                   checked={isAllSelected}
@@ -82,36 +84,42 @@ const OfficeDirectory = ({
           )}
         </>
       }
-      title="Office Directory"
+      title="Warehouse Directory"
     >
       {!isEmpty(items) ? (
-        items.map(
-          (item, idx) =>
-            item && (
-              <ListItem<Office>
-                data={item}
-                gridTemplateColumns={gridTemplateColumns}
-                key={idx}
-                listLabels={listLabels}
-                onSelectItem={() =>
-                  selectItem({
-                    id: item.id,
-                    email: '',
-                    description: ` - Office`,
-                  })
-                }
-                selected={!!selectedItems.find((it) => it.id === item.id)}
-                slug={`offices/${item.id}`}
-              />
-            ),
-        )
+        <VirtualizedList
+          rowCount={data ? data.totalCount : 0}
+          rowRenderer={({ key, index, style }) => {
+            const item = items[index];
+            return (
+              item && (
+                <div key={key} style={style}>
+                  <ListItem<Warehouse>
+                    data={item}
+                    gridTemplateColumns={gridTemplateColumns}
+                    listLabels={listLabels}
+                    onSelectItem={() =>
+                      selectItem({
+                        id: item.id,
+                        email: '',
+                        description: ` - Warehouse`,
+                      })
+                    }
+                    selected={!!selectedItems.find((it) => it.id === item.id)}
+                    slug={`warehouses/${item.id}`}
+                  />
+                </div>
+              )
+            );
+          }}
+        />
       ) : (
         <DataMessage
           data={items}
           error={error}
           loading={loading}
           emptyProps={{
-            header: `No Offices Found 😔`,
+            header: `No Warehouses Found 😔`,
             text: 'Modify search parameters to view more results.',
           }}
         />
@@ -120,4 +128,4 @@ const OfficeDirectory = ({
   );
 };
 
-export default OfficeDirectory;
+export default WarehouseDirectory;

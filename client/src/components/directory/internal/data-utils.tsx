@@ -72,10 +72,6 @@ export const baseLabels: PersonContactLabelInfo[] = [
     label: 'Work Extension',
   },
   {
-    key: 'preferredMethod',
-    label: 'Preferred Contact Method',
-  },
-  {
     key: 'roles',
     label: 'Roles',
   },

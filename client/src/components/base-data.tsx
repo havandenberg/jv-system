@@ -5,6 +5,7 @@ import { LabelInfo } from 'components/column-label';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
+import { formatPhoneNumber } from 'utils/format';
 
 export const baseDataTransforms = {
   link: (val: any) => (
@@ -12,7 +13,9 @@ export const baseDataTransforms = {
       {val}
     </l.Anchor>
   ),
-  phone: (val: any) => <l.Anchor href={`tel:${val}`}>{val}</l.Anchor>,
+  phone: (val: any) => (
+    <l.Anchor href={`tel:${val}`}>{formatPhoneNumber(val)}</l.Anchor>
+  ),
   email: (val: any) => <l.Anchor href={`mailto:${val}`}>{val}</l.Anchor>,
 };
 

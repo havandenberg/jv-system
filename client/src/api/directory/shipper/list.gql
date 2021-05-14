@@ -1,0 +1,23 @@
+query SHIPPER_LIST(
+  $country: [String!]
+  $orderBy: [ShippersOrderBy!]
+  $search: String
+) {
+  shippers(
+    filter: {
+      country: { id: { in: $country } }
+      searchText: { includesInsensitive: $search }
+    }
+    orderBy: $orderBy
+  ) {
+    nodes {
+      id
+      country {
+        countryName
+      }
+      groupId
+      shipperName
+    }
+    totalCount
+  }
+}

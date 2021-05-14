@@ -1,0 +1,25 @@
+query WAREHOUSE_LIST(
+  $city: [String!]
+  $postalState: [String!]
+  $orderBy: [WarehousesOrderBy!]
+  $search: String
+) {
+  warehouses(
+    filter: {
+      city: { in: $city }
+      searchText: { includesInsensitive: $search }
+      postalState: { in: $postalState }
+    }
+    orderBy: $orderBy
+  ) {
+    nodes {
+      id
+      city
+      phone
+      postalState
+      zipCode
+      warehouseName
+    }
+    totalCount
+  }
+}

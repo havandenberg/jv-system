@@ -1,0 +1,17 @@
+query CUSTOMER_DETAILS($id: String!) {
+  customer(id: $id) {
+    address1
+    address2
+    city
+    country {
+      countryName
+    }
+    customerName
+    id
+    notes
+    phone
+    postalState
+    website
+    zipCode
+  }
+}

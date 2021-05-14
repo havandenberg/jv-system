@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 
 import UpArrow from 'assets/images/up-arrow';
 import { baseDataTransforms } from 'components/base-data';
-import FilterPanel from 'components/filter-panel';
+import FilterPanel, { FilterPanelProps } from 'components/filter-panel';
 import { SortOrder, SORT_ORDER } from 'hooks/use-columns';
 import l from 'ui/layout';
 import th from 'ui/theme';
@@ -45,9 +45,10 @@ export interface LabelInfo<T> {
   getValue?: (data: T) => React.ReactNode;
   key: keyof T;
   label: string;
+  filterPanelProps?: FilterPanelProps;
   sortable?: boolean;
-  transformValue?: (val: any) => any;
   transformKey?: keyof typeof baseDataTransforms;
+  transformValue?: (val: any) => any;
 }
 
 interface Props<T> {
@@ -63,7 +64,14 @@ const ColumnLabel = <T extends {}>({
   sortBy,
   sortOrder,
   handleSortChange,
-  labelInfo: { defaultSortOrder, filterable, key, label, sortable },
+  labelInfo: {
+    defaultSortOrder,
+    filterPanelProps,
+    filterable,
+    key,
+    label,
+    sortable,
+  },
   schemaName,
   tableName,
 }: Props<T>) => {
@@ -113,6 +121,7 @@ const ColumnLabel = <T extends {}>({
             schemaName={schemaName}
             tableName={tableName}
             visible={hover}
+            {...filterPanelProps}
           />
         </l.Div>
       )}

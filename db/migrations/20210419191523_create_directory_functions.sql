@@ -20,46 +20,7 @@ SELECT CONCAT (
 	) FROM directory.person_contact
 $BODY$;
 
-CREATE FUNCTION directory.office_search_text(IN o directory.office)
-    RETURNS TEXT
-    LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-SELECT CONCAT (
-		o.office_name,
-		o.office_description,
-		o.email,
-		o.secondary_email,
-		o.phone,
-		o.secondary_phone,
-		o.address_1,
-		o.address_2,
-		o.city,
-		o.postal_state,
-		o.zip_code,
-		c.company_name
-	) FROM directory.office oo FULL JOIN directory.company c ON (o.company_id = c.id) WHERE o.id = oo.id
-$BODY$;
-
-CREATE TYPE directory.company_primary_contact AS (contact_name text, email text);
-
-CREATE FUNCTION directory.company_primary_contact(IN c company)
-    RETURNS directory.company_primary_contact
-    LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-SELECT CONCAT (
-		first_name,
-		' ',
-		last_name
-	) as contact_name, email FROM directory.person_contact WHERE company_id = c.id AND is_primary = true
-$BODY$;
-
-CREATE FUNCTION directory.company_search_text(IN c directory.company)
+CREATE FUNCTION directory.shipper_search_text(IN s directory.shipper)
     RETURNS text
     LANGUAGE 'sql'
     STABLE
@@ -67,16 +28,73 @@ CREATE FUNCTION directory.company_search_text(IN c directory.company)
     COST 100
 AS $BODY$
 SELECT CONCAT (
-		c.company_name,
-		c.company_type,
-		c.notes,
-		c.website
-	) FROM directory.company
+		s.id,
+		s.shipper_name,
+		s.country_id,
+		c.country_name,
+		s.group_id,
+		s.notes,
+		s.website
+	) FROM directory.shipper ss FULL JOIN directory.country c ON (s.country_id = c.id) WHERE s.id = ss.id
+$BODY$;
+
+CREATE FUNCTION directory.customer_search_text(IN cu directory.customer)
+    RETURNS text
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+SELECT CONCAT (
+		cu.id,
+		cu.customer_name,
+		cu.phone,
+		cu.address_1,
+		cu.address_2,
+		cu.city,
+		cu.postal_state,
+		cu.zip_code,
+		cu.country_id,
+		c.country_name,
+		cu.notes,
+		cu.website
+	) FROM directory.customer ccu FULL JOIN directory.country c ON (cu.country_id = c.id) WHERE cu.id = ccu.id
+$BODY$;
+
+CREATE FUNCTION directory.customer_distinct_values(column_name text, condition_name text, condition_value text) RETURNS SETOF text AS $$
+	BEGIN
+		RETURN QUERY EXECUTE format('select distinct %I from directory.customer where %I = %s', column_name, condition_name, condition_value);
+	END;
+$$ LANGUAGE plpgsql STABLE;
+
+CREATE FUNCTION directory.warehouse_search_text(IN w directory.warehouse)
+    RETURNS TEXT
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+SELECT CONCAT (
+		w.warehouse_name,
+		w.phone,
+		w.address_1,
+		w.address_2,
+		w.address_3,
+		w.city,
+		w.postal_state,
+		w.zip_code,
+		w.country_id,
+		c.country_name,
+		w.out_queue,
+		w.state_tax_code,
+		w.county_tax_code,
+		w.city_tax_code,
+		w.misc_tax_code
+	) FROM directory.warehouse ww FULL JOIN directory.country c ON (w.country_id = c.id) WHERE w.id = ww.id
 $BODY$;
 
 -- migrate:down
+DROP FUNCTION directory.shipper_search_text;
+DROP FUNCTION directory.customer_search_text;
+DROP FUNCTION directory.warehouse_search_text;
 DROP FUNCTION directory.person_contact_search_text;
-DROP FUNCTION directory.office_search_text;
-DROP TYPE directory.company_primary_contact;
-DROP FUNCTION directory.company_primary_contact;
-DROP FUNCTION directory.company_search_text;

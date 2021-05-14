@@ -1,0 +1,13 @@
+query SHIPPER_DETAILS($id: String!) {
+  shipper(id: $id) {
+    country {
+      countryName
+    }
+    groupId
+    id
+    logoSrc
+    notes
+    shipperName
+    website
+  }
+}

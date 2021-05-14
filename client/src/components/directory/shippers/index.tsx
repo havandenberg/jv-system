@@ -1,12 +1,12 @@
 import React from 'react';
-import { sentenceCase } from 'change-case';
 import { isEmpty } from 'ramda';
 
 import api from 'api';
 import { DataMessage } from 'components/page/message';
 import Page from 'components/page';
+import VirtualizedList from 'components/virtualized-list';
 import useColumns, { SORT_ORDER } from 'hooks/use-columns';
-import { Company } from 'types';
+import { Shipper } from 'types';
 import { LineItemCheckbox } from 'ui/checkbox';
 import l from 'ui/layout';
 import th from 'ui/theme';
@@ -16,44 +16,38 @@ import { breadcrumbs, SubDirectoryProps } from '..';
 import ListItem from '../list-item';
 import { listLabels } from './data-utils';
 
-const gridTemplateColumns = '30px 1fr 3fr 3fr 3fr 30px';
+const gridTemplateColumns = '30px 1fr 3fr 2fr 2fr 30px';
 
-interface Props extends SubDirectoryProps {
-  companyType: 'shipper' | 'customer';
-}
-
-const CompanyDirectory = ({
+const ShipperDirectory = ({
   actions,
-  companyType,
   Search,
   selectedItems,
   selectItem,
   TabBar,
   toggleSelectAll,
-}: Props) => {
-  const { data, loading, error } = api.useCompanies(companyType);
+}: SubDirectoryProps) => {
+  const { data, loading, error } = api.useShippers();
   const items = data ? data.nodes : [];
 
-  const columnLabels = useColumns<Company>(
-    'companyName',
+  const columnLabels = useColumns<Shipper>(
+    'shipperName',
     SORT_ORDER.ASC,
     listLabels,
     'directory',
-    'company',
+    'shipper',
   );
 
   const isAllSelected =
     selectedItems.length > 0 &&
     selectedItems.length === (data ? data.totalCount : -1);
+
   const handleSelectAll = () => {
     toggleSelectAll(
       isAllSelected,
-      (items as Company[]).map((company) => ({
-        id: company.id,
-        email: company.primaryContact?.email || '',
-        description: `${
-          company.primaryContact?.contactName || ''
-        } - ${sentenceCase(companyType)}`,
+      (items as Shipper[]).map((shipper) => ({
+        id: shipper.id,
+        email: '',
+        description: ` - Shipper`,
       })),
     );
   };
@@ -79,6 +73,7 @@ const CompanyDirectory = ({
                 gridTemplateColumns={gridTemplateColumns}
                 mb={th.spacing.sm}
                 pl={th.spacing.sm}
+                pr={data ? (data.totalCount > 12 ? th.spacing.md : 0) : 0}
               >
                 <LineItemCheckbox
                   checked={isAllSelected}
@@ -90,42 +85,42 @@ const CompanyDirectory = ({
           )}
         </>
       }
-      title={`${companyType === 'shipper' ? 'Shipper' : 'Customer'} Directory`}
+      title="Shipper Directory"
     >
       {!isEmpty(items) ? (
-        items.map(
-          (item, idx) =>
-            item && (
-              <ListItem<Company>
-                data={item}
-                gridTemplateColumns={gridTemplateColumns}
-                key={idx}
-                listLabels={listLabels}
-                onSelectItem={() =>
-                  selectItem({
-                    id: item.id,
-                    email: item.primaryContact?.email || '',
-                    description: `${
-                      item.primaryContact?.contactName || ''
-                    } - ${sentenceCase(companyType)}`,
-                  })
-                }
-                selected={!!selectedItems.find((it) => it.id === item.id)}
-                slug={`${
-                  companyType === 'shipper' ? 'shippers' : 'customers'
-                }/${item.id}`}
-              />
-            ),
-        )
+        <VirtualizedList
+          rowCount={data ? data.totalCount : 0}
+          rowRenderer={({ key, index, style }) => {
+            const item = items[index];
+            return (
+              item && (
+                <div key={key} style={style}>
+                  <ListItem<Shipper>
+                    data={item}
+                    gridTemplateColumns={gridTemplateColumns}
+                    listLabels={listLabels}
+                    onSelectItem={() =>
+                      selectItem({
+                        id: item.id,
+                        email: '',
+                        description: ` - Shippers`,
+                      })
+                    }
+                    selected={!!selectedItems.find((it) => it.id === item.id)}
+                    slug={`shippers/${item.id}`}
+                  />
+                </div>
+              )
+            );
+          }}
+        />
       ) : (
         <DataMessage
           data={items}
           error={error}
           loading={loading}
           emptyProps={{
-            header: `No ${
-              companyType === 'shipper' ? 'Shippers' : 'Customers'
-            } Found 😔`,
+            header: 'No Shippers Found 😔',
             text: 'Modify search parameters to view more results.',
           }}
         />
@@ -134,4 +129,4 @@ const CompanyDirectory = ({
   );
 };
 
-export default CompanyDirectory;
+export default ShipperDirectory;
