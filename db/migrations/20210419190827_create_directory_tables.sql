@@ -68,15 +68,15 @@ CREATE TABLE directory.person_contact (
 	first_name TEXT NOT NULL,
 	last_name TEXT NOT NULL,
 	is_primary BOOLEAN NOT NULL,
-	email TEXT NOT NULL,
-	secondary_email TEXT NOT NULL,
-	home_phone TEXT NOT NULL,
-	cell_phone TEXT NOT NULL,
-	work_phone TEXT NOT NULL,
-	work_extension TEXT NOT NULL,
-	image_src TEXT NOT NULL,
+	email TEXT,
+	secondary_email TEXT,
+	home_phone TEXT,
+	cell_phone TEXT,
+	work_phone TEXT,
+	work_extension TEXT,
+	image_src TEXT,
 	is_internal BOOLEAN NOT NULL,
-	roles TEXT NOT NULL
+	roles TEXT
 );
 
 -- migrate:down

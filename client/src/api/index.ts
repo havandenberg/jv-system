@@ -6,8 +6,8 @@ import * as internalDirectory from 'api/directory/internal';
 import * as customerDirectory from 'api/directory/customer';
 import * as shipperDirectory from 'api/directory/shipper';
 import * as warehouseDirectory from 'api/directory/warehouse';
-import * as priceSheet from 'api/inventory/price-sheet';
-import * as agenda from 'api/inventory/agenda';
+import * as priceSheet from 'api/sales/price-sheet';
+import * as agenda from 'api/sales/agenda';
 
 const baseURL = process.env.REACT_APP_SERVER_URL;
 

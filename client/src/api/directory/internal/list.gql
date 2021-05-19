@@ -1,7 +1,10 @@
-query INTERNAL_CONTACT_LIST($orderBy: [PersonContactsOrderBy!]) {
+query INTERNAL_CONTACT_LIST(
+  $search: String
+  $orderBy: [PersonContactsOrderBy!]
+) {
   personContacts(
     condition: { isInternal: true }
-    # filter: { searchText: { includesInsensitive: $search } }
+    filter: { searchText: { includesInsensitive: $search } }
     orderBy: $orderBy
   ) {
     nodes {
@@ -9,10 +12,8 @@ query INTERNAL_CONTACT_LIST($orderBy: [PersonContactsOrderBy!]) {
       firstName
       lastName
       email
-      cellPhone
       workPhone
-      roles
-      imageSrc
+      workExtension
     }
     totalCount
   }

@@ -22,7 +22,7 @@ SELECT CONCAT (
 		CAST(i.condition_score AS text),
 		i.comments,
 		i.category,
-		CAST(i.i_date AS text),
+		CAST(i.inspection_date AS text),
 		CAST(i.packing_date AS text),
 		i.packing_house,
 		i.packing_material,

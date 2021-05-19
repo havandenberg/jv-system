@@ -8,7 +8,6 @@ query INTERNAL_CONTACT_DETAILS($id: BigInt!) {
     imageSrc
     isPrimary
     lastName
-    preferredMethod
     roles
     secondaryEmail
     shipperId

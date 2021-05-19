@@ -18,9 +18,10 @@ const breadcrumbs = (id: string) => [
 ];
 
 const Details = () => {
-  const { id } = useParams<{
-    id: string;
-  }>();
+  const { id } =
+    useParams<{
+      id: string;
+    }>();
   const { data, error, loading } = api.useShipper(id);
 
   return (
@@ -29,7 +30,9 @@ const Details = () => {
       title={data ? data.shipperName : 'Directory - Shipper'}
     >
       {data ? (
-        <BaseData<Shipper> data={data} labels={baseLabels} />
+        <>
+          <BaseData<Shipper> data={data} labels={baseLabels} />
+        </>
       ) : (
         <DataMessage data={data || []} error={error} loading={loading} />
       )}

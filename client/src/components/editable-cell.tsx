@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import {
+  borderSet,
+  BorderSetProps,
   color,
   ColorProps,
   fontWeight,
@@ -17,6 +19,7 @@ import HighlightImg from 'assets/images/highlight';
 import l, { DivProps } from 'ui/layout';
 import th from 'ui/theme';
 import { hexColorWithTransparency } from 'ui/utils';
+import usePrevious from 'hooks/use-previous';
 
 const CELL_HEIGHT = 28;
 
@@ -27,6 +30,7 @@ const Input = styled.input<{ dirty: boolean } & DivProps>(
     fontWeight: dirty ? 'bold' : undefined,
     width: `calc(${th.sizes.fill} - ${th.spacing.sm})`,
   }),
+  borderSet,
   color,
   fontWeight,
   spaceSet,
@@ -72,6 +76,7 @@ interface Props {
   handleHighlight?: () => void;
   highlight?: boolean;
   inputProps?: React.InputHTMLAttributes<HTMLInputElement> &
+    BorderSetProps &
     ColorProps &
     SpaceSetProps &
     TextSetProps &
@@ -94,6 +99,7 @@ const EditableCell = ({
   secondaryHighlight,
 }: Props) => {
   const { dirty, value } = content;
+  const previousValue = usePrevious(value);
   const [localValue, setLocalValue] = useState(value);
 
   const [showToggleHighlight, setShowToggleHighlight] = useState(false);
@@ -103,6 +109,12 @@ const EditableCell = ({
     editing &&
     handleHighlight &&
     showToggleHighlight;
+
+  useEffect(() => {
+    if (previousValue !== value) {
+      setLocalValue(value);
+    }
+  }, [previousValue, value]);
 
   return (
     <Wrapper

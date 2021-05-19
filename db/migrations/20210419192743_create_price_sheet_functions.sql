@@ -1,21 +1,21 @@
 -- migrate:up
 CREATE FUNCTION sales.bulk_upsert_price_category(
-  categories price_category[]
+  categories sales.price_category[]
 )
-RETURNS setof price_category
+RETURNS setof sales.price_category
 AS $$
   DECLARE
-    c price_category;
-    vals price_category;
+    c sales.price_category;
+    vals sales.price_category;
   BEGIN
     FOREACH c IN ARRAY categories LOOP
-      INSERT INTO price_category(
+      INSERT INTO sales.price_category(
         id,
         category_name,
         sort_order
       )
         VALUES (
-          COALESCE(c.id, (select nextval('price_category_id_seq'))),
+          COALESCE(c.id, (select nextval('sales.price_category_id_seq'))),
           c.category_name,
           c.sort_order
         )
@@ -30,16 +30,16 @@ AS $$
 $$ LANGUAGE plpgsql VOLATILE STRICT SET search_path FROM CURRENT;
 
 CREATE FUNCTION sales.bulk_upsert_price_product(
-  products price_product[]
+  products sales.price_product[]
 )
-RETURNS setof price_product
+RETURNS setof sales.price_product
 AS $$
   DECLARE
-    p price_product;
-    vals price_product;
+    p sales.price_product;
+    vals sales.price_product;
   BEGIN
     FOREACH p IN ARRAY products LOOP
-      INSERT INTO price_product(
+      INSERT INTO sales.price_product(
         id,
         category_id,
         color,
@@ -47,7 +47,7 @@ AS $$
         sort_order
       )
         VALUES (
-          COALESCE(p.id, (select nextval('price_product_id_seq'))),
+          COALESCE(p.id, (select nextval('sales.price_product_id_seq'))),
           p.category_id,
           p.color,
           p.product_name,
@@ -66,22 +66,22 @@ AS $$
 $$ LANGUAGE plpgsql VOLATILE STRICT SET search_path FROM CURRENT;
 
 CREATE FUNCTION sales.bulk_upsert_price_size(
-  sizes price_size[]
+  sizes sales.price_size[]
 )
-RETURNS setof price_size
+RETURNS setof sales.price_size
 AS $$
   DECLARE
-    s price_size;
-    vals price_size;
+    s sales.price_size;
+    vals sales.price_size;
   BEGIN
     FOREACH s IN ARRAY sizes LOOP
-      INSERT INTO price_size(
+      INSERT INTO sales.price_size(
         id,
         product_id,
         size_name
       )
         VALUES (
-          COALESCE(s.id, (select nextval('price_size_id_seq'))),
+          COALESCE(s.id, (select nextval('sales.price_size_id_seq'))),
           s.product_id,
           s.size_name
         )

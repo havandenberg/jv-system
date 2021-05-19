@@ -1,25 +1,4 @@
 -- migrate:up
-CREATE FUNCTION directory.person_contact_search_text(IN person directory.person_contact)
-    RETURNS text
-    LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-SELECT CONCAT (
-		person.first_name,
-		person.last_name,
-		person.email,
-		person.secondary_email,
-		person.home_phone,
-		person.cell_phone,
-		person.work_phone,
-		person.work_extension,
-		person.preferred_method,
-		person.roles
-	) FROM directory.person_contact
-$BODY$;
-
 CREATE FUNCTION directory.shipper_search_text(IN s directory.shipper)
     RETURNS text
     LANGUAGE 'sql'
@@ -91,6 +70,29 @@ SELECT CONCAT (
 		w.city_tax_code,
 		w.misc_tax_code
 	) FROM directory.warehouse ww FULL JOIN directory.country c ON (w.country_id = c.id) WHERE w.id = ww.id
+$BODY$;
+
+CREATE FUNCTION directory.person_contact_search_text(IN p directory.person_contact)
+    RETURNS TEXT
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+SELECT CONCAT (
+	p.first_name,
+	p.last_name,
+	p.is_primary,
+	p.email,
+	p.secondary_email,
+	p.home_phone,
+	p.cell_phone,
+	p.work_phone,
+	p.work_extension,
+	p.image_src,
+	p.is_internal,
+	p.roles
+	) FROM directory.person_contact
 $BODY$;
 
 -- migrate:down

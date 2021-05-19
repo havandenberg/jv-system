@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { loader } from 'graphql.macro';
 
 import { getOrderByString } from 'api/utils';
@@ -7,14 +7,15 @@ import {
   useSearchQueryParam,
   useSortQueryParams,
 } from 'hooks/use-query-params';
-import { Query } from 'types';
+import { Mutation, Query } from 'types';
 
 const INTERNAL_CONTACT_DETAILS_QUERY = loader('./details.gql');
 const INTERNAL_CONTACT_LIST_QUERY = loader('./list.gql');
+const PERSON_CONTACT_UPDATE = loader('./update.gql');
 
 export const useInternalContacts = () => {
   const [search = ''] = useSearchQueryParam();
-  const [{ sortBy = 'lastName', sortOrder = SORT_ORDER.ASC }] =
+  const [{ sortBy = 'firstName', sortOrder = SORT_ORDER.ASC }] =
     useSortQueryParams();
   const orderBy = getOrderByString(sortBy, sortOrder);
 
@@ -47,4 +48,15 @@ export const useInternalContact = (id: string) => {
     error,
     loading,
   };
+};
+
+export const useUpdatePersonContact = (id: string) => {
+  return useMutation<Mutation>(PERSON_CONTACT_UPDATE, {
+    refetchQueries: [
+      {
+        query: INTERNAL_CONTACT_DETAILS_QUERY,
+        variables: { id },
+      },
+    ],
+  });
 };

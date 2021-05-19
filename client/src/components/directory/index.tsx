@@ -32,24 +32,24 @@ const tabs: Tab[] = [
     disabled: true,
   },
   {
-    id: DirectoryTypes.CUSTOMERS,
-    text: 'Customers',
-    to: `/directory/${DirectoryTypes.CUSTOMERS}`,
-  },
-  {
     id: DirectoryTypes.INTERNAL,
     text: 'Internal',
     to: `/directory/${DirectoryTypes.INTERNAL}`,
   },
   {
-    id: DirectoryTypes.WAREHOUSES,
-    text: 'Warehouses',
-    to: `/directory/${DirectoryTypes.WAREHOUSES}`,
+    id: DirectoryTypes.CUSTOMERS,
+    text: 'Customers',
+    to: `/directory/${DirectoryTypes.CUSTOMERS}`,
   },
   {
     id: DirectoryTypes.SHIPPERS,
     text: 'Shippers',
     to: `/directory/${DirectoryTypes.SHIPPERS}`,
+  },
+  {
+    id: DirectoryTypes.WAREHOUSES,
+    text: 'Warehouses',
+    to: `/directory/${DirectoryTypes.WAREHOUSES}`,
   },
 ];
 

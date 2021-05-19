@@ -15,7 +15,7 @@ import { breadcrumbs, SubDirectoryProps } from '..';
 import ListItem from '../list-item';
 import { listLabels } from './data-utils';
 
-const gridTemplateColumns = '30px 1.5fr 2fr 3fr 2.5fr 2fr 30px';
+const gridTemplateColumns = '30px 1.5fr 2fr 3fr 2.5fr 30px';
 
 const InternalDirectory = ({
   actions,
@@ -29,7 +29,7 @@ const InternalDirectory = ({
   const items = data ? data.nodes : [];
 
   const columnLabels = useColumns<PersonContact>(
-    'lastName',
+    'firstName',
     SORT_ORDER.ASC,
     listLabels,
     'directory',

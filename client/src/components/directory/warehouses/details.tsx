@@ -18,13 +18,17 @@ const breadcrumbs = (id: string) => [
 ];
 
 const Details = () => {
-  const { id } = useParams<{
-    id: string;
-  }>();
+  const { id } =
+    useParams<{
+      id: string;
+    }>();
   const { data, error, loading } = api.useWarehouse(id);
 
   return (
-    <Page breadcrumbs={breadcrumbs(id)} title="Directory - Warehouse">
+    <Page
+      breadcrumbs={breadcrumbs(id)}
+      title={data ? data.warehouseName : 'Directory - Warehouse'}
+    >
       {data ? (
         <BaseData<Warehouse> data={data} labels={baseLabels} />
       ) : (

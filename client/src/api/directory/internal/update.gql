@@ -1,0 +1,7 @@
+mutation PERSON_CONTACT_UPDATE($id: BigInt!, $updates: PersonContactPatch!) {
+  updatePersonContact(input: { patch: $updates, id: $id }) {
+    personContact {
+      id
+    }
+  }
+}

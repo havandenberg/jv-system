@@ -23,13 +23,8 @@ export const listLabels: PersonContactLabelInfo[] = [
     transformKey: 'email',
   },
   {
-    key: 'workPhone',
-    label: 'Work Phone',
-    transformKey: 'phone',
-  },
-  {
-    key: 'roles',
-    label: 'Roles',
+    key: 'workExtension',
+    label: 'Work Extension',
   },
 ];
 
@@ -53,11 +48,6 @@ export const baseLabels: PersonContactLabelInfo[] = [
     transformKey: 'email',
   },
   {
-    key: 'workPhone',
-    label: 'Work Phone',
-    transformKey: 'phone',
-  },
-  {
     key: 'homePhone',
     label: 'Home Phone',
     transformKey: 'phone',
@@ -65,6 +55,11 @@ export const baseLabels: PersonContactLabelInfo[] = [
   {
     key: 'cellPhone',
     label: 'Cell Phone',
+    transformKey: 'phone',
+  },
+  {
+    key: 'workPhone',
+    label: 'Work Phone',
     transformKey: 'phone',
   },
   {
