@@ -93,14 +93,11 @@ const Categories = (props: Props) => {
                       width: 200,
                     }}
                     onChange={(e) =>
-                      handleCategoryChange(
-                        {
-                          id: category.id,
-                          sortOrder: category.sortOrder,
-                          categoryName: e.target.value,
-                        },
-                        'categoryName',
-                      )
+                      handleCategoryChange({
+                        id: category.id,
+                        sortOrder: category.sortOrder,
+                        categoryName: e.target.value,
+                      })
                     }
                   />
                   {editing && (

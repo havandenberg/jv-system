@@ -61,6 +61,7 @@ query PRICE_ENTRIES($endDate: Date, $startDate: Date) {
             nodes {
               id
               sizeName
+              sortOrder
               productId
               priceEntriesBySizeId(
                 filter: {

@@ -16,7 +16,8 @@ CREATE TABLE sales.price_product (
 CREATE TABLE sales.price_size (
     id BIGSERIAL PRIMARY KEY,
     product_id BIGINT NOT NULL REFERENCES sales.price_product(id) ON DELETE CASCADE,
-    size_name TEXT NOT NULL
+    size_name TEXT NOT NULL,
+    sort_order INT NOT NULL
 );
 
 CREATE TABLE sales.price_entry (
@@ -24,7 +25,8 @@ CREATE TABLE sales.price_entry (
     size_id BIGINT NOT NULL REFERENCES sales.price_size(id) ON DELETE CASCADE,
     entry_date DATE NOT NULL,
     entry_description TEXT NOT NULL,
-    content TEXT NOT NULL
+    content TEXT NOT NULL,
+    highlight BOOLEAN NOT NULL
 );
 
 -- migrate:down

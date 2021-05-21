@@ -1,11 +1,12 @@
 import { sortBy } from 'ramda';
-import { Maybe, PriceCategory, PriceProduct } from 'types';
+import { Maybe, PriceCategory, PriceProduct, PriceSize } from 'types';
 
 import {
   CategoryUpdate,
   PriceSheetChanges,
   ProductUpdate,
   RemovedItems,
+  SizeUpdate,
 } from './types';
 
 export const getAllItems = (
@@ -19,6 +20,10 @@ export const getAllItems = (
   getProductValue: (
     product: Maybe<PriceProduct> | undefined,
     key: keyof ProductUpdate,
+  ) => { dirty: boolean; value: string },
+  getSizeValue: (
+    size: Maybe<PriceSize> | undefined,
+    key: keyof SizeUpdate,
   ) => { dirty: boolean; value: string },
 ) =>
   sortBy((c) => getCategoryValue(c, 'sortOrder').value, [
@@ -39,12 +44,15 @@ export const getAllItems = (
               return {
                 ...p,
                 priceSizesByProductId: {
-                  nodes: [
-                    ...p.priceSizesByProductId.nodes.filter(
-                      (s) => s && !removedItems.sizes.includes(s.id),
-                    ),
-                    ...changes.newSizes.filter((s) => s.productId === p.id),
-                  ].map((s) => {
+                  nodes: sortBy(
+                    (s) => getSizeValue(s, 'sortOrder').value,
+                    [
+                      ...p.priceSizesByProductId.nodes.filter(
+                        (s) => s && !removedItems.sizes.includes(s.id),
+                      ),
+                      ...changes.newSizes.filter((s) => s.productId === p.id),
+                    ],
+                  ).map((s) => {
                     if (s) {
                       return {
                         ...s,

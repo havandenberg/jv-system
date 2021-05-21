@@ -12,6 +12,7 @@ import { getDateOfISOWeek, getWeekNumber, isCurrentWeek } from 'utils/date';
 import { gridTemplateColumns } from '.';
 import AddItem from '../../add-item';
 import { PriceSheetProps } from './types';
+import SortControl from 'components/sort-control';
 
 interface Props extends PriceSheetProps {
   product: PriceProduct;
@@ -22,6 +23,7 @@ const Sizes = (props: Props) => {
     changeHandlers: { handleSizeChange, handleEntryChange },
     editing,
     handleRemoveItem,
+    handleSortChange,
     newItemHandlers: { handleNewSize, handleNewEntry },
     product,
     selectedWeekNumber,
@@ -35,7 +37,7 @@ const Sizes = (props: Props) => {
 
   return (
     <div>
-      {items.map((size) => {
+      {items.map((size, idx) => {
         if (!size) return null;
 
         const entry = sortBy(
@@ -44,6 +46,7 @@ const Sizes = (props: Props) => {
         )[0];
 
         const entryDescription = getEntryValue(entry, 'entryDescription');
+        const entryContent = getEntryValue(entry, 'content');
         const sizeName = getSizeValue(size, 'sizeName');
 
         return (
@@ -89,21 +92,18 @@ const Sizes = (props: Props) => {
                   fontWeight: entryDescription.dirty ? 'bold' : undefined,
                   marginLeft: th.spacing.sm,
                   paddingLeft: th.spacing.xs,
-                  width: 304,
+                  width: 256,
                 }}
                 onChange={(e) => {
                   if (entry) {
-                    handleEntryChange(
-                      {
-                        id: entry.id,
-                        content: entry.content,
-                        entryDate: entry.entryDate,
-                        entryDescription: e.target.value,
-                        highlight: entry.highlight,
-                        sizeId: entry.sizeId,
-                      },
-                      'entryDescription',
-                    );
+                    handleEntryChange({
+                      id: entry.id,
+                      content: entryContent.value,
+                      entryDate: entry.entryDate,
+                      entryDescription: e.target.value,
+                      highlight: entry.highlight,
+                      sizeId: entry.sizeId,
+                    });
                   } else {
                     handleNewEntry({
                       id: -1,
@@ -116,6 +116,25 @@ const Sizes = (props: Props) => {
                   }
                 }}
               />
+              {editing && (
+                <l.Div position="absolute" left={280}>
+                  <SortControl
+                    disableUp={idx <= 1}
+                    disableDown={idx >= items.length - 1}
+                    onDown={() => {
+                      handleSortChange(
+                        'size',
+                        size,
+                        'down',
+                        product.categoryId,
+                      );
+                    }}
+                    onUp={() => {
+                      handleSortChange('size', size, 'up', product.categoryId);
+                    }}
+                  />
+                </l.Div>
+              )}
               <EditableCell
                 content={sizeName}
                 defaultChildren={
@@ -130,15 +149,13 @@ const Sizes = (props: Props) => {
                   textAlign: 'center',
                 }}
                 onChange={(e) => {
-                  const { id, productId } = size;
-                  handleSizeChange(
-                    {
-                      id,
-                      productId,
-                      sizeName: e.target.value,
-                    },
-                    'sizeName',
-                  );
+                  const { id, productId, sortOrder } = size;
+                  handleSizeChange({
+                    id,
+                    productId,
+                    sizeName: e.target.value,
+                    sortOrder,
+                  });
                 }}
               />
               {times((i) => {
@@ -166,17 +183,14 @@ const Sizes = (props: Props) => {
                     handleHighlight={
                       data
                         ? () => {
-                            handleEntryChange(
-                              {
-                                id: data.id,
-                                content: data.content,
-                                entryDate: data.entryDate,
-                                entryDescription: data.entryDescription,
-                                highlight: !Boolean(highlight.value),
-                                sizeId: data.sizeId,
-                              },
-                              'highlight',
-                            );
+                            handleEntryChange({
+                              id: data.id,
+                              content: content.value,
+                              entryDate: data.entryDate,
+                              entryDescription: data.entryDescription,
+                              highlight: !Boolean(highlight.value),
+                              sizeId: data.sizeId,
+                            });
                           }
                         : undefined
                     }
@@ -189,17 +203,16 @@ const Sizes = (props: Props) => {
                     key={i}
                     onChange={(e) => {
                       if (data) {
-                        handleEntryChange(
-                          {
-                            id: data.id,
-                            content: e.target.value,
-                            entryDate: data.entryDate,
-                            entryDescription: data.entryDescription,
-                            highlight: e.target.value !== data.content,
-                            sizeId: data.sizeId,
-                          },
-                          'content',
-                        );
+                        handleEntryChange({
+                          id: data.id,
+                          content: e.target.value,
+                          entryDate: data.entryDate,
+                          entryDescription: data.entryDescription,
+                          highlight: e.target.value
+                            ? e.target.value !== content.value
+                            : false,
+                          sizeId: data.sizeId,
+                        });
                       } else {
                         handleNewEntry({
                           id: -1,
@@ -223,17 +236,21 @@ const Sizes = (props: Props) => {
           <AddItem
             disabled={disableAdd}
             onClick={() =>
-              handleNewSize({
-                id: -1,
-                sizeName: 'New Size',
-                productId: product.id,
-                priceEntriesBySizeId: {
-                  edges: [],
-                  nodes: [],
-                  pageInfo: { hasNextPage: false, hasPreviousPage: false },
-                  totalCount: 0,
+              handleNewSize(
+                {
+                  id: -1,
+                  sizeName: 'New Size',
+                  sortOrder: -1,
+                  productId: product.id,
+                  priceEntriesBySizeId: {
+                    edges: [],
+                    nodes: [],
+                    pageInfo: { hasNextPage: false, hasPreviousPage: false },
+                    totalCount: 0,
+                  },
                 },
-              })
+                product,
+              )
             }
             text="Add size"
           />

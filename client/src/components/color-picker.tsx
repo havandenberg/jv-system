@@ -59,10 +59,11 @@ const ColorPicker = ({
       />
       {isOpen && (
         <Content>
-          {defaultColorSet.map((color) => (
+          {defaultColorSet.map((color, idx) => (
             <ColorSwatch
               color={color}
               isActive={activeColor === color}
+              key={idx}
               onClick={() => {
                 onChange(color);
               }}

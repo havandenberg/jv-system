@@ -15,7 +15,7 @@ import { breadcrumbs, SubDirectoryProps } from '..';
 import ListItem from '../list-item';
 import { listLabels } from './data-utils';
 
-const gridTemplateColumns = '30px 1.5fr 2fr 3fr 2.5fr 30px';
+const gridTemplateColumns = '30px 1.5fr 2fr 3.5fr 2fr 30px';
 
 const InternalDirectory = ({
   actions,
@@ -44,7 +44,7 @@ const InternalDirectory = ({
       isAllSelected,
       (items as PersonContact[]).map((contact) => ({
         id: contact.id,
-        email: contact.email,
+        email: contact.email || '',
         description: 'Contact',
       })),
     );
@@ -96,7 +96,7 @@ const InternalDirectory = ({
                 onSelectItem={() =>
                   selectItem({
                     id: item.id,
-                    email: item.email,
+                    email: item.email || '',
                     description: 'Contact',
                   })
                 }

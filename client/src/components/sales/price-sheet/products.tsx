@@ -75,6 +75,7 @@ const Products = (props: Props) => {
         const color = getProductValue(product, 'color');
         const productName = getProductValue(product, 'productName');
         const entryDescription = getEntryValue(entry, 'entryDescription');
+        const content = getEntryValue(entry, 'content');
 
         const textColor = contrastColor(color.value);
 
@@ -109,16 +110,13 @@ const Products = (props: Props) => {
                     }}
                     onChange={(e) => {
                       const { id, categoryId, color, sortOrder } = product;
-                      handleProductChange(
-                        {
-                          id,
-                          categoryId,
-                          color,
-                          sortOrder,
-                          productName: e.target.value,
-                        },
-                        'productName',
-                      );
+                      handleProductChange({
+                        id,
+                        categoryId,
+                        color,
+                        sortOrder,
+                        productName: e.target.value,
+                      });
                     }}
                   />
                   {editing && (
@@ -158,22 +156,15 @@ const Products = (props: Props) => {
                           activeColor={color.value}
                           color={textColor}
                           onChange={(newColor) => {
-                            const {
+                            const { id, categoryId, productName, sortOrder } =
+                              product;
+                            handleProductChange({
                               id,
                               categoryId,
-                              productName,
+                              color: newColor,
                               sortOrder,
-                            } = product;
-                            handleProductChange(
-                              {
-                                id,
-                                categoryId,
-                                color: newColor,
-                                sortOrder,
-                                productName,
-                              },
-                              'color',
-                            );
+                              productName,
+                            });
                           }}
                         />
                       </l.Div>
@@ -207,17 +198,14 @@ const Products = (props: Props) => {
                     }}
                     onChange={(e) => {
                       if (entry) {
-                        handleEntryChange(
-                          {
-                            id: entry.id,
-                            content: entry.content,
-                            entryDate: entry.entryDate,
-                            entryDescription: e.target.value,
-                            highlight: entry.highlight,
-                            sizeId: entry.sizeId,
-                          },
-                          'entryDescription',
-                        );
+                        handleEntryChange({
+                          id: entry.id,
+                          content: content.value,
+                          entryDate: entry.entryDate,
+                          entryDescription: e.target.value,
+                          highlight: entry.highlight,
+                          sizeId: entry.sizeId,
+                        });
                       } else {
                         handleNewEntry({
                           id: -1,
@@ -262,17 +250,14 @@ const Products = (props: Props) => {
                         key={i}
                         onChange={(e) => {
                           if (data) {
-                            handleEntryChange(
-                              {
-                                id: data.id,
-                                content: e.target.value,
-                                entryDate: data.entryDate,
-                                entryDescription: data.entryDescription,
-                                highlight: data.highlight,
-                                sizeId: data.sizeId,
-                              },
-                              'content',
-                            );
+                            handleEntryChange({
+                              id: data.id,
+                              content: e.target.value,
+                              entryDate: data.entryDate,
+                              entryDescription: entryDescription.value,
+                              highlight: data.highlight,
+                              sizeId: data.sizeId,
+                            });
                           } else {
                             handleNewEntry({
                               id: -1,
@@ -304,19 +289,22 @@ const Products = (props: Props) => {
           <AddItem
             disabled={disableAdd}
             onClick={() => {
-              handleNewProduct({
-                id: -1,
-                productName: 'New Product',
-                categoryId: category.id,
-                color: getRandomColor(),
-                sortOrder: -1,
-                priceSizesByProductId: {
-                  edges: [],
-                  nodes: [],
-                  pageInfo: { hasNextPage: false, hasPreviousPage: false },
-                  totalCount: 0,
+              handleNewProduct(
+                {
+                  id: -1,
+                  productName: 'New Product',
+                  categoryId: category.id,
+                  color: getRandomColor(),
+                  sortOrder: -1,
+                  priceSizesByProductId: {
+                    edges: [],
+                    nodes: [],
+                    pageInfo: { hasNextPage: false, hasPreviousPage: false },
+                    totalCount: 0,
+                  },
                 },
-              });
+                category,
+              );
             }}
             text="Add product"
           />

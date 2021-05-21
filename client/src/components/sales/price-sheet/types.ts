@@ -14,7 +14,10 @@ export type ProductUpdate = Pick<
   PriceProduct,
   'id' | 'categoryId' | 'color' | 'productName' | 'sortOrder'
 >;
-export type SizeUpdate = Pick<PriceSize, 'id' | 'productId' | 'sizeName'>;
+export type SizeUpdate = Pick<
+  PriceSize,
+  'id' | 'productId' | 'sizeName' | 'sortOrder'
+>;
 export type EntryUpdate = Pick<
   PriceEntry,
   'id' | 'content' | 'entryDate' | 'entryDescription' | 'highlight' | 'sizeId'
@@ -40,7 +43,7 @@ export type NewProduct = Pick<
 >;
 export type NewSize = Pick<
   PriceSize,
-  'id' | 'sizeName' | 'productId' | 'priceEntriesBySizeId'
+  'id' | 'sizeName' | 'sortOrder' | 'productId' | 'priceEntriesBySizeId'
 >;
 export type NewEntry = Pick<
   PriceEntry,
@@ -69,21 +72,14 @@ export interface RemovedItems {
   sizes: number[];
 }
 
+export type SortItemType = PriceCategory | PriceProduct | PriceSize;
+
 export interface PriceSheetProps {
   changeHandlers: {
-    handleCategoryChange: (
-      update: CategoryUpdate,
-      updateKey: keyof CategoryUpdate,
-    ) => void;
-    handleProductChange: (
-      update: ProductUpdate,
-      updateKey: keyof ProductUpdate,
-    ) => void;
-    handleSizeChange: (update: SizeUpdate, updateKey: keyof SizeUpdate) => void;
-    handleEntryChange: (
-      update: EntryUpdate,
-      updateKey: keyof EntryUpdate,
-    ) => void;
+    handleCategoryChange: (update: CategoryUpdate) => void;
+    handleProductChange: (update: ProductUpdate) => void;
+    handleSizeChange: (update: SizeUpdate) => void;
+    handleEntryChange: (update: EntryUpdate) => void;
   };
   editing: boolean;
   handleRemoveItem: (
@@ -92,15 +88,16 @@ export interface PriceSheetProps {
     sortOrder: number,
   ) => void;
   handleSortChange: (
-    type: 'category' | 'product',
-    item: PriceCategory | PriceProduct,
+    type: 'category' | 'product' | 'size',
+    item: SortItemType,
     direction: 'up' | 'down',
+    categoryId?: string,
   ) => void;
   isItemCollapsed: (key: keyof CollapsedItems, id: number) => boolean;
   newItemHandlers: {
     handleNewCategory: (newCategory: NewCategory) => void;
-    handleNewProduct: (newProduct: NewProduct) => void;
-    handleNewSize: (newSize: NewSize) => void;
+    handleNewProduct: (newProduct: NewProduct, category: PriceCategory) => void;
+    handleNewSize: (newSize: NewSize, product: PriceProduct) => void;
     handleNewEntry: (newEntry: NewEntry) => void;
   };
   selectedWeekNumber: number;

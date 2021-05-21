@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { add, endOfISOWeek, startOfISOWeek } from 'date-fns';
-import { isEmpty, pluck } from 'ramda';
+import { isEmpty, omit, pluck } from 'ramda';
 import ClipLoader from 'react-spinners/ClipLoader';
 
 import api from 'api';
@@ -40,6 +40,7 @@ import {
   ProductUpdate,
   RemovedItems,
   SizeUpdate,
+  SortItemType,
   UpdateType,
 } from './types';
 import { getAllItems } from './utils';
@@ -91,9 +92,8 @@ const PriceSheet = () => {
     new Date(startDate.replace(/-/g, '/')),
   );
 
-  const [changes, setChanges] = useState<PriceSheetChanges>(
-    initialChangesState,
-  );
+  const [changes, setChanges] =
+    useState<PriceSheetChanges>(initialChangesState);
   const [removedItems, setRemovedItems] = useState(initialRemovedItemsState);
   const [newItemNextIds, setNewItemNextIds] = useState(initialNewItemNextIds);
 
@@ -178,6 +178,7 @@ const PriceSheet = () => {
     removedItems,
     getCategoryValue,
     getProductValue,
+    getSizeValue,
   );
 
   const [collapsedItems, setCollapsedItems] = useState(
@@ -221,6 +222,7 @@ const PriceSheet = () => {
         sizes: changes.sizeUpdates.map((s) => ({
           productId: s.productId,
           sizeName: s.sizeName,
+          sortOrder: s.sortOrder,
           id: parseInt(s.id, 10),
         })),
         entries: changes.entryUpdates.map((e) => ({
@@ -259,6 +261,7 @@ const PriceSheet = () => {
       .map((s) => ({
         productId: s.productId,
         sizeName: s.sizeName,
+        sortOrder: s.sortOrder,
         priceEntriesUsingId: {
           create: changes.newEntries
             .filter((e) => e.sizeId === s.id)
@@ -290,6 +293,7 @@ const PriceSheet = () => {
             .filter((s) => s.productId === p.id)
             .map((s) => ({
               sizeName: s.sizeName,
+              sortOrder: s.sortOrder,
               priceEntriesUsingId: {
                 create: changes.newEntries
                   .filter((e) => e.sizeId === s.id)
@@ -327,6 +331,7 @@ const PriceSheet = () => {
                   .filter((s) => s.productId === p.id)
                   .map((s) => ({
                     sizeName: s.sizeName,
+                    sortOrder: s.sortOrder,
                     priceEntriesUsingId: {
                       create: changes.newEntries
                         .filter((e) => e.sizeId === s.id)
@@ -398,14 +403,13 @@ const PriceSheet = () => {
 
   const handleChange = <T extends UpdateType>(
     updates: T[],
-    updateKey: keyof T,
     changesKey: keyof PriceSheetChanges,
   ) => {
     let updatedItems: any[] = changes[changesKey];
     updates.forEach((update) => {
       if (updatedItems.find((u) => u.id === update.id)) {
         updatedItems = updatedItems.map((u) =>
-          u.id === update.id ? { ...u, [updateKey]: update[updateKey] } : u,
+          u.id === update.id ? { ...u, ...omit(['id'], update) } : u,
         );
       } else {
         updatedItems = [...updatedItems, update];
@@ -414,68 +418,70 @@ const PriceSheet = () => {
     setChanges({ ...changes, [changesKey]: updatedItems });
   };
 
-  const handleCategoryChange = (
-    update: CategoryUpdate,
-    updateKey: keyof CategoryUpdate,
-  ) => {
+  const handleCategoryChange = (update: CategoryUpdate) => {
     const changesKey = update.id < 0 ? 'newCategories' : 'categoryUpdates';
-    handleChange([update], updateKey, changesKey);
+    handleChange([update], changesKey);
   };
 
-  const handleProductChange = (
-    update: ProductUpdate,
-    updateKey: keyof ProductUpdate,
-  ) => {
+  const handleProductChange = (update: ProductUpdate) => {
     const changesKey = update.id < 0 ? 'newProducts' : 'productUpdates';
-    handleChange([update], updateKey, changesKey);
+    handleChange([update], changesKey);
   };
 
-  const handleSizeChange = (
-    update: SizeUpdate,
-    updateKey: keyof SizeUpdate,
-  ) => {
+  const handleSizeChange = (update: SizeUpdate) => {
     const changesKey = update.id < 0 ? 'newSizes' : 'sizeUpdates';
-    handleChange([update], updateKey, changesKey);
+    handleChange([update], changesKey);
   };
 
-  const handleEntryChange = (
-    update: EntryUpdate,
-    updateKey: keyof EntryUpdate,
-  ) => {
+  const handleEntryChange = (update: EntryUpdate) => {
     const changesKey = update.id < 0 ? 'newEntries' : 'entryUpdates';
-    handleChange([update], updateKey, changesKey);
+    handleChange([update], changesKey);
   };
 
   const handleSortChange = (
-    type: 'category' | 'product',
-    item: PriceCategory | PriceProduct,
+    type: 'category' | 'product' | 'size',
+    item: SortItemType,
     direction: 'up' | 'down',
+    categoryId?: string,
   ) => {
     const isCategory = type === 'category';
-    const updatesKey = isCategory ? 'categoryUpdates' : 'productUpdates';
-    const newKey = isCategory ? 'newCategories' : 'newProducts';
+    const isProduct = type === 'product';
+    const updatesKey = isCategory
+      ? 'categoryUpdates'
+      : isProduct
+      ? 'productUpdates'
+      : 'sizeUpdates';
+    const newKey = isCategory
+      ? 'newCategories'
+      : isProduct
+      ? 'newProducts'
+      : 'newSizes';
+
     const list = isCategory
       ? allItems
-      : allItems.find((c) => c && c.id === (item as PriceProduct).categoryId)
-          ?.priceProductsByCategoryId.nodes;
-    const getItemSortOrder = (it: PriceCategory | PriceProduct) =>
+      : isProduct
+      ? allItems.find((c) => c && c.id === (item as PriceProduct).categoryId)
+          ?.priceProductsByCategoryId.nodes
+      : allItems
+          .find((c) => c && c.id === categoryId)
+          ?.priceProductsByCategoryId.nodes.find(
+            (p) => p && p.id === (item as PriceSize).productId,
+          )?.priceSizesByProductId.nodes;
+
+    const getItemSortOrder = (it: SortItemType) =>
       isCategory
         ? getCategoryValue(it as PriceCategory, 'sortOrder').value
-        : getProductValue(it as PriceProduct, 'sortOrder').value;
-    const itemCurrentSortOrder = getItemSortOrder(item);
+        : isProduct
+        ? getProductValue(it as PriceProduct, 'sortOrder').value
+        : getSizeValue(it as PriceSize, 'sortOrder').value;
 
     if (list) {
-      const adjacentItem = (list as (PriceCategory | PriceProduct)[]).find(
-        (c) => {
-          return (
-            c &&
-            getItemSortOrder(c) ===
-              (direction === 'up'
-                ? itemCurrentSortOrder - 1
-                : itemCurrentSortOrder + 1)
-          );
-        },
+      const itemCurrentIndex = (list as SortItemType[]).findIndex(
+        (it: SortItemType) => item.id === it.id,
       );
+      const adjacentItem = (list as SortItemType[])[
+        direction === 'up' ? itemCurrentIndex - 1 : itemCurrentIndex + 1
+      ];
       if (adjacentItem) {
         const updatedItems = [
           {
@@ -483,20 +489,24 @@ const PriceSheet = () => {
             sortOrder: getItemSortOrder(adjacentItem),
             [isCategory
               ? 'priceProductsByCategoryId'
-              : 'priceSizesByProductId']: { nodes: [] },
+              : isProduct
+              ? 'priceSizesByProductId'
+              : 'priceEntriesBySizeId']: { nodes: [] },
           },
           {
             ...adjacentItem,
             sortOrder: getItemSortOrder(item),
             [isCategory
               ? 'priceProductsByCategoryId'
-              : 'priceSizesByProductId']: { nodes: [] },
+              : isProduct
+              ? 'priceSizesByProductId'
+              : 'priceEntriesBySizeId']: { nodes: [] },
           },
         ];
         if (item.id >= 0 && adjacentItem.id >= 0) {
-          handleChange(updatedItems, 'sortOrder', updatesKey);
+          handleChange(updatedItems, updatesKey);
         } else if (item.id < 0 && adjacentItem.id < 0) {
-          handleChange(updatedItems, 'sortOrder', newKey);
+          handleChange(updatedItems, newKey);
         } else {
           const itemChangeKey = item.id < 0 ? newKey : updatesKey;
           const adjacentItemChangeKey =
@@ -560,16 +570,19 @@ const PriceSheet = () => {
       ...baseNewSize,
       id: newItemNextIds.size,
       sizeName: 'product-root',
+      sortOrder: 0,
     };
     const newSize = {
       ...baseNewSize,
       id: newItemNextIds.size - 1,
       sizeName: 'New Size',
+      sortOrder: 1,
     };
     const baseNewEntry = {
       entryDate: getDateOfISOWeek(selectedWeekNumber),
       entryDescription: '',
       content: '',
+      highlight: false,
     };
     const newProductRootEntry = {
       ...baseNewEntry,
@@ -588,7 +601,13 @@ const PriceSheet = () => {
         {
           ...newCategory,
           id: newItemNextIds.category,
-          sortOrder: allItems.length,
+          sortOrder:
+            allItems.length > 0
+              ? getCategoryValue(
+                  allItems[allItems.length - 1] as PriceCategory,
+                  'sortOrder',
+                ).value + 1
+              : 0,
         },
       ],
       newProducts: [
@@ -614,78 +633,88 @@ const PriceSheet = () => {
     });
   };
 
-  const handleNewProduct = (newProduct: NewProduct) => {
-    const category = allItems.find((c) => c && c.id === newProduct.categoryId);
-    if (category) {
-      const baseNewSize = {
-        productId: newItemNextIds.product,
-        priceEntriesBySizeId: {
-          edges: [],
-          nodes: [],
-          pageInfo: { hasNextPage: false, hasPreviousPage: false },
-          totalCount: 0,
-        },
-      };
-      const newProductRootSize = {
-        ...baseNewSize,
-        id: newItemNextIds.size,
-        sizeName: 'product-root',
-      };
-      const newSize = {
-        ...baseNewSize,
-        id: newItemNextIds.size - 1,
-        sizeName: 'New Size',
-      };
-      const baseNewEntry = {
-        entryDate: getDateOfISOWeek(selectedWeekNumber),
-        entryDescription: '',
-        content: '',
-      };
-      const newProductRootEntry = {
-        ...baseNewEntry,
-        id: newItemNextIds.entry,
-        sizeId: newItemNextIds.size,
-      };
-      const newEntry = {
-        ...baseNewEntry,
-        id: newItemNextIds.entry - 1,
-        sizeId: newItemNextIds.size - 1,
-      };
-      setChanges({
-        ...changes,
-        newProducts: [
-          ...changes.newProducts,
-          {
-            ...newProduct,
-            id: newItemNextIds.product,
-            sortOrder: category.priceProductsByCategoryId.nodes.length,
-          },
-        ],
-        newSizes: [
-          ...changes.newSizes,
-          newProductRootSize,
-          newSize,
-        ] as PriceSize[],
-        newEntries: [
-          ...changes.newEntries,
-          newProductRootEntry,
-          newEntry,
-        ] as PriceEntry[],
-      });
-      setNewItemNextIds({
-        ...newItemNextIds,
-        product: newItemNextIds.product - 1,
-        size: newItemNextIds.size - 2,
-        entry: newItemNextIds.entry - 2,
-      });
-    }
-  };
-
-  const handleNewSize = (newSize: NewSize) => {
+  const handleNewProduct = (
+    newProduct: NewProduct,
+    category: PriceCategory,
+  ) => {
+    const baseNewSize = {
+      productId: newItemNextIds.product,
+      priceEntriesBySizeId: {
+        edges: [],
+        nodes: [],
+        pageInfo: { hasNextPage: false, hasPreviousPage: false },
+        totalCount: 0,
+      },
+    };
+    const newProductRootSize = {
+      ...baseNewSize,
+      id: newItemNextIds.size,
+      sizeName: 'product-root',
+      sortOrder: 0,
+    };
+    const newSize = {
+      ...baseNewSize,
+      id: newItemNextIds.size - 1,
+      sizeName: 'New Size',
+      sortOrder: 1,
+    };
     const baseNewEntry = {
       entryDate: getDateOfISOWeek(selectedWeekNumber),
       entryDescription: '',
       content: '',
+      highlight: false,
+    };
+    const newProductRootEntry = {
+      ...baseNewEntry,
+      id: newItemNextIds.entry,
+      sizeId: newItemNextIds.size,
+    };
+    const newEntry = {
+      ...baseNewEntry,
+      id: newItemNextIds.entry - 1,
+      sizeId: newItemNextIds.size - 1,
+    };
+    setChanges({
+      ...changes,
+      newProducts: [
+        ...changes.newProducts,
+        {
+          ...newProduct,
+          id: newItemNextIds.product,
+          sortOrder:
+            getProductValue(
+              category.priceProductsByCategoryId.nodes[
+                category.priceProductsByCategoryId.nodes.length - 1
+              ] as PriceProduct,
+              'sortOrder',
+            ).value + 1,
+        },
+      ],
+      newSizes: [
+        ...changes.newSizes,
+        newProductRootSize,
+        newSize,
+      ] as PriceSize[],
+      newEntries: [
+        ...changes.newEntries,
+        newProductRootEntry,
+        newEntry,
+      ] as PriceEntry[],
+    });
+    setNewItemNextIds({
+      ...newItemNextIds,
+      product: newItemNextIds.product - 1,
+      size: newItemNextIds.size - 2,
+      entry: newItemNextIds.entry - 2,
+    });
+  };
+
+  const handleNewSize = (newSize: NewSize, product: PriceProduct) => {
+    const baseNewEntry = {
+      entryDate: getDateOfISOWeek(selectedWeekNumber),
+      entryDescription: '',
+      content: '',
+      highlight: false,
     };
     const newProductRootEntry = {
       ...baseNewEntry,
@@ -701,7 +730,17 @@ const PriceSheet = () => {
       ...changes,
       newSizes: [
         ...changes.newSizes,
-        { ...newSize, id: newItemNextIds.size },
+        {
+          ...newSize,
+          id: newItemNextIds.size,
+          sortOrder:
+            getSizeValue(
+              product.priceSizesByProductId.nodes[
+                product.priceSizesByProductId.nodes.length - 1
+              ] as PriceSize,
+              'sortOrder',
+            ).value + 1,
+        },
       ] as PriceSize[],
       newEntries: [
         ...changes.newEntries,

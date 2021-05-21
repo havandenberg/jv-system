@@ -78,16 +78,19 @@ AS $$
       INSERT INTO sales.price_size(
         id,
         product_id,
-        size_name
+        size_name,
+        sort_order
       )
         VALUES (
           COALESCE(s.id, (select nextval('sales.price_size_id_seq'))),
           s.product_id,
-          s.size_name
+          s.size_name,
+          s.sort_order
         )
       ON CONFLICT (id) DO UPDATE SET
         product_id=EXCLUDED.product_id,
-        size_name=EXCLUDED.size_name
+        size_name=EXCLUDED.size_name,
+        sort_order=EXCLUDED.sort_order
     	RETURNING * INTO vals;
     	RETURN NEXT vals;
 	END LOOP;
