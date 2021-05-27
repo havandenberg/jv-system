@@ -6,6 +6,11 @@ import {
   Maybe,
 } from 'types';
 
+export interface CollapsedItems {
+  categories: number[];
+  products: number[];
+}
+
 export type CategoryUpdate = Pick<
   PriceCategory,
   'id' | 'categoryName' | 'sortOrder'
@@ -61,15 +66,29 @@ export interface PriceSheetChanges {
   newEntries: NewEntry[];
 }
 
-export interface CollapsedItems {
-  categories: number[];
-  products: number[];
+export interface RemovedItem {
+  id: number;
+  date: Date;
 }
 
 export interface RemovedItems {
-  categories: number[];
-  products: number[];
-  sizes: number[];
+  categories: RemovedItem[];
+  products: RemovedItem[];
+  sizes: RemovedItem[];
+}
+
+export interface NewItemNextIds {
+  category: number;
+  product: number;
+  size: number;
+  entry: number;
+}
+
+export interface PriceSheetState {
+  changes: PriceSheetChanges;
+  editing: boolean;
+  removedItems: RemovedItems;
+  newItemNextIds: NewItemNextIds;
 }
 
 export type SortItemType = PriceCategory | PriceProduct | PriceSize;
@@ -82,11 +101,7 @@ export interface PriceSheetProps {
     handleEntryChange: (update: EntryUpdate) => void;
   };
   editing: boolean;
-  handleRemoveItem: (
-    key: keyof RemovedItems,
-    id: number,
-    sortOrder: number,
-  ) => void;
+  handleRemoveItem: (key: keyof RemovedItems, id: number) => void;
   handleSortChange: (
     type: 'category' | 'product' | 'size',
     item: SortItemType,

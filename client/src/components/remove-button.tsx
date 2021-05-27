@@ -40,7 +40,14 @@ const RemoveButton = ({
           <b.Primary mr={th.spacing.md} onClick={hide}>
             Cancel
           </b.Primary>
-          <b.Primary onClick={handleRemove}>Remove</b.Primary>
+          <b.Primary
+            onClick={() => {
+              handleRemove();
+              hide();
+            }}
+          >
+            Remove
+          </b.Primary>
         </l.Flex>
       </>
     )}

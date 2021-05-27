@@ -1,7 +1,7 @@
-mutation PRICE_CATEGORY_DELETE($id: BigInt!) {
-  deletePriceCategory(input: { id: $id }) {
-    priceCategory {
-      id
-    }
+mutation PRICE_CATEGORY_DELETE($id: BigInt!, $selectedDate: Date!) {
+  deletePriceCategoryEntries(
+    input: { selectedCategoryId: $id, selectedDate: $selectedDate }
+  ) {
+    bigInts
   }
 }

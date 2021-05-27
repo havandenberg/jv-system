@@ -1,4 +1,3 @@
--- migrate:up
 CREATE FUNCTION directory.shipper_search_text(IN s directory.shipper)
     RETURNS text
     LANGUAGE 'sql'
@@ -94,9 +93,3 @@ SELECT CONCAT (
 	p.roles
 	) FROM directory.person_contact
 $BODY$;
-
--- migrate:down
-DROP FUNCTION directory.shipper_search_text;
-DROP FUNCTION directory.customer_search_text;
-DROP FUNCTION directory.warehouse_search_text;
-DROP FUNCTION directory.person_contact_search_text;

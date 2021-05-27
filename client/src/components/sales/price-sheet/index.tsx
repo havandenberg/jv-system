@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { add, endOfISOWeek, startOfISOWeek } from 'date-fns';
-import { isEmpty, omit, pluck } from 'ramda';
+import { isEmpty, omit, pluck, reduce } from 'ramda';
 import ClipLoader from 'react-spinners/ClipLoader';
 
 import api from 'api';
@@ -34,9 +34,11 @@ import {
   EntryUpdate,
   NewCategory,
   NewEntry,
+  NewItemNextIds,
   NewProduct,
   NewSize,
   PriceSheetChanges,
+  PriceSheetState,
   ProductUpdate,
   RemovedItems,
   SizeUpdate,
@@ -46,6 +48,11 @@ import {
 import { getAllItems } from './utils';
 
 export const gridTemplateColumns = '3fr 1fr 1.3fr repeat(4, 1fr)';
+
+const initialCollapsedItemsState: CollapsedItems = {
+  categories: [],
+  products: [],
+};
 
 const initialChangesState: PriceSheetChanges = {
   categoryUpdates: [],
@@ -58,27 +65,50 @@ const initialChangesState: PriceSheetChanges = {
   newEntries: [],
 };
 
-const initialCollapsedItemsState: CollapsedItems = {
-  categories: [],
-  products: [],
-};
-
 const initialRemovedItemsState: RemovedItems = {
   categories: [],
   products: [],
   sizes: [],
 };
 
-const initialNewItemNextIds = {
+const initialNewItemNextIds: NewItemNextIds = {
   category: -1,
   product: -1,
   size: -1,
   entry: -1,
 };
 
+const initialState: PriceSheetState = {
+  changes: initialChangesState,
+  editing: false,
+  removedItems: initialRemovedItemsState,
+  newItemNextIds: initialNewItemNextIds,
+};
+
 const PriceSheet = () => {
   useScrollToTop();
-  const [editing, setEditing] = useState(false);
+  const [state, setState] = useState<PriceSheetState>(initialState);
+  const { changes, editing, removedItems, newItemNextIds } = state;
+
+  const setChanges = (newChanges: PriceSheetChanges) => {
+    setState((prevState) => ({ ...prevState, changes: newChanges }));
+  };
+
+  const setEditing = (newEditing: boolean) => {
+    setState((prevState) => ({ ...prevState, editing: newEditing }));
+  };
+
+  const setRemovedItems = (newRemovedItems: RemovedItems) => {
+    setState((prevState) => ({ ...prevState, removedItems: newRemovedItems }));
+  };
+
+  const setNewItemNextIds = (newNewItemNextIds: NewItemNextIds) => {
+    setState((prevState) => ({
+      ...prevState,
+      newItemNextIds: newNewItemNextIds,
+    }));
+  };
+
   const { DateRangePicker, handleDateChange } = useDateRange({
     hideDefinedRanges: true,
     singleSelection: true,
@@ -91,11 +121,6 @@ const PriceSheet = () => {
   const selectedWeekNumber = getWeekNumber(
     new Date(startDate.replace(/-/g, '/')),
   );
-
-  const [changes, setChanges] =
-    useState<PriceSheetChanges>(initialChangesState);
-  const [removedItems, setRemovedItems] = useState(initialRemovedItemsState);
-  const [newItemNextIds, setNewItemNextIds] = useState(initialNewItemNextIds);
 
   const [updateLoading, setUpdateLoading] = useState<string[]>([]);
   const previousUpdateLoading = usePrevious(updateLoading);
@@ -176,6 +201,7 @@ const PriceSheet = () => {
     items,
     changes,
     removedItems,
+    startOfISOWeek(new Date(startDate.replace(/-/g, '/'))),
     getCategoryValue,
     getProductValue,
     getSizeValue,
@@ -355,28 +381,34 @@ const PriceSheet = () => {
           );
         });
       });
-    removedItems.categories.forEach((id, idx) => {
+    removedItems.categories.forEach(({ id, date }, idx) => {
       setUpdateLoading((prevLoading) => [
         ...prevLoading,
         `del-category-${idx}`,
       ]);
-      handleDeleteCategory({ variables: { id } }).then(() => {
+      handleDeleteCategory({
+        variables: { id, selectedDate: date },
+      }).then(() => {
         setUpdateLoading((prevLoading) =>
           prevLoading.filter((l) => l !== `del-category-${idx}`),
         );
       });
     });
-    removedItems.products.forEach((id, idx) => {
+    removedItems.products.forEach(({ id, date }, idx) => {
       setUpdateLoading((prevLoading) => [...prevLoading, `del-product-${idx}`]);
-      handleDeleteProduct({ variables: { id } }).then(() => {
+      handleDeleteProduct({
+        variables: { id, selectedDate: date },
+      }).then(() => {
         setUpdateLoading((prevLoading) =>
           prevLoading.filter((l) => l !== `del-product-${idx}`),
         );
       });
     });
-    removedItems.sizes.forEach((id, idx) => {
+    removedItems.sizes.forEach(({ id, date }, idx) => {
       setUpdateLoading((prevLoading) => [...prevLoading, `del-size-${idx}`]);
-      handleDeleteSize({ variables: { id } }).then(() => {
+      handleDeleteSize({
+        variables: { id, selectedDate: date },
+      }).then(() => {
         setUpdateLoading((prevLoading) =>
           prevLoading.filter((l) => l !== `del-size-${idx}`),
         );
@@ -395,10 +427,7 @@ const PriceSheet = () => {
   }, [dataLoading, previousUpdateLoading, updateLoading]);
 
   const handleCancel = () => {
-    setChanges(initialChangesState);
-    setRemovedItems(initialRemovedItemsState);
-    setNewItemNextIds(initialNewItemNextIds);
-    setEditing(false);
+    setState(initialState);
   };
 
   const handleChange = <T extends UpdateType>(
@@ -769,7 +798,7 @@ const PriceSheet = () => {
     });
   };
 
-  const handleRemoveNewCategory = (id: number, sortOrder: number) => {
+  const handleRemoveNewCategory = (id: number) => {
     const productsToRemove = pluck(
       'id',
       changes.newProducts.filter((item) => item.categoryId === id),
@@ -780,30 +809,9 @@ const PriceSheet = () => {
         productsToRemove.includes(item.productId),
       ),
     );
-    const existingCategories = items.filter(
-      (item) => item && getCategoryValue(item, 'sortOrder').value > sortOrder,
-    );
     setChanges({
       ...changes,
-      newCategories: changes.newCategories
-        .filter((item) => item.id !== id)
-        .map((c) =>
-          c.sortOrder > sortOrder ? { ...c, sortOrder: c.sortOrder - 1 } : c,
-        ),
-      categoryUpdates: [
-        ...changes.categoryUpdates.map((c) =>
-          c.sortOrder > sortOrder ? { ...c, sortOrder: c.sortOrder - 1 } : c,
-        ),
-        ...existingCategories.map((c) =>
-          c
-            ? {
-                ...c,
-                priceProductsByCategoryId: { nodes: [] },
-                sortOrder: c.sortOrder - 1,
-              }
-            : c,
-        ),
-      ] as CategoryUpdate[],
+      newCategories: changes.newCategories.filter((item) => item.id !== id),
       newProducts: changes.newProducts.filter(
         (item) => !productsToRemove.includes(item.id),
       ),
@@ -816,39 +824,14 @@ const PriceSheet = () => {
     });
   };
 
-  const handleRemoveNewProduct = (id: number, sortOrder: number) => {
+  const handleRemoveNewProduct = (id: number) => {
     const sizesToRemove = pluck(
       'id',
       changes.newSizes.filter((item) => item.productId === id),
     );
-    const existingCategory = items.find((item) => item && item.id === id);
-    const existingProducts = existingCategory
-      ? existingCategory.priceProductsByCategoryId.nodes.filter(
-          (item) =>
-            item && getProductValue(item, 'sortOrder').value > sortOrder,
-        )
-      : [];
     setChanges({
       ...changes,
-      newProducts: changes.newProducts
-        .filter((item) => item.id !== id)
-        .map((p) =>
-          p.sortOrder > sortOrder ? { ...p, sortOrder: p.sortOrder - 1 } : p,
-        ),
-      productUpdates: [
-        ...changes.productUpdates.map((p) =>
-          p.sortOrder > sortOrder ? { ...p, sortOrder: p.sortOrder - 1 } : p,
-        ),
-        ...existingProducts.map((p) =>
-          p
-            ? {
-                ...p,
-                priceSizesByCategoryId: { nodes: [] },
-                sortOrder: p.sortOrder - 1,
-              }
-            : p,
-        ),
-      ] as ProductUpdate[],
+      newProducts: changes.newProducts.filter((item) => item.id !== id),
       newSizes: changes.newSizes.filter((item) => item.productId !== id),
       newEntries: changes.newEntries.filter(
         (item) => !sizesToRemove.includes(item.sizeId),
@@ -856,18 +839,14 @@ const PriceSheet = () => {
     });
   };
 
-  const handleRemoveItem = (
-    key: keyof RemovedItems,
-    id: number,
-    sortOrder: number,
-  ) => {
+  const handleRemoveItem = (key: keyof RemovedItems, id: number) => {
     if (id < 0) {
       switch (key) {
         case 'categories':
-          handleRemoveNewCategory(id, sortOrder);
+          handleRemoveNewCategory(id);
           break;
         case 'products':
-          handleRemoveNewProduct(id, sortOrder);
+          handleRemoveNewProduct(id);
           break;
         case 'sizes':
           setChanges({
@@ -880,73 +859,16 @@ const PriceSheet = () => {
           return;
       }
     } else {
-      setRemovedItems({ ...removedItems, [key]: [...removedItems[key], id] });
-      if (key === 'categories') {
-        const existingCategories = items.filter(
-          (item) =>
-            item && getCategoryValue(item, 'sortOrder').value > sortOrder,
-        );
-        setChanges({
-          ...changes,
-          categoryUpdates: [
-            ...changes.categoryUpdates.map((c) =>
-              c.sortOrder > sortOrder
-                ? { ...c, sortOrder: c.sortOrder - 1 }
-                : c,
-            ),
-            ...existingCategories.map((c) =>
-              c
-                ? {
-                    ...c,
-                    priceProductsByCategoryId: { nodes: [] },
-                    sortOrder: c.sortOrder - 1,
-                  }
-                : c,
-            ),
-          ] as CategoryUpdate[],
-          newCategories: [
-            ...changes.newCategories.map((c) =>
-              c.sortOrder > sortOrder
-                ? { ...c, sortOrder: c.sortOrder - 1 }
-                : c,
-            ),
-          ],
-        });
-      } else if (key === 'products') {
-        const existingCategory = items.find((item) => item && item.id === id);
-        const existingProducts = existingCategory
-          ? existingCategory.priceProductsByCategoryId.nodes.filter(
-              (item) =>
-                item && getProductValue(item, 'sortOrder').value > sortOrder,
-            )
-          : [];
-        setChanges({
-          ...changes,
-          productUpdates: [
-            ...changes.productUpdates.map((p) =>
-              p.sortOrder > sortOrder
-                ? { ...p, sortOrder: p.sortOrder - 1 }
-                : p,
-            ),
-            ...existingProducts.map((p) =>
-              p
-                ? {
-                    ...p,
-                    priceSizesByCategoryId: { nodes: [] },
-                    sortOrder: p.sortOrder - 1,
-                  }
-                : p,
-            ),
-          ] as ProductUpdate[],
-          newProducts: [
-            ...changes.newProducts.map((p) =>
-              p.sortOrder > sortOrder
-                ? { ...p, sortOrder: p.sortOrder - 1 }
-                : p,
-            ),
-          ],
-        });
-      }
+      setRemovedItems({
+        ...removedItems,
+        [key]: [
+          ...removedItems[key].filter((removedItem) => removedItem.id !== id),
+          {
+            id,
+            date: startOfISOWeek(new Date(startDate.replace(/-/g, '/'))),
+          },
+        ],
+      });
     }
   };
 
@@ -985,6 +907,12 @@ const PriceSheet = () => {
     setCollapsedItems(initialCollapsedItemsState);
   };
 
+  const hasChanges = reduce(
+    (acc, key) => acc || changes[key].length > 0,
+    false,
+    Object.keys(changes) as (keyof PriceSheetChanges)[],
+  );
+
   return (
     <Page
       actions={[
@@ -992,7 +920,11 @@ const PriceSheet = () => {
           <Fragment key={0}>
             <Modal
               trigger={(show) => (
-                <b.Primary mr={th.spacing.sm} onClick={show} width={88}>
+                <b.Primary
+                  mr={th.spacing.sm}
+                  onClick={hasChanges ? show : handleCancel}
+                  width={88}
+                >
                   Cancel
                 </b.Primary>
               )}

@@ -3,6 +3,9 @@ import {
   format,
   getDay,
   getISOWeek,
+  isAfter,
+  isBefore,
+  isEqual,
   isMonday,
   isWednesday,
   startOfISOWeek,
@@ -40,3 +43,9 @@ export const getClosestMeetingDay = (date: Date) => {
 
 export const isMondayOrWednesday = (date: Date) =>
   isMonday(date) || isWednesday(date);
+
+export const isDateGreaterThanOrEqualTo = (date: Date, dateToCompare: Date) =>
+  isEqual(date, dateToCompare) || isAfter(date, dateToCompare);
+
+export const isDateLessThanOrEqualTo = (date: Date, dateToCompare: Date) =>
+  isEqual(date, dateToCompare) || isBefore(date, dateToCompare);

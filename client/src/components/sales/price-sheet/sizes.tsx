@@ -3,16 +3,16 @@ import { sortBy, times } from 'ramda';
 
 import EditableCell from 'components/editable-cell';
 import RemoveButton from 'components/remove-button';
+import SortControl from 'components/sort-control';
 import { PriceProduct, PriceSize } from 'types';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 import l from 'ui/layout';
 import { getDateOfISOWeek, getWeekNumber, isCurrentWeek } from 'utils/date';
 
-import { gridTemplateColumns } from '.';
 import AddItem from '../../add-item';
+import { gridTemplateColumns } from '.';
 import { PriceSheetProps } from './types';
-import SortControl from 'components/sort-control';
 
 interface Props extends PriceSheetProps {
   product: PriceProduct;
@@ -30,10 +30,6 @@ const Sizes = (props: Props) => {
     valueGetters: { getSizeValue, getEntryValue },
   } = props;
   const items = product.priceSizesByProductId.nodes as PriceSize[];
-
-  const lastIndex = items.length - 1;
-  const disableAdd =
-    items[lastIndex] && items[lastIndex].id < 0 && !items[lastIndex].sizeName;
 
   return (
     <div>
@@ -72,7 +68,7 @@ const Sizes = (props: Props) => {
                       </ty.BodyText>
                     </>
                   }
-                  handleRemove={() => handleRemoveItem('sizes', size.id, -1)}
+                  handleRemove={() => handleRemoveItem('sizes', size.id)}
                   shouldConfirm={size.id >= 0}
                   triggerProps={{
                     position: 'absolute',
@@ -187,7 +183,7 @@ const Sizes = (props: Props) => {
                               id: data.id,
                               content: content.value,
                               entryDate: data.entryDate,
-                              entryDescription: data.entryDescription,
+                              entryDescription: entryDescription.value,
                               highlight: !Boolean(highlight.value),
                               sizeId: data.sizeId,
                             });
@@ -207,7 +203,7 @@ const Sizes = (props: Props) => {
                           id: data.id,
                           content: e.target.value,
                           entryDate: data.entryDate,
-                          entryDescription: data.entryDescription,
+                          entryDescription: entryDescription.value,
                           highlight: e.target.value
                             ? e.target.value !== content.value
                             : false,
@@ -234,7 +230,6 @@ const Sizes = (props: Props) => {
       {editing && (
         <l.Div ml={th.spacing.lg}>
           <AddItem
-            disabled={disableAdd}
             onClick={() =>
               handleNewSize(
                 {

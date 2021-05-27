@@ -13,8 +13,8 @@ import l from 'ui/layout';
 import { contrastColor, getRandomColor } from 'ui/utils';
 import { getDateOfISOWeek, getWeekNumber, isCurrentWeek } from 'utils/date';
 
-import { gridTemplateColumns } from '.';
 import AddItem from '../../add-item';
+import { gridTemplateColumns } from '.';
 import Sizes from './sizes';
 import { PriceSheetProps } from './types';
 
@@ -36,12 +36,6 @@ const Products = (props: Props) => {
     valueGetters: { getProductValue, getEntryValue },
   } = props;
   const items = category.priceProductsByCategoryId.nodes as PriceProduct[];
-
-  const lastIndex = items.length - 1;
-  const disableAdd =
-    items[lastIndex] &&
-    items[lastIndex].id < 0 &&
-    !items[lastIndex].productName;
 
   return (
     <div>
@@ -136,14 +130,7 @@ const Products = (props: Props) => {
                           </>
                         }
                         handleRemove={() =>
-                          handleRemoveItem(
-                            'products',
-                            product.id,
-                            parseInt(
-                              getProductValue(product, 'sortOrder').value,
-                              10,
-                            ),
-                          )
+                          handleRemoveItem('products', product.id)
                         }
                         shouldConfirm={product.id >= 0}
                         triggerProps={{
@@ -287,7 +274,6 @@ const Products = (props: Props) => {
       {editing && (
         <l.Div ml={th.spacing.md}>
           <AddItem
-            disabled={disableAdd}
             onClick={() => {
               handleNewProduct(
                 {

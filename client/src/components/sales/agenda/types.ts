@@ -10,6 +10,7 @@ export interface AgendaItemProps {
   handleRemoveItem: (id: number, sortOrder: number) => void;
   handleSave: (id: number, onComplete: () => void) => void;
   handleSortChange: (item: AgendaItemUpdate, direction: 'up' | 'down') => void;
+  hasChanges: boolean;
   selectedWeekNumber: number;
   item: AgendaItemUpdate;
   isFirst: boolean;

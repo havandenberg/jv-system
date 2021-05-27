@@ -1,4 +1,3 @@
--- migrate:up
 CREATE TABLE directory.country (
 	id TEXT PRIMARY KEY,
 	country_name TEXT NOT NULL
@@ -79,9 +78,17 @@ CREATE TABLE directory.person_contact (
 	roles TEXT
 );
 
--- migrate:down
-DROP TABLE directory.country;
-DROP TABLE directory.shipper;
-DROP TABLE directory.customer;
-DROP TABLE directory.warehouse;
-DROP TABLE directory.person_contact;
+CREATE TABLE directory.contact_alias (
+	id BIGSERIAL PRIMARY KEY,
+	alias_description TEXT NOT NULL,
+	alias_name TEXT NOT NULL,
+	alias_type TEXT NOT NULL
+);
+
+CREATE TABLE directory.contact_alias_person_contact (
+  alias_id BIGINT NOT NULL,
+  person_contact_id BIGINT NOT NULL,
+  PRIMARY KEY (alias_id, person_contact_id),
+  FOREIGN KEY (alias_id) REFERENCES directory.contact_alias(id) ON UPDATE CASCADE,
+  FOREIGN KEY (person_contact_id) REFERENCES directory.person_contact(id) ON UPDATE CASCADE
+);

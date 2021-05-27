@@ -1,4 +1,10 @@
--- migrate:up
+CREATE TABLE sales.agenda_item (
+    id BIGSERIAL PRIMARY KEY,
+    content TEXT NOT NULL,
+    item_date DATE NOT NULL,
+    sort_order INT NOT NULL
+);
+
 CREATE FUNCTION sales.bulk_upsert_agenda_item(
   items sales.agenda_item[]
 )
@@ -31,6 +37,3 @@ AS $$
 	RETURN;
   END;
 $$ LANGUAGE plpgsql VOLATILE STRICT SET search_path FROM CURRENT;
-
--- migrate:down
-DROP FUNCTION sales.bulk_upsert_agenda_item;

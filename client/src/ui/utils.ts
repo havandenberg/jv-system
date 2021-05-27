@@ -63,9 +63,8 @@ const hexToRgb = (hex: string): RGB | undefined => {
     return undefined;
   }
 
-  const result: RegExpExecArray | null = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(
-    hex,
-  );
+  const result: RegExpExecArray | null =
+    /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
 
   return result
     ? {
@@ -131,7 +130,7 @@ export const defaultColorSet = [
   '#666666',
   '#FFFFFF',
   '#CCCCCC',
-  '#CCCCCC',
+  '#B3B3B3',
 ];
 
 export const getRandomColor = (colorSet: string[] = defaultColorSet) =>

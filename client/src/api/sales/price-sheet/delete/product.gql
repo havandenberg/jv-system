@@ -1,7 +1,7 @@
-mutation PRICE_PRODUCT_DELETE($id: BigInt!) {
-  deletePriceProduct(input: { id: $id }) {
-    priceProduct {
-      id
-    }
+mutation PRICE_PRODUCT_DELETE($id: BigInt!, $selectedDate: Date!) {
+  deletePriceProductEntries(
+    input: { selectedProductId: $id, selectedDate: $selectedDate }
+  ) {
+    bigInts
   }
 }

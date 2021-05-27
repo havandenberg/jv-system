@@ -78,6 +78,12 @@ query PRICE_ENTRIES($endDate: Date, $startDate: Date) {
                   highlight
                   id
                   sizeId
+                  size {
+                    productId
+                    product {
+                      categoryId
+                    }
+                  }
                 }
               }
             }

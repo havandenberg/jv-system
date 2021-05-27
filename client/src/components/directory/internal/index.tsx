@@ -4,6 +4,7 @@ import { isEmpty } from 'ramda';
 import api from 'api';
 import { DataMessage } from 'components/page/message';
 import Page from 'components/page';
+import VirtualizedList from 'components/virtualized-list';
 import useColumns, { SORT_ORDER } from 'hooks/use-columns';
 import { PersonContact } from 'types';
 import { LineItemCheckbox } from 'ui/checkbox';
@@ -71,6 +72,7 @@ const InternalDirectory = ({
                 gridTemplateColumns={gridTemplateColumns}
                 mb={th.spacing.sm}
                 pl={th.spacing.sm}
+                pr={data ? (data.totalCount > 12 ? th.spacing.md : 0) : 0}
               >
                 <LineItemCheckbox
                   checked={isAllSelected}
@@ -85,26 +87,32 @@ const InternalDirectory = ({
       title="Internal Directory"
     >
       {!isEmpty(items) ? (
-        items.map(
-          (item, idx) =>
-            item && (
-              <ListItem<PersonContact>
-                data={item}
-                gridTemplateColumns={gridTemplateColumns}
-                key={idx}
-                listLabels={listLabels}
-                onSelectItem={() =>
-                  selectItem({
-                    id: item.id,
-                    email: item.email || '',
-                    description: 'Contact',
-                  })
-                }
-                selected={!!selectedItems.find((it) => it.id === item.id)}
-                slug={`internal/${item.id}`}
-              />
-            ),
-        )
+        <VirtualizedList
+          rowCount={data ? data.totalCount : 0}
+          rowRenderer={({ key, index, style }) => {
+            const item = items[index];
+            return (
+              item && (
+                <div key={key} style={style}>
+                  <ListItem<PersonContact>
+                    data={item}
+                    gridTemplateColumns={gridTemplateColumns}
+                    listLabels={listLabels}
+                    onSelectItem={() =>
+                      selectItem({
+                        id: item.id,
+                        email: '',
+                        description: ` - Contacts`,
+                      })
+                    }
+                    selected={!!selectedItems.find((it) => it.id === item.id)}
+                    slug={`internal/${item.id}`}
+                  />
+                </div>
+              )
+            );
+          }}
+        />
       ) : (
         <DataMessage
           data={items}

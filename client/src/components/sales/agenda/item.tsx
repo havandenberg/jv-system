@@ -15,6 +15,7 @@ const AgendaItem = ({
   handleRemoveItem,
   handleSave,
   handleSortChange,
+  hasChanges,
   item,
   isFirst,
   isLast,
@@ -35,6 +36,7 @@ const AgendaItem = ({
     buttonsMD: [
       'bold',
       'italic',
+      'underline',
       '|',
       'ul',
       'ol',
@@ -43,10 +45,9 @@ const AgendaItem = ({
       'fontsize',
       'brush',
       'paragraph',
+      'indent',
       '|',
-      'image',
       'table',
-      'link',
       '|',
       'align',
       '|',
@@ -55,7 +56,6 @@ const AgendaItem = ({
       '|',
       'hr',
       '|',
-      'copyformat',
       'fullsize',
     ],
     style: {
@@ -116,7 +116,7 @@ const AgendaItem = ({
               trigger={(show) => (
                 <b.Primary
                   mb={th.spacing.md}
-                  onClick={item.id < 0 ? handleCancel : show}
+                  onClick={item.id < 0 || !hasChanges ? handleCancel : show}
                   width={100}
                 >
                   Cancel

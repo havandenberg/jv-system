@@ -275,6 +275,11 @@ const Agenda = () => {
           handleRemoveItem={handleRemoveItem}
           handleSave={handleSave}
           handleSortChange={handleSortChange}
+          hasChanges={
+            !!changes.find(
+              (ch) => ch.id === item.id && item.content !== ch.content,
+            )
+          }
           item={item}
           key={`${item.id}-${item.sortOrder}`}
           selectedWeekNumber={selectedWeekNumber}

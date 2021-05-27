@@ -9,9 +9,9 @@ import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 
+import AddItem from '../../add-item';
 import Products from './products';
 import { PriceSheetProps } from './types';
-import AddItem from '../../add-item';
 
 interface Props extends PriceSheetProps {
   items: PriceCategory[];
@@ -30,14 +30,8 @@ const Categories = (props: Props) => {
     valueGetters: { getCategoryValue },
   } = props;
 
-  const lastIndex = items.length - 1;
-  const disableAdd =
-    items[lastIndex] &&
-    items[lastIndex].id < 0 &&
-    !items[lastIndex].categoryName;
-
   return (
-    <l.Div mt={th.spacing.sm}>
+    <l.Div mt={th.spacing.sm} mb={items.length > 0 ? th.spacing.xxxl : 0}>
       {items.map((category, idx) => {
         const categoryName = getCategoryValue(category, 'categoryName');
         return (
@@ -63,14 +57,7 @@ const Categories = (props: Props) => {
                         </>
                       }
                       handleRemove={() =>
-                        handleRemoveItem(
-                          'categories',
-                          category.id,
-                          parseInt(
-                            getCategoryValue(category, 'sortOrder').value,
-                            10,
-                          ),
-                        )
+                        handleRemoveItem('categories', category.id)
                       }
                       shouldConfirm={category.id >= 0}
                       triggerProps={{
@@ -127,7 +114,6 @@ const Categories = (props: Props) => {
       {editing && (
         <l.Div ml={th.spacing.sm}>
           <AddItem
-            disabled={disableAdd}
             onClick={() =>
               handleNewCategory({
                 id: -1,
