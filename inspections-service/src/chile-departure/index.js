@@ -1,5 +1,6 @@
 const decompress = require('decompress');
 const fetch = require('node-fetch');
+const path = require('path');
 const { pluck, uniqBy } = require('ramda');
 const XLSX = require('xlsx');
 
@@ -47,21 +48,21 @@ const fetchChileDepartureInspections = () => {
           .request(DISTINCT_VALUES, {
             columnName: 'id',
             tableName: 'chile_departure_inspection_pallet',
-            tableName: 'inspection',
+            schemaName: 'inspection',
           })
           .then(({ distinctValues: { nodes } }) => {
-            const startIndex = 1;
-            const endIndex = dataArray
-              .reverse()
-              .findIndex((row) => nodes.includes(row[57]));
-            console.log(
-              `New pallets found: ${
-                (endIndex > -1 ? endIndex : dataArray.length) - startIndex
-              }`,
+            const newValues = dataArray
+              .slice(1, -1)
+              .filter((row) => !nodes.includes(row[57]));
+            const CHUNK_SIZE = 1;
+            const segmentedNewValues = [
+              ...Array(Math.ceil(newValues.length / CHUNK_SIZE)),
+            ].map((_, idx) =>
+              newValues.slice(idx * CHUNK_SIZE, idx * CHUNK_SIZE + CHUNK_SIZE),
             );
-            const newPallets = dataArray
-              .slice(startIndex, endIndex)
-              .map((pallet) => ({
+            console.log(`New pallets found: ${newValues.length}`);
+            segmentedNewValues.forEach((values) => {
+              const newPallets = values.map((pallet) => ({
                 id: pallet[57],
                 lotId: pallet[56],
                 lotNumber: pallet[0],
@@ -112,49 +113,50 @@ const fetchChileDepartureInspections = () => {
                 reportLink: pallet[58],
                 imagesLink: pallet[59],
               }));
-            gqlClient
-              .request(BATCH_CREATE_CHILE_DEPARTURE_INSPECTION_PALLET, {
-                input: {
-                  newPallets,
-                },
-              })
-              .then(
-                ({
-                  batchCreateChileDepartureInspectionPallet: {
-                    chileDepartureInspectionPallets,
+              gqlClient
+                .request(BATCH_CREATE_CHILE_DEPARTURE_INSPECTION_PALLET, {
+                  input: {
+                    newPallets,
                   },
-                }) => {
-                  const newLots = uniqBy(
-                    (pt) => pt.lotNumber,
-                    chileDepartureInspectionPallets,
-                  );
-                  console.log(
-                    `Lots added to database: ${JSON.stringify(
-                      pluck('lotNumber', newLots),
-                    )}`,
-                  );
-                  newLots.forEach((newLot) => {
-                    fetch(newLot.imagesLink)
-                      .then((res) => res.buffer())
-                      .then((res) => {
-                        decompress(
-                          res,
-                          `/chile-departure-inspections/${newLot.lotNumber}`,
-                          {
-                            filter: (file) =>
-                              !file.path.includes('thum') &&
-                              path.extname(file.path) === '.jpg',
-                          },
-                        ).then((files) => {
-                          console.log(
-                            `${files.length} images added: ${newLot.lotNumber}`,
-                          );
+                })
+                .then(
+                  ({
+                    batchCreateChileDepartureInspectionPallet: {
+                      chileDepartureInspectionPallets,
+                    },
+                  }) => {
+                    const newLots = uniqBy(
+                      (pt) => pt.lotNumber,
+                      chileDepartureInspectionPallets,
+                    );
+                    console.log(
+                      `Lots added to database: ${JSON.stringify(
+                        pluck('lotNumber', newLots),
+                      )}`,
+                    );
+                    newLots.forEach((newLot) => {
+                      fetch(newLot.imagesLink)
+                        .then((res) => res.buffer())
+                        .then((res) => {
+                          decompress(
+                            res,
+                            `/chile-departure-inspections/${newLot.lotNumber}`,
+                            {
+                              filter: (file) =>
+                                !file.path.includes('thum') &&
+                                path.extname(file.path) === '.jpg',
+                            },
+                          ).then((files) => {
+                            console.log(
+                              `${files.length} images added: ${newLot.lotNumber}`,
+                            );
+                          });
                         });
-                      });
-                  });
-                },
-              )
-              .catch((e) => console.log(e));
+                    });
+                  },
+                )
+                .catch((e) => console.log(e));
+            });
           })
           .catch((e) => console.log(e));
       }

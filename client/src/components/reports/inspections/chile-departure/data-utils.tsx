@@ -152,11 +152,13 @@ export const getFeaturedValues = (data: ChileDepartureInspection) => [
     label: '°Brix',
     value: (
       <l.Div width={th.sizes.fill}>
-        {([
-          { label: 'Max', key: 'brixMax' },
-          { label: 'Avg', key: 'brixAvg' },
-          { label: 'Min', key: 'brixMin' },
-        ] as ReportLabelInfo[]).map(({ label, key }, idx) => (
+        {(
+          [
+            { label: 'Max', key: 'brixMax' },
+            { label: 'Avg', key: 'brixAvg' },
+            { label: 'Min', key: 'brixMin' },
+          ] as ReportLabelInfo[]
+        ).map(({ label, key }, idx) => (
           <l.Flex
             alignCenter
             justifyBetween
@@ -257,7 +259,7 @@ export const getChartData = (data: ChileDepartureInspectionPallet[]) =>
         label,
         value: parseFloat(((group.length / data.length) * 100).toFixed(1)),
       }),
-      groupBy((pallet) => pallet.scoreName, data),
+      groupBy((pallet) => `${pallet.scoreName}`, data),
     ),
   );
 

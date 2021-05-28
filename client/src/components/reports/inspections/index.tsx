@@ -14,7 +14,7 @@ import PeruInspectionDetails from './peru-departure/details';
 export const breadcrumbs = (type: string) => [
   { text: 'All Inspections', to: `/reports/inspections/${type}` },
 ];
-export const gridTemplateColumns = '3.5fr 4fr 4fr 4fr 2fr 2fr 6fr 30px';
+export const gridTemplateColumns = '3.5fr 4fr 4fr 4fr 2fr 2fr 3fr 30px';
 
 export enum InspectionTypes {
   ARRIVAL = 'arrival',

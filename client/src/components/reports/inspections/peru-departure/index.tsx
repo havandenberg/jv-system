@@ -4,6 +4,7 @@ import { isEmpty } from 'ramda';
 import api from 'api';
 import { DataMessage } from 'components/page/message';
 import Page from 'components/page';
+import VirtualizedList from 'components/virtualized-list';
 import useColumns, { SORT_ORDER } from 'hooks/use-columns';
 import { PeruDepartureInspection } from 'types';
 import l from 'ui/layout';
@@ -55,6 +56,7 @@ const PeruDepartureInspections = ({
                 gridTemplateColumns={gridTemplateColumns}
                 mb={th.spacing.sm}
                 pl={th.spacing.sm}
+                pr={data ? (data.totalCount > 7 ? th.spacing.md : 0) : 0}
               >
                 {columnLabels}
                 <ty.SmallText px={th.spacing.sm} secondary>
@@ -68,18 +70,26 @@ const PeruDepartureInspections = ({
       title="Product Inspection Reports"
     >
       {!isEmpty(inspections) ? (
-        inspections.map(
-          (item, idx) =>
-            item && (
-              <ListItem<PeruDepartureInspection>
-                data={item}
-                key={idx}
-                lightboxTitle={item.containerId}
-                listLabels={listLabels}
-                slug={`${InspectionTypes.PERU_DEPARTURE}/${item.containerId}`}
-              />
-            ),
-        )
+        <VirtualizedList
+          rowCount={data ? data.totalCount : 0}
+          rowHeight={74}
+          rowRenderer={({ key, index, style }) => {
+            const item = inspections[index];
+            return (
+              item && (
+                <div key={key} style={style}>
+                  <ListItem<PeruDepartureInspection>
+                    data={item}
+                    key={key}
+                    lightboxTitle={item.containerId}
+                    listLabels={listLabels}
+                    slug={`${InspectionTypes.PERU_DEPARTURE}/${item.containerId}`}
+                  />
+                </div>
+              )
+            );
+          }}
+        />
       ) : (
         <DataMessage
           data={inspections}

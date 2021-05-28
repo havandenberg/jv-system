@@ -19,6 +19,7 @@
   "scripts": {
     "cdi-run-once": "node src/chile-departure/run-once.js",
     "pdi-run-once": "node src/peru-departure/run-once.js",
+    "psa-run-once": "node src/psa-arrival/run-once.js",
     "start": "nodemon src/index.js"
   }
 }
