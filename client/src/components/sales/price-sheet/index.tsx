@@ -46,6 +46,7 @@ import {
   UpdateType,
 } from './types';
 import { getAllItems } from './utils';
+import { FilterCheckbox } from 'ui/checkbox';
 
 export const gridTemplateColumns = '3fr 1fr 1.3fr repeat(4, 1fr)';
 
@@ -81,14 +82,21 @@ const initialNewItemNextIds: NewItemNextIds = {
 const initialState: PriceSheetState = {
   changes: initialChangesState,
   editing: false,
-  removedItems: initialRemovedItemsState,
   newItemNextIds: initialNewItemNextIds,
+  removedItems: initialRemovedItemsState,
+  sendNotification: false,
 };
 
 const PriceSheet = () => {
   useScrollToTop();
   const [state, setState] = useState<PriceSheetState>(initialState);
-  const { changes, editing, removedItems, newItemNextIds } = state;
+  const { changes, editing, newItemNextIds, removedItems, sendNotification } =
+    state;
+  const hasChanges = reduce(
+    (acc, key) => acc || changes[key].length > 0,
+    false,
+    Object.keys(changes) as (keyof PriceSheetChanges)[],
+  );
 
   const setChanges = (newChanges: PriceSheetChanges) => {
     setState((prevState) => ({ ...prevState, changes: newChanges }));
@@ -98,14 +106,21 @@ const PriceSheet = () => {
     setState((prevState) => ({ ...prevState, editing: newEditing }));
   };
 
-  const setRemovedItems = (newRemovedItems: RemovedItems) => {
-    setState((prevState) => ({ ...prevState, removedItems: newRemovedItems }));
-  };
-
   const setNewItemNextIds = (newNewItemNextIds: NewItemNextIds) => {
     setState((prevState) => ({
       ...prevState,
       newItemNextIds: newNewItemNextIds,
+    }));
+  };
+
+  const setRemovedItems = (newRemovedItems: RemovedItems) => {
+    setState((prevState) => ({ ...prevState, removedItems: newRemovedItems }));
+  };
+
+  const setSendNotification = (newSendNotification: boolean) => {
+    setState((prevState) => ({
+      ...prevState,
+      sendNotification: newSendNotification,
     }));
   };
 
@@ -125,6 +140,7 @@ const PriceSheet = () => {
   const [updateLoading, setUpdateLoading] = useState<string[]>([]);
   const previousUpdateLoading = usePrevious(updateLoading);
   const [handleUpdate] = api.useUpdatePriceSheet();
+  const [handleNotify] = api.useSendPriceSheetUpdateEmail();
   const [handleCreateCategory] = api.useCreatePriceCategory();
   const [handleCreateProduct] = api.useCreatePriceProduct();
   const [handleCreateSize] = api.useCreatePriceSize();
@@ -414,6 +430,9 @@ const PriceSheet = () => {
         );
       });
     });
+    if (sendNotification) {
+      handleNotify();
+    }
   };
 
   useEffect(() => {
@@ -907,17 +926,11 @@ const PriceSheet = () => {
     setCollapsedItems(initialCollapsedItemsState);
   };
 
-  const hasChanges = reduce(
-    (acc, key) => acc || changes[key].length > 0,
-    false,
-    Object.keys(changes) as (keyof PriceSheetChanges)[],
-  );
-
   return (
     <Page
       actions={[
         editing ? (
-          <Fragment key={0}>
+          <l.Flex key={0} position="relative">
             <Modal
               trigger={(show) => (
                 <b.Primary
@@ -956,7 +969,14 @@ const PriceSheet = () => {
                 'Save'
               )}
             </b.Primary>
-          </Fragment>
+            <l.Div position="absolute" right={0} top={50}>
+              <FilterCheckbox
+                checked={sendNotification}
+                label="Send email notification"
+                onChange={() => setSendNotification(!sendNotification)}
+              />
+            </l.Div>
+          </l.Flex>
         ) : (
           <b.Primary key={0} onClick={handleEdit} width={88}>
             Edit

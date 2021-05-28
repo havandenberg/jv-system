@@ -83,8 +83,10 @@ const BaseData = <T extends {}>({
               editing={!!editing}
               inputProps={{
                 borderRadius: th.borderRadii.default,
+                height: th.sizes.icon,
+                fontSize: th.fontSizes.body,
                 padding: th.spacing.xs,
-                width: 150,
+                width: 175,
               }}
               onChange={(e) => {
                 handleChange && handleChange(key, e.target.value);

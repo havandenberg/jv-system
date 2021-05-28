@@ -1,0 +1,3 @@
+mutation PRICE_SHEET_UPDATE_NOTIFY {
+  sendPriceSheetUpdateEmail
+}

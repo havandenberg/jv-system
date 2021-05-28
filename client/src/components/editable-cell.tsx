@@ -5,8 +5,12 @@ import {
   BorderSetProps,
   color,
   ColorProps,
+  fontSize,
+  FontSizeProps,
   fontWeight,
   FontWeightProps,
+  height,
+  HeightProps,
   spaceSet,
   SpaceSetProps,
   textSet,
@@ -32,7 +36,9 @@ const Input = styled.input<{ dirty: boolean } & DivProps>(
   }),
   borderSet,
   color,
+  fontSize,
   fontWeight,
+  height,
   spaceSet,
   textSet,
   width,
@@ -80,7 +86,9 @@ interface Props {
     ColorProps &
     SpaceSetProps &
     TextSetProps &
+    FontSizeProps &
     FontWeightProps &
+    HeightProps &
     WidthProps;
   onChange: React.ChangeEventHandler<HTMLInputElement>;
   showBorder?: boolean;

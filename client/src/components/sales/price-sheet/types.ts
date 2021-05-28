@@ -87,8 +87,9 @@ export interface NewItemNextIds {
 export interface PriceSheetState {
   changes: PriceSheetChanges;
   editing: boolean;
-  removedItems: RemovedItems;
   newItemNextIds: NewItemNextIds;
+  removedItems: RemovedItems;
+  sendNotification: boolean;
 }
 
 export type SortItemType = PriceCategory | PriceProduct | PriceSize;

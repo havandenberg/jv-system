@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import { pick } from 'ramda';
+import { equals, pick } from 'ramda';
 import { useParams } from 'react-router-dom';
 import { ClipLoader } from 'react-spinners';
 
@@ -39,6 +39,7 @@ const Details = () => {
   const [updateLoading, setLoading] = useState(false);
 
   const [changes, setChanges] = useState<PersonContact>(data as PersonContact);
+  const hasChanges = !equals(changes, data);
 
   const handleCancel = () => {
     setChanges(data as PersonContact);
@@ -88,7 +89,11 @@ const Details = () => {
           <Fragment key={0}>
             <Modal
               trigger={(show) => (
-                <b.Primary mr={th.spacing.sm} onClick={show} width={88}>
+                <b.Primary
+                  mr={th.spacing.sm}
+                  onClick={hasChanges ? show : handleCancel}
+                  width={88}
+                >
                   Cancel
                 </b.Primary>
               )}

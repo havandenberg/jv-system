@@ -5,6 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "graphile-utils": "^4.11.2",
+    "node-ews": "^3.4.2",
     "postgraphile": "^4.11.0"
   }
 }

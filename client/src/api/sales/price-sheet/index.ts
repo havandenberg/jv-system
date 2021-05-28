@@ -7,6 +7,7 @@ import { Mutation, Query } from 'types';
 
 const PRICE_ENTRIES_QUERY = loader('./entries.gql');
 const PRICE_SHEET_UPDATE = loader('./update.gql');
+const PRICE_SHEET_UPDATE_NOTIFY = loader('./notify.gql');
 const PRICE_CATEGORY_CREATE = loader('./create/category.gql');
 const PRICE_PRODUCT_CREATE = loader('./create/product.gql');
 const PRICE_SIZE_CREATE = loader('./create/size.gql');
@@ -53,6 +54,9 @@ export const useUpdatePriceSheet = () => {
     ],
   });
 };
+
+export const useSendPriceSheetUpdateEmail = () =>
+  useMutation<Mutation>(PRICE_SHEET_UPDATE_NOTIFY);
 
 export const useCreatePriceCategory = () => {
   const variables = useDateVariables();

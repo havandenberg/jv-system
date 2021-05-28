@@ -3,11 +3,13 @@ const {
 } = require('postgraphile-plugin-atomic-mutations');
 const { makePluginByCombiningPlugins } = require('graphile-utils');
 
-const ChileDepartureInspectionPalletPlugin = require('./plugins/chile-departure-inspection-pallet');
-const PeruDepartureInspectionPlugin = require('./plugins/peru-departure-inspection');
+const ChileDepartureInspectionPalletPlugin = require('./plugins/inspections/chile-departure-inspection-pallet');
+const PeruDepartureInspectionPlugin = require('./plugins/inspections/peru-departure-inspection');
+const PriceSheetUpdateEmailPlugin = require('./plugins/sales/price-sheet-update-email');
 
 module.exports = makePluginByCombiningPlugins(
   AtomicMutationsPlugin,
   ChileDepartureInspectionPalletPlugin,
   PeruDepartureInspectionPlugin,
+  PriceSheetUpdateEmailPlugin,
 );
