@@ -12,11 +12,6 @@ export const listLabels: WarehouseLabelInfo[] = [
     sortable: true,
   },
   {
-    key: 'phone',
-    label: 'Phone Number',
-    transformKey: 'phone',
-  },
-  {
     key: 'city',
     label: 'City',
     filterable: true,
@@ -36,6 +31,11 @@ export const listLabels: WarehouseLabelInfo[] = [
     },
     filterable: true,
     sortable: true,
+  },
+  {
+    key: 'phone',
+    label: 'Phone Number',
+    transformKey: 'phone',
   },
 ];
 

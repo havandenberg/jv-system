@@ -16,7 +16,7 @@ import { breadcrumbs, SubDirectoryProps } from '..';
 import ListItem from '../list-item';
 import { listLabels } from './data-utils';
 
-const gridTemplateColumns = '30px 2.5fr 1.5fr 1.5fr 0.5fr 30px';
+const gridTemplateColumns = '30px 2fr 1.5fr 0.5fr 1.5fr 30px';
 
 const WarehouseDirectory = ({
   actions,

@@ -1,0 +1,3 @@
+const { fetchPSAArrivalInspections } = require('.');
+
+fetchPSAArrivalInspections();

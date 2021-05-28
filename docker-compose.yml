@@ -34,6 +34,7 @@ services:
     volumes:
       - ${PERU_INSPECTIONS_DIRECTORY}:/peru-departure-inspections
       - ${CHILE_INSPECTIONS_DIRECTORY}:/chile-departure-inspections
+      - ${PSA_INSPECTIONS_DIRECTORY}:/psa-arrival-inspections
   server:
     container_name: 'jv-server'
     build: ./server
@@ -48,6 +49,7 @@ services:
       - server_nodemodules:/server/node_modules
       - ${PERU_INSPECTIONS_DIRECTORY}:/server/static/peru-departure-inspections
       - ${CHILE_INSPECTIONS_DIRECTORY}:/server/static/chile-departure-inspections
+      - ${PSA_INSPECTIONS_DIRECTORY}:/server/static/psa-arrival-inspections
   inspections-service:
     container_name: 'jv-inspections-service'
     build: ./inspections-service
@@ -63,6 +65,7 @@ services:
       - inspections-service_nodemodules:/inspections-service/node_modules
       - ${CHILE_INSPECTIONS_DIRECTORY}:/chile-departure-inspections
       - ${PERU_INSPECTIONS_DIRECTORY}:/peru-departure-inspections
+      - ${PSA_INSPECTIONS_DIRECTORY}:/psa-arrival-inspections
   client:
     container_name: 'jv-client'
     build: ./client

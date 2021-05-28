@@ -31,9 +31,17 @@ const ewsArgs = {
         $value: `The price sheet has been updated. <a href="${process.env.REACT_APP_CLIENT_URL}/sales/price-sheet">View latest changes here.</a>`,
       },
       ToRecipients: {
-        Mailbox: {
-          EmailAddress: 'hvandenberg@jacvandenberg.com',
-        },
+        Mailbox: [
+          { EmailAddress: 'akorthaus@jacvandenberg.com' },
+          { EmailAddress: 'bschiro@jacvandenberg.com' },
+          { EmailAddress: 'cpadover@jacvandenberg.com' },
+          { EmailAddress: 'fvandenberg@jacvandenberg.com' },
+          { EmailAddress: 'gvandenberg@jacvandenberg.com' },
+          { EmailAddress: 'hvandenberg@jacvandenberg.com' },
+          { EmailAddress: 'mfarris@jacvandenberg.com' },
+          { EmailAddress: 'npaap@jacvandenberg.com' },
+          { EmailAddress: 'sstedman@jacvandenberg.com' },
+        ],
       },
       IsRead: 'false',
     },

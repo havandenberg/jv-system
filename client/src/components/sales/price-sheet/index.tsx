@@ -11,7 +11,6 @@ import Page from 'components/page';
 import useDateRange from 'hooks/use-date-range';
 import usePrevious from 'hooks/use-previous';
 import { useDateRangeQueryParams } from 'hooks/use-query-params';
-import useScrollToTop from 'hooks/use-scroll-to-top';
 import {
   Maybe,
   PriceCategory,
@@ -88,7 +87,6 @@ const initialState: PriceSheetState = {
 };
 
 const PriceSheet = () => {
-  useScrollToTop();
   const [state, setState] = useState<PriceSheetState>(initialState);
   const { changes, editing, newItemNextIds, removedItems, sendNotification } =
     state;
