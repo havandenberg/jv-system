@@ -67,6 +67,9 @@ const CustomerDirectory = ({
             <>
               <ty.SmallText mb={th.spacing.lg} pl={th.spacing.sm}>
                 Results: {data ? data.totalCount : '-'}
+                {selectedItems.length > 0
+                  ? `, Selected: ${selectedItems.length}`
+                  : ''}
               </ty.SmallText>
               <l.Grid
                 gridTemplateColumns={gridTemplateColumns}

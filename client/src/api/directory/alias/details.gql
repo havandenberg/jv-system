@@ -1,0 +1,20 @@
+query CONTACT_ALIAS_DETAILS($id: BigInt!) {
+  contactAlias(id: $id) {
+    aliasDescription
+    aliasName
+    aliasType
+    id
+    contactAliasPersonContactsByAliasId {
+      nodes {
+        personContact {
+          email
+          firstName
+          id
+          lastName
+          workPhone
+        }
+      }
+      totalCount
+    }
+  }
+}

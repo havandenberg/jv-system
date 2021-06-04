@@ -35,6 +35,10 @@ export type Query = Node & {
   nodeId: Scalars['ID'];
   /** Fetches an object given its globally unique `ID`. */
   node?: Maybe<Node>;
+  /** Reads and enables pagination through a set of `ContactAlias`. */
+  contactAliases?: Maybe<ContactAliasesConnection>;
+  /** Reads and enables pagination through a set of `ContactAliasPersonContact`. */
+  contactAliasPersonContacts?: Maybe<ContactAliasPersonContactsConnection>;
   /** Reads and enables pagination through a set of `Country`. */
   countries?: Maybe<CountriesConnection>;
   /** Reads and enables pagination through a set of `Customer`. */
@@ -61,6 +65,8 @@ export type Query = Node & {
   peruDepartureInspections?: Maybe<PeruDepartureInspectionsConnection>;
   /** Reads and enables pagination through a set of `PeruDepartureInspectionPallet`. */
   peruDepartureInspectionPallets?: Maybe<PeruDepartureInspectionPalletsConnection>;
+  contactAlias?: Maybe<ContactAlias>;
+  contactAliasPersonContact?: Maybe<ContactAliasPersonContact>;
   country?: Maybe<Country>;
   customer?: Maybe<Customer>;
   personContact?: Maybe<PersonContact>;
@@ -78,6 +84,10 @@ export type Query = Node & {
   customerDistinctValues?: Maybe<CustomerDistinctValuesConnection>;
   /** Reads and enables pagination through a set of `ChileDepartureInspection`. */
   chileDepartureInspections?: Maybe<ChileDepartureInspectionsConnection>;
+  /** Reads a single `ContactAlias` using its globally unique `ID`. */
+  contactAliasByNodeId?: Maybe<ContactAlias>;
+  /** Reads a single `ContactAliasPersonContact` using its globally unique `ID`. */
+  contactAliasPersonContactByNodeId?: Maybe<ContactAliasPersonContact>;
   /** Reads a single `Country` using its globally unique `ID`. */
   countryByNodeId?: Maybe<Country>;
   /** Reads a single `Customer` using its globally unique `ID`. */
@@ -110,6 +120,32 @@ export type Query = Node & {
 /** The root query type which gives access points into the data universe. */
 export type QueryNodeArgs = {
   nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryContactAliasesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ContactAliasesOrderBy>>;
+  condition?: Maybe<ContactAliasCondition>;
+  filter?: Maybe<ContactAliasFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryContactAliasPersonContactsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ContactAliasPersonContactsOrderBy>>;
+  condition?: Maybe<ContactAliasPersonContactCondition>;
+  filter?: Maybe<ContactAliasPersonContactFilter>;
 };
 
 
@@ -283,6 +319,19 @@ export type QueryPeruDepartureInspectionPalletsArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
+export type QueryContactAliasArgs = {
+  id: Scalars['BigInt'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryContactAliasPersonContactArgs = {
+  aliasId: Scalars['BigInt'];
+  personContactId: Scalars['BigInt'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
 export type QueryCountryArgs = {
   id: Scalars['String'];
 };
@@ -402,6 +451,18 @@ export type QueryChileDepartureInspectionsArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
+export type QueryContactAliasByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryContactAliasPersonContactByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
 export type QueryCountryByNodeIdArgs = {
   nodeId: Scalars['ID'];
 };
@@ -484,17 +545,197 @@ export type Node = {
   nodeId: Scalars['ID'];
 };
 
-/** A connection to a list of `Country` values. */
-export type CountriesConnection = {
-  __typename?: 'CountriesConnection';
-  /** A list of `Country` objects. */
-  nodes: Array<Maybe<Country>>;
-  /** A list of edges which contains the `Country` and cursor to aid in pagination. */
-  edges: Array<CountriesEdge>;
+/** A connection to a list of `ContactAlias` values. */
+export type ContactAliasesConnection = {
+  __typename?: 'ContactAliasesConnection';
+  /** A list of `ContactAlias` objects. */
+  nodes: Array<Maybe<ContactAlias>>;
+  /** A list of edges which contains the `ContactAlias` and cursor to aid in pagination. */
+  edges: Array<ContactAliasesEdge>;
   /** Information to aid in pagination. */
   pageInfo: PageInfo;
-  /** The count of *all* `Country` you could get from the connection. */
+  /** The count of *all* `ContactAlias` you could get from the connection. */
   totalCount: Scalars['Int'];
+};
+
+export type ContactAlias = Node & {
+  __typename?: 'ContactAlias';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  aliasDescription: Scalars['String'];
+  aliasName: Scalars['String'];
+  aliasType: Scalars['String'];
+  /** Reads and enables pagination through a set of `ContactAliasPersonContact`. */
+  contactAliasPersonContactsByAliasId: ContactAliasPersonContactsConnection;
+  searchText?: Maybe<Scalars['String']>;
+  /** Reads and enables pagination through a set of `PersonContact`. */
+  personContactsByContactAliasPersonContactAliasIdAndPersonContactId: ContactAliasPersonContactsByContactAliasPersonContactAliasIdAndPersonContactIdManyToManyConnection;
+};
+
+
+export type ContactAliasContactAliasPersonContactsByAliasIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ContactAliasPersonContactsOrderBy>>;
+  condition?: Maybe<ContactAliasPersonContactCondition>;
+  filter?: Maybe<ContactAliasPersonContactFilter>;
+};
+
+
+export type ContactAliasPersonContactsByContactAliasPersonContactAliasIdAndPersonContactIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PersonContactsOrderBy>>;
+  condition?: Maybe<PersonContactCondition>;
+  filter?: Maybe<PersonContactFilter>;
+};
+
+
+/** A connection to a list of `ContactAliasPersonContact` values. */
+export type ContactAliasPersonContactsConnection = {
+  __typename?: 'ContactAliasPersonContactsConnection';
+  /** A list of `ContactAliasPersonContact` objects. */
+  nodes: Array<Maybe<ContactAliasPersonContact>>;
+  /** A list of edges which contains the `ContactAliasPersonContact` and cursor to aid in pagination. */
+  edges: Array<ContactAliasPersonContactsEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `ContactAliasPersonContact` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+export type ContactAliasPersonContact = Node & {
+  __typename?: 'ContactAliasPersonContact';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  aliasId: Scalars['BigInt'];
+  personContactId: Scalars['BigInt'];
+  /** Reads a single `ContactAlias` that is related to this `ContactAliasPersonContact`. */
+  alias?: Maybe<ContactAlias>;
+  /** Reads a single `PersonContact` that is related to this `ContactAliasPersonContact`. */
+  personContact?: Maybe<PersonContact>;
+};
+
+export type PersonContact = Node & {
+  __typename?: 'PersonContact';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  shipperId?: Maybe<Scalars['String']>;
+  customerId?: Maybe<Scalars['String']>;
+  warehouseId?: Maybe<Scalars['String']>;
+  firstName: Scalars['String'];
+  lastName: Scalars['String'];
+  isPrimary: Scalars['Boolean'];
+  email?: Maybe<Scalars['String']>;
+  secondaryEmail?: Maybe<Scalars['String']>;
+  homePhone?: Maybe<Scalars['String']>;
+  cellPhone?: Maybe<Scalars['String']>;
+  workPhone?: Maybe<Scalars['String']>;
+  workExtension?: Maybe<Scalars['String']>;
+  imageSrc?: Maybe<Scalars['String']>;
+  isInternal: Scalars['Boolean'];
+  roles?: Maybe<Scalars['String']>;
+  /** Reads a single `Shipper` that is related to this `PersonContact`. */
+  shipper?: Maybe<Shipper>;
+  /** Reads a single `Customer` that is related to this `PersonContact`. */
+  customer?: Maybe<Customer>;
+  /** Reads a single `Warehouse` that is related to this `PersonContact`. */
+  warehouse?: Maybe<Warehouse>;
+  /** Reads and enables pagination through a set of `ContactAliasPersonContact`. */
+  contactAliasPersonContacts: ContactAliasPersonContactsConnection;
+  searchText?: Maybe<Scalars['String']>;
+  /** Reads and enables pagination through a set of `ContactAlias`. */
+  contactAliasesByContactAliasPersonContactPersonContactIdAndAliasId: PersonContactContactAliasesByContactAliasPersonContactPersonContactIdAndAliasIdManyToManyConnection;
+};
+
+
+export type PersonContactContactAliasPersonContactsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ContactAliasPersonContactsOrderBy>>;
+  condition?: Maybe<ContactAliasPersonContactCondition>;
+  filter?: Maybe<ContactAliasPersonContactFilter>;
+};
+
+
+export type PersonContactContactAliasesByContactAliasPersonContactPersonContactIdAndAliasIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ContactAliasesOrderBy>>;
+  condition?: Maybe<ContactAliasCondition>;
+  filter?: Maybe<ContactAliasFilter>;
+};
+
+export type Shipper = Node & {
+  __typename?: 'Shipper';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['String'];
+  shipperName: Scalars['String'];
+  countryId?: Maybe<Scalars['String']>;
+  groupId?: Maybe<Scalars['String']>;
+  logoSrc?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
+  /** Reads a single `Country` that is related to this `Shipper`. */
+  country?: Maybe<Country>;
+  /** Reads and enables pagination through a set of `PersonContact`. */
+  personContacts: PersonContactsConnection;
+  searchText?: Maybe<Scalars['String']>;
+  /** Reads and enables pagination through a set of `Customer`. */
+  customersByPersonContactShipperIdAndCustomerId: ShipperCustomersByPersonContactShipperIdAndCustomerIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `Warehouse`. */
+  warehousesByPersonContactShipperIdAndWarehouseId: ShipperWarehousesByPersonContactShipperIdAndWarehouseIdManyToManyConnection;
+};
+
+
+export type ShipperPersonContactsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PersonContactsOrderBy>>;
+  condition?: Maybe<PersonContactCondition>;
+  filter?: Maybe<PersonContactFilter>;
+};
+
+
+export type ShipperCustomersByPersonContactShipperIdAndCustomerIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CustomersOrderBy>>;
+  condition?: Maybe<CustomerCondition>;
+  filter?: Maybe<CustomerFilter>;
+};
+
+
+export type ShipperWarehousesByPersonContactShipperIdAndWarehouseIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<WarehousesOrderBy>>;
+  condition?: Maybe<WarehouseCondition>;
+  filter?: Maybe<WarehouseFilter>;
 };
 
 export type Country = Node & {
@@ -639,94 +880,28 @@ export type PersonContactsConnection = {
   totalCount: Scalars['Int'];
 };
 
-export type PersonContact = Node & {
-  __typename?: 'PersonContact';
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  nodeId: Scalars['ID'];
-  id: Scalars['BigInt'];
-  shipperId?: Maybe<Scalars['String']>;
-  customerId?: Maybe<Scalars['String']>;
-  warehouseId?: Maybe<Scalars['String']>;
-  firstName: Scalars['String'];
-  lastName: Scalars['String'];
-  isPrimary: Scalars['Boolean'];
-  email?: Maybe<Scalars['String']>;
-  secondaryEmail?: Maybe<Scalars['String']>;
-  homePhone?: Maybe<Scalars['String']>;
-  cellPhone?: Maybe<Scalars['String']>;
-  workPhone?: Maybe<Scalars['String']>;
-  workExtension?: Maybe<Scalars['String']>;
-  imageSrc?: Maybe<Scalars['String']>;
-  isInternal: Scalars['Boolean'];
-  roles?: Maybe<Scalars['String']>;
-  /** Reads a single `Shipper` that is related to this `PersonContact`. */
-  shipper?: Maybe<Shipper>;
-  /** Reads a single `Customer` that is related to this `PersonContact`. */
-  customer?: Maybe<Customer>;
-  /** Reads a single `Warehouse` that is related to this `PersonContact`. */
-  warehouse?: Maybe<Warehouse>;
-  searchText?: Maybe<Scalars['String']>;
+/** A `PersonContact` edge in the connection. */
+export type PersonContactsEdge = {
+  __typename?: 'PersonContactsEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `PersonContact` at the end of the edge. */
+  node?: Maybe<PersonContact>;
 };
 
 
-export type Shipper = Node & {
-  __typename?: 'Shipper';
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  nodeId: Scalars['ID'];
-  id: Scalars['String'];
-  shipperName: Scalars['String'];
-  countryId?: Maybe<Scalars['String']>;
-  groupId?: Maybe<Scalars['String']>;
-  logoSrc?: Maybe<Scalars['String']>;
-  notes?: Maybe<Scalars['String']>;
-  website?: Maybe<Scalars['String']>;
-  /** Reads a single `Country` that is related to this `Shipper`. */
-  country?: Maybe<Country>;
-  /** Reads and enables pagination through a set of `PersonContact`. */
-  personContacts: PersonContactsConnection;
-  searchText?: Maybe<Scalars['String']>;
-  /** Reads and enables pagination through a set of `Customer`. */
-  customersByPersonContactShipperIdAndCustomerId: ShipperCustomersByPersonContactShipperIdAndCustomerIdManyToManyConnection;
-  /** Reads and enables pagination through a set of `Warehouse`. */
-  warehousesByPersonContactShipperIdAndWarehouseId: ShipperWarehousesByPersonContactShipperIdAndWarehouseIdManyToManyConnection;
+/** Information about pagination in a connection. */
+export type PageInfo = {
+  __typename?: 'PageInfo';
+  /** When paginating forwards, are there more items? */
+  hasNextPage: Scalars['Boolean'];
+  /** When paginating backwards, are there more items? */
+  hasPreviousPage: Scalars['Boolean'];
+  /** When paginating backwards, the cursor to continue. */
+  startCursor?: Maybe<Scalars['Cursor']>;
+  /** When paginating forwards, the cursor to continue. */
+  endCursor?: Maybe<Scalars['Cursor']>;
 };
-
-
-export type ShipperPersonContactsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<PersonContactsOrderBy>>;
-  condition?: Maybe<PersonContactCondition>;
-  filter?: Maybe<PersonContactFilter>;
-};
-
-
-export type ShipperCustomersByPersonContactShipperIdAndCustomerIdArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<CustomersOrderBy>>;
-  condition?: Maybe<CustomerCondition>;
-  filter?: Maybe<CustomerFilter>;
-};
-
-
-export type ShipperWarehousesByPersonContactShipperIdAndWarehouseIdArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<WarehousesOrderBy>>;
-  condition?: Maybe<WarehouseCondition>;
-  filter?: Maybe<WarehouseFilter>;
-};
-
 
 /** Methods to use when ordering `PersonContact`. */
 export enum PersonContactsOrderBy {
@@ -842,6 +1017,10 @@ export type PersonContactFilter = {
   roles?: Maybe<StringFilter>;
   /** Filter by the object’s `searchText` field. */
   searchText?: Maybe<StringFilter>;
+  /** Filter by the object’s `contactAliasPersonContacts` relation. */
+  contactAliasPersonContacts?: Maybe<PersonContactToManyContactAliasPersonContactFilter>;
+  /** Some related `contactAliasPersonContacts` exist. */
+  contactAliasPersonContactsExist?: Maybe<Scalars['Boolean']>;
   /** Filter by the object’s `shipper` relation. */
   shipper?: Maybe<ShipperFilter>;
   /** A related `shipper` exists. */
@@ -990,6 +1169,68 @@ export type BooleanFilter = {
   greaterThan?: Maybe<Scalars['Boolean']>;
   /** Greater than or equal to the specified value. */
   greaterThanOrEqualTo?: Maybe<Scalars['Boolean']>;
+};
+
+/** A filter to be used against many `ContactAliasPersonContact` object types. All fields are combined with a logical ‘and.’ */
+export type PersonContactToManyContactAliasPersonContactFilter = {
+  /** Every related `ContactAliasPersonContact` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<ContactAliasPersonContactFilter>;
+  /** Some related `ContactAliasPersonContact` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<ContactAliasPersonContactFilter>;
+  /** No related `ContactAliasPersonContact` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<ContactAliasPersonContactFilter>;
+};
+
+/** A filter to be used against `ContactAliasPersonContact` object types. All fields are combined with a logical ‘and.’ */
+export type ContactAliasPersonContactFilter = {
+  /** Filter by the object’s `aliasId` field. */
+  aliasId?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `personContactId` field. */
+  personContactId?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `alias` relation. */
+  alias?: Maybe<ContactAliasFilter>;
+  /** Filter by the object’s `personContact` relation. */
+  personContact?: Maybe<PersonContactFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<ContactAliasPersonContactFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<ContactAliasPersonContactFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<ContactAliasPersonContactFilter>;
+};
+
+/** A filter to be used against `ContactAlias` object types. All fields are combined with a logical ‘and.’ */
+export type ContactAliasFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `aliasDescription` field. */
+  aliasDescription?: Maybe<StringFilter>;
+  /** Filter by the object’s `aliasName` field. */
+  aliasName?: Maybe<StringFilter>;
+  /** Filter by the object’s `aliasType` field. */
+  aliasType?: Maybe<StringFilter>;
+  /** Filter by the object’s `searchText` field. */
+  searchText?: Maybe<StringFilter>;
+  /** Filter by the object’s `contactAliasPersonContactsByAliasId` relation. */
+  contactAliasPersonContactsByAliasId?: Maybe<ContactAliasToManyContactAliasPersonContactFilter>;
+  /** Some related `contactAliasPersonContactsByAliasId` exist. */
+  contactAliasPersonContactsByAliasIdExist?: Maybe<Scalars['Boolean']>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<ContactAliasFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<ContactAliasFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<ContactAliasFilter>;
+};
+
+/** A filter to be used against many `ContactAliasPersonContact` object types. All fields are combined with a logical ‘and.’ */
+export type ContactAliasToManyContactAliasPersonContactFilter = {
+  /** Every related `ContactAliasPersonContact` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<ContactAliasPersonContactFilter>;
+  /** Some related `ContactAliasPersonContact` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<ContactAliasPersonContactFilter>;
+  /** No related `ContactAliasPersonContact` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<ContactAliasPersonContactFilter>;
 };
 
 /** A filter to be used against `Shipper` object types. All fields are combined with a logical ‘and.’ */
@@ -1208,13 +1449,89 @@ export type CountryToManyShipperFilter = {
   none?: Maybe<ShipperFilter>;
 };
 
+/** A connection to a list of `Shipper` values, with data from `PersonContact`. */
+export type WarehouseShippersByPersonContactWarehouseIdAndShipperIdManyToManyConnection = {
+  __typename?: 'WarehouseShippersByPersonContactWarehouseIdAndShipperIdManyToManyConnection';
+  /** A list of `Shipper` objects. */
+  nodes: Array<Maybe<Shipper>>;
+  /** A list of edges which contains the `Shipper`, info from the `PersonContact`, and the cursor to aid in pagination. */
+  edges: Array<WarehouseShippersByPersonContactWarehouseIdAndShipperIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Shipper` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `Shipper` edge in the connection, with data from `PersonContact`. */
+export type WarehouseShippersByPersonContactWarehouseIdAndShipperIdManyToManyEdge = {
+  __typename?: 'WarehouseShippersByPersonContactWarehouseIdAndShipperIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `Shipper` at the end of the edge. */
+  node?: Maybe<Shipper>;
+  /** Reads and enables pagination through a set of `PersonContact`. */
+  personContacts: PersonContactsConnection;
+};
+
+
+/** A `Shipper` edge in the connection, with data from `PersonContact`. */
+export type WarehouseShippersByPersonContactWarehouseIdAndShipperIdManyToManyEdgePersonContactsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PersonContactsOrderBy>>;
+  condition?: Maybe<PersonContactCondition>;
+  filter?: Maybe<PersonContactFilter>;
+};
+
+/** Methods to use when ordering `Shipper`. */
+export enum ShippersOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  ShipperNameAsc = 'SHIPPER_NAME_ASC',
+  ShipperNameDesc = 'SHIPPER_NAME_DESC',
+  CountryIdAsc = 'COUNTRY_ID_ASC',
+  CountryIdDesc = 'COUNTRY_ID_DESC',
+  GroupIdAsc = 'GROUP_ID_ASC',
+  GroupIdDesc = 'GROUP_ID_DESC',
+  LogoSrcAsc = 'LOGO_SRC_ASC',
+  LogoSrcDesc = 'LOGO_SRC_DESC',
+  NotesAsc = 'NOTES_ASC',
+  NotesDesc = 'NOTES_DESC',
+  WebsiteAsc = 'WEBSITE_ASC',
+  WebsiteDesc = 'WEBSITE_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
+/** A condition to be used against `Shipper` object types. All fields are tested for equality and combined with a logical ‘and.’ */
+export type ShipperCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `shipperName` field. */
+  shipperName?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `countryId` field. */
+  countryId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `groupId` field. */
+  groupId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `logoSrc` field. */
+  logoSrc?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `notes` field. */
+  notes?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `website` field. */
+  website?: Maybe<Scalars['String']>;
+};
+
 /** A connection to a list of `Customer` values, with data from `PersonContact`. */
-export type ShipperCustomersByPersonContactShipperIdAndCustomerIdManyToManyConnection = {
-  __typename?: 'ShipperCustomersByPersonContactShipperIdAndCustomerIdManyToManyConnection';
+export type WarehouseCustomersByPersonContactWarehouseIdAndCustomerIdManyToManyConnection = {
+  __typename?: 'WarehouseCustomersByPersonContactWarehouseIdAndCustomerIdManyToManyConnection';
   /** A list of `Customer` objects. */
   nodes: Array<Maybe<Customer>>;
   /** A list of edges which contains the `Customer`, info from the `PersonContact`, and the cursor to aid in pagination. */
-  edges: Array<ShipperCustomersByPersonContactShipperIdAndCustomerIdManyToManyEdge>;
+  edges: Array<WarehouseCustomersByPersonContactWarehouseIdAndCustomerIdManyToManyEdge>;
   /** Information to aid in pagination. */
   pageInfo: PageInfo;
   /** The count of *all* `Customer` you could get from the connection. */
@@ -1320,58 +1637,6 @@ export type CustomerShippersByPersonContactCustomerIdAndShipperIdManyToManyEdgeP
   orderBy?: Maybe<Array<PersonContactsOrderBy>>;
   condition?: Maybe<PersonContactCondition>;
   filter?: Maybe<PersonContactFilter>;
-};
-
-/** Information about pagination in a connection. */
-export type PageInfo = {
-  __typename?: 'PageInfo';
-  /** When paginating forwards, are there more items? */
-  hasNextPage: Scalars['Boolean'];
-  /** When paginating backwards, are there more items? */
-  hasPreviousPage: Scalars['Boolean'];
-  /** When paginating backwards, the cursor to continue. */
-  startCursor?: Maybe<Scalars['Cursor']>;
-  /** When paginating forwards, the cursor to continue. */
-  endCursor?: Maybe<Scalars['Cursor']>;
-};
-
-/** Methods to use when ordering `Shipper`. */
-export enum ShippersOrderBy {
-  Natural = 'NATURAL',
-  IdAsc = 'ID_ASC',
-  IdDesc = 'ID_DESC',
-  ShipperNameAsc = 'SHIPPER_NAME_ASC',
-  ShipperNameDesc = 'SHIPPER_NAME_DESC',
-  CountryIdAsc = 'COUNTRY_ID_ASC',
-  CountryIdDesc = 'COUNTRY_ID_DESC',
-  GroupIdAsc = 'GROUP_ID_ASC',
-  GroupIdDesc = 'GROUP_ID_DESC',
-  LogoSrcAsc = 'LOGO_SRC_ASC',
-  LogoSrcDesc = 'LOGO_SRC_DESC',
-  NotesAsc = 'NOTES_ASC',
-  NotesDesc = 'NOTES_DESC',
-  WebsiteAsc = 'WEBSITE_ASC',
-  WebsiteDesc = 'WEBSITE_DESC',
-  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
-}
-
-/** A condition to be used against `Shipper` object types. All fields are tested for equality and combined with a logical ‘and.’ */
-export type ShipperCondition = {
-  /** Checks for equality with the object’s `id` field. */
-  id?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `shipperName` field. */
-  shipperName?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `countryId` field. */
-  countryId?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `groupId` field. */
-  groupId?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `logoSrc` field. */
-  logoSrc?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `notes` field. */
-  notes?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `website` field. */
-  website?: Maybe<Scalars['String']>;
 };
 
 /** A connection to a list of `Warehouse` values, with data from `PersonContact`. */
@@ -1486,8 +1751,8 @@ export type WarehouseCondition = {
 };
 
 /** A `Customer` edge in the connection, with data from `PersonContact`. */
-export type ShipperCustomersByPersonContactShipperIdAndCustomerIdManyToManyEdge = {
-  __typename?: 'ShipperCustomersByPersonContactShipperIdAndCustomerIdManyToManyEdge';
+export type WarehouseCustomersByPersonContactWarehouseIdAndCustomerIdManyToManyEdge = {
+  __typename?: 'WarehouseCustomersByPersonContactWarehouseIdAndCustomerIdManyToManyEdge';
   /** A cursor for use in pagination. */
   cursor?: Maybe<Scalars['Cursor']>;
   /** The `Customer` at the end of the edge. */
@@ -1498,7 +1763,7 @@ export type ShipperCustomersByPersonContactShipperIdAndCustomerIdManyToManyEdge 
 
 
 /** A `Customer` edge in the connection, with data from `PersonContact`. */
-export type ShipperCustomersByPersonContactShipperIdAndCustomerIdManyToManyEdgePersonContactsArgs = {
+export type WarehouseCustomersByPersonContactWarehouseIdAndCustomerIdManyToManyEdgePersonContactsArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
@@ -1575,126 +1840,6 @@ export type CustomerCondition = {
   active?: Maybe<Scalars['Boolean']>;
 };
 
-/** A connection to a list of `Warehouse` values, with data from `PersonContact`. */
-export type ShipperWarehousesByPersonContactShipperIdAndWarehouseIdManyToManyConnection = {
-  __typename?: 'ShipperWarehousesByPersonContactShipperIdAndWarehouseIdManyToManyConnection';
-  /** A list of `Warehouse` objects. */
-  nodes: Array<Maybe<Warehouse>>;
-  /** A list of edges which contains the `Warehouse`, info from the `PersonContact`, and the cursor to aid in pagination. */
-  edges: Array<ShipperWarehousesByPersonContactShipperIdAndWarehouseIdManyToManyEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `Warehouse` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-/** A `Warehouse` edge in the connection, with data from `PersonContact`. */
-export type ShipperWarehousesByPersonContactShipperIdAndWarehouseIdManyToManyEdge = {
-  __typename?: 'ShipperWarehousesByPersonContactShipperIdAndWarehouseIdManyToManyEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `Warehouse` at the end of the edge. */
-  node?: Maybe<Warehouse>;
-  /** Reads and enables pagination through a set of `PersonContact`. */
-  personContacts: PersonContactsConnection;
-};
-
-
-/** A `Warehouse` edge in the connection, with data from `PersonContact`. */
-export type ShipperWarehousesByPersonContactShipperIdAndWarehouseIdManyToManyEdgePersonContactsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<PersonContactsOrderBy>>;
-  condition?: Maybe<PersonContactCondition>;
-  filter?: Maybe<PersonContactFilter>;
-};
-
-/** A `PersonContact` edge in the connection. */
-export type PersonContactsEdge = {
-  __typename?: 'PersonContactsEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `PersonContact` at the end of the edge. */
-  node?: Maybe<PersonContact>;
-};
-
-/** A connection to a list of `Shipper` values, with data from `PersonContact`. */
-export type WarehouseShippersByPersonContactWarehouseIdAndShipperIdManyToManyConnection = {
-  __typename?: 'WarehouseShippersByPersonContactWarehouseIdAndShipperIdManyToManyConnection';
-  /** A list of `Shipper` objects. */
-  nodes: Array<Maybe<Shipper>>;
-  /** A list of edges which contains the `Shipper`, info from the `PersonContact`, and the cursor to aid in pagination. */
-  edges: Array<WarehouseShippersByPersonContactWarehouseIdAndShipperIdManyToManyEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `Shipper` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-/** A `Shipper` edge in the connection, with data from `PersonContact`. */
-export type WarehouseShippersByPersonContactWarehouseIdAndShipperIdManyToManyEdge = {
-  __typename?: 'WarehouseShippersByPersonContactWarehouseIdAndShipperIdManyToManyEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `Shipper` at the end of the edge. */
-  node?: Maybe<Shipper>;
-  /** Reads and enables pagination through a set of `PersonContact`. */
-  personContacts: PersonContactsConnection;
-};
-
-
-/** A `Shipper` edge in the connection, with data from `PersonContact`. */
-export type WarehouseShippersByPersonContactWarehouseIdAndShipperIdManyToManyEdgePersonContactsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<PersonContactsOrderBy>>;
-  condition?: Maybe<PersonContactCondition>;
-  filter?: Maybe<PersonContactFilter>;
-};
-
-/** A connection to a list of `Customer` values, with data from `PersonContact`. */
-export type WarehouseCustomersByPersonContactWarehouseIdAndCustomerIdManyToManyConnection = {
-  __typename?: 'WarehouseCustomersByPersonContactWarehouseIdAndCustomerIdManyToManyConnection';
-  /** A list of `Customer` objects. */
-  nodes: Array<Maybe<Customer>>;
-  /** A list of edges which contains the `Customer`, info from the `PersonContact`, and the cursor to aid in pagination. */
-  edges: Array<WarehouseCustomersByPersonContactWarehouseIdAndCustomerIdManyToManyEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `Customer` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-/** A `Customer` edge in the connection, with data from `PersonContact`. */
-export type WarehouseCustomersByPersonContactWarehouseIdAndCustomerIdManyToManyEdge = {
-  __typename?: 'WarehouseCustomersByPersonContactWarehouseIdAndCustomerIdManyToManyEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `Customer` at the end of the edge. */
-  node?: Maybe<Customer>;
-  /** Reads and enables pagination through a set of `PersonContact`. */
-  personContacts: PersonContactsConnection;
-};
-
-
-/** A `Customer` edge in the connection, with data from `PersonContact`. */
-export type WarehouseCustomersByPersonContactWarehouseIdAndCustomerIdManyToManyEdgePersonContactsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<PersonContactsOrderBy>>;
-  condition?: Maybe<PersonContactCondition>;
-  filter?: Maybe<PersonContactFilter>;
-};
-
 /** A `Warehouse` edge in the connection. */
 export type WarehousesEdge = {
   __typename?: 'WarehousesEdge';
@@ -1746,6 +1891,207 @@ export type ShippersEdge = {
   cursor?: Maybe<Scalars['Cursor']>;
   /** The `Shipper` at the end of the edge. */
   node?: Maybe<Shipper>;
+};
+
+/** A connection to a list of `Customer` values, with data from `PersonContact`. */
+export type ShipperCustomersByPersonContactShipperIdAndCustomerIdManyToManyConnection = {
+  __typename?: 'ShipperCustomersByPersonContactShipperIdAndCustomerIdManyToManyConnection';
+  /** A list of `Customer` objects. */
+  nodes: Array<Maybe<Customer>>;
+  /** A list of edges which contains the `Customer`, info from the `PersonContact`, and the cursor to aid in pagination. */
+  edges: Array<ShipperCustomersByPersonContactShipperIdAndCustomerIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Customer` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `Customer` edge in the connection, with data from `PersonContact`. */
+export type ShipperCustomersByPersonContactShipperIdAndCustomerIdManyToManyEdge = {
+  __typename?: 'ShipperCustomersByPersonContactShipperIdAndCustomerIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `Customer` at the end of the edge. */
+  node?: Maybe<Customer>;
+  /** Reads and enables pagination through a set of `PersonContact`. */
+  personContacts: PersonContactsConnection;
+};
+
+
+/** A `Customer` edge in the connection, with data from `PersonContact`. */
+export type ShipperCustomersByPersonContactShipperIdAndCustomerIdManyToManyEdgePersonContactsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PersonContactsOrderBy>>;
+  condition?: Maybe<PersonContactCondition>;
+  filter?: Maybe<PersonContactFilter>;
+};
+
+/** A connection to a list of `Warehouse` values, with data from `PersonContact`. */
+export type ShipperWarehousesByPersonContactShipperIdAndWarehouseIdManyToManyConnection = {
+  __typename?: 'ShipperWarehousesByPersonContactShipperIdAndWarehouseIdManyToManyConnection';
+  /** A list of `Warehouse` objects. */
+  nodes: Array<Maybe<Warehouse>>;
+  /** A list of edges which contains the `Warehouse`, info from the `PersonContact`, and the cursor to aid in pagination. */
+  edges: Array<ShipperWarehousesByPersonContactShipperIdAndWarehouseIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Warehouse` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `Warehouse` edge in the connection, with data from `PersonContact`. */
+export type ShipperWarehousesByPersonContactShipperIdAndWarehouseIdManyToManyEdge = {
+  __typename?: 'ShipperWarehousesByPersonContactShipperIdAndWarehouseIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `Warehouse` at the end of the edge. */
+  node?: Maybe<Warehouse>;
+  /** Reads and enables pagination through a set of `PersonContact`. */
+  personContacts: PersonContactsConnection;
+};
+
+
+/** A `Warehouse` edge in the connection, with data from `PersonContact`. */
+export type ShipperWarehousesByPersonContactShipperIdAndWarehouseIdManyToManyEdgePersonContactsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PersonContactsOrderBy>>;
+  condition?: Maybe<PersonContactCondition>;
+  filter?: Maybe<PersonContactFilter>;
+};
+
+/** Methods to use when ordering `ContactAliasPersonContact`. */
+export enum ContactAliasPersonContactsOrderBy {
+  Natural = 'NATURAL',
+  AliasIdAsc = 'ALIAS_ID_ASC',
+  AliasIdDesc = 'ALIAS_ID_DESC',
+  PersonContactIdAsc = 'PERSON_CONTACT_ID_ASC',
+  PersonContactIdDesc = 'PERSON_CONTACT_ID_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
+/**
+ * A condition to be used against `ContactAliasPersonContact` object types. All
+ * fields are tested for equality and combined with a logical ‘and.’
+ */
+export type ContactAliasPersonContactCondition = {
+  /** Checks for equality with the object’s `aliasId` field. */
+  aliasId?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `personContactId` field. */
+  personContactId?: Maybe<Scalars['BigInt']>;
+};
+
+/** A connection to a list of `ContactAlias` values, with data from `ContactAliasPersonContact`. */
+export type PersonContactContactAliasesByContactAliasPersonContactPersonContactIdAndAliasIdManyToManyConnection = {
+  __typename?: 'PersonContactContactAliasesByContactAliasPersonContactPersonContactIdAndAliasIdManyToManyConnection';
+  /** A list of `ContactAlias` objects. */
+  nodes: Array<Maybe<ContactAlias>>;
+  /** A list of edges which contains the `ContactAlias`, info from the `ContactAliasPersonContact`, and the cursor to aid in pagination. */
+  edges: Array<PersonContactContactAliasesByContactAliasPersonContactPersonContactIdAndAliasIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `ContactAlias` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `ContactAlias` edge in the connection, with data from `ContactAliasPersonContact`. */
+export type PersonContactContactAliasesByContactAliasPersonContactPersonContactIdAndAliasIdManyToManyEdge = {
+  __typename?: 'PersonContactContactAliasesByContactAliasPersonContactPersonContactIdAndAliasIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `ContactAlias` at the end of the edge. */
+  node?: Maybe<ContactAlias>;
+};
+
+/** Methods to use when ordering `ContactAlias`. */
+export enum ContactAliasesOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  AliasDescriptionAsc = 'ALIAS_DESCRIPTION_ASC',
+  AliasDescriptionDesc = 'ALIAS_DESCRIPTION_DESC',
+  AliasNameAsc = 'ALIAS_NAME_ASC',
+  AliasNameDesc = 'ALIAS_NAME_DESC',
+  AliasTypeAsc = 'ALIAS_TYPE_ASC',
+  AliasTypeDesc = 'ALIAS_TYPE_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
+/**
+ * A condition to be used against `ContactAlias` object types. All fields are
+ * tested for equality and combined with a logical ‘and.’
+ */
+export type ContactAliasCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `aliasDescription` field. */
+  aliasDescription?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `aliasName` field. */
+  aliasName?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `aliasType` field. */
+  aliasType?: Maybe<Scalars['String']>;
+};
+
+/** A `ContactAliasPersonContact` edge in the connection. */
+export type ContactAliasPersonContactsEdge = {
+  __typename?: 'ContactAliasPersonContactsEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `ContactAliasPersonContact` at the end of the edge. */
+  node?: Maybe<ContactAliasPersonContact>;
+};
+
+/** A connection to a list of `PersonContact` values, with data from `ContactAliasPersonContact`. */
+export type ContactAliasPersonContactsByContactAliasPersonContactAliasIdAndPersonContactIdManyToManyConnection = {
+  __typename?: 'ContactAliasPersonContactsByContactAliasPersonContactAliasIdAndPersonContactIdManyToManyConnection';
+  /** A list of `PersonContact` objects. */
+  nodes: Array<Maybe<PersonContact>>;
+  /** A list of edges which contains the `PersonContact`, info from the `ContactAliasPersonContact`, and the cursor to aid in pagination. */
+  edges: Array<ContactAliasPersonContactsByContactAliasPersonContactAliasIdAndPersonContactIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `PersonContact` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `PersonContact` edge in the connection, with data from `ContactAliasPersonContact`. */
+export type ContactAliasPersonContactsByContactAliasPersonContactAliasIdAndPersonContactIdManyToManyEdge = {
+  __typename?: 'ContactAliasPersonContactsByContactAliasPersonContactAliasIdAndPersonContactIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `PersonContact` at the end of the edge. */
+  node?: Maybe<PersonContact>;
+};
+
+/** A `ContactAlias` edge in the connection. */
+export type ContactAliasesEdge = {
+  __typename?: 'ContactAliasesEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `ContactAlias` at the end of the edge. */
+  node?: Maybe<ContactAlias>;
+};
+
+/** A connection to a list of `Country` values. */
+export type CountriesConnection = {
+  __typename?: 'CountriesConnection';
+  /** A list of `Country` objects. */
+  nodes: Array<Maybe<Country>>;
+  /** A list of edges which contains the `Country` and cursor to aid in pagination. */
+  edges: Array<CountriesEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Country` you could get from the connection. */
+  totalCount: Scalars['Int'];
 };
 
 /** A `Country` edge in the connection. */
@@ -3387,6 +3733,10 @@ export type ChileDepartureInspectionFilter = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type Mutation = {
   __typename?: 'Mutation';
+  /** Creates a single `ContactAlias`. */
+  createContactAlias?: Maybe<CreateContactAliasPayload>;
+  /** Creates a single `ContactAliasPersonContact`. */
+  createContactAliasPersonContact?: Maybe<CreateContactAliasPersonContactPayload>;
   /** Creates a single `Country`. */
   createCountry?: Maybe<CreateCountryPayload>;
   /** Creates a single `Customer`. */
@@ -3413,6 +3763,14 @@ export type Mutation = {
   createPeruDepartureInspection?: Maybe<CreatePeruDepartureInspectionPayload>;
   /** Creates a single `PeruDepartureInspectionPallet`. */
   createPeruDepartureInspectionPallet?: Maybe<CreatePeruDepartureInspectionPalletPayload>;
+  /** Updates a single `ContactAlias` using its globally unique id and a patch. */
+  updateContactAliasByNodeId?: Maybe<UpdateContactAliasPayload>;
+  /** Updates a single `ContactAlias` using a unique key and a patch. */
+  updateContactAlias?: Maybe<UpdateContactAliasPayload>;
+  /** Updates a single `ContactAliasPersonContact` using its globally unique id and a patch. */
+  updateContactAliasPersonContactByNodeId?: Maybe<UpdateContactAliasPersonContactPayload>;
+  /** Updates a single `ContactAliasPersonContact` using a unique key and a patch. */
+  updateContactAliasPersonContact?: Maybe<UpdateContactAliasPersonContactPayload>;
   /** Updates a single `Country` using its globally unique id and a patch. */
   updateCountryByNodeId?: Maybe<UpdateCountryPayload>;
   /** Updates a single `Country` using a unique key and a patch. */
@@ -3465,6 +3823,14 @@ export type Mutation = {
   updatePeruDepartureInspectionPalletByNodeId?: Maybe<UpdatePeruDepartureInspectionPalletPayload>;
   /** Updates a single `PeruDepartureInspectionPallet` using a unique key and a patch. */
   updatePeruDepartureInspectionPallet?: Maybe<UpdatePeruDepartureInspectionPalletPayload>;
+  /** Deletes a single `ContactAlias` using its globally unique id. */
+  deleteContactAliasByNodeId?: Maybe<DeleteContactAliasPayload>;
+  /** Deletes a single `ContactAlias` using a unique key. */
+  deleteContactAlias?: Maybe<DeleteContactAliasPayload>;
+  /** Deletes a single `ContactAliasPersonContact` using its globally unique id. */
+  deleteContactAliasPersonContactByNodeId?: Maybe<DeleteContactAliasPersonContactPayload>;
+  /** Deletes a single `ContactAliasPersonContact` using a unique key. */
+  deleteContactAliasPersonContact?: Maybe<DeleteContactAliasPersonContactPayload>;
   /** Deletes a single `Country` using its globally unique id. */
   deleteCountryByNodeId?: Maybe<DeleteCountryPayload>;
   /** Deletes a single `Country` using a unique key. */
@@ -3527,6 +3893,18 @@ export type Mutation = {
   deletePriceSizeEntries?: Maybe<DeletePriceSizeEntriesPayload>;
   batchCreateChileDepartureInspectionPallet?: Maybe<BatchCreateChileDepartureInspectionPalletPayload>;
   sendPriceSheetUpdateEmail: Scalars['String'];
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateContactAliasArgs = {
+  input: CreateContactAliasInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateContactAliasPersonContactArgs = {
+  input: CreateContactAliasPersonContactInput;
 };
 
 
@@ -3605,6 +3983,30 @@ export type MutationCreatePeruDepartureInspectionArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreatePeruDepartureInspectionPalletArgs = {
   input: CreatePeruDepartureInspectionPalletInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateContactAliasByNodeIdArgs = {
+  input: UpdateContactAliasByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateContactAliasArgs = {
+  input: UpdateContactAliasInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateContactAliasPersonContactByNodeIdArgs = {
+  input: UpdateContactAliasPersonContactByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateContactAliasPersonContactArgs = {
+  input: UpdateContactAliasPersonContactInput;
 };
 
 
@@ -3761,6 +4163,30 @@ export type MutationUpdatePeruDepartureInspectionPalletByNodeIdArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdatePeruDepartureInspectionPalletArgs = {
   input: UpdatePeruDepartureInspectionPalletInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteContactAliasByNodeIdArgs = {
+  input: DeleteContactAliasByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteContactAliasArgs = {
+  input: DeleteContactAliasInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteContactAliasPersonContactByNodeIdArgs = {
+  input: DeleteContactAliasPersonContactByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteContactAliasPersonContactArgs = {
+  input: DeleteContactAliasPersonContactInput;
 };
 
 
@@ -3973,43 +4399,371 @@ export type MutationBatchCreateChileDepartureInspectionPalletArgs = {
   input: BatchCreateChileDepartureInspectionPalletInput;
 };
 
-/** The output of our create `Country` mutation. */
-export type CreateCountryPayload = {
-  __typename?: 'CreateCountryPayload';
+/** The output of our create `ContactAlias` mutation. */
+export type CreateContactAliasPayload = {
+  __typename?: 'CreateContactAliasPayload';
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']>;
-  /** The `Country` that was created by this mutation. */
-  country?: Maybe<Country>;
+  /** The `ContactAlias` that was created by this mutation. */
+  contactAlias?: Maybe<ContactAlias>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-  /** An edge for our `Country`. May be used by Relay 1. */
-  countryEdge?: Maybe<CountriesEdge>;
+  /** An edge for our `ContactAlias`. May be used by Relay 1. */
+  contactAliasEdge?: Maybe<ContactAliasesEdge>;
 };
 
 
-/** The output of our create `Country` mutation. */
-export type CreateCountryPayloadCountryEdgeArgs = {
-  orderBy?: Maybe<Array<CountriesOrderBy>>;
+/** The output of our create `ContactAlias` mutation. */
+export type CreateContactAliasPayloadContactAliasEdgeArgs = {
+  orderBy?: Maybe<Array<ContactAliasesOrderBy>>;
 };
 
-/** All input for the create `Country` mutation. */
-export type CreateCountryInput = {
+/** All input for the create `ContactAlias` mutation. */
+export type CreateContactAliasInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: Maybe<Scalars['String']>;
-  /** The `Country` to be created by this mutation. */
-  country: CountryInput;
+  /** The `ContactAlias` to be created by this mutation. */
+  contactAlias: ContactAliasInput;
 };
 
-/** An input for mutations affecting `Country` */
-export type CountryInput = {
+/** An input for mutations affecting `ContactAlias` */
+export type ContactAliasInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  aliasDescription: Scalars['String'];
+  aliasName: Scalars['String'];
+  aliasType: Scalars['String'];
+  contactAliasPersonContactsUsingId?: Maybe<ContactAliasPersonContactAliasIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `contactAliasPersonContact` in the `ContactAliasInput` mutation. */
+export type ContactAliasPersonContactAliasIdFkeyInverseInput = {
+  /** Flag indicating whether all other `contactAliasPersonContact` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `contactAliasPersonContact` for the far side of the relationship. */
+  connectByAliasIdAndPersonContactId?: Maybe<Array<ContactAliasPersonContactContactAliasPersonContactPkeyConnect>>;
+  /** The primary key(s) for `contactAliasPersonContact` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<ContactAliasPersonContactNodeIdConnect>>;
+  /** The primary key(s) for `contactAliasPersonContact` for the far side of the relationship. */
+  deleteByAliasIdAndPersonContactId?: Maybe<Array<ContactAliasPersonContactContactAliasPersonContactPkeyDelete>>;
+  /** The primary key(s) for `contactAliasPersonContact` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<ContactAliasPersonContactNodeIdDelete>>;
+  /** The primary key(s) and patch data for `contactAliasPersonContact` for the far side of the relationship. */
+  updateByAliasIdAndPersonContactId?: Maybe<Array<ContactAliasPersonContactOnContactAliasPersonContactForContactAliasPersonContactAliasIdFkeyUsingContactAliasPersonContactPkeyUpdate>>;
+  /** The primary key(s) and patch data for `contactAliasPersonContact` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<ContactAliasOnContactAliasPersonContactForContactAliasPersonContactAliasIdFkeyNodeIdUpdate>>;
+  /** A `ContactAliasPersonContactInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<ContactAliasPersonContactAliasIdFkeyContactAliasPersonContactCreateInput>>;
+};
+
+/** The fields on `contactAliasPersonContact` to look up the row to connect. */
+export type ContactAliasPersonContactContactAliasPersonContactPkeyConnect = {
+  aliasId: Scalars['BigInt'];
+  personContactId: Scalars['BigInt'];
+};
+
+/** The globally unique `ID` look up for the row to connect. */
+export type ContactAliasPersonContactNodeIdConnect = {
+  /** The globally unique `ID` which identifies a single `contactAliasPersonContact` to be connected. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `contactAliasPersonContact` to look up the row to delete. */
+export type ContactAliasPersonContactContactAliasPersonContactPkeyDelete = {
+  aliasId: Scalars['BigInt'];
+  personContactId: Scalars['BigInt'];
+};
+
+/** The globally unique `ID` look up for the row to delete. */
+export type ContactAliasPersonContactNodeIdDelete = {
+  /** The globally unique `ID` which identifies a single `contactAliasPersonContact` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `contactAliasPersonContact` to look up the row to update. */
+export type ContactAliasPersonContactOnContactAliasPersonContactForContactAliasPersonContactAliasIdFkeyUsingContactAliasPersonContactPkeyUpdate = {
+  /** An object where the defined keys will be set on the `contactAliasPersonContact` being updated. */
+  patch: UpdateContactAliasPersonContactOnContactAliasPersonContactForContactAliasPersonContactAliasIdFkeyPatch;
+  aliasId: Scalars['BigInt'];
+  personContactId: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `contactAliasPersonContact` being updated. */
+export type UpdateContactAliasPersonContactOnContactAliasPersonContactForContactAliasPersonContactAliasIdFkeyPatch = {
+  personContactId?: Maybe<Scalars['BigInt']>;
+  contactAliasToAliasId?: Maybe<ContactAliasPersonContactAliasIdFkeyInput>;
+  personContactToPersonContactId?: Maybe<ContactAliasPersonContactPersonContactIdFkeyInput>;
+};
+
+/** Input for the nested mutation of `contactAlias` in the `ContactAliasPersonContactInput` mutation. */
+export type ContactAliasPersonContactAliasIdFkeyInput = {
+  /** The primary key(s) for `contactAlias` for the far side of the relationship. */
+  connectById?: Maybe<ContactAliasContactAliasPkeyConnect>;
+  /** The primary key(s) for `contactAlias` for the far side of the relationship. */
+  connectByNodeId?: Maybe<ContactAliasNodeIdConnect>;
+  /** The primary key(s) for `contactAlias` for the far side of the relationship. */
+  deleteById?: Maybe<ContactAliasContactAliasPkeyDelete>;
+  /** The primary key(s) for `contactAlias` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<ContactAliasNodeIdDelete>;
+  /** The primary key(s) and patch data for `contactAlias` for the far side of the relationship. */
+  updateById?: Maybe<ContactAliasOnContactAliasPersonContactForContactAliasPersonContactAliasIdFkeyUsingContactAliasPkeyUpdate>;
+  /** The primary key(s) and patch data for `contactAlias` for the far side of the relationship. */
+  updateByNodeId?: Maybe<ContactAliasPersonContactOnContactAliasPersonContactForContactAliasPersonContactAliasIdFkeyNodeIdUpdate>;
+  /** A `ContactAliasInput` object that will be created and connected to this object. */
+  create?: Maybe<ContactAliasPersonContactAliasIdFkeyContactAliasCreateInput>;
+};
+
+/** The fields on `contactAlias` to look up the row to connect. */
+export type ContactAliasContactAliasPkeyConnect = {
+  id: Scalars['BigInt'];
+};
+
+/** The globally unique `ID` look up for the row to connect. */
+export type ContactAliasNodeIdConnect = {
+  /** The globally unique `ID` which identifies a single `contactAlias` to be connected. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `contactAlias` to look up the row to delete. */
+export type ContactAliasContactAliasPkeyDelete = {
+  id: Scalars['BigInt'];
+};
+
+/** The globally unique `ID` look up for the row to delete. */
+export type ContactAliasNodeIdDelete = {
+  /** The globally unique `ID` which identifies a single `contactAlias` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `contactAlias` to look up the row to update. */
+export type ContactAliasOnContactAliasPersonContactForContactAliasPersonContactAliasIdFkeyUsingContactAliasPkeyUpdate = {
+  /** An object where the defined keys will be set on the `contactAlias` being updated. */
+  patch: UpdateContactAliasOnContactAliasPersonContactForContactAliasPersonContactAliasIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `contactAlias` being updated. */
+export type UpdateContactAliasOnContactAliasPersonContactForContactAliasPersonContactAliasIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  aliasDescription?: Maybe<Scalars['String']>;
+  aliasName?: Maybe<Scalars['String']>;
+  aliasType?: Maybe<Scalars['String']>;
+  contactAliasPersonContactsUsingId?: Maybe<ContactAliasPersonContactAliasIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type ContactAliasPersonContactOnContactAliasPersonContactForContactAliasPersonContactAliasIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `contactAlias` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `contactAlias` being updated. */
+  patch: ContactAliasPatch;
+};
+
+/** Represents an update to a `ContactAlias`. Fields that are set will be updated. */
+export type ContactAliasPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  aliasDescription?: Maybe<Scalars['String']>;
+  aliasName?: Maybe<Scalars['String']>;
+  aliasType?: Maybe<Scalars['String']>;
+  contactAliasPersonContactsUsingId?: Maybe<ContactAliasPersonContactAliasIdFkeyInverseInput>;
+};
+
+/** The `contactAlias` to be created by this mutation. */
+export type ContactAliasPersonContactAliasIdFkeyContactAliasCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  aliasDescription: Scalars['String'];
+  aliasName: Scalars['String'];
+  aliasType: Scalars['String'];
+  contactAliasPersonContactsUsingId?: Maybe<ContactAliasPersonContactAliasIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `personContact` in the `ContactAliasPersonContactInput` mutation. */
+export type ContactAliasPersonContactPersonContactIdFkeyInput = {
+  /** The primary key(s) for `personContact` for the far side of the relationship. */
+  connectById?: Maybe<PersonContactPersonContactPkeyConnect>;
+  /** The primary key(s) for `personContact` for the far side of the relationship. */
+  connectByNodeId?: Maybe<PersonContactNodeIdConnect>;
+  /** The primary key(s) for `personContact` for the far side of the relationship. */
+  deleteById?: Maybe<PersonContactPersonContactPkeyDelete>;
+  /** The primary key(s) for `personContact` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<PersonContactNodeIdDelete>;
+  /** The primary key(s) and patch data for `personContact` for the far side of the relationship. */
+  updateById?: Maybe<PersonContactOnContactAliasPersonContactForContactAliasPersonContactPersonContactIdFkeyUsingPersonContactPkeyUpdate>;
+  /** The primary key(s) and patch data for `personContact` for the far side of the relationship. */
+  updateByNodeId?: Maybe<ContactAliasPersonContactOnContactAliasPersonContactForContactAliasPersonContactPersonContactIdFkeyNodeIdUpdate>;
+  /** A `PersonContactInput` object that will be created and connected to this object. */
+  create?: Maybe<ContactAliasPersonContactPersonContactIdFkeyPersonContactCreateInput>;
+};
+
+/** The fields on `personContact` to look up the row to connect. */
+export type PersonContactPersonContactPkeyConnect = {
+  id: Scalars['BigInt'];
+};
+
+/** The globally unique `ID` look up for the row to connect. */
+export type PersonContactNodeIdConnect = {
+  /** The globally unique `ID` which identifies a single `personContact` to be connected. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `personContact` to look up the row to delete. */
+export type PersonContactPersonContactPkeyDelete = {
+  id: Scalars['BigInt'];
+};
+
+/** The globally unique `ID` look up for the row to delete. */
+export type PersonContactNodeIdDelete = {
+  /** The globally unique `ID` which identifies a single `personContact` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `personContact` to look up the row to update. */
+export type PersonContactOnContactAliasPersonContactForContactAliasPersonContactPersonContactIdFkeyUsingPersonContactPkeyUpdate = {
+  /** An object where the defined keys will be set on the `personContact` being updated. */
+  patch: UpdatePersonContactOnContactAliasPersonContactForContactAliasPersonContactPersonContactIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `personContact` being updated. */
+export type UpdatePersonContactOnContactAliasPersonContactForContactAliasPersonContactPersonContactIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  shipperId?: Maybe<Scalars['String']>;
+  customerId?: Maybe<Scalars['String']>;
+  warehouseId?: Maybe<Scalars['String']>;
+  firstName?: Maybe<Scalars['String']>;
+  lastName?: Maybe<Scalars['String']>;
+  isPrimary?: Maybe<Scalars['Boolean']>;
+  email?: Maybe<Scalars['String']>;
+  secondaryEmail?: Maybe<Scalars['String']>;
+  homePhone?: Maybe<Scalars['String']>;
+  cellPhone?: Maybe<Scalars['String']>;
+  workPhone?: Maybe<Scalars['String']>;
+  workExtension?: Maybe<Scalars['String']>;
+  imageSrc?: Maybe<Scalars['String']>;
+  isInternal?: Maybe<Scalars['Boolean']>;
+  roles?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PersonContactShipperIdFkeyInput>;
+  customerToCustomerId?: Maybe<PersonContactCustomerIdFkeyInput>;
+  warehouseToWarehouseId?: Maybe<PersonContactWarehouseIdFkeyInput>;
+  contactAliasPersonContactsUsingId?: Maybe<ContactAliasPersonContactPersonContactIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `shipper` in the `PersonContactInput` mutation. */
+export type PersonContactShipperIdFkeyInput = {
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  connectById?: Maybe<ShipperShipperPkeyConnect>;
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  connectByNodeId?: Maybe<ShipperNodeIdConnect>;
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  deleteById?: Maybe<ShipperShipperPkeyDelete>;
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<ShipperNodeIdDelete>;
+  /** The primary key(s) and patch data for `shipper` for the far side of the relationship. */
+  updateById?: Maybe<ShipperOnPersonContactForPersonContactShipperIdFkeyUsingShipperPkeyUpdate>;
+  /** The primary key(s) and patch data for `shipper` for the far side of the relationship. */
+  updateByNodeId?: Maybe<PersonContactOnPersonContactForPersonContactShipperIdFkeyNodeIdUpdate>;
+  /** A `ShipperInput` object that will be created and connected to this object. */
+  create?: Maybe<PersonContactShipperIdFkeyShipperCreateInput>;
+};
+
+/** The fields on `shipper` to look up the row to connect. */
+export type ShipperShipperPkeyConnect = {
   id: Scalars['String'];
-  countryName: Scalars['String'];
+};
+
+/** The globally unique `ID` look up for the row to connect. */
+export type ShipperNodeIdConnect = {
+  /** The globally unique `ID` which identifies a single `shipper` to be connected. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `shipper` to look up the row to delete. */
+export type ShipperShipperPkeyDelete = {
+  id: Scalars['String'];
+};
+
+/** The globally unique `ID` look up for the row to delete. */
+export type ShipperNodeIdDelete = {
+  /** The globally unique `ID` which identifies a single `shipper` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `shipper` to look up the row to update. */
+export type ShipperOnPersonContactForPersonContactShipperIdFkeyUsingShipperPkeyUpdate = {
+  /** An object where the defined keys will be set on the `shipper` being updated. */
+  patch: UpdateShipperOnPersonContactForPersonContactShipperIdFkeyPatch;
+  id: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `shipper` being updated. */
+export type UpdateShipperOnPersonContactForPersonContactShipperIdFkeyPatch = {
+  id?: Maybe<Scalars['String']>;
+  shipperName?: Maybe<Scalars['String']>;
+  countryId?: Maybe<Scalars['String']>;
+  groupId?: Maybe<Scalars['String']>;
+  logoSrc?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
+  countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
+  personContactsUsingId?: Maybe<PersonContactShipperIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `country` in the `ShipperInput` mutation. */
+export type ShipperCountryIdFkeyInput = {
+  /** The primary key(s) for `country` for the far side of the relationship. */
+  connectById?: Maybe<CountryCountryPkeyConnect>;
+  /** The primary key(s) for `country` for the far side of the relationship. */
+  connectByNodeId?: Maybe<CountryNodeIdConnect>;
+  /** The primary key(s) for `country` for the far side of the relationship. */
+  deleteById?: Maybe<CountryCountryPkeyDelete>;
+  /** The primary key(s) for `country` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<CountryNodeIdDelete>;
+  /** The primary key(s) and patch data for `country` for the far side of the relationship. */
+  updateById?: Maybe<CountryOnShipperForShipperCountryIdFkeyUsingCountryPkeyUpdate>;
+  /** The primary key(s) and patch data for `country` for the far side of the relationship. */
+  updateByNodeId?: Maybe<ShipperOnShipperForShipperCountryIdFkeyNodeIdUpdate>;
+  /** A `CountryInput` object that will be created and connected to this object. */
+  create?: Maybe<ShipperCountryIdFkeyCountryCreateInput>;
+};
+
+/** The fields on `country` to look up the row to connect. */
+export type CountryCountryPkeyConnect = {
+  id: Scalars['String'];
+};
+
+/** The globally unique `ID` look up for the row to connect. */
+export type CountryNodeIdConnect = {
+  /** The globally unique `ID` which identifies a single `country` to be connected. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `country` to look up the row to delete. */
+export type CountryCountryPkeyDelete = {
+  id: Scalars['String'];
+};
+
+/** The globally unique `ID` look up for the row to delete. */
+export type CountryNodeIdDelete = {
+  /** The globally unique `ID` which identifies a single `country` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `country` to look up the row to update. */
+export type CountryOnShipperForShipperCountryIdFkeyUsingCountryPkeyUpdate = {
+  /** An object where the defined keys will be set on the `country` being updated. */
+  patch: UpdateCountryOnShipperForShipperCountryIdFkeyPatch;
+  id: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `country` being updated. */
+export type UpdateCountryOnShipperForShipperCountryIdFkeyPatch = {
+  id?: Maybe<Scalars['String']>;
+  countryName?: Maybe<Scalars['String']>;
   warehousesUsingId?: Maybe<WarehouseCountryIdFkeyInverseInput>;
   customersUsingId?: Maybe<CustomerCountryIdFkeyInverseInput>;
   shippersUsingId?: Maybe<ShipperCountryIdFkeyInverseInput>;
@@ -4100,28 +4854,6 @@ export type WarehouseCountryIdFkeyInput = {
   updateByNodeId?: Maybe<WarehouseOnWarehouseForWarehouseCountryIdFkeyNodeIdUpdate>;
   /** A `CountryInput` object that will be created and connected to this object. */
   create?: Maybe<WarehouseCountryIdFkeyCountryCreateInput>;
-};
-
-/** The fields on `country` to look up the row to connect. */
-export type CountryCountryPkeyConnect = {
-  id: Scalars['String'];
-};
-
-/** The globally unique `ID` look up for the row to connect. */
-export type CountryNodeIdConnect = {
-  /** The globally unique `ID` which identifies a single `country` to be connected. */
-  nodeId: Scalars['ID'];
-};
-
-/** The fields on `country` to look up the row to delete. */
-export type CountryCountryPkeyDelete = {
-  id: Scalars['String'];
-};
-
-/** The globally unique `ID` look up for the row to delete. */
-export type CountryNodeIdDelete = {
-  /** The globally unique `ID` which identifies a single `country` to be deleted. */
-  nodeId: Scalars['ID'];
 };
 
 /** The fields on `country` to look up the row to update. */
@@ -4261,28 +4993,6 @@ export type ShipperCountryIdFkeyInverseInput = {
   create?: Maybe<Array<ShipperCountryIdFkeyShipperCreateInput>>;
 };
 
-/** The fields on `shipper` to look up the row to connect. */
-export type ShipperShipperPkeyConnect = {
-  id: Scalars['String'];
-};
-
-/** The globally unique `ID` look up for the row to connect. */
-export type ShipperNodeIdConnect = {
-  /** The globally unique `ID` which identifies a single `shipper` to be connected. */
-  nodeId: Scalars['ID'];
-};
-
-/** The fields on `shipper` to look up the row to delete. */
-export type ShipperShipperPkeyDelete = {
-  id: Scalars['String'];
-};
-
-/** The globally unique `ID` look up for the row to delete. */
-export type ShipperNodeIdDelete = {
-  /** The globally unique `ID` which identifies a single `shipper` to be deleted. */
-  nodeId: Scalars['ID'];
-};
-
 /** The fields on `shipper` to look up the row to update. */
 export type ShipperOnShipperForShipperCountryIdFkeyUsingShipperPkeyUpdate = {
   /** An object where the defined keys will be set on the `shipper` being updated. */
@@ -4300,66 +5010,6 @@ export type UpdateShipperOnShipperForShipperCountryIdFkeyPatch = {
   website?: Maybe<Scalars['String']>;
   countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
   personContactsUsingId?: Maybe<PersonContactShipperIdFkeyInverseInput>;
-};
-
-/** Input for the nested mutation of `country` in the `ShipperInput` mutation. */
-export type ShipperCountryIdFkeyInput = {
-  /** The primary key(s) for `country` for the far side of the relationship. */
-  connectById?: Maybe<CountryCountryPkeyConnect>;
-  /** The primary key(s) for `country` for the far side of the relationship. */
-  connectByNodeId?: Maybe<CountryNodeIdConnect>;
-  /** The primary key(s) for `country` for the far side of the relationship. */
-  deleteById?: Maybe<CountryCountryPkeyDelete>;
-  /** The primary key(s) for `country` for the far side of the relationship. */
-  deleteByNodeId?: Maybe<CountryNodeIdDelete>;
-  /** The primary key(s) and patch data for `country` for the far side of the relationship. */
-  updateById?: Maybe<CountryOnShipperForShipperCountryIdFkeyUsingCountryPkeyUpdate>;
-  /** The primary key(s) and patch data for `country` for the far side of the relationship. */
-  updateByNodeId?: Maybe<ShipperOnShipperForShipperCountryIdFkeyNodeIdUpdate>;
-  /** A `CountryInput` object that will be created and connected to this object. */
-  create?: Maybe<ShipperCountryIdFkeyCountryCreateInput>;
-};
-
-/** The fields on `country` to look up the row to update. */
-export type CountryOnShipperForShipperCountryIdFkeyUsingCountryPkeyUpdate = {
-  /** An object where the defined keys will be set on the `country` being updated. */
-  patch: UpdateCountryOnShipperForShipperCountryIdFkeyPatch;
-  id: Scalars['String'];
-};
-
-/** An object where the defined keys will be set on the `country` being updated. */
-export type UpdateCountryOnShipperForShipperCountryIdFkeyPatch = {
-  id?: Maybe<Scalars['String']>;
-  countryName?: Maybe<Scalars['String']>;
-  warehousesUsingId?: Maybe<WarehouseCountryIdFkeyInverseInput>;
-  customersUsingId?: Maybe<CustomerCountryIdFkeyInverseInput>;
-  shippersUsingId?: Maybe<ShipperCountryIdFkeyInverseInput>;
-};
-
-/** The globally unique `ID` look up for the row to update. */
-export type ShipperOnShipperForShipperCountryIdFkeyNodeIdUpdate = {
-  /** The globally unique `ID` which identifies a single `country` to be connected. */
-  nodeId: Scalars['ID'];
-  /** An object where the defined keys will be set on the `country` being updated. */
-  patch: CountryPatch;
-};
-
-/** Represents an update to a `Country`. Fields that are set will be updated. */
-export type CountryPatch = {
-  id?: Maybe<Scalars['String']>;
-  countryName?: Maybe<Scalars['String']>;
-  warehousesUsingId?: Maybe<WarehouseCountryIdFkeyInverseInput>;
-  customersUsingId?: Maybe<CustomerCountryIdFkeyInverseInput>;
-  shippersUsingId?: Maybe<ShipperCountryIdFkeyInverseInput>;
-};
-
-/** The `country` to be created by this mutation. */
-export type ShipperCountryIdFkeyCountryCreateInput = {
-  id: Scalars['String'];
-  countryName: Scalars['String'];
-  warehousesUsingId?: Maybe<WarehouseCountryIdFkeyInverseInput>;
-  customersUsingId?: Maybe<CustomerCountryIdFkeyInverseInput>;
-  shippersUsingId?: Maybe<ShipperCountryIdFkeyInverseInput>;
 };
 
 /** Input for the nested mutation of `personContact` in the `ShipperInput` mutation. */
@@ -4380,28 +5030,6 @@ export type PersonContactShipperIdFkeyInverseInput = {
   updateByNodeId?: Maybe<Array<ShipperOnPersonContactForPersonContactShipperIdFkeyNodeIdUpdate>>;
   /** A `PersonContactInput` object that will be created and connected to this object. */
   create?: Maybe<Array<PersonContactShipperIdFkeyPersonContactCreateInput>>;
-};
-
-/** The fields on `personContact` to look up the row to connect. */
-export type PersonContactPersonContactPkeyConnect = {
-  id: Scalars['BigInt'];
-};
-
-/** The globally unique `ID` look up for the row to connect. */
-export type PersonContactNodeIdConnect = {
-  /** The globally unique `ID` which identifies a single `personContact` to be connected. */
-  nodeId: Scalars['ID'];
-};
-
-/** The fields on `personContact` to look up the row to delete. */
-export type PersonContactPersonContactPkeyDelete = {
-  id: Scalars['BigInt'];
-};
-
-/** The globally unique `ID` look up for the row to delete. */
-export type PersonContactNodeIdDelete = {
-  /** The globally unique `ID` which identifies a single `personContact` to be deleted. */
-  nodeId: Scalars['ID'];
 };
 
 /** The fields on `personContact` to look up the row to update. */
@@ -4431,78 +5059,7 @@ export type UpdatePersonContactOnPersonContactForPersonContactShipperIdFkeyPatch
   shipperToShipperId?: Maybe<PersonContactShipperIdFkeyInput>;
   customerToCustomerId?: Maybe<PersonContactCustomerIdFkeyInput>;
   warehouseToWarehouseId?: Maybe<PersonContactWarehouseIdFkeyInput>;
-};
-
-/** Input for the nested mutation of `shipper` in the `PersonContactInput` mutation. */
-export type PersonContactShipperIdFkeyInput = {
-  /** The primary key(s) for `shipper` for the far side of the relationship. */
-  connectById?: Maybe<ShipperShipperPkeyConnect>;
-  /** The primary key(s) for `shipper` for the far side of the relationship. */
-  connectByNodeId?: Maybe<ShipperNodeIdConnect>;
-  /** The primary key(s) for `shipper` for the far side of the relationship. */
-  deleteById?: Maybe<ShipperShipperPkeyDelete>;
-  /** The primary key(s) for `shipper` for the far side of the relationship. */
-  deleteByNodeId?: Maybe<ShipperNodeIdDelete>;
-  /** The primary key(s) and patch data for `shipper` for the far side of the relationship. */
-  updateById?: Maybe<ShipperOnPersonContactForPersonContactShipperIdFkeyUsingShipperPkeyUpdate>;
-  /** The primary key(s) and patch data for `shipper` for the far side of the relationship. */
-  updateByNodeId?: Maybe<PersonContactOnPersonContactForPersonContactShipperIdFkeyNodeIdUpdate>;
-  /** A `ShipperInput` object that will be created and connected to this object. */
-  create?: Maybe<PersonContactShipperIdFkeyShipperCreateInput>;
-};
-
-/** The fields on `shipper` to look up the row to update. */
-export type ShipperOnPersonContactForPersonContactShipperIdFkeyUsingShipperPkeyUpdate = {
-  /** An object where the defined keys will be set on the `shipper` being updated. */
-  patch: UpdateShipperOnPersonContactForPersonContactShipperIdFkeyPatch;
-  id: Scalars['String'];
-};
-
-/** An object where the defined keys will be set on the `shipper` being updated. */
-export type UpdateShipperOnPersonContactForPersonContactShipperIdFkeyPatch = {
-  id?: Maybe<Scalars['String']>;
-  shipperName?: Maybe<Scalars['String']>;
-  countryId?: Maybe<Scalars['String']>;
-  groupId?: Maybe<Scalars['String']>;
-  logoSrc?: Maybe<Scalars['String']>;
-  notes?: Maybe<Scalars['String']>;
-  website?: Maybe<Scalars['String']>;
-  countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
-  personContactsUsingId?: Maybe<PersonContactShipperIdFkeyInverseInput>;
-};
-
-/** The globally unique `ID` look up for the row to update. */
-export type PersonContactOnPersonContactForPersonContactShipperIdFkeyNodeIdUpdate = {
-  /** The globally unique `ID` which identifies a single `shipper` to be connected. */
-  nodeId: Scalars['ID'];
-  /** An object where the defined keys will be set on the `shipper` being updated. */
-  patch: ShipperPatch;
-};
-
-/** Represents an update to a `Shipper`. Fields that are set will be updated. */
-export type ShipperPatch = {
-  id?: Maybe<Scalars['String']>;
-  shipperName?: Maybe<Scalars['String']>;
-  countryId?: Maybe<Scalars['String']>;
-  groupId?: Maybe<Scalars['String']>;
-  logoSrc?: Maybe<Scalars['String']>;
-  notes?: Maybe<Scalars['String']>;
-  website?: Maybe<Scalars['String']>;
-  countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
-  personContactsUsingId?: Maybe<PersonContactShipperIdFkeyInverseInput>;
-};
-
-/** The `shipper` to be created by this mutation. */
-export type PersonContactShipperIdFkeyShipperCreateInput = {
-  id: Scalars['String'];
-  shipperName: Scalars['String'];
-  countryId?: Maybe<Scalars['String']>;
-  groupId?: Maybe<Scalars['String']>;
-  logoSrc?: Maybe<Scalars['String']>;
-  notes?: Maybe<Scalars['String']>;
-  website?: Maybe<Scalars['String']>;
-  countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
-  personContactsUsingId?: Maybe<PersonContactShipperIdFkeyInverseInput>;
+  contactAliasPersonContactsUsingId?: Maybe<ContactAliasPersonContactPersonContactIdFkeyInverseInput>;
 };
 
 /** Input for the nested mutation of `customer` in the `PersonContactInput` mutation. */
@@ -4596,6 +5153,7 @@ export type UpdatePersonContactOnPersonContactForPersonContactCustomerIdFkeyPatc
   shipperToShipperId?: Maybe<PersonContactShipperIdFkeyInput>;
   customerToCustomerId?: Maybe<PersonContactCustomerIdFkeyInput>;
   warehouseToWarehouseId?: Maybe<PersonContactWarehouseIdFkeyInput>;
+  contactAliasPersonContactsUsingId?: Maybe<ContactAliasPersonContactPersonContactIdFkeyInverseInput>;
 };
 
 /** Input for the nested mutation of `warehouse` in the `PersonContactInput` mutation. */
@@ -4691,6 +5249,65 @@ export type UpdatePersonContactOnPersonContactForPersonContactWarehouseIdFkeyPat
   shipperToShipperId?: Maybe<PersonContactShipperIdFkeyInput>;
   customerToCustomerId?: Maybe<PersonContactCustomerIdFkeyInput>;
   warehouseToWarehouseId?: Maybe<PersonContactWarehouseIdFkeyInput>;
+  contactAliasPersonContactsUsingId?: Maybe<ContactAliasPersonContactPersonContactIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `contactAliasPersonContact` in the `PersonContactInput` mutation. */
+export type ContactAliasPersonContactPersonContactIdFkeyInverseInput = {
+  /** Flag indicating whether all other `contactAliasPersonContact` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `contactAliasPersonContact` for the far side of the relationship. */
+  connectByAliasIdAndPersonContactId?: Maybe<Array<ContactAliasPersonContactContactAliasPersonContactPkeyConnect>>;
+  /** The primary key(s) for `contactAliasPersonContact` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<ContactAliasPersonContactNodeIdConnect>>;
+  /** The primary key(s) for `contactAliasPersonContact` for the far side of the relationship. */
+  deleteByAliasIdAndPersonContactId?: Maybe<Array<ContactAliasPersonContactContactAliasPersonContactPkeyDelete>>;
+  /** The primary key(s) for `contactAliasPersonContact` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<ContactAliasPersonContactNodeIdDelete>>;
+  /** The primary key(s) and patch data for `contactAliasPersonContact` for the far side of the relationship. */
+  updateByAliasIdAndPersonContactId?: Maybe<Array<ContactAliasPersonContactOnContactAliasPersonContactForContactAliasPersonContactPersonContactIdFkeyUsingContactAliasPersonContactPkeyUpdate>>;
+  /** The primary key(s) and patch data for `contactAliasPersonContact` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<PersonContactOnContactAliasPersonContactForContactAliasPersonContactPersonContactIdFkeyNodeIdUpdate>>;
+  /** A `ContactAliasPersonContactInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<ContactAliasPersonContactPersonContactIdFkeyContactAliasPersonContactCreateInput>>;
+};
+
+/** The fields on `contactAliasPersonContact` to look up the row to update. */
+export type ContactAliasPersonContactOnContactAliasPersonContactForContactAliasPersonContactPersonContactIdFkeyUsingContactAliasPersonContactPkeyUpdate = {
+  /** An object where the defined keys will be set on the `contactAliasPersonContact` being updated. */
+  patch: UpdateContactAliasPersonContactOnContactAliasPersonContactForContactAliasPersonContactPersonContactIdFkeyPatch;
+  aliasId: Scalars['BigInt'];
+  personContactId: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `contactAliasPersonContact` being updated. */
+export type UpdateContactAliasPersonContactOnContactAliasPersonContactForContactAliasPersonContactPersonContactIdFkeyPatch = {
+  aliasId?: Maybe<Scalars['BigInt']>;
+  contactAliasToAliasId?: Maybe<ContactAliasPersonContactAliasIdFkeyInput>;
+  personContactToPersonContactId?: Maybe<ContactAliasPersonContactPersonContactIdFkeyInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type PersonContactOnContactAliasPersonContactForContactAliasPersonContactPersonContactIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `contactAliasPersonContact` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `contactAliasPersonContact` being updated. */
+  patch: ContactAliasPersonContactPatch;
+};
+
+/** Represents an update to a `ContactAliasPersonContact`. Fields that are set will be updated. */
+export type ContactAliasPersonContactPatch = {
+  aliasId?: Maybe<Scalars['BigInt']>;
+  personContactId?: Maybe<Scalars['BigInt']>;
+  contactAliasToAliasId?: Maybe<ContactAliasPersonContactAliasIdFkeyInput>;
+  personContactToPersonContactId?: Maybe<ContactAliasPersonContactPersonContactIdFkeyInput>;
+};
+
+/** The `contactAliasPersonContact` to be created by this mutation. */
+export type ContactAliasPersonContactPersonContactIdFkeyContactAliasPersonContactCreateInput = {
+  aliasId?: Maybe<Scalars['BigInt']>;
+  contactAliasToAliasId?: Maybe<ContactAliasPersonContactAliasIdFkeyInput>;
+  personContactToPersonContactId?: Maybe<ContactAliasPersonContactPersonContactIdFkeyInput>;
 };
 
 /** The globally unique `ID` look up for the row to update. */
@@ -4722,6 +5339,7 @@ export type PersonContactPatch = {
   shipperToShipperId?: Maybe<PersonContactShipperIdFkeyInput>;
   customerToCustomerId?: Maybe<PersonContactCustomerIdFkeyInput>;
   warehouseToWarehouseId?: Maybe<PersonContactWarehouseIdFkeyInput>;
+  contactAliasPersonContactsUsingId?: Maybe<ContactAliasPersonContactPersonContactIdFkeyInverseInput>;
 };
 
 /** The `personContact` to be created by this mutation. */
@@ -4744,6 +5362,7 @@ export type PersonContactWarehouseIdFkeyPersonContactCreateInput = {
   shipperToShipperId?: Maybe<PersonContactShipperIdFkeyInput>;
   customerToCustomerId?: Maybe<PersonContactCustomerIdFkeyInput>;
   warehouseToWarehouseId?: Maybe<PersonContactWarehouseIdFkeyInput>;
+  contactAliasPersonContactsUsingId?: Maybe<ContactAliasPersonContactPersonContactIdFkeyInverseInput>;
 };
 
 /** The globally unique `ID` look up for the row to update. */
@@ -4824,6 +5443,7 @@ export type PersonContactCustomerIdFkeyPersonContactCreateInput = {
   shipperToShipperId?: Maybe<PersonContactShipperIdFkeyInput>;
   customerToCustomerId?: Maybe<PersonContactCustomerIdFkeyInput>;
   warehouseToWarehouseId?: Maybe<PersonContactWarehouseIdFkeyInput>;
+  contactAliasPersonContactsUsingId?: Maybe<ContactAliasPersonContactPersonContactIdFkeyInverseInput>;
 };
 
 /** The globally unique `ID` look up for the row to update. */
@@ -4900,6 +5520,7 @@ export type PersonContactShipperIdFkeyPersonContactCreateInput = {
   shipperToShipperId?: Maybe<PersonContactShipperIdFkeyInput>;
   customerToCustomerId?: Maybe<PersonContactCustomerIdFkeyInput>;
   warehouseToWarehouseId?: Maybe<PersonContactWarehouseIdFkeyInput>;
+  contactAliasPersonContactsUsingId?: Maybe<ContactAliasPersonContactPersonContactIdFkeyInverseInput>;
 };
 
 /** The globally unique `ID` look up for the row to update. */
@@ -4908,6 +5529,19 @@ export type CountryOnShipperForShipperCountryIdFkeyNodeIdUpdate = {
   nodeId: Scalars['ID'];
   /** An object where the defined keys will be set on the `shipper` being updated. */
   patch: ShipperPatch;
+};
+
+/** Represents an update to a `Shipper`. Fields that are set will be updated. */
+export type ShipperPatch = {
+  id?: Maybe<Scalars['String']>;
+  shipperName?: Maybe<Scalars['String']>;
+  countryId?: Maybe<Scalars['String']>;
+  groupId?: Maybe<Scalars['String']>;
+  logoSrc?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
+  countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
+  personContactsUsingId?: Maybe<PersonContactShipperIdFkeyInverseInput>;
 };
 
 /** The `shipper` to be created by this mutation. */
@@ -4928,6 +5562,15 @@ export type CustomerOnCustomerForCustomerCountryIdFkeyNodeIdUpdate = {
   nodeId: Scalars['ID'];
   /** An object where the defined keys will be set on the `country` being updated. */
   patch: CountryPatch;
+};
+
+/** Represents an update to a `Country`. Fields that are set will be updated. */
+export type CountryPatch = {
+  id?: Maybe<Scalars['String']>;
+  countryName?: Maybe<Scalars['String']>;
+  warehousesUsingId?: Maybe<WarehouseCountryIdFkeyInverseInput>;
+  customersUsingId?: Maybe<CustomerCountryIdFkeyInverseInput>;
+  shippersUsingId?: Maybe<ShipperCountryIdFkeyInverseInput>;
 };
 
 /** The `country` to be created by this mutation. */
@@ -5008,6 +5651,178 @@ export type WarehouseCountryIdFkeyWarehouseCreateInput = {
   miscTaxCode?: Maybe<Scalars['String']>;
   countryToCountryId?: Maybe<WarehouseCountryIdFkeyInput>;
   personContactsUsingId?: Maybe<PersonContactWarehouseIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type ShipperOnShipperForShipperCountryIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `country` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `country` being updated. */
+  patch: CountryPatch;
+};
+
+/** The `country` to be created by this mutation. */
+export type ShipperCountryIdFkeyCountryCreateInput = {
+  id: Scalars['String'];
+  countryName: Scalars['String'];
+  warehousesUsingId?: Maybe<WarehouseCountryIdFkeyInverseInput>;
+  customersUsingId?: Maybe<CustomerCountryIdFkeyInverseInput>;
+  shippersUsingId?: Maybe<ShipperCountryIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type PersonContactOnPersonContactForPersonContactShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `shipper` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `shipper` being updated. */
+  patch: ShipperPatch;
+};
+
+/** The `shipper` to be created by this mutation. */
+export type PersonContactShipperIdFkeyShipperCreateInput = {
+  id: Scalars['String'];
+  shipperName: Scalars['String'];
+  countryId?: Maybe<Scalars['String']>;
+  groupId?: Maybe<Scalars['String']>;
+  logoSrc?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
+  countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
+  personContactsUsingId?: Maybe<PersonContactShipperIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type ContactAliasPersonContactOnContactAliasPersonContactForContactAliasPersonContactPersonContactIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `personContact` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `personContact` being updated. */
+  patch: PersonContactPatch;
+};
+
+/** The `personContact` to be created by this mutation. */
+export type ContactAliasPersonContactPersonContactIdFkeyPersonContactCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  shipperId?: Maybe<Scalars['String']>;
+  customerId?: Maybe<Scalars['String']>;
+  warehouseId?: Maybe<Scalars['String']>;
+  firstName: Scalars['String'];
+  lastName: Scalars['String'];
+  isPrimary: Scalars['Boolean'];
+  email?: Maybe<Scalars['String']>;
+  secondaryEmail?: Maybe<Scalars['String']>;
+  homePhone?: Maybe<Scalars['String']>;
+  cellPhone?: Maybe<Scalars['String']>;
+  workPhone?: Maybe<Scalars['String']>;
+  workExtension?: Maybe<Scalars['String']>;
+  imageSrc?: Maybe<Scalars['String']>;
+  isInternal: Scalars['Boolean'];
+  roles?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PersonContactShipperIdFkeyInput>;
+  customerToCustomerId?: Maybe<PersonContactCustomerIdFkeyInput>;
+  warehouseToWarehouseId?: Maybe<PersonContactWarehouseIdFkeyInput>;
+  contactAliasPersonContactsUsingId?: Maybe<ContactAliasPersonContactPersonContactIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type ContactAliasOnContactAliasPersonContactForContactAliasPersonContactAliasIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `contactAliasPersonContact` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `contactAliasPersonContact` being updated. */
+  patch: ContactAliasPersonContactPatch;
+};
+
+/** The `contactAliasPersonContact` to be created by this mutation. */
+export type ContactAliasPersonContactAliasIdFkeyContactAliasPersonContactCreateInput = {
+  personContactId?: Maybe<Scalars['BigInt']>;
+  contactAliasToAliasId?: Maybe<ContactAliasPersonContactAliasIdFkeyInput>;
+  personContactToPersonContactId?: Maybe<ContactAliasPersonContactPersonContactIdFkeyInput>;
+};
+
+/** The output of our create `ContactAliasPersonContact` mutation. */
+export type CreateContactAliasPersonContactPayload = {
+  __typename?: 'CreateContactAliasPersonContactPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `ContactAliasPersonContact` that was created by this mutation. */
+  contactAliasPersonContact?: Maybe<ContactAliasPersonContact>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `ContactAlias` that is related to this `ContactAliasPersonContact`. */
+  alias?: Maybe<ContactAlias>;
+  /** Reads a single `PersonContact` that is related to this `ContactAliasPersonContact`. */
+  personContact?: Maybe<PersonContact>;
+  /** An edge for our `ContactAliasPersonContact`. May be used by Relay 1. */
+  contactAliasPersonContactEdge?: Maybe<ContactAliasPersonContactsEdge>;
+};
+
+
+/** The output of our create `ContactAliasPersonContact` mutation. */
+export type CreateContactAliasPersonContactPayloadContactAliasPersonContactEdgeArgs = {
+  orderBy?: Maybe<Array<ContactAliasPersonContactsOrderBy>>;
+};
+
+/** All input for the create `ContactAliasPersonContact` mutation. */
+export type CreateContactAliasPersonContactInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `ContactAliasPersonContact` to be created by this mutation. */
+  contactAliasPersonContact: ContactAliasPersonContactInput;
+};
+
+/** An input for mutations affecting `ContactAliasPersonContact` */
+export type ContactAliasPersonContactInput = {
+  aliasId?: Maybe<Scalars['BigInt']>;
+  personContactId?: Maybe<Scalars['BigInt']>;
+  contactAliasToAliasId?: Maybe<ContactAliasPersonContactAliasIdFkeyInput>;
+  personContactToPersonContactId?: Maybe<ContactAliasPersonContactPersonContactIdFkeyInput>;
+};
+
+/** The output of our create `Country` mutation. */
+export type CreateCountryPayload = {
+  __typename?: 'CreateCountryPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `Country` that was created by this mutation. */
+  country?: Maybe<Country>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `Country`. May be used by Relay 1. */
+  countryEdge?: Maybe<CountriesEdge>;
+};
+
+
+/** The output of our create `Country` mutation. */
+export type CreateCountryPayloadCountryEdgeArgs = {
+  orderBy?: Maybe<Array<CountriesOrderBy>>;
+};
+
+/** All input for the create `Country` mutation. */
+export type CreateCountryInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `Country` to be created by this mutation. */
+  country: CountryInput;
+};
+
+/** An input for mutations affecting `Country` */
+export type CountryInput = {
+  id: Scalars['String'];
+  countryName: Scalars['String'];
+  warehousesUsingId?: Maybe<WarehouseCountryIdFkeyInverseInput>;
+  customersUsingId?: Maybe<CustomerCountryIdFkeyInverseInput>;
+  shippersUsingId?: Maybe<ShipperCountryIdFkeyInverseInput>;
 };
 
 /** The output of our create `Customer` mutation. */
@@ -5124,6 +5939,7 @@ export type PersonContactInput = {
   shipperToShipperId?: Maybe<PersonContactShipperIdFkeyInput>;
   customerToCustomerId?: Maybe<PersonContactCustomerIdFkeyInput>;
   warehouseToWarehouseId?: Maybe<PersonContactWarehouseIdFkeyInput>;
+  contactAliasPersonContactsUsingId?: Maybe<ContactAliasPersonContactPersonContactIdFkeyInverseInput>;
 };
 
 /** The output of our create `Shipper` mutation. */
@@ -6407,6 +7223,105 @@ export type PeruDepartureInspectionPalletInput = {
   peruDepartureInspectionToContainerId?: Maybe<FkContainerInput>;
 };
 
+/** The output of our update `ContactAlias` mutation. */
+export type UpdateContactAliasPayload = {
+  __typename?: 'UpdateContactAliasPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `ContactAlias` that was updated by this mutation. */
+  contactAlias?: Maybe<ContactAlias>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `ContactAlias`. May be used by Relay 1. */
+  contactAliasEdge?: Maybe<ContactAliasesEdge>;
+};
+
+
+/** The output of our update `ContactAlias` mutation. */
+export type UpdateContactAliasPayloadContactAliasEdgeArgs = {
+  orderBy?: Maybe<Array<ContactAliasesOrderBy>>;
+};
+
+/** All input for the `updateContactAliasByNodeId` mutation. */
+export type UpdateContactAliasByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `ContactAlias` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `ContactAlias` being updated. */
+  patch: ContactAliasPatch;
+};
+
+/** All input for the `updateContactAlias` mutation. */
+export type UpdateContactAliasInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `ContactAlias` being updated. */
+  patch: ContactAliasPatch;
+  id: Scalars['BigInt'];
+};
+
+/** The output of our update `ContactAliasPersonContact` mutation. */
+export type UpdateContactAliasPersonContactPayload = {
+  __typename?: 'UpdateContactAliasPersonContactPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `ContactAliasPersonContact` that was updated by this mutation. */
+  contactAliasPersonContact?: Maybe<ContactAliasPersonContact>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `ContactAlias` that is related to this `ContactAliasPersonContact`. */
+  alias?: Maybe<ContactAlias>;
+  /** Reads a single `PersonContact` that is related to this `ContactAliasPersonContact`. */
+  personContact?: Maybe<PersonContact>;
+  /** An edge for our `ContactAliasPersonContact`. May be used by Relay 1. */
+  contactAliasPersonContactEdge?: Maybe<ContactAliasPersonContactsEdge>;
+};
+
+
+/** The output of our update `ContactAliasPersonContact` mutation. */
+export type UpdateContactAliasPersonContactPayloadContactAliasPersonContactEdgeArgs = {
+  orderBy?: Maybe<Array<ContactAliasPersonContactsOrderBy>>;
+};
+
+/** All input for the `updateContactAliasPersonContactByNodeId` mutation. */
+export type UpdateContactAliasPersonContactByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `ContactAliasPersonContact` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `ContactAliasPersonContact` being updated. */
+  patch: ContactAliasPersonContactPatch;
+};
+
+/** All input for the `updateContactAliasPersonContact` mutation. */
+export type UpdateContactAliasPersonContactInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `ContactAliasPersonContact` being updated. */
+  patch: ContactAliasPersonContactPatch;
+  aliasId: Scalars['BigInt'];
+  personContactId: Scalars['BigInt'];
+};
+
 /** The output of our update `Country` mutation. */
 export type UpdateCountryPayload = {
   __typename?: 'UpdateCountryPayload';
@@ -7097,6 +8012,99 @@ export type UpdatePeruDepartureInspectionPalletInput = {
   /** An object where the defined keys will be set on the `PeruDepartureInspectionPallet` being updated. */
   patch: PeruDepartureInspectionPalletPatch;
   id: Scalars['BigInt'];
+};
+
+/** The output of our delete `ContactAlias` mutation. */
+export type DeleteContactAliasPayload = {
+  __typename?: 'DeleteContactAliasPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `ContactAlias` that was deleted by this mutation. */
+  contactAlias?: Maybe<ContactAlias>;
+  deletedContactAliasNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `ContactAlias`. May be used by Relay 1. */
+  contactAliasEdge?: Maybe<ContactAliasesEdge>;
+};
+
+
+/** The output of our delete `ContactAlias` mutation. */
+export type DeleteContactAliasPayloadContactAliasEdgeArgs = {
+  orderBy?: Maybe<Array<ContactAliasesOrderBy>>;
+};
+
+/** All input for the `deleteContactAliasByNodeId` mutation. */
+export type DeleteContactAliasByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `ContactAlias` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deleteContactAlias` mutation. */
+export type DeleteContactAliasInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['BigInt'];
+};
+
+/** The output of our delete `ContactAliasPersonContact` mutation. */
+export type DeleteContactAliasPersonContactPayload = {
+  __typename?: 'DeleteContactAliasPersonContactPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `ContactAliasPersonContact` that was deleted by this mutation. */
+  contactAliasPersonContact?: Maybe<ContactAliasPersonContact>;
+  deletedContactAliasPersonContactNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `ContactAlias` that is related to this `ContactAliasPersonContact`. */
+  alias?: Maybe<ContactAlias>;
+  /** Reads a single `PersonContact` that is related to this `ContactAliasPersonContact`. */
+  personContact?: Maybe<PersonContact>;
+  /** An edge for our `ContactAliasPersonContact`. May be used by Relay 1. */
+  contactAliasPersonContactEdge?: Maybe<ContactAliasPersonContactsEdge>;
+};
+
+
+/** The output of our delete `ContactAliasPersonContact` mutation. */
+export type DeleteContactAliasPersonContactPayloadContactAliasPersonContactEdgeArgs = {
+  orderBy?: Maybe<Array<ContactAliasPersonContactsOrderBy>>;
+};
+
+/** All input for the `deleteContactAliasPersonContactByNodeId` mutation. */
+export type DeleteContactAliasPersonContactByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `ContactAliasPersonContact` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deleteContactAliasPersonContact` mutation. */
+export type DeleteContactAliasPersonContactInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  aliasId: Scalars['BigInt'];
+  personContactId: Scalars['BigInt'];
 };
 
 /** The output of our delete `Country` mutation. */

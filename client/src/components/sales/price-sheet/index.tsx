@@ -932,7 +932,7 @@ const PriceSheet = () => {
             <Modal
               trigger={(show) => (
                 <b.Primary
-                  mr={th.spacing.sm}
+                  mr={th.spacing.md}
                   onClick={hasChanges ? show : handleCancel}
                   width={88}
                 >
@@ -990,7 +990,6 @@ const PriceSheet = () => {
           </l.AreaLink>
         ),
       ]}
-      breadcrumbs={[]}
       extraPaddingTop={108}
       headerChildren={
         <>

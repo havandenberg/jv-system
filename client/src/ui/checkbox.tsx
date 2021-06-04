@@ -19,7 +19,7 @@ const Label = styled.label({
 });
 
 interface Props {
-  checked: boolean;
+  checked?: boolean;
   label?: React.ReactNode;
   onChange: () => void;
 }
@@ -27,7 +27,7 @@ interface Props {
 export const FilterCheckbox = ({ checked, label, onChange }: Props) => (
   <l.Flex cursor="pointer" key={`${label}`} mb={th.spacing.sm}>
     <Input
-      checked={checked}
+      checked={!!checked}
       id={`${label}`}
       onChange={onChange}
       type="checkbox"

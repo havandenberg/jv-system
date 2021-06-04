@@ -2,8 +2,9 @@ import { setup } from 'axios-cache-adapter';
 
 import * as chileDepartureInspections from 'api/reports/inspections/chile-departure';
 import * as peruDepartureInspections from 'api/reports/inspections/peru-departure';
-import * as internalDirectory from 'api/directory/internal';
+import * as aliasDirectory from 'api/directory/alias';
 import * as customerDirectory from 'api/directory/customer';
+import * as contactDirectory from 'api/directory/contacts';
 import * as shipperDirectory from 'api/directory/shipper';
 import * as warehouseDirectory from 'api/directory/warehouse';
 import * as priceSheet from 'api/sales/price-sheet';
@@ -23,8 +24,9 @@ export default {
   client: api,
   ...chileDepartureInspections,
   ...peruDepartureInspections,
-  ...internalDirectory,
+  ...aliasDirectory,
   ...customerDirectory,
+  ...contactDirectory,
   ...shipperDirectory,
   ...warehouseDirectory,
   ...priceSheet,

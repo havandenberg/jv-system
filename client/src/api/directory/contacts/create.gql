@@ -1,0 +1,5 @@
+mutation PERSON_CONTACT_CREATE($personContact: PersonContactInput!) {
+  createPersonContact(input: { personContact: $personContact }) {
+    clientMutationId
+  }
+}

@@ -11,16 +11,18 @@ interface Props {
   confirmContent?: React.ReactNode;
   confirmTitle?: string;
   handleRemove: () => void;
-  triggerProps?: DivProps;
+  removeText?: string;
   shouldConfirm?: boolean;
+  triggerProps?: DivProps;
 }
 
 const RemoveButton = ({
   confirmTitle,
   confirmContent,
   handleRemove,
-  triggerProps,
+  removeText,
   shouldConfirm,
+  triggerProps,
 }: Props) => (
   <Modal
     trigger={(show) => (
@@ -46,7 +48,7 @@ const RemoveButton = ({
               hide();
             }}
           >
-            Remove
+            {removeText}
           </b.Primary>
         </l.Flex>
       </>

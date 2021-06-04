@@ -4,12 +4,15 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import { Tab, useTabBar } from 'components/tab-bar';
 import useSearch from 'hooks/use-search';
 
+import AliasDirectory from './aliases';
+import AliasDetails from './aliases/details';
 import CustomerDirectory from './customers';
 import CustomerDetails from './customers/details';
 import ShipperDirectory from './shippers';
 import ShipperDetails from './shippers/details';
-import InternalDirectory from './internal';
-import InternalDetails from './internal/details';
+import ContactDirectory from './contacts';
+import CreatePersonContact from './contacts/create';
+import ContactDetails from './contacts/details';
 import WarehouseDirectory from './warehouses';
 import WarehouseDetails from './warehouses/details';
 import SendEmailModal from './send-email';
@@ -29,7 +32,6 @@ const tabs: Tab[] = [
     id: DirectoryTypes.ALIASES,
     text: 'Aliases',
     to: `/directory/${DirectoryTypes.ALIASES}`,
-    disabled: true,
   },
   {
     id: DirectoryTypes.INTERNAL,
@@ -69,14 +71,14 @@ export interface SelectionState {
 
 const initialSelectionState = {
   aliases: [],
-  warehouses: [],
   internal: [],
-  shippers: [],
   customers: [],
+  shippers: [],
+  warehouses: [],
 };
 
 export interface SubDirectoryProps {
-  actions: React.ReactNode;
+  actions: React.ReactNode[];
   Search: React.ReactNode;
   selectedItems: SelectedItem[];
   selectItem: (item: SelectedItem) => void;
@@ -134,17 +136,35 @@ const Directory = () => {
 
   return (
     <Switch>
-      <Route exact path="/directory/internal/:id" component={InternalDetails} />
+      <Route exact path="/directory/create" component={CreatePersonContact} />
+      <Route exact path="/directory/internal/:id" component={ContactDetails} />
       <Route
         exact
         path="/directory/internal"
         render={() => (
-          <InternalDirectory
+          <ContactDirectory
             selectedItems={selectedItems['internal']}
             selectItem={selectItem('internal')}
             {...subDirectoryProps}
           />
         )}
+      />
+      <Route exact path="/directory/aliases/:id" component={AliasDetails} />
+      <Route
+        exact
+        path="/directory/aliases"
+        render={() => (
+          <AliasDirectory
+            selectedItems={selectedItems['aliases']}
+            selectItem={selectItem('aliases')}
+            {...subDirectoryProps}
+          />
+        )}
+      />
+      <Route
+        exact
+        path="/directory/shippers/:shipperId/contacts/:id"
+        component={ContactDetails}
       />
       <Route
         exact
@@ -164,6 +184,11 @@ const Directory = () => {
       />
       <Route
         exact
+        path="/directory/customers/:customerId/contacts/:id"
+        component={ContactDetails}
+      />
+      <Route
+        exact
         path="/directory/customers/:id"
         render={() => <CustomerDetails />}
       />
@@ -177,6 +202,11 @@ const Directory = () => {
             {...subDirectoryProps}
           />
         )}
+      />
+      <Route
+        exact
+        path="/directory/warehouses/:warehouseId/contacts/:id"
+        component={ContactDetails}
       />
       <Route
         exact

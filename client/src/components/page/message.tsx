@@ -37,7 +37,7 @@ const PageMessage = ({
   <Wrapper>
     {image && <l.Div mb={th.spacing.lg}>{image}</l.Div>}
     {header && (
-      <ty.LargeText mb={th.spacing.lg} secondary {...headerStyles}>
+      <ty.LargeText mb={text ? th.spacing.lg : 0} secondary {...headerStyles}>
         {header}
       </ty.LargeText>
     )}
@@ -51,14 +51,13 @@ const PageMessage = ({
 
 export default PageMessage;
 
-export const Empty = ({
-  header = 'No data found 😔',
-  text = 'Modify filter parameters to view more results.',
-}: MessageProps) => <PageMessage header={header} text={text} />;
+export const Empty = ({ header = 'No data found 😔', text }: MessageProps) => (
+  <PageMessage header={header} text={text} />
+);
 
 export const Error = ({
   header = 'An error has occurred ❌',
-  text = 'Please try again later.',
+  text,
 }: MessageProps) => <PageMessage header={header} text={text} />;
 
 export const Loading = ({ text = 'Loading data...' }: MessageProps) => (

@@ -93,3 +93,17 @@ SELECT CONCAT (
 	p.roles
 	) FROM directory.person_contact
 $BODY$;
+
+CREATE FUNCTION directory.contact_alias_search_text(IN a directory.contact_alias)
+    RETURNS TEXT
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+SELECT CONCAT (
+	a.alias_name,
+	a.alias_description,
+	a.alias_type
+	) FROM directory.contact_alias
+$BODY$;

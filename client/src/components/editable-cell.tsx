@@ -72,7 +72,7 @@ const Wrapper = styled(l.Flex)(
 
 export interface CellContent {
   dirty: boolean;
-  value: string;
+  value: string | boolean;
 }
 
 interface Props {
@@ -90,6 +90,7 @@ interface Props {
     FontWeightProps &
     HeightProps &
     WidthProps;
+  isBoolean?: boolean;
   onChange: React.ChangeEventHandler<HTMLInputElement>;
   showBorder?: boolean;
   secondaryHighlight?: boolean;
@@ -102,6 +103,7 @@ const EditableCell = ({
   handleHighlight,
   highlight,
   inputProps,
+  isBoolean,
   onChange,
   showBorder = true,
   secondaryHighlight,
@@ -139,16 +141,18 @@ const EditableCell = ({
       {editing ? (
         <Input
           dirty={dirty || localValue !== value}
-          type="text"
+          checked={Boolean(localValue)}
+          type={isBoolean ? 'checkbox' : 'text'}
           onBlur={(e) => {
             if (localValue !== value) {
               onChange(e);
             }
           }}
           onChange={(e) => {
-            setLocalValue(e.target.value);
+            setLocalValue(isBoolean ? e.target.checked : e.target.value);
           }}
-          value={localValue}
+          value={`${localValue}`}
+          textAlign="left"
           {...inputProps}
         />
       ) : (

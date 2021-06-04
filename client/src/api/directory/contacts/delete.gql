@@ -1,0 +1,5 @@
+mutation PERSON_CONTACT_DELETE($id: BigInt!) {
+  deletePersonContact(input: { id: $id }) {
+    clientMutationId
+  }
+}

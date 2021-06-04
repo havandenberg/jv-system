@@ -1,0 +1,14 @@
+mutation CONTACT_ALIAS_CREATE($id: BigInt!, $updates: PersonContactPatch!) {
+  createContactAlias(
+    input: {
+      contactAlias: {
+        aliasDescription: "Test"
+        aliasName: "Test"
+        aliasType: "Test"
+        contactAliasPersonContactsUsingId: { create: { personContactId: "34" } }
+      }
+    }
+  ) {
+    clientMutationId
+  }
+}

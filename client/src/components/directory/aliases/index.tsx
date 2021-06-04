@@ -6,7 +6,7 @@ import { DataMessage } from 'components/page/message';
 import Page from 'components/page';
 import VirtualizedList from 'components/virtualized-list';
 import useColumns, { SORT_ORDER } from 'hooks/use-columns';
-import { Warehouse } from 'types';
+import { ContactAlias } from 'types';
 import { LineItemCheckbox } from 'ui/checkbox';
 import l from 'ui/layout';
 import th from 'ui/theme';
@@ -16,9 +16,9 @@ import { breadcrumbs, SubDirectoryProps } from '..';
 import ListItem from '../list-item';
 import { listLabels } from './data-utils';
 
-const gridTemplateColumns = '30px 2fr 1.5fr 0.5fr 1.5fr 30px';
+const gridTemplateColumns = '30px 1fr 1fr 30px';
 
-const WarehouseDirectory = ({
+const AliasDirectory = ({
   actions,
   Search,
   selectedItems,
@@ -26,15 +26,15 @@ const WarehouseDirectory = ({
   TabBar,
   toggleSelectAll,
 }: SubDirectoryProps) => {
-  const { data, loading, error } = api.useWarehouses();
+  const { data, loading, error } = api.useContactAliases();
   const items = data ? data.nodes : [];
 
-  const columnLabels = useColumns<Warehouse>(
-    'warehouseName',
+  const columnLabels = useColumns<ContactAlias>(
+    'aliasName',
     SORT_ORDER.ASC,
     listLabels,
     'directory',
-    'warehouse',
+    'contact_alias',
   );
 
   const isAllSelected =
@@ -43,10 +43,10 @@ const WarehouseDirectory = ({
   const handleSelectAll = () => {
     toggleSelectAll(
       isAllSelected,
-      (items as Warehouse[]).map((warehouse) => ({
-        id: warehouse.id,
+      (items as ContactAlias[]).map((contact) => ({
+        id: contact.id,
         email: '',
-        description: ` - Warehouse`,
+        description: 'Alias',
       })),
     );
   };
@@ -87,7 +87,7 @@ const WarehouseDirectory = ({
           )}
         </>
       }
-      title="Warehouse Directory"
+      title="Alias Directory"
     >
       {!isEmpty(items) ? (
         <VirtualizedList
@@ -97,7 +97,7 @@ const WarehouseDirectory = ({
             return (
               item && (
                 <div key={key} style={style}>
-                  <ListItem<Warehouse>
+                  <ListItem<ContactAlias>
                     data={item}
                     gridTemplateColumns={gridTemplateColumns}
                     listLabels={listLabels}
@@ -105,11 +105,11 @@ const WarehouseDirectory = ({
                       selectItem({
                         id: item.id,
                         email: '',
-                        description: ` - Warehouse`,
+                        description: ` - Aliases`,
                       })
                     }
                     selected={!!selectedItems.find((it) => it.id === item.id)}
-                    slug={`warehouses/${item.id}`}
+                    slug={`aliases/${item.id}`}
                   />
                 </div>
               )
@@ -122,7 +122,7 @@ const WarehouseDirectory = ({
           error={error}
           loading={loading}
           emptyProps={{
-            header: `No Warehouses Found 😔`,
+            header: 'No Aliases Found 😔',
             text: 'Modify search parameters to view more results.',
           }}
         />
@@ -131,4 +131,4 @@ const WarehouseDirectory = ({
   );
 };
 
-export default WarehouseDirectory;
+export default AliasDirectory;

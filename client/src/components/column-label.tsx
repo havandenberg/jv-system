@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
+import { reduce } from 'ramda';
 
 import UpArrow from 'assets/images/up-arrow';
 import { baseDataTransforms } from 'components/base-data';
@@ -46,10 +47,23 @@ export interface LabelInfo<T> {
   key: keyof T;
   label: string;
   filterPanelProps?: FilterPanelProps;
+  isBoolean?: boolean;
   sortable?: boolean;
   transformKey?: keyof typeof baseDataTransforms;
   transformValue?: (val: any) => any;
+  validate?: (val: any) => boolean;
 }
+
+export const validateItem = <T extends {}>(
+  changes: T,
+  labels: LabelInfo<T>[],
+) =>
+  reduce(
+    (isValid, label) =>
+      isValid && (label.validate ? label.validate(changes[label.key]) : true),
+    true,
+    labels,
+  );
 
 interface Props<T> {
   sortBy: keyof T;

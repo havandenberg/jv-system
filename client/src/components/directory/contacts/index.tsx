@@ -8,17 +8,18 @@ import VirtualizedList from 'components/virtualized-list';
 import useColumns, { SORT_ORDER } from 'hooks/use-columns';
 import { PersonContact } from 'types';
 import { LineItemCheckbox } from 'ui/checkbox';
+import b from 'ui/button';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 
 import { breadcrumbs, SubDirectoryProps } from '..';
 import ListItem from '../list-item';
-import { listLabels } from './data-utils';
+import { internalListLabels as listLabels } from './data-utils';
 
 const gridTemplateColumns = '30px 1.5fr 2fr 3.5fr 2fr 30px';
 
-const InternalDirectory = ({
+const ContactDirectory = ({
   actions,
   Search,
   selectedItems,
@@ -26,7 +27,7 @@ const InternalDirectory = ({
   TabBar,
   toggleSelectAll,
 }: SubDirectoryProps) => {
-  const { data, loading, error } = api.useInternalContacts();
+  const { data, loading, error } = api.usePersonContacts({ isInternal: true });
   const items = data ? data.nodes : [];
 
   const columnLabels = useColumns<PersonContact>(
@@ -53,7 +54,12 @@ const InternalDirectory = ({
 
   return (
     <Page
-      actions={actions}
+      actions={[
+        <l.AreaLink key={1} mr={th.spacing.md} to={`/directory/create`}>
+          <b.Primary>New</b.Primary>
+        </l.AreaLink>,
+        ...actions,
+      ]}
       breadcrumbs={breadcrumbs}
       extraPaddingTop={122}
       headerChildren={
@@ -67,6 +73,9 @@ const InternalDirectory = ({
             <>
               <ty.SmallText mb={th.spacing.lg} pl={th.spacing.sm}>
                 Results: {data ? data.totalCount : '-'}
+                {selectedItems.length > 0
+                  ? `, Selected: ${selectedItems.length}`
+                  : ''}
               </ty.SmallText>
               <l.Grid
                 gridTemplateColumns={gridTemplateColumns}
@@ -128,4 +137,4 @@ const InternalDirectory = ({
   );
 };
 
-export default InternalDirectory;
+export default ContactDirectory;

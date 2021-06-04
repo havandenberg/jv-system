@@ -17,7 +17,7 @@ const Breadcrumbs = ({ breadcrumbs }: { breadcrumbs: BreadcrumbProps[] }) => {
   return (
     <l.Flex alignCenter>
       {breadcrumbs.map(({ text, to }, idx) => {
-        const active = !!to && pathname === to;
+        const active = !!to && pathname.split('?')[0] === to.split('?')[0];
         return (
           <React.Fragment key={idx}>
             {idx > 0 && <Chevron height={10} />}

@@ -9,6 +9,7 @@ query WAREHOUSE_DETAILS($id: String!) {
       countryName
     }
     countyTaxCode
+    id
     miscTaxCode
     outQueue
     phone

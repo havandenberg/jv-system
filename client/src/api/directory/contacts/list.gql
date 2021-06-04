@@ -1,9 +1,18 @@
-query INTERNAL_CONTACT_LIST(
+query PERSON_CONTACT_LIST(
+  $isInternal: Boolean
+  $customerId: String
+  $shipperId: String
+  $warehouseId: String
   $search: String
   $orderBy: [PersonContactsOrderBy!]
 ) {
   personContacts(
-    condition: { isInternal: true }
+    condition: {
+      isInternal: $isInternal
+      customerId: $customerId
+      shipperId: $shipperId
+      warehouseId: $warehouseId
+    }
     filter: { searchText: { includesInsensitive: $search } }
     orderBy: $orderBy
   ) {
@@ -12,6 +21,7 @@ query INTERNAL_CONTACT_LIST(
       firstName
       lastName
       email
+      isPrimary
       workPhone
       workExtension
     }

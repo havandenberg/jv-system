@@ -36,8 +36,8 @@ const ListItem = <T extends {}>({
   data: T;
   gridTemplateColumns: string;
   listLabels: LabelInfo<T>[];
-  onSelectItem: () => void;
-  selected: boolean;
+  onSelectItem?: () => void;
+  selected?: boolean;
   slug: string;
 }) => (
   <l.Div mb={th.spacing.sm}>
@@ -46,9 +46,11 @@ const ListItem = <T extends {}>({
         gridTemplateColumns={gridTemplateColumns}
         selected={selected}
       >
-        <l.Flex justifyStart centered height={th.sizes.fill}>
-          <LineItemCheckbox checked={selected} onChange={onSelectItem} />
-        </l.Flex>
+        {onSelectItem && (
+          <l.Flex justifyStart centered height={th.sizes.fill}>
+            <LineItemCheckbox checked={selected} onChange={onSelectItem} />
+          </l.Flex>
+        )}
         {listLabels.map(({ key, getValue, transformKey }) => (
           <l.Flex
             alignCenter

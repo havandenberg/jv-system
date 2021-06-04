@@ -25,6 +25,7 @@ const BaseDataContainer = styled(l.Grid)({
   border: th.borders.primary,
   borderRadius: th.borderRadii.default,
   gridTemplateColumns: 'repeat(5, 1fr)',
+  paddingBottom: th.spacing.sm,
   paddingLeft: th.spacing.md,
   paddingRight: th.spacing.sm,
   paddingTop: th.spacing.sm,
@@ -35,8 +36,8 @@ interface Props<T> {
   changes?: T;
   editing?: boolean;
   handleChange?: (field: keyof T, value: any) => void;
-  validate?: () => boolean;
   labels: LabelInfo<T>[];
+  showValidation?: boolean;
 }
 
 const BaseData = <T extends {}>({
@@ -45,10 +46,22 @@ const BaseData = <T extends {}>({
   editing,
   handleChange,
   labels,
+  showValidation,
 }: Props<T>) => (
   <BaseDataContainer>
     {labels.map(
-      ({ key, getValue, label, transformKey, transformValue }, idx) => {
+      (
+        {
+          key,
+          getValue,
+          label,
+          isBoolean,
+          transformKey,
+          transformValue,
+          validate,
+        },
+        idx,
+      ) => {
         const content = changes
           ? {
               dirty: changes[key] !== data[key],
@@ -59,6 +72,7 @@ const BaseData = <T extends {}>({
               }`,
             }
           : { dirty: false, value: `${data[key]}` };
+        const isValid = !validate || validate(content.value);
         const value = transformKey
           ? baseDataTransforms[transformKey](data[key])
           : getValue
@@ -66,6 +80,7 @@ const BaseData = <T extends {}>({
           : transformValue
           ? transformValue(data[key])
           : data[key];
+
         return (
           <l.Div
             height={th.sizes.fill}
@@ -83,13 +98,22 @@ const BaseData = <T extends {}>({
               editing={!!editing}
               inputProps={{
                 borderRadius: th.borderRadii.default,
+                borderColor:
+                  showValidation && !isValid
+                    ? th.colors.status.error
+                    : th.colors.brand.secondary,
                 height: th.sizes.icon,
                 fontSize: th.fontSizes.body,
                 padding: th.spacing.xs,
                 width: 175,
               }}
+              isBoolean={isBoolean}
               onChange={(e) => {
-                handleChange && handleChange(key, e.target.value);
+                handleChange &&
+                  handleChange(
+                    key,
+                    isBoolean ? e.target.checked : e.target.value,
+                  );
               }}
             />
           </l.Div>

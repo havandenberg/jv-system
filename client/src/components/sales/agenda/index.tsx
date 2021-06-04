@@ -217,7 +217,6 @@ const Agenda = () => {
           <b.Primary>Price Sheet</b.Primary>
         </l.AreaLink>,
       ]}
-      breadcrumbs={[]}
       extraPaddingTop={122}
       headerChildren={
         <>
