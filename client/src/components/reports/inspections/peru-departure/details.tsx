@@ -13,6 +13,7 @@ import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 
+import { InspectionTypes } from '..';
 import Table from '../table';
 import Chart from './chart';
 import {
@@ -27,15 +28,19 @@ import {
 const breadcrumbs = (id: string) => [
   {
     text: 'All Inspections',
-    to: `/reports/inspections/d-peru`,
+    to: `/reports/inspections/${InspectionTypes.PERU_DEPARTURE}`,
   },
-  { text: id, to: `/reports/inspections/d-peru/${id}` },
+  {
+    text: id,
+    to: `/reports/inspections/${InspectionTypes.PERU_DEPARTURE}/${id}`,
+  },
 ];
 
 const Details = () => {
-  const { id } = useParams<{
-    id: string;
-  }>();
+  const { id } =
+    useParams<{
+      id: string;
+    }>();
   const { data, error, loading } = api.usePeruDepartureInspection(id);
   const reportData = data && data.nodes[0];
   const { Lightbox, openLightbox } = useLightbox(
@@ -116,7 +121,7 @@ const Details = () => {
           <l.Div width={th.spacing.lg} />
           <l.Div flex={3}>
             <ty.CaptionText mb={th.spacing.md} secondary>
-              Images
+              Images ({(reportData.imageUrls || []).length})
             </ty.CaptionText>
             <l.Flex column pr={th.spacing.tn}>
               {(reportData.imageUrls || []).map(

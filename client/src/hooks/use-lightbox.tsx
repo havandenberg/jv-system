@@ -6,7 +6,12 @@ const initialState = {
   photoIndex: 0,
 };
 
-const useLightbox = (imageUrls: string[], title?: string, baseSrc?: string) => {
+const useLightbox = (
+  imageUrls: string[],
+  title?: string,
+  baseSrc?: string,
+  titleList?: string[],
+) => {
   const [{ isOpen, photoIndex }, setState] = useState(initialState);
 
   const closeLightbox = () => {
@@ -41,7 +46,7 @@ const useLightbox = (imageUrls: string[], title?: string, baseSrc?: string) => {
         animationDuration={0}
         imageCaption={imageUrls[photoIndex]}
         imagePadding={80}
-        imageTitle={title}
+        imageTitle={titleList ? titleList[photoIndex] || title : title}
         mainSrc={`${baseSrc || ''}${imageUrls[photoIndex]}`}
         nextSrc={`${baseSrc || ''}${imageUrls[nextIndex()]}`}
         prevSrc={`${baseSrc || ''}${imageUrls[prevIndex()]}`}

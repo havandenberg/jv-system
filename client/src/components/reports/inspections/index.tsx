@@ -2,14 +2,17 @@ import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
 import { BreadcrumbProps } from 'components/nav/breadcrumbs';
-import { Tab, useTabBar } from 'components/tab-bar';
+import { useTabBar } from 'components/tab-bar';
 import useDateRange from 'hooks/use-date-range';
+import { useDateRangeQueryParams } from 'hooks/use-query-params';
 import useSearch from 'hooks/use-search';
 
 import ChileDepartureInspections from './chile-departure';
 import ChileInspectionDetails from './chile-departure/details';
 import PeruDepartureInspections from './peru-departure';
 import PeruInspectionDetails from './peru-departure/details';
+import PsaArrivalInspections from './psa-arrival';
+import PsaInspectionDetails from './psa-arrival/details';
 
 export const breadcrumbs = (type: string) => [
   { text: 'All Inspections', to: `/reports/inspections/${type}` },
@@ -22,22 +25,21 @@ export enum InspectionTypes {
   CHILE_DEPARTURE = 'd-chile',
 }
 
-const tabs: Tab[] = [
+const tabs = (queryParams: string) => [
   {
     id: InspectionTypes.ARRIVAL,
     text: 'Arrival',
-    to: `/reports/inspections/${InspectionTypes.ARRIVAL}`,
-    disabled: true,
+    to: `/reports/inspections/${InspectionTypes.ARRIVAL}${queryParams}`,
   },
   {
     id: InspectionTypes.CHILE_DEPARTURE,
     text: 'D - Chile',
-    to: `/reports/inspections/${InspectionTypes.CHILE_DEPARTURE}`,
+    to: `/reports/inspections/${InspectionTypes.CHILE_DEPARTURE}${queryParams}`,
   },
   {
     id: InspectionTypes.PERU_DEPARTURE,
     text: 'D - Peru',
-    to: `/reports/inspections/${InspectionTypes.PERU_DEPARTURE}`,
+    to: `/reports/inspections/${InspectionTypes.PERU_DEPARTURE}${queryParams}`,
   },
 ];
 
@@ -49,9 +51,20 @@ export interface SubInspectionsProps {
 }
 
 const Inspections = () => {
-  const { DateRangePicker } = useDateRange();
   const { Search } = useSearch();
-  const { TabBar } = useTabBar(tabs, true);
+  const [{ startDate: startDateQuery, endDate }] = useDateRangeQueryParams();
+  const { TabBar, selectedTabId } = useTabBar(
+    tabs(
+      startDateQuery && endDate
+        ? `?startDate=${startDateQuery}&endDate=${endDate}`
+        : '',
+    ),
+    true,
+  );
+  const isArrival = InspectionTypes.ARRIVAL === selectedTabId;
+  const { DateRangePicker } = useDateRange({
+    placeholder: isArrival ? 'Last 30 days' : 'All dates',
+  });
 
   const components = {
     DateRangePicker,
@@ -63,7 +76,7 @@ const Inspections = () => {
     <Switch>
       <Route
         exact
-        path="/reports/inspections/d-peru/:id"
+        path={`/reports/inspections/${InspectionTypes.PERU_DEPARTURE}/:id`}
         component={PeruInspectionDetails}
       />
       <Route
@@ -77,7 +90,7 @@ const Inspections = () => {
       />
       <Route
         exact
-        path="/reports/inspections/d-chile/:id"
+        path={`/reports/inspections/${InspectionTypes.CHILE_DEPARTURE}/:id`}
         component={ChileInspectionDetails}
       />
       <Route
@@ -89,7 +102,21 @@ const Inspections = () => {
           />
         )}
       />
-      <Redirect to={`/reports/inspections/${InspectionTypes.PERU_DEPARTURE}`} />
+      <Route
+        exact
+        path={`/reports/inspections/${InspectionTypes.ARRIVAL}/:id`}
+        component={PsaInspectionDetails}
+      />
+      <Route
+        path={`/reports/inspections/${InspectionTypes.ARRIVAL}`}
+        render={() => (
+          <PsaArrivalInspections
+            breadcrumbs={breadcrumbs(InspectionTypes.ARRIVAL)}
+            {...components}
+          />
+        )}
+      />
+      <Redirect to={`/reports/inspections/${InspectionTypes.ARRIVAL}`} />
     </Switch>
   );
 };

@@ -17,10 +17,10 @@ export type Scalars = {
   BigInt: any;
   /** A location in a connection that can be used for resuming pagination. */
   Cursor: any;
-  /** The day, does not include a time. */
-  Date: any;
   /** A floating point number that requires more precision than IEEE 754 binary 64 */
   BigFloat: any;
+  /** The day, does not include a time. */
+  Date: any;
 };
 
 /** The root query type which gives access points into the data universe. */
@@ -65,6 +65,48 @@ export type Query = Node & {
   peruDepartureInspections?: Maybe<PeruDepartureInspectionsConnection>;
   /** Reads and enables pagination through a set of `PeruDepartureInspectionPallet`. */
   peruDepartureInspectionPallets?: Maybe<PeruDepartureInspectionPalletsConnection>;
+  /** Reads and enables pagination through a set of `PsaArrivalPicture`. */
+  psaArrivalPictures?: Maybe<PsaArrivalPicturesConnection>;
+  /** Reads and enables pagination through a set of `PsaArrivalReport`. */
+  psaArrivalReports?: Maybe<PsaArrivalReportsConnection>;
+  /** Reads and enables pagination through a set of `Master`. */
+  masters?: Maybe<MastersConnection>;
+  /** Reads and enables pagination through a set of `PackAtmosphere`. */
+  packAtmospheres?: Maybe<PackAtmospheresConnection>;
+  /** Reads and enables pagination through a set of `PackBoxStyle`. */
+  packBoxStyles?: Maybe<PackBoxStylesConnection>;
+  /** Reads and enables pagination through a set of `PackBoxType`. */
+  packBoxTypes?: Maybe<PackBoxTypesConnection>;
+  /** Reads and enables pagination through a set of `PackDestination`. */
+  packDestinations?: Maybe<PackDestinationsConnection>;
+  /** Reads and enables pagination through a set of `PackGrade`. */
+  packGrades?: Maybe<PackGradesConnection>;
+  /** Reads and enables pagination through a set of `PackHold`. */
+  packHolds?: Maybe<PackHoldsConnection>;
+  /** Reads and enables pagination through a set of `PackLabel`. */
+  packLabels?: Maybe<PackLabelsConnection>;
+  /** Reads and enables pagination through a set of `PackLiner`. */
+  packLiners?: Maybe<PackLinersConnection>;
+  /** Reads and enables pagination through a set of `PackMaster`. */
+  packMasters?: Maybe<PackMastersConnection>;
+  /** Reads and enables pagination through a set of `PackOut`. */
+  packOuts?: Maybe<PackOutsConnection>;
+  /** Reads and enables pagination through a set of `PackPalletType`. */
+  packPalletTypes?: Maybe<PackPalletTypesConnection>;
+  /** Reads and enables pagination through a set of `PackProduction`. */
+  packProductions?: Maybe<PackProductionsConnection>;
+  /** Reads and enables pagination through a set of `PackSpecial`. */
+  packSpecials?: Maybe<PackSpecialsConnection>;
+  /** Reads and enables pagination through a set of `PackStyle`. */
+  packStyles?: Maybe<PackStylesConnection>;
+  /** Reads and enables pagination through a set of `PackTreeRipe`. */
+  packTreeRipes?: Maybe<PackTreeRipesConnection>;
+  /** Reads and enables pagination through a set of `Size`. */
+  sizes?: Maybe<SizesConnection>;
+  /** Reads and enables pagination through a set of `Species`. */
+  specieses?: Maybe<SpeciesConnection>;
+  /** Reads and enables pagination through a set of `Variety`. */
+  varieties?: Maybe<VarietiesConnection>;
   contactAlias?: Maybe<ContactAlias>;
   contactAliasPersonContact?: Maybe<ContactAliasPersonContact>;
   country?: Maybe<Country>;
@@ -80,6 +122,27 @@ export type Query = Node & {
   chileDepartureInspectionPallet?: Maybe<ChileDepartureInspectionPallet>;
   peruDepartureInspection?: Maybe<PeruDepartureInspection>;
   peruDepartureInspectionPallet?: Maybe<PeruDepartureInspectionPallet>;
+  psaArrivalPicture?: Maybe<PsaArrivalPicture>;
+  psaArrivalReport?: Maybe<PsaArrivalReport>;
+  master?: Maybe<Master>;
+  packAtmosphere?: Maybe<PackAtmosphere>;
+  packBoxStyle?: Maybe<PackBoxStyle>;
+  packBoxType?: Maybe<PackBoxType>;
+  packDestination?: Maybe<PackDestination>;
+  packGrade?: Maybe<PackGrade>;
+  packHold?: Maybe<PackHold>;
+  packLabel?: Maybe<PackLabel>;
+  packLiner?: Maybe<PackLiner>;
+  packMaster?: Maybe<PackMaster>;
+  packOut?: Maybe<PackOut>;
+  packPalletType?: Maybe<PackPalletType>;
+  packProduction?: Maybe<PackProduction>;
+  packSpecial?: Maybe<PackSpecial>;
+  packStyle?: Maybe<PackStyle>;
+  packTreeRipe?: Maybe<PackTreeRipe>;
+  size?: Maybe<Size>;
+  species?: Maybe<Species>;
+  variety?: Maybe<Variety>;
   distinctValues?: Maybe<DistinctValuesConnection>;
   customerDistinctValues?: Maybe<CustomerDistinctValuesConnection>;
   /** Reads and enables pagination through a set of `ChileDepartureInspection`. */
@@ -114,6 +177,48 @@ export type Query = Node & {
   peruDepartureInspectionByNodeId?: Maybe<PeruDepartureInspection>;
   /** Reads a single `PeruDepartureInspectionPallet` using its globally unique `ID`. */
   peruDepartureInspectionPalletByNodeId?: Maybe<PeruDepartureInspectionPallet>;
+  /** Reads a single `PsaArrivalPicture` using its globally unique `ID`. */
+  psaArrivalPictureByNodeId?: Maybe<PsaArrivalPicture>;
+  /** Reads a single `PsaArrivalReport` using its globally unique `ID`. */
+  psaArrivalReportByNodeId?: Maybe<PsaArrivalReport>;
+  /** Reads a single `Master` using its globally unique `ID`. */
+  masterByNodeId?: Maybe<Master>;
+  /** Reads a single `PackAtmosphere` using its globally unique `ID`. */
+  packAtmosphereByNodeId?: Maybe<PackAtmosphere>;
+  /** Reads a single `PackBoxStyle` using its globally unique `ID`. */
+  packBoxStyleByNodeId?: Maybe<PackBoxStyle>;
+  /** Reads a single `PackBoxType` using its globally unique `ID`. */
+  packBoxTypeByNodeId?: Maybe<PackBoxType>;
+  /** Reads a single `PackDestination` using its globally unique `ID`. */
+  packDestinationByNodeId?: Maybe<PackDestination>;
+  /** Reads a single `PackGrade` using its globally unique `ID`. */
+  packGradeByNodeId?: Maybe<PackGrade>;
+  /** Reads a single `PackHold` using its globally unique `ID`. */
+  packHoldByNodeId?: Maybe<PackHold>;
+  /** Reads a single `PackLabel` using its globally unique `ID`. */
+  packLabelByNodeId?: Maybe<PackLabel>;
+  /** Reads a single `PackLiner` using its globally unique `ID`. */
+  packLinerByNodeId?: Maybe<PackLiner>;
+  /** Reads a single `PackMaster` using its globally unique `ID`. */
+  packMasterByNodeId?: Maybe<PackMaster>;
+  /** Reads a single `PackOut` using its globally unique `ID`. */
+  packOutByNodeId?: Maybe<PackOut>;
+  /** Reads a single `PackPalletType` using its globally unique `ID`. */
+  packPalletTypeByNodeId?: Maybe<PackPalletType>;
+  /** Reads a single `PackProduction` using its globally unique `ID`. */
+  packProductionByNodeId?: Maybe<PackProduction>;
+  /** Reads a single `PackSpecial` using its globally unique `ID`. */
+  packSpecialByNodeId?: Maybe<PackSpecial>;
+  /** Reads a single `PackStyle` using its globally unique `ID`. */
+  packStyleByNodeId?: Maybe<PackStyle>;
+  /** Reads a single `PackTreeRipe` using its globally unique `ID`. */
+  packTreeRipeByNodeId?: Maybe<PackTreeRipe>;
+  /** Reads a single `Size` using its globally unique `ID`. */
+  sizeByNodeId?: Maybe<Size>;
+  /** Reads a single `Species` using its globally unique `ID`. */
+  speciesByNodeId?: Maybe<Species>;
+  /** Reads a single `Variety` using its globally unique `ID`. */
+  varietyByNodeId?: Maybe<Variety>;
 };
 
 
@@ -319,6 +424,279 @@ export type QueryPeruDepartureInspectionPalletsArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
+export type QueryPsaArrivalPicturesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PsaArrivalPicturesOrderBy>>;
+  condition?: Maybe<PsaArrivalPictureCondition>;
+  filter?: Maybe<PsaArrivalPictureFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPsaArrivalReportsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PsaArrivalReportsOrderBy>>;
+  condition?: Maybe<PsaArrivalReportCondition>;
+  filter?: Maybe<PsaArrivalReportFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryMastersArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<MastersOrderBy>>;
+  condition?: Maybe<MasterCondition>;
+  filter?: Maybe<MasterFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPackAtmospheresArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PackAtmospheresOrderBy>>;
+  condition?: Maybe<PackAtmosphereCondition>;
+  filter?: Maybe<PackAtmosphereFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPackBoxStylesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PackBoxStylesOrderBy>>;
+  condition?: Maybe<PackBoxStyleCondition>;
+  filter?: Maybe<PackBoxStyleFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPackBoxTypesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PackBoxTypesOrderBy>>;
+  condition?: Maybe<PackBoxTypeCondition>;
+  filter?: Maybe<PackBoxTypeFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPackDestinationsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PackDestinationsOrderBy>>;
+  condition?: Maybe<PackDestinationCondition>;
+  filter?: Maybe<PackDestinationFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPackGradesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PackGradesOrderBy>>;
+  condition?: Maybe<PackGradeCondition>;
+  filter?: Maybe<PackGradeFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPackHoldsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PackHoldsOrderBy>>;
+  condition?: Maybe<PackHoldCondition>;
+  filter?: Maybe<PackHoldFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPackLabelsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PackLabelsOrderBy>>;
+  condition?: Maybe<PackLabelCondition>;
+  filter?: Maybe<PackLabelFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPackLinersArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PackLinersOrderBy>>;
+  condition?: Maybe<PackLinerCondition>;
+  filter?: Maybe<PackLinerFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPackMastersArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PackMastersOrderBy>>;
+  condition?: Maybe<PackMasterCondition>;
+  filter?: Maybe<PackMasterFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPackOutsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PackOutsOrderBy>>;
+  condition?: Maybe<PackOutCondition>;
+  filter?: Maybe<PackOutFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPackPalletTypesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PackPalletTypesOrderBy>>;
+  condition?: Maybe<PackPalletTypeCondition>;
+  filter?: Maybe<PackPalletTypeFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPackProductionsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PackProductionsOrderBy>>;
+  condition?: Maybe<PackProductionCondition>;
+  filter?: Maybe<PackProductionFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPackSpecialsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PackSpecialsOrderBy>>;
+  condition?: Maybe<PackSpecialCondition>;
+  filter?: Maybe<PackSpecialFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPackStylesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PackStylesOrderBy>>;
+  condition?: Maybe<PackStyleCondition>;
+  filter?: Maybe<PackStyleFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPackTreeRipesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PackTreeRipesOrderBy>>;
+  condition?: Maybe<PackTreeRipeCondition>;
+  filter?: Maybe<PackTreeRipeFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QuerySizesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<SizesOrderBy>>;
+  condition?: Maybe<SizeCondition>;
+  filter?: Maybe<SizeFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QuerySpeciesesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<SpeciesOrderBy>>;
+  condition?: Maybe<SpeciesCondition>;
+  filter?: Maybe<SpeciesFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryVarietiesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<VarietiesOrderBy>>;
+  condition?: Maybe<VarietyCondition>;
+  filter?: Maybe<VarietyFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
 export type QueryContactAliasArgs = {
   id: Scalars['BigInt'];
 };
@@ -406,6 +784,146 @@ export type QueryPeruDepartureInspectionArgs = {
 /** The root query type which gives access points into the data universe. */
 export type QueryPeruDepartureInspectionPalletArgs = {
   id: Scalars['BigInt'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPsaArrivalPictureArgs = {
+  id: Scalars['BigInt'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPsaArrivalReportArgs = {
+  id: Scalars['BigInt'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryMasterArgs = {
+  id: Scalars['String'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPackAtmosphereArgs = {
+  shipperId: Scalars['String'];
+  maCode: Scalars['String'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPackBoxStyleArgs = {
+  shipperId: Scalars['String'];
+  boxStyle: Scalars['String'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPackBoxTypeArgs = {
+  shipperId: Scalars['String'];
+  boxType: Scalars['String'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPackDestinationArgs = {
+  shipperId: Scalars['String'];
+  destinationCode: Scalars['String'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPackGradeArgs = {
+  shipperId: Scalars['String'];
+  gradeCode: Scalars['String'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPackHoldArgs = {
+  shipperId: Scalars['String'];
+  holdCode: Scalars['String'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPackLabelArgs = {
+  shipperId: Scalars['String'];
+  labelCode: Scalars['String'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPackLinerArgs = {
+  shipperId: Scalars['String'];
+  linerCode: Scalars['String'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPackMasterArgs = {
+  oldPackCode: Scalars['String'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPackOutArgs = {
+  shipperId: Scalars['String'];
+  outCode: Scalars['String'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPackPalletTypeArgs = {
+  shipperId: Scalars['String'];
+  palletType: Scalars['String'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPackProductionArgs = {
+  shipperId: Scalars['String'];
+  productionCode: Scalars['String'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPackSpecialArgs = {
+  shipperId: Scalars['String'];
+  customerCode: Scalars['String'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPackStyleArgs = {
+  shipperId: Scalars['String'];
+  packStyle: Scalars['String'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPackTreeRipeArgs = {
+  shipperId: Scalars['String'];
+  treeRipe: Scalars['String'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QuerySizeArgs = {
+  id: Scalars['BigInt'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QuerySpeciesArgs = {
+  id: Scalars['String'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryVarietyArgs = {
+  id: Scalars['String'];
 };
 
 
@@ -536,6 +1054,132 @@ export type QueryPeruDepartureInspectionByNodeIdArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryPeruDepartureInspectionPalletByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPsaArrivalPictureByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPsaArrivalReportByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryMasterByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPackAtmosphereByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPackBoxStyleByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPackBoxTypeByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPackDestinationByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPackGradeByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPackHoldByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPackLabelByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPackLinerByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPackMasterByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPackOutByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPackPalletTypeByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPackProductionByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPackSpecialByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPackStyleByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPackTreeRipeByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QuerySizeByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QuerySpeciesByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryVarietyByNodeIdArgs = {
   nodeId: Scalars['ID'];
 };
 
@@ -695,11 +1339,53 @@ export type Shipper = Node & {
   country?: Maybe<Country>;
   /** Reads and enables pagination through a set of `PersonContact`. */
   personContacts: PersonContactsConnection;
+  /** Reads and enables pagination through a set of `Size`. */
+  sizes: SizesConnection;
+  /** Reads and enables pagination through a set of `PackAtmosphere`. */
+  packAtmospheres: PackAtmospheresConnection;
+  /** Reads and enables pagination through a set of `PackBoxStyle`. */
+  packBoxStyles: PackBoxStylesConnection;
+  /** Reads and enables pagination through a set of `PackBoxType`. */
+  packBoxTypes: PackBoxTypesConnection;
+  /** Reads and enables pagination through a set of `PackDestination`. */
+  packDestinations: PackDestinationsConnection;
+  /** Reads and enables pagination through a set of `PackGrade`. */
+  packGrades: PackGradesConnection;
+  /** Reads and enables pagination through a set of `PackHold`. */
+  packHolds: PackHoldsConnection;
+  /** Reads and enables pagination through a set of `PackLabel`. */
+  packLabels: PackLabelsConnection;
+  /** Reads and enables pagination through a set of `PackLiner`. */
+  packLiners: PackLinersConnection;
+  /** Reads and enables pagination through a set of `PackOut`. */
+  packOuts: PackOutsConnection;
+  /** Reads and enables pagination through a set of `PackPalletType`. */
+  packPalletTypes: PackPalletTypesConnection;
+  /** Reads and enables pagination through a set of `PackProduction`. */
+  packProductions: PackProductionsConnection;
+  /** Reads and enables pagination through a set of `PackSpecial`. */
+  packSpecials: PackSpecialsConnection;
+  /** Reads and enables pagination through a set of `PackTreeRipe`. */
+  packTreeRipes: PackTreeRipesConnection;
+  /** Reads and enables pagination through a set of `PackStyle`. */
+  packStyles: PackStylesConnection;
+  /** Reads and enables pagination through a set of `PackMaster`. */
+  packMasters: PackMastersConnection;
   searchText?: Maybe<Scalars['String']>;
   /** Reads and enables pagination through a set of `Customer`. */
   customersByPersonContactShipperIdAndCustomerId: ShipperCustomersByPersonContactShipperIdAndCustomerIdManyToManyConnection;
   /** Reads and enables pagination through a set of `Warehouse`. */
   warehousesByPersonContactShipperIdAndWarehouseId: ShipperWarehousesByPersonContactShipperIdAndWarehouseIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `Species`. */
+  speciesBySizeShipperIdAndSpeciesId: ShipperSpeciesBySizeShipperIdAndSpeciesIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `Variety`. */
+  varietiesBySizeShipperIdAndVarietyId: ShipperVarietiesBySizeShipperIdAndVarietyIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `Customer`. */
+  customersByPackSpecialShipperIdAndCustomerId: ShipperCustomersByPackSpecialShipperIdAndCustomerIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `Variety`. */
+  varietiesByPackMasterShipperIdAndVarietyId: ShipperVarietiesByPackMasterShipperIdAndVarietyIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `Species`. */
+  speciesByPackMasterShipperIdAndSpeciesId: ShipperSpeciesByPackMasterShipperIdAndSpeciesIdManyToManyConnection;
 };
 
 
@@ -712,6 +1398,198 @@ export type ShipperPersonContactsArgs = {
   orderBy?: Maybe<Array<PersonContactsOrderBy>>;
   condition?: Maybe<PersonContactCondition>;
   filter?: Maybe<PersonContactFilter>;
+};
+
+
+export type ShipperSizesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<SizesOrderBy>>;
+  condition?: Maybe<SizeCondition>;
+  filter?: Maybe<SizeFilter>;
+};
+
+
+export type ShipperPackAtmospheresArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PackAtmospheresOrderBy>>;
+  condition?: Maybe<PackAtmosphereCondition>;
+  filter?: Maybe<PackAtmosphereFilter>;
+};
+
+
+export type ShipperPackBoxStylesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PackBoxStylesOrderBy>>;
+  condition?: Maybe<PackBoxStyleCondition>;
+  filter?: Maybe<PackBoxStyleFilter>;
+};
+
+
+export type ShipperPackBoxTypesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PackBoxTypesOrderBy>>;
+  condition?: Maybe<PackBoxTypeCondition>;
+  filter?: Maybe<PackBoxTypeFilter>;
+};
+
+
+export type ShipperPackDestinationsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PackDestinationsOrderBy>>;
+  condition?: Maybe<PackDestinationCondition>;
+  filter?: Maybe<PackDestinationFilter>;
+};
+
+
+export type ShipperPackGradesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PackGradesOrderBy>>;
+  condition?: Maybe<PackGradeCondition>;
+  filter?: Maybe<PackGradeFilter>;
+};
+
+
+export type ShipperPackHoldsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PackHoldsOrderBy>>;
+  condition?: Maybe<PackHoldCondition>;
+  filter?: Maybe<PackHoldFilter>;
+};
+
+
+export type ShipperPackLabelsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PackLabelsOrderBy>>;
+  condition?: Maybe<PackLabelCondition>;
+  filter?: Maybe<PackLabelFilter>;
+};
+
+
+export type ShipperPackLinersArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PackLinersOrderBy>>;
+  condition?: Maybe<PackLinerCondition>;
+  filter?: Maybe<PackLinerFilter>;
+};
+
+
+export type ShipperPackOutsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PackOutsOrderBy>>;
+  condition?: Maybe<PackOutCondition>;
+  filter?: Maybe<PackOutFilter>;
+};
+
+
+export type ShipperPackPalletTypesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PackPalletTypesOrderBy>>;
+  condition?: Maybe<PackPalletTypeCondition>;
+  filter?: Maybe<PackPalletTypeFilter>;
+};
+
+
+export type ShipperPackProductionsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PackProductionsOrderBy>>;
+  condition?: Maybe<PackProductionCondition>;
+  filter?: Maybe<PackProductionFilter>;
+};
+
+
+export type ShipperPackSpecialsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PackSpecialsOrderBy>>;
+  condition?: Maybe<PackSpecialCondition>;
+  filter?: Maybe<PackSpecialFilter>;
+};
+
+
+export type ShipperPackTreeRipesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PackTreeRipesOrderBy>>;
+  condition?: Maybe<PackTreeRipeCondition>;
+  filter?: Maybe<PackTreeRipeFilter>;
+};
+
+
+export type ShipperPackStylesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PackStylesOrderBy>>;
+  condition?: Maybe<PackStyleCondition>;
+  filter?: Maybe<PackStyleFilter>;
+};
+
+
+export type ShipperPackMastersArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PackMastersOrderBy>>;
+  condition?: Maybe<PackMasterCondition>;
+  filter?: Maybe<PackMasterFilter>;
 };
 
 
@@ -736,6 +1614,66 @@ export type ShipperWarehousesByPersonContactShipperIdAndWarehouseIdArgs = {
   orderBy?: Maybe<Array<WarehousesOrderBy>>;
   condition?: Maybe<WarehouseCondition>;
   filter?: Maybe<WarehouseFilter>;
+};
+
+
+export type ShipperSpeciesBySizeShipperIdAndSpeciesIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<SpeciesOrderBy>>;
+  condition?: Maybe<SpeciesCondition>;
+  filter?: Maybe<SpeciesFilter>;
+};
+
+
+export type ShipperVarietiesBySizeShipperIdAndVarietyIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<VarietiesOrderBy>>;
+  condition?: Maybe<VarietyCondition>;
+  filter?: Maybe<VarietyFilter>;
+};
+
+
+export type ShipperCustomersByPackSpecialShipperIdAndCustomerIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CustomersOrderBy>>;
+  condition?: Maybe<CustomerCondition>;
+  filter?: Maybe<CustomerFilter>;
+};
+
+
+export type ShipperVarietiesByPackMasterShipperIdAndVarietyIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<VarietiesOrderBy>>;
+  condition?: Maybe<VarietyCondition>;
+  filter?: Maybe<VarietyFilter>;
+};
+
+
+export type ShipperSpeciesByPackMasterShipperIdAndSpeciesIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<SpeciesOrderBy>>;
+  condition?: Maybe<SpeciesCondition>;
+  filter?: Maybe<SpeciesFilter>;
 };
 
 export type Country = Node & {
@@ -1255,6 +2193,70 @@ export type ShipperFilter = {
   personContacts?: Maybe<ShipperToManyPersonContactFilter>;
   /** Some related `personContacts` exist. */
   personContactsExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `sizes` relation. */
+  sizes?: Maybe<ShipperToManySizeFilter>;
+  /** Some related `sizes` exist. */
+  sizesExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `packAtmospheres` relation. */
+  packAtmospheres?: Maybe<ShipperToManyPackAtmosphereFilter>;
+  /** Some related `packAtmospheres` exist. */
+  packAtmospheresExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `packBoxStyles` relation. */
+  packBoxStyles?: Maybe<ShipperToManyPackBoxStyleFilter>;
+  /** Some related `packBoxStyles` exist. */
+  packBoxStylesExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `packBoxTypes` relation. */
+  packBoxTypes?: Maybe<ShipperToManyPackBoxTypeFilter>;
+  /** Some related `packBoxTypes` exist. */
+  packBoxTypesExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `packDestinations` relation. */
+  packDestinations?: Maybe<ShipperToManyPackDestinationFilter>;
+  /** Some related `packDestinations` exist. */
+  packDestinationsExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `packGrades` relation. */
+  packGrades?: Maybe<ShipperToManyPackGradeFilter>;
+  /** Some related `packGrades` exist. */
+  packGradesExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `packHolds` relation. */
+  packHolds?: Maybe<ShipperToManyPackHoldFilter>;
+  /** Some related `packHolds` exist. */
+  packHoldsExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `packLabels` relation. */
+  packLabels?: Maybe<ShipperToManyPackLabelFilter>;
+  /** Some related `packLabels` exist. */
+  packLabelsExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `packLiners` relation. */
+  packLiners?: Maybe<ShipperToManyPackLinerFilter>;
+  /** Some related `packLiners` exist. */
+  packLinersExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `packOuts` relation. */
+  packOuts?: Maybe<ShipperToManyPackOutFilter>;
+  /** Some related `packOuts` exist. */
+  packOutsExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `packPalletTypes` relation. */
+  packPalletTypes?: Maybe<ShipperToManyPackPalletTypeFilter>;
+  /** Some related `packPalletTypes` exist. */
+  packPalletTypesExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `packProductions` relation. */
+  packProductions?: Maybe<ShipperToManyPackProductionFilter>;
+  /** Some related `packProductions` exist. */
+  packProductionsExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `packSpecials` relation. */
+  packSpecials?: Maybe<ShipperToManyPackSpecialFilter>;
+  /** Some related `packSpecials` exist. */
+  packSpecialsExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `packTreeRipes` relation. */
+  packTreeRipes?: Maybe<ShipperToManyPackTreeRipeFilter>;
+  /** Some related `packTreeRipes` exist. */
+  packTreeRipesExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `packStyles` relation. */
+  packStyles?: Maybe<ShipperToManyPackStyleFilter>;
+  /** Some related `packStyles` exist. */
+  packStylesExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `packMasters` relation. */
+  packMasters?: Maybe<ShipperToManyPackMasterFilter>;
+  /** Some related `packMasters` exist. */
+  packMastersExist?: Maybe<Scalars['Boolean']>;
   /** Filter by the object’s `country` relation. */
   country?: Maybe<CountryFilter>;
   /** A related `country` exists. */
@@ -1275,6 +2277,487 @@ export type ShipperToManyPersonContactFilter = {
   some?: Maybe<PersonContactFilter>;
   /** No related `PersonContact` matches the filter criteria. All fields are combined with a logical ‘and.’ */
   none?: Maybe<PersonContactFilter>;
+};
+
+/** A filter to be used against many `Size` object types. All fields are combined with a logical ‘and.’ */
+export type ShipperToManySizeFilter = {
+  /** Every related `Size` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<SizeFilter>;
+  /** Some related `Size` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<SizeFilter>;
+  /** No related `Size` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<SizeFilter>;
+};
+
+/** A filter to be used against `Size` object types. All fields are combined with a logical ‘and.’ */
+export type SizeFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `speciesId` field. */
+  speciesId?: Maybe<StringFilter>;
+  /** Filter by the object’s `varietyId` field. */
+  varietyId?: Maybe<StringFilter>;
+  /** Filter by the object’s `jvCode` field. */
+  jvCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `jvDescription` field. */
+  jvDescription?: Maybe<StringFilter>;
+  /** Filter by the object’s `shipperCode` field. */
+  shipperCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `shipperDescription` field. */
+  shipperDescription?: Maybe<StringFilter>;
+  /** Filter by the object’s `combinedCode` field. */
+  combinedCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `combinedDescription` field. */
+  combinedDescription?: Maybe<StringFilter>;
+  /** Filter by the object’s `shipperId` field. */
+  shipperId?: Maybe<StringFilter>;
+  /** Filter by the object’s `masters` relation. */
+  masters?: Maybe<SizeToManyMasterFilter>;
+  /** Some related `masters` exist. */
+  mastersExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `species` relation. */
+  species?: Maybe<SpeciesFilter>;
+  /** A related `species` exists. */
+  speciesExists?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `variety` relation. */
+  variety?: Maybe<VarietyFilter>;
+  /** A related `variety` exists. */
+  varietyExists?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `shipper` relation. */
+  shipper?: Maybe<ShipperFilter>;
+  /** A related `shipper` exists. */
+  shipperExists?: Maybe<Scalars['Boolean']>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<SizeFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<SizeFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<SizeFilter>;
+};
+
+/** A filter to be used against many `Master` object types. All fields are combined with a logical ‘and.’ */
+export type SizeToManyMasterFilter = {
+  /** Every related `Master` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<MasterFilter>;
+  /** Some related `Master` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<MasterFilter>;
+  /** No related `Master` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<MasterFilter>;
+};
+
+/** A filter to be used against `Master` object types. All fields are combined with a logical ‘and.’ */
+export type MasterFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<StringFilter>;
+  /** Filter by the object’s `speciesId` field. */
+  speciesId?: Maybe<StringFilter>;
+  /** Filter by the object’s `varietyId` field. */
+  varietyId?: Maybe<StringFilter>;
+  /** Filter by the object’s `sizeId` field. */
+  sizeId?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `packId` field. */
+  packId?: Maybe<StringFilter>;
+  /** Filter by the object’s `defaultPalletQuantity` field. */
+  defaultPalletQuantity?: Maybe<StringFilter>;
+  /** Filter by the object’s `lotNumber` field. */
+  lotNumber?: Maybe<StringFilter>;
+  /** Filter by the object’s `species` relation. */
+  species?: Maybe<SpeciesFilter>;
+  /** A related `species` exists. */
+  speciesExists?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `variety` relation. */
+  variety?: Maybe<VarietyFilter>;
+  /** A related `variety` exists. */
+  varietyExists?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `size` relation. */
+  size?: Maybe<SizeFilter>;
+  /** A related `size` exists. */
+  sizeExists?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `pack` relation. */
+  pack?: Maybe<PackMasterFilter>;
+  /** A related `pack` exists. */
+  packExists?: Maybe<Scalars['Boolean']>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<MasterFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<MasterFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<MasterFilter>;
+};
+
+/** A filter to be used against `Species` object types. All fields are combined with a logical ‘and.’ */
+export type SpeciesFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<StringFilter>;
+  /** Filter by the object’s `speciesDescription` field. */
+  speciesDescription?: Maybe<StringFilter>;
+  /** Filter by the object’s `secondaryDescription` field. */
+  secondaryDescription?: Maybe<StringFilter>;
+  /** Filter by the object’s `fdaProductCode` field. */
+  fdaProductCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `fdaIndustryCode` field. */
+  fdaIndustryCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `defaultTemperature` field. */
+  defaultTemperature?: Maybe<StringFilter>;
+  /** Filter by the object’s `sizes` relation. */
+  sizes?: Maybe<SpeciesToManySizeFilter>;
+  /** Some related `sizes` exist. */
+  sizesExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `packMasters` relation. */
+  packMasters?: Maybe<SpeciesToManyPackMasterFilter>;
+  /** Some related `packMasters` exist. */
+  packMastersExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `masters` relation. */
+  masters?: Maybe<SpeciesToManyMasterFilter>;
+  /** Some related `masters` exist. */
+  mastersExist?: Maybe<Scalars['Boolean']>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<SpeciesFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<SpeciesFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<SpeciesFilter>;
+};
+
+/** A filter to be used against many `Size` object types. All fields are combined with a logical ‘and.’ */
+export type SpeciesToManySizeFilter = {
+  /** Every related `Size` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<SizeFilter>;
+  /** Some related `Size` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<SizeFilter>;
+  /** No related `Size` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<SizeFilter>;
+};
+
+/** A filter to be used against many `PackMaster` object types. All fields are combined with a logical ‘and.’ */
+export type SpeciesToManyPackMasterFilter = {
+  /** Every related `PackMaster` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<PackMasterFilter>;
+  /** Some related `PackMaster` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<PackMasterFilter>;
+  /** No related `PackMaster` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<PackMasterFilter>;
+};
+
+/** A filter to be used against `PackMaster` object types. All fields are combined with a logical ‘and.’ */
+export type PackMasterFilter = {
+  /** Filter by the object’s `shipperId` field. */
+  shipperId?: Maybe<StringFilter>;
+  /** Filter by the object’s `labelCode` field. */
+  labelCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `customerCode` field. */
+  customerCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `boxType` field. */
+  boxType?: Maybe<StringFilter>;
+  /** Filter by the object’s `boxStyle` field. */
+  boxStyle?: Maybe<StringFilter>;
+  /** Filter by the object’s `packStyle` field. */
+  packStyle?: Maybe<StringFilter>;
+  /** Filter by the object’s `outCode` field. */
+  outCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `outQuantity` field. */
+  outQuantity?: Maybe<StringFilter>;
+  /** Filter by the object’s `outWeight` field. */
+  outWeight?: Maybe<StringFilter>;
+  /** Filter by the object’s `productionCode` field. */
+  productionCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `treeRipe` field. */
+  treeRipe?: Maybe<StringFilter>;
+  /** Filter by the object’s `gradeCode` field. */
+  gradeCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `maCode` field. */
+  maCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `linerCode` field. */
+  linerCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `netWeightContents` field. */
+  netWeightContents?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `netWeightBox` field. */
+  netWeightBox?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `boxLength` field. */
+  boxLength?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `boxWidth` field. */
+  boxWidth?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `boxHeight` field. */
+  boxHeight?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `palletType` field. */
+  palletType?: Maybe<StringFilter>;
+  /** Filter by the object’s `defaultPalletQuantity` field. */
+  defaultPalletQuantity?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `pluUpcCode` field. */
+  pluUpcCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `destinationCode` field. */
+  destinationCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `oldPackCode` field. */
+  oldPackCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `oldLabelCode` field. */
+  oldLabelCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `jvPackCode` field. */
+  jvPackCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `packDescription` field. */
+  packDescription?: Maybe<StringFilter>;
+  /** Filter by the object’s `varietyId` field. */
+  varietyId?: Maybe<StringFilter>;
+  /** Filter by the object’s `speciesId` field. */
+  speciesId?: Maybe<StringFilter>;
+  /** Filter by the object’s `holdCode` field. */
+  holdCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `mastersByPackId` relation. */
+  mastersByPackId?: Maybe<PackMasterToManyMasterFilter>;
+  /** Some related `mastersByPackId` exist. */
+  mastersByPackIdExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `shipper` relation. */
+  shipper?: Maybe<ShipperFilter>;
+  /** A related `shipper` exists. */
+  shipperExists?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `packLabelByLabelCodeAndShipperId` relation. */
+  packLabelByLabelCodeAndShipperId?: Maybe<PackLabelFilter>;
+  /** A related `packLabelByLabelCodeAndShipperId` exists. */
+  packLabelByLabelCodeAndShipperIdExists?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `packSpecialByCustomerCodeAndShipperId` relation. */
+  packSpecialByCustomerCodeAndShipperId?: Maybe<PackSpecialFilter>;
+  /** A related `packSpecialByCustomerCodeAndShipperId` exists. */
+  packSpecialByCustomerCodeAndShipperIdExists?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `packBoxTypeByBoxTypeAndShipperId` relation. */
+  packBoxTypeByBoxTypeAndShipperId?: Maybe<PackBoxTypeFilter>;
+  /** A related `packBoxTypeByBoxTypeAndShipperId` exists. */
+  packBoxTypeByBoxTypeAndShipperIdExists?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `packBoxStyleByBoxStyleAndShipperId` relation. */
+  packBoxStyleByBoxStyleAndShipperId?: Maybe<PackBoxStyleFilter>;
+  /** A related `packBoxStyleByBoxStyleAndShipperId` exists. */
+  packBoxStyleByBoxStyleAndShipperIdExists?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `packStyleByPackStyleAndShipperId` relation. */
+  packStyleByPackStyleAndShipperId?: Maybe<PackStyleFilter>;
+  /** A related `packStyleByPackStyleAndShipperId` exists. */
+  packStyleByPackStyleAndShipperIdExists?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `packOutByOutCodeAndShipperId` relation. */
+  packOutByOutCodeAndShipperId?: Maybe<PackOutFilter>;
+  /** A related `packOutByOutCodeAndShipperId` exists. */
+  packOutByOutCodeAndShipperIdExists?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `packProductionByProductionCodeAndShipperId` relation. */
+  packProductionByProductionCodeAndShipperId?: Maybe<PackProductionFilter>;
+  /** A related `packProductionByProductionCodeAndShipperId` exists. */
+  packProductionByProductionCodeAndShipperIdExists?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `packTreeRipeByTreeRipeAndShipperId` relation. */
+  packTreeRipeByTreeRipeAndShipperId?: Maybe<PackTreeRipeFilter>;
+  /** A related `packTreeRipeByTreeRipeAndShipperId` exists. */
+  packTreeRipeByTreeRipeAndShipperIdExists?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `packGradeByGradeCodeAndShipperId` relation. */
+  packGradeByGradeCodeAndShipperId?: Maybe<PackGradeFilter>;
+  /** A related `packGradeByGradeCodeAndShipperId` exists. */
+  packGradeByGradeCodeAndShipperIdExists?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `packAtmosphereByMaCodeAndShipperId` relation. */
+  packAtmosphereByMaCodeAndShipperId?: Maybe<PackAtmosphereFilter>;
+  /** A related `packAtmosphereByMaCodeAndShipperId` exists. */
+  packAtmosphereByMaCodeAndShipperIdExists?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `packLinerByLinerCodeAndShipperId` relation. */
+  packLinerByLinerCodeAndShipperId?: Maybe<PackLinerFilter>;
+  /** A related `packLinerByLinerCodeAndShipperId` exists. */
+  packLinerByLinerCodeAndShipperIdExists?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `packPalletTypeByPalletTypeAndShipperId` relation. */
+  packPalletTypeByPalletTypeAndShipperId?: Maybe<PackPalletTypeFilter>;
+  /** A related `packPalletTypeByPalletTypeAndShipperId` exists. */
+  packPalletTypeByPalletTypeAndShipperIdExists?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `packDestinationByDestinationCodeAndShipperId` relation. */
+  packDestinationByDestinationCodeAndShipperId?: Maybe<PackDestinationFilter>;
+  /** A related `packDestinationByDestinationCodeAndShipperId` exists. */
+  packDestinationByDestinationCodeAndShipperIdExists?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `variety` relation. */
+  variety?: Maybe<VarietyFilter>;
+  /** A related `variety` exists. */
+  varietyExists?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `species` relation. */
+  species?: Maybe<SpeciesFilter>;
+  /** A related `species` exists. */
+  speciesExists?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `packHoldByHoldCodeAndShipperId` relation. */
+  packHoldByHoldCodeAndShipperId?: Maybe<PackHoldFilter>;
+  /** A related `packHoldByHoldCodeAndShipperId` exists. */
+  packHoldByHoldCodeAndShipperIdExists?: Maybe<Scalars['Boolean']>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<PackMasterFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<PackMasterFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<PackMasterFilter>;
+};
+
+/** A filter to be used against BigFloat fields. All fields are combined with a logical ‘and.’ */
+export type BigFloatFilter = {
+  /** Is null (if `true` is specified) or is not null (if `false` is specified). */
+  isNull?: Maybe<Scalars['Boolean']>;
+  /** Equal to the specified value. */
+  equalTo?: Maybe<Scalars['BigFloat']>;
+  /** Not equal to the specified value. */
+  notEqualTo?: Maybe<Scalars['BigFloat']>;
+  /** Not equal to the specified value, treating null like an ordinary value. */
+  distinctFrom?: Maybe<Scalars['BigFloat']>;
+  /** Equal to the specified value, treating null like an ordinary value. */
+  notDistinctFrom?: Maybe<Scalars['BigFloat']>;
+  /** Included in the specified list. */
+  in?: Maybe<Array<Scalars['BigFloat']>>;
+  /** Not included in the specified list. */
+  notIn?: Maybe<Array<Scalars['BigFloat']>>;
+  /** Less than the specified value. */
+  lessThan?: Maybe<Scalars['BigFloat']>;
+  /** Less than or equal to the specified value. */
+  lessThanOrEqualTo?: Maybe<Scalars['BigFloat']>;
+  /** Greater than the specified value. */
+  greaterThan?: Maybe<Scalars['BigFloat']>;
+  /** Greater than or equal to the specified value. */
+  greaterThanOrEqualTo?: Maybe<Scalars['BigFloat']>;
+};
+
+
+/** A filter to be used against many `Master` object types. All fields are combined with a logical ‘and.’ */
+export type PackMasterToManyMasterFilter = {
+  /** Every related `Master` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<MasterFilter>;
+  /** Some related `Master` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<MasterFilter>;
+  /** No related `Master` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<MasterFilter>;
+};
+
+/** A filter to be used against `PackLabel` object types. All fields are combined with a logical ‘and.’ */
+export type PackLabelFilter = {
+  /** Filter by the object’s `labelCode` field. */
+  labelCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `labelName` field. */
+  labelName?: Maybe<StringFilter>;
+  /** Filter by the object’s `shipperId` field. */
+  shipperId?: Maybe<StringFilter>;
+  /** Filter by the object’s `shipperName` field. */
+  shipperName?: Maybe<StringFilter>;
+  /** Filter by the object’s `packMastersByLabelCodeAndShipperId` relation. */
+  packMastersByLabelCodeAndShipperId?: Maybe<PackLabelToManyPackMasterFilter>;
+  /** Some related `packMastersByLabelCodeAndShipperId` exist. */
+  packMastersByLabelCodeAndShipperIdExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `shipper` relation. */
+  shipper?: Maybe<ShipperFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<PackLabelFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<PackLabelFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<PackLabelFilter>;
+};
+
+/** A filter to be used against many `PackMaster` object types. All fields are combined with a logical ‘and.’ */
+export type PackLabelToManyPackMasterFilter = {
+  /** Every related `PackMaster` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<PackMasterFilter>;
+  /** Some related `PackMaster` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<PackMasterFilter>;
+  /** No related `PackMaster` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<PackMasterFilter>;
+};
+
+/** A filter to be used against `PackSpecial` object types. All fields are combined with a logical ‘and.’ */
+export type PackSpecialFilter = {
+  /** Filter by the object’s `shipperId` field. */
+  shipperId?: Maybe<StringFilter>;
+  /** Filter by the object’s `customerCode` field. */
+  customerCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `customerId` field. */
+  customerId?: Maybe<StringFilter>;
+  /** Filter by the object’s `customerName` field. */
+  customerName?: Maybe<StringFilter>;
+  /** Filter by the object’s `packMastersByCustomerCodeAndShipperId` relation. */
+  packMastersByCustomerCodeAndShipperId?: Maybe<PackSpecialToManyPackMasterFilter>;
+  /** Some related `packMastersByCustomerCodeAndShipperId` exist. */
+  packMastersByCustomerCodeAndShipperIdExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `shipper` relation. */
+  shipper?: Maybe<ShipperFilter>;
+  /** Filter by the object’s `customer` relation. */
+  customer?: Maybe<CustomerFilter>;
+  /** A related `customer` exists. */
+  customerExists?: Maybe<Scalars['Boolean']>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<PackSpecialFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<PackSpecialFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<PackSpecialFilter>;
+};
+
+/** A filter to be used against many `PackMaster` object types. All fields are combined with a logical ‘and.’ */
+export type PackSpecialToManyPackMasterFilter = {
+  /** Every related `PackMaster` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<PackMasterFilter>;
+  /** Some related `PackMaster` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<PackMasterFilter>;
+  /** No related `PackMaster` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<PackMasterFilter>;
+};
+
+/** A filter to be used against `Customer` object types. All fields are combined with a logical ‘and.’ */
+export type CustomerFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<StringFilter>;
+  /** Filter by the object’s `customerName` field. */
+  customerName?: Maybe<StringFilter>;
+  /** Filter by the object’s `address1` field. */
+  address1?: Maybe<StringFilter>;
+  /** Filter by the object’s `address2` field. */
+  address2?: Maybe<StringFilter>;
+  /** Filter by the object’s `city` field. */
+  city?: Maybe<StringFilter>;
+  /** Filter by the object’s `postalState` field. */
+  postalState?: Maybe<StringFilter>;
+  /** Filter by the object’s `zipCode` field. */
+  zipCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `countryId` field. */
+  countryId?: Maybe<StringFilter>;
+  /** Filter by the object’s `phone` field. */
+  phone?: Maybe<StringFilter>;
+  /** Filter by the object’s `logoSrc` field. */
+  logoSrc?: Maybe<StringFilter>;
+  /** Filter by the object’s `notes` field. */
+  notes?: Maybe<StringFilter>;
+  /** Filter by the object’s `website` field. */
+  website?: Maybe<StringFilter>;
+  /** Filter by the object’s `active` field. */
+  active?: Maybe<BooleanFilter>;
+  /** Filter by the object’s `searchText` field. */
+  searchText?: Maybe<StringFilter>;
+  /** Filter by the object’s `personContacts` relation. */
+  personContacts?: Maybe<CustomerToManyPersonContactFilter>;
+  /** Some related `personContacts` exist. */
+  personContactsExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `packSpecials` relation. */
+  packSpecials?: Maybe<CustomerToManyPackSpecialFilter>;
+  /** Some related `packSpecials` exist. */
+  packSpecialsExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `country` relation. */
+  country?: Maybe<CountryFilter>;
+  /** A related `country` exists. */
+  countryExists?: Maybe<Scalars['Boolean']>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<CustomerFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<CustomerFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<CustomerFilter>;
+};
+
+/** A filter to be used against many `PersonContact` object types. All fields are combined with a logical ‘and.’ */
+export type CustomerToManyPersonContactFilter = {
+  /** Every related `PersonContact` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<PersonContactFilter>;
+  /** Some related `PersonContact` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<PersonContactFilter>;
+  /** No related `PersonContact` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<PersonContactFilter>;
+};
+
+/** A filter to be used against many `PackSpecial` object types. All fields are combined with a logical ‘and.’ */
+export type CustomerToManyPackSpecialFilter = {
+  /** Every related `PackSpecial` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<PackSpecialFilter>;
+  /** Some related `PackSpecial` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<PackSpecialFilter>;
+  /** No related `PackSpecial` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<PackSpecialFilter>;
 };
 
 /** A filter to be used against `Country` object types. All fields are combined with a logical ‘and.’ */
@@ -1383,62 +2866,6 @@ export type CountryToManyCustomerFilter = {
   none?: Maybe<CustomerFilter>;
 };
 
-/** A filter to be used against `Customer` object types. All fields are combined with a logical ‘and.’ */
-export type CustomerFilter = {
-  /** Filter by the object’s `id` field. */
-  id?: Maybe<StringFilter>;
-  /** Filter by the object’s `customerName` field. */
-  customerName?: Maybe<StringFilter>;
-  /** Filter by the object’s `address1` field. */
-  address1?: Maybe<StringFilter>;
-  /** Filter by the object’s `address2` field. */
-  address2?: Maybe<StringFilter>;
-  /** Filter by the object’s `city` field. */
-  city?: Maybe<StringFilter>;
-  /** Filter by the object’s `postalState` field. */
-  postalState?: Maybe<StringFilter>;
-  /** Filter by the object’s `zipCode` field. */
-  zipCode?: Maybe<StringFilter>;
-  /** Filter by the object’s `countryId` field. */
-  countryId?: Maybe<StringFilter>;
-  /** Filter by the object’s `phone` field. */
-  phone?: Maybe<StringFilter>;
-  /** Filter by the object’s `logoSrc` field. */
-  logoSrc?: Maybe<StringFilter>;
-  /** Filter by the object’s `notes` field. */
-  notes?: Maybe<StringFilter>;
-  /** Filter by the object’s `website` field. */
-  website?: Maybe<StringFilter>;
-  /** Filter by the object’s `active` field. */
-  active?: Maybe<BooleanFilter>;
-  /** Filter by the object’s `searchText` field. */
-  searchText?: Maybe<StringFilter>;
-  /** Filter by the object’s `personContacts` relation. */
-  personContacts?: Maybe<CustomerToManyPersonContactFilter>;
-  /** Some related `personContacts` exist. */
-  personContactsExist?: Maybe<Scalars['Boolean']>;
-  /** Filter by the object’s `country` relation. */
-  country?: Maybe<CountryFilter>;
-  /** A related `country` exists. */
-  countryExists?: Maybe<Scalars['Boolean']>;
-  /** Checks for all expressions in this list. */
-  and?: Maybe<Array<CustomerFilter>>;
-  /** Checks for any expressions in this list. */
-  or?: Maybe<Array<CustomerFilter>>;
-  /** Negates the expression. */
-  not?: Maybe<CustomerFilter>;
-};
-
-/** A filter to be used against many `PersonContact` object types. All fields are combined with a logical ‘and.’ */
-export type CustomerToManyPersonContactFilter = {
-  /** Every related `PersonContact` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  every?: Maybe<PersonContactFilter>;
-  /** Some related `PersonContact` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  some?: Maybe<PersonContactFilter>;
-  /** No related `PersonContact` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  none?: Maybe<PersonContactFilter>;
-};
-
 /** A filter to be used against many `Shipper` object types. All fields are combined with a logical ‘and.’ */
 export type CountryToManyShipperFilter = {
   /** Every related `Shipper` matches the filter criteria. All fields are combined with a logical ‘and.’ */
@@ -1447,6 +2874,628 @@ export type CountryToManyShipperFilter = {
   some?: Maybe<ShipperFilter>;
   /** No related `Shipper` matches the filter criteria. All fields are combined with a logical ‘and.’ */
   none?: Maybe<ShipperFilter>;
+};
+
+/** A filter to be used against `PackBoxType` object types. All fields are combined with a logical ‘and.’ */
+export type PackBoxTypeFilter = {
+  /** Filter by the object’s `shipperId` field. */
+  shipperId?: Maybe<StringFilter>;
+  /** Filter by the object’s `boxType` field. */
+  boxType?: Maybe<StringFilter>;
+  /** Filter by the object’s `boxDescription` field. */
+  boxDescription?: Maybe<StringFilter>;
+  /** Filter by the object’s `packMastersByBoxTypeAndShipperId` relation. */
+  packMastersByBoxTypeAndShipperId?: Maybe<PackBoxTypeToManyPackMasterFilter>;
+  /** Some related `packMastersByBoxTypeAndShipperId` exist. */
+  packMastersByBoxTypeAndShipperIdExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `shipper` relation. */
+  shipper?: Maybe<ShipperFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<PackBoxTypeFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<PackBoxTypeFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<PackBoxTypeFilter>;
+};
+
+/** A filter to be used against many `PackMaster` object types. All fields are combined with a logical ‘and.’ */
+export type PackBoxTypeToManyPackMasterFilter = {
+  /** Every related `PackMaster` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<PackMasterFilter>;
+  /** Some related `PackMaster` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<PackMasterFilter>;
+  /** No related `PackMaster` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<PackMasterFilter>;
+};
+
+/** A filter to be used against `PackBoxStyle` object types. All fields are combined with a logical ‘and.’ */
+export type PackBoxStyleFilter = {
+  /** Filter by the object’s `shipperId` field. */
+  shipperId?: Maybe<StringFilter>;
+  /** Filter by the object’s `boxStyle` field. */
+  boxStyle?: Maybe<StringFilter>;
+  /** Filter by the object’s `boxDescription` field. */
+  boxDescription?: Maybe<StringFilter>;
+  /** Filter by the object’s `combineWith` field. */
+  combineWith?: Maybe<StringFilter>;
+  /** Filter by the object’s `combineDescription` field. */
+  combineDescription?: Maybe<StringFilter>;
+  /** Filter by the object’s `packMastersByBoxStyleAndShipperId` relation. */
+  packMastersByBoxStyleAndShipperId?: Maybe<PackBoxStyleToManyPackMasterFilter>;
+  /** Some related `packMastersByBoxStyleAndShipperId` exist. */
+  packMastersByBoxStyleAndShipperIdExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `shipper` relation. */
+  shipper?: Maybe<ShipperFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<PackBoxStyleFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<PackBoxStyleFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<PackBoxStyleFilter>;
+};
+
+/** A filter to be used against many `PackMaster` object types. All fields are combined with a logical ‘and.’ */
+export type PackBoxStyleToManyPackMasterFilter = {
+  /** Every related `PackMaster` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<PackMasterFilter>;
+  /** Some related `PackMaster` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<PackMasterFilter>;
+  /** No related `PackMaster` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<PackMasterFilter>;
+};
+
+/** A filter to be used against `PackStyle` object types. All fields are combined with a logical ‘and.’ */
+export type PackStyleFilter = {
+  /** Filter by the object’s `shipperId` field. */
+  shipperId?: Maybe<StringFilter>;
+  /** Filter by the object’s `packStyle` field. */
+  packStyle?: Maybe<StringFilter>;
+  /** Filter by the object’s `styleDescription` field. */
+  styleDescription?: Maybe<StringFilter>;
+  /** Filter by the object’s `combineWith` field. */
+  combineWith?: Maybe<StringFilter>;
+  /** Filter by the object’s `packMastersByPackStyleAndShipperId` relation. */
+  packMastersByPackStyleAndShipperId?: Maybe<PackStyleToManyPackMasterFilter>;
+  /** Some related `packMastersByPackStyleAndShipperId` exist. */
+  packMastersByPackStyleAndShipperIdExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `shipper` relation. */
+  shipper?: Maybe<ShipperFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<PackStyleFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<PackStyleFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<PackStyleFilter>;
+};
+
+/** A filter to be used against many `PackMaster` object types. All fields are combined with a logical ‘and.’ */
+export type PackStyleToManyPackMasterFilter = {
+  /** Every related `PackMaster` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<PackMasterFilter>;
+  /** Some related `PackMaster` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<PackMasterFilter>;
+  /** No related `PackMaster` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<PackMasterFilter>;
+};
+
+/** A filter to be used against `PackOut` object types. All fields are combined with a logical ‘and.’ */
+export type PackOutFilter = {
+  /** Filter by the object’s `shipperId` field. */
+  shipperId?: Maybe<StringFilter>;
+  /** Filter by the object’s `outCode` field. */
+  outCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `outDescription` field. */
+  outDescription?: Maybe<StringFilter>;
+  /** Filter by the object’s `combineWith` field. */
+  combineWith?: Maybe<StringFilter>;
+  /** Filter by the object’s `packMastersByOutCodeAndShipperId` relation. */
+  packMastersByOutCodeAndShipperId?: Maybe<PackOutToManyPackMasterFilter>;
+  /** Some related `packMastersByOutCodeAndShipperId` exist. */
+  packMastersByOutCodeAndShipperIdExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `shipper` relation. */
+  shipper?: Maybe<ShipperFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<PackOutFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<PackOutFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<PackOutFilter>;
+};
+
+/** A filter to be used against many `PackMaster` object types. All fields are combined with a logical ‘and.’ */
+export type PackOutToManyPackMasterFilter = {
+  /** Every related `PackMaster` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<PackMasterFilter>;
+  /** Some related `PackMaster` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<PackMasterFilter>;
+  /** No related `PackMaster` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<PackMasterFilter>;
+};
+
+/** A filter to be used against `PackProduction` object types. All fields are combined with a logical ‘and.’ */
+export type PackProductionFilter = {
+  /** Filter by the object’s `shipperId` field. */
+  shipperId?: Maybe<StringFilter>;
+  /** Filter by the object’s `productionCode` field. */
+  productionCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `productionDescription` field. */
+  productionDescription?: Maybe<StringFilter>;
+  /** Filter by the object’s `combineWith` field. */
+  combineWith?: Maybe<StringFilter>;
+  /** Filter by the object’s `packMastersByProductionCodeAndShipperId` relation. */
+  packMastersByProductionCodeAndShipperId?: Maybe<PackProductionToManyPackMasterFilter>;
+  /** Some related `packMastersByProductionCodeAndShipperId` exist. */
+  packMastersByProductionCodeAndShipperIdExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `shipper` relation. */
+  shipper?: Maybe<ShipperFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<PackProductionFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<PackProductionFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<PackProductionFilter>;
+};
+
+/** A filter to be used against many `PackMaster` object types. All fields are combined with a logical ‘and.’ */
+export type PackProductionToManyPackMasterFilter = {
+  /** Every related `PackMaster` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<PackMasterFilter>;
+  /** Some related `PackMaster` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<PackMasterFilter>;
+  /** No related `PackMaster` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<PackMasterFilter>;
+};
+
+/** A filter to be used against `PackTreeRipe` object types. All fields are combined with a logical ‘and.’ */
+export type PackTreeRipeFilter = {
+  /** Filter by the object’s `shipperId` field. */
+  shipperId?: Maybe<StringFilter>;
+  /** Filter by the object’s `treeRipe` field. */
+  treeRipe?: Maybe<StringFilter>;
+  /** Filter by the object’s `treeRipeDescription` field. */
+  treeRipeDescription?: Maybe<StringFilter>;
+  /** Filter by the object’s `packMastersByTreeRipeAndShipperId` relation. */
+  packMastersByTreeRipeAndShipperId?: Maybe<PackTreeRipeToManyPackMasterFilter>;
+  /** Some related `packMastersByTreeRipeAndShipperId` exist. */
+  packMastersByTreeRipeAndShipperIdExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `shipper` relation. */
+  shipper?: Maybe<ShipperFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<PackTreeRipeFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<PackTreeRipeFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<PackTreeRipeFilter>;
+};
+
+/** A filter to be used against many `PackMaster` object types. All fields are combined with a logical ‘and.’ */
+export type PackTreeRipeToManyPackMasterFilter = {
+  /** Every related `PackMaster` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<PackMasterFilter>;
+  /** Some related `PackMaster` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<PackMasterFilter>;
+  /** No related `PackMaster` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<PackMasterFilter>;
+};
+
+/** A filter to be used against `PackGrade` object types. All fields are combined with a logical ‘and.’ */
+export type PackGradeFilter = {
+  /** Filter by the object’s `shipperId` field. */
+  shipperId?: Maybe<StringFilter>;
+  /** Filter by the object’s `gradeCode` field. */
+  gradeCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `gradeDescription` field. */
+  gradeDescription?: Maybe<StringFilter>;
+  /** Filter by the object’s `packMastersByGradeCodeAndShipperId` relation. */
+  packMastersByGradeCodeAndShipperId?: Maybe<PackGradeToManyPackMasterFilter>;
+  /** Some related `packMastersByGradeCodeAndShipperId` exist. */
+  packMastersByGradeCodeAndShipperIdExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `shipper` relation. */
+  shipper?: Maybe<ShipperFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<PackGradeFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<PackGradeFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<PackGradeFilter>;
+};
+
+/** A filter to be used against many `PackMaster` object types. All fields are combined with a logical ‘and.’ */
+export type PackGradeToManyPackMasterFilter = {
+  /** Every related `PackMaster` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<PackMasterFilter>;
+  /** Some related `PackMaster` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<PackMasterFilter>;
+  /** No related `PackMaster` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<PackMasterFilter>;
+};
+
+/** A filter to be used against `PackAtmosphere` object types. All fields are combined with a logical ‘and.’ */
+export type PackAtmosphereFilter = {
+  /** Filter by the object’s `shipperId` field. */
+  shipperId?: Maybe<StringFilter>;
+  /** Filter by the object’s `maCode` field. */
+  maCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `maDescription` field. */
+  maDescription?: Maybe<StringFilter>;
+  /** Filter by the object’s `packMastersByMaCodeAndShipperId` relation. */
+  packMastersByMaCodeAndShipperId?: Maybe<PackAtmosphereToManyPackMasterFilter>;
+  /** Some related `packMastersByMaCodeAndShipperId` exist. */
+  packMastersByMaCodeAndShipperIdExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `shipper` relation. */
+  shipper?: Maybe<ShipperFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<PackAtmosphereFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<PackAtmosphereFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<PackAtmosphereFilter>;
+};
+
+/** A filter to be used against many `PackMaster` object types. All fields are combined with a logical ‘and.’ */
+export type PackAtmosphereToManyPackMasterFilter = {
+  /** Every related `PackMaster` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<PackMasterFilter>;
+  /** Some related `PackMaster` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<PackMasterFilter>;
+  /** No related `PackMaster` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<PackMasterFilter>;
+};
+
+/** A filter to be used against `PackLiner` object types. All fields are combined with a logical ‘and.’ */
+export type PackLinerFilter = {
+  /** Filter by the object’s `shipperId` field. */
+  shipperId?: Maybe<StringFilter>;
+  /** Filter by the object’s `linerCode` field. */
+  linerCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `linerDescription` field. */
+  linerDescription?: Maybe<StringFilter>;
+  /** Filter by the object’s `packMastersByLinerCodeAndShipperId` relation. */
+  packMastersByLinerCodeAndShipperId?: Maybe<PackLinerToManyPackMasterFilter>;
+  /** Some related `packMastersByLinerCodeAndShipperId` exist. */
+  packMastersByLinerCodeAndShipperIdExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `shipper` relation. */
+  shipper?: Maybe<ShipperFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<PackLinerFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<PackLinerFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<PackLinerFilter>;
+};
+
+/** A filter to be used against many `PackMaster` object types. All fields are combined with a logical ‘and.’ */
+export type PackLinerToManyPackMasterFilter = {
+  /** Every related `PackMaster` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<PackMasterFilter>;
+  /** Some related `PackMaster` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<PackMasterFilter>;
+  /** No related `PackMaster` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<PackMasterFilter>;
+};
+
+/** A filter to be used against `PackPalletType` object types. All fields are combined with a logical ‘and.’ */
+export type PackPalletTypeFilter = {
+  /** Filter by the object’s `shipperId` field. */
+  shipperId?: Maybe<StringFilter>;
+  /** Filter by the object’s `palletType` field. */
+  palletType?: Maybe<StringFilter>;
+  /** Filter by the object’s `palletTypeDescription` field. */
+  palletTypeDescription?: Maybe<StringFilter>;
+  /** Filter by the object’s `combineWith` field. */
+  combineWith?: Maybe<StringFilter>;
+  /** Filter by the object’s `packMastersByPalletTypeAndShipperId` relation. */
+  packMastersByPalletTypeAndShipperId?: Maybe<PackPalletTypeToManyPackMasterFilter>;
+  /** Some related `packMastersByPalletTypeAndShipperId` exist. */
+  packMastersByPalletTypeAndShipperIdExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `shipper` relation. */
+  shipper?: Maybe<ShipperFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<PackPalletTypeFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<PackPalletTypeFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<PackPalletTypeFilter>;
+};
+
+/** A filter to be used against many `PackMaster` object types. All fields are combined with a logical ‘and.’ */
+export type PackPalletTypeToManyPackMasterFilter = {
+  /** Every related `PackMaster` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<PackMasterFilter>;
+  /** Some related `PackMaster` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<PackMasterFilter>;
+  /** No related `PackMaster` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<PackMasterFilter>;
+};
+
+/** A filter to be used against `PackDestination` object types. All fields are combined with a logical ‘and.’ */
+export type PackDestinationFilter = {
+  /** Filter by the object’s `shipperId` field. */
+  shipperId?: Maybe<StringFilter>;
+  /** Filter by the object’s `destinationCode` field. */
+  destinationCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `destinationDescription` field. */
+  destinationDescription?: Maybe<StringFilter>;
+  /** Filter by the object’s `packMastersByDestinationCodeAndShipperId` relation. */
+  packMastersByDestinationCodeAndShipperId?: Maybe<PackDestinationToManyPackMasterFilter>;
+  /** Some related `packMastersByDestinationCodeAndShipperId` exist. */
+  packMastersByDestinationCodeAndShipperIdExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `shipper` relation. */
+  shipper?: Maybe<ShipperFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<PackDestinationFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<PackDestinationFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<PackDestinationFilter>;
+};
+
+/** A filter to be used against many `PackMaster` object types. All fields are combined with a logical ‘and.’ */
+export type PackDestinationToManyPackMasterFilter = {
+  /** Every related `PackMaster` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<PackMasterFilter>;
+  /** Some related `PackMaster` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<PackMasterFilter>;
+  /** No related `PackMaster` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<PackMasterFilter>;
+};
+
+/** A filter to be used against `Variety` object types. All fields are combined with a logical ‘and.’ */
+export type VarietyFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<StringFilter>;
+  /** Filter by the object’s `varietyDescription` field. */
+  varietyDescription?: Maybe<StringFilter>;
+  /** Filter by the object’s `secondaryDescription` field. */
+  secondaryDescription?: Maybe<StringFilter>;
+  /** Filter by the object’s `customerLetterSequence` field. */
+  customerLetterSequence?: Maybe<StringFilter>;
+  /** Filter by the object’s `summaryCode` field. */
+  summaryCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `varietyGroup` field. */
+  varietyGroup?: Maybe<StringFilter>;
+  /** Filter by the object’s `combineWith` field. */
+  combineWith?: Maybe<StringFilter>;
+  /** Filter by the object’s `sizes` relation. */
+  sizes?: Maybe<VarietyToManySizeFilter>;
+  /** Some related `sizes` exist. */
+  sizesExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `packMasters` relation. */
+  packMasters?: Maybe<VarietyToManyPackMasterFilter>;
+  /** Some related `packMasters` exist. */
+  packMastersExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `masters` relation. */
+  masters?: Maybe<VarietyToManyMasterFilter>;
+  /** Some related `masters` exist. */
+  mastersExist?: Maybe<Scalars['Boolean']>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<VarietyFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<VarietyFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<VarietyFilter>;
+};
+
+/** A filter to be used against many `Size` object types. All fields are combined with a logical ‘and.’ */
+export type VarietyToManySizeFilter = {
+  /** Every related `Size` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<SizeFilter>;
+  /** Some related `Size` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<SizeFilter>;
+  /** No related `Size` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<SizeFilter>;
+};
+
+/** A filter to be used against many `PackMaster` object types. All fields are combined with a logical ‘and.’ */
+export type VarietyToManyPackMasterFilter = {
+  /** Every related `PackMaster` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<PackMasterFilter>;
+  /** Some related `PackMaster` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<PackMasterFilter>;
+  /** No related `PackMaster` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<PackMasterFilter>;
+};
+
+/** A filter to be used against many `Master` object types. All fields are combined with a logical ‘and.’ */
+export type VarietyToManyMasterFilter = {
+  /** Every related `Master` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<MasterFilter>;
+  /** Some related `Master` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<MasterFilter>;
+  /** No related `Master` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<MasterFilter>;
+};
+
+/** A filter to be used against `PackHold` object types. All fields are combined with a logical ‘and.’ */
+export type PackHoldFilter = {
+  /** Filter by the object’s `shipperId` field. */
+  shipperId?: Maybe<StringFilter>;
+  /** Filter by the object’s `holdCode` field. */
+  holdCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `holdDescription` field. */
+  holdDescription?: Maybe<StringFilter>;
+  /** Filter by the object’s `packMastersByHoldCodeAndShipperId` relation. */
+  packMastersByHoldCodeAndShipperId?: Maybe<PackHoldToManyPackMasterFilter>;
+  /** Some related `packMastersByHoldCodeAndShipperId` exist. */
+  packMastersByHoldCodeAndShipperIdExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `shipper` relation. */
+  shipper?: Maybe<ShipperFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<PackHoldFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<PackHoldFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<PackHoldFilter>;
+};
+
+/** A filter to be used against many `PackMaster` object types. All fields are combined with a logical ‘and.’ */
+export type PackHoldToManyPackMasterFilter = {
+  /** Every related `PackMaster` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<PackMasterFilter>;
+  /** Some related `PackMaster` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<PackMasterFilter>;
+  /** No related `PackMaster` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<PackMasterFilter>;
+};
+
+/** A filter to be used against many `Master` object types. All fields are combined with a logical ‘and.’ */
+export type SpeciesToManyMasterFilter = {
+  /** Every related `Master` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<MasterFilter>;
+  /** Some related `Master` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<MasterFilter>;
+  /** No related `Master` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<MasterFilter>;
+};
+
+/** A filter to be used against many `PackAtmosphere` object types. All fields are combined with a logical ‘and.’ */
+export type ShipperToManyPackAtmosphereFilter = {
+  /** Every related `PackAtmosphere` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<PackAtmosphereFilter>;
+  /** Some related `PackAtmosphere` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<PackAtmosphereFilter>;
+  /** No related `PackAtmosphere` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<PackAtmosphereFilter>;
+};
+
+/** A filter to be used against many `PackBoxStyle` object types. All fields are combined with a logical ‘and.’ */
+export type ShipperToManyPackBoxStyleFilter = {
+  /** Every related `PackBoxStyle` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<PackBoxStyleFilter>;
+  /** Some related `PackBoxStyle` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<PackBoxStyleFilter>;
+  /** No related `PackBoxStyle` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<PackBoxStyleFilter>;
+};
+
+/** A filter to be used against many `PackBoxType` object types. All fields are combined with a logical ‘and.’ */
+export type ShipperToManyPackBoxTypeFilter = {
+  /** Every related `PackBoxType` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<PackBoxTypeFilter>;
+  /** Some related `PackBoxType` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<PackBoxTypeFilter>;
+  /** No related `PackBoxType` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<PackBoxTypeFilter>;
+};
+
+/** A filter to be used against many `PackDestination` object types. All fields are combined with a logical ‘and.’ */
+export type ShipperToManyPackDestinationFilter = {
+  /** Every related `PackDestination` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<PackDestinationFilter>;
+  /** Some related `PackDestination` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<PackDestinationFilter>;
+  /** No related `PackDestination` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<PackDestinationFilter>;
+};
+
+/** A filter to be used against many `PackGrade` object types. All fields are combined with a logical ‘and.’ */
+export type ShipperToManyPackGradeFilter = {
+  /** Every related `PackGrade` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<PackGradeFilter>;
+  /** Some related `PackGrade` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<PackGradeFilter>;
+  /** No related `PackGrade` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<PackGradeFilter>;
+};
+
+/** A filter to be used against many `PackHold` object types. All fields are combined with a logical ‘and.’ */
+export type ShipperToManyPackHoldFilter = {
+  /** Every related `PackHold` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<PackHoldFilter>;
+  /** Some related `PackHold` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<PackHoldFilter>;
+  /** No related `PackHold` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<PackHoldFilter>;
+};
+
+/** A filter to be used against many `PackLabel` object types. All fields are combined with a logical ‘and.’ */
+export type ShipperToManyPackLabelFilter = {
+  /** Every related `PackLabel` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<PackLabelFilter>;
+  /** Some related `PackLabel` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<PackLabelFilter>;
+  /** No related `PackLabel` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<PackLabelFilter>;
+};
+
+/** A filter to be used against many `PackLiner` object types. All fields are combined with a logical ‘and.’ */
+export type ShipperToManyPackLinerFilter = {
+  /** Every related `PackLiner` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<PackLinerFilter>;
+  /** Some related `PackLiner` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<PackLinerFilter>;
+  /** No related `PackLiner` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<PackLinerFilter>;
+};
+
+/** A filter to be used against many `PackOut` object types. All fields are combined with a logical ‘and.’ */
+export type ShipperToManyPackOutFilter = {
+  /** Every related `PackOut` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<PackOutFilter>;
+  /** Some related `PackOut` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<PackOutFilter>;
+  /** No related `PackOut` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<PackOutFilter>;
+};
+
+/** A filter to be used against many `PackPalletType` object types. All fields are combined with a logical ‘and.’ */
+export type ShipperToManyPackPalletTypeFilter = {
+  /** Every related `PackPalletType` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<PackPalletTypeFilter>;
+  /** Some related `PackPalletType` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<PackPalletTypeFilter>;
+  /** No related `PackPalletType` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<PackPalletTypeFilter>;
+};
+
+/** A filter to be used against many `PackProduction` object types. All fields are combined with a logical ‘and.’ */
+export type ShipperToManyPackProductionFilter = {
+  /** Every related `PackProduction` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<PackProductionFilter>;
+  /** Some related `PackProduction` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<PackProductionFilter>;
+  /** No related `PackProduction` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<PackProductionFilter>;
+};
+
+/** A filter to be used against many `PackSpecial` object types. All fields are combined with a logical ‘and.’ */
+export type ShipperToManyPackSpecialFilter = {
+  /** Every related `PackSpecial` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<PackSpecialFilter>;
+  /** Some related `PackSpecial` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<PackSpecialFilter>;
+  /** No related `PackSpecial` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<PackSpecialFilter>;
+};
+
+/** A filter to be used against many `PackTreeRipe` object types. All fields are combined with a logical ‘and.’ */
+export type ShipperToManyPackTreeRipeFilter = {
+  /** Every related `PackTreeRipe` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<PackTreeRipeFilter>;
+  /** Some related `PackTreeRipe` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<PackTreeRipeFilter>;
+  /** No related `PackTreeRipe` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<PackTreeRipeFilter>;
+};
+
+/** A filter to be used against many `PackStyle` object types. All fields are combined with a logical ‘and.’ */
+export type ShipperToManyPackStyleFilter = {
+  /** Every related `PackStyle` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<PackStyleFilter>;
+  /** Some related `PackStyle` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<PackStyleFilter>;
+  /** No related `PackStyle` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<PackStyleFilter>;
+};
+
+/** A filter to be used against many `PackMaster` object types. All fields are combined with a logical ‘and.’ */
+export type ShipperToManyPackMasterFilter = {
+  /** Every related `PackMaster` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<PackMasterFilter>;
+  /** Some related `PackMaster` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<PackMasterFilter>;
+  /** No related `PackMaster` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<PackMasterFilter>;
 };
 
 /** A connection to a list of `Shipper` values, with data from `PersonContact`. */
@@ -1559,11 +3608,15 @@ export type Customer = Node & {
   country?: Maybe<Country>;
   /** Reads and enables pagination through a set of `PersonContact`. */
   personContacts: PersonContactsConnection;
+  /** Reads and enables pagination through a set of `PackSpecial`. */
+  packSpecials: PackSpecialsConnection;
   searchText?: Maybe<Scalars['String']>;
   /** Reads and enables pagination through a set of `Shipper`. */
   shippersByPersonContactCustomerIdAndShipperId: CustomerShippersByPersonContactCustomerIdAndShipperIdManyToManyConnection;
   /** Reads and enables pagination through a set of `Warehouse`. */
   warehousesByPersonContactCustomerIdAndWarehouseId: CustomerWarehousesByPersonContactCustomerIdAndWarehouseIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `Shipper`. */
+  shippersByPackSpecialCustomerIdAndShipperId: CustomerShippersByPackSpecialCustomerIdAndShipperIdManyToManyConnection;
 };
 
 
@@ -1576,6 +3629,18 @@ export type CustomerPersonContactsArgs = {
   orderBy?: Maybe<Array<PersonContactsOrderBy>>;
   condition?: Maybe<PersonContactCondition>;
   filter?: Maybe<PersonContactFilter>;
+};
+
+
+export type CustomerPackSpecialsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PackSpecialsOrderBy>>;
+  condition?: Maybe<PackSpecialCondition>;
+  filter?: Maybe<PackSpecialFilter>;
 };
 
 
@@ -1600,6 +3665,2064 @@ export type CustomerWarehousesByPersonContactCustomerIdAndWarehouseIdArgs = {
   orderBy?: Maybe<Array<WarehousesOrderBy>>;
   condition?: Maybe<WarehouseCondition>;
   filter?: Maybe<WarehouseFilter>;
+};
+
+
+export type CustomerShippersByPackSpecialCustomerIdAndShipperIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShippersOrderBy>>;
+  condition?: Maybe<ShipperCondition>;
+  filter?: Maybe<ShipperFilter>;
+};
+
+/** A connection to a list of `PackSpecial` values. */
+export type PackSpecialsConnection = {
+  __typename?: 'PackSpecialsConnection';
+  /** A list of `PackSpecial` objects. */
+  nodes: Array<Maybe<PackSpecial>>;
+  /** A list of edges which contains the `PackSpecial` and cursor to aid in pagination. */
+  edges: Array<PackSpecialsEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `PackSpecial` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+export type PackSpecial = Node & {
+  __typename?: 'PackSpecial';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  shipperId: Scalars['String'];
+  customerCode: Scalars['String'];
+  customerId?: Maybe<Scalars['String']>;
+  customerName?: Maybe<Scalars['String']>;
+  /** Reads a single `Shipper` that is related to this `PackSpecial`. */
+  shipper?: Maybe<Shipper>;
+  /** Reads a single `Customer` that is related to this `PackSpecial`. */
+  customer?: Maybe<Customer>;
+  /** Reads and enables pagination through a set of `PackMaster`. */
+  packMastersByCustomerCodeAndShipperId: PackMastersConnection;
+};
+
+
+export type PackSpecialPackMastersByCustomerCodeAndShipperIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PackMastersOrderBy>>;
+  condition?: Maybe<PackMasterCondition>;
+  filter?: Maybe<PackMasterFilter>;
+};
+
+/** A connection to a list of `PackMaster` values. */
+export type PackMastersConnection = {
+  __typename?: 'PackMastersConnection';
+  /** A list of `PackMaster` objects. */
+  nodes: Array<Maybe<PackMaster>>;
+  /** A list of edges which contains the `PackMaster` and cursor to aid in pagination. */
+  edges: Array<PackMastersEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `PackMaster` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+export type PackMaster = Node & {
+  __typename?: 'PackMaster';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  shipperId?: Maybe<Scalars['String']>;
+  labelCode?: Maybe<Scalars['String']>;
+  customerCode?: Maybe<Scalars['String']>;
+  boxType?: Maybe<Scalars['String']>;
+  boxStyle?: Maybe<Scalars['String']>;
+  packStyle?: Maybe<Scalars['String']>;
+  outCode?: Maybe<Scalars['String']>;
+  outQuantity?: Maybe<Scalars['String']>;
+  outWeight?: Maybe<Scalars['String']>;
+  productionCode?: Maybe<Scalars['String']>;
+  treeRipe?: Maybe<Scalars['String']>;
+  gradeCode?: Maybe<Scalars['String']>;
+  maCode?: Maybe<Scalars['String']>;
+  linerCode?: Maybe<Scalars['String']>;
+  netWeightContents?: Maybe<Scalars['BigFloat']>;
+  netWeightBox?: Maybe<Scalars['BigFloat']>;
+  boxLength?: Maybe<Scalars['BigFloat']>;
+  boxWidth?: Maybe<Scalars['BigFloat']>;
+  boxHeight?: Maybe<Scalars['BigFloat']>;
+  palletType?: Maybe<Scalars['String']>;
+  defaultPalletQuantity?: Maybe<Scalars['BigFloat']>;
+  pluUpcCode?: Maybe<Scalars['String']>;
+  destinationCode?: Maybe<Scalars['String']>;
+  oldPackCode: Scalars['String'];
+  oldLabelCode?: Maybe<Scalars['String']>;
+  jvPackCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  varietyId?: Maybe<Scalars['String']>;
+  speciesId?: Maybe<Scalars['String']>;
+  holdCode?: Maybe<Scalars['String']>;
+  /** Reads a single `Shipper` that is related to this `PackMaster`. */
+  shipper?: Maybe<Shipper>;
+  /** Reads a single `PackLabel` that is related to this `PackMaster`. */
+  packLabelByLabelCodeAndShipperId?: Maybe<PackLabel>;
+  /** Reads a single `PackSpecial` that is related to this `PackMaster`. */
+  packSpecialByCustomerCodeAndShipperId?: Maybe<PackSpecial>;
+  /** Reads a single `PackBoxType` that is related to this `PackMaster`. */
+  packBoxTypeByBoxTypeAndShipperId?: Maybe<PackBoxType>;
+  /** Reads a single `PackBoxStyle` that is related to this `PackMaster`. */
+  packBoxStyleByBoxStyleAndShipperId?: Maybe<PackBoxStyle>;
+  /** Reads a single `PackStyle` that is related to this `PackMaster`. */
+  packStyleByPackStyleAndShipperId?: Maybe<PackStyle>;
+  /** Reads a single `PackOut` that is related to this `PackMaster`. */
+  packOutByOutCodeAndShipperId?: Maybe<PackOut>;
+  /** Reads a single `PackProduction` that is related to this `PackMaster`. */
+  packProductionByProductionCodeAndShipperId?: Maybe<PackProduction>;
+  /** Reads a single `PackTreeRipe` that is related to this `PackMaster`. */
+  packTreeRipeByTreeRipeAndShipperId?: Maybe<PackTreeRipe>;
+  /** Reads a single `PackGrade` that is related to this `PackMaster`. */
+  packGradeByGradeCodeAndShipperId?: Maybe<PackGrade>;
+  /** Reads a single `PackAtmosphere` that is related to this `PackMaster`. */
+  packAtmosphereByMaCodeAndShipperId?: Maybe<PackAtmosphere>;
+  /** Reads a single `PackLiner` that is related to this `PackMaster`. */
+  packLinerByLinerCodeAndShipperId?: Maybe<PackLiner>;
+  /** Reads a single `PackPalletType` that is related to this `PackMaster`. */
+  packPalletTypeByPalletTypeAndShipperId?: Maybe<PackPalletType>;
+  /** Reads a single `PackDestination` that is related to this `PackMaster`. */
+  packDestinationByDestinationCodeAndShipperId?: Maybe<PackDestination>;
+  /** Reads a single `Variety` that is related to this `PackMaster`. */
+  variety?: Maybe<Variety>;
+  /** Reads a single `Species` that is related to this `PackMaster`. */
+  species?: Maybe<Species>;
+  /** Reads a single `PackHold` that is related to this `PackMaster`. */
+  packHoldByHoldCodeAndShipperId?: Maybe<PackHold>;
+  /** Reads and enables pagination through a set of `Master`. */
+  mastersByPackId: MastersConnection;
+  /** Reads and enables pagination through a set of `Species`. */
+  speciesByMasterPackIdAndSpeciesId: PackMasterSpeciesByMasterPackIdAndSpeciesIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `Variety`. */
+  varietiesByMasterPackIdAndVarietyId: PackMasterVarietiesByMasterPackIdAndVarietyIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `Size`. */
+  sizesByMasterPackIdAndSizeId: PackMasterSizesByMasterPackIdAndSizeIdManyToManyConnection;
+};
+
+
+export type PackMasterMastersByPackIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<MastersOrderBy>>;
+  condition?: Maybe<MasterCondition>;
+  filter?: Maybe<MasterFilter>;
+};
+
+
+export type PackMasterSpeciesByMasterPackIdAndSpeciesIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<SpeciesOrderBy>>;
+  condition?: Maybe<SpeciesCondition>;
+  filter?: Maybe<SpeciesFilter>;
+};
+
+
+export type PackMasterVarietiesByMasterPackIdAndVarietyIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<VarietiesOrderBy>>;
+  condition?: Maybe<VarietyCondition>;
+  filter?: Maybe<VarietyFilter>;
+};
+
+
+export type PackMasterSizesByMasterPackIdAndSizeIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<SizesOrderBy>>;
+  condition?: Maybe<SizeCondition>;
+  filter?: Maybe<SizeFilter>;
+};
+
+export type PackLabel = Node & {
+  __typename?: 'PackLabel';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  labelCode: Scalars['String'];
+  labelName?: Maybe<Scalars['String']>;
+  shipperId: Scalars['String'];
+  shipperName?: Maybe<Scalars['String']>;
+  /** Reads a single `Shipper` that is related to this `PackLabel`. */
+  shipper?: Maybe<Shipper>;
+  /** Reads and enables pagination through a set of `PackMaster`. */
+  packMastersByLabelCodeAndShipperId: PackMastersConnection;
+};
+
+
+export type PackLabelPackMastersByLabelCodeAndShipperIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PackMastersOrderBy>>;
+  condition?: Maybe<PackMasterCondition>;
+  filter?: Maybe<PackMasterFilter>;
+};
+
+/** Methods to use when ordering `PackMaster`. */
+export enum PackMastersOrderBy {
+  Natural = 'NATURAL',
+  ShipperIdAsc = 'SHIPPER_ID_ASC',
+  ShipperIdDesc = 'SHIPPER_ID_DESC',
+  LabelCodeAsc = 'LABEL_CODE_ASC',
+  LabelCodeDesc = 'LABEL_CODE_DESC',
+  CustomerCodeAsc = 'CUSTOMER_CODE_ASC',
+  CustomerCodeDesc = 'CUSTOMER_CODE_DESC',
+  BoxTypeAsc = 'BOX_TYPE_ASC',
+  BoxTypeDesc = 'BOX_TYPE_DESC',
+  BoxStyleAsc = 'BOX_STYLE_ASC',
+  BoxStyleDesc = 'BOX_STYLE_DESC',
+  PackStyleAsc = 'PACK_STYLE_ASC',
+  PackStyleDesc = 'PACK_STYLE_DESC',
+  OutCodeAsc = 'OUT_CODE_ASC',
+  OutCodeDesc = 'OUT_CODE_DESC',
+  OutQuantityAsc = 'OUT_QUANTITY_ASC',
+  OutQuantityDesc = 'OUT_QUANTITY_DESC',
+  OutWeightAsc = 'OUT_WEIGHT_ASC',
+  OutWeightDesc = 'OUT_WEIGHT_DESC',
+  ProductionCodeAsc = 'PRODUCTION_CODE_ASC',
+  ProductionCodeDesc = 'PRODUCTION_CODE_DESC',
+  TreeRipeAsc = 'TREE_RIPE_ASC',
+  TreeRipeDesc = 'TREE_RIPE_DESC',
+  GradeCodeAsc = 'GRADE_CODE_ASC',
+  GradeCodeDesc = 'GRADE_CODE_DESC',
+  MaCodeAsc = 'MA_CODE_ASC',
+  MaCodeDesc = 'MA_CODE_DESC',
+  LinerCodeAsc = 'LINER_CODE_ASC',
+  LinerCodeDesc = 'LINER_CODE_DESC',
+  NetWeightContentsAsc = 'NET_WEIGHT_CONTENTS_ASC',
+  NetWeightContentsDesc = 'NET_WEIGHT_CONTENTS_DESC',
+  NetWeightBoxAsc = 'NET_WEIGHT_BOX_ASC',
+  NetWeightBoxDesc = 'NET_WEIGHT_BOX_DESC',
+  BoxLengthAsc = 'BOX_LENGTH_ASC',
+  BoxLengthDesc = 'BOX_LENGTH_DESC',
+  BoxWidthAsc = 'BOX_WIDTH_ASC',
+  BoxWidthDesc = 'BOX_WIDTH_DESC',
+  BoxHeightAsc = 'BOX_HEIGHT_ASC',
+  BoxHeightDesc = 'BOX_HEIGHT_DESC',
+  PalletTypeAsc = 'PALLET_TYPE_ASC',
+  PalletTypeDesc = 'PALLET_TYPE_DESC',
+  DefaultPalletQuantityAsc = 'DEFAULT_PALLET_QUANTITY_ASC',
+  DefaultPalletQuantityDesc = 'DEFAULT_PALLET_QUANTITY_DESC',
+  PluUpcCodeAsc = 'PLU_UPC_CODE_ASC',
+  PluUpcCodeDesc = 'PLU_UPC_CODE_DESC',
+  DestinationCodeAsc = 'DESTINATION_CODE_ASC',
+  DestinationCodeDesc = 'DESTINATION_CODE_DESC',
+  OldPackCodeAsc = 'OLD_PACK_CODE_ASC',
+  OldPackCodeDesc = 'OLD_PACK_CODE_DESC',
+  OldLabelCodeAsc = 'OLD_LABEL_CODE_ASC',
+  OldLabelCodeDesc = 'OLD_LABEL_CODE_DESC',
+  JvPackCodeAsc = 'JV_PACK_CODE_ASC',
+  JvPackCodeDesc = 'JV_PACK_CODE_DESC',
+  PackDescriptionAsc = 'PACK_DESCRIPTION_ASC',
+  PackDescriptionDesc = 'PACK_DESCRIPTION_DESC',
+  VarietyIdAsc = 'VARIETY_ID_ASC',
+  VarietyIdDesc = 'VARIETY_ID_DESC',
+  SpeciesIdAsc = 'SPECIES_ID_ASC',
+  SpeciesIdDesc = 'SPECIES_ID_DESC',
+  HoldCodeAsc = 'HOLD_CODE_ASC',
+  HoldCodeDesc = 'HOLD_CODE_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
+/**
+ * A condition to be used against `PackMaster` object types. All fields are tested
+ * for equality and combined with a logical ‘and.’
+ */
+export type PackMasterCondition = {
+  /** Checks for equality with the object’s `shipperId` field. */
+  shipperId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `labelCode` field. */
+  labelCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `customerCode` field. */
+  customerCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `boxType` field. */
+  boxType?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `boxStyle` field. */
+  boxStyle?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `packStyle` field. */
+  packStyle?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `outCode` field. */
+  outCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `outQuantity` field. */
+  outQuantity?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `outWeight` field. */
+  outWeight?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `productionCode` field. */
+  productionCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `treeRipe` field. */
+  treeRipe?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `gradeCode` field. */
+  gradeCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `maCode` field. */
+  maCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `linerCode` field. */
+  linerCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `netWeightContents` field. */
+  netWeightContents?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `netWeightBox` field. */
+  netWeightBox?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `boxLength` field. */
+  boxLength?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `boxWidth` field. */
+  boxWidth?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `boxHeight` field. */
+  boxHeight?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `palletType` field. */
+  palletType?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `defaultPalletQuantity` field. */
+  defaultPalletQuantity?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `pluUpcCode` field. */
+  pluUpcCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `destinationCode` field. */
+  destinationCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `oldPackCode` field. */
+  oldPackCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `oldLabelCode` field. */
+  oldLabelCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `jvPackCode` field. */
+  jvPackCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `packDescription` field. */
+  packDescription?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `varietyId` field. */
+  varietyId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `speciesId` field. */
+  speciesId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `holdCode` field. */
+  holdCode?: Maybe<Scalars['String']>;
+};
+
+export type PackBoxType = Node & {
+  __typename?: 'PackBoxType';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  shipperId: Scalars['String'];
+  boxType: Scalars['String'];
+  boxDescription?: Maybe<Scalars['String']>;
+  /** Reads a single `Shipper` that is related to this `PackBoxType`. */
+  shipper?: Maybe<Shipper>;
+  /** Reads and enables pagination through a set of `PackMaster`. */
+  packMastersByBoxTypeAndShipperId: PackMastersConnection;
+};
+
+
+export type PackBoxTypePackMastersByBoxTypeAndShipperIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PackMastersOrderBy>>;
+  condition?: Maybe<PackMasterCondition>;
+  filter?: Maybe<PackMasterFilter>;
+};
+
+export type PackBoxStyle = Node & {
+  __typename?: 'PackBoxStyle';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  shipperId: Scalars['String'];
+  boxStyle: Scalars['String'];
+  boxDescription?: Maybe<Scalars['String']>;
+  combineWith?: Maybe<Scalars['String']>;
+  combineDescription?: Maybe<Scalars['String']>;
+  /** Reads a single `Shipper` that is related to this `PackBoxStyle`. */
+  shipper?: Maybe<Shipper>;
+  /** Reads and enables pagination through a set of `PackMaster`. */
+  packMastersByBoxStyleAndShipperId: PackMastersConnection;
+};
+
+
+export type PackBoxStylePackMastersByBoxStyleAndShipperIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PackMastersOrderBy>>;
+  condition?: Maybe<PackMasterCondition>;
+  filter?: Maybe<PackMasterFilter>;
+};
+
+export type PackStyle = Node & {
+  __typename?: 'PackStyle';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  shipperId: Scalars['String'];
+  packStyle: Scalars['String'];
+  styleDescription?: Maybe<Scalars['String']>;
+  combineWith?: Maybe<Scalars['String']>;
+  /** Reads a single `Shipper` that is related to this `PackStyle`. */
+  shipper?: Maybe<Shipper>;
+  /** Reads and enables pagination through a set of `PackMaster`. */
+  packMastersByPackStyleAndShipperId: PackMastersConnection;
+};
+
+
+export type PackStylePackMastersByPackStyleAndShipperIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PackMastersOrderBy>>;
+  condition?: Maybe<PackMasterCondition>;
+  filter?: Maybe<PackMasterFilter>;
+};
+
+export type PackOut = Node & {
+  __typename?: 'PackOut';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  shipperId: Scalars['String'];
+  outCode: Scalars['String'];
+  outDescription?: Maybe<Scalars['String']>;
+  combineWith?: Maybe<Scalars['String']>;
+  /** Reads a single `Shipper` that is related to this `PackOut`. */
+  shipper?: Maybe<Shipper>;
+  /** Reads and enables pagination through a set of `PackMaster`. */
+  packMastersByOutCodeAndShipperId: PackMastersConnection;
+};
+
+
+export type PackOutPackMastersByOutCodeAndShipperIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PackMastersOrderBy>>;
+  condition?: Maybe<PackMasterCondition>;
+  filter?: Maybe<PackMasterFilter>;
+};
+
+export type PackProduction = Node & {
+  __typename?: 'PackProduction';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  shipperId: Scalars['String'];
+  productionCode: Scalars['String'];
+  productionDescription?: Maybe<Scalars['String']>;
+  combineWith?: Maybe<Scalars['String']>;
+  /** Reads a single `Shipper` that is related to this `PackProduction`. */
+  shipper?: Maybe<Shipper>;
+  /** Reads and enables pagination through a set of `PackMaster`. */
+  packMastersByProductionCodeAndShipperId: PackMastersConnection;
+};
+
+
+export type PackProductionPackMastersByProductionCodeAndShipperIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PackMastersOrderBy>>;
+  condition?: Maybe<PackMasterCondition>;
+  filter?: Maybe<PackMasterFilter>;
+};
+
+export type PackTreeRipe = Node & {
+  __typename?: 'PackTreeRipe';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  shipperId: Scalars['String'];
+  treeRipe: Scalars['String'];
+  treeRipeDescription?: Maybe<Scalars['String']>;
+  /** Reads a single `Shipper` that is related to this `PackTreeRipe`. */
+  shipper?: Maybe<Shipper>;
+  /** Reads and enables pagination through a set of `PackMaster`. */
+  packMastersByTreeRipeAndShipperId: PackMastersConnection;
+};
+
+
+export type PackTreeRipePackMastersByTreeRipeAndShipperIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PackMastersOrderBy>>;
+  condition?: Maybe<PackMasterCondition>;
+  filter?: Maybe<PackMasterFilter>;
+};
+
+export type PackGrade = Node & {
+  __typename?: 'PackGrade';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  shipperId: Scalars['String'];
+  gradeCode: Scalars['String'];
+  gradeDescription?: Maybe<Scalars['String']>;
+  /** Reads a single `Shipper` that is related to this `PackGrade`. */
+  shipper?: Maybe<Shipper>;
+  /** Reads and enables pagination through a set of `PackMaster`. */
+  packMastersByGradeCodeAndShipperId: PackMastersConnection;
+};
+
+
+export type PackGradePackMastersByGradeCodeAndShipperIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PackMastersOrderBy>>;
+  condition?: Maybe<PackMasterCondition>;
+  filter?: Maybe<PackMasterFilter>;
+};
+
+export type PackAtmosphere = Node & {
+  __typename?: 'PackAtmosphere';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  shipperId: Scalars['String'];
+  maCode: Scalars['String'];
+  maDescription?: Maybe<Scalars['String']>;
+  /** Reads a single `Shipper` that is related to this `PackAtmosphere`. */
+  shipper?: Maybe<Shipper>;
+  /** Reads and enables pagination through a set of `PackMaster`. */
+  packMastersByMaCodeAndShipperId: PackMastersConnection;
+};
+
+
+export type PackAtmospherePackMastersByMaCodeAndShipperIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PackMastersOrderBy>>;
+  condition?: Maybe<PackMasterCondition>;
+  filter?: Maybe<PackMasterFilter>;
+};
+
+export type PackLiner = Node & {
+  __typename?: 'PackLiner';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  shipperId: Scalars['String'];
+  linerCode: Scalars['String'];
+  linerDescription?: Maybe<Scalars['String']>;
+  /** Reads a single `Shipper` that is related to this `PackLiner`. */
+  shipper?: Maybe<Shipper>;
+  /** Reads and enables pagination through a set of `PackMaster`. */
+  packMastersByLinerCodeAndShipperId: PackMastersConnection;
+};
+
+
+export type PackLinerPackMastersByLinerCodeAndShipperIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PackMastersOrderBy>>;
+  condition?: Maybe<PackMasterCondition>;
+  filter?: Maybe<PackMasterFilter>;
+};
+
+export type PackPalletType = Node & {
+  __typename?: 'PackPalletType';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  shipperId: Scalars['String'];
+  palletType: Scalars['String'];
+  palletTypeDescription?: Maybe<Scalars['String']>;
+  combineWith?: Maybe<Scalars['String']>;
+  /** Reads a single `Shipper` that is related to this `PackPalletType`. */
+  shipper?: Maybe<Shipper>;
+  /** Reads and enables pagination through a set of `PackMaster`. */
+  packMastersByPalletTypeAndShipperId: PackMastersConnection;
+};
+
+
+export type PackPalletTypePackMastersByPalletTypeAndShipperIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PackMastersOrderBy>>;
+  condition?: Maybe<PackMasterCondition>;
+  filter?: Maybe<PackMasterFilter>;
+};
+
+export type PackDestination = Node & {
+  __typename?: 'PackDestination';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  shipperId: Scalars['String'];
+  destinationCode: Scalars['String'];
+  destinationDescription?: Maybe<Scalars['String']>;
+  /** Reads a single `Shipper` that is related to this `PackDestination`. */
+  shipper?: Maybe<Shipper>;
+  /** Reads and enables pagination through a set of `PackMaster`. */
+  packMastersByDestinationCodeAndShipperId: PackMastersConnection;
+};
+
+
+export type PackDestinationPackMastersByDestinationCodeAndShipperIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PackMastersOrderBy>>;
+  condition?: Maybe<PackMasterCondition>;
+  filter?: Maybe<PackMasterFilter>;
+};
+
+export type Variety = Node & {
+  __typename?: 'Variety';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['String'];
+  varietyDescription?: Maybe<Scalars['String']>;
+  secondaryDescription?: Maybe<Scalars['String']>;
+  customerLetterSequence?: Maybe<Scalars['String']>;
+  summaryCode?: Maybe<Scalars['String']>;
+  varietyGroup?: Maybe<Scalars['String']>;
+  combineWith?: Maybe<Scalars['String']>;
+  /** Reads and enables pagination through a set of `Size`. */
+  sizes: SizesConnection;
+  /** Reads and enables pagination through a set of `PackMaster`. */
+  packMasters: PackMastersConnection;
+  /** Reads and enables pagination through a set of `Master`. */
+  masters: MastersConnection;
+  /** Reads and enables pagination through a set of `Species`. */
+  speciesBySizeVarietyIdAndSpeciesId: VarietySpeciesBySizeVarietyIdAndSpeciesIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `Shipper`. */
+  shippersBySizeVarietyIdAndShipperId: VarietyShippersBySizeVarietyIdAndShipperIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `Shipper`. */
+  shippersByPackMasterVarietyIdAndShipperId: VarietyShippersByPackMasterVarietyIdAndShipperIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `Species`. */
+  speciesByPackMasterVarietyIdAndSpeciesId: VarietySpeciesByPackMasterVarietyIdAndSpeciesIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `Species`. */
+  speciesByMasterVarietyIdAndSpeciesId: VarietySpeciesByMasterVarietyIdAndSpeciesIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `Size`. */
+  sizesByMasterVarietyIdAndSizeId: VarietySizesByMasterVarietyIdAndSizeIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `PackMaster`. */
+  packMastersByMasterVarietyIdAndPackId: VarietyPackMastersByMasterVarietyIdAndPackIdManyToManyConnection;
+};
+
+
+export type VarietySizesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<SizesOrderBy>>;
+  condition?: Maybe<SizeCondition>;
+  filter?: Maybe<SizeFilter>;
+};
+
+
+export type VarietyPackMastersArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PackMastersOrderBy>>;
+  condition?: Maybe<PackMasterCondition>;
+  filter?: Maybe<PackMasterFilter>;
+};
+
+
+export type VarietyMastersArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<MastersOrderBy>>;
+  condition?: Maybe<MasterCondition>;
+  filter?: Maybe<MasterFilter>;
+};
+
+
+export type VarietySpeciesBySizeVarietyIdAndSpeciesIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<SpeciesOrderBy>>;
+  condition?: Maybe<SpeciesCondition>;
+  filter?: Maybe<SpeciesFilter>;
+};
+
+
+export type VarietyShippersBySizeVarietyIdAndShipperIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShippersOrderBy>>;
+  condition?: Maybe<ShipperCondition>;
+  filter?: Maybe<ShipperFilter>;
+};
+
+
+export type VarietyShippersByPackMasterVarietyIdAndShipperIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShippersOrderBy>>;
+  condition?: Maybe<ShipperCondition>;
+  filter?: Maybe<ShipperFilter>;
+};
+
+
+export type VarietySpeciesByPackMasterVarietyIdAndSpeciesIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<SpeciesOrderBy>>;
+  condition?: Maybe<SpeciesCondition>;
+  filter?: Maybe<SpeciesFilter>;
+};
+
+
+export type VarietySpeciesByMasterVarietyIdAndSpeciesIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<SpeciesOrderBy>>;
+  condition?: Maybe<SpeciesCondition>;
+  filter?: Maybe<SpeciesFilter>;
+};
+
+
+export type VarietySizesByMasterVarietyIdAndSizeIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<SizesOrderBy>>;
+  condition?: Maybe<SizeCondition>;
+  filter?: Maybe<SizeFilter>;
+};
+
+
+export type VarietyPackMastersByMasterVarietyIdAndPackIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PackMastersOrderBy>>;
+  condition?: Maybe<PackMasterCondition>;
+  filter?: Maybe<PackMasterFilter>;
+};
+
+/** A connection to a list of `Size` values. */
+export type SizesConnection = {
+  __typename?: 'SizesConnection';
+  /** A list of `Size` objects. */
+  nodes: Array<Maybe<Size>>;
+  /** A list of edges which contains the `Size` and cursor to aid in pagination. */
+  edges: Array<SizesEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Size` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+export type Size = Node & {
+  __typename?: 'Size';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  speciesId?: Maybe<Scalars['String']>;
+  varietyId?: Maybe<Scalars['String']>;
+  jvCode?: Maybe<Scalars['String']>;
+  jvDescription?: Maybe<Scalars['String']>;
+  shipperCode?: Maybe<Scalars['String']>;
+  shipperDescription?: Maybe<Scalars['String']>;
+  combinedCode?: Maybe<Scalars['String']>;
+  combinedDescription?: Maybe<Scalars['String']>;
+  shipperId?: Maybe<Scalars['String']>;
+  /** Reads a single `Species` that is related to this `Size`. */
+  species?: Maybe<Species>;
+  /** Reads a single `Variety` that is related to this `Size`. */
+  variety?: Maybe<Variety>;
+  /** Reads a single `Shipper` that is related to this `Size`. */
+  shipper?: Maybe<Shipper>;
+  /** Reads and enables pagination through a set of `Master`. */
+  masters: MastersConnection;
+  /** Reads and enables pagination through a set of `Species`. */
+  speciesByMasterSizeIdAndSpeciesId: SizeSpeciesByMasterSizeIdAndSpeciesIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `Variety`. */
+  varietiesByMasterSizeIdAndVarietyId: SizeVarietiesByMasterSizeIdAndVarietyIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `PackMaster`. */
+  packMastersByMasterSizeIdAndPackId: SizePackMastersByMasterSizeIdAndPackIdManyToManyConnection;
+};
+
+
+export type SizeMastersArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<MastersOrderBy>>;
+  condition?: Maybe<MasterCondition>;
+  filter?: Maybe<MasterFilter>;
+};
+
+
+export type SizeSpeciesByMasterSizeIdAndSpeciesIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<SpeciesOrderBy>>;
+  condition?: Maybe<SpeciesCondition>;
+  filter?: Maybe<SpeciesFilter>;
+};
+
+
+export type SizeVarietiesByMasterSizeIdAndVarietyIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<VarietiesOrderBy>>;
+  condition?: Maybe<VarietyCondition>;
+  filter?: Maybe<VarietyFilter>;
+};
+
+
+export type SizePackMastersByMasterSizeIdAndPackIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PackMastersOrderBy>>;
+  condition?: Maybe<PackMasterCondition>;
+  filter?: Maybe<PackMasterFilter>;
+};
+
+export type Species = Node & {
+  __typename?: 'Species';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['String'];
+  speciesDescription?: Maybe<Scalars['String']>;
+  secondaryDescription?: Maybe<Scalars['String']>;
+  fdaProductCode?: Maybe<Scalars['String']>;
+  fdaIndustryCode?: Maybe<Scalars['String']>;
+  defaultTemperature?: Maybe<Scalars['String']>;
+  /** Reads and enables pagination through a set of `Size`. */
+  sizes: SizesConnection;
+  /** Reads and enables pagination through a set of `PackMaster`. */
+  packMasters: PackMastersConnection;
+  /** Reads and enables pagination through a set of `Master`. */
+  masters: MastersConnection;
+  /** Reads and enables pagination through a set of `Variety`. */
+  varietiesBySizeSpeciesIdAndVarietyId: SpeciesVarietiesBySizeSpeciesIdAndVarietyIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `Shipper`. */
+  shippersBySizeSpeciesIdAndShipperId: SpeciesShippersBySizeSpeciesIdAndShipperIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `Shipper`. */
+  shippersByPackMasterSpeciesIdAndShipperId: SpeciesShippersByPackMasterSpeciesIdAndShipperIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `Variety`. */
+  varietiesByPackMasterSpeciesIdAndVarietyId: SpeciesVarietiesByPackMasterSpeciesIdAndVarietyIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `Variety`. */
+  varietiesByMasterSpeciesIdAndVarietyId: SpeciesVarietiesByMasterSpeciesIdAndVarietyIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `Size`. */
+  sizesByMasterSpeciesIdAndSizeId: SpeciesSizesByMasterSpeciesIdAndSizeIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `PackMaster`. */
+  packMastersByMasterSpeciesIdAndPackId: SpeciesPackMastersByMasterSpeciesIdAndPackIdManyToManyConnection;
+};
+
+
+export type SpeciesSizesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<SizesOrderBy>>;
+  condition?: Maybe<SizeCondition>;
+  filter?: Maybe<SizeFilter>;
+};
+
+
+export type SpeciesPackMastersArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PackMastersOrderBy>>;
+  condition?: Maybe<PackMasterCondition>;
+  filter?: Maybe<PackMasterFilter>;
+};
+
+
+export type SpeciesMastersArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<MastersOrderBy>>;
+  condition?: Maybe<MasterCondition>;
+  filter?: Maybe<MasterFilter>;
+};
+
+
+export type SpeciesVarietiesBySizeSpeciesIdAndVarietyIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<VarietiesOrderBy>>;
+  condition?: Maybe<VarietyCondition>;
+  filter?: Maybe<VarietyFilter>;
+};
+
+
+export type SpeciesShippersBySizeSpeciesIdAndShipperIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShippersOrderBy>>;
+  condition?: Maybe<ShipperCondition>;
+  filter?: Maybe<ShipperFilter>;
+};
+
+
+export type SpeciesShippersByPackMasterSpeciesIdAndShipperIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShippersOrderBy>>;
+  condition?: Maybe<ShipperCondition>;
+  filter?: Maybe<ShipperFilter>;
+};
+
+
+export type SpeciesVarietiesByPackMasterSpeciesIdAndVarietyIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<VarietiesOrderBy>>;
+  condition?: Maybe<VarietyCondition>;
+  filter?: Maybe<VarietyFilter>;
+};
+
+
+export type SpeciesVarietiesByMasterSpeciesIdAndVarietyIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<VarietiesOrderBy>>;
+  condition?: Maybe<VarietyCondition>;
+  filter?: Maybe<VarietyFilter>;
+};
+
+
+export type SpeciesSizesByMasterSpeciesIdAndSizeIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<SizesOrderBy>>;
+  condition?: Maybe<SizeCondition>;
+  filter?: Maybe<SizeFilter>;
+};
+
+
+export type SpeciesPackMastersByMasterSpeciesIdAndPackIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PackMastersOrderBy>>;
+  condition?: Maybe<PackMasterCondition>;
+  filter?: Maybe<PackMasterFilter>;
+};
+
+/** Methods to use when ordering `Size`. */
+export enum SizesOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  SpeciesIdAsc = 'SPECIES_ID_ASC',
+  SpeciesIdDesc = 'SPECIES_ID_DESC',
+  VarietyIdAsc = 'VARIETY_ID_ASC',
+  VarietyIdDesc = 'VARIETY_ID_DESC',
+  JvCodeAsc = 'JV_CODE_ASC',
+  JvCodeDesc = 'JV_CODE_DESC',
+  JvDescriptionAsc = 'JV_DESCRIPTION_ASC',
+  JvDescriptionDesc = 'JV_DESCRIPTION_DESC',
+  ShipperCodeAsc = 'SHIPPER_CODE_ASC',
+  ShipperCodeDesc = 'SHIPPER_CODE_DESC',
+  ShipperDescriptionAsc = 'SHIPPER_DESCRIPTION_ASC',
+  ShipperDescriptionDesc = 'SHIPPER_DESCRIPTION_DESC',
+  CombinedCodeAsc = 'COMBINED_CODE_ASC',
+  CombinedCodeDesc = 'COMBINED_CODE_DESC',
+  CombinedDescriptionAsc = 'COMBINED_DESCRIPTION_ASC',
+  CombinedDescriptionDesc = 'COMBINED_DESCRIPTION_DESC',
+  ShipperIdAsc = 'SHIPPER_ID_ASC',
+  ShipperIdDesc = 'SHIPPER_ID_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
+/** A condition to be used against `Size` object types. All fields are tested for equality and combined with a logical ‘and.’ */
+export type SizeCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `speciesId` field. */
+  speciesId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `varietyId` field. */
+  varietyId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `jvCode` field. */
+  jvCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `jvDescription` field. */
+  jvDescription?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `shipperCode` field. */
+  shipperCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `shipperDescription` field. */
+  shipperDescription?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `combinedCode` field. */
+  combinedCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `combinedDescription` field. */
+  combinedDescription?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `shipperId` field. */
+  shipperId?: Maybe<Scalars['String']>;
+};
+
+/** A connection to a list of `Master` values. */
+export type MastersConnection = {
+  __typename?: 'MastersConnection';
+  /** A list of `Master` objects. */
+  nodes: Array<Maybe<Master>>;
+  /** A list of edges which contains the `Master` and cursor to aid in pagination. */
+  edges: Array<MastersEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Master` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+export type Master = Node & {
+  __typename?: 'Master';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['String'];
+  speciesId?: Maybe<Scalars['String']>;
+  varietyId?: Maybe<Scalars['String']>;
+  sizeId?: Maybe<Scalars['BigInt']>;
+  packId?: Maybe<Scalars['String']>;
+  defaultPalletQuantity?: Maybe<Scalars['String']>;
+  lotNumber?: Maybe<Scalars['String']>;
+  /** Reads a single `Species` that is related to this `Master`. */
+  species?: Maybe<Species>;
+  /** Reads a single `Variety` that is related to this `Master`. */
+  variety?: Maybe<Variety>;
+  /** Reads a single `Size` that is related to this `Master`. */
+  size?: Maybe<Size>;
+  /** Reads a single `PackMaster` that is related to this `Master`. */
+  pack?: Maybe<PackMaster>;
+};
+
+/** A `Master` edge in the connection. */
+export type MastersEdge = {
+  __typename?: 'MastersEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `Master` at the end of the edge. */
+  node?: Maybe<Master>;
+};
+
+/** Methods to use when ordering `Master`. */
+export enum MastersOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  SpeciesIdAsc = 'SPECIES_ID_ASC',
+  SpeciesIdDesc = 'SPECIES_ID_DESC',
+  VarietyIdAsc = 'VARIETY_ID_ASC',
+  VarietyIdDesc = 'VARIETY_ID_DESC',
+  SizeIdAsc = 'SIZE_ID_ASC',
+  SizeIdDesc = 'SIZE_ID_DESC',
+  PackIdAsc = 'PACK_ID_ASC',
+  PackIdDesc = 'PACK_ID_DESC',
+  DefaultPalletQuantityAsc = 'DEFAULT_PALLET_QUANTITY_ASC',
+  DefaultPalletQuantityDesc = 'DEFAULT_PALLET_QUANTITY_DESC',
+  LotNumberAsc = 'LOT_NUMBER_ASC',
+  LotNumberDesc = 'LOT_NUMBER_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
+/** A condition to be used against `Master` object types. All fields are tested for equality and combined with a logical ‘and.’ */
+export type MasterCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `speciesId` field. */
+  speciesId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `varietyId` field. */
+  varietyId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `sizeId` field. */
+  sizeId?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `packId` field. */
+  packId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `defaultPalletQuantity` field. */
+  defaultPalletQuantity?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `lotNumber` field. */
+  lotNumber?: Maybe<Scalars['String']>;
+};
+
+/** A connection to a list of `Variety` values, with data from `Size`. */
+export type SpeciesVarietiesBySizeSpeciesIdAndVarietyIdManyToManyConnection = {
+  __typename?: 'SpeciesVarietiesBySizeSpeciesIdAndVarietyIdManyToManyConnection';
+  /** A list of `Variety` objects. */
+  nodes: Array<Maybe<Variety>>;
+  /** A list of edges which contains the `Variety`, info from the `Size`, and the cursor to aid in pagination. */
+  edges: Array<SpeciesVarietiesBySizeSpeciesIdAndVarietyIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Variety` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `Variety` edge in the connection, with data from `Size`. */
+export type SpeciesVarietiesBySizeSpeciesIdAndVarietyIdManyToManyEdge = {
+  __typename?: 'SpeciesVarietiesBySizeSpeciesIdAndVarietyIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `Variety` at the end of the edge. */
+  node?: Maybe<Variety>;
+  /** Reads and enables pagination through a set of `Size`. */
+  sizes: SizesConnection;
+};
+
+
+/** A `Variety` edge in the connection, with data from `Size`. */
+export type SpeciesVarietiesBySizeSpeciesIdAndVarietyIdManyToManyEdgeSizesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<SizesOrderBy>>;
+  condition?: Maybe<SizeCondition>;
+  filter?: Maybe<SizeFilter>;
+};
+
+/** Methods to use when ordering `Variety`. */
+export enum VarietiesOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  VarietyDescriptionAsc = 'VARIETY_DESCRIPTION_ASC',
+  VarietyDescriptionDesc = 'VARIETY_DESCRIPTION_DESC',
+  SecondaryDescriptionAsc = 'SECONDARY_DESCRIPTION_ASC',
+  SecondaryDescriptionDesc = 'SECONDARY_DESCRIPTION_DESC',
+  CustomerLetterSequenceAsc = 'CUSTOMER_LETTER_SEQUENCE_ASC',
+  CustomerLetterSequenceDesc = 'CUSTOMER_LETTER_SEQUENCE_DESC',
+  SummaryCodeAsc = 'SUMMARY_CODE_ASC',
+  SummaryCodeDesc = 'SUMMARY_CODE_DESC',
+  VarietyGroupAsc = 'VARIETY_GROUP_ASC',
+  VarietyGroupDesc = 'VARIETY_GROUP_DESC',
+  CombineWithAsc = 'COMBINE_WITH_ASC',
+  CombineWithDesc = 'COMBINE_WITH_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
+/** A condition to be used against `Variety` object types. All fields are tested for equality and combined with a logical ‘and.’ */
+export type VarietyCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `varietyDescription` field. */
+  varietyDescription?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `secondaryDescription` field. */
+  secondaryDescription?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `customerLetterSequence` field. */
+  customerLetterSequence?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `summaryCode` field. */
+  summaryCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `varietyGroup` field. */
+  varietyGroup?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `combineWith` field. */
+  combineWith?: Maybe<Scalars['String']>;
+};
+
+/** A connection to a list of `Shipper` values, with data from `Size`. */
+export type SpeciesShippersBySizeSpeciesIdAndShipperIdManyToManyConnection = {
+  __typename?: 'SpeciesShippersBySizeSpeciesIdAndShipperIdManyToManyConnection';
+  /** A list of `Shipper` objects. */
+  nodes: Array<Maybe<Shipper>>;
+  /** A list of edges which contains the `Shipper`, info from the `Size`, and the cursor to aid in pagination. */
+  edges: Array<SpeciesShippersBySizeSpeciesIdAndShipperIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Shipper` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `Shipper` edge in the connection, with data from `Size`. */
+export type SpeciesShippersBySizeSpeciesIdAndShipperIdManyToManyEdge = {
+  __typename?: 'SpeciesShippersBySizeSpeciesIdAndShipperIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `Shipper` at the end of the edge. */
+  node?: Maybe<Shipper>;
+  /** Reads and enables pagination through a set of `Size`. */
+  sizes: SizesConnection;
+};
+
+
+/** A `Shipper` edge in the connection, with data from `Size`. */
+export type SpeciesShippersBySizeSpeciesIdAndShipperIdManyToManyEdgeSizesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<SizesOrderBy>>;
+  condition?: Maybe<SizeCondition>;
+  filter?: Maybe<SizeFilter>;
+};
+
+/** A connection to a list of `Shipper` values, with data from `PackMaster`. */
+export type SpeciesShippersByPackMasterSpeciesIdAndShipperIdManyToManyConnection = {
+  __typename?: 'SpeciesShippersByPackMasterSpeciesIdAndShipperIdManyToManyConnection';
+  /** A list of `Shipper` objects. */
+  nodes: Array<Maybe<Shipper>>;
+  /** A list of edges which contains the `Shipper`, info from the `PackMaster`, and the cursor to aid in pagination. */
+  edges: Array<SpeciesShippersByPackMasterSpeciesIdAndShipperIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Shipper` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `Shipper` edge in the connection, with data from `PackMaster`. */
+export type SpeciesShippersByPackMasterSpeciesIdAndShipperIdManyToManyEdge = {
+  __typename?: 'SpeciesShippersByPackMasterSpeciesIdAndShipperIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `Shipper` at the end of the edge. */
+  node?: Maybe<Shipper>;
+  /** Reads and enables pagination through a set of `PackMaster`. */
+  packMasters: PackMastersConnection;
+};
+
+
+/** A `Shipper` edge in the connection, with data from `PackMaster`. */
+export type SpeciesShippersByPackMasterSpeciesIdAndShipperIdManyToManyEdgePackMastersArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PackMastersOrderBy>>;
+  condition?: Maybe<PackMasterCondition>;
+  filter?: Maybe<PackMasterFilter>;
+};
+
+/** A connection to a list of `Variety` values, with data from `PackMaster`. */
+export type SpeciesVarietiesByPackMasterSpeciesIdAndVarietyIdManyToManyConnection = {
+  __typename?: 'SpeciesVarietiesByPackMasterSpeciesIdAndVarietyIdManyToManyConnection';
+  /** A list of `Variety` objects. */
+  nodes: Array<Maybe<Variety>>;
+  /** A list of edges which contains the `Variety`, info from the `PackMaster`, and the cursor to aid in pagination. */
+  edges: Array<SpeciesVarietiesByPackMasterSpeciesIdAndVarietyIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Variety` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `Variety` edge in the connection, with data from `PackMaster`. */
+export type SpeciesVarietiesByPackMasterSpeciesIdAndVarietyIdManyToManyEdge = {
+  __typename?: 'SpeciesVarietiesByPackMasterSpeciesIdAndVarietyIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `Variety` at the end of the edge. */
+  node?: Maybe<Variety>;
+  /** Reads and enables pagination through a set of `PackMaster`. */
+  packMasters: PackMastersConnection;
+};
+
+
+/** A `Variety` edge in the connection, with data from `PackMaster`. */
+export type SpeciesVarietiesByPackMasterSpeciesIdAndVarietyIdManyToManyEdgePackMastersArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PackMastersOrderBy>>;
+  condition?: Maybe<PackMasterCondition>;
+  filter?: Maybe<PackMasterFilter>;
+};
+
+/** A connection to a list of `Variety` values, with data from `Master`. */
+export type SpeciesVarietiesByMasterSpeciesIdAndVarietyIdManyToManyConnection = {
+  __typename?: 'SpeciesVarietiesByMasterSpeciesIdAndVarietyIdManyToManyConnection';
+  /** A list of `Variety` objects. */
+  nodes: Array<Maybe<Variety>>;
+  /** A list of edges which contains the `Variety`, info from the `Master`, and the cursor to aid in pagination. */
+  edges: Array<SpeciesVarietiesByMasterSpeciesIdAndVarietyIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Variety` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `Variety` edge in the connection, with data from `Master`. */
+export type SpeciesVarietiesByMasterSpeciesIdAndVarietyIdManyToManyEdge = {
+  __typename?: 'SpeciesVarietiesByMasterSpeciesIdAndVarietyIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `Variety` at the end of the edge. */
+  node?: Maybe<Variety>;
+  /** Reads and enables pagination through a set of `Master`. */
+  masters: MastersConnection;
+};
+
+
+/** A `Variety` edge in the connection, with data from `Master`. */
+export type SpeciesVarietiesByMasterSpeciesIdAndVarietyIdManyToManyEdgeMastersArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<MastersOrderBy>>;
+  condition?: Maybe<MasterCondition>;
+  filter?: Maybe<MasterFilter>;
+};
+
+/** A connection to a list of `Size` values, with data from `Master`. */
+export type SpeciesSizesByMasterSpeciesIdAndSizeIdManyToManyConnection = {
+  __typename?: 'SpeciesSizesByMasterSpeciesIdAndSizeIdManyToManyConnection';
+  /** A list of `Size` objects. */
+  nodes: Array<Maybe<Size>>;
+  /** A list of edges which contains the `Size`, info from the `Master`, and the cursor to aid in pagination. */
+  edges: Array<SpeciesSizesByMasterSpeciesIdAndSizeIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Size` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `Size` edge in the connection, with data from `Master`. */
+export type SpeciesSizesByMasterSpeciesIdAndSizeIdManyToManyEdge = {
+  __typename?: 'SpeciesSizesByMasterSpeciesIdAndSizeIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `Size` at the end of the edge. */
+  node?: Maybe<Size>;
+  /** Reads and enables pagination through a set of `Master`. */
+  masters: MastersConnection;
+};
+
+
+/** A `Size` edge in the connection, with data from `Master`. */
+export type SpeciesSizesByMasterSpeciesIdAndSizeIdManyToManyEdgeMastersArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<MastersOrderBy>>;
+  condition?: Maybe<MasterCondition>;
+  filter?: Maybe<MasterFilter>;
+};
+
+/** A connection to a list of `PackMaster` values, with data from `Master`. */
+export type SpeciesPackMastersByMasterSpeciesIdAndPackIdManyToManyConnection = {
+  __typename?: 'SpeciesPackMastersByMasterSpeciesIdAndPackIdManyToManyConnection';
+  /** A list of `PackMaster` objects. */
+  nodes: Array<Maybe<PackMaster>>;
+  /** A list of edges which contains the `PackMaster`, info from the `Master`, and the cursor to aid in pagination. */
+  edges: Array<SpeciesPackMastersByMasterSpeciesIdAndPackIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `PackMaster` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `PackMaster` edge in the connection, with data from `Master`. */
+export type SpeciesPackMastersByMasterSpeciesIdAndPackIdManyToManyEdge = {
+  __typename?: 'SpeciesPackMastersByMasterSpeciesIdAndPackIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `PackMaster` at the end of the edge. */
+  node?: Maybe<PackMaster>;
+  /** Reads and enables pagination through a set of `Master`. */
+  mastersByPackId: MastersConnection;
+};
+
+
+/** A `PackMaster` edge in the connection, with data from `Master`. */
+export type SpeciesPackMastersByMasterSpeciesIdAndPackIdManyToManyEdgeMastersByPackIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<MastersOrderBy>>;
+  condition?: Maybe<MasterCondition>;
+  filter?: Maybe<MasterFilter>;
+};
+
+/** A connection to a list of `Species` values, with data from `Master`. */
+export type SizeSpeciesByMasterSizeIdAndSpeciesIdManyToManyConnection = {
+  __typename?: 'SizeSpeciesByMasterSizeIdAndSpeciesIdManyToManyConnection';
+  /** A list of `Species` objects. */
+  nodes: Array<Maybe<Species>>;
+  /** A list of edges which contains the `Species`, info from the `Master`, and the cursor to aid in pagination. */
+  edges: Array<SizeSpeciesByMasterSizeIdAndSpeciesIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Species` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `Species` edge in the connection, with data from `Master`. */
+export type SizeSpeciesByMasterSizeIdAndSpeciesIdManyToManyEdge = {
+  __typename?: 'SizeSpeciesByMasterSizeIdAndSpeciesIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `Species` at the end of the edge. */
+  node?: Maybe<Species>;
+  /** Reads and enables pagination through a set of `Master`. */
+  masters: MastersConnection;
+};
+
+
+/** A `Species` edge in the connection, with data from `Master`. */
+export type SizeSpeciesByMasterSizeIdAndSpeciesIdManyToManyEdgeMastersArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<MastersOrderBy>>;
+  condition?: Maybe<MasterCondition>;
+  filter?: Maybe<MasterFilter>;
+};
+
+/** Methods to use when ordering `Species`. */
+export enum SpeciesOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  SpeciesDescriptionAsc = 'SPECIES_DESCRIPTION_ASC',
+  SpeciesDescriptionDesc = 'SPECIES_DESCRIPTION_DESC',
+  SecondaryDescriptionAsc = 'SECONDARY_DESCRIPTION_ASC',
+  SecondaryDescriptionDesc = 'SECONDARY_DESCRIPTION_DESC',
+  FdaProductCodeAsc = 'FDA_PRODUCT_CODE_ASC',
+  FdaProductCodeDesc = 'FDA_PRODUCT_CODE_DESC',
+  FdaIndustryCodeAsc = 'FDA_INDUSTRY_CODE_ASC',
+  FdaIndustryCodeDesc = 'FDA_INDUSTRY_CODE_DESC',
+  DefaultTemperatureAsc = 'DEFAULT_TEMPERATURE_ASC',
+  DefaultTemperatureDesc = 'DEFAULT_TEMPERATURE_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
+/** A condition to be used against `Species` object types. All fields are tested for equality and combined with a logical ‘and.’ */
+export type SpeciesCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `speciesDescription` field. */
+  speciesDescription?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `secondaryDescription` field. */
+  secondaryDescription?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `fdaProductCode` field. */
+  fdaProductCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `fdaIndustryCode` field. */
+  fdaIndustryCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `defaultTemperature` field. */
+  defaultTemperature?: Maybe<Scalars['String']>;
+};
+
+/** A connection to a list of `Variety` values, with data from `Master`. */
+export type SizeVarietiesByMasterSizeIdAndVarietyIdManyToManyConnection = {
+  __typename?: 'SizeVarietiesByMasterSizeIdAndVarietyIdManyToManyConnection';
+  /** A list of `Variety` objects. */
+  nodes: Array<Maybe<Variety>>;
+  /** A list of edges which contains the `Variety`, info from the `Master`, and the cursor to aid in pagination. */
+  edges: Array<SizeVarietiesByMasterSizeIdAndVarietyIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Variety` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `Variety` edge in the connection, with data from `Master`. */
+export type SizeVarietiesByMasterSizeIdAndVarietyIdManyToManyEdge = {
+  __typename?: 'SizeVarietiesByMasterSizeIdAndVarietyIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `Variety` at the end of the edge. */
+  node?: Maybe<Variety>;
+  /** Reads and enables pagination through a set of `Master`. */
+  masters: MastersConnection;
+};
+
+
+/** A `Variety` edge in the connection, with data from `Master`. */
+export type SizeVarietiesByMasterSizeIdAndVarietyIdManyToManyEdgeMastersArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<MastersOrderBy>>;
+  condition?: Maybe<MasterCondition>;
+  filter?: Maybe<MasterFilter>;
+};
+
+/** A connection to a list of `PackMaster` values, with data from `Master`. */
+export type SizePackMastersByMasterSizeIdAndPackIdManyToManyConnection = {
+  __typename?: 'SizePackMastersByMasterSizeIdAndPackIdManyToManyConnection';
+  /** A list of `PackMaster` objects. */
+  nodes: Array<Maybe<PackMaster>>;
+  /** A list of edges which contains the `PackMaster`, info from the `Master`, and the cursor to aid in pagination. */
+  edges: Array<SizePackMastersByMasterSizeIdAndPackIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `PackMaster` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `PackMaster` edge in the connection, with data from `Master`. */
+export type SizePackMastersByMasterSizeIdAndPackIdManyToManyEdge = {
+  __typename?: 'SizePackMastersByMasterSizeIdAndPackIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `PackMaster` at the end of the edge. */
+  node?: Maybe<PackMaster>;
+  /** Reads and enables pagination through a set of `Master`. */
+  mastersByPackId: MastersConnection;
+};
+
+
+/** A `PackMaster` edge in the connection, with data from `Master`. */
+export type SizePackMastersByMasterSizeIdAndPackIdManyToManyEdgeMastersByPackIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<MastersOrderBy>>;
+  condition?: Maybe<MasterCondition>;
+  filter?: Maybe<MasterFilter>;
+};
+
+/** A `Size` edge in the connection. */
+export type SizesEdge = {
+  __typename?: 'SizesEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `Size` at the end of the edge. */
+  node?: Maybe<Size>;
+};
+
+/** A connection to a list of `Species` values, with data from `Size`. */
+export type VarietySpeciesBySizeVarietyIdAndSpeciesIdManyToManyConnection = {
+  __typename?: 'VarietySpeciesBySizeVarietyIdAndSpeciesIdManyToManyConnection';
+  /** A list of `Species` objects. */
+  nodes: Array<Maybe<Species>>;
+  /** A list of edges which contains the `Species`, info from the `Size`, and the cursor to aid in pagination. */
+  edges: Array<VarietySpeciesBySizeVarietyIdAndSpeciesIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Species` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `Species` edge in the connection, with data from `Size`. */
+export type VarietySpeciesBySizeVarietyIdAndSpeciesIdManyToManyEdge = {
+  __typename?: 'VarietySpeciesBySizeVarietyIdAndSpeciesIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `Species` at the end of the edge. */
+  node?: Maybe<Species>;
+  /** Reads and enables pagination through a set of `Size`. */
+  sizes: SizesConnection;
+};
+
+
+/** A `Species` edge in the connection, with data from `Size`. */
+export type VarietySpeciesBySizeVarietyIdAndSpeciesIdManyToManyEdgeSizesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<SizesOrderBy>>;
+  condition?: Maybe<SizeCondition>;
+  filter?: Maybe<SizeFilter>;
+};
+
+/** A connection to a list of `Shipper` values, with data from `Size`. */
+export type VarietyShippersBySizeVarietyIdAndShipperIdManyToManyConnection = {
+  __typename?: 'VarietyShippersBySizeVarietyIdAndShipperIdManyToManyConnection';
+  /** A list of `Shipper` objects. */
+  nodes: Array<Maybe<Shipper>>;
+  /** A list of edges which contains the `Shipper`, info from the `Size`, and the cursor to aid in pagination. */
+  edges: Array<VarietyShippersBySizeVarietyIdAndShipperIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Shipper` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `Shipper` edge in the connection, with data from `Size`. */
+export type VarietyShippersBySizeVarietyIdAndShipperIdManyToManyEdge = {
+  __typename?: 'VarietyShippersBySizeVarietyIdAndShipperIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `Shipper` at the end of the edge. */
+  node?: Maybe<Shipper>;
+  /** Reads and enables pagination through a set of `Size`. */
+  sizes: SizesConnection;
+};
+
+
+/** A `Shipper` edge in the connection, with data from `Size`. */
+export type VarietyShippersBySizeVarietyIdAndShipperIdManyToManyEdgeSizesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<SizesOrderBy>>;
+  condition?: Maybe<SizeCondition>;
+  filter?: Maybe<SizeFilter>;
+};
+
+/** A connection to a list of `Shipper` values, with data from `PackMaster`. */
+export type VarietyShippersByPackMasterVarietyIdAndShipperIdManyToManyConnection = {
+  __typename?: 'VarietyShippersByPackMasterVarietyIdAndShipperIdManyToManyConnection';
+  /** A list of `Shipper` objects. */
+  nodes: Array<Maybe<Shipper>>;
+  /** A list of edges which contains the `Shipper`, info from the `PackMaster`, and the cursor to aid in pagination. */
+  edges: Array<VarietyShippersByPackMasterVarietyIdAndShipperIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Shipper` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `Shipper` edge in the connection, with data from `PackMaster`. */
+export type VarietyShippersByPackMasterVarietyIdAndShipperIdManyToManyEdge = {
+  __typename?: 'VarietyShippersByPackMasterVarietyIdAndShipperIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `Shipper` at the end of the edge. */
+  node?: Maybe<Shipper>;
+  /** Reads and enables pagination through a set of `PackMaster`. */
+  packMasters: PackMastersConnection;
+};
+
+
+/** A `Shipper` edge in the connection, with data from `PackMaster`. */
+export type VarietyShippersByPackMasterVarietyIdAndShipperIdManyToManyEdgePackMastersArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PackMastersOrderBy>>;
+  condition?: Maybe<PackMasterCondition>;
+  filter?: Maybe<PackMasterFilter>;
+};
+
+/** A connection to a list of `Species` values, with data from `PackMaster`. */
+export type VarietySpeciesByPackMasterVarietyIdAndSpeciesIdManyToManyConnection = {
+  __typename?: 'VarietySpeciesByPackMasterVarietyIdAndSpeciesIdManyToManyConnection';
+  /** A list of `Species` objects. */
+  nodes: Array<Maybe<Species>>;
+  /** A list of edges which contains the `Species`, info from the `PackMaster`, and the cursor to aid in pagination. */
+  edges: Array<VarietySpeciesByPackMasterVarietyIdAndSpeciesIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Species` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `Species` edge in the connection, with data from `PackMaster`. */
+export type VarietySpeciesByPackMasterVarietyIdAndSpeciesIdManyToManyEdge = {
+  __typename?: 'VarietySpeciesByPackMasterVarietyIdAndSpeciesIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `Species` at the end of the edge. */
+  node?: Maybe<Species>;
+  /** Reads and enables pagination through a set of `PackMaster`. */
+  packMasters: PackMastersConnection;
+};
+
+
+/** A `Species` edge in the connection, with data from `PackMaster`. */
+export type VarietySpeciesByPackMasterVarietyIdAndSpeciesIdManyToManyEdgePackMastersArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PackMastersOrderBy>>;
+  condition?: Maybe<PackMasterCondition>;
+  filter?: Maybe<PackMasterFilter>;
+};
+
+/** A connection to a list of `Species` values, with data from `Master`. */
+export type VarietySpeciesByMasterVarietyIdAndSpeciesIdManyToManyConnection = {
+  __typename?: 'VarietySpeciesByMasterVarietyIdAndSpeciesIdManyToManyConnection';
+  /** A list of `Species` objects. */
+  nodes: Array<Maybe<Species>>;
+  /** A list of edges which contains the `Species`, info from the `Master`, and the cursor to aid in pagination. */
+  edges: Array<VarietySpeciesByMasterVarietyIdAndSpeciesIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Species` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `Species` edge in the connection, with data from `Master`. */
+export type VarietySpeciesByMasterVarietyIdAndSpeciesIdManyToManyEdge = {
+  __typename?: 'VarietySpeciesByMasterVarietyIdAndSpeciesIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `Species` at the end of the edge. */
+  node?: Maybe<Species>;
+  /** Reads and enables pagination through a set of `Master`. */
+  masters: MastersConnection;
+};
+
+
+/** A `Species` edge in the connection, with data from `Master`. */
+export type VarietySpeciesByMasterVarietyIdAndSpeciesIdManyToManyEdgeMastersArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<MastersOrderBy>>;
+  condition?: Maybe<MasterCondition>;
+  filter?: Maybe<MasterFilter>;
+};
+
+/** A connection to a list of `Size` values, with data from `Master`. */
+export type VarietySizesByMasterVarietyIdAndSizeIdManyToManyConnection = {
+  __typename?: 'VarietySizesByMasterVarietyIdAndSizeIdManyToManyConnection';
+  /** A list of `Size` objects. */
+  nodes: Array<Maybe<Size>>;
+  /** A list of edges which contains the `Size`, info from the `Master`, and the cursor to aid in pagination. */
+  edges: Array<VarietySizesByMasterVarietyIdAndSizeIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Size` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `Size` edge in the connection, with data from `Master`. */
+export type VarietySizesByMasterVarietyIdAndSizeIdManyToManyEdge = {
+  __typename?: 'VarietySizesByMasterVarietyIdAndSizeIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `Size` at the end of the edge. */
+  node?: Maybe<Size>;
+  /** Reads and enables pagination through a set of `Master`. */
+  masters: MastersConnection;
+};
+
+
+/** A `Size` edge in the connection, with data from `Master`. */
+export type VarietySizesByMasterVarietyIdAndSizeIdManyToManyEdgeMastersArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<MastersOrderBy>>;
+  condition?: Maybe<MasterCondition>;
+  filter?: Maybe<MasterFilter>;
+};
+
+/** A connection to a list of `PackMaster` values, with data from `Master`. */
+export type VarietyPackMastersByMasterVarietyIdAndPackIdManyToManyConnection = {
+  __typename?: 'VarietyPackMastersByMasterVarietyIdAndPackIdManyToManyConnection';
+  /** A list of `PackMaster` objects. */
+  nodes: Array<Maybe<PackMaster>>;
+  /** A list of edges which contains the `PackMaster`, info from the `Master`, and the cursor to aid in pagination. */
+  edges: Array<VarietyPackMastersByMasterVarietyIdAndPackIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `PackMaster` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `PackMaster` edge in the connection, with data from `Master`. */
+export type VarietyPackMastersByMasterVarietyIdAndPackIdManyToManyEdge = {
+  __typename?: 'VarietyPackMastersByMasterVarietyIdAndPackIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `PackMaster` at the end of the edge. */
+  node?: Maybe<PackMaster>;
+  /** Reads and enables pagination through a set of `Master`. */
+  mastersByPackId: MastersConnection;
+};
+
+
+/** A `PackMaster` edge in the connection, with data from `Master`. */
+export type VarietyPackMastersByMasterVarietyIdAndPackIdManyToManyEdgeMastersByPackIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<MastersOrderBy>>;
+  condition?: Maybe<MasterCondition>;
+  filter?: Maybe<MasterFilter>;
+};
+
+export type PackHold = Node & {
+  __typename?: 'PackHold';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  shipperId: Scalars['String'];
+  holdCode: Scalars['String'];
+  holdDescription?: Maybe<Scalars['String']>;
+  /** Reads a single `Shipper` that is related to this `PackHold`. */
+  shipper?: Maybe<Shipper>;
+  /** Reads and enables pagination through a set of `PackMaster`. */
+  packMastersByHoldCodeAndShipperId: PackMastersConnection;
+};
+
+
+export type PackHoldPackMastersByHoldCodeAndShipperIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PackMastersOrderBy>>;
+  condition?: Maybe<PackMasterCondition>;
+  filter?: Maybe<PackMasterFilter>;
+};
+
+/** A connection to a list of `Species` values, with data from `Master`. */
+export type PackMasterSpeciesByMasterPackIdAndSpeciesIdManyToManyConnection = {
+  __typename?: 'PackMasterSpeciesByMasterPackIdAndSpeciesIdManyToManyConnection';
+  /** A list of `Species` objects. */
+  nodes: Array<Maybe<Species>>;
+  /** A list of edges which contains the `Species`, info from the `Master`, and the cursor to aid in pagination. */
+  edges: Array<PackMasterSpeciesByMasterPackIdAndSpeciesIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Species` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `Species` edge in the connection, with data from `Master`. */
+export type PackMasterSpeciesByMasterPackIdAndSpeciesIdManyToManyEdge = {
+  __typename?: 'PackMasterSpeciesByMasterPackIdAndSpeciesIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `Species` at the end of the edge. */
+  node?: Maybe<Species>;
+  /** Reads and enables pagination through a set of `Master`. */
+  masters: MastersConnection;
+};
+
+
+/** A `Species` edge in the connection, with data from `Master`. */
+export type PackMasterSpeciesByMasterPackIdAndSpeciesIdManyToManyEdgeMastersArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<MastersOrderBy>>;
+  condition?: Maybe<MasterCondition>;
+  filter?: Maybe<MasterFilter>;
+};
+
+/** A connection to a list of `Variety` values, with data from `Master`. */
+export type PackMasterVarietiesByMasterPackIdAndVarietyIdManyToManyConnection = {
+  __typename?: 'PackMasterVarietiesByMasterPackIdAndVarietyIdManyToManyConnection';
+  /** A list of `Variety` objects. */
+  nodes: Array<Maybe<Variety>>;
+  /** A list of edges which contains the `Variety`, info from the `Master`, and the cursor to aid in pagination. */
+  edges: Array<PackMasterVarietiesByMasterPackIdAndVarietyIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Variety` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `Variety` edge in the connection, with data from `Master`. */
+export type PackMasterVarietiesByMasterPackIdAndVarietyIdManyToManyEdge = {
+  __typename?: 'PackMasterVarietiesByMasterPackIdAndVarietyIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `Variety` at the end of the edge. */
+  node?: Maybe<Variety>;
+  /** Reads and enables pagination through a set of `Master`. */
+  masters: MastersConnection;
+};
+
+
+/** A `Variety` edge in the connection, with data from `Master`. */
+export type PackMasterVarietiesByMasterPackIdAndVarietyIdManyToManyEdgeMastersArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<MastersOrderBy>>;
+  condition?: Maybe<MasterCondition>;
+  filter?: Maybe<MasterFilter>;
+};
+
+/** A connection to a list of `Size` values, with data from `Master`. */
+export type PackMasterSizesByMasterPackIdAndSizeIdManyToManyConnection = {
+  __typename?: 'PackMasterSizesByMasterPackIdAndSizeIdManyToManyConnection';
+  /** A list of `Size` objects. */
+  nodes: Array<Maybe<Size>>;
+  /** A list of edges which contains the `Size`, info from the `Master`, and the cursor to aid in pagination. */
+  edges: Array<PackMasterSizesByMasterPackIdAndSizeIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Size` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `Size` edge in the connection, with data from `Master`. */
+export type PackMasterSizesByMasterPackIdAndSizeIdManyToManyEdge = {
+  __typename?: 'PackMasterSizesByMasterPackIdAndSizeIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `Size` at the end of the edge. */
+  node?: Maybe<Size>;
+  /** Reads and enables pagination through a set of `Master`. */
+  masters: MastersConnection;
+};
+
+
+/** A `Size` edge in the connection, with data from `Master`. */
+export type PackMasterSizesByMasterPackIdAndSizeIdManyToManyEdgeMastersArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<MastersOrderBy>>;
+  condition?: Maybe<MasterCondition>;
+  filter?: Maybe<MasterFilter>;
+};
+
+/** A `PackMaster` edge in the connection. */
+export type PackMastersEdge = {
+  __typename?: 'PackMastersEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `PackMaster` at the end of the edge. */
+  node?: Maybe<PackMaster>;
+};
+
+/** A `PackSpecial` edge in the connection. */
+export type PackSpecialsEdge = {
+  __typename?: 'PackSpecialsEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `PackSpecial` at the end of the edge. */
+  node?: Maybe<PackSpecial>;
+};
+
+/** Methods to use when ordering `PackSpecial`. */
+export enum PackSpecialsOrderBy {
+  Natural = 'NATURAL',
+  ShipperIdAsc = 'SHIPPER_ID_ASC',
+  ShipperIdDesc = 'SHIPPER_ID_DESC',
+  CustomerCodeAsc = 'CUSTOMER_CODE_ASC',
+  CustomerCodeDesc = 'CUSTOMER_CODE_DESC',
+  CustomerIdAsc = 'CUSTOMER_ID_ASC',
+  CustomerIdDesc = 'CUSTOMER_ID_DESC',
+  CustomerNameAsc = 'CUSTOMER_NAME_ASC',
+  CustomerNameDesc = 'CUSTOMER_NAME_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
+/**
+ * A condition to be used against `PackSpecial` object types. All fields are tested
+ * for equality and combined with a logical ‘and.’
+ */
+export type PackSpecialCondition = {
+  /** Checks for equality with the object’s `shipperId` field. */
+  shipperId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `customerCode` field. */
+  customerCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `customerId` field. */
+  customerId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `customerName` field. */
+  customerName?: Maybe<Scalars['String']>;
 };
 
 /** A connection to a list of `Shipper` values, with data from `PersonContact`. */
@@ -1750,6 +5873,43 @@ export type WarehouseCondition = {
   miscTaxCode?: Maybe<Scalars['String']>;
 };
 
+/** A connection to a list of `Shipper` values, with data from `PackSpecial`. */
+export type CustomerShippersByPackSpecialCustomerIdAndShipperIdManyToManyConnection = {
+  __typename?: 'CustomerShippersByPackSpecialCustomerIdAndShipperIdManyToManyConnection';
+  /** A list of `Shipper` objects. */
+  nodes: Array<Maybe<Shipper>>;
+  /** A list of edges which contains the `Shipper`, info from the `PackSpecial`, and the cursor to aid in pagination. */
+  edges: Array<CustomerShippersByPackSpecialCustomerIdAndShipperIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Shipper` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `Shipper` edge in the connection, with data from `PackSpecial`. */
+export type CustomerShippersByPackSpecialCustomerIdAndShipperIdManyToManyEdge = {
+  __typename?: 'CustomerShippersByPackSpecialCustomerIdAndShipperIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `Shipper` at the end of the edge. */
+  node?: Maybe<Shipper>;
+  /** Reads and enables pagination through a set of `PackSpecial`. */
+  packSpecials: PackSpecialsConnection;
+};
+
+
+/** A `Shipper` edge in the connection, with data from `PackSpecial`. */
+export type CustomerShippersByPackSpecialCustomerIdAndShipperIdManyToManyEdgePackSpecialsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PackSpecialsOrderBy>>;
+  condition?: Maybe<PackSpecialCondition>;
+  filter?: Maybe<PackSpecialFilter>;
+};
+
 /** A `Customer` edge in the connection, with data from `PersonContact`. */
 export type WarehouseCustomersByPersonContactWarehouseIdAndCustomerIdManyToManyEdge = {
   __typename?: 'WarehouseCustomersByPersonContactWarehouseIdAndCustomerIdManyToManyEdge';
@@ -1893,6 +6053,655 @@ export type ShippersEdge = {
   node?: Maybe<Shipper>;
 };
 
+/** A connection to a list of `PackAtmosphere` values. */
+export type PackAtmospheresConnection = {
+  __typename?: 'PackAtmospheresConnection';
+  /** A list of `PackAtmosphere` objects. */
+  nodes: Array<Maybe<PackAtmosphere>>;
+  /** A list of edges which contains the `PackAtmosphere` and cursor to aid in pagination. */
+  edges: Array<PackAtmospheresEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `PackAtmosphere` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `PackAtmosphere` edge in the connection. */
+export type PackAtmospheresEdge = {
+  __typename?: 'PackAtmospheresEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `PackAtmosphere` at the end of the edge. */
+  node?: Maybe<PackAtmosphere>;
+};
+
+/** Methods to use when ordering `PackAtmosphere`. */
+export enum PackAtmospheresOrderBy {
+  Natural = 'NATURAL',
+  ShipperIdAsc = 'SHIPPER_ID_ASC',
+  ShipperIdDesc = 'SHIPPER_ID_DESC',
+  MaCodeAsc = 'MA_CODE_ASC',
+  MaCodeDesc = 'MA_CODE_DESC',
+  MaDescriptionAsc = 'MA_DESCRIPTION_ASC',
+  MaDescriptionDesc = 'MA_DESCRIPTION_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
+/**
+ * A condition to be used against `PackAtmosphere` object types. All fields are
+ * tested for equality and combined with a logical ‘and.’
+ */
+export type PackAtmosphereCondition = {
+  /** Checks for equality with the object’s `shipperId` field. */
+  shipperId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `maCode` field. */
+  maCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `maDescription` field. */
+  maDescription?: Maybe<Scalars['String']>;
+};
+
+/** A connection to a list of `PackBoxStyle` values. */
+export type PackBoxStylesConnection = {
+  __typename?: 'PackBoxStylesConnection';
+  /** A list of `PackBoxStyle` objects. */
+  nodes: Array<Maybe<PackBoxStyle>>;
+  /** A list of edges which contains the `PackBoxStyle` and cursor to aid in pagination. */
+  edges: Array<PackBoxStylesEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `PackBoxStyle` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `PackBoxStyle` edge in the connection. */
+export type PackBoxStylesEdge = {
+  __typename?: 'PackBoxStylesEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `PackBoxStyle` at the end of the edge. */
+  node?: Maybe<PackBoxStyle>;
+};
+
+/** Methods to use when ordering `PackBoxStyle`. */
+export enum PackBoxStylesOrderBy {
+  Natural = 'NATURAL',
+  ShipperIdAsc = 'SHIPPER_ID_ASC',
+  ShipperIdDesc = 'SHIPPER_ID_DESC',
+  BoxStyleAsc = 'BOX_STYLE_ASC',
+  BoxStyleDesc = 'BOX_STYLE_DESC',
+  BoxDescriptionAsc = 'BOX_DESCRIPTION_ASC',
+  BoxDescriptionDesc = 'BOX_DESCRIPTION_DESC',
+  CombineWithAsc = 'COMBINE_WITH_ASC',
+  CombineWithDesc = 'COMBINE_WITH_DESC',
+  CombineDescriptionAsc = 'COMBINE_DESCRIPTION_ASC',
+  CombineDescriptionDesc = 'COMBINE_DESCRIPTION_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
+/**
+ * A condition to be used against `PackBoxStyle` object types. All fields are
+ * tested for equality and combined with a logical ‘and.’
+ */
+export type PackBoxStyleCondition = {
+  /** Checks for equality with the object’s `shipperId` field. */
+  shipperId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `boxStyle` field. */
+  boxStyle?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `boxDescription` field. */
+  boxDescription?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `combineWith` field. */
+  combineWith?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `combineDescription` field. */
+  combineDescription?: Maybe<Scalars['String']>;
+};
+
+/** A connection to a list of `PackBoxType` values. */
+export type PackBoxTypesConnection = {
+  __typename?: 'PackBoxTypesConnection';
+  /** A list of `PackBoxType` objects. */
+  nodes: Array<Maybe<PackBoxType>>;
+  /** A list of edges which contains the `PackBoxType` and cursor to aid in pagination. */
+  edges: Array<PackBoxTypesEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `PackBoxType` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `PackBoxType` edge in the connection. */
+export type PackBoxTypesEdge = {
+  __typename?: 'PackBoxTypesEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `PackBoxType` at the end of the edge. */
+  node?: Maybe<PackBoxType>;
+};
+
+/** Methods to use when ordering `PackBoxType`. */
+export enum PackBoxTypesOrderBy {
+  Natural = 'NATURAL',
+  ShipperIdAsc = 'SHIPPER_ID_ASC',
+  ShipperIdDesc = 'SHIPPER_ID_DESC',
+  BoxTypeAsc = 'BOX_TYPE_ASC',
+  BoxTypeDesc = 'BOX_TYPE_DESC',
+  BoxDescriptionAsc = 'BOX_DESCRIPTION_ASC',
+  BoxDescriptionDesc = 'BOX_DESCRIPTION_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
+/**
+ * A condition to be used against `PackBoxType` object types. All fields are tested
+ * for equality and combined with a logical ‘and.’
+ */
+export type PackBoxTypeCondition = {
+  /** Checks for equality with the object’s `shipperId` field. */
+  shipperId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `boxType` field. */
+  boxType?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `boxDescription` field. */
+  boxDescription?: Maybe<Scalars['String']>;
+};
+
+/** A connection to a list of `PackDestination` values. */
+export type PackDestinationsConnection = {
+  __typename?: 'PackDestinationsConnection';
+  /** A list of `PackDestination` objects. */
+  nodes: Array<Maybe<PackDestination>>;
+  /** A list of edges which contains the `PackDestination` and cursor to aid in pagination. */
+  edges: Array<PackDestinationsEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `PackDestination` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `PackDestination` edge in the connection. */
+export type PackDestinationsEdge = {
+  __typename?: 'PackDestinationsEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `PackDestination` at the end of the edge. */
+  node?: Maybe<PackDestination>;
+};
+
+/** Methods to use when ordering `PackDestination`. */
+export enum PackDestinationsOrderBy {
+  Natural = 'NATURAL',
+  ShipperIdAsc = 'SHIPPER_ID_ASC',
+  ShipperIdDesc = 'SHIPPER_ID_DESC',
+  DestinationCodeAsc = 'DESTINATION_CODE_ASC',
+  DestinationCodeDesc = 'DESTINATION_CODE_DESC',
+  DestinationDescriptionAsc = 'DESTINATION_DESCRIPTION_ASC',
+  DestinationDescriptionDesc = 'DESTINATION_DESCRIPTION_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
+/**
+ * A condition to be used against `PackDestination` object types. All fields are
+ * tested for equality and combined with a logical ‘and.’
+ */
+export type PackDestinationCondition = {
+  /** Checks for equality with the object’s `shipperId` field. */
+  shipperId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `destinationCode` field. */
+  destinationCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `destinationDescription` field. */
+  destinationDescription?: Maybe<Scalars['String']>;
+};
+
+/** A connection to a list of `PackGrade` values. */
+export type PackGradesConnection = {
+  __typename?: 'PackGradesConnection';
+  /** A list of `PackGrade` objects. */
+  nodes: Array<Maybe<PackGrade>>;
+  /** A list of edges which contains the `PackGrade` and cursor to aid in pagination. */
+  edges: Array<PackGradesEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `PackGrade` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `PackGrade` edge in the connection. */
+export type PackGradesEdge = {
+  __typename?: 'PackGradesEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `PackGrade` at the end of the edge. */
+  node?: Maybe<PackGrade>;
+};
+
+/** Methods to use when ordering `PackGrade`. */
+export enum PackGradesOrderBy {
+  Natural = 'NATURAL',
+  ShipperIdAsc = 'SHIPPER_ID_ASC',
+  ShipperIdDesc = 'SHIPPER_ID_DESC',
+  GradeCodeAsc = 'GRADE_CODE_ASC',
+  GradeCodeDesc = 'GRADE_CODE_DESC',
+  GradeDescriptionAsc = 'GRADE_DESCRIPTION_ASC',
+  GradeDescriptionDesc = 'GRADE_DESCRIPTION_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
+/**
+ * A condition to be used against `PackGrade` object types. All fields are tested
+ * for equality and combined with a logical ‘and.’
+ */
+export type PackGradeCondition = {
+  /** Checks for equality with the object’s `shipperId` field. */
+  shipperId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `gradeCode` field. */
+  gradeCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `gradeDescription` field. */
+  gradeDescription?: Maybe<Scalars['String']>;
+};
+
+/** A connection to a list of `PackHold` values. */
+export type PackHoldsConnection = {
+  __typename?: 'PackHoldsConnection';
+  /** A list of `PackHold` objects. */
+  nodes: Array<Maybe<PackHold>>;
+  /** A list of edges which contains the `PackHold` and cursor to aid in pagination. */
+  edges: Array<PackHoldsEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `PackHold` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `PackHold` edge in the connection. */
+export type PackHoldsEdge = {
+  __typename?: 'PackHoldsEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `PackHold` at the end of the edge. */
+  node?: Maybe<PackHold>;
+};
+
+/** Methods to use when ordering `PackHold`. */
+export enum PackHoldsOrderBy {
+  Natural = 'NATURAL',
+  ShipperIdAsc = 'SHIPPER_ID_ASC',
+  ShipperIdDesc = 'SHIPPER_ID_DESC',
+  HoldCodeAsc = 'HOLD_CODE_ASC',
+  HoldCodeDesc = 'HOLD_CODE_DESC',
+  HoldDescriptionAsc = 'HOLD_DESCRIPTION_ASC',
+  HoldDescriptionDesc = 'HOLD_DESCRIPTION_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
+/**
+ * A condition to be used against `PackHold` object types. All fields are tested
+ * for equality and combined with a logical ‘and.’
+ */
+export type PackHoldCondition = {
+  /** Checks for equality with the object’s `shipperId` field. */
+  shipperId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `holdCode` field. */
+  holdCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `holdDescription` field. */
+  holdDescription?: Maybe<Scalars['String']>;
+};
+
+/** A connection to a list of `PackLabel` values. */
+export type PackLabelsConnection = {
+  __typename?: 'PackLabelsConnection';
+  /** A list of `PackLabel` objects. */
+  nodes: Array<Maybe<PackLabel>>;
+  /** A list of edges which contains the `PackLabel` and cursor to aid in pagination. */
+  edges: Array<PackLabelsEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `PackLabel` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `PackLabel` edge in the connection. */
+export type PackLabelsEdge = {
+  __typename?: 'PackLabelsEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `PackLabel` at the end of the edge. */
+  node?: Maybe<PackLabel>;
+};
+
+/** Methods to use when ordering `PackLabel`. */
+export enum PackLabelsOrderBy {
+  Natural = 'NATURAL',
+  LabelCodeAsc = 'LABEL_CODE_ASC',
+  LabelCodeDesc = 'LABEL_CODE_DESC',
+  LabelNameAsc = 'LABEL_NAME_ASC',
+  LabelNameDesc = 'LABEL_NAME_DESC',
+  ShipperIdAsc = 'SHIPPER_ID_ASC',
+  ShipperIdDesc = 'SHIPPER_ID_DESC',
+  ShipperNameAsc = 'SHIPPER_NAME_ASC',
+  ShipperNameDesc = 'SHIPPER_NAME_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
+/**
+ * A condition to be used against `PackLabel` object types. All fields are tested
+ * for equality and combined with a logical ‘and.’
+ */
+export type PackLabelCondition = {
+  /** Checks for equality with the object’s `labelCode` field. */
+  labelCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `labelName` field. */
+  labelName?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `shipperId` field. */
+  shipperId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `shipperName` field. */
+  shipperName?: Maybe<Scalars['String']>;
+};
+
+/** A connection to a list of `PackLiner` values. */
+export type PackLinersConnection = {
+  __typename?: 'PackLinersConnection';
+  /** A list of `PackLiner` objects. */
+  nodes: Array<Maybe<PackLiner>>;
+  /** A list of edges which contains the `PackLiner` and cursor to aid in pagination. */
+  edges: Array<PackLinersEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `PackLiner` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `PackLiner` edge in the connection. */
+export type PackLinersEdge = {
+  __typename?: 'PackLinersEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `PackLiner` at the end of the edge. */
+  node?: Maybe<PackLiner>;
+};
+
+/** Methods to use when ordering `PackLiner`. */
+export enum PackLinersOrderBy {
+  Natural = 'NATURAL',
+  ShipperIdAsc = 'SHIPPER_ID_ASC',
+  ShipperIdDesc = 'SHIPPER_ID_DESC',
+  LinerCodeAsc = 'LINER_CODE_ASC',
+  LinerCodeDesc = 'LINER_CODE_DESC',
+  LinerDescriptionAsc = 'LINER_DESCRIPTION_ASC',
+  LinerDescriptionDesc = 'LINER_DESCRIPTION_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
+/**
+ * A condition to be used against `PackLiner` object types. All fields are tested
+ * for equality and combined with a logical ‘and.’
+ */
+export type PackLinerCondition = {
+  /** Checks for equality with the object’s `shipperId` field. */
+  shipperId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `linerCode` field. */
+  linerCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `linerDescription` field. */
+  linerDescription?: Maybe<Scalars['String']>;
+};
+
+/** A connection to a list of `PackOut` values. */
+export type PackOutsConnection = {
+  __typename?: 'PackOutsConnection';
+  /** A list of `PackOut` objects. */
+  nodes: Array<Maybe<PackOut>>;
+  /** A list of edges which contains the `PackOut` and cursor to aid in pagination. */
+  edges: Array<PackOutsEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `PackOut` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `PackOut` edge in the connection. */
+export type PackOutsEdge = {
+  __typename?: 'PackOutsEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `PackOut` at the end of the edge. */
+  node?: Maybe<PackOut>;
+};
+
+/** Methods to use when ordering `PackOut`. */
+export enum PackOutsOrderBy {
+  Natural = 'NATURAL',
+  ShipperIdAsc = 'SHIPPER_ID_ASC',
+  ShipperIdDesc = 'SHIPPER_ID_DESC',
+  OutCodeAsc = 'OUT_CODE_ASC',
+  OutCodeDesc = 'OUT_CODE_DESC',
+  OutDescriptionAsc = 'OUT_DESCRIPTION_ASC',
+  OutDescriptionDesc = 'OUT_DESCRIPTION_DESC',
+  CombineWithAsc = 'COMBINE_WITH_ASC',
+  CombineWithDesc = 'COMBINE_WITH_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
+/** A condition to be used against `PackOut` object types. All fields are tested for equality and combined with a logical ‘and.’ */
+export type PackOutCondition = {
+  /** Checks for equality with the object’s `shipperId` field. */
+  shipperId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `outCode` field. */
+  outCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `outDescription` field. */
+  outDescription?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `combineWith` field. */
+  combineWith?: Maybe<Scalars['String']>;
+};
+
+/** A connection to a list of `PackPalletType` values. */
+export type PackPalletTypesConnection = {
+  __typename?: 'PackPalletTypesConnection';
+  /** A list of `PackPalletType` objects. */
+  nodes: Array<Maybe<PackPalletType>>;
+  /** A list of edges which contains the `PackPalletType` and cursor to aid in pagination. */
+  edges: Array<PackPalletTypesEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `PackPalletType` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `PackPalletType` edge in the connection. */
+export type PackPalletTypesEdge = {
+  __typename?: 'PackPalletTypesEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `PackPalletType` at the end of the edge. */
+  node?: Maybe<PackPalletType>;
+};
+
+/** Methods to use when ordering `PackPalletType`. */
+export enum PackPalletTypesOrderBy {
+  Natural = 'NATURAL',
+  ShipperIdAsc = 'SHIPPER_ID_ASC',
+  ShipperIdDesc = 'SHIPPER_ID_DESC',
+  PalletTypeAsc = 'PALLET_TYPE_ASC',
+  PalletTypeDesc = 'PALLET_TYPE_DESC',
+  PalletTypeDescriptionAsc = 'PALLET_TYPE_DESCRIPTION_ASC',
+  PalletTypeDescriptionDesc = 'PALLET_TYPE_DESCRIPTION_DESC',
+  CombineWithAsc = 'COMBINE_WITH_ASC',
+  CombineWithDesc = 'COMBINE_WITH_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
+/**
+ * A condition to be used against `PackPalletType` object types. All fields are
+ * tested for equality and combined with a logical ‘and.’
+ */
+export type PackPalletTypeCondition = {
+  /** Checks for equality with the object’s `shipperId` field. */
+  shipperId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `palletType` field. */
+  palletType?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `palletTypeDescription` field. */
+  palletTypeDescription?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `combineWith` field. */
+  combineWith?: Maybe<Scalars['String']>;
+};
+
+/** A connection to a list of `PackProduction` values. */
+export type PackProductionsConnection = {
+  __typename?: 'PackProductionsConnection';
+  /** A list of `PackProduction` objects. */
+  nodes: Array<Maybe<PackProduction>>;
+  /** A list of edges which contains the `PackProduction` and cursor to aid in pagination. */
+  edges: Array<PackProductionsEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `PackProduction` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `PackProduction` edge in the connection. */
+export type PackProductionsEdge = {
+  __typename?: 'PackProductionsEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `PackProduction` at the end of the edge. */
+  node?: Maybe<PackProduction>;
+};
+
+/** Methods to use when ordering `PackProduction`. */
+export enum PackProductionsOrderBy {
+  Natural = 'NATURAL',
+  ShipperIdAsc = 'SHIPPER_ID_ASC',
+  ShipperIdDesc = 'SHIPPER_ID_DESC',
+  ProductionCodeAsc = 'PRODUCTION_CODE_ASC',
+  ProductionCodeDesc = 'PRODUCTION_CODE_DESC',
+  ProductionDescriptionAsc = 'PRODUCTION_DESCRIPTION_ASC',
+  ProductionDescriptionDesc = 'PRODUCTION_DESCRIPTION_DESC',
+  CombineWithAsc = 'COMBINE_WITH_ASC',
+  CombineWithDesc = 'COMBINE_WITH_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
+/**
+ * A condition to be used against `PackProduction` object types. All fields are
+ * tested for equality and combined with a logical ‘and.’
+ */
+export type PackProductionCondition = {
+  /** Checks for equality with the object’s `shipperId` field. */
+  shipperId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `productionCode` field. */
+  productionCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `productionDescription` field. */
+  productionDescription?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `combineWith` field. */
+  combineWith?: Maybe<Scalars['String']>;
+};
+
+/** A connection to a list of `PackTreeRipe` values. */
+export type PackTreeRipesConnection = {
+  __typename?: 'PackTreeRipesConnection';
+  /** A list of `PackTreeRipe` objects. */
+  nodes: Array<Maybe<PackTreeRipe>>;
+  /** A list of edges which contains the `PackTreeRipe` and cursor to aid in pagination. */
+  edges: Array<PackTreeRipesEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `PackTreeRipe` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `PackTreeRipe` edge in the connection. */
+export type PackTreeRipesEdge = {
+  __typename?: 'PackTreeRipesEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `PackTreeRipe` at the end of the edge. */
+  node?: Maybe<PackTreeRipe>;
+};
+
+/** Methods to use when ordering `PackTreeRipe`. */
+export enum PackTreeRipesOrderBy {
+  Natural = 'NATURAL',
+  ShipperIdAsc = 'SHIPPER_ID_ASC',
+  ShipperIdDesc = 'SHIPPER_ID_DESC',
+  TreeRipeAsc = 'TREE_RIPE_ASC',
+  TreeRipeDesc = 'TREE_RIPE_DESC',
+  TreeRipeDescriptionAsc = 'TREE_RIPE_DESCRIPTION_ASC',
+  TreeRipeDescriptionDesc = 'TREE_RIPE_DESCRIPTION_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
+/**
+ * A condition to be used against `PackTreeRipe` object types. All fields are
+ * tested for equality and combined with a logical ‘and.’
+ */
+export type PackTreeRipeCondition = {
+  /** Checks for equality with the object’s `shipperId` field. */
+  shipperId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `treeRipe` field. */
+  treeRipe?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `treeRipeDescription` field. */
+  treeRipeDescription?: Maybe<Scalars['String']>;
+};
+
+/** A connection to a list of `PackStyle` values. */
+export type PackStylesConnection = {
+  __typename?: 'PackStylesConnection';
+  /** A list of `PackStyle` objects. */
+  nodes: Array<Maybe<PackStyle>>;
+  /** A list of edges which contains the `PackStyle` and cursor to aid in pagination. */
+  edges: Array<PackStylesEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `PackStyle` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `PackStyle` edge in the connection. */
+export type PackStylesEdge = {
+  __typename?: 'PackStylesEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `PackStyle` at the end of the edge. */
+  node?: Maybe<PackStyle>;
+};
+
+/** Methods to use when ordering `PackStyle`. */
+export enum PackStylesOrderBy {
+  Natural = 'NATURAL',
+  ShipperIdAsc = 'SHIPPER_ID_ASC',
+  ShipperIdDesc = 'SHIPPER_ID_DESC',
+  PackStyleAsc = 'PACK_STYLE_ASC',
+  PackStyleDesc = 'PACK_STYLE_DESC',
+  StyleDescriptionAsc = 'STYLE_DESCRIPTION_ASC',
+  StyleDescriptionDesc = 'STYLE_DESCRIPTION_DESC',
+  CombineWithAsc = 'COMBINE_WITH_ASC',
+  CombineWithDesc = 'COMBINE_WITH_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
+/**
+ * A condition to be used against `PackStyle` object types. All fields are tested
+ * for equality and combined with a logical ‘and.’
+ */
+export type PackStyleCondition = {
+  /** Checks for equality with the object’s `shipperId` field. */
+  shipperId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `packStyle` field. */
+  packStyle?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `styleDescription` field. */
+  styleDescription?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `combineWith` field. */
+  combineWith?: Maybe<Scalars['String']>;
+};
+
 /** A connection to a list of `Customer` values, with data from `PersonContact`. */
 export type ShipperCustomersByPersonContactShipperIdAndCustomerIdManyToManyConnection = {
   __typename?: 'ShipperCustomersByPersonContactShipperIdAndCustomerIdManyToManyConnection';
@@ -1965,6 +6774,191 @@ export type ShipperWarehousesByPersonContactShipperIdAndWarehouseIdManyToManyEdg
   orderBy?: Maybe<Array<PersonContactsOrderBy>>;
   condition?: Maybe<PersonContactCondition>;
   filter?: Maybe<PersonContactFilter>;
+};
+
+/** A connection to a list of `Species` values, with data from `Size`. */
+export type ShipperSpeciesBySizeShipperIdAndSpeciesIdManyToManyConnection = {
+  __typename?: 'ShipperSpeciesBySizeShipperIdAndSpeciesIdManyToManyConnection';
+  /** A list of `Species` objects. */
+  nodes: Array<Maybe<Species>>;
+  /** A list of edges which contains the `Species`, info from the `Size`, and the cursor to aid in pagination. */
+  edges: Array<ShipperSpeciesBySizeShipperIdAndSpeciesIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Species` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `Species` edge in the connection, with data from `Size`. */
+export type ShipperSpeciesBySizeShipperIdAndSpeciesIdManyToManyEdge = {
+  __typename?: 'ShipperSpeciesBySizeShipperIdAndSpeciesIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `Species` at the end of the edge. */
+  node?: Maybe<Species>;
+  /** Reads and enables pagination through a set of `Size`. */
+  sizes: SizesConnection;
+};
+
+
+/** A `Species` edge in the connection, with data from `Size`. */
+export type ShipperSpeciesBySizeShipperIdAndSpeciesIdManyToManyEdgeSizesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<SizesOrderBy>>;
+  condition?: Maybe<SizeCondition>;
+  filter?: Maybe<SizeFilter>;
+};
+
+/** A connection to a list of `Variety` values, with data from `Size`. */
+export type ShipperVarietiesBySizeShipperIdAndVarietyIdManyToManyConnection = {
+  __typename?: 'ShipperVarietiesBySizeShipperIdAndVarietyIdManyToManyConnection';
+  /** A list of `Variety` objects. */
+  nodes: Array<Maybe<Variety>>;
+  /** A list of edges which contains the `Variety`, info from the `Size`, and the cursor to aid in pagination. */
+  edges: Array<ShipperVarietiesBySizeShipperIdAndVarietyIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Variety` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `Variety` edge in the connection, with data from `Size`. */
+export type ShipperVarietiesBySizeShipperIdAndVarietyIdManyToManyEdge = {
+  __typename?: 'ShipperVarietiesBySizeShipperIdAndVarietyIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `Variety` at the end of the edge. */
+  node?: Maybe<Variety>;
+  /** Reads and enables pagination through a set of `Size`. */
+  sizes: SizesConnection;
+};
+
+
+/** A `Variety` edge in the connection, with data from `Size`. */
+export type ShipperVarietiesBySizeShipperIdAndVarietyIdManyToManyEdgeSizesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<SizesOrderBy>>;
+  condition?: Maybe<SizeCondition>;
+  filter?: Maybe<SizeFilter>;
+};
+
+/** A connection to a list of `Customer` values, with data from `PackSpecial`. */
+export type ShipperCustomersByPackSpecialShipperIdAndCustomerIdManyToManyConnection = {
+  __typename?: 'ShipperCustomersByPackSpecialShipperIdAndCustomerIdManyToManyConnection';
+  /** A list of `Customer` objects. */
+  nodes: Array<Maybe<Customer>>;
+  /** A list of edges which contains the `Customer`, info from the `PackSpecial`, and the cursor to aid in pagination. */
+  edges: Array<ShipperCustomersByPackSpecialShipperIdAndCustomerIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Customer` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `Customer` edge in the connection, with data from `PackSpecial`. */
+export type ShipperCustomersByPackSpecialShipperIdAndCustomerIdManyToManyEdge = {
+  __typename?: 'ShipperCustomersByPackSpecialShipperIdAndCustomerIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `Customer` at the end of the edge. */
+  node?: Maybe<Customer>;
+  /** Reads and enables pagination through a set of `PackSpecial`. */
+  packSpecials: PackSpecialsConnection;
+};
+
+
+/** A `Customer` edge in the connection, with data from `PackSpecial`. */
+export type ShipperCustomersByPackSpecialShipperIdAndCustomerIdManyToManyEdgePackSpecialsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PackSpecialsOrderBy>>;
+  condition?: Maybe<PackSpecialCondition>;
+  filter?: Maybe<PackSpecialFilter>;
+};
+
+/** A connection to a list of `Variety` values, with data from `PackMaster`. */
+export type ShipperVarietiesByPackMasterShipperIdAndVarietyIdManyToManyConnection = {
+  __typename?: 'ShipperVarietiesByPackMasterShipperIdAndVarietyIdManyToManyConnection';
+  /** A list of `Variety` objects. */
+  nodes: Array<Maybe<Variety>>;
+  /** A list of edges which contains the `Variety`, info from the `PackMaster`, and the cursor to aid in pagination. */
+  edges: Array<ShipperVarietiesByPackMasterShipperIdAndVarietyIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Variety` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `Variety` edge in the connection, with data from `PackMaster`. */
+export type ShipperVarietiesByPackMasterShipperIdAndVarietyIdManyToManyEdge = {
+  __typename?: 'ShipperVarietiesByPackMasterShipperIdAndVarietyIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `Variety` at the end of the edge. */
+  node?: Maybe<Variety>;
+  /** Reads and enables pagination through a set of `PackMaster`. */
+  packMasters: PackMastersConnection;
+};
+
+
+/** A `Variety` edge in the connection, with data from `PackMaster`. */
+export type ShipperVarietiesByPackMasterShipperIdAndVarietyIdManyToManyEdgePackMastersArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PackMastersOrderBy>>;
+  condition?: Maybe<PackMasterCondition>;
+  filter?: Maybe<PackMasterFilter>;
+};
+
+/** A connection to a list of `Species` values, with data from `PackMaster`. */
+export type ShipperSpeciesByPackMasterShipperIdAndSpeciesIdManyToManyConnection = {
+  __typename?: 'ShipperSpeciesByPackMasterShipperIdAndSpeciesIdManyToManyConnection';
+  /** A list of `Species` objects. */
+  nodes: Array<Maybe<Species>>;
+  /** A list of edges which contains the `Species`, info from the `PackMaster`, and the cursor to aid in pagination. */
+  edges: Array<ShipperSpeciesByPackMasterShipperIdAndSpeciesIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Species` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `Species` edge in the connection, with data from `PackMaster`. */
+export type ShipperSpeciesByPackMasterShipperIdAndSpeciesIdManyToManyEdge = {
+  __typename?: 'ShipperSpeciesByPackMasterShipperIdAndSpeciesIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `Species` at the end of the edge. */
+  node?: Maybe<Species>;
+  /** Reads and enables pagination through a set of `PackMaster`. */
+  packMasters: PackMastersConnection;
+};
+
+
+/** A `Species` edge in the connection, with data from `PackMaster`. */
+export type ShipperSpeciesByPackMasterShipperIdAndSpeciesIdManyToManyEdgePackMastersArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PackMastersOrderBy>>;
+  condition?: Maybe<PackMasterCondition>;
+  filter?: Maybe<PackMasterFilter>;
 };
 
 /** Methods to use when ordering `ContactAliasPersonContact`. */
@@ -2756,7 +7750,6 @@ export type ChileDepartureInspectionPallet = Node & {
   imagesLink?: Maybe<Scalars['String']>;
 };
 
-
 /** A `ChileDepartureInspectionPallet` edge in the connection. */
 export type ChileDepartureInspectionPalletsEdge = {
   __typename?: 'ChileDepartureInspectionPalletsEdge';
@@ -3082,32 +8075,6 @@ export type ChileDepartureInspectionPalletFilter = {
   or?: Maybe<Array<ChileDepartureInspectionPalletFilter>>;
   /** Negates the expression. */
   not?: Maybe<ChileDepartureInspectionPalletFilter>;
-};
-
-/** A filter to be used against BigFloat fields. All fields are combined with a logical ‘and.’ */
-export type BigFloatFilter = {
-  /** Is null (if `true` is specified) or is not null (if `false` is specified). */
-  isNull?: Maybe<Scalars['Boolean']>;
-  /** Equal to the specified value. */
-  equalTo?: Maybe<Scalars['BigFloat']>;
-  /** Not equal to the specified value. */
-  notEqualTo?: Maybe<Scalars['BigFloat']>;
-  /** Not equal to the specified value, treating null like an ordinary value. */
-  distinctFrom?: Maybe<Scalars['BigFloat']>;
-  /** Equal to the specified value, treating null like an ordinary value. */
-  notDistinctFrom?: Maybe<Scalars['BigFloat']>;
-  /** Included in the specified list. */
-  in?: Maybe<Array<Scalars['BigFloat']>>;
-  /** Not included in the specified list. */
-  notIn?: Maybe<Array<Scalars['BigFloat']>>;
-  /** Less than the specified value. */
-  lessThan?: Maybe<Scalars['BigFloat']>;
-  /** Less than or equal to the specified value. */
-  lessThanOrEqualTo?: Maybe<Scalars['BigFloat']>;
-  /** Greater than the specified value. */
-  greaterThan?: Maybe<Scalars['BigFloat']>;
-  /** Greater than or equal to the specified value. */
-  greaterThanOrEqualTo?: Maybe<Scalars['BigFloat']>;
 };
 
 /** A connection to a list of `PeruDepartureInspection` values. */
@@ -3614,6 +8581,276 @@ export type PeruDepartureInspectionCondition = {
   variety?: Maybe<Scalars['String']>;
 };
 
+/** A connection to a list of `PsaArrivalPicture` values. */
+export type PsaArrivalPicturesConnection = {
+  __typename?: 'PsaArrivalPicturesConnection';
+  /** A list of `PsaArrivalPicture` objects. */
+  nodes: Array<Maybe<PsaArrivalPicture>>;
+  /** A list of edges which contains the `PsaArrivalPicture` and cursor to aid in pagination. */
+  edges: Array<PsaArrivalPicturesEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `PsaArrivalPicture` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+export type PsaArrivalPicture = Node & {
+  __typename?: 'PsaArrivalPicture';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  pictureDate?: Maybe<Scalars['Date']>;
+  arrivalCode?: Maybe<Scalars['String']>;
+  pictureDescription?: Maybe<Scalars['String']>;
+  exporterId?: Maybe<Scalars['BigInt']>;
+  palletId?: Maybe<Scalars['String']>;
+  productCode?: Maybe<Scalars['String']>;
+  varietyName?: Maybe<Scalars['String']>;
+  imageUrl: Scalars['String'];
+};
+
+/** A `PsaArrivalPicture` edge in the connection. */
+export type PsaArrivalPicturesEdge = {
+  __typename?: 'PsaArrivalPicturesEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `PsaArrivalPicture` at the end of the edge. */
+  node?: Maybe<PsaArrivalPicture>;
+};
+
+/** Methods to use when ordering `PsaArrivalPicture`. */
+export enum PsaArrivalPicturesOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  PictureDateAsc = 'PICTURE_DATE_ASC',
+  PictureDateDesc = 'PICTURE_DATE_DESC',
+  ArrivalCodeAsc = 'ARRIVAL_CODE_ASC',
+  ArrivalCodeDesc = 'ARRIVAL_CODE_DESC',
+  PictureDescriptionAsc = 'PICTURE_DESCRIPTION_ASC',
+  PictureDescriptionDesc = 'PICTURE_DESCRIPTION_DESC',
+  ExporterIdAsc = 'EXPORTER_ID_ASC',
+  ExporterIdDesc = 'EXPORTER_ID_DESC',
+  PalletIdAsc = 'PALLET_ID_ASC',
+  PalletIdDesc = 'PALLET_ID_DESC',
+  ProductCodeAsc = 'PRODUCT_CODE_ASC',
+  ProductCodeDesc = 'PRODUCT_CODE_DESC',
+  VarietyNameAsc = 'VARIETY_NAME_ASC',
+  VarietyNameDesc = 'VARIETY_NAME_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
+/**
+ * A condition to be used against `PsaArrivalPicture` object types. All fields are
+ * tested for equality and combined with a logical ‘and.’
+ */
+export type PsaArrivalPictureCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `pictureDate` field. */
+  pictureDate?: Maybe<Scalars['Date']>;
+  /** Checks for equality with the object’s `arrivalCode` field. */
+  arrivalCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pictureDescription` field. */
+  pictureDescription?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `exporterId` field. */
+  exporterId?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `palletId` field. */
+  palletId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `productCode` field. */
+  productCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `varietyName` field. */
+  varietyName?: Maybe<Scalars['String']>;
+};
+
+/** A filter to be used against `PsaArrivalPicture` object types. All fields are combined with a logical ‘and.’ */
+export type PsaArrivalPictureFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `pictureDate` field. */
+  pictureDate?: Maybe<DateFilter>;
+  /** Filter by the object’s `arrivalCode` field. */
+  arrivalCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `pictureDescription` field. */
+  pictureDescription?: Maybe<StringFilter>;
+  /** Filter by the object’s `exporterId` field. */
+  exporterId?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `palletId` field. */
+  palletId?: Maybe<StringFilter>;
+  /** Filter by the object’s `productCode` field. */
+  productCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `varietyName` field. */
+  varietyName?: Maybe<StringFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<PsaArrivalPictureFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<PsaArrivalPictureFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<PsaArrivalPictureFilter>;
+};
+
+/** A connection to a list of `PsaArrivalReport` values. */
+export type PsaArrivalReportsConnection = {
+  __typename?: 'PsaArrivalReportsConnection';
+  /** A list of `PsaArrivalReport` objects. */
+  nodes: Array<Maybe<PsaArrivalReport>>;
+  /** A list of edges which contains the `PsaArrivalReport` and cursor to aid in pagination. */
+  edges: Array<PsaArrivalReportsEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `PsaArrivalReport` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+export type PsaArrivalReport = Node & {
+  __typename?: 'PsaArrivalReport';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  reportDate?: Maybe<Scalars['Date']>;
+  locationName?: Maybe<Scalars['String']>;
+  arrivalCode?: Maybe<Scalars['String']>;
+  arrivalName?: Maybe<Scalars['String']>;
+  exporterId?: Maybe<Scalars['BigInt']>;
+  exporterName?: Maybe<Scalars['String']>;
+  /** Reads and enables pagination through a set of `PsaArrivalPicture`. */
+  pictures: PsaArrivalPicturesConnection;
+  searchText?: Maybe<Scalars['String']>;
+  reportUrl: Scalars['String'];
+};
+
+
+export type PsaArrivalReportPicturesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  filter?: Maybe<PsaArrivalPictureFilter>;
+};
+
+/** A `PsaArrivalReport` edge in the connection. */
+export type PsaArrivalReportsEdge = {
+  __typename?: 'PsaArrivalReportsEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `PsaArrivalReport` at the end of the edge. */
+  node?: Maybe<PsaArrivalReport>;
+};
+
+/** Methods to use when ordering `PsaArrivalReport`. */
+export enum PsaArrivalReportsOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  ReportDateAsc = 'REPORT_DATE_ASC',
+  ReportDateDesc = 'REPORT_DATE_DESC',
+  LocationNameAsc = 'LOCATION_NAME_ASC',
+  LocationNameDesc = 'LOCATION_NAME_DESC',
+  ArrivalCodeAsc = 'ARRIVAL_CODE_ASC',
+  ArrivalCodeDesc = 'ARRIVAL_CODE_DESC',
+  ArrivalNameAsc = 'ARRIVAL_NAME_ASC',
+  ArrivalNameDesc = 'ARRIVAL_NAME_DESC',
+  ExporterIdAsc = 'EXPORTER_ID_ASC',
+  ExporterIdDesc = 'EXPORTER_ID_DESC',
+  ExporterNameAsc = 'EXPORTER_NAME_ASC',
+  ExporterNameDesc = 'EXPORTER_NAME_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
+/**
+ * A condition to be used against `PsaArrivalReport` object types. All fields are
+ * tested for equality and combined with a logical ‘and.’
+ */
+export type PsaArrivalReportCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `reportDate` field. */
+  reportDate?: Maybe<Scalars['Date']>;
+  /** Checks for equality with the object’s `locationName` field. */
+  locationName?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `arrivalCode` field. */
+  arrivalCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `arrivalName` field. */
+  arrivalName?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `exporterId` field. */
+  exporterId?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `exporterName` field. */
+  exporterName?: Maybe<Scalars['String']>;
+};
+
+/** A filter to be used against `PsaArrivalReport` object types. All fields are combined with a logical ‘and.’ */
+export type PsaArrivalReportFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `reportDate` field. */
+  reportDate?: Maybe<DateFilter>;
+  /** Filter by the object’s `locationName` field. */
+  locationName?: Maybe<StringFilter>;
+  /** Filter by the object’s `arrivalCode` field. */
+  arrivalCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `arrivalName` field. */
+  arrivalName?: Maybe<StringFilter>;
+  /** Filter by the object’s `exporterId` field. */
+  exporterId?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `exporterName` field. */
+  exporterName?: Maybe<StringFilter>;
+  /** Filter by the object’s `searchText` field. */
+  searchText?: Maybe<StringFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<PsaArrivalReportFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<PsaArrivalReportFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<PsaArrivalReportFilter>;
+};
+
+/** A connection to a list of `Species` values. */
+export type SpeciesConnection = {
+  __typename?: 'SpeciesConnection';
+  /** A list of `Species` objects. */
+  nodes: Array<Maybe<Species>>;
+  /** A list of edges which contains the `Species` and cursor to aid in pagination. */
+  edges: Array<SpeciesEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Species` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `Species` edge in the connection. */
+export type SpeciesEdge = {
+  __typename?: 'SpeciesEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `Species` at the end of the edge. */
+  node?: Maybe<Species>;
+};
+
+/** A connection to a list of `Variety` values. */
+export type VarietiesConnection = {
+  __typename?: 'VarietiesConnection';
+  /** A list of `Variety` objects. */
+  nodes: Array<Maybe<Variety>>;
+  /** A list of edges which contains the `Variety` and cursor to aid in pagination. */
+  edges: Array<VarietiesEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Variety` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `Variety` edge in the connection. */
+export type VarietiesEdge = {
+  __typename?: 'VarietiesEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `Variety` at the end of the edge. */
+  node?: Maybe<Variety>;
+};
+
 /** A connection to a list of `String` values. */
 export type DistinctValuesConnection = {
   __typename?: 'DistinctValuesConnection';
@@ -3763,6 +9000,48 @@ export type Mutation = {
   createPeruDepartureInspection?: Maybe<CreatePeruDepartureInspectionPayload>;
   /** Creates a single `PeruDepartureInspectionPallet`. */
   createPeruDepartureInspectionPallet?: Maybe<CreatePeruDepartureInspectionPalletPayload>;
+  /** Creates a single `PsaArrivalPicture`. */
+  createPsaArrivalPicture?: Maybe<CreatePsaArrivalPicturePayload>;
+  /** Creates a single `PsaArrivalReport`. */
+  createPsaArrivalReport?: Maybe<CreatePsaArrivalReportPayload>;
+  /** Creates a single `Master`. */
+  createMaster?: Maybe<CreateMasterPayload>;
+  /** Creates a single `PackAtmosphere`. */
+  createPackAtmosphere?: Maybe<CreatePackAtmospherePayload>;
+  /** Creates a single `PackBoxStyle`. */
+  createPackBoxStyle?: Maybe<CreatePackBoxStylePayload>;
+  /** Creates a single `PackBoxType`. */
+  createPackBoxType?: Maybe<CreatePackBoxTypePayload>;
+  /** Creates a single `PackDestination`. */
+  createPackDestination?: Maybe<CreatePackDestinationPayload>;
+  /** Creates a single `PackGrade`. */
+  createPackGrade?: Maybe<CreatePackGradePayload>;
+  /** Creates a single `PackHold`. */
+  createPackHold?: Maybe<CreatePackHoldPayload>;
+  /** Creates a single `PackLabel`. */
+  createPackLabel?: Maybe<CreatePackLabelPayload>;
+  /** Creates a single `PackLiner`. */
+  createPackLiner?: Maybe<CreatePackLinerPayload>;
+  /** Creates a single `PackMaster`. */
+  createPackMaster?: Maybe<CreatePackMasterPayload>;
+  /** Creates a single `PackOut`. */
+  createPackOut?: Maybe<CreatePackOutPayload>;
+  /** Creates a single `PackPalletType`. */
+  createPackPalletType?: Maybe<CreatePackPalletTypePayload>;
+  /** Creates a single `PackProduction`. */
+  createPackProduction?: Maybe<CreatePackProductionPayload>;
+  /** Creates a single `PackSpecial`. */
+  createPackSpecial?: Maybe<CreatePackSpecialPayload>;
+  /** Creates a single `PackStyle`. */
+  createPackStyle?: Maybe<CreatePackStylePayload>;
+  /** Creates a single `PackTreeRipe`. */
+  createPackTreeRipe?: Maybe<CreatePackTreeRipePayload>;
+  /** Creates a single `Size`. */
+  createSize?: Maybe<CreateSizePayload>;
+  /** Creates a single `Species`. */
+  createSpecies?: Maybe<CreateSpeciesPayload>;
+  /** Creates a single `Variety`. */
+  createVariety?: Maybe<CreateVarietyPayload>;
   /** Updates a single `ContactAlias` using its globally unique id and a patch. */
   updateContactAliasByNodeId?: Maybe<UpdateContactAliasPayload>;
   /** Updates a single `ContactAlias` using a unique key and a patch. */
@@ -3823,6 +9102,90 @@ export type Mutation = {
   updatePeruDepartureInspectionPalletByNodeId?: Maybe<UpdatePeruDepartureInspectionPalletPayload>;
   /** Updates a single `PeruDepartureInspectionPallet` using a unique key and a patch. */
   updatePeruDepartureInspectionPallet?: Maybe<UpdatePeruDepartureInspectionPalletPayload>;
+  /** Updates a single `PsaArrivalPicture` using its globally unique id and a patch. */
+  updatePsaArrivalPictureByNodeId?: Maybe<UpdatePsaArrivalPicturePayload>;
+  /** Updates a single `PsaArrivalPicture` using a unique key and a patch. */
+  updatePsaArrivalPicture?: Maybe<UpdatePsaArrivalPicturePayload>;
+  /** Updates a single `PsaArrivalReport` using its globally unique id and a patch. */
+  updatePsaArrivalReportByNodeId?: Maybe<UpdatePsaArrivalReportPayload>;
+  /** Updates a single `PsaArrivalReport` using a unique key and a patch. */
+  updatePsaArrivalReport?: Maybe<UpdatePsaArrivalReportPayload>;
+  /** Updates a single `Master` using its globally unique id and a patch. */
+  updateMasterByNodeId?: Maybe<UpdateMasterPayload>;
+  /** Updates a single `Master` using a unique key and a patch. */
+  updateMaster?: Maybe<UpdateMasterPayload>;
+  /** Updates a single `PackAtmosphere` using its globally unique id and a patch. */
+  updatePackAtmosphereByNodeId?: Maybe<UpdatePackAtmospherePayload>;
+  /** Updates a single `PackAtmosphere` using a unique key and a patch. */
+  updatePackAtmosphere?: Maybe<UpdatePackAtmospherePayload>;
+  /** Updates a single `PackBoxStyle` using its globally unique id and a patch. */
+  updatePackBoxStyleByNodeId?: Maybe<UpdatePackBoxStylePayload>;
+  /** Updates a single `PackBoxStyle` using a unique key and a patch. */
+  updatePackBoxStyle?: Maybe<UpdatePackBoxStylePayload>;
+  /** Updates a single `PackBoxType` using its globally unique id and a patch. */
+  updatePackBoxTypeByNodeId?: Maybe<UpdatePackBoxTypePayload>;
+  /** Updates a single `PackBoxType` using a unique key and a patch. */
+  updatePackBoxType?: Maybe<UpdatePackBoxTypePayload>;
+  /** Updates a single `PackDestination` using its globally unique id and a patch. */
+  updatePackDestinationByNodeId?: Maybe<UpdatePackDestinationPayload>;
+  /** Updates a single `PackDestination` using a unique key and a patch. */
+  updatePackDestination?: Maybe<UpdatePackDestinationPayload>;
+  /** Updates a single `PackGrade` using its globally unique id and a patch. */
+  updatePackGradeByNodeId?: Maybe<UpdatePackGradePayload>;
+  /** Updates a single `PackGrade` using a unique key and a patch. */
+  updatePackGrade?: Maybe<UpdatePackGradePayload>;
+  /** Updates a single `PackHold` using its globally unique id and a patch. */
+  updatePackHoldByNodeId?: Maybe<UpdatePackHoldPayload>;
+  /** Updates a single `PackHold` using a unique key and a patch. */
+  updatePackHold?: Maybe<UpdatePackHoldPayload>;
+  /** Updates a single `PackLabel` using its globally unique id and a patch. */
+  updatePackLabelByNodeId?: Maybe<UpdatePackLabelPayload>;
+  /** Updates a single `PackLabel` using a unique key and a patch. */
+  updatePackLabel?: Maybe<UpdatePackLabelPayload>;
+  /** Updates a single `PackLiner` using its globally unique id and a patch. */
+  updatePackLinerByNodeId?: Maybe<UpdatePackLinerPayload>;
+  /** Updates a single `PackLiner` using a unique key and a patch. */
+  updatePackLiner?: Maybe<UpdatePackLinerPayload>;
+  /** Updates a single `PackMaster` using its globally unique id and a patch. */
+  updatePackMasterByNodeId?: Maybe<UpdatePackMasterPayload>;
+  /** Updates a single `PackMaster` using a unique key and a patch. */
+  updatePackMaster?: Maybe<UpdatePackMasterPayload>;
+  /** Updates a single `PackOut` using its globally unique id and a patch. */
+  updatePackOutByNodeId?: Maybe<UpdatePackOutPayload>;
+  /** Updates a single `PackOut` using a unique key and a patch. */
+  updatePackOut?: Maybe<UpdatePackOutPayload>;
+  /** Updates a single `PackPalletType` using its globally unique id and a patch. */
+  updatePackPalletTypeByNodeId?: Maybe<UpdatePackPalletTypePayload>;
+  /** Updates a single `PackPalletType` using a unique key and a patch. */
+  updatePackPalletType?: Maybe<UpdatePackPalletTypePayload>;
+  /** Updates a single `PackProduction` using its globally unique id and a patch. */
+  updatePackProductionByNodeId?: Maybe<UpdatePackProductionPayload>;
+  /** Updates a single `PackProduction` using a unique key and a patch. */
+  updatePackProduction?: Maybe<UpdatePackProductionPayload>;
+  /** Updates a single `PackSpecial` using its globally unique id and a patch. */
+  updatePackSpecialByNodeId?: Maybe<UpdatePackSpecialPayload>;
+  /** Updates a single `PackSpecial` using a unique key and a patch. */
+  updatePackSpecial?: Maybe<UpdatePackSpecialPayload>;
+  /** Updates a single `PackStyle` using its globally unique id and a patch. */
+  updatePackStyleByNodeId?: Maybe<UpdatePackStylePayload>;
+  /** Updates a single `PackStyle` using a unique key and a patch. */
+  updatePackStyle?: Maybe<UpdatePackStylePayload>;
+  /** Updates a single `PackTreeRipe` using its globally unique id and a patch. */
+  updatePackTreeRipeByNodeId?: Maybe<UpdatePackTreeRipePayload>;
+  /** Updates a single `PackTreeRipe` using a unique key and a patch. */
+  updatePackTreeRipe?: Maybe<UpdatePackTreeRipePayload>;
+  /** Updates a single `Size` using its globally unique id and a patch. */
+  updateSizeByNodeId?: Maybe<UpdateSizePayload>;
+  /** Updates a single `Size` using a unique key and a patch. */
+  updateSize?: Maybe<UpdateSizePayload>;
+  /** Updates a single `Species` using its globally unique id and a patch. */
+  updateSpeciesByNodeId?: Maybe<UpdateSpeciesPayload>;
+  /** Updates a single `Species` using a unique key and a patch. */
+  updateSpecies?: Maybe<UpdateSpeciesPayload>;
+  /** Updates a single `Variety` using its globally unique id and a patch. */
+  updateVarietyByNodeId?: Maybe<UpdateVarietyPayload>;
+  /** Updates a single `Variety` using a unique key and a patch. */
+  updateVariety?: Maybe<UpdateVarietyPayload>;
   /** Deletes a single `ContactAlias` using its globally unique id. */
   deleteContactAliasByNodeId?: Maybe<DeleteContactAliasPayload>;
   /** Deletes a single `ContactAlias` using a unique key. */
@@ -3883,6 +9246,90 @@ export type Mutation = {
   deletePeruDepartureInspectionPalletByNodeId?: Maybe<DeletePeruDepartureInspectionPalletPayload>;
   /** Deletes a single `PeruDepartureInspectionPallet` using a unique key. */
   deletePeruDepartureInspectionPallet?: Maybe<DeletePeruDepartureInspectionPalletPayload>;
+  /** Deletes a single `PsaArrivalPicture` using its globally unique id. */
+  deletePsaArrivalPictureByNodeId?: Maybe<DeletePsaArrivalPicturePayload>;
+  /** Deletes a single `PsaArrivalPicture` using a unique key. */
+  deletePsaArrivalPicture?: Maybe<DeletePsaArrivalPicturePayload>;
+  /** Deletes a single `PsaArrivalReport` using its globally unique id. */
+  deletePsaArrivalReportByNodeId?: Maybe<DeletePsaArrivalReportPayload>;
+  /** Deletes a single `PsaArrivalReport` using a unique key. */
+  deletePsaArrivalReport?: Maybe<DeletePsaArrivalReportPayload>;
+  /** Deletes a single `Master` using its globally unique id. */
+  deleteMasterByNodeId?: Maybe<DeleteMasterPayload>;
+  /** Deletes a single `Master` using a unique key. */
+  deleteMaster?: Maybe<DeleteMasterPayload>;
+  /** Deletes a single `PackAtmosphere` using its globally unique id. */
+  deletePackAtmosphereByNodeId?: Maybe<DeletePackAtmospherePayload>;
+  /** Deletes a single `PackAtmosphere` using a unique key. */
+  deletePackAtmosphere?: Maybe<DeletePackAtmospherePayload>;
+  /** Deletes a single `PackBoxStyle` using its globally unique id. */
+  deletePackBoxStyleByNodeId?: Maybe<DeletePackBoxStylePayload>;
+  /** Deletes a single `PackBoxStyle` using a unique key. */
+  deletePackBoxStyle?: Maybe<DeletePackBoxStylePayload>;
+  /** Deletes a single `PackBoxType` using its globally unique id. */
+  deletePackBoxTypeByNodeId?: Maybe<DeletePackBoxTypePayload>;
+  /** Deletes a single `PackBoxType` using a unique key. */
+  deletePackBoxType?: Maybe<DeletePackBoxTypePayload>;
+  /** Deletes a single `PackDestination` using its globally unique id. */
+  deletePackDestinationByNodeId?: Maybe<DeletePackDestinationPayload>;
+  /** Deletes a single `PackDestination` using a unique key. */
+  deletePackDestination?: Maybe<DeletePackDestinationPayload>;
+  /** Deletes a single `PackGrade` using its globally unique id. */
+  deletePackGradeByNodeId?: Maybe<DeletePackGradePayload>;
+  /** Deletes a single `PackGrade` using a unique key. */
+  deletePackGrade?: Maybe<DeletePackGradePayload>;
+  /** Deletes a single `PackHold` using its globally unique id. */
+  deletePackHoldByNodeId?: Maybe<DeletePackHoldPayload>;
+  /** Deletes a single `PackHold` using a unique key. */
+  deletePackHold?: Maybe<DeletePackHoldPayload>;
+  /** Deletes a single `PackLabel` using its globally unique id. */
+  deletePackLabelByNodeId?: Maybe<DeletePackLabelPayload>;
+  /** Deletes a single `PackLabel` using a unique key. */
+  deletePackLabel?: Maybe<DeletePackLabelPayload>;
+  /** Deletes a single `PackLiner` using its globally unique id. */
+  deletePackLinerByNodeId?: Maybe<DeletePackLinerPayload>;
+  /** Deletes a single `PackLiner` using a unique key. */
+  deletePackLiner?: Maybe<DeletePackLinerPayload>;
+  /** Deletes a single `PackMaster` using its globally unique id. */
+  deletePackMasterByNodeId?: Maybe<DeletePackMasterPayload>;
+  /** Deletes a single `PackMaster` using a unique key. */
+  deletePackMaster?: Maybe<DeletePackMasterPayload>;
+  /** Deletes a single `PackOut` using its globally unique id. */
+  deletePackOutByNodeId?: Maybe<DeletePackOutPayload>;
+  /** Deletes a single `PackOut` using a unique key. */
+  deletePackOut?: Maybe<DeletePackOutPayload>;
+  /** Deletes a single `PackPalletType` using its globally unique id. */
+  deletePackPalletTypeByNodeId?: Maybe<DeletePackPalletTypePayload>;
+  /** Deletes a single `PackPalletType` using a unique key. */
+  deletePackPalletType?: Maybe<DeletePackPalletTypePayload>;
+  /** Deletes a single `PackProduction` using its globally unique id. */
+  deletePackProductionByNodeId?: Maybe<DeletePackProductionPayload>;
+  /** Deletes a single `PackProduction` using a unique key. */
+  deletePackProduction?: Maybe<DeletePackProductionPayload>;
+  /** Deletes a single `PackSpecial` using its globally unique id. */
+  deletePackSpecialByNodeId?: Maybe<DeletePackSpecialPayload>;
+  /** Deletes a single `PackSpecial` using a unique key. */
+  deletePackSpecial?: Maybe<DeletePackSpecialPayload>;
+  /** Deletes a single `PackStyle` using its globally unique id. */
+  deletePackStyleByNodeId?: Maybe<DeletePackStylePayload>;
+  /** Deletes a single `PackStyle` using a unique key. */
+  deletePackStyle?: Maybe<DeletePackStylePayload>;
+  /** Deletes a single `PackTreeRipe` using its globally unique id. */
+  deletePackTreeRipeByNodeId?: Maybe<DeletePackTreeRipePayload>;
+  /** Deletes a single `PackTreeRipe` using a unique key. */
+  deletePackTreeRipe?: Maybe<DeletePackTreeRipePayload>;
+  /** Deletes a single `Size` using its globally unique id. */
+  deleteSizeByNodeId?: Maybe<DeleteSizePayload>;
+  /** Deletes a single `Size` using a unique key. */
+  deleteSize?: Maybe<DeleteSizePayload>;
+  /** Deletes a single `Species` using its globally unique id. */
+  deleteSpeciesByNodeId?: Maybe<DeleteSpeciesPayload>;
+  /** Deletes a single `Species` using a unique key. */
+  deleteSpecies?: Maybe<DeleteSpeciesPayload>;
+  /** Deletes a single `Variety` using its globally unique id. */
+  deleteVarietyByNodeId?: Maybe<DeleteVarietyPayload>;
+  /** Deletes a single `Variety` using a unique key. */
+  deleteVariety?: Maybe<DeleteVarietyPayload>;
   bulkUpsertAgendaItem?: Maybe<BulkUpsertAgendaItemPayload>;
   bulkUpsertPriceCategory?: Maybe<BulkUpsertPriceCategoryPayload>;
   bulkUpsertPriceEntry?: Maybe<BulkUpsertPriceEntryPayload>;
@@ -3983,6 +9430,132 @@ export type MutationCreatePeruDepartureInspectionArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreatePeruDepartureInspectionPalletArgs = {
   input: CreatePeruDepartureInspectionPalletInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreatePsaArrivalPictureArgs = {
+  input: CreatePsaArrivalPictureInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreatePsaArrivalReportArgs = {
+  input: CreatePsaArrivalReportInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateMasterArgs = {
+  input: CreateMasterInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreatePackAtmosphereArgs = {
+  input: CreatePackAtmosphereInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreatePackBoxStyleArgs = {
+  input: CreatePackBoxStyleInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreatePackBoxTypeArgs = {
+  input: CreatePackBoxTypeInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreatePackDestinationArgs = {
+  input: CreatePackDestinationInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreatePackGradeArgs = {
+  input: CreatePackGradeInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreatePackHoldArgs = {
+  input: CreatePackHoldInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreatePackLabelArgs = {
+  input: CreatePackLabelInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreatePackLinerArgs = {
+  input: CreatePackLinerInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreatePackMasterArgs = {
+  input: CreatePackMasterInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreatePackOutArgs = {
+  input: CreatePackOutInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreatePackPalletTypeArgs = {
+  input: CreatePackPalletTypeInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreatePackProductionArgs = {
+  input: CreatePackProductionInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreatePackSpecialArgs = {
+  input: CreatePackSpecialInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreatePackStyleArgs = {
+  input: CreatePackStyleInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreatePackTreeRipeArgs = {
+  input: CreatePackTreeRipeInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateSizeArgs = {
+  input: CreateSizeInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateSpeciesArgs = {
+  input: CreateSpeciesInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateVarietyArgs = {
+  input: CreateVarietyInput;
 };
 
 
@@ -4167,6 +9740,258 @@ export type MutationUpdatePeruDepartureInspectionPalletArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePsaArrivalPictureByNodeIdArgs = {
+  input: UpdatePsaArrivalPictureByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePsaArrivalPictureArgs = {
+  input: UpdatePsaArrivalPictureInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePsaArrivalReportByNodeIdArgs = {
+  input: UpdatePsaArrivalReportByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePsaArrivalReportArgs = {
+  input: UpdatePsaArrivalReportInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateMasterByNodeIdArgs = {
+  input: UpdateMasterByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateMasterArgs = {
+  input: UpdateMasterInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePackAtmosphereByNodeIdArgs = {
+  input: UpdatePackAtmosphereByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePackAtmosphereArgs = {
+  input: UpdatePackAtmosphereInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePackBoxStyleByNodeIdArgs = {
+  input: UpdatePackBoxStyleByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePackBoxStyleArgs = {
+  input: UpdatePackBoxStyleInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePackBoxTypeByNodeIdArgs = {
+  input: UpdatePackBoxTypeByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePackBoxTypeArgs = {
+  input: UpdatePackBoxTypeInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePackDestinationByNodeIdArgs = {
+  input: UpdatePackDestinationByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePackDestinationArgs = {
+  input: UpdatePackDestinationInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePackGradeByNodeIdArgs = {
+  input: UpdatePackGradeByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePackGradeArgs = {
+  input: UpdatePackGradeInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePackHoldByNodeIdArgs = {
+  input: UpdatePackHoldByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePackHoldArgs = {
+  input: UpdatePackHoldInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePackLabelByNodeIdArgs = {
+  input: UpdatePackLabelByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePackLabelArgs = {
+  input: UpdatePackLabelInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePackLinerByNodeIdArgs = {
+  input: UpdatePackLinerByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePackLinerArgs = {
+  input: UpdatePackLinerInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePackMasterByNodeIdArgs = {
+  input: UpdatePackMasterByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePackMasterArgs = {
+  input: UpdatePackMasterInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePackOutByNodeIdArgs = {
+  input: UpdatePackOutByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePackOutArgs = {
+  input: UpdatePackOutInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePackPalletTypeByNodeIdArgs = {
+  input: UpdatePackPalletTypeByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePackPalletTypeArgs = {
+  input: UpdatePackPalletTypeInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePackProductionByNodeIdArgs = {
+  input: UpdatePackProductionByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePackProductionArgs = {
+  input: UpdatePackProductionInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePackSpecialByNodeIdArgs = {
+  input: UpdatePackSpecialByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePackSpecialArgs = {
+  input: UpdatePackSpecialInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePackStyleByNodeIdArgs = {
+  input: UpdatePackStyleByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePackStyleArgs = {
+  input: UpdatePackStyleInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePackTreeRipeByNodeIdArgs = {
+  input: UpdatePackTreeRipeByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePackTreeRipeArgs = {
+  input: UpdatePackTreeRipeInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateSizeByNodeIdArgs = {
+  input: UpdateSizeByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateSizeArgs = {
+  input: UpdateSizeInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateSpeciesByNodeIdArgs = {
+  input: UpdateSpeciesByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateSpeciesArgs = {
+  input: UpdateSpeciesInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateVarietyByNodeIdArgs = {
+  input: UpdateVarietyByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateVarietyArgs = {
+  input: UpdateVarietyInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteContactAliasByNodeIdArgs = {
   input: DeleteContactAliasByNodeIdInput;
 };
@@ -4343,6 +10168,258 @@ export type MutationDeletePeruDepartureInspectionPalletByNodeIdArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeletePeruDepartureInspectionPalletArgs = {
   input: DeletePeruDepartureInspectionPalletInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePsaArrivalPictureByNodeIdArgs = {
+  input: DeletePsaArrivalPictureByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePsaArrivalPictureArgs = {
+  input: DeletePsaArrivalPictureInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePsaArrivalReportByNodeIdArgs = {
+  input: DeletePsaArrivalReportByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePsaArrivalReportArgs = {
+  input: DeletePsaArrivalReportInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteMasterByNodeIdArgs = {
+  input: DeleteMasterByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteMasterArgs = {
+  input: DeleteMasterInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePackAtmosphereByNodeIdArgs = {
+  input: DeletePackAtmosphereByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePackAtmosphereArgs = {
+  input: DeletePackAtmosphereInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePackBoxStyleByNodeIdArgs = {
+  input: DeletePackBoxStyleByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePackBoxStyleArgs = {
+  input: DeletePackBoxStyleInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePackBoxTypeByNodeIdArgs = {
+  input: DeletePackBoxTypeByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePackBoxTypeArgs = {
+  input: DeletePackBoxTypeInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePackDestinationByNodeIdArgs = {
+  input: DeletePackDestinationByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePackDestinationArgs = {
+  input: DeletePackDestinationInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePackGradeByNodeIdArgs = {
+  input: DeletePackGradeByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePackGradeArgs = {
+  input: DeletePackGradeInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePackHoldByNodeIdArgs = {
+  input: DeletePackHoldByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePackHoldArgs = {
+  input: DeletePackHoldInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePackLabelByNodeIdArgs = {
+  input: DeletePackLabelByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePackLabelArgs = {
+  input: DeletePackLabelInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePackLinerByNodeIdArgs = {
+  input: DeletePackLinerByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePackLinerArgs = {
+  input: DeletePackLinerInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePackMasterByNodeIdArgs = {
+  input: DeletePackMasterByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePackMasterArgs = {
+  input: DeletePackMasterInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePackOutByNodeIdArgs = {
+  input: DeletePackOutByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePackOutArgs = {
+  input: DeletePackOutInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePackPalletTypeByNodeIdArgs = {
+  input: DeletePackPalletTypeByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePackPalletTypeArgs = {
+  input: DeletePackPalletTypeInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePackProductionByNodeIdArgs = {
+  input: DeletePackProductionByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePackProductionArgs = {
+  input: DeletePackProductionInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePackSpecialByNodeIdArgs = {
+  input: DeletePackSpecialByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePackSpecialArgs = {
+  input: DeletePackSpecialInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePackStyleByNodeIdArgs = {
+  input: DeletePackStyleByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePackStyleArgs = {
+  input: DeletePackStyleInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePackTreeRipeByNodeIdArgs = {
+  input: DeletePackTreeRipeByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePackTreeRipeArgs = {
+  input: DeletePackTreeRipeInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteSizeByNodeIdArgs = {
+  input: DeleteSizeByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteSizeArgs = {
+  input: DeleteSizeInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteSpeciesByNodeIdArgs = {
+  input: DeleteSpeciesByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteSpeciesArgs = {
+  input: DeleteSpeciesInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteVarietyByNodeIdArgs = {
+  input: DeleteVarietyByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteVarietyArgs = {
+  input: DeleteVarietyInput;
 };
 
 
@@ -4711,6 +10788,22 @@ export type UpdateShipperOnPersonContactForPersonContactShipperIdFkeyPatch = {
   website?: Maybe<Scalars['String']>;
   countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
   personContactsUsingId?: Maybe<PersonContactShipperIdFkeyInverseInput>;
+  sizesUsingId?: Maybe<SizeShipperIdFkeyInverseInput>;
+  packAtmospheresUsingId?: Maybe<PackAtmosphereShipperIdFkeyInverseInput>;
+  packBoxStylesUsingId?: Maybe<PackBoxStyleShipperIdFkeyInverseInput>;
+  packBoxTypesUsingId?: Maybe<PackBoxTypeShipperIdFkeyInverseInput>;
+  packDestinationsUsingId?: Maybe<PackDestinationShipperIdFkeyInverseInput>;
+  packGradesUsingId?: Maybe<PackGradeShipperIdFkeyInverseInput>;
+  packHoldsUsingId?: Maybe<PackHoldShipperIdFkeyInverseInput>;
+  packLabelsUsingId?: Maybe<PackLabelShipperIdFkeyInverseInput>;
+  packLinersUsingId?: Maybe<PackLinerShipperIdFkeyInverseInput>;
+  packOutsUsingId?: Maybe<PackOutShipperIdFkeyInverseInput>;
+  packPalletTypesUsingId?: Maybe<PackPalletTypeShipperIdFkeyInverseInput>;
+  packProductionsUsingId?: Maybe<PackProductionShipperIdFkeyInverseInput>;
+  packSpecialsUsingId?: Maybe<PackSpecialShipperIdFkeyInverseInput>;
+  packTreeRipesUsingId?: Maybe<PackTreeRipeShipperIdFkeyInverseInput>;
+  packStylesUsingId?: Maybe<PackStyleShipperIdFkeyInverseInput>;
+  packMastersUsingId?: Maybe<PackMasterShipperIdFkeyInverseInput>;
 };
 
 /** Input for the nested mutation of `country` in the `ShipperInput` mutation. */
@@ -4937,6 +11030,7 @@ export type UpdateCustomerOnCustomerForCustomerCountryIdFkeyPatch = {
   active?: Maybe<Scalars['Boolean']>;
   countryToCountryId?: Maybe<CustomerCountryIdFkeyInput>;
   personContactsUsingId?: Maybe<PersonContactCustomerIdFkeyInverseInput>;
+  packSpecialsUsingId?: Maybe<PackSpecialCustomerIdFkeyInverseInput>;
 };
 
 /** Input for the nested mutation of `country` in the `CustomerInput` mutation. */
@@ -5010,6 +11104,22 @@ export type UpdateShipperOnShipperForShipperCountryIdFkeyPatch = {
   website?: Maybe<Scalars['String']>;
   countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
   personContactsUsingId?: Maybe<PersonContactShipperIdFkeyInverseInput>;
+  sizesUsingId?: Maybe<SizeShipperIdFkeyInverseInput>;
+  packAtmospheresUsingId?: Maybe<PackAtmosphereShipperIdFkeyInverseInput>;
+  packBoxStylesUsingId?: Maybe<PackBoxStyleShipperIdFkeyInverseInput>;
+  packBoxTypesUsingId?: Maybe<PackBoxTypeShipperIdFkeyInverseInput>;
+  packDestinationsUsingId?: Maybe<PackDestinationShipperIdFkeyInverseInput>;
+  packGradesUsingId?: Maybe<PackGradeShipperIdFkeyInverseInput>;
+  packHoldsUsingId?: Maybe<PackHoldShipperIdFkeyInverseInput>;
+  packLabelsUsingId?: Maybe<PackLabelShipperIdFkeyInverseInput>;
+  packLinersUsingId?: Maybe<PackLinerShipperIdFkeyInverseInput>;
+  packOutsUsingId?: Maybe<PackOutShipperIdFkeyInverseInput>;
+  packPalletTypesUsingId?: Maybe<PackPalletTypeShipperIdFkeyInverseInput>;
+  packProductionsUsingId?: Maybe<PackProductionShipperIdFkeyInverseInput>;
+  packSpecialsUsingId?: Maybe<PackSpecialShipperIdFkeyInverseInput>;
+  packTreeRipesUsingId?: Maybe<PackTreeRipeShipperIdFkeyInverseInput>;
+  packStylesUsingId?: Maybe<PackStyleShipperIdFkeyInverseInput>;
+  packMastersUsingId?: Maybe<PackMasterShipperIdFkeyInverseInput>;
 };
 
 /** Input for the nested mutation of `personContact` in the `ShipperInput` mutation. */
@@ -5104,6 +11214,7 @@ export type UpdateCustomerOnPersonContactForPersonContactCustomerIdFkeyPatch = {
   active?: Maybe<Scalars['Boolean']>;
   countryToCountryId?: Maybe<CustomerCountryIdFkeyInput>;
   personContactsUsingId?: Maybe<PersonContactCustomerIdFkeyInverseInput>;
+  packSpecialsUsingId?: Maybe<PackSpecialCustomerIdFkeyInverseInput>;
 };
 
 /** Input for the nested mutation of `personContact` in the `CustomerInput` mutation. */
@@ -5446,8 +11557,1796 @@ export type PersonContactCustomerIdFkeyPersonContactCreateInput = {
   contactAliasPersonContactsUsingId?: Maybe<ContactAliasPersonContactPersonContactIdFkeyInverseInput>;
 };
 
+/** Input for the nested mutation of `packSpecial` in the `CustomerInput` mutation. */
+export type PackSpecialCustomerIdFkeyInverseInput = {
+  /** Flag indicating whether all other `packSpecial` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `packSpecial` for the far side of the relationship. */
+  connectByShipperIdAndCustomerCode?: Maybe<Array<PackSpecialPackSpecialPkeyConnect>>;
+  /** The primary key(s) for `packSpecial` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<PackSpecialNodeIdConnect>>;
+  /** The primary key(s) for `packSpecial` for the far side of the relationship. */
+  deleteByShipperIdAndCustomerCode?: Maybe<Array<PackSpecialPackSpecialPkeyDelete>>;
+  /** The primary key(s) for `packSpecial` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<PackSpecialNodeIdDelete>>;
+  /** The primary key(s) and patch data for `packSpecial` for the far side of the relationship. */
+  updateByShipperIdAndCustomerCode?: Maybe<Array<PackSpecialOnPackSpecialForPackSpecialCustomerIdFkeyUsingPackSpecialPkeyUpdate>>;
+  /** The primary key(s) and patch data for `packSpecial` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<CustomerOnPackSpecialForPackSpecialCustomerIdFkeyNodeIdUpdate>>;
+  /** A `PackSpecialInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<PackSpecialCustomerIdFkeyPackSpecialCreateInput>>;
+};
+
+/** The fields on `packSpecial` to look up the row to connect. */
+export type PackSpecialPackSpecialPkeyConnect = {
+  shipperId: Scalars['String'];
+  customerCode: Scalars['String'];
+};
+
+/** The globally unique `ID` look up for the row to connect. */
+export type PackSpecialNodeIdConnect = {
+  /** The globally unique `ID` which identifies a single `packSpecial` to be connected. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `packSpecial` to look up the row to delete. */
+export type PackSpecialPackSpecialPkeyDelete = {
+  shipperId: Scalars['String'];
+  customerCode: Scalars['String'];
+};
+
+/** The globally unique `ID` look up for the row to delete. */
+export type PackSpecialNodeIdDelete = {
+  /** The globally unique `ID` which identifies a single `packSpecial` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `packSpecial` to look up the row to update. */
+export type PackSpecialOnPackSpecialForPackSpecialCustomerIdFkeyUsingPackSpecialPkeyUpdate = {
+  /** An object where the defined keys will be set on the `packSpecial` being updated. */
+  patch: UpdatePackSpecialOnPackSpecialForPackSpecialCustomerIdFkeyPatch;
+  shipperId: Scalars['String'];
+  customerCode: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `packSpecial` being updated. */
+export type UpdatePackSpecialOnPackSpecialForPackSpecialCustomerIdFkeyPatch = {
+  shipperId?: Maybe<Scalars['String']>;
+  customerCode?: Maybe<Scalars['String']>;
+  customerName?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackSpecialShipperIdFkeyInput>;
+  customerToCustomerId?: Maybe<PackSpecialCustomerIdFkeyInput>;
+  packMastersUsingCustomerCodeAndShipperId?: Maybe<PackMasterCustomerCodeShipperIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `shipper` in the `PackSpecialInput` mutation. */
+export type PackSpecialShipperIdFkeyInput = {
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  connectById?: Maybe<ShipperShipperPkeyConnect>;
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  connectByNodeId?: Maybe<ShipperNodeIdConnect>;
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  deleteById?: Maybe<ShipperShipperPkeyDelete>;
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<ShipperNodeIdDelete>;
+  /** The primary key(s) and patch data for `shipper` for the far side of the relationship. */
+  updateById?: Maybe<ShipperOnPackSpecialForPackSpecialShipperIdFkeyUsingShipperPkeyUpdate>;
+  /** The primary key(s) and patch data for `shipper` for the far side of the relationship. */
+  updateByNodeId?: Maybe<PackSpecialOnPackSpecialForPackSpecialShipperIdFkeyNodeIdUpdate>;
+  /** A `ShipperInput` object that will be created and connected to this object. */
+  create?: Maybe<PackSpecialShipperIdFkeyShipperCreateInput>;
+};
+
+/** The fields on `shipper` to look up the row to update. */
+export type ShipperOnPackSpecialForPackSpecialShipperIdFkeyUsingShipperPkeyUpdate = {
+  /** An object where the defined keys will be set on the `shipper` being updated. */
+  patch: UpdateShipperOnPackSpecialForPackSpecialShipperIdFkeyPatch;
+  id: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `shipper` being updated. */
+export type UpdateShipperOnPackSpecialForPackSpecialShipperIdFkeyPatch = {
+  id?: Maybe<Scalars['String']>;
+  shipperName?: Maybe<Scalars['String']>;
+  countryId?: Maybe<Scalars['String']>;
+  groupId?: Maybe<Scalars['String']>;
+  logoSrc?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
+  countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
+  personContactsUsingId?: Maybe<PersonContactShipperIdFkeyInverseInput>;
+  sizesUsingId?: Maybe<SizeShipperIdFkeyInverseInput>;
+  packAtmospheresUsingId?: Maybe<PackAtmosphereShipperIdFkeyInverseInput>;
+  packBoxStylesUsingId?: Maybe<PackBoxStyleShipperIdFkeyInverseInput>;
+  packBoxTypesUsingId?: Maybe<PackBoxTypeShipperIdFkeyInverseInput>;
+  packDestinationsUsingId?: Maybe<PackDestinationShipperIdFkeyInverseInput>;
+  packGradesUsingId?: Maybe<PackGradeShipperIdFkeyInverseInput>;
+  packHoldsUsingId?: Maybe<PackHoldShipperIdFkeyInverseInput>;
+  packLabelsUsingId?: Maybe<PackLabelShipperIdFkeyInverseInput>;
+  packLinersUsingId?: Maybe<PackLinerShipperIdFkeyInverseInput>;
+  packOutsUsingId?: Maybe<PackOutShipperIdFkeyInverseInput>;
+  packPalletTypesUsingId?: Maybe<PackPalletTypeShipperIdFkeyInverseInput>;
+  packProductionsUsingId?: Maybe<PackProductionShipperIdFkeyInverseInput>;
+  packSpecialsUsingId?: Maybe<PackSpecialShipperIdFkeyInverseInput>;
+  packTreeRipesUsingId?: Maybe<PackTreeRipeShipperIdFkeyInverseInput>;
+  packStylesUsingId?: Maybe<PackStyleShipperIdFkeyInverseInput>;
+  packMastersUsingId?: Maybe<PackMasterShipperIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `size` in the `ShipperInput` mutation. */
+export type SizeShipperIdFkeyInverseInput = {
+  /** Flag indicating whether all other `size` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `size` for the far side of the relationship. */
+  connectById?: Maybe<Array<SizeSizePkeyConnect>>;
+  /** The primary key(s) for `size` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<SizeNodeIdConnect>>;
+  /** The primary key(s) for `size` for the far side of the relationship. */
+  deleteById?: Maybe<Array<SizeSizePkeyDelete>>;
+  /** The primary key(s) for `size` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<SizeNodeIdDelete>>;
+  /** The primary key(s) and patch data for `size` for the far side of the relationship. */
+  updateById?: Maybe<Array<SizeOnSizeForSizeShipperIdFkeyUsingSizePkeyUpdate>>;
+  /** The primary key(s) and patch data for `size` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<ShipperOnSizeForSizeShipperIdFkeyNodeIdUpdate>>;
+  /** A `SizeInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<SizeShipperIdFkeySizeCreateInput>>;
+};
+
+/** The fields on `size` to look up the row to connect. */
+export type SizeSizePkeyConnect = {
+  id: Scalars['BigInt'];
+};
+
+/** The globally unique `ID` look up for the row to connect. */
+export type SizeNodeIdConnect = {
+  /** The globally unique `ID` which identifies a single `size` to be connected. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `size` to look up the row to delete. */
+export type SizeSizePkeyDelete = {
+  id: Scalars['BigInt'];
+};
+
+/** The globally unique `ID` look up for the row to delete. */
+export type SizeNodeIdDelete = {
+  /** The globally unique `ID` which identifies a single `size` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `size` to look up the row to update. */
+export type SizeOnSizeForSizeShipperIdFkeyUsingSizePkeyUpdate = {
+  /** An object where the defined keys will be set on the `size` being updated. */
+  patch: UpdateSizeOnSizeForSizeShipperIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `size` being updated. */
+export type UpdateSizeOnSizeForSizeShipperIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  speciesId?: Maybe<Scalars['String']>;
+  varietyId?: Maybe<Scalars['String']>;
+  jvCode?: Maybe<Scalars['String']>;
+  jvDescription?: Maybe<Scalars['String']>;
+  shipperCode?: Maybe<Scalars['String']>;
+  shipperDescription?: Maybe<Scalars['String']>;
+  combinedCode?: Maybe<Scalars['String']>;
+  combinedDescription?: Maybe<Scalars['String']>;
+  speciesToSpeciesId?: Maybe<SizeSpeciesIdFkeyInput>;
+  varietyToVarietyId?: Maybe<SizeVarietyIdFkeyInput>;
+  shipperToShipperId?: Maybe<SizeShipperIdFkeyInput>;
+  mastersUsingId?: Maybe<MasterSizeIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `species` in the `SizeInput` mutation. */
+export type SizeSpeciesIdFkeyInput = {
+  /** The primary key(s) for `species` for the far side of the relationship. */
+  connectById?: Maybe<SpeciesSpeciesPkeyConnect>;
+  /** The primary key(s) for `species` for the far side of the relationship. */
+  connectByNodeId?: Maybe<SpeciesNodeIdConnect>;
+  /** The primary key(s) for `species` for the far side of the relationship. */
+  deleteById?: Maybe<SpeciesSpeciesPkeyDelete>;
+  /** The primary key(s) for `species` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<SpeciesNodeIdDelete>;
+  /** The primary key(s) and patch data for `species` for the far side of the relationship. */
+  updateById?: Maybe<SpeciesOnSizeForSizeSpeciesIdFkeyUsingSpeciesPkeyUpdate>;
+  /** The primary key(s) and patch data for `species` for the far side of the relationship. */
+  updateByNodeId?: Maybe<SizeOnSizeForSizeSpeciesIdFkeyNodeIdUpdate>;
+  /** A `SpeciesInput` object that will be created and connected to this object. */
+  create?: Maybe<SizeSpeciesIdFkeySpeciesCreateInput>;
+};
+
+/** The fields on `species` to look up the row to connect. */
+export type SpeciesSpeciesPkeyConnect = {
+  id: Scalars['String'];
+};
+
+/** The globally unique `ID` look up for the row to connect. */
+export type SpeciesNodeIdConnect = {
+  /** The globally unique `ID` which identifies a single `species` to be connected. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `species` to look up the row to delete. */
+export type SpeciesSpeciesPkeyDelete = {
+  id: Scalars['String'];
+};
+
+/** The globally unique `ID` look up for the row to delete. */
+export type SpeciesNodeIdDelete = {
+  /** The globally unique `ID` which identifies a single `species` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `species` to look up the row to update. */
+export type SpeciesOnSizeForSizeSpeciesIdFkeyUsingSpeciesPkeyUpdate = {
+  /** An object where the defined keys will be set on the `species` being updated. */
+  patch: UpdateSpeciesOnSizeForSizeSpeciesIdFkeyPatch;
+  id: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `species` being updated. */
+export type UpdateSpeciesOnSizeForSizeSpeciesIdFkeyPatch = {
+  id?: Maybe<Scalars['String']>;
+  speciesDescription?: Maybe<Scalars['String']>;
+  secondaryDescription?: Maybe<Scalars['String']>;
+  fdaProductCode?: Maybe<Scalars['String']>;
+  fdaIndustryCode?: Maybe<Scalars['String']>;
+  defaultTemperature?: Maybe<Scalars['String']>;
+  sizesUsingId?: Maybe<SizeSpeciesIdFkeyInverseInput>;
+  packMastersUsingId?: Maybe<PackMasterSpeciesIdFkeyInverseInput>;
+  mastersUsingId?: Maybe<MasterSpeciesIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `size` in the `SpeciesInput` mutation. */
+export type SizeSpeciesIdFkeyInverseInput = {
+  /** Flag indicating whether all other `size` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `size` for the far side of the relationship. */
+  connectById?: Maybe<Array<SizeSizePkeyConnect>>;
+  /** The primary key(s) for `size` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<SizeNodeIdConnect>>;
+  /** The primary key(s) for `size` for the far side of the relationship. */
+  deleteById?: Maybe<Array<SizeSizePkeyDelete>>;
+  /** The primary key(s) for `size` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<SizeNodeIdDelete>>;
+  /** The primary key(s) and patch data for `size` for the far side of the relationship. */
+  updateById?: Maybe<Array<SizeOnSizeForSizeSpeciesIdFkeyUsingSizePkeyUpdate>>;
+  /** The primary key(s) and patch data for `size` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<SpeciesOnSizeForSizeSpeciesIdFkeyNodeIdUpdate>>;
+  /** A `SizeInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<SizeSpeciesIdFkeySizeCreateInput>>;
+};
+
+/** The fields on `size` to look up the row to update. */
+export type SizeOnSizeForSizeSpeciesIdFkeyUsingSizePkeyUpdate = {
+  /** An object where the defined keys will be set on the `size` being updated. */
+  patch: UpdateSizeOnSizeForSizeSpeciesIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `size` being updated. */
+export type UpdateSizeOnSizeForSizeSpeciesIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  varietyId?: Maybe<Scalars['String']>;
+  jvCode?: Maybe<Scalars['String']>;
+  jvDescription?: Maybe<Scalars['String']>;
+  shipperCode?: Maybe<Scalars['String']>;
+  shipperDescription?: Maybe<Scalars['String']>;
+  combinedCode?: Maybe<Scalars['String']>;
+  combinedDescription?: Maybe<Scalars['String']>;
+  shipperId?: Maybe<Scalars['String']>;
+  speciesToSpeciesId?: Maybe<SizeSpeciesIdFkeyInput>;
+  varietyToVarietyId?: Maybe<SizeVarietyIdFkeyInput>;
+  shipperToShipperId?: Maybe<SizeShipperIdFkeyInput>;
+  mastersUsingId?: Maybe<MasterSizeIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `variety` in the `SizeInput` mutation. */
+export type SizeVarietyIdFkeyInput = {
+  /** The primary key(s) for `variety` for the far side of the relationship. */
+  connectById?: Maybe<VarietyVarietyPkeyConnect>;
+  /** The primary key(s) for `variety` for the far side of the relationship. */
+  connectByNodeId?: Maybe<VarietyNodeIdConnect>;
+  /** The primary key(s) for `variety` for the far side of the relationship. */
+  deleteById?: Maybe<VarietyVarietyPkeyDelete>;
+  /** The primary key(s) for `variety` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<VarietyNodeIdDelete>;
+  /** The primary key(s) and patch data for `variety` for the far side of the relationship. */
+  updateById?: Maybe<VarietyOnSizeForSizeVarietyIdFkeyUsingVarietyPkeyUpdate>;
+  /** The primary key(s) and patch data for `variety` for the far side of the relationship. */
+  updateByNodeId?: Maybe<SizeOnSizeForSizeVarietyIdFkeyNodeIdUpdate>;
+  /** A `VarietyInput` object that will be created and connected to this object. */
+  create?: Maybe<SizeVarietyIdFkeyVarietyCreateInput>;
+};
+
+/** The fields on `variety` to look up the row to connect. */
+export type VarietyVarietyPkeyConnect = {
+  id: Scalars['String'];
+};
+
+/** The globally unique `ID` look up for the row to connect. */
+export type VarietyNodeIdConnect = {
+  /** The globally unique `ID` which identifies a single `variety` to be connected. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `variety` to look up the row to delete. */
+export type VarietyVarietyPkeyDelete = {
+  id: Scalars['String'];
+};
+
+/** The globally unique `ID` look up for the row to delete. */
+export type VarietyNodeIdDelete = {
+  /** The globally unique `ID` which identifies a single `variety` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `variety` to look up the row to update. */
+export type VarietyOnSizeForSizeVarietyIdFkeyUsingVarietyPkeyUpdate = {
+  /** An object where the defined keys will be set on the `variety` being updated. */
+  patch: UpdateVarietyOnSizeForSizeVarietyIdFkeyPatch;
+  id: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `variety` being updated. */
+export type UpdateVarietyOnSizeForSizeVarietyIdFkeyPatch = {
+  id?: Maybe<Scalars['String']>;
+  varietyDescription?: Maybe<Scalars['String']>;
+  secondaryDescription?: Maybe<Scalars['String']>;
+  customerLetterSequence?: Maybe<Scalars['String']>;
+  summaryCode?: Maybe<Scalars['String']>;
+  varietyGroup?: Maybe<Scalars['String']>;
+  combineWith?: Maybe<Scalars['String']>;
+  sizesUsingId?: Maybe<SizeVarietyIdFkeyInverseInput>;
+  packMastersUsingId?: Maybe<PackMasterVarietyIdFkeyInverseInput>;
+  mastersUsingId?: Maybe<MasterVarietyIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `size` in the `VarietyInput` mutation. */
+export type SizeVarietyIdFkeyInverseInput = {
+  /** Flag indicating whether all other `size` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `size` for the far side of the relationship. */
+  connectById?: Maybe<Array<SizeSizePkeyConnect>>;
+  /** The primary key(s) for `size` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<SizeNodeIdConnect>>;
+  /** The primary key(s) for `size` for the far side of the relationship. */
+  deleteById?: Maybe<Array<SizeSizePkeyDelete>>;
+  /** The primary key(s) for `size` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<SizeNodeIdDelete>>;
+  /** The primary key(s) and patch data for `size` for the far side of the relationship. */
+  updateById?: Maybe<Array<SizeOnSizeForSizeVarietyIdFkeyUsingSizePkeyUpdate>>;
+  /** The primary key(s) and patch data for `size` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<VarietyOnSizeForSizeVarietyIdFkeyNodeIdUpdate>>;
+  /** A `SizeInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<SizeVarietyIdFkeySizeCreateInput>>;
+};
+
+/** The fields on `size` to look up the row to update. */
+export type SizeOnSizeForSizeVarietyIdFkeyUsingSizePkeyUpdate = {
+  /** An object where the defined keys will be set on the `size` being updated. */
+  patch: UpdateSizeOnSizeForSizeVarietyIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `size` being updated. */
+export type UpdateSizeOnSizeForSizeVarietyIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  speciesId?: Maybe<Scalars['String']>;
+  jvCode?: Maybe<Scalars['String']>;
+  jvDescription?: Maybe<Scalars['String']>;
+  shipperCode?: Maybe<Scalars['String']>;
+  shipperDescription?: Maybe<Scalars['String']>;
+  combinedCode?: Maybe<Scalars['String']>;
+  combinedDescription?: Maybe<Scalars['String']>;
+  shipperId?: Maybe<Scalars['String']>;
+  speciesToSpeciesId?: Maybe<SizeSpeciesIdFkeyInput>;
+  varietyToVarietyId?: Maybe<SizeVarietyIdFkeyInput>;
+  shipperToShipperId?: Maybe<SizeShipperIdFkeyInput>;
+  mastersUsingId?: Maybe<MasterSizeIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `shipper` in the `SizeInput` mutation. */
+export type SizeShipperIdFkeyInput = {
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  connectById?: Maybe<ShipperShipperPkeyConnect>;
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  connectByNodeId?: Maybe<ShipperNodeIdConnect>;
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  deleteById?: Maybe<ShipperShipperPkeyDelete>;
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<ShipperNodeIdDelete>;
+  /** The primary key(s) and patch data for `shipper` for the far side of the relationship. */
+  updateById?: Maybe<ShipperOnSizeForSizeShipperIdFkeyUsingShipperPkeyUpdate>;
+  /** The primary key(s) and patch data for `shipper` for the far side of the relationship. */
+  updateByNodeId?: Maybe<SizeOnSizeForSizeShipperIdFkeyNodeIdUpdate>;
+  /** A `ShipperInput` object that will be created and connected to this object. */
+  create?: Maybe<SizeShipperIdFkeyShipperCreateInput>;
+};
+
+/** The fields on `shipper` to look up the row to update. */
+export type ShipperOnSizeForSizeShipperIdFkeyUsingShipperPkeyUpdate = {
+  /** An object where the defined keys will be set on the `shipper` being updated. */
+  patch: UpdateShipperOnSizeForSizeShipperIdFkeyPatch;
+  id: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `shipper` being updated. */
+export type UpdateShipperOnSizeForSizeShipperIdFkeyPatch = {
+  id?: Maybe<Scalars['String']>;
+  shipperName?: Maybe<Scalars['String']>;
+  countryId?: Maybe<Scalars['String']>;
+  groupId?: Maybe<Scalars['String']>;
+  logoSrc?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
+  countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
+  personContactsUsingId?: Maybe<PersonContactShipperIdFkeyInverseInput>;
+  sizesUsingId?: Maybe<SizeShipperIdFkeyInverseInput>;
+  packAtmospheresUsingId?: Maybe<PackAtmosphereShipperIdFkeyInverseInput>;
+  packBoxStylesUsingId?: Maybe<PackBoxStyleShipperIdFkeyInverseInput>;
+  packBoxTypesUsingId?: Maybe<PackBoxTypeShipperIdFkeyInverseInput>;
+  packDestinationsUsingId?: Maybe<PackDestinationShipperIdFkeyInverseInput>;
+  packGradesUsingId?: Maybe<PackGradeShipperIdFkeyInverseInput>;
+  packHoldsUsingId?: Maybe<PackHoldShipperIdFkeyInverseInput>;
+  packLabelsUsingId?: Maybe<PackLabelShipperIdFkeyInverseInput>;
+  packLinersUsingId?: Maybe<PackLinerShipperIdFkeyInverseInput>;
+  packOutsUsingId?: Maybe<PackOutShipperIdFkeyInverseInput>;
+  packPalletTypesUsingId?: Maybe<PackPalletTypeShipperIdFkeyInverseInput>;
+  packProductionsUsingId?: Maybe<PackProductionShipperIdFkeyInverseInput>;
+  packSpecialsUsingId?: Maybe<PackSpecialShipperIdFkeyInverseInput>;
+  packTreeRipesUsingId?: Maybe<PackTreeRipeShipperIdFkeyInverseInput>;
+  packStylesUsingId?: Maybe<PackStyleShipperIdFkeyInverseInput>;
+  packMastersUsingId?: Maybe<PackMasterShipperIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `packAtmosphere` in the `ShipperInput` mutation. */
+export type PackAtmosphereShipperIdFkeyInverseInput = {
+  /** Flag indicating whether all other `packAtmosphere` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `packAtmosphere` for the far side of the relationship. */
+  connectByShipperIdAndMaCode?: Maybe<Array<PackAtmospherePackAtmospherePkeyConnect>>;
+  /** The primary key(s) for `packAtmosphere` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<PackAtmosphereNodeIdConnect>>;
+  /** The primary key(s) for `packAtmosphere` for the far side of the relationship. */
+  deleteByShipperIdAndMaCode?: Maybe<Array<PackAtmospherePackAtmospherePkeyDelete>>;
+  /** The primary key(s) for `packAtmosphere` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<PackAtmosphereNodeIdDelete>>;
+  /** The primary key(s) and patch data for `packAtmosphere` for the far side of the relationship. */
+  updateByShipperIdAndMaCode?: Maybe<Array<PackAtmosphereOnPackAtmosphereForPackAtmosphereShipperIdFkeyUsingPackAtmospherePkeyUpdate>>;
+  /** The primary key(s) and patch data for `packAtmosphere` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<ShipperOnPackAtmosphereForPackAtmosphereShipperIdFkeyNodeIdUpdate>>;
+  /** A `PackAtmosphereInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<PackAtmosphereShipperIdFkeyPackAtmosphereCreateInput>>;
+};
+
+/** The fields on `packAtmosphere` to look up the row to connect. */
+export type PackAtmospherePackAtmospherePkeyConnect = {
+  shipperId: Scalars['String'];
+  maCode: Scalars['String'];
+};
+
+/** The globally unique `ID` look up for the row to connect. */
+export type PackAtmosphereNodeIdConnect = {
+  /** The globally unique `ID` which identifies a single `packAtmosphere` to be connected. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `packAtmosphere` to look up the row to delete. */
+export type PackAtmospherePackAtmospherePkeyDelete = {
+  shipperId: Scalars['String'];
+  maCode: Scalars['String'];
+};
+
+/** The globally unique `ID` look up for the row to delete. */
+export type PackAtmosphereNodeIdDelete = {
+  /** The globally unique `ID` which identifies a single `packAtmosphere` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `packAtmosphere` to look up the row to update. */
+export type PackAtmosphereOnPackAtmosphereForPackAtmosphereShipperIdFkeyUsingPackAtmospherePkeyUpdate = {
+  /** An object where the defined keys will be set on the `packAtmosphere` being updated. */
+  patch: UpdatePackAtmosphereOnPackAtmosphereForPackAtmosphereShipperIdFkeyPatch;
+  shipperId: Scalars['String'];
+  maCode: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `packAtmosphere` being updated. */
+export type UpdatePackAtmosphereOnPackAtmosphereForPackAtmosphereShipperIdFkeyPatch = {
+  maCode?: Maybe<Scalars['String']>;
+  maDescription?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackAtmosphereShipperIdFkeyInput>;
+  packMastersUsingMaCodeAndShipperId?: Maybe<PackMasterMaCodeShipperIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `shipper` in the `PackAtmosphereInput` mutation. */
+export type PackAtmosphereShipperIdFkeyInput = {
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  connectById?: Maybe<ShipperShipperPkeyConnect>;
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  connectByNodeId?: Maybe<ShipperNodeIdConnect>;
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  deleteById?: Maybe<ShipperShipperPkeyDelete>;
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<ShipperNodeIdDelete>;
+  /** The primary key(s) and patch data for `shipper` for the far side of the relationship. */
+  updateById?: Maybe<ShipperOnPackAtmosphereForPackAtmosphereShipperIdFkeyUsingShipperPkeyUpdate>;
+  /** The primary key(s) and patch data for `shipper` for the far side of the relationship. */
+  updateByNodeId?: Maybe<PackAtmosphereOnPackAtmosphereForPackAtmosphereShipperIdFkeyNodeIdUpdate>;
+  /** A `ShipperInput` object that will be created and connected to this object. */
+  create?: Maybe<PackAtmosphereShipperIdFkeyShipperCreateInput>;
+};
+
+/** The fields on `shipper` to look up the row to update. */
+export type ShipperOnPackAtmosphereForPackAtmosphereShipperIdFkeyUsingShipperPkeyUpdate = {
+  /** An object where the defined keys will be set on the `shipper` being updated. */
+  patch: UpdateShipperOnPackAtmosphereForPackAtmosphereShipperIdFkeyPatch;
+  id: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `shipper` being updated. */
+export type UpdateShipperOnPackAtmosphereForPackAtmosphereShipperIdFkeyPatch = {
+  id?: Maybe<Scalars['String']>;
+  shipperName?: Maybe<Scalars['String']>;
+  countryId?: Maybe<Scalars['String']>;
+  groupId?: Maybe<Scalars['String']>;
+  logoSrc?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
+  countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
+  personContactsUsingId?: Maybe<PersonContactShipperIdFkeyInverseInput>;
+  sizesUsingId?: Maybe<SizeShipperIdFkeyInverseInput>;
+  packAtmospheresUsingId?: Maybe<PackAtmosphereShipperIdFkeyInverseInput>;
+  packBoxStylesUsingId?: Maybe<PackBoxStyleShipperIdFkeyInverseInput>;
+  packBoxTypesUsingId?: Maybe<PackBoxTypeShipperIdFkeyInverseInput>;
+  packDestinationsUsingId?: Maybe<PackDestinationShipperIdFkeyInverseInput>;
+  packGradesUsingId?: Maybe<PackGradeShipperIdFkeyInverseInput>;
+  packHoldsUsingId?: Maybe<PackHoldShipperIdFkeyInverseInput>;
+  packLabelsUsingId?: Maybe<PackLabelShipperIdFkeyInverseInput>;
+  packLinersUsingId?: Maybe<PackLinerShipperIdFkeyInverseInput>;
+  packOutsUsingId?: Maybe<PackOutShipperIdFkeyInverseInput>;
+  packPalletTypesUsingId?: Maybe<PackPalletTypeShipperIdFkeyInverseInput>;
+  packProductionsUsingId?: Maybe<PackProductionShipperIdFkeyInverseInput>;
+  packSpecialsUsingId?: Maybe<PackSpecialShipperIdFkeyInverseInput>;
+  packTreeRipesUsingId?: Maybe<PackTreeRipeShipperIdFkeyInverseInput>;
+  packStylesUsingId?: Maybe<PackStyleShipperIdFkeyInverseInput>;
+  packMastersUsingId?: Maybe<PackMasterShipperIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `packBoxStyle` in the `ShipperInput` mutation. */
+export type PackBoxStyleShipperIdFkeyInverseInput = {
+  /** Flag indicating whether all other `packBoxStyle` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `packBoxStyle` for the far side of the relationship. */
+  connectByShipperIdAndBoxStyle?: Maybe<Array<PackBoxStylePackBoxStylePkeyConnect>>;
+  /** The primary key(s) for `packBoxStyle` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<PackBoxStyleNodeIdConnect>>;
+  /** The primary key(s) for `packBoxStyle` for the far side of the relationship. */
+  deleteByShipperIdAndBoxStyle?: Maybe<Array<PackBoxStylePackBoxStylePkeyDelete>>;
+  /** The primary key(s) for `packBoxStyle` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<PackBoxStyleNodeIdDelete>>;
+  /** The primary key(s) and patch data for `packBoxStyle` for the far side of the relationship. */
+  updateByShipperIdAndBoxStyle?: Maybe<Array<PackBoxStyleOnPackBoxStyleForPackBoxStyleShipperIdFkeyUsingPackBoxStylePkeyUpdate>>;
+  /** The primary key(s) and patch data for `packBoxStyle` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<ShipperOnPackBoxStyleForPackBoxStyleShipperIdFkeyNodeIdUpdate>>;
+  /** A `PackBoxStyleInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<PackBoxStyleShipperIdFkeyPackBoxStyleCreateInput>>;
+};
+
+/** The fields on `packBoxStyle` to look up the row to connect. */
+export type PackBoxStylePackBoxStylePkeyConnect = {
+  shipperId: Scalars['String'];
+  boxStyle: Scalars['String'];
+};
+
+/** The globally unique `ID` look up for the row to connect. */
+export type PackBoxStyleNodeIdConnect = {
+  /** The globally unique `ID` which identifies a single `packBoxStyle` to be connected. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `packBoxStyle` to look up the row to delete. */
+export type PackBoxStylePackBoxStylePkeyDelete = {
+  shipperId: Scalars['String'];
+  boxStyle: Scalars['String'];
+};
+
+/** The globally unique `ID` look up for the row to delete. */
+export type PackBoxStyleNodeIdDelete = {
+  /** The globally unique `ID` which identifies a single `packBoxStyle` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `packBoxStyle` to look up the row to update. */
+export type PackBoxStyleOnPackBoxStyleForPackBoxStyleShipperIdFkeyUsingPackBoxStylePkeyUpdate = {
+  /** An object where the defined keys will be set on the `packBoxStyle` being updated. */
+  patch: UpdatePackBoxStyleOnPackBoxStyleForPackBoxStyleShipperIdFkeyPatch;
+  shipperId: Scalars['String'];
+  boxStyle: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `packBoxStyle` being updated. */
+export type UpdatePackBoxStyleOnPackBoxStyleForPackBoxStyleShipperIdFkeyPatch = {
+  boxStyle?: Maybe<Scalars['String']>;
+  boxDescription?: Maybe<Scalars['String']>;
+  combineWith?: Maybe<Scalars['String']>;
+  combineDescription?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackBoxStyleShipperIdFkeyInput>;
+  packMastersUsingBoxStyleAndShipperId?: Maybe<PackMasterBoxStyleShipperIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `shipper` in the `PackBoxStyleInput` mutation. */
+export type PackBoxStyleShipperIdFkeyInput = {
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  connectById?: Maybe<ShipperShipperPkeyConnect>;
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  connectByNodeId?: Maybe<ShipperNodeIdConnect>;
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  deleteById?: Maybe<ShipperShipperPkeyDelete>;
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<ShipperNodeIdDelete>;
+  /** The primary key(s) and patch data for `shipper` for the far side of the relationship. */
+  updateById?: Maybe<ShipperOnPackBoxStyleForPackBoxStyleShipperIdFkeyUsingShipperPkeyUpdate>;
+  /** The primary key(s) and patch data for `shipper` for the far side of the relationship. */
+  updateByNodeId?: Maybe<PackBoxStyleOnPackBoxStyleForPackBoxStyleShipperIdFkeyNodeIdUpdate>;
+  /** A `ShipperInput` object that will be created and connected to this object. */
+  create?: Maybe<PackBoxStyleShipperIdFkeyShipperCreateInput>;
+};
+
+/** The fields on `shipper` to look up the row to update. */
+export type ShipperOnPackBoxStyleForPackBoxStyleShipperIdFkeyUsingShipperPkeyUpdate = {
+  /** An object where the defined keys will be set on the `shipper` being updated. */
+  patch: UpdateShipperOnPackBoxStyleForPackBoxStyleShipperIdFkeyPatch;
+  id: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `shipper` being updated. */
+export type UpdateShipperOnPackBoxStyleForPackBoxStyleShipperIdFkeyPatch = {
+  id?: Maybe<Scalars['String']>;
+  shipperName?: Maybe<Scalars['String']>;
+  countryId?: Maybe<Scalars['String']>;
+  groupId?: Maybe<Scalars['String']>;
+  logoSrc?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
+  countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
+  personContactsUsingId?: Maybe<PersonContactShipperIdFkeyInverseInput>;
+  sizesUsingId?: Maybe<SizeShipperIdFkeyInverseInput>;
+  packAtmospheresUsingId?: Maybe<PackAtmosphereShipperIdFkeyInverseInput>;
+  packBoxStylesUsingId?: Maybe<PackBoxStyleShipperIdFkeyInverseInput>;
+  packBoxTypesUsingId?: Maybe<PackBoxTypeShipperIdFkeyInverseInput>;
+  packDestinationsUsingId?: Maybe<PackDestinationShipperIdFkeyInverseInput>;
+  packGradesUsingId?: Maybe<PackGradeShipperIdFkeyInverseInput>;
+  packHoldsUsingId?: Maybe<PackHoldShipperIdFkeyInverseInput>;
+  packLabelsUsingId?: Maybe<PackLabelShipperIdFkeyInverseInput>;
+  packLinersUsingId?: Maybe<PackLinerShipperIdFkeyInverseInput>;
+  packOutsUsingId?: Maybe<PackOutShipperIdFkeyInverseInput>;
+  packPalletTypesUsingId?: Maybe<PackPalletTypeShipperIdFkeyInverseInput>;
+  packProductionsUsingId?: Maybe<PackProductionShipperIdFkeyInverseInput>;
+  packSpecialsUsingId?: Maybe<PackSpecialShipperIdFkeyInverseInput>;
+  packTreeRipesUsingId?: Maybe<PackTreeRipeShipperIdFkeyInverseInput>;
+  packStylesUsingId?: Maybe<PackStyleShipperIdFkeyInverseInput>;
+  packMastersUsingId?: Maybe<PackMasterShipperIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `packBoxType` in the `ShipperInput` mutation. */
+export type PackBoxTypeShipperIdFkeyInverseInput = {
+  /** Flag indicating whether all other `packBoxType` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `packBoxType` for the far side of the relationship. */
+  connectByShipperIdAndBoxType?: Maybe<Array<PackBoxTypePackBoxTypePkeyConnect>>;
+  /** The primary key(s) for `packBoxType` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<PackBoxTypeNodeIdConnect>>;
+  /** The primary key(s) for `packBoxType` for the far side of the relationship. */
+  deleteByShipperIdAndBoxType?: Maybe<Array<PackBoxTypePackBoxTypePkeyDelete>>;
+  /** The primary key(s) for `packBoxType` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<PackBoxTypeNodeIdDelete>>;
+  /** The primary key(s) and patch data for `packBoxType` for the far side of the relationship. */
+  updateByShipperIdAndBoxType?: Maybe<Array<PackBoxTypeOnPackBoxTypeForPackBoxTypeShipperIdFkeyUsingPackBoxTypePkeyUpdate>>;
+  /** The primary key(s) and patch data for `packBoxType` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<ShipperOnPackBoxTypeForPackBoxTypeShipperIdFkeyNodeIdUpdate>>;
+  /** A `PackBoxTypeInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<PackBoxTypeShipperIdFkeyPackBoxTypeCreateInput>>;
+};
+
+/** The fields on `packBoxType` to look up the row to connect. */
+export type PackBoxTypePackBoxTypePkeyConnect = {
+  shipperId: Scalars['String'];
+  boxType: Scalars['String'];
+};
+
+/** The globally unique `ID` look up for the row to connect. */
+export type PackBoxTypeNodeIdConnect = {
+  /** The globally unique `ID` which identifies a single `packBoxType` to be connected. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `packBoxType` to look up the row to delete. */
+export type PackBoxTypePackBoxTypePkeyDelete = {
+  shipperId: Scalars['String'];
+  boxType: Scalars['String'];
+};
+
+/** The globally unique `ID` look up for the row to delete. */
+export type PackBoxTypeNodeIdDelete = {
+  /** The globally unique `ID` which identifies a single `packBoxType` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `packBoxType` to look up the row to update. */
+export type PackBoxTypeOnPackBoxTypeForPackBoxTypeShipperIdFkeyUsingPackBoxTypePkeyUpdate = {
+  /** An object where the defined keys will be set on the `packBoxType` being updated. */
+  patch: UpdatePackBoxTypeOnPackBoxTypeForPackBoxTypeShipperIdFkeyPatch;
+  shipperId: Scalars['String'];
+  boxType: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `packBoxType` being updated. */
+export type UpdatePackBoxTypeOnPackBoxTypeForPackBoxTypeShipperIdFkeyPatch = {
+  boxType?: Maybe<Scalars['String']>;
+  boxDescription?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackBoxTypeShipperIdFkeyInput>;
+  packMastersUsingBoxTypeAndShipperId?: Maybe<PackMasterBoxTypeShipperIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `shipper` in the `PackBoxTypeInput` mutation. */
+export type PackBoxTypeShipperIdFkeyInput = {
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  connectById?: Maybe<ShipperShipperPkeyConnect>;
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  connectByNodeId?: Maybe<ShipperNodeIdConnect>;
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  deleteById?: Maybe<ShipperShipperPkeyDelete>;
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<ShipperNodeIdDelete>;
+  /** The primary key(s) and patch data for `shipper` for the far side of the relationship. */
+  updateById?: Maybe<ShipperOnPackBoxTypeForPackBoxTypeShipperIdFkeyUsingShipperPkeyUpdate>;
+  /** The primary key(s) and patch data for `shipper` for the far side of the relationship. */
+  updateByNodeId?: Maybe<PackBoxTypeOnPackBoxTypeForPackBoxTypeShipperIdFkeyNodeIdUpdate>;
+  /** A `ShipperInput` object that will be created and connected to this object. */
+  create?: Maybe<PackBoxTypeShipperIdFkeyShipperCreateInput>;
+};
+
+/** The fields on `shipper` to look up the row to update. */
+export type ShipperOnPackBoxTypeForPackBoxTypeShipperIdFkeyUsingShipperPkeyUpdate = {
+  /** An object where the defined keys will be set on the `shipper` being updated. */
+  patch: UpdateShipperOnPackBoxTypeForPackBoxTypeShipperIdFkeyPatch;
+  id: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `shipper` being updated. */
+export type UpdateShipperOnPackBoxTypeForPackBoxTypeShipperIdFkeyPatch = {
+  id?: Maybe<Scalars['String']>;
+  shipperName?: Maybe<Scalars['String']>;
+  countryId?: Maybe<Scalars['String']>;
+  groupId?: Maybe<Scalars['String']>;
+  logoSrc?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
+  countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
+  personContactsUsingId?: Maybe<PersonContactShipperIdFkeyInverseInput>;
+  sizesUsingId?: Maybe<SizeShipperIdFkeyInverseInput>;
+  packAtmospheresUsingId?: Maybe<PackAtmosphereShipperIdFkeyInverseInput>;
+  packBoxStylesUsingId?: Maybe<PackBoxStyleShipperIdFkeyInverseInput>;
+  packBoxTypesUsingId?: Maybe<PackBoxTypeShipperIdFkeyInverseInput>;
+  packDestinationsUsingId?: Maybe<PackDestinationShipperIdFkeyInverseInput>;
+  packGradesUsingId?: Maybe<PackGradeShipperIdFkeyInverseInput>;
+  packHoldsUsingId?: Maybe<PackHoldShipperIdFkeyInverseInput>;
+  packLabelsUsingId?: Maybe<PackLabelShipperIdFkeyInverseInput>;
+  packLinersUsingId?: Maybe<PackLinerShipperIdFkeyInverseInput>;
+  packOutsUsingId?: Maybe<PackOutShipperIdFkeyInverseInput>;
+  packPalletTypesUsingId?: Maybe<PackPalletTypeShipperIdFkeyInverseInput>;
+  packProductionsUsingId?: Maybe<PackProductionShipperIdFkeyInverseInput>;
+  packSpecialsUsingId?: Maybe<PackSpecialShipperIdFkeyInverseInput>;
+  packTreeRipesUsingId?: Maybe<PackTreeRipeShipperIdFkeyInverseInput>;
+  packStylesUsingId?: Maybe<PackStyleShipperIdFkeyInverseInput>;
+  packMastersUsingId?: Maybe<PackMasterShipperIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `packDestination` in the `ShipperInput` mutation. */
+export type PackDestinationShipperIdFkeyInverseInput = {
+  /** Flag indicating whether all other `packDestination` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `packDestination` for the far side of the relationship. */
+  connectByShipperIdAndDestinationCode?: Maybe<Array<PackDestinationPackDestinationPkeyConnect>>;
+  /** The primary key(s) for `packDestination` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<PackDestinationNodeIdConnect>>;
+  /** The primary key(s) for `packDestination` for the far side of the relationship. */
+  deleteByShipperIdAndDestinationCode?: Maybe<Array<PackDestinationPackDestinationPkeyDelete>>;
+  /** The primary key(s) for `packDestination` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<PackDestinationNodeIdDelete>>;
+  /** The primary key(s) and patch data for `packDestination` for the far side of the relationship. */
+  updateByShipperIdAndDestinationCode?: Maybe<Array<PackDestinationOnPackDestinationForPackDestinationShipperIdFkeyUsingPackDestinationPkeyUpdate>>;
+  /** The primary key(s) and patch data for `packDestination` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<ShipperOnPackDestinationForPackDestinationShipperIdFkeyNodeIdUpdate>>;
+  /** A `PackDestinationInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<PackDestinationShipperIdFkeyPackDestinationCreateInput>>;
+};
+
+/** The fields on `packDestination` to look up the row to connect. */
+export type PackDestinationPackDestinationPkeyConnect = {
+  shipperId: Scalars['String'];
+  destinationCode: Scalars['String'];
+};
+
+/** The globally unique `ID` look up for the row to connect. */
+export type PackDestinationNodeIdConnect = {
+  /** The globally unique `ID` which identifies a single `packDestination` to be connected. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `packDestination` to look up the row to delete. */
+export type PackDestinationPackDestinationPkeyDelete = {
+  shipperId: Scalars['String'];
+  destinationCode: Scalars['String'];
+};
+
+/** The globally unique `ID` look up for the row to delete. */
+export type PackDestinationNodeIdDelete = {
+  /** The globally unique `ID` which identifies a single `packDestination` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `packDestination` to look up the row to update. */
+export type PackDestinationOnPackDestinationForPackDestinationShipperIdFkeyUsingPackDestinationPkeyUpdate = {
+  /** An object where the defined keys will be set on the `packDestination` being updated. */
+  patch: UpdatePackDestinationOnPackDestinationForPackDestinationShipperIdFkeyPatch;
+  shipperId: Scalars['String'];
+  destinationCode: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `packDestination` being updated. */
+export type UpdatePackDestinationOnPackDestinationForPackDestinationShipperIdFkeyPatch = {
+  destinationCode?: Maybe<Scalars['String']>;
+  destinationDescription?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackDestinationShipperIdFkeyInput>;
+  packMastersUsingDestinationCodeAndShipperId?: Maybe<PackMasterDestinationCodeShipperIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `shipper` in the `PackDestinationInput` mutation. */
+export type PackDestinationShipperIdFkeyInput = {
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  connectById?: Maybe<ShipperShipperPkeyConnect>;
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  connectByNodeId?: Maybe<ShipperNodeIdConnect>;
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  deleteById?: Maybe<ShipperShipperPkeyDelete>;
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<ShipperNodeIdDelete>;
+  /** The primary key(s) and patch data for `shipper` for the far side of the relationship. */
+  updateById?: Maybe<ShipperOnPackDestinationForPackDestinationShipperIdFkeyUsingShipperPkeyUpdate>;
+  /** The primary key(s) and patch data for `shipper` for the far side of the relationship. */
+  updateByNodeId?: Maybe<PackDestinationOnPackDestinationForPackDestinationShipperIdFkeyNodeIdUpdate>;
+  /** A `ShipperInput` object that will be created and connected to this object. */
+  create?: Maybe<PackDestinationShipperIdFkeyShipperCreateInput>;
+};
+
+/** The fields on `shipper` to look up the row to update. */
+export type ShipperOnPackDestinationForPackDestinationShipperIdFkeyUsingShipperPkeyUpdate = {
+  /** An object where the defined keys will be set on the `shipper` being updated. */
+  patch: UpdateShipperOnPackDestinationForPackDestinationShipperIdFkeyPatch;
+  id: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `shipper` being updated. */
+export type UpdateShipperOnPackDestinationForPackDestinationShipperIdFkeyPatch = {
+  id?: Maybe<Scalars['String']>;
+  shipperName?: Maybe<Scalars['String']>;
+  countryId?: Maybe<Scalars['String']>;
+  groupId?: Maybe<Scalars['String']>;
+  logoSrc?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
+  countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
+  personContactsUsingId?: Maybe<PersonContactShipperIdFkeyInverseInput>;
+  sizesUsingId?: Maybe<SizeShipperIdFkeyInverseInput>;
+  packAtmospheresUsingId?: Maybe<PackAtmosphereShipperIdFkeyInverseInput>;
+  packBoxStylesUsingId?: Maybe<PackBoxStyleShipperIdFkeyInverseInput>;
+  packBoxTypesUsingId?: Maybe<PackBoxTypeShipperIdFkeyInverseInput>;
+  packDestinationsUsingId?: Maybe<PackDestinationShipperIdFkeyInverseInput>;
+  packGradesUsingId?: Maybe<PackGradeShipperIdFkeyInverseInput>;
+  packHoldsUsingId?: Maybe<PackHoldShipperIdFkeyInverseInput>;
+  packLabelsUsingId?: Maybe<PackLabelShipperIdFkeyInverseInput>;
+  packLinersUsingId?: Maybe<PackLinerShipperIdFkeyInverseInput>;
+  packOutsUsingId?: Maybe<PackOutShipperIdFkeyInverseInput>;
+  packPalletTypesUsingId?: Maybe<PackPalletTypeShipperIdFkeyInverseInput>;
+  packProductionsUsingId?: Maybe<PackProductionShipperIdFkeyInverseInput>;
+  packSpecialsUsingId?: Maybe<PackSpecialShipperIdFkeyInverseInput>;
+  packTreeRipesUsingId?: Maybe<PackTreeRipeShipperIdFkeyInverseInput>;
+  packStylesUsingId?: Maybe<PackStyleShipperIdFkeyInverseInput>;
+  packMastersUsingId?: Maybe<PackMasterShipperIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `packGrade` in the `ShipperInput` mutation. */
+export type PackGradeShipperIdFkeyInverseInput = {
+  /** Flag indicating whether all other `packGrade` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `packGrade` for the far side of the relationship. */
+  connectByShipperIdAndGradeCode?: Maybe<Array<PackGradePackGradePkeyConnect>>;
+  /** The primary key(s) for `packGrade` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<PackGradeNodeIdConnect>>;
+  /** The primary key(s) for `packGrade` for the far side of the relationship. */
+  deleteByShipperIdAndGradeCode?: Maybe<Array<PackGradePackGradePkeyDelete>>;
+  /** The primary key(s) for `packGrade` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<PackGradeNodeIdDelete>>;
+  /** The primary key(s) and patch data for `packGrade` for the far side of the relationship. */
+  updateByShipperIdAndGradeCode?: Maybe<Array<PackGradeOnPackGradeForPackGradeShipperIdFkeyUsingPackGradePkeyUpdate>>;
+  /** The primary key(s) and patch data for `packGrade` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<ShipperOnPackGradeForPackGradeShipperIdFkeyNodeIdUpdate>>;
+  /** A `PackGradeInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<PackGradeShipperIdFkeyPackGradeCreateInput>>;
+};
+
+/** The fields on `packGrade` to look up the row to connect. */
+export type PackGradePackGradePkeyConnect = {
+  shipperId: Scalars['String'];
+  gradeCode: Scalars['String'];
+};
+
+/** The globally unique `ID` look up for the row to connect. */
+export type PackGradeNodeIdConnect = {
+  /** The globally unique `ID` which identifies a single `packGrade` to be connected. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `packGrade` to look up the row to delete. */
+export type PackGradePackGradePkeyDelete = {
+  shipperId: Scalars['String'];
+  gradeCode: Scalars['String'];
+};
+
+/** The globally unique `ID` look up for the row to delete. */
+export type PackGradeNodeIdDelete = {
+  /** The globally unique `ID` which identifies a single `packGrade` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `packGrade` to look up the row to update. */
+export type PackGradeOnPackGradeForPackGradeShipperIdFkeyUsingPackGradePkeyUpdate = {
+  /** An object where the defined keys will be set on the `packGrade` being updated. */
+  patch: UpdatePackGradeOnPackGradeForPackGradeShipperIdFkeyPatch;
+  shipperId: Scalars['String'];
+  gradeCode: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `packGrade` being updated. */
+export type UpdatePackGradeOnPackGradeForPackGradeShipperIdFkeyPatch = {
+  gradeCode?: Maybe<Scalars['String']>;
+  gradeDescription?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackGradeShipperIdFkeyInput>;
+  packMastersUsingGradeCodeAndShipperId?: Maybe<PackMasterGradeCodeShipperIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `shipper` in the `PackGradeInput` mutation. */
+export type PackGradeShipperIdFkeyInput = {
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  connectById?: Maybe<ShipperShipperPkeyConnect>;
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  connectByNodeId?: Maybe<ShipperNodeIdConnect>;
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  deleteById?: Maybe<ShipperShipperPkeyDelete>;
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<ShipperNodeIdDelete>;
+  /** The primary key(s) and patch data for `shipper` for the far side of the relationship. */
+  updateById?: Maybe<ShipperOnPackGradeForPackGradeShipperIdFkeyUsingShipperPkeyUpdate>;
+  /** The primary key(s) and patch data for `shipper` for the far side of the relationship. */
+  updateByNodeId?: Maybe<PackGradeOnPackGradeForPackGradeShipperIdFkeyNodeIdUpdate>;
+  /** A `ShipperInput` object that will be created and connected to this object. */
+  create?: Maybe<PackGradeShipperIdFkeyShipperCreateInput>;
+};
+
+/** The fields on `shipper` to look up the row to update. */
+export type ShipperOnPackGradeForPackGradeShipperIdFkeyUsingShipperPkeyUpdate = {
+  /** An object where the defined keys will be set on the `shipper` being updated. */
+  patch: UpdateShipperOnPackGradeForPackGradeShipperIdFkeyPatch;
+  id: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `shipper` being updated. */
+export type UpdateShipperOnPackGradeForPackGradeShipperIdFkeyPatch = {
+  id?: Maybe<Scalars['String']>;
+  shipperName?: Maybe<Scalars['String']>;
+  countryId?: Maybe<Scalars['String']>;
+  groupId?: Maybe<Scalars['String']>;
+  logoSrc?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
+  countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
+  personContactsUsingId?: Maybe<PersonContactShipperIdFkeyInverseInput>;
+  sizesUsingId?: Maybe<SizeShipperIdFkeyInverseInput>;
+  packAtmospheresUsingId?: Maybe<PackAtmosphereShipperIdFkeyInverseInput>;
+  packBoxStylesUsingId?: Maybe<PackBoxStyleShipperIdFkeyInverseInput>;
+  packBoxTypesUsingId?: Maybe<PackBoxTypeShipperIdFkeyInverseInput>;
+  packDestinationsUsingId?: Maybe<PackDestinationShipperIdFkeyInverseInput>;
+  packGradesUsingId?: Maybe<PackGradeShipperIdFkeyInverseInput>;
+  packHoldsUsingId?: Maybe<PackHoldShipperIdFkeyInverseInput>;
+  packLabelsUsingId?: Maybe<PackLabelShipperIdFkeyInverseInput>;
+  packLinersUsingId?: Maybe<PackLinerShipperIdFkeyInverseInput>;
+  packOutsUsingId?: Maybe<PackOutShipperIdFkeyInverseInput>;
+  packPalletTypesUsingId?: Maybe<PackPalletTypeShipperIdFkeyInverseInput>;
+  packProductionsUsingId?: Maybe<PackProductionShipperIdFkeyInverseInput>;
+  packSpecialsUsingId?: Maybe<PackSpecialShipperIdFkeyInverseInput>;
+  packTreeRipesUsingId?: Maybe<PackTreeRipeShipperIdFkeyInverseInput>;
+  packStylesUsingId?: Maybe<PackStyleShipperIdFkeyInverseInput>;
+  packMastersUsingId?: Maybe<PackMasterShipperIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `packHold` in the `ShipperInput` mutation. */
+export type PackHoldShipperIdFkeyInverseInput = {
+  /** Flag indicating whether all other `packHold` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `packHold` for the far side of the relationship. */
+  connectByShipperIdAndHoldCode?: Maybe<Array<PackHoldPackHoldPkeyConnect>>;
+  /** The primary key(s) for `packHold` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<PackHoldNodeIdConnect>>;
+  /** The primary key(s) for `packHold` for the far side of the relationship. */
+  deleteByShipperIdAndHoldCode?: Maybe<Array<PackHoldPackHoldPkeyDelete>>;
+  /** The primary key(s) for `packHold` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<PackHoldNodeIdDelete>>;
+  /** The primary key(s) and patch data for `packHold` for the far side of the relationship. */
+  updateByShipperIdAndHoldCode?: Maybe<Array<PackHoldOnPackHoldForPackHoldShipperIdFkeyUsingPackHoldPkeyUpdate>>;
+  /** The primary key(s) and patch data for `packHold` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<ShipperOnPackHoldForPackHoldShipperIdFkeyNodeIdUpdate>>;
+  /** A `PackHoldInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<PackHoldShipperIdFkeyPackHoldCreateInput>>;
+};
+
+/** The fields on `packHold` to look up the row to connect. */
+export type PackHoldPackHoldPkeyConnect = {
+  shipperId: Scalars['String'];
+  holdCode: Scalars['String'];
+};
+
+/** The globally unique `ID` look up for the row to connect. */
+export type PackHoldNodeIdConnect = {
+  /** The globally unique `ID` which identifies a single `packHold` to be connected. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `packHold` to look up the row to delete. */
+export type PackHoldPackHoldPkeyDelete = {
+  shipperId: Scalars['String'];
+  holdCode: Scalars['String'];
+};
+
+/** The globally unique `ID` look up for the row to delete. */
+export type PackHoldNodeIdDelete = {
+  /** The globally unique `ID` which identifies a single `packHold` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `packHold` to look up the row to update. */
+export type PackHoldOnPackHoldForPackHoldShipperIdFkeyUsingPackHoldPkeyUpdate = {
+  /** An object where the defined keys will be set on the `packHold` being updated. */
+  patch: UpdatePackHoldOnPackHoldForPackHoldShipperIdFkeyPatch;
+  shipperId: Scalars['String'];
+  holdCode: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `packHold` being updated. */
+export type UpdatePackHoldOnPackHoldForPackHoldShipperIdFkeyPatch = {
+  holdCode?: Maybe<Scalars['String']>;
+  holdDescription?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackHoldShipperIdFkeyInput>;
+  packMastersUsingHoldCodeAndShipperId?: Maybe<PackMasterHoldCodeShipperIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `shipper` in the `PackHoldInput` mutation. */
+export type PackHoldShipperIdFkeyInput = {
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  connectById?: Maybe<ShipperShipperPkeyConnect>;
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  connectByNodeId?: Maybe<ShipperNodeIdConnect>;
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  deleteById?: Maybe<ShipperShipperPkeyDelete>;
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<ShipperNodeIdDelete>;
+  /** The primary key(s) and patch data for `shipper` for the far side of the relationship. */
+  updateById?: Maybe<ShipperOnPackHoldForPackHoldShipperIdFkeyUsingShipperPkeyUpdate>;
+  /** The primary key(s) and patch data for `shipper` for the far side of the relationship. */
+  updateByNodeId?: Maybe<PackHoldOnPackHoldForPackHoldShipperIdFkeyNodeIdUpdate>;
+  /** A `ShipperInput` object that will be created and connected to this object. */
+  create?: Maybe<PackHoldShipperIdFkeyShipperCreateInput>;
+};
+
+/** The fields on `shipper` to look up the row to update. */
+export type ShipperOnPackHoldForPackHoldShipperIdFkeyUsingShipperPkeyUpdate = {
+  /** An object where the defined keys will be set on the `shipper` being updated. */
+  patch: UpdateShipperOnPackHoldForPackHoldShipperIdFkeyPatch;
+  id: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `shipper` being updated. */
+export type UpdateShipperOnPackHoldForPackHoldShipperIdFkeyPatch = {
+  id?: Maybe<Scalars['String']>;
+  shipperName?: Maybe<Scalars['String']>;
+  countryId?: Maybe<Scalars['String']>;
+  groupId?: Maybe<Scalars['String']>;
+  logoSrc?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
+  countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
+  personContactsUsingId?: Maybe<PersonContactShipperIdFkeyInverseInput>;
+  sizesUsingId?: Maybe<SizeShipperIdFkeyInverseInput>;
+  packAtmospheresUsingId?: Maybe<PackAtmosphereShipperIdFkeyInverseInput>;
+  packBoxStylesUsingId?: Maybe<PackBoxStyleShipperIdFkeyInverseInput>;
+  packBoxTypesUsingId?: Maybe<PackBoxTypeShipperIdFkeyInverseInput>;
+  packDestinationsUsingId?: Maybe<PackDestinationShipperIdFkeyInverseInput>;
+  packGradesUsingId?: Maybe<PackGradeShipperIdFkeyInverseInput>;
+  packHoldsUsingId?: Maybe<PackHoldShipperIdFkeyInverseInput>;
+  packLabelsUsingId?: Maybe<PackLabelShipperIdFkeyInverseInput>;
+  packLinersUsingId?: Maybe<PackLinerShipperIdFkeyInverseInput>;
+  packOutsUsingId?: Maybe<PackOutShipperIdFkeyInverseInput>;
+  packPalletTypesUsingId?: Maybe<PackPalletTypeShipperIdFkeyInverseInput>;
+  packProductionsUsingId?: Maybe<PackProductionShipperIdFkeyInverseInput>;
+  packSpecialsUsingId?: Maybe<PackSpecialShipperIdFkeyInverseInput>;
+  packTreeRipesUsingId?: Maybe<PackTreeRipeShipperIdFkeyInverseInput>;
+  packStylesUsingId?: Maybe<PackStyleShipperIdFkeyInverseInput>;
+  packMastersUsingId?: Maybe<PackMasterShipperIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `packLabel` in the `ShipperInput` mutation. */
+export type PackLabelShipperIdFkeyInverseInput = {
+  /** Flag indicating whether all other `packLabel` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `packLabel` for the far side of the relationship. */
+  connectByShipperIdAndLabelCode?: Maybe<Array<PackLabelPackLabelPkeyConnect>>;
+  /** The primary key(s) for `packLabel` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<PackLabelNodeIdConnect>>;
+  /** The primary key(s) for `packLabel` for the far side of the relationship. */
+  deleteByShipperIdAndLabelCode?: Maybe<Array<PackLabelPackLabelPkeyDelete>>;
+  /** The primary key(s) for `packLabel` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<PackLabelNodeIdDelete>>;
+  /** The primary key(s) and patch data for `packLabel` for the far side of the relationship. */
+  updateByShipperIdAndLabelCode?: Maybe<Array<PackLabelOnPackLabelForPackLabelShipperIdFkeyUsingPackLabelPkeyUpdate>>;
+  /** The primary key(s) and patch data for `packLabel` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<ShipperOnPackLabelForPackLabelShipperIdFkeyNodeIdUpdate>>;
+  /** A `PackLabelInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<PackLabelShipperIdFkeyPackLabelCreateInput>>;
+};
+
+/** The fields on `packLabel` to look up the row to connect. */
+export type PackLabelPackLabelPkeyConnect = {
+  shipperId: Scalars['String'];
+  labelCode: Scalars['String'];
+};
+
+/** The globally unique `ID` look up for the row to connect. */
+export type PackLabelNodeIdConnect = {
+  /** The globally unique `ID` which identifies a single `packLabel` to be connected. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `packLabel` to look up the row to delete. */
+export type PackLabelPackLabelPkeyDelete = {
+  shipperId: Scalars['String'];
+  labelCode: Scalars['String'];
+};
+
+/** The globally unique `ID` look up for the row to delete. */
+export type PackLabelNodeIdDelete = {
+  /** The globally unique `ID` which identifies a single `packLabel` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `packLabel` to look up the row to update. */
+export type PackLabelOnPackLabelForPackLabelShipperIdFkeyUsingPackLabelPkeyUpdate = {
+  /** An object where the defined keys will be set on the `packLabel` being updated. */
+  patch: UpdatePackLabelOnPackLabelForPackLabelShipperIdFkeyPatch;
+  shipperId: Scalars['String'];
+  labelCode: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `packLabel` being updated. */
+export type UpdatePackLabelOnPackLabelForPackLabelShipperIdFkeyPatch = {
+  labelCode?: Maybe<Scalars['String']>;
+  labelName?: Maybe<Scalars['String']>;
+  shipperName?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackLabelShipperIdFkeyInput>;
+  packMastersUsingLabelCodeAndShipperId?: Maybe<PackMasterLabelCodeShipperIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `shipper` in the `PackLabelInput` mutation. */
+export type PackLabelShipperIdFkeyInput = {
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  connectById?: Maybe<ShipperShipperPkeyConnect>;
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  connectByNodeId?: Maybe<ShipperNodeIdConnect>;
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  deleteById?: Maybe<ShipperShipperPkeyDelete>;
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<ShipperNodeIdDelete>;
+  /** The primary key(s) and patch data for `shipper` for the far side of the relationship. */
+  updateById?: Maybe<ShipperOnPackLabelForPackLabelShipperIdFkeyUsingShipperPkeyUpdate>;
+  /** The primary key(s) and patch data for `shipper` for the far side of the relationship. */
+  updateByNodeId?: Maybe<PackLabelOnPackLabelForPackLabelShipperIdFkeyNodeIdUpdate>;
+  /** A `ShipperInput` object that will be created and connected to this object. */
+  create?: Maybe<PackLabelShipperIdFkeyShipperCreateInput>;
+};
+
+/** The fields on `shipper` to look up the row to update. */
+export type ShipperOnPackLabelForPackLabelShipperIdFkeyUsingShipperPkeyUpdate = {
+  /** An object where the defined keys will be set on the `shipper` being updated. */
+  patch: UpdateShipperOnPackLabelForPackLabelShipperIdFkeyPatch;
+  id: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `shipper` being updated. */
+export type UpdateShipperOnPackLabelForPackLabelShipperIdFkeyPatch = {
+  id?: Maybe<Scalars['String']>;
+  shipperName?: Maybe<Scalars['String']>;
+  countryId?: Maybe<Scalars['String']>;
+  groupId?: Maybe<Scalars['String']>;
+  logoSrc?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
+  countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
+  personContactsUsingId?: Maybe<PersonContactShipperIdFkeyInverseInput>;
+  sizesUsingId?: Maybe<SizeShipperIdFkeyInverseInput>;
+  packAtmospheresUsingId?: Maybe<PackAtmosphereShipperIdFkeyInverseInput>;
+  packBoxStylesUsingId?: Maybe<PackBoxStyleShipperIdFkeyInverseInput>;
+  packBoxTypesUsingId?: Maybe<PackBoxTypeShipperIdFkeyInverseInput>;
+  packDestinationsUsingId?: Maybe<PackDestinationShipperIdFkeyInverseInput>;
+  packGradesUsingId?: Maybe<PackGradeShipperIdFkeyInverseInput>;
+  packHoldsUsingId?: Maybe<PackHoldShipperIdFkeyInverseInput>;
+  packLabelsUsingId?: Maybe<PackLabelShipperIdFkeyInverseInput>;
+  packLinersUsingId?: Maybe<PackLinerShipperIdFkeyInverseInput>;
+  packOutsUsingId?: Maybe<PackOutShipperIdFkeyInverseInput>;
+  packPalletTypesUsingId?: Maybe<PackPalletTypeShipperIdFkeyInverseInput>;
+  packProductionsUsingId?: Maybe<PackProductionShipperIdFkeyInverseInput>;
+  packSpecialsUsingId?: Maybe<PackSpecialShipperIdFkeyInverseInput>;
+  packTreeRipesUsingId?: Maybe<PackTreeRipeShipperIdFkeyInverseInput>;
+  packStylesUsingId?: Maybe<PackStyleShipperIdFkeyInverseInput>;
+  packMastersUsingId?: Maybe<PackMasterShipperIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `packLiner` in the `ShipperInput` mutation. */
+export type PackLinerShipperIdFkeyInverseInput = {
+  /** Flag indicating whether all other `packLiner` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `packLiner` for the far side of the relationship. */
+  connectByShipperIdAndLinerCode?: Maybe<Array<PackLinerPackLinerPkeyConnect>>;
+  /** The primary key(s) for `packLiner` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<PackLinerNodeIdConnect>>;
+  /** The primary key(s) for `packLiner` for the far side of the relationship. */
+  deleteByShipperIdAndLinerCode?: Maybe<Array<PackLinerPackLinerPkeyDelete>>;
+  /** The primary key(s) for `packLiner` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<PackLinerNodeIdDelete>>;
+  /** The primary key(s) and patch data for `packLiner` for the far side of the relationship. */
+  updateByShipperIdAndLinerCode?: Maybe<Array<PackLinerOnPackLinerForPackLinerShipperIdFkeyUsingPackLinerPkeyUpdate>>;
+  /** The primary key(s) and patch data for `packLiner` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<ShipperOnPackLinerForPackLinerShipperIdFkeyNodeIdUpdate>>;
+  /** A `PackLinerInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<PackLinerShipperIdFkeyPackLinerCreateInput>>;
+};
+
+/** The fields on `packLiner` to look up the row to connect. */
+export type PackLinerPackLinerPkeyConnect = {
+  shipperId: Scalars['String'];
+  linerCode: Scalars['String'];
+};
+
+/** The globally unique `ID` look up for the row to connect. */
+export type PackLinerNodeIdConnect = {
+  /** The globally unique `ID` which identifies a single `packLiner` to be connected. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `packLiner` to look up the row to delete. */
+export type PackLinerPackLinerPkeyDelete = {
+  shipperId: Scalars['String'];
+  linerCode: Scalars['String'];
+};
+
+/** The globally unique `ID` look up for the row to delete. */
+export type PackLinerNodeIdDelete = {
+  /** The globally unique `ID` which identifies a single `packLiner` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `packLiner` to look up the row to update. */
+export type PackLinerOnPackLinerForPackLinerShipperIdFkeyUsingPackLinerPkeyUpdate = {
+  /** An object where the defined keys will be set on the `packLiner` being updated. */
+  patch: UpdatePackLinerOnPackLinerForPackLinerShipperIdFkeyPatch;
+  shipperId: Scalars['String'];
+  linerCode: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `packLiner` being updated. */
+export type UpdatePackLinerOnPackLinerForPackLinerShipperIdFkeyPatch = {
+  linerCode?: Maybe<Scalars['String']>;
+  linerDescription?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackLinerShipperIdFkeyInput>;
+  packMastersUsingLinerCodeAndShipperId?: Maybe<PackMasterLinerCodeShipperIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `shipper` in the `PackLinerInput` mutation. */
+export type PackLinerShipperIdFkeyInput = {
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  connectById?: Maybe<ShipperShipperPkeyConnect>;
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  connectByNodeId?: Maybe<ShipperNodeIdConnect>;
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  deleteById?: Maybe<ShipperShipperPkeyDelete>;
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<ShipperNodeIdDelete>;
+  /** The primary key(s) and patch data for `shipper` for the far side of the relationship. */
+  updateById?: Maybe<ShipperOnPackLinerForPackLinerShipperIdFkeyUsingShipperPkeyUpdate>;
+  /** The primary key(s) and patch data for `shipper` for the far side of the relationship. */
+  updateByNodeId?: Maybe<PackLinerOnPackLinerForPackLinerShipperIdFkeyNodeIdUpdate>;
+  /** A `ShipperInput` object that will be created and connected to this object. */
+  create?: Maybe<PackLinerShipperIdFkeyShipperCreateInput>;
+};
+
+/** The fields on `shipper` to look up the row to update. */
+export type ShipperOnPackLinerForPackLinerShipperIdFkeyUsingShipperPkeyUpdate = {
+  /** An object where the defined keys will be set on the `shipper` being updated. */
+  patch: UpdateShipperOnPackLinerForPackLinerShipperIdFkeyPatch;
+  id: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `shipper` being updated. */
+export type UpdateShipperOnPackLinerForPackLinerShipperIdFkeyPatch = {
+  id?: Maybe<Scalars['String']>;
+  shipperName?: Maybe<Scalars['String']>;
+  countryId?: Maybe<Scalars['String']>;
+  groupId?: Maybe<Scalars['String']>;
+  logoSrc?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
+  countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
+  personContactsUsingId?: Maybe<PersonContactShipperIdFkeyInverseInput>;
+  sizesUsingId?: Maybe<SizeShipperIdFkeyInverseInput>;
+  packAtmospheresUsingId?: Maybe<PackAtmosphereShipperIdFkeyInverseInput>;
+  packBoxStylesUsingId?: Maybe<PackBoxStyleShipperIdFkeyInverseInput>;
+  packBoxTypesUsingId?: Maybe<PackBoxTypeShipperIdFkeyInverseInput>;
+  packDestinationsUsingId?: Maybe<PackDestinationShipperIdFkeyInverseInput>;
+  packGradesUsingId?: Maybe<PackGradeShipperIdFkeyInverseInput>;
+  packHoldsUsingId?: Maybe<PackHoldShipperIdFkeyInverseInput>;
+  packLabelsUsingId?: Maybe<PackLabelShipperIdFkeyInverseInput>;
+  packLinersUsingId?: Maybe<PackLinerShipperIdFkeyInverseInput>;
+  packOutsUsingId?: Maybe<PackOutShipperIdFkeyInverseInput>;
+  packPalletTypesUsingId?: Maybe<PackPalletTypeShipperIdFkeyInverseInput>;
+  packProductionsUsingId?: Maybe<PackProductionShipperIdFkeyInverseInput>;
+  packSpecialsUsingId?: Maybe<PackSpecialShipperIdFkeyInverseInput>;
+  packTreeRipesUsingId?: Maybe<PackTreeRipeShipperIdFkeyInverseInput>;
+  packStylesUsingId?: Maybe<PackStyleShipperIdFkeyInverseInput>;
+  packMastersUsingId?: Maybe<PackMasterShipperIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `packOut` in the `ShipperInput` mutation. */
+export type PackOutShipperIdFkeyInverseInput = {
+  /** Flag indicating whether all other `packOut` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `packOut` for the far side of the relationship. */
+  connectByShipperIdAndOutCode?: Maybe<Array<PackOutPackOutPkeyConnect>>;
+  /** The primary key(s) for `packOut` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<PackOutNodeIdConnect>>;
+  /** The primary key(s) for `packOut` for the far side of the relationship. */
+  deleteByShipperIdAndOutCode?: Maybe<Array<PackOutPackOutPkeyDelete>>;
+  /** The primary key(s) for `packOut` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<PackOutNodeIdDelete>>;
+  /** The primary key(s) and patch data for `packOut` for the far side of the relationship. */
+  updateByShipperIdAndOutCode?: Maybe<Array<PackOutOnPackOutForPackOutShipperIdFkeyUsingPackOutPkeyUpdate>>;
+  /** The primary key(s) and patch data for `packOut` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<ShipperOnPackOutForPackOutShipperIdFkeyNodeIdUpdate>>;
+  /** A `PackOutInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<PackOutShipperIdFkeyPackOutCreateInput>>;
+};
+
+/** The fields on `packOut` to look up the row to connect. */
+export type PackOutPackOutPkeyConnect = {
+  shipperId: Scalars['String'];
+  outCode: Scalars['String'];
+};
+
+/** The globally unique `ID` look up for the row to connect. */
+export type PackOutNodeIdConnect = {
+  /** The globally unique `ID` which identifies a single `packOut` to be connected. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `packOut` to look up the row to delete. */
+export type PackOutPackOutPkeyDelete = {
+  shipperId: Scalars['String'];
+  outCode: Scalars['String'];
+};
+
+/** The globally unique `ID` look up for the row to delete. */
+export type PackOutNodeIdDelete = {
+  /** The globally unique `ID` which identifies a single `packOut` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `packOut` to look up the row to update. */
+export type PackOutOnPackOutForPackOutShipperIdFkeyUsingPackOutPkeyUpdate = {
+  /** An object where the defined keys will be set on the `packOut` being updated. */
+  patch: UpdatePackOutOnPackOutForPackOutShipperIdFkeyPatch;
+  shipperId: Scalars['String'];
+  outCode: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `packOut` being updated. */
+export type UpdatePackOutOnPackOutForPackOutShipperIdFkeyPatch = {
+  outCode?: Maybe<Scalars['String']>;
+  outDescription?: Maybe<Scalars['String']>;
+  combineWith?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackOutShipperIdFkeyInput>;
+  packMastersUsingOutCodeAndShipperId?: Maybe<PackMasterOutCodeShipperIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `shipper` in the `PackOutInput` mutation. */
+export type PackOutShipperIdFkeyInput = {
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  connectById?: Maybe<ShipperShipperPkeyConnect>;
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  connectByNodeId?: Maybe<ShipperNodeIdConnect>;
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  deleteById?: Maybe<ShipperShipperPkeyDelete>;
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<ShipperNodeIdDelete>;
+  /** The primary key(s) and patch data for `shipper` for the far side of the relationship. */
+  updateById?: Maybe<ShipperOnPackOutForPackOutShipperIdFkeyUsingShipperPkeyUpdate>;
+  /** The primary key(s) and patch data for `shipper` for the far side of the relationship. */
+  updateByNodeId?: Maybe<PackOutOnPackOutForPackOutShipperIdFkeyNodeIdUpdate>;
+  /** A `ShipperInput` object that will be created and connected to this object. */
+  create?: Maybe<PackOutShipperIdFkeyShipperCreateInput>;
+};
+
+/** The fields on `shipper` to look up the row to update. */
+export type ShipperOnPackOutForPackOutShipperIdFkeyUsingShipperPkeyUpdate = {
+  /** An object where the defined keys will be set on the `shipper` being updated. */
+  patch: UpdateShipperOnPackOutForPackOutShipperIdFkeyPatch;
+  id: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `shipper` being updated. */
+export type UpdateShipperOnPackOutForPackOutShipperIdFkeyPatch = {
+  id?: Maybe<Scalars['String']>;
+  shipperName?: Maybe<Scalars['String']>;
+  countryId?: Maybe<Scalars['String']>;
+  groupId?: Maybe<Scalars['String']>;
+  logoSrc?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
+  countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
+  personContactsUsingId?: Maybe<PersonContactShipperIdFkeyInverseInput>;
+  sizesUsingId?: Maybe<SizeShipperIdFkeyInverseInput>;
+  packAtmospheresUsingId?: Maybe<PackAtmosphereShipperIdFkeyInverseInput>;
+  packBoxStylesUsingId?: Maybe<PackBoxStyleShipperIdFkeyInverseInput>;
+  packBoxTypesUsingId?: Maybe<PackBoxTypeShipperIdFkeyInverseInput>;
+  packDestinationsUsingId?: Maybe<PackDestinationShipperIdFkeyInverseInput>;
+  packGradesUsingId?: Maybe<PackGradeShipperIdFkeyInverseInput>;
+  packHoldsUsingId?: Maybe<PackHoldShipperIdFkeyInverseInput>;
+  packLabelsUsingId?: Maybe<PackLabelShipperIdFkeyInverseInput>;
+  packLinersUsingId?: Maybe<PackLinerShipperIdFkeyInverseInput>;
+  packOutsUsingId?: Maybe<PackOutShipperIdFkeyInverseInput>;
+  packPalletTypesUsingId?: Maybe<PackPalletTypeShipperIdFkeyInverseInput>;
+  packProductionsUsingId?: Maybe<PackProductionShipperIdFkeyInverseInput>;
+  packSpecialsUsingId?: Maybe<PackSpecialShipperIdFkeyInverseInput>;
+  packTreeRipesUsingId?: Maybe<PackTreeRipeShipperIdFkeyInverseInput>;
+  packStylesUsingId?: Maybe<PackStyleShipperIdFkeyInverseInput>;
+  packMastersUsingId?: Maybe<PackMasterShipperIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `packPalletType` in the `ShipperInput` mutation. */
+export type PackPalletTypeShipperIdFkeyInverseInput = {
+  /** Flag indicating whether all other `packPalletType` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `packPalletType` for the far side of the relationship. */
+  connectByShipperIdAndPalletType?: Maybe<Array<PackPalletTypePackPalletTypePkeyConnect>>;
+  /** The primary key(s) for `packPalletType` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<PackPalletTypeNodeIdConnect>>;
+  /** The primary key(s) for `packPalletType` for the far side of the relationship. */
+  deleteByShipperIdAndPalletType?: Maybe<Array<PackPalletTypePackPalletTypePkeyDelete>>;
+  /** The primary key(s) for `packPalletType` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<PackPalletTypeNodeIdDelete>>;
+  /** The primary key(s) and patch data for `packPalletType` for the far side of the relationship. */
+  updateByShipperIdAndPalletType?: Maybe<Array<PackPalletTypeOnPackPalletTypeForPackPalletTypeShipperIdFkeyUsingPackPalletTypePkeyUpdate>>;
+  /** The primary key(s) and patch data for `packPalletType` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<ShipperOnPackPalletTypeForPackPalletTypeShipperIdFkeyNodeIdUpdate>>;
+  /** A `PackPalletTypeInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<PackPalletTypeShipperIdFkeyPackPalletTypeCreateInput>>;
+};
+
+/** The fields on `packPalletType` to look up the row to connect. */
+export type PackPalletTypePackPalletTypePkeyConnect = {
+  shipperId: Scalars['String'];
+  palletType: Scalars['String'];
+};
+
+/** The globally unique `ID` look up for the row to connect. */
+export type PackPalletTypeNodeIdConnect = {
+  /** The globally unique `ID` which identifies a single `packPalletType` to be connected. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `packPalletType` to look up the row to delete. */
+export type PackPalletTypePackPalletTypePkeyDelete = {
+  shipperId: Scalars['String'];
+  palletType: Scalars['String'];
+};
+
+/** The globally unique `ID` look up for the row to delete. */
+export type PackPalletTypeNodeIdDelete = {
+  /** The globally unique `ID` which identifies a single `packPalletType` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `packPalletType` to look up the row to update. */
+export type PackPalletTypeOnPackPalletTypeForPackPalletTypeShipperIdFkeyUsingPackPalletTypePkeyUpdate = {
+  /** An object where the defined keys will be set on the `packPalletType` being updated. */
+  patch: UpdatePackPalletTypeOnPackPalletTypeForPackPalletTypeShipperIdFkeyPatch;
+  shipperId: Scalars['String'];
+  palletType: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `packPalletType` being updated. */
+export type UpdatePackPalletTypeOnPackPalletTypeForPackPalletTypeShipperIdFkeyPatch = {
+  palletType?: Maybe<Scalars['String']>;
+  palletTypeDescription?: Maybe<Scalars['String']>;
+  combineWith?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackPalletTypeShipperIdFkeyInput>;
+  packMastersUsingPalletTypeAndShipperId?: Maybe<PackMasterPalletTypeShipperIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `shipper` in the `PackPalletTypeInput` mutation. */
+export type PackPalletTypeShipperIdFkeyInput = {
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  connectById?: Maybe<ShipperShipperPkeyConnect>;
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  connectByNodeId?: Maybe<ShipperNodeIdConnect>;
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  deleteById?: Maybe<ShipperShipperPkeyDelete>;
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<ShipperNodeIdDelete>;
+  /** The primary key(s) and patch data for `shipper` for the far side of the relationship. */
+  updateById?: Maybe<ShipperOnPackPalletTypeForPackPalletTypeShipperIdFkeyUsingShipperPkeyUpdate>;
+  /** The primary key(s) and patch data for `shipper` for the far side of the relationship. */
+  updateByNodeId?: Maybe<PackPalletTypeOnPackPalletTypeForPackPalletTypeShipperIdFkeyNodeIdUpdate>;
+  /** A `ShipperInput` object that will be created and connected to this object. */
+  create?: Maybe<PackPalletTypeShipperIdFkeyShipperCreateInput>;
+};
+
+/** The fields on `shipper` to look up the row to update. */
+export type ShipperOnPackPalletTypeForPackPalletTypeShipperIdFkeyUsingShipperPkeyUpdate = {
+  /** An object where the defined keys will be set on the `shipper` being updated. */
+  patch: UpdateShipperOnPackPalletTypeForPackPalletTypeShipperIdFkeyPatch;
+  id: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `shipper` being updated. */
+export type UpdateShipperOnPackPalletTypeForPackPalletTypeShipperIdFkeyPatch = {
+  id?: Maybe<Scalars['String']>;
+  shipperName?: Maybe<Scalars['String']>;
+  countryId?: Maybe<Scalars['String']>;
+  groupId?: Maybe<Scalars['String']>;
+  logoSrc?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
+  countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
+  personContactsUsingId?: Maybe<PersonContactShipperIdFkeyInverseInput>;
+  sizesUsingId?: Maybe<SizeShipperIdFkeyInverseInput>;
+  packAtmospheresUsingId?: Maybe<PackAtmosphereShipperIdFkeyInverseInput>;
+  packBoxStylesUsingId?: Maybe<PackBoxStyleShipperIdFkeyInverseInput>;
+  packBoxTypesUsingId?: Maybe<PackBoxTypeShipperIdFkeyInverseInput>;
+  packDestinationsUsingId?: Maybe<PackDestinationShipperIdFkeyInverseInput>;
+  packGradesUsingId?: Maybe<PackGradeShipperIdFkeyInverseInput>;
+  packHoldsUsingId?: Maybe<PackHoldShipperIdFkeyInverseInput>;
+  packLabelsUsingId?: Maybe<PackLabelShipperIdFkeyInverseInput>;
+  packLinersUsingId?: Maybe<PackLinerShipperIdFkeyInverseInput>;
+  packOutsUsingId?: Maybe<PackOutShipperIdFkeyInverseInput>;
+  packPalletTypesUsingId?: Maybe<PackPalletTypeShipperIdFkeyInverseInput>;
+  packProductionsUsingId?: Maybe<PackProductionShipperIdFkeyInverseInput>;
+  packSpecialsUsingId?: Maybe<PackSpecialShipperIdFkeyInverseInput>;
+  packTreeRipesUsingId?: Maybe<PackTreeRipeShipperIdFkeyInverseInput>;
+  packStylesUsingId?: Maybe<PackStyleShipperIdFkeyInverseInput>;
+  packMastersUsingId?: Maybe<PackMasterShipperIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `packProduction` in the `ShipperInput` mutation. */
+export type PackProductionShipperIdFkeyInverseInput = {
+  /** Flag indicating whether all other `packProduction` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `packProduction` for the far side of the relationship. */
+  connectByShipperIdAndProductionCode?: Maybe<Array<PackProductionPackProductionPkeyConnect>>;
+  /** The primary key(s) for `packProduction` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<PackProductionNodeIdConnect>>;
+  /** The primary key(s) for `packProduction` for the far side of the relationship. */
+  deleteByShipperIdAndProductionCode?: Maybe<Array<PackProductionPackProductionPkeyDelete>>;
+  /** The primary key(s) for `packProduction` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<PackProductionNodeIdDelete>>;
+  /** The primary key(s) and patch data for `packProduction` for the far side of the relationship. */
+  updateByShipperIdAndProductionCode?: Maybe<Array<PackProductionOnPackProductionForPackProductionShipperIdFkeyUsingPackProductionPkeyUpdate>>;
+  /** The primary key(s) and patch data for `packProduction` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<ShipperOnPackProductionForPackProductionShipperIdFkeyNodeIdUpdate>>;
+  /** A `PackProductionInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<PackProductionShipperIdFkeyPackProductionCreateInput>>;
+};
+
+/** The fields on `packProduction` to look up the row to connect. */
+export type PackProductionPackProductionPkeyConnect = {
+  shipperId: Scalars['String'];
+  productionCode: Scalars['String'];
+};
+
+/** The globally unique `ID` look up for the row to connect. */
+export type PackProductionNodeIdConnect = {
+  /** The globally unique `ID` which identifies a single `packProduction` to be connected. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `packProduction` to look up the row to delete. */
+export type PackProductionPackProductionPkeyDelete = {
+  shipperId: Scalars['String'];
+  productionCode: Scalars['String'];
+};
+
+/** The globally unique `ID` look up for the row to delete. */
+export type PackProductionNodeIdDelete = {
+  /** The globally unique `ID` which identifies a single `packProduction` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `packProduction` to look up the row to update. */
+export type PackProductionOnPackProductionForPackProductionShipperIdFkeyUsingPackProductionPkeyUpdate = {
+  /** An object where the defined keys will be set on the `packProduction` being updated. */
+  patch: UpdatePackProductionOnPackProductionForPackProductionShipperIdFkeyPatch;
+  shipperId: Scalars['String'];
+  productionCode: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `packProduction` being updated. */
+export type UpdatePackProductionOnPackProductionForPackProductionShipperIdFkeyPatch = {
+  productionCode?: Maybe<Scalars['String']>;
+  productionDescription?: Maybe<Scalars['String']>;
+  combineWith?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackProductionShipperIdFkeyInput>;
+  packMastersUsingProductionCodeAndShipperId?: Maybe<PackMasterProductionCodeShipperIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `shipper` in the `PackProductionInput` mutation. */
+export type PackProductionShipperIdFkeyInput = {
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  connectById?: Maybe<ShipperShipperPkeyConnect>;
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  connectByNodeId?: Maybe<ShipperNodeIdConnect>;
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  deleteById?: Maybe<ShipperShipperPkeyDelete>;
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<ShipperNodeIdDelete>;
+  /** The primary key(s) and patch data for `shipper` for the far side of the relationship. */
+  updateById?: Maybe<ShipperOnPackProductionForPackProductionShipperIdFkeyUsingShipperPkeyUpdate>;
+  /** The primary key(s) and patch data for `shipper` for the far side of the relationship. */
+  updateByNodeId?: Maybe<PackProductionOnPackProductionForPackProductionShipperIdFkeyNodeIdUpdate>;
+  /** A `ShipperInput` object that will be created and connected to this object. */
+  create?: Maybe<PackProductionShipperIdFkeyShipperCreateInput>;
+};
+
+/** The fields on `shipper` to look up the row to update. */
+export type ShipperOnPackProductionForPackProductionShipperIdFkeyUsingShipperPkeyUpdate = {
+  /** An object where the defined keys will be set on the `shipper` being updated. */
+  patch: UpdateShipperOnPackProductionForPackProductionShipperIdFkeyPatch;
+  id: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `shipper` being updated. */
+export type UpdateShipperOnPackProductionForPackProductionShipperIdFkeyPatch = {
+  id?: Maybe<Scalars['String']>;
+  shipperName?: Maybe<Scalars['String']>;
+  countryId?: Maybe<Scalars['String']>;
+  groupId?: Maybe<Scalars['String']>;
+  logoSrc?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
+  countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
+  personContactsUsingId?: Maybe<PersonContactShipperIdFkeyInverseInput>;
+  sizesUsingId?: Maybe<SizeShipperIdFkeyInverseInput>;
+  packAtmospheresUsingId?: Maybe<PackAtmosphereShipperIdFkeyInverseInput>;
+  packBoxStylesUsingId?: Maybe<PackBoxStyleShipperIdFkeyInverseInput>;
+  packBoxTypesUsingId?: Maybe<PackBoxTypeShipperIdFkeyInverseInput>;
+  packDestinationsUsingId?: Maybe<PackDestinationShipperIdFkeyInverseInput>;
+  packGradesUsingId?: Maybe<PackGradeShipperIdFkeyInverseInput>;
+  packHoldsUsingId?: Maybe<PackHoldShipperIdFkeyInverseInput>;
+  packLabelsUsingId?: Maybe<PackLabelShipperIdFkeyInverseInput>;
+  packLinersUsingId?: Maybe<PackLinerShipperIdFkeyInverseInput>;
+  packOutsUsingId?: Maybe<PackOutShipperIdFkeyInverseInput>;
+  packPalletTypesUsingId?: Maybe<PackPalletTypeShipperIdFkeyInverseInput>;
+  packProductionsUsingId?: Maybe<PackProductionShipperIdFkeyInverseInput>;
+  packSpecialsUsingId?: Maybe<PackSpecialShipperIdFkeyInverseInput>;
+  packTreeRipesUsingId?: Maybe<PackTreeRipeShipperIdFkeyInverseInput>;
+  packStylesUsingId?: Maybe<PackStyleShipperIdFkeyInverseInput>;
+  packMastersUsingId?: Maybe<PackMasterShipperIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `packSpecial` in the `ShipperInput` mutation. */
+export type PackSpecialShipperIdFkeyInverseInput = {
+  /** Flag indicating whether all other `packSpecial` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `packSpecial` for the far side of the relationship. */
+  connectByShipperIdAndCustomerCode?: Maybe<Array<PackSpecialPackSpecialPkeyConnect>>;
+  /** The primary key(s) for `packSpecial` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<PackSpecialNodeIdConnect>>;
+  /** The primary key(s) for `packSpecial` for the far side of the relationship. */
+  deleteByShipperIdAndCustomerCode?: Maybe<Array<PackSpecialPackSpecialPkeyDelete>>;
+  /** The primary key(s) for `packSpecial` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<PackSpecialNodeIdDelete>>;
+  /** The primary key(s) and patch data for `packSpecial` for the far side of the relationship. */
+  updateByShipperIdAndCustomerCode?: Maybe<Array<PackSpecialOnPackSpecialForPackSpecialShipperIdFkeyUsingPackSpecialPkeyUpdate>>;
+  /** The primary key(s) and patch data for `packSpecial` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<ShipperOnPackSpecialForPackSpecialShipperIdFkeyNodeIdUpdate>>;
+  /** A `PackSpecialInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<PackSpecialShipperIdFkeyPackSpecialCreateInput>>;
+};
+
+/** The fields on `packSpecial` to look up the row to update. */
+export type PackSpecialOnPackSpecialForPackSpecialShipperIdFkeyUsingPackSpecialPkeyUpdate = {
+  /** An object where the defined keys will be set on the `packSpecial` being updated. */
+  patch: UpdatePackSpecialOnPackSpecialForPackSpecialShipperIdFkeyPatch;
+  shipperId: Scalars['String'];
+  customerCode: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `packSpecial` being updated. */
+export type UpdatePackSpecialOnPackSpecialForPackSpecialShipperIdFkeyPatch = {
+  customerCode?: Maybe<Scalars['String']>;
+  customerId?: Maybe<Scalars['String']>;
+  customerName?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackSpecialShipperIdFkeyInput>;
+  customerToCustomerId?: Maybe<PackSpecialCustomerIdFkeyInput>;
+  packMastersUsingCustomerCodeAndShipperId?: Maybe<PackMasterCustomerCodeShipperIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `customer` in the `PackSpecialInput` mutation. */
+export type PackSpecialCustomerIdFkeyInput = {
+  /** The primary key(s) for `customer` for the far side of the relationship. */
+  connectById?: Maybe<CustomerCustomerPkeyConnect>;
+  /** The primary key(s) for `customer` for the far side of the relationship. */
+  connectByNodeId?: Maybe<CustomerNodeIdConnect>;
+  /** The primary key(s) for `customer` for the far side of the relationship. */
+  deleteById?: Maybe<CustomerCustomerPkeyDelete>;
+  /** The primary key(s) for `customer` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<CustomerNodeIdDelete>;
+  /** The primary key(s) and patch data for `customer` for the far side of the relationship. */
+  updateById?: Maybe<CustomerOnPackSpecialForPackSpecialCustomerIdFkeyUsingCustomerPkeyUpdate>;
+  /** The primary key(s) and patch data for `customer` for the far side of the relationship. */
+  updateByNodeId?: Maybe<PackSpecialOnPackSpecialForPackSpecialCustomerIdFkeyNodeIdUpdate>;
+  /** A `CustomerInput` object that will be created and connected to this object. */
+  create?: Maybe<PackSpecialCustomerIdFkeyCustomerCreateInput>;
+};
+
+/** The fields on `customer` to look up the row to update. */
+export type CustomerOnPackSpecialForPackSpecialCustomerIdFkeyUsingCustomerPkeyUpdate = {
+  /** An object where the defined keys will be set on the `customer` being updated. */
+  patch: UpdateCustomerOnPackSpecialForPackSpecialCustomerIdFkeyPatch;
+  id: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `customer` being updated. */
+export type UpdateCustomerOnPackSpecialForPackSpecialCustomerIdFkeyPatch = {
+  id?: Maybe<Scalars['String']>;
+  customerName?: Maybe<Scalars['String']>;
+  address1?: Maybe<Scalars['String']>;
+  address2?: Maybe<Scalars['String']>;
+  city?: Maybe<Scalars['String']>;
+  postalState?: Maybe<Scalars['String']>;
+  zipCode?: Maybe<Scalars['String']>;
+  countryId?: Maybe<Scalars['String']>;
+  phone?: Maybe<Scalars['String']>;
+  logoSrc?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
+  active?: Maybe<Scalars['Boolean']>;
+  countryToCountryId?: Maybe<CustomerCountryIdFkeyInput>;
+  personContactsUsingId?: Maybe<PersonContactCustomerIdFkeyInverseInput>;
+  packSpecialsUsingId?: Maybe<PackSpecialCustomerIdFkeyInverseInput>;
+};
+
 /** The globally unique `ID` look up for the row to update. */
-export type PersonContactOnPersonContactForPersonContactCustomerIdFkeyNodeIdUpdate = {
+export type PackSpecialOnPackSpecialForPackSpecialCustomerIdFkeyNodeIdUpdate = {
   /** The globally unique `ID` which identifies a single `customer` to be connected. */
   nodeId: Scalars['ID'];
   /** An object where the defined keys will be set on the `customer` being updated. */
@@ -5471,6 +13370,5288 @@ export type CustomerPatch = {
   active?: Maybe<Scalars['Boolean']>;
   countryToCountryId?: Maybe<CustomerCountryIdFkeyInput>;
   personContactsUsingId?: Maybe<PersonContactCustomerIdFkeyInverseInput>;
+  packSpecialsUsingId?: Maybe<PackSpecialCustomerIdFkeyInverseInput>;
+};
+
+/** The `customer` to be created by this mutation. */
+export type PackSpecialCustomerIdFkeyCustomerCreateInput = {
+  id: Scalars['String'];
+  customerName: Scalars['String'];
+  address1?: Maybe<Scalars['String']>;
+  address2?: Maybe<Scalars['String']>;
+  city?: Maybe<Scalars['String']>;
+  postalState?: Maybe<Scalars['String']>;
+  zipCode?: Maybe<Scalars['String']>;
+  countryId?: Maybe<Scalars['String']>;
+  phone?: Maybe<Scalars['String']>;
+  logoSrc?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
+  active: Scalars['Boolean'];
+  countryToCountryId?: Maybe<CustomerCountryIdFkeyInput>;
+  personContactsUsingId?: Maybe<PersonContactCustomerIdFkeyInverseInput>;
+  packSpecialsUsingId?: Maybe<PackSpecialCustomerIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `packMaster` in the `PackSpecialInput` mutation. */
+export type PackMasterCustomerCodeShipperIdFkeyInverseInput = {
+  /** Flag indicating whether all other `packMaster` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  connectByOldPackCode?: Maybe<Array<PackMasterPackMasterPkeyConnect>>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<PackMasterNodeIdConnect>>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  deleteByOldPackCode?: Maybe<Array<PackMasterPackMasterPkeyDelete>>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<PackMasterNodeIdDelete>>;
+  /** The primary key(s) and patch data for `packMaster` for the far side of the relationship. */
+  updateByOldPackCode?: Maybe<Array<PackMasterOnPackMasterForPackMasterCustomerCodeShipperIdFkeyUsingPackMasterPkeyUpdate>>;
+  /** The primary key(s) and patch data for `packMaster` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<PackSpecialOnPackMasterForPackMasterCustomerCodeShipperIdFkeyNodeIdUpdate>>;
+  /** A `PackMasterInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<PackMasterCustomerCodeShipperIdFkeyPackMasterCreateInput>>;
+};
+
+/** The fields on `packMaster` to look up the row to connect. */
+export type PackMasterPackMasterPkeyConnect = {
+  oldPackCode: Scalars['String'];
+};
+
+/** The globally unique `ID` look up for the row to connect. */
+export type PackMasterNodeIdConnect = {
+  /** The globally unique `ID` which identifies a single `packMaster` to be connected. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `packMaster` to look up the row to delete. */
+export type PackMasterPackMasterPkeyDelete = {
+  oldPackCode: Scalars['String'];
+};
+
+/** The globally unique `ID` look up for the row to delete. */
+export type PackMasterNodeIdDelete = {
+  /** The globally unique `ID` which identifies a single `packMaster` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `packMaster` to look up the row to update. */
+export type PackMasterOnPackMasterForPackMasterCustomerCodeShipperIdFkeyUsingPackMasterPkeyUpdate = {
+  /** An object where the defined keys will be set on the `packMaster` being updated. */
+  patch: UpdatePackMasterOnPackMasterForPackMasterCustomerCodeShipperIdFkeyPatch;
+  oldPackCode: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `packMaster` being updated. */
+export type UpdatePackMasterOnPackMasterForPackMasterCustomerCodeShipperIdFkeyPatch = {
+  labelCode?: Maybe<Scalars['String']>;
+  boxType?: Maybe<Scalars['String']>;
+  boxStyle?: Maybe<Scalars['String']>;
+  packStyle?: Maybe<Scalars['String']>;
+  outCode?: Maybe<Scalars['String']>;
+  outQuantity?: Maybe<Scalars['String']>;
+  outWeight?: Maybe<Scalars['String']>;
+  productionCode?: Maybe<Scalars['String']>;
+  treeRipe?: Maybe<Scalars['String']>;
+  gradeCode?: Maybe<Scalars['String']>;
+  maCode?: Maybe<Scalars['String']>;
+  linerCode?: Maybe<Scalars['String']>;
+  netWeightContents?: Maybe<Scalars['BigFloat']>;
+  netWeightBox?: Maybe<Scalars['BigFloat']>;
+  boxLength?: Maybe<Scalars['BigFloat']>;
+  boxWidth?: Maybe<Scalars['BigFloat']>;
+  boxHeight?: Maybe<Scalars['BigFloat']>;
+  palletType?: Maybe<Scalars['String']>;
+  defaultPalletQuantity?: Maybe<Scalars['BigFloat']>;
+  pluUpcCode?: Maybe<Scalars['String']>;
+  destinationCode?: Maybe<Scalars['String']>;
+  oldPackCode?: Maybe<Scalars['String']>;
+  oldLabelCode?: Maybe<Scalars['String']>;
+  jvPackCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  varietyId?: Maybe<Scalars['String']>;
+  speciesId?: Maybe<Scalars['String']>;
+  holdCode?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackMasterShipperIdFkeyInput>;
+  packLabelToLabelCodeAndShipperId?: Maybe<PackMasterLabelCodeShipperIdFkeyInput>;
+  packSpecialToCustomerCodeAndShipperId?: Maybe<PackMasterCustomerCodeShipperIdFkeyInput>;
+  packBoxTypeToBoxTypeAndShipperId?: Maybe<PackMasterBoxTypeShipperIdFkeyInput>;
+  packBoxStyleToBoxStyleAndShipperId?: Maybe<PackMasterBoxStyleShipperIdFkeyInput>;
+  packStyleToPackStyleAndShipperId?: Maybe<PackMasterPackStyleShipperIdFkeyInput>;
+  packOutToOutCodeAndShipperId?: Maybe<PackMasterOutCodeShipperIdFkeyInput>;
+  packProductionToProductionCodeAndShipperId?: Maybe<PackMasterProductionCodeShipperIdFkeyInput>;
+  packTreeRipeToTreeRipeAndShipperId?: Maybe<PackMasterTreeRipeShipperIdFkeyInput>;
+  packGradeToGradeCodeAndShipperId?: Maybe<PackMasterGradeCodeShipperIdFkeyInput>;
+  packAtmosphereToMaCodeAndShipperId?: Maybe<PackMasterMaCodeShipperIdFkeyInput>;
+  packLinerToLinerCodeAndShipperId?: Maybe<PackMasterLinerCodeShipperIdFkeyInput>;
+  packPalletTypeToPalletTypeAndShipperId?: Maybe<PackMasterPalletTypeShipperIdFkeyInput>;
+  packDestinationToDestinationCodeAndShipperId?: Maybe<PackMasterDestinationCodeShipperIdFkeyInput>;
+  varietyToVarietyId?: Maybe<PackMasterVarietyIdFkeyInput>;
+  speciesToSpeciesId?: Maybe<PackMasterSpeciesIdFkeyInput>;
+  packHoldToHoldCodeAndShipperId?: Maybe<PackMasterHoldCodeShipperIdFkeyInput>;
+  mastersUsingOldPackCode?: Maybe<MasterPackIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `shipper` in the `PackMasterInput` mutation. */
+export type PackMasterShipperIdFkeyInput = {
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  connectById?: Maybe<ShipperShipperPkeyConnect>;
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  connectByNodeId?: Maybe<ShipperNodeIdConnect>;
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  deleteById?: Maybe<ShipperShipperPkeyDelete>;
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<ShipperNodeIdDelete>;
+  /** The primary key(s) and patch data for `shipper` for the far side of the relationship. */
+  updateById?: Maybe<ShipperOnPackMasterForPackMasterShipperIdFkeyUsingShipperPkeyUpdate>;
+  /** The primary key(s) and patch data for `shipper` for the far side of the relationship. */
+  updateByNodeId?: Maybe<PackMasterOnPackMasterForPackMasterShipperIdFkeyNodeIdUpdate>;
+  /** A `ShipperInput` object that will be created and connected to this object. */
+  create?: Maybe<PackMasterShipperIdFkeyShipperCreateInput>;
+};
+
+/** The fields on `shipper` to look up the row to update. */
+export type ShipperOnPackMasterForPackMasterShipperIdFkeyUsingShipperPkeyUpdate = {
+  /** An object where the defined keys will be set on the `shipper` being updated. */
+  patch: UpdateShipperOnPackMasterForPackMasterShipperIdFkeyPatch;
+  id: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `shipper` being updated. */
+export type UpdateShipperOnPackMasterForPackMasterShipperIdFkeyPatch = {
+  id?: Maybe<Scalars['String']>;
+  shipperName?: Maybe<Scalars['String']>;
+  countryId?: Maybe<Scalars['String']>;
+  groupId?: Maybe<Scalars['String']>;
+  logoSrc?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
+  countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
+  personContactsUsingId?: Maybe<PersonContactShipperIdFkeyInverseInput>;
+  sizesUsingId?: Maybe<SizeShipperIdFkeyInverseInput>;
+  packAtmospheresUsingId?: Maybe<PackAtmosphereShipperIdFkeyInverseInput>;
+  packBoxStylesUsingId?: Maybe<PackBoxStyleShipperIdFkeyInverseInput>;
+  packBoxTypesUsingId?: Maybe<PackBoxTypeShipperIdFkeyInverseInput>;
+  packDestinationsUsingId?: Maybe<PackDestinationShipperIdFkeyInverseInput>;
+  packGradesUsingId?: Maybe<PackGradeShipperIdFkeyInverseInput>;
+  packHoldsUsingId?: Maybe<PackHoldShipperIdFkeyInverseInput>;
+  packLabelsUsingId?: Maybe<PackLabelShipperIdFkeyInverseInput>;
+  packLinersUsingId?: Maybe<PackLinerShipperIdFkeyInverseInput>;
+  packOutsUsingId?: Maybe<PackOutShipperIdFkeyInverseInput>;
+  packPalletTypesUsingId?: Maybe<PackPalletTypeShipperIdFkeyInverseInput>;
+  packProductionsUsingId?: Maybe<PackProductionShipperIdFkeyInverseInput>;
+  packSpecialsUsingId?: Maybe<PackSpecialShipperIdFkeyInverseInput>;
+  packTreeRipesUsingId?: Maybe<PackTreeRipeShipperIdFkeyInverseInput>;
+  packStylesUsingId?: Maybe<PackStyleShipperIdFkeyInverseInput>;
+  packMastersUsingId?: Maybe<PackMasterShipperIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `packTreeRipe` in the `ShipperInput` mutation. */
+export type PackTreeRipeShipperIdFkeyInverseInput = {
+  /** Flag indicating whether all other `packTreeRipe` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `packTreeRipe` for the far side of the relationship. */
+  connectByShipperIdAndTreeRipe?: Maybe<Array<PackTreeRipePackTreeRipePkeyConnect>>;
+  /** The primary key(s) for `packTreeRipe` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<PackTreeRipeNodeIdConnect>>;
+  /** The primary key(s) for `packTreeRipe` for the far side of the relationship. */
+  deleteByShipperIdAndTreeRipe?: Maybe<Array<PackTreeRipePackTreeRipePkeyDelete>>;
+  /** The primary key(s) for `packTreeRipe` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<PackTreeRipeNodeIdDelete>>;
+  /** The primary key(s) and patch data for `packTreeRipe` for the far side of the relationship. */
+  updateByShipperIdAndTreeRipe?: Maybe<Array<PackTreeRipeOnPackTreeRipeForPackTreeRipeShipperIdFkeyUsingPackTreeRipePkeyUpdate>>;
+  /** The primary key(s) and patch data for `packTreeRipe` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<ShipperOnPackTreeRipeForPackTreeRipeShipperIdFkeyNodeIdUpdate>>;
+  /** A `PackTreeRipeInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<PackTreeRipeShipperIdFkeyPackTreeRipeCreateInput>>;
+};
+
+/** The fields on `packTreeRipe` to look up the row to connect. */
+export type PackTreeRipePackTreeRipePkeyConnect = {
+  shipperId: Scalars['String'];
+  treeRipe: Scalars['String'];
+};
+
+/** The globally unique `ID` look up for the row to connect. */
+export type PackTreeRipeNodeIdConnect = {
+  /** The globally unique `ID` which identifies a single `packTreeRipe` to be connected. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `packTreeRipe` to look up the row to delete. */
+export type PackTreeRipePackTreeRipePkeyDelete = {
+  shipperId: Scalars['String'];
+  treeRipe: Scalars['String'];
+};
+
+/** The globally unique `ID` look up for the row to delete. */
+export type PackTreeRipeNodeIdDelete = {
+  /** The globally unique `ID` which identifies a single `packTreeRipe` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `packTreeRipe` to look up the row to update. */
+export type PackTreeRipeOnPackTreeRipeForPackTreeRipeShipperIdFkeyUsingPackTreeRipePkeyUpdate = {
+  /** An object where the defined keys will be set on the `packTreeRipe` being updated. */
+  patch: UpdatePackTreeRipeOnPackTreeRipeForPackTreeRipeShipperIdFkeyPatch;
+  shipperId: Scalars['String'];
+  treeRipe: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `packTreeRipe` being updated. */
+export type UpdatePackTreeRipeOnPackTreeRipeForPackTreeRipeShipperIdFkeyPatch = {
+  treeRipe?: Maybe<Scalars['String']>;
+  treeRipeDescription?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackTreeRipeShipperIdFkeyInput>;
+  packMastersUsingTreeRipeAndShipperId?: Maybe<PackMasterTreeRipeShipperIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `shipper` in the `PackTreeRipeInput` mutation. */
+export type PackTreeRipeShipperIdFkeyInput = {
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  connectById?: Maybe<ShipperShipperPkeyConnect>;
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  connectByNodeId?: Maybe<ShipperNodeIdConnect>;
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  deleteById?: Maybe<ShipperShipperPkeyDelete>;
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<ShipperNodeIdDelete>;
+  /** The primary key(s) and patch data for `shipper` for the far side of the relationship. */
+  updateById?: Maybe<ShipperOnPackTreeRipeForPackTreeRipeShipperIdFkeyUsingShipperPkeyUpdate>;
+  /** The primary key(s) and patch data for `shipper` for the far side of the relationship. */
+  updateByNodeId?: Maybe<PackTreeRipeOnPackTreeRipeForPackTreeRipeShipperIdFkeyNodeIdUpdate>;
+  /** A `ShipperInput` object that will be created and connected to this object. */
+  create?: Maybe<PackTreeRipeShipperIdFkeyShipperCreateInput>;
+};
+
+/** The fields on `shipper` to look up the row to update. */
+export type ShipperOnPackTreeRipeForPackTreeRipeShipperIdFkeyUsingShipperPkeyUpdate = {
+  /** An object where the defined keys will be set on the `shipper` being updated. */
+  patch: UpdateShipperOnPackTreeRipeForPackTreeRipeShipperIdFkeyPatch;
+  id: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `shipper` being updated. */
+export type UpdateShipperOnPackTreeRipeForPackTreeRipeShipperIdFkeyPatch = {
+  id?: Maybe<Scalars['String']>;
+  shipperName?: Maybe<Scalars['String']>;
+  countryId?: Maybe<Scalars['String']>;
+  groupId?: Maybe<Scalars['String']>;
+  logoSrc?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
+  countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
+  personContactsUsingId?: Maybe<PersonContactShipperIdFkeyInverseInput>;
+  sizesUsingId?: Maybe<SizeShipperIdFkeyInverseInput>;
+  packAtmospheresUsingId?: Maybe<PackAtmosphereShipperIdFkeyInverseInput>;
+  packBoxStylesUsingId?: Maybe<PackBoxStyleShipperIdFkeyInverseInput>;
+  packBoxTypesUsingId?: Maybe<PackBoxTypeShipperIdFkeyInverseInput>;
+  packDestinationsUsingId?: Maybe<PackDestinationShipperIdFkeyInverseInput>;
+  packGradesUsingId?: Maybe<PackGradeShipperIdFkeyInverseInput>;
+  packHoldsUsingId?: Maybe<PackHoldShipperIdFkeyInverseInput>;
+  packLabelsUsingId?: Maybe<PackLabelShipperIdFkeyInverseInput>;
+  packLinersUsingId?: Maybe<PackLinerShipperIdFkeyInverseInput>;
+  packOutsUsingId?: Maybe<PackOutShipperIdFkeyInverseInput>;
+  packPalletTypesUsingId?: Maybe<PackPalletTypeShipperIdFkeyInverseInput>;
+  packProductionsUsingId?: Maybe<PackProductionShipperIdFkeyInverseInput>;
+  packSpecialsUsingId?: Maybe<PackSpecialShipperIdFkeyInverseInput>;
+  packTreeRipesUsingId?: Maybe<PackTreeRipeShipperIdFkeyInverseInput>;
+  packStylesUsingId?: Maybe<PackStyleShipperIdFkeyInverseInput>;
+  packMastersUsingId?: Maybe<PackMasterShipperIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `packStyle` in the `ShipperInput` mutation. */
+export type PackStyleShipperIdFkeyInverseInput = {
+  /** Flag indicating whether all other `packStyle` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `packStyle` for the far side of the relationship. */
+  connectByShipperIdAndPackStyle?: Maybe<Array<PackStylePackStylePkeyConnect>>;
+  /** The primary key(s) for `packStyle` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<PackStyleNodeIdConnect>>;
+  /** The primary key(s) for `packStyle` for the far side of the relationship. */
+  deleteByShipperIdAndPackStyle?: Maybe<Array<PackStylePackStylePkeyDelete>>;
+  /** The primary key(s) for `packStyle` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<PackStyleNodeIdDelete>>;
+  /** The primary key(s) and patch data for `packStyle` for the far side of the relationship. */
+  updateByShipperIdAndPackStyle?: Maybe<Array<PackStyleOnPackStyleForPackStyleShipperIdFkeyUsingPackStylePkeyUpdate>>;
+  /** The primary key(s) and patch data for `packStyle` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<ShipperOnPackStyleForPackStyleShipperIdFkeyNodeIdUpdate>>;
+  /** A `PackStyleInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<PackStyleShipperIdFkeyPackStyleCreateInput>>;
+};
+
+/** The fields on `packStyle` to look up the row to connect. */
+export type PackStylePackStylePkeyConnect = {
+  shipperId: Scalars['String'];
+  packStyle: Scalars['String'];
+};
+
+/** The globally unique `ID` look up for the row to connect. */
+export type PackStyleNodeIdConnect = {
+  /** The globally unique `ID` which identifies a single `packStyle` to be connected. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `packStyle` to look up the row to delete. */
+export type PackStylePackStylePkeyDelete = {
+  shipperId: Scalars['String'];
+  packStyle: Scalars['String'];
+};
+
+/** The globally unique `ID` look up for the row to delete. */
+export type PackStyleNodeIdDelete = {
+  /** The globally unique `ID` which identifies a single `packStyle` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `packStyle` to look up the row to update. */
+export type PackStyleOnPackStyleForPackStyleShipperIdFkeyUsingPackStylePkeyUpdate = {
+  /** An object where the defined keys will be set on the `packStyle` being updated. */
+  patch: UpdatePackStyleOnPackStyleForPackStyleShipperIdFkeyPatch;
+  shipperId: Scalars['String'];
+  packStyle: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `packStyle` being updated. */
+export type UpdatePackStyleOnPackStyleForPackStyleShipperIdFkeyPatch = {
+  packStyle?: Maybe<Scalars['String']>;
+  styleDescription?: Maybe<Scalars['String']>;
+  combineWith?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackStyleShipperIdFkeyInput>;
+  packMastersUsingPackStyleAndShipperId?: Maybe<PackMasterPackStyleShipperIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `shipper` in the `PackStyleInput` mutation. */
+export type PackStyleShipperIdFkeyInput = {
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  connectById?: Maybe<ShipperShipperPkeyConnect>;
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  connectByNodeId?: Maybe<ShipperNodeIdConnect>;
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  deleteById?: Maybe<ShipperShipperPkeyDelete>;
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<ShipperNodeIdDelete>;
+  /** The primary key(s) and patch data for `shipper` for the far side of the relationship. */
+  updateById?: Maybe<ShipperOnPackStyleForPackStyleShipperIdFkeyUsingShipperPkeyUpdate>;
+  /** The primary key(s) and patch data for `shipper` for the far side of the relationship. */
+  updateByNodeId?: Maybe<PackStyleOnPackStyleForPackStyleShipperIdFkeyNodeIdUpdate>;
+  /** A `ShipperInput` object that will be created and connected to this object. */
+  create?: Maybe<PackStyleShipperIdFkeyShipperCreateInput>;
+};
+
+/** The fields on `shipper` to look up the row to update. */
+export type ShipperOnPackStyleForPackStyleShipperIdFkeyUsingShipperPkeyUpdate = {
+  /** An object where the defined keys will be set on the `shipper` being updated. */
+  patch: UpdateShipperOnPackStyleForPackStyleShipperIdFkeyPatch;
+  id: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `shipper` being updated. */
+export type UpdateShipperOnPackStyleForPackStyleShipperIdFkeyPatch = {
+  id?: Maybe<Scalars['String']>;
+  shipperName?: Maybe<Scalars['String']>;
+  countryId?: Maybe<Scalars['String']>;
+  groupId?: Maybe<Scalars['String']>;
+  logoSrc?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
+  countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
+  personContactsUsingId?: Maybe<PersonContactShipperIdFkeyInverseInput>;
+  sizesUsingId?: Maybe<SizeShipperIdFkeyInverseInput>;
+  packAtmospheresUsingId?: Maybe<PackAtmosphereShipperIdFkeyInverseInput>;
+  packBoxStylesUsingId?: Maybe<PackBoxStyleShipperIdFkeyInverseInput>;
+  packBoxTypesUsingId?: Maybe<PackBoxTypeShipperIdFkeyInverseInput>;
+  packDestinationsUsingId?: Maybe<PackDestinationShipperIdFkeyInverseInput>;
+  packGradesUsingId?: Maybe<PackGradeShipperIdFkeyInverseInput>;
+  packHoldsUsingId?: Maybe<PackHoldShipperIdFkeyInverseInput>;
+  packLabelsUsingId?: Maybe<PackLabelShipperIdFkeyInverseInput>;
+  packLinersUsingId?: Maybe<PackLinerShipperIdFkeyInverseInput>;
+  packOutsUsingId?: Maybe<PackOutShipperIdFkeyInverseInput>;
+  packPalletTypesUsingId?: Maybe<PackPalletTypeShipperIdFkeyInverseInput>;
+  packProductionsUsingId?: Maybe<PackProductionShipperIdFkeyInverseInput>;
+  packSpecialsUsingId?: Maybe<PackSpecialShipperIdFkeyInverseInput>;
+  packTreeRipesUsingId?: Maybe<PackTreeRipeShipperIdFkeyInverseInput>;
+  packStylesUsingId?: Maybe<PackStyleShipperIdFkeyInverseInput>;
+  packMastersUsingId?: Maybe<PackMasterShipperIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `packMaster` in the `ShipperInput` mutation. */
+export type PackMasterShipperIdFkeyInverseInput = {
+  /** Flag indicating whether all other `packMaster` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  connectByOldPackCode?: Maybe<Array<PackMasterPackMasterPkeyConnect>>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<PackMasterNodeIdConnect>>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  deleteByOldPackCode?: Maybe<Array<PackMasterPackMasterPkeyDelete>>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<PackMasterNodeIdDelete>>;
+  /** The primary key(s) and patch data for `packMaster` for the far side of the relationship. */
+  updateByOldPackCode?: Maybe<Array<PackMasterOnPackMasterForPackMasterShipperIdFkeyUsingPackMasterPkeyUpdate>>;
+  /** The primary key(s) and patch data for `packMaster` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<ShipperOnPackMasterForPackMasterShipperIdFkeyNodeIdUpdate>>;
+  /** A `PackMasterInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<PackMasterShipperIdFkeyPackMasterCreateInput>>;
+};
+
+/** The fields on `packMaster` to look up the row to update. */
+export type PackMasterOnPackMasterForPackMasterShipperIdFkeyUsingPackMasterPkeyUpdate = {
+  /** An object where the defined keys will be set on the `packMaster` being updated. */
+  patch: UpdatePackMasterOnPackMasterForPackMasterShipperIdFkeyPatch;
+  oldPackCode: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `packMaster` being updated. */
+export type UpdatePackMasterOnPackMasterForPackMasterShipperIdFkeyPatch = {
+  labelCode?: Maybe<Scalars['String']>;
+  customerCode?: Maybe<Scalars['String']>;
+  boxType?: Maybe<Scalars['String']>;
+  boxStyle?: Maybe<Scalars['String']>;
+  packStyle?: Maybe<Scalars['String']>;
+  outCode?: Maybe<Scalars['String']>;
+  outQuantity?: Maybe<Scalars['String']>;
+  outWeight?: Maybe<Scalars['String']>;
+  productionCode?: Maybe<Scalars['String']>;
+  treeRipe?: Maybe<Scalars['String']>;
+  gradeCode?: Maybe<Scalars['String']>;
+  maCode?: Maybe<Scalars['String']>;
+  linerCode?: Maybe<Scalars['String']>;
+  netWeightContents?: Maybe<Scalars['BigFloat']>;
+  netWeightBox?: Maybe<Scalars['BigFloat']>;
+  boxLength?: Maybe<Scalars['BigFloat']>;
+  boxWidth?: Maybe<Scalars['BigFloat']>;
+  boxHeight?: Maybe<Scalars['BigFloat']>;
+  palletType?: Maybe<Scalars['String']>;
+  defaultPalletQuantity?: Maybe<Scalars['BigFloat']>;
+  pluUpcCode?: Maybe<Scalars['String']>;
+  destinationCode?: Maybe<Scalars['String']>;
+  oldPackCode?: Maybe<Scalars['String']>;
+  oldLabelCode?: Maybe<Scalars['String']>;
+  jvPackCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  varietyId?: Maybe<Scalars['String']>;
+  speciesId?: Maybe<Scalars['String']>;
+  holdCode?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackMasterShipperIdFkeyInput>;
+  packLabelToLabelCodeAndShipperId?: Maybe<PackMasterLabelCodeShipperIdFkeyInput>;
+  packSpecialToCustomerCodeAndShipperId?: Maybe<PackMasterCustomerCodeShipperIdFkeyInput>;
+  packBoxTypeToBoxTypeAndShipperId?: Maybe<PackMasterBoxTypeShipperIdFkeyInput>;
+  packBoxStyleToBoxStyleAndShipperId?: Maybe<PackMasterBoxStyleShipperIdFkeyInput>;
+  packStyleToPackStyleAndShipperId?: Maybe<PackMasterPackStyleShipperIdFkeyInput>;
+  packOutToOutCodeAndShipperId?: Maybe<PackMasterOutCodeShipperIdFkeyInput>;
+  packProductionToProductionCodeAndShipperId?: Maybe<PackMasterProductionCodeShipperIdFkeyInput>;
+  packTreeRipeToTreeRipeAndShipperId?: Maybe<PackMasterTreeRipeShipperIdFkeyInput>;
+  packGradeToGradeCodeAndShipperId?: Maybe<PackMasterGradeCodeShipperIdFkeyInput>;
+  packAtmosphereToMaCodeAndShipperId?: Maybe<PackMasterMaCodeShipperIdFkeyInput>;
+  packLinerToLinerCodeAndShipperId?: Maybe<PackMasterLinerCodeShipperIdFkeyInput>;
+  packPalletTypeToPalletTypeAndShipperId?: Maybe<PackMasterPalletTypeShipperIdFkeyInput>;
+  packDestinationToDestinationCodeAndShipperId?: Maybe<PackMasterDestinationCodeShipperIdFkeyInput>;
+  varietyToVarietyId?: Maybe<PackMasterVarietyIdFkeyInput>;
+  speciesToSpeciesId?: Maybe<PackMasterSpeciesIdFkeyInput>;
+  packHoldToHoldCodeAndShipperId?: Maybe<PackMasterHoldCodeShipperIdFkeyInput>;
+  mastersUsingOldPackCode?: Maybe<MasterPackIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `packLabel` in the `PackMasterInput` mutation. */
+export type PackMasterLabelCodeShipperIdFkeyInput = {
+  /** The primary key(s) for `packLabel` for the far side of the relationship. */
+  connectByShipperIdAndLabelCode?: Maybe<PackLabelPackLabelPkeyConnect>;
+  /** The primary key(s) for `packLabel` for the far side of the relationship. */
+  connectByNodeId?: Maybe<PackLabelNodeIdConnect>;
+  /** The primary key(s) for `packLabel` for the far side of the relationship. */
+  deleteByShipperIdAndLabelCode?: Maybe<PackLabelPackLabelPkeyDelete>;
+  /** The primary key(s) for `packLabel` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<PackLabelNodeIdDelete>;
+  /** The primary key(s) and patch data for `packLabel` for the far side of the relationship. */
+  updateByShipperIdAndLabelCode?: Maybe<PackLabelOnPackMasterForPackMasterLabelCodeShipperIdFkeyUsingPackLabelPkeyUpdate>;
+  /** The primary key(s) and patch data for `packLabel` for the far side of the relationship. */
+  updateByNodeId?: Maybe<PackMasterOnPackMasterForPackMasterLabelCodeShipperIdFkeyNodeIdUpdate>;
+  /** A `PackLabelInput` object that will be created and connected to this object. */
+  create?: Maybe<PackMasterLabelCodeShipperIdFkeyPackLabelCreateInput>;
+};
+
+/** The fields on `packLabel` to look up the row to update. */
+export type PackLabelOnPackMasterForPackMasterLabelCodeShipperIdFkeyUsingPackLabelPkeyUpdate = {
+  /** An object where the defined keys will be set on the `packLabel` being updated. */
+  patch: UpdatePackLabelOnPackMasterForPackMasterLabelCodeShipperIdFkeyPatch;
+  shipperId: Scalars['String'];
+  labelCode: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `packLabel` being updated. */
+export type UpdatePackLabelOnPackMasterForPackMasterLabelCodeShipperIdFkeyPatch = {
+  labelName?: Maybe<Scalars['String']>;
+  shipperName?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackLabelShipperIdFkeyInput>;
+  packMastersUsingLabelCodeAndShipperId?: Maybe<PackMasterLabelCodeShipperIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `packMaster` in the `PackLabelInput` mutation. */
+export type PackMasterLabelCodeShipperIdFkeyInverseInput = {
+  /** Flag indicating whether all other `packMaster` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  connectByOldPackCode?: Maybe<Array<PackMasterPackMasterPkeyConnect>>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<PackMasterNodeIdConnect>>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  deleteByOldPackCode?: Maybe<Array<PackMasterPackMasterPkeyDelete>>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<PackMasterNodeIdDelete>>;
+  /** The primary key(s) and patch data for `packMaster` for the far side of the relationship. */
+  updateByOldPackCode?: Maybe<Array<PackMasterOnPackMasterForPackMasterLabelCodeShipperIdFkeyUsingPackMasterPkeyUpdate>>;
+  /** The primary key(s) and patch data for `packMaster` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<PackLabelOnPackMasterForPackMasterLabelCodeShipperIdFkeyNodeIdUpdate>>;
+  /** A `PackMasterInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<PackMasterLabelCodeShipperIdFkeyPackMasterCreateInput>>;
+};
+
+/** The fields on `packMaster` to look up the row to update. */
+export type PackMasterOnPackMasterForPackMasterLabelCodeShipperIdFkeyUsingPackMasterPkeyUpdate = {
+  /** An object where the defined keys will be set on the `packMaster` being updated. */
+  patch: UpdatePackMasterOnPackMasterForPackMasterLabelCodeShipperIdFkeyPatch;
+  oldPackCode: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `packMaster` being updated. */
+export type UpdatePackMasterOnPackMasterForPackMasterLabelCodeShipperIdFkeyPatch = {
+  customerCode?: Maybe<Scalars['String']>;
+  boxType?: Maybe<Scalars['String']>;
+  boxStyle?: Maybe<Scalars['String']>;
+  packStyle?: Maybe<Scalars['String']>;
+  outCode?: Maybe<Scalars['String']>;
+  outQuantity?: Maybe<Scalars['String']>;
+  outWeight?: Maybe<Scalars['String']>;
+  productionCode?: Maybe<Scalars['String']>;
+  treeRipe?: Maybe<Scalars['String']>;
+  gradeCode?: Maybe<Scalars['String']>;
+  maCode?: Maybe<Scalars['String']>;
+  linerCode?: Maybe<Scalars['String']>;
+  netWeightContents?: Maybe<Scalars['BigFloat']>;
+  netWeightBox?: Maybe<Scalars['BigFloat']>;
+  boxLength?: Maybe<Scalars['BigFloat']>;
+  boxWidth?: Maybe<Scalars['BigFloat']>;
+  boxHeight?: Maybe<Scalars['BigFloat']>;
+  palletType?: Maybe<Scalars['String']>;
+  defaultPalletQuantity?: Maybe<Scalars['BigFloat']>;
+  pluUpcCode?: Maybe<Scalars['String']>;
+  destinationCode?: Maybe<Scalars['String']>;
+  oldPackCode?: Maybe<Scalars['String']>;
+  oldLabelCode?: Maybe<Scalars['String']>;
+  jvPackCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  varietyId?: Maybe<Scalars['String']>;
+  speciesId?: Maybe<Scalars['String']>;
+  holdCode?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackMasterShipperIdFkeyInput>;
+  packLabelToLabelCodeAndShipperId?: Maybe<PackMasterLabelCodeShipperIdFkeyInput>;
+  packSpecialToCustomerCodeAndShipperId?: Maybe<PackMasterCustomerCodeShipperIdFkeyInput>;
+  packBoxTypeToBoxTypeAndShipperId?: Maybe<PackMasterBoxTypeShipperIdFkeyInput>;
+  packBoxStyleToBoxStyleAndShipperId?: Maybe<PackMasterBoxStyleShipperIdFkeyInput>;
+  packStyleToPackStyleAndShipperId?: Maybe<PackMasterPackStyleShipperIdFkeyInput>;
+  packOutToOutCodeAndShipperId?: Maybe<PackMasterOutCodeShipperIdFkeyInput>;
+  packProductionToProductionCodeAndShipperId?: Maybe<PackMasterProductionCodeShipperIdFkeyInput>;
+  packTreeRipeToTreeRipeAndShipperId?: Maybe<PackMasterTreeRipeShipperIdFkeyInput>;
+  packGradeToGradeCodeAndShipperId?: Maybe<PackMasterGradeCodeShipperIdFkeyInput>;
+  packAtmosphereToMaCodeAndShipperId?: Maybe<PackMasterMaCodeShipperIdFkeyInput>;
+  packLinerToLinerCodeAndShipperId?: Maybe<PackMasterLinerCodeShipperIdFkeyInput>;
+  packPalletTypeToPalletTypeAndShipperId?: Maybe<PackMasterPalletTypeShipperIdFkeyInput>;
+  packDestinationToDestinationCodeAndShipperId?: Maybe<PackMasterDestinationCodeShipperIdFkeyInput>;
+  varietyToVarietyId?: Maybe<PackMasterVarietyIdFkeyInput>;
+  speciesToSpeciesId?: Maybe<PackMasterSpeciesIdFkeyInput>;
+  packHoldToHoldCodeAndShipperId?: Maybe<PackMasterHoldCodeShipperIdFkeyInput>;
+  mastersUsingOldPackCode?: Maybe<MasterPackIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `packSpecial` in the `PackMasterInput` mutation. */
+export type PackMasterCustomerCodeShipperIdFkeyInput = {
+  /** The primary key(s) for `packSpecial` for the far side of the relationship. */
+  connectByShipperIdAndCustomerCode?: Maybe<PackSpecialPackSpecialPkeyConnect>;
+  /** The primary key(s) for `packSpecial` for the far side of the relationship. */
+  connectByNodeId?: Maybe<PackSpecialNodeIdConnect>;
+  /** The primary key(s) for `packSpecial` for the far side of the relationship. */
+  deleteByShipperIdAndCustomerCode?: Maybe<PackSpecialPackSpecialPkeyDelete>;
+  /** The primary key(s) for `packSpecial` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<PackSpecialNodeIdDelete>;
+  /** The primary key(s) and patch data for `packSpecial` for the far side of the relationship. */
+  updateByShipperIdAndCustomerCode?: Maybe<PackSpecialOnPackMasterForPackMasterCustomerCodeShipperIdFkeyUsingPackSpecialPkeyUpdate>;
+  /** The primary key(s) and patch data for `packSpecial` for the far side of the relationship. */
+  updateByNodeId?: Maybe<PackMasterOnPackMasterForPackMasterCustomerCodeShipperIdFkeyNodeIdUpdate>;
+  /** A `PackSpecialInput` object that will be created and connected to this object. */
+  create?: Maybe<PackMasterCustomerCodeShipperIdFkeyPackSpecialCreateInput>;
+};
+
+/** The fields on `packSpecial` to look up the row to update. */
+export type PackSpecialOnPackMasterForPackMasterCustomerCodeShipperIdFkeyUsingPackSpecialPkeyUpdate = {
+  /** An object where the defined keys will be set on the `packSpecial` being updated. */
+  patch: UpdatePackSpecialOnPackMasterForPackMasterCustomerCodeShipperIdFkeyPatch;
+  shipperId: Scalars['String'];
+  customerCode: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `packSpecial` being updated. */
+export type UpdatePackSpecialOnPackMasterForPackMasterCustomerCodeShipperIdFkeyPatch = {
+  customerId?: Maybe<Scalars['String']>;
+  customerName?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackSpecialShipperIdFkeyInput>;
+  customerToCustomerId?: Maybe<PackSpecialCustomerIdFkeyInput>;
+  packMastersUsingCustomerCodeAndShipperId?: Maybe<PackMasterCustomerCodeShipperIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type PackMasterOnPackMasterForPackMasterCustomerCodeShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `packSpecial` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `packSpecial` being updated. */
+  patch: PackSpecialPatch;
+};
+
+/** Represents an update to a `PackSpecial`. Fields that are set will be updated. */
+export type PackSpecialPatch = {
+  shipperId?: Maybe<Scalars['String']>;
+  customerCode?: Maybe<Scalars['String']>;
+  customerId?: Maybe<Scalars['String']>;
+  customerName?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackSpecialShipperIdFkeyInput>;
+  customerToCustomerId?: Maybe<PackSpecialCustomerIdFkeyInput>;
+  packMastersUsingCustomerCodeAndShipperId?: Maybe<PackMasterCustomerCodeShipperIdFkeyInverseInput>;
+};
+
+/** The `packSpecial` to be created by this mutation. */
+export type PackMasterCustomerCodeShipperIdFkeyPackSpecialCreateInput = {
+  customerId?: Maybe<Scalars['String']>;
+  customerName?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackSpecialShipperIdFkeyInput>;
+  customerToCustomerId?: Maybe<PackSpecialCustomerIdFkeyInput>;
+  packMastersUsingCustomerCodeAndShipperId?: Maybe<PackMasterCustomerCodeShipperIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `packBoxType` in the `PackMasterInput` mutation. */
+export type PackMasterBoxTypeShipperIdFkeyInput = {
+  /** The primary key(s) for `packBoxType` for the far side of the relationship. */
+  connectByShipperIdAndBoxType?: Maybe<PackBoxTypePackBoxTypePkeyConnect>;
+  /** The primary key(s) for `packBoxType` for the far side of the relationship. */
+  connectByNodeId?: Maybe<PackBoxTypeNodeIdConnect>;
+  /** The primary key(s) for `packBoxType` for the far side of the relationship. */
+  deleteByShipperIdAndBoxType?: Maybe<PackBoxTypePackBoxTypePkeyDelete>;
+  /** The primary key(s) for `packBoxType` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<PackBoxTypeNodeIdDelete>;
+  /** The primary key(s) and patch data for `packBoxType` for the far side of the relationship. */
+  updateByShipperIdAndBoxType?: Maybe<PackBoxTypeOnPackMasterForPackMasterBoxTypeShipperIdFkeyUsingPackBoxTypePkeyUpdate>;
+  /** The primary key(s) and patch data for `packBoxType` for the far side of the relationship. */
+  updateByNodeId?: Maybe<PackMasterOnPackMasterForPackMasterBoxTypeShipperIdFkeyNodeIdUpdate>;
+  /** A `PackBoxTypeInput` object that will be created and connected to this object. */
+  create?: Maybe<PackMasterBoxTypeShipperIdFkeyPackBoxTypeCreateInput>;
+};
+
+/** The fields on `packBoxType` to look up the row to update. */
+export type PackBoxTypeOnPackMasterForPackMasterBoxTypeShipperIdFkeyUsingPackBoxTypePkeyUpdate = {
+  /** An object where the defined keys will be set on the `packBoxType` being updated. */
+  patch: UpdatePackBoxTypeOnPackMasterForPackMasterBoxTypeShipperIdFkeyPatch;
+  shipperId: Scalars['String'];
+  boxType: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `packBoxType` being updated. */
+export type UpdatePackBoxTypeOnPackMasterForPackMasterBoxTypeShipperIdFkeyPatch = {
+  boxDescription?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackBoxTypeShipperIdFkeyInput>;
+  packMastersUsingBoxTypeAndShipperId?: Maybe<PackMasterBoxTypeShipperIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `packMaster` in the `PackBoxTypeInput` mutation. */
+export type PackMasterBoxTypeShipperIdFkeyInverseInput = {
+  /** Flag indicating whether all other `packMaster` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  connectByOldPackCode?: Maybe<Array<PackMasterPackMasterPkeyConnect>>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<PackMasterNodeIdConnect>>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  deleteByOldPackCode?: Maybe<Array<PackMasterPackMasterPkeyDelete>>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<PackMasterNodeIdDelete>>;
+  /** The primary key(s) and patch data for `packMaster` for the far side of the relationship. */
+  updateByOldPackCode?: Maybe<Array<PackMasterOnPackMasterForPackMasterBoxTypeShipperIdFkeyUsingPackMasterPkeyUpdate>>;
+  /** The primary key(s) and patch data for `packMaster` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<PackBoxTypeOnPackMasterForPackMasterBoxTypeShipperIdFkeyNodeIdUpdate>>;
+  /** A `PackMasterInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<PackMasterBoxTypeShipperIdFkeyPackMasterCreateInput>>;
+};
+
+/** The fields on `packMaster` to look up the row to update. */
+export type PackMasterOnPackMasterForPackMasterBoxTypeShipperIdFkeyUsingPackMasterPkeyUpdate = {
+  /** An object where the defined keys will be set on the `packMaster` being updated. */
+  patch: UpdatePackMasterOnPackMasterForPackMasterBoxTypeShipperIdFkeyPatch;
+  oldPackCode: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `packMaster` being updated. */
+export type UpdatePackMasterOnPackMasterForPackMasterBoxTypeShipperIdFkeyPatch = {
+  labelCode?: Maybe<Scalars['String']>;
+  customerCode?: Maybe<Scalars['String']>;
+  boxStyle?: Maybe<Scalars['String']>;
+  packStyle?: Maybe<Scalars['String']>;
+  outCode?: Maybe<Scalars['String']>;
+  outQuantity?: Maybe<Scalars['String']>;
+  outWeight?: Maybe<Scalars['String']>;
+  productionCode?: Maybe<Scalars['String']>;
+  treeRipe?: Maybe<Scalars['String']>;
+  gradeCode?: Maybe<Scalars['String']>;
+  maCode?: Maybe<Scalars['String']>;
+  linerCode?: Maybe<Scalars['String']>;
+  netWeightContents?: Maybe<Scalars['BigFloat']>;
+  netWeightBox?: Maybe<Scalars['BigFloat']>;
+  boxLength?: Maybe<Scalars['BigFloat']>;
+  boxWidth?: Maybe<Scalars['BigFloat']>;
+  boxHeight?: Maybe<Scalars['BigFloat']>;
+  palletType?: Maybe<Scalars['String']>;
+  defaultPalletQuantity?: Maybe<Scalars['BigFloat']>;
+  pluUpcCode?: Maybe<Scalars['String']>;
+  destinationCode?: Maybe<Scalars['String']>;
+  oldPackCode?: Maybe<Scalars['String']>;
+  oldLabelCode?: Maybe<Scalars['String']>;
+  jvPackCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  varietyId?: Maybe<Scalars['String']>;
+  speciesId?: Maybe<Scalars['String']>;
+  holdCode?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackMasterShipperIdFkeyInput>;
+  packLabelToLabelCodeAndShipperId?: Maybe<PackMasterLabelCodeShipperIdFkeyInput>;
+  packSpecialToCustomerCodeAndShipperId?: Maybe<PackMasterCustomerCodeShipperIdFkeyInput>;
+  packBoxTypeToBoxTypeAndShipperId?: Maybe<PackMasterBoxTypeShipperIdFkeyInput>;
+  packBoxStyleToBoxStyleAndShipperId?: Maybe<PackMasterBoxStyleShipperIdFkeyInput>;
+  packStyleToPackStyleAndShipperId?: Maybe<PackMasterPackStyleShipperIdFkeyInput>;
+  packOutToOutCodeAndShipperId?: Maybe<PackMasterOutCodeShipperIdFkeyInput>;
+  packProductionToProductionCodeAndShipperId?: Maybe<PackMasterProductionCodeShipperIdFkeyInput>;
+  packTreeRipeToTreeRipeAndShipperId?: Maybe<PackMasterTreeRipeShipperIdFkeyInput>;
+  packGradeToGradeCodeAndShipperId?: Maybe<PackMasterGradeCodeShipperIdFkeyInput>;
+  packAtmosphereToMaCodeAndShipperId?: Maybe<PackMasterMaCodeShipperIdFkeyInput>;
+  packLinerToLinerCodeAndShipperId?: Maybe<PackMasterLinerCodeShipperIdFkeyInput>;
+  packPalletTypeToPalletTypeAndShipperId?: Maybe<PackMasterPalletTypeShipperIdFkeyInput>;
+  packDestinationToDestinationCodeAndShipperId?: Maybe<PackMasterDestinationCodeShipperIdFkeyInput>;
+  varietyToVarietyId?: Maybe<PackMasterVarietyIdFkeyInput>;
+  speciesToSpeciesId?: Maybe<PackMasterSpeciesIdFkeyInput>;
+  packHoldToHoldCodeAndShipperId?: Maybe<PackMasterHoldCodeShipperIdFkeyInput>;
+  mastersUsingOldPackCode?: Maybe<MasterPackIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `packBoxStyle` in the `PackMasterInput` mutation. */
+export type PackMasterBoxStyleShipperIdFkeyInput = {
+  /** The primary key(s) for `packBoxStyle` for the far side of the relationship. */
+  connectByShipperIdAndBoxStyle?: Maybe<PackBoxStylePackBoxStylePkeyConnect>;
+  /** The primary key(s) for `packBoxStyle` for the far side of the relationship. */
+  connectByNodeId?: Maybe<PackBoxStyleNodeIdConnect>;
+  /** The primary key(s) for `packBoxStyle` for the far side of the relationship. */
+  deleteByShipperIdAndBoxStyle?: Maybe<PackBoxStylePackBoxStylePkeyDelete>;
+  /** The primary key(s) for `packBoxStyle` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<PackBoxStyleNodeIdDelete>;
+  /** The primary key(s) and patch data for `packBoxStyle` for the far side of the relationship. */
+  updateByShipperIdAndBoxStyle?: Maybe<PackBoxStyleOnPackMasterForPackMasterBoxStyleShipperIdFkeyUsingPackBoxStylePkeyUpdate>;
+  /** The primary key(s) and patch data for `packBoxStyle` for the far side of the relationship. */
+  updateByNodeId?: Maybe<PackMasterOnPackMasterForPackMasterBoxStyleShipperIdFkeyNodeIdUpdate>;
+  /** A `PackBoxStyleInput` object that will be created and connected to this object. */
+  create?: Maybe<PackMasterBoxStyleShipperIdFkeyPackBoxStyleCreateInput>;
+};
+
+/** The fields on `packBoxStyle` to look up the row to update. */
+export type PackBoxStyleOnPackMasterForPackMasterBoxStyleShipperIdFkeyUsingPackBoxStylePkeyUpdate = {
+  /** An object where the defined keys will be set on the `packBoxStyle` being updated. */
+  patch: UpdatePackBoxStyleOnPackMasterForPackMasterBoxStyleShipperIdFkeyPatch;
+  shipperId: Scalars['String'];
+  boxStyle: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `packBoxStyle` being updated. */
+export type UpdatePackBoxStyleOnPackMasterForPackMasterBoxStyleShipperIdFkeyPatch = {
+  boxDescription?: Maybe<Scalars['String']>;
+  combineWith?: Maybe<Scalars['String']>;
+  combineDescription?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackBoxStyleShipperIdFkeyInput>;
+  packMastersUsingBoxStyleAndShipperId?: Maybe<PackMasterBoxStyleShipperIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `packMaster` in the `PackBoxStyleInput` mutation. */
+export type PackMasterBoxStyleShipperIdFkeyInverseInput = {
+  /** Flag indicating whether all other `packMaster` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  connectByOldPackCode?: Maybe<Array<PackMasterPackMasterPkeyConnect>>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<PackMasterNodeIdConnect>>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  deleteByOldPackCode?: Maybe<Array<PackMasterPackMasterPkeyDelete>>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<PackMasterNodeIdDelete>>;
+  /** The primary key(s) and patch data for `packMaster` for the far side of the relationship. */
+  updateByOldPackCode?: Maybe<Array<PackMasterOnPackMasterForPackMasterBoxStyleShipperIdFkeyUsingPackMasterPkeyUpdate>>;
+  /** The primary key(s) and patch data for `packMaster` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<PackBoxStyleOnPackMasterForPackMasterBoxStyleShipperIdFkeyNodeIdUpdate>>;
+  /** A `PackMasterInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<PackMasterBoxStyleShipperIdFkeyPackMasterCreateInput>>;
+};
+
+/** The fields on `packMaster` to look up the row to update. */
+export type PackMasterOnPackMasterForPackMasterBoxStyleShipperIdFkeyUsingPackMasterPkeyUpdate = {
+  /** An object where the defined keys will be set on the `packMaster` being updated. */
+  patch: UpdatePackMasterOnPackMasterForPackMasterBoxStyleShipperIdFkeyPatch;
+  oldPackCode: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `packMaster` being updated. */
+export type UpdatePackMasterOnPackMasterForPackMasterBoxStyleShipperIdFkeyPatch = {
+  labelCode?: Maybe<Scalars['String']>;
+  customerCode?: Maybe<Scalars['String']>;
+  boxType?: Maybe<Scalars['String']>;
+  packStyle?: Maybe<Scalars['String']>;
+  outCode?: Maybe<Scalars['String']>;
+  outQuantity?: Maybe<Scalars['String']>;
+  outWeight?: Maybe<Scalars['String']>;
+  productionCode?: Maybe<Scalars['String']>;
+  treeRipe?: Maybe<Scalars['String']>;
+  gradeCode?: Maybe<Scalars['String']>;
+  maCode?: Maybe<Scalars['String']>;
+  linerCode?: Maybe<Scalars['String']>;
+  netWeightContents?: Maybe<Scalars['BigFloat']>;
+  netWeightBox?: Maybe<Scalars['BigFloat']>;
+  boxLength?: Maybe<Scalars['BigFloat']>;
+  boxWidth?: Maybe<Scalars['BigFloat']>;
+  boxHeight?: Maybe<Scalars['BigFloat']>;
+  palletType?: Maybe<Scalars['String']>;
+  defaultPalletQuantity?: Maybe<Scalars['BigFloat']>;
+  pluUpcCode?: Maybe<Scalars['String']>;
+  destinationCode?: Maybe<Scalars['String']>;
+  oldPackCode?: Maybe<Scalars['String']>;
+  oldLabelCode?: Maybe<Scalars['String']>;
+  jvPackCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  varietyId?: Maybe<Scalars['String']>;
+  speciesId?: Maybe<Scalars['String']>;
+  holdCode?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackMasterShipperIdFkeyInput>;
+  packLabelToLabelCodeAndShipperId?: Maybe<PackMasterLabelCodeShipperIdFkeyInput>;
+  packSpecialToCustomerCodeAndShipperId?: Maybe<PackMasterCustomerCodeShipperIdFkeyInput>;
+  packBoxTypeToBoxTypeAndShipperId?: Maybe<PackMasterBoxTypeShipperIdFkeyInput>;
+  packBoxStyleToBoxStyleAndShipperId?: Maybe<PackMasterBoxStyleShipperIdFkeyInput>;
+  packStyleToPackStyleAndShipperId?: Maybe<PackMasterPackStyleShipperIdFkeyInput>;
+  packOutToOutCodeAndShipperId?: Maybe<PackMasterOutCodeShipperIdFkeyInput>;
+  packProductionToProductionCodeAndShipperId?: Maybe<PackMasterProductionCodeShipperIdFkeyInput>;
+  packTreeRipeToTreeRipeAndShipperId?: Maybe<PackMasterTreeRipeShipperIdFkeyInput>;
+  packGradeToGradeCodeAndShipperId?: Maybe<PackMasterGradeCodeShipperIdFkeyInput>;
+  packAtmosphereToMaCodeAndShipperId?: Maybe<PackMasterMaCodeShipperIdFkeyInput>;
+  packLinerToLinerCodeAndShipperId?: Maybe<PackMasterLinerCodeShipperIdFkeyInput>;
+  packPalletTypeToPalletTypeAndShipperId?: Maybe<PackMasterPalletTypeShipperIdFkeyInput>;
+  packDestinationToDestinationCodeAndShipperId?: Maybe<PackMasterDestinationCodeShipperIdFkeyInput>;
+  varietyToVarietyId?: Maybe<PackMasterVarietyIdFkeyInput>;
+  speciesToSpeciesId?: Maybe<PackMasterSpeciesIdFkeyInput>;
+  packHoldToHoldCodeAndShipperId?: Maybe<PackMasterHoldCodeShipperIdFkeyInput>;
+  mastersUsingOldPackCode?: Maybe<MasterPackIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `packStyle` in the `PackMasterInput` mutation. */
+export type PackMasterPackStyleShipperIdFkeyInput = {
+  /** The primary key(s) for `packStyle` for the far side of the relationship. */
+  connectByShipperIdAndPackStyle?: Maybe<PackStylePackStylePkeyConnect>;
+  /** The primary key(s) for `packStyle` for the far side of the relationship. */
+  connectByNodeId?: Maybe<PackStyleNodeIdConnect>;
+  /** The primary key(s) for `packStyle` for the far side of the relationship. */
+  deleteByShipperIdAndPackStyle?: Maybe<PackStylePackStylePkeyDelete>;
+  /** The primary key(s) for `packStyle` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<PackStyleNodeIdDelete>;
+  /** The primary key(s) and patch data for `packStyle` for the far side of the relationship. */
+  updateByShipperIdAndPackStyle?: Maybe<PackStyleOnPackMasterForPackMasterPackStyleShipperIdFkeyUsingPackStylePkeyUpdate>;
+  /** The primary key(s) and patch data for `packStyle` for the far side of the relationship. */
+  updateByNodeId?: Maybe<PackMasterOnPackMasterForPackMasterPackStyleShipperIdFkeyNodeIdUpdate>;
+  /** A `PackStyleInput` object that will be created and connected to this object. */
+  create?: Maybe<PackMasterPackStyleShipperIdFkeyPackStyleCreateInput>;
+};
+
+/** The fields on `packStyle` to look up the row to update. */
+export type PackStyleOnPackMasterForPackMasterPackStyleShipperIdFkeyUsingPackStylePkeyUpdate = {
+  /** An object where the defined keys will be set on the `packStyle` being updated. */
+  patch: UpdatePackStyleOnPackMasterForPackMasterPackStyleShipperIdFkeyPatch;
+  shipperId: Scalars['String'];
+  packStyle: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `packStyle` being updated. */
+export type UpdatePackStyleOnPackMasterForPackMasterPackStyleShipperIdFkeyPatch = {
+  styleDescription?: Maybe<Scalars['String']>;
+  combineWith?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackStyleShipperIdFkeyInput>;
+  packMastersUsingPackStyleAndShipperId?: Maybe<PackMasterPackStyleShipperIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `packMaster` in the `PackStyleInput` mutation. */
+export type PackMasterPackStyleShipperIdFkeyInverseInput = {
+  /** Flag indicating whether all other `packMaster` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  connectByOldPackCode?: Maybe<Array<PackMasterPackMasterPkeyConnect>>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<PackMasterNodeIdConnect>>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  deleteByOldPackCode?: Maybe<Array<PackMasterPackMasterPkeyDelete>>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<PackMasterNodeIdDelete>>;
+  /** The primary key(s) and patch data for `packMaster` for the far side of the relationship. */
+  updateByOldPackCode?: Maybe<Array<PackMasterOnPackMasterForPackMasterPackStyleShipperIdFkeyUsingPackMasterPkeyUpdate>>;
+  /** The primary key(s) and patch data for `packMaster` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<PackStyleOnPackMasterForPackMasterPackStyleShipperIdFkeyNodeIdUpdate>>;
+  /** A `PackMasterInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<PackMasterPackStyleShipperIdFkeyPackMasterCreateInput>>;
+};
+
+/** The fields on `packMaster` to look up the row to update. */
+export type PackMasterOnPackMasterForPackMasterPackStyleShipperIdFkeyUsingPackMasterPkeyUpdate = {
+  /** An object where the defined keys will be set on the `packMaster` being updated. */
+  patch: UpdatePackMasterOnPackMasterForPackMasterPackStyleShipperIdFkeyPatch;
+  oldPackCode: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `packMaster` being updated. */
+export type UpdatePackMasterOnPackMasterForPackMasterPackStyleShipperIdFkeyPatch = {
+  labelCode?: Maybe<Scalars['String']>;
+  customerCode?: Maybe<Scalars['String']>;
+  boxType?: Maybe<Scalars['String']>;
+  boxStyle?: Maybe<Scalars['String']>;
+  outCode?: Maybe<Scalars['String']>;
+  outQuantity?: Maybe<Scalars['String']>;
+  outWeight?: Maybe<Scalars['String']>;
+  productionCode?: Maybe<Scalars['String']>;
+  treeRipe?: Maybe<Scalars['String']>;
+  gradeCode?: Maybe<Scalars['String']>;
+  maCode?: Maybe<Scalars['String']>;
+  linerCode?: Maybe<Scalars['String']>;
+  netWeightContents?: Maybe<Scalars['BigFloat']>;
+  netWeightBox?: Maybe<Scalars['BigFloat']>;
+  boxLength?: Maybe<Scalars['BigFloat']>;
+  boxWidth?: Maybe<Scalars['BigFloat']>;
+  boxHeight?: Maybe<Scalars['BigFloat']>;
+  palletType?: Maybe<Scalars['String']>;
+  defaultPalletQuantity?: Maybe<Scalars['BigFloat']>;
+  pluUpcCode?: Maybe<Scalars['String']>;
+  destinationCode?: Maybe<Scalars['String']>;
+  oldPackCode?: Maybe<Scalars['String']>;
+  oldLabelCode?: Maybe<Scalars['String']>;
+  jvPackCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  varietyId?: Maybe<Scalars['String']>;
+  speciesId?: Maybe<Scalars['String']>;
+  holdCode?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackMasterShipperIdFkeyInput>;
+  packLabelToLabelCodeAndShipperId?: Maybe<PackMasterLabelCodeShipperIdFkeyInput>;
+  packSpecialToCustomerCodeAndShipperId?: Maybe<PackMasterCustomerCodeShipperIdFkeyInput>;
+  packBoxTypeToBoxTypeAndShipperId?: Maybe<PackMasterBoxTypeShipperIdFkeyInput>;
+  packBoxStyleToBoxStyleAndShipperId?: Maybe<PackMasterBoxStyleShipperIdFkeyInput>;
+  packStyleToPackStyleAndShipperId?: Maybe<PackMasterPackStyleShipperIdFkeyInput>;
+  packOutToOutCodeAndShipperId?: Maybe<PackMasterOutCodeShipperIdFkeyInput>;
+  packProductionToProductionCodeAndShipperId?: Maybe<PackMasterProductionCodeShipperIdFkeyInput>;
+  packTreeRipeToTreeRipeAndShipperId?: Maybe<PackMasterTreeRipeShipperIdFkeyInput>;
+  packGradeToGradeCodeAndShipperId?: Maybe<PackMasterGradeCodeShipperIdFkeyInput>;
+  packAtmosphereToMaCodeAndShipperId?: Maybe<PackMasterMaCodeShipperIdFkeyInput>;
+  packLinerToLinerCodeAndShipperId?: Maybe<PackMasterLinerCodeShipperIdFkeyInput>;
+  packPalletTypeToPalletTypeAndShipperId?: Maybe<PackMasterPalletTypeShipperIdFkeyInput>;
+  packDestinationToDestinationCodeAndShipperId?: Maybe<PackMasterDestinationCodeShipperIdFkeyInput>;
+  varietyToVarietyId?: Maybe<PackMasterVarietyIdFkeyInput>;
+  speciesToSpeciesId?: Maybe<PackMasterSpeciesIdFkeyInput>;
+  packHoldToHoldCodeAndShipperId?: Maybe<PackMasterHoldCodeShipperIdFkeyInput>;
+  mastersUsingOldPackCode?: Maybe<MasterPackIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `packOut` in the `PackMasterInput` mutation. */
+export type PackMasterOutCodeShipperIdFkeyInput = {
+  /** The primary key(s) for `packOut` for the far side of the relationship. */
+  connectByShipperIdAndOutCode?: Maybe<PackOutPackOutPkeyConnect>;
+  /** The primary key(s) for `packOut` for the far side of the relationship. */
+  connectByNodeId?: Maybe<PackOutNodeIdConnect>;
+  /** The primary key(s) for `packOut` for the far side of the relationship. */
+  deleteByShipperIdAndOutCode?: Maybe<PackOutPackOutPkeyDelete>;
+  /** The primary key(s) for `packOut` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<PackOutNodeIdDelete>;
+  /** The primary key(s) and patch data for `packOut` for the far side of the relationship. */
+  updateByShipperIdAndOutCode?: Maybe<PackOutOnPackMasterForPackMasterOutCodeShipperIdFkeyUsingPackOutPkeyUpdate>;
+  /** The primary key(s) and patch data for `packOut` for the far side of the relationship. */
+  updateByNodeId?: Maybe<PackMasterOnPackMasterForPackMasterOutCodeShipperIdFkeyNodeIdUpdate>;
+  /** A `PackOutInput` object that will be created and connected to this object. */
+  create?: Maybe<PackMasterOutCodeShipperIdFkeyPackOutCreateInput>;
+};
+
+/** The fields on `packOut` to look up the row to update. */
+export type PackOutOnPackMasterForPackMasterOutCodeShipperIdFkeyUsingPackOutPkeyUpdate = {
+  /** An object where the defined keys will be set on the `packOut` being updated. */
+  patch: UpdatePackOutOnPackMasterForPackMasterOutCodeShipperIdFkeyPatch;
+  shipperId: Scalars['String'];
+  outCode: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `packOut` being updated. */
+export type UpdatePackOutOnPackMasterForPackMasterOutCodeShipperIdFkeyPatch = {
+  outDescription?: Maybe<Scalars['String']>;
+  combineWith?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackOutShipperIdFkeyInput>;
+  packMastersUsingOutCodeAndShipperId?: Maybe<PackMasterOutCodeShipperIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `packMaster` in the `PackOutInput` mutation. */
+export type PackMasterOutCodeShipperIdFkeyInverseInput = {
+  /** Flag indicating whether all other `packMaster` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  connectByOldPackCode?: Maybe<Array<PackMasterPackMasterPkeyConnect>>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<PackMasterNodeIdConnect>>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  deleteByOldPackCode?: Maybe<Array<PackMasterPackMasterPkeyDelete>>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<PackMasterNodeIdDelete>>;
+  /** The primary key(s) and patch data for `packMaster` for the far side of the relationship. */
+  updateByOldPackCode?: Maybe<Array<PackMasterOnPackMasterForPackMasterOutCodeShipperIdFkeyUsingPackMasterPkeyUpdate>>;
+  /** The primary key(s) and patch data for `packMaster` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<PackOutOnPackMasterForPackMasterOutCodeShipperIdFkeyNodeIdUpdate>>;
+  /** A `PackMasterInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<PackMasterOutCodeShipperIdFkeyPackMasterCreateInput>>;
+};
+
+/** The fields on `packMaster` to look up the row to update. */
+export type PackMasterOnPackMasterForPackMasterOutCodeShipperIdFkeyUsingPackMasterPkeyUpdate = {
+  /** An object where the defined keys will be set on the `packMaster` being updated. */
+  patch: UpdatePackMasterOnPackMasterForPackMasterOutCodeShipperIdFkeyPatch;
+  oldPackCode: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `packMaster` being updated. */
+export type UpdatePackMasterOnPackMasterForPackMasterOutCodeShipperIdFkeyPatch = {
+  labelCode?: Maybe<Scalars['String']>;
+  customerCode?: Maybe<Scalars['String']>;
+  boxType?: Maybe<Scalars['String']>;
+  boxStyle?: Maybe<Scalars['String']>;
+  packStyle?: Maybe<Scalars['String']>;
+  outQuantity?: Maybe<Scalars['String']>;
+  outWeight?: Maybe<Scalars['String']>;
+  productionCode?: Maybe<Scalars['String']>;
+  treeRipe?: Maybe<Scalars['String']>;
+  gradeCode?: Maybe<Scalars['String']>;
+  maCode?: Maybe<Scalars['String']>;
+  linerCode?: Maybe<Scalars['String']>;
+  netWeightContents?: Maybe<Scalars['BigFloat']>;
+  netWeightBox?: Maybe<Scalars['BigFloat']>;
+  boxLength?: Maybe<Scalars['BigFloat']>;
+  boxWidth?: Maybe<Scalars['BigFloat']>;
+  boxHeight?: Maybe<Scalars['BigFloat']>;
+  palletType?: Maybe<Scalars['String']>;
+  defaultPalletQuantity?: Maybe<Scalars['BigFloat']>;
+  pluUpcCode?: Maybe<Scalars['String']>;
+  destinationCode?: Maybe<Scalars['String']>;
+  oldPackCode?: Maybe<Scalars['String']>;
+  oldLabelCode?: Maybe<Scalars['String']>;
+  jvPackCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  varietyId?: Maybe<Scalars['String']>;
+  speciesId?: Maybe<Scalars['String']>;
+  holdCode?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackMasterShipperIdFkeyInput>;
+  packLabelToLabelCodeAndShipperId?: Maybe<PackMasterLabelCodeShipperIdFkeyInput>;
+  packSpecialToCustomerCodeAndShipperId?: Maybe<PackMasterCustomerCodeShipperIdFkeyInput>;
+  packBoxTypeToBoxTypeAndShipperId?: Maybe<PackMasterBoxTypeShipperIdFkeyInput>;
+  packBoxStyleToBoxStyleAndShipperId?: Maybe<PackMasterBoxStyleShipperIdFkeyInput>;
+  packStyleToPackStyleAndShipperId?: Maybe<PackMasterPackStyleShipperIdFkeyInput>;
+  packOutToOutCodeAndShipperId?: Maybe<PackMasterOutCodeShipperIdFkeyInput>;
+  packProductionToProductionCodeAndShipperId?: Maybe<PackMasterProductionCodeShipperIdFkeyInput>;
+  packTreeRipeToTreeRipeAndShipperId?: Maybe<PackMasterTreeRipeShipperIdFkeyInput>;
+  packGradeToGradeCodeAndShipperId?: Maybe<PackMasterGradeCodeShipperIdFkeyInput>;
+  packAtmosphereToMaCodeAndShipperId?: Maybe<PackMasterMaCodeShipperIdFkeyInput>;
+  packLinerToLinerCodeAndShipperId?: Maybe<PackMasterLinerCodeShipperIdFkeyInput>;
+  packPalletTypeToPalletTypeAndShipperId?: Maybe<PackMasterPalletTypeShipperIdFkeyInput>;
+  packDestinationToDestinationCodeAndShipperId?: Maybe<PackMasterDestinationCodeShipperIdFkeyInput>;
+  varietyToVarietyId?: Maybe<PackMasterVarietyIdFkeyInput>;
+  speciesToSpeciesId?: Maybe<PackMasterSpeciesIdFkeyInput>;
+  packHoldToHoldCodeAndShipperId?: Maybe<PackMasterHoldCodeShipperIdFkeyInput>;
+  mastersUsingOldPackCode?: Maybe<MasterPackIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `packProduction` in the `PackMasterInput` mutation. */
+export type PackMasterProductionCodeShipperIdFkeyInput = {
+  /** The primary key(s) for `packProduction` for the far side of the relationship. */
+  connectByShipperIdAndProductionCode?: Maybe<PackProductionPackProductionPkeyConnect>;
+  /** The primary key(s) for `packProduction` for the far side of the relationship. */
+  connectByNodeId?: Maybe<PackProductionNodeIdConnect>;
+  /** The primary key(s) for `packProduction` for the far side of the relationship. */
+  deleteByShipperIdAndProductionCode?: Maybe<PackProductionPackProductionPkeyDelete>;
+  /** The primary key(s) for `packProduction` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<PackProductionNodeIdDelete>;
+  /** The primary key(s) and patch data for `packProduction` for the far side of the relationship. */
+  updateByShipperIdAndProductionCode?: Maybe<PackProductionOnPackMasterForPackMasterProductionCodeShipperIdFkeyUsingPackProductionPkeyUpdate>;
+  /** The primary key(s) and patch data for `packProduction` for the far side of the relationship. */
+  updateByNodeId?: Maybe<PackMasterOnPackMasterForPackMasterProductionCodeShipperIdFkeyNodeIdUpdate>;
+  /** A `PackProductionInput` object that will be created and connected to this object. */
+  create?: Maybe<PackMasterProductionCodeShipperIdFkeyPackProductionCreateInput>;
+};
+
+/** The fields on `packProduction` to look up the row to update. */
+export type PackProductionOnPackMasterForPackMasterProductionCodeShipperIdFkeyUsingPackProductionPkeyUpdate = {
+  /** An object where the defined keys will be set on the `packProduction` being updated. */
+  patch: UpdatePackProductionOnPackMasterForPackMasterProductionCodeShipperIdFkeyPatch;
+  shipperId: Scalars['String'];
+  productionCode: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `packProduction` being updated. */
+export type UpdatePackProductionOnPackMasterForPackMasterProductionCodeShipperIdFkeyPatch = {
+  productionDescription?: Maybe<Scalars['String']>;
+  combineWith?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackProductionShipperIdFkeyInput>;
+  packMastersUsingProductionCodeAndShipperId?: Maybe<PackMasterProductionCodeShipperIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `packMaster` in the `PackProductionInput` mutation. */
+export type PackMasterProductionCodeShipperIdFkeyInverseInput = {
+  /** Flag indicating whether all other `packMaster` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  connectByOldPackCode?: Maybe<Array<PackMasterPackMasterPkeyConnect>>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<PackMasterNodeIdConnect>>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  deleteByOldPackCode?: Maybe<Array<PackMasterPackMasterPkeyDelete>>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<PackMasterNodeIdDelete>>;
+  /** The primary key(s) and patch data for `packMaster` for the far side of the relationship. */
+  updateByOldPackCode?: Maybe<Array<PackMasterOnPackMasterForPackMasterProductionCodeShipperIdFkeyUsingPackMasterPkeyUpdate>>;
+  /** The primary key(s) and patch data for `packMaster` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<PackProductionOnPackMasterForPackMasterProductionCodeShipperIdFkeyNodeIdUpdate>>;
+  /** A `PackMasterInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<PackMasterProductionCodeShipperIdFkeyPackMasterCreateInput>>;
+};
+
+/** The fields on `packMaster` to look up the row to update. */
+export type PackMasterOnPackMasterForPackMasterProductionCodeShipperIdFkeyUsingPackMasterPkeyUpdate = {
+  /** An object where the defined keys will be set on the `packMaster` being updated. */
+  patch: UpdatePackMasterOnPackMasterForPackMasterProductionCodeShipperIdFkeyPatch;
+  oldPackCode: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `packMaster` being updated. */
+export type UpdatePackMasterOnPackMasterForPackMasterProductionCodeShipperIdFkeyPatch = {
+  labelCode?: Maybe<Scalars['String']>;
+  customerCode?: Maybe<Scalars['String']>;
+  boxType?: Maybe<Scalars['String']>;
+  boxStyle?: Maybe<Scalars['String']>;
+  packStyle?: Maybe<Scalars['String']>;
+  outCode?: Maybe<Scalars['String']>;
+  outQuantity?: Maybe<Scalars['String']>;
+  outWeight?: Maybe<Scalars['String']>;
+  treeRipe?: Maybe<Scalars['String']>;
+  gradeCode?: Maybe<Scalars['String']>;
+  maCode?: Maybe<Scalars['String']>;
+  linerCode?: Maybe<Scalars['String']>;
+  netWeightContents?: Maybe<Scalars['BigFloat']>;
+  netWeightBox?: Maybe<Scalars['BigFloat']>;
+  boxLength?: Maybe<Scalars['BigFloat']>;
+  boxWidth?: Maybe<Scalars['BigFloat']>;
+  boxHeight?: Maybe<Scalars['BigFloat']>;
+  palletType?: Maybe<Scalars['String']>;
+  defaultPalletQuantity?: Maybe<Scalars['BigFloat']>;
+  pluUpcCode?: Maybe<Scalars['String']>;
+  destinationCode?: Maybe<Scalars['String']>;
+  oldPackCode?: Maybe<Scalars['String']>;
+  oldLabelCode?: Maybe<Scalars['String']>;
+  jvPackCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  varietyId?: Maybe<Scalars['String']>;
+  speciesId?: Maybe<Scalars['String']>;
+  holdCode?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackMasterShipperIdFkeyInput>;
+  packLabelToLabelCodeAndShipperId?: Maybe<PackMasterLabelCodeShipperIdFkeyInput>;
+  packSpecialToCustomerCodeAndShipperId?: Maybe<PackMasterCustomerCodeShipperIdFkeyInput>;
+  packBoxTypeToBoxTypeAndShipperId?: Maybe<PackMasterBoxTypeShipperIdFkeyInput>;
+  packBoxStyleToBoxStyleAndShipperId?: Maybe<PackMasterBoxStyleShipperIdFkeyInput>;
+  packStyleToPackStyleAndShipperId?: Maybe<PackMasterPackStyleShipperIdFkeyInput>;
+  packOutToOutCodeAndShipperId?: Maybe<PackMasterOutCodeShipperIdFkeyInput>;
+  packProductionToProductionCodeAndShipperId?: Maybe<PackMasterProductionCodeShipperIdFkeyInput>;
+  packTreeRipeToTreeRipeAndShipperId?: Maybe<PackMasterTreeRipeShipperIdFkeyInput>;
+  packGradeToGradeCodeAndShipperId?: Maybe<PackMasterGradeCodeShipperIdFkeyInput>;
+  packAtmosphereToMaCodeAndShipperId?: Maybe<PackMasterMaCodeShipperIdFkeyInput>;
+  packLinerToLinerCodeAndShipperId?: Maybe<PackMasterLinerCodeShipperIdFkeyInput>;
+  packPalletTypeToPalletTypeAndShipperId?: Maybe<PackMasterPalletTypeShipperIdFkeyInput>;
+  packDestinationToDestinationCodeAndShipperId?: Maybe<PackMasterDestinationCodeShipperIdFkeyInput>;
+  varietyToVarietyId?: Maybe<PackMasterVarietyIdFkeyInput>;
+  speciesToSpeciesId?: Maybe<PackMasterSpeciesIdFkeyInput>;
+  packHoldToHoldCodeAndShipperId?: Maybe<PackMasterHoldCodeShipperIdFkeyInput>;
+  mastersUsingOldPackCode?: Maybe<MasterPackIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `packTreeRipe` in the `PackMasterInput` mutation. */
+export type PackMasterTreeRipeShipperIdFkeyInput = {
+  /** The primary key(s) for `packTreeRipe` for the far side of the relationship. */
+  connectByShipperIdAndTreeRipe?: Maybe<PackTreeRipePackTreeRipePkeyConnect>;
+  /** The primary key(s) for `packTreeRipe` for the far side of the relationship. */
+  connectByNodeId?: Maybe<PackTreeRipeNodeIdConnect>;
+  /** The primary key(s) for `packTreeRipe` for the far side of the relationship. */
+  deleteByShipperIdAndTreeRipe?: Maybe<PackTreeRipePackTreeRipePkeyDelete>;
+  /** The primary key(s) for `packTreeRipe` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<PackTreeRipeNodeIdDelete>;
+  /** The primary key(s) and patch data for `packTreeRipe` for the far side of the relationship. */
+  updateByShipperIdAndTreeRipe?: Maybe<PackTreeRipeOnPackMasterForPackMasterTreeRipeShipperIdFkeyUsingPackTreeRipePkeyUpdate>;
+  /** The primary key(s) and patch data for `packTreeRipe` for the far side of the relationship. */
+  updateByNodeId?: Maybe<PackMasterOnPackMasterForPackMasterTreeRipeShipperIdFkeyNodeIdUpdate>;
+  /** A `PackTreeRipeInput` object that will be created and connected to this object. */
+  create?: Maybe<PackMasterTreeRipeShipperIdFkeyPackTreeRipeCreateInput>;
+};
+
+/** The fields on `packTreeRipe` to look up the row to update. */
+export type PackTreeRipeOnPackMasterForPackMasterTreeRipeShipperIdFkeyUsingPackTreeRipePkeyUpdate = {
+  /** An object where the defined keys will be set on the `packTreeRipe` being updated. */
+  patch: UpdatePackTreeRipeOnPackMasterForPackMasterTreeRipeShipperIdFkeyPatch;
+  shipperId: Scalars['String'];
+  treeRipe: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `packTreeRipe` being updated. */
+export type UpdatePackTreeRipeOnPackMasterForPackMasterTreeRipeShipperIdFkeyPatch = {
+  treeRipeDescription?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackTreeRipeShipperIdFkeyInput>;
+  packMastersUsingTreeRipeAndShipperId?: Maybe<PackMasterTreeRipeShipperIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `packMaster` in the `PackTreeRipeInput` mutation. */
+export type PackMasterTreeRipeShipperIdFkeyInverseInput = {
+  /** Flag indicating whether all other `packMaster` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  connectByOldPackCode?: Maybe<Array<PackMasterPackMasterPkeyConnect>>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<PackMasterNodeIdConnect>>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  deleteByOldPackCode?: Maybe<Array<PackMasterPackMasterPkeyDelete>>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<PackMasterNodeIdDelete>>;
+  /** The primary key(s) and patch data for `packMaster` for the far side of the relationship. */
+  updateByOldPackCode?: Maybe<Array<PackMasterOnPackMasterForPackMasterTreeRipeShipperIdFkeyUsingPackMasterPkeyUpdate>>;
+  /** The primary key(s) and patch data for `packMaster` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<PackTreeRipeOnPackMasterForPackMasterTreeRipeShipperIdFkeyNodeIdUpdate>>;
+  /** A `PackMasterInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<PackMasterTreeRipeShipperIdFkeyPackMasterCreateInput>>;
+};
+
+/** The fields on `packMaster` to look up the row to update. */
+export type PackMasterOnPackMasterForPackMasterTreeRipeShipperIdFkeyUsingPackMasterPkeyUpdate = {
+  /** An object where the defined keys will be set on the `packMaster` being updated. */
+  patch: UpdatePackMasterOnPackMasterForPackMasterTreeRipeShipperIdFkeyPatch;
+  oldPackCode: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `packMaster` being updated. */
+export type UpdatePackMasterOnPackMasterForPackMasterTreeRipeShipperIdFkeyPatch = {
+  labelCode?: Maybe<Scalars['String']>;
+  customerCode?: Maybe<Scalars['String']>;
+  boxType?: Maybe<Scalars['String']>;
+  boxStyle?: Maybe<Scalars['String']>;
+  packStyle?: Maybe<Scalars['String']>;
+  outCode?: Maybe<Scalars['String']>;
+  outQuantity?: Maybe<Scalars['String']>;
+  outWeight?: Maybe<Scalars['String']>;
+  productionCode?: Maybe<Scalars['String']>;
+  gradeCode?: Maybe<Scalars['String']>;
+  maCode?: Maybe<Scalars['String']>;
+  linerCode?: Maybe<Scalars['String']>;
+  netWeightContents?: Maybe<Scalars['BigFloat']>;
+  netWeightBox?: Maybe<Scalars['BigFloat']>;
+  boxLength?: Maybe<Scalars['BigFloat']>;
+  boxWidth?: Maybe<Scalars['BigFloat']>;
+  boxHeight?: Maybe<Scalars['BigFloat']>;
+  palletType?: Maybe<Scalars['String']>;
+  defaultPalletQuantity?: Maybe<Scalars['BigFloat']>;
+  pluUpcCode?: Maybe<Scalars['String']>;
+  destinationCode?: Maybe<Scalars['String']>;
+  oldPackCode?: Maybe<Scalars['String']>;
+  oldLabelCode?: Maybe<Scalars['String']>;
+  jvPackCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  varietyId?: Maybe<Scalars['String']>;
+  speciesId?: Maybe<Scalars['String']>;
+  holdCode?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackMasterShipperIdFkeyInput>;
+  packLabelToLabelCodeAndShipperId?: Maybe<PackMasterLabelCodeShipperIdFkeyInput>;
+  packSpecialToCustomerCodeAndShipperId?: Maybe<PackMasterCustomerCodeShipperIdFkeyInput>;
+  packBoxTypeToBoxTypeAndShipperId?: Maybe<PackMasterBoxTypeShipperIdFkeyInput>;
+  packBoxStyleToBoxStyleAndShipperId?: Maybe<PackMasterBoxStyleShipperIdFkeyInput>;
+  packStyleToPackStyleAndShipperId?: Maybe<PackMasterPackStyleShipperIdFkeyInput>;
+  packOutToOutCodeAndShipperId?: Maybe<PackMasterOutCodeShipperIdFkeyInput>;
+  packProductionToProductionCodeAndShipperId?: Maybe<PackMasterProductionCodeShipperIdFkeyInput>;
+  packTreeRipeToTreeRipeAndShipperId?: Maybe<PackMasterTreeRipeShipperIdFkeyInput>;
+  packGradeToGradeCodeAndShipperId?: Maybe<PackMasterGradeCodeShipperIdFkeyInput>;
+  packAtmosphereToMaCodeAndShipperId?: Maybe<PackMasterMaCodeShipperIdFkeyInput>;
+  packLinerToLinerCodeAndShipperId?: Maybe<PackMasterLinerCodeShipperIdFkeyInput>;
+  packPalletTypeToPalletTypeAndShipperId?: Maybe<PackMasterPalletTypeShipperIdFkeyInput>;
+  packDestinationToDestinationCodeAndShipperId?: Maybe<PackMasterDestinationCodeShipperIdFkeyInput>;
+  varietyToVarietyId?: Maybe<PackMasterVarietyIdFkeyInput>;
+  speciesToSpeciesId?: Maybe<PackMasterSpeciesIdFkeyInput>;
+  packHoldToHoldCodeAndShipperId?: Maybe<PackMasterHoldCodeShipperIdFkeyInput>;
+  mastersUsingOldPackCode?: Maybe<MasterPackIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `packGrade` in the `PackMasterInput` mutation. */
+export type PackMasterGradeCodeShipperIdFkeyInput = {
+  /** The primary key(s) for `packGrade` for the far side of the relationship. */
+  connectByShipperIdAndGradeCode?: Maybe<PackGradePackGradePkeyConnect>;
+  /** The primary key(s) for `packGrade` for the far side of the relationship. */
+  connectByNodeId?: Maybe<PackGradeNodeIdConnect>;
+  /** The primary key(s) for `packGrade` for the far side of the relationship. */
+  deleteByShipperIdAndGradeCode?: Maybe<PackGradePackGradePkeyDelete>;
+  /** The primary key(s) for `packGrade` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<PackGradeNodeIdDelete>;
+  /** The primary key(s) and patch data for `packGrade` for the far side of the relationship. */
+  updateByShipperIdAndGradeCode?: Maybe<PackGradeOnPackMasterForPackMasterGradeCodeShipperIdFkeyUsingPackGradePkeyUpdate>;
+  /** The primary key(s) and patch data for `packGrade` for the far side of the relationship. */
+  updateByNodeId?: Maybe<PackMasterOnPackMasterForPackMasterGradeCodeShipperIdFkeyNodeIdUpdate>;
+  /** A `PackGradeInput` object that will be created and connected to this object. */
+  create?: Maybe<PackMasterGradeCodeShipperIdFkeyPackGradeCreateInput>;
+};
+
+/** The fields on `packGrade` to look up the row to update. */
+export type PackGradeOnPackMasterForPackMasterGradeCodeShipperIdFkeyUsingPackGradePkeyUpdate = {
+  /** An object where the defined keys will be set on the `packGrade` being updated. */
+  patch: UpdatePackGradeOnPackMasterForPackMasterGradeCodeShipperIdFkeyPatch;
+  shipperId: Scalars['String'];
+  gradeCode: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `packGrade` being updated. */
+export type UpdatePackGradeOnPackMasterForPackMasterGradeCodeShipperIdFkeyPatch = {
+  gradeDescription?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackGradeShipperIdFkeyInput>;
+  packMastersUsingGradeCodeAndShipperId?: Maybe<PackMasterGradeCodeShipperIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `packMaster` in the `PackGradeInput` mutation. */
+export type PackMasterGradeCodeShipperIdFkeyInverseInput = {
+  /** Flag indicating whether all other `packMaster` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  connectByOldPackCode?: Maybe<Array<PackMasterPackMasterPkeyConnect>>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<PackMasterNodeIdConnect>>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  deleteByOldPackCode?: Maybe<Array<PackMasterPackMasterPkeyDelete>>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<PackMasterNodeIdDelete>>;
+  /** The primary key(s) and patch data for `packMaster` for the far side of the relationship. */
+  updateByOldPackCode?: Maybe<Array<PackMasterOnPackMasterForPackMasterGradeCodeShipperIdFkeyUsingPackMasterPkeyUpdate>>;
+  /** The primary key(s) and patch data for `packMaster` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<PackGradeOnPackMasterForPackMasterGradeCodeShipperIdFkeyNodeIdUpdate>>;
+  /** A `PackMasterInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<PackMasterGradeCodeShipperIdFkeyPackMasterCreateInput>>;
+};
+
+/** The fields on `packMaster` to look up the row to update. */
+export type PackMasterOnPackMasterForPackMasterGradeCodeShipperIdFkeyUsingPackMasterPkeyUpdate = {
+  /** An object where the defined keys will be set on the `packMaster` being updated. */
+  patch: UpdatePackMasterOnPackMasterForPackMasterGradeCodeShipperIdFkeyPatch;
+  oldPackCode: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `packMaster` being updated. */
+export type UpdatePackMasterOnPackMasterForPackMasterGradeCodeShipperIdFkeyPatch = {
+  labelCode?: Maybe<Scalars['String']>;
+  customerCode?: Maybe<Scalars['String']>;
+  boxType?: Maybe<Scalars['String']>;
+  boxStyle?: Maybe<Scalars['String']>;
+  packStyle?: Maybe<Scalars['String']>;
+  outCode?: Maybe<Scalars['String']>;
+  outQuantity?: Maybe<Scalars['String']>;
+  outWeight?: Maybe<Scalars['String']>;
+  productionCode?: Maybe<Scalars['String']>;
+  treeRipe?: Maybe<Scalars['String']>;
+  maCode?: Maybe<Scalars['String']>;
+  linerCode?: Maybe<Scalars['String']>;
+  netWeightContents?: Maybe<Scalars['BigFloat']>;
+  netWeightBox?: Maybe<Scalars['BigFloat']>;
+  boxLength?: Maybe<Scalars['BigFloat']>;
+  boxWidth?: Maybe<Scalars['BigFloat']>;
+  boxHeight?: Maybe<Scalars['BigFloat']>;
+  palletType?: Maybe<Scalars['String']>;
+  defaultPalletQuantity?: Maybe<Scalars['BigFloat']>;
+  pluUpcCode?: Maybe<Scalars['String']>;
+  destinationCode?: Maybe<Scalars['String']>;
+  oldPackCode?: Maybe<Scalars['String']>;
+  oldLabelCode?: Maybe<Scalars['String']>;
+  jvPackCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  varietyId?: Maybe<Scalars['String']>;
+  speciesId?: Maybe<Scalars['String']>;
+  holdCode?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackMasterShipperIdFkeyInput>;
+  packLabelToLabelCodeAndShipperId?: Maybe<PackMasterLabelCodeShipperIdFkeyInput>;
+  packSpecialToCustomerCodeAndShipperId?: Maybe<PackMasterCustomerCodeShipperIdFkeyInput>;
+  packBoxTypeToBoxTypeAndShipperId?: Maybe<PackMasterBoxTypeShipperIdFkeyInput>;
+  packBoxStyleToBoxStyleAndShipperId?: Maybe<PackMasterBoxStyleShipperIdFkeyInput>;
+  packStyleToPackStyleAndShipperId?: Maybe<PackMasterPackStyleShipperIdFkeyInput>;
+  packOutToOutCodeAndShipperId?: Maybe<PackMasterOutCodeShipperIdFkeyInput>;
+  packProductionToProductionCodeAndShipperId?: Maybe<PackMasterProductionCodeShipperIdFkeyInput>;
+  packTreeRipeToTreeRipeAndShipperId?: Maybe<PackMasterTreeRipeShipperIdFkeyInput>;
+  packGradeToGradeCodeAndShipperId?: Maybe<PackMasterGradeCodeShipperIdFkeyInput>;
+  packAtmosphereToMaCodeAndShipperId?: Maybe<PackMasterMaCodeShipperIdFkeyInput>;
+  packLinerToLinerCodeAndShipperId?: Maybe<PackMasterLinerCodeShipperIdFkeyInput>;
+  packPalletTypeToPalletTypeAndShipperId?: Maybe<PackMasterPalletTypeShipperIdFkeyInput>;
+  packDestinationToDestinationCodeAndShipperId?: Maybe<PackMasterDestinationCodeShipperIdFkeyInput>;
+  varietyToVarietyId?: Maybe<PackMasterVarietyIdFkeyInput>;
+  speciesToSpeciesId?: Maybe<PackMasterSpeciesIdFkeyInput>;
+  packHoldToHoldCodeAndShipperId?: Maybe<PackMasterHoldCodeShipperIdFkeyInput>;
+  mastersUsingOldPackCode?: Maybe<MasterPackIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `packAtmosphere` in the `PackMasterInput` mutation. */
+export type PackMasterMaCodeShipperIdFkeyInput = {
+  /** The primary key(s) for `packAtmosphere` for the far side of the relationship. */
+  connectByShipperIdAndMaCode?: Maybe<PackAtmospherePackAtmospherePkeyConnect>;
+  /** The primary key(s) for `packAtmosphere` for the far side of the relationship. */
+  connectByNodeId?: Maybe<PackAtmosphereNodeIdConnect>;
+  /** The primary key(s) for `packAtmosphere` for the far side of the relationship. */
+  deleteByShipperIdAndMaCode?: Maybe<PackAtmospherePackAtmospherePkeyDelete>;
+  /** The primary key(s) for `packAtmosphere` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<PackAtmosphereNodeIdDelete>;
+  /** The primary key(s) and patch data for `packAtmosphere` for the far side of the relationship. */
+  updateByShipperIdAndMaCode?: Maybe<PackAtmosphereOnPackMasterForPackMasterMaCodeShipperIdFkeyUsingPackAtmospherePkeyUpdate>;
+  /** The primary key(s) and patch data for `packAtmosphere` for the far side of the relationship. */
+  updateByNodeId?: Maybe<PackMasterOnPackMasterForPackMasterMaCodeShipperIdFkeyNodeIdUpdate>;
+  /** A `PackAtmosphereInput` object that will be created and connected to this object. */
+  create?: Maybe<PackMasterMaCodeShipperIdFkeyPackAtmosphereCreateInput>;
+};
+
+/** The fields on `packAtmosphere` to look up the row to update. */
+export type PackAtmosphereOnPackMasterForPackMasterMaCodeShipperIdFkeyUsingPackAtmospherePkeyUpdate = {
+  /** An object where the defined keys will be set on the `packAtmosphere` being updated. */
+  patch: UpdatePackAtmosphereOnPackMasterForPackMasterMaCodeShipperIdFkeyPatch;
+  shipperId: Scalars['String'];
+  maCode: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `packAtmosphere` being updated. */
+export type UpdatePackAtmosphereOnPackMasterForPackMasterMaCodeShipperIdFkeyPatch = {
+  maDescription?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackAtmosphereShipperIdFkeyInput>;
+  packMastersUsingMaCodeAndShipperId?: Maybe<PackMasterMaCodeShipperIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `packMaster` in the `PackAtmosphereInput` mutation. */
+export type PackMasterMaCodeShipperIdFkeyInverseInput = {
+  /** Flag indicating whether all other `packMaster` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  connectByOldPackCode?: Maybe<Array<PackMasterPackMasterPkeyConnect>>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<PackMasterNodeIdConnect>>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  deleteByOldPackCode?: Maybe<Array<PackMasterPackMasterPkeyDelete>>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<PackMasterNodeIdDelete>>;
+  /** The primary key(s) and patch data for `packMaster` for the far side of the relationship. */
+  updateByOldPackCode?: Maybe<Array<PackMasterOnPackMasterForPackMasterMaCodeShipperIdFkeyUsingPackMasterPkeyUpdate>>;
+  /** The primary key(s) and patch data for `packMaster` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<PackAtmosphereOnPackMasterForPackMasterMaCodeShipperIdFkeyNodeIdUpdate>>;
+  /** A `PackMasterInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<PackMasterMaCodeShipperIdFkeyPackMasterCreateInput>>;
+};
+
+/** The fields on `packMaster` to look up the row to update. */
+export type PackMasterOnPackMasterForPackMasterMaCodeShipperIdFkeyUsingPackMasterPkeyUpdate = {
+  /** An object where the defined keys will be set on the `packMaster` being updated. */
+  patch: UpdatePackMasterOnPackMasterForPackMasterMaCodeShipperIdFkeyPatch;
+  oldPackCode: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `packMaster` being updated. */
+export type UpdatePackMasterOnPackMasterForPackMasterMaCodeShipperIdFkeyPatch = {
+  labelCode?: Maybe<Scalars['String']>;
+  customerCode?: Maybe<Scalars['String']>;
+  boxType?: Maybe<Scalars['String']>;
+  boxStyle?: Maybe<Scalars['String']>;
+  packStyle?: Maybe<Scalars['String']>;
+  outCode?: Maybe<Scalars['String']>;
+  outQuantity?: Maybe<Scalars['String']>;
+  outWeight?: Maybe<Scalars['String']>;
+  productionCode?: Maybe<Scalars['String']>;
+  treeRipe?: Maybe<Scalars['String']>;
+  gradeCode?: Maybe<Scalars['String']>;
+  linerCode?: Maybe<Scalars['String']>;
+  netWeightContents?: Maybe<Scalars['BigFloat']>;
+  netWeightBox?: Maybe<Scalars['BigFloat']>;
+  boxLength?: Maybe<Scalars['BigFloat']>;
+  boxWidth?: Maybe<Scalars['BigFloat']>;
+  boxHeight?: Maybe<Scalars['BigFloat']>;
+  palletType?: Maybe<Scalars['String']>;
+  defaultPalletQuantity?: Maybe<Scalars['BigFloat']>;
+  pluUpcCode?: Maybe<Scalars['String']>;
+  destinationCode?: Maybe<Scalars['String']>;
+  oldPackCode?: Maybe<Scalars['String']>;
+  oldLabelCode?: Maybe<Scalars['String']>;
+  jvPackCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  varietyId?: Maybe<Scalars['String']>;
+  speciesId?: Maybe<Scalars['String']>;
+  holdCode?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackMasterShipperIdFkeyInput>;
+  packLabelToLabelCodeAndShipperId?: Maybe<PackMasterLabelCodeShipperIdFkeyInput>;
+  packSpecialToCustomerCodeAndShipperId?: Maybe<PackMasterCustomerCodeShipperIdFkeyInput>;
+  packBoxTypeToBoxTypeAndShipperId?: Maybe<PackMasterBoxTypeShipperIdFkeyInput>;
+  packBoxStyleToBoxStyleAndShipperId?: Maybe<PackMasterBoxStyleShipperIdFkeyInput>;
+  packStyleToPackStyleAndShipperId?: Maybe<PackMasterPackStyleShipperIdFkeyInput>;
+  packOutToOutCodeAndShipperId?: Maybe<PackMasterOutCodeShipperIdFkeyInput>;
+  packProductionToProductionCodeAndShipperId?: Maybe<PackMasterProductionCodeShipperIdFkeyInput>;
+  packTreeRipeToTreeRipeAndShipperId?: Maybe<PackMasterTreeRipeShipperIdFkeyInput>;
+  packGradeToGradeCodeAndShipperId?: Maybe<PackMasterGradeCodeShipperIdFkeyInput>;
+  packAtmosphereToMaCodeAndShipperId?: Maybe<PackMasterMaCodeShipperIdFkeyInput>;
+  packLinerToLinerCodeAndShipperId?: Maybe<PackMasterLinerCodeShipperIdFkeyInput>;
+  packPalletTypeToPalletTypeAndShipperId?: Maybe<PackMasterPalletTypeShipperIdFkeyInput>;
+  packDestinationToDestinationCodeAndShipperId?: Maybe<PackMasterDestinationCodeShipperIdFkeyInput>;
+  varietyToVarietyId?: Maybe<PackMasterVarietyIdFkeyInput>;
+  speciesToSpeciesId?: Maybe<PackMasterSpeciesIdFkeyInput>;
+  packHoldToHoldCodeAndShipperId?: Maybe<PackMasterHoldCodeShipperIdFkeyInput>;
+  mastersUsingOldPackCode?: Maybe<MasterPackIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `packLiner` in the `PackMasterInput` mutation. */
+export type PackMasterLinerCodeShipperIdFkeyInput = {
+  /** The primary key(s) for `packLiner` for the far side of the relationship. */
+  connectByShipperIdAndLinerCode?: Maybe<PackLinerPackLinerPkeyConnect>;
+  /** The primary key(s) for `packLiner` for the far side of the relationship. */
+  connectByNodeId?: Maybe<PackLinerNodeIdConnect>;
+  /** The primary key(s) for `packLiner` for the far side of the relationship. */
+  deleteByShipperIdAndLinerCode?: Maybe<PackLinerPackLinerPkeyDelete>;
+  /** The primary key(s) for `packLiner` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<PackLinerNodeIdDelete>;
+  /** The primary key(s) and patch data for `packLiner` for the far side of the relationship. */
+  updateByShipperIdAndLinerCode?: Maybe<PackLinerOnPackMasterForPackMasterLinerCodeShipperIdFkeyUsingPackLinerPkeyUpdate>;
+  /** The primary key(s) and patch data for `packLiner` for the far side of the relationship. */
+  updateByNodeId?: Maybe<PackMasterOnPackMasterForPackMasterLinerCodeShipperIdFkeyNodeIdUpdate>;
+  /** A `PackLinerInput` object that will be created and connected to this object. */
+  create?: Maybe<PackMasterLinerCodeShipperIdFkeyPackLinerCreateInput>;
+};
+
+/** The fields on `packLiner` to look up the row to update. */
+export type PackLinerOnPackMasterForPackMasterLinerCodeShipperIdFkeyUsingPackLinerPkeyUpdate = {
+  /** An object where the defined keys will be set on the `packLiner` being updated. */
+  patch: UpdatePackLinerOnPackMasterForPackMasterLinerCodeShipperIdFkeyPatch;
+  shipperId: Scalars['String'];
+  linerCode: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `packLiner` being updated. */
+export type UpdatePackLinerOnPackMasterForPackMasterLinerCodeShipperIdFkeyPatch = {
+  linerDescription?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackLinerShipperIdFkeyInput>;
+  packMastersUsingLinerCodeAndShipperId?: Maybe<PackMasterLinerCodeShipperIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `packMaster` in the `PackLinerInput` mutation. */
+export type PackMasterLinerCodeShipperIdFkeyInverseInput = {
+  /** Flag indicating whether all other `packMaster` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  connectByOldPackCode?: Maybe<Array<PackMasterPackMasterPkeyConnect>>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<PackMasterNodeIdConnect>>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  deleteByOldPackCode?: Maybe<Array<PackMasterPackMasterPkeyDelete>>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<PackMasterNodeIdDelete>>;
+  /** The primary key(s) and patch data for `packMaster` for the far side of the relationship. */
+  updateByOldPackCode?: Maybe<Array<PackMasterOnPackMasterForPackMasterLinerCodeShipperIdFkeyUsingPackMasterPkeyUpdate>>;
+  /** The primary key(s) and patch data for `packMaster` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<PackLinerOnPackMasterForPackMasterLinerCodeShipperIdFkeyNodeIdUpdate>>;
+  /** A `PackMasterInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<PackMasterLinerCodeShipperIdFkeyPackMasterCreateInput>>;
+};
+
+/** The fields on `packMaster` to look up the row to update. */
+export type PackMasterOnPackMasterForPackMasterLinerCodeShipperIdFkeyUsingPackMasterPkeyUpdate = {
+  /** An object where the defined keys will be set on the `packMaster` being updated. */
+  patch: UpdatePackMasterOnPackMasterForPackMasterLinerCodeShipperIdFkeyPatch;
+  oldPackCode: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `packMaster` being updated. */
+export type UpdatePackMasterOnPackMasterForPackMasterLinerCodeShipperIdFkeyPatch = {
+  labelCode?: Maybe<Scalars['String']>;
+  customerCode?: Maybe<Scalars['String']>;
+  boxType?: Maybe<Scalars['String']>;
+  boxStyle?: Maybe<Scalars['String']>;
+  packStyle?: Maybe<Scalars['String']>;
+  outCode?: Maybe<Scalars['String']>;
+  outQuantity?: Maybe<Scalars['String']>;
+  outWeight?: Maybe<Scalars['String']>;
+  productionCode?: Maybe<Scalars['String']>;
+  treeRipe?: Maybe<Scalars['String']>;
+  gradeCode?: Maybe<Scalars['String']>;
+  maCode?: Maybe<Scalars['String']>;
+  netWeightContents?: Maybe<Scalars['BigFloat']>;
+  netWeightBox?: Maybe<Scalars['BigFloat']>;
+  boxLength?: Maybe<Scalars['BigFloat']>;
+  boxWidth?: Maybe<Scalars['BigFloat']>;
+  boxHeight?: Maybe<Scalars['BigFloat']>;
+  palletType?: Maybe<Scalars['String']>;
+  defaultPalletQuantity?: Maybe<Scalars['BigFloat']>;
+  pluUpcCode?: Maybe<Scalars['String']>;
+  destinationCode?: Maybe<Scalars['String']>;
+  oldPackCode?: Maybe<Scalars['String']>;
+  oldLabelCode?: Maybe<Scalars['String']>;
+  jvPackCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  varietyId?: Maybe<Scalars['String']>;
+  speciesId?: Maybe<Scalars['String']>;
+  holdCode?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackMasterShipperIdFkeyInput>;
+  packLabelToLabelCodeAndShipperId?: Maybe<PackMasterLabelCodeShipperIdFkeyInput>;
+  packSpecialToCustomerCodeAndShipperId?: Maybe<PackMasterCustomerCodeShipperIdFkeyInput>;
+  packBoxTypeToBoxTypeAndShipperId?: Maybe<PackMasterBoxTypeShipperIdFkeyInput>;
+  packBoxStyleToBoxStyleAndShipperId?: Maybe<PackMasterBoxStyleShipperIdFkeyInput>;
+  packStyleToPackStyleAndShipperId?: Maybe<PackMasterPackStyleShipperIdFkeyInput>;
+  packOutToOutCodeAndShipperId?: Maybe<PackMasterOutCodeShipperIdFkeyInput>;
+  packProductionToProductionCodeAndShipperId?: Maybe<PackMasterProductionCodeShipperIdFkeyInput>;
+  packTreeRipeToTreeRipeAndShipperId?: Maybe<PackMasterTreeRipeShipperIdFkeyInput>;
+  packGradeToGradeCodeAndShipperId?: Maybe<PackMasterGradeCodeShipperIdFkeyInput>;
+  packAtmosphereToMaCodeAndShipperId?: Maybe<PackMasterMaCodeShipperIdFkeyInput>;
+  packLinerToLinerCodeAndShipperId?: Maybe<PackMasterLinerCodeShipperIdFkeyInput>;
+  packPalletTypeToPalletTypeAndShipperId?: Maybe<PackMasterPalletTypeShipperIdFkeyInput>;
+  packDestinationToDestinationCodeAndShipperId?: Maybe<PackMasterDestinationCodeShipperIdFkeyInput>;
+  varietyToVarietyId?: Maybe<PackMasterVarietyIdFkeyInput>;
+  speciesToSpeciesId?: Maybe<PackMasterSpeciesIdFkeyInput>;
+  packHoldToHoldCodeAndShipperId?: Maybe<PackMasterHoldCodeShipperIdFkeyInput>;
+  mastersUsingOldPackCode?: Maybe<MasterPackIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `packPalletType` in the `PackMasterInput` mutation. */
+export type PackMasterPalletTypeShipperIdFkeyInput = {
+  /** The primary key(s) for `packPalletType` for the far side of the relationship. */
+  connectByShipperIdAndPalletType?: Maybe<PackPalletTypePackPalletTypePkeyConnect>;
+  /** The primary key(s) for `packPalletType` for the far side of the relationship. */
+  connectByNodeId?: Maybe<PackPalletTypeNodeIdConnect>;
+  /** The primary key(s) for `packPalletType` for the far side of the relationship. */
+  deleteByShipperIdAndPalletType?: Maybe<PackPalletTypePackPalletTypePkeyDelete>;
+  /** The primary key(s) for `packPalletType` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<PackPalletTypeNodeIdDelete>;
+  /** The primary key(s) and patch data for `packPalletType` for the far side of the relationship. */
+  updateByShipperIdAndPalletType?: Maybe<PackPalletTypeOnPackMasterForPackMasterPalletTypeShipperIdFkeyUsingPackPalletTypePkeyUpdate>;
+  /** The primary key(s) and patch data for `packPalletType` for the far side of the relationship. */
+  updateByNodeId?: Maybe<PackMasterOnPackMasterForPackMasterPalletTypeShipperIdFkeyNodeIdUpdate>;
+  /** A `PackPalletTypeInput` object that will be created and connected to this object. */
+  create?: Maybe<PackMasterPalletTypeShipperIdFkeyPackPalletTypeCreateInput>;
+};
+
+/** The fields on `packPalletType` to look up the row to update. */
+export type PackPalletTypeOnPackMasterForPackMasterPalletTypeShipperIdFkeyUsingPackPalletTypePkeyUpdate = {
+  /** An object where the defined keys will be set on the `packPalletType` being updated. */
+  patch: UpdatePackPalletTypeOnPackMasterForPackMasterPalletTypeShipperIdFkeyPatch;
+  shipperId: Scalars['String'];
+  palletType: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `packPalletType` being updated. */
+export type UpdatePackPalletTypeOnPackMasterForPackMasterPalletTypeShipperIdFkeyPatch = {
+  palletTypeDescription?: Maybe<Scalars['String']>;
+  combineWith?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackPalletTypeShipperIdFkeyInput>;
+  packMastersUsingPalletTypeAndShipperId?: Maybe<PackMasterPalletTypeShipperIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `packMaster` in the `PackPalletTypeInput` mutation. */
+export type PackMasterPalletTypeShipperIdFkeyInverseInput = {
+  /** Flag indicating whether all other `packMaster` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  connectByOldPackCode?: Maybe<Array<PackMasterPackMasterPkeyConnect>>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<PackMasterNodeIdConnect>>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  deleteByOldPackCode?: Maybe<Array<PackMasterPackMasterPkeyDelete>>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<PackMasterNodeIdDelete>>;
+  /** The primary key(s) and patch data for `packMaster` for the far side of the relationship. */
+  updateByOldPackCode?: Maybe<Array<PackMasterOnPackMasterForPackMasterPalletTypeShipperIdFkeyUsingPackMasterPkeyUpdate>>;
+  /** The primary key(s) and patch data for `packMaster` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<PackPalletTypeOnPackMasterForPackMasterPalletTypeShipperIdFkeyNodeIdUpdate>>;
+  /** A `PackMasterInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<PackMasterPalletTypeShipperIdFkeyPackMasterCreateInput>>;
+};
+
+/** The fields on `packMaster` to look up the row to update. */
+export type PackMasterOnPackMasterForPackMasterPalletTypeShipperIdFkeyUsingPackMasterPkeyUpdate = {
+  /** An object where the defined keys will be set on the `packMaster` being updated. */
+  patch: UpdatePackMasterOnPackMasterForPackMasterPalletTypeShipperIdFkeyPatch;
+  oldPackCode: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `packMaster` being updated. */
+export type UpdatePackMasterOnPackMasterForPackMasterPalletTypeShipperIdFkeyPatch = {
+  labelCode?: Maybe<Scalars['String']>;
+  customerCode?: Maybe<Scalars['String']>;
+  boxType?: Maybe<Scalars['String']>;
+  boxStyle?: Maybe<Scalars['String']>;
+  packStyle?: Maybe<Scalars['String']>;
+  outCode?: Maybe<Scalars['String']>;
+  outQuantity?: Maybe<Scalars['String']>;
+  outWeight?: Maybe<Scalars['String']>;
+  productionCode?: Maybe<Scalars['String']>;
+  treeRipe?: Maybe<Scalars['String']>;
+  gradeCode?: Maybe<Scalars['String']>;
+  maCode?: Maybe<Scalars['String']>;
+  linerCode?: Maybe<Scalars['String']>;
+  netWeightContents?: Maybe<Scalars['BigFloat']>;
+  netWeightBox?: Maybe<Scalars['BigFloat']>;
+  boxLength?: Maybe<Scalars['BigFloat']>;
+  boxWidth?: Maybe<Scalars['BigFloat']>;
+  boxHeight?: Maybe<Scalars['BigFloat']>;
+  defaultPalletQuantity?: Maybe<Scalars['BigFloat']>;
+  pluUpcCode?: Maybe<Scalars['String']>;
+  destinationCode?: Maybe<Scalars['String']>;
+  oldPackCode?: Maybe<Scalars['String']>;
+  oldLabelCode?: Maybe<Scalars['String']>;
+  jvPackCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  varietyId?: Maybe<Scalars['String']>;
+  speciesId?: Maybe<Scalars['String']>;
+  holdCode?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackMasterShipperIdFkeyInput>;
+  packLabelToLabelCodeAndShipperId?: Maybe<PackMasterLabelCodeShipperIdFkeyInput>;
+  packSpecialToCustomerCodeAndShipperId?: Maybe<PackMasterCustomerCodeShipperIdFkeyInput>;
+  packBoxTypeToBoxTypeAndShipperId?: Maybe<PackMasterBoxTypeShipperIdFkeyInput>;
+  packBoxStyleToBoxStyleAndShipperId?: Maybe<PackMasterBoxStyleShipperIdFkeyInput>;
+  packStyleToPackStyleAndShipperId?: Maybe<PackMasterPackStyleShipperIdFkeyInput>;
+  packOutToOutCodeAndShipperId?: Maybe<PackMasterOutCodeShipperIdFkeyInput>;
+  packProductionToProductionCodeAndShipperId?: Maybe<PackMasterProductionCodeShipperIdFkeyInput>;
+  packTreeRipeToTreeRipeAndShipperId?: Maybe<PackMasterTreeRipeShipperIdFkeyInput>;
+  packGradeToGradeCodeAndShipperId?: Maybe<PackMasterGradeCodeShipperIdFkeyInput>;
+  packAtmosphereToMaCodeAndShipperId?: Maybe<PackMasterMaCodeShipperIdFkeyInput>;
+  packLinerToLinerCodeAndShipperId?: Maybe<PackMasterLinerCodeShipperIdFkeyInput>;
+  packPalletTypeToPalletTypeAndShipperId?: Maybe<PackMasterPalletTypeShipperIdFkeyInput>;
+  packDestinationToDestinationCodeAndShipperId?: Maybe<PackMasterDestinationCodeShipperIdFkeyInput>;
+  varietyToVarietyId?: Maybe<PackMasterVarietyIdFkeyInput>;
+  speciesToSpeciesId?: Maybe<PackMasterSpeciesIdFkeyInput>;
+  packHoldToHoldCodeAndShipperId?: Maybe<PackMasterHoldCodeShipperIdFkeyInput>;
+  mastersUsingOldPackCode?: Maybe<MasterPackIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `packDestination` in the `PackMasterInput` mutation. */
+export type PackMasterDestinationCodeShipperIdFkeyInput = {
+  /** The primary key(s) for `packDestination` for the far side of the relationship. */
+  connectByShipperIdAndDestinationCode?: Maybe<PackDestinationPackDestinationPkeyConnect>;
+  /** The primary key(s) for `packDestination` for the far side of the relationship. */
+  connectByNodeId?: Maybe<PackDestinationNodeIdConnect>;
+  /** The primary key(s) for `packDestination` for the far side of the relationship. */
+  deleteByShipperIdAndDestinationCode?: Maybe<PackDestinationPackDestinationPkeyDelete>;
+  /** The primary key(s) for `packDestination` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<PackDestinationNodeIdDelete>;
+  /** The primary key(s) and patch data for `packDestination` for the far side of the relationship. */
+  updateByShipperIdAndDestinationCode?: Maybe<PackDestinationOnPackMasterForPackMasterDestinationCodeShipperIdFkeyUsingPackDestinationPkeyUpdate>;
+  /** The primary key(s) and patch data for `packDestination` for the far side of the relationship. */
+  updateByNodeId?: Maybe<PackMasterOnPackMasterForPackMasterDestinationCodeShipperIdFkeyNodeIdUpdate>;
+  /** A `PackDestinationInput` object that will be created and connected to this object. */
+  create?: Maybe<PackMasterDestinationCodeShipperIdFkeyPackDestinationCreateInput>;
+};
+
+/** The fields on `packDestination` to look up the row to update. */
+export type PackDestinationOnPackMasterForPackMasterDestinationCodeShipperIdFkeyUsingPackDestinationPkeyUpdate = {
+  /** An object where the defined keys will be set on the `packDestination` being updated. */
+  patch: UpdatePackDestinationOnPackMasterForPackMasterDestinationCodeShipperIdFkeyPatch;
+  shipperId: Scalars['String'];
+  destinationCode: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `packDestination` being updated. */
+export type UpdatePackDestinationOnPackMasterForPackMasterDestinationCodeShipperIdFkeyPatch = {
+  destinationDescription?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackDestinationShipperIdFkeyInput>;
+  packMastersUsingDestinationCodeAndShipperId?: Maybe<PackMasterDestinationCodeShipperIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `packMaster` in the `PackDestinationInput` mutation. */
+export type PackMasterDestinationCodeShipperIdFkeyInverseInput = {
+  /** Flag indicating whether all other `packMaster` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  connectByOldPackCode?: Maybe<Array<PackMasterPackMasterPkeyConnect>>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<PackMasterNodeIdConnect>>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  deleteByOldPackCode?: Maybe<Array<PackMasterPackMasterPkeyDelete>>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<PackMasterNodeIdDelete>>;
+  /** The primary key(s) and patch data for `packMaster` for the far side of the relationship. */
+  updateByOldPackCode?: Maybe<Array<PackMasterOnPackMasterForPackMasterDestinationCodeShipperIdFkeyUsingPackMasterPkeyUpdate>>;
+  /** The primary key(s) and patch data for `packMaster` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<PackDestinationOnPackMasterForPackMasterDestinationCodeShipperIdFkeyNodeIdUpdate>>;
+  /** A `PackMasterInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<PackMasterDestinationCodeShipperIdFkeyPackMasterCreateInput>>;
+};
+
+/** The fields on `packMaster` to look up the row to update. */
+export type PackMasterOnPackMasterForPackMasterDestinationCodeShipperIdFkeyUsingPackMasterPkeyUpdate = {
+  /** An object where the defined keys will be set on the `packMaster` being updated. */
+  patch: UpdatePackMasterOnPackMasterForPackMasterDestinationCodeShipperIdFkeyPatch;
+  oldPackCode: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `packMaster` being updated. */
+export type UpdatePackMasterOnPackMasterForPackMasterDestinationCodeShipperIdFkeyPatch = {
+  labelCode?: Maybe<Scalars['String']>;
+  customerCode?: Maybe<Scalars['String']>;
+  boxType?: Maybe<Scalars['String']>;
+  boxStyle?: Maybe<Scalars['String']>;
+  packStyle?: Maybe<Scalars['String']>;
+  outCode?: Maybe<Scalars['String']>;
+  outQuantity?: Maybe<Scalars['String']>;
+  outWeight?: Maybe<Scalars['String']>;
+  productionCode?: Maybe<Scalars['String']>;
+  treeRipe?: Maybe<Scalars['String']>;
+  gradeCode?: Maybe<Scalars['String']>;
+  maCode?: Maybe<Scalars['String']>;
+  linerCode?: Maybe<Scalars['String']>;
+  netWeightContents?: Maybe<Scalars['BigFloat']>;
+  netWeightBox?: Maybe<Scalars['BigFloat']>;
+  boxLength?: Maybe<Scalars['BigFloat']>;
+  boxWidth?: Maybe<Scalars['BigFloat']>;
+  boxHeight?: Maybe<Scalars['BigFloat']>;
+  palletType?: Maybe<Scalars['String']>;
+  defaultPalletQuantity?: Maybe<Scalars['BigFloat']>;
+  pluUpcCode?: Maybe<Scalars['String']>;
+  oldPackCode?: Maybe<Scalars['String']>;
+  oldLabelCode?: Maybe<Scalars['String']>;
+  jvPackCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  varietyId?: Maybe<Scalars['String']>;
+  speciesId?: Maybe<Scalars['String']>;
+  holdCode?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackMasterShipperIdFkeyInput>;
+  packLabelToLabelCodeAndShipperId?: Maybe<PackMasterLabelCodeShipperIdFkeyInput>;
+  packSpecialToCustomerCodeAndShipperId?: Maybe<PackMasterCustomerCodeShipperIdFkeyInput>;
+  packBoxTypeToBoxTypeAndShipperId?: Maybe<PackMasterBoxTypeShipperIdFkeyInput>;
+  packBoxStyleToBoxStyleAndShipperId?: Maybe<PackMasterBoxStyleShipperIdFkeyInput>;
+  packStyleToPackStyleAndShipperId?: Maybe<PackMasterPackStyleShipperIdFkeyInput>;
+  packOutToOutCodeAndShipperId?: Maybe<PackMasterOutCodeShipperIdFkeyInput>;
+  packProductionToProductionCodeAndShipperId?: Maybe<PackMasterProductionCodeShipperIdFkeyInput>;
+  packTreeRipeToTreeRipeAndShipperId?: Maybe<PackMasterTreeRipeShipperIdFkeyInput>;
+  packGradeToGradeCodeAndShipperId?: Maybe<PackMasterGradeCodeShipperIdFkeyInput>;
+  packAtmosphereToMaCodeAndShipperId?: Maybe<PackMasterMaCodeShipperIdFkeyInput>;
+  packLinerToLinerCodeAndShipperId?: Maybe<PackMasterLinerCodeShipperIdFkeyInput>;
+  packPalletTypeToPalletTypeAndShipperId?: Maybe<PackMasterPalletTypeShipperIdFkeyInput>;
+  packDestinationToDestinationCodeAndShipperId?: Maybe<PackMasterDestinationCodeShipperIdFkeyInput>;
+  varietyToVarietyId?: Maybe<PackMasterVarietyIdFkeyInput>;
+  speciesToSpeciesId?: Maybe<PackMasterSpeciesIdFkeyInput>;
+  packHoldToHoldCodeAndShipperId?: Maybe<PackMasterHoldCodeShipperIdFkeyInput>;
+  mastersUsingOldPackCode?: Maybe<MasterPackIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `variety` in the `PackMasterInput` mutation. */
+export type PackMasterVarietyIdFkeyInput = {
+  /** The primary key(s) for `variety` for the far side of the relationship. */
+  connectById?: Maybe<VarietyVarietyPkeyConnect>;
+  /** The primary key(s) for `variety` for the far side of the relationship. */
+  connectByNodeId?: Maybe<VarietyNodeIdConnect>;
+  /** The primary key(s) for `variety` for the far side of the relationship. */
+  deleteById?: Maybe<VarietyVarietyPkeyDelete>;
+  /** The primary key(s) for `variety` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<VarietyNodeIdDelete>;
+  /** The primary key(s) and patch data for `variety` for the far side of the relationship. */
+  updateById?: Maybe<VarietyOnPackMasterForPackMasterVarietyIdFkeyUsingVarietyPkeyUpdate>;
+  /** The primary key(s) and patch data for `variety` for the far side of the relationship. */
+  updateByNodeId?: Maybe<PackMasterOnPackMasterForPackMasterVarietyIdFkeyNodeIdUpdate>;
+  /** A `VarietyInput` object that will be created and connected to this object. */
+  create?: Maybe<PackMasterVarietyIdFkeyVarietyCreateInput>;
+};
+
+/** The fields on `variety` to look up the row to update. */
+export type VarietyOnPackMasterForPackMasterVarietyIdFkeyUsingVarietyPkeyUpdate = {
+  /** An object where the defined keys will be set on the `variety` being updated. */
+  patch: UpdateVarietyOnPackMasterForPackMasterVarietyIdFkeyPatch;
+  id: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `variety` being updated. */
+export type UpdateVarietyOnPackMasterForPackMasterVarietyIdFkeyPatch = {
+  id?: Maybe<Scalars['String']>;
+  varietyDescription?: Maybe<Scalars['String']>;
+  secondaryDescription?: Maybe<Scalars['String']>;
+  customerLetterSequence?: Maybe<Scalars['String']>;
+  summaryCode?: Maybe<Scalars['String']>;
+  varietyGroup?: Maybe<Scalars['String']>;
+  combineWith?: Maybe<Scalars['String']>;
+  sizesUsingId?: Maybe<SizeVarietyIdFkeyInverseInput>;
+  packMastersUsingId?: Maybe<PackMasterVarietyIdFkeyInverseInput>;
+  mastersUsingId?: Maybe<MasterVarietyIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `packMaster` in the `VarietyInput` mutation. */
+export type PackMasterVarietyIdFkeyInverseInput = {
+  /** Flag indicating whether all other `packMaster` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  connectByOldPackCode?: Maybe<Array<PackMasterPackMasterPkeyConnect>>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<PackMasterNodeIdConnect>>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  deleteByOldPackCode?: Maybe<Array<PackMasterPackMasterPkeyDelete>>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<PackMasterNodeIdDelete>>;
+  /** The primary key(s) and patch data for `packMaster` for the far side of the relationship. */
+  updateByOldPackCode?: Maybe<Array<PackMasterOnPackMasterForPackMasterVarietyIdFkeyUsingPackMasterPkeyUpdate>>;
+  /** The primary key(s) and patch data for `packMaster` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<VarietyOnPackMasterForPackMasterVarietyIdFkeyNodeIdUpdate>>;
+  /** A `PackMasterInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<PackMasterVarietyIdFkeyPackMasterCreateInput>>;
+};
+
+/** The fields on `packMaster` to look up the row to update. */
+export type PackMasterOnPackMasterForPackMasterVarietyIdFkeyUsingPackMasterPkeyUpdate = {
+  /** An object where the defined keys will be set on the `packMaster` being updated. */
+  patch: UpdatePackMasterOnPackMasterForPackMasterVarietyIdFkeyPatch;
+  oldPackCode: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `packMaster` being updated. */
+export type UpdatePackMasterOnPackMasterForPackMasterVarietyIdFkeyPatch = {
+  shipperId?: Maybe<Scalars['String']>;
+  labelCode?: Maybe<Scalars['String']>;
+  customerCode?: Maybe<Scalars['String']>;
+  boxType?: Maybe<Scalars['String']>;
+  boxStyle?: Maybe<Scalars['String']>;
+  packStyle?: Maybe<Scalars['String']>;
+  outCode?: Maybe<Scalars['String']>;
+  outQuantity?: Maybe<Scalars['String']>;
+  outWeight?: Maybe<Scalars['String']>;
+  productionCode?: Maybe<Scalars['String']>;
+  treeRipe?: Maybe<Scalars['String']>;
+  gradeCode?: Maybe<Scalars['String']>;
+  maCode?: Maybe<Scalars['String']>;
+  linerCode?: Maybe<Scalars['String']>;
+  netWeightContents?: Maybe<Scalars['BigFloat']>;
+  netWeightBox?: Maybe<Scalars['BigFloat']>;
+  boxLength?: Maybe<Scalars['BigFloat']>;
+  boxWidth?: Maybe<Scalars['BigFloat']>;
+  boxHeight?: Maybe<Scalars['BigFloat']>;
+  palletType?: Maybe<Scalars['String']>;
+  defaultPalletQuantity?: Maybe<Scalars['BigFloat']>;
+  pluUpcCode?: Maybe<Scalars['String']>;
+  destinationCode?: Maybe<Scalars['String']>;
+  oldPackCode?: Maybe<Scalars['String']>;
+  oldLabelCode?: Maybe<Scalars['String']>;
+  jvPackCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  speciesId?: Maybe<Scalars['String']>;
+  holdCode?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackMasterShipperIdFkeyInput>;
+  packLabelToLabelCodeAndShipperId?: Maybe<PackMasterLabelCodeShipperIdFkeyInput>;
+  packSpecialToCustomerCodeAndShipperId?: Maybe<PackMasterCustomerCodeShipperIdFkeyInput>;
+  packBoxTypeToBoxTypeAndShipperId?: Maybe<PackMasterBoxTypeShipperIdFkeyInput>;
+  packBoxStyleToBoxStyleAndShipperId?: Maybe<PackMasterBoxStyleShipperIdFkeyInput>;
+  packStyleToPackStyleAndShipperId?: Maybe<PackMasterPackStyleShipperIdFkeyInput>;
+  packOutToOutCodeAndShipperId?: Maybe<PackMasterOutCodeShipperIdFkeyInput>;
+  packProductionToProductionCodeAndShipperId?: Maybe<PackMasterProductionCodeShipperIdFkeyInput>;
+  packTreeRipeToTreeRipeAndShipperId?: Maybe<PackMasterTreeRipeShipperIdFkeyInput>;
+  packGradeToGradeCodeAndShipperId?: Maybe<PackMasterGradeCodeShipperIdFkeyInput>;
+  packAtmosphereToMaCodeAndShipperId?: Maybe<PackMasterMaCodeShipperIdFkeyInput>;
+  packLinerToLinerCodeAndShipperId?: Maybe<PackMasterLinerCodeShipperIdFkeyInput>;
+  packPalletTypeToPalletTypeAndShipperId?: Maybe<PackMasterPalletTypeShipperIdFkeyInput>;
+  packDestinationToDestinationCodeAndShipperId?: Maybe<PackMasterDestinationCodeShipperIdFkeyInput>;
+  varietyToVarietyId?: Maybe<PackMasterVarietyIdFkeyInput>;
+  speciesToSpeciesId?: Maybe<PackMasterSpeciesIdFkeyInput>;
+  packHoldToHoldCodeAndShipperId?: Maybe<PackMasterHoldCodeShipperIdFkeyInput>;
+  mastersUsingOldPackCode?: Maybe<MasterPackIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `species` in the `PackMasterInput` mutation. */
+export type PackMasterSpeciesIdFkeyInput = {
+  /** The primary key(s) for `species` for the far side of the relationship. */
+  connectById?: Maybe<SpeciesSpeciesPkeyConnect>;
+  /** The primary key(s) for `species` for the far side of the relationship. */
+  connectByNodeId?: Maybe<SpeciesNodeIdConnect>;
+  /** The primary key(s) for `species` for the far side of the relationship. */
+  deleteById?: Maybe<SpeciesSpeciesPkeyDelete>;
+  /** The primary key(s) for `species` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<SpeciesNodeIdDelete>;
+  /** The primary key(s) and patch data for `species` for the far side of the relationship. */
+  updateById?: Maybe<SpeciesOnPackMasterForPackMasterSpeciesIdFkeyUsingSpeciesPkeyUpdate>;
+  /** The primary key(s) and patch data for `species` for the far side of the relationship. */
+  updateByNodeId?: Maybe<PackMasterOnPackMasterForPackMasterSpeciesIdFkeyNodeIdUpdate>;
+  /** A `SpeciesInput` object that will be created and connected to this object. */
+  create?: Maybe<PackMasterSpeciesIdFkeySpeciesCreateInput>;
+};
+
+/** The fields on `species` to look up the row to update. */
+export type SpeciesOnPackMasterForPackMasterSpeciesIdFkeyUsingSpeciesPkeyUpdate = {
+  /** An object where the defined keys will be set on the `species` being updated. */
+  patch: UpdateSpeciesOnPackMasterForPackMasterSpeciesIdFkeyPatch;
+  id: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `species` being updated. */
+export type UpdateSpeciesOnPackMasterForPackMasterSpeciesIdFkeyPatch = {
+  id?: Maybe<Scalars['String']>;
+  speciesDescription?: Maybe<Scalars['String']>;
+  secondaryDescription?: Maybe<Scalars['String']>;
+  fdaProductCode?: Maybe<Scalars['String']>;
+  fdaIndustryCode?: Maybe<Scalars['String']>;
+  defaultTemperature?: Maybe<Scalars['String']>;
+  sizesUsingId?: Maybe<SizeSpeciesIdFkeyInverseInput>;
+  packMastersUsingId?: Maybe<PackMasterSpeciesIdFkeyInverseInput>;
+  mastersUsingId?: Maybe<MasterSpeciesIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `packMaster` in the `SpeciesInput` mutation. */
+export type PackMasterSpeciesIdFkeyInverseInput = {
+  /** Flag indicating whether all other `packMaster` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  connectByOldPackCode?: Maybe<Array<PackMasterPackMasterPkeyConnect>>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<PackMasterNodeIdConnect>>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  deleteByOldPackCode?: Maybe<Array<PackMasterPackMasterPkeyDelete>>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<PackMasterNodeIdDelete>>;
+  /** The primary key(s) and patch data for `packMaster` for the far side of the relationship. */
+  updateByOldPackCode?: Maybe<Array<PackMasterOnPackMasterForPackMasterSpeciesIdFkeyUsingPackMasterPkeyUpdate>>;
+  /** The primary key(s) and patch data for `packMaster` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<SpeciesOnPackMasterForPackMasterSpeciesIdFkeyNodeIdUpdate>>;
+  /** A `PackMasterInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<PackMasterSpeciesIdFkeyPackMasterCreateInput>>;
+};
+
+/** The fields on `packMaster` to look up the row to update. */
+export type PackMasterOnPackMasterForPackMasterSpeciesIdFkeyUsingPackMasterPkeyUpdate = {
+  /** An object where the defined keys will be set on the `packMaster` being updated. */
+  patch: UpdatePackMasterOnPackMasterForPackMasterSpeciesIdFkeyPatch;
+  oldPackCode: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `packMaster` being updated. */
+export type UpdatePackMasterOnPackMasterForPackMasterSpeciesIdFkeyPatch = {
+  shipperId?: Maybe<Scalars['String']>;
+  labelCode?: Maybe<Scalars['String']>;
+  customerCode?: Maybe<Scalars['String']>;
+  boxType?: Maybe<Scalars['String']>;
+  boxStyle?: Maybe<Scalars['String']>;
+  packStyle?: Maybe<Scalars['String']>;
+  outCode?: Maybe<Scalars['String']>;
+  outQuantity?: Maybe<Scalars['String']>;
+  outWeight?: Maybe<Scalars['String']>;
+  productionCode?: Maybe<Scalars['String']>;
+  treeRipe?: Maybe<Scalars['String']>;
+  gradeCode?: Maybe<Scalars['String']>;
+  maCode?: Maybe<Scalars['String']>;
+  linerCode?: Maybe<Scalars['String']>;
+  netWeightContents?: Maybe<Scalars['BigFloat']>;
+  netWeightBox?: Maybe<Scalars['BigFloat']>;
+  boxLength?: Maybe<Scalars['BigFloat']>;
+  boxWidth?: Maybe<Scalars['BigFloat']>;
+  boxHeight?: Maybe<Scalars['BigFloat']>;
+  palletType?: Maybe<Scalars['String']>;
+  defaultPalletQuantity?: Maybe<Scalars['BigFloat']>;
+  pluUpcCode?: Maybe<Scalars['String']>;
+  destinationCode?: Maybe<Scalars['String']>;
+  oldPackCode?: Maybe<Scalars['String']>;
+  oldLabelCode?: Maybe<Scalars['String']>;
+  jvPackCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  varietyId?: Maybe<Scalars['String']>;
+  holdCode?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackMasterShipperIdFkeyInput>;
+  packLabelToLabelCodeAndShipperId?: Maybe<PackMasterLabelCodeShipperIdFkeyInput>;
+  packSpecialToCustomerCodeAndShipperId?: Maybe<PackMasterCustomerCodeShipperIdFkeyInput>;
+  packBoxTypeToBoxTypeAndShipperId?: Maybe<PackMasterBoxTypeShipperIdFkeyInput>;
+  packBoxStyleToBoxStyleAndShipperId?: Maybe<PackMasterBoxStyleShipperIdFkeyInput>;
+  packStyleToPackStyleAndShipperId?: Maybe<PackMasterPackStyleShipperIdFkeyInput>;
+  packOutToOutCodeAndShipperId?: Maybe<PackMasterOutCodeShipperIdFkeyInput>;
+  packProductionToProductionCodeAndShipperId?: Maybe<PackMasterProductionCodeShipperIdFkeyInput>;
+  packTreeRipeToTreeRipeAndShipperId?: Maybe<PackMasterTreeRipeShipperIdFkeyInput>;
+  packGradeToGradeCodeAndShipperId?: Maybe<PackMasterGradeCodeShipperIdFkeyInput>;
+  packAtmosphereToMaCodeAndShipperId?: Maybe<PackMasterMaCodeShipperIdFkeyInput>;
+  packLinerToLinerCodeAndShipperId?: Maybe<PackMasterLinerCodeShipperIdFkeyInput>;
+  packPalletTypeToPalletTypeAndShipperId?: Maybe<PackMasterPalletTypeShipperIdFkeyInput>;
+  packDestinationToDestinationCodeAndShipperId?: Maybe<PackMasterDestinationCodeShipperIdFkeyInput>;
+  varietyToVarietyId?: Maybe<PackMasterVarietyIdFkeyInput>;
+  speciesToSpeciesId?: Maybe<PackMasterSpeciesIdFkeyInput>;
+  packHoldToHoldCodeAndShipperId?: Maybe<PackMasterHoldCodeShipperIdFkeyInput>;
+  mastersUsingOldPackCode?: Maybe<MasterPackIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `packHold` in the `PackMasterInput` mutation. */
+export type PackMasterHoldCodeShipperIdFkeyInput = {
+  /** The primary key(s) for `packHold` for the far side of the relationship. */
+  connectByShipperIdAndHoldCode?: Maybe<PackHoldPackHoldPkeyConnect>;
+  /** The primary key(s) for `packHold` for the far side of the relationship. */
+  connectByNodeId?: Maybe<PackHoldNodeIdConnect>;
+  /** The primary key(s) for `packHold` for the far side of the relationship. */
+  deleteByShipperIdAndHoldCode?: Maybe<PackHoldPackHoldPkeyDelete>;
+  /** The primary key(s) for `packHold` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<PackHoldNodeIdDelete>;
+  /** The primary key(s) and patch data for `packHold` for the far side of the relationship. */
+  updateByShipperIdAndHoldCode?: Maybe<PackHoldOnPackMasterForPackMasterHoldCodeShipperIdFkeyUsingPackHoldPkeyUpdate>;
+  /** The primary key(s) and patch data for `packHold` for the far side of the relationship. */
+  updateByNodeId?: Maybe<PackMasterOnPackMasterForPackMasterHoldCodeShipperIdFkeyNodeIdUpdate>;
+  /** A `PackHoldInput` object that will be created and connected to this object. */
+  create?: Maybe<PackMasterHoldCodeShipperIdFkeyPackHoldCreateInput>;
+};
+
+/** The fields on `packHold` to look up the row to update. */
+export type PackHoldOnPackMasterForPackMasterHoldCodeShipperIdFkeyUsingPackHoldPkeyUpdate = {
+  /** An object where the defined keys will be set on the `packHold` being updated. */
+  patch: UpdatePackHoldOnPackMasterForPackMasterHoldCodeShipperIdFkeyPatch;
+  shipperId: Scalars['String'];
+  holdCode: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `packHold` being updated. */
+export type UpdatePackHoldOnPackMasterForPackMasterHoldCodeShipperIdFkeyPatch = {
+  holdDescription?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackHoldShipperIdFkeyInput>;
+  packMastersUsingHoldCodeAndShipperId?: Maybe<PackMasterHoldCodeShipperIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `packMaster` in the `PackHoldInput` mutation. */
+export type PackMasterHoldCodeShipperIdFkeyInverseInput = {
+  /** Flag indicating whether all other `packMaster` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  connectByOldPackCode?: Maybe<Array<PackMasterPackMasterPkeyConnect>>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<PackMasterNodeIdConnect>>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  deleteByOldPackCode?: Maybe<Array<PackMasterPackMasterPkeyDelete>>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<PackMasterNodeIdDelete>>;
+  /** The primary key(s) and patch data for `packMaster` for the far side of the relationship. */
+  updateByOldPackCode?: Maybe<Array<PackMasterOnPackMasterForPackMasterHoldCodeShipperIdFkeyUsingPackMasterPkeyUpdate>>;
+  /** The primary key(s) and patch data for `packMaster` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<PackHoldOnPackMasterForPackMasterHoldCodeShipperIdFkeyNodeIdUpdate>>;
+  /** A `PackMasterInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<PackMasterHoldCodeShipperIdFkeyPackMasterCreateInput>>;
+};
+
+/** The fields on `packMaster` to look up the row to update. */
+export type PackMasterOnPackMasterForPackMasterHoldCodeShipperIdFkeyUsingPackMasterPkeyUpdate = {
+  /** An object where the defined keys will be set on the `packMaster` being updated. */
+  patch: UpdatePackMasterOnPackMasterForPackMasterHoldCodeShipperIdFkeyPatch;
+  oldPackCode: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `packMaster` being updated. */
+export type UpdatePackMasterOnPackMasterForPackMasterHoldCodeShipperIdFkeyPatch = {
+  labelCode?: Maybe<Scalars['String']>;
+  customerCode?: Maybe<Scalars['String']>;
+  boxType?: Maybe<Scalars['String']>;
+  boxStyle?: Maybe<Scalars['String']>;
+  packStyle?: Maybe<Scalars['String']>;
+  outCode?: Maybe<Scalars['String']>;
+  outQuantity?: Maybe<Scalars['String']>;
+  outWeight?: Maybe<Scalars['String']>;
+  productionCode?: Maybe<Scalars['String']>;
+  treeRipe?: Maybe<Scalars['String']>;
+  gradeCode?: Maybe<Scalars['String']>;
+  maCode?: Maybe<Scalars['String']>;
+  linerCode?: Maybe<Scalars['String']>;
+  netWeightContents?: Maybe<Scalars['BigFloat']>;
+  netWeightBox?: Maybe<Scalars['BigFloat']>;
+  boxLength?: Maybe<Scalars['BigFloat']>;
+  boxWidth?: Maybe<Scalars['BigFloat']>;
+  boxHeight?: Maybe<Scalars['BigFloat']>;
+  palletType?: Maybe<Scalars['String']>;
+  defaultPalletQuantity?: Maybe<Scalars['BigFloat']>;
+  pluUpcCode?: Maybe<Scalars['String']>;
+  destinationCode?: Maybe<Scalars['String']>;
+  oldPackCode?: Maybe<Scalars['String']>;
+  oldLabelCode?: Maybe<Scalars['String']>;
+  jvPackCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  varietyId?: Maybe<Scalars['String']>;
+  speciesId?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackMasterShipperIdFkeyInput>;
+  packLabelToLabelCodeAndShipperId?: Maybe<PackMasterLabelCodeShipperIdFkeyInput>;
+  packSpecialToCustomerCodeAndShipperId?: Maybe<PackMasterCustomerCodeShipperIdFkeyInput>;
+  packBoxTypeToBoxTypeAndShipperId?: Maybe<PackMasterBoxTypeShipperIdFkeyInput>;
+  packBoxStyleToBoxStyleAndShipperId?: Maybe<PackMasterBoxStyleShipperIdFkeyInput>;
+  packStyleToPackStyleAndShipperId?: Maybe<PackMasterPackStyleShipperIdFkeyInput>;
+  packOutToOutCodeAndShipperId?: Maybe<PackMasterOutCodeShipperIdFkeyInput>;
+  packProductionToProductionCodeAndShipperId?: Maybe<PackMasterProductionCodeShipperIdFkeyInput>;
+  packTreeRipeToTreeRipeAndShipperId?: Maybe<PackMasterTreeRipeShipperIdFkeyInput>;
+  packGradeToGradeCodeAndShipperId?: Maybe<PackMasterGradeCodeShipperIdFkeyInput>;
+  packAtmosphereToMaCodeAndShipperId?: Maybe<PackMasterMaCodeShipperIdFkeyInput>;
+  packLinerToLinerCodeAndShipperId?: Maybe<PackMasterLinerCodeShipperIdFkeyInput>;
+  packPalletTypeToPalletTypeAndShipperId?: Maybe<PackMasterPalletTypeShipperIdFkeyInput>;
+  packDestinationToDestinationCodeAndShipperId?: Maybe<PackMasterDestinationCodeShipperIdFkeyInput>;
+  varietyToVarietyId?: Maybe<PackMasterVarietyIdFkeyInput>;
+  speciesToSpeciesId?: Maybe<PackMasterSpeciesIdFkeyInput>;
+  packHoldToHoldCodeAndShipperId?: Maybe<PackMasterHoldCodeShipperIdFkeyInput>;
+  mastersUsingOldPackCode?: Maybe<MasterPackIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `master` in the `PackMasterInput` mutation. */
+export type MasterPackIdFkeyInverseInput = {
+  /** Flag indicating whether all other `master` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `master` for the far side of the relationship. */
+  connectById?: Maybe<Array<MasterMasterPkeyConnect>>;
+  /** The primary key(s) for `master` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<MasterNodeIdConnect>>;
+  /** The primary key(s) for `master` for the far side of the relationship. */
+  deleteById?: Maybe<Array<MasterMasterPkeyDelete>>;
+  /** The primary key(s) for `master` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<MasterNodeIdDelete>>;
+  /** The primary key(s) and patch data for `master` for the far side of the relationship. */
+  updateById?: Maybe<Array<MasterOnMasterForMasterPackIdFkeyUsingMasterPkeyUpdate>>;
+  /** The primary key(s) and patch data for `master` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<PackMasterOnMasterForMasterPackIdFkeyNodeIdUpdate>>;
+  /** A `MasterInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<MasterPackIdFkeyMasterCreateInput>>;
+};
+
+/** The fields on `master` to look up the row to connect. */
+export type MasterMasterPkeyConnect = {
+  id: Scalars['String'];
+};
+
+/** The globally unique `ID` look up for the row to connect. */
+export type MasterNodeIdConnect = {
+  /** The globally unique `ID` which identifies a single `master` to be connected. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `master` to look up the row to delete. */
+export type MasterMasterPkeyDelete = {
+  id: Scalars['String'];
+};
+
+/** The globally unique `ID` look up for the row to delete. */
+export type MasterNodeIdDelete = {
+  /** The globally unique `ID` which identifies a single `master` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `master` to look up the row to update. */
+export type MasterOnMasterForMasterPackIdFkeyUsingMasterPkeyUpdate = {
+  /** An object where the defined keys will be set on the `master` being updated. */
+  patch: UpdateMasterOnMasterForMasterPackIdFkeyPatch;
+  id: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `master` being updated. */
+export type UpdateMasterOnMasterForMasterPackIdFkeyPatch = {
+  id?: Maybe<Scalars['String']>;
+  speciesId?: Maybe<Scalars['String']>;
+  varietyId?: Maybe<Scalars['String']>;
+  sizeId?: Maybe<Scalars['BigInt']>;
+  defaultPalletQuantity?: Maybe<Scalars['String']>;
+  lotNumber?: Maybe<Scalars['String']>;
+  speciesToSpeciesId?: Maybe<MasterSpeciesIdFkeyInput>;
+  varietyToVarietyId?: Maybe<MasterVarietyIdFkeyInput>;
+  sizeToSizeId?: Maybe<MasterSizeIdFkeyInput>;
+  packMasterToPackId?: Maybe<MasterPackIdFkeyInput>;
+};
+
+/** Input for the nested mutation of `species` in the `MasterInput` mutation. */
+export type MasterSpeciesIdFkeyInput = {
+  /** The primary key(s) for `species` for the far side of the relationship. */
+  connectById?: Maybe<SpeciesSpeciesPkeyConnect>;
+  /** The primary key(s) for `species` for the far side of the relationship. */
+  connectByNodeId?: Maybe<SpeciesNodeIdConnect>;
+  /** The primary key(s) for `species` for the far side of the relationship. */
+  deleteById?: Maybe<SpeciesSpeciesPkeyDelete>;
+  /** The primary key(s) for `species` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<SpeciesNodeIdDelete>;
+  /** The primary key(s) and patch data for `species` for the far side of the relationship. */
+  updateById?: Maybe<SpeciesOnMasterForMasterSpeciesIdFkeyUsingSpeciesPkeyUpdate>;
+  /** The primary key(s) and patch data for `species` for the far side of the relationship. */
+  updateByNodeId?: Maybe<MasterOnMasterForMasterSpeciesIdFkeyNodeIdUpdate>;
+  /** A `SpeciesInput` object that will be created and connected to this object. */
+  create?: Maybe<MasterSpeciesIdFkeySpeciesCreateInput>;
+};
+
+/** The fields on `species` to look up the row to update. */
+export type SpeciesOnMasterForMasterSpeciesIdFkeyUsingSpeciesPkeyUpdate = {
+  /** An object where the defined keys will be set on the `species` being updated. */
+  patch: UpdateSpeciesOnMasterForMasterSpeciesIdFkeyPatch;
+  id: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `species` being updated. */
+export type UpdateSpeciesOnMasterForMasterSpeciesIdFkeyPatch = {
+  id?: Maybe<Scalars['String']>;
+  speciesDescription?: Maybe<Scalars['String']>;
+  secondaryDescription?: Maybe<Scalars['String']>;
+  fdaProductCode?: Maybe<Scalars['String']>;
+  fdaIndustryCode?: Maybe<Scalars['String']>;
+  defaultTemperature?: Maybe<Scalars['String']>;
+  sizesUsingId?: Maybe<SizeSpeciesIdFkeyInverseInput>;
+  packMastersUsingId?: Maybe<PackMasterSpeciesIdFkeyInverseInput>;
+  mastersUsingId?: Maybe<MasterSpeciesIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `master` in the `SpeciesInput` mutation. */
+export type MasterSpeciesIdFkeyInverseInput = {
+  /** Flag indicating whether all other `master` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `master` for the far side of the relationship. */
+  connectById?: Maybe<Array<MasterMasterPkeyConnect>>;
+  /** The primary key(s) for `master` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<MasterNodeIdConnect>>;
+  /** The primary key(s) for `master` for the far side of the relationship. */
+  deleteById?: Maybe<Array<MasterMasterPkeyDelete>>;
+  /** The primary key(s) for `master` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<MasterNodeIdDelete>>;
+  /** The primary key(s) and patch data for `master` for the far side of the relationship. */
+  updateById?: Maybe<Array<MasterOnMasterForMasterSpeciesIdFkeyUsingMasterPkeyUpdate>>;
+  /** The primary key(s) and patch data for `master` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<SpeciesOnMasterForMasterSpeciesIdFkeyNodeIdUpdate>>;
+  /** A `MasterInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<MasterSpeciesIdFkeyMasterCreateInput>>;
+};
+
+/** The fields on `master` to look up the row to update. */
+export type MasterOnMasterForMasterSpeciesIdFkeyUsingMasterPkeyUpdate = {
+  /** An object where the defined keys will be set on the `master` being updated. */
+  patch: UpdateMasterOnMasterForMasterSpeciesIdFkeyPatch;
+  id: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `master` being updated. */
+export type UpdateMasterOnMasterForMasterSpeciesIdFkeyPatch = {
+  id?: Maybe<Scalars['String']>;
+  varietyId?: Maybe<Scalars['String']>;
+  sizeId?: Maybe<Scalars['BigInt']>;
+  packId?: Maybe<Scalars['String']>;
+  defaultPalletQuantity?: Maybe<Scalars['String']>;
+  lotNumber?: Maybe<Scalars['String']>;
+  speciesToSpeciesId?: Maybe<MasterSpeciesIdFkeyInput>;
+  varietyToVarietyId?: Maybe<MasterVarietyIdFkeyInput>;
+  sizeToSizeId?: Maybe<MasterSizeIdFkeyInput>;
+  packMasterToPackId?: Maybe<MasterPackIdFkeyInput>;
+};
+
+/** Input for the nested mutation of `variety` in the `MasterInput` mutation. */
+export type MasterVarietyIdFkeyInput = {
+  /** The primary key(s) for `variety` for the far side of the relationship. */
+  connectById?: Maybe<VarietyVarietyPkeyConnect>;
+  /** The primary key(s) for `variety` for the far side of the relationship. */
+  connectByNodeId?: Maybe<VarietyNodeIdConnect>;
+  /** The primary key(s) for `variety` for the far side of the relationship. */
+  deleteById?: Maybe<VarietyVarietyPkeyDelete>;
+  /** The primary key(s) for `variety` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<VarietyNodeIdDelete>;
+  /** The primary key(s) and patch data for `variety` for the far side of the relationship. */
+  updateById?: Maybe<VarietyOnMasterForMasterVarietyIdFkeyUsingVarietyPkeyUpdate>;
+  /** The primary key(s) and patch data for `variety` for the far side of the relationship. */
+  updateByNodeId?: Maybe<MasterOnMasterForMasterVarietyIdFkeyNodeIdUpdate>;
+  /** A `VarietyInput` object that will be created and connected to this object. */
+  create?: Maybe<MasterVarietyIdFkeyVarietyCreateInput>;
+};
+
+/** The fields on `variety` to look up the row to update. */
+export type VarietyOnMasterForMasterVarietyIdFkeyUsingVarietyPkeyUpdate = {
+  /** An object where the defined keys will be set on the `variety` being updated. */
+  patch: UpdateVarietyOnMasterForMasterVarietyIdFkeyPatch;
+  id: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `variety` being updated. */
+export type UpdateVarietyOnMasterForMasterVarietyIdFkeyPatch = {
+  id?: Maybe<Scalars['String']>;
+  varietyDescription?: Maybe<Scalars['String']>;
+  secondaryDescription?: Maybe<Scalars['String']>;
+  customerLetterSequence?: Maybe<Scalars['String']>;
+  summaryCode?: Maybe<Scalars['String']>;
+  varietyGroup?: Maybe<Scalars['String']>;
+  combineWith?: Maybe<Scalars['String']>;
+  sizesUsingId?: Maybe<SizeVarietyIdFkeyInverseInput>;
+  packMastersUsingId?: Maybe<PackMasterVarietyIdFkeyInverseInput>;
+  mastersUsingId?: Maybe<MasterVarietyIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `master` in the `VarietyInput` mutation. */
+export type MasterVarietyIdFkeyInverseInput = {
+  /** Flag indicating whether all other `master` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `master` for the far side of the relationship. */
+  connectById?: Maybe<Array<MasterMasterPkeyConnect>>;
+  /** The primary key(s) for `master` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<MasterNodeIdConnect>>;
+  /** The primary key(s) for `master` for the far side of the relationship. */
+  deleteById?: Maybe<Array<MasterMasterPkeyDelete>>;
+  /** The primary key(s) for `master` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<MasterNodeIdDelete>>;
+  /** The primary key(s) and patch data for `master` for the far side of the relationship. */
+  updateById?: Maybe<Array<MasterOnMasterForMasterVarietyIdFkeyUsingMasterPkeyUpdate>>;
+  /** The primary key(s) and patch data for `master` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<VarietyOnMasterForMasterVarietyIdFkeyNodeIdUpdate>>;
+  /** A `MasterInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<MasterVarietyIdFkeyMasterCreateInput>>;
+};
+
+/** The fields on `master` to look up the row to update. */
+export type MasterOnMasterForMasterVarietyIdFkeyUsingMasterPkeyUpdate = {
+  /** An object where the defined keys will be set on the `master` being updated. */
+  patch: UpdateMasterOnMasterForMasterVarietyIdFkeyPatch;
+  id: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `master` being updated. */
+export type UpdateMasterOnMasterForMasterVarietyIdFkeyPatch = {
+  id?: Maybe<Scalars['String']>;
+  speciesId?: Maybe<Scalars['String']>;
+  sizeId?: Maybe<Scalars['BigInt']>;
+  packId?: Maybe<Scalars['String']>;
+  defaultPalletQuantity?: Maybe<Scalars['String']>;
+  lotNumber?: Maybe<Scalars['String']>;
+  speciesToSpeciesId?: Maybe<MasterSpeciesIdFkeyInput>;
+  varietyToVarietyId?: Maybe<MasterVarietyIdFkeyInput>;
+  sizeToSizeId?: Maybe<MasterSizeIdFkeyInput>;
+  packMasterToPackId?: Maybe<MasterPackIdFkeyInput>;
+};
+
+/** Input for the nested mutation of `size` in the `MasterInput` mutation. */
+export type MasterSizeIdFkeyInput = {
+  /** The primary key(s) for `size` for the far side of the relationship. */
+  connectById?: Maybe<SizeSizePkeyConnect>;
+  /** The primary key(s) for `size` for the far side of the relationship. */
+  connectByNodeId?: Maybe<SizeNodeIdConnect>;
+  /** The primary key(s) for `size` for the far side of the relationship. */
+  deleteById?: Maybe<SizeSizePkeyDelete>;
+  /** The primary key(s) for `size` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<SizeNodeIdDelete>;
+  /** The primary key(s) and patch data for `size` for the far side of the relationship. */
+  updateById?: Maybe<SizeOnMasterForMasterSizeIdFkeyUsingSizePkeyUpdate>;
+  /** The primary key(s) and patch data for `size` for the far side of the relationship. */
+  updateByNodeId?: Maybe<MasterOnMasterForMasterSizeIdFkeyNodeIdUpdate>;
+  /** A `SizeInput` object that will be created and connected to this object. */
+  create?: Maybe<MasterSizeIdFkeySizeCreateInput>;
+};
+
+/** The fields on `size` to look up the row to update. */
+export type SizeOnMasterForMasterSizeIdFkeyUsingSizePkeyUpdate = {
+  /** An object where the defined keys will be set on the `size` being updated. */
+  patch: UpdateSizeOnMasterForMasterSizeIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `size` being updated. */
+export type UpdateSizeOnMasterForMasterSizeIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  speciesId?: Maybe<Scalars['String']>;
+  varietyId?: Maybe<Scalars['String']>;
+  jvCode?: Maybe<Scalars['String']>;
+  jvDescription?: Maybe<Scalars['String']>;
+  shipperCode?: Maybe<Scalars['String']>;
+  shipperDescription?: Maybe<Scalars['String']>;
+  combinedCode?: Maybe<Scalars['String']>;
+  combinedDescription?: Maybe<Scalars['String']>;
+  shipperId?: Maybe<Scalars['String']>;
+  speciesToSpeciesId?: Maybe<SizeSpeciesIdFkeyInput>;
+  varietyToVarietyId?: Maybe<SizeVarietyIdFkeyInput>;
+  shipperToShipperId?: Maybe<SizeShipperIdFkeyInput>;
+  mastersUsingId?: Maybe<MasterSizeIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `master` in the `SizeInput` mutation. */
+export type MasterSizeIdFkeyInverseInput = {
+  /** Flag indicating whether all other `master` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `master` for the far side of the relationship. */
+  connectById?: Maybe<Array<MasterMasterPkeyConnect>>;
+  /** The primary key(s) for `master` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<MasterNodeIdConnect>>;
+  /** The primary key(s) for `master` for the far side of the relationship. */
+  deleteById?: Maybe<Array<MasterMasterPkeyDelete>>;
+  /** The primary key(s) for `master` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<MasterNodeIdDelete>>;
+  /** The primary key(s) and patch data for `master` for the far side of the relationship. */
+  updateById?: Maybe<Array<MasterOnMasterForMasterSizeIdFkeyUsingMasterPkeyUpdate>>;
+  /** The primary key(s) and patch data for `master` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<SizeOnMasterForMasterSizeIdFkeyNodeIdUpdate>>;
+  /** A `MasterInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<MasterSizeIdFkeyMasterCreateInput>>;
+};
+
+/** The fields on `master` to look up the row to update. */
+export type MasterOnMasterForMasterSizeIdFkeyUsingMasterPkeyUpdate = {
+  /** An object where the defined keys will be set on the `master` being updated. */
+  patch: UpdateMasterOnMasterForMasterSizeIdFkeyPatch;
+  id: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `master` being updated. */
+export type UpdateMasterOnMasterForMasterSizeIdFkeyPatch = {
+  id?: Maybe<Scalars['String']>;
+  speciesId?: Maybe<Scalars['String']>;
+  varietyId?: Maybe<Scalars['String']>;
+  packId?: Maybe<Scalars['String']>;
+  defaultPalletQuantity?: Maybe<Scalars['String']>;
+  lotNumber?: Maybe<Scalars['String']>;
+  speciesToSpeciesId?: Maybe<MasterSpeciesIdFkeyInput>;
+  varietyToVarietyId?: Maybe<MasterVarietyIdFkeyInput>;
+  sizeToSizeId?: Maybe<MasterSizeIdFkeyInput>;
+  packMasterToPackId?: Maybe<MasterPackIdFkeyInput>;
+};
+
+/** Input for the nested mutation of `packMaster` in the `MasterInput` mutation. */
+export type MasterPackIdFkeyInput = {
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  connectByOldPackCode?: Maybe<PackMasterPackMasterPkeyConnect>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  connectByNodeId?: Maybe<PackMasterNodeIdConnect>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  deleteByOldPackCode?: Maybe<PackMasterPackMasterPkeyDelete>;
+  /** The primary key(s) for `packMaster` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<PackMasterNodeIdDelete>;
+  /** The primary key(s) and patch data for `packMaster` for the far side of the relationship. */
+  updateByOldPackCode?: Maybe<PackMasterOnMasterForMasterPackIdFkeyUsingPackMasterPkeyUpdate>;
+  /** The primary key(s) and patch data for `packMaster` for the far side of the relationship. */
+  updateByNodeId?: Maybe<MasterOnMasterForMasterPackIdFkeyNodeIdUpdate>;
+  /** A `PackMasterInput` object that will be created and connected to this object. */
+  create?: Maybe<MasterPackIdFkeyPackMasterCreateInput>;
+};
+
+/** The fields on `packMaster` to look up the row to update. */
+export type PackMasterOnMasterForMasterPackIdFkeyUsingPackMasterPkeyUpdate = {
+  /** An object where the defined keys will be set on the `packMaster` being updated. */
+  patch: UpdatePackMasterOnMasterForMasterPackIdFkeyPatch;
+  oldPackCode: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `packMaster` being updated. */
+export type UpdatePackMasterOnMasterForMasterPackIdFkeyPatch = {
+  shipperId?: Maybe<Scalars['String']>;
+  labelCode?: Maybe<Scalars['String']>;
+  customerCode?: Maybe<Scalars['String']>;
+  boxType?: Maybe<Scalars['String']>;
+  boxStyle?: Maybe<Scalars['String']>;
+  packStyle?: Maybe<Scalars['String']>;
+  outCode?: Maybe<Scalars['String']>;
+  outQuantity?: Maybe<Scalars['String']>;
+  outWeight?: Maybe<Scalars['String']>;
+  productionCode?: Maybe<Scalars['String']>;
+  treeRipe?: Maybe<Scalars['String']>;
+  gradeCode?: Maybe<Scalars['String']>;
+  maCode?: Maybe<Scalars['String']>;
+  linerCode?: Maybe<Scalars['String']>;
+  netWeightContents?: Maybe<Scalars['BigFloat']>;
+  netWeightBox?: Maybe<Scalars['BigFloat']>;
+  boxLength?: Maybe<Scalars['BigFloat']>;
+  boxWidth?: Maybe<Scalars['BigFloat']>;
+  boxHeight?: Maybe<Scalars['BigFloat']>;
+  palletType?: Maybe<Scalars['String']>;
+  defaultPalletQuantity?: Maybe<Scalars['BigFloat']>;
+  pluUpcCode?: Maybe<Scalars['String']>;
+  destinationCode?: Maybe<Scalars['String']>;
+  oldPackCode?: Maybe<Scalars['String']>;
+  oldLabelCode?: Maybe<Scalars['String']>;
+  jvPackCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  varietyId?: Maybe<Scalars['String']>;
+  speciesId?: Maybe<Scalars['String']>;
+  holdCode?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackMasterShipperIdFkeyInput>;
+  packLabelToLabelCodeAndShipperId?: Maybe<PackMasterLabelCodeShipperIdFkeyInput>;
+  packSpecialToCustomerCodeAndShipperId?: Maybe<PackMasterCustomerCodeShipperIdFkeyInput>;
+  packBoxTypeToBoxTypeAndShipperId?: Maybe<PackMasterBoxTypeShipperIdFkeyInput>;
+  packBoxStyleToBoxStyleAndShipperId?: Maybe<PackMasterBoxStyleShipperIdFkeyInput>;
+  packStyleToPackStyleAndShipperId?: Maybe<PackMasterPackStyleShipperIdFkeyInput>;
+  packOutToOutCodeAndShipperId?: Maybe<PackMasterOutCodeShipperIdFkeyInput>;
+  packProductionToProductionCodeAndShipperId?: Maybe<PackMasterProductionCodeShipperIdFkeyInput>;
+  packTreeRipeToTreeRipeAndShipperId?: Maybe<PackMasterTreeRipeShipperIdFkeyInput>;
+  packGradeToGradeCodeAndShipperId?: Maybe<PackMasterGradeCodeShipperIdFkeyInput>;
+  packAtmosphereToMaCodeAndShipperId?: Maybe<PackMasterMaCodeShipperIdFkeyInput>;
+  packLinerToLinerCodeAndShipperId?: Maybe<PackMasterLinerCodeShipperIdFkeyInput>;
+  packPalletTypeToPalletTypeAndShipperId?: Maybe<PackMasterPalletTypeShipperIdFkeyInput>;
+  packDestinationToDestinationCodeAndShipperId?: Maybe<PackMasterDestinationCodeShipperIdFkeyInput>;
+  varietyToVarietyId?: Maybe<PackMasterVarietyIdFkeyInput>;
+  speciesToSpeciesId?: Maybe<PackMasterSpeciesIdFkeyInput>;
+  packHoldToHoldCodeAndShipperId?: Maybe<PackMasterHoldCodeShipperIdFkeyInput>;
+  mastersUsingOldPackCode?: Maybe<MasterPackIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type MasterOnMasterForMasterPackIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `packMaster` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `packMaster` being updated. */
+  patch: PackMasterPatch;
+};
+
+/** Represents an update to a `PackMaster`. Fields that are set will be updated. */
+export type PackMasterPatch = {
+  shipperId?: Maybe<Scalars['String']>;
+  labelCode?: Maybe<Scalars['String']>;
+  customerCode?: Maybe<Scalars['String']>;
+  boxType?: Maybe<Scalars['String']>;
+  boxStyle?: Maybe<Scalars['String']>;
+  packStyle?: Maybe<Scalars['String']>;
+  outCode?: Maybe<Scalars['String']>;
+  outQuantity?: Maybe<Scalars['String']>;
+  outWeight?: Maybe<Scalars['String']>;
+  productionCode?: Maybe<Scalars['String']>;
+  treeRipe?: Maybe<Scalars['String']>;
+  gradeCode?: Maybe<Scalars['String']>;
+  maCode?: Maybe<Scalars['String']>;
+  linerCode?: Maybe<Scalars['String']>;
+  netWeightContents?: Maybe<Scalars['BigFloat']>;
+  netWeightBox?: Maybe<Scalars['BigFloat']>;
+  boxLength?: Maybe<Scalars['BigFloat']>;
+  boxWidth?: Maybe<Scalars['BigFloat']>;
+  boxHeight?: Maybe<Scalars['BigFloat']>;
+  palletType?: Maybe<Scalars['String']>;
+  defaultPalletQuantity?: Maybe<Scalars['BigFloat']>;
+  pluUpcCode?: Maybe<Scalars['String']>;
+  destinationCode?: Maybe<Scalars['String']>;
+  oldPackCode?: Maybe<Scalars['String']>;
+  oldLabelCode?: Maybe<Scalars['String']>;
+  jvPackCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  varietyId?: Maybe<Scalars['String']>;
+  speciesId?: Maybe<Scalars['String']>;
+  holdCode?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackMasterShipperIdFkeyInput>;
+  packLabelToLabelCodeAndShipperId?: Maybe<PackMasterLabelCodeShipperIdFkeyInput>;
+  packSpecialToCustomerCodeAndShipperId?: Maybe<PackMasterCustomerCodeShipperIdFkeyInput>;
+  packBoxTypeToBoxTypeAndShipperId?: Maybe<PackMasterBoxTypeShipperIdFkeyInput>;
+  packBoxStyleToBoxStyleAndShipperId?: Maybe<PackMasterBoxStyleShipperIdFkeyInput>;
+  packStyleToPackStyleAndShipperId?: Maybe<PackMasterPackStyleShipperIdFkeyInput>;
+  packOutToOutCodeAndShipperId?: Maybe<PackMasterOutCodeShipperIdFkeyInput>;
+  packProductionToProductionCodeAndShipperId?: Maybe<PackMasterProductionCodeShipperIdFkeyInput>;
+  packTreeRipeToTreeRipeAndShipperId?: Maybe<PackMasterTreeRipeShipperIdFkeyInput>;
+  packGradeToGradeCodeAndShipperId?: Maybe<PackMasterGradeCodeShipperIdFkeyInput>;
+  packAtmosphereToMaCodeAndShipperId?: Maybe<PackMasterMaCodeShipperIdFkeyInput>;
+  packLinerToLinerCodeAndShipperId?: Maybe<PackMasterLinerCodeShipperIdFkeyInput>;
+  packPalletTypeToPalletTypeAndShipperId?: Maybe<PackMasterPalletTypeShipperIdFkeyInput>;
+  packDestinationToDestinationCodeAndShipperId?: Maybe<PackMasterDestinationCodeShipperIdFkeyInput>;
+  varietyToVarietyId?: Maybe<PackMasterVarietyIdFkeyInput>;
+  speciesToSpeciesId?: Maybe<PackMasterSpeciesIdFkeyInput>;
+  packHoldToHoldCodeAndShipperId?: Maybe<PackMasterHoldCodeShipperIdFkeyInput>;
+  mastersUsingOldPackCode?: Maybe<MasterPackIdFkeyInverseInput>;
+};
+
+/** The `packMaster` to be created by this mutation. */
+export type MasterPackIdFkeyPackMasterCreateInput = {
+  shipperId?: Maybe<Scalars['String']>;
+  labelCode?: Maybe<Scalars['String']>;
+  customerCode?: Maybe<Scalars['String']>;
+  boxType?: Maybe<Scalars['String']>;
+  boxStyle?: Maybe<Scalars['String']>;
+  packStyle?: Maybe<Scalars['String']>;
+  outCode?: Maybe<Scalars['String']>;
+  outQuantity?: Maybe<Scalars['String']>;
+  outWeight?: Maybe<Scalars['String']>;
+  productionCode?: Maybe<Scalars['String']>;
+  treeRipe?: Maybe<Scalars['String']>;
+  gradeCode?: Maybe<Scalars['String']>;
+  maCode?: Maybe<Scalars['String']>;
+  linerCode?: Maybe<Scalars['String']>;
+  netWeightContents?: Maybe<Scalars['BigFloat']>;
+  netWeightBox?: Maybe<Scalars['BigFloat']>;
+  boxLength?: Maybe<Scalars['BigFloat']>;
+  boxWidth?: Maybe<Scalars['BigFloat']>;
+  boxHeight?: Maybe<Scalars['BigFloat']>;
+  palletType?: Maybe<Scalars['String']>;
+  defaultPalletQuantity?: Maybe<Scalars['BigFloat']>;
+  pluUpcCode?: Maybe<Scalars['String']>;
+  destinationCode?: Maybe<Scalars['String']>;
+  oldPackCode: Scalars['String'];
+  oldLabelCode?: Maybe<Scalars['String']>;
+  jvPackCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  varietyId?: Maybe<Scalars['String']>;
+  speciesId?: Maybe<Scalars['String']>;
+  holdCode?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackMasterShipperIdFkeyInput>;
+  packLabelToLabelCodeAndShipperId?: Maybe<PackMasterLabelCodeShipperIdFkeyInput>;
+  packSpecialToCustomerCodeAndShipperId?: Maybe<PackMasterCustomerCodeShipperIdFkeyInput>;
+  packBoxTypeToBoxTypeAndShipperId?: Maybe<PackMasterBoxTypeShipperIdFkeyInput>;
+  packBoxStyleToBoxStyleAndShipperId?: Maybe<PackMasterBoxStyleShipperIdFkeyInput>;
+  packStyleToPackStyleAndShipperId?: Maybe<PackMasterPackStyleShipperIdFkeyInput>;
+  packOutToOutCodeAndShipperId?: Maybe<PackMasterOutCodeShipperIdFkeyInput>;
+  packProductionToProductionCodeAndShipperId?: Maybe<PackMasterProductionCodeShipperIdFkeyInput>;
+  packTreeRipeToTreeRipeAndShipperId?: Maybe<PackMasterTreeRipeShipperIdFkeyInput>;
+  packGradeToGradeCodeAndShipperId?: Maybe<PackMasterGradeCodeShipperIdFkeyInput>;
+  packAtmosphereToMaCodeAndShipperId?: Maybe<PackMasterMaCodeShipperIdFkeyInput>;
+  packLinerToLinerCodeAndShipperId?: Maybe<PackMasterLinerCodeShipperIdFkeyInput>;
+  packPalletTypeToPalletTypeAndShipperId?: Maybe<PackMasterPalletTypeShipperIdFkeyInput>;
+  packDestinationToDestinationCodeAndShipperId?: Maybe<PackMasterDestinationCodeShipperIdFkeyInput>;
+  varietyToVarietyId?: Maybe<PackMasterVarietyIdFkeyInput>;
+  speciesToSpeciesId?: Maybe<PackMasterSpeciesIdFkeyInput>;
+  packHoldToHoldCodeAndShipperId?: Maybe<PackMasterHoldCodeShipperIdFkeyInput>;
+  mastersUsingOldPackCode?: Maybe<MasterPackIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type SizeOnMasterForMasterSizeIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `master` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `master` being updated. */
+  patch: MasterPatch;
+};
+
+/** Represents an update to a `Master`. Fields that are set will be updated. */
+export type MasterPatch = {
+  id?: Maybe<Scalars['String']>;
+  speciesId?: Maybe<Scalars['String']>;
+  varietyId?: Maybe<Scalars['String']>;
+  sizeId?: Maybe<Scalars['BigInt']>;
+  packId?: Maybe<Scalars['String']>;
+  defaultPalletQuantity?: Maybe<Scalars['String']>;
+  lotNumber?: Maybe<Scalars['String']>;
+  speciesToSpeciesId?: Maybe<MasterSpeciesIdFkeyInput>;
+  varietyToVarietyId?: Maybe<MasterVarietyIdFkeyInput>;
+  sizeToSizeId?: Maybe<MasterSizeIdFkeyInput>;
+  packMasterToPackId?: Maybe<MasterPackIdFkeyInput>;
+};
+
+/** The `master` to be created by this mutation. */
+export type MasterSizeIdFkeyMasterCreateInput = {
+  id: Scalars['String'];
+  speciesId?: Maybe<Scalars['String']>;
+  varietyId?: Maybe<Scalars['String']>;
+  packId?: Maybe<Scalars['String']>;
+  defaultPalletQuantity?: Maybe<Scalars['String']>;
+  lotNumber?: Maybe<Scalars['String']>;
+  speciesToSpeciesId?: Maybe<MasterSpeciesIdFkeyInput>;
+  varietyToVarietyId?: Maybe<MasterVarietyIdFkeyInput>;
+  sizeToSizeId?: Maybe<MasterSizeIdFkeyInput>;
+  packMasterToPackId?: Maybe<MasterPackIdFkeyInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type MasterOnMasterForMasterSizeIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `size` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `size` being updated. */
+  patch: SizePatch;
+};
+
+/** Represents an update to a `Size`. Fields that are set will be updated. */
+export type SizePatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  speciesId?: Maybe<Scalars['String']>;
+  varietyId?: Maybe<Scalars['String']>;
+  jvCode?: Maybe<Scalars['String']>;
+  jvDescription?: Maybe<Scalars['String']>;
+  shipperCode?: Maybe<Scalars['String']>;
+  shipperDescription?: Maybe<Scalars['String']>;
+  combinedCode?: Maybe<Scalars['String']>;
+  combinedDescription?: Maybe<Scalars['String']>;
+  shipperId?: Maybe<Scalars['String']>;
+  speciesToSpeciesId?: Maybe<SizeSpeciesIdFkeyInput>;
+  varietyToVarietyId?: Maybe<SizeVarietyIdFkeyInput>;
+  shipperToShipperId?: Maybe<SizeShipperIdFkeyInput>;
+  mastersUsingId?: Maybe<MasterSizeIdFkeyInverseInput>;
+};
+
+/** The `size` to be created by this mutation. */
+export type MasterSizeIdFkeySizeCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  speciesId?: Maybe<Scalars['String']>;
+  varietyId?: Maybe<Scalars['String']>;
+  jvCode?: Maybe<Scalars['String']>;
+  jvDescription?: Maybe<Scalars['String']>;
+  shipperCode?: Maybe<Scalars['String']>;
+  shipperDescription?: Maybe<Scalars['String']>;
+  combinedCode?: Maybe<Scalars['String']>;
+  combinedDescription?: Maybe<Scalars['String']>;
+  shipperId?: Maybe<Scalars['String']>;
+  speciesToSpeciesId?: Maybe<SizeSpeciesIdFkeyInput>;
+  varietyToVarietyId?: Maybe<SizeVarietyIdFkeyInput>;
+  shipperToShipperId?: Maybe<SizeShipperIdFkeyInput>;
+  mastersUsingId?: Maybe<MasterSizeIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type VarietyOnMasterForMasterVarietyIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `master` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `master` being updated. */
+  patch: MasterPatch;
+};
+
+/** The `master` to be created by this mutation. */
+export type MasterVarietyIdFkeyMasterCreateInput = {
+  id: Scalars['String'];
+  speciesId?: Maybe<Scalars['String']>;
+  sizeId?: Maybe<Scalars['BigInt']>;
+  packId?: Maybe<Scalars['String']>;
+  defaultPalletQuantity?: Maybe<Scalars['String']>;
+  lotNumber?: Maybe<Scalars['String']>;
+  speciesToSpeciesId?: Maybe<MasterSpeciesIdFkeyInput>;
+  varietyToVarietyId?: Maybe<MasterVarietyIdFkeyInput>;
+  sizeToSizeId?: Maybe<MasterSizeIdFkeyInput>;
+  packMasterToPackId?: Maybe<MasterPackIdFkeyInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type MasterOnMasterForMasterVarietyIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `variety` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `variety` being updated. */
+  patch: VarietyPatch;
+};
+
+/** Represents an update to a `Variety`. Fields that are set will be updated. */
+export type VarietyPatch = {
+  id?: Maybe<Scalars['String']>;
+  varietyDescription?: Maybe<Scalars['String']>;
+  secondaryDescription?: Maybe<Scalars['String']>;
+  customerLetterSequence?: Maybe<Scalars['String']>;
+  summaryCode?: Maybe<Scalars['String']>;
+  varietyGroup?: Maybe<Scalars['String']>;
+  combineWith?: Maybe<Scalars['String']>;
+  sizesUsingId?: Maybe<SizeVarietyIdFkeyInverseInput>;
+  packMastersUsingId?: Maybe<PackMasterVarietyIdFkeyInverseInput>;
+  mastersUsingId?: Maybe<MasterVarietyIdFkeyInverseInput>;
+};
+
+/** The `variety` to be created by this mutation. */
+export type MasterVarietyIdFkeyVarietyCreateInput = {
+  id: Scalars['String'];
+  varietyDescription?: Maybe<Scalars['String']>;
+  secondaryDescription?: Maybe<Scalars['String']>;
+  customerLetterSequence?: Maybe<Scalars['String']>;
+  summaryCode?: Maybe<Scalars['String']>;
+  varietyGroup?: Maybe<Scalars['String']>;
+  combineWith?: Maybe<Scalars['String']>;
+  sizesUsingId?: Maybe<SizeVarietyIdFkeyInverseInput>;
+  packMastersUsingId?: Maybe<PackMasterVarietyIdFkeyInverseInput>;
+  mastersUsingId?: Maybe<MasterVarietyIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type SpeciesOnMasterForMasterSpeciesIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `master` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `master` being updated. */
+  patch: MasterPatch;
+};
+
+/** The `master` to be created by this mutation. */
+export type MasterSpeciesIdFkeyMasterCreateInput = {
+  id: Scalars['String'];
+  varietyId?: Maybe<Scalars['String']>;
+  sizeId?: Maybe<Scalars['BigInt']>;
+  packId?: Maybe<Scalars['String']>;
+  defaultPalletQuantity?: Maybe<Scalars['String']>;
+  lotNumber?: Maybe<Scalars['String']>;
+  speciesToSpeciesId?: Maybe<MasterSpeciesIdFkeyInput>;
+  varietyToVarietyId?: Maybe<MasterVarietyIdFkeyInput>;
+  sizeToSizeId?: Maybe<MasterSizeIdFkeyInput>;
+  packMasterToPackId?: Maybe<MasterPackIdFkeyInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type MasterOnMasterForMasterSpeciesIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `species` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `species` being updated. */
+  patch: SpeciesPatch;
+};
+
+/** Represents an update to a `Species`. Fields that are set will be updated. */
+export type SpeciesPatch = {
+  id?: Maybe<Scalars['String']>;
+  speciesDescription?: Maybe<Scalars['String']>;
+  secondaryDescription?: Maybe<Scalars['String']>;
+  fdaProductCode?: Maybe<Scalars['String']>;
+  fdaIndustryCode?: Maybe<Scalars['String']>;
+  defaultTemperature?: Maybe<Scalars['String']>;
+  sizesUsingId?: Maybe<SizeSpeciesIdFkeyInverseInput>;
+  packMastersUsingId?: Maybe<PackMasterSpeciesIdFkeyInverseInput>;
+  mastersUsingId?: Maybe<MasterSpeciesIdFkeyInverseInput>;
+};
+
+/** The `species` to be created by this mutation. */
+export type MasterSpeciesIdFkeySpeciesCreateInput = {
+  id: Scalars['String'];
+  speciesDescription?: Maybe<Scalars['String']>;
+  secondaryDescription?: Maybe<Scalars['String']>;
+  fdaProductCode?: Maybe<Scalars['String']>;
+  fdaIndustryCode?: Maybe<Scalars['String']>;
+  defaultTemperature?: Maybe<Scalars['String']>;
+  sizesUsingId?: Maybe<SizeSpeciesIdFkeyInverseInput>;
+  packMastersUsingId?: Maybe<PackMasterSpeciesIdFkeyInverseInput>;
+  mastersUsingId?: Maybe<MasterSpeciesIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type PackMasterOnMasterForMasterPackIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `master` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `master` being updated. */
+  patch: MasterPatch;
+};
+
+/** The `master` to be created by this mutation. */
+export type MasterPackIdFkeyMasterCreateInput = {
+  id: Scalars['String'];
+  speciesId?: Maybe<Scalars['String']>;
+  varietyId?: Maybe<Scalars['String']>;
+  sizeId?: Maybe<Scalars['BigInt']>;
+  defaultPalletQuantity?: Maybe<Scalars['String']>;
+  lotNumber?: Maybe<Scalars['String']>;
+  speciesToSpeciesId?: Maybe<MasterSpeciesIdFkeyInput>;
+  varietyToVarietyId?: Maybe<MasterVarietyIdFkeyInput>;
+  sizeToSizeId?: Maybe<MasterSizeIdFkeyInput>;
+  packMasterToPackId?: Maybe<MasterPackIdFkeyInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type PackHoldOnPackMasterForPackMasterHoldCodeShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `packMaster` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `packMaster` being updated. */
+  patch: PackMasterPatch;
+};
+
+/** The `packMaster` to be created by this mutation. */
+export type PackMasterHoldCodeShipperIdFkeyPackMasterCreateInput = {
+  labelCode?: Maybe<Scalars['String']>;
+  customerCode?: Maybe<Scalars['String']>;
+  boxType?: Maybe<Scalars['String']>;
+  boxStyle?: Maybe<Scalars['String']>;
+  packStyle?: Maybe<Scalars['String']>;
+  outCode?: Maybe<Scalars['String']>;
+  outQuantity?: Maybe<Scalars['String']>;
+  outWeight?: Maybe<Scalars['String']>;
+  productionCode?: Maybe<Scalars['String']>;
+  treeRipe?: Maybe<Scalars['String']>;
+  gradeCode?: Maybe<Scalars['String']>;
+  maCode?: Maybe<Scalars['String']>;
+  linerCode?: Maybe<Scalars['String']>;
+  netWeightContents?: Maybe<Scalars['BigFloat']>;
+  netWeightBox?: Maybe<Scalars['BigFloat']>;
+  boxLength?: Maybe<Scalars['BigFloat']>;
+  boxWidth?: Maybe<Scalars['BigFloat']>;
+  boxHeight?: Maybe<Scalars['BigFloat']>;
+  palletType?: Maybe<Scalars['String']>;
+  defaultPalletQuantity?: Maybe<Scalars['BigFloat']>;
+  pluUpcCode?: Maybe<Scalars['String']>;
+  destinationCode?: Maybe<Scalars['String']>;
+  oldPackCode: Scalars['String'];
+  oldLabelCode?: Maybe<Scalars['String']>;
+  jvPackCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  varietyId?: Maybe<Scalars['String']>;
+  speciesId?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackMasterShipperIdFkeyInput>;
+  packLabelToLabelCodeAndShipperId?: Maybe<PackMasterLabelCodeShipperIdFkeyInput>;
+  packSpecialToCustomerCodeAndShipperId?: Maybe<PackMasterCustomerCodeShipperIdFkeyInput>;
+  packBoxTypeToBoxTypeAndShipperId?: Maybe<PackMasterBoxTypeShipperIdFkeyInput>;
+  packBoxStyleToBoxStyleAndShipperId?: Maybe<PackMasterBoxStyleShipperIdFkeyInput>;
+  packStyleToPackStyleAndShipperId?: Maybe<PackMasterPackStyleShipperIdFkeyInput>;
+  packOutToOutCodeAndShipperId?: Maybe<PackMasterOutCodeShipperIdFkeyInput>;
+  packProductionToProductionCodeAndShipperId?: Maybe<PackMasterProductionCodeShipperIdFkeyInput>;
+  packTreeRipeToTreeRipeAndShipperId?: Maybe<PackMasterTreeRipeShipperIdFkeyInput>;
+  packGradeToGradeCodeAndShipperId?: Maybe<PackMasterGradeCodeShipperIdFkeyInput>;
+  packAtmosphereToMaCodeAndShipperId?: Maybe<PackMasterMaCodeShipperIdFkeyInput>;
+  packLinerToLinerCodeAndShipperId?: Maybe<PackMasterLinerCodeShipperIdFkeyInput>;
+  packPalletTypeToPalletTypeAndShipperId?: Maybe<PackMasterPalletTypeShipperIdFkeyInput>;
+  packDestinationToDestinationCodeAndShipperId?: Maybe<PackMasterDestinationCodeShipperIdFkeyInput>;
+  varietyToVarietyId?: Maybe<PackMasterVarietyIdFkeyInput>;
+  speciesToSpeciesId?: Maybe<PackMasterSpeciesIdFkeyInput>;
+  packHoldToHoldCodeAndShipperId?: Maybe<PackMasterHoldCodeShipperIdFkeyInput>;
+  mastersUsingOldPackCode?: Maybe<MasterPackIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type PackMasterOnPackMasterForPackMasterHoldCodeShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `packHold` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `packHold` being updated. */
+  patch: PackHoldPatch;
+};
+
+/** Represents an update to a `PackHold`. Fields that are set will be updated. */
+export type PackHoldPatch = {
+  shipperId?: Maybe<Scalars['String']>;
+  holdCode?: Maybe<Scalars['String']>;
+  holdDescription?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackHoldShipperIdFkeyInput>;
+  packMastersUsingHoldCodeAndShipperId?: Maybe<PackMasterHoldCodeShipperIdFkeyInverseInput>;
+};
+
+/** The `packHold` to be created by this mutation. */
+export type PackMasterHoldCodeShipperIdFkeyPackHoldCreateInput = {
+  holdDescription?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackHoldShipperIdFkeyInput>;
+  packMastersUsingHoldCodeAndShipperId?: Maybe<PackMasterHoldCodeShipperIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type SpeciesOnPackMasterForPackMasterSpeciesIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `packMaster` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `packMaster` being updated. */
+  patch: PackMasterPatch;
+};
+
+/** The `packMaster` to be created by this mutation. */
+export type PackMasterSpeciesIdFkeyPackMasterCreateInput = {
+  shipperId?: Maybe<Scalars['String']>;
+  labelCode?: Maybe<Scalars['String']>;
+  customerCode?: Maybe<Scalars['String']>;
+  boxType?: Maybe<Scalars['String']>;
+  boxStyle?: Maybe<Scalars['String']>;
+  packStyle?: Maybe<Scalars['String']>;
+  outCode?: Maybe<Scalars['String']>;
+  outQuantity?: Maybe<Scalars['String']>;
+  outWeight?: Maybe<Scalars['String']>;
+  productionCode?: Maybe<Scalars['String']>;
+  treeRipe?: Maybe<Scalars['String']>;
+  gradeCode?: Maybe<Scalars['String']>;
+  maCode?: Maybe<Scalars['String']>;
+  linerCode?: Maybe<Scalars['String']>;
+  netWeightContents?: Maybe<Scalars['BigFloat']>;
+  netWeightBox?: Maybe<Scalars['BigFloat']>;
+  boxLength?: Maybe<Scalars['BigFloat']>;
+  boxWidth?: Maybe<Scalars['BigFloat']>;
+  boxHeight?: Maybe<Scalars['BigFloat']>;
+  palletType?: Maybe<Scalars['String']>;
+  defaultPalletQuantity?: Maybe<Scalars['BigFloat']>;
+  pluUpcCode?: Maybe<Scalars['String']>;
+  destinationCode?: Maybe<Scalars['String']>;
+  oldPackCode: Scalars['String'];
+  oldLabelCode?: Maybe<Scalars['String']>;
+  jvPackCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  varietyId?: Maybe<Scalars['String']>;
+  holdCode?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackMasterShipperIdFkeyInput>;
+  packLabelToLabelCodeAndShipperId?: Maybe<PackMasterLabelCodeShipperIdFkeyInput>;
+  packSpecialToCustomerCodeAndShipperId?: Maybe<PackMasterCustomerCodeShipperIdFkeyInput>;
+  packBoxTypeToBoxTypeAndShipperId?: Maybe<PackMasterBoxTypeShipperIdFkeyInput>;
+  packBoxStyleToBoxStyleAndShipperId?: Maybe<PackMasterBoxStyleShipperIdFkeyInput>;
+  packStyleToPackStyleAndShipperId?: Maybe<PackMasterPackStyleShipperIdFkeyInput>;
+  packOutToOutCodeAndShipperId?: Maybe<PackMasterOutCodeShipperIdFkeyInput>;
+  packProductionToProductionCodeAndShipperId?: Maybe<PackMasterProductionCodeShipperIdFkeyInput>;
+  packTreeRipeToTreeRipeAndShipperId?: Maybe<PackMasterTreeRipeShipperIdFkeyInput>;
+  packGradeToGradeCodeAndShipperId?: Maybe<PackMasterGradeCodeShipperIdFkeyInput>;
+  packAtmosphereToMaCodeAndShipperId?: Maybe<PackMasterMaCodeShipperIdFkeyInput>;
+  packLinerToLinerCodeAndShipperId?: Maybe<PackMasterLinerCodeShipperIdFkeyInput>;
+  packPalletTypeToPalletTypeAndShipperId?: Maybe<PackMasterPalletTypeShipperIdFkeyInput>;
+  packDestinationToDestinationCodeAndShipperId?: Maybe<PackMasterDestinationCodeShipperIdFkeyInput>;
+  varietyToVarietyId?: Maybe<PackMasterVarietyIdFkeyInput>;
+  speciesToSpeciesId?: Maybe<PackMasterSpeciesIdFkeyInput>;
+  packHoldToHoldCodeAndShipperId?: Maybe<PackMasterHoldCodeShipperIdFkeyInput>;
+  mastersUsingOldPackCode?: Maybe<MasterPackIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type PackMasterOnPackMasterForPackMasterSpeciesIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `species` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `species` being updated. */
+  patch: SpeciesPatch;
+};
+
+/** The `species` to be created by this mutation. */
+export type PackMasterSpeciesIdFkeySpeciesCreateInput = {
+  id: Scalars['String'];
+  speciesDescription?: Maybe<Scalars['String']>;
+  secondaryDescription?: Maybe<Scalars['String']>;
+  fdaProductCode?: Maybe<Scalars['String']>;
+  fdaIndustryCode?: Maybe<Scalars['String']>;
+  defaultTemperature?: Maybe<Scalars['String']>;
+  sizesUsingId?: Maybe<SizeSpeciesIdFkeyInverseInput>;
+  packMastersUsingId?: Maybe<PackMasterSpeciesIdFkeyInverseInput>;
+  mastersUsingId?: Maybe<MasterSpeciesIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type VarietyOnPackMasterForPackMasterVarietyIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `packMaster` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `packMaster` being updated. */
+  patch: PackMasterPatch;
+};
+
+/** The `packMaster` to be created by this mutation. */
+export type PackMasterVarietyIdFkeyPackMasterCreateInput = {
+  shipperId?: Maybe<Scalars['String']>;
+  labelCode?: Maybe<Scalars['String']>;
+  customerCode?: Maybe<Scalars['String']>;
+  boxType?: Maybe<Scalars['String']>;
+  boxStyle?: Maybe<Scalars['String']>;
+  packStyle?: Maybe<Scalars['String']>;
+  outCode?: Maybe<Scalars['String']>;
+  outQuantity?: Maybe<Scalars['String']>;
+  outWeight?: Maybe<Scalars['String']>;
+  productionCode?: Maybe<Scalars['String']>;
+  treeRipe?: Maybe<Scalars['String']>;
+  gradeCode?: Maybe<Scalars['String']>;
+  maCode?: Maybe<Scalars['String']>;
+  linerCode?: Maybe<Scalars['String']>;
+  netWeightContents?: Maybe<Scalars['BigFloat']>;
+  netWeightBox?: Maybe<Scalars['BigFloat']>;
+  boxLength?: Maybe<Scalars['BigFloat']>;
+  boxWidth?: Maybe<Scalars['BigFloat']>;
+  boxHeight?: Maybe<Scalars['BigFloat']>;
+  palletType?: Maybe<Scalars['String']>;
+  defaultPalletQuantity?: Maybe<Scalars['BigFloat']>;
+  pluUpcCode?: Maybe<Scalars['String']>;
+  destinationCode?: Maybe<Scalars['String']>;
+  oldPackCode: Scalars['String'];
+  oldLabelCode?: Maybe<Scalars['String']>;
+  jvPackCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  speciesId?: Maybe<Scalars['String']>;
+  holdCode?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackMasterShipperIdFkeyInput>;
+  packLabelToLabelCodeAndShipperId?: Maybe<PackMasterLabelCodeShipperIdFkeyInput>;
+  packSpecialToCustomerCodeAndShipperId?: Maybe<PackMasterCustomerCodeShipperIdFkeyInput>;
+  packBoxTypeToBoxTypeAndShipperId?: Maybe<PackMasterBoxTypeShipperIdFkeyInput>;
+  packBoxStyleToBoxStyleAndShipperId?: Maybe<PackMasterBoxStyleShipperIdFkeyInput>;
+  packStyleToPackStyleAndShipperId?: Maybe<PackMasterPackStyleShipperIdFkeyInput>;
+  packOutToOutCodeAndShipperId?: Maybe<PackMasterOutCodeShipperIdFkeyInput>;
+  packProductionToProductionCodeAndShipperId?: Maybe<PackMasterProductionCodeShipperIdFkeyInput>;
+  packTreeRipeToTreeRipeAndShipperId?: Maybe<PackMasterTreeRipeShipperIdFkeyInput>;
+  packGradeToGradeCodeAndShipperId?: Maybe<PackMasterGradeCodeShipperIdFkeyInput>;
+  packAtmosphereToMaCodeAndShipperId?: Maybe<PackMasterMaCodeShipperIdFkeyInput>;
+  packLinerToLinerCodeAndShipperId?: Maybe<PackMasterLinerCodeShipperIdFkeyInput>;
+  packPalletTypeToPalletTypeAndShipperId?: Maybe<PackMasterPalletTypeShipperIdFkeyInput>;
+  packDestinationToDestinationCodeAndShipperId?: Maybe<PackMasterDestinationCodeShipperIdFkeyInput>;
+  varietyToVarietyId?: Maybe<PackMasterVarietyIdFkeyInput>;
+  speciesToSpeciesId?: Maybe<PackMasterSpeciesIdFkeyInput>;
+  packHoldToHoldCodeAndShipperId?: Maybe<PackMasterHoldCodeShipperIdFkeyInput>;
+  mastersUsingOldPackCode?: Maybe<MasterPackIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type PackMasterOnPackMasterForPackMasterVarietyIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `variety` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `variety` being updated. */
+  patch: VarietyPatch;
+};
+
+/** The `variety` to be created by this mutation. */
+export type PackMasterVarietyIdFkeyVarietyCreateInput = {
+  id: Scalars['String'];
+  varietyDescription?: Maybe<Scalars['String']>;
+  secondaryDescription?: Maybe<Scalars['String']>;
+  customerLetterSequence?: Maybe<Scalars['String']>;
+  summaryCode?: Maybe<Scalars['String']>;
+  varietyGroup?: Maybe<Scalars['String']>;
+  combineWith?: Maybe<Scalars['String']>;
+  sizesUsingId?: Maybe<SizeVarietyIdFkeyInverseInput>;
+  packMastersUsingId?: Maybe<PackMasterVarietyIdFkeyInverseInput>;
+  mastersUsingId?: Maybe<MasterVarietyIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type PackDestinationOnPackMasterForPackMasterDestinationCodeShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `packMaster` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `packMaster` being updated. */
+  patch: PackMasterPatch;
+};
+
+/** The `packMaster` to be created by this mutation. */
+export type PackMasterDestinationCodeShipperIdFkeyPackMasterCreateInput = {
+  labelCode?: Maybe<Scalars['String']>;
+  customerCode?: Maybe<Scalars['String']>;
+  boxType?: Maybe<Scalars['String']>;
+  boxStyle?: Maybe<Scalars['String']>;
+  packStyle?: Maybe<Scalars['String']>;
+  outCode?: Maybe<Scalars['String']>;
+  outQuantity?: Maybe<Scalars['String']>;
+  outWeight?: Maybe<Scalars['String']>;
+  productionCode?: Maybe<Scalars['String']>;
+  treeRipe?: Maybe<Scalars['String']>;
+  gradeCode?: Maybe<Scalars['String']>;
+  maCode?: Maybe<Scalars['String']>;
+  linerCode?: Maybe<Scalars['String']>;
+  netWeightContents?: Maybe<Scalars['BigFloat']>;
+  netWeightBox?: Maybe<Scalars['BigFloat']>;
+  boxLength?: Maybe<Scalars['BigFloat']>;
+  boxWidth?: Maybe<Scalars['BigFloat']>;
+  boxHeight?: Maybe<Scalars['BigFloat']>;
+  palletType?: Maybe<Scalars['String']>;
+  defaultPalletQuantity?: Maybe<Scalars['BigFloat']>;
+  pluUpcCode?: Maybe<Scalars['String']>;
+  oldPackCode: Scalars['String'];
+  oldLabelCode?: Maybe<Scalars['String']>;
+  jvPackCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  varietyId?: Maybe<Scalars['String']>;
+  speciesId?: Maybe<Scalars['String']>;
+  holdCode?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackMasterShipperIdFkeyInput>;
+  packLabelToLabelCodeAndShipperId?: Maybe<PackMasterLabelCodeShipperIdFkeyInput>;
+  packSpecialToCustomerCodeAndShipperId?: Maybe<PackMasterCustomerCodeShipperIdFkeyInput>;
+  packBoxTypeToBoxTypeAndShipperId?: Maybe<PackMasterBoxTypeShipperIdFkeyInput>;
+  packBoxStyleToBoxStyleAndShipperId?: Maybe<PackMasterBoxStyleShipperIdFkeyInput>;
+  packStyleToPackStyleAndShipperId?: Maybe<PackMasterPackStyleShipperIdFkeyInput>;
+  packOutToOutCodeAndShipperId?: Maybe<PackMasterOutCodeShipperIdFkeyInput>;
+  packProductionToProductionCodeAndShipperId?: Maybe<PackMasterProductionCodeShipperIdFkeyInput>;
+  packTreeRipeToTreeRipeAndShipperId?: Maybe<PackMasterTreeRipeShipperIdFkeyInput>;
+  packGradeToGradeCodeAndShipperId?: Maybe<PackMasterGradeCodeShipperIdFkeyInput>;
+  packAtmosphereToMaCodeAndShipperId?: Maybe<PackMasterMaCodeShipperIdFkeyInput>;
+  packLinerToLinerCodeAndShipperId?: Maybe<PackMasterLinerCodeShipperIdFkeyInput>;
+  packPalletTypeToPalletTypeAndShipperId?: Maybe<PackMasterPalletTypeShipperIdFkeyInput>;
+  packDestinationToDestinationCodeAndShipperId?: Maybe<PackMasterDestinationCodeShipperIdFkeyInput>;
+  varietyToVarietyId?: Maybe<PackMasterVarietyIdFkeyInput>;
+  speciesToSpeciesId?: Maybe<PackMasterSpeciesIdFkeyInput>;
+  packHoldToHoldCodeAndShipperId?: Maybe<PackMasterHoldCodeShipperIdFkeyInput>;
+  mastersUsingOldPackCode?: Maybe<MasterPackIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type PackMasterOnPackMasterForPackMasterDestinationCodeShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `packDestination` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `packDestination` being updated. */
+  patch: PackDestinationPatch;
+};
+
+/** Represents an update to a `PackDestination`. Fields that are set will be updated. */
+export type PackDestinationPatch = {
+  shipperId?: Maybe<Scalars['String']>;
+  destinationCode?: Maybe<Scalars['String']>;
+  destinationDescription?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackDestinationShipperIdFkeyInput>;
+  packMastersUsingDestinationCodeAndShipperId?: Maybe<PackMasterDestinationCodeShipperIdFkeyInverseInput>;
+};
+
+/** The `packDestination` to be created by this mutation. */
+export type PackMasterDestinationCodeShipperIdFkeyPackDestinationCreateInput = {
+  destinationDescription?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackDestinationShipperIdFkeyInput>;
+  packMastersUsingDestinationCodeAndShipperId?: Maybe<PackMasterDestinationCodeShipperIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type PackPalletTypeOnPackMasterForPackMasterPalletTypeShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `packMaster` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `packMaster` being updated. */
+  patch: PackMasterPatch;
+};
+
+/** The `packMaster` to be created by this mutation. */
+export type PackMasterPalletTypeShipperIdFkeyPackMasterCreateInput = {
+  labelCode?: Maybe<Scalars['String']>;
+  customerCode?: Maybe<Scalars['String']>;
+  boxType?: Maybe<Scalars['String']>;
+  boxStyle?: Maybe<Scalars['String']>;
+  packStyle?: Maybe<Scalars['String']>;
+  outCode?: Maybe<Scalars['String']>;
+  outQuantity?: Maybe<Scalars['String']>;
+  outWeight?: Maybe<Scalars['String']>;
+  productionCode?: Maybe<Scalars['String']>;
+  treeRipe?: Maybe<Scalars['String']>;
+  gradeCode?: Maybe<Scalars['String']>;
+  maCode?: Maybe<Scalars['String']>;
+  linerCode?: Maybe<Scalars['String']>;
+  netWeightContents?: Maybe<Scalars['BigFloat']>;
+  netWeightBox?: Maybe<Scalars['BigFloat']>;
+  boxLength?: Maybe<Scalars['BigFloat']>;
+  boxWidth?: Maybe<Scalars['BigFloat']>;
+  boxHeight?: Maybe<Scalars['BigFloat']>;
+  defaultPalletQuantity?: Maybe<Scalars['BigFloat']>;
+  pluUpcCode?: Maybe<Scalars['String']>;
+  destinationCode?: Maybe<Scalars['String']>;
+  oldPackCode: Scalars['String'];
+  oldLabelCode?: Maybe<Scalars['String']>;
+  jvPackCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  varietyId?: Maybe<Scalars['String']>;
+  speciesId?: Maybe<Scalars['String']>;
+  holdCode?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackMasterShipperIdFkeyInput>;
+  packLabelToLabelCodeAndShipperId?: Maybe<PackMasterLabelCodeShipperIdFkeyInput>;
+  packSpecialToCustomerCodeAndShipperId?: Maybe<PackMasterCustomerCodeShipperIdFkeyInput>;
+  packBoxTypeToBoxTypeAndShipperId?: Maybe<PackMasterBoxTypeShipperIdFkeyInput>;
+  packBoxStyleToBoxStyleAndShipperId?: Maybe<PackMasterBoxStyleShipperIdFkeyInput>;
+  packStyleToPackStyleAndShipperId?: Maybe<PackMasterPackStyleShipperIdFkeyInput>;
+  packOutToOutCodeAndShipperId?: Maybe<PackMasterOutCodeShipperIdFkeyInput>;
+  packProductionToProductionCodeAndShipperId?: Maybe<PackMasterProductionCodeShipperIdFkeyInput>;
+  packTreeRipeToTreeRipeAndShipperId?: Maybe<PackMasterTreeRipeShipperIdFkeyInput>;
+  packGradeToGradeCodeAndShipperId?: Maybe<PackMasterGradeCodeShipperIdFkeyInput>;
+  packAtmosphereToMaCodeAndShipperId?: Maybe<PackMasterMaCodeShipperIdFkeyInput>;
+  packLinerToLinerCodeAndShipperId?: Maybe<PackMasterLinerCodeShipperIdFkeyInput>;
+  packPalletTypeToPalletTypeAndShipperId?: Maybe<PackMasterPalletTypeShipperIdFkeyInput>;
+  packDestinationToDestinationCodeAndShipperId?: Maybe<PackMasterDestinationCodeShipperIdFkeyInput>;
+  varietyToVarietyId?: Maybe<PackMasterVarietyIdFkeyInput>;
+  speciesToSpeciesId?: Maybe<PackMasterSpeciesIdFkeyInput>;
+  packHoldToHoldCodeAndShipperId?: Maybe<PackMasterHoldCodeShipperIdFkeyInput>;
+  mastersUsingOldPackCode?: Maybe<MasterPackIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type PackMasterOnPackMasterForPackMasterPalletTypeShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `packPalletType` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `packPalletType` being updated. */
+  patch: PackPalletTypePatch;
+};
+
+/** Represents an update to a `PackPalletType`. Fields that are set will be updated. */
+export type PackPalletTypePatch = {
+  shipperId?: Maybe<Scalars['String']>;
+  palletType?: Maybe<Scalars['String']>;
+  palletTypeDescription?: Maybe<Scalars['String']>;
+  combineWith?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackPalletTypeShipperIdFkeyInput>;
+  packMastersUsingPalletTypeAndShipperId?: Maybe<PackMasterPalletTypeShipperIdFkeyInverseInput>;
+};
+
+/** The `packPalletType` to be created by this mutation. */
+export type PackMasterPalletTypeShipperIdFkeyPackPalletTypeCreateInput = {
+  palletTypeDescription?: Maybe<Scalars['String']>;
+  combineWith?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackPalletTypeShipperIdFkeyInput>;
+  packMastersUsingPalletTypeAndShipperId?: Maybe<PackMasterPalletTypeShipperIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type PackLinerOnPackMasterForPackMasterLinerCodeShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `packMaster` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `packMaster` being updated. */
+  patch: PackMasterPatch;
+};
+
+/** The `packMaster` to be created by this mutation. */
+export type PackMasterLinerCodeShipperIdFkeyPackMasterCreateInput = {
+  labelCode?: Maybe<Scalars['String']>;
+  customerCode?: Maybe<Scalars['String']>;
+  boxType?: Maybe<Scalars['String']>;
+  boxStyle?: Maybe<Scalars['String']>;
+  packStyle?: Maybe<Scalars['String']>;
+  outCode?: Maybe<Scalars['String']>;
+  outQuantity?: Maybe<Scalars['String']>;
+  outWeight?: Maybe<Scalars['String']>;
+  productionCode?: Maybe<Scalars['String']>;
+  treeRipe?: Maybe<Scalars['String']>;
+  gradeCode?: Maybe<Scalars['String']>;
+  maCode?: Maybe<Scalars['String']>;
+  netWeightContents?: Maybe<Scalars['BigFloat']>;
+  netWeightBox?: Maybe<Scalars['BigFloat']>;
+  boxLength?: Maybe<Scalars['BigFloat']>;
+  boxWidth?: Maybe<Scalars['BigFloat']>;
+  boxHeight?: Maybe<Scalars['BigFloat']>;
+  palletType?: Maybe<Scalars['String']>;
+  defaultPalletQuantity?: Maybe<Scalars['BigFloat']>;
+  pluUpcCode?: Maybe<Scalars['String']>;
+  destinationCode?: Maybe<Scalars['String']>;
+  oldPackCode: Scalars['String'];
+  oldLabelCode?: Maybe<Scalars['String']>;
+  jvPackCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  varietyId?: Maybe<Scalars['String']>;
+  speciesId?: Maybe<Scalars['String']>;
+  holdCode?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackMasterShipperIdFkeyInput>;
+  packLabelToLabelCodeAndShipperId?: Maybe<PackMasterLabelCodeShipperIdFkeyInput>;
+  packSpecialToCustomerCodeAndShipperId?: Maybe<PackMasterCustomerCodeShipperIdFkeyInput>;
+  packBoxTypeToBoxTypeAndShipperId?: Maybe<PackMasterBoxTypeShipperIdFkeyInput>;
+  packBoxStyleToBoxStyleAndShipperId?: Maybe<PackMasterBoxStyleShipperIdFkeyInput>;
+  packStyleToPackStyleAndShipperId?: Maybe<PackMasterPackStyleShipperIdFkeyInput>;
+  packOutToOutCodeAndShipperId?: Maybe<PackMasterOutCodeShipperIdFkeyInput>;
+  packProductionToProductionCodeAndShipperId?: Maybe<PackMasterProductionCodeShipperIdFkeyInput>;
+  packTreeRipeToTreeRipeAndShipperId?: Maybe<PackMasterTreeRipeShipperIdFkeyInput>;
+  packGradeToGradeCodeAndShipperId?: Maybe<PackMasterGradeCodeShipperIdFkeyInput>;
+  packAtmosphereToMaCodeAndShipperId?: Maybe<PackMasterMaCodeShipperIdFkeyInput>;
+  packLinerToLinerCodeAndShipperId?: Maybe<PackMasterLinerCodeShipperIdFkeyInput>;
+  packPalletTypeToPalletTypeAndShipperId?: Maybe<PackMasterPalletTypeShipperIdFkeyInput>;
+  packDestinationToDestinationCodeAndShipperId?: Maybe<PackMasterDestinationCodeShipperIdFkeyInput>;
+  varietyToVarietyId?: Maybe<PackMasterVarietyIdFkeyInput>;
+  speciesToSpeciesId?: Maybe<PackMasterSpeciesIdFkeyInput>;
+  packHoldToHoldCodeAndShipperId?: Maybe<PackMasterHoldCodeShipperIdFkeyInput>;
+  mastersUsingOldPackCode?: Maybe<MasterPackIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type PackMasterOnPackMasterForPackMasterLinerCodeShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `packLiner` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `packLiner` being updated. */
+  patch: PackLinerPatch;
+};
+
+/** Represents an update to a `PackLiner`. Fields that are set will be updated. */
+export type PackLinerPatch = {
+  shipperId?: Maybe<Scalars['String']>;
+  linerCode?: Maybe<Scalars['String']>;
+  linerDescription?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackLinerShipperIdFkeyInput>;
+  packMastersUsingLinerCodeAndShipperId?: Maybe<PackMasterLinerCodeShipperIdFkeyInverseInput>;
+};
+
+/** The `packLiner` to be created by this mutation. */
+export type PackMasterLinerCodeShipperIdFkeyPackLinerCreateInput = {
+  linerDescription?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackLinerShipperIdFkeyInput>;
+  packMastersUsingLinerCodeAndShipperId?: Maybe<PackMasterLinerCodeShipperIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type PackAtmosphereOnPackMasterForPackMasterMaCodeShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `packMaster` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `packMaster` being updated. */
+  patch: PackMasterPatch;
+};
+
+/** The `packMaster` to be created by this mutation. */
+export type PackMasterMaCodeShipperIdFkeyPackMasterCreateInput = {
+  labelCode?: Maybe<Scalars['String']>;
+  customerCode?: Maybe<Scalars['String']>;
+  boxType?: Maybe<Scalars['String']>;
+  boxStyle?: Maybe<Scalars['String']>;
+  packStyle?: Maybe<Scalars['String']>;
+  outCode?: Maybe<Scalars['String']>;
+  outQuantity?: Maybe<Scalars['String']>;
+  outWeight?: Maybe<Scalars['String']>;
+  productionCode?: Maybe<Scalars['String']>;
+  treeRipe?: Maybe<Scalars['String']>;
+  gradeCode?: Maybe<Scalars['String']>;
+  linerCode?: Maybe<Scalars['String']>;
+  netWeightContents?: Maybe<Scalars['BigFloat']>;
+  netWeightBox?: Maybe<Scalars['BigFloat']>;
+  boxLength?: Maybe<Scalars['BigFloat']>;
+  boxWidth?: Maybe<Scalars['BigFloat']>;
+  boxHeight?: Maybe<Scalars['BigFloat']>;
+  palletType?: Maybe<Scalars['String']>;
+  defaultPalletQuantity?: Maybe<Scalars['BigFloat']>;
+  pluUpcCode?: Maybe<Scalars['String']>;
+  destinationCode?: Maybe<Scalars['String']>;
+  oldPackCode: Scalars['String'];
+  oldLabelCode?: Maybe<Scalars['String']>;
+  jvPackCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  varietyId?: Maybe<Scalars['String']>;
+  speciesId?: Maybe<Scalars['String']>;
+  holdCode?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackMasterShipperIdFkeyInput>;
+  packLabelToLabelCodeAndShipperId?: Maybe<PackMasterLabelCodeShipperIdFkeyInput>;
+  packSpecialToCustomerCodeAndShipperId?: Maybe<PackMasterCustomerCodeShipperIdFkeyInput>;
+  packBoxTypeToBoxTypeAndShipperId?: Maybe<PackMasterBoxTypeShipperIdFkeyInput>;
+  packBoxStyleToBoxStyleAndShipperId?: Maybe<PackMasterBoxStyleShipperIdFkeyInput>;
+  packStyleToPackStyleAndShipperId?: Maybe<PackMasterPackStyleShipperIdFkeyInput>;
+  packOutToOutCodeAndShipperId?: Maybe<PackMasterOutCodeShipperIdFkeyInput>;
+  packProductionToProductionCodeAndShipperId?: Maybe<PackMasterProductionCodeShipperIdFkeyInput>;
+  packTreeRipeToTreeRipeAndShipperId?: Maybe<PackMasterTreeRipeShipperIdFkeyInput>;
+  packGradeToGradeCodeAndShipperId?: Maybe<PackMasterGradeCodeShipperIdFkeyInput>;
+  packAtmosphereToMaCodeAndShipperId?: Maybe<PackMasterMaCodeShipperIdFkeyInput>;
+  packLinerToLinerCodeAndShipperId?: Maybe<PackMasterLinerCodeShipperIdFkeyInput>;
+  packPalletTypeToPalletTypeAndShipperId?: Maybe<PackMasterPalletTypeShipperIdFkeyInput>;
+  packDestinationToDestinationCodeAndShipperId?: Maybe<PackMasterDestinationCodeShipperIdFkeyInput>;
+  varietyToVarietyId?: Maybe<PackMasterVarietyIdFkeyInput>;
+  speciesToSpeciesId?: Maybe<PackMasterSpeciesIdFkeyInput>;
+  packHoldToHoldCodeAndShipperId?: Maybe<PackMasterHoldCodeShipperIdFkeyInput>;
+  mastersUsingOldPackCode?: Maybe<MasterPackIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type PackMasterOnPackMasterForPackMasterMaCodeShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `packAtmosphere` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `packAtmosphere` being updated. */
+  patch: PackAtmospherePatch;
+};
+
+/** Represents an update to a `PackAtmosphere`. Fields that are set will be updated. */
+export type PackAtmospherePatch = {
+  shipperId?: Maybe<Scalars['String']>;
+  maCode?: Maybe<Scalars['String']>;
+  maDescription?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackAtmosphereShipperIdFkeyInput>;
+  packMastersUsingMaCodeAndShipperId?: Maybe<PackMasterMaCodeShipperIdFkeyInverseInput>;
+};
+
+/** The `packAtmosphere` to be created by this mutation. */
+export type PackMasterMaCodeShipperIdFkeyPackAtmosphereCreateInput = {
+  maDescription?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackAtmosphereShipperIdFkeyInput>;
+  packMastersUsingMaCodeAndShipperId?: Maybe<PackMasterMaCodeShipperIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type PackGradeOnPackMasterForPackMasterGradeCodeShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `packMaster` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `packMaster` being updated. */
+  patch: PackMasterPatch;
+};
+
+/** The `packMaster` to be created by this mutation. */
+export type PackMasterGradeCodeShipperIdFkeyPackMasterCreateInput = {
+  labelCode?: Maybe<Scalars['String']>;
+  customerCode?: Maybe<Scalars['String']>;
+  boxType?: Maybe<Scalars['String']>;
+  boxStyle?: Maybe<Scalars['String']>;
+  packStyle?: Maybe<Scalars['String']>;
+  outCode?: Maybe<Scalars['String']>;
+  outQuantity?: Maybe<Scalars['String']>;
+  outWeight?: Maybe<Scalars['String']>;
+  productionCode?: Maybe<Scalars['String']>;
+  treeRipe?: Maybe<Scalars['String']>;
+  maCode?: Maybe<Scalars['String']>;
+  linerCode?: Maybe<Scalars['String']>;
+  netWeightContents?: Maybe<Scalars['BigFloat']>;
+  netWeightBox?: Maybe<Scalars['BigFloat']>;
+  boxLength?: Maybe<Scalars['BigFloat']>;
+  boxWidth?: Maybe<Scalars['BigFloat']>;
+  boxHeight?: Maybe<Scalars['BigFloat']>;
+  palletType?: Maybe<Scalars['String']>;
+  defaultPalletQuantity?: Maybe<Scalars['BigFloat']>;
+  pluUpcCode?: Maybe<Scalars['String']>;
+  destinationCode?: Maybe<Scalars['String']>;
+  oldPackCode: Scalars['String'];
+  oldLabelCode?: Maybe<Scalars['String']>;
+  jvPackCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  varietyId?: Maybe<Scalars['String']>;
+  speciesId?: Maybe<Scalars['String']>;
+  holdCode?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackMasterShipperIdFkeyInput>;
+  packLabelToLabelCodeAndShipperId?: Maybe<PackMasterLabelCodeShipperIdFkeyInput>;
+  packSpecialToCustomerCodeAndShipperId?: Maybe<PackMasterCustomerCodeShipperIdFkeyInput>;
+  packBoxTypeToBoxTypeAndShipperId?: Maybe<PackMasterBoxTypeShipperIdFkeyInput>;
+  packBoxStyleToBoxStyleAndShipperId?: Maybe<PackMasterBoxStyleShipperIdFkeyInput>;
+  packStyleToPackStyleAndShipperId?: Maybe<PackMasterPackStyleShipperIdFkeyInput>;
+  packOutToOutCodeAndShipperId?: Maybe<PackMasterOutCodeShipperIdFkeyInput>;
+  packProductionToProductionCodeAndShipperId?: Maybe<PackMasterProductionCodeShipperIdFkeyInput>;
+  packTreeRipeToTreeRipeAndShipperId?: Maybe<PackMasterTreeRipeShipperIdFkeyInput>;
+  packGradeToGradeCodeAndShipperId?: Maybe<PackMasterGradeCodeShipperIdFkeyInput>;
+  packAtmosphereToMaCodeAndShipperId?: Maybe<PackMasterMaCodeShipperIdFkeyInput>;
+  packLinerToLinerCodeAndShipperId?: Maybe<PackMasterLinerCodeShipperIdFkeyInput>;
+  packPalletTypeToPalletTypeAndShipperId?: Maybe<PackMasterPalletTypeShipperIdFkeyInput>;
+  packDestinationToDestinationCodeAndShipperId?: Maybe<PackMasterDestinationCodeShipperIdFkeyInput>;
+  varietyToVarietyId?: Maybe<PackMasterVarietyIdFkeyInput>;
+  speciesToSpeciesId?: Maybe<PackMasterSpeciesIdFkeyInput>;
+  packHoldToHoldCodeAndShipperId?: Maybe<PackMasterHoldCodeShipperIdFkeyInput>;
+  mastersUsingOldPackCode?: Maybe<MasterPackIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type PackMasterOnPackMasterForPackMasterGradeCodeShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `packGrade` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `packGrade` being updated. */
+  patch: PackGradePatch;
+};
+
+/** Represents an update to a `PackGrade`. Fields that are set will be updated. */
+export type PackGradePatch = {
+  shipperId?: Maybe<Scalars['String']>;
+  gradeCode?: Maybe<Scalars['String']>;
+  gradeDescription?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackGradeShipperIdFkeyInput>;
+  packMastersUsingGradeCodeAndShipperId?: Maybe<PackMasterGradeCodeShipperIdFkeyInverseInput>;
+};
+
+/** The `packGrade` to be created by this mutation. */
+export type PackMasterGradeCodeShipperIdFkeyPackGradeCreateInput = {
+  gradeDescription?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackGradeShipperIdFkeyInput>;
+  packMastersUsingGradeCodeAndShipperId?: Maybe<PackMasterGradeCodeShipperIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type PackTreeRipeOnPackMasterForPackMasterTreeRipeShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `packMaster` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `packMaster` being updated. */
+  patch: PackMasterPatch;
+};
+
+/** The `packMaster` to be created by this mutation. */
+export type PackMasterTreeRipeShipperIdFkeyPackMasterCreateInput = {
+  labelCode?: Maybe<Scalars['String']>;
+  customerCode?: Maybe<Scalars['String']>;
+  boxType?: Maybe<Scalars['String']>;
+  boxStyle?: Maybe<Scalars['String']>;
+  packStyle?: Maybe<Scalars['String']>;
+  outCode?: Maybe<Scalars['String']>;
+  outQuantity?: Maybe<Scalars['String']>;
+  outWeight?: Maybe<Scalars['String']>;
+  productionCode?: Maybe<Scalars['String']>;
+  gradeCode?: Maybe<Scalars['String']>;
+  maCode?: Maybe<Scalars['String']>;
+  linerCode?: Maybe<Scalars['String']>;
+  netWeightContents?: Maybe<Scalars['BigFloat']>;
+  netWeightBox?: Maybe<Scalars['BigFloat']>;
+  boxLength?: Maybe<Scalars['BigFloat']>;
+  boxWidth?: Maybe<Scalars['BigFloat']>;
+  boxHeight?: Maybe<Scalars['BigFloat']>;
+  palletType?: Maybe<Scalars['String']>;
+  defaultPalletQuantity?: Maybe<Scalars['BigFloat']>;
+  pluUpcCode?: Maybe<Scalars['String']>;
+  destinationCode?: Maybe<Scalars['String']>;
+  oldPackCode: Scalars['String'];
+  oldLabelCode?: Maybe<Scalars['String']>;
+  jvPackCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  varietyId?: Maybe<Scalars['String']>;
+  speciesId?: Maybe<Scalars['String']>;
+  holdCode?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackMasterShipperIdFkeyInput>;
+  packLabelToLabelCodeAndShipperId?: Maybe<PackMasterLabelCodeShipperIdFkeyInput>;
+  packSpecialToCustomerCodeAndShipperId?: Maybe<PackMasterCustomerCodeShipperIdFkeyInput>;
+  packBoxTypeToBoxTypeAndShipperId?: Maybe<PackMasterBoxTypeShipperIdFkeyInput>;
+  packBoxStyleToBoxStyleAndShipperId?: Maybe<PackMasterBoxStyleShipperIdFkeyInput>;
+  packStyleToPackStyleAndShipperId?: Maybe<PackMasterPackStyleShipperIdFkeyInput>;
+  packOutToOutCodeAndShipperId?: Maybe<PackMasterOutCodeShipperIdFkeyInput>;
+  packProductionToProductionCodeAndShipperId?: Maybe<PackMasterProductionCodeShipperIdFkeyInput>;
+  packTreeRipeToTreeRipeAndShipperId?: Maybe<PackMasterTreeRipeShipperIdFkeyInput>;
+  packGradeToGradeCodeAndShipperId?: Maybe<PackMasterGradeCodeShipperIdFkeyInput>;
+  packAtmosphereToMaCodeAndShipperId?: Maybe<PackMasterMaCodeShipperIdFkeyInput>;
+  packLinerToLinerCodeAndShipperId?: Maybe<PackMasterLinerCodeShipperIdFkeyInput>;
+  packPalletTypeToPalletTypeAndShipperId?: Maybe<PackMasterPalletTypeShipperIdFkeyInput>;
+  packDestinationToDestinationCodeAndShipperId?: Maybe<PackMasterDestinationCodeShipperIdFkeyInput>;
+  varietyToVarietyId?: Maybe<PackMasterVarietyIdFkeyInput>;
+  speciesToSpeciesId?: Maybe<PackMasterSpeciesIdFkeyInput>;
+  packHoldToHoldCodeAndShipperId?: Maybe<PackMasterHoldCodeShipperIdFkeyInput>;
+  mastersUsingOldPackCode?: Maybe<MasterPackIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type PackMasterOnPackMasterForPackMasterTreeRipeShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `packTreeRipe` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `packTreeRipe` being updated. */
+  patch: PackTreeRipePatch;
+};
+
+/** Represents an update to a `PackTreeRipe`. Fields that are set will be updated. */
+export type PackTreeRipePatch = {
+  shipperId?: Maybe<Scalars['String']>;
+  treeRipe?: Maybe<Scalars['String']>;
+  treeRipeDescription?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackTreeRipeShipperIdFkeyInput>;
+  packMastersUsingTreeRipeAndShipperId?: Maybe<PackMasterTreeRipeShipperIdFkeyInverseInput>;
+};
+
+/** The `packTreeRipe` to be created by this mutation. */
+export type PackMasterTreeRipeShipperIdFkeyPackTreeRipeCreateInput = {
+  treeRipeDescription?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackTreeRipeShipperIdFkeyInput>;
+  packMastersUsingTreeRipeAndShipperId?: Maybe<PackMasterTreeRipeShipperIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type PackProductionOnPackMasterForPackMasterProductionCodeShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `packMaster` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `packMaster` being updated. */
+  patch: PackMasterPatch;
+};
+
+/** The `packMaster` to be created by this mutation. */
+export type PackMasterProductionCodeShipperIdFkeyPackMasterCreateInput = {
+  labelCode?: Maybe<Scalars['String']>;
+  customerCode?: Maybe<Scalars['String']>;
+  boxType?: Maybe<Scalars['String']>;
+  boxStyle?: Maybe<Scalars['String']>;
+  packStyle?: Maybe<Scalars['String']>;
+  outCode?: Maybe<Scalars['String']>;
+  outQuantity?: Maybe<Scalars['String']>;
+  outWeight?: Maybe<Scalars['String']>;
+  treeRipe?: Maybe<Scalars['String']>;
+  gradeCode?: Maybe<Scalars['String']>;
+  maCode?: Maybe<Scalars['String']>;
+  linerCode?: Maybe<Scalars['String']>;
+  netWeightContents?: Maybe<Scalars['BigFloat']>;
+  netWeightBox?: Maybe<Scalars['BigFloat']>;
+  boxLength?: Maybe<Scalars['BigFloat']>;
+  boxWidth?: Maybe<Scalars['BigFloat']>;
+  boxHeight?: Maybe<Scalars['BigFloat']>;
+  palletType?: Maybe<Scalars['String']>;
+  defaultPalletQuantity?: Maybe<Scalars['BigFloat']>;
+  pluUpcCode?: Maybe<Scalars['String']>;
+  destinationCode?: Maybe<Scalars['String']>;
+  oldPackCode: Scalars['String'];
+  oldLabelCode?: Maybe<Scalars['String']>;
+  jvPackCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  varietyId?: Maybe<Scalars['String']>;
+  speciesId?: Maybe<Scalars['String']>;
+  holdCode?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackMasterShipperIdFkeyInput>;
+  packLabelToLabelCodeAndShipperId?: Maybe<PackMasterLabelCodeShipperIdFkeyInput>;
+  packSpecialToCustomerCodeAndShipperId?: Maybe<PackMasterCustomerCodeShipperIdFkeyInput>;
+  packBoxTypeToBoxTypeAndShipperId?: Maybe<PackMasterBoxTypeShipperIdFkeyInput>;
+  packBoxStyleToBoxStyleAndShipperId?: Maybe<PackMasterBoxStyleShipperIdFkeyInput>;
+  packStyleToPackStyleAndShipperId?: Maybe<PackMasterPackStyleShipperIdFkeyInput>;
+  packOutToOutCodeAndShipperId?: Maybe<PackMasterOutCodeShipperIdFkeyInput>;
+  packProductionToProductionCodeAndShipperId?: Maybe<PackMasterProductionCodeShipperIdFkeyInput>;
+  packTreeRipeToTreeRipeAndShipperId?: Maybe<PackMasterTreeRipeShipperIdFkeyInput>;
+  packGradeToGradeCodeAndShipperId?: Maybe<PackMasterGradeCodeShipperIdFkeyInput>;
+  packAtmosphereToMaCodeAndShipperId?: Maybe<PackMasterMaCodeShipperIdFkeyInput>;
+  packLinerToLinerCodeAndShipperId?: Maybe<PackMasterLinerCodeShipperIdFkeyInput>;
+  packPalletTypeToPalletTypeAndShipperId?: Maybe<PackMasterPalletTypeShipperIdFkeyInput>;
+  packDestinationToDestinationCodeAndShipperId?: Maybe<PackMasterDestinationCodeShipperIdFkeyInput>;
+  varietyToVarietyId?: Maybe<PackMasterVarietyIdFkeyInput>;
+  speciesToSpeciesId?: Maybe<PackMasterSpeciesIdFkeyInput>;
+  packHoldToHoldCodeAndShipperId?: Maybe<PackMasterHoldCodeShipperIdFkeyInput>;
+  mastersUsingOldPackCode?: Maybe<MasterPackIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type PackMasterOnPackMasterForPackMasterProductionCodeShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `packProduction` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `packProduction` being updated. */
+  patch: PackProductionPatch;
+};
+
+/** Represents an update to a `PackProduction`. Fields that are set will be updated. */
+export type PackProductionPatch = {
+  shipperId?: Maybe<Scalars['String']>;
+  productionCode?: Maybe<Scalars['String']>;
+  productionDescription?: Maybe<Scalars['String']>;
+  combineWith?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackProductionShipperIdFkeyInput>;
+  packMastersUsingProductionCodeAndShipperId?: Maybe<PackMasterProductionCodeShipperIdFkeyInverseInput>;
+};
+
+/** The `packProduction` to be created by this mutation. */
+export type PackMasterProductionCodeShipperIdFkeyPackProductionCreateInput = {
+  productionDescription?: Maybe<Scalars['String']>;
+  combineWith?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackProductionShipperIdFkeyInput>;
+  packMastersUsingProductionCodeAndShipperId?: Maybe<PackMasterProductionCodeShipperIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type PackOutOnPackMasterForPackMasterOutCodeShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `packMaster` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `packMaster` being updated. */
+  patch: PackMasterPatch;
+};
+
+/** The `packMaster` to be created by this mutation. */
+export type PackMasterOutCodeShipperIdFkeyPackMasterCreateInput = {
+  labelCode?: Maybe<Scalars['String']>;
+  customerCode?: Maybe<Scalars['String']>;
+  boxType?: Maybe<Scalars['String']>;
+  boxStyle?: Maybe<Scalars['String']>;
+  packStyle?: Maybe<Scalars['String']>;
+  outQuantity?: Maybe<Scalars['String']>;
+  outWeight?: Maybe<Scalars['String']>;
+  productionCode?: Maybe<Scalars['String']>;
+  treeRipe?: Maybe<Scalars['String']>;
+  gradeCode?: Maybe<Scalars['String']>;
+  maCode?: Maybe<Scalars['String']>;
+  linerCode?: Maybe<Scalars['String']>;
+  netWeightContents?: Maybe<Scalars['BigFloat']>;
+  netWeightBox?: Maybe<Scalars['BigFloat']>;
+  boxLength?: Maybe<Scalars['BigFloat']>;
+  boxWidth?: Maybe<Scalars['BigFloat']>;
+  boxHeight?: Maybe<Scalars['BigFloat']>;
+  palletType?: Maybe<Scalars['String']>;
+  defaultPalletQuantity?: Maybe<Scalars['BigFloat']>;
+  pluUpcCode?: Maybe<Scalars['String']>;
+  destinationCode?: Maybe<Scalars['String']>;
+  oldPackCode: Scalars['String'];
+  oldLabelCode?: Maybe<Scalars['String']>;
+  jvPackCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  varietyId?: Maybe<Scalars['String']>;
+  speciesId?: Maybe<Scalars['String']>;
+  holdCode?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackMasterShipperIdFkeyInput>;
+  packLabelToLabelCodeAndShipperId?: Maybe<PackMasterLabelCodeShipperIdFkeyInput>;
+  packSpecialToCustomerCodeAndShipperId?: Maybe<PackMasterCustomerCodeShipperIdFkeyInput>;
+  packBoxTypeToBoxTypeAndShipperId?: Maybe<PackMasterBoxTypeShipperIdFkeyInput>;
+  packBoxStyleToBoxStyleAndShipperId?: Maybe<PackMasterBoxStyleShipperIdFkeyInput>;
+  packStyleToPackStyleAndShipperId?: Maybe<PackMasterPackStyleShipperIdFkeyInput>;
+  packOutToOutCodeAndShipperId?: Maybe<PackMasterOutCodeShipperIdFkeyInput>;
+  packProductionToProductionCodeAndShipperId?: Maybe<PackMasterProductionCodeShipperIdFkeyInput>;
+  packTreeRipeToTreeRipeAndShipperId?: Maybe<PackMasterTreeRipeShipperIdFkeyInput>;
+  packGradeToGradeCodeAndShipperId?: Maybe<PackMasterGradeCodeShipperIdFkeyInput>;
+  packAtmosphereToMaCodeAndShipperId?: Maybe<PackMasterMaCodeShipperIdFkeyInput>;
+  packLinerToLinerCodeAndShipperId?: Maybe<PackMasterLinerCodeShipperIdFkeyInput>;
+  packPalletTypeToPalletTypeAndShipperId?: Maybe<PackMasterPalletTypeShipperIdFkeyInput>;
+  packDestinationToDestinationCodeAndShipperId?: Maybe<PackMasterDestinationCodeShipperIdFkeyInput>;
+  varietyToVarietyId?: Maybe<PackMasterVarietyIdFkeyInput>;
+  speciesToSpeciesId?: Maybe<PackMasterSpeciesIdFkeyInput>;
+  packHoldToHoldCodeAndShipperId?: Maybe<PackMasterHoldCodeShipperIdFkeyInput>;
+  mastersUsingOldPackCode?: Maybe<MasterPackIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type PackMasterOnPackMasterForPackMasterOutCodeShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `packOut` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `packOut` being updated. */
+  patch: PackOutPatch;
+};
+
+/** Represents an update to a `PackOut`. Fields that are set will be updated. */
+export type PackOutPatch = {
+  shipperId?: Maybe<Scalars['String']>;
+  outCode?: Maybe<Scalars['String']>;
+  outDescription?: Maybe<Scalars['String']>;
+  combineWith?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackOutShipperIdFkeyInput>;
+  packMastersUsingOutCodeAndShipperId?: Maybe<PackMasterOutCodeShipperIdFkeyInverseInput>;
+};
+
+/** The `packOut` to be created by this mutation. */
+export type PackMasterOutCodeShipperIdFkeyPackOutCreateInput = {
+  outDescription?: Maybe<Scalars['String']>;
+  combineWith?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackOutShipperIdFkeyInput>;
+  packMastersUsingOutCodeAndShipperId?: Maybe<PackMasterOutCodeShipperIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type PackStyleOnPackMasterForPackMasterPackStyleShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `packMaster` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `packMaster` being updated. */
+  patch: PackMasterPatch;
+};
+
+/** The `packMaster` to be created by this mutation. */
+export type PackMasterPackStyleShipperIdFkeyPackMasterCreateInput = {
+  labelCode?: Maybe<Scalars['String']>;
+  customerCode?: Maybe<Scalars['String']>;
+  boxType?: Maybe<Scalars['String']>;
+  boxStyle?: Maybe<Scalars['String']>;
+  outCode?: Maybe<Scalars['String']>;
+  outQuantity?: Maybe<Scalars['String']>;
+  outWeight?: Maybe<Scalars['String']>;
+  productionCode?: Maybe<Scalars['String']>;
+  treeRipe?: Maybe<Scalars['String']>;
+  gradeCode?: Maybe<Scalars['String']>;
+  maCode?: Maybe<Scalars['String']>;
+  linerCode?: Maybe<Scalars['String']>;
+  netWeightContents?: Maybe<Scalars['BigFloat']>;
+  netWeightBox?: Maybe<Scalars['BigFloat']>;
+  boxLength?: Maybe<Scalars['BigFloat']>;
+  boxWidth?: Maybe<Scalars['BigFloat']>;
+  boxHeight?: Maybe<Scalars['BigFloat']>;
+  palletType?: Maybe<Scalars['String']>;
+  defaultPalletQuantity?: Maybe<Scalars['BigFloat']>;
+  pluUpcCode?: Maybe<Scalars['String']>;
+  destinationCode?: Maybe<Scalars['String']>;
+  oldPackCode: Scalars['String'];
+  oldLabelCode?: Maybe<Scalars['String']>;
+  jvPackCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  varietyId?: Maybe<Scalars['String']>;
+  speciesId?: Maybe<Scalars['String']>;
+  holdCode?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackMasterShipperIdFkeyInput>;
+  packLabelToLabelCodeAndShipperId?: Maybe<PackMasterLabelCodeShipperIdFkeyInput>;
+  packSpecialToCustomerCodeAndShipperId?: Maybe<PackMasterCustomerCodeShipperIdFkeyInput>;
+  packBoxTypeToBoxTypeAndShipperId?: Maybe<PackMasterBoxTypeShipperIdFkeyInput>;
+  packBoxStyleToBoxStyleAndShipperId?: Maybe<PackMasterBoxStyleShipperIdFkeyInput>;
+  packStyleToPackStyleAndShipperId?: Maybe<PackMasterPackStyleShipperIdFkeyInput>;
+  packOutToOutCodeAndShipperId?: Maybe<PackMasterOutCodeShipperIdFkeyInput>;
+  packProductionToProductionCodeAndShipperId?: Maybe<PackMasterProductionCodeShipperIdFkeyInput>;
+  packTreeRipeToTreeRipeAndShipperId?: Maybe<PackMasterTreeRipeShipperIdFkeyInput>;
+  packGradeToGradeCodeAndShipperId?: Maybe<PackMasterGradeCodeShipperIdFkeyInput>;
+  packAtmosphereToMaCodeAndShipperId?: Maybe<PackMasterMaCodeShipperIdFkeyInput>;
+  packLinerToLinerCodeAndShipperId?: Maybe<PackMasterLinerCodeShipperIdFkeyInput>;
+  packPalletTypeToPalletTypeAndShipperId?: Maybe<PackMasterPalletTypeShipperIdFkeyInput>;
+  packDestinationToDestinationCodeAndShipperId?: Maybe<PackMasterDestinationCodeShipperIdFkeyInput>;
+  varietyToVarietyId?: Maybe<PackMasterVarietyIdFkeyInput>;
+  speciesToSpeciesId?: Maybe<PackMasterSpeciesIdFkeyInput>;
+  packHoldToHoldCodeAndShipperId?: Maybe<PackMasterHoldCodeShipperIdFkeyInput>;
+  mastersUsingOldPackCode?: Maybe<MasterPackIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type PackMasterOnPackMasterForPackMasterPackStyleShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `packStyle` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `packStyle` being updated. */
+  patch: PackStylePatch;
+};
+
+/** Represents an update to a `PackStyle`. Fields that are set will be updated. */
+export type PackStylePatch = {
+  shipperId?: Maybe<Scalars['String']>;
+  packStyle?: Maybe<Scalars['String']>;
+  styleDescription?: Maybe<Scalars['String']>;
+  combineWith?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackStyleShipperIdFkeyInput>;
+  packMastersUsingPackStyleAndShipperId?: Maybe<PackMasterPackStyleShipperIdFkeyInverseInput>;
+};
+
+/** The `packStyle` to be created by this mutation. */
+export type PackMasterPackStyleShipperIdFkeyPackStyleCreateInput = {
+  styleDescription?: Maybe<Scalars['String']>;
+  combineWith?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackStyleShipperIdFkeyInput>;
+  packMastersUsingPackStyleAndShipperId?: Maybe<PackMasterPackStyleShipperIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type PackBoxStyleOnPackMasterForPackMasterBoxStyleShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `packMaster` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `packMaster` being updated. */
+  patch: PackMasterPatch;
+};
+
+/** The `packMaster` to be created by this mutation. */
+export type PackMasterBoxStyleShipperIdFkeyPackMasterCreateInput = {
+  labelCode?: Maybe<Scalars['String']>;
+  customerCode?: Maybe<Scalars['String']>;
+  boxType?: Maybe<Scalars['String']>;
+  packStyle?: Maybe<Scalars['String']>;
+  outCode?: Maybe<Scalars['String']>;
+  outQuantity?: Maybe<Scalars['String']>;
+  outWeight?: Maybe<Scalars['String']>;
+  productionCode?: Maybe<Scalars['String']>;
+  treeRipe?: Maybe<Scalars['String']>;
+  gradeCode?: Maybe<Scalars['String']>;
+  maCode?: Maybe<Scalars['String']>;
+  linerCode?: Maybe<Scalars['String']>;
+  netWeightContents?: Maybe<Scalars['BigFloat']>;
+  netWeightBox?: Maybe<Scalars['BigFloat']>;
+  boxLength?: Maybe<Scalars['BigFloat']>;
+  boxWidth?: Maybe<Scalars['BigFloat']>;
+  boxHeight?: Maybe<Scalars['BigFloat']>;
+  palletType?: Maybe<Scalars['String']>;
+  defaultPalletQuantity?: Maybe<Scalars['BigFloat']>;
+  pluUpcCode?: Maybe<Scalars['String']>;
+  destinationCode?: Maybe<Scalars['String']>;
+  oldPackCode: Scalars['String'];
+  oldLabelCode?: Maybe<Scalars['String']>;
+  jvPackCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  varietyId?: Maybe<Scalars['String']>;
+  speciesId?: Maybe<Scalars['String']>;
+  holdCode?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackMasterShipperIdFkeyInput>;
+  packLabelToLabelCodeAndShipperId?: Maybe<PackMasterLabelCodeShipperIdFkeyInput>;
+  packSpecialToCustomerCodeAndShipperId?: Maybe<PackMasterCustomerCodeShipperIdFkeyInput>;
+  packBoxTypeToBoxTypeAndShipperId?: Maybe<PackMasterBoxTypeShipperIdFkeyInput>;
+  packBoxStyleToBoxStyleAndShipperId?: Maybe<PackMasterBoxStyleShipperIdFkeyInput>;
+  packStyleToPackStyleAndShipperId?: Maybe<PackMasterPackStyleShipperIdFkeyInput>;
+  packOutToOutCodeAndShipperId?: Maybe<PackMasterOutCodeShipperIdFkeyInput>;
+  packProductionToProductionCodeAndShipperId?: Maybe<PackMasterProductionCodeShipperIdFkeyInput>;
+  packTreeRipeToTreeRipeAndShipperId?: Maybe<PackMasterTreeRipeShipperIdFkeyInput>;
+  packGradeToGradeCodeAndShipperId?: Maybe<PackMasterGradeCodeShipperIdFkeyInput>;
+  packAtmosphereToMaCodeAndShipperId?: Maybe<PackMasterMaCodeShipperIdFkeyInput>;
+  packLinerToLinerCodeAndShipperId?: Maybe<PackMasterLinerCodeShipperIdFkeyInput>;
+  packPalletTypeToPalletTypeAndShipperId?: Maybe<PackMasterPalletTypeShipperIdFkeyInput>;
+  packDestinationToDestinationCodeAndShipperId?: Maybe<PackMasterDestinationCodeShipperIdFkeyInput>;
+  varietyToVarietyId?: Maybe<PackMasterVarietyIdFkeyInput>;
+  speciesToSpeciesId?: Maybe<PackMasterSpeciesIdFkeyInput>;
+  packHoldToHoldCodeAndShipperId?: Maybe<PackMasterHoldCodeShipperIdFkeyInput>;
+  mastersUsingOldPackCode?: Maybe<MasterPackIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type PackMasterOnPackMasterForPackMasterBoxStyleShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `packBoxStyle` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `packBoxStyle` being updated. */
+  patch: PackBoxStylePatch;
+};
+
+/** Represents an update to a `PackBoxStyle`. Fields that are set will be updated. */
+export type PackBoxStylePatch = {
+  shipperId?: Maybe<Scalars['String']>;
+  boxStyle?: Maybe<Scalars['String']>;
+  boxDescription?: Maybe<Scalars['String']>;
+  combineWith?: Maybe<Scalars['String']>;
+  combineDescription?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackBoxStyleShipperIdFkeyInput>;
+  packMastersUsingBoxStyleAndShipperId?: Maybe<PackMasterBoxStyleShipperIdFkeyInverseInput>;
+};
+
+/** The `packBoxStyle` to be created by this mutation. */
+export type PackMasterBoxStyleShipperIdFkeyPackBoxStyleCreateInput = {
+  boxDescription?: Maybe<Scalars['String']>;
+  combineWith?: Maybe<Scalars['String']>;
+  combineDescription?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackBoxStyleShipperIdFkeyInput>;
+  packMastersUsingBoxStyleAndShipperId?: Maybe<PackMasterBoxStyleShipperIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type PackBoxTypeOnPackMasterForPackMasterBoxTypeShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `packMaster` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `packMaster` being updated. */
+  patch: PackMasterPatch;
+};
+
+/** The `packMaster` to be created by this mutation. */
+export type PackMasterBoxTypeShipperIdFkeyPackMasterCreateInput = {
+  labelCode?: Maybe<Scalars['String']>;
+  customerCode?: Maybe<Scalars['String']>;
+  boxStyle?: Maybe<Scalars['String']>;
+  packStyle?: Maybe<Scalars['String']>;
+  outCode?: Maybe<Scalars['String']>;
+  outQuantity?: Maybe<Scalars['String']>;
+  outWeight?: Maybe<Scalars['String']>;
+  productionCode?: Maybe<Scalars['String']>;
+  treeRipe?: Maybe<Scalars['String']>;
+  gradeCode?: Maybe<Scalars['String']>;
+  maCode?: Maybe<Scalars['String']>;
+  linerCode?: Maybe<Scalars['String']>;
+  netWeightContents?: Maybe<Scalars['BigFloat']>;
+  netWeightBox?: Maybe<Scalars['BigFloat']>;
+  boxLength?: Maybe<Scalars['BigFloat']>;
+  boxWidth?: Maybe<Scalars['BigFloat']>;
+  boxHeight?: Maybe<Scalars['BigFloat']>;
+  palletType?: Maybe<Scalars['String']>;
+  defaultPalletQuantity?: Maybe<Scalars['BigFloat']>;
+  pluUpcCode?: Maybe<Scalars['String']>;
+  destinationCode?: Maybe<Scalars['String']>;
+  oldPackCode: Scalars['String'];
+  oldLabelCode?: Maybe<Scalars['String']>;
+  jvPackCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  varietyId?: Maybe<Scalars['String']>;
+  speciesId?: Maybe<Scalars['String']>;
+  holdCode?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackMasterShipperIdFkeyInput>;
+  packLabelToLabelCodeAndShipperId?: Maybe<PackMasterLabelCodeShipperIdFkeyInput>;
+  packSpecialToCustomerCodeAndShipperId?: Maybe<PackMasterCustomerCodeShipperIdFkeyInput>;
+  packBoxTypeToBoxTypeAndShipperId?: Maybe<PackMasterBoxTypeShipperIdFkeyInput>;
+  packBoxStyleToBoxStyleAndShipperId?: Maybe<PackMasterBoxStyleShipperIdFkeyInput>;
+  packStyleToPackStyleAndShipperId?: Maybe<PackMasterPackStyleShipperIdFkeyInput>;
+  packOutToOutCodeAndShipperId?: Maybe<PackMasterOutCodeShipperIdFkeyInput>;
+  packProductionToProductionCodeAndShipperId?: Maybe<PackMasterProductionCodeShipperIdFkeyInput>;
+  packTreeRipeToTreeRipeAndShipperId?: Maybe<PackMasterTreeRipeShipperIdFkeyInput>;
+  packGradeToGradeCodeAndShipperId?: Maybe<PackMasterGradeCodeShipperIdFkeyInput>;
+  packAtmosphereToMaCodeAndShipperId?: Maybe<PackMasterMaCodeShipperIdFkeyInput>;
+  packLinerToLinerCodeAndShipperId?: Maybe<PackMasterLinerCodeShipperIdFkeyInput>;
+  packPalletTypeToPalletTypeAndShipperId?: Maybe<PackMasterPalletTypeShipperIdFkeyInput>;
+  packDestinationToDestinationCodeAndShipperId?: Maybe<PackMasterDestinationCodeShipperIdFkeyInput>;
+  varietyToVarietyId?: Maybe<PackMasterVarietyIdFkeyInput>;
+  speciesToSpeciesId?: Maybe<PackMasterSpeciesIdFkeyInput>;
+  packHoldToHoldCodeAndShipperId?: Maybe<PackMasterHoldCodeShipperIdFkeyInput>;
+  mastersUsingOldPackCode?: Maybe<MasterPackIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type PackMasterOnPackMasterForPackMasterBoxTypeShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `packBoxType` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `packBoxType` being updated. */
+  patch: PackBoxTypePatch;
+};
+
+/** Represents an update to a `PackBoxType`. Fields that are set will be updated. */
+export type PackBoxTypePatch = {
+  shipperId?: Maybe<Scalars['String']>;
+  boxType?: Maybe<Scalars['String']>;
+  boxDescription?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackBoxTypeShipperIdFkeyInput>;
+  packMastersUsingBoxTypeAndShipperId?: Maybe<PackMasterBoxTypeShipperIdFkeyInverseInput>;
+};
+
+/** The `packBoxType` to be created by this mutation. */
+export type PackMasterBoxTypeShipperIdFkeyPackBoxTypeCreateInput = {
+  boxDescription?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackBoxTypeShipperIdFkeyInput>;
+  packMastersUsingBoxTypeAndShipperId?: Maybe<PackMasterBoxTypeShipperIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type PackLabelOnPackMasterForPackMasterLabelCodeShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `packMaster` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `packMaster` being updated. */
+  patch: PackMasterPatch;
+};
+
+/** The `packMaster` to be created by this mutation. */
+export type PackMasterLabelCodeShipperIdFkeyPackMasterCreateInput = {
+  customerCode?: Maybe<Scalars['String']>;
+  boxType?: Maybe<Scalars['String']>;
+  boxStyle?: Maybe<Scalars['String']>;
+  packStyle?: Maybe<Scalars['String']>;
+  outCode?: Maybe<Scalars['String']>;
+  outQuantity?: Maybe<Scalars['String']>;
+  outWeight?: Maybe<Scalars['String']>;
+  productionCode?: Maybe<Scalars['String']>;
+  treeRipe?: Maybe<Scalars['String']>;
+  gradeCode?: Maybe<Scalars['String']>;
+  maCode?: Maybe<Scalars['String']>;
+  linerCode?: Maybe<Scalars['String']>;
+  netWeightContents?: Maybe<Scalars['BigFloat']>;
+  netWeightBox?: Maybe<Scalars['BigFloat']>;
+  boxLength?: Maybe<Scalars['BigFloat']>;
+  boxWidth?: Maybe<Scalars['BigFloat']>;
+  boxHeight?: Maybe<Scalars['BigFloat']>;
+  palletType?: Maybe<Scalars['String']>;
+  defaultPalletQuantity?: Maybe<Scalars['BigFloat']>;
+  pluUpcCode?: Maybe<Scalars['String']>;
+  destinationCode?: Maybe<Scalars['String']>;
+  oldPackCode: Scalars['String'];
+  oldLabelCode?: Maybe<Scalars['String']>;
+  jvPackCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  varietyId?: Maybe<Scalars['String']>;
+  speciesId?: Maybe<Scalars['String']>;
+  holdCode?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackMasterShipperIdFkeyInput>;
+  packLabelToLabelCodeAndShipperId?: Maybe<PackMasterLabelCodeShipperIdFkeyInput>;
+  packSpecialToCustomerCodeAndShipperId?: Maybe<PackMasterCustomerCodeShipperIdFkeyInput>;
+  packBoxTypeToBoxTypeAndShipperId?: Maybe<PackMasterBoxTypeShipperIdFkeyInput>;
+  packBoxStyleToBoxStyleAndShipperId?: Maybe<PackMasterBoxStyleShipperIdFkeyInput>;
+  packStyleToPackStyleAndShipperId?: Maybe<PackMasterPackStyleShipperIdFkeyInput>;
+  packOutToOutCodeAndShipperId?: Maybe<PackMasterOutCodeShipperIdFkeyInput>;
+  packProductionToProductionCodeAndShipperId?: Maybe<PackMasterProductionCodeShipperIdFkeyInput>;
+  packTreeRipeToTreeRipeAndShipperId?: Maybe<PackMasterTreeRipeShipperIdFkeyInput>;
+  packGradeToGradeCodeAndShipperId?: Maybe<PackMasterGradeCodeShipperIdFkeyInput>;
+  packAtmosphereToMaCodeAndShipperId?: Maybe<PackMasterMaCodeShipperIdFkeyInput>;
+  packLinerToLinerCodeAndShipperId?: Maybe<PackMasterLinerCodeShipperIdFkeyInput>;
+  packPalletTypeToPalletTypeAndShipperId?: Maybe<PackMasterPalletTypeShipperIdFkeyInput>;
+  packDestinationToDestinationCodeAndShipperId?: Maybe<PackMasterDestinationCodeShipperIdFkeyInput>;
+  varietyToVarietyId?: Maybe<PackMasterVarietyIdFkeyInput>;
+  speciesToSpeciesId?: Maybe<PackMasterSpeciesIdFkeyInput>;
+  packHoldToHoldCodeAndShipperId?: Maybe<PackMasterHoldCodeShipperIdFkeyInput>;
+  mastersUsingOldPackCode?: Maybe<MasterPackIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type PackMasterOnPackMasterForPackMasterLabelCodeShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `packLabel` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `packLabel` being updated. */
+  patch: PackLabelPatch;
+};
+
+/** Represents an update to a `PackLabel`. Fields that are set will be updated. */
+export type PackLabelPatch = {
+  labelCode?: Maybe<Scalars['String']>;
+  labelName?: Maybe<Scalars['String']>;
+  shipperId?: Maybe<Scalars['String']>;
+  shipperName?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackLabelShipperIdFkeyInput>;
+  packMastersUsingLabelCodeAndShipperId?: Maybe<PackMasterLabelCodeShipperIdFkeyInverseInput>;
+};
+
+/** The `packLabel` to be created by this mutation. */
+export type PackMasterLabelCodeShipperIdFkeyPackLabelCreateInput = {
+  labelName?: Maybe<Scalars['String']>;
+  shipperName?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackLabelShipperIdFkeyInput>;
+  packMastersUsingLabelCodeAndShipperId?: Maybe<PackMasterLabelCodeShipperIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type ShipperOnPackMasterForPackMasterShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `packMaster` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `packMaster` being updated. */
+  patch: PackMasterPatch;
+};
+
+/** The `packMaster` to be created by this mutation. */
+export type PackMasterShipperIdFkeyPackMasterCreateInput = {
+  labelCode?: Maybe<Scalars['String']>;
+  customerCode?: Maybe<Scalars['String']>;
+  boxType?: Maybe<Scalars['String']>;
+  boxStyle?: Maybe<Scalars['String']>;
+  packStyle?: Maybe<Scalars['String']>;
+  outCode?: Maybe<Scalars['String']>;
+  outQuantity?: Maybe<Scalars['String']>;
+  outWeight?: Maybe<Scalars['String']>;
+  productionCode?: Maybe<Scalars['String']>;
+  treeRipe?: Maybe<Scalars['String']>;
+  gradeCode?: Maybe<Scalars['String']>;
+  maCode?: Maybe<Scalars['String']>;
+  linerCode?: Maybe<Scalars['String']>;
+  netWeightContents?: Maybe<Scalars['BigFloat']>;
+  netWeightBox?: Maybe<Scalars['BigFloat']>;
+  boxLength?: Maybe<Scalars['BigFloat']>;
+  boxWidth?: Maybe<Scalars['BigFloat']>;
+  boxHeight?: Maybe<Scalars['BigFloat']>;
+  palletType?: Maybe<Scalars['String']>;
+  defaultPalletQuantity?: Maybe<Scalars['BigFloat']>;
+  pluUpcCode?: Maybe<Scalars['String']>;
+  destinationCode?: Maybe<Scalars['String']>;
+  oldPackCode: Scalars['String'];
+  oldLabelCode?: Maybe<Scalars['String']>;
+  jvPackCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  varietyId?: Maybe<Scalars['String']>;
+  speciesId?: Maybe<Scalars['String']>;
+  holdCode?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackMasterShipperIdFkeyInput>;
+  packLabelToLabelCodeAndShipperId?: Maybe<PackMasterLabelCodeShipperIdFkeyInput>;
+  packSpecialToCustomerCodeAndShipperId?: Maybe<PackMasterCustomerCodeShipperIdFkeyInput>;
+  packBoxTypeToBoxTypeAndShipperId?: Maybe<PackMasterBoxTypeShipperIdFkeyInput>;
+  packBoxStyleToBoxStyleAndShipperId?: Maybe<PackMasterBoxStyleShipperIdFkeyInput>;
+  packStyleToPackStyleAndShipperId?: Maybe<PackMasterPackStyleShipperIdFkeyInput>;
+  packOutToOutCodeAndShipperId?: Maybe<PackMasterOutCodeShipperIdFkeyInput>;
+  packProductionToProductionCodeAndShipperId?: Maybe<PackMasterProductionCodeShipperIdFkeyInput>;
+  packTreeRipeToTreeRipeAndShipperId?: Maybe<PackMasterTreeRipeShipperIdFkeyInput>;
+  packGradeToGradeCodeAndShipperId?: Maybe<PackMasterGradeCodeShipperIdFkeyInput>;
+  packAtmosphereToMaCodeAndShipperId?: Maybe<PackMasterMaCodeShipperIdFkeyInput>;
+  packLinerToLinerCodeAndShipperId?: Maybe<PackMasterLinerCodeShipperIdFkeyInput>;
+  packPalletTypeToPalletTypeAndShipperId?: Maybe<PackMasterPalletTypeShipperIdFkeyInput>;
+  packDestinationToDestinationCodeAndShipperId?: Maybe<PackMasterDestinationCodeShipperIdFkeyInput>;
+  varietyToVarietyId?: Maybe<PackMasterVarietyIdFkeyInput>;
+  speciesToSpeciesId?: Maybe<PackMasterSpeciesIdFkeyInput>;
+  packHoldToHoldCodeAndShipperId?: Maybe<PackMasterHoldCodeShipperIdFkeyInput>;
+  mastersUsingOldPackCode?: Maybe<MasterPackIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type PackStyleOnPackStyleForPackStyleShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `shipper` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `shipper` being updated. */
+  patch: ShipperPatch;
+};
+
+/** Represents an update to a `Shipper`. Fields that are set will be updated. */
+export type ShipperPatch = {
+  id?: Maybe<Scalars['String']>;
+  shipperName?: Maybe<Scalars['String']>;
+  countryId?: Maybe<Scalars['String']>;
+  groupId?: Maybe<Scalars['String']>;
+  logoSrc?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
+  countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
+  personContactsUsingId?: Maybe<PersonContactShipperIdFkeyInverseInput>;
+  sizesUsingId?: Maybe<SizeShipperIdFkeyInverseInput>;
+  packAtmospheresUsingId?: Maybe<PackAtmosphereShipperIdFkeyInverseInput>;
+  packBoxStylesUsingId?: Maybe<PackBoxStyleShipperIdFkeyInverseInput>;
+  packBoxTypesUsingId?: Maybe<PackBoxTypeShipperIdFkeyInverseInput>;
+  packDestinationsUsingId?: Maybe<PackDestinationShipperIdFkeyInverseInput>;
+  packGradesUsingId?: Maybe<PackGradeShipperIdFkeyInverseInput>;
+  packHoldsUsingId?: Maybe<PackHoldShipperIdFkeyInverseInput>;
+  packLabelsUsingId?: Maybe<PackLabelShipperIdFkeyInverseInput>;
+  packLinersUsingId?: Maybe<PackLinerShipperIdFkeyInverseInput>;
+  packOutsUsingId?: Maybe<PackOutShipperIdFkeyInverseInput>;
+  packPalletTypesUsingId?: Maybe<PackPalletTypeShipperIdFkeyInverseInput>;
+  packProductionsUsingId?: Maybe<PackProductionShipperIdFkeyInverseInput>;
+  packSpecialsUsingId?: Maybe<PackSpecialShipperIdFkeyInverseInput>;
+  packTreeRipesUsingId?: Maybe<PackTreeRipeShipperIdFkeyInverseInput>;
+  packStylesUsingId?: Maybe<PackStyleShipperIdFkeyInverseInput>;
+  packMastersUsingId?: Maybe<PackMasterShipperIdFkeyInverseInput>;
+};
+
+/** The `shipper` to be created by this mutation. */
+export type PackStyleShipperIdFkeyShipperCreateInput = {
+  id: Scalars['String'];
+  shipperName: Scalars['String'];
+  countryId?: Maybe<Scalars['String']>;
+  groupId?: Maybe<Scalars['String']>;
+  logoSrc?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
+  countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
+  personContactsUsingId?: Maybe<PersonContactShipperIdFkeyInverseInput>;
+  sizesUsingId?: Maybe<SizeShipperIdFkeyInverseInput>;
+  packAtmospheresUsingId?: Maybe<PackAtmosphereShipperIdFkeyInverseInput>;
+  packBoxStylesUsingId?: Maybe<PackBoxStyleShipperIdFkeyInverseInput>;
+  packBoxTypesUsingId?: Maybe<PackBoxTypeShipperIdFkeyInverseInput>;
+  packDestinationsUsingId?: Maybe<PackDestinationShipperIdFkeyInverseInput>;
+  packGradesUsingId?: Maybe<PackGradeShipperIdFkeyInverseInput>;
+  packHoldsUsingId?: Maybe<PackHoldShipperIdFkeyInverseInput>;
+  packLabelsUsingId?: Maybe<PackLabelShipperIdFkeyInverseInput>;
+  packLinersUsingId?: Maybe<PackLinerShipperIdFkeyInverseInput>;
+  packOutsUsingId?: Maybe<PackOutShipperIdFkeyInverseInput>;
+  packPalletTypesUsingId?: Maybe<PackPalletTypeShipperIdFkeyInverseInput>;
+  packProductionsUsingId?: Maybe<PackProductionShipperIdFkeyInverseInput>;
+  packSpecialsUsingId?: Maybe<PackSpecialShipperIdFkeyInverseInput>;
+  packTreeRipesUsingId?: Maybe<PackTreeRipeShipperIdFkeyInverseInput>;
+  packStylesUsingId?: Maybe<PackStyleShipperIdFkeyInverseInput>;
+  packMastersUsingId?: Maybe<PackMasterShipperIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type ShipperOnPackStyleForPackStyleShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `packStyle` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `packStyle` being updated. */
+  patch: PackStylePatch;
+};
+
+/** The `packStyle` to be created by this mutation. */
+export type PackStyleShipperIdFkeyPackStyleCreateInput = {
+  packStyle: Scalars['String'];
+  styleDescription?: Maybe<Scalars['String']>;
+  combineWith?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackStyleShipperIdFkeyInput>;
+  packMastersUsingPackStyleAndShipperId?: Maybe<PackMasterPackStyleShipperIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type PackTreeRipeOnPackTreeRipeForPackTreeRipeShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `shipper` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `shipper` being updated. */
+  patch: ShipperPatch;
+};
+
+/** The `shipper` to be created by this mutation. */
+export type PackTreeRipeShipperIdFkeyShipperCreateInput = {
+  id: Scalars['String'];
+  shipperName: Scalars['String'];
+  countryId?: Maybe<Scalars['String']>;
+  groupId?: Maybe<Scalars['String']>;
+  logoSrc?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
+  countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
+  personContactsUsingId?: Maybe<PersonContactShipperIdFkeyInverseInput>;
+  sizesUsingId?: Maybe<SizeShipperIdFkeyInverseInput>;
+  packAtmospheresUsingId?: Maybe<PackAtmosphereShipperIdFkeyInverseInput>;
+  packBoxStylesUsingId?: Maybe<PackBoxStyleShipperIdFkeyInverseInput>;
+  packBoxTypesUsingId?: Maybe<PackBoxTypeShipperIdFkeyInverseInput>;
+  packDestinationsUsingId?: Maybe<PackDestinationShipperIdFkeyInverseInput>;
+  packGradesUsingId?: Maybe<PackGradeShipperIdFkeyInverseInput>;
+  packHoldsUsingId?: Maybe<PackHoldShipperIdFkeyInverseInput>;
+  packLabelsUsingId?: Maybe<PackLabelShipperIdFkeyInverseInput>;
+  packLinersUsingId?: Maybe<PackLinerShipperIdFkeyInverseInput>;
+  packOutsUsingId?: Maybe<PackOutShipperIdFkeyInverseInput>;
+  packPalletTypesUsingId?: Maybe<PackPalletTypeShipperIdFkeyInverseInput>;
+  packProductionsUsingId?: Maybe<PackProductionShipperIdFkeyInverseInput>;
+  packSpecialsUsingId?: Maybe<PackSpecialShipperIdFkeyInverseInput>;
+  packTreeRipesUsingId?: Maybe<PackTreeRipeShipperIdFkeyInverseInput>;
+  packStylesUsingId?: Maybe<PackStyleShipperIdFkeyInverseInput>;
+  packMastersUsingId?: Maybe<PackMasterShipperIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type ShipperOnPackTreeRipeForPackTreeRipeShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `packTreeRipe` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `packTreeRipe` being updated. */
+  patch: PackTreeRipePatch;
+};
+
+/** The `packTreeRipe` to be created by this mutation. */
+export type PackTreeRipeShipperIdFkeyPackTreeRipeCreateInput = {
+  treeRipe: Scalars['String'];
+  treeRipeDescription?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackTreeRipeShipperIdFkeyInput>;
+  packMastersUsingTreeRipeAndShipperId?: Maybe<PackMasterTreeRipeShipperIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type PackMasterOnPackMasterForPackMasterShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `shipper` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `shipper` being updated. */
+  patch: ShipperPatch;
+};
+
+/** The `shipper` to be created by this mutation. */
+export type PackMasterShipperIdFkeyShipperCreateInput = {
+  id: Scalars['String'];
+  shipperName: Scalars['String'];
+  countryId?: Maybe<Scalars['String']>;
+  groupId?: Maybe<Scalars['String']>;
+  logoSrc?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
+  countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
+  personContactsUsingId?: Maybe<PersonContactShipperIdFkeyInverseInput>;
+  sizesUsingId?: Maybe<SizeShipperIdFkeyInverseInput>;
+  packAtmospheresUsingId?: Maybe<PackAtmosphereShipperIdFkeyInverseInput>;
+  packBoxStylesUsingId?: Maybe<PackBoxStyleShipperIdFkeyInverseInput>;
+  packBoxTypesUsingId?: Maybe<PackBoxTypeShipperIdFkeyInverseInput>;
+  packDestinationsUsingId?: Maybe<PackDestinationShipperIdFkeyInverseInput>;
+  packGradesUsingId?: Maybe<PackGradeShipperIdFkeyInverseInput>;
+  packHoldsUsingId?: Maybe<PackHoldShipperIdFkeyInverseInput>;
+  packLabelsUsingId?: Maybe<PackLabelShipperIdFkeyInverseInput>;
+  packLinersUsingId?: Maybe<PackLinerShipperIdFkeyInverseInput>;
+  packOutsUsingId?: Maybe<PackOutShipperIdFkeyInverseInput>;
+  packPalletTypesUsingId?: Maybe<PackPalletTypeShipperIdFkeyInverseInput>;
+  packProductionsUsingId?: Maybe<PackProductionShipperIdFkeyInverseInput>;
+  packSpecialsUsingId?: Maybe<PackSpecialShipperIdFkeyInverseInput>;
+  packTreeRipesUsingId?: Maybe<PackTreeRipeShipperIdFkeyInverseInput>;
+  packStylesUsingId?: Maybe<PackStyleShipperIdFkeyInverseInput>;
+  packMastersUsingId?: Maybe<PackMasterShipperIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type PackSpecialOnPackMasterForPackMasterCustomerCodeShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `packMaster` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `packMaster` being updated. */
+  patch: PackMasterPatch;
+};
+
+/** The `packMaster` to be created by this mutation. */
+export type PackMasterCustomerCodeShipperIdFkeyPackMasterCreateInput = {
+  labelCode?: Maybe<Scalars['String']>;
+  boxType?: Maybe<Scalars['String']>;
+  boxStyle?: Maybe<Scalars['String']>;
+  packStyle?: Maybe<Scalars['String']>;
+  outCode?: Maybe<Scalars['String']>;
+  outQuantity?: Maybe<Scalars['String']>;
+  outWeight?: Maybe<Scalars['String']>;
+  productionCode?: Maybe<Scalars['String']>;
+  treeRipe?: Maybe<Scalars['String']>;
+  gradeCode?: Maybe<Scalars['String']>;
+  maCode?: Maybe<Scalars['String']>;
+  linerCode?: Maybe<Scalars['String']>;
+  netWeightContents?: Maybe<Scalars['BigFloat']>;
+  netWeightBox?: Maybe<Scalars['BigFloat']>;
+  boxLength?: Maybe<Scalars['BigFloat']>;
+  boxWidth?: Maybe<Scalars['BigFloat']>;
+  boxHeight?: Maybe<Scalars['BigFloat']>;
+  palletType?: Maybe<Scalars['String']>;
+  defaultPalletQuantity?: Maybe<Scalars['BigFloat']>;
+  pluUpcCode?: Maybe<Scalars['String']>;
+  destinationCode?: Maybe<Scalars['String']>;
+  oldPackCode: Scalars['String'];
+  oldLabelCode?: Maybe<Scalars['String']>;
+  jvPackCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  varietyId?: Maybe<Scalars['String']>;
+  speciesId?: Maybe<Scalars['String']>;
+  holdCode?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackMasterShipperIdFkeyInput>;
+  packLabelToLabelCodeAndShipperId?: Maybe<PackMasterLabelCodeShipperIdFkeyInput>;
+  packSpecialToCustomerCodeAndShipperId?: Maybe<PackMasterCustomerCodeShipperIdFkeyInput>;
+  packBoxTypeToBoxTypeAndShipperId?: Maybe<PackMasterBoxTypeShipperIdFkeyInput>;
+  packBoxStyleToBoxStyleAndShipperId?: Maybe<PackMasterBoxStyleShipperIdFkeyInput>;
+  packStyleToPackStyleAndShipperId?: Maybe<PackMasterPackStyleShipperIdFkeyInput>;
+  packOutToOutCodeAndShipperId?: Maybe<PackMasterOutCodeShipperIdFkeyInput>;
+  packProductionToProductionCodeAndShipperId?: Maybe<PackMasterProductionCodeShipperIdFkeyInput>;
+  packTreeRipeToTreeRipeAndShipperId?: Maybe<PackMasterTreeRipeShipperIdFkeyInput>;
+  packGradeToGradeCodeAndShipperId?: Maybe<PackMasterGradeCodeShipperIdFkeyInput>;
+  packAtmosphereToMaCodeAndShipperId?: Maybe<PackMasterMaCodeShipperIdFkeyInput>;
+  packLinerToLinerCodeAndShipperId?: Maybe<PackMasterLinerCodeShipperIdFkeyInput>;
+  packPalletTypeToPalletTypeAndShipperId?: Maybe<PackMasterPalletTypeShipperIdFkeyInput>;
+  packDestinationToDestinationCodeAndShipperId?: Maybe<PackMasterDestinationCodeShipperIdFkeyInput>;
+  varietyToVarietyId?: Maybe<PackMasterVarietyIdFkeyInput>;
+  speciesToSpeciesId?: Maybe<PackMasterSpeciesIdFkeyInput>;
+  packHoldToHoldCodeAndShipperId?: Maybe<PackMasterHoldCodeShipperIdFkeyInput>;
+  mastersUsingOldPackCode?: Maybe<MasterPackIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type ShipperOnPackSpecialForPackSpecialShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `packSpecial` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `packSpecial` being updated. */
+  patch: PackSpecialPatch;
+};
+
+/** The `packSpecial` to be created by this mutation. */
+export type PackSpecialShipperIdFkeyPackSpecialCreateInput = {
+  customerCode: Scalars['String'];
+  customerId?: Maybe<Scalars['String']>;
+  customerName?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackSpecialShipperIdFkeyInput>;
+  customerToCustomerId?: Maybe<PackSpecialCustomerIdFkeyInput>;
+  packMastersUsingCustomerCodeAndShipperId?: Maybe<PackMasterCustomerCodeShipperIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type PackProductionOnPackProductionForPackProductionShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `shipper` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `shipper` being updated. */
+  patch: ShipperPatch;
+};
+
+/** The `shipper` to be created by this mutation. */
+export type PackProductionShipperIdFkeyShipperCreateInput = {
+  id: Scalars['String'];
+  shipperName: Scalars['String'];
+  countryId?: Maybe<Scalars['String']>;
+  groupId?: Maybe<Scalars['String']>;
+  logoSrc?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
+  countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
+  personContactsUsingId?: Maybe<PersonContactShipperIdFkeyInverseInput>;
+  sizesUsingId?: Maybe<SizeShipperIdFkeyInverseInput>;
+  packAtmospheresUsingId?: Maybe<PackAtmosphereShipperIdFkeyInverseInput>;
+  packBoxStylesUsingId?: Maybe<PackBoxStyleShipperIdFkeyInverseInput>;
+  packBoxTypesUsingId?: Maybe<PackBoxTypeShipperIdFkeyInverseInput>;
+  packDestinationsUsingId?: Maybe<PackDestinationShipperIdFkeyInverseInput>;
+  packGradesUsingId?: Maybe<PackGradeShipperIdFkeyInverseInput>;
+  packHoldsUsingId?: Maybe<PackHoldShipperIdFkeyInverseInput>;
+  packLabelsUsingId?: Maybe<PackLabelShipperIdFkeyInverseInput>;
+  packLinersUsingId?: Maybe<PackLinerShipperIdFkeyInverseInput>;
+  packOutsUsingId?: Maybe<PackOutShipperIdFkeyInverseInput>;
+  packPalletTypesUsingId?: Maybe<PackPalletTypeShipperIdFkeyInverseInput>;
+  packProductionsUsingId?: Maybe<PackProductionShipperIdFkeyInverseInput>;
+  packSpecialsUsingId?: Maybe<PackSpecialShipperIdFkeyInverseInput>;
+  packTreeRipesUsingId?: Maybe<PackTreeRipeShipperIdFkeyInverseInput>;
+  packStylesUsingId?: Maybe<PackStyleShipperIdFkeyInverseInput>;
+  packMastersUsingId?: Maybe<PackMasterShipperIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type ShipperOnPackProductionForPackProductionShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `packProduction` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `packProduction` being updated. */
+  patch: PackProductionPatch;
+};
+
+/** The `packProduction` to be created by this mutation. */
+export type PackProductionShipperIdFkeyPackProductionCreateInput = {
+  productionCode: Scalars['String'];
+  productionDescription?: Maybe<Scalars['String']>;
+  combineWith?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackProductionShipperIdFkeyInput>;
+  packMastersUsingProductionCodeAndShipperId?: Maybe<PackMasterProductionCodeShipperIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type PackPalletTypeOnPackPalletTypeForPackPalletTypeShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `shipper` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `shipper` being updated. */
+  patch: ShipperPatch;
+};
+
+/** The `shipper` to be created by this mutation. */
+export type PackPalletTypeShipperIdFkeyShipperCreateInput = {
+  id: Scalars['String'];
+  shipperName: Scalars['String'];
+  countryId?: Maybe<Scalars['String']>;
+  groupId?: Maybe<Scalars['String']>;
+  logoSrc?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
+  countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
+  personContactsUsingId?: Maybe<PersonContactShipperIdFkeyInverseInput>;
+  sizesUsingId?: Maybe<SizeShipperIdFkeyInverseInput>;
+  packAtmospheresUsingId?: Maybe<PackAtmosphereShipperIdFkeyInverseInput>;
+  packBoxStylesUsingId?: Maybe<PackBoxStyleShipperIdFkeyInverseInput>;
+  packBoxTypesUsingId?: Maybe<PackBoxTypeShipperIdFkeyInverseInput>;
+  packDestinationsUsingId?: Maybe<PackDestinationShipperIdFkeyInverseInput>;
+  packGradesUsingId?: Maybe<PackGradeShipperIdFkeyInverseInput>;
+  packHoldsUsingId?: Maybe<PackHoldShipperIdFkeyInverseInput>;
+  packLabelsUsingId?: Maybe<PackLabelShipperIdFkeyInverseInput>;
+  packLinersUsingId?: Maybe<PackLinerShipperIdFkeyInverseInput>;
+  packOutsUsingId?: Maybe<PackOutShipperIdFkeyInverseInput>;
+  packPalletTypesUsingId?: Maybe<PackPalletTypeShipperIdFkeyInverseInput>;
+  packProductionsUsingId?: Maybe<PackProductionShipperIdFkeyInverseInput>;
+  packSpecialsUsingId?: Maybe<PackSpecialShipperIdFkeyInverseInput>;
+  packTreeRipesUsingId?: Maybe<PackTreeRipeShipperIdFkeyInverseInput>;
+  packStylesUsingId?: Maybe<PackStyleShipperIdFkeyInverseInput>;
+  packMastersUsingId?: Maybe<PackMasterShipperIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type ShipperOnPackPalletTypeForPackPalletTypeShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `packPalletType` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `packPalletType` being updated. */
+  patch: PackPalletTypePatch;
+};
+
+/** The `packPalletType` to be created by this mutation. */
+export type PackPalletTypeShipperIdFkeyPackPalletTypeCreateInput = {
+  palletType: Scalars['String'];
+  palletTypeDescription?: Maybe<Scalars['String']>;
+  combineWith?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackPalletTypeShipperIdFkeyInput>;
+  packMastersUsingPalletTypeAndShipperId?: Maybe<PackMasterPalletTypeShipperIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type PackOutOnPackOutForPackOutShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `shipper` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `shipper` being updated. */
+  patch: ShipperPatch;
+};
+
+/** The `shipper` to be created by this mutation. */
+export type PackOutShipperIdFkeyShipperCreateInput = {
+  id: Scalars['String'];
+  shipperName: Scalars['String'];
+  countryId?: Maybe<Scalars['String']>;
+  groupId?: Maybe<Scalars['String']>;
+  logoSrc?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
+  countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
+  personContactsUsingId?: Maybe<PersonContactShipperIdFkeyInverseInput>;
+  sizesUsingId?: Maybe<SizeShipperIdFkeyInverseInput>;
+  packAtmospheresUsingId?: Maybe<PackAtmosphereShipperIdFkeyInverseInput>;
+  packBoxStylesUsingId?: Maybe<PackBoxStyleShipperIdFkeyInverseInput>;
+  packBoxTypesUsingId?: Maybe<PackBoxTypeShipperIdFkeyInverseInput>;
+  packDestinationsUsingId?: Maybe<PackDestinationShipperIdFkeyInverseInput>;
+  packGradesUsingId?: Maybe<PackGradeShipperIdFkeyInverseInput>;
+  packHoldsUsingId?: Maybe<PackHoldShipperIdFkeyInverseInput>;
+  packLabelsUsingId?: Maybe<PackLabelShipperIdFkeyInverseInput>;
+  packLinersUsingId?: Maybe<PackLinerShipperIdFkeyInverseInput>;
+  packOutsUsingId?: Maybe<PackOutShipperIdFkeyInverseInput>;
+  packPalletTypesUsingId?: Maybe<PackPalletTypeShipperIdFkeyInverseInput>;
+  packProductionsUsingId?: Maybe<PackProductionShipperIdFkeyInverseInput>;
+  packSpecialsUsingId?: Maybe<PackSpecialShipperIdFkeyInverseInput>;
+  packTreeRipesUsingId?: Maybe<PackTreeRipeShipperIdFkeyInverseInput>;
+  packStylesUsingId?: Maybe<PackStyleShipperIdFkeyInverseInput>;
+  packMastersUsingId?: Maybe<PackMasterShipperIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type ShipperOnPackOutForPackOutShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `packOut` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `packOut` being updated. */
+  patch: PackOutPatch;
+};
+
+/** The `packOut` to be created by this mutation. */
+export type PackOutShipperIdFkeyPackOutCreateInput = {
+  outCode: Scalars['String'];
+  outDescription?: Maybe<Scalars['String']>;
+  combineWith?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackOutShipperIdFkeyInput>;
+  packMastersUsingOutCodeAndShipperId?: Maybe<PackMasterOutCodeShipperIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type PackLinerOnPackLinerForPackLinerShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `shipper` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `shipper` being updated. */
+  patch: ShipperPatch;
+};
+
+/** The `shipper` to be created by this mutation. */
+export type PackLinerShipperIdFkeyShipperCreateInput = {
+  id: Scalars['String'];
+  shipperName: Scalars['String'];
+  countryId?: Maybe<Scalars['String']>;
+  groupId?: Maybe<Scalars['String']>;
+  logoSrc?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
+  countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
+  personContactsUsingId?: Maybe<PersonContactShipperIdFkeyInverseInput>;
+  sizesUsingId?: Maybe<SizeShipperIdFkeyInverseInput>;
+  packAtmospheresUsingId?: Maybe<PackAtmosphereShipperIdFkeyInverseInput>;
+  packBoxStylesUsingId?: Maybe<PackBoxStyleShipperIdFkeyInverseInput>;
+  packBoxTypesUsingId?: Maybe<PackBoxTypeShipperIdFkeyInverseInput>;
+  packDestinationsUsingId?: Maybe<PackDestinationShipperIdFkeyInverseInput>;
+  packGradesUsingId?: Maybe<PackGradeShipperIdFkeyInverseInput>;
+  packHoldsUsingId?: Maybe<PackHoldShipperIdFkeyInverseInput>;
+  packLabelsUsingId?: Maybe<PackLabelShipperIdFkeyInverseInput>;
+  packLinersUsingId?: Maybe<PackLinerShipperIdFkeyInverseInput>;
+  packOutsUsingId?: Maybe<PackOutShipperIdFkeyInverseInput>;
+  packPalletTypesUsingId?: Maybe<PackPalletTypeShipperIdFkeyInverseInput>;
+  packProductionsUsingId?: Maybe<PackProductionShipperIdFkeyInverseInput>;
+  packSpecialsUsingId?: Maybe<PackSpecialShipperIdFkeyInverseInput>;
+  packTreeRipesUsingId?: Maybe<PackTreeRipeShipperIdFkeyInverseInput>;
+  packStylesUsingId?: Maybe<PackStyleShipperIdFkeyInverseInput>;
+  packMastersUsingId?: Maybe<PackMasterShipperIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type ShipperOnPackLinerForPackLinerShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `packLiner` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `packLiner` being updated. */
+  patch: PackLinerPatch;
+};
+
+/** The `packLiner` to be created by this mutation. */
+export type PackLinerShipperIdFkeyPackLinerCreateInput = {
+  linerCode: Scalars['String'];
+  linerDescription?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackLinerShipperIdFkeyInput>;
+  packMastersUsingLinerCodeAndShipperId?: Maybe<PackMasterLinerCodeShipperIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type PackLabelOnPackLabelForPackLabelShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `shipper` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `shipper` being updated. */
+  patch: ShipperPatch;
+};
+
+/** The `shipper` to be created by this mutation. */
+export type PackLabelShipperIdFkeyShipperCreateInput = {
+  id: Scalars['String'];
+  shipperName: Scalars['String'];
+  countryId?: Maybe<Scalars['String']>;
+  groupId?: Maybe<Scalars['String']>;
+  logoSrc?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
+  countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
+  personContactsUsingId?: Maybe<PersonContactShipperIdFkeyInverseInput>;
+  sizesUsingId?: Maybe<SizeShipperIdFkeyInverseInput>;
+  packAtmospheresUsingId?: Maybe<PackAtmosphereShipperIdFkeyInverseInput>;
+  packBoxStylesUsingId?: Maybe<PackBoxStyleShipperIdFkeyInverseInput>;
+  packBoxTypesUsingId?: Maybe<PackBoxTypeShipperIdFkeyInverseInput>;
+  packDestinationsUsingId?: Maybe<PackDestinationShipperIdFkeyInverseInput>;
+  packGradesUsingId?: Maybe<PackGradeShipperIdFkeyInverseInput>;
+  packHoldsUsingId?: Maybe<PackHoldShipperIdFkeyInverseInput>;
+  packLabelsUsingId?: Maybe<PackLabelShipperIdFkeyInverseInput>;
+  packLinersUsingId?: Maybe<PackLinerShipperIdFkeyInverseInput>;
+  packOutsUsingId?: Maybe<PackOutShipperIdFkeyInverseInput>;
+  packPalletTypesUsingId?: Maybe<PackPalletTypeShipperIdFkeyInverseInput>;
+  packProductionsUsingId?: Maybe<PackProductionShipperIdFkeyInverseInput>;
+  packSpecialsUsingId?: Maybe<PackSpecialShipperIdFkeyInverseInput>;
+  packTreeRipesUsingId?: Maybe<PackTreeRipeShipperIdFkeyInverseInput>;
+  packStylesUsingId?: Maybe<PackStyleShipperIdFkeyInverseInput>;
+  packMastersUsingId?: Maybe<PackMasterShipperIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type ShipperOnPackLabelForPackLabelShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `packLabel` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `packLabel` being updated. */
+  patch: PackLabelPatch;
+};
+
+/** The `packLabel` to be created by this mutation. */
+export type PackLabelShipperIdFkeyPackLabelCreateInput = {
+  labelCode: Scalars['String'];
+  labelName?: Maybe<Scalars['String']>;
+  shipperName?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackLabelShipperIdFkeyInput>;
+  packMastersUsingLabelCodeAndShipperId?: Maybe<PackMasterLabelCodeShipperIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type PackHoldOnPackHoldForPackHoldShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `shipper` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `shipper` being updated. */
+  patch: ShipperPatch;
+};
+
+/** The `shipper` to be created by this mutation. */
+export type PackHoldShipperIdFkeyShipperCreateInput = {
+  id: Scalars['String'];
+  shipperName: Scalars['String'];
+  countryId?: Maybe<Scalars['String']>;
+  groupId?: Maybe<Scalars['String']>;
+  logoSrc?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
+  countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
+  personContactsUsingId?: Maybe<PersonContactShipperIdFkeyInverseInput>;
+  sizesUsingId?: Maybe<SizeShipperIdFkeyInverseInput>;
+  packAtmospheresUsingId?: Maybe<PackAtmosphereShipperIdFkeyInverseInput>;
+  packBoxStylesUsingId?: Maybe<PackBoxStyleShipperIdFkeyInverseInput>;
+  packBoxTypesUsingId?: Maybe<PackBoxTypeShipperIdFkeyInverseInput>;
+  packDestinationsUsingId?: Maybe<PackDestinationShipperIdFkeyInverseInput>;
+  packGradesUsingId?: Maybe<PackGradeShipperIdFkeyInverseInput>;
+  packHoldsUsingId?: Maybe<PackHoldShipperIdFkeyInverseInput>;
+  packLabelsUsingId?: Maybe<PackLabelShipperIdFkeyInverseInput>;
+  packLinersUsingId?: Maybe<PackLinerShipperIdFkeyInverseInput>;
+  packOutsUsingId?: Maybe<PackOutShipperIdFkeyInverseInput>;
+  packPalletTypesUsingId?: Maybe<PackPalletTypeShipperIdFkeyInverseInput>;
+  packProductionsUsingId?: Maybe<PackProductionShipperIdFkeyInverseInput>;
+  packSpecialsUsingId?: Maybe<PackSpecialShipperIdFkeyInverseInput>;
+  packTreeRipesUsingId?: Maybe<PackTreeRipeShipperIdFkeyInverseInput>;
+  packStylesUsingId?: Maybe<PackStyleShipperIdFkeyInverseInput>;
+  packMastersUsingId?: Maybe<PackMasterShipperIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type ShipperOnPackHoldForPackHoldShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `packHold` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `packHold` being updated. */
+  patch: PackHoldPatch;
+};
+
+/** The `packHold` to be created by this mutation. */
+export type PackHoldShipperIdFkeyPackHoldCreateInput = {
+  holdCode: Scalars['String'];
+  holdDescription?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackHoldShipperIdFkeyInput>;
+  packMastersUsingHoldCodeAndShipperId?: Maybe<PackMasterHoldCodeShipperIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type PackGradeOnPackGradeForPackGradeShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `shipper` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `shipper` being updated. */
+  patch: ShipperPatch;
+};
+
+/** The `shipper` to be created by this mutation. */
+export type PackGradeShipperIdFkeyShipperCreateInput = {
+  id: Scalars['String'];
+  shipperName: Scalars['String'];
+  countryId?: Maybe<Scalars['String']>;
+  groupId?: Maybe<Scalars['String']>;
+  logoSrc?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
+  countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
+  personContactsUsingId?: Maybe<PersonContactShipperIdFkeyInverseInput>;
+  sizesUsingId?: Maybe<SizeShipperIdFkeyInverseInput>;
+  packAtmospheresUsingId?: Maybe<PackAtmosphereShipperIdFkeyInverseInput>;
+  packBoxStylesUsingId?: Maybe<PackBoxStyleShipperIdFkeyInverseInput>;
+  packBoxTypesUsingId?: Maybe<PackBoxTypeShipperIdFkeyInverseInput>;
+  packDestinationsUsingId?: Maybe<PackDestinationShipperIdFkeyInverseInput>;
+  packGradesUsingId?: Maybe<PackGradeShipperIdFkeyInverseInput>;
+  packHoldsUsingId?: Maybe<PackHoldShipperIdFkeyInverseInput>;
+  packLabelsUsingId?: Maybe<PackLabelShipperIdFkeyInverseInput>;
+  packLinersUsingId?: Maybe<PackLinerShipperIdFkeyInverseInput>;
+  packOutsUsingId?: Maybe<PackOutShipperIdFkeyInverseInput>;
+  packPalletTypesUsingId?: Maybe<PackPalletTypeShipperIdFkeyInverseInput>;
+  packProductionsUsingId?: Maybe<PackProductionShipperIdFkeyInverseInput>;
+  packSpecialsUsingId?: Maybe<PackSpecialShipperIdFkeyInverseInput>;
+  packTreeRipesUsingId?: Maybe<PackTreeRipeShipperIdFkeyInverseInput>;
+  packStylesUsingId?: Maybe<PackStyleShipperIdFkeyInverseInput>;
+  packMastersUsingId?: Maybe<PackMasterShipperIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type ShipperOnPackGradeForPackGradeShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `packGrade` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `packGrade` being updated. */
+  patch: PackGradePatch;
+};
+
+/** The `packGrade` to be created by this mutation. */
+export type PackGradeShipperIdFkeyPackGradeCreateInput = {
+  gradeCode: Scalars['String'];
+  gradeDescription?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackGradeShipperIdFkeyInput>;
+  packMastersUsingGradeCodeAndShipperId?: Maybe<PackMasterGradeCodeShipperIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type PackDestinationOnPackDestinationForPackDestinationShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `shipper` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `shipper` being updated. */
+  patch: ShipperPatch;
+};
+
+/** The `shipper` to be created by this mutation. */
+export type PackDestinationShipperIdFkeyShipperCreateInput = {
+  id: Scalars['String'];
+  shipperName: Scalars['String'];
+  countryId?: Maybe<Scalars['String']>;
+  groupId?: Maybe<Scalars['String']>;
+  logoSrc?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
+  countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
+  personContactsUsingId?: Maybe<PersonContactShipperIdFkeyInverseInput>;
+  sizesUsingId?: Maybe<SizeShipperIdFkeyInverseInput>;
+  packAtmospheresUsingId?: Maybe<PackAtmosphereShipperIdFkeyInverseInput>;
+  packBoxStylesUsingId?: Maybe<PackBoxStyleShipperIdFkeyInverseInput>;
+  packBoxTypesUsingId?: Maybe<PackBoxTypeShipperIdFkeyInverseInput>;
+  packDestinationsUsingId?: Maybe<PackDestinationShipperIdFkeyInverseInput>;
+  packGradesUsingId?: Maybe<PackGradeShipperIdFkeyInverseInput>;
+  packHoldsUsingId?: Maybe<PackHoldShipperIdFkeyInverseInput>;
+  packLabelsUsingId?: Maybe<PackLabelShipperIdFkeyInverseInput>;
+  packLinersUsingId?: Maybe<PackLinerShipperIdFkeyInverseInput>;
+  packOutsUsingId?: Maybe<PackOutShipperIdFkeyInverseInput>;
+  packPalletTypesUsingId?: Maybe<PackPalletTypeShipperIdFkeyInverseInput>;
+  packProductionsUsingId?: Maybe<PackProductionShipperIdFkeyInverseInput>;
+  packSpecialsUsingId?: Maybe<PackSpecialShipperIdFkeyInverseInput>;
+  packTreeRipesUsingId?: Maybe<PackTreeRipeShipperIdFkeyInverseInput>;
+  packStylesUsingId?: Maybe<PackStyleShipperIdFkeyInverseInput>;
+  packMastersUsingId?: Maybe<PackMasterShipperIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type ShipperOnPackDestinationForPackDestinationShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `packDestination` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `packDestination` being updated. */
+  patch: PackDestinationPatch;
+};
+
+/** The `packDestination` to be created by this mutation. */
+export type PackDestinationShipperIdFkeyPackDestinationCreateInput = {
+  destinationCode: Scalars['String'];
+  destinationDescription?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackDestinationShipperIdFkeyInput>;
+  packMastersUsingDestinationCodeAndShipperId?: Maybe<PackMasterDestinationCodeShipperIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type PackBoxTypeOnPackBoxTypeForPackBoxTypeShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `shipper` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `shipper` being updated. */
+  patch: ShipperPatch;
+};
+
+/** The `shipper` to be created by this mutation. */
+export type PackBoxTypeShipperIdFkeyShipperCreateInput = {
+  id: Scalars['String'];
+  shipperName: Scalars['String'];
+  countryId?: Maybe<Scalars['String']>;
+  groupId?: Maybe<Scalars['String']>;
+  logoSrc?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
+  countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
+  personContactsUsingId?: Maybe<PersonContactShipperIdFkeyInverseInput>;
+  sizesUsingId?: Maybe<SizeShipperIdFkeyInverseInput>;
+  packAtmospheresUsingId?: Maybe<PackAtmosphereShipperIdFkeyInverseInput>;
+  packBoxStylesUsingId?: Maybe<PackBoxStyleShipperIdFkeyInverseInput>;
+  packBoxTypesUsingId?: Maybe<PackBoxTypeShipperIdFkeyInverseInput>;
+  packDestinationsUsingId?: Maybe<PackDestinationShipperIdFkeyInverseInput>;
+  packGradesUsingId?: Maybe<PackGradeShipperIdFkeyInverseInput>;
+  packHoldsUsingId?: Maybe<PackHoldShipperIdFkeyInverseInput>;
+  packLabelsUsingId?: Maybe<PackLabelShipperIdFkeyInverseInput>;
+  packLinersUsingId?: Maybe<PackLinerShipperIdFkeyInverseInput>;
+  packOutsUsingId?: Maybe<PackOutShipperIdFkeyInverseInput>;
+  packPalletTypesUsingId?: Maybe<PackPalletTypeShipperIdFkeyInverseInput>;
+  packProductionsUsingId?: Maybe<PackProductionShipperIdFkeyInverseInput>;
+  packSpecialsUsingId?: Maybe<PackSpecialShipperIdFkeyInverseInput>;
+  packTreeRipesUsingId?: Maybe<PackTreeRipeShipperIdFkeyInverseInput>;
+  packStylesUsingId?: Maybe<PackStyleShipperIdFkeyInverseInput>;
+  packMastersUsingId?: Maybe<PackMasterShipperIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type ShipperOnPackBoxTypeForPackBoxTypeShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `packBoxType` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `packBoxType` being updated. */
+  patch: PackBoxTypePatch;
+};
+
+/** The `packBoxType` to be created by this mutation. */
+export type PackBoxTypeShipperIdFkeyPackBoxTypeCreateInput = {
+  boxType: Scalars['String'];
+  boxDescription?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackBoxTypeShipperIdFkeyInput>;
+  packMastersUsingBoxTypeAndShipperId?: Maybe<PackMasterBoxTypeShipperIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type PackBoxStyleOnPackBoxStyleForPackBoxStyleShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `shipper` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `shipper` being updated. */
+  patch: ShipperPatch;
+};
+
+/** The `shipper` to be created by this mutation. */
+export type PackBoxStyleShipperIdFkeyShipperCreateInput = {
+  id: Scalars['String'];
+  shipperName: Scalars['String'];
+  countryId?: Maybe<Scalars['String']>;
+  groupId?: Maybe<Scalars['String']>;
+  logoSrc?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
+  countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
+  personContactsUsingId?: Maybe<PersonContactShipperIdFkeyInverseInput>;
+  sizesUsingId?: Maybe<SizeShipperIdFkeyInverseInput>;
+  packAtmospheresUsingId?: Maybe<PackAtmosphereShipperIdFkeyInverseInput>;
+  packBoxStylesUsingId?: Maybe<PackBoxStyleShipperIdFkeyInverseInput>;
+  packBoxTypesUsingId?: Maybe<PackBoxTypeShipperIdFkeyInverseInput>;
+  packDestinationsUsingId?: Maybe<PackDestinationShipperIdFkeyInverseInput>;
+  packGradesUsingId?: Maybe<PackGradeShipperIdFkeyInverseInput>;
+  packHoldsUsingId?: Maybe<PackHoldShipperIdFkeyInverseInput>;
+  packLabelsUsingId?: Maybe<PackLabelShipperIdFkeyInverseInput>;
+  packLinersUsingId?: Maybe<PackLinerShipperIdFkeyInverseInput>;
+  packOutsUsingId?: Maybe<PackOutShipperIdFkeyInverseInput>;
+  packPalletTypesUsingId?: Maybe<PackPalletTypeShipperIdFkeyInverseInput>;
+  packProductionsUsingId?: Maybe<PackProductionShipperIdFkeyInverseInput>;
+  packSpecialsUsingId?: Maybe<PackSpecialShipperIdFkeyInverseInput>;
+  packTreeRipesUsingId?: Maybe<PackTreeRipeShipperIdFkeyInverseInput>;
+  packStylesUsingId?: Maybe<PackStyleShipperIdFkeyInverseInput>;
+  packMastersUsingId?: Maybe<PackMasterShipperIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type ShipperOnPackBoxStyleForPackBoxStyleShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `packBoxStyle` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `packBoxStyle` being updated. */
+  patch: PackBoxStylePatch;
+};
+
+/** The `packBoxStyle` to be created by this mutation. */
+export type PackBoxStyleShipperIdFkeyPackBoxStyleCreateInput = {
+  boxStyle: Scalars['String'];
+  boxDescription?: Maybe<Scalars['String']>;
+  combineWith?: Maybe<Scalars['String']>;
+  combineDescription?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackBoxStyleShipperIdFkeyInput>;
+  packMastersUsingBoxStyleAndShipperId?: Maybe<PackMasterBoxStyleShipperIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type PackAtmosphereOnPackAtmosphereForPackAtmosphereShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `shipper` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `shipper` being updated. */
+  patch: ShipperPatch;
+};
+
+/** The `shipper` to be created by this mutation. */
+export type PackAtmosphereShipperIdFkeyShipperCreateInput = {
+  id: Scalars['String'];
+  shipperName: Scalars['String'];
+  countryId?: Maybe<Scalars['String']>;
+  groupId?: Maybe<Scalars['String']>;
+  logoSrc?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
+  countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
+  personContactsUsingId?: Maybe<PersonContactShipperIdFkeyInverseInput>;
+  sizesUsingId?: Maybe<SizeShipperIdFkeyInverseInput>;
+  packAtmospheresUsingId?: Maybe<PackAtmosphereShipperIdFkeyInverseInput>;
+  packBoxStylesUsingId?: Maybe<PackBoxStyleShipperIdFkeyInverseInput>;
+  packBoxTypesUsingId?: Maybe<PackBoxTypeShipperIdFkeyInverseInput>;
+  packDestinationsUsingId?: Maybe<PackDestinationShipperIdFkeyInverseInput>;
+  packGradesUsingId?: Maybe<PackGradeShipperIdFkeyInverseInput>;
+  packHoldsUsingId?: Maybe<PackHoldShipperIdFkeyInverseInput>;
+  packLabelsUsingId?: Maybe<PackLabelShipperIdFkeyInverseInput>;
+  packLinersUsingId?: Maybe<PackLinerShipperIdFkeyInverseInput>;
+  packOutsUsingId?: Maybe<PackOutShipperIdFkeyInverseInput>;
+  packPalletTypesUsingId?: Maybe<PackPalletTypeShipperIdFkeyInverseInput>;
+  packProductionsUsingId?: Maybe<PackProductionShipperIdFkeyInverseInput>;
+  packSpecialsUsingId?: Maybe<PackSpecialShipperIdFkeyInverseInput>;
+  packTreeRipesUsingId?: Maybe<PackTreeRipeShipperIdFkeyInverseInput>;
+  packStylesUsingId?: Maybe<PackStyleShipperIdFkeyInverseInput>;
+  packMastersUsingId?: Maybe<PackMasterShipperIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type ShipperOnPackAtmosphereForPackAtmosphereShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `packAtmosphere` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `packAtmosphere` being updated. */
+  patch: PackAtmospherePatch;
+};
+
+/** The `packAtmosphere` to be created by this mutation. */
+export type PackAtmosphereShipperIdFkeyPackAtmosphereCreateInput = {
+  maCode: Scalars['String'];
+  maDescription?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackAtmosphereShipperIdFkeyInput>;
+  packMastersUsingMaCodeAndShipperId?: Maybe<PackMasterMaCodeShipperIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type SizeOnSizeForSizeShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `shipper` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `shipper` being updated. */
+  patch: ShipperPatch;
+};
+
+/** The `shipper` to be created by this mutation. */
+export type SizeShipperIdFkeyShipperCreateInput = {
+  id: Scalars['String'];
+  shipperName: Scalars['String'];
+  countryId?: Maybe<Scalars['String']>;
+  groupId?: Maybe<Scalars['String']>;
+  logoSrc?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
+  countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
+  personContactsUsingId?: Maybe<PersonContactShipperIdFkeyInverseInput>;
+  sizesUsingId?: Maybe<SizeShipperIdFkeyInverseInput>;
+  packAtmospheresUsingId?: Maybe<PackAtmosphereShipperIdFkeyInverseInput>;
+  packBoxStylesUsingId?: Maybe<PackBoxStyleShipperIdFkeyInverseInput>;
+  packBoxTypesUsingId?: Maybe<PackBoxTypeShipperIdFkeyInverseInput>;
+  packDestinationsUsingId?: Maybe<PackDestinationShipperIdFkeyInverseInput>;
+  packGradesUsingId?: Maybe<PackGradeShipperIdFkeyInverseInput>;
+  packHoldsUsingId?: Maybe<PackHoldShipperIdFkeyInverseInput>;
+  packLabelsUsingId?: Maybe<PackLabelShipperIdFkeyInverseInput>;
+  packLinersUsingId?: Maybe<PackLinerShipperIdFkeyInverseInput>;
+  packOutsUsingId?: Maybe<PackOutShipperIdFkeyInverseInput>;
+  packPalletTypesUsingId?: Maybe<PackPalletTypeShipperIdFkeyInverseInput>;
+  packProductionsUsingId?: Maybe<PackProductionShipperIdFkeyInverseInput>;
+  packSpecialsUsingId?: Maybe<PackSpecialShipperIdFkeyInverseInput>;
+  packTreeRipesUsingId?: Maybe<PackTreeRipeShipperIdFkeyInverseInput>;
+  packStylesUsingId?: Maybe<PackStyleShipperIdFkeyInverseInput>;
+  packMastersUsingId?: Maybe<PackMasterShipperIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type VarietyOnSizeForSizeVarietyIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `size` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `size` being updated. */
+  patch: SizePatch;
+};
+
+/** The `size` to be created by this mutation. */
+export type SizeVarietyIdFkeySizeCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  speciesId?: Maybe<Scalars['String']>;
+  jvCode?: Maybe<Scalars['String']>;
+  jvDescription?: Maybe<Scalars['String']>;
+  shipperCode?: Maybe<Scalars['String']>;
+  shipperDescription?: Maybe<Scalars['String']>;
+  combinedCode?: Maybe<Scalars['String']>;
+  combinedDescription?: Maybe<Scalars['String']>;
+  shipperId?: Maybe<Scalars['String']>;
+  speciesToSpeciesId?: Maybe<SizeSpeciesIdFkeyInput>;
+  varietyToVarietyId?: Maybe<SizeVarietyIdFkeyInput>;
+  shipperToShipperId?: Maybe<SizeShipperIdFkeyInput>;
+  mastersUsingId?: Maybe<MasterSizeIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type SizeOnSizeForSizeVarietyIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `variety` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `variety` being updated. */
+  patch: VarietyPatch;
+};
+
+/** The `variety` to be created by this mutation. */
+export type SizeVarietyIdFkeyVarietyCreateInput = {
+  id: Scalars['String'];
+  varietyDescription?: Maybe<Scalars['String']>;
+  secondaryDescription?: Maybe<Scalars['String']>;
+  customerLetterSequence?: Maybe<Scalars['String']>;
+  summaryCode?: Maybe<Scalars['String']>;
+  varietyGroup?: Maybe<Scalars['String']>;
+  combineWith?: Maybe<Scalars['String']>;
+  sizesUsingId?: Maybe<SizeVarietyIdFkeyInverseInput>;
+  packMastersUsingId?: Maybe<PackMasterVarietyIdFkeyInverseInput>;
+  mastersUsingId?: Maybe<MasterVarietyIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type SpeciesOnSizeForSizeSpeciesIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `size` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `size` being updated. */
+  patch: SizePatch;
+};
+
+/** The `size` to be created by this mutation. */
+export type SizeSpeciesIdFkeySizeCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  varietyId?: Maybe<Scalars['String']>;
+  jvCode?: Maybe<Scalars['String']>;
+  jvDescription?: Maybe<Scalars['String']>;
+  shipperCode?: Maybe<Scalars['String']>;
+  shipperDescription?: Maybe<Scalars['String']>;
+  combinedCode?: Maybe<Scalars['String']>;
+  combinedDescription?: Maybe<Scalars['String']>;
+  shipperId?: Maybe<Scalars['String']>;
+  speciesToSpeciesId?: Maybe<SizeSpeciesIdFkeyInput>;
+  varietyToVarietyId?: Maybe<SizeVarietyIdFkeyInput>;
+  shipperToShipperId?: Maybe<SizeShipperIdFkeyInput>;
+  mastersUsingId?: Maybe<MasterSizeIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type SizeOnSizeForSizeSpeciesIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `species` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `species` being updated. */
+  patch: SpeciesPatch;
+};
+
+/** The `species` to be created by this mutation. */
+export type SizeSpeciesIdFkeySpeciesCreateInput = {
+  id: Scalars['String'];
+  speciesDescription?: Maybe<Scalars['String']>;
+  secondaryDescription?: Maybe<Scalars['String']>;
+  fdaProductCode?: Maybe<Scalars['String']>;
+  fdaIndustryCode?: Maybe<Scalars['String']>;
+  defaultTemperature?: Maybe<Scalars['String']>;
+  sizesUsingId?: Maybe<SizeSpeciesIdFkeyInverseInput>;
+  packMastersUsingId?: Maybe<PackMasterSpeciesIdFkeyInverseInput>;
+  mastersUsingId?: Maybe<MasterSpeciesIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type ShipperOnSizeForSizeShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `size` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `size` being updated. */
+  patch: SizePatch;
+};
+
+/** The `size` to be created by this mutation. */
+export type SizeShipperIdFkeySizeCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  speciesId?: Maybe<Scalars['String']>;
+  varietyId?: Maybe<Scalars['String']>;
+  jvCode?: Maybe<Scalars['String']>;
+  jvDescription?: Maybe<Scalars['String']>;
+  shipperCode?: Maybe<Scalars['String']>;
+  shipperDescription?: Maybe<Scalars['String']>;
+  combinedCode?: Maybe<Scalars['String']>;
+  combinedDescription?: Maybe<Scalars['String']>;
+  speciesToSpeciesId?: Maybe<SizeSpeciesIdFkeyInput>;
+  varietyToVarietyId?: Maybe<SizeVarietyIdFkeyInput>;
+  shipperToShipperId?: Maybe<SizeShipperIdFkeyInput>;
+  mastersUsingId?: Maybe<MasterSizeIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type PackSpecialOnPackSpecialForPackSpecialShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `shipper` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `shipper` being updated. */
+  patch: ShipperPatch;
+};
+
+/** The `shipper` to be created by this mutation. */
+export type PackSpecialShipperIdFkeyShipperCreateInput = {
+  id: Scalars['String'];
+  shipperName: Scalars['String'];
+  countryId?: Maybe<Scalars['String']>;
+  groupId?: Maybe<Scalars['String']>;
+  logoSrc?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
+  countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
+  personContactsUsingId?: Maybe<PersonContactShipperIdFkeyInverseInput>;
+  sizesUsingId?: Maybe<SizeShipperIdFkeyInverseInput>;
+  packAtmospheresUsingId?: Maybe<PackAtmosphereShipperIdFkeyInverseInput>;
+  packBoxStylesUsingId?: Maybe<PackBoxStyleShipperIdFkeyInverseInput>;
+  packBoxTypesUsingId?: Maybe<PackBoxTypeShipperIdFkeyInverseInput>;
+  packDestinationsUsingId?: Maybe<PackDestinationShipperIdFkeyInverseInput>;
+  packGradesUsingId?: Maybe<PackGradeShipperIdFkeyInverseInput>;
+  packHoldsUsingId?: Maybe<PackHoldShipperIdFkeyInverseInput>;
+  packLabelsUsingId?: Maybe<PackLabelShipperIdFkeyInverseInput>;
+  packLinersUsingId?: Maybe<PackLinerShipperIdFkeyInverseInput>;
+  packOutsUsingId?: Maybe<PackOutShipperIdFkeyInverseInput>;
+  packPalletTypesUsingId?: Maybe<PackPalletTypeShipperIdFkeyInverseInput>;
+  packProductionsUsingId?: Maybe<PackProductionShipperIdFkeyInverseInput>;
+  packSpecialsUsingId?: Maybe<PackSpecialShipperIdFkeyInverseInput>;
+  packTreeRipesUsingId?: Maybe<PackTreeRipeShipperIdFkeyInverseInput>;
+  packStylesUsingId?: Maybe<PackStyleShipperIdFkeyInverseInput>;
+  packMastersUsingId?: Maybe<PackMasterShipperIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type CustomerOnPackSpecialForPackSpecialCustomerIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `packSpecial` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `packSpecial` being updated. */
+  patch: PackSpecialPatch;
+};
+
+/** The `packSpecial` to be created by this mutation. */
+export type PackSpecialCustomerIdFkeyPackSpecialCreateInput = {
+  shipperId?: Maybe<Scalars['String']>;
+  customerCode: Scalars['String'];
+  customerName?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackSpecialShipperIdFkeyInput>;
+  customerToCustomerId?: Maybe<PackSpecialCustomerIdFkeyInput>;
+  packMastersUsingCustomerCodeAndShipperId?: Maybe<PackMasterCustomerCodeShipperIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type PersonContactOnPersonContactForPersonContactCustomerIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `customer` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `customer` being updated. */
+  patch: CustomerPatch;
 };
 
 /** The `customer` to be created by this mutation. */
@@ -5490,6 +18671,7 @@ export type PersonContactCustomerIdFkeyCustomerCreateInput = {
   active: Scalars['Boolean'];
   countryToCountryId?: Maybe<CustomerCountryIdFkeyInput>;
   personContactsUsingId?: Maybe<PersonContactCustomerIdFkeyInverseInput>;
+  packSpecialsUsingId?: Maybe<PackSpecialCustomerIdFkeyInverseInput>;
 };
 
 /** The globally unique `ID` look up for the row to update. */
@@ -5531,19 +18713,6 @@ export type CountryOnShipperForShipperCountryIdFkeyNodeIdUpdate = {
   patch: ShipperPatch;
 };
 
-/** Represents an update to a `Shipper`. Fields that are set will be updated. */
-export type ShipperPatch = {
-  id?: Maybe<Scalars['String']>;
-  shipperName?: Maybe<Scalars['String']>;
-  countryId?: Maybe<Scalars['String']>;
-  groupId?: Maybe<Scalars['String']>;
-  logoSrc?: Maybe<Scalars['String']>;
-  notes?: Maybe<Scalars['String']>;
-  website?: Maybe<Scalars['String']>;
-  countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
-  personContactsUsingId?: Maybe<PersonContactShipperIdFkeyInverseInput>;
-};
-
 /** The `shipper` to be created by this mutation. */
 export type ShipperCountryIdFkeyShipperCreateInput = {
   id: Scalars['String'];
@@ -5554,6 +18723,22 @@ export type ShipperCountryIdFkeyShipperCreateInput = {
   website?: Maybe<Scalars['String']>;
   countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
   personContactsUsingId?: Maybe<PersonContactShipperIdFkeyInverseInput>;
+  sizesUsingId?: Maybe<SizeShipperIdFkeyInverseInput>;
+  packAtmospheresUsingId?: Maybe<PackAtmosphereShipperIdFkeyInverseInput>;
+  packBoxStylesUsingId?: Maybe<PackBoxStyleShipperIdFkeyInverseInput>;
+  packBoxTypesUsingId?: Maybe<PackBoxTypeShipperIdFkeyInverseInput>;
+  packDestinationsUsingId?: Maybe<PackDestinationShipperIdFkeyInverseInput>;
+  packGradesUsingId?: Maybe<PackGradeShipperIdFkeyInverseInput>;
+  packHoldsUsingId?: Maybe<PackHoldShipperIdFkeyInverseInput>;
+  packLabelsUsingId?: Maybe<PackLabelShipperIdFkeyInverseInput>;
+  packLinersUsingId?: Maybe<PackLinerShipperIdFkeyInverseInput>;
+  packOutsUsingId?: Maybe<PackOutShipperIdFkeyInverseInput>;
+  packPalletTypesUsingId?: Maybe<PackPalletTypeShipperIdFkeyInverseInput>;
+  packProductionsUsingId?: Maybe<PackProductionShipperIdFkeyInverseInput>;
+  packSpecialsUsingId?: Maybe<PackSpecialShipperIdFkeyInverseInput>;
+  packTreeRipesUsingId?: Maybe<PackTreeRipeShipperIdFkeyInverseInput>;
+  packStylesUsingId?: Maybe<PackStyleShipperIdFkeyInverseInput>;
+  packMastersUsingId?: Maybe<PackMasterShipperIdFkeyInverseInput>;
 };
 
 /** The globally unique `ID` look up for the row to update. */
@@ -5606,6 +18791,7 @@ export type CustomerCountryIdFkeyCustomerCreateInput = {
   active: Scalars['Boolean'];
   countryToCountryId?: Maybe<CustomerCountryIdFkeyInput>;
   personContactsUsingId?: Maybe<PersonContactCustomerIdFkeyInverseInput>;
+  packSpecialsUsingId?: Maybe<PackSpecialCustomerIdFkeyInverseInput>;
 };
 
 /** The globally unique `ID` look up for the row to update. */
@@ -5689,6 +18875,22 @@ export type PersonContactShipperIdFkeyShipperCreateInput = {
   website?: Maybe<Scalars['String']>;
   countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
   personContactsUsingId?: Maybe<PersonContactShipperIdFkeyInverseInput>;
+  sizesUsingId?: Maybe<SizeShipperIdFkeyInverseInput>;
+  packAtmospheresUsingId?: Maybe<PackAtmosphereShipperIdFkeyInverseInput>;
+  packBoxStylesUsingId?: Maybe<PackBoxStyleShipperIdFkeyInverseInput>;
+  packBoxTypesUsingId?: Maybe<PackBoxTypeShipperIdFkeyInverseInput>;
+  packDestinationsUsingId?: Maybe<PackDestinationShipperIdFkeyInverseInput>;
+  packGradesUsingId?: Maybe<PackGradeShipperIdFkeyInverseInput>;
+  packHoldsUsingId?: Maybe<PackHoldShipperIdFkeyInverseInput>;
+  packLabelsUsingId?: Maybe<PackLabelShipperIdFkeyInverseInput>;
+  packLinersUsingId?: Maybe<PackLinerShipperIdFkeyInverseInput>;
+  packOutsUsingId?: Maybe<PackOutShipperIdFkeyInverseInput>;
+  packPalletTypesUsingId?: Maybe<PackPalletTypeShipperIdFkeyInverseInput>;
+  packProductionsUsingId?: Maybe<PackProductionShipperIdFkeyInverseInput>;
+  packSpecialsUsingId?: Maybe<PackSpecialShipperIdFkeyInverseInput>;
+  packTreeRipesUsingId?: Maybe<PackTreeRipeShipperIdFkeyInverseInput>;
+  packStylesUsingId?: Maybe<PackStyleShipperIdFkeyInverseInput>;
+  packMastersUsingId?: Maybe<PackMasterShipperIdFkeyInverseInput>;
 };
 
 /** The globally unique `ID` look up for the row to update. */
@@ -5877,6 +19079,7 @@ export type CustomerInput = {
   active: Scalars['Boolean'];
   countryToCountryId?: Maybe<CustomerCountryIdFkeyInput>;
   personContactsUsingId?: Maybe<PersonContactCustomerIdFkeyInverseInput>;
+  packSpecialsUsingId?: Maybe<PackSpecialCustomerIdFkeyInverseInput>;
 };
 
 /** The output of our create `PersonContact` mutation. */
@@ -5988,6 +19191,22 @@ export type ShipperInput = {
   website?: Maybe<Scalars['String']>;
   countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
   personContactsUsingId?: Maybe<PersonContactShipperIdFkeyInverseInput>;
+  sizesUsingId?: Maybe<SizeShipperIdFkeyInverseInput>;
+  packAtmospheresUsingId?: Maybe<PackAtmosphereShipperIdFkeyInverseInput>;
+  packBoxStylesUsingId?: Maybe<PackBoxStyleShipperIdFkeyInverseInput>;
+  packBoxTypesUsingId?: Maybe<PackBoxTypeShipperIdFkeyInverseInput>;
+  packDestinationsUsingId?: Maybe<PackDestinationShipperIdFkeyInverseInput>;
+  packGradesUsingId?: Maybe<PackGradeShipperIdFkeyInverseInput>;
+  packHoldsUsingId?: Maybe<PackHoldShipperIdFkeyInverseInput>;
+  packLabelsUsingId?: Maybe<PackLabelShipperIdFkeyInverseInput>;
+  packLinersUsingId?: Maybe<PackLinerShipperIdFkeyInverseInput>;
+  packOutsUsingId?: Maybe<PackOutShipperIdFkeyInverseInput>;
+  packPalletTypesUsingId?: Maybe<PackPalletTypeShipperIdFkeyInverseInput>;
+  packProductionsUsingId?: Maybe<PackProductionShipperIdFkeyInverseInput>;
+  packSpecialsUsingId?: Maybe<PackSpecialShipperIdFkeyInverseInput>;
+  packTreeRipesUsingId?: Maybe<PackTreeRipeShipperIdFkeyInverseInput>;
+  packStylesUsingId?: Maybe<PackStyleShipperIdFkeyInverseInput>;
+  packMastersUsingId?: Maybe<PackMasterShipperIdFkeyInverseInput>;
 };
 
 /** The output of our create `Warehouse` mutation. */
@@ -7223,6 +20442,1047 @@ export type PeruDepartureInspectionPalletInput = {
   peruDepartureInspectionToContainerId?: Maybe<FkContainerInput>;
 };
 
+/** The output of our create `PsaArrivalPicture` mutation. */
+export type CreatePsaArrivalPicturePayload = {
+  __typename?: 'CreatePsaArrivalPicturePayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PsaArrivalPicture` that was created by this mutation. */
+  psaArrivalPicture?: Maybe<PsaArrivalPicture>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `PsaArrivalPicture`. May be used by Relay 1. */
+  psaArrivalPictureEdge?: Maybe<PsaArrivalPicturesEdge>;
+};
+
+
+/** The output of our create `PsaArrivalPicture` mutation. */
+export type CreatePsaArrivalPicturePayloadPsaArrivalPictureEdgeArgs = {
+  orderBy?: Maybe<Array<PsaArrivalPicturesOrderBy>>;
+};
+
+/** All input for the create `PsaArrivalPicture` mutation. */
+export type CreatePsaArrivalPictureInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PsaArrivalPicture` to be created by this mutation. */
+  psaArrivalPicture: PsaArrivalPictureInput;
+};
+
+/** An input for mutations affecting `PsaArrivalPicture` */
+export type PsaArrivalPictureInput = {
+  id: Scalars['BigInt'];
+  pictureDate?: Maybe<Scalars['Date']>;
+  arrivalCode?: Maybe<Scalars['String']>;
+  pictureDescription?: Maybe<Scalars['String']>;
+  exporterId?: Maybe<Scalars['BigInt']>;
+  palletId?: Maybe<Scalars['String']>;
+  productCode?: Maybe<Scalars['String']>;
+  varietyName?: Maybe<Scalars['String']>;
+};
+
+/** The output of our create `PsaArrivalReport` mutation. */
+export type CreatePsaArrivalReportPayload = {
+  __typename?: 'CreatePsaArrivalReportPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PsaArrivalReport` that was created by this mutation. */
+  psaArrivalReport?: Maybe<PsaArrivalReport>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `PsaArrivalReport`. May be used by Relay 1. */
+  psaArrivalReportEdge?: Maybe<PsaArrivalReportsEdge>;
+};
+
+
+/** The output of our create `PsaArrivalReport` mutation. */
+export type CreatePsaArrivalReportPayloadPsaArrivalReportEdgeArgs = {
+  orderBy?: Maybe<Array<PsaArrivalReportsOrderBy>>;
+};
+
+/** All input for the create `PsaArrivalReport` mutation. */
+export type CreatePsaArrivalReportInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PsaArrivalReport` to be created by this mutation. */
+  psaArrivalReport: PsaArrivalReportInput;
+};
+
+/** An input for mutations affecting `PsaArrivalReport` */
+export type PsaArrivalReportInput = {
+  id: Scalars['BigInt'];
+  reportDate?: Maybe<Scalars['Date']>;
+  locationName?: Maybe<Scalars['String']>;
+  arrivalCode?: Maybe<Scalars['String']>;
+  arrivalName?: Maybe<Scalars['String']>;
+  exporterId?: Maybe<Scalars['BigInt']>;
+  exporterName?: Maybe<Scalars['String']>;
+};
+
+/** The output of our create `Master` mutation. */
+export type CreateMasterPayload = {
+  __typename?: 'CreateMasterPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `Master` that was created by this mutation. */
+  master?: Maybe<Master>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Species` that is related to this `Master`. */
+  species?: Maybe<Species>;
+  /** Reads a single `Variety` that is related to this `Master`. */
+  variety?: Maybe<Variety>;
+  /** Reads a single `Size` that is related to this `Master`. */
+  size?: Maybe<Size>;
+  /** Reads a single `PackMaster` that is related to this `Master`. */
+  pack?: Maybe<PackMaster>;
+  /** An edge for our `Master`. May be used by Relay 1. */
+  masterEdge?: Maybe<MastersEdge>;
+};
+
+
+/** The output of our create `Master` mutation. */
+export type CreateMasterPayloadMasterEdgeArgs = {
+  orderBy?: Maybe<Array<MastersOrderBy>>;
+};
+
+/** All input for the create `Master` mutation. */
+export type CreateMasterInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `Master` to be created by this mutation. */
+  master: MasterInput;
+};
+
+/** An input for mutations affecting `Master` */
+export type MasterInput = {
+  id: Scalars['String'];
+  speciesId?: Maybe<Scalars['String']>;
+  varietyId?: Maybe<Scalars['String']>;
+  sizeId?: Maybe<Scalars['BigInt']>;
+  packId?: Maybe<Scalars['String']>;
+  defaultPalletQuantity?: Maybe<Scalars['String']>;
+  lotNumber?: Maybe<Scalars['String']>;
+  speciesToSpeciesId?: Maybe<MasterSpeciesIdFkeyInput>;
+  varietyToVarietyId?: Maybe<MasterVarietyIdFkeyInput>;
+  sizeToSizeId?: Maybe<MasterSizeIdFkeyInput>;
+  packMasterToPackId?: Maybe<MasterPackIdFkeyInput>;
+};
+
+/** The output of our create `PackAtmosphere` mutation. */
+export type CreatePackAtmospherePayload = {
+  __typename?: 'CreatePackAtmospherePayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackAtmosphere` that was created by this mutation. */
+  packAtmosphere?: Maybe<PackAtmosphere>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Shipper` that is related to this `PackAtmosphere`. */
+  shipper?: Maybe<Shipper>;
+  /** An edge for our `PackAtmosphere`. May be used by Relay 1. */
+  packAtmosphereEdge?: Maybe<PackAtmospheresEdge>;
+};
+
+
+/** The output of our create `PackAtmosphere` mutation. */
+export type CreatePackAtmospherePayloadPackAtmosphereEdgeArgs = {
+  orderBy?: Maybe<Array<PackAtmospheresOrderBy>>;
+};
+
+/** All input for the create `PackAtmosphere` mutation. */
+export type CreatePackAtmosphereInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackAtmosphere` to be created by this mutation. */
+  packAtmosphere: PackAtmosphereInput;
+};
+
+/** An input for mutations affecting `PackAtmosphere` */
+export type PackAtmosphereInput = {
+  shipperId?: Maybe<Scalars['String']>;
+  maCode: Scalars['String'];
+  maDescription?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackAtmosphereShipperIdFkeyInput>;
+  packMastersUsingMaCodeAndShipperId?: Maybe<PackMasterMaCodeShipperIdFkeyInverseInput>;
+};
+
+/** The output of our create `PackBoxStyle` mutation. */
+export type CreatePackBoxStylePayload = {
+  __typename?: 'CreatePackBoxStylePayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackBoxStyle` that was created by this mutation. */
+  packBoxStyle?: Maybe<PackBoxStyle>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Shipper` that is related to this `PackBoxStyle`. */
+  shipper?: Maybe<Shipper>;
+  /** An edge for our `PackBoxStyle`. May be used by Relay 1. */
+  packBoxStyleEdge?: Maybe<PackBoxStylesEdge>;
+};
+
+
+/** The output of our create `PackBoxStyle` mutation. */
+export type CreatePackBoxStylePayloadPackBoxStyleEdgeArgs = {
+  orderBy?: Maybe<Array<PackBoxStylesOrderBy>>;
+};
+
+/** All input for the create `PackBoxStyle` mutation. */
+export type CreatePackBoxStyleInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackBoxStyle` to be created by this mutation. */
+  packBoxStyle: PackBoxStyleInput;
+};
+
+/** An input for mutations affecting `PackBoxStyle` */
+export type PackBoxStyleInput = {
+  shipperId?: Maybe<Scalars['String']>;
+  boxStyle: Scalars['String'];
+  boxDescription?: Maybe<Scalars['String']>;
+  combineWith?: Maybe<Scalars['String']>;
+  combineDescription?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackBoxStyleShipperIdFkeyInput>;
+  packMastersUsingBoxStyleAndShipperId?: Maybe<PackMasterBoxStyleShipperIdFkeyInverseInput>;
+};
+
+/** The output of our create `PackBoxType` mutation. */
+export type CreatePackBoxTypePayload = {
+  __typename?: 'CreatePackBoxTypePayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackBoxType` that was created by this mutation. */
+  packBoxType?: Maybe<PackBoxType>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Shipper` that is related to this `PackBoxType`. */
+  shipper?: Maybe<Shipper>;
+  /** An edge for our `PackBoxType`. May be used by Relay 1. */
+  packBoxTypeEdge?: Maybe<PackBoxTypesEdge>;
+};
+
+
+/** The output of our create `PackBoxType` mutation. */
+export type CreatePackBoxTypePayloadPackBoxTypeEdgeArgs = {
+  orderBy?: Maybe<Array<PackBoxTypesOrderBy>>;
+};
+
+/** All input for the create `PackBoxType` mutation. */
+export type CreatePackBoxTypeInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackBoxType` to be created by this mutation. */
+  packBoxType: PackBoxTypeInput;
+};
+
+/** An input for mutations affecting `PackBoxType` */
+export type PackBoxTypeInput = {
+  shipperId?: Maybe<Scalars['String']>;
+  boxType: Scalars['String'];
+  boxDescription?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackBoxTypeShipperIdFkeyInput>;
+  packMastersUsingBoxTypeAndShipperId?: Maybe<PackMasterBoxTypeShipperIdFkeyInverseInput>;
+};
+
+/** The output of our create `PackDestination` mutation. */
+export type CreatePackDestinationPayload = {
+  __typename?: 'CreatePackDestinationPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackDestination` that was created by this mutation. */
+  packDestination?: Maybe<PackDestination>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Shipper` that is related to this `PackDestination`. */
+  shipper?: Maybe<Shipper>;
+  /** An edge for our `PackDestination`. May be used by Relay 1. */
+  packDestinationEdge?: Maybe<PackDestinationsEdge>;
+};
+
+
+/** The output of our create `PackDestination` mutation. */
+export type CreatePackDestinationPayloadPackDestinationEdgeArgs = {
+  orderBy?: Maybe<Array<PackDestinationsOrderBy>>;
+};
+
+/** All input for the create `PackDestination` mutation. */
+export type CreatePackDestinationInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackDestination` to be created by this mutation. */
+  packDestination: PackDestinationInput;
+};
+
+/** An input for mutations affecting `PackDestination` */
+export type PackDestinationInput = {
+  shipperId?: Maybe<Scalars['String']>;
+  destinationCode: Scalars['String'];
+  destinationDescription?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackDestinationShipperIdFkeyInput>;
+  packMastersUsingDestinationCodeAndShipperId?: Maybe<PackMasterDestinationCodeShipperIdFkeyInverseInput>;
+};
+
+/** The output of our create `PackGrade` mutation. */
+export type CreatePackGradePayload = {
+  __typename?: 'CreatePackGradePayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackGrade` that was created by this mutation. */
+  packGrade?: Maybe<PackGrade>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Shipper` that is related to this `PackGrade`. */
+  shipper?: Maybe<Shipper>;
+  /** An edge for our `PackGrade`. May be used by Relay 1. */
+  packGradeEdge?: Maybe<PackGradesEdge>;
+};
+
+
+/** The output of our create `PackGrade` mutation. */
+export type CreatePackGradePayloadPackGradeEdgeArgs = {
+  orderBy?: Maybe<Array<PackGradesOrderBy>>;
+};
+
+/** All input for the create `PackGrade` mutation. */
+export type CreatePackGradeInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackGrade` to be created by this mutation. */
+  packGrade: PackGradeInput;
+};
+
+/** An input for mutations affecting `PackGrade` */
+export type PackGradeInput = {
+  shipperId?: Maybe<Scalars['String']>;
+  gradeCode: Scalars['String'];
+  gradeDescription?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackGradeShipperIdFkeyInput>;
+  packMastersUsingGradeCodeAndShipperId?: Maybe<PackMasterGradeCodeShipperIdFkeyInverseInput>;
+};
+
+/** The output of our create `PackHold` mutation. */
+export type CreatePackHoldPayload = {
+  __typename?: 'CreatePackHoldPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackHold` that was created by this mutation. */
+  packHold?: Maybe<PackHold>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Shipper` that is related to this `PackHold`. */
+  shipper?: Maybe<Shipper>;
+  /** An edge for our `PackHold`. May be used by Relay 1. */
+  packHoldEdge?: Maybe<PackHoldsEdge>;
+};
+
+
+/** The output of our create `PackHold` mutation. */
+export type CreatePackHoldPayloadPackHoldEdgeArgs = {
+  orderBy?: Maybe<Array<PackHoldsOrderBy>>;
+};
+
+/** All input for the create `PackHold` mutation. */
+export type CreatePackHoldInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackHold` to be created by this mutation. */
+  packHold: PackHoldInput;
+};
+
+/** An input for mutations affecting `PackHold` */
+export type PackHoldInput = {
+  shipperId?: Maybe<Scalars['String']>;
+  holdCode: Scalars['String'];
+  holdDescription?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackHoldShipperIdFkeyInput>;
+  packMastersUsingHoldCodeAndShipperId?: Maybe<PackMasterHoldCodeShipperIdFkeyInverseInput>;
+};
+
+/** The output of our create `PackLabel` mutation. */
+export type CreatePackLabelPayload = {
+  __typename?: 'CreatePackLabelPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackLabel` that was created by this mutation. */
+  packLabel?: Maybe<PackLabel>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Shipper` that is related to this `PackLabel`. */
+  shipper?: Maybe<Shipper>;
+  /** An edge for our `PackLabel`. May be used by Relay 1. */
+  packLabelEdge?: Maybe<PackLabelsEdge>;
+};
+
+
+/** The output of our create `PackLabel` mutation. */
+export type CreatePackLabelPayloadPackLabelEdgeArgs = {
+  orderBy?: Maybe<Array<PackLabelsOrderBy>>;
+};
+
+/** All input for the create `PackLabel` mutation. */
+export type CreatePackLabelInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackLabel` to be created by this mutation. */
+  packLabel: PackLabelInput;
+};
+
+/** An input for mutations affecting `PackLabel` */
+export type PackLabelInput = {
+  labelCode: Scalars['String'];
+  labelName?: Maybe<Scalars['String']>;
+  shipperId?: Maybe<Scalars['String']>;
+  shipperName?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackLabelShipperIdFkeyInput>;
+  packMastersUsingLabelCodeAndShipperId?: Maybe<PackMasterLabelCodeShipperIdFkeyInverseInput>;
+};
+
+/** The output of our create `PackLiner` mutation. */
+export type CreatePackLinerPayload = {
+  __typename?: 'CreatePackLinerPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackLiner` that was created by this mutation. */
+  packLiner?: Maybe<PackLiner>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Shipper` that is related to this `PackLiner`. */
+  shipper?: Maybe<Shipper>;
+  /** An edge for our `PackLiner`. May be used by Relay 1. */
+  packLinerEdge?: Maybe<PackLinersEdge>;
+};
+
+
+/** The output of our create `PackLiner` mutation. */
+export type CreatePackLinerPayloadPackLinerEdgeArgs = {
+  orderBy?: Maybe<Array<PackLinersOrderBy>>;
+};
+
+/** All input for the create `PackLiner` mutation. */
+export type CreatePackLinerInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackLiner` to be created by this mutation. */
+  packLiner: PackLinerInput;
+};
+
+/** An input for mutations affecting `PackLiner` */
+export type PackLinerInput = {
+  shipperId?: Maybe<Scalars['String']>;
+  linerCode: Scalars['String'];
+  linerDescription?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackLinerShipperIdFkeyInput>;
+  packMastersUsingLinerCodeAndShipperId?: Maybe<PackMasterLinerCodeShipperIdFkeyInverseInput>;
+};
+
+/** The output of our create `PackMaster` mutation. */
+export type CreatePackMasterPayload = {
+  __typename?: 'CreatePackMasterPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackMaster` that was created by this mutation. */
+  packMaster?: Maybe<PackMaster>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Shipper` that is related to this `PackMaster`. */
+  shipper?: Maybe<Shipper>;
+  /** Reads a single `PackLabel` that is related to this `PackMaster`. */
+  packLabelByLabelCodeAndShipperId?: Maybe<PackLabel>;
+  /** Reads a single `PackSpecial` that is related to this `PackMaster`. */
+  packSpecialByCustomerCodeAndShipperId?: Maybe<PackSpecial>;
+  /** Reads a single `PackBoxType` that is related to this `PackMaster`. */
+  packBoxTypeByBoxTypeAndShipperId?: Maybe<PackBoxType>;
+  /** Reads a single `PackBoxStyle` that is related to this `PackMaster`. */
+  packBoxStyleByBoxStyleAndShipperId?: Maybe<PackBoxStyle>;
+  /** Reads a single `PackStyle` that is related to this `PackMaster`. */
+  packStyleByPackStyleAndShipperId?: Maybe<PackStyle>;
+  /** Reads a single `PackOut` that is related to this `PackMaster`. */
+  packOutByOutCodeAndShipperId?: Maybe<PackOut>;
+  /** Reads a single `PackProduction` that is related to this `PackMaster`. */
+  packProductionByProductionCodeAndShipperId?: Maybe<PackProduction>;
+  /** Reads a single `PackTreeRipe` that is related to this `PackMaster`. */
+  packTreeRipeByTreeRipeAndShipperId?: Maybe<PackTreeRipe>;
+  /** Reads a single `PackGrade` that is related to this `PackMaster`. */
+  packGradeByGradeCodeAndShipperId?: Maybe<PackGrade>;
+  /** Reads a single `PackAtmosphere` that is related to this `PackMaster`. */
+  packAtmosphereByMaCodeAndShipperId?: Maybe<PackAtmosphere>;
+  /** Reads a single `PackLiner` that is related to this `PackMaster`. */
+  packLinerByLinerCodeAndShipperId?: Maybe<PackLiner>;
+  /** Reads a single `PackPalletType` that is related to this `PackMaster`. */
+  packPalletTypeByPalletTypeAndShipperId?: Maybe<PackPalletType>;
+  /** Reads a single `PackDestination` that is related to this `PackMaster`. */
+  packDestinationByDestinationCodeAndShipperId?: Maybe<PackDestination>;
+  /** Reads a single `Variety` that is related to this `PackMaster`. */
+  variety?: Maybe<Variety>;
+  /** Reads a single `Species` that is related to this `PackMaster`. */
+  species?: Maybe<Species>;
+  /** Reads a single `PackHold` that is related to this `PackMaster`. */
+  packHoldByHoldCodeAndShipperId?: Maybe<PackHold>;
+  /** An edge for our `PackMaster`. May be used by Relay 1. */
+  packMasterEdge?: Maybe<PackMastersEdge>;
+};
+
+
+/** The output of our create `PackMaster` mutation. */
+export type CreatePackMasterPayloadPackMasterEdgeArgs = {
+  orderBy?: Maybe<Array<PackMastersOrderBy>>;
+};
+
+/** All input for the create `PackMaster` mutation. */
+export type CreatePackMasterInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackMaster` to be created by this mutation. */
+  packMaster: PackMasterInput;
+};
+
+/** An input for mutations affecting `PackMaster` */
+export type PackMasterInput = {
+  shipperId?: Maybe<Scalars['String']>;
+  labelCode?: Maybe<Scalars['String']>;
+  customerCode?: Maybe<Scalars['String']>;
+  boxType?: Maybe<Scalars['String']>;
+  boxStyle?: Maybe<Scalars['String']>;
+  packStyle?: Maybe<Scalars['String']>;
+  outCode?: Maybe<Scalars['String']>;
+  outQuantity?: Maybe<Scalars['String']>;
+  outWeight?: Maybe<Scalars['String']>;
+  productionCode?: Maybe<Scalars['String']>;
+  treeRipe?: Maybe<Scalars['String']>;
+  gradeCode?: Maybe<Scalars['String']>;
+  maCode?: Maybe<Scalars['String']>;
+  linerCode?: Maybe<Scalars['String']>;
+  netWeightContents?: Maybe<Scalars['BigFloat']>;
+  netWeightBox?: Maybe<Scalars['BigFloat']>;
+  boxLength?: Maybe<Scalars['BigFloat']>;
+  boxWidth?: Maybe<Scalars['BigFloat']>;
+  boxHeight?: Maybe<Scalars['BigFloat']>;
+  palletType?: Maybe<Scalars['String']>;
+  defaultPalletQuantity?: Maybe<Scalars['BigFloat']>;
+  pluUpcCode?: Maybe<Scalars['String']>;
+  destinationCode?: Maybe<Scalars['String']>;
+  oldPackCode: Scalars['String'];
+  oldLabelCode?: Maybe<Scalars['String']>;
+  jvPackCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  varietyId?: Maybe<Scalars['String']>;
+  speciesId?: Maybe<Scalars['String']>;
+  holdCode?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackMasterShipperIdFkeyInput>;
+  packLabelToLabelCodeAndShipperId?: Maybe<PackMasterLabelCodeShipperIdFkeyInput>;
+  packSpecialToCustomerCodeAndShipperId?: Maybe<PackMasterCustomerCodeShipperIdFkeyInput>;
+  packBoxTypeToBoxTypeAndShipperId?: Maybe<PackMasterBoxTypeShipperIdFkeyInput>;
+  packBoxStyleToBoxStyleAndShipperId?: Maybe<PackMasterBoxStyleShipperIdFkeyInput>;
+  packStyleToPackStyleAndShipperId?: Maybe<PackMasterPackStyleShipperIdFkeyInput>;
+  packOutToOutCodeAndShipperId?: Maybe<PackMasterOutCodeShipperIdFkeyInput>;
+  packProductionToProductionCodeAndShipperId?: Maybe<PackMasterProductionCodeShipperIdFkeyInput>;
+  packTreeRipeToTreeRipeAndShipperId?: Maybe<PackMasterTreeRipeShipperIdFkeyInput>;
+  packGradeToGradeCodeAndShipperId?: Maybe<PackMasterGradeCodeShipperIdFkeyInput>;
+  packAtmosphereToMaCodeAndShipperId?: Maybe<PackMasterMaCodeShipperIdFkeyInput>;
+  packLinerToLinerCodeAndShipperId?: Maybe<PackMasterLinerCodeShipperIdFkeyInput>;
+  packPalletTypeToPalletTypeAndShipperId?: Maybe<PackMasterPalletTypeShipperIdFkeyInput>;
+  packDestinationToDestinationCodeAndShipperId?: Maybe<PackMasterDestinationCodeShipperIdFkeyInput>;
+  varietyToVarietyId?: Maybe<PackMasterVarietyIdFkeyInput>;
+  speciesToSpeciesId?: Maybe<PackMasterSpeciesIdFkeyInput>;
+  packHoldToHoldCodeAndShipperId?: Maybe<PackMasterHoldCodeShipperIdFkeyInput>;
+  mastersUsingOldPackCode?: Maybe<MasterPackIdFkeyInverseInput>;
+};
+
+/** The output of our create `PackOut` mutation. */
+export type CreatePackOutPayload = {
+  __typename?: 'CreatePackOutPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackOut` that was created by this mutation. */
+  packOut?: Maybe<PackOut>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Shipper` that is related to this `PackOut`. */
+  shipper?: Maybe<Shipper>;
+  /** An edge for our `PackOut`. May be used by Relay 1. */
+  packOutEdge?: Maybe<PackOutsEdge>;
+};
+
+
+/** The output of our create `PackOut` mutation. */
+export type CreatePackOutPayloadPackOutEdgeArgs = {
+  orderBy?: Maybe<Array<PackOutsOrderBy>>;
+};
+
+/** All input for the create `PackOut` mutation. */
+export type CreatePackOutInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackOut` to be created by this mutation. */
+  packOut: PackOutInput;
+};
+
+/** An input for mutations affecting `PackOut` */
+export type PackOutInput = {
+  shipperId?: Maybe<Scalars['String']>;
+  outCode: Scalars['String'];
+  outDescription?: Maybe<Scalars['String']>;
+  combineWith?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackOutShipperIdFkeyInput>;
+  packMastersUsingOutCodeAndShipperId?: Maybe<PackMasterOutCodeShipperIdFkeyInverseInput>;
+};
+
+/** The output of our create `PackPalletType` mutation. */
+export type CreatePackPalletTypePayload = {
+  __typename?: 'CreatePackPalletTypePayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackPalletType` that was created by this mutation. */
+  packPalletType?: Maybe<PackPalletType>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Shipper` that is related to this `PackPalletType`. */
+  shipper?: Maybe<Shipper>;
+  /** An edge for our `PackPalletType`. May be used by Relay 1. */
+  packPalletTypeEdge?: Maybe<PackPalletTypesEdge>;
+};
+
+
+/** The output of our create `PackPalletType` mutation. */
+export type CreatePackPalletTypePayloadPackPalletTypeEdgeArgs = {
+  orderBy?: Maybe<Array<PackPalletTypesOrderBy>>;
+};
+
+/** All input for the create `PackPalletType` mutation. */
+export type CreatePackPalletTypeInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackPalletType` to be created by this mutation. */
+  packPalletType: PackPalletTypeInput;
+};
+
+/** An input for mutations affecting `PackPalletType` */
+export type PackPalletTypeInput = {
+  shipperId?: Maybe<Scalars['String']>;
+  palletType: Scalars['String'];
+  palletTypeDescription?: Maybe<Scalars['String']>;
+  combineWith?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackPalletTypeShipperIdFkeyInput>;
+  packMastersUsingPalletTypeAndShipperId?: Maybe<PackMasterPalletTypeShipperIdFkeyInverseInput>;
+};
+
+/** The output of our create `PackProduction` mutation. */
+export type CreatePackProductionPayload = {
+  __typename?: 'CreatePackProductionPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackProduction` that was created by this mutation. */
+  packProduction?: Maybe<PackProduction>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Shipper` that is related to this `PackProduction`. */
+  shipper?: Maybe<Shipper>;
+  /** An edge for our `PackProduction`. May be used by Relay 1. */
+  packProductionEdge?: Maybe<PackProductionsEdge>;
+};
+
+
+/** The output of our create `PackProduction` mutation. */
+export type CreatePackProductionPayloadPackProductionEdgeArgs = {
+  orderBy?: Maybe<Array<PackProductionsOrderBy>>;
+};
+
+/** All input for the create `PackProduction` mutation. */
+export type CreatePackProductionInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackProduction` to be created by this mutation. */
+  packProduction: PackProductionInput;
+};
+
+/** An input for mutations affecting `PackProduction` */
+export type PackProductionInput = {
+  shipperId?: Maybe<Scalars['String']>;
+  productionCode: Scalars['String'];
+  productionDescription?: Maybe<Scalars['String']>;
+  combineWith?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackProductionShipperIdFkeyInput>;
+  packMastersUsingProductionCodeAndShipperId?: Maybe<PackMasterProductionCodeShipperIdFkeyInverseInput>;
+};
+
+/** The output of our create `PackSpecial` mutation. */
+export type CreatePackSpecialPayload = {
+  __typename?: 'CreatePackSpecialPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackSpecial` that was created by this mutation. */
+  packSpecial?: Maybe<PackSpecial>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Shipper` that is related to this `PackSpecial`. */
+  shipper?: Maybe<Shipper>;
+  /** Reads a single `Customer` that is related to this `PackSpecial`. */
+  customer?: Maybe<Customer>;
+  /** An edge for our `PackSpecial`. May be used by Relay 1. */
+  packSpecialEdge?: Maybe<PackSpecialsEdge>;
+};
+
+
+/** The output of our create `PackSpecial` mutation. */
+export type CreatePackSpecialPayloadPackSpecialEdgeArgs = {
+  orderBy?: Maybe<Array<PackSpecialsOrderBy>>;
+};
+
+/** All input for the create `PackSpecial` mutation. */
+export type CreatePackSpecialInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackSpecial` to be created by this mutation. */
+  packSpecial: PackSpecialInput;
+};
+
+/** An input for mutations affecting `PackSpecial` */
+export type PackSpecialInput = {
+  shipperId?: Maybe<Scalars['String']>;
+  customerCode: Scalars['String'];
+  customerId?: Maybe<Scalars['String']>;
+  customerName?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackSpecialShipperIdFkeyInput>;
+  customerToCustomerId?: Maybe<PackSpecialCustomerIdFkeyInput>;
+  packMastersUsingCustomerCodeAndShipperId?: Maybe<PackMasterCustomerCodeShipperIdFkeyInverseInput>;
+};
+
+/** The output of our create `PackStyle` mutation. */
+export type CreatePackStylePayload = {
+  __typename?: 'CreatePackStylePayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackStyle` that was created by this mutation. */
+  packStyle?: Maybe<PackStyle>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Shipper` that is related to this `PackStyle`. */
+  shipper?: Maybe<Shipper>;
+  /** An edge for our `PackStyle`. May be used by Relay 1. */
+  packStyleEdge?: Maybe<PackStylesEdge>;
+};
+
+
+/** The output of our create `PackStyle` mutation. */
+export type CreatePackStylePayloadPackStyleEdgeArgs = {
+  orderBy?: Maybe<Array<PackStylesOrderBy>>;
+};
+
+/** All input for the create `PackStyle` mutation. */
+export type CreatePackStyleInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackStyle` to be created by this mutation. */
+  packStyle: PackStyleInput;
+};
+
+/** An input for mutations affecting `PackStyle` */
+export type PackStyleInput = {
+  shipperId?: Maybe<Scalars['String']>;
+  packStyle: Scalars['String'];
+  styleDescription?: Maybe<Scalars['String']>;
+  combineWith?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackStyleShipperIdFkeyInput>;
+  packMastersUsingPackStyleAndShipperId?: Maybe<PackMasterPackStyleShipperIdFkeyInverseInput>;
+};
+
+/** The output of our create `PackTreeRipe` mutation. */
+export type CreatePackTreeRipePayload = {
+  __typename?: 'CreatePackTreeRipePayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackTreeRipe` that was created by this mutation. */
+  packTreeRipe?: Maybe<PackTreeRipe>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Shipper` that is related to this `PackTreeRipe`. */
+  shipper?: Maybe<Shipper>;
+  /** An edge for our `PackTreeRipe`. May be used by Relay 1. */
+  packTreeRipeEdge?: Maybe<PackTreeRipesEdge>;
+};
+
+
+/** The output of our create `PackTreeRipe` mutation. */
+export type CreatePackTreeRipePayloadPackTreeRipeEdgeArgs = {
+  orderBy?: Maybe<Array<PackTreeRipesOrderBy>>;
+};
+
+/** All input for the create `PackTreeRipe` mutation. */
+export type CreatePackTreeRipeInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackTreeRipe` to be created by this mutation. */
+  packTreeRipe: PackTreeRipeInput;
+};
+
+/** An input for mutations affecting `PackTreeRipe` */
+export type PackTreeRipeInput = {
+  shipperId?: Maybe<Scalars['String']>;
+  treeRipe: Scalars['String'];
+  treeRipeDescription?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<PackTreeRipeShipperIdFkeyInput>;
+  packMastersUsingTreeRipeAndShipperId?: Maybe<PackMasterTreeRipeShipperIdFkeyInverseInput>;
+};
+
+/** The output of our create `Size` mutation. */
+export type CreateSizePayload = {
+  __typename?: 'CreateSizePayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `Size` that was created by this mutation. */
+  size?: Maybe<Size>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Species` that is related to this `Size`. */
+  species?: Maybe<Species>;
+  /** Reads a single `Variety` that is related to this `Size`. */
+  variety?: Maybe<Variety>;
+  /** Reads a single `Shipper` that is related to this `Size`. */
+  shipper?: Maybe<Shipper>;
+  /** An edge for our `Size`. May be used by Relay 1. */
+  sizeEdge?: Maybe<SizesEdge>;
+};
+
+
+/** The output of our create `Size` mutation. */
+export type CreateSizePayloadSizeEdgeArgs = {
+  orderBy?: Maybe<Array<SizesOrderBy>>;
+};
+
+/** All input for the create `Size` mutation. */
+export type CreateSizeInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `Size` to be created by this mutation. */
+  size: SizeInput;
+};
+
+/** An input for mutations affecting `Size` */
+export type SizeInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  speciesId?: Maybe<Scalars['String']>;
+  varietyId?: Maybe<Scalars['String']>;
+  jvCode?: Maybe<Scalars['String']>;
+  jvDescription?: Maybe<Scalars['String']>;
+  shipperCode?: Maybe<Scalars['String']>;
+  shipperDescription?: Maybe<Scalars['String']>;
+  combinedCode?: Maybe<Scalars['String']>;
+  combinedDescription?: Maybe<Scalars['String']>;
+  shipperId?: Maybe<Scalars['String']>;
+  speciesToSpeciesId?: Maybe<SizeSpeciesIdFkeyInput>;
+  varietyToVarietyId?: Maybe<SizeVarietyIdFkeyInput>;
+  shipperToShipperId?: Maybe<SizeShipperIdFkeyInput>;
+  mastersUsingId?: Maybe<MasterSizeIdFkeyInverseInput>;
+};
+
+/** The output of our create `Species` mutation. */
+export type CreateSpeciesPayload = {
+  __typename?: 'CreateSpeciesPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `Species` that was created by this mutation. */
+  species?: Maybe<Species>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `Species`. May be used by Relay 1. */
+  speciesEdge?: Maybe<SpeciesEdge>;
+};
+
+
+/** The output of our create `Species` mutation. */
+export type CreateSpeciesPayloadSpeciesEdgeArgs = {
+  orderBy?: Maybe<Array<SpeciesOrderBy>>;
+};
+
+/** All input for the create `Species` mutation. */
+export type CreateSpeciesInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `Species` to be created by this mutation. */
+  species: SpeciesInput;
+};
+
+/** An input for mutations affecting `Species` */
+export type SpeciesInput = {
+  id: Scalars['String'];
+  speciesDescription?: Maybe<Scalars['String']>;
+  secondaryDescription?: Maybe<Scalars['String']>;
+  fdaProductCode?: Maybe<Scalars['String']>;
+  fdaIndustryCode?: Maybe<Scalars['String']>;
+  defaultTemperature?: Maybe<Scalars['String']>;
+  sizesUsingId?: Maybe<SizeSpeciesIdFkeyInverseInput>;
+  packMastersUsingId?: Maybe<PackMasterSpeciesIdFkeyInverseInput>;
+  mastersUsingId?: Maybe<MasterSpeciesIdFkeyInverseInput>;
+};
+
+/** The output of our create `Variety` mutation. */
+export type CreateVarietyPayload = {
+  __typename?: 'CreateVarietyPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `Variety` that was created by this mutation. */
+  variety?: Maybe<Variety>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `Variety`. May be used by Relay 1. */
+  varietyEdge?: Maybe<VarietiesEdge>;
+};
+
+
+/** The output of our create `Variety` mutation. */
+export type CreateVarietyPayloadVarietyEdgeArgs = {
+  orderBy?: Maybe<Array<VarietiesOrderBy>>;
+};
+
+/** All input for the create `Variety` mutation. */
+export type CreateVarietyInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `Variety` to be created by this mutation. */
+  variety: VarietyInput;
+};
+
+/** An input for mutations affecting `Variety` */
+export type VarietyInput = {
+  id: Scalars['String'];
+  varietyDescription?: Maybe<Scalars['String']>;
+  secondaryDescription?: Maybe<Scalars['String']>;
+  customerLetterSequence?: Maybe<Scalars['String']>;
+  summaryCode?: Maybe<Scalars['String']>;
+  varietyGroup?: Maybe<Scalars['String']>;
+  combineWith?: Maybe<Scalars['String']>;
+  sizesUsingId?: Maybe<SizeVarietyIdFkeyInverseInput>;
+  packMastersUsingId?: Maybe<PackMasterVarietyIdFkeyInverseInput>;
+  mastersUsingId?: Maybe<MasterVarietyIdFkeyInverseInput>;
+};
+
 /** The output of our update `ContactAlias` mutation. */
 export type UpdateContactAliasPayload = {
   __typename?: 'UpdateContactAliasPayload';
@@ -8014,6 +22274,1108 @@ export type UpdatePeruDepartureInspectionPalletInput = {
   id: Scalars['BigInt'];
 };
 
+/** The output of our update `PsaArrivalPicture` mutation. */
+export type UpdatePsaArrivalPicturePayload = {
+  __typename?: 'UpdatePsaArrivalPicturePayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PsaArrivalPicture` that was updated by this mutation. */
+  psaArrivalPicture?: Maybe<PsaArrivalPicture>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `PsaArrivalPicture`. May be used by Relay 1. */
+  psaArrivalPictureEdge?: Maybe<PsaArrivalPicturesEdge>;
+};
+
+
+/** The output of our update `PsaArrivalPicture` mutation. */
+export type UpdatePsaArrivalPicturePayloadPsaArrivalPictureEdgeArgs = {
+  orderBy?: Maybe<Array<PsaArrivalPicturesOrderBy>>;
+};
+
+/** All input for the `updatePsaArrivalPictureByNodeId` mutation. */
+export type UpdatePsaArrivalPictureByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `PsaArrivalPicture` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `PsaArrivalPicture` being updated. */
+  patch: PsaArrivalPicturePatch;
+};
+
+/** Represents an update to a `PsaArrivalPicture`. Fields that are set will be updated. */
+export type PsaArrivalPicturePatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  pictureDate?: Maybe<Scalars['Date']>;
+  arrivalCode?: Maybe<Scalars['String']>;
+  pictureDescription?: Maybe<Scalars['String']>;
+  exporterId?: Maybe<Scalars['BigInt']>;
+  palletId?: Maybe<Scalars['String']>;
+  productCode?: Maybe<Scalars['String']>;
+  varietyName?: Maybe<Scalars['String']>;
+};
+
+/** All input for the `updatePsaArrivalPicture` mutation. */
+export type UpdatePsaArrivalPictureInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `PsaArrivalPicture` being updated. */
+  patch: PsaArrivalPicturePatch;
+  id: Scalars['BigInt'];
+};
+
+/** The output of our update `PsaArrivalReport` mutation. */
+export type UpdatePsaArrivalReportPayload = {
+  __typename?: 'UpdatePsaArrivalReportPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PsaArrivalReport` that was updated by this mutation. */
+  psaArrivalReport?: Maybe<PsaArrivalReport>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `PsaArrivalReport`. May be used by Relay 1. */
+  psaArrivalReportEdge?: Maybe<PsaArrivalReportsEdge>;
+};
+
+
+/** The output of our update `PsaArrivalReport` mutation. */
+export type UpdatePsaArrivalReportPayloadPsaArrivalReportEdgeArgs = {
+  orderBy?: Maybe<Array<PsaArrivalReportsOrderBy>>;
+};
+
+/** All input for the `updatePsaArrivalReportByNodeId` mutation. */
+export type UpdatePsaArrivalReportByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `PsaArrivalReport` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `PsaArrivalReport` being updated. */
+  patch: PsaArrivalReportPatch;
+};
+
+/** Represents an update to a `PsaArrivalReport`. Fields that are set will be updated. */
+export type PsaArrivalReportPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  reportDate?: Maybe<Scalars['Date']>;
+  locationName?: Maybe<Scalars['String']>;
+  arrivalCode?: Maybe<Scalars['String']>;
+  arrivalName?: Maybe<Scalars['String']>;
+  exporterId?: Maybe<Scalars['BigInt']>;
+  exporterName?: Maybe<Scalars['String']>;
+};
+
+/** All input for the `updatePsaArrivalReport` mutation. */
+export type UpdatePsaArrivalReportInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `PsaArrivalReport` being updated. */
+  patch: PsaArrivalReportPatch;
+  id: Scalars['BigInt'];
+};
+
+/** The output of our update `Master` mutation. */
+export type UpdateMasterPayload = {
+  __typename?: 'UpdateMasterPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `Master` that was updated by this mutation. */
+  master?: Maybe<Master>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Species` that is related to this `Master`. */
+  species?: Maybe<Species>;
+  /** Reads a single `Variety` that is related to this `Master`. */
+  variety?: Maybe<Variety>;
+  /** Reads a single `Size` that is related to this `Master`. */
+  size?: Maybe<Size>;
+  /** Reads a single `PackMaster` that is related to this `Master`. */
+  pack?: Maybe<PackMaster>;
+  /** An edge for our `Master`. May be used by Relay 1. */
+  masterEdge?: Maybe<MastersEdge>;
+};
+
+
+/** The output of our update `Master` mutation. */
+export type UpdateMasterPayloadMasterEdgeArgs = {
+  orderBy?: Maybe<Array<MastersOrderBy>>;
+};
+
+/** All input for the `updateMasterByNodeId` mutation. */
+export type UpdateMasterByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `Master` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `Master` being updated. */
+  patch: MasterPatch;
+};
+
+/** All input for the `updateMaster` mutation. */
+export type UpdateMasterInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `Master` being updated. */
+  patch: MasterPatch;
+  id: Scalars['String'];
+};
+
+/** The output of our update `PackAtmosphere` mutation. */
+export type UpdatePackAtmospherePayload = {
+  __typename?: 'UpdatePackAtmospherePayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackAtmosphere` that was updated by this mutation. */
+  packAtmosphere?: Maybe<PackAtmosphere>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Shipper` that is related to this `PackAtmosphere`. */
+  shipper?: Maybe<Shipper>;
+  /** An edge for our `PackAtmosphere`. May be used by Relay 1. */
+  packAtmosphereEdge?: Maybe<PackAtmospheresEdge>;
+};
+
+
+/** The output of our update `PackAtmosphere` mutation. */
+export type UpdatePackAtmospherePayloadPackAtmosphereEdgeArgs = {
+  orderBy?: Maybe<Array<PackAtmospheresOrderBy>>;
+};
+
+/** All input for the `updatePackAtmosphereByNodeId` mutation. */
+export type UpdatePackAtmosphereByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `PackAtmosphere` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `PackAtmosphere` being updated. */
+  patch: PackAtmospherePatch;
+};
+
+/** All input for the `updatePackAtmosphere` mutation. */
+export type UpdatePackAtmosphereInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `PackAtmosphere` being updated. */
+  patch: PackAtmospherePatch;
+  shipperId: Scalars['String'];
+  maCode: Scalars['String'];
+};
+
+/** The output of our update `PackBoxStyle` mutation. */
+export type UpdatePackBoxStylePayload = {
+  __typename?: 'UpdatePackBoxStylePayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackBoxStyle` that was updated by this mutation. */
+  packBoxStyle?: Maybe<PackBoxStyle>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Shipper` that is related to this `PackBoxStyle`. */
+  shipper?: Maybe<Shipper>;
+  /** An edge for our `PackBoxStyle`. May be used by Relay 1. */
+  packBoxStyleEdge?: Maybe<PackBoxStylesEdge>;
+};
+
+
+/** The output of our update `PackBoxStyle` mutation. */
+export type UpdatePackBoxStylePayloadPackBoxStyleEdgeArgs = {
+  orderBy?: Maybe<Array<PackBoxStylesOrderBy>>;
+};
+
+/** All input for the `updatePackBoxStyleByNodeId` mutation. */
+export type UpdatePackBoxStyleByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `PackBoxStyle` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `PackBoxStyle` being updated. */
+  patch: PackBoxStylePatch;
+};
+
+/** All input for the `updatePackBoxStyle` mutation. */
+export type UpdatePackBoxStyleInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `PackBoxStyle` being updated. */
+  patch: PackBoxStylePatch;
+  shipperId: Scalars['String'];
+  boxStyle: Scalars['String'];
+};
+
+/** The output of our update `PackBoxType` mutation. */
+export type UpdatePackBoxTypePayload = {
+  __typename?: 'UpdatePackBoxTypePayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackBoxType` that was updated by this mutation. */
+  packBoxType?: Maybe<PackBoxType>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Shipper` that is related to this `PackBoxType`. */
+  shipper?: Maybe<Shipper>;
+  /** An edge for our `PackBoxType`. May be used by Relay 1. */
+  packBoxTypeEdge?: Maybe<PackBoxTypesEdge>;
+};
+
+
+/** The output of our update `PackBoxType` mutation. */
+export type UpdatePackBoxTypePayloadPackBoxTypeEdgeArgs = {
+  orderBy?: Maybe<Array<PackBoxTypesOrderBy>>;
+};
+
+/** All input for the `updatePackBoxTypeByNodeId` mutation. */
+export type UpdatePackBoxTypeByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `PackBoxType` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `PackBoxType` being updated. */
+  patch: PackBoxTypePatch;
+};
+
+/** All input for the `updatePackBoxType` mutation. */
+export type UpdatePackBoxTypeInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `PackBoxType` being updated. */
+  patch: PackBoxTypePatch;
+  shipperId: Scalars['String'];
+  boxType: Scalars['String'];
+};
+
+/** The output of our update `PackDestination` mutation. */
+export type UpdatePackDestinationPayload = {
+  __typename?: 'UpdatePackDestinationPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackDestination` that was updated by this mutation. */
+  packDestination?: Maybe<PackDestination>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Shipper` that is related to this `PackDestination`. */
+  shipper?: Maybe<Shipper>;
+  /** An edge for our `PackDestination`. May be used by Relay 1. */
+  packDestinationEdge?: Maybe<PackDestinationsEdge>;
+};
+
+
+/** The output of our update `PackDestination` mutation. */
+export type UpdatePackDestinationPayloadPackDestinationEdgeArgs = {
+  orderBy?: Maybe<Array<PackDestinationsOrderBy>>;
+};
+
+/** All input for the `updatePackDestinationByNodeId` mutation. */
+export type UpdatePackDestinationByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `PackDestination` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `PackDestination` being updated. */
+  patch: PackDestinationPatch;
+};
+
+/** All input for the `updatePackDestination` mutation. */
+export type UpdatePackDestinationInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `PackDestination` being updated. */
+  patch: PackDestinationPatch;
+  shipperId: Scalars['String'];
+  destinationCode: Scalars['String'];
+};
+
+/** The output of our update `PackGrade` mutation. */
+export type UpdatePackGradePayload = {
+  __typename?: 'UpdatePackGradePayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackGrade` that was updated by this mutation. */
+  packGrade?: Maybe<PackGrade>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Shipper` that is related to this `PackGrade`. */
+  shipper?: Maybe<Shipper>;
+  /** An edge for our `PackGrade`. May be used by Relay 1. */
+  packGradeEdge?: Maybe<PackGradesEdge>;
+};
+
+
+/** The output of our update `PackGrade` mutation. */
+export type UpdatePackGradePayloadPackGradeEdgeArgs = {
+  orderBy?: Maybe<Array<PackGradesOrderBy>>;
+};
+
+/** All input for the `updatePackGradeByNodeId` mutation. */
+export type UpdatePackGradeByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `PackGrade` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `PackGrade` being updated. */
+  patch: PackGradePatch;
+};
+
+/** All input for the `updatePackGrade` mutation. */
+export type UpdatePackGradeInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `PackGrade` being updated. */
+  patch: PackGradePatch;
+  shipperId: Scalars['String'];
+  gradeCode: Scalars['String'];
+};
+
+/** The output of our update `PackHold` mutation. */
+export type UpdatePackHoldPayload = {
+  __typename?: 'UpdatePackHoldPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackHold` that was updated by this mutation. */
+  packHold?: Maybe<PackHold>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Shipper` that is related to this `PackHold`. */
+  shipper?: Maybe<Shipper>;
+  /** An edge for our `PackHold`. May be used by Relay 1. */
+  packHoldEdge?: Maybe<PackHoldsEdge>;
+};
+
+
+/** The output of our update `PackHold` mutation. */
+export type UpdatePackHoldPayloadPackHoldEdgeArgs = {
+  orderBy?: Maybe<Array<PackHoldsOrderBy>>;
+};
+
+/** All input for the `updatePackHoldByNodeId` mutation. */
+export type UpdatePackHoldByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `PackHold` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `PackHold` being updated. */
+  patch: PackHoldPatch;
+};
+
+/** All input for the `updatePackHold` mutation. */
+export type UpdatePackHoldInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `PackHold` being updated. */
+  patch: PackHoldPatch;
+  shipperId: Scalars['String'];
+  holdCode: Scalars['String'];
+};
+
+/** The output of our update `PackLabel` mutation. */
+export type UpdatePackLabelPayload = {
+  __typename?: 'UpdatePackLabelPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackLabel` that was updated by this mutation. */
+  packLabel?: Maybe<PackLabel>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Shipper` that is related to this `PackLabel`. */
+  shipper?: Maybe<Shipper>;
+  /** An edge for our `PackLabel`. May be used by Relay 1. */
+  packLabelEdge?: Maybe<PackLabelsEdge>;
+};
+
+
+/** The output of our update `PackLabel` mutation. */
+export type UpdatePackLabelPayloadPackLabelEdgeArgs = {
+  orderBy?: Maybe<Array<PackLabelsOrderBy>>;
+};
+
+/** All input for the `updatePackLabelByNodeId` mutation. */
+export type UpdatePackLabelByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `PackLabel` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `PackLabel` being updated. */
+  patch: PackLabelPatch;
+};
+
+/** All input for the `updatePackLabel` mutation. */
+export type UpdatePackLabelInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `PackLabel` being updated. */
+  patch: PackLabelPatch;
+  shipperId: Scalars['String'];
+  labelCode: Scalars['String'];
+};
+
+/** The output of our update `PackLiner` mutation. */
+export type UpdatePackLinerPayload = {
+  __typename?: 'UpdatePackLinerPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackLiner` that was updated by this mutation. */
+  packLiner?: Maybe<PackLiner>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Shipper` that is related to this `PackLiner`. */
+  shipper?: Maybe<Shipper>;
+  /** An edge for our `PackLiner`. May be used by Relay 1. */
+  packLinerEdge?: Maybe<PackLinersEdge>;
+};
+
+
+/** The output of our update `PackLiner` mutation. */
+export type UpdatePackLinerPayloadPackLinerEdgeArgs = {
+  orderBy?: Maybe<Array<PackLinersOrderBy>>;
+};
+
+/** All input for the `updatePackLinerByNodeId` mutation. */
+export type UpdatePackLinerByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `PackLiner` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `PackLiner` being updated. */
+  patch: PackLinerPatch;
+};
+
+/** All input for the `updatePackLiner` mutation. */
+export type UpdatePackLinerInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `PackLiner` being updated. */
+  patch: PackLinerPatch;
+  shipperId: Scalars['String'];
+  linerCode: Scalars['String'];
+};
+
+/** The output of our update `PackMaster` mutation. */
+export type UpdatePackMasterPayload = {
+  __typename?: 'UpdatePackMasterPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackMaster` that was updated by this mutation. */
+  packMaster?: Maybe<PackMaster>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Shipper` that is related to this `PackMaster`. */
+  shipper?: Maybe<Shipper>;
+  /** Reads a single `PackLabel` that is related to this `PackMaster`. */
+  packLabelByLabelCodeAndShipperId?: Maybe<PackLabel>;
+  /** Reads a single `PackSpecial` that is related to this `PackMaster`. */
+  packSpecialByCustomerCodeAndShipperId?: Maybe<PackSpecial>;
+  /** Reads a single `PackBoxType` that is related to this `PackMaster`. */
+  packBoxTypeByBoxTypeAndShipperId?: Maybe<PackBoxType>;
+  /** Reads a single `PackBoxStyle` that is related to this `PackMaster`. */
+  packBoxStyleByBoxStyleAndShipperId?: Maybe<PackBoxStyle>;
+  /** Reads a single `PackStyle` that is related to this `PackMaster`. */
+  packStyleByPackStyleAndShipperId?: Maybe<PackStyle>;
+  /** Reads a single `PackOut` that is related to this `PackMaster`. */
+  packOutByOutCodeAndShipperId?: Maybe<PackOut>;
+  /** Reads a single `PackProduction` that is related to this `PackMaster`. */
+  packProductionByProductionCodeAndShipperId?: Maybe<PackProduction>;
+  /** Reads a single `PackTreeRipe` that is related to this `PackMaster`. */
+  packTreeRipeByTreeRipeAndShipperId?: Maybe<PackTreeRipe>;
+  /** Reads a single `PackGrade` that is related to this `PackMaster`. */
+  packGradeByGradeCodeAndShipperId?: Maybe<PackGrade>;
+  /** Reads a single `PackAtmosphere` that is related to this `PackMaster`. */
+  packAtmosphereByMaCodeAndShipperId?: Maybe<PackAtmosphere>;
+  /** Reads a single `PackLiner` that is related to this `PackMaster`. */
+  packLinerByLinerCodeAndShipperId?: Maybe<PackLiner>;
+  /** Reads a single `PackPalletType` that is related to this `PackMaster`. */
+  packPalletTypeByPalletTypeAndShipperId?: Maybe<PackPalletType>;
+  /** Reads a single `PackDestination` that is related to this `PackMaster`. */
+  packDestinationByDestinationCodeAndShipperId?: Maybe<PackDestination>;
+  /** Reads a single `Variety` that is related to this `PackMaster`. */
+  variety?: Maybe<Variety>;
+  /** Reads a single `Species` that is related to this `PackMaster`. */
+  species?: Maybe<Species>;
+  /** Reads a single `PackHold` that is related to this `PackMaster`. */
+  packHoldByHoldCodeAndShipperId?: Maybe<PackHold>;
+  /** An edge for our `PackMaster`. May be used by Relay 1. */
+  packMasterEdge?: Maybe<PackMastersEdge>;
+};
+
+
+/** The output of our update `PackMaster` mutation. */
+export type UpdatePackMasterPayloadPackMasterEdgeArgs = {
+  orderBy?: Maybe<Array<PackMastersOrderBy>>;
+};
+
+/** All input for the `updatePackMasterByNodeId` mutation. */
+export type UpdatePackMasterByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `PackMaster` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `PackMaster` being updated. */
+  patch: PackMasterPatch;
+};
+
+/** All input for the `updatePackMaster` mutation. */
+export type UpdatePackMasterInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `PackMaster` being updated. */
+  patch: PackMasterPatch;
+  oldPackCode: Scalars['String'];
+};
+
+/** The output of our update `PackOut` mutation. */
+export type UpdatePackOutPayload = {
+  __typename?: 'UpdatePackOutPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackOut` that was updated by this mutation. */
+  packOut?: Maybe<PackOut>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Shipper` that is related to this `PackOut`. */
+  shipper?: Maybe<Shipper>;
+  /** An edge for our `PackOut`. May be used by Relay 1. */
+  packOutEdge?: Maybe<PackOutsEdge>;
+};
+
+
+/** The output of our update `PackOut` mutation. */
+export type UpdatePackOutPayloadPackOutEdgeArgs = {
+  orderBy?: Maybe<Array<PackOutsOrderBy>>;
+};
+
+/** All input for the `updatePackOutByNodeId` mutation. */
+export type UpdatePackOutByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `PackOut` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `PackOut` being updated. */
+  patch: PackOutPatch;
+};
+
+/** All input for the `updatePackOut` mutation. */
+export type UpdatePackOutInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `PackOut` being updated. */
+  patch: PackOutPatch;
+  shipperId: Scalars['String'];
+  outCode: Scalars['String'];
+};
+
+/** The output of our update `PackPalletType` mutation. */
+export type UpdatePackPalletTypePayload = {
+  __typename?: 'UpdatePackPalletTypePayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackPalletType` that was updated by this mutation. */
+  packPalletType?: Maybe<PackPalletType>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Shipper` that is related to this `PackPalletType`. */
+  shipper?: Maybe<Shipper>;
+  /** An edge for our `PackPalletType`. May be used by Relay 1. */
+  packPalletTypeEdge?: Maybe<PackPalletTypesEdge>;
+};
+
+
+/** The output of our update `PackPalletType` mutation. */
+export type UpdatePackPalletTypePayloadPackPalletTypeEdgeArgs = {
+  orderBy?: Maybe<Array<PackPalletTypesOrderBy>>;
+};
+
+/** All input for the `updatePackPalletTypeByNodeId` mutation. */
+export type UpdatePackPalletTypeByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `PackPalletType` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `PackPalletType` being updated. */
+  patch: PackPalletTypePatch;
+};
+
+/** All input for the `updatePackPalletType` mutation. */
+export type UpdatePackPalletTypeInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `PackPalletType` being updated. */
+  patch: PackPalletTypePatch;
+  shipperId: Scalars['String'];
+  palletType: Scalars['String'];
+};
+
+/** The output of our update `PackProduction` mutation. */
+export type UpdatePackProductionPayload = {
+  __typename?: 'UpdatePackProductionPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackProduction` that was updated by this mutation. */
+  packProduction?: Maybe<PackProduction>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Shipper` that is related to this `PackProduction`. */
+  shipper?: Maybe<Shipper>;
+  /** An edge for our `PackProduction`. May be used by Relay 1. */
+  packProductionEdge?: Maybe<PackProductionsEdge>;
+};
+
+
+/** The output of our update `PackProduction` mutation. */
+export type UpdatePackProductionPayloadPackProductionEdgeArgs = {
+  orderBy?: Maybe<Array<PackProductionsOrderBy>>;
+};
+
+/** All input for the `updatePackProductionByNodeId` mutation. */
+export type UpdatePackProductionByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `PackProduction` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `PackProduction` being updated. */
+  patch: PackProductionPatch;
+};
+
+/** All input for the `updatePackProduction` mutation. */
+export type UpdatePackProductionInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `PackProduction` being updated. */
+  patch: PackProductionPatch;
+  shipperId: Scalars['String'];
+  productionCode: Scalars['String'];
+};
+
+/** The output of our update `PackSpecial` mutation. */
+export type UpdatePackSpecialPayload = {
+  __typename?: 'UpdatePackSpecialPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackSpecial` that was updated by this mutation. */
+  packSpecial?: Maybe<PackSpecial>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Shipper` that is related to this `PackSpecial`. */
+  shipper?: Maybe<Shipper>;
+  /** Reads a single `Customer` that is related to this `PackSpecial`. */
+  customer?: Maybe<Customer>;
+  /** An edge for our `PackSpecial`. May be used by Relay 1. */
+  packSpecialEdge?: Maybe<PackSpecialsEdge>;
+};
+
+
+/** The output of our update `PackSpecial` mutation. */
+export type UpdatePackSpecialPayloadPackSpecialEdgeArgs = {
+  orderBy?: Maybe<Array<PackSpecialsOrderBy>>;
+};
+
+/** All input for the `updatePackSpecialByNodeId` mutation. */
+export type UpdatePackSpecialByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `PackSpecial` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `PackSpecial` being updated. */
+  patch: PackSpecialPatch;
+};
+
+/** All input for the `updatePackSpecial` mutation. */
+export type UpdatePackSpecialInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `PackSpecial` being updated. */
+  patch: PackSpecialPatch;
+  shipperId: Scalars['String'];
+  customerCode: Scalars['String'];
+};
+
+/** The output of our update `PackStyle` mutation. */
+export type UpdatePackStylePayload = {
+  __typename?: 'UpdatePackStylePayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackStyle` that was updated by this mutation. */
+  packStyle?: Maybe<PackStyle>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Shipper` that is related to this `PackStyle`. */
+  shipper?: Maybe<Shipper>;
+  /** An edge for our `PackStyle`. May be used by Relay 1. */
+  packStyleEdge?: Maybe<PackStylesEdge>;
+};
+
+
+/** The output of our update `PackStyle` mutation. */
+export type UpdatePackStylePayloadPackStyleEdgeArgs = {
+  orderBy?: Maybe<Array<PackStylesOrderBy>>;
+};
+
+/** All input for the `updatePackStyleByNodeId` mutation. */
+export type UpdatePackStyleByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `PackStyle` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `PackStyle` being updated. */
+  patch: PackStylePatch;
+};
+
+/** All input for the `updatePackStyle` mutation. */
+export type UpdatePackStyleInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `PackStyle` being updated. */
+  patch: PackStylePatch;
+  shipperId: Scalars['String'];
+  packStyle: Scalars['String'];
+};
+
+/** The output of our update `PackTreeRipe` mutation. */
+export type UpdatePackTreeRipePayload = {
+  __typename?: 'UpdatePackTreeRipePayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackTreeRipe` that was updated by this mutation. */
+  packTreeRipe?: Maybe<PackTreeRipe>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Shipper` that is related to this `PackTreeRipe`. */
+  shipper?: Maybe<Shipper>;
+  /** An edge for our `PackTreeRipe`. May be used by Relay 1. */
+  packTreeRipeEdge?: Maybe<PackTreeRipesEdge>;
+};
+
+
+/** The output of our update `PackTreeRipe` mutation. */
+export type UpdatePackTreeRipePayloadPackTreeRipeEdgeArgs = {
+  orderBy?: Maybe<Array<PackTreeRipesOrderBy>>;
+};
+
+/** All input for the `updatePackTreeRipeByNodeId` mutation. */
+export type UpdatePackTreeRipeByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `PackTreeRipe` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `PackTreeRipe` being updated. */
+  patch: PackTreeRipePatch;
+};
+
+/** All input for the `updatePackTreeRipe` mutation. */
+export type UpdatePackTreeRipeInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `PackTreeRipe` being updated. */
+  patch: PackTreeRipePatch;
+  shipperId: Scalars['String'];
+  treeRipe: Scalars['String'];
+};
+
+/** The output of our update `Size` mutation. */
+export type UpdateSizePayload = {
+  __typename?: 'UpdateSizePayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `Size` that was updated by this mutation. */
+  size?: Maybe<Size>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Species` that is related to this `Size`. */
+  species?: Maybe<Species>;
+  /** Reads a single `Variety` that is related to this `Size`. */
+  variety?: Maybe<Variety>;
+  /** Reads a single `Shipper` that is related to this `Size`. */
+  shipper?: Maybe<Shipper>;
+  /** An edge for our `Size`. May be used by Relay 1. */
+  sizeEdge?: Maybe<SizesEdge>;
+};
+
+
+/** The output of our update `Size` mutation. */
+export type UpdateSizePayloadSizeEdgeArgs = {
+  orderBy?: Maybe<Array<SizesOrderBy>>;
+};
+
+/** All input for the `updateSizeByNodeId` mutation. */
+export type UpdateSizeByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `Size` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `Size` being updated. */
+  patch: SizePatch;
+};
+
+/** All input for the `updateSize` mutation. */
+export type UpdateSizeInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `Size` being updated. */
+  patch: SizePatch;
+  id: Scalars['BigInt'];
+};
+
+/** The output of our update `Species` mutation. */
+export type UpdateSpeciesPayload = {
+  __typename?: 'UpdateSpeciesPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `Species` that was updated by this mutation. */
+  species?: Maybe<Species>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `Species`. May be used by Relay 1. */
+  speciesEdge?: Maybe<SpeciesEdge>;
+};
+
+
+/** The output of our update `Species` mutation. */
+export type UpdateSpeciesPayloadSpeciesEdgeArgs = {
+  orderBy?: Maybe<Array<SpeciesOrderBy>>;
+};
+
+/** All input for the `updateSpeciesByNodeId` mutation. */
+export type UpdateSpeciesByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `Species` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `Species` being updated. */
+  patch: SpeciesPatch;
+};
+
+/** All input for the `updateSpecies` mutation. */
+export type UpdateSpeciesInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `Species` being updated. */
+  patch: SpeciesPatch;
+  id: Scalars['String'];
+};
+
+/** The output of our update `Variety` mutation. */
+export type UpdateVarietyPayload = {
+  __typename?: 'UpdateVarietyPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `Variety` that was updated by this mutation. */
+  variety?: Maybe<Variety>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `Variety`. May be used by Relay 1. */
+  varietyEdge?: Maybe<VarietiesEdge>;
+};
+
+
+/** The output of our update `Variety` mutation. */
+export type UpdateVarietyPayloadVarietyEdgeArgs = {
+  orderBy?: Maybe<Array<VarietiesOrderBy>>;
+};
+
+/** All input for the `updateVarietyByNodeId` mutation. */
+export type UpdateVarietyByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `Variety` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `Variety` being updated. */
+  patch: VarietyPatch;
+};
+
+/** All input for the `updateVariety` mutation. */
+export type UpdateVarietyInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `Variety` being updated. */
+  patch: VarietyPatch;
+  id: Scalars['String'];
+};
+
 /** The output of our delete `ContactAlias` mutation. */
 export type DeleteContactAliasPayload = {
   __typename?: 'DeleteContactAliasPayload';
@@ -8697,6 +24059,1022 @@ export type DeletePeruDepartureInspectionPalletInput = {
    */
   clientMutationId?: Maybe<Scalars['String']>;
   id: Scalars['BigInt'];
+};
+
+/** The output of our delete `PsaArrivalPicture` mutation. */
+export type DeletePsaArrivalPicturePayload = {
+  __typename?: 'DeletePsaArrivalPicturePayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PsaArrivalPicture` that was deleted by this mutation. */
+  psaArrivalPicture?: Maybe<PsaArrivalPicture>;
+  deletedPsaArrivalPictureNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `PsaArrivalPicture`. May be used by Relay 1. */
+  psaArrivalPictureEdge?: Maybe<PsaArrivalPicturesEdge>;
+};
+
+
+/** The output of our delete `PsaArrivalPicture` mutation. */
+export type DeletePsaArrivalPicturePayloadPsaArrivalPictureEdgeArgs = {
+  orderBy?: Maybe<Array<PsaArrivalPicturesOrderBy>>;
+};
+
+/** All input for the `deletePsaArrivalPictureByNodeId` mutation. */
+export type DeletePsaArrivalPictureByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `PsaArrivalPicture` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deletePsaArrivalPicture` mutation. */
+export type DeletePsaArrivalPictureInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['BigInt'];
+};
+
+/** The output of our delete `PsaArrivalReport` mutation. */
+export type DeletePsaArrivalReportPayload = {
+  __typename?: 'DeletePsaArrivalReportPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PsaArrivalReport` that was deleted by this mutation. */
+  psaArrivalReport?: Maybe<PsaArrivalReport>;
+  deletedPsaArrivalReportNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `PsaArrivalReport`. May be used by Relay 1. */
+  psaArrivalReportEdge?: Maybe<PsaArrivalReportsEdge>;
+};
+
+
+/** The output of our delete `PsaArrivalReport` mutation. */
+export type DeletePsaArrivalReportPayloadPsaArrivalReportEdgeArgs = {
+  orderBy?: Maybe<Array<PsaArrivalReportsOrderBy>>;
+};
+
+/** All input for the `deletePsaArrivalReportByNodeId` mutation. */
+export type DeletePsaArrivalReportByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `PsaArrivalReport` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deletePsaArrivalReport` mutation. */
+export type DeletePsaArrivalReportInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['BigInt'];
+};
+
+/** The output of our delete `Master` mutation. */
+export type DeleteMasterPayload = {
+  __typename?: 'DeleteMasterPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `Master` that was deleted by this mutation. */
+  master?: Maybe<Master>;
+  deletedMasterNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Species` that is related to this `Master`. */
+  species?: Maybe<Species>;
+  /** Reads a single `Variety` that is related to this `Master`. */
+  variety?: Maybe<Variety>;
+  /** Reads a single `Size` that is related to this `Master`. */
+  size?: Maybe<Size>;
+  /** Reads a single `PackMaster` that is related to this `Master`. */
+  pack?: Maybe<PackMaster>;
+  /** An edge for our `Master`. May be used by Relay 1. */
+  masterEdge?: Maybe<MastersEdge>;
+};
+
+
+/** The output of our delete `Master` mutation. */
+export type DeleteMasterPayloadMasterEdgeArgs = {
+  orderBy?: Maybe<Array<MastersOrderBy>>;
+};
+
+/** All input for the `deleteMasterByNodeId` mutation. */
+export type DeleteMasterByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `Master` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deleteMaster` mutation. */
+export type DeleteMasterInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['String'];
+};
+
+/** The output of our delete `PackAtmosphere` mutation. */
+export type DeletePackAtmospherePayload = {
+  __typename?: 'DeletePackAtmospherePayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackAtmosphere` that was deleted by this mutation. */
+  packAtmosphere?: Maybe<PackAtmosphere>;
+  deletedPackAtmosphereNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Shipper` that is related to this `PackAtmosphere`. */
+  shipper?: Maybe<Shipper>;
+  /** An edge for our `PackAtmosphere`. May be used by Relay 1. */
+  packAtmosphereEdge?: Maybe<PackAtmospheresEdge>;
+};
+
+
+/** The output of our delete `PackAtmosphere` mutation. */
+export type DeletePackAtmospherePayloadPackAtmosphereEdgeArgs = {
+  orderBy?: Maybe<Array<PackAtmospheresOrderBy>>;
+};
+
+/** All input for the `deletePackAtmosphereByNodeId` mutation. */
+export type DeletePackAtmosphereByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `PackAtmosphere` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deletePackAtmosphere` mutation. */
+export type DeletePackAtmosphereInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  shipperId: Scalars['String'];
+  maCode: Scalars['String'];
+};
+
+/** The output of our delete `PackBoxStyle` mutation. */
+export type DeletePackBoxStylePayload = {
+  __typename?: 'DeletePackBoxStylePayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackBoxStyle` that was deleted by this mutation. */
+  packBoxStyle?: Maybe<PackBoxStyle>;
+  deletedPackBoxStyleNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Shipper` that is related to this `PackBoxStyle`. */
+  shipper?: Maybe<Shipper>;
+  /** An edge for our `PackBoxStyle`. May be used by Relay 1. */
+  packBoxStyleEdge?: Maybe<PackBoxStylesEdge>;
+};
+
+
+/** The output of our delete `PackBoxStyle` mutation. */
+export type DeletePackBoxStylePayloadPackBoxStyleEdgeArgs = {
+  orderBy?: Maybe<Array<PackBoxStylesOrderBy>>;
+};
+
+/** All input for the `deletePackBoxStyleByNodeId` mutation. */
+export type DeletePackBoxStyleByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `PackBoxStyle` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deletePackBoxStyle` mutation. */
+export type DeletePackBoxStyleInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  shipperId: Scalars['String'];
+  boxStyle: Scalars['String'];
+};
+
+/** The output of our delete `PackBoxType` mutation. */
+export type DeletePackBoxTypePayload = {
+  __typename?: 'DeletePackBoxTypePayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackBoxType` that was deleted by this mutation. */
+  packBoxType?: Maybe<PackBoxType>;
+  deletedPackBoxTypeNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Shipper` that is related to this `PackBoxType`. */
+  shipper?: Maybe<Shipper>;
+  /** An edge for our `PackBoxType`. May be used by Relay 1. */
+  packBoxTypeEdge?: Maybe<PackBoxTypesEdge>;
+};
+
+
+/** The output of our delete `PackBoxType` mutation. */
+export type DeletePackBoxTypePayloadPackBoxTypeEdgeArgs = {
+  orderBy?: Maybe<Array<PackBoxTypesOrderBy>>;
+};
+
+/** All input for the `deletePackBoxTypeByNodeId` mutation. */
+export type DeletePackBoxTypeByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `PackBoxType` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deletePackBoxType` mutation. */
+export type DeletePackBoxTypeInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  shipperId: Scalars['String'];
+  boxType: Scalars['String'];
+};
+
+/** The output of our delete `PackDestination` mutation. */
+export type DeletePackDestinationPayload = {
+  __typename?: 'DeletePackDestinationPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackDestination` that was deleted by this mutation. */
+  packDestination?: Maybe<PackDestination>;
+  deletedPackDestinationNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Shipper` that is related to this `PackDestination`. */
+  shipper?: Maybe<Shipper>;
+  /** An edge for our `PackDestination`. May be used by Relay 1. */
+  packDestinationEdge?: Maybe<PackDestinationsEdge>;
+};
+
+
+/** The output of our delete `PackDestination` mutation. */
+export type DeletePackDestinationPayloadPackDestinationEdgeArgs = {
+  orderBy?: Maybe<Array<PackDestinationsOrderBy>>;
+};
+
+/** All input for the `deletePackDestinationByNodeId` mutation. */
+export type DeletePackDestinationByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `PackDestination` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deletePackDestination` mutation. */
+export type DeletePackDestinationInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  shipperId: Scalars['String'];
+  destinationCode: Scalars['String'];
+};
+
+/** The output of our delete `PackGrade` mutation. */
+export type DeletePackGradePayload = {
+  __typename?: 'DeletePackGradePayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackGrade` that was deleted by this mutation. */
+  packGrade?: Maybe<PackGrade>;
+  deletedPackGradeNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Shipper` that is related to this `PackGrade`. */
+  shipper?: Maybe<Shipper>;
+  /** An edge for our `PackGrade`. May be used by Relay 1. */
+  packGradeEdge?: Maybe<PackGradesEdge>;
+};
+
+
+/** The output of our delete `PackGrade` mutation. */
+export type DeletePackGradePayloadPackGradeEdgeArgs = {
+  orderBy?: Maybe<Array<PackGradesOrderBy>>;
+};
+
+/** All input for the `deletePackGradeByNodeId` mutation. */
+export type DeletePackGradeByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `PackGrade` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deletePackGrade` mutation. */
+export type DeletePackGradeInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  shipperId: Scalars['String'];
+  gradeCode: Scalars['String'];
+};
+
+/** The output of our delete `PackHold` mutation. */
+export type DeletePackHoldPayload = {
+  __typename?: 'DeletePackHoldPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackHold` that was deleted by this mutation. */
+  packHold?: Maybe<PackHold>;
+  deletedPackHoldNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Shipper` that is related to this `PackHold`. */
+  shipper?: Maybe<Shipper>;
+  /** An edge for our `PackHold`. May be used by Relay 1. */
+  packHoldEdge?: Maybe<PackHoldsEdge>;
+};
+
+
+/** The output of our delete `PackHold` mutation. */
+export type DeletePackHoldPayloadPackHoldEdgeArgs = {
+  orderBy?: Maybe<Array<PackHoldsOrderBy>>;
+};
+
+/** All input for the `deletePackHoldByNodeId` mutation. */
+export type DeletePackHoldByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `PackHold` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deletePackHold` mutation. */
+export type DeletePackHoldInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  shipperId: Scalars['String'];
+  holdCode: Scalars['String'];
+};
+
+/** The output of our delete `PackLabel` mutation. */
+export type DeletePackLabelPayload = {
+  __typename?: 'DeletePackLabelPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackLabel` that was deleted by this mutation. */
+  packLabel?: Maybe<PackLabel>;
+  deletedPackLabelNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Shipper` that is related to this `PackLabel`. */
+  shipper?: Maybe<Shipper>;
+  /** An edge for our `PackLabel`. May be used by Relay 1. */
+  packLabelEdge?: Maybe<PackLabelsEdge>;
+};
+
+
+/** The output of our delete `PackLabel` mutation. */
+export type DeletePackLabelPayloadPackLabelEdgeArgs = {
+  orderBy?: Maybe<Array<PackLabelsOrderBy>>;
+};
+
+/** All input for the `deletePackLabelByNodeId` mutation. */
+export type DeletePackLabelByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `PackLabel` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deletePackLabel` mutation. */
+export type DeletePackLabelInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  shipperId: Scalars['String'];
+  labelCode: Scalars['String'];
+};
+
+/** The output of our delete `PackLiner` mutation. */
+export type DeletePackLinerPayload = {
+  __typename?: 'DeletePackLinerPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackLiner` that was deleted by this mutation. */
+  packLiner?: Maybe<PackLiner>;
+  deletedPackLinerNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Shipper` that is related to this `PackLiner`. */
+  shipper?: Maybe<Shipper>;
+  /** An edge for our `PackLiner`. May be used by Relay 1. */
+  packLinerEdge?: Maybe<PackLinersEdge>;
+};
+
+
+/** The output of our delete `PackLiner` mutation. */
+export type DeletePackLinerPayloadPackLinerEdgeArgs = {
+  orderBy?: Maybe<Array<PackLinersOrderBy>>;
+};
+
+/** All input for the `deletePackLinerByNodeId` mutation. */
+export type DeletePackLinerByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `PackLiner` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deletePackLiner` mutation. */
+export type DeletePackLinerInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  shipperId: Scalars['String'];
+  linerCode: Scalars['String'];
+};
+
+/** The output of our delete `PackMaster` mutation. */
+export type DeletePackMasterPayload = {
+  __typename?: 'DeletePackMasterPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackMaster` that was deleted by this mutation. */
+  packMaster?: Maybe<PackMaster>;
+  deletedPackMasterNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Shipper` that is related to this `PackMaster`. */
+  shipper?: Maybe<Shipper>;
+  /** Reads a single `PackLabel` that is related to this `PackMaster`. */
+  packLabelByLabelCodeAndShipperId?: Maybe<PackLabel>;
+  /** Reads a single `PackSpecial` that is related to this `PackMaster`. */
+  packSpecialByCustomerCodeAndShipperId?: Maybe<PackSpecial>;
+  /** Reads a single `PackBoxType` that is related to this `PackMaster`. */
+  packBoxTypeByBoxTypeAndShipperId?: Maybe<PackBoxType>;
+  /** Reads a single `PackBoxStyle` that is related to this `PackMaster`. */
+  packBoxStyleByBoxStyleAndShipperId?: Maybe<PackBoxStyle>;
+  /** Reads a single `PackStyle` that is related to this `PackMaster`. */
+  packStyleByPackStyleAndShipperId?: Maybe<PackStyle>;
+  /** Reads a single `PackOut` that is related to this `PackMaster`. */
+  packOutByOutCodeAndShipperId?: Maybe<PackOut>;
+  /** Reads a single `PackProduction` that is related to this `PackMaster`. */
+  packProductionByProductionCodeAndShipperId?: Maybe<PackProduction>;
+  /** Reads a single `PackTreeRipe` that is related to this `PackMaster`. */
+  packTreeRipeByTreeRipeAndShipperId?: Maybe<PackTreeRipe>;
+  /** Reads a single `PackGrade` that is related to this `PackMaster`. */
+  packGradeByGradeCodeAndShipperId?: Maybe<PackGrade>;
+  /** Reads a single `PackAtmosphere` that is related to this `PackMaster`. */
+  packAtmosphereByMaCodeAndShipperId?: Maybe<PackAtmosphere>;
+  /** Reads a single `PackLiner` that is related to this `PackMaster`. */
+  packLinerByLinerCodeAndShipperId?: Maybe<PackLiner>;
+  /** Reads a single `PackPalletType` that is related to this `PackMaster`. */
+  packPalletTypeByPalletTypeAndShipperId?: Maybe<PackPalletType>;
+  /** Reads a single `PackDestination` that is related to this `PackMaster`. */
+  packDestinationByDestinationCodeAndShipperId?: Maybe<PackDestination>;
+  /** Reads a single `Variety` that is related to this `PackMaster`. */
+  variety?: Maybe<Variety>;
+  /** Reads a single `Species` that is related to this `PackMaster`. */
+  species?: Maybe<Species>;
+  /** Reads a single `PackHold` that is related to this `PackMaster`. */
+  packHoldByHoldCodeAndShipperId?: Maybe<PackHold>;
+  /** An edge for our `PackMaster`. May be used by Relay 1. */
+  packMasterEdge?: Maybe<PackMastersEdge>;
+};
+
+
+/** The output of our delete `PackMaster` mutation. */
+export type DeletePackMasterPayloadPackMasterEdgeArgs = {
+  orderBy?: Maybe<Array<PackMastersOrderBy>>;
+};
+
+/** All input for the `deletePackMasterByNodeId` mutation. */
+export type DeletePackMasterByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `PackMaster` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deletePackMaster` mutation. */
+export type DeletePackMasterInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  oldPackCode: Scalars['String'];
+};
+
+/** The output of our delete `PackOut` mutation. */
+export type DeletePackOutPayload = {
+  __typename?: 'DeletePackOutPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackOut` that was deleted by this mutation. */
+  packOut?: Maybe<PackOut>;
+  deletedPackOutNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Shipper` that is related to this `PackOut`. */
+  shipper?: Maybe<Shipper>;
+  /** An edge for our `PackOut`. May be used by Relay 1. */
+  packOutEdge?: Maybe<PackOutsEdge>;
+};
+
+
+/** The output of our delete `PackOut` mutation. */
+export type DeletePackOutPayloadPackOutEdgeArgs = {
+  orderBy?: Maybe<Array<PackOutsOrderBy>>;
+};
+
+/** All input for the `deletePackOutByNodeId` mutation. */
+export type DeletePackOutByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `PackOut` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deletePackOut` mutation. */
+export type DeletePackOutInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  shipperId: Scalars['String'];
+  outCode: Scalars['String'];
+};
+
+/** The output of our delete `PackPalletType` mutation. */
+export type DeletePackPalletTypePayload = {
+  __typename?: 'DeletePackPalletTypePayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackPalletType` that was deleted by this mutation. */
+  packPalletType?: Maybe<PackPalletType>;
+  deletedPackPalletTypeNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Shipper` that is related to this `PackPalletType`. */
+  shipper?: Maybe<Shipper>;
+  /** An edge for our `PackPalletType`. May be used by Relay 1. */
+  packPalletTypeEdge?: Maybe<PackPalletTypesEdge>;
+};
+
+
+/** The output of our delete `PackPalletType` mutation. */
+export type DeletePackPalletTypePayloadPackPalletTypeEdgeArgs = {
+  orderBy?: Maybe<Array<PackPalletTypesOrderBy>>;
+};
+
+/** All input for the `deletePackPalletTypeByNodeId` mutation. */
+export type DeletePackPalletTypeByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `PackPalletType` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deletePackPalletType` mutation. */
+export type DeletePackPalletTypeInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  shipperId: Scalars['String'];
+  palletType: Scalars['String'];
+};
+
+/** The output of our delete `PackProduction` mutation. */
+export type DeletePackProductionPayload = {
+  __typename?: 'DeletePackProductionPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackProduction` that was deleted by this mutation. */
+  packProduction?: Maybe<PackProduction>;
+  deletedPackProductionNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Shipper` that is related to this `PackProduction`. */
+  shipper?: Maybe<Shipper>;
+  /** An edge for our `PackProduction`. May be used by Relay 1. */
+  packProductionEdge?: Maybe<PackProductionsEdge>;
+};
+
+
+/** The output of our delete `PackProduction` mutation. */
+export type DeletePackProductionPayloadPackProductionEdgeArgs = {
+  orderBy?: Maybe<Array<PackProductionsOrderBy>>;
+};
+
+/** All input for the `deletePackProductionByNodeId` mutation. */
+export type DeletePackProductionByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `PackProduction` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deletePackProduction` mutation. */
+export type DeletePackProductionInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  shipperId: Scalars['String'];
+  productionCode: Scalars['String'];
+};
+
+/** The output of our delete `PackSpecial` mutation. */
+export type DeletePackSpecialPayload = {
+  __typename?: 'DeletePackSpecialPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackSpecial` that was deleted by this mutation. */
+  packSpecial?: Maybe<PackSpecial>;
+  deletedPackSpecialNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Shipper` that is related to this `PackSpecial`. */
+  shipper?: Maybe<Shipper>;
+  /** Reads a single `Customer` that is related to this `PackSpecial`. */
+  customer?: Maybe<Customer>;
+  /** An edge for our `PackSpecial`. May be used by Relay 1. */
+  packSpecialEdge?: Maybe<PackSpecialsEdge>;
+};
+
+
+/** The output of our delete `PackSpecial` mutation. */
+export type DeletePackSpecialPayloadPackSpecialEdgeArgs = {
+  orderBy?: Maybe<Array<PackSpecialsOrderBy>>;
+};
+
+/** All input for the `deletePackSpecialByNodeId` mutation. */
+export type DeletePackSpecialByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `PackSpecial` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deletePackSpecial` mutation. */
+export type DeletePackSpecialInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  shipperId: Scalars['String'];
+  customerCode: Scalars['String'];
+};
+
+/** The output of our delete `PackStyle` mutation. */
+export type DeletePackStylePayload = {
+  __typename?: 'DeletePackStylePayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackStyle` that was deleted by this mutation. */
+  packStyle?: Maybe<PackStyle>;
+  deletedPackStyleNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Shipper` that is related to this `PackStyle`. */
+  shipper?: Maybe<Shipper>;
+  /** An edge for our `PackStyle`. May be used by Relay 1. */
+  packStyleEdge?: Maybe<PackStylesEdge>;
+};
+
+
+/** The output of our delete `PackStyle` mutation. */
+export type DeletePackStylePayloadPackStyleEdgeArgs = {
+  orderBy?: Maybe<Array<PackStylesOrderBy>>;
+};
+
+/** All input for the `deletePackStyleByNodeId` mutation. */
+export type DeletePackStyleByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `PackStyle` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deletePackStyle` mutation. */
+export type DeletePackStyleInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  shipperId: Scalars['String'];
+  packStyle: Scalars['String'];
+};
+
+/** The output of our delete `PackTreeRipe` mutation. */
+export type DeletePackTreeRipePayload = {
+  __typename?: 'DeletePackTreeRipePayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackTreeRipe` that was deleted by this mutation. */
+  packTreeRipe?: Maybe<PackTreeRipe>;
+  deletedPackTreeRipeNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Shipper` that is related to this `PackTreeRipe`. */
+  shipper?: Maybe<Shipper>;
+  /** An edge for our `PackTreeRipe`. May be used by Relay 1. */
+  packTreeRipeEdge?: Maybe<PackTreeRipesEdge>;
+};
+
+
+/** The output of our delete `PackTreeRipe` mutation. */
+export type DeletePackTreeRipePayloadPackTreeRipeEdgeArgs = {
+  orderBy?: Maybe<Array<PackTreeRipesOrderBy>>;
+};
+
+/** All input for the `deletePackTreeRipeByNodeId` mutation. */
+export type DeletePackTreeRipeByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `PackTreeRipe` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deletePackTreeRipe` mutation. */
+export type DeletePackTreeRipeInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  shipperId: Scalars['String'];
+  treeRipe: Scalars['String'];
+};
+
+/** The output of our delete `Size` mutation. */
+export type DeleteSizePayload = {
+  __typename?: 'DeleteSizePayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `Size` that was deleted by this mutation. */
+  size?: Maybe<Size>;
+  deletedSizeNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Species` that is related to this `Size`. */
+  species?: Maybe<Species>;
+  /** Reads a single `Variety` that is related to this `Size`. */
+  variety?: Maybe<Variety>;
+  /** Reads a single `Shipper` that is related to this `Size`. */
+  shipper?: Maybe<Shipper>;
+  /** An edge for our `Size`. May be used by Relay 1. */
+  sizeEdge?: Maybe<SizesEdge>;
+};
+
+
+/** The output of our delete `Size` mutation. */
+export type DeleteSizePayloadSizeEdgeArgs = {
+  orderBy?: Maybe<Array<SizesOrderBy>>;
+};
+
+/** All input for the `deleteSizeByNodeId` mutation. */
+export type DeleteSizeByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `Size` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deleteSize` mutation. */
+export type DeleteSizeInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['BigInt'];
+};
+
+/** The output of our delete `Species` mutation. */
+export type DeleteSpeciesPayload = {
+  __typename?: 'DeleteSpeciesPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `Species` that was deleted by this mutation. */
+  species?: Maybe<Species>;
+  deletedSpeciesNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `Species`. May be used by Relay 1. */
+  speciesEdge?: Maybe<SpeciesEdge>;
+};
+
+
+/** The output of our delete `Species` mutation. */
+export type DeleteSpeciesPayloadSpeciesEdgeArgs = {
+  orderBy?: Maybe<Array<SpeciesOrderBy>>;
+};
+
+/** All input for the `deleteSpeciesByNodeId` mutation. */
+export type DeleteSpeciesByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `Species` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deleteSpecies` mutation. */
+export type DeleteSpeciesInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['String'];
+};
+
+/** The output of our delete `Variety` mutation. */
+export type DeleteVarietyPayload = {
+  __typename?: 'DeleteVarietyPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `Variety` that was deleted by this mutation. */
+  variety?: Maybe<Variety>;
+  deletedVarietyNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `Variety`. May be used by Relay 1. */
+  varietyEdge?: Maybe<VarietiesEdge>;
+};
+
+
+/** The output of our delete `Variety` mutation. */
+export type DeleteVarietyPayloadVarietyEdgeArgs = {
+  orderBy?: Maybe<Array<VarietiesOrderBy>>;
+};
+
+/** All input for the `deleteVarietyByNodeId` mutation. */
+export type DeleteVarietyByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `Variety` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deleteVariety` mutation. */
+export type DeleteVarietyInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['String'];
 };
 
 /** The output of our `bulkUpsertAgendaItem` mutation. */

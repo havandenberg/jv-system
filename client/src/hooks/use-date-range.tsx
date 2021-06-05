@@ -8,10 +8,8 @@ import DateRangePicker, {
 import { useDateRangeQueryParams } from 'hooks/use-query-params';
 
 const useDateRange = (props?: Omit<DateRangeProps, 'onClear'>) => {
-  const [
-    { startDate, endDate },
-    setDateRangeParams,
-  ] = useDateRangeQueryParams();
+  const [{ startDate, endDate }, setDateRangeParams] =
+    useDateRangeQueryParams();
   const [selectedDates, setSelectedDates] = useState<
     OnChangeProps[] | undefined
   >(

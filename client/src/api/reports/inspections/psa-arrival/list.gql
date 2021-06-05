@@ -1,0 +1,46 @@
+query PSA_ARRIVAL_INSPECTIONS_LIST(
+  $endDate: Date
+  $orderBy: [PsaArrivalReportsOrderBy!]
+  $search: String
+  $startDate: Date
+  $exporterName: [String!]
+  $arrivalName: [String!]
+  $locationName: [String!]
+) {
+  psaArrivalReports(
+    filter: {
+      searchText: { includesInsensitive: $search }
+      exporterName: { in: $exporterName }
+      arrivalName: { in: $arrivalName }
+      locationName: { in: $locationName }
+      or: {
+        reportDate: {
+          greaterThanOrEqualTo: $startDate
+          lessThanOrEqualTo: $endDate
+        }
+      }
+    }
+    orderBy: $orderBy
+  ) {
+    nodes {
+      arrivalCode
+      arrivalName
+      exporterId
+      exporterName
+      id
+      locationName
+      pictures {
+        nodes {
+          id
+          imageUrl
+          palletId
+          pictureDescription
+          productCode
+          varietyName
+        }
+      }
+      reportDate
+    }
+    totalCount
+  }
+}

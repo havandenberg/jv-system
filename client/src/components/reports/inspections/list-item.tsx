@@ -10,7 +10,7 @@ import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 
-import { gridTemplateColumns } from '.';
+import { gridTemplateColumns as defaultGridTemplateColumns } from '.';
 
 const GridContainer = styled(l.Grid)({
   background: th.colors.brand.containerBackground,
@@ -26,38 +26,52 @@ const GridContainer = styled(l.Grid)({
 
 const ListItem = <T extends { imageUrls?: string[] | null }>({
   data,
+  gridTemplateColumns,
   lightboxTitle,
   listLabels,
   slug,
+  titleList,
 }: {
   data: T;
+  gridTemplateColumns?: string;
   lightboxTitle: string;
   listLabels: LabelInfo<T>[];
   slug: string;
+  titleList?: string[];
 }) => {
   const { Lightbox, openLightbox } = useLightbox(
     data.imageUrls || [],
     lightboxTitle,
     `${api.baseURL}/`,
+    titleList,
   );
   return (
     <l.Div mb={th.spacing.sm}>
       <l.AreaLink to={`/reports/inspections/${slug}`}>
-        <GridContainer gridTemplateColumns={gridTemplateColumns}>
-          {listLabels.map(({ key, transformKey }) => (
-            <l.Flex
-              alignCenter
-              key={`${key}`}
-              overflow="hidden"
-              p={th.spacing.sm}
-            >
-              <ty.BodyText>
-                {transformKey
-                  ? baseDataTransforms[transformKey](data[key])
-                  : data[key]}
-              </ty.BodyText>
-            </l.Flex>
-          ))}
+        <GridContainer
+          gridTemplateColumns={
+            gridTemplateColumns || defaultGridTemplateColumns
+          }
+        >
+          {listLabels.map(({ key, getValue, transformKey, transformValue }) => {
+            const value = transformKey
+              ? baseDataTransforms[transformKey](data[key])
+              : getValue
+              ? getValue(data)
+              : transformValue
+              ? transformValue(data[key])
+              : data[key];
+            return (
+              <l.Flex
+                alignCenter
+                key={`${key}`}
+                overflow="hidden"
+                p={th.spacing.sm}
+              >
+                <ty.BodyText>{value}</ty.BodyText>
+              </l.Flex>
+            );
+          })}
           <l.Flex overflow="hidden" px={th.spacing.sm}>
             {(data.imageUrls || []).map((imageUrl, idx) => (
               <l.Flex

@@ -16,6 +16,7 @@ import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 
+import { InspectionTypes } from '..';
 import Table from '../table';
 import Chart from './chart';
 import {
@@ -30,19 +31,23 @@ import {
 const breadcrumbs = (id: string) => [
   {
     text: 'All Inspections',
-    to: `/reports/inspections/d-chile`,
+    to: `/reports/inspections/${InspectionTypes.CHILE_DEPARTURE}`,
   },
-  { text: id, to: `/reports/inspections/d-chile/${id}` },
+  {
+    text: id,
+    to: `/reports/inspections/${InspectionTypes.CHILE_DEPARTURE}/${id}`,
+  },
 ];
 
 const Details = () => {
-  const { id } = useParams<{
-    id: string;
-  }>();
+  const { id } =
+    useParams<{
+      id: string;
+    }>();
   const { data, error, loading } = api.useChileDepartureInspection(id);
-  const pallets = (data
-    ? data.pallets
-    : []) as ChileDepartureInspectionPallet[];
+  const pallets = (
+    data ? data.pallets : []
+  ) as ChileDepartureInspectionPallet[];
   const reportData = pallets[0];
   const imageUrls = data ? data.imageUrls || [] : [];
   const { Lightbox, openLightbox } = useLightbox(
@@ -132,7 +137,7 @@ const Details = () => {
           <l.Div width={th.spacing.lg} />
           <l.Div flex={3}>
             <ty.CaptionText mb={th.spacing.md} secondary>
-              Images
+              Images ({imageUrls.length})
             </ty.CaptionText>
             <l.Flex column pr={th.spacing.tn}>
               {imageUrls.map((imageUrl: string, idx: number) => (

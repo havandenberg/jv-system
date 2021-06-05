@@ -103,6 +103,7 @@ const defaultRange = [
 export interface DateRangeProps extends DateRangePickerProps {
   hideDefinedRanges?: boolean;
   onClear: () => void;
+  placeholder?: string;
   showAsWeekNumber?: boolean;
   showLongDate?: boolean;
   singleSelection?: boolean;
@@ -112,6 +113,7 @@ const DateRangePicker = ({
   hideDefinedRanges,
   onChange,
   onClear,
+  placeholder = 'All dates',
   ranges,
   showAsWeekNumber,
   showLongDate,
@@ -132,7 +134,7 @@ const DateRangePicker = ({
           showAsWeekNumber,
           showLongDate,
         )
-      : 'All dates';
+      : placeholder;
 
   const handleClear = (e: React.MouseEvent) => {
     e.stopPropagation();

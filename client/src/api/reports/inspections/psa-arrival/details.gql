@@ -1,0 +1,22 @@
+query PSA_ARRIVAL_INSPECTION_DETAILS($id: BigInt!) {
+  psaArrivalReport(id: $id) {
+    arrivalCode
+    arrivalName
+    exporterId
+    exporterName
+    id
+    locationName
+    reportUrl
+    pictures {
+      nodes {
+        id
+        imageUrl
+        palletId
+        pictureDescription
+        productCode
+        varietyName
+      }
+    }
+    reportDate
+  }
+}
