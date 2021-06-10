@@ -21,7 +21,7 @@ const Header = styled(l.Div)(({ shadow }: { shadow?: boolean }) => ({
   boxShadow: shadow ? th.shadows.contentBottom : undefined,
   left: 0,
   position: 'fixed',
-  paddingTop: th.spacing.lg,
+  paddingTop: th.sizes.icon,
   top: th.heights.nav,
   width: th.sizes.fill,
   zIndex: 10,
@@ -51,12 +51,12 @@ const Page = ({
         <l.Div maxWidth={th.widths.maxContent} mx="auto" width={th.sizes.fill}>
           <l.Flex justifyEnd column>
             {breadcrumbs && (
-              <l.Div height={22} mb={th.spacing.sm}>
+              <l.Div height={12} mb={th.spacing.sm}>
                 <Breadcrumbs breadcrumbs={breadcrumbs} />
               </l.Div>
             )}
             {(title || actions) && (
-              <l.Flex alignCenter justifyBetween mb={th.spacing.lg}>
+              <l.Flex alignCenter justifyBetween mb={th.spacing.md}>
                 {title && (
                   <ty.TitleText mb={0} mr={th.spacing.lg} mt={th.spacing.sm}>
                     {title}

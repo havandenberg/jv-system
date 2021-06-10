@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { useLocation } from 'react-router-dom';
 
-import LogoImg from 'assets/images/jv-logo-white.png';
+import LogoImg from 'assets/images/jv-logo-white-no-text.png';
 import l from 'ui/layout';
 import th from 'ui/theme';
 
@@ -61,11 +61,10 @@ const Wrapper = styled(l.Flex)({
 
 const Logo = styled(l.AreaLink)({
   background: th.colors.brand.primary,
-  borderTopRightRadius: th.borderRadii.default,
   borderBottomRightRadius: th.borderRadii.default,
   justifyContent: 'center',
-  paddingTop: th.spacing.md,
-  width: 246,
+  paddingTop: th.spacing.sm,
+  width: 150,
 });
 
 const Nav = () => {
@@ -90,16 +89,14 @@ const Nav = () => {
     <Wrapper>
       <Logo to="/">
         <l.Flex justifyCenter>
-          <l.Img height={100} src={LogoImg} width={136} />
+          <l.Img height={60} src={LogoImg} width={60} />
         </l.Flex>
       </Logo>
       <l.Flex column flex={1} relative>
-        <l.Div height={24} />
         <l.Flex
           bg={th.colors.brand.primary}
           height={th.heights.navButton}
           position="absolute"
-          top={24}
           width="100%"
         >
           <l.Div onMouseLeave={() => setHoverTo('')}>

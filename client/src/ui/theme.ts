@@ -35,10 +35,10 @@ export const colors = {
 
 // Layout
 export const heights = {
-  input: 40,
-  nav: 150,
-  navButton: 78,
-  pageHeader: 136,
+  input: 32,
+  nav: 80,
+  navButton: 45,
+  pageHeader: 100,
 };
 
 export const sizes = {

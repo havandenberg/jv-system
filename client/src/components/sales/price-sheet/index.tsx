@@ -967,7 +967,7 @@ const PriceSheet = () => {
                 'Save'
               )}
             </b.Primary>
-            <l.Div position="absolute" right={0} top={50}>
+            <l.Div position="absolute" right={0} top={42}>
               <FilterCheckbox
                 checked={sendNotification}
                 label="Send email notification"
@@ -990,7 +990,7 @@ const PriceSheet = () => {
           </l.AreaLink>
         ),
       ]}
-      extraPaddingTop={108}
+      extraPaddingTop={74}
       headerChildren={
         <>
           <l.Flex>{DateRangePicker}</l.Flex>

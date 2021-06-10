@@ -30,7 +30,7 @@ interface OptionalListProps {
 }
 
 const VirtualizedList = ({
-  height = 575,
+  height = 650,
   rowHeight = 48,
   width = 1024,
   ...rest

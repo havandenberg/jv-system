@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 
 import SearchImg from 'assets/images/search';
 import TextInput, { TextInputProps } from 'ui/input';
-import th from 'ui/theme';
 import { useSearchQueryParam } from './use-query-params';
 import useDebounce from './use-debounce';
 
@@ -22,7 +21,7 @@ const useSearch = (props?: TextInputProps) => {
     search,
     Search: (
       <TextInput
-        Icon={<SearchImg height={th.sizes.sm} />}
+        Icon={<SearchImg height={18} />}
         onClear={() => {
           setLocalSearch(undefined);
         }}

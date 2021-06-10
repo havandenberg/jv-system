@@ -150,7 +150,7 @@ const DateRangePicker = ({
     <Wrapper ref={ref}>
       <Control hasValue={hasValue} onClick={toggleShow} show={show}>
         <IconWrapper>
-          <CalendarImg />
+          <CalendarImg height={18} />
         </IconWrapper>
         <DateText hasValue={hasValue} show={show}>
           {formattedDateRange}

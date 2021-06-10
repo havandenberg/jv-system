@@ -35,7 +35,7 @@ const ChileDepartureInspections = ({
   return (
     <Page
       breadcrumbs={breadcrumbs}
-      extraPaddingTop={122}
+      extraPaddingTop={101}
       headerChildren={
         <>
           <l.Flex alignCenter mb={th.spacing.sm} justifyBetween>
@@ -49,7 +49,7 @@ const ChileDepartureInspections = ({
           </l.Flex>
           {!loading && (
             <>
-              <ty.SmallText mb={th.spacing.lg} pl={th.spacing.sm}>
+              <ty.SmallText mb={th.spacing.md} pl={th.spacing.sm}>
                 Results: {data ? data.totalCount : '-'}
               </ty.SmallText>
               <l.Grid

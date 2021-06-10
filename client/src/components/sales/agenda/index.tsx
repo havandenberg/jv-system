@@ -217,7 +217,7 @@ const Agenda = () => {
           <b.Primary>Price Sheet</b.Primary>
         </l.AreaLink>,
       ]}
-      extraPaddingTop={122}
+      extraPaddingTop={86}
       headerChildren={
         <>
           <l.Flex alignCenter>

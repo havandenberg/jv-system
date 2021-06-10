@@ -46,12 +46,7 @@ const Details = () => {
       {data ? (
         <l.Div pb={th.spacing.xl}>
           <BaseData<Warehouse> data={data} labels={baseLabels} />
-          <l.Flex
-            alignCenter
-            justifyBetween
-            mb={th.spacing.lg}
-            mt={th.spacing.xl}
-          >
+          <l.Flex alignCenter justifyBetween my={th.spacing.lg}>
             <TabBar />
             <l.AreaLink
               key={1}

@@ -59,7 +59,7 @@ const Header = ({
     <l.Grid
       alignCenter
       gridTemplateColumns={`${th.sizes.icon} ${gridTemplateColumns}`}
-      mt={th.spacing.md}
+      mt={th.spacing.sm}
     >
       <l.Div />
       <l.Flex alignCenter transform="translateX(-25px)">

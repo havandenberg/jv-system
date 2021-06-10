@@ -28,7 +28,7 @@ const Breadcrumbs = ({ breadcrumbs }: { breadcrumbs: BreadcrumbProps[] }) => {
                 pl={idx ? th.spacing.sm : 0}
                 pr={th.spacing.sm}
               >
-                <ty.BodyText>{text}</ty.BodyText>
+                <ty.CaptionText>{text}</ty.CaptionText>
               </NavItem>
             </l.AreaLink>
           </React.Fragment>

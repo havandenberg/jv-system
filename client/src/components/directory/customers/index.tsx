@@ -55,7 +55,7 @@ const CustomerDirectory = ({
     <Page
       actions={actions}
       breadcrumbs={breadcrumbs}
-      extraPaddingTop={122}
+      extraPaddingTop={103}
       headerChildren={
         <>
           <l.Flex alignCenter mb={th.spacing.sm} justifyBetween>
@@ -65,7 +65,7 @@ const CustomerDirectory = ({
           </l.Flex>
           {!loading && (
             <>
-              <ty.SmallText mb={th.spacing.lg} pl={th.spacing.sm}>
+              <ty.SmallText mb={th.spacing.md} pl={th.spacing.sm}>
                 Results: {data ? data.totalCount : '-'}
                 {selectedItems.length > 0
                   ? `, Selected: ${selectedItems.length}`

@@ -54,7 +54,7 @@ const NavItem = ({
       hover={hover}
       onMouseEnter={() => setHover && setHover(to)}
     >
-      <ty.DisplayText inverted fontSize={th.fontSizes.large}>
+      <ty.DisplayText inverted fontSize={th.fontSizes.body}>
         {text}
       </ty.DisplayText>
     </Button>
