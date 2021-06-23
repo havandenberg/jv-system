@@ -17,6 +17,20 @@ query CUSTOMER_LIST(
       id
       city
       customerName
+      personContacts {
+        nodes {
+          customerId
+          customer {
+            customerName
+          }
+          email
+          firstName
+          id
+          isPrimary
+          lastName
+          workPhone
+        }
+      }
       phone
       postalState
       zipCode

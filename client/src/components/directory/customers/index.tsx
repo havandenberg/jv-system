@@ -6,6 +6,7 @@ import { DataMessage } from 'components/page/message';
 import Page from 'components/page';
 import VirtualizedList from 'components/virtualized-list';
 import useColumns, { SORT_ORDER } from 'hooks/use-columns';
+import useSearch from 'hooks/use-search';
 import { Customer } from 'types';
 import { LineItemCheckbox } from 'ui/checkbox';
 import l from 'ui/layout';
@@ -14,18 +15,13 @@ import ty from 'ui/typography';
 
 import { breadcrumbs, SubDirectoryProps } from '..';
 import ListItem from '../list-item';
+import { useDirectorySelectionContext } from '../selection-context';
 import { listLabels } from './data-utils';
 
 const gridTemplateColumns = '30px 1fr 2.5fr 1.5fr 1.5fr 0.5fr 30px';
 
-const CustomerDirectory = ({
-  actions,
-  Search,
-  selectedItems,
-  selectItem,
-  TabBar,
-  toggleSelectAll,
-}: SubDirectoryProps) => {
+const CustomerDirectory = ({ actions, TabBar }: SubDirectoryProps) => {
+  const { Search } = useSearch();
   const { data, loading, error } = api.useCustomers();
   const items = data ? data.nodes : [];
 
@@ -37,19 +33,12 @@ const CustomerDirectory = ({
     'customer',
   );
 
-  const isAllSelected =
-    selectedItems.length > 0 &&
-    selectedItems.length === (data ? data.totalCount : -1);
-  const handleSelectAll = () => {
-    toggleSelectAll(
-      isAllSelected,
-      (items as Customer[]).map((company) => ({
-        id: company.id,
-        email: '',
-        description: ` - Customer`,
-      })),
-    );
-  };
+  const [
+    allSelectedItems,
+    { selectCustomer, isAllCustomersSelected, toggleAllCustomers },
+  ] = useDirectorySelectionContext();
+
+  const selectedItems = allSelectedItems.customers;
 
   return (
     <Page
@@ -78,8 +67,8 @@ const CustomerDirectory = ({
                 pr={data ? (data.totalCount > 12 ? th.spacing.md : 0) : 0}
               >
                 <LineItemCheckbox
-                  checked={isAllSelected}
-                  onChange={handleSelectAll}
+                  checked={isAllCustomersSelected(items)}
+                  onChange={() => toggleAllCustomers(items)}
                 />
                 {columnLabels}
               </l.Grid>
@@ -100,15 +89,8 @@ const CustomerDirectory = ({
                   <ListItem<Customer>
                     data={item}
                     gridTemplateColumns={gridTemplateColumns}
-                    key={key}
                     listLabels={listLabels}
-                    onSelectItem={() =>
-                      selectItem({
-                        id: item.id,
-                        email: '',
-                        description: ` - Customer`,
-                      })
-                    }
+                    onSelectItem={() => selectCustomer(item)}
                     selected={!!selectedItems.find((it) => it.id === item.id)}
                     slug={`customers/${item.id}`}
                   />

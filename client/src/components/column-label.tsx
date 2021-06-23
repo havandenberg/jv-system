@@ -48,6 +48,7 @@ export interface LabelInfo<T> {
   label: string;
   filterPanelProps?: FilterPanelProps;
   isBoolean?: boolean;
+  readOnly?: boolean;
   sortable?: boolean;
   transformKey?: keyof typeof baseDataTransforms;
   transformValue?: (val: any) => any;

@@ -6,28 +6,23 @@ import { DataMessage } from 'components/page/message';
 import Page from 'components/page';
 import VirtualizedList from 'components/virtualized-list';
 import useColumns, { SORT_ORDER } from 'hooks/use-columns';
+import useSearch from 'hooks/use-search';
 import { PersonContact } from 'types';
 import { LineItemCheckbox } from 'ui/checkbox';
-import b from 'ui/button';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 
 import { breadcrumbs, SubDirectoryProps } from '..';
 import ListItem from '../list-item';
+import { useDirectorySelectionContext } from '../selection-context';
 import { internalListLabels as listLabels } from './data-utils';
 
 const gridTemplateColumns = '30px 1.5fr 2fr 3.5fr 2fr 30px';
 
-const ContactDirectory = ({
-  actions,
-  Search,
-  selectedItems,
-  selectItem,
-  TabBar,
-  toggleSelectAll,
-}: SubDirectoryProps) => {
-  const { data, loading, error } = api.usePersonContacts({ isInternal: true });
+const ContactDirectory = ({ actions, TabBar }: SubDirectoryProps) => {
+  const { Search } = useSearch();
+  const { data, loading, error } = api.useInternalPersonContacts();
   const items = data ? data.nodes : [];
 
   const columnLabels = useColumns<PersonContact>(
@@ -38,28 +33,20 @@ const ContactDirectory = ({
     'person_contact',
   );
 
-  const isAllSelected =
-    selectedItems.length > 0 &&
-    selectedItems.length === (data ? data.totalCount : -1);
-  const handleSelectAll = () => {
-    toggleSelectAll(
-      isAllSelected,
-      (items as PersonContact[]).map((contact) => ({
-        id: contact.id,
-        email: contact.email || '',
-        description: 'Contact',
-      })),
-    );
-  };
+  const [
+    allSelectedItems,
+    {
+      selectInternalContact,
+      isAllInternalContactsSelected,
+      toggleAllInternalContacts,
+    },
+  ] = useDirectorySelectionContext();
+
+  const selectedItems = allSelectedItems.internal;
 
   return (
     <Page
-      actions={[
-        <l.AreaLink key={1} mr={th.spacing.md} to={`/directory/create`}>
-          <b.Primary>New</b.Primary>
-        </l.AreaLink>,
-        ...actions,
-      ]}
+      actions={actions}
       breadcrumbs={breadcrumbs}
       extraPaddingTop={103}
       headerChildren={
@@ -84,8 +71,8 @@ const ContactDirectory = ({
                 pr={data ? (data.totalCount > 12 ? th.spacing.md : 0) : 0}
               >
                 <LineItemCheckbox
-                  checked={isAllSelected}
-                  onChange={handleSelectAll}
+                  checked={isAllInternalContactsSelected(items)}
+                  onChange={() => toggleAllInternalContacts(items)}
                 />
                 {columnLabels}
               </l.Grid>
@@ -108,11 +95,7 @@ const ContactDirectory = ({
                     gridTemplateColumns={gridTemplateColumns}
                     listLabels={listLabels}
                     onSelectItem={() =>
-                      selectItem({
-                        id: item.id,
-                        email: '',
-                        description: ` - Contacts`,
-                      })
+                      item.email && selectInternalContact(item)
                     }
                     selected={!!selectedItems.find((it) => it.id === item.id)}
                     slug={`internal/${item.id}`}

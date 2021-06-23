@@ -1,17 +1,28 @@
-query CONTACT_ALIAS_DETAILS($id: BigInt!) {
+query CONTACT_ALIAS_DETAILS($id: BigInt!, $orderBy: [PersonContactsOrderBy!]) {
   contactAlias(id: $id) {
     aliasDescription
     aliasName
     aliasType
     id
-    contactAliasPersonContactsByAliasId {
+    personContactsByContactAliasPersonContactAliasIdAndPersonContactId(
+      orderBy: $orderBy
+    ) {
       nodes {
-        personContact {
-          email
-          firstName
-          id
-          lastName
-          workPhone
+        email
+        firstName
+        id
+        lastName
+        customerId
+        customer {
+          customerName
+        }
+        shipperId
+        shipper {
+          shipperName
+        }
+        warehouseId
+        warehouse {
+          warehouseName
         }
       }
       totalCount

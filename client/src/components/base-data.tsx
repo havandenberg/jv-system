@@ -56,6 +56,7 @@ const BaseData = <T extends {}>({
           getValue,
           label,
           isBoolean,
+          readOnly,
           transformKey,
           transformValue,
           validate,
@@ -95,7 +96,7 @@ const BaseData = <T extends {}>({
             <EditableCell
               content={content}
               defaultChildren={<ty.BodyText>{value}</ty.BodyText>}
-              editing={!!editing}
+              editing={!!editing && !readOnly}
               inputProps={{
                 borderRadius: th.borderRadii.default,
                 borderColor:

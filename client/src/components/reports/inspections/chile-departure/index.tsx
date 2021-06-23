@@ -80,7 +80,6 @@ const ChileDepartureInspections = ({
                 <div key={key} style={style}>
                   <ListItem<ChileDepartureInspection>
                     data={item}
-                    key={key}
                     lightboxTitle={`${item.lotNumber}`}
                     listLabels={listLabels}
                     slug={`${InspectionTypes.CHILE_DEPARTURE}/${item.lotNumber}`}

@@ -6,12 +6,14 @@ import BaseData from 'components/base-data';
 import Page from 'components/page';
 import { DataMessage } from 'components/page/message';
 import { Tab, useTabBar } from 'components/tab-bar';
-import { Shipper } from 'types';
+import useUpdateItem from 'hooks/use-update-item';
+import { PersonContact, Shipper } from 'types';
 import b from 'ui/button';
 import l from 'ui/layout';
 import th from 'ui/theme';
 
 import ContactList from '../contacts/list';
+import { useDirectorySelectionContext } from '../selection-context';
 import { baseLabels } from './data-utils';
 
 export const shipperBreadcrumbs = (id: string) => [
@@ -35,17 +37,49 @@ const Details = () => {
       id: string;
     }>();
   const { data, error, loading } = api.useShipper(id);
+  const personContacts = data ? data.personContacts.nodes : [];
 
   const { TabBar } = useTabBar(tabs);
 
+  const [handleUpdate] = api.useUpdateShipper(id);
+
+  const updateFields = ['shipperName', 'groupId', 'notes', 'website'];
+  const updateVariables = { id };
+
+  const { changes, editing, handleChange, updateActions } =
+    useUpdateItem<Shipper>({
+      data: data as Shipper,
+      handleUpdate,
+      updateFields,
+      updateVariables,
+    });
+
+  const [
+    selectedItems,
+    {
+      selectShipperPersonContact,
+      isAllShipperPersonContactsSelected,
+      toggleAllShipperPersonContacts,
+    },
+  ] = useDirectorySelectionContext();
+
+  const selectedShipper = selectedItems.shippers.find((c) => c.id === id);
+
   return (
     <Page
+      actions={updateActions}
       breadcrumbs={shipperBreadcrumbs(id)}
       title={data ? data.shipperName : 'Directory - Shipper'}
     >
       {data ? (
         <l.Div pb={th.spacing.xl}>
-          <BaseData<Shipper> data={data} labels={baseLabels} />
+          <BaseData<Shipper>
+            changes={changes}
+            data={data}
+            editing={editing}
+            handleChange={handleChange}
+            labels={baseLabels}
+          />
           <l.Flex alignCenter justifyBetween my={th.spacing.lg}>
             <TabBar />
             <l.AreaLink
@@ -56,7 +90,14 @@ const Details = () => {
               <b.Primary>New</b.Primary>
             </l.AreaLink>
           </l.Flex>
-          <ContactList baseUrl={`shippers/${id}`} shipperId={id} />
+          <ContactList
+            baseUrl={`shippers/${id}`}
+            personContacts={personContacts as PersonContact[]}
+            selectedItem={selectedShipper}
+            selectContact={selectShipperPersonContact(data)}
+            toggleAllContacts={() => toggleAllShipperPersonContacts(data)}
+            isAllContactsSelected={isAllShipperPersonContactsSelected(data)}
+          />
         </l.Div>
       ) : (
         <DataMessage data={data || []} error={error} loading={loading} />

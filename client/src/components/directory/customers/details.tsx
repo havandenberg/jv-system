@@ -6,12 +6,14 @@ import BaseData from 'components/base-data';
 import Page from 'components/page';
 import { DataMessage } from 'components/page/message';
 import { Tab, useTabBar } from 'components/tab-bar';
-import { Customer } from 'types';
+import useUpdateItem from 'hooks/use-update-item';
+import { Customer, PersonContact } from 'types';
 import b from 'ui/button';
 import l from 'ui/layout';
 import th from 'ui/theme';
 
 import ContactList from '../contacts/list';
+import { useDirectorySelectionContext } from '../selection-context';
 import { baseLabels } from './data-utils';
 
 export const customerBreadcrumbs = (id: string) => [
@@ -35,17 +37,60 @@ const Details = () => {
       id: string;
     }>();
   const { data, error, loading } = api.useCustomer(id);
+  const personContacts = data ? data.personContacts.nodes : [];
 
   const { TabBar } = useTabBar(tabs);
 
+  const [handleUpdate] = api.useUpdateCustomer(id);
+
+  const updateFields = [
+    'customerName',
+    'phone',
+    'address1',
+    'address2',
+    'city',
+    'postalState',
+    'zipCode',
+    'countryId',
+    'notes',
+    'website',
+  ];
+  const updateVariables = { id };
+
+  const { changes, editing, handleChange, updateActions } =
+    useUpdateItem<Customer>({
+      data: data as Customer,
+      handleUpdate,
+      updateFields,
+      updateVariables,
+    });
+
+  const [
+    selectedItems,
+    {
+      selectCustomerPersonContact,
+      isAllCustomerPersonContactsSelected,
+      toggleAllCustomerPersonContacts,
+    },
+  ] = useDirectorySelectionContext();
+
+  const selectedCustomer = selectedItems.customers.find((c) => c.id === id);
+
   return (
     <Page
+      actions={updateActions}
       breadcrumbs={customerBreadcrumbs(id)}
       title={data ? data.customerName : 'Directory - Customer'}
     >
       {data ? (
         <l.Div pb={th.spacing.xl}>
-          <BaseData<Customer> data={data} labels={baseLabels} />
+          <BaseData<Customer>
+            changes={changes}
+            data={data}
+            editing={editing}
+            handleChange={handleChange}
+            labels={baseLabels}
+          />
           <l.Flex alignCenter justifyBetween my={th.spacing.lg}>
             <TabBar />
             <l.AreaLink
@@ -56,7 +101,14 @@ const Details = () => {
               <b.Primary>New</b.Primary>
             </l.AreaLink>
           </l.Flex>
-          <ContactList baseUrl={`customers/${id}`} customerId={id} />
+          <ContactList
+            baseUrl={`customers/${id}`}
+            personContacts={personContacts as PersonContact[]}
+            selectedItem={selectedCustomer}
+            selectContact={selectCustomerPersonContact(data)}
+            toggleAllContacts={() => toggleAllCustomerPersonContacts(data)}
+            isAllContactsSelected={isAllCustomerPersonContactsSelected(data)}
+          />
         </l.Div>
       ) : (
         <DataMessage data={data || []} error={error} loading={loading} />

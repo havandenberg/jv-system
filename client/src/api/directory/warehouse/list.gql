@@ -15,6 +15,20 @@ query WAREHOUSE_LIST(
     nodes {
       id
       city
+      personContacts {
+        nodes {
+          warehouseId
+          warehouse {
+            warehouseName
+          }
+          email
+          firstName
+          id
+          isPrimary
+          lastName
+          workPhone
+        }
+      }
       phone
       postalState
       zipCode

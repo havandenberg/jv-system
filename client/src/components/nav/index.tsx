@@ -19,7 +19,7 @@ export const navItems: NavItemType[] = [
     text: 'Directory',
     to: '/directory',
     dashboardItems: [
-      { disabled: true, text: 'Aliases', to: 'aliases' },
+      { text: 'Aliases', to: 'aliases' },
       { text: 'Internal', to: 'internal' },
       { text: 'Customers', to: 'customers' },
       { text: 'Shippers', to: 'shippers' },

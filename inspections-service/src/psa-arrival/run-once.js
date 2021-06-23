@@ -1,3 +1,3 @@
-const { fetchPSAArrivalInspections } = require('.');
+const { fetchPsaArrivalInspections } = require('.');
 
-fetchPSAArrivalInspections();
+fetchPsaArrivalInspections();

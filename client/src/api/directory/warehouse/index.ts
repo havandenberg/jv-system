@@ -1,6 +1,8 @@
-import { useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { loader } from 'graphql.macro';
+import { StringParam } from 'use-query-params';
 
+import useFilteredQueryValues from 'api/hooks/use-filtered-query-values';
 import { getOrderByString } from 'api/utils';
 import { SORT_ORDER } from 'hooks/use-columns';
 import {
@@ -8,12 +10,11 @@ import {
   useSearchQueryParam,
   useSortQueryParams,
 } from 'hooks/use-query-params';
-import { Query } from 'types';
-import useFilteredQueryValues from 'api/hooks/use-filtered-query-values';
-import { StringParam } from 'use-query-params';
+import { Mutation, Query } from 'types';
 
-const WAREHOUSE_DETAILS_QUERY = loader('./details.gql');
+export const WAREHOUSE_DETAILS_QUERY = loader('./details.gql');
 const WAREHOUSE_LIST_QUERY = loader('./list.gql');
+const WAREHOUSE_UPDATE = loader('./update.gql');
 
 export const useWarehouses = () => {
   const [search = ''] = useSearchQueryParam();
@@ -55,12 +56,27 @@ export const useWarehouses = () => {
 };
 
 export const useWarehouse = (id: string) => {
+  const [{ sortBy = 'firstName', sortOrder = SORT_ORDER.ASC }] =
+    useSortQueryParams();
+  const orderBy = getOrderByString(sortBy, sortOrder);
+
   const { data, error, loading } = useQuery<Query>(WAREHOUSE_DETAILS_QUERY, {
-    variables: { id },
+    variables: { id, orderBy },
   });
   return {
     data: data ? data.warehouse : undefined,
     error,
     loading,
   };
+};
+
+export const useUpdateWarehouse = (id: string) => {
+  return useMutation<Mutation>(WAREHOUSE_UPDATE, {
+    refetchQueries: [
+      {
+        query: WAREHOUSE_DETAILS_QUERY,
+        variables: { id },
+      },
+    ],
+  });
 };

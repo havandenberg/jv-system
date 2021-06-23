@@ -17,6 +17,10 @@ export const listLabels: ContactAliasLabelInfo[] = [
     label: 'Type',
     sortable: true,
   },
+  {
+    key: 'aliasDescription',
+    label: 'Description',
+  },
 ];
 
 export const baseLabels: ContactAliasLabelInfo[] = [
@@ -25,15 +29,16 @@ export const baseLabels: ContactAliasLabelInfo[] = [
     key: 'aliasName',
     label: 'Name',
     sortable: true,
+    validate: (val) => val.length > 0,
   },
   {
     defaultSortOrder: SORT_ORDER.ASC,
     key: 'aliasType',
     label: 'Type',
     sortable: true,
+    validate: (val) => val.length > 0,
   },
   {
-    defaultSortOrder: SORT_ORDER.ASC,
     key: 'aliasDescription',
     label: 'Description',
   },

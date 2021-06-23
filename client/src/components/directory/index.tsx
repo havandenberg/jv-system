@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
 import { Tab, useTabBar } from 'components/tab-bar';
-import useSearch from 'hooks/use-search';
 
 import AliasDirectory from './aliases';
+import CreateContactAlias from './aliases/create';
 import AliasDetails from './aliases/details';
 import CustomerDirectory from './customers';
 import CustomerDetails from './customers/details';
@@ -15,7 +15,7 @@ import CreatePersonContact from './contacts/create';
 import ContactDetails from './contacts/details';
 import WarehouseDirectory from './warehouses';
 import WarehouseDetails from './warehouses/details';
-import SendEmailModal from './send-email';
+import SendMessage from './send-message';
 
 export const breadcrumbs = [{ text: 'Directory', to: `/directory` }];
 
@@ -55,83 +55,17 @@ const tabs: Tab[] = [
   },
 ];
 
-interface SelectedItem {
-  id: string;
-  email: string;
-  description: string;
-}
-
-export interface SelectionState {
-  aliases: SelectedItem[];
-  internal: SelectedItem[];
-  shippers: SelectedItem[];
-  customers: SelectedItem[];
-  warehouses: SelectedItem[];
-}
-
-const initialSelectionState = {
-  aliases: [],
-  internal: [],
-  customers: [],
-  shippers: [],
-  warehouses: [],
-};
-
 export interface SubDirectoryProps {
   actions: React.ReactNode[];
-  Search: React.ReactNode;
-  selectedItems: SelectedItem[];
-  selectItem: (item: SelectedItem) => void;
   TabBar: React.ReactNode;
-  toggleSelectAll: (isAllSelected: boolean, allItems: SelectedItem[]) => void;
 }
 
 const Directory = () => {
-  const { Search } = useSearch();
-  const { selectedTabId, TabBar } = useTabBar(tabs, true);
-
-  const [selectedItems, setSelectedItems] = useState<SelectionState>(
-    initialSelectionState,
-  );
-
-  const selectItem = (type: keyof SelectionState) => (item: SelectedItem) => {
-    const selectedValues = selectedItems[type];
-    if (selectedValues.find((it) => it.id === item.id)) {
-      const newValues = selectedValues.filter((it) => it.id !== item.id);
-      setSelectedItems({
-        ...selectedItems,
-        [type]: newValues.length > 0 ? newValues : [],
-      });
-    } else {
-      setSelectedItems({
-        ...selectedItems,
-        [type]: [...selectedValues, item],
-      });
-    }
-  };
-
-  const toggleSelectAll = (
-    isAllSelected: boolean,
-    allItems: SelectedItem[],
-  ) => {
-    if (!isAllSelected) {
-      setSelectedItems({
-        ...selectedItems,
-        [selectedTabId]: allItems,
-      });
-    } else {
-      setSelectedItems({
-        ...selectedItems,
-        [selectedTabId]: [],
-      });
-    }
-  };
+  const { TabBar } = useTabBar(tabs, true);
 
   const subDirectoryProps = {
-    actions: [<SendEmailModal key={0} selectedEmails={selectedItems} />],
-    Search,
+    actions: [<SendMessage key={0} />],
     TabBar: <TabBar />,
-    toggleSelectAll,
   };
 
   return (
@@ -141,25 +75,18 @@ const Directory = () => {
       <Route
         exact
         path="/directory/internal"
-        render={() => (
-          <ContactDirectory
-            selectedItems={selectedItems['internal']}
-            selectItem={selectItem('internal')}
-            {...subDirectoryProps}
-          />
-        )}
+        render={() => <ContactDirectory {...subDirectoryProps} />}
+      />
+      <Route
+        exact
+        path="/directory/aliases/create"
+        component={CreateContactAlias}
       />
       <Route exact path="/directory/aliases/:id" component={AliasDetails} />
       <Route
         exact
         path="/directory/aliases"
-        render={() => (
-          <AliasDirectory
-            selectedItems={selectedItems['aliases']}
-            selectItem={selectItem('aliases')}
-            {...subDirectoryProps}
-          />
-        )}
+        render={() => <AliasDirectory {...subDirectoryProps} />}
       />
       <Route
         exact
@@ -174,13 +101,7 @@ const Directory = () => {
       <Route
         exact
         path="/directory/shippers"
-        render={() => (
-          <ShipperDirectory
-            selectedItems={selectedItems['shippers']}
-            selectItem={selectItem('shippers')}
-            {...subDirectoryProps}
-          />
-        )}
+        render={() => <ShipperDirectory {...subDirectoryProps} />}
       />
       <Route
         exact
@@ -195,13 +116,7 @@ const Directory = () => {
       <Route
         exact
         path="/directory/customers"
-        render={() => (
-          <CustomerDirectory
-            selectedItems={selectedItems['customers']}
-            selectItem={selectItem('customers')}
-            {...subDirectoryProps}
-          />
-        )}
+        render={() => <CustomerDirectory {...subDirectoryProps} />}
       />
       <Route
         exact
@@ -216,13 +131,7 @@ const Directory = () => {
       <Route
         exact
         path="/directory/warehouses"
-        render={() => (
-          <WarehouseDirectory
-            selectedItems={selectedItems['warehouses']}
-            selectItem={selectItem('warehouses')}
-            {...subDirectoryProps}
-          />
-        )}
+        render={() => <WarehouseDirectory {...subDirectoryProps} />}
       />
       <Redirect to="/directory/internal" />
     </Switch>

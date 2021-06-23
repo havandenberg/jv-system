@@ -48,6 +48,20 @@ export const ClearWrapper = styled(IconWrapper)({
   },
 });
 
+export const TextArea = styled.textarea({
+  background: th.colors.brand.containerBackground,
+  border: th.borders.secondary,
+  borderRadius: th.borderRadii.default,
+  boxShadow: th.shadows.boxLight,
+  color: th.colors.brand.primary,
+  cursor: 'text',
+  fontFamily: th.fontFamilies.body,
+  fontSize: th.fontSizes.body,
+  outline: 'none',
+  padding: th.spacing.md,
+  transition: th.transitions.default,
+});
+
 const StyledTextInput = styled.input(
   {
     background: 'transparent',

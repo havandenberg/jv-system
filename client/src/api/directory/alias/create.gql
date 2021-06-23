@@ -1,11 +1,16 @@
-mutation CONTACT_ALIAS_CREATE($id: BigInt!, $updates: PersonContactPatch!) {
+mutation CONTACT_ALIAS_CREATE(
+  $aliasName: String!
+  $aliasType: String!
+  $aliasDescription: String!
+  $contacts: [ContactAliasPersonContactAliasIdFkeyContactAliasPersonContactCreateInput!]
+) {
   createContactAlias(
     input: {
       contactAlias: {
-        aliasDescription: "Test"
-        aliasName: "Test"
-        aliasType: "Test"
-        contactAliasPersonContactsUsingId: { create: { personContactId: "34" } }
+        aliasDescription: $aliasDescription
+        aliasName: $aliasName
+        aliasType: $aliasType
+        contactAliasPersonContactsUsingId: { create: $contacts }
       }
     }
   ) {

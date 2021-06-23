@@ -38,7 +38,7 @@ const ListItem = <T extends {}>({
   listLabels: LabelInfo<T>[];
   onSelectItem?: () => void;
   selected?: boolean;
-  slug: string;
+  slug?: string;
 }) => (
   <l.Div mb={th.spacing.sm}>
     <l.AreaLink to={`/directory/${slug}`}>
@@ -59,6 +59,7 @@ const ListItem = <T extends {}>({
             p={th.spacing.sm}
           >
             <ty.BodyText
+              nowrap
               onClick={(e: React.MouseEvent) => {
                 e.stopPropagation();
               }}

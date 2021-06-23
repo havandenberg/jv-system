@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { loader } from 'graphql.macro';
 import { StringParam } from 'use-query-params';
 
@@ -10,10 +10,11 @@ import {
   useSearchQueryParam,
   useSortQueryParams,
 } from 'hooks/use-query-params';
-import { Query } from 'types';
+import { Mutation, Query } from 'types';
 
-const SHIPPER_DETAILS_QUERY = loader('./details.gql');
+export const SHIPPER_DETAILS_QUERY = loader('./details.gql');
 const SHIPPER_LIST_QUERY = loader('./list.gql');
+const SHIPPER_UPDATE = loader('./update.gql');
 
 export const useShippers = () => {
   const [search = ''] = useSearchQueryParam();
@@ -47,9 +48,14 @@ export const useShippers = () => {
 };
 
 export const useShipper = (id: string) => {
+  const [{ sortBy = 'firstName', sortOrder = SORT_ORDER.ASC }] =
+    useSortQueryParams();
+  const orderBy = getOrderByString(sortBy, sortOrder);
+
   const { data, error, loading } = useQuery<Query>(SHIPPER_DETAILS_QUERY, {
     variables: {
       id,
+      orderBy,
     },
   });
   return {
@@ -57,4 +63,15 @@ export const useShipper = (id: string) => {
     error,
     loading,
   };
+};
+
+export const useUpdateShipper = (id: string) => {
+  return useMutation<Mutation>(SHIPPER_UPDATE, {
+    refetchQueries: [
+      {
+        query: SHIPPER_DETAILS_QUERY,
+        variables: { id },
+      },
+    ],
+  });
 };

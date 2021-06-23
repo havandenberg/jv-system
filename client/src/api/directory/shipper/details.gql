@@ -1,4 +1,4 @@
-query SHIPPER_DETAILS($id: String!) {
+query SHIPPER_DETAILS($id: String!, $orderBy: [PersonContactsOrderBy!]) {
   shipper(id: $id) {
     country {
       countryName
@@ -6,6 +6,20 @@ query SHIPPER_DETAILS($id: String!) {
     groupId
     id
     logoSrc
+    personContacts(orderBy: $orderBy) {
+      nodes {
+        shipperId
+        shipper {
+          shipperName
+        }
+        email
+        firstName
+        id
+        isPrimary
+        lastName
+        workPhone
+      }
+    }
     notes
     shipperName
     website

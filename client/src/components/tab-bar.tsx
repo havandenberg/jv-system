@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { useParams } from 'react-router-dom';
 
 import { useQueryValue } from 'hooks/use-query-params';
-import l from 'ui/layout';
+import l, { divPropsSet } from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 
@@ -14,7 +14,7 @@ export interface Tab {
   disabled?: boolean;
 }
 
-const StyledTab = styled(l.Div)(
+export const StyledTab = styled(l.Div)(
   ({ disabled, selected }: { disabled?: boolean; selected?: boolean }) => ({
     background: selected
       ? th.colors.brand.primary
@@ -39,6 +39,7 @@ const StyledTab = styled(l.Div)(
       color: selected ? th.colors.text.inv : th.colors.brand.secondary,
     },
   }),
+  divPropsSet,
 );
 
 interface Props {
@@ -85,9 +86,10 @@ export const useTabBar = (
   defaultTabId?: string,
   paramName?: string,
 ) => {
-  const { routeTabId } = useParams<{
-    routeTabId: string;
-  }>();
+  const { routeTabId } =
+    useParams<{
+      routeTabId: string;
+    }>();
   const firstTab = tabs[0] && tabs[0].id;
   const [stateTabId, setStateTabId] = useState(
     defaultTabId || isRoute ? routeTabId || firstTab : firstTab,

@@ -1,14 +1,29 @@
-query CUSTOMER_DETAILS($id: String!) {
+query CUSTOMER_DETAILS($id: String!, $orderBy: [PersonContactsOrderBy!]) {
   customer(id: $id) {
     address1
     address2
     city
+    countryId
     country {
       countryName
     }
     customerName
     id
     notes
+    personContacts(orderBy: $orderBy) {
+      nodes {
+        customerId
+        customer {
+          customerName
+        }
+        email
+        firstName
+        id
+        isPrimary
+        lastName
+        workPhone
+      }
+    }
     phone
     postalState
     website

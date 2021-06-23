@@ -204,9 +204,7 @@ const fetchArrivalReports = (dateTime) =>
     .catch(onError);
 
 const fetchPsaArrivalInspections = () => {
-  console.log(
-    `\nFetching PSA arrival inspections: ${new Date().toISOString()}\n`,
-  );
+  console.log(`\nFetching PSA arrival inspections: ${new Date().toString()}\n`);
 
   const dateTime = '2021-06-07';
   fetchArrivalReports(dateTime);

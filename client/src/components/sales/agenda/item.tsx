@@ -1,7 +1,7 @@
 import React, { Fragment, useRef, useState } from 'react';
 import JoditEditor, { JoditProps } from 'jodit-react';
 
-import Modal from 'components/modal';
+import { BasicModal } from 'components/modal';
 import SortControl from 'components/sort-control';
 import b from 'ui/button';
 import l from 'ui/layout';
@@ -112,32 +112,19 @@ const AgendaItem = ({
       <l.Flex column position="absolute" right={0} top={0}>
         {editing ? (
           <Fragment key={0}>
-            <Modal
-              trigger={(show) => (
-                <b.Primary
-                  mb={th.spacing.md}
-                  onClick={item.id < 0 || !hasChanges ? handleCancel : show}
-                  width={100}
-                >
-                  Cancel
-                </b.Primary>
-              )}
-            >
-              {({ hide }) => (
-                <>
-                  <ty.TitleText>Confirm discard changes</ty.TitleText>
-                  <ty.BodyText>
-                    You will lose all unsaved agenda changes.
-                  </ty.BodyText>
-                  <l.Flex justifyCenter mt={th.spacing.xl}>
-                    <b.Primary mr={th.spacing.lg} onClick={hide}>
-                      Cancel
-                    </b.Primary>
-                    <b.Primary onClick={handleCancel}>Discard</b.Primary>
-                  </l.Flex>
-                </>
-              )}
-            </Modal>
+            <BasicModal
+              title="Confirm Discard Changes"
+              content={
+                <ty.BodyText>
+                  You will lose all unsaved agenda changes.
+                </ty.BodyText>
+              }
+              confirmText="Discard"
+              handleConfirm={handleCancel}
+              shouldConfirm={item.id >= 0 || hasChanges}
+              triggerStyles={{ mb: th.spacing.md, width: 100 }}
+              triggerText="Cancel"
+            />
             <b.Primary
               onClick={() => {
                 handleSave(item.id, handleCancel);
@@ -152,34 +139,20 @@ const AgendaItem = ({
             <b.Primary onClick={handleEdit} width={100}>
               Edit
             </b.Primary>
-            <Modal
-              trigger={(show) => (
-                <b.Primary mt={th.spacing.md} onClick={show} width={100}>
-                  Remove
-                </b.Primary>
-              )}
-            >
-              {({ hide }) => (
-                <>
-                  <ty.TitleText>Confirm remove item</ty.TitleText>
-                  <ty.BodyText>
-                    You will lose all unsaved agenda changes.
-                  </ty.BodyText>
-                  <l.Flex justifyCenter mt={th.spacing.xl}>
-                    <b.Primary mr={th.spacing.lg} onClick={hide}>
-                      Cancel
-                    </b.Primary>
-                    <b.Primary
-                      onClick={() => {
-                        handleRemoveItem(item.id, item.sortOrder);
-                      }}
-                    >
-                      Remove
-                    </b.Primary>
-                  </l.Flex>
-                </>
-              )}
-            </Modal>
+            <BasicModal
+              title="Confirm Remove Item"
+              content={
+                <ty.BodyText>
+                  Are you sure you want to remove this agenda item?
+                </ty.BodyText>
+              }
+              confirmText="Remove"
+              handleConfirm={() => {
+                handleRemoveItem(item.id, item.sortOrder);
+              }}
+              triggerStyles={{ mt: th.spacing.md, width: 100 }}
+              triggerText="Remove"
+            />
           </Fragment>
         )}
       </l.Flex>

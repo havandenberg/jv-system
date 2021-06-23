@@ -1,0 +1,7 @@
+mutation WAREHOUSE_UPDATE($id: String!, $updates: WarehousePatch!) {
+  updateWarehouse(input: { patch: $updates, id: $id }) {
+    warehouse {
+      id
+    }
+  }
+}

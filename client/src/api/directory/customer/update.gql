@@ -1,0 +1,7 @@
+mutation CUSTOMER_UPDATE($id: String!, $updates: CustomerPatch!) {
+  updateCustomer(input: { patch: $updates, id: $id }) {
+    customer {
+      id
+    }
+  }
+}

@@ -2,7 +2,7 @@ import React from 'react';
 
 import EditableCell from 'components/editable-cell';
 import Expandable from 'components/expandable';
-import RemoveButton from 'components/remove-button';
+import { BasicModal } from 'components/modal';
 import SortControl from 'components/sort-control';
 import { PriceCategory } from 'types';
 import l from 'ui/layout';
@@ -42,13 +42,13 @@ const Categories = (props: Props) => {
               header={
                 <l.Flex alignCenter relative>
                   {editing && (
-                    <RemoveButton
-                      confirmTitle="Confirm Remove Category"
-                      confirmContent={
+                    <BasicModal
+                      title="Confirm Remove Category"
+                      content={
                         <>
                           <ty.BodyText
                             mb={th.spacing.md}
-                          >{`Are you sure you want to remove category ${category.categoryName}?`}</ty.BodyText>
+                          >{`Are you sure you want to remove category "${category.categoryName}"?`}</ty.BodyText>
                           <ty.BodyText>
                             This will remove all attached products, sizes, and
                             price entries for the currently selected date and
@@ -56,14 +56,15 @@ const Categories = (props: Props) => {
                           </ty.BodyText>
                         </>
                       }
-                      handleRemove={() =>
+                      handleConfirm={() =>
                         handleRemoveItem('categories', category.id)
                       }
                       shouldConfirm={category.id >= 0}
-                      triggerProps={{
+                      triggerStyles={{
                         position: 'absolute',
                         left: `-${th.sizes.icon}`,
                       }}
+                      triggerType="remove-icon"
                     />
                   )}
                   <EditableCell

@@ -16,6 +16,20 @@ query SHIPPER_LIST(
         countryName
       }
       groupId
+      personContacts {
+        nodes {
+          shipperId
+          shipper {
+            shipperName
+          }
+          email
+          firstName
+          id
+          isPrimary
+          lastName
+          workPhone
+        }
+      }
       shipperName
     }
     totalCount

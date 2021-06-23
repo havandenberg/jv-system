@@ -29,6 +29,7 @@ export const listLabels: CustomerLabelInfo[] = [
     transformKey: 'phone',
   },
   {
+    defaultSortOrder: SORT_ORDER.ASC,
     key: 'city',
     label: 'City',
     filterPanelProps: {
@@ -48,6 +49,7 @@ export const listLabels: CustomerLabelInfo[] = [
     sortable: true,
   },
   {
+    defaultSortOrder: SORT_ORDER.ASC,
     key: 'postalState',
     label: 'State',
     filterPanelProps: {
@@ -73,6 +75,7 @@ export const baseLabels: CustomerLabelInfo[] = [
   {
     key: 'id',
     label: 'ID',
+    readOnly: true,
   },
   {
     key: 'customerName',
@@ -107,11 +110,11 @@ export const baseLabels: CustomerLabelInfo[] = [
     key: 'countryId',
     label: 'Country',
     getValue: (data) => data.country?.countryName || '',
+    readOnly: true,
   },
   {
     key: 'notes',
     label: 'Notes',
-    transformKey: 'link',
   },
   {
     key: 'website',

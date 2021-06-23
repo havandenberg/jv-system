@@ -44,13 +44,11 @@ const CreatePersonContact = () => {
   const { data: customer } = api.useCustomer(customerId);
   const { data: shipper } = api.useShipper(shipperId);
   const { data: warehouse } = api.useWarehouse(warehouseId);
-  const isInternal = !customerId && !shipperId && !warehouseId;
 
   const [handleCreate] = api.useCreatePersonContact({
     customerId,
     shipperId,
     warehouseId,
-    isInternal,
   });
   const [createLoading, setLoading] = useState(false);
   const [saveAttempt, setSaveAttempt] = useState(false);
@@ -98,7 +96,7 @@ const CreatePersonContact = () => {
 
   const handleSave = () => {
     setSaveAttempt(true);
-    if (validateItem(changes, baseLabels)) {
+    if (validateItem(changes, baseLabels(false))) {
       setLoading(true);
       handleCreate({
         variables: {
@@ -107,7 +105,6 @@ const CreatePersonContact = () => {
             customerId,
             shipperId,
             warehouseId,
-            isInternal,
           },
         },
       }).then(() => {
@@ -164,7 +161,7 @@ const CreatePersonContact = () => {
         data={changes}
         editing={true}
         handleChange={handleChange}
-        labels={baseLabels}
+        labels={baseLabels(false)}
         showValidation={saveAttempt}
       />
     </Page>

@@ -1,0 +1,7 @@
+mutation SHIPPER_UPDATE($id: String!, $updates: ShipperPatch!) {
+  updateShipper(input: { patch: $updates, id: $id }) {
+    shipper {
+      id
+    }
+  }
+}

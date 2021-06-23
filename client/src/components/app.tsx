@@ -13,6 +13,7 @@ import { QueryParamProvider } from 'use-query-params';
 
 import Dashboard from 'components/dashboard';
 import Directory from 'components/directory';
+import { DirectorySelectionContextProvider } from 'components/directory/selection-context';
 import Footer from 'components/footer';
 import Nav from 'components/nav';
 import Reports from 'components/reports';
@@ -37,23 +38,25 @@ const App = () => (
   <ApolloProvider client={client}>
     <Router>
       <GlobalContextProvider>
-        <QueryParamProvider ReactRouterRoute={Route}>
-          <ThemeProvider theme={th}>
-            <Main id="main">
-              <Nav />
-              <Switch>
-                <Route exact path="/" component={Dashboard} />
-                <Route path="/directory/:routeTabId?" component={Directory} />
-                <Route path="/reports" component={Reports} />
-                <Route path="/sales" component={Sales} />
-                <Redirect to="/" />
-              </Switch>
-              <Footer />
-              <ScrollToTop />
-            </Main>
-            <Global />
-          </ThemeProvider>
-        </QueryParamProvider>
+        <DirectorySelectionContextProvider>
+          <QueryParamProvider ReactRouterRoute={Route}>
+            <ThemeProvider theme={th}>
+              <Main id="main">
+                <Nav />
+                <Switch>
+                  <Route exact path="/" component={Dashboard} />
+                  <Route path="/directory/:routeTabId?" component={Directory} />
+                  <Route path="/reports" component={Reports} />
+                  <Route path="/sales" component={Sales} />
+                  <Redirect to="/" />
+                </Switch>
+                <Footer />
+                <ScrollToTop />
+              </Main>
+              <Global />
+            </ThemeProvider>
+          </QueryParamProvider>
+        </DirectorySelectionContextProvider>
       </GlobalContextProvider>
     </Router>
   </ApolloProvider>

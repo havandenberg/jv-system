@@ -35,16 +35,13 @@ const useColumns = <T extends {}>(
   };
 
   useEffect(() => {
-    if (!sortBy) {
-      setSortParams({ sortBy: defaultSortBy, sortOrder }, 'replaceIn');
+    if (!sortBy || !sortOrder) {
+      setSortParams(
+        { sortBy: defaultSortBy, sortOrder: defaultSortOrder },
+        'replaceIn',
+      );
     }
-  }, [defaultSortBy, setSortParams, sortBy, sortOrder]);
-
-  useEffect(() => {
-    if (!sortOrder) {
-      setSortParams({ sortBy, sortOrder: defaultSortOrder }, 'replaceIn');
-    }
-  }, [defaultSortOrder, setSortParams, sortBy, sortOrder]);
+  }, [defaultSortBy, defaultSortOrder, setSortParams, sortBy, sortOrder]);
 
   return labels.map((labelInfo, idx) => (
     <ColumnLabel<T>

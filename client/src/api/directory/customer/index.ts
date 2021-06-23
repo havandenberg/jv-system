@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { loader } from 'graphql.macro';
 import { StringParam } from 'use-query-params';
 
@@ -10,10 +10,11 @@ import {
   useSearchQueryParam,
   useSortQueryParams,
 } from 'hooks/use-query-params';
-import { Query } from 'types';
+import { Mutation, Query } from 'types';
 
-const CUSTOMER_DETAILS_QUERY = loader('./details.gql');
+export const CUSTOMER_DETAILS_QUERY = loader('./details.gql');
 const CUSTOMER_LIST_QUERY = loader('./list.gql');
+const CUSTOMER_UPDATE = loader('./update.gql');
 
 export const useCustomers = () => {
   const [search = ''] = useSearchQueryParam();
@@ -55,9 +56,14 @@ export const useCustomers = () => {
 };
 
 export const useCustomer = (id: string) => {
+  const [{ sortBy = 'firstName', sortOrder = SORT_ORDER.ASC }] =
+    useSortQueryParams();
+  const orderBy = getOrderByString(sortBy, sortOrder);
+
   const { data, error, loading } = useQuery<Query>(CUSTOMER_DETAILS_QUERY, {
     variables: {
       id,
+      orderBy,
     },
   });
   return {
@@ -65,4 +71,15 @@ export const useCustomer = (id: string) => {
     error,
     loading,
   };
+};
+
+export const useUpdateCustomer = (id: string) => {
+  return useMutation<Mutation>(CUSTOMER_UPDATE, {
+    refetchQueries: [
+      {
+        query: CUSTOMER_DETAILS_QUERY,
+        variables: { id },
+      },
+    ],
+  });
 };

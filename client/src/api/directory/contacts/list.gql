@@ -1,29 +1,25 @@
-query PERSON_CONTACT_LIST(
-  $isInternal: Boolean
-  $customerId: String
-  $shipperId: String
-  $warehouseId: String
-  $search: String
-  $orderBy: [PersonContactsOrderBy!]
-) {
+query PERSON_CONTACT_LIST($search: String, $orderBy: [PersonContactsOrderBy!]) {
   personContacts(
-    condition: {
-      isInternal: $isInternal
-      customerId: $customerId
-      shipperId: $shipperId
-      warehouseId: $warehouseId
-    }
     filter: { searchText: { includesInsensitive: $search } }
     orderBy: $orderBy
   ) {
     nodes {
-      id
-      firstName
-      lastName
       email
-      isPrimary
-      workPhone
-      workExtension
+      firstName
+      id
+      lastName
+      customerId
+      customer {
+        customerName
+      }
+      shipperId
+      shipper {
+        shipperName
+      }
+      warehouseId
+      warehouse {
+        warehouseName
+      }
     }
     totalCount
   }

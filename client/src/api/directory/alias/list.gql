@@ -1,20 +1,33 @@
-query CONTACT_ALIAS_LIST(
-  $aliasType: [String!]
-  $search: String
-  $orderBy: [ContactAliasesOrderBy!]
-) {
+query CONTACT_ALIAS_LIST($search: String, $orderBy: [ContactAliasesOrderBy!]) {
   contactAliases(
-    filter: {
-      aliasType: { in: $aliasType }
-      searchText: { includesInsensitive: $search }
-    }
+    filter: { searchText: { includesInsensitive: $search } }
     orderBy: $orderBy
   ) {
     nodes {
       aliasName
       aliasType
+      aliasDescription
       id
-      contactAliasPersonContactsByAliasId {
+      personContactsByContactAliasPersonContactAliasIdAndPersonContactId {
+        nodes {
+          customerId
+          customer {
+            customerName
+          }
+          shipperId
+          shipper {
+            shipperName
+          }
+          warehouseId
+          warehouse {
+            warehouseName
+          }
+          email
+          firstName
+          id
+          lastName
+          workPhone
+        }
         totalCount
       }
     }

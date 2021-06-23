@@ -6,12 +6,17 @@ export type WarehouseLabelInfo = LabelInfo<Warehouse>;
 
 export const listLabels: WarehouseLabelInfo[] = [
   {
+    key: 'id',
+    label: 'ID',
+  },
+  {
     defaultSortOrder: SORT_ORDER.ASC,
     key: 'warehouseName',
     label: 'Warehouse Name',
     sortable: true,
   },
   {
+    defaultSortOrder: SORT_ORDER.ASC,
     key: 'city',
     label: 'City',
     filterable: true,
@@ -21,6 +26,7 @@ export const listLabels: WarehouseLabelInfo[] = [
     sortable: true,
   },
   {
+    defaultSortOrder: SORT_ORDER.ASC,
     key: 'postalState',
     label: 'State',
     filterPanelProps: {
@@ -40,6 +46,11 @@ export const listLabels: WarehouseLabelInfo[] = [
 ];
 
 export const baseLabels: WarehouseLabelInfo[] = [
+  {
+    key: 'id',
+    label: 'ID',
+    readOnly: true,
+  },
   {
     key: 'warehouseName',
     label: 'Warehouse Name',
@@ -77,10 +88,7 @@ export const baseLabels: WarehouseLabelInfo[] = [
     key: 'countryId',
     label: 'Country',
     getValue: (data) => data.country?.countryName || '',
-  },
-  {
-    key: 'zipCode',
-    label: 'Zip Code',
+    readOnly: true,
   },
   {
     key: 'outQueue',

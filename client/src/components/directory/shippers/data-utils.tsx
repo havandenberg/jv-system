@@ -34,6 +34,7 @@ export const baseLabels: ShipperLabelInfo[] = [
   {
     key: 'id',
     label: 'ID',
+    readOnly: true,
   },
   {
     key: 'shipperName',
@@ -43,6 +44,7 @@ export const baseLabels: ShipperLabelInfo[] = [
     key: 'countryId',
     label: 'Country',
     getValue: (data) => data.country?.countryName || '',
+    readOnly: true,
   },
   {
     key: 'groupId',
@@ -51,7 +53,6 @@ export const baseLabels: ShipperLabelInfo[] = [
   {
     key: 'notes',
     label: 'Notes',
-    transformKey: 'link',
   },
   {
     key: 'website',

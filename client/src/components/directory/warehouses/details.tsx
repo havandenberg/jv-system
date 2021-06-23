@@ -6,12 +6,14 @@ import BaseData from 'components/base-data';
 import Page from 'components/page';
 import { DataMessage } from 'components/page/message';
 import { Tab, useTabBar } from 'components/tab-bar';
-import { Warehouse } from 'types';
+import useUpdateItem from 'hooks/use-update-item';
+import { PersonContact, Warehouse } from 'types';
 import b from 'ui/button';
 import l from 'ui/layout';
 import th from 'ui/theme';
 
 import ContactList from '../contacts/list';
+import { useDirectorySelectionContext } from '../selection-context';
 import { baseLabels } from './data-utils';
 
 export const warehouseBreadcrumbs = (id: string) => [
@@ -35,17 +37,62 @@ const Details = () => {
       id: string;
     }>();
   const { data, error, loading } = api.useWarehouse(id);
+  const personContacts = data ? data.personContacts.nodes : [];
 
   const { TabBar } = useTabBar(tabs);
 
+  const [handleUpdate] = api.useUpdateWarehouse(id);
+
+  const updateFields = [
+    'warehouseName',
+    'phone',
+    'address1',
+    'address2',
+    'address3',
+    'city',
+    'postalState',
+    'outQueue',
+    'stateTaxCode',
+    'countyTaxCode',
+    'cityTaxCode',
+    'miscTaxCode',
+  ];
+  const updateVariables = { id };
+
+  const { changes, editing, handleChange, updateActions } =
+    useUpdateItem<Warehouse>({
+      data: data as Warehouse,
+      handleUpdate,
+      updateFields,
+      updateVariables,
+    });
+
+  const [
+    selectedItems,
+    {
+      selectWarehousePersonContact,
+      isAllWarehousePersonContactsSelected,
+      toggleAllWarehousePersonContacts,
+    },
+  ] = useDirectorySelectionContext();
+
+  const selectedWarehouse = selectedItems.warehouses.find((c) => c.id === id);
+
   return (
     <Page
+      actions={updateActions}
       breadcrumbs={warehouseBreadcrumbs(id)}
       title={data ? data.warehouseName : 'Directory - Warehouse'}
     >
       {data ? (
         <l.Div pb={th.spacing.xl}>
-          <BaseData<Warehouse> data={data} labels={baseLabels} />
+          <BaseData<Warehouse>
+            changes={changes}
+            data={data}
+            editing={editing}
+            handleChange={handleChange}
+            labels={baseLabels}
+          />
           <l.Flex alignCenter justifyBetween my={th.spacing.lg}>
             <TabBar />
             <l.AreaLink
@@ -56,7 +103,14 @@ const Details = () => {
               <b.Primary>New</b.Primary>
             </l.AreaLink>
           </l.Flex>
-          <ContactList baseUrl={`warehouses/${id}`} warehouseId={id} />
+          <ContactList
+            baseUrl={`warehouses/${id}`}
+            personContacts={personContacts as PersonContact[]}
+            selectedItem={selectedWarehouse}
+            selectContact={selectWarehousePersonContact(data)}
+            toggleAllContacts={() => toggleAllWarehousePersonContacts(data)}
+            isAllContactsSelected={isAllWarehousePersonContactsSelected(data)}
+          />
         </l.Div>
       ) : (
         <DataMessage data={data || []} error={error} loading={loading} />

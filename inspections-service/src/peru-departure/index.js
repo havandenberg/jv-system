@@ -27,11 +27,12 @@ const onError = (err) => {
   console.log(err.stack);
 };
 
-const urlRegex = /(?:(?:https?|ftp|file):\/\/|www\.|ftp\.)(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[-A-Z0-9+&@#\/%=~_|$?!:,.])*(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[A-Z0-9+&@#\/%=~_|$])/gim;
+const urlRegex =
+  /(?:(?:https?|ftp|file):\/\/|www\.|ftp\.)(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[-A-Z0-9+&@#\/%=~_|$?!:,.])*(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[A-Z0-9+&@#\/%=~_|$])/gim;
 
 const fetchPeruDepartureInspections = () => {
   console.log(
-    `\nFetching peru departure inspections: ${new Date().toLocaleString()}`,
+    `\nFetching peru departure inspections: ${new Date().toString()}`,
   );
   gqlClient
     .request(DISTINCT_VALUES, {

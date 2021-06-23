@@ -89,6 +89,6 @@ CREATE TABLE directory.contact_alias_person_contact (
   alias_id BIGINT NOT NULL,
   person_contact_id BIGINT NOT NULL,
   PRIMARY KEY (alias_id, person_contact_id),
-  FOREIGN KEY (alias_id) REFERENCES directory.contact_alias(id) ON UPDATE CASCADE,
-  FOREIGN KEY (person_contact_id) REFERENCES directory.person_contact(id) ON UPDATE CASCADE
+  FOREIGN KEY (alias_id) REFERENCES directory.contact_alias(id) ON UPDATE CASCADE ON DELETE CASCADE,
+  FOREIGN KEY (person_contact_id) REFERENCES directory.person_contact(id) ON UPDATE CASCADE ON DELETE CASCADE
 );

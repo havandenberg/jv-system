@@ -1,11 +1,10 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { add, endOfISOWeek, startOfISOWeek } from 'date-fns';
 import { isEmpty, omit, pluck, reduce } from 'ramda';
-import ClipLoader from 'react-spinners/ClipLoader';
 
 import api from 'api';
 import { formatDate } from 'components/date-range-picker';
-import Modal from 'components/modal';
+import { BasicModal } from 'components/modal';
 import { DataMessage } from 'components/page/message';
 import Page from 'components/page';
 import useDateRange from 'hooks/use-date-range';
@@ -19,6 +18,7 @@ import {
   PriceSize,
 } from 'types';
 import b from 'ui/button';
+import { FilterCheckbox } from 'ui/checkbox';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
@@ -27,6 +27,7 @@ import { getDateOfISOWeek, getWeekNumber } from 'utils/date';
 
 import Categories from './categories';
 import Header from './header';
+import PriceSheetSaveModal from './save-modal';
 import {
   CategoryUpdate,
   CollapsedItems,
@@ -45,7 +46,6 @@ import {
   UpdateType,
 } from './types';
 import { getAllItems } from './utils';
-import { FilterCheckbox } from 'ui/checkbox';
 
 export const gridTemplateColumns = '3fr 1fr 1.3fr repeat(4, 1fr)';
 
@@ -243,7 +243,7 @@ const PriceSheet = () => {
     setEditing(true);
   };
 
-  const handleSave = () => {
+  const handleSave = (message: string) => {
     setUpdateLoading((prevLoading) => [...prevLoading, 'existing-items']);
     handleUpdate({
       variables: {
@@ -429,7 +429,7 @@ const PriceSheet = () => {
       });
     });
     if (sendNotification) {
-      handleNotify();
+      handleNotify({ variables: { message } });
     }
   };
 
@@ -929,44 +929,24 @@ const PriceSheet = () => {
       actions={[
         editing ? (
           <l.Flex key={0} position="relative">
-            <Modal
-              trigger={(show) => (
-                <b.Primary
-                  mr={th.spacing.md}
-                  onClick={hasChanges ? show : handleCancel}
-                  width={88}
-                >
-                  Cancel
-                </b.Primary>
-              )}
-            >
-              {({ hide }) => (
-                <>
-                  <ty.TitleText>Confirm discard changes</ty.TitleText>
-                  <ty.BodyText>
-                    You will lose all unsaved price sheet changes.
-                  </ty.BodyText>
-                  <l.Flex justifyCenter mt={th.spacing.xl}>
-                    <b.Primary mr={th.spacing.lg} onClick={hide}>
-                      Cancel
-                    </b.Primary>
-                    <b.Primary onClick={handleCancel}>Discard</b.Primary>
-                  </l.Flex>
-                </>
-              )}
-            </Modal>
-            <b.Primary onClick={handleSave} width={88}>
-              {!isEmpty(updateLoading) ? (
-                <l.Flex alignCenter justifyCenter>
-                  <ClipLoader
-                    color={th.colors.brand.secondary}
-                    size={th.sizes.xs}
-                  />
-                </l.Flex>
-              ) : (
-                'Save'
-              )}
-            </b.Primary>
+            <BasicModal
+              title="Confirm Discard Changes"
+              content={
+                <ty.BodyText>
+                  You will lose all unsaved price sheet changes.
+                </ty.BodyText>
+              }
+              confirmText="Discard"
+              handleConfirm={handleCancel}
+              shouldConfirm={hasChanges}
+              triggerStyles={{ mr: th.spacing.md, width: 88 }}
+              triggerText="Cancel"
+            />
+            <PriceSheetSaveModal
+              handleSave={handleSave}
+              sendNotification={sendNotification}
+              updateLoading={!isEmpty(updateLoading)}
+            />
             <l.Div position="absolute" right={0} top={42}>
               <FilterCheckbox
                 checked={sendNotification}

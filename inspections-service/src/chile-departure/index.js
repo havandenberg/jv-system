@@ -22,7 +22,7 @@ const BATCH_CREATE_CHILE_DEPARTURE_INSPECTION_PALLET = gql`
 
 const fetchChileDepartureInspections = () => {
   console.log(
-    `\nFetching chile departure inspections: ${new Date().toLocaleString()}`,
+    `\nFetching chile departure inspections: ${new Date().toString()}`,
   );
   fetch(process.env.CDI_API_URL, {
     method: 'GET',

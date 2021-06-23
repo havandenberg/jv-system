@@ -2,7 +2,7 @@ import React from 'react';
 import { sortBy, times } from 'ramda';
 
 import EditableCell from 'components/editable-cell';
-import RemoveButton from 'components/remove-button';
+import { BasicModal } from 'components/modal';
 import SortControl from 'components/sort-control';
 import { PriceProduct, PriceSize } from 'types';
 import th from 'ui/theme';
@@ -55,25 +55,26 @@ const Sizes = (props: Props) => {
               relative
             >
               {editing && (
-                <RemoveButton
-                  confirmTitle="Confirm Remove Size"
-                  confirmContent={
+                <BasicModal
+                  title="Confirm Remove Size"
+                  content={
                     <>
                       <ty.BodyText
                         mb={th.spacing.md}
-                      >{`Are you sure you want to remove size ${size.sizeName}?`}</ty.BodyText>
+                      >{`Are you sure you want to remove size "${size.sizeName}"?`}</ty.BodyText>
                       <ty.BodyText>
                         This will remove all attached price entries for the
                         currently selected date and all future dates.
                       </ty.BodyText>
                     </>
                   }
-                  handleRemove={() => handleRemoveItem('sizes', size.id)}
+                  handleConfirm={() => handleRemoveItem('sizes', size.id)}
                   shouldConfirm={size.id >= 0}
-                  triggerProps={{
+                  triggerStyles={{
                     position: 'absolute',
                     left: `-${th.sizes.xs}`,
                   }}
+                  triggerType="remove-icon"
                 />
               )}
               <EditableCell

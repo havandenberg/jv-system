@@ -4,7 +4,7 @@ import { sortBy, times } from 'ramda';
 import ColorPicker from 'components/color-picker';
 import EditableCell from 'components/editable-cell';
 import Expandable from 'components/expandable';
-import RemoveButton from 'components/remove-button';
+import { BasicModal } from 'components/modal';
 import SortControl from 'components/sort-control';
 import { PriceCategory, PriceProduct } from 'types';
 import th from 'ui/theme';
@@ -115,13 +115,13 @@ const Products = (props: Props) => {
                   />
                   {editing && (
                     <>
-                      <RemoveButton
-                        confirmTitle="Confirm Remove Product"
-                        confirmContent={
+                      <BasicModal
+                        title="Confirm Remove Product"
+                        content={
                           <>
                             <ty.BodyText
                               mb={th.spacing.md}
-                            >{`Are you sure you want to remove product ${product.productName}?`}</ty.BodyText>
+                            >{`Are you sure you want to remove product "${product.productName}"?`}</ty.BodyText>
                             <ty.BodyText>
                               This will remove all attached sizes and price
                               entries for the currently selected date and all
@@ -129,14 +129,15 @@ const Products = (props: Props) => {
                             </ty.BodyText>
                           </>
                         }
-                        handleRemove={() =>
+                        handleConfirm={() =>
                           handleRemoveItem('products', product.id)
                         }
                         shouldConfirm={product.id >= 0}
-                        triggerProps={{
+                        triggerStyles={{
                           position: 'absolute',
                           left: `-${th.sizes.icon}`,
                         }}
+                        triggerType="remove-icon"
                       />
                       <l.Div position="absolute" left={255}>
                         <ColorPicker

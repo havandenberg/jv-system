@@ -9,7 +9,12 @@ import {
 } from 'hooks/use-query-params';
 import { Mutation, Query } from 'types';
 
+import { CUSTOMER_DETAILS_QUERY } from '../customer';
+import { SHIPPER_DETAILS_QUERY } from '../shipper';
+import { WAREHOUSE_DETAILS_QUERY } from '../warehouse';
+
 const PERSON_CONTACT_DETAILS_QUERY = loader('./details.gql');
+const INTERNAL_CONTACT_LIST_QUERY = loader('./internal-list.gql');
 const PERSON_CONTACT_LIST_QUERY = loader('./list.gql');
 const PERSON_CONTACT_UPDATE = loader('./update.gql');
 const PERSON_CONTACT_CREATE = loader('./create.gql');
@@ -22,12 +27,30 @@ interface PersonContactVariables {
   warehouseId?: string;
 }
 
-export const usePersonContacts = ({
-  isInternal,
-  customerId,
-  shipperId,
-  warehouseId,
-}: PersonContactVariables) => {
+export const useInternalPersonContacts = () => {
+  const [search = ''] = useSearchQueryParam();
+  const [{ sortBy = 'firstName', sortOrder = SORT_ORDER.ASC }] =
+    useSortQueryParams();
+  const orderBy = getOrderByString(sortBy, sortOrder);
+
+  const { data, error, loading } = useQuery<Query>(
+    INTERNAL_CONTACT_LIST_QUERY,
+    {
+      variables: {
+        orderBy,
+        search,
+      },
+    },
+  );
+
+  return {
+    data: data ? data.personContacts : undefined,
+    error,
+    loading,
+  };
+};
+
+export const useAllPersonContacts = () => {
   const [search = ''] = useSearchQueryParam();
   const [{ sortBy = 'firstName', sortOrder = SORT_ORDER.ASC }] =
     useSortQueryParams();
@@ -35,10 +58,6 @@ export const usePersonContacts = ({
 
   const { data, error, loading } = useQuery<Query>(PERSON_CONTACT_LIST_QUERY, {
     variables: {
-      isInternal,
-      customerId,
-      shipperId,
-      warehouseId,
       orderBy,
       search,
     },
@@ -77,7 +96,6 @@ export const useUpdatePersonContact = (id: string) => {
 };
 
 export const useCreatePersonContact = ({
-  isInternal,
   customerId,
   shipperId,
   warehouseId,
@@ -89,14 +107,31 @@ export const useCreatePersonContact = ({
   return useMutation<Mutation>(PERSON_CONTACT_CREATE, {
     refetchQueries: [
       {
-        query: PERSON_CONTACT_LIST_QUERY,
+        query: INTERNAL_CONTACT_LIST_QUERY,
         variables: {
-          isInternal: isInternal ? true : undefined,
-          customerId,
-          shipperId,
-          warehouseId,
           orderBy,
           search,
+        },
+      },
+      {
+        query: CUSTOMER_DETAILS_QUERY,
+        variables: {
+          id: customerId || '',
+          orderBy,
+        },
+      },
+      {
+        query: SHIPPER_DETAILS_QUERY,
+        variables: {
+          id: shipperId || '',
+          orderBy,
+        },
+      },
+      {
+        query: WAREHOUSE_DETAILS_QUERY,
+        variables: {
+          id: warehouseId || '',
+          orderBy,
         },
       },
     ],
@@ -104,7 +139,6 @@ export const useCreatePersonContact = ({
 };
 
 export const useDeletePersonContact = ({
-  isInternal,
   customerId,
   shipperId,
   warehouseId,
@@ -116,14 +150,31 @@ export const useDeletePersonContact = ({
   return useMutation<Mutation>(PERSON_CONTACT_DELETE, {
     refetchQueries: [
       {
-        query: PERSON_CONTACT_LIST_QUERY,
+        query: INTERNAL_CONTACT_LIST_QUERY,
         variables: {
-          isInternal: isInternal ? true : undefined,
-          customerId,
-          shipperId,
-          warehouseId,
           orderBy,
           search,
+        },
+      },
+      {
+        query: CUSTOMER_DETAILS_QUERY,
+        variables: {
+          id: customerId || '',
+          orderBy,
+        },
+      },
+      {
+        query: SHIPPER_DETAILS_QUERY,
+        variables: {
+          id: shipperId || '',
+          orderBy,
+        },
+      },
+      {
+        query: WAREHOUSE_DETAILS_QUERY,
+        variables: {
+          id: warehouseId || '',
+          orderBy,
         },
       },
     ],
