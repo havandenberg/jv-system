@@ -47,6 +47,8 @@ export type Query = Node & {
   personContacts?: Maybe<PersonContactsConnection>;
   /** Reads and enables pagination through a set of `Shipper`. */
   shippers?: Maybe<ShippersConnection>;
+  /** Reads and enables pagination through a set of `User`. */
+  users?: Maybe<UsersConnection>;
   /** Reads and enables pagination through a set of `Warehouse`. */
   warehouses?: Maybe<WarehousesConnection>;
   /** Reads and enables pagination through a set of `AgendaItem`. */
@@ -111,6 +113,8 @@ export type Query = Node & {
   customer?: Maybe<Customer>;
   personContact?: Maybe<PersonContact>;
   shipper?: Maybe<Shipper>;
+  user?: Maybe<User>;
+  userByPin?: Maybe<User>;
   warehouse?: Maybe<Warehouse>;
   agendaItem?: Maybe<AgendaItem>;
   priceCategory?: Maybe<PriceCategory>;
@@ -156,6 +160,8 @@ export type Query = Node & {
   personContactByNodeId?: Maybe<PersonContact>;
   /** Reads a single `Shipper` using its globally unique `ID`. */
   shipperByNodeId?: Maybe<Shipper>;
+  /** Reads a single `User` using its globally unique `ID`. */
+  userByNodeId?: Maybe<User>;
   /** Reads a single `Warehouse` using its globally unique `ID`. */
   warehouseByNodeId?: Maybe<Warehouse>;
   /** Reads a single `AgendaItem` using its globally unique `ID`. */
@@ -298,6 +304,19 @@ export type QueryShippersArgs = {
   orderBy?: Maybe<Array<ShippersOrderBy>>;
   condition?: Maybe<ShipperCondition>;
   filter?: Maybe<ShipperFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryUsersArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<UsersOrderBy>>;
+  condition?: Maybe<UserCondition>;
+  filter?: Maybe<UserFilter>;
 };
 
 
@@ -716,6 +735,18 @@ export type QueryShipperArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
+export type QueryUserArgs = {
+  id: Scalars['BigInt'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryUserByPinArgs = {
+  pin: Scalars['String'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
 export type QueryWarehouseArgs = {
   id: Scalars['String'];
 };
@@ -981,6 +1012,12 @@ export type QueryShipperByNodeIdArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
+export type QueryUserByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
 export type QueryWarehouseByNodeIdArgs = {
   nodeId: Scalars['ID'];
 };
@@ -1179,7 +1216,9 @@ export type ContactAlias = Node & {
   id: Scalars['BigInt'];
   aliasDescription: Scalars['String'];
   aliasName: Scalars['String'];
-  aliasType: Scalars['String'];
+  userId?: Maybe<Scalars['BigInt']>;
+  /** Reads a single `User` that is related to this `ContactAlias`. */
+  user?: Maybe<User>;
   /** Reads and enables pagination through a set of `ContactAliasPersonContact`. */
   contactAliasPersonContactsByAliasId: ContactAliasPersonContactsConnection;
   searchText?: Maybe<Scalars['String']>;
@@ -1211,6 +1250,562 @@ export type ContactAliasPersonContactsByContactAliasPersonContactAliasIdAndPerso
   filter?: Maybe<PersonContactFilter>;
 };
 
+
+export type User = Node & {
+  __typename?: 'User';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  pin?: Maybe<Scalars['String']>;
+  displayName?: Maybe<Scalars['String']>;
+  /** Reads and enables pagination through a set of `ContactAlias`. */
+  contactAliases: ContactAliasesConnection;
+};
+
+
+export type UserContactAliasesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ContactAliasesOrderBy>>;
+  condition?: Maybe<ContactAliasCondition>;
+  filter?: Maybe<ContactAliasFilter>;
+};
+
+
+/** Methods to use when ordering `ContactAlias`. */
+export enum ContactAliasesOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  AliasDescriptionAsc = 'ALIAS_DESCRIPTION_ASC',
+  AliasDescriptionDesc = 'ALIAS_DESCRIPTION_DESC',
+  AliasNameAsc = 'ALIAS_NAME_ASC',
+  AliasNameDesc = 'ALIAS_NAME_DESC',
+  UserIdAsc = 'USER_ID_ASC',
+  UserIdDesc = 'USER_ID_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
+/**
+ * A condition to be used against `ContactAlias` object types. All fields are
+ * tested for equality and combined with a logical ‘and.’
+ */
+export type ContactAliasCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `aliasDescription` field. */
+  aliasDescription?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `aliasName` field. */
+  aliasName?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `userId` field. */
+  userId?: Maybe<Scalars['BigInt']>;
+};
+
+/** A filter to be used against `ContactAlias` object types. All fields are combined with a logical ‘and.’ */
+export type ContactAliasFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `aliasDescription` field. */
+  aliasDescription?: Maybe<StringFilter>;
+  /** Filter by the object’s `aliasName` field. */
+  aliasName?: Maybe<StringFilter>;
+  /** Filter by the object’s `userId` field. */
+  userId?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `searchText` field. */
+  searchText?: Maybe<StringFilter>;
+  /** Filter by the object’s `contactAliasPersonContactsByAliasId` relation. */
+  contactAliasPersonContactsByAliasId?: Maybe<ContactAliasToManyContactAliasPersonContactFilter>;
+  /** Some related `contactAliasPersonContactsByAliasId` exist. */
+  contactAliasPersonContactsByAliasIdExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `user` relation. */
+  user?: Maybe<UserFilter>;
+  /** A related `user` exists. */
+  userExists?: Maybe<Scalars['Boolean']>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<ContactAliasFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<ContactAliasFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<ContactAliasFilter>;
+};
+
+/** A filter to be used against BigInt fields. All fields are combined with a logical ‘and.’ */
+export type BigIntFilter = {
+  /** Is null (if `true` is specified) or is not null (if `false` is specified). */
+  isNull?: Maybe<Scalars['Boolean']>;
+  /** Equal to the specified value. */
+  equalTo?: Maybe<Scalars['BigInt']>;
+  /** Not equal to the specified value. */
+  notEqualTo?: Maybe<Scalars['BigInt']>;
+  /** Not equal to the specified value, treating null like an ordinary value. */
+  distinctFrom?: Maybe<Scalars['BigInt']>;
+  /** Equal to the specified value, treating null like an ordinary value. */
+  notDistinctFrom?: Maybe<Scalars['BigInt']>;
+  /** Included in the specified list. */
+  in?: Maybe<Array<Scalars['BigInt']>>;
+  /** Not included in the specified list. */
+  notIn?: Maybe<Array<Scalars['BigInt']>>;
+  /** Less than the specified value. */
+  lessThan?: Maybe<Scalars['BigInt']>;
+  /** Less than or equal to the specified value. */
+  lessThanOrEqualTo?: Maybe<Scalars['BigInt']>;
+  /** Greater than the specified value. */
+  greaterThan?: Maybe<Scalars['BigInt']>;
+  /** Greater than or equal to the specified value. */
+  greaterThanOrEqualTo?: Maybe<Scalars['BigInt']>;
+};
+
+/** A filter to be used against String fields. All fields are combined with a logical ‘and.’ */
+export type StringFilter = {
+  /** Is null (if `true` is specified) or is not null (if `false` is specified). */
+  isNull?: Maybe<Scalars['Boolean']>;
+  /** Equal to the specified value. */
+  equalTo?: Maybe<Scalars['String']>;
+  /** Not equal to the specified value. */
+  notEqualTo?: Maybe<Scalars['String']>;
+  /** Not equal to the specified value, treating null like an ordinary value. */
+  distinctFrom?: Maybe<Scalars['String']>;
+  /** Equal to the specified value, treating null like an ordinary value. */
+  notDistinctFrom?: Maybe<Scalars['String']>;
+  /** Included in the specified list. */
+  in?: Maybe<Array<Scalars['String']>>;
+  /** Not included in the specified list. */
+  notIn?: Maybe<Array<Scalars['String']>>;
+  /** Less than the specified value. */
+  lessThan?: Maybe<Scalars['String']>;
+  /** Less than or equal to the specified value. */
+  lessThanOrEqualTo?: Maybe<Scalars['String']>;
+  /** Greater than the specified value. */
+  greaterThan?: Maybe<Scalars['String']>;
+  /** Greater than or equal to the specified value. */
+  greaterThanOrEqualTo?: Maybe<Scalars['String']>;
+  /** Contains the specified string (case-sensitive). */
+  includes?: Maybe<Scalars['String']>;
+  /** Does not contain the specified string (case-sensitive). */
+  notIncludes?: Maybe<Scalars['String']>;
+  /** Contains the specified string (case-insensitive). */
+  includesInsensitive?: Maybe<Scalars['String']>;
+  /** Does not contain the specified string (case-insensitive). */
+  notIncludesInsensitive?: Maybe<Scalars['String']>;
+  /** Starts with the specified string (case-sensitive). */
+  startsWith?: Maybe<Scalars['String']>;
+  /** Does not start with the specified string (case-sensitive). */
+  notStartsWith?: Maybe<Scalars['String']>;
+  /** Starts with the specified string (case-insensitive). */
+  startsWithInsensitive?: Maybe<Scalars['String']>;
+  /** Does not start with the specified string (case-insensitive). */
+  notStartsWithInsensitive?: Maybe<Scalars['String']>;
+  /** Ends with the specified string (case-sensitive). */
+  endsWith?: Maybe<Scalars['String']>;
+  /** Does not end with the specified string (case-sensitive). */
+  notEndsWith?: Maybe<Scalars['String']>;
+  /** Ends with the specified string (case-insensitive). */
+  endsWithInsensitive?: Maybe<Scalars['String']>;
+  /** Does not end with the specified string (case-insensitive). */
+  notEndsWithInsensitive?: Maybe<Scalars['String']>;
+  /** Matches the specified pattern (case-sensitive). An underscore (_) matches any single character; a percent sign (%) matches any sequence of zero or more characters. */
+  like?: Maybe<Scalars['String']>;
+  /** Does not match the specified pattern (case-sensitive). An underscore (_) matches any single character; a percent sign (%) matches any sequence of zero or more characters. */
+  notLike?: Maybe<Scalars['String']>;
+  /** Matches the specified pattern (case-insensitive). An underscore (_) matches any single character; a percent sign (%) matches any sequence of zero or more characters. */
+  likeInsensitive?: Maybe<Scalars['String']>;
+  /** Does not match the specified pattern (case-insensitive). An underscore (_) matches any single character; a percent sign (%) matches any sequence of zero or more characters. */
+  notLikeInsensitive?: Maybe<Scalars['String']>;
+  /** Equal to the specified value (case-insensitive). */
+  equalToInsensitive?: Maybe<Scalars['String']>;
+  /** Not equal to the specified value (case-insensitive). */
+  notEqualToInsensitive?: Maybe<Scalars['String']>;
+  /** Not equal to the specified value, treating null like an ordinary value (case-insensitive). */
+  distinctFromInsensitive?: Maybe<Scalars['String']>;
+  /** Equal to the specified value, treating null like an ordinary value (case-insensitive). */
+  notDistinctFromInsensitive?: Maybe<Scalars['String']>;
+  /** Included in the specified list (case-insensitive). */
+  inInsensitive?: Maybe<Array<Scalars['String']>>;
+  /** Not included in the specified list (case-insensitive). */
+  notInInsensitive?: Maybe<Array<Scalars['String']>>;
+  /** Less than the specified value (case-insensitive). */
+  lessThanInsensitive?: Maybe<Scalars['String']>;
+  /** Less than or equal to the specified value (case-insensitive). */
+  lessThanOrEqualToInsensitive?: Maybe<Scalars['String']>;
+  /** Greater than the specified value (case-insensitive). */
+  greaterThanInsensitive?: Maybe<Scalars['String']>;
+  /** Greater than or equal to the specified value (case-insensitive). */
+  greaterThanOrEqualToInsensitive?: Maybe<Scalars['String']>;
+};
+
+/** A filter to be used against many `ContactAliasPersonContact` object types. All fields are combined with a logical ‘and.’ */
+export type ContactAliasToManyContactAliasPersonContactFilter = {
+  /** Every related `ContactAliasPersonContact` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<ContactAliasPersonContactFilter>;
+  /** Some related `ContactAliasPersonContact` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<ContactAliasPersonContactFilter>;
+  /** No related `ContactAliasPersonContact` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<ContactAliasPersonContactFilter>;
+};
+
+/** A filter to be used against `ContactAliasPersonContact` object types. All fields are combined with a logical ‘and.’ */
+export type ContactAliasPersonContactFilter = {
+  /** Filter by the object’s `aliasId` field. */
+  aliasId?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `personContactId` field. */
+  personContactId?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `alias` relation. */
+  alias?: Maybe<ContactAliasFilter>;
+  /** Filter by the object’s `personContact` relation. */
+  personContact?: Maybe<PersonContactFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<ContactAliasPersonContactFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<ContactAliasPersonContactFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<ContactAliasPersonContactFilter>;
+};
+
+/** A filter to be used against `PersonContact` object types. All fields are combined with a logical ‘and.’ */
+export type PersonContactFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `shipperId` field. */
+  shipperId?: Maybe<StringFilter>;
+  /** Filter by the object’s `customerId` field. */
+  customerId?: Maybe<StringFilter>;
+  /** Filter by the object’s `warehouseId` field. */
+  warehouseId?: Maybe<StringFilter>;
+  /** Filter by the object’s `firstName` field. */
+  firstName?: Maybe<StringFilter>;
+  /** Filter by the object’s `lastName` field. */
+  lastName?: Maybe<StringFilter>;
+  /** Filter by the object’s `isPrimary` field. */
+  isPrimary?: Maybe<BooleanFilter>;
+  /** Filter by the object’s `email` field. */
+  email?: Maybe<StringFilter>;
+  /** Filter by the object’s `secondaryEmail` field. */
+  secondaryEmail?: Maybe<StringFilter>;
+  /** Filter by the object’s `homePhone` field. */
+  homePhone?: Maybe<StringFilter>;
+  /** Filter by the object’s `cellPhone` field. */
+  cellPhone?: Maybe<StringFilter>;
+  /** Filter by the object’s `workPhone` field. */
+  workPhone?: Maybe<StringFilter>;
+  /** Filter by the object’s `workExtension` field. */
+  workExtension?: Maybe<StringFilter>;
+  /** Filter by the object’s `imageSrc` field. */
+  imageSrc?: Maybe<StringFilter>;
+  /** Filter by the object’s `isInternal` field. */
+  isInternal?: Maybe<BooleanFilter>;
+  /** Filter by the object’s `roles` field. */
+  roles?: Maybe<StringFilter>;
+  /** Filter by the object’s `searchText` field. */
+  searchText?: Maybe<StringFilter>;
+  /** Filter by the object’s `contactAliasPersonContacts` relation. */
+  contactAliasPersonContacts?: Maybe<PersonContactToManyContactAliasPersonContactFilter>;
+  /** Some related `contactAliasPersonContacts` exist. */
+  contactAliasPersonContactsExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `shipper` relation. */
+  shipper?: Maybe<ShipperFilter>;
+  /** A related `shipper` exists. */
+  shipperExists?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `customer` relation. */
+  customer?: Maybe<CustomerFilter>;
+  /** A related `customer` exists. */
+  customerExists?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `warehouse` relation. */
+  warehouse?: Maybe<WarehouseFilter>;
+  /** A related `warehouse` exists. */
+  warehouseExists?: Maybe<Scalars['Boolean']>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<PersonContactFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<PersonContactFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<PersonContactFilter>;
+};
+
+/** A filter to be used against Boolean fields. All fields are combined with a logical ‘and.’ */
+export type BooleanFilter = {
+  /** Is null (if `true` is specified) or is not null (if `false` is specified). */
+  isNull?: Maybe<Scalars['Boolean']>;
+  /** Equal to the specified value. */
+  equalTo?: Maybe<Scalars['Boolean']>;
+  /** Not equal to the specified value. */
+  notEqualTo?: Maybe<Scalars['Boolean']>;
+  /** Not equal to the specified value, treating null like an ordinary value. */
+  distinctFrom?: Maybe<Scalars['Boolean']>;
+  /** Equal to the specified value, treating null like an ordinary value. */
+  notDistinctFrom?: Maybe<Scalars['Boolean']>;
+  /** Included in the specified list. */
+  in?: Maybe<Array<Scalars['Boolean']>>;
+  /** Not included in the specified list. */
+  notIn?: Maybe<Array<Scalars['Boolean']>>;
+  /** Less than the specified value. */
+  lessThan?: Maybe<Scalars['Boolean']>;
+  /** Less than or equal to the specified value. */
+  lessThanOrEqualTo?: Maybe<Scalars['Boolean']>;
+  /** Greater than the specified value. */
+  greaterThan?: Maybe<Scalars['Boolean']>;
+  /** Greater than or equal to the specified value. */
+  greaterThanOrEqualTo?: Maybe<Scalars['Boolean']>;
+};
+
+/** A filter to be used against many `ContactAliasPersonContact` object types. All fields are combined with a logical ‘and.’ */
+export type PersonContactToManyContactAliasPersonContactFilter = {
+  /** Every related `ContactAliasPersonContact` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<ContactAliasPersonContactFilter>;
+  /** Some related `ContactAliasPersonContact` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<ContactAliasPersonContactFilter>;
+  /** No related `ContactAliasPersonContact` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<ContactAliasPersonContactFilter>;
+};
+
+/** A filter to be used against `Shipper` object types. All fields are combined with a logical ‘and.’ */
+export type ShipperFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<StringFilter>;
+  /** Filter by the object’s `shipperName` field. */
+  shipperName?: Maybe<StringFilter>;
+  /** Filter by the object’s `countryId` field. */
+  countryId?: Maybe<StringFilter>;
+  /** Filter by the object’s `groupId` field. */
+  groupId?: Maybe<StringFilter>;
+  /** Filter by the object’s `logoSrc` field. */
+  logoSrc?: Maybe<StringFilter>;
+  /** Filter by the object’s `notes` field. */
+  notes?: Maybe<StringFilter>;
+  /** Filter by the object’s `website` field. */
+  website?: Maybe<StringFilter>;
+  /** Filter by the object’s `searchText` field. */
+  searchText?: Maybe<StringFilter>;
+  /** Filter by the object’s `personContacts` relation. */
+  personContacts?: Maybe<ShipperToManyPersonContactFilter>;
+  /** Some related `personContacts` exist. */
+  personContactsExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `country` relation. */
+  country?: Maybe<CountryFilter>;
+  /** A related `country` exists. */
+  countryExists?: Maybe<Scalars['Boolean']>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<ShipperFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<ShipperFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<ShipperFilter>;
+};
+
+/** A filter to be used against many `PersonContact` object types. All fields are combined with a logical ‘and.’ */
+export type ShipperToManyPersonContactFilter = {
+  /** Every related `PersonContact` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<PersonContactFilter>;
+  /** Some related `PersonContact` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<PersonContactFilter>;
+  /** No related `PersonContact` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<PersonContactFilter>;
+};
+
+/** A filter to be used against `Country` object types. All fields are combined with a logical ‘and.’ */
+export type CountryFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<StringFilter>;
+  /** Filter by the object’s `countryName` field. */
+  countryName?: Maybe<StringFilter>;
+  /** Filter by the object’s `warehouses` relation. */
+  warehouses?: Maybe<CountryToManyWarehouseFilter>;
+  /** Some related `warehouses` exist. */
+  warehousesExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `customers` relation. */
+  customers?: Maybe<CountryToManyCustomerFilter>;
+  /** Some related `customers` exist. */
+  customersExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `shippers` relation. */
+  shippers?: Maybe<CountryToManyShipperFilter>;
+  /** Some related `shippers` exist. */
+  shippersExist?: Maybe<Scalars['Boolean']>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<CountryFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<CountryFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<CountryFilter>;
+};
+
+/** A filter to be used against many `Warehouse` object types. All fields are combined with a logical ‘and.’ */
+export type CountryToManyWarehouseFilter = {
+  /** Every related `Warehouse` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<WarehouseFilter>;
+  /** Some related `Warehouse` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<WarehouseFilter>;
+  /** No related `Warehouse` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<WarehouseFilter>;
+};
+
+/** A filter to be used against `Warehouse` object types. All fields are combined with a logical ‘and.’ */
+export type WarehouseFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<StringFilter>;
+  /** Filter by the object’s `warehouseName` field. */
+  warehouseName?: Maybe<StringFilter>;
+  /** Filter by the object’s `address1` field. */
+  address1?: Maybe<StringFilter>;
+  /** Filter by the object’s `address2` field. */
+  address2?: Maybe<StringFilter>;
+  /** Filter by the object’s `address3` field. */
+  address3?: Maybe<StringFilter>;
+  /** Filter by the object’s `city` field. */
+  city?: Maybe<StringFilter>;
+  /** Filter by the object’s `postalState` field. */
+  postalState?: Maybe<StringFilter>;
+  /** Filter by the object’s `countryId` field. */
+  countryId?: Maybe<StringFilter>;
+  /** Filter by the object’s `zipCode` field. */
+  zipCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `phone` field. */
+  phone?: Maybe<StringFilter>;
+  /** Filter by the object’s `outQueue` field. */
+  outQueue?: Maybe<StringFilter>;
+  /** Filter by the object’s `stateTaxCode` field. */
+  stateTaxCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `countyTaxCode` field. */
+  countyTaxCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `cityTaxCode` field. */
+  cityTaxCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `miscTaxCode` field. */
+  miscTaxCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `searchText` field. */
+  searchText?: Maybe<StringFilter>;
+  /** Filter by the object’s `personContacts` relation. */
+  personContacts?: Maybe<WarehouseToManyPersonContactFilter>;
+  /** Some related `personContacts` exist. */
+  personContactsExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `country` relation. */
+  country?: Maybe<CountryFilter>;
+  /** A related `country` exists. */
+  countryExists?: Maybe<Scalars['Boolean']>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<WarehouseFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<WarehouseFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<WarehouseFilter>;
+};
+
+/** A filter to be used against many `PersonContact` object types. All fields are combined with a logical ‘and.’ */
+export type WarehouseToManyPersonContactFilter = {
+  /** Every related `PersonContact` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<PersonContactFilter>;
+  /** Some related `PersonContact` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<PersonContactFilter>;
+  /** No related `PersonContact` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<PersonContactFilter>;
+};
+
+/** A filter to be used against many `Customer` object types. All fields are combined with a logical ‘and.’ */
+export type CountryToManyCustomerFilter = {
+  /** Every related `Customer` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<CustomerFilter>;
+  /** Some related `Customer` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<CustomerFilter>;
+  /** No related `Customer` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<CustomerFilter>;
+};
+
+/** A filter to be used against `Customer` object types. All fields are combined with a logical ‘and.’ */
+export type CustomerFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<StringFilter>;
+  /** Filter by the object’s `customerName` field. */
+  customerName?: Maybe<StringFilter>;
+  /** Filter by the object’s `address1` field. */
+  address1?: Maybe<StringFilter>;
+  /** Filter by the object’s `address2` field. */
+  address2?: Maybe<StringFilter>;
+  /** Filter by the object’s `city` field. */
+  city?: Maybe<StringFilter>;
+  /** Filter by the object’s `postalState` field. */
+  postalState?: Maybe<StringFilter>;
+  /** Filter by the object’s `zipCode` field. */
+  zipCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `countryId` field. */
+  countryId?: Maybe<StringFilter>;
+  /** Filter by the object’s `phone` field. */
+  phone?: Maybe<StringFilter>;
+  /** Filter by the object’s `logoSrc` field. */
+  logoSrc?: Maybe<StringFilter>;
+  /** Filter by the object’s `notes` field. */
+  notes?: Maybe<StringFilter>;
+  /** Filter by the object’s `website` field. */
+  website?: Maybe<StringFilter>;
+  /** Filter by the object’s `active` field. */
+  active?: Maybe<BooleanFilter>;
+  /** Filter by the object’s `searchText` field. */
+  searchText?: Maybe<StringFilter>;
+  /** Filter by the object’s `personContacts` relation. */
+  personContacts?: Maybe<CustomerToManyPersonContactFilter>;
+  /** Some related `personContacts` exist. */
+  personContactsExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `country` relation. */
+  country?: Maybe<CountryFilter>;
+  /** A related `country` exists. */
+  countryExists?: Maybe<Scalars['Boolean']>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<CustomerFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<CustomerFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<CustomerFilter>;
+};
+
+/** A filter to be used against many `PersonContact` object types. All fields are combined with a logical ‘and.’ */
+export type CustomerToManyPersonContactFilter = {
+  /** Every related `PersonContact` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<PersonContactFilter>;
+  /** Some related `PersonContact` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<PersonContactFilter>;
+  /** No related `PersonContact` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<PersonContactFilter>;
+};
+
+/** A filter to be used against many `Shipper` object types. All fields are combined with a logical ‘and.’ */
+export type CountryToManyShipperFilter = {
+  /** Every related `Shipper` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<ShipperFilter>;
+  /** Some related `Shipper` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<ShipperFilter>;
+  /** No related `Shipper` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<ShipperFilter>;
+};
+
+/** A filter to be used against `User` object types. All fields are combined with a logical ‘and.’ */
+export type UserFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `pin` field. */
+  pin?: Maybe<StringFilter>;
+  /** Filter by the object’s `displayName` field. */
+  displayName?: Maybe<StringFilter>;
+  /** Filter by the object’s `contactAliases` relation. */
+  contactAliases?: Maybe<UserToManyContactAliasFilter>;
+  /** Some related `contactAliases` exist. */
+  contactAliasesExist?: Maybe<Scalars['Boolean']>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<UserFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<UserFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<UserFilter>;
+};
+
+/** A filter to be used against many `ContactAlias` object types. All fields are combined with a logical ‘and.’ */
+export type UserToManyContactAliasFilter = {
+  /** Every related `ContactAlias` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<ContactAliasFilter>;
+  /** Some related `ContactAlias` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<ContactAliasFilter>;
+  /** No related `ContactAlias` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<ContactAliasFilter>;
+};
 
 /** A connection to a list of `ContactAliasPersonContact` values. */
 export type ContactAliasPersonContactsConnection = {
@@ -1503,7 +2098,6 @@ export type PersonContactsEdge = {
   node?: Maybe<PersonContact>;
 };
 
-
 /** Information about pagination in a connection. */
 export type PageInfo = {
   __typename?: 'PageInfo';
@@ -1593,474 +2187,6 @@ export type PersonContactCondition = {
   isInternal?: Maybe<Scalars['Boolean']>;
   /** Checks for equality with the object’s `roles` field. */
   roles?: Maybe<Scalars['String']>;
-};
-
-/** A filter to be used against `PersonContact` object types. All fields are combined with a logical ‘and.’ */
-export type PersonContactFilter = {
-  /** Filter by the object’s `id` field. */
-  id?: Maybe<BigIntFilter>;
-  /** Filter by the object’s `shipperId` field. */
-  shipperId?: Maybe<StringFilter>;
-  /** Filter by the object’s `customerId` field. */
-  customerId?: Maybe<StringFilter>;
-  /** Filter by the object’s `warehouseId` field. */
-  warehouseId?: Maybe<StringFilter>;
-  /** Filter by the object’s `firstName` field. */
-  firstName?: Maybe<StringFilter>;
-  /** Filter by the object’s `lastName` field. */
-  lastName?: Maybe<StringFilter>;
-  /** Filter by the object’s `isPrimary` field. */
-  isPrimary?: Maybe<BooleanFilter>;
-  /** Filter by the object’s `email` field. */
-  email?: Maybe<StringFilter>;
-  /** Filter by the object’s `secondaryEmail` field. */
-  secondaryEmail?: Maybe<StringFilter>;
-  /** Filter by the object’s `homePhone` field. */
-  homePhone?: Maybe<StringFilter>;
-  /** Filter by the object’s `cellPhone` field. */
-  cellPhone?: Maybe<StringFilter>;
-  /** Filter by the object’s `workPhone` field. */
-  workPhone?: Maybe<StringFilter>;
-  /** Filter by the object’s `workExtension` field. */
-  workExtension?: Maybe<StringFilter>;
-  /** Filter by the object’s `imageSrc` field. */
-  imageSrc?: Maybe<StringFilter>;
-  /** Filter by the object’s `isInternal` field. */
-  isInternal?: Maybe<BooleanFilter>;
-  /** Filter by the object’s `roles` field. */
-  roles?: Maybe<StringFilter>;
-  /** Filter by the object’s `searchText` field. */
-  searchText?: Maybe<StringFilter>;
-  /** Filter by the object’s `contactAliasPersonContacts` relation. */
-  contactAliasPersonContacts?: Maybe<PersonContactToManyContactAliasPersonContactFilter>;
-  /** Some related `contactAliasPersonContacts` exist. */
-  contactAliasPersonContactsExist?: Maybe<Scalars['Boolean']>;
-  /** Filter by the object’s `shipper` relation. */
-  shipper?: Maybe<ShipperFilter>;
-  /** A related `shipper` exists. */
-  shipperExists?: Maybe<Scalars['Boolean']>;
-  /** Filter by the object’s `customer` relation. */
-  customer?: Maybe<CustomerFilter>;
-  /** A related `customer` exists. */
-  customerExists?: Maybe<Scalars['Boolean']>;
-  /** Filter by the object’s `warehouse` relation. */
-  warehouse?: Maybe<WarehouseFilter>;
-  /** A related `warehouse` exists. */
-  warehouseExists?: Maybe<Scalars['Boolean']>;
-  /** Checks for all expressions in this list. */
-  and?: Maybe<Array<PersonContactFilter>>;
-  /** Checks for any expressions in this list. */
-  or?: Maybe<Array<PersonContactFilter>>;
-  /** Negates the expression. */
-  not?: Maybe<PersonContactFilter>;
-};
-
-/** A filter to be used against BigInt fields. All fields are combined with a logical ‘and.’ */
-export type BigIntFilter = {
-  /** Is null (if `true` is specified) or is not null (if `false` is specified). */
-  isNull?: Maybe<Scalars['Boolean']>;
-  /** Equal to the specified value. */
-  equalTo?: Maybe<Scalars['BigInt']>;
-  /** Not equal to the specified value. */
-  notEqualTo?: Maybe<Scalars['BigInt']>;
-  /** Not equal to the specified value, treating null like an ordinary value. */
-  distinctFrom?: Maybe<Scalars['BigInt']>;
-  /** Equal to the specified value, treating null like an ordinary value. */
-  notDistinctFrom?: Maybe<Scalars['BigInt']>;
-  /** Included in the specified list. */
-  in?: Maybe<Array<Scalars['BigInt']>>;
-  /** Not included in the specified list. */
-  notIn?: Maybe<Array<Scalars['BigInt']>>;
-  /** Less than the specified value. */
-  lessThan?: Maybe<Scalars['BigInt']>;
-  /** Less than or equal to the specified value. */
-  lessThanOrEqualTo?: Maybe<Scalars['BigInt']>;
-  /** Greater than the specified value. */
-  greaterThan?: Maybe<Scalars['BigInt']>;
-  /** Greater than or equal to the specified value. */
-  greaterThanOrEqualTo?: Maybe<Scalars['BigInt']>;
-};
-
-/** A filter to be used against String fields. All fields are combined with a logical ‘and.’ */
-export type StringFilter = {
-  /** Is null (if `true` is specified) or is not null (if `false` is specified). */
-  isNull?: Maybe<Scalars['Boolean']>;
-  /** Equal to the specified value. */
-  equalTo?: Maybe<Scalars['String']>;
-  /** Not equal to the specified value. */
-  notEqualTo?: Maybe<Scalars['String']>;
-  /** Not equal to the specified value, treating null like an ordinary value. */
-  distinctFrom?: Maybe<Scalars['String']>;
-  /** Equal to the specified value, treating null like an ordinary value. */
-  notDistinctFrom?: Maybe<Scalars['String']>;
-  /** Included in the specified list. */
-  in?: Maybe<Array<Scalars['String']>>;
-  /** Not included in the specified list. */
-  notIn?: Maybe<Array<Scalars['String']>>;
-  /** Less than the specified value. */
-  lessThan?: Maybe<Scalars['String']>;
-  /** Less than or equal to the specified value. */
-  lessThanOrEqualTo?: Maybe<Scalars['String']>;
-  /** Greater than the specified value. */
-  greaterThan?: Maybe<Scalars['String']>;
-  /** Greater than or equal to the specified value. */
-  greaterThanOrEqualTo?: Maybe<Scalars['String']>;
-  /** Contains the specified string (case-sensitive). */
-  includes?: Maybe<Scalars['String']>;
-  /** Does not contain the specified string (case-sensitive). */
-  notIncludes?: Maybe<Scalars['String']>;
-  /** Contains the specified string (case-insensitive). */
-  includesInsensitive?: Maybe<Scalars['String']>;
-  /** Does not contain the specified string (case-insensitive). */
-  notIncludesInsensitive?: Maybe<Scalars['String']>;
-  /** Starts with the specified string (case-sensitive). */
-  startsWith?: Maybe<Scalars['String']>;
-  /** Does not start with the specified string (case-sensitive). */
-  notStartsWith?: Maybe<Scalars['String']>;
-  /** Starts with the specified string (case-insensitive). */
-  startsWithInsensitive?: Maybe<Scalars['String']>;
-  /** Does not start with the specified string (case-insensitive). */
-  notStartsWithInsensitive?: Maybe<Scalars['String']>;
-  /** Ends with the specified string (case-sensitive). */
-  endsWith?: Maybe<Scalars['String']>;
-  /** Does not end with the specified string (case-sensitive). */
-  notEndsWith?: Maybe<Scalars['String']>;
-  /** Ends with the specified string (case-insensitive). */
-  endsWithInsensitive?: Maybe<Scalars['String']>;
-  /** Does not end with the specified string (case-insensitive). */
-  notEndsWithInsensitive?: Maybe<Scalars['String']>;
-  /** Matches the specified pattern (case-sensitive). An underscore (_) matches any single character; a percent sign (%) matches any sequence of zero or more characters. */
-  like?: Maybe<Scalars['String']>;
-  /** Does not match the specified pattern (case-sensitive). An underscore (_) matches any single character; a percent sign (%) matches any sequence of zero or more characters. */
-  notLike?: Maybe<Scalars['String']>;
-  /** Matches the specified pattern (case-insensitive). An underscore (_) matches any single character; a percent sign (%) matches any sequence of zero or more characters. */
-  likeInsensitive?: Maybe<Scalars['String']>;
-  /** Does not match the specified pattern (case-insensitive). An underscore (_) matches any single character; a percent sign (%) matches any sequence of zero or more characters. */
-  notLikeInsensitive?: Maybe<Scalars['String']>;
-  /** Equal to the specified value (case-insensitive). */
-  equalToInsensitive?: Maybe<Scalars['String']>;
-  /** Not equal to the specified value (case-insensitive). */
-  notEqualToInsensitive?: Maybe<Scalars['String']>;
-  /** Not equal to the specified value, treating null like an ordinary value (case-insensitive). */
-  distinctFromInsensitive?: Maybe<Scalars['String']>;
-  /** Equal to the specified value, treating null like an ordinary value (case-insensitive). */
-  notDistinctFromInsensitive?: Maybe<Scalars['String']>;
-  /** Included in the specified list (case-insensitive). */
-  inInsensitive?: Maybe<Array<Scalars['String']>>;
-  /** Not included in the specified list (case-insensitive). */
-  notInInsensitive?: Maybe<Array<Scalars['String']>>;
-  /** Less than the specified value (case-insensitive). */
-  lessThanInsensitive?: Maybe<Scalars['String']>;
-  /** Less than or equal to the specified value (case-insensitive). */
-  lessThanOrEqualToInsensitive?: Maybe<Scalars['String']>;
-  /** Greater than the specified value (case-insensitive). */
-  greaterThanInsensitive?: Maybe<Scalars['String']>;
-  /** Greater than or equal to the specified value (case-insensitive). */
-  greaterThanOrEqualToInsensitive?: Maybe<Scalars['String']>;
-};
-
-/** A filter to be used against Boolean fields. All fields are combined with a logical ‘and.’ */
-export type BooleanFilter = {
-  /** Is null (if `true` is specified) or is not null (if `false` is specified). */
-  isNull?: Maybe<Scalars['Boolean']>;
-  /** Equal to the specified value. */
-  equalTo?: Maybe<Scalars['Boolean']>;
-  /** Not equal to the specified value. */
-  notEqualTo?: Maybe<Scalars['Boolean']>;
-  /** Not equal to the specified value, treating null like an ordinary value. */
-  distinctFrom?: Maybe<Scalars['Boolean']>;
-  /** Equal to the specified value, treating null like an ordinary value. */
-  notDistinctFrom?: Maybe<Scalars['Boolean']>;
-  /** Included in the specified list. */
-  in?: Maybe<Array<Scalars['Boolean']>>;
-  /** Not included in the specified list. */
-  notIn?: Maybe<Array<Scalars['Boolean']>>;
-  /** Less than the specified value. */
-  lessThan?: Maybe<Scalars['Boolean']>;
-  /** Less than or equal to the specified value. */
-  lessThanOrEqualTo?: Maybe<Scalars['Boolean']>;
-  /** Greater than the specified value. */
-  greaterThan?: Maybe<Scalars['Boolean']>;
-  /** Greater than or equal to the specified value. */
-  greaterThanOrEqualTo?: Maybe<Scalars['Boolean']>;
-};
-
-/** A filter to be used against many `ContactAliasPersonContact` object types. All fields are combined with a logical ‘and.’ */
-export type PersonContactToManyContactAliasPersonContactFilter = {
-  /** Every related `ContactAliasPersonContact` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  every?: Maybe<ContactAliasPersonContactFilter>;
-  /** Some related `ContactAliasPersonContact` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  some?: Maybe<ContactAliasPersonContactFilter>;
-  /** No related `ContactAliasPersonContact` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  none?: Maybe<ContactAliasPersonContactFilter>;
-};
-
-/** A filter to be used against `ContactAliasPersonContact` object types. All fields are combined with a logical ‘and.’ */
-export type ContactAliasPersonContactFilter = {
-  /** Filter by the object’s `aliasId` field. */
-  aliasId?: Maybe<BigIntFilter>;
-  /** Filter by the object’s `personContactId` field. */
-  personContactId?: Maybe<BigIntFilter>;
-  /** Filter by the object’s `alias` relation. */
-  alias?: Maybe<ContactAliasFilter>;
-  /** Filter by the object’s `personContact` relation. */
-  personContact?: Maybe<PersonContactFilter>;
-  /** Checks for all expressions in this list. */
-  and?: Maybe<Array<ContactAliasPersonContactFilter>>;
-  /** Checks for any expressions in this list. */
-  or?: Maybe<Array<ContactAliasPersonContactFilter>>;
-  /** Negates the expression. */
-  not?: Maybe<ContactAliasPersonContactFilter>;
-};
-
-/** A filter to be used against `ContactAlias` object types. All fields are combined with a logical ‘and.’ */
-export type ContactAliasFilter = {
-  /** Filter by the object’s `id` field. */
-  id?: Maybe<BigIntFilter>;
-  /** Filter by the object’s `aliasDescription` field. */
-  aliasDescription?: Maybe<StringFilter>;
-  /** Filter by the object’s `aliasName` field. */
-  aliasName?: Maybe<StringFilter>;
-  /** Filter by the object’s `aliasType` field. */
-  aliasType?: Maybe<StringFilter>;
-  /** Filter by the object’s `searchText` field. */
-  searchText?: Maybe<StringFilter>;
-  /** Filter by the object’s `contactAliasPersonContactsByAliasId` relation. */
-  contactAliasPersonContactsByAliasId?: Maybe<ContactAliasToManyContactAliasPersonContactFilter>;
-  /** Some related `contactAliasPersonContactsByAliasId` exist. */
-  contactAliasPersonContactsByAliasIdExist?: Maybe<Scalars['Boolean']>;
-  /** Checks for all expressions in this list. */
-  and?: Maybe<Array<ContactAliasFilter>>;
-  /** Checks for any expressions in this list. */
-  or?: Maybe<Array<ContactAliasFilter>>;
-  /** Negates the expression. */
-  not?: Maybe<ContactAliasFilter>;
-};
-
-/** A filter to be used against many `ContactAliasPersonContact` object types. All fields are combined with a logical ‘and.’ */
-export type ContactAliasToManyContactAliasPersonContactFilter = {
-  /** Every related `ContactAliasPersonContact` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  every?: Maybe<ContactAliasPersonContactFilter>;
-  /** Some related `ContactAliasPersonContact` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  some?: Maybe<ContactAliasPersonContactFilter>;
-  /** No related `ContactAliasPersonContact` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  none?: Maybe<ContactAliasPersonContactFilter>;
-};
-
-/** A filter to be used against `Shipper` object types. All fields are combined with a logical ‘and.’ */
-export type ShipperFilter = {
-  /** Filter by the object’s `id` field. */
-  id?: Maybe<StringFilter>;
-  /** Filter by the object’s `shipperName` field. */
-  shipperName?: Maybe<StringFilter>;
-  /** Filter by the object’s `countryId` field. */
-  countryId?: Maybe<StringFilter>;
-  /** Filter by the object’s `groupId` field. */
-  groupId?: Maybe<StringFilter>;
-  /** Filter by the object’s `logoSrc` field. */
-  logoSrc?: Maybe<StringFilter>;
-  /** Filter by the object’s `notes` field. */
-  notes?: Maybe<StringFilter>;
-  /** Filter by the object’s `website` field. */
-  website?: Maybe<StringFilter>;
-  /** Filter by the object’s `searchText` field. */
-  searchText?: Maybe<StringFilter>;
-  /** Filter by the object’s `personContacts` relation. */
-  personContacts?: Maybe<ShipperToManyPersonContactFilter>;
-  /** Some related `personContacts` exist. */
-  personContactsExist?: Maybe<Scalars['Boolean']>;
-  /** Filter by the object’s `country` relation. */
-  country?: Maybe<CountryFilter>;
-  /** A related `country` exists. */
-  countryExists?: Maybe<Scalars['Boolean']>;
-  /** Checks for all expressions in this list. */
-  and?: Maybe<Array<ShipperFilter>>;
-  /** Checks for any expressions in this list. */
-  or?: Maybe<Array<ShipperFilter>>;
-  /** Negates the expression. */
-  not?: Maybe<ShipperFilter>;
-};
-
-/** A filter to be used against many `PersonContact` object types. All fields are combined with a logical ‘and.’ */
-export type ShipperToManyPersonContactFilter = {
-  /** Every related `PersonContact` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  every?: Maybe<PersonContactFilter>;
-  /** Some related `PersonContact` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  some?: Maybe<PersonContactFilter>;
-  /** No related `PersonContact` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  none?: Maybe<PersonContactFilter>;
-};
-
-/** A filter to be used against `Country` object types. All fields are combined with a logical ‘and.’ */
-export type CountryFilter = {
-  /** Filter by the object’s `id` field. */
-  id?: Maybe<StringFilter>;
-  /** Filter by the object’s `countryName` field. */
-  countryName?: Maybe<StringFilter>;
-  /** Filter by the object’s `warehouses` relation. */
-  warehouses?: Maybe<CountryToManyWarehouseFilter>;
-  /** Some related `warehouses` exist. */
-  warehousesExist?: Maybe<Scalars['Boolean']>;
-  /** Filter by the object’s `customers` relation. */
-  customers?: Maybe<CountryToManyCustomerFilter>;
-  /** Some related `customers` exist. */
-  customersExist?: Maybe<Scalars['Boolean']>;
-  /** Filter by the object’s `shippers` relation. */
-  shippers?: Maybe<CountryToManyShipperFilter>;
-  /** Some related `shippers` exist. */
-  shippersExist?: Maybe<Scalars['Boolean']>;
-  /** Checks for all expressions in this list. */
-  and?: Maybe<Array<CountryFilter>>;
-  /** Checks for any expressions in this list. */
-  or?: Maybe<Array<CountryFilter>>;
-  /** Negates the expression. */
-  not?: Maybe<CountryFilter>;
-};
-
-/** A filter to be used against many `Warehouse` object types. All fields are combined with a logical ‘and.’ */
-export type CountryToManyWarehouseFilter = {
-  /** Every related `Warehouse` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  every?: Maybe<WarehouseFilter>;
-  /** Some related `Warehouse` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  some?: Maybe<WarehouseFilter>;
-  /** No related `Warehouse` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  none?: Maybe<WarehouseFilter>;
-};
-
-/** A filter to be used against `Warehouse` object types. All fields are combined with a logical ‘and.’ */
-export type WarehouseFilter = {
-  /** Filter by the object’s `id` field. */
-  id?: Maybe<StringFilter>;
-  /** Filter by the object’s `warehouseName` field. */
-  warehouseName?: Maybe<StringFilter>;
-  /** Filter by the object’s `address1` field. */
-  address1?: Maybe<StringFilter>;
-  /** Filter by the object’s `address2` field. */
-  address2?: Maybe<StringFilter>;
-  /** Filter by the object’s `address3` field. */
-  address3?: Maybe<StringFilter>;
-  /** Filter by the object’s `city` field. */
-  city?: Maybe<StringFilter>;
-  /** Filter by the object’s `postalState` field. */
-  postalState?: Maybe<StringFilter>;
-  /** Filter by the object’s `countryId` field. */
-  countryId?: Maybe<StringFilter>;
-  /** Filter by the object’s `zipCode` field. */
-  zipCode?: Maybe<StringFilter>;
-  /** Filter by the object’s `phone` field. */
-  phone?: Maybe<StringFilter>;
-  /** Filter by the object’s `outQueue` field. */
-  outQueue?: Maybe<StringFilter>;
-  /** Filter by the object’s `stateTaxCode` field. */
-  stateTaxCode?: Maybe<StringFilter>;
-  /** Filter by the object’s `countyTaxCode` field. */
-  countyTaxCode?: Maybe<StringFilter>;
-  /** Filter by the object’s `cityTaxCode` field. */
-  cityTaxCode?: Maybe<StringFilter>;
-  /** Filter by the object’s `miscTaxCode` field. */
-  miscTaxCode?: Maybe<StringFilter>;
-  /** Filter by the object’s `searchText` field. */
-  searchText?: Maybe<StringFilter>;
-  /** Filter by the object’s `personContacts` relation. */
-  personContacts?: Maybe<WarehouseToManyPersonContactFilter>;
-  /** Some related `personContacts` exist. */
-  personContactsExist?: Maybe<Scalars['Boolean']>;
-  /** Filter by the object’s `country` relation. */
-  country?: Maybe<CountryFilter>;
-  /** A related `country` exists. */
-  countryExists?: Maybe<Scalars['Boolean']>;
-  /** Checks for all expressions in this list. */
-  and?: Maybe<Array<WarehouseFilter>>;
-  /** Checks for any expressions in this list. */
-  or?: Maybe<Array<WarehouseFilter>>;
-  /** Negates the expression. */
-  not?: Maybe<WarehouseFilter>;
-};
-
-/** A filter to be used against many `PersonContact` object types. All fields are combined with a logical ‘and.’ */
-export type WarehouseToManyPersonContactFilter = {
-  /** Every related `PersonContact` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  every?: Maybe<PersonContactFilter>;
-  /** Some related `PersonContact` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  some?: Maybe<PersonContactFilter>;
-  /** No related `PersonContact` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  none?: Maybe<PersonContactFilter>;
-};
-
-/** A filter to be used against many `Customer` object types. All fields are combined with a logical ‘and.’ */
-export type CountryToManyCustomerFilter = {
-  /** Every related `Customer` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  every?: Maybe<CustomerFilter>;
-  /** Some related `Customer` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  some?: Maybe<CustomerFilter>;
-  /** No related `Customer` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  none?: Maybe<CustomerFilter>;
-};
-
-/** A filter to be used against `Customer` object types. All fields are combined with a logical ‘and.’ */
-export type CustomerFilter = {
-  /** Filter by the object’s `id` field. */
-  id?: Maybe<StringFilter>;
-  /** Filter by the object’s `customerName` field. */
-  customerName?: Maybe<StringFilter>;
-  /** Filter by the object’s `address1` field. */
-  address1?: Maybe<StringFilter>;
-  /** Filter by the object’s `address2` field. */
-  address2?: Maybe<StringFilter>;
-  /** Filter by the object’s `city` field. */
-  city?: Maybe<StringFilter>;
-  /** Filter by the object’s `postalState` field. */
-  postalState?: Maybe<StringFilter>;
-  /** Filter by the object’s `zipCode` field. */
-  zipCode?: Maybe<StringFilter>;
-  /** Filter by the object’s `countryId` field. */
-  countryId?: Maybe<StringFilter>;
-  /** Filter by the object’s `phone` field. */
-  phone?: Maybe<StringFilter>;
-  /** Filter by the object’s `logoSrc` field. */
-  logoSrc?: Maybe<StringFilter>;
-  /** Filter by the object’s `notes` field. */
-  notes?: Maybe<StringFilter>;
-  /** Filter by the object’s `website` field. */
-  website?: Maybe<StringFilter>;
-  /** Filter by the object’s `active` field. */
-  active?: Maybe<BooleanFilter>;
-  /** Filter by the object’s `searchText` field. */
-  searchText?: Maybe<StringFilter>;
-  /** Filter by the object’s `personContacts` relation. */
-  personContacts?: Maybe<CustomerToManyPersonContactFilter>;
-  /** Some related `personContacts` exist. */
-  personContactsExist?: Maybe<Scalars['Boolean']>;
-  /** Filter by the object’s `country` relation. */
-  country?: Maybe<CountryFilter>;
-  /** A related `country` exists. */
-  countryExists?: Maybe<Scalars['Boolean']>;
-  /** Checks for all expressions in this list. */
-  and?: Maybe<Array<CustomerFilter>>;
-  /** Checks for any expressions in this list. */
-  or?: Maybe<Array<CustomerFilter>>;
-  /** Negates the expression. */
-  not?: Maybe<CustomerFilter>;
-};
-
-/** A filter to be used against many `PersonContact` object types. All fields are combined with a logical ‘and.’ */
-export type CustomerToManyPersonContactFilter = {
-  /** Every related `PersonContact` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  every?: Maybe<PersonContactFilter>;
-  /** Some related `PersonContact` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  some?: Maybe<PersonContactFilter>;
-  /** No related `PersonContact` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  none?: Maybe<PersonContactFilter>;
-};
-
-/** A filter to be used against many `Shipper` object types. All fields are combined with a logical ‘and.’ */
-export type CountryToManyShipperFilter = {
-  /** Every related `Shipper` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  every?: Maybe<ShipperFilter>;
-  /** Some related `Shipper` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  some?: Maybe<ShipperFilter>;
-  /** No related `Shipper` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  none?: Maybe<ShipperFilter>;
 };
 
 /** A connection to a list of `Shipper` values, with data from `PersonContact`. */
@@ -2625,36 +2751,6 @@ export type PersonContactContactAliasesByContactAliasPersonContactPersonContactI
   node?: Maybe<ContactAlias>;
 };
 
-/** Methods to use when ordering `ContactAlias`. */
-export enum ContactAliasesOrderBy {
-  Natural = 'NATURAL',
-  IdAsc = 'ID_ASC',
-  IdDesc = 'ID_DESC',
-  AliasDescriptionAsc = 'ALIAS_DESCRIPTION_ASC',
-  AliasDescriptionDesc = 'ALIAS_DESCRIPTION_DESC',
-  AliasNameAsc = 'ALIAS_NAME_ASC',
-  AliasNameDesc = 'ALIAS_NAME_DESC',
-  AliasTypeAsc = 'ALIAS_TYPE_ASC',
-  AliasTypeDesc = 'ALIAS_TYPE_DESC',
-  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
-}
-
-/**
- * A condition to be used against `ContactAlias` object types. All fields are
- * tested for equality and combined with a logical ‘and.’
- */
-export type ContactAliasCondition = {
-  /** Checks for equality with the object’s `id` field. */
-  id?: Maybe<Scalars['BigInt']>;
-  /** Checks for equality with the object’s `aliasDescription` field. */
-  aliasDescription?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `aliasName` field. */
-  aliasName?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `aliasType` field. */
-  aliasType?: Maybe<Scalars['String']>;
-};
-
 /** A `ContactAliasPersonContact` edge in the connection. */
 export type ContactAliasPersonContactsEdge = {
   __typename?: 'ContactAliasPersonContactsEdge';
@@ -2734,6 +2830,51 @@ export type CountryCondition = {
   id?: Maybe<Scalars['String']>;
   /** Checks for equality with the object’s `countryName` field. */
   countryName?: Maybe<Scalars['String']>;
+};
+
+/** A connection to a list of `User` values. */
+export type UsersConnection = {
+  __typename?: 'UsersConnection';
+  /** A list of `User` objects. */
+  nodes: Array<Maybe<User>>;
+  /** A list of edges which contains the `User` and cursor to aid in pagination. */
+  edges: Array<UsersEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `User` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `User` edge in the connection. */
+export type UsersEdge = {
+  __typename?: 'UsersEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `User` at the end of the edge. */
+  node?: Maybe<User>;
+};
+
+/** Methods to use when ordering `User`. */
+export enum UsersOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  PinAsc = 'PIN_ASC',
+  PinDesc = 'PIN_DESC',
+  DisplayNameAsc = 'DISPLAY_NAME_ASC',
+  DisplayNameDesc = 'DISPLAY_NAME_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
+/** A condition to be used against `User` object types. All fields are tested for equality and combined with a logical ‘and.’ */
+export type UserCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `pin` field. */
+  pin?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `displayName` field. */
+  displayName?: Maybe<Scalars['String']>;
 };
 
 /** A connection to a list of `AgendaItem` values. */
@@ -6056,6 +6197,8 @@ export type Mutation = {
   createPersonContact?: Maybe<CreatePersonContactPayload>;
   /** Creates a single `Shipper`. */
   createShipper?: Maybe<CreateShipperPayload>;
+  /** Creates a single `User`. */
+  createUser?: Maybe<CreateUserPayload>;
   /** Creates a single `Warehouse`. */
   createWarehouse?: Maybe<CreateWarehousePayload>;
   /** Creates a single `AgendaItem`. */
@@ -6138,6 +6281,12 @@ export type Mutation = {
   updateShipperByNodeId?: Maybe<UpdateShipperPayload>;
   /** Updates a single `Shipper` using a unique key and a patch. */
   updateShipper?: Maybe<UpdateShipperPayload>;
+  /** Updates a single `User` using its globally unique id and a patch. */
+  updateUserByNodeId?: Maybe<UpdateUserPayload>;
+  /** Updates a single `User` using a unique key and a patch. */
+  updateUser?: Maybe<UpdateUserPayload>;
+  /** Updates a single `User` using a unique key and a patch. */
+  updateUserByPin?: Maybe<UpdateUserPayload>;
   /** Updates a single `Warehouse` using its globally unique id and a patch. */
   updateWarehouseByNodeId?: Maybe<UpdateWarehousePayload>;
   /** Updates a single `Warehouse` using a unique key and a patch. */
@@ -6278,6 +6427,12 @@ export type Mutation = {
   deleteShipperByNodeId?: Maybe<DeleteShipperPayload>;
   /** Deletes a single `Shipper` using a unique key. */
   deleteShipper?: Maybe<DeleteShipperPayload>;
+  /** Deletes a single `User` using its globally unique id. */
+  deleteUserByNodeId?: Maybe<DeleteUserPayload>;
+  /** Deletes a single `User` using a unique key. */
+  deleteUser?: Maybe<DeleteUserPayload>;
+  /** Deletes a single `User` using a unique key. */
+  deleteUserByPin?: Maybe<DeleteUserPayload>;
   /** Deletes a single `Warehouse` using its globally unique id. */
   deleteWarehouseByNodeId?: Maybe<DeleteWarehousePayload>;
   /** Deletes a single `Warehouse` using a unique key. */
@@ -6442,6 +6597,12 @@ export type MutationCreatePersonContactArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreateShipperArgs = {
   input: CreateShipperInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateUserArgs = {
+  input: CreateUserInput;
 };
 
 
@@ -6688,6 +6849,24 @@ export type MutationUpdateShipperByNodeIdArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateShipperArgs = {
   input: UpdateShipperInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateUserByNodeIdArgs = {
+  input: UpdateUserByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateUserArgs = {
+  input: UpdateUserInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateUserByPinArgs = {
+  input: UpdateUserByPinInput;
 };
 
 
@@ -7108,6 +7287,24 @@ export type MutationDeleteShipperByNodeIdArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteShipperArgs = {
   input: DeleteShipperInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteUserByNodeIdArgs = {
+  input: DeleteUserByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteUserArgs = {
+  input: DeleteUserInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteUserByPinArgs = {
+  input: DeleteUserByPinInput;
 };
 
 
@@ -7542,6 +7739,8 @@ export type CreateContactAliasPayload = {
   contactAlias?: Maybe<ContactAlias>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
+  /** Reads a single `User` that is related to this `ContactAlias`. */
+  user?: Maybe<User>;
   /** An edge for our `ContactAlias`. May be used by Relay 1. */
   contactAliasEdge?: Maybe<ContactAliasesEdge>;
 };
@@ -7568,7 +7767,137 @@ export type ContactAliasInput = {
   id?: Maybe<Scalars['BigInt']>;
   aliasDescription: Scalars['String'];
   aliasName: Scalars['String'];
-  aliasType: Scalars['String'];
+  userId?: Maybe<Scalars['BigInt']>;
+  userToUserId?: Maybe<ContactAliasUserIdFkeyInput>;
+  contactAliasPersonContactsUsingId?: Maybe<ContactAliasPersonContactAliasIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `user` in the `ContactAliasInput` mutation. */
+export type ContactAliasUserIdFkeyInput = {
+  /** The primary key(s) for `user` for the far side of the relationship. */
+  connectById?: Maybe<UserUserPkeyConnect>;
+  /** The primary key(s) for `user` for the far side of the relationship. */
+  connectByPin?: Maybe<UserUserPinKeyConnect>;
+  /** The primary key(s) for `user` for the far side of the relationship. */
+  connectByNodeId?: Maybe<UserNodeIdConnect>;
+  /** The primary key(s) for `user` for the far side of the relationship. */
+  deleteById?: Maybe<UserUserPkeyDelete>;
+  /** The primary key(s) for `user` for the far side of the relationship. */
+  deleteByPin?: Maybe<UserUserPinKeyDelete>;
+  /** The primary key(s) for `user` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<UserNodeIdDelete>;
+  /** The primary key(s) and patch data for `user` for the far side of the relationship. */
+  updateById?: Maybe<UserOnContactAliasForContactAliasUserIdFkeyUsingUserPkeyUpdate>;
+  /** The primary key(s) and patch data for `user` for the far side of the relationship. */
+  updateByPin?: Maybe<UserOnContactAliasForContactAliasUserIdFkeyUsingUserPinKeyUpdate>;
+  /** The primary key(s) and patch data for `user` for the far side of the relationship. */
+  updateByNodeId?: Maybe<ContactAliasOnContactAliasForContactAliasUserIdFkeyNodeIdUpdate>;
+  /** A `UserInput` object that will be created and connected to this object. */
+  create?: Maybe<ContactAliasUserIdFkeyUserCreateInput>;
+};
+
+/** The fields on `user` to look up the row to connect. */
+export type UserUserPkeyConnect = {
+  id: Scalars['BigInt'];
+};
+
+/** The fields on `user` to look up the row to connect. */
+export type UserUserPinKeyConnect = {
+  pin: Scalars['String'];
+};
+
+/** The globally unique `ID` look up for the row to connect. */
+export type UserNodeIdConnect = {
+  /** The globally unique `ID` which identifies a single `user` to be connected. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `user` to look up the row to delete. */
+export type UserUserPkeyDelete = {
+  id: Scalars['BigInt'];
+};
+
+/** The fields on `user` to look up the row to delete. */
+export type UserUserPinKeyDelete = {
+  pin: Scalars['String'];
+};
+
+/** The globally unique `ID` look up for the row to delete. */
+export type UserNodeIdDelete = {
+  /** The globally unique `ID` which identifies a single `user` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `user` to look up the row to update. */
+export type UserOnContactAliasForContactAliasUserIdFkeyUsingUserPkeyUpdate = {
+  /** An object where the defined keys will be set on the `user` being updated. */
+  patch: UpdateUserOnContactAliasForContactAliasUserIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `user` being updated. */
+export type UpdateUserOnContactAliasForContactAliasUserIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  pin?: Maybe<Scalars['String']>;
+  displayName?: Maybe<Scalars['String']>;
+  contactAliasesUsingId?: Maybe<ContactAliasUserIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `contactAlias` in the `UserInput` mutation. */
+export type ContactAliasUserIdFkeyInverseInput = {
+  /** Flag indicating whether all other `contactAlias` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `contactAlias` for the far side of the relationship. */
+  connectById?: Maybe<Array<ContactAliasContactAliasPkeyConnect>>;
+  /** The primary key(s) for `contactAlias` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<ContactAliasNodeIdConnect>>;
+  /** The primary key(s) for `contactAlias` for the far side of the relationship. */
+  deleteById?: Maybe<Array<ContactAliasContactAliasPkeyDelete>>;
+  /** The primary key(s) for `contactAlias` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<ContactAliasNodeIdDelete>>;
+  /** The primary key(s) and patch data for `contactAlias` for the far side of the relationship. */
+  updateById?: Maybe<Array<ContactAliasOnContactAliasForContactAliasUserIdFkeyUsingContactAliasPkeyUpdate>>;
+  /** The primary key(s) and patch data for `contactAlias` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<UserOnContactAliasForContactAliasUserIdFkeyNodeIdUpdate>>;
+  /** A `ContactAliasInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<ContactAliasUserIdFkeyContactAliasCreateInput>>;
+};
+
+/** The fields on `contactAlias` to look up the row to connect. */
+export type ContactAliasContactAliasPkeyConnect = {
+  id: Scalars['BigInt'];
+};
+
+/** The globally unique `ID` look up for the row to connect. */
+export type ContactAliasNodeIdConnect = {
+  /** The globally unique `ID` which identifies a single `contactAlias` to be connected. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `contactAlias` to look up the row to delete. */
+export type ContactAliasContactAliasPkeyDelete = {
+  id: Scalars['BigInt'];
+};
+
+/** The globally unique `ID` look up for the row to delete. */
+export type ContactAliasNodeIdDelete = {
+  /** The globally unique `ID` which identifies a single `contactAlias` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `contactAlias` to look up the row to update. */
+export type ContactAliasOnContactAliasForContactAliasUserIdFkeyUsingContactAliasPkeyUpdate = {
+  /** An object where the defined keys will be set on the `contactAlias` being updated. */
+  patch: UpdateContactAliasOnContactAliasForContactAliasUserIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `contactAlias` being updated. */
+export type UpdateContactAliasOnContactAliasForContactAliasUserIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  aliasDescription?: Maybe<Scalars['String']>;
+  aliasName?: Maybe<Scalars['String']>;
+  userToUserId?: Maybe<ContactAliasUserIdFkeyInput>;
   contactAliasPersonContactsUsingId?: Maybe<ContactAliasPersonContactAliasIdFkeyInverseInput>;
 };
 
@@ -7649,28 +7978,6 @@ export type ContactAliasPersonContactAliasIdFkeyInput = {
   create?: Maybe<ContactAliasPersonContactAliasIdFkeyContactAliasCreateInput>;
 };
 
-/** The fields on `contactAlias` to look up the row to connect. */
-export type ContactAliasContactAliasPkeyConnect = {
-  id: Scalars['BigInt'];
-};
-
-/** The globally unique `ID` look up for the row to connect. */
-export type ContactAliasNodeIdConnect = {
-  /** The globally unique `ID` which identifies a single `contactAlias` to be connected. */
-  nodeId: Scalars['ID'];
-};
-
-/** The fields on `contactAlias` to look up the row to delete. */
-export type ContactAliasContactAliasPkeyDelete = {
-  id: Scalars['BigInt'];
-};
-
-/** The globally unique `ID` look up for the row to delete. */
-export type ContactAliasNodeIdDelete = {
-  /** The globally unique `ID` which identifies a single `contactAlias` to be deleted. */
-  nodeId: Scalars['ID'];
-};
-
 /** The fields on `contactAlias` to look up the row to update. */
 export type ContactAliasOnContactAliasPersonContactForContactAliasPersonContactAliasIdFkeyUsingContactAliasPkeyUpdate = {
   /** An object where the defined keys will be set on the `contactAlias` being updated. */
@@ -7683,7 +7990,8 @@ export type UpdateContactAliasOnContactAliasPersonContactForContactAliasPersonCo
   id?: Maybe<Scalars['BigInt']>;
   aliasDescription?: Maybe<Scalars['String']>;
   aliasName?: Maybe<Scalars['String']>;
-  aliasType?: Maybe<Scalars['String']>;
+  userId?: Maybe<Scalars['BigInt']>;
+  userToUserId?: Maybe<ContactAliasUserIdFkeyInput>;
   contactAliasPersonContactsUsingId?: Maybe<ContactAliasPersonContactAliasIdFkeyInverseInput>;
 };
 
@@ -7700,7 +8008,8 @@ export type ContactAliasPatch = {
   id?: Maybe<Scalars['BigInt']>;
   aliasDescription?: Maybe<Scalars['String']>;
   aliasName?: Maybe<Scalars['String']>;
-  aliasType?: Maybe<Scalars['String']>;
+  userId?: Maybe<Scalars['BigInt']>;
+  userToUserId?: Maybe<ContactAliasUserIdFkeyInput>;
   contactAliasPersonContactsUsingId?: Maybe<ContactAliasPersonContactAliasIdFkeyInverseInput>;
 };
 
@@ -7709,7 +8018,8 @@ export type ContactAliasPersonContactAliasIdFkeyContactAliasCreateInput = {
   id?: Maybe<Scalars['BigInt']>;
   aliasDescription: Scalars['String'];
   aliasName: Scalars['String'];
-  aliasType: Scalars['String'];
+  userId?: Maybe<Scalars['BigInt']>;
+  userToUserId?: Maybe<ContactAliasUserIdFkeyInput>;
   contactAliasPersonContactsUsingId?: Maybe<ContactAliasPersonContactAliasIdFkeyInverseInput>;
 };
 
@@ -8869,6 +9179,54 @@ export type ContactAliasPersonContactAliasIdFkeyContactAliasPersonContactCreateI
   personContactToPersonContactId?: Maybe<ContactAliasPersonContactPersonContactIdFkeyInput>;
 };
 
+/** The globally unique `ID` look up for the row to update. */
+export type UserOnContactAliasForContactAliasUserIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `contactAlias` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `contactAlias` being updated. */
+  patch: ContactAliasPatch;
+};
+
+/** The `contactAlias` to be created by this mutation. */
+export type ContactAliasUserIdFkeyContactAliasCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  aliasDescription: Scalars['String'];
+  aliasName: Scalars['String'];
+  userToUserId?: Maybe<ContactAliasUserIdFkeyInput>;
+  contactAliasPersonContactsUsingId?: Maybe<ContactAliasPersonContactAliasIdFkeyInverseInput>;
+};
+
+/** The fields on `user` to look up the row to update. */
+export type UserOnContactAliasForContactAliasUserIdFkeyUsingUserPinKeyUpdate = {
+  /** An object where the defined keys will be set on the `user` being updated. */
+  patch: UpdateUserOnContactAliasForContactAliasUserIdFkeyPatch;
+  pin: Scalars['String'];
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type ContactAliasOnContactAliasForContactAliasUserIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `user` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `user` being updated. */
+  patch: UserPatch;
+};
+
+/** Represents an update to a `User`. Fields that are set will be updated. */
+export type UserPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  pin?: Maybe<Scalars['String']>;
+  displayName?: Maybe<Scalars['String']>;
+  contactAliasesUsingId?: Maybe<ContactAliasUserIdFkeyInverseInput>;
+};
+
+/** The `user` to be created by this mutation. */
+export type ContactAliasUserIdFkeyUserCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  pin?: Maybe<Scalars['String']>;
+  displayName?: Maybe<Scalars['String']>;
+  contactAliasesUsingId?: Maybe<ContactAliasUserIdFkeyInverseInput>;
+};
+
 /** The output of our create `ContactAliasPersonContact` mutation. */
 export type CreateContactAliasPersonContactPayload = {
   __typename?: 'CreateContactAliasPersonContactPayload';
@@ -9119,6 +9477,47 @@ export type ShipperInput = {
   website?: Maybe<Scalars['String']>;
   countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
   personContactsUsingId?: Maybe<PersonContactShipperIdFkeyInverseInput>;
+};
+
+/** The output of our create `User` mutation. */
+export type CreateUserPayload = {
+  __typename?: 'CreateUserPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `User` that was created by this mutation. */
+  user?: Maybe<User>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `User`. May be used by Relay 1. */
+  userEdge?: Maybe<UsersEdge>;
+};
+
+
+/** The output of our create `User` mutation. */
+export type CreateUserPayloadUserEdgeArgs = {
+  orderBy?: Maybe<Array<UsersOrderBy>>;
+};
+
+/** All input for the create `User` mutation. */
+export type CreateUserInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `User` to be created by this mutation. */
+  user: UserInput;
+};
+
+/** An input for mutations affecting `User` */
+export type UserInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  pin?: Maybe<Scalars['String']>;
+  displayName?: Maybe<Scalars['String']>;
+  contactAliasesUsingId?: Maybe<ContactAliasUserIdFkeyInverseInput>;
 };
 
 /** The output of our create `Warehouse` mutation. */
@@ -11197,6 +11596,8 @@ export type UpdateContactAliasPayload = {
   contactAlias?: Maybe<ContactAlias>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
+  /** Reads a single `User` that is related to this `ContactAlias`. */
+  user?: Maybe<User>;
   /** An edge for our `ContactAlias`. May be used by Relay 1. */
   contactAliasEdge?: Maybe<ContactAliasesEdge>;
 };
@@ -11480,6 +11881,65 @@ export type UpdateShipperInput = {
   /** An object where the defined keys will be set on the `Shipper` being updated. */
   patch: ShipperPatch;
   id: Scalars['String'];
+};
+
+/** The output of our update `User` mutation. */
+export type UpdateUserPayload = {
+  __typename?: 'UpdateUserPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `User` that was updated by this mutation. */
+  user?: Maybe<User>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `User`. May be used by Relay 1. */
+  userEdge?: Maybe<UsersEdge>;
+};
+
+
+/** The output of our update `User` mutation. */
+export type UpdateUserPayloadUserEdgeArgs = {
+  orderBy?: Maybe<Array<UsersOrderBy>>;
+};
+
+/** All input for the `updateUserByNodeId` mutation. */
+export type UpdateUserByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `User` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `User` being updated. */
+  patch: UserPatch;
+};
+
+/** All input for the `updateUser` mutation. */
+export type UpdateUserInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `User` being updated. */
+  patch: UserPatch;
+  id: Scalars['BigInt'];
+};
+
+/** All input for the `updateUserByPin` mutation. */
+export type UpdateUserByPinInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `User` being updated. */
+  patch: UserPatch;
+  pin: Scalars['String'];
 };
 
 /** The output of our update `Warehouse` mutation. */
@@ -13114,6 +13574,8 @@ export type DeleteContactAliasPayload = {
   deletedContactAliasNodeId?: Maybe<Scalars['ID']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
+  /** Reads a single `User` that is related to this `ContactAlias`. */
+  user?: Maybe<User>;
   /** An edge for our `ContactAlias`. May be used by Relay 1. */
   contactAliasEdge?: Maybe<ContactAliasesEdge>;
 };
@@ -13378,6 +13840,60 @@ export type DeleteShipperInput = {
    */
   clientMutationId?: Maybe<Scalars['String']>;
   id: Scalars['String'];
+};
+
+/** The output of our delete `User` mutation. */
+export type DeleteUserPayload = {
+  __typename?: 'DeleteUserPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `User` that was deleted by this mutation. */
+  user?: Maybe<User>;
+  deletedUserNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `User`. May be used by Relay 1. */
+  userEdge?: Maybe<UsersEdge>;
+};
+
+
+/** The output of our delete `User` mutation. */
+export type DeleteUserPayloadUserEdgeArgs = {
+  orderBy?: Maybe<Array<UsersOrderBy>>;
+};
+
+/** All input for the `deleteUserByNodeId` mutation. */
+export type DeleteUserByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `User` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deleteUser` mutation. */
+export type DeleteUserInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['BigInt'];
+};
+
+/** All input for the `deleteUserByPin` mutation. */
+export type DeleteUserByPinInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  pin: Scalars['String'];
 };
 
 /** The output of our delete `Warehouse` mutation. */

@@ -147,9 +147,7 @@ const AgendaItem = ({
                 </ty.BodyText>
               }
               confirmText="Remove"
-              handleConfirm={() => {
-                handleRemoveItem(item.id, item.sortOrder);
-              }}
+              handleConfirm={() => handleRemoveItem(item.id, item.sortOrder)}
               triggerStyles={{ mt: th.spacing.md, width: 100 }}
               triggerText="Remove"
             />

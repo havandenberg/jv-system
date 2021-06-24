@@ -8,6 +8,7 @@ import BaseData from 'components/base-data';
 import { validateItem } from 'components/column-label';
 import Page from 'components/page';
 import { Tab, useTabBar } from 'components/tab-bar';
+import { useUserContext } from 'components/user/context';
 import { SORT_ORDER } from 'hooks/use-columns';
 import { useSortQueryParams } from 'hooks/use-query-params';
 import { ContactAlias, PersonContact } from 'types';
@@ -41,8 +42,8 @@ interface FinalItem extends PersonContact {
 
 const initialState = {
   aliasName: '',
-  aliasType: 'General',
   aliasDescription: '',
+  userId: null,
 };
 
 const Details = () => {
@@ -166,14 +167,19 @@ const Details = () => {
   const [changes, setChanges] = useState<ContactAlias>(
     initialState as ContactAlias,
   );
+  const [{ activeUser }] = useUserContext();
 
   const handleChange = (field: keyof ContactAlias, value: any) => {
-    setChanges({ ...changes, [field]: value } as ContactAlias);
+    if (field === 'userId') {
+      setChanges({ ...changes, userId: activeUser ? activeUser.id : null });
+    } else {
+      setChanges({ ...changes, [field]: value } as ContactAlias);
+    }
   };
 
   const handleSave = () => {
     setSaveAttempt(true);
-    if (validateItem(changes, baseLabels)) {
+    if (validateItem(changes, baseLabels(!activeUser))) {
       setLoading(true);
       handleCreate({
         variables: {
@@ -221,7 +227,7 @@ const Details = () => {
           data={changes}
           editing={true}
           handleChange={handleChange}
-          labels={baseLabels}
+          labels={baseLabels(!activeUser)}
           showValidation={saveAttempt}
         />
         <l.Flex alignCenter justifyBetween my={th.spacing.lg}>

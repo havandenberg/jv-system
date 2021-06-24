@@ -82,7 +82,9 @@ CREATE TABLE directory.contact_alias (
 	id BIGSERIAL PRIMARY KEY,
 	alias_description TEXT NOT NULL,
 	alias_name TEXT NOT NULL,
-	alias_type TEXT NOT NULL
+  user_id BIGINT
+		REFERENCES directory.user(id)
+		ON DELETE SET NULL
 );
 
 CREATE TABLE directory.contact_alias_person_contact (
@@ -91,4 +93,10 @@ CREATE TABLE directory.contact_alias_person_contact (
   PRIMARY KEY (alias_id, person_contact_id),
   FOREIGN KEY (alias_id) REFERENCES directory.contact_alias(id) ON UPDATE CASCADE ON DELETE CASCADE,
   FOREIGN KEY (person_contact_id) REFERENCES directory.person_contact(id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE TABLE directory.user (
+	id BIGSERIAL PRIMARY KEY,
+	pin TEXT UNIQUE,
+	display_name TEXT
 );

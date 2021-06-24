@@ -134,6 +134,7 @@ const AddContactsToAlias = ({ addContacts, alias, confirmLoading }: Props) => {
       }
       confirmLoading={confirmLoading}
       confirmText="Add Contacts"
+      confirmDisabled={selectedContacts.length === 0}
       handleConfirm={handleAddContacts}
       triggerText="Add"
     />

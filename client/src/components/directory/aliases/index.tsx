@@ -4,6 +4,7 @@ import { isEmpty } from 'ramda';
 import api from 'api';
 import { DataMessage } from 'components/page/message';
 import Page from 'components/page';
+import { useUserContext } from 'components/user/context';
 import VirtualizedList from 'components/virtualized-list';
 import useColumns, { SORT_ORDER } from 'hooks/use-columns';
 import useSearch from 'hooks/use-search';
@@ -19,17 +20,17 @@ import ListItem from '../list-item';
 import { useDirectorySelectionContext } from '../selection-context';
 import { listLabels } from './data-utils';
 
-const gridTemplateColumns = '30px 1fr 1fr 2fr 30px';
-
 const AliasDirectory = ({ actions, TabBar }: SubDirectoryProps) => {
   const { Search } = useSearch();
   const { data, loading, error } = api.useContactAliases();
   const items = data ? data.nodes : [];
 
+  const [{ activeUser }] = useUserContext();
+
   const columnLabels = useColumns<ContactAlias>(
     'aliasName',
     SORT_ORDER.ASC,
-    listLabels,
+    listLabels(!!activeUser),
     'directory',
     'contact_alias',
   );
@@ -40,6 +41,10 @@ const AliasDirectory = ({ actions, TabBar }: SubDirectoryProps) => {
   ] = useDirectorySelectionContext();
 
   const selectedItems = allSelectedItems.aliases;
+
+  const gridTemplateColumns = `30px 1fr 2fr ${
+    !!activeUser ? '0.5fr ' : ''
+  }30px`;
 
   return (
     <Page
@@ -99,7 +104,7 @@ const AliasDirectory = ({ actions, TabBar }: SubDirectoryProps) => {
                   <ListItem<ContactAlias>
                     data={item}
                     gridTemplateColumns={gridTemplateColumns}
-                    listLabels={listLabels}
+                    listLabels={listLabels(!!activeUser)}
                     onSelectItem={() => selectAlias(item)}
                     selected={!!selectedItems.find((it) => it.id === item.id)}
                     slug={`aliases/${item.id}`}

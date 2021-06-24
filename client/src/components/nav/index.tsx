@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import { useLocation } from 'react-router-dom';
 
 import LogoImg from 'assets/images/jv-logo-white-no-text.png';
+import UserLogin from 'components/user/login';
 import l from 'ui/layout';
 import th from 'ui/theme';
 
@@ -119,6 +120,7 @@ const Nav = () => {
           </l.Div>
         </l.Flex>
       </l.Flex>
+      <UserLogin />
     </Wrapper>
   );
 };

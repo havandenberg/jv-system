@@ -2,15 +2,13 @@ import { useMutation, useQuery } from '@apollo/client';
 import { loader } from 'graphql.macro';
 
 import { getOrderByString } from 'api/utils';
+import { useUserContext } from 'components/user/context';
 import { SORT_ORDER } from 'hooks/use-columns';
 import {
-  useQuerySet,
   useSearchQueryParam,
   useSortQueryParams,
 } from 'hooks/use-query-params';
 import { Mutation, Query } from 'types';
-import useFilteredQueryValues from 'api/hooks/use-filtered-query-values';
-import { StringParam } from 'use-query-params';
 
 const CONTACT_ALIAS_DETAILS_QUERY = loader('./details.gql');
 const CONTACT_ALIAS_LIST_QUERY = loader('./list.gql');
@@ -25,11 +23,13 @@ export const useContactAliases = () => {
   const [{ sortBy = 'aliasName', sortOrder = SORT_ORDER.ASC }] =
     useSortQueryParams();
   const orderBy = getOrderByString(sortBy, sortOrder);
+  const [{ activeUser }] = useUserContext();
 
   const { data, error, loading } = useQuery<Query>(CONTACT_ALIAS_LIST_QUERY, {
     variables: {
       orderBy,
       search,
+      userId: activeUser ? activeUser.id : 0,
     },
   });
 
@@ -75,6 +75,7 @@ export const useUpdateContactAlias = (id: string) => {
 
 export const useCreateContactAlias = () => {
   const [search = ''] = useSearchQueryParam();
+  const [{ activeUser }] = useUserContext();
 
   return useMutation<Mutation>(CONTACT_ALIAS_CREATE, {
     refetchQueries: [
@@ -83,6 +84,7 @@ export const useCreateContactAlias = () => {
         variables: {
           orderBy: 'ALIAS_NAME_ASC',
           search,
+          userId: activeUser ? activeUser.id : 0,
         },
       },
     ],
@@ -91,25 +93,16 @@ export const useCreateContactAlias = () => {
 
 export const useDeleteContactAlias = () => {
   const [search = ''] = useSearchQueryParam();
-
-  const [{ aliasType }] = useQuerySet({
-    aliasType: StringParam,
-  });
-
-  const filteredAliasTypeValues = useFilteredQueryValues(aliasType, {
-    columnName: 'alias_type',
-    tableName: 'contact_alias',
-    schemaName: 'directory',
-  });
+  const [{ activeUser }] = useUserContext();
 
   return useMutation<Mutation>(CONTACT_ALIAS_DELETE, {
     refetchQueries: [
       {
         query: CONTACT_ALIAS_LIST_QUERY,
         variables: {
-          aliasType: filteredAliasTypeValues,
           orderBy: 'ALIAS_NAME_ASC',
           search,
+          userId: activeUser ? activeUser.id : 0,
         },
       },
     ],

@@ -1,7 +1,7 @@
 mutation CONTACT_ALIAS_CREATE(
   $aliasName: String!
-  $aliasType: String!
   $aliasDescription: String!
+  $userId: BigInt
   $contacts: [ContactAliasPersonContactAliasIdFkeyContactAliasPersonContactCreateInput!]
 ) {
   createContactAlias(
@@ -9,7 +9,7 @@ mutation CONTACT_ALIAS_CREATE(
       contactAlias: {
         aliasDescription: $aliasDescription
         aliasName: $aliasName
-        aliasType: $aliasType
+        userId: $userId
         contactAliasPersonContactsUsingId: { create: $contacts }
       }
     }

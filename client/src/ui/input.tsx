@@ -97,7 +97,7 @@ const StyledTextInput = styled.input(
 
 export interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
   Icon?: React.ReactNode;
-  onClear: () => void;
+  onClear?: () => void;
 }
 
 const TextInput = ({
@@ -124,7 +124,7 @@ const TextInput = ({
   };
 
   const handleClear = () => {
-    onClear();
+    onClear && onClear();
     inputRef.current && inputRef.current.focus();
   };
 
@@ -143,7 +143,7 @@ const TextInput = ({
       <IconWrapper left={0}>{Icon}</IconWrapper>
       <StyledTextInput
         pl={Icon ? ICON_WIDTH : DEFAULT_PADDING}
-        pr={value ? CLEAR_WIDTH : DEFAULT_PADDING}
+        pr={value && onClear ? CLEAR_WIDTH : DEFAULT_PADDING}
         ref={inputRef}
         onBlur={handleBlur}
         onFocus={handleFocus}
@@ -152,7 +152,7 @@ const TextInput = ({
         width={getInputWidth()}
         {...rest}
       />
-      {value && (
+      {onClear && value && (
         <ClearWrapper onClick={handleClear}>
           <CloseImg height={12} />
         </ClearWrapper>

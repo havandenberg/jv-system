@@ -6,7 +6,8 @@ import Remove from 'assets/images/remove';
 import b from 'ui/button';
 import l, { DivProps } from 'ui/layout';
 import th from 'ui/theme';
-import ty from 'ui/typography';
+import ty, { TextProps } from 'ui/typography';
+import styled from '@emotion/styled';
 
 interface Props {
   children: ({ hide }: { hide: () => void }) => React.ReactNode;
@@ -52,30 +53,42 @@ const Modal = ({ children, trigger }: Props) => {
 
 export default Modal;
 
+const TriggerText = styled(ty.BodyText)({
+  cursor: 'pointer',
+  ':hover': {
+    color: th.colors.brand.primaryAccent,
+    textDecoration: 'underline',
+  },
+});
+
 interface BasicModalProps {
   cancelText?: string;
-  content?: React.ReactNode;
+  confirmDisabled?: boolean;
   confirmLoading?: boolean;
   confirmText?: string;
-  title?: string;
-  handleConfirm: () => void;
+  content?: React.ReactNode;
+  handleConfirm: () => boolean | void;
+  onCancel?: () => void;
   shouldConfirm?: boolean;
-  triggerButtonProps?: React.HTMLProps<HTMLButtonElement>;
-  triggerStyles?: DivProps;
+  title?: string;
+  triggerDisabled?: boolean;
+  triggerStyles?: DivProps & TextProps;
   triggerText?: string;
-  triggerType?: 'remove-icon' | 'default';
+  triggerType?: 'remove-icon' | 'default' | 'text';
 }
 
 export const BasicModal = ({
   cancelText = 'Cancel',
-  content,
-  confirmText = 'Confirm',
+  confirmDisabled,
   confirmLoading,
-  title,
+  confirmText = 'Confirm',
+  content,
   handleConfirm,
+  onCancel,
   shouldConfirm = true,
+  title,
+  triggerDisabled,
   triggerStyles,
-  triggerButtonProps,
   triggerText,
   triggerType = 'default',
 }: BasicModalProps) => {
@@ -90,12 +103,20 @@ export const BasicModal = ({
             <Remove height={th.sizes.xs} width={th.sizes.xs} />
           </l.HoverButton>
         );
+      case 'text':
+        return (
+          <TriggerText
+            onClick={shouldConfirm ? show : handleConfirm}
+            {...triggerStyles}
+          >
+            {triggerText}
+          </TriggerText>
+        );
       default:
         return (
           <b.Primary
-            disabled={confirmLoading}
+            disabled={confirmLoading || triggerDisabled}
             onClick={shouldConfirm ? show : handleConfirm}
-            {...triggerButtonProps}
             {...triggerStyles}
           >
             {!shouldConfirm && confirmLoading ? (
@@ -122,15 +143,20 @@ export const BasicModal = ({
             <b.Primary
               disabled={confirmLoading}
               mr={th.spacing.md}
-              onClick={hide}
+              onClick={() => {
+                onCancel && onCancel();
+                hide();
+              }}
             >
               {cancelText}
             </b.Primary>
             <b.Primary
-              disabled={confirmLoading}
+              disabled={confirmLoading || confirmDisabled}
               onClick={() => {
-                handleConfirm();
-                hide();
+                const result = handleConfirm();
+                if (result !== false) {
+                  hide();
+                }
               }}
             >
               {confirmLoading ? (

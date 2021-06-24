@@ -2,8 +2,11 @@ query CONTACT_ALIAS_DETAILS($id: BigInt!, $orderBy: [PersonContactsOrderBy!]) {
   contactAlias(id: $id) {
     aliasDescription
     aliasName
-    aliasType
     id
+    userId
+    user {
+      displayName
+    }
     personContactsByContactAliasPersonContactAliasIdAndPersonContactId(
       orderBy: $orderBy
     ) {

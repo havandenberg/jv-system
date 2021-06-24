@@ -1,0 +1,9 @@
+query USERS_LIST {
+  users {
+    nodes {
+      id
+      pin
+      displayName
+    }
+  }
+}

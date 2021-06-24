@@ -8,6 +8,7 @@ import { BasicModal } from 'components/modal';
 import Page from 'components/page';
 import { DataMessage } from 'components/page/message';
 import { Tab, useTabBar } from 'components/tab-bar';
+import { useUserContext } from 'components/user/context';
 import useUpdateItem from 'hooks/use-update-item';
 import { ContactAlias, PersonContact } from 'types';
 import l from 'ui/layout';
@@ -53,7 +54,7 @@ const Details = () => {
 
   const [handleUpdate] = api.useUpdateContactAlias(id);
 
-  const updateFields = ['aliasName', 'aliasType', 'aliasDescription'];
+  const updateFields = ['aliasName', 'aliasDescription', 'userId'];
   const updateVariables = { id };
 
   const [handleDelete] = api.useDeleteContactAlias();
@@ -80,6 +81,18 @@ const Details = () => {
       updateFields,
       updateVariables,
     });
+
+  const [{ activeUser }] = useUserContext();
+
+  const onChange = (field: keyof ContactAlias, value: any) => {
+    if (field === 'userId') {
+      if (activeUser) {
+        handleChange('userId', changes.userId ? null : activeUser.id);
+      }
+    } else {
+      handleChange(field, value);
+    }
+  };
 
   const [
     selectedItems,
@@ -128,8 +141,8 @@ const Details = () => {
             changes={changes}
             data={data}
             editing={editing}
-            handleChange={handleChange}
-            labels={baseLabels}
+            handleChange={onChange}
+            labels={baseLabels(true)}
           />
           <l.Flex alignCenter justifyBetween my={th.spacing.lg}>
             <TabBar />
@@ -150,11 +163,9 @@ const Details = () => {
                 confirmLoading={removeLoading}
                 confirmText="Confirm Remove"
                 handleConfirm={handleRemoveContacts}
-                triggerButtonProps={{
-                  disabled:
-                    !selectedAlias ||
-                    selectedAlias.selectedContacts.length === 0,
-                }}
+                triggerDisabled={
+                  !selectedAlias || selectedAlias.selectedContacts.length === 0
+                }
                 triggerStyles={{ ml: th.spacing.md }}
                 triggerText="Remove"
               />

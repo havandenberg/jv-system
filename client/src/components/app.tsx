@@ -19,7 +19,7 @@ import Nav from 'components/nav';
 import Reports from 'components/reports';
 import Sales from 'components/sales';
 import ScrollToTop from 'components/scroll-to-top';
-import { GlobalContextProvider } from 'context/global';
+import { UserContextProvider } from 'components/user/context';
 import Global from 'ui/global';
 import l from 'ui/layout';
 import th from 'ui/theme';
@@ -37,10 +37,10 @@ const Main = styled(l.Flex)({
 const App = () => (
   <ApolloProvider client={client}>
     <Router>
-      <GlobalContextProvider>
-        <DirectorySelectionContextProvider>
-          <QueryParamProvider ReactRouterRoute={Route}>
-            <ThemeProvider theme={th}>
+      <QueryParamProvider ReactRouterRoute={Route}>
+        <ThemeProvider theme={th}>
+          <UserContextProvider>
+            <DirectorySelectionContextProvider>
               <Main id="main">
                 <Nav />
                 <Switch>
@@ -54,10 +54,10 @@ const App = () => (
                 <ScrollToTop />
               </Main>
               <Global />
-            </ThemeProvider>
-          </QueryParamProvider>
-        </DirectorySelectionContextProvider>
-      </GlobalContextProvider>
+            </DirectorySelectionContextProvider>
+          </UserContextProvider>
+        </ThemeProvider>
+      </QueryParamProvider>
     </Router>
   </ApolloProvider>
 );
