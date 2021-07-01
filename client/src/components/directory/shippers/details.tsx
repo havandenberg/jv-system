@@ -32,12 +32,13 @@ const tabs: Tab[] = [
 ];
 
 const Details = () => {
-  const { id } =
-    useParams<{
-      id: string;
-    }>();
+  const { id } = useParams<{
+    id: string;
+  }>();
   const { data, error, loading } = api.useShipper(id);
-  const personContacts = data ? data.personContacts.nodes : [];
+  const personContacts = data
+    ? data.personContactsByShipperPersonContactShipperIdAndPersonContactId.nodes
+    : [];
 
   const { TabBar } = useTabBar(tabs);
 
@@ -46,7 +47,7 @@ const Details = () => {
   const updateFields = ['shipperName', 'groupId', 'notes', 'website'];
   const updateVariables = { id };
 
-  const { changes, editing, handleChange, updateActions } =
+  const { changes, editing, handleChange, getUpdateActions } =
     useUpdateItem<Shipper>({
       data: data as Shipper,
       handleUpdate,
@@ -67,7 +68,7 @@ const Details = () => {
 
   return (
     <Page
-      actions={updateActions}
+      actions={getUpdateActions()}
       breadcrumbs={shipperBreadcrumbs(id)}
       title={data ? data.shipperName : 'Directory - Shipper'}
     >

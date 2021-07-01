@@ -3,17 +3,17 @@ import { isEmpty, reduce } from 'ramda';
 
 import { DataMessage } from 'components/page/message';
 import useColumns, { SORT_ORDER } from 'hooks/use-columns';
-import { PersonContact } from 'types';
+import { Customer, PersonContact, Shipper, Warehouse } from 'types';
 import l from 'ui/layout';
 import th from 'ui/theme';
 
 import ListItem from '../list-item';
-import { aliasContactListLabels, contactListLabels } from './data-utils';
+import { groupContactListLabels, contactListLabels } from './data-utils';
 import { LineItemCheckbox } from 'ui/checkbox';
 
 const ContactList = ({
   baseUrl,
-  isAlias,
+  isGroup,
   isAllContactsSelected,
   personContacts,
   selectContact,
@@ -21,7 +21,7 @@ const ContactList = ({
   toggleAllContacts,
 }: {
   baseUrl?: string;
-  isAlias?: boolean;
+  isGroup?: boolean;
   isAllContactsSelected?: boolean;
   personContacts: PersonContact[];
   selectedItem?: { selectedContacts: PersonContact[] } & any;
@@ -29,23 +29,42 @@ const ContactList = ({
   toggleAllContacts?: () => void;
 }) => {
   const hasCustomerIds = reduce(
-    (acc, contact) => acc || !!contact.customerId,
+    (acc, contact) =>
+      acc ||
+      (contact.customersByCustomerPersonContactPersonContactIdAndCustomerId &&
+        !isEmpty(
+          contact.customersByCustomerPersonContactPersonContactIdAndCustomerId
+            .nodes,
+        )),
     false,
     personContacts,
   );
   const hasShipperIds = reduce(
-    (acc, contact) => acc || !!contact.shipperId,
+    (acc, contact) =>
+      acc ||
+      (contact.shippersByShipperPersonContactPersonContactIdAndShipperId &&
+        !isEmpty(
+          contact.shippersByShipperPersonContactPersonContactIdAndShipperId
+            .nodes,
+        )),
     false,
     personContacts,
   );
   const hasWarehouseIds = reduce(
-    (acc, contact) => acc || !!contact.warehouseId,
+    (acc, contact) =>
+      acc ||
+      (contact.warehousesByWarehousePersonContactPersonContactIdAndWarehouseId &&
+        !isEmpty(
+          contact
+            .warehousesByWarehousePersonContactPersonContactIdAndWarehouseId
+            .nodes,
+        )),
     false,
     personContacts,
   );
 
-  const listLabels = isAlias
-    ? aliasContactListLabels(hasCustomerIds, hasShipperIds, hasWarehouseIds)
+  const listLabels = isGroup
+    ? groupContactListLabels(hasCustomerIds, hasShipperIds, hasWarehouseIds)
     : contactListLabels;
 
   const columnLabels = useColumns<PersonContact>(
@@ -56,7 +75,7 @@ const ContactList = ({
     'person_contact',
   );
 
-  const gridTemplateColumns = isAlias
+  const gridTemplateColumns = isGroup
     ? `30px 1fr 1.5fr 2.5fr ${hasCustomerIds ? '1.5fr ' : ''}${
         hasShipperIds ? '1.5fr ' : ''
       }${hasWarehouseIds ? '1.5fr ' : ''}30px`
@@ -64,15 +83,28 @@ const ContactList = ({
 
   const getSlug = (item: PersonContact) => {
     const baseSlug = baseUrl ? `${baseUrl}/contacts/${item.id}` : '';
-    const customerSlug = item.customerId
-      ? `customers/${item.customerId}/contacts/${item.id}`
-      : '';
-    const shipperSlug = item.shipperId
-      ? `shippers/${item.shipperId}/contacts/${item.id}`
-      : '';
-    const warehouseSlug = item.warehouseId
-      ? `warehouses/${item.warehouseId}/contacts/${item.id}`
-      : '';
+    const customers =
+      item.customersByCustomerPersonContactPersonContactIdAndCustomerId &&
+      item.customersByCustomerPersonContactPersonContactIdAndCustomerId.nodes;
+    const customerSlug =
+      customers && customers.length > 0
+        ? `customers/${(customers[0] as Customer).id}/contacts/${item.id}`
+        : '';
+    const shippers =
+      item.shippersByShipperPersonContactPersonContactIdAndShipperId &&
+      item.shippersByShipperPersonContactPersonContactIdAndShipperId.nodes;
+    const shipperSlug =
+      shippers && shippers.length > 0
+        ? `shippers/${(shippers[0] as Shipper).id}/contacts/${item.id}`
+        : '';
+    const warehouses =
+      item.warehousesByWarehousePersonContactPersonContactIdAndWarehouseId &&
+      item.warehousesByWarehousePersonContactPersonContactIdAndWarehouseId
+        .nodes;
+    const warehouseSlug =
+      warehouses && warehouses.length > 0
+        ? `warehouses/${(warehouses[0] as Warehouse).id}/contacts/${item.id}`
+        : '';
     const internalSlug = `internal/${item.id}`;
     return (
       baseSlug || customerSlug || shipperSlug || warehouseSlug || internalSlug
@@ -85,7 +117,6 @@ const ContactList = ({
         gridTemplateColumns={gridTemplateColumns}
         mb={th.spacing.sm}
         pl={th.spacing.sm}
-        pr={personContacts.length > 12 ? th.spacing.md : 0}
       >
         {toggleAllContacts && (
           <LineItemCheckbox

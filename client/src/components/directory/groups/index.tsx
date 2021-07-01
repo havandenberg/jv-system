@@ -8,7 +8,7 @@ import { useUserContext } from 'components/user/context';
 import VirtualizedList from 'components/virtualized-list';
 import useColumns, { SORT_ORDER } from 'hooks/use-columns';
 import useSearch from 'hooks/use-search';
-import { ContactAlias } from 'types';
+import { ContactGroup } from 'types';
 import { LineItemCheckbox } from 'ui/checkbox';
 import b from 'ui/button';
 import l from 'ui/layout';
@@ -20,27 +20,27 @@ import ListItem from '../list-item';
 import { useDirectorySelectionContext } from '../selection-context';
 import { listLabels } from './data-utils';
 
-const AliasDirectory = ({ actions, TabBar }: SubDirectoryProps) => {
+const GroupDirectory = ({ actions, TabBar }: SubDirectoryProps) => {
   const { Search } = useSearch();
-  const { data, loading, error } = api.useContactAliases();
+  const { data, loading, error } = api.useContactGroups();
   const items = data ? data.nodes : [];
 
   const [{ activeUser }] = useUserContext();
 
-  const columnLabels = useColumns<ContactAlias>(
-    'aliasName',
+  const columnLabels = useColumns<ContactGroup>(
+    'groupName',
     SORT_ORDER.ASC,
     listLabels(!!activeUser),
     'directory',
-    'contact_alias',
+    'contact_group',
   );
 
   const [
     allSelectedItems,
-    { selectAlias, isAllAliasesSelected, toggleAllAliases },
+    { selectGroup, isAllGroupsSelected, toggleAllGroups },
   ] = useDirectorySelectionContext();
 
-  const selectedItems = allSelectedItems.aliases;
+  const selectedItems = allSelectedItems.groups;
 
   const gridTemplateColumns = `30px 1fr 2fr ${
     !!activeUser ? '0.5fr ' : ''
@@ -51,7 +51,7 @@ const AliasDirectory = ({ actions, TabBar }: SubDirectoryProps) => {
       actions={[
         <l.AreaLink
           key="create"
-          to="/directory/aliases/create"
+          to="/directory/groups/create"
           mr={th.spacing.md}
         >
           <b.Primary>New</b.Primary>
@@ -82,8 +82,8 @@ const AliasDirectory = ({ actions, TabBar }: SubDirectoryProps) => {
                 pr={data ? (data.totalCount > 12 ? th.spacing.md : 0) : 0}
               >
                 <LineItemCheckbox
-                  checked={isAllAliasesSelected(items)}
-                  onChange={() => toggleAllAliases(items)}
+                  checked={isAllGroupsSelected(items)}
+                  onChange={() => toggleAllGroups(items)}
                 />
                 {columnLabels}
               </l.Grid>
@@ -91,7 +91,7 @@ const AliasDirectory = ({ actions, TabBar }: SubDirectoryProps) => {
           )}
         </>
       }
-      title="Alias Directory"
+      title="Group Directory"
     >
       {!isEmpty(items) ? (
         <VirtualizedList
@@ -101,13 +101,13 @@ const AliasDirectory = ({ actions, TabBar }: SubDirectoryProps) => {
             return (
               item && (
                 <div key={key} style={style}>
-                  <ListItem<ContactAlias>
+                  <ListItem<ContactGroup>
                     data={item}
                     gridTemplateColumns={gridTemplateColumns}
                     listLabels={listLabels(!!activeUser)}
-                    onSelectItem={() => selectAlias(item)}
+                    onSelectItem={() => selectGroup(item)}
                     selected={!!selectedItems.find((it) => it.id === item.id)}
-                    slug={`aliases/${item.id}`}
+                    slug={`groups/${item.id}`}
                   />
                 </div>
               )
@@ -120,7 +120,7 @@ const AliasDirectory = ({ actions, TabBar }: SubDirectoryProps) => {
           error={error}
           loading={loading}
           emptyProps={{
-            header: 'No Aliases Found 😔',
+            header: 'No Groups Found 😔',
             text: 'Modify search parameters to view more results.',
           }}
         />
@@ -129,4 +129,4 @@ const AliasDirectory = ({ actions, TabBar }: SubDirectoryProps) => {
   );
 };
 
-export default AliasDirectory;
+export default GroupDirectory;

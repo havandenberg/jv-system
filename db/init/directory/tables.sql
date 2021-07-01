@@ -55,15 +55,6 @@ CREATE TABLE directory.warehouse (
 
 CREATE TABLE directory.person_contact (
 	id BIGSERIAL PRIMARY KEY,
-	shipper_id TEXT
-		REFERENCES directory.shipper(id)
-		ON DELETE SET NULL,
-	customer_id TEXT
-		REFERENCES directory.customer(id)
-		ON DELETE SET NULL,
-	warehouse_id TEXT
-		REFERENCES directory.warehouse(id)
-		ON DELETE SET NULL,
 	first_name TEXT NOT NULL,
 	last_name TEXT NOT NULL,
 	is_primary BOOLEAN NOT NULL,
@@ -78,20 +69,44 @@ CREATE TABLE directory.person_contact (
 	roles TEXT
 );
 
-CREATE TABLE directory.contact_alias (
+CREATE TABLE directory.customer_person_contact (
+  customer_id TEXT NOT NULL,
+  person_contact_id BIGINT NOT NULL,
+  PRIMARY KEY (customer_id, person_contact_id),
+  FOREIGN KEY (customer_id) REFERENCES directory.customer(id) ON UPDATE CASCADE ON DELETE CASCADE,
+  FOREIGN KEY (person_contact_id) REFERENCES directory.person_contact(id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE TABLE directory.shipper_person_contact (
+  shipper_id TEXT NOT NULL,
+  person_contact_id BIGINT NOT NULL,
+  PRIMARY KEY (shipper_id, person_contact_id),
+  FOREIGN KEY (shipper_id) REFERENCES directory.shipper(id) ON UPDATE CASCADE ON DELETE CASCADE,
+  FOREIGN KEY (person_contact_id) REFERENCES directory.person_contact(id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE TABLE directory.warehouse_person_contact (
+  warehouse_id TEXT NOT NULL,
+  person_contact_id BIGINT NOT NULL,
+  PRIMARY KEY (warehouse_id, person_contact_id),
+  FOREIGN KEY (warehouse_id) REFERENCES directory.warehouse(id) ON UPDATE CASCADE ON DELETE CASCADE,
+  FOREIGN KEY (person_contact_id) REFERENCES directory.person_contact(id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE TABLE directory.contact_group (
 	id BIGSERIAL PRIMARY KEY,
-	alias_description TEXT NOT NULL,
-	alias_name TEXT NOT NULL,
+	group_description TEXT NOT NULL,
+	group_name TEXT NOT NULL,
   user_id BIGINT
 		REFERENCES directory.user(id)
 		ON DELETE SET NULL
 );
 
-CREATE TABLE directory.contact_alias_person_contact (
-  alias_id BIGINT NOT NULL,
+CREATE TABLE directory.contact_group_person_contact (
+  group_id BIGINT NOT NULL,
   person_contact_id BIGINT NOT NULL,
-  PRIMARY KEY (alias_id, person_contact_id),
-  FOREIGN KEY (alias_id) REFERENCES directory.contact_alias(id) ON UPDATE CASCADE ON DELETE CASCADE,
+  PRIMARY KEY (group_id, person_contact_id),
+  FOREIGN KEY (group_id) REFERENCES directory.contact_group(id) ON UPDATE CASCADE ON DELETE CASCADE,
   FOREIGN KEY (person_contact_id) REFERENCES directory.person_contact(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 

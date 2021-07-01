@@ -1,0 +1,40 @@
+query CONTACT_GROUP_DETAILS($id: BigInt!, $orderBy: [PersonContactsOrderBy!]) {
+  contactGroup(id: $id) {
+    groupDescription
+    groupName
+    id
+    userId
+    user {
+      displayName
+    }
+    personContactsByContactGroupPersonContactGroupIdAndPersonContactId(
+      orderBy: $orderBy
+    ) {
+      nodes {
+        email
+        firstName
+        id
+        lastName
+        customersByCustomerPersonContactPersonContactIdAndCustomerId {
+          nodes {
+            customerName
+            id
+          }
+        }
+        shippersByShipperPersonContactPersonContactIdAndShipperId {
+          nodes {
+            shipperName
+            id
+          }
+        }
+        warehousesByWarehousePersonContactPersonContactIdAndWarehouseId {
+          nodes {
+            warehouseName
+            id
+          }
+        }
+      }
+      totalCount
+    }
+  }
+}

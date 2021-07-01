@@ -8,17 +8,23 @@ query PERSON_CONTACT_LIST($search: String, $orderBy: [PersonContactsOrderBy!]) {
       firstName
       id
       lastName
-      customerId
-      customer {
-        customerName
+      customersByCustomerPersonContactPersonContactIdAndCustomerId {
+        nodes {
+          customerName
+          id
+        }
       }
-      shipperId
-      shipper {
-        shipperName
+      shippersByShipperPersonContactPersonContactIdAndShipperId {
+        nodes {
+          shipperName
+          id
+        }
       }
-      warehouseId
-      warehouse {
-        warehouseName
+      warehousesByWarehousePersonContactPersonContactIdAndWarehouseId {
+        nodes {
+          warehouseName
+          id
+        }
       }
     }
     totalCount

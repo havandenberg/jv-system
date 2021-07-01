@@ -1,0 +1,7 @@
+mutation CONTACT_GROUP_UPDATE($id: BigInt!, $updates: ContactGroupPatch!) {
+  updateContactGroup(input: { patch: $updates, id: $id }) {
+    contactGroup {
+      id
+    }
+  }
+}

@@ -6,11 +6,14 @@ query SHIPPER_DETAILS($id: String!, $orderBy: [PersonContactsOrderBy!]) {
     groupId
     id
     logoSrc
-    personContacts(orderBy: $orderBy) {
+    personContactsByShipperPersonContactShipperIdAndPersonContactId(
+      orderBy: $orderBy
+    ) {
       nodes {
-        shipperId
-        shipper {
-          shipperName
+        shippersByShipperPersonContactPersonContactIdAndShipperId {
+          nodes {
+            shipperName
+          }
         }
         email
         firstName

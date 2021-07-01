@@ -12,13 +12,13 @@ import { PersonContact } from 'types';
 import b from 'ui/button';
 import l from 'ui/layout';
 import th from 'ui/theme';
-import ty from 'ui/typography';
 
 import { breadcrumbs } from '..';
 import { customerBreadcrumbs } from '../customers/details';
 import { shipperBreadcrumbs } from '../shippers/details';
 import { warehouseBreadcrumbs } from '../warehouses/details';
 import { baseLabels } from './data-utils';
+import useContactCompanyInfo from './use-contact-company-info';
 
 const initialState = {
   firstName: '',
@@ -56,6 +56,13 @@ const CreatePersonContact = () => {
   const [changes, setChanges] = useState<PersonContact>(
     initialState as PersonContact,
   );
+  const { allCustomers, allShippers, allWarehouses, info } =
+    useContactCompanyInfo({
+      customer,
+      editing: true,
+      shipper,
+      warehouse,
+    });
 
   const getCancelLink = () => {
     if (customerId) {
@@ -102,9 +109,21 @@ const CreatePersonContact = () => {
         variables: {
           personContact: {
             ...changes,
-            customerId,
-            shipperId,
-            warehouseId,
+            customerPersonContactsUsingId: {
+              create: customerId
+                ? allCustomers.map((c) => ({ customerId: c.id }))
+                : [],
+            },
+            shipperPersonContactsUsingId: {
+              create: shipperId
+                ? allShippers.map((s) => ({ shipperId: s.id }))
+                : [],
+            },
+            warehousePersonContactsUsingId: {
+              create: warehouseId
+                ? allWarehouses.map((w) => ({ warehouseId: w.id }))
+                : [],
+            },
           },
         },
       }).then(() => {
@@ -112,24 +131,6 @@ const CreatePersonContact = () => {
       });
     }
   };
-
-  const customerInfo = customer && (
-    <ty.BodyText>Customer: {customer.customerName}</ty.BodyText>
-  );
-  const shipperInfo = shipper && (
-    <ty.BodyText>Shipper: {shipper.shipperName}</ty.BodyText>
-  );
-  const warehouseInfo = warehouse && (
-    <ty.BodyText>Warehouse: {warehouse.warehouseName}</ty.BodyText>
-  );
-
-  const info = !!customer
-    ? customerInfo
-    : !!shipper
-    ? shipperInfo
-    : !!warehouse
-    ? warehouseInfo
-    : null;
 
   return (
     <Page
@@ -155,7 +156,9 @@ const CreatePersonContact = () => {
       breadcrumbs={getBreadcrumbs()}
       title="New Contact"
     >
-      <l.Div mb={th.spacing.lg}>{info}</l.Div>
+      <l.Div mb={th.spacing.lg} mt={th.spacing.sm}>
+        {info}
+      </l.Div>
       <BaseData<PersonContact>
         changes={changes}
         data={changes}

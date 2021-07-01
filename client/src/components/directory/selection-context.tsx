@@ -10,14 +10,14 @@ import { isEmpty, pluck } from 'ramda';
 import useLocalStorage from 'hooks/use-local-storage';
 import usePrevious from 'hooks/use-previous';
 import {
-  ContactAlias,
+  ContactGroup,
   Customer,
   PersonContact,
   Shipper,
   Warehouse,
 } from 'types';
 
-interface SelectedAlias extends ContactAlias {
+interface SelectedGroup extends ContactGroup {
   selectedContacts: PersonContact[];
 }
 
@@ -34,7 +34,7 @@ interface SelectedWarehouse extends Warehouse {
 }
 
 interface DirectorySelectionState {
-  aliases: SelectedAlias[];
+  groups: SelectedGroup[];
   customers: SelectedCustomer[];
   internal: PersonContact[];
   shippers: SelectedShipper[];
@@ -42,7 +42,7 @@ interface DirectorySelectionState {
 }
 
 const defaultContext = {
-  aliases: [],
+  groups: [],
   customers: [],
   internal: [],
   shippers: [],
@@ -79,13 +79,13 @@ export const DirectorySelectionContext = createContext<
     removeSelectedContactsFromWarehouse: () => {},
     toggleAllWarehouses: () => {},
     toggleAllWarehousePersonContacts: () => {},
-    selectAlias: () => {},
-    selectAliasPersonContact: () => {},
-    isAllAliasesSelected: () => {},
-    isAllAliasPersonContactsSelected: () => {},
-    toggleAllAliases: () => {},
-    toggleAllAliasPersonContacts: () => {},
-    removeSelectedContactsFromAlias: () => {},
+    selectGroup: () => {},
+    selectGroupPersonContact: () => {},
+    isAllGroupsSelected: () => {},
+    isAllGroupPersonContactsSelected: () => {},
+    toggleAllGroups: () => {},
+    toggleAllGroupPersonContacts: () => {},
+    removeSelectedContactsFromGroup: () => {},
   },
 ]);
 
@@ -169,9 +169,10 @@ export const DirectorySelectionContextProvider = ({
           ...selectedCustomers,
           {
             ...item,
-            selectedContacts: item.personContacts.nodes.filter(
-              (contact) => contact?.isPrimary,
-            ) as PersonContact[],
+            selectedContacts:
+              item.personContactsByCustomerPersonContactCustomerIdAndPersonContactId.nodes.filter(
+                (contact) => contact?.isPrimary,
+              ) as PersonContact[],
           },
         ],
       });
@@ -202,7 +203,9 @@ export const DirectorySelectionContextProvider = ({
           ...filteredCustomers,
           ...items.map((item) => ({
             ...item,
-            selectedContacts: item.personContacts.nodes as PersonContact[],
+            selectedContacts: item
+              .personContactsByCustomerPersonContactCustomerIdAndPersonContactId
+              .nodes as PersonContact[],
           })),
         ],
       });
@@ -223,9 +226,10 @@ export const DirectorySelectionContextProvider = ({
           ...selectedShippers,
           {
             ...item,
-            selectedContacts: item.personContacts.nodes.filter(
-              (contact) => contact?.isPrimary,
-            ) as PersonContact[],
+            selectedContacts:
+              item.personContactsByShipperPersonContactShipperIdAndPersonContactId.nodes.filter(
+                (contact) => contact?.isPrimary,
+              ) as PersonContact[],
           },
         ],
       });
@@ -256,7 +260,9 @@ export const DirectorySelectionContextProvider = ({
           ...filteredShippers,
           ...items.map((item) => ({
             ...item,
-            selectedContacts: item.personContacts.nodes as PersonContact[],
+            selectedContacts: item
+              .personContactsByShipperPersonContactShipperIdAndPersonContactId
+              .nodes as PersonContact[],
           })),
         ],
       });
@@ -277,9 +283,10 @@ export const DirectorySelectionContextProvider = ({
           ...selectedWarehouses,
           {
             ...item,
-            selectedContacts: item.personContacts.nodes.filter(
-              (contact) => contact?.isPrimary,
-            ) as PersonContact[],
+            selectedContacts:
+              item.personContactsByWarehousePersonContactWarehouseIdAndPersonContactId.nodes.filter(
+                (contact) => contact?.isPrimary,
+              ) as PersonContact[],
           },
         ],
       });
@@ -310,29 +317,31 @@ export const DirectorySelectionContextProvider = ({
           ...filteredWarehouses,
           ...items.map((item) => ({
             ...item,
-            selectedContacts: item.personContacts.nodes as PersonContact[],
+            selectedContacts: item
+              .personContactsByWarehousePersonContactWarehouseIdAndPersonContactId
+              .nodes as PersonContact[],
           })),
         ],
       });
     }
   };
 
-  const selectAlias = (item: ContactAlias) => {
-    const selectedAliases = selectedItems.aliases;
-    if (selectedAliases.find((it) => it.id === item.id)) {
+  const selectGroup = (item: ContactGroup) => {
+    const selectedGroups = selectedItems.groups;
+    if (selectedGroups.find((it) => it.id === item.id)) {
       setSelectedItems({
         ...selectedItems,
-        aliases: selectedAliases.filter((it) => it.id !== item.id),
+        groups: selectedGroups.filter((it) => it.id !== item.id),
       });
     } else {
       setSelectedItems({
         ...selectedItems,
-        aliases: [
-          ...selectedAliases,
+        groups: [
+          ...selectedGroups,
           {
             ...item,
             selectedContacts: item
-              .personContactsByContactAliasPersonContactAliasIdAndPersonContactId
+              .personContactsByContactGroupPersonContactGroupIdAndPersonContactId
               .nodes as PersonContact[],
           },
         ],
@@ -340,32 +349,32 @@ export const DirectorySelectionContextProvider = ({
     }
   };
 
-  const isAllAliasesSelected = (items: ContactAlias[]) =>
+  const isAllGroupsSelected = (items: ContactGroup[]) =>
     items.reduce(
       (acc, item) =>
-        acc && !!selectedItems.aliases.find((it) => it.id === item.id),
+        acc && !!selectedItems.groups.find((it) => it.id === item.id),
       true,
     );
 
-  const toggleAllAliases = (items: ContactAlias[]) => {
-    const selectedAliases = selectedItems.aliases;
-    const filteredAliases = selectedAliases.filter(
+  const toggleAllGroups = (items: ContactGroup[]) => {
+    const selectedGroups = selectedItems.groups;
+    const filteredGroups = selectedGroups.filter(
       (it) => !pluck('id', items).includes(it.id),
     );
-    if (isAllAliasesSelected(items)) {
+    if (isAllGroupsSelected(items)) {
       setSelectedItems({
         ...selectedItems,
-        aliases: filteredAliases,
+        groups: filteredGroups,
       });
     } else {
       setSelectedItems({
         ...selectedItems,
-        aliases: [
-          ...filteredAliases,
+        groups: [
+          ...filteredGroups,
           ...items.map((item) => ({
             ...item,
             selectedContacts: item
-              .personContactsByContactAliasPersonContactAliasIdAndPersonContactId
+              .personContactsByContactGroupPersonContactGroupIdAndPersonContactId
               .nodes as PersonContact[],
           })),
         ],
@@ -438,7 +447,7 @@ export const DirectorySelectionContextProvider = ({
       (c) => c.id === customer.id,
     );
     return selectedCustomer
-      ? customer.personContacts.nodes.reduce(
+      ? customer.personContactsByCustomerPersonContactCustomerIdAndPersonContactId.nodes.reduce(
           (acc, item) =>
             acc &&
             !!item &&
@@ -467,7 +476,8 @@ export const DirectorySelectionContextProvider = ({
             c.id === customer.id
               ? {
                   ...c,
-                  selectedContacts: customer.personContacts
+                  selectedContacts: customer
+                    .personContactsByCustomerPersonContactCustomerIdAndPersonContactId
                     .nodes as PersonContact[],
                 }
               : c,
@@ -481,7 +491,9 @@ export const DirectorySelectionContextProvider = ({
           ...selectedItems.customers,
           {
             ...customer,
-            selectedContacts: customer.personContacts.nodes as PersonContact[],
+            selectedContacts: customer
+              .personContactsByCustomerPersonContactCustomerIdAndPersonContactId
+              .nodes as PersonContact[],
           },
         ],
       });
@@ -583,7 +595,7 @@ export const DirectorySelectionContextProvider = ({
       (s) => s.id === shipper.id,
     );
     return selectedShipper
-      ? shipper.personContacts.nodes.reduce(
+      ? shipper.personContactsByShipperPersonContactShipperIdAndPersonContactId.nodes.reduce(
           (acc, item) =>
             acc &&
             !!item &&
@@ -610,7 +622,8 @@ export const DirectorySelectionContextProvider = ({
             s.id === shipper.id
               ? {
                   ...s,
-                  selectedContacts: shipper.personContacts
+                  selectedContacts: shipper
+                    .personContactsByShipperPersonContactShipperIdAndPersonContactId
                     .nodes as PersonContact[],
                 }
               : s,
@@ -624,7 +637,9 @@ export const DirectorySelectionContextProvider = ({
           ...selectedItems.shippers,
           {
             ...shipper,
-            selectedContacts: shipper.personContacts.nodes as PersonContact[],
+            selectedContacts: shipper
+              .personContactsByShipperPersonContactShipperIdAndPersonContactId
+              .nodes as PersonContact[],
           },
         ],
       });
@@ -729,7 +744,7 @@ export const DirectorySelectionContextProvider = ({
       (w) => w.id === warehouse.id,
     );
     return selectedWarehouse
-      ? warehouse.personContacts.nodes.reduce(
+      ? warehouse.personContactsByWarehousePersonContactWarehouseIdAndPersonContactId.nodes.reduce(
           (acc, item) =>
             acc &&
             !!item &&
@@ -760,7 +775,8 @@ export const DirectorySelectionContextProvider = ({
             w.id === warehouse.id
               ? {
                   ...w,
-                  selectedContacts: warehouse.personContacts
+                  selectedContacts: warehouse
+                    .personContactsByWarehousePersonContactWarehouseIdAndPersonContactId
                     .nodes as PersonContact[],
                 }
               : w,
@@ -774,7 +790,9 @@ export const DirectorySelectionContextProvider = ({
           ...selectedItems.warehouses,
           {
             ...warehouse,
-            selectedContacts: warehouse.personContacts.nodes as PersonContact[],
+            selectedContacts: warehouse
+              .personContactsByWarehousePersonContactWarehouseIdAndPersonContactId
+              .nodes as PersonContact[],
           },
         ],
       });
@@ -811,29 +829,27 @@ export const DirectorySelectionContextProvider = ({
     }
   };
 
-  const selectAliasPersonContact =
-    (alias: ContactAlias) => (item: PersonContact) => {
-      const selectedAlias = selectedItems.aliases.find(
-        (a) => a.id === alias.id,
-      );
-      if (selectedAlias) {
-        if (selectedAlias.selectedContacts.find((it) => it.id === item.id)) {
-          const newAliasContacts = selectedAlias.selectedContacts.filter(
+  const selectGroupPersonContact =
+    (group: ContactGroup) => (item: PersonContact) => {
+      const selectedGroup = selectedItems.groups.find((a) => a.id === group.id);
+      if (selectedGroup) {
+        if (selectedGroup.selectedContacts.find((it) => it.id === item.id)) {
+          const newGroupContacts = selectedGroup.selectedContacts.filter(
             (it) => it.id !== item.id,
           );
-          if (newAliasContacts.length === 0) {
+          if (newGroupContacts.length === 0) {
             setSelectedItems({
               ...selectedItems,
-              aliases: selectedItems.aliases.filter((a) => a.id !== alias.id),
+              groups: selectedItems.groups.filter((a) => a.id !== group.id),
             });
           } else {
             setSelectedItems({
               ...selectedItems,
-              aliases: selectedItems.aliases.map((a) =>
-                a.id === alias.id
+              groups: selectedItems.groups.map((a) =>
+                a.id === group.id
                   ? {
                       ...a,
-                      selectedContacts: newAliasContacts,
+                      selectedContacts: newGroupContacts,
                     }
                   : a,
               ),
@@ -842,11 +858,11 @@ export const DirectorySelectionContextProvider = ({
         } else {
           setSelectedItems({
             ...selectedItems,
-            aliases: selectedItems.aliases.map((a) =>
-              a.id === alias.id
+            groups: selectedItems.groups.map((a) =>
+              a.id === group.id
                 ? {
                     ...a,
-                    selectedContacts: [...selectedAlias.selectedContacts, item],
+                    selectedContacts: [...selectedGroup.selectedContacts, item],
                   }
                 : a,
             ),
@@ -855,10 +871,10 @@ export const DirectorySelectionContextProvider = ({
       } else {
         setSelectedItems({
           ...selectedItems,
-          aliases: [
-            ...selectedItems.aliases,
+          groups: [
+            ...selectedItems.groups,
             {
-              ...alias,
+              ...group,
               selectedContacts: [item],
             },
           ],
@@ -866,36 +882,36 @@ export const DirectorySelectionContextProvider = ({
       }
     };
 
-  const isAllAliasPersonContactsSelected = (alias: ContactAlias) => {
-    const selectedAlias = selectedItems.aliases.find((a) => a.id === alias.id);
-    return selectedAlias
-      ? alias.personContactsByContactAliasPersonContactAliasIdAndPersonContactId.nodes.reduce(
+  const isAllGroupPersonContactsSelected = (group: ContactGroup) => {
+    const selectedGroup = selectedItems.groups.find((a) => a.id === group.id);
+    return selectedGroup
+      ? group.personContactsByContactGroupPersonContactGroupIdAndPersonContactId.nodes.reduce(
           (acc, item) =>
             acc &&
             !!item &&
-            !!selectedAlias.selectedContacts.find((it) => it.id === item.id),
+            !!selectedGroup.selectedContacts.find((it) => it.id === item.id),
           true,
         )
       : false;
   };
 
-  const toggleAllAliasPersonContacts = (alias: ContactAlias) => {
-    const selectedAlias = selectedItems.aliases.find((a) => a.id === alias.id);
-    if (selectedAlias) {
-      if (isAllAliasPersonContactsSelected(alias)) {
+  const toggleAllGroupPersonContacts = (group: ContactGroup) => {
+    const selectedGroup = selectedItems.groups.find((a) => a.id === group.id);
+    if (selectedGroup) {
+      if (isAllGroupPersonContactsSelected(group)) {
         setSelectedItems({
           ...selectedItems,
-          aliases: selectedItems.aliases.filter((a) => a.id !== alias.id),
+          groups: selectedItems.groups.filter((a) => a.id !== group.id),
         });
       } else {
         setSelectedItems({
           ...selectedItems,
-          aliases: selectedItems.aliases.map((a) =>
-            a.id === alias.id
+          groups: selectedItems.groups.map((a) =>
+            a.id === group.id
               ? {
                   ...a,
-                  selectedContacts: alias
-                    .personContactsByContactAliasPersonContactAliasIdAndPersonContactId
+                  selectedContacts: group
+                    .personContactsByContactGroupPersonContactGroupIdAndPersonContactId
                     .nodes as PersonContact[],
                 }
               : a,
@@ -905,12 +921,12 @@ export const DirectorySelectionContextProvider = ({
     } else {
       setSelectedItems({
         ...selectedItems,
-        aliases: [
-          ...selectedItems.aliases,
+        groups: [
+          ...selectedItems.groups,
           {
-            ...alias,
-            selectedContacts: alias
-              .personContactsByContactAliasPersonContactAliasIdAndPersonContactId
+            ...group,
+            selectedContacts: group
+              .personContactsByContactGroupPersonContactGroupIdAndPersonContactId
               .nodes as PersonContact[],
           },
         ],
@@ -918,30 +934,30 @@ export const DirectorySelectionContextProvider = ({
     }
   };
 
-  const removeSelectedContactsFromAlias = (
+  const removeSelectedContactsFromGroup = (
     contactsToRemove: PersonContact[],
-    aliasId: string,
+    groupId: string,
   ) => {
-    const selectedAlias = selectedItems.aliases.find((a) => a.id === aliasId);
-    if (selectedAlias) {
-      const newSelectedContacts = selectedAlias.selectedContacts.filter(
+    const selectedGroup = selectedItems.groups.find((a) => a.id === groupId);
+    if (selectedGroup) {
+      const newSelectedContacts = selectedGroup.selectedContacts.filter(
         (a) => !pluck('id', contactsToRemove).includes(a.id),
       );
-      const filteredAliases = selectedItems.aliases.filter(
-        (a) => a.id !== selectedAlias.id,
+      const filteredGroups = selectedItems.groups.filter(
+        (a) => a.id !== selectedGroup.id,
       );
-      const newAliases = isEmpty(newSelectedContacts)
-        ? filteredAliases
+      const newGroups = isEmpty(newSelectedContacts)
+        ? filteredGroups
         : [
-            ...filteredAliases,
+            ...filteredGroups,
             {
-              ...selectedAlias,
+              ...selectedGroup,
               selectedContacts: newSelectedContacts,
             },
           ];
       setSelectedItems({
         ...selectedItems,
-        aliases: newAliases,
+        groups: newGroups,
       });
     }
   };
@@ -977,13 +993,13 @@ export const DirectorySelectionContextProvider = ({
           toggleAllWarehouses,
           toggleAllWarehousePersonContacts,
           removeSelectedContactsFromWarehouse,
-          selectAlias,
-          selectAliasPersonContact,
-          isAllAliasesSelected,
-          isAllAliasPersonContactsSelected,
-          toggleAllAliases,
-          toggleAllAliasPersonContacts,
-          removeSelectedContactsFromAlias,
+          selectGroup,
+          selectGroupPersonContact,
+          isAllGroupsSelected,
+          isAllGroupPersonContactsSelected,
+          toggleAllGroups,
+          toggleAllGroupPersonContacts,
+          removeSelectedContactsFromGroup,
         },
       ]}
     />

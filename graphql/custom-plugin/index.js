@@ -7,6 +7,11 @@ const ChileDepartureInspectionPalletPlugin = require('./plugins/inspections/chil
 const PeruDepartureInspectionPlugin = require('./plugins/inspections/peru-departure-inspection');
 const PsaArrivalInspectionPlugin = require('./plugins/inspections/psa-arrival-inspection');
 const PriceSheetUpdateEmailPlugin = require('./plugins/sales/price-sheet-update-email');
+const {
+  CustomerPersonContactOrderByPlugin,
+  ShipperPersonContactOrderByPlugin,
+  WarehousePersonContactOrderByPlugin,
+} = require('./plugins/directory/person-contact-order-by');
 
 module.exports = makePluginByCombiningPlugins(
   AtomicMutationsPlugin,
@@ -14,4 +19,7 @@ module.exports = makePluginByCombiningPlugins(
   PeruDepartureInspectionPlugin,
   PsaArrivalInspectionPlugin,
   PriceSheetUpdateEmailPlugin,
+  CustomerPersonContactOrderByPlugin,
+  ShipperPersonContactOrderByPlugin,
+  WarehousePersonContactOrderByPlugin,
 );

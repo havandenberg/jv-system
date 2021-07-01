@@ -16,6 +16,7 @@ import {
   transition,
   TransitionProps,
 } from 'onno-react';
+import { Link as RouterLink } from 'react-router-dom';
 
 import { divPropsSet } from './layout';
 import th from './theme';
@@ -80,17 +81,20 @@ export const textPropsSet = [
 ];
 
 const StyledText = styled.p<TextProps>(textPropsSet);
-const textComponent = (type: keyof typeof th.textStyles = 'body') => ({
-  children,
-  ...rest
-}: {
-  children: React.ReactNode;
-} & TextProps &
-  React.HTMLAttributes<HTMLParagraphElement>) => (
-  <StyledText {...th.textStyles.common} {...th.textStyles[type]} {...rest}>
-    {children}
-  </StyledText>
-);
+const textComponent =
+  (type: keyof typeof th.textStyles = 'body') =>
+  ({
+    children,
+    ...rest
+  }: {
+    children: React.ReactNode;
+  } & TextProps &
+    React.HTMLAttributes<HTMLParagraphElement>) =>
+    (
+      <StyledText {...th.textStyles.common} {...th.textStyles[type]} {...rest}>
+        {children}
+      </StyledText>
+    );
 const SmallText = textComponent('small');
 const CaptionText = textComponent('caption');
 const BodyText = textComponent('body');
@@ -102,14 +106,48 @@ const TitleText = styled.h1<TextProps>(th.textStyles.title, textPropsSet);
 
 const Span = styled.span<TextProps>(textPropsSet);
 
+const LinkText = styled(RouterLink)<TextProps>(
+  {
+    cursor: 'pointer',
+    textDecoration: 'none',
+    ':hover': {
+      color: th.colors.brand.primaryAccent,
+      textDecoration: 'underline',
+      ':visited': {
+        color: th.colors.brand.primaryAccent,
+      },
+      ':link': {
+        color: th.colors.brand.primaryAccent,
+      },
+    },
+    ':link': {
+      color: th.colors.brand.primary,
+    },
+    ':visited': {
+      color: th.colors.brand.primary,
+    },
+  },
+  textPropsSet,
+);
+
+const TriggerText = styled(BodyText)({
+  cursor: 'pointer',
+  ':hover': {
+    color: th.colors.brand.primaryAccent,
+    textDecoration: 'underline',
+  },
+});
+
 export default {
   BodyText,
   CaptionText,
   DisplayText,
   HugeText,
   LargeText,
+  LinkText,
   SmallText,
   Span,
   TitleText,
   Text,
+  TriggerText,
 };

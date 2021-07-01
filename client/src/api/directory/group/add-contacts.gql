@@ -1,0 +1,5 @@
+mutation ADD_CONTACTS_TO_GROUP($items: [ContactGroupPersonContactInput]!) {
+  bulkAddContactsToGroup(input: { items: $items }) {
+    clientMutationId
+  }
+}

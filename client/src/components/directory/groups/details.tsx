@@ -10,22 +10,22 @@ import { DataMessage } from 'components/page/message';
 import { Tab, useTabBar } from 'components/tab-bar';
 import { useUserContext } from 'components/user/context';
 import useUpdateItem from 'hooks/use-update-item';
-import { ContactAlias, PersonContact } from 'types';
+import { ContactGroup, PersonContact } from 'types';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 
 import ContactList from '../contacts/list';
 import { useDirectorySelectionContext } from '../selection-context';
-import AddContactsToAlias from './add-contacts';
+import AddContactsToGroup from './add-contacts';
 import { baseLabels } from './data-utils';
 
 const breadcrumbs = (id: string) => [
   {
     text: 'Directory',
-    to: `/directory/aliases`,
+    to: `/directory/groups`,
   },
-  { text: 'Alias', to: `/directory/aliases/${id}` },
+  { text: 'Group', to: `/directory/groups/${id}` },
 ];
 
 const tabs: Tab[] = [
@@ -37,46 +37,44 @@ const tabs: Tab[] = [
 
 const Details = () => {
   const history = useHistory();
-  const { id } =
-    useParams<{
-      id: string;
-    }>();
-  const { data, error, loading } = api.useContactAlias(id);
+  const { id } = useParams<{
+    id: string;
+  }>();
+  const { data, error, loading } = api.useContactGroup(id);
   const personContacts = data
-    ? (data.personContactsByContactAliasPersonContactAliasIdAndPersonContactId
+    ? (data.personContactsByContactGroupPersonContactGroupIdAndPersonContactId
         .nodes as PersonContact[])
     : [];
 
   const [removeContacts, { loading: removeLoading }] =
-    api.useRemoveContactsFromAlias(id);
+    api.useRemoveContactsFromGroup(id);
 
   const { TabBar } = useTabBar(tabs);
 
-  const [handleUpdate] = api.useUpdateContactAlias(id);
+  const [handleUpdate] = api.useUpdateContactGroup(id);
 
-  const updateFields = ['aliasName', 'aliasDescription', 'userId'];
+  const updateFields = ['groupName', 'groupDescription', 'userId'];
   const updateVariables = { id };
 
-  const [handleDelete] = api.useDeleteContactAlias();
+  const [handleDelete] = api.useDeleteContactGroup();
 
   const onAfterDelete = () => {
-    removeSelectedContactsFromAlias(
-      data?.personContactsByContactAliasPersonContactAliasIdAndPersonContactId
+    removeSelectedContactsFromGroup(
+      data?.personContactsByContactGroupPersonContactGroupIdAndPersonContactId
         .nodes || [],
       id,
     );
-    history.push('/directory/aliases');
+    history.push('/directory/groups');
   };
 
-  const { changes, editing, handleChange, updateActions } =
-    useUpdateItem<ContactAlias>({
-      data: data as ContactAlias,
+  const { changes, editing, handleChange, getUpdateActions } =
+    useUpdateItem<ContactGroup>({
+      data: data as ContactGroup,
       handleDelete,
       handleUpdate,
-      onAfterDelete,
       deleteVariables: updateVariables,
-      confirmDeleteText: `Are you sure you want to delete alias "${
-        data ? data.aliasName : ''
+      confirmDeleteText: `Are you sure you want to delete group "${
+        data ? data.groupName : ''
       }"`,
       updateFields,
       updateVariables,
@@ -84,7 +82,7 @@ const Details = () => {
 
   const [{ activeUser }] = useUserContext();
 
-  const onChange = (field: keyof ContactAlias, value: any) => {
+  const onChange = (field: keyof ContactGroup, value: any) => {
     if (field === 'userId') {
       if (activeUser) {
         handleChange('userId', changes.userId ? null : activeUser.id);
@@ -97,47 +95,47 @@ const Details = () => {
   const [
     selectedItems,
     {
-      selectAliasPersonContact,
-      isAllAliasPersonContactsSelected,
-      toggleAllAliasPersonContacts,
-      removeSelectedContactsFromAlias,
+      selectGroupPersonContact,
+      isAllGroupPersonContactsSelected,
+      toggleAllGroupPersonContacts,
+      removeSelectedContactsFromGroup,
     },
   ] = useDirectorySelectionContext();
 
-  const selectedAlias = selectedItems.aliases.find((c) => c.id === id);
+  const selectedGroup = selectedItems.groups.find((c) => c.id === id);
 
-  const [addContacts, { loading: addLoading }] = api.useAddContactsToAlias(id);
+  const [addContacts, { loading: addLoading }] = api.useAddContactsToGroup(id);
 
   const handleAddContacts = (selectedContacts: PersonContact[]) =>
     addContacts({
       variables: {
         items: pluck('id', selectedContacts).map((contactId) => ({
-          aliasId: id,
+          groupId: id,
           personContactId: contactId,
         })),
       },
     });
 
   const handleRemoveContacts = () => {
-    if (selectedAlias) {
-      const contactsToRemove = selectedAlias.selectedContacts.map(
-        (contact) => ({ aliasId: id, personContactId: contact.id }),
+    if (selectedGroup) {
+      const contactsToRemove = selectedGroup.selectedContacts.map(
+        (contact) => ({ groupId: id, personContactId: contact.id }),
       );
       removeContacts({ variables: { items: contactsToRemove } }).then(() => {
-        removeSelectedContactsFromAlias(contactsToRemove, id);
+        removeSelectedContactsFromGroup(contactsToRemove, id);
       });
     }
   };
 
   return (
     <Page
-      actions={updateActions}
+      actions={getUpdateActions({ onAfterDelete })}
       breadcrumbs={breadcrumbs(id)}
-      title={data ? `${data.aliasName}` : 'Directory - Alias'}
+      title={data ? `${data.groupName}` : 'Directory - Group'}
     >
       {data ? (
         <l.Div pb={th.spacing.xl}>
-          <BaseData<ContactAlias>
+          <BaseData<ContactGroup>
             changes={changes}
             data={data}
             editing={editing}
@@ -147,9 +145,9 @@ const Details = () => {
           <l.Flex alignCenter justifyBetween my={th.spacing.lg}>
             <TabBar />
             <l.Flex>
-              <AddContactsToAlias
+              <AddContactsToGroup
                 addContacts={handleAddContacts}
-                alias={data}
+                group={data}
                 confirmLoading={addLoading}
               />
               <BasicModal
@@ -157,14 +155,14 @@ const Details = () => {
                 content={
                   <ty.BodyText>
                     Are you sure you want to remove the selected contacts from
-                    alias "{data.aliasName}"?
+                    group "{data.groupName}"?
                   </ty.BodyText>
                 }
                 confirmLoading={removeLoading}
                 confirmText="Confirm Remove"
                 handleConfirm={handleRemoveContacts}
                 triggerDisabled={
-                  !selectedAlias || selectedAlias.selectedContacts.length === 0
+                  !selectedGroup || selectedGroup.selectedContacts.length === 0
                 }
                 triggerStyles={{ ml: th.spacing.md }}
                 triggerText="Remove"
@@ -173,11 +171,11 @@ const Details = () => {
           </l.Flex>
           <ContactList
             personContacts={personContacts}
-            selectedItem={selectedAlias}
-            selectContact={selectAliasPersonContact(data)}
-            toggleAllContacts={() => toggleAllAliasPersonContacts(data)}
-            isAllContactsSelected={isAllAliasPersonContactsSelected(data)}
-            isAlias
+            selectedItem={selectedGroup}
+            selectContact={selectGroupPersonContact(data)}
+            toggleAllContacts={() => toggleAllGroupPersonContacts(data)}
+            isAllContactsSelected={isAllGroupPersonContactsSelected(data)}
+            isGroup
           />
         </l.Div>
       ) : (

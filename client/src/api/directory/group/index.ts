@@ -10,22 +10,22 @@ import {
 } from 'hooks/use-query-params';
 import { Mutation, Query } from 'types';
 
-const CONTACT_ALIAS_DETAILS_QUERY = loader('./details.gql');
-const CONTACT_ALIAS_LIST_QUERY = loader('./list.gql');
-const CONTACT_ALIAS_UPDATE = loader('./update.gql');
-const CONTACT_ALIAS_CREATE = loader('./create.gql');
-const CONTACT_ALIAS_DELETE = loader('./delete.gql');
-const ADD_CONTACTS_TO_ALIAS = loader('./add-contacts.gql');
-const REMOVE_CONTACTS_FROM_ALIAS = loader('./remove-contacts.gql');
+const CONTACT_GROUP_DETAILS_QUERY = loader('./details.gql');
+const CONTACT_GROUP_LIST_QUERY = loader('./list.gql');
+const CONTACT_GROUP_UPDATE = loader('./update.gql');
+const CONTACT_GROUP_CREATE = loader('./create.gql');
+const CONTACT_GROUP_DELETE = loader('./delete.gql');
+const ADD_CONTACTS_TO_GROUP = loader('./add-contacts.gql');
+const REMOVE_CONTACTS_FROM_GROUP = loader('./remove-contacts.gql');
 
-export const useContactAliases = () => {
+export const useContactGroups = () => {
   const [search = ''] = useSearchQueryParam();
-  const [{ sortBy = 'aliasName', sortOrder = SORT_ORDER.ASC }] =
+  const [{ sortBy = 'groupName', sortOrder = SORT_ORDER.ASC }] =
     useSortQueryParams();
   const orderBy = getOrderByString(sortBy, sortOrder);
   const [{ activeUser }] = useUserContext();
 
-  const { data, error, loading } = useQuery<Query>(CONTACT_ALIAS_LIST_QUERY, {
+  const { data, error, loading } = useQuery<Query>(CONTACT_GROUP_LIST_QUERY, {
     variables: {
       orderBy,
       search,
@@ -34,55 +34,55 @@ export const useContactAliases = () => {
   });
 
   return {
-    data: data ? data.contactAliases : undefined,
+    data: data ? data.contactGroups : undefined,
     error,
     loading,
   };
 };
 
-export const useContactAlias = (id: string) => {
+export const useContactGroup = (id: string) => {
   const [{ sortBy = 'firstName', sortOrder = SORT_ORDER.ASC }] =
     useSortQueryParams();
   const orderBy = getOrderByString(sortBy, sortOrder);
 
   const { data, error, loading } = useQuery<Query>(
-    CONTACT_ALIAS_DETAILS_QUERY,
+    CONTACT_GROUP_DETAILS_QUERY,
     {
       variables: { id, orderBy },
     },
   );
   return {
-    data: data ? data.contactAlias : undefined,
+    data: data ? data.contactGroup : undefined,
     error,
     loading,
   };
 };
 
-export const useUpdateContactAlias = (id: string) => {
+export const useUpdateContactGroup = (id: string) => {
   const [{ sortBy = 'firstName', sortOrder = SORT_ORDER.ASC }] =
     useSortQueryParams();
   const orderBy = getOrderByString(sortBy, sortOrder);
 
-  return useMutation<Mutation>(CONTACT_ALIAS_UPDATE, {
+  return useMutation<Mutation>(CONTACT_GROUP_UPDATE, {
     refetchQueries: [
       {
-        query: CONTACT_ALIAS_DETAILS_QUERY,
+        query: CONTACT_GROUP_DETAILS_QUERY,
         variables: { id, orderBy },
       },
     ],
   });
 };
 
-export const useCreateContactAlias = () => {
+export const useCreateContactGroup = () => {
   const [search = ''] = useSearchQueryParam();
   const [{ activeUser }] = useUserContext();
 
-  return useMutation<Mutation>(CONTACT_ALIAS_CREATE, {
+  return useMutation<Mutation>(CONTACT_GROUP_CREATE, {
     refetchQueries: [
       {
-        query: CONTACT_ALIAS_LIST_QUERY,
+        query: CONTACT_GROUP_LIST_QUERY,
         variables: {
-          orderBy: 'ALIAS_NAME_ASC',
+          orderBy: 'GROUP_NAME_ASC',
           search,
           userId: activeUser ? activeUser.id : 0,
         },
@@ -91,16 +91,16 @@ export const useCreateContactAlias = () => {
   });
 };
 
-export const useDeleteContactAlias = () => {
+export const useDeleteContactGroup = () => {
   const [search = ''] = useSearchQueryParam();
   const [{ activeUser }] = useUserContext();
 
-  return useMutation<Mutation>(CONTACT_ALIAS_DELETE, {
+  return useMutation<Mutation>(CONTACT_GROUP_DELETE, {
     refetchQueries: [
       {
-        query: CONTACT_ALIAS_LIST_QUERY,
+        query: CONTACT_GROUP_LIST_QUERY,
         variables: {
-          orderBy: 'ALIAS_NAME_ASC',
+          orderBy: 'GROUP_NAME_ASC',
           search,
           userId: activeUser ? activeUser.id : 0,
         },
@@ -109,28 +109,28 @@ export const useDeleteContactAlias = () => {
   });
 };
 
-export const useAddContactsToAlias = (id: string) => {
+export const useAddContactsToGroup = (id: string) => {
   const [{ sortBy = 'firstName', sortOrder = SORT_ORDER.ASC }] =
     useSortQueryParams();
   const orderBy = getOrderByString(sortBy, sortOrder);
-  return useMutation<Mutation>(ADD_CONTACTS_TO_ALIAS, {
+  return useMutation<Mutation>(ADD_CONTACTS_TO_GROUP, {
     refetchQueries: [
       {
-        query: CONTACT_ALIAS_DETAILS_QUERY,
+        query: CONTACT_GROUP_DETAILS_QUERY,
         variables: { id, orderBy },
       },
     ],
   });
 };
 
-export const useRemoveContactsFromAlias = (id: string) => {
+export const useRemoveContactsFromGroup = (id: string) => {
   const [{ sortBy = 'firstName', sortOrder = SORT_ORDER.ASC }] =
     useSortQueryParams();
   const orderBy = getOrderByString(sortBy, sortOrder);
-  return useMutation<Mutation>(REMOVE_CONTACTS_FROM_ALIAS, {
+  return useMutation<Mutation>(REMOVE_CONTACTS_FROM_GROUP, {
     refetchQueries: [
       {
-        query: CONTACT_ALIAS_DETAILS_QUERY,
+        query: CONTACT_GROUP_DETAILS_QUERY,
         variables: { id, orderBy },
       },
     ],

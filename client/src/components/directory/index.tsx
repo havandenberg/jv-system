@@ -3,9 +3,9 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 
 import { Tab, useTabBar } from 'components/tab-bar';
 
-import AliasDirectory from './aliases';
-import CreateContactAlias from './aliases/create';
-import AliasDetails from './aliases/details';
+import GroupDirectory from './groups';
+import CreateContactGroup from './groups/create';
+import GroupDetails from './groups/details';
 import CustomerDirectory from './customers';
 import CustomerDetails from './customers/details';
 import ShipperDirectory from './shippers';
@@ -20,7 +20,7 @@ import SendMessage from './send-message';
 export const breadcrumbs = [{ text: 'Directory', to: `/directory` }];
 
 export enum DirectoryTypes {
-  ALIASES = 'aliases',
+  GROUPS = 'groups',
   WAREHOUSES = 'warehouses',
   INTERNAL = 'internal',
   SHIPPERS = 'shippers',
@@ -29,9 +29,9 @@ export enum DirectoryTypes {
 
 const tabs: Tab[] = [
   {
-    id: DirectoryTypes.ALIASES,
-    text: 'Aliases',
-    to: `/directory/${DirectoryTypes.ALIASES}`,
+    id: DirectoryTypes.GROUPS,
+    text: 'Groups',
+    to: `/directory/${DirectoryTypes.GROUPS}`,
   },
   {
     id: DirectoryTypes.INTERNAL,
@@ -79,14 +79,14 @@ const Directory = () => {
       />
       <Route
         exact
-        path="/directory/aliases/create"
-        component={CreateContactAlias}
+        path="/directory/groups/create"
+        component={CreateContactGroup}
       />
-      <Route exact path="/directory/aliases/:id" component={AliasDetails} />
+      <Route exact path="/directory/groups/:id" component={GroupDetails} />
       <Route
         exact
-        path="/directory/aliases"
-        render={() => <AliasDirectory {...subDirectoryProps} />}
+        path="/directory/groups"
+        render={() => <GroupDirectory {...subDirectoryProps} />}
       />
       <Route
         exact

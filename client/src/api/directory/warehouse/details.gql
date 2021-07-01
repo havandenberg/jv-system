@@ -12,11 +12,14 @@ query WAREHOUSE_DETAILS($id: String!, $orderBy: [PersonContactsOrderBy!]) {
     id
     miscTaxCode
     outQueue
-    personContacts(orderBy: $orderBy) {
+    personContactsByWarehousePersonContactWarehouseIdAndPersonContactId(
+      orderBy: $orderBy
+    ) {
       nodes {
-        warehouseId
-        warehouse {
-          warehouseName
+        warehousesByWarehousePersonContactPersonContactIdAndWarehouseId {
+          nodes {
+            warehouseName
+          }
         }
         email
         firstName

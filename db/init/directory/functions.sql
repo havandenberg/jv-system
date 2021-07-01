@@ -81,7 +81,6 @@ AS $BODY$
 SELECT CONCAT (
 	p.first_name,
 	p.last_name,
-	p.is_primary,
 	p.email,
 	p.secondary_email,
 	p.home_phone,
@@ -89,21 +88,30 @@ SELECT CONCAT (
 	p.work_phone,
 	p.work_extension,
 	p.image_src,
-	p.is_internal,
 	p.roles,
-	p.customer_id,
-	c.customer_name,
-	p.shipper_id,
-	s.shipper_name,
-	p.warehouse_id,
-	w.warehouse_name
+	array_to_string(array_agg(c.customer_name), ''),
+	array_to_string(array_agg(s.shipper_name), ''),
+	array_to_string(array_agg(w.warehouse_name), '')
+	array_to_string(array_agg(c.id), ''),
+	array_to_string(array_agg(s.id), ''),
+	array_to_string(array_agg(w.id), '')
 	) FROM directory.person_contact pc
-	FULL JOIN directory.customer c ON (p.customer_id = c.id)
-	FULL JOIN directory.shipper s ON (p.shipper_id = s.id)
-	FULL JOIN directory.warehouse w ON (p.warehouse_id = w.id) WHERE p.id = pc.id
+	LEFT JOIN directory.customer_person_contact AS cpc
+        ON pc.id = cpc.person_contact_id
+    LEFT JOIN directory.customer AS c
+        ON cpc.customer_id = c.id
+    LEFT JOIN directory.shipper_person_contact AS spc
+        ON pc.id = spc.person_contact_id
+    LEFT JOIN directory.shipper AS s
+        ON spc.shipper_id = s.id
+    LEFT JOIN directory.warehouse_person_contact AS wpc
+        ON pc.id = wpc.person_contact_id
+    LEFT JOIN directory.warehouse AS w
+        ON wpc.warehouse_id = w.id
+	WHERE p.id = pc.id
 $BODY$;
 
-CREATE FUNCTION directory.contact_alias_search_text(IN a directory.contact_alias)
+CREATE FUNCTION directory.contact_group_search_text(IN a directory.contact_group)
     RETURNS TEXT
     LANGUAGE 'sql'
     STABLE
@@ -111,23 +119,23 @@ CREATE FUNCTION directory.contact_alias_search_text(IN a directory.contact_alias
     COST 100
 AS $BODY$
 SELECT CONCAT (
-	a.alias_name,
-	a.alias_description
-	) FROM directory.contact_alias
+	a.group_name,
+	a.group_description
+	) FROM directory.contact_group
 $BODY$;
 
-CREATE FUNCTION directory.bulk_add_contacts_to_alias(
-  items directory.contact_alias_person_contact[]
+CREATE FUNCTION directory.bulk_add_contacts_to_group(
+  items directory.contact_group_person_contact[]
 )
-RETURNS setof directory.contact_alias_person_contact
+RETURNS setof directory.contact_group_person_contact
 AS $$
   DECLARE
-    c directory.contact_alias_person_contact;
-    vals directory.contact_alias_person_contact;
+    c directory.contact_group_person_contact;
+    vals directory.contact_group_person_contact;
   BEGIN
     FOREACH c IN ARRAY items LOOP
-      INSERT INTO directory.contact_alias_person_contact (alias_id, person_contact_id)
-			VALUES (c.alias_id, c.person_contact_id)
+      INSERT INTO directory.contact_group_person_contact (group_id, person_contact_id)
+			VALUES (c.group_id, c.person_contact_id)
     	RETURNING * INTO vals;
     	RETURN NEXT vals;
 	END LOOP;
@@ -135,18 +143,18 @@ AS $$
   END;
 $$ LANGUAGE plpgsql VOLATILE STRICT SET search_path FROM CURRENT;
 
-CREATE FUNCTION directory.bulk_remove_contact_alias_person_contact(
-  items directory.contact_alias_person_contact[]
+CREATE FUNCTION directory.bulk_remove_contact_group_person_contact(
+  items directory.contact_group_person_contact[]
 )
-RETURNS setof directory.contact_alias_person_contact
+RETURNS setof directory.contact_group_person_contact
 AS $$
   DECLARE
-    c directory.contact_alias_person_contact;
-    vals directory.contact_alias_person_contact;
+    c directory.contact_group_person_contact;
+    vals directory.contact_group_person_contact;
   BEGIN
     FOREACH c IN ARRAY items LOOP
-      DELETE FROM directory.contact_alias_person_contact
-			WHERE alias_id = c.alias_id AND person_contact_id = c.person_contact_id
+      DELETE FROM directory.contact_group_person_contact
+			WHERE group_id = c.group_id AND person_contact_id = c.person_contact_id
     	RETURNING * INTO vals;
     	RETURN NEXT vals;
 	END LOOP;

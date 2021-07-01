@@ -1,8 +1,9 @@
 import { sentenceCase } from 'change-case';
+import { pluck } from 'ramda';
 
 import { LabelInfo } from 'components/column-label';
 import { SORT_ORDER } from 'hooks/use-columns';
-import { PersonContact } from 'types';
+import { Customer, PersonContact, Shipper, Warehouse } from 'types';
 
 export type PersonContactLabelInfo = LabelInfo<PersonContact>;
 
@@ -61,7 +62,7 @@ export const contactListLabels: PersonContactLabelInfo[] = [
   },
 ];
 
-export const aliasContactListLabels: (
+export const groupContactListLabels: (
   hasCustomerIds: boolean,
   hasShipperIds: boolean,
   hasWarehouseIds: boolean,
@@ -74,30 +75,55 @@ export const aliasContactListLabels: (
   if (hasCustomerIds) {
     companyLabels.push({
       defaultSortOrder: SORT_ORDER.ASC,
-      key: 'customerId',
-      label: 'Customer',
+      key: 'customersByCustomerPersonContactPersonContactIdAndCustomerId',
+      label: 'Customer(s)',
       getValue: (data) =>
-        data.customer ? data.customer.customerName : data.customerId || '',
+        data.customersByCustomerPersonContactPersonContactIdAndCustomerId
+          ? pluck(
+              'customerName',
+              data.customersByCustomerPersonContactPersonContactIdAndCustomerId
+                .nodes as Customer[],
+            )
+              .map((n) => sentenceCase(n))
+              .join(', ')
+          : '',
       sortable: true,
     });
   }
   if (hasShipperIds) {
     companyLabels.push({
       defaultSortOrder: SORT_ORDER.ASC,
-      key: 'shipperId',
-      label: 'Shipper',
+      key: 'shippersByShipperPersonContactPersonContactIdAndShipperId',
+      label: 'Shipper(s)',
       getValue: (data) =>
-        data.shipper ? data.shipper.shipperName : data.shipperId || '',
+        data.shippersByShipperPersonContactPersonContactIdAndShipperId
+          ? pluck(
+              'shipperName',
+              data.shippersByShipperPersonContactPersonContactIdAndShipperId
+                .nodes as Shipper[],
+            )
+              .map((n) => sentenceCase(n))
+              .join(', ')
+          : '',
       sortable: true,
     });
   }
   if (hasWarehouseIds) {
     companyLabels.push({
       defaultSortOrder: SORT_ORDER.ASC,
-      key: 'warehouseId',
-      label: 'Warehouse',
+      key: 'warehousesByWarehousePersonContactPersonContactIdAndWarehouseId',
+      label: 'Warehouse(s)',
       getValue: (data) =>
-        data.warehouse ? data.warehouse.warehouseName : data.warehouseId || '',
+        data.warehousesByWarehousePersonContactPersonContactIdAndWarehouseId
+          ? pluck(
+              'warehouseName',
+              data
+                .warehousesByWarehousePersonContactPersonContactIdAndWarehouseId
+                .nodes as Warehouse[],
+            )
+              .map((n) => sentenceCase(n))
+              .join(', ')
+          : '',
       sortable: true,
     });
   }

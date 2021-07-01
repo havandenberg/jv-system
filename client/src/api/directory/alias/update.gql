@@ -1,7 +1,0 @@
-mutation CONTACT_ALIAS_UPDATE($id: BigInt!, $updates: ContactAliasPatch!) {
-  updateContactAlias(input: { patch: $updates, id: $id }) {
-    contactAlias {
-      id
-    }
-  }
-}

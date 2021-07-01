@@ -1,0 +1,5 @@
+mutation REMOVE_CONTACTS_FROM_GROUP($items: [ContactGroupPersonContactInput]!) {
+  bulkRemoveContactGroupPersonContact(input: { items: $items }) {
+    clientMutationId
+  }
+}

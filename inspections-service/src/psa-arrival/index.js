@@ -73,7 +73,7 @@ const fetchPictures = (dateTime) =>
       fetch(process.env.PSA_GRAPHQL_API_URL, {
         method: 'POST',
         body: `
-          query PSA_PICTURES_LIST {
+          query {
             picturesBulk(dateTimeAdded: "${dateTime}"){
               pictureId
               arrivalCode
@@ -91,9 +91,7 @@ const fetchPictures = (dateTime) =>
         },
       })
         .then((res) => res.json())
-        .then((res) => {
-          console.log(res);
-          const { data } = res;
+        .then(({ data }) => {
           console.log(`${data.picturesBulk.length} pictures found\n`);
           const dateDirectory = `/psa-arrival-inspections/${dateTime}`;
           if (!fs.existsSync(dateDirectory)) {
@@ -160,7 +158,7 @@ const fetchArrivalReports = (dateTime) =>
       fetch(process.env.PSA_GRAPHQL_API_URL, {
         method: 'POST',
         body: `
-          query PSA_ARRIVAL_INSPECTION_LIST {
+          query {
             arrivalReportsBulk(dateTimeAdded: "${dateTime}") {
               id
               locationName
@@ -177,9 +175,7 @@ const fetchArrivalReports = (dateTime) =>
         },
       })
         .then((res) => res.json())
-        .then((res) => {
-          console.log(res);
-          const { data } = res;
+        .then(({ data }) => {
           console.log(`${data.arrivalReportsBulk.length} reports found\n`);
           const dateDirectory = `/psa-arrival-inspections/${dateTime}`;
           if (!fs.existsSync(dateDirectory)) {
@@ -206,7 +202,8 @@ const fetchArrivalReports = (dateTime) =>
 const fetchPsaArrivalInspections = () => {
   console.log(`\nFetching PSA arrival inspections: ${new Date().toString()}\n`);
 
-  const dateTime = '2021-06-07';
+  const today = new Date();
+  const dateTime = `${today.getFullYear()}-${today.getMonth()}-${today.getDate()}`;
   fetchArrivalReports(dateTime);
   fetchPictures(dateTime);
 };

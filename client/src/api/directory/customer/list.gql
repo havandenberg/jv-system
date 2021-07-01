@@ -17,11 +17,12 @@ query CUSTOMER_LIST(
       id
       city
       customerName
-      personContacts {
+      personContactsByCustomerPersonContactCustomerIdAndPersonContactId {
         nodes {
-          customerId
-          customer {
-            customerName
+          customersByCustomerPersonContactPersonContactIdAndCustomerId {
+            nodes {
+              customerName
+            }
           }
           email
           firstName

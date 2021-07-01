@@ -32,12 +32,14 @@ const tabs: Tab[] = [
 ];
 
 const Details = () => {
-  const { id } =
-    useParams<{
-      id: string;
-    }>();
+  const { id } = useParams<{
+    id: string;
+  }>();
   const { data, error, loading } = api.useCustomer(id);
-  const personContacts = data ? data.personContacts.nodes : [];
+  const personContacts = data
+    ? data.personContactsByCustomerPersonContactCustomerIdAndPersonContactId
+        .nodes
+    : [];
 
   const { TabBar } = useTabBar(tabs);
 
@@ -57,7 +59,7 @@ const Details = () => {
   ];
   const updateVariables = { id };
 
-  const { changes, editing, handleChange, updateActions } =
+  const { changes, editing, handleChange, getUpdateActions } =
     useUpdateItem<Customer>({
       data: data as Customer,
       handleUpdate,
@@ -78,7 +80,7 @@ const Details = () => {
 
   return (
     <Page
-      actions={updateActions}
+      actions={getUpdateActions()}
       breadcrumbs={customerBreadcrumbs(id)}
       title={data ? data.customerName : 'Directory - Customer'}
     >

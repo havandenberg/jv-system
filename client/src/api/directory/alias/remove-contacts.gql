@@ -1,5 +1,0 @@
-mutation REMOVE_CONTACTS_FROM_ALIAS($items: [ContactAliasPersonContactInput]!) {
-  bulkRemoveContactAliasPersonContact(input: { items: $items }) {
-    clientMutationId
-  }
-}

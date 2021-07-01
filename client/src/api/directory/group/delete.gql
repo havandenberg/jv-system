@@ -1,0 +1,5 @@
+mutation CONTACT_GROUP_DELETE($id: BigInt!) {
+  deleteContactGroup(input: { id: $id }) {
+    clientMutationId
+  }
+}

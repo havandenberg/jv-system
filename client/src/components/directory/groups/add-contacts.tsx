@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { sentenceCase } from 'change-case';
 import { pluck } from 'ramda';
 
 import api from 'api';
@@ -6,7 +7,13 @@ import { BasicModal } from 'components/modal';
 import { DataMessage } from 'components/page/message';
 import VirtualizedList from 'components/virtualized-list';
 import useSearch from 'hooks/use-search';
-import { ContactAlias, PersonContact } from 'types';
+import {
+  ContactGroup,
+  Customer,
+  PersonContact,
+  Shipper,
+  Warehouse,
+} from 'types';
 import { LineItemCheckbox } from 'ui/checkbox';
 import l from 'ui/layout';
 import th from 'ui/theme';
@@ -19,13 +26,26 @@ interface LineItemProps {
 }
 
 const LineItem = ({ checked, item, toggleChecked }: LineItemProps) => {
-  const companyText = item.customer
-    ? item.customer.customerName
-    : item.shipper
-    ? item.shipper.shipperName
-    : item.warehouse
-    ? item.warehouse.warehouseName
-    : 'Internal contact';
+  const customers =
+    item.customersByCustomerPersonContactPersonContactIdAndCustomerId.nodes;
+  const shippers =
+    item.shippersByShipperPersonContactPersonContactIdAndShipperId.nodes;
+  const warehouses =
+    item.warehousesByWarehousePersonContactPersonContactIdAndWarehouseId.nodes;
+  const companyText =
+    customers.length > 0
+      ? pluck('customerName', customers as Customer[])
+          .map((n) => sentenceCase(n))
+          .join(', ')
+      : shippers.length > 0
+      ? pluck('shipperName', shippers as Shipper[])
+          .map((n) => sentenceCase(n))
+          .join(', ')
+      : warehouses.length > 0
+      ? pluck('warehouseName', warehouses as Warehouse[])
+          .map((n) => sentenceCase(n))
+          .join(', ')
+      : 'Internal contact';
   return (
     <LineItemCheckbox
       checked={checked}
@@ -35,11 +55,15 @@ const LineItem = ({ checked, item, toggleChecked }: LineItemProps) => {
           ml={th.spacing.md}
           width={th.sizes.fill}
         >
-          <ty.CaptionText>
-            {item.firstName} {item.lastName}
-          </ty.CaptionText>
+          <l.Div overflow="hidden">
+            <ty.CaptionText nowrap>
+              {item.firstName} {item.lastName}
+            </ty.CaptionText>
+          </l.Div>
           <ty.CaptionText mx={th.spacing.md}>-</ty.CaptionText>
-          <ty.CaptionText>{companyText}</ty.CaptionText>
+          <l.Div overflow="hidden">
+            <ty.CaptionText nowrap>{companyText}</ty.CaptionText>
+          </l.Div>
         </l.Grid>
       }
       onChange={toggleChecked}
@@ -49,18 +73,18 @@ const LineItem = ({ checked, item, toggleChecked }: LineItemProps) => {
 
 interface Props {
   addContacts: (selectedContacts: PersonContact[]) => Promise<any>;
-  alias: ContactAlias;
+  group: ContactGroup;
   confirmLoading?: boolean;
 }
 
-const AddContactsToAlias = ({ addContacts, alias, confirmLoading }: Props) => {
+const AddContactsToGroup = ({ addContacts, group, confirmLoading }: Props) => {
   const { Search } = useSearch();
   const { data, loading, error } = api.useAllPersonContacts();
   const items = data
     ? data.nodes.filter(
         (contact) =>
           contact &&
-          !alias.personContactsByContactAliasPersonContactAliasIdAndPersonContactId.nodes
+          !group.personContactsByContactGroupPersonContactGroupIdAndPersonContactId.nodes
             .map((c) => c && c.id)
             .includes(contact.id),
       )
@@ -84,12 +108,12 @@ const AddContactsToAlias = ({ addContacts, alias, confirmLoading }: Props) => {
 
   return (
     <BasicModal
-      title="Add Contacts to Alias"
+      title="Add Contacts to Group"
       content={
         <>
           <ty.BodyText mb={th.spacing.md}>
-            Search for contacts to add to alias "
-            {alias.aliasName || 'New Alias'}" below.
+            Search for contacts to add to group "
+            {group.groupName || 'New Group'}" below.
           </ty.BodyText>
           {Search}
           <l.Div height={500} mt={th.spacing.lg}>
@@ -141,4 +165,4 @@ const AddContactsToAlias = ({ addContacts, alias, confirmLoading }: Props) => {
   );
 };
 
-export default AddContactsToAlias;
+export default AddContactsToGroup;

@@ -1,5 +1,0 @@
-mutation CONTACT_ALIAS_DELETE($id: BigInt!) {
-  deleteContactAlias(input: { id: $id }) {
-    clientMutationId
-  }
-}

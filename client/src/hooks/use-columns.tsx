@@ -19,7 +19,7 @@ const useColumns = <T extends {}>(
 ) => {
   const [{ sortBy, sortOrder }, setSortParams] = useSortQueryParams();
 
-  const handleSortChange = (newSortBy: keyof T, newSortOrder?: SortOrder) => {
+  const handleSortChange = (newSortBy: string, newSortOrder?: SortOrder) => {
     if (sortBy === newSortBy) {
       setSortParams({
         sortBy,

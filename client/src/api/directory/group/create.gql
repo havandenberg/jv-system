@@ -1,0 +1,19 @@
+mutation CONTACT_GROUP_CREATE(
+  $groupName: String!
+  $groupDescription: String!
+  $userId: BigInt
+  $contacts: [ContactGroupPersonContactGroupIdFkeyContactGroupPersonContactCreateInput!]
+) {
+  createContactGroup(
+    input: {
+      contactGroup: {
+        groupDescription: $groupDescription
+        groupName: $groupName
+        userId: $userId
+        contactGroupPersonContactsUsingId: { create: $contacts }
+      }
+    }
+  ) {
+    clientMutationId
+  }
+}

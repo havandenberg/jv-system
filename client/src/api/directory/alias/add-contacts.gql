@@ -1,5 +1,0 @@
-mutation ADD_CONTACTS_TO_ALIAS($items: [ContactAliasPersonContactInput]!) {
-  bulkAddContactsToAlias(input: { items: $items }) {
-    clientMutationId
-  }
-}

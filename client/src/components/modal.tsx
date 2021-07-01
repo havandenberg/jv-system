@@ -7,7 +7,6 @@ import b from 'ui/button';
 import l, { DivProps } from 'ui/layout';
 import th from 'ui/theme';
 import ty, { TextProps } from 'ui/typography';
-import styled from '@emotion/styled';
 
 interface Props {
   children: ({ hide }: { hide: () => void }) => React.ReactNode;
@@ -53,14 +52,6 @@ const Modal = ({ children, trigger }: Props) => {
 
 export default Modal;
 
-const TriggerText = styled(ty.BodyText)({
-  cursor: 'pointer',
-  ':hover': {
-    color: th.colors.brand.primaryAccent,
-    textDecoration: 'underline',
-  },
-});
-
 interface BasicModalProps {
   cancelText?: string;
   confirmDisabled?: boolean;
@@ -105,12 +96,12 @@ export const BasicModal = ({
         );
       case 'text':
         return (
-          <TriggerText
+          <ty.TriggerText
             onClick={shouldConfirm ? show : handleConfirm}
             {...triggerStyles}
           >
             {triggerText}
-          </TriggerText>
+          </ty.TriggerText>
         );
       default:
         return (

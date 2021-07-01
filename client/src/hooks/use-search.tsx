@@ -5,7 +5,17 @@ import TextInput, { TextInputProps } from 'ui/input';
 import { useSearchQueryParam } from './use-query-params';
 import useDebounce from './use-debounce';
 
-const useSearch = (props?: TextInputProps) => {
+interface Props {
+  placeholder?: string;
+  showIcon?: boolean;
+}
+
+const useSearch = (props?: TextInputProps & Props) => {
+  const {
+    placeholder = 'Search',
+    showIcon = true,
+    ...rest
+  } = props ? props : {};
   const [search, setSearch] = useSearchQueryParam();
   const [localSearch, setLocalSearch] = useState<string | undefined>();
 
@@ -21,16 +31,16 @@ const useSearch = (props?: TextInputProps) => {
     search,
     Search: (
       <TextInput
-        Icon={<SearchImg height={18} />}
+        Icon={showIcon ? <SearchImg height={18} /> : undefined}
         onClear={() => {
           setLocalSearch(undefined);
         }}
         onChange={(e) => {
           setLocalSearch(e.target.value || undefined);
         }}
-        placeholder="Search"
+        placeholder={placeholder === undefined ? undefined : placeholder}
         value={localSearch || ''}
-        {...props}
+        {...rest}
       />
     ),
   };

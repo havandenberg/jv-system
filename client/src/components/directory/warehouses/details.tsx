@@ -32,12 +32,14 @@ const tabs: Tab[] = [
 ];
 
 const Details = () => {
-  const { id } =
-    useParams<{
-      id: string;
-    }>();
+  const { id } = useParams<{
+    id: string;
+  }>();
   const { data, error, loading } = api.useWarehouse(id);
-  const personContacts = data ? data.personContacts.nodes : [];
+  const personContacts = data
+    ? data.personContactsByWarehousePersonContactWarehouseIdAndPersonContactId
+        .nodes
+    : [];
 
   const { TabBar } = useTabBar(tabs);
 
@@ -59,7 +61,7 @@ const Details = () => {
   ];
   const updateVariables = { id };
 
-  const { changes, editing, handleChange, updateActions } =
+  const { changes, editing, handleChange, getUpdateActions } =
     useUpdateItem<Warehouse>({
       data: data as Warehouse,
       handleUpdate,
@@ -80,7 +82,7 @@ const Details = () => {
 
   return (
     <Page
-      actions={updateActions}
+      actions={getUpdateActions()}
       breadcrumbs={warehouseBreadcrumbs(id)}
       title={data ? data.warehouseName : 'Directory - Warehouse'}
     >

@@ -1,0 +1,49 @@
+query CONTACT_GROUP_LIST(
+  $search: String
+  $orderBy: [ContactGroupsOrderBy!]
+  $userId: BigInt!
+) {
+  contactGroups(
+    filter: {
+      or: [{ userExists: false }, { userId: { equalTo: $userId } }]
+      searchText: { includesInsensitive: $search }
+    }
+    orderBy: $orderBy
+  ) {
+    nodes {
+      groupName
+      groupDescription
+      userId
+      user {
+        displayName
+      }
+      id
+      personContactsByContactGroupPersonContactGroupIdAndPersonContactId {
+        nodes {
+          customersByCustomerPersonContactPersonContactIdAndCustomerId {
+            nodes {
+              customerName
+            }
+          }
+          shippersByShipperPersonContactPersonContactIdAndShipperId {
+            nodes {
+              shipperName
+            }
+          }
+          warehousesByWarehousePersonContactPersonContactIdAndWarehouseId {
+            nodes {
+              warehouseName
+            }
+          }
+          email
+          firstName
+          id
+          lastName
+          workPhone
+        }
+        totalCount
+      }
+    }
+    totalCount
+  }
+}

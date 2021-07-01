@@ -16,11 +16,12 @@ query SHIPPER_LIST(
         countryName
       }
       groupId
-      personContacts {
+      personContactsByShipperPersonContactShipperIdAndPersonContactId {
         nodes {
-          shipperId
-          shipper {
-            shipperName
+          shippersByShipperPersonContactPersonContactIdAndShipperId {
+            nodes {
+              shipperName
+            }
           }
           email
           firstName

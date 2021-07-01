@@ -127,9 +127,9 @@ const SendEmailModal = () => {
         .flat() as FinalItem[],
     );
     flattenedItems = flattenedItems.concat(
-      selectedItems.aliases
-        .map((alias) =>
-          alias.selectedContacts.map((item) => ({
+      selectedItems.groups
+        .map((group) =>
+          group.selectedContacts.map((item) => ({
             ...item,
             checked: !!item.email,
             type: 'to',
@@ -311,17 +311,17 @@ const SendEmailModal = () => {
                   )}
                 </l.Div>
               )}
-              {!isEmpty(selectedItems.aliases) && (
+              {!isEmpty(selectedItems.groups) && (
                 <l.Div mb={th.spacing.lg}>
-                  <ty.BodyText>Aliases</ty.BodyText>
-                  {selectedItems.aliases.map(
-                    (alias) =>
-                      !isEmpty(alias.selectedContacts) && (
-                        <Fragment key={alias.id}>
+                  <ty.BodyText>Groups</ty.BodyText>
+                  {selectedItems.groups.map(
+                    (group) =>
+                      !isEmpty(group.selectedContacts) && (
+                        <Fragment key={group.id}>
                           <ty.CaptionText bold my={th.spacing.md}>
-                            {alias.aliasName}
+                            {group.groupName}
                           </ty.CaptionText>
-                          {alias.selectedContacts.map((item) => {
+                          {group.selectedContacts.map((item) => {
                             const finalItem = getFinalItem(item);
                             return (
                               finalItem && (

@@ -1,7 +1,6 @@
 query INTERNAL_CONTACT_DETAILS($id: BigInt!) {
   personContact(id: $id) {
     cellPhone
-    customerId
     email
     firstName
     homePhone
@@ -11,9 +10,25 @@ query INTERNAL_CONTACT_DETAILS($id: BigInt!) {
     lastName
     roles
     secondaryEmail
-    shipperId
-    warehouseId
     workExtension
     workPhone
+    customersByCustomerPersonContactPersonContactIdAndCustomerId {
+      nodes {
+        customerName
+        id
+      }
+    }
+    shippersByShipperPersonContactPersonContactIdAndShipperId {
+      nodes {
+        shipperName
+        id
+      }
+    }
+    warehousesByWarehousePersonContactPersonContactIdAndWarehouseId {
+      nodes {
+        warehouseName
+        id
+      }
+    }
   }
 }

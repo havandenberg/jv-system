@@ -50,6 +50,7 @@ export interface LabelInfo<T> {
   isBoolean?: boolean;
   readOnly?: boolean;
   sortable?: boolean;
+  sortKey?: string;
   transformKey?: keyof typeof baseDataTransforms;
   transformValue?: (val: any) => any;
   validate?: (val: any) => boolean;
@@ -69,7 +70,7 @@ export const validateItem = <T extends {}>(
 interface Props<T> {
   sortBy: keyof T;
   sortOrder: SortOrder;
-  handleSortChange: (sortKey: keyof T, sortOrder?: SortOrder) => void;
+  handleSortChange: (sortKey: string, sortOrder?: SortOrder) => void;
   labelInfo: LabelInfo<T>;
   schemaName: string;
   tableName: string;
@@ -86,6 +87,7 @@ const ColumnLabel = <T extends {}>({
     key,
     label,
     sortable,
+    sortKey,
   },
   schemaName,
   tableName,
@@ -99,7 +101,7 @@ const ColumnLabel = <T extends {}>({
         onClick={
           sortable
             ? () => {
-                handleSortChange(key, defaultSortOrder);
+                handleSortChange(String(sortKey || key), defaultSortOrder);
               }
             : undefined
         }

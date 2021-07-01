@@ -16,7 +16,6 @@ interface Props<T> {
   deleteVariables?: OperationVariables;
   handleDelete?: MutationFunction;
   handleUpdate: MutationFunction;
-  onAfterDelete?: () => void;
   updateFields: string[];
   updateVariables: OperationVariables;
 }
@@ -27,7 +26,6 @@ const useUpdateItem = <T,>({
   deleteVariables,
   handleDelete,
   handleUpdate,
-  onAfterDelete,
   updateFields,
   updateVariables,
 }: Props<T>) => {
@@ -41,16 +39,17 @@ const useUpdateItem = <T,>({
   const [changes, setChanges] = useState<T>(data as T);
   const hasChanges = !equals(changes, data);
 
-  const handleCancel = () => {
+  const handleCancel = (onCancel?: () => void) => {
     setChanges(data as T);
     setEditing(false);
+    onCancel && onCancel();
   };
 
   const handleChange = (field: keyof T, value: any) => {
     setChanges({ ...changes, [field]: value } as T);
   };
 
-  const handleSave = () => {
+  const handleSave = (onSave?: () => void) => {
     setUpdateLoading(true);
     handleUpdate({
       variables: {
@@ -61,9 +60,10 @@ const useUpdateItem = <T,>({
       setUpdateLoading(false);
       handleCancel();
     });
+    onSave && onSave();
   };
 
-  const deleteItem = () => {
+  const deleteItem = (onAfterDelete?: () => void) => {
     if (handleDelete) {
       setDeleteLoading(true);
       handleDelete({ variables: deleteVariables }).then(() => {
@@ -79,75 +79,95 @@ const useUpdateItem = <T,>({
     }
   }, [data, previousData, setChanges]);
 
-  const updateActions = [
-    editing ? (
-      <Fragment key={0}>
-        <BasicModal
-          title="Confirm Discard Changes"
-          content={
-            <ty.BodyText>You will lose all unsaved changes.</ty.BodyText>
-          }
-          confirmText="Discard"
-          handleConfirm={handleCancel}
-          shouldConfirm={hasChanges}
-          triggerStyles={{
-            mr: th.spacing.md,
-            width: 88,
-          }}
-          triggerText="Cancel"
-        />
-        <b.Primary disabled={updateLoading} onClick={handleSave} width={88}>
-          {updateLoading ? (
-            <l.Flex alignCenter justifyCenter>
-              <ClipLoader
-                color={th.colors.brand.secondary}
-                size={th.sizes.xs}
+  const getUpdateActions = (props?: {
+    onAfterDelete?: () => void;
+    onCancel?: () => void;
+    onSave?: () => void;
+    shouldConfirmCancel?: boolean;
+  }) => {
+    const { onAfterDelete, onCancel, onSave, shouldConfirmCancel } =
+      props || {};
+    return [
+      editing ? (
+        <Fragment key={0}>
+          <BasicModal
+            title="Confirm Discard Changes"
+            content={
+              <ty.BodyText>You will lose all unsaved changes.</ty.BodyText>
+            }
+            confirmText="Discard"
+            handleConfirm={() => {
+              handleCancel(onCancel);
+            }}
+            shouldConfirm={!!(hasChanges || shouldConfirmCancel)}
+            triggerStyles={{
+              mr: th.spacing.md,
+              width: 88,
+            }}
+            triggerText="Cancel"
+          />
+          <b.Primary
+            disabled={updateLoading}
+            onClick={() => {
+              handleSave(onSave);
+            }}
+            width={88}
+          >
+            {updateLoading ? (
+              <l.Flex alignCenter justifyCenter>
+                <ClipLoader
+                  color={th.colors.brand.secondary}
+                  size={th.sizes.xs}
+                />
+              </l.Flex>
+            ) : (
+              'Save'
+            )}
+          </b.Primary>
+        </Fragment>
+      ) : (
+        <Fragment key={0}>
+          <b.Primary
+            key={0}
+            onClick={() => {
+              setEditing(true);
+            }}
+            width={88}
+          >
+            Edit
+          </b.Primary>
+          {handleDelete && (
+            <Fragment key={1}>
+              <BasicModal
+                title="Confirm Delete"
+                content={
+                  <ty.BodyText>
+                    {confirmDeleteText ||
+                      'Are you sure you want to delete item?'}
+                  </ty.BodyText>
+                }
+                confirmText="Confirm Delete"
+                confirmLoading={deleteLoading}
+                handleConfirm={() => {
+                  deleteItem(onAfterDelete);
+                }}
+                triggerStyles={{
+                  ml: th.spacing.md,
+                }}
+                triggerText="Delete"
               />
-            </l.Flex>
-          ) : (
-            'Save'
+            </Fragment>
           )}
-        </b.Primary>
-      </Fragment>
-    ) : (
-      <Fragment key={0}>
-        <b.Primary
-          key={0}
-          onClick={() => {
-            setEditing(true);
-          }}
-          width={88}
-        >
-          Edit
-        </b.Primary>
-        {handleDelete && (
-          <Fragment key={1}>
-            <BasicModal
-              title="Confirm Delete"
-              content={
-                <ty.BodyText>
-                  {confirmDeleteText || 'Are you sure you want to delete item?'}
-                </ty.BodyText>
-              }
-              confirmText="Confirm Delete"
-              confirmLoading={deleteLoading}
-              handleConfirm={deleteItem}
-              triggerStyles={{
-                ml: th.spacing.md,
-              }}
-              triggerText="Delete"
-            />
-          </Fragment>
-        )}
-      </Fragment>
-    ),
-  ];
+        </Fragment>
+      ),
+    ];
+  };
 
   return {
     changes,
     editing,
     handleChange,
-    updateActions,
+    getUpdateActions,
   };
 };
 

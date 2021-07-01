@@ -1,5 +1,5 @@
 import React, { Fragment, useCallback, useState } from 'react';
-import { sortBy as sortByFunc } from 'ramda';
+import { pluck, sortBy as sortByFunc, uniqBy } from 'ramda';
 import { useHistory, useParams } from 'react-router-dom';
 import { ClipLoader } from 'react-spinners';
 
@@ -11,22 +11,28 @@ import { Tab, useTabBar } from 'components/tab-bar';
 import { useUserContext } from 'components/user/context';
 import { SORT_ORDER } from 'hooks/use-columns';
 import { useSortQueryParams } from 'hooks/use-query-params';
-import { ContactAlias, PersonContact } from 'types';
+import {
+  ContactGroup,
+  Customer,
+  PersonContact,
+  Shipper,
+  Warehouse,
+} from 'types';
 import b from 'ui/button';
 import l from 'ui/layout';
 import th from 'ui/theme';
 
 import ContactList from '../contacts/list';
 import { useDirectorySelectionContext } from '../selection-context';
-import AddContactsToAlias from './add-contacts';
+import AddContactsToGroup from './add-contacts';
 import { baseLabels } from './data-utils';
 
 const breadcrumbs = (id: string) => [
   {
     text: 'Directory',
-    to: `/directory/aliases`,
+    to: `/directory/groups`,
   },
-  { text: 'Alias', to: `/directory/aliases/${id}` },
+  { text: 'Group', to: `/directory/groups/${id}` },
 ];
 
 const tabs: Tab[] = [
@@ -41,27 +47,27 @@ interface FinalItem extends PersonContact {
 }
 
 const initialState = {
-  aliasName: '',
-  aliasDescription: '',
+  groupName: '',
+  groupDescription: '',
   userId: null,
 };
 
 const Details = () => {
-  const { id } =
-    useParams<{
-      id: string;
-    }>();
+  const { id } = useParams<{
+    id: string;
+  }>();
   const history = useHistory();
   const [{ sortBy = 'firstName', sortOrder = SORT_ORDER.ASC }] =
     useSortQueryParams();
-  const [handleCreate] = api.useCreateContactAlias();
+  const [handleCreate] = api.useCreateContactGroup();
 
   const { TabBar } = useTabBar(tabs);
 
   const [createLoading, setLoading] = useState(false);
   const [saveAttempt, setSaveAttempt] = useState(false);
 
-  const [selectedItems] = useDirectorySelectionContext();
+  const [selectedItems, { clearAllSelectedItems }] =
+    useDirectorySelectionContext();
 
   const getFlattenedItems = useCallback(() => {
     let flattenedItems: FinalItem[] = [];
@@ -102,28 +108,55 @@ const Details = () => {
         .flat() as FinalItem[],
     );
     flattenedItems = flattenedItems.concat(
-      selectedItems.aliases
-        .map((alias) =>
-          alias.selectedContacts.map((item) => ({
+      selectedItems.groups
+        .map((group) =>
+          group.selectedContacts.map((item) => ({
             ...item,
             checked: false,
           })),
         )
         .flat() as FinalItem[],
     );
-    return flattenedItems;
+    return uniqBy((it) => it.id, flattenedItems);
   }, [selectedItems]);
 
   const [personContacts, setPersonContacts] = useState<FinalItem[]>(
     getFlattenedItems(),
   );
   const getSortedContacts = () => {
-    const sortedContacts = sortByFunc(
-      (c) => (c[sortBy as keyof FinalItem] || '').toLowerCase(),
-      personContacts,
-    );
+    const sortedContacts = sortByFunc((c) => {
+      const customersString = pluck(
+        'customerName',
+        c.customersByCustomerPersonContactPersonContactIdAndCustomerId
+          .nodes as Customer[],
+      ).join(' ');
+      const shippersString = pluck(
+        'shipperName',
+        c.shippersByShipperPersonContactPersonContactIdAndShipperId
+          .nodes as Shipper[],
+      ).join(' ');
+      const warehousesString = pluck(
+        'warehouseName',
+        c.warehousesByWarehousePersonContactPersonContactIdAndWarehouseId
+          .nodes as Warehouse[],
+      ).join(' ');
+      const getSortString = () => {
+        switch (sortBy) {
+          case 'customersByCustomerPersonContactPersonContactIdAndCustomerId':
+            return customersString;
+          case 'shippersByShipperPersonContactPersonContactIdAndShipperId':
+            return shippersString;
+          case 'warehousesByWarehousePersonContactPersonContactIdAndWarehouseId':
+            return warehousesString;
+          default:
+            return `${c[sortBy as keyof FinalItem] || ''}`;
+        }
+      };
+      return getSortString().toLowerCase();
+    }, personContacts);
     const isReverseOrder = ['firstName', 'lastName'].includes(sortBy);
-    return sortOrder === SORT_ORDER.ASC && isReverseOrder
+    return (sortOrder === SORT_ORDER.ASC && isReverseOrder) ||
+      (sortOrder === SORT_ORDER.DESC && !isReverseOrder)
       ? sortedContacts
       : sortedContacts.reverse();
   };
@@ -164,16 +197,16 @@ const Details = () => {
     setPersonContacts(personContacts.filter((c) => !c.checked));
   };
 
-  const [changes, setChanges] = useState<ContactAlias>(
-    initialState as ContactAlias,
+  const [changes, setChanges] = useState<ContactGroup>(
+    initialState as ContactGroup,
   );
   const [{ activeUser }] = useUserContext();
 
-  const handleChange = (field: keyof ContactAlias, value: any) => {
+  const handleChange = (field: keyof ContactGroup, value: any) => {
     if (field === 'userId') {
       setChanges({ ...changes, userId: activeUser ? activeUser.id : null });
     } else {
-      setChanges({ ...changes, [field]: value } as ContactAlias);
+      setChanges({ ...changes, [field]: value } as ContactGroup);
     }
   };
 
@@ -187,7 +220,8 @@ const Details = () => {
           contacts: personContacts.map((c) => ({ personContactId: c.id })),
         },
       }).then(() => {
-        history.push('/directory/aliases');
+        clearAllSelectedItems();
+        history.push('/directory/groups');
       });
     }
   };
@@ -196,7 +230,7 @@ const Details = () => {
     <Page
       actions={[
         <Fragment key={0}>
-          <l.AreaLink to="/directory/aliases">
+          <l.AreaLink to="/directory/groups">
             <b.Primary width={88}>Cancel</b.Primary>
           </l.AreaLink>
           <b.Primary
@@ -219,10 +253,10 @@ const Details = () => {
         </Fragment>,
       ]}
       breadcrumbs={breadcrumbs(id)}
-      title="New Contact Alias"
+      title="New Contact Group"
     >
       <l.Div pb={th.spacing.xl}>
-        <BaseData<ContactAlias>
+        <BaseData<ContactGroup>
           changes={changes}
           data={changes}
           editing={true}
@@ -233,11 +267,11 @@ const Details = () => {
         <l.Flex alignCenter justifyBetween my={th.spacing.lg}>
           <TabBar />
           <l.Flex>
-            <AddContactsToAlias
+            <AddContactsToGroup
               addContacts={handleAddContacts}
-              alias={{
+              group={{
                 ...changes,
-                personContactsByContactAliasPersonContactAliasIdAndPersonContactId:
+                personContactsByContactGroupPersonContactGroupIdAndPersonContactId:
                   {
                     edges: [],
                     nodes: personContacts,
@@ -264,7 +298,7 @@ const Details = () => {
           selectContact={selectPersonContact}
           toggleAllContacts={toggleAllPersonContacts}
           isAllContactsSelected={isAllPersonContactsSelected()}
-          isAlias
+          isGroup
         />
       </l.Div>
     </Page>
