@@ -108,35 +108,38 @@ const FilterPanel = <T extends {}>({
   const { data } = useQuery<Query>(query, {
     variables,
   });
+
   const filterOptions: string[] = pathOr([], [queryName, 'nodes'], data)
-    .filter(
-      (option: string) =>
-        !!option && option.toLowerCase().includes(search.toLowerCase()),
-    )
-    .map((option: string) => option.trim())
+    .map((option: string) => option && option.trim())
     .sort();
   const previousFilterOptions = usePrevious(filterOptions);
+  const filterOptionsBySearch = filterOptions.filter(
+    (option: string) =>
+      !!option && option.toLowerCase().includes(search.toLowerCase()),
+  );
+
   const [queryValue, setQueryValue] = useQueryValue(`${filterKey}`);
   const queryValueList = queryValue ? queryValue.split(',') : [];
-  const externalFilterValues = queryValueList.filter((val: string) =>
+  const queryFilterValues = queryValueList.filter((val: string) =>
     filterOptions ? !filterOptions.includes(val) : false,
   );
   const filterValues = queryValueList.filter((val: string) =>
     filterOptions ? filterOptions.includes(val) : false,
   );
   const [selectedValues, setSelectedValues] = useState<string[]>(filterValues);
+
   const dirty =
     selectedValues.sort().join(',') !== filterValues.sort().join(',');
 
   const apply = () => {
     const allValues = [0, filterOptions.length].includes(selectedValues.length);
-    if (allValues) setSelectedValues(externalFilterValues);
+    if (allValues) setSelectedValues(queryFilterValues);
     setQueryValue(
       allValues
-        ? externalFilterValues.length > 0
-          ? externalFilterValues.join(',')
+        ? queryFilterValues.length > 0
+          ? queryFilterValues.join(',')
           : undefined
-        : [...externalFilterValues, ...selectedValues].join(','),
+        : [...queryFilterValues, ...selectedValues].join(','),
     );
     setShow(false);
   };
@@ -199,6 +202,7 @@ const FilterPanel = <T extends {}>({
               </ty.CaptionText>
               {showSearch && (
                 <SearchInput
+                  autoFocus
                   onChange={(e) => {
                     setSearch(e.target.value);
                   }}
@@ -229,7 +233,7 @@ const FilterPanel = <T extends {}>({
             maxHeight={260}
             overflowY="auto"
           >
-            {filterOptions.map((option) => (
+            {filterOptionsBySearch.map((option) => (
               <FilterCheckbox
                 checked={selectedValues.includes(option)}
                 key={option}

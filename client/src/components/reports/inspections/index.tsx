@@ -1,5 +1,5 @@
 import React from 'react';
-import { Redirect, Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch, useLocation } from 'react-router-dom';
 
 import { BreadcrumbProps } from 'components/nav/breadcrumbs';
 import { useTabBar } from 'components/tab-bar';
@@ -14,8 +14,8 @@ import PeruInspectionDetails from './peru-departure/details';
 import PsaArrivalInspections from './psa-arrival';
 import PsaInspectionDetails from './psa-arrival/details';
 
-export const breadcrumbs = (type: string) => [
-  { text: 'All Inspections', to: `/reports/inspections/${type}` },
+export const breadcrumbs = (type: string, search: string) => [
+  { text: 'All Inspections', to: `/reports/inspections/${type}${search}` },
 ];
 export const gridTemplateColumns = '3.5fr 4fr 4fr 4fr 2fr 2fr 3fr 30px';
 
@@ -51,6 +51,7 @@ export interface SubInspectionsProps {
 }
 
 const Inspections = () => {
+  const { search } = useLocation();
   const { Search } = useSearch();
   const [{ startDate: startDateQuery, endDate }] = useDateRangeQueryParams();
   const { TabBar, selectedTabId } = useTabBar(
@@ -83,7 +84,7 @@ const Inspections = () => {
         path={`/reports/inspections/${InspectionTypes.PERU_DEPARTURE}`}
         render={() => (
           <PeruDepartureInspections
-            breadcrumbs={breadcrumbs(InspectionTypes.PERU_DEPARTURE)}
+            breadcrumbs={breadcrumbs(InspectionTypes.PERU_DEPARTURE, search)}
             {...components}
           />
         )}
@@ -97,7 +98,7 @@ const Inspections = () => {
         path={`/reports/inspections/${InspectionTypes.CHILE_DEPARTURE}`}
         render={() => (
           <ChileDepartureInspections
-            breadcrumbs={breadcrumbs(InspectionTypes.CHILE_DEPARTURE)}
+            breadcrumbs={breadcrumbs(InspectionTypes.CHILE_DEPARTURE, search)}
             {...components}
           />
         )}
@@ -111,7 +112,7 @@ const Inspections = () => {
         path={`/reports/inspections/${InspectionTypes.ARRIVAL}`}
         render={() => (
           <PsaArrivalInspections
-            breadcrumbs={breadcrumbs(InspectionTypes.ARRIVAL)}
+            breadcrumbs={breadcrumbs(InspectionTypes.ARRIVAL, search)}
             {...components}
           />
         )}

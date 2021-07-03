@@ -2,13 +2,13 @@ query CUSTOMER_LIST(
   $city: [String!]
   $postalState: [String!]
   $orderBy: [CustomersOrderBy!]
-  $search: String
+  $search: [CustomerFilter!]
 ) {
   customers(
     condition: { active: true }
     filter: {
+      and: $search
       city: { in: $city }
-      searchText: { includesInsensitive: $search }
       postalState: { in: $postalState }
     }
     orderBy: $orderBy
@@ -22,6 +22,7 @@ query CUSTOMER_LIST(
           customersByCustomerPersonContactPersonContactIdAndCustomerId {
             nodes {
               customerName
+              id
             }
           }
           email

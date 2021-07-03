@@ -1,8 +1,8 @@
-query PERSON_CONTACT_LIST($search: String, $orderBy: [PersonContactsOrderBy!]) {
-  personContacts(
-    filter: { searchText: { includesInsensitive: $search } }
-    orderBy: $orderBy
-  ) {
+query PERSON_CONTACT_LIST(
+  $search: [PersonContactFilter!]
+  $orderBy: [PersonContactsOrderBy!]
+) {
+  personContacts(filter: { and: $search }, orderBy: $orderBy) {
     nodes {
       email
       firstName

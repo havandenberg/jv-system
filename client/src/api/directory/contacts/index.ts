@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from '@apollo/client';
 import { loader } from 'graphql.macro';
 
-import { getOrderByString } from 'api/utils';
+import { getOrderByString, getSearchArray } from 'api/utils';
 import { SORT_ORDER } from 'hooks/use-columns';
 import {
   useSearchQueryParam,
@@ -38,7 +38,7 @@ export const useInternalPersonContacts = () => {
     {
       variables: {
         orderBy,
-        search,
+        search: getSearchArray(search),
       },
     },
   );
@@ -59,7 +59,7 @@ export const useAllPersonContacts = () => {
   const { data, error, loading } = useQuery<Query>(PERSON_CONTACT_LIST_QUERY, {
     variables: {
       orderBy,
-      search,
+      search: getSearchArray(search),
     },
   });
 
@@ -110,7 +110,7 @@ export const useCreatePersonContact = ({
         query: INTERNAL_CONTACT_LIST_QUERY,
         variables: {
           orderBy,
-          search,
+          search: getSearchArray(search),
         },
       },
       {
@@ -153,7 +153,7 @@ export const useDeletePersonContact = ({
         query: INTERNAL_CONTACT_LIST_QUERY,
         variables: {
           orderBy,
-          search,
+          search: getSearchArray(search),
         },
       },
       {

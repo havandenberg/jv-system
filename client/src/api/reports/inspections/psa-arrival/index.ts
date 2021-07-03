@@ -60,7 +60,11 @@ export const usePsaArrivalInspections = () => {
       exporterName: filteredExporterValues,
       locationName: filteredLocationValues,
       orderBy,
-      search,
+      search: search
+        ? search
+            .split(' ')
+            .map((s) => ({ searchText: { includesInsensitive: s } }))
+        : { searchText: { includesInsensitive: '' } },
       startDate,
       arrivalName: filteredVesselValues,
     },

@@ -19,6 +19,7 @@ query WAREHOUSE_DETAILS($id: String!, $orderBy: [PersonContactsOrderBy!]) {
         warehousesByWarehousePersonContactPersonContactIdAndWarehouseId {
           nodes {
             warehouseName
+            id
           }
         }
         email

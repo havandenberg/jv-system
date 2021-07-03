@@ -1,6 +1,6 @@
 import React, { Fragment, useCallback, useState } from 'react';
 import { pluck, sortBy as sortByFunc, uniqBy } from 'ramda';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { ClipLoader } from 'react-spinners';
 
 import api from 'api';
@@ -27,12 +27,12 @@ import { useDirectorySelectionContext } from '../selection-context';
 import AddContactsToGroup from './add-contacts';
 import { baseLabels } from './data-utils';
 
-const breadcrumbs = (id: string) => [
+const breadcrumbs = [
   {
     text: 'Directory',
     to: `/directory/groups`,
   },
-  { text: 'Group', to: `/directory/groups/${id}` },
+  { text: 'Group', to: `/directory/groups/create` },
 ];
 
 const tabs: Tab[] = [
@@ -52,10 +52,7 @@ const initialState = {
   userId: null,
 };
 
-const Details = () => {
-  const { id } = useParams<{
-    id: string;
-  }>();
+const CreateContactGroup = () => {
   const history = useHistory();
   const [{ sortBy = 'firstName', sortOrder = SORT_ORDER.ASC }] =
     useSortQueryParams();
@@ -125,20 +122,29 @@ const Details = () => {
   );
   const getSortedContacts = () => {
     const sortedContacts = sortByFunc((c) => {
+      const customers =
+        c.customersByCustomerPersonContactPersonContactIdAndCustomerId
+          ? c.customersByCustomerPersonContactPersonContactIdAndCustomerId.nodes
+          : [];
       const customersString = pluck(
         'customerName',
-        c.customersByCustomerPersonContactPersonContactIdAndCustomerId
-          .nodes as Customer[],
+        customers as Customer[],
       ).join(' ');
-      const shippersString = pluck(
-        'shipperName',
+      const shippers =
         c.shippersByShipperPersonContactPersonContactIdAndShipperId
-          .nodes as Shipper[],
-      ).join(' ');
+          ? c.shippersByShipperPersonContactPersonContactIdAndShipperId.nodes
+          : [];
+      const shippersString = pluck('shipperName', shippers as Shipper[]).join(
+        ' ',
+      );
+      const warehouses =
+        c.warehousesByWarehousePersonContactPersonContactIdAndWarehouseId
+          ? c.warehousesByWarehousePersonContactPersonContactIdAndWarehouseId
+              .nodes
+          : [];
       const warehousesString = pluck(
         'warehouseName',
-        c.warehousesByWarehousePersonContactPersonContactIdAndWarehouseId
-          .nodes as Warehouse[],
+        warehouses as Warehouse[],
       ).join(' ');
       const getSortString = () => {
         switch (sortBy) {
@@ -252,7 +258,7 @@ const Details = () => {
           </b.Primary>
         </Fragment>,
       ]}
-      breadcrumbs={breadcrumbs(id)}
+      breadcrumbs={breadcrumbs}
       title="New Contact Group"
     >
       <l.Div pb={th.spacing.xl}>
@@ -305,4 +311,4 @@ const Details = () => {
   );
 };
 
-export default Details;
+export default CreateContactGroup;

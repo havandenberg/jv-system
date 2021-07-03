@@ -4,7 +4,7 @@ import { loader } from 'graphql.macro';
 import { StringParam } from 'use-query-params';
 
 import useFilteredQueryValues from 'api/hooks/use-filtered-query-values';
-import { getOrderByString } from 'api/utils';
+import { getOrderByString, getSearchArray } from 'api/utils';
 import { formatDate } from 'components/date-range-picker';
 import { SORT_ORDER } from 'hooks/use-columns';
 import {
@@ -52,7 +52,7 @@ export const usePeruDepartureInspections = () => {
       endDate,
       exporter: filteredExporterValues,
       orderBy,
-      search,
+      search: getSearchArray(search),
       startDate,
       variety: filteredVarietyValues,
     },

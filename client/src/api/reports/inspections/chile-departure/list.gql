@@ -2,14 +2,14 @@ query CHILE_DEPARTURE_INSPECTIONS_LIST(
   $endDate: Date
   $orderBy: String
   $sortOrder: String
-  $search: String
+  $search: [ChileDepartureInspectionFilter!]
   $startDate: Date
   $exporter: [String!]
   $variety: [String!]
 ) {
   chileDepartureInspections(
     filter: {
-      searchText: { includesInsensitive: $search }
+      and: $search
       shipper: { in: $exporter }
       variety: { in: $variety }
       or: {

@@ -1,10 +1,10 @@
 query INTERNAL_CONTACT_LIST(
-  $search: String
+  $search: [PersonContactFilter!]
   $orderBy: [PersonContactsOrderBy!]
 ) {
   personContacts(
     condition: { isInternal: true }
-    filter: { searchText: { includesInsensitive: $search } }
+    filter: { and: $search }
     orderBy: $orderBy
   ) {
     nodes {

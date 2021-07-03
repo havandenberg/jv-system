@@ -13,6 +13,7 @@ query SHIPPER_DETAILS($id: String!, $orderBy: [PersonContactsOrderBy!]) {
         shippersByShipperPersonContactPersonContactIdAndShipperId {
           nodes {
             shipperName
+            id
           }
         }
         email

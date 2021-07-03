@@ -294,7 +294,6 @@ const Details = () => {
     >
       {data ? (
         <>
-          <l.Div mb={th.spacing.lg}>{info}</l.Div>
           <BaseData<PersonContact>
             changes={changes}
             data={data}
@@ -302,6 +301,7 @@ const Details = () => {
             handleChange={handleChange}
             labels={baseLabels(isInternal)}
           />
+          <l.Div mt={th.spacing.lg}>{info}</l.Div>
         </>
       ) : (
         <DataMessage data={data || []} error={error} loading={loading} />

@@ -1,7 +1,7 @@
 query PSA_ARRIVAL_INSPECTIONS_LIST(
   $endDate: Date
   $orderBy: [PsaArrivalReportsOrderBy!]
-  $search: String
+  $search: [PsaArrivalReportFilter!]
   $startDate: Date
   $exporterName: [String!]
   $arrivalName: [String!]
@@ -9,7 +9,7 @@ query PSA_ARRIVAL_INSPECTIONS_LIST(
 ) {
   psaArrivalReports(
     filter: {
-      searchText: { includesInsensitive: $search }
+      and: $search
       exporterName: { in: $exporterName }
       arrivalName: { in: $arrivalName }
       locationName: { in: $locationName }

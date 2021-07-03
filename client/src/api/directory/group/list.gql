@@ -1,12 +1,12 @@
 query CONTACT_GROUP_LIST(
-  $search: String
+  $search: [ContactGroupFilter!]
   $orderBy: [ContactGroupsOrderBy!]
   $userId: BigInt!
 ) {
   contactGroups(
     filter: {
+      and: $search
       or: [{ userExists: false }, { userId: { equalTo: $userId } }]
-      searchText: { includesInsensitive: $search }
     }
     orderBy: $orderBy
   ) {
@@ -23,16 +23,19 @@ query CONTACT_GROUP_LIST(
           customersByCustomerPersonContactPersonContactIdAndCustomerId {
             nodes {
               customerName
+              id
             }
           }
           shippersByShipperPersonContactPersonContactIdAndShipperId {
             nodes {
               shipperName
+              id
             }
           }
           warehousesByWarehousePersonContactPersonContactIdAndWarehouseId {
             nodes {
               warehouseName
+              id
             }
           }
           email

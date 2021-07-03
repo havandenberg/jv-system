@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from '@apollo/client';
 import { loader } from 'graphql.macro';
 
-import { getOrderByString } from 'api/utils';
+import { getOrderByString, getSearchArray } from 'api/utils';
 import { useUserContext } from 'components/user/context';
 import { SORT_ORDER } from 'hooks/use-columns';
 import {
@@ -28,7 +28,7 @@ export const useContactGroups = () => {
   const { data, error, loading } = useQuery<Query>(CONTACT_GROUP_LIST_QUERY, {
     variables: {
       orderBy,
-      search,
+      search: getSearchArray(search),
       userId: activeUser ? activeUser.id : 0,
     },
   });
@@ -83,7 +83,7 @@ export const useCreateContactGroup = () => {
         query: CONTACT_GROUP_LIST_QUERY,
         variables: {
           orderBy: 'GROUP_NAME_ASC',
-          search,
+          search: getSearchArray(search),
           userId: activeUser ? activeUser.id : 0,
         },
       },
@@ -101,7 +101,7 @@ export const useDeleteContactGroup = () => {
         query: CONTACT_GROUP_LIST_QUERY,
         variables: {
           orderBy: 'GROUP_NAME_ASC',
-          search,
+          search: getSearchArray(search),
           userId: activeUser ? activeUser.id : 0,
         },
       },

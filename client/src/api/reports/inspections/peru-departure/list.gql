@@ -1,14 +1,14 @@
 query PERU_DEPARTURE_INSPECTIONS_LIST(
   $endDate: Date
   $orderBy: [PeruDepartureInspectionsOrderBy!]
-  $search: String
+  $search: [PeruDepartureInspectionFilter!]
   $startDate: Date
   $exporter: [String!]
   $variety: [String!]
 ) {
   peruDepartureInspections(
     filter: {
-      searchText: { includesInsensitive: $search }
+      and: $search
       exporter: { in: $exporter }
       variety: { in: $variety }
       or: {

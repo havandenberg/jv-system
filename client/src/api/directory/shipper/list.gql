@@ -1,13 +1,10 @@
 query SHIPPER_LIST(
   $country: [String!]
   $orderBy: [ShippersOrderBy!]
-  $search: String
+  $search: [ShipperFilter!]
 ) {
   shippers(
-    filter: {
-      country: { id: { in: $country } }
-      searchText: { includesInsensitive: $search }
-    }
+    filter: { and: $search, country: { id: { in: $country } } }
     orderBy: $orderBy
   ) {
     nodes {
@@ -21,6 +18,7 @@ query SHIPPER_LIST(
           shippersByShipperPersonContactPersonContactIdAndShipperId {
             nodes {
               shipperName
+              id
             }
           }
           email

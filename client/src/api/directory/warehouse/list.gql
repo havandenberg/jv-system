@@ -2,12 +2,12 @@ query WAREHOUSE_LIST(
   $city: [String!]
   $postalState: [String!]
   $orderBy: [WarehousesOrderBy!]
-  $search: String
+  $search: [WarehouseFilter!]
 ) {
   warehouses(
     filter: {
+      and: $search
       city: { in: $city }
-      searchText: { includesInsensitive: $search }
       postalState: { in: $postalState }
     }
     orderBy: $orderBy
@@ -20,6 +20,7 @@ query WAREHOUSE_LIST(
           warehousesByWarehousePersonContactPersonContactIdAndWarehouseId {
             nodes {
               warehouseName
+              id
             }
           }
           email

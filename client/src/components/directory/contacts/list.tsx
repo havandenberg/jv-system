@@ -83,6 +83,7 @@ const ContactList = ({
 
   const getSlug = (item: PersonContact) => {
     const baseSlug = baseUrl ? `${baseUrl}/contacts/${item.id}` : '';
+
     const customers =
       item.customersByCustomerPersonContactPersonContactIdAndCustomerId &&
       item.customersByCustomerPersonContactPersonContactIdAndCustomerId.nodes;
@@ -90,6 +91,7 @@ const ContactList = ({
       customers && customers.length > 0
         ? `customers/${(customers[0] as Customer).id}/contacts/${item.id}`
         : '';
+
     const shippers =
       item.shippersByShipperPersonContactPersonContactIdAndShipperId &&
       item.shippersByShipperPersonContactPersonContactIdAndShipperId.nodes;
@@ -97,6 +99,7 @@ const ContactList = ({
       shippers && shippers.length > 0
         ? `shippers/${(shippers[0] as Shipper).id}/contacts/${item.id}`
         : '';
+
     const warehouses =
       item.warehousesByWarehousePersonContactPersonContactIdAndWarehouseId &&
       item.warehousesByWarehousePersonContactPersonContactIdAndWarehouseId
@@ -105,7 +108,9 @@ const ContactList = ({
       warehouses && warehouses.length > 0
         ? `warehouses/${(warehouses[0] as Warehouse).id}/contacts/${item.id}`
         : '';
+
     const internalSlug = `internal/${item.id}`;
+
     return (
       baseSlug || customerSlug || shipperSlug || warehouseSlug || internalSlug
     );
