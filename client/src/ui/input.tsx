@@ -1,6 +1,6 @@
 import React, { InputHTMLAttributes, useRef, useState } from 'react';
 import styled from '@emotion/styled';
-import { spaceSet, width } from 'onno-react';
+import { spaceSet, SpaceSetProps, width, WidthProps } from 'onno';
 
 import CloseImg from 'assets/images/close';
 import l from 'ui/layout';
@@ -58,7 +58,7 @@ export const TextArea = styled.textarea({
   fontFamily: th.fontFamilies.body,
   fontSize: th.fontSizes.body,
   outline: 'none',
-  padding: th.spacing.md,
+  padding: th.spacing.sm,
   transition: th.transitions.default,
 });
 
@@ -91,6 +91,47 @@ const StyledTextInput = styled.input(
       },
     },
   },
+  spaceSet,
+  width,
+);
+
+export const Select = styled.select<
+  InputHTMLAttributes<HTMLSelectElement> &
+    SpaceSetProps &
+    WidthProps & {
+      hasValue?: boolean;
+      focused?: boolean;
+    }
+>(
+  ({ hasValue, focused }) => ({
+    background: th.colors.brand.containerBackground,
+    border: hasValue || focused ? th.borders.secondary : th.borders.disabled,
+    borderRadius: th.borderRadii.input,
+    boxShadow: th.shadows.boxLight,
+    color: th.colors.text.default,
+    cursor: 'pointer',
+    height: th.heights.input,
+    position: 'relative',
+    outline: 'none',
+    paddingLeft: th.spacing.sm,
+    transition: th.transitions.default,
+    width: 200,
+    ':hover': {
+      border: th.borders.secondary,
+      '::placeholder': {
+        color: th.colors.brand.secondary,
+      },
+    },
+    '::placeholder': {
+      color: th.colors.brand.disabled,
+      transition: th.transitions.default,
+    },
+    ':focus': {
+      '::placeholder': {
+        color: th.colors.brand.secondary,
+      },
+    },
+  }),
   spaceSet,
   width,
 );

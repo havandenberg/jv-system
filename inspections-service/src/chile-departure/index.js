@@ -5,6 +5,7 @@ const { pluck, uniqBy } = require('ramda');
 const XLSX = require('xlsx');
 
 const { gql, gqlClient, DISTINCT_VALUES } = require('../api');
+const { onError } = require('../utils');
 
 const BATCH_CREATE_CHILE_DEPARTURE_INSPECTION_PALLET = gql`
   mutation BATCH_CREATE_CHILE_DEPARTURE_INSPECTION_PALLET(
@@ -22,8 +23,9 @@ const BATCH_CREATE_CHILE_DEPARTURE_INSPECTION_PALLET = gql`
 
 const fetchChileDepartureInspections = () => {
   console.log(
-    `\nFetching chile departure inspections: ${new Date().toString()}`,
+    `\n\nFetching chile departure inspections: ${new Date().toString()}\n\n`,
   );
+
   fetch(process.env.CDI_API_URL, {
     method: 'GET',
   })
@@ -32,6 +34,7 @@ const fetchChileDepartureInspections = () => {
       const file = XLSX.read(await res.arrayBuffer(), { type: 'array' });
       const isValid =
         file.SheetNames.length === 1 && file.SheetNames[0] === 'Sheet1';
+
       if (isValid) {
         const sheetData = file.Sheets[file.SheetNames[0]];
         var stream = XLSX.utils.sheet_to_csv(sheetData, {
@@ -40,10 +43,12 @@ const fetchChileDepartureInspections = () => {
           strip: true,
           FS: '|',
         });
+
         const dataArray = stream
           .split('\n')
           .filter((row) => row.length > 0)
           .map((row) => row.split('|').map((cell) => cell.trim()));
+
         gqlClient
           .request(DISTINCT_VALUES, {
             columnName: 'id',
@@ -54,13 +59,16 @@ const fetchChileDepartureInspections = () => {
             const newValues = dataArray
               .slice(1, -1)
               .filter((row) => !nodes.includes(row[57]));
+
             const CHUNK_SIZE = 1;
             const segmentedNewValues = [
               ...Array(Math.ceil(newValues.length / CHUNK_SIZE)),
             ].map((_, idx) =>
               newValues.slice(idx * CHUNK_SIZE, idx * CHUNK_SIZE + CHUNK_SIZE),
             );
+
             console.log(`New pallets found: ${newValues.length}`);
+
             segmentedNewValues.forEach((values) => {
               const newPallets = values.map((pallet) => ({
                 id: pallet[57],
@@ -113,6 +121,7 @@ const fetchChileDepartureInspections = () => {
                 reportLink: pallet[58],
                 imagesLink: pallet[59],
               }));
+
               gqlClient
                 .request(BATCH_CREATE_CHILE_DEPARTURE_INSPECTION_PALLET, {
                   input: {
@@ -129,11 +138,13 @@ const fetchChileDepartureInspections = () => {
                       (pt) => pt.lotNumber,
                       chileDepartureInspectionPallets,
                     );
+
                     console.log(
                       `Lots added to database: ${JSON.stringify(
                         pluck('lotNumber', newLots),
                       )}`,
                     );
+
                     newLots.forEach((newLot) => {
                       fetch(newLot.imagesLink)
                         .then((res) => res.buffer())
@@ -155,13 +166,13 @@ const fetchChileDepartureInspections = () => {
                     });
                   },
                 )
-                .catch((e) => console.log(e));
+                .catch(onError);
             });
           })
-          .catch((e) => console.log(e));
+          .catch(onError);
       }
     })
-    .catch((e) => console.log(e));
+    .catch(onError);
 };
 
 module.exports = {

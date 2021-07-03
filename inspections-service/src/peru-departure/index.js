@@ -3,6 +3,7 @@ const { uniq } = require('ramda');
 const { download, isValidWetransfertUrl } = require('wetransfert');
 
 const { gql, gqlClient, DISTINCT_VALUES } = require('../api');
+const { onError } = require('../utils');
 const { ewsArgs, parseData } = require('./data-utils');
 
 const CREATE_PERU_DEPARTURE_INSPECTION = gql`
@@ -23,17 +24,14 @@ const ewsConfig = {
 
 const ews = new EWS(ewsConfig);
 
-const onError = (err) => {
-  console.log(err.stack);
-};
-
 const urlRegex =
   /(?:(?:https?|ftp|file):\/\/|www\.|ftp\.)(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[-A-Z0-9+&@#\/%=~_|$?!:,.])*(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[A-Z0-9+&@#\/%=~_|$])/gim;
 
 const fetchPeruDepartureInspections = () => {
   console.log(
-    `\nFetching peru departure inspections: ${new Date().toString()}`,
+    `\n\nFetching peru departure inspections: ${new Date().toString()}\n\n`,
   );
+
   gqlClient
     .request(DISTINCT_VALUES, {
       columnName: 'container_id',
@@ -46,6 +44,7 @@ const fetchPeruDepartureInspections = () => {
         .then((result) => {
           const Items =
             result.ResponseMessages.FindItemResponseMessage.RootFolder.Items;
+
           if (Items) {
             Items.Message.map((message) => {
               const {
@@ -80,8 +79,10 @@ const fetchPeruDepartureInspections = () => {
                   const Message =
                     res.ResponseMessages.GetItemResponseMessage.Items.Message;
                   const Attachments = Message.Attachments;
+
                   if (Attachments) {
                     const files = Attachments.FileAttachment;
+
                     const handleFile = (file) => {
                       ews
                         .run(
@@ -124,6 +125,7 @@ const fetchPeruDepartureInspections = () => {
                                 });
                               })
                               .catch(onError);
+
                             archiveMessage(
                               `Message: \"${Message.Subject}\" with data for container ${data.containerId} file was archived.`,
                             );
@@ -138,6 +140,7 @@ const fetchPeruDepartureInspections = () => {
                         })
                         .catch(onError);
                     };
+
                     if (files.length) {
                       files.map(handleFile);
                     } else {

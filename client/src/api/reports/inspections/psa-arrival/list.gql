@@ -25,10 +25,13 @@ query PSA_ARRIVAL_INSPECTIONS_LIST(
     nodes {
       arrivalCode
       arrivalName
+      avgGrapeQuality
+      avgGrapeCondition
       exporterId
       exporterName
       id
       locationName
+      reportDate
       pictures {
         nodes {
           id
@@ -39,7 +42,6 @@ query PSA_ARRIVAL_INSPECTIONS_LIST(
           varietyName
         }
       }
-      reportDate
     }
     totalCount
   }

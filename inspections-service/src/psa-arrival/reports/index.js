@@ -1,7 +1,8 @@
 const fs = require('fs');
 const fetch = require('node-fetch');
 
-const { gql, gqlClient } = require('../api');
+const { gql, gqlClient } = require('../../api');
+const { onError } = require('../../utils');
 
 const AUTH_ARRIVAL_REPORTS = 'arrivalReports';
 const AUTH_PICTURES = 'pictures';
@@ -21,10 +22,6 @@ const CREATE_PSA_ARRIVAL_PICTURE = gql`
     }
   }
 `;
-
-const onError = (e) => {
-  console.log(e);
-};
 
 const authenticate = (type) =>
   fetch(process.env.PSA_AUTH_URL, {
@@ -51,12 +48,15 @@ const downloadPicture = (
         "'",
         '',
       )}-${exporterId}`;
+
       if (!fs.existsSync(reportDirectory)) {
         fs.mkdirSync(reportDirectory);
       }
+
       const fileStream = fs.createWriteStream(
         `${reportDirectory}/${pictureId}.jpg`,
       );
+
       await new Promise(() => {
         res.body.pipe(fileStream);
         res.body.on('error', onError);
@@ -93,12 +93,16 @@ const fetchPictures = (dateTime) =>
         .then((res) => res.json())
         .then(({ data }) => {
           console.log(`${data.picturesBulk.length} pictures found\n`);
+
           const dateDirectory = `/psa-arrival-inspections/${dateTime}`;
+
           if (!fs.existsSync(dateDirectory)) {
             fs.mkdirSync(dateDirectory);
           }
+
           data.picturesBulk.forEach((picture) => {
             const { description, pictureId, ...rest } = picture;
+
             gqlClient
               .request(CREATE_PSA_ARRIVAL_PICTURE, {
                 input: {
@@ -136,12 +140,15 @@ const downloadArrivalReport = (
         "'",
         '',
       )}-${exporterId}`;
+
       if (!fs.existsSync(reportDirectory)) {
         fs.mkdirSync(reportDirectory);
       }
+
       const fileStream = fs.createWriteStream(
         `${reportDirectory}/report-${id}.pdf`,
       );
+
       await new Promise(() => {
         res.body.pipe(fileStream);
         res.body.on('error', onError);
@@ -177,10 +184,13 @@ const fetchArrivalReports = (dateTime) =>
         .then((res) => res.json())
         .then(({ data }) => {
           console.log(`${data.arrivalReportsBulk.length} reports found\n`);
+
           const dateDirectory = `/psa-arrival-inspections/${dateTime}`;
+
           if (!fs.existsSync(dateDirectory)) {
             fs.mkdirSync(dateDirectory);
           }
+
           data.arrivalReportsBulk.forEach((report) => {
             gqlClient
               .request(CREATE_PSA_ARRIVAL_REPORT, {
@@ -200,10 +210,13 @@ const fetchArrivalReports = (dateTime) =>
     .catch(onError);
 
 const fetchPsaArrivalInspections = () => {
-  console.log(`\nFetching PSA arrival inspections: ${new Date().toString()}\n`);
+  console.log(
+    `\n\nFetching PSA arrival inspections: ${new Date().toString()}\n\n`,
+  );
 
   const today = new Date();
   const dateTime = `${today.getFullYear()}-${today.getMonth()}-${today.getDate()}`;
+
   fetchArrivalReports(dateTime);
   fetchPictures(dateTime);
 };

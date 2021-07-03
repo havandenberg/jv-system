@@ -120,7 +120,7 @@ export const getFeaturedValues = (data: ChileDepartureInspection) => [
     label: 'Quality Score',
     value: (
       <ty.HugeText fontFamily={th.fontFamilies.body} inverted>
-        {data.qualityScore}
+        {data.qualityScore || '-'}
       </ty.HugeText>
     ),
   },
@@ -128,7 +128,7 @@ export const getFeaturedValues = (data: ChileDepartureInspection) => [
     label: 'Condition Score',
     value: (
       <ty.HugeText fontFamily={th.fontFamilies.body} inverted>
-        {data.conditionScore}
+        {data.conditionScore || '-'}
       </ty.HugeText>
     ),
   },
@@ -136,7 +136,7 @@ export const getFeaturedValues = (data: ChileDepartureInspection) => [
     label: 'Avg Net Weight (kg)',
     value: (
       <ty.HugeText fontFamily={th.fontFamilies.body} inverted>
-        {data.avgNetWeight}
+        {data.avgNetWeight || '-'}
       </ty.HugeText>
     ),
   },
@@ -144,7 +144,7 @@ export const getFeaturedValues = (data: ChileDepartureInspection) => [
     label: 'Avg Bunches / Box',
     value: (
       <ty.HugeText fontFamily={th.fontFamilies.body} inverted>
-        {data.avgBunchesCount}
+        {data.avgBunchesCount || '-'}
       </ty.HugeText>
     ),
   },
@@ -170,7 +170,7 @@ export const getFeaturedValues = (data: ChileDepartureInspection) => [
               {label}
             </ty.CaptionText>
             <ty.LargeText inverted my={0}>
-              {data[key]}
+              {data[key] || '-'}
             </ty.LargeText>
           </l.Flex>
         ))}

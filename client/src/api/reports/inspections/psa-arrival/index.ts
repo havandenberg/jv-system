@@ -17,6 +17,8 @@ import { Query } from 'types';
 
 const INSPECTION_DETAILS_QUERY = loader('./details.gql');
 const INSPECTIONS_LIST_QUERY = loader('./list.gql');
+const PALLET_LIST_QUERY = loader('./pallets.gql');
+const PALLET_DETAILS_QUERY = loader('./pallet-details.gql');
 
 export const usePsaArrivalInspections = () => {
   const [search = ''] = useSearchQueryParam();
@@ -83,6 +85,32 @@ export const usePsaArrivalInspection = (id: string) => {
   });
   return {
     data: data ? data.psaArrivalReport : undefined,
+    error,
+    loading,
+  };
+};
+
+export const usePsaArrivalPallets = (arrival: string, exporterName: string) => {
+  const [{ sortBy = 'palletId', sortOrder = SORT_ORDER.DESC }] =
+    useSortQueryParams();
+  const orderBy = getOrderByString(sortBy, sortOrder);
+
+  const { data, error, loading } = useQuery<Query>(PALLET_LIST_QUERY, {
+    variables: { arrival, exporterName, orderBy },
+  });
+  return {
+    data: data ? data.psaGrapePallets : undefined,
+    error,
+    loading,
+  };
+};
+
+export const usePsaArrivalPallet = (id: string) => {
+  const { data, error, loading } = useQuery<Query>(PALLET_DETAILS_QUERY, {
+    variables: { id },
+  });
+  return {
+    data: data ? data.psaGrapePallet : undefined,
     error,
     loading,
   };

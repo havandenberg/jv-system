@@ -1,13 +1,16 @@
 import { LabelInfo } from 'components/column-label';
 import { SORT_ORDER } from 'hooks/use-columns';
 import { PsaArrivalReport } from 'types';
+import l from 'ui/layout';
+import th from 'ui/theme';
+import ty from 'ui/typography';
 
 export type ReportLabelInfo = LabelInfo<PsaArrivalReport>;
 
 export const listLabels: ReportLabelInfo[] = [
   {
     key: 'reportDate',
-    label: 'Inspection Date',
+    label: 'Report Date',
     sortable: true,
   },
   {
@@ -22,7 +25,6 @@ export const listLabels: ReportLabelInfo[] = [
       showSearch: true,
     },
     sortable: true,
-    getValue: (data) => `${data.exporterName} (${data.exporterId})`,
   },
   {
     defaultSortOrder: SORT_ORDER.ASC,
@@ -48,7 +50,7 @@ export const listLabels: ReportLabelInfo[] = [
 export const baseLabels: ReportLabelInfo[] = [
   {
     key: 'reportDate',
-    label: 'Inspection Date',
+    label: 'Report Date',
   },
   {
     key: 'id',
@@ -73,5 +75,69 @@ export const baseLabels: ReportLabelInfo[] = [
   {
     key: 'arrivalName',
     label: 'Vessel Name',
+  },
+];
+
+export const getFeaturedValues = (data: PsaArrivalReport) => [
+  {
+    label: 'Quality Score',
+    value: (
+      <ty.HugeText fontFamily={th.fontFamilies.body} inverted>
+        {data.avgGrapeQuality || '-'}
+      </ty.HugeText>
+    ),
+  },
+  {
+    label: ' Condition Score',
+    value: (
+      <ty.HugeText fontFamily={th.fontFamilies.body} inverted>
+        {data.avgGrapeCondition || '-'}
+      </ty.HugeText>
+    ),
+  },
+  {
+    label: 'Avg Net Weight (kg)',
+    value: (
+      <ty.HugeText fontFamily={th.fontFamilies.body} inverted>
+        {data.avgGrapeNetWeight || '-'}
+      </ty.HugeText>
+    ),
+  },
+  {
+    label: 'Bunches / Box',
+    value: (
+      <ty.HugeText fontFamily={th.fontFamilies.body} inverted>
+        {data.avgGrapeBunchesPerBox || '-'}
+      </ty.HugeText>
+    ),
+  },
+  {
+    label: '°Brix',
+    value: (
+      <l.Div width={th.sizes.fill}>
+        {(
+          [
+            { label: 'Max', key: 'avgGrapeBrixMax' },
+            { label: 'Min', key: 'avgGrapeBrixMin' },
+            { label: 'Most', key: 'avgGrapeBrixMost' },
+          ] as ReportLabelInfo[]
+        ).map(({ label, key }, idx) => (
+          <l.Flex
+            alignCenter
+            justifyBetween
+            key={idx}
+            mb={th.spacing.xs}
+            mx={th.spacing.sm}
+          >
+            <ty.CaptionText inverted secondary>
+              {label}
+            </ty.CaptionText>
+            <ty.LargeText inverted my={0}>
+              {data[key] || '-'}
+            </ty.LargeText>
+          </l.Flex>
+        ))}
+      </l.Div>
+    ),
   },
 ];

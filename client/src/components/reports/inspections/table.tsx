@@ -11,7 +11,7 @@ import { fontWeight } from 'onno-react';
 export const tableTabs: Tab[] = [
   {
     id: 'general',
-    text: 'General',
+    text: 'General Details',
   },
   {
     id: 'qualityDefects',
@@ -79,12 +79,8 @@ const Table = <T extends {}>({
   const tableData = getTableData(selectedTabId);
   return (
     <>
-      <ty.CaptionText mb={th.spacing.sm} secondary>
-        Pallet Data
-      </ty.CaptionText>
-      <l.Flex justifyCenter>
-        <TabBar />
-      </l.Flex>
+      <ty.BodyText mb={th.spacing.lg}>Pallets</ty.BodyText>
+      <TabBar />
       <l.Div height={160} />
       <StyledTable>
         <thead>

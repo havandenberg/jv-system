@@ -113,7 +113,7 @@ export const getFeaturedValues = (data: PeruDepartureInspection) => [
     label: 'Quality Score',
     value: (
       <ty.HugeText fontFamily={th.fontFamilies.body} inverted>
-        {data.qualityScore}
+        {data.qualityScore || '-'}
       </ty.HugeText>
     ),
   },
@@ -121,7 +121,7 @@ export const getFeaturedValues = (data: PeruDepartureInspection) => [
     label: 'Condition Score',
     value: (
       <ty.HugeText fontFamily={th.fontFamilies.body} inverted>
-        {data.conditionScore}
+        {data.conditionScore || '-'}
       </ty.HugeText>
     ),
   },
@@ -129,7 +129,7 @@ export const getFeaturedValues = (data: PeruDepartureInspection) => [
     label: 'Avg Net Weight (kg)',
     value: (
       <ty.HugeText fontFamily={th.fontFamilies.body} inverted>
-        {data.avgNetWeight}
+        {data.avgNetWeight || '-'}
       </ty.HugeText>
     ),
   },
@@ -137,7 +137,7 @@ export const getFeaturedValues = (data: PeruDepartureInspection) => [
     label: 'Avg Bunches / Box',
     value: (
       <ty.HugeText fontFamily={th.fontFamilies.body} inverted>
-        {data.avgBunchesPerBox}
+        {data.avgBunchesPerBox || '-'}
       </ty.HugeText>
     ),
   },
@@ -145,11 +145,13 @@ export const getFeaturedValues = (data: PeruDepartureInspection) => [
     label: '°Brix',
     value: (
       <l.Div width={th.sizes.fill}>
-        {([
-          { label: 'Max', key: 'brixMax' },
-          { label: 'Avg', key: 'brixAvg' },
-          { label: 'Min', key: 'brixMin' },
-        ] as ReportLabelInfo[]).map(({ label, key }, idx) => (
+        {(
+          [
+            { label: 'Max', key: 'brixMax' },
+            { label: 'Avg', key: 'brixAvg' },
+            { label: 'Min', key: 'brixMin' },
+          ] as ReportLabelInfo[]
+        ).map(({ label, key }, idx) => (
           <l.Flex
             alignCenter
             justifyBetween
@@ -161,7 +163,7 @@ export const getFeaturedValues = (data: PeruDepartureInspection) => [
               {label}
             </ty.CaptionText>
             <ty.LargeText inverted my={0}>
-              {data[key]}
+              {data[key] || '-'}
             </ty.LargeText>
           </l.Flex>
         ))}
@@ -175,17 +177,16 @@ export type PalletLabelInfo = LabelInfo<PeruDepartureInspectionPallet>;
 export const getAvgPallet = (pallets: PeruDepartureInspectionPallet[]) =>
   pallets.find((pallet) => pallet.palletId.toLowerCase() === 'average');
 
-const getAvgData = (chartData: PalletLabelInfo[]) => (
-  reportData: PeruDepartureInspection,
-) => {
-  const data = getAvgPallet(
-    reportData.peruDepartureInspectionPalletsByContainerId
-      .nodes as PeruDepartureInspectionPallet[],
-  );
-  return data
-    ? chartData.map(({ key, label }) => ({ key, label, value: data[key] }))
-    : [];
-};
+const getAvgData =
+  (chartData: PalletLabelInfo[]) => (reportData: PeruDepartureInspection) => {
+    const data = getAvgPallet(
+      reportData.peruDepartureInspectionPalletsByContainerId
+        .nodes as PeruDepartureInspectionPallet[],
+    );
+    return data
+      ? chartData.map(({ key, label }) => ({ key, label, value: data[key] }))
+      : [];
+  };
 
 const avgQualityLabels: PalletLabelInfo[] = [
   { key: 'stragglyTightPct', label: 'Straggly / Tight Bunches' },

@@ -1,0 +1,23 @@
+query PSA_ARRIVAL_PALLETS(
+  $arrival: String!
+  $exporterName: String!
+  $orderBy: [PsaGrapePalletsOrderBy!]
+) {
+  psaGrapePallets(
+    condition: { arrival: $arrival, exporterName: $exporterName }
+    orderBy: $orderBy
+  ) {
+    nodes {
+      id
+      arrival
+      exporterName
+      variety
+      inspDate
+      quantity
+      labelCode
+      palletId
+      overallQuality
+      overallCondition
+    }
+  }
+}

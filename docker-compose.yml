@@ -66,6 +66,7 @@ services:
       - ${CHILE_INSPECTIONS_DIRECTORY}:/chile-departure-inspections
       - ${PERU_INSPECTIONS_DIRECTORY}:/peru-departure-inspections
       - ${PSA_INSPECTIONS_DIRECTORY}:/psa-arrival-inspections
+      - ${JV_QC_INSPECTIONS_DIRECTORY}:/jv-qc-inspections
   client:
     container_name: 'jv-client'
     build: ./client

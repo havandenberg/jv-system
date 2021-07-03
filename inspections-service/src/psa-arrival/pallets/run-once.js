@@ -1,0 +1,3 @@
+const { fetchPsaGrapePallets } = require('.');
+
+fetchPsaGrapePallets();

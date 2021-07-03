@@ -13,6 +13,7 @@ import PeruDepartureInspections from './peru-departure';
 import PeruInspectionDetails from './peru-departure/details';
 import PsaArrivalInspections from './psa-arrival';
 import PsaInspectionDetails from './psa-arrival/details';
+import PsaArrivalPalletDetails from './psa-arrival/pallets/details';
 
 export const breadcrumbs = (type: string, search: string) => [
   { text: 'All Inspections', to: `/reports/inspections/${type}${search}` },
@@ -104,8 +105,11 @@ const Inspections = () => {
         )}
       />
       <Route
-        exact
-        path={`/reports/inspections/${InspectionTypes.ARRIVAL}/:id`}
+        path={`/reports/inspections/${InspectionTypes.ARRIVAL}/:reportId/pallets/:id`}
+        component={PsaArrivalPalletDetails}
+      />
+      <Route
+        path={`/reports/inspections/${InspectionTypes.ARRIVAL}/:id/:routeTabId?`}
         component={PsaInspectionDetails}
       />
       <Route
