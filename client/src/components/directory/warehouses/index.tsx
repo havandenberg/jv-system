@@ -43,7 +43,7 @@ const WarehouseDirectory = ({ actions, TabBar }: SubDirectoryProps) => {
   return (
     <Page
       actions={actions}
-      breadcrumbs={breadcrumbs}
+      breadcrumbs={breadcrumbs('warehouses')}
       extraPaddingTop={103}
       headerChildren={
         <>

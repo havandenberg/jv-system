@@ -73,12 +73,28 @@ export type Query = Node & {
   peruDepartureInspections?: Maybe<PeruDepartureInspectionsConnection>;
   /** Reads and enables pagination through a set of `PeruDepartureInspectionPallet`. */
   peruDepartureInspectionPallets?: Maybe<PeruDepartureInspectionPalletsConnection>;
+  /** Reads and enables pagination through a set of `PsaApplePallet`. */
+  psaApplePallets?: Maybe<PsaApplePalletsConnection>;
   /** Reads and enables pagination through a set of `PsaArrivalPicture`. */
   psaArrivalPictures?: Maybe<PsaArrivalPicturesConnection>;
   /** Reads and enables pagination through a set of `PsaArrivalReport`. */
   psaArrivalReports?: Maybe<PsaArrivalReportsConnection>;
+  /** Reads and enables pagination through a set of `PsaCherryPallet`. */
+  psaCherryPallets?: Maybe<PsaCherryPalletsConnection>;
+  /** Reads and enables pagination through a set of `PsaCitrusPallet`. */
+  psaCitrusPallets?: Maybe<PsaCitrusPalletsConnection>;
   /** Reads and enables pagination through a set of `PsaGrapePallet`. */
   psaGrapePallets?: Maybe<PsaGrapePalletsConnection>;
+  /** Reads and enables pagination through a set of `PsaLemonPallet`. */
+  psaLemonPallets?: Maybe<PsaLemonPalletsConnection>;
+  /** Reads and enables pagination through a set of `PsaPearPallet`. */
+  psaPearPallets?: Maybe<PsaPearPalletsConnection>;
+  /** Reads and enables pagination through a set of `PsaPersimmonPallet`. */
+  psaPersimmonPallets?: Maybe<PsaPersimmonPalletsConnection>;
+  /** Reads and enables pagination through a set of `PsaPomegranatePallet`. */
+  psaPomegranatePallets?: Maybe<PsaPomegranatePalletsConnection>;
+  /** Reads and enables pagination through a set of `PsaStoneFruitPallet`. */
+  psaStoneFruitPallets?: Maybe<PsaStoneFruitPalletsConnection>;
   /** Reads and enables pagination through a set of `Master`. */
   masters?: Maybe<MastersConnection>;
   /** Reads and enables pagination through a set of `PackAtmosphere`. */
@@ -135,9 +151,17 @@ export type Query = Node & {
   chileDepartureInspectionPallet?: Maybe<ChileDepartureInspectionPallet>;
   peruDepartureInspection?: Maybe<PeruDepartureInspection>;
   peruDepartureInspectionPallet?: Maybe<PeruDepartureInspectionPallet>;
+  psaApplePallet?: Maybe<PsaApplePallet>;
   psaArrivalPicture?: Maybe<PsaArrivalPicture>;
   psaArrivalReport?: Maybe<PsaArrivalReport>;
+  psaCherryPallet?: Maybe<PsaCherryPallet>;
+  psaCitrusPallet?: Maybe<PsaCitrusPallet>;
   psaGrapePallet?: Maybe<PsaGrapePallet>;
+  psaLemonPallet?: Maybe<PsaLemonPallet>;
+  psaPearPallet?: Maybe<PsaPearPallet>;
+  psaPersimmonPallet?: Maybe<PsaPersimmonPallet>;
+  psaPomegranatePallet?: Maybe<PsaPomegranatePallet>;
+  psaStoneFruitPallet?: Maybe<PsaStoneFruitPallet>;
   master?: Maybe<Master>;
   packAtmosphere?: Maybe<PackAtmosphere>;
   packBoxStyle?: Maybe<PackBoxStyle>;
@@ -198,12 +222,28 @@ export type Query = Node & {
   peruDepartureInspectionByNodeId?: Maybe<PeruDepartureInspection>;
   /** Reads a single `PeruDepartureInspectionPallet` using its globally unique `ID`. */
   peruDepartureInspectionPalletByNodeId?: Maybe<PeruDepartureInspectionPallet>;
+  /** Reads a single `PsaApplePallet` using its globally unique `ID`. */
+  psaApplePalletByNodeId?: Maybe<PsaApplePallet>;
   /** Reads a single `PsaArrivalPicture` using its globally unique `ID`. */
   psaArrivalPictureByNodeId?: Maybe<PsaArrivalPicture>;
   /** Reads a single `PsaArrivalReport` using its globally unique `ID`. */
   psaArrivalReportByNodeId?: Maybe<PsaArrivalReport>;
+  /** Reads a single `PsaCherryPallet` using its globally unique `ID`. */
+  psaCherryPalletByNodeId?: Maybe<PsaCherryPallet>;
+  /** Reads a single `PsaCitrusPallet` using its globally unique `ID`. */
+  psaCitrusPalletByNodeId?: Maybe<PsaCitrusPallet>;
   /** Reads a single `PsaGrapePallet` using its globally unique `ID`. */
   psaGrapePalletByNodeId?: Maybe<PsaGrapePallet>;
+  /** Reads a single `PsaLemonPallet` using its globally unique `ID`. */
+  psaLemonPalletByNodeId?: Maybe<PsaLemonPallet>;
+  /** Reads a single `PsaPearPallet` using its globally unique `ID`. */
+  psaPearPalletByNodeId?: Maybe<PsaPearPallet>;
+  /** Reads a single `PsaPersimmonPallet` using its globally unique `ID`. */
+  psaPersimmonPalletByNodeId?: Maybe<PsaPersimmonPallet>;
+  /** Reads a single `PsaPomegranatePallet` using its globally unique `ID`. */
+  psaPomegranatePalletByNodeId?: Maybe<PsaPomegranatePallet>;
+  /** Reads a single `PsaStoneFruitPallet` using its globally unique `ID`. */
+  psaStoneFruitPalletByNodeId?: Maybe<PsaStoneFruitPallet>;
   /** Reads a single `Master` using its globally unique `ID`. */
   masterByNodeId?: Maybe<Master>;
   /** Reads a single `PackAtmosphere` using its globally unique `ID`. */
@@ -497,6 +537,19 @@ export type QueryPeruDepartureInspectionPalletsArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
+export type QueryPsaApplePalletsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PsaApplePalletsOrderBy>>;
+  condition?: Maybe<PsaApplePalletCondition>;
+  filter?: Maybe<PsaApplePalletFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
 export type QueryPsaArrivalPicturesArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
@@ -523,6 +576,32 @@ export type QueryPsaArrivalReportsArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
+export type QueryPsaCherryPalletsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PsaCherryPalletsOrderBy>>;
+  condition?: Maybe<PsaCherryPalletCondition>;
+  filter?: Maybe<PsaCherryPalletFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPsaCitrusPalletsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PsaCitrusPalletsOrderBy>>;
+  condition?: Maybe<PsaCitrusPalletCondition>;
+  filter?: Maybe<PsaCitrusPalletFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
 export type QueryPsaGrapePalletsArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
@@ -532,6 +611,71 @@ export type QueryPsaGrapePalletsArgs = {
   orderBy?: Maybe<Array<PsaGrapePalletsOrderBy>>;
   condition?: Maybe<PsaGrapePalletCondition>;
   filter?: Maybe<PsaGrapePalletFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPsaLemonPalletsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PsaLemonPalletsOrderBy>>;
+  condition?: Maybe<PsaLemonPalletCondition>;
+  filter?: Maybe<PsaLemonPalletFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPsaPearPalletsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PsaPearPalletsOrderBy>>;
+  condition?: Maybe<PsaPearPalletCondition>;
+  filter?: Maybe<PsaPearPalletFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPsaPersimmonPalletsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PsaPersimmonPalletsOrderBy>>;
+  condition?: Maybe<PsaPersimmonPalletCondition>;
+  filter?: Maybe<PsaPersimmonPalletFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPsaPomegranatePalletsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PsaPomegranatePalletsOrderBy>>;
+  condition?: Maybe<PsaPomegranatePalletCondition>;
+  filter?: Maybe<PsaPomegranatePalletFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPsaStoneFruitPalletsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PsaStoneFruitPalletsOrderBy>>;
+  condition?: Maybe<PsaStoneFruitPalletCondition>;
+  filter?: Maybe<PsaStoneFruitPalletFilter>;
 };
 
 
@@ -894,6 +1038,12 @@ export type QueryPeruDepartureInspectionPalletArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
+export type QueryPsaApplePalletArgs = {
+  id: Scalars['BigInt'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
 export type QueryPsaArrivalPictureArgs = {
   id: Scalars['BigInt'];
 };
@@ -906,7 +1056,49 @@ export type QueryPsaArrivalReportArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
+export type QueryPsaCherryPalletArgs = {
+  id: Scalars['BigInt'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPsaCitrusPalletArgs = {
+  id: Scalars['BigInt'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
 export type QueryPsaGrapePalletArgs = {
+  id: Scalars['BigInt'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPsaLemonPalletArgs = {
+  id: Scalars['BigInt'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPsaPearPalletArgs = {
+  id: Scalars['BigInt'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPsaPersimmonPalletArgs = {
+  id: Scalars['BigInt'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPsaPomegranatePalletArgs = {
+  id: Scalars['BigInt'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPsaStoneFruitPalletArgs = {
   id: Scalars['BigInt'];
 };
 
@@ -1189,6 +1381,12 @@ export type QueryPeruDepartureInspectionPalletByNodeIdArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
+export type QueryPsaApplePalletByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
 export type QueryPsaArrivalPictureByNodeIdArgs = {
   nodeId: Scalars['ID'];
 };
@@ -1201,7 +1399,49 @@ export type QueryPsaArrivalReportByNodeIdArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
+export type QueryPsaCherryPalletByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPsaCitrusPalletByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
 export type QueryPsaGrapePalletByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPsaLemonPalletByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPsaPearPalletByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPsaPersimmonPalletByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPsaPomegranatePalletByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPsaStoneFruitPalletByNodeIdArgs = {
   nodeId: Scalars['ID'];
 };
 
@@ -4675,6 +4915,140 @@ export type PeruDepartureInspectionCondition = {
   variety?: Maybe<Scalars['String']>;
 };
 
+/** A connection to a list of `PsaApplePallet` values. */
+export type PsaApplePalletsConnection = {
+  __typename?: 'PsaApplePalletsConnection';
+  /** A list of `PsaApplePallet` objects. */
+  nodes: Array<Maybe<PsaApplePallet>>;
+  /** A list of edges which contains the `PsaApplePallet` and cursor to aid in pagination. */
+  edges: Array<PsaApplePalletsEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `PsaApplePallet` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+export type PsaApplePallet = Node & {
+  __typename?: 'PsaApplePallet';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  location?: Maybe<Scalars['String']>;
+  arrival?: Maybe<Scalars['String']>;
+  importerName?: Maybe<Scalars['String']>;
+  exporterName?: Maybe<Scalars['String']>;
+  commodity?: Maybe<Scalars['String']>;
+  productCode?: Maybe<Scalars['String']>;
+  variety?: Maybe<Scalars['String']>;
+  inspDate?: Maybe<Scalars['String']>;
+  quantity?: Maybe<Scalars['BigFloat']>;
+  hatch?: Maybe<Scalars['String']>;
+  deck?: Maybe<Scalars['String']>;
+  containerId?: Maybe<Scalars['String']>;
+  fumigation?: Maybe<Scalars['String']>;
+  labelCode?: Maybe<Scalars['String']>;
+  inspLocation?: Maybe<Scalars['String']>;
+  importerCode?: Maybe<Scalars['String']>;
+  lotCode?: Maybe<Scalars['String']>;
+  inspLot?: Maybe<Scalars['String']>;
+  runNumber?: Maybe<Scalars['String']>;
+  palletId?: Maybe<Scalars['String']>;
+  growerCode?: Maybe<Scalars['String']>;
+  inspGrowerCode?: Maybe<Scalars['String']>;
+  packDate?: Maybe<Scalars['String']>;
+  inspPackDate?: Maybe<Scalars['String']>;
+  size?: Maybe<Scalars['String']>;
+  inspSize?: Maybe<Scalars['String']>;
+  packCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  secondaryDescription?: Maybe<Scalars['String']>;
+  inspPackCode?: Maybe<Scalars['String']>;
+  grade?: Maybe<Scalars['String']>;
+  inspGrade?: Maybe<Scalars['String']>;
+  count?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  pluPct?: Maybe<Scalars['String']>;
+  countryOfOrigin?: Maybe<Scalars['String']>;
+  upc?: Maybe<Scalars['String']>;
+  weight?: Maybe<Scalars['String']>;
+  underweightMin?: Maybe<Scalars['String']>;
+  underweightMax?: Maybe<Scalars['String']>;
+  weighedUnits?: Maybe<Scalars['String']>;
+  underweightUnits?: Maybe<Scalars['String']>;
+  underweightPct?: Maybe<Scalars['String']>;
+  pulpTemp?: Maybe<Scalars['String']>;
+  opening?: Maybe<Scalars['String']>;
+  groundColor?: Maybe<Scalars['String']>;
+  blushColor?: Maybe<Scalars['String']>;
+  blushPct?: Maybe<Scalars['String']>;
+  scarsPieces?: Maybe<Scalars['String']>;
+  scarsPct?: Maybe<Scalars['String']>;
+  scarsDeg?: Maybe<Scalars['String']>;
+  stemPuncturesPieces?: Maybe<Scalars['String']>;
+  stemPuncturesPct?: Maybe<Scalars['String']>;
+  cutsPieces?: Maybe<Scalars['String']>;
+  cutsPct?: Maybe<Scalars['String']>;
+  cutsDeg?: Maybe<Scalars['String']>;
+  sunScaldPieces?: Maybe<Scalars['String']>;
+  sunScaldPct?: Maybe<Scalars['String']>;
+  sunScaldDeg?: Maybe<Scalars['String']>;
+  scaldPieces?: Maybe<Scalars['String']>;
+  scaldPct?: Maybe<Scalars['String']>;
+  scaldDeg?: Maybe<Scalars['String']>;
+  bruisingPieces?: Maybe<Scalars['String']>;
+  bruisingPct?: Maybe<Scalars['String']>;
+  bruisingDeg?: Maybe<Scalars['String']>;
+  crackingPieces?: Maybe<Scalars['String']>;
+  crackingPct?: Maybe<Scalars['String']>;
+  bitterPitPieces?: Maybe<Scalars['String']>;
+  bitterPitPct?: Maybe<Scalars['String']>;
+  bitterPitDeg?: Maybe<Scalars['String']>;
+  lenticelBreakdownPieces?: Maybe<Scalars['String']>;
+  lenticelBreakdownPct?: Maybe<Scalars['String']>;
+  lenticelBreakdownDeg?: Maybe<Scalars['String']>;
+  dehydrationPieces?: Maybe<Scalars['String']>;
+  dehydrationPct?: Maybe<Scalars['String']>;
+  dehydrationDeg?: Maybe<Scalars['String']>;
+  cutCount?: Maybe<Scalars['String']>;
+  watercorePieces?: Maybe<Scalars['String']>;
+  watercorePct?: Maybe<Scalars['String']>;
+  internalDamagePieces?: Maybe<Scalars['String']>;
+  internalDamagePer?: Maybe<Scalars['String']>;
+  decayPieces?: Maybe<Scalars['String']>;
+  decayPct?: Maybe<Scalars['String']>;
+  decayDeg?: Maybe<Scalars['String']>;
+  moldPieces?: Maybe<Scalars['String']>;
+  moldPct?: Maybe<Scalars['String']>;
+  pressure1?: Maybe<Scalars['String']>;
+  pressure2?: Maybe<Scalars['String']>;
+  pressure3?: Maybe<Scalars['String']>;
+  pressure4?: Maybe<Scalars['String']>;
+  pressure5?: Maybe<Scalars['String']>;
+  pressure6?: Maybe<Scalars['String']>;
+  pressuresMin?: Maybe<Scalars['String']>;
+  pressuresMax?: Maybe<Scalars['String']>;
+  pressuresAvg?: Maybe<Scalars['String']>;
+  overallQuality?: Maybe<Scalars['BigFloat']>;
+  overallCondition?: Maybe<Scalars['BigFloat']>;
+  comment1?: Maybe<Scalars['String']>;
+  comment2?: Maybe<Scalars['String']>;
+  inspectionType?: Maybe<Scalars['String']>;
+  shortInsp?: Maybe<Scalars['String']>;
+  fixedWeight?: Maybe<Scalars['String']>;
+  /** Reads and enables pagination through a set of `PsaArrivalPicture`. */
+  pictures: PsaArrivalPicturesConnection;
+};
+
+
+export type PsaApplePalletPicturesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  filter?: Maybe<PsaArrivalPictureFilter>;
+};
+
 /** A connection to a list of `PsaArrivalPicture` values. */
 export type PsaArrivalPicturesConnection = {
   __typename?: 'PsaArrivalPicturesConnection';
@@ -4710,6 +5084,683 @@ export type PsaArrivalPicturesEdge = {
   cursor?: Maybe<Scalars['Cursor']>;
   /** The `PsaArrivalPicture` at the end of the edge. */
   node?: Maybe<PsaArrivalPicture>;
+};
+
+/** A filter to be used against `PsaArrivalPicture` object types. All fields are combined with a logical ‘and.’ */
+export type PsaArrivalPictureFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `pictureDate` field. */
+  pictureDate?: Maybe<DateFilter>;
+  /** Filter by the object’s `arrivalCode` field. */
+  arrivalCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `pictureDescription` field. */
+  pictureDescription?: Maybe<StringFilter>;
+  /** Filter by the object’s `exporterId` field. */
+  exporterId?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `palletId` field. */
+  palletId?: Maybe<StringFilter>;
+  /** Filter by the object’s `productCode` field. */
+  productCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `varietyName` field. */
+  varietyName?: Maybe<StringFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<PsaArrivalPictureFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<PsaArrivalPictureFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<PsaArrivalPictureFilter>;
+};
+
+/** A `PsaApplePallet` edge in the connection. */
+export type PsaApplePalletsEdge = {
+  __typename?: 'PsaApplePalletsEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `PsaApplePallet` at the end of the edge. */
+  node?: Maybe<PsaApplePallet>;
+};
+
+/** Methods to use when ordering `PsaApplePallet`. */
+export enum PsaApplePalletsOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  LocationAsc = 'LOCATION_ASC',
+  LocationDesc = 'LOCATION_DESC',
+  ArrivalAsc = 'ARRIVAL_ASC',
+  ArrivalDesc = 'ARRIVAL_DESC',
+  ImporterNameAsc = 'IMPORTER_NAME_ASC',
+  ImporterNameDesc = 'IMPORTER_NAME_DESC',
+  ExporterNameAsc = 'EXPORTER_NAME_ASC',
+  ExporterNameDesc = 'EXPORTER_NAME_DESC',
+  CommodityAsc = 'COMMODITY_ASC',
+  CommodityDesc = 'COMMODITY_DESC',
+  ProductCodeAsc = 'PRODUCT_CODE_ASC',
+  ProductCodeDesc = 'PRODUCT_CODE_DESC',
+  VarietyAsc = 'VARIETY_ASC',
+  VarietyDesc = 'VARIETY_DESC',
+  InspDateAsc = 'INSP_DATE_ASC',
+  InspDateDesc = 'INSP_DATE_DESC',
+  QuantityAsc = 'QUANTITY_ASC',
+  QuantityDesc = 'QUANTITY_DESC',
+  HatchAsc = 'HATCH_ASC',
+  HatchDesc = 'HATCH_DESC',
+  DeckAsc = 'DECK_ASC',
+  DeckDesc = 'DECK_DESC',
+  ContainerIdAsc = 'CONTAINER_ID_ASC',
+  ContainerIdDesc = 'CONTAINER_ID_DESC',
+  FumigationAsc = 'FUMIGATION_ASC',
+  FumigationDesc = 'FUMIGATION_DESC',
+  LabelCodeAsc = 'LABEL_CODE_ASC',
+  LabelCodeDesc = 'LABEL_CODE_DESC',
+  InspLocationAsc = 'INSP_LOCATION_ASC',
+  InspLocationDesc = 'INSP_LOCATION_DESC',
+  ImporterCodeAsc = 'IMPORTER_CODE_ASC',
+  ImporterCodeDesc = 'IMPORTER_CODE_DESC',
+  LotCodeAsc = 'LOT_CODE_ASC',
+  LotCodeDesc = 'LOT_CODE_DESC',
+  InspLotAsc = 'INSP_LOT_ASC',
+  InspLotDesc = 'INSP_LOT_DESC',
+  RunNumberAsc = 'RUN_NUMBER_ASC',
+  RunNumberDesc = 'RUN_NUMBER_DESC',
+  PalletIdAsc = 'PALLET_ID_ASC',
+  PalletIdDesc = 'PALLET_ID_DESC',
+  GrowerCodeAsc = 'GROWER_CODE_ASC',
+  GrowerCodeDesc = 'GROWER_CODE_DESC',
+  InspGrowerCodeAsc = 'INSP_GROWER_CODE_ASC',
+  InspGrowerCodeDesc = 'INSP_GROWER_CODE_DESC',
+  PackDateAsc = 'PACK_DATE_ASC',
+  PackDateDesc = 'PACK_DATE_DESC',
+  InspPackDateAsc = 'INSP_PACK_DATE_ASC',
+  InspPackDateDesc = 'INSP_PACK_DATE_DESC',
+  SizeAsc = 'SIZE_ASC',
+  SizeDesc = 'SIZE_DESC',
+  InspSizeAsc = 'INSP_SIZE_ASC',
+  InspSizeDesc = 'INSP_SIZE_DESC',
+  PackCodeAsc = 'PACK_CODE_ASC',
+  PackCodeDesc = 'PACK_CODE_DESC',
+  PackDescriptionAsc = 'PACK_DESCRIPTION_ASC',
+  PackDescriptionDesc = 'PACK_DESCRIPTION_DESC',
+  SecondaryDescriptionAsc = 'SECONDARY_DESCRIPTION_ASC',
+  SecondaryDescriptionDesc = 'SECONDARY_DESCRIPTION_DESC',
+  InspPackCodeAsc = 'INSP_PACK_CODE_ASC',
+  InspPackCodeDesc = 'INSP_PACK_CODE_DESC',
+  GradeAsc = 'GRADE_ASC',
+  GradeDesc = 'GRADE_DESC',
+  InspGradeAsc = 'INSP_GRADE_ASC',
+  InspGradeDesc = 'INSP_GRADE_DESC',
+  CountAsc = 'COUNT_ASC',
+  CountDesc = 'COUNT_DESC',
+  PluAsc = 'PLU_ASC',
+  PluDesc = 'PLU_DESC',
+  PluPctAsc = 'PLU_PCT_ASC',
+  PluPctDesc = 'PLU_PCT_DESC',
+  CountryOfOriginAsc = 'COUNTRY_OF_ORIGIN_ASC',
+  CountryOfOriginDesc = 'COUNTRY_OF_ORIGIN_DESC',
+  UpcAsc = 'UPC_ASC',
+  UpcDesc = 'UPC_DESC',
+  WeightAsc = 'WEIGHT_ASC',
+  WeightDesc = 'WEIGHT_DESC',
+  UnderweightMinAsc = 'UNDERWEIGHT_MIN_ASC',
+  UnderweightMinDesc = 'UNDERWEIGHT_MIN_DESC',
+  UnderweightMaxAsc = 'UNDERWEIGHT_MAX_ASC',
+  UnderweightMaxDesc = 'UNDERWEIGHT_MAX_DESC',
+  WeighedUnitsAsc = 'WEIGHED_UNITS_ASC',
+  WeighedUnitsDesc = 'WEIGHED_UNITS_DESC',
+  UnderweightUnitsAsc = 'UNDERWEIGHT_UNITS_ASC',
+  UnderweightUnitsDesc = 'UNDERWEIGHT_UNITS_DESC',
+  UnderweightPctAsc = 'UNDERWEIGHT_PCT_ASC',
+  UnderweightPctDesc = 'UNDERWEIGHT_PCT_DESC',
+  PulpTempAsc = 'PULP_TEMP_ASC',
+  PulpTempDesc = 'PULP_TEMP_DESC',
+  OpeningAsc = 'OPENING_ASC',
+  OpeningDesc = 'OPENING_DESC',
+  GroundColorAsc = 'GROUND_COLOR_ASC',
+  GroundColorDesc = 'GROUND_COLOR_DESC',
+  BlushColorAsc = 'BLUSH_COLOR_ASC',
+  BlushColorDesc = 'BLUSH_COLOR_DESC',
+  BlushPctAsc = 'BLUSH_PCT_ASC',
+  BlushPctDesc = 'BLUSH_PCT_DESC',
+  ScarsPiecesAsc = 'SCARS_PIECES_ASC',
+  ScarsPiecesDesc = 'SCARS_PIECES_DESC',
+  ScarsPctAsc = 'SCARS_PCT_ASC',
+  ScarsPctDesc = 'SCARS_PCT_DESC',
+  ScarsDegAsc = 'SCARS_DEG_ASC',
+  ScarsDegDesc = 'SCARS_DEG_DESC',
+  StemPuncturesPiecesAsc = 'STEM_PUNCTURES_PIECES_ASC',
+  StemPuncturesPiecesDesc = 'STEM_PUNCTURES_PIECES_DESC',
+  StemPuncturesPctAsc = 'STEM_PUNCTURES_PCT_ASC',
+  StemPuncturesPctDesc = 'STEM_PUNCTURES_PCT_DESC',
+  CutsPiecesAsc = 'CUTS_PIECES_ASC',
+  CutsPiecesDesc = 'CUTS_PIECES_DESC',
+  CutsPctAsc = 'CUTS_PCT_ASC',
+  CutsPctDesc = 'CUTS_PCT_DESC',
+  CutsDegAsc = 'CUTS_DEG_ASC',
+  CutsDegDesc = 'CUTS_DEG_DESC',
+  SunScaldPiecesAsc = 'SUN_SCALD_PIECES_ASC',
+  SunScaldPiecesDesc = 'SUN_SCALD_PIECES_DESC',
+  SunScaldPctAsc = 'SUN_SCALD_PCT_ASC',
+  SunScaldPctDesc = 'SUN_SCALD_PCT_DESC',
+  SunScaldDegAsc = 'SUN_SCALD_DEG_ASC',
+  SunScaldDegDesc = 'SUN_SCALD_DEG_DESC',
+  ScaldPiecesAsc = 'SCALD_PIECES_ASC',
+  ScaldPiecesDesc = 'SCALD_PIECES_DESC',
+  ScaldPctAsc = 'SCALD_PCT_ASC',
+  ScaldPctDesc = 'SCALD_PCT_DESC',
+  ScaldDegAsc = 'SCALD_DEG_ASC',
+  ScaldDegDesc = 'SCALD_DEG_DESC',
+  BruisingPiecesAsc = 'BRUISING_PIECES_ASC',
+  BruisingPiecesDesc = 'BRUISING_PIECES_DESC',
+  BruisingPctAsc = 'BRUISING_PCT_ASC',
+  BruisingPctDesc = 'BRUISING_PCT_DESC',
+  BruisingDegAsc = 'BRUISING_DEG_ASC',
+  BruisingDegDesc = 'BRUISING_DEG_DESC',
+  CrackingPiecesAsc = 'CRACKING_PIECES_ASC',
+  CrackingPiecesDesc = 'CRACKING_PIECES_DESC',
+  CrackingPctAsc = 'CRACKING_PCT_ASC',
+  CrackingPctDesc = 'CRACKING_PCT_DESC',
+  BitterPitPiecesAsc = 'BITTER_PIT_PIECES_ASC',
+  BitterPitPiecesDesc = 'BITTER_PIT_PIECES_DESC',
+  BitterPitPctAsc = 'BITTER_PIT_PCT_ASC',
+  BitterPitPctDesc = 'BITTER_PIT_PCT_DESC',
+  BitterPitDegAsc = 'BITTER_PIT_DEG_ASC',
+  BitterPitDegDesc = 'BITTER_PIT_DEG_DESC',
+  LenticelBreakdownPiecesAsc = 'LENTICEL_BREAKDOWN_PIECES_ASC',
+  LenticelBreakdownPiecesDesc = 'LENTICEL_BREAKDOWN_PIECES_DESC',
+  LenticelBreakdownPctAsc = 'LENTICEL_BREAKDOWN_PCT_ASC',
+  LenticelBreakdownPctDesc = 'LENTICEL_BREAKDOWN_PCT_DESC',
+  LenticelBreakdownDegAsc = 'LENTICEL_BREAKDOWN_DEG_ASC',
+  LenticelBreakdownDegDesc = 'LENTICEL_BREAKDOWN_DEG_DESC',
+  DehydrationPiecesAsc = 'DEHYDRATION_PIECES_ASC',
+  DehydrationPiecesDesc = 'DEHYDRATION_PIECES_DESC',
+  DehydrationPctAsc = 'DEHYDRATION_PCT_ASC',
+  DehydrationPctDesc = 'DEHYDRATION_PCT_DESC',
+  DehydrationDegAsc = 'DEHYDRATION_DEG_ASC',
+  DehydrationDegDesc = 'DEHYDRATION_DEG_DESC',
+  CutCountAsc = 'CUT_COUNT_ASC',
+  CutCountDesc = 'CUT_COUNT_DESC',
+  WatercorePiecesAsc = 'WATERCORE_PIECES_ASC',
+  WatercorePiecesDesc = 'WATERCORE_PIECES_DESC',
+  WatercorePctAsc = 'WATERCORE_PCT_ASC',
+  WatercorePctDesc = 'WATERCORE_PCT_DESC',
+  InternalDamagePiecesAsc = 'INTERNAL_DAMAGE_PIECES_ASC',
+  InternalDamagePiecesDesc = 'INTERNAL_DAMAGE_PIECES_DESC',
+  InternalDamagePerAsc = 'INTERNAL_DAMAGE_PER_ASC',
+  InternalDamagePerDesc = 'INTERNAL_DAMAGE_PER_DESC',
+  DecayPiecesAsc = 'DECAY_PIECES_ASC',
+  DecayPiecesDesc = 'DECAY_PIECES_DESC',
+  DecayPctAsc = 'DECAY_PCT_ASC',
+  DecayPctDesc = 'DECAY_PCT_DESC',
+  DecayDegAsc = 'DECAY_DEG_ASC',
+  DecayDegDesc = 'DECAY_DEG_DESC',
+  MoldPiecesAsc = 'MOLD_PIECES_ASC',
+  MoldPiecesDesc = 'MOLD_PIECES_DESC',
+  MoldPctAsc = 'MOLD_PCT_ASC',
+  MoldPctDesc = 'MOLD_PCT_DESC',
+  Pressure1Asc = 'PRESSURE1_ASC',
+  Pressure1Desc = 'PRESSURE1_DESC',
+  Pressure2Asc = 'PRESSURE2_ASC',
+  Pressure2Desc = 'PRESSURE2_DESC',
+  Pressure3Asc = 'PRESSURE3_ASC',
+  Pressure3Desc = 'PRESSURE3_DESC',
+  Pressure4Asc = 'PRESSURE4_ASC',
+  Pressure4Desc = 'PRESSURE4_DESC',
+  Pressure5Asc = 'PRESSURE5_ASC',
+  Pressure5Desc = 'PRESSURE5_DESC',
+  Pressure6Asc = 'PRESSURE6_ASC',
+  Pressure6Desc = 'PRESSURE6_DESC',
+  PressuresMinAsc = 'PRESSURES_MIN_ASC',
+  PressuresMinDesc = 'PRESSURES_MIN_DESC',
+  PressuresMaxAsc = 'PRESSURES_MAX_ASC',
+  PressuresMaxDesc = 'PRESSURES_MAX_DESC',
+  PressuresAvgAsc = 'PRESSURES_AVG_ASC',
+  PressuresAvgDesc = 'PRESSURES_AVG_DESC',
+  OverallQualityAsc = 'OVERALL_QUALITY_ASC',
+  OverallQualityDesc = 'OVERALL_QUALITY_DESC',
+  OverallConditionAsc = 'OVERALL_CONDITION_ASC',
+  OverallConditionDesc = 'OVERALL_CONDITION_DESC',
+  Comment1Asc = 'COMMENT1_ASC',
+  Comment1Desc = 'COMMENT1_DESC',
+  Comment2Asc = 'COMMENT2_ASC',
+  Comment2Desc = 'COMMENT2_DESC',
+  InspectionTypeAsc = 'INSPECTION_TYPE_ASC',
+  InspectionTypeDesc = 'INSPECTION_TYPE_DESC',
+  ShortInspAsc = 'SHORT_INSP_ASC',
+  ShortInspDesc = 'SHORT_INSP_DESC',
+  FixedWeightAsc = 'FIXED_WEIGHT_ASC',
+  FixedWeightDesc = 'FIXED_WEIGHT_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
+/**
+ * A condition to be used against `PsaApplePallet` object types. All fields are
+ * tested for equality and combined with a logical ‘and.’
+ */
+export type PsaApplePalletCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `location` field. */
+  location?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `arrival` field. */
+  arrival?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `importerName` field. */
+  importerName?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `exporterName` field. */
+  exporterName?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `commodity` field. */
+  commodity?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `productCode` field. */
+  productCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `variety` field. */
+  variety?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspDate` field. */
+  inspDate?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `quantity` field. */
+  quantity?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `hatch` field. */
+  hatch?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `deck` field. */
+  deck?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `containerId` field. */
+  containerId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `fumigation` field. */
+  fumigation?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `labelCode` field. */
+  labelCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspLocation` field. */
+  inspLocation?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `importerCode` field. */
+  importerCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `lotCode` field. */
+  lotCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspLot` field. */
+  inspLot?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `runNumber` field. */
+  runNumber?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `palletId` field. */
+  palletId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `growerCode` field. */
+  growerCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspGrowerCode` field. */
+  inspGrowerCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `packDate` field. */
+  packDate?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspPackDate` field. */
+  inspPackDate?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `size` field. */
+  size?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspSize` field. */
+  inspSize?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `packCode` field. */
+  packCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `packDescription` field. */
+  packDescription?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `secondaryDescription` field. */
+  secondaryDescription?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspPackCode` field. */
+  inspPackCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `grade` field. */
+  grade?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspGrade` field. */
+  inspGrade?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `count` field. */
+  count?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `plu` field. */
+  plu?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pluPct` field. */
+  pluPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `countryOfOrigin` field. */
+  countryOfOrigin?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `upc` field. */
+  upc?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `weight` field. */
+  weight?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `underweightMin` field. */
+  underweightMin?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `underweightMax` field. */
+  underweightMax?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `weighedUnits` field. */
+  weighedUnits?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `underweightUnits` field. */
+  underweightUnits?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `underweightPct` field. */
+  underweightPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pulpTemp` field. */
+  pulpTemp?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `opening` field. */
+  opening?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `groundColor` field. */
+  groundColor?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `blushColor` field. */
+  blushColor?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `blushPct` field. */
+  blushPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `scarsPieces` field. */
+  scarsPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `scarsPct` field. */
+  scarsPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `scarsDeg` field. */
+  scarsDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `stemPuncturesPieces` field. */
+  stemPuncturesPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `stemPuncturesPct` field. */
+  stemPuncturesPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `cutsPieces` field. */
+  cutsPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `cutsPct` field. */
+  cutsPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `cutsDeg` field. */
+  cutsDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `sunScaldPieces` field. */
+  sunScaldPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `sunScaldPct` field. */
+  sunScaldPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `sunScaldDeg` field. */
+  sunScaldDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `scaldPieces` field. */
+  scaldPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `scaldPct` field. */
+  scaldPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `scaldDeg` field. */
+  scaldDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `bruisingPieces` field. */
+  bruisingPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `bruisingPct` field. */
+  bruisingPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `bruisingDeg` field. */
+  bruisingDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `crackingPieces` field. */
+  crackingPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `crackingPct` field. */
+  crackingPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `bitterPitPieces` field. */
+  bitterPitPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `bitterPitPct` field. */
+  bitterPitPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `bitterPitDeg` field. */
+  bitterPitDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `lenticelBreakdownPieces` field. */
+  lenticelBreakdownPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `lenticelBreakdownPct` field. */
+  lenticelBreakdownPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `lenticelBreakdownDeg` field. */
+  lenticelBreakdownDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `dehydrationPieces` field. */
+  dehydrationPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `dehydrationPct` field. */
+  dehydrationPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `dehydrationDeg` field. */
+  dehydrationDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `cutCount` field. */
+  cutCount?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `watercorePieces` field. */
+  watercorePieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `watercorePct` field. */
+  watercorePct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `internalDamagePieces` field. */
+  internalDamagePieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `internalDamagePer` field. */
+  internalDamagePer?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `decayPieces` field. */
+  decayPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `decayPct` field. */
+  decayPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `decayDeg` field. */
+  decayDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `moldPieces` field. */
+  moldPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `moldPct` field. */
+  moldPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pressure1` field. */
+  pressure1?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pressure2` field. */
+  pressure2?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pressure3` field. */
+  pressure3?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pressure4` field. */
+  pressure4?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pressure5` field. */
+  pressure5?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pressure6` field. */
+  pressure6?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pressuresMin` field. */
+  pressuresMin?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pressuresMax` field. */
+  pressuresMax?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pressuresAvg` field. */
+  pressuresAvg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `overallQuality` field. */
+  overallQuality?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `overallCondition` field. */
+  overallCondition?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `comment1` field. */
+  comment1?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `comment2` field. */
+  comment2?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspectionType` field. */
+  inspectionType?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `shortInsp` field. */
+  shortInsp?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `fixedWeight` field. */
+  fixedWeight?: Maybe<Scalars['String']>;
+};
+
+/** A filter to be used against `PsaApplePallet` object types. All fields are combined with a logical ‘and.’ */
+export type PsaApplePalletFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `location` field. */
+  location?: Maybe<StringFilter>;
+  /** Filter by the object’s `arrival` field. */
+  arrival?: Maybe<StringFilter>;
+  /** Filter by the object’s `importerName` field. */
+  importerName?: Maybe<StringFilter>;
+  /** Filter by the object’s `exporterName` field. */
+  exporterName?: Maybe<StringFilter>;
+  /** Filter by the object’s `commodity` field. */
+  commodity?: Maybe<StringFilter>;
+  /** Filter by the object’s `productCode` field. */
+  productCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `variety` field. */
+  variety?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspDate` field. */
+  inspDate?: Maybe<StringFilter>;
+  /** Filter by the object’s `quantity` field. */
+  quantity?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `hatch` field. */
+  hatch?: Maybe<StringFilter>;
+  /** Filter by the object’s `deck` field. */
+  deck?: Maybe<StringFilter>;
+  /** Filter by the object’s `containerId` field. */
+  containerId?: Maybe<StringFilter>;
+  /** Filter by the object’s `fumigation` field. */
+  fumigation?: Maybe<StringFilter>;
+  /** Filter by the object’s `labelCode` field. */
+  labelCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspLocation` field. */
+  inspLocation?: Maybe<StringFilter>;
+  /** Filter by the object’s `importerCode` field. */
+  importerCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `lotCode` field. */
+  lotCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspLot` field. */
+  inspLot?: Maybe<StringFilter>;
+  /** Filter by the object’s `runNumber` field. */
+  runNumber?: Maybe<StringFilter>;
+  /** Filter by the object’s `palletId` field. */
+  palletId?: Maybe<StringFilter>;
+  /** Filter by the object’s `growerCode` field. */
+  growerCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspGrowerCode` field. */
+  inspGrowerCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `packDate` field. */
+  packDate?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspPackDate` field. */
+  inspPackDate?: Maybe<StringFilter>;
+  /** Filter by the object’s `size` field. */
+  size?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspSize` field. */
+  inspSize?: Maybe<StringFilter>;
+  /** Filter by the object’s `packCode` field. */
+  packCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `packDescription` field. */
+  packDescription?: Maybe<StringFilter>;
+  /** Filter by the object’s `secondaryDescription` field. */
+  secondaryDescription?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspPackCode` field. */
+  inspPackCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `grade` field. */
+  grade?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspGrade` field. */
+  inspGrade?: Maybe<StringFilter>;
+  /** Filter by the object’s `count` field. */
+  count?: Maybe<StringFilter>;
+  /** Filter by the object’s `plu` field. */
+  plu?: Maybe<StringFilter>;
+  /** Filter by the object’s `pluPct` field. */
+  pluPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `countryOfOrigin` field. */
+  countryOfOrigin?: Maybe<StringFilter>;
+  /** Filter by the object’s `upc` field. */
+  upc?: Maybe<StringFilter>;
+  /** Filter by the object’s `weight` field. */
+  weight?: Maybe<StringFilter>;
+  /** Filter by the object’s `underweightMin` field. */
+  underweightMin?: Maybe<StringFilter>;
+  /** Filter by the object’s `underweightMax` field. */
+  underweightMax?: Maybe<StringFilter>;
+  /** Filter by the object’s `weighedUnits` field. */
+  weighedUnits?: Maybe<StringFilter>;
+  /** Filter by the object’s `underweightUnits` field. */
+  underweightUnits?: Maybe<StringFilter>;
+  /** Filter by the object’s `underweightPct` field. */
+  underweightPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `pulpTemp` field. */
+  pulpTemp?: Maybe<StringFilter>;
+  /** Filter by the object’s `opening` field. */
+  opening?: Maybe<StringFilter>;
+  /** Filter by the object’s `groundColor` field. */
+  groundColor?: Maybe<StringFilter>;
+  /** Filter by the object’s `blushColor` field. */
+  blushColor?: Maybe<StringFilter>;
+  /** Filter by the object’s `blushPct` field. */
+  blushPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `scarsPieces` field. */
+  scarsPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `scarsPct` field. */
+  scarsPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `scarsDeg` field. */
+  scarsDeg?: Maybe<StringFilter>;
+  /** Filter by the object’s `stemPuncturesPieces` field. */
+  stemPuncturesPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `stemPuncturesPct` field. */
+  stemPuncturesPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `cutsPieces` field. */
+  cutsPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `cutsPct` field. */
+  cutsPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `cutsDeg` field. */
+  cutsDeg?: Maybe<StringFilter>;
+  /** Filter by the object’s `sunScaldPieces` field. */
+  sunScaldPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `sunScaldPct` field. */
+  sunScaldPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `sunScaldDeg` field. */
+  sunScaldDeg?: Maybe<StringFilter>;
+  /** Filter by the object’s `scaldPieces` field. */
+  scaldPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `scaldPct` field. */
+  scaldPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `scaldDeg` field. */
+  scaldDeg?: Maybe<StringFilter>;
+  /** Filter by the object’s `bruisingPieces` field. */
+  bruisingPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `bruisingPct` field. */
+  bruisingPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `bruisingDeg` field. */
+  bruisingDeg?: Maybe<StringFilter>;
+  /** Filter by the object’s `crackingPieces` field. */
+  crackingPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `crackingPct` field. */
+  crackingPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `bitterPitPieces` field. */
+  bitterPitPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `bitterPitPct` field. */
+  bitterPitPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `bitterPitDeg` field. */
+  bitterPitDeg?: Maybe<StringFilter>;
+  /** Filter by the object’s `lenticelBreakdownPieces` field. */
+  lenticelBreakdownPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `lenticelBreakdownPct` field. */
+  lenticelBreakdownPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `lenticelBreakdownDeg` field. */
+  lenticelBreakdownDeg?: Maybe<StringFilter>;
+  /** Filter by the object’s `dehydrationPieces` field. */
+  dehydrationPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `dehydrationPct` field. */
+  dehydrationPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `dehydrationDeg` field. */
+  dehydrationDeg?: Maybe<StringFilter>;
+  /** Filter by the object’s `cutCount` field. */
+  cutCount?: Maybe<StringFilter>;
+  /** Filter by the object’s `watercorePieces` field. */
+  watercorePieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `watercorePct` field. */
+  watercorePct?: Maybe<StringFilter>;
+  /** Filter by the object’s `internalDamagePieces` field. */
+  internalDamagePieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `internalDamagePer` field. */
+  internalDamagePer?: Maybe<StringFilter>;
+  /** Filter by the object’s `decayPieces` field. */
+  decayPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `decayPct` field. */
+  decayPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `decayDeg` field. */
+  decayDeg?: Maybe<StringFilter>;
+  /** Filter by the object’s `moldPieces` field. */
+  moldPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `moldPct` field. */
+  moldPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `pressure1` field. */
+  pressure1?: Maybe<StringFilter>;
+  /** Filter by the object’s `pressure2` field. */
+  pressure2?: Maybe<StringFilter>;
+  /** Filter by the object’s `pressure3` field. */
+  pressure3?: Maybe<StringFilter>;
+  /** Filter by the object’s `pressure4` field. */
+  pressure4?: Maybe<StringFilter>;
+  /** Filter by the object’s `pressure5` field. */
+  pressure5?: Maybe<StringFilter>;
+  /** Filter by the object’s `pressure6` field. */
+  pressure6?: Maybe<StringFilter>;
+  /** Filter by the object’s `pressuresMin` field. */
+  pressuresMin?: Maybe<StringFilter>;
+  /** Filter by the object’s `pressuresMax` field. */
+  pressuresMax?: Maybe<StringFilter>;
+  /** Filter by the object’s `pressuresAvg` field. */
+  pressuresAvg?: Maybe<StringFilter>;
+  /** Filter by the object’s `overallQuality` field. */
+  overallQuality?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `overallCondition` field. */
+  overallCondition?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `comment1` field. */
+  comment1?: Maybe<StringFilter>;
+  /** Filter by the object’s `comment2` field. */
+  comment2?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspectionType` field. */
+  inspectionType?: Maybe<StringFilter>;
+  /** Filter by the object’s `shortInsp` field. */
+  shortInsp?: Maybe<StringFilter>;
+  /** Filter by the object’s `fixedWeight` field. */
+  fixedWeight?: Maybe<StringFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<PsaApplePalletFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<PsaApplePalletFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<PsaApplePalletFilter>;
 };
 
 /** Methods to use when ordering `PsaArrivalPicture`. */
@@ -4758,32 +5809,6 @@ export type PsaArrivalPictureCondition = {
   varietyName?: Maybe<Scalars['String']>;
 };
 
-/** A filter to be used against `PsaArrivalPicture` object types. All fields are combined with a logical ‘and.’ */
-export type PsaArrivalPictureFilter = {
-  /** Filter by the object’s `id` field. */
-  id?: Maybe<BigIntFilter>;
-  /** Filter by the object’s `pictureDate` field. */
-  pictureDate?: Maybe<DateFilter>;
-  /** Filter by the object’s `arrivalCode` field. */
-  arrivalCode?: Maybe<StringFilter>;
-  /** Filter by the object’s `pictureDescription` field. */
-  pictureDescription?: Maybe<StringFilter>;
-  /** Filter by the object’s `exporterId` field. */
-  exporterId?: Maybe<BigIntFilter>;
-  /** Filter by the object’s `palletId` field. */
-  palletId?: Maybe<StringFilter>;
-  /** Filter by the object’s `productCode` field. */
-  productCode?: Maybe<StringFilter>;
-  /** Filter by the object’s `varietyName` field. */
-  varietyName?: Maybe<StringFilter>;
-  /** Checks for all expressions in this list. */
-  and?: Maybe<Array<PsaArrivalPictureFilter>>;
-  /** Checks for any expressions in this list. */
-  or?: Maybe<Array<PsaArrivalPictureFilter>>;
-  /** Negates the expression. */
-  not?: Maybe<PsaArrivalPictureFilter>;
-};
-
 /** A connection to a list of `PsaArrivalReport` values. */
 export type PsaArrivalReportsConnection = {
   __typename?: 'PsaArrivalReportsConnection';
@@ -4808,19 +5833,254 @@ export type PsaArrivalReport = Node & {
   arrivalName?: Maybe<Scalars['String']>;
   exporterId?: Maybe<Scalars['BigInt']>;
   exporterName?: Maybe<Scalars['String']>;
+  /** Reads and enables pagination through a set of `PsaApplePallet`. */
+  applePallets: PsaApplePalletsConnection;
+  avgApplePressuresAvg?: Maybe<Scalars['BigFloat']>;
+  avgApplePressuresMax?: Maybe<Scalars['BigFloat']>;
+  avgApplePressuresMin?: Maybe<Scalars['BigFloat']>;
+  avgBrix?: Maybe<Scalars['BigFloat']>;
+  avgCherrySizeMax?: Maybe<Scalars['BigFloat']>;
+  avgCherrySizeMin?: Maybe<Scalars['BigFloat']>;
+  avgCherrySizeMost?: Maybe<Scalars['BigFloat']>;
+  avgCitrusDiameterMaxMm?: Maybe<Scalars['BigFloat']>;
+  avgCitrusDiameterMinMm?: Maybe<Scalars['BigFloat']>;
+  avgCitrusDiameterMostMm?: Maybe<Scalars['BigFloat']>;
+  avgCondition?: Maybe<Scalars['BigFloat']>;
+  avgConditionByVariety?: Maybe<Scalars['BigFloat']>;
   avgGrapeBrixMax?: Maybe<Scalars['BigFloat']>;
   avgGrapeBrixMin?: Maybe<Scalars['BigFloat']>;
   avgGrapeBrixMost?: Maybe<Scalars['BigFloat']>;
   avgGrapeBunchesPerBox?: Maybe<Scalars['BigFloat']>;
-  avgGrapeCondition?: Maybe<Scalars['BigFloat']>;
-  avgGrapeNetWeight?: Maybe<Scalars['BigFloat']>;
-  avgGrapeQuality?: Maybe<Scalars['BigFloat']>;
+  avgLemonDiameterMaxMm?: Maybe<Scalars['BigFloat']>;
+  avgLemonDiameterMinMm?: Maybe<Scalars['BigFloat']>;
+  avgLemonDiameterMostMm?: Maybe<Scalars['BigFloat']>;
+  avgNetWeight?: Maybe<Scalars['BigFloat']>;
+  avgPearPressuresAvg?: Maybe<Scalars['BigFloat']>;
+  avgPearPressuresMax?: Maybe<Scalars['BigFloat']>;
+  avgPearPressuresMin?: Maybe<Scalars['BigFloat']>;
+  avgPersimmonPressuresAvg?: Maybe<Scalars['BigFloat']>;
+  avgPersimmonPressuresMax?: Maybe<Scalars['BigFloat']>;
+  avgPersimmonPressuresMin?: Maybe<Scalars['BigFloat']>;
+  avgPomegranateBrixMax?: Maybe<Scalars['BigFloat']>;
+  avgPomegranateBrixMin?: Maybe<Scalars['BigFloat']>;
+  avgPomegranateBrixMost?: Maybe<Scalars['BigFloat']>;
+  avgQuality?: Maybe<Scalars['BigFloat']>;
+  avgQualityByVariety?: Maybe<Scalars['BigFloat']>;
+  avgStoneFruitPressuresAvg?: Maybe<Scalars['BigFloat']>;
+  avgStoneFruitPressuresMax?: Maybe<Scalars['BigFloat']>;
+  avgStoneFruitPressuresMin?: Maybe<Scalars['BigFloat']>;
+  /** Reads and enables pagination through a set of `PsaCherryPallet`. */
+  cherryPallets: PsaCherryPalletsConnection;
+  /** Reads and enables pagination through a set of `PsaCitrusPallet`. */
+  citrusPallets: PsaCitrusPalletsConnection;
+  commodityList?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Reads and enables pagination through a set of `PsaGrapePallet`. */
   grapePallets: PsaGrapePalletsConnection;
+  /** Reads and enables pagination through a set of `PsaLemonPallet`. */
+  lemonPallets: PsaLemonPalletsConnection;
+  /** Reads and enables pagination through a set of `PsaPearPallet`. */
+  pearPallets: PsaPearPalletsConnection;
+  /** Reads and enables pagination through a set of `PsaPersimmonPallet`. */
+  persimmonPallets: PsaPersimmonPalletsConnection;
   /** Reads and enables pagination through a set of `PsaArrivalPicture`. */
   pictures: PsaArrivalPicturesConnection;
+  /** Reads and enables pagination through a set of `PsaPomegranatePallet`. */
+  pomegranatePallets: PsaPomegranatePalletsConnection;
   searchText?: Maybe<Scalars['String']>;
+  /** Reads and enables pagination through a set of `PsaStoneFruitPallet`. */
+  stoneFruitPallets: PsaStoneFruitPalletsConnection;
+  varietyList?: Maybe<Array<Maybe<Scalars['String']>>>;
   reportUrl: Scalars['String'];
+};
+
+
+export type PsaArrivalReportApplePalletsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  filter?: Maybe<PsaApplePalletFilter>;
+};
+
+
+export type PsaArrivalReportAvgApplePressuresAvgArgs = {
+  vari?: Maybe<Scalars['String']>;
+};
+
+
+export type PsaArrivalReportAvgApplePressuresMaxArgs = {
+  vari?: Maybe<Scalars['String']>;
+};
+
+
+export type PsaArrivalReportAvgApplePressuresMinArgs = {
+  vari?: Maybe<Scalars['String']>;
+};
+
+
+export type PsaArrivalReportAvgBrixArgs = {
+  vari?: Maybe<Scalars['String']>;
+};
+
+
+export type PsaArrivalReportAvgCherrySizeMaxArgs = {
+  vari?: Maybe<Scalars['String']>;
+};
+
+
+export type PsaArrivalReportAvgCherrySizeMinArgs = {
+  vari?: Maybe<Scalars['String']>;
+};
+
+
+export type PsaArrivalReportAvgCherrySizeMostArgs = {
+  vari?: Maybe<Scalars['String']>;
+};
+
+
+export type PsaArrivalReportAvgCitrusDiameterMaxMmArgs = {
+  vari?: Maybe<Scalars['String']>;
+};
+
+
+export type PsaArrivalReportAvgCitrusDiameterMinMmArgs = {
+  vari?: Maybe<Scalars['String']>;
+};
+
+
+export type PsaArrivalReportAvgCitrusDiameterMostMmArgs = {
+  vari?: Maybe<Scalars['String']>;
+};
+
+
+export type PsaArrivalReportAvgConditionByVarietyArgs = {
+  vari?: Maybe<Scalars['String']>;
+};
+
+
+export type PsaArrivalReportAvgGrapeBrixMaxArgs = {
+  vari?: Maybe<Scalars['String']>;
+};
+
+
+export type PsaArrivalReportAvgGrapeBrixMinArgs = {
+  vari?: Maybe<Scalars['String']>;
+};
+
+
+export type PsaArrivalReportAvgGrapeBrixMostArgs = {
+  vari?: Maybe<Scalars['String']>;
+};
+
+
+export type PsaArrivalReportAvgGrapeBunchesPerBoxArgs = {
+  vari?: Maybe<Scalars['String']>;
+};
+
+
+export type PsaArrivalReportAvgLemonDiameterMaxMmArgs = {
+  vari?: Maybe<Scalars['String']>;
+};
+
+
+export type PsaArrivalReportAvgLemonDiameterMinMmArgs = {
+  vari?: Maybe<Scalars['String']>;
+};
+
+
+export type PsaArrivalReportAvgLemonDiameterMostMmArgs = {
+  vari?: Maybe<Scalars['String']>;
+};
+
+
+export type PsaArrivalReportAvgNetWeightArgs = {
+  vari?: Maybe<Scalars['String']>;
+};
+
+
+export type PsaArrivalReportAvgPearPressuresAvgArgs = {
+  vari?: Maybe<Scalars['String']>;
+};
+
+
+export type PsaArrivalReportAvgPearPressuresMaxArgs = {
+  vari?: Maybe<Scalars['String']>;
+};
+
+
+export type PsaArrivalReportAvgPearPressuresMinArgs = {
+  vari?: Maybe<Scalars['String']>;
+};
+
+
+export type PsaArrivalReportAvgPersimmonPressuresAvgArgs = {
+  vari?: Maybe<Scalars['String']>;
+};
+
+
+export type PsaArrivalReportAvgPersimmonPressuresMaxArgs = {
+  vari?: Maybe<Scalars['String']>;
+};
+
+
+export type PsaArrivalReportAvgPersimmonPressuresMinArgs = {
+  vari?: Maybe<Scalars['String']>;
+};
+
+
+export type PsaArrivalReportAvgPomegranateBrixMaxArgs = {
+  vari?: Maybe<Scalars['String']>;
+};
+
+
+export type PsaArrivalReportAvgPomegranateBrixMinArgs = {
+  vari?: Maybe<Scalars['String']>;
+};
+
+
+export type PsaArrivalReportAvgPomegranateBrixMostArgs = {
+  vari?: Maybe<Scalars['String']>;
+};
+
+
+export type PsaArrivalReportAvgQualityByVarietyArgs = {
+  vari?: Maybe<Scalars['String']>;
+};
+
+
+export type PsaArrivalReportAvgStoneFruitPressuresAvgArgs = {
+  vari?: Maybe<Scalars['String']>;
+};
+
+
+export type PsaArrivalReportAvgStoneFruitPressuresMaxArgs = {
+  vari?: Maybe<Scalars['String']>;
+};
+
+
+export type PsaArrivalReportAvgStoneFruitPressuresMinArgs = {
+  vari?: Maybe<Scalars['String']>;
+};
+
+
+export type PsaArrivalReportCherryPalletsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  filter?: Maybe<PsaCherryPalletFilter>;
+};
+
+
+export type PsaArrivalReportCitrusPalletsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  filter?: Maybe<PsaCitrusPalletFilter>;
 };
 
 
@@ -4834,13 +6094,673 @@ export type PsaArrivalReportGrapePalletsArgs = {
 };
 
 
+export type PsaArrivalReportLemonPalletsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  filter?: Maybe<PsaLemonPalletFilter>;
+};
+
+
+export type PsaArrivalReportPearPalletsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  filter?: Maybe<PsaPearPalletFilter>;
+};
+
+
+export type PsaArrivalReportPersimmonPalletsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  filter?: Maybe<PsaPersimmonPalletFilter>;
+};
+
+
 export type PsaArrivalReportPicturesArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['Cursor']>;
   after?: Maybe<Scalars['Cursor']>;
+  condition?: Maybe<PsaArrivalPictureCondition>;
   filter?: Maybe<PsaArrivalPictureFilter>;
+};
+
+
+export type PsaArrivalReportPomegranatePalletsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  filter?: Maybe<PsaPomegranatePalletFilter>;
+};
+
+
+export type PsaArrivalReportStoneFruitPalletsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  filter?: Maybe<PsaStoneFruitPalletFilter>;
+};
+
+
+export type PsaArrivalReportVarietyListArgs = {
+  com?: Maybe<Scalars['String']>;
+};
+
+/** A connection to a list of `PsaCherryPallet` values. */
+export type PsaCherryPalletsConnection = {
+  __typename?: 'PsaCherryPalletsConnection';
+  /** A list of `PsaCherryPallet` objects. */
+  nodes: Array<Maybe<PsaCherryPallet>>;
+  /** A list of edges which contains the `PsaCherryPallet` and cursor to aid in pagination. */
+  edges: Array<PsaCherryPalletsEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `PsaCherryPallet` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+export type PsaCherryPallet = Node & {
+  __typename?: 'PsaCherryPallet';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  location?: Maybe<Scalars['String']>;
+  arrival?: Maybe<Scalars['String']>;
+  importerName?: Maybe<Scalars['String']>;
+  exporterName?: Maybe<Scalars['String']>;
+  commodity?: Maybe<Scalars['String']>;
+  productCode?: Maybe<Scalars['String']>;
+  variety?: Maybe<Scalars['String']>;
+  inspDate?: Maybe<Scalars['String']>;
+  quantity?: Maybe<Scalars['BigFloat']>;
+  hatch?: Maybe<Scalars['String']>;
+  deck?: Maybe<Scalars['String']>;
+  containerId?: Maybe<Scalars['String']>;
+  fumigation?: Maybe<Scalars['String']>;
+  labelCode?: Maybe<Scalars['String']>;
+  inspLocation?: Maybe<Scalars['String']>;
+  importerCode?: Maybe<Scalars['String']>;
+  lotCode?: Maybe<Scalars['String']>;
+  inspLot?: Maybe<Scalars['String']>;
+  palletId?: Maybe<Scalars['String']>;
+  growerCode?: Maybe<Scalars['String']>;
+  inspGrowerCode?: Maybe<Scalars['String']>;
+  packDate?: Maybe<Scalars['String']>;
+  inspPackDate?: Maybe<Scalars['String']>;
+  size?: Maybe<Scalars['String']>;
+  inspSize?: Maybe<Scalars['String']>;
+  packCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  secondaryDescription?: Maybe<Scalars['String']>;
+  inspPackCode?: Maybe<Scalars['String']>;
+  count?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  pluPct?: Maybe<Scalars['String']>;
+  countryOfOrigin?: Maybe<Scalars['String']>;
+  upc?: Maybe<Scalars['String']>;
+  weight?: Maybe<Scalars['String']>;
+  underweightMin?: Maybe<Scalars['String']>;
+  underweightMax?: Maybe<Scalars['String']>;
+  weighedUnits?: Maybe<Scalars['String']>;
+  underweightUnits?: Maybe<Scalars['String']>;
+  underweightPct?: Maybe<Scalars['String']>;
+  pulpTemp?: Maybe<Scalars['String']>;
+  opening?: Maybe<Scalars['String']>;
+  sizeMin?: Maybe<Scalars['String']>;
+  sizeMax?: Maybe<Scalars['String']>;
+  sizeMost?: Maybe<Scalars['String']>;
+  color?: Maybe<Scalars['String']>;
+  scarsMarksPieces?: Maybe<Scalars['String']>;
+  scarsMarksPct?: Maybe<Scalars['String']>;
+  scarsMarksDeg?: Maybe<Scalars['String']>;
+  misshapenPieces?: Maybe<Scalars['String']>;
+  misshapenPct?: Maybe<Scalars['String']>;
+  stemlessPieces?: Maybe<Scalars['String']>;
+  stemlessPct?: Maybe<Scalars['String']>;
+  splitsPieces?: Maybe<Scalars['String']>;
+  splitsPct?: Maybe<Scalars['String']>;
+  splitsDeg?: Maybe<Scalars['String']>;
+  firmness?: Maybe<Scalars['String']>;
+  pittingBruisingPieces?: Maybe<Scalars['String']>;
+  pittingBruisingPct?: Maybe<Scalars['String']>;
+  pittingBruisingDeg?: Maybe<Scalars['String']>;
+  stemDehydrationPieces?: Maybe<Scalars['String']>;
+  stemDehydrationPct?: Maybe<Scalars['String']>;
+  stemDehydrationDeg?: Maybe<Scalars['String']>;
+  dehydrationPieces?: Maybe<Scalars['String']>;
+  dehydrationPct?: Maybe<Scalars['String']>;
+  dehydrationDeg?: Maybe<Scalars['String']>;
+  decayPieces?: Maybe<Scalars['String']>;
+  decayPct?: Maybe<Scalars['String']>;
+  decayDeg?: Maybe<Scalars['String']>;
+  moldPieces?: Maybe<Scalars['String']>;
+  moldPct?: Maybe<Scalars['String']>;
+  overallQuality?: Maybe<Scalars['BigFloat']>;
+  overallCondition?: Maybe<Scalars['BigFloat']>;
+  comment1?: Maybe<Scalars['String']>;
+  comment2?: Maybe<Scalars['String']>;
+  inspectionType?: Maybe<Scalars['String']>;
+  shortInsp?: Maybe<Scalars['String']>;
+  fixedWeight?: Maybe<Scalars['String']>;
+  /** Reads and enables pagination through a set of `PsaArrivalPicture`. */
+  pictures: PsaArrivalPicturesConnection;
+};
+
+
+export type PsaCherryPalletPicturesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  filter?: Maybe<PsaArrivalPictureFilter>;
+};
+
+/** A `PsaCherryPallet` edge in the connection. */
+export type PsaCherryPalletsEdge = {
+  __typename?: 'PsaCherryPalletsEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `PsaCherryPallet` at the end of the edge. */
+  node?: Maybe<PsaCherryPallet>;
+};
+
+/** A filter to be used against `PsaCherryPallet` object types. All fields are combined with a logical ‘and.’ */
+export type PsaCherryPalletFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `location` field. */
+  location?: Maybe<StringFilter>;
+  /** Filter by the object’s `arrival` field. */
+  arrival?: Maybe<StringFilter>;
+  /** Filter by the object’s `importerName` field. */
+  importerName?: Maybe<StringFilter>;
+  /** Filter by the object’s `exporterName` field. */
+  exporterName?: Maybe<StringFilter>;
+  /** Filter by the object’s `commodity` field. */
+  commodity?: Maybe<StringFilter>;
+  /** Filter by the object’s `productCode` field. */
+  productCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `variety` field. */
+  variety?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspDate` field. */
+  inspDate?: Maybe<StringFilter>;
+  /** Filter by the object’s `quantity` field. */
+  quantity?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `hatch` field. */
+  hatch?: Maybe<StringFilter>;
+  /** Filter by the object’s `deck` field. */
+  deck?: Maybe<StringFilter>;
+  /** Filter by the object’s `containerId` field. */
+  containerId?: Maybe<StringFilter>;
+  /** Filter by the object’s `fumigation` field. */
+  fumigation?: Maybe<StringFilter>;
+  /** Filter by the object’s `labelCode` field. */
+  labelCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspLocation` field. */
+  inspLocation?: Maybe<StringFilter>;
+  /** Filter by the object’s `importerCode` field. */
+  importerCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `lotCode` field. */
+  lotCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspLot` field. */
+  inspLot?: Maybe<StringFilter>;
+  /** Filter by the object’s `palletId` field. */
+  palletId?: Maybe<StringFilter>;
+  /** Filter by the object’s `growerCode` field. */
+  growerCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspGrowerCode` field. */
+  inspGrowerCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `packDate` field. */
+  packDate?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspPackDate` field. */
+  inspPackDate?: Maybe<StringFilter>;
+  /** Filter by the object’s `size` field. */
+  size?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspSize` field. */
+  inspSize?: Maybe<StringFilter>;
+  /** Filter by the object’s `packCode` field. */
+  packCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `packDescription` field. */
+  packDescription?: Maybe<StringFilter>;
+  /** Filter by the object’s `secondaryDescription` field. */
+  secondaryDescription?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspPackCode` field. */
+  inspPackCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `count` field. */
+  count?: Maybe<StringFilter>;
+  /** Filter by the object’s `plu` field. */
+  plu?: Maybe<StringFilter>;
+  /** Filter by the object’s `pluPct` field. */
+  pluPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `countryOfOrigin` field. */
+  countryOfOrigin?: Maybe<StringFilter>;
+  /** Filter by the object’s `upc` field. */
+  upc?: Maybe<StringFilter>;
+  /** Filter by the object’s `weight` field. */
+  weight?: Maybe<StringFilter>;
+  /** Filter by the object’s `underweightMin` field. */
+  underweightMin?: Maybe<StringFilter>;
+  /** Filter by the object’s `underweightMax` field. */
+  underweightMax?: Maybe<StringFilter>;
+  /** Filter by the object’s `weighedUnits` field. */
+  weighedUnits?: Maybe<StringFilter>;
+  /** Filter by the object’s `underweightUnits` field. */
+  underweightUnits?: Maybe<StringFilter>;
+  /** Filter by the object’s `underweightPct` field. */
+  underweightPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `pulpTemp` field. */
+  pulpTemp?: Maybe<StringFilter>;
+  /** Filter by the object’s `opening` field. */
+  opening?: Maybe<StringFilter>;
+  /** Filter by the object’s `sizeMin` field. */
+  sizeMin?: Maybe<StringFilter>;
+  /** Filter by the object’s `sizeMax` field. */
+  sizeMax?: Maybe<StringFilter>;
+  /** Filter by the object’s `sizeMost` field. */
+  sizeMost?: Maybe<StringFilter>;
+  /** Filter by the object’s `color` field. */
+  color?: Maybe<StringFilter>;
+  /** Filter by the object’s `scarsMarksPieces` field. */
+  scarsMarksPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `scarsMarksPct` field. */
+  scarsMarksPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `scarsMarksDeg` field. */
+  scarsMarksDeg?: Maybe<StringFilter>;
+  /** Filter by the object’s `misshapenPieces` field. */
+  misshapenPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `misshapenPct` field. */
+  misshapenPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `stemlessPieces` field. */
+  stemlessPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `stemlessPct` field. */
+  stemlessPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `splitsPieces` field. */
+  splitsPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `splitsPct` field. */
+  splitsPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `splitsDeg` field. */
+  splitsDeg?: Maybe<StringFilter>;
+  /** Filter by the object’s `firmness` field. */
+  firmness?: Maybe<StringFilter>;
+  /** Filter by the object’s `pittingBruisingPieces` field. */
+  pittingBruisingPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `pittingBruisingPct` field. */
+  pittingBruisingPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `pittingBruisingDeg` field. */
+  pittingBruisingDeg?: Maybe<StringFilter>;
+  /** Filter by the object’s `stemDehydrationPieces` field. */
+  stemDehydrationPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `stemDehydrationPct` field. */
+  stemDehydrationPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `stemDehydrationDeg` field. */
+  stemDehydrationDeg?: Maybe<StringFilter>;
+  /** Filter by the object’s `dehydrationPieces` field. */
+  dehydrationPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `dehydrationPct` field. */
+  dehydrationPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `dehydrationDeg` field. */
+  dehydrationDeg?: Maybe<StringFilter>;
+  /** Filter by the object’s `decayPieces` field. */
+  decayPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `decayPct` field. */
+  decayPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `decayDeg` field. */
+  decayDeg?: Maybe<StringFilter>;
+  /** Filter by the object’s `moldPieces` field. */
+  moldPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `moldPct` field. */
+  moldPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `overallQuality` field. */
+  overallQuality?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `overallCondition` field. */
+  overallCondition?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `comment1` field. */
+  comment1?: Maybe<StringFilter>;
+  /** Filter by the object’s `comment2` field. */
+  comment2?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspectionType` field. */
+  inspectionType?: Maybe<StringFilter>;
+  /** Filter by the object’s `shortInsp` field. */
+  shortInsp?: Maybe<StringFilter>;
+  /** Filter by the object’s `fixedWeight` field. */
+  fixedWeight?: Maybe<StringFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<PsaCherryPalletFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<PsaCherryPalletFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<PsaCherryPalletFilter>;
+};
+
+/** A connection to a list of `PsaCitrusPallet` values. */
+export type PsaCitrusPalletsConnection = {
+  __typename?: 'PsaCitrusPalletsConnection';
+  /** A list of `PsaCitrusPallet` objects. */
+  nodes: Array<Maybe<PsaCitrusPallet>>;
+  /** A list of edges which contains the `PsaCitrusPallet` and cursor to aid in pagination. */
+  edges: Array<PsaCitrusPalletsEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `PsaCitrusPallet` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+export type PsaCitrusPallet = Node & {
+  __typename?: 'PsaCitrusPallet';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  location?: Maybe<Scalars['String']>;
+  arrival?: Maybe<Scalars['String']>;
+  importerName?: Maybe<Scalars['String']>;
+  exporterName?: Maybe<Scalars['String']>;
+  commodity?: Maybe<Scalars['String']>;
+  productCode?: Maybe<Scalars['String']>;
+  variety?: Maybe<Scalars['String']>;
+  inspDate?: Maybe<Scalars['String']>;
+  quantity?: Maybe<Scalars['BigFloat']>;
+  hatch?: Maybe<Scalars['String']>;
+  deck?: Maybe<Scalars['String']>;
+  containerId?: Maybe<Scalars['String']>;
+  fumigation?: Maybe<Scalars['String']>;
+  labelCode?: Maybe<Scalars['String']>;
+  inspLocation?: Maybe<Scalars['String']>;
+  importerCode?: Maybe<Scalars['String']>;
+  lotCode?: Maybe<Scalars['String']>;
+  inspLot?: Maybe<Scalars['String']>;
+  palletId?: Maybe<Scalars['String']>;
+  growerCode?: Maybe<Scalars['String']>;
+  inspGrowerCode?: Maybe<Scalars['String']>;
+  packDate?: Maybe<Scalars['String']>;
+  inspPackDate?: Maybe<Scalars['String']>;
+  size?: Maybe<Scalars['String']>;
+  inspSize?: Maybe<Scalars['String']>;
+  packCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  secondaryDescription?: Maybe<Scalars['String']>;
+  inspPackCode?: Maybe<Scalars['String']>;
+  count?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  pluPct?: Maybe<Scalars['String']>;
+  countryOfOrigin?: Maybe<Scalars['String']>;
+  upc?: Maybe<Scalars['String']>;
+  weight?: Maybe<Scalars['String']>;
+  underweightMin?: Maybe<Scalars['String']>;
+  underweightMax?: Maybe<Scalars['String']>;
+  weighedUnits?: Maybe<Scalars['String']>;
+  underweightUnits?: Maybe<Scalars['String']>;
+  underweightPct?: Maybe<Scalars['String']>;
+  pulpTemp?: Maybe<Scalars['String']>;
+  opening?: Maybe<Scalars['String']>;
+  color?: Maybe<Scalars['String']>;
+  diameterMinMm?: Maybe<Scalars['String']>;
+  diameterMinInches?: Maybe<Scalars['String']>;
+  diameterMaxMm?: Maybe<Scalars['String']>;
+  diameterMaxInches?: Maybe<Scalars['String']>;
+  diameterMostMm?: Maybe<Scalars['String']>;
+  diameterMostInches?: Maybe<Scalars['String']>;
+  scarsPieces?: Maybe<Scalars['String']>;
+  scarsPct?: Maybe<Scalars['String']>;
+  scarsDeg?: Maybe<Scalars['String']>;
+  greenHazePieces?: Maybe<Scalars['String']>;
+  greenHazePct?: Maybe<Scalars['String']>;
+  greenHazeDeg?: Maybe<Scalars['String']>;
+  oilSpotsPieces?: Maybe<Scalars['String']>;
+  oilSpotsPct?: Maybe<Scalars['String']>;
+  oilSpotsDeg?: Maybe<Scalars['String']>;
+  cutCount?: Maybe<Scalars['String']>;
+  dryPulpPieces?: Maybe<Scalars['String']>;
+  dryPulpPct?: Maybe<Scalars['String']>;
+  dryPulpDeg?: Maybe<Scalars['String']>;
+  seedsPieces?: Maybe<Scalars['String']>;
+  seedsPct?: Maybe<Scalars['String']>;
+  skinBreakdownPieces?: Maybe<Scalars['String']>;
+  skinBreakdownPct?: Maybe<Scalars['String']>;
+  skinBreakdownDeg?: Maybe<Scalars['String']>;
+  creasingPieces?: Maybe<Scalars['String']>;
+  creasingPct?: Maybe<Scalars['String']>;
+  creasingDeg?: Maybe<Scalars['String']>;
+  puffinessPieces?: Maybe<Scalars['String']>;
+  puffinessPct?: Maybe<Scalars['String']>;
+  puffinessDeg?: Maybe<Scalars['String']>;
+  decayPieces?: Maybe<Scalars['String']>;
+  decayPct?: Maybe<Scalars['String']>;
+  decayDeg?: Maybe<Scalars['String']>;
+  moldPieces?: Maybe<Scalars['String']>;
+  moldPct?: Maybe<Scalars['String']>;
+  sporesPieces?: Maybe<Scalars['String']>;
+  sporesPct?: Maybe<Scalars['String']>;
+  brix?: Maybe<Scalars['String']>;
+  overallQuality?: Maybe<Scalars['BigFloat']>;
+  overallCondition?: Maybe<Scalars['BigFloat']>;
+  comment1?: Maybe<Scalars['String']>;
+  comment2?: Maybe<Scalars['String']>;
+  inspectionType?: Maybe<Scalars['String']>;
+  shortInsp?: Maybe<Scalars['String']>;
+  fixedWeight?: Maybe<Scalars['String']>;
+  /** Reads and enables pagination through a set of `PsaArrivalPicture`. */
+  pictures: PsaArrivalPicturesConnection;
+};
+
+
+export type PsaCitrusPalletPicturesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  filter?: Maybe<PsaArrivalPictureFilter>;
+};
+
+/** A `PsaCitrusPallet` edge in the connection. */
+export type PsaCitrusPalletsEdge = {
+  __typename?: 'PsaCitrusPalletsEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `PsaCitrusPallet` at the end of the edge. */
+  node?: Maybe<PsaCitrusPallet>;
+};
+
+/** A filter to be used against `PsaCitrusPallet` object types. All fields are combined with a logical ‘and.’ */
+export type PsaCitrusPalletFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `location` field. */
+  location?: Maybe<StringFilter>;
+  /** Filter by the object’s `arrival` field. */
+  arrival?: Maybe<StringFilter>;
+  /** Filter by the object’s `importerName` field. */
+  importerName?: Maybe<StringFilter>;
+  /** Filter by the object’s `exporterName` field. */
+  exporterName?: Maybe<StringFilter>;
+  /** Filter by the object’s `commodity` field. */
+  commodity?: Maybe<StringFilter>;
+  /** Filter by the object’s `productCode` field. */
+  productCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `variety` field. */
+  variety?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspDate` field. */
+  inspDate?: Maybe<StringFilter>;
+  /** Filter by the object’s `quantity` field. */
+  quantity?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `hatch` field. */
+  hatch?: Maybe<StringFilter>;
+  /** Filter by the object’s `deck` field. */
+  deck?: Maybe<StringFilter>;
+  /** Filter by the object’s `containerId` field. */
+  containerId?: Maybe<StringFilter>;
+  /** Filter by the object’s `fumigation` field. */
+  fumigation?: Maybe<StringFilter>;
+  /** Filter by the object’s `labelCode` field. */
+  labelCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspLocation` field. */
+  inspLocation?: Maybe<StringFilter>;
+  /** Filter by the object’s `importerCode` field. */
+  importerCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `lotCode` field. */
+  lotCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspLot` field. */
+  inspLot?: Maybe<StringFilter>;
+  /** Filter by the object’s `palletId` field. */
+  palletId?: Maybe<StringFilter>;
+  /** Filter by the object’s `growerCode` field. */
+  growerCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspGrowerCode` field. */
+  inspGrowerCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `packDate` field. */
+  packDate?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspPackDate` field. */
+  inspPackDate?: Maybe<StringFilter>;
+  /** Filter by the object’s `size` field. */
+  size?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspSize` field. */
+  inspSize?: Maybe<StringFilter>;
+  /** Filter by the object’s `packCode` field. */
+  packCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `packDescription` field. */
+  packDescription?: Maybe<StringFilter>;
+  /** Filter by the object’s `secondaryDescription` field. */
+  secondaryDescription?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspPackCode` field. */
+  inspPackCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `count` field. */
+  count?: Maybe<StringFilter>;
+  /** Filter by the object’s `plu` field. */
+  plu?: Maybe<StringFilter>;
+  /** Filter by the object’s `pluPct` field. */
+  pluPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `countryOfOrigin` field. */
+  countryOfOrigin?: Maybe<StringFilter>;
+  /** Filter by the object’s `upc` field. */
+  upc?: Maybe<StringFilter>;
+  /** Filter by the object’s `weight` field. */
+  weight?: Maybe<StringFilter>;
+  /** Filter by the object’s `underweightMin` field. */
+  underweightMin?: Maybe<StringFilter>;
+  /** Filter by the object’s `underweightMax` field. */
+  underweightMax?: Maybe<StringFilter>;
+  /** Filter by the object’s `weighedUnits` field. */
+  weighedUnits?: Maybe<StringFilter>;
+  /** Filter by the object’s `underweightUnits` field. */
+  underweightUnits?: Maybe<StringFilter>;
+  /** Filter by the object’s `underweightPct` field. */
+  underweightPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `pulpTemp` field. */
+  pulpTemp?: Maybe<StringFilter>;
+  /** Filter by the object’s `opening` field. */
+  opening?: Maybe<StringFilter>;
+  /** Filter by the object’s `color` field. */
+  color?: Maybe<StringFilter>;
+  /** Filter by the object’s `diameterMinMm` field. */
+  diameterMinMm?: Maybe<StringFilter>;
+  /** Filter by the object’s `diameterMinInches` field. */
+  diameterMinInches?: Maybe<StringFilter>;
+  /** Filter by the object’s `diameterMaxMm` field. */
+  diameterMaxMm?: Maybe<StringFilter>;
+  /** Filter by the object’s `diameterMaxInches` field. */
+  diameterMaxInches?: Maybe<StringFilter>;
+  /** Filter by the object’s `diameterMostMm` field. */
+  diameterMostMm?: Maybe<StringFilter>;
+  /** Filter by the object’s `diameterMostInches` field. */
+  diameterMostInches?: Maybe<StringFilter>;
+  /** Filter by the object’s `scarsPieces` field. */
+  scarsPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `scarsPct` field. */
+  scarsPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `scarsDeg` field. */
+  scarsDeg?: Maybe<StringFilter>;
+  /** Filter by the object’s `greenHazePieces` field. */
+  greenHazePieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `greenHazePct` field. */
+  greenHazePct?: Maybe<StringFilter>;
+  /** Filter by the object’s `greenHazeDeg` field. */
+  greenHazeDeg?: Maybe<StringFilter>;
+  /** Filter by the object’s `oilSpotsPieces` field. */
+  oilSpotsPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `oilSpotsPct` field. */
+  oilSpotsPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `oilSpotsDeg` field. */
+  oilSpotsDeg?: Maybe<StringFilter>;
+  /** Filter by the object’s `cutCount` field. */
+  cutCount?: Maybe<StringFilter>;
+  /** Filter by the object’s `dryPulpPieces` field. */
+  dryPulpPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `dryPulpPct` field. */
+  dryPulpPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `dryPulpDeg` field. */
+  dryPulpDeg?: Maybe<StringFilter>;
+  /** Filter by the object’s `seedsPieces` field. */
+  seedsPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `seedsPct` field. */
+  seedsPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `skinBreakdownPieces` field. */
+  skinBreakdownPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `skinBreakdownPct` field. */
+  skinBreakdownPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `skinBreakdownDeg` field. */
+  skinBreakdownDeg?: Maybe<StringFilter>;
+  /** Filter by the object’s `creasingPieces` field. */
+  creasingPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `creasingPct` field. */
+  creasingPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `creasingDeg` field. */
+  creasingDeg?: Maybe<StringFilter>;
+  /** Filter by the object’s `puffinessPieces` field. */
+  puffinessPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `puffinessPct` field. */
+  puffinessPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `puffinessDeg` field. */
+  puffinessDeg?: Maybe<StringFilter>;
+  /** Filter by the object’s `decayPieces` field. */
+  decayPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `decayPct` field. */
+  decayPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `decayDeg` field. */
+  decayDeg?: Maybe<StringFilter>;
+  /** Filter by the object’s `moldPieces` field. */
+  moldPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `moldPct` field. */
+  moldPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `sporesPieces` field. */
+  sporesPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `sporesPct` field. */
+  sporesPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `brix` field. */
+  brix?: Maybe<StringFilter>;
+  /** Filter by the object’s `overallQuality` field. */
+  overallQuality?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `overallCondition` field. */
+  overallCondition?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `comment1` field. */
+  comment1?: Maybe<StringFilter>;
+  /** Filter by the object’s `comment2` field. */
+  comment2?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspectionType` field. */
+  inspectionType?: Maybe<StringFilter>;
+  /** Filter by the object’s `shortInsp` field. */
+  shortInsp?: Maybe<StringFilter>;
+  /** Filter by the object’s `fixedWeight` field. */
+  fixedWeight?: Maybe<StringFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<PsaCitrusPalletFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<PsaCitrusPalletFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<PsaCitrusPalletFilter>;
 };
 
 /** A connection to a list of `PsaGrapePallet` values. */
@@ -5256,6 +7176,1558 @@ export type PsaGrapePalletFilter = {
   not?: Maybe<PsaGrapePalletFilter>;
 };
 
+/** A connection to a list of `PsaLemonPallet` values. */
+export type PsaLemonPalletsConnection = {
+  __typename?: 'PsaLemonPalletsConnection';
+  /** A list of `PsaLemonPallet` objects. */
+  nodes: Array<Maybe<PsaLemonPallet>>;
+  /** A list of edges which contains the `PsaLemonPallet` and cursor to aid in pagination. */
+  edges: Array<PsaLemonPalletsEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `PsaLemonPallet` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+export type PsaLemonPallet = Node & {
+  __typename?: 'PsaLemonPallet';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  location?: Maybe<Scalars['String']>;
+  arrival?: Maybe<Scalars['String']>;
+  importerName?: Maybe<Scalars['String']>;
+  exporterName?: Maybe<Scalars['String']>;
+  commodity?: Maybe<Scalars['String']>;
+  productCode?: Maybe<Scalars['String']>;
+  variety?: Maybe<Scalars['String']>;
+  inspDate?: Maybe<Scalars['String']>;
+  quantity?: Maybe<Scalars['BigFloat']>;
+  hatch?: Maybe<Scalars['String']>;
+  deck?: Maybe<Scalars['String']>;
+  containerId?: Maybe<Scalars['String']>;
+  fumigation?: Maybe<Scalars['String']>;
+  labelCode?: Maybe<Scalars['String']>;
+  inspLocation?: Maybe<Scalars['String']>;
+  importerCode?: Maybe<Scalars['String']>;
+  lotCode?: Maybe<Scalars['String']>;
+  inspLot?: Maybe<Scalars['String']>;
+  palletId?: Maybe<Scalars['String']>;
+  growerCode?: Maybe<Scalars['String']>;
+  inspGrowerCode?: Maybe<Scalars['String']>;
+  packDate?: Maybe<Scalars['String']>;
+  inspPackDate?: Maybe<Scalars['String']>;
+  size?: Maybe<Scalars['String']>;
+  inspSize?: Maybe<Scalars['String']>;
+  packCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  secondaryDescription?: Maybe<Scalars['String']>;
+  inspPackCode?: Maybe<Scalars['String']>;
+  grade?: Maybe<Scalars['String']>;
+  inspGrade?: Maybe<Scalars['String']>;
+  count?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  pluPct?: Maybe<Scalars['String']>;
+  countryOfOrigin?: Maybe<Scalars['String']>;
+  upc?: Maybe<Scalars['String']>;
+  weight?: Maybe<Scalars['String']>;
+  underweightMin?: Maybe<Scalars['String']>;
+  underweightMax?: Maybe<Scalars['String']>;
+  weighedUnits?: Maybe<Scalars['String']>;
+  underweightUnits?: Maybe<Scalars['String']>;
+  underweightPct?: Maybe<Scalars['String']>;
+  pulpTemp?: Maybe<Scalars['String']>;
+  opening?: Maybe<Scalars['String']>;
+  color?: Maybe<Scalars['String']>;
+  diameterMinMm?: Maybe<Scalars['String']>;
+  diameterMinInches?: Maybe<Scalars['String']>;
+  diameterMaxMm?: Maybe<Scalars['String']>;
+  diameterMaxInches?: Maybe<Scalars['String']>;
+  diameterMostMm?: Maybe<Scalars['String']>;
+  diameterMostInches?: Maybe<Scalars['String']>;
+  scarsPieces?: Maybe<Scalars['String']>;
+  scarsPct?: Maybe<Scalars['String']>;
+  scarsDeg?: Maybe<Scalars['String']>;
+  greenHazePieces?: Maybe<Scalars['String']>;
+  greenHazePct?: Maybe<Scalars['String']>;
+  greenHazeDeg?: Maybe<Scalars['String']>;
+  oilSpotsPieces?: Maybe<Scalars['String']>;
+  oilSpotsPct?: Maybe<Scalars['String']>;
+  oilSpotsDeg?: Maybe<Scalars['String']>;
+  cutCount?: Maybe<Scalars['String']>;
+  dryPulpPieces?: Maybe<Scalars['String']>;
+  dryPulpPct?: Maybe<Scalars['String']>;
+  dryPulpDeg?: Maybe<Scalars['String']>;
+  skinDamagePieces?: Maybe<Scalars['String']>;
+  skinDamagePct?: Maybe<Scalars['String']>;
+  skinDamageDeg?: Maybe<Scalars['String']>;
+  petecaPieces?: Maybe<Scalars['String']>;
+  petecaPct?: Maybe<Scalars['String']>;
+  petecaDeg?: Maybe<Scalars['String']>;
+  decayPieces?: Maybe<Scalars['String']>;
+  decayPct?: Maybe<Scalars['String']>;
+  decayDeg?: Maybe<Scalars['String']>;
+  moldPieces?: Maybe<Scalars['String']>;
+  moldPct?: Maybe<Scalars['String']>;
+  sporesPieces?: Maybe<Scalars['String']>;
+  sporesPct?: Maybe<Scalars['String']>;
+  overallQuality?: Maybe<Scalars['BigFloat']>;
+  overallCondition?: Maybe<Scalars['BigFloat']>;
+  comment1?: Maybe<Scalars['String']>;
+  comment2?: Maybe<Scalars['String']>;
+  inspectionType?: Maybe<Scalars['String']>;
+  shortInsp?: Maybe<Scalars['String']>;
+  fixedWeight?: Maybe<Scalars['String']>;
+  /** Reads and enables pagination through a set of `PsaArrivalPicture`. */
+  pictures: PsaArrivalPicturesConnection;
+};
+
+
+export type PsaLemonPalletPicturesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  filter?: Maybe<PsaArrivalPictureFilter>;
+};
+
+/** A `PsaLemonPallet` edge in the connection. */
+export type PsaLemonPalletsEdge = {
+  __typename?: 'PsaLemonPalletsEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `PsaLemonPallet` at the end of the edge. */
+  node?: Maybe<PsaLemonPallet>;
+};
+
+/** A filter to be used against `PsaLemonPallet` object types. All fields are combined with a logical ‘and.’ */
+export type PsaLemonPalletFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `location` field. */
+  location?: Maybe<StringFilter>;
+  /** Filter by the object’s `arrival` field. */
+  arrival?: Maybe<StringFilter>;
+  /** Filter by the object’s `importerName` field. */
+  importerName?: Maybe<StringFilter>;
+  /** Filter by the object’s `exporterName` field. */
+  exporterName?: Maybe<StringFilter>;
+  /** Filter by the object’s `commodity` field. */
+  commodity?: Maybe<StringFilter>;
+  /** Filter by the object’s `productCode` field. */
+  productCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `variety` field. */
+  variety?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspDate` field. */
+  inspDate?: Maybe<StringFilter>;
+  /** Filter by the object’s `quantity` field. */
+  quantity?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `hatch` field. */
+  hatch?: Maybe<StringFilter>;
+  /** Filter by the object’s `deck` field. */
+  deck?: Maybe<StringFilter>;
+  /** Filter by the object’s `containerId` field. */
+  containerId?: Maybe<StringFilter>;
+  /** Filter by the object’s `fumigation` field. */
+  fumigation?: Maybe<StringFilter>;
+  /** Filter by the object’s `labelCode` field. */
+  labelCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspLocation` field. */
+  inspLocation?: Maybe<StringFilter>;
+  /** Filter by the object’s `importerCode` field. */
+  importerCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `lotCode` field. */
+  lotCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspLot` field. */
+  inspLot?: Maybe<StringFilter>;
+  /** Filter by the object’s `palletId` field. */
+  palletId?: Maybe<StringFilter>;
+  /** Filter by the object’s `growerCode` field. */
+  growerCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspGrowerCode` field. */
+  inspGrowerCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `packDate` field. */
+  packDate?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspPackDate` field. */
+  inspPackDate?: Maybe<StringFilter>;
+  /** Filter by the object’s `size` field. */
+  size?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspSize` field. */
+  inspSize?: Maybe<StringFilter>;
+  /** Filter by the object’s `packCode` field. */
+  packCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `packDescription` field. */
+  packDescription?: Maybe<StringFilter>;
+  /** Filter by the object’s `secondaryDescription` field. */
+  secondaryDescription?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspPackCode` field. */
+  inspPackCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `grade` field. */
+  grade?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspGrade` field. */
+  inspGrade?: Maybe<StringFilter>;
+  /** Filter by the object’s `count` field. */
+  count?: Maybe<StringFilter>;
+  /** Filter by the object’s `plu` field. */
+  plu?: Maybe<StringFilter>;
+  /** Filter by the object’s `pluPct` field. */
+  pluPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `countryOfOrigin` field. */
+  countryOfOrigin?: Maybe<StringFilter>;
+  /** Filter by the object’s `upc` field. */
+  upc?: Maybe<StringFilter>;
+  /** Filter by the object’s `weight` field. */
+  weight?: Maybe<StringFilter>;
+  /** Filter by the object’s `underweightMin` field. */
+  underweightMin?: Maybe<StringFilter>;
+  /** Filter by the object’s `underweightMax` field. */
+  underweightMax?: Maybe<StringFilter>;
+  /** Filter by the object’s `weighedUnits` field. */
+  weighedUnits?: Maybe<StringFilter>;
+  /** Filter by the object’s `underweightUnits` field. */
+  underweightUnits?: Maybe<StringFilter>;
+  /** Filter by the object’s `underweightPct` field. */
+  underweightPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `pulpTemp` field. */
+  pulpTemp?: Maybe<StringFilter>;
+  /** Filter by the object’s `opening` field. */
+  opening?: Maybe<StringFilter>;
+  /** Filter by the object’s `color` field. */
+  color?: Maybe<StringFilter>;
+  /** Filter by the object’s `diameterMinMm` field. */
+  diameterMinMm?: Maybe<StringFilter>;
+  /** Filter by the object’s `diameterMinInches` field. */
+  diameterMinInches?: Maybe<StringFilter>;
+  /** Filter by the object’s `diameterMaxMm` field. */
+  diameterMaxMm?: Maybe<StringFilter>;
+  /** Filter by the object’s `diameterMaxInches` field. */
+  diameterMaxInches?: Maybe<StringFilter>;
+  /** Filter by the object’s `diameterMostMm` field. */
+  diameterMostMm?: Maybe<StringFilter>;
+  /** Filter by the object’s `diameterMostInches` field. */
+  diameterMostInches?: Maybe<StringFilter>;
+  /** Filter by the object’s `scarsPieces` field. */
+  scarsPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `scarsPct` field. */
+  scarsPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `scarsDeg` field. */
+  scarsDeg?: Maybe<StringFilter>;
+  /** Filter by the object’s `greenHazePieces` field. */
+  greenHazePieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `greenHazePct` field. */
+  greenHazePct?: Maybe<StringFilter>;
+  /** Filter by the object’s `greenHazeDeg` field. */
+  greenHazeDeg?: Maybe<StringFilter>;
+  /** Filter by the object’s `oilSpotsPieces` field. */
+  oilSpotsPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `oilSpotsPct` field. */
+  oilSpotsPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `oilSpotsDeg` field. */
+  oilSpotsDeg?: Maybe<StringFilter>;
+  /** Filter by the object’s `cutCount` field. */
+  cutCount?: Maybe<StringFilter>;
+  /** Filter by the object’s `dryPulpPieces` field. */
+  dryPulpPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `dryPulpPct` field. */
+  dryPulpPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `dryPulpDeg` field. */
+  dryPulpDeg?: Maybe<StringFilter>;
+  /** Filter by the object’s `skinDamagePieces` field. */
+  skinDamagePieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `skinDamagePct` field. */
+  skinDamagePct?: Maybe<StringFilter>;
+  /** Filter by the object’s `skinDamageDeg` field. */
+  skinDamageDeg?: Maybe<StringFilter>;
+  /** Filter by the object’s `petecaPieces` field. */
+  petecaPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `petecaPct` field. */
+  petecaPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `petecaDeg` field. */
+  petecaDeg?: Maybe<StringFilter>;
+  /** Filter by the object’s `decayPieces` field. */
+  decayPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `decayPct` field. */
+  decayPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `decayDeg` field. */
+  decayDeg?: Maybe<StringFilter>;
+  /** Filter by the object’s `moldPieces` field. */
+  moldPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `moldPct` field. */
+  moldPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `sporesPieces` field. */
+  sporesPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `sporesPct` field. */
+  sporesPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `overallQuality` field. */
+  overallQuality?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `overallCondition` field. */
+  overallCondition?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `comment1` field. */
+  comment1?: Maybe<StringFilter>;
+  /** Filter by the object’s `comment2` field. */
+  comment2?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspectionType` field. */
+  inspectionType?: Maybe<StringFilter>;
+  /** Filter by the object’s `shortInsp` field. */
+  shortInsp?: Maybe<StringFilter>;
+  /** Filter by the object’s `fixedWeight` field. */
+  fixedWeight?: Maybe<StringFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<PsaLemonPalletFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<PsaLemonPalletFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<PsaLemonPalletFilter>;
+};
+
+/** A connection to a list of `PsaPearPallet` values. */
+export type PsaPearPalletsConnection = {
+  __typename?: 'PsaPearPalletsConnection';
+  /** A list of `PsaPearPallet` objects. */
+  nodes: Array<Maybe<PsaPearPallet>>;
+  /** A list of edges which contains the `PsaPearPallet` and cursor to aid in pagination. */
+  edges: Array<PsaPearPalletsEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `PsaPearPallet` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+export type PsaPearPallet = Node & {
+  __typename?: 'PsaPearPallet';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  location?: Maybe<Scalars['String']>;
+  arrival?: Maybe<Scalars['String']>;
+  importerName?: Maybe<Scalars['String']>;
+  exporterName?: Maybe<Scalars['String']>;
+  commodity?: Maybe<Scalars['String']>;
+  productCode?: Maybe<Scalars['String']>;
+  variety?: Maybe<Scalars['String']>;
+  inspDate?: Maybe<Scalars['String']>;
+  quantity?: Maybe<Scalars['BigFloat']>;
+  hatch?: Maybe<Scalars['String']>;
+  deck?: Maybe<Scalars['String']>;
+  containerId?: Maybe<Scalars['String']>;
+  fumigation?: Maybe<Scalars['String']>;
+  labelCode?: Maybe<Scalars['String']>;
+  inspLocation?: Maybe<Scalars['String']>;
+  importerCode?: Maybe<Scalars['String']>;
+  lotCode?: Maybe<Scalars['String']>;
+  inspLot?: Maybe<Scalars['String']>;
+  runNumber?: Maybe<Scalars['String']>;
+  palletId?: Maybe<Scalars['String']>;
+  growerCode?: Maybe<Scalars['String']>;
+  inspGrowerCode?: Maybe<Scalars['String']>;
+  packDate?: Maybe<Scalars['String']>;
+  inspPackDate?: Maybe<Scalars['String']>;
+  size?: Maybe<Scalars['String']>;
+  inspSize?: Maybe<Scalars['String']>;
+  packCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  secondaryDescription?: Maybe<Scalars['String']>;
+  inspPackCode?: Maybe<Scalars['String']>;
+  grade?: Maybe<Scalars['String']>;
+  inspGrade?: Maybe<Scalars['String']>;
+  count?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  pluPct?: Maybe<Scalars['String']>;
+  countryOfOrigin?: Maybe<Scalars['String']>;
+  upc?: Maybe<Scalars['String']>;
+  weight?: Maybe<Scalars['String']>;
+  underweightMin?: Maybe<Scalars['String']>;
+  underweightMax?: Maybe<Scalars['String']>;
+  weighedUnits?: Maybe<Scalars['String']>;
+  underweightUnits?: Maybe<Scalars['String']>;
+  underweightPct?: Maybe<Scalars['String']>;
+  pulpTemp?: Maybe<Scalars['String']>;
+  opening?: Maybe<Scalars['String']>;
+  groundColor?: Maybe<Scalars['String']>;
+  blushColor?: Maybe<Scalars['String']>;
+  blushPct?: Maybe<Scalars['String']>;
+  scarsRussetPieces?: Maybe<Scalars['String']>;
+  scarsRussetPct?: Maybe<Scalars['String']>;
+  scarsRussetDeg?: Maybe<Scalars['String']>;
+  russetPerPiecePct?: Maybe<Scalars['String']>;
+  stemPuncturesPieces?: Maybe<Scalars['String']>;
+  stemPuncturesPct?: Maybe<Scalars['String']>;
+  cutsPieces?: Maybe<Scalars['String']>;
+  cutsPct?: Maybe<Scalars['String']>;
+  cutsDeg?: Maybe<Scalars['String']>;
+  turningColorPieces?: Maybe<Scalars['String']>;
+  turningColorPct?: Maybe<Scalars['String']>;
+  turningColorDeg?: Maybe<Scalars['String']>;
+  dehydrationPieces?: Maybe<Scalars['String']>;
+  dehydrationPct?: Maybe<Scalars['String']>;
+  dehydrationDeg?: Maybe<Scalars['String']>;
+  bruisingPieces?: Maybe<Scalars['String']>;
+  bruisingPct?: Maybe<Scalars['String']>;
+  bruisingDeg?: Maybe<Scalars['String']>;
+  cutCount?: Maybe<Scalars['String']>;
+  internalDamagePieces?: Maybe<Scalars['String']>;
+  internalDamagePer?: Maybe<Scalars['String']>;
+  decayPieces?: Maybe<Scalars['String']>;
+  decayPct?: Maybe<Scalars['String']>;
+  decayDeg?: Maybe<Scalars['String']>;
+  moldPieces?: Maybe<Scalars['String']>;
+  moldPct?: Maybe<Scalars['String']>;
+  pressure1?: Maybe<Scalars['String']>;
+  pressure2?: Maybe<Scalars['String']>;
+  pressure3?: Maybe<Scalars['String']>;
+  pressure4?: Maybe<Scalars['String']>;
+  pressure5?: Maybe<Scalars['String']>;
+  pressure6?: Maybe<Scalars['String']>;
+  pressuresMin?: Maybe<Scalars['String']>;
+  pressuresMax?: Maybe<Scalars['String']>;
+  pressuresAvg?: Maybe<Scalars['String']>;
+  overallQuality?: Maybe<Scalars['BigFloat']>;
+  overallCondition?: Maybe<Scalars['BigFloat']>;
+  comment1?: Maybe<Scalars['String']>;
+  comment2?: Maybe<Scalars['String']>;
+  inspectionType?: Maybe<Scalars['String']>;
+  shortInsp?: Maybe<Scalars['String']>;
+  fixedWeight?: Maybe<Scalars['String']>;
+  /** Reads and enables pagination through a set of `PsaArrivalPicture`. */
+  pictures: PsaArrivalPicturesConnection;
+};
+
+
+export type PsaPearPalletPicturesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  filter?: Maybe<PsaArrivalPictureFilter>;
+};
+
+/** A `PsaPearPallet` edge in the connection. */
+export type PsaPearPalletsEdge = {
+  __typename?: 'PsaPearPalletsEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `PsaPearPallet` at the end of the edge. */
+  node?: Maybe<PsaPearPallet>;
+};
+
+/** A filter to be used against `PsaPearPallet` object types. All fields are combined with a logical ‘and.’ */
+export type PsaPearPalletFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `location` field. */
+  location?: Maybe<StringFilter>;
+  /** Filter by the object’s `arrival` field. */
+  arrival?: Maybe<StringFilter>;
+  /** Filter by the object’s `importerName` field. */
+  importerName?: Maybe<StringFilter>;
+  /** Filter by the object’s `exporterName` field. */
+  exporterName?: Maybe<StringFilter>;
+  /** Filter by the object’s `commodity` field. */
+  commodity?: Maybe<StringFilter>;
+  /** Filter by the object’s `productCode` field. */
+  productCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `variety` field. */
+  variety?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspDate` field. */
+  inspDate?: Maybe<StringFilter>;
+  /** Filter by the object’s `quantity` field. */
+  quantity?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `hatch` field. */
+  hatch?: Maybe<StringFilter>;
+  /** Filter by the object’s `deck` field. */
+  deck?: Maybe<StringFilter>;
+  /** Filter by the object’s `containerId` field. */
+  containerId?: Maybe<StringFilter>;
+  /** Filter by the object’s `fumigation` field. */
+  fumigation?: Maybe<StringFilter>;
+  /** Filter by the object’s `labelCode` field. */
+  labelCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspLocation` field. */
+  inspLocation?: Maybe<StringFilter>;
+  /** Filter by the object’s `importerCode` field. */
+  importerCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `lotCode` field. */
+  lotCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspLot` field. */
+  inspLot?: Maybe<StringFilter>;
+  /** Filter by the object’s `runNumber` field. */
+  runNumber?: Maybe<StringFilter>;
+  /** Filter by the object’s `palletId` field. */
+  palletId?: Maybe<StringFilter>;
+  /** Filter by the object’s `growerCode` field. */
+  growerCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspGrowerCode` field. */
+  inspGrowerCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `packDate` field. */
+  packDate?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspPackDate` field. */
+  inspPackDate?: Maybe<StringFilter>;
+  /** Filter by the object’s `size` field. */
+  size?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspSize` field. */
+  inspSize?: Maybe<StringFilter>;
+  /** Filter by the object’s `packCode` field. */
+  packCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `packDescription` field. */
+  packDescription?: Maybe<StringFilter>;
+  /** Filter by the object’s `secondaryDescription` field. */
+  secondaryDescription?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspPackCode` field. */
+  inspPackCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `grade` field. */
+  grade?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspGrade` field. */
+  inspGrade?: Maybe<StringFilter>;
+  /** Filter by the object’s `count` field. */
+  count?: Maybe<StringFilter>;
+  /** Filter by the object’s `plu` field. */
+  plu?: Maybe<StringFilter>;
+  /** Filter by the object’s `pluPct` field. */
+  pluPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `countryOfOrigin` field. */
+  countryOfOrigin?: Maybe<StringFilter>;
+  /** Filter by the object’s `upc` field. */
+  upc?: Maybe<StringFilter>;
+  /** Filter by the object’s `weight` field. */
+  weight?: Maybe<StringFilter>;
+  /** Filter by the object’s `underweightMin` field. */
+  underweightMin?: Maybe<StringFilter>;
+  /** Filter by the object’s `underweightMax` field. */
+  underweightMax?: Maybe<StringFilter>;
+  /** Filter by the object’s `weighedUnits` field. */
+  weighedUnits?: Maybe<StringFilter>;
+  /** Filter by the object’s `underweightUnits` field. */
+  underweightUnits?: Maybe<StringFilter>;
+  /** Filter by the object’s `underweightPct` field. */
+  underweightPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `pulpTemp` field. */
+  pulpTemp?: Maybe<StringFilter>;
+  /** Filter by the object’s `opening` field. */
+  opening?: Maybe<StringFilter>;
+  /** Filter by the object’s `groundColor` field. */
+  groundColor?: Maybe<StringFilter>;
+  /** Filter by the object’s `blushColor` field. */
+  blushColor?: Maybe<StringFilter>;
+  /** Filter by the object’s `blushPct` field. */
+  blushPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `scarsRussetPieces` field. */
+  scarsRussetPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `scarsRussetPct` field. */
+  scarsRussetPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `scarsRussetDeg` field. */
+  scarsRussetDeg?: Maybe<StringFilter>;
+  /** Filter by the object’s `russetPerPiecePct` field. */
+  russetPerPiecePct?: Maybe<StringFilter>;
+  /** Filter by the object’s `stemPuncturesPieces` field. */
+  stemPuncturesPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `stemPuncturesPct` field. */
+  stemPuncturesPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `cutsPieces` field. */
+  cutsPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `cutsPct` field. */
+  cutsPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `cutsDeg` field. */
+  cutsDeg?: Maybe<StringFilter>;
+  /** Filter by the object’s `turningColorPieces` field. */
+  turningColorPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `turningColorPct` field. */
+  turningColorPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `turningColorDeg` field. */
+  turningColorDeg?: Maybe<StringFilter>;
+  /** Filter by the object’s `dehydrationPieces` field. */
+  dehydrationPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `dehydrationPct` field. */
+  dehydrationPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `dehydrationDeg` field. */
+  dehydrationDeg?: Maybe<StringFilter>;
+  /** Filter by the object’s `bruisingPieces` field. */
+  bruisingPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `bruisingPct` field. */
+  bruisingPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `bruisingDeg` field. */
+  bruisingDeg?: Maybe<StringFilter>;
+  /** Filter by the object’s `cutCount` field. */
+  cutCount?: Maybe<StringFilter>;
+  /** Filter by the object’s `internalDamagePieces` field. */
+  internalDamagePieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `internalDamagePer` field. */
+  internalDamagePer?: Maybe<StringFilter>;
+  /** Filter by the object’s `decayPieces` field. */
+  decayPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `decayPct` field. */
+  decayPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `decayDeg` field. */
+  decayDeg?: Maybe<StringFilter>;
+  /** Filter by the object’s `moldPieces` field. */
+  moldPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `moldPct` field. */
+  moldPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `pressure1` field. */
+  pressure1?: Maybe<StringFilter>;
+  /** Filter by the object’s `pressure2` field. */
+  pressure2?: Maybe<StringFilter>;
+  /** Filter by the object’s `pressure3` field. */
+  pressure3?: Maybe<StringFilter>;
+  /** Filter by the object’s `pressure4` field. */
+  pressure4?: Maybe<StringFilter>;
+  /** Filter by the object’s `pressure5` field. */
+  pressure5?: Maybe<StringFilter>;
+  /** Filter by the object’s `pressure6` field. */
+  pressure6?: Maybe<StringFilter>;
+  /** Filter by the object’s `pressuresMin` field. */
+  pressuresMin?: Maybe<StringFilter>;
+  /** Filter by the object’s `pressuresMax` field. */
+  pressuresMax?: Maybe<StringFilter>;
+  /** Filter by the object’s `pressuresAvg` field. */
+  pressuresAvg?: Maybe<StringFilter>;
+  /** Filter by the object’s `overallQuality` field. */
+  overallQuality?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `overallCondition` field. */
+  overallCondition?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `comment1` field. */
+  comment1?: Maybe<StringFilter>;
+  /** Filter by the object’s `comment2` field. */
+  comment2?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspectionType` field. */
+  inspectionType?: Maybe<StringFilter>;
+  /** Filter by the object’s `shortInsp` field. */
+  shortInsp?: Maybe<StringFilter>;
+  /** Filter by the object’s `fixedWeight` field. */
+  fixedWeight?: Maybe<StringFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<PsaPearPalletFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<PsaPearPalletFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<PsaPearPalletFilter>;
+};
+
+/** A connection to a list of `PsaPersimmonPallet` values. */
+export type PsaPersimmonPalletsConnection = {
+  __typename?: 'PsaPersimmonPalletsConnection';
+  /** A list of `PsaPersimmonPallet` objects. */
+  nodes: Array<Maybe<PsaPersimmonPallet>>;
+  /** A list of edges which contains the `PsaPersimmonPallet` and cursor to aid in pagination. */
+  edges: Array<PsaPersimmonPalletsEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `PsaPersimmonPallet` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+export type PsaPersimmonPallet = Node & {
+  __typename?: 'PsaPersimmonPallet';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  location?: Maybe<Scalars['String']>;
+  arrival?: Maybe<Scalars['String']>;
+  importerName?: Maybe<Scalars['String']>;
+  exporterName?: Maybe<Scalars['String']>;
+  commodity?: Maybe<Scalars['String']>;
+  productCode?: Maybe<Scalars['String']>;
+  variety?: Maybe<Scalars['String']>;
+  inspDate?: Maybe<Scalars['String']>;
+  quantity?: Maybe<Scalars['BigFloat']>;
+  hatch?: Maybe<Scalars['String']>;
+  deck?: Maybe<Scalars['String']>;
+  containerId?: Maybe<Scalars['String']>;
+  fumigation?: Maybe<Scalars['String']>;
+  labelCode?: Maybe<Scalars['String']>;
+  inspLocation?: Maybe<Scalars['String']>;
+  importerCode?: Maybe<Scalars['String']>;
+  lotCode?: Maybe<Scalars['String']>;
+  inspLot?: Maybe<Scalars['String']>;
+  palletId?: Maybe<Scalars['String']>;
+  growerCode?: Maybe<Scalars['String']>;
+  inspGrowerCode?: Maybe<Scalars['String']>;
+  packDate?: Maybe<Scalars['String']>;
+  inspPackDate?: Maybe<Scalars['String']>;
+  size?: Maybe<Scalars['String']>;
+  inspSize?: Maybe<Scalars['String']>;
+  packCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  secondaryDescription?: Maybe<Scalars['String']>;
+  inspPackCode?: Maybe<Scalars['String']>;
+  count?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  pluPct?: Maybe<Scalars['String']>;
+  countryOfOrigin?: Maybe<Scalars['String']>;
+  upc?: Maybe<Scalars['String']>;
+  weight?: Maybe<Scalars['String']>;
+  underweightMin?: Maybe<Scalars['String']>;
+  underweightMax?: Maybe<Scalars['String']>;
+  weighedUnits?: Maybe<Scalars['String']>;
+  underweightUnits?: Maybe<Scalars['String']>;
+  underweightPct?: Maybe<Scalars['String']>;
+  pulpTemp?: Maybe<Scalars['String']>;
+  opening?: Maybe<Scalars['String']>;
+  color?: Maybe<Scalars['String']>;
+  scarsMarksPieces?: Maybe<Scalars['String']>;
+  scarsMarksPct?: Maybe<Scalars['String']>;
+  scarsMarksDeg?: Maybe<Scalars['String']>;
+  greenColorPieces?: Maybe<Scalars['String']>;
+  greenColor?: Maybe<Scalars['String']>;
+  greenColorDeg?: Maybe<Scalars['String']>;
+  cutsSplitsPieces?: Maybe<Scalars['String']>;
+  cutsSplitsPct?: Maybe<Scalars['String']>;
+  cutsSplitsDeg?: Maybe<Scalars['String']>;
+  bruisingPieces?: Maybe<Scalars['String']>;
+  bruisingPct?: Maybe<Scalars['String']>;
+  bruisingDeg?: Maybe<Scalars['String']>;
+  dehydrationPieces?: Maybe<Scalars['String']>;
+  dehydrationPct?: Maybe<Scalars['String']>;
+  dehydrationDeg?: Maybe<Scalars['String']>;
+  cutCount?: Maybe<Scalars['String']>;
+  seedsPieces?: Maybe<Scalars['String']>;
+  seedsPct?: Maybe<Scalars['String']>;
+  internalDamagePieces?: Maybe<Scalars['String']>;
+  internalDamagePer?: Maybe<Scalars['String']>;
+  internalDamageDeg?: Maybe<Scalars['String']>;
+  decayPieces?: Maybe<Scalars['String']>;
+  decayPct?: Maybe<Scalars['String']>;
+  decayDeg?: Maybe<Scalars['String']>;
+  moldPieces?: Maybe<Scalars['String']>;
+  moldPct?: Maybe<Scalars['String']>;
+  brix?: Maybe<Scalars['String']>;
+  pressure1?: Maybe<Scalars['String']>;
+  pressure2?: Maybe<Scalars['String']>;
+  pressure3?: Maybe<Scalars['String']>;
+  pressure4?: Maybe<Scalars['String']>;
+  pressure5?: Maybe<Scalars['String']>;
+  pressure6?: Maybe<Scalars['String']>;
+  pressuresMin?: Maybe<Scalars['String']>;
+  pressuresMax?: Maybe<Scalars['String']>;
+  pressuresAvg?: Maybe<Scalars['String']>;
+  overallQuality?: Maybe<Scalars['BigFloat']>;
+  overallCondition?: Maybe<Scalars['BigFloat']>;
+  comment1?: Maybe<Scalars['String']>;
+  comment2?: Maybe<Scalars['String']>;
+  inspectionType?: Maybe<Scalars['String']>;
+  shortInsp?: Maybe<Scalars['String']>;
+  fixedWeight?: Maybe<Scalars['String']>;
+  /** Reads and enables pagination through a set of `PsaArrivalPicture`. */
+  pictures: PsaArrivalPicturesConnection;
+};
+
+
+export type PsaPersimmonPalletPicturesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  filter?: Maybe<PsaArrivalPictureFilter>;
+};
+
+/** A `PsaPersimmonPallet` edge in the connection. */
+export type PsaPersimmonPalletsEdge = {
+  __typename?: 'PsaPersimmonPalletsEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `PsaPersimmonPallet` at the end of the edge. */
+  node?: Maybe<PsaPersimmonPallet>;
+};
+
+/** A filter to be used against `PsaPersimmonPallet` object types. All fields are combined with a logical ‘and.’ */
+export type PsaPersimmonPalletFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `location` field. */
+  location?: Maybe<StringFilter>;
+  /** Filter by the object’s `arrival` field. */
+  arrival?: Maybe<StringFilter>;
+  /** Filter by the object’s `importerName` field. */
+  importerName?: Maybe<StringFilter>;
+  /** Filter by the object’s `exporterName` field. */
+  exporterName?: Maybe<StringFilter>;
+  /** Filter by the object’s `commodity` field. */
+  commodity?: Maybe<StringFilter>;
+  /** Filter by the object’s `productCode` field. */
+  productCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `variety` field. */
+  variety?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspDate` field. */
+  inspDate?: Maybe<StringFilter>;
+  /** Filter by the object’s `quantity` field. */
+  quantity?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `hatch` field. */
+  hatch?: Maybe<StringFilter>;
+  /** Filter by the object’s `deck` field. */
+  deck?: Maybe<StringFilter>;
+  /** Filter by the object’s `containerId` field. */
+  containerId?: Maybe<StringFilter>;
+  /** Filter by the object’s `fumigation` field. */
+  fumigation?: Maybe<StringFilter>;
+  /** Filter by the object’s `labelCode` field. */
+  labelCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspLocation` field. */
+  inspLocation?: Maybe<StringFilter>;
+  /** Filter by the object’s `importerCode` field. */
+  importerCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `lotCode` field. */
+  lotCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspLot` field. */
+  inspLot?: Maybe<StringFilter>;
+  /** Filter by the object’s `palletId` field. */
+  palletId?: Maybe<StringFilter>;
+  /** Filter by the object’s `growerCode` field. */
+  growerCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspGrowerCode` field. */
+  inspGrowerCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `packDate` field. */
+  packDate?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspPackDate` field. */
+  inspPackDate?: Maybe<StringFilter>;
+  /** Filter by the object’s `size` field. */
+  size?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspSize` field. */
+  inspSize?: Maybe<StringFilter>;
+  /** Filter by the object’s `packCode` field. */
+  packCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `packDescription` field. */
+  packDescription?: Maybe<StringFilter>;
+  /** Filter by the object’s `secondaryDescription` field. */
+  secondaryDescription?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspPackCode` field. */
+  inspPackCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `count` field. */
+  count?: Maybe<StringFilter>;
+  /** Filter by the object’s `plu` field. */
+  plu?: Maybe<StringFilter>;
+  /** Filter by the object’s `pluPct` field. */
+  pluPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `countryOfOrigin` field. */
+  countryOfOrigin?: Maybe<StringFilter>;
+  /** Filter by the object’s `upc` field. */
+  upc?: Maybe<StringFilter>;
+  /** Filter by the object’s `weight` field. */
+  weight?: Maybe<StringFilter>;
+  /** Filter by the object’s `underweightMin` field. */
+  underweightMin?: Maybe<StringFilter>;
+  /** Filter by the object’s `underweightMax` field. */
+  underweightMax?: Maybe<StringFilter>;
+  /** Filter by the object’s `weighedUnits` field. */
+  weighedUnits?: Maybe<StringFilter>;
+  /** Filter by the object’s `underweightUnits` field. */
+  underweightUnits?: Maybe<StringFilter>;
+  /** Filter by the object’s `underweightPct` field. */
+  underweightPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `pulpTemp` field. */
+  pulpTemp?: Maybe<StringFilter>;
+  /** Filter by the object’s `opening` field. */
+  opening?: Maybe<StringFilter>;
+  /** Filter by the object’s `color` field. */
+  color?: Maybe<StringFilter>;
+  /** Filter by the object’s `scarsMarksPieces` field. */
+  scarsMarksPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `scarsMarksPct` field. */
+  scarsMarksPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `scarsMarksDeg` field. */
+  scarsMarksDeg?: Maybe<StringFilter>;
+  /** Filter by the object’s `greenColorPieces` field. */
+  greenColorPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `greenColor` field. */
+  greenColor?: Maybe<StringFilter>;
+  /** Filter by the object’s `greenColorDeg` field. */
+  greenColorDeg?: Maybe<StringFilter>;
+  /** Filter by the object’s `cutsSplitsPieces` field. */
+  cutsSplitsPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `cutsSplitsPct` field. */
+  cutsSplitsPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `cutsSplitsDeg` field. */
+  cutsSplitsDeg?: Maybe<StringFilter>;
+  /** Filter by the object’s `bruisingPieces` field. */
+  bruisingPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `bruisingPct` field. */
+  bruisingPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `bruisingDeg` field. */
+  bruisingDeg?: Maybe<StringFilter>;
+  /** Filter by the object’s `dehydrationPieces` field. */
+  dehydrationPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `dehydrationPct` field. */
+  dehydrationPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `dehydrationDeg` field. */
+  dehydrationDeg?: Maybe<StringFilter>;
+  /** Filter by the object’s `cutCount` field. */
+  cutCount?: Maybe<StringFilter>;
+  /** Filter by the object’s `seedsPieces` field. */
+  seedsPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `seedsPct` field. */
+  seedsPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `internalDamagePieces` field. */
+  internalDamagePieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `internalDamagePer` field. */
+  internalDamagePer?: Maybe<StringFilter>;
+  /** Filter by the object’s `internalDamageDeg` field. */
+  internalDamageDeg?: Maybe<StringFilter>;
+  /** Filter by the object’s `decayPieces` field. */
+  decayPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `decayPct` field. */
+  decayPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `decayDeg` field. */
+  decayDeg?: Maybe<StringFilter>;
+  /** Filter by the object’s `moldPieces` field. */
+  moldPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `moldPct` field. */
+  moldPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `brix` field. */
+  brix?: Maybe<StringFilter>;
+  /** Filter by the object’s `pressure1` field. */
+  pressure1?: Maybe<StringFilter>;
+  /** Filter by the object’s `pressure2` field. */
+  pressure2?: Maybe<StringFilter>;
+  /** Filter by the object’s `pressure3` field. */
+  pressure3?: Maybe<StringFilter>;
+  /** Filter by the object’s `pressure4` field. */
+  pressure4?: Maybe<StringFilter>;
+  /** Filter by the object’s `pressure5` field. */
+  pressure5?: Maybe<StringFilter>;
+  /** Filter by the object’s `pressure6` field. */
+  pressure6?: Maybe<StringFilter>;
+  /** Filter by the object’s `pressuresMin` field. */
+  pressuresMin?: Maybe<StringFilter>;
+  /** Filter by the object’s `pressuresMax` field. */
+  pressuresMax?: Maybe<StringFilter>;
+  /** Filter by the object’s `pressuresAvg` field. */
+  pressuresAvg?: Maybe<StringFilter>;
+  /** Filter by the object’s `overallQuality` field. */
+  overallQuality?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `overallCondition` field. */
+  overallCondition?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `comment1` field. */
+  comment1?: Maybe<StringFilter>;
+  /** Filter by the object’s `comment2` field. */
+  comment2?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspectionType` field. */
+  inspectionType?: Maybe<StringFilter>;
+  /** Filter by the object’s `shortInsp` field. */
+  shortInsp?: Maybe<StringFilter>;
+  /** Filter by the object’s `fixedWeight` field. */
+  fixedWeight?: Maybe<StringFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<PsaPersimmonPalletFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<PsaPersimmonPalletFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<PsaPersimmonPalletFilter>;
+};
+
+/** A connection to a list of `PsaPomegranatePallet` values. */
+export type PsaPomegranatePalletsConnection = {
+  __typename?: 'PsaPomegranatePalletsConnection';
+  /** A list of `PsaPomegranatePallet` objects. */
+  nodes: Array<Maybe<PsaPomegranatePallet>>;
+  /** A list of edges which contains the `PsaPomegranatePallet` and cursor to aid in pagination. */
+  edges: Array<PsaPomegranatePalletsEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `PsaPomegranatePallet` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+export type PsaPomegranatePallet = Node & {
+  __typename?: 'PsaPomegranatePallet';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  location?: Maybe<Scalars['String']>;
+  arrival?: Maybe<Scalars['String']>;
+  importerName?: Maybe<Scalars['String']>;
+  exporterName?: Maybe<Scalars['String']>;
+  commodity?: Maybe<Scalars['String']>;
+  productCode?: Maybe<Scalars['String']>;
+  variety?: Maybe<Scalars['String']>;
+  inspDate?: Maybe<Scalars['String']>;
+  quantity?: Maybe<Scalars['BigFloat']>;
+  hatch?: Maybe<Scalars['String']>;
+  deck?: Maybe<Scalars['String']>;
+  containerId?: Maybe<Scalars['String']>;
+  fumigation?: Maybe<Scalars['String']>;
+  labelCode?: Maybe<Scalars['String']>;
+  inspLocation?: Maybe<Scalars['String']>;
+  importerCode?: Maybe<Scalars['String']>;
+  lotCode?: Maybe<Scalars['String']>;
+  inspLot?: Maybe<Scalars['String']>;
+  palletId?: Maybe<Scalars['String']>;
+  growerCode?: Maybe<Scalars['String']>;
+  inspGrowerCode?: Maybe<Scalars['String']>;
+  packDate?: Maybe<Scalars['String']>;
+  inspPackDate?: Maybe<Scalars['String']>;
+  size?: Maybe<Scalars['String']>;
+  inspSize?: Maybe<Scalars['String']>;
+  packCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  secondaryDescription?: Maybe<Scalars['String']>;
+  inspPackCode?: Maybe<Scalars['String']>;
+  grade?: Maybe<Scalars['String']>;
+  inspGrade?: Maybe<Scalars['String']>;
+  count?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  pluPct?: Maybe<Scalars['String']>;
+  countryOfOrigin?: Maybe<Scalars['String']>;
+  upc?: Maybe<Scalars['String']>;
+  weight?: Maybe<Scalars['String']>;
+  underweightMin?: Maybe<Scalars['String']>;
+  underweightMax?: Maybe<Scalars['String']>;
+  weighedUnits?: Maybe<Scalars['String']>;
+  underweightUnits?: Maybe<Scalars['String']>;
+  underweightPct?: Maybe<Scalars['String']>;
+  pulpTemp?: Maybe<Scalars['String']>;
+  opening?: Maybe<Scalars['String']>;
+  blushColor?: Maybe<Scalars['String']>;
+  blushPct?: Maybe<Scalars['String']>;
+  arilsColor?: Maybe<Scalars['String']>;
+  scarsRussetPieces?: Maybe<Scalars['String']>;
+  scarsRussetPct?: Maybe<Scalars['String']>;
+  scarsRussetDeg?: Maybe<Scalars['String']>;
+  cutsPieces?: Maybe<Scalars['String']>;
+  cutsPct?: Maybe<Scalars['String']>;
+  cutsDeg?: Maybe<Scalars['String']>;
+  sunScaldPieces?: Maybe<Scalars['String']>;
+  sunScaldPct?: Maybe<Scalars['String']>;
+  sunScaldDeg?: Maybe<Scalars['String']>;
+  scaldPieces?: Maybe<Scalars['String']>;
+  scaldPct?: Maybe<Scalars['String']>;
+  scaldDeg?: Maybe<Scalars['String']>;
+  bruisingPieces?: Maybe<Scalars['String']>;
+  bruisingPct?: Maybe<Scalars['String']>;
+  bruisingDeg?: Maybe<Scalars['String']>;
+  dehydrationPieces?: Maybe<Scalars['String']>;
+  dehydrationPct?: Maybe<Scalars['String']>;
+  dehydrationDeg?: Maybe<Scalars['String']>;
+  decayPieces?: Maybe<Scalars['String']>;
+  decayPct?: Maybe<Scalars['String']>;
+  decayDeg?: Maybe<Scalars['String']>;
+  moldPieces?: Maybe<Scalars['String']>;
+  moldPct?: Maybe<Scalars['String']>;
+  brixMin?: Maybe<Scalars['String']>;
+  brixMax?: Maybe<Scalars['String']>;
+  brixMost?: Maybe<Scalars['String']>;
+  overallQuality?: Maybe<Scalars['BigFloat']>;
+  overallCondition?: Maybe<Scalars['BigFloat']>;
+  comment1?: Maybe<Scalars['String']>;
+  comment2?: Maybe<Scalars['String']>;
+  inspectionType?: Maybe<Scalars['String']>;
+  shortInsp?: Maybe<Scalars['String']>;
+  fixedWeight?: Maybe<Scalars['String']>;
+  /** Reads and enables pagination through a set of `PsaArrivalPicture`. */
+  pictures: PsaArrivalPicturesConnection;
+};
+
+
+export type PsaPomegranatePalletPicturesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  filter?: Maybe<PsaArrivalPictureFilter>;
+};
+
+/** A `PsaPomegranatePallet` edge in the connection. */
+export type PsaPomegranatePalletsEdge = {
+  __typename?: 'PsaPomegranatePalletsEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `PsaPomegranatePallet` at the end of the edge. */
+  node?: Maybe<PsaPomegranatePallet>;
+};
+
+/** A filter to be used against `PsaPomegranatePallet` object types. All fields are combined with a logical ‘and.’ */
+export type PsaPomegranatePalletFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `location` field. */
+  location?: Maybe<StringFilter>;
+  /** Filter by the object’s `arrival` field. */
+  arrival?: Maybe<StringFilter>;
+  /** Filter by the object’s `importerName` field. */
+  importerName?: Maybe<StringFilter>;
+  /** Filter by the object’s `exporterName` field. */
+  exporterName?: Maybe<StringFilter>;
+  /** Filter by the object’s `commodity` field. */
+  commodity?: Maybe<StringFilter>;
+  /** Filter by the object’s `productCode` field. */
+  productCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `variety` field. */
+  variety?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspDate` field. */
+  inspDate?: Maybe<StringFilter>;
+  /** Filter by the object’s `quantity` field. */
+  quantity?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `hatch` field. */
+  hatch?: Maybe<StringFilter>;
+  /** Filter by the object’s `deck` field. */
+  deck?: Maybe<StringFilter>;
+  /** Filter by the object’s `containerId` field. */
+  containerId?: Maybe<StringFilter>;
+  /** Filter by the object’s `fumigation` field. */
+  fumigation?: Maybe<StringFilter>;
+  /** Filter by the object’s `labelCode` field. */
+  labelCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspLocation` field. */
+  inspLocation?: Maybe<StringFilter>;
+  /** Filter by the object’s `importerCode` field. */
+  importerCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `lotCode` field. */
+  lotCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspLot` field. */
+  inspLot?: Maybe<StringFilter>;
+  /** Filter by the object’s `palletId` field. */
+  palletId?: Maybe<StringFilter>;
+  /** Filter by the object’s `growerCode` field. */
+  growerCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspGrowerCode` field. */
+  inspGrowerCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `packDate` field. */
+  packDate?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspPackDate` field. */
+  inspPackDate?: Maybe<StringFilter>;
+  /** Filter by the object’s `size` field. */
+  size?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspSize` field. */
+  inspSize?: Maybe<StringFilter>;
+  /** Filter by the object’s `packCode` field. */
+  packCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `packDescription` field. */
+  packDescription?: Maybe<StringFilter>;
+  /** Filter by the object’s `secondaryDescription` field. */
+  secondaryDescription?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspPackCode` field. */
+  inspPackCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `grade` field. */
+  grade?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspGrade` field. */
+  inspGrade?: Maybe<StringFilter>;
+  /** Filter by the object’s `count` field. */
+  count?: Maybe<StringFilter>;
+  /** Filter by the object’s `plu` field. */
+  plu?: Maybe<StringFilter>;
+  /** Filter by the object’s `pluPct` field. */
+  pluPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `countryOfOrigin` field. */
+  countryOfOrigin?: Maybe<StringFilter>;
+  /** Filter by the object’s `upc` field. */
+  upc?: Maybe<StringFilter>;
+  /** Filter by the object’s `weight` field. */
+  weight?: Maybe<StringFilter>;
+  /** Filter by the object’s `underweightMin` field. */
+  underweightMin?: Maybe<StringFilter>;
+  /** Filter by the object’s `underweightMax` field. */
+  underweightMax?: Maybe<StringFilter>;
+  /** Filter by the object’s `weighedUnits` field. */
+  weighedUnits?: Maybe<StringFilter>;
+  /** Filter by the object’s `underweightUnits` field. */
+  underweightUnits?: Maybe<StringFilter>;
+  /** Filter by the object’s `underweightPct` field. */
+  underweightPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `pulpTemp` field. */
+  pulpTemp?: Maybe<StringFilter>;
+  /** Filter by the object’s `opening` field. */
+  opening?: Maybe<StringFilter>;
+  /** Filter by the object’s `blushColor` field. */
+  blushColor?: Maybe<StringFilter>;
+  /** Filter by the object’s `blushPct` field. */
+  blushPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `arilsColor` field. */
+  arilsColor?: Maybe<StringFilter>;
+  /** Filter by the object’s `scarsRussetPieces` field. */
+  scarsRussetPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `scarsRussetPct` field. */
+  scarsRussetPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `scarsRussetDeg` field. */
+  scarsRussetDeg?: Maybe<StringFilter>;
+  /** Filter by the object’s `cutsPieces` field. */
+  cutsPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `cutsPct` field. */
+  cutsPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `cutsDeg` field. */
+  cutsDeg?: Maybe<StringFilter>;
+  /** Filter by the object’s `sunScaldPieces` field. */
+  sunScaldPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `sunScaldPct` field. */
+  sunScaldPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `sunScaldDeg` field. */
+  sunScaldDeg?: Maybe<StringFilter>;
+  /** Filter by the object’s `scaldPieces` field. */
+  scaldPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `scaldPct` field. */
+  scaldPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `scaldDeg` field. */
+  scaldDeg?: Maybe<StringFilter>;
+  /** Filter by the object’s `bruisingPieces` field. */
+  bruisingPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `bruisingPct` field. */
+  bruisingPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `bruisingDeg` field. */
+  bruisingDeg?: Maybe<StringFilter>;
+  /** Filter by the object’s `dehydrationPieces` field. */
+  dehydrationPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `dehydrationPct` field. */
+  dehydrationPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `dehydrationDeg` field. */
+  dehydrationDeg?: Maybe<StringFilter>;
+  /** Filter by the object’s `decayPieces` field. */
+  decayPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `decayPct` field. */
+  decayPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `decayDeg` field. */
+  decayDeg?: Maybe<StringFilter>;
+  /** Filter by the object’s `moldPieces` field. */
+  moldPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `moldPct` field. */
+  moldPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `brixMin` field. */
+  brixMin?: Maybe<StringFilter>;
+  /** Filter by the object’s `brixMax` field. */
+  brixMax?: Maybe<StringFilter>;
+  /** Filter by the object’s `brixMost` field. */
+  brixMost?: Maybe<StringFilter>;
+  /** Filter by the object’s `overallQuality` field. */
+  overallQuality?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `overallCondition` field. */
+  overallCondition?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `comment1` field. */
+  comment1?: Maybe<StringFilter>;
+  /** Filter by the object’s `comment2` field. */
+  comment2?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspectionType` field. */
+  inspectionType?: Maybe<StringFilter>;
+  /** Filter by the object’s `shortInsp` field. */
+  shortInsp?: Maybe<StringFilter>;
+  /** Filter by the object’s `fixedWeight` field. */
+  fixedWeight?: Maybe<StringFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<PsaPomegranatePalletFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<PsaPomegranatePalletFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<PsaPomegranatePalletFilter>;
+};
+
+/** A connection to a list of `PsaStoneFruitPallet` values. */
+export type PsaStoneFruitPalletsConnection = {
+  __typename?: 'PsaStoneFruitPalletsConnection';
+  /** A list of `PsaStoneFruitPallet` objects. */
+  nodes: Array<Maybe<PsaStoneFruitPallet>>;
+  /** A list of edges which contains the `PsaStoneFruitPallet` and cursor to aid in pagination. */
+  edges: Array<PsaStoneFruitPalletsEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `PsaStoneFruitPallet` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+export type PsaStoneFruitPallet = Node & {
+  __typename?: 'PsaStoneFruitPallet';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  location?: Maybe<Scalars['String']>;
+  arrival?: Maybe<Scalars['String']>;
+  importerName?: Maybe<Scalars['String']>;
+  exporterName?: Maybe<Scalars['String']>;
+  commodity?: Maybe<Scalars['String']>;
+  productCode?: Maybe<Scalars['String']>;
+  variety?: Maybe<Scalars['String']>;
+  inspDate?: Maybe<Scalars['String']>;
+  quantity?: Maybe<Scalars['BigFloat']>;
+  hatch?: Maybe<Scalars['String']>;
+  deck?: Maybe<Scalars['String']>;
+  containerId?: Maybe<Scalars['String']>;
+  fumigation?: Maybe<Scalars['String']>;
+  labelCode?: Maybe<Scalars['String']>;
+  inspLocation?: Maybe<Scalars['String']>;
+  importerCode?: Maybe<Scalars['String']>;
+  lotCode?: Maybe<Scalars['String']>;
+  inspLot?: Maybe<Scalars['String']>;
+  palletId?: Maybe<Scalars['String']>;
+  growerCode?: Maybe<Scalars['String']>;
+  inspGrowerCode?: Maybe<Scalars['String']>;
+  packDate?: Maybe<Scalars['String']>;
+  inspPackDate?: Maybe<Scalars['String']>;
+  size?: Maybe<Scalars['String']>;
+  inspSize?: Maybe<Scalars['String']>;
+  packCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  secondaryDescription?: Maybe<Scalars['String']>;
+  inspPackCode?: Maybe<Scalars['String']>;
+  count?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  pluPct?: Maybe<Scalars['String']>;
+  countryOfOrigin?: Maybe<Scalars['String']>;
+  upc?: Maybe<Scalars['String']>;
+  weight?: Maybe<Scalars['String']>;
+  underweightMin?: Maybe<Scalars['String']>;
+  underweightMax?: Maybe<Scalars['String']>;
+  weighedUnits?: Maybe<Scalars['String']>;
+  underweightUnits?: Maybe<Scalars['String']>;
+  underweightPct?: Maybe<Scalars['String']>;
+  pulpTemp?: Maybe<Scalars['String']>;
+  opening?: Maybe<Scalars['String']>;
+  ripening?: Maybe<Scalars['String']>;
+  groundColor?: Maybe<Scalars['String']>;
+  blushColor?: Maybe<Scalars['String']>;
+  blushPct?: Maybe<Scalars['String']>;
+  scarsPieces?: Maybe<Scalars['String']>;
+  scarsPct?: Maybe<Scalars['String']>;
+  scarsDeg?: Maybe<Scalars['String']>;
+  cutsSplitsPieces?: Maybe<Scalars['String']>;
+  cutsSplitsPct?: Maybe<Scalars['String']>;
+  cutsSplitsDeg?: Maybe<Scalars['String']>;
+  splitPitPieces?: Maybe<Scalars['String']>;
+  splitPitPct?: Maybe<Scalars['String']>;
+  bruisingPieces?: Maybe<Scalars['String']>;
+  bruisingPct?: Maybe<Scalars['String']>;
+  bruisingDeg?: Maybe<Scalars['String']>;
+  softTipsPieces?: Maybe<Scalars['String']>;
+  softTipsPct?: Maybe<Scalars['String']>;
+  dehydrationPieces?: Maybe<Scalars['String']>;
+  dehydrationPct?: Maybe<Scalars['String']>;
+  dehydrationDeg?: Maybe<Scalars['String']>;
+  cutCount?: Maybe<Scalars['String']>;
+  internalDamagePieces?: Maybe<Scalars['String']>;
+  internalDamagePer?: Maybe<Scalars['String']>;
+  mealinessPieces?: Maybe<Scalars['String']>;
+  mealinessPct?: Maybe<Scalars['String']>;
+  decayPieces?: Maybe<Scalars['String']>;
+  decayPct?: Maybe<Scalars['String']>;
+  decayDeg?: Maybe<Scalars['String']>;
+  moldPieces?: Maybe<Scalars['String']>;
+  moldPct?: Maybe<Scalars['String']>;
+  brix?: Maybe<Scalars['String']>;
+  pressure1?: Maybe<Scalars['String']>;
+  pressure2?: Maybe<Scalars['String']>;
+  pressure3?: Maybe<Scalars['String']>;
+  pressure4?: Maybe<Scalars['String']>;
+  pressure5?: Maybe<Scalars['String']>;
+  pressure6?: Maybe<Scalars['String']>;
+  pressuresMin?: Maybe<Scalars['String']>;
+  pressuresMax?: Maybe<Scalars['String']>;
+  pressuresAvg?: Maybe<Scalars['String']>;
+  overallQuality?: Maybe<Scalars['BigFloat']>;
+  overallCondition?: Maybe<Scalars['BigFloat']>;
+  comment1?: Maybe<Scalars['String']>;
+  comment2?: Maybe<Scalars['String']>;
+  inspectionType?: Maybe<Scalars['String']>;
+  shortInsp?: Maybe<Scalars['String']>;
+  fixedWeight?: Maybe<Scalars['String']>;
+  /** Reads and enables pagination through a set of `PsaArrivalPicture`. */
+  pictures: PsaArrivalPicturesConnection;
+};
+
+
+export type PsaStoneFruitPalletPicturesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  filter?: Maybe<PsaArrivalPictureFilter>;
+};
+
+/** A `PsaStoneFruitPallet` edge in the connection. */
+export type PsaStoneFruitPalletsEdge = {
+  __typename?: 'PsaStoneFruitPalletsEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `PsaStoneFruitPallet` at the end of the edge. */
+  node?: Maybe<PsaStoneFruitPallet>;
+};
+
+/** A filter to be used against `PsaStoneFruitPallet` object types. All fields are combined with a logical ‘and.’ */
+export type PsaStoneFruitPalletFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `location` field. */
+  location?: Maybe<StringFilter>;
+  /** Filter by the object’s `arrival` field. */
+  arrival?: Maybe<StringFilter>;
+  /** Filter by the object’s `importerName` field. */
+  importerName?: Maybe<StringFilter>;
+  /** Filter by the object’s `exporterName` field. */
+  exporterName?: Maybe<StringFilter>;
+  /** Filter by the object’s `commodity` field. */
+  commodity?: Maybe<StringFilter>;
+  /** Filter by the object’s `productCode` field. */
+  productCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `variety` field. */
+  variety?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspDate` field. */
+  inspDate?: Maybe<StringFilter>;
+  /** Filter by the object’s `quantity` field. */
+  quantity?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `hatch` field. */
+  hatch?: Maybe<StringFilter>;
+  /** Filter by the object’s `deck` field. */
+  deck?: Maybe<StringFilter>;
+  /** Filter by the object’s `containerId` field. */
+  containerId?: Maybe<StringFilter>;
+  /** Filter by the object’s `fumigation` field. */
+  fumigation?: Maybe<StringFilter>;
+  /** Filter by the object’s `labelCode` field. */
+  labelCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspLocation` field. */
+  inspLocation?: Maybe<StringFilter>;
+  /** Filter by the object’s `importerCode` field. */
+  importerCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `lotCode` field. */
+  lotCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspLot` field. */
+  inspLot?: Maybe<StringFilter>;
+  /** Filter by the object’s `palletId` field. */
+  palletId?: Maybe<StringFilter>;
+  /** Filter by the object’s `growerCode` field. */
+  growerCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspGrowerCode` field. */
+  inspGrowerCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `packDate` field. */
+  packDate?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspPackDate` field. */
+  inspPackDate?: Maybe<StringFilter>;
+  /** Filter by the object’s `size` field. */
+  size?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspSize` field. */
+  inspSize?: Maybe<StringFilter>;
+  /** Filter by the object’s `packCode` field. */
+  packCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `packDescription` field. */
+  packDescription?: Maybe<StringFilter>;
+  /** Filter by the object’s `secondaryDescription` field. */
+  secondaryDescription?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspPackCode` field. */
+  inspPackCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `count` field. */
+  count?: Maybe<StringFilter>;
+  /** Filter by the object’s `plu` field. */
+  plu?: Maybe<StringFilter>;
+  /** Filter by the object’s `pluPct` field. */
+  pluPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `countryOfOrigin` field. */
+  countryOfOrigin?: Maybe<StringFilter>;
+  /** Filter by the object’s `upc` field. */
+  upc?: Maybe<StringFilter>;
+  /** Filter by the object’s `weight` field. */
+  weight?: Maybe<StringFilter>;
+  /** Filter by the object’s `underweightMin` field. */
+  underweightMin?: Maybe<StringFilter>;
+  /** Filter by the object’s `underweightMax` field. */
+  underweightMax?: Maybe<StringFilter>;
+  /** Filter by the object’s `weighedUnits` field. */
+  weighedUnits?: Maybe<StringFilter>;
+  /** Filter by the object’s `underweightUnits` field. */
+  underweightUnits?: Maybe<StringFilter>;
+  /** Filter by the object’s `underweightPct` field. */
+  underweightPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `pulpTemp` field. */
+  pulpTemp?: Maybe<StringFilter>;
+  /** Filter by the object’s `opening` field. */
+  opening?: Maybe<StringFilter>;
+  /** Filter by the object’s `ripening` field. */
+  ripening?: Maybe<StringFilter>;
+  /** Filter by the object’s `groundColor` field. */
+  groundColor?: Maybe<StringFilter>;
+  /** Filter by the object’s `blushColor` field. */
+  blushColor?: Maybe<StringFilter>;
+  /** Filter by the object’s `blushPct` field. */
+  blushPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `scarsPieces` field. */
+  scarsPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `scarsPct` field. */
+  scarsPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `scarsDeg` field. */
+  scarsDeg?: Maybe<StringFilter>;
+  /** Filter by the object’s `cutsSplitsPieces` field. */
+  cutsSplitsPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `cutsSplitsPct` field. */
+  cutsSplitsPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `cutsSplitsDeg` field. */
+  cutsSplitsDeg?: Maybe<StringFilter>;
+  /** Filter by the object’s `splitPitPieces` field. */
+  splitPitPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `splitPitPct` field. */
+  splitPitPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `bruisingPieces` field. */
+  bruisingPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `bruisingPct` field. */
+  bruisingPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `bruisingDeg` field. */
+  bruisingDeg?: Maybe<StringFilter>;
+  /** Filter by the object’s `softTipsPieces` field. */
+  softTipsPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `softTipsPct` field. */
+  softTipsPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `dehydrationPieces` field. */
+  dehydrationPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `dehydrationPct` field. */
+  dehydrationPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `dehydrationDeg` field. */
+  dehydrationDeg?: Maybe<StringFilter>;
+  /** Filter by the object’s `cutCount` field. */
+  cutCount?: Maybe<StringFilter>;
+  /** Filter by the object’s `internalDamagePieces` field. */
+  internalDamagePieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `internalDamagePer` field. */
+  internalDamagePer?: Maybe<StringFilter>;
+  /** Filter by the object’s `mealinessPieces` field. */
+  mealinessPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `mealinessPct` field. */
+  mealinessPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `decayPieces` field. */
+  decayPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `decayPct` field. */
+  decayPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `decayDeg` field. */
+  decayDeg?: Maybe<StringFilter>;
+  /** Filter by the object’s `moldPieces` field. */
+  moldPieces?: Maybe<StringFilter>;
+  /** Filter by the object’s `moldPct` field. */
+  moldPct?: Maybe<StringFilter>;
+  /** Filter by the object’s `brix` field. */
+  brix?: Maybe<StringFilter>;
+  /** Filter by the object’s `pressure1` field. */
+  pressure1?: Maybe<StringFilter>;
+  /** Filter by the object’s `pressure2` field. */
+  pressure2?: Maybe<StringFilter>;
+  /** Filter by the object’s `pressure3` field. */
+  pressure3?: Maybe<StringFilter>;
+  /** Filter by the object’s `pressure4` field. */
+  pressure4?: Maybe<StringFilter>;
+  /** Filter by the object’s `pressure5` field. */
+  pressure5?: Maybe<StringFilter>;
+  /** Filter by the object’s `pressure6` field. */
+  pressure6?: Maybe<StringFilter>;
+  /** Filter by the object’s `pressuresMin` field. */
+  pressuresMin?: Maybe<StringFilter>;
+  /** Filter by the object’s `pressuresMax` field. */
+  pressuresMax?: Maybe<StringFilter>;
+  /** Filter by the object’s `pressuresAvg` field. */
+  pressuresAvg?: Maybe<StringFilter>;
+  /** Filter by the object’s `overallQuality` field. */
+  overallQuality?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `overallCondition` field. */
+  overallCondition?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `comment1` field. */
+  comment1?: Maybe<StringFilter>;
+  /** Filter by the object’s `comment2` field. */
+  comment2?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspectionType` field. */
+  inspectionType?: Maybe<StringFilter>;
+  /** Filter by the object’s `shortInsp` field. */
+  shortInsp?: Maybe<StringFilter>;
+  /** Filter by the object’s `fixedWeight` field. */
+  fixedWeight?: Maybe<StringFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<PsaStoneFruitPalletFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<PsaStoneFruitPalletFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<PsaStoneFruitPalletFilter>;
+};
+
 /** A `PsaArrivalReport` edge in the connection. */
 export type PsaArrivalReportsEdge = {
   __typename?: 'PsaArrivalReportsEdge';
@@ -5282,6 +8754,10 @@ export enum PsaArrivalReportsOrderBy {
   ExporterIdDesc = 'EXPORTER_ID_DESC',
   ExporterNameAsc = 'EXPORTER_NAME_ASC',
   ExporterNameDesc = 'EXPORTER_NAME_DESC',
+  AvgConditionAsc = 'AVG_CONDITION_ASC',
+  AvgConditionDesc = 'AVG_CONDITION_DESC',
+  AvgQualityAsc = 'AVG_QUALITY_ASC',
+  AvgQualityDesc = 'AVG_QUALITY_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
 }
@@ -5323,20 +8799,12 @@ export type PsaArrivalReportFilter = {
   exporterId?: Maybe<BigIntFilter>;
   /** Filter by the object’s `exporterName` field. */
   exporterName?: Maybe<StringFilter>;
-  /** Filter by the object’s `avgGrapeBrixMax` field. */
-  avgGrapeBrixMax?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `avgGrapeBrixMin` field. */
-  avgGrapeBrixMin?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `avgGrapeBrixMost` field. */
-  avgGrapeBrixMost?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `avgGrapeBunchesPerBox` field. */
-  avgGrapeBunchesPerBox?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `avgGrapeCondition` field. */
-  avgGrapeCondition?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `avgGrapeNetWeight` field. */
-  avgGrapeNetWeight?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `avgGrapeQuality` field. */
-  avgGrapeQuality?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `avgCondition` field. */
+  avgCondition?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `avgQuality` field. */
+  avgQuality?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `commodityList` field. */
+  commodityList?: Maybe<StringListFilter>;
   /** Filter by the object’s `searchText` field. */
   searchText?: Maybe<StringFilter>;
   /** Checks for all expressions in this list. */
@@ -5345,6 +8813,746 @@ export type PsaArrivalReportFilter = {
   or?: Maybe<Array<PsaArrivalReportFilter>>;
   /** Negates the expression. */
   not?: Maybe<PsaArrivalReportFilter>;
+};
+
+/** A filter to be used against String List fields. All fields are combined with a logical ‘and.’ */
+export type StringListFilter = {
+  /** Is null (if `true` is specified) or is not null (if `false` is specified). */
+  isNull?: Maybe<Scalars['Boolean']>;
+  /** Equal to the specified value. */
+  equalTo?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Not equal to the specified value. */
+  notEqualTo?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Not equal to the specified value, treating null like an ordinary value. */
+  distinctFrom?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Equal to the specified value, treating null like an ordinary value. */
+  notDistinctFrom?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Less than the specified value. */
+  lessThan?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Less than or equal to the specified value. */
+  lessThanOrEqualTo?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Greater than the specified value. */
+  greaterThan?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Greater than or equal to the specified value. */
+  greaterThanOrEqualTo?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Contains the specified list of values. */
+  contains?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Contained by the specified list of values. */
+  containedBy?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Overlaps the specified list of values. */
+  overlaps?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Any array item is equal to the specified value. */
+  anyEqualTo?: Maybe<Scalars['String']>;
+  /** Any array item is not equal to the specified value. */
+  anyNotEqualTo?: Maybe<Scalars['String']>;
+  /** Any array item is less than the specified value. */
+  anyLessThan?: Maybe<Scalars['String']>;
+  /** Any array item is less than or equal to the specified value. */
+  anyLessThanOrEqualTo?: Maybe<Scalars['String']>;
+  /** Any array item is greater than the specified value. */
+  anyGreaterThan?: Maybe<Scalars['String']>;
+  /** Any array item is greater than or equal to the specified value. */
+  anyGreaterThanOrEqualTo?: Maybe<Scalars['String']>;
+};
+
+/** Methods to use when ordering `PsaCherryPallet`. */
+export enum PsaCherryPalletsOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  LocationAsc = 'LOCATION_ASC',
+  LocationDesc = 'LOCATION_DESC',
+  ArrivalAsc = 'ARRIVAL_ASC',
+  ArrivalDesc = 'ARRIVAL_DESC',
+  ImporterNameAsc = 'IMPORTER_NAME_ASC',
+  ImporterNameDesc = 'IMPORTER_NAME_DESC',
+  ExporterNameAsc = 'EXPORTER_NAME_ASC',
+  ExporterNameDesc = 'EXPORTER_NAME_DESC',
+  CommodityAsc = 'COMMODITY_ASC',
+  CommodityDesc = 'COMMODITY_DESC',
+  ProductCodeAsc = 'PRODUCT_CODE_ASC',
+  ProductCodeDesc = 'PRODUCT_CODE_DESC',
+  VarietyAsc = 'VARIETY_ASC',
+  VarietyDesc = 'VARIETY_DESC',
+  InspDateAsc = 'INSP_DATE_ASC',
+  InspDateDesc = 'INSP_DATE_DESC',
+  QuantityAsc = 'QUANTITY_ASC',
+  QuantityDesc = 'QUANTITY_DESC',
+  HatchAsc = 'HATCH_ASC',
+  HatchDesc = 'HATCH_DESC',
+  DeckAsc = 'DECK_ASC',
+  DeckDesc = 'DECK_DESC',
+  ContainerIdAsc = 'CONTAINER_ID_ASC',
+  ContainerIdDesc = 'CONTAINER_ID_DESC',
+  FumigationAsc = 'FUMIGATION_ASC',
+  FumigationDesc = 'FUMIGATION_DESC',
+  LabelCodeAsc = 'LABEL_CODE_ASC',
+  LabelCodeDesc = 'LABEL_CODE_DESC',
+  InspLocationAsc = 'INSP_LOCATION_ASC',
+  InspLocationDesc = 'INSP_LOCATION_DESC',
+  ImporterCodeAsc = 'IMPORTER_CODE_ASC',
+  ImporterCodeDesc = 'IMPORTER_CODE_DESC',
+  LotCodeAsc = 'LOT_CODE_ASC',
+  LotCodeDesc = 'LOT_CODE_DESC',
+  InspLotAsc = 'INSP_LOT_ASC',
+  InspLotDesc = 'INSP_LOT_DESC',
+  PalletIdAsc = 'PALLET_ID_ASC',
+  PalletIdDesc = 'PALLET_ID_DESC',
+  GrowerCodeAsc = 'GROWER_CODE_ASC',
+  GrowerCodeDesc = 'GROWER_CODE_DESC',
+  InspGrowerCodeAsc = 'INSP_GROWER_CODE_ASC',
+  InspGrowerCodeDesc = 'INSP_GROWER_CODE_DESC',
+  PackDateAsc = 'PACK_DATE_ASC',
+  PackDateDesc = 'PACK_DATE_DESC',
+  InspPackDateAsc = 'INSP_PACK_DATE_ASC',
+  InspPackDateDesc = 'INSP_PACK_DATE_DESC',
+  SizeAsc = 'SIZE_ASC',
+  SizeDesc = 'SIZE_DESC',
+  InspSizeAsc = 'INSP_SIZE_ASC',
+  InspSizeDesc = 'INSP_SIZE_DESC',
+  PackCodeAsc = 'PACK_CODE_ASC',
+  PackCodeDesc = 'PACK_CODE_DESC',
+  PackDescriptionAsc = 'PACK_DESCRIPTION_ASC',
+  PackDescriptionDesc = 'PACK_DESCRIPTION_DESC',
+  SecondaryDescriptionAsc = 'SECONDARY_DESCRIPTION_ASC',
+  SecondaryDescriptionDesc = 'SECONDARY_DESCRIPTION_DESC',
+  InspPackCodeAsc = 'INSP_PACK_CODE_ASC',
+  InspPackCodeDesc = 'INSP_PACK_CODE_DESC',
+  CountAsc = 'COUNT_ASC',
+  CountDesc = 'COUNT_DESC',
+  PluAsc = 'PLU_ASC',
+  PluDesc = 'PLU_DESC',
+  PluPctAsc = 'PLU_PCT_ASC',
+  PluPctDesc = 'PLU_PCT_DESC',
+  CountryOfOriginAsc = 'COUNTRY_OF_ORIGIN_ASC',
+  CountryOfOriginDesc = 'COUNTRY_OF_ORIGIN_DESC',
+  UpcAsc = 'UPC_ASC',
+  UpcDesc = 'UPC_DESC',
+  WeightAsc = 'WEIGHT_ASC',
+  WeightDesc = 'WEIGHT_DESC',
+  UnderweightMinAsc = 'UNDERWEIGHT_MIN_ASC',
+  UnderweightMinDesc = 'UNDERWEIGHT_MIN_DESC',
+  UnderweightMaxAsc = 'UNDERWEIGHT_MAX_ASC',
+  UnderweightMaxDesc = 'UNDERWEIGHT_MAX_DESC',
+  WeighedUnitsAsc = 'WEIGHED_UNITS_ASC',
+  WeighedUnitsDesc = 'WEIGHED_UNITS_DESC',
+  UnderweightUnitsAsc = 'UNDERWEIGHT_UNITS_ASC',
+  UnderweightUnitsDesc = 'UNDERWEIGHT_UNITS_DESC',
+  UnderweightPctAsc = 'UNDERWEIGHT_PCT_ASC',
+  UnderweightPctDesc = 'UNDERWEIGHT_PCT_DESC',
+  PulpTempAsc = 'PULP_TEMP_ASC',
+  PulpTempDesc = 'PULP_TEMP_DESC',
+  OpeningAsc = 'OPENING_ASC',
+  OpeningDesc = 'OPENING_DESC',
+  SizeMinAsc = 'SIZE_MIN_ASC',
+  SizeMinDesc = 'SIZE_MIN_DESC',
+  SizeMaxAsc = 'SIZE_MAX_ASC',
+  SizeMaxDesc = 'SIZE_MAX_DESC',
+  SizeMostAsc = 'SIZE_MOST_ASC',
+  SizeMostDesc = 'SIZE_MOST_DESC',
+  ColorAsc = 'COLOR_ASC',
+  ColorDesc = 'COLOR_DESC',
+  ScarsMarksPiecesAsc = 'SCARS_MARKS_PIECES_ASC',
+  ScarsMarksPiecesDesc = 'SCARS_MARKS_PIECES_DESC',
+  ScarsMarksPctAsc = 'SCARS_MARKS_PCT_ASC',
+  ScarsMarksPctDesc = 'SCARS_MARKS_PCT_DESC',
+  ScarsMarksDegAsc = 'SCARS_MARKS_DEG_ASC',
+  ScarsMarksDegDesc = 'SCARS_MARKS_DEG_DESC',
+  MisshapenPiecesAsc = 'MISSHAPEN_PIECES_ASC',
+  MisshapenPiecesDesc = 'MISSHAPEN_PIECES_DESC',
+  MisshapenPctAsc = 'MISSHAPEN_PCT_ASC',
+  MisshapenPctDesc = 'MISSHAPEN_PCT_DESC',
+  StemlessPiecesAsc = 'STEMLESS_PIECES_ASC',
+  StemlessPiecesDesc = 'STEMLESS_PIECES_DESC',
+  StemlessPctAsc = 'STEMLESS_PCT_ASC',
+  StemlessPctDesc = 'STEMLESS_PCT_DESC',
+  SplitsPiecesAsc = 'SPLITS_PIECES_ASC',
+  SplitsPiecesDesc = 'SPLITS_PIECES_DESC',
+  SplitsPctAsc = 'SPLITS_PCT_ASC',
+  SplitsPctDesc = 'SPLITS_PCT_DESC',
+  SplitsDegAsc = 'SPLITS_DEG_ASC',
+  SplitsDegDesc = 'SPLITS_DEG_DESC',
+  FirmnessAsc = 'FIRMNESS_ASC',
+  FirmnessDesc = 'FIRMNESS_DESC',
+  PittingBruisingPiecesAsc = 'PITTING_BRUISING_PIECES_ASC',
+  PittingBruisingPiecesDesc = 'PITTING_BRUISING_PIECES_DESC',
+  PittingBruisingPctAsc = 'PITTING_BRUISING_PCT_ASC',
+  PittingBruisingPctDesc = 'PITTING_BRUISING_PCT_DESC',
+  PittingBruisingDegAsc = 'PITTING_BRUISING_DEG_ASC',
+  PittingBruisingDegDesc = 'PITTING_BRUISING_DEG_DESC',
+  StemDehydrationPiecesAsc = 'STEM_DEHYDRATION_PIECES_ASC',
+  StemDehydrationPiecesDesc = 'STEM_DEHYDRATION_PIECES_DESC',
+  StemDehydrationPctAsc = 'STEM_DEHYDRATION_PCT_ASC',
+  StemDehydrationPctDesc = 'STEM_DEHYDRATION_PCT_DESC',
+  StemDehydrationDegAsc = 'STEM_DEHYDRATION_DEG_ASC',
+  StemDehydrationDegDesc = 'STEM_DEHYDRATION_DEG_DESC',
+  DehydrationPiecesAsc = 'DEHYDRATION_PIECES_ASC',
+  DehydrationPiecesDesc = 'DEHYDRATION_PIECES_DESC',
+  DehydrationPctAsc = 'DEHYDRATION_PCT_ASC',
+  DehydrationPctDesc = 'DEHYDRATION_PCT_DESC',
+  DehydrationDegAsc = 'DEHYDRATION_DEG_ASC',
+  DehydrationDegDesc = 'DEHYDRATION_DEG_DESC',
+  DecayPiecesAsc = 'DECAY_PIECES_ASC',
+  DecayPiecesDesc = 'DECAY_PIECES_DESC',
+  DecayPctAsc = 'DECAY_PCT_ASC',
+  DecayPctDesc = 'DECAY_PCT_DESC',
+  DecayDegAsc = 'DECAY_DEG_ASC',
+  DecayDegDesc = 'DECAY_DEG_DESC',
+  MoldPiecesAsc = 'MOLD_PIECES_ASC',
+  MoldPiecesDesc = 'MOLD_PIECES_DESC',
+  MoldPctAsc = 'MOLD_PCT_ASC',
+  MoldPctDesc = 'MOLD_PCT_DESC',
+  OverallQualityAsc = 'OVERALL_QUALITY_ASC',
+  OverallQualityDesc = 'OVERALL_QUALITY_DESC',
+  OverallConditionAsc = 'OVERALL_CONDITION_ASC',
+  OverallConditionDesc = 'OVERALL_CONDITION_DESC',
+  Comment1Asc = 'COMMENT1_ASC',
+  Comment1Desc = 'COMMENT1_DESC',
+  Comment2Asc = 'COMMENT2_ASC',
+  Comment2Desc = 'COMMENT2_DESC',
+  InspectionTypeAsc = 'INSPECTION_TYPE_ASC',
+  InspectionTypeDesc = 'INSPECTION_TYPE_DESC',
+  ShortInspAsc = 'SHORT_INSP_ASC',
+  ShortInspDesc = 'SHORT_INSP_DESC',
+  FixedWeightAsc = 'FIXED_WEIGHT_ASC',
+  FixedWeightDesc = 'FIXED_WEIGHT_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
+/**
+ * A condition to be used against `PsaCherryPallet` object types. All fields are
+ * tested for equality and combined with a logical ‘and.’
+ */
+export type PsaCherryPalletCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `location` field. */
+  location?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `arrival` field. */
+  arrival?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `importerName` field. */
+  importerName?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `exporterName` field. */
+  exporterName?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `commodity` field. */
+  commodity?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `productCode` field. */
+  productCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `variety` field. */
+  variety?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspDate` field. */
+  inspDate?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `quantity` field. */
+  quantity?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `hatch` field. */
+  hatch?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `deck` field. */
+  deck?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `containerId` field. */
+  containerId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `fumigation` field. */
+  fumigation?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `labelCode` field. */
+  labelCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspLocation` field. */
+  inspLocation?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `importerCode` field. */
+  importerCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `lotCode` field. */
+  lotCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspLot` field. */
+  inspLot?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `palletId` field. */
+  palletId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `growerCode` field. */
+  growerCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspGrowerCode` field. */
+  inspGrowerCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `packDate` field. */
+  packDate?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspPackDate` field. */
+  inspPackDate?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `size` field. */
+  size?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspSize` field. */
+  inspSize?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `packCode` field. */
+  packCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `packDescription` field. */
+  packDescription?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `secondaryDescription` field. */
+  secondaryDescription?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspPackCode` field. */
+  inspPackCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `count` field. */
+  count?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `plu` field. */
+  plu?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pluPct` field. */
+  pluPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `countryOfOrigin` field. */
+  countryOfOrigin?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `upc` field. */
+  upc?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `weight` field. */
+  weight?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `underweightMin` field. */
+  underweightMin?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `underweightMax` field. */
+  underweightMax?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `weighedUnits` field. */
+  weighedUnits?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `underweightUnits` field. */
+  underweightUnits?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `underweightPct` field. */
+  underweightPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pulpTemp` field. */
+  pulpTemp?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `opening` field. */
+  opening?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `sizeMin` field. */
+  sizeMin?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `sizeMax` field. */
+  sizeMax?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `sizeMost` field. */
+  sizeMost?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `color` field. */
+  color?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `scarsMarksPieces` field. */
+  scarsMarksPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `scarsMarksPct` field. */
+  scarsMarksPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `scarsMarksDeg` field. */
+  scarsMarksDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `misshapenPieces` field. */
+  misshapenPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `misshapenPct` field. */
+  misshapenPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `stemlessPieces` field. */
+  stemlessPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `stemlessPct` field. */
+  stemlessPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `splitsPieces` field. */
+  splitsPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `splitsPct` field. */
+  splitsPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `splitsDeg` field. */
+  splitsDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `firmness` field. */
+  firmness?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pittingBruisingPieces` field. */
+  pittingBruisingPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pittingBruisingPct` field. */
+  pittingBruisingPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pittingBruisingDeg` field. */
+  pittingBruisingDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `stemDehydrationPieces` field. */
+  stemDehydrationPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `stemDehydrationPct` field. */
+  stemDehydrationPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `stemDehydrationDeg` field. */
+  stemDehydrationDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `dehydrationPieces` field. */
+  dehydrationPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `dehydrationPct` field. */
+  dehydrationPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `dehydrationDeg` field. */
+  dehydrationDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `decayPieces` field. */
+  decayPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `decayPct` field. */
+  decayPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `decayDeg` field. */
+  decayDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `moldPieces` field. */
+  moldPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `moldPct` field. */
+  moldPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `overallQuality` field. */
+  overallQuality?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `overallCondition` field. */
+  overallCondition?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `comment1` field. */
+  comment1?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `comment2` field. */
+  comment2?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspectionType` field. */
+  inspectionType?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `shortInsp` field. */
+  shortInsp?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `fixedWeight` field. */
+  fixedWeight?: Maybe<Scalars['String']>;
+};
+
+/** Methods to use when ordering `PsaCitrusPallet`. */
+export enum PsaCitrusPalletsOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  LocationAsc = 'LOCATION_ASC',
+  LocationDesc = 'LOCATION_DESC',
+  ArrivalAsc = 'ARRIVAL_ASC',
+  ArrivalDesc = 'ARRIVAL_DESC',
+  ImporterNameAsc = 'IMPORTER_NAME_ASC',
+  ImporterNameDesc = 'IMPORTER_NAME_DESC',
+  ExporterNameAsc = 'EXPORTER_NAME_ASC',
+  ExporterNameDesc = 'EXPORTER_NAME_DESC',
+  CommodityAsc = 'COMMODITY_ASC',
+  CommodityDesc = 'COMMODITY_DESC',
+  ProductCodeAsc = 'PRODUCT_CODE_ASC',
+  ProductCodeDesc = 'PRODUCT_CODE_DESC',
+  VarietyAsc = 'VARIETY_ASC',
+  VarietyDesc = 'VARIETY_DESC',
+  InspDateAsc = 'INSP_DATE_ASC',
+  InspDateDesc = 'INSP_DATE_DESC',
+  QuantityAsc = 'QUANTITY_ASC',
+  QuantityDesc = 'QUANTITY_DESC',
+  HatchAsc = 'HATCH_ASC',
+  HatchDesc = 'HATCH_DESC',
+  DeckAsc = 'DECK_ASC',
+  DeckDesc = 'DECK_DESC',
+  ContainerIdAsc = 'CONTAINER_ID_ASC',
+  ContainerIdDesc = 'CONTAINER_ID_DESC',
+  FumigationAsc = 'FUMIGATION_ASC',
+  FumigationDesc = 'FUMIGATION_DESC',
+  LabelCodeAsc = 'LABEL_CODE_ASC',
+  LabelCodeDesc = 'LABEL_CODE_DESC',
+  InspLocationAsc = 'INSP_LOCATION_ASC',
+  InspLocationDesc = 'INSP_LOCATION_DESC',
+  ImporterCodeAsc = 'IMPORTER_CODE_ASC',
+  ImporterCodeDesc = 'IMPORTER_CODE_DESC',
+  LotCodeAsc = 'LOT_CODE_ASC',
+  LotCodeDesc = 'LOT_CODE_DESC',
+  InspLotAsc = 'INSP_LOT_ASC',
+  InspLotDesc = 'INSP_LOT_DESC',
+  PalletIdAsc = 'PALLET_ID_ASC',
+  PalletIdDesc = 'PALLET_ID_DESC',
+  GrowerCodeAsc = 'GROWER_CODE_ASC',
+  GrowerCodeDesc = 'GROWER_CODE_DESC',
+  InspGrowerCodeAsc = 'INSP_GROWER_CODE_ASC',
+  InspGrowerCodeDesc = 'INSP_GROWER_CODE_DESC',
+  PackDateAsc = 'PACK_DATE_ASC',
+  PackDateDesc = 'PACK_DATE_DESC',
+  InspPackDateAsc = 'INSP_PACK_DATE_ASC',
+  InspPackDateDesc = 'INSP_PACK_DATE_DESC',
+  SizeAsc = 'SIZE_ASC',
+  SizeDesc = 'SIZE_DESC',
+  InspSizeAsc = 'INSP_SIZE_ASC',
+  InspSizeDesc = 'INSP_SIZE_DESC',
+  PackCodeAsc = 'PACK_CODE_ASC',
+  PackCodeDesc = 'PACK_CODE_DESC',
+  PackDescriptionAsc = 'PACK_DESCRIPTION_ASC',
+  PackDescriptionDesc = 'PACK_DESCRIPTION_DESC',
+  SecondaryDescriptionAsc = 'SECONDARY_DESCRIPTION_ASC',
+  SecondaryDescriptionDesc = 'SECONDARY_DESCRIPTION_DESC',
+  InspPackCodeAsc = 'INSP_PACK_CODE_ASC',
+  InspPackCodeDesc = 'INSP_PACK_CODE_DESC',
+  CountAsc = 'COUNT_ASC',
+  CountDesc = 'COUNT_DESC',
+  PluAsc = 'PLU_ASC',
+  PluDesc = 'PLU_DESC',
+  PluPctAsc = 'PLU_PCT_ASC',
+  PluPctDesc = 'PLU_PCT_DESC',
+  CountryOfOriginAsc = 'COUNTRY_OF_ORIGIN_ASC',
+  CountryOfOriginDesc = 'COUNTRY_OF_ORIGIN_DESC',
+  UpcAsc = 'UPC_ASC',
+  UpcDesc = 'UPC_DESC',
+  WeightAsc = 'WEIGHT_ASC',
+  WeightDesc = 'WEIGHT_DESC',
+  UnderweightMinAsc = 'UNDERWEIGHT_MIN_ASC',
+  UnderweightMinDesc = 'UNDERWEIGHT_MIN_DESC',
+  UnderweightMaxAsc = 'UNDERWEIGHT_MAX_ASC',
+  UnderweightMaxDesc = 'UNDERWEIGHT_MAX_DESC',
+  WeighedUnitsAsc = 'WEIGHED_UNITS_ASC',
+  WeighedUnitsDesc = 'WEIGHED_UNITS_DESC',
+  UnderweightUnitsAsc = 'UNDERWEIGHT_UNITS_ASC',
+  UnderweightUnitsDesc = 'UNDERWEIGHT_UNITS_DESC',
+  UnderweightPctAsc = 'UNDERWEIGHT_PCT_ASC',
+  UnderweightPctDesc = 'UNDERWEIGHT_PCT_DESC',
+  PulpTempAsc = 'PULP_TEMP_ASC',
+  PulpTempDesc = 'PULP_TEMP_DESC',
+  OpeningAsc = 'OPENING_ASC',
+  OpeningDesc = 'OPENING_DESC',
+  ColorAsc = 'COLOR_ASC',
+  ColorDesc = 'COLOR_DESC',
+  DiameterMinMmAsc = 'DIAMETER_MIN_MM_ASC',
+  DiameterMinMmDesc = 'DIAMETER_MIN_MM_DESC',
+  DiameterMinInchesAsc = 'DIAMETER_MIN_INCHES_ASC',
+  DiameterMinInchesDesc = 'DIAMETER_MIN_INCHES_DESC',
+  DiameterMaxMmAsc = 'DIAMETER_MAX_MM_ASC',
+  DiameterMaxMmDesc = 'DIAMETER_MAX_MM_DESC',
+  DiameterMaxInchesAsc = 'DIAMETER_MAX_INCHES_ASC',
+  DiameterMaxInchesDesc = 'DIAMETER_MAX_INCHES_DESC',
+  DiameterMostMmAsc = 'DIAMETER_MOST_MM_ASC',
+  DiameterMostMmDesc = 'DIAMETER_MOST_MM_DESC',
+  DiameterMostInchesAsc = 'DIAMETER_MOST_INCHES_ASC',
+  DiameterMostInchesDesc = 'DIAMETER_MOST_INCHES_DESC',
+  ScarsPiecesAsc = 'SCARS_PIECES_ASC',
+  ScarsPiecesDesc = 'SCARS_PIECES_DESC',
+  ScarsPctAsc = 'SCARS_PCT_ASC',
+  ScarsPctDesc = 'SCARS_PCT_DESC',
+  ScarsDegAsc = 'SCARS_DEG_ASC',
+  ScarsDegDesc = 'SCARS_DEG_DESC',
+  GreenHazePiecesAsc = 'GREEN_HAZE_PIECES_ASC',
+  GreenHazePiecesDesc = 'GREEN_HAZE_PIECES_DESC',
+  GreenHazePctAsc = 'GREEN_HAZE_PCT_ASC',
+  GreenHazePctDesc = 'GREEN_HAZE_PCT_DESC',
+  GreenHazeDegAsc = 'GREEN_HAZE_DEG_ASC',
+  GreenHazeDegDesc = 'GREEN_HAZE_DEG_DESC',
+  OilSpotsPiecesAsc = 'OIL_SPOTS_PIECES_ASC',
+  OilSpotsPiecesDesc = 'OIL_SPOTS_PIECES_DESC',
+  OilSpotsPctAsc = 'OIL_SPOTS_PCT_ASC',
+  OilSpotsPctDesc = 'OIL_SPOTS_PCT_DESC',
+  OilSpotsDegAsc = 'OIL_SPOTS_DEG_ASC',
+  OilSpotsDegDesc = 'OIL_SPOTS_DEG_DESC',
+  CutCountAsc = 'CUT_COUNT_ASC',
+  CutCountDesc = 'CUT_COUNT_DESC',
+  DryPulpPiecesAsc = 'DRY_PULP_PIECES_ASC',
+  DryPulpPiecesDesc = 'DRY_PULP_PIECES_DESC',
+  DryPulpPctAsc = 'DRY_PULP_PCT_ASC',
+  DryPulpPctDesc = 'DRY_PULP_PCT_DESC',
+  DryPulpDegAsc = 'DRY_PULP_DEG_ASC',
+  DryPulpDegDesc = 'DRY_PULP_DEG_DESC',
+  SeedsPiecesAsc = 'SEEDS_PIECES_ASC',
+  SeedsPiecesDesc = 'SEEDS_PIECES_DESC',
+  SeedsPctAsc = 'SEEDS_PCT_ASC',
+  SeedsPctDesc = 'SEEDS_PCT_DESC',
+  SkinBreakdownPiecesAsc = 'SKIN_BREAKDOWN_PIECES_ASC',
+  SkinBreakdownPiecesDesc = 'SKIN_BREAKDOWN_PIECES_DESC',
+  SkinBreakdownPctAsc = 'SKIN_BREAKDOWN_PCT_ASC',
+  SkinBreakdownPctDesc = 'SKIN_BREAKDOWN_PCT_DESC',
+  SkinBreakdownDegAsc = 'SKIN_BREAKDOWN_DEG_ASC',
+  SkinBreakdownDegDesc = 'SKIN_BREAKDOWN_DEG_DESC',
+  CreasingPiecesAsc = 'CREASING_PIECES_ASC',
+  CreasingPiecesDesc = 'CREASING_PIECES_DESC',
+  CreasingPctAsc = 'CREASING_PCT_ASC',
+  CreasingPctDesc = 'CREASING_PCT_DESC',
+  CreasingDegAsc = 'CREASING_DEG_ASC',
+  CreasingDegDesc = 'CREASING_DEG_DESC',
+  PuffinessPiecesAsc = 'PUFFINESS_PIECES_ASC',
+  PuffinessPiecesDesc = 'PUFFINESS_PIECES_DESC',
+  PuffinessPctAsc = 'PUFFINESS_PCT_ASC',
+  PuffinessPctDesc = 'PUFFINESS_PCT_DESC',
+  PuffinessDegAsc = 'PUFFINESS_DEG_ASC',
+  PuffinessDegDesc = 'PUFFINESS_DEG_DESC',
+  DecayPiecesAsc = 'DECAY_PIECES_ASC',
+  DecayPiecesDesc = 'DECAY_PIECES_DESC',
+  DecayPctAsc = 'DECAY_PCT_ASC',
+  DecayPctDesc = 'DECAY_PCT_DESC',
+  DecayDegAsc = 'DECAY_DEG_ASC',
+  DecayDegDesc = 'DECAY_DEG_DESC',
+  MoldPiecesAsc = 'MOLD_PIECES_ASC',
+  MoldPiecesDesc = 'MOLD_PIECES_DESC',
+  MoldPctAsc = 'MOLD_PCT_ASC',
+  MoldPctDesc = 'MOLD_PCT_DESC',
+  SporesPiecesAsc = 'SPORES_PIECES_ASC',
+  SporesPiecesDesc = 'SPORES_PIECES_DESC',
+  SporesPctAsc = 'SPORES_PCT_ASC',
+  SporesPctDesc = 'SPORES_PCT_DESC',
+  BrixAsc = 'BRIX_ASC',
+  BrixDesc = 'BRIX_DESC',
+  OverallQualityAsc = 'OVERALL_QUALITY_ASC',
+  OverallQualityDesc = 'OVERALL_QUALITY_DESC',
+  OverallConditionAsc = 'OVERALL_CONDITION_ASC',
+  OverallConditionDesc = 'OVERALL_CONDITION_DESC',
+  Comment1Asc = 'COMMENT1_ASC',
+  Comment1Desc = 'COMMENT1_DESC',
+  Comment2Asc = 'COMMENT2_ASC',
+  Comment2Desc = 'COMMENT2_DESC',
+  InspectionTypeAsc = 'INSPECTION_TYPE_ASC',
+  InspectionTypeDesc = 'INSPECTION_TYPE_DESC',
+  ShortInspAsc = 'SHORT_INSP_ASC',
+  ShortInspDesc = 'SHORT_INSP_DESC',
+  FixedWeightAsc = 'FIXED_WEIGHT_ASC',
+  FixedWeightDesc = 'FIXED_WEIGHT_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
+/**
+ * A condition to be used against `PsaCitrusPallet` object types. All fields are
+ * tested for equality and combined with a logical ‘and.’
+ */
+export type PsaCitrusPalletCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `location` field. */
+  location?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `arrival` field. */
+  arrival?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `importerName` field. */
+  importerName?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `exporterName` field. */
+  exporterName?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `commodity` field. */
+  commodity?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `productCode` field. */
+  productCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `variety` field. */
+  variety?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspDate` field. */
+  inspDate?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `quantity` field. */
+  quantity?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `hatch` field. */
+  hatch?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `deck` field. */
+  deck?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `containerId` field. */
+  containerId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `fumigation` field. */
+  fumigation?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `labelCode` field. */
+  labelCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspLocation` field. */
+  inspLocation?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `importerCode` field. */
+  importerCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `lotCode` field. */
+  lotCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspLot` field. */
+  inspLot?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `palletId` field. */
+  palletId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `growerCode` field. */
+  growerCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspGrowerCode` field. */
+  inspGrowerCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `packDate` field. */
+  packDate?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspPackDate` field. */
+  inspPackDate?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `size` field. */
+  size?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspSize` field. */
+  inspSize?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `packCode` field. */
+  packCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `packDescription` field. */
+  packDescription?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `secondaryDescription` field. */
+  secondaryDescription?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspPackCode` field. */
+  inspPackCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `count` field. */
+  count?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `plu` field. */
+  plu?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pluPct` field. */
+  pluPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `countryOfOrigin` field. */
+  countryOfOrigin?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `upc` field. */
+  upc?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `weight` field. */
+  weight?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `underweightMin` field. */
+  underweightMin?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `underweightMax` field. */
+  underweightMax?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `weighedUnits` field. */
+  weighedUnits?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `underweightUnits` field. */
+  underweightUnits?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `underweightPct` field. */
+  underweightPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pulpTemp` field. */
+  pulpTemp?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `opening` field. */
+  opening?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `color` field. */
+  color?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `diameterMinMm` field. */
+  diameterMinMm?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `diameterMinInches` field. */
+  diameterMinInches?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `diameterMaxMm` field. */
+  diameterMaxMm?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `diameterMaxInches` field. */
+  diameterMaxInches?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `diameterMostMm` field. */
+  diameterMostMm?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `diameterMostInches` field. */
+  diameterMostInches?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `scarsPieces` field. */
+  scarsPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `scarsPct` field. */
+  scarsPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `scarsDeg` field. */
+  scarsDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `greenHazePieces` field. */
+  greenHazePieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `greenHazePct` field. */
+  greenHazePct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `greenHazeDeg` field. */
+  greenHazeDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `oilSpotsPieces` field. */
+  oilSpotsPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `oilSpotsPct` field. */
+  oilSpotsPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `oilSpotsDeg` field. */
+  oilSpotsDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `cutCount` field. */
+  cutCount?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `dryPulpPieces` field. */
+  dryPulpPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `dryPulpPct` field. */
+  dryPulpPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `dryPulpDeg` field. */
+  dryPulpDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `seedsPieces` field. */
+  seedsPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `seedsPct` field. */
+  seedsPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `skinBreakdownPieces` field. */
+  skinBreakdownPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `skinBreakdownPct` field. */
+  skinBreakdownPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `skinBreakdownDeg` field. */
+  skinBreakdownDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `creasingPieces` field. */
+  creasingPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `creasingPct` field. */
+  creasingPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `creasingDeg` field. */
+  creasingDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `puffinessPieces` field. */
+  puffinessPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `puffinessPct` field. */
+  puffinessPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `puffinessDeg` field. */
+  puffinessDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `decayPieces` field. */
+  decayPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `decayPct` field. */
+  decayPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `decayDeg` field. */
+  decayDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `moldPieces` field. */
+  moldPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `moldPct` field. */
+  moldPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `sporesPieces` field. */
+  sporesPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `sporesPct` field. */
+  sporesPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `brix` field. */
+  brix?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `overallQuality` field. */
+  overallQuality?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `overallCondition` field. */
+  overallCondition?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `comment1` field. */
+  comment1?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `comment2` field. */
+  comment2?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspectionType` field. */
+  inspectionType?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `shortInsp` field. */
+  shortInsp?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `fixedWeight` field. */
+  fixedWeight?: Maybe<Scalars['String']>;
 };
 
 /** Methods to use when ordering `PsaGrapePallet`. */
@@ -5833,6 +10041,1812 @@ export type PsaGrapePalletCondition = {
   overallCondition?: Maybe<Scalars['BigFloat']>;
   /** Checks for equality with the object’s `autoOverallCondition` field. */
   autoOverallCondition?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `comment1` field. */
+  comment1?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `comment2` field. */
+  comment2?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspectionType` field. */
+  inspectionType?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `shortInsp` field. */
+  shortInsp?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `fixedWeight` field. */
+  fixedWeight?: Maybe<Scalars['String']>;
+};
+
+/** Methods to use when ordering `PsaLemonPallet`. */
+export enum PsaLemonPalletsOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  LocationAsc = 'LOCATION_ASC',
+  LocationDesc = 'LOCATION_DESC',
+  ArrivalAsc = 'ARRIVAL_ASC',
+  ArrivalDesc = 'ARRIVAL_DESC',
+  ImporterNameAsc = 'IMPORTER_NAME_ASC',
+  ImporterNameDesc = 'IMPORTER_NAME_DESC',
+  ExporterNameAsc = 'EXPORTER_NAME_ASC',
+  ExporterNameDesc = 'EXPORTER_NAME_DESC',
+  CommodityAsc = 'COMMODITY_ASC',
+  CommodityDesc = 'COMMODITY_DESC',
+  ProductCodeAsc = 'PRODUCT_CODE_ASC',
+  ProductCodeDesc = 'PRODUCT_CODE_DESC',
+  VarietyAsc = 'VARIETY_ASC',
+  VarietyDesc = 'VARIETY_DESC',
+  InspDateAsc = 'INSP_DATE_ASC',
+  InspDateDesc = 'INSP_DATE_DESC',
+  QuantityAsc = 'QUANTITY_ASC',
+  QuantityDesc = 'QUANTITY_DESC',
+  HatchAsc = 'HATCH_ASC',
+  HatchDesc = 'HATCH_DESC',
+  DeckAsc = 'DECK_ASC',
+  DeckDesc = 'DECK_DESC',
+  ContainerIdAsc = 'CONTAINER_ID_ASC',
+  ContainerIdDesc = 'CONTAINER_ID_DESC',
+  FumigationAsc = 'FUMIGATION_ASC',
+  FumigationDesc = 'FUMIGATION_DESC',
+  LabelCodeAsc = 'LABEL_CODE_ASC',
+  LabelCodeDesc = 'LABEL_CODE_DESC',
+  InspLocationAsc = 'INSP_LOCATION_ASC',
+  InspLocationDesc = 'INSP_LOCATION_DESC',
+  ImporterCodeAsc = 'IMPORTER_CODE_ASC',
+  ImporterCodeDesc = 'IMPORTER_CODE_DESC',
+  LotCodeAsc = 'LOT_CODE_ASC',
+  LotCodeDesc = 'LOT_CODE_DESC',
+  InspLotAsc = 'INSP_LOT_ASC',
+  InspLotDesc = 'INSP_LOT_DESC',
+  PalletIdAsc = 'PALLET_ID_ASC',
+  PalletIdDesc = 'PALLET_ID_DESC',
+  GrowerCodeAsc = 'GROWER_CODE_ASC',
+  GrowerCodeDesc = 'GROWER_CODE_DESC',
+  InspGrowerCodeAsc = 'INSP_GROWER_CODE_ASC',
+  InspGrowerCodeDesc = 'INSP_GROWER_CODE_DESC',
+  PackDateAsc = 'PACK_DATE_ASC',
+  PackDateDesc = 'PACK_DATE_DESC',
+  InspPackDateAsc = 'INSP_PACK_DATE_ASC',
+  InspPackDateDesc = 'INSP_PACK_DATE_DESC',
+  SizeAsc = 'SIZE_ASC',
+  SizeDesc = 'SIZE_DESC',
+  InspSizeAsc = 'INSP_SIZE_ASC',
+  InspSizeDesc = 'INSP_SIZE_DESC',
+  PackCodeAsc = 'PACK_CODE_ASC',
+  PackCodeDesc = 'PACK_CODE_DESC',
+  PackDescriptionAsc = 'PACK_DESCRIPTION_ASC',
+  PackDescriptionDesc = 'PACK_DESCRIPTION_DESC',
+  SecondaryDescriptionAsc = 'SECONDARY_DESCRIPTION_ASC',
+  SecondaryDescriptionDesc = 'SECONDARY_DESCRIPTION_DESC',
+  InspPackCodeAsc = 'INSP_PACK_CODE_ASC',
+  InspPackCodeDesc = 'INSP_PACK_CODE_DESC',
+  GradeAsc = 'GRADE_ASC',
+  GradeDesc = 'GRADE_DESC',
+  InspGradeAsc = 'INSP_GRADE_ASC',
+  InspGradeDesc = 'INSP_GRADE_DESC',
+  CountAsc = 'COUNT_ASC',
+  CountDesc = 'COUNT_DESC',
+  PluAsc = 'PLU_ASC',
+  PluDesc = 'PLU_DESC',
+  PluPctAsc = 'PLU_PCT_ASC',
+  PluPctDesc = 'PLU_PCT_DESC',
+  CountryOfOriginAsc = 'COUNTRY_OF_ORIGIN_ASC',
+  CountryOfOriginDesc = 'COUNTRY_OF_ORIGIN_DESC',
+  UpcAsc = 'UPC_ASC',
+  UpcDesc = 'UPC_DESC',
+  WeightAsc = 'WEIGHT_ASC',
+  WeightDesc = 'WEIGHT_DESC',
+  UnderweightMinAsc = 'UNDERWEIGHT_MIN_ASC',
+  UnderweightMinDesc = 'UNDERWEIGHT_MIN_DESC',
+  UnderweightMaxAsc = 'UNDERWEIGHT_MAX_ASC',
+  UnderweightMaxDesc = 'UNDERWEIGHT_MAX_DESC',
+  WeighedUnitsAsc = 'WEIGHED_UNITS_ASC',
+  WeighedUnitsDesc = 'WEIGHED_UNITS_DESC',
+  UnderweightUnitsAsc = 'UNDERWEIGHT_UNITS_ASC',
+  UnderweightUnitsDesc = 'UNDERWEIGHT_UNITS_DESC',
+  UnderweightPctAsc = 'UNDERWEIGHT_PCT_ASC',
+  UnderweightPctDesc = 'UNDERWEIGHT_PCT_DESC',
+  PulpTempAsc = 'PULP_TEMP_ASC',
+  PulpTempDesc = 'PULP_TEMP_DESC',
+  OpeningAsc = 'OPENING_ASC',
+  OpeningDesc = 'OPENING_DESC',
+  ColorAsc = 'COLOR_ASC',
+  ColorDesc = 'COLOR_DESC',
+  DiameterMinMmAsc = 'DIAMETER_MIN_MM_ASC',
+  DiameterMinMmDesc = 'DIAMETER_MIN_MM_DESC',
+  DiameterMinInchesAsc = 'DIAMETER_MIN_INCHES_ASC',
+  DiameterMinInchesDesc = 'DIAMETER_MIN_INCHES_DESC',
+  DiameterMaxMmAsc = 'DIAMETER_MAX_MM_ASC',
+  DiameterMaxMmDesc = 'DIAMETER_MAX_MM_DESC',
+  DiameterMaxInchesAsc = 'DIAMETER_MAX_INCHES_ASC',
+  DiameterMaxInchesDesc = 'DIAMETER_MAX_INCHES_DESC',
+  DiameterMostMmAsc = 'DIAMETER_MOST_MM_ASC',
+  DiameterMostMmDesc = 'DIAMETER_MOST_MM_DESC',
+  DiameterMostInchesAsc = 'DIAMETER_MOST_INCHES_ASC',
+  DiameterMostInchesDesc = 'DIAMETER_MOST_INCHES_DESC',
+  ScarsPiecesAsc = 'SCARS_PIECES_ASC',
+  ScarsPiecesDesc = 'SCARS_PIECES_DESC',
+  ScarsPctAsc = 'SCARS_PCT_ASC',
+  ScarsPctDesc = 'SCARS_PCT_DESC',
+  ScarsDegAsc = 'SCARS_DEG_ASC',
+  ScarsDegDesc = 'SCARS_DEG_DESC',
+  GreenHazePiecesAsc = 'GREEN_HAZE_PIECES_ASC',
+  GreenHazePiecesDesc = 'GREEN_HAZE_PIECES_DESC',
+  GreenHazePctAsc = 'GREEN_HAZE_PCT_ASC',
+  GreenHazePctDesc = 'GREEN_HAZE_PCT_DESC',
+  GreenHazeDegAsc = 'GREEN_HAZE_DEG_ASC',
+  GreenHazeDegDesc = 'GREEN_HAZE_DEG_DESC',
+  OilSpotsPiecesAsc = 'OIL_SPOTS_PIECES_ASC',
+  OilSpotsPiecesDesc = 'OIL_SPOTS_PIECES_DESC',
+  OilSpotsPctAsc = 'OIL_SPOTS_PCT_ASC',
+  OilSpotsPctDesc = 'OIL_SPOTS_PCT_DESC',
+  OilSpotsDegAsc = 'OIL_SPOTS_DEG_ASC',
+  OilSpotsDegDesc = 'OIL_SPOTS_DEG_DESC',
+  CutCountAsc = 'CUT_COUNT_ASC',
+  CutCountDesc = 'CUT_COUNT_DESC',
+  DryPulpPiecesAsc = 'DRY_PULP_PIECES_ASC',
+  DryPulpPiecesDesc = 'DRY_PULP_PIECES_DESC',
+  DryPulpPctAsc = 'DRY_PULP_PCT_ASC',
+  DryPulpPctDesc = 'DRY_PULP_PCT_DESC',
+  DryPulpDegAsc = 'DRY_PULP_DEG_ASC',
+  DryPulpDegDesc = 'DRY_PULP_DEG_DESC',
+  SkinDamagePiecesAsc = 'SKIN_DAMAGE_PIECES_ASC',
+  SkinDamagePiecesDesc = 'SKIN_DAMAGE_PIECES_DESC',
+  SkinDamagePctAsc = 'SKIN_DAMAGE_PCT_ASC',
+  SkinDamagePctDesc = 'SKIN_DAMAGE_PCT_DESC',
+  SkinDamageDegAsc = 'SKIN_DAMAGE_DEG_ASC',
+  SkinDamageDegDesc = 'SKIN_DAMAGE_DEG_DESC',
+  PetecaPiecesAsc = 'PETECA_PIECES_ASC',
+  PetecaPiecesDesc = 'PETECA_PIECES_DESC',
+  PetecaPctAsc = 'PETECA_PCT_ASC',
+  PetecaPctDesc = 'PETECA_PCT_DESC',
+  PetecaDegAsc = 'PETECA_DEG_ASC',
+  PetecaDegDesc = 'PETECA_DEG_DESC',
+  DecayPiecesAsc = 'DECAY_PIECES_ASC',
+  DecayPiecesDesc = 'DECAY_PIECES_DESC',
+  DecayPctAsc = 'DECAY_PCT_ASC',
+  DecayPctDesc = 'DECAY_PCT_DESC',
+  DecayDegAsc = 'DECAY_DEG_ASC',
+  DecayDegDesc = 'DECAY_DEG_DESC',
+  MoldPiecesAsc = 'MOLD_PIECES_ASC',
+  MoldPiecesDesc = 'MOLD_PIECES_DESC',
+  MoldPctAsc = 'MOLD_PCT_ASC',
+  MoldPctDesc = 'MOLD_PCT_DESC',
+  SporesPiecesAsc = 'SPORES_PIECES_ASC',
+  SporesPiecesDesc = 'SPORES_PIECES_DESC',
+  SporesPctAsc = 'SPORES_PCT_ASC',
+  SporesPctDesc = 'SPORES_PCT_DESC',
+  OverallQualityAsc = 'OVERALL_QUALITY_ASC',
+  OverallQualityDesc = 'OVERALL_QUALITY_DESC',
+  OverallConditionAsc = 'OVERALL_CONDITION_ASC',
+  OverallConditionDesc = 'OVERALL_CONDITION_DESC',
+  Comment1Asc = 'COMMENT1_ASC',
+  Comment1Desc = 'COMMENT1_DESC',
+  Comment2Asc = 'COMMENT2_ASC',
+  Comment2Desc = 'COMMENT2_DESC',
+  InspectionTypeAsc = 'INSPECTION_TYPE_ASC',
+  InspectionTypeDesc = 'INSPECTION_TYPE_DESC',
+  ShortInspAsc = 'SHORT_INSP_ASC',
+  ShortInspDesc = 'SHORT_INSP_DESC',
+  FixedWeightAsc = 'FIXED_WEIGHT_ASC',
+  FixedWeightDesc = 'FIXED_WEIGHT_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
+/**
+ * A condition to be used against `PsaLemonPallet` object types. All fields are
+ * tested for equality and combined with a logical ‘and.’
+ */
+export type PsaLemonPalletCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `location` field. */
+  location?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `arrival` field. */
+  arrival?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `importerName` field. */
+  importerName?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `exporterName` field. */
+  exporterName?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `commodity` field. */
+  commodity?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `productCode` field. */
+  productCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `variety` field. */
+  variety?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspDate` field. */
+  inspDate?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `quantity` field. */
+  quantity?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `hatch` field. */
+  hatch?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `deck` field. */
+  deck?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `containerId` field. */
+  containerId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `fumigation` field. */
+  fumigation?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `labelCode` field. */
+  labelCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspLocation` field. */
+  inspLocation?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `importerCode` field. */
+  importerCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `lotCode` field. */
+  lotCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspLot` field. */
+  inspLot?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `palletId` field. */
+  palletId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `growerCode` field. */
+  growerCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspGrowerCode` field. */
+  inspGrowerCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `packDate` field. */
+  packDate?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspPackDate` field. */
+  inspPackDate?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `size` field. */
+  size?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspSize` field. */
+  inspSize?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `packCode` field. */
+  packCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `packDescription` field. */
+  packDescription?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `secondaryDescription` field. */
+  secondaryDescription?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspPackCode` field. */
+  inspPackCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `grade` field. */
+  grade?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspGrade` field. */
+  inspGrade?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `count` field. */
+  count?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `plu` field. */
+  plu?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pluPct` field. */
+  pluPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `countryOfOrigin` field. */
+  countryOfOrigin?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `upc` field. */
+  upc?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `weight` field. */
+  weight?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `underweightMin` field. */
+  underweightMin?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `underweightMax` field. */
+  underweightMax?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `weighedUnits` field. */
+  weighedUnits?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `underweightUnits` field. */
+  underweightUnits?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `underweightPct` field. */
+  underweightPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pulpTemp` field. */
+  pulpTemp?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `opening` field. */
+  opening?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `color` field. */
+  color?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `diameterMinMm` field. */
+  diameterMinMm?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `diameterMinInches` field. */
+  diameterMinInches?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `diameterMaxMm` field. */
+  diameterMaxMm?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `diameterMaxInches` field. */
+  diameterMaxInches?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `diameterMostMm` field. */
+  diameterMostMm?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `diameterMostInches` field. */
+  diameterMostInches?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `scarsPieces` field. */
+  scarsPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `scarsPct` field. */
+  scarsPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `scarsDeg` field. */
+  scarsDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `greenHazePieces` field. */
+  greenHazePieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `greenHazePct` field. */
+  greenHazePct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `greenHazeDeg` field. */
+  greenHazeDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `oilSpotsPieces` field. */
+  oilSpotsPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `oilSpotsPct` field. */
+  oilSpotsPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `oilSpotsDeg` field. */
+  oilSpotsDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `cutCount` field. */
+  cutCount?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `dryPulpPieces` field. */
+  dryPulpPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `dryPulpPct` field. */
+  dryPulpPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `dryPulpDeg` field. */
+  dryPulpDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `skinDamagePieces` field. */
+  skinDamagePieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `skinDamagePct` field. */
+  skinDamagePct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `skinDamageDeg` field. */
+  skinDamageDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `petecaPieces` field. */
+  petecaPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `petecaPct` field. */
+  petecaPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `petecaDeg` field. */
+  petecaDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `decayPieces` field. */
+  decayPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `decayPct` field. */
+  decayPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `decayDeg` field. */
+  decayDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `moldPieces` field. */
+  moldPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `moldPct` field. */
+  moldPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `sporesPieces` field. */
+  sporesPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `sporesPct` field. */
+  sporesPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `overallQuality` field. */
+  overallQuality?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `overallCondition` field. */
+  overallCondition?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `comment1` field. */
+  comment1?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `comment2` field. */
+  comment2?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspectionType` field. */
+  inspectionType?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `shortInsp` field. */
+  shortInsp?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `fixedWeight` field. */
+  fixedWeight?: Maybe<Scalars['String']>;
+};
+
+/** Methods to use when ordering `PsaPearPallet`. */
+export enum PsaPearPalletsOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  LocationAsc = 'LOCATION_ASC',
+  LocationDesc = 'LOCATION_DESC',
+  ArrivalAsc = 'ARRIVAL_ASC',
+  ArrivalDesc = 'ARRIVAL_DESC',
+  ImporterNameAsc = 'IMPORTER_NAME_ASC',
+  ImporterNameDesc = 'IMPORTER_NAME_DESC',
+  ExporterNameAsc = 'EXPORTER_NAME_ASC',
+  ExporterNameDesc = 'EXPORTER_NAME_DESC',
+  CommodityAsc = 'COMMODITY_ASC',
+  CommodityDesc = 'COMMODITY_DESC',
+  ProductCodeAsc = 'PRODUCT_CODE_ASC',
+  ProductCodeDesc = 'PRODUCT_CODE_DESC',
+  VarietyAsc = 'VARIETY_ASC',
+  VarietyDesc = 'VARIETY_DESC',
+  InspDateAsc = 'INSP_DATE_ASC',
+  InspDateDesc = 'INSP_DATE_DESC',
+  QuantityAsc = 'QUANTITY_ASC',
+  QuantityDesc = 'QUANTITY_DESC',
+  HatchAsc = 'HATCH_ASC',
+  HatchDesc = 'HATCH_DESC',
+  DeckAsc = 'DECK_ASC',
+  DeckDesc = 'DECK_DESC',
+  ContainerIdAsc = 'CONTAINER_ID_ASC',
+  ContainerIdDesc = 'CONTAINER_ID_DESC',
+  FumigationAsc = 'FUMIGATION_ASC',
+  FumigationDesc = 'FUMIGATION_DESC',
+  LabelCodeAsc = 'LABEL_CODE_ASC',
+  LabelCodeDesc = 'LABEL_CODE_DESC',
+  InspLocationAsc = 'INSP_LOCATION_ASC',
+  InspLocationDesc = 'INSP_LOCATION_DESC',
+  ImporterCodeAsc = 'IMPORTER_CODE_ASC',
+  ImporterCodeDesc = 'IMPORTER_CODE_DESC',
+  LotCodeAsc = 'LOT_CODE_ASC',
+  LotCodeDesc = 'LOT_CODE_DESC',
+  InspLotAsc = 'INSP_LOT_ASC',
+  InspLotDesc = 'INSP_LOT_DESC',
+  RunNumberAsc = 'RUN_NUMBER_ASC',
+  RunNumberDesc = 'RUN_NUMBER_DESC',
+  PalletIdAsc = 'PALLET_ID_ASC',
+  PalletIdDesc = 'PALLET_ID_DESC',
+  GrowerCodeAsc = 'GROWER_CODE_ASC',
+  GrowerCodeDesc = 'GROWER_CODE_DESC',
+  InspGrowerCodeAsc = 'INSP_GROWER_CODE_ASC',
+  InspGrowerCodeDesc = 'INSP_GROWER_CODE_DESC',
+  PackDateAsc = 'PACK_DATE_ASC',
+  PackDateDesc = 'PACK_DATE_DESC',
+  InspPackDateAsc = 'INSP_PACK_DATE_ASC',
+  InspPackDateDesc = 'INSP_PACK_DATE_DESC',
+  SizeAsc = 'SIZE_ASC',
+  SizeDesc = 'SIZE_DESC',
+  InspSizeAsc = 'INSP_SIZE_ASC',
+  InspSizeDesc = 'INSP_SIZE_DESC',
+  PackCodeAsc = 'PACK_CODE_ASC',
+  PackCodeDesc = 'PACK_CODE_DESC',
+  PackDescriptionAsc = 'PACK_DESCRIPTION_ASC',
+  PackDescriptionDesc = 'PACK_DESCRIPTION_DESC',
+  SecondaryDescriptionAsc = 'SECONDARY_DESCRIPTION_ASC',
+  SecondaryDescriptionDesc = 'SECONDARY_DESCRIPTION_DESC',
+  InspPackCodeAsc = 'INSP_PACK_CODE_ASC',
+  InspPackCodeDesc = 'INSP_PACK_CODE_DESC',
+  GradeAsc = 'GRADE_ASC',
+  GradeDesc = 'GRADE_DESC',
+  InspGradeAsc = 'INSP_GRADE_ASC',
+  InspGradeDesc = 'INSP_GRADE_DESC',
+  CountAsc = 'COUNT_ASC',
+  CountDesc = 'COUNT_DESC',
+  PluAsc = 'PLU_ASC',
+  PluDesc = 'PLU_DESC',
+  PluPctAsc = 'PLU_PCT_ASC',
+  PluPctDesc = 'PLU_PCT_DESC',
+  CountryOfOriginAsc = 'COUNTRY_OF_ORIGIN_ASC',
+  CountryOfOriginDesc = 'COUNTRY_OF_ORIGIN_DESC',
+  UpcAsc = 'UPC_ASC',
+  UpcDesc = 'UPC_DESC',
+  WeightAsc = 'WEIGHT_ASC',
+  WeightDesc = 'WEIGHT_DESC',
+  UnderweightMinAsc = 'UNDERWEIGHT_MIN_ASC',
+  UnderweightMinDesc = 'UNDERWEIGHT_MIN_DESC',
+  UnderweightMaxAsc = 'UNDERWEIGHT_MAX_ASC',
+  UnderweightMaxDesc = 'UNDERWEIGHT_MAX_DESC',
+  WeighedUnitsAsc = 'WEIGHED_UNITS_ASC',
+  WeighedUnitsDesc = 'WEIGHED_UNITS_DESC',
+  UnderweightUnitsAsc = 'UNDERWEIGHT_UNITS_ASC',
+  UnderweightUnitsDesc = 'UNDERWEIGHT_UNITS_DESC',
+  UnderweightPctAsc = 'UNDERWEIGHT_PCT_ASC',
+  UnderweightPctDesc = 'UNDERWEIGHT_PCT_DESC',
+  PulpTempAsc = 'PULP_TEMP_ASC',
+  PulpTempDesc = 'PULP_TEMP_DESC',
+  OpeningAsc = 'OPENING_ASC',
+  OpeningDesc = 'OPENING_DESC',
+  GroundColorAsc = 'GROUND_COLOR_ASC',
+  GroundColorDesc = 'GROUND_COLOR_DESC',
+  BlushColorAsc = 'BLUSH_COLOR_ASC',
+  BlushColorDesc = 'BLUSH_COLOR_DESC',
+  BlushPctAsc = 'BLUSH_PCT_ASC',
+  BlushPctDesc = 'BLUSH_PCT_DESC',
+  ScarsRussetPiecesAsc = 'SCARS_RUSSET_PIECES_ASC',
+  ScarsRussetPiecesDesc = 'SCARS_RUSSET_PIECES_DESC',
+  ScarsRussetPctAsc = 'SCARS_RUSSET_PCT_ASC',
+  ScarsRussetPctDesc = 'SCARS_RUSSET_PCT_DESC',
+  ScarsRussetDegAsc = 'SCARS_RUSSET_DEG_ASC',
+  ScarsRussetDegDesc = 'SCARS_RUSSET_DEG_DESC',
+  RussetPerPiecePctAsc = 'RUSSET_PER_PIECE_PCT_ASC',
+  RussetPerPiecePctDesc = 'RUSSET_PER_PIECE_PCT_DESC',
+  StemPuncturesPiecesAsc = 'STEM_PUNCTURES_PIECES_ASC',
+  StemPuncturesPiecesDesc = 'STEM_PUNCTURES_PIECES_DESC',
+  StemPuncturesPctAsc = 'STEM_PUNCTURES_PCT_ASC',
+  StemPuncturesPctDesc = 'STEM_PUNCTURES_PCT_DESC',
+  CutsPiecesAsc = 'CUTS_PIECES_ASC',
+  CutsPiecesDesc = 'CUTS_PIECES_DESC',
+  CutsPctAsc = 'CUTS_PCT_ASC',
+  CutsPctDesc = 'CUTS_PCT_DESC',
+  CutsDegAsc = 'CUTS_DEG_ASC',
+  CutsDegDesc = 'CUTS_DEG_DESC',
+  TurningColorPiecesAsc = 'TURNING_COLOR_PIECES_ASC',
+  TurningColorPiecesDesc = 'TURNING_COLOR_PIECES_DESC',
+  TurningColorPctAsc = 'TURNING_COLOR_PCT_ASC',
+  TurningColorPctDesc = 'TURNING_COLOR_PCT_DESC',
+  TurningColorDegAsc = 'TURNING_COLOR_DEG_ASC',
+  TurningColorDegDesc = 'TURNING_COLOR_DEG_DESC',
+  DehydrationPiecesAsc = 'DEHYDRATION_PIECES_ASC',
+  DehydrationPiecesDesc = 'DEHYDRATION_PIECES_DESC',
+  DehydrationPctAsc = 'DEHYDRATION_PCT_ASC',
+  DehydrationPctDesc = 'DEHYDRATION_PCT_DESC',
+  DehydrationDegAsc = 'DEHYDRATION_DEG_ASC',
+  DehydrationDegDesc = 'DEHYDRATION_DEG_DESC',
+  BruisingPiecesAsc = 'BRUISING_PIECES_ASC',
+  BruisingPiecesDesc = 'BRUISING_PIECES_DESC',
+  BruisingPctAsc = 'BRUISING_PCT_ASC',
+  BruisingPctDesc = 'BRUISING_PCT_DESC',
+  BruisingDegAsc = 'BRUISING_DEG_ASC',
+  BruisingDegDesc = 'BRUISING_DEG_DESC',
+  CutCountAsc = 'CUT_COUNT_ASC',
+  CutCountDesc = 'CUT_COUNT_DESC',
+  InternalDamagePiecesAsc = 'INTERNAL_DAMAGE_PIECES_ASC',
+  InternalDamagePiecesDesc = 'INTERNAL_DAMAGE_PIECES_DESC',
+  InternalDamagePerAsc = 'INTERNAL_DAMAGE_PER_ASC',
+  InternalDamagePerDesc = 'INTERNAL_DAMAGE_PER_DESC',
+  DecayPiecesAsc = 'DECAY_PIECES_ASC',
+  DecayPiecesDesc = 'DECAY_PIECES_DESC',
+  DecayPctAsc = 'DECAY_PCT_ASC',
+  DecayPctDesc = 'DECAY_PCT_DESC',
+  DecayDegAsc = 'DECAY_DEG_ASC',
+  DecayDegDesc = 'DECAY_DEG_DESC',
+  MoldPiecesAsc = 'MOLD_PIECES_ASC',
+  MoldPiecesDesc = 'MOLD_PIECES_DESC',
+  MoldPctAsc = 'MOLD_PCT_ASC',
+  MoldPctDesc = 'MOLD_PCT_DESC',
+  Pressure1Asc = 'PRESSURE1_ASC',
+  Pressure1Desc = 'PRESSURE1_DESC',
+  Pressure2Asc = 'PRESSURE2_ASC',
+  Pressure2Desc = 'PRESSURE2_DESC',
+  Pressure3Asc = 'PRESSURE3_ASC',
+  Pressure3Desc = 'PRESSURE3_DESC',
+  Pressure4Asc = 'PRESSURE4_ASC',
+  Pressure4Desc = 'PRESSURE4_DESC',
+  Pressure5Asc = 'PRESSURE5_ASC',
+  Pressure5Desc = 'PRESSURE5_DESC',
+  Pressure6Asc = 'PRESSURE6_ASC',
+  Pressure6Desc = 'PRESSURE6_DESC',
+  PressuresMinAsc = 'PRESSURES_MIN_ASC',
+  PressuresMinDesc = 'PRESSURES_MIN_DESC',
+  PressuresMaxAsc = 'PRESSURES_MAX_ASC',
+  PressuresMaxDesc = 'PRESSURES_MAX_DESC',
+  PressuresAvgAsc = 'PRESSURES_AVG_ASC',
+  PressuresAvgDesc = 'PRESSURES_AVG_DESC',
+  OverallQualityAsc = 'OVERALL_QUALITY_ASC',
+  OverallQualityDesc = 'OVERALL_QUALITY_DESC',
+  OverallConditionAsc = 'OVERALL_CONDITION_ASC',
+  OverallConditionDesc = 'OVERALL_CONDITION_DESC',
+  Comment1Asc = 'COMMENT1_ASC',
+  Comment1Desc = 'COMMENT1_DESC',
+  Comment2Asc = 'COMMENT2_ASC',
+  Comment2Desc = 'COMMENT2_DESC',
+  InspectionTypeAsc = 'INSPECTION_TYPE_ASC',
+  InspectionTypeDesc = 'INSPECTION_TYPE_DESC',
+  ShortInspAsc = 'SHORT_INSP_ASC',
+  ShortInspDesc = 'SHORT_INSP_DESC',
+  FixedWeightAsc = 'FIXED_WEIGHT_ASC',
+  FixedWeightDesc = 'FIXED_WEIGHT_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
+/**
+ * A condition to be used against `PsaPearPallet` object types. All fields are
+ * tested for equality and combined with a logical ‘and.’
+ */
+export type PsaPearPalletCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `location` field. */
+  location?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `arrival` field. */
+  arrival?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `importerName` field. */
+  importerName?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `exporterName` field. */
+  exporterName?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `commodity` field. */
+  commodity?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `productCode` field. */
+  productCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `variety` field. */
+  variety?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspDate` field. */
+  inspDate?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `quantity` field. */
+  quantity?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `hatch` field. */
+  hatch?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `deck` field. */
+  deck?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `containerId` field. */
+  containerId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `fumigation` field. */
+  fumigation?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `labelCode` field. */
+  labelCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspLocation` field. */
+  inspLocation?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `importerCode` field. */
+  importerCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `lotCode` field. */
+  lotCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspLot` field. */
+  inspLot?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `runNumber` field. */
+  runNumber?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `palletId` field. */
+  palletId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `growerCode` field. */
+  growerCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspGrowerCode` field. */
+  inspGrowerCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `packDate` field. */
+  packDate?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspPackDate` field. */
+  inspPackDate?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `size` field. */
+  size?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspSize` field. */
+  inspSize?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `packCode` field. */
+  packCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `packDescription` field. */
+  packDescription?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `secondaryDescription` field. */
+  secondaryDescription?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspPackCode` field. */
+  inspPackCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `grade` field. */
+  grade?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspGrade` field. */
+  inspGrade?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `count` field. */
+  count?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `plu` field. */
+  plu?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pluPct` field. */
+  pluPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `countryOfOrigin` field. */
+  countryOfOrigin?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `upc` field. */
+  upc?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `weight` field. */
+  weight?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `underweightMin` field. */
+  underweightMin?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `underweightMax` field. */
+  underweightMax?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `weighedUnits` field. */
+  weighedUnits?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `underweightUnits` field. */
+  underweightUnits?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `underweightPct` field. */
+  underweightPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pulpTemp` field. */
+  pulpTemp?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `opening` field. */
+  opening?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `groundColor` field. */
+  groundColor?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `blushColor` field. */
+  blushColor?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `blushPct` field. */
+  blushPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `scarsRussetPieces` field. */
+  scarsRussetPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `scarsRussetPct` field. */
+  scarsRussetPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `scarsRussetDeg` field. */
+  scarsRussetDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `russetPerPiecePct` field. */
+  russetPerPiecePct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `stemPuncturesPieces` field. */
+  stemPuncturesPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `stemPuncturesPct` field. */
+  stemPuncturesPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `cutsPieces` field. */
+  cutsPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `cutsPct` field. */
+  cutsPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `cutsDeg` field. */
+  cutsDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `turningColorPieces` field. */
+  turningColorPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `turningColorPct` field. */
+  turningColorPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `turningColorDeg` field. */
+  turningColorDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `dehydrationPieces` field. */
+  dehydrationPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `dehydrationPct` field. */
+  dehydrationPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `dehydrationDeg` field. */
+  dehydrationDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `bruisingPieces` field. */
+  bruisingPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `bruisingPct` field. */
+  bruisingPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `bruisingDeg` field. */
+  bruisingDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `cutCount` field. */
+  cutCount?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `internalDamagePieces` field. */
+  internalDamagePieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `internalDamagePer` field. */
+  internalDamagePer?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `decayPieces` field. */
+  decayPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `decayPct` field. */
+  decayPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `decayDeg` field. */
+  decayDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `moldPieces` field. */
+  moldPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `moldPct` field. */
+  moldPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pressure1` field. */
+  pressure1?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pressure2` field. */
+  pressure2?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pressure3` field. */
+  pressure3?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pressure4` field. */
+  pressure4?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pressure5` field. */
+  pressure5?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pressure6` field. */
+  pressure6?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pressuresMin` field. */
+  pressuresMin?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pressuresMax` field. */
+  pressuresMax?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pressuresAvg` field. */
+  pressuresAvg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `overallQuality` field. */
+  overallQuality?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `overallCondition` field. */
+  overallCondition?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `comment1` field. */
+  comment1?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `comment2` field. */
+  comment2?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspectionType` field. */
+  inspectionType?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `shortInsp` field. */
+  shortInsp?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `fixedWeight` field. */
+  fixedWeight?: Maybe<Scalars['String']>;
+};
+
+/** Methods to use when ordering `PsaPersimmonPallet`. */
+export enum PsaPersimmonPalletsOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  LocationAsc = 'LOCATION_ASC',
+  LocationDesc = 'LOCATION_DESC',
+  ArrivalAsc = 'ARRIVAL_ASC',
+  ArrivalDesc = 'ARRIVAL_DESC',
+  ImporterNameAsc = 'IMPORTER_NAME_ASC',
+  ImporterNameDesc = 'IMPORTER_NAME_DESC',
+  ExporterNameAsc = 'EXPORTER_NAME_ASC',
+  ExporterNameDesc = 'EXPORTER_NAME_DESC',
+  CommodityAsc = 'COMMODITY_ASC',
+  CommodityDesc = 'COMMODITY_DESC',
+  ProductCodeAsc = 'PRODUCT_CODE_ASC',
+  ProductCodeDesc = 'PRODUCT_CODE_DESC',
+  VarietyAsc = 'VARIETY_ASC',
+  VarietyDesc = 'VARIETY_DESC',
+  InspDateAsc = 'INSP_DATE_ASC',
+  InspDateDesc = 'INSP_DATE_DESC',
+  QuantityAsc = 'QUANTITY_ASC',
+  QuantityDesc = 'QUANTITY_DESC',
+  HatchAsc = 'HATCH_ASC',
+  HatchDesc = 'HATCH_DESC',
+  DeckAsc = 'DECK_ASC',
+  DeckDesc = 'DECK_DESC',
+  ContainerIdAsc = 'CONTAINER_ID_ASC',
+  ContainerIdDesc = 'CONTAINER_ID_DESC',
+  FumigationAsc = 'FUMIGATION_ASC',
+  FumigationDesc = 'FUMIGATION_DESC',
+  LabelCodeAsc = 'LABEL_CODE_ASC',
+  LabelCodeDesc = 'LABEL_CODE_DESC',
+  InspLocationAsc = 'INSP_LOCATION_ASC',
+  InspLocationDesc = 'INSP_LOCATION_DESC',
+  ImporterCodeAsc = 'IMPORTER_CODE_ASC',
+  ImporterCodeDesc = 'IMPORTER_CODE_DESC',
+  LotCodeAsc = 'LOT_CODE_ASC',
+  LotCodeDesc = 'LOT_CODE_DESC',
+  InspLotAsc = 'INSP_LOT_ASC',
+  InspLotDesc = 'INSP_LOT_DESC',
+  PalletIdAsc = 'PALLET_ID_ASC',
+  PalletIdDesc = 'PALLET_ID_DESC',
+  GrowerCodeAsc = 'GROWER_CODE_ASC',
+  GrowerCodeDesc = 'GROWER_CODE_DESC',
+  InspGrowerCodeAsc = 'INSP_GROWER_CODE_ASC',
+  InspGrowerCodeDesc = 'INSP_GROWER_CODE_DESC',
+  PackDateAsc = 'PACK_DATE_ASC',
+  PackDateDesc = 'PACK_DATE_DESC',
+  InspPackDateAsc = 'INSP_PACK_DATE_ASC',
+  InspPackDateDesc = 'INSP_PACK_DATE_DESC',
+  SizeAsc = 'SIZE_ASC',
+  SizeDesc = 'SIZE_DESC',
+  InspSizeAsc = 'INSP_SIZE_ASC',
+  InspSizeDesc = 'INSP_SIZE_DESC',
+  PackCodeAsc = 'PACK_CODE_ASC',
+  PackCodeDesc = 'PACK_CODE_DESC',
+  PackDescriptionAsc = 'PACK_DESCRIPTION_ASC',
+  PackDescriptionDesc = 'PACK_DESCRIPTION_DESC',
+  SecondaryDescriptionAsc = 'SECONDARY_DESCRIPTION_ASC',
+  SecondaryDescriptionDesc = 'SECONDARY_DESCRIPTION_DESC',
+  InspPackCodeAsc = 'INSP_PACK_CODE_ASC',
+  InspPackCodeDesc = 'INSP_PACK_CODE_DESC',
+  CountAsc = 'COUNT_ASC',
+  CountDesc = 'COUNT_DESC',
+  PluAsc = 'PLU_ASC',
+  PluDesc = 'PLU_DESC',
+  PluPctAsc = 'PLU_PCT_ASC',
+  PluPctDesc = 'PLU_PCT_DESC',
+  CountryOfOriginAsc = 'COUNTRY_OF_ORIGIN_ASC',
+  CountryOfOriginDesc = 'COUNTRY_OF_ORIGIN_DESC',
+  UpcAsc = 'UPC_ASC',
+  UpcDesc = 'UPC_DESC',
+  WeightAsc = 'WEIGHT_ASC',
+  WeightDesc = 'WEIGHT_DESC',
+  UnderweightMinAsc = 'UNDERWEIGHT_MIN_ASC',
+  UnderweightMinDesc = 'UNDERWEIGHT_MIN_DESC',
+  UnderweightMaxAsc = 'UNDERWEIGHT_MAX_ASC',
+  UnderweightMaxDesc = 'UNDERWEIGHT_MAX_DESC',
+  WeighedUnitsAsc = 'WEIGHED_UNITS_ASC',
+  WeighedUnitsDesc = 'WEIGHED_UNITS_DESC',
+  UnderweightUnitsAsc = 'UNDERWEIGHT_UNITS_ASC',
+  UnderweightUnitsDesc = 'UNDERWEIGHT_UNITS_DESC',
+  UnderweightPctAsc = 'UNDERWEIGHT_PCT_ASC',
+  UnderweightPctDesc = 'UNDERWEIGHT_PCT_DESC',
+  PulpTempAsc = 'PULP_TEMP_ASC',
+  PulpTempDesc = 'PULP_TEMP_DESC',
+  OpeningAsc = 'OPENING_ASC',
+  OpeningDesc = 'OPENING_DESC',
+  ColorAsc = 'COLOR_ASC',
+  ColorDesc = 'COLOR_DESC',
+  ScarsMarksPiecesAsc = 'SCARS_MARKS_PIECES_ASC',
+  ScarsMarksPiecesDesc = 'SCARS_MARKS_PIECES_DESC',
+  ScarsMarksPctAsc = 'SCARS_MARKS_PCT_ASC',
+  ScarsMarksPctDesc = 'SCARS_MARKS_PCT_DESC',
+  ScarsMarksDegAsc = 'SCARS_MARKS_DEG_ASC',
+  ScarsMarksDegDesc = 'SCARS_MARKS_DEG_DESC',
+  GreenColorPiecesAsc = 'GREEN_COLOR_PIECES_ASC',
+  GreenColorPiecesDesc = 'GREEN_COLOR_PIECES_DESC',
+  GreenColorAsc = 'GREEN_COLOR_ASC',
+  GreenColorDesc = 'GREEN_COLOR_DESC',
+  GreenColorDegAsc = 'GREEN_COLOR_DEG_ASC',
+  GreenColorDegDesc = 'GREEN_COLOR_DEG_DESC',
+  CutsSplitsPiecesAsc = 'CUTS_SPLITS_PIECES_ASC',
+  CutsSplitsPiecesDesc = 'CUTS_SPLITS_PIECES_DESC',
+  CutsSplitsPctAsc = 'CUTS_SPLITS_PCT_ASC',
+  CutsSplitsPctDesc = 'CUTS_SPLITS_PCT_DESC',
+  CutsSplitsDegAsc = 'CUTS_SPLITS_DEG_ASC',
+  CutsSplitsDegDesc = 'CUTS_SPLITS_DEG_DESC',
+  BruisingPiecesAsc = 'BRUISING_PIECES_ASC',
+  BruisingPiecesDesc = 'BRUISING_PIECES_DESC',
+  BruisingPctAsc = 'BRUISING_PCT_ASC',
+  BruisingPctDesc = 'BRUISING_PCT_DESC',
+  BruisingDegAsc = 'BRUISING_DEG_ASC',
+  BruisingDegDesc = 'BRUISING_DEG_DESC',
+  DehydrationPiecesAsc = 'DEHYDRATION_PIECES_ASC',
+  DehydrationPiecesDesc = 'DEHYDRATION_PIECES_DESC',
+  DehydrationPctAsc = 'DEHYDRATION_PCT_ASC',
+  DehydrationPctDesc = 'DEHYDRATION_PCT_DESC',
+  DehydrationDegAsc = 'DEHYDRATION_DEG_ASC',
+  DehydrationDegDesc = 'DEHYDRATION_DEG_DESC',
+  CutCountAsc = 'CUT_COUNT_ASC',
+  CutCountDesc = 'CUT_COUNT_DESC',
+  SeedsPiecesAsc = 'SEEDS_PIECES_ASC',
+  SeedsPiecesDesc = 'SEEDS_PIECES_DESC',
+  SeedsPctAsc = 'SEEDS_PCT_ASC',
+  SeedsPctDesc = 'SEEDS_PCT_DESC',
+  InternalDamagePiecesAsc = 'INTERNAL_DAMAGE_PIECES_ASC',
+  InternalDamagePiecesDesc = 'INTERNAL_DAMAGE_PIECES_DESC',
+  InternalDamagePerAsc = 'INTERNAL_DAMAGE_PER_ASC',
+  InternalDamagePerDesc = 'INTERNAL_DAMAGE_PER_DESC',
+  InternalDamageDegAsc = 'INTERNAL_DAMAGE_DEG_ASC',
+  InternalDamageDegDesc = 'INTERNAL_DAMAGE_DEG_DESC',
+  DecayPiecesAsc = 'DECAY_PIECES_ASC',
+  DecayPiecesDesc = 'DECAY_PIECES_DESC',
+  DecayPctAsc = 'DECAY_PCT_ASC',
+  DecayPctDesc = 'DECAY_PCT_DESC',
+  DecayDegAsc = 'DECAY_DEG_ASC',
+  DecayDegDesc = 'DECAY_DEG_DESC',
+  MoldPiecesAsc = 'MOLD_PIECES_ASC',
+  MoldPiecesDesc = 'MOLD_PIECES_DESC',
+  MoldPctAsc = 'MOLD_PCT_ASC',
+  MoldPctDesc = 'MOLD_PCT_DESC',
+  BrixAsc = 'BRIX_ASC',
+  BrixDesc = 'BRIX_DESC',
+  Pressure1Asc = 'PRESSURE1_ASC',
+  Pressure1Desc = 'PRESSURE1_DESC',
+  Pressure2Asc = 'PRESSURE2_ASC',
+  Pressure2Desc = 'PRESSURE2_DESC',
+  Pressure3Asc = 'PRESSURE3_ASC',
+  Pressure3Desc = 'PRESSURE3_DESC',
+  Pressure4Asc = 'PRESSURE4_ASC',
+  Pressure4Desc = 'PRESSURE4_DESC',
+  Pressure5Asc = 'PRESSURE5_ASC',
+  Pressure5Desc = 'PRESSURE5_DESC',
+  Pressure6Asc = 'PRESSURE6_ASC',
+  Pressure6Desc = 'PRESSURE6_DESC',
+  PressuresMinAsc = 'PRESSURES_MIN_ASC',
+  PressuresMinDesc = 'PRESSURES_MIN_DESC',
+  PressuresMaxAsc = 'PRESSURES_MAX_ASC',
+  PressuresMaxDesc = 'PRESSURES_MAX_DESC',
+  PressuresAvgAsc = 'PRESSURES_AVG_ASC',
+  PressuresAvgDesc = 'PRESSURES_AVG_DESC',
+  OverallQualityAsc = 'OVERALL_QUALITY_ASC',
+  OverallQualityDesc = 'OVERALL_QUALITY_DESC',
+  OverallConditionAsc = 'OVERALL_CONDITION_ASC',
+  OverallConditionDesc = 'OVERALL_CONDITION_DESC',
+  Comment1Asc = 'COMMENT1_ASC',
+  Comment1Desc = 'COMMENT1_DESC',
+  Comment2Asc = 'COMMENT2_ASC',
+  Comment2Desc = 'COMMENT2_DESC',
+  InspectionTypeAsc = 'INSPECTION_TYPE_ASC',
+  InspectionTypeDesc = 'INSPECTION_TYPE_DESC',
+  ShortInspAsc = 'SHORT_INSP_ASC',
+  ShortInspDesc = 'SHORT_INSP_DESC',
+  FixedWeightAsc = 'FIXED_WEIGHT_ASC',
+  FixedWeightDesc = 'FIXED_WEIGHT_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
+/**
+ * A condition to be used against `PsaPersimmonPallet` object types. All fields are
+ * tested for equality and combined with a logical ‘and.’
+ */
+export type PsaPersimmonPalletCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `location` field. */
+  location?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `arrival` field. */
+  arrival?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `importerName` field. */
+  importerName?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `exporterName` field. */
+  exporterName?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `commodity` field. */
+  commodity?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `productCode` field. */
+  productCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `variety` field. */
+  variety?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspDate` field. */
+  inspDate?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `quantity` field. */
+  quantity?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `hatch` field. */
+  hatch?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `deck` field. */
+  deck?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `containerId` field. */
+  containerId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `fumigation` field. */
+  fumigation?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `labelCode` field. */
+  labelCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspLocation` field. */
+  inspLocation?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `importerCode` field. */
+  importerCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `lotCode` field. */
+  lotCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspLot` field. */
+  inspLot?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `palletId` field. */
+  palletId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `growerCode` field. */
+  growerCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspGrowerCode` field. */
+  inspGrowerCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `packDate` field. */
+  packDate?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspPackDate` field. */
+  inspPackDate?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `size` field. */
+  size?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspSize` field. */
+  inspSize?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `packCode` field. */
+  packCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `packDescription` field. */
+  packDescription?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `secondaryDescription` field. */
+  secondaryDescription?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspPackCode` field. */
+  inspPackCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `count` field. */
+  count?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `plu` field. */
+  plu?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pluPct` field. */
+  pluPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `countryOfOrigin` field. */
+  countryOfOrigin?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `upc` field. */
+  upc?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `weight` field. */
+  weight?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `underweightMin` field. */
+  underweightMin?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `underweightMax` field. */
+  underweightMax?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `weighedUnits` field. */
+  weighedUnits?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `underweightUnits` field. */
+  underweightUnits?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `underweightPct` field. */
+  underweightPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pulpTemp` field. */
+  pulpTemp?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `opening` field. */
+  opening?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `color` field. */
+  color?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `scarsMarksPieces` field. */
+  scarsMarksPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `scarsMarksPct` field. */
+  scarsMarksPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `scarsMarksDeg` field. */
+  scarsMarksDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `greenColorPieces` field. */
+  greenColorPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `greenColor` field. */
+  greenColor?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `greenColorDeg` field. */
+  greenColorDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `cutsSplitsPieces` field. */
+  cutsSplitsPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `cutsSplitsPct` field. */
+  cutsSplitsPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `cutsSplitsDeg` field. */
+  cutsSplitsDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `bruisingPieces` field. */
+  bruisingPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `bruisingPct` field. */
+  bruisingPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `bruisingDeg` field. */
+  bruisingDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `dehydrationPieces` field. */
+  dehydrationPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `dehydrationPct` field. */
+  dehydrationPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `dehydrationDeg` field. */
+  dehydrationDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `cutCount` field. */
+  cutCount?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `seedsPieces` field. */
+  seedsPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `seedsPct` field. */
+  seedsPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `internalDamagePieces` field. */
+  internalDamagePieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `internalDamagePer` field. */
+  internalDamagePer?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `internalDamageDeg` field. */
+  internalDamageDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `decayPieces` field. */
+  decayPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `decayPct` field. */
+  decayPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `decayDeg` field. */
+  decayDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `moldPieces` field. */
+  moldPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `moldPct` field. */
+  moldPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `brix` field. */
+  brix?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pressure1` field. */
+  pressure1?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pressure2` field. */
+  pressure2?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pressure3` field. */
+  pressure3?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pressure4` field. */
+  pressure4?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pressure5` field. */
+  pressure5?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pressure6` field. */
+  pressure6?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pressuresMin` field. */
+  pressuresMin?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pressuresMax` field. */
+  pressuresMax?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pressuresAvg` field. */
+  pressuresAvg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `overallQuality` field. */
+  overallQuality?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `overallCondition` field. */
+  overallCondition?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `comment1` field. */
+  comment1?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `comment2` field. */
+  comment2?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspectionType` field. */
+  inspectionType?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `shortInsp` field. */
+  shortInsp?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `fixedWeight` field. */
+  fixedWeight?: Maybe<Scalars['String']>;
+};
+
+/** Methods to use when ordering `PsaPomegranatePallet`. */
+export enum PsaPomegranatePalletsOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  LocationAsc = 'LOCATION_ASC',
+  LocationDesc = 'LOCATION_DESC',
+  ArrivalAsc = 'ARRIVAL_ASC',
+  ArrivalDesc = 'ARRIVAL_DESC',
+  ImporterNameAsc = 'IMPORTER_NAME_ASC',
+  ImporterNameDesc = 'IMPORTER_NAME_DESC',
+  ExporterNameAsc = 'EXPORTER_NAME_ASC',
+  ExporterNameDesc = 'EXPORTER_NAME_DESC',
+  CommodityAsc = 'COMMODITY_ASC',
+  CommodityDesc = 'COMMODITY_DESC',
+  ProductCodeAsc = 'PRODUCT_CODE_ASC',
+  ProductCodeDesc = 'PRODUCT_CODE_DESC',
+  VarietyAsc = 'VARIETY_ASC',
+  VarietyDesc = 'VARIETY_DESC',
+  InspDateAsc = 'INSP_DATE_ASC',
+  InspDateDesc = 'INSP_DATE_DESC',
+  QuantityAsc = 'QUANTITY_ASC',
+  QuantityDesc = 'QUANTITY_DESC',
+  HatchAsc = 'HATCH_ASC',
+  HatchDesc = 'HATCH_DESC',
+  DeckAsc = 'DECK_ASC',
+  DeckDesc = 'DECK_DESC',
+  ContainerIdAsc = 'CONTAINER_ID_ASC',
+  ContainerIdDesc = 'CONTAINER_ID_DESC',
+  FumigationAsc = 'FUMIGATION_ASC',
+  FumigationDesc = 'FUMIGATION_DESC',
+  LabelCodeAsc = 'LABEL_CODE_ASC',
+  LabelCodeDesc = 'LABEL_CODE_DESC',
+  InspLocationAsc = 'INSP_LOCATION_ASC',
+  InspLocationDesc = 'INSP_LOCATION_DESC',
+  ImporterCodeAsc = 'IMPORTER_CODE_ASC',
+  ImporterCodeDesc = 'IMPORTER_CODE_DESC',
+  LotCodeAsc = 'LOT_CODE_ASC',
+  LotCodeDesc = 'LOT_CODE_DESC',
+  InspLotAsc = 'INSP_LOT_ASC',
+  InspLotDesc = 'INSP_LOT_DESC',
+  PalletIdAsc = 'PALLET_ID_ASC',
+  PalletIdDesc = 'PALLET_ID_DESC',
+  GrowerCodeAsc = 'GROWER_CODE_ASC',
+  GrowerCodeDesc = 'GROWER_CODE_DESC',
+  InspGrowerCodeAsc = 'INSP_GROWER_CODE_ASC',
+  InspGrowerCodeDesc = 'INSP_GROWER_CODE_DESC',
+  PackDateAsc = 'PACK_DATE_ASC',
+  PackDateDesc = 'PACK_DATE_DESC',
+  InspPackDateAsc = 'INSP_PACK_DATE_ASC',
+  InspPackDateDesc = 'INSP_PACK_DATE_DESC',
+  SizeAsc = 'SIZE_ASC',
+  SizeDesc = 'SIZE_DESC',
+  InspSizeAsc = 'INSP_SIZE_ASC',
+  InspSizeDesc = 'INSP_SIZE_DESC',
+  PackCodeAsc = 'PACK_CODE_ASC',
+  PackCodeDesc = 'PACK_CODE_DESC',
+  PackDescriptionAsc = 'PACK_DESCRIPTION_ASC',
+  PackDescriptionDesc = 'PACK_DESCRIPTION_DESC',
+  SecondaryDescriptionAsc = 'SECONDARY_DESCRIPTION_ASC',
+  SecondaryDescriptionDesc = 'SECONDARY_DESCRIPTION_DESC',
+  InspPackCodeAsc = 'INSP_PACK_CODE_ASC',
+  InspPackCodeDesc = 'INSP_PACK_CODE_DESC',
+  GradeAsc = 'GRADE_ASC',
+  GradeDesc = 'GRADE_DESC',
+  InspGradeAsc = 'INSP_GRADE_ASC',
+  InspGradeDesc = 'INSP_GRADE_DESC',
+  CountAsc = 'COUNT_ASC',
+  CountDesc = 'COUNT_DESC',
+  PluAsc = 'PLU_ASC',
+  PluDesc = 'PLU_DESC',
+  PluPctAsc = 'PLU_PCT_ASC',
+  PluPctDesc = 'PLU_PCT_DESC',
+  CountryOfOriginAsc = 'COUNTRY_OF_ORIGIN_ASC',
+  CountryOfOriginDesc = 'COUNTRY_OF_ORIGIN_DESC',
+  UpcAsc = 'UPC_ASC',
+  UpcDesc = 'UPC_DESC',
+  WeightAsc = 'WEIGHT_ASC',
+  WeightDesc = 'WEIGHT_DESC',
+  UnderweightMinAsc = 'UNDERWEIGHT_MIN_ASC',
+  UnderweightMinDesc = 'UNDERWEIGHT_MIN_DESC',
+  UnderweightMaxAsc = 'UNDERWEIGHT_MAX_ASC',
+  UnderweightMaxDesc = 'UNDERWEIGHT_MAX_DESC',
+  WeighedUnitsAsc = 'WEIGHED_UNITS_ASC',
+  WeighedUnitsDesc = 'WEIGHED_UNITS_DESC',
+  UnderweightUnitsAsc = 'UNDERWEIGHT_UNITS_ASC',
+  UnderweightUnitsDesc = 'UNDERWEIGHT_UNITS_DESC',
+  UnderweightPctAsc = 'UNDERWEIGHT_PCT_ASC',
+  UnderweightPctDesc = 'UNDERWEIGHT_PCT_DESC',
+  PulpTempAsc = 'PULP_TEMP_ASC',
+  PulpTempDesc = 'PULP_TEMP_DESC',
+  OpeningAsc = 'OPENING_ASC',
+  OpeningDesc = 'OPENING_DESC',
+  BlushColorAsc = 'BLUSH_COLOR_ASC',
+  BlushColorDesc = 'BLUSH_COLOR_DESC',
+  BlushPctAsc = 'BLUSH_PCT_ASC',
+  BlushPctDesc = 'BLUSH_PCT_DESC',
+  ArilsColorAsc = 'ARILS_COLOR_ASC',
+  ArilsColorDesc = 'ARILS_COLOR_DESC',
+  ScarsRussetPiecesAsc = 'SCARS_RUSSET_PIECES_ASC',
+  ScarsRussetPiecesDesc = 'SCARS_RUSSET_PIECES_DESC',
+  ScarsRussetPctAsc = 'SCARS_RUSSET_PCT_ASC',
+  ScarsRussetPctDesc = 'SCARS_RUSSET_PCT_DESC',
+  ScarsRussetDegAsc = 'SCARS_RUSSET_DEG_ASC',
+  ScarsRussetDegDesc = 'SCARS_RUSSET_DEG_DESC',
+  CutsPiecesAsc = 'CUTS_PIECES_ASC',
+  CutsPiecesDesc = 'CUTS_PIECES_DESC',
+  CutsPctAsc = 'CUTS_PCT_ASC',
+  CutsPctDesc = 'CUTS_PCT_DESC',
+  CutsDegAsc = 'CUTS_DEG_ASC',
+  CutsDegDesc = 'CUTS_DEG_DESC',
+  SunScaldPiecesAsc = 'SUN_SCALD_PIECES_ASC',
+  SunScaldPiecesDesc = 'SUN_SCALD_PIECES_DESC',
+  SunScaldPctAsc = 'SUN_SCALD_PCT_ASC',
+  SunScaldPctDesc = 'SUN_SCALD_PCT_DESC',
+  SunScaldDegAsc = 'SUN_SCALD_DEG_ASC',
+  SunScaldDegDesc = 'SUN_SCALD_DEG_DESC',
+  ScaldPiecesAsc = 'SCALD_PIECES_ASC',
+  ScaldPiecesDesc = 'SCALD_PIECES_DESC',
+  ScaldPctAsc = 'SCALD_PCT_ASC',
+  ScaldPctDesc = 'SCALD_PCT_DESC',
+  ScaldDegAsc = 'SCALD_DEG_ASC',
+  ScaldDegDesc = 'SCALD_DEG_DESC',
+  BruisingPiecesAsc = 'BRUISING_PIECES_ASC',
+  BruisingPiecesDesc = 'BRUISING_PIECES_DESC',
+  BruisingPctAsc = 'BRUISING_PCT_ASC',
+  BruisingPctDesc = 'BRUISING_PCT_DESC',
+  BruisingDegAsc = 'BRUISING_DEG_ASC',
+  BruisingDegDesc = 'BRUISING_DEG_DESC',
+  DehydrationPiecesAsc = 'DEHYDRATION_PIECES_ASC',
+  DehydrationPiecesDesc = 'DEHYDRATION_PIECES_DESC',
+  DehydrationPctAsc = 'DEHYDRATION_PCT_ASC',
+  DehydrationPctDesc = 'DEHYDRATION_PCT_DESC',
+  DehydrationDegAsc = 'DEHYDRATION_DEG_ASC',
+  DehydrationDegDesc = 'DEHYDRATION_DEG_DESC',
+  DecayPiecesAsc = 'DECAY_PIECES_ASC',
+  DecayPiecesDesc = 'DECAY_PIECES_DESC',
+  DecayPctAsc = 'DECAY_PCT_ASC',
+  DecayPctDesc = 'DECAY_PCT_DESC',
+  DecayDegAsc = 'DECAY_DEG_ASC',
+  DecayDegDesc = 'DECAY_DEG_DESC',
+  MoldPiecesAsc = 'MOLD_PIECES_ASC',
+  MoldPiecesDesc = 'MOLD_PIECES_DESC',
+  MoldPctAsc = 'MOLD_PCT_ASC',
+  MoldPctDesc = 'MOLD_PCT_DESC',
+  BrixMinAsc = 'BRIX_MIN_ASC',
+  BrixMinDesc = 'BRIX_MIN_DESC',
+  BrixMaxAsc = 'BRIX_MAX_ASC',
+  BrixMaxDesc = 'BRIX_MAX_DESC',
+  BrixMostAsc = 'BRIX_MOST_ASC',
+  BrixMostDesc = 'BRIX_MOST_DESC',
+  OverallQualityAsc = 'OVERALL_QUALITY_ASC',
+  OverallQualityDesc = 'OVERALL_QUALITY_DESC',
+  OverallConditionAsc = 'OVERALL_CONDITION_ASC',
+  OverallConditionDesc = 'OVERALL_CONDITION_DESC',
+  Comment1Asc = 'COMMENT1_ASC',
+  Comment1Desc = 'COMMENT1_DESC',
+  Comment2Asc = 'COMMENT2_ASC',
+  Comment2Desc = 'COMMENT2_DESC',
+  InspectionTypeAsc = 'INSPECTION_TYPE_ASC',
+  InspectionTypeDesc = 'INSPECTION_TYPE_DESC',
+  ShortInspAsc = 'SHORT_INSP_ASC',
+  ShortInspDesc = 'SHORT_INSP_DESC',
+  FixedWeightAsc = 'FIXED_WEIGHT_ASC',
+  FixedWeightDesc = 'FIXED_WEIGHT_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
+/**
+ * A condition to be used against `PsaPomegranatePallet` object types. All fields
+ * are tested for equality and combined with a logical ‘and.’
+ */
+export type PsaPomegranatePalletCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `location` field. */
+  location?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `arrival` field. */
+  arrival?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `importerName` field. */
+  importerName?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `exporterName` field. */
+  exporterName?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `commodity` field. */
+  commodity?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `productCode` field. */
+  productCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `variety` field. */
+  variety?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspDate` field. */
+  inspDate?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `quantity` field. */
+  quantity?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `hatch` field. */
+  hatch?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `deck` field. */
+  deck?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `containerId` field. */
+  containerId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `fumigation` field. */
+  fumigation?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `labelCode` field. */
+  labelCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspLocation` field. */
+  inspLocation?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `importerCode` field. */
+  importerCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `lotCode` field. */
+  lotCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspLot` field. */
+  inspLot?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `palletId` field. */
+  palletId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `growerCode` field. */
+  growerCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspGrowerCode` field. */
+  inspGrowerCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `packDate` field. */
+  packDate?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspPackDate` field. */
+  inspPackDate?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `size` field. */
+  size?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspSize` field. */
+  inspSize?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `packCode` field. */
+  packCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `packDescription` field. */
+  packDescription?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `secondaryDescription` field. */
+  secondaryDescription?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspPackCode` field. */
+  inspPackCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `grade` field. */
+  grade?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspGrade` field. */
+  inspGrade?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `count` field. */
+  count?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `plu` field. */
+  plu?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pluPct` field. */
+  pluPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `countryOfOrigin` field. */
+  countryOfOrigin?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `upc` field. */
+  upc?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `weight` field. */
+  weight?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `underweightMin` field. */
+  underweightMin?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `underweightMax` field. */
+  underweightMax?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `weighedUnits` field. */
+  weighedUnits?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `underweightUnits` field. */
+  underweightUnits?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `underweightPct` field. */
+  underweightPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pulpTemp` field. */
+  pulpTemp?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `opening` field. */
+  opening?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `blushColor` field. */
+  blushColor?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `blushPct` field. */
+  blushPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `arilsColor` field. */
+  arilsColor?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `scarsRussetPieces` field. */
+  scarsRussetPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `scarsRussetPct` field. */
+  scarsRussetPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `scarsRussetDeg` field. */
+  scarsRussetDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `cutsPieces` field. */
+  cutsPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `cutsPct` field. */
+  cutsPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `cutsDeg` field. */
+  cutsDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `sunScaldPieces` field. */
+  sunScaldPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `sunScaldPct` field. */
+  sunScaldPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `sunScaldDeg` field. */
+  sunScaldDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `scaldPieces` field. */
+  scaldPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `scaldPct` field. */
+  scaldPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `scaldDeg` field. */
+  scaldDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `bruisingPieces` field. */
+  bruisingPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `bruisingPct` field. */
+  bruisingPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `bruisingDeg` field. */
+  bruisingDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `dehydrationPieces` field. */
+  dehydrationPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `dehydrationPct` field. */
+  dehydrationPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `dehydrationDeg` field. */
+  dehydrationDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `decayPieces` field. */
+  decayPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `decayPct` field. */
+  decayPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `decayDeg` field. */
+  decayDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `moldPieces` field. */
+  moldPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `moldPct` field. */
+  moldPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `brixMin` field. */
+  brixMin?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `brixMax` field. */
+  brixMax?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `brixMost` field. */
+  brixMost?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `overallQuality` field. */
+  overallQuality?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `overallCondition` field. */
+  overallCondition?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `comment1` field. */
+  comment1?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `comment2` field. */
+  comment2?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspectionType` field. */
+  inspectionType?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `shortInsp` field. */
+  shortInsp?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `fixedWeight` field. */
+  fixedWeight?: Maybe<Scalars['String']>;
+};
+
+/** Methods to use when ordering `PsaStoneFruitPallet`. */
+export enum PsaStoneFruitPalletsOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  LocationAsc = 'LOCATION_ASC',
+  LocationDesc = 'LOCATION_DESC',
+  ArrivalAsc = 'ARRIVAL_ASC',
+  ArrivalDesc = 'ARRIVAL_DESC',
+  ImporterNameAsc = 'IMPORTER_NAME_ASC',
+  ImporterNameDesc = 'IMPORTER_NAME_DESC',
+  ExporterNameAsc = 'EXPORTER_NAME_ASC',
+  ExporterNameDesc = 'EXPORTER_NAME_DESC',
+  CommodityAsc = 'COMMODITY_ASC',
+  CommodityDesc = 'COMMODITY_DESC',
+  ProductCodeAsc = 'PRODUCT_CODE_ASC',
+  ProductCodeDesc = 'PRODUCT_CODE_DESC',
+  VarietyAsc = 'VARIETY_ASC',
+  VarietyDesc = 'VARIETY_DESC',
+  InspDateAsc = 'INSP_DATE_ASC',
+  InspDateDesc = 'INSP_DATE_DESC',
+  QuantityAsc = 'QUANTITY_ASC',
+  QuantityDesc = 'QUANTITY_DESC',
+  HatchAsc = 'HATCH_ASC',
+  HatchDesc = 'HATCH_DESC',
+  DeckAsc = 'DECK_ASC',
+  DeckDesc = 'DECK_DESC',
+  ContainerIdAsc = 'CONTAINER_ID_ASC',
+  ContainerIdDesc = 'CONTAINER_ID_DESC',
+  FumigationAsc = 'FUMIGATION_ASC',
+  FumigationDesc = 'FUMIGATION_DESC',
+  LabelCodeAsc = 'LABEL_CODE_ASC',
+  LabelCodeDesc = 'LABEL_CODE_DESC',
+  InspLocationAsc = 'INSP_LOCATION_ASC',
+  InspLocationDesc = 'INSP_LOCATION_DESC',
+  ImporterCodeAsc = 'IMPORTER_CODE_ASC',
+  ImporterCodeDesc = 'IMPORTER_CODE_DESC',
+  LotCodeAsc = 'LOT_CODE_ASC',
+  LotCodeDesc = 'LOT_CODE_DESC',
+  InspLotAsc = 'INSP_LOT_ASC',
+  InspLotDesc = 'INSP_LOT_DESC',
+  PalletIdAsc = 'PALLET_ID_ASC',
+  PalletIdDesc = 'PALLET_ID_DESC',
+  GrowerCodeAsc = 'GROWER_CODE_ASC',
+  GrowerCodeDesc = 'GROWER_CODE_DESC',
+  InspGrowerCodeAsc = 'INSP_GROWER_CODE_ASC',
+  InspGrowerCodeDesc = 'INSP_GROWER_CODE_DESC',
+  PackDateAsc = 'PACK_DATE_ASC',
+  PackDateDesc = 'PACK_DATE_DESC',
+  InspPackDateAsc = 'INSP_PACK_DATE_ASC',
+  InspPackDateDesc = 'INSP_PACK_DATE_DESC',
+  SizeAsc = 'SIZE_ASC',
+  SizeDesc = 'SIZE_DESC',
+  InspSizeAsc = 'INSP_SIZE_ASC',
+  InspSizeDesc = 'INSP_SIZE_DESC',
+  PackCodeAsc = 'PACK_CODE_ASC',
+  PackCodeDesc = 'PACK_CODE_DESC',
+  PackDescriptionAsc = 'PACK_DESCRIPTION_ASC',
+  PackDescriptionDesc = 'PACK_DESCRIPTION_DESC',
+  SecondaryDescriptionAsc = 'SECONDARY_DESCRIPTION_ASC',
+  SecondaryDescriptionDesc = 'SECONDARY_DESCRIPTION_DESC',
+  InspPackCodeAsc = 'INSP_PACK_CODE_ASC',
+  InspPackCodeDesc = 'INSP_PACK_CODE_DESC',
+  CountAsc = 'COUNT_ASC',
+  CountDesc = 'COUNT_DESC',
+  PluAsc = 'PLU_ASC',
+  PluDesc = 'PLU_DESC',
+  PluPctAsc = 'PLU_PCT_ASC',
+  PluPctDesc = 'PLU_PCT_DESC',
+  CountryOfOriginAsc = 'COUNTRY_OF_ORIGIN_ASC',
+  CountryOfOriginDesc = 'COUNTRY_OF_ORIGIN_DESC',
+  UpcAsc = 'UPC_ASC',
+  UpcDesc = 'UPC_DESC',
+  WeightAsc = 'WEIGHT_ASC',
+  WeightDesc = 'WEIGHT_DESC',
+  UnderweightMinAsc = 'UNDERWEIGHT_MIN_ASC',
+  UnderweightMinDesc = 'UNDERWEIGHT_MIN_DESC',
+  UnderweightMaxAsc = 'UNDERWEIGHT_MAX_ASC',
+  UnderweightMaxDesc = 'UNDERWEIGHT_MAX_DESC',
+  WeighedUnitsAsc = 'WEIGHED_UNITS_ASC',
+  WeighedUnitsDesc = 'WEIGHED_UNITS_DESC',
+  UnderweightUnitsAsc = 'UNDERWEIGHT_UNITS_ASC',
+  UnderweightUnitsDesc = 'UNDERWEIGHT_UNITS_DESC',
+  UnderweightPctAsc = 'UNDERWEIGHT_PCT_ASC',
+  UnderweightPctDesc = 'UNDERWEIGHT_PCT_DESC',
+  PulpTempAsc = 'PULP_TEMP_ASC',
+  PulpTempDesc = 'PULP_TEMP_DESC',
+  OpeningAsc = 'OPENING_ASC',
+  OpeningDesc = 'OPENING_DESC',
+  RipeningAsc = 'RIPENING_ASC',
+  RipeningDesc = 'RIPENING_DESC',
+  GroundColorAsc = 'GROUND_COLOR_ASC',
+  GroundColorDesc = 'GROUND_COLOR_DESC',
+  BlushColorAsc = 'BLUSH_COLOR_ASC',
+  BlushColorDesc = 'BLUSH_COLOR_DESC',
+  BlushPctAsc = 'BLUSH_PCT_ASC',
+  BlushPctDesc = 'BLUSH_PCT_DESC',
+  ScarsPiecesAsc = 'SCARS_PIECES_ASC',
+  ScarsPiecesDesc = 'SCARS_PIECES_DESC',
+  ScarsPctAsc = 'SCARS_PCT_ASC',
+  ScarsPctDesc = 'SCARS_PCT_DESC',
+  ScarsDegAsc = 'SCARS_DEG_ASC',
+  ScarsDegDesc = 'SCARS_DEG_DESC',
+  CutsSplitsPiecesAsc = 'CUTS_SPLITS_PIECES_ASC',
+  CutsSplitsPiecesDesc = 'CUTS_SPLITS_PIECES_DESC',
+  CutsSplitsPctAsc = 'CUTS_SPLITS_PCT_ASC',
+  CutsSplitsPctDesc = 'CUTS_SPLITS_PCT_DESC',
+  CutsSplitsDegAsc = 'CUTS_SPLITS_DEG_ASC',
+  CutsSplitsDegDesc = 'CUTS_SPLITS_DEG_DESC',
+  SplitPitPiecesAsc = 'SPLIT_PIT_PIECES_ASC',
+  SplitPitPiecesDesc = 'SPLIT_PIT_PIECES_DESC',
+  SplitPitPctAsc = 'SPLIT_PIT_PCT_ASC',
+  SplitPitPctDesc = 'SPLIT_PIT_PCT_DESC',
+  BruisingPiecesAsc = 'BRUISING_PIECES_ASC',
+  BruisingPiecesDesc = 'BRUISING_PIECES_DESC',
+  BruisingPctAsc = 'BRUISING_PCT_ASC',
+  BruisingPctDesc = 'BRUISING_PCT_DESC',
+  BruisingDegAsc = 'BRUISING_DEG_ASC',
+  BruisingDegDesc = 'BRUISING_DEG_DESC',
+  SoftTipsPiecesAsc = 'SOFT_TIPS_PIECES_ASC',
+  SoftTipsPiecesDesc = 'SOFT_TIPS_PIECES_DESC',
+  SoftTipsPctAsc = 'SOFT_TIPS_PCT_ASC',
+  SoftTipsPctDesc = 'SOFT_TIPS_PCT_DESC',
+  DehydrationPiecesAsc = 'DEHYDRATION_PIECES_ASC',
+  DehydrationPiecesDesc = 'DEHYDRATION_PIECES_DESC',
+  DehydrationPctAsc = 'DEHYDRATION_PCT_ASC',
+  DehydrationPctDesc = 'DEHYDRATION_PCT_DESC',
+  DehydrationDegAsc = 'DEHYDRATION_DEG_ASC',
+  DehydrationDegDesc = 'DEHYDRATION_DEG_DESC',
+  CutCountAsc = 'CUT_COUNT_ASC',
+  CutCountDesc = 'CUT_COUNT_DESC',
+  InternalDamagePiecesAsc = 'INTERNAL_DAMAGE_PIECES_ASC',
+  InternalDamagePiecesDesc = 'INTERNAL_DAMAGE_PIECES_DESC',
+  InternalDamagePerAsc = 'INTERNAL_DAMAGE_PER_ASC',
+  InternalDamagePerDesc = 'INTERNAL_DAMAGE_PER_DESC',
+  MealinessPiecesAsc = 'MEALINESS_PIECES_ASC',
+  MealinessPiecesDesc = 'MEALINESS_PIECES_DESC',
+  MealinessPctAsc = 'MEALINESS_PCT_ASC',
+  MealinessPctDesc = 'MEALINESS_PCT_DESC',
+  DecayPiecesAsc = 'DECAY_PIECES_ASC',
+  DecayPiecesDesc = 'DECAY_PIECES_DESC',
+  DecayPctAsc = 'DECAY_PCT_ASC',
+  DecayPctDesc = 'DECAY_PCT_DESC',
+  DecayDegAsc = 'DECAY_DEG_ASC',
+  DecayDegDesc = 'DECAY_DEG_DESC',
+  MoldPiecesAsc = 'MOLD_PIECES_ASC',
+  MoldPiecesDesc = 'MOLD_PIECES_DESC',
+  MoldPctAsc = 'MOLD_PCT_ASC',
+  MoldPctDesc = 'MOLD_PCT_DESC',
+  BrixAsc = 'BRIX_ASC',
+  BrixDesc = 'BRIX_DESC',
+  Pressure1Asc = 'PRESSURE1_ASC',
+  Pressure1Desc = 'PRESSURE1_DESC',
+  Pressure2Asc = 'PRESSURE2_ASC',
+  Pressure2Desc = 'PRESSURE2_DESC',
+  Pressure3Asc = 'PRESSURE3_ASC',
+  Pressure3Desc = 'PRESSURE3_DESC',
+  Pressure4Asc = 'PRESSURE4_ASC',
+  Pressure4Desc = 'PRESSURE4_DESC',
+  Pressure5Asc = 'PRESSURE5_ASC',
+  Pressure5Desc = 'PRESSURE5_DESC',
+  Pressure6Asc = 'PRESSURE6_ASC',
+  Pressure6Desc = 'PRESSURE6_DESC',
+  PressuresMinAsc = 'PRESSURES_MIN_ASC',
+  PressuresMinDesc = 'PRESSURES_MIN_DESC',
+  PressuresMaxAsc = 'PRESSURES_MAX_ASC',
+  PressuresMaxDesc = 'PRESSURES_MAX_DESC',
+  PressuresAvgAsc = 'PRESSURES_AVG_ASC',
+  PressuresAvgDesc = 'PRESSURES_AVG_DESC',
+  OverallQualityAsc = 'OVERALL_QUALITY_ASC',
+  OverallQualityDesc = 'OVERALL_QUALITY_DESC',
+  OverallConditionAsc = 'OVERALL_CONDITION_ASC',
+  OverallConditionDesc = 'OVERALL_CONDITION_DESC',
+  Comment1Asc = 'COMMENT1_ASC',
+  Comment1Desc = 'COMMENT1_DESC',
+  Comment2Asc = 'COMMENT2_ASC',
+  Comment2Desc = 'COMMENT2_DESC',
+  InspectionTypeAsc = 'INSPECTION_TYPE_ASC',
+  InspectionTypeDesc = 'INSPECTION_TYPE_DESC',
+  ShortInspAsc = 'SHORT_INSP_ASC',
+  ShortInspDesc = 'SHORT_INSP_DESC',
+  FixedWeightAsc = 'FIXED_WEIGHT_ASC',
+  FixedWeightDesc = 'FIXED_WEIGHT_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
+/**
+ * A condition to be used against `PsaStoneFruitPallet` object types. All fields
+ * are tested for equality and combined with a logical ‘and.’
+ */
+export type PsaStoneFruitPalletCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `location` field. */
+  location?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `arrival` field. */
+  arrival?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `importerName` field. */
+  importerName?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `exporterName` field. */
+  exporterName?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `commodity` field. */
+  commodity?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `productCode` field. */
+  productCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `variety` field. */
+  variety?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspDate` field. */
+  inspDate?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `quantity` field. */
+  quantity?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `hatch` field. */
+  hatch?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `deck` field. */
+  deck?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `containerId` field. */
+  containerId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `fumigation` field. */
+  fumigation?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `labelCode` field. */
+  labelCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspLocation` field. */
+  inspLocation?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `importerCode` field. */
+  importerCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `lotCode` field. */
+  lotCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspLot` field. */
+  inspLot?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `palletId` field. */
+  palletId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `growerCode` field. */
+  growerCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspGrowerCode` field. */
+  inspGrowerCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `packDate` field. */
+  packDate?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspPackDate` field. */
+  inspPackDate?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `size` field. */
+  size?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspSize` field. */
+  inspSize?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `packCode` field. */
+  packCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `packDescription` field. */
+  packDescription?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `secondaryDescription` field. */
+  secondaryDescription?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspPackCode` field. */
+  inspPackCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `count` field. */
+  count?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `plu` field. */
+  plu?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pluPct` field. */
+  pluPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `countryOfOrigin` field. */
+  countryOfOrigin?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `upc` field. */
+  upc?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `weight` field. */
+  weight?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `underweightMin` field. */
+  underweightMin?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `underweightMax` field. */
+  underweightMax?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `weighedUnits` field. */
+  weighedUnits?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `underweightUnits` field. */
+  underweightUnits?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `underweightPct` field. */
+  underweightPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pulpTemp` field. */
+  pulpTemp?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `opening` field. */
+  opening?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `ripening` field. */
+  ripening?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `groundColor` field. */
+  groundColor?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `blushColor` field. */
+  blushColor?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `blushPct` field. */
+  blushPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `scarsPieces` field. */
+  scarsPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `scarsPct` field. */
+  scarsPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `scarsDeg` field. */
+  scarsDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `cutsSplitsPieces` field. */
+  cutsSplitsPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `cutsSplitsPct` field. */
+  cutsSplitsPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `cutsSplitsDeg` field. */
+  cutsSplitsDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `splitPitPieces` field. */
+  splitPitPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `splitPitPct` field. */
+  splitPitPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `bruisingPieces` field. */
+  bruisingPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `bruisingPct` field. */
+  bruisingPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `bruisingDeg` field. */
+  bruisingDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `softTipsPieces` field. */
+  softTipsPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `softTipsPct` field. */
+  softTipsPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `dehydrationPieces` field. */
+  dehydrationPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `dehydrationPct` field. */
+  dehydrationPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `dehydrationDeg` field. */
+  dehydrationDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `cutCount` field. */
+  cutCount?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `internalDamagePieces` field. */
+  internalDamagePieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `internalDamagePer` field. */
+  internalDamagePer?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `mealinessPieces` field. */
+  mealinessPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `mealinessPct` field. */
+  mealinessPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `decayPieces` field. */
+  decayPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `decayPct` field. */
+  decayPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `decayDeg` field. */
+  decayDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `moldPieces` field. */
+  moldPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `moldPct` field. */
+  moldPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `brix` field. */
+  brix?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pressure1` field. */
+  pressure1?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pressure2` field. */
+  pressure2?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pressure3` field. */
+  pressure3?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pressure4` field. */
+  pressure4?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pressure5` field. */
+  pressure5?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pressure6` field. */
+  pressure6?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pressuresMin` field. */
+  pressuresMin?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pressuresMax` field. */
+  pressuresMax?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pressuresAvg` field. */
+  pressuresAvg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `overallQuality` field. */
+  overallQuality?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `overallCondition` field. */
+  overallCondition?: Maybe<Scalars['BigFloat']>;
   /** Checks for equality with the object’s `comment1` field. */
   comment1?: Maybe<Scalars['String']>;
   /** Checks for equality with the object’s `comment2` field. */
@@ -7473,12 +13487,28 @@ export type Mutation = {
   createPeruDepartureInspection?: Maybe<CreatePeruDepartureInspectionPayload>;
   /** Creates a single `PeruDepartureInspectionPallet`. */
   createPeruDepartureInspectionPallet?: Maybe<CreatePeruDepartureInspectionPalletPayload>;
+  /** Creates a single `PsaApplePallet`. */
+  createPsaApplePallet?: Maybe<CreatePsaApplePalletPayload>;
   /** Creates a single `PsaArrivalPicture`. */
   createPsaArrivalPicture?: Maybe<CreatePsaArrivalPicturePayload>;
   /** Creates a single `PsaArrivalReport`. */
   createPsaArrivalReport?: Maybe<CreatePsaArrivalReportPayload>;
+  /** Creates a single `PsaCherryPallet`. */
+  createPsaCherryPallet?: Maybe<CreatePsaCherryPalletPayload>;
+  /** Creates a single `PsaCitrusPallet`. */
+  createPsaCitrusPallet?: Maybe<CreatePsaCitrusPalletPayload>;
   /** Creates a single `PsaGrapePallet`. */
   createPsaGrapePallet?: Maybe<CreatePsaGrapePalletPayload>;
+  /** Creates a single `PsaLemonPallet`. */
+  createPsaLemonPallet?: Maybe<CreatePsaLemonPalletPayload>;
+  /** Creates a single `PsaPearPallet`. */
+  createPsaPearPallet?: Maybe<CreatePsaPearPalletPayload>;
+  /** Creates a single `PsaPersimmonPallet`. */
+  createPsaPersimmonPallet?: Maybe<CreatePsaPersimmonPalletPayload>;
+  /** Creates a single `PsaPomegranatePallet`. */
+  createPsaPomegranatePallet?: Maybe<CreatePsaPomegranatePalletPayload>;
+  /** Creates a single `PsaStoneFruitPallet`. */
+  createPsaStoneFruitPallet?: Maybe<CreatePsaStoneFruitPalletPayload>;
   /** Creates a single `Master`. */
   createMaster?: Maybe<CreateMasterPayload>;
   /** Creates a single `PackAtmosphere`. */
@@ -7593,6 +13623,10 @@ export type Mutation = {
   updatePeruDepartureInspectionPalletByNodeId?: Maybe<UpdatePeruDepartureInspectionPalletPayload>;
   /** Updates a single `PeruDepartureInspectionPallet` using a unique key and a patch. */
   updatePeruDepartureInspectionPallet?: Maybe<UpdatePeruDepartureInspectionPalletPayload>;
+  /** Updates a single `PsaApplePallet` using its globally unique id and a patch. */
+  updatePsaApplePalletByNodeId?: Maybe<UpdatePsaApplePalletPayload>;
+  /** Updates a single `PsaApplePallet` using a unique key and a patch. */
+  updatePsaApplePallet?: Maybe<UpdatePsaApplePalletPayload>;
   /** Updates a single `PsaArrivalPicture` using its globally unique id and a patch. */
   updatePsaArrivalPictureByNodeId?: Maybe<UpdatePsaArrivalPicturePayload>;
   /** Updates a single `PsaArrivalPicture` using a unique key and a patch. */
@@ -7601,10 +13635,38 @@ export type Mutation = {
   updatePsaArrivalReportByNodeId?: Maybe<UpdatePsaArrivalReportPayload>;
   /** Updates a single `PsaArrivalReport` using a unique key and a patch. */
   updatePsaArrivalReport?: Maybe<UpdatePsaArrivalReportPayload>;
+  /** Updates a single `PsaCherryPallet` using its globally unique id and a patch. */
+  updatePsaCherryPalletByNodeId?: Maybe<UpdatePsaCherryPalletPayload>;
+  /** Updates a single `PsaCherryPallet` using a unique key and a patch. */
+  updatePsaCherryPallet?: Maybe<UpdatePsaCherryPalletPayload>;
+  /** Updates a single `PsaCitrusPallet` using its globally unique id and a patch. */
+  updatePsaCitrusPalletByNodeId?: Maybe<UpdatePsaCitrusPalletPayload>;
+  /** Updates a single `PsaCitrusPallet` using a unique key and a patch. */
+  updatePsaCitrusPallet?: Maybe<UpdatePsaCitrusPalletPayload>;
   /** Updates a single `PsaGrapePallet` using its globally unique id and a patch. */
   updatePsaGrapePalletByNodeId?: Maybe<UpdatePsaGrapePalletPayload>;
   /** Updates a single `PsaGrapePallet` using a unique key and a patch. */
   updatePsaGrapePallet?: Maybe<UpdatePsaGrapePalletPayload>;
+  /** Updates a single `PsaLemonPallet` using its globally unique id and a patch. */
+  updatePsaLemonPalletByNodeId?: Maybe<UpdatePsaLemonPalletPayload>;
+  /** Updates a single `PsaLemonPallet` using a unique key and a patch. */
+  updatePsaLemonPallet?: Maybe<UpdatePsaLemonPalletPayload>;
+  /** Updates a single `PsaPearPallet` using its globally unique id and a patch. */
+  updatePsaPearPalletByNodeId?: Maybe<UpdatePsaPearPalletPayload>;
+  /** Updates a single `PsaPearPallet` using a unique key and a patch. */
+  updatePsaPearPallet?: Maybe<UpdatePsaPearPalletPayload>;
+  /** Updates a single `PsaPersimmonPallet` using its globally unique id and a patch. */
+  updatePsaPersimmonPalletByNodeId?: Maybe<UpdatePsaPersimmonPalletPayload>;
+  /** Updates a single `PsaPersimmonPallet` using a unique key and a patch. */
+  updatePsaPersimmonPallet?: Maybe<UpdatePsaPersimmonPalletPayload>;
+  /** Updates a single `PsaPomegranatePallet` using its globally unique id and a patch. */
+  updatePsaPomegranatePalletByNodeId?: Maybe<UpdatePsaPomegranatePalletPayload>;
+  /** Updates a single `PsaPomegranatePallet` using a unique key and a patch. */
+  updatePsaPomegranatePallet?: Maybe<UpdatePsaPomegranatePalletPayload>;
+  /** Updates a single `PsaStoneFruitPallet` using its globally unique id and a patch. */
+  updatePsaStoneFruitPalletByNodeId?: Maybe<UpdatePsaStoneFruitPalletPayload>;
+  /** Updates a single `PsaStoneFruitPallet` using a unique key and a patch. */
+  updatePsaStoneFruitPallet?: Maybe<UpdatePsaStoneFruitPalletPayload>;
   /** Updates a single `Master` using its globally unique id and a patch. */
   updateMasterByNodeId?: Maybe<UpdateMasterPayload>;
   /** Updates a single `Master` using a unique key and a patch. */
@@ -7755,6 +13817,10 @@ export type Mutation = {
   deletePeruDepartureInspectionPalletByNodeId?: Maybe<DeletePeruDepartureInspectionPalletPayload>;
   /** Deletes a single `PeruDepartureInspectionPallet` using a unique key. */
   deletePeruDepartureInspectionPallet?: Maybe<DeletePeruDepartureInspectionPalletPayload>;
+  /** Deletes a single `PsaApplePallet` using its globally unique id. */
+  deletePsaApplePalletByNodeId?: Maybe<DeletePsaApplePalletPayload>;
+  /** Deletes a single `PsaApplePallet` using a unique key. */
+  deletePsaApplePallet?: Maybe<DeletePsaApplePalletPayload>;
   /** Deletes a single `PsaArrivalPicture` using its globally unique id. */
   deletePsaArrivalPictureByNodeId?: Maybe<DeletePsaArrivalPicturePayload>;
   /** Deletes a single `PsaArrivalPicture` using a unique key. */
@@ -7763,10 +13829,38 @@ export type Mutation = {
   deletePsaArrivalReportByNodeId?: Maybe<DeletePsaArrivalReportPayload>;
   /** Deletes a single `PsaArrivalReport` using a unique key. */
   deletePsaArrivalReport?: Maybe<DeletePsaArrivalReportPayload>;
+  /** Deletes a single `PsaCherryPallet` using its globally unique id. */
+  deletePsaCherryPalletByNodeId?: Maybe<DeletePsaCherryPalletPayload>;
+  /** Deletes a single `PsaCherryPallet` using a unique key. */
+  deletePsaCherryPallet?: Maybe<DeletePsaCherryPalletPayload>;
+  /** Deletes a single `PsaCitrusPallet` using its globally unique id. */
+  deletePsaCitrusPalletByNodeId?: Maybe<DeletePsaCitrusPalletPayload>;
+  /** Deletes a single `PsaCitrusPallet` using a unique key. */
+  deletePsaCitrusPallet?: Maybe<DeletePsaCitrusPalletPayload>;
   /** Deletes a single `PsaGrapePallet` using its globally unique id. */
   deletePsaGrapePalletByNodeId?: Maybe<DeletePsaGrapePalletPayload>;
   /** Deletes a single `PsaGrapePallet` using a unique key. */
   deletePsaGrapePallet?: Maybe<DeletePsaGrapePalletPayload>;
+  /** Deletes a single `PsaLemonPallet` using its globally unique id. */
+  deletePsaLemonPalletByNodeId?: Maybe<DeletePsaLemonPalletPayload>;
+  /** Deletes a single `PsaLemonPallet` using a unique key. */
+  deletePsaLemonPallet?: Maybe<DeletePsaLemonPalletPayload>;
+  /** Deletes a single `PsaPearPallet` using its globally unique id. */
+  deletePsaPearPalletByNodeId?: Maybe<DeletePsaPearPalletPayload>;
+  /** Deletes a single `PsaPearPallet` using a unique key. */
+  deletePsaPearPallet?: Maybe<DeletePsaPearPalletPayload>;
+  /** Deletes a single `PsaPersimmonPallet` using its globally unique id. */
+  deletePsaPersimmonPalletByNodeId?: Maybe<DeletePsaPersimmonPalletPayload>;
+  /** Deletes a single `PsaPersimmonPallet` using a unique key. */
+  deletePsaPersimmonPallet?: Maybe<DeletePsaPersimmonPalletPayload>;
+  /** Deletes a single `PsaPomegranatePallet` using its globally unique id. */
+  deletePsaPomegranatePalletByNodeId?: Maybe<DeletePsaPomegranatePalletPayload>;
+  /** Deletes a single `PsaPomegranatePallet` using a unique key. */
+  deletePsaPomegranatePallet?: Maybe<DeletePsaPomegranatePalletPayload>;
+  /** Deletes a single `PsaStoneFruitPallet` using its globally unique id. */
+  deletePsaStoneFruitPalletByNodeId?: Maybe<DeletePsaStoneFruitPalletPayload>;
+  /** Deletes a single `PsaStoneFruitPallet` using a unique key. */
+  deletePsaStoneFruitPallet?: Maybe<DeletePsaStoneFruitPalletPayload>;
   /** Deletes a single `Master` using its globally unique id. */
   deleteMasterByNodeId?: Maybe<DeleteMasterPayload>;
   /** Deletes a single `Master` using a unique key. */
@@ -7850,7 +13944,15 @@ export type Mutation = {
   deletePriceProductEntries?: Maybe<DeletePriceProductEntriesPayload>;
   deletePriceSizeEntries?: Maybe<DeletePriceSizeEntriesPayload>;
   batchCreateChileDepartureInspectionPallet?: Maybe<BatchCreateChileDepartureInspectionPalletPayload>;
+  batchCreatePsaApplePallet?: Maybe<BatchCreatePsaApplePalletPayload>;
+  batchCreatePsaCherryPallet?: Maybe<BatchCreatePsaCherryPalletPayload>;
+  batchCreatePsaCitrusPallet?: Maybe<BatchCreatePsaCitrusPalletPayload>;
   batchCreatePsaGrapePallet?: Maybe<BatchCreatePsaGrapePalletPayload>;
+  batchCreatePsaLemonPallet?: Maybe<BatchCreatePsaLemonPalletPayload>;
+  batchCreatePsaPearPallet?: Maybe<BatchCreatePsaPearPalletPayload>;
+  batchCreatePsaPersimmonPallet?: Maybe<BatchCreatePsaPersimmonPalletPayload>;
+  batchCreatePsaPomegranatePallet?: Maybe<BatchCreatePsaPomegranatePalletPayload>;
+  batchCreatePsaStoneFruitPallet?: Maybe<BatchCreatePsaStoneFruitPalletPayload>;
   sendPriceSheetUpdateEmail: Scalars['String'];
 };
 
@@ -7970,6 +14072,12 @@ export type MutationCreatePeruDepartureInspectionPalletArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreatePsaApplePalletArgs = {
+  input: CreatePsaApplePalletInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreatePsaArrivalPictureArgs = {
   input: CreatePsaArrivalPictureInput;
 };
@@ -7982,8 +14090,50 @@ export type MutationCreatePsaArrivalReportArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreatePsaCherryPalletArgs = {
+  input: CreatePsaCherryPalletInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreatePsaCitrusPalletArgs = {
+  input: CreatePsaCitrusPalletInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreatePsaGrapePalletArgs = {
   input: CreatePsaGrapePalletInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreatePsaLemonPalletArgs = {
+  input: CreatePsaLemonPalletInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreatePsaPearPalletArgs = {
+  input: CreatePsaPearPalletInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreatePsaPersimmonPalletArgs = {
+  input: CreatePsaPersimmonPalletInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreatePsaPomegranatePalletArgs = {
+  input: CreatePsaPomegranatePalletInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreatePsaStoneFruitPalletArgs = {
+  input: CreatePsaStoneFruitPalletInput;
 };
 
 
@@ -8330,6 +14480,18 @@ export type MutationUpdatePeruDepartureInspectionPalletArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePsaApplePalletByNodeIdArgs = {
+  input: UpdatePsaApplePalletByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePsaApplePalletArgs = {
+  input: UpdatePsaApplePalletInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdatePsaArrivalPictureByNodeIdArgs = {
   input: UpdatePsaArrivalPictureByNodeIdInput;
 };
@@ -8354,6 +14516,30 @@ export type MutationUpdatePsaArrivalReportArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePsaCherryPalletByNodeIdArgs = {
+  input: UpdatePsaCherryPalletByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePsaCherryPalletArgs = {
+  input: UpdatePsaCherryPalletInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePsaCitrusPalletByNodeIdArgs = {
+  input: UpdatePsaCitrusPalletByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePsaCitrusPalletArgs = {
+  input: UpdatePsaCitrusPalletInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdatePsaGrapePalletByNodeIdArgs = {
   input: UpdatePsaGrapePalletByNodeIdInput;
 };
@@ -8362,6 +14548,66 @@ export type MutationUpdatePsaGrapePalletByNodeIdArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdatePsaGrapePalletArgs = {
   input: UpdatePsaGrapePalletInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePsaLemonPalletByNodeIdArgs = {
+  input: UpdatePsaLemonPalletByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePsaLemonPalletArgs = {
+  input: UpdatePsaLemonPalletInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePsaPearPalletByNodeIdArgs = {
+  input: UpdatePsaPearPalletByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePsaPearPalletArgs = {
+  input: UpdatePsaPearPalletInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePsaPersimmonPalletByNodeIdArgs = {
+  input: UpdatePsaPersimmonPalletByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePsaPersimmonPalletArgs = {
+  input: UpdatePsaPersimmonPalletInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePsaPomegranatePalletByNodeIdArgs = {
+  input: UpdatePsaPomegranatePalletByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePsaPomegranatePalletArgs = {
+  input: UpdatePsaPomegranatePalletInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePsaStoneFruitPalletByNodeIdArgs = {
+  input: UpdatePsaStoneFruitPalletByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePsaStoneFruitPalletArgs = {
+  input: UpdatePsaStoneFruitPalletInput;
 };
 
 
@@ -8816,6 +15062,18 @@ export type MutationDeletePeruDepartureInspectionPalletArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePsaApplePalletByNodeIdArgs = {
+  input: DeletePsaApplePalletByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePsaApplePalletArgs = {
+  input: DeletePsaApplePalletInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeletePsaArrivalPictureByNodeIdArgs = {
   input: DeletePsaArrivalPictureByNodeIdInput;
 };
@@ -8840,6 +15098,30 @@ export type MutationDeletePsaArrivalReportArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePsaCherryPalletByNodeIdArgs = {
+  input: DeletePsaCherryPalletByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePsaCherryPalletArgs = {
+  input: DeletePsaCherryPalletInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePsaCitrusPalletByNodeIdArgs = {
+  input: DeletePsaCitrusPalletByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePsaCitrusPalletArgs = {
+  input: DeletePsaCitrusPalletInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeletePsaGrapePalletByNodeIdArgs = {
   input: DeletePsaGrapePalletByNodeIdInput;
 };
@@ -8848,6 +15130,66 @@ export type MutationDeletePsaGrapePalletByNodeIdArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeletePsaGrapePalletArgs = {
   input: DeletePsaGrapePalletInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePsaLemonPalletByNodeIdArgs = {
+  input: DeletePsaLemonPalletByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePsaLemonPalletArgs = {
+  input: DeletePsaLemonPalletInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePsaPearPalletByNodeIdArgs = {
+  input: DeletePsaPearPalletByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePsaPearPalletArgs = {
+  input: DeletePsaPearPalletInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePsaPersimmonPalletByNodeIdArgs = {
+  input: DeletePsaPersimmonPalletByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePsaPersimmonPalletArgs = {
+  input: DeletePsaPersimmonPalletInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePsaPomegranatePalletByNodeIdArgs = {
+  input: DeletePsaPomegranatePalletByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePsaPomegranatePalletArgs = {
+  input: DeletePsaPomegranatePalletInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePsaStoneFruitPalletByNodeIdArgs = {
+  input: DeletePsaStoneFruitPalletByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePsaStoneFruitPalletArgs = {
+  input: DeletePsaStoneFruitPalletInput;
 };
 
 
@@ -9134,8 +15476,56 @@ export type MutationBatchCreateChileDepartureInspectionPalletArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationBatchCreatePsaApplePalletArgs = {
+  input: BatchCreatePsaApplePalletInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationBatchCreatePsaCherryPalletArgs = {
+  input: BatchCreatePsaCherryPalletInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationBatchCreatePsaCitrusPalletArgs = {
+  input: BatchCreatePsaCitrusPalletInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationBatchCreatePsaGrapePalletArgs = {
   input: BatchCreatePsaGrapePalletInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationBatchCreatePsaLemonPalletArgs = {
+  input: BatchCreatePsaLemonPalletInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationBatchCreatePsaPearPalletArgs = {
+  input: BatchCreatePsaPearPalletInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationBatchCreatePsaPersimmonPalletArgs = {
+  input: BatchCreatePsaPersimmonPalletInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationBatchCreatePsaPomegranatePalletArgs = {
+  input: BatchCreatePsaPomegranatePalletInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationBatchCreatePsaStoneFruitPalletArgs = {
+  input: BatchCreatePsaStoneFruitPalletInput;
 };
 
 
@@ -12665,6 +19055,146 @@ export type PeruDepartureInspectionPalletInput = {
   peruDepartureInspectionToContainerId?: Maybe<FkContainerInput>;
 };
 
+/** The output of our create `PsaApplePallet` mutation. */
+export type CreatePsaApplePalletPayload = {
+  __typename?: 'CreatePsaApplePalletPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PsaApplePallet` that was created by this mutation. */
+  psaApplePallet?: Maybe<PsaApplePallet>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `PsaApplePallet`. May be used by Relay 1. */
+  psaApplePalletEdge?: Maybe<PsaApplePalletsEdge>;
+};
+
+
+/** The output of our create `PsaApplePallet` mutation. */
+export type CreatePsaApplePalletPayloadPsaApplePalletEdgeArgs = {
+  orderBy?: Maybe<Array<PsaApplePalletsOrderBy>>;
+};
+
+/** All input for the create `PsaApplePallet` mutation. */
+export type CreatePsaApplePalletInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PsaApplePallet` to be created by this mutation. */
+  psaApplePallet: PsaApplePalletInput;
+};
+
+/** An input for mutations affecting `PsaApplePallet` */
+export type PsaApplePalletInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  location?: Maybe<Scalars['String']>;
+  arrival?: Maybe<Scalars['String']>;
+  importerName?: Maybe<Scalars['String']>;
+  exporterName?: Maybe<Scalars['String']>;
+  commodity?: Maybe<Scalars['String']>;
+  productCode?: Maybe<Scalars['String']>;
+  variety?: Maybe<Scalars['String']>;
+  inspDate?: Maybe<Scalars['String']>;
+  quantity?: Maybe<Scalars['BigFloat']>;
+  hatch?: Maybe<Scalars['String']>;
+  deck?: Maybe<Scalars['String']>;
+  containerId?: Maybe<Scalars['String']>;
+  fumigation?: Maybe<Scalars['String']>;
+  labelCode?: Maybe<Scalars['String']>;
+  inspLocation?: Maybe<Scalars['String']>;
+  importerCode?: Maybe<Scalars['String']>;
+  lotCode?: Maybe<Scalars['String']>;
+  inspLot?: Maybe<Scalars['String']>;
+  runNumber?: Maybe<Scalars['String']>;
+  palletId?: Maybe<Scalars['String']>;
+  growerCode?: Maybe<Scalars['String']>;
+  inspGrowerCode?: Maybe<Scalars['String']>;
+  packDate?: Maybe<Scalars['String']>;
+  inspPackDate?: Maybe<Scalars['String']>;
+  size?: Maybe<Scalars['String']>;
+  inspSize?: Maybe<Scalars['String']>;
+  packCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  secondaryDescription?: Maybe<Scalars['String']>;
+  inspPackCode?: Maybe<Scalars['String']>;
+  grade?: Maybe<Scalars['String']>;
+  inspGrade?: Maybe<Scalars['String']>;
+  count?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  pluPct?: Maybe<Scalars['String']>;
+  countryOfOrigin?: Maybe<Scalars['String']>;
+  upc?: Maybe<Scalars['String']>;
+  weight?: Maybe<Scalars['String']>;
+  underweightMin?: Maybe<Scalars['String']>;
+  underweightMax?: Maybe<Scalars['String']>;
+  weighedUnits?: Maybe<Scalars['String']>;
+  underweightUnits?: Maybe<Scalars['String']>;
+  underweightPct?: Maybe<Scalars['String']>;
+  pulpTemp?: Maybe<Scalars['String']>;
+  opening?: Maybe<Scalars['String']>;
+  groundColor?: Maybe<Scalars['String']>;
+  blushColor?: Maybe<Scalars['String']>;
+  blushPct?: Maybe<Scalars['String']>;
+  scarsPieces?: Maybe<Scalars['String']>;
+  scarsPct?: Maybe<Scalars['String']>;
+  scarsDeg?: Maybe<Scalars['String']>;
+  stemPuncturesPieces?: Maybe<Scalars['String']>;
+  stemPuncturesPct?: Maybe<Scalars['String']>;
+  cutsPieces?: Maybe<Scalars['String']>;
+  cutsPct?: Maybe<Scalars['String']>;
+  cutsDeg?: Maybe<Scalars['String']>;
+  sunScaldPieces?: Maybe<Scalars['String']>;
+  sunScaldPct?: Maybe<Scalars['String']>;
+  sunScaldDeg?: Maybe<Scalars['String']>;
+  scaldPieces?: Maybe<Scalars['String']>;
+  scaldPct?: Maybe<Scalars['String']>;
+  scaldDeg?: Maybe<Scalars['String']>;
+  bruisingPieces?: Maybe<Scalars['String']>;
+  bruisingPct?: Maybe<Scalars['String']>;
+  bruisingDeg?: Maybe<Scalars['String']>;
+  crackingPieces?: Maybe<Scalars['String']>;
+  crackingPct?: Maybe<Scalars['String']>;
+  bitterPitPieces?: Maybe<Scalars['String']>;
+  bitterPitPct?: Maybe<Scalars['String']>;
+  bitterPitDeg?: Maybe<Scalars['String']>;
+  lenticelBreakdownPieces?: Maybe<Scalars['String']>;
+  lenticelBreakdownPct?: Maybe<Scalars['String']>;
+  lenticelBreakdownDeg?: Maybe<Scalars['String']>;
+  dehydrationPieces?: Maybe<Scalars['String']>;
+  dehydrationPct?: Maybe<Scalars['String']>;
+  dehydrationDeg?: Maybe<Scalars['String']>;
+  cutCount?: Maybe<Scalars['String']>;
+  watercorePieces?: Maybe<Scalars['String']>;
+  watercorePct?: Maybe<Scalars['String']>;
+  internalDamagePieces?: Maybe<Scalars['String']>;
+  internalDamagePer?: Maybe<Scalars['String']>;
+  decayPieces?: Maybe<Scalars['String']>;
+  decayPct?: Maybe<Scalars['String']>;
+  decayDeg?: Maybe<Scalars['String']>;
+  moldPieces?: Maybe<Scalars['String']>;
+  moldPct?: Maybe<Scalars['String']>;
+  pressure1?: Maybe<Scalars['String']>;
+  pressure2?: Maybe<Scalars['String']>;
+  pressure3?: Maybe<Scalars['String']>;
+  pressure4?: Maybe<Scalars['String']>;
+  pressure5?: Maybe<Scalars['String']>;
+  pressure6?: Maybe<Scalars['String']>;
+  pressuresMin?: Maybe<Scalars['String']>;
+  pressuresMax?: Maybe<Scalars['String']>;
+  pressuresAvg?: Maybe<Scalars['String']>;
+  overallQuality?: Maybe<Scalars['BigFloat']>;
+  overallCondition?: Maybe<Scalars['BigFloat']>;
+  comment1?: Maybe<Scalars['String']>;
+  comment2?: Maybe<Scalars['String']>;
+  inspectionType?: Maybe<Scalars['String']>;
+  shortInsp?: Maybe<Scalars['String']>;
+  fixedWeight?: Maybe<Scalars['String']>;
+};
+
 /** The output of our create `PsaArrivalPicture` mutation. */
 export type CreatePsaArrivalPicturePayload = {
   __typename?: 'CreatePsaArrivalPicturePayload';
@@ -12752,6 +19282,248 @@ export type PsaArrivalReportInput = {
   arrivalName?: Maybe<Scalars['String']>;
   exporterId?: Maybe<Scalars['BigInt']>;
   exporterName?: Maybe<Scalars['String']>;
+};
+
+/** The output of our create `PsaCherryPallet` mutation. */
+export type CreatePsaCherryPalletPayload = {
+  __typename?: 'CreatePsaCherryPalletPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PsaCherryPallet` that was created by this mutation. */
+  psaCherryPallet?: Maybe<PsaCherryPallet>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `PsaCherryPallet`. May be used by Relay 1. */
+  psaCherryPalletEdge?: Maybe<PsaCherryPalletsEdge>;
+};
+
+
+/** The output of our create `PsaCherryPallet` mutation. */
+export type CreatePsaCherryPalletPayloadPsaCherryPalletEdgeArgs = {
+  orderBy?: Maybe<Array<PsaCherryPalletsOrderBy>>;
+};
+
+/** All input for the create `PsaCherryPallet` mutation. */
+export type CreatePsaCherryPalletInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PsaCherryPallet` to be created by this mutation. */
+  psaCherryPallet: PsaCherryPalletInput;
+};
+
+/** An input for mutations affecting `PsaCherryPallet` */
+export type PsaCherryPalletInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  location?: Maybe<Scalars['String']>;
+  arrival?: Maybe<Scalars['String']>;
+  importerName?: Maybe<Scalars['String']>;
+  exporterName?: Maybe<Scalars['String']>;
+  commodity?: Maybe<Scalars['String']>;
+  productCode?: Maybe<Scalars['String']>;
+  variety?: Maybe<Scalars['String']>;
+  inspDate?: Maybe<Scalars['String']>;
+  quantity?: Maybe<Scalars['BigFloat']>;
+  hatch?: Maybe<Scalars['String']>;
+  deck?: Maybe<Scalars['String']>;
+  containerId?: Maybe<Scalars['String']>;
+  fumigation?: Maybe<Scalars['String']>;
+  labelCode?: Maybe<Scalars['String']>;
+  inspLocation?: Maybe<Scalars['String']>;
+  importerCode?: Maybe<Scalars['String']>;
+  lotCode?: Maybe<Scalars['String']>;
+  inspLot?: Maybe<Scalars['String']>;
+  palletId?: Maybe<Scalars['String']>;
+  growerCode?: Maybe<Scalars['String']>;
+  inspGrowerCode?: Maybe<Scalars['String']>;
+  packDate?: Maybe<Scalars['String']>;
+  inspPackDate?: Maybe<Scalars['String']>;
+  size?: Maybe<Scalars['String']>;
+  inspSize?: Maybe<Scalars['String']>;
+  packCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  secondaryDescription?: Maybe<Scalars['String']>;
+  inspPackCode?: Maybe<Scalars['String']>;
+  count?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  pluPct?: Maybe<Scalars['String']>;
+  countryOfOrigin?: Maybe<Scalars['String']>;
+  upc?: Maybe<Scalars['String']>;
+  weight?: Maybe<Scalars['String']>;
+  underweightMin?: Maybe<Scalars['String']>;
+  underweightMax?: Maybe<Scalars['String']>;
+  weighedUnits?: Maybe<Scalars['String']>;
+  underweightUnits?: Maybe<Scalars['String']>;
+  underweightPct?: Maybe<Scalars['String']>;
+  pulpTemp?: Maybe<Scalars['String']>;
+  opening?: Maybe<Scalars['String']>;
+  sizeMin?: Maybe<Scalars['String']>;
+  sizeMax?: Maybe<Scalars['String']>;
+  sizeMost?: Maybe<Scalars['String']>;
+  color?: Maybe<Scalars['String']>;
+  scarsMarksPieces?: Maybe<Scalars['String']>;
+  scarsMarksPct?: Maybe<Scalars['String']>;
+  scarsMarksDeg?: Maybe<Scalars['String']>;
+  misshapenPieces?: Maybe<Scalars['String']>;
+  misshapenPct?: Maybe<Scalars['String']>;
+  stemlessPieces?: Maybe<Scalars['String']>;
+  stemlessPct?: Maybe<Scalars['String']>;
+  splitsPieces?: Maybe<Scalars['String']>;
+  splitsPct?: Maybe<Scalars['String']>;
+  splitsDeg?: Maybe<Scalars['String']>;
+  firmness?: Maybe<Scalars['String']>;
+  pittingBruisingPieces?: Maybe<Scalars['String']>;
+  pittingBruisingPct?: Maybe<Scalars['String']>;
+  pittingBruisingDeg?: Maybe<Scalars['String']>;
+  stemDehydrationPieces?: Maybe<Scalars['String']>;
+  stemDehydrationPct?: Maybe<Scalars['String']>;
+  stemDehydrationDeg?: Maybe<Scalars['String']>;
+  dehydrationPieces?: Maybe<Scalars['String']>;
+  dehydrationPct?: Maybe<Scalars['String']>;
+  dehydrationDeg?: Maybe<Scalars['String']>;
+  decayPieces?: Maybe<Scalars['String']>;
+  decayPct?: Maybe<Scalars['String']>;
+  decayDeg?: Maybe<Scalars['String']>;
+  moldPieces?: Maybe<Scalars['String']>;
+  moldPct?: Maybe<Scalars['String']>;
+  overallQuality?: Maybe<Scalars['BigFloat']>;
+  overallCondition?: Maybe<Scalars['BigFloat']>;
+  comment1?: Maybe<Scalars['String']>;
+  comment2?: Maybe<Scalars['String']>;
+  inspectionType?: Maybe<Scalars['String']>;
+  shortInsp?: Maybe<Scalars['String']>;
+  fixedWeight?: Maybe<Scalars['String']>;
+};
+
+/** The output of our create `PsaCitrusPallet` mutation. */
+export type CreatePsaCitrusPalletPayload = {
+  __typename?: 'CreatePsaCitrusPalletPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PsaCitrusPallet` that was created by this mutation. */
+  psaCitrusPallet?: Maybe<PsaCitrusPallet>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `PsaCitrusPallet`. May be used by Relay 1. */
+  psaCitrusPalletEdge?: Maybe<PsaCitrusPalletsEdge>;
+};
+
+
+/** The output of our create `PsaCitrusPallet` mutation. */
+export type CreatePsaCitrusPalletPayloadPsaCitrusPalletEdgeArgs = {
+  orderBy?: Maybe<Array<PsaCitrusPalletsOrderBy>>;
+};
+
+/** All input for the create `PsaCitrusPallet` mutation. */
+export type CreatePsaCitrusPalletInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PsaCitrusPallet` to be created by this mutation. */
+  psaCitrusPallet: PsaCitrusPalletInput;
+};
+
+/** An input for mutations affecting `PsaCitrusPallet` */
+export type PsaCitrusPalletInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  location?: Maybe<Scalars['String']>;
+  arrival?: Maybe<Scalars['String']>;
+  importerName?: Maybe<Scalars['String']>;
+  exporterName?: Maybe<Scalars['String']>;
+  commodity?: Maybe<Scalars['String']>;
+  productCode?: Maybe<Scalars['String']>;
+  variety?: Maybe<Scalars['String']>;
+  inspDate?: Maybe<Scalars['String']>;
+  quantity?: Maybe<Scalars['BigFloat']>;
+  hatch?: Maybe<Scalars['String']>;
+  deck?: Maybe<Scalars['String']>;
+  containerId?: Maybe<Scalars['String']>;
+  fumigation?: Maybe<Scalars['String']>;
+  labelCode?: Maybe<Scalars['String']>;
+  inspLocation?: Maybe<Scalars['String']>;
+  importerCode?: Maybe<Scalars['String']>;
+  lotCode?: Maybe<Scalars['String']>;
+  inspLot?: Maybe<Scalars['String']>;
+  palletId?: Maybe<Scalars['String']>;
+  growerCode?: Maybe<Scalars['String']>;
+  inspGrowerCode?: Maybe<Scalars['String']>;
+  packDate?: Maybe<Scalars['String']>;
+  inspPackDate?: Maybe<Scalars['String']>;
+  size?: Maybe<Scalars['String']>;
+  inspSize?: Maybe<Scalars['String']>;
+  packCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  secondaryDescription?: Maybe<Scalars['String']>;
+  inspPackCode?: Maybe<Scalars['String']>;
+  count?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  pluPct?: Maybe<Scalars['String']>;
+  countryOfOrigin?: Maybe<Scalars['String']>;
+  upc?: Maybe<Scalars['String']>;
+  weight?: Maybe<Scalars['String']>;
+  underweightMin?: Maybe<Scalars['String']>;
+  underweightMax?: Maybe<Scalars['String']>;
+  weighedUnits?: Maybe<Scalars['String']>;
+  underweightUnits?: Maybe<Scalars['String']>;
+  underweightPct?: Maybe<Scalars['String']>;
+  pulpTemp?: Maybe<Scalars['String']>;
+  opening?: Maybe<Scalars['String']>;
+  color?: Maybe<Scalars['String']>;
+  diameterMinMm?: Maybe<Scalars['String']>;
+  diameterMinInches?: Maybe<Scalars['String']>;
+  diameterMaxMm?: Maybe<Scalars['String']>;
+  diameterMaxInches?: Maybe<Scalars['String']>;
+  diameterMostMm?: Maybe<Scalars['String']>;
+  diameterMostInches?: Maybe<Scalars['String']>;
+  scarsPieces?: Maybe<Scalars['String']>;
+  scarsPct?: Maybe<Scalars['String']>;
+  scarsDeg?: Maybe<Scalars['String']>;
+  greenHazePieces?: Maybe<Scalars['String']>;
+  greenHazePct?: Maybe<Scalars['String']>;
+  greenHazeDeg?: Maybe<Scalars['String']>;
+  oilSpotsPieces?: Maybe<Scalars['String']>;
+  oilSpotsPct?: Maybe<Scalars['String']>;
+  oilSpotsDeg?: Maybe<Scalars['String']>;
+  cutCount?: Maybe<Scalars['String']>;
+  dryPulpPieces?: Maybe<Scalars['String']>;
+  dryPulpPct?: Maybe<Scalars['String']>;
+  dryPulpDeg?: Maybe<Scalars['String']>;
+  seedsPieces?: Maybe<Scalars['String']>;
+  seedsPct?: Maybe<Scalars['String']>;
+  skinBreakdownPieces?: Maybe<Scalars['String']>;
+  skinBreakdownPct?: Maybe<Scalars['String']>;
+  skinBreakdownDeg?: Maybe<Scalars['String']>;
+  creasingPieces?: Maybe<Scalars['String']>;
+  creasingPct?: Maybe<Scalars['String']>;
+  creasingDeg?: Maybe<Scalars['String']>;
+  puffinessPieces?: Maybe<Scalars['String']>;
+  puffinessPct?: Maybe<Scalars['String']>;
+  puffinessDeg?: Maybe<Scalars['String']>;
+  decayPieces?: Maybe<Scalars['String']>;
+  decayPct?: Maybe<Scalars['String']>;
+  decayDeg?: Maybe<Scalars['String']>;
+  moldPieces?: Maybe<Scalars['String']>;
+  moldPct?: Maybe<Scalars['String']>;
+  sporesPieces?: Maybe<Scalars['String']>;
+  sporesPct?: Maybe<Scalars['String']>;
+  brix?: Maybe<Scalars['String']>;
+  overallQuality?: Maybe<Scalars['BigFloat']>;
+  overallCondition?: Maybe<Scalars['BigFloat']>;
+  comment1?: Maybe<Scalars['String']>;
+  comment2?: Maybe<Scalars['String']>;
+  inspectionType?: Maybe<Scalars['String']>;
+  shortInsp?: Maybe<Scalars['String']>;
+  fixedWeight?: Maybe<Scalars['String']>;
 };
 
 /** The output of our create `PsaGrapePallet` mutation. */
@@ -12905,6 +19677,625 @@ export type PsaGrapePalletInput = {
   autoOverallQuality?: Maybe<Scalars['String']>;
   overallCondition?: Maybe<Scalars['BigFloat']>;
   autoOverallCondition?: Maybe<Scalars['String']>;
+  comment1?: Maybe<Scalars['String']>;
+  comment2?: Maybe<Scalars['String']>;
+  inspectionType?: Maybe<Scalars['String']>;
+  shortInsp?: Maybe<Scalars['String']>;
+  fixedWeight?: Maybe<Scalars['String']>;
+};
+
+/** The output of our create `PsaLemonPallet` mutation. */
+export type CreatePsaLemonPalletPayload = {
+  __typename?: 'CreatePsaLemonPalletPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PsaLemonPallet` that was created by this mutation. */
+  psaLemonPallet?: Maybe<PsaLemonPallet>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `PsaLemonPallet`. May be used by Relay 1. */
+  psaLemonPalletEdge?: Maybe<PsaLemonPalletsEdge>;
+};
+
+
+/** The output of our create `PsaLemonPallet` mutation. */
+export type CreatePsaLemonPalletPayloadPsaLemonPalletEdgeArgs = {
+  orderBy?: Maybe<Array<PsaLemonPalletsOrderBy>>;
+};
+
+/** All input for the create `PsaLemonPallet` mutation. */
+export type CreatePsaLemonPalletInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PsaLemonPallet` to be created by this mutation. */
+  psaLemonPallet: PsaLemonPalletInput;
+};
+
+/** An input for mutations affecting `PsaLemonPallet` */
+export type PsaLemonPalletInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  location?: Maybe<Scalars['String']>;
+  arrival?: Maybe<Scalars['String']>;
+  importerName?: Maybe<Scalars['String']>;
+  exporterName?: Maybe<Scalars['String']>;
+  commodity?: Maybe<Scalars['String']>;
+  productCode?: Maybe<Scalars['String']>;
+  variety?: Maybe<Scalars['String']>;
+  inspDate?: Maybe<Scalars['String']>;
+  quantity?: Maybe<Scalars['BigFloat']>;
+  hatch?: Maybe<Scalars['String']>;
+  deck?: Maybe<Scalars['String']>;
+  containerId?: Maybe<Scalars['String']>;
+  fumigation?: Maybe<Scalars['String']>;
+  labelCode?: Maybe<Scalars['String']>;
+  inspLocation?: Maybe<Scalars['String']>;
+  importerCode?: Maybe<Scalars['String']>;
+  lotCode?: Maybe<Scalars['String']>;
+  inspLot?: Maybe<Scalars['String']>;
+  palletId?: Maybe<Scalars['String']>;
+  growerCode?: Maybe<Scalars['String']>;
+  inspGrowerCode?: Maybe<Scalars['String']>;
+  packDate?: Maybe<Scalars['String']>;
+  inspPackDate?: Maybe<Scalars['String']>;
+  size?: Maybe<Scalars['String']>;
+  inspSize?: Maybe<Scalars['String']>;
+  packCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  secondaryDescription?: Maybe<Scalars['String']>;
+  inspPackCode?: Maybe<Scalars['String']>;
+  grade?: Maybe<Scalars['String']>;
+  inspGrade?: Maybe<Scalars['String']>;
+  count?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  pluPct?: Maybe<Scalars['String']>;
+  countryOfOrigin?: Maybe<Scalars['String']>;
+  upc?: Maybe<Scalars['String']>;
+  weight?: Maybe<Scalars['String']>;
+  underweightMin?: Maybe<Scalars['String']>;
+  underweightMax?: Maybe<Scalars['String']>;
+  weighedUnits?: Maybe<Scalars['String']>;
+  underweightUnits?: Maybe<Scalars['String']>;
+  underweightPct?: Maybe<Scalars['String']>;
+  pulpTemp?: Maybe<Scalars['String']>;
+  opening?: Maybe<Scalars['String']>;
+  color?: Maybe<Scalars['String']>;
+  diameterMinMm?: Maybe<Scalars['String']>;
+  diameterMinInches?: Maybe<Scalars['String']>;
+  diameterMaxMm?: Maybe<Scalars['String']>;
+  diameterMaxInches?: Maybe<Scalars['String']>;
+  diameterMostMm?: Maybe<Scalars['String']>;
+  diameterMostInches?: Maybe<Scalars['String']>;
+  scarsPieces?: Maybe<Scalars['String']>;
+  scarsPct?: Maybe<Scalars['String']>;
+  scarsDeg?: Maybe<Scalars['String']>;
+  greenHazePieces?: Maybe<Scalars['String']>;
+  greenHazePct?: Maybe<Scalars['String']>;
+  greenHazeDeg?: Maybe<Scalars['String']>;
+  oilSpotsPieces?: Maybe<Scalars['String']>;
+  oilSpotsPct?: Maybe<Scalars['String']>;
+  oilSpotsDeg?: Maybe<Scalars['String']>;
+  cutCount?: Maybe<Scalars['String']>;
+  dryPulpPieces?: Maybe<Scalars['String']>;
+  dryPulpPct?: Maybe<Scalars['String']>;
+  dryPulpDeg?: Maybe<Scalars['String']>;
+  skinDamagePieces?: Maybe<Scalars['String']>;
+  skinDamagePct?: Maybe<Scalars['String']>;
+  skinDamageDeg?: Maybe<Scalars['String']>;
+  petecaPieces?: Maybe<Scalars['String']>;
+  petecaPct?: Maybe<Scalars['String']>;
+  petecaDeg?: Maybe<Scalars['String']>;
+  decayPieces?: Maybe<Scalars['String']>;
+  decayPct?: Maybe<Scalars['String']>;
+  decayDeg?: Maybe<Scalars['String']>;
+  moldPieces?: Maybe<Scalars['String']>;
+  moldPct?: Maybe<Scalars['String']>;
+  sporesPieces?: Maybe<Scalars['String']>;
+  sporesPct?: Maybe<Scalars['String']>;
+  overallQuality?: Maybe<Scalars['BigFloat']>;
+  overallCondition?: Maybe<Scalars['BigFloat']>;
+  comment1?: Maybe<Scalars['String']>;
+  comment2?: Maybe<Scalars['String']>;
+  inspectionType?: Maybe<Scalars['String']>;
+  shortInsp?: Maybe<Scalars['String']>;
+  fixedWeight?: Maybe<Scalars['String']>;
+};
+
+/** The output of our create `PsaPearPallet` mutation. */
+export type CreatePsaPearPalletPayload = {
+  __typename?: 'CreatePsaPearPalletPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PsaPearPallet` that was created by this mutation. */
+  psaPearPallet?: Maybe<PsaPearPallet>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `PsaPearPallet`. May be used by Relay 1. */
+  psaPearPalletEdge?: Maybe<PsaPearPalletsEdge>;
+};
+
+
+/** The output of our create `PsaPearPallet` mutation. */
+export type CreatePsaPearPalletPayloadPsaPearPalletEdgeArgs = {
+  orderBy?: Maybe<Array<PsaPearPalletsOrderBy>>;
+};
+
+/** All input for the create `PsaPearPallet` mutation. */
+export type CreatePsaPearPalletInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PsaPearPallet` to be created by this mutation. */
+  psaPearPallet: PsaPearPalletInput;
+};
+
+/** An input for mutations affecting `PsaPearPallet` */
+export type PsaPearPalletInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  location?: Maybe<Scalars['String']>;
+  arrival?: Maybe<Scalars['String']>;
+  importerName?: Maybe<Scalars['String']>;
+  exporterName?: Maybe<Scalars['String']>;
+  commodity?: Maybe<Scalars['String']>;
+  productCode?: Maybe<Scalars['String']>;
+  variety?: Maybe<Scalars['String']>;
+  inspDate?: Maybe<Scalars['String']>;
+  quantity?: Maybe<Scalars['BigFloat']>;
+  hatch?: Maybe<Scalars['String']>;
+  deck?: Maybe<Scalars['String']>;
+  containerId?: Maybe<Scalars['String']>;
+  fumigation?: Maybe<Scalars['String']>;
+  labelCode?: Maybe<Scalars['String']>;
+  inspLocation?: Maybe<Scalars['String']>;
+  importerCode?: Maybe<Scalars['String']>;
+  lotCode?: Maybe<Scalars['String']>;
+  inspLot?: Maybe<Scalars['String']>;
+  runNumber?: Maybe<Scalars['String']>;
+  palletId?: Maybe<Scalars['String']>;
+  growerCode?: Maybe<Scalars['String']>;
+  inspGrowerCode?: Maybe<Scalars['String']>;
+  packDate?: Maybe<Scalars['String']>;
+  inspPackDate?: Maybe<Scalars['String']>;
+  size?: Maybe<Scalars['String']>;
+  inspSize?: Maybe<Scalars['String']>;
+  packCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  secondaryDescription?: Maybe<Scalars['String']>;
+  inspPackCode?: Maybe<Scalars['String']>;
+  grade?: Maybe<Scalars['String']>;
+  inspGrade?: Maybe<Scalars['String']>;
+  count?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  pluPct?: Maybe<Scalars['String']>;
+  countryOfOrigin?: Maybe<Scalars['String']>;
+  upc?: Maybe<Scalars['String']>;
+  weight?: Maybe<Scalars['String']>;
+  underweightMin?: Maybe<Scalars['String']>;
+  underweightMax?: Maybe<Scalars['String']>;
+  weighedUnits?: Maybe<Scalars['String']>;
+  underweightUnits?: Maybe<Scalars['String']>;
+  underweightPct?: Maybe<Scalars['String']>;
+  pulpTemp?: Maybe<Scalars['String']>;
+  opening?: Maybe<Scalars['String']>;
+  groundColor?: Maybe<Scalars['String']>;
+  blushColor?: Maybe<Scalars['String']>;
+  blushPct?: Maybe<Scalars['String']>;
+  scarsRussetPieces?: Maybe<Scalars['String']>;
+  scarsRussetPct?: Maybe<Scalars['String']>;
+  scarsRussetDeg?: Maybe<Scalars['String']>;
+  russetPerPiecePct?: Maybe<Scalars['String']>;
+  stemPuncturesPieces?: Maybe<Scalars['String']>;
+  stemPuncturesPct?: Maybe<Scalars['String']>;
+  cutsPieces?: Maybe<Scalars['String']>;
+  cutsPct?: Maybe<Scalars['String']>;
+  cutsDeg?: Maybe<Scalars['String']>;
+  turningColorPieces?: Maybe<Scalars['String']>;
+  turningColorPct?: Maybe<Scalars['String']>;
+  turningColorDeg?: Maybe<Scalars['String']>;
+  dehydrationPieces?: Maybe<Scalars['String']>;
+  dehydrationPct?: Maybe<Scalars['String']>;
+  dehydrationDeg?: Maybe<Scalars['String']>;
+  bruisingPieces?: Maybe<Scalars['String']>;
+  bruisingPct?: Maybe<Scalars['String']>;
+  bruisingDeg?: Maybe<Scalars['String']>;
+  cutCount?: Maybe<Scalars['String']>;
+  internalDamagePieces?: Maybe<Scalars['String']>;
+  internalDamagePer?: Maybe<Scalars['String']>;
+  decayPieces?: Maybe<Scalars['String']>;
+  decayPct?: Maybe<Scalars['String']>;
+  decayDeg?: Maybe<Scalars['String']>;
+  moldPieces?: Maybe<Scalars['String']>;
+  moldPct?: Maybe<Scalars['String']>;
+  pressure1?: Maybe<Scalars['String']>;
+  pressure2?: Maybe<Scalars['String']>;
+  pressure3?: Maybe<Scalars['String']>;
+  pressure4?: Maybe<Scalars['String']>;
+  pressure5?: Maybe<Scalars['String']>;
+  pressure6?: Maybe<Scalars['String']>;
+  pressuresMin?: Maybe<Scalars['String']>;
+  pressuresMax?: Maybe<Scalars['String']>;
+  pressuresAvg?: Maybe<Scalars['String']>;
+  overallQuality?: Maybe<Scalars['BigFloat']>;
+  overallCondition?: Maybe<Scalars['BigFloat']>;
+  comment1?: Maybe<Scalars['String']>;
+  comment2?: Maybe<Scalars['String']>;
+  inspectionType?: Maybe<Scalars['String']>;
+  shortInsp?: Maybe<Scalars['String']>;
+  fixedWeight?: Maybe<Scalars['String']>;
+};
+
+/** The output of our create `PsaPersimmonPallet` mutation. */
+export type CreatePsaPersimmonPalletPayload = {
+  __typename?: 'CreatePsaPersimmonPalletPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PsaPersimmonPallet` that was created by this mutation. */
+  psaPersimmonPallet?: Maybe<PsaPersimmonPallet>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `PsaPersimmonPallet`. May be used by Relay 1. */
+  psaPersimmonPalletEdge?: Maybe<PsaPersimmonPalletsEdge>;
+};
+
+
+/** The output of our create `PsaPersimmonPallet` mutation. */
+export type CreatePsaPersimmonPalletPayloadPsaPersimmonPalletEdgeArgs = {
+  orderBy?: Maybe<Array<PsaPersimmonPalletsOrderBy>>;
+};
+
+/** All input for the create `PsaPersimmonPallet` mutation. */
+export type CreatePsaPersimmonPalletInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PsaPersimmonPallet` to be created by this mutation. */
+  psaPersimmonPallet: PsaPersimmonPalletInput;
+};
+
+/** An input for mutations affecting `PsaPersimmonPallet` */
+export type PsaPersimmonPalletInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  location?: Maybe<Scalars['String']>;
+  arrival?: Maybe<Scalars['String']>;
+  importerName?: Maybe<Scalars['String']>;
+  exporterName?: Maybe<Scalars['String']>;
+  commodity?: Maybe<Scalars['String']>;
+  productCode?: Maybe<Scalars['String']>;
+  variety?: Maybe<Scalars['String']>;
+  inspDate?: Maybe<Scalars['String']>;
+  quantity?: Maybe<Scalars['BigFloat']>;
+  hatch?: Maybe<Scalars['String']>;
+  deck?: Maybe<Scalars['String']>;
+  containerId?: Maybe<Scalars['String']>;
+  fumigation?: Maybe<Scalars['String']>;
+  labelCode?: Maybe<Scalars['String']>;
+  inspLocation?: Maybe<Scalars['String']>;
+  importerCode?: Maybe<Scalars['String']>;
+  lotCode?: Maybe<Scalars['String']>;
+  inspLot?: Maybe<Scalars['String']>;
+  palletId?: Maybe<Scalars['String']>;
+  growerCode?: Maybe<Scalars['String']>;
+  inspGrowerCode?: Maybe<Scalars['String']>;
+  packDate?: Maybe<Scalars['String']>;
+  inspPackDate?: Maybe<Scalars['String']>;
+  size?: Maybe<Scalars['String']>;
+  inspSize?: Maybe<Scalars['String']>;
+  packCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  secondaryDescription?: Maybe<Scalars['String']>;
+  inspPackCode?: Maybe<Scalars['String']>;
+  count?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  pluPct?: Maybe<Scalars['String']>;
+  countryOfOrigin?: Maybe<Scalars['String']>;
+  upc?: Maybe<Scalars['String']>;
+  weight?: Maybe<Scalars['String']>;
+  underweightMin?: Maybe<Scalars['String']>;
+  underweightMax?: Maybe<Scalars['String']>;
+  weighedUnits?: Maybe<Scalars['String']>;
+  underweightUnits?: Maybe<Scalars['String']>;
+  underweightPct?: Maybe<Scalars['String']>;
+  pulpTemp?: Maybe<Scalars['String']>;
+  opening?: Maybe<Scalars['String']>;
+  color?: Maybe<Scalars['String']>;
+  scarsMarksPieces?: Maybe<Scalars['String']>;
+  scarsMarksPct?: Maybe<Scalars['String']>;
+  scarsMarksDeg?: Maybe<Scalars['String']>;
+  greenColorPieces?: Maybe<Scalars['String']>;
+  greenColor?: Maybe<Scalars['String']>;
+  greenColorDeg?: Maybe<Scalars['String']>;
+  cutsSplitsPieces?: Maybe<Scalars['String']>;
+  cutsSplitsPct?: Maybe<Scalars['String']>;
+  cutsSplitsDeg?: Maybe<Scalars['String']>;
+  bruisingPieces?: Maybe<Scalars['String']>;
+  bruisingPct?: Maybe<Scalars['String']>;
+  bruisingDeg?: Maybe<Scalars['String']>;
+  dehydrationPieces?: Maybe<Scalars['String']>;
+  dehydrationPct?: Maybe<Scalars['String']>;
+  dehydrationDeg?: Maybe<Scalars['String']>;
+  cutCount?: Maybe<Scalars['String']>;
+  seedsPieces?: Maybe<Scalars['String']>;
+  seedsPct?: Maybe<Scalars['String']>;
+  internalDamagePieces?: Maybe<Scalars['String']>;
+  internalDamagePer?: Maybe<Scalars['String']>;
+  internalDamageDeg?: Maybe<Scalars['String']>;
+  decayPieces?: Maybe<Scalars['String']>;
+  decayPct?: Maybe<Scalars['String']>;
+  decayDeg?: Maybe<Scalars['String']>;
+  moldPieces?: Maybe<Scalars['String']>;
+  moldPct?: Maybe<Scalars['String']>;
+  brix?: Maybe<Scalars['String']>;
+  pressure1?: Maybe<Scalars['String']>;
+  pressure2?: Maybe<Scalars['String']>;
+  pressure3?: Maybe<Scalars['String']>;
+  pressure4?: Maybe<Scalars['String']>;
+  pressure5?: Maybe<Scalars['String']>;
+  pressure6?: Maybe<Scalars['String']>;
+  pressuresMin?: Maybe<Scalars['String']>;
+  pressuresMax?: Maybe<Scalars['String']>;
+  pressuresAvg?: Maybe<Scalars['String']>;
+  overallQuality?: Maybe<Scalars['BigFloat']>;
+  overallCondition?: Maybe<Scalars['BigFloat']>;
+  comment1?: Maybe<Scalars['String']>;
+  comment2?: Maybe<Scalars['String']>;
+  inspectionType?: Maybe<Scalars['String']>;
+  shortInsp?: Maybe<Scalars['String']>;
+  fixedWeight?: Maybe<Scalars['String']>;
+};
+
+/** The output of our create `PsaPomegranatePallet` mutation. */
+export type CreatePsaPomegranatePalletPayload = {
+  __typename?: 'CreatePsaPomegranatePalletPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PsaPomegranatePallet` that was created by this mutation. */
+  psaPomegranatePallet?: Maybe<PsaPomegranatePallet>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `PsaPomegranatePallet`. May be used by Relay 1. */
+  psaPomegranatePalletEdge?: Maybe<PsaPomegranatePalletsEdge>;
+};
+
+
+/** The output of our create `PsaPomegranatePallet` mutation. */
+export type CreatePsaPomegranatePalletPayloadPsaPomegranatePalletEdgeArgs = {
+  orderBy?: Maybe<Array<PsaPomegranatePalletsOrderBy>>;
+};
+
+/** All input for the create `PsaPomegranatePallet` mutation. */
+export type CreatePsaPomegranatePalletInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PsaPomegranatePallet` to be created by this mutation. */
+  psaPomegranatePallet: PsaPomegranatePalletInput;
+};
+
+/** An input for mutations affecting `PsaPomegranatePallet` */
+export type PsaPomegranatePalletInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  location?: Maybe<Scalars['String']>;
+  arrival?: Maybe<Scalars['String']>;
+  importerName?: Maybe<Scalars['String']>;
+  exporterName?: Maybe<Scalars['String']>;
+  commodity?: Maybe<Scalars['String']>;
+  productCode?: Maybe<Scalars['String']>;
+  variety?: Maybe<Scalars['String']>;
+  inspDate?: Maybe<Scalars['String']>;
+  quantity?: Maybe<Scalars['BigFloat']>;
+  hatch?: Maybe<Scalars['String']>;
+  deck?: Maybe<Scalars['String']>;
+  containerId?: Maybe<Scalars['String']>;
+  fumigation?: Maybe<Scalars['String']>;
+  labelCode?: Maybe<Scalars['String']>;
+  inspLocation?: Maybe<Scalars['String']>;
+  importerCode?: Maybe<Scalars['String']>;
+  lotCode?: Maybe<Scalars['String']>;
+  inspLot?: Maybe<Scalars['String']>;
+  palletId?: Maybe<Scalars['String']>;
+  growerCode?: Maybe<Scalars['String']>;
+  inspGrowerCode?: Maybe<Scalars['String']>;
+  packDate?: Maybe<Scalars['String']>;
+  inspPackDate?: Maybe<Scalars['String']>;
+  size?: Maybe<Scalars['String']>;
+  inspSize?: Maybe<Scalars['String']>;
+  packCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  secondaryDescription?: Maybe<Scalars['String']>;
+  inspPackCode?: Maybe<Scalars['String']>;
+  grade?: Maybe<Scalars['String']>;
+  inspGrade?: Maybe<Scalars['String']>;
+  count?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  pluPct?: Maybe<Scalars['String']>;
+  countryOfOrigin?: Maybe<Scalars['String']>;
+  upc?: Maybe<Scalars['String']>;
+  weight?: Maybe<Scalars['String']>;
+  underweightMin?: Maybe<Scalars['String']>;
+  underweightMax?: Maybe<Scalars['String']>;
+  weighedUnits?: Maybe<Scalars['String']>;
+  underweightUnits?: Maybe<Scalars['String']>;
+  underweightPct?: Maybe<Scalars['String']>;
+  pulpTemp?: Maybe<Scalars['String']>;
+  opening?: Maybe<Scalars['String']>;
+  blushColor?: Maybe<Scalars['String']>;
+  blushPct?: Maybe<Scalars['String']>;
+  arilsColor?: Maybe<Scalars['String']>;
+  scarsRussetPieces?: Maybe<Scalars['String']>;
+  scarsRussetPct?: Maybe<Scalars['String']>;
+  scarsRussetDeg?: Maybe<Scalars['String']>;
+  cutsPieces?: Maybe<Scalars['String']>;
+  cutsPct?: Maybe<Scalars['String']>;
+  cutsDeg?: Maybe<Scalars['String']>;
+  sunScaldPieces?: Maybe<Scalars['String']>;
+  sunScaldPct?: Maybe<Scalars['String']>;
+  sunScaldDeg?: Maybe<Scalars['String']>;
+  scaldPieces?: Maybe<Scalars['String']>;
+  scaldPct?: Maybe<Scalars['String']>;
+  scaldDeg?: Maybe<Scalars['String']>;
+  bruisingPieces?: Maybe<Scalars['String']>;
+  bruisingPct?: Maybe<Scalars['String']>;
+  bruisingDeg?: Maybe<Scalars['String']>;
+  dehydrationPieces?: Maybe<Scalars['String']>;
+  dehydrationPct?: Maybe<Scalars['String']>;
+  dehydrationDeg?: Maybe<Scalars['String']>;
+  decayPieces?: Maybe<Scalars['String']>;
+  decayPct?: Maybe<Scalars['String']>;
+  decayDeg?: Maybe<Scalars['String']>;
+  moldPieces?: Maybe<Scalars['String']>;
+  moldPct?: Maybe<Scalars['String']>;
+  brixMin?: Maybe<Scalars['String']>;
+  brixMax?: Maybe<Scalars['String']>;
+  brixMost?: Maybe<Scalars['String']>;
+  overallQuality?: Maybe<Scalars['BigFloat']>;
+  overallCondition?: Maybe<Scalars['BigFloat']>;
+  comment1?: Maybe<Scalars['String']>;
+  comment2?: Maybe<Scalars['String']>;
+  inspectionType?: Maybe<Scalars['String']>;
+  shortInsp?: Maybe<Scalars['String']>;
+  fixedWeight?: Maybe<Scalars['String']>;
+};
+
+/** The output of our create `PsaStoneFruitPallet` mutation. */
+export type CreatePsaStoneFruitPalletPayload = {
+  __typename?: 'CreatePsaStoneFruitPalletPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PsaStoneFruitPallet` that was created by this mutation. */
+  psaStoneFruitPallet?: Maybe<PsaStoneFruitPallet>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `PsaStoneFruitPallet`. May be used by Relay 1. */
+  psaStoneFruitPalletEdge?: Maybe<PsaStoneFruitPalletsEdge>;
+};
+
+
+/** The output of our create `PsaStoneFruitPallet` mutation. */
+export type CreatePsaStoneFruitPalletPayloadPsaStoneFruitPalletEdgeArgs = {
+  orderBy?: Maybe<Array<PsaStoneFruitPalletsOrderBy>>;
+};
+
+/** All input for the create `PsaStoneFruitPallet` mutation. */
+export type CreatePsaStoneFruitPalletInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PsaStoneFruitPallet` to be created by this mutation. */
+  psaStoneFruitPallet: PsaStoneFruitPalletInput;
+};
+
+/** An input for mutations affecting `PsaStoneFruitPallet` */
+export type PsaStoneFruitPalletInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  location?: Maybe<Scalars['String']>;
+  arrival?: Maybe<Scalars['String']>;
+  importerName?: Maybe<Scalars['String']>;
+  exporterName?: Maybe<Scalars['String']>;
+  commodity?: Maybe<Scalars['String']>;
+  productCode?: Maybe<Scalars['String']>;
+  variety?: Maybe<Scalars['String']>;
+  inspDate?: Maybe<Scalars['String']>;
+  quantity?: Maybe<Scalars['BigFloat']>;
+  hatch?: Maybe<Scalars['String']>;
+  deck?: Maybe<Scalars['String']>;
+  containerId?: Maybe<Scalars['String']>;
+  fumigation?: Maybe<Scalars['String']>;
+  labelCode?: Maybe<Scalars['String']>;
+  inspLocation?: Maybe<Scalars['String']>;
+  importerCode?: Maybe<Scalars['String']>;
+  lotCode?: Maybe<Scalars['String']>;
+  inspLot?: Maybe<Scalars['String']>;
+  palletId?: Maybe<Scalars['String']>;
+  growerCode?: Maybe<Scalars['String']>;
+  inspGrowerCode?: Maybe<Scalars['String']>;
+  packDate?: Maybe<Scalars['String']>;
+  inspPackDate?: Maybe<Scalars['String']>;
+  size?: Maybe<Scalars['String']>;
+  inspSize?: Maybe<Scalars['String']>;
+  packCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  secondaryDescription?: Maybe<Scalars['String']>;
+  inspPackCode?: Maybe<Scalars['String']>;
+  count?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  pluPct?: Maybe<Scalars['String']>;
+  countryOfOrigin?: Maybe<Scalars['String']>;
+  upc?: Maybe<Scalars['String']>;
+  weight?: Maybe<Scalars['String']>;
+  underweightMin?: Maybe<Scalars['String']>;
+  underweightMax?: Maybe<Scalars['String']>;
+  weighedUnits?: Maybe<Scalars['String']>;
+  underweightUnits?: Maybe<Scalars['String']>;
+  underweightPct?: Maybe<Scalars['String']>;
+  pulpTemp?: Maybe<Scalars['String']>;
+  opening?: Maybe<Scalars['String']>;
+  ripening?: Maybe<Scalars['String']>;
+  groundColor?: Maybe<Scalars['String']>;
+  blushColor?: Maybe<Scalars['String']>;
+  blushPct?: Maybe<Scalars['String']>;
+  scarsPieces?: Maybe<Scalars['String']>;
+  scarsPct?: Maybe<Scalars['String']>;
+  scarsDeg?: Maybe<Scalars['String']>;
+  cutsSplitsPieces?: Maybe<Scalars['String']>;
+  cutsSplitsPct?: Maybe<Scalars['String']>;
+  cutsSplitsDeg?: Maybe<Scalars['String']>;
+  splitPitPieces?: Maybe<Scalars['String']>;
+  splitPitPct?: Maybe<Scalars['String']>;
+  bruisingPieces?: Maybe<Scalars['String']>;
+  bruisingPct?: Maybe<Scalars['String']>;
+  bruisingDeg?: Maybe<Scalars['String']>;
+  softTipsPieces?: Maybe<Scalars['String']>;
+  softTipsPct?: Maybe<Scalars['String']>;
+  dehydrationPieces?: Maybe<Scalars['String']>;
+  dehydrationPct?: Maybe<Scalars['String']>;
+  dehydrationDeg?: Maybe<Scalars['String']>;
+  cutCount?: Maybe<Scalars['String']>;
+  internalDamagePieces?: Maybe<Scalars['String']>;
+  internalDamagePer?: Maybe<Scalars['String']>;
+  mealinessPieces?: Maybe<Scalars['String']>;
+  mealinessPct?: Maybe<Scalars['String']>;
+  decayPieces?: Maybe<Scalars['String']>;
+  decayPct?: Maybe<Scalars['String']>;
+  decayDeg?: Maybe<Scalars['String']>;
+  moldPieces?: Maybe<Scalars['String']>;
+  moldPct?: Maybe<Scalars['String']>;
+  brix?: Maybe<Scalars['String']>;
+  pressure1?: Maybe<Scalars['String']>;
+  pressure2?: Maybe<Scalars['String']>;
+  pressure3?: Maybe<Scalars['String']>;
+  pressure4?: Maybe<Scalars['String']>;
+  pressure5?: Maybe<Scalars['String']>;
+  pressure6?: Maybe<Scalars['String']>;
+  pressuresMin?: Maybe<Scalars['String']>;
+  pressuresMax?: Maybe<Scalars['String']>;
+  pressuresAvg?: Maybe<Scalars['String']>;
+  overallQuality?: Maybe<Scalars['BigFloat']>;
+  overallCondition?: Maybe<Scalars['BigFloat']>;
   comment1?: Maybe<Scalars['String']>;
   comment2?: Maybe<Scalars['String']>;
   inspectionType?: Maybe<Scalars['String']>;
@@ -14656,6 +22047,160 @@ export type UpdatePeruDepartureInspectionPalletInput = {
   id: Scalars['BigInt'];
 };
 
+/** The output of our update `PsaApplePallet` mutation. */
+export type UpdatePsaApplePalletPayload = {
+  __typename?: 'UpdatePsaApplePalletPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PsaApplePallet` that was updated by this mutation. */
+  psaApplePallet?: Maybe<PsaApplePallet>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `PsaApplePallet`. May be used by Relay 1. */
+  psaApplePalletEdge?: Maybe<PsaApplePalletsEdge>;
+};
+
+
+/** The output of our update `PsaApplePallet` mutation. */
+export type UpdatePsaApplePalletPayloadPsaApplePalletEdgeArgs = {
+  orderBy?: Maybe<Array<PsaApplePalletsOrderBy>>;
+};
+
+/** All input for the `updatePsaApplePalletByNodeId` mutation. */
+export type UpdatePsaApplePalletByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `PsaApplePallet` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `PsaApplePallet` being updated. */
+  patch: PsaApplePalletPatch;
+};
+
+/** Represents an update to a `PsaApplePallet`. Fields that are set will be updated. */
+export type PsaApplePalletPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  location?: Maybe<Scalars['String']>;
+  arrival?: Maybe<Scalars['String']>;
+  importerName?: Maybe<Scalars['String']>;
+  exporterName?: Maybe<Scalars['String']>;
+  commodity?: Maybe<Scalars['String']>;
+  productCode?: Maybe<Scalars['String']>;
+  variety?: Maybe<Scalars['String']>;
+  inspDate?: Maybe<Scalars['String']>;
+  quantity?: Maybe<Scalars['BigFloat']>;
+  hatch?: Maybe<Scalars['String']>;
+  deck?: Maybe<Scalars['String']>;
+  containerId?: Maybe<Scalars['String']>;
+  fumigation?: Maybe<Scalars['String']>;
+  labelCode?: Maybe<Scalars['String']>;
+  inspLocation?: Maybe<Scalars['String']>;
+  importerCode?: Maybe<Scalars['String']>;
+  lotCode?: Maybe<Scalars['String']>;
+  inspLot?: Maybe<Scalars['String']>;
+  runNumber?: Maybe<Scalars['String']>;
+  palletId?: Maybe<Scalars['String']>;
+  growerCode?: Maybe<Scalars['String']>;
+  inspGrowerCode?: Maybe<Scalars['String']>;
+  packDate?: Maybe<Scalars['String']>;
+  inspPackDate?: Maybe<Scalars['String']>;
+  size?: Maybe<Scalars['String']>;
+  inspSize?: Maybe<Scalars['String']>;
+  packCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  secondaryDescription?: Maybe<Scalars['String']>;
+  inspPackCode?: Maybe<Scalars['String']>;
+  grade?: Maybe<Scalars['String']>;
+  inspGrade?: Maybe<Scalars['String']>;
+  count?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  pluPct?: Maybe<Scalars['String']>;
+  countryOfOrigin?: Maybe<Scalars['String']>;
+  upc?: Maybe<Scalars['String']>;
+  weight?: Maybe<Scalars['String']>;
+  underweightMin?: Maybe<Scalars['String']>;
+  underweightMax?: Maybe<Scalars['String']>;
+  weighedUnits?: Maybe<Scalars['String']>;
+  underweightUnits?: Maybe<Scalars['String']>;
+  underweightPct?: Maybe<Scalars['String']>;
+  pulpTemp?: Maybe<Scalars['String']>;
+  opening?: Maybe<Scalars['String']>;
+  groundColor?: Maybe<Scalars['String']>;
+  blushColor?: Maybe<Scalars['String']>;
+  blushPct?: Maybe<Scalars['String']>;
+  scarsPieces?: Maybe<Scalars['String']>;
+  scarsPct?: Maybe<Scalars['String']>;
+  scarsDeg?: Maybe<Scalars['String']>;
+  stemPuncturesPieces?: Maybe<Scalars['String']>;
+  stemPuncturesPct?: Maybe<Scalars['String']>;
+  cutsPieces?: Maybe<Scalars['String']>;
+  cutsPct?: Maybe<Scalars['String']>;
+  cutsDeg?: Maybe<Scalars['String']>;
+  sunScaldPieces?: Maybe<Scalars['String']>;
+  sunScaldPct?: Maybe<Scalars['String']>;
+  sunScaldDeg?: Maybe<Scalars['String']>;
+  scaldPieces?: Maybe<Scalars['String']>;
+  scaldPct?: Maybe<Scalars['String']>;
+  scaldDeg?: Maybe<Scalars['String']>;
+  bruisingPieces?: Maybe<Scalars['String']>;
+  bruisingPct?: Maybe<Scalars['String']>;
+  bruisingDeg?: Maybe<Scalars['String']>;
+  crackingPieces?: Maybe<Scalars['String']>;
+  crackingPct?: Maybe<Scalars['String']>;
+  bitterPitPieces?: Maybe<Scalars['String']>;
+  bitterPitPct?: Maybe<Scalars['String']>;
+  bitterPitDeg?: Maybe<Scalars['String']>;
+  lenticelBreakdownPieces?: Maybe<Scalars['String']>;
+  lenticelBreakdownPct?: Maybe<Scalars['String']>;
+  lenticelBreakdownDeg?: Maybe<Scalars['String']>;
+  dehydrationPieces?: Maybe<Scalars['String']>;
+  dehydrationPct?: Maybe<Scalars['String']>;
+  dehydrationDeg?: Maybe<Scalars['String']>;
+  cutCount?: Maybe<Scalars['String']>;
+  watercorePieces?: Maybe<Scalars['String']>;
+  watercorePct?: Maybe<Scalars['String']>;
+  internalDamagePieces?: Maybe<Scalars['String']>;
+  internalDamagePer?: Maybe<Scalars['String']>;
+  decayPieces?: Maybe<Scalars['String']>;
+  decayPct?: Maybe<Scalars['String']>;
+  decayDeg?: Maybe<Scalars['String']>;
+  moldPieces?: Maybe<Scalars['String']>;
+  moldPct?: Maybe<Scalars['String']>;
+  pressure1?: Maybe<Scalars['String']>;
+  pressure2?: Maybe<Scalars['String']>;
+  pressure3?: Maybe<Scalars['String']>;
+  pressure4?: Maybe<Scalars['String']>;
+  pressure5?: Maybe<Scalars['String']>;
+  pressure6?: Maybe<Scalars['String']>;
+  pressuresMin?: Maybe<Scalars['String']>;
+  pressuresMax?: Maybe<Scalars['String']>;
+  pressuresAvg?: Maybe<Scalars['String']>;
+  overallQuality?: Maybe<Scalars['BigFloat']>;
+  overallCondition?: Maybe<Scalars['BigFloat']>;
+  comment1?: Maybe<Scalars['String']>;
+  comment2?: Maybe<Scalars['String']>;
+  inspectionType?: Maybe<Scalars['String']>;
+  shortInsp?: Maybe<Scalars['String']>;
+  fixedWeight?: Maybe<Scalars['String']>;
+};
+
+/** All input for the `updatePsaApplePallet` mutation. */
+export type UpdatePsaApplePalletInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `PsaApplePallet` being updated. */
+  patch: PsaApplePalletPatch;
+  id: Scalars['BigInt'];
+};
+
 /** The output of our update `PsaArrivalPicture` mutation. */
 export type UpdatePsaArrivalPicturePayload = {
   __typename?: 'UpdatePsaArrivalPicturePayload';
@@ -14770,6 +22315,276 @@ export type UpdatePsaArrivalReportInput = {
   clientMutationId?: Maybe<Scalars['String']>;
   /** An object where the defined keys will be set on the `PsaArrivalReport` being updated. */
   patch: PsaArrivalReportPatch;
+  id: Scalars['BigInt'];
+};
+
+/** The output of our update `PsaCherryPallet` mutation. */
+export type UpdatePsaCherryPalletPayload = {
+  __typename?: 'UpdatePsaCherryPalletPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PsaCherryPallet` that was updated by this mutation. */
+  psaCherryPallet?: Maybe<PsaCherryPallet>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `PsaCherryPallet`. May be used by Relay 1. */
+  psaCherryPalletEdge?: Maybe<PsaCherryPalletsEdge>;
+};
+
+
+/** The output of our update `PsaCherryPallet` mutation. */
+export type UpdatePsaCherryPalletPayloadPsaCherryPalletEdgeArgs = {
+  orderBy?: Maybe<Array<PsaCherryPalletsOrderBy>>;
+};
+
+/** All input for the `updatePsaCherryPalletByNodeId` mutation. */
+export type UpdatePsaCherryPalletByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `PsaCherryPallet` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `PsaCherryPallet` being updated. */
+  patch: PsaCherryPalletPatch;
+};
+
+/** Represents an update to a `PsaCherryPallet`. Fields that are set will be updated. */
+export type PsaCherryPalletPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  location?: Maybe<Scalars['String']>;
+  arrival?: Maybe<Scalars['String']>;
+  importerName?: Maybe<Scalars['String']>;
+  exporterName?: Maybe<Scalars['String']>;
+  commodity?: Maybe<Scalars['String']>;
+  productCode?: Maybe<Scalars['String']>;
+  variety?: Maybe<Scalars['String']>;
+  inspDate?: Maybe<Scalars['String']>;
+  quantity?: Maybe<Scalars['BigFloat']>;
+  hatch?: Maybe<Scalars['String']>;
+  deck?: Maybe<Scalars['String']>;
+  containerId?: Maybe<Scalars['String']>;
+  fumigation?: Maybe<Scalars['String']>;
+  labelCode?: Maybe<Scalars['String']>;
+  inspLocation?: Maybe<Scalars['String']>;
+  importerCode?: Maybe<Scalars['String']>;
+  lotCode?: Maybe<Scalars['String']>;
+  inspLot?: Maybe<Scalars['String']>;
+  palletId?: Maybe<Scalars['String']>;
+  growerCode?: Maybe<Scalars['String']>;
+  inspGrowerCode?: Maybe<Scalars['String']>;
+  packDate?: Maybe<Scalars['String']>;
+  inspPackDate?: Maybe<Scalars['String']>;
+  size?: Maybe<Scalars['String']>;
+  inspSize?: Maybe<Scalars['String']>;
+  packCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  secondaryDescription?: Maybe<Scalars['String']>;
+  inspPackCode?: Maybe<Scalars['String']>;
+  count?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  pluPct?: Maybe<Scalars['String']>;
+  countryOfOrigin?: Maybe<Scalars['String']>;
+  upc?: Maybe<Scalars['String']>;
+  weight?: Maybe<Scalars['String']>;
+  underweightMin?: Maybe<Scalars['String']>;
+  underweightMax?: Maybe<Scalars['String']>;
+  weighedUnits?: Maybe<Scalars['String']>;
+  underweightUnits?: Maybe<Scalars['String']>;
+  underweightPct?: Maybe<Scalars['String']>;
+  pulpTemp?: Maybe<Scalars['String']>;
+  opening?: Maybe<Scalars['String']>;
+  sizeMin?: Maybe<Scalars['String']>;
+  sizeMax?: Maybe<Scalars['String']>;
+  sizeMost?: Maybe<Scalars['String']>;
+  color?: Maybe<Scalars['String']>;
+  scarsMarksPieces?: Maybe<Scalars['String']>;
+  scarsMarksPct?: Maybe<Scalars['String']>;
+  scarsMarksDeg?: Maybe<Scalars['String']>;
+  misshapenPieces?: Maybe<Scalars['String']>;
+  misshapenPct?: Maybe<Scalars['String']>;
+  stemlessPieces?: Maybe<Scalars['String']>;
+  stemlessPct?: Maybe<Scalars['String']>;
+  splitsPieces?: Maybe<Scalars['String']>;
+  splitsPct?: Maybe<Scalars['String']>;
+  splitsDeg?: Maybe<Scalars['String']>;
+  firmness?: Maybe<Scalars['String']>;
+  pittingBruisingPieces?: Maybe<Scalars['String']>;
+  pittingBruisingPct?: Maybe<Scalars['String']>;
+  pittingBruisingDeg?: Maybe<Scalars['String']>;
+  stemDehydrationPieces?: Maybe<Scalars['String']>;
+  stemDehydrationPct?: Maybe<Scalars['String']>;
+  stemDehydrationDeg?: Maybe<Scalars['String']>;
+  dehydrationPieces?: Maybe<Scalars['String']>;
+  dehydrationPct?: Maybe<Scalars['String']>;
+  dehydrationDeg?: Maybe<Scalars['String']>;
+  decayPieces?: Maybe<Scalars['String']>;
+  decayPct?: Maybe<Scalars['String']>;
+  decayDeg?: Maybe<Scalars['String']>;
+  moldPieces?: Maybe<Scalars['String']>;
+  moldPct?: Maybe<Scalars['String']>;
+  overallQuality?: Maybe<Scalars['BigFloat']>;
+  overallCondition?: Maybe<Scalars['BigFloat']>;
+  comment1?: Maybe<Scalars['String']>;
+  comment2?: Maybe<Scalars['String']>;
+  inspectionType?: Maybe<Scalars['String']>;
+  shortInsp?: Maybe<Scalars['String']>;
+  fixedWeight?: Maybe<Scalars['String']>;
+};
+
+/** All input for the `updatePsaCherryPallet` mutation. */
+export type UpdatePsaCherryPalletInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `PsaCherryPallet` being updated. */
+  patch: PsaCherryPalletPatch;
+  id: Scalars['BigInt'];
+};
+
+/** The output of our update `PsaCitrusPallet` mutation. */
+export type UpdatePsaCitrusPalletPayload = {
+  __typename?: 'UpdatePsaCitrusPalletPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PsaCitrusPallet` that was updated by this mutation. */
+  psaCitrusPallet?: Maybe<PsaCitrusPallet>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `PsaCitrusPallet`. May be used by Relay 1. */
+  psaCitrusPalletEdge?: Maybe<PsaCitrusPalletsEdge>;
+};
+
+
+/** The output of our update `PsaCitrusPallet` mutation. */
+export type UpdatePsaCitrusPalletPayloadPsaCitrusPalletEdgeArgs = {
+  orderBy?: Maybe<Array<PsaCitrusPalletsOrderBy>>;
+};
+
+/** All input for the `updatePsaCitrusPalletByNodeId` mutation. */
+export type UpdatePsaCitrusPalletByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `PsaCitrusPallet` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `PsaCitrusPallet` being updated. */
+  patch: PsaCitrusPalletPatch;
+};
+
+/** Represents an update to a `PsaCitrusPallet`. Fields that are set will be updated. */
+export type PsaCitrusPalletPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  location?: Maybe<Scalars['String']>;
+  arrival?: Maybe<Scalars['String']>;
+  importerName?: Maybe<Scalars['String']>;
+  exporterName?: Maybe<Scalars['String']>;
+  commodity?: Maybe<Scalars['String']>;
+  productCode?: Maybe<Scalars['String']>;
+  variety?: Maybe<Scalars['String']>;
+  inspDate?: Maybe<Scalars['String']>;
+  quantity?: Maybe<Scalars['BigFloat']>;
+  hatch?: Maybe<Scalars['String']>;
+  deck?: Maybe<Scalars['String']>;
+  containerId?: Maybe<Scalars['String']>;
+  fumigation?: Maybe<Scalars['String']>;
+  labelCode?: Maybe<Scalars['String']>;
+  inspLocation?: Maybe<Scalars['String']>;
+  importerCode?: Maybe<Scalars['String']>;
+  lotCode?: Maybe<Scalars['String']>;
+  inspLot?: Maybe<Scalars['String']>;
+  palletId?: Maybe<Scalars['String']>;
+  growerCode?: Maybe<Scalars['String']>;
+  inspGrowerCode?: Maybe<Scalars['String']>;
+  packDate?: Maybe<Scalars['String']>;
+  inspPackDate?: Maybe<Scalars['String']>;
+  size?: Maybe<Scalars['String']>;
+  inspSize?: Maybe<Scalars['String']>;
+  packCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  secondaryDescription?: Maybe<Scalars['String']>;
+  inspPackCode?: Maybe<Scalars['String']>;
+  count?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  pluPct?: Maybe<Scalars['String']>;
+  countryOfOrigin?: Maybe<Scalars['String']>;
+  upc?: Maybe<Scalars['String']>;
+  weight?: Maybe<Scalars['String']>;
+  underweightMin?: Maybe<Scalars['String']>;
+  underweightMax?: Maybe<Scalars['String']>;
+  weighedUnits?: Maybe<Scalars['String']>;
+  underweightUnits?: Maybe<Scalars['String']>;
+  underweightPct?: Maybe<Scalars['String']>;
+  pulpTemp?: Maybe<Scalars['String']>;
+  opening?: Maybe<Scalars['String']>;
+  color?: Maybe<Scalars['String']>;
+  diameterMinMm?: Maybe<Scalars['String']>;
+  diameterMinInches?: Maybe<Scalars['String']>;
+  diameterMaxMm?: Maybe<Scalars['String']>;
+  diameterMaxInches?: Maybe<Scalars['String']>;
+  diameterMostMm?: Maybe<Scalars['String']>;
+  diameterMostInches?: Maybe<Scalars['String']>;
+  scarsPieces?: Maybe<Scalars['String']>;
+  scarsPct?: Maybe<Scalars['String']>;
+  scarsDeg?: Maybe<Scalars['String']>;
+  greenHazePieces?: Maybe<Scalars['String']>;
+  greenHazePct?: Maybe<Scalars['String']>;
+  greenHazeDeg?: Maybe<Scalars['String']>;
+  oilSpotsPieces?: Maybe<Scalars['String']>;
+  oilSpotsPct?: Maybe<Scalars['String']>;
+  oilSpotsDeg?: Maybe<Scalars['String']>;
+  cutCount?: Maybe<Scalars['String']>;
+  dryPulpPieces?: Maybe<Scalars['String']>;
+  dryPulpPct?: Maybe<Scalars['String']>;
+  dryPulpDeg?: Maybe<Scalars['String']>;
+  seedsPieces?: Maybe<Scalars['String']>;
+  seedsPct?: Maybe<Scalars['String']>;
+  skinBreakdownPieces?: Maybe<Scalars['String']>;
+  skinBreakdownPct?: Maybe<Scalars['String']>;
+  skinBreakdownDeg?: Maybe<Scalars['String']>;
+  creasingPieces?: Maybe<Scalars['String']>;
+  creasingPct?: Maybe<Scalars['String']>;
+  creasingDeg?: Maybe<Scalars['String']>;
+  puffinessPieces?: Maybe<Scalars['String']>;
+  puffinessPct?: Maybe<Scalars['String']>;
+  puffinessDeg?: Maybe<Scalars['String']>;
+  decayPieces?: Maybe<Scalars['String']>;
+  decayPct?: Maybe<Scalars['String']>;
+  decayDeg?: Maybe<Scalars['String']>;
+  moldPieces?: Maybe<Scalars['String']>;
+  moldPct?: Maybe<Scalars['String']>;
+  sporesPieces?: Maybe<Scalars['String']>;
+  sporesPct?: Maybe<Scalars['String']>;
+  brix?: Maybe<Scalars['String']>;
+  overallQuality?: Maybe<Scalars['BigFloat']>;
+  overallCondition?: Maybe<Scalars['BigFloat']>;
+  comment1?: Maybe<Scalars['String']>;
+  comment2?: Maybe<Scalars['String']>;
+  inspectionType?: Maybe<Scalars['String']>;
+  shortInsp?: Maybe<Scalars['String']>;
+  fixedWeight?: Maybe<Scalars['String']>;
+};
+
+/** All input for the `updatePsaCitrusPallet` mutation. */
+export type UpdatePsaCitrusPalletInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `PsaCitrusPallet` being updated. */
+  patch: PsaCitrusPalletPatch;
   id: Scalars['BigInt'];
 };
 
@@ -14942,6 +22757,695 @@ export type UpdatePsaGrapePalletInput = {
   clientMutationId?: Maybe<Scalars['String']>;
   /** An object where the defined keys will be set on the `PsaGrapePallet` being updated. */
   patch: PsaGrapePalletPatch;
+  id: Scalars['BigInt'];
+};
+
+/** The output of our update `PsaLemonPallet` mutation. */
+export type UpdatePsaLemonPalletPayload = {
+  __typename?: 'UpdatePsaLemonPalletPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PsaLemonPallet` that was updated by this mutation. */
+  psaLemonPallet?: Maybe<PsaLemonPallet>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `PsaLemonPallet`. May be used by Relay 1. */
+  psaLemonPalletEdge?: Maybe<PsaLemonPalletsEdge>;
+};
+
+
+/** The output of our update `PsaLemonPallet` mutation. */
+export type UpdatePsaLemonPalletPayloadPsaLemonPalletEdgeArgs = {
+  orderBy?: Maybe<Array<PsaLemonPalletsOrderBy>>;
+};
+
+/** All input for the `updatePsaLemonPalletByNodeId` mutation. */
+export type UpdatePsaLemonPalletByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `PsaLemonPallet` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `PsaLemonPallet` being updated. */
+  patch: PsaLemonPalletPatch;
+};
+
+/** Represents an update to a `PsaLemonPallet`. Fields that are set will be updated. */
+export type PsaLemonPalletPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  location?: Maybe<Scalars['String']>;
+  arrival?: Maybe<Scalars['String']>;
+  importerName?: Maybe<Scalars['String']>;
+  exporterName?: Maybe<Scalars['String']>;
+  commodity?: Maybe<Scalars['String']>;
+  productCode?: Maybe<Scalars['String']>;
+  variety?: Maybe<Scalars['String']>;
+  inspDate?: Maybe<Scalars['String']>;
+  quantity?: Maybe<Scalars['BigFloat']>;
+  hatch?: Maybe<Scalars['String']>;
+  deck?: Maybe<Scalars['String']>;
+  containerId?: Maybe<Scalars['String']>;
+  fumigation?: Maybe<Scalars['String']>;
+  labelCode?: Maybe<Scalars['String']>;
+  inspLocation?: Maybe<Scalars['String']>;
+  importerCode?: Maybe<Scalars['String']>;
+  lotCode?: Maybe<Scalars['String']>;
+  inspLot?: Maybe<Scalars['String']>;
+  palletId?: Maybe<Scalars['String']>;
+  growerCode?: Maybe<Scalars['String']>;
+  inspGrowerCode?: Maybe<Scalars['String']>;
+  packDate?: Maybe<Scalars['String']>;
+  inspPackDate?: Maybe<Scalars['String']>;
+  size?: Maybe<Scalars['String']>;
+  inspSize?: Maybe<Scalars['String']>;
+  packCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  secondaryDescription?: Maybe<Scalars['String']>;
+  inspPackCode?: Maybe<Scalars['String']>;
+  grade?: Maybe<Scalars['String']>;
+  inspGrade?: Maybe<Scalars['String']>;
+  count?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  pluPct?: Maybe<Scalars['String']>;
+  countryOfOrigin?: Maybe<Scalars['String']>;
+  upc?: Maybe<Scalars['String']>;
+  weight?: Maybe<Scalars['String']>;
+  underweightMin?: Maybe<Scalars['String']>;
+  underweightMax?: Maybe<Scalars['String']>;
+  weighedUnits?: Maybe<Scalars['String']>;
+  underweightUnits?: Maybe<Scalars['String']>;
+  underweightPct?: Maybe<Scalars['String']>;
+  pulpTemp?: Maybe<Scalars['String']>;
+  opening?: Maybe<Scalars['String']>;
+  color?: Maybe<Scalars['String']>;
+  diameterMinMm?: Maybe<Scalars['String']>;
+  diameterMinInches?: Maybe<Scalars['String']>;
+  diameterMaxMm?: Maybe<Scalars['String']>;
+  diameterMaxInches?: Maybe<Scalars['String']>;
+  diameterMostMm?: Maybe<Scalars['String']>;
+  diameterMostInches?: Maybe<Scalars['String']>;
+  scarsPieces?: Maybe<Scalars['String']>;
+  scarsPct?: Maybe<Scalars['String']>;
+  scarsDeg?: Maybe<Scalars['String']>;
+  greenHazePieces?: Maybe<Scalars['String']>;
+  greenHazePct?: Maybe<Scalars['String']>;
+  greenHazeDeg?: Maybe<Scalars['String']>;
+  oilSpotsPieces?: Maybe<Scalars['String']>;
+  oilSpotsPct?: Maybe<Scalars['String']>;
+  oilSpotsDeg?: Maybe<Scalars['String']>;
+  cutCount?: Maybe<Scalars['String']>;
+  dryPulpPieces?: Maybe<Scalars['String']>;
+  dryPulpPct?: Maybe<Scalars['String']>;
+  dryPulpDeg?: Maybe<Scalars['String']>;
+  skinDamagePieces?: Maybe<Scalars['String']>;
+  skinDamagePct?: Maybe<Scalars['String']>;
+  skinDamageDeg?: Maybe<Scalars['String']>;
+  petecaPieces?: Maybe<Scalars['String']>;
+  petecaPct?: Maybe<Scalars['String']>;
+  petecaDeg?: Maybe<Scalars['String']>;
+  decayPieces?: Maybe<Scalars['String']>;
+  decayPct?: Maybe<Scalars['String']>;
+  decayDeg?: Maybe<Scalars['String']>;
+  moldPieces?: Maybe<Scalars['String']>;
+  moldPct?: Maybe<Scalars['String']>;
+  sporesPieces?: Maybe<Scalars['String']>;
+  sporesPct?: Maybe<Scalars['String']>;
+  overallQuality?: Maybe<Scalars['BigFloat']>;
+  overallCondition?: Maybe<Scalars['BigFloat']>;
+  comment1?: Maybe<Scalars['String']>;
+  comment2?: Maybe<Scalars['String']>;
+  inspectionType?: Maybe<Scalars['String']>;
+  shortInsp?: Maybe<Scalars['String']>;
+  fixedWeight?: Maybe<Scalars['String']>;
+};
+
+/** All input for the `updatePsaLemonPallet` mutation. */
+export type UpdatePsaLemonPalletInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `PsaLemonPallet` being updated. */
+  patch: PsaLemonPalletPatch;
+  id: Scalars['BigInt'];
+};
+
+/** The output of our update `PsaPearPallet` mutation. */
+export type UpdatePsaPearPalletPayload = {
+  __typename?: 'UpdatePsaPearPalletPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PsaPearPallet` that was updated by this mutation. */
+  psaPearPallet?: Maybe<PsaPearPallet>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `PsaPearPallet`. May be used by Relay 1. */
+  psaPearPalletEdge?: Maybe<PsaPearPalletsEdge>;
+};
+
+
+/** The output of our update `PsaPearPallet` mutation. */
+export type UpdatePsaPearPalletPayloadPsaPearPalletEdgeArgs = {
+  orderBy?: Maybe<Array<PsaPearPalletsOrderBy>>;
+};
+
+/** All input for the `updatePsaPearPalletByNodeId` mutation. */
+export type UpdatePsaPearPalletByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `PsaPearPallet` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `PsaPearPallet` being updated. */
+  patch: PsaPearPalletPatch;
+};
+
+/** Represents an update to a `PsaPearPallet`. Fields that are set will be updated. */
+export type PsaPearPalletPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  location?: Maybe<Scalars['String']>;
+  arrival?: Maybe<Scalars['String']>;
+  importerName?: Maybe<Scalars['String']>;
+  exporterName?: Maybe<Scalars['String']>;
+  commodity?: Maybe<Scalars['String']>;
+  productCode?: Maybe<Scalars['String']>;
+  variety?: Maybe<Scalars['String']>;
+  inspDate?: Maybe<Scalars['String']>;
+  quantity?: Maybe<Scalars['BigFloat']>;
+  hatch?: Maybe<Scalars['String']>;
+  deck?: Maybe<Scalars['String']>;
+  containerId?: Maybe<Scalars['String']>;
+  fumigation?: Maybe<Scalars['String']>;
+  labelCode?: Maybe<Scalars['String']>;
+  inspLocation?: Maybe<Scalars['String']>;
+  importerCode?: Maybe<Scalars['String']>;
+  lotCode?: Maybe<Scalars['String']>;
+  inspLot?: Maybe<Scalars['String']>;
+  runNumber?: Maybe<Scalars['String']>;
+  palletId?: Maybe<Scalars['String']>;
+  growerCode?: Maybe<Scalars['String']>;
+  inspGrowerCode?: Maybe<Scalars['String']>;
+  packDate?: Maybe<Scalars['String']>;
+  inspPackDate?: Maybe<Scalars['String']>;
+  size?: Maybe<Scalars['String']>;
+  inspSize?: Maybe<Scalars['String']>;
+  packCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  secondaryDescription?: Maybe<Scalars['String']>;
+  inspPackCode?: Maybe<Scalars['String']>;
+  grade?: Maybe<Scalars['String']>;
+  inspGrade?: Maybe<Scalars['String']>;
+  count?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  pluPct?: Maybe<Scalars['String']>;
+  countryOfOrigin?: Maybe<Scalars['String']>;
+  upc?: Maybe<Scalars['String']>;
+  weight?: Maybe<Scalars['String']>;
+  underweightMin?: Maybe<Scalars['String']>;
+  underweightMax?: Maybe<Scalars['String']>;
+  weighedUnits?: Maybe<Scalars['String']>;
+  underweightUnits?: Maybe<Scalars['String']>;
+  underweightPct?: Maybe<Scalars['String']>;
+  pulpTemp?: Maybe<Scalars['String']>;
+  opening?: Maybe<Scalars['String']>;
+  groundColor?: Maybe<Scalars['String']>;
+  blushColor?: Maybe<Scalars['String']>;
+  blushPct?: Maybe<Scalars['String']>;
+  scarsRussetPieces?: Maybe<Scalars['String']>;
+  scarsRussetPct?: Maybe<Scalars['String']>;
+  scarsRussetDeg?: Maybe<Scalars['String']>;
+  russetPerPiecePct?: Maybe<Scalars['String']>;
+  stemPuncturesPieces?: Maybe<Scalars['String']>;
+  stemPuncturesPct?: Maybe<Scalars['String']>;
+  cutsPieces?: Maybe<Scalars['String']>;
+  cutsPct?: Maybe<Scalars['String']>;
+  cutsDeg?: Maybe<Scalars['String']>;
+  turningColorPieces?: Maybe<Scalars['String']>;
+  turningColorPct?: Maybe<Scalars['String']>;
+  turningColorDeg?: Maybe<Scalars['String']>;
+  dehydrationPieces?: Maybe<Scalars['String']>;
+  dehydrationPct?: Maybe<Scalars['String']>;
+  dehydrationDeg?: Maybe<Scalars['String']>;
+  bruisingPieces?: Maybe<Scalars['String']>;
+  bruisingPct?: Maybe<Scalars['String']>;
+  bruisingDeg?: Maybe<Scalars['String']>;
+  cutCount?: Maybe<Scalars['String']>;
+  internalDamagePieces?: Maybe<Scalars['String']>;
+  internalDamagePer?: Maybe<Scalars['String']>;
+  decayPieces?: Maybe<Scalars['String']>;
+  decayPct?: Maybe<Scalars['String']>;
+  decayDeg?: Maybe<Scalars['String']>;
+  moldPieces?: Maybe<Scalars['String']>;
+  moldPct?: Maybe<Scalars['String']>;
+  pressure1?: Maybe<Scalars['String']>;
+  pressure2?: Maybe<Scalars['String']>;
+  pressure3?: Maybe<Scalars['String']>;
+  pressure4?: Maybe<Scalars['String']>;
+  pressure5?: Maybe<Scalars['String']>;
+  pressure6?: Maybe<Scalars['String']>;
+  pressuresMin?: Maybe<Scalars['String']>;
+  pressuresMax?: Maybe<Scalars['String']>;
+  pressuresAvg?: Maybe<Scalars['String']>;
+  overallQuality?: Maybe<Scalars['BigFloat']>;
+  overallCondition?: Maybe<Scalars['BigFloat']>;
+  comment1?: Maybe<Scalars['String']>;
+  comment2?: Maybe<Scalars['String']>;
+  inspectionType?: Maybe<Scalars['String']>;
+  shortInsp?: Maybe<Scalars['String']>;
+  fixedWeight?: Maybe<Scalars['String']>;
+};
+
+/** All input for the `updatePsaPearPallet` mutation. */
+export type UpdatePsaPearPalletInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `PsaPearPallet` being updated. */
+  patch: PsaPearPalletPatch;
+  id: Scalars['BigInt'];
+};
+
+/** The output of our update `PsaPersimmonPallet` mutation. */
+export type UpdatePsaPersimmonPalletPayload = {
+  __typename?: 'UpdatePsaPersimmonPalletPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PsaPersimmonPallet` that was updated by this mutation. */
+  psaPersimmonPallet?: Maybe<PsaPersimmonPallet>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `PsaPersimmonPallet`. May be used by Relay 1. */
+  psaPersimmonPalletEdge?: Maybe<PsaPersimmonPalletsEdge>;
+};
+
+
+/** The output of our update `PsaPersimmonPallet` mutation. */
+export type UpdatePsaPersimmonPalletPayloadPsaPersimmonPalletEdgeArgs = {
+  orderBy?: Maybe<Array<PsaPersimmonPalletsOrderBy>>;
+};
+
+/** All input for the `updatePsaPersimmonPalletByNodeId` mutation. */
+export type UpdatePsaPersimmonPalletByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `PsaPersimmonPallet` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `PsaPersimmonPallet` being updated. */
+  patch: PsaPersimmonPalletPatch;
+};
+
+/** Represents an update to a `PsaPersimmonPallet`. Fields that are set will be updated. */
+export type PsaPersimmonPalletPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  location?: Maybe<Scalars['String']>;
+  arrival?: Maybe<Scalars['String']>;
+  importerName?: Maybe<Scalars['String']>;
+  exporterName?: Maybe<Scalars['String']>;
+  commodity?: Maybe<Scalars['String']>;
+  productCode?: Maybe<Scalars['String']>;
+  variety?: Maybe<Scalars['String']>;
+  inspDate?: Maybe<Scalars['String']>;
+  quantity?: Maybe<Scalars['BigFloat']>;
+  hatch?: Maybe<Scalars['String']>;
+  deck?: Maybe<Scalars['String']>;
+  containerId?: Maybe<Scalars['String']>;
+  fumigation?: Maybe<Scalars['String']>;
+  labelCode?: Maybe<Scalars['String']>;
+  inspLocation?: Maybe<Scalars['String']>;
+  importerCode?: Maybe<Scalars['String']>;
+  lotCode?: Maybe<Scalars['String']>;
+  inspLot?: Maybe<Scalars['String']>;
+  palletId?: Maybe<Scalars['String']>;
+  growerCode?: Maybe<Scalars['String']>;
+  inspGrowerCode?: Maybe<Scalars['String']>;
+  packDate?: Maybe<Scalars['String']>;
+  inspPackDate?: Maybe<Scalars['String']>;
+  size?: Maybe<Scalars['String']>;
+  inspSize?: Maybe<Scalars['String']>;
+  packCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  secondaryDescription?: Maybe<Scalars['String']>;
+  inspPackCode?: Maybe<Scalars['String']>;
+  count?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  pluPct?: Maybe<Scalars['String']>;
+  countryOfOrigin?: Maybe<Scalars['String']>;
+  upc?: Maybe<Scalars['String']>;
+  weight?: Maybe<Scalars['String']>;
+  underweightMin?: Maybe<Scalars['String']>;
+  underweightMax?: Maybe<Scalars['String']>;
+  weighedUnits?: Maybe<Scalars['String']>;
+  underweightUnits?: Maybe<Scalars['String']>;
+  underweightPct?: Maybe<Scalars['String']>;
+  pulpTemp?: Maybe<Scalars['String']>;
+  opening?: Maybe<Scalars['String']>;
+  color?: Maybe<Scalars['String']>;
+  scarsMarksPieces?: Maybe<Scalars['String']>;
+  scarsMarksPct?: Maybe<Scalars['String']>;
+  scarsMarksDeg?: Maybe<Scalars['String']>;
+  greenColorPieces?: Maybe<Scalars['String']>;
+  greenColor?: Maybe<Scalars['String']>;
+  greenColorDeg?: Maybe<Scalars['String']>;
+  cutsSplitsPieces?: Maybe<Scalars['String']>;
+  cutsSplitsPct?: Maybe<Scalars['String']>;
+  cutsSplitsDeg?: Maybe<Scalars['String']>;
+  bruisingPieces?: Maybe<Scalars['String']>;
+  bruisingPct?: Maybe<Scalars['String']>;
+  bruisingDeg?: Maybe<Scalars['String']>;
+  dehydrationPieces?: Maybe<Scalars['String']>;
+  dehydrationPct?: Maybe<Scalars['String']>;
+  dehydrationDeg?: Maybe<Scalars['String']>;
+  cutCount?: Maybe<Scalars['String']>;
+  seedsPieces?: Maybe<Scalars['String']>;
+  seedsPct?: Maybe<Scalars['String']>;
+  internalDamagePieces?: Maybe<Scalars['String']>;
+  internalDamagePer?: Maybe<Scalars['String']>;
+  internalDamageDeg?: Maybe<Scalars['String']>;
+  decayPieces?: Maybe<Scalars['String']>;
+  decayPct?: Maybe<Scalars['String']>;
+  decayDeg?: Maybe<Scalars['String']>;
+  moldPieces?: Maybe<Scalars['String']>;
+  moldPct?: Maybe<Scalars['String']>;
+  brix?: Maybe<Scalars['String']>;
+  pressure1?: Maybe<Scalars['String']>;
+  pressure2?: Maybe<Scalars['String']>;
+  pressure3?: Maybe<Scalars['String']>;
+  pressure4?: Maybe<Scalars['String']>;
+  pressure5?: Maybe<Scalars['String']>;
+  pressure6?: Maybe<Scalars['String']>;
+  pressuresMin?: Maybe<Scalars['String']>;
+  pressuresMax?: Maybe<Scalars['String']>;
+  pressuresAvg?: Maybe<Scalars['String']>;
+  overallQuality?: Maybe<Scalars['BigFloat']>;
+  overallCondition?: Maybe<Scalars['BigFloat']>;
+  comment1?: Maybe<Scalars['String']>;
+  comment2?: Maybe<Scalars['String']>;
+  inspectionType?: Maybe<Scalars['String']>;
+  shortInsp?: Maybe<Scalars['String']>;
+  fixedWeight?: Maybe<Scalars['String']>;
+};
+
+/** All input for the `updatePsaPersimmonPallet` mutation. */
+export type UpdatePsaPersimmonPalletInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `PsaPersimmonPallet` being updated. */
+  patch: PsaPersimmonPalletPatch;
+  id: Scalars['BigInt'];
+};
+
+/** The output of our update `PsaPomegranatePallet` mutation. */
+export type UpdatePsaPomegranatePalletPayload = {
+  __typename?: 'UpdatePsaPomegranatePalletPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PsaPomegranatePallet` that was updated by this mutation. */
+  psaPomegranatePallet?: Maybe<PsaPomegranatePallet>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `PsaPomegranatePallet`. May be used by Relay 1. */
+  psaPomegranatePalletEdge?: Maybe<PsaPomegranatePalletsEdge>;
+};
+
+
+/** The output of our update `PsaPomegranatePallet` mutation. */
+export type UpdatePsaPomegranatePalletPayloadPsaPomegranatePalletEdgeArgs = {
+  orderBy?: Maybe<Array<PsaPomegranatePalletsOrderBy>>;
+};
+
+/** All input for the `updatePsaPomegranatePalletByNodeId` mutation. */
+export type UpdatePsaPomegranatePalletByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `PsaPomegranatePallet` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `PsaPomegranatePallet` being updated. */
+  patch: PsaPomegranatePalletPatch;
+};
+
+/** Represents an update to a `PsaPomegranatePallet`. Fields that are set will be updated. */
+export type PsaPomegranatePalletPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  location?: Maybe<Scalars['String']>;
+  arrival?: Maybe<Scalars['String']>;
+  importerName?: Maybe<Scalars['String']>;
+  exporterName?: Maybe<Scalars['String']>;
+  commodity?: Maybe<Scalars['String']>;
+  productCode?: Maybe<Scalars['String']>;
+  variety?: Maybe<Scalars['String']>;
+  inspDate?: Maybe<Scalars['String']>;
+  quantity?: Maybe<Scalars['BigFloat']>;
+  hatch?: Maybe<Scalars['String']>;
+  deck?: Maybe<Scalars['String']>;
+  containerId?: Maybe<Scalars['String']>;
+  fumigation?: Maybe<Scalars['String']>;
+  labelCode?: Maybe<Scalars['String']>;
+  inspLocation?: Maybe<Scalars['String']>;
+  importerCode?: Maybe<Scalars['String']>;
+  lotCode?: Maybe<Scalars['String']>;
+  inspLot?: Maybe<Scalars['String']>;
+  palletId?: Maybe<Scalars['String']>;
+  growerCode?: Maybe<Scalars['String']>;
+  inspGrowerCode?: Maybe<Scalars['String']>;
+  packDate?: Maybe<Scalars['String']>;
+  inspPackDate?: Maybe<Scalars['String']>;
+  size?: Maybe<Scalars['String']>;
+  inspSize?: Maybe<Scalars['String']>;
+  packCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  secondaryDescription?: Maybe<Scalars['String']>;
+  inspPackCode?: Maybe<Scalars['String']>;
+  grade?: Maybe<Scalars['String']>;
+  inspGrade?: Maybe<Scalars['String']>;
+  count?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  pluPct?: Maybe<Scalars['String']>;
+  countryOfOrigin?: Maybe<Scalars['String']>;
+  upc?: Maybe<Scalars['String']>;
+  weight?: Maybe<Scalars['String']>;
+  underweightMin?: Maybe<Scalars['String']>;
+  underweightMax?: Maybe<Scalars['String']>;
+  weighedUnits?: Maybe<Scalars['String']>;
+  underweightUnits?: Maybe<Scalars['String']>;
+  underweightPct?: Maybe<Scalars['String']>;
+  pulpTemp?: Maybe<Scalars['String']>;
+  opening?: Maybe<Scalars['String']>;
+  blushColor?: Maybe<Scalars['String']>;
+  blushPct?: Maybe<Scalars['String']>;
+  arilsColor?: Maybe<Scalars['String']>;
+  scarsRussetPieces?: Maybe<Scalars['String']>;
+  scarsRussetPct?: Maybe<Scalars['String']>;
+  scarsRussetDeg?: Maybe<Scalars['String']>;
+  cutsPieces?: Maybe<Scalars['String']>;
+  cutsPct?: Maybe<Scalars['String']>;
+  cutsDeg?: Maybe<Scalars['String']>;
+  sunScaldPieces?: Maybe<Scalars['String']>;
+  sunScaldPct?: Maybe<Scalars['String']>;
+  sunScaldDeg?: Maybe<Scalars['String']>;
+  scaldPieces?: Maybe<Scalars['String']>;
+  scaldPct?: Maybe<Scalars['String']>;
+  scaldDeg?: Maybe<Scalars['String']>;
+  bruisingPieces?: Maybe<Scalars['String']>;
+  bruisingPct?: Maybe<Scalars['String']>;
+  bruisingDeg?: Maybe<Scalars['String']>;
+  dehydrationPieces?: Maybe<Scalars['String']>;
+  dehydrationPct?: Maybe<Scalars['String']>;
+  dehydrationDeg?: Maybe<Scalars['String']>;
+  decayPieces?: Maybe<Scalars['String']>;
+  decayPct?: Maybe<Scalars['String']>;
+  decayDeg?: Maybe<Scalars['String']>;
+  moldPieces?: Maybe<Scalars['String']>;
+  moldPct?: Maybe<Scalars['String']>;
+  brixMin?: Maybe<Scalars['String']>;
+  brixMax?: Maybe<Scalars['String']>;
+  brixMost?: Maybe<Scalars['String']>;
+  overallQuality?: Maybe<Scalars['BigFloat']>;
+  overallCondition?: Maybe<Scalars['BigFloat']>;
+  comment1?: Maybe<Scalars['String']>;
+  comment2?: Maybe<Scalars['String']>;
+  inspectionType?: Maybe<Scalars['String']>;
+  shortInsp?: Maybe<Scalars['String']>;
+  fixedWeight?: Maybe<Scalars['String']>;
+};
+
+/** All input for the `updatePsaPomegranatePallet` mutation. */
+export type UpdatePsaPomegranatePalletInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `PsaPomegranatePallet` being updated. */
+  patch: PsaPomegranatePalletPatch;
+  id: Scalars['BigInt'];
+};
+
+/** The output of our update `PsaStoneFruitPallet` mutation. */
+export type UpdatePsaStoneFruitPalletPayload = {
+  __typename?: 'UpdatePsaStoneFruitPalletPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PsaStoneFruitPallet` that was updated by this mutation. */
+  psaStoneFruitPallet?: Maybe<PsaStoneFruitPallet>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `PsaStoneFruitPallet`. May be used by Relay 1. */
+  psaStoneFruitPalletEdge?: Maybe<PsaStoneFruitPalletsEdge>;
+};
+
+
+/** The output of our update `PsaStoneFruitPallet` mutation. */
+export type UpdatePsaStoneFruitPalletPayloadPsaStoneFruitPalletEdgeArgs = {
+  orderBy?: Maybe<Array<PsaStoneFruitPalletsOrderBy>>;
+};
+
+/** All input for the `updatePsaStoneFruitPalletByNodeId` mutation. */
+export type UpdatePsaStoneFruitPalletByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `PsaStoneFruitPallet` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `PsaStoneFruitPallet` being updated. */
+  patch: PsaStoneFruitPalletPatch;
+};
+
+/** Represents an update to a `PsaStoneFruitPallet`. Fields that are set will be updated. */
+export type PsaStoneFruitPalletPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  location?: Maybe<Scalars['String']>;
+  arrival?: Maybe<Scalars['String']>;
+  importerName?: Maybe<Scalars['String']>;
+  exporterName?: Maybe<Scalars['String']>;
+  commodity?: Maybe<Scalars['String']>;
+  productCode?: Maybe<Scalars['String']>;
+  variety?: Maybe<Scalars['String']>;
+  inspDate?: Maybe<Scalars['String']>;
+  quantity?: Maybe<Scalars['BigFloat']>;
+  hatch?: Maybe<Scalars['String']>;
+  deck?: Maybe<Scalars['String']>;
+  containerId?: Maybe<Scalars['String']>;
+  fumigation?: Maybe<Scalars['String']>;
+  labelCode?: Maybe<Scalars['String']>;
+  inspLocation?: Maybe<Scalars['String']>;
+  importerCode?: Maybe<Scalars['String']>;
+  lotCode?: Maybe<Scalars['String']>;
+  inspLot?: Maybe<Scalars['String']>;
+  palletId?: Maybe<Scalars['String']>;
+  growerCode?: Maybe<Scalars['String']>;
+  inspGrowerCode?: Maybe<Scalars['String']>;
+  packDate?: Maybe<Scalars['String']>;
+  inspPackDate?: Maybe<Scalars['String']>;
+  size?: Maybe<Scalars['String']>;
+  inspSize?: Maybe<Scalars['String']>;
+  packCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  secondaryDescription?: Maybe<Scalars['String']>;
+  inspPackCode?: Maybe<Scalars['String']>;
+  count?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  pluPct?: Maybe<Scalars['String']>;
+  countryOfOrigin?: Maybe<Scalars['String']>;
+  upc?: Maybe<Scalars['String']>;
+  weight?: Maybe<Scalars['String']>;
+  underweightMin?: Maybe<Scalars['String']>;
+  underweightMax?: Maybe<Scalars['String']>;
+  weighedUnits?: Maybe<Scalars['String']>;
+  underweightUnits?: Maybe<Scalars['String']>;
+  underweightPct?: Maybe<Scalars['String']>;
+  pulpTemp?: Maybe<Scalars['String']>;
+  opening?: Maybe<Scalars['String']>;
+  ripening?: Maybe<Scalars['String']>;
+  groundColor?: Maybe<Scalars['String']>;
+  blushColor?: Maybe<Scalars['String']>;
+  blushPct?: Maybe<Scalars['String']>;
+  scarsPieces?: Maybe<Scalars['String']>;
+  scarsPct?: Maybe<Scalars['String']>;
+  scarsDeg?: Maybe<Scalars['String']>;
+  cutsSplitsPieces?: Maybe<Scalars['String']>;
+  cutsSplitsPct?: Maybe<Scalars['String']>;
+  cutsSplitsDeg?: Maybe<Scalars['String']>;
+  splitPitPieces?: Maybe<Scalars['String']>;
+  splitPitPct?: Maybe<Scalars['String']>;
+  bruisingPieces?: Maybe<Scalars['String']>;
+  bruisingPct?: Maybe<Scalars['String']>;
+  bruisingDeg?: Maybe<Scalars['String']>;
+  softTipsPieces?: Maybe<Scalars['String']>;
+  softTipsPct?: Maybe<Scalars['String']>;
+  dehydrationPieces?: Maybe<Scalars['String']>;
+  dehydrationPct?: Maybe<Scalars['String']>;
+  dehydrationDeg?: Maybe<Scalars['String']>;
+  cutCount?: Maybe<Scalars['String']>;
+  internalDamagePieces?: Maybe<Scalars['String']>;
+  internalDamagePer?: Maybe<Scalars['String']>;
+  mealinessPieces?: Maybe<Scalars['String']>;
+  mealinessPct?: Maybe<Scalars['String']>;
+  decayPieces?: Maybe<Scalars['String']>;
+  decayPct?: Maybe<Scalars['String']>;
+  decayDeg?: Maybe<Scalars['String']>;
+  moldPieces?: Maybe<Scalars['String']>;
+  moldPct?: Maybe<Scalars['String']>;
+  brix?: Maybe<Scalars['String']>;
+  pressure1?: Maybe<Scalars['String']>;
+  pressure2?: Maybe<Scalars['String']>;
+  pressure3?: Maybe<Scalars['String']>;
+  pressure4?: Maybe<Scalars['String']>;
+  pressure5?: Maybe<Scalars['String']>;
+  pressure6?: Maybe<Scalars['String']>;
+  pressuresMin?: Maybe<Scalars['String']>;
+  pressuresMax?: Maybe<Scalars['String']>;
+  pressuresAvg?: Maybe<Scalars['String']>;
+  overallQuality?: Maybe<Scalars['BigFloat']>;
+  overallCondition?: Maybe<Scalars['BigFloat']>;
+  comment1?: Maybe<Scalars['String']>;
+  comment2?: Maybe<Scalars['String']>;
+  inspectionType?: Maybe<Scalars['String']>;
+  shortInsp?: Maybe<Scalars['String']>;
+  fixedWeight?: Maybe<Scalars['String']>;
+};
+
+/** All input for the `updatePsaStoneFruitPallet` mutation. */
+export type UpdatePsaStoneFruitPalletInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `PsaStoneFruitPallet` being updated. */
+  patch: PsaStoneFruitPalletPatch;
   id: Scalars['BigInt'];
 };
 
@@ -16835,6 +25339,50 @@ export type DeletePeruDepartureInspectionPalletInput = {
   id: Scalars['BigInt'];
 };
 
+/** The output of our delete `PsaApplePallet` mutation. */
+export type DeletePsaApplePalletPayload = {
+  __typename?: 'DeletePsaApplePalletPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PsaApplePallet` that was deleted by this mutation. */
+  psaApplePallet?: Maybe<PsaApplePallet>;
+  deletedPsaApplePalletNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `PsaApplePallet`. May be used by Relay 1. */
+  psaApplePalletEdge?: Maybe<PsaApplePalletsEdge>;
+};
+
+
+/** The output of our delete `PsaApplePallet` mutation. */
+export type DeletePsaApplePalletPayloadPsaApplePalletEdgeArgs = {
+  orderBy?: Maybe<Array<PsaApplePalletsOrderBy>>;
+};
+
+/** All input for the `deletePsaApplePalletByNodeId` mutation. */
+export type DeletePsaApplePalletByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `PsaApplePallet` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deletePsaApplePallet` mutation. */
+export type DeletePsaApplePalletInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['BigInt'];
+};
+
 /** The output of our delete `PsaArrivalPicture` mutation. */
 export type DeletePsaArrivalPicturePayload = {
   __typename?: 'DeletePsaArrivalPicturePayload';
@@ -16923,6 +25471,94 @@ export type DeletePsaArrivalReportInput = {
   id: Scalars['BigInt'];
 };
 
+/** The output of our delete `PsaCherryPallet` mutation. */
+export type DeletePsaCherryPalletPayload = {
+  __typename?: 'DeletePsaCherryPalletPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PsaCherryPallet` that was deleted by this mutation. */
+  psaCherryPallet?: Maybe<PsaCherryPallet>;
+  deletedPsaCherryPalletNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `PsaCherryPallet`. May be used by Relay 1. */
+  psaCherryPalletEdge?: Maybe<PsaCherryPalletsEdge>;
+};
+
+
+/** The output of our delete `PsaCherryPallet` mutation. */
+export type DeletePsaCherryPalletPayloadPsaCherryPalletEdgeArgs = {
+  orderBy?: Maybe<Array<PsaCherryPalletsOrderBy>>;
+};
+
+/** All input for the `deletePsaCherryPalletByNodeId` mutation. */
+export type DeletePsaCherryPalletByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `PsaCherryPallet` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deletePsaCherryPallet` mutation. */
+export type DeletePsaCherryPalletInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['BigInt'];
+};
+
+/** The output of our delete `PsaCitrusPallet` mutation. */
+export type DeletePsaCitrusPalletPayload = {
+  __typename?: 'DeletePsaCitrusPalletPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PsaCitrusPallet` that was deleted by this mutation. */
+  psaCitrusPallet?: Maybe<PsaCitrusPallet>;
+  deletedPsaCitrusPalletNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `PsaCitrusPallet`. May be used by Relay 1. */
+  psaCitrusPalletEdge?: Maybe<PsaCitrusPalletsEdge>;
+};
+
+
+/** The output of our delete `PsaCitrusPallet` mutation. */
+export type DeletePsaCitrusPalletPayloadPsaCitrusPalletEdgeArgs = {
+  orderBy?: Maybe<Array<PsaCitrusPalletsOrderBy>>;
+};
+
+/** All input for the `deletePsaCitrusPalletByNodeId` mutation. */
+export type DeletePsaCitrusPalletByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `PsaCitrusPallet` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deletePsaCitrusPallet` mutation. */
+export type DeletePsaCitrusPalletInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['BigInt'];
+};
+
 /** The output of our delete `PsaGrapePallet` mutation. */
 export type DeletePsaGrapePalletPayload = {
   __typename?: 'DeletePsaGrapePalletPayload';
@@ -16959,6 +25595,226 @@ export type DeletePsaGrapePalletByNodeIdInput = {
 
 /** All input for the `deletePsaGrapePallet` mutation. */
 export type DeletePsaGrapePalletInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['BigInt'];
+};
+
+/** The output of our delete `PsaLemonPallet` mutation. */
+export type DeletePsaLemonPalletPayload = {
+  __typename?: 'DeletePsaLemonPalletPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PsaLemonPallet` that was deleted by this mutation. */
+  psaLemonPallet?: Maybe<PsaLemonPallet>;
+  deletedPsaLemonPalletNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `PsaLemonPallet`. May be used by Relay 1. */
+  psaLemonPalletEdge?: Maybe<PsaLemonPalletsEdge>;
+};
+
+
+/** The output of our delete `PsaLemonPallet` mutation. */
+export type DeletePsaLemonPalletPayloadPsaLemonPalletEdgeArgs = {
+  orderBy?: Maybe<Array<PsaLemonPalletsOrderBy>>;
+};
+
+/** All input for the `deletePsaLemonPalletByNodeId` mutation. */
+export type DeletePsaLemonPalletByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `PsaLemonPallet` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deletePsaLemonPallet` mutation. */
+export type DeletePsaLemonPalletInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['BigInt'];
+};
+
+/** The output of our delete `PsaPearPallet` mutation. */
+export type DeletePsaPearPalletPayload = {
+  __typename?: 'DeletePsaPearPalletPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PsaPearPallet` that was deleted by this mutation. */
+  psaPearPallet?: Maybe<PsaPearPallet>;
+  deletedPsaPearPalletNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `PsaPearPallet`. May be used by Relay 1. */
+  psaPearPalletEdge?: Maybe<PsaPearPalletsEdge>;
+};
+
+
+/** The output of our delete `PsaPearPallet` mutation. */
+export type DeletePsaPearPalletPayloadPsaPearPalletEdgeArgs = {
+  orderBy?: Maybe<Array<PsaPearPalletsOrderBy>>;
+};
+
+/** All input for the `deletePsaPearPalletByNodeId` mutation. */
+export type DeletePsaPearPalletByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `PsaPearPallet` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deletePsaPearPallet` mutation. */
+export type DeletePsaPearPalletInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['BigInt'];
+};
+
+/** The output of our delete `PsaPersimmonPallet` mutation. */
+export type DeletePsaPersimmonPalletPayload = {
+  __typename?: 'DeletePsaPersimmonPalletPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PsaPersimmonPallet` that was deleted by this mutation. */
+  psaPersimmonPallet?: Maybe<PsaPersimmonPallet>;
+  deletedPsaPersimmonPalletNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `PsaPersimmonPallet`. May be used by Relay 1. */
+  psaPersimmonPalletEdge?: Maybe<PsaPersimmonPalletsEdge>;
+};
+
+
+/** The output of our delete `PsaPersimmonPallet` mutation. */
+export type DeletePsaPersimmonPalletPayloadPsaPersimmonPalletEdgeArgs = {
+  orderBy?: Maybe<Array<PsaPersimmonPalletsOrderBy>>;
+};
+
+/** All input for the `deletePsaPersimmonPalletByNodeId` mutation. */
+export type DeletePsaPersimmonPalletByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `PsaPersimmonPallet` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deletePsaPersimmonPallet` mutation. */
+export type DeletePsaPersimmonPalletInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['BigInt'];
+};
+
+/** The output of our delete `PsaPomegranatePallet` mutation. */
+export type DeletePsaPomegranatePalletPayload = {
+  __typename?: 'DeletePsaPomegranatePalletPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PsaPomegranatePallet` that was deleted by this mutation. */
+  psaPomegranatePallet?: Maybe<PsaPomegranatePallet>;
+  deletedPsaPomegranatePalletNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `PsaPomegranatePallet`. May be used by Relay 1. */
+  psaPomegranatePalletEdge?: Maybe<PsaPomegranatePalletsEdge>;
+};
+
+
+/** The output of our delete `PsaPomegranatePallet` mutation. */
+export type DeletePsaPomegranatePalletPayloadPsaPomegranatePalletEdgeArgs = {
+  orderBy?: Maybe<Array<PsaPomegranatePalletsOrderBy>>;
+};
+
+/** All input for the `deletePsaPomegranatePalletByNodeId` mutation. */
+export type DeletePsaPomegranatePalletByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `PsaPomegranatePallet` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deletePsaPomegranatePallet` mutation. */
+export type DeletePsaPomegranatePalletInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['BigInt'];
+};
+
+/** The output of our delete `PsaStoneFruitPallet` mutation. */
+export type DeletePsaStoneFruitPalletPayload = {
+  __typename?: 'DeletePsaStoneFruitPalletPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PsaStoneFruitPallet` that was deleted by this mutation. */
+  psaStoneFruitPallet?: Maybe<PsaStoneFruitPallet>;
+  deletedPsaStoneFruitPalletNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `PsaStoneFruitPallet`. May be used by Relay 1. */
+  psaStoneFruitPalletEdge?: Maybe<PsaStoneFruitPalletsEdge>;
+};
+
+
+/** The output of our delete `PsaStoneFruitPallet` mutation. */
+export type DeletePsaStoneFruitPalletPayloadPsaStoneFruitPalletEdgeArgs = {
+  orderBy?: Maybe<Array<PsaStoneFruitPalletsOrderBy>>;
+};
+
+/** All input for the `deletePsaStoneFruitPalletByNodeId` mutation. */
+export type DeletePsaStoneFruitPalletByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `PsaStoneFruitPallet` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deletePsaStoneFruitPallet` mutation. */
+export type DeletePsaStoneFruitPalletInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
@@ -18029,6 +26885,75 @@ export type BatchCreateChileDepartureInspectionPalletInput = {
   newPallets: Array<Maybe<ChileDepartureInspectionPalletInput>>;
 };
 
+/** The output of our `batchCreatePsaApplePallet` mutation. */
+export type BatchCreatePsaApplePalletPayload = {
+  __typename?: 'BatchCreatePsaApplePalletPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  psaApplePallets?: Maybe<Array<Maybe<PsaApplePallet>>>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** All input for the `batchCreatePsaApplePallet` mutation. */
+export type BatchCreatePsaApplePalletInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  newPallets: Array<Maybe<PsaApplePalletInput>>;
+};
+
+/** The output of our `batchCreatePsaCherryPallet` mutation. */
+export type BatchCreatePsaCherryPalletPayload = {
+  __typename?: 'BatchCreatePsaCherryPalletPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  psaCherryPallets?: Maybe<Array<Maybe<PsaCherryPallet>>>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** All input for the `batchCreatePsaCherryPallet` mutation. */
+export type BatchCreatePsaCherryPalletInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  newPallets: Array<Maybe<PsaCherryPalletInput>>;
+};
+
+/** The output of our `batchCreatePsaCitrusPallet` mutation. */
+export type BatchCreatePsaCitrusPalletPayload = {
+  __typename?: 'BatchCreatePsaCitrusPalletPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  psaCitrusPallets?: Maybe<Array<Maybe<PsaCitrusPallet>>>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** All input for the `batchCreatePsaCitrusPallet` mutation. */
+export type BatchCreatePsaCitrusPalletInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  newPallets: Array<Maybe<PsaCitrusPalletInput>>;
+};
+
 /** The output of our `batchCreatePsaGrapePallet` mutation. */
 export type BatchCreatePsaGrapePalletPayload = {
   __typename?: 'BatchCreatePsaGrapePalletPayload';
@@ -18050,6 +26975,121 @@ export type BatchCreatePsaGrapePalletInput = {
    */
   clientMutationId?: Maybe<Scalars['String']>;
   newPallets: Array<Maybe<PsaGrapePalletInput>>;
+};
+
+/** The output of our `batchCreatePsaLemonPallet` mutation. */
+export type BatchCreatePsaLemonPalletPayload = {
+  __typename?: 'BatchCreatePsaLemonPalletPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  psaLemonPallets?: Maybe<Array<Maybe<PsaLemonPallet>>>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** All input for the `batchCreatePsaLemonPallet` mutation. */
+export type BatchCreatePsaLemonPalletInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  newPallets: Array<Maybe<PsaLemonPalletInput>>;
+};
+
+/** The output of our `batchCreatePsaPearPallet` mutation. */
+export type BatchCreatePsaPearPalletPayload = {
+  __typename?: 'BatchCreatePsaPearPalletPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  psaPearPallets?: Maybe<Array<Maybe<PsaPearPallet>>>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** All input for the `batchCreatePsaPearPallet` mutation. */
+export type BatchCreatePsaPearPalletInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  newPallets: Array<Maybe<PsaPearPalletInput>>;
+};
+
+/** The output of our `batchCreatePsaPersimmonPallet` mutation. */
+export type BatchCreatePsaPersimmonPalletPayload = {
+  __typename?: 'BatchCreatePsaPersimmonPalletPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  psaPersimmonPallets?: Maybe<Array<Maybe<PsaPersimmonPallet>>>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** All input for the `batchCreatePsaPersimmonPallet` mutation. */
+export type BatchCreatePsaPersimmonPalletInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  newPallets: Array<Maybe<PsaPersimmonPalletInput>>;
+};
+
+/** The output of our `batchCreatePsaPomegranatePallet` mutation. */
+export type BatchCreatePsaPomegranatePalletPayload = {
+  __typename?: 'BatchCreatePsaPomegranatePalletPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  psaPomegranatePallets?: Maybe<Array<Maybe<PsaPomegranatePallet>>>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** All input for the `batchCreatePsaPomegranatePallet` mutation. */
+export type BatchCreatePsaPomegranatePalletInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  newPallets: Array<Maybe<PsaPomegranatePalletInput>>;
+};
+
+/** The output of our `batchCreatePsaStoneFruitPallet` mutation. */
+export type BatchCreatePsaStoneFruitPalletPayload = {
+  __typename?: 'BatchCreatePsaStoneFruitPalletPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  psaStoneFruitPallets?: Maybe<Array<Maybe<PsaStoneFruitPallet>>>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** All input for the `batchCreatePsaStoneFruitPallet` mutation. */
+export type BatchCreatePsaStoneFruitPalletInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  newPallets: Array<Maybe<PsaStoneFruitPalletInput>>;
 };
 
 export type PriceSheetUpdateInput = {

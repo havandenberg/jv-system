@@ -47,7 +47,7 @@ const ContactDirectory = ({ actions, TabBar }: SubDirectoryProps) => {
   return (
     <Page
       actions={actions}
-      breadcrumbs={breadcrumbs}
+      breadcrumbs={breadcrumbs('internal')}
       extraPaddingTop={103}
       headerChildren={
         <>

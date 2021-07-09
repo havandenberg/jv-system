@@ -210,12 +210,15 @@ const fetchArrivalReports = (dateTime) =>
     .catch(onError);
 
 const fetchPsaArrivalInspections = () => {
-  console.log(
-    `\n\nFetching PSA arrival inspections: ${new Date().toString()}\n\n`,
-  );
-
   const today = new Date();
-  const dateTime = `${today.getFullYear()}-${today.getMonth()}-${today.getDate()}`;
+  const dateTime = `${today.getFullYear()}-${(
+    '0' +
+    (today.getMonth() + 1)
+  ).slice(-2)}-${('0' + today.getDate()).slice(-2)}`;
+
+  console.log(
+    `\n\nFetching PSA arrival inspections: ${dateTime} ${today.toTimeString()}\n\n`,
+  );
 
   fetchArrivalReports(dateTime);
   fetchPictures(dateTime);

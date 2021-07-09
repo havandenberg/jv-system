@@ -1,11 +1,192 @@
 query PSA_ARRIVAL_PALLETS(
   $arrival: String!
   $exporterName: String!
-  $orderBy: [PsaGrapePalletsOrderBy!]
+  $grapesOrderBy: [PsaGrapePalletsOrderBy!]
+  $citrusOrderBy: [PsaCitrusPalletsOrderBy!]
+  $stoneFruitOrderBy: [PsaStoneFruitPalletsOrderBy!]
+  $pomegranatesOrderBy: [PsaPomegranatePalletsOrderBy!]
+  $persimmonsOrderBy: [PsaPersimmonPalletsOrderBy!]
+  $pearsOrderBy: [PsaPearPalletsOrderBy!]
+  $lemonsOrderBy: [PsaLemonPalletsOrderBy!]
+  $cherriesOrderBy: [PsaCherryPalletsOrderBy!]
+  $applesOrderBy: [PsaApplePalletsOrderBy!]
+  $variety: String!
 ) {
   psaGrapePallets(
-    condition: { arrival: $arrival, exporterName: $exporterName }
-    orderBy: $orderBy
+    condition: {
+      arrival: $arrival
+      exporterName: $exporterName
+      variety: $variety
+    }
+    orderBy: $grapesOrderBy
+  ) {
+    nodes {
+      id
+      arrival
+      exporterName
+      variety
+      inspDate
+      quantity
+      labelCode
+      palletId
+      overallQuality
+      overallCondition
+    }
+  }
+  psaCitrusPallets(
+    condition: {
+      arrival: $arrival
+      exporterName: $exporterName
+      variety: $variety
+    }
+    orderBy: $citrusOrderBy
+  ) {
+    nodes {
+      id
+      arrival
+      exporterName
+      variety
+      inspDate
+      quantity
+      labelCode
+      palletId
+      overallQuality
+      overallCondition
+    }
+  }
+  psaStoneFruitPallets(
+    condition: {
+      arrival: $arrival
+      exporterName: $exporterName
+      variety: $variety
+    }
+    orderBy: $stoneFruitOrderBy
+  ) {
+    nodes {
+      id
+      arrival
+      exporterName
+      variety
+      inspDate
+      quantity
+      labelCode
+      palletId
+      overallQuality
+      overallCondition
+    }
+  }
+  psaPomegranatePallets(
+    condition: {
+      arrival: $arrival
+      exporterName: $exporterName
+      variety: $variety
+    }
+    orderBy: $pomegranatesOrderBy
+  ) {
+    nodes {
+      id
+      arrival
+      exporterName
+      variety
+      inspDate
+      quantity
+      labelCode
+      palletId
+      overallQuality
+      overallCondition
+    }
+  }
+  psaPersimmonPallets(
+    condition: {
+      arrival: $arrival
+      exporterName: $exporterName
+      variety: $variety
+    }
+    orderBy: $persimmonsOrderBy
+  ) {
+    nodes {
+      id
+      arrival
+      exporterName
+      variety
+      inspDate
+      quantity
+      labelCode
+      palletId
+      overallQuality
+      overallCondition
+    }
+  }
+  psaPearPallets(
+    condition: {
+      arrival: $arrival
+      exporterName: $exporterName
+      variety: $variety
+    }
+    orderBy: $pearsOrderBy
+  ) {
+    nodes {
+      id
+      arrival
+      exporterName
+      variety
+      inspDate
+      quantity
+      labelCode
+      palletId
+      overallQuality
+      overallCondition
+    }
+  }
+  psaLemonPallets(
+    condition: {
+      arrival: $arrival
+      exporterName: $exporterName
+      variety: $variety
+    }
+    orderBy: $lemonsOrderBy
+  ) {
+    nodes {
+      id
+      arrival
+      exporterName
+      variety
+      inspDate
+      quantity
+      labelCode
+      palletId
+      overallQuality
+      overallCondition
+    }
+  }
+  psaCherryPallets(
+    condition: {
+      arrival: $arrival
+      exporterName: $exporterName
+      variety: $variety
+    }
+    orderBy: $cherriesOrderBy
+  ) {
+    nodes {
+      id
+      arrival
+      exporterName
+      variety
+      inspDate
+      quantity
+      labelCode
+      palletId
+      overallQuality
+      overallCondition
+    }
+  }
+  psaApplePallets(
+    condition: {
+      arrival: $arrival
+      exporterName: $exporterName
+      variety: $variety
+    }
+    orderBy: $applesOrderBy
   ) {
     nodes {
       id

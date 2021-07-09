@@ -58,7 +58,7 @@ const GroupDirectory = ({ actions, TabBar }: SubDirectoryProps) => {
         </l.AreaLink>,
         ...actions,
       ]}
-      breadcrumbs={breadcrumbs}
+      breadcrumbs={breadcrumbs('groups')}
       extraPaddingTop={103}
       headerChildren={
         <>

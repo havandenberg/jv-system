@@ -13,6 +13,7 @@ module.exports = {
     cors: true,
     graphileBuildOptions: {
       connectionFilterRelations: true,
+      orderByNullsLast: true,
     },
   },
 };

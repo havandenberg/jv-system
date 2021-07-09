@@ -6,6 +6,7 @@ import Chevron from 'assets/images/chevron';
 import { baseDataTransforms } from 'components/base-data';
 import { LabelInfo } from 'components/column-label';
 import useLightbox from 'hooks/use-lightbox';
+import { useDateRangeQueryParams } from 'hooks/use-query-params';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
@@ -39,6 +40,9 @@ const ListItem = <T extends { imageUrls?: string[] | null }>({
   slug: string;
   titleList?: string[];
 }) => {
+  const [{ startDate, endDate }] = useDateRangeQueryParams();
+  const dateParams =
+    startDate && endDate ? `?startDate=${startDate}&endDate=${endDate}` : '';
   const { Lightbox, openLightbox } = useLightbox(
     data.imageUrls || [],
     lightboxTitle,
@@ -47,7 +51,7 @@ const ListItem = <T extends { imageUrls?: string[] | null }>({
   );
   return (
     <l.Div mb={th.spacing.sm}>
-      <l.AreaLink to={`/reports/inspections/${slug}`}>
+      <l.AreaLink to={`/reports/inspections/${slug}${dateParams}`}>
         <GridContainer
           gridTemplateColumns={
             gridTemplateColumns || defaultGridTemplateColumns

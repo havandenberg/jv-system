@@ -3,10 +3,11 @@ import { useParams } from 'react-router-dom';
 
 import api from 'api';
 import BaseData from 'components/base-data';
+import FeaturedValues from 'components/featured-values';
 import Page from 'components/page';
 import { DataMessage } from 'components/page/message';
-import FeaturedValue from 'components/featured-value';
 import useLightbox from 'hooks/use-lightbox';
+import { useDateRangeQueryParams } from 'hooks/use-query-params';
 import {
   ChileDepartureInspection,
   ChileDepartureInspectionPallet,
@@ -28,23 +29,25 @@ import {
   getTableData,
 } from './data-utils';
 
-const breadcrumbs = (id: string) => [
+const breadcrumbs = (id: string, dateParams: string) => [
   {
     text: 'All Inspections',
-    to: `/reports/inspections/${InspectionTypes.CHILE_DEPARTURE}`,
+    to: `/reports/inspections/${InspectionTypes.CHILE_DEPARTURE}${dateParams}`,
   },
   {
     text: id,
-    to: `/reports/inspections/${InspectionTypes.CHILE_DEPARTURE}/${id}`,
+    to: `/reports/inspections/${InspectionTypes.CHILE_DEPARTURE}/${id}${dateParams}`,
   },
 ];
 
 const Details = () => {
-  const { id } =
-    useParams<{
-      id: string;
-    }>();
+  const { id } = useParams<{
+    id: string;
+  }>();
   const { data, error, loading } = api.useChileDepartureInspection(id);
+  const [{ startDate, endDate }] = useDateRangeQueryParams();
+  const dateParams =
+    startDate && endDate ? `?startDate=${startDate}&endDate=${endDate}` : '';
   const pallets = (
     data ? data.pallets : []
   ) as ChileDepartureInspectionPallet[];
@@ -84,7 +87,7 @@ const Details = () => {
           Compare
         </b.Primary>,
       ]}
-      breadcrumbs={breadcrumbs(id)}
+      breadcrumbs={breadcrumbs(id, dateParams)}
       title="Departure Inspection - Chile"
     >
       {reportData ? (
@@ -94,21 +97,7 @@ const Details = () => {
               data={reportData}
               labels={baseLabels}
             />
-            <l.Flex
-              justifyBetween
-              mb={th.spacing.xl}
-              mt={th.spacing.lg}
-              width={th.sizes.fill}
-            >
-              {featuredValues.map((value, idx) => (
-                <React.Fragment key={idx}>
-                  <FeaturedValue {...value} />
-                  {idx < featuredValues.length - 1 && (
-                    <l.Div width={th.spacing.md} />
-                  )}
-                </React.Fragment>
-              ))}
-            </l.Flex>
+            <FeaturedValues values={featuredValues} />
             <l.Flex justifyBetween mb={th.spacing.lg} width={700}>
               <Chart data={chartData} title="Pallets By Condition" />
               <l.Div width={th.spacing.md} />

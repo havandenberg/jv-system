@@ -1,55 +1,5 @@
-CREATE TABLE inspection.psa_arrival_report (
-	id BIGINT PRIMARY KEY,
-  report_date DATE,
-  location_name TEXT,
-  arrival_code TEXT,
-  arrival_name TEXT,
-  exporter_id BIGINT,
-  exporter_name TEXT
-);
-
-CREATE TABLE inspection.psa_arrival_picture (
-  id BIGINT PRIMARY KEY,
-  picture_date DATE,
-  arrival_code TEXT,
-  picture_description TEXT,
-  exporter_id BIGINT,
-  pallet_id TEXT,
-  product_code TEXT,
-  variety_name TEXT
-);
-
-CREATE FUNCTION inspection.psa_arrival_report_pictures(IN r inspection.psa_arrival_report)
-	RETURNS setof inspection.psa_arrival_picture
-	LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-  SELECT * FROM inspection.psa_arrival_picture AS p
-  WHERE p.picture_date = r.report_date AND p.exporter_id = r.exporter_id AND p.arrival_code = r.arrival_code
-$BODY$;
-
-CREATE FUNCTION inspection.psa_arrival_report_search_text(IN r inspection.psa_arrival_report)
-	RETURNS TEXT
-	LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-SELECT CONCAT (
-		r.id,
-		CAST(r.report_date AS TEXT),
-		r.location_name,
-		r.arrival_code,
-		r.arrival_name,
-		CAST(r.exporter_id AS TEXT),
-		r.exporter_name
-	) FROM inspection.psa_arrival_report
-$BODY$;
-
 CREATE TABLE inspection.psa_grape_pallet (
-	id BIGSERIAL PRIMARY KEY,
+	id BIGINT DEFAULT nextval('pallet_ids') PRIMARY KEY,
 	location TEXT,
 	arrival TEXT,
 	importer_name TEXT,
@@ -202,44 +152,7 @@ AS $BODY$
 	WHERE gp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name) AND gp.exporter_name = r.exporter_name
 $BODY$;
 
-CREATE FUNCTION inspection.psa_arrival_report_avg_grape_quality(IN r inspection.psa_arrival_report)
-	RETURNS NUMERIC
-	LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-	SELECT ROUND(AVG(gp.overall_quality), 1) FROM inspection.psa_grape_pallet gp
-	WHERE gp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
-	AND gp.exporter_name = r.exporter_name
-$BODY$;
-
-CREATE FUNCTION inspection.psa_arrival_report_avg_grape_condition(IN r inspection.psa_arrival_report)
-	RETURNS NUMERIC
-	LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-	SELECT ROUND(AVG(gp.overall_condition), 1) FROM inspection.psa_grape_pallet gp
-	WHERE gp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
-	AND gp.exporter_name = r.exporter_name
-$BODY$;
-
-CREATE FUNCTION inspection.psa_arrival_report_avg_grape_net_weight(IN r inspection.psa_arrival_report)
-	RETURNS NUMERIC
-	LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-	SELECT ROUND(AVG(gp.weight::NUMERIC), 1) FROM inspection.psa_grape_pallet gp
-	WHERE gp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
-	AND gp.exporter_name = r.exporter_name
-	AND gp.weight ~ '^[0-9\.]+$'
-$BODY$;
-
-CREATE FUNCTION inspection.psa_arrival_report_avg_grape_bunches_per_box(IN r inspection.psa_arrival_report)
+CREATE FUNCTION inspection.psa_arrival_report_avg_grape_bunches_per_box(IN r inspection.psa_arrival_report, In vari TEXT)
 	RETURNS NUMERIC
 	LANGUAGE 'sql'
     STABLE
@@ -250,9 +163,10 @@ AS $BODY$
 	WHERE gp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
 	AND gp.exporter_name = r.exporter_name
 	AND gp.bunches ~ '^[0-9\.]+$'
+	AND (vari = '' OR gp.variety = vari)
 $BODY$;
 
-CREATE FUNCTION inspection.psa_arrival_report_avg_grape_brix_max(IN r inspection.psa_arrival_report)
+CREATE FUNCTION inspection.psa_arrival_report_avg_grape_brix_max(IN r inspection.psa_arrival_report, In vari TEXT)
 	RETURNS NUMERIC
 	LANGUAGE 'sql'
     STABLE
@@ -263,9 +177,10 @@ AS $BODY$
 	WHERE gp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
 	AND gp.exporter_name = r.exporter_name
 	AND gp.brix_max ~ '^[0-9\.]+$'
+	AND (vari = '' OR gp.variety = vari)
 $BODY$;
 
-CREATE FUNCTION inspection.psa_arrival_report_avg_grape_brix_min(IN r inspection.psa_arrival_report)
+CREATE FUNCTION inspection.psa_arrival_report_avg_grape_brix_min(IN r inspection.psa_arrival_report, In vari TEXT)
 	RETURNS NUMERIC
 	LANGUAGE 'sql'
     STABLE
@@ -276,9 +191,10 @@ AS $BODY$
 	WHERE gp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
 	AND gp.exporter_name = r.exporter_name
 	AND gp.brix_min ~ '^[0-9\.]+$'
+	AND (vari = '' OR gp.variety = vari)
 $BODY$;
 
-CREATE FUNCTION inspection.psa_arrival_report_avg_grape_brix_most(IN r inspection.psa_arrival_report)
+CREATE FUNCTION inspection.psa_arrival_report_avg_grape_brix_most(IN r inspection.psa_arrival_report, In vari TEXT)
 	RETURNS NUMERIC
 	LANGUAGE 'sql'
     STABLE
@@ -289,6 +205,7 @@ AS $BODY$
 	WHERE gp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
 	AND gp.exporter_name = r.exporter_name
 	AND gp.brix_most ~ '^[0-9\.]+$'
+	AND (vari = '' OR gp.variety = vari)
 $BODY$;
 
 CREATE FUNCTION inspection.psa_grape_pallet_pictures(IN gp inspection.psa_grape_pallet)

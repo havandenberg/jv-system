@@ -121,7 +121,9 @@ const Inspections = () => {
           />
         )}
       />
-      <Redirect to={`/reports/inspections/${InspectionTypes.ARRIVAL}`} />
+      <Redirect
+        to={`/reports/inspections/${InspectionTypes.ARRIVAL}${search}`}
+      />
     </Switch>
   );
 };

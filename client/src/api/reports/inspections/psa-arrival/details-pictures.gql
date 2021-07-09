@@ -1,0 +1,12 @@
+query PSA_ARRIVAL_INSPECTION_DETAILS_PICTURES($palletIds: [String!]) {
+  psaArrivalPictures(filter: { palletId: { in: $palletIds } }) {
+    nodes {
+      id
+      imageUrl
+      palletId
+      pictureDescription
+      productCode
+      varietyName
+    }
+  }
+}

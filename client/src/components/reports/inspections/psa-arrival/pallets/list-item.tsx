@@ -37,6 +37,7 @@ const ListItem = <T extends {}>({
     <l.AreaLink to={`/reports/inspections/arrival/${slug}`}>
       <GridContainer
         gridTemplateColumns={gridTemplateColumns || defaultGridTemplateColumns}
+        height={th.sizes.fill}
       >
         {listLabels.map(({ key, getValue, transformKey, transformValue }) => {
           const value = transformKey

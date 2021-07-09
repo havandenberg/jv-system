@@ -5,8 +5,9 @@ import api from 'api';
 import BaseData from 'components/base-data';
 import Page from 'components/page';
 import { DataMessage } from 'components/page/message';
-import FeaturedValue from 'components/featured-value';
+import FeaturedValues from 'components/featured-values';
 import useLightbox from 'hooks/use-lightbox';
+import { useDateRangeQueryParams } from 'hooks/use-query-params';
 import { PeruDepartureInspection, PeruDepartureInspectionPallet } from 'types';
 import b from 'ui/button';
 import l from 'ui/layout';
@@ -25,22 +26,24 @@ import {
   getTableData,
 } from './data-utils';
 
-const breadcrumbs = (id: string) => [
+const breadcrumbs = (id: string, dateParams: string) => [
   {
     text: 'All Inspections',
-    to: `/reports/inspections/${InspectionTypes.PERU_DEPARTURE}`,
+    to: `/reports/inspections/${InspectionTypes.PERU_DEPARTURE}${dateParams}`,
   },
   {
     text: id,
-    to: `/reports/inspections/${InspectionTypes.PERU_DEPARTURE}/${id}`,
+    to: `/reports/inspections/${InspectionTypes.PERU_DEPARTURE}/${id}${dateParams}`,
   },
 ];
 
 const Details = () => {
-  const { id } =
-    useParams<{
-      id: string;
-    }>();
+  const { id } = useParams<{
+    id: string;
+  }>();
+  const [{ startDate, endDate }] = useDateRangeQueryParams();
+  const dateParams =
+    startDate && endDate ? `?startDate=${startDate}&endDate=${endDate}` : '';
   const { data, error, loading } = api.usePeruDepartureInspection(id);
   const reportData = data && data.nodes[0];
   const { Lightbox, openLightbox } = useLightbox(
@@ -69,7 +72,7 @@ const Details = () => {
           Compare
         </b.Primary>,
       ]}
-      breadcrumbs={breadcrumbs(id)}
+      breadcrumbs={breadcrumbs(id, dateParams)}
       title="Departure Inspection - Peru"
     >
       {reportData ? (
@@ -79,21 +82,7 @@ const Details = () => {
               data={reportData}
               labels={baseLabels}
             />
-            <l.Flex
-              justifyBetween
-              mb={th.spacing.xl}
-              mt={th.spacing.lg}
-              width={th.sizes.fill}
-            >
-              {featuredValues.map((value, idx) => (
-                <React.Fragment key={idx}>
-                  <FeaturedValue {...value} />
-                  {idx < featuredValues.length - 1 && (
-                    <l.Div width={th.spacing.md} />
-                  )}
-                </React.Fragment>
-              ))}
-            </l.Flex>
+            <FeaturedValues values={featuredValues} />
             <ty.CaptionText mb={th.spacing.sm} secondary>
               QC Comments
             </ty.CaptionText>

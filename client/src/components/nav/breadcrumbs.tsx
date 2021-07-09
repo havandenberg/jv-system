@@ -21,7 +21,7 @@ const Breadcrumbs = ({ breadcrumbs }: { breadcrumbs: BreadcrumbProps[] }) => {
         return (
           <React.Fragment key={idx}>
             {idx > 0 && <Chevron height={10} />}
-            <l.AreaLink to={active || !to ? '#' : to}>
+            <l.AreaLink to={to || '#'}>
               <NavItem
                 active={active}
                 disabled={!to}

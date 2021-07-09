@@ -17,7 +17,9 @@ import WarehouseDirectory from './warehouses';
 import WarehouseDetails from './warehouses/details';
 import SendMessage from './send-message';
 
-export const breadcrumbs = [{ text: 'Directory', to: `/directory` }];
+export const breadcrumbs = (slug: string) => [
+  { text: 'Directory', to: `/directory/${slug}` },
+];
 
 export enum DirectoryTypes {
   GROUPS = 'groups',

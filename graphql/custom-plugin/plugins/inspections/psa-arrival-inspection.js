@@ -31,7 +31,7 @@ const extendSchemaPlugin = makeExtendSchemaPlugin({
             );
           return image ? path.join(imagesDir, image) : '';
         }
-        return [];
+        return '';
       },
     },
     PsaArrivalReport: {

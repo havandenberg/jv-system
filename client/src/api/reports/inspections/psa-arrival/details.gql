@@ -18,12 +18,5 @@ query PSA_ARRIVAL_INSPECTION_DETAILS($id: BigInt!) {
         varietyName
       }
     }
-    avgGrapeNetWeight
-    avgGrapeCondition
-    avgGrapeBunchesPerBox
-    avgGrapeBrixMin
-    avgGrapeBrixMost
-    avgGrapeBrixMax
-    avgGrapeQuality
   }
 }

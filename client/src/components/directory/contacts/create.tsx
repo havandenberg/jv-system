@@ -93,7 +93,7 @@ const CreatePersonContact = () => {
         { text: 'Contact', to: `/directory/create?warehouseId=${warehouseId}` },
       ];
     } else {
-      return breadcrumbs;
+      return breadcrumbs('internal');
     }
   };
 
@@ -156,9 +156,6 @@ const CreatePersonContact = () => {
       breadcrumbs={getBreadcrumbs()}
       title="New Contact"
     >
-      <l.Div mb={th.spacing.lg} mt={th.spacing.sm}>
-        {info}
-      </l.Div>
       <BaseData<PersonContact>
         changes={changes}
         data={changes}
@@ -167,6 +164,7 @@ const CreatePersonContact = () => {
         labels={baseLabels(false)}
         showValidation={saveAttempt}
       />
+      <l.Div mt={th.spacing.lg}>{info}</l.Div>
     </Page>
   );
 };

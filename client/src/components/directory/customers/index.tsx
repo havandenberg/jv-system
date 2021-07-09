@@ -18,7 +18,7 @@ import ListItem from '../list-item';
 import { useDirectorySelectionContext } from '../selection-context';
 import { listLabels } from './data-utils';
 
-const gridTemplateColumns = '30px 1fr 2.5fr 1.5fr 1.5fr 0.5fr 30px';
+const gridTemplateColumns = '30px 0.8fr 2.5fr 1.5fr 1.5fr 0.5fr 30px';
 
 const CustomerDirectory = ({ actions, TabBar }: SubDirectoryProps) => {
   const { Search } = useSearch();
@@ -43,7 +43,7 @@ const CustomerDirectory = ({ actions, TabBar }: SubDirectoryProps) => {
   return (
     <Page
       actions={actions}
-      breadcrumbs={breadcrumbs}
+      breadcrumbs={breadcrumbs('customers')}
       extraPaddingTop={103}
       headerChildren={
         <>

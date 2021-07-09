@@ -25,8 +25,8 @@ query PSA_ARRIVAL_INSPECTIONS_LIST(
     nodes {
       arrivalCode
       arrivalName
-      avgGrapeQuality
-      avgGrapeCondition
+      avgQuality
+      avgCondition
       exporterId
       exporterName
       id

@@ -1,5 +1,6 @@
 const {
   makeAddPgTableOrderByPlugin,
+  makePluginByCombiningPlugins,
   orderByAscDesc,
 } = require('graphile-utils');
 
@@ -19,7 +20,7 @@ const CustomerPersonContactOrderByPlugin = makeAddPgTableOrderByPlugin(
         LEFT JOIN directory.customer_person_contact AS ${customerPersonContact}
         ON ${customer}.id = ${customerPersonContact}.customer_id
         WHERE ${customerPersonContact}.person_contact_id = ${queryBuilder.getTableAlias()}.id
-        ORDER BY ${customer}.customer_name desc
+        ORDER BY ${customer}.customer_name DESC
         LIMIT 1
       )`,
     );
@@ -70,8 +71,8 @@ const WarehousePersonContactOrderByPlugin = makeAddPgTableOrderByPlugin(
   },
 );
 
-module.exports = {
+module.exports = makePluginByCombiningPlugins(
   CustomerPersonContactOrderByPlugin,
   ShipperPersonContactOrderByPlugin,
   WarehousePersonContactOrderByPlugin,
-};
+);
