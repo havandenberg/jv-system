@@ -11,9 +11,6 @@ import {
   PsaPomegranatePallet,
   PsaStoneFruitPallet,
 } from 'types';
-import l from 'ui/layout';
-import th from 'ui/theme';
-import ty from 'ui/typography';
 
 export type PalletLabelInfo = LabelInfo<
   | PsaGrapePallet
@@ -34,32 +31,46 @@ export const listLabels: PalletLabelInfo[] = [
     sortable: true,
   },
   {
-    key: 'inspDate',
-    label: 'Inspection Date',
+    key: 'size',
+    label: 'Size',
     sortable: true,
+    filterable: true,
+    filterPanelProps: {
+      showSearch: true,
+    },
   },
   {
-    key: 'quantity',
-    label: 'Quantity',
+    key: 'growerCode',
+    label: 'Grower Code',
     sortable: true,
+    filterable: true,
+    filterPanelProps: {
+      showSearch: true,
+    },
   },
   {
     defaultSortOrder: SORT_ORDER.ASC,
     key: 'labelCode',
     label: 'Label',
     sortable: true,
+    filterable: true,
+    filterPanelProps: {
+      showSearch: true,
+    },
   },
   {
     defaultSortOrder: SORT_ORDER.ASC,
     key: 'overallQuality',
     label: 'Quality',
     sortable: true,
+    filterable: true,
   },
   {
     defaultSortOrder: SORT_ORDER.ASC,
     key: 'overallCondition',
     label: 'Condition',
     sortable: true,
+    filterable: true,
   },
 ];
 
@@ -105,27 +116,15 @@ const commonFeaturedValues = (
 ) => [
   {
     label: 'Quality Score',
-    value: (
-      <ty.HugeText fontFamily={th.fontFamilies.body} inverted>
-        {data.overallQuality || '-'}
-      </ty.HugeText>
-    ),
+    values: [{ value: data.overallQuality }],
   },
   {
     label: 'Condition Score',
-    value: (
-      <ty.HugeText fontFamily={th.fontFamilies.body} inverted>
-        {data.overallCondition || '-'}
-      </ty.HugeText>
-    ),
+    values: [{ value: data.overallCondition }],
   },
   {
     label: 'Net Weight (kg)',
-    value: (
-      <ty.HugeText fontFamily={th.fontFamilies.body} inverted>
-        {data.weight || '-'}
-      </ty.HugeText>
-    ),
+    values: [{ value: data.weight }],
   },
 ];
 
@@ -133,40 +132,15 @@ export const getGrapeFeaturedValues = (data: PsaGrapePallet) => [
   ...commonFeaturedValues(data),
   {
     label: 'Bunches / Box',
-    value: (
-      <ty.HugeText fontFamily={th.fontFamilies.body} inverted>
-        {data.bunches || '-'}
-      </ty.HugeText>
-    ),
+    values: [{ value: data.bunches }],
   },
   {
     label: '°Brix',
-    value: (
-      <l.Div width={th.sizes.fill}>
-        {(
-          [
-            { label: 'Max', key: 'brixMax' },
-            { label: 'Min', key: 'brixMin' },
-            { label: 'Most', key: 'brixMost' },
-          ] as LabelInfo<PsaGrapePallet>[]
-        ).map(({ label, key }, idx) => (
-          <l.Flex
-            alignCenter
-            justifyBetween
-            key={idx}
-            mb={th.spacing.xs}
-            mx={th.spacing.sm}
-          >
-            <ty.CaptionText inverted secondary>
-              {label}
-            </ty.CaptionText>
-            <ty.LargeText inverted my={0}>
-              {data[key] || '-'}
-            </ty.LargeText>
-          </l.Flex>
-        ))}
-      </l.Div>
-    ),
+    values: [
+      { label: 'Max', value: data.brixMax },
+      { label: 'Min', value: data.brixMin },
+      { label: 'Most', value: data.brixMost },
+    ],
   },
 ];
 
@@ -269,40 +243,15 @@ export const getCitrusFeaturedValues = (data: PsaCitrusPallet) => [
   ...commonFeaturedValues(data),
   {
     label: '°Brix',
-    value: (
-      <ty.HugeText fontFamily={th.fontFamilies.body} inverted>
-        {data.brix || '-'}
-      </ty.HugeText>
-    ),
+    values: [{ value: data.brix }],
   },
   {
     label: 'Diameter (mm)',
-    value: (
-      <l.Div width={th.sizes.fill}>
-        {(
-          [
-            { label: 'Max', key: 'diameterMaxMm' },
-            { label: 'Min', key: 'diameterMinMm' },
-            { label: 'Most', key: 'diameterMostMm' },
-          ] as LabelInfo<PsaCitrusPallet>[]
-        ).map(({ label, key }, idx) => (
-          <l.Flex
-            alignCenter
-            justifyBetween
-            key={idx}
-            mb={th.spacing.xs}
-            mx={th.spacing.sm}
-          >
-            <ty.CaptionText inverted secondary>
-              {label}
-            </ty.CaptionText>
-            <ty.LargeText inverted my={0}>
-              {data[key] || '-'}
-            </ty.LargeText>
-          </l.Flex>
-        ))}
-      </l.Div>
-    ),
+    values: [
+      { label: 'Max', value: data.diameterMaxMm },
+      { label: 'Min', value: data.diameterMinMm },
+      { label: 'Most', value: data.diameterMostMm },
+    ],
   },
 ];
 
@@ -373,40 +322,15 @@ export const getStoneFruitFeaturedValues = (data: PsaStoneFruitPallet) => [
   ...commonFeaturedValues(data),
   {
     label: '°Brix',
-    value: (
-      <ty.HugeText fontFamily={th.fontFamilies.body} inverted>
-        {data.brix || '-'}
-      </ty.HugeText>
-    ),
+    values: [{ value: data.brix }],
   },
   {
     label: 'Pressures',
-    value: (
-      <l.Div width={th.sizes.fill}>
-        {(
-          [
-            { label: 'Max', key: 'pressuresMax' },
-            { label: 'Min', key: 'pressuresMin' },
-            { label: 'Avg', key: 'pressuresAvg' },
-          ] as LabelInfo<PsaStoneFruitPallet>[]
-        ).map(({ label, key }, idx) => (
-          <l.Flex
-            alignCenter
-            justifyBetween
-            key={idx}
-            mb={th.spacing.xs}
-            mx={th.spacing.sm}
-          >
-            <ty.CaptionText inverted secondary>
-              {label}
-            </ty.CaptionText>
-            <ty.LargeText inverted my={0}>
-              {data[key] || '-'}
-            </ty.LargeText>
-          </l.Flex>
-        ))}
-      </l.Div>
-    ),
+    values: [
+      { label: 'Max', value: data.pressuresMax },
+      { label: 'Min', value: data.pressuresMin },
+      { label: 'Avg', value: data.pressuresAvg },
+    ],
   },
 ];
 
@@ -476,32 +400,11 @@ export const getPomegranateFeaturedValues = (data: PsaPomegranatePallet) => [
   ...commonFeaturedValues(data),
   {
     label: '°Brix',
-    value: (
-      <l.Div width={th.sizes.fill}>
-        {(
-          [
-            { label: 'Max', key: 'brixMax' },
-            { label: 'Min', key: 'brixMin' },
-            { label: 'Most', key: 'brixMost' },
-          ] as LabelInfo<PsaPomegranatePallet>[]
-        ).map(({ label, key }, idx) => (
-          <l.Flex
-            alignCenter
-            justifyBetween
-            key={idx}
-            mb={th.spacing.xs}
-            mx={th.spacing.sm}
-          >
-            <ty.CaptionText inverted secondary>
-              {label}
-            </ty.CaptionText>
-            <ty.LargeText inverted my={0}>
-              {data[key] || '-'}
-            </ty.LargeText>
-          </l.Flex>
-        ))}
-      </l.Div>
-    ),
+    values: [
+      { label: 'Max', value: data.brixMax },
+      { label: 'Min', value: data.brixMin },
+      { label: 'Most', value: data.brixMost },
+    ],
   },
 ];
 
@@ -561,40 +464,15 @@ export const getPersimmonFeaturedValues = (data: PsaPersimmonPallet) => [
   ...commonFeaturedValues(data),
   {
     label: '°Brix',
-    value: (
-      <ty.HugeText fontFamily={th.fontFamilies.body} inverted>
-        {data.brix || '-'}
-      </ty.HugeText>
-    ),
+    values: [{ value: data.brix }],
   },
   {
     label: 'Pressures',
-    value: (
-      <l.Div width={th.sizes.fill}>
-        {(
-          [
-            { label: 'Max', key: 'pressuresMax' },
-            { label: 'Min', key: 'pressuresMin' },
-            { label: 'Avg', key: 'pressuresAvg' },
-          ] as LabelInfo<PsaPersimmonPallet>[]
-        ).map(({ label, key }, idx) => (
-          <l.Flex
-            alignCenter
-            justifyBetween
-            key={idx}
-            mb={th.spacing.xs}
-            mx={th.spacing.sm}
-          >
-            <ty.CaptionText inverted secondary>
-              {label}
-            </ty.CaptionText>
-            <ty.LargeText inverted my={0}>
-              {data[key] || '-'}
-            </ty.LargeText>
-          </l.Flex>
-        ))}
-      </l.Div>
-    ),
+    values: [
+      { label: 'Max', value: data.pressuresMax },
+      { label: 'Min', value: data.pressuresMin },
+      { label: 'Avg', value: data.pressuresAvg },
+    ],
   },
 ];
 
@@ -660,32 +538,11 @@ export const getPearFeaturedValues = (data: PsaPearPallet) => [
   ...commonFeaturedValues(data),
   {
     label: 'Pressures',
-    value: (
-      <l.Div width={th.sizes.fill}>
-        {(
-          [
-            { label: 'Max', key: 'pressuresMax' },
-            { label: 'Min', key: 'pressuresMin' },
-            { label: 'Avg', key: 'pressuresAvg' },
-          ] as LabelInfo<PsaPearPallet>[]
-        ).map(({ label, key }, idx) => (
-          <l.Flex
-            alignCenter
-            justifyBetween
-            key={idx}
-            mb={th.spacing.xs}
-            mx={th.spacing.sm}
-          >
-            <ty.CaptionText inverted secondary>
-              {label}
-            </ty.CaptionText>
-            <ty.LargeText inverted my={0}>
-              {data[key] || '-'}
-            </ty.LargeText>
-          </l.Flex>
-        ))}
-      </l.Div>
-    ),
+    values: [
+      { label: 'Max', value: data.pressuresMax },
+      { label: 'Min', value: data.pressuresMin },
+      { label: 'Avg', value: data.pressuresAvg },
+    ],
   },
 ];
 
@@ -755,32 +612,11 @@ export const getLemonFeaturedValues = (data: PsaLemonPallet) => [
   ...commonFeaturedValues(data),
   {
     label: 'Diameter (mm)',
-    value: (
-      <l.Div width={th.sizes.fill}>
-        {(
-          [
-            { label: 'Max', key: 'diameterMaxMm' },
-            { label: 'Min', key: 'diameterMinMm' },
-            { label: 'Most', key: 'diameterMostMm' },
-          ] as LabelInfo<PsaLemonPallet>[]
-        ).map(({ label, key }, idx) => (
-          <l.Flex
-            alignCenter
-            justifyBetween
-            key={idx}
-            mb={th.spacing.xs}
-            mx={th.spacing.sm}
-          >
-            <ty.CaptionText inverted secondary>
-              {label}
-            </ty.CaptionText>
-            <ty.LargeText inverted my={0}>
-              {data[key] || '-'}
-            </ty.LargeText>
-          </l.Flex>
-        ))}
-      </l.Div>
-    ),
+    values: [
+      { label: 'Max', value: data.diameterMaxMm },
+      { label: 'Min', value: data.diameterMinMm },
+      { label: 'Most', value: data.diameterMostMm },
+    ],
   },
 ];
 
@@ -847,32 +683,11 @@ export const getCherryFeaturedValues = (data: PsaCherryPallet) => [
   ...commonFeaturedValues(data),
   {
     label: 'Size',
-    value: (
-      <l.Div width={th.sizes.fill}>
-        {(
-          [
-            { label: 'Max', key: 'sizeMax' },
-            { label: 'Min', key: 'sizeMin' },
-            { label: 'Most', key: 'sizeMost' },
-          ] as LabelInfo<PsaCherryPallet>[]
-        ).map(({ label, key }, idx) => (
-          <l.Flex
-            alignCenter
-            justifyBetween
-            key={idx}
-            mb={th.spacing.xs}
-            mx={th.spacing.sm}
-          >
-            <ty.CaptionText inverted secondary>
-              {label}
-            </ty.CaptionText>
-            <ty.LargeText inverted my={0}>
-              {data[key] || '-'}
-            </ty.LargeText>
-          </l.Flex>
-        ))}
-      </l.Div>
-    ),
+    values: [
+      { label: 'Max', value: data.sizeMax },
+      { label: 'Min', value: data.sizeMin },
+      { label: 'Most', value: data.sizeMost },
+    ],
   },
 ];
 
@@ -932,32 +747,11 @@ export const getAppleFeaturedValues = (data: PsaApplePallet) => [
   ...commonFeaturedValues(data),
   {
     label: 'Pressures',
-    value: (
-      <l.Div width={th.sizes.fill}>
-        {(
-          [
-            { label: 'Max', key: 'pressuresMax' },
-            { label: 'Min', key: 'pressuresMin' },
-            { label: 'Avg', key: 'pressuresAvg' },
-          ] as LabelInfo<PsaApplePallet>[]
-        ).map(({ label, key }, idx) => (
-          <l.Flex
-            alignCenter
-            justifyBetween
-            key={idx}
-            mb={th.spacing.xs}
-            mx={th.spacing.sm}
-          >
-            <ty.CaptionText inverted secondary>
-              {label}
-            </ty.CaptionText>
-            <ty.LargeText inverted my={0}>
-              {data[key] || '-'}
-            </ty.LargeText>
-          </l.Flex>
-        ))}
-      </l.Div>
-    ),
+    values: [
+      { label: 'Max', value: data.pressuresMax },
+      { label: 'Min', value: data.pressuresMin },
+      { label: 'Avg', value: data.pressuresAvg },
+    ],
   },
 ];
 

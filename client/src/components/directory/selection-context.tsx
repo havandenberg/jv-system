@@ -11,6 +11,7 @@ import useLocalStorage from 'hooks/use-local-storage';
 import usePrevious from 'hooks/use-previous';
 import {
   ContactGroup,
+  ContactGroupPersonContact,
   Customer,
   PersonContact,
   Shipper,
@@ -935,13 +936,13 @@ export const DirectorySelectionContextProvider = ({
   };
 
   const removeSelectedContactsFromGroup = (
-    contactsToRemove: PersonContact[],
+    contactsToRemove: ContactGroupPersonContact[],
     groupId: string,
   ) => {
     const selectedGroup = selectedItems.groups.find((a) => a.id === groupId);
     if (selectedGroup) {
       const newSelectedContacts = selectedGroup.selectedContacts.filter(
-        (a) => !pluck('id', contactsToRemove).includes(a.id),
+        (a) => !pluck('personContactId', contactsToRemove).includes(a.id),
       );
       const filteredGroups = selectedItems.groups.filter(
         (a) => a.id !== selectedGroup.id,

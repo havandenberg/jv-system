@@ -299,7 +299,7 @@ const Details = () => {
             data={data}
             editing={editing}
             handleChange={handleChange}
-            labels={baseLabels(isInternal)}
+            labels={baseLabels(editing, isInternal)}
           />
           <l.Div mt={th.spacing.lg}>{info}</l.Div>
         </>

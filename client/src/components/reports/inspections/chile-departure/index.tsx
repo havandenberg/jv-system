@@ -71,7 +71,7 @@ const ChileDepartureInspections = ({
     >
       {!isEmpty(inspections) ? (
         <VirtualizedList
-          rowCount={data ? data.totalCount : 0}
+          rowCount={data ? inspections.length : 0}
           rowHeight={74}
           rowRenderer={({ key, index, style }) => {
             const item = inspections[index];

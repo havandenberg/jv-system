@@ -12,7 +12,6 @@ import {
   ChileDepartureInspection,
   ChileDepartureInspectionPallet,
 } from 'types';
-import b from 'ui/button';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
@@ -79,14 +78,6 @@ const Details = () => {
 
   return (
     <Page
-      actions={[
-        <b.Primary disabled key={0} mr={th.spacing.sm}>
-          View Arrival
-        </b.Primary>,
-        <b.Primary disabled key={1}>
-          Compare
-        </b.Primary>,
-      ]}
       breadcrumbs={breadcrumbs(id, dateParams)}
       title="Departure Inspection - Chile"
     >
@@ -98,7 +89,12 @@ const Details = () => {
               labels={baseLabels}
             />
             <FeaturedValues values={featuredValues} />
-            <l.Flex justifyBetween mb={th.spacing.lg} width={700}>
+            <l.Flex
+              justifyBetween
+              mb={th.spacing.lg}
+              mt={th.spacing.xl}
+              width={700}
+            >
               <Chart data={chartData} title="Pallets By Condition" />
               <l.Div width={th.spacing.md} />
               {avgPalletDefects.length > 0 ? (

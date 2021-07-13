@@ -6,8 +6,6 @@ import {
   ChileDepartureInspectionPallet,
 } from 'types';
 import l from 'ui/layout';
-import th from 'ui/theme';
-import ty from 'ui/typography';
 
 export type ReportLabelInfo = LabelInfo<ChileDepartureInspection>;
 
@@ -118,64 +116,27 @@ export const baseLabels: PalletLabelInfo[] = [
 export const getFeaturedValues = (data: ChileDepartureInspection) => [
   {
     label: 'Quality Score',
-    value: (
-      <ty.HugeText fontFamily={th.fontFamilies.body} inverted>
-        {data.qualityScore || '-'}
-      </ty.HugeText>
-    ),
+    values: [{ value: data.qualityScore }],
   },
   {
     label: 'Condition Score',
-    value: (
-      <ty.HugeText fontFamily={th.fontFamilies.body} inverted>
-        {data.conditionScore || '-'}
-      </ty.HugeText>
-    ),
+    values: [{ value: data.conditionScore }],
   },
   {
     label: 'Avg Net Weight (kg)',
-    value: (
-      <ty.HugeText fontFamily={th.fontFamilies.body} inverted>
-        {data.avgNetWeight || '-'}
-      </ty.HugeText>
-    ),
+    values: [{ value: data.avgNetWeight }],
   },
   {
     label: 'Avg Bunches / Box',
-    value: (
-      <ty.HugeText fontFamily={th.fontFamilies.body} inverted>
-        {data.avgBunchesCount || '-'}
-      </ty.HugeText>
-    ),
+    values: [{ value: data.avgBunchesCount }],
   },
   {
     label: '°Brix',
-    value: (
-      <l.Div width={th.sizes.fill}>
-        {(
-          [
-            { label: 'Max', key: 'brixMax' },
-            { label: 'Avg', key: 'brixAvg' },
-            { label: 'Min', key: 'brixMin' },
-          ] as ReportLabelInfo[]
-        ).map(({ label, key }, idx) => (
-          <l.Flex
-            alignCenter
-            justifyBetween
-            key={idx}
-            mb={th.spacing.xs}
-            mx={th.spacing.sm}
-          >
-            <ty.CaptionText inverted secondary>
-              {label}
-            </ty.CaptionText>
-            <ty.LargeText inverted my={0}>
-              {data[key] || '-'}
-            </ty.LargeText>
-          </l.Flex>
-        ))}
-      </l.Div>
-    ),
+    values: [
+      { label: 'Max', value: data.brixMax },
+      { label: 'Avg', value: data.brixAvg },
+      { label: 'Min', value: data.brixMin },
+    ],
   },
 ];
 

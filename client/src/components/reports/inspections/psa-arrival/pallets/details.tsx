@@ -383,7 +383,7 @@ const Details = () => {
           <l.Div flex={8}>
             {baseData}
             <FeaturedValues values={featuredValues} />
-            <ty.CaptionText mb={th.spacing.sm} secondary>
+            <ty.CaptionText mb={th.spacing.sm} mt={th.spacing.xl} secondary>
               QC Comments
             </ty.CaptionText>
             <ty.BodyText mb={pallet.comment2 ? th.spacing.sm : th.spacing.xl}>

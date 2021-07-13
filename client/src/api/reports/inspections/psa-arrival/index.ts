@@ -17,12 +17,11 @@ import {
 import { Query } from 'types';
 
 const INSPECTION_DETAILS_QUERY = loader('./details.gql');
-const INSPECTION_DETAILS_COM_VAR_LIST_QUERY = loader(
-  './details-com-var-list.gql',
+const PSA_ARRIVAL_INSPECTION_DETAILS_BY_COM_VAR_QUERY = loader(
+  './details-com-var.gql',
 );
 const INSPECTION_DETAILS_PICTURES_QUERY = loader('./details-pictures.gql');
 const INSPECTIONS_LIST_QUERY = loader('./list.gql');
-const PALLET_LIST_QUERY = loader('./pallets.gql');
 const PALLET_DETAILS_QUERY = loader('./pallet-details.gql');
 
 export const usePsaArrivalInspections = () => {
@@ -94,15 +93,31 @@ export const usePsaArrivalInspection = (id: string) => {
   };
 };
 
-export const usePsaArrivalInspectionComVarList = (id: string) => {
+export const usePsaArrivalInspectionComVar = (id: string) => {
   const [{ commodity = '', variety = '' }] = useQuerySet({
     commodity: StringParam,
     variety: StringParam,
   });
+  const [{ sortBy = 'size', sortOrder = SORT_ORDER.ASC }] =
+    useSortQueryParams();
+  const orderBy = getOrderByString(sortBy, sortOrder);
   const { data, error, loading } = useQuery<Query>(
-    INSPECTION_DETAILS_COM_VAR_LIST_QUERY,
+    PSA_ARRIVAL_INSPECTION_DETAILS_BY_COM_VAR_QUERY,
     {
-      variables: { id, commodity, variety },
+      variables: {
+        id,
+        commodity,
+        variety,
+        grapesOrderBy: orderBy,
+        citrusOrderBy: orderBy,
+        stoneFruitOrderBy: orderBy,
+        pomegranatesOrderBy: orderBy,
+        persimmonsOrderBy: orderBy,
+        pearsOrderBy: orderBy,
+        lemonsOrderBy: orderBy,
+        cherriesOrderBy: orderBy,
+        applesOrderBy: orderBy,
+      },
     },
   );
   return {
@@ -124,30 +139,6 @@ export const usePsaArrivalInspectionPictures = (palletIds: string[]) => {
     error,
     loading,
   };
-};
-
-export const usePsaArrivalPallets = (arrival: string, exporterName: string) => {
-  const [{ sortBy = 'palletId', sortOrder = SORT_ORDER.DESC }] =
-    useSortQueryParams();
-  const orderBy = getOrderByString(sortBy, sortOrder);
-  const [variety = ''] = useQueryValue('variety');
-
-  return useQuery<Query>(PALLET_LIST_QUERY, {
-    variables: {
-      arrival,
-      exporterName,
-      grapesOrderBy: orderBy,
-      citrusOrderBy: orderBy,
-      stoneFruitOrderBy: orderBy,
-      pomegranatesOrderBy: orderBy,
-      persimmonsOrderBy: orderBy,
-      pearsOrderBy: orderBy,
-      lemonsOrderBy: orderBy,
-      cherriesOrderBy: orderBy,
-      applesOrderBy: orderBy,
-      variety,
-    },
-  });
 };
 
 export const usePsaArrivalPallet = (id: string) =>

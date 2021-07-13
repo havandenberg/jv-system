@@ -25,13 +25,13 @@ query PSA_ARRIVAL_INSPECTIONS_LIST(
     nodes {
       arrivalCode
       arrivalName
-      avgQuality
-      avgCondition
       exporterId
       exporterName
       id
       locationName
       reportDate
+      qualityRange
+      conditionRange
       pictures {
         nodes {
           id

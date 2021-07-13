@@ -93,6 +93,12 @@ CREATE TABLE directory.warehouse_person_contact (
   FOREIGN KEY (person_contact_id) REFERENCES directory.person_contact(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
+CREATE TABLE directory.user (
+	id BIGSERIAL PRIMARY KEY,
+	pin TEXT UNIQUE,
+	display_name TEXT
+);
+
 CREATE TABLE directory.contact_group (
 	id BIGSERIAL PRIMARY KEY,
 	group_description TEXT NOT NULL,
@@ -108,10 +114,4 @@ CREATE TABLE directory.contact_group_person_contact (
   PRIMARY KEY (group_id, person_contact_id),
   FOREIGN KEY (group_id) REFERENCES directory.contact_group(id) ON UPDATE CASCADE ON DELETE CASCADE,
   FOREIGN KEY (person_contact_id) REFERENCES directory.person_contact(id) ON UPDATE CASCADE ON DELETE CASCADE
-);
-
-CREATE TABLE directory.user (
-	id BIGSERIAL PRIMARY KEY,
-	pin TEXT UNIQUE,
-	display_name TEXT
 );

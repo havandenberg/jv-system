@@ -103,7 +103,7 @@ const CreatePersonContact = () => {
 
   const handleSave = () => {
     setSaveAttempt(true);
-    if (validateItem(changes, baseLabels(false))) {
+    if (validateItem(changes, baseLabels(true, false))) {
       setLoading(true);
       handleCreate({
         variables: {
@@ -154,14 +154,14 @@ const CreatePersonContact = () => {
         </Fragment>,
       ]}
       breadcrumbs={getBreadcrumbs()}
-      title="New Contact"
+      title="Create Contact"
     >
       <BaseData<PersonContact>
         changes={changes}
         data={changes}
         editing={true}
         handleChange={handleChange}
-        labels={baseLabels(false)}
+        labels={baseLabels(true, false)}
         showValidation={saveAttempt}
       />
       <l.Div mt={th.spacing.lg}>{info}</l.Div>

@@ -33,7 +33,6 @@ import {
   PsaPomegranatePallet,
   PsaStoneFruitPallet,
 } from 'types';
-import b from 'ui/button';
 import { Select } from 'ui/input';
 import l from 'ui/layout';
 import th from 'ui/theme';
@@ -42,7 +41,7 @@ import ty from 'ui/typography';
 import { InspectionTypes } from '..';
 import {
   baseLabels,
-  commonFeaturedValues,
+  getCommonFeaturedValues,
   getGrapeFeaturedValues,
   getCitrusFeaturedValues,
   getStoneFruitFeaturedValues,
@@ -52,6 +51,8 @@ import {
   getLemonFeaturedValues,
   getCherryFeaturedValues,
   getAppleFeaturedValues,
+  filterPallets,
+  getPallets,
 } from './data-utils';
 import PsaArrivalPallets from './pallets';
 
@@ -99,7 +100,7 @@ const Details = () => {
     data: comVarData,
     loading: comVarLoading,
     error: comVarError,
-  } = api.usePsaArrivalInspectionComVarList(id);
+  } = api.usePsaArrivalInspectionComVar(id);
   const previousComVarData = usePrevious(comVarData);
 
   const {
@@ -111,46 +112,124 @@ const Details = () => {
   const loading = comVarLoading || detailsLoading;
   const error = comVarError || detailsError;
 
+  const [
+    {
+      commodity,
+      variety,
+      size,
+      growerCode,
+      labelCode,
+      overallQuality,
+      overallCondition,
+    },
+    setComVarQuery,
+  ] = useQuerySet({
+    commodity: StringParam,
+    variety: StringParam,
+    size: StringParam,
+    growerCode: StringParam,
+    labelCode: StringParam,
+    overallQuality: StringParam,
+    overallCondition: StringParam,
+  });
+
+  const palletFilters = {
+    size,
+    growerCode,
+    labelCode,
+    overallQuality,
+    overallCondition,
+  };
+
+  const pallets = comVarData
+    ? filterPallets(getPallets(comVarData), palletFilters)
+    : [];
+
+  const palletCount = loading
+    ? '-'
+    : `${comVarData && variety ? pallets.length : 0}`;
+
+  const { TabBar } = useTabBar(tabs(id, palletCount, search), true);
+
   const palletIds = comVarData
-    ? pluck('palletId', comVarData.grapePallets.nodes as PsaGrapePallet[])
+    ? pluck(
+        'palletId',
+        filterPallets(
+          comVarData.grapePallets.nodes,
+          palletFilters,
+        ) as PsaGrapePallet[],
+      )
         .concat(
           pluck(
             'palletId',
-            comVarData.citrusPallets.nodes as PsaCitrusPallet[],
+            filterPallets(
+              comVarData.citrusPallets.nodes,
+              palletFilters,
+            ) as PsaCitrusPallet[],
           ),
         )
         .concat(
           pluck(
             'palletId',
-            comVarData.stoneFruitPallets.nodes as PsaStoneFruitPallet[],
+            filterPallets(
+              comVarData.stoneFruitPallets.nodes,
+              palletFilters,
+            ) as PsaStoneFruitPallet[],
           ),
         )
         .concat(
           pluck(
             'palletId',
-            comVarData.pomegranatePallets.nodes as PsaPomegranatePallet[],
+            filterPallets(
+              comVarData.pomegranatePallets.nodes,
+              palletFilters,
+            ) as PsaPomegranatePallet[],
           ),
         )
         .concat(
           pluck(
             'palletId',
-            comVarData.persimmonPallets.nodes as PsaPersimmonPallet[],
+            filterPallets(
+              comVarData.persimmonPallets.nodes,
+              palletFilters,
+            ) as PsaPersimmonPallet[],
           ),
-        )
-        .concat(
-          pluck('palletId', comVarData.pearPallets.nodes as PsaPearPallet[]),
-        )
-        .concat(
-          pluck('palletId', comVarData.lemonPallets.nodes as PsaLemonPallet[]),
         )
         .concat(
           pluck(
             'palletId',
-            comVarData.cherryPallets.nodes as PsaCherryPallet[],
+            filterPallets(
+              comVarData.pearPallets.nodes,
+              palletFilters,
+            ) as PsaPearPallet[],
           ),
         )
         .concat(
-          pluck('palletId', comVarData.applePallets.nodes as PsaApplePallet[]),
+          pluck(
+            'palletId',
+            filterPallets(
+              comVarData.lemonPallets.nodes,
+              palletFilters,
+            ) as PsaLemonPallet[],
+          ),
+        )
+        .concat(
+          pluck(
+            'palletId',
+            filterPallets(
+              comVarData.cherryPallets.nodes,
+              palletFilters,
+            ) as PsaCherryPallet[],
+          ),
+        )
+        .concat(
+          pluck(
+            'palletId',
+            filterPallets(
+              comVarData.applePallets.nodes,
+              palletFilters,
+            ) as PsaApplePallet[],
+          ),
         )
     : [];
 
@@ -158,66 +237,40 @@ const Details = () => {
     palletIds as string[],
   );
 
-  const [{ commodity, variety }, setComVarQuery] = useQuerySet({
-    commodity: StringParam,
-    variety: StringParam,
-  });
-
-  const palletCount = loading
-    ? '-'
-    : `${
-        comVarData && variety
-          ? comVarData.grapePallets.totalCount ||
-            comVarData.citrusPallets.totalCount ||
-            comVarData.stoneFruitPallets.totalCount ||
-            comVarData.pomegranatePallets.totalCount ||
-            comVarData.persimmonPallets.totalCount ||
-            comVarData.pearPallets.totalCount ||
-            comVarData.lemonPallets.totalCount ||
-            comVarData.cherryPallets.totalCount ||
-            comVarData.applePallets.totalCount
-          : 0
-      }`;
-
-  const { TabBar } = useTabBar(tabs(id, palletCount, search), true);
-
   const [numPages, setNumPages] = useState(0);
 
   const getFeaturedValues = () => {
     if (data && comVarData && variety) {
       if (comVarData.grapePallets.totalCount > 0) {
-        return getGrapeFeaturedValues(comVarData as PsaArrivalReport);
+        return getGrapeFeaturedValues(pallets);
       }
       if (comVarData.citrusPallets.totalCount > 0) {
-        return getCitrusFeaturedValues(comVarData as PsaArrivalReport);
+        return getCitrusFeaturedValues(pallets);
       }
       if (comVarData.stoneFruitPallets.totalCount > 0) {
-        return getStoneFruitFeaturedValues(comVarData as PsaArrivalReport);
+        return getStoneFruitFeaturedValues(pallets);
       }
       if (comVarData.pomegranatePallets.totalCount > 0) {
-        return getPomegranateFeaturedValues(comVarData as PsaArrivalReport);
+        return getPomegranateFeaturedValues(pallets);
       }
       if (comVarData.persimmonPallets.totalCount > 0) {
-        return getPersimmonFeaturedValues(comVarData as PsaArrivalReport);
+        return getPersimmonFeaturedValues(pallets);
       }
       if (comVarData.pearPallets.totalCount > 0) {
-        return getPearFeaturedValues(comVarData as PsaArrivalReport);
+        return getPearFeaturedValues(pallets);
       }
       if (comVarData.lemonPallets.totalCount > 0) {
-        return getLemonFeaturedValues(comVarData as PsaArrivalReport);
+        return getLemonFeaturedValues(pallets);
       }
       if (comVarData.cherryPallets.totalCount > 0) {
-        return getCherryFeaturedValues(comVarData as PsaArrivalReport);
+        return getCherryFeaturedValues(pallets);
       }
       if (comVarData.applePallets.totalCount > 0) {
-        return getAppleFeaturedValues(comVarData as PsaArrivalReport);
+        return getAppleFeaturedValues(pallets);
       }
-      return [
-        ...commonFeaturedValues(comVarData as PsaArrivalReport),
-        ...placeholderFeaturedValues(2),
-      ];
+      return [...getCommonFeaturedValues(pallets)];
     }
-    return placeholderFeaturedValues(5);
+    return placeholderFeaturedValues(3);
   };
 
   const featuredValues = getFeaturedValues();
@@ -256,14 +309,6 @@ const Details = () => {
 
   return (
     <Page
-      actions={[
-        <b.Primary disabled key={0} mr={th.spacing.sm}>
-          View Departure
-        </b.Primary>,
-        <b.Primary disabled key={1}>
-          Compare
-        </b.Primary>,
-      ]}
       breadcrumbs={breadcrumbs(id, pathname, search, dateParams)}
       title="Arrival Inspection"
     >
@@ -271,56 +316,71 @@ const Details = () => {
         <l.Flex alignStart flex={1}>
           <l.Div flex={8}>
             <BaseData<PsaArrivalReport> data={data} labels={baseLabels} />
-            <l.Flex alignCenter my={th.spacing.lg}>
-              <ty.BodyText mr={th.spacing.md}>Commodity:</ty.BodyText>
-              <Select
-                onChange={(e) => {
-                  setComVarQuery({
-                    commodity: e.target.value,
-                    variety: undefined,
-                  });
-                }}
-                value={commodity || ''}
-              >
-                {(comVarData && comVarData.commodityList
-                  ? comVarData.commodityList.length > 0
-                    ? comVarData.commodityList
-                    : ['-']
-                  : ['Loading...']
-                ).map((key) => (
-                  <option key={key} value={`${key}`}>
-                    {key}
-                  </option>
-                ))}
-              </Select>
-              <ty.BodyText ml={th.spacing.lg} mr={th.spacing.md}>
-                Variety:
-              </ty.BodyText>
-              <Select
-                onChange={(e) => {
-                  setComVarQuery({ variety: e.target.value });
-                }}
-                value={variety || ''}
-              >
-                {(comVarData && comVarData.varietyList
-                  ? comVarData.varietyList.length > 0
-                    ? comVarData.varietyList
-                    : ['-']
-                  : ['Loading...']
-                ).map((key) => (
-                  <option key={key} value={`${key}`}>
-                    {key}
-                  </option>
-                ))}
-              </Select>
-            </l.Flex>
-            {((comVarData &&
-              comVarData.commodityList &&
-              comVarData.commodityList.length > 0) ||
-              loading) && <FeaturedValues values={featuredValues} />}
+            <l.Div height={th.spacing.xl} />
             <TabBar />
             <l.Div height={th.spacing.lg} />
             <Switch>
+              <Route
+                exact
+                path={`${baseUrl}/pallets`}
+                render={() => (
+                  <>
+                    <l.Flex alignCenter mb={th.spacing.lg}>
+                      <ty.BodyText mr={th.spacing.md}>Commodity:</ty.BodyText>
+                      <Select
+                        onChange={(e) => {
+                          setComVarQuery({
+                            commodity: e.target.value,
+                            variety: undefined,
+                          });
+                        }}
+                        value={commodity || ''}
+                      >
+                        {(comVarData && comVarData.commodityList
+                          ? comVarData.commodityList.length > 0
+                            ? comVarData.commodityList
+                            : ['-']
+                          : ['Loading...']
+                        ).map((key) => (
+                          <option key={key} value={`${key}`}>
+                            {key}
+                          </option>
+                        ))}
+                      </Select>
+                      <ty.BodyText ml={th.spacing.lg} mr={th.spacing.md}>
+                        Variety:
+                      </ty.BodyText>
+                      <Select
+                        onChange={(e) => {
+                          setComVarQuery({ variety: e.target.value });
+                        }}
+                        value={variety || ''}
+                      >
+                        {(comVarData && comVarData.varietyList
+                          ? comVarData.varietyList.length > 0
+                            ? comVarData.varietyList
+                            : ['-']
+                          : ['Loading...']
+                        ).map((key) => (
+                          <option key={key} value={`${key}`}>
+                            {key}
+                          </option>
+                        ))}
+                      </Select>
+                    </l.Flex>
+                    {((comVarData &&
+                      comVarData.commodityList &&
+                      comVarData.commodityList.length > 0) ||
+                      loading) && <FeaturedValues values={featuredValues} />}
+                    <l.Div height={th.spacing.lg} />
+                    <PsaArrivalPallets
+                      inspection={comVarData}
+                      loading={comVarLoading}
+                      error={comVarError}
+                    />
+                  </>
+                )}
+              />
               <Route
                 exact
                 path={`${baseUrl}/report`}
@@ -342,11 +402,6 @@ const Details = () => {
                     )}
                   </Document>
                 )}
-              />
-              <Route
-                exact
-                path={`${baseUrl}/pallets`}
-                render={() => <PsaArrivalPallets inspection={data} />}
               />
               <Redirect to={`${baseUrl}/report${search}`} />
             </Switch>

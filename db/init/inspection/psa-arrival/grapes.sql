@@ -151,62 +151,7 @@ AS $BODY$
 	SELECT * FROM inspection.psa_grape_pallet gp
 	WHERE gp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name) AND gp.exporter_name = r.exporter_name
 $BODY$;
-
-CREATE FUNCTION inspection.psa_arrival_report_avg_grape_bunches_per_box(IN r inspection.psa_arrival_report, In vari TEXT)
-	RETURNS NUMERIC
-	LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-	SELECT ROUND(AVG(gp.bunches::NUMERIC), 1) FROM inspection.psa_grape_pallet gp
-	WHERE gp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
-	AND gp.exporter_name = r.exporter_name
-	AND gp.bunches ~ '^[0-9\.]+$'
-	AND (vari = '' OR gp.variety = vari)
-$BODY$;
-
-CREATE FUNCTION inspection.psa_arrival_report_avg_grape_brix_max(IN r inspection.psa_arrival_report, In vari TEXT)
-	RETURNS NUMERIC
-	LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-	SELECT ROUND(AVG(gp.brix_max::NUMERIC), 1) FROM inspection.psa_grape_pallet gp
-	WHERE gp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
-	AND gp.exporter_name = r.exporter_name
-	AND gp.brix_max ~ '^[0-9\.]+$'
-	AND (vari = '' OR gp.variety = vari)
-$BODY$;
-
-CREATE FUNCTION inspection.psa_arrival_report_avg_grape_brix_min(IN r inspection.psa_arrival_report, In vari TEXT)
-	RETURNS NUMERIC
-	LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-	SELECT ROUND(AVG(gp.brix_min::NUMERIC), 1) FROM inspection.psa_grape_pallet gp
-	WHERE gp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
-	AND gp.exporter_name = r.exporter_name
-	AND gp.brix_min ~ '^[0-9\.]+$'
-	AND (vari = '' OR gp.variety = vari)
-$BODY$;
-
-CREATE FUNCTION inspection.psa_arrival_report_avg_grape_brix_most(IN r inspection.psa_arrival_report, In vari TEXT)
-	RETURNS NUMERIC
-	LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-	SELECT ROUND(AVG(gp.brix_most::NUMERIC), 1) FROM inspection.psa_grape_pallet gp
-	WHERE gp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
-	AND gp.exporter_name = r.exporter_name
-	AND gp.brix_most ~ '^[0-9\.]+$'
-	AND (vari = '' OR gp.variety = vari)
-$BODY$;
+COMMENT ON FUNCTION inspection.psa_arrival_report_grape_pallets(r inspection.psa_arrival_report) IS E'@sortable';
 
 CREATE FUNCTION inspection.psa_grape_pallet_pictures(IN gp inspection.psa_grape_pallet)
 	RETURNS SETOF inspection.psa_arrival_picture

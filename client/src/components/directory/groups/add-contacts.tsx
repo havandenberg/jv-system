@@ -113,7 +113,7 @@ const AddContactsToGroup = ({ addContacts, group, confirmLoading }: Props) => {
         <>
           <ty.BodyText mb={th.spacing.md}>
             Search for contacts to add to group "
-            {group.groupName || 'New Group'}" below.
+            {group.groupName || 'Create Group'}" below.
           </ty.BodyText>
           {Search}
           <l.Div height={500} mt={th.spacing.lg}>

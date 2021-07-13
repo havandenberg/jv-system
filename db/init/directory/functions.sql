@@ -91,7 +91,7 @@ SELECT CONCAT (
 	p.roles,
 	array_to_string(array_agg(c.customer_name), ''),
 	array_to_string(array_agg(s.shipper_name), ''),
-	array_to_string(array_agg(w.warehouse_name), '')
+	array_to_string(array_agg(w.warehouse_name), ''),
 	array_to_string(array_agg(c.id), ''),
 	array_to_string(array_agg(s.id), ''),
 	array_to_string(array_agg(w.id), '')

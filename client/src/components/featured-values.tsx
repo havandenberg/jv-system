@@ -5,52 +5,71 @@ import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 import { times } from 'ramda';
+import { Maybe } from 'types';
 
 const Wrapper = styled(l.Flex)({
   alignItems: 'center',
-  borderRadius: th.borderRadii.default,
   background: th.colors.brand.primary,
+  borderRadius: th.borderRadii.default,
+  boxShadow: th.shadows.box,
   flexDirection: 'column',
-  height: 110,
+  height: 100,
   justifyContent: 'space-between',
   minWidth: 100,
-  padding: th.spacing.md,
+  padding: `${th.spacing.md}`,
 });
 
 export interface FeaturedValue {
   label: string;
-  value: React.ReactNode;
+  values: { label?: string; value?: Maybe<string> }[];
 }
 
-export const FeaturedValuePanel = ({ label, value }: FeaturedValue) => (
+export const FeaturedValuePanel = ({ label, values }: FeaturedValue) => (
   <Wrapper>
     <ty.CaptionText center inverted nowrap secondary mb={th.spacing.sm}>
       {label}
     </ty.CaptionText>
-    {value}
+    {values &&
+      values.length &&
+      (values.length > 1 ? (
+        <l.Div width={th.sizes.fill}>
+          {values.map(({ label: lab, value: val }, idx) => (
+            <l.Flex alignCenter justifyBetween key={idx} mx={th.spacing.sm}>
+              {lab && (
+                <ty.SmallText inverted secondary>
+                  {lab}
+                </ty.SmallText>
+              )}
+              <ty.LargeText inverted my={0}>
+                {val || '-'}
+              </ty.LargeText>
+            </l.Flex>
+          ))}
+        </l.Div>
+      ) : (
+        <ty.DisplayText
+          fontFamily={th.fontFamilies.body}
+          fontSize="40px"
+          inverted
+          mb={th.spacing.sm}
+        >
+          {values[0].value || '-'}
+        </ty.DisplayText>
+      ))}
   </Wrapper>
 );
 
 export const placeholderFeaturedValues = (count: number) =>
   times(
-    (idx) => ({
+    () => ({
       label: '-',
-      value: (
-        <ty.HugeText fontFamily={th.fontFamilies.body} inverted>
-          -
-        </ty.HugeText>
-      ),
+      values: [{ value: '-' }],
     }),
     count,
   );
 
 const FeaturedValues = ({ values }: { values: FeaturedValue[] }) => (
-  <l.Flex
-    justifyCenter
-    mb={th.spacing.xl}
-    mt={th.spacing.lg}
-    width={th.sizes.fill}
-  >
+  <l.Flex justifyCenter mt={th.spacing.lg} width={th.sizes.fill}>
     {values.map((value, idx) => (
       <React.Fragment key={idx}>
         <FeaturedValuePanel {...value} />

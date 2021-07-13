@@ -120,48 +120,7 @@ AS $BODY$
 	SELECT * FROM inspection.psa_stone_fruit_pallet sfp
 	WHERE sfp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name) AND sfp.exporter_name = r.exporter_name
 $BODY$;
-
-CREATE FUNCTION inspection.psa_arrival_report_avg_stone_fruit_pressures_max(IN r inspection.psa_arrival_report, In vari TEXT)
-	RETURNS NUMERIC
-	LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-	SELECT ROUND(AVG(sfp.pressures_max::NUMERIC), 1) FROM inspection.psa_stone_fruit_pallet sfp
-	WHERE sfp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
-	AND sfp.exporter_name = r.exporter_name
-	AND sfp.pressures_max ~ '^[0-9\.]+$'
-	AND (vari = '' OR sfp.variety = vari)
-$BODY$;
-
-CREATE FUNCTION inspection.psa_arrival_report_avg_stone_fruit_pressures_min(IN r inspection.psa_arrival_report, In vari TEXT)
-	RETURNS NUMERIC
-	LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-	SELECT ROUND(AVG(sfp.pressures_min::NUMERIC), 1) FROM inspection.psa_stone_fruit_pallet sfp
-	WHERE sfp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
-	AND sfp.exporter_name = r.exporter_name
-	AND sfp.pressures_min ~ '^[0-9\.]+$'
-	AND (vari = '' OR sfp.variety = vari)
-$BODY$;
-
-CREATE FUNCTION inspection.psa_arrival_report_avg_stone_fruit_pressures_avg(IN r inspection.psa_arrival_report, In vari TEXT)
-	RETURNS NUMERIC
-	LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-	SELECT ROUND(AVG(sfp.pressures_avg::NUMERIC), 1) FROM inspection.psa_stone_fruit_pallet sfp
-	WHERE sfp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
-	AND sfp.exporter_name = r.exporter_name
-	AND sfp.pressures_avg ~ '^[0-9\.]+$'
-	AND (vari = '' OR sfp.variety = vari)
-$BODY$;
+COMMENT ON FUNCTION inspection.psa_arrival_report_stone_fruit_pallets(r inspection.psa_arrival_report) IS E'@sortable';
 
 CREATE FUNCTION inspection.psa_stone_fruit_pallet_pictures(IN sfp inspection.psa_stone_fruit_pallet)
 	RETURNS SETOF inspection.psa_arrival_picture

@@ -32,6 +32,8 @@ AS $BODY$
 $BODY$;
 COMMENT ON FUNCTION inspection.psa_arrival_report_pictures(r inspection.psa_arrival_report) IS E'@filterable';
 
+CREATE SEQUENCE pallet_ids;
+
 CREATE FUNCTION inspection.psa_arrival_report_search_text(IN r inspection.psa_arrival_report)
 	RETURNS TEXT
 	LANGUAGE 'sql'
@@ -150,9 +152,7 @@ SELECT CONCAT (
 	WHERE r.id = par.id
 $BODY$;
 
-CREATE SEQUENCE pallet_ids;
-
-CREATE OR REPLACE FUNCTION inspection.psa_arrival_report_commodity_list(IN r inspection.psa_arrival_report)
+CREATE FUNCTION inspection.psa_arrival_report_commodity_list(IN r inspection.psa_arrival_report)
 	RETURNS TEXT[]
 	LANGUAGE 'sql'
     STABLE
@@ -190,7 +190,7 @@ AS $BODY$
   );
 $BODY$;
 
-CREATE OR REPLACE FUNCTION inspection.psa_arrival_report_variety_list(IN r inspection.psa_arrival_report, IN com TEXT)
+CREATE FUNCTION inspection.psa_arrival_report_variety_list(IN r inspection.psa_arrival_report, IN com TEXT)
 	RETURNS TEXT[]
 	LANGUAGE 'sql'
     STABLE
@@ -318,256 +318,80 @@ AS $BODY$
   );
 $BODY$;
 
-CREATE OR REPLACE FUNCTION inspection.psa_arrival_report_avg_quality(IN r inspection.psa_arrival_report)
-	RETURNS NUMERIC
+CREATE FUNCTION inspection.psa_arrival_report_quality_range(IN r inspection.psa_arrival_report)
+	RETURNS TEXT
 	LANGUAGE 'sql'
     STABLE
     PARALLEL UNSAFE
     COST 100
 AS $BODY$
   SELECT COALESCE (
-    (SELECT ROUND(AVG(gp.overall_quality), 1) FROM inspection.psa_grape_pallet gp
+    (SELECT NULLIF(CONCAT(MIN(gp.overall_quality), '-', MAX(gp.overall_quality)), '-') FROM inspection.psa_grape_pallet gp
     WHERE gp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
     AND gp.exporter_name = r.exporter_name),
-    (SELECT ROUND(AVG(cp.overall_quality), 1) FROM inspection.psa_citrus_pallet cp
+    (SELECT NULLIF(CONCAT(MIN(cp.overall_quality), '-', MAX(cp.overall_quality)), '-') FROM inspection.psa_citrus_pallet cp
     WHERE cp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
     AND cp.exporter_name = r.exporter_name),
-    (SELECT ROUND(AVG(sfp.overall_quality), 1) FROM inspection.psa_stone_fruit_pallet sfp
+    (SELECT NULLIF(CONCAT(MIN(sfp.overall_quality), '-', MAX(sfp.overall_quality)), '-') FROM inspection.psa_stone_fruit_pallet sfp
     WHERE sfp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
     AND sfp.exporter_name = r.exporter_name),
-    (SELECT ROUND(AVG(pp.overall_quality), 1) FROM inspection.psa_pomegranate_pallet pp
+    (SELECT NULLIF(CONCAT(MIN(pp.overall_quality), '-', MAX(pp.overall_quality)), '-') FROM inspection.psa_pomegranate_pallet pp
     WHERE pp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
     AND pp.exporter_name = r.exporter_name),
-    (SELECT ROUND(AVG(psp.overall_quality), 1) FROM inspection.psa_persimmon_pallet psp
+    (SELECT NULLIF(CONCAT(MIN(psp.overall_quality), '-', MAX(psp.overall_quality)), '-') FROM inspection.psa_persimmon_pallet psp
     WHERE psp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
     AND psp.exporter_name = r.exporter_name),
-    (SELECT ROUND(AVG(prp.overall_quality), 1) FROM inspection.psa_pear_pallet prp
+    (SELECT NULLIF(CONCAT(MIN(prp.overall_quality), '-', MAX(prp.overall_quality)), '-') FROM inspection.psa_pear_pallet prp
     WHERE prp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
     AND prp.exporter_name = r.exporter_name),
-    (SELECT ROUND(AVG(lp.overall_quality), 1) FROM inspection.psa_lemon_pallet lp
+    (SELECT NULLIF(CONCAT(MIN(lp.overall_quality), '-', MAX(lp.overall_quality)), '-') FROM inspection.psa_lemon_pallet lp
     WHERE lp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
     AND lp.exporter_name = r.exporter_name),
-    (SELECT ROUND(AVG(chp.overall_quality), 1) FROM inspection.psa_cherry_pallet chp
+    (SELECT NULLIF(CONCAT(MIN(chp.overall_quality), '-', MAX(chp.overall_quality)), '-') FROM inspection.psa_cherry_pallet chp
     WHERE chp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
     AND chp.exporter_name = r.exporter_name),
-    (SELECT ROUND(AVG(ap.overall_quality), 1) FROM inspection.psa_apple_pallet ap
+    (SELECT NULLIF(CONCAT(MIN(ap.overall_quality), '-', MAX(ap.overall_quality)), '-') FROM inspection.psa_apple_pallet ap
     WHERE ap.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
     AND ap.exporter_name = r.exporter_name)
   );
 $BODY$;
-COMMENT ON FUNCTION inspection.psa_arrival_report_avg_quality(r inspection.psa_arrival_report) IS E'@sortable';
+COMMENT ON FUNCTION inspection.psa_arrival_report_quality_range(r inspection.psa_arrival_report) IS E'@sortable';
 
-CREATE OR REPLACE FUNCTION inspection.psa_arrival_report_avg_condition(IN r inspection.psa_arrival_report)
-	RETURNS NUMERIC
+CREATE FUNCTION inspection.psa_arrival_report_condition_range(IN r inspection.psa_arrival_report)
+	RETURNS TEXT
 	LANGUAGE 'sql'
     STABLE
     PARALLEL UNSAFE
     COST 100
 AS $BODY$
   SELECT COALESCE (
-    (SELECT ROUND(AVG(gp.overall_condition), 1) FROM inspection.psa_grape_pallet gp
+    (SELECT NULLIF(CONCAT(MIN(gp.overall_condition), '-', MAX(gp.overall_condition)), '-') FROM inspection.psa_grape_pallet gp
     WHERE gp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
     AND gp.exporter_name = r.exporter_name),
-    (SELECT ROUND(AVG(cp.overall_condition), 1) FROM inspection.psa_citrus_pallet cp
+    (SELECT NULLIF(CONCAT(MIN(cp.overall_condition), '-', MAX(cp.overall_condition)), '-') FROM inspection.psa_citrus_pallet cp
     WHERE cp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
     AND cp.exporter_name = r.exporter_name),
-    (SELECT ROUND(AVG(sfp.overall_condition), 1) FROM inspection.psa_stone_fruit_pallet sfp
+    (SELECT NULLIF(CONCAT(MIN(sfp.overall_condition), '-', MAX(sfp.overall_condition)), '-') FROM inspection.psa_stone_fruit_pallet sfp
     WHERE sfp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
     AND sfp.exporter_name = r.exporter_name),
-    (SELECT ROUND(AVG(pp.overall_condition), 1) FROM inspection.psa_pomegranate_pallet pp
+    (SELECT NULLIF(CONCAT(MIN(pp.overall_condition), '-', MAX(pp.overall_condition)), '-') FROM inspection.psa_pomegranate_pallet pp
     WHERE pp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
     AND pp.exporter_name = r.exporter_name),
-    (SELECT ROUND(AVG(psp.overall_condition), 1) FROM inspection.psa_persimmon_pallet psp
+    (SELECT NULLIF(CONCAT(MIN(psp.overall_condition), '-', MAX(psp.overall_condition)), '-') FROM inspection.psa_persimmon_pallet psp
     WHERE psp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
     AND psp.exporter_name = r.exporter_name),
-    (SELECT ROUND(AVG(prp.overall_condition), 1) FROM inspection.psa_pear_pallet prp
+    (SELECT NULLIF(CONCAT(MIN(prp.overall_condition), '-', MAX(prp.overall_condition)), '-') FROM inspection.psa_pear_pallet prp
     WHERE prp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
     AND prp.exporter_name = r.exporter_name),
-    (SELECT ROUND(AVG(lp.overall_condition), 1) FROM inspection.psa_lemon_pallet lp
+    (SELECT NULLIF(CONCAT(MIN(lp.overall_condition), '-', MAX(lp.overall_condition)), '-') FROM inspection.psa_lemon_pallet lp
     WHERE lp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
     AND lp.exporter_name = r.exporter_name),
-    (SELECT ROUND(AVG(chp.overall_condition), 1) FROM inspection.psa_cherry_pallet chp
+    (SELECT NULLIF(CONCAT(MIN(chp.overall_condition), '-', MAX(chp.overall_condition)), '-') FROM inspection.psa_cherry_pallet chp
     WHERE chp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
     AND chp.exporter_name = r.exporter_name),
-    (SELECT ROUND(AVG(ap.overall_condition), 1) FROM inspection.psa_apple_pallet ap
+    (SELECT NULLIF(CONCAT(MIN(ap.overall_condition), '-', MAX(ap.overall_condition)), '-') FROM inspection.psa_apple_pallet ap
     WHERE ap.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
     AND ap.exporter_name = r.exporter_name)
   );
 $BODY$;
-COMMENT ON FUNCTION inspection.psa_arrival_report_avg_condition(r inspection.psa_arrival_report) IS E'@sortable';
-
-CREATE OR REPLACE FUNCTION inspection.psa_arrival_report_avg_quality_by_variety(IN r inspection.psa_arrival_report, IN vari TEXT)
-	RETURNS NUMERIC
-	LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-  SELECT COALESCE (
-    (SELECT ROUND(AVG(gp.overall_quality), 1) FROM inspection.psa_grape_pallet gp
-    WHERE gp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
-    AND gp.exporter_name = r.exporter_name
-    AND (vari = '' OR gp.variety = vari)),
-    (SELECT ROUND(AVG(cp.overall_quality), 1) FROM inspection.psa_citrus_pallet cp
-    WHERE cp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
-    AND cp.exporter_name = r.exporter_name
-    AND (vari = '' OR cp.variety = vari)),
-    (SELECT ROUND(AVG(sfp.overall_quality), 1) FROM inspection.psa_stone_fruit_pallet sfp
-    WHERE sfp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
-    AND sfp.exporter_name = r.exporter_name
-    AND (vari = '' OR sfp.variety = vari)),
-    (SELECT ROUND(AVG(pp.overall_quality), 1) FROM inspection.psa_pomegranate_pallet pp
-    WHERE pp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
-    AND pp.exporter_name = r.exporter_name
-    AND (vari = '' OR pp.variety = vari)),
-    (SELECT ROUND(AVG(psp.overall_quality), 1) FROM inspection.psa_persimmon_pallet psp
-    WHERE psp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
-    AND psp.exporter_name = r.exporter_name
-    AND (vari = '' OR psp.variety = vari)),
-    (SELECT ROUND(AVG(prp.overall_quality), 1) FROM inspection.psa_pear_pallet prp
-    WHERE prp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
-    AND prp.exporter_name = r.exporter_name
-    AND (vari = '' OR prp.variety = vari)),
-    (SELECT ROUND(AVG(lp.overall_quality), 1) FROM inspection.psa_lemon_pallet lp
-    WHERE lp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
-    AND lp.exporter_name = r.exporter_name
-    AND (vari = '' OR lp.variety = vari)),
-    (SELECT ROUND(AVG(chp.overall_quality), 1) FROM inspection.psa_cherry_pallet chp
-    WHERE chp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
-    AND chp.exporter_name = r.exporter_name
-    AND (vari = '' OR chp.variety = vari)),
-    (SELECT ROUND(AVG(ap.overall_quality), 1) FROM inspection.psa_apple_pallet ap
-    WHERE ap.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
-    AND ap.exporter_name = r.exporter_name
-    AND (vari = '' OR ap.variety = vari))
-  );
-$BODY$;
-
-CREATE OR REPLACE FUNCTION inspection.psa_arrival_report_avg_condition_by_variety(IN r inspection.psa_arrival_report, IN vari TEXT)
-	RETURNS NUMERIC
-	LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-  SELECT COALESCE (
-    (SELECT ROUND(AVG(gp.overall_condition), 1) FROM inspection.psa_grape_pallet gp
-    WHERE gp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
-    AND gp.exporter_name = r.exporter_name
-    AND (vari = '' OR gp.variety = vari)),
-    (SELECT ROUND(AVG(cp.overall_condition), 1) FROM inspection.psa_citrus_pallet cp
-    WHERE cp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
-    AND cp.exporter_name = r.exporter_name
-    AND (vari = '' OR cp.variety = vari)),
-    (SELECT ROUND(AVG(sfp.overall_condition), 1) FROM inspection.psa_stone_fruit_pallet sfp
-    WHERE sfp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
-    AND sfp.exporter_name = r.exporter_name
-    AND (vari = '' OR sfp.variety = vari)),
-    (SELECT ROUND(AVG(pp.overall_condition), 1) FROM inspection.psa_pomegranate_pallet pp
-    WHERE pp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
-    AND pp.exporter_name = r.exporter_name
-    AND (vari = '' OR pp.variety = vari)),
-    (SELECT ROUND(AVG(psp.overall_condition), 1) FROM inspection.psa_persimmon_pallet psp
-    WHERE psp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
-    AND psp.exporter_name = r.exporter_name
-    AND (vari = '' OR psp.variety = vari)),
-    (SELECT ROUND(AVG(prp.overall_condition), 1) FROM inspection.psa_pear_pallet prp
-    WHERE prp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
-    AND prp.exporter_name = r.exporter_name
-    AND (vari = '' OR prp.variety = vari)),
-    (SELECT ROUND(AVG(lp.overall_condition), 1) FROM inspection.psa_lemon_pallet lp
-    WHERE lp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
-    AND lp.exporter_name = r.exporter_name
-    AND (vari = '' OR lp.variety = vari)),
-    (SELECT ROUND(AVG(chp.overall_condition), 1) FROM inspection.psa_cherry_pallet chp
-    WHERE chp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
-    AND chp.exporter_name = r.exporter_name
-    AND (vari = '' OR chp.variety = vari)),
-    (SELECT ROUND(AVG(ap.overall_condition), 1) FROM inspection.psa_apple_pallet ap
-    WHERE ap.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
-    AND ap.exporter_name = r.exporter_name
-    AND (vari = '' OR ap.variety = vari))
-  );
-$BODY$;
-
-CREATE OR REPLACE FUNCTION inspection.psa_arrival_report_avg_net_weight(IN r inspection.psa_arrival_report, IN vari TEXT)
-	RETURNS NUMERIC
-	LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-  SELECT COALESCE (
-    (SELECT ROUND(AVG(gp.weight::NUMERIC), 1) FROM inspection.psa_grape_pallet gp
-    WHERE gp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
-    AND gp.exporter_name = r.exporter_name
-	  AND gp.weight ~ '^[0-9\.]+$'
-    AND (vari = '' OR gp.variety = vari)),
-    (SELECT ROUND(AVG(cp.weight::NUMERIC), 1) FROM inspection.psa_citrus_pallet cp
-    WHERE cp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
-    AND cp.exporter_name = r.exporter_name
-	  AND cp.weight ~ '^[0-9\.]+$'
-    AND (vari = '' OR cp.variety = vari)),
-    (SELECT ROUND(AVG(sfp.weight::NUMERIC), 1) FROM inspection.psa_stone_fruit_pallet sfp
-    WHERE sfp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
-    AND sfp.exporter_name = r.exporter_name
-	  AND sfp.weight ~ '^[0-9\.]+$'
-    AND (vari = '' OR sfp.variety = vari)),
-    (SELECT ROUND(AVG(pp.weight::NUMERIC), 1) FROM inspection.psa_pomegranate_pallet pp
-    WHERE pp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
-    AND pp.exporter_name = r.exporter_name
-	  AND pp.weight ~ '^[0-9\.]+$'
-    AND (vari = '' OR pp.variety = vari)),
-    (SELECT ROUND(AVG(psp.weight::NUMERIC), 1) FROM inspection.psa_persimmon_pallet psp
-    WHERE psp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
-    AND psp.exporter_name = r.exporter_name
-	  AND psp.weight ~ '^[0-9\.]+$'
-    AND (vari = '' OR psp.variety = vari)),
-    (SELECT ROUND(AVG(prp.weight::NUMERIC), 1) FROM inspection.psa_pear_pallet prp
-    WHERE prp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
-    AND prp.exporter_name = r.exporter_name
-	  AND prp.weight ~ '^[0-9\.]+$'
-    AND (vari = '' OR prp.variety = vari)),
-    (SELECT ROUND(AVG(lp.weight::NUMERIC), 1) FROM inspection.psa_lemon_pallet lp
-    WHERE lp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
-    AND lp.exporter_name = r.exporter_name
-	  AND lp.weight ~ '^[0-9\.]+$'
-    AND (vari = '' OR lp.variety = vari)),
-    (SELECT ROUND(AVG(chp.weight::NUMERIC), 1) FROM inspection.psa_cherry_pallet chp
-    WHERE chp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
-    AND chp.exporter_name = r.exporter_name
-	  AND chp.weight ~ '^[0-9\.]+$'
-    AND (vari = '' OR chp.variety = vari)),
-    (SELECT ROUND(AVG(ap.weight::NUMERIC), 1) FROM inspection.psa_apple_pallet ap
-    WHERE ap.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
-    AND ap.exporter_name = r.exporter_name
-	  AND ap.weight ~ '^[0-9\.]+$'
-    AND (vari = '' OR ap.variety = vari))
-  );
-$BODY$;
-
-CREATE OR REPLACE FUNCTION inspection.psa_arrival_report_avg_brix(IN r inspection.psa_arrival_report, IN vari TEXT)
-	RETURNS NUMERIC
-	LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-  SELECT COALESCE (
-    (SELECT ROUND(AVG(cp.brix :: NUMERIC), 1) FROM inspection.psa_citrus_pallet cp
-    WHERE cp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
-	  AND cp.exporter_name = r.exporter_name
-	  AND cp.brix ~ '^[0-9\.]+$'
-    AND (vari = '' OR cp.variety = vari)),
-    (SELECT ROUND(AVG(sfp.brix :: NUMERIC), 1) FROM inspection.psa_stone_fruit_pallet sfp
-    WHERE sfp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
-	  AND sfp.exporter_name = r.exporter_name
-	  AND sfp.brix ~ '^[0-9\.]+$'
-    AND (vari = '' OR sfp.variety = vari)),
-    (SELECT ROUND(AVG(psp.brix :: NUMERIC), 1) FROM inspection.psa_persimmon_pallet psp
-    WHERE psp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
-	  AND psp.exporter_name = r.exporter_name
-	  AND psp.brix ~ '^[0-9\.]+$'
-    AND (vari = '' OR psp.variety = vari))
-  );
-$BODY$;
+COMMENT ON FUNCTION inspection.psa_arrival_report_condition_range(r inspection.psa_arrival_report) IS E'@sortable';

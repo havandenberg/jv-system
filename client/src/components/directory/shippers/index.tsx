@@ -80,7 +80,7 @@ const ShipperDirectory = ({ actions, TabBar }: SubDirectoryProps) => {
     >
       {!isEmpty(items) ? (
         <VirtualizedList
-          rowCount={data ? data.totalCount : 0}
+          rowCount={data ? items.length : 0}
           rowRenderer={({ key, index, style }) => {
             const item = items[index];
             return (

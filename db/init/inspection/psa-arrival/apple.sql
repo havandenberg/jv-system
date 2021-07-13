@@ -104,7 +104,7 @@ CREATE TABLE inspection.psa_apple_pallet (
   fixed_weight TEXT
 );
 
-CREATE OR REPLACE FUNCTION inspection.batch_create_psa_apple_pallet(
+CREATE FUNCTION inspection.batch_create_psa_apple_pallet(
   new_pallets inspection.psa_apple_pallet[]
 )
 RETURNS setof inspection.psa_apple_pallet
@@ -133,49 +133,7 @@ AS $BODY$
 	SELECT * FROM inspection.psa_apple_pallet ap
 	WHERE ap.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name) AND ap.exporter_name = r.exporter_name
 $BODY$;
-
-
-CREATE FUNCTION inspection.psa_arrival_report_avg_apple_pressures_max(IN r inspection.psa_arrival_report, In vari TEXT)
-	RETURNS NUMERIC
-	LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-	SELECT ROUND(AVG(ap.pressures_max::NUMERIC), 1) FROM inspection.psa_apple_pallet ap
-	WHERE ap.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
-	AND ap.exporter_name = r.exporter_name
-	AND ap.pressures_max ~ '^[0-9\.]+$'
-	AND (vari = '' OR ap.variety = vari)
-$BODY$;
-
-CREATE FUNCTION inspection.psa_arrival_report_avg_apple_pressures_min(IN r inspection.psa_arrival_report, In vari TEXT)
-	RETURNS NUMERIC
-	LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-	SELECT ROUND(AVG(ap.pressures_min::NUMERIC), 1) FROM inspection.psa_apple_pallet ap
-	WHERE ap.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
-	AND ap.exporter_name = r.exporter_name
-	AND ap.pressures_min ~ '^[0-9\.]+$'
-	AND (vari = '' OR ap.variety = vari)
-$BODY$;
-
-CREATE FUNCTION inspection.psa_arrival_report_avg_apple_pressures_avg(IN r inspection.psa_arrival_report, In vari TEXT)
-	RETURNS NUMERIC
-	LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-	SELECT ROUND(AVG(ap.pressures_avg::NUMERIC), 1) FROM inspection.psa_apple_pallet ap
-	WHERE ap.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
-	AND ap.exporter_name = r.exporter_name
-	AND ap.pressures_avg ~ '^[0-9\.]+$'
-	AND (vari = '' OR ap.variety = vari)
-$BODY$;
+COMMENT ON FUNCTION inspection.psa_arrival_report_apple_pallets(r inspection.psa_arrival_report) IS E'@sortable';
 
 CREATE FUNCTION inspection.psa_apple_pallet_pictures(IN chp inspection.psa_apple_pallet)
 	RETURNS SETOF inspection.psa_arrival_picture

@@ -111,48 +111,7 @@ AS $BODY$
 	SELECT * FROM inspection.psa_pomegranate_pallet sfp
 	WHERE sfp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name) AND sfp.exporter_name = r.exporter_name
 $BODY$;
-
-CREATE FUNCTION inspection.psa_arrival_report_avg_pomegranate_brix_max(IN r inspection.psa_arrival_report, In vari TEXT)
-	RETURNS NUMERIC
-	LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-	SELECT ROUND(AVG(sfp.brix_max::NUMERIC), 1) FROM inspection.psa_pomegranate_pallet sfp
-	WHERE sfp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
-	AND sfp.exporter_name = r.exporter_name
-	AND sfp.brix_max ~ '^[0-9\.]+$'
-	AND (vari = '' OR sfp.variety = vari)
-$BODY$;
-
-CREATE FUNCTION inspection.psa_arrival_report_avg_pomegranate_brix_min(IN r inspection.psa_arrival_report, In vari TEXT)
-	RETURNS NUMERIC
-	LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-	SELECT ROUND(AVG(sfp.brix_min::NUMERIC), 1) FROM inspection.psa_pomegranate_pallet sfp
-	WHERE sfp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
-	AND sfp.exporter_name = r.exporter_name
-	AND sfp.brix_min ~ '^[0-9\.]+$'
-	AND (vari = '' OR sfp.variety = vari)
-$BODY$;
-
-CREATE FUNCTION inspection.psa_arrival_report_avg_pomegranate_brix_most(IN r inspection.psa_arrival_report, In vari TEXT)
-	RETURNS NUMERIC
-	LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-	SELECT ROUND(AVG(sfp.brix_most::NUMERIC), 1) FROM inspection.psa_pomegranate_pallet sfp
-	WHERE sfp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
-	AND sfp.exporter_name = r.exporter_name
-	AND sfp.brix_most ~ '^[0-9\.]+$'
-	AND (vari = '' OR sfp.variety = vari)
-$BODY$;
+COMMENT ON FUNCTION inspection.psa_arrival_report_pomegranate_pallets(r inspection.psa_arrival_report) IS E'@sortable';
 
 CREATE FUNCTION inspection.psa_pomegranate_pallet_pictures(IN sfp inspection.psa_pomegranate_pallet)
 	RETURNS SETOF inspection.psa_arrival_picture

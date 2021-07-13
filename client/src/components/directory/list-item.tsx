@@ -64,11 +64,11 @@ const ListItem = <T extends {}>({
                 e.stopPropagation();
               }}
             >
-              {transformKey
+              {(transformKey
                 ? baseDataTransforms[transformKey](data[key])
                 : getValue
                 ? getValue(data)
-                : data[key]}
+                : data[key]) || '-'}
             </ty.BodyText>
           </l.Flex>
         ))}

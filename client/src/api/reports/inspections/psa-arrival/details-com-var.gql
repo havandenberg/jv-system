@@ -1,0 +1,231 @@
+query PSA_ARRIVAL_INSPECTION_DETAILS_BY_COM_VAR(
+  $id: BigInt!
+  $commodity: String!
+  $variety: String!
+  $grapesOrderBy: [PsaGrapePalletsOrderBy!]
+  $citrusOrderBy: [PsaCitrusPalletsOrderBy!]
+  $stoneFruitOrderBy: [PsaStoneFruitPalletsOrderBy!]
+  $pomegranatesOrderBy: [PsaPomegranatePalletsOrderBy!]
+  $persimmonsOrderBy: [PsaPersimmonPalletsOrderBy!]
+  $pearsOrderBy: [PsaPearPalletsOrderBy!]
+  $lemonsOrderBy: [PsaLemonPalletsOrderBy!]
+  $cherriesOrderBy: [PsaCherryPalletsOrderBy!]
+  $applesOrderBy: [PsaApplePalletsOrderBy!]
+) {
+  psaArrivalReport(id: $id) {
+    id
+    commodityList
+    varietyList(com: $commodity)
+    grapePallets(
+      filter: { variety: { equalTo: $variety } }
+      orderBy: $grapesOrderBy
+    ) {
+      nodes {
+        id
+        arrival
+        exporterName
+        variety
+        size
+        growerCode
+        quantity
+        labelCode
+        palletId
+        overallQuality
+        overallCondition
+        weight
+        bunches
+        brixMax
+        brixMin
+        brixMost
+      }
+      totalCount
+    }
+    citrusPallets(
+      filter: { variety: { equalTo: $variety } }
+      orderBy: $citrusOrderBy
+    ) {
+      nodes {
+        id
+        arrival
+        exporterName
+        variety
+        size
+        growerCode
+        quantity
+        labelCode
+        palletId
+        overallQuality
+        overallCondition
+        weight
+        brix
+        diameterMaxMm
+        diameterMinMm
+        diameterMostMm
+      }
+      totalCount
+    }
+    stoneFruitPallets(
+      filter: { variety: { equalTo: $variety } }
+      orderBy: $stoneFruitOrderBy
+    ) {
+      nodes {
+        id
+        arrival
+        exporterName
+        variety
+        size
+        growerCode
+        quantity
+        labelCode
+        palletId
+        overallQuality
+        overallCondition
+        weight
+        brix
+        pressuresMax
+        pressuresMin
+        pressuresAvg
+      }
+      totalCount
+    }
+    pomegranatePallets(
+      filter: { variety: { equalTo: $variety } }
+      orderBy: $pomegranatesOrderBy
+    ) {
+      nodes {
+        id
+        arrival
+        exporterName
+        variety
+        size
+        growerCode
+        quantity
+        labelCode
+        palletId
+        overallQuality
+        overallCondition
+        weight
+        brixMax
+        brixMin
+        brixMost
+      }
+      totalCount
+    }
+    persimmonPallets(
+      filter: { variety: { equalTo: $variety } }
+      orderBy: $persimmonsOrderBy
+    ) {
+      nodes {
+        id
+        arrival
+        exporterName
+        variety
+        size
+        growerCode
+        quantity
+        labelCode
+        palletId
+        overallQuality
+        overallCondition
+        weight
+        brix
+        pressuresMax
+        pressuresMin
+        pressuresAvg
+      }
+      totalCount
+    }
+    pearPallets(
+      filter: { variety: { equalTo: $variety } }
+      orderBy: $pearsOrderBy
+    ) {
+      nodes {
+        id
+        arrival
+        exporterName
+        variety
+        size
+        growerCode
+        quantity
+        labelCode
+        palletId
+        overallQuality
+        overallCondition
+        weight
+        pressuresMax
+        pressuresMin
+        pressuresAvg
+      }
+      totalCount
+    }
+    lemonPallets(
+      filter: { variety: { equalTo: $variety } }
+      orderBy: $lemonsOrderBy
+    ) {
+      nodes {
+        id
+        arrival
+        exporterName
+        variety
+        size
+        growerCode
+        quantity
+        labelCode
+        palletId
+        overallQuality
+        overallCondition
+        weight
+        diameterMaxMm
+        diameterMinMm
+        diameterMostMm
+      }
+      totalCount
+    }
+    cherryPallets(
+      filter: { variety: { equalTo: $variety } }
+      orderBy: $cherriesOrderBy
+    ) {
+      nodes {
+        id
+        arrival
+        exporterName
+        variety
+        size
+        growerCode
+        quantity
+        labelCode
+        palletId
+        overallQuality
+        overallCondition
+        weight
+        sizeMax
+        sizeMin
+        sizeMost
+      }
+      totalCount
+    }
+    applePallets(
+      filter: { variety: { equalTo: $variety } }
+      orderBy: $applesOrderBy
+    ) {
+      nodes {
+        id
+        arrival
+        exporterName
+        variety
+        size
+        growerCode
+        quantity
+        labelCode
+        palletId
+        overallQuality
+        overallCondition
+        weight
+        pressuresMax
+        pressuresMin
+        pressuresAvg
+      }
+      totalCount
+    }
+  }
+}

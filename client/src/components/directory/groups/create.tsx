@@ -259,7 +259,7 @@ const CreateContactGroup = () => {
         </Fragment>,
       ]}
       breadcrumbs={breadcrumbs}
-      title="New Contact Group"
+      title="Create Contact Group"
     >
       <l.Div pb={th.spacing.xl}>
         <BaseData<ContactGroup>

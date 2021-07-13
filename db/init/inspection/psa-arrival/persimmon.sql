@@ -117,48 +117,7 @@ AS $BODY$
 	SELECT * FROM inspection.psa_persimmon_pallet psp
 	WHERE psp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name) AND psp.exporter_name = r.exporter_name
 $BODY$;
-
-CREATE FUNCTION inspection.psa_arrival_report_avg_persimmon_pressures_max(IN r inspection.psa_arrival_report, In vari TEXT)
-	RETURNS NUMERIC
-	LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-	SELECT ROUND(AVG(psp.pressures_max::NUMERIC), 1) FROM inspection.psa_persimmon_pallet psp
-	WHERE psp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
-	AND psp.exporter_name = r.exporter_name
-	AND psp.pressures_max ~ '^[0-9\.]+$'
-	AND (vari = '' OR psp.variety = vari)
-$BODY$;
-
-CREATE FUNCTION inspection.psa_arrival_report_avg_persimmon_pressures_min(IN r inspection.psa_arrival_report, In vari TEXT)
-	RETURNS NUMERIC
-	LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-	SELECT ROUND(AVG(psp.pressures_min::NUMERIC), 1) FROM inspection.psa_persimmon_pallet psp
-	WHERE psp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
-	AND psp.exporter_name = r.exporter_name
-	AND psp.pressures_min ~ '^[0-9\.]+$'
-	AND (vari = '' OR psp.variety = vari)
-$BODY$;
-
-CREATE FUNCTION inspection.psa_arrival_report_avg_persimmon_pressures_avg(IN r inspection.psa_arrival_report, In vari TEXT)
-	RETURNS NUMERIC
-	LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-	SELECT ROUND(AVG(psp.pressures_avg::NUMERIC), 1) FROM inspection.psa_persimmon_pallet psp
-	WHERE psp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
-	AND psp.exporter_name = r.exporter_name
-	AND psp.pressures_avg ~ '^[0-9\.]+$'
-	AND (vari = '' OR psp.variety = vari)
-$BODY$;
+COMMENT ON FUNCTION inspection.psa_arrival_report_persimmon_pallets(r inspection.psa_arrival_report) IS E'@sortable';
 
 CREATE FUNCTION inspection.psa_persimmon_pallet_pictures(IN psp inspection.psa_persimmon_pallet)
 	RETURNS SETOF inspection.psa_arrival_picture

@@ -11,11 +11,11 @@ const {
 } = require('.');
 
 fetchPsaGrapePallets();
-fetchPsaCitrusPallets();
-fetchPsaStoneFruitPallets();
-fetchPsaPomegranatePallets();
-fetchPsaPersimmonPallets();
-fetchPsaPearPallets();
-fetchPsaLemonPallets();
-fetchPsaCherryPallets();
-fetchPsaApplePallets();
+// fetchPsaCitrusPallets();
+// fetchPsaStoneFruitPallets();
+// fetchPsaPomegranatePallets();
+// fetchPsaPersimmonPallets();
+// fetchPsaPearPallets();
+// fetchPsaLemonPallets();
+// fetchPsaCherryPallets();
+// fetchPsaApplePallets();

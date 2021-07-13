@@ -40,13 +40,14 @@ const ListItem = <T extends {}>({
         height={th.sizes.fill}
       >
         {listLabels.map(({ key, getValue, transformKey, transformValue }) => {
-          const value = transformKey
-            ? baseDataTransforms[transformKey](data[key])
-            : getValue
-            ? getValue(data)
-            : transformValue
-            ? transformValue(data[key])
-            : data[key];
+          const value =
+            (transformKey
+              ? baseDataTransforms[transformKey](data[key])
+              : getValue
+              ? getValue(data)
+              : transformValue
+              ? transformValue(data[key])
+              : data[key]) || '-';
           return (
             <l.Flex
               alignCenter

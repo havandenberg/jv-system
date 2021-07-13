@@ -9,15 +9,18 @@ import ty from 'ui/typography';
 import { formatPhoneNumber } from 'utils/format';
 
 export const baseDataTransforms = {
-  link: (val: any) => (
-    <l.Anchor href={val} target="_blank">
-      {val}
-    </l.Anchor>
-  ),
-  phone: (val: any) => (
-    <l.Anchor href={`tel:${val}`}>{formatPhoneNumber(val)}</l.Anchor>
-  ),
-  email: (val: any) => <l.Anchor href={`mailto:${val}`}>{val}</l.Anchor>,
+  link: (val: any) =>
+    val ? (
+      <l.Anchor href={val} target="_blank">
+        {val}
+      </l.Anchor>
+    ) : null,
+  phone: (val: any) =>
+    val && formatPhoneNumber(val) ? (
+      <l.Anchor href={`tel:${val}`}>{formatPhoneNumber(val)}</l.Anchor>
+    ) : null,
+  email: (val: any) =>
+    val ? <l.Anchor href={`mailto:${val}`}>{val}</l.Anchor> : null,
 };
 
 const BaseDataContainer = styled(l.Grid)({
@@ -74,13 +77,14 @@ const BaseData = <T extends {}>({
             }
           : { dirty: false, value: `${data[key]}` };
         const isValid = !validate || validate(content.value);
-        const value = transformKey
-          ? baseDataTransforms[transformKey](data[key])
-          : getValue
-          ? getValue(data)
-          : transformValue
-          ? transformValue(data[key])
-          : data[key];
+        const value =
+          (transformKey
+            ? baseDataTransforms[transformKey](data[key])
+            : getValue
+            ? getValue(data)
+            : transformValue
+            ? transformValue(data[key])
+            : data[key]) || '-';
 
         return (
           <l.Div

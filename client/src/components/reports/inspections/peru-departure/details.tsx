@@ -9,7 +9,6 @@ import FeaturedValues from 'components/featured-values';
 import useLightbox from 'hooks/use-lightbox';
 import { useDateRangeQueryParams } from 'hooks/use-query-params';
 import { PeruDepartureInspection, PeruDepartureInspectionPallet } from 'types';
-import b from 'ui/button';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
@@ -64,14 +63,6 @@ const Details = () => {
 
   return (
     <Page
-      actions={[
-        <b.Primary disabled key={0} mr={th.spacing.sm}>
-          View Arrival
-        </b.Primary>,
-        <b.Primary disabled key={1}>
-          Compare
-        </b.Primary>,
-      ]}
       breadcrumbs={breadcrumbs(id, dateParams)}
       title="Departure Inspection - Peru"
     >
@@ -83,7 +74,7 @@ const Details = () => {
               labels={baseLabels}
             />
             <FeaturedValues values={featuredValues} />
-            <ty.CaptionText mb={th.spacing.sm} secondary>
+            <ty.CaptionText mb={th.spacing.sm} mt={th.spacing.xl} secondary>
               QC Comments
             </ty.CaptionText>
             <ty.BodyText mb={th.spacing.xl}>{reportData.comments}</ty.BodyText>

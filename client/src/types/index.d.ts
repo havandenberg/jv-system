@@ -95,8 +95,6 @@ export type Query = Node & {
   psaPomegranatePallets?: Maybe<PsaPomegranatePalletsConnection>;
   /** Reads and enables pagination through a set of `PsaStoneFruitPallet`. */
   psaStoneFruitPallets?: Maybe<PsaStoneFruitPalletsConnection>;
-  /** Reads and enables pagination through a set of `Master`. */
-  masters?: Maybe<MastersConnection>;
   /** Reads and enables pagination through a set of `PackAtmosphere`. */
   packAtmospheres?: Maybe<PackAtmospheresConnection>;
   /** Reads and enables pagination through a set of `PackBoxStyle`. */
@@ -113,6 +111,8 @@ export type Query = Node & {
   packLabels?: Maybe<PackLabelsConnection>;
   /** Reads and enables pagination through a set of `PackLiner`. */
   packLiners?: Maybe<PackLinersConnection>;
+  /** Reads and enables pagination through a set of `PackMaster`. */
+  packMasters?: Maybe<PackMastersConnection>;
   /** Reads and enables pagination through a set of `PackOut`. */
   packOuts?: Maybe<PackOutsConnection>;
   /** Reads and enables pagination through a set of `PackPalletType`. */
@@ -125,12 +125,14 @@ export type Query = Node & {
   packStyles?: Maybe<PackStylesConnection>;
   /** Reads and enables pagination through a set of `PackTreeRipe`. */
   packTreeRipes?: Maybe<PackTreeRipesConnection>;
-  /** Reads and enables pagination through a set of `Size`. */
-  sizes?: Maybe<SizesConnection>;
-  /** Reads and enables pagination through a set of `Species`. */
-  specieses?: Maybe<SpeciesConnection>;
-  /** Reads and enables pagination through a set of `Variety`. */
-  varieties?: Maybe<VarietiesConnection>;
+  /** Reads and enables pagination through a set of `ProductMaster`. */
+  productMasters?: Maybe<ProductMastersConnection>;
+  /** Reads and enables pagination through a set of `ProductSize`. */
+  productSizes?: Maybe<ProductSizesConnection>;
+  /** Reads and enables pagination through a set of `ProductSpecies`. */
+  productSpecieses?: Maybe<ProductSpeciesConnection>;
+  /** Reads and enables pagination through a set of `ProductVariety`. */
+  productVarieties?: Maybe<ProductVarietiesConnection>;
   contactGroup?: Maybe<ContactGroup>;
   contactGroupPersonContact?: Maybe<ContactGroupPersonContact>;
   country?: Maybe<Country>;
@@ -162,24 +164,39 @@ export type Query = Node & {
   psaPersimmonPallet?: Maybe<PsaPersimmonPallet>;
   psaPomegranatePallet?: Maybe<PsaPomegranatePallet>;
   psaStoneFruitPallet?: Maybe<PsaStoneFruitPallet>;
-  master?: Maybe<Master>;
   packAtmosphere?: Maybe<PackAtmosphere>;
+  packAtmosphereByShipperIdAndMaCode?: Maybe<PackAtmosphere>;
   packBoxStyle?: Maybe<PackBoxStyle>;
+  packBoxStyleByShipperIdAndBoxStyle?: Maybe<PackBoxStyle>;
   packBoxType?: Maybe<PackBoxType>;
+  packBoxTypeByShipperIdAndBoxType?: Maybe<PackBoxType>;
   packDestination?: Maybe<PackDestination>;
+  packDestinationByShipperIdAndDestinationCode?: Maybe<PackDestination>;
   packGrade?: Maybe<PackGrade>;
+  packGradeByShipperIdAndGradeCode?: Maybe<PackGrade>;
   packHold?: Maybe<PackHold>;
+  packHoldByShipperIdAndHoldCode?: Maybe<PackHold>;
   packLabel?: Maybe<PackLabel>;
+  packLabelByShipperIdAndLabelCode?: Maybe<PackLabel>;
   packLiner?: Maybe<PackLiner>;
+  packLinerByShipperIdAndLinerCode?: Maybe<PackLiner>;
+  packMaster?: Maybe<PackMaster>;
   packOut?: Maybe<PackOut>;
+  packOutByShipperIdAndOutCode?: Maybe<PackOut>;
   packPalletType?: Maybe<PackPalletType>;
+  packPalletTypeByShipperIdAndPalletType?: Maybe<PackPalletType>;
   packProduction?: Maybe<PackProduction>;
+  packProductionByShipperIdAndProductionCode?: Maybe<PackProduction>;
   packSpecial?: Maybe<PackSpecial>;
+  packSpecialByShipperIdAndCustomerCode?: Maybe<PackSpecial>;
   packStyle?: Maybe<PackStyle>;
+  packStyleByShipperIdAndPackStyle?: Maybe<PackStyle>;
   packTreeRipe?: Maybe<PackTreeRipe>;
-  size?: Maybe<Size>;
-  species?: Maybe<Species>;
-  variety?: Maybe<Variety>;
+  packTreeRipeByShipperIdAndTreeRipe?: Maybe<PackTreeRipe>;
+  productMaster?: Maybe<ProductMaster>;
+  productSize?: Maybe<ProductSize>;
+  productSpecies?: Maybe<ProductSpecies>;
+  productVariety?: Maybe<ProductVariety>;
   distinctValues?: Maybe<DistinctValuesConnection>;
   customerDistinctValues?: Maybe<CustomerDistinctValuesConnection>;
   /** Reads and enables pagination through a set of `ChileDepartureInspection`. */
@@ -244,8 +261,6 @@ export type Query = Node & {
   psaPomegranatePalletByNodeId?: Maybe<PsaPomegranatePallet>;
   /** Reads a single `PsaStoneFruitPallet` using its globally unique `ID`. */
   psaStoneFruitPalletByNodeId?: Maybe<PsaStoneFruitPallet>;
-  /** Reads a single `Master` using its globally unique `ID`. */
-  masterByNodeId?: Maybe<Master>;
   /** Reads a single `PackAtmosphere` using its globally unique `ID`. */
   packAtmosphereByNodeId?: Maybe<PackAtmosphere>;
   /** Reads a single `PackBoxStyle` using its globally unique `ID`. */
@@ -262,6 +277,8 @@ export type Query = Node & {
   packLabelByNodeId?: Maybe<PackLabel>;
   /** Reads a single `PackLiner` using its globally unique `ID`. */
   packLinerByNodeId?: Maybe<PackLiner>;
+  /** Reads a single `PackMaster` using its globally unique `ID`. */
+  packMasterByNodeId?: Maybe<PackMaster>;
   /** Reads a single `PackOut` using its globally unique `ID`. */
   packOutByNodeId?: Maybe<PackOut>;
   /** Reads a single `PackPalletType` using its globally unique `ID`. */
@@ -274,12 +291,14 @@ export type Query = Node & {
   packStyleByNodeId?: Maybe<PackStyle>;
   /** Reads a single `PackTreeRipe` using its globally unique `ID`. */
   packTreeRipeByNodeId?: Maybe<PackTreeRipe>;
-  /** Reads a single `Size` using its globally unique `ID`. */
-  sizeByNodeId?: Maybe<Size>;
-  /** Reads a single `Species` using its globally unique `ID`. */
-  speciesByNodeId?: Maybe<Species>;
-  /** Reads a single `Variety` using its globally unique `ID`. */
-  varietyByNodeId?: Maybe<Variety>;
+  /** Reads a single `ProductMaster` using its globally unique `ID`. */
+  productMasterByNodeId?: Maybe<ProductMaster>;
+  /** Reads a single `ProductSize` using its globally unique `ID`. */
+  productSizeByNodeId?: Maybe<ProductSize>;
+  /** Reads a single `ProductSpecies` using its globally unique `ID`. */
+  productSpeciesByNodeId?: Maybe<ProductSpecies>;
+  /** Reads a single `ProductVariety` using its globally unique `ID`. */
+  productVarietyByNodeId?: Maybe<ProductVariety>;
 };
 
 
@@ -680,19 +699,6 @@ export type QueryPsaStoneFruitPalletsArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QueryMastersArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<MastersOrderBy>>;
-  condition?: Maybe<MasterCondition>;
-  filter?: Maybe<MasterFilter>;
-};
-
-
-/** The root query type which gives access points into the data universe. */
 export type QueryPackAtmospheresArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
@@ -797,6 +803,19 @@ export type QueryPackLinersArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
+export type QueryPackMastersArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PackMastersOrderBy>>;
+  condition?: Maybe<PackMasterCondition>;
+  filter?: Maybe<PackMasterFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
 export type QueryPackOutsArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
@@ -875,41 +894,54 @@ export type QueryPackTreeRipesArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QuerySizesArgs = {
+export type QueryProductMastersArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['Cursor']>;
   after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<SizesOrderBy>>;
-  condition?: Maybe<SizeCondition>;
-  filter?: Maybe<SizeFilter>;
+  orderBy?: Maybe<Array<ProductMastersOrderBy>>;
+  condition?: Maybe<ProductMasterCondition>;
+  filter?: Maybe<ProductMasterFilter>;
 };
 
 
 /** The root query type which gives access points into the data universe. */
-export type QuerySpeciesesArgs = {
+export type QueryProductSizesArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['Cursor']>;
   after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<SpeciesOrderBy>>;
-  condition?: Maybe<SpeciesCondition>;
-  filter?: Maybe<SpeciesFilter>;
+  orderBy?: Maybe<Array<ProductSizesOrderBy>>;
+  condition?: Maybe<ProductSizeCondition>;
+  filter?: Maybe<ProductSizeFilter>;
 };
 
 
 /** The root query type which gives access points into the data universe. */
-export type QueryVarietiesArgs = {
+export type QueryProductSpeciesesArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['Cursor']>;
   after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<VarietiesOrderBy>>;
-  condition?: Maybe<VarietyCondition>;
-  filter?: Maybe<VarietyFilter>;
+  orderBy?: Maybe<Array<ProductSpeciesOrderBy>>;
+  condition?: Maybe<ProductSpeciesCondition>;
+  filter?: Maybe<ProductSpeciesFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryProductVarietiesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ProductVarietiesOrderBy>>;
+  condition?: Maybe<ProductVarietyCondition>;
+  filter?: Maybe<ProductVarietyFilter>;
 };
 
 
@@ -1104,13 +1136,13 @@ export type QueryPsaStoneFruitPalletArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QueryMasterArgs = {
-  id: Scalars['String'];
+export type QueryPackAtmosphereArgs = {
+  id: Scalars['BigInt'];
 };
 
 
 /** The root query type which gives access points into the data universe. */
-export type QueryPackAtmosphereArgs = {
+export type QueryPackAtmosphereByShipperIdAndMaCodeArgs = {
   shipperId: Scalars['String'];
   maCode: Scalars['String'];
 };
@@ -1118,6 +1150,12 @@ export type QueryPackAtmosphereArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryPackBoxStyleArgs = {
+  id: Scalars['BigInt'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPackBoxStyleByShipperIdAndBoxStyleArgs = {
   shipperId: Scalars['String'];
   boxStyle: Scalars['String'];
 };
@@ -1125,6 +1163,12 @@ export type QueryPackBoxStyleArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryPackBoxTypeArgs = {
+  id: Scalars['BigInt'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPackBoxTypeByShipperIdAndBoxTypeArgs = {
   shipperId: Scalars['String'];
   boxType: Scalars['String'];
 };
@@ -1132,6 +1176,12 @@ export type QueryPackBoxTypeArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryPackDestinationArgs = {
+  id: Scalars['BigInt'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPackDestinationByShipperIdAndDestinationCodeArgs = {
   shipperId: Scalars['String'];
   destinationCode: Scalars['String'];
 };
@@ -1139,6 +1189,12 @@ export type QueryPackDestinationArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryPackGradeArgs = {
+  id: Scalars['BigInt'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPackGradeByShipperIdAndGradeCodeArgs = {
   shipperId: Scalars['String'];
   gradeCode: Scalars['String'];
 };
@@ -1146,6 +1202,12 @@ export type QueryPackGradeArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryPackHoldArgs = {
+  id: Scalars['BigInt'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPackHoldByShipperIdAndHoldCodeArgs = {
   shipperId: Scalars['String'];
   holdCode: Scalars['String'];
 };
@@ -1153,6 +1215,12 @@ export type QueryPackHoldArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryPackLabelArgs = {
+  id: Scalars['BigInt'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPackLabelByShipperIdAndLabelCodeArgs = {
   shipperId: Scalars['String'];
   labelCode: Scalars['String'];
 };
@@ -1160,13 +1228,31 @@ export type QueryPackLabelArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryPackLinerArgs = {
+  id: Scalars['BigInt'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPackLinerByShipperIdAndLinerCodeArgs = {
   shipperId: Scalars['String'];
   linerCode: Scalars['String'];
 };
 
 
 /** The root query type which gives access points into the data universe. */
+export type QueryPackMasterArgs = {
+  id: Scalars['BigInt'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
 export type QueryPackOutArgs = {
+  id: Scalars['BigInt'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPackOutByShipperIdAndOutCodeArgs = {
   shipperId: Scalars['String'];
   outCode: Scalars['String'];
 };
@@ -1174,6 +1260,12 @@ export type QueryPackOutArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryPackPalletTypeArgs = {
+  id: Scalars['BigInt'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPackPalletTypeByShipperIdAndPalletTypeArgs = {
   shipperId: Scalars['String'];
   palletType: Scalars['String'];
 };
@@ -1181,6 +1273,12 @@ export type QueryPackPalletTypeArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryPackProductionArgs = {
+  id: Scalars['BigInt'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPackProductionByShipperIdAndProductionCodeArgs = {
   shipperId: Scalars['String'];
   productionCode: Scalars['String'];
 };
@@ -1188,6 +1286,12 @@ export type QueryPackProductionArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryPackSpecialArgs = {
+  id: Scalars['BigInt'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPackSpecialByShipperIdAndCustomerCodeArgs = {
   shipperId: Scalars['String'];
   customerCode: Scalars['String'];
 };
@@ -1195,6 +1299,12 @@ export type QueryPackSpecialArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryPackStyleArgs = {
+  id: Scalars['BigInt'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPackStyleByShipperIdAndPackStyleArgs = {
   shipperId: Scalars['String'];
   packStyle: Scalars['String'];
 };
@@ -1202,25 +1312,37 @@ export type QueryPackStyleArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryPackTreeRipeArgs = {
+  id: Scalars['BigInt'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPackTreeRipeByShipperIdAndTreeRipeArgs = {
   shipperId: Scalars['String'];
   treeRipe: Scalars['String'];
 };
 
 
 /** The root query type which gives access points into the data universe. */
-export type QuerySizeArgs = {
-  id: Scalars['BigInt'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
-export type QuerySpeciesArgs = {
+export type QueryProductMasterArgs = {
   id: Scalars['String'];
 };
 
 
 /** The root query type which gives access points into the data universe. */
-export type QueryVarietyArgs = {
+export type QueryProductSizeArgs = {
+  id: Scalars['BigInt'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryProductSpeciesArgs = {
+  id: Scalars['String'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryProductVarietyArgs = {
   id: Scalars['String'];
 };
 
@@ -1447,12 +1569,6 @@ export type QueryPsaStoneFruitPalletByNodeIdArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QueryMasterByNodeIdArgs = {
-  nodeId: Scalars['ID'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
 export type QueryPackAtmosphereByNodeIdArgs = {
   nodeId: Scalars['ID'];
 };
@@ -1501,6 +1617,12 @@ export type QueryPackLinerByNodeIdArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
+export type QueryPackMasterByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
 export type QueryPackOutByNodeIdArgs = {
   nodeId: Scalars['ID'];
 };
@@ -1537,19 +1659,25 @@ export type QueryPackTreeRipeByNodeIdArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QuerySizeByNodeIdArgs = {
+export type QueryProductMasterByNodeIdArgs = {
   nodeId: Scalars['ID'];
 };
 
 
 /** The root query type which gives access points into the data universe. */
-export type QuerySpeciesByNodeIdArgs = {
+export type QueryProductSizeByNodeIdArgs = {
   nodeId: Scalars['ID'];
 };
 
 
 /** The root query type which gives access points into the data universe. */
-export type QueryVarietyByNodeIdArgs = {
+export type QueryProductSpeciesByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryProductVarietyByNodeIdArgs = {
   nodeId: Scalars['ID'];
 };
 
@@ -5835,45 +5963,12 @@ export type PsaArrivalReport = Node & {
   exporterName?: Maybe<Scalars['String']>;
   /** Reads and enables pagination through a set of `PsaApplePallet`. */
   applePallets: PsaApplePalletsConnection;
-  avgApplePressuresAvg?: Maybe<Scalars['BigFloat']>;
-  avgApplePressuresMax?: Maybe<Scalars['BigFloat']>;
-  avgApplePressuresMin?: Maybe<Scalars['BigFloat']>;
-  avgBrix?: Maybe<Scalars['BigFloat']>;
-  avgCherrySizeMax?: Maybe<Scalars['BigFloat']>;
-  avgCherrySizeMin?: Maybe<Scalars['BigFloat']>;
-  avgCherrySizeMost?: Maybe<Scalars['BigFloat']>;
-  avgCitrusDiameterMaxMm?: Maybe<Scalars['BigFloat']>;
-  avgCitrusDiameterMinMm?: Maybe<Scalars['BigFloat']>;
-  avgCitrusDiameterMostMm?: Maybe<Scalars['BigFloat']>;
-  avgCondition?: Maybe<Scalars['BigFloat']>;
-  avgConditionByVariety?: Maybe<Scalars['BigFloat']>;
-  avgGrapeBrixMax?: Maybe<Scalars['BigFloat']>;
-  avgGrapeBrixMin?: Maybe<Scalars['BigFloat']>;
-  avgGrapeBrixMost?: Maybe<Scalars['BigFloat']>;
-  avgGrapeBunchesPerBox?: Maybe<Scalars['BigFloat']>;
-  avgLemonDiameterMaxMm?: Maybe<Scalars['BigFloat']>;
-  avgLemonDiameterMinMm?: Maybe<Scalars['BigFloat']>;
-  avgLemonDiameterMostMm?: Maybe<Scalars['BigFloat']>;
-  avgNetWeight?: Maybe<Scalars['BigFloat']>;
-  avgPearPressuresAvg?: Maybe<Scalars['BigFloat']>;
-  avgPearPressuresMax?: Maybe<Scalars['BigFloat']>;
-  avgPearPressuresMin?: Maybe<Scalars['BigFloat']>;
-  avgPersimmonPressuresAvg?: Maybe<Scalars['BigFloat']>;
-  avgPersimmonPressuresMax?: Maybe<Scalars['BigFloat']>;
-  avgPersimmonPressuresMin?: Maybe<Scalars['BigFloat']>;
-  avgPomegranateBrixMax?: Maybe<Scalars['BigFloat']>;
-  avgPomegranateBrixMin?: Maybe<Scalars['BigFloat']>;
-  avgPomegranateBrixMost?: Maybe<Scalars['BigFloat']>;
-  avgQuality?: Maybe<Scalars['BigFloat']>;
-  avgQualityByVariety?: Maybe<Scalars['BigFloat']>;
-  avgStoneFruitPressuresAvg?: Maybe<Scalars['BigFloat']>;
-  avgStoneFruitPressuresMax?: Maybe<Scalars['BigFloat']>;
-  avgStoneFruitPressuresMin?: Maybe<Scalars['BigFloat']>;
   /** Reads and enables pagination through a set of `PsaCherryPallet`. */
   cherryPallets: PsaCherryPalletsConnection;
   /** Reads and enables pagination through a set of `PsaCitrusPallet`. */
   citrusPallets: PsaCitrusPalletsConnection;
   commodityList?: Maybe<Array<Maybe<Scalars['String']>>>;
+  conditionRange?: Maybe<Scalars['String']>;
   /** Reads and enables pagination through a set of `PsaGrapePallet`. */
   grapePallets: PsaGrapePalletsConnection;
   /** Reads and enables pagination through a set of `PsaLemonPallet`. */
@@ -5886,6 +5981,7 @@ export type PsaArrivalReport = Node & {
   pictures: PsaArrivalPicturesConnection;
   /** Reads and enables pagination through a set of `PsaPomegranatePallet`. */
   pomegranatePallets: PsaPomegranatePalletsConnection;
+  qualityRange?: Maybe<Scalars['String']>;
   searchText?: Maybe<Scalars['String']>;
   /** Reads and enables pagination through a set of `PsaStoneFruitPallet`. */
   stoneFruitPallets: PsaStoneFruitPalletsConnection;
@@ -5900,167 +5996,8 @@ export type PsaArrivalReportApplePalletsArgs = {
   offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['Cursor']>;
   after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PsaApplePalletsOrderBy>>;
   filter?: Maybe<PsaApplePalletFilter>;
-};
-
-
-export type PsaArrivalReportAvgApplePressuresAvgArgs = {
-  vari?: Maybe<Scalars['String']>;
-};
-
-
-export type PsaArrivalReportAvgApplePressuresMaxArgs = {
-  vari?: Maybe<Scalars['String']>;
-};
-
-
-export type PsaArrivalReportAvgApplePressuresMinArgs = {
-  vari?: Maybe<Scalars['String']>;
-};
-
-
-export type PsaArrivalReportAvgBrixArgs = {
-  vari?: Maybe<Scalars['String']>;
-};
-
-
-export type PsaArrivalReportAvgCherrySizeMaxArgs = {
-  vari?: Maybe<Scalars['String']>;
-};
-
-
-export type PsaArrivalReportAvgCherrySizeMinArgs = {
-  vari?: Maybe<Scalars['String']>;
-};
-
-
-export type PsaArrivalReportAvgCherrySizeMostArgs = {
-  vari?: Maybe<Scalars['String']>;
-};
-
-
-export type PsaArrivalReportAvgCitrusDiameterMaxMmArgs = {
-  vari?: Maybe<Scalars['String']>;
-};
-
-
-export type PsaArrivalReportAvgCitrusDiameterMinMmArgs = {
-  vari?: Maybe<Scalars['String']>;
-};
-
-
-export type PsaArrivalReportAvgCitrusDiameterMostMmArgs = {
-  vari?: Maybe<Scalars['String']>;
-};
-
-
-export type PsaArrivalReportAvgConditionByVarietyArgs = {
-  vari?: Maybe<Scalars['String']>;
-};
-
-
-export type PsaArrivalReportAvgGrapeBrixMaxArgs = {
-  vari?: Maybe<Scalars['String']>;
-};
-
-
-export type PsaArrivalReportAvgGrapeBrixMinArgs = {
-  vari?: Maybe<Scalars['String']>;
-};
-
-
-export type PsaArrivalReportAvgGrapeBrixMostArgs = {
-  vari?: Maybe<Scalars['String']>;
-};
-
-
-export type PsaArrivalReportAvgGrapeBunchesPerBoxArgs = {
-  vari?: Maybe<Scalars['String']>;
-};
-
-
-export type PsaArrivalReportAvgLemonDiameterMaxMmArgs = {
-  vari?: Maybe<Scalars['String']>;
-};
-
-
-export type PsaArrivalReportAvgLemonDiameterMinMmArgs = {
-  vari?: Maybe<Scalars['String']>;
-};
-
-
-export type PsaArrivalReportAvgLemonDiameterMostMmArgs = {
-  vari?: Maybe<Scalars['String']>;
-};
-
-
-export type PsaArrivalReportAvgNetWeightArgs = {
-  vari?: Maybe<Scalars['String']>;
-};
-
-
-export type PsaArrivalReportAvgPearPressuresAvgArgs = {
-  vari?: Maybe<Scalars['String']>;
-};
-
-
-export type PsaArrivalReportAvgPearPressuresMaxArgs = {
-  vari?: Maybe<Scalars['String']>;
-};
-
-
-export type PsaArrivalReportAvgPearPressuresMinArgs = {
-  vari?: Maybe<Scalars['String']>;
-};
-
-
-export type PsaArrivalReportAvgPersimmonPressuresAvgArgs = {
-  vari?: Maybe<Scalars['String']>;
-};
-
-
-export type PsaArrivalReportAvgPersimmonPressuresMaxArgs = {
-  vari?: Maybe<Scalars['String']>;
-};
-
-
-export type PsaArrivalReportAvgPersimmonPressuresMinArgs = {
-  vari?: Maybe<Scalars['String']>;
-};
-
-
-export type PsaArrivalReportAvgPomegranateBrixMaxArgs = {
-  vari?: Maybe<Scalars['String']>;
-};
-
-
-export type PsaArrivalReportAvgPomegranateBrixMinArgs = {
-  vari?: Maybe<Scalars['String']>;
-};
-
-
-export type PsaArrivalReportAvgPomegranateBrixMostArgs = {
-  vari?: Maybe<Scalars['String']>;
-};
-
-
-export type PsaArrivalReportAvgQualityByVarietyArgs = {
-  vari?: Maybe<Scalars['String']>;
-};
-
-
-export type PsaArrivalReportAvgStoneFruitPressuresAvgArgs = {
-  vari?: Maybe<Scalars['String']>;
-};
-
-
-export type PsaArrivalReportAvgStoneFruitPressuresMaxArgs = {
-  vari?: Maybe<Scalars['String']>;
-};
-
-
-export type PsaArrivalReportAvgStoneFruitPressuresMinArgs = {
-  vari?: Maybe<Scalars['String']>;
 };
 
 
@@ -6070,6 +6007,7 @@ export type PsaArrivalReportCherryPalletsArgs = {
   offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['Cursor']>;
   after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PsaCherryPalletsOrderBy>>;
   filter?: Maybe<PsaCherryPalletFilter>;
 };
 
@@ -6080,6 +6018,7 @@ export type PsaArrivalReportCitrusPalletsArgs = {
   offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['Cursor']>;
   after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PsaCitrusPalletsOrderBy>>;
   filter?: Maybe<PsaCitrusPalletFilter>;
 };
 
@@ -6090,6 +6029,7 @@ export type PsaArrivalReportGrapePalletsArgs = {
   offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['Cursor']>;
   after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PsaGrapePalletsOrderBy>>;
   filter?: Maybe<PsaGrapePalletFilter>;
 };
 
@@ -6100,6 +6040,7 @@ export type PsaArrivalReportLemonPalletsArgs = {
   offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['Cursor']>;
   after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PsaLemonPalletsOrderBy>>;
   filter?: Maybe<PsaLemonPalletFilter>;
 };
 
@@ -6110,6 +6051,7 @@ export type PsaArrivalReportPearPalletsArgs = {
   offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['Cursor']>;
   after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PsaPearPalletsOrderBy>>;
   filter?: Maybe<PsaPearPalletFilter>;
 };
 
@@ -6120,6 +6062,7 @@ export type PsaArrivalReportPersimmonPalletsArgs = {
   offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['Cursor']>;
   after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PsaPersimmonPalletsOrderBy>>;
   filter?: Maybe<PsaPersimmonPalletFilter>;
 };
 
@@ -6141,6 +6084,7 @@ export type PsaArrivalReportPomegranatePalletsArgs = {
   offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['Cursor']>;
   after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PsaPomegranatePalletsOrderBy>>;
   filter?: Maybe<PsaPomegranatePalletFilter>;
 };
 
@@ -6151,6 +6095,7 @@ export type PsaArrivalReportStoneFruitPalletsArgs = {
   offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['Cursor']>;
   after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PsaStoneFruitPalletsOrderBy>>;
   filter?: Maybe<PsaStoneFruitPalletFilter>;
 };
 
@@ -6277,6 +6222,171 @@ export type PsaCherryPalletsEdge = {
   /** The `PsaCherryPallet` at the end of the edge. */
   node?: Maybe<PsaCherryPallet>;
 };
+
+/** Methods to use when ordering `PsaCherryPallet`. */
+export enum PsaCherryPalletsOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  LocationAsc = 'LOCATION_ASC',
+  LocationDesc = 'LOCATION_DESC',
+  ArrivalAsc = 'ARRIVAL_ASC',
+  ArrivalDesc = 'ARRIVAL_DESC',
+  ImporterNameAsc = 'IMPORTER_NAME_ASC',
+  ImporterNameDesc = 'IMPORTER_NAME_DESC',
+  ExporterNameAsc = 'EXPORTER_NAME_ASC',
+  ExporterNameDesc = 'EXPORTER_NAME_DESC',
+  CommodityAsc = 'COMMODITY_ASC',
+  CommodityDesc = 'COMMODITY_DESC',
+  ProductCodeAsc = 'PRODUCT_CODE_ASC',
+  ProductCodeDesc = 'PRODUCT_CODE_DESC',
+  VarietyAsc = 'VARIETY_ASC',
+  VarietyDesc = 'VARIETY_DESC',
+  InspDateAsc = 'INSP_DATE_ASC',
+  InspDateDesc = 'INSP_DATE_DESC',
+  QuantityAsc = 'QUANTITY_ASC',
+  QuantityDesc = 'QUANTITY_DESC',
+  HatchAsc = 'HATCH_ASC',
+  HatchDesc = 'HATCH_DESC',
+  DeckAsc = 'DECK_ASC',
+  DeckDesc = 'DECK_DESC',
+  ContainerIdAsc = 'CONTAINER_ID_ASC',
+  ContainerIdDesc = 'CONTAINER_ID_DESC',
+  FumigationAsc = 'FUMIGATION_ASC',
+  FumigationDesc = 'FUMIGATION_DESC',
+  LabelCodeAsc = 'LABEL_CODE_ASC',
+  LabelCodeDesc = 'LABEL_CODE_DESC',
+  InspLocationAsc = 'INSP_LOCATION_ASC',
+  InspLocationDesc = 'INSP_LOCATION_DESC',
+  ImporterCodeAsc = 'IMPORTER_CODE_ASC',
+  ImporterCodeDesc = 'IMPORTER_CODE_DESC',
+  LotCodeAsc = 'LOT_CODE_ASC',
+  LotCodeDesc = 'LOT_CODE_DESC',
+  InspLotAsc = 'INSP_LOT_ASC',
+  InspLotDesc = 'INSP_LOT_DESC',
+  PalletIdAsc = 'PALLET_ID_ASC',
+  PalletIdDesc = 'PALLET_ID_DESC',
+  GrowerCodeAsc = 'GROWER_CODE_ASC',
+  GrowerCodeDesc = 'GROWER_CODE_DESC',
+  InspGrowerCodeAsc = 'INSP_GROWER_CODE_ASC',
+  InspGrowerCodeDesc = 'INSP_GROWER_CODE_DESC',
+  PackDateAsc = 'PACK_DATE_ASC',
+  PackDateDesc = 'PACK_DATE_DESC',
+  InspPackDateAsc = 'INSP_PACK_DATE_ASC',
+  InspPackDateDesc = 'INSP_PACK_DATE_DESC',
+  SizeAsc = 'SIZE_ASC',
+  SizeDesc = 'SIZE_DESC',
+  InspSizeAsc = 'INSP_SIZE_ASC',
+  InspSizeDesc = 'INSP_SIZE_DESC',
+  PackCodeAsc = 'PACK_CODE_ASC',
+  PackCodeDesc = 'PACK_CODE_DESC',
+  PackDescriptionAsc = 'PACK_DESCRIPTION_ASC',
+  PackDescriptionDesc = 'PACK_DESCRIPTION_DESC',
+  SecondaryDescriptionAsc = 'SECONDARY_DESCRIPTION_ASC',
+  SecondaryDescriptionDesc = 'SECONDARY_DESCRIPTION_DESC',
+  InspPackCodeAsc = 'INSP_PACK_CODE_ASC',
+  InspPackCodeDesc = 'INSP_PACK_CODE_DESC',
+  CountAsc = 'COUNT_ASC',
+  CountDesc = 'COUNT_DESC',
+  PluAsc = 'PLU_ASC',
+  PluDesc = 'PLU_DESC',
+  PluPctAsc = 'PLU_PCT_ASC',
+  PluPctDesc = 'PLU_PCT_DESC',
+  CountryOfOriginAsc = 'COUNTRY_OF_ORIGIN_ASC',
+  CountryOfOriginDesc = 'COUNTRY_OF_ORIGIN_DESC',
+  UpcAsc = 'UPC_ASC',
+  UpcDesc = 'UPC_DESC',
+  WeightAsc = 'WEIGHT_ASC',
+  WeightDesc = 'WEIGHT_DESC',
+  UnderweightMinAsc = 'UNDERWEIGHT_MIN_ASC',
+  UnderweightMinDesc = 'UNDERWEIGHT_MIN_DESC',
+  UnderweightMaxAsc = 'UNDERWEIGHT_MAX_ASC',
+  UnderweightMaxDesc = 'UNDERWEIGHT_MAX_DESC',
+  WeighedUnitsAsc = 'WEIGHED_UNITS_ASC',
+  WeighedUnitsDesc = 'WEIGHED_UNITS_DESC',
+  UnderweightUnitsAsc = 'UNDERWEIGHT_UNITS_ASC',
+  UnderweightUnitsDesc = 'UNDERWEIGHT_UNITS_DESC',
+  UnderweightPctAsc = 'UNDERWEIGHT_PCT_ASC',
+  UnderweightPctDesc = 'UNDERWEIGHT_PCT_DESC',
+  PulpTempAsc = 'PULP_TEMP_ASC',
+  PulpTempDesc = 'PULP_TEMP_DESC',
+  OpeningAsc = 'OPENING_ASC',
+  OpeningDesc = 'OPENING_DESC',
+  SizeMinAsc = 'SIZE_MIN_ASC',
+  SizeMinDesc = 'SIZE_MIN_DESC',
+  SizeMaxAsc = 'SIZE_MAX_ASC',
+  SizeMaxDesc = 'SIZE_MAX_DESC',
+  SizeMostAsc = 'SIZE_MOST_ASC',
+  SizeMostDesc = 'SIZE_MOST_DESC',
+  ColorAsc = 'COLOR_ASC',
+  ColorDesc = 'COLOR_DESC',
+  ScarsMarksPiecesAsc = 'SCARS_MARKS_PIECES_ASC',
+  ScarsMarksPiecesDesc = 'SCARS_MARKS_PIECES_DESC',
+  ScarsMarksPctAsc = 'SCARS_MARKS_PCT_ASC',
+  ScarsMarksPctDesc = 'SCARS_MARKS_PCT_DESC',
+  ScarsMarksDegAsc = 'SCARS_MARKS_DEG_ASC',
+  ScarsMarksDegDesc = 'SCARS_MARKS_DEG_DESC',
+  MisshapenPiecesAsc = 'MISSHAPEN_PIECES_ASC',
+  MisshapenPiecesDesc = 'MISSHAPEN_PIECES_DESC',
+  MisshapenPctAsc = 'MISSHAPEN_PCT_ASC',
+  MisshapenPctDesc = 'MISSHAPEN_PCT_DESC',
+  StemlessPiecesAsc = 'STEMLESS_PIECES_ASC',
+  StemlessPiecesDesc = 'STEMLESS_PIECES_DESC',
+  StemlessPctAsc = 'STEMLESS_PCT_ASC',
+  StemlessPctDesc = 'STEMLESS_PCT_DESC',
+  SplitsPiecesAsc = 'SPLITS_PIECES_ASC',
+  SplitsPiecesDesc = 'SPLITS_PIECES_DESC',
+  SplitsPctAsc = 'SPLITS_PCT_ASC',
+  SplitsPctDesc = 'SPLITS_PCT_DESC',
+  SplitsDegAsc = 'SPLITS_DEG_ASC',
+  SplitsDegDesc = 'SPLITS_DEG_DESC',
+  FirmnessAsc = 'FIRMNESS_ASC',
+  FirmnessDesc = 'FIRMNESS_DESC',
+  PittingBruisingPiecesAsc = 'PITTING_BRUISING_PIECES_ASC',
+  PittingBruisingPiecesDesc = 'PITTING_BRUISING_PIECES_DESC',
+  PittingBruisingPctAsc = 'PITTING_BRUISING_PCT_ASC',
+  PittingBruisingPctDesc = 'PITTING_BRUISING_PCT_DESC',
+  PittingBruisingDegAsc = 'PITTING_BRUISING_DEG_ASC',
+  PittingBruisingDegDesc = 'PITTING_BRUISING_DEG_DESC',
+  StemDehydrationPiecesAsc = 'STEM_DEHYDRATION_PIECES_ASC',
+  StemDehydrationPiecesDesc = 'STEM_DEHYDRATION_PIECES_DESC',
+  StemDehydrationPctAsc = 'STEM_DEHYDRATION_PCT_ASC',
+  StemDehydrationPctDesc = 'STEM_DEHYDRATION_PCT_DESC',
+  StemDehydrationDegAsc = 'STEM_DEHYDRATION_DEG_ASC',
+  StemDehydrationDegDesc = 'STEM_DEHYDRATION_DEG_DESC',
+  DehydrationPiecesAsc = 'DEHYDRATION_PIECES_ASC',
+  DehydrationPiecesDesc = 'DEHYDRATION_PIECES_DESC',
+  DehydrationPctAsc = 'DEHYDRATION_PCT_ASC',
+  DehydrationPctDesc = 'DEHYDRATION_PCT_DESC',
+  DehydrationDegAsc = 'DEHYDRATION_DEG_ASC',
+  DehydrationDegDesc = 'DEHYDRATION_DEG_DESC',
+  DecayPiecesAsc = 'DECAY_PIECES_ASC',
+  DecayPiecesDesc = 'DECAY_PIECES_DESC',
+  DecayPctAsc = 'DECAY_PCT_ASC',
+  DecayPctDesc = 'DECAY_PCT_DESC',
+  DecayDegAsc = 'DECAY_DEG_ASC',
+  DecayDegDesc = 'DECAY_DEG_DESC',
+  MoldPiecesAsc = 'MOLD_PIECES_ASC',
+  MoldPiecesDesc = 'MOLD_PIECES_DESC',
+  MoldPctAsc = 'MOLD_PCT_ASC',
+  MoldPctDesc = 'MOLD_PCT_DESC',
+  OverallQualityAsc = 'OVERALL_QUALITY_ASC',
+  OverallQualityDesc = 'OVERALL_QUALITY_DESC',
+  OverallConditionAsc = 'OVERALL_CONDITION_ASC',
+  OverallConditionDesc = 'OVERALL_CONDITION_DESC',
+  Comment1Asc = 'COMMENT1_ASC',
+  Comment1Desc = 'COMMENT1_DESC',
+  Comment2Asc = 'COMMENT2_ASC',
+  Comment2Desc = 'COMMENT2_DESC',
+  InspectionTypeAsc = 'INSPECTION_TYPE_ASC',
+  InspectionTypeDesc = 'INSPECTION_TYPE_DESC',
+  ShortInspAsc = 'SHORT_INSP_ASC',
+  ShortInspDesc = 'SHORT_INSP_DESC',
+  FixedWeightAsc = 'FIXED_WEIGHT_ASC',
+  FixedWeightDesc = 'FIXED_WEIGHT_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
 
 /** A filter to be used against `PsaCherryPallet` object types. All fields are combined with a logical ‘and.’ */
 export type PsaCherryPalletFilter = {
@@ -6574,6 +6684,191 @@ export type PsaCitrusPalletsEdge = {
   /** The `PsaCitrusPallet` at the end of the edge. */
   node?: Maybe<PsaCitrusPallet>;
 };
+
+/** Methods to use when ordering `PsaCitrusPallet`. */
+export enum PsaCitrusPalletsOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  LocationAsc = 'LOCATION_ASC',
+  LocationDesc = 'LOCATION_DESC',
+  ArrivalAsc = 'ARRIVAL_ASC',
+  ArrivalDesc = 'ARRIVAL_DESC',
+  ImporterNameAsc = 'IMPORTER_NAME_ASC',
+  ImporterNameDesc = 'IMPORTER_NAME_DESC',
+  ExporterNameAsc = 'EXPORTER_NAME_ASC',
+  ExporterNameDesc = 'EXPORTER_NAME_DESC',
+  CommodityAsc = 'COMMODITY_ASC',
+  CommodityDesc = 'COMMODITY_DESC',
+  ProductCodeAsc = 'PRODUCT_CODE_ASC',
+  ProductCodeDesc = 'PRODUCT_CODE_DESC',
+  VarietyAsc = 'VARIETY_ASC',
+  VarietyDesc = 'VARIETY_DESC',
+  InspDateAsc = 'INSP_DATE_ASC',
+  InspDateDesc = 'INSP_DATE_DESC',
+  QuantityAsc = 'QUANTITY_ASC',
+  QuantityDesc = 'QUANTITY_DESC',
+  HatchAsc = 'HATCH_ASC',
+  HatchDesc = 'HATCH_DESC',
+  DeckAsc = 'DECK_ASC',
+  DeckDesc = 'DECK_DESC',
+  ContainerIdAsc = 'CONTAINER_ID_ASC',
+  ContainerIdDesc = 'CONTAINER_ID_DESC',
+  FumigationAsc = 'FUMIGATION_ASC',
+  FumigationDesc = 'FUMIGATION_DESC',
+  LabelCodeAsc = 'LABEL_CODE_ASC',
+  LabelCodeDesc = 'LABEL_CODE_DESC',
+  InspLocationAsc = 'INSP_LOCATION_ASC',
+  InspLocationDesc = 'INSP_LOCATION_DESC',
+  ImporterCodeAsc = 'IMPORTER_CODE_ASC',
+  ImporterCodeDesc = 'IMPORTER_CODE_DESC',
+  LotCodeAsc = 'LOT_CODE_ASC',
+  LotCodeDesc = 'LOT_CODE_DESC',
+  InspLotAsc = 'INSP_LOT_ASC',
+  InspLotDesc = 'INSP_LOT_DESC',
+  PalletIdAsc = 'PALLET_ID_ASC',
+  PalletIdDesc = 'PALLET_ID_DESC',
+  GrowerCodeAsc = 'GROWER_CODE_ASC',
+  GrowerCodeDesc = 'GROWER_CODE_DESC',
+  InspGrowerCodeAsc = 'INSP_GROWER_CODE_ASC',
+  InspGrowerCodeDesc = 'INSP_GROWER_CODE_DESC',
+  PackDateAsc = 'PACK_DATE_ASC',
+  PackDateDesc = 'PACK_DATE_DESC',
+  InspPackDateAsc = 'INSP_PACK_DATE_ASC',
+  InspPackDateDesc = 'INSP_PACK_DATE_DESC',
+  SizeAsc = 'SIZE_ASC',
+  SizeDesc = 'SIZE_DESC',
+  InspSizeAsc = 'INSP_SIZE_ASC',
+  InspSizeDesc = 'INSP_SIZE_DESC',
+  PackCodeAsc = 'PACK_CODE_ASC',
+  PackCodeDesc = 'PACK_CODE_DESC',
+  PackDescriptionAsc = 'PACK_DESCRIPTION_ASC',
+  PackDescriptionDesc = 'PACK_DESCRIPTION_DESC',
+  SecondaryDescriptionAsc = 'SECONDARY_DESCRIPTION_ASC',
+  SecondaryDescriptionDesc = 'SECONDARY_DESCRIPTION_DESC',
+  InspPackCodeAsc = 'INSP_PACK_CODE_ASC',
+  InspPackCodeDesc = 'INSP_PACK_CODE_DESC',
+  CountAsc = 'COUNT_ASC',
+  CountDesc = 'COUNT_DESC',
+  PluAsc = 'PLU_ASC',
+  PluDesc = 'PLU_DESC',
+  PluPctAsc = 'PLU_PCT_ASC',
+  PluPctDesc = 'PLU_PCT_DESC',
+  CountryOfOriginAsc = 'COUNTRY_OF_ORIGIN_ASC',
+  CountryOfOriginDesc = 'COUNTRY_OF_ORIGIN_DESC',
+  UpcAsc = 'UPC_ASC',
+  UpcDesc = 'UPC_DESC',
+  WeightAsc = 'WEIGHT_ASC',
+  WeightDesc = 'WEIGHT_DESC',
+  UnderweightMinAsc = 'UNDERWEIGHT_MIN_ASC',
+  UnderweightMinDesc = 'UNDERWEIGHT_MIN_DESC',
+  UnderweightMaxAsc = 'UNDERWEIGHT_MAX_ASC',
+  UnderweightMaxDesc = 'UNDERWEIGHT_MAX_DESC',
+  WeighedUnitsAsc = 'WEIGHED_UNITS_ASC',
+  WeighedUnitsDesc = 'WEIGHED_UNITS_DESC',
+  UnderweightUnitsAsc = 'UNDERWEIGHT_UNITS_ASC',
+  UnderweightUnitsDesc = 'UNDERWEIGHT_UNITS_DESC',
+  UnderweightPctAsc = 'UNDERWEIGHT_PCT_ASC',
+  UnderweightPctDesc = 'UNDERWEIGHT_PCT_DESC',
+  PulpTempAsc = 'PULP_TEMP_ASC',
+  PulpTempDesc = 'PULP_TEMP_DESC',
+  OpeningAsc = 'OPENING_ASC',
+  OpeningDesc = 'OPENING_DESC',
+  ColorAsc = 'COLOR_ASC',
+  ColorDesc = 'COLOR_DESC',
+  DiameterMinMmAsc = 'DIAMETER_MIN_MM_ASC',
+  DiameterMinMmDesc = 'DIAMETER_MIN_MM_DESC',
+  DiameterMinInchesAsc = 'DIAMETER_MIN_INCHES_ASC',
+  DiameterMinInchesDesc = 'DIAMETER_MIN_INCHES_DESC',
+  DiameterMaxMmAsc = 'DIAMETER_MAX_MM_ASC',
+  DiameterMaxMmDesc = 'DIAMETER_MAX_MM_DESC',
+  DiameterMaxInchesAsc = 'DIAMETER_MAX_INCHES_ASC',
+  DiameterMaxInchesDesc = 'DIAMETER_MAX_INCHES_DESC',
+  DiameterMostMmAsc = 'DIAMETER_MOST_MM_ASC',
+  DiameterMostMmDesc = 'DIAMETER_MOST_MM_DESC',
+  DiameterMostInchesAsc = 'DIAMETER_MOST_INCHES_ASC',
+  DiameterMostInchesDesc = 'DIAMETER_MOST_INCHES_DESC',
+  ScarsPiecesAsc = 'SCARS_PIECES_ASC',
+  ScarsPiecesDesc = 'SCARS_PIECES_DESC',
+  ScarsPctAsc = 'SCARS_PCT_ASC',
+  ScarsPctDesc = 'SCARS_PCT_DESC',
+  ScarsDegAsc = 'SCARS_DEG_ASC',
+  ScarsDegDesc = 'SCARS_DEG_DESC',
+  GreenHazePiecesAsc = 'GREEN_HAZE_PIECES_ASC',
+  GreenHazePiecesDesc = 'GREEN_HAZE_PIECES_DESC',
+  GreenHazePctAsc = 'GREEN_HAZE_PCT_ASC',
+  GreenHazePctDesc = 'GREEN_HAZE_PCT_DESC',
+  GreenHazeDegAsc = 'GREEN_HAZE_DEG_ASC',
+  GreenHazeDegDesc = 'GREEN_HAZE_DEG_DESC',
+  OilSpotsPiecesAsc = 'OIL_SPOTS_PIECES_ASC',
+  OilSpotsPiecesDesc = 'OIL_SPOTS_PIECES_DESC',
+  OilSpotsPctAsc = 'OIL_SPOTS_PCT_ASC',
+  OilSpotsPctDesc = 'OIL_SPOTS_PCT_DESC',
+  OilSpotsDegAsc = 'OIL_SPOTS_DEG_ASC',
+  OilSpotsDegDesc = 'OIL_SPOTS_DEG_DESC',
+  CutCountAsc = 'CUT_COUNT_ASC',
+  CutCountDesc = 'CUT_COUNT_DESC',
+  DryPulpPiecesAsc = 'DRY_PULP_PIECES_ASC',
+  DryPulpPiecesDesc = 'DRY_PULP_PIECES_DESC',
+  DryPulpPctAsc = 'DRY_PULP_PCT_ASC',
+  DryPulpPctDesc = 'DRY_PULP_PCT_DESC',
+  DryPulpDegAsc = 'DRY_PULP_DEG_ASC',
+  DryPulpDegDesc = 'DRY_PULP_DEG_DESC',
+  SeedsPiecesAsc = 'SEEDS_PIECES_ASC',
+  SeedsPiecesDesc = 'SEEDS_PIECES_DESC',
+  SeedsPctAsc = 'SEEDS_PCT_ASC',
+  SeedsPctDesc = 'SEEDS_PCT_DESC',
+  SkinBreakdownPiecesAsc = 'SKIN_BREAKDOWN_PIECES_ASC',
+  SkinBreakdownPiecesDesc = 'SKIN_BREAKDOWN_PIECES_DESC',
+  SkinBreakdownPctAsc = 'SKIN_BREAKDOWN_PCT_ASC',
+  SkinBreakdownPctDesc = 'SKIN_BREAKDOWN_PCT_DESC',
+  SkinBreakdownDegAsc = 'SKIN_BREAKDOWN_DEG_ASC',
+  SkinBreakdownDegDesc = 'SKIN_BREAKDOWN_DEG_DESC',
+  CreasingPiecesAsc = 'CREASING_PIECES_ASC',
+  CreasingPiecesDesc = 'CREASING_PIECES_DESC',
+  CreasingPctAsc = 'CREASING_PCT_ASC',
+  CreasingPctDesc = 'CREASING_PCT_DESC',
+  CreasingDegAsc = 'CREASING_DEG_ASC',
+  CreasingDegDesc = 'CREASING_DEG_DESC',
+  PuffinessPiecesAsc = 'PUFFINESS_PIECES_ASC',
+  PuffinessPiecesDesc = 'PUFFINESS_PIECES_DESC',
+  PuffinessPctAsc = 'PUFFINESS_PCT_ASC',
+  PuffinessPctDesc = 'PUFFINESS_PCT_DESC',
+  PuffinessDegAsc = 'PUFFINESS_DEG_ASC',
+  PuffinessDegDesc = 'PUFFINESS_DEG_DESC',
+  DecayPiecesAsc = 'DECAY_PIECES_ASC',
+  DecayPiecesDesc = 'DECAY_PIECES_DESC',
+  DecayPctAsc = 'DECAY_PCT_ASC',
+  DecayPctDesc = 'DECAY_PCT_DESC',
+  DecayDegAsc = 'DECAY_DEG_ASC',
+  DecayDegDesc = 'DECAY_DEG_DESC',
+  MoldPiecesAsc = 'MOLD_PIECES_ASC',
+  MoldPiecesDesc = 'MOLD_PIECES_DESC',
+  MoldPctAsc = 'MOLD_PCT_ASC',
+  MoldPctDesc = 'MOLD_PCT_DESC',
+  SporesPiecesAsc = 'SPORES_PIECES_ASC',
+  SporesPiecesDesc = 'SPORES_PIECES_DESC',
+  SporesPctAsc = 'SPORES_PCT_ASC',
+  SporesPctDesc = 'SPORES_PCT_DESC',
+  BrixAsc = 'BRIX_ASC',
+  BrixDesc = 'BRIX_DESC',
+  OverallQualityAsc = 'OVERALL_QUALITY_ASC',
+  OverallQualityDesc = 'OVERALL_QUALITY_DESC',
+  OverallConditionAsc = 'OVERALL_CONDITION_ASC',
+  OverallConditionDesc = 'OVERALL_CONDITION_DESC',
+  Comment1Asc = 'COMMENT1_ASC',
+  Comment1Desc = 'COMMENT1_DESC',
+  Comment2Asc = 'COMMENT2_ASC',
+  Comment2Desc = 'COMMENT2_DESC',
+  InspectionTypeAsc = 'INSPECTION_TYPE_ASC',
+  InspectionTypeDesc = 'INSPECTION_TYPE_DESC',
+  ShortInspAsc = 'SHORT_INSP_ASC',
+  ShortInspDesc = 'SHORT_INSP_DESC',
+  FixedWeightAsc = 'FIXED_WEIGHT_ASC',
+  FixedWeightDesc = 'FIXED_WEIGHT_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
 
 /** A filter to be used against `PsaCitrusPallet` object types. All fields are combined with a logical ‘and.’ */
 export type PsaCitrusPalletFilter = {
@@ -6923,6 +7218,255 @@ export type PsaGrapePalletsEdge = {
   /** The `PsaGrapePallet` at the end of the edge. */
   node?: Maybe<PsaGrapePallet>;
 };
+
+/** Methods to use when ordering `PsaGrapePallet`. */
+export enum PsaGrapePalletsOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  LocationAsc = 'LOCATION_ASC',
+  LocationDesc = 'LOCATION_DESC',
+  ArrivalAsc = 'ARRIVAL_ASC',
+  ArrivalDesc = 'ARRIVAL_DESC',
+  ImporterNameAsc = 'IMPORTER_NAME_ASC',
+  ImporterNameDesc = 'IMPORTER_NAME_DESC',
+  ExporterNameAsc = 'EXPORTER_NAME_ASC',
+  ExporterNameDesc = 'EXPORTER_NAME_DESC',
+  CommodityAsc = 'COMMODITY_ASC',
+  CommodityDesc = 'COMMODITY_DESC',
+  ProductCodeAsc = 'PRODUCT_CODE_ASC',
+  ProductCodeDesc = 'PRODUCT_CODE_DESC',
+  VarietyAsc = 'VARIETY_ASC',
+  VarietyDesc = 'VARIETY_DESC',
+  InspDateAsc = 'INSP_DATE_ASC',
+  InspDateDesc = 'INSP_DATE_DESC',
+  QuantityAsc = 'QUANTITY_ASC',
+  QuantityDesc = 'QUANTITY_DESC',
+  HatchAsc = 'HATCH_ASC',
+  HatchDesc = 'HATCH_DESC',
+  DeckAsc = 'DECK_ASC',
+  DeckDesc = 'DECK_DESC',
+  ContainerIdAsc = 'CONTAINER_ID_ASC',
+  ContainerIdDesc = 'CONTAINER_ID_DESC',
+  FumigationAsc = 'FUMIGATION_ASC',
+  FumigationDesc = 'FUMIGATION_DESC',
+  LabelCodeAsc = 'LABEL_CODE_ASC',
+  LabelCodeDesc = 'LABEL_CODE_DESC',
+  InspLocationAsc = 'INSP_LOCATION_ASC',
+  InspLocationDesc = 'INSP_LOCATION_DESC',
+  ImporterCodeAsc = 'IMPORTER_CODE_ASC',
+  ImporterCodeDesc = 'IMPORTER_CODE_DESC',
+  LotCodeAsc = 'LOT_CODE_ASC',
+  LotCodeDesc = 'LOT_CODE_DESC',
+  InspLotAsc = 'INSP_LOT_ASC',
+  InspLotDesc = 'INSP_LOT_DESC',
+  PalletIdAsc = 'PALLET_ID_ASC',
+  PalletIdDesc = 'PALLET_ID_DESC',
+  GrowerCodeAsc = 'GROWER_CODE_ASC',
+  GrowerCodeDesc = 'GROWER_CODE_DESC',
+  InspGrowerCodeAsc = 'INSP_GROWER_CODE_ASC',
+  InspGrowerCodeDesc = 'INSP_GROWER_CODE_DESC',
+  PackDateAsc = 'PACK_DATE_ASC',
+  PackDateDesc = 'PACK_DATE_DESC',
+  InspPackDateAsc = 'INSP_PACK_DATE_ASC',
+  InspPackDateDesc = 'INSP_PACK_DATE_DESC',
+  SizeAsc = 'SIZE_ASC',
+  SizeDesc = 'SIZE_DESC',
+  InspSizeAsc = 'INSP_SIZE_ASC',
+  InspSizeDesc = 'INSP_SIZE_DESC',
+  PackCodeAsc = 'PACK_CODE_ASC',
+  PackCodeDesc = 'PACK_CODE_DESC',
+  PackDescriptionAsc = 'PACK_DESCRIPTION_ASC',
+  PackDescriptionDesc = 'PACK_DESCRIPTION_DESC',
+  SecondaryDescriptionAsc = 'SECONDARY_DESCRIPTION_ASC',
+  SecondaryDescriptionDesc = 'SECONDARY_DESCRIPTION_DESC',
+  GradeAsc = 'GRADE_ASC',
+  GradeDesc = 'GRADE_DESC',
+  InspPackCodeAsc = 'INSP_PACK_CODE_ASC',
+  InspPackCodeDesc = 'INSP_PACK_CODE_DESC',
+  CountAsc = 'COUNT_ASC',
+  CountDesc = 'COUNT_DESC',
+  PluAsc = 'PLU_ASC',
+  PluDesc = 'PLU_DESC',
+  PluPctAsc = 'PLU_PCT_ASC',
+  PluPctDesc = 'PLU_PCT_DESC',
+  CountryOfOriginAsc = 'COUNTRY_OF_ORIGIN_ASC',
+  CountryOfOriginDesc = 'COUNTRY_OF_ORIGIN_DESC',
+  UpcAsc = 'UPC_ASC',
+  UpcDesc = 'UPC_DESC',
+  WeightAsc = 'WEIGHT_ASC',
+  WeightDesc = 'WEIGHT_DESC',
+  UnderweightMinAsc = 'UNDERWEIGHT_MIN_ASC',
+  UnderweightMinDesc = 'UNDERWEIGHT_MIN_DESC',
+  UnderweightMaxAsc = 'UNDERWEIGHT_MAX_ASC',
+  UnderweightMaxDesc = 'UNDERWEIGHT_MAX_DESC',
+  WeighedUnitsAsc = 'WEIGHED_UNITS_ASC',
+  WeighedUnitsDesc = 'WEIGHED_UNITS_DESC',
+  UnderweightUnitsAsc = 'UNDERWEIGHT_UNITS_ASC',
+  UnderweightUnitsDesc = 'UNDERWEIGHT_UNITS_DESC',
+  UnderweightPctAsc = 'UNDERWEIGHT_PCT_ASC',
+  UnderweightPctDesc = 'UNDERWEIGHT_PCT_DESC',
+  PulpTempAsc = 'PULP_TEMP_ASC',
+  PulpTempDesc = 'PULP_TEMP_DESC',
+  OpeningAsc = 'OPENING_ASC',
+  OpeningDesc = 'OPENING_DESC',
+  AutoOpeningAsc = 'AUTO_OPENING_ASC',
+  AutoOpeningDesc = 'AUTO_OPENING_DESC',
+  BunchesAsc = 'BUNCHES_ASC',
+  BunchesDesc = 'BUNCHES_DESC',
+  SizeMinAsc = 'SIZE_MIN_ASC',
+  SizeMinDesc = 'SIZE_MIN_DESC',
+  SizeMaxAsc = 'SIZE_MAX_ASC',
+  SizeMaxDesc = 'SIZE_MAX_DESC',
+  SizeMostAsc = 'SIZE_MOST_ASC',
+  SizeMostDesc = 'SIZE_MOST_DESC',
+  UndersizeBunchesCountAsc = 'UNDERSIZE_BUNCHES_COUNT_ASC',
+  UndersizeBunchesCountDesc = 'UNDERSIZE_BUNCHES_COUNT_DESC',
+  AutoUndersizeBerriesBunchesAsc = 'AUTO_UNDERSIZE_BERRIES_BUNCHES_ASC',
+  AutoUndersizeBerriesBunchesDesc = 'AUTO_UNDERSIZE_BERRIES_BUNCHES_DESC',
+  UndersizeBerriesPctAsc = 'UNDERSIZE_BERRIES_PCT_ASC',
+  UndersizeBerriesPctDesc = 'UNDERSIZE_BERRIES_PCT_DESC',
+  ColorMinAsc = 'COLOR_MIN_ASC',
+  ColorMinDesc = 'COLOR_MIN_DESC',
+  ColorMaxAsc = 'COLOR_MAX_ASC',
+  ColorMaxDesc = 'COLOR_MAX_DESC',
+  ColorMostAsc = 'COLOR_MOST_ASC',
+  ColorMostDesc = 'COLOR_MOST_DESC',
+  ColorConsistencyAsc = 'COLOR_CONSISTENCY_ASC',
+  ColorConsistencyDesc = 'COLOR_CONSISTENCY_DESC',
+  AutoColorConsistencyAsc = 'AUTO_COLOR_CONSISTENCY_ASC',
+  AutoColorConsistencyDesc = 'AUTO_COLOR_CONSISTENCY_DESC',
+  SunburnBunchesAsc = 'SUNBURN_BUNCHES_ASC',
+  SunburnBunchesDesc = 'SUNBURN_BUNCHES_DESC',
+  AutoSunburnBunchesAsc = 'AUTO_SUNBURN_BUNCHES_ASC',
+  AutoSunburnBunchesDesc = 'AUTO_SUNBURN_BUNCHES_DESC',
+  SunburnPctAsc = 'SUNBURN_PCT_ASC',
+  SunburnPctDesc = 'SUNBURN_PCT_DESC',
+  SunburnBunchesDegAsc = 'SUNBURN_BUNCHES_DEG_ASC',
+  SunburnBunchesDegDesc = 'SUNBURN_BUNCHES_DEG_DESC',
+  BunchConformationAsc = 'BUNCH_CONFORMATION_ASC',
+  BunchConformationDesc = 'BUNCH_CONFORMATION_DESC',
+  AutoBunchConformationAsc = 'AUTO_BUNCH_CONFORMATION_ASC',
+  AutoBunchConformationDesc = 'AUTO_BUNCH_CONFORMATION_DESC',
+  StragglyBunchesAsc = 'STRAGGLY_BUNCHES_ASC',
+  StragglyBunchesDesc = 'STRAGGLY_BUNCHES_DESC',
+  StragglyPctAsc = 'STRAGGLY_PCT_ASC',
+  StragglyPctDesc = 'STRAGGLY_PCT_DESC',
+  SmallBunchesAsc = 'SMALL_BUNCHES_ASC',
+  SmallBunchesDesc = 'SMALL_BUNCHES_DESC',
+  RussetMarksBunchesAsc = 'RUSSET_MARKS_BUNCHES_ASC',
+  RussetMarksBunchesDesc = 'RUSSET_MARKS_BUNCHES_DESC',
+  RussetMarksPctAsc = 'RUSSET_MARKS_PCT_ASC',
+  RussetMarksPctDesc = 'RUSSET_MARKS_PCT_DESC',
+  AutoRussetMarksPctAsc = 'AUTO_RUSSET_MARKS_PCT_ASC',
+  AutoRussetMarksPctDesc = 'AUTO_RUSSET_MARKS_PCT_DESC',
+  DustPctAsc = 'DUST_PCT_ASC',
+  DustPctDesc = 'DUST_PCT_DESC',
+  AutoDustPctAsc = 'AUTO_DUST_PCT_ASC',
+  AutoDustPctDesc = 'AUTO_DUST_PCT_DESC',
+  ResiduesPctAsc = 'RESIDUES_PCT_ASC',
+  ResiduesPctDesc = 'RESIDUES_PCT_DESC',
+  AutoResiduesPctAsc = 'AUTO_RESIDUES_PCT_ASC',
+  AutoResiduesPctDesc = 'AUTO_RESIDUES_PCT_DESC',
+  TightBunchesAsc = 'TIGHT_BUNCHES_ASC',
+  TightBunchesDesc = 'TIGHT_BUNCHES_DESC',
+  AutoTightBunchesAsc = 'AUTO_TIGHT_BUNCHES_ASC',
+  AutoTightBunchesDesc = 'AUTO_TIGHT_BUNCHES_DESC',
+  BruisingBunchesAsc = 'BRUISING_BUNCHES_ASC',
+  BruisingBunchesDesc = 'BRUISING_BUNCHES_DESC',
+  AutoBruisingBunchesAsc = 'AUTO_BRUISING_BUNCHES_ASC',
+  AutoBruisingBunchesDesc = 'AUTO_BRUISING_BUNCHES_DESC',
+  BruisingPctAsc = 'BRUISING_PCT_ASC',
+  BruisingPctDesc = 'BRUISING_PCT_DESC',
+  BruisingDegAsc = 'BRUISING_DEG_ASC',
+  BruisingDegDesc = 'BRUISING_DEG_DESC',
+  StemDehydrationPctAsc = 'STEM_DEHYDRATION_PCT_ASC',
+  StemDehydrationPctDesc = 'STEM_DEHYDRATION_PCT_DESC',
+  AutoStemDehydrationPctAsc = 'AUTO_STEM_DEHYDRATION_PCT_ASC',
+  AutoStemDehydrationPctDesc = 'AUTO_STEM_DEHYDRATION_PCT_DESC',
+  StemDehydrationDegAsc = 'STEM_DEHYDRATION_DEG_ASC',
+  StemDehydrationDegDesc = 'STEM_DEHYDRATION_DEG_DESC',
+  BerryConditionAsc = 'BERRY_CONDITION_ASC',
+  BerryConditionDesc = 'BERRY_CONDITION_DESC',
+  AutoBerryConditionAsc = 'AUTO_BERRY_CONDITION_ASC',
+  AutoBerryConditionDesc = 'AUTO_BERRY_CONDITION_DESC',
+  H2OBerriesAsc = 'H2O_BERRIES_ASC',
+  H2OBerriesDesc = 'H2O_BERRIES_DESC',
+  AutoH2OBerriesAsc = 'AUTO_H2O_BERRIES_ASC',
+  AutoH2OBerriesDesc = 'AUTO_H2O_BERRIES_DESC',
+  So2DamagePctAsc = 'SO2_DAMAGE_PCT_ASC',
+  So2DamagePctDesc = 'SO2_DAMAGE_PCT_DESC',
+  AutoSo2DamagePctAsc = 'AUTO_SO2_DAMAGE_PCT_ASC',
+  AutoSo2DamagePctDesc = 'AUTO_SO2_DAMAGE_PCT_DESC',
+  So2DamageDegAsc = 'SO2_DAMAGE_DEG_ASC',
+  So2DamageDegDesc = 'SO2_DAMAGE_DEG_DESC',
+  WeakBunchesAsc = 'WEAK_BUNCHES_ASC',
+  WeakBunchesDesc = 'WEAK_BUNCHES_DESC',
+  AutoWeakBunchesAsc = 'AUTO_WEAK_BUNCHES_ASC',
+  AutoWeakBunchesDesc = 'AUTO_WEAK_BUNCHES_DESC',
+  SplitsHairlinePctAsc = 'SPLITS_HAIRLINE_PCT_ASC',
+  SplitsHairlinePctDesc = 'SPLITS_HAIRLINE_PCT_DESC',
+  AutoSplitsHairlinePctAsc = 'AUTO_SPLITS_HAIRLINE_PCT_ASC',
+  AutoSplitsHairlinePctDesc = 'AUTO_SPLITS_HAIRLINE_PCT_DESC',
+  SplitsWetCrushPctAsc = 'SPLITS_WET_CRUSH_PCT_ASC',
+  SplitsWetCrushPctDesc = 'SPLITS_WET_CRUSH_PCT_DESC',
+  AutoSplitsWetCrushPctAsc = 'AUTO_SPLITS_WET_CRUSH_PCT_ASC',
+  AutoSplitsWetCrushPctDesc = 'AUTO_SPLITS_WET_CRUSH_PCT_DESC',
+  SplitsDryPctAsc = 'SPLITS_DRY_PCT_ASC',
+  SplitsDryPctDesc = 'SPLITS_DRY_PCT_DESC',
+  AutoSplitsDryPctAsc = 'AUTO_SPLITS_DRY_PCT_ASC',
+  AutoSplitsDryPctDesc = 'AUTO_SPLITS_DRY_PCT_DESC',
+  IntDiscAsc = 'INT_DISC_ASC',
+  IntDiscDesc = 'INT_DISC_DESC',
+  AutoIntDiscAsc = 'AUTO_INT_DISC_ASC',
+  AutoIntDiscDesc = 'AUTO_INT_DISC_DESC',
+  IntDiscDegAsc = 'INT_DISC_DEG_ASC',
+  IntDiscDegDesc = 'INT_DISC_DEG_DESC',
+  DecayMoldBerriesAsc = 'DECAY_MOLD_BERRIES_ASC',
+  DecayMoldBerriesDesc = 'DECAY_MOLD_BERRIES_DESC',
+  AutoDecayMoldBerriesAsc = 'AUTO_DECAY_MOLD_BERRIES_ASC',
+  AutoDecayMoldBerriesDesc = 'AUTO_DECAY_MOLD_BERRIES_DESC',
+  DecaySlipskinBerriesAsc = 'DECAY_SLIPSKIN_BERRIES_ASC',
+  DecaySlipskinBerriesDesc = 'DECAY_SLIPSKIN_BERRIES_DESC',
+  AutoDecaySlipskinBerriesAsc = 'AUTO_DECAY_SLIPSKIN_BERRIES_ASC',
+  AutoDecaySlipskinBerriesDesc = 'AUTO_DECAY_SLIPSKIN_BERRIES_DESC',
+  DecayNestBerriesAsc = 'DECAY_NEST_BERRIES_ASC',
+  DecayNestBerriesDesc = 'DECAY_NEST_BERRIES_DESC',
+  AutoDecayNestBerriesAsc = 'AUTO_DECAY_NEST_BERRIES_ASC',
+  AutoDecayNestBerriesDesc = 'AUTO_DECAY_NEST_BERRIES_DESC',
+  DecayNestDegAsc = 'DECAY_NEST_DEG_ASC',
+  DecayNestDegDesc = 'DECAY_NEST_DEG_DESC',
+  ShatterPctAsc = 'SHATTER_PCT_ASC',
+  ShatterPctDesc = 'SHATTER_PCT_DESC',
+  AutoShatterPctAsc = 'AUTO_SHATTER_PCT_ASC',
+  AutoShatterPctDesc = 'AUTO_SHATTER_PCT_DESC',
+  BrixMinAsc = 'BRIX_MIN_ASC',
+  BrixMinDesc = 'BRIX_MIN_DESC',
+  BrixMaxAsc = 'BRIX_MAX_ASC',
+  BrixMaxDesc = 'BRIX_MAX_DESC',
+  BrixMostAsc = 'BRIX_MOST_ASC',
+  BrixMostDesc = 'BRIX_MOST_DESC',
+  OverallQualityAsc = 'OVERALL_QUALITY_ASC',
+  OverallQualityDesc = 'OVERALL_QUALITY_DESC',
+  AutoOverallQualityAsc = 'AUTO_OVERALL_QUALITY_ASC',
+  AutoOverallQualityDesc = 'AUTO_OVERALL_QUALITY_DESC',
+  OverallConditionAsc = 'OVERALL_CONDITION_ASC',
+  OverallConditionDesc = 'OVERALL_CONDITION_DESC',
+  AutoOverallConditionAsc = 'AUTO_OVERALL_CONDITION_ASC',
+  AutoOverallConditionDesc = 'AUTO_OVERALL_CONDITION_DESC',
+  Comment1Asc = 'COMMENT1_ASC',
+  Comment1Desc = 'COMMENT1_DESC',
+  Comment2Asc = 'COMMENT2_ASC',
+  Comment2Desc = 'COMMENT2_DESC',
+  InspectionTypeAsc = 'INSPECTION_TYPE_ASC',
+  InspectionTypeDesc = 'INSPECTION_TYPE_DESC',
+  ShortInspAsc = 'SHORT_INSP_ASC',
+  ShortInspDesc = 'SHORT_INSP_DESC',
+  FixedWeightAsc = 'FIXED_WEIGHT_ASC',
+  FixedWeightDesc = 'FIXED_WEIGHT_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
 
 /** A filter to be used against `PsaGrapePallet` object types. All fields are combined with a logical ‘and.’ */
 export type PsaGrapePalletFilter = {
@@ -7301,6 +7845,183 @@ export type PsaLemonPalletsEdge = {
   node?: Maybe<PsaLemonPallet>;
 };
 
+/** Methods to use when ordering `PsaLemonPallet`. */
+export enum PsaLemonPalletsOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  LocationAsc = 'LOCATION_ASC',
+  LocationDesc = 'LOCATION_DESC',
+  ArrivalAsc = 'ARRIVAL_ASC',
+  ArrivalDesc = 'ARRIVAL_DESC',
+  ImporterNameAsc = 'IMPORTER_NAME_ASC',
+  ImporterNameDesc = 'IMPORTER_NAME_DESC',
+  ExporterNameAsc = 'EXPORTER_NAME_ASC',
+  ExporterNameDesc = 'EXPORTER_NAME_DESC',
+  CommodityAsc = 'COMMODITY_ASC',
+  CommodityDesc = 'COMMODITY_DESC',
+  ProductCodeAsc = 'PRODUCT_CODE_ASC',
+  ProductCodeDesc = 'PRODUCT_CODE_DESC',
+  VarietyAsc = 'VARIETY_ASC',
+  VarietyDesc = 'VARIETY_DESC',
+  InspDateAsc = 'INSP_DATE_ASC',
+  InspDateDesc = 'INSP_DATE_DESC',
+  QuantityAsc = 'QUANTITY_ASC',
+  QuantityDesc = 'QUANTITY_DESC',
+  HatchAsc = 'HATCH_ASC',
+  HatchDesc = 'HATCH_DESC',
+  DeckAsc = 'DECK_ASC',
+  DeckDesc = 'DECK_DESC',
+  ContainerIdAsc = 'CONTAINER_ID_ASC',
+  ContainerIdDesc = 'CONTAINER_ID_DESC',
+  FumigationAsc = 'FUMIGATION_ASC',
+  FumigationDesc = 'FUMIGATION_DESC',
+  LabelCodeAsc = 'LABEL_CODE_ASC',
+  LabelCodeDesc = 'LABEL_CODE_DESC',
+  InspLocationAsc = 'INSP_LOCATION_ASC',
+  InspLocationDesc = 'INSP_LOCATION_DESC',
+  ImporterCodeAsc = 'IMPORTER_CODE_ASC',
+  ImporterCodeDesc = 'IMPORTER_CODE_DESC',
+  LotCodeAsc = 'LOT_CODE_ASC',
+  LotCodeDesc = 'LOT_CODE_DESC',
+  InspLotAsc = 'INSP_LOT_ASC',
+  InspLotDesc = 'INSP_LOT_DESC',
+  PalletIdAsc = 'PALLET_ID_ASC',
+  PalletIdDesc = 'PALLET_ID_DESC',
+  GrowerCodeAsc = 'GROWER_CODE_ASC',
+  GrowerCodeDesc = 'GROWER_CODE_DESC',
+  InspGrowerCodeAsc = 'INSP_GROWER_CODE_ASC',
+  InspGrowerCodeDesc = 'INSP_GROWER_CODE_DESC',
+  PackDateAsc = 'PACK_DATE_ASC',
+  PackDateDesc = 'PACK_DATE_DESC',
+  InspPackDateAsc = 'INSP_PACK_DATE_ASC',
+  InspPackDateDesc = 'INSP_PACK_DATE_DESC',
+  SizeAsc = 'SIZE_ASC',
+  SizeDesc = 'SIZE_DESC',
+  InspSizeAsc = 'INSP_SIZE_ASC',
+  InspSizeDesc = 'INSP_SIZE_DESC',
+  PackCodeAsc = 'PACK_CODE_ASC',
+  PackCodeDesc = 'PACK_CODE_DESC',
+  PackDescriptionAsc = 'PACK_DESCRIPTION_ASC',
+  PackDescriptionDesc = 'PACK_DESCRIPTION_DESC',
+  SecondaryDescriptionAsc = 'SECONDARY_DESCRIPTION_ASC',
+  SecondaryDescriptionDesc = 'SECONDARY_DESCRIPTION_DESC',
+  InspPackCodeAsc = 'INSP_PACK_CODE_ASC',
+  InspPackCodeDesc = 'INSP_PACK_CODE_DESC',
+  GradeAsc = 'GRADE_ASC',
+  GradeDesc = 'GRADE_DESC',
+  InspGradeAsc = 'INSP_GRADE_ASC',
+  InspGradeDesc = 'INSP_GRADE_DESC',
+  CountAsc = 'COUNT_ASC',
+  CountDesc = 'COUNT_DESC',
+  PluAsc = 'PLU_ASC',
+  PluDesc = 'PLU_DESC',
+  PluPctAsc = 'PLU_PCT_ASC',
+  PluPctDesc = 'PLU_PCT_DESC',
+  CountryOfOriginAsc = 'COUNTRY_OF_ORIGIN_ASC',
+  CountryOfOriginDesc = 'COUNTRY_OF_ORIGIN_DESC',
+  UpcAsc = 'UPC_ASC',
+  UpcDesc = 'UPC_DESC',
+  WeightAsc = 'WEIGHT_ASC',
+  WeightDesc = 'WEIGHT_DESC',
+  UnderweightMinAsc = 'UNDERWEIGHT_MIN_ASC',
+  UnderweightMinDesc = 'UNDERWEIGHT_MIN_DESC',
+  UnderweightMaxAsc = 'UNDERWEIGHT_MAX_ASC',
+  UnderweightMaxDesc = 'UNDERWEIGHT_MAX_DESC',
+  WeighedUnitsAsc = 'WEIGHED_UNITS_ASC',
+  WeighedUnitsDesc = 'WEIGHED_UNITS_DESC',
+  UnderweightUnitsAsc = 'UNDERWEIGHT_UNITS_ASC',
+  UnderweightUnitsDesc = 'UNDERWEIGHT_UNITS_DESC',
+  UnderweightPctAsc = 'UNDERWEIGHT_PCT_ASC',
+  UnderweightPctDesc = 'UNDERWEIGHT_PCT_DESC',
+  PulpTempAsc = 'PULP_TEMP_ASC',
+  PulpTempDesc = 'PULP_TEMP_DESC',
+  OpeningAsc = 'OPENING_ASC',
+  OpeningDesc = 'OPENING_DESC',
+  ColorAsc = 'COLOR_ASC',
+  ColorDesc = 'COLOR_DESC',
+  DiameterMinMmAsc = 'DIAMETER_MIN_MM_ASC',
+  DiameterMinMmDesc = 'DIAMETER_MIN_MM_DESC',
+  DiameterMinInchesAsc = 'DIAMETER_MIN_INCHES_ASC',
+  DiameterMinInchesDesc = 'DIAMETER_MIN_INCHES_DESC',
+  DiameterMaxMmAsc = 'DIAMETER_MAX_MM_ASC',
+  DiameterMaxMmDesc = 'DIAMETER_MAX_MM_DESC',
+  DiameterMaxInchesAsc = 'DIAMETER_MAX_INCHES_ASC',
+  DiameterMaxInchesDesc = 'DIAMETER_MAX_INCHES_DESC',
+  DiameterMostMmAsc = 'DIAMETER_MOST_MM_ASC',
+  DiameterMostMmDesc = 'DIAMETER_MOST_MM_DESC',
+  DiameterMostInchesAsc = 'DIAMETER_MOST_INCHES_ASC',
+  DiameterMostInchesDesc = 'DIAMETER_MOST_INCHES_DESC',
+  ScarsPiecesAsc = 'SCARS_PIECES_ASC',
+  ScarsPiecesDesc = 'SCARS_PIECES_DESC',
+  ScarsPctAsc = 'SCARS_PCT_ASC',
+  ScarsPctDesc = 'SCARS_PCT_DESC',
+  ScarsDegAsc = 'SCARS_DEG_ASC',
+  ScarsDegDesc = 'SCARS_DEG_DESC',
+  GreenHazePiecesAsc = 'GREEN_HAZE_PIECES_ASC',
+  GreenHazePiecesDesc = 'GREEN_HAZE_PIECES_DESC',
+  GreenHazePctAsc = 'GREEN_HAZE_PCT_ASC',
+  GreenHazePctDesc = 'GREEN_HAZE_PCT_DESC',
+  GreenHazeDegAsc = 'GREEN_HAZE_DEG_ASC',
+  GreenHazeDegDesc = 'GREEN_HAZE_DEG_DESC',
+  OilSpotsPiecesAsc = 'OIL_SPOTS_PIECES_ASC',
+  OilSpotsPiecesDesc = 'OIL_SPOTS_PIECES_DESC',
+  OilSpotsPctAsc = 'OIL_SPOTS_PCT_ASC',
+  OilSpotsPctDesc = 'OIL_SPOTS_PCT_DESC',
+  OilSpotsDegAsc = 'OIL_SPOTS_DEG_ASC',
+  OilSpotsDegDesc = 'OIL_SPOTS_DEG_DESC',
+  CutCountAsc = 'CUT_COUNT_ASC',
+  CutCountDesc = 'CUT_COUNT_DESC',
+  DryPulpPiecesAsc = 'DRY_PULP_PIECES_ASC',
+  DryPulpPiecesDesc = 'DRY_PULP_PIECES_DESC',
+  DryPulpPctAsc = 'DRY_PULP_PCT_ASC',
+  DryPulpPctDesc = 'DRY_PULP_PCT_DESC',
+  DryPulpDegAsc = 'DRY_PULP_DEG_ASC',
+  DryPulpDegDesc = 'DRY_PULP_DEG_DESC',
+  SkinDamagePiecesAsc = 'SKIN_DAMAGE_PIECES_ASC',
+  SkinDamagePiecesDesc = 'SKIN_DAMAGE_PIECES_DESC',
+  SkinDamagePctAsc = 'SKIN_DAMAGE_PCT_ASC',
+  SkinDamagePctDesc = 'SKIN_DAMAGE_PCT_DESC',
+  SkinDamageDegAsc = 'SKIN_DAMAGE_DEG_ASC',
+  SkinDamageDegDesc = 'SKIN_DAMAGE_DEG_DESC',
+  PetecaPiecesAsc = 'PETECA_PIECES_ASC',
+  PetecaPiecesDesc = 'PETECA_PIECES_DESC',
+  PetecaPctAsc = 'PETECA_PCT_ASC',
+  PetecaPctDesc = 'PETECA_PCT_DESC',
+  PetecaDegAsc = 'PETECA_DEG_ASC',
+  PetecaDegDesc = 'PETECA_DEG_DESC',
+  DecayPiecesAsc = 'DECAY_PIECES_ASC',
+  DecayPiecesDesc = 'DECAY_PIECES_DESC',
+  DecayPctAsc = 'DECAY_PCT_ASC',
+  DecayPctDesc = 'DECAY_PCT_DESC',
+  DecayDegAsc = 'DECAY_DEG_ASC',
+  DecayDegDesc = 'DECAY_DEG_DESC',
+  MoldPiecesAsc = 'MOLD_PIECES_ASC',
+  MoldPiecesDesc = 'MOLD_PIECES_DESC',
+  MoldPctAsc = 'MOLD_PCT_ASC',
+  MoldPctDesc = 'MOLD_PCT_DESC',
+  SporesPiecesAsc = 'SPORES_PIECES_ASC',
+  SporesPiecesDesc = 'SPORES_PIECES_DESC',
+  SporesPctAsc = 'SPORES_PCT_ASC',
+  SporesPctDesc = 'SPORES_PCT_DESC',
+  OverallQualityAsc = 'OVERALL_QUALITY_ASC',
+  OverallQualityDesc = 'OVERALL_QUALITY_DESC',
+  OverallConditionAsc = 'OVERALL_CONDITION_ASC',
+  OverallConditionDesc = 'OVERALL_CONDITION_DESC',
+  Comment1Asc = 'COMMENT1_ASC',
+  Comment1Desc = 'COMMENT1_DESC',
+  Comment2Asc = 'COMMENT2_ASC',
+  Comment2Desc = 'COMMENT2_DESC',
+  InspectionTypeAsc = 'INSPECTION_TYPE_ASC',
+  InspectionTypeDesc = 'INSPECTION_TYPE_DESC',
+  ShortInspAsc = 'SHORT_INSP_ASC',
+  ShortInspDesc = 'SHORT_INSP_DESC',
+  FixedWeightAsc = 'FIXED_WEIGHT_ASC',
+  FixedWeightDesc = 'FIXED_WEIGHT_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
 /** A filter to be used against `PsaLemonPallet` object types. All fields are combined with a logical ‘and.’ */
 export type PsaLemonPalletFilter = {
   /** Filter by the object’s `id` field. */
@@ -7611,6 +8332,195 @@ export type PsaPearPalletsEdge = {
   /** The `PsaPearPallet` at the end of the edge. */
   node?: Maybe<PsaPearPallet>;
 };
+
+/** Methods to use when ordering `PsaPearPallet`. */
+export enum PsaPearPalletsOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  LocationAsc = 'LOCATION_ASC',
+  LocationDesc = 'LOCATION_DESC',
+  ArrivalAsc = 'ARRIVAL_ASC',
+  ArrivalDesc = 'ARRIVAL_DESC',
+  ImporterNameAsc = 'IMPORTER_NAME_ASC',
+  ImporterNameDesc = 'IMPORTER_NAME_DESC',
+  ExporterNameAsc = 'EXPORTER_NAME_ASC',
+  ExporterNameDesc = 'EXPORTER_NAME_DESC',
+  CommodityAsc = 'COMMODITY_ASC',
+  CommodityDesc = 'COMMODITY_DESC',
+  ProductCodeAsc = 'PRODUCT_CODE_ASC',
+  ProductCodeDesc = 'PRODUCT_CODE_DESC',
+  VarietyAsc = 'VARIETY_ASC',
+  VarietyDesc = 'VARIETY_DESC',
+  InspDateAsc = 'INSP_DATE_ASC',
+  InspDateDesc = 'INSP_DATE_DESC',
+  QuantityAsc = 'QUANTITY_ASC',
+  QuantityDesc = 'QUANTITY_DESC',
+  HatchAsc = 'HATCH_ASC',
+  HatchDesc = 'HATCH_DESC',
+  DeckAsc = 'DECK_ASC',
+  DeckDesc = 'DECK_DESC',
+  ContainerIdAsc = 'CONTAINER_ID_ASC',
+  ContainerIdDesc = 'CONTAINER_ID_DESC',
+  FumigationAsc = 'FUMIGATION_ASC',
+  FumigationDesc = 'FUMIGATION_DESC',
+  LabelCodeAsc = 'LABEL_CODE_ASC',
+  LabelCodeDesc = 'LABEL_CODE_DESC',
+  InspLocationAsc = 'INSP_LOCATION_ASC',
+  InspLocationDesc = 'INSP_LOCATION_DESC',
+  ImporterCodeAsc = 'IMPORTER_CODE_ASC',
+  ImporterCodeDesc = 'IMPORTER_CODE_DESC',
+  LotCodeAsc = 'LOT_CODE_ASC',
+  LotCodeDesc = 'LOT_CODE_DESC',
+  InspLotAsc = 'INSP_LOT_ASC',
+  InspLotDesc = 'INSP_LOT_DESC',
+  RunNumberAsc = 'RUN_NUMBER_ASC',
+  RunNumberDesc = 'RUN_NUMBER_DESC',
+  PalletIdAsc = 'PALLET_ID_ASC',
+  PalletIdDesc = 'PALLET_ID_DESC',
+  GrowerCodeAsc = 'GROWER_CODE_ASC',
+  GrowerCodeDesc = 'GROWER_CODE_DESC',
+  InspGrowerCodeAsc = 'INSP_GROWER_CODE_ASC',
+  InspGrowerCodeDesc = 'INSP_GROWER_CODE_DESC',
+  PackDateAsc = 'PACK_DATE_ASC',
+  PackDateDesc = 'PACK_DATE_DESC',
+  InspPackDateAsc = 'INSP_PACK_DATE_ASC',
+  InspPackDateDesc = 'INSP_PACK_DATE_DESC',
+  SizeAsc = 'SIZE_ASC',
+  SizeDesc = 'SIZE_DESC',
+  InspSizeAsc = 'INSP_SIZE_ASC',
+  InspSizeDesc = 'INSP_SIZE_DESC',
+  PackCodeAsc = 'PACK_CODE_ASC',
+  PackCodeDesc = 'PACK_CODE_DESC',
+  PackDescriptionAsc = 'PACK_DESCRIPTION_ASC',
+  PackDescriptionDesc = 'PACK_DESCRIPTION_DESC',
+  SecondaryDescriptionAsc = 'SECONDARY_DESCRIPTION_ASC',
+  SecondaryDescriptionDesc = 'SECONDARY_DESCRIPTION_DESC',
+  InspPackCodeAsc = 'INSP_PACK_CODE_ASC',
+  InspPackCodeDesc = 'INSP_PACK_CODE_DESC',
+  GradeAsc = 'GRADE_ASC',
+  GradeDesc = 'GRADE_DESC',
+  InspGradeAsc = 'INSP_GRADE_ASC',
+  InspGradeDesc = 'INSP_GRADE_DESC',
+  CountAsc = 'COUNT_ASC',
+  CountDesc = 'COUNT_DESC',
+  PluAsc = 'PLU_ASC',
+  PluDesc = 'PLU_DESC',
+  PluPctAsc = 'PLU_PCT_ASC',
+  PluPctDesc = 'PLU_PCT_DESC',
+  CountryOfOriginAsc = 'COUNTRY_OF_ORIGIN_ASC',
+  CountryOfOriginDesc = 'COUNTRY_OF_ORIGIN_DESC',
+  UpcAsc = 'UPC_ASC',
+  UpcDesc = 'UPC_DESC',
+  WeightAsc = 'WEIGHT_ASC',
+  WeightDesc = 'WEIGHT_DESC',
+  UnderweightMinAsc = 'UNDERWEIGHT_MIN_ASC',
+  UnderweightMinDesc = 'UNDERWEIGHT_MIN_DESC',
+  UnderweightMaxAsc = 'UNDERWEIGHT_MAX_ASC',
+  UnderweightMaxDesc = 'UNDERWEIGHT_MAX_DESC',
+  WeighedUnitsAsc = 'WEIGHED_UNITS_ASC',
+  WeighedUnitsDesc = 'WEIGHED_UNITS_DESC',
+  UnderweightUnitsAsc = 'UNDERWEIGHT_UNITS_ASC',
+  UnderweightUnitsDesc = 'UNDERWEIGHT_UNITS_DESC',
+  UnderweightPctAsc = 'UNDERWEIGHT_PCT_ASC',
+  UnderweightPctDesc = 'UNDERWEIGHT_PCT_DESC',
+  PulpTempAsc = 'PULP_TEMP_ASC',
+  PulpTempDesc = 'PULP_TEMP_DESC',
+  OpeningAsc = 'OPENING_ASC',
+  OpeningDesc = 'OPENING_DESC',
+  GroundColorAsc = 'GROUND_COLOR_ASC',
+  GroundColorDesc = 'GROUND_COLOR_DESC',
+  BlushColorAsc = 'BLUSH_COLOR_ASC',
+  BlushColorDesc = 'BLUSH_COLOR_DESC',
+  BlushPctAsc = 'BLUSH_PCT_ASC',
+  BlushPctDesc = 'BLUSH_PCT_DESC',
+  ScarsRussetPiecesAsc = 'SCARS_RUSSET_PIECES_ASC',
+  ScarsRussetPiecesDesc = 'SCARS_RUSSET_PIECES_DESC',
+  ScarsRussetPctAsc = 'SCARS_RUSSET_PCT_ASC',
+  ScarsRussetPctDesc = 'SCARS_RUSSET_PCT_DESC',
+  ScarsRussetDegAsc = 'SCARS_RUSSET_DEG_ASC',
+  ScarsRussetDegDesc = 'SCARS_RUSSET_DEG_DESC',
+  RussetPerPiecePctAsc = 'RUSSET_PER_PIECE_PCT_ASC',
+  RussetPerPiecePctDesc = 'RUSSET_PER_PIECE_PCT_DESC',
+  StemPuncturesPiecesAsc = 'STEM_PUNCTURES_PIECES_ASC',
+  StemPuncturesPiecesDesc = 'STEM_PUNCTURES_PIECES_DESC',
+  StemPuncturesPctAsc = 'STEM_PUNCTURES_PCT_ASC',
+  StemPuncturesPctDesc = 'STEM_PUNCTURES_PCT_DESC',
+  CutsPiecesAsc = 'CUTS_PIECES_ASC',
+  CutsPiecesDesc = 'CUTS_PIECES_DESC',
+  CutsPctAsc = 'CUTS_PCT_ASC',
+  CutsPctDesc = 'CUTS_PCT_DESC',
+  CutsDegAsc = 'CUTS_DEG_ASC',
+  CutsDegDesc = 'CUTS_DEG_DESC',
+  TurningColorPiecesAsc = 'TURNING_COLOR_PIECES_ASC',
+  TurningColorPiecesDesc = 'TURNING_COLOR_PIECES_DESC',
+  TurningColorPctAsc = 'TURNING_COLOR_PCT_ASC',
+  TurningColorPctDesc = 'TURNING_COLOR_PCT_DESC',
+  TurningColorDegAsc = 'TURNING_COLOR_DEG_ASC',
+  TurningColorDegDesc = 'TURNING_COLOR_DEG_DESC',
+  DehydrationPiecesAsc = 'DEHYDRATION_PIECES_ASC',
+  DehydrationPiecesDesc = 'DEHYDRATION_PIECES_DESC',
+  DehydrationPctAsc = 'DEHYDRATION_PCT_ASC',
+  DehydrationPctDesc = 'DEHYDRATION_PCT_DESC',
+  DehydrationDegAsc = 'DEHYDRATION_DEG_ASC',
+  DehydrationDegDesc = 'DEHYDRATION_DEG_DESC',
+  BruisingPiecesAsc = 'BRUISING_PIECES_ASC',
+  BruisingPiecesDesc = 'BRUISING_PIECES_DESC',
+  BruisingPctAsc = 'BRUISING_PCT_ASC',
+  BruisingPctDesc = 'BRUISING_PCT_DESC',
+  BruisingDegAsc = 'BRUISING_DEG_ASC',
+  BruisingDegDesc = 'BRUISING_DEG_DESC',
+  CutCountAsc = 'CUT_COUNT_ASC',
+  CutCountDesc = 'CUT_COUNT_DESC',
+  InternalDamagePiecesAsc = 'INTERNAL_DAMAGE_PIECES_ASC',
+  InternalDamagePiecesDesc = 'INTERNAL_DAMAGE_PIECES_DESC',
+  InternalDamagePerAsc = 'INTERNAL_DAMAGE_PER_ASC',
+  InternalDamagePerDesc = 'INTERNAL_DAMAGE_PER_DESC',
+  DecayPiecesAsc = 'DECAY_PIECES_ASC',
+  DecayPiecesDesc = 'DECAY_PIECES_DESC',
+  DecayPctAsc = 'DECAY_PCT_ASC',
+  DecayPctDesc = 'DECAY_PCT_DESC',
+  DecayDegAsc = 'DECAY_DEG_ASC',
+  DecayDegDesc = 'DECAY_DEG_DESC',
+  MoldPiecesAsc = 'MOLD_PIECES_ASC',
+  MoldPiecesDesc = 'MOLD_PIECES_DESC',
+  MoldPctAsc = 'MOLD_PCT_ASC',
+  MoldPctDesc = 'MOLD_PCT_DESC',
+  Pressure1Asc = 'PRESSURE1_ASC',
+  Pressure1Desc = 'PRESSURE1_DESC',
+  Pressure2Asc = 'PRESSURE2_ASC',
+  Pressure2Desc = 'PRESSURE2_DESC',
+  Pressure3Asc = 'PRESSURE3_ASC',
+  Pressure3Desc = 'PRESSURE3_DESC',
+  Pressure4Asc = 'PRESSURE4_ASC',
+  Pressure4Desc = 'PRESSURE4_DESC',
+  Pressure5Asc = 'PRESSURE5_ASC',
+  Pressure5Desc = 'PRESSURE5_DESC',
+  Pressure6Asc = 'PRESSURE6_ASC',
+  Pressure6Desc = 'PRESSURE6_DESC',
+  PressuresMinAsc = 'PRESSURES_MIN_ASC',
+  PressuresMinDesc = 'PRESSURES_MIN_DESC',
+  PressuresMaxAsc = 'PRESSURES_MAX_ASC',
+  PressuresMaxDesc = 'PRESSURES_MAX_DESC',
+  PressuresAvgAsc = 'PRESSURES_AVG_ASC',
+  PressuresAvgDesc = 'PRESSURES_AVG_DESC',
+  OverallQualityAsc = 'OVERALL_QUALITY_ASC',
+  OverallQualityDesc = 'OVERALL_QUALITY_DESC',
+  OverallConditionAsc = 'OVERALL_CONDITION_ASC',
+  OverallConditionDesc = 'OVERALL_CONDITION_DESC',
+  Comment1Asc = 'COMMENT1_ASC',
+  Comment1Desc = 'COMMENT1_DESC',
+  Comment2Asc = 'COMMENT2_ASC',
+  Comment2Desc = 'COMMENT2_DESC',
+  InspectionTypeAsc = 'INSPECTION_TYPE_ASC',
+  InspectionTypeDesc = 'INSPECTION_TYPE_DESC',
+  ShortInspAsc = 'SHORT_INSP_ASC',
+  ShortInspDesc = 'SHORT_INSP_DESC',
+  FixedWeightAsc = 'FIXED_WEIGHT_ASC',
+  FixedWeightDesc = 'FIXED_WEIGHT_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
 
 /** A filter to be used against `PsaPearPallet` object types. All fields are combined with a logical ‘and.’ */
 export type PsaPearPalletFilter = {
@@ -7931,6 +8841,187 @@ export type PsaPersimmonPalletsEdge = {
   node?: Maybe<PsaPersimmonPallet>;
 };
 
+/** Methods to use when ordering `PsaPersimmonPallet`. */
+export enum PsaPersimmonPalletsOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  LocationAsc = 'LOCATION_ASC',
+  LocationDesc = 'LOCATION_DESC',
+  ArrivalAsc = 'ARRIVAL_ASC',
+  ArrivalDesc = 'ARRIVAL_DESC',
+  ImporterNameAsc = 'IMPORTER_NAME_ASC',
+  ImporterNameDesc = 'IMPORTER_NAME_DESC',
+  ExporterNameAsc = 'EXPORTER_NAME_ASC',
+  ExporterNameDesc = 'EXPORTER_NAME_DESC',
+  CommodityAsc = 'COMMODITY_ASC',
+  CommodityDesc = 'COMMODITY_DESC',
+  ProductCodeAsc = 'PRODUCT_CODE_ASC',
+  ProductCodeDesc = 'PRODUCT_CODE_DESC',
+  VarietyAsc = 'VARIETY_ASC',
+  VarietyDesc = 'VARIETY_DESC',
+  InspDateAsc = 'INSP_DATE_ASC',
+  InspDateDesc = 'INSP_DATE_DESC',
+  QuantityAsc = 'QUANTITY_ASC',
+  QuantityDesc = 'QUANTITY_DESC',
+  HatchAsc = 'HATCH_ASC',
+  HatchDesc = 'HATCH_DESC',
+  DeckAsc = 'DECK_ASC',
+  DeckDesc = 'DECK_DESC',
+  ContainerIdAsc = 'CONTAINER_ID_ASC',
+  ContainerIdDesc = 'CONTAINER_ID_DESC',
+  FumigationAsc = 'FUMIGATION_ASC',
+  FumigationDesc = 'FUMIGATION_DESC',
+  LabelCodeAsc = 'LABEL_CODE_ASC',
+  LabelCodeDesc = 'LABEL_CODE_DESC',
+  InspLocationAsc = 'INSP_LOCATION_ASC',
+  InspLocationDesc = 'INSP_LOCATION_DESC',
+  ImporterCodeAsc = 'IMPORTER_CODE_ASC',
+  ImporterCodeDesc = 'IMPORTER_CODE_DESC',
+  LotCodeAsc = 'LOT_CODE_ASC',
+  LotCodeDesc = 'LOT_CODE_DESC',
+  InspLotAsc = 'INSP_LOT_ASC',
+  InspLotDesc = 'INSP_LOT_DESC',
+  PalletIdAsc = 'PALLET_ID_ASC',
+  PalletIdDesc = 'PALLET_ID_DESC',
+  GrowerCodeAsc = 'GROWER_CODE_ASC',
+  GrowerCodeDesc = 'GROWER_CODE_DESC',
+  InspGrowerCodeAsc = 'INSP_GROWER_CODE_ASC',
+  InspGrowerCodeDesc = 'INSP_GROWER_CODE_DESC',
+  PackDateAsc = 'PACK_DATE_ASC',
+  PackDateDesc = 'PACK_DATE_DESC',
+  InspPackDateAsc = 'INSP_PACK_DATE_ASC',
+  InspPackDateDesc = 'INSP_PACK_DATE_DESC',
+  SizeAsc = 'SIZE_ASC',
+  SizeDesc = 'SIZE_DESC',
+  InspSizeAsc = 'INSP_SIZE_ASC',
+  InspSizeDesc = 'INSP_SIZE_DESC',
+  PackCodeAsc = 'PACK_CODE_ASC',
+  PackCodeDesc = 'PACK_CODE_DESC',
+  PackDescriptionAsc = 'PACK_DESCRIPTION_ASC',
+  PackDescriptionDesc = 'PACK_DESCRIPTION_DESC',
+  SecondaryDescriptionAsc = 'SECONDARY_DESCRIPTION_ASC',
+  SecondaryDescriptionDesc = 'SECONDARY_DESCRIPTION_DESC',
+  InspPackCodeAsc = 'INSP_PACK_CODE_ASC',
+  InspPackCodeDesc = 'INSP_PACK_CODE_DESC',
+  CountAsc = 'COUNT_ASC',
+  CountDesc = 'COUNT_DESC',
+  PluAsc = 'PLU_ASC',
+  PluDesc = 'PLU_DESC',
+  PluPctAsc = 'PLU_PCT_ASC',
+  PluPctDesc = 'PLU_PCT_DESC',
+  CountryOfOriginAsc = 'COUNTRY_OF_ORIGIN_ASC',
+  CountryOfOriginDesc = 'COUNTRY_OF_ORIGIN_DESC',
+  UpcAsc = 'UPC_ASC',
+  UpcDesc = 'UPC_DESC',
+  WeightAsc = 'WEIGHT_ASC',
+  WeightDesc = 'WEIGHT_DESC',
+  UnderweightMinAsc = 'UNDERWEIGHT_MIN_ASC',
+  UnderweightMinDesc = 'UNDERWEIGHT_MIN_DESC',
+  UnderweightMaxAsc = 'UNDERWEIGHT_MAX_ASC',
+  UnderweightMaxDesc = 'UNDERWEIGHT_MAX_DESC',
+  WeighedUnitsAsc = 'WEIGHED_UNITS_ASC',
+  WeighedUnitsDesc = 'WEIGHED_UNITS_DESC',
+  UnderweightUnitsAsc = 'UNDERWEIGHT_UNITS_ASC',
+  UnderweightUnitsDesc = 'UNDERWEIGHT_UNITS_DESC',
+  UnderweightPctAsc = 'UNDERWEIGHT_PCT_ASC',
+  UnderweightPctDesc = 'UNDERWEIGHT_PCT_DESC',
+  PulpTempAsc = 'PULP_TEMP_ASC',
+  PulpTempDesc = 'PULP_TEMP_DESC',
+  OpeningAsc = 'OPENING_ASC',
+  OpeningDesc = 'OPENING_DESC',
+  ColorAsc = 'COLOR_ASC',
+  ColorDesc = 'COLOR_DESC',
+  ScarsMarksPiecesAsc = 'SCARS_MARKS_PIECES_ASC',
+  ScarsMarksPiecesDesc = 'SCARS_MARKS_PIECES_DESC',
+  ScarsMarksPctAsc = 'SCARS_MARKS_PCT_ASC',
+  ScarsMarksPctDesc = 'SCARS_MARKS_PCT_DESC',
+  ScarsMarksDegAsc = 'SCARS_MARKS_DEG_ASC',
+  ScarsMarksDegDesc = 'SCARS_MARKS_DEG_DESC',
+  GreenColorPiecesAsc = 'GREEN_COLOR_PIECES_ASC',
+  GreenColorPiecesDesc = 'GREEN_COLOR_PIECES_DESC',
+  GreenColorAsc = 'GREEN_COLOR_ASC',
+  GreenColorDesc = 'GREEN_COLOR_DESC',
+  GreenColorDegAsc = 'GREEN_COLOR_DEG_ASC',
+  GreenColorDegDesc = 'GREEN_COLOR_DEG_DESC',
+  CutsSplitsPiecesAsc = 'CUTS_SPLITS_PIECES_ASC',
+  CutsSplitsPiecesDesc = 'CUTS_SPLITS_PIECES_DESC',
+  CutsSplitsPctAsc = 'CUTS_SPLITS_PCT_ASC',
+  CutsSplitsPctDesc = 'CUTS_SPLITS_PCT_DESC',
+  CutsSplitsDegAsc = 'CUTS_SPLITS_DEG_ASC',
+  CutsSplitsDegDesc = 'CUTS_SPLITS_DEG_DESC',
+  BruisingPiecesAsc = 'BRUISING_PIECES_ASC',
+  BruisingPiecesDesc = 'BRUISING_PIECES_DESC',
+  BruisingPctAsc = 'BRUISING_PCT_ASC',
+  BruisingPctDesc = 'BRUISING_PCT_DESC',
+  BruisingDegAsc = 'BRUISING_DEG_ASC',
+  BruisingDegDesc = 'BRUISING_DEG_DESC',
+  DehydrationPiecesAsc = 'DEHYDRATION_PIECES_ASC',
+  DehydrationPiecesDesc = 'DEHYDRATION_PIECES_DESC',
+  DehydrationPctAsc = 'DEHYDRATION_PCT_ASC',
+  DehydrationPctDesc = 'DEHYDRATION_PCT_DESC',
+  DehydrationDegAsc = 'DEHYDRATION_DEG_ASC',
+  DehydrationDegDesc = 'DEHYDRATION_DEG_DESC',
+  CutCountAsc = 'CUT_COUNT_ASC',
+  CutCountDesc = 'CUT_COUNT_DESC',
+  SeedsPiecesAsc = 'SEEDS_PIECES_ASC',
+  SeedsPiecesDesc = 'SEEDS_PIECES_DESC',
+  SeedsPctAsc = 'SEEDS_PCT_ASC',
+  SeedsPctDesc = 'SEEDS_PCT_DESC',
+  InternalDamagePiecesAsc = 'INTERNAL_DAMAGE_PIECES_ASC',
+  InternalDamagePiecesDesc = 'INTERNAL_DAMAGE_PIECES_DESC',
+  InternalDamagePerAsc = 'INTERNAL_DAMAGE_PER_ASC',
+  InternalDamagePerDesc = 'INTERNAL_DAMAGE_PER_DESC',
+  InternalDamageDegAsc = 'INTERNAL_DAMAGE_DEG_ASC',
+  InternalDamageDegDesc = 'INTERNAL_DAMAGE_DEG_DESC',
+  DecayPiecesAsc = 'DECAY_PIECES_ASC',
+  DecayPiecesDesc = 'DECAY_PIECES_DESC',
+  DecayPctAsc = 'DECAY_PCT_ASC',
+  DecayPctDesc = 'DECAY_PCT_DESC',
+  DecayDegAsc = 'DECAY_DEG_ASC',
+  DecayDegDesc = 'DECAY_DEG_DESC',
+  MoldPiecesAsc = 'MOLD_PIECES_ASC',
+  MoldPiecesDesc = 'MOLD_PIECES_DESC',
+  MoldPctAsc = 'MOLD_PCT_ASC',
+  MoldPctDesc = 'MOLD_PCT_DESC',
+  BrixAsc = 'BRIX_ASC',
+  BrixDesc = 'BRIX_DESC',
+  Pressure1Asc = 'PRESSURE1_ASC',
+  Pressure1Desc = 'PRESSURE1_DESC',
+  Pressure2Asc = 'PRESSURE2_ASC',
+  Pressure2Desc = 'PRESSURE2_DESC',
+  Pressure3Asc = 'PRESSURE3_ASC',
+  Pressure3Desc = 'PRESSURE3_DESC',
+  Pressure4Asc = 'PRESSURE4_ASC',
+  Pressure4Desc = 'PRESSURE4_DESC',
+  Pressure5Asc = 'PRESSURE5_ASC',
+  Pressure5Desc = 'PRESSURE5_DESC',
+  Pressure6Asc = 'PRESSURE6_ASC',
+  Pressure6Desc = 'PRESSURE6_DESC',
+  PressuresMinAsc = 'PRESSURES_MIN_ASC',
+  PressuresMinDesc = 'PRESSURES_MIN_DESC',
+  PressuresMaxAsc = 'PRESSURES_MAX_ASC',
+  PressuresMaxDesc = 'PRESSURES_MAX_DESC',
+  PressuresAvgAsc = 'PRESSURES_AVG_ASC',
+  PressuresAvgDesc = 'PRESSURES_AVG_DESC',
+  OverallQualityAsc = 'OVERALL_QUALITY_ASC',
+  OverallQualityDesc = 'OVERALL_QUALITY_DESC',
+  OverallConditionAsc = 'OVERALL_CONDITION_ASC',
+  OverallConditionDesc = 'OVERALL_CONDITION_DESC',
+  Comment1Asc = 'COMMENT1_ASC',
+  Comment1Desc = 'COMMENT1_DESC',
+  Comment2Asc = 'COMMENT2_ASC',
+  Comment2Desc = 'COMMENT2_DESC',
+  InspectionTypeAsc = 'INSPECTION_TYPE_ASC',
+  InspectionTypeDesc = 'INSPECTION_TYPE_DESC',
+  ShortInspAsc = 'SHORT_INSP_ASC',
+  ShortInspDesc = 'SHORT_INSP_DESC',
+  FixedWeightAsc = 'FIXED_WEIGHT_ASC',
+  FixedWeightDesc = 'FIXED_WEIGHT_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
 /** A filter to be used against `PsaPersimmonPallet` object types. All fields are combined with a logical ‘and.’ */
 export type PsaPersimmonPalletFilter = {
   /** Filter by the object’s `id` field. */
@@ -8236,6 +9327,175 @@ export type PsaPomegranatePalletsEdge = {
   node?: Maybe<PsaPomegranatePallet>;
 };
 
+/** Methods to use when ordering `PsaPomegranatePallet`. */
+export enum PsaPomegranatePalletsOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  LocationAsc = 'LOCATION_ASC',
+  LocationDesc = 'LOCATION_DESC',
+  ArrivalAsc = 'ARRIVAL_ASC',
+  ArrivalDesc = 'ARRIVAL_DESC',
+  ImporterNameAsc = 'IMPORTER_NAME_ASC',
+  ImporterNameDesc = 'IMPORTER_NAME_DESC',
+  ExporterNameAsc = 'EXPORTER_NAME_ASC',
+  ExporterNameDesc = 'EXPORTER_NAME_DESC',
+  CommodityAsc = 'COMMODITY_ASC',
+  CommodityDesc = 'COMMODITY_DESC',
+  ProductCodeAsc = 'PRODUCT_CODE_ASC',
+  ProductCodeDesc = 'PRODUCT_CODE_DESC',
+  VarietyAsc = 'VARIETY_ASC',
+  VarietyDesc = 'VARIETY_DESC',
+  InspDateAsc = 'INSP_DATE_ASC',
+  InspDateDesc = 'INSP_DATE_DESC',
+  QuantityAsc = 'QUANTITY_ASC',
+  QuantityDesc = 'QUANTITY_DESC',
+  HatchAsc = 'HATCH_ASC',
+  HatchDesc = 'HATCH_DESC',
+  DeckAsc = 'DECK_ASC',
+  DeckDesc = 'DECK_DESC',
+  ContainerIdAsc = 'CONTAINER_ID_ASC',
+  ContainerIdDesc = 'CONTAINER_ID_DESC',
+  FumigationAsc = 'FUMIGATION_ASC',
+  FumigationDesc = 'FUMIGATION_DESC',
+  LabelCodeAsc = 'LABEL_CODE_ASC',
+  LabelCodeDesc = 'LABEL_CODE_DESC',
+  InspLocationAsc = 'INSP_LOCATION_ASC',
+  InspLocationDesc = 'INSP_LOCATION_DESC',
+  ImporterCodeAsc = 'IMPORTER_CODE_ASC',
+  ImporterCodeDesc = 'IMPORTER_CODE_DESC',
+  LotCodeAsc = 'LOT_CODE_ASC',
+  LotCodeDesc = 'LOT_CODE_DESC',
+  InspLotAsc = 'INSP_LOT_ASC',
+  InspLotDesc = 'INSP_LOT_DESC',
+  PalletIdAsc = 'PALLET_ID_ASC',
+  PalletIdDesc = 'PALLET_ID_DESC',
+  GrowerCodeAsc = 'GROWER_CODE_ASC',
+  GrowerCodeDesc = 'GROWER_CODE_DESC',
+  InspGrowerCodeAsc = 'INSP_GROWER_CODE_ASC',
+  InspGrowerCodeDesc = 'INSP_GROWER_CODE_DESC',
+  PackDateAsc = 'PACK_DATE_ASC',
+  PackDateDesc = 'PACK_DATE_DESC',
+  InspPackDateAsc = 'INSP_PACK_DATE_ASC',
+  InspPackDateDesc = 'INSP_PACK_DATE_DESC',
+  SizeAsc = 'SIZE_ASC',
+  SizeDesc = 'SIZE_DESC',
+  InspSizeAsc = 'INSP_SIZE_ASC',
+  InspSizeDesc = 'INSP_SIZE_DESC',
+  PackCodeAsc = 'PACK_CODE_ASC',
+  PackCodeDesc = 'PACK_CODE_DESC',
+  PackDescriptionAsc = 'PACK_DESCRIPTION_ASC',
+  PackDescriptionDesc = 'PACK_DESCRIPTION_DESC',
+  SecondaryDescriptionAsc = 'SECONDARY_DESCRIPTION_ASC',
+  SecondaryDescriptionDesc = 'SECONDARY_DESCRIPTION_DESC',
+  InspPackCodeAsc = 'INSP_PACK_CODE_ASC',
+  InspPackCodeDesc = 'INSP_PACK_CODE_DESC',
+  GradeAsc = 'GRADE_ASC',
+  GradeDesc = 'GRADE_DESC',
+  InspGradeAsc = 'INSP_GRADE_ASC',
+  InspGradeDesc = 'INSP_GRADE_DESC',
+  CountAsc = 'COUNT_ASC',
+  CountDesc = 'COUNT_DESC',
+  PluAsc = 'PLU_ASC',
+  PluDesc = 'PLU_DESC',
+  PluPctAsc = 'PLU_PCT_ASC',
+  PluPctDesc = 'PLU_PCT_DESC',
+  CountryOfOriginAsc = 'COUNTRY_OF_ORIGIN_ASC',
+  CountryOfOriginDesc = 'COUNTRY_OF_ORIGIN_DESC',
+  UpcAsc = 'UPC_ASC',
+  UpcDesc = 'UPC_DESC',
+  WeightAsc = 'WEIGHT_ASC',
+  WeightDesc = 'WEIGHT_DESC',
+  UnderweightMinAsc = 'UNDERWEIGHT_MIN_ASC',
+  UnderweightMinDesc = 'UNDERWEIGHT_MIN_DESC',
+  UnderweightMaxAsc = 'UNDERWEIGHT_MAX_ASC',
+  UnderweightMaxDesc = 'UNDERWEIGHT_MAX_DESC',
+  WeighedUnitsAsc = 'WEIGHED_UNITS_ASC',
+  WeighedUnitsDesc = 'WEIGHED_UNITS_DESC',
+  UnderweightUnitsAsc = 'UNDERWEIGHT_UNITS_ASC',
+  UnderweightUnitsDesc = 'UNDERWEIGHT_UNITS_DESC',
+  UnderweightPctAsc = 'UNDERWEIGHT_PCT_ASC',
+  UnderweightPctDesc = 'UNDERWEIGHT_PCT_DESC',
+  PulpTempAsc = 'PULP_TEMP_ASC',
+  PulpTempDesc = 'PULP_TEMP_DESC',
+  OpeningAsc = 'OPENING_ASC',
+  OpeningDesc = 'OPENING_DESC',
+  BlushColorAsc = 'BLUSH_COLOR_ASC',
+  BlushColorDesc = 'BLUSH_COLOR_DESC',
+  BlushPctAsc = 'BLUSH_PCT_ASC',
+  BlushPctDesc = 'BLUSH_PCT_DESC',
+  ArilsColorAsc = 'ARILS_COLOR_ASC',
+  ArilsColorDesc = 'ARILS_COLOR_DESC',
+  ScarsRussetPiecesAsc = 'SCARS_RUSSET_PIECES_ASC',
+  ScarsRussetPiecesDesc = 'SCARS_RUSSET_PIECES_DESC',
+  ScarsRussetPctAsc = 'SCARS_RUSSET_PCT_ASC',
+  ScarsRussetPctDesc = 'SCARS_RUSSET_PCT_DESC',
+  ScarsRussetDegAsc = 'SCARS_RUSSET_DEG_ASC',
+  ScarsRussetDegDesc = 'SCARS_RUSSET_DEG_DESC',
+  CutsPiecesAsc = 'CUTS_PIECES_ASC',
+  CutsPiecesDesc = 'CUTS_PIECES_DESC',
+  CutsPctAsc = 'CUTS_PCT_ASC',
+  CutsPctDesc = 'CUTS_PCT_DESC',
+  CutsDegAsc = 'CUTS_DEG_ASC',
+  CutsDegDesc = 'CUTS_DEG_DESC',
+  SunScaldPiecesAsc = 'SUN_SCALD_PIECES_ASC',
+  SunScaldPiecesDesc = 'SUN_SCALD_PIECES_DESC',
+  SunScaldPctAsc = 'SUN_SCALD_PCT_ASC',
+  SunScaldPctDesc = 'SUN_SCALD_PCT_DESC',
+  SunScaldDegAsc = 'SUN_SCALD_DEG_ASC',
+  SunScaldDegDesc = 'SUN_SCALD_DEG_DESC',
+  ScaldPiecesAsc = 'SCALD_PIECES_ASC',
+  ScaldPiecesDesc = 'SCALD_PIECES_DESC',
+  ScaldPctAsc = 'SCALD_PCT_ASC',
+  ScaldPctDesc = 'SCALD_PCT_DESC',
+  ScaldDegAsc = 'SCALD_DEG_ASC',
+  ScaldDegDesc = 'SCALD_DEG_DESC',
+  BruisingPiecesAsc = 'BRUISING_PIECES_ASC',
+  BruisingPiecesDesc = 'BRUISING_PIECES_DESC',
+  BruisingPctAsc = 'BRUISING_PCT_ASC',
+  BruisingPctDesc = 'BRUISING_PCT_DESC',
+  BruisingDegAsc = 'BRUISING_DEG_ASC',
+  BruisingDegDesc = 'BRUISING_DEG_DESC',
+  DehydrationPiecesAsc = 'DEHYDRATION_PIECES_ASC',
+  DehydrationPiecesDesc = 'DEHYDRATION_PIECES_DESC',
+  DehydrationPctAsc = 'DEHYDRATION_PCT_ASC',
+  DehydrationPctDesc = 'DEHYDRATION_PCT_DESC',
+  DehydrationDegAsc = 'DEHYDRATION_DEG_ASC',
+  DehydrationDegDesc = 'DEHYDRATION_DEG_DESC',
+  DecayPiecesAsc = 'DECAY_PIECES_ASC',
+  DecayPiecesDesc = 'DECAY_PIECES_DESC',
+  DecayPctAsc = 'DECAY_PCT_ASC',
+  DecayPctDesc = 'DECAY_PCT_DESC',
+  DecayDegAsc = 'DECAY_DEG_ASC',
+  DecayDegDesc = 'DECAY_DEG_DESC',
+  MoldPiecesAsc = 'MOLD_PIECES_ASC',
+  MoldPiecesDesc = 'MOLD_PIECES_DESC',
+  MoldPctAsc = 'MOLD_PCT_ASC',
+  MoldPctDesc = 'MOLD_PCT_DESC',
+  BrixMinAsc = 'BRIX_MIN_ASC',
+  BrixMinDesc = 'BRIX_MIN_DESC',
+  BrixMaxAsc = 'BRIX_MAX_ASC',
+  BrixMaxDesc = 'BRIX_MAX_DESC',
+  BrixMostAsc = 'BRIX_MOST_ASC',
+  BrixMostDesc = 'BRIX_MOST_DESC',
+  OverallQualityAsc = 'OVERALL_QUALITY_ASC',
+  OverallQualityDesc = 'OVERALL_QUALITY_DESC',
+  OverallConditionAsc = 'OVERALL_CONDITION_ASC',
+  OverallConditionDesc = 'OVERALL_CONDITION_DESC',
+  Comment1Asc = 'COMMENT1_ASC',
+  Comment1Desc = 'COMMENT1_DESC',
+  Comment2Asc = 'COMMENT2_ASC',
+  Comment2Desc = 'COMMENT2_DESC',
+  InspectionTypeAsc = 'INSPECTION_TYPE_ASC',
+  InspectionTypeDesc = 'INSPECTION_TYPE_DESC',
+  ShortInspAsc = 'SHORT_INSP_ASC',
+  ShortInspDesc = 'SHORT_INSP_DESC',
+  FixedWeightAsc = 'FIXED_WEIGHT_ASC',
+  FixedWeightDesc = 'FIXED_WEIGHT_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
 /** A filter to be used against `PsaPomegranatePallet` object types. All fields are combined with a logical ‘and.’ */
 export type PsaPomegranatePalletFilter = {
   /** Filter by the object’s `id` field. */
@@ -8538,6 +9798,193 @@ export type PsaStoneFruitPalletsEdge = {
   node?: Maybe<PsaStoneFruitPallet>;
 };
 
+/** Methods to use when ordering `PsaStoneFruitPallet`. */
+export enum PsaStoneFruitPalletsOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  LocationAsc = 'LOCATION_ASC',
+  LocationDesc = 'LOCATION_DESC',
+  ArrivalAsc = 'ARRIVAL_ASC',
+  ArrivalDesc = 'ARRIVAL_DESC',
+  ImporterNameAsc = 'IMPORTER_NAME_ASC',
+  ImporterNameDesc = 'IMPORTER_NAME_DESC',
+  ExporterNameAsc = 'EXPORTER_NAME_ASC',
+  ExporterNameDesc = 'EXPORTER_NAME_DESC',
+  CommodityAsc = 'COMMODITY_ASC',
+  CommodityDesc = 'COMMODITY_DESC',
+  ProductCodeAsc = 'PRODUCT_CODE_ASC',
+  ProductCodeDesc = 'PRODUCT_CODE_DESC',
+  VarietyAsc = 'VARIETY_ASC',
+  VarietyDesc = 'VARIETY_DESC',
+  InspDateAsc = 'INSP_DATE_ASC',
+  InspDateDesc = 'INSP_DATE_DESC',
+  QuantityAsc = 'QUANTITY_ASC',
+  QuantityDesc = 'QUANTITY_DESC',
+  HatchAsc = 'HATCH_ASC',
+  HatchDesc = 'HATCH_DESC',
+  DeckAsc = 'DECK_ASC',
+  DeckDesc = 'DECK_DESC',
+  ContainerIdAsc = 'CONTAINER_ID_ASC',
+  ContainerIdDesc = 'CONTAINER_ID_DESC',
+  FumigationAsc = 'FUMIGATION_ASC',
+  FumigationDesc = 'FUMIGATION_DESC',
+  LabelCodeAsc = 'LABEL_CODE_ASC',
+  LabelCodeDesc = 'LABEL_CODE_DESC',
+  InspLocationAsc = 'INSP_LOCATION_ASC',
+  InspLocationDesc = 'INSP_LOCATION_DESC',
+  ImporterCodeAsc = 'IMPORTER_CODE_ASC',
+  ImporterCodeDesc = 'IMPORTER_CODE_DESC',
+  LotCodeAsc = 'LOT_CODE_ASC',
+  LotCodeDesc = 'LOT_CODE_DESC',
+  InspLotAsc = 'INSP_LOT_ASC',
+  InspLotDesc = 'INSP_LOT_DESC',
+  PalletIdAsc = 'PALLET_ID_ASC',
+  PalletIdDesc = 'PALLET_ID_DESC',
+  GrowerCodeAsc = 'GROWER_CODE_ASC',
+  GrowerCodeDesc = 'GROWER_CODE_DESC',
+  InspGrowerCodeAsc = 'INSP_GROWER_CODE_ASC',
+  InspGrowerCodeDesc = 'INSP_GROWER_CODE_DESC',
+  PackDateAsc = 'PACK_DATE_ASC',
+  PackDateDesc = 'PACK_DATE_DESC',
+  InspPackDateAsc = 'INSP_PACK_DATE_ASC',
+  InspPackDateDesc = 'INSP_PACK_DATE_DESC',
+  SizeAsc = 'SIZE_ASC',
+  SizeDesc = 'SIZE_DESC',
+  InspSizeAsc = 'INSP_SIZE_ASC',
+  InspSizeDesc = 'INSP_SIZE_DESC',
+  PackCodeAsc = 'PACK_CODE_ASC',
+  PackCodeDesc = 'PACK_CODE_DESC',
+  PackDescriptionAsc = 'PACK_DESCRIPTION_ASC',
+  PackDescriptionDesc = 'PACK_DESCRIPTION_DESC',
+  SecondaryDescriptionAsc = 'SECONDARY_DESCRIPTION_ASC',
+  SecondaryDescriptionDesc = 'SECONDARY_DESCRIPTION_DESC',
+  InspPackCodeAsc = 'INSP_PACK_CODE_ASC',
+  InspPackCodeDesc = 'INSP_PACK_CODE_DESC',
+  CountAsc = 'COUNT_ASC',
+  CountDesc = 'COUNT_DESC',
+  PluAsc = 'PLU_ASC',
+  PluDesc = 'PLU_DESC',
+  PluPctAsc = 'PLU_PCT_ASC',
+  PluPctDesc = 'PLU_PCT_DESC',
+  CountryOfOriginAsc = 'COUNTRY_OF_ORIGIN_ASC',
+  CountryOfOriginDesc = 'COUNTRY_OF_ORIGIN_DESC',
+  UpcAsc = 'UPC_ASC',
+  UpcDesc = 'UPC_DESC',
+  WeightAsc = 'WEIGHT_ASC',
+  WeightDesc = 'WEIGHT_DESC',
+  UnderweightMinAsc = 'UNDERWEIGHT_MIN_ASC',
+  UnderweightMinDesc = 'UNDERWEIGHT_MIN_DESC',
+  UnderweightMaxAsc = 'UNDERWEIGHT_MAX_ASC',
+  UnderweightMaxDesc = 'UNDERWEIGHT_MAX_DESC',
+  WeighedUnitsAsc = 'WEIGHED_UNITS_ASC',
+  WeighedUnitsDesc = 'WEIGHED_UNITS_DESC',
+  UnderweightUnitsAsc = 'UNDERWEIGHT_UNITS_ASC',
+  UnderweightUnitsDesc = 'UNDERWEIGHT_UNITS_DESC',
+  UnderweightPctAsc = 'UNDERWEIGHT_PCT_ASC',
+  UnderweightPctDesc = 'UNDERWEIGHT_PCT_DESC',
+  PulpTempAsc = 'PULP_TEMP_ASC',
+  PulpTempDesc = 'PULP_TEMP_DESC',
+  OpeningAsc = 'OPENING_ASC',
+  OpeningDesc = 'OPENING_DESC',
+  RipeningAsc = 'RIPENING_ASC',
+  RipeningDesc = 'RIPENING_DESC',
+  GroundColorAsc = 'GROUND_COLOR_ASC',
+  GroundColorDesc = 'GROUND_COLOR_DESC',
+  BlushColorAsc = 'BLUSH_COLOR_ASC',
+  BlushColorDesc = 'BLUSH_COLOR_DESC',
+  BlushPctAsc = 'BLUSH_PCT_ASC',
+  BlushPctDesc = 'BLUSH_PCT_DESC',
+  ScarsPiecesAsc = 'SCARS_PIECES_ASC',
+  ScarsPiecesDesc = 'SCARS_PIECES_DESC',
+  ScarsPctAsc = 'SCARS_PCT_ASC',
+  ScarsPctDesc = 'SCARS_PCT_DESC',
+  ScarsDegAsc = 'SCARS_DEG_ASC',
+  ScarsDegDesc = 'SCARS_DEG_DESC',
+  CutsSplitsPiecesAsc = 'CUTS_SPLITS_PIECES_ASC',
+  CutsSplitsPiecesDesc = 'CUTS_SPLITS_PIECES_DESC',
+  CutsSplitsPctAsc = 'CUTS_SPLITS_PCT_ASC',
+  CutsSplitsPctDesc = 'CUTS_SPLITS_PCT_DESC',
+  CutsSplitsDegAsc = 'CUTS_SPLITS_DEG_ASC',
+  CutsSplitsDegDesc = 'CUTS_SPLITS_DEG_DESC',
+  SplitPitPiecesAsc = 'SPLIT_PIT_PIECES_ASC',
+  SplitPitPiecesDesc = 'SPLIT_PIT_PIECES_DESC',
+  SplitPitPctAsc = 'SPLIT_PIT_PCT_ASC',
+  SplitPitPctDesc = 'SPLIT_PIT_PCT_DESC',
+  BruisingPiecesAsc = 'BRUISING_PIECES_ASC',
+  BruisingPiecesDesc = 'BRUISING_PIECES_DESC',
+  BruisingPctAsc = 'BRUISING_PCT_ASC',
+  BruisingPctDesc = 'BRUISING_PCT_DESC',
+  BruisingDegAsc = 'BRUISING_DEG_ASC',
+  BruisingDegDesc = 'BRUISING_DEG_DESC',
+  SoftTipsPiecesAsc = 'SOFT_TIPS_PIECES_ASC',
+  SoftTipsPiecesDesc = 'SOFT_TIPS_PIECES_DESC',
+  SoftTipsPctAsc = 'SOFT_TIPS_PCT_ASC',
+  SoftTipsPctDesc = 'SOFT_TIPS_PCT_DESC',
+  DehydrationPiecesAsc = 'DEHYDRATION_PIECES_ASC',
+  DehydrationPiecesDesc = 'DEHYDRATION_PIECES_DESC',
+  DehydrationPctAsc = 'DEHYDRATION_PCT_ASC',
+  DehydrationPctDesc = 'DEHYDRATION_PCT_DESC',
+  DehydrationDegAsc = 'DEHYDRATION_DEG_ASC',
+  DehydrationDegDesc = 'DEHYDRATION_DEG_DESC',
+  CutCountAsc = 'CUT_COUNT_ASC',
+  CutCountDesc = 'CUT_COUNT_DESC',
+  InternalDamagePiecesAsc = 'INTERNAL_DAMAGE_PIECES_ASC',
+  InternalDamagePiecesDesc = 'INTERNAL_DAMAGE_PIECES_DESC',
+  InternalDamagePerAsc = 'INTERNAL_DAMAGE_PER_ASC',
+  InternalDamagePerDesc = 'INTERNAL_DAMAGE_PER_DESC',
+  MealinessPiecesAsc = 'MEALINESS_PIECES_ASC',
+  MealinessPiecesDesc = 'MEALINESS_PIECES_DESC',
+  MealinessPctAsc = 'MEALINESS_PCT_ASC',
+  MealinessPctDesc = 'MEALINESS_PCT_DESC',
+  DecayPiecesAsc = 'DECAY_PIECES_ASC',
+  DecayPiecesDesc = 'DECAY_PIECES_DESC',
+  DecayPctAsc = 'DECAY_PCT_ASC',
+  DecayPctDesc = 'DECAY_PCT_DESC',
+  DecayDegAsc = 'DECAY_DEG_ASC',
+  DecayDegDesc = 'DECAY_DEG_DESC',
+  MoldPiecesAsc = 'MOLD_PIECES_ASC',
+  MoldPiecesDesc = 'MOLD_PIECES_DESC',
+  MoldPctAsc = 'MOLD_PCT_ASC',
+  MoldPctDesc = 'MOLD_PCT_DESC',
+  BrixAsc = 'BRIX_ASC',
+  BrixDesc = 'BRIX_DESC',
+  Pressure1Asc = 'PRESSURE1_ASC',
+  Pressure1Desc = 'PRESSURE1_DESC',
+  Pressure2Asc = 'PRESSURE2_ASC',
+  Pressure2Desc = 'PRESSURE2_DESC',
+  Pressure3Asc = 'PRESSURE3_ASC',
+  Pressure3Desc = 'PRESSURE3_DESC',
+  Pressure4Asc = 'PRESSURE4_ASC',
+  Pressure4Desc = 'PRESSURE4_DESC',
+  Pressure5Asc = 'PRESSURE5_ASC',
+  Pressure5Desc = 'PRESSURE5_DESC',
+  Pressure6Asc = 'PRESSURE6_ASC',
+  Pressure6Desc = 'PRESSURE6_DESC',
+  PressuresMinAsc = 'PRESSURES_MIN_ASC',
+  PressuresMinDesc = 'PRESSURES_MIN_DESC',
+  PressuresMaxAsc = 'PRESSURES_MAX_ASC',
+  PressuresMaxDesc = 'PRESSURES_MAX_DESC',
+  PressuresAvgAsc = 'PRESSURES_AVG_ASC',
+  PressuresAvgDesc = 'PRESSURES_AVG_DESC',
+  OverallQualityAsc = 'OVERALL_QUALITY_ASC',
+  OverallQualityDesc = 'OVERALL_QUALITY_DESC',
+  OverallConditionAsc = 'OVERALL_CONDITION_ASC',
+  OverallConditionDesc = 'OVERALL_CONDITION_DESC',
+  Comment1Asc = 'COMMENT1_ASC',
+  Comment1Desc = 'COMMENT1_DESC',
+  Comment2Asc = 'COMMENT2_ASC',
+  Comment2Desc = 'COMMENT2_DESC',
+  InspectionTypeAsc = 'INSPECTION_TYPE_ASC',
+  InspectionTypeDesc = 'INSPECTION_TYPE_DESC',
+  ShortInspAsc = 'SHORT_INSP_ASC',
+  ShortInspDesc = 'SHORT_INSP_DESC',
+  FixedWeightAsc = 'FIXED_WEIGHT_ASC',
+  FixedWeightDesc = 'FIXED_WEIGHT_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
 /** A filter to be used against `PsaStoneFruitPallet` object types. All fields are combined with a logical ‘and.’ */
 export type PsaStoneFruitPalletFilter = {
   /** Filter by the object’s `id` field. */
@@ -8754,10 +10201,10 @@ export enum PsaArrivalReportsOrderBy {
   ExporterIdDesc = 'EXPORTER_ID_DESC',
   ExporterNameAsc = 'EXPORTER_NAME_ASC',
   ExporterNameDesc = 'EXPORTER_NAME_DESC',
-  AvgConditionAsc = 'AVG_CONDITION_ASC',
-  AvgConditionDesc = 'AVG_CONDITION_DESC',
-  AvgQualityAsc = 'AVG_QUALITY_ASC',
-  AvgQualityDesc = 'AVG_QUALITY_DESC',
+  ConditionRangeAsc = 'CONDITION_RANGE_ASC',
+  ConditionRangeDesc = 'CONDITION_RANGE_DESC',
+  QualityRangeAsc = 'QUALITY_RANGE_ASC',
+  QualityRangeDesc = 'QUALITY_RANGE_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
 }
@@ -8799,12 +10246,12 @@ export type PsaArrivalReportFilter = {
   exporterId?: Maybe<BigIntFilter>;
   /** Filter by the object’s `exporterName` field. */
   exporterName?: Maybe<StringFilter>;
-  /** Filter by the object’s `avgCondition` field. */
-  avgCondition?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `avgQuality` field. */
-  avgQuality?: Maybe<BigFloatFilter>;
   /** Filter by the object’s `commodityList` field. */
   commodityList?: Maybe<StringListFilter>;
+  /** Filter by the object’s `conditionRange` field. */
+  conditionRange?: Maybe<StringFilter>;
+  /** Filter by the object’s `qualityRange` field. */
+  qualityRange?: Maybe<StringFilter>;
   /** Filter by the object’s `searchText` field. */
   searchText?: Maybe<StringFilter>;
   /** Checks for all expressions in this list. */
@@ -8854,171 +10301,6 @@ export type StringListFilter = {
   /** Any array item is greater than or equal to the specified value. */
   anyGreaterThanOrEqualTo?: Maybe<Scalars['String']>;
 };
-
-/** Methods to use when ordering `PsaCherryPallet`. */
-export enum PsaCherryPalletsOrderBy {
-  Natural = 'NATURAL',
-  IdAsc = 'ID_ASC',
-  IdDesc = 'ID_DESC',
-  LocationAsc = 'LOCATION_ASC',
-  LocationDesc = 'LOCATION_DESC',
-  ArrivalAsc = 'ARRIVAL_ASC',
-  ArrivalDesc = 'ARRIVAL_DESC',
-  ImporterNameAsc = 'IMPORTER_NAME_ASC',
-  ImporterNameDesc = 'IMPORTER_NAME_DESC',
-  ExporterNameAsc = 'EXPORTER_NAME_ASC',
-  ExporterNameDesc = 'EXPORTER_NAME_DESC',
-  CommodityAsc = 'COMMODITY_ASC',
-  CommodityDesc = 'COMMODITY_DESC',
-  ProductCodeAsc = 'PRODUCT_CODE_ASC',
-  ProductCodeDesc = 'PRODUCT_CODE_DESC',
-  VarietyAsc = 'VARIETY_ASC',
-  VarietyDesc = 'VARIETY_DESC',
-  InspDateAsc = 'INSP_DATE_ASC',
-  InspDateDesc = 'INSP_DATE_DESC',
-  QuantityAsc = 'QUANTITY_ASC',
-  QuantityDesc = 'QUANTITY_DESC',
-  HatchAsc = 'HATCH_ASC',
-  HatchDesc = 'HATCH_DESC',
-  DeckAsc = 'DECK_ASC',
-  DeckDesc = 'DECK_DESC',
-  ContainerIdAsc = 'CONTAINER_ID_ASC',
-  ContainerIdDesc = 'CONTAINER_ID_DESC',
-  FumigationAsc = 'FUMIGATION_ASC',
-  FumigationDesc = 'FUMIGATION_DESC',
-  LabelCodeAsc = 'LABEL_CODE_ASC',
-  LabelCodeDesc = 'LABEL_CODE_DESC',
-  InspLocationAsc = 'INSP_LOCATION_ASC',
-  InspLocationDesc = 'INSP_LOCATION_DESC',
-  ImporterCodeAsc = 'IMPORTER_CODE_ASC',
-  ImporterCodeDesc = 'IMPORTER_CODE_DESC',
-  LotCodeAsc = 'LOT_CODE_ASC',
-  LotCodeDesc = 'LOT_CODE_DESC',
-  InspLotAsc = 'INSP_LOT_ASC',
-  InspLotDesc = 'INSP_LOT_DESC',
-  PalletIdAsc = 'PALLET_ID_ASC',
-  PalletIdDesc = 'PALLET_ID_DESC',
-  GrowerCodeAsc = 'GROWER_CODE_ASC',
-  GrowerCodeDesc = 'GROWER_CODE_DESC',
-  InspGrowerCodeAsc = 'INSP_GROWER_CODE_ASC',
-  InspGrowerCodeDesc = 'INSP_GROWER_CODE_DESC',
-  PackDateAsc = 'PACK_DATE_ASC',
-  PackDateDesc = 'PACK_DATE_DESC',
-  InspPackDateAsc = 'INSP_PACK_DATE_ASC',
-  InspPackDateDesc = 'INSP_PACK_DATE_DESC',
-  SizeAsc = 'SIZE_ASC',
-  SizeDesc = 'SIZE_DESC',
-  InspSizeAsc = 'INSP_SIZE_ASC',
-  InspSizeDesc = 'INSP_SIZE_DESC',
-  PackCodeAsc = 'PACK_CODE_ASC',
-  PackCodeDesc = 'PACK_CODE_DESC',
-  PackDescriptionAsc = 'PACK_DESCRIPTION_ASC',
-  PackDescriptionDesc = 'PACK_DESCRIPTION_DESC',
-  SecondaryDescriptionAsc = 'SECONDARY_DESCRIPTION_ASC',
-  SecondaryDescriptionDesc = 'SECONDARY_DESCRIPTION_DESC',
-  InspPackCodeAsc = 'INSP_PACK_CODE_ASC',
-  InspPackCodeDesc = 'INSP_PACK_CODE_DESC',
-  CountAsc = 'COUNT_ASC',
-  CountDesc = 'COUNT_DESC',
-  PluAsc = 'PLU_ASC',
-  PluDesc = 'PLU_DESC',
-  PluPctAsc = 'PLU_PCT_ASC',
-  PluPctDesc = 'PLU_PCT_DESC',
-  CountryOfOriginAsc = 'COUNTRY_OF_ORIGIN_ASC',
-  CountryOfOriginDesc = 'COUNTRY_OF_ORIGIN_DESC',
-  UpcAsc = 'UPC_ASC',
-  UpcDesc = 'UPC_DESC',
-  WeightAsc = 'WEIGHT_ASC',
-  WeightDesc = 'WEIGHT_DESC',
-  UnderweightMinAsc = 'UNDERWEIGHT_MIN_ASC',
-  UnderweightMinDesc = 'UNDERWEIGHT_MIN_DESC',
-  UnderweightMaxAsc = 'UNDERWEIGHT_MAX_ASC',
-  UnderweightMaxDesc = 'UNDERWEIGHT_MAX_DESC',
-  WeighedUnitsAsc = 'WEIGHED_UNITS_ASC',
-  WeighedUnitsDesc = 'WEIGHED_UNITS_DESC',
-  UnderweightUnitsAsc = 'UNDERWEIGHT_UNITS_ASC',
-  UnderweightUnitsDesc = 'UNDERWEIGHT_UNITS_DESC',
-  UnderweightPctAsc = 'UNDERWEIGHT_PCT_ASC',
-  UnderweightPctDesc = 'UNDERWEIGHT_PCT_DESC',
-  PulpTempAsc = 'PULP_TEMP_ASC',
-  PulpTempDesc = 'PULP_TEMP_DESC',
-  OpeningAsc = 'OPENING_ASC',
-  OpeningDesc = 'OPENING_DESC',
-  SizeMinAsc = 'SIZE_MIN_ASC',
-  SizeMinDesc = 'SIZE_MIN_DESC',
-  SizeMaxAsc = 'SIZE_MAX_ASC',
-  SizeMaxDesc = 'SIZE_MAX_DESC',
-  SizeMostAsc = 'SIZE_MOST_ASC',
-  SizeMostDesc = 'SIZE_MOST_DESC',
-  ColorAsc = 'COLOR_ASC',
-  ColorDesc = 'COLOR_DESC',
-  ScarsMarksPiecesAsc = 'SCARS_MARKS_PIECES_ASC',
-  ScarsMarksPiecesDesc = 'SCARS_MARKS_PIECES_DESC',
-  ScarsMarksPctAsc = 'SCARS_MARKS_PCT_ASC',
-  ScarsMarksPctDesc = 'SCARS_MARKS_PCT_DESC',
-  ScarsMarksDegAsc = 'SCARS_MARKS_DEG_ASC',
-  ScarsMarksDegDesc = 'SCARS_MARKS_DEG_DESC',
-  MisshapenPiecesAsc = 'MISSHAPEN_PIECES_ASC',
-  MisshapenPiecesDesc = 'MISSHAPEN_PIECES_DESC',
-  MisshapenPctAsc = 'MISSHAPEN_PCT_ASC',
-  MisshapenPctDesc = 'MISSHAPEN_PCT_DESC',
-  StemlessPiecesAsc = 'STEMLESS_PIECES_ASC',
-  StemlessPiecesDesc = 'STEMLESS_PIECES_DESC',
-  StemlessPctAsc = 'STEMLESS_PCT_ASC',
-  StemlessPctDesc = 'STEMLESS_PCT_DESC',
-  SplitsPiecesAsc = 'SPLITS_PIECES_ASC',
-  SplitsPiecesDesc = 'SPLITS_PIECES_DESC',
-  SplitsPctAsc = 'SPLITS_PCT_ASC',
-  SplitsPctDesc = 'SPLITS_PCT_DESC',
-  SplitsDegAsc = 'SPLITS_DEG_ASC',
-  SplitsDegDesc = 'SPLITS_DEG_DESC',
-  FirmnessAsc = 'FIRMNESS_ASC',
-  FirmnessDesc = 'FIRMNESS_DESC',
-  PittingBruisingPiecesAsc = 'PITTING_BRUISING_PIECES_ASC',
-  PittingBruisingPiecesDesc = 'PITTING_BRUISING_PIECES_DESC',
-  PittingBruisingPctAsc = 'PITTING_BRUISING_PCT_ASC',
-  PittingBruisingPctDesc = 'PITTING_BRUISING_PCT_DESC',
-  PittingBruisingDegAsc = 'PITTING_BRUISING_DEG_ASC',
-  PittingBruisingDegDesc = 'PITTING_BRUISING_DEG_DESC',
-  StemDehydrationPiecesAsc = 'STEM_DEHYDRATION_PIECES_ASC',
-  StemDehydrationPiecesDesc = 'STEM_DEHYDRATION_PIECES_DESC',
-  StemDehydrationPctAsc = 'STEM_DEHYDRATION_PCT_ASC',
-  StemDehydrationPctDesc = 'STEM_DEHYDRATION_PCT_DESC',
-  StemDehydrationDegAsc = 'STEM_DEHYDRATION_DEG_ASC',
-  StemDehydrationDegDesc = 'STEM_DEHYDRATION_DEG_DESC',
-  DehydrationPiecesAsc = 'DEHYDRATION_PIECES_ASC',
-  DehydrationPiecesDesc = 'DEHYDRATION_PIECES_DESC',
-  DehydrationPctAsc = 'DEHYDRATION_PCT_ASC',
-  DehydrationPctDesc = 'DEHYDRATION_PCT_DESC',
-  DehydrationDegAsc = 'DEHYDRATION_DEG_ASC',
-  DehydrationDegDesc = 'DEHYDRATION_DEG_DESC',
-  DecayPiecesAsc = 'DECAY_PIECES_ASC',
-  DecayPiecesDesc = 'DECAY_PIECES_DESC',
-  DecayPctAsc = 'DECAY_PCT_ASC',
-  DecayPctDesc = 'DECAY_PCT_DESC',
-  DecayDegAsc = 'DECAY_DEG_ASC',
-  DecayDegDesc = 'DECAY_DEG_DESC',
-  MoldPiecesAsc = 'MOLD_PIECES_ASC',
-  MoldPiecesDesc = 'MOLD_PIECES_DESC',
-  MoldPctAsc = 'MOLD_PCT_ASC',
-  MoldPctDesc = 'MOLD_PCT_DESC',
-  OverallQualityAsc = 'OVERALL_QUALITY_ASC',
-  OverallQualityDesc = 'OVERALL_QUALITY_DESC',
-  OverallConditionAsc = 'OVERALL_CONDITION_ASC',
-  OverallConditionDesc = 'OVERALL_CONDITION_DESC',
-  Comment1Asc = 'COMMENT1_ASC',
-  Comment1Desc = 'COMMENT1_DESC',
-  Comment2Asc = 'COMMENT2_ASC',
-  Comment2Desc = 'COMMENT2_DESC',
-  InspectionTypeAsc = 'INSPECTION_TYPE_ASC',
-  InspectionTypeDesc = 'INSPECTION_TYPE_DESC',
-  ShortInspAsc = 'SHORT_INSP_ASC',
-  ShortInspDesc = 'SHORT_INSP_DESC',
-  FixedWeightAsc = 'FIXED_WEIGHT_ASC',
-  FixedWeightDesc = 'FIXED_WEIGHT_DESC',
-  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
-}
 
 /**
  * A condition to be used against `PsaCherryPallet` object types. All fields are
@@ -9184,191 +10466,6 @@ export type PsaCherryPalletCondition = {
   /** Checks for equality with the object’s `fixedWeight` field. */
   fixedWeight?: Maybe<Scalars['String']>;
 };
-
-/** Methods to use when ordering `PsaCitrusPallet`. */
-export enum PsaCitrusPalletsOrderBy {
-  Natural = 'NATURAL',
-  IdAsc = 'ID_ASC',
-  IdDesc = 'ID_DESC',
-  LocationAsc = 'LOCATION_ASC',
-  LocationDesc = 'LOCATION_DESC',
-  ArrivalAsc = 'ARRIVAL_ASC',
-  ArrivalDesc = 'ARRIVAL_DESC',
-  ImporterNameAsc = 'IMPORTER_NAME_ASC',
-  ImporterNameDesc = 'IMPORTER_NAME_DESC',
-  ExporterNameAsc = 'EXPORTER_NAME_ASC',
-  ExporterNameDesc = 'EXPORTER_NAME_DESC',
-  CommodityAsc = 'COMMODITY_ASC',
-  CommodityDesc = 'COMMODITY_DESC',
-  ProductCodeAsc = 'PRODUCT_CODE_ASC',
-  ProductCodeDesc = 'PRODUCT_CODE_DESC',
-  VarietyAsc = 'VARIETY_ASC',
-  VarietyDesc = 'VARIETY_DESC',
-  InspDateAsc = 'INSP_DATE_ASC',
-  InspDateDesc = 'INSP_DATE_DESC',
-  QuantityAsc = 'QUANTITY_ASC',
-  QuantityDesc = 'QUANTITY_DESC',
-  HatchAsc = 'HATCH_ASC',
-  HatchDesc = 'HATCH_DESC',
-  DeckAsc = 'DECK_ASC',
-  DeckDesc = 'DECK_DESC',
-  ContainerIdAsc = 'CONTAINER_ID_ASC',
-  ContainerIdDesc = 'CONTAINER_ID_DESC',
-  FumigationAsc = 'FUMIGATION_ASC',
-  FumigationDesc = 'FUMIGATION_DESC',
-  LabelCodeAsc = 'LABEL_CODE_ASC',
-  LabelCodeDesc = 'LABEL_CODE_DESC',
-  InspLocationAsc = 'INSP_LOCATION_ASC',
-  InspLocationDesc = 'INSP_LOCATION_DESC',
-  ImporterCodeAsc = 'IMPORTER_CODE_ASC',
-  ImporterCodeDesc = 'IMPORTER_CODE_DESC',
-  LotCodeAsc = 'LOT_CODE_ASC',
-  LotCodeDesc = 'LOT_CODE_DESC',
-  InspLotAsc = 'INSP_LOT_ASC',
-  InspLotDesc = 'INSP_LOT_DESC',
-  PalletIdAsc = 'PALLET_ID_ASC',
-  PalletIdDesc = 'PALLET_ID_DESC',
-  GrowerCodeAsc = 'GROWER_CODE_ASC',
-  GrowerCodeDesc = 'GROWER_CODE_DESC',
-  InspGrowerCodeAsc = 'INSP_GROWER_CODE_ASC',
-  InspGrowerCodeDesc = 'INSP_GROWER_CODE_DESC',
-  PackDateAsc = 'PACK_DATE_ASC',
-  PackDateDesc = 'PACK_DATE_DESC',
-  InspPackDateAsc = 'INSP_PACK_DATE_ASC',
-  InspPackDateDesc = 'INSP_PACK_DATE_DESC',
-  SizeAsc = 'SIZE_ASC',
-  SizeDesc = 'SIZE_DESC',
-  InspSizeAsc = 'INSP_SIZE_ASC',
-  InspSizeDesc = 'INSP_SIZE_DESC',
-  PackCodeAsc = 'PACK_CODE_ASC',
-  PackCodeDesc = 'PACK_CODE_DESC',
-  PackDescriptionAsc = 'PACK_DESCRIPTION_ASC',
-  PackDescriptionDesc = 'PACK_DESCRIPTION_DESC',
-  SecondaryDescriptionAsc = 'SECONDARY_DESCRIPTION_ASC',
-  SecondaryDescriptionDesc = 'SECONDARY_DESCRIPTION_DESC',
-  InspPackCodeAsc = 'INSP_PACK_CODE_ASC',
-  InspPackCodeDesc = 'INSP_PACK_CODE_DESC',
-  CountAsc = 'COUNT_ASC',
-  CountDesc = 'COUNT_DESC',
-  PluAsc = 'PLU_ASC',
-  PluDesc = 'PLU_DESC',
-  PluPctAsc = 'PLU_PCT_ASC',
-  PluPctDesc = 'PLU_PCT_DESC',
-  CountryOfOriginAsc = 'COUNTRY_OF_ORIGIN_ASC',
-  CountryOfOriginDesc = 'COUNTRY_OF_ORIGIN_DESC',
-  UpcAsc = 'UPC_ASC',
-  UpcDesc = 'UPC_DESC',
-  WeightAsc = 'WEIGHT_ASC',
-  WeightDesc = 'WEIGHT_DESC',
-  UnderweightMinAsc = 'UNDERWEIGHT_MIN_ASC',
-  UnderweightMinDesc = 'UNDERWEIGHT_MIN_DESC',
-  UnderweightMaxAsc = 'UNDERWEIGHT_MAX_ASC',
-  UnderweightMaxDesc = 'UNDERWEIGHT_MAX_DESC',
-  WeighedUnitsAsc = 'WEIGHED_UNITS_ASC',
-  WeighedUnitsDesc = 'WEIGHED_UNITS_DESC',
-  UnderweightUnitsAsc = 'UNDERWEIGHT_UNITS_ASC',
-  UnderweightUnitsDesc = 'UNDERWEIGHT_UNITS_DESC',
-  UnderweightPctAsc = 'UNDERWEIGHT_PCT_ASC',
-  UnderweightPctDesc = 'UNDERWEIGHT_PCT_DESC',
-  PulpTempAsc = 'PULP_TEMP_ASC',
-  PulpTempDesc = 'PULP_TEMP_DESC',
-  OpeningAsc = 'OPENING_ASC',
-  OpeningDesc = 'OPENING_DESC',
-  ColorAsc = 'COLOR_ASC',
-  ColorDesc = 'COLOR_DESC',
-  DiameterMinMmAsc = 'DIAMETER_MIN_MM_ASC',
-  DiameterMinMmDesc = 'DIAMETER_MIN_MM_DESC',
-  DiameterMinInchesAsc = 'DIAMETER_MIN_INCHES_ASC',
-  DiameterMinInchesDesc = 'DIAMETER_MIN_INCHES_DESC',
-  DiameterMaxMmAsc = 'DIAMETER_MAX_MM_ASC',
-  DiameterMaxMmDesc = 'DIAMETER_MAX_MM_DESC',
-  DiameterMaxInchesAsc = 'DIAMETER_MAX_INCHES_ASC',
-  DiameterMaxInchesDesc = 'DIAMETER_MAX_INCHES_DESC',
-  DiameterMostMmAsc = 'DIAMETER_MOST_MM_ASC',
-  DiameterMostMmDesc = 'DIAMETER_MOST_MM_DESC',
-  DiameterMostInchesAsc = 'DIAMETER_MOST_INCHES_ASC',
-  DiameterMostInchesDesc = 'DIAMETER_MOST_INCHES_DESC',
-  ScarsPiecesAsc = 'SCARS_PIECES_ASC',
-  ScarsPiecesDesc = 'SCARS_PIECES_DESC',
-  ScarsPctAsc = 'SCARS_PCT_ASC',
-  ScarsPctDesc = 'SCARS_PCT_DESC',
-  ScarsDegAsc = 'SCARS_DEG_ASC',
-  ScarsDegDesc = 'SCARS_DEG_DESC',
-  GreenHazePiecesAsc = 'GREEN_HAZE_PIECES_ASC',
-  GreenHazePiecesDesc = 'GREEN_HAZE_PIECES_DESC',
-  GreenHazePctAsc = 'GREEN_HAZE_PCT_ASC',
-  GreenHazePctDesc = 'GREEN_HAZE_PCT_DESC',
-  GreenHazeDegAsc = 'GREEN_HAZE_DEG_ASC',
-  GreenHazeDegDesc = 'GREEN_HAZE_DEG_DESC',
-  OilSpotsPiecesAsc = 'OIL_SPOTS_PIECES_ASC',
-  OilSpotsPiecesDesc = 'OIL_SPOTS_PIECES_DESC',
-  OilSpotsPctAsc = 'OIL_SPOTS_PCT_ASC',
-  OilSpotsPctDesc = 'OIL_SPOTS_PCT_DESC',
-  OilSpotsDegAsc = 'OIL_SPOTS_DEG_ASC',
-  OilSpotsDegDesc = 'OIL_SPOTS_DEG_DESC',
-  CutCountAsc = 'CUT_COUNT_ASC',
-  CutCountDesc = 'CUT_COUNT_DESC',
-  DryPulpPiecesAsc = 'DRY_PULP_PIECES_ASC',
-  DryPulpPiecesDesc = 'DRY_PULP_PIECES_DESC',
-  DryPulpPctAsc = 'DRY_PULP_PCT_ASC',
-  DryPulpPctDesc = 'DRY_PULP_PCT_DESC',
-  DryPulpDegAsc = 'DRY_PULP_DEG_ASC',
-  DryPulpDegDesc = 'DRY_PULP_DEG_DESC',
-  SeedsPiecesAsc = 'SEEDS_PIECES_ASC',
-  SeedsPiecesDesc = 'SEEDS_PIECES_DESC',
-  SeedsPctAsc = 'SEEDS_PCT_ASC',
-  SeedsPctDesc = 'SEEDS_PCT_DESC',
-  SkinBreakdownPiecesAsc = 'SKIN_BREAKDOWN_PIECES_ASC',
-  SkinBreakdownPiecesDesc = 'SKIN_BREAKDOWN_PIECES_DESC',
-  SkinBreakdownPctAsc = 'SKIN_BREAKDOWN_PCT_ASC',
-  SkinBreakdownPctDesc = 'SKIN_BREAKDOWN_PCT_DESC',
-  SkinBreakdownDegAsc = 'SKIN_BREAKDOWN_DEG_ASC',
-  SkinBreakdownDegDesc = 'SKIN_BREAKDOWN_DEG_DESC',
-  CreasingPiecesAsc = 'CREASING_PIECES_ASC',
-  CreasingPiecesDesc = 'CREASING_PIECES_DESC',
-  CreasingPctAsc = 'CREASING_PCT_ASC',
-  CreasingPctDesc = 'CREASING_PCT_DESC',
-  CreasingDegAsc = 'CREASING_DEG_ASC',
-  CreasingDegDesc = 'CREASING_DEG_DESC',
-  PuffinessPiecesAsc = 'PUFFINESS_PIECES_ASC',
-  PuffinessPiecesDesc = 'PUFFINESS_PIECES_DESC',
-  PuffinessPctAsc = 'PUFFINESS_PCT_ASC',
-  PuffinessPctDesc = 'PUFFINESS_PCT_DESC',
-  PuffinessDegAsc = 'PUFFINESS_DEG_ASC',
-  PuffinessDegDesc = 'PUFFINESS_DEG_DESC',
-  DecayPiecesAsc = 'DECAY_PIECES_ASC',
-  DecayPiecesDesc = 'DECAY_PIECES_DESC',
-  DecayPctAsc = 'DECAY_PCT_ASC',
-  DecayPctDesc = 'DECAY_PCT_DESC',
-  DecayDegAsc = 'DECAY_DEG_ASC',
-  DecayDegDesc = 'DECAY_DEG_DESC',
-  MoldPiecesAsc = 'MOLD_PIECES_ASC',
-  MoldPiecesDesc = 'MOLD_PIECES_DESC',
-  MoldPctAsc = 'MOLD_PCT_ASC',
-  MoldPctDesc = 'MOLD_PCT_DESC',
-  SporesPiecesAsc = 'SPORES_PIECES_ASC',
-  SporesPiecesDesc = 'SPORES_PIECES_DESC',
-  SporesPctAsc = 'SPORES_PCT_ASC',
-  SporesPctDesc = 'SPORES_PCT_DESC',
-  BrixAsc = 'BRIX_ASC',
-  BrixDesc = 'BRIX_DESC',
-  OverallQualityAsc = 'OVERALL_QUALITY_ASC',
-  OverallQualityDesc = 'OVERALL_QUALITY_DESC',
-  OverallConditionAsc = 'OVERALL_CONDITION_ASC',
-  OverallConditionDesc = 'OVERALL_CONDITION_DESC',
-  Comment1Asc = 'COMMENT1_ASC',
-  Comment1Desc = 'COMMENT1_DESC',
-  Comment2Asc = 'COMMENT2_ASC',
-  Comment2Desc = 'COMMENT2_DESC',
-  InspectionTypeAsc = 'INSPECTION_TYPE_ASC',
-  InspectionTypeDesc = 'INSPECTION_TYPE_DESC',
-  ShortInspAsc = 'SHORT_INSP_ASC',
-  ShortInspDesc = 'SHORT_INSP_DESC',
-  FixedWeightAsc = 'FIXED_WEIGHT_ASC',
-  FixedWeightDesc = 'FIXED_WEIGHT_DESC',
-  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
-}
 
 /**
  * A condition to be used against `PsaCitrusPallet` object types. All fields are
@@ -9554,255 +10651,6 @@ export type PsaCitrusPalletCondition = {
   /** Checks for equality with the object’s `fixedWeight` field. */
   fixedWeight?: Maybe<Scalars['String']>;
 };
-
-/** Methods to use when ordering `PsaGrapePallet`. */
-export enum PsaGrapePalletsOrderBy {
-  Natural = 'NATURAL',
-  IdAsc = 'ID_ASC',
-  IdDesc = 'ID_DESC',
-  LocationAsc = 'LOCATION_ASC',
-  LocationDesc = 'LOCATION_DESC',
-  ArrivalAsc = 'ARRIVAL_ASC',
-  ArrivalDesc = 'ARRIVAL_DESC',
-  ImporterNameAsc = 'IMPORTER_NAME_ASC',
-  ImporterNameDesc = 'IMPORTER_NAME_DESC',
-  ExporterNameAsc = 'EXPORTER_NAME_ASC',
-  ExporterNameDesc = 'EXPORTER_NAME_DESC',
-  CommodityAsc = 'COMMODITY_ASC',
-  CommodityDesc = 'COMMODITY_DESC',
-  ProductCodeAsc = 'PRODUCT_CODE_ASC',
-  ProductCodeDesc = 'PRODUCT_CODE_DESC',
-  VarietyAsc = 'VARIETY_ASC',
-  VarietyDesc = 'VARIETY_DESC',
-  InspDateAsc = 'INSP_DATE_ASC',
-  InspDateDesc = 'INSP_DATE_DESC',
-  QuantityAsc = 'QUANTITY_ASC',
-  QuantityDesc = 'QUANTITY_DESC',
-  HatchAsc = 'HATCH_ASC',
-  HatchDesc = 'HATCH_DESC',
-  DeckAsc = 'DECK_ASC',
-  DeckDesc = 'DECK_DESC',
-  ContainerIdAsc = 'CONTAINER_ID_ASC',
-  ContainerIdDesc = 'CONTAINER_ID_DESC',
-  FumigationAsc = 'FUMIGATION_ASC',
-  FumigationDesc = 'FUMIGATION_DESC',
-  LabelCodeAsc = 'LABEL_CODE_ASC',
-  LabelCodeDesc = 'LABEL_CODE_DESC',
-  InspLocationAsc = 'INSP_LOCATION_ASC',
-  InspLocationDesc = 'INSP_LOCATION_DESC',
-  ImporterCodeAsc = 'IMPORTER_CODE_ASC',
-  ImporterCodeDesc = 'IMPORTER_CODE_DESC',
-  LotCodeAsc = 'LOT_CODE_ASC',
-  LotCodeDesc = 'LOT_CODE_DESC',
-  InspLotAsc = 'INSP_LOT_ASC',
-  InspLotDesc = 'INSP_LOT_DESC',
-  PalletIdAsc = 'PALLET_ID_ASC',
-  PalletIdDesc = 'PALLET_ID_DESC',
-  GrowerCodeAsc = 'GROWER_CODE_ASC',
-  GrowerCodeDesc = 'GROWER_CODE_DESC',
-  InspGrowerCodeAsc = 'INSP_GROWER_CODE_ASC',
-  InspGrowerCodeDesc = 'INSP_GROWER_CODE_DESC',
-  PackDateAsc = 'PACK_DATE_ASC',
-  PackDateDesc = 'PACK_DATE_DESC',
-  InspPackDateAsc = 'INSP_PACK_DATE_ASC',
-  InspPackDateDesc = 'INSP_PACK_DATE_DESC',
-  SizeAsc = 'SIZE_ASC',
-  SizeDesc = 'SIZE_DESC',
-  InspSizeAsc = 'INSP_SIZE_ASC',
-  InspSizeDesc = 'INSP_SIZE_DESC',
-  PackCodeAsc = 'PACK_CODE_ASC',
-  PackCodeDesc = 'PACK_CODE_DESC',
-  PackDescriptionAsc = 'PACK_DESCRIPTION_ASC',
-  PackDescriptionDesc = 'PACK_DESCRIPTION_DESC',
-  SecondaryDescriptionAsc = 'SECONDARY_DESCRIPTION_ASC',
-  SecondaryDescriptionDesc = 'SECONDARY_DESCRIPTION_DESC',
-  GradeAsc = 'GRADE_ASC',
-  GradeDesc = 'GRADE_DESC',
-  InspPackCodeAsc = 'INSP_PACK_CODE_ASC',
-  InspPackCodeDesc = 'INSP_PACK_CODE_DESC',
-  CountAsc = 'COUNT_ASC',
-  CountDesc = 'COUNT_DESC',
-  PluAsc = 'PLU_ASC',
-  PluDesc = 'PLU_DESC',
-  PluPctAsc = 'PLU_PCT_ASC',
-  PluPctDesc = 'PLU_PCT_DESC',
-  CountryOfOriginAsc = 'COUNTRY_OF_ORIGIN_ASC',
-  CountryOfOriginDesc = 'COUNTRY_OF_ORIGIN_DESC',
-  UpcAsc = 'UPC_ASC',
-  UpcDesc = 'UPC_DESC',
-  WeightAsc = 'WEIGHT_ASC',
-  WeightDesc = 'WEIGHT_DESC',
-  UnderweightMinAsc = 'UNDERWEIGHT_MIN_ASC',
-  UnderweightMinDesc = 'UNDERWEIGHT_MIN_DESC',
-  UnderweightMaxAsc = 'UNDERWEIGHT_MAX_ASC',
-  UnderweightMaxDesc = 'UNDERWEIGHT_MAX_DESC',
-  WeighedUnitsAsc = 'WEIGHED_UNITS_ASC',
-  WeighedUnitsDesc = 'WEIGHED_UNITS_DESC',
-  UnderweightUnitsAsc = 'UNDERWEIGHT_UNITS_ASC',
-  UnderweightUnitsDesc = 'UNDERWEIGHT_UNITS_DESC',
-  UnderweightPctAsc = 'UNDERWEIGHT_PCT_ASC',
-  UnderweightPctDesc = 'UNDERWEIGHT_PCT_DESC',
-  PulpTempAsc = 'PULP_TEMP_ASC',
-  PulpTempDesc = 'PULP_TEMP_DESC',
-  OpeningAsc = 'OPENING_ASC',
-  OpeningDesc = 'OPENING_DESC',
-  AutoOpeningAsc = 'AUTO_OPENING_ASC',
-  AutoOpeningDesc = 'AUTO_OPENING_DESC',
-  BunchesAsc = 'BUNCHES_ASC',
-  BunchesDesc = 'BUNCHES_DESC',
-  SizeMinAsc = 'SIZE_MIN_ASC',
-  SizeMinDesc = 'SIZE_MIN_DESC',
-  SizeMaxAsc = 'SIZE_MAX_ASC',
-  SizeMaxDesc = 'SIZE_MAX_DESC',
-  SizeMostAsc = 'SIZE_MOST_ASC',
-  SizeMostDesc = 'SIZE_MOST_DESC',
-  UndersizeBunchesCountAsc = 'UNDERSIZE_BUNCHES_COUNT_ASC',
-  UndersizeBunchesCountDesc = 'UNDERSIZE_BUNCHES_COUNT_DESC',
-  AutoUndersizeBerriesBunchesAsc = 'AUTO_UNDERSIZE_BERRIES_BUNCHES_ASC',
-  AutoUndersizeBerriesBunchesDesc = 'AUTO_UNDERSIZE_BERRIES_BUNCHES_DESC',
-  UndersizeBerriesPctAsc = 'UNDERSIZE_BERRIES_PCT_ASC',
-  UndersizeBerriesPctDesc = 'UNDERSIZE_BERRIES_PCT_DESC',
-  ColorMinAsc = 'COLOR_MIN_ASC',
-  ColorMinDesc = 'COLOR_MIN_DESC',
-  ColorMaxAsc = 'COLOR_MAX_ASC',
-  ColorMaxDesc = 'COLOR_MAX_DESC',
-  ColorMostAsc = 'COLOR_MOST_ASC',
-  ColorMostDesc = 'COLOR_MOST_DESC',
-  ColorConsistencyAsc = 'COLOR_CONSISTENCY_ASC',
-  ColorConsistencyDesc = 'COLOR_CONSISTENCY_DESC',
-  AutoColorConsistencyAsc = 'AUTO_COLOR_CONSISTENCY_ASC',
-  AutoColorConsistencyDesc = 'AUTO_COLOR_CONSISTENCY_DESC',
-  SunburnBunchesAsc = 'SUNBURN_BUNCHES_ASC',
-  SunburnBunchesDesc = 'SUNBURN_BUNCHES_DESC',
-  AutoSunburnBunchesAsc = 'AUTO_SUNBURN_BUNCHES_ASC',
-  AutoSunburnBunchesDesc = 'AUTO_SUNBURN_BUNCHES_DESC',
-  SunburnPctAsc = 'SUNBURN_PCT_ASC',
-  SunburnPctDesc = 'SUNBURN_PCT_DESC',
-  SunburnBunchesDegAsc = 'SUNBURN_BUNCHES_DEG_ASC',
-  SunburnBunchesDegDesc = 'SUNBURN_BUNCHES_DEG_DESC',
-  BunchConformationAsc = 'BUNCH_CONFORMATION_ASC',
-  BunchConformationDesc = 'BUNCH_CONFORMATION_DESC',
-  AutoBunchConformationAsc = 'AUTO_BUNCH_CONFORMATION_ASC',
-  AutoBunchConformationDesc = 'AUTO_BUNCH_CONFORMATION_DESC',
-  StragglyBunchesAsc = 'STRAGGLY_BUNCHES_ASC',
-  StragglyBunchesDesc = 'STRAGGLY_BUNCHES_DESC',
-  StragglyPctAsc = 'STRAGGLY_PCT_ASC',
-  StragglyPctDesc = 'STRAGGLY_PCT_DESC',
-  SmallBunchesAsc = 'SMALL_BUNCHES_ASC',
-  SmallBunchesDesc = 'SMALL_BUNCHES_DESC',
-  RussetMarksBunchesAsc = 'RUSSET_MARKS_BUNCHES_ASC',
-  RussetMarksBunchesDesc = 'RUSSET_MARKS_BUNCHES_DESC',
-  RussetMarksPctAsc = 'RUSSET_MARKS_PCT_ASC',
-  RussetMarksPctDesc = 'RUSSET_MARKS_PCT_DESC',
-  AutoRussetMarksPctAsc = 'AUTO_RUSSET_MARKS_PCT_ASC',
-  AutoRussetMarksPctDesc = 'AUTO_RUSSET_MARKS_PCT_DESC',
-  DustPctAsc = 'DUST_PCT_ASC',
-  DustPctDesc = 'DUST_PCT_DESC',
-  AutoDustPctAsc = 'AUTO_DUST_PCT_ASC',
-  AutoDustPctDesc = 'AUTO_DUST_PCT_DESC',
-  ResiduesPctAsc = 'RESIDUES_PCT_ASC',
-  ResiduesPctDesc = 'RESIDUES_PCT_DESC',
-  AutoResiduesPctAsc = 'AUTO_RESIDUES_PCT_ASC',
-  AutoResiduesPctDesc = 'AUTO_RESIDUES_PCT_DESC',
-  TightBunchesAsc = 'TIGHT_BUNCHES_ASC',
-  TightBunchesDesc = 'TIGHT_BUNCHES_DESC',
-  AutoTightBunchesAsc = 'AUTO_TIGHT_BUNCHES_ASC',
-  AutoTightBunchesDesc = 'AUTO_TIGHT_BUNCHES_DESC',
-  BruisingBunchesAsc = 'BRUISING_BUNCHES_ASC',
-  BruisingBunchesDesc = 'BRUISING_BUNCHES_DESC',
-  AutoBruisingBunchesAsc = 'AUTO_BRUISING_BUNCHES_ASC',
-  AutoBruisingBunchesDesc = 'AUTO_BRUISING_BUNCHES_DESC',
-  BruisingPctAsc = 'BRUISING_PCT_ASC',
-  BruisingPctDesc = 'BRUISING_PCT_DESC',
-  BruisingDegAsc = 'BRUISING_DEG_ASC',
-  BruisingDegDesc = 'BRUISING_DEG_DESC',
-  StemDehydrationPctAsc = 'STEM_DEHYDRATION_PCT_ASC',
-  StemDehydrationPctDesc = 'STEM_DEHYDRATION_PCT_DESC',
-  AutoStemDehydrationPctAsc = 'AUTO_STEM_DEHYDRATION_PCT_ASC',
-  AutoStemDehydrationPctDesc = 'AUTO_STEM_DEHYDRATION_PCT_DESC',
-  StemDehydrationDegAsc = 'STEM_DEHYDRATION_DEG_ASC',
-  StemDehydrationDegDesc = 'STEM_DEHYDRATION_DEG_DESC',
-  BerryConditionAsc = 'BERRY_CONDITION_ASC',
-  BerryConditionDesc = 'BERRY_CONDITION_DESC',
-  AutoBerryConditionAsc = 'AUTO_BERRY_CONDITION_ASC',
-  AutoBerryConditionDesc = 'AUTO_BERRY_CONDITION_DESC',
-  H2OBerriesAsc = 'H2O_BERRIES_ASC',
-  H2OBerriesDesc = 'H2O_BERRIES_DESC',
-  AutoH2OBerriesAsc = 'AUTO_H2O_BERRIES_ASC',
-  AutoH2OBerriesDesc = 'AUTO_H2O_BERRIES_DESC',
-  So2DamagePctAsc = 'SO2_DAMAGE_PCT_ASC',
-  So2DamagePctDesc = 'SO2_DAMAGE_PCT_DESC',
-  AutoSo2DamagePctAsc = 'AUTO_SO2_DAMAGE_PCT_ASC',
-  AutoSo2DamagePctDesc = 'AUTO_SO2_DAMAGE_PCT_DESC',
-  So2DamageDegAsc = 'SO2_DAMAGE_DEG_ASC',
-  So2DamageDegDesc = 'SO2_DAMAGE_DEG_DESC',
-  WeakBunchesAsc = 'WEAK_BUNCHES_ASC',
-  WeakBunchesDesc = 'WEAK_BUNCHES_DESC',
-  AutoWeakBunchesAsc = 'AUTO_WEAK_BUNCHES_ASC',
-  AutoWeakBunchesDesc = 'AUTO_WEAK_BUNCHES_DESC',
-  SplitsHairlinePctAsc = 'SPLITS_HAIRLINE_PCT_ASC',
-  SplitsHairlinePctDesc = 'SPLITS_HAIRLINE_PCT_DESC',
-  AutoSplitsHairlinePctAsc = 'AUTO_SPLITS_HAIRLINE_PCT_ASC',
-  AutoSplitsHairlinePctDesc = 'AUTO_SPLITS_HAIRLINE_PCT_DESC',
-  SplitsWetCrushPctAsc = 'SPLITS_WET_CRUSH_PCT_ASC',
-  SplitsWetCrushPctDesc = 'SPLITS_WET_CRUSH_PCT_DESC',
-  AutoSplitsWetCrushPctAsc = 'AUTO_SPLITS_WET_CRUSH_PCT_ASC',
-  AutoSplitsWetCrushPctDesc = 'AUTO_SPLITS_WET_CRUSH_PCT_DESC',
-  SplitsDryPctAsc = 'SPLITS_DRY_PCT_ASC',
-  SplitsDryPctDesc = 'SPLITS_DRY_PCT_DESC',
-  AutoSplitsDryPctAsc = 'AUTO_SPLITS_DRY_PCT_ASC',
-  AutoSplitsDryPctDesc = 'AUTO_SPLITS_DRY_PCT_DESC',
-  IntDiscAsc = 'INT_DISC_ASC',
-  IntDiscDesc = 'INT_DISC_DESC',
-  AutoIntDiscAsc = 'AUTO_INT_DISC_ASC',
-  AutoIntDiscDesc = 'AUTO_INT_DISC_DESC',
-  IntDiscDegAsc = 'INT_DISC_DEG_ASC',
-  IntDiscDegDesc = 'INT_DISC_DEG_DESC',
-  DecayMoldBerriesAsc = 'DECAY_MOLD_BERRIES_ASC',
-  DecayMoldBerriesDesc = 'DECAY_MOLD_BERRIES_DESC',
-  AutoDecayMoldBerriesAsc = 'AUTO_DECAY_MOLD_BERRIES_ASC',
-  AutoDecayMoldBerriesDesc = 'AUTO_DECAY_MOLD_BERRIES_DESC',
-  DecaySlipskinBerriesAsc = 'DECAY_SLIPSKIN_BERRIES_ASC',
-  DecaySlipskinBerriesDesc = 'DECAY_SLIPSKIN_BERRIES_DESC',
-  AutoDecaySlipskinBerriesAsc = 'AUTO_DECAY_SLIPSKIN_BERRIES_ASC',
-  AutoDecaySlipskinBerriesDesc = 'AUTO_DECAY_SLIPSKIN_BERRIES_DESC',
-  DecayNestBerriesAsc = 'DECAY_NEST_BERRIES_ASC',
-  DecayNestBerriesDesc = 'DECAY_NEST_BERRIES_DESC',
-  AutoDecayNestBerriesAsc = 'AUTO_DECAY_NEST_BERRIES_ASC',
-  AutoDecayNestBerriesDesc = 'AUTO_DECAY_NEST_BERRIES_DESC',
-  DecayNestDegAsc = 'DECAY_NEST_DEG_ASC',
-  DecayNestDegDesc = 'DECAY_NEST_DEG_DESC',
-  ShatterPctAsc = 'SHATTER_PCT_ASC',
-  ShatterPctDesc = 'SHATTER_PCT_DESC',
-  AutoShatterPctAsc = 'AUTO_SHATTER_PCT_ASC',
-  AutoShatterPctDesc = 'AUTO_SHATTER_PCT_DESC',
-  BrixMinAsc = 'BRIX_MIN_ASC',
-  BrixMinDesc = 'BRIX_MIN_DESC',
-  BrixMaxAsc = 'BRIX_MAX_ASC',
-  BrixMaxDesc = 'BRIX_MAX_DESC',
-  BrixMostAsc = 'BRIX_MOST_ASC',
-  BrixMostDesc = 'BRIX_MOST_DESC',
-  OverallQualityAsc = 'OVERALL_QUALITY_ASC',
-  OverallQualityDesc = 'OVERALL_QUALITY_DESC',
-  AutoOverallQualityAsc = 'AUTO_OVERALL_QUALITY_ASC',
-  AutoOverallQualityDesc = 'AUTO_OVERALL_QUALITY_DESC',
-  OverallConditionAsc = 'OVERALL_CONDITION_ASC',
-  OverallConditionDesc = 'OVERALL_CONDITION_DESC',
-  AutoOverallConditionAsc = 'AUTO_OVERALL_CONDITION_ASC',
-  AutoOverallConditionDesc = 'AUTO_OVERALL_CONDITION_DESC',
-  Comment1Asc = 'COMMENT1_ASC',
-  Comment1Desc = 'COMMENT1_DESC',
-  Comment2Asc = 'COMMENT2_ASC',
-  Comment2Desc = 'COMMENT2_DESC',
-  InspectionTypeAsc = 'INSPECTION_TYPE_ASC',
-  InspectionTypeDesc = 'INSPECTION_TYPE_DESC',
-  ShortInspAsc = 'SHORT_INSP_ASC',
-  ShortInspDesc = 'SHORT_INSP_DESC',
-  FixedWeightAsc = 'FIXED_WEIGHT_ASC',
-  FixedWeightDesc = 'FIXED_WEIGHT_DESC',
-  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
-}
 
 /**
  * A condition to be used against `PsaGrapePallet` object types. All fields are
@@ -10053,183 +10901,6 @@ export type PsaGrapePalletCondition = {
   fixedWeight?: Maybe<Scalars['String']>;
 };
 
-/** Methods to use when ordering `PsaLemonPallet`. */
-export enum PsaLemonPalletsOrderBy {
-  Natural = 'NATURAL',
-  IdAsc = 'ID_ASC',
-  IdDesc = 'ID_DESC',
-  LocationAsc = 'LOCATION_ASC',
-  LocationDesc = 'LOCATION_DESC',
-  ArrivalAsc = 'ARRIVAL_ASC',
-  ArrivalDesc = 'ARRIVAL_DESC',
-  ImporterNameAsc = 'IMPORTER_NAME_ASC',
-  ImporterNameDesc = 'IMPORTER_NAME_DESC',
-  ExporterNameAsc = 'EXPORTER_NAME_ASC',
-  ExporterNameDesc = 'EXPORTER_NAME_DESC',
-  CommodityAsc = 'COMMODITY_ASC',
-  CommodityDesc = 'COMMODITY_DESC',
-  ProductCodeAsc = 'PRODUCT_CODE_ASC',
-  ProductCodeDesc = 'PRODUCT_CODE_DESC',
-  VarietyAsc = 'VARIETY_ASC',
-  VarietyDesc = 'VARIETY_DESC',
-  InspDateAsc = 'INSP_DATE_ASC',
-  InspDateDesc = 'INSP_DATE_DESC',
-  QuantityAsc = 'QUANTITY_ASC',
-  QuantityDesc = 'QUANTITY_DESC',
-  HatchAsc = 'HATCH_ASC',
-  HatchDesc = 'HATCH_DESC',
-  DeckAsc = 'DECK_ASC',
-  DeckDesc = 'DECK_DESC',
-  ContainerIdAsc = 'CONTAINER_ID_ASC',
-  ContainerIdDesc = 'CONTAINER_ID_DESC',
-  FumigationAsc = 'FUMIGATION_ASC',
-  FumigationDesc = 'FUMIGATION_DESC',
-  LabelCodeAsc = 'LABEL_CODE_ASC',
-  LabelCodeDesc = 'LABEL_CODE_DESC',
-  InspLocationAsc = 'INSP_LOCATION_ASC',
-  InspLocationDesc = 'INSP_LOCATION_DESC',
-  ImporterCodeAsc = 'IMPORTER_CODE_ASC',
-  ImporterCodeDesc = 'IMPORTER_CODE_DESC',
-  LotCodeAsc = 'LOT_CODE_ASC',
-  LotCodeDesc = 'LOT_CODE_DESC',
-  InspLotAsc = 'INSP_LOT_ASC',
-  InspLotDesc = 'INSP_LOT_DESC',
-  PalletIdAsc = 'PALLET_ID_ASC',
-  PalletIdDesc = 'PALLET_ID_DESC',
-  GrowerCodeAsc = 'GROWER_CODE_ASC',
-  GrowerCodeDesc = 'GROWER_CODE_DESC',
-  InspGrowerCodeAsc = 'INSP_GROWER_CODE_ASC',
-  InspGrowerCodeDesc = 'INSP_GROWER_CODE_DESC',
-  PackDateAsc = 'PACK_DATE_ASC',
-  PackDateDesc = 'PACK_DATE_DESC',
-  InspPackDateAsc = 'INSP_PACK_DATE_ASC',
-  InspPackDateDesc = 'INSP_PACK_DATE_DESC',
-  SizeAsc = 'SIZE_ASC',
-  SizeDesc = 'SIZE_DESC',
-  InspSizeAsc = 'INSP_SIZE_ASC',
-  InspSizeDesc = 'INSP_SIZE_DESC',
-  PackCodeAsc = 'PACK_CODE_ASC',
-  PackCodeDesc = 'PACK_CODE_DESC',
-  PackDescriptionAsc = 'PACK_DESCRIPTION_ASC',
-  PackDescriptionDesc = 'PACK_DESCRIPTION_DESC',
-  SecondaryDescriptionAsc = 'SECONDARY_DESCRIPTION_ASC',
-  SecondaryDescriptionDesc = 'SECONDARY_DESCRIPTION_DESC',
-  InspPackCodeAsc = 'INSP_PACK_CODE_ASC',
-  InspPackCodeDesc = 'INSP_PACK_CODE_DESC',
-  GradeAsc = 'GRADE_ASC',
-  GradeDesc = 'GRADE_DESC',
-  InspGradeAsc = 'INSP_GRADE_ASC',
-  InspGradeDesc = 'INSP_GRADE_DESC',
-  CountAsc = 'COUNT_ASC',
-  CountDesc = 'COUNT_DESC',
-  PluAsc = 'PLU_ASC',
-  PluDesc = 'PLU_DESC',
-  PluPctAsc = 'PLU_PCT_ASC',
-  PluPctDesc = 'PLU_PCT_DESC',
-  CountryOfOriginAsc = 'COUNTRY_OF_ORIGIN_ASC',
-  CountryOfOriginDesc = 'COUNTRY_OF_ORIGIN_DESC',
-  UpcAsc = 'UPC_ASC',
-  UpcDesc = 'UPC_DESC',
-  WeightAsc = 'WEIGHT_ASC',
-  WeightDesc = 'WEIGHT_DESC',
-  UnderweightMinAsc = 'UNDERWEIGHT_MIN_ASC',
-  UnderweightMinDesc = 'UNDERWEIGHT_MIN_DESC',
-  UnderweightMaxAsc = 'UNDERWEIGHT_MAX_ASC',
-  UnderweightMaxDesc = 'UNDERWEIGHT_MAX_DESC',
-  WeighedUnitsAsc = 'WEIGHED_UNITS_ASC',
-  WeighedUnitsDesc = 'WEIGHED_UNITS_DESC',
-  UnderweightUnitsAsc = 'UNDERWEIGHT_UNITS_ASC',
-  UnderweightUnitsDesc = 'UNDERWEIGHT_UNITS_DESC',
-  UnderweightPctAsc = 'UNDERWEIGHT_PCT_ASC',
-  UnderweightPctDesc = 'UNDERWEIGHT_PCT_DESC',
-  PulpTempAsc = 'PULP_TEMP_ASC',
-  PulpTempDesc = 'PULP_TEMP_DESC',
-  OpeningAsc = 'OPENING_ASC',
-  OpeningDesc = 'OPENING_DESC',
-  ColorAsc = 'COLOR_ASC',
-  ColorDesc = 'COLOR_DESC',
-  DiameterMinMmAsc = 'DIAMETER_MIN_MM_ASC',
-  DiameterMinMmDesc = 'DIAMETER_MIN_MM_DESC',
-  DiameterMinInchesAsc = 'DIAMETER_MIN_INCHES_ASC',
-  DiameterMinInchesDesc = 'DIAMETER_MIN_INCHES_DESC',
-  DiameterMaxMmAsc = 'DIAMETER_MAX_MM_ASC',
-  DiameterMaxMmDesc = 'DIAMETER_MAX_MM_DESC',
-  DiameterMaxInchesAsc = 'DIAMETER_MAX_INCHES_ASC',
-  DiameterMaxInchesDesc = 'DIAMETER_MAX_INCHES_DESC',
-  DiameterMostMmAsc = 'DIAMETER_MOST_MM_ASC',
-  DiameterMostMmDesc = 'DIAMETER_MOST_MM_DESC',
-  DiameterMostInchesAsc = 'DIAMETER_MOST_INCHES_ASC',
-  DiameterMostInchesDesc = 'DIAMETER_MOST_INCHES_DESC',
-  ScarsPiecesAsc = 'SCARS_PIECES_ASC',
-  ScarsPiecesDesc = 'SCARS_PIECES_DESC',
-  ScarsPctAsc = 'SCARS_PCT_ASC',
-  ScarsPctDesc = 'SCARS_PCT_DESC',
-  ScarsDegAsc = 'SCARS_DEG_ASC',
-  ScarsDegDesc = 'SCARS_DEG_DESC',
-  GreenHazePiecesAsc = 'GREEN_HAZE_PIECES_ASC',
-  GreenHazePiecesDesc = 'GREEN_HAZE_PIECES_DESC',
-  GreenHazePctAsc = 'GREEN_HAZE_PCT_ASC',
-  GreenHazePctDesc = 'GREEN_HAZE_PCT_DESC',
-  GreenHazeDegAsc = 'GREEN_HAZE_DEG_ASC',
-  GreenHazeDegDesc = 'GREEN_HAZE_DEG_DESC',
-  OilSpotsPiecesAsc = 'OIL_SPOTS_PIECES_ASC',
-  OilSpotsPiecesDesc = 'OIL_SPOTS_PIECES_DESC',
-  OilSpotsPctAsc = 'OIL_SPOTS_PCT_ASC',
-  OilSpotsPctDesc = 'OIL_SPOTS_PCT_DESC',
-  OilSpotsDegAsc = 'OIL_SPOTS_DEG_ASC',
-  OilSpotsDegDesc = 'OIL_SPOTS_DEG_DESC',
-  CutCountAsc = 'CUT_COUNT_ASC',
-  CutCountDesc = 'CUT_COUNT_DESC',
-  DryPulpPiecesAsc = 'DRY_PULP_PIECES_ASC',
-  DryPulpPiecesDesc = 'DRY_PULP_PIECES_DESC',
-  DryPulpPctAsc = 'DRY_PULP_PCT_ASC',
-  DryPulpPctDesc = 'DRY_PULP_PCT_DESC',
-  DryPulpDegAsc = 'DRY_PULP_DEG_ASC',
-  DryPulpDegDesc = 'DRY_PULP_DEG_DESC',
-  SkinDamagePiecesAsc = 'SKIN_DAMAGE_PIECES_ASC',
-  SkinDamagePiecesDesc = 'SKIN_DAMAGE_PIECES_DESC',
-  SkinDamagePctAsc = 'SKIN_DAMAGE_PCT_ASC',
-  SkinDamagePctDesc = 'SKIN_DAMAGE_PCT_DESC',
-  SkinDamageDegAsc = 'SKIN_DAMAGE_DEG_ASC',
-  SkinDamageDegDesc = 'SKIN_DAMAGE_DEG_DESC',
-  PetecaPiecesAsc = 'PETECA_PIECES_ASC',
-  PetecaPiecesDesc = 'PETECA_PIECES_DESC',
-  PetecaPctAsc = 'PETECA_PCT_ASC',
-  PetecaPctDesc = 'PETECA_PCT_DESC',
-  PetecaDegAsc = 'PETECA_DEG_ASC',
-  PetecaDegDesc = 'PETECA_DEG_DESC',
-  DecayPiecesAsc = 'DECAY_PIECES_ASC',
-  DecayPiecesDesc = 'DECAY_PIECES_DESC',
-  DecayPctAsc = 'DECAY_PCT_ASC',
-  DecayPctDesc = 'DECAY_PCT_DESC',
-  DecayDegAsc = 'DECAY_DEG_ASC',
-  DecayDegDesc = 'DECAY_DEG_DESC',
-  MoldPiecesAsc = 'MOLD_PIECES_ASC',
-  MoldPiecesDesc = 'MOLD_PIECES_DESC',
-  MoldPctAsc = 'MOLD_PCT_ASC',
-  MoldPctDesc = 'MOLD_PCT_DESC',
-  SporesPiecesAsc = 'SPORES_PIECES_ASC',
-  SporesPiecesDesc = 'SPORES_PIECES_DESC',
-  SporesPctAsc = 'SPORES_PCT_ASC',
-  SporesPctDesc = 'SPORES_PCT_DESC',
-  OverallQualityAsc = 'OVERALL_QUALITY_ASC',
-  OverallQualityDesc = 'OVERALL_QUALITY_DESC',
-  OverallConditionAsc = 'OVERALL_CONDITION_ASC',
-  OverallConditionDesc = 'OVERALL_CONDITION_DESC',
-  Comment1Asc = 'COMMENT1_ASC',
-  Comment1Desc = 'COMMENT1_DESC',
-  Comment2Asc = 'COMMENT2_ASC',
-  Comment2Desc = 'COMMENT2_DESC',
-  InspectionTypeAsc = 'INSPECTION_TYPE_ASC',
-  InspectionTypeDesc = 'INSPECTION_TYPE_DESC',
-  ShortInspAsc = 'SHORT_INSP_ASC',
-  ShortInspDesc = 'SHORT_INSP_DESC',
-  FixedWeightAsc = 'FIXED_WEIGHT_ASC',
-  FixedWeightDesc = 'FIXED_WEIGHT_DESC',
-  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
-}
-
 /**
  * A condition to be used against `PsaLemonPallet` object types. All fields are
  * tested for equality and combined with a logical ‘and.’
@@ -10406,195 +11077,6 @@ export type PsaLemonPalletCondition = {
   /** Checks for equality with the object’s `fixedWeight` field. */
   fixedWeight?: Maybe<Scalars['String']>;
 };
-
-/** Methods to use when ordering `PsaPearPallet`. */
-export enum PsaPearPalletsOrderBy {
-  Natural = 'NATURAL',
-  IdAsc = 'ID_ASC',
-  IdDesc = 'ID_DESC',
-  LocationAsc = 'LOCATION_ASC',
-  LocationDesc = 'LOCATION_DESC',
-  ArrivalAsc = 'ARRIVAL_ASC',
-  ArrivalDesc = 'ARRIVAL_DESC',
-  ImporterNameAsc = 'IMPORTER_NAME_ASC',
-  ImporterNameDesc = 'IMPORTER_NAME_DESC',
-  ExporterNameAsc = 'EXPORTER_NAME_ASC',
-  ExporterNameDesc = 'EXPORTER_NAME_DESC',
-  CommodityAsc = 'COMMODITY_ASC',
-  CommodityDesc = 'COMMODITY_DESC',
-  ProductCodeAsc = 'PRODUCT_CODE_ASC',
-  ProductCodeDesc = 'PRODUCT_CODE_DESC',
-  VarietyAsc = 'VARIETY_ASC',
-  VarietyDesc = 'VARIETY_DESC',
-  InspDateAsc = 'INSP_DATE_ASC',
-  InspDateDesc = 'INSP_DATE_DESC',
-  QuantityAsc = 'QUANTITY_ASC',
-  QuantityDesc = 'QUANTITY_DESC',
-  HatchAsc = 'HATCH_ASC',
-  HatchDesc = 'HATCH_DESC',
-  DeckAsc = 'DECK_ASC',
-  DeckDesc = 'DECK_DESC',
-  ContainerIdAsc = 'CONTAINER_ID_ASC',
-  ContainerIdDesc = 'CONTAINER_ID_DESC',
-  FumigationAsc = 'FUMIGATION_ASC',
-  FumigationDesc = 'FUMIGATION_DESC',
-  LabelCodeAsc = 'LABEL_CODE_ASC',
-  LabelCodeDesc = 'LABEL_CODE_DESC',
-  InspLocationAsc = 'INSP_LOCATION_ASC',
-  InspLocationDesc = 'INSP_LOCATION_DESC',
-  ImporterCodeAsc = 'IMPORTER_CODE_ASC',
-  ImporterCodeDesc = 'IMPORTER_CODE_DESC',
-  LotCodeAsc = 'LOT_CODE_ASC',
-  LotCodeDesc = 'LOT_CODE_DESC',
-  InspLotAsc = 'INSP_LOT_ASC',
-  InspLotDesc = 'INSP_LOT_DESC',
-  RunNumberAsc = 'RUN_NUMBER_ASC',
-  RunNumberDesc = 'RUN_NUMBER_DESC',
-  PalletIdAsc = 'PALLET_ID_ASC',
-  PalletIdDesc = 'PALLET_ID_DESC',
-  GrowerCodeAsc = 'GROWER_CODE_ASC',
-  GrowerCodeDesc = 'GROWER_CODE_DESC',
-  InspGrowerCodeAsc = 'INSP_GROWER_CODE_ASC',
-  InspGrowerCodeDesc = 'INSP_GROWER_CODE_DESC',
-  PackDateAsc = 'PACK_DATE_ASC',
-  PackDateDesc = 'PACK_DATE_DESC',
-  InspPackDateAsc = 'INSP_PACK_DATE_ASC',
-  InspPackDateDesc = 'INSP_PACK_DATE_DESC',
-  SizeAsc = 'SIZE_ASC',
-  SizeDesc = 'SIZE_DESC',
-  InspSizeAsc = 'INSP_SIZE_ASC',
-  InspSizeDesc = 'INSP_SIZE_DESC',
-  PackCodeAsc = 'PACK_CODE_ASC',
-  PackCodeDesc = 'PACK_CODE_DESC',
-  PackDescriptionAsc = 'PACK_DESCRIPTION_ASC',
-  PackDescriptionDesc = 'PACK_DESCRIPTION_DESC',
-  SecondaryDescriptionAsc = 'SECONDARY_DESCRIPTION_ASC',
-  SecondaryDescriptionDesc = 'SECONDARY_DESCRIPTION_DESC',
-  InspPackCodeAsc = 'INSP_PACK_CODE_ASC',
-  InspPackCodeDesc = 'INSP_PACK_CODE_DESC',
-  GradeAsc = 'GRADE_ASC',
-  GradeDesc = 'GRADE_DESC',
-  InspGradeAsc = 'INSP_GRADE_ASC',
-  InspGradeDesc = 'INSP_GRADE_DESC',
-  CountAsc = 'COUNT_ASC',
-  CountDesc = 'COUNT_DESC',
-  PluAsc = 'PLU_ASC',
-  PluDesc = 'PLU_DESC',
-  PluPctAsc = 'PLU_PCT_ASC',
-  PluPctDesc = 'PLU_PCT_DESC',
-  CountryOfOriginAsc = 'COUNTRY_OF_ORIGIN_ASC',
-  CountryOfOriginDesc = 'COUNTRY_OF_ORIGIN_DESC',
-  UpcAsc = 'UPC_ASC',
-  UpcDesc = 'UPC_DESC',
-  WeightAsc = 'WEIGHT_ASC',
-  WeightDesc = 'WEIGHT_DESC',
-  UnderweightMinAsc = 'UNDERWEIGHT_MIN_ASC',
-  UnderweightMinDesc = 'UNDERWEIGHT_MIN_DESC',
-  UnderweightMaxAsc = 'UNDERWEIGHT_MAX_ASC',
-  UnderweightMaxDesc = 'UNDERWEIGHT_MAX_DESC',
-  WeighedUnitsAsc = 'WEIGHED_UNITS_ASC',
-  WeighedUnitsDesc = 'WEIGHED_UNITS_DESC',
-  UnderweightUnitsAsc = 'UNDERWEIGHT_UNITS_ASC',
-  UnderweightUnitsDesc = 'UNDERWEIGHT_UNITS_DESC',
-  UnderweightPctAsc = 'UNDERWEIGHT_PCT_ASC',
-  UnderweightPctDesc = 'UNDERWEIGHT_PCT_DESC',
-  PulpTempAsc = 'PULP_TEMP_ASC',
-  PulpTempDesc = 'PULP_TEMP_DESC',
-  OpeningAsc = 'OPENING_ASC',
-  OpeningDesc = 'OPENING_DESC',
-  GroundColorAsc = 'GROUND_COLOR_ASC',
-  GroundColorDesc = 'GROUND_COLOR_DESC',
-  BlushColorAsc = 'BLUSH_COLOR_ASC',
-  BlushColorDesc = 'BLUSH_COLOR_DESC',
-  BlushPctAsc = 'BLUSH_PCT_ASC',
-  BlushPctDesc = 'BLUSH_PCT_DESC',
-  ScarsRussetPiecesAsc = 'SCARS_RUSSET_PIECES_ASC',
-  ScarsRussetPiecesDesc = 'SCARS_RUSSET_PIECES_DESC',
-  ScarsRussetPctAsc = 'SCARS_RUSSET_PCT_ASC',
-  ScarsRussetPctDesc = 'SCARS_RUSSET_PCT_DESC',
-  ScarsRussetDegAsc = 'SCARS_RUSSET_DEG_ASC',
-  ScarsRussetDegDesc = 'SCARS_RUSSET_DEG_DESC',
-  RussetPerPiecePctAsc = 'RUSSET_PER_PIECE_PCT_ASC',
-  RussetPerPiecePctDesc = 'RUSSET_PER_PIECE_PCT_DESC',
-  StemPuncturesPiecesAsc = 'STEM_PUNCTURES_PIECES_ASC',
-  StemPuncturesPiecesDesc = 'STEM_PUNCTURES_PIECES_DESC',
-  StemPuncturesPctAsc = 'STEM_PUNCTURES_PCT_ASC',
-  StemPuncturesPctDesc = 'STEM_PUNCTURES_PCT_DESC',
-  CutsPiecesAsc = 'CUTS_PIECES_ASC',
-  CutsPiecesDesc = 'CUTS_PIECES_DESC',
-  CutsPctAsc = 'CUTS_PCT_ASC',
-  CutsPctDesc = 'CUTS_PCT_DESC',
-  CutsDegAsc = 'CUTS_DEG_ASC',
-  CutsDegDesc = 'CUTS_DEG_DESC',
-  TurningColorPiecesAsc = 'TURNING_COLOR_PIECES_ASC',
-  TurningColorPiecesDesc = 'TURNING_COLOR_PIECES_DESC',
-  TurningColorPctAsc = 'TURNING_COLOR_PCT_ASC',
-  TurningColorPctDesc = 'TURNING_COLOR_PCT_DESC',
-  TurningColorDegAsc = 'TURNING_COLOR_DEG_ASC',
-  TurningColorDegDesc = 'TURNING_COLOR_DEG_DESC',
-  DehydrationPiecesAsc = 'DEHYDRATION_PIECES_ASC',
-  DehydrationPiecesDesc = 'DEHYDRATION_PIECES_DESC',
-  DehydrationPctAsc = 'DEHYDRATION_PCT_ASC',
-  DehydrationPctDesc = 'DEHYDRATION_PCT_DESC',
-  DehydrationDegAsc = 'DEHYDRATION_DEG_ASC',
-  DehydrationDegDesc = 'DEHYDRATION_DEG_DESC',
-  BruisingPiecesAsc = 'BRUISING_PIECES_ASC',
-  BruisingPiecesDesc = 'BRUISING_PIECES_DESC',
-  BruisingPctAsc = 'BRUISING_PCT_ASC',
-  BruisingPctDesc = 'BRUISING_PCT_DESC',
-  BruisingDegAsc = 'BRUISING_DEG_ASC',
-  BruisingDegDesc = 'BRUISING_DEG_DESC',
-  CutCountAsc = 'CUT_COUNT_ASC',
-  CutCountDesc = 'CUT_COUNT_DESC',
-  InternalDamagePiecesAsc = 'INTERNAL_DAMAGE_PIECES_ASC',
-  InternalDamagePiecesDesc = 'INTERNAL_DAMAGE_PIECES_DESC',
-  InternalDamagePerAsc = 'INTERNAL_DAMAGE_PER_ASC',
-  InternalDamagePerDesc = 'INTERNAL_DAMAGE_PER_DESC',
-  DecayPiecesAsc = 'DECAY_PIECES_ASC',
-  DecayPiecesDesc = 'DECAY_PIECES_DESC',
-  DecayPctAsc = 'DECAY_PCT_ASC',
-  DecayPctDesc = 'DECAY_PCT_DESC',
-  DecayDegAsc = 'DECAY_DEG_ASC',
-  DecayDegDesc = 'DECAY_DEG_DESC',
-  MoldPiecesAsc = 'MOLD_PIECES_ASC',
-  MoldPiecesDesc = 'MOLD_PIECES_DESC',
-  MoldPctAsc = 'MOLD_PCT_ASC',
-  MoldPctDesc = 'MOLD_PCT_DESC',
-  Pressure1Asc = 'PRESSURE1_ASC',
-  Pressure1Desc = 'PRESSURE1_DESC',
-  Pressure2Asc = 'PRESSURE2_ASC',
-  Pressure2Desc = 'PRESSURE2_DESC',
-  Pressure3Asc = 'PRESSURE3_ASC',
-  Pressure3Desc = 'PRESSURE3_DESC',
-  Pressure4Asc = 'PRESSURE4_ASC',
-  Pressure4Desc = 'PRESSURE4_DESC',
-  Pressure5Asc = 'PRESSURE5_ASC',
-  Pressure5Desc = 'PRESSURE5_DESC',
-  Pressure6Asc = 'PRESSURE6_ASC',
-  Pressure6Desc = 'PRESSURE6_DESC',
-  PressuresMinAsc = 'PRESSURES_MIN_ASC',
-  PressuresMinDesc = 'PRESSURES_MIN_DESC',
-  PressuresMaxAsc = 'PRESSURES_MAX_ASC',
-  PressuresMaxDesc = 'PRESSURES_MAX_DESC',
-  PressuresAvgAsc = 'PRESSURES_AVG_ASC',
-  PressuresAvgDesc = 'PRESSURES_AVG_DESC',
-  OverallQualityAsc = 'OVERALL_QUALITY_ASC',
-  OverallQualityDesc = 'OVERALL_QUALITY_DESC',
-  OverallConditionAsc = 'OVERALL_CONDITION_ASC',
-  OverallConditionDesc = 'OVERALL_CONDITION_DESC',
-  Comment1Asc = 'COMMENT1_ASC',
-  Comment1Desc = 'COMMENT1_DESC',
-  Comment2Asc = 'COMMENT2_ASC',
-  Comment2Desc = 'COMMENT2_DESC',
-  InspectionTypeAsc = 'INSPECTION_TYPE_ASC',
-  InspectionTypeDesc = 'INSPECTION_TYPE_DESC',
-  ShortInspAsc = 'SHORT_INSP_ASC',
-  ShortInspDesc = 'SHORT_INSP_DESC',
-  FixedWeightAsc = 'FIXED_WEIGHT_ASC',
-  FixedWeightDesc = 'FIXED_WEIGHT_DESC',
-  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
-}
 
 /**
  * A condition to be used against `PsaPearPallet` object types. All fields are
@@ -10785,187 +11267,6 @@ export type PsaPearPalletCondition = {
   fixedWeight?: Maybe<Scalars['String']>;
 };
 
-/** Methods to use when ordering `PsaPersimmonPallet`. */
-export enum PsaPersimmonPalletsOrderBy {
-  Natural = 'NATURAL',
-  IdAsc = 'ID_ASC',
-  IdDesc = 'ID_DESC',
-  LocationAsc = 'LOCATION_ASC',
-  LocationDesc = 'LOCATION_DESC',
-  ArrivalAsc = 'ARRIVAL_ASC',
-  ArrivalDesc = 'ARRIVAL_DESC',
-  ImporterNameAsc = 'IMPORTER_NAME_ASC',
-  ImporterNameDesc = 'IMPORTER_NAME_DESC',
-  ExporterNameAsc = 'EXPORTER_NAME_ASC',
-  ExporterNameDesc = 'EXPORTER_NAME_DESC',
-  CommodityAsc = 'COMMODITY_ASC',
-  CommodityDesc = 'COMMODITY_DESC',
-  ProductCodeAsc = 'PRODUCT_CODE_ASC',
-  ProductCodeDesc = 'PRODUCT_CODE_DESC',
-  VarietyAsc = 'VARIETY_ASC',
-  VarietyDesc = 'VARIETY_DESC',
-  InspDateAsc = 'INSP_DATE_ASC',
-  InspDateDesc = 'INSP_DATE_DESC',
-  QuantityAsc = 'QUANTITY_ASC',
-  QuantityDesc = 'QUANTITY_DESC',
-  HatchAsc = 'HATCH_ASC',
-  HatchDesc = 'HATCH_DESC',
-  DeckAsc = 'DECK_ASC',
-  DeckDesc = 'DECK_DESC',
-  ContainerIdAsc = 'CONTAINER_ID_ASC',
-  ContainerIdDesc = 'CONTAINER_ID_DESC',
-  FumigationAsc = 'FUMIGATION_ASC',
-  FumigationDesc = 'FUMIGATION_DESC',
-  LabelCodeAsc = 'LABEL_CODE_ASC',
-  LabelCodeDesc = 'LABEL_CODE_DESC',
-  InspLocationAsc = 'INSP_LOCATION_ASC',
-  InspLocationDesc = 'INSP_LOCATION_DESC',
-  ImporterCodeAsc = 'IMPORTER_CODE_ASC',
-  ImporterCodeDesc = 'IMPORTER_CODE_DESC',
-  LotCodeAsc = 'LOT_CODE_ASC',
-  LotCodeDesc = 'LOT_CODE_DESC',
-  InspLotAsc = 'INSP_LOT_ASC',
-  InspLotDesc = 'INSP_LOT_DESC',
-  PalletIdAsc = 'PALLET_ID_ASC',
-  PalletIdDesc = 'PALLET_ID_DESC',
-  GrowerCodeAsc = 'GROWER_CODE_ASC',
-  GrowerCodeDesc = 'GROWER_CODE_DESC',
-  InspGrowerCodeAsc = 'INSP_GROWER_CODE_ASC',
-  InspGrowerCodeDesc = 'INSP_GROWER_CODE_DESC',
-  PackDateAsc = 'PACK_DATE_ASC',
-  PackDateDesc = 'PACK_DATE_DESC',
-  InspPackDateAsc = 'INSP_PACK_DATE_ASC',
-  InspPackDateDesc = 'INSP_PACK_DATE_DESC',
-  SizeAsc = 'SIZE_ASC',
-  SizeDesc = 'SIZE_DESC',
-  InspSizeAsc = 'INSP_SIZE_ASC',
-  InspSizeDesc = 'INSP_SIZE_DESC',
-  PackCodeAsc = 'PACK_CODE_ASC',
-  PackCodeDesc = 'PACK_CODE_DESC',
-  PackDescriptionAsc = 'PACK_DESCRIPTION_ASC',
-  PackDescriptionDesc = 'PACK_DESCRIPTION_DESC',
-  SecondaryDescriptionAsc = 'SECONDARY_DESCRIPTION_ASC',
-  SecondaryDescriptionDesc = 'SECONDARY_DESCRIPTION_DESC',
-  InspPackCodeAsc = 'INSP_PACK_CODE_ASC',
-  InspPackCodeDesc = 'INSP_PACK_CODE_DESC',
-  CountAsc = 'COUNT_ASC',
-  CountDesc = 'COUNT_DESC',
-  PluAsc = 'PLU_ASC',
-  PluDesc = 'PLU_DESC',
-  PluPctAsc = 'PLU_PCT_ASC',
-  PluPctDesc = 'PLU_PCT_DESC',
-  CountryOfOriginAsc = 'COUNTRY_OF_ORIGIN_ASC',
-  CountryOfOriginDesc = 'COUNTRY_OF_ORIGIN_DESC',
-  UpcAsc = 'UPC_ASC',
-  UpcDesc = 'UPC_DESC',
-  WeightAsc = 'WEIGHT_ASC',
-  WeightDesc = 'WEIGHT_DESC',
-  UnderweightMinAsc = 'UNDERWEIGHT_MIN_ASC',
-  UnderweightMinDesc = 'UNDERWEIGHT_MIN_DESC',
-  UnderweightMaxAsc = 'UNDERWEIGHT_MAX_ASC',
-  UnderweightMaxDesc = 'UNDERWEIGHT_MAX_DESC',
-  WeighedUnitsAsc = 'WEIGHED_UNITS_ASC',
-  WeighedUnitsDesc = 'WEIGHED_UNITS_DESC',
-  UnderweightUnitsAsc = 'UNDERWEIGHT_UNITS_ASC',
-  UnderweightUnitsDesc = 'UNDERWEIGHT_UNITS_DESC',
-  UnderweightPctAsc = 'UNDERWEIGHT_PCT_ASC',
-  UnderweightPctDesc = 'UNDERWEIGHT_PCT_DESC',
-  PulpTempAsc = 'PULP_TEMP_ASC',
-  PulpTempDesc = 'PULP_TEMP_DESC',
-  OpeningAsc = 'OPENING_ASC',
-  OpeningDesc = 'OPENING_DESC',
-  ColorAsc = 'COLOR_ASC',
-  ColorDesc = 'COLOR_DESC',
-  ScarsMarksPiecesAsc = 'SCARS_MARKS_PIECES_ASC',
-  ScarsMarksPiecesDesc = 'SCARS_MARKS_PIECES_DESC',
-  ScarsMarksPctAsc = 'SCARS_MARKS_PCT_ASC',
-  ScarsMarksPctDesc = 'SCARS_MARKS_PCT_DESC',
-  ScarsMarksDegAsc = 'SCARS_MARKS_DEG_ASC',
-  ScarsMarksDegDesc = 'SCARS_MARKS_DEG_DESC',
-  GreenColorPiecesAsc = 'GREEN_COLOR_PIECES_ASC',
-  GreenColorPiecesDesc = 'GREEN_COLOR_PIECES_DESC',
-  GreenColorAsc = 'GREEN_COLOR_ASC',
-  GreenColorDesc = 'GREEN_COLOR_DESC',
-  GreenColorDegAsc = 'GREEN_COLOR_DEG_ASC',
-  GreenColorDegDesc = 'GREEN_COLOR_DEG_DESC',
-  CutsSplitsPiecesAsc = 'CUTS_SPLITS_PIECES_ASC',
-  CutsSplitsPiecesDesc = 'CUTS_SPLITS_PIECES_DESC',
-  CutsSplitsPctAsc = 'CUTS_SPLITS_PCT_ASC',
-  CutsSplitsPctDesc = 'CUTS_SPLITS_PCT_DESC',
-  CutsSplitsDegAsc = 'CUTS_SPLITS_DEG_ASC',
-  CutsSplitsDegDesc = 'CUTS_SPLITS_DEG_DESC',
-  BruisingPiecesAsc = 'BRUISING_PIECES_ASC',
-  BruisingPiecesDesc = 'BRUISING_PIECES_DESC',
-  BruisingPctAsc = 'BRUISING_PCT_ASC',
-  BruisingPctDesc = 'BRUISING_PCT_DESC',
-  BruisingDegAsc = 'BRUISING_DEG_ASC',
-  BruisingDegDesc = 'BRUISING_DEG_DESC',
-  DehydrationPiecesAsc = 'DEHYDRATION_PIECES_ASC',
-  DehydrationPiecesDesc = 'DEHYDRATION_PIECES_DESC',
-  DehydrationPctAsc = 'DEHYDRATION_PCT_ASC',
-  DehydrationPctDesc = 'DEHYDRATION_PCT_DESC',
-  DehydrationDegAsc = 'DEHYDRATION_DEG_ASC',
-  DehydrationDegDesc = 'DEHYDRATION_DEG_DESC',
-  CutCountAsc = 'CUT_COUNT_ASC',
-  CutCountDesc = 'CUT_COUNT_DESC',
-  SeedsPiecesAsc = 'SEEDS_PIECES_ASC',
-  SeedsPiecesDesc = 'SEEDS_PIECES_DESC',
-  SeedsPctAsc = 'SEEDS_PCT_ASC',
-  SeedsPctDesc = 'SEEDS_PCT_DESC',
-  InternalDamagePiecesAsc = 'INTERNAL_DAMAGE_PIECES_ASC',
-  InternalDamagePiecesDesc = 'INTERNAL_DAMAGE_PIECES_DESC',
-  InternalDamagePerAsc = 'INTERNAL_DAMAGE_PER_ASC',
-  InternalDamagePerDesc = 'INTERNAL_DAMAGE_PER_DESC',
-  InternalDamageDegAsc = 'INTERNAL_DAMAGE_DEG_ASC',
-  InternalDamageDegDesc = 'INTERNAL_DAMAGE_DEG_DESC',
-  DecayPiecesAsc = 'DECAY_PIECES_ASC',
-  DecayPiecesDesc = 'DECAY_PIECES_DESC',
-  DecayPctAsc = 'DECAY_PCT_ASC',
-  DecayPctDesc = 'DECAY_PCT_DESC',
-  DecayDegAsc = 'DECAY_DEG_ASC',
-  DecayDegDesc = 'DECAY_DEG_DESC',
-  MoldPiecesAsc = 'MOLD_PIECES_ASC',
-  MoldPiecesDesc = 'MOLD_PIECES_DESC',
-  MoldPctAsc = 'MOLD_PCT_ASC',
-  MoldPctDesc = 'MOLD_PCT_DESC',
-  BrixAsc = 'BRIX_ASC',
-  BrixDesc = 'BRIX_DESC',
-  Pressure1Asc = 'PRESSURE1_ASC',
-  Pressure1Desc = 'PRESSURE1_DESC',
-  Pressure2Asc = 'PRESSURE2_ASC',
-  Pressure2Desc = 'PRESSURE2_DESC',
-  Pressure3Asc = 'PRESSURE3_ASC',
-  Pressure3Desc = 'PRESSURE3_DESC',
-  Pressure4Asc = 'PRESSURE4_ASC',
-  Pressure4Desc = 'PRESSURE4_DESC',
-  Pressure5Asc = 'PRESSURE5_ASC',
-  Pressure5Desc = 'PRESSURE5_DESC',
-  Pressure6Asc = 'PRESSURE6_ASC',
-  Pressure6Desc = 'PRESSURE6_DESC',
-  PressuresMinAsc = 'PRESSURES_MIN_ASC',
-  PressuresMinDesc = 'PRESSURES_MIN_DESC',
-  PressuresMaxAsc = 'PRESSURES_MAX_ASC',
-  PressuresMaxDesc = 'PRESSURES_MAX_DESC',
-  PressuresAvgAsc = 'PRESSURES_AVG_ASC',
-  PressuresAvgDesc = 'PRESSURES_AVG_DESC',
-  OverallQualityAsc = 'OVERALL_QUALITY_ASC',
-  OverallQualityDesc = 'OVERALL_QUALITY_DESC',
-  OverallConditionAsc = 'OVERALL_CONDITION_ASC',
-  OverallConditionDesc = 'OVERALL_CONDITION_DESC',
-  Comment1Asc = 'COMMENT1_ASC',
-  Comment1Desc = 'COMMENT1_DESC',
-  Comment2Asc = 'COMMENT2_ASC',
-  Comment2Desc = 'COMMENT2_DESC',
-  InspectionTypeAsc = 'INSPECTION_TYPE_ASC',
-  InspectionTypeDesc = 'INSPECTION_TYPE_DESC',
-  ShortInspAsc = 'SHORT_INSP_ASC',
-  ShortInspDesc = 'SHORT_INSP_DESC',
-  FixedWeightAsc = 'FIXED_WEIGHT_ASC',
-  FixedWeightDesc = 'FIXED_WEIGHT_DESC',
-  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
-}
-
 /**
  * A condition to be used against `PsaPersimmonPallet` object types. All fields are
  * tested for equality and combined with a logical ‘and.’
@@ -11147,175 +11448,6 @@ export type PsaPersimmonPalletCondition = {
   fixedWeight?: Maybe<Scalars['String']>;
 };
 
-/** Methods to use when ordering `PsaPomegranatePallet`. */
-export enum PsaPomegranatePalletsOrderBy {
-  Natural = 'NATURAL',
-  IdAsc = 'ID_ASC',
-  IdDesc = 'ID_DESC',
-  LocationAsc = 'LOCATION_ASC',
-  LocationDesc = 'LOCATION_DESC',
-  ArrivalAsc = 'ARRIVAL_ASC',
-  ArrivalDesc = 'ARRIVAL_DESC',
-  ImporterNameAsc = 'IMPORTER_NAME_ASC',
-  ImporterNameDesc = 'IMPORTER_NAME_DESC',
-  ExporterNameAsc = 'EXPORTER_NAME_ASC',
-  ExporterNameDesc = 'EXPORTER_NAME_DESC',
-  CommodityAsc = 'COMMODITY_ASC',
-  CommodityDesc = 'COMMODITY_DESC',
-  ProductCodeAsc = 'PRODUCT_CODE_ASC',
-  ProductCodeDesc = 'PRODUCT_CODE_DESC',
-  VarietyAsc = 'VARIETY_ASC',
-  VarietyDesc = 'VARIETY_DESC',
-  InspDateAsc = 'INSP_DATE_ASC',
-  InspDateDesc = 'INSP_DATE_DESC',
-  QuantityAsc = 'QUANTITY_ASC',
-  QuantityDesc = 'QUANTITY_DESC',
-  HatchAsc = 'HATCH_ASC',
-  HatchDesc = 'HATCH_DESC',
-  DeckAsc = 'DECK_ASC',
-  DeckDesc = 'DECK_DESC',
-  ContainerIdAsc = 'CONTAINER_ID_ASC',
-  ContainerIdDesc = 'CONTAINER_ID_DESC',
-  FumigationAsc = 'FUMIGATION_ASC',
-  FumigationDesc = 'FUMIGATION_DESC',
-  LabelCodeAsc = 'LABEL_CODE_ASC',
-  LabelCodeDesc = 'LABEL_CODE_DESC',
-  InspLocationAsc = 'INSP_LOCATION_ASC',
-  InspLocationDesc = 'INSP_LOCATION_DESC',
-  ImporterCodeAsc = 'IMPORTER_CODE_ASC',
-  ImporterCodeDesc = 'IMPORTER_CODE_DESC',
-  LotCodeAsc = 'LOT_CODE_ASC',
-  LotCodeDesc = 'LOT_CODE_DESC',
-  InspLotAsc = 'INSP_LOT_ASC',
-  InspLotDesc = 'INSP_LOT_DESC',
-  PalletIdAsc = 'PALLET_ID_ASC',
-  PalletIdDesc = 'PALLET_ID_DESC',
-  GrowerCodeAsc = 'GROWER_CODE_ASC',
-  GrowerCodeDesc = 'GROWER_CODE_DESC',
-  InspGrowerCodeAsc = 'INSP_GROWER_CODE_ASC',
-  InspGrowerCodeDesc = 'INSP_GROWER_CODE_DESC',
-  PackDateAsc = 'PACK_DATE_ASC',
-  PackDateDesc = 'PACK_DATE_DESC',
-  InspPackDateAsc = 'INSP_PACK_DATE_ASC',
-  InspPackDateDesc = 'INSP_PACK_DATE_DESC',
-  SizeAsc = 'SIZE_ASC',
-  SizeDesc = 'SIZE_DESC',
-  InspSizeAsc = 'INSP_SIZE_ASC',
-  InspSizeDesc = 'INSP_SIZE_DESC',
-  PackCodeAsc = 'PACK_CODE_ASC',
-  PackCodeDesc = 'PACK_CODE_DESC',
-  PackDescriptionAsc = 'PACK_DESCRIPTION_ASC',
-  PackDescriptionDesc = 'PACK_DESCRIPTION_DESC',
-  SecondaryDescriptionAsc = 'SECONDARY_DESCRIPTION_ASC',
-  SecondaryDescriptionDesc = 'SECONDARY_DESCRIPTION_DESC',
-  InspPackCodeAsc = 'INSP_PACK_CODE_ASC',
-  InspPackCodeDesc = 'INSP_PACK_CODE_DESC',
-  GradeAsc = 'GRADE_ASC',
-  GradeDesc = 'GRADE_DESC',
-  InspGradeAsc = 'INSP_GRADE_ASC',
-  InspGradeDesc = 'INSP_GRADE_DESC',
-  CountAsc = 'COUNT_ASC',
-  CountDesc = 'COUNT_DESC',
-  PluAsc = 'PLU_ASC',
-  PluDesc = 'PLU_DESC',
-  PluPctAsc = 'PLU_PCT_ASC',
-  PluPctDesc = 'PLU_PCT_DESC',
-  CountryOfOriginAsc = 'COUNTRY_OF_ORIGIN_ASC',
-  CountryOfOriginDesc = 'COUNTRY_OF_ORIGIN_DESC',
-  UpcAsc = 'UPC_ASC',
-  UpcDesc = 'UPC_DESC',
-  WeightAsc = 'WEIGHT_ASC',
-  WeightDesc = 'WEIGHT_DESC',
-  UnderweightMinAsc = 'UNDERWEIGHT_MIN_ASC',
-  UnderweightMinDesc = 'UNDERWEIGHT_MIN_DESC',
-  UnderweightMaxAsc = 'UNDERWEIGHT_MAX_ASC',
-  UnderweightMaxDesc = 'UNDERWEIGHT_MAX_DESC',
-  WeighedUnitsAsc = 'WEIGHED_UNITS_ASC',
-  WeighedUnitsDesc = 'WEIGHED_UNITS_DESC',
-  UnderweightUnitsAsc = 'UNDERWEIGHT_UNITS_ASC',
-  UnderweightUnitsDesc = 'UNDERWEIGHT_UNITS_DESC',
-  UnderweightPctAsc = 'UNDERWEIGHT_PCT_ASC',
-  UnderweightPctDesc = 'UNDERWEIGHT_PCT_DESC',
-  PulpTempAsc = 'PULP_TEMP_ASC',
-  PulpTempDesc = 'PULP_TEMP_DESC',
-  OpeningAsc = 'OPENING_ASC',
-  OpeningDesc = 'OPENING_DESC',
-  BlushColorAsc = 'BLUSH_COLOR_ASC',
-  BlushColorDesc = 'BLUSH_COLOR_DESC',
-  BlushPctAsc = 'BLUSH_PCT_ASC',
-  BlushPctDesc = 'BLUSH_PCT_DESC',
-  ArilsColorAsc = 'ARILS_COLOR_ASC',
-  ArilsColorDesc = 'ARILS_COLOR_DESC',
-  ScarsRussetPiecesAsc = 'SCARS_RUSSET_PIECES_ASC',
-  ScarsRussetPiecesDesc = 'SCARS_RUSSET_PIECES_DESC',
-  ScarsRussetPctAsc = 'SCARS_RUSSET_PCT_ASC',
-  ScarsRussetPctDesc = 'SCARS_RUSSET_PCT_DESC',
-  ScarsRussetDegAsc = 'SCARS_RUSSET_DEG_ASC',
-  ScarsRussetDegDesc = 'SCARS_RUSSET_DEG_DESC',
-  CutsPiecesAsc = 'CUTS_PIECES_ASC',
-  CutsPiecesDesc = 'CUTS_PIECES_DESC',
-  CutsPctAsc = 'CUTS_PCT_ASC',
-  CutsPctDesc = 'CUTS_PCT_DESC',
-  CutsDegAsc = 'CUTS_DEG_ASC',
-  CutsDegDesc = 'CUTS_DEG_DESC',
-  SunScaldPiecesAsc = 'SUN_SCALD_PIECES_ASC',
-  SunScaldPiecesDesc = 'SUN_SCALD_PIECES_DESC',
-  SunScaldPctAsc = 'SUN_SCALD_PCT_ASC',
-  SunScaldPctDesc = 'SUN_SCALD_PCT_DESC',
-  SunScaldDegAsc = 'SUN_SCALD_DEG_ASC',
-  SunScaldDegDesc = 'SUN_SCALD_DEG_DESC',
-  ScaldPiecesAsc = 'SCALD_PIECES_ASC',
-  ScaldPiecesDesc = 'SCALD_PIECES_DESC',
-  ScaldPctAsc = 'SCALD_PCT_ASC',
-  ScaldPctDesc = 'SCALD_PCT_DESC',
-  ScaldDegAsc = 'SCALD_DEG_ASC',
-  ScaldDegDesc = 'SCALD_DEG_DESC',
-  BruisingPiecesAsc = 'BRUISING_PIECES_ASC',
-  BruisingPiecesDesc = 'BRUISING_PIECES_DESC',
-  BruisingPctAsc = 'BRUISING_PCT_ASC',
-  BruisingPctDesc = 'BRUISING_PCT_DESC',
-  BruisingDegAsc = 'BRUISING_DEG_ASC',
-  BruisingDegDesc = 'BRUISING_DEG_DESC',
-  DehydrationPiecesAsc = 'DEHYDRATION_PIECES_ASC',
-  DehydrationPiecesDesc = 'DEHYDRATION_PIECES_DESC',
-  DehydrationPctAsc = 'DEHYDRATION_PCT_ASC',
-  DehydrationPctDesc = 'DEHYDRATION_PCT_DESC',
-  DehydrationDegAsc = 'DEHYDRATION_DEG_ASC',
-  DehydrationDegDesc = 'DEHYDRATION_DEG_DESC',
-  DecayPiecesAsc = 'DECAY_PIECES_ASC',
-  DecayPiecesDesc = 'DECAY_PIECES_DESC',
-  DecayPctAsc = 'DECAY_PCT_ASC',
-  DecayPctDesc = 'DECAY_PCT_DESC',
-  DecayDegAsc = 'DECAY_DEG_ASC',
-  DecayDegDesc = 'DECAY_DEG_DESC',
-  MoldPiecesAsc = 'MOLD_PIECES_ASC',
-  MoldPiecesDesc = 'MOLD_PIECES_DESC',
-  MoldPctAsc = 'MOLD_PCT_ASC',
-  MoldPctDesc = 'MOLD_PCT_DESC',
-  BrixMinAsc = 'BRIX_MIN_ASC',
-  BrixMinDesc = 'BRIX_MIN_DESC',
-  BrixMaxAsc = 'BRIX_MAX_ASC',
-  BrixMaxDesc = 'BRIX_MAX_DESC',
-  BrixMostAsc = 'BRIX_MOST_ASC',
-  BrixMostDesc = 'BRIX_MOST_DESC',
-  OverallQualityAsc = 'OVERALL_QUALITY_ASC',
-  OverallQualityDesc = 'OVERALL_QUALITY_DESC',
-  OverallConditionAsc = 'OVERALL_CONDITION_ASC',
-  OverallConditionDesc = 'OVERALL_CONDITION_DESC',
-  Comment1Asc = 'COMMENT1_ASC',
-  Comment1Desc = 'COMMENT1_DESC',
-  Comment2Asc = 'COMMENT2_ASC',
-  Comment2Desc = 'COMMENT2_DESC',
-  InspectionTypeAsc = 'INSPECTION_TYPE_ASC',
-  InspectionTypeDesc = 'INSPECTION_TYPE_DESC',
-  ShortInspAsc = 'SHORT_INSP_ASC',
-  ShortInspDesc = 'SHORT_INSP_DESC',
-  FixedWeightAsc = 'FIXED_WEIGHT_ASC',
-  FixedWeightDesc = 'FIXED_WEIGHT_DESC',
-  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
-}
-
 /**
  * A condition to be used against `PsaPomegranatePallet` object types. All fields
  * are tested for equality and combined with a logical ‘and.’
@@ -11484,193 +11616,6 @@ export type PsaPomegranatePalletCondition = {
   /** Checks for equality with the object’s `fixedWeight` field. */
   fixedWeight?: Maybe<Scalars['String']>;
 };
-
-/** Methods to use when ordering `PsaStoneFruitPallet`. */
-export enum PsaStoneFruitPalletsOrderBy {
-  Natural = 'NATURAL',
-  IdAsc = 'ID_ASC',
-  IdDesc = 'ID_DESC',
-  LocationAsc = 'LOCATION_ASC',
-  LocationDesc = 'LOCATION_DESC',
-  ArrivalAsc = 'ARRIVAL_ASC',
-  ArrivalDesc = 'ARRIVAL_DESC',
-  ImporterNameAsc = 'IMPORTER_NAME_ASC',
-  ImporterNameDesc = 'IMPORTER_NAME_DESC',
-  ExporterNameAsc = 'EXPORTER_NAME_ASC',
-  ExporterNameDesc = 'EXPORTER_NAME_DESC',
-  CommodityAsc = 'COMMODITY_ASC',
-  CommodityDesc = 'COMMODITY_DESC',
-  ProductCodeAsc = 'PRODUCT_CODE_ASC',
-  ProductCodeDesc = 'PRODUCT_CODE_DESC',
-  VarietyAsc = 'VARIETY_ASC',
-  VarietyDesc = 'VARIETY_DESC',
-  InspDateAsc = 'INSP_DATE_ASC',
-  InspDateDesc = 'INSP_DATE_DESC',
-  QuantityAsc = 'QUANTITY_ASC',
-  QuantityDesc = 'QUANTITY_DESC',
-  HatchAsc = 'HATCH_ASC',
-  HatchDesc = 'HATCH_DESC',
-  DeckAsc = 'DECK_ASC',
-  DeckDesc = 'DECK_DESC',
-  ContainerIdAsc = 'CONTAINER_ID_ASC',
-  ContainerIdDesc = 'CONTAINER_ID_DESC',
-  FumigationAsc = 'FUMIGATION_ASC',
-  FumigationDesc = 'FUMIGATION_DESC',
-  LabelCodeAsc = 'LABEL_CODE_ASC',
-  LabelCodeDesc = 'LABEL_CODE_DESC',
-  InspLocationAsc = 'INSP_LOCATION_ASC',
-  InspLocationDesc = 'INSP_LOCATION_DESC',
-  ImporterCodeAsc = 'IMPORTER_CODE_ASC',
-  ImporterCodeDesc = 'IMPORTER_CODE_DESC',
-  LotCodeAsc = 'LOT_CODE_ASC',
-  LotCodeDesc = 'LOT_CODE_DESC',
-  InspLotAsc = 'INSP_LOT_ASC',
-  InspLotDesc = 'INSP_LOT_DESC',
-  PalletIdAsc = 'PALLET_ID_ASC',
-  PalletIdDesc = 'PALLET_ID_DESC',
-  GrowerCodeAsc = 'GROWER_CODE_ASC',
-  GrowerCodeDesc = 'GROWER_CODE_DESC',
-  InspGrowerCodeAsc = 'INSP_GROWER_CODE_ASC',
-  InspGrowerCodeDesc = 'INSP_GROWER_CODE_DESC',
-  PackDateAsc = 'PACK_DATE_ASC',
-  PackDateDesc = 'PACK_DATE_DESC',
-  InspPackDateAsc = 'INSP_PACK_DATE_ASC',
-  InspPackDateDesc = 'INSP_PACK_DATE_DESC',
-  SizeAsc = 'SIZE_ASC',
-  SizeDesc = 'SIZE_DESC',
-  InspSizeAsc = 'INSP_SIZE_ASC',
-  InspSizeDesc = 'INSP_SIZE_DESC',
-  PackCodeAsc = 'PACK_CODE_ASC',
-  PackCodeDesc = 'PACK_CODE_DESC',
-  PackDescriptionAsc = 'PACK_DESCRIPTION_ASC',
-  PackDescriptionDesc = 'PACK_DESCRIPTION_DESC',
-  SecondaryDescriptionAsc = 'SECONDARY_DESCRIPTION_ASC',
-  SecondaryDescriptionDesc = 'SECONDARY_DESCRIPTION_DESC',
-  InspPackCodeAsc = 'INSP_PACK_CODE_ASC',
-  InspPackCodeDesc = 'INSP_PACK_CODE_DESC',
-  CountAsc = 'COUNT_ASC',
-  CountDesc = 'COUNT_DESC',
-  PluAsc = 'PLU_ASC',
-  PluDesc = 'PLU_DESC',
-  PluPctAsc = 'PLU_PCT_ASC',
-  PluPctDesc = 'PLU_PCT_DESC',
-  CountryOfOriginAsc = 'COUNTRY_OF_ORIGIN_ASC',
-  CountryOfOriginDesc = 'COUNTRY_OF_ORIGIN_DESC',
-  UpcAsc = 'UPC_ASC',
-  UpcDesc = 'UPC_DESC',
-  WeightAsc = 'WEIGHT_ASC',
-  WeightDesc = 'WEIGHT_DESC',
-  UnderweightMinAsc = 'UNDERWEIGHT_MIN_ASC',
-  UnderweightMinDesc = 'UNDERWEIGHT_MIN_DESC',
-  UnderweightMaxAsc = 'UNDERWEIGHT_MAX_ASC',
-  UnderweightMaxDesc = 'UNDERWEIGHT_MAX_DESC',
-  WeighedUnitsAsc = 'WEIGHED_UNITS_ASC',
-  WeighedUnitsDesc = 'WEIGHED_UNITS_DESC',
-  UnderweightUnitsAsc = 'UNDERWEIGHT_UNITS_ASC',
-  UnderweightUnitsDesc = 'UNDERWEIGHT_UNITS_DESC',
-  UnderweightPctAsc = 'UNDERWEIGHT_PCT_ASC',
-  UnderweightPctDesc = 'UNDERWEIGHT_PCT_DESC',
-  PulpTempAsc = 'PULP_TEMP_ASC',
-  PulpTempDesc = 'PULP_TEMP_DESC',
-  OpeningAsc = 'OPENING_ASC',
-  OpeningDesc = 'OPENING_DESC',
-  RipeningAsc = 'RIPENING_ASC',
-  RipeningDesc = 'RIPENING_DESC',
-  GroundColorAsc = 'GROUND_COLOR_ASC',
-  GroundColorDesc = 'GROUND_COLOR_DESC',
-  BlushColorAsc = 'BLUSH_COLOR_ASC',
-  BlushColorDesc = 'BLUSH_COLOR_DESC',
-  BlushPctAsc = 'BLUSH_PCT_ASC',
-  BlushPctDesc = 'BLUSH_PCT_DESC',
-  ScarsPiecesAsc = 'SCARS_PIECES_ASC',
-  ScarsPiecesDesc = 'SCARS_PIECES_DESC',
-  ScarsPctAsc = 'SCARS_PCT_ASC',
-  ScarsPctDesc = 'SCARS_PCT_DESC',
-  ScarsDegAsc = 'SCARS_DEG_ASC',
-  ScarsDegDesc = 'SCARS_DEG_DESC',
-  CutsSplitsPiecesAsc = 'CUTS_SPLITS_PIECES_ASC',
-  CutsSplitsPiecesDesc = 'CUTS_SPLITS_PIECES_DESC',
-  CutsSplitsPctAsc = 'CUTS_SPLITS_PCT_ASC',
-  CutsSplitsPctDesc = 'CUTS_SPLITS_PCT_DESC',
-  CutsSplitsDegAsc = 'CUTS_SPLITS_DEG_ASC',
-  CutsSplitsDegDesc = 'CUTS_SPLITS_DEG_DESC',
-  SplitPitPiecesAsc = 'SPLIT_PIT_PIECES_ASC',
-  SplitPitPiecesDesc = 'SPLIT_PIT_PIECES_DESC',
-  SplitPitPctAsc = 'SPLIT_PIT_PCT_ASC',
-  SplitPitPctDesc = 'SPLIT_PIT_PCT_DESC',
-  BruisingPiecesAsc = 'BRUISING_PIECES_ASC',
-  BruisingPiecesDesc = 'BRUISING_PIECES_DESC',
-  BruisingPctAsc = 'BRUISING_PCT_ASC',
-  BruisingPctDesc = 'BRUISING_PCT_DESC',
-  BruisingDegAsc = 'BRUISING_DEG_ASC',
-  BruisingDegDesc = 'BRUISING_DEG_DESC',
-  SoftTipsPiecesAsc = 'SOFT_TIPS_PIECES_ASC',
-  SoftTipsPiecesDesc = 'SOFT_TIPS_PIECES_DESC',
-  SoftTipsPctAsc = 'SOFT_TIPS_PCT_ASC',
-  SoftTipsPctDesc = 'SOFT_TIPS_PCT_DESC',
-  DehydrationPiecesAsc = 'DEHYDRATION_PIECES_ASC',
-  DehydrationPiecesDesc = 'DEHYDRATION_PIECES_DESC',
-  DehydrationPctAsc = 'DEHYDRATION_PCT_ASC',
-  DehydrationPctDesc = 'DEHYDRATION_PCT_DESC',
-  DehydrationDegAsc = 'DEHYDRATION_DEG_ASC',
-  DehydrationDegDesc = 'DEHYDRATION_DEG_DESC',
-  CutCountAsc = 'CUT_COUNT_ASC',
-  CutCountDesc = 'CUT_COUNT_DESC',
-  InternalDamagePiecesAsc = 'INTERNAL_DAMAGE_PIECES_ASC',
-  InternalDamagePiecesDesc = 'INTERNAL_DAMAGE_PIECES_DESC',
-  InternalDamagePerAsc = 'INTERNAL_DAMAGE_PER_ASC',
-  InternalDamagePerDesc = 'INTERNAL_DAMAGE_PER_DESC',
-  MealinessPiecesAsc = 'MEALINESS_PIECES_ASC',
-  MealinessPiecesDesc = 'MEALINESS_PIECES_DESC',
-  MealinessPctAsc = 'MEALINESS_PCT_ASC',
-  MealinessPctDesc = 'MEALINESS_PCT_DESC',
-  DecayPiecesAsc = 'DECAY_PIECES_ASC',
-  DecayPiecesDesc = 'DECAY_PIECES_DESC',
-  DecayPctAsc = 'DECAY_PCT_ASC',
-  DecayPctDesc = 'DECAY_PCT_DESC',
-  DecayDegAsc = 'DECAY_DEG_ASC',
-  DecayDegDesc = 'DECAY_DEG_DESC',
-  MoldPiecesAsc = 'MOLD_PIECES_ASC',
-  MoldPiecesDesc = 'MOLD_PIECES_DESC',
-  MoldPctAsc = 'MOLD_PCT_ASC',
-  MoldPctDesc = 'MOLD_PCT_DESC',
-  BrixAsc = 'BRIX_ASC',
-  BrixDesc = 'BRIX_DESC',
-  Pressure1Asc = 'PRESSURE1_ASC',
-  Pressure1Desc = 'PRESSURE1_DESC',
-  Pressure2Asc = 'PRESSURE2_ASC',
-  Pressure2Desc = 'PRESSURE2_DESC',
-  Pressure3Asc = 'PRESSURE3_ASC',
-  Pressure3Desc = 'PRESSURE3_DESC',
-  Pressure4Asc = 'PRESSURE4_ASC',
-  Pressure4Desc = 'PRESSURE4_DESC',
-  Pressure5Asc = 'PRESSURE5_ASC',
-  Pressure5Desc = 'PRESSURE5_DESC',
-  Pressure6Asc = 'PRESSURE6_ASC',
-  Pressure6Desc = 'PRESSURE6_DESC',
-  PressuresMinAsc = 'PRESSURES_MIN_ASC',
-  PressuresMinDesc = 'PRESSURES_MIN_DESC',
-  PressuresMaxAsc = 'PRESSURES_MAX_ASC',
-  PressuresMaxDesc = 'PRESSURES_MAX_DESC',
-  PressuresAvgAsc = 'PRESSURES_AVG_ASC',
-  PressuresAvgDesc = 'PRESSURES_AVG_DESC',
-  OverallQualityAsc = 'OVERALL_QUALITY_ASC',
-  OverallQualityDesc = 'OVERALL_QUALITY_DESC',
-  OverallConditionAsc = 'OVERALL_CONDITION_ASC',
-  OverallConditionDesc = 'OVERALL_CONDITION_DESC',
-  Comment1Asc = 'COMMENT1_ASC',
-  Comment1Desc = 'COMMENT1_DESC',
-  Comment2Asc = 'COMMENT2_ASC',
-  Comment2Desc = 'COMMENT2_DESC',
-  InspectionTypeAsc = 'INSPECTION_TYPE_ASC',
-  InspectionTypeDesc = 'INSPECTION_TYPE_DESC',
-  ShortInspAsc = 'SHORT_INSP_ASC',
-  ShortInspDesc = 'SHORT_INSP_DESC',
-  FixedWeightAsc = 'FIXED_WEIGHT_ASC',
-  FixedWeightDesc = 'FIXED_WEIGHT_DESC',
-  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
-}
 
 /**
  * A condition to be used against `PsaStoneFruitPallet` object types. All fields
@@ -11859,76 +11804,6 @@ export type PsaStoneFruitPalletCondition = {
   fixedWeight?: Maybe<Scalars['String']>;
 };
 
-/** A connection to a list of `Master` values. */
-export type MastersConnection = {
-  __typename?: 'MastersConnection';
-  /** A list of `Master` objects. */
-  nodes: Array<Maybe<Master>>;
-  /** A list of edges which contains the `Master` and cursor to aid in pagination. */
-  edges: Array<MastersEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `Master` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-export type Master = Node & {
-  __typename?: 'Master';
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  nodeId: Scalars['ID'];
-  id: Scalars['String'];
-  defaultPalletQuantity?: Maybe<Scalars['String']>;
-  lotNumber?: Maybe<Scalars['String']>;
-};
-
-/** A `Master` edge in the connection. */
-export type MastersEdge = {
-  __typename?: 'MastersEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `Master` at the end of the edge. */
-  node?: Maybe<Master>;
-};
-
-/** Methods to use when ordering `Master`. */
-export enum MastersOrderBy {
-  Natural = 'NATURAL',
-  IdAsc = 'ID_ASC',
-  IdDesc = 'ID_DESC',
-  DefaultPalletQuantityAsc = 'DEFAULT_PALLET_QUANTITY_ASC',
-  DefaultPalletQuantityDesc = 'DEFAULT_PALLET_QUANTITY_DESC',
-  LotNumberAsc = 'LOT_NUMBER_ASC',
-  LotNumberDesc = 'LOT_NUMBER_DESC',
-  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
-}
-
-/** A condition to be used against `Master` object types. All fields are tested for equality and combined with a logical ‘and.’ */
-export type MasterCondition = {
-  /** Checks for equality with the object’s `id` field. */
-  id?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `defaultPalletQuantity` field. */
-  defaultPalletQuantity?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `lotNumber` field. */
-  lotNumber?: Maybe<Scalars['String']>;
-};
-
-/** A filter to be used against `Master` object types. All fields are combined with a logical ‘and.’ */
-export type MasterFilter = {
-  /** Filter by the object’s `id` field. */
-  id?: Maybe<StringFilter>;
-  /** Filter by the object’s `defaultPalletQuantity` field. */
-  defaultPalletQuantity?: Maybe<StringFilter>;
-  /** Filter by the object’s `lotNumber` field. */
-  lotNumber?: Maybe<StringFilter>;
-  /** Checks for all expressions in this list. */
-  and?: Maybe<Array<MasterFilter>>;
-  /** Checks for any expressions in this list. */
-  or?: Maybe<Array<MasterFilter>>;
-  /** Negates the expression. */
-  not?: Maybe<MasterFilter>;
-};
-
 /** A connection to a list of `PackAtmosphere` values. */
 export type PackAtmospheresConnection = {
   __typename?: 'PackAtmospheresConnection';
@@ -11946,8 +11821,9 @@ export type PackAtmosphere = Node & {
   __typename?: 'PackAtmosphere';
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars['ID'];
-  shipperId: Scalars['String'];
-  maCode: Scalars['String'];
+  id: Scalars['BigInt'];
+  shipperId?: Maybe<Scalars['String']>;
+  maCode?: Maybe<Scalars['String']>;
   maDescription?: Maybe<Scalars['String']>;
   shipper?: Maybe<Shipper>;
 };
@@ -11964,6 +11840,8 @@ export type PackAtmospheresEdge = {
 /** Methods to use when ordering `PackAtmosphere`. */
 export enum PackAtmospheresOrderBy {
   Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
   ShipperIdAsc = 'SHIPPER_ID_ASC',
   ShipperIdDesc = 'SHIPPER_ID_DESC',
   MaCodeAsc = 'MA_CODE_ASC',
@@ -11979,6 +11857,8 @@ export enum PackAtmospheresOrderBy {
  * tested for equality and combined with a logical ‘and.’
  */
 export type PackAtmosphereCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
   /** Checks for equality with the object’s `shipperId` field. */
   shipperId?: Maybe<Scalars['String']>;
   /** Checks for equality with the object’s `maCode` field. */
@@ -11989,6 +11869,8 @@ export type PackAtmosphereCondition = {
 
 /** A filter to be used against `PackAtmosphere` object types. All fields are combined with a logical ‘and.’ */
 export type PackAtmosphereFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
   /** Filter by the object’s `shipperId` field. */
   shipperId?: Maybe<StringFilter>;
   /** Filter by the object’s `maCode` field. */
@@ -12020,8 +11902,9 @@ export type PackBoxStyle = Node & {
   __typename?: 'PackBoxStyle';
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars['ID'];
-  shipperId: Scalars['String'];
-  boxStyle: Scalars['String'];
+  id: Scalars['BigInt'];
+  shipperId?: Maybe<Scalars['String']>;
+  boxStyle?: Maybe<Scalars['String']>;
   boxDescription?: Maybe<Scalars['String']>;
   combineWith?: Maybe<Scalars['String']>;
   combineDescription?: Maybe<Scalars['String']>;
@@ -12040,6 +11923,8 @@ export type PackBoxStylesEdge = {
 /** Methods to use when ordering `PackBoxStyle`. */
 export enum PackBoxStylesOrderBy {
   Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
   ShipperIdAsc = 'SHIPPER_ID_ASC',
   ShipperIdDesc = 'SHIPPER_ID_DESC',
   BoxStyleAsc = 'BOX_STYLE_ASC',
@@ -12059,6 +11944,8 @@ export enum PackBoxStylesOrderBy {
  * tested for equality and combined with a logical ‘and.’
  */
 export type PackBoxStyleCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
   /** Checks for equality with the object’s `shipperId` field. */
   shipperId?: Maybe<Scalars['String']>;
   /** Checks for equality with the object’s `boxStyle` field. */
@@ -12073,6 +11960,8 @@ export type PackBoxStyleCondition = {
 
 /** A filter to be used against `PackBoxStyle` object types. All fields are combined with a logical ‘and.’ */
 export type PackBoxStyleFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
   /** Filter by the object’s `shipperId` field. */
   shipperId?: Maybe<StringFilter>;
   /** Filter by the object’s `boxStyle` field. */
@@ -12108,8 +11997,9 @@ export type PackBoxType = Node & {
   __typename?: 'PackBoxType';
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars['ID'];
-  shipperId: Scalars['String'];
-  boxType: Scalars['String'];
+  id: Scalars['BigInt'];
+  shipperId?: Maybe<Scalars['String']>;
+  boxType?: Maybe<Scalars['String']>;
   boxDescription?: Maybe<Scalars['String']>;
   shipper?: Maybe<Shipper>;
 };
@@ -12126,6 +12016,8 @@ export type PackBoxTypesEdge = {
 /** Methods to use when ordering `PackBoxType`. */
 export enum PackBoxTypesOrderBy {
   Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
   ShipperIdAsc = 'SHIPPER_ID_ASC',
   ShipperIdDesc = 'SHIPPER_ID_DESC',
   BoxTypeAsc = 'BOX_TYPE_ASC',
@@ -12141,6 +12033,8 @@ export enum PackBoxTypesOrderBy {
  * for equality and combined with a logical ‘and.’
  */
 export type PackBoxTypeCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
   /** Checks for equality with the object’s `shipperId` field. */
   shipperId?: Maybe<Scalars['String']>;
   /** Checks for equality with the object’s `boxType` field. */
@@ -12151,6 +12045,8 @@ export type PackBoxTypeCondition = {
 
 /** A filter to be used against `PackBoxType` object types. All fields are combined with a logical ‘and.’ */
 export type PackBoxTypeFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
   /** Filter by the object’s `shipperId` field. */
   shipperId?: Maybe<StringFilter>;
   /** Filter by the object’s `boxType` field. */
@@ -12182,8 +12078,9 @@ export type PackDestination = Node & {
   __typename?: 'PackDestination';
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars['ID'];
-  shipperId: Scalars['String'];
-  destinationCode: Scalars['String'];
+  id: Scalars['BigInt'];
+  shipperId?: Maybe<Scalars['String']>;
+  destinationCode?: Maybe<Scalars['String']>;
   destinationDescription?: Maybe<Scalars['String']>;
   shipper?: Maybe<Shipper>;
 };
@@ -12200,6 +12097,8 @@ export type PackDestinationsEdge = {
 /** Methods to use when ordering `PackDestination`. */
 export enum PackDestinationsOrderBy {
   Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
   ShipperIdAsc = 'SHIPPER_ID_ASC',
   ShipperIdDesc = 'SHIPPER_ID_DESC',
   DestinationCodeAsc = 'DESTINATION_CODE_ASC',
@@ -12215,6 +12114,8 @@ export enum PackDestinationsOrderBy {
  * tested for equality and combined with a logical ‘and.’
  */
 export type PackDestinationCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
   /** Checks for equality with the object’s `shipperId` field. */
   shipperId?: Maybe<Scalars['String']>;
   /** Checks for equality with the object’s `destinationCode` field. */
@@ -12225,6 +12126,8 @@ export type PackDestinationCondition = {
 
 /** A filter to be used against `PackDestination` object types. All fields are combined with a logical ‘and.’ */
 export type PackDestinationFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
   /** Filter by the object’s `shipperId` field. */
   shipperId?: Maybe<StringFilter>;
   /** Filter by the object’s `destinationCode` field. */
@@ -12256,8 +12159,9 @@ export type PackGrade = Node & {
   __typename?: 'PackGrade';
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars['ID'];
-  shipperId: Scalars['String'];
-  gradeCode: Scalars['String'];
+  id: Scalars['BigInt'];
+  shipperId?: Maybe<Scalars['String']>;
+  gradeCode?: Maybe<Scalars['String']>;
   gradeDescription?: Maybe<Scalars['String']>;
   shipper?: Maybe<Shipper>;
 };
@@ -12274,6 +12178,8 @@ export type PackGradesEdge = {
 /** Methods to use when ordering `PackGrade`. */
 export enum PackGradesOrderBy {
   Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
   ShipperIdAsc = 'SHIPPER_ID_ASC',
   ShipperIdDesc = 'SHIPPER_ID_DESC',
   GradeCodeAsc = 'GRADE_CODE_ASC',
@@ -12289,6 +12195,8 @@ export enum PackGradesOrderBy {
  * for equality and combined with a logical ‘and.’
  */
 export type PackGradeCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
   /** Checks for equality with the object’s `shipperId` field. */
   shipperId?: Maybe<Scalars['String']>;
   /** Checks for equality with the object’s `gradeCode` field. */
@@ -12299,6 +12207,8 @@ export type PackGradeCondition = {
 
 /** A filter to be used against `PackGrade` object types. All fields are combined with a logical ‘and.’ */
 export type PackGradeFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
   /** Filter by the object’s `shipperId` field. */
   shipperId?: Maybe<StringFilter>;
   /** Filter by the object’s `gradeCode` field. */
@@ -12330,8 +12240,9 @@ export type PackHold = Node & {
   __typename?: 'PackHold';
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars['ID'];
-  shipperId: Scalars['String'];
-  holdCode: Scalars['String'];
+  id: Scalars['BigInt'];
+  shipperId?: Maybe<Scalars['String']>;
+  holdCode?: Maybe<Scalars['String']>;
   holdDescription?: Maybe<Scalars['String']>;
   shipper?: Maybe<Shipper>;
 };
@@ -12348,6 +12259,8 @@ export type PackHoldsEdge = {
 /** Methods to use when ordering `PackHold`. */
 export enum PackHoldsOrderBy {
   Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
   ShipperIdAsc = 'SHIPPER_ID_ASC',
   ShipperIdDesc = 'SHIPPER_ID_DESC',
   HoldCodeAsc = 'HOLD_CODE_ASC',
@@ -12363,6 +12276,8 @@ export enum PackHoldsOrderBy {
  * for equality and combined with a logical ‘and.’
  */
 export type PackHoldCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
   /** Checks for equality with the object’s `shipperId` field. */
   shipperId?: Maybe<Scalars['String']>;
   /** Checks for equality with the object’s `holdCode` field. */
@@ -12373,6 +12288,8 @@ export type PackHoldCondition = {
 
 /** A filter to be used against `PackHold` object types. All fields are combined with a logical ‘and.’ */
 export type PackHoldFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
   /** Filter by the object’s `shipperId` field. */
   shipperId?: Maybe<StringFilter>;
   /** Filter by the object’s `holdCode` field. */
@@ -12404,9 +12321,10 @@ export type PackLabel = Node & {
   __typename?: 'PackLabel';
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars['ID'];
-  labelCode: Scalars['String'];
+  id: Scalars['BigInt'];
+  labelCode?: Maybe<Scalars['String']>;
   labelName?: Maybe<Scalars['String']>;
-  shipperId: Scalars['String'];
+  shipperId?: Maybe<Scalars['String']>;
   shipperName?: Maybe<Scalars['String']>;
   shipper?: Maybe<Shipper>;
 };
@@ -12423,6 +12341,8 @@ export type PackLabelsEdge = {
 /** Methods to use when ordering `PackLabel`. */
 export enum PackLabelsOrderBy {
   Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
   LabelCodeAsc = 'LABEL_CODE_ASC',
   LabelCodeDesc = 'LABEL_CODE_DESC',
   LabelNameAsc = 'LABEL_NAME_ASC',
@@ -12440,6 +12360,8 @@ export enum PackLabelsOrderBy {
  * for equality and combined with a logical ‘and.’
  */
 export type PackLabelCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
   /** Checks for equality with the object’s `labelCode` field. */
   labelCode?: Maybe<Scalars['String']>;
   /** Checks for equality with the object’s `labelName` field. */
@@ -12452,6 +12374,8 @@ export type PackLabelCondition = {
 
 /** A filter to be used against `PackLabel` object types. All fields are combined with a logical ‘and.’ */
 export type PackLabelFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
   /** Filter by the object’s `labelCode` field. */
   labelCode?: Maybe<StringFilter>;
   /** Filter by the object’s `labelName` field. */
@@ -12485,8 +12409,9 @@ export type PackLiner = Node & {
   __typename?: 'PackLiner';
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars['ID'];
-  shipperId: Scalars['String'];
-  linerCode: Scalars['String'];
+  id: Scalars['BigInt'];
+  shipperId?: Maybe<Scalars['String']>;
+  linerCode?: Maybe<Scalars['String']>;
   linerDescription?: Maybe<Scalars['String']>;
   shipper?: Maybe<Shipper>;
 };
@@ -12503,6 +12428,8 @@ export type PackLinersEdge = {
 /** Methods to use when ordering `PackLiner`. */
 export enum PackLinersOrderBy {
   Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
   ShipperIdAsc = 'SHIPPER_ID_ASC',
   ShipperIdDesc = 'SHIPPER_ID_DESC',
   LinerCodeAsc = 'LINER_CODE_ASC',
@@ -12518,6 +12445,8 @@ export enum PackLinersOrderBy {
  * for equality and combined with a logical ‘and.’
  */
 export type PackLinerCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
   /** Checks for equality with the object’s `shipperId` field. */
   shipperId?: Maybe<Scalars['String']>;
   /** Checks for equality with the object’s `linerCode` field. */
@@ -12528,6 +12457,8 @@ export type PackLinerCondition = {
 
 /** A filter to be used against `PackLiner` object types. All fields are combined with a logical ‘and.’ */
 export type PackLinerFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
   /** Filter by the object’s `shipperId` field. */
   shipperId?: Maybe<StringFilter>;
   /** Filter by the object’s `linerCode` field. */
@@ -12540,6 +12471,389 @@ export type PackLinerFilter = {
   or?: Maybe<Array<PackLinerFilter>>;
   /** Negates the expression. */
   not?: Maybe<PackLinerFilter>;
+};
+
+/** A connection to a list of `PackMaster` values. */
+export type PackMastersConnection = {
+  __typename?: 'PackMastersConnection';
+  /** A list of `PackMaster` objects. */
+  nodes: Array<Maybe<PackMaster>>;
+  /** A list of edges which contains the `PackMaster` and cursor to aid in pagination. */
+  edges: Array<PackMastersEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `PackMaster` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+export type PackMaster = Node & {
+  __typename?: 'PackMaster';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  shipperId?: Maybe<Scalars['String']>;
+  labelCodeId?: Maybe<Scalars['String']>;
+  customerCodeId?: Maybe<Scalars['String']>;
+  boxTypeId?: Maybe<Scalars['String']>;
+  boxStyleId?: Maybe<Scalars['String']>;
+  packStyleId?: Maybe<Scalars['String']>;
+  outCodeId?: Maybe<Scalars['String']>;
+  outQuantity?: Maybe<Scalars['String']>;
+  outWeight?: Maybe<Scalars['String']>;
+  productionCodeId?: Maybe<Scalars['String']>;
+  treeRipeId?: Maybe<Scalars['String']>;
+  gradeCodeId?: Maybe<Scalars['String']>;
+  maCodeId?: Maybe<Scalars['String']>;
+  linerCodeId?: Maybe<Scalars['String']>;
+  netWeightContents?: Maybe<Scalars['BigFloat']>;
+  netWeightBox?: Maybe<Scalars['BigFloat']>;
+  boxLength?: Maybe<Scalars['BigFloat']>;
+  boxWidth?: Maybe<Scalars['BigFloat']>;
+  boxHeight?: Maybe<Scalars['BigFloat']>;
+  palletTypeId?: Maybe<Scalars['String']>;
+  defaultPalletQuantity?: Maybe<Scalars['BigFloat']>;
+  pluUpcCode?: Maybe<Scalars['String']>;
+  destinationCodeId?: Maybe<Scalars['String']>;
+  oldPackCode?: Maybe<Scalars['String']>;
+  oldLabelCode?: Maybe<Scalars['String']>;
+  jvPackCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  varietyId?: Maybe<Scalars['String']>;
+  speciesId?: Maybe<Scalars['String']>;
+  holdCodeId?: Maybe<Scalars['String']>;
+  atmosphere?: Maybe<PackAtmosphere>;
+  boxStyle?: Maybe<PackBoxStyle>;
+  boxType?: Maybe<PackBoxType>;
+  customerSpecial?: Maybe<PackSpecial>;
+  destination?: Maybe<PackDestination>;
+  grade?: Maybe<PackGrade>;
+  hold?: Maybe<PackHold>;
+  label?: Maybe<PackLabel>;
+  liner?: Maybe<PackLiner>;
+  out?: Maybe<PackOut>;
+  packStyle?: Maybe<PackStyle>;
+  palletType?: Maybe<PackPalletType>;
+  production?: Maybe<PackProduction>;
+  shipper?: Maybe<Shipper>;
+  species?: Maybe<ProductSpecies>;
+  treeRipe?: Maybe<PackTreeRipe>;
+  variety?: Maybe<ProductVariety>;
+};
+
+export type PackSpecial = Node & {
+  __typename?: 'PackSpecial';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  shipperId?: Maybe<Scalars['String']>;
+  customerCode?: Maybe<Scalars['String']>;
+  customerId?: Maybe<Scalars['String']>;
+  customerName?: Maybe<Scalars['String']>;
+  customer?: Maybe<Customer>;
+  shipper?: Maybe<Shipper>;
+};
+
+export type PackOut = Node & {
+  __typename?: 'PackOut';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  shipperId?: Maybe<Scalars['String']>;
+  outCode?: Maybe<Scalars['String']>;
+  outDescription?: Maybe<Scalars['String']>;
+  combineWith?: Maybe<Scalars['String']>;
+  shipper?: Maybe<Shipper>;
+};
+
+export type PackStyle = Node & {
+  __typename?: 'PackStyle';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  shipperId?: Maybe<Scalars['String']>;
+  packStyle?: Maybe<Scalars['String']>;
+  styleDescription?: Maybe<Scalars['String']>;
+  combineWith?: Maybe<Scalars['String']>;
+  shipper?: Maybe<Shipper>;
+};
+
+export type PackPalletType = Node & {
+  __typename?: 'PackPalletType';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  shipperId?: Maybe<Scalars['String']>;
+  palletType?: Maybe<Scalars['String']>;
+  palletTypeDescription?: Maybe<Scalars['String']>;
+  combineWith?: Maybe<Scalars['String']>;
+  shipper?: Maybe<Shipper>;
+};
+
+export type PackProduction = Node & {
+  __typename?: 'PackProduction';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  shipperId?: Maybe<Scalars['String']>;
+  productionCode?: Maybe<Scalars['String']>;
+  productionDescription?: Maybe<Scalars['String']>;
+  combineWith?: Maybe<Scalars['String']>;
+  shipper?: Maybe<Shipper>;
+};
+
+export type ProductSpecies = Node & {
+  __typename?: 'ProductSpecies';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['String'];
+  speciesDescription?: Maybe<Scalars['String']>;
+  secondaryDescription?: Maybe<Scalars['String']>;
+  fdaProductCode?: Maybe<Scalars['String']>;
+  fdaIndustryCode?: Maybe<Scalars['String']>;
+  defaultTemperature?: Maybe<Scalars['String']>;
+};
+
+export type PackTreeRipe = Node & {
+  __typename?: 'PackTreeRipe';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  shipperId?: Maybe<Scalars['String']>;
+  treeRipe?: Maybe<Scalars['String']>;
+  treeRipeDescription?: Maybe<Scalars['String']>;
+  shipper?: Maybe<Shipper>;
+};
+
+export type ProductVariety = Node & {
+  __typename?: 'ProductVariety';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['String'];
+  varietyDescription?: Maybe<Scalars['String']>;
+  secondaryDescription?: Maybe<Scalars['String']>;
+  customerLetterSequence?: Maybe<Scalars['String']>;
+  summaryCode?: Maybe<Scalars['String']>;
+  varietyGroup?: Maybe<Scalars['String']>;
+  combineWith?: Maybe<Scalars['String']>;
+};
+
+/** A `PackMaster` edge in the connection. */
+export type PackMastersEdge = {
+  __typename?: 'PackMastersEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `PackMaster` at the end of the edge. */
+  node?: Maybe<PackMaster>;
+};
+
+/** Methods to use when ordering `PackMaster`. */
+export enum PackMastersOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  ShipperIdAsc = 'SHIPPER_ID_ASC',
+  ShipperIdDesc = 'SHIPPER_ID_DESC',
+  LabelCodeIdAsc = 'LABEL_CODE_ID_ASC',
+  LabelCodeIdDesc = 'LABEL_CODE_ID_DESC',
+  CustomerCodeIdAsc = 'CUSTOMER_CODE_ID_ASC',
+  CustomerCodeIdDesc = 'CUSTOMER_CODE_ID_DESC',
+  BoxTypeIdAsc = 'BOX_TYPE_ID_ASC',
+  BoxTypeIdDesc = 'BOX_TYPE_ID_DESC',
+  BoxStyleIdAsc = 'BOX_STYLE_ID_ASC',
+  BoxStyleIdDesc = 'BOX_STYLE_ID_DESC',
+  PackStyleIdAsc = 'PACK_STYLE_ID_ASC',
+  PackStyleIdDesc = 'PACK_STYLE_ID_DESC',
+  OutCodeIdAsc = 'OUT_CODE_ID_ASC',
+  OutCodeIdDesc = 'OUT_CODE_ID_DESC',
+  OutQuantityAsc = 'OUT_QUANTITY_ASC',
+  OutQuantityDesc = 'OUT_QUANTITY_DESC',
+  OutWeightAsc = 'OUT_WEIGHT_ASC',
+  OutWeightDesc = 'OUT_WEIGHT_DESC',
+  ProductionCodeIdAsc = 'PRODUCTION_CODE_ID_ASC',
+  ProductionCodeIdDesc = 'PRODUCTION_CODE_ID_DESC',
+  TreeRipeIdAsc = 'TREE_RIPE_ID_ASC',
+  TreeRipeIdDesc = 'TREE_RIPE_ID_DESC',
+  GradeCodeIdAsc = 'GRADE_CODE_ID_ASC',
+  GradeCodeIdDesc = 'GRADE_CODE_ID_DESC',
+  MaCodeIdAsc = 'MA_CODE_ID_ASC',
+  MaCodeIdDesc = 'MA_CODE_ID_DESC',
+  LinerCodeIdAsc = 'LINER_CODE_ID_ASC',
+  LinerCodeIdDesc = 'LINER_CODE_ID_DESC',
+  NetWeightContentsAsc = 'NET_WEIGHT_CONTENTS_ASC',
+  NetWeightContentsDesc = 'NET_WEIGHT_CONTENTS_DESC',
+  NetWeightBoxAsc = 'NET_WEIGHT_BOX_ASC',
+  NetWeightBoxDesc = 'NET_WEIGHT_BOX_DESC',
+  BoxLengthAsc = 'BOX_LENGTH_ASC',
+  BoxLengthDesc = 'BOX_LENGTH_DESC',
+  BoxWidthAsc = 'BOX_WIDTH_ASC',
+  BoxWidthDesc = 'BOX_WIDTH_DESC',
+  BoxHeightAsc = 'BOX_HEIGHT_ASC',
+  BoxHeightDesc = 'BOX_HEIGHT_DESC',
+  PalletTypeIdAsc = 'PALLET_TYPE_ID_ASC',
+  PalletTypeIdDesc = 'PALLET_TYPE_ID_DESC',
+  DefaultPalletQuantityAsc = 'DEFAULT_PALLET_QUANTITY_ASC',
+  DefaultPalletQuantityDesc = 'DEFAULT_PALLET_QUANTITY_DESC',
+  PluUpcCodeAsc = 'PLU_UPC_CODE_ASC',
+  PluUpcCodeDesc = 'PLU_UPC_CODE_DESC',
+  DestinationCodeIdAsc = 'DESTINATION_CODE_ID_ASC',
+  DestinationCodeIdDesc = 'DESTINATION_CODE_ID_DESC',
+  OldPackCodeAsc = 'OLD_PACK_CODE_ASC',
+  OldPackCodeDesc = 'OLD_PACK_CODE_DESC',
+  OldLabelCodeAsc = 'OLD_LABEL_CODE_ASC',
+  OldLabelCodeDesc = 'OLD_LABEL_CODE_DESC',
+  JvPackCodeAsc = 'JV_PACK_CODE_ASC',
+  JvPackCodeDesc = 'JV_PACK_CODE_DESC',
+  PackDescriptionAsc = 'PACK_DESCRIPTION_ASC',
+  PackDescriptionDesc = 'PACK_DESCRIPTION_DESC',
+  VarietyIdAsc = 'VARIETY_ID_ASC',
+  VarietyIdDesc = 'VARIETY_ID_DESC',
+  SpeciesIdAsc = 'SPECIES_ID_ASC',
+  SpeciesIdDesc = 'SPECIES_ID_DESC',
+  HoldCodeIdAsc = 'HOLD_CODE_ID_ASC',
+  HoldCodeIdDesc = 'HOLD_CODE_ID_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
+/**
+ * A condition to be used against `PackMaster` object types. All fields are tested
+ * for equality and combined with a logical ‘and.’
+ */
+export type PackMasterCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `shipperId` field. */
+  shipperId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `labelCodeId` field. */
+  labelCodeId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `customerCodeId` field. */
+  customerCodeId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `boxTypeId` field. */
+  boxTypeId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `boxStyleId` field. */
+  boxStyleId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `packStyleId` field. */
+  packStyleId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `outCodeId` field. */
+  outCodeId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `outQuantity` field. */
+  outQuantity?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `outWeight` field. */
+  outWeight?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `productionCodeId` field. */
+  productionCodeId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `treeRipeId` field. */
+  treeRipeId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `gradeCodeId` field. */
+  gradeCodeId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `maCodeId` field. */
+  maCodeId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `linerCodeId` field. */
+  linerCodeId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `netWeightContents` field. */
+  netWeightContents?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `netWeightBox` field. */
+  netWeightBox?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `boxLength` field. */
+  boxLength?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `boxWidth` field. */
+  boxWidth?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `boxHeight` field. */
+  boxHeight?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `palletTypeId` field. */
+  palletTypeId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `defaultPalletQuantity` field. */
+  defaultPalletQuantity?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `pluUpcCode` field. */
+  pluUpcCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `destinationCodeId` field. */
+  destinationCodeId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `oldPackCode` field. */
+  oldPackCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `oldLabelCode` field. */
+  oldLabelCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `jvPackCode` field. */
+  jvPackCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `packDescription` field. */
+  packDescription?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `varietyId` field. */
+  varietyId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `speciesId` field. */
+  speciesId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `holdCodeId` field. */
+  holdCodeId?: Maybe<Scalars['String']>;
+};
+
+/** A filter to be used against `PackMaster` object types. All fields are combined with a logical ‘and.’ */
+export type PackMasterFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `shipperId` field. */
+  shipperId?: Maybe<StringFilter>;
+  /** Filter by the object’s `labelCodeId` field. */
+  labelCodeId?: Maybe<StringFilter>;
+  /** Filter by the object’s `customerCodeId` field. */
+  customerCodeId?: Maybe<StringFilter>;
+  /** Filter by the object’s `boxTypeId` field. */
+  boxTypeId?: Maybe<StringFilter>;
+  /** Filter by the object’s `boxStyleId` field. */
+  boxStyleId?: Maybe<StringFilter>;
+  /** Filter by the object’s `packStyleId` field. */
+  packStyleId?: Maybe<StringFilter>;
+  /** Filter by the object’s `outCodeId` field. */
+  outCodeId?: Maybe<StringFilter>;
+  /** Filter by the object’s `outQuantity` field. */
+  outQuantity?: Maybe<StringFilter>;
+  /** Filter by the object’s `outWeight` field. */
+  outWeight?: Maybe<StringFilter>;
+  /** Filter by the object’s `productionCodeId` field. */
+  productionCodeId?: Maybe<StringFilter>;
+  /** Filter by the object’s `treeRipeId` field. */
+  treeRipeId?: Maybe<StringFilter>;
+  /** Filter by the object’s `gradeCodeId` field. */
+  gradeCodeId?: Maybe<StringFilter>;
+  /** Filter by the object’s `maCodeId` field. */
+  maCodeId?: Maybe<StringFilter>;
+  /** Filter by the object’s `linerCodeId` field. */
+  linerCodeId?: Maybe<StringFilter>;
+  /** Filter by the object’s `netWeightContents` field. */
+  netWeightContents?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `netWeightBox` field. */
+  netWeightBox?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `boxLength` field. */
+  boxLength?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `boxWidth` field. */
+  boxWidth?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `boxHeight` field. */
+  boxHeight?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `palletTypeId` field. */
+  palletTypeId?: Maybe<StringFilter>;
+  /** Filter by the object’s `defaultPalletQuantity` field. */
+  defaultPalletQuantity?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `pluUpcCode` field. */
+  pluUpcCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `destinationCodeId` field. */
+  destinationCodeId?: Maybe<StringFilter>;
+  /** Filter by the object’s `oldPackCode` field. */
+  oldPackCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `oldLabelCode` field. */
+  oldLabelCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `jvPackCode` field. */
+  jvPackCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `packDescription` field. */
+  packDescription?: Maybe<StringFilter>;
+  /** Filter by the object’s `varietyId` field. */
+  varietyId?: Maybe<StringFilter>;
+  /** Filter by the object’s `speciesId` field. */
+  speciesId?: Maybe<StringFilter>;
+  /** Filter by the object’s `holdCodeId` field. */
+  holdCodeId?: Maybe<StringFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<PackMasterFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<PackMasterFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<PackMasterFilter>;
 };
 
 /** A connection to a list of `PackOut` values. */
@@ -12555,17 +12869,6 @@ export type PackOutsConnection = {
   totalCount: Scalars['Int'];
 };
 
-export type PackOut = Node & {
-  __typename?: 'PackOut';
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  nodeId: Scalars['ID'];
-  shipperId: Scalars['String'];
-  outCode: Scalars['String'];
-  outDescription?: Maybe<Scalars['String']>;
-  combineWith?: Maybe<Scalars['String']>;
-  shipper?: Maybe<Shipper>;
-};
-
 /** A `PackOut` edge in the connection. */
 export type PackOutsEdge = {
   __typename?: 'PackOutsEdge';
@@ -12578,6 +12881,8 @@ export type PackOutsEdge = {
 /** Methods to use when ordering `PackOut`. */
 export enum PackOutsOrderBy {
   Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
   ShipperIdAsc = 'SHIPPER_ID_ASC',
   ShipperIdDesc = 'SHIPPER_ID_DESC',
   OutCodeAsc = 'OUT_CODE_ASC',
@@ -12592,6 +12897,8 @@ export enum PackOutsOrderBy {
 
 /** A condition to be used against `PackOut` object types. All fields are tested for equality and combined with a logical ‘and.’ */
 export type PackOutCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
   /** Checks for equality with the object’s `shipperId` field. */
   shipperId?: Maybe<Scalars['String']>;
   /** Checks for equality with the object’s `outCode` field. */
@@ -12604,6 +12911,8 @@ export type PackOutCondition = {
 
 /** A filter to be used against `PackOut` object types. All fields are combined with a logical ‘and.’ */
 export type PackOutFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
   /** Filter by the object’s `shipperId` field. */
   shipperId?: Maybe<StringFilter>;
   /** Filter by the object’s `outCode` field. */
@@ -12633,17 +12942,6 @@ export type PackPalletTypesConnection = {
   totalCount: Scalars['Int'];
 };
 
-export type PackPalletType = Node & {
-  __typename?: 'PackPalletType';
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  nodeId: Scalars['ID'];
-  shipperId: Scalars['String'];
-  palletType: Scalars['String'];
-  palletTypeDescription?: Maybe<Scalars['String']>;
-  combineWith?: Maybe<Scalars['String']>;
-  shipper?: Maybe<Shipper>;
-};
-
 /** A `PackPalletType` edge in the connection. */
 export type PackPalletTypesEdge = {
   __typename?: 'PackPalletTypesEdge';
@@ -12656,6 +12954,8 @@ export type PackPalletTypesEdge = {
 /** Methods to use when ordering `PackPalletType`. */
 export enum PackPalletTypesOrderBy {
   Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
   ShipperIdAsc = 'SHIPPER_ID_ASC',
   ShipperIdDesc = 'SHIPPER_ID_DESC',
   PalletTypeAsc = 'PALLET_TYPE_ASC',
@@ -12673,6 +12973,8 @@ export enum PackPalletTypesOrderBy {
  * tested for equality and combined with a logical ‘and.’
  */
 export type PackPalletTypeCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
   /** Checks for equality with the object’s `shipperId` field. */
   shipperId?: Maybe<Scalars['String']>;
   /** Checks for equality with the object’s `palletType` field. */
@@ -12685,6 +12987,8 @@ export type PackPalletTypeCondition = {
 
 /** A filter to be used against `PackPalletType` object types. All fields are combined with a logical ‘and.’ */
 export type PackPalletTypeFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
   /** Filter by the object’s `shipperId` field. */
   shipperId?: Maybe<StringFilter>;
   /** Filter by the object’s `palletType` field. */
@@ -12714,17 +13018,6 @@ export type PackProductionsConnection = {
   totalCount: Scalars['Int'];
 };
 
-export type PackProduction = Node & {
-  __typename?: 'PackProduction';
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  nodeId: Scalars['ID'];
-  shipperId: Scalars['String'];
-  productionCode: Scalars['String'];
-  productionDescription?: Maybe<Scalars['String']>;
-  combineWith?: Maybe<Scalars['String']>;
-  shipper?: Maybe<Shipper>;
-};
-
 /** A `PackProduction` edge in the connection. */
 export type PackProductionsEdge = {
   __typename?: 'PackProductionsEdge';
@@ -12737,6 +13030,8 @@ export type PackProductionsEdge = {
 /** Methods to use when ordering `PackProduction`. */
 export enum PackProductionsOrderBy {
   Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
   ShipperIdAsc = 'SHIPPER_ID_ASC',
   ShipperIdDesc = 'SHIPPER_ID_DESC',
   ProductionCodeAsc = 'PRODUCTION_CODE_ASC',
@@ -12754,6 +13049,8 @@ export enum PackProductionsOrderBy {
  * tested for equality and combined with a logical ‘and.’
  */
 export type PackProductionCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
   /** Checks for equality with the object’s `shipperId` field. */
   shipperId?: Maybe<Scalars['String']>;
   /** Checks for equality with the object’s `productionCode` field. */
@@ -12766,6 +13063,8 @@ export type PackProductionCondition = {
 
 /** A filter to be used against `PackProduction` object types. All fields are combined with a logical ‘and.’ */
 export type PackProductionFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
   /** Filter by the object’s `shipperId` field. */
   shipperId?: Maybe<StringFilter>;
   /** Filter by the object’s `productionCode` field. */
@@ -12795,18 +13094,6 @@ export type PackSpecialsConnection = {
   totalCount: Scalars['Int'];
 };
 
-export type PackSpecial = Node & {
-  __typename?: 'PackSpecial';
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  nodeId: Scalars['ID'];
-  shipperId: Scalars['String'];
-  customerCode: Scalars['String'];
-  customerId?: Maybe<Scalars['String']>;
-  customerName?: Maybe<Scalars['String']>;
-  customer?: Maybe<Customer>;
-  shipper?: Maybe<Shipper>;
-};
-
 /** A `PackSpecial` edge in the connection. */
 export type PackSpecialsEdge = {
   __typename?: 'PackSpecialsEdge';
@@ -12819,6 +13106,8 @@ export type PackSpecialsEdge = {
 /** Methods to use when ordering `PackSpecial`. */
 export enum PackSpecialsOrderBy {
   Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
   ShipperIdAsc = 'SHIPPER_ID_ASC',
   ShipperIdDesc = 'SHIPPER_ID_DESC',
   CustomerCodeAsc = 'CUSTOMER_CODE_ASC',
@@ -12836,6 +13125,8 @@ export enum PackSpecialsOrderBy {
  * for equality and combined with a logical ‘and.’
  */
 export type PackSpecialCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
   /** Checks for equality with the object’s `shipperId` field. */
   shipperId?: Maybe<Scalars['String']>;
   /** Checks for equality with the object’s `customerCode` field. */
@@ -12848,6 +13139,8 @@ export type PackSpecialCondition = {
 
 /** A filter to be used against `PackSpecial` object types. All fields are combined with a logical ‘and.’ */
 export type PackSpecialFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
   /** Filter by the object’s `shipperId` field. */
   shipperId?: Maybe<StringFilter>;
   /** Filter by the object’s `customerCode` field. */
@@ -12877,17 +13170,6 @@ export type PackStylesConnection = {
   totalCount: Scalars['Int'];
 };
 
-export type PackStyle = Node & {
-  __typename?: 'PackStyle';
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  nodeId: Scalars['ID'];
-  shipperId: Scalars['String'];
-  packStyle: Scalars['String'];
-  styleDescription?: Maybe<Scalars['String']>;
-  combineWith?: Maybe<Scalars['String']>;
-  shipper?: Maybe<Shipper>;
-};
-
 /** A `PackStyle` edge in the connection. */
 export type PackStylesEdge = {
   __typename?: 'PackStylesEdge';
@@ -12900,6 +13182,8 @@ export type PackStylesEdge = {
 /** Methods to use when ordering `PackStyle`. */
 export enum PackStylesOrderBy {
   Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
   ShipperIdAsc = 'SHIPPER_ID_ASC',
   ShipperIdDesc = 'SHIPPER_ID_DESC',
   PackStyleAsc = 'PACK_STYLE_ASC',
@@ -12917,6 +13201,8 @@ export enum PackStylesOrderBy {
  * for equality and combined with a logical ‘and.’
  */
 export type PackStyleCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
   /** Checks for equality with the object’s `shipperId` field. */
   shipperId?: Maybe<Scalars['String']>;
   /** Checks for equality with the object’s `packStyle` field. */
@@ -12929,6 +13215,8 @@ export type PackStyleCondition = {
 
 /** A filter to be used against `PackStyle` object types. All fields are combined with a logical ‘and.’ */
 export type PackStyleFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
   /** Filter by the object’s `shipperId` field. */
   shipperId?: Maybe<StringFilter>;
   /** Filter by the object’s `packStyle` field. */
@@ -12958,16 +13246,6 @@ export type PackTreeRipesConnection = {
   totalCount: Scalars['Int'];
 };
 
-export type PackTreeRipe = Node & {
-  __typename?: 'PackTreeRipe';
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  nodeId: Scalars['ID'];
-  shipperId: Scalars['String'];
-  treeRipe: Scalars['String'];
-  treeRipeDescription?: Maybe<Scalars['String']>;
-  shipper?: Maybe<Shipper>;
-};
-
 /** A `PackTreeRipe` edge in the connection. */
 export type PackTreeRipesEdge = {
   __typename?: 'PackTreeRipesEdge';
@@ -12980,6 +13258,8 @@ export type PackTreeRipesEdge = {
 /** Methods to use when ordering `PackTreeRipe`. */
 export enum PackTreeRipesOrderBy {
   Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
   ShipperIdAsc = 'SHIPPER_ID_ASC',
   ShipperIdDesc = 'SHIPPER_ID_DESC',
   TreeRipeAsc = 'TREE_RIPE_ASC',
@@ -12995,6 +13275,8 @@ export enum PackTreeRipesOrderBy {
  * tested for equality and combined with a logical ‘and.’
  */
 export type PackTreeRipeCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
   /** Checks for equality with the object’s `shipperId` field. */
   shipperId?: Maybe<Scalars['String']>;
   /** Checks for equality with the object’s `treeRipe` field. */
@@ -13005,6 +13287,8 @@ export type PackTreeRipeCondition = {
 
 /** A filter to be used against `PackTreeRipe` object types. All fields are combined with a logical ‘and.’ */
 export type PackTreeRipeFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
   /** Filter by the object’s `shipperId` field. */
   shipperId?: Maybe<StringFilter>;
   /** Filter by the object’s `treeRipe` field. */
@@ -13019,21 +13303,59 @@ export type PackTreeRipeFilter = {
   not?: Maybe<PackTreeRipeFilter>;
 };
 
-/** A connection to a list of `Size` values. */
-export type SizesConnection = {
-  __typename?: 'SizesConnection';
-  /** A list of `Size` objects. */
-  nodes: Array<Maybe<Size>>;
-  /** A list of edges which contains the `Size` and cursor to aid in pagination. */
-  edges: Array<SizesEdge>;
+/** A connection to a list of `ProductMaster` values. */
+export type ProductMastersConnection = {
+  __typename?: 'ProductMastersConnection';
+  /** A list of `ProductMaster` objects. */
+  nodes: Array<Maybe<ProductMaster>>;
+  /** A list of edges which contains the `ProductMaster` and cursor to aid in pagination. */
+  edges: Array<ProductMastersEdge>;
   /** Information to aid in pagination. */
   pageInfo: PageInfo;
-  /** The count of *all* `Size` you could get from the connection. */
+  /** The count of *all* `ProductMaster` you could get from the connection. */
   totalCount: Scalars['Int'];
 };
 
-export type Size = Node & {
-  __typename?: 'Size';
+export type ProductMaster = Node & {
+  __typename?: 'ProductMaster';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['String'];
+  defaultPalletQuantity?: Maybe<Scalars['String']>;
+  lotNumber?: Maybe<Scalars['String']>;
+  packType?: Maybe<PackMaster>;
+  searchText?: Maybe<Scalars['String']>;
+  /** Reads and enables pagination through a set of `ProductSize`. */
+  sizes: ProductSizesConnection;
+  species?: Maybe<ProductSpecies>;
+  variety?: Maybe<ProductVariety>;
+};
+
+
+export type ProductMasterSizesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  filter?: Maybe<ProductSizeFilter>;
+};
+
+/** A connection to a list of `ProductSize` values. */
+export type ProductSizesConnection = {
+  __typename?: 'ProductSizesConnection';
+  /** A list of `ProductSize` objects. */
+  nodes: Array<Maybe<ProductSize>>;
+  /** A list of edges which contains the `ProductSize` and cursor to aid in pagination. */
+  edges: Array<ProductSizesEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `ProductSize` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+export type ProductSize = Node & {
+  __typename?: 'ProductSize';
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars['ID'];
   id: Scalars['BigInt'];
@@ -13043,50 +13365,108 @@ export type Size = Node & {
   jvDescription?: Maybe<Scalars['String']>;
   shipperCode?: Maybe<Scalars['String']>;
   shipperDescription?: Maybe<Scalars['String']>;
-  combinedCode?: Maybe<Scalars['String']>;
-  combinedDescription?: Maybe<Scalars['String']>;
+  combineWith?: Maybe<Scalars['String']>;
+  combineDescription?: Maybe<Scalars['String']>;
   shipperId?: Maybe<Scalars['String']>;
   shipper?: Maybe<Shipper>;
-  species?: Maybe<Species>;
-  variety?: Maybe<Variety>;
+  species?: Maybe<ProductSpecies>;
+  variety?: Maybe<ProductVariety>;
 };
 
-export type Species = Node & {
-  __typename?: 'Species';
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  nodeId: Scalars['ID'];
-  id: Scalars['String'];
-  speciesDescription?: Maybe<Scalars['String']>;
-  secondaryDescription?: Maybe<Scalars['String']>;
-  fdaProductCode?: Maybe<Scalars['String']>;
-  fdaIndustryCode?: Maybe<Scalars['String']>;
-  defaultTemperature?: Maybe<Scalars['String']>;
-};
-
-export type Variety = Node & {
-  __typename?: 'Variety';
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  nodeId: Scalars['ID'];
-  id: Scalars['String'];
-  varietyDescription?: Maybe<Scalars['String']>;
-  secondaryDescription?: Maybe<Scalars['String']>;
-  customerLetterSequence?: Maybe<Scalars['String']>;
-  summaryCode?: Maybe<Scalars['String']>;
-  varietyGroup?: Maybe<Scalars['String']>;
-  combineWith?: Maybe<Scalars['String']>;
-};
-
-/** A `Size` edge in the connection. */
-export type SizesEdge = {
-  __typename?: 'SizesEdge';
+/** A `ProductSize` edge in the connection. */
+export type ProductSizesEdge = {
+  __typename?: 'ProductSizesEdge';
   /** A cursor for use in pagination. */
   cursor?: Maybe<Scalars['Cursor']>;
-  /** The `Size` at the end of the edge. */
-  node?: Maybe<Size>;
+  /** The `ProductSize` at the end of the edge. */
+  node?: Maybe<ProductSize>;
 };
 
-/** Methods to use when ordering `Size`. */
-export enum SizesOrderBy {
+/** A filter to be used against `ProductSize` object types. All fields are combined with a logical ‘and.’ */
+export type ProductSizeFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `speciesId` field. */
+  speciesId?: Maybe<StringFilter>;
+  /** Filter by the object’s `varietyId` field. */
+  varietyId?: Maybe<StringFilter>;
+  /** Filter by the object’s `jvCode` field. */
+  jvCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `jvDescription` field. */
+  jvDescription?: Maybe<StringFilter>;
+  /** Filter by the object’s `shipperCode` field. */
+  shipperCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `shipperDescription` field. */
+  shipperDescription?: Maybe<StringFilter>;
+  /** Filter by the object’s `combineWith` field. */
+  combineWith?: Maybe<StringFilter>;
+  /** Filter by the object’s `combineDescription` field. */
+  combineDescription?: Maybe<StringFilter>;
+  /** Filter by the object’s `shipperId` field. */
+  shipperId?: Maybe<StringFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<ProductSizeFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<ProductSizeFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<ProductSizeFilter>;
+};
+
+/** A `ProductMaster` edge in the connection. */
+export type ProductMastersEdge = {
+  __typename?: 'ProductMastersEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `ProductMaster` at the end of the edge. */
+  node?: Maybe<ProductMaster>;
+};
+
+/** Methods to use when ordering `ProductMaster`. */
+export enum ProductMastersOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  DefaultPalletQuantityAsc = 'DEFAULT_PALLET_QUANTITY_ASC',
+  DefaultPalletQuantityDesc = 'DEFAULT_PALLET_QUANTITY_DESC',
+  LotNumberAsc = 'LOT_NUMBER_ASC',
+  LotNumberDesc = 'LOT_NUMBER_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
+/**
+ * A condition to be used against `ProductMaster` object types. All fields are
+ * tested for equality and combined with a logical ‘and.’
+ */
+export type ProductMasterCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `defaultPalletQuantity` field. */
+  defaultPalletQuantity?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `lotNumber` field. */
+  lotNumber?: Maybe<Scalars['String']>;
+};
+
+/** A filter to be used against `ProductMaster` object types. All fields are combined with a logical ‘and.’ */
+export type ProductMasterFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<StringFilter>;
+  /** Filter by the object’s `defaultPalletQuantity` field. */
+  defaultPalletQuantity?: Maybe<StringFilter>;
+  /** Filter by the object’s `lotNumber` field. */
+  lotNumber?: Maybe<StringFilter>;
+  /** Filter by the object’s `searchText` field. */
+  searchText?: Maybe<StringFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<ProductMasterFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<ProductMasterFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<ProductMasterFilter>;
+};
+
+/** Methods to use when ordering `ProductSize`. */
+export enum ProductSizesOrderBy {
   Natural = 'NATURAL',
   IdAsc = 'ID_ASC',
   IdDesc = 'ID_DESC',
@@ -13102,18 +13482,21 @@ export enum SizesOrderBy {
   ShipperCodeDesc = 'SHIPPER_CODE_DESC',
   ShipperDescriptionAsc = 'SHIPPER_DESCRIPTION_ASC',
   ShipperDescriptionDesc = 'SHIPPER_DESCRIPTION_DESC',
-  CombinedCodeAsc = 'COMBINED_CODE_ASC',
-  CombinedCodeDesc = 'COMBINED_CODE_DESC',
-  CombinedDescriptionAsc = 'COMBINED_DESCRIPTION_ASC',
-  CombinedDescriptionDesc = 'COMBINED_DESCRIPTION_DESC',
+  CombineWithAsc = 'COMBINE_WITH_ASC',
+  CombineWithDesc = 'COMBINE_WITH_DESC',
+  CombineDescriptionAsc = 'COMBINE_DESCRIPTION_ASC',
+  CombineDescriptionDesc = 'COMBINE_DESCRIPTION_DESC',
   ShipperIdAsc = 'SHIPPER_ID_ASC',
   ShipperIdDesc = 'SHIPPER_ID_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
 }
 
-/** A condition to be used against `Size` object types. All fields are tested for equality and combined with a logical ‘and.’ */
-export type SizeCondition = {
+/**
+ * A condition to be used against `ProductSize` object types. All fields are tested
+ * for equality and combined with a logical ‘and.’
+ */
+export type ProductSizeCondition = {
   /** Checks for equality with the object’s `id` field. */
   id?: Maybe<Scalars['BigInt']>;
   /** Checks for equality with the object’s `speciesId` field. */
@@ -13128,68 +13511,38 @@ export type SizeCondition = {
   shipperCode?: Maybe<Scalars['String']>;
   /** Checks for equality with the object’s `shipperDescription` field. */
   shipperDescription?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `combinedCode` field. */
-  combinedCode?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `combinedDescription` field. */
-  combinedDescription?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `combineWith` field. */
+  combineWith?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `combineDescription` field. */
+  combineDescription?: Maybe<Scalars['String']>;
   /** Checks for equality with the object’s `shipperId` field. */
   shipperId?: Maybe<Scalars['String']>;
 };
 
-/** A filter to be used against `Size` object types. All fields are combined with a logical ‘and.’ */
-export type SizeFilter = {
-  /** Filter by the object’s `id` field. */
-  id?: Maybe<BigIntFilter>;
-  /** Filter by the object’s `speciesId` field. */
-  speciesId?: Maybe<StringFilter>;
-  /** Filter by the object’s `varietyId` field. */
-  varietyId?: Maybe<StringFilter>;
-  /** Filter by the object’s `jvCode` field. */
-  jvCode?: Maybe<StringFilter>;
-  /** Filter by the object’s `jvDescription` field. */
-  jvDescription?: Maybe<StringFilter>;
-  /** Filter by the object’s `shipperCode` field. */
-  shipperCode?: Maybe<StringFilter>;
-  /** Filter by the object’s `shipperDescription` field. */
-  shipperDescription?: Maybe<StringFilter>;
-  /** Filter by the object’s `combinedCode` field. */
-  combinedCode?: Maybe<StringFilter>;
-  /** Filter by the object’s `combinedDescription` field. */
-  combinedDescription?: Maybe<StringFilter>;
-  /** Filter by the object’s `shipperId` field. */
-  shipperId?: Maybe<StringFilter>;
-  /** Checks for all expressions in this list. */
-  and?: Maybe<Array<SizeFilter>>;
-  /** Checks for any expressions in this list. */
-  or?: Maybe<Array<SizeFilter>>;
-  /** Negates the expression. */
-  not?: Maybe<SizeFilter>;
-};
-
-/** A connection to a list of `Species` values. */
-export type SpeciesConnection = {
-  __typename?: 'SpeciesConnection';
-  /** A list of `Species` objects. */
-  nodes: Array<Maybe<Species>>;
-  /** A list of edges which contains the `Species` and cursor to aid in pagination. */
-  edges: Array<SpeciesEdge>;
+/** A connection to a list of `ProductSpecies` values. */
+export type ProductSpeciesConnection = {
+  __typename?: 'ProductSpeciesConnection';
+  /** A list of `ProductSpecies` objects. */
+  nodes: Array<Maybe<ProductSpecies>>;
+  /** A list of edges which contains the `ProductSpecies` and cursor to aid in pagination. */
+  edges: Array<ProductSpeciesEdge>;
   /** Information to aid in pagination. */
   pageInfo: PageInfo;
-  /** The count of *all* `Species` you could get from the connection. */
+  /** The count of *all* `ProductSpecies` you could get from the connection. */
   totalCount: Scalars['Int'];
 };
 
-/** A `Species` edge in the connection. */
-export type SpeciesEdge = {
-  __typename?: 'SpeciesEdge';
+/** A `ProductSpecies` edge in the connection. */
+export type ProductSpeciesEdge = {
+  __typename?: 'ProductSpeciesEdge';
   /** A cursor for use in pagination. */
   cursor?: Maybe<Scalars['Cursor']>;
-  /** The `Species` at the end of the edge. */
-  node?: Maybe<Species>;
+  /** The `ProductSpecies` at the end of the edge. */
+  node?: Maybe<ProductSpecies>;
 };
 
-/** Methods to use when ordering `Species`. */
-export enum SpeciesOrderBy {
+/** Methods to use when ordering `ProductSpecies`. */
+export enum ProductSpeciesOrderBy {
   Natural = 'NATURAL',
   IdAsc = 'ID_ASC',
   IdDesc = 'ID_DESC',
@@ -13207,8 +13560,11 @@ export enum SpeciesOrderBy {
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
 }
 
-/** A condition to be used against `Species` object types. All fields are tested for equality and combined with a logical ‘and.’ */
-export type SpeciesCondition = {
+/**
+ * A condition to be used against `ProductSpecies` object types. All fields are
+ * tested for equality and combined with a logical ‘and.’
+ */
+export type ProductSpeciesCondition = {
   /** Checks for equality with the object’s `id` field. */
   id?: Maybe<Scalars['String']>;
   /** Checks for equality with the object’s `speciesDescription` field. */
@@ -13223,8 +13579,8 @@ export type SpeciesCondition = {
   defaultTemperature?: Maybe<Scalars['String']>;
 };
 
-/** A filter to be used against `Species` object types. All fields are combined with a logical ‘and.’ */
-export type SpeciesFilter = {
+/** A filter to be used against `ProductSpecies` object types. All fields are combined with a logical ‘and.’ */
+export type ProductSpeciesFilter = {
   /** Filter by the object’s `id` field. */
   id?: Maybe<StringFilter>;
   /** Filter by the object’s `speciesDescription` field. */
@@ -13238,37 +13594,37 @@ export type SpeciesFilter = {
   /** Filter by the object’s `defaultTemperature` field. */
   defaultTemperature?: Maybe<StringFilter>;
   /** Checks for all expressions in this list. */
-  and?: Maybe<Array<SpeciesFilter>>;
+  and?: Maybe<Array<ProductSpeciesFilter>>;
   /** Checks for any expressions in this list. */
-  or?: Maybe<Array<SpeciesFilter>>;
+  or?: Maybe<Array<ProductSpeciesFilter>>;
   /** Negates the expression. */
-  not?: Maybe<SpeciesFilter>;
+  not?: Maybe<ProductSpeciesFilter>;
 };
 
-/** A connection to a list of `Variety` values. */
-export type VarietiesConnection = {
-  __typename?: 'VarietiesConnection';
-  /** A list of `Variety` objects. */
-  nodes: Array<Maybe<Variety>>;
-  /** A list of edges which contains the `Variety` and cursor to aid in pagination. */
-  edges: Array<VarietiesEdge>;
+/** A connection to a list of `ProductVariety` values. */
+export type ProductVarietiesConnection = {
+  __typename?: 'ProductVarietiesConnection';
+  /** A list of `ProductVariety` objects. */
+  nodes: Array<Maybe<ProductVariety>>;
+  /** A list of edges which contains the `ProductVariety` and cursor to aid in pagination. */
+  edges: Array<ProductVarietiesEdge>;
   /** Information to aid in pagination. */
   pageInfo: PageInfo;
-  /** The count of *all* `Variety` you could get from the connection. */
+  /** The count of *all* `ProductVariety` you could get from the connection. */
   totalCount: Scalars['Int'];
 };
 
-/** A `Variety` edge in the connection. */
-export type VarietiesEdge = {
-  __typename?: 'VarietiesEdge';
+/** A `ProductVariety` edge in the connection. */
+export type ProductVarietiesEdge = {
+  __typename?: 'ProductVarietiesEdge';
   /** A cursor for use in pagination. */
   cursor?: Maybe<Scalars['Cursor']>;
-  /** The `Variety` at the end of the edge. */
-  node?: Maybe<Variety>;
+  /** The `ProductVariety` at the end of the edge. */
+  node?: Maybe<ProductVariety>;
 };
 
-/** Methods to use when ordering `Variety`. */
-export enum VarietiesOrderBy {
+/** Methods to use when ordering `ProductVariety`. */
+export enum ProductVarietiesOrderBy {
   Natural = 'NATURAL',
   IdAsc = 'ID_ASC',
   IdDesc = 'ID_DESC',
@@ -13288,8 +13644,11 @@ export enum VarietiesOrderBy {
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
 }
 
-/** A condition to be used against `Variety` object types. All fields are tested for equality and combined with a logical ‘and.’ */
-export type VarietyCondition = {
+/**
+ * A condition to be used against `ProductVariety` object types. All fields are
+ * tested for equality and combined with a logical ‘and.’
+ */
+export type ProductVarietyCondition = {
   /** Checks for equality with the object’s `id` field. */
   id?: Maybe<Scalars['String']>;
   /** Checks for equality with the object’s `varietyDescription` field. */
@@ -13306,8 +13665,8 @@ export type VarietyCondition = {
   combineWith?: Maybe<Scalars['String']>;
 };
 
-/** A filter to be used against `Variety` object types. All fields are combined with a logical ‘and.’ */
-export type VarietyFilter = {
+/** A filter to be used against `ProductVariety` object types. All fields are combined with a logical ‘and.’ */
+export type ProductVarietyFilter = {
   /** Filter by the object’s `id` field. */
   id?: Maybe<StringFilter>;
   /** Filter by the object’s `varietyDescription` field. */
@@ -13323,11 +13682,11 @@ export type VarietyFilter = {
   /** Filter by the object’s `combineWith` field. */
   combineWith?: Maybe<StringFilter>;
   /** Checks for all expressions in this list. */
-  and?: Maybe<Array<VarietyFilter>>;
+  and?: Maybe<Array<ProductVarietyFilter>>;
   /** Checks for any expressions in this list. */
-  or?: Maybe<Array<VarietyFilter>>;
+  or?: Maybe<Array<ProductVarietyFilter>>;
   /** Negates the expression. */
-  not?: Maybe<VarietyFilter>;
+  not?: Maybe<ProductVarietyFilter>;
 };
 
 /** A connection to a list of `String` values. */
@@ -13509,8 +13868,6 @@ export type Mutation = {
   createPsaPomegranatePallet?: Maybe<CreatePsaPomegranatePalletPayload>;
   /** Creates a single `PsaStoneFruitPallet`. */
   createPsaStoneFruitPallet?: Maybe<CreatePsaStoneFruitPalletPayload>;
-  /** Creates a single `Master`. */
-  createMaster?: Maybe<CreateMasterPayload>;
   /** Creates a single `PackAtmosphere`. */
   createPackAtmosphere?: Maybe<CreatePackAtmospherePayload>;
   /** Creates a single `PackBoxStyle`. */
@@ -13527,6 +13884,8 @@ export type Mutation = {
   createPackLabel?: Maybe<CreatePackLabelPayload>;
   /** Creates a single `PackLiner`. */
   createPackLiner?: Maybe<CreatePackLinerPayload>;
+  /** Creates a single `PackMaster`. */
+  createPackMaster?: Maybe<CreatePackMasterPayload>;
   /** Creates a single `PackOut`. */
   createPackOut?: Maybe<CreatePackOutPayload>;
   /** Creates a single `PackPalletType`. */
@@ -13539,12 +13898,14 @@ export type Mutation = {
   createPackStyle?: Maybe<CreatePackStylePayload>;
   /** Creates a single `PackTreeRipe`. */
   createPackTreeRipe?: Maybe<CreatePackTreeRipePayload>;
-  /** Creates a single `Size`. */
-  createSize?: Maybe<CreateSizePayload>;
-  /** Creates a single `Species`. */
-  createSpecies?: Maybe<CreateSpeciesPayload>;
-  /** Creates a single `Variety`. */
-  createVariety?: Maybe<CreateVarietyPayload>;
+  /** Creates a single `ProductMaster`. */
+  createProductMaster?: Maybe<CreateProductMasterPayload>;
+  /** Creates a single `ProductSize`. */
+  createProductSize?: Maybe<CreateProductSizePayload>;
+  /** Creates a single `ProductSpecies`. */
+  createProductSpecies?: Maybe<CreateProductSpeciesPayload>;
+  /** Creates a single `ProductVariety`. */
+  createProductVariety?: Maybe<CreateProductVarietyPayload>;
   /** Updates a single `ContactGroup` using its globally unique id and a patch. */
   updateContactGroupByNodeId?: Maybe<UpdateContactGroupPayload>;
   /** Updates a single `ContactGroup` using a unique key and a patch. */
@@ -13667,78 +14028,110 @@ export type Mutation = {
   updatePsaStoneFruitPalletByNodeId?: Maybe<UpdatePsaStoneFruitPalletPayload>;
   /** Updates a single `PsaStoneFruitPallet` using a unique key and a patch. */
   updatePsaStoneFruitPallet?: Maybe<UpdatePsaStoneFruitPalletPayload>;
-  /** Updates a single `Master` using its globally unique id and a patch. */
-  updateMasterByNodeId?: Maybe<UpdateMasterPayload>;
-  /** Updates a single `Master` using a unique key and a patch. */
-  updateMaster?: Maybe<UpdateMasterPayload>;
   /** Updates a single `PackAtmosphere` using its globally unique id and a patch. */
   updatePackAtmosphereByNodeId?: Maybe<UpdatePackAtmospherePayload>;
   /** Updates a single `PackAtmosphere` using a unique key and a patch. */
   updatePackAtmosphere?: Maybe<UpdatePackAtmospherePayload>;
+  /** Updates a single `PackAtmosphere` using a unique key and a patch. */
+  updatePackAtmosphereByShipperIdAndMaCode?: Maybe<UpdatePackAtmospherePayload>;
   /** Updates a single `PackBoxStyle` using its globally unique id and a patch. */
   updatePackBoxStyleByNodeId?: Maybe<UpdatePackBoxStylePayload>;
   /** Updates a single `PackBoxStyle` using a unique key and a patch. */
   updatePackBoxStyle?: Maybe<UpdatePackBoxStylePayload>;
+  /** Updates a single `PackBoxStyle` using a unique key and a patch. */
+  updatePackBoxStyleByShipperIdAndBoxStyle?: Maybe<UpdatePackBoxStylePayload>;
   /** Updates a single `PackBoxType` using its globally unique id and a patch. */
   updatePackBoxTypeByNodeId?: Maybe<UpdatePackBoxTypePayload>;
   /** Updates a single `PackBoxType` using a unique key and a patch. */
   updatePackBoxType?: Maybe<UpdatePackBoxTypePayload>;
+  /** Updates a single `PackBoxType` using a unique key and a patch. */
+  updatePackBoxTypeByShipperIdAndBoxType?: Maybe<UpdatePackBoxTypePayload>;
   /** Updates a single `PackDestination` using its globally unique id and a patch. */
   updatePackDestinationByNodeId?: Maybe<UpdatePackDestinationPayload>;
   /** Updates a single `PackDestination` using a unique key and a patch. */
   updatePackDestination?: Maybe<UpdatePackDestinationPayload>;
+  /** Updates a single `PackDestination` using a unique key and a patch. */
+  updatePackDestinationByShipperIdAndDestinationCode?: Maybe<UpdatePackDestinationPayload>;
   /** Updates a single `PackGrade` using its globally unique id and a patch. */
   updatePackGradeByNodeId?: Maybe<UpdatePackGradePayload>;
   /** Updates a single `PackGrade` using a unique key and a patch. */
   updatePackGrade?: Maybe<UpdatePackGradePayload>;
+  /** Updates a single `PackGrade` using a unique key and a patch. */
+  updatePackGradeByShipperIdAndGradeCode?: Maybe<UpdatePackGradePayload>;
   /** Updates a single `PackHold` using its globally unique id and a patch. */
   updatePackHoldByNodeId?: Maybe<UpdatePackHoldPayload>;
   /** Updates a single `PackHold` using a unique key and a patch. */
   updatePackHold?: Maybe<UpdatePackHoldPayload>;
+  /** Updates a single `PackHold` using a unique key and a patch. */
+  updatePackHoldByShipperIdAndHoldCode?: Maybe<UpdatePackHoldPayload>;
   /** Updates a single `PackLabel` using its globally unique id and a patch. */
   updatePackLabelByNodeId?: Maybe<UpdatePackLabelPayload>;
   /** Updates a single `PackLabel` using a unique key and a patch. */
   updatePackLabel?: Maybe<UpdatePackLabelPayload>;
+  /** Updates a single `PackLabel` using a unique key and a patch. */
+  updatePackLabelByShipperIdAndLabelCode?: Maybe<UpdatePackLabelPayload>;
   /** Updates a single `PackLiner` using its globally unique id and a patch. */
   updatePackLinerByNodeId?: Maybe<UpdatePackLinerPayload>;
   /** Updates a single `PackLiner` using a unique key and a patch. */
   updatePackLiner?: Maybe<UpdatePackLinerPayload>;
+  /** Updates a single `PackLiner` using a unique key and a patch. */
+  updatePackLinerByShipperIdAndLinerCode?: Maybe<UpdatePackLinerPayload>;
+  /** Updates a single `PackMaster` using its globally unique id and a patch. */
+  updatePackMasterByNodeId?: Maybe<UpdatePackMasterPayload>;
+  /** Updates a single `PackMaster` using a unique key and a patch. */
+  updatePackMaster?: Maybe<UpdatePackMasterPayload>;
   /** Updates a single `PackOut` using its globally unique id and a patch. */
   updatePackOutByNodeId?: Maybe<UpdatePackOutPayload>;
   /** Updates a single `PackOut` using a unique key and a patch. */
   updatePackOut?: Maybe<UpdatePackOutPayload>;
+  /** Updates a single `PackOut` using a unique key and a patch. */
+  updatePackOutByShipperIdAndOutCode?: Maybe<UpdatePackOutPayload>;
   /** Updates a single `PackPalletType` using its globally unique id and a patch. */
   updatePackPalletTypeByNodeId?: Maybe<UpdatePackPalletTypePayload>;
   /** Updates a single `PackPalletType` using a unique key and a patch. */
   updatePackPalletType?: Maybe<UpdatePackPalletTypePayload>;
+  /** Updates a single `PackPalletType` using a unique key and a patch. */
+  updatePackPalletTypeByShipperIdAndPalletType?: Maybe<UpdatePackPalletTypePayload>;
   /** Updates a single `PackProduction` using its globally unique id and a patch. */
   updatePackProductionByNodeId?: Maybe<UpdatePackProductionPayload>;
   /** Updates a single `PackProduction` using a unique key and a patch. */
   updatePackProduction?: Maybe<UpdatePackProductionPayload>;
+  /** Updates a single `PackProduction` using a unique key and a patch. */
+  updatePackProductionByShipperIdAndProductionCode?: Maybe<UpdatePackProductionPayload>;
   /** Updates a single `PackSpecial` using its globally unique id and a patch. */
   updatePackSpecialByNodeId?: Maybe<UpdatePackSpecialPayload>;
   /** Updates a single `PackSpecial` using a unique key and a patch. */
   updatePackSpecial?: Maybe<UpdatePackSpecialPayload>;
+  /** Updates a single `PackSpecial` using a unique key and a patch. */
+  updatePackSpecialByShipperIdAndCustomerCode?: Maybe<UpdatePackSpecialPayload>;
   /** Updates a single `PackStyle` using its globally unique id and a patch. */
   updatePackStyleByNodeId?: Maybe<UpdatePackStylePayload>;
   /** Updates a single `PackStyle` using a unique key and a patch. */
   updatePackStyle?: Maybe<UpdatePackStylePayload>;
+  /** Updates a single `PackStyle` using a unique key and a patch. */
+  updatePackStyleByShipperIdAndPackStyle?: Maybe<UpdatePackStylePayload>;
   /** Updates a single `PackTreeRipe` using its globally unique id and a patch. */
   updatePackTreeRipeByNodeId?: Maybe<UpdatePackTreeRipePayload>;
   /** Updates a single `PackTreeRipe` using a unique key and a patch. */
   updatePackTreeRipe?: Maybe<UpdatePackTreeRipePayload>;
-  /** Updates a single `Size` using its globally unique id and a patch. */
-  updateSizeByNodeId?: Maybe<UpdateSizePayload>;
-  /** Updates a single `Size` using a unique key and a patch. */
-  updateSize?: Maybe<UpdateSizePayload>;
-  /** Updates a single `Species` using its globally unique id and a patch. */
-  updateSpeciesByNodeId?: Maybe<UpdateSpeciesPayload>;
-  /** Updates a single `Species` using a unique key and a patch. */
-  updateSpecies?: Maybe<UpdateSpeciesPayload>;
-  /** Updates a single `Variety` using its globally unique id and a patch. */
-  updateVarietyByNodeId?: Maybe<UpdateVarietyPayload>;
-  /** Updates a single `Variety` using a unique key and a patch. */
-  updateVariety?: Maybe<UpdateVarietyPayload>;
+  /** Updates a single `PackTreeRipe` using a unique key and a patch. */
+  updatePackTreeRipeByShipperIdAndTreeRipe?: Maybe<UpdatePackTreeRipePayload>;
+  /** Updates a single `ProductMaster` using its globally unique id and a patch. */
+  updateProductMasterByNodeId?: Maybe<UpdateProductMasterPayload>;
+  /** Updates a single `ProductMaster` using a unique key and a patch. */
+  updateProductMaster?: Maybe<UpdateProductMasterPayload>;
+  /** Updates a single `ProductSize` using its globally unique id and a patch. */
+  updateProductSizeByNodeId?: Maybe<UpdateProductSizePayload>;
+  /** Updates a single `ProductSize` using a unique key and a patch. */
+  updateProductSize?: Maybe<UpdateProductSizePayload>;
+  /** Updates a single `ProductSpecies` using its globally unique id and a patch. */
+  updateProductSpeciesByNodeId?: Maybe<UpdateProductSpeciesPayload>;
+  /** Updates a single `ProductSpecies` using a unique key and a patch. */
+  updateProductSpecies?: Maybe<UpdateProductSpeciesPayload>;
+  /** Updates a single `ProductVariety` using its globally unique id and a patch. */
+  updateProductVarietyByNodeId?: Maybe<UpdateProductVarietyPayload>;
+  /** Updates a single `ProductVariety` using a unique key and a patch. */
+  updateProductVariety?: Maybe<UpdateProductVarietyPayload>;
   /** Deletes a single `ContactGroup` using its globally unique id. */
   deleteContactGroupByNodeId?: Maybe<DeleteContactGroupPayload>;
   /** Deletes a single `ContactGroup` using a unique key. */
@@ -13861,78 +14254,110 @@ export type Mutation = {
   deletePsaStoneFruitPalletByNodeId?: Maybe<DeletePsaStoneFruitPalletPayload>;
   /** Deletes a single `PsaStoneFruitPallet` using a unique key. */
   deletePsaStoneFruitPallet?: Maybe<DeletePsaStoneFruitPalletPayload>;
-  /** Deletes a single `Master` using its globally unique id. */
-  deleteMasterByNodeId?: Maybe<DeleteMasterPayload>;
-  /** Deletes a single `Master` using a unique key. */
-  deleteMaster?: Maybe<DeleteMasterPayload>;
   /** Deletes a single `PackAtmosphere` using its globally unique id. */
   deletePackAtmosphereByNodeId?: Maybe<DeletePackAtmospherePayload>;
   /** Deletes a single `PackAtmosphere` using a unique key. */
   deletePackAtmosphere?: Maybe<DeletePackAtmospherePayload>;
+  /** Deletes a single `PackAtmosphere` using a unique key. */
+  deletePackAtmosphereByShipperIdAndMaCode?: Maybe<DeletePackAtmospherePayload>;
   /** Deletes a single `PackBoxStyle` using its globally unique id. */
   deletePackBoxStyleByNodeId?: Maybe<DeletePackBoxStylePayload>;
   /** Deletes a single `PackBoxStyle` using a unique key. */
   deletePackBoxStyle?: Maybe<DeletePackBoxStylePayload>;
+  /** Deletes a single `PackBoxStyle` using a unique key. */
+  deletePackBoxStyleByShipperIdAndBoxStyle?: Maybe<DeletePackBoxStylePayload>;
   /** Deletes a single `PackBoxType` using its globally unique id. */
   deletePackBoxTypeByNodeId?: Maybe<DeletePackBoxTypePayload>;
   /** Deletes a single `PackBoxType` using a unique key. */
   deletePackBoxType?: Maybe<DeletePackBoxTypePayload>;
+  /** Deletes a single `PackBoxType` using a unique key. */
+  deletePackBoxTypeByShipperIdAndBoxType?: Maybe<DeletePackBoxTypePayload>;
   /** Deletes a single `PackDestination` using its globally unique id. */
   deletePackDestinationByNodeId?: Maybe<DeletePackDestinationPayload>;
   /** Deletes a single `PackDestination` using a unique key. */
   deletePackDestination?: Maybe<DeletePackDestinationPayload>;
+  /** Deletes a single `PackDestination` using a unique key. */
+  deletePackDestinationByShipperIdAndDestinationCode?: Maybe<DeletePackDestinationPayload>;
   /** Deletes a single `PackGrade` using its globally unique id. */
   deletePackGradeByNodeId?: Maybe<DeletePackGradePayload>;
   /** Deletes a single `PackGrade` using a unique key. */
   deletePackGrade?: Maybe<DeletePackGradePayload>;
+  /** Deletes a single `PackGrade` using a unique key. */
+  deletePackGradeByShipperIdAndGradeCode?: Maybe<DeletePackGradePayload>;
   /** Deletes a single `PackHold` using its globally unique id. */
   deletePackHoldByNodeId?: Maybe<DeletePackHoldPayload>;
   /** Deletes a single `PackHold` using a unique key. */
   deletePackHold?: Maybe<DeletePackHoldPayload>;
+  /** Deletes a single `PackHold` using a unique key. */
+  deletePackHoldByShipperIdAndHoldCode?: Maybe<DeletePackHoldPayload>;
   /** Deletes a single `PackLabel` using its globally unique id. */
   deletePackLabelByNodeId?: Maybe<DeletePackLabelPayload>;
   /** Deletes a single `PackLabel` using a unique key. */
   deletePackLabel?: Maybe<DeletePackLabelPayload>;
+  /** Deletes a single `PackLabel` using a unique key. */
+  deletePackLabelByShipperIdAndLabelCode?: Maybe<DeletePackLabelPayload>;
   /** Deletes a single `PackLiner` using its globally unique id. */
   deletePackLinerByNodeId?: Maybe<DeletePackLinerPayload>;
   /** Deletes a single `PackLiner` using a unique key. */
   deletePackLiner?: Maybe<DeletePackLinerPayload>;
+  /** Deletes a single `PackLiner` using a unique key. */
+  deletePackLinerByShipperIdAndLinerCode?: Maybe<DeletePackLinerPayload>;
+  /** Deletes a single `PackMaster` using its globally unique id. */
+  deletePackMasterByNodeId?: Maybe<DeletePackMasterPayload>;
+  /** Deletes a single `PackMaster` using a unique key. */
+  deletePackMaster?: Maybe<DeletePackMasterPayload>;
   /** Deletes a single `PackOut` using its globally unique id. */
   deletePackOutByNodeId?: Maybe<DeletePackOutPayload>;
   /** Deletes a single `PackOut` using a unique key. */
   deletePackOut?: Maybe<DeletePackOutPayload>;
+  /** Deletes a single `PackOut` using a unique key. */
+  deletePackOutByShipperIdAndOutCode?: Maybe<DeletePackOutPayload>;
   /** Deletes a single `PackPalletType` using its globally unique id. */
   deletePackPalletTypeByNodeId?: Maybe<DeletePackPalletTypePayload>;
   /** Deletes a single `PackPalletType` using a unique key. */
   deletePackPalletType?: Maybe<DeletePackPalletTypePayload>;
+  /** Deletes a single `PackPalletType` using a unique key. */
+  deletePackPalletTypeByShipperIdAndPalletType?: Maybe<DeletePackPalletTypePayload>;
   /** Deletes a single `PackProduction` using its globally unique id. */
   deletePackProductionByNodeId?: Maybe<DeletePackProductionPayload>;
   /** Deletes a single `PackProduction` using a unique key. */
   deletePackProduction?: Maybe<DeletePackProductionPayload>;
+  /** Deletes a single `PackProduction` using a unique key. */
+  deletePackProductionByShipperIdAndProductionCode?: Maybe<DeletePackProductionPayload>;
   /** Deletes a single `PackSpecial` using its globally unique id. */
   deletePackSpecialByNodeId?: Maybe<DeletePackSpecialPayload>;
   /** Deletes a single `PackSpecial` using a unique key. */
   deletePackSpecial?: Maybe<DeletePackSpecialPayload>;
+  /** Deletes a single `PackSpecial` using a unique key. */
+  deletePackSpecialByShipperIdAndCustomerCode?: Maybe<DeletePackSpecialPayload>;
   /** Deletes a single `PackStyle` using its globally unique id. */
   deletePackStyleByNodeId?: Maybe<DeletePackStylePayload>;
   /** Deletes a single `PackStyle` using a unique key. */
   deletePackStyle?: Maybe<DeletePackStylePayload>;
+  /** Deletes a single `PackStyle` using a unique key. */
+  deletePackStyleByShipperIdAndPackStyle?: Maybe<DeletePackStylePayload>;
   /** Deletes a single `PackTreeRipe` using its globally unique id. */
   deletePackTreeRipeByNodeId?: Maybe<DeletePackTreeRipePayload>;
   /** Deletes a single `PackTreeRipe` using a unique key. */
   deletePackTreeRipe?: Maybe<DeletePackTreeRipePayload>;
-  /** Deletes a single `Size` using its globally unique id. */
-  deleteSizeByNodeId?: Maybe<DeleteSizePayload>;
-  /** Deletes a single `Size` using a unique key. */
-  deleteSize?: Maybe<DeleteSizePayload>;
-  /** Deletes a single `Species` using its globally unique id. */
-  deleteSpeciesByNodeId?: Maybe<DeleteSpeciesPayload>;
-  /** Deletes a single `Species` using a unique key. */
-  deleteSpecies?: Maybe<DeleteSpeciesPayload>;
-  /** Deletes a single `Variety` using its globally unique id. */
-  deleteVarietyByNodeId?: Maybe<DeleteVarietyPayload>;
-  /** Deletes a single `Variety` using a unique key. */
-  deleteVariety?: Maybe<DeleteVarietyPayload>;
+  /** Deletes a single `PackTreeRipe` using a unique key. */
+  deletePackTreeRipeByShipperIdAndTreeRipe?: Maybe<DeletePackTreeRipePayload>;
+  /** Deletes a single `ProductMaster` using its globally unique id. */
+  deleteProductMasterByNodeId?: Maybe<DeleteProductMasterPayload>;
+  /** Deletes a single `ProductMaster` using a unique key. */
+  deleteProductMaster?: Maybe<DeleteProductMasterPayload>;
+  /** Deletes a single `ProductSize` using its globally unique id. */
+  deleteProductSizeByNodeId?: Maybe<DeleteProductSizePayload>;
+  /** Deletes a single `ProductSize` using a unique key. */
+  deleteProductSize?: Maybe<DeleteProductSizePayload>;
+  /** Deletes a single `ProductSpecies` using its globally unique id. */
+  deleteProductSpeciesByNodeId?: Maybe<DeleteProductSpeciesPayload>;
+  /** Deletes a single `ProductSpecies` using a unique key. */
+  deleteProductSpecies?: Maybe<DeleteProductSpeciesPayload>;
+  /** Deletes a single `ProductVariety` using its globally unique id. */
+  deleteProductVarietyByNodeId?: Maybe<DeleteProductVarietyPayload>;
+  /** Deletes a single `ProductVariety` using a unique key. */
+  deleteProductVariety?: Maybe<DeleteProductVarietyPayload>;
   bulkAddContactsToGroup?: Maybe<BulkAddContactsToGroupPayload>;
   bulkRemoveContactGroupPersonContact?: Maybe<BulkRemoveContactGroupPersonContactPayload>;
   bulkUpsertAgendaItem?: Maybe<BulkUpsertAgendaItemPayload>;
@@ -14138,12 +14563,6 @@ export type MutationCreatePsaStoneFruitPalletArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationCreateMasterArgs = {
-  input: CreateMasterInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreatePackAtmosphereArgs = {
   input: CreatePackAtmosphereInput;
 };
@@ -14192,6 +14611,12 @@ export type MutationCreatePackLinerArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreatePackMasterArgs = {
+  input: CreatePackMasterInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreatePackOutArgs = {
   input: CreatePackOutInput;
 };
@@ -14228,20 +14653,26 @@ export type MutationCreatePackTreeRipeArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationCreateSizeArgs = {
-  input: CreateSizeInput;
+export type MutationCreateProductMasterArgs = {
+  input: CreateProductMasterInput;
 };
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationCreateSpeciesArgs = {
-  input: CreateSpeciesInput;
+export type MutationCreateProductSizeArgs = {
+  input: CreateProductSizeInput;
 };
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationCreateVarietyArgs = {
-  input: CreateVarietyInput;
+export type MutationCreateProductSpeciesArgs = {
+  input: CreateProductSpeciesInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateProductVarietyArgs = {
+  input: CreateProductVarietyInput;
 };
 
 
@@ -14612,18 +15043,6 @@ export type MutationUpdatePsaStoneFruitPalletArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateMasterByNodeIdArgs = {
-  input: UpdateMasterByNodeIdInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateMasterArgs = {
-  input: UpdateMasterInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdatePackAtmosphereByNodeIdArgs = {
   input: UpdatePackAtmosphereByNodeIdInput;
 };
@@ -14632,6 +15051,12 @@ export type MutationUpdatePackAtmosphereByNodeIdArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdatePackAtmosphereArgs = {
   input: UpdatePackAtmosphereInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePackAtmosphereByShipperIdAndMaCodeArgs = {
+  input: UpdatePackAtmosphereByShipperIdAndMaCodeInput;
 };
 
 
@@ -14648,6 +15073,12 @@ export type MutationUpdatePackBoxStyleArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePackBoxStyleByShipperIdAndBoxStyleArgs = {
+  input: UpdatePackBoxStyleByShipperIdAndBoxStyleInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdatePackBoxTypeByNodeIdArgs = {
   input: UpdatePackBoxTypeByNodeIdInput;
 };
@@ -14656,6 +15087,12 @@ export type MutationUpdatePackBoxTypeByNodeIdArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdatePackBoxTypeArgs = {
   input: UpdatePackBoxTypeInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePackBoxTypeByShipperIdAndBoxTypeArgs = {
+  input: UpdatePackBoxTypeByShipperIdAndBoxTypeInput;
 };
 
 
@@ -14672,6 +15109,12 @@ export type MutationUpdatePackDestinationArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePackDestinationByShipperIdAndDestinationCodeArgs = {
+  input: UpdatePackDestinationByShipperIdAndDestinationCodeInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdatePackGradeByNodeIdArgs = {
   input: UpdatePackGradeByNodeIdInput;
 };
@@ -14680,6 +15123,12 @@ export type MutationUpdatePackGradeByNodeIdArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdatePackGradeArgs = {
   input: UpdatePackGradeInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePackGradeByShipperIdAndGradeCodeArgs = {
+  input: UpdatePackGradeByShipperIdAndGradeCodeInput;
 };
 
 
@@ -14696,6 +15145,12 @@ export type MutationUpdatePackHoldArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePackHoldByShipperIdAndHoldCodeArgs = {
+  input: UpdatePackHoldByShipperIdAndHoldCodeInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdatePackLabelByNodeIdArgs = {
   input: UpdatePackLabelByNodeIdInput;
 };
@@ -14704,6 +15159,12 @@ export type MutationUpdatePackLabelByNodeIdArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdatePackLabelArgs = {
   input: UpdatePackLabelInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePackLabelByShipperIdAndLabelCodeArgs = {
+  input: UpdatePackLabelByShipperIdAndLabelCodeInput;
 };
 
 
@@ -14720,6 +15181,24 @@ export type MutationUpdatePackLinerArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePackLinerByShipperIdAndLinerCodeArgs = {
+  input: UpdatePackLinerByShipperIdAndLinerCodeInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePackMasterByNodeIdArgs = {
+  input: UpdatePackMasterByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePackMasterArgs = {
+  input: UpdatePackMasterInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdatePackOutByNodeIdArgs = {
   input: UpdatePackOutByNodeIdInput;
 };
@@ -14728,6 +15207,12 @@ export type MutationUpdatePackOutByNodeIdArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdatePackOutArgs = {
   input: UpdatePackOutInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePackOutByShipperIdAndOutCodeArgs = {
+  input: UpdatePackOutByShipperIdAndOutCodeInput;
 };
 
 
@@ -14744,6 +15229,12 @@ export type MutationUpdatePackPalletTypeArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePackPalletTypeByShipperIdAndPalletTypeArgs = {
+  input: UpdatePackPalletTypeByShipperIdAndPalletTypeInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdatePackProductionByNodeIdArgs = {
   input: UpdatePackProductionByNodeIdInput;
 };
@@ -14752,6 +15243,12 @@ export type MutationUpdatePackProductionByNodeIdArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdatePackProductionArgs = {
   input: UpdatePackProductionInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePackProductionByShipperIdAndProductionCodeArgs = {
+  input: UpdatePackProductionByShipperIdAndProductionCodeInput;
 };
 
 
@@ -14768,6 +15265,12 @@ export type MutationUpdatePackSpecialArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePackSpecialByShipperIdAndCustomerCodeArgs = {
+  input: UpdatePackSpecialByShipperIdAndCustomerCodeInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdatePackStyleByNodeIdArgs = {
   input: UpdatePackStyleByNodeIdInput;
 };
@@ -14776,6 +15279,12 @@ export type MutationUpdatePackStyleByNodeIdArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdatePackStyleArgs = {
   input: UpdatePackStyleInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePackStyleByShipperIdAndPackStyleArgs = {
+  input: UpdatePackStyleByShipperIdAndPackStyleInput;
 };
 
 
@@ -14792,38 +15301,56 @@ export type MutationUpdatePackTreeRipeArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateSizeByNodeIdArgs = {
-  input: UpdateSizeByNodeIdInput;
+export type MutationUpdatePackTreeRipeByShipperIdAndTreeRipeArgs = {
+  input: UpdatePackTreeRipeByShipperIdAndTreeRipeInput;
 };
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateSizeArgs = {
-  input: UpdateSizeInput;
+export type MutationUpdateProductMasterByNodeIdArgs = {
+  input: UpdateProductMasterByNodeIdInput;
 };
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateSpeciesByNodeIdArgs = {
-  input: UpdateSpeciesByNodeIdInput;
+export type MutationUpdateProductMasterArgs = {
+  input: UpdateProductMasterInput;
 };
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateSpeciesArgs = {
-  input: UpdateSpeciesInput;
+export type MutationUpdateProductSizeByNodeIdArgs = {
+  input: UpdateProductSizeByNodeIdInput;
 };
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateVarietyByNodeIdArgs = {
-  input: UpdateVarietyByNodeIdInput;
+export type MutationUpdateProductSizeArgs = {
+  input: UpdateProductSizeInput;
 };
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateVarietyArgs = {
-  input: UpdateVarietyInput;
+export type MutationUpdateProductSpeciesByNodeIdArgs = {
+  input: UpdateProductSpeciesByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateProductSpeciesArgs = {
+  input: UpdateProductSpeciesInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateProductVarietyByNodeIdArgs = {
+  input: UpdateProductVarietyByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateProductVarietyArgs = {
+  input: UpdateProductVarietyInput;
 };
 
 
@@ -15194,18 +15721,6 @@ export type MutationDeletePsaStoneFruitPalletArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteMasterByNodeIdArgs = {
-  input: DeleteMasterByNodeIdInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteMasterArgs = {
-  input: DeleteMasterInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeletePackAtmosphereByNodeIdArgs = {
   input: DeletePackAtmosphereByNodeIdInput;
 };
@@ -15214,6 +15729,12 @@ export type MutationDeletePackAtmosphereByNodeIdArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeletePackAtmosphereArgs = {
   input: DeletePackAtmosphereInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePackAtmosphereByShipperIdAndMaCodeArgs = {
+  input: DeletePackAtmosphereByShipperIdAndMaCodeInput;
 };
 
 
@@ -15230,6 +15751,12 @@ export type MutationDeletePackBoxStyleArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePackBoxStyleByShipperIdAndBoxStyleArgs = {
+  input: DeletePackBoxStyleByShipperIdAndBoxStyleInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeletePackBoxTypeByNodeIdArgs = {
   input: DeletePackBoxTypeByNodeIdInput;
 };
@@ -15238,6 +15765,12 @@ export type MutationDeletePackBoxTypeByNodeIdArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeletePackBoxTypeArgs = {
   input: DeletePackBoxTypeInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePackBoxTypeByShipperIdAndBoxTypeArgs = {
+  input: DeletePackBoxTypeByShipperIdAndBoxTypeInput;
 };
 
 
@@ -15254,6 +15787,12 @@ export type MutationDeletePackDestinationArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePackDestinationByShipperIdAndDestinationCodeArgs = {
+  input: DeletePackDestinationByShipperIdAndDestinationCodeInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeletePackGradeByNodeIdArgs = {
   input: DeletePackGradeByNodeIdInput;
 };
@@ -15262,6 +15801,12 @@ export type MutationDeletePackGradeByNodeIdArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeletePackGradeArgs = {
   input: DeletePackGradeInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePackGradeByShipperIdAndGradeCodeArgs = {
+  input: DeletePackGradeByShipperIdAndGradeCodeInput;
 };
 
 
@@ -15278,6 +15823,12 @@ export type MutationDeletePackHoldArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePackHoldByShipperIdAndHoldCodeArgs = {
+  input: DeletePackHoldByShipperIdAndHoldCodeInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeletePackLabelByNodeIdArgs = {
   input: DeletePackLabelByNodeIdInput;
 };
@@ -15286,6 +15837,12 @@ export type MutationDeletePackLabelByNodeIdArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeletePackLabelArgs = {
   input: DeletePackLabelInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePackLabelByShipperIdAndLabelCodeArgs = {
+  input: DeletePackLabelByShipperIdAndLabelCodeInput;
 };
 
 
@@ -15302,6 +15859,24 @@ export type MutationDeletePackLinerArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePackLinerByShipperIdAndLinerCodeArgs = {
+  input: DeletePackLinerByShipperIdAndLinerCodeInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePackMasterByNodeIdArgs = {
+  input: DeletePackMasterByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePackMasterArgs = {
+  input: DeletePackMasterInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeletePackOutByNodeIdArgs = {
   input: DeletePackOutByNodeIdInput;
 };
@@ -15310,6 +15885,12 @@ export type MutationDeletePackOutByNodeIdArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeletePackOutArgs = {
   input: DeletePackOutInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePackOutByShipperIdAndOutCodeArgs = {
+  input: DeletePackOutByShipperIdAndOutCodeInput;
 };
 
 
@@ -15326,6 +15907,12 @@ export type MutationDeletePackPalletTypeArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePackPalletTypeByShipperIdAndPalletTypeArgs = {
+  input: DeletePackPalletTypeByShipperIdAndPalletTypeInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeletePackProductionByNodeIdArgs = {
   input: DeletePackProductionByNodeIdInput;
 };
@@ -15334,6 +15921,12 @@ export type MutationDeletePackProductionByNodeIdArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeletePackProductionArgs = {
   input: DeletePackProductionInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePackProductionByShipperIdAndProductionCodeArgs = {
+  input: DeletePackProductionByShipperIdAndProductionCodeInput;
 };
 
 
@@ -15350,6 +15943,12 @@ export type MutationDeletePackSpecialArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePackSpecialByShipperIdAndCustomerCodeArgs = {
+  input: DeletePackSpecialByShipperIdAndCustomerCodeInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeletePackStyleByNodeIdArgs = {
   input: DeletePackStyleByNodeIdInput;
 };
@@ -15358,6 +15957,12 @@ export type MutationDeletePackStyleByNodeIdArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeletePackStyleArgs = {
   input: DeletePackStyleInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePackStyleByShipperIdAndPackStyleArgs = {
+  input: DeletePackStyleByShipperIdAndPackStyleInput;
 };
 
 
@@ -15374,38 +15979,56 @@ export type MutationDeletePackTreeRipeArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteSizeByNodeIdArgs = {
-  input: DeleteSizeByNodeIdInput;
+export type MutationDeletePackTreeRipeByShipperIdAndTreeRipeArgs = {
+  input: DeletePackTreeRipeByShipperIdAndTreeRipeInput;
 };
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteSizeArgs = {
-  input: DeleteSizeInput;
+export type MutationDeleteProductMasterByNodeIdArgs = {
+  input: DeleteProductMasterByNodeIdInput;
 };
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteSpeciesByNodeIdArgs = {
-  input: DeleteSpeciesByNodeIdInput;
+export type MutationDeleteProductMasterArgs = {
+  input: DeleteProductMasterInput;
 };
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteSpeciesArgs = {
-  input: DeleteSpeciesInput;
+export type MutationDeleteProductSizeByNodeIdArgs = {
+  input: DeleteProductSizeByNodeIdInput;
 };
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteVarietyByNodeIdArgs = {
-  input: DeleteVarietyByNodeIdInput;
+export type MutationDeleteProductSizeArgs = {
+  input: DeleteProductSizeInput;
 };
 
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteVarietyArgs = {
-  input: DeleteVarietyInput;
+export type MutationDeleteProductSpeciesByNodeIdArgs = {
+  input: DeleteProductSpeciesByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteProductSpeciesArgs = {
+  input: DeleteProductSpeciesInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteProductVarietyByNodeIdArgs = {
+  input: DeleteProductVarietyByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteProductVarietyArgs = {
+  input: DeleteProductVarietyInput;
 };
 
 
@@ -20303,46 +20926,6 @@ export type PsaStoneFruitPalletInput = {
   fixedWeight?: Maybe<Scalars['String']>;
 };
 
-/** The output of our create `Master` mutation. */
-export type CreateMasterPayload = {
-  __typename?: 'CreateMasterPayload';
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The `Master` that was created by this mutation. */
-  master?: Maybe<Master>;
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>;
-  /** An edge for our `Master`. May be used by Relay 1. */
-  masterEdge?: Maybe<MastersEdge>;
-};
-
-
-/** The output of our create `Master` mutation. */
-export type CreateMasterPayloadMasterEdgeArgs = {
-  orderBy?: Maybe<Array<MastersOrderBy>>;
-};
-
-/** All input for the create `Master` mutation. */
-export type CreateMasterInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The `Master` to be created by this mutation. */
-  master: MasterInput;
-};
-
-/** An input for mutations affecting `Master` */
-export type MasterInput = {
-  id: Scalars['String'];
-  defaultPalletQuantity?: Maybe<Scalars['String']>;
-  lotNumber?: Maybe<Scalars['String']>;
-};
-
 /** The output of our create `PackAtmosphere` mutation. */
 export type CreatePackAtmospherePayload = {
   __typename?: 'CreatePackAtmospherePayload';
@@ -20378,8 +20961,9 @@ export type CreatePackAtmosphereInput = {
 
 /** An input for mutations affecting `PackAtmosphere` */
 export type PackAtmosphereInput = {
-  shipperId: Scalars['String'];
-  maCode: Scalars['String'];
+  id?: Maybe<Scalars['BigInt']>;
+  shipperId?: Maybe<Scalars['String']>;
+  maCode?: Maybe<Scalars['String']>;
   maDescription?: Maybe<Scalars['String']>;
 };
 
@@ -20418,8 +21002,9 @@ export type CreatePackBoxStyleInput = {
 
 /** An input for mutations affecting `PackBoxStyle` */
 export type PackBoxStyleInput = {
-  shipperId: Scalars['String'];
-  boxStyle: Scalars['String'];
+  id?: Maybe<Scalars['BigInt']>;
+  shipperId?: Maybe<Scalars['String']>;
+  boxStyle?: Maybe<Scalars['String']>;
   boxDescription?: Maybe<Scalars['String']>;
   combineWith?: Maybe<Scalars['String']>;
   combineDescription?: Maybe<Scalars['String']>;
@@ -20460,8 +21045,9 @@ export type CreatePackBoxTypeInput = {
 
 /** An input for mutations affecting `PackBoxType` */
 export type PackBoxTypeInput = {
-  shipperId: Scalars['String'];
-  boxType: Scalars['String'];
+  id?: Maybe<Scalars['BigInt']>;
+  shipperId?: Maybe<Scalars['String']>;
+  boxType?: Maybe<Scalars['String']>;
   boxDescription?: Maybe<Scalars['String']>;
 };
 
@@ -20500,8 +21086,9 @@ export type CreatePackDestinationInput = {
 
 /** An input for mutations affecting `PackDestination` */
 export type PackDestinationInput = {
-  shipperId: Scalars['String'];
-  destinationCode: Scalars['String'];
+  id?: Maybe<Scalars['BigInt']>;
+  shipperId?: Maybe<Scalars['String']>;
+  destinationCode?: Maybe<Scalars['String']>;
   destinationDescription?: Maybe<Scalars['String']>;
 };
 
@@ -20540,8 +21127,9 @@ export type CreatePackGradeInput = {
 
 /** An input for mutations affecting `PackGrade` */
 export type PackGradeInput = {
-  shipperId: Scalars['String'];
-  gradeCode: Scalars['String'];
+  id?: Maybe<Scalars['BigInt']>;
+  shipperId?: Maybe<Scalars['String']>;
+  gradeCode?: Maybe<Scalars['String']>;
   gradeDescription?: Maybe<Scalars['String']>;
 };
 
@@ -20580,8 +21168,9 @@ export type CreatePackHoldInput = {
 
 /** An input for mutations affecting `PackHold` */
 export type PackHoldInput = {
-  shipperId: Scalars['String'];
-  holdCode: Scalars['String'];
+  id?: Maybe<Scalars['BigInt']>;
+  shipperId?: Maybe<Scalars['String']>;
+  holdCode?: Maybe<Scalars['String']>;
   holdDescription?: Maybe<Scalars['String']>;
 };
 
@@ -20620,9 +21209,10 @@ export type CreatePackLabelInput = {
 
 /** An input for mutations affecting `PackLabel` */
 export type PackLabelInput = {
-  labelCode: Scalars['String'];
+  id?: Maybe<Scalars['BigInt']>;
+  labelCode?: Maybe<Scalars['String']>;
   labelName?: Maybe<Scalars['String']>;
-  shipperId: Scalars['String'];
+  shipperId?: Maybe<Scalars['String']>;
   shipperName?: Maybe<Scalars['String']>;
 };
 
@@ -20661,9 +21251,78 @@ export type CreatePackLinerInput = {
 
 /** An input for mutations affecting `PackLiner` */
 export type PackLinerInput = {
-  shipperId: Scalars['String'];
-  linerCode: Scalars['String'];
+  id?: Maybe<Scalars['BigInt']>;
+  shipperId?: Maybe<Scalars['String']>;
+  linerCode?: Maybe<Scalars['String']>;
   linerDescription?: Maybe<Scalars['String']>;
+};
+
+/** The output of our create `PackMaster` mutation. */
+export type CreatePackMasterPayload = {
+  __typename?: 'CreatePackMasterPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackMaster` that was created by this mutation. */
+  packMaster?: Maybe<PackMaster>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `PackMaster`. May be used by Relay 1. */
+  packMasterEdge?: Maybe<PackMastersEdge>;
+};
+
+
+/** The output of our create `PackMaster` mutation. */
+export type CreatePackMasterPayloadPackMasterEdgeArgs = {
+  orderBy?: Maybe<Array<PackMastersOrderBy>>;
+};
+
+/** All input for the create `PackMaster` mutation. */
+export type CreatePackMasterInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackMaster` to be created by this mutation. */
+  packMaster: PackMasterInput;
+};
+
+/** An input for mutations affecting `PackMaster` */
+export type PackMasterInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  shipperId?: Maybe<Scalars['String']>;
+  labelCodeId?: Maybe<Scalars['String']>;
+  customerCodeId?: Maybe<Scalars['String']>;
+  boxTypeId?: Maybe<Scalars['String']>;
+  boxStyleId?: Maybe<Scalars['String']>;
+  packStyleId?: Maybe<Scalars['String']>;
+  outCodeId?: Maybe<Scalars['String']>;
+  outQuantity?: Maybe<Scalars['String']>;
+  outWeight?: Maybe<Scalars['String']>;
+  productionCodeId?: Maybe<Scalars['String']>;
+  treeRipeId?: Maybe<Scalars['String']>;
+  gradeCodeId?: Maybe<Scalars['String']>;
+  maCodeId?: Maybe<Scalars['String']>;
+  linerCodeId?: Maybe<Scalars['String']>;
+  netWeightContents?: Maybe<Scalars['BigFloat']>;
+  netWeightBox?: Maybe<Scalars['BigFloat']>;
+  boxLength?: Maybe<Scalars['BigFloat']>;
+  boxWidth?: Maybe<Scalars['BigFloat']>;
+  boxHeight?: Maybe<Scalars['BigFloat']>;
+  palletTypeId?: Maybe<Scalars['String']>;
+  defaultPalletQuantity?: Maybe<Scalars['BigFloat']>;
+  pluUpcCode?: Maybe<Scalars['String']>;
+  destinationCodeId?: Maybe<Scalars['String']>;
+  oldPackCode?: Maybe<Scalars['String']>;
+  oldLabelCode?: Maybe<Scalars['String']>;
+  jvPackCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  varietyId?: Maybe<Scalars['String']>;
+  speciesId?: Maybe<Scalars['String']>;
+  holdCodeId?: Maybe<Scalars['String']>;
 };
 
 /** The output of our create `PackOut` mutation. */
@@ -20701,8 +21360,9 @@ export type CreatePackOutInput = {
 
 /** An input for mutations affecting `PackOut` */
 export type PackOutInput = {
-  shipperId: Scalars['String'];
-  outCode: Scalars['String'];
+  id?: Maybe<Scalars['BigInt']>;
+  shipperId?: Maybe<Scalars['String']>;
+  outCode?: Maybe<Scalars['String']>;
   outDescription?: Maybe<Scalars['String']>;
   combineWith?: Maybe<Scalars['String']>;
 };
@@ -20742,8 +21402,9 @@ export type CreatePackPalletTypeInput = {
 
 /** An input for mutations affecting `PackPalletType` */
 export type PackPalletTypeInput = {
-  shipperId: Scalars['String'];
-  palletType: Scalars['String'];
+  id?: Maybe<Scalars['BigInt']>;
+  shipperId?: Maybe<Scalars['String']>;
+  palletType?: Maybe<Scalars['String']>;
   palletTypeDescription?: Maybe<Scalars['String']>;
   combineWith?: Maybe<Scalars['String']>;
 };
@@ -20783,8 +21444,9 @@ export type CreatePackProductionInput = {
 
 /** An input for mutations affecting `PackProduction` */
 export type PackProductionInput = {
-  shipperId: Scalars['String'];
-  productionCode: Scalars['String'];
+  id?: Maybe<Scalars['BigInt']>;
+  shipperId?: Maybe<Scalars['String']>;
+  productionCode?: Maybe<Scalars['String']>;
   productionDescription?: Maybe<Scalars['String']>;
   combineWith?: Maybe<Scalars['String']>;
 };
@@ -20824,8 +21486,9 @@ export type CreatePackSpecialInput = {
 
 /** An input for mutations affecting `PackSpecial` */
 export type PackSpecialInput = {
-  shipperId: Scalars['String'];
-  customerCode: Scalars['String'];
+  id?: Maybe<Scalars['BigInt']>;
+  shipperId?: Maybe<Scalars['String']>;
+  customerCode?: Maybe<Scalars['String']>;
   customerId?: Maybe<Scalars['String']>;
   customerName?: Maybe<Scalars['String']>;
 };
@@ -20865,8 +21528,9 @@ export type CreatePackStyleInput = {
 
 /** An input for mutations affecting `PackStyle` */
 export type PackStyleInput = {
-  shipperId: Scalars['String'];
-  packStyle: Scalars['String'];
+  id?: Maybe<Scalars['BigInt']>;
+  shipperId?: Maybe<Scalars['String']>;
+  packStyle?: Maybe<Scalars['String']>;
   styleDescription?: Maybe<Scalars['String']>;
   combineWith?: Maybe<Scalars['String']>;
 };
@@ -20906,46 +21570,87 @@ export type CreatePackTreeRipeInput = {
 
 /** An input for mutations affecting `PackTreeRipe` */
 export type PackTreeRipeInput = {
-  shipperId: Scalars['String'];
-  treeRipe: Scalars['String'];
+  id?: Maybe<Scalars['BigInt']>;
+  shipperId?: Maybe<Scalars['String']>;
+  treeRipe?: Maybe<Scalars['String']>;
   treeRipeDescription?: Maybe<Scalars['String']>;
 };
 
-/** The output of our create `Size` mutation. */
-export type CreateSizePayload = {
-  __typename?: 'CreateSizePayload';
+/** The output of our create `ProductMaster` mutation. */
+export type CreateProductMasterPayload = {
+  __typename?: 'CreateProductMasterPayload';
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']>;
-  /** The `Size` that was created by this mutation. */
-  size?: Maybe<Size>;
+  /** The `ProductMaster` that was created by this mutation. */
+  productMaster?: Maybe<ProductMaster>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-  /** An edge for our `Size`. May be used by Relay 1. */
-  sizeEdge?: Maybe<SizesEdge>;
+  /** An edge for our `ProductMaster`. May be used by Relay 1. */
+  productMasterEdge?: Maybe<ProductMastersEdge>;
 };
 
 
-/** The output of our create `Size` mutation. */
-export type CreateSizePayloadSizeEdgeArgs = {
-  orderBy?: Maybe<Array<SizesOrderBy>>;
+/** The output of our create `ProductMaster` mutation. */
+export type CreateProductMasterPayloadProductMasterEdgeArgs = {
+  orderBy?: Maybe<Array<ProductMastersOrderBy>>;
 };
 
-/** All input for the create `Size` mutation. */
-export type CreateSizeInput = {
+/** All input for the create `ProductMaster` mutation. */
+export type CreateProductMasterInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: Maybe<Scalars['String']>;
-  /** The `Size` to be created by this mutation. */
-  size: SizeInput;
+  /** The `ProductMaster` to be created by this mutation. */
+  productMaster: ProductMasterInput;
 };
 
-/** An input for mutations affecting `Size` */
-export type SizeInput = {
+/** An input for mutations affecting `ProductMaster` */
+export type ProductMasterInput = {
+  id: Scalars['String'];
+  defaultPalletQuantity?: Maybe<Scalars['String']>;
+  lotNumber?: Maybe<Scalars['String']>;
+};
+
+/** The output of our create `ProductSize` mutation. */
+export type CreateProductSizePayload = {
+  __typename?: 'CreateProductSizePayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `ProductSize` that was created by this mutation. */
+  productSize?: Maybe<ProductSize>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `ProductSize`. May be used by Relay 1. */
+  productSizeEdge?: Maybe<ProductSizesEdge>;
+};
+
+
+/** The output of our create `ProductSize` mutation. */
+export type CreateProductSizePayloadProductSizeEdgeArgs = {
+  orderBy?: Maybe<Array<ProductSizesOrderBy>>;
+};
+
+/** All input for the create `ProductSize` mutation. */
+export type CreateProductSizeInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `ProductSize` to be created by this mutation. */
+  productSize: ProductSizeInput;
+};
+
+/** An input for mutations affecting `ProductSize` */
+export type ProductSizeInput = {
   id?: Maybe<Scalars['BigInt']>;
   speciesId?: Maybe<Scalars['String']>;
   varietyId?: Maybe<Scalars['String']>;
@@ -20953,46 +21658,46 @@ export type SizeInput = {
   jvDescription?: Maybe<Scalars['String']>;
   shipperCode?: Maybe<Scalars['String']>;
   shipperDescription?: Maybe<Scalars['String']>;
-  combinedCode?: Maybe<Scalars['String']>;
-  combinedDescription?: Maybe<Scalars['String']>;
+  combineWith?: Maybe<Scalars['String']>;
+  combineDescription?: Maybe<Scalars['String']>;
   shipperId?: Maybe<Scalars['String']>;
 };
 
-/** The output of our create `Species` mutation. */
-export type CreateSpeciesPayload = {
-  __typename?: 'CreateSpeciesPayload';
+/** The output of our create `ProductSpecies` mutation. */
+export type CreateProductSpeciesPayload = {
+  __typename?: 'CreateProductSpeciesPayload';
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']>;
-  /** The `Species` that was created by this mutation. */
-  species?: Maybe<Species>;
+  /** The `ProductSpecies` that was created by this mutation. */
+  productSpecies?: Maybe<ProductSpecies>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-  /** An edge for our `Species`. May be used by Relay 1. */
-  speciesEdge?: Maybe<SpeciesEdge>;
+  /** An edge for our `ProductSpecies`. May be used by Relay 1. */
+  productSpeciesEdge?: Maybe<ProductSpeciesEdge>;
 };
 
 
-/** The output of our create `Species` mutation. */
-export type CreateSpeciesPayloadSpeciesEdgeArgs = {
-  orderBy?: Maybe<Array<SpeciesOrderBy>>;
+/** The output of our create `ProductSpecies` mutation. */
+export type CreateProductSpeciesPayloadProductSpeciesEdgeArgs = {
+  orderBy?: Maybe<Array<ProductSpeciesOrderBy>>;
 };
 
-/** All input for the create `Species` mutation. */
-export type CreateSpeciesInput = {
+/** All input for the create `ProductSpecies` mutation. */
+export type CreateProductSpeciesInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: Maybe<Scalars['String']>;
-  /** The `Species` to be created by this mutation. */
-  species: SpeciesInput;
+  /** The `ProductSpecies` to be created by this mutation. */
+  productSpecies: ProductSpeciesInput;
 };
 
-/** An input for mutations affecting `Species` */
-export type SpeciesInput = {
+/** An input for mutations affecting `ProductSpecies` */
+export type ProductSpeciesInput = {
   id: Scalars['String'];
   speciesDescription?: Maybe<Scalars['String']>;
   secondaryDescription?: Maybe<Scalars['String']>;
@@ -21001,41 +21706,41 @@ export type SpeciesInput = {
   defaultTemperature?: Maybe<Scalars['String']>;
 };
 
-/** The output of our create `Variety` mutation. */
-export type CreateVarietyPayload = {
-  __typename?: 'CreateVarietyPayload';
+/** The output of our create `ProductVariety` mutation. */
+export type CreateProductVarietyPayload = {
+  __typename?: 'CreateProductVarietyPayload';
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']>;
-  /** The `Variety` that was created by this mutation. */
-  variety?: Maybe<Variety>;
+  /** The `ProductVariety` that was created by this mutation. */
+  productVariety?: Maybe<ProductVariety>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-  /** An edge for our `Variety`. May be used by Relay 1. */
-  varietyEdge?: Maybe<VarietiesEdge>;
+  /** An edge for our `ProductVariety`. May be used by Relay 1. */
+  productVarietyEdge?: Maybe<ProductVarietiesEdge>;
 };
 
 
-/** The output of our create `Variety` mutation. */
-export type CreateVarietyPayloadVarietyEdgeArgs = {
-  orderBy?: Maybe<Array<VarietiesOrderBy>>;
+/** The output of our create `ProductVariety` mutation. */
+export type CreateProductVarietyPayloadProductVarietyEdgeArgs = {
+  orderBy?: Maybe<Array<ProductVarietiesOrderBy>>;
 };
 
-/** All input for the create `Variety` mutation. */
-export type CreateVarietyInput = {
+/** All input for the create `ProductVariety` mutation. */
+export type CreateProductVarietyInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: Maybe<Scalars['String']>;
-  /** The `Variety` to be created by this mutation. */
-  variety: VarietyInput;
+  /** The `ProductVariety` to be created by this mutation. */
+  productVariety: ProductVarietyInput;
 };
 
-/** An input for mutations affecting `Variety` */
-export type VarietyInput = {
+/** An input for mutations affecting `ProductVariety` */
+export type ProductVarietyInput = {
   id: Scalars['String'];
   varietyDescription?: Maybe<Scalars['String']>;
   secondaryDescription?: Maybe<Scalars['String']>;
@@ -23449,60 +24154,6 @@ export type UpdatePsaStoneFruitPalletInput = {
   id: Scalars['BigInt'];
 };
 
-/** The output of our update `Master` mutation. */
-export type UpdateMasterPayload = {
-  __typename?: 'UpdateMasterPayload';
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The `Master` that was updated by this mutation. */
-  master?: Maybe<Master>;
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>;
-  /** An edge for our `Master`. May be used by Relay 1. */
-  masterEdge?: Maybe<MastersEdge>;
-};
-
-
-/** The output of our update `Master` mutation. */
-export type UpdateMasterPayloadMasterEdgeArgs = {
-  orderBy?: Maybe<Array<MastersOrderBy>>;
-};
-
-/** All input for the `updateMasterByNodeId` mutation. */
-export type UpdateMasterByNodeIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The globally unique `ID` which will identify a single `Master` to be updated. */
-  nodeId: Scalars['ID'];
-  /** An object where the defined keys will be set on the `Master` being updated. */
-  patch: MasterPatch;
-};
-
-/** Represents an update to a `Master`. Fields that are set will be updated. */
-export type MasterPatch = {
-  id?: Maybe<Scalars['String']>;
-  defaultPalletQuantity?: Maybe<Scalars['String']>;
-  lotNumber?: Maybe<Scalars['String']>;
-};
-
-/** All input for the `updateMaster` mutation. */
-export type UpdateMasterInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** An object where the defined keys will be set on the `Master` being updated. */
-  patch: MasterPatch;
-  id: Scalars['String'];
-};
-
 /** The output of our update `PackAtmosphere` mutation. */
 export type UpdatePackAtmospherePayload = {
   __typename?: 'UpdatePackAtmospherePayload';
@@ -23540,6 +24191,7 @@ export type UpdatePackAtmosphereByNodeIdInput = {
 
 /** Represents an update to a `PackAtmosphere`. Fields that are set will be updated. */
 export type PackAtmospherePatch = {
+  id?: Maybe<Scalars['BigInt']>;
   shipperId?: Maybe<Scalars['String']>;
   maCode?: Maybe<Scalars['String']>;
   maDescription?: Maybe<Scalars['String']>;
@@ -23547,6 +24199,18 @@ export type PackAtmospherePatch = {
 
 /** All input for the `updatePackAtmosphere` mutation. */
 export type UpdatePackAtmosphereInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `PackAtmosphere` being updated. */
+  patch: PackAtmospherePatch;
+  id: Scalars['BigInt'];
+};
+
+/** All input for the `updatePackAtmosphereByShipperIdAndMaCode` mutation. */
+export type UpdatePackAtmosphereByShipperIdAndMaCodeInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
@@ -23595,6 +24259,7 @@ export type UpdatePackBoxStyleByNodeIdInput = {
 
 /** Represents an update to a `PackBoxStyle`. Fields that are set will be updated. */
 export type PackBoxStylePatch = {
+  id?: Maybe<Scalars['BigInt']>;
   shipperId?: Maybe<Scalars['String']>;
   boxStyle?: Maybe<Scalars['String']>;
   boxDescription?: Maybe<Scalars['String']>;
@@ -23604,6 +24269,18 @@ export type PackBoxStylePatch = {
 
 /** All input for the `updatePackBoxStyle` mutation. */
 export type UpdatePackBoxStyleInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `PackBoxStyle` being updated. */
+  patch: PackBoxStylePatch;
+  id: Scalars['BigInt'];
+};
+
+/** All input for the `updatePackBoxStyleByShipperIdAndBoxStyle` mutation. */
+export type UpdatePackBoxStyleByShipperIdAndBoxStyleInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
@@ -23652,6 +24329,7 @@ export type UpdatePackBoxTypeByNodeIdInput = {
 
 /** Represents an update to a `PackBoxType`. Fields that are set will be updated. */
 export type PackBoxTypePatch = {
+  id?: Maybe<Scalars['BigInt']>;
   shipperId?: Maybe<Scalars['String']>;
   boxType?: Maybe<Scalars['String']>;
   boxDescription?: Maybe<Scalars['String']>;
@@ -23659,6 +24337,18 @@ export type PackBoxTypePatch = {
 
 /** All input for the `updatePackBoxType` mutation. */
 export type UpdatePackBoxTypeInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `PackBoxType` being updated. */
+  patch: PackBoxTypePatch;
+  id: Scalars['BigInt'];
+};
+
+/** All input for the `updatePackBoxTypeByShipperIdAndBoxType` mutation. */
+export type UpdatePackBoxTypeByShipperIdAndBoxTypeInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
@@ -23707,6 +24397,7 @@ export type UpdatePackDestinationByNodeIdInput = {
 
 /** Represents an update to a `PackDestination`. Fields that are set will be updated. */
 export type PackDestinationPatch = {
+  id?: Maybe<Scalars['BigInt']>;
   shipperId?: Maybe<Scalars['String']>;
   destinationCode?: Maybe<Scalars['String']>;
   destinationDescription?: Maybe<Scalars['String']>;
@@ -23714,6 +24405,18 @@ export type PackDestinationPatch = {
 
 /** All input for the `updatePackDestination` mutation. */
 export type UpdatePackDestinationInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `PackDestination` being updated. */
+  patch: PackDestinationPatch;
+  id: Scalars['BigInt'];
+};
+
+/** All input for the `updatePackDestinationByShipperIdAndDestinationCode` mutation. */
+export type UpdatePackDestinationByShipperIdAndDestinationCodeInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
@@ -23762,6 +24465,7 @@ export type UpdatePackGradeByNodeIdInput = {
 
 /** Represents an update to a `PackGrade`. Fields that are set will be updated. */
 export type PackGradePatch = {
+  id?: Maybe<Scalars['BigInt']>;
   shipperId?: Maybe<Scalars['String']>;
   gradeCode?: Maybe<Scalars['String']>;
   gradeDescription?: Maybe<Scalars['String']>;
@@ -23769,6 +24473,18 @@ export type PackGradePatch = {
 
 /** All input for the `updatePackGrade` mutation. */
 export type UpdatePackGradeInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `PackGrade` being updated. */
+  patch: PackGradePatch;
+  id: Scalars['BigInt'];
+};
+
+/** All input for the `updatePackGradeByShipperIdAndGradeCode` mutation. */
+export type UpdatePackGradeByShipperIdAndGradeCodeInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
@@ -23817,6 +24533,7 @@ export type UpdatePackHoldByNodeIdInput = {
 
 /** Represents an update to a `PackHold`. Fields that are set will be updated. */
 export type PackHoldPatch = {
+  id?: Maybe<Scalars['BigInt']>;
   shipperId?: Maybe<Scalars['String']>;
   holdCode?: Maybe<Scalars['String']>;
   holdDescription?: Maybe<Scalars['String']>;
@@ -23824,6 +24541,18 @@ export type PackHoldPatch = {
 
 /** All input for the `updatePackHold` mutation. */
 export type UpdatePackHoldInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `PackHold` being updated. */
+  patch: PackHoldPatch;
+  id: Scalars['BigInt'];
+};
+
+/** All input for the `updatePackHoldByShipperIdAndHoldCode` mutation. */
+export type UpdatePackHoldByShipperIdAndHoldCodeInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
@@ -23872,6 +24601,7 @@ export type UpdatePackLabelByNodeIdInput = {
 
 /** Represents an update to a `PackLabel`. Fields that are set will be updated. */
 export type PackLabelPatch = {
+  id?: Maybe<Scalars['BigInt']>;
   labelCode?: Maybe<Scalars['String']>;
   labelName?: Maybe<Scalars['String']>;
   shipperId?: Maybe<Scalars['String']>;
@@ -23880,6 +24610,18 @@ export type PackLabelPatch = {
 
 /** All input for the `updatePackLabel` mutation. */
 export type UpdatePackLabelInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `PackLabel` being updated. */
+  patch: PackLabelPatch;
+  id: Scalars['BigInt'];
+};
+
+/** All input for the `updatePackLabelByShipperIdAndLabelCode` mutation. */
+export type UpdatePackLabelByShipperIdAndLabelCodeInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
@@ -23928,6 +24670,7 @@ export type UpdatePackLinerByNodeIdInput = {
 
 /** Represents an update to a `PackLiner`. Fields that are set will be updated. */
 export type PackLinerPatch = {
+  id?: Maybe<Scalars['BigInt']>;
   shipperId?: Maybe<Scalars['String']>;
   linerCode?: Maybe<Scalars['String']>;
   linerDescription?: Maybe<Scalars['String']>;
@@ -23942,8 +24685,102 @@ export type UpdatePackLinerInput = {
   clientMutationId?: Maybe<Scalars['String']>;
   /** An object where the defined keys will be set on the `PackLiner` being updated. */
   patch: PackLinerPatch;
+  id: Scalars['BigInt'];
+};
+
+/** All input for the `updatePackLinerByShipperIdAndLinerCode` mutation. */
+export type UpdatePackLinerByShipperIdAndLinerCodeInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `PackLiner` being updated. */
+  patch: PackLinerPatch;
   shipperId: Scalars['String'];
   linerCode: Scalars['String'];
+};
+
+/** The output of our update `PackMaster` mutation. */
+export type UpdatePackMasterPayload = {
+  __typename?: 'UpdatePackMasterPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackMaster` that was updated by this mutation. */
+  packMaster?: Maybe<PackMaster>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `PackMaster`. May be used by Relay 1. */
+  packMasterEdge?: Maybe<PackMastersEdge>;
+};
+
+
+/** The output of our update `PackMaster` mutation. */
+export type UpdatePackMasterPayloadPackMasterEdgeArgs = {
+  orderBy?: Maybe<Array<PackMastersOrderBy>>;
+};
+
+/** All input for the `updatePackMasterByNodeId` mutation. */
+export type UpdatePackMasterByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `PackMaster` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `PackMaster` being updated. */
+  patch: PackMasterPatch;
+};
+
+/** Represents an update to a `PackMaster`. Fields that are set will be updated. */
+export type PackMasterPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  shipperId?: Maybe<Scalars['String']>;
+  labelCodeId?: Maybe<Scalars['String']>;
+  customerCodeId?: Maybe<Scalars['String']>;
+  boxTypeId?: Maybe<Scalars['String']>;
+  boxStyleId?: Maybe<Scalars['String']>;
+  packStyleId?: Maybe<Scalars['String']>;
+  outCodeId?: Maybe<Scalars['String']>;
+  outQuantity?: Maybe<Scalars['String']>;
+  outWeight?: Maybe<Scalars['String']>;
+  productionCodeId?: Maybe<Scalars['String']>;
+  treeRipeId?: Maybe<Scalars['String']>;
+  gradeCodeId?: Maybe<Scalars['String']>;
+  maCodeId?: Maybe<Scalars['String']>;
+  linerCodeId?: Maybe<Scalars['String']>;
+  netWeightContents?: Maybe<Scalars['BigFloat']>;
+  netWeightBox?: Maybe<Scalars['BigFloat']>;
+  boxLength?: Maybe<Scalars['BigFloat']>;
+  boxWidth?: Maybe<Scalars['BigFloat']>;
+  boxHeight?: Maybe<Scalars['BigFloat']>;
+  palletTypeId?: Maybe<Scalars['String']>;
+  defaultPalletQuantity?: Maybe<Scalars['BigFloat']>;
+  pluUpcCode?: Maybe<Scalars['String']>;
+  destinationCodeId?: Maybe<Scalars['String']>;
+  oldPackCode?: Maybe<Scalars['String']>;
+  oldLabelCode?: Maybe<Scalars['String']>;
+  jvPackCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  varietyId?: Maybe<Scalars['String']>;
+  speciesId?: Maybe<Scalars['String']>;
+  holdCodeId?: Maybe<Scalars['String']>;
+};
+
+/** All input for the `updatePackMaster` mutation. */
+export type UpdatePackMasterInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `PackMaster` being updated. */
+  patch: PackMasterPatch;
+  id: Scalars['BigInt'];
 };
 
 /** The output of our update `PackOut` mutation. */
@@ -23983,6 +24820,7 @@ export type UpdatePackOutByNodeIdInput = {
 
 /** Represents an update to a `PackOut`. Fields that are set will be updated. */
 export type PackOutPatch = {
+  id?: Maybe<Scalars['BigInt']>;
   shipperId?: Maybe<Scalars['String']>;
   outCode?: Maybe<Scalars['String']>;
   outDescription?: Maybe<Scalars['String']>;
@@ -23991,6 +24829,18 @@ export type PackOutPatch = {
 
 /** All input for the `updatePackOut` mutation. */
 export type UpdatePackOutInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `PackOut` being updated. */
+  patch: PackOutPatch;
+  id: Scalars['BigInt'];
+};
+
+/** All input for the `updatePackOutByShipperIdAndOutCode` mutation. */
+export type UpdatePackOutByShipperIdAndOutCodeInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
@@ -24039,6 +24889,7 @@ export type UpdatePackPalletTypeByNodeIdInput = {
 
 /** Represents an update to a `PackPalletType`. Fields that are set will be updated. */
 export type PackPalletTypePatch = {
+  id?: Maybe<Scalars['BigInt']>;
   shipperId?: Maybe<Scalars['String']>;
   palletType?: Maybe<Scalars['String']>;
   palletTypeDescription?: Maybe<Scalars['String']>;
@@ -24047,6 +24898,18 @@ export type PackPalletTypePatch = {
 
 /** All input for the `updatePackPalletType` mutation. */
 export type UpdatePackPalletTypeInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `PackPalletType` being updated. */
+  patch: PackPalletTypePatch;
+  id: Scalars['BigInt'];
+};
+
+/** All input for the `updatePackPalletTypeByShipperIdAndPalletType` mutation. */
+export type UpdatePackPalletTypeByShipperIdAndPalletTypeInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
@@ -24095,6 +24958,7 @@ export type UpdatePackProductionByNodeIdInput = {
 
 /** Represents an update to a `PackProduction`. Fields that are set will be updated. */
 export type PackProductionPatch = {
+  id?: Maybe<Scalars['BigInt']>;
   shipperId?: Maybe<Scalars['String']>;
   productionCode?: Maybe<Scalars['String']>;
   productionDescription?: Maybe<Scalars['String']>;
@@ -24103,6 +24967,18 @@ export type PackProductionPatch = {
 
 /** All input for the `updatePackProduction` mutation. */
 export type UpdatePackProductionInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `PackProduction` being updated. */
+  patch: PackProductionPatch;
+  id: Scalars['BigInt'];
+};
+
+/** All input for the `updatePackProductionByShipperIdAndProductionCode` mutation. */
+export type UpdatePackProductionByShipperIdAndProductionCodeInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
@@ -24151,6 +25027,7 @@ export type UpdatePackSpecialByNodeIdInput = {
 
 /** Represents an update to a `PackSpecial`. Fields that are set will be updated. */
 export type PackSpecialPatch = {
+  id?: Maybe<Scalars['BigInt']>;
   shipperId?: Maybe<Scalars['String']>;
   customerCode?: Maybe<Scalars['String']>;
   customerId?: Maybe<Scalars['String']>;
@@ -24159,6 +25036,18 @@ export type PackSpecialPatch = {
 
 /** All input for the `updatePackSpecial` mutation. */
 export type UpdatePackSpecialInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `PackSpecial` being updated. */
+  patch: PackSpecialPatch;
+  id: Scalars['BigInt'];
+};
+
+/** All input for the `updatePackSpecialByShipperIdAndCustomerCode` mutation. */
+export type UpdatePackSpecialByShipperIdAndCustomerCodeInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
@@ -24207,6 +25096,7 @@ export type UpdatePackStyleByNodeIdInput = {
 
 /** Represents an update to a `PackStyle`. Fields that are set will be updated. */
 export type PackStylePatch = {
+  id?: Maybe<Scalars['BigInt']>;
   shipperId?: Maybe<Scalars['String']>;
   packStyle?: Maybe<Scalars['String']>;
   styleDescription?: Maybe<Scalars['String']>;
@@ -24215,6 +25105,18 @@ export type PackStylePatch = {
 
 /** All input for the `updatePackStyle` mutation. */
 export type UpdatePackStyleInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `PackStyle` being updated. */
+  patch: PackStylePatch;
+  id: Scalars['BigInt'];
+};
+
+/** All input for the `updatePackStyleByShipperIdAndPackStyle` mutation. */
+export type UpdatePackStyleByShipperIdAndPackStyleInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
@@ -24263,6 +25165,7 @@ export type UpdatePackTreeRipeByNodeIdInput = {
 
 /** Represents an update to a `PackTreeRipe`. Fields that are set will be updated. */
 export type PackTreeRipePatch = {
+  id?: Maybe<Scalars['BigInt']>;
   shipperId?: Maybe<Scalars['String']>;
   treeRipe?: Maybe<Scalars['String']>;
   treeRipeDescription?: Maybe<Scalars['String']>;
@@ -24277,47 +25180,113 @@ export type UpdatePackTreeRipeInput = {
   clientMutationId?: Maybe<Scalars['String']>;
   /** An object where the defined keys will be set on the `PackTreeRipe` being updated. */
   patch: PackTreeRipePatch;
-  shipperId: Scalars['String'];
-  treeRipe: Scalars['String'];
+  id: Scalars['BigInt'];
 };
 
-/** The output of our update `Size` mutation. */
-export type UpdateSizePayload = {
-  __typename?: 'UpdateSizePayload';
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The `Size` that was updated by this mutation. */
-  size?: Maybe<Size>;
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>;
-  /** An edge for our `Size`. May be used by Relay 1. */
-  sizeEdge?: Maybe<SizesEdge>;
-};
-
-
-/** The output of our update `Size` mutation. */
-export type UpdateSizePayloadSizeEdgeArgs = {
-  orderBy?: Maybe<Array<SizesOrderBy>>;
-};
-
-/** All input for the `updateSizeByNodeId` mutation. */
-export type UpdateSizeByNodeIdInput = {
+/** All input for the `updatePackTreeRipeByShipperIdAndTreeRipe` mutation. */
+export type UpdatePackTreeRipeByShipperIdAndTreeRipeInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: Maybe<Scalars['String']>;
-  /** The globally unique `ID` which will identify a single `Size` to be updated. */
-  nodeId: Scalars['ID'];
-  /** An object where the defined keys will be set on the `Size` being updated. */
-  patch: SizePatch;
+  /** An object where the defined keys will be set on the `PackTreeRipe` being updated. */
+  patch: PackTreeRipePatch;
+  shipperId: Scalars['String'];
+  treeRipe: Scalars['String'];
 };
 
-/** Represents an update to a `Size`. Fields that are set will be updated. */
-export type SizePatch = {
+/** The output of our update `ProductMaster` mutation. */
+export type UpdateProductMasterPayload = {
+  __typename?: 'UpdateProductMasterPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `ProductMaster` that was updated by this mutation. */
+  productMaster?: Maybe<ProductMaster>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `ProductMaster`. May be used by Relay 1. */
+  productMasterEdge?: Maybe<ProductMastersEdge>;
+};
+
+
+/** The output of our update `ProductMaster` mutation. */
+export type UpdateProductMasterPayloadProductMasterEdgeArgs = {
+  orderBy?: Maybe<Array<ProductMastersOrderBy>>;
+};
+
+/** All input for the `updateProductMasterByNodeId` mutation. */
+export type UpdateProductMasterByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `ProductMaster` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `ProductMaster` being updated. */
+  patch: ProductMasterPatch;
+};
+
+/** Represents an update to a `ProductMaster`. Fields that are set will be updated. */
+export type ProductMasterPatch = {
+  id?: Maybe<Scalars['String']>;
+  defaultPalletQuantity?: Maybe<Scalars['String']>;
+  lotNumber?: Maybe<Scalars['String']>;
+};
+
+/** All input for the `updateProductMaster` mutation. */
+export type UpdateProductMasterInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `ProductMaster` being updated. */
+  patch: ProductMasterPatch;
+  id: Scalars['String'];
+};
+
+/** The output of our update `ProductSize` mutation. */
+export type UpdateProductSizePayload = {
+  __typename?: 'UpdateProductSizePayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `ProductSize` that was updated by this mutation. */
+  productSize?: Maybe<ProductSize>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `ProductSize`. May be used by Relay 1. */
+  productSizeEdge?: Maybe<ProductSizesEdge>;
+};
+
+
+/** The output of our update `ProductSize` mutation. */
+export type UpdateProductSizePayloadProductSizeEdgeArgs = {
+  orderBy?: Maybe<Array<ProductSizesOrderBy>>;
+};
+
+/** All input for the `updateProductSizeByNodeId` mutation. */
+export type UpdateProductSizeByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `ProductSize` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `ProductSize` being updated. */
+  patch: ProductSizePatch;
+};
+
+/** Represents an update to a `ProductSize`. Fields that are set will be updated. */
+export type ProductSizePatch = {
   id?: Maybe<Scalars['BigInt']>;
   speciesId?: Maybe<Scalars['String']>;
   varietyId?: Maybe<Scalars['String']>;
@@ -24325,60 +25294,60 @@ export type SizePatch = {
   jvDescription?: Maybe<Scalars['String']>;
   shipperCode?: Maybe<Scalars['String']>;
   shipperDescription?: Maybe<Scalars['String']>;
-  combinedCode?: Maybe<Scalars['String']>;
-  combinedDescription?: Maybe<Scalars['String']>;
+  combineWith?: Maybe<Scalars['String']>;
+  combineDescription?: Maybe<Scalars['String']>;
   shipperId?: Maybe<Scalars['String']>;
 };
 
-/** All input for the `updateSize` mutation. */
-export type UpdateSizeInput = {
+/** All input for the `updateProductSize` mutation. */
+export type UpdateProductSizeInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: Maybe<Scalars['String']>;
-  /** An object where the defined keys will be set on the `Size` being updated. */
-  patch: SizePatch;
+  /** An object where the defined keys will be set on the `ProductSize` being updated. */
+  patch: ProductSizePatch;
   id: Scalars['BigInt'];
 };
 
-/** The output of our update `Species` mutation. */
-export type UpdateSpeciesPayload = {
-  __typename?: 'UpdateSpeciesPayload';
+/** The output of our update `ProductSpecies` mutation. */
+export type UpdateProductSpeciesPayload = {
+  __typename?: 'UpdateProductSpeciesPayload';
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']>;
-  /** The `Species` that was updated by this mutation. */
-  species?: Maybe<Species>;
+  /** The `ProductSpecies` that was updated by this mutation. */
+  productSpecies?: Maybe<ProductSpecies>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-  /** An edge for our `Species`. May be used by Relay 1. */
-  speciesEdge?: Maybe<SpeciesEdge>;
+  /** An edge for our `ProductSpecies`. May be used by Relay 1. */
+  productSpeciesEdge?: Maybe<ProductSpeciesEdge>;
 };
 
 
-/** The output of our update `Species` mutation. */
-export type UpdateSpeciesPayloadSpeciesEdgeArgs = {
-  orderBy?: Maybe<Array<SpeciesOrderBy>>;
+/** The output of our update `ProductSpecies` mutation. */
+export type UpdateProductSpeciesPayloadProductSpeciesEdgeArgs = {
+  orderBy?: Maybe<Array<ProductSpeciesOrderBy>>;
 };
 
-/** All input for the `updateSpeciesByNodeId` mutation. */
-export type UpdateSpeciesByNodeIdInput = {
+/** All input for the `updateProductSpeciesByNodeId` mutation. */
+export type UpdateProductSpeciesByNodeIdInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: Maybe<Scalars['String']>;
-  /** The globally unique `ID` which will identify a single `Species` to be updated. */
+  /** The globally unique `ID` which will identify a single `ProductSpecies` to be updated. */
   nodeId: Scalars['ID'];
-  /** An object where the defined keys will be set on the `Species` being updated. */
-  patch: SpeciesPatch;
+  /** An object where the defined keys will be set on the `ProductSpecies` being updated. */
+  patch: ProductSpeciesPatch;
 };
 
-/** Represents an update to a `Species`. Fields that are set will be updated. */
-export type SpeciesPatch = {
+/** Represents an update to a `ProductSpecies`. Fields that are set will be updated. */
+export type ProductSpeciesPatch = {
   id?: Maybe<Scalars['String']>;
   speciesDescription?: Maybe<Scalars['String']>;
   secondaryDescription?: Maybe<Scalars['String']>;
@@ -24387,55 +25356,55 @@ export type SpeciesPatch = {
   defaultTemperature?: Maybe<Scalars['String']>;
 };
 
-/** All input for the `updateSpecies` mutation. */
-export type UpdateSpeciesInput = {
+/** All input for the `updateProductSpecies` mutation. */
+export type UpdateProductSpeciesInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: Maybe<Scalars['String']>;
-  /** An object where the defined keys will be set on the `Species` being updated. */
-  patch: SpeciesPatch;
+  /** An object where the defined keys will be set on the `ProductSpecies` being updated. */
+  patch: ProductSpeciesPatch;
   id: Scalars['String'];
 };
 
-/** The output of our update `Variety` mutation. */
-export type UpdateVarietyPayload = {
-  __typename?: 'UpdateVarietyPayload';
+/** The output of our update `ProductVariety` mutation. */
+export type UpdateProductVarietyPayload = {
+  __typename?: 'UpdateProductVarietyPayload';
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']>;
-  /** The `Variety` that was updated by this mutation. */
-  variety?: Maybe<Variety>;
+  /** The `ProductVariety` that was updated by this mutation. */
+  productVariety?: Maybe<ProductVariety>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-  /** An edge for our `Variety`. May be used by Relay 1. */
-  varietyEdge?: Maybe<VarietiesEdge>;
+  /** An edge for our `ProductVariety`. May be used by Relay 1. */
+  productVarietyEdge?: Maybe<ProductVarietiesEdge>;
 };
 
 
-/** The output of our update `Variety` mutation. */
-export type UpdateVarietyPayloadVarietyEdgeArgs = {
-  orderBy?: Maybe<Array<VarietiesOrderBy>>;
+/** The output of our update `ProductVariety` mutation. */
+export type UpdateProductVarietyPayloadProductVarietyEdgeArgs = {
+  orderBy?: Maybe<Array<ProductVarietiesOrderBy>>;
 };
 
-/** All input for the `updateVarietyByNodeId` mutation. */
-export type UpdateVarietyByNodeIdInput = {
+/** All input for the `updateProductVarietyByNodeId` mutation. */
+export type UpdateProductVarietyByNodeIdInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: Maybe<Scalars['String']>;
-  /** The globally unique `ID` which will identify a single `Variety` to be updated. */
+  /** The globally unique `ID` which will identify a single `ProductVariety` to be updated. */
   nodeId: Scalars['ID'];
-  /** An object where the defined keys will be set on the `Variety` being updated. */
-  patch: VarietyPatch;
+  /** An object where the defined keys will be set on the `ProductVariety` being updated. */
+  patch: ProductVarietyPatch;
 };
 
-/** Represents an update to a `Variety`. Fields that are set will be updated. */
-export type VarietyPatch = {
+/** Represents an update to a `ProductVariety`. Fields that are set will be updated. */
+export type ProductVarietyPatch = {
   id?: Maybe<Scalars['String']>;
   varietyDescription?: Maybe<Scalars['String']>;
   secondaryDescription?: Maybe<Scalars['String']>;
@@ -24445,15 +25414,15 @@ export type VarietyPatch = {
   combineWith?: Maybe<Scalars['String']>;
 };
 
-/** All input for the `updateVariety` mutation. */
-export type UpdateVarietyInput = {
+/** All input for the `updateProductVariety` mutation. */
+export type UpdateProductVarietyInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: Maybe<Scalars['String']>;
-  /** An object where the defined keys will be set on the `Variety` being updated. */
-  patch: VarietyPatch;
+  /** An object where the defined keys will be set on the `ProductVariety` being updated. */
+  patch: ProductVarietyPatch;
   id: Scalars['String'];
 };
 
@@ -25823,50 +26792,6 @@ export type DeletePsaStoneFruitPalletInput = {
   id: Scalars['BigInt'];
 };
 
-/** The output of our delete `Master` mutation. */
-export type DeleteMasterPayload = {
-  __typename?: 'DeleteMasterPayload';
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The `Master` that was deleted by this mutation. */
-  master?: Maybe<Master>;
-  deletedMasterNodeId?: Maybe<Scalars['ID']>;
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>;
-  /** An edge for our `Master`. May be used by Relay 1. */
-  masterEdge?: Maybe<MastersEdge>;
-};
-
-
-/** The output of our delete `Master` mutation. */
-export type DeleteMasterPayloadMasterEdgeArgs = {
-  orderBy?: Maybe<Array<MastersOrderBy>>;
-};
-
-/** All input for the `deleteMasterByNodeId` mutation. */
-export type DeleteMasterByNodeIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The globally unique `ID` which will identify a single `Master` to be deleted. */
-  nodeId: Scalars['ID'];
-};
-
-/** All input for the `deleteMaster` mutation. */
-export type DeleteMasterInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  id: Scalars['String'];
-};
-
 /** The output of our delete `PackAtmosphere` mutation. */
 export type DeletePackAtmospherePayload = {
   __typename?: 'DeletePackAtmospherePayload';
@@ -25903,6 +26828,16 @@ export type DeletePackAtmosphereByNodeIdInput = {
 
 /** All input for the `deletePackAtmosphere` mutation. */
 export type DeletePackAtmosphereInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['BigInt'];
+};
+
+/** All input for the `deletePackAtmosphereByShipperIdAndMaCode` mutation. */
+export type DeletePackAtmosphereByShipperIdAndMaCodeInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
@@ -25953,6 +26888,16 @@ export type DeletePackBoxStyleInput = {
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['BigInt'];
+};
+
+/** All input for the `deletePackBoxStyleByShipperIdAndBoxStyle` mutation. */
+export type DeletePackBoxStyleByShipperIdAndBoxStyleInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
   shipperId: Scalars['String'];
   boxStyle: Scalars['String'];
 };
@@ -25993,6 +26938,16 @@ export type DeletePackBoxTypeByNodeIdInput = {
 
 /** All input for the `deletePackBoxType` mutation. */
 export type DeletePackBoxTypeInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['BigInt'];
+};
+
+/** All input for the `deletePackBoxTypeByShipperIdAndBoxType` mutation. */
+export type DeletePackBoxTypeByShipperIdAndBoxTypeInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
@@ -26043,6 +26998,16 @@ export type DeletePackDestinationInput = {
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['BigInt'];
+};
+
+/** All input for the `deletePackDestinationByShipperIdAndDestinationCode` mutation. */
+export type DeletePackDestinationByShipperIdAndDestinationCodeInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
   shipperId: Scalars['String'];
   destinationCode: Scalars['String'];
 };
@@ -26083,6 +27048,16 @@ export type DeletePackGradeByNodeIdInput = {
 
 /** All input for the `deletePackGrade` mutation. */
 export type DeletePackGradeInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['BigInt'];
+};
+
+/** All input for the `deletePackGradeByShipperIdAndGradeCode` mutation. */
+export type DeletePackGradeByShipperIdAndGradeCodeInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
@@ -26133,6 +27108,16 @@ export type DeletePackHoldInput = {
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['BigInt'];
+};
+
+/** All input for the `deletePackHoldByShipperIdAndHoldCode` mutation. */
+export type DeletePackHoldByShipperIdAndHoldCodeInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
   shipperId: Scalars['String'];
   holdCode: Scalars['String'];
 };
@@ -26173,6 +27158,16 @@ export type DeletePackLabelByNodeIdInput = {
 
 /** All input for the `deletePackLabel` mutation. */
 export type DeletePackLabelInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['BigInt'];
+};
+
+/** All input for the `deletePackLabelByShipperIdAndLabelCode` mutation. */
+export type DeletePackLabelByShipperIdAndLabelCodeInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
@@ -26223,8 +27218,62 @@ export type DeletePackLinerInput = {
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['BigInt'];
+};
+
+/** All input for the `deletePackLinerByShipperIdAndLinerCode` mutation. */
+export type DeletePackLinerByShipperIdAndLinerCodeInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
   shipperId: Scalars['String'];
   linerCode: Scalars['String'];
+};
+
+/** The output of our delete `PackMaster` mutation. */
+export type DeletePackMasterPayload = {
+  __typename?: 'DeletePackMasterPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `PackMaster` that was deleted by this mutation. */
+  packMaster?: Maybe<PackMaster>;
+  deletedPackMasterNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `PackMaster`. May be used by Relay 1. */
+  packMasterEdge?: Maybe<PackMastersEdge>;
+};
+
+
+/** The output of our delete `PackMaster` mutation. */
+export type DeletePackMasterPayloadPackMasterEdgeArgs = {
+  orderBy?: Maybe<Array<PackMastersOrderBy>>;
+};
+
+/** All input for the `deletePackMasterByNodeId` mutation. */
+export type DeletePackMasterByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `PackMaster` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deletePackMaster` mutation. */
+export type DeletePackMasterInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['BigInt'];
 };
 
 /** The output of our delete `PackOut` mutation. */
@@ -26263,6 +27312,16 @@ export type DeletePackOutByNodeIdInput = {
 
 /** All input for the `deletePackOut` mutation. */
 export type DeletePackOutInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['BigInt'];
+};
+
+/** All input for the `deletePackOutByShipperIdAndOutCode` mutation. */
+export type DeletePackOutByShipperIdAndOutCodeInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
@@ -26313,6 +27372,16 @@ export type DeletePackPalletTypeInput = {
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['BigInt'];
+};
+
+/** All input for the `deletePackPalletTypeByShipperIdAndPalletType` mutation. */
+export type DeletePackPalletTypeByShipperIdAndPalletTypeInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
   shipperId: Scalars['String'];
   palletType: Scalars['String'];
 };
@@ -26353,6 +27422,16 @@ export type DeletePackProductionByNodeIdInput = {
 
 /** All input for the `deletePackProduction` mutation. */
 export type DeletePackProductionInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['BigInt'];
+};
+
+/** All input for the `deletePackProductionByShipperIdAndProductionCode` mutation. */
+export type DeletePackProductionByShipperIdAndProductionCodeInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
@@ -26403,6 +27482,16 @@ export type DeletePackSpecialInput = {
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['BigInt'];
+};
+
+/** All input for the `deletePackSpecialByShipperIdAndCustomerCode` mutation. */
+export type DeletePackSpecialByShipperIdAndCustomerCodeInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
   shipperId: Scalars['String'];
   customerCode: Scalars['String'];
 };
@@ -26443,6 +27532,16 @@ export type DeletePackStyleByNodeIdInput = {
 
 /** All input for the `deletePackStyle` mutation. */
 export type DeletePackStyleInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['BigInt'];
+};
+
+/** All input for the `deletePackStyleByShipperIdAndPackStyle` mutation. */
+export type DeletePackStyleByShipperIdAndPackStyleInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
@@ -26493,90 +27592,56 @@ export type DeletePackTreeRipeInput = {
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['BigInt'];
+};
+
+/** All input for the `deletePackTreeRipeByShipperIdAndTreeRipe` mutation. */
+export type DeletePackTreeRipeByShipperIdAndTreeRipeInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
   shipperId: Scalars['String'];
   treeRipe: Scalars['String'];
 };
 
-/** The output of our delete `Size` mutation. */
-export type DeleteSizePayload = {
-  __typename?: 'DeleteSizePayload';
+/** The output of our delete `ProductMaster` mutation. */
+export type DeleteProductMasterPayload = {
+  __typename?: 'DeleteProductMasterPayload';
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']>;
-  /** The `Size` that was deleted by this mutation. */
-  size?: Maybe<Size>;
-  deletedSizeNodeId?: Maybe<Scalars['ID']>;
+  /** The `ProductMaster` that was deleted by this mutation. */
+  productMaster?: Maybe<ProductMaster>;
+  deletedProductMasterNodeId?: Maybe<Scalars['ID']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-  /** An edge for our `Size`. May be used by Relay 1. */
-  sizeEdge?: Maybe<SizesEdge>;
+  /** An edge for our `ProductMaster`. May be used by Relay 1. */
+  productMasterEdge?: Maybe<ProductMastersEdge>;
 };
 
 
-/** The output of our delete `Size` mutation. */
-export type DeleteSizePayloadSizeEdgeArgs = {
-  orderBy?: Maybe<Array<SizesOrderBy>>;
+/** The output of our delete `ProductMaster` mutation. */
+export type DeleteProductMasterPayloadProductMasterEdgeArgs = {
+  orderBy?: Maybe<Array<ProductMastersOrderBy>>;
 };
 
-/** All input for the `deleteSizeByNodeId` mutation. */
-export type DeleteSizeByNodeIdInput = {
+/** All input for the `deleteProductMasterByNodeId` mutation. */
+export type DeleteProductMasterByNodeIdInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: Maybe<Scalars['String']>;
-  /** The globally unique `ID` which will identify a single `Size` to be deleted. */
+  /** The globally unique `ID` which will identify a single `ProductMaster` to be deleted. */
   nodeId: Scalars['ID'];
 };
 
-/** All input for the `deleteSize` mutation. */
-export type DeleteSizeInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  id: Scalars['BigInt'];
-};
-
-/** The output of our delete `Species` mutation. */
-export type DeleteSpeciesPayload = {
-  __typename?: 'DeleteSpeciesPayload';
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The `Species` that was deleted by this mutation. */
-  species?: Maybe<Species>;
-  deletedSpeciesNodeId?: Maybe<Scalars['ID']>;
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>;
-  /** An edge for our `Species`. May be used by Relay 1. */
-  speciesEdge?: Maybe<SpeciesEdge>;
-};
-
-
-/** The output of our delete `Species` mutation. */
-export type DeleteSpeciesPayloadSpeciesEdgeArgs = {
-  orderBy?: Maybe<Array<SpeciesOrderBy>>;
-};
-
-/** All input for the `deleteSpeciesByNodeId` mutation. */
-export type DeleteSpeciesByNodeIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  /** The globally unique `ID` which will identify a single `Species` to be deleted. */
-  nodeId: Scalars['ID'];
-};
-
-/** All input for the `deleteSpecies` mutation. */
-export type DeleteSpeciesInput = {
+/** All input for the `deleteProductMaster` mutation. */
+export type DeleteProductMasterInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
@@ -26585,42 +27650,130 @@ export type DeleteSpeciesInput = {
   id: Scalars['String'];
 };
 
-/** The output of our delete `Variety` mutation. */
-export type DeleteVarietyPayload = {
-  __typename?: 'DeleteVarietyPayload';
+/** The output of our delete `ProductSize` mutation. */
+export type DeleteProductSizePayload = {
+  __typename?: 'DeleteProductSizePayload';
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']>;
-  /** The `Variety` that was deleted by this mutation. */
-  variety?: Maybe<Variety>;
-  deletedVarietyNodeId?: Maybe<Scalars['ID']>;
+  /** The `ProductSize` that was deleted by this mutation. */
+  productSize?: Maybe<ProductSize>;
+  deletedProductSizeNodeId?: Maybe<Scalars['ID']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-  /** An edge for our `Variety`. May be used by Relay 1. */
-  varietyEdge?: Maybe<VarietiesEdge>;
+  /** An edge for our `ProductSize`. May be used by Relay 1. */
+  productSizeEdge?: Maybe<ProductSizesEdge>;
 };
 
 
-/** The output of our delete `Variety` mutation. */
-export type DeleteVarietyPayloadVarietyEdgeArgs = {
-  orderBy?: Maybe<Array<VarietiesOrderBy>>;
+/** The output of our delete `ProductSize` mutation. */
+export type DeleteProductSizePayloadProductSizeEdgeArgs = {
+  orderBy?: Maybe<Array<ProductSizesOrderBy>>;
 };
 
-/** All input for the `deleteVarietyByNodeId` mutation. */
-export type DeleteVarietyByNodeIdInput = {
+/** All input for the `deleteProductSizeByNodeId` mutation. */
+export type DeleteProductSizeByNodeIdInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: Maybe<Scalars['String']>;
-  /** The globally unique `ID` which will identify a single `Variety` to be deleted. */
+  /** The globally unique `ID` which will identify a single `ProductSize` to be deleted. */
   nodeId: Scalars['ID'];
 };
 
-/** All input for the `deleteVariety` mutation. */
-export type DeleteVarietyInput = {
+/** All input for the `deleteProductSize` mutation. */
+export type DeleteProductSizeInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['BigInt'];
+};
+
+/** The output of our delete `ProductSpecies` mutation. */
+export type DeleteProductSpeciesPayload = {
+  __typename?: 'DeleteProductSpeciesPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `ProductSpecies` that was deleted by this mutation. */
+  productSpecies?: Maybe<ProductSpecies>;
+  deletedProductSpeciesNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `ProductSpecies`. May be used by Relay 1. */
+  productSpeciesEdge?: Maybe<ProductSpeciesEdge>;
+};
+
+
+/** The output of our delete `ProductSpecies` mutation. */
+export type DeleteProductSpeciesPayloadProductSpeciesEdgeArgs = {
+  orderBy?: Maybe<Array<ProductSpeciesOrderBy>>;
+};
+
+/** All input for the `deleteProductSpeciesByNodeId` mutation. */
+export type DeleteProductSpeciesByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `ProductSpecies` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deleteProductSpecies` mutation. */
+export type DeleteProductSpeciesInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['String'];
+};
+
+/** The output of our delete `ProductVariety` mutation. */
+export type DeleteProductVarietyPayload = {
+  __typename?: 'DeleteProductVarietyPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `ProductVariety` that was deleted by this mutation. */
+  productVariety?: Maybe<ProductVariety>;
+  deletedProductVarietyNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `ProductVariety`. May be used by Relay 1. */
+  productVarietyEdge?: Maybe<ProductVarietiesEdge>;
+};
+
+
+/** The output of our delete `ProductVariety` mutation. */
+export type DeleteProductVarietyPayloadProductVarietyEdgeArgs = {
+  orderBy?: Maybe<Array<ProductVarietiesOrderBy>>;
+};
+
+/** All input for the `deleteProductVarietyByNodeId` mutation. */
+export type DeleteProductVarietyByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `ProductVariety` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deleteProductVariety` mutation. */
+export type DeleteProductVarietyInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.

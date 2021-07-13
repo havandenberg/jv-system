@@ -1,12 +1,14 @@
 import React, { useCallback } from 'react';
+import { ApolloError } from '@apollo/client';
 import { groupBy, isEmpty } from 'ramda';
 import { useLocation } from 'react-router-dom';
+import { StringParam } from 'use-query-params';
 
-import api from 'api';
 import { DataMessage } from 'components/page/message';
 import useColumns, { SORT_ORDER } from 'hooks/use-columns';
-import { useQueryValue } from 'hooks/use-query-params';
+import { useQuerySet } from 'hooks/use-query-params';
 import {
+  Maybe,
   PsaApplePallet,
   PsaArrivalReport,
   PsaCherryPallet,
@@ -21,82 +23,93 @@ import {
 import l from 'ui/layout';
 import th from 'ui/theme';
 
+import { filterPallets } from '../data-utils';
 import { listLabels } from './data-utils';
 import ListItem from './list-item';
 
-export const gridTemplateColumns = 'repeat(2, 2fr) repeat(4, 1fr) 30px';
+export const gridTemplateColumns = '1.5fr 0.8fr 1.5fr 1fr 0.8fr 0.8fr 30px';
 
 const PsaArrivalPallets = ({
   inspection,
+  loading,
+  error,
 }: {
-  inspection: PsaArrivalReport;
+  inspection?: Maybe<PsaArrivalReport>;
+  loading: boolean;
+  error?: ApolloError;
 }) => {
   const { search } = useLocation();
-  const { data, loading, error } = api.usePsaArrivalPallets(
-    `${inspection.arrivalCode} ${inspection.arrivalName}`,
-    `${inspection.exporterName}`,
-  );
-  const [variety] = useQueryValue('variety');
+  const [
+    { variety, size, growerCode, labelCode, overallQuality, overallCondition },
+  ] = useQuerySet({
+    commodity: StringParam,
+    variety: StringParam,
+    size: StringParam,
+    growerCode: StringParam,
+    labelCode: StringParam,
+    overallQuality: StringParam,
+    overallCondition: StringParam,
+  });
 
   const grapeColumnLabels = useColumns<PsaGrapePallet>(
-    'palletId',
-    SORT_ORDER.DESC,
+    'size',
+    SORT_ORDER.ASC,
     listLabels,
     'inspection',
     'psa_grape_pallet',
   );
   const citrusColumnLabels = useColumns<PsaCitrusPallet>(
-    'palletId',
-    SORT_ORDER.DESC,
+    'size',
+    SORT_ORDER.ASC,
     listLabels,
     'inspection',
     'psa_citrus_pallet',
   );
   const stoneFruitColumnLabels = useColumns<PsaStoneFruitPallet>(
-    'palletId',
-    SORT_ORDER.DESC,
+    'size',
+    SORT_ORDER.ASC,
     listLabels,
     'inspection',
     'psa_stone_fruit_pallet',
   );
   const pomegranateColumnLabels = useColumns<PsaPomegranatePallet>(
-    'palletId',
-    SORT_ORDER.DESC,
+    'size',
+    SORT_ORDER.ASC,
     listLabels,
     'inspection',
     'psa_pomegranate_pallet',
   );
   const persimmonColumnLabels = useColumns<PsaPersimmonPallet>(
-    'palletId',
-    SORT_ORDER.DESC,
+    'size',
+    SORT_ORDER.ASC,
     listLabels,
     'inspection',
     'psa_persimmon_pallet',
   );
   const pearColumnLabels = useColumns<PsaPearPallet>(
-    'palletId',
-    SORT_ORDER.DESC,
+    'size',
+    SORT_ORDER.ASC,
     listLabels,
     'inspection',
     'psa_pear_pallet',
   );
   const lemonColumnLabels = useColumns<PsaLemonPallet>(
-    'palletId',
-    SORT_ORDER.DESC,
+    'size',
+    SORT_ORDER.ASC,
     listLabels,
     'inspection',
     'psa_lemon_pallet',
   );
   const cherryColumnLabels = useColumns<PsaCherryPallet>(
-    'palletId',
-    SORT_ORDER.DESC,
+    'size',
+    SORT_ORDER.ASC,
     listLabels,
     'inspection',
     'psa_cherry_pallet',
   );
   const appleColumnLabels = useColumns<PsaApplePallet>(
-    'palletId',
-    SORT_ORDER.DESC,
+    'size',
+    SORT_ORDER.ASC,
     listLabels,
     'inspection',
     'psa_apple_pallet',
@@ -132,22 +145,30 @@ const PsaArrivalPallets = ({
         )[],
       );
 
-    if (data) {
+    if (inspection) {
       const {
-        psaGrapePallets,
-        psaCitrusPallets,
-        psaStoneFruitPallets,
-        psaPomegranatePallets,
-        psaPersimmonPallets,
-        psaPearPallets,
-        psaLemonPallets,
-        psaCherryPallets,
-        psaApplePallets,
-      } = data;
+        grapePallets,
+        citrusPallets,
+        stoneFruitPallets,
+        pomegranatePallets,
+        persimmonPallets,
+        pearPallets,
+        lemonPallets,
+        cherryPallets,
+        applePallets,
+      } = inspection;
 
-      if (psaGrapePallets && !isEmpty(psaGrapePallets.nodes)) {
+      const palletFilters = {
+        size,
+        growerCode,
+        labelCode,
+        overallQuality,
+        overallCondition,
+      };
+
+      if (grapePallets && !isEmpty(grapePallets.nodes)) {
         const palletsByVariety = getPalletsByVariety(
-          psaGrapePallets.nodes as PsaGrapePallet[],
+          filterPallets(grapePallets.nodes, palletFilters) as PsaGrapePallet[],
         );
         const selectedPallets =
           variety && palletsByVariety[variety]
@@ -166,9 +187,12 @@ const PsaArrivalPallets = ({
         };
       }
 
-      if (psaCitrusPallets && !isEmpty(psaCitrusPallets.nodes)) {
+      if (citrusPallets && !isEmpty(citrusPallets.nodes)) {
         const palletsByVariety = getPalletsByVariety(
-          psaCitrusPallets.nodes as PsaCitrusPallet[],
+          filterPallets(
+            citrusPallets.nodes,
+            palletFilters,
+          ) as PsaCitrusPallet[],
         );
         const selectedPallets =
           variety && palletsByVariety[variety]
@@ -187,9 +211,12 @@ const PsaArrivalPallets = ({
         };
       }
 
-      if (psaStoneFruitPallets && !isEmpty(psaStoneFruitPallets.nodes)) {
+      if (stoneFruitPallets && !isEmpty(stoneFruitPallets.nodes)) {
         const palletsByVariety = getPalletsByVariety(
-          psaStoneFruitPallets.nodes as PsaStoneFruitPallet[],
+          filterPallets(
+            stoneFruitPallets.nodes,
+            palletFilters,
+          ) as PsaStoneFruitPallet[],
         );
         const selectedPallets =
           variety && palletsByVariety[variety]
@@ -208,9 +235,12 @@ const PsaArrivalPallets = ({
         };
       }
 
-      if (psaPomegranatePallets && !isEmpty(psaPomegranatePallets.nodes)) {
+      if (pomegranatePallets && !isEmpty(pomegranatePallets.nodes)) {
         const palletsByVariety = getPalletsByVariety(
-          psaPomegranatePallets.nodes as PsaPomegranatePallet[],
+          filterPallets(
+            pomegranatePallets.nodes,
+            palletFilters,
+          ) as PsaPomegranatePallet[],
         );
         const selectedPallets =
           variety && palletsByVariety[variety]
@@ -229,9 +259,12 @@ const PsaArrivalPallets = ({
         };
       }
 
-      if (psaPersimmonPallets && !isEmpty(psaPersimmonPallets.nodes)) {
+      if (persimmonPallets && !isEmpty(persimmonPallets.nodes)) {
         const palletsByVariety = getPalletsByVariety(
-          psaPersimmonPallets.nodes as PsaPersimmonPallet[],
+          filterPallets(
+            persimmonPallets.nodes,
+            palletFilters,
+          ) as PsaPersimmonPallet[],
         );
         const selectedPallets =
           variety && palletsByVariety[variety]
@@ -250,9 +283,9 @@ const PsaArrivalPallets = ({
         };
       }
 
-      if (psaPearPallets && !isEmpty(psaPearPallets.nodes)) {
+      if (pearPallets && !isEmpty(pearPallets.nodes)) {
         const palletsByVariety = getPalletsByVariety(
-          psaPearPallets.nodes as PsaPearPallet[],
+          filterPallets(pearPallets.nodes, palletFilters) as PsaPearPallet[],
         );
         const selectedPallets =
           variety && palletsByVariety[variety]
@@ -271,9 +304,9 @@ const PsaArrivalPallets = ({
         };
       }
 
-      if (psaLemonPallets && !isEmpty(psaLemonPallets.nodes)) {
+      if (lemonPallets && !isEmpty(lemonPallets.nodes)) {
         const palletsByVariety = getPalletsByVariety(
-          psaLemonPallets.nodes as PsaLemonPallet[],
+          filterPallets(lemonPallets.nodes, palletFilters) as PsaLemonPallet[],
         );
         const selectedPallets =
           variety && palletsByVariety[variety]
@@ -292,9 +325,12 @@ const PsaArrivalPallets = ({
         };
       }
 
-      if (psaCherryPallets && !isEmpty(psaCherryPallets.nodes)) {
+      if (cherryPallets && !isEmpty(cherryPallets.nodes)) {
         const palletsByVariety = getPalletsByVariety(
-          psaCherryPallets.nodes as PsaCherryPallet[],
+          filterPallets(
+            cherryPallets.nodes,
+            palletFilters,
+          ) as PsaCherryPallet[],
         );
         const selectedPallets =
           variety && palletsByVariety[variety]
@@ -313,9 +349,9 @@ const PsaArrivalPallets = ({
         };
       }
 
-      if (psaApplePallets && !isEmpty(psaApplePallets.nodes)) {
+      if (applePallets && !isEmpty(applePallets.nodes)) {
         const palletsByVariety = getPalletsByVariety(
-          psaApplePallets.nodes as PsaApplePallet[],
+          filterPallets(applePallets.nodes, palletFilters) as PsaApplePallet[],
         );
         const selectedPallets =
           variety && palletsByVariety[variety]
@@ -348,10 +384,14 @@ const PsaArrivalPallets = ({
     lemonColumnLabels,
     cherryColumnLabels,
     appleColumnLabels,
-    data,
-    inspection.id,
+    inspection,
     search,
     variety,
+    size,
+    growerCode,
+    labelCode,
+    overallQuality,
+    overallCondition,
   ]);
 
   const { columnLabels, listItems } = getData();
@@ -374,6 +414,7 @@ const PsaArrivalPallets = ({
           loading={loading}
           emptyProps={{
             header: 'No Pallets Found 😔',
+            text: 'Modify filter parameters to view more results.',
           }}
         />
       )}

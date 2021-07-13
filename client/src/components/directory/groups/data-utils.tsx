@@ -1,5 +1,3 @@
-import { sentenceCase } from 'change-case';
-
 import { LabelInfo } from 'components/column-label';
 import { SORT_ORDER } from 'hooks/use-columns';
 import { ContactGroup } from 'types';
@@ -13,9 +11,9 @@ export const listLabels: (hasUser: boolean) => ContactGroupLabelInfo[] = (
   if (hasUser) {
     userLabels.push({
       key: 'userId',
-      label: 'Private',
+      label: 'Type',
       isBoolean: true,
-      getValue: (data) => sentenceCase((!!data.userId).toString()),
+      getValue: (data) => (!!data.userId ? 'Private' : 'Public'),
     });
   }
   return [
@@ -49,9 +47,9 @@ export const baseLabels: (userReadOnly: boolean) => ContactGroupLabelInfo[] = (
   },
   {
     key: 'userId',
-    label: 'Private',
+    label: userReadOnly ? 'Type' : 'Private',
     isBoolean: true,
-    getValue: (data) => sentenceCase((!!data.userId).toString()),
+    getValue: (data) => (!!data.userId ? 'Private' : 'Public'),
     readOnly: userReadOnly,
   },
 ];

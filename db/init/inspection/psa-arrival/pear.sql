@@ -92,7 +92,7 @@ CREATE TABLE inspection.psa_pear_pallet (
   fixed_weight TEXT
 );
 
-CREATE OR REPLACE FUNCTION inspection.batch_create_psa_pear_pallet(
+CREATE FUNCTION inspection.batch_create_psa_pear_pallet(
   new_pallets inspection.psa_pear_pallet[]
 )
 RETURNS setof inspection.psa_pear_pallet
@@ -121,48 +121,7 @@ AS $BODY$
 	SELECT * FROM inspection.psa_pear_pallet prp
 	WHERE prp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name) AND prp.exporter_name = r.exporter_name
 $BODY$;
-
-CREATE FUNCTION inspection.psa_arrival_report_avg_pear_pressures_max(IN r inspection.psa_arrival_report, In vari TEXT)
-	RETURNS NUMERIC
-	LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-	SELECT ROUND(AVG(prp.pressures_max::NUMERIC), 1) FROM inspection.psa_pear_pallet prp
-	WHERE prp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
-	AND prp.exporter_name = r.exporter_name
-	AND prp.pressures_max ~ '^[0-9\.]+$'
-	AND (vari = '' OR prp.variety = vari)
-$BODY$;
-
-CREATE FUNCTION inspection.psa_arrival_report_avg_pear_pressures_min(IN r inspection.psa_arrival_report, In vari TEXT)
-	RETURNS NUMERIC
-	LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-	SELECT ROUND(AVG(prp.pressures_min::NUMERIC), 1) FROM inspection.psa_pear_pallet prp
-	WHERE prp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
-	AND prp.exporter_name = r.exporter_name
-	AND prp.pressures_min ~ '^[0-9\.]+$'
-	AND (vari = '' OR prp.variety = vari)
-$BODY$;
-
-CREATE FUNCTION inspection.psa_arrival_report_avg_pear_pressures_avg(IN r inspection.psa_arrival_report, In vari TEXT)
-	RETURNS NUMERIC
-	LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-	SELECT ROUND(AVG(prp.pressures_avg::NUMERIC), 1) FROM inspection.psa_pear_pallet prp
-	WHERE prp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
-	AND prp.exporter_name = r.exporter_name
-	AND prp.pressures_avg ~ '^[0-9\.]+$'
-	AND (vari = '' OR prp.variety = vari)
-$BODY$;
+COMMENT ON FUNCTION inspection.psa_arrival_report_pear_pallets(r inspection.psa_arrival_report) IS E'@sortable';
 
 CREATE FUNCTION inspection.psa_pear_pallet_pictures(IN prp inspection.psa_pear_pallet)
 	RETURNS SETOF inspection.psa_arrival_picture

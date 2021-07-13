@@ -61,13 +61,12 @@ const Details = () => {
   ];
   const updateVariables = { id };
 
-  const { changes, editing, handleChange, getUpdateActions } =
-    useUpdateItem<Warehouse>({
-      data: data as Warehouse,
-      handleUpdate,
-      updateFields,
-      updateVariables,
-    });
+  const { changes, editing, handleChange } = useUpdateItem<Warehouse>({
+    data: data as Warehouse,
+    handleUpdate,
+    updateFields,
+    updateVariables,
+  });
 
   const [
     selectedItems,
@@ -82,7 +81,6 @@ const Details = () => {
 
   return (
     <Page
-      actions={getUpdateActions()}
       breadcrumbs={warehouseBreadcrumbs(id)}
       title={data ? data.warehouseName : 'Directory - Warehouse'}
     >
@@ -102,7 +100,7 @@ const Details = () => {
               ml={th.spacing.md}
               to={`/directory/create?warehouseId=${data.id}`}
             >
-              <b.Primary>New</b.Primary>
+              <b.Primary>Create</b.Primary>
             </l.AreaLink>
           </l.Flex>
           <ContactList

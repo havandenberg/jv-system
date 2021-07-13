@@ -54,7 +54,7 @@ const GroupDirectory = ({ actions, TabBar }: SubDirectoryProps) => {
           to="/directory/groups/create"
           mr={th.spacing.md}
         >
-          <b.Primary>New</b.Primary>
+          <b.Primary>Create</b.Primary>
         </l.AreaLink>,
         ...actions,
       ]}
@@ -95,7 +95,7 @@ const GroupDirectory = ({ actions, TabBar }: SubDirectoryProps) => {
     >
       {!isEmpty(items) ? (
         <VirtualizedList
-          rowCount={data ? data.totalCount : 0}
+          rowCount={data ? items.length : 0}
           rowRenderer={({ key, index, style }) => {
             const item = items[index];
             return (

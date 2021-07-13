@@ -364,12 +364,14 @@
 .rdrStaticRange:hover .rdrStaticRangeLabel,
 .rdrStaticRange:focus .rdrStaticRangeLabel {
   background: rgba(3, 41, 74, 0.1);
+  font-family: Nunito;
 }
 
 .rdrStaticRangeLabel {
   display: block;
   outline: 0;
   line-height: 18px;
+  font-family: Nunito;
   padding: 10px 20px;
   text-align: left;
 }

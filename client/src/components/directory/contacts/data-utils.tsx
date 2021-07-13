@@ -56,9 +56,9 @@ export const contactListLabels: PersonContactLabelInfo[] = [
   },
   {
     key: 'isPrimary',
-    label: 'Active',
+    label: 'Status',
     isBoolean: true,
-    getValue: (data) => sentenceCase((!!data.isPrimary).toString()),
+    getValue: (data) => (!!data.isPrimary ? 'Active' : 'Inactive'),
   },
 ];
 
@@ -149,17 +149,18 @@ export const groupContactListLabels: (
   ];
 };
 
-export const baseLabels: (isInternal?: boolean) => PersonContactLabelInfo[] = (
-  isInternal,
-) => {
+export const baseLabels: (
+  editing: boolean,
+  isInternal?: boolean,
+) => PersonContactLabelInfo[] = (editing, isInternal) => {
   const internalLabels: PersonContactLabelInfo[] = isInternal
     ? []
     : [
         {
           key: 'isPrimary',
-          label: 'Active',
+          label: editing ? 'Active' : 'Status',
           isBoolean: true,
-          getValue: (data) => sentenceCase(data.isPrimary.toString()),
+          getValue: (data) => (!!data.isPrimary ? 'Active' : 'Inactive'),
         },
       ];
   return [

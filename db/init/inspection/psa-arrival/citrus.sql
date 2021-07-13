@@ -44,11 +44,11 @@ CREATE TABLE inspection.psa_citrus_pallet (
 	opening TEXT,
 	color TEXT,
 	diameter_min_mm TEXT,
-	diameter_min_mm TEXT,
+	diameter_min_inches TEXT,
 	diameter_max_mm TEXT,
-	diameter_max_mm TEXT,
+	diameter_max_inches TEXT,
 	diameter_most_mm TEXT,
-	diameter_most_mm TEXT,
+	diameter_most_inches TEXT,
 	scars_pieces TEXT,
 	scars_pct TEXT,
 	scars_deg TEXT,
@@ -145,11 +145,11 @@ BEGIN
 			opening,
 			color,
 			diameter_min_mm,
-			diameter_min_mm,
+			diameter_min_inches,
 			diameter_max_mm,
-			diameter_max_mm,
+			diameter_max_inches,
 			diameter_most_mm,
-			diameter_most_mm,
+			diameter_most_inches,
 			scars_pieces,
 			scars_pct,
 			scars_deg,
@@ -236,11 +236,11 @@ BEGIN
 			p.opening,
 			p.color,
 			p.diameter_min_mm,
-			p.diameter_min_mm,
+			p.diameter_min_inches,
 			p.diameter_max_mm,
-			p.diameter_max_mm,
+			p.diameter_max_inches,
 			p.diameter_most_mm,
-			p.diameter_most_mm,
+			p.diameter_most_inches,
 			p.scars_pieces,
 			p.scars_pct,
 			p.scars_deg,
@@ -306,39 +306,7 @@ FROM
 WHERE
 	cp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
 	AND cp.exporter_name = r.exporter_name $BODY$;
-
-CREATE FUNCTION inspection.psa_arrival_report_avg_citrus_diameter_min_mm(IN r inspection.psa_arrival_report, In vari TEXT) RETURNS NUMERIC LANGUAGE 'sql' STABLE PARALLEL UNSAFE COST 100 AS $BODY$
-SELECT
-	ROUND(AVG(cp.diameter_min_mm :: NUMERIC), 1)
-FROM
-	inspection.psa_citrus_pallet cp
-WHERE
-	cp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
-	AND cp.exporter_name = r.exporter_name
-	AND cp.diameter_min_mm ~ '^[0-9\.]+$'
-	AND (vari = '' OR cp.variety = vari) $BODY$;
-
-CREATE FUNCTION inspection.psa_arrival_report_avg_citrus_diameter_max_mm(IN r inspection.psa_arrival_report, In vari TEXT) RETURNS NUMERIC LANGUAGE 'sql' STABLE PARALLEL UNSAFE COST 100 AS $BODY$
-SELECT
-	ROUND(AVG(cp.diameter_max_mm :: NUMERIC), 1)
-FROM
-	inspection.psa_citrus_pallet cp
-WHERE
-	cp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
-	AND cp.exporter_name = r.exporter_name
-	AND cp.diameter_max_mm ~ '^[0-9\.]+$'
-	AND (vari = '' OR cp.variety = vari) $BODY$;
-
-CREATE FUNCTION inspection.psa_arrival_report_avg_citrus_diameter_most_mm(IN r inspection.psa_arrival_report, In vari TEXT) RETURNS NUMERIC LANGUAGE 'sql' STABLE PARALLEL UNSAFE COST 100 AS $BODY$
-SELECT
-	ROUND(AVG(cp.diameter_most_mm :: NUMERIC), 1)
-FROM
-	inspection.psa_citrus_pallet cp
-WHERE
-	cp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
-	AND cp.exporter_name = r.exporter_name
-	AND cp.diameter_most_mm ~ '^[0-9\.]+$'
-	AND (vari = '' OR cp.variety = vari) $BODY$;
+COMMENT ON FUNCTION inspection.psa_arrival_report_citrus_pallets(r inspection.psa_arrival_report) IS E'@sortable';
 
 CREATE FUNCTION inspection.psa_citrus_pallet_pictures(IN cp inspection.psa_citrus_pallet) RETURNS SETOF inspection.psa_arrival_picture LANGUAGE 'sql' STABLE PARALLEL UNSAFE COST 100 AS $BODY$
 SELECT

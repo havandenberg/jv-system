@@ -58,13 +58,14 @@ const ListItem = <T extends { imageUrls?: string[] | null }>({
           }
         >
           {listLabels.map(({ key, getValue, transformKey, transformValue }) => {
-            const value = transformKey
-              ? baseDataTransforms[transformKey](data[key])
-              : getValue
-              ? getValue(data)
-              : transformValue
-              ? transformValue(data[key])
-              : data[key];
+            const value =
+              (transformKey
+                ? baseDataTransforms[transformKey](data[key])
+                : getValue
+                ? getValue(data)
+                : transformValue
+                ? transformValue(data[key])
+                : data[key]) || '-';
             return (
               <l.Flex
                 alignCenter

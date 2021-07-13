@@ -47,13 +47,12 @@ const Details = () => {
   const updateFields = ['shipperName', 'groupId', 'notes', 'website'];
   const updateVariables = { id };
 
-  const { changes, editing, handleChange, getUpdateActions } =
-    useUpdateItem<Shipper>({
-      data: data as Shipper,
-      handleUpdate,
-      updateFields,
-      updateVariables,
-    });
+  const { changes, editing, handleChange } = useUpdateItem<Shipper>({
+    data: data as Shipper,
+    handleUpdate,
+    updateFields,
+    updateVariables,
+  });
 
   const [
     selectedItems,
@@ -68,7 +67,6 @@ const Details = () => {
 
   return (
     <Page
-      actions={getUpdateActions()}
       breadcrumbs={shipperBreadcrumbs(id)}
       title={data ? data.shipperName : 'Directory - Shipper'}
     >
@@ -88,7 +86,7 @@ const Details = () => {
               ml={th.spacing.md}
               to={`/directory/create?shipperId=${data.id}`}
             >
-              <b.Primary>New</b.Primary>
+              <b.Primary>Create</b.Primary>
             </l.AreaLink>
           </l.Flex>
           <ContactList

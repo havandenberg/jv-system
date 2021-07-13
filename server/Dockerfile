@@ -1,5 +1,7 @@
 FROM node:alpine
 
+RUN apk add tzdata
+
 WORKDIR /server
 COPY package.json yarn.lock ./
 RUN yarn
