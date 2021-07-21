@@ -1,7 +1,15 @@
+import { loader } from 'graphql.macro';
+
 import { LabelInfo } from 'components/column-label';
 import { SORT_ORDER } from 'hooks/use-columns';
 import { mean, pluck } from 'ramda';
 import { PsaArrivalReport } from 'types';
+
+import { PsaConditionInfo, PsaQualityInfo } from './quality-condition-info';
+
+const VESSEL_DISTINCT_VALUES_QUERY = loader(
+  '../../../../api/reports/inspections/psa-arrival/vessel-distinct-values.gql',
+);
 
 export type ReportLabelInfo = LabelInfo<PsaArrivalReport>;
 
@@ -38,6 +46,10 @@ export const listLabels: ReportLabelInfo[] = [
       customStyles: {
         width: 350,
       },
+      queryProps: {
+        query: VESSEL_DISTINCT_VALUES_QUERY,
+        queryName: 'psaInspectionVesselDistinctValues',
+      },
       showSearch: true,
     },
     sortable: true,
@@ -61,6 +73,10 @@ export const listLabels: ReportLabelInfo[] = [
     sortable: true,
     getValue: (data) =>
       data.qualityRange ? getRangeValue(data.qualityRange) : '-',
+    infoPanelProps: {
+      content: () => <PsaQualityInfo />,
+      customStyles: { width: 150 },
+    },
   },
   {
     defaultSortOrder: SORT_ORDER.ASC,
@@ -69,6 +85,10 @@ export const listLabels: ReportLabelInfo[] = [
     sortable: true,
     getValue: (data) =>
       data.conditionRange ? getRangeValue(data.conditionRange) : '-',
+    infoPanelProps: {
+      content: () => <PsaConditionInfo />,
+      customStyles: { width: 150 },
+    },
   },
 ];
 
@@ -180,12 +200,12 @@ const commonFeaturedValues = (pallets: any[]) => {
       label: 'Quality %',
       values: [
         {
-          label: '1-2',
-          value: getPalletValuePercentage(['1', '2'], 'overallQuality'),
+          label: '1',
+          value: getPalletValuePercentage(['1'], 'overallQuality'),
         },
         {
-          label: '3-4',
-          value: getPalletValuePercentage(['3', '4'], 'overallQuality'),
+          label: '2-4',
+          value: getPalletValuePercentage(['2', '3', '4'], 'overallQuality'),
         },
         {
           label: '5-7',
@@ -197,12 +217,12 @@ const commonFeaturedValues = (pallets: any[]) => {
       label: 'Condition %',
       values: [
         {
-          label: '1-2',
-          value: getPalletValuePercentage(['1', '2'], 'overallCondition'),
+          label: '1',
+          value: getPalletValuePercentage(['1'], 'overallCondition'),
         },
         {
-          label: '3-4',
-          value: getPalletValuePercentage(['3', '4'], 'overallCondition'),
+          label: '2-4',
+          value: getPalletValuePercentage(['2', '3', '4'], 'overallCondition'),
         },
         {
           label: '5-7',

@@ -12,6 +12,8 @@ import {
   PsaStoneFruitPallet,
 } from 'types';
 
+import { PsaConditionInfo, PsaQualityInfo } from '../quality-condition-info';
+
 export type PalletLabelInfo = LabelInfo<
   | PsaGrapePallet
   | PsaCitrusPallet
@@ -64,6 +66,10 @@ export const listLabels: PalletLabelInfo[] = [
     label: 'Quality',
     sortable: true,
     filterable: true,
+    infoPanelProps: {
+      content: () => <PsaQualityInfo />,
+      customStyles: { width: 150 },
+    },
   },
   {
     defaultSortOrder: SORT_ORDER.ASC,
@@ -71,6 +77,10 @@ export const listLabels: PalletLabelInfo[] = [
     label: 'Condition',
     sortable: true,
     filterable: true,
+    infoPanelProps: {
+      content: () => <PsaConditionInfo />,
+      customStyles: { width: 150 },
+    },
   },
 ];
 

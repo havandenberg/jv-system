@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { reduce } from 'ramda';
 
+import InfoImg from 'assets/images/info';
 import UpArrow from 'assets/images/up-arrow';
 import { baseDataTransforms } from 'components/base-data';
+import InfoPanel, { InfoPanelProps } from 'components/info-panel';
 import FilterPanel, { FilterPanelProps } from 'components/filter-panel';
 import { SortOrder, SORT_ORDER } from 'hooks/use-columns';
 import l from 'ui/layout';
@@ -47,6 +49,7 @@ export interface LabelInfo<T> {
   key: keyof T;
   label: string;
   filterPanelProps?: FilterPanelProps;
+  infoPanelProps?: InfoPanelProps;
   isBoolean?: boolean;
   readOnly?: boolean;
   sortable?: boolean;
@@ -84,6 +87,7 @@ const ColumnLabel = <T extends {}>({
     defaultSortOrder,
     filterPanelProps,
     filterable,
+    infoPanelProps,
     key,
     label,
     sortable,
@@ -95,7 +99,11 @@ const ColumnLabel = <T extends {}>({
   const active = sortBy === key;
   const [hover, setHover] = useState(false);
   return (
-    <l.Div relative>
+    <l.Div
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      relative
+    >
       <Wrapper
         active={active}
         onClick={
@@ -105,8 +113,6 @@ const ColumnLabel = <T extends {}>({
               }
             : undefined
         }
-        onMouseEnter={() => setHover(true)}
-        onMouseLeave={() => setHover(false)}
         sortable={sortable}
       >
         <l.Flex relative>
@@ -139,6 +145,21 @@ const ColumnLabel = <T extends {}>({
             tableName={tableName}
             visible={hover}
             {...filterPanelProps}
+          />
+        </l.Div>
+      )}
+      {infoPanelProps && (
+        <l.Div
+          cursor="pointer"
+          position="absolute"
+          left={filterable ? -28 : -11}
+          top={-1}
+        >
+          <InfoPanel
+            content={infoPanelProps.content}
+            customStyles={infoPanelProps.customStyles}
+            triggerIcon={<InfoImg height={14} width={14} />}
+            visible={hover}
           />
         </l.Div>
       )}

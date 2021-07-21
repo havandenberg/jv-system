@@ -395,3 +395,13 @@ AS $BODY$
   );
 $BODY$;
 COMMENT ON FUNCTION inspection.psa_arrival_report_condition_range(r inspection.psa_arrival_report) IS E'@sortable';
+
+CREATE FUNCTION inspection.psa_inspection_vessel_distinct_values()
+  RETURNS SETOF TEXT
+	LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT DISTINCT CONCAT(arrival_name, ' (', arrival_code, ')') from inspection.psa_arrival_report;
+$BODY$;

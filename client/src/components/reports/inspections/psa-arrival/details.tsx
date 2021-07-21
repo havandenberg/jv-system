@@ -69,11 +69,11 @@ const breadcrumbs = (
   { text: id, to: `${currentPath}${search}` },
 ];
 
-const tabs: (id: string, palletCount: string, search: string) => Tab[] = (
-  id,
-  palletCount,
-  search,
-) => [
+const tabs: (
+  id: string,
+  palletCount: string | undefined,
+  search: string,
+) => Tab[] = (id, palletCount, search) => [
   {
     id: 'report',
     text: 'Report',
@@ -81,7 +81,7 @@ const tabs: (id: string, palletCount: string, search: string) => Tab[] = (
   },
   {
     id: 'pallets',
-    text: `Pallets (${palletCount})`,
+    text: `Pallets${palletCount ? ' (' + palletCount + ')' : ''}`,
     to: `/reports/inspections/arrival/${id}/pallets${search}`,
   },
 ];
@@ -145,9 +145,11 @@ const Details = () => {
     ? filterPallets(getPallets(comVarData), palletFilters)
     : [];
 
-  const palletCount = loading
-    ? '-'
-    : `${comVarData && variety ? pallets.length : 0}`;
+  const palletCount = pathname.includes('pallets')
+    ? loading
+      ? '-'
+      : `${comVarData && variety ? pallets.length : 0}`
+    : undefined;
 
   const { TabBar } = useTabBar(tabs(id, palletCount, search), true);
 
@@ -322,6 +324,28 @@ const Details = () => {
             <Switch>
               <Route
                 exact
+                path={`${baseUrl}/report`}
+                render={() => (
+                  <Document
+                    file={`${api.baseURL}${data.reportUrl}`}
+                    onLoadSuccess={onLoadSuccess}
+                  >
+                    {times(
+                      (idx) => (
+                        <PdfPage
+                          key={idx}
+                          pageNumber={idx + 1}
+                          height={933}
+                          width={721}
+                        />
+                      ),
+                      numPages,
+                    )}
+                  </Document>
+                )}
+              />
+              <Route
+                exact
                 path={`${baseUrl}/pallets`}
                 render={() => (
                   <>
@@ -379,28 +403,6 @@ const Details = () => {
                       error={comVarError}
                     />
                   </>
-                )}
-              />
-              <Route
-                exact
-                path={`${baseUrl}/report`}
-                render={() => (
-                  <Document
-                    file={`${api.baseURL}${data.reportUrl}`}
-                    onLoadSuccess={onLoadSuccess}
-                  >
-                    {times(
-                      (idx) => (
-                        <PdfPage
-                          key={idx}
-                          pageNumber={idx + 1}
-                          height={933}
-                          width={721}
-                        />
-                      ),
-                      numPages,
-                    )}
-                  </Document>
                 )}
               />
               <Redirect to={`${baseUrl}/report${search}`} />

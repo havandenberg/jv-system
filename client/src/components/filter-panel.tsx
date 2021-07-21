@@ -6,54 +6,16 @@ import { loader } from 'graphql.macro';
 import { pathOr } from 'ramda';
 
 import FilterImg from 'assets/images/filter';
-import useOutsideClickRef from 'hooks/use-outside-click-ref';
+import InfoPanel from 'components/info-panel';
 import usePrevious from 'hooks/use-previous';
 import { useQueryValue } from 'hooks/use-query-params';
 import { Query } from 'types';
 import { FilterCheckbox } from 'ui/checkbox';
-import l, { DivProps, divPropsSet } from 'ui/layout';
+import l, { DivProps } from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 
 const DISTINCT_VALUES_QUERY = loader('../api/distinct-values.gql');
-
-const Panel = styled(l.Div)(
-  {
-    borderRadius: th.borderRadii.default,
-    border: th.borders.secondary,
-    background: th.colors.background,
-    boxShadow: th.shadows.box,
-    cursor: 'default',
-    maxHeight: 300,
-    left: `-${th.spacing.xs}`,
-    padding: th.spacing.sm,
-    opacity: 1,
-    position: 'absolute',
-    top: 24,
-    width: 300,
-    zIndex: 5,
-  },
-  divPropsSet,
-);
-
-const Trigger = styled(l.Div)(
-  ({
-    hasFilters,
-    show,
-    visible,
-  }: {
-    hasFilters: boolean;
-    show: boolean;
-    visible: boolean;
-  }) => ({
-    background: th.colors.background,
-    opacity: hasFilters || show ? 1 : visible ? th.opacities.secondary : 0,
-    transition: th.transitions.default,
-    ':hover': {
-      opacity: 1,
-    },
-  }),
-);
 
 const SearchInput = styled.input({ width: 100 });
 
@@ -85,11 +47,7 @@ const FilterPanel = <T extends {}>({
   tableName,
   visible,
 }: Props<T>) => {
-  const [show, setShow] = useState(false);
   const [search, setSearch] = useState('');
-  const ref = useOutsideClickRef(() => {
-    setShow(false);
-  });
   const [tabId] = useQueryValue('reportType');
   const previousTabId = usePrevious(tabId);
 
@@ -141,7 +99,6 @@ const FilterPanel = <T extends {}>({
           : undefined
         : [...queryFilterValues, ...selectedValues].join(','),
     );
-    setShow(false);
   };
 
   const clear = (e: React.MouseEvent) => {
@@ -160,10 +117,6 @@ const FilterPanel = <T extends {}>({
     }
   };
 
-  const toggleShow = () => {
-    setShow(!show);
-  };
-
   useEffect(() => {
     if (filterOptions && !previousFilterOptions) {
       setSelectedValues(filterValues);
@@ -177,17 +130,9 @@ const FilterPanel = <T extends {}>({
   }, [filterValues, previousTabId, tabId]);
 
   return (
-    <l.Div relative ref={ref}>
-      <Trigger
-        hasFilters={filterValues.length > 0}
-        onClick={toggleShow}
-        show={show}
-        visible={visible}
-      >
-        <FilterImg height={14} width={14} />
-      </Trigger>
-      {show && (
-        <Panel key={`${filterKey}`} {...customStyles}>
+    <InfoPanel
+      content={({ setShow }) => (
+        <>
           <l.Flex
             alignCenter
             justifyBetween
@@ -220,7 +165,10 @@ const FilterPanel = <T extends {}>({
                 <ty.CaptionText
                   link
                   ml={th.spacing.md}
-                  onClick={apply}
+                  onClick={() => {
+                    apply();
+                    setShow(false);
+                  }}
                   secondary
                 >
                   Apply
@@ -242,9 +190,12 @@ const FilterPanel = <T extends {}>({
               />
             ))}
           </l.Grid>
-        </Panel>
+        </>
       )}
-    </l.Div>
+      customStyles={customStyles}
+      triggerIcon={<FilterImg height={14} width={14} />}
+      visible={visible}
+    />
   );
 };
 
