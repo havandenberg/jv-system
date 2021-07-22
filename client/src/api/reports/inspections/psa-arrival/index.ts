@@ -23,6 +23,9 @@ const PSA_ARRIVAL_INSPECTION_DETAILS_BY_COM_VAR_QUERY = loader(
 const INSPECTION_DETAILS_PICTURES_QUERY = loader('./details-pictures.gql');
 const INSPECTIONS_LIST_QUERY = loader('./list.gql');
 const PALLET_DETAILS_QUERY = loader('./pallet-details.gql');
+export const VESSEL_DISTINCT_VALUES_QUERY = loader(
+  './vessel-distinct-values.gql',
+);
 
 export const usePsaArrivalInspections = () => {
   const [search = ''] = useSearchQueryParam();
@@ -56,11 +59,16 @@ export const usePsaArrivalInspections = () => {
     schemaName: 'inspection',
   });
 
-  const filteredVesselValues = useFilteredQueryValues(arrivalName, {
-    columnName: 'arrival_name',
-    tableName: 'psa_arrival_report',
-    schemaName: 'inspection',
-  });
+  const filteredVesselValues = useFilteredQueryValues(
+    arrivalName,
+    {
+      columnName: 'arrival_name',
+      tableName: 'psa_arrival_report',
+      schemaName: 'inspection',
+    },
+    VESSEL_DISTINCT_VALUES_QUERY,
+    'psaInspectionVesselDistinctValues',
+  );
 
   const { data, error, loading } = useQuery<Query>(INSPECTIONS_LIST_QUERY, {
     variables: {
@@ -70,7 +78,12 @@ export const usePsaArrivalInspections = () => {
       orderBy,
       search: getSearchArray(search),
       startDate,
-      arrivalName: filteredVesselValues,
+      arrivalName: filteredVesselValues.map((val) =>
+        val.substring(0, val.lastIndexOf(' (')),
+      ),
+      arrivalCode: filteredVesselValues.map((val) =>
+        val.substring(val.lastIndexOf(' (') + 2, val.length - 1),
+      ),
       variety,
     },
   });

@@ -101,9 +101,11 @@ const FilterPanel = <T extends {}>({
     );
   };
 
-  const clear = (e: React.MouseEvent) => {
-    e.stopPropagation();
+  const clear = () => {
     setSelectedValues([]);
+    setQueryValue(
+      queryFilterValues.length > 0 ? queryFilterValues.join(',') : undefined,
+    );
   };
 
   const handleFilterChange = (newFilterKey: string) => {
@@ -162,17 +164,18 @@ const FilterPanel = <T extends {}>({
                 </ty.CaptionText>
               )}
               {dirty && (
-                <ty.CaptionText
-                  link
-                  ml={th.spacing.md}
-                  onClick={() => {
-                    apply();
-                    setShow(false);
-                  }}
-                  secondary
-                >
-                  Apply
-                </ty.CaptionText>
+                <l.Div cursor="pointer">
+                  <ty.CaptionText
+                    color={th.colors.status.error}
+                    ml={th.spacing.md}
+                    onClick={() => {
+                      apply();
+                      setShow(false);
+                    }}
+                  >
+                    Apply
+                  </ty.CaptionText>
+                </l.Div>
               )}
             </l.Flex>
           </l.Flex>
@@ -194,6 +197,7 @@ const FilterPanel = <T extends {}>({
       )}
       customStyles={customStyles}
       triggerIcon={<FilterImg height={14} width={14} />}
+      hasFilters={filterValues.length > 0}
       visible={visible}
     />
   );

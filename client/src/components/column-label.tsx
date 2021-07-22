@@ -99,13 +99,11 @@ const ColumnLabel = <T extends {}>({
   const active = sortBy === key;
   const [hover, setHover] = useState(false);
   return (
-    <l.Div
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-      relative
-    >
+    <l.Div relative>
       <Wrapper
         active={active}
+        onMouseEnter={() => setHover(true)}
+        onMouseLeave={() => setHover(false)}
         onClick={
           sortable
             ? () => {
@@ -115,7 +113,11 @@ const ColumnLabel = <T extends {}>({
         }
         sortable={sortable}
       >
-        <l.Flex relative>
+        <l.Flex
+          onMouseEnter={() => setHover(true)}
+          onMouseLeave={() => setHover(false)}
+          relative
+        >
           <ty.SmallText className="label" pr={th.spacing.xs} px={th.spacing.sm}>
             {label}
           </ty.SmallText>

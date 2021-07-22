@@ -318,6 +318,44 @@ AS $BODY$
   );
 $BODY$;
 
+CREATE FUNCTION inspection.psa_arrival_report_pallet_count(IN r inspection.psa_arrival_report)
+	RETURNS NUMERIC
+	LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT (
+    (SELECT COUNT(*) FROM inspection.psa_grape_pallet gp
+    WHERE gp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
+    AND gp.exporter_name = r.exporter_name) +
+    (SELECT COUNT(*) FROM inspection.psa_citrus_pallet cp
+    WHERE cp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
+    AND cp.exporter_name = r.exporter_name) +
+    (SELECT COUNT(*) FROM inspection.psa_stone_fruit_pallet sfp
+    WHERE sfp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
+    AND sfp.exporter_name = r.exporter_name) +
+    (SELECT COUNT(*) FROM inspection.psa_pomegranate_pallet pp
+    WHERE pp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
+    AND pp.exporter_name = r.exporter_name) +
+    (SELECT COUNT(*) FROM inspection.psa_persimmon_pallet psp
+    WHERE psp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
+    AND psp.exporter_name = r.exporter_name) +
+    (SELECT COUNT(*) FROM inspection.psa_pear_pallet prp
+    WHERE prp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
+    AND prp.exporter_name = r.exporter_name) +
+    (SELECT COUNT(*) FROM inspection.psa_lemon_pallet lp
+    WHERE lp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
+    AND lp.exporter_name = r.exporter_name) +
+    (SELECT COUNT(*) FROM inspection.psa_cherry_pallet chp
+    WHERE chp.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
+    AND chp.exporter_name = r.exporter_name) +
+    (SELECT COUNT(*) FROM inspection.psa_apple_pallet ap
+    WHERE ap.arrival = CONCAT_WS(' ', r.arrival_code, r.arrival_name)
+    AND ap.exporter_name = r.exporter_name)
+  );
+$BODY$;
+
 CREATE FUNCTION inspection.psa_arrival_report_quality_range(IN r inspection.psa_arrival_report)
 	RETURNS TEXT
 	LANGUAGE 'sql'

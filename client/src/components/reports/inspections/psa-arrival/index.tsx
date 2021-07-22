@@ -15,7 +15,8 @@ import { InspectionTypes, SubInspectionsProps } from '..';
 import ListItem from '../list-item';
 import { listLabels } from './data-utils';
 
-export const gridTemplateColumns = '0.8fr 1.2fr 1.2fr 70px 70px 80px 1fr 30px';
+export const gridTemplateColumns =
+  '0.8fr 1.2fr 1.2fr 80px 80px 75px 0.9fr 30px';
 
 interface PsaArrivalInspection extends PsaArrivalReport {
   imageUrls?: string[] | null;

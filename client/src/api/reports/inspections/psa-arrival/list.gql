@@ -5,6 +5,7 @@ query PSA_ARRIVAL_INSPECTIONS_LIST(
   $startDate: Date
   $exporterName: [String!]
   $arrivalName: [String!]
+  $arrivalCode: [String!]
   $locationName: [String!]
 ) {
   psaArrivalReports(
@@ -12,6 +13,7 @@ query PSA_ARRIVAL_INSPECTIONS_LIST(
       and: $search
       exporterName: { in: $exporterName }
       arrivalName: { in: $arrivalName }
+      arrivalCode: { in: $arrivalCode }
       locationName: { in: $locationName }
       or: {
         reportDate: {

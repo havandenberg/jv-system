@@ -27,7 +27,7 @@ import { filterPallets } from '../data-utils';
 import { listLabels } from './data-utils';
 import ListItem from './list-item';
 
-export const gridTemplateColumns = '1.5fr 0.8fr 1.5fr 1fr 0.8fr 0.8fr 30px';
+export const gridTemplateColumns = '1.5fr 0.8fr 1.5fr 1fr 0.9fr 0.8fr 30px';
 
 const PsaArrivalPallets = ({
   inspection,

@@ -59,6 +59,8 @@ export type Query = Node & {
   warehousePersonContacts?: Maybe<WarehousePersonContactsConnection>;
   /** Reads and enables pagination through a set of `AgendaItem`. */
   agendaItems?: Maybe<AgendaItemsConnection>;
+  /** Reads and enables pagination through a set of `CalendarEvent`. */
+  calendarEvents?: Maybe<CalendarEventsConnection>;
   /** Reads and enables pagination through a set of `PriceCategory`. */
   priceCategories?: Maybe<PriceCategoriesConnection>;
   /** Reads and enables pagination through a set of `PriceEntry`. */
@@ -146,6 +148,7 @@ export type Query = Node & {
   warehouse?: Maybe<Warehouse>;
   warehousePersonContact?: Maybe<WarehousePersonContact>;
   agendaItem?: Maybe<AgendaItem>;
+  calendarEvent?: Maybe<CalendarEvent>;
   priceCategory?: Maybe<PriceCategory>;
   priceEntry?: Maybe<PriceEntry>;
   priceProduct?: Maybe<PriceProduct>;
@@ -201,6 +204,7 @@ export type Query = Node & {
   customerDistinctValues?: Maybe<CustomerDistinctValuesConnection>;
   /** Reads and enables pagination through a set of `ChileDepartureInspection`. */
   chileDepartureInspections?: Maybe<ChileDepartureInspectionsConnection>;
+  psaInspectionVesselDistinctValues?: Maybe<PsaInspectionVesselDistinctValuesConnection>;
   /** Reads a single `ContactGroup` using its globally unique `ID`. */
   contactGroupByNodeId?: Maybe<ContactGroup>;
   /** Reads a single `ContactGroupPersonContact` using its globally unique `ID`. */
@@ -225,6 +229,8 @@ export type Query = Node & {
   warehousePersonContactByNodeId?: Maybe<WarehousePersonContact>;
   /** Reads a single `AgendaItem` using its globally unique `ID`. */
   agendaItemByNodeId?: Maybe<AgendaItem>;
+  /** Reads a single `CalendarEvent` using its globally unique `ID`. */
+  calendarEventByNodeId?: Maybe<CalendarEvent>;
   /** Reads a single `PriceCategory` using its globally unique `ID`. */
   priceCategoryByNodeId?: Maybe<PriceCategory>;
   /** Reads a single `PriceEntry` using its globally unique `ID`. */
@@ -461,6 +467,19 @@ export type QueryAgendaItemsArgs = {
   orderBy?: Maybe<Array<AgendaItemsOrderBy>>;
   condition?: Maybe<AgendaItemCondition>;
   filter?: Maybe<AgendaItemFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryCalendarEventsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CalendarEventsOrderBy>>;
+  condition?: Maybe<CalendarEventCondition>;
+  filter?: Maybe<CalendarEventFilter>;
 };
 
 
@@ -1028,6 +1047,12 @@ export type QueryAgendaItemArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
+export type QueryCalendarEventArgs = {
+  id: Scalars['BigInt'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
 export type QueryPriceCategoryArgs = {
   id: Scalars['BigInt'];
 };
@@ -1389,6 +1414,17 @@ export type QueryChileDepartureInspectionsArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
+export type QueryPsaInspectionVesselDistinctValuesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  filter?: Maybe<StringFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
 export type QueryContactGroupByNodeIdArgs = {
   nodeId: Scalars['ID'];
 };
@@ -1456,6 +1492,12 @@ export type QueryWarehousePersonContactByNodeIdArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryAgendaItemByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryCalendarEventByNodeIdArgs = {
   nodeId: Scalars['ID'];
 };
 
@@ -3682,6 +3724,107 @@ export type IntFilter = {
   greaterThan?: Maybe<Scalars['Int']>;
   /** Greater than or equal to the specified value. */
   greaterThanOrEqualTo?: Maybe<Scalars['Int']>;
+};
+
+/** A connection to a list of `CalendarEvent` values. */
+export type CalendarEventsConnection = {
+  __typename?: 'CalendarEventsConnection';
+  /** A list of `CalendarEvent` objects. */
+  nodes: Array<Maybe<CalendarEvent>>;
+  /** A list of edges which contains the `CalendarEvent` and cursor to aid in pagination. */
+  edges: Array<CalendarEventsEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `CalendarEvent` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+export type CalendarEvent = Node & {
+  __typename?: 'CalendarEvent';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  title?: Maybe<Scalars['String']>;
+  eventDescription?: Maybe<Scalars['String']>;
+  startDate?: Maybe<Scalars['Date']>;
+  endDate?: Maybe<Scalars['Date']>;
+  allDay?: Maybe<Scalars['Boolean']>;
+  rrule?: Maybe<Scalars['String']>;
+};
+
+/** A `CalendarEvent` edge in the connection. */
+export type CalendarEventsEdge = {
+  __typename?: 'CalendarEventsEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `CalendarEvent` at the end of the edge. */
+  node?: Maybe<CalendarEvent>;
+};
+
+/** Methods to use when ordering `CalendarEvent`. */
+export enum CalendarEventsOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  TitleAsc = 'TITLE_ASC',
+  TitleDesc = 'TITLE_DESC',
+  EventDescriptionAsc = 'EVENT_DESCRIPTION_ASC',
+  EventDescriptionDesc = 'EVENT_DESCRIPTION_DESC',
+  StartDateAsc = 'START_DATE_ASC',
+  StartDateDesc = 'START_DATE_DESC',
+  EndDateAsc = 'END_DATE_ASC',
+  EndDateDesc = 'END_DATE_DESC',
+  AllDayAsc = 'ALL_DAY_ASC',
+  AllDayDesc = 'ALL_DAY_DESC',
+  RruleAsc = 'RRULE_ASC',
+  RruleDesc = 'RRULE_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
+/**
+ * A condition to be used against `CalendarEvent` object types. All fields are
+ * tested for equality and combined with a logical ‘and.’
+ */
+export type CalendarEventCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `title` field. */
+  title?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `eventDescription` field. */
+  eventDescription?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `startDate` field. */
+  startDate?: Maybe<Scalars['Date']>;
+  /** Checks for equality with the object’s `endDate` field. */
+  endDate?: Maybe<Scalars['Date']>;
+  /** Checks for equality with the object’s `allDay` field. */
+  allDay?: Maybe<Scalars['Boolean']>;
+  /** Checks for equality with the object’s `rrule` field. */
+  rrule?: Maybe<Scalars['String']>;
+};
+
+/** A filter to be used against `CalendarEvent` object types. All fields are combined with a logical ‘and.’ */
+export type CalendarEventFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `title` field. */
+  title?: Maybe<StringFilter>;
+  /** Filter by the object’s `eventDescription` field. */
+  eventDescription?: Maybe<StringFilter>;
+  /** Filter by the object’s `startDate` field. */
+  startDate?: Maybe<DateFilter>;
+  /** Filter by the object’s `endDate` field. */
+  endDate?: Maybe<DateFilter>;
+  /** Filter by the object’s `allDay` field. */
+  allDay?: Maybe<BooleanFilter>;
+  /** Filter by the object’s `rrule` field. */
+  rrule?: Maybe<StringFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<CalendarEventFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<CalendarEventFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<CalendarEventFilter>;
 };
 
 /** A connection to a list of `PriceCategory` values. */
@@ -5973,6 +6116,7 @@ export type PsaArrivalReport = Node & {
   grapePallets: PsaGrapePalletsConnection;
   /** Reads and enables pagination through a set of `PsaLemonPallet`. */
   lemonPallets: PsaLemonPalletsConnection;
+  palletCount?: Maybe<Scalars['BigFloat']>;
   /** Reads and enables pagination through a set of `PsaPearPallet`. */
   pearPallets: PsaPearPalletsConnection;
   /** Reads and enables pagination through a set of `PsaPersimmonPallet`. */
@@ -10250,6 +10394,8 @@ export type PsaArrivalReportFilter = {
   commodityList?: Maybe<StringListFilter>;
   /** Filter by the object’s `conditionRange` field. */
   conditionRange?: Maybe<StringFilter>;
+  /** Filter by the object’s `palletCount` field. */
+  palletCount?: Maybe<BigFloatFilter>;
   /** Filter by the object’s `qualityRange` field. */
   qualityRange?: Maybe<StringFilter>;
   /** Filter by the object’s `searchText` field. */
@@ -13805,6 +13951,26 @@ export type ChileDepartureInspectionFilter = {
   not?: Maybe<ChileDepartureInspectionFilter>;
 };
 
+/** A connection to a list of `String` values. */
+export type PsaInspectionVesselDistinctValuesConnection = {
+  __typename?: 'PsaInspectionVesselDistinctValuesConnection';
+  /** A list of `String` objects. */
+  nodes: Array<Maybe<Scalars['String']>>;
+  /** A list of edges which contains the `String` and cursor to aid in pagination. */
+  edges: Array<PsaInspectionVesselDistinctValueEdge>;
+  /** The count of *all* `String` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `String` edge in the connection. */
+export type PsaInspectionVesselDistinctValueEdge = {
+  __typename?: 'PsaInspectionVesselDistinctValueEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `String` at the end of the edge. */
+  node?: Maybe<Scalars['String']>;
+};
+
 /** The root mutation type which contains root level fields which mutate data. */
 export type Mutation = {
   __typename?: 'Mutation';
@@ -13832,6 +13998,8 @@ export type Mutation = {
   createWarehousePersonContact?: Maybe<CreateWarehousePersonContactPayload>;
   /** Creates a single `AgendaItem`. */
   createAgendaItem?: Maybe<CreateAgendaItemPayload>;
+  /** Creates a single `CalendarEvent`. */
+  createCalendarEvent?: Maybe<CreateCalendarEventPayload>;
   /** Creates a single `PriceCategory`. */
   createPriceCategory?: Maybe<CreatePriceCategoryPayload>;
   /** Creates a single `PriceEntry`. */
@@ -13956,6 +14124,10 @@ export type Mutation = {
   updateAgendaItemByNodeId?: Maybe<UpdateAgendaItemPayload>;
   /** Updates a single `AgendaItem` using a unique key and a patch. */
   updateAgendaItem?: Maybe<UpdateAgendaItemPayload>;
+  /** Updates a single `CalendarEvent` using its globally unique id and a patch. */
+  updateCalendarEventByNodeId?: Maybe<UpdateCalendarEventPayload>;
+  /** Updates a single `CalendarEvent` using a unique key and a patch. */
+  updateCalendarEvent?: Maybe<UpdateCalendarEventPayload>;
   /** Updates a single `PriceCategory` using its globally unique id and a patch. */
   updatePriceCategoryByNodeId?: Maybe<UpdatePriceCategoryPayload>;
   /** Updates a single `PriceCategory` using a unique key and a patch. */
@@ -14182,6 +14354,10 @@ export type Mutation = {
   deleteAgendaItemByNodeId?: Maybe<DeleteAgendaItemPayload>;
   /** Deletes a single `AgendaItem` using a unique key. */
   deleteAgendaItem?: Maybe<DeleteAgendaItemPayload>;
+  /** Deletes a single `CalendarEvent` using its globally unique id. */
+  deleteCalendarEventByNodeId?: Maybe<DeleteCalendarEventPayload>;
+  /** Deletes a single `CalendarEvent` using a unique key. */
+  deleteCalendarEvent?: Maybe<DeleteCalendarEventPayload>;
   /** Deletes a single `PriceCategory` using its globally unique id. */
   deletePriceCategoryByNodeId?: Maybe<DeletePriceCategoryPayload>;
   /** Deletes a single `PriceCategory` using a unique key. */
@@ -14451,6 +14627,12 @@ export type MutationCreateWarehousePersonContactArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreateAgendaItemArgs = {
   input: CreateAgendaItemInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateCalendarEventArgs = {
+  input: CreateCalendarEventInput;
 };
 
 
@@ -14823,6 +15005,18 @@ export type MutationUpdateAgendaItemByNodeIdArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateAgendaItemArgs = {
   input: UpdateAgendaItemInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateCalendarEventByNodeIdArgs = {
+  input: UpdateCalendarEventByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateCalendarEventArgs = {
+  input: UpdateCalendarEventInput;
 };
 
 
@@ -15501,6 +15695,18 @@ export type MutationDeleteAgendaItemByNodeIdArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteAgendaItemArgs = {
   input: DeleteAgendaItemInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteCalendarEventByNodeIdArgs = {
+  input: DeleteCalendarEventByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteCalendarEventArgs = {
+  input: DeleteCalendarEventInput;
 };
 
 
@@ -18540,6 +18746,50 @@ export type AgendaItemInput = {
   content: Scalars['String'];
   itemDate: Scalars['Date'];
   sortOrder: Scalars['Int'];
+};
+
+/** The output of our create `CalendarEvent` mutation. */
+export type CreateCalendarEventPayload = {
+  __typename?: 'CreateCalendarEventPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `CalendarEvent` that was created by this mutation. */
+  calendarEvent?: Maybe<CalendarEvent>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `CalendarEvent`. May be used by Relay 1. */
+  calendarEventEdge?: Maybe<CalendarEventsEdge>;
+};
+
+
+/** The output of our create `CalendarEvent` mutation. */
+export type CreateCalendarEventPayloadCalendarEventEdgeArgs = {
+  orderBy?: Maybe<Array<CalendarEventsOrderBy>>;
+};
+
+/** All input for the create `CalendarEvent` mutation. */
+export type CreateCalendarEventInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `CalendarEvent` to be created by this mutation. */
+  calendarEvent: CalendarEventInput;
+};
+
+/** An input for mutations affecting `CalendarEvent` */
+export type CalendarEventInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  title?: Maybe<Scalars['String']>;
+  eventDescription?: Maybe<Scalars['String']>;
+  startDate?: Maybe<Scalars['Date']>;
+  endDate?: Maybe<Scalars['Date']>;
+  allDay?: Maybe<Scalars['Boolean']>;
+  rrule?: Maybe<Scalars['String']>;
 };
 
 /** The output of our create `PriceCategory` mutation. */
@@ -22362,6 +22612,64 @@ export type UpdateAgendaItemInput = {
   id: Scalars['BigInt'];
 };
 
+/** The output of our update `CalendarEvent` mutation. */
+export type UpdateCalendarEventPayload = {
+  __typename?: 'UpdateCalendarEventPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `CalendarEvent` that was updated by this mutation. */
+  calendarEvent?: Maybe<CalendarEvent>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `CalendarEvent`. May be used by Relay 1. */
+  calendarEventEdge?: Maybe<CalendarEventsEdge>;
+};
+
+
+/** The output of our update `CalendarEvent` mutation. */
+export type UpdateCalendarEventPayloadCalendarEventEdgeArgs = {
+  orderBy?: Maybe<Array<CalendarEventsOrderBy>>;
+};
+
+/** All input for the `updateCalendarEventByNodeId` mutation. */
+export type UpdateCalendarEventByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `CalendarEvent` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `CalendarEvent` being updated. */
+  patch: CalendarEventPatch;
+};
+
+/** Represents an update to a `CalendarEvent`. Fields that are set will be updated. */
+export type CalendarEventPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  title?: Maybe<Scalars['String']>;
+  eventDescription?: Maybe<Scalars['String']>;
+  startDate?: Maybe<Scalars['Date']>;
+  endDate?: Maybe<Scalars['Date']>;
+  allDay?: Maybe<Scalars['Boolean']>;
+  rrule?: Maybe<Scalars['String']>;
+};
+
+/** All input for the `updateCalendarEvent` mutation. */
+export type UpdateCalendarEventInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `CalendarEvent` being updated. */
+  patch: CalendarEventPatch;
+  id: Scalars['BigInt'];
+};
+
 /** The output of our update `PriceCategory` mutation. */
 export type UpdatePriceCategoryPayload = {
   __typename?: 'UpdatePriceCategoryPayload';
@@ -25984,6 +26292,50 @@ export type DeleteAgendaItemByNodeIdInput = {
 
 /** All input for the `deleteAgendaItem` mutation. */
 export type DeleteAgendaItemInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['BigInt'];
+};
+
+/** The output of our delete `CalendarEvent` mutation. */
+export type DeleteCalendarEventPayload = {
+  __typename?: 'DeleteCalendarEventPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `CalendarEvent` that was deleted by this mutation. */
+  calendarEvent?: Maybe<CalendarEvent>;
+  deletedCalendarEventNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `CalendarEvent`. May be used by Relay 1. */
+  calendarEventEdge?: Maybe<CalendarEventsEdge>;
+};
+
+
+/** The output of our delete `CalendarEvent` mutation. */
+export type DeleteCalendarEventPayloadCalendarEventEdgeArgs = {
+  orderBy?: Maybe<Array<CalendarEventsOrderBy>>;
+};
+
+/** All input for the `deleteCalendarEventByNodeId` mutation. */
+export type DeleteCalendarEventByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `CalendarEvent` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deleteCalendarEvent` mutation. */
+export type DeleteCalendarEventInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.

@@ -145,11 +145,13 @@ const Details = () => {
     ? filterPallets(getPallets(comVarData), palletFilters)
     : [];
 
-  const palletCount = pathname.includes('pallets')
-    ? loading
-      ? '-'
-      : `${comVarData && variety ? pallets.length : 0}`
-    : undefined;
+  const palletCount = loading
+    ? '-'
+    : pathname.includes('pallets')
+    ? `${comVarData && variety ? pallets.length : 0}`
+    : data
+    ? data.palletCount
+    : 0;
 
   const { TabBar } = useTabBar(tabs(id, palletCount, search), true);
 

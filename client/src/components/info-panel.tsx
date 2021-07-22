@@ -25,9 +25,22 @@ const Panel = styled(l.Div)(
 );
 
 const Trigger = styled(l.Div)(
-  ({ show, visible }: { show: boolean; visible: boolean }) => ({
+  ({
+    hasFilters,
+    show,
+    visible,
+  }: {
+    hasFilters: boolean;
+    show: boolean;
+    visible: boolean;
+  }) => ({
     background: th.colors.background,
-    opacity: show ? 1 : visible ? th.opacities.secondary : 0,
+    opacity:
+      hasFilters || show
+        ? 1
+        : visible
+        ? th.opacities.secondary
+        : th.opacities.disabled,
     transition: th.transitions.default,
     ':hover': {
       opacity: 1,
@@ -46,11 +59,18 @@ export interface InfoPanelProps {
   customStyles?: DivProps;
 }
 interface Props extends InfoPanelProps {
+  hasFilters?: boolean;
   triggerIcon: React.ReactNode;
   visible: boolean;
 }
 
-const InfoPanel = ({ content, customStyles, triggerIcon, visible }: Props) => {
+const InfoPanel = ({
+  content,
+  customStyles,
+  hasFilters = false,
+  triggerIcon,
+  visible,
+}: Props) => {
   const [show, setShow] = useState(false);
 
   const ref = useOutsideClickRef(() => {
@@ -63,7 +83,12 @@ const InfoPanel = ({ content, customStyles, triggerIcon, visible }: Props) => {
 
   return (
     <l.Div relative ref={ref}>
-      <Trigger onClick={toggleShow} show={show} visible={visible}>
+      <Trigger
+        hasFilters={hasFilters}
+        onClick={toggleShow}
+        show={show}
+        visible={visible}
+      >
         {triggerIcon}
       </Trigger>
       {show && <Panel {...customStyles}>{content({ show, setShow })}</Panel>}

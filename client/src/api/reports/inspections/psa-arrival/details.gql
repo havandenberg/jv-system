@@ -8,6 +8,7 @@ query PSA_ARRIVAL_INSPECTION_DETAILS($id: BigInt!) {
     locationName
     reportDate
     reportUrl
+    palletCount
     pictures {
       nodes {
         id
