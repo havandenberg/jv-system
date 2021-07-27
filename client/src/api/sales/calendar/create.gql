@@ -1,0 +1,5 @@
+mutation CALENDAR_EVENT_CREATE($calendarEvent: CalendarEventInput!) {
+  createCalendarEvent(input: { calendarEvent: $calendarEvent }) {
+    clientMutationId
+  }
+}

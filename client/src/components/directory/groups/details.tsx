@@ -67,7 +67,7 @@ const Details = () => {
     history.push('/directory/groups');
   };
 
-  const { changes, editing, handleChange, getUpdateActions } =
+  const { changes, editing, handleChange, getUpdateActions, saveAttempt } =
     useUpdateItem<ContactGroup>({
       data: data as ContactGroup,
       handleDelete,
@@ -78,6 +78,7 @@ const Details = () => {
       }"`,
       updateFields,
       updateVariables,
+      validationLabels: baseLabels(true),
     });
 
   const [{ activeUser }] = useUserContext();
@@ -129,7 +130,7 @@ const Details = () => {
 
   return (
     <Page
-      actions={getUpdateActions({ onAfterDelete })}
+      actions={getUpdateActions({ onAfterDelete }).defaultActions}
       breadcrumbs={breadcrumbs(id)}
       title={data ? `${data.groupName}` : 'Directory - Group'}
     >
@@ -141,6 +142,7 @@ const Details = () => {
             editing={editing}
             handleChange={onChange}
             labels={baseLabels(true)}
+            showValidation={saveAttempt}
           />
           <l.Flex alignCenter justifyBetween my={th.spacing.lg}>
             <TabBar />

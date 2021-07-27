@@ -127,7 +127,7 @@ const Details = () => {
     history.push(breadcrumb ? breadcrumb.to || '/directory' : '/directory');
   };
 
-  const { changes, editing, handleChange, getUpdateActions } =
+  const { changes, editing, handleChange, getUpdateActions, saveAttempt } =
     useUpdateItem<PersonContact>({
       confirmDeleteText: `Are you sure you want to delete contact for ${
         data ? data.firstName : ''
@@ -139,6 +139,7 @@ const Details = () => {
       handleUpdate,
       updateFields,
       updateVariables,
+      validationLabels: baseLabels(true, isInternal),
     });
 
   const { allCustomers, allShippers, allWarehouses, info, handleReset } =
@@ -281,12 +282,14 @@ const Details = () => {
 
   return (
     <Page
-      actions={getUpdateActions({
-        onAfterDelete,
-        onCancel: handleReset,
-        onSave: handleUpdateCompanies,
-        shouldConfirmCancel: hasCompanyChanges,
-      })}
+      actions={
+        getUpdateActions({
+          onAfterDelete,
+          onCancel: handleReset,
+          onSave: handleUpdateCompanies,
+          shouldConfirmCancel: hasCompanyChanges,
+        }).defaultActions
+      }
       breadcrumbs={breadcrumbs}
       title={
         data ? `${data.firstName} ${data.lastName}` : 'Directory - Contact'
@@ -300,6 +303,7 @@ const Details = () => {
             editing={editing}
             handleChange={handleChange}
             labels={baseLabels(editing, isInternal)}
+            showValidation={saveAttempt}
           />
           <l.Div mt={th.spacing.lg}>{info}</l.Div>
         </>

@@ -65,7 +65,7 @@ export const validateItem = <T extends {}>(
 ) =>
   reduce(
     (isValid, label) =>
-      isValid && (label.validate ? label.validate(changes[label.key]) : true),
+      isValid && (label.validate ? label.validate(changes) : true),
     true,
     labels,
   );

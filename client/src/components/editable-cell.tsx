@@ -20,17 +20,20 @@ import {
 } from 'onno';
 
 import HighlightImg from 'assets/images/highlight';
+import usePrevious from 'hooks/use-previous';
 import l, { DivProps } from 'ui/layout';
 import th from 'ui/theme';
 import { hexColorWithTransparency } from 'ui/utils';
-import usePrevious from 'hooks/use-previous';
 
 const CELL_HEIGHT = 28;
 
-const Input = styled.input<{ dirty: boolean } & DivProps>(
-  ({ dirty }: { dirty: boolean }) => ({
+export const Input = styled.input<
+  { dirty: boolean; editing: boolean } & DivProps & TextSetProps
+>(
+  ({ dirty, editing }) => ({
     background: hexColorWithTransparency(th.colors.white, 0.2),
     border: th.borders.secondary,
+    cursor: editing ? 'pointer' : 'default',
     fontWeight: dirty ? 'bold' : undefined,
     width: `calc(${th.sizes.fill} - ${th.spacing.sm})`,
   }),
@@ -142,6 +145,7 @@ const EditableCell = ({
         <Input
           dirty={dirty || localValue !== value}
           checked={Boolean(localValue)}
+          editing
           type={isBoolean ? 'checkbox' : 'text'}
           onBlur={(e) => {
             if (localValue !== value) {

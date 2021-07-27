@@ -1,0 +1,11 @@
+query CALENDAR_EVENT_DETAILS($id: BigInt!) {
+  calendarEvent(id: $id) {
+    allDay
+    endDate
+    eventDescription
+    id
+    rrule
+    startDate
+    title
+  }
+}

@@ -1,6 +1,13 @@
 import React, { InputHTMLAttributes, useRef, useState } from 'react';
 import styled from '@emotion/styled';
-import { spaceSet, SpaceSetProps, width, WidthProps } from 'onno';
+import {
+  borderSet,
+  BorderSetProps,
+  spaceSet,
+  SpaceSetProps,
+  width,
+  WidthProps,
+} from 'onno';
 
 import CloseImg from 'assets/images/close';
 import l from 'ui/layout';
@@ -12,9 +19,21 @@ const DEFAULT_PADDING = 16;
 const CLEAR_WIDTH = 40;
 
 const Wrapper = styled(l.Div)(
-  ({ hasValue, focused }: { hasValue?: boolean; focused?: boolean }) => ({
+  ({
+    hasError,
+    hasValue,
+    focused,
+  }: {
+    hasError?: boolean;
+    hasValue?: boolean;
+    focused?: boolean;
+  }) => ({
     background: th.colors.brand.containerBackground,
-    border: hasValue || focused ? th.borders.secondary : th.borders.disabled,
+    border: hasError
+      ? th.borders.error
+      : hasValue || focused
+      ? th.borders.secondary
+      : th.borders.disabled,
     borderRadius: th.borderRadii.input,
     boxShadow: th.shadows.boxLight,
     cursor: 'text',
@@ -23,7 +42,7 @@ const Wrapper = styled(l.Div)(
     transition: th.transitions.default,
     width: INPUT_WIDTH,
     ':hover': {
-      border: th.borders.secondary,
+      border: hasError ? th.borders.error : th.borders.secondary,
     },
   }),
 );
@@ -48,19 +67,25 @@ export const ClearWrapper = styled(IconWrapper)({
   },
 });
 
-export const TextArea = styled.textarea({
-  background: th.colors.brand.containerBackground,
-  border: th.borders.secondary,
-  borderRadius: th.borderRadii.default,
-  boxShadow: th.shadows.boxLight,
-  color: th.colors.brand.primary,
-  cursor: 'text',
-  fontFamily: th.fontFamilies.body,
-  fontSize: th.fontSizes.body,
-  outline: 'none',
-  padding: th.spacing.sm,
-  transition: th.transitions.default,
-});
+export const TextArea = styled.textarea<
+  InputHTMLAttributes<HTMLTextAreaElement> & SpaceSetProps & WidthProps
+>(
+  {
+    background: th.colors.brand.containerBackground,
+    border: th.borders.secondary,
+    borderRadius: th.borderRadii.default,
+    boxShadow: th.shadows.boxLight,
+    color: th.colors.brand.primary,
+    cursor: 'text',
+    fontFamily: th.fontFamilies.body,
+    fontSize: th.fontSizes.body,
+    outline: 'none',
+    padding: th.spacing.sm,
+    transition: th.transitions.default,
+  },
+  spaceSet,
+  width,
+);
 
 const StyledTextInput = styled.input(
   {
@@ -91,6 +116,7 @@ const StyledTextInput = styled.input(
       },
     },
   },
+  borderSet,
   spaceSet,
   width,
 );
@@ -101,11 +127,16 @@ export const Select = styled.select<
     WidthProps & {
       hasValue?: boolean;
       focused?: boolean;
+      hasError?: boolean;
     }
 >(
-  ({ hasValue, focused }) => ({
+  ({ hasError, hasValue, focused }) => ({
     background: th.colors.brand.containerBackground,
-    border: hasValue || focused ? th.borders.secondary : th.borders.disabled,
+    border: hasError
+      ? th.borders.error
+      : hasValue || focused
+      ? th.borders.secondary
+      : th.borders.disabled,
     borderRadius: th.borderRadii.input,
     boxShadow: th.shadows.boxLight,
     color: th.colors.text.default,
@@ -117,7 +148,7 @@ export const Select = styled.select<
     transition: th.transitions.default,
     width: 200,
     ':hover': {
-      border: th.borders.secondary,
+      border: hasError ? th.borders.error : th.borders.secondary,
       '::placeholder': {
         color: th.colors.brand.secondary,
       },
@@ -137,18 +168,20 @@ export const Select = styled.select<
 );
 
 export interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
+  hasError?: boolean;
   Icon?: React.ReactNode;
   onClear?: () => void;
 }
 
 const TextInput = ({
+  hasError,
   Icon,
   onBlur,
   onClear,
   onFocus,
   value,
   ...rest
-}: TextInputProps) => {
+}: TextInputProps & BorderSetProps & SpaceSetProps & WidthProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [focused, setFocused] = useState(false);
 
@@ -180,7 +213,7 @@ const TextInput = ({
   };
 
   return (
-    <Wrapper hasValue={!!value} focused={focused}>
+    <Wrapper hasError={hasError} hasValue={!!value} focused={focused}>
       <IconWrapper left={0}>{Icon}</IconWrapper>
       <StyledTextInput
         pl={Icon ? ICON_WIDTH : DEFAULT_PADDING}

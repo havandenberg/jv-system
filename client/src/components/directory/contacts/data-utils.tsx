@@ -167,12 +167,12 @@ export const baseLabels: (
     {
       key: 'firstName',
       label: 'First Name',
-      validate: (val) => val.length > 0,
+      validate: ({ firstName }) => firstName.length > 0,
     },
     {
       key: 'lastName',
       label: 'Last Name',
-      validate: (val) => val.length > 0,
+      validate: ({ lastName }) => lastName.length > 0,
     },
     {
       key: 'email',

@@ -1,0 +1,13 @@
+query CALENDAR_EVENT_LIST {
+  calendarEvents(orderBy: START_DATE_ASC) {
+    nodes {
+      allDay
+      endDate
+      eventDescription
+      id
+      rrule
+      startDate
+      title
+    }
+  }
+}

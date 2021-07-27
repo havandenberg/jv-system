@@ -1,0 +1,7 @@
+mutation CALENDAR_EVENT_UPDATE($id: BigInt!, $updates: CalendarEventPatch!) {
+  updateCalendarEvent(input: { patch: $updates, id: $id }) {
+    calendarEvent {
+      id
+    }
+  }
+}

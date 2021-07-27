@@ -39,7 +39,7 @@ export const baseLabels: (userReadOnly: boolean) => ContactGroupLabelInfo[] = (
     key: 'groupName',
     label: 'Name',
     sortable: true,
-    validate: (val) => val.length > 0,
+    validate: ({ groupName }) => groupName.length > 0,
   },
   {
     key: 'groupDescription',

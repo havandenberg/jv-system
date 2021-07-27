@@ -72,11 +72,11 @@ const BaseData = <T extends {}>({
               value: `${
                 changes[key] === undefined
                   ? data[key] || ''
-                  : changes[key] || data[key] || ''
+                  : changes[key] || ''
               }`,
             }
           : { dirty: false, value: `${data[key]}` };
-        const isValid = !validate || validate(content.value);
+        const isValid = !validate || validate(changes || data);
         const value =
           (transformKey
             ? baseDataTransforms[transformKey](data[key])

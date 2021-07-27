@@ -8,6 +8,28 @@ import l, { DivProps } from 'ui/layout';
 import th from 'ui/theme';
 import ty, { TextProps } from 'ui/typography';
 
+export const modalStyles: {
+  content?: React.CSSProperties;
+  overlay?: React.CSSProperties;
+} = {
+  overlay: {
+    alignItems: 'center',
+    background: th.colors.overlay.dark,
+    justifyContent: 'center',
+    display: 'flex',
+    flexDirection: 'column',
+    zIndex: 20,
+  },
+  content: {
+    background: th.colors.background,
+    border: th.borders.disabled,
+    borderRadius: th.borderRadii.default,
+    inset: 0,
+    position: 'relative',
+    width: '50%',
+  },
+};
+
 interface Props {
   children: ({ hide }: { hide: () => void }) => React.ReactNode;
   trigger: (show: () => void) => React.ReactNode;
@@ -25,24 +47,7 @@ const Modal = ({ children, trigger }: Props) => {
         ariaHideApp={false}
         isOpen={isOpen}
         onRequestClose={hide}
-        style={{
-          overlay: {
-            alignItems: 'center',
-            background: th.colors.overlay.dark,
-            justifyContent: 'center',
-            display: 'flex',
-            flexDirection: 'column',
-            zIndex: 20,
-          },
-          content: {
-            background: th.colors.background,
-            border: th.borders.disabled,
-            borderRadius: th.borderRadii.default,
-            inset: 0,
-            position: 'relative',
-            width: '50%',
-          },
-        }}
+        style={modalStyles}
       >
         {children({ hide })}
       </ReactModal>

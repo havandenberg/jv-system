@@ -1,0 +1,7 @@
+mutation CALENDAR_EVENT_DELETE($id: BigInt!) {
+  deleteCalendarEvent(input: { id: $id }) {
+    calendarEvent {
+      id
+    }
+  }
+}

@@ -32,11 +32,13 @@ export const navItems: NavItemType[] = [
     to: '/sales',
     dashboardItems: [
       { disabled: true, text: 'Inventory', to: 'inventory' },
+      { text: 'Calendar', to: 'calendar' },
       { text: 'Price Sheet', to: 'price-sheet' },
       { text: 'Agenda', to: 'agenda' },
     ],
     secondaryItems: [
       // { disabled: true, text: 'Inventory', to: 'inventory' },
+      { text: 'Calendar', to: 'calendar' },
       { text: 'Price Sheet', to: 'price-sheet' },
       { text: 'Agenda', to: 'agenda' },
     ],
