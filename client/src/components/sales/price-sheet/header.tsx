@@ -105,9 +105,7 @@ const Header = ({
             bg={
               isCurrentWeekVal ? th.colors.brand.containerBackground : undefined
             }
-            borderLeft={border}
-            borderRight={border}
-            borderTop={isCurrentWeekVal ? th.borders.disabled : undefined}
+            border={border}
             column
             justifyCenter
             key={i}

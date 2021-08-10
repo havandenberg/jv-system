@@ -11,7 +11,7 @@ import ty from 'ui/typography';
 const Wrapper = styled(l.Flex)({
   alignItems: 'center',
   background: th.colors.brand.containerBackground,
-  border: th.borders.primary,
+  border: th.borders.disabled,
   borderRadius: th.borderRadii.default,
   flexDirection: 'column',
   height: 300,

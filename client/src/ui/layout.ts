@@ -50,7 +50,6 @@ interface CustomDivProps {
   justifyEnd?: boolean;
   justifyStart?: boolean;
   relative?: boolean;
-  wrap?: boolean;
 }
 
 const customOptions: (props: CustomDivProps) => any = ({
@@ -68,7 +67,6 @@ const customOptions: (props: CustomDivProps) => any = ({
   justifyEnd,
   justifyStart,
   relative,
-  wrap,
 }) => ({
   alignItems: alignStart
     ? 'flex-start'
@@ -80,7 +78,6 @@ const customOptions: (props: CustomDivProps) => any = ({
   flexDirection: column ? 'column' : undefined,
   cursor,
   display: inline ? 'inline-block' : undefined,
-  flexWrap: wrap ? 'wrap' : undefined,
   justifyContent: justifyStart
     ? 'flex-start'
     : justifyEnd

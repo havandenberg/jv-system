@@ -2,7 +2,7 @@ import './fonts.css';
 import { DESKTOP, SMALL, TABLET, TABLET_DOWN, TABLET_UP, TINY } from './utils';
 
 export const colors = {
-  background: '#EAF5FF',
+  background: '#FFFFFF',
   black: '#00080F',
   white: '#FFFFFF',
   brand: {
@@ -128,7 +128,7 @@ export const shadows = {
 };
 
 export const transitions = {
-  default: 'all 0.3s ease',
+  default: 'all 0.2s ease',
 };
 
 export const scrollOptions = {

@@ -132,7 +132,7 @@ const Details = () => {
     <Page
       actions={getUpdateActions({ onAfterDelete }).defaultActions}
       breadcrumbs={breadcrumbs(id)}
-      title={data ? `${data.groupName}` : 'Directory - Group'}
+      title={data ? `${data.groupName}` : 'Loading...'}
     >
       {data ? (
         <l.Div pb={th.spacing.xl}>

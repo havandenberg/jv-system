@@ -31,7 +31,7 @@ const Categories = (props: Props) => {
   } = props;
 
   return (
-    <l.Div mt={th.spacing.sm} mb={items.length > 0 ? th.spacing.xxxl : 0}>
+    <l.Div mb={items.length > 0 ? th.spacing.xxxl : 0}>
       {items.map((category, idx) => {
         const categoryName = getCategoryValue(category, 'categoryName');
         return (

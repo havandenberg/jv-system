@@ -17,27 +17,18 @@ export interface NavItemType extends NavItemProps {
 
 export const navItems: NavItemType[] = [
   {
-    text: 'Directory',
-    to: '/directory',
-    dashboardItems: [
-      { text: 'Groups', to: 'groups' },
-      { text: 'Internal', to: 'internal' },
-      { text: 'Customers', to: 'customers' },
-      { text: 'Shippers', to: 'shippers' },
-      { text: 'Warehouses', to: 'warehouses' },
-    ],
-  },
-  {
     text: 'Sales',
     to: '/sales',
     dashboardItems: [
-      { disabled: true, text: 'Inventory', to: 'inventory' },
+      { text: 'Inventory', to: 'inventory' },
+      { text: 'Vessels', to: 'vessels' },
       { text: 'Calendar', to: 'calendar' },
       { text: 'Price Sheet', to: 'price-sheet' },
       { text: 'Agenda', to: 'agenda' },
     ],
     secondaryItems: [
-      // { disabled: true, text: 'Inventory', to: 'inventory' },
+      { text: 'Inventory', to: 'inventory' },
+      { text: 'Vessels', to: 'vessels' },
       { text: 'Calendar', to: 'calendar' },
       { text: 'Price Sheet', to: 'price-sheet' },
       { text: 'Agenda', to: 'agenda' },
@@ -47,8 +38,32 @@ export const navItems: NavItemType[] = [
     baseUrl: '/reports',
     text: 'Reports',
     to: '/reports/inspections',
-    dashboardItems: [{ text: 'Inspections', to: 'inspections' }],
-    secondaryItems: [{ text: 'Inspections', to: 'inspections' }],
+    dashboardItems: [
+      { text: 'Inspections', to: 'inspections' },
+      // { text: 'Movement', to: 'movement' },
+    ],
+    secondaryItems: [
+      { text: 'Inspections', to: 'inspections' },
+      // { text: 'Movement', to: 'movement' },
+    ],
+  },
+  {
+    text: 'Directory',
+    to: '/directory',
+    dashboardItems: [
+      { text: 'Internal', to: 'internal' },
+      { text: 'Customers', to: 'customers' },
+      { text: 'Shippers', to: 'shippers' },
+      { text: 'Warehouses', to: 'warehouses' },
+      { text: 'Groups', to: 'groups' },
+    ],
+    secondaryItems: [
+      { text: 'Internal', to: 'internal' },
+      { text: 'Customers', to: 'customers' },
+      { text: 'Shippers', to: 'shippers' },
+      { text: 'Warehouses', to: 'warehouses' },
+      { text: 'Groups', to: 'groups' },
+    ],
   },
 ];
 
@@ -66,7 +81,7 @@ const Logo = styled(l.AreaLink)({
   background: th.colors.brand.primary,
   borderBottomRightRadius: th.borderRadii.default,
   justifyContent: 'center',
-  paddingTop: th.spacing.sm,
+  paddingTop: 13,
   width: 150,
 });
 
@@ -92,7 +107,7 @@ const Nav = () => {
     <Wrapper>
       <Logo to="/">
         <l.Flex justifyCenter>
-          <l.Img height={60} src={LogoImg} width={60} />
+          <l.Img height={50} src={LogoImg} width={50} />
         </l.Flex>
       </Logo>
       <l.Flex column flex={1} relative>

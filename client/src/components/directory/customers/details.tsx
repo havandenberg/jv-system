@@ -80,7 +80,7 @@ const Details = () => {
   return (
     <Page
       breadcrumbs={customerBreadcrumbs(id)}
-      title={data ? data.customerName : 'Directory - Customer'}
+      title={data ? data.customerName : 'Loading...'}
     >
       {data ? (
         <l.Div pb={th.spacing.xl}>

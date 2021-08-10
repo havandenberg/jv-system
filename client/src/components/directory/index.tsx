@@ -31,11 +31,6 @@ export enum DirectoryTypes {
 
 const tabs: Tab[] = [
   {
-    id: DirectoryTypes.GROUPS,
-    text: 'Groups',
-    to: `/directory/${DirectoryTypes.GROUPS}`,
-  },
-  {
     id: DirectoryTypes.INTERNAL,
     text: 'Internal',
     to: `/directory/${DirectoryTypes.INTERNAL}`,
@@ -54,6 +49,11 @@ const tabs: Tab[] = [
     id: DirectoryTypes.WAREHOUSES,
     text: 'Warehouses',
     to: `/directory/${DirectoryTypes.WAREHOUSES}`,
+  },
+  {
+    id: DirectoryTypes.GROUPS,
+    text: 'Groups',
+    to: `/directory/${DirectoryTypes.GROUPS}`,
   },
 ];
 

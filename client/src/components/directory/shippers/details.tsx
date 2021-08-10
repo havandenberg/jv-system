@@ -68,7 +68,7 @@ const Details = () => {
   return (
     <Page
       breadcrumbs={shipperBreadcrumbs(id)}
-      title={data ? data.shipperName : 'Directory - Shipper'}
+      title={data ? data.shipperName : 'Loading...'}
     >
       {data ? (
         <l.Div pb={th.spacing.xl}>

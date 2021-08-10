@@ -291,9 +291,7 @@ const Details = () => {
         }).defaultActions
       }
       breadcrumbs={breadcrumbs}
-      title={
-        data ? `${data.firstName} ${data.lastName}` : 'Directory - Contact'
-      }
+      title={data ? `${data.firstName} ${data.lastName}` : 'Loading...'}
     >
       {data ? (
         <>

@@ -320,7 +320,7 @@ const Details = () => {
         <l.Flex alignStart flex={1}>
           <l.Div flex={8}>
             <BaseData<PsaArrivalReport> data={data} labels={baseLabels} />
-            <l.Div height={th.spacing.xl} />
+            <l.Div height={th.spacing.md} />
             <TabBar />
             <l.Div height={th.spacing.lg} />
             <Switch>

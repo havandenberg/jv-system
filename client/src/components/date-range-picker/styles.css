@@ -6,7 +6,7 @@
 }
 
 .rdrCalendarWrapper {
-  background: #eaf5ff;
+  background: #ffffff;
   border-radius: 6px;
   font-size: 12px;
   font-family: Nunito;
@@ -332,7 +332,7 @@
   font-size: 12px;
   width: 180px;
   border-right: solid 1px rgba(3, 41, 74, 0.7);
-  background: #eaf5ff;
+  background: #ffffff;
   border-top-left-radius: 6px;
   border-bottom-left-radius: 6px;
 }
@@ -358,7 +358,7 @@
   outline: 0;
   border-bottom: 1px solid rgba(3, 41, 74, 0.4);
   padding: 0;
-  background: #eaf5ff;
+  background: #ffffff;
 }
 
 .rdrStaticRange:hover .rdrStaticRangeLabel,

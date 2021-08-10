@@ -970,7 +970,7 @@ const PriceSheet = () => {
           </l.AreaLink>
         ),
       ]}
-      extraPaddingTop={74}
+      extraPaddingTop={dataLoading ? 90 : 82}
       headerChildren={
         <>
           <l.Flex>{DateRangePicker}</l.Flex>
