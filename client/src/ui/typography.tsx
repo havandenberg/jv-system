@@ -107,9 +107,9 @@ const TitleText = styled.h1<TextProps>(th.textStyles.title, textPropsSet);
 const Span = styled.span<TextProps>(textPropsSet);
 
 const LinkText = styled(RouterLink)<TextProps>(
-  {
+  ({ hover = 'true' }: { hover?: string }) => ({
     cursor: 'pointer',
-    textDecoration: 'none',
+    textDecoration: hover === 'true' ? 'none' : 'underline',
     ':hover': {
       color: th.colors.brand.primaryAccent,
       textDecoration: 'underline',
@@ -121,12 +121,18 @@ const LinkText = styled(RouterLink)<TextProps>(
       },
     },
     ':link': {
-      color: th.colors.brand.primary,
+      color:
+        hover === 'true'
+          ? th.colors.brand.primary
+          : th.colors.brand.primaryAccent,
     },
     ':visited': {
-      color: th.colors.brand.primary,
+      color:
+        hover === 'true'
+          ? th.colors.brand.primary
+          : th.colors.brand.primaryAccent,
     },
-  },
+  }),
   textPropsSet,
 );
 

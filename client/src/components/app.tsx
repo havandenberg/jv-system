@@ -23,6 +23,7 @@ import { UserContextProvider } from 'components/user/context';
 import Global from 'ui/global';
 import l from 'ui/layout';
 import th from 'ui/theme';
+import { InventoryContextProvider } from './sales/inventory/context';
 
 const client = new ApolloClient({
   uri: process.env.REACT_APP_DATABASE_API_URL,
@@ -41,19 +42,24 @@ const App = () => (
         <ThemeProvider theme={th}>
           <UserContextProvider>
             <DirectorySelectionContextProvider>
-              <Main id="main">
-                <Nav />
-                <Switch>
-                  <Route exact path="/" component={Dashboard} />
-                  <Route path="/directory/:routeTabId?" component={Directory} />
-                  <Route path="/reports" component={Reports} />
-                  <Route path="/sales" component={Sales} />
-                  <Redirect to="/" />
-                </Switch>
-                <Footer />
-                <ScrollToTop />
-              </Main>
-              <Global />
+              <InventoryContextProvider>
+                <Main id="main">
+                  <Nav />
+                  <Switch>
+                    <Route exact path="/" component={Dashboard} />
+                    <Route
+                      path="/directory/:routeTabId?"
+                      component={Directory}
+                    />
+                    <Route path="/reports" component={Reports} />
+                    <Route path="/sales" component={Sales} />
+                    <Redirect to="/" />
+                  </Switch>
+                  <Footer />
+                  <ScrollToTop />
+                </Main>
+                <Global />
+              </InventoryContextProvider>
             </DirectorySelectionContextProvider>
           </UserContextProvider>
         </ThemeProvider>

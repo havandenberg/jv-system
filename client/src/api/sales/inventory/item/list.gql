@@ -1,0 +1,55 @@
+query INVENTORY_ITEM_LIST {
+  inventoryItems(filter: { palletsOnHand: { notEqualTo: "0" } }) {
+    nodes {
+      coast
+      country {
+        id
+        countryName
+      }
+      id
+      palletsAvailable
+      palletsCommitted
+      palletsReceived
+      palletsShipped
+      palletsOnHand
+      plu
+      product {
+        id
+        species {
+          id
+          speciesDescription
+        }
+        variety {
+          id
+          varietyDescription
+        }
+        sizes(first: 1) {
+          nodes {
+            id
+            jvDescription
+          }
+        }
+        packType {
+          packDescription
+          id
+          label {
+            labelName
+          }
+        }
+      }
+      shipper {
+        shipperName
+        id
+      }
+      vessel {
+        dischargeDate
+        vesselCode
+        vesselName
+      }
+      warehouse {
+        id
+        warehouseName
+      }
+    }
+  }
+}

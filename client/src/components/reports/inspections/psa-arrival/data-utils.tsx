@@ -4,6 +4,7 @@ import { LabelInfo } from 'components/column-label';
 import { SORT_ORDER } from 'hooks/use-columns';
 import { mean, pluck } from 'ramda';
 import { PsaArrivalReport } from 'types';
+import ty from 'ui/typography';
 
 import { PsaConditionInfo, PsaQualityInfo } from './quality-condition-info';
 
@@ -116,6 +117,14 @@ export const baseLabels: ReportLabelInfo[] = [
   {
     key: 'arrivalCode',
     label: 'Vessel Code',
+    getValue: ({ arrivalCode, vessel }) =>
+      vessel ? (
+        <ty.LinkText hover="false" to={`/sales/vessels/${vessel.id}`}>
+          {arrivalCode}
+        </ty.LinkText>
+      ) : (
+        <ty.BodyText>{arrivalCode}</ty.BodyText>
+      ),
   },
   {
     key: 'arrivalName',

@@ -1,0 +1,11 @@
+query PRODUCT_VARIETY_DETAILS($id: String!) {
+  productVariety(id: $id) {
+    combineWith
+    customerLetterSequence
+    id
+    secondaryDescription
+    summaryCode
+    varietyDescription
+    varietyGroup
+  }
+}

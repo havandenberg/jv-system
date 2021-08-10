@@ -1,0 +1,10 @@
+query PRODUCT_SPECIES_DETAILS($id: String!) {
+  productSpecies(id: $id) {
+    defaultTemperature
+    fdaIndustryCode
+    fdaProductCode
+    id
+    secondaryDescription
+    speciesDescription
+  }
+}

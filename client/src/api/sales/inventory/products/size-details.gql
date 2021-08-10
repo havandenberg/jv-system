@@ -1,0 +1,12 @@
+query PRODUCT_SIZE_DETAILS($id: BigInt!) {
+  productSize(id: $id) {
+    combineDescription
+    combineWith
+    id
+    jvCode
+    jvDescription
+    shipperCode
+    shipperDescription
+    shipperId
+  }
+}

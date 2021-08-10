@@ -1,32 +1,50 @@
 import React from 'react';
 import styled from '@emotion/styled';
 
-import l from 'ui/layout';
+import l, { DivProps, divPropsSet } from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 import { times } from 'ramda';
 import { Maybe } from 'types';
 
-const Wrapper = styled(l.Flex)({
-  alignItems: 'center',
-  background: th.colors.brand.primary,
-  borderRadius: th.borderRadii.default,
-  boxShadow: th.shadows.box,
-  flexDirection: 'column',
-  height: 100,
-  justifyContent: 'space-between',
-  minWidth: 100,
-  padding: `${th.spacing.md}`,
-});
+const Wrapper = styled(l.Flex)(
+  {
+    alignItems: 'center',
+    background: th.colors.brand.primary,
+    borderRadius: th.borderRadii.default,
+    boxShadow: th.shadows.box,
+    flexDirection: 'column',
+    height: 100,
+    justifyContent: 'space-between',
+    minWidth: 100,
+    padding: `${th.spacing.md}`,
+  },
+  divPropsSet,
+);
 
 export interface FeaturedValue {
+  customStyles?: {
+    label?: DivProps;
+    wrapper?: DivProps;
+  };
   label: string;
   values: { label?: string; value?: Maybe<string> }[];
 }
 
-export const FeaturedValuePanel = ({ label, values }: FeaturedValue) => (
-  <Wrapper>
-    <ty.CaptionText center inverted nowrap secondary mb={th.spacing.sm}>
+export const FeaturedValuePanel = ({
+  customStyles,
+  label,
+  values,
+}: FeaturedValue) => (
+  <Wrapper {...customStyles?.wrapper}>
+    <ty.CaptionText
+      center
+      inverted
+      nowrap
+      secondary
+      mb={th.spacing.sm}
+      {...customStyles?.label}
+    >
       {label}
     </ty.CaptionText>
     {values &&
@@ -68,12 +86,18 @@ export const placeholderFeaturedValues = (count: number) =>
     count,
   );
 
-const FeaturedValues = ({ values }: { values: FeaturedValue[] }) => (
+const FeaturedValues = ({
+  gap = th.spacing.md,
+  values,
+}: {
+  gap?: string | number;
+  values: FeaturedValue[];
+}) => (
   <l.Flex justifyCenter mt={th.spacing.lg} width={th.sizes.fill}>
     {values.map((value, idx) => (
       <React.Fragment key={idx}>
         <FeaturedValuePanel {...value} />
-        {idx < values.length - 1 && <l.Div width={th.spacing.md} />}
+        {idx < values.length - 1 && <l.Div width={gap} />}
       </React.Fragment>
     ))}
   </l.Flex>

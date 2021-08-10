@@ -39,8 +39,8 @@ const SecondaryNav = ({
     pt={th.spacing.tn}
     px={th.spacing.sm}
   >
-    {navItems.map(({ disabled, to, text }, idx) => {
-      const pathname = `${baseUrl}/${to}`;
+    {navItems.map(({ disabled, search, to, text }, idx) => {
+      const pathname = `${baseUrl}/${to}${search || ''}`;
       const active = activePathname.includes(pathname);
       return (
         <l.AreaLink key={idx} to={disabled ? '#' : pathname}>

@@ -10,7 +10,7 @@ import FilterPanel, { FilterPanelProps } from 'components/filter-panel';
 import { SortOrder, SORT_ORDER } from 'hooks/use-columns';
 import l from 'ui/layout';
 import th from 'ui/theme';
-import ty from 'ui/typography';
+import ty, { TextProps } from 'ui/typography';
 
 export const ARROW_SIDE_LENGTH = 14;
 
@@ -43,6 +43,10 @@ const ChevronWrapper = styled(l.Div)(({ flip }: { flip: boolean }) => ({
 
 export interface LabelInfo<T> {
   boldColumn?: boolean;
+  customSortBy?: (data: T) => any;
+  customStyles?: {
+    label?: TextProps;
+  };
   defaultSortOrder?: SortOrder;
   filterable?: boolean;
   getValue?: (data: T) => React.ReactNode;
@@ -84,6 +88,7 @@ const ColumnLabel = <T extends {}>({
   sortOrder,
   handleSortChange,
   labelInfo: {
+    customStyles,
     defaultSortOrder,
     filterPanelProps,
     filterable,
@@ -96,7 +101,7 @@ const ColumnLabel = <T extends {}>({
   schemaName,
   tableName,
 }: Props<T>) => {
-  const active = sortBy === key;
+  const active = sortBy === (sortKey || key);
   const [hover, setHover] = useState(false);
   return (
     <l.Div relative>
@@ -118,7 +123,12 @@ const ColumnLabel = <T extends {}>({
           onMouseLeave={() => setHover(false)}
           relative
         >
-          <ty.SmallText className="label" pr={th.spacing.xs} px={th.spacing.sm}>
+          <ty.SmallText
+            className="label"
+            pr={th.spacing.xs}
+            px={th.spacing.sm}
+            {...customStyles?.label}
+          >
             {label}
           </ty.SmallText>
           {sortable && (

@@ -36,17 +36,19 @@ export interface NavItemProps {
   setHover?: (to: string) => void;
   text: string;
   to: string;
+  search?: string;
 }
 
 const NavItem = ({
   active,
   disabled,
   hover,
+  search,
   setHover,
   text,
   to,
 }: NavItemProps) => (
-  <l.AreaLink to={disabled ? '#' : to}>
+  <l.AreaLink to={disabled ? '#' : `${to}${search || ''}`}>
     <Button
       active={active}
       cursor={disabled ? 'default' : 'pointer'}

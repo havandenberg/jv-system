@@ -18,7 +18,17 @@ import ty from 'ui/typography';
 const Wrapper = styled(l.Div)({ position: 'relative', zIndex: 10 });
 
 const Control = styled(l.Flex)(
-  ({ hasValue, show }: { hasValue?: boolean; show?: boolean }) => ({
+  ({
+    hasValue,
+    show,
+    showLongDate,
+    singleSelection,
+  }: {
+    hasValue?: boolean;
+    show?: boolean;
+    showLongDate?: boolean;
+    singleSelection?: boolean;
+  }) => ({
     alignItems: 'center',
     background: th.colors.brand.containerBackground,
     border: hasValue || show ? th.borders.secondary : th.borders.disabled,
@@ -27,7 +37,7 @@ const Control = styled(l.Flex)(
     cursor: 'pointer',
     height: th.heights.input,
     transition: th.transitions.default,
-    width: th.widths.input,
+    width: singleSelection && !showLongDate ? 200 : th.widths.input,
     ':hover': {
       border: th.borders.secondary,
       '> p': {
@@ -148,7 +158,13 @@ const DateRangePicker = ({
 
   return (
     <Wrapper ref={ref}>
-      <Control hasValue={hasValue} onClick={toggleShow} show={show}>
+      <Control
+        hasValue={hasValue}
+        onClick={toggleShow}
+        show={show}
+        showLongDate={showLongDate}
+        singleSelection={singleSelection}
+      >
         <IconWrapper>
           <CalendarImg height={18} />
         </IconWrapper>

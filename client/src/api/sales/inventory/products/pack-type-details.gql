@@ -1,0 +1,6 @@
+query PRODUCT_PACK_TYPE_DETAILS($id: BigInt!) {
+  packMaster(id: $id) {
+    id
+    packDescription
+  }
+}

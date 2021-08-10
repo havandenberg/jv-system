@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { useParams } from 'react-router-dom';
 
 import { useQueryValue } from 'hooks/use-query-params';
-import l, { divPropsSet } from 'ui/layout';
+import l, { DivProps, divPropsSet } from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 
@@ -12,9 +12,10 @@ export interface Tab {
   text: string;
   to?: string;
   disabled?: boolean;
+  customStyles?: DivProps;
 }
 
-export const StyledTab = styled(l.Div)(
+export const StyledTab = styled(l.Flex)(
   ({ disabled, selected }: { disabled?: boolean; selected?: boolean }) => ({
     background: selected
       ? th.colors.brand.primary
@@ -50,7 +51,7 @@ interface Props {
 
 const TabBar = ({ onSelectTab, selectedTabId, tabs }: Props) => (
   <l.Flex>
-    {tabs.map(({ disabled, id, text, to }, idx) => {
+    {tabs.map(({ customStyles, disabled, id, text, to }, idx) => {
       const selected = selectedTabId === id;
       const isLast = idx + 1 === tabs.length;
       const tab = (
@@ -62,6 +63,7 @@ const TabBar = ({ onSelectTab, selectedTabId, tabs }: Props) => (
             !disabled && onSelectTab && onSelectTab(id);
           }}
           selected={selected}
+          {...customStyles}
         >
           <ty.CaptionText>{text}</ty.CaptionText>
         </StyledTab>
@@ -85,12 +87,12 @@ export const useTabBar = (
   isRoute?: boolean,
   defaultTabId?: string,
   paramName?: string,
+  defaultTabIndex: number = 0,
 ) => {
-  const { routeTabId } =
-    useParams<{
-      routeTabId: string;
-    }>();
-  const firstTab = tabs[0] && tabs[0].id;
+  const { routeTabId } = useParams<{
+    routeTabId: string;
+  }>();
+  const firstTab = tabs[defaultTabIndex] && tabs[defaultTabIndex].id;
   const [stateTabId, setStateTabId] = useState(
     defaultTabId || isRoute ? routeTabId || firstTab : firstTab,
   );

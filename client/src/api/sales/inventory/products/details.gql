@@ -1,0 +1,23 @@
+query PRODUCT_MASTER_DETAILS($id: String!) {
+  productMaster(id: $id) {
+    defaultPalletQuantity
+    id
+    lotNumber
+    packType {
+      jvPackCode
+      packDescription
+    }
+    sizes {
+      nodes {
+        jvCode
+        jvDescription
+      }
+    }
+    species {
+      speciesDescription
+    }
+    variety {
+      varietyDescription
+    }
+  }
+}

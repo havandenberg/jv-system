@@ -31,6 +31,7 @@ interface Props {
   actions?: React.ReactNode;
   breadcrumbs?: BreadcrumbProps[];
   children?: React.ReactNode;
+  enableShadow?: boolean;
   extraPaddingTop?: number;
   headerChildren?: React.ReactNode;
   title?: string;
@@ -40,6 +41,7 @@ const Page = ({
   actions,
   breadcrumbs,
   children,
+  enableShadow = true,
   extraPaddingTop,
   headerChildren,
   title,
@@ -47,7 +49,7 @@ const Page = ({
   const scrollPosition = useScrollPosition();
   return (
     <Content extraPaddingTop={extraPaddingTop}>
-      <Header shadow={scrollPosition.y < 0}>
+      <Header shadow={enableShadow && scrollPosition.y < 0}>
         <l.Div maxWidth={th.widths.maxContent} mx="auto" width={th.sizes.fill}>
           <l.Flex justifyEnd column>
             {breadcrumbs && (

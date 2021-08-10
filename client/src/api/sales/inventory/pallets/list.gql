@@ -1,0 +1,45 @@
+query PALLET_LIST($orderBy: [PalletsOrderBy!], $search: [PalletFilter!]) {
+  pallets(filter: { and: $search }, orderBy: $orderBy, last: 100) {
+    nodes {
+      containerId
+      currentBoxQuantity
+      growerId
+      id
+      orderId
+      palletId
+      packDate
+      shipped
+      shipper {
+        id
+        shipperName
+      }
+      product {
+        packType {
+          id
+          packDescription
+        }
+        id
+        sizes {
+          nodes {
+            id
+            jvDescription
+          }
+        }
+        species {
+          id
+          speciesDescription
+        }
+        variety {
+          id
+          varietyDescription
+        }
+      }
+      vessel {
+        dischargeDate
+        id
+        vesselCode
+      }
+    }
+    totalCount
+  }
+}

@@ -1,0 +1,30 @@
+query PRODUCT_MASTER_LIST(
+  $orderBy: [ProductMastersOrderBy!]
+  $search: [ProductMasterFilter!]
+  $last: Int!
+) {
+  productMasters(filter: { and: $search }, orderBy: $orderBy, last: $last) {
+    nodes {
+      defaultPalletQuantity
+      id
+      lotNumber
+      packType {
+        jvPackCode
+        packDescription
+      }
+      sizes {
+        nodes {
+          jvCode
+          jvDescription
+        }
+      }
+      species {
+        speciesDescription
+      }
+      variety {
+        varietyDescription
+      }
+    }
+    totalCount
+  }
+}

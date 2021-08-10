@@ -1,0 +1,7 @@
+mutation PRODUCT_MASTER_UPDATE($id: String!, $updates: ProductMasterPatch!) {
+  updateProductMaster(input: { patch: $updates, id: $id }) {
+    productMaster {
+      id
+    }
+  }
+}

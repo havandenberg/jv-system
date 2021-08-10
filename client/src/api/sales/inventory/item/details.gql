@@ -1,0 +1,69 @@
+query INVENTORY_ITEM_DETAILS($id: BigInt!) {
+  inventoryItem(id: $id) {
+    coast
+    country {
+      countryName
+      id
+    }
+    id
+    jvLotNumber
+    pallets {
+      nodes {
+        containerId
+        currentBoxQuantity
+        growerId
+        id
+        orderId
+        palletId
+        packDate
+        shipped
+      }
+      totalCount
+    }
+    palletsAvailable
+    palletsCommitted
+    palletsOnHand
+    palletsReceived
+    palletsShipped
+    palletsTransferredIn
+    palletsTransferredOut
+    plu
+    product {
+      id
+      species {
+        id
+        speciesDescription
+      }
+      variety {
+        id
+        varietyDescription
+      }
+      sizes {
+        nodes {
+          id
+          jvDescription
+        }
+      }
+      packType {
+        id
+        packDescription
+      }
+    }
+    shipper {
+      id
+      shipperName
+    }
+    specialLotNumber
+    storageRank
+    vessel {
+      id
+      dischargeDate
+      vesselCode
+      vesselName
+    }
+    warehouse {
+      id
+      warehouseName
+    }
+  }
+}

@@ -19,5 +19,8 @@ query PSA_ARRIVAL_INSPECTION_DETAILS($id: BigInt!) {
         varietyName
       }
     }
+    vessel {
+      id
+    }
   }
 }

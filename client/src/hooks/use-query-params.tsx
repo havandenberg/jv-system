@@ -54,3 +54,21 @@ export const useIDQueryParam = () => useQueryValue(idParam);
 
 export const useSortQueryParams = (updateType?: UpdateType) =>
   useQuerySet(sortParamSet, updateType);
+
+export const useInventoryQueryParams = () =>
+  useQuerySet({
+    species: StringParam,
+    variety: StringParam,
+    size: StringParam,
+    packType: StringParam,
+    plu: StringParam,
+    coast: StringParam,
+    location: StringParam,
+    shipper: StringParam,
+    countryOfOrigin: StringParam,
+    daysInStorage: StringParam,
+    startDate: StringParam,
+    endDate: StringParam,
+    detailsIndex: StringParam,
+    categoryTypes: StringParam,
+  });

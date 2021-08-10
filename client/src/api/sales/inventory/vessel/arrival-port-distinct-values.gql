@@ -1,0 +1,5 @@
+query ARRIVAL_PORT_DISTINCT_VALUES {
+  vesselArrivalPortDistinctValues {
+    nodes
+  }
+}

@@ -21,6 +21,7 @@ export const colors = {
   },
   status: {
     success: '#06D6A0',
+    successAlt: '#008001',
     error: '#F76C5E',
     warning: '#F4D35E',
     warningSecondary: '#E77728',

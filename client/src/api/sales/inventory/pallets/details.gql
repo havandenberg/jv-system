@@ -1,0 +1,81 @@
+query PALLET_DETAILS($id: BigInt!) {
+  pallet(idParam: $id) {
+    age
+    backOrderId
+    billOfLading
+    containerId
+    currentBoxQuantity
+    dateTransferredToStorage
+    deck
+    filler
+    growerId
+    hatch
+    id
+    jvLotNumber
+    locationId
+    oldPackCode
+    orderId
+    originalLocation {
+      id
+      warehouseName
+    }
+    packDate
+    palletId
+    palletSections {
+      nodes {
+        boxQuantity
+        growerId
+        id
+        packDate
+        sizeId
+        palletId
+        variety {
+          id
+          varietyDescription
+        }
+      }
+    }
+    product {
+      packType {
+        id
+        packDescription
+      }
+      id
+      sizes {
+        nodes {
+          id
+          jvDescription
+        }
+      }
+      species {
+        id
+        speciesDescription
+      }
+      variety {
+        id
+        varietyDescription
+      }
+    }
+    receivedBoxQuantity
+    returnedBoxQuantity
+    room
+    row
+    section
+    shipped
+    shipper {
+      id
+      shipperName
+    }
+    temperatureRecording
+    vessel {
+      dischargeDate
+      id
+      vesselCode
+    }
+    volumeDiscountCode
+    warehouse {
+      id
+      warehouseName
+    }
+  }
+}

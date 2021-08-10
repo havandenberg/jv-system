@@ -11,6 +11,10 @@ import * as warehouseDirectory from 'api/directory/warehouse';
 import * as priceSheet from 'api/sales/price-sheet';
 import * as agenda from 'api/sales/agenda';
 import * as calendar from 'api/sales/calendar';
+import * as pallets from 'api/sales/inventory/pallets';
+import * as products from 'api/sales/inventory/products';
+import * as inventory from 'api/sales/inventory/item';
+import * as vessels from 'api/sales/inventory/vessel';
 import * as user from 'api/user';
 
 const baseURL = process.env.REACT_APP_SERVER_URL;
@@ -34,7 +38,11 @@ export default {
   ...shipperDirectory,
   ...warehouseDirectory,
   ...priceSheet,
+  ...pallets,
+  ...products,
   ...agenda,
   ...calendar,
   ...user,
+  ...inventory,
+  ...vessels,
 };
