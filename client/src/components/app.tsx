@@ -18,12 +18,12 @@ import Footer from 'components/footer';
 import Nav from 'components/nav';
 import Reports from 'components/reports';
 import Sales from 'components/sales';
+import { InventoryContextProvider } from 'components/sales/inventory/context';
 import ScrollToTop from 'components/scroll-to-top';
 import { UserContextProvider } from 'components/user/context';
 import Global from 'ui/global';
 import l from 'ui/layout';
 import th from 'ui/theme';
-import { InventoryContextProvider } from './sales/inventory/context';
 
 const client = new ApolloClient({
   uri: process.env.REACT_APP_DATABASE_API_URL,
