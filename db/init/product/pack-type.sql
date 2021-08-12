@@ -1,32 +1,156 @@
-CREATE FUNCTION product.product_size_shipper(IN s product.product_size)
-    RETURNS directory.shipper
-    LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-  SELECT * FROM directory.shipper sh WHERE sh.id = s.shipper_id
-$BODY$;
+CREATE TABLE product.pack_atmosphere (
+	id BIGSERIAL PRIMARY KEY,
+  UNIQUE (shipper_id, ma_code),
+	shipper_id TEXT,
+  ma_code TEXT,
+  ma_description TEXT
+);
 
-CREATE FUNCTION product.product_size_species(IN s product.product_size)
-    RETURNS product.product_species
-    LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-  SELECT * FROM product.product_species sp WHERE sp.id = s.species_id
-$BODY$;
+CREATE TABLE product.pack_box_style (
+	id BIGSERIAL PRIMARY KEY,
+  UNIQUE (shipper_id, box_style),
+	shipper_id TEXT,
+  box_style TEXT,
+  box_description TEXT,
+  combine_with TEXT,
+  combine_description TEXT
+);
 
-CREATE FUNCTION product.product_size_variety(IN s product.product_size)
-    RETURNS product.product_variety
-    LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-  SELECT * FROM product.product_variety v WHERE v.id = s.variety_id
-$BODY$;
+CREATE TABLE product.pack_box_type (
+	id BIGSERIAL PRIMARY KEY,
+  UNIQUE (shipper_id, box_type),
+	shipper_id TEXT,
+  box_type TEXT,
+  box_description TEXT
+);
+
+CREATE TABLE product.pack_destination (
+	id BIGSERIAL PRIMARY KEY,
+  UNIQUE (shipper_id, destination_code),
+	shipper_id TEXT,
+  destination_code TEXT,
+  destination_description TEXT
+);
+
+CREATE TABLE product.pack_grade (
+	id BIGSERIAL PRIMARY KEY,
+  UNIQUE (shipper_id, grade_code),
+	shipper_id TEXT,
+  grade_code TEXT,
+  grade_description TEXT
+);
+
+CREATE TABLE product.pack_hold (
+	id BIGSERIAL PRIMARY KEY,
+  UNIQUE (shipper_id, hold_code),
+	shipper_id TEXT,
+  hold_code TEXT,
+  hold_description TEXT
+);
+
+CREATE TABLE product.pack_label (
+	id BIGSERIAL PRIMARY KEY,
+  UNIQUE (shipper_id, label_code),
+  label_code TEXT,
+  label_name TEXT,
+	shipper_id TEXT,
+  shipper_name TEXT
+);
+
+CREATE TABLE product.pack_liner (
+	id BIGSERIAL PRIMARY KEY,
+  UNIQUE (shipper_id, liner_code),
+	shipper_id TEXT,
+  liner_code TEXT,
+  liner_description TEXT
+);
+
+CREATE TABLE product.pack_out (
+	id BIGSERIAL PRIMARY KEY,
+  UNIQUE (shipper_id, out_code),
+	shipper_id TEXT,
+  out_code TEXT,
+  out_description TEXT,
+  combine_with TEXT
+);
+
+CREATE TABLE product.pack_pallet_type (
+	id BIGSERIAL PRIMARY KEY,
+  UNIQUE (shipper_id, pallet_type),
+	shipper_id TEXT,
+  pallet_type TEXT,
+  pallet_type_description TEXT,
+  combine_with TEXT
+);
+
+CREATE TABLE product.pack_production (
+	id BIGSERIAL PRIMARY KEY,
+  UNIQUE (shipper_id, production_code),
+	shipper_id TEXT,
+  production_code TEXT,
+  production_description TEXT,
+  combine_with TEXT
+);
+
+CREATE TABLE product.pack_special (
+	id BIGSERIAL PRIMARY KEY,
+  UNIQUE (shipper_id, customer_code),
+	shipper_id TEXT,
+  customer_code TEXT,
+	customer_id TEXT,
+  customer_name TEXT
+);
+
+CREATE TABLE product.pack_style (
+	id BIGSERIAL PRIMARY KEY,
+  UNIQUE (shipper_id, pack_style),
+	shipper_id TEXT,
+  pack_style TEXT,
+  style_description TEXT,
+  combine_with TEXT
+);
+
+CREATE TABLE product.pack_tree_ripe (
+	id BIGSERIAL PRIMARY KEY,
+  UNIQUE (shipper_id, tree_ripe),
+	shipper_id TEXT,
+  tree_ripe TEXT,
+  tree_ripe_description TEXT
+);
+
+CREATE TABLE product.pack_master (
+	id BIGSERIAL PRIMARY KEY,
+	shipper_id TEXT,
+	label_code_id TEXT,
+	customer_code_id TEXT,
+	box_type_id TEXT,
+	box_style_id TEXT,
+	pack_style_id TEXT,
+	out_code_id TEXT,
+	out_quantity TEXT,
+	out_weight TEXT,
+	production_code_id TEXT,
+	tree_ripe_id TEXT,
+	grade_code_id TEXT,
+	ma_code_id TEXT,
+  liner_code_id TEXT,
+  net_weight_contents NUMERIC,
+  net_weight_box NUMERIC,
+  box_length NUMERIC,
+  box_width NUMERIC,
+  box_height NUMERIC,
+  pallet_type_id TEXT,
+  default_pallet_quantity NUMERIC,
+  plu_upc_code TEXT,
+  destination_code_id TEXT,
+  old_pack_code TEXT,
+  old_label_code TEXT,
+  jv_pack_code TEXT,
+  pack_description TEXT,
+  variety_id TEXT,
+  species_id TEXT,
+  hold_code_id TEXT
+);
 
 CREATE FUNCTION product.pack_atmosphere_shipper(IN p product.pack_atmosphere)
     RETURNS directory.shipper
@@ -408,276 +532,4 @@ CREATE FUNCTION product.product_master_pack_type(IN a product.product_master)
 AS $BODY$
   SELECT * FROM product.pack_master b
   WHERE b.jv_pack_code = SUBSTRING(a.id, 8, 4);
-$BODY$;
-
-CREATE FUNCTION product.product_master_search_text(IN a product.product_master)
-	RETURNS TEXT
-	LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-SELECT CONCAT (
-		a.id,
-		a.lot_number,
-		a.default_pallet_quantity
-	) FROM product.product_master;
-$BODY$;
-
-CREATE FUNCTION product.vessel_country(IN v product.vessel)
-    RETURNS directory.country
-    LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-  SELECT * FROM directory.country c WHERE c.id = v.country_id
-$BODY$;
-
-CREATE FUNCTION product.vessel_warehouse(IN v product.vessel)
-    RETURNS directory.warehouse
-    LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-  SELECT * FROM directory.warehouse w WHERE w.id = v.arrival_port
-$BODY$;
-
-CREATE FUNCTION product.vessel_arrival_port_distinct_values()
-  RETURNS SETOF TEXT
-	LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-  SELECT DISTINCT CONCAT(w.warehouse_name, ' (', v.arrival_port, ')')
-  FROM product.vessel v
-  LEFT JOIN directory.warehouse w
-  ON w.id = v.arrival_port;
-$BODY$;
-
-CREATE FUNCTION product.vessel_inventory_items(IN v product.vessel)
-    RETURNS SETOF product.inventory_item
-    LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-  SELECT * FROM product.inventory_item i WHERE i.vessel_code = v.vessel_code
-$BODY$;
-
-CREATE FUNCTION product.vessel_pallets(IN v product.vessel)
-    RETURNS SETOF product.pallet
-    LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-  SELECT * FROM product.pallet p WHERE p.vessel_code = v.vessel_code
-$BODY$;
-
-CREATE FUNCTION product.vessel_search_text(IN v product.vessel)
-    RETURNS TEXT
-    LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-SELECT CONCAT (
-		v.vessel_code,
-		v.vessel_name,
-		v.arrival_port,
-		v.country_id,
-		c.country_name,
-    CAST(v.departure_date AS TEXT),
-    CAST(v.arrival_date AS TEXT),
-    CAST(v.discharge_date AS TEXT),
-    v.coast
-	) FROM product.vessel vv FULL JOIN directory.country c ON (v.country_id = c.id) WHERE v.id = vv.id
-$BODY$;
-
-CREATE FUNCTION product.pallet(IN palletId BIGINT)
-    RETURNS product.pallet
-    LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-  SELECT * FROM product.pallet p WHERE p.id = palletId
-$BODY$;
-
-CREATE FUNCTION product.pallet_pallet_sections(IN p product.pallet)
-    RETURNS SETOF product.pallet_section
-    LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-  SELECT * FROM product.pallet_section ps WHERE ps.pallet_id = p.pallet_id
-$BODY$;
-
-CREATE FUNCTION product.pallet_vessel(IN p product.pallet)
-    RETURNS product.vessel
-    LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-  SELECT * FROM product.vessel v WHERE v.vessel_code = p.vessel_code LIMIT 1
-$BODY$;
-
-CREATE FUNCTION product.pallet_product(IN p product.pallet)
-    RETURNS product.product_master
-    LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-  SELECT * FROM product.product_master pm WHERE pm.id = p.product_id
-$BODY$;
-
-CREATE FUNCTION product.pallet_warehouse(IN p product.pallet)
-    RETURNS directory.warehouse
-    LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-  SELECT * FROM directory.warehouse w WHERE w.id = p.location_id
-$BODY$;
-
-CREATE FUNCTION product.pallet_shipper(IN p product.pallet)
-    RETURNS directory.shipper
-    LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-  SELECT * FROM directory.shipper s WHERE s.id = p.shipper_id
-$BODY$;
-
-CREATE FUNCTION product.pallet_original_location(IN p product.pallet)
-    RETURNS directory.warehouse
-    LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-  SELECT * FROM directory.warehouse w WHERE w.id = p.original_location_id
-$BODY$;
-
--- CREATE FUNCTION product.pallet_psa_arrival_report(IN p product.pallet)
---     RETURNS inspection.psa_arrival_report
---     LANGUAGE 'sql'
---     STABLE
---     PARALLEL UNSAFE
---     COST 100
--- AS $BODY$
---   SELECT * FROM inspection.psa_arrival_report par
---   WHERE p.arrival_code = par.arrival_code
---     AND ap.exporter_name = par.exporter_name
--- $BODY$;
-
-CREATE FUNCTION product.pallet_search_text(IN p product.pallet)
-    RETURNS TEXT
-    LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-SELECT CONCAT (
-	p.pallet_id,
-	p.product_id,
-	p.room,
-	p.section,
-	p.row,
-	p.jv_lot_number,
-	p.order_id,
-	p.back_order_id,
-	p.volume_discount_code,
-	p.filler,
-	p.grower_id,
-	p.old_pack_code,
-	p.hatch,
-	p.deck,
-	p.bill_of_lading,
-	p.container_id,
-	p.temperature_recording
-	) FROM product.pallet;
-$BODY$;
-
-CREATE FUNCTION product.pallet_section_variety(IN p product.pallet_section)
-    RETURNS product.product_variety
-    LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-  SELECT * FROM product.product_variety v WHERE v.id = p.variety_id
-$BODY$;
-
-CREATE FUNCTION product.inventory_item_vessel(IN i product.inventory_item)
-    RETURNS product.vessel
-    LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-  SELECT * FROM product.vessel v WHERE v.vessel_code = i.vessel_code LIMIT 1
-$BODY$;
-
-CREATE FUNCTION product.inventory_item_product(IN i product.inventory_item)
-    RETURNS product.product_master
-    LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-  SELECT * FROM product.product_master pm WHERE pm.id = i.product_id
-$BODY$;
-
-CREATE FUNCTION product.inventory_item_warehouse(IN i product.inventory_item)
-    RETURNS directory.warehouse
-    LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-  SELECT * FROM directory.warehouse w WHERE w.id = i.location_id
-$BODY$;
-
-CREATE FUNCTION product.inventory_item_shipper(IN i product.inventory_item)
-    RETURNS directory.shipper
-    LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-  SELECT * FROM directory.shipper s WHERE s.id = i.shipper_id
-$BODY$;
-
-CREATE FUNCTION product.inventory_item_country(IN i product.inventory_item)
-    RETURNS directory.country
-    LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-  SELECT * FROM directory.country c WHERE c.id = i.country_id
-$BODY$;
-
-CREATE FUNCTION product.inventory_item_pallets(IN i product.inventory_item)
-    RETURNS SETOF product.pallet
-    LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-  SELECT * FROM product.pallet p
-  WHERE p.product_id = i.product_id
-  AND p.location_id = i.location_id
-  AND p.vessel_code = i.vessel_code
-  AND p.jv_lot_number = i.jv_lot_number
-  AND p.shipper_id = i.shipper_id
 $BODY$;
