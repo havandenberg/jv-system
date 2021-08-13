@@ -51,19 +51,19 @@ CREATE TABLE inspection.chile_departure_inspection_pallet (
 );
 
 CREATE TYPE inspection.chile_departure_inspection AS (
-	lot_number text,
-	inspection_date date,
-	packing_date text,
-	shipper text,
-	variety text,
-	quality_score numeric,
-	condition_score numeric,
-	avg_net_weight numeric,
-	avg_bunches_count numeric,
-	brix_avg numeric,
-	brix_min numeric,
-	brix_max numeric,
-	search_text text
+	lot_number TEXT,
+	inspection_date DATE,
+	packing_date TEXT,
+	shipper TEXT,
+	variety TEXT,
+	quality_score NUMERIC,
+	condition_score NUMERIC,
+	avg_net_weight NUMERIC,
+	avg_bunches_count NUMERIC,
+	brix_avg NUMERIC,
+	brix_min NUMERIC,
+	brix_max NUMERIC,
+	search_text TEXT
 );
 
 CREATE FUNCTION inspection.batch_create_chile_departure_inspection_pallet(

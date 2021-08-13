@@ -1,4 +1,5 @@
 import React from 'react';
+import { add, endOfISOWeek } from 'date-fns';
 import { isEmpty } from 'ramda';
 
 import api from 'api';
@@ -6,6 +7,7 @@ import { DataMessage } from 'components/page/message';
 import Page from 'components/page';
 import VirtualizedList from 'components/virtualized-list';
 import useColumns, { SORT_ORDER } from 'hooks/use-columns';
+import useDateRange from 'hooks/use-date-range';
 import useSearch from 'hooks/use-search';
 import { Vessel } from 'types';
 import l from 'ui/layout';
@@ -14,12 +16,8 @@ import ty from 'ui/typography';
 
 import { listLabels } from './data-utils';
 import ListItem from './list-item';
-import useDateRange from 'hooks/use-date-range';
-import { add, endOfISOWeek } from 'date-fns';
 
-export const breadcrumbs = (slug: string) => [
-  { text: 'Vessels', to: `/vessels/${slug}` },
-];
+export const breadcrumbs = [{ text: 'Vessels', to: `/sales/vessels` }];
 
 const gridTemplateColumns = '1fr 0.5fr 0.5fr 2fr 1fr 2fr 30px';
 
@@ -42,7 +40,7 @@ const Vessels = () => {
 
   return (
     <Page
-      breadcrumbs={breadcrumbs('')}
+      breadcrumbs={breadcrumbs}
       extraPaddingTop={103}
       headerChildren={
         <>

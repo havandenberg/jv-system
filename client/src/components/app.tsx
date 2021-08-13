@@ -20,6 +20,7 @@ import Reports from 'components/reports';
 import Sales from 'components/sales';
 import { InventoryContextProvider } from 'components/sales/inventory/context';
 import ScrollToTop from 'components/scroll-to-top';
+import UserDashboard from 'components/user';
 import { UserContextProvider } from 'components/user/context';
 import Global from 'ui/global';
 import l from 'ui/layout';
@@ -53,6 +54,7 @@ const App = () => (
                     />
                     <Route path="/reports" component={Reports} />
                     <Route path="/sales" component={Sales} />
+                    <Route path="/user" component={UserDashboard} />
                     <Redirect to="/" />
                   </Switch>
                   <Footer />

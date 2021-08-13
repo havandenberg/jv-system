@@ -14,9 +14,6 @@ query CONTACT_GROUP_LIST(
       groupName
       groupDescription
       userId
-      user {
-        displayName
-      }
       id
       personContactsByContactGroupPersonContactGroupIdAndPersonContactId {
         nodes {

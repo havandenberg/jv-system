@@ -55,11 +55,11 @@ SELECT CONCAT (
 $BODY$;
 
 CREATE FUNCTION directory.person_contact_user(IN p directory.person_contact)
-    RETURNS user.user
+    RETURNS directory.user
     LANGUAGE 'sql'
     STABLE
     PARALLEL UNSAFE
     COST 100
 AS $BODY$
-SELECT * FROM user.user u WHERE u.person_contact_id = p.id
+	SELECT * FROM directory.user u WHERE u.person_contact_id = p.id
 $BODY$;

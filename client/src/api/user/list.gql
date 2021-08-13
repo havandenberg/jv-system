@@ -3,7 +3,10 @@ query USERS_LIST {
     nodes {
       id
       pin
-      displayName
+      personContact {
+        firstName
+        id
+      }
     }
   }
 }
