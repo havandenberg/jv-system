@@ -34,6 +34,7 @@ CREATE FUNCTION directory.warehouse_search_text(IN w directory.warehouse)
     COST 100
 AS $BODY$
 SELECT CONCAT (
+		w.id,
 		w.warehouse_name,
 		w.phone,
 		w.address_1,

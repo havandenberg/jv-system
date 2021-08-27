@@ -13,6 +13,7 @@ import Page from 'components/page';
 import { add, format, getDay, parse, startOfWeek } from 'date-fns';
 import { CalendarEvent } from 'types';
 import b from 'ui/button';
+import l from 'ui/layout';
 
 import CalendarEventDetails from './details';
 
@@ -84,35 +85,38 @@ const Calendar = () => {
     >
       {data ? (
         <>
-          <BigCalendar
-            localizer={localizer}
-            events={items as EventType[]}
-            selectable
-            max={new Date(2013, 1, 1, 21)}
-            min={new Date(2013, 1, 1, 6)}
-            step={30}
-            defaultView={Views.WEEK}
-            style={{ height: 800 }}
-            popup
-            onSelectEvent={({ start, end, ...rest }) => {
-              setSelectedEvent({
-                startDate: start,
-                endDate: end,
-                ...rest,
-              } as CalendarEvent);
-            }}
-            onSelectSlot={({ start, end }) => {
-              setSelectedEvent({
-                startDate: start,
-                endDate: end,
-                title: 'New Event',
-                id: -1,
-              } as CalendarEvent);
-            }}
-            titleAccessor={({ title, eventDescription }) =>
-              `${title}\n${eventDescription || ''}`
-            }
-          />
+          <l.Flex>
+            <BigCalendar
+              localizer={localizer}
+              events={items as EventType[]}
+              selectable
+              max={new Date(2013, 1, 1, 21)}
+              min={new Date(2013, 1, 1, 6)}
+              step={30}
+              defaultView={Views.WEEK}
+              style={{ height: 800, flex: 1 }}
+              popup
+              onSelectEvent={({ start, end, ...rest }) => {
+                setSelectedEvent({
+                  startDate: start,
+                  endDate: end,
+                  ...rest,
+                } as CalendarEvent);
+              }}
+              onSelectSlot={({ start, end }) => {
+                setSelectedEvent({
+                  startDate: start,
+                  endDate: end,
+                  title: 'New Event',
+                  id: -1,
+                } as CalendarEvent);
+              }}
+              titleAccessor={({ title, eventDescription }) =>
+                `${title}\n${eventDescription || ''}`
+              }
+            />
+            <l.Div width="20%" />
+          </l.Flex>
           {selectedEvent && (
             <CalendarEventDetails
               event={selectedEvent}

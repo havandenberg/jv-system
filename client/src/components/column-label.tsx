@@ -103,6 +103,9 @@ const ColumnLabel = <T extends {}>({
 }: Props<T>) => {
   const active = sortBy === (sortKey || key);
   const [hover, setHover] = useState(false);
+  const [showInfoPanel, setShowInfoPanel] = useState(false);
+  const [showFilterPanel, setShowFilterPanel] = useState(false);
+
   return (
     <l.Div relative>
       <Wrapper
@@ -154,6 +157,8 @@ const ColumnLabel = <T extends {}>({
           <FilterPanel<T>
             filterKey={key}
             schemaName={schemaName}
+            setShowPanel={setShowFilterPanel}
+            showPanel={showFilterPanel}
             tableName={tableName}
             visible={hover}
             {...filterPanelProps}
@@ -170,6 +175,8 @@ const ColumnLabel = <T extends {}>({
           <InfoPanel
             content={infoPanelProps.content}
             customStyles={infoPanelProps.customStyles}
+            setShow={setShowInfoPanel}
+            show={showInfoPanel}
             triggerIcon={<InfoImg height={14} width={14} />}
             visible={hover}
           />

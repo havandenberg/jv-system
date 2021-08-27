@@ -293,7 +293,7 @@ const Agenda = () => {
           error={error}
           loading={loading}
           emptyProps={{
-            header: 'No Agenda Items Found 😔',
+            header: 'No Agenda Items Found',
             text: 'Modify date parameters to view more results.',
           }}
         />

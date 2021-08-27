@@ -1,0 +1,45 @@
+query SHIPPER_PROJECTION_VESSEL_LIST(
+  $arrivalPort: String!
+  $shipperId: String!
+  $endDate: Date!
+  $startDate: Date!
+) {
+  shipperProjectionVessels(
+    condition: { arrivalPort: $arrivalPort, shipperId: $shipperId }
+    filter: {
+      departureDate: {
+        greaterThanOrEqualTo: $startDate
+        lessThanOrEqualTo: $endDate
+      }
+    }
+    orderBy: DEPARTURE_DATE_ASC
+  ) {
+    nodes {
+      arrivalDate
+      departureDate
+      vesselStatus
+      arrivalPort
+      id
+      shipper {
+        shipperName
+        id
+      }
+      vesselName
+      shipperProjectionEntriesByVesselId {
+        nodes {
+          id
+          palletCount
+          vesselId
+          product {
+            id
+            packType
+            plu
+            size
+            species
+            variety
+          }
+        }
+      }
+    }
+  }
+}

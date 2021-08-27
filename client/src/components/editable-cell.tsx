@@ -1,50 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
-import {
-  borderSet,
-  BorderSetProps,
-  color,
-  ColorProps,
-  fontSize,
-  FontSizeProps,
-  fontWeight,
-  FontWeightProps,
-  height,
-  HeightProps,
-  spaceSet,
-  SpaceSetProps,
-  textSet,
-  TextSetProps,
-  width,
-  WidthProps,
-} from 'onno';
+import { TextSetProps } from 'onno';
 
 import HighlightImg from 'assets/images/highlight';
 import usePrevious from 'hooks/use-previous';
-import l, { DivProps } from 'ui/layout';
+import l, { DivProps, divPropsSet } from 'ui/layout';
 import th from 'ui/theme';
+import { TextProps, textPropsSet } from 'ui/typography';
 import { hexColorWithTransparency } from 'ui/utils';
 
-const CELL_HEIGHT = 28;
+export const EDITABLE_CELL_HEIGHT = 28;
 
 export const Input = styled.input<
-  { dirty: boolean; editing: boolean } & DivProps & TextSetProps
+  { dirty: boolean; editing: boolean; error?: boolean } & DivProps &
+    TextSetProps
 >(
-  ({ dirty, editing }) => ({
-    background: hexColorWithTransparency(th.colors.white, 0.2),
-    border: th.borders.secondary,
-    cursor: editing ? 'pointer' : 'default',
+  ({ dirty, editing, error }) => ({
+    background: hexColorWithTransparency(th.colors.white, 0.8),
+    border: error ? th.borders.error : th.borders.secondary,
+    cursor: editing ? 'text' : 'default',
     fontWeight: dirty ? 'bold' : undefined,
     width: `calc(${th.sizes.fill} - ${th.spacing.sm})`,
   }),
-  borderSet,
-  color,
-  fontSize,
-  fontWeight,
-  height,
-  spaceSet,
-  textSet,
-  width,
+  divPropsSet,
+  textPropsSet,
 );
 
 const Wrapper = styled(l.Flex)(
@@ -64,7 +43,7 @@ const Wrapper = styled(l.Flex)(
       ? th.colors.brand.containerBackground
       : undefined,
     borderLeft: showBorder ? th.borders.disabled : undefined,
-    height: CELL_HEIGHT,
+    height: EDITABLE_CELL_HEIGHT,
     lineHeight: 1,
     position: 'relative',
     ':first-of-type': {
@@ -82,17 +61,12 @@ interface Props {
   content: CellContent;
   defaultChildren: React.ReactNode;
   editing: boolean;
+  error?: boolean;
   handleHighlight?: () => void;
   highlight?: boolean;
   inputProps?: React.InputHTMLAttributes<HTMLInputElement> &
-    BorderSetProps &
-    ColorProps &
-    SpaceSetProps &
-    TextSetProps &
-    FontSizeProps &
-    FontWeightProps &
-    HeightProps &
-    WidthProps;
+    DivProps &
+    TextProps;
   isBoolean?: boolean;
   onChange: React.ChangeEventHandler<HTMLInputElement>;
   showBorder?: boolean;
@@ -103,6 +77,7 @@ const EditableCell = ({
   content,
   defaultChildren,
   editing,
+  error,
   handleHighlight,
   highlight,
   inputProps,
@@ -146,6 +121,7 @@ const EditableCell = ({
           dirty={dirty || localValue !== value}
           checked={Boolean(localValue)}
           editing
+          error={error}
           type={isBoolean ? 'checkbox' : 'text'}
           onBlur={(e) => {
             if (localValue !== value) {

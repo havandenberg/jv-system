@@ -13,6 +13,7 @@ import * as agenda from 'api/sales/agenda';
 import * as calendar from 'api/sales/calendar';
 import * as pallets from 'api/sales/inventory/pallets';
 import * as products from 'api/sales/inventory/products';
+import * as projections from 'api/sales/inventory/projections';
 import * as inventory from 'api/sales/inventory/item';
 import * as vessels from 'api/sales/inventory/vessel';
 import * as user from 'api/user';
@@ -45,4 +46,5 @@ export default {
   ...user,
   ...inventory,
   ...vessels,
+  ...projections,
 };

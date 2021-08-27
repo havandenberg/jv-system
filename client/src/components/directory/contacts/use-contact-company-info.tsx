@@ -3,13 +3,12 @@ import { sortBy, prop, equals } from 'ramda';
 
 import api from 'api';
 import RemoveImg from 'assets/images/remove';
+import ItemSelector from 'components/item-selector';
 import usePrevious from 'hooks/use-previous';
 import { Customer, Maybe, Shipper, Warehouse } from 'types';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
-
-import AddCompanyToContact from './add-company';
 
 const CompanyContent = <T extends { id: string }>({
   allItems,
@@ -171,8 +170,8 @@ const useContactCompanyInfo = ({
           <>
             <div />
             <l.Flex>
-              <AddCompanyToContact<Customer>
-                addItem={(c) => {
+              <ItemSelector<Customer>
+                selectItem={(c) => {
                   setAdditionalCustomers([...additionalCustomers, c]);
                 }}
                 allItems={
@@ -205,8 +204,8 @@ const useContactCompanyInfo = ({
         <>
           <div />
           <l.Flex>
-            <AddCompanyToContact<Shipper>
-              addItem={(s) => {
+            <ItemSelector<Shipper>
+              selectItem={(s) => {
                 setAdditionalShippers([...additionalShippers, s]);
               }}
               allItems={(shipperData ? shipperData.nodes : []) as Shipper[]}
@@ -216,6 +215,7 @@ const useContactCompanyInfo = ({
               loading={shipperDataLoading}
               nameKey="shipperName"
               placeholder="Add shippers"
+              width={350}
             />
           </l.Flex>
         </>
@@ -236,8 +236,8 @@ const useContactCompanyInfo = ({
         <>
           <div />
           <l.Flex>
-            <AddCompanyToContact<Warehouse>
-              addItem={(w) => {
+            <ItemSelector<Warehouse>
+              selectItem={(w) => {
                 setAdditionalWarehouses([...additionalWarehouses, w]);
               }}
               allItems={
@@ -249,6 +249,7 @@ const useContactCompanyInfo = ({
               loading={warehouseDataLoading}
               nameKey="warehouseName"
               placeholder="Add warehouses"
+              width={350}
             />
           </l.Flex>
         </>

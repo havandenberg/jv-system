@@ -21,7 +21,7 @@ import { getWeekNumber } from 'utils/date';
 
 import { getDateInterval, getFilteredItems } from './utils';
 
-const coastTabs = [
+export const coastTabs = [
   {
     id: 'WC',
     customStyles: {

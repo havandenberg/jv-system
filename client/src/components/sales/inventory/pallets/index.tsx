@@ -90,7 +90,7 @@ const Pallets = () => {
           error={error}
           loading={loading}
           emptyProps={{
-            header: 'No Pallets Found 😔',
+            header: 'No Pallets Found',
             text: 'Modify search parameters to view more results.',
           }}
         />

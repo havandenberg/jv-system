@@ -8,6 +8,7 @@ import Inventory from 'components/sales/inventory';
 import InventoryItemDetails from 'components/sales/inventory/items/details';
 import Pallets from 'components/sales/inventory/pallets';
 import PalletDetails from 'components/sales/inventory/pallets/details';
+import ShipperProjections from 'components/sales/inventory/projections';
 import Vessels from 'components/sales/vessels';
 import VesselDetails from 'components/sales/vessels/details';
 
@@ -29,6 +30,7 @@ const Sales = () => (
       path="/sales/inventory/items/:id"
       component={InventoryItemDetails}
     />
+    <Route path="/sales/inventory/projections" component={ShipperProjections} />
     <Route exact path="/sales/inventory" component={Inventory} />
 
     <Route

@@ -1,0 +1,5 @@
+mutation SHIPPER_PROJECTION_ENTRIES_DELETE($idsToDelete: [BigInt]!) {
+  bulkDeleteShipperProjectionEntry(input: { idsToDelete: $idsToDelete }) {
+    bigInts
+  }
+}

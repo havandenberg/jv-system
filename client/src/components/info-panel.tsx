@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
 
 import useOutsideClickRef from 'hooks/use-outside-click-ref';
@@ -49,18 +49,14 @@ const Trigger = styled(l.Div)(
 );
 
 export interface InfoPanelProps {
-  content: ({
-    show,
-    setShow,
-  }: {
-    show: boolean;
-    setShow: (show: boolean) => void;
-  }) => React.ReactNode;
+  content: React.ReactNode;
   customStyles?: DivProps;
 }
 interface Props extends InfoPanelProps {
   hasFilters?: boolean;
-  triggerIcon: React.ReactNode;
+  setShow: (show: boolean) => void;
+  show: boolean;
+  triggerIcon?: React.ReactNode;
   visible: boolean;
 }
 
@@ -68,11 +64,11 @@ const InfoPanel = ({
   content,
   customStyles,
   hasFilters = false,
+  setShow,
+  show,
   triggerIcon,
   visible,
 }: Props) => {
-  const [show, setShow] = useState(false);
-
   const ref = useOutsideClickRef(() => {
     setShow(false);
   });
@@ -83,15 +79,17 @@ const InfoPanel = ({
 
   return (
     <l.Div relative ref={ref}>
-      <Trigger
-        hasFilters={hasFilters}
-        onClick={toggleShow}
-        show={show}
-        visible={visible}
-      >
-        {triggerIcon}
-      </Trigger>
-      {show && <Panel {...customStyles}>{content({ show, setShow })}</Panel>}
+      {triggerIcon && (
+        <Trigger
+          hasFilters={hasFilters}
+          onClick={toggleShow}
+          show={show}
+          visible={visible}
+        >
+          {triggerIcon}
+        </Trigger>
+      )}
+      {show && <Panel {...customStyles}>{content}</Panel>}
     </l.Div>
   );
 };

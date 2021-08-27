@@ -31,9 +31,6 @@ export const listLabels: WarehouseLabelInfo[] = [
     label: 'State',
     filterPanelProps: {
       columnCount: 3,
-      customStyles: {
-        left: -197,
-      },
     },
     filterable: true,
     sortable: true,

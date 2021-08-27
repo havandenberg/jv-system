@@ -1,0 +1,11 @@
+mutation SHIPPER_PROJECTION_VESSEL_CREATE(
+  $shipperProjectionVessel: ShipperProjectionVesselInput!
+) {
+  createShipperProjectionVessel(
+    input: { shipperProjectionVessel: $shipperProjectionVessel }
+  ) {
+    shipperProjectionVessel {
+      id
+    }
+  }
+}

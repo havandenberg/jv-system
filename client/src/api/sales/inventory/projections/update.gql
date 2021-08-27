@@ -1,0 +1,27 @@
+mutation SHIPPER_PROJECTION_UPDATE(
+  $shipperProjectionEntries: [ShipperProjectionEntryInput]!
+  $shipperProjectionProducts: [ShipperProjectionProductInput]!
+  $shipperProjectionVessels: [ShipperProjectionVesselInput]!
+) {
+  bulkUpsertShipperProjectionEntry(
+    input: { entries: $shipperProjectionEntries }
+  ) {
+    shipperProjectionEntries {
+      id
+    }
+  }
+  bulkUpsertShipperProjectionProduct(
+    input: { products: $shipperProjectionProducts }
+  ) {
+    shipperProjectionProducts {
+      id
+    }
+  }
+  bulkUpsertShipperProjectionVessel(
+    input: { vessels: $shipperProjectionVessels }
+  ) {
+    shipperProjectionVessels {
+      id
+    }
+  }
+}

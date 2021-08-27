@@ -10,7 +10,11 @@ import { PriceCategory, PriceProduct } from 'types';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 import l from 'ui/layout';
-import { contrastColor, getRandomColor } from 'ui/utils';
+import {
+  contrastColor,
+  getRandomColor,
+  hexColorWithTransparency,
+} from 'ui/utils';
 import { getDateOfISOWeek, getWeekNumber, isCurrentWeek } from 'utils/date';
 
 import AddItem from '../../add-item';
@@ -96,6 +100,10 @@ const Products = (props: Props) => {
                     editing={editing}
                     inputProps={{
                       autoFocus: product.id < 0 && !product.productName,
+                      background: hexColorWithTransparency(
+                        th.colors.white,
+                        0.2,
+                      ),
                       color: textColor,
                       fontWeight: productName.dirty ? 'bold' : undefined,
                       marginLeft: th.spacing.sm,

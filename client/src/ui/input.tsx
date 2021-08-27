@@ -45,6 +45,7 @@ const Wrapper = styled(l.Div)(
       border: hasError ? th.borders.error : th.borders.secondary,
     },
   }),
+  width,
 );
 
 export const IconWrapper = styled(l.Flex)({
@@ -181,6 +182,7 @@ const TextInput = ({
   onClear,
   onFocus,
   value,
+  width,
   ...rest
 }: TextInputProps & BorderSetProps & SpaceSetProps & WidthProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -214,7 +216,12 @@ const TextInput = ({
   };
 
   return (
-    <Wrapper hasError={hasError} hasValue={!!value} focused={focused}>
+    <Wrapper
+      hasError={hasError}
+      hasValue={!!value}
+      focused={focused}
+      width={width}
+    >
       <IconWrapper left={0}>{Icon}</IconWrapper>
       <StyledTextInput
         pl={Icon ? ICON_WIDTH : DEFAULT_PADDING}
@@ -224,7 +231,7 @@ const TextInput = ({
         onFocus={handleFocus}
         type="text"
         value={value}
-        width={getInputWidth()}
+        width={width ? parseInt(`${width}`, 10) - 56 : getInputWidth()}
         {...rest}
       />
       {onClear && value && (

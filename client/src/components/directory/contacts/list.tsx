@@ -160,7 +160,7 @@ const ContactList = ({
           error={null}
           loading={false}
           emptyProps={{
-            header: 'No Contacts Found 😔',
+            header: 'No Contacts Found',
           }}
         />
       )}

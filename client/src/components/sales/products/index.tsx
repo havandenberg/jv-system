@@ -120,7 +120,7 @@ const ProductIndex = () => {
           error={error}
           loading={loading}
           emptyProps={{
-            header: 'No Products Found 😔',
+            header: 'No Products Found',
             text: 'Modify search parameters to view more results.',
           }}
         />

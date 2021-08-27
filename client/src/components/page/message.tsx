@@ -16,7 +16,6 @@ const Wrapper = styled(l.Flex)({
   flexDirection: 'column',
   height: 300,
   justifyContent: 'center',
-  width: th.sizes.fill,
 });
 
 interface MessageProps {
@@ -51,7 +50,7 @@ const PageMessage = ({
 
 export default PageMessage;
 
-export const Empty = ({ header = 'No data found 😔', text }: MessageProps) => (
+export const Empty = ({ header = 'No data found', text }: MessageProps) => (
   <PageMessage header={header} text={text} />
 );
 

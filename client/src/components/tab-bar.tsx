@@ -88,6 +88,7 @@ export const useTabBar = (
   defaultTabId?: string,
   paramName?: string,
   defaultTabIndex: number = 0,
+  onSelectTab?: (tabId: string) => void,
 ) => {
   const { routeTabId } = useParams<{
     routeTabId: string;
@@ -104,6 +105,7 @@ export const useTabBar = (
     : stateTabId;
 
   const handleSelectTab = (tabId: string) => {
+    onSelectTab && onSelectTab(tabId);
     if (paramName) {
       setQueryTabId(tabId);
     } else {

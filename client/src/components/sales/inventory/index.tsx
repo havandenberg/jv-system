@@ -216,8 +216,11 @@ const Inventory = () => {
   return (
     <Page
       actions={[
-        <l.AreaLink key={0} to="/sales/inventory/pallets">
-          <b.Primary>Pallets</b.Primary>
+        <l.AreaLink key={0} mr={th.spacing.md} to="/sales/inventory/pallets">
+          <b.Primary>Pallet Index</b.Primary>
+        </l.AreaLink>,
+        <l.AreaLink key={1} to="/sales/inventory/projections">
+          <b.Primary>Projections</b.Primary>
         </l.AreaLink>,
       ]}
       enableShadow={false}
@@ -256,7 +259,7 @@ const Inventory = () => {
               error={error}
               loading={loading}
               emptyProps={{
-                header: 'No Inventory Items Found 😔',
+                header: 'No Inventory Items Found',
                 text: 'Modify date parameters to view more results.',
               }}
             />
@@ -294,7 +297,7 @@ const Inventory = () => {
           error={error}
           loading={loading}
           emptyProps={{
-            header: 'No Inventory Items Found 😔',
+            header: 'No Inventory Items Found',
             text: 'Modify date parameters to view more results.',
           }}
         />

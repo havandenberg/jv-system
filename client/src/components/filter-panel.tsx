@@ -33,6 +33,8 @@ export interface FilterPanelProps {
 interface Props<T> extends FilterPanelProps {
   filterKey: keyof T;
   schemaName: string;
+  showPanel: boolean;
+  setShowPanel: (show: boolean) => void;
   tableName: string;
   visible: boolean;
 }
@@ -43,6 +45,8 @@ const FilterPanel = <T extends {}>({
   filterKey,
   queryProps,
   schemaName,
+  setShowPanel,
+  showPanel,
   showSearch,
   tableName,
   visible,
@@ -133,7 +137,7 @@ const FilterPanel = <T extends {}>({
 
   return (
     <InfoPanel
-      content={({ setShow }) => (
+      content={
         <>
           <l.Flex
             alignCenter
@@ -170,7 +174,7 @@ const FilterPanel = <T extends {}>({
                     ml={th.spacing.md}
                     onClick={() => {
                       apply();
-                      setShow(false);
+                      setShowPanel(false);
                     }}
                   >
                     Apply
@@ -194,8 +198,10 @@ const FilterPanel = <T extends {}>({
             ))}
           </l.Grid>
         </>
-      )}
+      }
       customStyles={customStyles}
+      setShow={setShowPanel}
+      show={showPanel}
       triggerIcon={<FilterImg height={14} width={14} />}
       hasFilters={filterValues.length > 0}
       visible={visible}

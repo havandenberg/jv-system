@@ -105,7 +105,7 @@ const CustomerDirectory = ({ actions, TabBar }: SubDirectoryProps) => {
           error={error}
           loading={loading}
           emptyProps={{
-            header: 'No Customers Found 😔',
+            header: 'No Customers Found',
             text: 'Modify search parameters to view more results.',
           }}
         />

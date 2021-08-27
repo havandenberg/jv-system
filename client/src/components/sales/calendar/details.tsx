@@ -4,11 +4,14 @@ import { format, isAfter } from 'date-fns';
 import { mapObjIndexed, pick } from 'ramda';
 import DateTimePicker from 'react-datetime-picker';
 import Modal from 'react-modal';
+import RRuleGeneratorTS, { translations } from 'react-rrule-generator-ts';
 import { ClipLoader } from 'react-spinners';
-import RRule, { Options, rrulestr } from 'rrule';
+import RRule, { Options, RRuleSet, rrulestr } from 'rrule';
+// import 'react-rrule-generator-ts/dist/index.css';
 
 import api from 'api';
 import { validateItem } from 'components/column-label';
+import ModalComponent from 'components/modal';
 import EditableCell, { Input } from 'components/editable-cell';
 import { modalStyles } from 'components/modal';
 import useUpdateItem from 'hooks/use-update-item';
@@ -57,7 +60,8 @@ const CalendarEventDetails = ({ event, handleCancel }: Props) => {
   ];
   const updateVariables = isNew ? {} : { id: event.id };
 
-  const [handleDelete] = api.useDeleteCalendarEvent();
+  const [handleDelete, { loading: deleteLoading }] =
+    api.useDeleteCalendarEvent();
 
   const {
     changes,
@@ -79,6 +83,7 @@ const CalendarEventDetails = ({ event, handleCancel }: Props) => {
     validationLabels: baseLabels,
   });
   const editing = isNew || updatesEditing;
+
   const recurrence =
     changes.rrule && rrulestr(changes.rrule.replace('\\n', '\n'));
   const recurrenceOptions = recurrence
@@ -97,12 +102,15 @@ const CalendarEventDetails = ({ event, handleCancel }: Props) => {
     count: 10,
     until: changes.endDate,
   });
+
   const [{ recurrenceIsCount, showRecurrence }, setState] = useState({
     recurrenceIsCount: recurrenceOptions ? !recurrenceOptions.until : true,
     showRecurrence: !!recurrence,
   });
+
   const setRecurrenceIsCount = (newRecurrenceIsCount: boolean) =>
     setState({ showRecurrence, recurrenceIsCount: newRecurrenceIsCount });
+
   const setShowRecurrence = (newShowRecurrence: boolean) =>
     setState({ recurrenceIsCount, showRecurrence: newShowRecurrence });
 
@@ -135,6 +143,29 @@ const CalendarEventDetails = ({ event, handleCancel }: Props) => {
     );
   };
 
+  const handleDeleteOnce = () => {
+    if (recurrence) {
+      const rruleSet = new RRuleSet();
+      rruleSet.rrule(displayedRRule);
+      rruleSet.exdate(event.startDate);
+      const updates = mapObjIndexed(
+        (value, key) =>
+          ['startDate', 'endDate'].includes(key)
+            ? (value as Date).toLocaleString()
+            : key === 'rrule'
+            ? rruleSet.toString()
+            : value,
+        pick(updateFields, changes),
+      );
+      handleUpdate({
+        variables: {
+          updates,
+          ...updateVariables,
+        },
+      }).then(handleCancel);
+    }
+  };
+
   const validateRecurrence = () =>
     recurrence
       ? recurrenceIsCount ||
@@ -151,6 +182,7 @@ const CalendarEventDetails = ({ event, handleCancel }: Props) => {
     });
     handleCancel();
   };
+
   const updateActions = getUpdateActions({
     onAfterDelete: cancel,
     onCancel: isNew ? cancel : undefined,
@@ -254,7 +286,86 @@ const CalendarEventDetails = ({ event, handleCancel }: Props) => {
                     )}
                   </b.Primary>,
                 ]
-              : [updateActions.editAction, updateActions.deleteAction]}
+              : [
+                  updateActions.editAction,
+                  recurrence ? (
+                    <ModalComponent
+                      trigger={(show) => (
+                        <b.Primary
+                          disabled={deleteLoading}
+                          onClick={show}
+                          ml={th.spacing.md}
+                        >
+                          {deleteLoading ? (
+                            <l.Flex alignCenter justifyCenter>
+                              <ClipLoader
+                                color={th.colors.brand.secondary}
+                                size={th.sizes.xs}
+                              />
+                            </l.Flex>
+                          ) : (
+                            'Delete'
+                          )}
+                        </b.Primary>
+                      )}
+                    >
+                      {({ hide }) => (
+                        <>
+                          <ty.TitleText>Confirm Delete</ty.TitleText>
+                          <ty.BodyText>
+                            Are you sure you want to delete {event.title}?
+                          </ty.BodyText>
+                          <l.Flex justifyCenter mt={th.spacing.xl}>
+                            <b.Primary
+                              disabled={deleteLoading}
+                              mr={th.spacing.md}
+                              onClick={hide}
+                            >
+                              Cancel
+                            </b.Primary>
+                            <b.Primary
+                              disabled={deleteLoading}
+                              mr={th.spacing.md}
+                              onClick={() =>
+                                handleDelete({
+                                  variables: updateVariables,
+                                }).then(cancel)
+                              }
+                            >
+                              {deleteLoading ? (
+                                <l.Flex alignCenter justifyCenter>
+                                  <ClipLoader
+                                    color={th.colors.brand.secondary}
+                                    size={th.sizes.xs}
+                                  />
+                                </l.Flex>
+                              ) : (
+                                'Delete All'
+                              )}
+                            </b.Primary>
+                            <b.Primary
+                              disabled={updateLoading}
+                              onClick={() => {}}
+                            >
+                              {updateLoading ? (
+                                <l.Flex alignCenter justifyCenter>
+                                  <ClipLoader
+                                    color={th.colors.brand.secondary}
+                                    size={th.sizes.xs}
+                                  />
+                                </l.Flex>
+                              ) : (
+                                'Delete Once'
+                              )}
+                            </b.Primary>
+                          </l.Flex>
+                        </>
+                      )}
+                    </ModalComponent>
+                  ) : (
+                    updateActions.deleteAction
+                  ),
+                ]}
           </l.Flex>
         </l.Flex>
         <l.Flex>
@@ -335,6 +446,14 @@ const CalendarEventDetails = ({ event, handleCancel }: Props) => {
             Repeat
           </ty.CaptionText>
         )}
+        <RRuleGeneratorTS
+          onChange={(rrule: any) => console.log(rrule)}
+          config={{
+            hideStart: false,
+          }}
+          translations={translations.english}
+          value={displayedRRule.toText()}
+        />
         <l.Flex mb={th.spacing.md}>
           <l.Flex
             alignCenter

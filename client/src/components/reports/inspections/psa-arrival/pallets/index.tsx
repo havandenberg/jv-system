@@ -413,7 +413,7 @@ const PsaArrivalPallets = ({
           error={error}
           loading={loading}
           emptyProps={{
-            header: 'No Pallets Found 😔',
+            header: 'No Pallets Found',
             text: 'Modify filter parameters to view more results.',
           }}
         />

@@ -105,7 +105,7 @@ const WarehouseDirectory = ({ actions, TabBar }: SubDirectoryProps) => {
           error={error}
           loading={loading}
           emptyProps={{
-            header: `No Warehouses Found 😔`,
+            header: `No Warehouses Found`,
             text: 'Modify search parameters to view more results.',
           }}
         />

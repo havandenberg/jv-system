@@ -95,7 +95,7 @@ const PeruDepartureInspections = ({
           error={error}
           loading={loading}
           emptyProps={{
-            header: 'No Reports Found 😔',
+            header: 'No Reports Found',
             text: 'Modify search and date parameters to view more results.',
           }}
         />

@@ -970,7 +970,7 @@ const PriceSheet = () => {
           </l.AreaLink>
         ),
       ]}
-      extraPaddingTop={dataLoading ? 90 : 82}
+      extraPaddingTop={dataLoading || (!editing && isEmpty(allItems)) ? 90 : 82}
       headerChildren={
         <>
           <l.Flex>{DateRangePicker}</l.Flex>
@@ -1019,7 +1019,7 @@ const PriceSheet = () => {
           error={dataError}
           loading={dataLoading}
           emptyProps={{
-            header: 'No Price Entries Found 😔',
+            header: 'No Price Entries Found',
             text: 'Modify date parameters to view more results.',
           }}
         />

@@ -148,7 +148,7 @@ const AddContactsToGroup = ({ addContacts, group, confirmLoading }: Props) => {
                 error={error}
                 loading={loading}
                 emptyProps={{
-                  header: 'No Contacts Found 😔',
+                  header: 'No Contacts Found',
                   text: 'Modify search parameters to view more results.',
                 }}
               />

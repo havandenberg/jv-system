@@ -101,12 +101,9 @@ const BaseData = <T extends {}>({
               content={content}
               defaultChildren={<ty.BodyText>{value}</ty.BodyText>}
               editing={!!editing && !readOnly}
+              error={showValidation && !isValid}
               inputProps={{
                 borderRadius: th.borderRadii.default,
-                borderColor:
-                  showValidation && !isValid
-                    ? th.colors.status.error
-                    : th.colors.brand.secondary,
                 height: th.sizes.icon,
                 fontSize: th.fontSizes.body,
                 padding: th.spacing.xs,

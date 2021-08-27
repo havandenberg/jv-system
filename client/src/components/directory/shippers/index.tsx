@@ -105,7 +105,7 @@ const ShipperDirectory = ({ actions, TabBar }: SubDirectoryProps) => {
           error={error}
           loading={loading}
           emptyProps={{
-            header: 'No Shippers Found 😔',
+            header: 'No Shippers Found',
             text: 'Modify search parameters to view more results.',
           }}
         />
