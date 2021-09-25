@@ -205,60 +205,60 @@ const BATCH_CREATE_PSA_APPLE_PALLET = gql`
 `;
 
 const grapeDataFiles = [
-  { path: '/2020-2021/Grapes 2020-2021.xlsx', finalRowCount: 6636 },
-  // { path: '/2019-2020/Grapes 2019-2020.xlsx', finalRowCount: 9621 },
-  // { path: '/2018-2019/Grapes 2018-2019.xlsx', finalRowCount: 9658 },
-  // { path: '/2017-2018/Grapes 2017-2018.xlsx', finalRowCount: 11941 },
+  { path: '2020-2021/Grapes 2020-2021.xlsx', finalRowCount: 6636 },
+  // { path: '2019-2020/Grapes 2019-2020.xlsx', finalRowCount: 9621 },
+  // { path: '2018-2019/Grapes 2018-2019.xlsx', finalRowCount: 9658 },
+  // { path: '2017-2018/Grapes 2017-2018.xlsx', finalRowCount: 11941 },
 ];
 
 const citrusDataFiles = [
-  { path: '/Citrus 2020-2021.xlsx', finalRowCount: 1432 },
-  // { path: '/2019-2020/Citrus 2019-2020.xlsx', finalRowCount: 0 },
-  // { path: '/2018-2019/Citrus 2018-2019.xlsx', finalRowCount: 0 },
+  { path: 'Citrus 2020-2021.xlsx', finalRowCount: 1432 },
+  // { path: '2019-2020/Citrus 2019-2020.xlsx', finalRowCount: 0 },
+  // { path: '2018-2019/Citrus 2018-2019.xlsx', finalRowCount: 0 },
 ];
 
 const stoneFruitDataFiles = [
-  { path: '/2020-2021/Stone Fruit 2020-2021.xlsx', finalRowCount: 1261 },
-  // { path: '/2019-2020/Stone Fruit 2019-2020.xlsx', finalRowCount: 0 },
-  // { path: '/2018-2019/Stone Fruit 2018-2019.xlsx', finalRowCount: 0 },
-  // { path: '/2017-2018/Stone fruit inspection 2017-2018.xlsx', finalRowCount: 0 },
+  { path: '2020-2021/Stone Fruit 2020-2021.xlsx', finalRowCount: 1261 },
+  // { path: '2019-2020/Stone Fruit 2019-2020.xlsx', finalRowCount: 0 },
+  // { path: '2018-2019/Stone Fruit 2018-2019.xlsx', finalRowCount: 0 },
+  // { path: '2017-2018/Stone fruit inspection 2017-2018.xlsx', finalRowCount: 0 },
 ];
 
 const pomegranateDataFiles = [
-  { path: '/Pomegranate 2020-2021.xlsx', finalRowCount: 83 },
-  // { path: '/2019-2020/Pomegranates 2020.xlsx', finalRowCount: 0 },
-  // { path: '/2018-2019/Pomegranates 2019.xlsx', finalRowCount: 0 },
-  // { path: '/2017-2018/Pomegranate -2018.xlsx', finalRowCount: 0 },
+  { path: 'Pomegranate 2020-2021.xlsx', finalRowCount: 83 },
+  // { path: '2019-2020/Pomegranates 2020.xlsx', finalRowCount: 0 },
+  // { path: '2018-2019/Pomegranates 2019.xlsx', finalRowCount: 0 },
+  // { path: '2017-2018/Pomegranate -2018.xlsx', finalRowCount: 0 },
 ];
 
 const persimmonDataFiles = [
-  { path: '/Persimmon 2020-2021.xlsx', finalRowCount: 15 },
-  // { path: '/2018-2019/Persimmons 2019.xlsx', finalRowCount: 0 },
+  { path: 'Persimmon 2020-2021.xlsx', finalRowCount: 15 },
+  // { path: '2018-2019/Persimmons 2019.xlsx', finalRowCount: 0 },
 ];
 
 const pearDataFiles = [
-  { path: '/Pears 2021.xlsx', finalRowCount: 56 },
-  // { path: '/2019-2020/Pears 2020.xlsx', finalRowCount: 0 },
-  // { path: '/2018-2019/Pears 2019.xlsx', finalRowCount: 0 },
-  // { path: '/2017-2018/Pears 2017-2018.xlsx', finalRowCount: 0 },
+  { path: 'Pears 2021.xlsx', finalRowCount: 56 },
+  // { path: '2019-2020/Pears 2020.xlsx', finalRowCount: 0 },
+  // { path: '2018-2019/Pears 2019.xlsx', finalRowCount: 0 },
+  // { path: '2017-2018/Pears 2017-2018.xlsx', finalRowCount: 0 },
 ];
 
 const lemonDataFiles = [
-  { path: '/Lemons 2021.xlsx', finalRowCount: 93 },
-  // { path: '/2019-2020/Lemons 2020.xlsx', finalRowCount: 0 },
-  // { path: '/2018-2019/Lemons 2019.xlsx', finalRowCount: 0 },
+  { path: 'Lemons 2021.xlsx', finalRowCount: 93 },
+  // { path: '2019-2020/Lemons 2020.xlsx', finalRowCount: 0 },
+  // { path: '2018-2019/Lemons 2019.xlsx', finalRowCount: 0 },
 ];
 
 const cherryDataFiles = [
-  { path: '/2020-2021/Cherries 2020-2021.xlsx', finalRowCount: 57 },
-  // { path: '/2019-2020/Cherries 2019 - 2020.xlsx', finalRowCount: 0 },
-  // { path: '/2018-2019/Cherries 2018-2019.xlsx', finalRowCount: 0 },
-  // { path: '/2017-2018/Cherries 2017-2018.xlsx', finalRowCount: 0 },
+  { path: '2020-2021/Cherries 2020-2021.xlsx', finalRowCount: 57 },
+  // { path: '2019-2020/Cherries 2019 - 2020.xlsx', finalRowCount: 0 },
+  // { path: '2018-2019/Cherries 2018-2019.xlsx', finalRowCount: 0 },
+  // { path: '2017-2018/Cherries 2017-2018.xlsx', finalRowCount: 0 },
 ];
 
 const appleDataFiles = [
-  { path: '/2019-2020/Apple 2020.xlsx', finalRowCount: 18 },
-  // { path: '/2018-2019/Apples 2019.xlsx', finalRowCount: 0 },
+  { path: '2019-2020/Apple 2020.xlsx', finalRowCount: 18 },
+  // { path: '2018-2019/Apples 2019.xlsx', finalRowCount: 0 },
 ];
 
 const fetchPsaPallets = (

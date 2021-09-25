@@ -43,7 +43,7 @@ AS $$
 $$ LANGUAGE plpgsql VOLATILE STRICT SET search_path FROM CURRENT;
 
 CREATE FUNCTION sales.price_product_product_root_id(IN product sales.price_product)
-    RETURNS setof BIGINT
+    RETURNS BIGINT
     LANGUAGE 'sql'
     STABLE
     PARALLEL UNSAFE
