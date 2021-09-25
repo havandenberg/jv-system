@@ -1,0 +1,8 @@
+query PRODUCT_SPECIES_LIST {
+  productSpecieses {
+    nodes {
+      id
+      speciesDescription
+    }
+  }
+}

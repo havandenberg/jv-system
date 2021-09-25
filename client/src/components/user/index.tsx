@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Redirect, useHistory } from 'react-router-dom';
 
+import api from 'api';
 import Page from 'components/page';
 import { useTabBar } from 'components/tab-bar';
 import b from 'ui/button';
@@ -9,11 +10,15 @@ import th from 'ui/theme';
 
 import { useUserContext } from './context';
 import UserSettings from './settings';
+import UserMessages from './messages';
+import { UserMessage } from 'types';
 
-const tabs = [
+const tabs = (messageCount?: number) => [
   {
-    id: 'notifications',
-    text: 'Notifications',
+    id: 'messages',
+    text: `Messages${
+      messageCount !== undefined ? ' (' + messageCount + ')' : ''
+    }`,
   },
   {
     id: 'settings',
@@ -23,28 +28,51 @@ const tabs = [
 
 const UserDashboard = () => {
   const history = useHistory();
+  const [showReadMessages, setShowReadMessages] = useState(false);
 
   const [userState, setUserState] = useUserContext();
-  const { activeUser } = userState;
+  const { activeUserId } = userState;
+  const {
+    data: activeUser,
+    error,
+    loading,
+    refetch,
+  } = api.useGetUser(activeUserId || 0, showReadMessages);
   const { id } = activeUser?.personContact || {};
 
-  const { selectedTabId, TabBar } = useTabBar(tabs);
+  const messages = activeUser?.userMessages.nodes || [];
+
+  const { selectedTabId, TabBar } = useTabBar(
+    tabs(activeUser ? messages.length : undefined),
+  );
 
   const getContent = () => {
     switch (selectedTabId) {
       case 'settings':
         return <UserSettings />;
       default:
-        return <div />;
+        return (
+          <UserMessages
+            error={error}
+            loading={loading}
+            messages={messages as UserMessage[]}
+            showReadMessages={showReadMessages}
+            setShowReadMessages={(show: boolean) => {
+              setShowReadMessages(show);
+              refetch();
+            }}
+            userId={activeUserId || 0}
+          />
+        );
     }
   };
 
   const handleLogout = () => {
-    setUserState({ ...userState, activeUser: null });
+    setUserState({ ...userState, activeUserId: null });
     history.push('/');
   };
 
-  if (!activeUser) {
+  if (!activeUserId) {
     return <Redirect to="/" />;
   }
 
@@ -60,7 +88,7 @@ const UserDashboard = () => {
           </b.Primary>
         </l.AreaLink>,
       ]}
-      title="Dashboard"
+      title="User Dashboard"
     >
       <>
         <l.Div mb={th.spacing.lg}>

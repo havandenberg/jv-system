@@ -1,44 +1,39 @@
-import React, { useEffect, useState } from 'react';
-import { add, getDay, isMonday, isWednesday } from 'date-fns';
+import React, { useState } from 'react';
+import { getDay } from 'date-fns';
 import { isEmpty, pluck, sortBy } from 'ramda';
 
 import api from 'api';
-import ArrowInCircle from 'assets/images/arrow-in-circle';
 import AddItem from 'components/add-item';
 import { formatDate } from 'components/date-range-picker';
 import Page from 'components/page';
 import { DataMessage } from 'components/page/message';
 import useDateRange from 'hooks/use-date-range';
-import { useDateRangeQueryParams } from 'hooks/use-query-params';
 import useScrollToTop from 'hooks/use-scroll-to-top';
 import b from 'ui/button';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
-import {
-  getClosestMeetingDay,
-  getDateOfISOWeek,
-  getWeekNumber,
-  isMondayOrWednesday,
-} from 'utils/date';
+import { getDateOfISOWeek } from 'utils/date';
 
 import AgendaItem from './item';
 import { AgendaItemUpdate } from './types';
 
 const Agenda = () => {
   useScrollToTop();
-  const { DateRangePicker, handleDateChange } = useDateRange({
+  const {
+    selectedWeekNumber,
+    startDate,
+    startDateQuery,
+    DateRangePicker,
+    ForwardButton,
+    BackwardButton,
+  } = useDateRange({
     disabledDay: (date: Date) => ![1, 3].includes(getDay(date)),
     hideDefinedRanges: true,
     showLongDate: true,
     singleSelection: true,
+    weekChangeType: 'agenda',
   });
-
-  const [{ startDate: startDateQuery }] = useDateRangeQueryParams();
-  const startDate = startDateQuery
-    ? new Date(startDateQuery.replace(/-/g, '/'))
-    : new Date();
-  const selectedWeekNumber = getWeekNumber(startDate);
 
   const [changes, setChanges] = useState<AgendaItemUpdate[]>([]);
   const [newItemNextId, setNewItemNextId] = useState(-1);
@@ -53,27 +48,6 @@ const Agenda = () => {
     ...items.filter((it) => it && !pluck('id', changes).includes(it.id)),
     ...changes.filter((it) => it.itemDate === formatDate(startDate)),
   ] as AgendaItemUpdate[]);
-
-  const handleWeekChange = (direction: number) => {
-    let newDate = startDate;
-    if (isMonday(newDate)) {
-      newDate = add(newDate, {
-        days: direction > 0 ? 3 : -4,
-      });
-    }
-    if (isWednesday(newDate)) {
-      newDate = add(newDate, {
-        days: direction > 0 ? 5 : -2,
-      });
-    }
-    handleDateChange({
-      selection: {
-        startDate: newDate,
-        endDate: newDate,
-        key: 'selection',
-      },
-    });
-  };
 
   const handleSave = (id: number, onComplete: () => void) => {
     handleUpdate({
@@ -175,38 +149,6 @@ const Agenda = () => {
     }
   };
 
-  useEffect(() => {
-    const defaultDate = startDateQuery
-      ? new Date(startDateQuery.replace(/-/g, '/'))
-      : new Date();
-    if (!startDateQuery || !isMondayOrWednesday(defaultDate)) {
-      handleDateChange({
-        selection: {
-          startDate: getClosestMeetingDay(defaultDate),
-          endDate: getClosestMeetingDay(defaultDate),
-          key: 'selection',
-        },
-      });
-    }
-  }, [handleDateChange, startDateQuery]);
-
-  const handleBackward = () => handleWeekChange(-1);
-  const handleForward = () => handleWeekChange(1);
-
-  const handleKeyDown = (event: KeyboardEvent) => {
-    if (event.ctrlKey) {
-      if (event.code === 'ArrowRight') handleForward();
-      else if (event.code === 'ArrowLeft') handleBackward();
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener('keydown', handleKeyDown);
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  });
-
   return (
     <Page
       actions={[
@@ -222,31 +164,8 @@ const Agenda = () => {
         <>
           <l.Flex alignCenter>
             {DateRangePicker}
-            <l.HoverButton
-              borderRadius={th.borderRadii.circle}
-              boxShadow={th.shadows.boxLight}
-              ml={th.spacing.md}
-              onClick={handleBackward}
-            >
-              <ArrowInCircle
-                fill={th.colors.brand.primary}
-                height={th.sizes.icon}
-                width={th.sizes.icon}
-              />
-            </l.HoverButton>
-            <l.HoverButton
-              borderRadius={th.borderRadii.circle}
-              boxShadow={th.shadows.boxLight}
-              ml={th.spacing.md}
-              onClick={handleForward}
-              transform="scaleX(-1)"
-            >
-              <ArrowInCircle
-                fill={th.colors.brand.primary}
-                height={th.sizes.icon}
-                width={th.sizes.icon}
-              />
-            </l.HoverButton>
+            {BackwardButton}
+            {ForwardButton}
           </l.Flex>
           <l.Flex my={th.sizes.icon}>
             <ty.BodyText flex={1}>

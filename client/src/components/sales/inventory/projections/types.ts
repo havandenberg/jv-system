@@ -59,6 +59,7 @@ export interface ShipperProjectionState {
   changes: ShipperProjectionChanges;
   newItemNextIds: NewItemNextIds;
   removedProductIds: number[];
+  skippedWeeks: string[];
 }
 
 export interface ShipperProjectionProps {

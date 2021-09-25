@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { CSSProperties } from 'onno-react';
+import { CSSProperties } from 'onno';
 import { isEmpty } from 'ramda';
 import ClipLoader from 'react-spinners/ClipLoader';
 
-import l from 'ui/layout';
+import l, { DivProps } from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 
@@ -24,6 +24,7 @@ interface MessageProps {
   headerStyles?: CSSProperties;
   text?: string;
   textStyles?: CSSProperties;
+  wrapperStyles?: DivProps;
 }
 
 const PageMessage = ({
@@ -32,8 +33,9 @@ const PageMessage = ({
   headerStyles,
   text,
   textStyles,
+  wrapperStyles,
 }: MessageProps) => (
-  <Wrapper>
+  <Wrapper {...wrapperStyles}>
     {image && <l.Div mb={th.spacing.lg}>{image}</l.Div>}
     {header && (
       <ty.LargeText mb={text ? th.spacing.lg : 0} secondary {...headerStyles}>
@@ -50,19 +52,23 @@ const PageMessage = ({
 
 export default PageMessage;
 
-export const Empty = ({ header = 'No data found', text }: MessageProps) => (
-  <PageMessage header={header} text={text} />
+export const Empty = ({ header = 'No data found', ...rest }: MessageProps) => (
+  <PageMessage header={header} {...rest} />
 );
 
 export const Error = ({
   header = 'An error has occurred ❌',
-  text,
-}: MessageProps) => <PageMessage header={header} text={text} />;
+  ...rest
+}: MessageProps) => <PageMessage header={header} {...rest} />;
 
-export const Loading = ({ text = 'Loading data...' }: MessageProps) => (
+export const Loading = ({
+  text = 'Loading data...',
+  ...rest
+}: MessageProps) => (
   <PageMessage
     image={<ClipLoader color={th.colors.brand.secondary} size={th.sizes.xl} />}
     text={text}
+    {...rest}
   />
 );
 

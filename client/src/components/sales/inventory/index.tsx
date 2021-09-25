@@ -21,8 +21,9 @@ export const gridTemplateColumns =
   '1fr 60px repeat(7, 40px) repeat(5, 90px) 60px';
 
 const Inventory = () => {
-  const [{ species, variety, size, packType, plu, categoryTypes, ...rest }] =
-    useInventoryQueryParams();
+  const [
+    { species, variety, size, packType, plu, shipper, categoryTypes, ...rest },
+  ] = useInventoryQueryParams();
 
   const { startDate: startDateQuery } = rest;
   const {
@@ -58,11 +59,16 @@ const Inventory = () => {
     : '';
 
   const groupedItems = groupBy((item) => {
-    const otherCategory = { id: 'other', packDescription: 'other' };
+    const otherCategory = {
+      id: 'other',
+      packDescription: 'Other',
+      shipperName: 'Other',
+    };
     const itemSpecies = item.product?.species || otherCategory;
     const itemVariety = item.product?.variety || otherCategory;
     const itemSize = item.product?.sizes?.nodes[0] || otherCategory;
     const itemPackType = item.product?.packType || otherCategory;
+    const itemShipper = item.shipper || otherCategory;
 
     switch (categoryType) {
       case 'variety':
@@ -73,6 +79,8 @@ const Inventory = () => {
         return itemPackType.packDescription;
       case 'plu':
         return !!item.plu;
+      case 'shipper':
+        return itemShipper.id;
       default:
         return itemSpecies.id;
     }
@@ -84,19 +92,23 @@ const Inventory = () => {
       const item = groupedItems[key][0];
       const itemSpecies = item.product?.species || {
         id: 'other',
-        speciesDescription: '',
+        speciesDescription: 'Other',
       };
       const itemVariety = item.product?.variety || {
         id: 'other',
-        varietyDescription: '',
+        varietyDescription: 'Other',
       };
       const itemSize = item.product?.sizes?.nodes[0] || {
         id: 'other',
-        jvDescription: '',
+        jvDescription: 'Other',
       };
       const itemPackType = item.product?.packType || {
         id: 'other',
-        packDescription: 'other',
+        packDescription: 'Other',
+      };
+      const itemShipper = item.shipper || {
+        id: 'other',
+        shipperName: 'Other',
       };
 
       const getId = () => {
@@ -109,6 +121,8 @@ const Inventory = () => {
             return itemPackType.packDescription;
           case 'plu':
             return item.plu ? 'true' : 'false';
+          case 'shipper':
+            return itemShipper.id;
           default:
             return itemSpecies.id;
         }
@@ -127,6 +141,8 @@ const Inventory = () => {
               : itemPackType.packDescription;
           case 'plu':
             return item.plu ? 'PLU' : 'No PLU';
+          case 'shipper':
+            return itemShipper.shipperName;
           default:
             return itemSpecies.speciesDescription;
         }
@@ -151,6 +167,8 @@ const Inventory = () => {
               return !!packType;
             case 'plu':
               return !!plu;
+            case 'shipper':
+              return !!shipper;
             default:
               return !!species;
           }
@@ -165,6 +183,8 @@ const Inventory = () => {
               return `packType=${packType}`;
             case 'plu':
               return `plu=${plu}`;
+            case 'shipper':
+              return `shipper=${shipper}`;
             default:
               return `species=${species}`;
           }
@@ -186,6 +206,8 @@ const Inventory = () => {
               return !packType;
             case 'plu':
               return !plu;
+            case 'shipper':
+              return !shipper;
             default:
               return !species;
           }

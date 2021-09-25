@@ -1,0 +1,11 @@
+query SHIPPER_PROJECTION_PRODUCT_LIST($shipperId: String!) {
+  shipperProjectionProducts(condition: { shipperId: $shipperId }) {
+    nodes {
+      id
+      packType
+      size
+      species
+      variety
+    }
+  }
+}

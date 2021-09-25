@@ -928,7 +928,7 @@ const PriceSheet = () => {
     <Page
       actions={[
         editing ? (
-          <l.Flex key={0} position="relative">
+          <l.Flex key={0} relative>
             <BasicModal
               title="Confirm Discard Changes"
               content={

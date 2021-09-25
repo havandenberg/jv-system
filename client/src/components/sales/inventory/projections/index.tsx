@@ -1,9 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { add, endOfISOWeek, isAfter, startOfISOWeek } from 'date-fns';
-import { isEmpty, omit, pathOr, pick, pluck, sortBy, uniqBy } from 'ramda';
+import {
+  isEmpty,
+  omit,
+  pathOr,
+  pick,
+  pluck,
+  sortBy,
+  times,
+  uniqBy,
+} from 'ramda';
 
 import api from 'api';
+import { formatDate } from 'components/date-range-picker';
 import ItemSelector from 'components/item-selector';
+import { DataMessage } from 'components/page/message';
 import Page from 'components/page';
 import { useTabBar } from 'components/tab-bar';
 import useDateRange from 'hooks/use-date-range';
@@ -20,6 +31,10 @@ import b from 'ui/button';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
+import {
+  isDateGreaterThanOrEqualTo,
+  isDateLessThanOrEqualTo,
+} from 'utils/date';
 
 import { coastTabs } from '../use-filters';
 import { getAllVessels, getDuplicateProductIds } from './data-utils';
@@ -37,7 +52,6 @@ import {
   VesselUpdate,
 } from './types';
 import Vessels from './vessels';
-import { DataMessage } from 'components/page/message';
 
 const initialChangesState: ShipperProjectionChanges = {
   vesselUpdates: [],
@@ -58,6 +72,7 @@ const initialState: ShipperProjectionState = {
   changes: initialChangesState,
   newItemNextIds: initialNewItemNextIds,
   removedProductIds: [],
+  skippedWeeks: [],
 };
 
 const ShipperProjections = () => {
@@ -74,12 +89,19 @@ const ShipperProjections = () => {
     (shipper) => shipper && shipper.id === shipperId,
   );
 
-  const { TabBar } = useTabBar(coastTabs, false, 'EC', 'coast', 1);
-  const { DateRangePicker, handleDateChange } = useDateRange({
-    hideDefinedRanges: true,
-    singleSelection: true,
-    maxDate: endOfISOWeek(add(new Date(), { weeks: 4 })),
-  });
+  const { TabBar, selectedTabId: coast } = useTabBar(
+    coastTabs,
+    false,
+    'EC',
+    'coast',
+    1,
+  );
+  const { DateRangePicker, ForwardButton, BackwardButton, handleDateChange } =
+    useDateRange({
+      hideDefinedRanges: true,
+      singleSelection: true,
+      maxDate: endOfISOWeek(add(new Date(), { weeks: 4 })),
+    });
 
   const {
     data,
@@ -98,7 +120,7 @@ const ShipperProjections = () => {
   const [handleDeleteEntries] = api.useDeleteShipperProjectionEntries();
 
   const [state, setState] = useState<ShipperProjectionState>(initialState);
-  const { changes, newItemNextIds, removedProductIds } = state;
+  const { changes, newItemNextIds, removedProductIds, skippedWeeks } = state;
 
   const setChanges = (newChanges: ShipperProjectionChanges) => {
     setState((prevState) => ({ ...prevState, changes: newChanges }));
@@ -115,6 +137,13 @@ const ShipperProjections = () => {
     setState((prevState) => ({
       ...prevState,
       removedProductIds: newRemovedProductIds,
+    }));
+  };
+
+  const setSkippedWeeks = (newSkippedWeeks: string[]) => {
+    setState((prevState) => ({
+      ...prevState,
+      skippedWeeks: newSkippedWeeks,
     }));
   };
 
@@ -167,7 +196,70 @@ const ShipperProjections = () => {
   };
 
   const allVessels = getAllVessels(vessels, changes, getVesselValue);
-  const gridTemplateColumns = `500px repeat(${allVessels.length || 1}, 140px)`;
+
+  const toggleSkippedWeeks = (weekToSkip: string) => {
+    if (skippedWeeks.includes(weekToSkip)) {
+      setSkippedWeeks(skippedWeeks.filter((week) => week !== weekToSkip));
+    } else {
+      setSkippedWeeks([...skippedWeeks, weekToSkip]);
+    }
+  };
+
+  const ghostVesselDates = times(
+    (idx) =>
+      formatDate(
+        add(
+          startOfISOWeek(
+            startDate ? new Date(startDate.replace(/-/g, '/')) : new Date(),
+          ),
+          {
+            weeks: idx,
+          },
+        ),
+      ),
+    5,
+  ).filter(
+    (date) =>
+      !allVessels.find(
+        (vessel) =>
+          isDateGreaterThanOrEqualTo(
+            new Date(
+              getVesselValue(
+                vessel as ShipperProjectionVessel,
+                'departureDate',
+              ).value.replace(/-/g, '/'),
+            ),
+            new Date(date.replace(/-/g, '/')),
+          ) &&
+          isDateLessThanOrEqualTo(
+            new Date(
+              getVesselValue(
+                vessel as ShipperProjectionVessel,
+                'departureDate',
+              ).value.replace(/-/g, '/'),
+            ),
+            endOfISOWeek(new Date(date.replace(/-/g, '/'))),
+          ),
+      ),
+  );
+
+  const allVesselsWithGhostVessels = sortBy(
+    (vessel) =>
+      vessel.id === 0
+        ? vessel.departureDate
+        : getVesselValue(vessel, 'departureDate').value,
+    [
+      ...allVessels,
+      ...ghostVesselDates.map((date) => ({
+        id: 0,
+        departureDate: date,
+      })),
+    ] as ShipperProjectionVessel[],
+  );
+
+  const gridTemplateColumns = `500px repeat(${
+    allVesselsWithGhostVessels.length || 1
+  }, 140px)`;
 
   const allEntries = allVessels
     .map((vessel) =>
@@ -176,7 +268,14 @@ const ShipperProjections = () => {
     .flat() as ShipperProjectionEntry[];
 
   const products = sortBy(
-    (product) => getProductValue(product, 'species').value || 'zzzzzz',
+    (product) =>
+      ['species', 'variety', 'size', 'packType', 'plu']
+        .map(
+          (key) =>
+            getProductValue(product, key as keyof ProductUpdate).value ||
+            'zzzzzz',
+        )
+        .join(' '),
     uniqBy(
       (product) => product.id,
       pluck('product', allEntries) as ShipperProjectionProduct[],
@@ -207,6 +306,11 @@ const ShipperProjections = () => {
     packType: getProductValue(product, 'packType').value,
     plu: getProductValue(product, 'plu').value,
   })) as ShipperProjectionProduct[];
+
+  const hasConfirmedSkippedWeeks = ghostVesselDates.reduce(
+    (acc, date) => acc && skippedWeeks.includes(date),
+    true,
+  );
 
   const hasValidVesselNames = allVessels.reduce(
     (acc, vessel) =>
@@ -253,14 +357,39 @@ const ShipperProjections = () => {
   const duplicateProductIds = getDuplicateProductIds(updatedProducts);
 
   const validate = () =>
+    hasConfirmedSkippedWeeks &&
     hasValidVesselNames &&
     hasValidVesselDates &&
     hasValidProducts &&
     isEmpty(duplicateProductIds);
 
+  const [handleCreateUserMessages] = api.useCreateUserMessages();
+
   const handleSave = () => {
     setSaveAttempt(true);
     if (validate()) {
+      if (selectedShipper) {
+        handleCreateUserMessages({
+          variables: {
+            messages: [
+              {
+                actionLink: `/sales/inventory/projections?coast=${coast}&endDate=${formatDate(
+                  new Date(),
+                )}&shipperId=${selectedShipper.id}&startDate=${formatDate(
+                  new Date(),
+                )}`,
+                actionText: 'View Projection',
+                details: `${selectedShipper.shipperName} (${selectedShipper.id})`,
+                header: 'Shipper Projection Completed',
+                isRead: false,
+                messageDate: new Date().toISOString(),
+                priority: 3,
+                userId: 1,
+              },
+            ],
+          },
+        });
+      }
       setUpdateLoading((prevLoading) => [...prevLoading, 'existing-items']);
       handleUpdate({
         variables: {
@@ -420,6 +549,10 @@ const ShipperProjections = () => {
     }
   };
 
+  const handleCancel = () => {
+    setState(initialState);
+  };
+
   useEffect(() => {
     if (
       !isEmpty(previousUpdateLoading) &&
@@ -429,10 +562,6 @@ const ShipperProjections = () => {
       handleCancel();
     }
   }, [dataLoading, previousUpdateLoading, updateLoading]);
-
-  const handleCancel = () => {
-    setState(initialState);
-  };
 
   const handleChange = <T extends UpdateType>(
     updates: T[],
@@ -587,13 +716,23 @@ const ShipperProjections = () => {
   return (
     <Page
       actions={[
-        <l.Flex alignEnd key={0} position="relative">
+        <l.Flex alignEnd key={0} relative>
           <b.Primary disabled={saveAttempt && !validate()} onClick={handleSave}>
             Submit
           </b.Primary>
           {saveAttempt && (
-            <l.Div position="absolute" right={0} top={42}>
+            <l.Div position="absolute" right={0} top={36}>
               <l.Div height={th.spacing.sm} />
+              {!hasConfirmedSkippedWeeks && (
+                <ty.CaptionText
+                  color={th.colors.status.error}
+                  mb={th.spacing.xs}
+                  nowrap
+                  textAlign="right"
+                >
+                  Confirm weeks with no vessels
+                </ty.CaptionText>
+              )}
               {!hasValidVesselNames && (
                 <ty.CaptionText
                   color={th.colors.status.error}
@@ -642,13 +781,15 @@ const ShipperProjections = () => {
         <>
           <l.Flex mb={th.spacing.md}>
             <l.Div mr={th.spacing.lg}>
-              <ty.CaptionText secondary>Shipper</ty.CaptionText>
+              <ty.CaptionText mb={th.spacing.sm} secondary>
+                Shipper
+              </ty.CaptionText>
               <ItemSelector
                 allItems={shippers as Shipper[]}
                 closeOnSelect
-                currentItems={[]}
                 error={shipperDataError}
                 errorLabel="Shippers"
+                excludedItems={[]}
                 loading={shipperDataLoading}
                 nameKey="shipperName"
                 onClear={() => setShipperId(undefined)}
@@ -661,21 +802,29 @@ const ShipperProjections = () => {
                     ? `${selectedShipper.shipperName} (${selectedShipper.id})`
                     : undefined
                 }
-                width={350}
+                width={300}
               />
             </l.Div>
-            <l.Div mr={th.spacing.lg}>
-              <ty.CaptionText mb={th.spacing.sm} secondary>
-                Coast
-              </ty.CaptionText>
-              <TabBar />
-            </l.Div>
-            <div>
-              <ty.CaptionText mb={th.spacing.sm} secondary>
-                Week Of
-              </ty.CaptionText>
-              {DateRangePicker}
-            </div>
+            {selectedShipper && (
+              <>
+                <l.Div mr={th.spacing.lg}>
+                  <ty.CaptionText mb={th.spacing.sm} secondary>
+                    Coast
+                  </ty.CaptionText>
+                  <TabBar />
+                </l.Div>
+                <div>
+                  <ty.CaptionText mb={th.spacing.sm} secondary>
+                    Week Of
+                  </ty.CaptionText>
+                  <l.Flex alignCenter>
+                    {DateRangePicker}
+                    {BackwardButton}
+                    {ForwardButton}
+                  </l.Flex>
+                </div>
+              </>
+            )}
           </l.Flex>
         </>
       }
@@ -683,29 +832,42 @@ const ShipperProjections = () => {
     >
       <l.Flex column minHeight="calc(100vh - 289px)">
         <l.Div flex={1} overflowX="auto">
-          <Vessels
-            {...changeProps}
-            gridTemplateColumns={gridTemplateColumns}
-            showErrors={saveAttempt}
-            vessels={allVessels as ShipperProjectionVessel[]}
-          />
-          <Products
-            {...changeProps}
-            duplicateProductIds={duplicateProductIds}
-            gridTemplateColumns={gridTemplateColumns}
-            products={products}
-            showErrors={saveAttempt}
-            vessels={allVessels as ShipperProjectionVessel[]}
-          />
-          {isEmpty(allVessels) && (
-            <DataMessage
-              data={allVessels}
-              emptyProps={{
-                header: 'No Vessels Found',
-              }}
-              error={dataError}
-              loading={dataLoading}
-            />
+          {!!selectedShipper ? (
+            <>
+              <Vessels
+                {...changeProps}
+                ghostVesselDates={ghostVesselDates}
+                gridTemplateColumns={gridTemplateColumns}
+                showErrors={saveAttempt}
+                skippedWeeks={skippedWeeks}
+                toggleSkippedWeeks={toggleSkippedWeeks}
+                vessels={
+                  allVesselsWithGhostVessels as ShipperProjectionVessel[]
+                }
+              />
+              <Products
+                {...changeProps}
+                duplicateProductIds={duplicateProductIds}
+                gridTemplateColumns={gridTemplateColumns}
+                hasVessels={allVessels.length > 0}
+                products={products}
+                showErrors={saveAttempt}
+                vessels={
+                  allVesselsWithGhostVessels as ShipperProjectionVessel[]
+                }
+              />
+            </>
+          ) : (
+            <l.Div mt={th.spacing.sm}>
+              <DataMessage
+                data={allVessels || []}
+                emptyProps={{
+                  header: 'Select a Shipper',
+                }}
+                error={dataError}
+                loading={dataLoading}
+              />
+            </l.Div>
           )}
         </l.Div>
       </l.Flex>

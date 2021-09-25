@@ -1,0 +1,7 @@
+mutation USER_MESSAGES_CREATE($messages: [UserMessageInput]!) {
+  bulkCreateUserMessage(input: { messages: $messages }) {
+    userMessages {
+      id
+    }
+  }
+}

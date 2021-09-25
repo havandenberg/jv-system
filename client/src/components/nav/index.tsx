@@ -22,6 +22,7 @@ export const navItems: NavItemType[] = [
     dashboardItems: [
       { text: 'Inventory', to: 'inventory' },
       { text: 'Vessels', to: 'vessels' },
+      { text: 'Projections', to: 'inventory/projections' },
       { text: 'Calendar', to: 'calendar' },
       { text: 'Price Sheet', to: 'price-sheet' },
       { text: 'Agenda', to: 'agenda' },

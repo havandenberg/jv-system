@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { add, isAfter, startOfISOWeek } from 'date-fns';
-import { isEmpty } from 'ramda';
+import { add, endOfISOWeek, isAfter, startOfISOWeek } from 'date-fns';
 import DatePicker from 'react-date-picker';
 
 import MinusInCircle from 'assets/images/minus-in-circle';
@@ -17,6 +16,7 @@ import { hexColorWithTransparency } from 'ui/utils';
 import { getWeekNumber } from 'utils/date';
 
 import { ShipperProjectionProps } from './types';
+import { LineItemCheckbox } from 'ui/checkbox';
 
 const datePickerProps = {
   calendarIcon: null,
@@ -27,7 +27,7 @@ const datePickerProps = {
 };
 
 const vesselStatusOptions = [
-  { value: '-', text: '-' },
+  { value: 'projected', text: 'PROJECTED' },
   { value: 'loading', text: 'LOADING' },
   { value: 'executed', text: 'EXECUTED' },
   { value: 'cancelled', text: 'CANCELLED' },
@@ -46,21 +46,29 @@ const getVesselStatus = (vesselStatus: string) => {
   }
 };
 
-const NewVesselRow = ({
+const GhostVesselColumn = ({
+  isSkipped,
+  showErrors,
+  showWeekText,
+  startDate,
+  toggleSkippedWeeks,
   newItemHandlers: { handleNewVessel },
-}: ShipperProjectionProps) => {
-  const [startDateQuery] = useQueryValue('startDate');
-  const startDate = startOfISOWeek(
-    startDateQuery ? new Date(startDateQuery.replace(/-/g, '/')) : new Date(),
-  );
+}: ShipperProjectionProps & {
+  isSkipped: boolean;
+  showErrors: boolean;
+  showWeekText?: boolean;
+  startDate: Date;
+  toggleSkippedWeeks: () => void;
+}) => {
   const [coast = 'EC'] = useQueryValue('coast');
+
   const newVessel = {
     id: -1,
     vesselName: 'New Vessel',
     departureDate: formatDate(startDate),
     arrivalDate: formatDate(add(startDate, { weeks: 1 })),
     arrivalPort: coast,
-    vesselStatus: '-',
+    vesselStatus: 'projected',
     shipperProjectionEntriesByVesselId: {
       edges: [],
       nodes: [],
@@ -71,27 +79,69 @@ const NewVesselRow = ({
       totalCount: 0,
     },
   };
+
   return (
-    <l.Div height={`calc(${th.sizes.fill} - ${th.spacing.md})`} relative>
-      <l.HoverButton
-        onClick={() => {
-          handleNewVessel(newVessel);
-        }}
+    <l.Flex
+      alignCenter
+      background={th.colors.brand.containerBackground}
+      border={
+        showErrors && !isSkipped ? th.borders.error : th.borders.secondary
+      }
+      column
+      height={`calc(${th.sizes.fill} - ${th.spacing.md} - 2px)`}
+      justifyCenter
+      padding={th.spacing.sm}
+      relative
+    >
+      <ty.CaptionText
+        alignSelf="flex-start"
+        bold
+        left={`-${th.spacing.tn}`}
         position="absolute"
+        disabled
         top={`-${th.sizes.icon}`}
-        left={0}
       >
-        <PlusInCircle height={th.sizes.xs} width={th.sizes.xs} />
-      </l.HoverButton>
-    </l.Div>
+        {showWeekText ? 'Week ' : ''}
+        {getWeekNumber(startDate)}
+      </ty.CaptionText>
+      {!isSkipped && (
+        <l.HoverButton
+          onClick={() => {
+            handleNewVessel(newVessel);
+          }}
+        >
+          <l.Flex mb={th.spacing.md}>
+            <PlusInCircle height={th.sizes.xs} width={th.sizes.xs} />
+            <ty.CaptionText ml={th.spacing.sm} opacity={1}>
+              Add Vessel
+            </ty.CaptionText>
+          </l.Flex>
+        </l.HoverButton>
+      )}
+      <l.Div opacity={isSkipped ? 1 : th.opacities.secondary}>
+        <LineItemCheckbox
+          checked={isSkipped}
+          onChange={toggleSkippedWeeks}
+          label={<ty.CaptionText ml={th.spacing.sm}>No Vessels</ty.CaptionText>}
+        />
+      </l.Div>
+    </l.Flex>
   );
 };
 
 const VesselWrapper = styled(l.Grid)(
-  ({ status }: { status?: keyof typeof th.colors.status }) => ({
+  ({
+    index,
+    status,
+  }: {
+    index?: number;
+    status?: keyof typeof th.colors.status;
+  }) => ({
     alignItems: 'center',
     background: status
       ? hexColorWithTransparency(th.colors.status[status], 0.2)
+      : index !== undefined && index % 2 === 0
+      ? th.colors.brand.containerBackground
       : undefined,
     border: th.borders.secondary,
     gridTemplateRows: 'repeat(4, 1fr)',
@@ -99,23 +149,38 @@ const VesselWrapper = styled(l.Grid)(
     padding: th.spacing.sm,
     position: 'relative',
     height: `calc(${th.sizes.fill} - ${th.spacing.md} - 2px)`,
+    '.react-date-picker': {
+      width: th.sizes.fill,
+    },
+    '.react-date-picker__wrapper': {
+      background: th.colors.background,
+      border: 0,
+    },
+    '.react-date-picker__inputGroup__input': {
+      fontSize: th.fontSizes.caption,
+    },
   }),
   divPropsSet,
 );
 
 const VesselHeader = (
   props: {
-    isFirst: boolean;
+    index: number;
     showErrors: boolean;
     vessel: ShipperProjectionVessel;
     vesselCount: number;
   } & ShipperProjectionProps,
 ) => {
+  const [startDateQuery] = useQueryValue('startDate');
+  const startDate = startDateQuery
+    ? new Date(startDateQuery.replace(/-/g, '/'))
+    : new Date();
+
   const {
     changeHandlers: { handleVesselChange },
     newItemHandlers: { handleNewVessel },
     removeItemHandlers: { handleRemoveNewVessel },
-    isFirst,
+    index,
     showErrors,
     valueGetters: { getVesselValue },
     vessel,
@@ -152,9 +217,12 @@ const VesselHeader = (
   };
 
   return (
-    <VesselWrapper status={getVesselStatus(updatedVessel.vesselStatus)}>
+    <VesselWrapper
+      index={index}
+      status={getVesselStatus(updatedVessel.vesselStatus)}
+    >
       <ty.CaptionText bold position="absolute" top={`-${th.sizes.icon}`}>
-        {isFirst ? 'Week ' : ''}
+        {index === 0 ? 'Week ' : ''}
         {getWeekNumber(
           new Date(updatedVessel.departureDate.replace(/-/g, '/')),
         )}
@@ -195,16 +263,20 @@ const VesselHeader = (
           handleVesselChange({ ...updatedVessel, vesselName: e.target.value });
         }}
       />
-      <DatePicker
-        onChange={(date: Date) =>
-          handleVesselChange({
-            ...updatedVessel,
-            departureDate: formatDate(date),
-          })
-        }
-        value={new Date(updatedVessel.departureDate.replace(/-/g, '/'))}
-        {...datePickerProps}
-      />
+      <l.Div border={th.borders.secondary}>
+        <DatePicker
+          maxDate={endOfISOWeek(add(startDate, { weeks: 5 }))}
+          minDate={startOfISOWeek(startDate)}
+          onChange={(date: Date) =>
+            handleVesselChange({
+              ...updatedVessel,
+              departureDate: formatDate(date),
+            })
+          }
+          value={new Date(updatedVessel.departureDate.replace(/-/g, '/'))}
+          {...datePickerProps}
+        />
+      </l.Div>
       <l.Div
         border={
           showErrors &&
@@ -213,10 +285,12 @@ const VesselHeader = (
             new Date(updatedVessel.departureDate),
           )
             ? th.borders.error
-            : th.borders.transparent
+            : th.borders.secondary
         }
       >
         <DatePicker
+          maxDate={endOfISOWeek(add(startDate, { weeks: 6 }))}
+          minDate={startOfISOWeek(startDate)}
           onChange={(date: Date) =>
             handleVesselChange({
               ...updatedVessel,
@@ -247,14 +321,19 @@ const VesselHeader = (
 };
 
 interface Props extends ShipperProjectionProps {
+  ghostVesselDates: string[];
   gridTemplateColumns: string;
   showErrors: boolean;
+  skippedWeeks: string[];
+  toggleSkippedWeeks: (weekToSkip: string) => void;
   vessels: ShipperProjectionVessel[];
 }
 
 const Vessels = ({
   gridTemplateColumns,
   showErrors,
+  skippedWeeks,
+  toggleSkippedWeeks,
   vessels,
   ...rest
 }: Props) => (
@@ -265,7 +344,7 @@ const Vessels = ({
     height={150}
     mt={th.sizes.md}
   >
-    <VesselWrapper border={0} mr={th.spacing.sm}>
+    <VesselWrapper border={0}>
       <ty.CaptionText textAlign="right" secondary>
         Vessel Name
       </ty.CaptionText>
@@ -279,20 +358,31 @@ const Vessels = ({
         Vessel Status
       </ty.CaptionText>
     </VesselWrapper>
-    {!isEmpty(vessels) ? (
-      vessels.map((vessel, idx) => (
+    {vessels.map((vessel, idx) => {
+      const startDate = new Date(vessel.departureDate.replace(/-/g, '/'));
+      return vessel.id === 0 ? (
+        <GhostVesselColumn
+          isSkipped={skippedWeeks.includes(formatDate(startDate))}
+          showErrors={showErrors}
+          showWeekText={idx === 0}
+          startDate={startDate}
+          toggleSkippedWeeks={() => {
+            toggleSkippedWeeks(formatDate(startDate));
+          }}
+          key={idx}
+          {...rest}
+        />
+      ) : (
         <VesselHeader
           key={idx}
-          isFirst={idx === 0}
+          index={idx}
           showErrors={showErrors}
           vessel={vessel}
           vesselCount={vessels.length}
           {...rest}
         />
-      ))
-    ) : (
-      <NewVesselRow {...rest} />
-    )}
+      );
+    })}
   </l.Grid>
 );
 

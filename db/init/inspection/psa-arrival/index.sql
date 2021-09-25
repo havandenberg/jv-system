@@ -152,6 +152,16 @@ SELECT CONCAT (
 	WHERE r.id = par.id
 $BODY$;
 
+-- CREATE FUNCTION inspection.psa_arrival_report_vessel(IN r inspection.psa_arrival_report)
+--   RETURNS product.vessel
+--   LANGUAGE 'sql'
+--   STABLE
+--   PARALLEL UNSAFE
+--   COST 100
+-- AS $BODY$
+--   SELECT * FROM product.vessel v WHERE v.vessel_code = r.arrival_code LIMIT 1
+-- $BODY$;
+
 CREATE FUNCTION inspection.psa_arrival_report_commodity_list(IN r inspection.psa_arrival_report)
 	RETURNS TEXT[]
 	LANGUAGE 'sql'

@@ -22,7 +22,8 @@ const initialState = {
 
 const UserSettings = () => {
   const [userState] = useUserContext();
-  const { activeUser } = userState;
+  const { activeUserId } = userState;
+  const { data: activeUser } = api.useGetUser(activeUserId || 0);
 
   const [state, setState] = useState<State>(initialState);
   const { confirmNewPin, newPin } = state;

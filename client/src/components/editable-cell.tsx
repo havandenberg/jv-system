@@ -57,7 +57,7 @@ export interface CellContent {
   value: string | boolean;
 }
 
-interface Props {
+export interface EditableCellProps {
   content: CellContent;
   defaultChildren: React.ReactNode;
   editing: boolean;
@@ -85,7 +85,7 @@ const EditableCell = ({
   onChange,
   showBorder = true,
   secondaryHighlight,
-}: Props) => {
+}: EditableCellProps) => {
   const { dirty, value } = content;
   const previousValue = usePrevious(value);
   const [localValue, setLocalValue] = useState(value);

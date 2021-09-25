@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 
 import api from 'api';
 import { BasicModal } from 'components/modal';
+import StatusIndicator from 'components/status-indicator';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 import TextInput from 'ui/input';
 
 import { useUserContext } from './context';
+import { userMessagePriorityMap } from './messages';
 
 interface State {
   pin: string;
@@ -20,18 +22,35 @@ const initialState = {
 };
 
 const UserLogin = () => {
-  const { data } = api.useGetUsers();
+  const { data: authData, refetch } = api.useGetUserAuthList();
+
   const [userState, setUserState] = useUserContext();
-  const { activeUser } = userState;
+  const { activeUserId } = userState;
+  const { data: activeUser } = api.useGetUser(activeUserId || 0);
+
   const [state, setState] = useState<State>(initialState);
   const { error, pin } = state;
 
+  const messages = activeUser?.userMessages.nodes || [];
+  const messageCount = messages.length;
+  const highestMessagePriority =
+    messages.length > 0
+      ? messages.reduce(
+          (highestPriority, message) =>
+            message && message.priority < highestPriority
+              ? message.priority
+              : highestPriority,
+          messages[0]?.priority || 0,
+        )
+      : 0;
+
   const handleLogin = () => {
-    if (data) {
-      const user = data.nodes.find((u) => u && u.pin === pin);
+    if (authData) {
+      const user = authData.nodes.find((u) => u && u.pin === pin);
       if (user) {
-        setUserState({ ...userState, activeUser: user });
+        setUserState({ ...userState, activeUserId: user.id });
         setState(initialState);
+        refetch();
         return true;
       } else {
         setState({ ...state, error: true, pin: '' });
@@ -44,9 +63,20 @@ const UserLogin = () => {
     <l.Div position="absolute" bottom={th.spacing.sm} right={th.spacing.md}>
       {activeUser ? (
         <l.AreaLink to="/user">
-          <ty.TriggerText fontSize={th.fontSizes.caption}>
-            Welcome, {activeUser?.personContact?.firstName}
-          </ty.TriggerText>
+          <l.Flex alignCenter>
+            <ty.TriggerText fontSize={th.fontSizes.caption}>
+              Welcome, {activeUser?.personContact?.firstName}
+            </ty.TriggerText>
+            {!!messageCount && (
+              <l.Div ml={th.spacing.sm}>
+                <StatusIndicator
+                  diameter={20}
+                  status={userMessagePriorityMap[highestMessagePriority].status}
+                  value={messageCount}
+                />
+              </l.Div>
+            )}
+          </l.Flex>
         </l.AreaLink>
       ) : (
         <BasicModal
@@ -60,10 +90,9 @@ const UserLogin = () => {
                   onChange={(e) =>
                     setState({ ...state, error, pin: e.target.value })
                   }
-                  style={{ padding: 0, textAlign: 'center' }}
+                  style={{ padding: 0, textAlign: 'center', width: 300 }}
                   value={pin}
                   type="password"
-                  width={th.sizes.fill}
                 />
               </l.Flex>
               {error && (

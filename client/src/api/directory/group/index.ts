@@ -23,13 +23,13 @@ export const useContactGroups = () => {
   const [{ sortBy = 'groupName', sortOrder = SORT_ORDER.ASC }] =
     useSortQueryParams();
   const orderBy = getOrderByString(sortBy, sortOrder);
-  const [{ activeUser }] = useUserContext();
+  const [{ activeUserId }] = useUserContext();
 
   const { data, error, loading } = useQuery<Query>(CONTACT_GROUP_LIST_QUERY, {
     variables: {
       orderBy,
       search: getSearchArray(search),
-      userId: activeUser ? activeUser.id : 0,
+      userId: activeUserId || 0,
     },
   });
 
@@ -75,7 +75,7 @@ export const useUpdateContactGroup = (id: string) => {
 
 export const useCreateContactGroup = () => {
   const [search = ''] = useSearchQueryParam();
-  const [{ activeUser }] = useUserContext();
+  const [{ activeUserId }] = useUserContext();
 
   return useMutation<Mutation>(CONTACT_GROUP_CREATE, {
     refetchQueries: [
@@ -84,7 +84,7 @@ export const useCreateContactGroup = () => {
         variables: {
           orderBy: 'GROUP_NAME_ASC',
           search: getSearchArray(search),
-          userId: activeUser ? activeUser.id : 0,
+          userId: activeUserId || 0,
         },
       },
     ],
@@ -93,7 +93,7 @@ export const useCreateContactGroup = () => {
 
 export const useDeleteContactGroup = () => {
   const [search = ''] = useSearchQueryParam();
-  const [{ activeUser }] = useUserContext();
+  const [{ activeUserId }] = useUserContext();
 
   return useMutation<Mutation>(CONTACT_GROUP_DELETE, {
     refetchQueries: [
@@ -102,7 +102,7 @@ export const useDeleteContactGroup = () => {
         variables: {
           orderBy: 'GROUP_NAME_ASC',
           search: getSearchArray(search),
-          userId: activeUser ? activeUser.id : 0,
+          userId: activeUserId || 0,
         },
       },
     ],

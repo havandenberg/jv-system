@@ -1,0 +1,22 @@
+query USER_DETAILS($id: BigInt!, $isRead: [Boolean!]) {
+  user(id: $id) {
+    id
+    pin
+    personContact {
+      firstName
+      id
+    }
+    userMessages(filter: { isRead: { in: $isRead } }) {
+      nodes {
+        actionLink
+        actionText
+        details
+        header
+        id
+        isRead
+        messageDate
+        priority
+      }
+    }
+  }
+}

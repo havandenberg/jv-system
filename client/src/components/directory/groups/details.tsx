@@ -81,7 +81,8 @@ const Details = () => {
       validationLabels: baseLabels(true),
     });
 
-  const [{ activeUser }] = useUserContext();
+  const [{ activeUserId }] = useUserContext();
+  const { data: activeUser } = api.useGetUser(activeUserId || 0);
 
   const onChange = (field: keyof ContactGroup, value: any) => {
     if (field === 'userId') {

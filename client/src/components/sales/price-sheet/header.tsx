@@ -112,7 +112,7 @@ const Header = ({
             pb={th.spacing.sm}
             pt={th.spacing.xs}
           >
-            <l.Flex alignCenter position="relative">
+            <l.Flex alignCenter relative>
               {isFirst && (
                 <WeekArrowButton left={-26} onClick={handleBackward}>
                   <ArrowInCircle

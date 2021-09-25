@@ -3,7 +3,7 @@ CREATE TABLE directory.contact_group (
 	group_description TEXT NOT NULL,
 	group_name TEXT NOT NULL,
   user_id BIGINT
-		REFERENCES directory.user(id)
+		REFERENCES public.user(id)
 		ON DELETE SET NULL
 );
 

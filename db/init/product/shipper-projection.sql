@@ -5,6 +5,8 @@ CREATE TABLE product.shipper_projection_vessel (
 	arrival_date DATE,
 	arrival_port TEXT,
 	vessel_status TEXT,
+  is_reviewed BOOLEAN,
+  previous_name TEXT,
   shipper_id TEXT
 		REFERENCES directory.shipper(id)
 		ON DELETE SET NULL

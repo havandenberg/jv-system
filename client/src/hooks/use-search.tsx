@@ -5,15 +5,17 @@ import TextInput, { TextInputProps } from 'ui/input';
 import { useSearchQueryParam } from './use-query-params';
 import useDebounce from './use-debounce';
 
-interface Props {
+export interface SearchProps extends TextInputProps {
+  disabled?: boolean;
   onClear?: () => void;
   placeholder?: string;
   showIcon?: boolean;
   value?: string;
 }
 
-const useSearch = (props?: TextInputProps & Props) => {
+const useSearch = (props?: SearchProps) => {
   const {
+    disabled = false,
     onClear = undefined,
     placeholder = 'Search',
     showIcon = true,
@@ -33,15 +35,18 @@ const useSearch = (props?: TextInputProps & Props) => {
 
   useEffect(() => {
     if (debouncedSearch !== search) {
-      setSearch(debouncedSearch, 'replaceIn');
+      !disabled && setSearch(debouncedSearch, 'replaceIn');
     }
-  }, [debouncedSearch, search, setSearch]);
+  }, [debouncedSearch, disabled, search, setSearch]);
 
   return {
     search,
     Search: (
       <TextInput
         Icon={showIcon ? <SearchImg height={18} /> : undefined}
+        onBlur={() => {
+          setSearch(debouncedSearch, 'replaceIn');
+        }}
         onClear={() => {
           onClear && onClear();
           clearSearch();

@@ -33,6 +33,7 @@ export const categoryTypeOrder = [
   'size',
   'packType',
   'plu',
+  'shipper',
 ];
 
 const gridColumnSpans = [
@@ -72,6 +73,7 @@ const Header = ({
       size,
       packType,
       plu,
+      shipper,
       detailsIndex,
       categoryTypes,
       ...rest
@@ -87,8 +89,13 @@ const Header = ({
   const { data: sizeData, loading: sizeLoading } = api.useProductSize(
     size || '',
   );
+  const { data: shipperData, loading: shipperLoading } = api.useShipper(
+    shipper || '',
+    'FIRST_NAME_ASC',
+  );
 
-  const categoryLoading = speciesLoading || varietyLoading || sizeLoading;
+  const categoryLoading =
+    speciesLoading || varietyLoading || sizeLoading || shipperLoading;
 
   const showForwardArrow = selectedWeekNumber < getCurrentWeekNumber() + 3;
 
@@ -117,20 +124,19 @@ const Header = ({
       .join('&');
     const restParamString = restParams ? `${restParams}&` : '';
 
-    const detailString = '';
-
     const breadcrumbText: { [key: string]: string } = {
       species: speciesData
-        ? `${capitalCase(speciesData.speciesDescription || '')}${detailString}`
+        ? `${capitalCase(speciesData.speciesDescription || '')}`
         : 'All Species',
       variety: varietyData
-        ? `${capitalCase(varietyData.varietyDescription || '')}${detailString}`
+        ? `${capitalCase(varietyData.varietyDescription || '')}`
         : 'All Varieties',
       size: sizeData
-        ? `${capitalCase(sizeData.jvDescription || '')}${detailString}`
+        ? `${capitalCase(sizeData.jvDescription || '')}`
         : 'All Sizes',
-      packType: packType ? `${packType}${detailString}` : 'All Pack Types',
+      packType: packType ? `${packType}` : 'All Pack Types',
       plu: plu ? (plu === 'true' ? 'PLU' : 'No PLU') : 'All PLU',
+      shipper: shipperData ? shipperData.shipperName : 'All Shippers',
     };
 
     const breadcrumbs: BreadcrumbProps[] = [
@@ -154,6 +160,8 @@ const Header = ({
                     return `packType=${packType}`;
                   case 'plu':
                     return `plu=${plu}`;
+                  case 'shipper':
+                    return `shipper=${shipper}`;
                   default:
                     return `species=${species}`;
                 }
@@ -307,7 +315,8 @@ const Header = ({
         (!variety || variety === 'total' || label.sortKey !== 'variety') &&
         (!size || size === 'total' || label.sortKey !== 'size') &&
         (!packType || packType === 'total' || label.sortKey !== 'packType') &&
-        (!plu || plu === 'total' || label.key !== 'plu'),
+        (!plu || plu === 'total' || label.key !== 'plu') &&
+        (!shipper || shipper === 'total' || label.key !== 'shipper'),
     ),
     'product',
     'inventory_item',
@@ -336,6 +345,9 @@ const Header = ({
       }
       if (!plu) {
         options.push({ text: 'PLU', value: 'plu' });
+      }
+      if (!shipper) {
+        options.push({ text: 'Shipper', value: 'shipper' });
       }
     }
     return options;
@@ -423,7 +435,7 @@ const Header = ({
       </l.Flex>
       {detailItems ? (
         <l.Grid
-          gridTemplateColumns={listGridTemplateColumns(columnCount)}
+          gridTemplateColumns={listGridTemplateColumns(columnCount, !!shipper)}
           mb={th.spacing.sm}
           pl={th.spacing.sm}
           pr={detailItems.length > 12 ? th.spacing.md : 0}
@@ -483,7 +495,7 @@ const Header = ({
                 key={weekIdx + 1}
                 py={th.spacing.xs}
               >
-                <l.Flex position="relative">
+                <l.Flex relative>
                   {isFirst && (
                     <WeekArrowButton left={-56} onClick={handleBackward}>
                       <ArrowInCircle

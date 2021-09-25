@@ -12,7 +12,7 @@ import { Mutation, Query } from 'types';
 export const PRODUCT_MASTER_DETAILS_QUERY = loader('./details.gql');
 const PRODUCT_MASTER_LIST_QUERY = loader('./list.gql');
 const PRODUCT_MASTER_UPDATE = loader('./update.gql');
-export const PRODUCT_SPECIES_DETAILS_QUERY = loader('./species-details.gql');
+export const PRODUCT_SPECIES_DETAILS_QUERY = loader('./species/details.gql');
 export const PRODUCT_VARIETY_DETAILS_QUERY = loader('./variety-details.gql');
 export const PRODUCT_SIZE_DETAILS_QUERY = loader('./size-details.gql');
 export const PRODUCT_PACK_TYPE_DETAILS = loader('./pack-type-details.gql');

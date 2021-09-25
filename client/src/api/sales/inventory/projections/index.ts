@@ -6,7 +6,8 @@ import { loader } from 'graphql.macro';
 import { useQueryValue } from 'hooks/use-query-params';
 import { Mutation, Query } from 'types';
 
-const SHIPPER_PROJECTION_VESSEL_LIST_QUERY = loader('./list.gql');
+const SHIPPER_PROJECTION_VESSEL_LIST_QUERY = loader('./vessel-list.gql');
+const SHIPPER_PROJECTION_PRODUCT_LIST_QUERY = loader('./product-list.gql');
 const SHIPPER_PROJECTION_UPDATE_QUERY = loader('./update.gql');
 const SHIPPER_PROJECTION_VESSEL_CREATE = loader('./create/vessel.gql');
 const SHIPPER_PROJECTION_PRODUCT_CREATE = loader('./create/product.gql');
@@ -22,10 +23,10 @@ const useVariables = () => {
   );
 
   return {
-    arrivalPort: coast === 'EC' ? 'USEC' : 'USWC',
+    arrivalPort: coast,
     shipperId,
     startDate: formatDate(startDate),
-    endDate: endOfISOWeek(add(startDate, { weeks: 5 })),
+    endDate: formatDate(endOfISOWeek(add(startDate, { weeks: 5 }))),
   };
 };
 
@@ -40,6 +41,22 @@ export const useShipperProjectionVessels = () => {
 
   return {
     data: data ? data.shipperProjectionVessels : undefined,
+    error,
+    loading,
+  };
+};
+
+export const useShipperProjectionProducts = () => {
+  const variables = useVariables();
+  const { data, error, loading } = useQuery<Query>(
+    SHIPPER_PROJECTION_PRODUCT_LIST_QUERY,
+    {
+      variables,
+    },
+  );
+
+  return {
+    data: data ? data.shipperProjectionProducts : undefined,
     error,
     loading,
   };

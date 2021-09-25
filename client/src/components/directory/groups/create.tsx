@@ -206,7 +206,8 @@ const CreateContactGroup = () => {
   const [changes, setChanges] = useState<ContactGroup>(
     initialState as ContactGroup,
   );
-  const [{ activeUser }] = useUserContext();
+  const [{ activeUserId }] = useUserContext();
+  const { data: activeUser } = api.useGetUser(activeUserId || 0);
 
   const handleChange = (field: keyof ContactGroup, value: any) => {
     if (field === 'userId') {

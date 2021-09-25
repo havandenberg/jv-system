@@ -47,7 +47,7 @@ export const useShippers = () => {
   };
 };
 
-export const useShipper = (id: string) => {
+export const useShipper = (id: string, orderByOverride?: string) => {
   const [{ sortBy = 'firstName', sortOrder = SORT_ORDER.ASC }] =
     useSortQueryParams();
   const orderBy = getOrderByString(sortBy, sortOrder);
@@ -55,7 +55,7 @@ export const useShipper = (id: string) => {
   const { data, error, loading } = useQuery<Query>(SHIPPER_DETAILS_QUERY, {
     variables: {
       id,
-      orderBy,
+      orderBy: orderByOverride || orderBy,
     },
   });
   return {

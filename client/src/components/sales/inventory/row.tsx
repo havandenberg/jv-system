@@ -14,8 +14,8 @@ import th from 'ui/theme';
 import ty from 'ui/typography';
 
 import { gridTemplateColumns } from '.';
-import { getFilteredItems, reducePalletData } from './utils';
 import { categoryTypeOrder } from './header';
+import { getFilteredItems, reducePalletData } from './utils';
 
 const ItemWrapper = styled(l.Flex)(
   ({ hasItems, isTotal }: { hasItems: boolean; isTotal: boolean }) => ({
@@ -106,8 +106,9 @@ const InventoryRow = ({
   index,
   items,
 }: Props) => {
-  const [{ species, variety, size, packType, plu, categoryTypes, ...rest }] =
-    useInventoryQueryParams();
+  const [
+    { species, variety, size, packType, plu, shipper, categoryTypes, ...rest },
+  ] = useInventoryQueryParams();
   const [{ startDate = formatDate(new Date()) }] = useDateRangeQueryParams();
   const currentStartOfWeek = startOfISOWeek(
     new Date(startDate.replace(/-/g, '/')),
@@ -151,6 +152,8 @@ const InventoryRow = ({
             return !!packType;
           case 'plu':
             return !!plu;
+          case 'shipper':
+            return !!shipper;
           default:
             return !!species;
         }
@@ -165,6 +168,8 @@ const InventoryRow = ({
             return `packType=${packType}`;
           case 'plu':
             return `plu=${plu}`;
+          case 'shipper':
+            return `shipper=${shipper}`;
           default:
             return `species=${species}`;
         }
@@ -186,6 +191,8 @@ const InventoryRow = ({
             return !packType;
           case 'plu':
             return !plu;
+          case 'shipper':
+            return !shipper;
           default:
             return !species;
         }

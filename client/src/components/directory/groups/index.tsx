@@ -25,7 +25,8 @@ const GroupDirectory = ({ actions, TabBar }: SubDirectoryProps) => {
   const { data, loading, error } = api.useContactGroups();
   const items = data ? data.nodes : [];
 
-  const [{ activeUser }] = useUserContext();
+  const [{ activeUserId }] = useUserContext();
+  const { data: activeUser } = api.useGetUser(activeUserId || 0);
 
   const columnLabels = useColumns<ContactGroup>(
     'groupName',

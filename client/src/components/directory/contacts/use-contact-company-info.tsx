@@ -169,7 +169,7 @@ const useContactCompanyInfo = ({
         {editing && (
           <>
             <div />
-            <l.Flex>
+            <l.Flex pt={th.spacing.sm}>
               <ItemSelector<Customer>
                 selectItem={(c) => {
                   setAdditionalCustomers([...additionalCustomers, c]);
@@ -177,7 +177,7 @@ const useContactCompanyInfo = ({
                 allItems={
                   (customerData ? customerData.nodes : []) as Customer[]
                 }
-                currentItems={allCustomers}
+                excludedItems={allCustomers}
                 error={customerDataError}
                 errorLabel="Customers"
                 loading={customerDataLoading}
@@ -203,13 +203,13 @@ const useContactCompanyInfo = ({
       {editing && (
         <>
           <div />
-          <l.Flex>
+          <l.Flex pt={th.spacing.sm}>
             <ItemSelector<Shipper>
               selectItem={(s) => {
                 setAdditionalShippers([...additionalShippers, s]);
               }}
               allItems={(shipperData ? shipperData.nodes : []) as Shipper[]}
-              currentItems={allShippers}
+              excludedItems={allShippers}
               error={shipperDataError}
               errorLabel="Shippers"
               loading={shipperDataLoading}
@@ -235,7 +235,7 @@ const useContactCompanyInfo = ({
       {editing && (
         <>
           <div />
-          <l.Flex>
+          <l.Flex pt={th.spacing.sm}>
             <ItemSelector<Warehouse>
               selectItem={(w) => {
                 setAdditionalWarehouses([...additionalWarehouses, w]);
@@ -243,9 +243,9 @@ const useContactCompanyInfo = ({
               allItems={
                 (warehouseData ? warehouseData.nodes : []) as Warehouse[]
               }
-              currentItems={allWarehouses}
               error={warehouseDataError}
               errorLabel="Warehouses"
+              excludedItems={allWarehouses}
               loading={warehouseDataLoading}
               nameKey="warehouseName"
               placeholder="Add warehouses"

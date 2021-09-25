@@ -13,8 +13,11 @@ import { listLabels } from './data-utils';
 import ListItem from './list-item';
 import { getSortedItems } from '../utils';
 
-export const gridTemplateColumns = (count: number = 5) =>
-  `80px 2.5fr ${
+export const gridTemplateColumns = (
+  count: number = 5,
+  hasShipper: boolean = true,
+) =>
+  `80px ${hasShipper ? '' : '2.5fr '}${
     count ? 'repeat(' + count + ', 1.5fr) ' : ''
   }repeat(3, 90px) 30px`;
 
@@ -24,7 +27,8 @@ interface Props {
 
 const InventoryItems = ({ items }: Props) => {
   const { search } = useLocation();
-  const [{ species, variety, size, packType, plu }] = useInventoryQueryParams();
+  const [{ species, variety, size, packType, plu, shipper }] =
+    useInventoryQueryParams();
   const [{ sortBy = 'vessel', sortOrder = SORT_ORDER.ASC }] =
     useSortQueryParams();
   const sortedItems = getSortedItems(listLabels, items, sortBy, sortOrder);
@@ -46,7 +50,10 @@ const InventoryItems = ({ items }: Props) => {
             <div key={key} style={style}>
               <ListItem
                 data={item}
-                gridTemplateColumns={gridTemplateColumns(columnCount)}
+                gridTemplateColumns={gridTemplateColumns(
+                  columnCount,
+                  !!shipper,
+                )}
                 listLabels={listLabels.filter(
                   (label) =>
                     (!species ||
@@ -59,7 +66,10 @@ const InventoryItems = ({ items }: Props) => {
                     (!packType ||
                       packType === 'total' ||
                       label.sortKey !== 'packType') &&
-                    (!plu || plu === 'total' || label.key !== 'plu'),
+                    (!plu || plu === 'total' || label.key !== 'plu') &&
+                    (!shipper ||
+                      shipper === 'total' ||
+                      label.key !== 'shipper'),
                 )}
                 to={`/sales/inventory/items/${item.id}${search}`}
               />

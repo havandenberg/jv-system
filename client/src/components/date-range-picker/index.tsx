@@ -117,6 +117,7 @@ export interface DateRangeProps extends DateRangePickerProps {
   showAsWeekNumber?: boolean;
   showLongDate?: boolean;
   singleSelection?: boolean;
+  weekChangeType?: 'agenda' | 'default';
 }
 
 const DateRangePicker = ({

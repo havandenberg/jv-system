@@ -1,15 +1,15 @@
-import useLocalStorage from 'hooks/use-local-storage';
 import React, { createContext, useContext } from 'react';
-import { User } from 'types';
+
+import useLocalStorage from 'hooks/use-local-storage';
 
 interface UserState {
-  activeUser: User | null;
+  activeUserId: number | null;
 }
 
 type SetContext = (c: UserState) => void;
 
 const defaultContext = {
-  activeUser: null,
+  activeUserId: null,
 };
 
 export const UserContext = createContext<[UserState, SetContext]>([
@@ -25,8 +25,10 @@ export const UserContextProvider = ({
   children: React.ReactNode;
 }) => {
   const [state, setState] = useLocalStorage<UserState>('user', defaultContext);
+
   const updateState = (updatedState: UserState) =>
     setState((prevState) => ({ ...prevState, ...updatedState }));
+
   return (
     <UserContext.Provider children={children} value={[state, updateState]} />
   );

@@ -4,7 +4,7 @@ import { capitalCase } from 'change-case';
 import { add, endOfISOWeek, format, startOfISOWeek } from 'date-fns';
 import { sortBy, uniq } from 'ramda';
 
-import CloseInCircle from 'assets/images/close-in-circle';
+import ResetImg from 'assets/images/reset';
 import { formatDate } from 'components/date-range-picker';
 import { useTabBar } from 'components/tab-bar';
 import useDateRange from 'hooks/use-date-range';
@@ -314,15 +314,15 @@ const useInventoryFilters = ({ items, loading }: Props) => {
           )}
         </l.Div>
         <div>
-          <l.Div height={20} />
+          <l.Div height={18} />
           <ResetButton>
             <l.AreaLink
               cursor="pointer"
-              height={20}
-              width={20}
+              height={th.sizes.icon}
+              width={th.sizes.icon}
               to="/sales/inventory?coast=EC"
             >
-              <CloseInCircle height={20} width={20} />
+              <ResetImg height={th.sizes.icon} width={th.sizes.icon} />
             </l.AreaLink>
           </ResetButton>
         </div>

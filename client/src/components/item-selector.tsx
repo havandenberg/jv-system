@@ -6,37 +6,37 @@ import { pluck } from 'ramda';
 import VirtualizedList from 'components/virtualized-list';
 import useOutsideClickRef from 'hooks/use-outside-click-ref';
 import useSearch from 'hooks/use-search';
-
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 
-const RowWrapper = styled(l.Flex)(({ index }: { index: number }) => ({
+import EditableCell, { EditableCellProps } from './editable-cell';
+
+const RowWrapper = styled(l.Flex)({
   alignItems: 'center',
-  background:
-    index % 2 === 0
-      ? th.colors.brand.containerBackground
-      : th.colors.background,
+  background: th.colors.background,
+  borderRadius: th.borderRadii.default,
   cursor: 'pointer',
   justifyContent: 'space-between',
+  transition: th.transitions.default,
   ':hover': {
-    p: {
-      color: th.colors.brand.primaryAccent,
-      textDecoration: 'underline',
-    },
+    background: th.colors.brand.containerBackground,
   },
-}));
+});
 
 interface Props<T> {
   allItems: T[];
   closeOnSelect?: boolean;
-  currentItems: T[];
+  editableCellProps?: EditableCellProps;
   error?: ApolloError;
   errorLabel: string;
+  excludedItems: T[];
+  getItemContent?: (item: T) => React.ReactNode;
+  height?: number;
   loading: boolean;
   nameKey: keyof T;
   onClear?: () => void;
-  placeholder: string;
+  placeholder?: string;
   selectedItem?: string;
   selectItem: (item: T) => void;
   width?: number;
@@ -45,9 +45,12 @@ interface Props<T> {
 const ItemSelector = <T extends { id: string }>({
   allItems,
   closeOnSelect,
-  currentItems,
+  excludedItems,
+  editableCellProps,
   error,
   errorLabel,
+  getItemContent,
+  height = 300,
   loading,
   nameKey,
   onClear,
@@ -57,6 +60,7 @@ const ItemSelector = <T extends { id: string }>({
   width = 500,
 }: Props<T>) => {
   const [focused, setFocused] = useState(false);
+
   const handleFocus = () => {
     setFocused(true);
   };
@@ -66,6 +70,7 @@ const ItemSelector = <T extends { id: string }>({
   };
 
   const { clearSearch, Search } = useSearch({
+    disabled: !!editableCellProps,
     onClear,
     placeholder,
     showIcon: false,
@@ -78,35 +83,36 @@ const ItemSelector = <T extends { id: string }>({
   });
 
   const items = allItems.filter(
-    (item) => !pluck('id', currentItems).includes(item.id),
+    (item) => !pluck('id', excludedItems).includes(item.id),
   );
-  const showList = focused;
 
   return (
-    <l.Div position="relative" pt={th.spacing.sm} ref={ref}>
-      <l.Div onClick={handleFocus}>{Search}</l.Div>
-      {showList && (
+    <l.Div relative ref={ref}>
+      <l.Div onClick={handleFocus}>
+        {editableCellProps ? <EditableCell {...editableCellProps} /> : Search}
+      </l.Div>
+      {focused && (
         <l.Flex
           borderRadius={th.borderRadii.default}
-          border={th.borders.disabled}
+          border={th.borders.secondary}
           bg={th.colors.background}
           boxShadow={th.shadows.box}
-          height={300}
-          mt={th.spacing.md}
+          height={height}
+          mt={th.spacing.sm}
           position="absolute"
           width={width}
+          zIndex={5}
         >
           {items && items.length > 0 ? (
             <VirtualizedList
-              height={300}
+              height={height}
               rowCount={items.length}
-              rowHeight={36}
+              rowHeight={32}
               rowRenderer={({ key, index, style }) => {
                 const item = items[index];
                 return (
                   item && (
                     <RowWrapper
-                      index={index}
                       onClick={() => {
                         selectItem(item);
                         clearSearch();
@@ -117,26 +123,28 @@ const ItemSelector = <T extends { id: string }>({
                       key={key}
                       style={style}
                     >
-                      <ty.TriggerText pl={th.spacing.md}>
-                        {item[nameKey]}
-                      </ty.TriggerText>
-                      <ty.TriggerText pr={th.spacing.md}>
-                        {item.id}
-                      </ty.TriggerText>
+                      {getItemContent ? (
+                        getItemContent(item)
+                      ) : (
+                        <ty.CaptionText pl={th.spacing.sm}>
+                          {item.id} - {item[nameKey]}
+                        </ty.CaptionText>
+                      )}
                     </RowWrapper>
                   )
                 );
               }}
+              style={{ borderRadius: th.borderRadii.default }}
               width={width}
             />
           ) : (
-            <ty.BodyText secondary mt={th.spacing.md} px={th.spacing.md}>
+            <ty.CaptionText disabled mt={th.spacing.md} px={th.spacing.sm}>
               {loading
                 ? 'Loading...'
                 : error
                 ? 'Error...'
                 : `No ${errorLabel} Found...`}
-            </ty.BodyText>
+            </ty.CaptionText>
           )}
         </l.Flex>
       )}
