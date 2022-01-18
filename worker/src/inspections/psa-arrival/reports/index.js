@@ -117,7 +117,8 @@ const fetchPictures = (dateTime) =>
               .then(() => {
                 console.log(`Picture ${pictureId} info added to database`);
                 downloadPicture(access_token, dateDirectory, picture);
-              });
+              })
+              .catch(onError);
           });
         })
         .catch(onError),
