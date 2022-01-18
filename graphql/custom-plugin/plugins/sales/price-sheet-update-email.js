@@ -34,7 +34,6 @@ const ewsArgs = (message) => ({
         Mailbox: [
           { EmailAddress: 'akorthaus@jacvandenberg.com' },
           { EmailAddress: 'bschiro@jacvandenberg.com' },
-          { EmailAddress: 'cpadover@jacvandenberg.com' },
           { EmailAddress: 'fvandenberg@jacvandenberg.com' },
           { EmailAddress: 'gvandenberg@jacvandenberg.com' },
           { EmailAddress: 'hvandenberg@jacvandenberg.com' },
