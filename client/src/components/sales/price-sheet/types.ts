@@ -117,6 +117,7 @@ export interface PriceSheetProps {
     handleNewEntry: (newEntry: NewEntry) => void;
   };
   selectedWeekNumber: number;
+  startDate: string;
   toggleCollapseItem: (key: keyof CollapsedItems, id: number) => void;
   valueGetters: {
     getCategoryValue: (

@@ -7,7 +7,7 @@ import ArrowInCircle from 'assets/images/arrow-in-circle';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
-import { getCurrentWeekNumber, isCurrentWeek } from 'utils/date';
+import { getCurrentWeekNumber, getWeekNumber, isCurrentWeek } from 'utils/date';
 
 import { gridTemplateColumns } from '.';
 import DoubleArrowInCircle from 'assets/images/double-arrow-in-circle';
@@ -99,6 +99,12 @@ const Header = ({
         const isFirst = i === 0;
         const isCurrentWeekVal = isCurrentWeek(selectedWeekNumber + i);
         const border = isCurrentWeekVal ? th.borders.disabled : undefined;
+        const startOfWeek = startOfISOWeek(
+          add(new Date(startDate.replace(/-/g, '/')), {
+            weeks: 1 * i,
+          }),
+        );
+        const displayedWeekNumber = getWeekNumber(startOfWeek);
         return (
           <l.Flex
             alignCenter
@@ -124,7 +130,7 @@ const Header = ({
               )}
               <ty.BodyText bold={isCurrentWeekVal} nowrap>
                 {isFirst ? 'Week ' : ''}
-                {selectedWeekNumber + i}
+                {displayedWeekNumber}
               </ty.BodyText>
               {isFirst && showForwardArrow && (
                 <WeekArrowButton
@@ -141,14 +147,7 @@ const Header = ({
               )}
             </l.Flex>
             <ty.SmallText bold={isCurrentWeekVal} mt={th.spacing.tn} secondary>
-              {format(
-                startOfISOWeek(
-                  add(new Date(startDate.replace(/-/g, '/')), {
-                    weeks: 1 * i,
-                  }),
-                ),
-                'MMM d',
-              )}
+              {format(startOfWeek, 'MMM d')}
             </ty.SmallText>
           </l.Flex>
         );

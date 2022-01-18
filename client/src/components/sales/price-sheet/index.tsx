@@ -1005,6 +1005,7 @@ const PriceSheet = () => {
           handleNewEntry,
         }}
         selectedWeekNumber={selectedWeekNumber}
+        startDate={startDate}
         toggleCollapseItem={toggleCollapseItem}
         valueGetters={{
           getCategoryValue,

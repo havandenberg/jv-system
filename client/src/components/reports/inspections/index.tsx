@@ -29,17 +29,17 @@ export enum InspectionTypes {
 const tabs = (queryParams: string) => [
   {
     id: InspectionTypes.ARRIVAL,
-    text: 'Arrival',
+    text: 'PSA',
     to: `/reports/inspections/${InspectionTypes.ARRIVAL}${queryParams}`,
   },
   {
     id: InspectionTypes.CHILE_DEPARTURE,
-    text: 'D - Chile',
+    text: 'QIMA',
     to: `/reports/inspections/${InspectionTypes.CHILE_DEPARTURE}${queryParams}`,
   },
   {
     id: InspectionTypes.PERU_DEPARTURE,
-    text: 'D - Peru',
+    text: 'Peru',
     to: `/reports/inspections/${InspectionTypes.PERU_DEPARTURE}${queryParams}`,
   },
 ];

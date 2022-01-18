@@ -1,4 +1,5 @@
 import React from 'react';
+import { add, startOfISOWeek } from 'date-fns';
 import { sortBy, times } from 'ramda';
 
 import EditableCell from 'components/editable-cell';
@@ -27,6 +28,7 @@ const Sizes = (props: Props) => {
     newItemHandlers: { handleNewSize, handleNewEntry },
     product,
     selectedWeekNumber,
+    startDate,
     valueGetters: { getSizeValue, getEntryValue },
   } = props;
   const items = product.priceSizesByProductId.nodes as PriceSize[];
@@ -156,6 +158,12 @@ const Sizes = (props: Props) => {
                 }}
               />
               {times((i) => {
+                const startOfWeek = startOfISOWeek(
+                  add(new Date(startDate.replace(/-/g, '/')), {
+                    weeks: 1 * i,
+                  }),
+                );
+                const displayedWeekNumber = getWeekNumber(startOfWeek);
                 const data = size.priceEntriesBySizeId.nodes.find(
                   (e) =>
                     e &&
@@ -163,8 +171,7 @@ const Sizes = (props: Props) => {
                       typeof e.entryDate === 'string'
                         ? new Date(e.entryDate.replace(/-/g, '/'))
                         : e.entryDate,
-                    ) ===
-                      selectedWeekNumber + i,
+                    ) === displayedWeekNumber,
                 );
                 const content = getEntryValue(data, 'content');
                 const highlight = getEntryValue(data, 'highlight');
