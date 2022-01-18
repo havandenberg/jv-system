@@ -1,8 +1,8 @@
 const fs = require('fs');
 const fetch = require('node-fetch');
 
-const { gql, gqlClient } = require('../../api');
-const { onError } = require('../../utils');
+const { gql, gqlClient } = require('../../../api');
+const { onError } = require('../../../utils');
 
 const AUTH_ARRIVAL_REPORTS = 'arrivalReports';
 const AUTH_PICTURES = 'pictures';

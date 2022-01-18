@@ -2,8 +2,8 @@ const EWS = require('node-ews');
 const { uniq } = require('ramda');
 const { download, isValidWetransfertUrl } = require('wetransfert');
 
-const { gql, gqlClient, DISTINCT_VALUES } = require('../api');
-const { onError } = require('../utils');
+const { gql, gqlClient, DISTINCT_VALUES } = require('../../api');
+const { onError } = require('../../utils');
 const { ewsArgs, parseData } = require('./data-utils');
 
 const CREATE_PERU_DEPARTURE_INSPECTION = gql`

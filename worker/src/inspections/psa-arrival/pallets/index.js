@@ -1,8 +1,8 @@
 const { groupBy, values } = require('ramda');
 const XLSX = require('xlsx');
 
-const { gql, gqlClient } = require('../../api');
-const { onError } = require('../../utils');
+const { gql, gqlClient } = require('../../../api');
+const { onError } = require('../../../utils');
 const {
   grapeKeys,
   citrusKeys,

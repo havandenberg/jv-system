@@ -50,9 +50,9 @@ services:
       - ${PERU_INSPECTIONS_DIRECTORY}:/server/static/peru-departure-inspections
       - ${CHILE_INSPECTIONS_DIRECTORY}:/server/static/chile-departure-inspections
       - ${PSA_INSPECTIONS_DIRECTORY}:/server/static/psa-arrival-inspections
-  inspections-service:
-    container_name: 'jv-inspections-service'
-    build: ./inspections-service
+  worker-service:
+    container_name: 'jv-worker-service'
+    build: ./worker-service
     depends_on:
       - db
       - graphql
@@ -61,8 +61,8 @@ services:
     ports:
       - '3002:3002'
     volumes:
-      - ./inspections-service:/inspections-service
-      - inspections-service_nodemodules:/inspections-service/node_modules
+      - ./worker-service:/worker-service
+      - worker-service_nodemodules:/worker-service/node_modules
       - ${CHILE_INSPECTIONS_DIRECTORY}:/chile-departure-inspections
       - ${PERU_INSPECTIONS_DIRECTORY}:/peru-departure-inspections
       - ${PSA_INSPECTIONS_DIRECTORY}:/psa-arrival-inspections
@@ -86,6 +86,6 @@ volumes:
   db-data:
   pgadmin-data:
   pgadmin-servers:
-  inspections-service_nodemodules:
+  worker-service_nodemodules:
   client_nodemodules:
   server_nodemodules:

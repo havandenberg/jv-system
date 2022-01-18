@@ -4,8 +4,8 @@ const path = require('path');
 const { pluck, uniqBy } = require('ramda');
 const XLSX = require('xlsx');
 
-const { gql, gqlClient, DISTINCT_VALUES } = require('../api');
-const { onError } = require('../utils');
+const { gql, gqlClient, DISTINCT_VALUES } = require('../../api');
+const { onError } = require('../../utils');
 
 const BATCH_CREATE_CHILE_DEPARTURE_INSPECTION_PALLET = gql`
   mutation BATCH_CREATE_CHILE_DEPARTURE_INSPECTION_PALLET(
