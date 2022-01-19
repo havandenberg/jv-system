@@ -22,6 +22,18 @@ services:
     volumes:
       - pgadmin-data:/var/lib/pgadmin
       - pgadmin-servers:/pgadmin4/servers.json
+  db-backup:
+    container_name: jv-backup
+    image: prodrigestivill/postgres-backup-local
+    depends_on:
+      - db
+    restart: always
+    env_file:
+      - ./.env
+    ports:
+      - '8081:8080'
+    volumes:
+      - ${BACKUP_DIRECTORY}:/backups
   graphql:
     container_name: jv-graphql
     build: ./graphql
@@ -50,9 +62,9 @@ services:
       - ${PERU_INSPECTIONS_DIRECTORY}:/server/static/peru-departure-inspections
       - ${CHILE_INSPECTIONS_DIRECTORY}:/server/static/chile-departure-inspections
       - ${PSA_INSPECTIONS_DIRECTORY}:/server/static/psa-arrival-inspections
-  worker-service:
-    container_name: 'jv-worker-service'
-    build: ./worker-service
+  worker:
+    container_name: 'jv-worker'
+    build: ./worker
     depends_on:
       - db
       - graphql
@@ -61,8 +73,8 @@ services:
     ports:
       - '3002:3002'
     volumes:
-      - ./worker-service:/worker-service
-      - worker-service_nodemodules:/worker-service/node_modules
+      - ./worker:/worker
+      - worker_nodemodules:/worker/node_modules
       - ${CHILE_INSPECTIONS_DIRECTORY}:/chile-departure-inspections
       - ${PERU_INSPECTIONS_DIRECTORY}:/peru-departure-inspections
       - ${PSA_INSPECTIONS_DIRECTORY}:/psa-arrival-inspections
@@ -86,6 +98,6 @@ volumes:
   db-data:
   pgadmin-data:
   pgadmin-servers:
-  worker-service_nodemodules:
+  worker_nodemodules:
   client_nodemodules:
   server_nodemodules:
