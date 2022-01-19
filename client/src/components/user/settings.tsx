@@ -58,7 +58,7 @@ const UserSettings = () => {
         <l.Div height={22} />
       )}
       <ty.CaptionText secondary mb={th.spacing.sm}>
-        Change Pin
+        New Pin
       </ty.CaptionText>
       <TextInput
         onChange={(e) => {

@@ -63,7 +63,7 @@ const Pallets = () => {
           )}
         </>
       }
-      title="Pallet Index"
+      title="Pallet Search"
     >
       {!isEmpty(items) ? (
         <VirtualizedList

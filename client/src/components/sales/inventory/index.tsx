@@ -239,7 +239,7 @@ const Inventory = () => {
     <Page
       actions={[
         <l.AreaLink key={0} mr={th.spacing.md} to="/sales/inventory/pallets">
-          <b.Primary>Pallet Index</b.Primary>
+          <b.Primary>Pallet Search</b.Primary>
         </l.AreaLink>,
         <l.AreaLink key={1} to="/sales/inventory/projections">
           <b.Primary>Projections</b.Primary>

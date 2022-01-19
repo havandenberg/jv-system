@@ -551,6 +551,7 @@ const ShipperProjections = () => {
 
   const handleCancel = () => {
     setState(initialState);
+    setSaveAttempt(false);
   };
 
   useEffect(() => {
@@ -717,9 +718,14 @@ const ShipperProjections = () => {
     <Page
       actions={[
         <l.Flex alignEnd key={0} relative>
-          <b.Primary disabled={saveAttempt && !validate()} onClick={handleSave}>
-            Submit
-          </b.Primary>
+          {selectedShipper && (
+            <b.Primary
+              disabled={saveAttempt && !validate()}
+              onClick={handleSave}
+            >
+              Submit
+            </b.Primary>
+          )}
           {saveAttempt && (
             <l.Div position="absolute" right={0} top={36}>
               <l.Div height={th.spacing.sm} />
@@ -862,7 +868,7 @@ const ShipperProjections = () => {
               <DataMessage
                 data={allVessels || []}
                 emptyProps={{
-                  header: 'Select a Shipper',
+                  header: 'Select a shipper to view inventory projections',
                 }}
                 error={dataError}
                 loading={dataLoading}
