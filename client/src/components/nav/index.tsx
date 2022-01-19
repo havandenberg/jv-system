@@ -6,6 +6,7 @@ import LogoImg from 'assets/images/jv-logo-white-no-text.png';
 import UserLogin from 'components/user/login';
 import l from 'ui/layout';
 import th from 'ui/theme';
+import { IS_PRODUCTION } from 'utils/env';
 
 import NavItem, { NavItemProps } from './item';
 import SecondaryNav from './secondary';
@@ -20,17 +21,17 @@ export const navItems: NavItemType[] = [
     text: 'Sales',
     to: '/sales',
     dashboardItems: [
-      { text: 'Inventory', to: 'inventory' },
-      { text: 'Vessels', to: 'vessels' },
-      { text: 'Projections', to: 'inventory/projections' },
-      { text: 'Calendar', to: 'calendar' },
+      { isDev: true, text: 'Inventory', to: 'inventory' },
+      { isDev: true, text: 'Vessels', to: 'vessels' },
+      { isDev: true, text: 'Projections', to: 'inventory/projections' },
+      { isDev: true, text: 'Calendar', to: 'calendar' },
       { text: 'Price Sheet', to: 'price-sheet' },
       { text: 'Agenda', to: 'agenda' },
     ],
     secondaryItems: [
-      { text: 'Inventory', to: 'inventory' },
-      { text: 'Vessels', to: 'vessels' },
-      { text: 'Calendar', to: 'calendar' },
+      { isDev: true, text: 'Inventory', to: 'inventory' },
+      { isDev: true, text: 'Vessels', to: 'vessels' },
+      { isDev: true, text: 'Calendar', to: 'calendar' },
       { text: 'Price Sheet', to: 'price-sheet' },
       { text: 'Agenda', to: 'agenda' },
     ],
@@ -96,13 +97,15 @@ const Nav = () => {
   const hoverItem = navItems.find((it) => hoverTo === it.to);
   const hoverBaseUrl = hoverItem ? hoverItem.baseUrl || hoverItem.to : '';
   const hoverSecondaryItems = hoverItem && hoverItem.secondaryItems;
-  const secondaryItems = hoverItem
-    ? hoverSecondaryItems
+  const secondaryItems = (
+    hoverItem
       ? hoverSecondaryItems
+        ? hoverSecondaryItems
+        : []
+      : activeSecondaryItems
+      ? activeSecondaryItems
       : []
-    : activeSecondaryItems
-    ? activeSecondaryItems
-    : [];
+  ).filter((item) => !IS_PRODUCTION || !item.isDev);
 
   return (
     <Wrapper>

@@ -33,6 +33,7 @@ export interface NavItemProps {
   hover?: boolean;
   baseUrl?: string;
   disabled?: boolean;
+  isDev?: boolean;
   setHover?: (to: string) => void;
   text: string;
   to: string;

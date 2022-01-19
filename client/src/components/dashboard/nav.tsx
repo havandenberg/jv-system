@@ -5,6 +5,7 @@ import { navItems } from 'components/nav';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
+import { IS_PRODUCTION } from 'utils/env';
 
 const ItemWrapper = styled(l.Flex)({
   alignItems: 'center',
@@ -73,20 +74,22 @@ const DashboardNav = () => (
             height={76}
             width={300}
           >
-            {it.dashboardItems.map((i, idx) => {
-              const pathname = `${it.baseUrl || it.to}/${i.to}`;
-              return (
-                !i.disabled && (
-                  <l.AreaLink key={idx} to={pathname} width={100}>
-                    <SecondaryItemWrapper>
-                      <ty.BodyText center color={th.colors.brand.secondary}>
-                        {i.text}
-                      </ty.BodyText>
-                    </SecondaryItemWrapper>
-                  </l.AreaLink>
-                )
-              );
-            })}
+            {it.dashboardItems
+              .filter((item) => !IS_PRODUCTION || !item.isDev)
+              .map((i, idx) => {
+                const pathname = `${it.baseUrl || it.to}/${i.to}`;
+                return (
+                  !i.disabled && (
+                    <l.AreaLink key={idx} to={pathname} width={100}>
+                      <SecondaryItemWrapper>
+                        <ty.BodyText center color={th.colors.brand.secondary}>
+                          {i.text}
+                        </ty.BodyText>
+                      </SecondaryItemWrapper>
+                    </l.AreaLink>
+                  )
+                );
+              })}
           </l.Flex>
         )}
       </l.Div>

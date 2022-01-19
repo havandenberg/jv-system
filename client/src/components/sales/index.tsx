@@ -11,6 +11,7 @@ import PalletDetails from 'components/sales/inventory/pallets/details';
 import ShipperProjections from 'components/sales/inventory/projections';
 import Vessels from 'components/sales/vessels';
 import VesselDetails from 'components/sales/vessels/details';
+import { IS_PRODUCTION } from 'utils/env';
 
 const Sales = () => (
   <Switch>
@@ -49,7 +50,11 @@ const Sales = () => (
     <Route exact path="/sales/calendar" component={Calendar} />
     <Route exact path="/sales/price-sheet" component={PriceSheet} />
     <Route exact path="/sales/agenda" component={Agenda} />
-    <Redirect to="/sales/inventory?coast=EC" />
+    {IS_PRODUCTION ? (
+      <Redirect to="/sales/price-sheet" />
+    ) : (
+      <Redirect to="/sales/inventory?coast=EC" />
+    )}
   </Switch>
 );
 
