@@ -139,7 +139,7 @@
   padding: 0;
 }
 
-.rdrMonths.rdrMonthsVertical .rdrMonth:first-of-type .rdrMonthName {
+.rdrMonth:first-of-type .rdrMonthName {
   display: none;
 }
 

@@ -97,16 +97,22 @@ const useDateRange = (props?: Omit<DateRangeProps, 'onClear'>) => {
     const defaultDate = startDateQuery
       ? new Date(startDateQuery.replace(/-/g, '/'))
       : new Date();
-    if (!startDateQuery || !isMondayOrWednesday(defaultDate)) {
+    const isAgenda = weekChangeType === 'agenda';
+    const isAgendaDay = isMondayOrWednesday(defaultDate);
+    const updatedDate = isAgenda
+      ? defaultDate
+      : getClosestMeetingDay(defaultDate);
+
+    if (!startDateQuery || (isAgenda && !isAgendaDay)) {
       handleDateChange({
         selection: {
-          startDate: getClosestMeetingDay(defaultDate),
-          endDate: getClosestMeetingDay(defaultDate),
+          startDate: updatedDate,
+          endDate: updatedDate,
           key: 'selection',
         },
       });
     }
-  }, [handleDateChange, startDateQuery]);
+  }, [handleDateChange, startDateQuery, weekChangeType]);
 
   const handleBackward = () => handleWeekChange(-1);
   const handleForward = () => handleWeekChange(1);

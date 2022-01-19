@@ -11,24 +11,14 @@ import {
 import CalendarImg from 'assets/images/calendar';
 import CloseImg from 'assets/images/close';
 import useOutsideClickRef from 'hooks/use-outside-click-ref';
-import l from 'ui/layout';
+import l, { divPropsSet } from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 
 const Wrapper = styled(l.Div)({ position: 'relative', zIndex: 10 });
 
 const Control = styled(l.Flex)(
-  ({
-    hasValue,
-    show,
-    showLongDate,
-    singleSelection,
-  }: {
-    hasValue?: boolean;
-    show?: boolean;
-    showLongDate?: boolean;
-    singleSelection?: boolean;
-  }) => ({
+  ({ hasValue, show }: { hasValue?: boolean; show?: boolean }) => ({
     alignItems: 'center',
     background: th.colors.brand.containerBackground,
     border: hasValue || show ? th.borders.secondary : th.borders.disabled,
@@ -37,7 +27,7 @@ const Control = styled(l.Flex)(
     cursor: 'pointer',
     height: th.heights.input,
     transition: th.transitions.default,
-    width: singleSelection && !showLongDate ? 200 : th.widths.input,
+    width: th.widths.input,
     ':hover': {
       border: th.borders.secondary,
       '> p': {
@@ -45,6 +35,7 @@ const Control = styled(l.Flex)(
       },
     },
   }),
+  ...divPropsSet,
 );
 
 const IconWrapper = styled(l.Flex)({
@@ -157,14 +148,16 @@ const DateRangePicker = ({
     setShow(!show);
   };
 
+  const width =
+    singleSelection && !showLongDate && !showAsWeekNumber ? 200 : undefined;
+
   return (
     <Wrapper ref={ref}>
       <Control
         hasValue={hasValue}
         onClick={toggleShow}
         show={show}
-        showLongDate={showLongDate}
-        singleSelection={singleSelection}
+        width={width}
       >
         <IconWrapper>
           <CalendarImg height={18} />
