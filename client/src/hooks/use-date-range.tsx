@@ -17,7 +17,7 @@ import {
 } from 'utils/date';
 
 const useDateRange = (props?: Omit<DateRangeProps, 'onClear'>) => {
-  const { weekChangeType } = props || {};
+  const { allowEmpty, weekChangeType } = props || {};
   const [
     { startDate: startDateQuery, endDate: endDateQuery },
     setDateRangeParams,
@@ -100,10 +100,10 @@ const useDateRange = (props?: Omit<DateRangeProps, 'onClear'>) => {
     const isAgenda = weekChangeType === 'agenda';
     const isAgendaDay = isMondayOrWednesday(defaultDate);
     const updatedDate = isAgenda
-      ? defaultDate
-      : getClosestMeetingDay(defaultDate);
+      ? getClosestMeetingDay(defaultDate)
+      : defaultDate;
 
-    if (!startDateQuery || (isAgenda && !isAgendaDay)) {
+    if ((!startDateQuery && !allowEmpty) || (isAgenda && !isAgendaDay)) {
       handleDateChange({
         selection: {
           startDate: updatedDate,
@@ -112,7 +112,13 @@ const useDateRange = (props?: Omit<DateRangeProps, 'onClear'>) => {
         },
       });
     }
-  }, [handleDateChange, startDateQuery, weekChangeType]);
+  }, [allowEmpty, handleDateChange, startDateQuery, weekChangeType]);
+
+  useEffect(() => {
+    if (allowEmpty) {
+      handleClear();
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleBackward = () => handleWeekChange(-1);
   const handleForward = () => handleWeekChange(1);

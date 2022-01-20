@@ -102,6 +102,7 @@ const defaultRange = [
 ];
 
 export interface DateRangeProps extends DateRangePickerProps {
+  allowEmpty?: boolean;
   hideDefinedRanges?: boolean;
   onClear: () => void;
   placeholder?: string;
