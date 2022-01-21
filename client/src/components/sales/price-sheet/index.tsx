@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { add, endOfISOWeek, startOfISOWeek } from 'date-fns';
 import { isEmpty, omit, pluck, reduce } from 'ramda';
 
@@ -210,6 +210,7 @@ const PriceSheet = () => {
     loading: dataLoading,
     error: dataError,
   } = api.usePriceCategories();
+  const previousDataLoading = usePrevious(dataLoading);
   const items = data ? data.nodes : [];
   const allItems = getAllItems(
     items,
@@ -447,22 +448,25 @@ const PriceSheet = () => {
     setState(initialState);
   };
 
-  const handleChange = <T extends UpdateType>(
-    updates: T[],
-    changesKey: keyof PriceSheetChanges,
-  ) => {
-    let updatedItems: any[] = changes[changesKey];
-    updates.forEach((update) => {
-      if (updatedItems.find((u) => u.id === update.id)) {
-        updatedItems = updatedItems.map((u) =>
-          u.id === update.id ? { ...u, ...omit(['id'], update) } : u,
-        );
-      } else {
-        updatedItems = [...updatedItems, update];
-      }
-    });
-    setChanges({ ...changes, [changesKey]: updatedItems });
-  };
+  const handleChange = useCallback(
+    <T extends UpdateType>(
+      updates: T[],
+      changesKey: keyof PriceSheetChanges,
+    ) => {
+      let updatedItems: any[] = changes[changesKey];
+      updates.forEach((update) => {
+        if (updatedItems.find((u) => u.id === update.id)) {
+          updatedItems = updatedItems.map((u) =>
+            u.id === update.id ? { ...u, ...omit(['id'], update) } : u,
+          );
+        } else {
+          updatedItems = [...updatedItems, update];
+        }
+      });
+      setChanges({ ...changes, [changesKey]: updatedItems });
+    },
+    [changes],
+  );
 
   const handleCategoryChange = (update: CategoryUpdate) => {
     const changesKey = update.id < 0 ? 'newCategories' : 'categoryUpdates';
@@ -483,6 +487,38 @@ const PriceSheet = () => {
     const changesKey = update.id < 0 ? 'newEntries' : 'entryUpdates';
     handleChange([update], changesKey);
   };
+
+  const resetInitialSortOrders = useCallback(() => {
+    const categoryChanges: CategoryUpdate[] = [];
+    const productChanges: ProductUpdate[] = [];
+    const sizeChanges: SizeUpdate[] = [];
+
+    allItems.forEach((category, idx) => {
+      if (category.sortOrder !== idx) {
+        categoryChanges.push({ ...category, sortOrder: idx });
+      }
+      category.priceProductsByCategoryId.nodes.forEach((product, idy) => {
+        if (product.sortOrder !== idy) {
+          productChanges.push({ ...product, sortOrder: idy });
+        }
+        product.priceSizesByProductId.nodes.forEach((size, idz) => {
+          if (size && size.sortOrder !== idz) {
+            sizeChanges.push({ ...size, sortOrder: idz });
+          }
+        });
+      });
+    });
+
+    handleChange(categoryChanges, 'categoryUpdates');
+    handleChange(productChanges, 'productUpdates');
+    handleChange(sizeChanges, 'sizeUpdates');
+  }, [allItems, handleChange]);
+
+  useEffect(() => {
+    if (previousDataLoading && !dataLoading) {
+      resetInitialSortOrders();
+    }
+  }, [dataLoading, previousDataLoading, resetInitialSortOrders]);
 
   const handleSortChange = (
     type: 'category' | 'product' | 'size',

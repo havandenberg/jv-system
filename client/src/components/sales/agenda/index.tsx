@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { getDay } from 'date-fns';
 import { isEmpty, pluck, sortBy } from 'ramda';
 
@@ -8,6 +8,7 @@ import { formatDate } from 'components/date-range-picker';
 import Page from 'components/page';
 import { DataMessage } from 'components/page/message';
 import useDateRange from 'hooks/use-date-range';
+import usePrevious from 'hooks/use-previous';
 import useScrollToTop from 'hooks/use-scroll-to-top';
 import b from 'ui/button';
 import l from 'ui/layout';
@@ -42,6 +43,7 @@ const Agenda = () => {
   const [handleDeleteItem] = api.useDeleteAgendaItem();
 
   const { data, loading, error } = api.useAgendaItems();
+  const previousLoading = usePrevious(loading);
   const items = data ? data.nodes : [];
 
   const allItems = sortBy((i) => i.sortOrder, [
@@ -71,19 +73,40 @@ const Agenda = () => {
     setChanges(changes.filter((i) => i.id !== id));
   };
 
-  const handleChange = (updates: AgendaItemUpdate[]) => {
-    let updatedItems = changes;
-    updates.forEach((update) => {
-      if (changes.find((u) => u.id === update.id)) {
-        updatedItems = updatedItems.map((u) =>
-          u.id === update.id ? update : u,
-        );
-      } else {
-        updatedItems = [...updatedItems, update];
+  const handleChange = useCallback(
+    (updates: AgendaItemUpdate[]) => {
+      let updatedItems = changes;
+      updates.forEach((update) => {
+        if (changes.find((u) => u.id === update.id)) {
+          updatedItems = updatedItems.map((u) =>
+            u.id === update.id ? update : u,
+          );
+        } else {
+          updatedItems = [...updatedItems, update];
+        }
+      });
+      setChanges(updatedItems);
+    },
+    [changes],
+  );
+
+  const resetInitialSortOrders = useCallback(() => {
+    const updates: AgendaItemUpdate[] = [];
+
+    allItems.forEach((item, idx) => {
+      if (item.sortOrder !== idx) {
+        updates.push({ ...item, sortOrder: idx });
       }
     });
-    setChanges(updatedItems);
-  };
+
+    handleChange(updates);
+  }, [allItems, handleChange]);
+
+  useEffect(() => {
+    if (previousLoading && !loading) {
+      resetInitialSortOrders();
+    }
+  }, [loading, previousLoading, resetInitialSortOrders]);
 
   const handleSortChange = (
     item: AgendaItemUpdate,
