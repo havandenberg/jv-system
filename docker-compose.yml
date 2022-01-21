@@ -12,16 +12,15 @@ services:
       - db-data:/var/lib/postgresql/data
   db-admin:
     container_name: jv-dbadmin
-    image: dpage/pgadmin4
+    image: taivokasper/omnidb
     depends_on:
       - db
     env_file:
       - ./.env
     ports:
-      - '8080:80'
+      - '8080:8080'
     volumes:
-      - pgadmin-data:/var/lib/pgadmin
-      - pgadmin-servers:/pgadmin4/servers.json
+      - dbadmin-data:/etc/omnidb
   db-backup:
     container_name: jv-backup
     image: prodrigestivill/postgres-backup-local
@@ -96,8 +95,7 @@ services:
 
 volumes:
   db-data:
-  pgadmin-data:
-  pgadmin-servers:
+  dbadmin-data:
   worker_nodemodules:
   client_nodemodules:
   server_nodemodules:
