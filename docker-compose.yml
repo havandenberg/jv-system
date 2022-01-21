@@ -10,6 +10,7 @@ services:
       - '5432:5432'
     volumes:
       - db-data:/var/lib/postgresql/data
+      - ${BACKUP_DIRECTORY}:/backups
   db-admin:
     container_name: jv-dbadmin
     image: taivokasper/omnidb
