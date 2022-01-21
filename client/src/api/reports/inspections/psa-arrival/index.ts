@@ -33,7 +33,7 @@ export const usePsaArrivalInspections = () => {
     useSortQueryParams();
   const [
     {
-      startDate = formatDate(add(new Date(), { days: -30 })),
+      startDate = formatDate(add(new Date(), { days: -14 })),
       endDate = formatDate(new Date()),
     },
   ] = useDateRangeQueryParams();
