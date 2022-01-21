@@ -90,7 +90,8 @@ AS $$
         variety,
         size,
         pack_type,
-        plu
+        plu,
+        shipper_id
       )
         VALUES (
           COALESCE(p.id, (select nextval('product.shipper_projection_product_id_seq'))),
@@ -98,7 +99,8 @@ AS $$
           p.variety,
           p.size,
           p.pack_type,
-          p.plu
+          p.plu,
+          p.shipper_id
         )
       ON CONFLICT (id) DO UPDATE SET
         species=EXCLUDED.species,

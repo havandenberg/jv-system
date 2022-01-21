@@ -71,6 +71,10 @@ export const useUpdateShipperProjection = () => {
         query: SHIPPER_PROJECTION_VESSEL_LIST_QUERY,
         variables,
       },
+      {
+        query: SHIPPER_PROJECTION_PRODUCT_LIST_QUERY,
+        variables,
+      },
     ],
   });
 };
@@ -92,7 +96,7 @@ export const useCreateShipperProjectionProducts = () => {
   return useMutation<Mutation>(SHIPPER_PROJECTION_PRODUCT_CREATE, {
     refetchQueries: [
       {
-        query: SHIPPER_PROJECTION_VESSEL_LIST_QUERY,
+        query: SHIPPER_PROJECTION_PRODUCT_LIST_QUERY,
         variables,
       },
     ],
@@ -105,6 +109,10 @@ export const useCreateShipperProjectionEntry = () => {
     refetchQueries: [
       {
         query: SHIPPER_PROJECTION_VESSEL_LIST_QUERY,
+        variables,
+      },
+      {
+        query: SHIPPER_PROJECTION_PRODUCT_LIST_QUERY,
         variables,
       },
     ],
