@@ -31,6 +31,7 @@ import b from 'ui/button';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
+import { useUserContext } from 'components/user/context';
 import {
   isDateGreaterThanOrEqualTo,
   isDateLessThanOrEqualTo,
@@ -363,12 +364,13 @@ const ShipperProjections = () => {
     hasValidProducts &&
     isEmpty(duplicateProductIds);
 
+  const [{ activeUserId }] = useUserContext();
   const [handleCreateUserMessages] = api.useCreateUserMessages();
 
   const handleSave = () => {
     setSaveAttempt(true);
     if (validate()) {
-      if (selectedShipper) {
+      if (selectedShipper && activeUserId) {
         handleCreateUserMessages({
           variables: {
             messages: [
@@ -384,7 +386,7 @@ const ShipperProjections = () => {
                 isRead: false,
                 messageDate: new Date().toISOString(),
                 priority: 3,
-                userId: 1,
+                userId: activeUserId,
               },
             ],
           },
