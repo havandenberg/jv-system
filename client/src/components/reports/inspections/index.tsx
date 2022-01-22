@@ -66,7 +66,7 @@ const Inspections = () => {
   const isArrival = InspectionTypes.ARRIVAL === selectedTabId;
   const { DateRangePicker } = useDateRange({
     allowEmpty: true,
-    placeholder: isArrival ? 'Last 30 days' : 'All dates',
+    placeholder: isArrival ? 'Last 14 days' : 'All dates',
   });
 
   const components = {

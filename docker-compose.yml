@@ -43,6 +43,7 @@ services:
       - ./.env
     ports:
       - 5433:5433
+    restart: always
     volumes:
       - ${PERU_INSPECTIONS_DIRECTORY}:/peru-departure-inspections
       - ${CHILE_INSPECTIONS_DIRECTORY}:/chile-departure-inspections
