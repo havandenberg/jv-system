@@ -2,12 +2,12 @@ version: '3'
 
 services:
   db:
-    container_name: 'jv-db'
-    image: 'postgres:13'
+    container_name: jv-db
+    image: postgres:13
     env_file:
       - ./.env
     ports:
-      - '5432:5432'
+      - 5432:5432
     volumes:
       - db-data:/var/lib/postgresql/data
       - ${BACKUP_DIRECTORY}:/backups
@@ -19,7 +19,7 @@ services:
     env_file:
       - ./.env
     ports:
-      - '8080:8080'
+      - 8080:8080
     volumes:
       - dbadmin-data:/etc/omnidb
   db-backup:
@@ -31,7 +31,7 @@ services:
     env_file:
       - ./.env
     ports:
-      - '8081:8080'
+      - 8081:8080
     volumes:
       - ${BACKUP_DIRECTORY}:/backups
   graphql:
@@ -49,14 +49,14 @@ services:
       - ${CHILE_INSPECTIONS_DIRECTORY}:/chile-departure-inspections
       - ${PSA_INSPECTIONS_DIRECTORY}:/psa-arrival-inspections
   server:
-    container_name: 'jv-server'
+    container_name: jv-server
     build: ./server
     depends_on:
       - db
     env_file:
       - ./.env
     ports:
-      - '3001:3001'
+      - 3001:3001
     volumes:
       - ./server:/server
       - server_nodemodules:/server/node_modules
@@ -64,7 +64,7 @@ services:
       - ${CHILE_INSPECTIONS_DIRECTORY}:/server/static/chile-departure-inspections
       - ${PSA_INSPECTIONS_DIRECTORY}:/server/static/psa-arrival-inspections
   worker:
-    container_name: 'jv-worker'
+    container_name: jv-worker
     build: ./worker
     depends_on:
       - db
@@ -72,7 +72,7 @@ services:
     env_file:
       - ./.env
     ports:
-      - '3002:3002'
+      - 3002:3002
     volumes:
       - ./worker:/worker
       - worker_nodemodules:/worker/node_modules
@@ -81,7 +81,7 @@ services:
       - ${PSA_INSPECTIONS_DIRECTORY}:/psa-arrival-inspections
       - ${JV_QC_INSPECTIONS_DIRECTORY}:/jv-qc-inspections
   client:
-    container_name: 'jv-client'
+    container_name: jv-client
     build: ./client
     depends_on:
       - db
@@ -90,7 +90,7 @@ services:
     env_file:
       - ./.env
     ports:
-      - '3000:3000'
+      - 3000:3000
     volumes:
       - ./client:/client
       - client_nodemodules:/client/node_modules

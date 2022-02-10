@@ -14,6 +14,7 @@ module.exports = {
     graphileBuildOptions: {
       connectionFilterRelations: true,
       orderByNullsLast: true,
+      retryOnInitFail: true,
     },
   },
 };
