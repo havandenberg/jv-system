@@ -18,14 +18,18 @@ const useDateVariables = () => {
 
 export const useAgendaItems = () => {
   const variables = useDateVariables();
-  const { data, error, loading } = useQuery<Query>(AGENDA_ITEMS_QUERY, {
-    variables,
-  });
+  const { data, error, loading, refetch } = useQuery<Query>(
+    AGENDA_ITEMS_QUERY,
+    {
+      variables,
+    },
+  );
 
   return {
     data: data ? data.agendaItems : undefined,
     error,
     loading,
+    refetch,
   };
 };
 

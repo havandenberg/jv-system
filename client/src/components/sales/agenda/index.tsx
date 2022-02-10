@@ -4,6 +4,7 @@ import { isEmpty, pluck, sortBy } from 'ramda';
 
 import api from 'api';
 import AddItem from 'components/add-item';
+import { BasicModal } from 'components/modal';
 import { formatDate } from 'components/date-range-picker';
 import Page from 'components/page';
 import { DataMessage } from 'components/page/message';
@@ -14,7 +15,7 @@ import b from 'ui/button';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
-import { getDateOfISOWeek } from 'utils/date';
+import { getDateOfISOWeek, getNextMeetingDay } from 'utils/date';
 
 import AgendaItem from './item';
 import { AgendaItemUpdate } from './types';
@@ -22,6 +23,7 @@ import { AgendaItemUpdate } from './types';
 const Agenda = () => {
   useScrollToTop();
   const {
+    handleDateChange,
     selectedWeekNumber,
     startDate,
     startDateQuery,
@@ -35,6 +37,9 @@ const Agenda = () => {
     singleSelection: true,
     weekChangeType: 'agenda',
   });
+  const isNextDate =
+    formatDate(startDate) === formatDate(getNextMeetingDay(new Date()));
+  const prevStartDate = usePrevious(startDate);
 
   const [changes, setChanges] = useState<AgendaItemUpdate[]>([]);
   const [newItemNextId, setNewItemNextId] = useState(-1);
@@ -42,7 +47,7 @@ const Agenda = () => {
   const [handleUpdate] = api.useUpdateAgendaItems();
   const [handleDeleteItem] = api.useDeleteAgendaItem();
 
-  const { data, loading, error } = api.useAgendaItems();
+  const { data, loading, error, refetch } = api.useAgendaItems();
   const previousLoading = usePrevious(loading);
   const items = data ? data.nodes : [];
 
@@ -50,6 +55,50 @@ const Agenda = () => {
     ...items.filter((it) => it && !pluck('id', changes).includes(it.id)),
     ...changes.filter((it) => it.itemDate === formatDate(startDate)),
   ] as AgendaItemUpdate[]);
+
+  const handleCopyAllToToday = () => {
+    handleUpdate({
+      variables: {
+        items: allItems.map((item, idx) => ({
+          content: item.content,
+          itemDate: formatDate(getNextMeetingDay(new Date())),
+          sortOrder: allItems.length + idx,
+        })),
+      },
+    }).then(() => {
+      const nextDate = getNextMeetingDay(new Date());
+      handleDateChange({
+        selection: {
+          startDate: nextDate,
+          endDate: nextDate,
+          key: 'selection',
+        },
+      });
+    });
+  };
+
+  const handleCopyToToday = (item: AgendaItemUpdate) => {
+    handleUpdate({
+      variables: {
+        items: [
+          {
+            content: item.content,
+            itemDate: formatDate(getNextMeetingDay(new Date())),
+            sortOrder: allItems.length,
+          },
+        ],
+      },
+    }).then(() => {
+      const nextDate = getNextMeetingDay(new Date());
+      handleDateChange({
+        selection: {
+          startDate: nextDate,
+          endDate: nextDate,
+          key: 'selection',
+        },
+      });
+    });
+  };
 
   const handleSave = (id: number, onComplete: () => void) => {
     handleUpdate({
@@ -148,11 +197,9 @@ const Agenda = () => {
   };
 
   const handleRemoveItem = (id: number, sortOrder: number) => {
-    if (id < 0) {
-      setChanges(changes.filter((item) => item.id !== id));
-    } else {
-      handleDeleteItem({ variables: { id } }).then(() => {});
-      const existingItems = items.filter(
+    if (id > -1) {
+      handleDeleteItem({ variables: { id } });
+      const existingItems = allItems.filter(
         (item) => item && item.sortOrder > sortOrder,
       );
       handleUpdate({
@@ -170,7 +217,14 @@ const Agenda = () => {
         },
       });
     }
+    setChanges(changes.filter((item) => item.id !== id));
   };
+
+  useEffect(() => {
+    if (!loading && prevStartDate !== startDate) {
+      refetch();
+    }
+  }, [loading, refetch, startDate, prevStartDate]);
 
   return (
     <Page
@@ -210,9 +264,42 @@ const Agenda = () => {
       }
       title="Meeting Agenda"
     >
+      <l.Flex alignCenter justifyBetween mb={th.spacing.lg}>
+        <AddItem
+          disabled={false}
+          onClick={() => {
+            handleChange([
+              {
+                id: newItemNextId,
+                content: '',
+                itemDate: formatDate(startDate),
+                sortOrder: allItems.length,
+              },
+            ]);
+            setNewItemNextId(newItemNextId - 1);
+          }}
+          text="Add agenda item"
+        />
+        {allItems.length > 0 && !isNextDate && (
+          <BasicModal
+            title="Copy All Items To Next Mtg"
+            content={
+              <ty.BodyText>
+                This will copy all items from current day's agenda to the next
+                upcoming meeting date. Please confirm.
+              </ty.BodyText>
+            }
+            confirmText="Confirm Copy All"
+            handleConfirm={handleCopyAllToToday}
+            triggerStyles={{ width: 215 }}
+            triggerText="Copy All To Next Mtg"
+          />
+        )}
+      </l.Flex>
       {allItems.map((item, idx) => (
         <AgendaItem
           handleChange={handleChange}
+          handleCopyToToday={handleCopyToToday}
           handleRemoveItem={handleRemoveItem}
           handleSave={handleSave}
           handleSortChange={handleSortChange}
@@ -221,6 +308,7 @@ const Agenda = () => {
               (ch) => ch.id === item.id && item.content !== ch.content,
             )
           }
+          isNextDate={isNextDate}
           item={item}
           key={`${item.id}-${item.sortOrder}`}
           selectedWeekNumber={selectedWeekNumber}
@@ -240,23 +328,7 @@ const Agenda = () => {
           }}
         />
       )}
-      <l.Div mb={th.spacing.xxl} mt={th.spacing.lg}>
-        <AddItem
-          disabled={false}
-          onClick={() => {
-            handleChange([
-              {
-                id: newItemNextId,
-                content: '',
-                itemDate: formatDate(startDate),
-                sortOrder: allItems.length,
-              },
-            ]);
-            setNewItemNextId(newItemNextId - 1);
-          }}
-          text="Add agenda item"
-        />
-      </l.Div>
+      <l.Div height={th.spacing.xxl} />
     </Page>
   );
 };

@@ -12,10 +12,12 @@ import { AgendaItemProps } from './types';
 
 const AgendaItem = ({
   handleChange,
+  handleCopyToToday,
   handleRemoveItem,
   handleSave,
   handleSortChange,
   hasChanges,
+  isNextDate,
   item,
   isFirst,
   isLast,
@@ -76,13 +78,13 @@ const AgendaItem = ({
 
   return (
     <l.Div
-      borderBottom={th.borders.disabled}
-      pb={th.spacing.lg}
-      mb={th.spacing.lg}
+      borderTop={th.borders.disabled}
+      pt={th.spacing.lg}
+      mt={th.spacing.lg}
       minHeight={250}
       relative
     >
-      <l.Div mr={175} overflow="hidden">
+      <l.Div mr={185} overflow="hidden">
         <l.Div m={-1}>
           <JoditEditor
             ref={ref}
@@ -94,7 +96,7 @@ const AgendaItem = ({
         </l.Div>
       </l.Div>
       {!editing && (
-        <l.Div position="absolute" right={113} top={7}>
+        <l.Div position="absolute" right={128} top={35}>
           <SortControl
             disableUp={isFirst}
             disableDown={isLast}
@@ -109,7 +111,7 @@ const AgendaItem = ({
           />
         </l.Div>
       )}
-      <l.Flex column position="absolute" right={0} top={0}>
+      <l.Flex column position="absolute" right={0} top={th.spacing.lg}>
         {editing ? (
           <Fragment key={0}>
             <BasicModal
@@ -122,23 +124,34 @@ const AgendaItem = ({
               confirmText="Discard"
               handleConfirm={handleCancel}
               shouldConfirm={item.id >= 0 || hasChanges}
-              triggerStyles={{ mb: th.spacing.md, width: 100 }}
+              triggerStyles={{ mb: th.spacing.md, width: 115 }}
               triggerText="Cancel"
             />
             <b.Primary
               onClick={() => {
                 handleSave(item.id, handleCancel);
               }}
-              width={100}
+              width={115}
             >
               Save
             </b.Primary>
           </Fragment>
         ) : (
           <Fragment key={1}>
-            <b.Primary onClick={handleEdit} width={100}>
+            <b.Primary onClick={handleEdit} width={115}>
               Edit
             </b.Primary>
+            {!isNextDate && (
+              <b.Primary
+                onClick={() => handleCopyToToday(item)}
+                height="auto"
+                mt={th.spacing.md}
+                py={th.spacing.tn}
+                width={115}
+              >
+                Copy To Next Mtg
+              </b.Primary>
+            )}
             <BasicModal
               title="Confirm Remove Item"
               content={
@@ -148,7 +161,7 @@ const AgendaItem = ({
               }
               confirmText="Remove"
               handleConfirm={() => handleRemoveItem(item.id, item.sortOrder)}
-              triggerStyles={{ mt: th.spacing.md, width: 100 }}
+              triggerStyles={{ mt: th.spacing.md, width: 115 }}
               triggerText="Remove"
             />
           </Fragment>

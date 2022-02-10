@@ -41,6 +41,11 @@ export const getClosestMeetingDay = (date: Date) => {
   }
 };
 
+export const getNextMeetingDay = (date: Date) =>
+  add(startOfISOWeek(date), {
+    days: getDay(date) === 1 ? 0 : [2, 3].includes(getDay(date)) ? 2 : 7,
+  });
+
 export const isMondayOrWednesday = (date: Date) =>
   isMonday(date) || isWednesday(date);
 

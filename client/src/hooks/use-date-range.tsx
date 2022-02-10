@@ -69,7 +69,7 @@ const useDateRange = (props?: Omit<DateRangeProps, 'onClear'>) => {
         case 'agenda':
           if (isMonday(startDate)) {
             return add(startDate, {
-              days: direction > 0 ? 3 : -4,
+              days: direction > 0 ? 2 : -5,
             });
           }
           if (isWednesday(startDate)) {
@@ -138,6 +138,7 @@ const useDateRange = (props?: Omit<DateRangeProps, 'onClear'>) => {
   });
 
   return {
+    handleClear,
     handleDateChange,
     selectedDates,
     selectedWeekNumber,
