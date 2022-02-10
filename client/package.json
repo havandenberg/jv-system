@@ -30,7 +30,7 @@
     "date-fns": "^2.16.1",
     "graphql": "^15.5.0",
     "graphql.macro": "^1.4.2",
-    "jodit-react": "^1.0.81",
+    "jodit-react": "^1.1.21",
     "onno-react": "^1.0.0",
     "query-string": "^6.13.8",
     "ramda": "^0.27.1",
@@ -56,7 +56,7 @@
     "stream-transform": "^2.0.4",
     "typescript": "^4.0.3",
     "use-query-params": "^1.1.9",
-    "web-vitals": "^0.2.4",
+    "web-vitals": "^2.1.4",
     "xlsx": "^0.16.9"
   },
   "scripts": {
