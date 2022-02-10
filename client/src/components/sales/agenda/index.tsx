@@ -236,7 +236,7 @@ const Agenda = () => {
           <b.Primary>Price Sheet</b.Primary>
         </l.AreaLink>,
       ]}
-      extraPaddingTop={86}
+      extraPaddingTop={137}
       headerChildren={
         <>
           <l.Flex alignCenter>
@@ -260,42 +260,42 @@ const Agenda = () => {
               {`(${getDateOfISOWeek(selectedWeekNumber + 1, 'M/d')})`}
             </ty.BodyText>
           </l.Flex>
+          <l.Flex alignCenter justifyBetween mb={th.spacing.md}>
+            <AddItem
+              disabled={allItems.length > items.length}
+              onClick={() => {
+                handleChange([
+                  {
+                    id: newItemNextId,
+                    content: '',
+                    itemDate: formatDate(startDate),
+                    sortOrder: allItems.length,
+                  },
+                ]);
+                setNewItemNextId(newItemNextId - 1);
+              }}
+              text="Add agenda item"
+            />
+            {allItems.length > 0 && !isNextDate && (
+              <BasicModal
+                title="Copy All Items To Next Mtg"
+                content={
+                  <ty.BodyText>
+                    This will copy all items from current day's agenda to the
+                    next upcoming meeting date. Please confirm.
+                  </ty.BodyText>
+                }
+                confirmText="Confirm Copy All"
+                handleConfirm={handleCopyAllToToday}
+                triggerStyles={{ width: 215 }}
+                triggerText="Copy All To Next Mtg"
+              />
+            )}
+          </l.Flex>
         </>
       }
       title="Meeting Agenda"
     >
-      <l.Flex alignCenter justifyBetween mb={th.spacing.lg}>
-        <AddItem
-          disabled={false}
-          onClick={() => {
-            handleChange([
-              {
-                id: newItemNextId,
-                content: '',
-                itemDate: formatDate(startDate),
-                sortOrder: allItems.length,
-              },
-            ]);
-            setNewItemNextId(newItemNextId - 1);
-          }}
-          text="Add agenda item"
-        />
-        {allItems.length > 0 && !isNextDate && (
-          <BasicModal
-            title="Copy All Items To Next Mtg"
-            content={
-              <ty.BodyText>
-                This will copy all items from current day's agenda to the next
-                upcoming meeting date. Please confirm.
-              </ty.BodyText>
-            }
-            confirmText="Confirm Copy All"
-            handleConfirm={handleCopyAllToToday}
-            triggerStyles={{ width: 215 }}
-            triggerText="Copy All To Next Mtg"
-          />
-        )}
-      </l.Flex>
       {allItems.map((item, idx) => (
         <AgendaItem
           handleChange={handleChange}

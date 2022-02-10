@@ -1,4 +1,4 @@
-import React, { Fragment, useRef, useState } from 'react';
+import React, { Fragment, useEffect, useRef, useState } from 'react';
 import JoditEditor, { JoditProps } from 'jodit-react';
 
 import { BasicModal } from 'components/modal';
@@ -23,7 +23,8 @@ const AgendaItem = ({
   isLast,
   onCancel,
 }: AgendaItemProps) => {
-  const ref = useRef(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const ref = useRef<JoditEditor>(null);
   const [editing, setEditing] = useState(item.id < 0);
 
   const config: Partial<JoditProps['config']> & any = {
@@ -76,13 +77,20 @@ const AgendaItem = ({
     onCancel(item.id);
   };
 
+  useEffect(() => {
+    if (editing) {
+      containerRef.current?.scrollIntoView();
+    }
+  }, [editing]);
+
   return (
     <l.Div
       borderTop={th.borders.disabled}
       pt={th.spacing.lg}
-      mt={th.spacing.lg}
+      mb={th.spacing.lg}
       minHeight={250}
       relative
+      ref={containerRef}
     >
       <l.Div mr={185} overflow="hidden">
         <l.Div m={-1}>
