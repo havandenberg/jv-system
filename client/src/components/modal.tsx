@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import ReactModal from 'react-modal';
 import { ClipLoader } from 'react-spinners';
 
-import Remove from 'assets/images/remove';
+import Remove from 'assets/images/minus-in-circle';
 import b from 'ui/button';
 import l, { DivProps } from 'ui/layout';
 import th from 'ui/theme';

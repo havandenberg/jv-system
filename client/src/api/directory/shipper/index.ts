@@ -16,7 +16,7 @@ export const SHIPPER_DETAILS_QUERY = loader('./details.gql');
 const SHIPPER_LIST_QUERY = loader('./list.gql');
 const SHIPPER_UPDATE = loader('./update.gql');
 
-export const useShippers = () => {
+export const useShippers = (orderByOverride?: string) => {
   const [search = ''] = useSearchQueryParam();
   const [{ sortBy = 'shipperName', sortOrder = SORT_ORDER.ASC }] =
     useSortQueryParams();
@@ -35,7 +35,7 @@ export const useShippers = () => {
   const { data, error, loading } = useQuery<Query>(SHIPPER_LIST_QUERY, {
     variables: {
       country: filteredCountryValues,
-      orderBy,
+      orderBy: orderByOverride || orderBy,
       search: getSearchArray(search),
     },
   });

@@ -18,7 +18,10 @@ export type ProductUpdate = Pick<
   ShipperProjectionProduct,
   'id' | 'species' | 'variety' | 'size' | 'packType' | 'plu'
 >;
-export type EntryUpdate = Pick<ShipperProjectionEntry, 'id' | 'palletCount'>;
+export type EntryUpdate = Pick<
+  ShipperProjectionEntry,
+  'id' | 'palletCount' | 'shipperProjectionId'
+>;
 export type UpdateType = VesselUpdate | ProductUpdate | EntryUpdate;
 
 export type NewVessel = Pick<
@@ -37,10 +40,10 @@ export type NewProduct = Pick<
 >;
 export type NewEntry = Pick<
   ShipperProjectionEntry,
-  'id' | 'palletCount' | 'productId' | 'vesselId'
+  'id' | 'palletCount' | 'productId' | 'vesselId' | 'shipperProjectionId'
 >;
 
-export interface ShipperProjectionChanges {
+export interface ShipperProjectionGridChanges {
   vesselUpdates: VesselUpdate[];
   productUpdates: ProductUpdate[];
   entryUpdates: EntryUpdate[];
@@ -55,14 +58,14 @@ export interface NewItemNextIds {
   entry: number;
 }
 
-export interface ShipperProjectionState {
-  changes: ShipperProjectionChanges;
+export interface ShipperProjectionGridState {
+  changes: ShipperProjectionGridChanges;
   newItemNextIds: NewItemNextIds;
   removedProductIds: number[];
   skippedWeeks: string[];
 }
 
-export interface ShipperProjectionProps {
+export interface ShipperProjectionGridProps {
   changeHandlers: {
     handleVesselChange: (update: VesselUpdate) => void;
     handleEntryChange: (update: EntryUpdate) => void;
@@ -76,6 +79,7 @@ export interface ShipperProjectionProps {
     handleRemoveNewVessel: (id: number) => void;
     handleRemoveProduct: (id: number) => void;
   };
+  selectedShipper?: string;
   valueGetters: {
     getVesselValue: (
       vessel: Maybe<ShipperProjectionVessel> | undefined,

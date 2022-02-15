@@ -1,9 +1,7 @@
 import React, { useEffect } from 'react';
-import styled from '@emotion/styled';
 import { add, format, startOfISOWeek } from 'date-fns';
 import { times } from 'ramda';
 
-import ArrowInCircle from 'assets/images/arrow-in-circle';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
@@ -11,13 +9,6 @@ import { getCurrentWeekNumber, getWeekNumber, isCurrentWeek } from 'utils/date';
 
 import { gridTemplateColumns } from '.';
 import DoubleArrowInCircle from 'assets/images/double-arrow-in-circle';
-
-const WeekArrowButton = styled(l.HoverButton)({
-  position: 'absolute',
-  borderRadius: '50%',
-  boxShadow: th.shadows.boxLight,
-  top: 14,
-});
 
 interface Props {
   collapseAllItems: () => void;
@@ -119,32 +110,10 @@ const Header = ({
             pt={th.spacing.xs}
           >
             <l.Flex alignCenter relative>
-              {isFirst && (
-                <WeekArrowButton left={-26} onClick={handleBackward}>
-                  <ArrowInCircle
-                    fill={th.colors.brand.primary}
-                    height={th.sizes.xs}
-                    width={th.sizes.xs}
-                  />
-                </WeekArrowButton>
-              )}
               <ty.BodyText bold={isCurrentWeekVal} nowrap>
                 {isFirst ? 'Week ' : ''}
                 {displayedWeekNumber}
               </ty.BodyText>
-              {isFirst && showForwardArrow && (
-                <WeekArrowButton
-                  onClick={handleForward}
-                  transform="scaleX(-1)"
-                  right={-26}
-                >
-                  <ArrowInCircle
-                    fill={th.colors.brand.primary}
-                    height={th.sizes.xs}
-                    width={th.sizes.xs}
-                  />
-                </WeekArrowButton>
-              )}
             </l.Flex>
             <ty.SmallText bold={isCurrentWeekVal} mt={th.spacing.tn} secondary>
               {format(startOfWeek, 'MMM d')}

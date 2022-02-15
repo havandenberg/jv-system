@@ -237,14 +237,11 @@ const Inventory = () => {
 
   return (
     <Page
-      actions={[
-        <l.AreaLink key={0} mr={th.spacing.md} to="/sales/inventory/pallets">
+      actions={
+        <l.AreaLink to="/sales/inventory/pallets">
           <b.Primary>Pallet Search</b.Primary>
-        </l.AreaLink>,
-        <l.AreaLink key={1} to="/sales/inventory/projections">
-          <b.Primary>Projections</b.Primary>
-        </l.AreaLink>,
-      ]}
+        </l.AreaLink>
+      }
       enableShadow={false}
       extraPaddingTop={
         itemsLoading || isEmpty(filteredItems)

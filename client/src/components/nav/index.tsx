@@ -23,17 +23,18 @@ export const navItems: NavItemType[] = [
     dashboardItems: [
       { isDev: true, text: 'Inventory', to: 'inventory' },
       { isDev: true, text: 'Vessels', to: 'vessels' },
-      { isDev: true, text: 'Projections', to: 'inventory/projections' },
-      { isDev: true, text: 'Calendar', to: 'calendar' },
+      { isDev: true, text: 'Projections', to: 'projections' },
       { text: 'Price Sheet', to: 'price-sheet' },
       { text: 'Agenda', to: 'agenda' },
+      { isDev: true, text: 'Calendar', to: 'calendar' },
     ],
     secondaryItems: [
       { isDev: true, text: 'Inventory', to: 'inventory' },
       { isDev: true, text: 'Vessels', to: 'vessels' },
-      { isDev: true, text: 'Calendar', to: 'calendar' },
+      { isDev: true, text: 'Projections', to: 'projections' },
       { text: 'Price Sheet', to: 'price-sheet' },
       { text: 'Agenda', to: 'agenda' },
+      { isDev: true, text: 'Calendar', to: 'calendar' },
     ],
   },
   {

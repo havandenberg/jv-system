@@ -6,6 +6,7 @@ export const colors = {
   black: '#00080F',
   white: '#FFFFFF',
   brand: {
+    containerBackgroundLight: 'rgba(3,41,74,0.025)',
     containerBackground: 'rgba(3,41,74,0.05)',
     containerBackgroundAccent: 'rgba(3,41,74,0.1)',
     primary: '#03294A',
@@ -103,6 +104,7 @@ export const borders = {
   secondary: `1px solid ${colors.brand.secondary}`,
   disabled: `1px solid ${colors.brand.disabled}`,
   transparent: '1px solid transparent',
+  warning: `1px solid ${colors.status.warning}`,
 };
 
 export const borderRadii = { circle: '50%', default: 6, input: 30 };

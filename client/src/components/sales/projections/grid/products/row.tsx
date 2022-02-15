@@ -1,15 +1,15 @@
 import React, { ChangeEvent } from 'react';
 import { ApolloError } from '@apollo/client';
 import styled from '@emotion/styled';
-import { sortBy, uniqBy } from 'ramda';
+import { equals, sortBy, uniqBy } from 'ramda';
 
-import MinusInCircle from 'assets/images/minus-in-circle';
 import PlusInCircle from 'assets/images/plus-in-circle';
 import EditableCell, {
   EDITABLE_CELL_HEIGHT,
   Input,
 } from 'components/editable-cell';
-import ItemSelector from 'components/item-selector';
+import useItemSelector from 'components/item-selector';
+import { BasicModal } from 'components/modal';
 import { ShipperProjectionProduct, ShipperProjectionVessel } from 'types';
 import l, { divPropsSet } from 'ui/layout';
 import th from 'ui/theme';
@@ -17,7 +17,7 @@ import ty from 'ui/typography';
 
 import {
   ShipperProjectionProductWithEntries,
-  ShipperProjectionProps,
+  ShipperProjectionGridProps,
 } from '../types';
 
 const ProductWrapper = styled(l.Grid)(
@@ -31,7 +31,7 @@ const ProductWrapper = styled(l.Grid)(
 export const NewProductRow = ({
   newItemHandlers: { handleNewProduct },
   hasProducts,
-}: ShipperProjectionProps & { hasProducts: boolean }) => {
+}: ShipperProjectionGridProps & { hasProducts: boolean }) => {
   const newProduct = {
     id: -1,
     species: '',
@@ -76,15 +76,12 @@ export const ProductTotalRow = ({
     gridColumnGap={th.spacing.md}
     gridTemplateColumns={gridTemplateColumns}
     mt={species === 'Grand' ? `-${th.spacing.sm}` : th.spacing.xs}
+    py={th.spacing.md}
     relative
   >
-    <l.Flex
-      alignCenter
-      justifyEnd
-      width={`calc(${th.sizes.fill} - ${th.spacing.sm})`}
-    >
-      <ty.CaptionText bold={species === 'Grand'} secondary>
-        {species} Total Pallets
+    <l.Flex alignCenter justifyEnd ml={52}>
+      <ty.CaptionText bold textAlign="right">
+        {species === 'Grand' ? 'Grand ' : ''}Total Pallets:
       </ty.CaptionText>
     </l.Flex>
     {productTotals.map((total, idx) => (
@@ -97,6 +94,16 @@ export const ProductTotalRow = ({
   </ProductWrapper>
 );
 
+const Cell = styled(l.Flex)(({ isEvenRow }: { isEvenRow: boolean }) => ({
+  alignItems: 'center',
+  background: isEvenRow
+    ? th.colors.background
+    : th.colors.brand.containerBackground,
+  height: 22,
+  padding: `0 ${th.spacing.sm}`,
+  width: `calc(${th.sizes.fill} - ${th.spacing.sm}`,
+}));
+
 const ProductRow = (
   props: {
     allProducts: ShipperProjectionProduct[];
@@ -104,10 +111,15 @@ const ProductRow = (
     allProductsLoading: boolean;
     duplicateProductIds: number[];
     gridTemplateColumns: string;
+    index: number;
+    isEvenRow: boolean;
     product: ShipperProjectionProductWithEntries;
+    showSpecies: boolean;
+    showVariety: boolean;
+    selectedShipper?: string;
     showErrors: boolean;
     vessels: ShipperProjectionVessel[];
-  } & ShipperProjectionProps,
+  } & ShipperProjectionGridProps,
 ) => {
   const {
     changeHandlers: { handleEntryChange, handleProductChange },
@@ -119,7 +131,11 @@ const ProductRow = (
     allProductsLoading,
     duplicateProductIds,
     gridTemplateColumns,
+    isEvenRow,
     product,
+    selectedShipper,
+    showSpecies,
+    showVariety,
     showErrors,
     vessels,
   } = props;
@@ -195,6 +211,7 @@ const ProductRow = (
         onChange: (e: ChangeEvent<HTMLInputElement>) => {
           handleChange(type, e.target.value);
         },
+        warning: !equals(product[type], value),
       },
       error: allProductsError,
       excludedItems: [],
@@ -211,6 +228,26 @@ const ProductRow = (
     };
   };
 
+  const { ItemSelector: SpeciesItemSelector } = useItemSelector({
+    errorLabel: 'species',
+    ...getValueSelectorProps('species'),
+  });
+
+  const { ItemSelector: VarietyItemSelector } = useItemSelector({
+    errorLabel: 'varieties',
+    ...getValueSelectorProps('variety'),
+  });
+
+  const { ItemSelector: SizeItemSelector } = useItemSelector({
+    errorLabel: 'sizes',
+    ...getValueSelectorProps('size'),
+  });
+
+  const { ItemSelector: PackTypeItemSelector } = useItemSelector({
+    errorLabel: 'pack types',
+    ...getValueSelectorProps('packType'),
+  });
+
   return (
     <ProductWrapper
       gridColumnGap={th.spacing.md}
@@ -224,74 +261,142 @@ const ProductRow = (
         ml={52}
         relative
       >
-        <l.HoverButton
-          onClick={() => {
-            handleRemoveProduct(id);
-          }}
-          position="absolute"
-          left={-45}
-        >
-          <MinusInCircle height={th.sizes.xs} width={th.sizes.xs} />
-        </l.HoverButton>
-        <l.HoverButton
-          onClick={() => {
-            handleNewProduct(updatedProduct);
-          }}
-          position="absolute"
-          left={-22}
-        >
-          <PlusInCircle height={th.sizes.xs} width={th.sizes.xs} />
-        </l.HoverButton>
-        <ItemSelector
-          errorLabel="Species"
-          {...getValueSelectorProps('species')}
-        />
+        {selectedShipper && (
+          <>
+            <BasicModal
+              title="Confirm Remove Product"
+              content={
+                <ty.BodyText mb={th.spacing.md}>
+                  Are you sure you want to remove this product? This action
+                  cannot be undone.
+                </ty.BodyText>
+              }
+              handleConfirm={() => {
+                handleRemoveProduct(id);
+              }}
+              shouldConfirm={product.id >= 0}
+              triggerStyles={{
+                position: 'absolute',
+                left: -45,
+              }}
+              triggerType="remove-icon"
+            />
+            <l.HoverButton
+              onClick={() => {
+                handleNewProduct(updatedProduct);
+              }}
+              position="absolute"
+              left={-22}
+            >
+              <PlusInCircle height={th.sizes.xs} width={th.sizes.xs} />
+            </l.HoverButton>
+          </>
+        )}
+        {selectedShipper ? (
+          SpeciesItemSelector
+        ) : showSpecies ? (
+          <Cell isEvenRow={isEvenRow}>
+            <ty.CaptionText bold>{product.species}</ty.CaptionText>
+          </Cell>
+        ) : (
+          <div />
+        )}
         {species && (
           <>
-            <ItemSelector
-              errorLabel="Varieties"
-              {...getValueSelectorProps('variety')}
-            />
-            <ItemSelector
-              errorLabel="Sizes"
-              {...getValueSelectorProps('size')}
-            />
-            <ItemSelector
-              errorLabel="Pack Types"
-              {...getValueSelectorProps('packType')}
-            />
+            {selectedShipper ? (
+              VarietyItemSelector
+            ) : showVariety ? (
+              <Cell isEvenRow={isEvenRow}>
+                <ty.CaptionText>{product.variety}</ty.CaptionText>
+              </Cell>
+            ) : (
+              <div />
+            )}
+            {selectedShipper ? (
+              SizeItemSelector
+            ) : (
+              <Cell isEvenRow={isEvenRow}>
+                <ty.CaptionText>{product.size}</ty.CaptionText>
+              </Cell>
+            )}
+            {selectedShipper ? (
+              PackTypeItemSelector
+            ) : (
+              <Cell isEvenRow={isEvenRow}>
+                <ty.CaptionText>{product.packType}</ty.CaptionText>
+              </Cell>
+            )}
             <EditableCell
               content={{ dirty: false, value: plu || '' }}
-              defaultChildren={null}
-              editing={true}
+              defaultChildren={
+                <l.Flex
+                  alignCenter
+                  bg={
+                    isEvenRow
+                      ? th.colors.background
+                      : th.colors.brand.containerBackground
+                  }
+                  height={22}
+                  px={th.spacing.tn}
+                  width={th.sizes.fill}
+                >
+                  <ty.CaptionText>{plu || '-'}</ty.CaptionText>
+                </l.Flex>
+              }
+              editing={!!selectedShipper}
               error={showErrors && isDuplicate}
               onChange={(e) => {
                 handleChange('plu', e.target.value);
               }}
+              showBorder={false}
             />
           </>
         )}
       </l.Grid>
       {vessels.map((vessel, idx) => {
         const entry = entries.find((entry) => entry.vesselId === vessel.id);
-        return entry ? (
-          <l.Flex justifyCenter key={idx} mx={th.spacing.sm}>
-            <Input
-              dirty={false}
-              editing={true}
-              type="number"
-              min={0}
-              onChange={(e) => {
-                handleEntryChange({ ...entry, palletCount: e.target.value });
-              }}
-              textAlign="center"
-              value={getEntryValue(entry, 'palletCount').value}
-            />
+        return (
+          <l.Flex
+            alignCenter
+            bg={
+              selectedShipper
+                ? undefined
+                : isEvenRow
+                ? th.colors.background
+                : th.colors.brand.containerBackground
+            }
+            height={th.sizes.fill}
+            justifyCenter
+            key={idx}
+            mx={th.spacing.sm}
+          >
+            {entry ? (
+              selectedShipper ? (
+                <Input
+                  dirty={false}
+                  editing={true}
+                  type="number"
+                  min={0}
+                  onChange={(e) => {
+                    handleEntryChange({
+                      ...entry,
+                      palletCount: e.target.value,
+                    });
+                  }}
+                  textAlign="center"
+                  value={getEntryValue(entry, 'palletCount').value}
+                />
+              ) : (
+                <ty.CaptionText center mr={th.spacing.md}>
+                  {entry.palletCount}
+                </ty.CaptionText>
+              )
+            ) : (
+              <ty.CaptionText center mr={th.spacing.md}>
+                {vessel.id === 0 ? '' : '-'}
+              </ty.CaptionText>
+            )}
           </l.Flex>
-        ) : (
-          <ty.CaptionText key={idx} center mr={th.spacing.md}>
-            {vessel.id === 0 ? '' : '-'}
-          </ty.CaptionText>
         );
       })}
     </ProductWrapper>

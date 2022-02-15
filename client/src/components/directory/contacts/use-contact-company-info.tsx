@@ -3,7 +3,7 @@ import { sortBy, prop, equals } from 'ramda';
 
 import api from 'api';
 import RemoveImg from 'assets/images/remove';
-import ItemSelector from 'components/item-selector';
+import useItemSelector from 'components/item-selector';
 import usePrevious from 'hooks/use-previous';
 import { Customer, Maybe, Shipper, Warehouse } from 'types';
 import l from 'ui/layout';
@@ -127,6 +127,47 @@ const useContactCompanyInfo = ({
     ? [warehouse, ...sortBy(prop('warehouseName'), additionalWarehouses)]
     : [];
 
+  const { ItemSelector: CustomerItemSelector } = useItemSelector<Customer>({
+    selectItem: (c) => {
+      setAdditionalCustomers([...additionalCustomers, c]);
+    },
+    allItems: (customerData ? customerData.nodes : []) as Customer[],
+    excludedItems: allCustomers,
+    error: customerDataError,
+    errorLabel: 'Customers',
+    loading: customerDataLoading,
+    nameKey: 'customerName',
+    placeholder: 'Add customers',
+  });
+
+  const { ItemSelector: ShipperItemSelector } = useItemSelector<Shipper>({
+    selectItem: (s) => {
+      setAdditionalShippers([...additionalShippers, s]);
+    },
+    allItems: (shipperData ? shipperData.nodes : []) as Shipper[],
+    excludedItems: allShippers,
+    error: shipperDataError,
+    errorLabel: 'Shippers',
+    loading: shipperDataLoading,
+    nameKey: 'shipperName',
+    placeholder: 'Add shippers',
+    width: 350,
+  });
+
+  const { ItemSelector: WarehouseItemSelector } = useItemSelector<Warehouse>({
+    selectItem: (w) => {
+      setAdditionalWarehouses([...additionalWarehouses, w]);
+    },
+    allItems: (warehouseData ? warehouseData.nodes : []) as Warehouse[],
+    excludedItems: allWarehouses,
+    error: warehouseDataError,
+    errorLabel: 'Warehouses',
+    loading: warehouseDataLoading,
+    nameKey: 'warehouseName',
+    placeholder: 'Add warehouses',
+    width: 350,
+  });
+
   const handleReset = () => {
     setAdditionalCustomers(defaultAdditionalCustomers);
     setAdditionalShippers(defaultAdditionalShippers);
@@ -169,22 +210,7 @@ const useContactCompanyInfo = ({
         {editing && (
           <>
             <div />
-            <l.Flex pt={th.spacing.sm}>
-              <ItemSelector<Customer>
-                selectItem={(c) => {
-                  setAdditionalCustomers([...additionalCustomers, c]);
-                }}
-                allItems={
-                  (customerData ? customerData.nodes : []) as Customer[]
-                }
-                excludedItems={allCustomers}
-                error={customerDataError}
-                errorLabel="Customers"
-                loading={customerDataLoading}
-                nameKey="customerName"
-                placeholder="Add customers"
-              />
-            </l.Flex>
+            <l.Flex pt={th.spacing.sm}>{CustomerItemSelector}</l.Flex>
           </>
         )}
       </l.Grid>
@@ -203,21 +229,7 @@ const useContactCompanyInfo = ({
       {editing && (
         <>
           <div />
-          <l.Flex pt={th.spacing.sm}>
-            <ItemSelector<Shipper>
-              selectItem={(s) => {
-                setAdditionalShippers([...additionalShippers, s]);
-              }}
-              allItems={(shipperData ? shipperData.nodes : []) as Shipper[]}
-              excludedItems={allShippers}
-              error={shipperDataError}
-              errorLabel="Shippers"
-              loading={shipperDataLoading}
-              nameKey="shipperName"
-              placeholder="Add shippers"
-              width={350}
-            />
-          </l.Flex>
+          <l.Flex pt={th.spacing.sm}>{ShipperItemSelector}</l.Flex>
         </>
       )}
     </l.Grid>
@@ -235,23 +247,7 @@ const useContactCompanyInfo = ({
       {editing && (
         <>
           <div />
-          <l.Flex pt={th.spacing.sm}>
-            <ItemSelector<Warehouse>
-              selectItem={(w) => {
-                setAdditionalWarehouses([...additionalWarehouses, w]);
-              }}
-              allItems={
-                (warehouseData ? warehouseData.nodes : []) as Warehouse[]
-              }
-              error={warehouseDataError}
-              errorLabel="Warehouses"
-              excludedItems={allWarehouses}
-              loading={warehouseDataLoading}
-              nameKey="warehouseName"
-              placeholder="Add warehouses"
-              width={350}
-            />
-          </l.Flex>
+          <l.Flex pt={th.spacing.sm}>{WarehouseItemSelector}</l.Flex>
         </>
       )}
     </l.Grid>

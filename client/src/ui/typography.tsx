@@ -30,6 +30,7 @@ interface CustomTextProps {
   link?: boolean;
   nowrap?: boolean;
   secondary?: boolean;
+  textOverflow?: string;
 }
 
 export type TextProps = SpaceSetProps &
@@ -51,6 +52,7 @@ const customProps = ({
   link,
   nowrap,
   secondary,
+  textOverflow,
 }: CustomTextProps): any => ({
   color: inverted ? th.colors.text.inv : undefined,
   cursor: link ? 'pointer' : undefined,
@@ -62,6 +64,7 @@ const customProps = ({
     ? th.opacities.secondary
     : 1,
   textAlign: center ? 'center' : undefined,
+  textOverflow,
   whiteSpace: nowrap ? 'nowrap' : undefined,
   ':hover': {
     opacity: link ? 1 : undefined,

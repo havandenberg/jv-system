@@ -68,7 +68,6 @@ const ClearWrapper = styled(IconWrapper)({
 });
 
 const PickerWrapper = styled(l.Div)({
-  left: 0,
   paddingTop: th.spacing.sm,
   position: 'absolute',
   top: th.heights.input + 2,
@@ -105,6 +104,7 @@ export interface DateRangeProps extends DateRangePickerProps {
   allowEmpty?: boolean;
   hideDefinedRanges?: boolean;
   onClear: () => void;
+  offsetLeft?: string | number;
   placeholder?: string;
   showAsWeekNumber?: boolean;
   showLongDate?: boolean;
@@ -116,6 +116,7 @@ const DateRangePicker = ({
   hideDefinedRanges,
   onChange,
   onClear,
+  offsetLeft = 0,
   placeholder = 'All dates',
   ranges,
   showAsWeekNumber,
@@ -175,7 +176,7 @@ const DateRangePicker = ({
         )}
       </Control>
       {show && (
-        <PickerWrapper>
+        <PickerWrapper left={offsetLeft}>
           <DateRange
             className={hideDefinedRanges ? 'hideDefinedRanges' : undefined}
             direction="horizontal"

@@ -152,6 +152,8 @@ export type Query = Node & {
   productSpecieses?: Maybe<ProductSpeciesConnection>;
   /** Reads and enables pagination through a set of `ProductVariety`. */
   productVarieties?: Maybe<ProductVarietiesConnection>;
+  /** Reads and enables pagination through a set of `ShipperProjection`. */
+  shipperProjections?: Maybe<ShipperProjectionsConnection>;
   /** Reads and enables pagination through a set of `ShipperProjectionEntry`. */
   shipperProjectionEntries?: Maybe<ShipperProjectionEntriesConnection>;
   /** Reads and enables pagination through a set of `ShipperProjectionProduct`. */
@@ -230,12 +232,14 @@ export type Query = Node & {
   productSize?: Maybe<ProductSize>;
   productSpecies?: Maybe<ProductSpecies>;
   productVariety?: Maybe<ProductVariety>;
+  shipperProjection?: Maybe<ShipperProjection>;
   shipperProjectionEntry?: Maybe<ShipperProjectionEntry>;
   shipperProjectionProduct?: Maybe<ShipperProjectionProduct>;
   shipperProjectionVessel?: Maybe<ShipperProjectionVessel>;
   vessel?: Maybe<Vessel>;
   distinctValues?: Maybe<DistinctValuesConnection>;
   customerDistinctValues?: Maybe<CustomerDistinctValuesConnection>;
+  shipperDistinctValues?: Maybe<ShipperDistinctValuesConnection>;
   /** Reads and enables pagination through a set of `ChileDepartureInspection`. */
   chileDepartureInspections?: Maybe<ChileDepartureInspectionsConnection>;
   psaInspectionVesselDistinctValues?: Maybe<PsaInspectionVesselDistinctValuesConnection>;
@@ -351,6 +355,8 @@ export type Query = Node & {
   productSpeciesByNodeId?: Maybe<ProductSpecies>;
   /** Reads a single `ProductVariety` using its globally unique `ID`. */
   productVarietyByNodeId?: Maybe<ProductVariety>;
+  /** Reads a single `ShipperProjection` using its globally unique `ID`. */
+  shipperProjectionByNodeId?: Maybe<ShipperProjection>;
   /** Reads a single `ShipperProjectionEntry` using its globally unique `ID`. */
   shipperProjectionEntryByNodeId?: Maybe<ShipperProjectionEntry>;
   /** Reads a single `ShipperProjectionProduct` using its globally unique `ID`. */
@@ -1097,6 +1103,19 @@ export type QueryProductVarietiesArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
+export type QueryShipperProjectionsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProjectionsOrderBy>>;
+  condition?: Maybe<ShipperProjectionCondition>;
+  filter?: Maybe<ShipperProjectionFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
 export type QueryShipperProjectionEntriesArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
@@ -1587,6 +1606,12 @@ export type QueryProductVarietyArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
+export type QueryShipperProjectionArgs = {
+  id: Scalars['BigInt'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
 export type QueryShipperProjectionEntryArgs = {
   id: Scalars['BigInt'];
 };
@@ -1629,6 +1654,17 @@ export type QueryCustomerDistinctValuesArgs = {
   columnName?: Maybe<Scalars['String']>;
   conditionName?: Maybe<Scalars['String']>;
   conditionValue?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  filter?: Maybe<StringFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryShipperDistinctValuesArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
@@ -2005,6 +2041,12 @@ export type QueryProductSpeciesByNodeIdArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryProductVarietyByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryShipperProjectionByNodeIdArgs = {
   nodeId: Scalars['ID'];
 };
 
@@ -2795,6 +2837,10 @@ export type ShipperFilter = {
   shipperProjectionProducts?: Maybe<ShipperToManyShipperProjectionProductFilter>;
   /** Some related `shipperProjectionProducts` exist. */
   shipperProjectionProductsExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `shipperProjections` relation. */
+  shipperProjections?: Maybe<ShipperToManyShipperProjectionFilter>;
+  /** Some related `shipperProjections` exist. */
+  shipperProjectionsExist?: Maybe<Scalars['Boolean']>;
   /** Filter by the object’s `country` relation. */
   country?: Maybe<CountryFilter>;
   /** A related `country` exists. */
@@ -2910,6 +2956,8 @@ export type ShipperProjectionEntryFilter = {
   vesselId?: Maybe<BigIntFilter>;
   /** Filter by the object’s `productId` field. */
   productId?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `shipperProjectionId` field. */
+  shipperProjectionId?: Maybe<BigIntFilter>;
   /** Filter by the object’s `vessel` relation. */
   vessel?: Maybe<ShipperProjectionVesselFilter>;
   /** A related `vessel` exists. */
@@ -2918,6 +2966,10 @@ export type ShipperProjectionEntryFilter = {
   product?: Maybe<ShipperProjectionProductFilter>;
   /** A related `product` exists. */
   productExists?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `shipperProjection` relation. */
+  shipperProjection?: Maybe<ShipperProjectionFilter>;
+  /** A related `shipperProjection` exists. */
+  shipperProjectionExists?: Maybe<Scalars['Boolean']>;
   /** Checks for all expressions in this list. */
   and?: Maybe<Array<ShipperProjectionEntryFilter>>;
   /** Checks for any expressions in this list. */
@@ -2995,6 +3047,73 @@ export type ShipperProjectionProductToManyShipperProjectionEntryFilter = {
   none?: Maybe<ShipperProjectionEntryFilter>;
 };
 
+/** A filter to be used against `ShipperProjection` object types. All fields are combined with a logical ‘and.’ */
+export type ShipperProjectionFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `completedAt` field. */
+  completedAt?: Maybe<DatetimeFilter>;
+  /** Filter by the object’s `isReviewed` field. */
+  isReviewed?: Maybe<BooleanFilter>;
+  /** Filter by the object’s `shipperId` field. */
+  shipperId?: Maybe<StringFilter>;
+  /** Filter by the object’s `searchText` field. */
+  searchText?: Maybe<StringFilter>;
+  /** Filter by the object’s `totalPallets` field. */
+  totalPallets?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `shipperProjectionEntries` relation. */
+  shipperProjectionEntries?: Maybe<ShipperProjectionToManyShipperProjectionEntryFilter>;
+  /** Some related `shipperProjectionEntries` exist. */
+  shipperProjectionEntriesExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `shipper` relation. */
+  shipper?: Maybe<ShipperFilter>;
+  /** A related `shipper` exists. */
+  shipperExists?: Maybe<Scalars['Boolean']>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<ShipperProjectionFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<ShipperProjectionFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<ShipperProjectionFilter>;
+};
+
+/** A filter to be used against Datetime fields. All fields are combined with a logical ‘and.’ */
+export type DatetimeFilter = {
+  /** Is null (if `true` is specified) or is not null (if `false` is specified). */
+  isNull?: Maybe<Scalars['Boolean']>;
+  /** Equal to the specified value. */
+  equalTo?: Maybe<Scalars['Datetime']>;
+  /** Not equal to the specified value. */
+  notEqualTo?: Maybe<Scalars['Datetime']>;
+  /** Not equal to the specified value, treating null like an ordinary value. */
+  distinctFrom?: Maybe<Scalars['Datetime']>;
+  /** Equal to the specified value, treating null like an ordinary value. */
+  notDistinctFrom?: Maybe<Scalars['Datetime']>;
+  /** Included in the specified list. */
+  in?: Maybe<Array<Scalars['Datetime']>>;
+  /** Not included in the specified list. */
+  notIn?: Maybe<Array<Scalars['Datetime']>>;
+  /** Less than the specified value. */
+  lessThan?: Maybe<Scalars['Datetime']>;
+  /** Less than or equal to the specified value. */
+  lessThanOrEqualTo?: Maybe<Scalars['Datetime']>;
+  /** Greater than the specified value. */
+  greaterThan?: Maybe<Scalars['Datetime']>;
+  /** Greater than or equal to the specified value. */
+  greaterThanOrEqualTo?: Maybe<Scalars['Datetime']>;
+};
+
+
+/** A filter to be used against many `ShipperProjectionEntry` object types. All fields are combined with a logical ‘and.’ */
+export type ShipperProjectionToManyShipperProjectionEntryFilter = {
+  /** Every related `ShipperProjectionEntry` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<ShipperProjectionEntryFilter>;
+  /** Some related `ShipperProjectionEntry` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<ShipperProjectionEntryFilter>;
+  /** No related `ShipperProjectionEntry` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<ShipperProjectionEntryFilter>;
+};
+
 /** A filter to be used against many `ShipperProjectionProduct` object types. All fields are combined with a logical ‘and.’ */
 export type ShipperToManyShipperProjectionProductFilter = {
   /** Every related `ShipperProjectionProduct` matches the filter criteria. All fields are combined with a logical ‘and.’ */
@@ -3003,6 +3122,16 @@ export type ShipperToManyShipperProjectionProductFilter = {
   some?: Maybe<ShipperProjectionProductFilter>;
   /** No related `ShipperProjectionProduct` matches the filter criteria. All fields are combined with a logical ‘and.’ */
   none?: Maybe<ShipperProjectionProductFilter>;
+};
+
+/** A filter to be used against many `ShipperProjection` object types. All fields are combined with a logical ‘and.’ */
+export type ShipperToManyShipperProjectionFilter = {
+  /** Every related `ShipperProjection` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<ShipperProjectionFilter>;
+  /** Some related `ShipperProjection` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<ShipperProjectionFilter>;
+  /** No related `ShipperProjection` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<ShipperProjectionFilter>;
 };
 
 /** A filter to be used against `Country` object types. All fields are combined with a logical ‘and.’ */
@@ -3229,33 +3358,6 @@ export type UserMessageFilter = {
   not?: Maybe<UserMessageFilter>;
 };
 
-/** A filter to be used against Datetime fields. All fields are combined with a logical ‘and.’ */
-export type DatetimeFilter = {
-  /** Is null (if `true` is specified) or is not null (if `false` is specified). */
-  isNull?: Maybe<Scalars['Boolean']>;
-  /** Equal to the specified value. */
-  equalTo?: Maybe<Scalars['Datetime']>;
-  /** Not equal to the specified value. */
-  notEqualTo?: Maybe<Scalars['Datetime']>;
-  /** Not equal to the specified value, treating null like an ordinary value. */
-  distinctFrom?: Maybe<Scalars['Datetime']>;
-  /** Equal to the specified value, treating null like an ordinary value. */
-  notDistinctFrom?: Maybe<Scalars['Datetime']>;
-  /** Included in the specified list. */
-  in?: Maybe<Array<Scalars['Datetime']>>;
-  /** Not included in the specified list. */
-  notIn?: Maybe<Array<Scalars['Datetime']>>;
-  /** Less than the specified value. */
-  lessThan?: Maybe<Scalars['Datetime']>;
-  /** Less than or equal to the specified value. */
-  lessThanOrEqualTo?: Maybe<Scalars['Datetime']>;
-  /** Greater than the specified value. */
-  greaterThan?: Maybe<Scalars['Datetime']>;
-  /** Greater than or equal to the specified value. */
-  greaterThanOrEqualTo?: Maybe<Scalars['Datetime']>;
-};
-
-
 /** A filter to be used against many `ContactGroup` object types. All fields are combined with a logical ‘and.’ */
 export type UserToManyContactGroupFilter = {
   /** Every related `ContactGroup` matches the filter criteria. All fields are combined with a logical ‘and.’ */
@@ -3364,6 +3466,8 @@ export type Shipper = Node & {
   shipperProjectionVessels: ShipperProjectionVesselsConnection;
   /** Reads and enables pagination through a set of `ShipperProjectionProduct`. */
   shipperProjectionProducts: ShipperProjectionProductsConnection;
+  /** Reads and enables pagination through a set of `ShipperProjection`. */
+  shipperProjections: ShipperProjectionsConnection;
   searchText?: Maybe<Scalars['String']>;
   /** Reads and enables pagination through a set of `PersonContact`. */
   personContactsByShipperPersonContactShipperIdAndPersonContactId: ShipperPersonContactsByShipperPersonContactShipperIdAndPersonContactIdManyToManyConnection;
@@ -3403,6 +3507,18 @@ export type ShipperShipperProjectionProductsArgs = {
   orderBy?: Maybe<Array<ShipperProjectionProductsOrderBy>>;
   condition?: Maybe<ShipperProjectionProductCondition>;
   filter?: Maybe<ShipperProjectionProductFilter>;
+};
+
+
+export type ShipperShipperProjectionsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProjectionsOrderBy>>;
+  condition?: Maybe<ShipperProjectionCondition>;
+  filter?: Maybe<ShipperProjectionFilter>;
 };
 
 
@@ -3505,6 +3621,8 @@ export type ShipperProjectionVessel = Node & {
   shipperProjectionEntriesByVesselId: ShipperProjectionEntriesConnection;
   /** Reads and enables pagination through a set of `ShipperProjectionProduct`. */
   shipperProjectionProductsByShipperProjectionEntryVesselIdAndProductId: ShipperProjectionVesselShipperProjectionProductsByShipperProjectionEntryVesselIdAndProductIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `ShipperProjection`. */
+  shipperProjectionsByShipperProjectionEntryVesselIdAndShipperProjectionId: ShipperProjectionVesselShipperProjectionsByShipperProjectionEntryVesselIdAndShipperProjectionIdManyToManyConnection;
 };
 
 
@@ -3531,6 +3649,18 @@ export type ShipperProjectionVesselShipperProjectionProductsByShipperProjectionE
   filter?: Maybe<ShipperProjectionProductFilter>;
 };
 
+
+export type ShipperProjectionVesselShipperProjectionsByShipperProjectionEntryVesselIdAndShipperProjectionIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProjectionsOrderBy>>;
+  condition?: Maybe<ShipperProjectionCondition>;
+  filter?: Maybe<ShipperProjectionFilter>;
+};
+
 /** A connection to a list of `ShipperProjectionEntry` values. */
 export type ShipperProjectionEntriesConnection = {
   __typename?: 'ShipperProjectionEntriesConnection';
@@ -3552,10 +3682,13 @@ export type ShipperProjectionEntry = Node & {
   palletCount?: Maybe<Scalars['BigFloat']>;
   vesselId?: Maybe<Scalars['BigInt']>;
   productId?: Maybe<Scalars['BigInt']>;
+  shipperProjectionId?: Maybe<Scalars['BigInt']>;
   /** Reads a single `ShipperProjectionVessel` that is related to this `ShipperProjectionEntry`. */
   vessel?: Maybe<ShipperProjectionVessel>;
   /** Reads a single `ShipperProjectionProduct` that is related to this `ShipperProjectionEntry`. */
   product?: Maybe<ShipperProjectionProduct>;
+  /** Reads a single `ShipperProjection` that is related to this `ShipperProjectionEntry`. */
+  shipperProjection?: Maybe<ShipperProjection>;
 };
 
 export type ShipperProjectionProduct = Node & {
@@ -3575,6 +3708,8 @@ export type ShipperProjectionProduct = Node & {
   shipperProjectionEntriesByProductId: ShipperProjectionEntriesConnection;
   /** Reads and enables pagination through a set of `ShipperProjectionVessel`. */
   shipperProjectionVesselsByShipperProjectionEntryProductIdAndVesselId: ShipperProjectionProductShipperProjectionVesselsByShipperProjectionEntryProductIdAndVesselIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `ShipperProjection`. */
+  shipperProjectionsByShipperProjectionEntryProductIdAndShipperProjectionId: ShipperProjectionProductShipperProjectionsByShipperProjectionEntryProductIdAndShipperProjectionIdManyToManyConnection;
 };
 
 
@@ -3601,6 +3736,18 @@ export type ShipperProjectionProductShipperProjectionVesselsByShipperProjectionE
   filter?: Maybe<ShipperProjectionVesselFilter>;
 };
 
+
+export type ShipperProjectionProductShipperProjectionsByShipperProjectionEntryProductIdAndShipperProjectionIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProjectionsOrderBy>>;
+  condition?: Maybe<ShipperProjectionCondition>;
+  filter?: Maybe<ShipperProjectionFilter>;
+};
+
 /** Methods to use when ordering `ShipperProjectionEntry`. */
 export enum ShipperProjectionEntriesOrderBy {
   Natural = 'NATURAL',
@@ -3612,6 +3759,8 @@ export enum ShipperProjectionEntriesOrderBy {
   VesselIdDesc = 'VESSEL_ID_DESC',
   ProductIdAsc = 'PRODUCT_ID_ASC',
   ProductIdDesc = 'PRODUCT_ID_DESC',
+  ShipperProjectionIdAsc = 'SHIPPER_PROJECTION_ID_ASC',
+  ShipperProjectionIdDesc = 'SHIPPER_PROJECTION_ID_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
 }
@@ -3629,6 +3778,8 @@ export type ShipperProjectionEntryCondition = {
   vesselId?: Maybe<Scalars['BigInt']>;
   /** Checks for equality with the object’s `productId` field. */
   productId?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `shipperProjectionId` field. */
+  shipperProjectionId?: Maybe<Scalars['BigInt']>;
 };
 
 /** A connection to a list of `ShipperProjectionVessel` values, with data from `ShipperProjectionEntry`. */
@@ -3718,22 +3869,119 @@ export type ShipperProjectionVesselCondition = {
   shipperId?: Maybe<Scalars['String']>;
 };
 
-/** A `ShipperProjectionEntry` edge in the connection. */
-export type ShipperProjectionEntriesEdge = {
-  __typename?: 'ShipperProjectionEntriesEdge';
+/** A connection to a list of `ShipperProjection` values, with data from `ShipperProjectionEntry`. */
+export type ShipperProjectionProductShipperProjectionsByShipperProjectionEntryProductIdAndShipperProjectionIdManyToManyConnection = {
+  __typename?: 'ShipperProjectionProductShipperProjectionsByShipperProjectionEntryProductIdAndShipperProjectionIdManyToManyConnection';
+  /** A list of `ShipperProjection` objects. */
+  nodes: Array<Maybe<ShipperProjection>>;
+  /** A list of edges which contains the `ShipperProjection`, info from the `ShipperProjectionEntry`, and the cursor to aid in pagination. */
+  edges: Array<ShipperProjectionProductShipperProjectionsByShipperProjectionEntryProductIdAndShipperProjectionIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `ShipperProjection` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+export type ShipperProjection = Node & {
+  __typename?: 'ShipperProjection';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  completedAt?: Maybe<Scalars['Datetime']>;
+  isReviewed?: Maybe<Scalars['Boolean']>;
+  shipperId?: Maybe<Scalars['String']>;
+  /** Reads a single `Shipper` that is related to this `ShipperProjection`. */
+  shipper?: Maybe<Shipper>;
+  /** Reads and enables pagination through a set of `ShipperProjectionEntry`. */
+  shipperProjectionEntries: ShipperProjectionEntriesConnection;
+  searchText?: Maybe<Scalars['String']>;
+  totalPallets?: Maybe<Scalars['BigInt']>;
+  /** Reads and enables pagination through a set of `ShipperProjectionVessel`. */
+  shipperProjectionVesselsByShipperProjectionEntryShipperProjectionIdAndVesselId: ShipperProjectionShipperProjectionVesselsByShipperProjectionEntryShipperProjectionIdAndVesselIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `ShipperProjectionProduct`. */
+  shipperProjectionProductsByShipperProjectionEntryShipperProjectionIdAndProductId: ShipperProjectionShipperProjectionProductsByShipperProjectionEntryShipperProjectionIdAndProductIdManyToManyConnection;
+};
+
+
+export type ShipperProjectionShipperProjectionEntriesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProjectionEntriesOrderBy>>;
+  condition?: Maybe<ShipperProjectionEntryCondition>;
+  filter?: Maybe<ShipperProjectionEntryFilter>;
+};
+
+
+export type ShipperProjectionShipperProjectionVesselsByShipperProjectionEntryShipperProjectionIdAndVesselIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProjectionVesselsOrderBy>>;
+  condition?: Maybe<ShipperProjectionVesselCondition>;
+  filter?: Maybe<ShipperProjectionVesselFilter>;
+};
+
+
+export type ShipperProjectionShipperProjectionProductsByShipperProjectionEntryShipperProjectionIdAndProductIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProjectionProductsOrderBy>>;
+  condition?: Maybe<ShipperProjectionProductCondition>;
+  filter?: Maybe<ShipperProjectionProductFilter>;
+};
+
+/** A connection to a list of `ShipperProjectionVessel` values, with data from `ShipperProjectionEntry`. */
+export type ShipperProjectionShipperProjectionVesselsByShipperProjectionEntryShipperProjectionIdAndVesselIdManyToManyConnection = {
+  __typename?: 'ShipperProjectionShipperProjectionVesselsByShipperProjectionEntryShipperProjectionIdAndVesselIdManyToManyConnection';
+  /** A list of `ShipperProjectionVessel` objects. */
+  nodes: Array<Maybe<ShipperProjectionVessel>>;
+  /** A list of edges which contains the `ShipperProjectionVessel`, info from the `ShipperProjectionEntry`, and the cursor to aid in pagination. */
+  edges: Array<ShipperProjectionShipperProjectionVesselsByShipperProjectionEntryShipperProjectionIdAndVesselIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `ShipperProjectionVessel` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `ShipperProjectionVessel` edge in the connection, with data from `ShipperProjectionEntry`. */
+export type ShipperProjectionShipperProjectionVesselsByShipperProjectionEntryShipperProjectionIdAndVesselIdManyToManyEdge = {
+  __typename?: 'ShipperProjectionShipperProjectionVesselsByShipperProjectionEntryShipperProjectionIdAndVesselIdManyToManyEdge';
   /** A cursor for use in pagination. */
   cursor?: Maybe<Scalars['Cursor']>;
-  /** The `ShipperProjectionEntry` at the end of the edge. */
-  node?: Maybe<ShipperProjectionEntry>;
+  /** The `ShipperProjectionVessel` at the end of the edge. */
+  node?: Maybe<ShipperProjectionVessel>;
+  /** Reads and enables pagination through a set of `ShipperProjectionEntry`. */
+  shipperProjectionEntriesByVesselId: ShipperProjectionEntriesConnection;
+};
+
+
+/** A `ShipperProjectionVessel` edge in the connection, with data from `ShipperProjectionEntry`. */
+export type ShipperProjectionShipperProjectionVesselsByShipperProjectionEntryShipperProjectionIdAndVesselIdManyToManyEdgeShipperProjectionEntriesByVesselIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProjectionEntriesOrderBy>>;
+  condition?: Maybe<ShipperProjectionEntryCondition>;
+  filter?: Maybe<ShipperProjectionEntryFilter>;
 };
 
 /** A connection to a list of `ShipperProjectionProduct` values, with data from `ShipperProjectionEntry`. */
-export type ShipperProjectionVesselShipperProjectionProductsByShipperProjectionEntryVesselIdAndProductIdManyToManyConnection = {
-  __typename?: 'ShipperProjectionVesselShipperProjectionProductsByShipperProjectionEntryVesselIdAndProductIdManyToManyConnection';
+export type ShipperProjectionShipperProjectionProductsByShipperProjectionEntryShipperProjectionIdAndProductIdManyToManyConnection = {
+  __typename?: 'ShipperProjectionShipperProjectionProductsByShipperProjectionEntryShipperProjectionIdAndProductIdManyToManyConnection';
   /** A list of `ShipperProjectionProduct` objects. */
   nodes: Array<Maybe<ShipperProjectionProduct>>;
   /** A list of edges which contains the `ShipperProjectionProduct`, info from the `ShipperProjectionEntry`, and the cursor to aid in pagination. */
-  edges: Array<ShipperProjectionVesselShipperProjectionProductsByShipperProjectionEntryVesselIdAndProductIdManyToManyEdge>;
+  edges: Array<ShipperProjectionShipperProjectionProductsByShipperProjectionEntryShipperProjectionIdAndProductIdManyToManyEdge>;
   /** Information to aid in pagination. */
   pageInfo: PageInfo;
   /** The count of *all* `ShipperProjectionProduct` you could get from the connection. */
@@ -3741,8 +3989,8 @@ export type ShipperProjectionVesselShipperProjectionProductsByShipperProjectionE
 };
 
 /** A `ShipperProjectionProduct` edge in the connection, with data from `ShipperProjectionEntry`. */
-export type ShipperProjectionVesselShipperProjectionProductsByShipperProjectionEntryVesselIdAndProductIdManyToManyEdge = {
-  __typename?: 'ShipperProjectionVesselShipperProjectionProductsByShipperProjectionEntryVesselIdAndProductIdManyToManyEdge';
+export type ShipperProjectionShipperProjectionProductsByShipperProjectionEntryShipperProjectionIdAndProductIdManyToManyEdge = {
+  __typename?: 'ShipperProjectionShipperProjectionProductsByShipperProjectionEntryShipperProjectionIdAndProductIdManyToManyEdge';
   /** A cursor for use in pagination. */
   cursor?: Maybe<Scalars['Cursor']>;
   /** The `ShipperProjectionProduct` at the end of the edge. */
@@ -3753,7 +4001,7 @@ export type ShipperProjectionVesselShipperProjectionProductsByShipperProjectionE
 
 
 /** A `ShipperProjectionProduct` edge in the connection, with data from `ShipperProjectionEntry`. */
-export type ShipperProjectionVesselShipperProjectionProductsByShipperProjectionEntryVesselIdAndProductIdManyToManyEdgeShipperProjectionEntriesByProductIdArgs = {
+export type ShipperProjectionShipperProjectionProductsByShipperProjectionEntryShipperProjectionIdAndProductIdManyToManyEdgeShipperProjectionEntriesByProductIdArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
@@ -3806,6 +4054,145 @@ export type ShipperProjectionProductCondition = {
   shipperId?: Maybe<Scalars['String']>;
 };
 
+/** A `ShipperProjection` edge in the connection, with data from `ShipperProjectionEntry`. */
+export type ShipperProjectionProductShipperProjectionsByShipperProjectionEntryProductIdAndShipperProjectionIdManyToManyEdge = {
+  __typename?: 'ShipperProjectionProductShipperProjectionsByShipperProjectionEntryProductIdAndShipperProjectionIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `ShipperProjection` at the end of the edge. */
+  node?: Maybe<ShipperProjection>;
+  /** Reads and enables pagination through a set of `ShipperProjectionEntry`. */
+  shipperProjectionEntries: ShipperProjectionEntriesConnection;
+};
+
+
+/** A `ShipperProjection` edge in the connection, with data from `ShipperProjectionEntry`. */
+export type ShipperProjectionProductShipperProjectionsByShipperProjectionEntryProductIdAndShipperProjectionIdManyToManyEdgeShipperProjectionEntriesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProjectionEntriesOrderBy>>;
+  condition?: Maybe<ShipperProjectionEntryCondition>;
+  filter?: Maybe<ShipperProjectionEntryFilter>;
+};
+
+/** Methods to use when ordering `ShipperProjection`. */
+export enum ShipperProjectionsOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  CompletedAtAsc = 'COMPLETED_AT_ASC',
+  CompletedAtDesc = 'COMPLETED_AT_DESC',
+  IsReviewedAsc = 'IS_REVIEWED_ASC',
+  IsReviewedDesc = 'IS_REVIEWED_DESC',
+  ShipperIdAsc = 'SHIPPER_ID_ASC',
+  ShipperIdDesc = 'SHIPPER_ID_DESC',
+  TotalPalletsAsc = 'TOTAL_PALLETS_ASC',
+  TotalPalletsDesc = 'TOTAL_PALLETS_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
+/**
+ * A condition to be used against `ShipperProjection` object types. All fields are
+ * tested for equality and combined with a logical ‘and.’
+ */
+export type ShipperProjectionCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `completedAt` field. */
+  completedAt?: Maybe<Scalars['Datetime']>;
+  /** Checks for equality with the object’s `isReviewed` field. */
+  isReviewed?: Maybe<Scalars['Boolean']>;
+  /** Checks for equality with the object’s `shipperId` field. */
+  shipperId?: Maybe<Scalars['String']>;
+};
+
+/** A `ShipperProjectionEntry` edge in the connection. */
+export type ShipperProjectionEntriesEdge = {
+  __typename?: 'ShipperProjectionEntriesEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `ShipperProjectionEntry` at the end of the edge. */
+  node?: Maybe<ShipperProjectionEntry>;
+};
+
+/** A connection to a list of `ShipperProjectionProduct` values, with data from `ShipperProjectionEntry`. */
+export type ShipperProjectionVesselShipperProjectionProductsByShipperProjectionEntryVesselIdAndProductIdManyToManyConnection = {
+  __typename?: 'ShipperProjectionVesselShipperProjectionProductsByShipperProjectionEntryVesselIdAndProductIdManyToManyConnection';
+  /** A list of `ShipperProjectionProduct` objects. */
+  nodes: Array<Maybe<ShipperProjectionProduct>>;
+  /** A list of edges which contains the `ShipperProjectionProduct`, info from the `ShipperProjectionEntry`, and the cursor to aid in pagination. */
+  edges: Array<ShipperProjectionVesselShipperProjectionProductsByShipperProjectionEntryVesselIdAndProductIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `ShipperProjectionProduct` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `ShipperProjectionProduct` edge in the connection, with data from `ShipperProjectionEntry`. */
+export type ShipperProjectionVesselShipperProjectionProductsByShipperProjectionEntryVesselIdAndProductIdManyToManyEdge = {
+  __typename?: 'ShipperProjectionVesselShipperProjectionProductsByShipperProjectionEntryVesselIdAndProductIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `ShipperProjectionProduct` at the end of the edge. */
+  node?: Maybe<ShipperProjectionProduct>;
+  /** Reads and enables pagination through a set of `ShipperProjectionEntry`. */
+  shipperProjectionEntriesByProductId: ShipperProjectionEntriesConnection;
+};
+
+
+/** A `ShipperProjectionProduct` edge in the connection, with data from `ShipperProjectionEntry`. */
+export type ShipperProjectionVesselShipperProjectionProductsByShipperProjectionEntryVesselIdAndProductIdManyToManyEdgeShipperProjectionEntriesByProductIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProjectionEntriesOrderBy>>;
+  condition?: Maybe<ShipperProjectionEntryCondition>;
+  filter?: Maybe<ShipperProjectionEntryFilter>;
+};
+
+/** A connection to a list of `ShipperProjection` values, with data from `ShipperProjectionEntry`. */
+export type ShipperProjectionVesselShipperProjectionsByShipperProjectionEntryVesselIdAndShipperProjectionIdManyToManyConnection = {
+  __typename?: 'ShipperProjectionVesselShipperProjectionsByShipperProjectionEntryVesselIdAndShipperProjectionIdManyToManyConnection';
+  /** A list of `ShipperProjection` objects. */
+  nodes: Array<Maybe<ShipperProjection>>;
+  /** A list of edges which contains the `ShipperProjection`, info from the `ShipperProjectionEntry`, and the cursor to aid in pagination. */
+  edges: Array<ShipperProjectionVesselShipperProjectionsByShipperProjectionEntryVesselIdAndShipperProjectionIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `ShipperProjection` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `ShipperProjection` edge in the connection, with data from `ShipperProjectionEntry`. */
+export type ShipperProjectionVesselShipperProjectionsByShipperProjectionEntryVesselIdAndShipperProjectionIdManyToManyEdge = {
+  __typename?: 'ShipperProjectionVesselShipperProjectionsByShipperProjectionEntryVesselIdAndShipperProjectionIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `ShipperProjection` at the end of the edge. */
+  node?: Maybe<ShipperProjection>;
+  /** Reads and enables pagination through a set of `ShipperProjectionEntry`. */
+  shipperProjectionEntries: ShipperProjectionEntriesConnection;
+};
+
+
+/** A `ShipperProjection` edge in the connection, with data from `ShipperProjectionEntry`. */
+export type ShipperProjectionVesselShipperProjectionsByShipperProjectionEntryVesselIdAndShipperProjectionIdManyToManyEdgeShipperProjectionEntriesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProjectionEntriesOrderBy>>;
+  condition?: Maybe<ShipperProjectionEntryCondition>;
+  filter?: Maybe<ShipperProjectionEntryFilter>;
+};
+
 /** A `ShipperProjectionVessel` edge in the connection. */
 export type ShipperProjectionVesselsEdge = {
   __typename?: 'ShipperProjectionVesselsEdge';
@@ -3835,6 +4222,28 @@ export type ShipperProjectionProductsEdge = {
   cursor?: Maybe<Scalars['Cursor']>;
   /** The `ShipperProjectionProduct` at the end of the edge. */
   node?: Maybe<ShipperProjectionProduct>;
+};
+
+/** A connection to a list of `ShipperProjection` values. */
+export type ShipperProjectionsConnection = {
+  __typename?: 'ShipperProjectionsConnection';
+  /** A list of `ShipperProjection` objects. */
+  nodes: Array<Maybe<ShipperProjection>>;
+  /** A list of edges which contains the `ShipperProjection` and cursor to aid in pagination. */
+  edges: Array<ShipperProjectionsEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `ShipperProjection` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `ShipperProjection` edge in the connection. */
+export type ShipperProjectionsEdge = {
+  __typename?: 'ShipperProjectionsEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `ShipperProjection` at the end of the edge. */
+  node?: Maybe<ShipperProjection>;
 };
 
 /** A connection to a list of `PersonContact` values, with data from `ShipperPersonContact`. */
@@ -6544,6 +6953,7 @@ export type PsaArrivalReport = Node & {
   /** Reads and enables pagination through a set of `PsaStoneFruitPallet`. */
   stoneFruitPallets: PsaStoneFruitPalletsConnection;
   varietyList?: Maybe<Array<Maybe<Scalars['String']>>>;
+  vessel?: Maybe<Vessel>;
   reportUrl: Scalars['String'];
 };
 
@@ -10733,6 +11143,701 @@ export type PsaStoneFruitPalletFilter = {
   not?: Maybe<PsaStoneFruitPalletFilter>;
 };
 
+export type Vessel = Node & {
+  __typename?: 'Vessel';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  vesselCode: Scalars['String'];
+  vesselName?: Maybe<Scalars['String']>;
+  arrivalPort?: Maybe<Scalars['String']>;
+  countryId?: Maybe<Scalars['String']>;
+  departureDate?: Maybe<Scalars['Date']>;
+  arrivalDate?: Maybe<Scalars['Date']>;
+  dischargeDate?: Maybe<Scalars['Date']>;
+  coast?: Maybe<Scalars['String']>;
+  country?: Maybe<Country>;
+  /** Reads and enables pagination through a set of `InventoryItem`. */
+  inventoryItems: InventoryItemsConnection;
+  /** Reads and enables pagination through a set of `Pallet`. */
+  pallets: PalletsConnection;
+  searchText?: Maybe<Scalars['String']>;
+  warehouse?: Maybe<Warehouse>;
+};
+
+
+export type VesselInventoryItemsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  filter?: Maybe<InventoryItemFilter>;
+};
+
+
+export type VesselPalletsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  filter?: Maybe<PalletFilter>;
+};
+
+/** A connection to a list of `InventoryItem` values. */
+export type InventoryItemsConnection = {
+  __typename?: 'InventoryItemsConnection';
+  /** A list of `InventoryItem` objects. */
+  nodes: Array<Maybe<InventoryItem>>;
+  /** A list of edges which contains the `InventoryItem` and cursor to aid in pagination. */
+  edges: Array<InventoryItemsEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `InventoryItem` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+export type InventoryItem = Node & {
+  __typename?: 'InventoryItem';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  productId?: Maybe<Scalars['String']>;
+  locationId?: Maybe<Scalars['String']>;
+  vesselCode?: Maybe<Scalars['String']>;
+  jvLotNumber?: Maybe<Scalars['String']>;
+  shipperId?: Maybe<Scalars['String']>;
+  palletsReceived?: Maybe<Scalars['BigFloat']>;
+  palletsCommitted?: Maybe<Scalars['BigFloat']>;
+  palletsOnHand?: Maybe<Scalars['BigFloat']>;
+  palletsAvailable?: Maybe<Scalars['BigFloat']>;
+  palletsShipped?: Maybe<Scalars['BigFloat']>;
+  palletsTransferredIn?: Maybe<Scalars['BigFloat']>;
+  palletsTransferredOut?: Maybe<Scalars['BigFloat']>;
+  plu?: Maybe<Scalars['Boolean']>;
+  countryId?: Maybe<Scalars['String']>;
+  specialLotNumber?: Maybe<Scalars['String']>;
+  coast?: Maybe<Scalars['String']>;
+  storageRank?: Maybe<Scalars['String']>;
+  warehouseId?: Maybe<Scalars['String']>;
+  country?: Maybe<Country>;
+  /** Reads and enables pagination through a set of `Pallet`. */
+  pallets: PalletsConnection;
+  product?: Maybe<ProductMaster>;
+  shipper?: Maybe<Shipper>;
+  vessel?: Maybe<Vessel>;
+  warehouse?: Maybe<Warehouse>;
+};
+
+
+export type InventoryItemPalletsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  filter?: Maybe<PalletFilter>;
+};
+
+/** A connection to a list of `Pallet` values. */
+export type PalletsConnection = {
+  __typename?: 'PalletsConnection';
+  /** A list of `Pallet` objects. */
+  nodes: Array<Maybe<Pallet>>;
+  /** A list of edges which contains the `Pallet` and cursor to aid in pagination. */
+  edges: Array<PalletsEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Pallet` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+export type Pallet = {
+  __typename?: 'Pallet';
+  id?: Maybe<Scalars['BigInt']>;
+  vesselCode?: Maybe<Scalars['String']>;
+  palletId?: Maybe<Scalars['String']>;
+  productId?: Maybe<Scalars['String']>;
+  currentBoxQuantity?: Maybe<Scalars['BigFloat']>;
+  receivedBoxQuantity?: Maybe<Scalars['BigFloat']>;
+  returnedBoxQuantity?: Maybe<Scalars['BigFloat']>;
+  locationId?: Maybe<Scalars['String']>;
+  room?: Maybe<Scalars['String']>;
+  section?: Maybe<Scalars['String']>;
+  row?: Maybe<Scalars['String']>;
+  jvLotNumber?: Maybe<Scalars['String']>;
+  shipperId?: Maybe<Scalars['String']>;
+  dateTransferredToStorage?: Maybe<Scalars['Date']>;
+  orderId?: Maybe<Scalars['String']>;
+  backOrderId?: Maybe<Scalars['String']>;
+  shipped?: Maybe<Scalars['Boolean']>;
+  age?: Maybe<Scalars['BigFloat']>;
+  volumeDiscountCode?: Maybe<Scalars['String']>;
+  originalLocationId?: Maybe<Scalars['String']>;
+  filler?: Maybe<Scalars['String']>;
+  growerId?: Maybe<Scalars['String']>;
+  oldPackCode?: Maybe<Scalars['String']>;
+  packDate?: Maybe<Scalars['String']>;
+  hatch?: Maybe<Scalars['String']>;
+  deck?: Maybe<Scalars['String']>;
+  billOfLading?: Maybe<Scalars['String']>;
+  containerId?: Maybe<Scalars['String']>;
+  temperatureRecording?: Maybe<Scalars['String']>;
+  originalLocation?: Maybe<Warehouse>;
+  /** Reads and enables pagination through a set of `PalletSection`. */
+  palletSections: PalletSectionsConnection;
+  product?: Maybe<ProductMaster>;
+  searchText?: Maybe<Scalars['String']>;
+  shipper?: Maybe<Shipper>;
+  vessel?: Maybe<Vessel>;
+  warehouse?: Maybe<Warehouse>;
+};
+
+
+export type PalletPalletSectionsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  filter?: Maybe<PalletSectionFilter>;
+};
+
+/** A connection to a list of `PalletSection` values. */
+export type PalletSectionsConnection = {
+  __typename?: 'PalletSectionsConnection';
+  /** A list of `PalletSection` objects. */
+  nodes: Array<Maybe<PalletSection>>;
+  /** A list of edges which contains the `PalletSection` and cursor to aid in pagination. */
+  edges: Array<PalletSectionsEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `PalletSection` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+export type PalletSection = Node & {
+  __typename?: 'PalletSection';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  palletId: Scalars['String'];
+  growerId?: Maybe<Scalars['String']>;
+  varietyId?: Maybe<Scalars['String']>;
+  sizeId?: Maybe<Scalars['String']>;
+  boxQuantity?: Maybe<Scalars['BigFloat']>;
+  packDate?: Maybe<Scalars['String']>;
+  variety?: Maybe<ProductVariety>;
+};
+
+export type ProductVariety = Node & {
+  __typename?: 'ProductVariety';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['String'];
+  varietyDescription?: Maybe<Scalars['String']>;
+  secondaryDescription?: Maybe<Scalars['String']>;
+  customerLetterSequence?: Maybe<Scalars['String']>;
+  summaryCode?: Maybe<Scalars['String']>;
+  varietyGroup?: Maybe<Scalars['String']>;
+  combineWith?: Maybe<Scalars['String']>;
+};
+
+/** A `PalletSection` edge in the connection. */
+export type PalletSectionsEdge = {
+  __typename?: 'PalletSectionsEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `PalletSection` at the end of the edge. */
+  node?: Maybe<PalletSection>;
+};
+
+/** A filter to be used against `PalletSection` object types. All fields are combined with a logical ‘and.’ */
+export type PalletSectionFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `palletId` field. */
+  palletId?: Maybe<StringFilter>;
+  /** Filter by the object’s `growerId` field. */
+  growerId?: Maybe<StringFilter>;
+  /** Filter by the object’s `varietyId` field. */
+  varietyId?: Maybe<StringFilter>;
+  /** Filter by the object’s `sizeId` field. */
+  sizeId?: Maybe<StringFilter>;
+  /** Filter by the object’s `boxQuantity` field. */
+  boxQuantity?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `packDate` field. */
+  packDate?: Maybe<StringFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<PalletSectionFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<PalletSectionFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<PalletSectionFilter>;
+};
+
+export type ProductMaster = Node & {
+  __typename?: 'ProductMaster';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['String'];
+  defaultPalletQuantity?: Maybe<Scalars['String']>;
+  lotNumber?: Maybe<Scalars['String']>;
+  packType?: Maybe<PackMaster>;
+  searchText?: Maybe<Scalars['String']>;
+  /** Reads and enables pagination through a set of `ProductSize`. */
+  sizes: ProductSizesConnection;
+  species?: Maybe<ProductSpecies>;
+  variety?: Maybe<ProductVariety>;
+};
+
+
+export type ProductMasterSizesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  filter?: Maybe<ProductSizeFilter>;
+};
+
+export type PackMaster = Node & {
+  __typename?: 'PackMaster';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  shipperId?: Maybe<Scalars['String']>;
+  labelCodeId?: Maybe<Scalars['String']>;
+  customerCodeId?: Maybe<Scalars['String']>;
+  boxTypeId?: Maybe<Scalars['String']>;
+  boxStyleId?: Maybe<Scalars['String']>;
+  packStyleId?: Maybe<Scalars['String']>;
+  outCodeId?: Maybe<Scalars['String']>;
+  outQuantity?: Maybe<Scalars['String']>;
+  outWeight?: Maybe<Scalars['String']>;
+  productionCodeId?: Maybe<Scalars['String']>;
+  treeRipeId?: Maybe<Scalars['String']>;
+  gradeCodeId?: Maybe<Scalars['String']>;
+  maCodeId?: Maybe<Scalars['String']>;
+  linerCodeId?: Maybe<Scalars['String']>;
+  netWeightContents?: Maybe<Scalars['BigFloat']>;
+  netWeightBox?: Maybe<Scalars['BigFloat']>;
+  boxLength?: Maybe<Scalars['BigFloat']>;
+  boxWidth?: Maybe<Scalars['BigFloat']>;
+  boxHeight?: Maybe<Scalars['BigFloat']>;
+  palletTypeId?: Maybe<Scalars['String']>;
+  defaultPalletQuantity?: Maybe<Scalars['BigFloat']>;
+  pluUpcCode?: Maybe<Scalars['String']>;
+  destinationCodeId?: Maybe<Scalars['String']>;
+  oldPackCode?: Maybe<Scalars['String']>;
+  oldLabelCode?: Maybe<Scalars['String']>;
+  jvPackCode?: Maybe<Scalars['String']>;
+  packDescription?: Maybe<Scalars['String']>;
+  varietyId?: Maybe<Scalars['String']>;
+  speciesId?: Maybe<Scalars['String']>;
+  holdCodeId?: Maybe<Scalars['String']>;
+  atmosphere?: Maybe<PackAtmosphere>;
+  boxStyle?: Maybe<PackBoxStyle>;
+  boxType?: Maybe<PackBoxType>;
+  customerSpecial?: Maybe<PackSpecial>;
+  destination?: Maybe<PackDestination>;
+  grade?: Maybe<PackGrade>;
+  hold?: Maybe<PackHold>;
+  label?: Maybe<PackLabel>;
+  liner?: Maybe<PackLiner>;
+  out?: Maybe<PackOut>;
+  packStyle?: Maybe<PackStyle>;
+  palletType?: Maybe<PackPalletType>;
+  production?: Maybe<PackProduction>;
+  shipper?: Maybe<Shipper>;
+  species?: Maybe<ProductSpecies>;
+  treeRipe?: Maybe<PackTreeRipe>;
+  variety?: Maybe<ProductVariety>;
+};
+
+export type PackAtmosphere = Node & {
+  __typename?: 'PackAtmosphere';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  shipperId?: Maybe<Scalars['String']>;
+  maCode?: Maybe<Scalars['String']>;
+  maDescription?: Maybe<Scalars['String']>;
+  shipper?: Maybe<Shipper>;
+};
+
+export type PackBoxStyle = Node & {
+  __typename?: 'PackBoxStyle';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  shipperId?: Maybe<Scalars['String']>;
+  boxStyle?: Maybe<Scalars['String']>;
+  boxDescription?: Maybe<Scalars['String']>;
+  combineWith?: Maybe<Scalars['String']>;
+  combineDescription?: Maybe<Scalars['String']>;
+  shipper?: Maybe<Shipper>;
+};
+
+export type PackBoxType = Node & {
+  __typename?: 'PackBoxType';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  shipperId?: Maybe<Scalars['String']>;
+  boxType?: Maybe<Scalars['String']>;
+  boxDescription?: Maybe<Scalars['String']>;
+  shipper?: Maybe<Shipper>;
+};
+
+export type PackSpecial = Node & {
+  __typename?: 'PackSpecial';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  shipperId?: Maybe<Scalars['String']>;
+  customerCode?: Maybe<Scalars['String']>;
+  customerId?: Maybe<Scalars['String']>;
+  customerName?: Maybe<Scalars['String']>;
+  customer?: Maybe<Customer>;
+  shipper?: Maybe<Shipper>;
+};
+
+export type PackDestination = Node & {
+  __typename?: 'PackDestination';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  shipperId?: Maybe<Scalars['String']>;
+  destinationCode?: Maybe<Scalars['String']>;
+  destinationDescription?: Maybe<Scalars['String']>;
+  shipper?: Maybe<Shipper>;
+};
+
+export type PackGrade = Node & {
+  __typename?: 'PackGrade';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  shipperId?: Maybe<Scalars['String']>;
+  gradeCode?: Maybe<Scalars['String']>;
+  gradeDescription?: Maybe<Scalars['String']>;
+  shipper?: Maybe<Shipper>;
+};
+
+export type PackHold = Node & {
+  __typename?: 'PackHold';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  shipperId?: Maybe<Scalars['String']>;
+  holdCode?: Maybe<Scalars['String']>;
+  holdDescription?: Maybe<Scalars['String']>;
+  shipper?: Maybe<Shipper>;
+};
+
+export type PackLabel = Node & {
+  __typename?: 'PackLabel';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  labelCode?: Maybe<Scalars['String']>;
+  labelName?: Maybe<Scalars['String']>;
+  shipperId?: Maybe<Scalars['String']>;
+  shipperName?: Maybe<Scalars['String']>;
+  shipper?: Maybe<Shipper>;
+};
+
+export type PackLiner = Node & {
+  __typename?: 'PackLiner';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  shipperId?: Maybe<Scalars['String']>;
+  linerCode?: Maybe<Scalars['String']>;
+  linerDescription?: Maybe<Scalars['String']>;
+  shipper?: Maybe<Shipper>;
+};
+
+export type PackOut = Node & {
+  __typename?: 'PackOut';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  shipperId?: Maybe<Scalars['String']>;
+  outCode?: Maybe<Scalars['String']>;
+  outDescription?: Maybe<Scalars['String']>;
+  combineWith?: Maybe<Scalars['String']>;
+  shipper?: Maybe<Shipper>;
+};
+
+export type PackStyle = Node & {
+  __typename?: 'PackStyle';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  shipperId?: Maybe<Scalars['String']>;
+  packStyle?: Maybe<Scalars['String']>;
+  styleDescription?: Maybe<Scalars['String']>;
+  combineWith?: Maybe<Scalars['String']>;
+  shipper?: Maybe<Shipper>;
+};
+
+export type PackPalletType = Node & {
+  __typename?: 'PackPalletType';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  shipperId?: Maybe<Scalars['String']>;
+  palletType?: Maybe<Scalars['String']>;
+  palletTypeDescription?: Maybe<Scalars['String']>;
+  combineWith?: Maybe<Scalars['String']>;
+  shipper?: Maybe<Shipper>;
+};
+
+export type PackProduction = Node & {
+  __typename?: 'PackProduction';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  shipperId?: Maybe<Scalars['String']>;
+  productionCode?: Maybe<Scalars['String']>;
+  productionDescription?: Maybe<Scalars['String']>;
+  combineWith?: Maybe<Scalars['String']>;
+  shipper?: Maybe<Shipper>;
+};
+
+export type ProductSpecies = Node & {
+  __typename?: 'ProductSpecies';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['String'];
+  speciesDescription?: Maybe<Scalars['String']>;
+  secondaryDescription?: Maybe<Scalars['String']>;
+  fdaProductCode?: Maybe<Scalars['String']>;
+  fdaIndustryCode?: Maybe<Scalars['String']>;
+  defaultTemperature?: Maybe<Scalars['String']>;
+};
+
+export type PackTreeRipe = Node & {
+  __typename?: 'PackTreeRipe';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  shipperId?: Maybe<Scalars['String']>;
+  treeRipe?: Maybe<Scalars['String']>;
+  treeRipeDescription?: Maybe<Scalars['String']>;
+  shipper?: Maybe<Shipper>;
+};
+
+/** A connection to a list of `ProductSize` values. */
+export type ProductSizesConnection = {
+  __typename?: 'ProductSizesConnection';
+  /** A list of `ProductSize` objects. */
+  nodes: Array<Maybe<ProductSize>>;
+  /** A list of edges which contains the `ProductSize` and cursor to aid in pagination. */
+  edges: Array<ProductSizesEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `ProductSize` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+export type ProductSize = Node & {
+  __typename?: 'ProductSize';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  speciesId?: Maybe<Scalars['String']>;
+  varietyId?: Maybe<Scalars['String']>;
+  jvCode?: Maybe<Scalars['String']>;
+  jvDescription?: Maybe<Scalars['String']>;
+  shipperCode?: Maybe<Scalars['String']>;
+  shipperDescription?: Maybe<Scalars['String']>;
+  combineWith?: Maybe<Scalars['String']>;
+  combineDescription?: Maybe<Scalars['String']>;
+  shipperId?: Maybe<Scalars['String']>;
+  shipper?: Maybe<Shipper>;
+  species?: Maybe<ProductSpecies>;
+  variety?: Maybe<ProductVariety>;
+};
+
+/** A `ProductSize` edge in the connection. */
+export type ProductSizesEdge = {
+  __typename?: 'ProductSizesEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `ProductSize` at the end of the edge. */
+  node?: Maybe<ProductSize>;
+};
+
+/** A filter to be used against `ProductSize` object types. All fields are combined with a logical ‘and.’ */
+export type ProductSizeFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `speciesId` field. */
+  speciesId?: Maybe<StringFilter>;
+  /** Filter by the object’s `varietyId` field. */
+  varietyId?: Maybe<StringFilter>;
+  /** Filter by the object’s `jvCode` field. */
+  jvCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `jvDescription` field. */
+  jvDescription?: Maybe<StringFilter>;
+  /** Filter by the object’s `shipperCode` field. */
+  shipperCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `shipperDescription` field. */
+  shipperDescription?: Maybe<StringFilter>;
+  /** Filter by the object’s `combineWith` field. */
+  combineWith?: Maybe<StringFilter>;
+  /** Filter by the object’s `combineDescription` field. */
+  combineDescription?: Maybe<StringFilter>;
+  /** Filter by the object’s `shipperId` field. */
+  shipperId?: Maybe<StringFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<ProductSizeFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<ProductSizeFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<ProductSizeFilter>;
+};
+
+/** A `Pallet` edge in the connection. */
+export type PalletsEdge = {
+  __typename?: 'PalletsEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `Pallet` at the end of the edge. */
+  node?: Maybe<Pallet>;
+};
+
+/** A filter to be used against `Pallet` object types. All fields are combined with a logical ‘and.’ */
+export type PalletFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `vesselCode` field. */
+  vesselCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `palletId` field. */
+  palletId?: Maybe<StringFilter>;
+  /** Filter by the object’s `productId` field. */
+  productId?: Maybe<StringFilter>;
+  /** Filter by the object’s `currentBoxQuantity` field. */
+  currentBoxQuantity?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `receivedBoxQuantity` field. */
+  receivedBoxQuantity?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `returnedBoxQuantity` field. */
+  returnedBoxQuantity?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `locationId` field. */
+  locationId?: Maybe<StringFilter>;
+  /** Filter by the object’s `room` field. */
+  room?: Maybe<StringFilter>;
+  /** Filter by the object’s `section` field. */
+  section?: Maybe<StringFilter>;
+  /** Filter by the object’s `row` field. */
+  row?: Maybe<StringFilter>;
+  /** Filter by the object’s `jvLotNumber` field. */
+  jvLotNumber?: Maybe<StringFilter>;
+  /** Filter by the object’s `shipperId` field. */
+  shipperId?: Maybe<StringFilter>;
+  /** Filter by the object’s `dateTransferredToStorage` field. */
+  dateTransferredToStorage?: Maybe<DateFilter>;
+  /** Filter by the object’s `orderId` field. */
+  orderId?: Maybe<StringFilter>;
+  /** Filter by the object’s `backOrderId` field. */
+  backOrderId?: Maybe<StringFilter>;
+  /** Filter by the object’s `shipped` field. */
+  shipped?: Maybe<BooleanFilter>;
+  /** Filter by the object’s `age` field. */
+  age?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `volumeDiscountCode` field. */
+  volumeDiscountCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `originalLocationId` field. */
+  originalLocationId?: Maybe<StringFilter>;
+  /** Filter by the object’s `filler` field. */
+  filler?: Maybe<StringFilter>;
+  /** Filter by the object’s `growerId` field. */
+  growerId?: Maybe<StringFilter>;
+  /** Filter by the object’s `oldPackCode` field. */
+  oldPackCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `packDate` field. */
+  packDate?: Maybe<StringFilter>;
+  /** Filter by the object’s `hatch` field. */
+  hatch?: Maybe<StringFilter>;
+  /** Filter by the object’s `deck` field. */
+  deck?: Maybe<StringFilter>;
+  /** Filter by the object’s `billOfLading` field. */
+  billOfLading?: Maybe<StringFilter>;
+  /** Filter by the object’s `containerId` field. */
+  containerId?: Maybe<StringFilter>;
+  /** Filter by the object’s `temperatureRecording` field. */
+  temperatureRecording?: Maybe<StringFilter>;
+  /** Filter by the object’s `searchText` field. */
+  searchText?: Maybe<StringFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<PalletFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<PalletFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<PalletFilter>;
+};
+
+/** A `InventoryItem` edge in the connection. */
+export type InventoryItemsEdge = {
+  __typename?: 'InventoryItemsEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `InventoryItem` at the end of the edge. */
+  node?: Maybe<InventoryItem>;
+};
+
+/** A filter to be used against `InventoryItem` object types. All fields are combined with a logical ‘and.’ */
+export type InventoryItemFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `productId` field. */
+  productId?: Maybe<StringFilter>;
+  /** Filter by the object’s `locationId` field. */
+  locationId?: Maybe<StringFilter>;
+  /** Filter by the object’s `vesselCode` field. */
+  vesselCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `jvLotNumber` field. */
+  jvLotNumber?: Maybe<StringFilter>;
+  /** Filter by the object’s `shipperId` field. */
+  shipperId?: Maybe<StringFilter>;
+  /** Filter by the object’s `palletsReceived` field. */
+  palletsReceived?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `palletsCommitted` field. */
+  palletsCommitted?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `palletsOnHand` field. */
+  palletsOnHand?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `palletsAvailable` field. */
+  palletsAvailable?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `palletsShipped` field. */
+  palletsShipped?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `palletsTransferredIn` field. */
+  palletsTransferredIn?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `palletsTransferredOut` field. */
+  palletsTransferredOut?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `plu` field. */
+  plu?: Maybe<BooleanFilter>;
+  /** Filter by the object’s `countryId` field. */
+  countryId?: Maybe<StringFilter>;
+  /** Filter by the object’s `specialLotNumber` field. */
+  specialLotNumber?: Maybe<StringFilter>;
+  /** Filter by the object’s `coast` field. */
+  coast?: Maybe<StringFilter>;
+  /** Filter by the object’s `storageRank` field. */
+  storageRank?: Maybe<StringFilter>;
+  /** Filter by the object’s `warehouseId` field. */
+  warehouseId?: Maybe<StringFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<InventoryItemFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<InventoryItemFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<InventoryItemFilter>;
+};
+
 /** A `PsaArrivalReport` edge in the connection. */
 export type PsaArrivalReportsEdge = {
   __typename?: 'PsaArrivalReportsEdge';
@@ -13004,701 +14109,6 @@ export type PriceCategoryCondition = {
   sortOrder?: Maybe<Scalars['Int']>;
 };
 
-/** A connection to a list of `InventoryItem` values. */
-export type InventoryItemsConnection = {
-  __typename?: 'InventoryItemsConnection';
-  /** A list of `InventoryItem` objects. */
-  nodes: Array<Maybe<InventoryItem>>;
-  /** A list of edges which contains the `InventoryItem` and cursor to aid in pagination. */
-  edges: Array<InventoryItemsEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `InventoryItem` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-export type InventoryItem = Node & {
-  __typename?: 'InventoryItem';
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  nodeId: Scalars['ID'];
-  id: Scalars['BigInt'];
-  productId?: Maybe<Scalars['String']>;
-  locationId?: Maybe<Scalars['String']>;
-  vesselCode?: Maybe<Scalars['String']>;
-  jvLotNumber?: Maybe<Scalars['String']>;
-  shipperId?: Maybe<Scalars['String']>;
-  palletsReceived?: Maybe<Scalars['BigFloat']>;
-  palletsCommitted?: Maybe<Scalars['BigFloat']>;
-  palletsOnHand?: Maybe<Scalars['BigFloat']>;
-  palletsAvailable?: Maybe<Scalars['BigFloat']>;
-  palletsShipped?: Maybe<Scalars['BigFloat']>;
-  palletsTransferredIn?: Maybe<Scalars['BigFloat']>;
-  palletsTransferredOut?: Maybe<Scalars['BigFloat']>;
-  plu?: Maybe<Scalars['Boolean']>;
-  countryId?: Maybe<Scalars['String']>;
-  specialLotNumber?: Maybe<Scalars['String']>;
-  coast?: Maybe<Scalars['String']>;
-  storageRank?: Maybe<Scalars['String']>;
-  warehouseId?: Maybe<Scalars['String']>;
-  country?: Maybe<Country>;
-  /** Reads and enables pagination through a set of `Pallet`. */
-  pallets: PalletsConnection;
-  product?: Maybe<ProductMaster>;
-  shipper?: Maybe<Shipper>;
-  vessel?: Maybe<Vessel>;
-  warehouse?: Maybe<Warehouse>;
-};
-
-
-export type InventoryItemPalletsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  filter?: Maybe<PalletFilter>;
-};
-
-/** A connection to a list of `Pallet` values. */
-export type PalletsConnection = {
-  __typename?: 'PalletsConnection';
-  /** A list of `Pallet` objects. */
-  nodes: Array<Maybe<Pallet>>;
-  /** A list of edges which contains the `Pallet` and cursor to aid in pagination. */
-  edges: Array<PalletsEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `Pallet` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-export type Pallet = {
-  __typename?: 'Pallet';
-  id?: Maybe<Scalars['BigInt']>;
-  vesselCode?: Maybe<Scalars['String']>;
-  palletId?: Maybe<Scalars['String']>;
-  productId?: Maybe<Scalars['String']>;
-  currentBoxQuantity?: Maybe<Scalars['BigFloat']>;
-  receivedBoxQuantity?: Maybe<Scalars['BigFloat']>;
-  returnedBoxQuantity?: Maybe<Scalars['BigFloat']>;
-  locationId?: Maybe<Scalars['String']>;
-  room?: Maybe<Scalars['String']>;
-  section?: Maybe<Scalars['String']>;
-  row?: Maybe<Scalars['String']>;
-  jvLotNumber?: Maybe<Scalars['String']>;
-  shipperId?: Maybe<Scalars['String']>;
-  dateTransferredToStorage?: Maybe<Scalars['Date']>;
-  orderId?: Maybe<Scalars['String']>;
-  backOrderId?: Maybe<Scalars['String']>;
-  shipped?: Maybe<Scalars['Boolean']>;
-  age?: Maybe<Scalars['BigFloat']>;
-  volumeDiscountCode?: Maybe<Scalars['String']>;
-  originalLocationId?: Maybe<Scalars['String']>;
-  filler?: Maybe<Scalars['String']>;
-  growerId?: Maybe<Scalars['String']>;
-  oldPackCode?: Maybe<Scalars['String']>;
-  packDate?: Maybe<Scalars['String']>;
-  hatch?: Maybe<Scalars['String']>;
-  deck?: Maybe<Scalars['String']>;
-  billOfLading?: Maybe<Scalars['String']>;
-  containerId?: Maybe<Scalars['String']>;
-  temperatureRecording?: Maybe<Scalars['String']>;
-  originalLocation?: Maybe<Warehouse>;
-  /** Reads and enables pagination through a set of `PalletSection`. */
-  palletSections: PalletSectionsConnection;
-  product?: Maybe<ProductMaster>;
-  searchText?: Maybe<Scalars['String']>;
-  shipper?: Maybe<Shipper>;
-  vessel?: Maybe<Vessel>;
-  warehouse?: Maybe<Warehouse>;
-};
-
-
-export type PalletPalletSectionsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  filter?: Maybe<PalletSectionFilter>;
-};
-
-/** A connection to a list of `PalletSection` values. */
-export type PalletSectionsConnection = {
-  __typename?: 'PalletSectionsConnection';
-  /** A list of `PalletSection` objects. */
-  nodes: Array<Maybe<PalletSection>>;
-  /** A list of edges which contains the `PalletSection` and cursor to aid in pagination. */
-  edges: Array<PalletSectionsEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `PalletSection` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-export type PalletSection = Node & {
-  __typename?: 'PalletSection';
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  nodeId: Scalars['ID'];
-  id: Scalars['BigInt'];
-  palletId: Scalars['String'];
-  growerId?: Maybe<Scalars['String']>;
-  varietyId?: Maybe<Scalars['String']>;
-  sizeId?: Maybe<Scalars['String']>;
-  boxQuantity?: Maybe<Scalars['BigFloat']>;
-  packDate?: Maybe<Scalars['String']>;
-  variety?: Maybe<ProductVariety>;
-};
-
-export type ProductVariety = Node & {
-  __typename?: 'ProductVariety';
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  nodeId: Scalars['ID'];
-  id: Scalars['String'];
-  varietyDescription?: Maybe<Scalars['String']>;
-  secondaryDescription?: Maybe<Scalars['String']>;
-  customerLetterSequence?: Maybe<Scalars['String']>;
-  summaryCode?: Maybe<Scalars['String']>;
-  varietyGroup?: Maybe<Scalars['String']>;
-  combineWith?: Maybe<Scalars['String']>;
-};
-
-/** A `PalletSection` edge in the connection. */
-export type PalletSectionsEdge = {
-  __typename?: 'PalletSectionsEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `PalletSection` at the end of the edge. */
-  node?: Maybe<PalletSection>;
-};
-
-/** A filter to be used against `PalletSection` object types. All fields are combined with a logical ‘and.’ */
-export type PalletSectionFilter = {
-  /** Filter by the object’s `id` field. */
-  id?: Maybe<BigIntFilter>;
-  /** Filter by the object’s `palletId` field. */
-  palletId?: Maybe<StringFilter>;
-  /** Filter by the object’s `growerId` field. */
-  growerId?: Maybe<StringFilter>;
-  /** Filter by the object’s `varietyId` field. */
-  varietyId?: Maybe<StringFilter>;
-  /** Filter by the object’s `sizeId` field. */
-  sizeId?: Maybe<StringFilter>;
-  /** Filter by the object’s `boxQuantity` field. */
-  boxQuantity?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `packDate` field. */
-  packDate?: Maybe<StringFilter>;
-  /** Checks for all expressions in this list. */
-  and?: Maybe<Array<PalletSectionFilter>>;
-  /** Checks for any expressions in this list. */
-  or?: Maybe<Array<PalletSectionFilter>>;
-  /** Negates the expression. */
-  not?: Maybe<PalletSectionFilter>;
-};
-
-export type ProductMaster = Node & {
-  __typename?: 'ProductMaster';
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  nodeId: Scalars['ID'];
-  id: Scalars['String'];
-  defaultPalletQuantity?: Maybe<Scalars['String']>;
-  lotNumber?: Maybe<Scalars['String']>;
-  packType?: Maybe<PackMaster>;
-  searchText?: Maybe<Scalars['String']>;
-  /** Reads and enables pagination through a set of `ProductSize`. */
-  sizes: ProductSizesConnection;
-  species?: Maybe<ProductSpecies>;
-  variety?: Maybe<ProductVariety>;
-};
-
-
-export type ProductMasterSizesArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  filter?: Maybe<ProductSizeFilter>;
-};
-
-export type PackMaster = Node & {
-  __typename?: 'PackMaster';
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  nodeId: Scalars['ID'];
-  id: Scalars['BigInt'];
-  shipperId?: Maybe<Scalars['String']>;
-  labelCodeId?: Maybe<Scalars['String']>;
-  customerCodeId?: Maybe<Scalars['String']>;
-  boxTypeId?: Maybe<Scalars['String']>;
-  boxStyleId?: Maybe<Scalars['String']>;
-  packStyleId?: Maybe<Scalars['String']>;
-  outCodeId?: Maybe<Scalars['String']>;
-  outQuantity?: Maybe<Scalars['String']>;
-  outWeight?: Maybe<Scalars['String']>;
-  productionCodeId?: Maybe<Scalars['String']>;
-  treeRipeId?: Maybe<Scalars['String']>;
-  gradeCodeId?: Maybe<Scalars['String']>;
-  maCodeId?: Maybe<Scalars['String']>;
-  linerCodeId?: Maybe<Scalars['String']>;
-  netWeightContents?: Maybe<Scalars['BigFloat']>;
-  netWeightBox?: Maybe<Scalars['BigFloat']>;
-  boxLength?: Maybe<Scalars['BigFloat']>;
-  boxWidth?: Maybe<Scalars['BigFloat']>;
-  boxHeight?: Maybe<Scalars['BigFloat']>;
-  palletTypeId?: Maybe<Scalars['String']>;
-  defaultPalletQuantity?: Maybe<Scalars['BigFloat']>;
-  pluUpcCode?: Maybe<Scalars['String']>;
-  destinationCodeId?: Maybe<Scalars['String']>;
-  oldPackCode?: Maybe<Scalars['String']>;
-  oldLabelCode?: Maybe<Scalars['String']>;
-  jvPackCode?: Maybe<Scalars['String']>;
-  packDescription?: Maybe<Scalars['String']>;
-  varietyId?: Maybe<Scalars['String']>;
-  speciesId?: Maybe<Scalars['String']>;
-  holdCodeId?: Maybe<Scalars['String']>;
-  atmosphere?: Maybe<PackAtmosphere>;
-  boxStyle?: Maybe<PackBoxStyle>;
-  boxType?: Maybe<PackBoxType>;
-  customerSpecial?: Maybe<PackSpecial>;
-  destination?: Maybe<PackDestination>;
-  grade?: Maybe<PackGrade>;
-  hold?: Maybe<PackHold>;
-  label?: Maybe<PackLabel>;
-  liner?: Maybe<PackLiner>;
-  out?: Maybe<PackOut>;
-  packStyle?: Maybe<PackStyle>;
-  palletType?: Maybe<PackPalletType>;
-  production?: Maybe<PackProduction>;
-  shipper?: Maybe<Shipper>;
-  species?: Maybe<ProductSpecies>;
-  treeRipe?: Maybe<PackTreeRipe>;
-  variety?: Maybe<ProductVariety>;
-};
-
-export type PackAtmosphere = Node & {
-  __typename?: 'PackAtmosphere';
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  nodeId: Scalars['ID'];
-  id: Scalars['BigInt'];
-  shipperId?: Maybe<Scalars['String']>;
-  maCode?: Maybe<Scalars['String']>;
-  maDescription?: Maybe<Scalars['String']>;
-  shipper?: Maybe<Shipper>;
-};
-
-export type PackBoxStyle = Node & {
-  __typename?: 'PackBoxStyle';
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  nodeId: Scalars['ID'];
-  id: Scalars['BigInt'];
-  shipperId?: Maybe<Scalars['String']>;
-  boxStyle?: Maybe<Scalars['String']>;
-  boxDescription?: Maybe<Scalars['String']>;
-  combineWith?: Maybe<Scalars['String']>;
-  combineDescription?: Maybe<Scalars['String']>;
-  shipper?: Maybe<Shipper>;
-};
-
-export type PackBoxType = Node & {
-  __typename?: 'PackBoxType';
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  nodeId: Scalars['ID'];
-  id: Scalars['BigInt'];
-  shipperId?: Maybe<Scalars['String']>;
-  boxType?: Maybe<Scalars['String']>;
-  boxDescription?: Maybe<Scalars['String']>;
-  shipper?: Maybe<Shipper>;
-};
-
-export type PackSpecial = Node & {
-  __typename?: 'PackSpecial';
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  nodeId: Scalars['ID'];
-  id: Scalars['BigInt'];
-  shipperId?: Maybe<Scalars['String']>;
-  customerCode?: Maybe<Scalars['String']>;
-  customerId?: Maybe<Scalars['String']>;
-  customerName?: Maybe<Scalars['String']>;
-  customer?: Maybe<Customer>;
-  shipper?: Maybe<Shipper>;
-};
-
-export type PackDestination = Node & {
-  __typename?: 'PackDestination';
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  nodeId: Scalars['ID'];
-  id: Scalars['BigInt'];
-  shipperId?: Maybe<Scalars['String']>;
-  destinationCode?: Maybe<Scalars['String']>;
-  destinationDescription?: Maybe<Scalars['String']>;
-  shipper?: Maybe<Shipper>;
-};
-
-export type PackGrade = Node & {
-  __typename?: 'PackGrade';
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  nodeId: Scalars['ID'];
-  id: Scalars['BigInt'];
-  shipperId?: Maybe<Scalars['String']>;
-  gradeCode?: Maybe<Scalars['String']>;
-  gradeDescription?: Maybe<Scalars['String']>;
-  shipper?: Maybe<Shipper>;
-};
-
-export type PackHold = Node & {
-  __typename?: 'PackHold';
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  nodeId: Scalars['ID'];
-  id: Scalars['BigInt'];
-  shipperId?: Maybe<Scalars['String']>;
-  holdCode?: Maybe<Scalars['String']>;
-  holdDescription?: Maybe<Scalars['String']>;
-  shipper?: Maybe<Shipper>;
-};
-
-export type PackLabel = Node & {
-  __typename?: 'PackLabel';
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  nodeId: Scalars['ID'];
-  id: Scalars['BigInt'];
-  labelCode?: Maybe<Scalars['String']>;
-  labelName?: Maybe<Scalars['String']>;
-  shipperId?: Maybe<Scalars['String']>;
-  shipperName?: Maybe<Scalars['String']>;
-  shipper?: Maybe<Shipper>;
-};
-
-export type PackLiner = Node & {
-  __typename?: 'PackLiner';
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  nodeId: Scalars['ID'];
-  id: Scalars['BigInt'];
-  shipperId?: Maybe<Scalars['String']>;
-  linerCode?: Maybe<Scalars['String']>;
-  linerDescription?: Maybe<Scalars['String']>;
-  shipper?: Maybe<Shipper>;
-};
-
-export type PackOut = Node & {
-  __typename?: 'PackOut';
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  nodeId: Scalars['ID'];
-  id: Scalars['BigInt'];
-  shipperId?: Maybe<Scalars['String']>;
-  outCode?: Maybe<Scalars['String']>;
-  outDescription?: Maybe<Scalars['String']>;
-  combineWith?: Maybe<Scalars['String']>;
-  shipper?: Maybe<Shipper>;
-};
-
-export type PackStyle = Node & {
-  __typename?: 'PackStyle';
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  nodeId: Scalars['ID'];
-  id: Scalars['BigInt'];
-  shipperId?: Maybe<Scalars['String']>;
-  packStyle?: Maybe<Scalars['String']>;
-  styleDescription?: Maybe<Scalars['String']>;
-  combineWith?: Maybe<Scalars['String']>;
-  shipper?: Maybe<Shipper>;
-};
-
-export type PackPalletType = Node & {
-  __typename?: 'PackPalletType';
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  nodeId: Scalars['ID'];
-  id: Scalars['BigInt'];
-  shipperId?: Maybe<Scalars['String']>;
-  palletType?: Maybe<Scalars['String']>;
-  palletTypeDescription?: Maybe<Scalars['String']>;
-  combineWith?: Maybe<Scalars['String']>;
-  shipper?: Maybe<Shipper>;
-};
-
-export type PackProduction = Node & {
-  __typename?: 'PackProduction';
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  nodeId: Scalars['ID'];
-  id: Scalars['BigInt'];
-  shipperId?: Maybe<Scalars['String']>;
-  productionCode?: Maybe<Scalars['String']>;
-  productionDescription?: Maybe<Scalars['String']>;
-  combineWith?: Maybe<Scalars['String']>;
-  shipper?: Maybe<Shipper>;
-};
-
-export type ProductSpecies = Node & {
-  __typename?: 'ProductSpecies';
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  nodeId: Scalars['ID'];
-  id: Scalars['String'];
-  speciesDescription?: Maybe<Scalars['String']>;
-  secondaryDescription?: Maybe<Scalars['String']>;
-  fdaProductCode?: Maybe<Scalars['String']>;
-  fdaIndustryCode?: Maybe<Scalars['String']>;
-  defaultTemperature?: Maybe<Scalars['String']>;
-};
-
-export type PackTreeRipe = Node & {
-  __typename?: 'PackTreeRipe';
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  nodeId: Scalars['ID'];
-  id: Scalars['BigInt'];
-  shipperId?: Maybe<Scalars['String']>;
-  treeRipe?: Maybe<Scalars['String']>;
-  treeRipeDescription?: Maybe<Scalars['String']>;
-  shipper?: Maybe<Shipper>;
-};
-
-/** A connection to a list of `ProductSize` values. */
-export type ProductSizesConnection = {
-  __typename?: 'ProductSizesConnection';
-  /** A list of `ProductSize` objects. */
-  nodes: Array<Maybe<ProductSize>>;
-  /** A list of edges which contains the `ProductSize` and cursor to aid in pagination. */
-  edges: Array<ProductSizesEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `ProductSize` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-export type ProductSize = Node & {
-  __typename?: 'ProductSize';
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  nodeId: Scalars['ID'];
-  id: Scalars['BigInt'];
-  speciesId?: Maybe<Scalars['String']>;
-  varietyId?: Maybe<Scalars['String']>;
-  jvCode?: Maybe<Scalars['String']>;
-  jvDescription?: Maybe<Scalars['String']>;
-  shipperCode?: Maybe<Scalars['String']>;
-  shipperDescription?: Maybe<Scalars['String']>;
-  combineWith?: Maybe<Scalars['String']>;
-  combineDescription?: Maybe<Scalars['String']>;
-  shipperId?: Maybe<Scalars['String']>;
-  shipper?: Maybe<Shipper>;
-  species?: Maybe<ProductSpecies>;
-  variety?: Maybe<ProductVariety>;
-};
-
-/** A `ProductSize` edge in the connection. */
-export type ProductSizesEdge = {
-  __typename?: 'ProductSizesEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `ProductSize` at the end of the edge. */
-  node?: Maybe<ProductSize>;
-};
-
-/** A filter to be used against `ProductSize` object types. All fields are combined with a logical ‘and.’ */
-export type ProductSizeFilter = {
-  /** Filter by the object’s `id` field. */
-  id?: Maybe<BigIntFilter>;
-  /** Filter by the object’s `speciesId` field. */
-  speciesId?: Maybe<StringFilter>;
-  /** Filter by the object’s `varietyId` field. */
-  varietyId?: Maybe<StringFilter>;
-  /** Filter by the object’s `jvCode` field. */
-  jvCode?: Maybe<StringFilter>;
-  /** Filter by the object’s `jvDescription` field. */
-  jvDescription?: Maybe<StringFilter>;
-  /** Filter by the object’s `shipperCode` field. */
-  shipperCode?: Maybe<StringFilter>;
-  /** Filter by the object’s `shipperDescription` field. */
-  shipperDescription?: Maybe<StringFilter>;
-  /** Filter by the object’s `combineWith` field. */
-  combineWith?: Maybe<StringFilter>;
-  /** Filter by the object’s `combineDescription` field. */
-  combineDescription?: Maybe<StringFilter>;
-  /** Filter by the object’s `shipperId` field. */
-  shipperId?: Maybe<StringFilter>;
-  /** Checks for all expressions in this list. */
-  and?: Maybe<Array<ProductSizeFilter>>;
-  /** Checks for any expressions in this list. */
-  or?: Maybe<Array<ProductSizeFilter>>;
-  /** Negates the expression. */
-  not?: Maybe<ProductSizeFilter>;
-};
-
-export type Vessel = Node & {
-  __typename?: 'Vessel';
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  nodeId: Scalars['ID'];
-  id: Scalars['BigInt'];
-  vesselCode: Scalars['String'];
-  vesselName?: Maybe<Scalars['String']>;
-  arrivalPort?: Maybe<Scalars['String']>;
-  countryId?: Maybe<Scalars['String']>;
-  departureDate?: Maybe<Scalars['Date']>;
-  arrivalDate?: Maybe<Scalars['Date']>;
-  dischargeDate?: Maybe<Scalars['Date']>;
-  coast?: Maybe<Scalars['String']>;
-  country?: Maybe<Country>;
-  /** Reads and enables pagination through a set of `InventoryItem`. */
-  inventoryItems: InventoryItemsConnection;
-  /** Reads and enables pagination through a set of `Pallet`. */
-  pallets: PalletsConnection;
-  searchText?: Maybe<Scalars['String']>;
-  warehouse?: Maybe<Warehouse>;
-};
-
-
-export type VesselInventoryItemsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  filter?: Maybe<InventoryItemFilter>;
-};
-
-
-export type VesselPalletsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  filter?: Maybe<PalletFilter>;
-};
-
-/** A filter to be used against `InventoryItem` object types. All fields are combined with a logical ‘and.’ */
-export type InventoryItemFilter = {
-  /** Filter by the object’s `id` field. */
-  id?: Maybe<BigIntFilter>;
-  /** Filter by the object’s `productId` field. */
-  productId?: Maybe<StringFilter>;
-  /** Filter by the object’s `locationId` field. */
-  locationId?: Maybe<StringFilter>;
-  /** Filter by the object’s `vesselCode` field. */
-  vesselCode?: Maybe<StringFilter>;
-  /** Filter by the object’s `jvLotNumber` field. */
-  jvLotNumber?: Maybe<StringFilter>;
-  /** Filter by the object’s `shipperId` field. */
-  shipperId?: Maybe<StringFilter>;
-  /** Filter by the object’s `palletsReceived` field. */
-  palletsReceived?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `palletsCommitted` field. */
-  palletsCommitted?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `palletsOnHand` field. */
-  palletsOnHand?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `palletsAvailable` field. */
-  palletsAvailable?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `palletsShipped` field. */
-  palletsShipped?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `palletsTransferredIn` field. */
-  palletsTransferredIn?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `palletsTransferredOut` field. */
-  palletsTransferredOut?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `plu` field. */
-  plu?: Maybe<BooleanFilter>;
-  /** Filter by the object’s `countryId` field. */
-  countryId?: Maybe<StringFilter>;
-  /** Filter by the object’s `specialLotNumber` field. */
-  specialLotNumber?: Maybe<StringFilter>;
-  /** Filter by the object’s `coast` field. */
-  coast?: Maybe<StringFilter>;
-  /** Filter by the object’s `storageRank` field. */
-  storageRank?: Maybe<StringFilter>;
-  /** Filter by the object’s `warehouseId` field. */
-  warehouseId?: Maybe<StringFilter>;
-  /** Checks for all expressions in this list. */
-  and?: Maybe<Array<InventoryItemFilter>>;
-  /** Checks for any expressions in this list. */
-  or?: Maybe<Array<InventoryItemFilter>>;
-  /** Negates the expression. */
-  not?: Maybe<InventoryItemFilter>;
-};
-
-/** A filter to be used against `Pallet` object types. All fields are combined with a logical ‘and.’ */
-export type PalletFilter = {
-  /** Filter by the object’s `id` field. */
-  id?: Maybe<BigIntFilter>;
-  /** Filter by the object’s `vesselCode` field. */
-  vesselCode?: Maybe<StringFilter>;
-  /** Filter by the object’s `palletId` field. */
-  palletId?: Maybe<StringFilter>;
-  /** Filter by the object’s `productId` field. */
-  productId?: Maybe<StringFilter>;
-  /** Filter by the object’s `currentBoxQuantity` field. */
-  currentBoxQuantity?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `receivedBoxQuantity` field. */
-  receivedBoxQuantity?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `returnedBoxQuantity` field. */
-  returnedBoxQuantity?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `locationId` field. */
-  locationId?: Maybe<StringFilter>;
-  /** Filter by the object’s `room` field. */
-  room?: Maybe<StringFilter>;
-  /** Filter by the object’s `section` field. */
-  section?: Maybe<StringFilter>;
-  /** Filter by the object’s `row` field. */
-  row?: Maybe<StringFilter>;
-  /** Filter by the object’s `jvLotNumber` field. */
-  jvLotNumber?: Maybe<StringFilter>;
-  /** Filter by the object’s `shipperId` field. */
-  shipperId?: Maybe<StringFilter>;
-  /** Filter by the object’s `dateTransferredToStorage` field. */
-  dateTransferredToStorage?: Maybe<DateFilter>;
-  /** Filter by the object’s `orderId` field. */
-  orderId?: Maybe<StringFilter>;
-  /** Filter by the object’s `backOrderId` field. */
-  backOrderId?: Maybe<StringFilter>;
-  /** Filter by the object’s `shipped` field. */
-  shipped?: Maybe<BooleanFilter>;
-  /** Filter by the object’s `age` field. */
-  age?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `volumeDiscountCode` field. */
-  volumeDiscountCode?: Maybe<StringFilter>;
-  /** Filter by the object’s `originalLocationId` field. */
-  originalLocationId?: Maybe<StringFilter>;
-  /** Filter by the object’s `filler` field. */
-  filler?: Maybe<StringFilter>;
-  /** Filter by the object’s `growerId` field. */
-  growerId?: Maybe<StringFilter>;
-  /** Filter by the object’s `oldPackCode` field. */
-  oldPackCode?: Maybe<StringFilter>;
-  /** Filter by the object’s `packDate` field. */
-  packDate?: Maybe<StringFilter>;
-  /** Filter by the object’s `hatch` field. */
-  hatch?: Maybe<StringFilter>;
-  /** Filter by the object’s `deck` field. */
-  deck?: Maybe<StringFilter>;
-  /** Filter by the object’s `billOfLading` field. */
-  billOfLading?: Maybe<StringFilter>;
-  /** Filter by the object’s `containerId` field. */
-  containerId?: Maybe<StringFilter>;
-  /** Filter by the object’s `temperatureRecording` field. */
-  temperatureRecording?: Maybe<StringFilter>;
-  /** Filter by the object’s `searchText` field. */
-  searchText?: Maybe<StringFilter>;
-  /** Checks for all expressions in this list. */
-  and?: Maybe<Array<PalletFilter>>;
-  /** Checks for any expressions in this list. */
-  or?: Maybe<Array<PalletFilter>>;
-  /** Negates the expression. */
-  not?: Maybe<PalletFilter>;
-};
-
-/** A `Pallet` edge in the connection. */
-export type PalletsEdge = {
-  __typename?: 'PalletsEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `Pallet` at the end of the edge. */
-  node?: Maybe<Pallet>;
-};
-
-/** A `InventoryItem` edge in the connection. */
-export type InventoryItemsEdge = {
-  __typename?: 'InventoryItemsEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `InventoryItem` at the end of the edge. */
-  node?: Maybe<InventoryItem>;
-};
-
 /** Methods to use when ordering `InventoryItem`. */
 export enum InventoryItemsOrderBy {
   Natural = 'NATURAL',
@@ -15963,6 +16373,26 @@ export type CustomerDistinctValueEdge = {
   node?: Maybe<Scalars['String']>;
 };
 
+/** A connection to a list of `String` values. */
+export type ShipperDistinctValuesConnection = {
+  __typename?: 'ShipperDistinctValuesConnection';
+  /** A list of `String` objects. */
+  nodes: Array<Maybe<Scalars['String']>>;
+  /** A list of edges which contains the `String` and cursor to aid in pagination. */
+  edges: Array<ShipperDistinctValueEdge>;
+  /** The count of *all* `String` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `String` edge in the connection. */
+export type ShipperDistinctValueEdge = {
+  __typename?: 'ShipperDistinctValueEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `String` at the end of the edge. */
+  node?: Maybe<Scalars['String']>;
+};
+
 /** A connection to a list of `ChileDepartureInspection` values. */
 export type ChileDepartureInspectionsConnection = {
   __typename?: 'ChileDepartureInspectionsConnection';
@@ -16194,6 +16624,8 @@ export type Mutation = {
   createProductSpecies?: Maybe<CreateProductSpeciesPayload>;
   /** Creates a single `ProductVariety`. */
   createProductVariety?: Maybe<CreateProductVarietyPayload>;
+  /** Creates a single `ShipperProjection`. */
+  createShipperProjection?: Maybe<CreateShipperProjectionPayload>;
   /** Creates a single `ShipperProjectionEntry`. */
   createShipperProjectionEntry?: Maybe<CreateShipperProjectionEntryPayload>;
   /** Creates a single `ShipperProjectionProduct`. */
@@ -16452,6 +16884,10 @@ export type Mutation = {
   updateProductVarietyByNodeId?: Maybe<UpdateProductVarietyPayload>;
   /** Updates a single `ProductVariety` using a unique key and a patch. */
   updateProductVariety?: Maybe<UpdateProductVarietyPayload>;
+  /** Updates a single `ShipperProjection` using its globally unique id and a patch. */
+  updateShipperProjectionByNodeId?: Maybe<UpdateShipperProjectionPayload>;
+  /** Updates a single `ShipperProjection` using a unique key and a patch. */
+  updateShipperProjection?: Maybe<UpdateShipperProjectionPayload>;
   /** Updates a single `ShipperProjectionEntry` using its globally unique id and a patch. */
   updateShipperProjectionEntryByNodeId?: Maybe<UpdateShipperProjectionEntryPayload>;
   /** Updates a single `ShipperProjectionEntry` using a unique key and a patch. */
@@ -16718,6 +17154,10 @@ export type Mutation = {
   deleteProductVarietyByNodeId?: Maybe<DeleteProductVarietyPayload>;
   /** Deletes a single `ProductVariety` using a unique key. */
   deleteProductVariety?: Maybe<DeleteProductVarietyPayload>;
+  /** Deletes a single `ShipperProjection` using its globally unique id. */
+  deleteShipperProjectionByNodeId?: Maybe<DeleteShipperProjectionPayload>;
+  /** Deletes a single `ShipperProjection` using a unique key. */
+  deleteShipperProjection?: Maybe<DeleteShipperProjectionPayload>;
   /** Deletes a single `ShipperProjectionEntry` using its globally unique id. */
   deleteShipperProjectionEntryByNodeId?: Maybe<DeleteShipperProjectionEntryPayload>;
   /** Deletes a single `ShipperProjectionEntry` using a unique key. */
@@ -16760,6 +17200,7 @@ export type Mutation = {
   bulkUpsertShipperProjectionEntry?: Maybe<BulkUpsertShipperProjectionEntryPayload>;
   bulkUpsertShipperProjectionProduct?: Maybe<BulkUpsertShipperProjectionProductPayload>;
   bulkUpsertShipperProjectionVessel?: Maybe<BulkUpsertShipperProjectionVesselPayload>;
+  upsertShipperProjection?: Maybe<UpsertShipperProjectionPayload>;
   sendPriceSheetUpdateEmail: Scalars['String'];
 };
 
@@ -17097,6 +17538,12 @@ export type MutationCreateProductSpeciesArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreateProductVarietyArgs = {
   input: CreateProductVarietyInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateShipperProjectionArgs = {
+  input: CreateShipperProjectionInput;
 };
 
 
@@ -17871,6 +18318,18 @@ export type MutationUpdateProductVarietyByNodeIdArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateProductVarietyArgs = {
   input: UpdateProductVarietyInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateShipperProjectionByNodeIdArgs = {
+  input: UpdateShipperProjectionByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateShipperProjectionArgs = {
+  input: UpdateShipperProjectionInput;
 };
 
 
@@ -18673,6 +19132,18 @@ export type MutationDeleteProductVarietyArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteShipperProjectionByNodeIdArgs = {
+  input: DeleteShipperProjectionByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteShipperProjectionArgs = {
+  input: DeleteShipperProjectionInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteShipperProjectionEntryByNodeIdArgs = {
   input: DeleteShipperProjectionEntryByNodeIdInput;
 };
@@ -18873,6 +19344,12 @@ export type MutationBulkUpsertShipperProjectionProductArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationBulkUpsertShipperProjectionVesselArgs = {
   input: BulkUpsertShipperProjectionVesselInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpsertShipperProjectionArgs = {
+  input: UpsertShipperProjectionInput;
 };
 
 
@@ -19422,6 +19899,7 @@ export type UpdateShipperOnShipperPersonContactForShipperPersonContactShipperIdF
   shipperPersonContactsUsingId?: Maybe<ShipperPersonContactShipperIdFkeyInverseInput>;
   shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
+  shipperProjectionsUsingId?: Maybe<ShipperProjectionShipperIdFkeyInverseInput>;
 };
 
 /** Input for the nested mutation of `country` in the `ShipperInput` mutation. */
@@ -19497,6 +19975,7 @@ export type UpdateShipperOnShipperForShipperCountryIdFkeyPatch = {
   shipperPersonContactsUsingId?: Maybe<ShipperPersonContactShipperIdFkeyInverseInput>;
   shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
+  shipperProjectionsUsingId?: Maybe<ShipperProjectionShipperIdFkeyInverseInput>;
 };
 
 /** Input for the nested mutation of `shipperPersonContact` in the `ShipperInput` mutation. */
@@ -20903,6 +21382,7 @@ export type UpdateShipperOnShipperProjectionVesselForShipperProjectionVesselShip
   shipperPersonContactsUsingId?: Maybe<ShipperPersonContactShipperIdFkeyInverseInput>;
   shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
+  shipperProjectionsUsingId?: Maybe<ShipperProjectionShipperIdFkeyInverseInput>;
 };
 
 /** Input for the nested mutation of `shipperProjectionProduct` in the `ShipperInput` mutation. */
@@ -21004,10 +21484,110 @@ export type UpdateShipperOnShipperProjectionProductForShipperProjectionProductSh
   shipperPersonContactsUsingId?: Maybe<ShipperPersonContactShipperIdFkeyInverseInput>;
   shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
+  shipperProjectionsUsingId?: Maybe<ShipperProjectionShipperIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `shipperProjection` in the `ShipperInput` mutation. */
+export type ShipperProjectionShipperIdFkeyInverseInput = {
+  /** Flag indicating whether all other `shipperProjection` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `shipperProjection` for the far side of the relationship. */
+  connectById?: Maybe<Array<ShipperProjectionShipperProjectionPkeyConnect>>;
+  /** The primary key(s) for `shipperProjection` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<ShipperProjectionNodeIdConnect>>;
+  /** The primary key(s) for `shipperProjection` for the far side of the relationship. */
+  deleteById?: Maybe<Array<ShipperProjectionShipperProjectionPkeyDelete>>;
+  /** The primary key(s) for `shipperProjection` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<ShipperProjectionNodeIdDelete>>;
+  /** The primary key(s) and patch data for `shipperProjection` for the far side of the relationship. */
+  updateById?: Maybe<Array<ShipperProjectionOnShipperProjectionForShipperProjectionShipperIdFkeyUsingShipperProjectionPkeyUpdate>>;
+  /** The primary key(s) and patch data for `shipperProjection` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<ShipperOnShipperProjectionForShipperProjectionShipperIdFkeyNodeIdUpdate>>;
+  /** A `ShipperProjectionInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<ShipperProjectionShipperIdFkeyShipperProjectionCreateInput>>;
+};
+
+/** The fields on `shipperProjection` to look up the row to connect. */
+export type ShipperProjectionShipperProjectionPkeyConnect = {
+  id: Scalars['BigInt'];
+};
+
+/** The globally unique `ID` look up for the row to connect. */
+export type ShipperProjectionNodeIdConnect = {
+  /** The globally unique `ID` which identifies a single `shipperProjection` to be connected. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `shipperProjection` to look up the row to delete. */
+export type ShipperProjectionShipperProjectionPkeyDelete = {
+  id: Scalars['BigInt'];
+};
+
+/** The globally unique `ID` look up for the row to delete. */
+export type ShipperProjectionNodeIdDelete = {
+  /** The globally unique `ID` which identifies a single `shipperProjection` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `shipperProjection` to look up the row to update. */
+export type ShipperProjectionOnShipperProjectionForShipperProjectionShipperIdFkeyUsingShipperProjectionPkeyUpdate = {
+  /** An object where the defined keys will be set on the `shipperProjection` being updated. */
+  patch: UpdateShipperProjectionOnShipperProjectionForShipperProjectionShipperIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `shipperProjection` being updated. */
+export type UpdateShipperProjectionOnShipperProjectionForShipperProjectionShipperIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  completedAt?: Maybe<Scalars['Datetime']>;
+  isReviewed?: Maybe<Scalars['Boolean']>;
+  shipperToShipperId?: Maybe<ShipperProjectionShipperIdFkeyInput>;
+  shipperProjectionEntriesUsingId?: Maybe<FkShipperProjectionIdInverseInput>;
+};
+
+/** Input for the nested mutation of `shipper` in the `ShipperProjectionInput` mutation. */
+export type ShipperProjectionShipperIdFkeyInput = {
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  connectById?: Maybe<ShipperShipperPkeyConnect>;
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  connectByNodeId?: Maybe<ShipperNodeIdConnect>;
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  deleteById?: Maybe<ShipperShipperPkeyDelete>;
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<ShipperNodeIdDelete>;
+  /** The primary key(s) and patch data for `shipper` for the far side of the relationship. */
+  updateById?: Maybe<ShipperOnShipperProjectionForShipperProjectionShipperIdFkeyUsingShipperPkeyUpdate>;
+  /** The primary key(s) and patch data for `shipper` for the far side of the relationship. */
+  updateByNodeId?: Maybe<ShipperProjectionOnShipperProjectionForShipperProjectionShipperIdFkeyNodeIdUpdate>;
+  /** A `ShipperInput` object that will be created and connected to this object. */
+  create?: Maybe<ShipperProjectionShipperIdFkeyShipperCreateInput>;
+};
+
+/** The fields on `shipper` to look up the row to update. */
+export type ShipperOnShipperProjectionForShipperProjectionShipperIdFkeyUsingShipperPkeyUpdate = {
+  /** An object where the defined keys will be set on the `shipper` being updated. */
+  patch: UpdateShipperOnShipperProjectionForShipperProjectionShipperIdFkeyPatch;
+  id: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `shipper` being updated. */
+export type UpdateShipperOnShipperProjectionForShipperProjectionShipperIdFkeyPatch = {
+  id?: Maybe<Scalars['String']>;
+  shipperName?: Maybe<Scalars['String']>;
+  countryId?: Maybe<Scalars['String']>;
+  groupId?: Maybe<Scalars['String']>;
+  logoSrc?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
+  countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
+  shipperPersonContactsUsingId?: Maybe<ShipperPersonContactShipperIdFkeyInverseInput>;
+  shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
+  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
+  shipperProjectionsUsingId?: Maybe<ShipperProjectionShipperIdFkeyInverseInput>;
 };
 
 /** The globally unique `ID` look up for the row to update. */
-export type ShipperProjectionProductOnShipperProjectionProductForShipperProjectionProductShipperIdFkeyNodeIdUpdate = {
+export type ShipperProjectionOnShipperProjectionForShipperProjectionShipperIdFkeyNodeIdUpdate = {
   /** The globally unique `ID` which identifies a single `shipper` to be connected. */
   nodeId: Scalars['ID'];
   /** An object where the defined keys will be set on the `shipper` being updated. */
@@ -21027,10 +21607,11 @@ export type ShipperPatch = {
   shipperPersonContactsUsingId?: Maybe<ShipperPersonContactShipperIdFkeyInverseInput>;
   shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
+  shipperProjectionsUsingId?: Maybe<ShipperProjectionShipperIdFkeyInverseInput>;
 };
 
 /** The `shipper` to be created by this mutation. */
-export type ShipperProjectionProductShipperIdFkeyShipperCreateInput = {
+export type ShipperProjectionShipperIdFkeyShipperCreateInput = {
   id: Scalars['String'];
   shipperName: Scalars['String'];
   countryId?: Maybe<Scalars['String']>;
@@ -21042,10 +21623,11 @@ export type ShipperProjectionProductShipperIdFkeyShipperCreateInput = {
   shipperPersonContactsUsingId?: Maybe<ShipperPersonContactShipperIdFkeyInverseInput>;
   shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
+  shipperProjectionsUsingId?: Maybe<ShipperProjectionShipperIdFkeyInverseInput>;
 };
 
-/** Input for the nested mutation of `shipperProjectionEntry` in the `ShipperProjectionProductInput` mutation. */
-export type ShipperProjectionEntryProductIdFkeyInverseInput = {
+/** Input for the nested mutation of `shipperProjectionEntry` in the `ShipperProjectionInput` mutation. */
+export type FkShipperProjectionIdInverseInput = {
   /** Flag indicating whether all other `shipperProjectionEntry` records that match this relationship should be removed. */
   deleteOthers?: Maybe<Scalars['Boolean']>;
   /** The primary key(s) for `shipperProjectionEntry` for the far side of the relationship. */
@@ -21057,11 +21639,11 @@ export type ShipperProjectionEntryProductIdFkeyInverseInput = {
   /** The primary key(s) for `shipperProjectionEntry` for the far side of the relationship. */
   deleteByNodeId?: Maybe<Array<ShipperProjectionEntryNodeIdDelete>>;
   /** The primary key(s) and patch data for `shipperProjectionEntry` for the far side of the relationship. */
-  updateById?: Maybe<Array<ShipperProjectionEntryOnShipperProjectionEntryForShipperProjectionEntryProductIdFkeyUsingShipperProjectionEntryPkeyUpdate>>;
+  updateById?: Maybe<Array<ShipperProjectionEntryOnShipperProjectionEntryForFkShipperProjectionIdUsingShipperProjectionEntryPkeyUpdate>>;
   /** The primary key(s) and patch data for `shipperProjectionEntry` for the far side of the relationship. */
-  updateByNodeId?: Maybe<Array<ShipperProjectionProductOnShipperProjectionEntryForShipperProjectionEntryProductIdFkeyNodeIdUpdate>>;
+  updateByNodeId?: Maybe<Array<ShipperProjectionOnShipperProjectionEntryForFkShipperProjectionIdNodeIdUpdate>>;
   /** A `ShipperProjectionEntryInput` object that will be created and connected to this object. */
-  create?: Maybe<Array<ShipperProjectionEntryProductIdFkeyShipperProjectionEntryCreateInput>>;
+  create?: Maybe<Array<FkShipperProjectionIdShipperProjectionEntryCreateInput>>;
 };
 
 /** The fields on `shipperProjectionEntry` to look up the row to connect. */
@@ -21087,19 +21669,21 @@ export type ShipperProjectionEntryNodeIdDelete = {
 };
 
 /** The fields on `shipperProjectionEntry` to look up the row to update. */
-export type ShipperProjectionEntryOnShipperProjectionEntryForShipperProjectionEntryProductIdFkeyUsingShipperProjectionEntryPkeyUpdate = {
+export type ShipperProjectionEntryOnShipperProjectionEntryForFkShipperProjectionIdUsingShipperProjectionEntryPkeyUpdate = {
   /** An object where the defined keys will be set on the `shipperProjectionEntry` being updated. */
-  patch: UpdateShipperProjectionEntryOnShipperProjectionEntryForShipperProjectionEntryProductIdFkeyPatch;
+  patch: UpdateShipperProjectionEntryOnShipperProjectionEntryForFkShipperProjectionIdPatch;
   id: Scalars['BigInt'];
 };
 
 /** An object where the defined keys will be set on the `shipperProjectionEntry` being updated. */
-export type UpdateShipperProjectionEntryOnShipperProjectionEntryForShipperProjectionEntryProductIdFkeyPatch = {
+export type UpdateShipperProjectionEntryOnShipperProjectionEntryForFkShipperProjectionIdPatch = {
   id?: Maybe<Scalars['BigInt']>;
   palletCount?: Maybe<Scalars['BigFloat']>;
   vesselId?: Maybe<Scalars['BigInt']>;
+  productId?: Maybe<Scalars['BigInt']>;
   shipperProjectionVesselToVesselId?: Maybe<ShipperProjectionEntryVesselIdFkeyInput>;
   shipperProjectionProductToProductId?: Maybe<ShipperProjectionEntryProductIdFkeyInput>;
+  shipperProjectionToShipperProjectionId?: Maybe<FkShipperProjectionIdInput>;
 };
 
 /** Input for the nested mutation of `shipperProjectionVessel` in the `ShipperProjectionEntryInput` mutation. */
@@ -21174,8 +21758,10 @@ export type UpdateShipperProjectionEntryOnShipperProjectionEntryForShipperProjec
   id?: Maybe<Scalars['BigInt']>;
   palletCount?: Maybe<Scalars['BigFloat']>;
   productId?: Maybe<Scalars['BigInt']>;
+  shipperProjectionId?: Maybe<Scalars['BigInt']>;
   shipperProjectionVesselToVesselId?: Maybe<ShipperProjectionEntryVesselIdFkeyInput>;
   shipperProjectionProductToProductId?: Maybe<ShipperProjectionEntryProductIdFkeyInput>;
+  shipperProjectionToShipperProjectionId?: Maybe<FkShipperProjectionIdInput>;
 };
 
 /** Input for the nested mutation of `shipperProjectionProduct` in the `ShipperProjectionEntryInput` mutation. */
@@ -21214,6 +21800,138 @@ export type UpdateShipperProjectionProductOnShipperProjectionEntryForShipperProj
   shipperId?: Maybe<Scalars['String']>;
   shipperToShipperId?: Maybe<ShipperProjectionProductShipperIdFkeyInput>;
   shipperProjectionEntriesUsingId?: Maybe<ShipperProjectionEntryProductIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `shipperProjectionEntry` in the `ShipperProjectionProductInput` mutation. */
+export type ShipperProjectionEntryProductIdFkeyInverseInput = {
+  /** Flag indicating whether all other `shipperProjectionEntry` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `shipperProjectionEntry` for the far side of the relationship. */
+  connectById?: Maybe<Array<ShipperProjectionEntryShipperProjectionEntryPkeyConnect>>;
+  /** The primary key(s) for `shipperProjectionEntry` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<ShipperProjectionEntryNodeIdConnect>>;
+  /** The primary key(s) for `shipperProjectionEntry` for the far side of the relationship. */
+  deleteById?: Maybe<Array<ShipperProjectionEntryShipperProjectionEntryPkeyDelete>>;
+  /** The primary key(s) for `shipperProjectionEntry` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<ShipperProjectionEntryNodeIdDelete>>;
+  /** The primary key(s) and patch data for `shipperProjectionEntry` for the far side of the relationship. */
+  updateById?: Maybe<Array<ShipperProjectionEntryOnShipperProjectionEntryForShipperProjectionEntryProductIdFkeyUsingShipperProjectionEntryPkeyUpdate>>;
+  /** The primary key(s) and patch data for `shipperProjectionEntry` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<ShipperProjectionProductOnShipperProjectionEntryForShipperProjectionEntryProductIdFkeyNodeIdUpdate>>;
+  /** A `ShipperProjectionEntryInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<ShipperProjectionEntryProductIdFkeyShipperProjectionEntryCreateInput>>;
+};
+
+/** The fields on `shipperProjectionEntry` to look up the row to update. */
+export type ShipperProjectionEntryOnShipperProjectionEntryForShipperProjectionEntryProductIdFkeyUsingShipperProjectionEntryPkeyUpdate = {
+  /** An object where the defined keys will be set on the `shipperProjectionEntry` being updated. */
+  patch: UpdateShipperProjectionEntryOnShipperProjectionEntryForShipperProjectionEntryProductIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `shipperProjectionEntry` being updated. */
+export type UpdateShipperProjectionEntryOnShipperProjectionEntryForShipperProjectionEntryProductIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  palletCount?: Maybe<Scalars['BigFloat']>;
+  vesselId?: Maybe<Scalars['BigInt']>;
+  shipperProjectionId?: Maybe<Scalars['BigInt']>;
+  shipperProjectionVesselToVesselId?: Maybe<ShipperProjectionEntryVesselIdFkeyInput>;
+  shipperProjectionProductToProductId?: Maybe<ShipperProjectionEntryProductIdFkeyInput>;
+  shipperProjectionToShipperProjectionId?: Maybe<FkShipperProjectionIdInput>;
+};
+
+/** Input for the nested mutation of `shipperProjection` in the `ShipperProjectionEntryInput` mutation. */
+export type FkShipperProjectionIdInput = {
+  /** The primary key(s) for `shipperProjection` for the far side of the relationship. */
+  connectById?: Maybe<ShipperProjectionShipperProjectionPkeyConnect>;
+  /** The primary key(s) for `shipperProjection` for the far side of the relationship. */
+  connectByNodeId?: Maybe<ShipperProjectionNodeIdConnect>;
+  /** The primary key(s) for `shipperProjection` for the far side of the relationship. */
+  deleteById?: Maybe<ShipperProjectionShipperProjectionPkeyDelete>;
+  /** The primary key(s) for `shipperProjection` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<ShipperProjectionNodeIdDelete>;
+  /** The primary key(s) and patch data for `shipperProjection` for the far side of the relationship. */
+  updateById?: Maybe<ShipperProjectionOnShipperProjectionEntryForFkShipperProjectionIdUsingShipperProjectionPkeyUpdate>;
+  /** The primary key(s) and patch data for `shipperProjection` for the far side of the relationship. */
+  updateByNodeId?: Maybe<ShipperProjectionEntryOnShipperProjectionEntryForFkShipperProjectionIdNodeIdUpdate>;
+  /** A `ShipperProjectionInput` object that will be created and connected to this object. */
+  create?: Maybe<FkShipperProjectionIdShipperProjectionCreateInput>;
+};
+
+/** The fields on `shipperProjection` to look up the row to update. */
+export type ShipperProjectionOnShipperProjectionEntryForFkShipperProjectionIdUsingShipperProjectionPkeyUpdate = {
+  /** An object where the defined keys will be set on the `shipperProjection` being updated. */
+  patch: UpdateShipperProjectionOnShipperProjectionEntryForFkShipperProjectionIdPatch;
+  id: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `shipperProjection` being updated. */
+export type UpdateShipperProjectionOnShipperProjectionEntryForFkShipperProjectionIdPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  completedAt?: Maybe<Scalars['Datetime']>;
+  isReviewed?: Maybe<Scalars['Boolean']>;
+  shipperId?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<ShipperProjectionShipperIdFkeyInput>;
+  shipperProjectionEntriesUsingId?: Maybe<FkShipperProjectionIdInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type ShipperProjectionEntryOnShipperProjectionEntryForFkShipperProjectionIdNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `shipperProjection` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `shipperProjection` being updated. */
+  patch: ShipperProjectionPatch;
+};
+
+/** Represents an update to a `ShipperProjection`. Fields that are set will be updated. */
+export type ShipperProjectionPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  completedAt?: Maybe<Scalars['Datetime']>;
+  isReviewed?: Maybe<Scalars['Boolean']>;
+  shipperId?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<ShipperProjectionShipperIdFkeyInput>;
+  shipperProjectionEntriesUsingId?: Maybe<FkShipperProjectionIdInverseInput>;
+};
+
+/** The `shipperProjection` to be created by this mutation. */
+export type FkShipperProjectionIdShipperProjectionCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  completedAt?: Maybe<Scalars['Datetime']>;
+  isReviewed?: Maybe<Scalars['Boolean']>;
+  shipperId?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<ShipperProjectionShipperIdFkeyInput>;
+  shipperProjectionEntriesUsingId?: Maybe<FkShipperProjectionIdInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type ShipperProjectionProductOnShipperProjectionEntryForShipperProjectionEntryProductIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `shipperProjectionEntry` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `shipperProjectionEntry` being updated. */
+  patch: ShipperProjectionEntryPatch;
+};
+
+/** Represents an update to a `ShipperProjectionEntry`. Fields that are set will be updated. */
+export type ShipperProjectionEntryPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  palletCount?: Maybe<Scalars['BigFloat']>;
+  vesselId?: Maybe<Scalars['BigInt']>;
+  productId?: Maybe<Scalars['BigInt']>;
+  shipperProjectionId?: Maybe<Scalars['BigInt']>;
+  shipperProjectionVesselToVesselId?: Maybe<ShipperProjectionEntryVesselIdFkeyInput>;
+  shipperProjectionProductToProductId?: Maybe<ShipperProjectionEntryProductIdFkeyInput>;
+  shipperProjectionToShipperProjectionId?: Maybe<FkShipperProjectionIdInput>;
+};
+
+/** The `shipperProjectionEntry` to be created by this mutation. */
+export type ShipperProjectionEntryProductIdFkeyShipperProjectionEntryCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  palletCount?: Maybe<Scalars['BigFloat']>;
+  vesselId?: Maybe<Scalars['BigInt']>;
+  shipperProjectionId?: Maybe<Scalars['BigInt']>;
+  shipperProjectionVesselToVesselId?: Maybe<ShipperProjectionEntryVesselIdFkeyInput>;
+  shipperProjectionProductToProductId?: Maybe<ShipperProjectionEntryProductIdFkeyInput>;
+  shipperProjectionToShipperProjectionId?: Maybe<FkShipperProjectionIdInput>;
 };
 
 /** The globally unique `ID` look up for the row to update. */
@@ -21258,23 +21976,15 @@ export type ShipperProjectionVesselOnShipperProjectionEntryForShipperProjectionE
   patch: ShipperProjectionEntryPatch;
 };
 
-/** Represents an update to a `ShipperProjectionEntry`. Fields that are set will be updated. */
-export type ShipperProjectionEntryPatch = {
-  id?: Maybe<Scalars['BigInt']>;
-  palletCount?: Maybe<Scalars['BigFloat']>;
-  vesselId?: Maybe<Scalars['BigInt']>;
-  productId?: Maybe<Scalars['BigInt']>;
-  shipperProjectionVesselToVesselId?: Maybe<ShipperProjectionEntryVesselIdFkeyInput>;
-  shipperProjectionProductToProductId?: Maybe<ShipperProjectionEntryProductIdFkeyInput>;
-};
-
 /** The `shipperProjectionEntry` to be created by this mutation. */
 export type ShipperProjectionEntryVesselIdFkeyShipperProjectionEntryCreateInput = {
   id?: Maybe<Scalars['BigInt']>;
   palletCount?: Maybe<Scalars['BigFloat']>;
   productId?: Maybe<Scalars['BigInt']>;
+  shipperProjectionId?: Maybe<Scalars['BigInt']>;
   shipperProjectionVesselToVesselId?: Maybe<ShipperProjectionEntryVesselIdFkeyInput>;
   shipperProjectionProductToProductId?: Maybe<ShipperProjectionEntryProductIdFkeyInput>;
+  shipperProjectionToShipperProjectionId?: Maybe<FkShipperProjectionIdInput>;
 };
 
 /** The globally unique `ID` look up for the row to update. */
@@ -21316,7 +22026,7 @@ export type ShipperProjectionEntryVesselIdFkeyShipperProjectionVesselCreateInput
 };
 
 /** The globally unique `ID` look up for the row to update. */
-export type ShipperProjectionProductOnShipperProjectionEntryForShipperProjectionEntryProductIdFkeyNodeIdUpdate = {
+export type ShipperProjectionOnShipperProjectionEntryForFkShipperProjectionIdNodeIdUpdate = {
   /** The globally unique `ID` which identifies a single `shipperProjectionEntry` to be connected. */
   nodeId: Scalars['ID'];
   /** An object where the defined keys will be set on the `shipperProjectionEntry` being updated. */
@@ -21324,12 +22034,55 @@ export type ShipperProjectionProductOnShipperProjectionEntryForShipperProjection
 };
 
 /** The `shipperProjectionEntry` to be created by this mutation. */
-export type ShipperProjectionEntryProductIdFkeyShipperProjectionEntryCreateInput = {
+export type FkShipperProjectionIdShipperProjectionEntryCreateInput = {
   id?: Maybe<Scalars['BigInt']>;
   palletCount?: Maybe<Scalars['BigFloat']>;
   vesselId?: Maybe<Scalars['BigInt']>;
+  productId?: Maybe<Scalars['BigInt']>;
   shipperProjectionVesselToVesselId?: Maybe<ShipperProjectionEntryVesselIdFkeyInput>;
   shipperProjectionProductToProductId?: Maybe<ShipperProjectionEntryProductIdFkeyInput>;
+  shipperProjectionToShipperProjectionId?: Maybe<FkShipperProjectionIdInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type ShipperOnShipperProjectionForShipperProjectionShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `shipperProjection` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `shipperProjection` being updated. */
+  patch: ShipperProjectionPatch;
+};
+
+/** The `shipperProjection` to be created by this mutation. */
+export type ShipperProjectionShipperIdFkeyShipperProjectionCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  completedAt?: Maybe<Scalars['Datetime']>;
+  isReviewed?: Maybe<Scalars['Boolean']>;
+  shipperToShipperId?: Maybe<ShipperProjectionShipperIdFkeyInput>;
+  shipperProjectionEntriesUsingId?: Maybe<FkShipperProjectionIdInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type ShipperProjectionProductOnShipperProjectionProductForShipperProjectionProductShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `shipper` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `shipper` being updated. */
+  patch: ShipperPatch;
+};
+
+/** The `shipper` to be created by this mutation. */
+export type ShipperProjectionProductShipperIdFkeyShipperCreateInput = {
+  id: Scalars['String'];
+  shipperName: Scalars['String'];
+  countryId?: Maybe<Scalars['String']>;
+  groupId?: Maybe<Scalars['String']>;
+  logoSrc?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
+  countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
+  shipperPersonContactsUsingId?: Maybe<ShipperPersonContactShipperIdFkeyInverseInput>;
+  shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
+  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
+  shipperProjectionsUsingId?: Maybe<ShipperProjectionShipperIdFkeyInverseInput>;
 };
 
 /** The globally unique `ID` look up for the row to update. */
@@ -21373,6 +22126,7 @@ export type ShipperProjectionVesselShipperIdFkeyShipperCreateInput = {
   shipperPersonContactsUsingId?: Maybe<ShipperPersonContactShipperIdFkeyInverseInput>;
   shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
+  shipperProjectionsUsingId?: Maybe<ShipperProjectionShipperIdFkeyInverseInput>;
 };
 
 /** The globally unique `ID` look up for the row to update. */
@@ -21417,6 +22171,7 @@ export type ShipperCountryIdFkeyShipperCreateInput = {
   shipperPersonContactsUsingId?: Maybe<ShipperPersonContactShipperIdFkeyInverseInput>;
   shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
+  shipperProjectionsUsingId?: Maybe<ShipperProjectionShipperIdFkeyInverseInput>;
 };
 
 /** The globally unique `ID` look up for the row to update. */
@@ -21457,6 +22212,7 @@ export type ShipperPersonContactShipperIdFkeyShipperCreateInput = {
   shipperPersonContactsUsingId?: Maybe<ShipperPersonContactShipperIdFkeyInverseInput>;
   shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
+  shipperProjectionsUsingId?: Maybe<ShipperProjectionShipperIdFkeyInverseInput>;
 };
 
 /** The globally unique `ID` look up for the row to update. */
@@ -22044,6 +22800,7 @@ export type ShipperInput = {
   shipperPersonContactsUsingId?: Maybe<ShipperPersonContactShipperIdFkeyInverseInput>;
   shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
+  shipperProjectionsUsingId?: Maybe<ShipperProjectionShipperIdFkeyInverseInput>;
 };
 
 /** The output of our create `ShipperPersonContact` mutation. */
@@ -25756,6 +26513,51 @@ export type ProductVarietyInput = {
   combineWith?: Maybe<Scalars['String']>;
 };
 
+/** The output of our create `ShipperProjection` mutation. */
+export type CreateShipperProjectionPayload = {
+  __typename?: 'CreateShipperProjectionPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `ShipperProjection` that was created by this mutation. */
+  shipperProjection?: Maybe<ShipperProjection>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Shipper` that is related to this `ShipperProjection`. */
+  shipper?: Maybe<Shipper>;
+  /** An edge for our `ShipperProjection`. May be used by Relay 1. */
+  shipperProjectionEdge?: Maybe<ShipperProjectionsEdge>;
+};
+
+
+/** The output of our create `ShipperProjection` mutation. */
+export type CreateShipperProjectionPayloadShipperProjectionEdgeArgs = {
+  orderBy?: Maybe<Array<ShipperProjectionsOrderBy>>;
+};
+
+/** All input for the create `ShipperProjection` mutation. */
+export type CreateShipperProjectionInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `ShipperProjection` to be created by this mutation. */
+  shipperProjection: ShipperProjectionInput;
+};
+
+/** An input for mutations affecting `ShipperProjection` */
+export type ShipperProjectionInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  completedAt?: Maybe<Scalars['Datetime']>;
+  isReviewed?: Maybe<Scalars['Boolean']>;
+  shipperId?: Maybe<Scalars['String']>;
+  shipperToShipperId?: Maybe<ShipperProjectionShipperIdFkeyInput>;
+  shipperProjectionEntriesUsingId?: Maybe<FkShipperProjectionIdInverseInput>;
+};
+
 /** The output of our create `ShipperProjectionEntry` mutation. */
 export type CreateShipperProjectionEntryPayload = {
   __typename?: 'CreateShipperProjectionEntryPayload';
@@ -25772,6 +26574,8 @@ export type CreateShipperProjectionEntryPayload = {
   vessel?: Maybe<ShipperProjectionVessel>;
   /** Reads a single `ShipperProjectionProduct` that is related to this `ShipperProjectionEntry`. */
   product?: Maybe<ShipperProjectionProduct>;
+  /** Reads a single `ShipperProjection` that is related to this `ShipperProjectionEntry`. */
+  shipperProjection?: Maybe<ShipperProjection>;
   /** An edge for our `ShipperProjectionEntry`. May be used by Relay 1. */
   shipperProjectionEntryEdge?: Maybe<ShipperProjectionEntriesEdge>;
 };
@@ -25799,8 +26603,10 @@ export type ShipperProjectionEntryInput = {
   palletCount?: Maybe<Scalars['BigFloat']>;
   vesselId?: Maybe<Scalars['BigInt']>;
   productId?: Maybe<Scalars['BigInt']>;
+  shipperProjectionId?: Maybe<Scalars['BigInt']>;
   shipperProjectionVesselToVesselId?: Maybe<ShipperProjectionEntryVesselIdFkeyInput>;
   shipperProjectionProductToProductId?: Maybe<ShipperProjectionEntryProductIdFkeyInput>;
+  shipperProjectionToShipperProjectionId?: Maybe<FkShipperProjectionIdInput>;
 };
 
 /** The output of our create `ShipperProjectionProduct` mutation. */
@@ -29993,6 +30799,55 @@ export type UpdateProductVarietyInput = {
   id: Scalars['String'];
 };
 
+/** The output of our update `ShipperProjection` mutation. */
+export type UpdateShipperProjectionPayload = {
+  __typename?: 'UpdateShipperProjectionPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `ShipperProjection` that was updated by this mutation. */
+  shipperProjection?: Maybe<ShipperProjection>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Shipper` that is related to this `ShipperProjection`. */
+  shipper?: Maybe<Shipper>;
+  /** An edge for our `ShipperProjection`. May be used by Relay 1. */
+  shipperProjectionEdge?: Maybe<ShipperProjectionsEdge>;
+};
+
+
+/** The output of our update `ShipperProjection` mutation. */
+export type UpdateShipperProjectionPayloadShipperProjectionEdgeArgs = {
+  orderBy?: Maybe<Array<ShipperProjectionsOrderBy>>;
+};
+
+/** All input for the `updateShipperProjectionByNodeId` mutation. */
+export type UpdateShipperProjectionByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `ShipperProjection` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `ShipperProjection` being updated. */
+  patch: ShipperProjectionPatch;
+};
+
+/** All input for the `updateShipperProjection` mutation. */
+export type UpdateShipperProjectionInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `ShipperProjection` being updated. */
+  patch: ShipperProjectionPatch;
+  id: Scalars['BigInt'];
+};
+
 /** The output of our update `ShipperProjectionEntry` mutation. */
 export type UpdateShipperProjectionEntryPayload = {
   __typename?: 'UpdateShipperProjectionEntryPayload';
@@ -30009,6 +30864,8 @@ export type UpdateShipperProjectionEntryPayload = {
   vessel?: Maybe<ShipperProjectionVessel>;
   /** Reads a single `ShipperProjectionProduct` that is related to this `ShipperProjectionEntry`. */
   product?: Maybe<ShipperProjectionProduct>;
+  /** Reads a single `ShipperProjection` that is related to this `ShipperProjectionEntry`. */
+  shipperProjection?: Maybe<ShipperProjection>;
   /** An edge for our `ShipperProjectionEntry`. May be used by Relay 1. */
   shipperProjectionEntryEdge?: Maybe<ShipperProjectionEntriesEdge>;
 };
@@ -32826,6 +33683,52 @@ export type DeleteProductVarietyInput = {
   id: Scalars['String'];
 };
 
+/** The output of our delete `ShipperProjection` mutation. */
+export type DeleteShipperProjectionPayload = {
+  __typename?: 'DeleteShipperProjectionPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `ShipperProjection` that was deleted by this mutation. */
+  shipperProjection?: Maybe<ShipperProjection>;
+  deletedShipperProjectionNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Shipper` that is related to this `ShipperProjection`. */
+  shipper?: Maybe<Shipper>;
+  /** An edge for our `ShipperProjection`. May be used by Relay 1. */
+  shipperProjectionEdge?: Maybe<ShipperProjectionsEdge>;
+};
+
+
+/** The output of our delete `ShipperProjection` mutation. */
+export type DeleteShipperProjectionPayloadShipperProjectionEdgeArgs = {
+  orderBy?: Maybe<Array<ShipperProjectionsOrderBy>>;
+};
+
+/** All input for the `deleteShipperProjectionByNodeId` mutation. */
+export type DeleteShipperProjectionByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `ShipperProjection` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deleteShipperProjection` mutation. */
+export type DeleteShipperProjectionInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['BigInt'];
+};
+
 /** The output of our delete `ShipperProjectionEntry` mutation. */
 export type DeleteShipperProjectionEntryPayload = {
   __typename?: 'DeleteShipperProjectionEntryPayload';
@@ -32843,6 +33746,8 @@ export type DeleteShipperProjectionEntryPayload = {
   vessel?: Maybe<ShipperProjectionVessel>;
   /** Reads a single `ShipperProjectionProduct` that is related to this `ShipperProjectionEntry`. */
   product?: Maybe<ShipperProjectionProduct>;
+  /** Reads a single `ShipperProjection` that is related to this `ShipperProjectionEntry`. */
+  shipperProjection?: Maybe<ShipperProjection>;
   /** An edge for our `ShipperProjectionEntry`. May be used by Relay 1. */
   shipperProjectionEntryEdge?: Maybe<ShipperProjectionEntriesEdge>;
 };
@@ -33609,6 +34514,39 @@ export type BulkUpsertShipperProjectionVesselInput = {
    */
   clientMutationId?: Maybe<Scalars['String']>;
   vessels: Array<Maybe<ShipperProjectionVesselInput>>;
+};
+
+/** The output of our `upsertShipperProjection` mutation. */
+export type UpsertShipperProjectionPayload = {
+  __typename?: 'UpsertShipperProjectionPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  shipperProjection?: Maybe<ShipperProjection>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Shipper` that is related to this `ShipperProjection`. */
+  shipper?: Maybe<Shipper>;
+  /** An edge for our `ShipperProjection`. May be used by Relay 1. */
+  shipperProjectionEdge?: Maybe<ShipperProjectionsEdge>;
+};
+
+
+/** The output of our `upsertShipperProjection` mutation. */
+export type UpsertShipperProjectionPayloadShipperProjectionEdgeArgs = {
+  orderBy?: Maybe<Array<ShipperProjectionsOrderBy>>;
+};
+
+/** All input for the `upsertShipperProjection` mutation. */
+export type UpsertShipperProjectionInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  projection: ShipperProjectionInput;
 };
 
 export type PriceSheetUpdateInput = {

@@ -6,11 +6,11 @@ import {
   ShipperProjectionVessel,
 } from 'types';
 
-import { ShipperProjectionChanges, VesselUpdate } from './types';
+import { ShipperProjectionGridChanges, VesselUpdate } from './grid/types';
 
 export const getAllVessels = (
   vessels: Maybe<ShipperProjectionVessel>[],
-  changes: ShipperProjectionChanges,
+  changes: ShipperProjectionGridChanges,
   getVesselValue: (
     vessel: Maybe<ShipperProjectionVessel> | undefined,
     key: keyof VesselUpdate,

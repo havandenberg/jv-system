@@ -122,13 +122,14 @@ const PriceSheet = () => {
     }));
   };
 
-  const { DateRangePicker, handleDateChange } = useDateRange({
-    hideDefinedRanges: true,
-    singleSelection: true,
-    maxDate: endOfISOWeek(add(new Date(), { weeks: 4 })),
-    minDate: editing ? startOfISOWeek(new Date()) : undefined,
-    showAsWeekNumber: true,
-  });
+  const { DateRangePicker, ForwardButton, BackwardButton, handleDateChange } =
+    useDateRange({
+      hideDefinedRanges: true,
+      singleSelection: true,
+      maxDate: endOfISOWeek(add(new Date(), { weeks: 4 })),
+      minDate: editing ? startOfISOWeek(new Date()) : undefined,
+      showAsWeekNumber: true,
+    });
 
   const [{ startDate = formatDate(new Date()) }] = useDateRangeQueryParams();
   const selectedWeekNumber = getWeekNumber(
@@ -1009,7 +1010,11 @@ const PriceSheet = () => {
       extraPaddingTop={dataLoading || (!editing && isEmpty(allItems)) ? 90 : 82}
       headerChildren={
         <>
-          <l.Flex>{DateRangePicker}</l.Flex>
+          <l.Flex>
+            {DateRangePicker}
+            {BackwardButton}
+            {ForwardButton}
+          </l.Flex>
           <Header
             collapseAllItems={collapseAllItems}
             editing={editing}

@@ -1,0 +1,43 @@
+query SHIPPER_PROJECTION_LIST(
+  $arrivalPort: String!
+  $endDate: Datetime!
+  $startDate: Datetime!
+  $orderBy: [ShipperProjectionsOrderBy!]
+  $search: [ShipperProjectionFilter!]
+  $shipperId: [String!]
+) {
+  shipperProjections(
+    filter: {
+      and: $search
+      completedAt: {
+        greaterThanOrEqualTo: $startDate
+        lessThanOrEqualTo: $endDate
+      }
+      shipperId: { in: $shipperId }
+      shipperProjectionEntries: {
+        some: { vessel: { arrivalPort: { equalTo: $arrivalPort } } }
+      }
+    }
+    orderBy: $orderBy
+  ) {
+    nodes {
+      id
+      completedAt
+      isReviewed
+      shipper {
+        id
+        shipperName
+      }
+      shipperProjectionEntries {
+        nodes {
+          palletCount
+          product {
+            species
+          }
+        }
+      }
+      totalPallets
+    }
+    totalCount
+  }
+}

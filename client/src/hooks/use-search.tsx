@@ -8,6 +8,7 @@ import useDebounce from './use-debounce';
 export interface SearchProps extends TextInputProps {
   disabled?: boolean;
   onClear?: () => void;
+  onlyClearSearch?: boolean;
   placeholder?: string;
   showIcon?: boolean;
   value?: string;
@@ -17,6 +18,7 @@ const useSearch = (props?: SearchProps) => {
   const {
     disabled = false,
     onClear = undefined,
+    onlyClearSearch = undefined,
     placeholder = 'Search',
     showIcon = true,
     value = '',
@@ -48,7 +50,7 @@ const useSearch = (props?: SearchProps) => {
           setSearch(debouncedSearch, 'replaceIn');
         }}
         onClear={() => {
-          onClear && onClear();
+          onClear && (!onlyClearSearch || !search) && onClear();
           clearSearch();
         }}
         onChange={(e) => {

@@ -3,7 +3,7 @@ import { OperationVariables, useQuery } from '@apollo/client';
 import styled from '@emotion/styled';
 import { snakeCase } from 'change-case';
 import { loader } from 'graphql.macro';
-import { pathOr } from 'ramda';
+import { pathOr, sortBy } from 'ramda';
 
 import FilterImg from 'assets/images/filter';
 import InfoPanel from 'components/info-panel';
@@ -89,6 +89,11 @@ const FilterPanel = <T extends {}>({
     filterOptions ? filterOptions.includes(val) : false,
   );
   const [selectedValues, setSelectedValues] = useState<string[]>(filterValues);
+
+  const sortedOptions = sortBy(
+    (option) => !selectedValues.includes(option),
+    filterOptionsBySearch,
+  );
 
   const dirty =
     selectedValues.sort().join(',') !== filterValues.sort().join(',');
@@ -188,7 +193,7 @@ const FilterPanel = <T extends {}>({
             maxHeight={260}
             overflowY="auto"
           >
-            {filterOptionsBySearch.map((option) => (
+            {sortedOptions.map((option) => (
               <FilterCheckbox
                 checked={selectedValues.includes(option)}
                 key={option}

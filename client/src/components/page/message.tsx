@@ -4,19 +4,22 @@ import { CSSProperties } from 'onno';
 import { isEmpty } from 'ramda';
 import ClipLoader from 'react-spinners/ClipLoader';
 
-import l, { DivProps } from 'ui/layout';
+import l, { DivProps, divPropsSet } from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 
-const Wrapper = styled(l.Flex)({
-  alignItems: 'center',
-  background: th.colors.brand.containerBackground,
-  border: th.borders.disabled,
-  borderRadius: th.borderRadii.default,
-  flexDirection: 'column',
-  height: 300,
-  justifyContent: 'center',
-});
+const Wrapper = styled(l.Flex)(
+  {
+    alignItems: 'center',
+    background: th.colors.brand.containerBackground,
+    border: th.borders.disabled,
+    borderRadius: th.borderRadii.default,
+    flexDirection: 'column',
+    height: 300,
+    justifyContent: 'center',
+  },
+  divPropsSet,
+);
 
 interface MessageProps {
   image?: React.ReactNode;
@@ -36,7 +39,7 @@ const PageMessage = ({
   wrapperStyles,
 }: MessageProps) => (
   <Wrapper {...wrapperStyles}>
-    {image && <l.Div mb={th.spacing.lg}>{image}</l.Div>}
+    {image && <l.Div mb={header ? th.spacing.lg : 0}>{image}</l.Div>}
     {header && (
       <ty.LargeText mb={text ? th.spacing.lg : 0} secondary {...headerStyles}>
         {header}

@@ -1,6 +1,6 @@
 query SHIPPER_PROJECTION_VESSEL_LIST(
   $arrivalPort: String!
-  $shipperId: String!
+  $shipperId: String
   $endDate: Date!
   $startDate: Date!
 ) {
@@ -20,6 +20,7 @@ query SHIPPER_PROJECTION_VESSEL_LIST(
       vesselStatus
       arrivalPort
       id
+      previousName
       shipper {
         shipperName
         id
@@ -37,6 +38,10 @@ query SHIPPER_PROJECTION_VESSEL_LIST(
             size
             species
             variety
+          }
+          shipperProjection {
+            id
+            isReviewed
           }
         }
       }

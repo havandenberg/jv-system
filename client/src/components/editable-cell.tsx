@@ -12,12 +12,21 @@ import { hexColorWithTransparency } from 'ui/utils';
 export const EDITABLE_CELL_HEIGHT = 28;
 
 export const Input = styled.input<
-  { dirty: boolean; editing: boolean; error?: boolean } & DivProps &
+  {
+    dirty: boolean;
+    editing: boolean;
+    error?: boolean;
+    warning?: boolean;
+  } & DivProps &
     TextSetProps
 >(
-  ({ dirty, editing, error }) => ({
+  ({ dirty, editing, error, warning }) => ({
     background: hexColorWithTransparency(th.colors.white, 0.8),
-    border: error ? th.borders.error : th.borders.secondary,
+    border: error
+      ? th.borders.error
+      : warning
+      ? th.borders.warning
+      : th.borders.secondary,
     cursor: editing ? 'text' : 'default',
     fontWeight: dirty ? 'bold' : undefined,
     width: `calc(${th.sizes.fill} - ${th.spacing.sm})`,
@@ -71,6 +80,7 @@ export interface EditableCellProps {
   onChange: React.ChangeEventHandler<HTMLInputElement>;
   showBorder?: boolean;
   secondaryHighlight?: boolean;
+  warning?: boolean;
 }
 
 const EditableCell = ({
@@ -85,6 +95,7 @@ const EditableCell = ({
   onChange,
   showBorder = true,
   secondaryHighlight,
+  warning,
 }: EditableCellProps) => {
   const { dirty, value } = content;
   const previousValue = usePrevious(value);
@@ -133,6 +144,7 @@ const EditableCell = ({
           }}
           value={`${localValue}`}
           textAlign="left"
+          warning={warning}
           {...inputProps}
         />
       ) : (

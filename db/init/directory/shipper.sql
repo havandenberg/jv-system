@@ -35,3 +35,13 @@ SELECT CONCAT (
 		s.website
 	) FROM directory.shipper ss FULL JOIN directory.country c ON (s.country_id = c.id) WHERE s.id = ss.id
 $BODY$;
+
+CREATE FUNCTION directory.shipper_distinct_values()
+  RETURNS SETOF TEXT
+	LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT DISTINCT CONCAT(shipper_name, ' (', id, ')') from directory.shipper;
+$BODY$;

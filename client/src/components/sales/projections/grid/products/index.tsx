@@ -1,5 +1,5 @@
 import React from 'react';
-import { groupBy, mapObjIndexed, pluck, values } from 'ramda';
+import { equals, groupBy, mapObjIndexed, pluck, values } from 'ramda';
 
 import api from 'api';
 import { DataMessage } from 'components/page/message';
@@ -10,14 +10,15 @@ import ty from 'ui/typography';
 
 import {
   ShipperProjectionProductWithEntries,
-  ShipperProjectionProps,
+  ShipperProjectionGridProps,
 } from '../types';
 import ProductRow, { NewProductRow, ProductTotalRow } from './row';
 
-interface Props extends ShipperProjectionProps {
+interface Props extends ShipperProjectionGridProps {
   duplicateProductIds: number[];
   gridTemplateColumns: string;
   hasVessels: boolean;
+  loading: boolean;
   products: ShipperProjectionProductWithEntries[];
   showErrors: boolean;
   vessels: ShipperProjectionVessel[];
@@ -26,7 +27,9 @@ interface Props extends ShipperProjectionProps {
 const Products = ({
   gridTemplateColumns,
   hasVessels,
+  loading,
   products,
+  selectedShipper,
   vessels,
   ...rest
 }: Props) => {
@@ -97,22 +100,49 @@ const Products = ({
         </l.Grid>
       </l.Grid>
       {values(
-        mapObjIndexed(
-          (products, key, object) => (
+        mapObjIndexed((products, key, object) => {
+          const isEvenRow =
+            object && Object.keys(object).indexOf(key) % 2 === 0;
+          return (
             <l.Div key={key} my={th.spacing.md} relative>
               <l.Div>
-                {products.map((product, idx) => (
-                  <ProductRow
-                    {...rest}
-                    allProducts={allProducts}
-                    allProductsError={allProductsError}
-                    allProductsLoading={allProductsLoading}
-                    gridTemplateColumns={gridTemplateColumns}
-                    key={idx}
-                    product={product}
-                    vessels={vessels}
-                  />
-                ))}
+                {
+                  products.reduce<{
+                    components: React.ReactNode[];
+                    previousProduct?: ShipperProjectionProductWithEntries;
+                  }>(
+                    ({ components, previousProduct }, product, idx) => {
+                      const showSpecies =
+                        !previousProduct ||
+                        !equals(product.species, previousProduct.species);
+                      const showVariety =
+                        !previousProduct ||
+                        !equals(product.variety, previousProduct.variety);
+                      return {
+                        components: [
+                          ...components,
+                          <ProductRow
+                            {...rest}
+                            allProducts={allProducts}
+                            allProductsError={allProductsError}
+                            allProductsLoading={allProductsLoading}
+                            gridTemplateColumns={gridTemplateColumns}
+                            index={idx}
+                            isEvenRow={!!isEvenRow}
+                            key={idx}
+                            product={product}
+                            showSpecies={showSpecies}
+                            showVariety={showVariety}
+                            selectedShipper={selectedShipper}
+                            vessels={vessels}
+                          />,
+                        ],
+                        previousProduct: product,
+                      };
+                    },
+                    { components: [] },
+                  ).components
+                }
                 {key && (
                   <ProductTotalRow
                     gridTemplateColumns={gridTemplateColumns}
@@ -123,7 +153,7 @@ const Products = ({
               </l.Div>
               <l.Div
                 background={
-                  object && Object.keys(object).indexOf(key) % 2 === 0
+                  isEvenRow
                     ? th.colors.brand.containerBackground
                     : 'transparent'
                 }
@@ -138,11 +168,10 @@ const Products = ({
                 zIndex={-1}
               />
             </l.Div>
-          ),
-          groupedProducts,
-        ),
+          );
+        }, groupedProducts),
       )}
-      {hasVessels && !groupedProducts[''] && (
+      {hasVessels && !groupedProducts[''] && selectedShipper && (
         <NewProductRow hasProducts={hasProducts} {...rest} />
       )}
       {hasVessels ? (
@@ -179,7 +208,7 @@ const Products = ({
         </>
       ) : (
         <DataMessage
-          data={[]}
+          data={products}
           emptyProps={{
             header: 'No Products Found',
             wrapperStyles: {
@@ -189,7 +218,7 @@ const Products = ({
             },
           }}
           error={null}
-          loading={false}
+          loading={loading}
         />
       )}
     </l.Div>

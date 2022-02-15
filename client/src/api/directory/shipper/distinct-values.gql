@@ -1,0 +1,5 @@
+query SHIPPER_DISTINCT_VALUES {
+  shipperDistinctValues {
+    nodes
+  }
+}

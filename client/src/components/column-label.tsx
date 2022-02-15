@@ -42,6 +42,7 @@ const ChevronWrapper = styled(l.Div)(({ flip }: { flip: boolean }) => ({
 }));
 
 export interface LabelInfo<T> {
+  allowClick?: boolean;
   boldColumn?: boolean;
   customSortBy?: (data: T) => any;
   customStyles?: {
