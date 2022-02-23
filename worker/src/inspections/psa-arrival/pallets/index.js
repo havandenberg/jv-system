@@ -212,7 +212,8 @@ const grapeDataFiles = [
 ];
 
 const citrusDataFiles = [
-  { path: 'Citrus 2020-2021.xlsx', finalRowCount: 1432 },
+  { path: 'Citrus 2021-2022.xlsx', finalRowCount: 0 },
+  { path: '2020-2021/Citrus 2020-2021.xlsx', finalRowCount: 1432 },
   // { path: '2019-2020/Citrus 2019-2020.xlsx', finalRowCount: 0 },
   // { path: '2018-2019/Citrus 2018-2019.xlsx', finalRowCount: 0 },
 ];

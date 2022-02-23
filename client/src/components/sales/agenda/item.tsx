@@ -132,7 +132,7 @@ const AgendaItem = ({
               confirmText="Discard"
               handleConfirm={handleCancel}
               shouldConfirm={item.id >= 0 || hasChanges}
-              triggerStyles={{ mb: th.spacing.md, width: 115 }}
+              triggerProps={{ mb: th.spacing.md, width: 115 }}
               triggerText="Cancel"
             />
             <b.Primary
@@ -169,7 +169,7 @@ const AgendaItem = ({
               }
               confirmText="Remove"
               handleConfirm={() => handleRemoveItem(item.id, item.sortOrder)}
-              triggerStyles={{ mt: th.spacing.md, width: 115 }}
+              triggerProps={{ mt: th.spacing.md, width: 115 }}
               triggerText="Remove"
             />
           </Fragment>

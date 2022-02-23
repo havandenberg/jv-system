@@ -108,7 +108,7 @@ const UserLogin = () => {
           onCancel={() => setState(initialState)}
           confirmDisabled={pin.length === 0}
           confirmText="Login"
-          triggerStyles={{ fontSize: th.fontSizes.caption }}
+          triggerProps={{ fontSize: th.fontSizes.caption }}
           triggerText="Login"
           triggerType="text"
         />

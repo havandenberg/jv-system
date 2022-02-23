@@ -48,7 +48,8 @@ export const useQueryValue = (paramName: string) => {
 export const useDateRangeQueryParams = (updateType?: UpdateType) =>
   useQuerySet(dateRangeParamSet, updateType);
 
-export const useSearchQueryParam = () => useQueryValue(searchParam);
+export const useSearchQueryParam = (paramName?: string) =>
+  useQueryValue(paramName || searchParam);
 
 export const useIDQueryParam = () => useQueryValue(idParam);
 
@@ -71,4 +72,20 @@ export const useInventoryQueryParams = () =>
     endDate: StringParam,
     detailsIndex: StringParam,
     categoryTypes: StringParam,
+  });
+
+export const useProjectionsQueryParams = () =>
+  useQuerySet({
+    species: StringParam,
+    variety: StringParam,
+    size: StringParam,
+    packType: StringParam,
+    plu: StringParam,
+    coast: StringParam,
+    shipperId: StringParam,
+    startDate: StringParam,
+    endDate: StringParam,
+    graphView: StringParam,
+    view: StringParam,
+    projectionId: StringParam,
   });

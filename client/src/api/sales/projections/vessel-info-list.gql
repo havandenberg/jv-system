@@ -1,0 +1,89 @@
+query SHIPPER_PROJECTION_VESSEL_INFO_LIST(
+  $arrivalPort: String!
+  $shipperId: String
+  $endDate: Date!
+  $startDate: Date!
+  $endDatetime: Datetime!
+  $startDatetime: Datetime!
+) {
+  shipperProjectionVesselInfos(
+    condition: { arrivalPort: $arrivalPort, shipperId: $shipperId }
+    filter: {
+      departureDate: {
+        greaterThanOrEqualTo: $startDate
+        lessThanOrEqualTo: $endDate
+      }
+    }
+    orderBy: DEPARTURE_DATE_ASC
+  ) {
+    nodes {
+      arrivalDate
+      departureDate
+      vesselStatus
+      arrivalPort
+      id
+      vesselName
+      vessel {
+        id
+        shipperProjectionVesselInfosByVesselId {
+          nodes {
+            id
+          }
+        }
+      }
+      vesselId
+      shipperId
+      shipper {
+        shipperProjections(
+          filter: {
+            submittedAt: {
+              greaterThanOrEqualTo: $startDatetime
+              lessThanOrEqualTo: $endDatetime
+            }
+          }
+        ) {
+          nodes {
+            id
+            submittedAt
+          }
+        }
+      }
+      vessel {
+        id
+        shipper {
+          shipperName
+          id
+        }
+      }
+      projection {
+        id
+        submittedAt
+        approvedAt
+        rejectedAt
+        jvComments
+        shipperComments
+        reviewStatus
+        shipper {
+          id
+          shipperName
+        }
+      }
+      shipperProjectionEntriesByVesselInfoId {
+        nodes {
+          id
+          palletCount
+          productId
+          vesselInfoId
+          product {
+            id
+            packType
+            plu
+            size
+            species
+            variety
+          }
+        }
+      }
+    }
+  }
+}

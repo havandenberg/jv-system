@@ -114,7 +114,7 @@ const useUpdateItem = <T,>({
           handleCancel(onCancel);
         }}
         shouldConfirm={!!(hasChanges || shouldConfirmCancel)}
-        triggerStyles={{
+        triggerProps={{
           mr: th.spacing.md,
           width: 88,
         }}
@@ -164,7 +164,7 @@ const useUpdateItem = <T,>({
         handleConfirm={() => {
           deleteItem(onAfterDelete);
         }}
-        triggerStyles={{
+        triggerProps={{
           ml: th.spacing.md,
         }}
         triggerText="Delete"

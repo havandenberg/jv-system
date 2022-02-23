@@ -1,0 +1,3 @@
+const sendProjectionReminders = require('.');
+
+sendProjectionReminders();

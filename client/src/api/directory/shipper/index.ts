@@ -13,10 +13,10 @@ import {
 import { Mutation, Query } from 'types';
 
 export const SHIPPER_DETAILS_QUERY = loader('./details.gql');
-const SHIPPER_LIST_QUERY = loader('./list.gql');
+export const SHIPPER_LIST_QUERY = loader('./list.gql');
 const SHIPPER_UPDATE = loader('./update.gql');
 
-export const useShippers = (orderByOverride?: string) => {
+export const useShippersVariables = (orderByOverride?: string) => {
   const [search = ''] = useSearchQueryParam();
   const [{ sortBy = 'shipperName', sortOrder = SORT_ORDER.ASC }] =
     useSortQueryParams();
@@ -32,12 +32,18 @@ export const useShippers = (orderByOverride?: string) => {
     schemaName: 'directory',
   });
 
+  return {
+    country: filteredCountryValues,
+    orderBy: orderByOverride || orderBy,
+    search: getSearchArray(search),
+  };
+};
+
+export const useShippers = (orderByOverride?: string) => {
+  const variables = useShippersVariables(orderByOverride);
+
   const { data, error, loading } = useQuery<Query>(SHIPPER_LIST_QUERY, {
-    variables: {
-      country: filteredCountryValues,
-      orderBy: orderByOverride || orderBy,
-      search: getSearchArray(search),
-    },
+    variables,
   });
 
   return {
@@ -51,10 +57,12 @@ export const useShipper = (id: string, orderByOverride?: string) => {
   const [{ sortBy = 'firstName', sortOrder = SORT_ORDER.ASC }] =
     useSortQueryParams();
   const orderBy = getOrderByString(sortBy, sortOrder);
+  const variables = useShippersVariables();
 
   const { data, error, loading } = useQuery<Query>(SHIPPER_DETAILS_QUERY, {
     variables: {
       id,
+      ...variables,
       orderBy: orderByOverride || orderBy,
     },
   });
@@ -65,12 +73,16 @@ export const useShipper = (id: string, orderByOverride?: string) => {
   };
 };
 
-export const useUpdateShipper = (id: string) => {
+export const useUpdateShipper = (id: string, orderByOverride?: string) => {
+  const [{ sortBy = 'firstName', sortOrder = SORT_ORDER.ASC }] =
+    useSortQueryParams();
+  const orderBy = getOrderByString(sortBy, sortOrder);
+
   return useMutation<Mutation>(SHIPPER_UPDATE, {
     refetchQueries: [
       {
         query: SHIPPER_DETAILS_QUERY,
-        variables: { id },
+        variables: { id, orderBy: orderByOverride || orderBy },
       },
     ],
   });

@@ -13,14 +13,21 @@ import EditableCell from 'components/editable-cell';
 import { DataMessage } from 'components/page/message';
 import StatusIndicator from 'components/status-indicator';
 import { useQueryValue } from 'hooks/use-query-params';
-import { ShipperProjectionVessel } from 'types';
+import {
+  Maybe,
+  Shipper,
+  ShipperProjection,
+  ShipperProjectionVesselInfo,
+} from 'types';
 import { LineItemCheckbox } from 'ui/checkbox';
+import { Select } from 'ui/input';
 import l, { divPropsSet } from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 import { hexColorWithTransparency } from 'ui/utils';
 import { getWeekNumber, isCurrentWeek } from 'utils/date';
 
+import CommentsModal from './comments';
 import { ShipperProjectionGridProps } from './types';
 
 const datePickerProps = {
@@ -53,6 +60,7 @@ const getVesselStatus = (vesselStatus: string) => {
 
 const GhostVesselColumn = ({
   isSkipped,
+  selectedShipper,
   showDateDescription,
   showErrors,
   startDate,
@@ -69,12 +77,12 @@ const GhostVesselColumn = ({
 
   const newVessel = {
     id: -1,
-    vesselName: 'New Vessel',
+    vesselName: 'Unknown',
     departureDate: formatDate(startDate),
     arrivalDate: formatDate(add(startDate, { weeks: 1 })),
     arrivalPort: coast,
     vesselStatus: 'projected',
-    shipperProjectionEntriesByVesselId: {
+    shipperProjectionEntriesByVesselInfoId: {
       edges: [],
       nodes: [],
       pageInfo: {
@@ -110,7 +118,7 @@ const GhostVesselColumn = ({
         {showDateDescription &&
           ` (${format(startOfISOWeek(startDate), 'MMM dd')})`}
       </ty.CaptionText>
-      {!isSkipped && (
+      {!isSkipped && selectedShipper && (
         <l.HoverButton
           onClick={() => {
             handleNewVessel(newVessel);
@@ -124,13 +132,18 @@ const GhostVesselColumn = ({
           </l.Flex>
         </l.HoverButton>
       )}
-      <l.Div opacity={isSkipped ? 1 : th.opacities.secondary}>
-        <LineItemCheckbox
-          checked={isSkipped}
-          onChange={toggleSkippedWeeks}
-          label={<ty.CaptionText ml={th.spacing.sm}>No Vessels</ty.CaptionText>}
-        />
-      </l.Div>
+      {selectedShipper && (
+        <l.Div opacity={isSkipped ? 1 : th.opacities.secondary}>
+          <LineItemCheckbox
+            checked={isSkipped}
+            onChange={toggleSkippedWeeks}
+            label={
+              <ty.CaptionText ml={th.spacing.sm}>No Vessels</ty.CaptionText>
+            }
+          />
+        </l.Div>
+      )}
+      {!selectedShipper && <ty.BodyText disabled>No Vessels</ty.BodyText>}
     </l.Flex>
   );
 };
@@ -142,7 +155,7 @@ const VesselWrapper = styled(l.Grid)(
     status,
   }: {
     index?: number;
-    selectedShipper?: string;
+    selectedShipper?: Maybe<Shipper>;
     status?: keyof typeof th.colors.status;
   }) => ({
     alignItems: 'center',
@@ -156,6 +169,7 @@ const VesselWrapper = styled(l.Grid)(
     padding: th.spacing.sm,
     position: 'relative',
     height: `calc(${th.sizes.fill} - ${th.spacing.md} - 2px)`,
+    zIndex: 3,
     '.react-date-picker': {
       width: th.sizes.fill,
     },
@@ -175,7 +189,7 @@ const VesselHeader = (
     index: number;
     showDateDescription: boolean;
     showErrors: boolean;
-    vessel: ShipperProjectionVessel;
+    vessel: ShipperProjectionVesselInfo;
     vesselCount: number;
   } & ShipperProjectionGridProps,
 ) => {
@@ -203,12 +217,12 @@ const VesselHeader = (
 
   const newVessel = {
     id: -1,
-    vesselName: 'New Vessel',
+    vesselName: 'Unknown',
     departureDate: getVesselValue(vessel, 'departureDate').value,
     arrivalDate: getVesselValue(vessel, 'arrivalDate').value,
     arrivalPort: vessel.arrivalPort,
     vesselStatus: '-',
-    shipperProjectionEntriesByVesselId: {
+    shipperProjectionEntriesByVesselInfoId: {
       edges: [],
       nodes: [],
       pageInfo: {
@@ -235,12 +249,6 @@ const VesselHeader = (
     startOfISOWeek(updatedDepartureDate),
   );
 
-  const hasUnreviewedEntries =
-    vessel.shipperProjectionEntriesByVesselId.nodes.reduce(
-      (acc, entry) => acc && !entry?.shipperProjection?.isReviewed,
-      true,
-    );
-
   return (
     <VesselWrapper
       index={index}
@@ -260,7 +268,13 @@ const VesselHeader = (
         <l.Div position="absolute" right={0} top={-20}>
           <StatusIndicator
             diameter={12}
-            status={hasUnreviewedEntries ? 'warning' : 'success'}
+            status={
+              vessel.projection?.approvedAt
+                ? 'success'
+                : vessel.projection?.rejectedAt
+                ? 'error'
+                : 'warning'
+            }
           />
         </l.Div>
       )}
@@ -294,12 +308,12 @@ const VesselHeader = (
           fontSize={th.fontSizes.caption}
           hover
           nowrap
-          to={`${pathname}?coast=${coast}&startDate=${formattedDepartureDate}&endDate=${formattedDepartureDate}&shipperId=${vessel.shipper?.id}`}
+          to={`${pathname}?coast=${coast}&startDate=${formattedDepartureDate}&endDate=${formattedDepartureDate}&shipperId=${vessel.vessel?.shipper?.id}&view=grid`}
           overflow="hidden"
           textDecoration="underline"
           textOverflow="ellipsis"
         >
-          {vessel.shipper?.shipperName}
+          {vessel.vessel?.shipper?.shipperName}
         </ty.LinkText>
       )}
       {selectedShipper ? (
@@ -308,7 +322,7 @@ const VesselHeader = (
           defaultChildren={null}
           editing={true}
           error={
-            showErrors && ['', 'New Vessel'].includes(updatedVessel.vesselName)
+            showErrors && ['', 'Unknown'].includes(updatedVessel.vesselName)
           }
           inputProps={{
             width: 116,
@@ -323,15 +337,13 @@ const VesselHeader = (
       ) : (
         <ty.CaptionText
           bold
-          nowrap
-          overflow="hidden"
-          textOverflow="ellipsis"
-          title={`${vessel.vesselName}${
-            vessel.previousName ? ' (' + vessel.previousName + ')' : ''
-          }`}
+          ellipsis
+          // title={`${vessel.vesselName}${
+          //   vessel.previousName ? ' (' + vessel.previousName + ')' : ''
+          // }`}
         >
           {vessel.vesselName}
-          {vessel.previousName ? ` (${vessel.previousName})` : ''}
+          {/* {vessel.previousName ? ` (${vessel.previousName})` : ''} */}
         </ty.CaptionText>
       )}
       {selectedShipper ? (
@@ -420,21 +432,26 @@ const VesselHeader = (
 };
 
 interface Props extends ShipperProjectionGridProps {
+  currentProjections?: Maybe<ShipperProjection>[];
   error?: ApolloError;
   ghostVesselDates: string[];
   gridTemplateColumns: string;
   loading: boolean;
+  setProjectionId: (projectionId: string) => void;
   showErrors: boolean;
   skippedWeeks: string[];
   toggleSkippedWeeks: (weekToSkip: string) => void;
-  vessels: ShipperProjectionVessel[];
+  vessels: ShipperProjectionVesselInfo[];
 }
 
 const Vessels = ({
+  currentProjections,
+  currentProjection,
   error,
   gridTemplateColumns,
   loading,
   selectedShipper,
+  setProjectionId,
   showErrors,
   skippedWeeks,
   toggleSkippedWeeks,
@@ -449,12 +466,55 @@ const Vessels = ({
     mt={th.sizes.md}
   >
     <l.Flex alignCenter justifyBetween height={th.sizes.fill}>
-      <l.Div>
-        <ty.LargeText bold mb={th.spacing.lg} ml={200}>
-          Vessels &#x2192;
-        </ty.LargeText>
-        <ty.LargeText bold>Products &#x2193;</ty.LargeText>
-      </l.Div>
+      <l.Flex column justifyBetween height={th.sizes.fill}>
+        <l.Div mt={`-${th.sizes.icon}`}>
+          {currentProjections ? (
+            <div>
+              <ty.SmallText ml={th.spacing.sm} mb={th.spacing.sm} secondary>
+                {currentProjections.length} projection
+                {currentProjections.length === 1 ? '' : 's'} submitted
+                {currentProjections.length > 0 ? ':' : ''}
+              </ty.SmallText>
+              {currentProjections && currentProjections.length > 0 && (
+                <l.Flex alignCenter>
+                  <Select
+                    onChange={(e) => {
+                      setProjectionId(e.target.value);
+                    }}
+                    value={currentProjection?.id}
+                  >
+                    {currentProjections.map((projection) => {
+                      const { id, submittedAt } = projection || {};
+                      return (
+                        <option key={id} value={id}>
+                          {format(new Date(submittedAt), 'EE, MMM d, h:mm a')}
+                        </option>
+                      );
+                    })}
+                  </Select>
+                  <l.Div ml={th.spacing.md}>
+                    <CommentsModal
+                      currentProjectionId={currentProjection?.id}
+                      currentProjections={
+                        currentProjections as ShipperProjection[]
+                      }
+                      selectedShipper={selectedShipper as Shipper}
+                    />
+                  </l.Div>
+                </l.Flex>
+              )}
+            </div>
+          ) : (
+            <div />
+          )}
+        </l.Div>
+        <l.Flex mb={th.spacing.md}>
+          <ty.BodyText bold mr={120}>
+            Products &#x2193;
+          </ty.BodyText>
+          <ty.BodyText bold>Vessels &#x2192;</ty.BodyText>
+        </l.Flex>
+      </l.Flex>
       <VesselWrapper border={0} selectedShipper={selectedShipper}>
         <ty.CaptionText
           position="absolute"
@@ -483,7 +543,7 @@ const Vessels = ({
         </ty.CaptionText>
       </VesselWrapper>
     </l.Flex>
-    {vessels.length > 0 ? (
+    {!loading && vessels.length > 0 ? (
       vessels.reduce<{
         components: React.ReactNode[];
         previousStartDate?: Date;
@@ -497,6 +557,7 @@ const Vessels = ({
               vessel.id === 0 ? (
                 <GhostVesselColumn
                   isSkipped={skippedWeeks.includes(formatDate(startDate))}
+                  selectedShipper={selectedShipper}
                   showDateDescription={showDateDescription}
                   showErrors={showErrors}
                   startDate={startDate}

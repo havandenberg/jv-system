@@ -976,7 +976,7 @@ const PriceSheet = () => {
               confirmText="Discard"
               handleConfirm={handleCancel}
               shouldConfirm={hasChanges}
-              triggerStyles={{ mr: th.spacing.md, width: 88 }}
+              triggerProps={{ mr: th.spacing.md, width: 88 }}
               triggerText="Cancel"
             />
             <PriceSheetSaveModal
@@ -1010,7 +1010,7 @@ const PriceSheet = () => {
       extraPaddingTop={dataLoading || (!editing && isEmpty(allItems)) ? 90 : 82}
       headerChildren={
         <>
-          <l.Flex>
+          <l.Flex alignCenter>
             {DateRangePicker}
             {BackwardButton}
             {ForwardButton}

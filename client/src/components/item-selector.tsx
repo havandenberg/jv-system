@@ -34,10 +34,12 @@ interface Props<T> {
   excludedItems: T[];
   getItemContent?: (item: T) => React.ReactNode;
   height?: number;
+  key?: string;
   loading: boolean;
   nameKey: keyof T;
   onClear?: () => void;
   onlyClearSearch?: boolean;
+  panelGap?: string | number;
   placeholder?: string;
   selectedItem?: string;
   selectItem: (item: T) => void;
@@ -58,6 +60,7 @@ const useItemSelector = <T extends { id: string }>({
   nameKey,
   onClear,
   onlyClearSearch,
+  panelGap = th.spacing.sm,
   placeholder,
   selectedItem,
   selectItem,
@@ -108,7 +111,7 @@ const useItemSelector = <T extends { id: string }>({
             bg={th.colors.background}
             boxShadow={th.shadows.box}
             height={height}
-            mt={th.spacing.sm}
+            mt={panelGap}
             position="absolute"
             width={width}
             zIndex={5}

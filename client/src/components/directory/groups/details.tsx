@@ -167,7 +167,7 @@ const Details = () => {
                 triggerDisabled={
                   !selectedGroup || selectedGroup.selectedContacts.length === 0
                 }
-                triggerStyles={{ ml: th.spacing.md }}
+                triggerProps={{ ml: th.spacing.md }}
                 triggerText="Remove"
               />
             </l.Flex>

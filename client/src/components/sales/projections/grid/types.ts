@@ -1,18 +1,23 @@
 import {
   Maybe,
+  Shipper,
+  ShipperProjection,
   ShipperProjectionEntry,
   ShipperProjectionProduct,
-  ShipperProjectionVessel,
+  ShipperProjectionVesselInfo,
 } from 'types';
 
 export type VesselUpdate = Pick<
-  ShipperProjectionVessel,
+  ShipperProjectionVesselInfo,
   | 'id'
   | 'vesselName'
   | 'departureDate'
   | 'arrivalDate'
   | 'arrivalPort'
   | 'vesselStatus'
+  | 'shipperId'
+  | 'projectionId'
+  | 'vesselId'
 >;
 export type ProductUpdate = Pick<
   ShipperProjectionProduct,
@@ -20,19 +25,22 @@ export type ProductUpdate = Pick<
 >;
 export type EntryUpdate = Pick<
   ShipperProjectionEntry,
-  'id' | 'palletCount' | 'shipperProjectionId'
+  'id' | 'palletCount' | 'vesselInfoId' | 'productId'
 >;
 export type UpdateType = VesselUpdate | ProductUpdate | EntryUpdate;
 
 export type NewVessel = Pick<
-  ShipperProjectionVessel,
+  ShipperProjectionVesselInfo,
   | 'id'
   | 'vesselName'
   | 'departureDate'
   | 'arrivalDate'
   | 'arrivalPort'
   | 'vesselStatus'
-  | 'shipperProjectionEntriesByVesselId'
+  | 'shipperProjectionEntriesByVesselInfoId'
+  | 'shipperId'
+  | 'projectionId'
+  | 'vesselId'
 >;
 export type NewProduct = Pick<
   ShipperProjectionProduct,
@@ -40,7 +48,7 @@ export type NewProduct = Pick<
 >;
 export type NewEntry = Pick<
   ShipperProjectionEntry,
-  'id' | 'palletCount' | 'productId' | 'vesselId' | 'shipperProjectionId'
+  'id' | 'palletCount' | 'productId' | 'vesselInfoId'
 >;
 
 export interface ShipperProjectionGridChanges {
@@ -71,6 +79,7 @@ export interface ShipperProjectionGridProps {
     handleEntryChange: (update: EntryUpdate) => void;
     handleProductChange: (update: ProductUpdate) => void;
   };
+  currentProjection?: Maybe<ShipperProjection>;
   newItemHandlers: {
     handleNewVessel: (newVessel: NewVessel) => void;
     handleNewProduct: (newProduct: NewProduct) => void;
@@ -79,10 +88,10 @@ export interface ShipperProjectionGridProps {
     handleRemoveNewVessel: (id: number) => void;
     handleRemoveProduct: (id: number) => void;
   };
-  selectedShipper?: string;
+  selectedShipper?: Maybe<Shipper>;
   valueGetters: {
     getVesselValue: (
-      vessel: Maybe<ShipperProjectionVessel> | undefined,
+      vessel: Maybe<ShipperProjectionVesselInfo> | undefined,
       key: keyof VesselUpdate,
     ) => { dirty: boolean; value: string };
     getProductValue: (

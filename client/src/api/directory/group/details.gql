@@ -5,7 +5,9 @@ query CONTACT_GROUP_DETAILS($id: BigInt!, $orderBy: [PersonContactsOrderBy!]) {
     id
     userId
     user {
-      displayName
+      personContact {
+        firstName
+      }
     }
     personContactsByContactGroupPersonContactGroupIdAndPersonContactId(
       orderBy: $orderBy

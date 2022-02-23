@@ -3,6 +3,7 @@ import { add, endOfISOWeek, isAfter, startOfISOWeek } from 'date-fns';
 import {
   equals,
   isEmpty,
+  last,
   omit,
   pathOr,
   pick,
@@ -14,8 +15,6 @@ import {
 
 import api from 'api';
 import { formatDate } from 'components/date-range-picker';
-import useItemSelector from 'components/item-selector';
-import { BasicModal } from 'components/modal';
 import Page from 'components/page';
 import StatusIndicator from 'components/status-indicator';
 import { useUserContext } from 'components/user/context';
@@ -23,10 +22,10 @@ import usePrevious from 'hooks/use-previous';
 import { useQueryValue } from 'hooks/use-query-params';
 import {
   Maybe,
-  Shipper,
+  ShipperProjection,
   ShipperProjectionEntry,
   ShipperProjectionProduct,
-  ShipperProjectionVessel,
+  ShipperProjectionVesselInfo,
 } from 'types';
 import b from 'ui/button';
 import l from 'ui/layout';
@@ -40,6 +39,7 @@ import {
 
 import { ShipperProjectionProps } from '../';
 import { getAllVessels, getDuplicateProductIds } from '../data-utils';
+import ProjectionSettings from '../settings';
 import Products from './products';
 import Vessels from './vessels';
 import {
@@ -54,6 +54,8 @@ import {
   UpdateType,
   VesselUpdate,
 } from './types';
+import ShipperProjectionsReviewModal from './review-modal';
+import ErrorPanel from 'components/error-panel';
 
 const initialChangesState: ShipperProjectionGridChanges = {
   vesselUpdates: [],
@@ -86,71 +88,110 @@ const ShipperProjectionGrid = ({
   ForwardButton,
   BackwardButton,
   handleDateChange,
+  ShipperItemSelector,
+  clearSearch,
+  shipperDataLoading,
+  selectedShipper,
+  shipperId,
 }: ShipperProjectionProps) => {
   const [startDate] = useQueryValue('startDate');
+  const previousStartDate = usePrevious(startDate);
   const [endDate] = useQueryValue('endDate');
+  const [projectionId, setProjectionId] = useQueryValue('projectionId');
 
-  const [shipperIdQuery, setShipperId] = useQueryValue('shipperId');
-  const shipperId = shipperIdQuery || '';
-  const {
-    data: shipperData,
-    loading: shipperDataLoading,
-    error: shipperDataError,
-  } = api.useShippers('SHIPPER_NAME_ASC');
-  const shippers = shipperData ? shipperData.nodes : [];
-  const selectedShipper = shippers.find(
-    (shipper) => shipper && shipper.id === shipperId,
+  const currentProjections = selectedShipper?.shipperProjections?.nodes
+    .filter(
+      (projection) =>
+        getWeekNumber(new Date(projection?.submittedAt)) ===
+        getWeekNumber(
+          startDate ? new Date(startDate.replace(/-/g, '/')) : new Date(),
+        ),
+    )
+    .reverse();
+  const currentProjection = currentProjections?.find(
+    (projection) => projection?.id === projectionId,
   );
 
-  const currentProjection = selectedShipper?.shipperProjections?.nodes.find(
-    (projection) =>
-      getWeekNumber(new Date(projection?.completedAt)) ===
-      getWeekNumber(
-        startDate ? new Date(startDate.replace(/-/g, '/')) : new Date(),
-      ),
-  );
+  const previousSelectedShipper = usePrevious(selectedShipper);
 
-  const { ItemSelector: ShipperItemSelector, clearSearch } =
-    useItemSelector<Shipper>({
-      selectItem: (shipper) => {
-        setShipperId(shipper.id);
-      },
-      allItems: shippers as Shipper[],
-      closeOnSelect: true,
-      clearSearchOnBlur: true,
-      excludedItems: [],
-      error: shipperDataError,
-      errorLabel: 'Shippers',
-      loading: shipperDataLoading,
-      nameKey: 'shipperName',
-      onClear: () => setShipperId(undefined),
-      onlyClearSearch: true,
-      placeholder: 'Select shipper',
-      selectedItem: selectedShipper
-        ? `${selectedShipper.shipperName} (${selectedShipper.id})`
-        : undefined,
-      width: 300,
-    });
+  useEffect(() => {
+    if (
+      !equals(previousSelectedShipper, selectedShipper) &&
+      selectedShipper &&
+      !projectionId
+    ) {
+      setProjectionId(currentProjections?.[0]?.id);
+    }
+  }, [
+    currentProjections,
+    previousSelectedShipper,
+    projectionId,
+    selectedShipper,
+    setProjectionId,
+  ]);
+
+  useEffect(() => {
+    if (!equals(previousStartDate, startDate) && selectedShipper) {
+      setProjectionId(currentProjections?.[0]?.id);
+    }
+  }, [
+    currentProjections,
+    previousStartDate,
+    startDate,
+    selectedShipper,
+    setProjectionId,
+  ]);
 
   const {
     data,
     loading: dataLoading,
     error,
-  } = api.useShipperProjectionVessels();
+  } = api.useShipperProjectionVesselInfos();
   const loading = dataLoading || shipperDataLoading;
+
   const vessels = sortBy(
-    (vessel) => vessel?.shipper?.shipperName || 'Unknown shipper',
-    (data ? data.nodes : []) as ShipperProjectionVessel[],
+    (vesselInfo) =>
+      vesselInfo?.vessel?.shipper?.shipperName || 'Unknown shipper',
+    (((data ? data.nodes : []) as ShipperProjectionVesselInfo[]).filter(
+      (vesselInfo) =>
+        selectedShipper
+          ? currentProjection
+            ? currentProjection?.id === vesselInfo?.projection?.id
+            : last(
+                (
+                  (vesselInfo.shipper?.shipperProjections.nodes ||
+                    []) as ShipperProjection[]
+                ).filter(
+                  (projection) =>
+                    isDateGreaterThanOrEqualTo(
+                      new Date(projection.submittedAt),
+                      startOfISOWeek(
+                        new Date((startDate || '').replace(/-/g, '/')),
+                      ),
+                    ) &&
+                    isDateLessThanOrEqualTo(
+                      new Date(projection.submittedAt),
+                      endOfISOWeek(
+                        new Date((startDate || '').replace(/-/g, '/')),
+                      ),
+                    ),
+                ),
+              )?.id === vesselInfo?.projection?.id
+          : vesselInfo?.id ===
+            last(
+              (vesselInfo.vessel?.shipperProjectionVesselInfosByVesselId
+                .nodes || []) as ShipperProjectionVesselInfo[],
+            )?.id,
+    ) as ShipperProjectionVesselInfo[]) || [],
   );
 
   const [saveAttempt, setSaveAttempt] = useState(false);
   const [updateLoading, setUpdateLoading] = useState<string[]>([]);
   const previousUpdateLoading = usePrevious(updateLoading);
-  const [handleUpdate] = api.useUpdateShipperProjection();
   const [handleUpsertProjection] = api.useUpsertShipperProjection();
-  const [handleCreateVessel] = api.useCreateShipperProjectionVessel();
-  const [handleCreateProducts] = api.useCreateShipperProjectionProducts();
-  const [handleCreateEntry] = api.useCreateShipperProjectionEntry();
+  const [handleBulkCreateVessels] = api.useBulkCreateShipperProjectionVessels();
+  const [handleCreateVesselInfo] = api.useCreateShipperProjectionVesselInfo();
+  const [handleUpsertProducts] = api.useUpsertShipperProjectionProducts();
   const [handleDeleteEntries] = api.useDeleteShipperProjectionEntries();
 
   const [state, setState] = useState<ShipperProjectionGridState>(initialState);
@@ -205,7 +246,7 @@ const ShipperProjectionGrid = ({
   };
 
   const getVesselValue = (
-    vessel: Maybe<ShipperProjectionVessel> | undefined,
+    vessel: Maybe<ShipperProjectionVesselInfo> | undefined,
     key: keyof VesselUpdate,
   ) => {
     const changesKey = vessel && vessel.id < 0 ? 'newVessels' : 'vesselUpdates';
@@ -251,7 +292,7 @@ const ShipperProjectionGrid = ({
           },
         ),
       ),
-    selectedShipper ? 5 : 0,
+    5,
   ).filter(
     (date) =>
       !allVessels.find(
@@ -259,7 +300,7 @@ const ShipperProjectionGrid = ({
           isDateGreaterThanOrEqualTo(
             new Date(
               getVesselValue(
-                vessel as ShipperProjectionVessel,
+                vessel as ShipperProjectionVesselInfo,
                 'departureDate',
               ).value.replace(/-/g, '/'),
             ),
@@ -268,7 +309,7 @@ const ShipperProjectionGrid = ({
           isDateLessThanOrEqualTo(
             new Date(
               getVesselValue(
-                vessel as ShipperProjectionVessel,
+                vessel as ShipperProjectionVesselInfo,
                 'departureDate',
               ).value.replace(/-/g, '/'),
             ),
@@ -288,18 +329,20 @@ const ShipperProjectionGrid = ({
         id: 0,
         departureDate: date,
       })),
-    ] as ShipperProjectionVessel[],
+    ] as ShipperProjectionVesselInfo[],
   );
 
   const gridTemplateColumns = `500px repeat(${
     allVesselsWithGhostVessels.length || 1
   }, 140px)`;
 
-  const allEntries = allVessels
-    .map((vessel) =>
-      pathOr([], ['shipperProjectionEntriesByVesselId', 'nodes'], vessel),
-    )
-    .flat() as ShipperProjectionEntry[];
+  const allEntries = [
+    ...allVessels
+      .map((vessel) =>
+        pathOr([], ['shipperProjectionEntriesByVesselInfoId', 'nodes'], vessel),
+      )
+      .flat(),
+  ] as ShipperProjectionEntry[];
 
   const products = sortBy(
     (product) =>
@@ -320,12 +363,14 @@ const ShipperProjectionGrid = ({
             ...product,
             entries: allEntries
               .filter(
-                (entry) => entry.product && entry.product.id === product.id,
+                (entry) =>
+                  parseInt(entry.productId, 10) === parseInt(product.id, 10),
               )
               .map((entry) => ({
                 id: entry.id,
                 palletCount: getEntryValue(entry, 'palletCount').value,
-                vesselId: entry.vesselId,
+                productId: entry.productId,
+                vesselInfoId: entry.vesselInfoId,
               })),
           } as ShipperProjectionProductWithEntries),
       )
@@ -350,8 +395,9 @@ const ShipperProjectionGrid = ({
     (acc, vessel) =>
       acc &&
       vessel &&
-      !['', 'New Vessel'].includes(
-        getVesselValue(vessel as ShipperProjectionVessel, 'vesselName').value,
+      !['', 'Unknown'].includes(
+        getVesselValue(vessel as ShipperProjectionVesselInfo, 'vesselName')
+          .value,
       ),
     true,
   );
@@ -363,13 +409,13 @@ const ShipperProjectionGrid = ({
       isAfter(
         new Date(
           getVesselValue(
-            vessel as ShipperProjectionVessel,
+            vessel as ShipperProjectionVesselInfo,
             'arrivalDate',
           ).value,
         ),
         new Date(
           getVesselValue(
-            vessel as ShipperProjectionVessel,
+            vessel as ShipperProjectionVesselInfo,
             'departureDate',
           ).value,
         ),
@@ -400,43 +446,49 @@ const ShipperProjectionGrid = ({
   const [{ activeUserId }] = useUserContext();
   const [handleCreateUserMessages] = api.useCreateUserMessages();
 
-  const handleFinishReview = () => {
+  const handleReview = (isApproved: boolean, jvComments: string) => {
     if (currentProjection) {
-      setUpdateLoading((prevLoading) => [...prevLoading, 'finish-review']);
+      setUpdateLoading((prevLoading) => [...prevLoading, 'review']);
       handleUpsertProjection({
         variables: {
           shipperProjection: {
             id: currentProjection.id,
-            completedAt: currentProjection.completedAt,
+            submittedAt: currentProjection.submittedAt,
             shipperId: selectedShipper?.id,
-            isReviewed: true,
+            approvedAt: isApproved ? new Date().toLocaleString() : undefined,
+            rejectedAt: isApproved ? undefined : new Date().toLocaleString(),
+            jvComments,
+            reviewStatus: isApproved ? 2 : 0,
+            shipperComments: currentProjection.shipperComments,
           },
         },
       }).then(() => {
         setUpdateLoading((prevLoading) =>
-          prevLoading.filter((l) => l !== 'finish-review'),
+          prevLoading.filter((l) => l !== 'review'),
         );
       });
     }
   };
 
-  const handleSave = () => {
+  const handleSave = (shipperComments: string) => {
     setSaveAttempt(true);
     if (validate()) {
       setUpdateLoading((prevLoading) => [...prevLoading, 'projection']);
       handleUpsertProjection({
         variables: {
           shipperProjection: {
-            id: currentProjection?.id,
             shipperId,
-            isReviewed: false,
-            completedAt: new Date().toLocaleString(),
+            shipperComments,
+            submittedAt: new Date().toLocaleString(),
+            reviewStatus: 1,
+            jvComments: '',
           },
         },
       }).then(({ data }) => {
-        const shipperProjectionId =
+        const projectionId =
           parseInt(data?.upsertShipperProjection?.shipperProjection?.id, 10) ||
           undefined;
+
         if (selectedShipper && activeUserId) {
           handleCreateUserMessages({
             variables: {
@@ -459,175 +511,132 @@ const ShipperProjectionGrid = ({
             },
           });
         }
-        setUpdateLoading((prevLoading) => [...prevLoading, 'existing-items']);
-        handleUpdate({
+
+        setUpdateLoading((prevLoading) => [...prevLoading, 'products']);
+        handleUpsertProducts({
           variables: {
-            shipperProjectionVessels: changes.vesselUpdates.map((v) => {
-              const previousVessel = vessels.find((ves) => ves.id === v.id);
-              const previousName = previousVessel
-                ? `${previousVessel.vesselName}${
-                    previousVessel.previousName
-                      ? ', ' + previousVessel.previousName
-                      : ''
-                  }`
-                : '';
-              return {
+            shipperProjectionProducts: [
+              ...changes.productUpdates.map((p) => ({
+                species: p.species,
+                variety: p.variety,
+                size: p.size,
+                packType: p.packType,
+                plu: p.plu,
+                id: parseInt(p.id, 10),
+              })),
+              ...changes.newProducts.map((p) => ({
+                shipperId: p.shipperId,
+                species: p.species,
+                variety: p.variety,
+                size: p.size,
+                packType: p.packType,
+                plu: p.plu,
+              })),
+            ],
+          },
+        }).then((res) => {
+          const updatedProducts =
+            res.data?.bulkUpsertShipperProjectionProduct
+              ?.shipperProjectionProducts || [];
+
+          setUpdateLoading((prevLoading) =>
+            prevLoading.filter((l) => l !== `products`),
+          );
+
+          setUpdateLoading((prevLoading) => [...prevLoading, 'new-vessels']);
+          handleBulkCreateVessels({
+            variables: {
+              shipperProjectionVessels: changes.newVessels.map(() => ({
+                shipperId: selectedShipper?.id,
+              })),
+            },
+          }).then((res2) => {
+            const createdVessels =
+              res2.data?.bulkCreateShipperProjectionVessel
+                ?.shipperProjectionVessels || [];
+
+            setUpdateLoading((prevLoading) =>
+              prevLoading.filter((l) => l !== `new-vessels`),
+            );
+
+            [
+              ...vessels.filter(
+                (v) => v && !pluck('id', changes.vesselUpdates).includes(v.id),
+              ),
+              ...changes.vesselUpdates,
+              ...changes.newVessels.map((v, idx) => ({
+                ...v,
+                vesselId: createdVessels[idx]?.id,
+              })),
+            ]
+              .map((v) => ({
                 vesselName: v.vesselName,
                 departureDate: v.departureDate,
                 arrivalDate: v.arrivalDate,
                 arrivalPort: v.arrivalPort,
                 vesselStatus: v.vesselStatus,
-                previousName,
-                id: parseInt(v.id, 10),
-              };
-            }),
-            shipperProjectionProducts: changes.productUpdates.map((p) => ({
-              species: p.species,
-              variety: p.variety,
-              size: p.size,
-              packType: p.packType,
-              plu: p.plu,
-              id: parseInt(p.id, 10),
-            })),
-            shipperProjectionEntries: [
-              ...vessels
-                .map((v) =>
-                  v.shipperProjectionEntriesByVesselId.nodes
-                    .filter(
-                      (e) =>
-                        e && !pluck('id', changes.entryUpdates).includes(e.id),
-                    )
-                    .map((e) => ({
-                      id: e?.id,
-                      shipperProjectionId,
-                      palletCount: e?.palletCount,
-                    })),
-                )
-                .flat(),
-              ...changes.entryUpdates,
-            ].map((e) => ({
-              palletCount: e.palletCount,
-              shipperProjectionId,
-              id: parseInt(e.id, 10),
-            })),
-          },
-        }).then(() => {
-          setUpdateLoading((prevLoading) =>
-            prevLoading.filter((l) => l !== 'existing-items'),
-          );
-        });
+                shipperId: selectedShipper?.id,
+                vesselId: v.vesselId,
+                projectionId,
+                shipperProjectionEntriesUsingId: {
+                  create: [
+                    ...vessels
+                      .map((v) =>
+                        v.shipperProjectionEntriesByVesselInfoId.nodes
+                          .filter(
+                            (e) =>
+                              e &&
+                              !pluck('id', changes.entryUpdates).includes(e.id),
+                          )
+                          .map((e) => ({
+                            id: e?.id,
+                            palletCount: e?.palletCount,
+                            vesselInfoId: e?.vesselInfoId,
+                            productId: e?.productId,
+                          })),
+                      )
+                      .flat(),
+                    ...changes.entryUpdates,
+                    ...changes.newEntries,
+                  ]
+                    .filter((e) => e.vesselInfoId === v.id)
+                    .map((e) => {
+                      const newProduct = changes.newProducts.find(
+                        (p) => p.id === e.productId,
+                      ) || { id: 0 };
 
-        setUpdateLoading((prevLoading) => [...prevLoading, `new-products`]);
-        handleCreateProducts({
-          variables: {
-            shipperProjectionProducts: changes.newProducts.map((p) => ({
-              shipperId: p.shipperId,
-              species: p.species,
-              variety: p.variety,
-              size: p.size,
-              packType: p.packType,
-              plu: p.plu,
-            })),
-          },
-        }).then((res) => {
-          const createdProducts =
-            res.data?.bulkUpsertShipperProjectionProduct
-              ?.shipperProjectionProducts || [];
+                      const updatedProduct = updatedProducts.find(
+                        (p) =>
+                          p?.species === newProduct.species &&
+                          p?.variety === newProduct.variety &&
+                          p?.size === newProduct.size &&
+                          p?.packType === newProduct.packType &&
+                          p?.plu === newProduct.plu,
+                      ) || { id: 0 };
 
-          setUpdateLoading((prevLoading) =>
-            prevLoading.filter((l) => l !== `new-products`),
-          );
-
-          changes.newEntries
-            .filter((e) => e && e.vesselId >= 0)
-            .map((e) => {
-              const newProduct = changes.newProducts.find(
-                (p) => p.id === e.productId,
-              ) || { id: 0 };
-
-              const createdProduct = createdProducts.find(
-                (p) =>
-                  p?.species === newProduct.species &&
-                  p?.variety === newProduct.variety &&
-                  p?.size === newProduct.size &&
-                  p?.packType === newProduct.packType &&
-                  p?.plu === newProduct.plu,
-              ) || { id: 0 };
-
-              return {
-                vesselId: e.vesselId,
-                palletCount: e.palletCount,
-                productId: e.productId > 0 ? e.productId : createdProduct.id,
-                shipperProjectionId,
-              };
-            })
-            .forEach((e, idx) => {
-              if (e.productId > 0) {
+                      return {
+                        palletCount: e.palletCount || 0,
+                        productId:
+                          e.productId > 0 ? e.productId : updatedProduct.id,
+                      };
+                    }),
+                },
+              }))
+              .forEach((v, idx) => {
                 setUpdateLoading((prevLoading) => [
                   ...prevLoading,
-                  `entry-${idx}`,
+                  `vessel-${idx}`,
                 ]);
 
-                handleCreateEntry({
-                  variables: {
-                    shipperProjectionEntry: e,
-                  },
+                handleCreateVesselInfo({
+                  variables: { shipperProjectionVesselInfo: v },
                 }).then(() => {
                   setUpdateLoading((prevLoading) =>
-                    prevLoading.filter((l) => l !== `entry-${idx}`),
+                    prevLoading.filter((l) => l !== `vessel-${idx}`),
                   );
                 });
-              }
-            });
-
-          changes.newVessels
-            .map((v) => ({
-              vesselName: v.vesselName,
-              departureDate: v.departureDate,
-              arrivalDate: v.arrivalDate,
-              arrivalPort: v.arrivalPort,
-              vesselStatus: v.vesselStatus,
-              shipperId,
-              shipperProjectionEntriesUsingId: {
-                create: changes.newEntries
-                  .filter((e) => e.vesselId === v.id)
-                  .map((e) => {
-                    const newProduct = changes.newProducts.find(
-                      (p) => p.id === e.productId,
-                    ) || { id: 0 };
-
-                    const createdProduct = createdProducts.find(
-                      (p) =>
-                        p?.species === newProduct.species &&
-                        p?.variety === newProduct.variety &&
-                        p?.size === newProduct.size &&
-                        p?.packType === newProduct.packType &&
-                        p?.plu === newProduct.plu,
-                    ) || { id: 0 };
-
-                    return {
-                      palletCount: e.palletCount,
-                      productId:
-                        e.productId > 0 ? e.productId : createdProduct.id,
-                      shipperProjectionId,
-                    };
-                  }),
-              },
-            }))
-            .forEach((v, idx) => {
-              setUpdateLoading((prevLoading) => [
-                ...prevLoading,
-                `vessel-${idx}`,
-              ]);
-
-              handleCreateVessel({
-                variables: { shipperProjectionVessel: v },
-              }).then(() => {
-                setUpdateLoading((prevLoading) =>
-                  prevLoading.filter((l) => l !== `vessel-${idx}`),
-                );
               });
-            });
+          });
         });
 
         const idsToDelete = pluck(
@@ -706,7 +715,7 @@ const ShipperProjectionGrid = ({
     const newEntries = products.map((product, idx) => ({
       palletCount: 0,
       id: newItemNextIds.entry - idx,
-      vesselId: newItemNextIds.vessel,
+      vesselInfoId: newItemNextIds.vessel,
       productId: parseInt(product.id, 10),
       product,
     }));
@@ -719,7 +728,7 @@ const ShipperProjectionGrid = ({
           ...newVessel,
           id: newItemNextIds.vessel,
         },
-      ] as ShipperProjectionVessel[],
+      ] as ShipperProjectionVesselInfo[],
       newEntries: [
         ...changes.newEntries,
         ...newEntries,
@@ -740,10 +749,10 @@ const ShipperProjectionGrid = ({
       id: newItemNextIds.product,
     };
 
-    const newEntries = allVessels.map(({ id: vesselId }, idx) => ({
+    const newEntries = allVessels.map(({ id: vesselInfoId }, idx) => ({
       palletCount: 0,
       id: newItemNextIds.entry - idx,
-      vesselId,
+      vesselInfoId,
       productId: newItemNextIds.product,
       product,
     }));
@@ -771,7 +780,7 @@ const ShipperProjectionGrid = ({
     setChanges({
       ...changes,
       newVessels: changes.newVessels.filter((item) => item.id !== id),
-      newEntries: changes.newEntries.filter((item) => item.vesselId !== id),
+      newEntries: changes.newEntries.filter((item) => item.vesselInfoId !== id),
     });
   };
 
@@ -842,8 +851,11 @@ const ShipperProjectionGrid = ({
         ) : (
           <div key={0} />
         ),
-        <l.Flex alignEnd key={1} relative>
-          {currentProjection && (
+        <l.Div key={1} mr={th.spacing.md}>
+          <ProjectionSettings />
+        </l.Div>,
+        <l.Flex alignEnd key={2} relative>
+          {currentProjection && !!selectedShipper && (
             <l.Flex
               alignCenter
               height={th.sizes.fill}
@@ -851,86 +863,66 @@ const ShipperProjectionGrid = ({
               mr={th.spacing.md}
             >
               <StatusIndicator
-                status={currentProjection.isReviewed ? 'success' : 'warning'}
+                status={
+                  currentProjection.approvedAt
+                    ? 'success'
+                    : currentProjection.rejectedAt
+                    ? 'error'
+                    : 'warning'
+                }
               />
             </l.Flex>
           )}
           {selectedShipper && (
-            <l.Div mr={th.spacing.md}>
-              <BasicModal
+            <>
+              <l.Div mr={th.spacing.md}>
+                <ShipperProjectionsReviewModal
+                  handleApprove={(message) => handleReview(true, message)}
+                  handleReject={(message) => handleReview(false, message)}
+                  triggerDisabled={!currentProjection}
+                  confirmLoading={!isEmpty(updateLoading)}
+                />
+              </l.Div>
+              <ShipperProjectionsReviewModal
+                handleApprove={(message) => handleSave(message)}
+                triggerDisabled={saveAttempt && !validate()}
                 confirmLoading={!isEmpty(updateLoading)}
-                confirmText="Mark As Reviewed"
-                handleConfirm={handleFinishReview}
-                shouldConfirm={false}
-                triggerDisabled={
-                  !currentProjection || !!currentProjection.isReviewed
-                }
-                triggerText="Mark As Reviewed"
               />
-            </l.Div>
-          )}
-          {selectedShipper && (
-            <BasicModal
-              confirmLoading={!isEmpty(updateLoading)}
-              confirmText="Submit"
-              handleConfirm={handleSave}
-              shouldConfirm={false}
-              triggerDisabled={saveAttempt && !validate()}
-              triggerText="Submit"
-            />
+            </>
           )}
           {saveAttempt && (
-            <l.Div position="absolute" right={0} top={36}>
-              <l.Div height={th.spacing.sm} />
-              {!hasConfirmedSkippedWeeks && (
-                <ty.CaptionText
-                  color={th.colors.status.error}
-                  mb={th.spacing.xs}
-                  nowrap
-                  textAlign="right"
-                >
-                  Confirm weeks with no vessels
-                </ty.CaptionText>
-              )}
-              {!hasValidVesselNames && (
-                <ty.CaptionText
-                  color={th.colors.status.error}
-                  mb={th.spacing.xs}
-                  nowrap
-                  textAlign="right"
-                >
-                  Fill out all vessel names
-                </ty.CaptionText>
-              )}
-              {!hasValidVesselDates && (
-                <ty.CaptionText
-                  color={th.colors.status.error}
-                  mb={th.spacing.xs}
-                  nowrap
-                  textAlign="right"
-                >
-                  Check vessel arrival dates
-                </ty.CaptionText>
-              )}
-              {!hasValidProducts && (
-                <ty.CaptionText
-                  color={th.colors.status.error}
-                  mb={th.spacing.xs}
-                  nowrap
-                  textAlign="right"
-                >
-                  Fill out all product details
-                </ty.CaptionText>
-              )}
-              {!isEmpty(duplicateProductIds) && (
-                <ty.CaptionText
-                  color={th.colors.status.error}
-                  nowrap
-                  textAlign="right"
-                >
-                  No duplicate products
-                </ty.CaptionText>
-              )}
+            <l.Div cursor="pointer" position="absolute" right={0} top={42}>
+              <ErrorPanel
+                customStyles={{
+                  border: th.borders.error,
+                  right: 0,
+                  left: 'auto',
+                  width: 'auto',
+                  zIndex: 20,
+                }}
+                errors={[
+                  {
+                    text: 'Confirm weeks with no vessels',
+                    value: !hasConfirmedSkippedWeeks,
+                  },
+                  {
+                    text: 'Fill out all vessel names',
+                    value: !hasValidVesselNames,
+                  },
+                  {
+                    text: 'Check vessel arrival dates',
+                    value: !hasValidVesselDates,
+                  },
+                  {
+                    text: 'Fill out all product details',
+                    value: !hasValidProducts,
+                  },
+                  {
+                    text: 'No duplicate products',
+                    value: !isEmpty(duplicateProductIds),
+                  },
+                ]}
+              />
             </l.Div>
           )}
         </l.Flex>,
@@ -981,26 +973,34 @@ const ShipperProjectionGrid = ({
           <>
             <Vessels
               {...changeProps}
+              currentProjection={currentProjection}
+              currentProjections={currentProjections}
               error={error}
               ghostVesselDates={ghostVesselDates}
               gridTemplateColumns={gridTemplateColumns}
               loading={loading}
-              selectedShipper={selectedShipper?.shipperName}
+              selectedShipper={selectedShipper}
+              setProjectionId={setProjectionId}
               showErrors={saveAttempt}
               skippedWeeks={skippedWeeks}
               toggleSkippedWeeks={toggleSkippedWeeks}
-              vessels={allVesselsWithGhostVessels as ShipperProjectionVessel[]}
+              vessels={
+                allVesselsWithGhostVessels as ShipperProjectionVesselInfo[]
+              }
             />
             <Products
               {...changeProps}
+              currentProjection={currentProjection}
               duplicateProductIds={duplicateProductIds}
               gridTemplateColumns={gridTemplateColumns}
               hasVessels={allVessels.length > 0}
               loading={loading}
               products={products}
-              selectedShipper={selectedShipper?.shipperName}
+              selectedShipper={selectedShipper}
               showErrors={saveAttempt}
-              vessels={allVesselsWithGhostVessels as ShipperProjectionVessel[]}
+              vessels={
+                allVesselsWithGhostVessels as ShipperProjectionVesselInfo[]
+              }
             />
           </>
         </l.Div>

@@ -32,6 +32,7 @@ const ListItem = <T extends {}>({
   handleDateChange,
   listLabels,
   shipperId,
+  projectionId,
   startDate,
 }: {
   data: T;
@@ -39,11 +40,13 @@ const ListItem = <T extends {}>({
   handleDateChange: () => void;
   listLabels: LabelInfo<T>[];
   shipperId?: string;
+  projectionId?: string;
   startDate?: string;
 }) => {
   const [, setQueryParams] = useQuerySet({
     endDate: StringParam,
     shipperId: StringParam,
+    projectionId: StringParam,
     startDate: StringParam,
     view: StringParam,
   });
@@ -56,6 +59,7 @@ const ListItem = <T extends {}>({
           setQueryParams({
             endDate: startDate,
             shipperId,
+            projectionId,
             startDate,
             view: 'grid',
           });

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { sentenceCase } from 'change-case';
-import { pluck } from 'ramda';
+import { pluck, sortBy } from 'ramda';
 
 import api from 'api';
 import { BasicModal } from 'components/modal';
@@ -26,6 +26,8 @@ interface LineItemProps {
 }
 
 const LineItem = ({ checked, item, toggleChecked }: LineItemProps) => {
+  const [hover, setHover] = useState(false);
+
   const customers =
     item.customersByCustomerPersonContactPersonContactIdAndCustomerId.nodes;
   const shippers =
@@ -46,28 +48,47 @@ const LineItem = ({ checked, item, toggleChecked }: LineItemProps) => {
           .map((n) => sentenceCase(n))
           .join(', ')
       : 'Internal contact';
+
+  const textProps = {
+    bold: hover || checked,
+    color: hover ? th.colors.brand.primaryAccent : th.colors.brand.primary,
+  };
+
   return (
-    <LineItemCheckbox
-      checked={checked}
-      label={
-        <l.Grid
-          gridTemplateColumns="1fr 40px 2fr"
-          ml={th.spacing.md}
-          width={th.sizes.fill}
-        >
-          <l.Div overflow="hidden">
-            <ty.CaptionText nowrap>
-              {item.firstName} {item.lastName}
+    <l.Div
+      onMouseEnter={() => {
+        setHover(true);
+      }}
+      onMouseLeave={() => {
+        setHover(false);
+      }}
+    >
+      <LineItemCheckbox
+        checked={checked}
+        label={
+          <l.Grid
+            gridTemplateColumns="1fr 40px 2fr"
+            ml={th.spacing.md}
+            width={th.sizes.fill}
+          >
+            <l.Div overflow="hidden">
+              <ty.CaptionText nowrap {...textProps}>
+                {item.firstName} {item.lastName}
+              </ty.CaptionText>
+            </l.Div>
+            <ty.CaptionText mx={th.spacing.md} {...textProps}>
+              -
             </ty.CaptionText>
-          </l.Div>
-          <ty.CaptionText mx={th.spacing.md}>-</ty.CaptionText>
-          <l.Div overflow="hidden">
-            <ty.CaptionText nowrap>{companyText}</ty.CaptionText>
-          </l.Div>
-        </l.Grid>
-      }
-      onChange={toggleChecked}
-    />
+            <l.Div overflow="hidden">
+              <ty.CaptionText nowrap {...textProps}>
+                {companyText}
+              </ty.CaptionText>
+            </l.Div>
+          </l.Grid>
+        }
+        onChange={toggleChecked}
+      />
+    </l.Div>
   );
 };
 
@@ -80,17 +101,28 @@ interface Props {
 const AddContactsToGroup = ({ addContacts, group, confirmLoading }: Props) => {
   const { Search } = useSearch();
   const { data, loading, error } = api.useAllPersonContacts();
-  const items = data
-    ? data.nodes.filter(
-        (contact) =>
-          contact &&
-          !group.personContactsByContactGroupPersonContactGroupIdAndPersonContactId.nodes
-            .map((c) => c && c.id)
-            .includes(contact.id),
-      )
-    : [];
+
+  const groupSelectedIds =
+    group.personContactsByContactGroupPersonContactGroupIdAndPersonContactId.nodes.map(
+      (c) => c && c.id,
+    );
 
   const [selectedContacts, setSelectedContacts] = useState<PersonContact[]>([]);
+
+  const items = data
+    ? sortBy(
+        (contact) =>
+          contact &&
+          [...groupSelectedIds, ...selectedContacts.map((c) => c.id)].includes(
+            contact.id,
+          )
+            ? 'a'
+            : 'b',
+        data.nodes.filter(
+          (contact) => contact && !groupSelectedIds.includes(contact.id),
+        ),
+      )
+    : [];
 
   const handleAddContacts = () => {
     addContacts(selectedContacts).then(() => {
@@ -140,7 +172,7 @@ const AddContactsToGroup = ({ addContacts, group, confirmLoading }: Props) => {
                     )
                   );
                 }}
-                width={620}
+                width={590}
               />
             ) : (
               <DataMessage

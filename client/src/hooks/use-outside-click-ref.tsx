@@ -5,7 +5,7 @@ const useOutsideClickRef = (onClose: () => void) => {
 
   const escapeListener = useCallback(
     (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
+      if (['Escape', 'Tab'].includes(e.key)) {
         onClose();
       }
     },

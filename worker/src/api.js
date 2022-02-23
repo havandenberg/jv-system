@@ -18,8 +18,32 @@ const DISTINCT_VALUES = gql`
   }
 `;
 
+const PROJECTION_REMINDERS = gql`
+  query PROJECTION_REMINDERS {
+    shippers {
+      nodes {
+        id
+        sendProjectionRequest
+        shipperName
+        shipperPersonContacts {
+          nodes {
+            personContact {
+              firstName
+              id
+              email
+              lastName
+              isPrimary
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
 module.exports = {
   gql,
   gqlClient,
   DISTINCT_VALUES,
+  PROJECTION_REMINDERS,
 };

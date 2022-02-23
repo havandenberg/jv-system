@@ -10,8 +10,8 @@ const {
   fetchPsaApplePallets,
 } = require('.');
 
-fetchPsaGrapePallets();
-// fetchPsaCitrusPallets();
+// fetchPsaGrapePallets();
+fetchPsaCitrusPallets();
 // fetchPsaStoneFruitPallets();
 // fetchPsaPomegranatePallets();
 // fetchPsaPersimmonPallets();

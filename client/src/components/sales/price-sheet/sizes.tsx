@@ -72,7 +72,7 @@ const Sizes = (props: Props) => {
                   }
                   handleConfirm={() => handleRemoveItem('sizes', size.id)}
                   shouldConfirm={size.id >= 0}
-                  triggerStyles={{
+                  triggerProps={{
                     position: 'absolute',
                     left: `-${th.sizes.xs}`,
                   }}

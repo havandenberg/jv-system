@@ -13775,6 +13775,11 @@ scuid@^1.1.0:
   resolved "https://registry.yarnpkg.com/scuid/-/scuid-1.1.0.tgz#d3f9f920956e737a60f72d0e4ad280bf324d5dab"
   integrity sha512-MuCAyrGZcTLfQoH2XoBlQ8C6bzwN88XT/0slOGz0pn8+gIP85BOAfYa44ZXQUTOwRwPU0QvgU+V+OSajl/59Xg==
 
+seed-shuffle@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/seed-shuffle/-/seed-shuffle-1.0.0.tgz#e3eedabbf2b73dd0d1645962628a5d71f7d04cb0"
+  integrity sha1-4+7au/K3PdDRZFliYopdcffQTLA=
+
 select-hose@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/select-hose/-/select-hose-2.0.0.tgz#625d8658f865af43ec962bfc376a37359a4994ca"

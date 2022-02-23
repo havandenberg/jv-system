@@ -9,30 +9,38 @@ query SHIPPER_PROJECTION_LIST(
   shipperProjections(
     filter: {
       and: $search
-      completedAt: {
+      submittedAt: {
         greaterThanOrEqualTo: $startDate
         lessThanOrEqualTo: $endDate
       }
       shipperId: { in: $shipperId }
-      shipperProjectionEntries: {
-        some: { vessel: { arrivalPort: { equalTo: $arrivalPort } } }
+      shipperProjectionVesselInfosByProjectionId: {
+        some: { arrivalPort: { equalTo: $arrivalPort } }
       }
     }
     orderBy: $orderBy
   ) {
     nodes {
       id
-      completedAt
-      isReviewed
+      submittedAt
+      approvedAt
+      rejectedAt
+      jvComments
+      shipperComments
+      reviewStatus
       shipper {
         id
         shipperName
       }
-      shipperProjectionEntries {
+      shipperProjectionVesselInfosByProjectionId {
         nodes {
-          palletCount
-          product {
-            species
+          shipperProjectionEntriesByVesselInfoId {
+            nodes {
+              palletCount
+              product {
+                species
+              }
+            }
           }
         }
       }

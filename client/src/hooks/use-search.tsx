@@ -9,6 +9,7 @@ export interface SearchProps extends TextInputProps {
   disabled?: boolean;
   onClear?: () => void;
   onlyClearSearch?: boolean;
+  paramName?: string;
   placeholder?: string;
   showIcon?: boolean;
   value?: string;
@@ -19,12 +20,13 @@ const useSearch = (props?: SearchProps) => {
     disabled = false,
     onClear = undefined,
     onlyClearSearch = undefined,
+    paramName = undefined,
     placeholder = 'Search',
     showIcon = true,
     value = '',
     ...rest
   } = props ? props : {};
-  const [search, setSearch] = useSearchQueryParam();
+  const [search, setSearch] = useSearchQueryParam(paramName);
   const [localSearch, setLocalSearch] = useState<string | undefined>(
     search || undefined,
   );

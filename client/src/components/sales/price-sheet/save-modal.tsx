@@ -45,7 +45,7 @@ const PriceSheetSaveModal = ({
         handleSave(sendNotification ? `<br/><br/><pre>${value}</pre>` : '')
       }
       shouldConfirm={sendNotification}
-      triggerStyles={{
+      triggerProps={{
         width: 88,
       }}
       triggerText={sendNotification ? 'Next' : 'Save'}

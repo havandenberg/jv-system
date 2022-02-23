@@ -1,4 +1,4 @@
-mutation SHIPPER_PROJECTION_PRODUCT_CREATE(
+mutation SHIPPER_PROJECTION_PRODUCT_UPSERT(
   $shipperProjectionProducts: [ShipperProjectionProductInput]!
 ) {
   bulkUpsertShipperProjectionProduct(

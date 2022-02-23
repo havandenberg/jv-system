@@ -4,9 +4,11 @@ import { OnChangeProps } from 'react-date-range';
 
 import api from 'api';
 import ResetImg from 'assets/images/reset';
+import useItemSelector from 'components/item-selector';
 import { useTabBar } from 'components/tab-bar';
 import useDateRange from 'hooks/use-date-range';
 import { useQueryValue } from 'hooks/use-query-params';
+import { Maybe, Shipper } from 'types';
 import l from 'ui/layout';
 import th from 'ui/theme';
 
@@ -49,10 +51,16 @@ export interface ShipperProjectionProps {
   ForwardButton: React.ReactNode;
   BackwardButton: React.ReactNode;
   handleDateChange: (OnChange: OnChangeProps) => void;
+  ShipperItemSelector: React.ReactNode;
+  clearSearch: () => void;
+  shipperDataLoading: boolean;
+  selectedShipper?: Maybe<Shipper> | undefined;
+  shipperId?: string;
 }
 
 const ShipperProjections = () => {
-  const [shipperId, setShipperId] = useQueryValue('shipperId');
+  const [shipperIdQuery, setShipperId] = useQueryValue('shipperId');
+  const shipperId = shipperIdQuery || '';
   const parsedShipperId = shipperId
     ? shipperId.length === 5
       ? shipperId
@@ -84,12 +92,43 @@ const ShipperProjections = () => {
     handleClear,
     handleDateChange,
   } = useDateRange({
-    allowEmpty: !isGrid,
     hideDefinedRanges: isGrid,
     singleSelection: isGrid,
     maxDate: endOfISOWeek(add(new Date(), { weeks: 4 })),
     offsetLeft: isGrid ? `-${th.spacing.md}` : -175,
   });
+
+  const {
+    data: shipperData,
+    loading: shipperDataLoading,
+    error: shipperDataError,
+  } = api.useShippers('SHIPPER_NAME_ASC');
+  const shippers = shipperData ? shipperData.nodes : [];
+  const selectedShipper = shippers.find(
+    (shipper) => shipper && shipper.id === parsedShipperId,
+  );
+
+  const { ItemSelector: ShipperItemSelector, clearSearch } =
+    useItemSelector<Shipper>({
+      selectItem: (shipper) => {
+        setShipperId(shipper.id);
+      },
+      allItems: shippers as Shipper[],
+      closeOnSelect: true,
+      clearSearchOnBlur: true,
+      excludedItems: [],
+      error: shipperDataError,
+      errorLabel: 'Shippers',
+      loading: shipperDataLoading,
+      nameKey: 'shipperName',
+      onClear: () => setShipperId(undefined),
+      onlyClearSearch: true,
+      placeholder: 'Select shipper',
+      selectedItem: selectedShipper
+        ? `${selectedShipper.shipperName} (${selectedShipper.id})`
+        : undefined,
+      width: 300,
+    });
 
   const props = {
     coast,
@@ -116,6 +155,11 @@ const ShipperProjections = () => {
     ForwardButton,
     BackwardButton,
     handleDateChange,
+    ShipperItemSelector,
+    clearSearch,
+    shipperDataLoading,
+    selectedShipper,
+    shipperId,
   };
 
   const getComponent = () => {
@@ -133,7 +177,7 @@ const ShipperProjections = () => {
     if (shipperId && shipper) {
       if (shipperId.length > 5 && view === 'grid') {
         setShipperId(shipper.id);
-      } else if (shipperId.length === 5 && view === 'list') {
+      } else if (shipperId.length === 5 && view !== 'grid') {
         setShipperId(`${shipper.shipperName} (${shipper.id})`);
       }
     }

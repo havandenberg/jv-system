@@ -57,9 +57,11 @@ const Modal = ({ children, trigger }: Props) => {
 
 export default Modal;
 
-interface BasicModalProps {
+export interface BasicModalProps {
+  cancelProps?: DivProps & TextProps & { status?: string };
   cancelText?: string;
   confirmDisabled?: boolean;
+  confirmProps?: DivProps & TextProps & { status?: string };
   confirmLoading?: boolean;
   confirmText?: string;
   content?: React.ReactNode;
@@ -68,15 +70,17 @@ interface BasicModalProps {
   shouldConfirm?: boolean;
   title?: string;
   triggerDisabled?: boolean;
-  triggerStyles?: DivProps & TextProps;
+  triggerProps?: DivProps & TextProps & { status?: string };
   triggerText?: string;
   triggerType?: 'remove-icon' | 'default' | 'text';
 }
 
 export const BasicModal = ({
+  cancelProps,
   cancelText = 'Cancel',
   confirmDisabled,
   confirmLoading,
+  confirmProps,
   confirmText = 'Confirm',
   content,
   handleConfirm,
@@ -84,7 +88,7 @@ export const BasicModal = ({
   shouldConfirm = true,
   title,
   triggerDisabled,
-  triggerStyles,
+  triggerProps,
   triggerText,
   triggerType = 'default',
 }: BasicModalProps) => {
@@ -94,7 +98,7 @@ export const BasicModal = ({
         return (
           <l.HoverButton
             onClick={shouldConfirm ? show : handleConfirm}
-            {...triggerStyles}
+            {...triggerProps}
           >
             <Remove height={th.sizes.xs} width={th.sizes.xs} />
           </l.HoverButton>
@@ -103,17 +107,17 @@ export const BasicModal = ({
         return (
           <ty.TriggerText
             onClick={shouldConfirm ? show : handleConfirm}
-            {...triggerStyles}
+            {...triggerProps}
           >
             {triggerText}
           </ty.TriggerText>
         );
       default:
         return (
-          <b.Primary
+          <b.Status
             disabled={confirmLoading || triggerDisabled}
             onClick={shouldConfirm ? show : handleConfirm}
-            {...triggerStyles}
+            {...triggerProps}
           >
             {!shouldConfirm && confirmLoading ? (
               <l.Flex alignCenter justifyCenter>
@@ -125,7 +129,7 @@ export const BasicModal = ({
             ) : (
               triggerText
             )}
-          </b.Primary>
+          </b.Status>
         );
     }
   };
@@ -136,36 +140,40 @@ export const BasicModal = ({
           {title && <ty.TitleText>{title}</ty.TitleText>}
           {content}
           <l.Flex justifyCenter mt={th.spacing.xl}>
-            <b.Primary
+            <b.Status
               disabled={confirmLoading}
-              mr={th.spacing.md}
               onClick={() => {
                 onCancel && onCancel();
                 hide();
               }}
+              {...cancelProps}
             >
               {cancelText}
-            </b.Primary>
-            <b.Primary
-              disabled={confirmLoading || confirmDisabled}
-              onClick={() => {
-                const result = handleConfirm();
-                if (result !== false) {
-                  hide();
-                }
-              }}
-            >
-              {confirmLoading ? (
-                <l.Flex alignCenter justifyCenter>
-                  <ClipLoader
-                    color={th.colors.brand.secondary}
-                    size={th.sizes.xs}
-                  />
-                </l.Flex>
-              ) : (
-                confirmText
-              )}
-            </b.Primary>
+            </b.Status>
+            {confirmText !== '' && (
+              <b.Status
+                disabled={confirmLoading || confirmDisabled}
+                ml={th.spacing.lg}
+                onClick={() => {
+                  const result = handleConfirm();
+                  if (result !== false) {
+                    hide();
+                  }
+                }}
+                {...confirmProps}
+              >
+                {confirmLoading ? (
+                  <l.Flex alignCenter justifyCenter>
+                    <ClipLoader
+                      color={th.colors.brand.secondary}
+                      size={th.sizes.xs}
+                    />
+                  </l.Flex>
+                ) : (
+                  confirmText
+                )}
+              </b.Status>
+            )}
           </l.Flex>
         </>
       )}

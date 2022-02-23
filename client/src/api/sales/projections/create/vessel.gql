@@ -1,10 +1,10 @@
-mutation SHIPPER_PROJECTION_VESSEL_CREATE(
-  $shipperProjectionVessel: ShipperProjectionVesselInput!
+mutation BULK_CREATE_SHIPPER_PROJECTION_VESSEL(
+  $shipperProjectionVessels: [ShipperProjectionVesselInput]!
 ) {
-  createShipperProjectionVessel(
-    input: { shipperProjectionVessel: $shipperProjectionVessel }
+  bulkCreateShipperProjectionVessel(
+    input: { vessels: $shipperProjectionVessels }
   ) {
-    shipperProjectionVessel {
+    shipperProjectionVessels {
       id
     }
   }

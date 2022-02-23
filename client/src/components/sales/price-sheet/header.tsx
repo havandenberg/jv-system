@@ -89,7 +89,6 @@ const Header = ({
       {times((i) => {
         const isFirst = i === 0;
         const isCurrentWeekVal = isCurrentWeek(selectedWeekNumber + i);
-        const border = isCurrentWeekVal ? th.borders.disabled : undefined;
         const startOfWeek = startOfISOWeek(
           add(new Date(startDate.replace(/-/g, '/')), {
             weeks: 1 * i,
@@ -102,7 +101,10 @@ const Header = ({
             bg={
               isCurrentWeekVal ? th.colors.brand.containerBackground : undefined
             }
-            border={border}
+            borderTop={th.borders.disabled}
+            borderBottom={th.borders.disabled}
+            borderRight={th.borders.disabled}
+            borderLeft={isFirst ? th.borders.disabled : undefined}
             column
             justifyCenter
             key={i}

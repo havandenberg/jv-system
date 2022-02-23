@@ -20,6 +20,7 @@ const {
   fetchPsaCherryPallets,
   fetchPsaApplePallets,
 } = require('./inspections/psa-arrival/pallets');
+const sendProjectionReminders = require('./projections/weekly-reminders');
 
 cron.schedule('0 0 * * *', fetchChileDepartureInspections);
 // cron.schedule('0 4 * * *', fetchPeruDepartureInspections);
@@ -34,3 +35,5 @@ cron.schedule('20 0 * * *', fetchPsaPearPallets);
 cron.schedule('22 0 * * *', fetchPsaLemonPallets);
 cron.schedule('24 0 * * *', fetchPsaCherryPallets);
 cron.schedule('26 0 * * *', fetchPsaApplePallets);
+
+// cron.schedule('26 0 * * *', sendProjectionReminders);

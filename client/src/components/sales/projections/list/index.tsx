@@ -14,10 +14,11 @@ import th from 'ui/theme';
 import ty from 'ui/typography';
 
 import { ShipperProjectionProps } from '../';
+import ProjectionSettings from '../settings';
 import { listLabels } from './data-utils';
 import ListItem from './item';
 
-const gridTemplateColumns = '1.5fr 150px 115px 2fr 150px 30px';
+const gridTemplateColumns = '1.5fr 150px 115px 2fr 100px 30px';
 
 const ShipperProjectionList = ({
   CoastTabBar,
@@ -32,7 +33,7 @@ const ShipperProjectionList = ({
   const items = data ? data.nodes : [];
 
   const columnLabels = useColumns<ShipperProjection>(
-    'completedAt',
+    'submittedAt',
     SORT_ORDER.DESC,
     listLabels,
     'product',
@@ -41,6 +42,7 @@ const ShipperProjectionList = ({
 
   return (
     <Page
+      actions={[<ProjectionSettings key={0} />]}
       extraPaddingTop={105}
       headerChildren={
         <>
@@ -53,7 +55,7 @@ const ShipperProjectionList = ({
             </l.Div>
             <l.Div mr={th.spacing.lg}>
               <ty.CaptionText mb={th.spacing.sm} secondary>
-                Search products
+                Search Projections
               </ty.CaptionText>
               <l.Flex alignCenter mb={th.spacing.sm} justifyBetween>
                 {Search}
@@ -100,9 +102,7 @@ const ShipperProjectionList = ({
           rowCount={data ? items.length : 0}
           rowRenderer={({ key, index, style }) => {
             const item = items[index];
-            const completedDate = item
-              ? new Date(item.completedAt)
-              : new Date();
+            const submittedAt = item ? new Date(item.submittedAt) : new Date();
             return (
               item && (
                 <div key={key} style={style}>
@@ -112,15 +112,16 @@ const ShipperProjectionList = ({
                     handleDateChange={() => {
                       handleDateChange({
                         selection: {
-                          startDate: completedDate,
-                          endDate: completedDate,
+                          startDate: submittedAt,
+                          endDate: submittedAt,
                           key: 'selection',
                         },
                       });
                     }}
                     listLabels={listLabels}
+                    projectionId={item.id || ''}
                     shipperId={item.shipper?.id || ''}
-                    startDate={formatDate(completedDate)}
+                    startDate={formatDate(submittedAt)}
                   />
                 </div>
               )

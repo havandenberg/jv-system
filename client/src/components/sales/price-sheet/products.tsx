@@ -141,7 +141,7 @@ const Products = (props: Props) => {
                           handleRemoveItem('products', product.id)
                         }
                         shouldConfirm={product.id >= 0}
-                        triggerStyles={{
+                        triggerProps={{
                           position: 'absolute',
                           left: `-${th.sizes.icon}`,
                         }}

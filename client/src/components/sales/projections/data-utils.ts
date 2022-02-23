@@ -3,30 +3,30 @@ import { groupBy, sortBy, values } from 'ramda';
 import {
   Maybe,
   ShipperProjectionProduct,
-  ShipperProjectionVessel,
+  ShipperProjectionVesselInfo,
 } from 'types';
 
 import { ShipperProjectionGridChanges, VesselUpdate } from './grid/types';
 
 export const getAllVessels = (
-  vessels: Maybe<ShipperProjectionVessel>[],
+  vessels: Maybe<ShipperProjectionVesselInfo>[],
   changes: ShipperProjectionGridChanges,
   getVesselValue: (
-    vessel: Maybe<ShipperProjectionVessel> | undefined,
+    vessel: Maybe<ShipperProjectionVesselInfo> | undefined,
     key: keyof VesselUpdate,
   ) => { dirty: boolean; value: string },
 ) =>
   sortBy((v) => getVesselValue(v, 'departureDate').value, [
     ...vessels,
     ...changes.newVessels,
-  ] as ShipperProjectionVessel[]).map((v) => {
+  ] as ShipperProjectionVesselInfo[]).map((v) => {
     if (v) {
       return {
         ...v,
-        shipperProjectionEntriesByVesselId: {
+        shipperProjectionEntriesByVesselInfoId: {
           nodes: [
-            ...v.shipperProjectionEntriesByVesselId.nodes,
-            ...changes.newEntries.filter((e) => e.vesselId === v.id),
+            ...v.shipperProjectionEntriesByVesselInfoId.nodes,
+            ...changes.newEntries.filter((e) => e.vesselInfoId === v.id),
           ],
         },
       };

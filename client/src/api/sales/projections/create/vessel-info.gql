@@ -1,0 +1,11 @@
+mutation SHIPPER_PROJECTION_VESSEL_INFO_CREATE(
+  $shipperProjectionVesselInfo: ShipperProjectionVesselInfoInput!
+) {
+  createShipperProjectionVesselInfo(
+    input: { shipperProjectionVesselInfo: $shipperProjectionVesselInfo }
+  ) {
+    shipperProjectionVesselInfo {
+      id
+    }
+  }
+}

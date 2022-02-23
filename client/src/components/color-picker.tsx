@@ -49,6 +49,7 @@ const ColorPicker = ({
   return (
     <l.Div relative ref={ref}>
       <l.Div
+        bg={color}
         border={th.borders.secondary}
         borderColor={color}
         borderRadius={th.borderRadii.circle}

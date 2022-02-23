@@ -7,7 +7,8 @@ CREATE TABLE directory.shipper (
 	group_id TEXT,
 	logo_src TEXT,
 	notes TEXT,
-	website TEXT
+	website TEXT,
+	send_projection_request BOOLEAN
 );
 
 CREATE TABLE directory.shipper_person_contact (

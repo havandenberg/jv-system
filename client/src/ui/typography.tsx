@@ -25,6 +25,7 @@ interface CustomTextProps {
   bold?: boolean;
   center?: boolean;
   disabled?: boolean;
+  ellipsis?: boolean;
   inverted?: boolean;
   italic?: boolean;
   link?: boolean;
@@ -47,6 +48,7 @@ const customProps = ({
   bold,
   center,
   disabled,
+  ellipsis,
   inverted,
   italic,
   link,
@@ -63,9 +65,10 @@ const customProps = ({
     : secondary || link
     ? th.opacities.secondary
     : 1,
+  overflow: ellipsis ? 'hidden' : undefined,
   textAlign: center ? 'center' : undefined,
-  textOverflow,
-  whiteSpace: nowrap ? 'nowrap' : undefined,
+  textOverflow: ellipsis ? 'ellipsis' : textOverflow,
+  whiteSpace: nowrap || ellipsis ? 'nowrap' : undefined,
   ':hover': {
     opacity: link ? 1 : undefined,
   },

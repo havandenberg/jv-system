@@ -60,7 +60,7 @@ const Categories = (props: Props) => {
                         handleRemoveItem('categories', category.id)
                       }
                       shouldConfirm={category.id >= 0}
-                      triggerStyles={{
+                      triggerProps={{
                         position: 'absolute',
                         left: `-${th.sizes.icon}`,
                       }}

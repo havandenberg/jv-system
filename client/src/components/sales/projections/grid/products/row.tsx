@@ -4,13 +4,15 @@ import styled from '@emotion/styled';
 import { equals, sortBy, uniqBy } from 'ramda';
 
 import PlusInCircle from 'assets/images/plus-in-circle';
-import EditableCell, {
-  EDITABLE_CELL_HEIGHT,
-  Input,
-} from 'components/editable-cell';
+import EditableCell from 'components/editable-cell';
 import useItemSelector from 'components/item-selector';
 import { BasicModal } from 'components/modal';
-import { ShipperProjectionProduct, ShipperProjectionVessel } from 'types';
+import {
+  Maybe,
+  Shipper,
+  ShipperProjectionProduct,
+  ShipperProjectionVesselInfo,
+} from 'types';
 import l, { divPropsSet } from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
@@ -23,7 +25,8 @@ import {
 const ProductWrapper = styled(l.Grid)(
   {
     alignItems: 'center',
-    height: EDITABLE_CELL_HEIGHT,
+    height: 24,
+    zIndex: 2,
   },
   divPropsSet,
 );
@@ -101,6 +104,7 @@ const Cell = styled(l.Flex)(({ isEvenRow }: { isEvenRow: boolean }) => ({
     : th.colors.brand.containerBackground,
   height: 22,
   padding: `0 ${th.spacing.sm}`,
+  position: 'relative',
   width: `calc(${th.sizes.fill} - ${th.spacing.sm}`,
 }));
 
@@ -113,12 +117,13 @@ const ProductRow = (
     gridTemplateColumns: string;
     index: number;
     isEvenRow: boolean;
+    previousProduct?: ShipperProjectionProductWithEntries;
     product: ShipperProjectionProductWithEntries;
     showSpecies: boolean;
     showVariety: boolean;
-    selectedShipper?: string;
+    selectedShipper?: Maybe<Shipper>;
     showErrors: boolean;
-    vessels: ShipperProjectionVessel[];
+    vessels: ShipperProjectionVesselInfo[];
   } & ShipperProjectionGridProps,
 ) => {
   const {
@@ -132,6 +137,7 @@ const ProductRow = (
     duplicateProductIds,
     gridTemplateColumns,
     isEvenRow,
+    previousProduct,
     product,
     selectedShipper,
     showSpecies,
@@ -139,7 +145,7 @@ const ProductRow = (
     showErrors,
     vessels,
   } = props;
-  const { entries, id } = product;
+  const { id } = product;
 
   const isDuplicate = duplicateProductIds.includes(parseInt(id, 10));
 
@@ -221,6 +227,7 @@ const ProductRow = (
       height: 150,
       loading: allProductsLoading,
       nameKey: type,
+      panelGap: 0,
       selectItem: (p: ShipperProjectionProduct) => {
         handleChange(type, p[type] || '');
       },
@@ -252,6 +259,11 @@ const ProductRow = (
     <ProductWrapper
       gridColumnGap={th.spacing.md}
       gridTemplateColumns={gridTemplateColumns}
+      mt={
+        previousProduct && !equals(product.variety, previousProduct.variety)
+          ? th.spacing.md
+          : undefined
+      }
     >
       <l.Grid
         alignCenter
@@ -275,7 +287,7 @@ const ProductRow = (
                 handleRemoveProduct(id);
               }}
               shouldConfirm={product.id >= 0}
-              triggerStyles={{
+              triggerProps={{
                 position: 'absolute',
                 left: -45,
               }}
@@ -295,8 +307,10 @@ const ProductRow = (
         {selectedShipper ? (
           SpeciesItemSelector
         ) : showSpecies ? (
-          <Cell isEvenRow={isEvenRow}>
-            <ty.CaptionText bold>{product.species}</ty.CaptionText>
+          <Cell isEvenRow={isEvenRow} width={89}>
+            <ty.CaptionText bold ellipsis title={product.species}>
+              {product.species}
+            </ty.CaptionText>
           </Cell>
         ) : (
           <div />
@@ -306,8 +320,10 @@ const ProductRow = (
             {selectedShipper ? (
               VarietyItemSelector
             ) : showVariety ? (
-              <Cell isEvenRow={isEvenRow}>
-                <ty.CaptionText>{product.variety}</ty.CaptionText>
+              <Cell isEvenRow={isEvenRow} width={89}>
+                <ty.CaptionText ellipsis title={product.variety}>
+                  {product.variety}
+                </ty.CaptionText>
               </Cell>
             ) : (
               <div />
@@ -315,15 +331,19 @@ const ProductRow = (
             {selectedShipper ? (
               SizeItemSelector
             ) : (
-              <Cell isEvenRow={isEvenRow}>
-                <ty.CaptionText>{product.size}</ty.CaptionText>
+              <Cell isEvenRow={isEvenRow} width={58}>
+                <ty.CaptionText ellipsis title={product.size}>
+                  {product.size}
+                </ty.CaptionText>
               </Cell>
             )}
             {selectedShipper ? (
               PackTypeItemSelector
             ) : (
-              <Cell isEvenRow={isEvenRow}>
-                <ty.CaptionText>{product.packType}</ty.CaptionText>
+              <Cell isEvenRow={isEvenRow} width={58}>
+                <ty.CaptionText ellipsis title={product.packType}>
+                  {product.packType}
+                </ty.CaptionText>
               </Cell>
             )}
             <EditableCell
@@ -340,7 +360,7 @@ const ProductRow = (
                   px={th.spacing.tn}
                   width={th.sizes.fill}
                 >
-                  <ty.CaptionText>{plu || '-'}</ty.CaptionText>
+                  <ty.CaptionText>{plu}</ty.CaptionText>
                 </l.Flex>
               }
               editing={!!selectedShipper}
@@ -354,7 +374,25 @@ const ProductRow = (
         )}
       </l.Grid>
       {vessels.map((vessel, idx) => {
-        const entry = entries.find((entry) => entry.vesselId === vessel.id);
+        const entry =
+          vessel.shipperProjectionEntriesByVesselInfoId?.nodes.filter(
+            (e) =>
+              parseInt(e?.productId || '0', 10) === parseInt(product.id, 10),
+          )[0];
+
+        const palletCountCurrentValue = getEntryValue(
+          entry,
+          'palletCount',
+        ).value;
+        const palletCountInputValue =
+          !!palletCountCurrentValue && palletCountCurrentValue !== '0'
+            ? palletCountCurrentValue
+            : '-';
+        const palletCountValue =
+          entry && !!entry.palletCount && entry.palletCount !== '0'
+            ? entry.palletCount
+            : '-';
+
         return (
           <l.Flex
             alignCenter
@@ -365,30 +403,32 @@ const ProductRow = (
                 ? th.colors.background
                 : th.colors.brand.containerBackground
             }
-            height={th.sizes.fill}
+            height={`calc(${th.sizes.fill} - 6px)`}
             justifyCenter
             key={idx}
             mx={th.spacing.sm}
           >
             {entry ? (
               selectedShipper ? (
-                <Input
-                  dirty={false}
+                <EditableCell
+                  content={{ dirty: false, value: palletCountInputValue }}
+                  defaultChildren={null}
                   editing={true}
-                  type="number"
-                  min={0}
+                  inputProps={{
+                    min: 0,
+                    textAlign: 'center',
+                    type: 'number',
+                  }}
                   onChange={(e) => {
                     handleEntryChange({
                       ...entry,
                       palletCount: e.target.value,
                     });
                   }}
-                  textAlign="center"
-                  value={getEntryValue(entry, 'palletCount').value}
                 />
               ) : (
                 <ty.CaptionText center mr={th.spacing.md}>
-                  {entry.palletCount}
+                  {palletCountValue}
                 </ty.CaptionText>
               )
             ) : (

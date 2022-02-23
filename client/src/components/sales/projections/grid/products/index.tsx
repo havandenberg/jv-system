@@ -3,7 +3,7 @@ import { equals, groupBy, mapObjIndexed, pluck, values } from 'ramda';
 
 import api from 'api';
 import { DataMessage } from 'components/page/message';
-import { ShipperProjectionProduct, ShipperProjectionVessel } from 'types';
+import { ShipperProjectionProduct, ShipperProjectionVesselInfo } from 'types';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
@@ -21,10 +21,11 @@ interface Props extends ShipperProjectionGridProps {
   loading: boolean;
   products: ShipperProjectionProductWithEntries[];
   showErrors: boolean;
-  vessels: ShipperProjectionVessel[];
+  vessels: ShipperProjectionVesselInfo[];
 }
 
 const Products = ({
+  currentProjection,
   gridTemplateColumns,
   hasVessels,
   loading,
@@ -48,20 +49,25 @@ const Products = ({
     products,
   );
 
-  const getProductTotals = (products: ShipperProjectionProductWithEntries[]) =>
+  const getProductTotals = (ps: ShipperProjectionProductWithEntries[]) =>
     vessels.map((vessel) =>
       vessel.id === 0
         ? -1
-        : pluck('entries', products)
+        : pluck('entries', ps)
+            .map((entries) => {
+              const filteredEntry = entries
+                .filter((entry) => entry.vesselInfoId === vessel.id)
+                .reverse()[0];
+              return filteredEntry ? [filteredEntry] : [];
+            })
             .flat()
-            .filter((entry) => entry.vesselId === vessel.id)
             .reduce((acc, entry) => acc + +entry.palletCount, 0),
     );
 
   const hasProducts = products.length > 0;
 
   const productTotals = mapObjIndexed(
-    (products) => getProductTotals(products),
+    (ps) => getProductTotals(ps),
     groupedProducts,
   );
 
@@ -86,7 +92,7 @@ const Products = ({
           <ty.CaptionText secondary>Size</ty.CaptionText>
           <ty.CaptionText secondary>Pack Type</ty.CaptionText>
           <ty.CaptionText secondary>PLU/GTIN</ty.CaptionText>
-          {hasVessels && (
+          {hasVessels && !loading && (
             <l.Div
               borderTop={th.borders.secondary}
               position="absolute"
@@ -99,83 +105,85 @@ const Products = ({
           )}
         </l.Grid>
       </l.Grid>
-      {values(
-        mapObjIndexed((products, key, object) => {
-          const isEvenRow =
-            object && Object.keys(object).indexOf(key) % 2 === 0;
-          return (
-            <l.Div key={key} my={th.spacing.md} relative>
-              <l.Div>
-                {
-                  products.reduce<{
-                    components: React.ReactNode[];
-                    previousProduct?: ShipperProjectionProductWithEntries;
-                  }>(
-                    ({ components, previousProduct }, product, idx) => {
-                      const showSpecies =
-                        !previousProduct ||
-                        !equals(product.species, previousProduct.species);
-                      const showVariety =
-                        !previousProduct ||
-                        !equals(product.variety, previousProduct.variety);
-                      return {
-                        components: [
-                          ...components,
-                          <ProductRow
-                            {...rest}
-                            allProducts={allProducts}
-                            allProductsError={allProductsError}
-                            allProductsLoading={allProductsLoading}
-                            gridTemplateColumns={gridTemplateColumns}
-                            index={idx}
-                            isEvenRow={!!isEvenRow}
-                            key={idx}
-                            product={product}
-                            showSpecies={showSpecies}
-                            showVariety={showVariety}
-                            selectedShipper={selectedShipper}
-                            vessels={vessels}
-                          />,
-                        ],
-                        previousProduct: product,
-                      };
-                    },
-                    { components: [] },
-                  ).components
-                }
-                {key && (
-                  <ProductTotalRow
-                    gridTemplateColumns={gridTemplateColumns}
-                    productTotals={productTotals[key]}
-                    species={getProductValue(products[0], 'species').value}
-                  />
-                )}
-              </l.Div>
-              <l.Div
-                background={
-                  isEvenRow
-                    ? th.colors.brand.containerBackground
-                    : 'transparent'
-                }
-                borderBottom={th.borders.secondary}
-                position="absolute"
-                top={`-${th.spacing.sm}`}
-                left={`-${th.spacing.sm}`}
-                height={`calc(${th.sizes.fill} + ${th.spacing.md})`}
-                width={`calc(${th.sizes.fill} + ${
-                  vessels.length - 3
-                } * 156px - ${th.sizes.md})`}
-                zIndex={-1}
-              />
-            </l.Div>
-          );
-        }, groupedProducts),
-      )}
-      {hasVessels && !groupedProducts[''] && selectedShipper && (
-        <NewProductRow hasProducts={hasProducts} {...rest} />
-      )}
-      {hasVessels ? (
+      {hasVessels && !loading ? (
         <>
+          {values(
+            mapObjIndexed((products, key, object) => {
+              const isEvenRow =
+                object && Object.keys(object).indexOf(key) % 2 === 0;
+              return (
+                <l.Div key={key} my={th.spacing.md} relative>
+                  <l.Div>
+                    {
+                      products.reduce<{
+                        components: React.ReactNode[];
+                        previousProduct?: ShipperProjectionProductWithEntries;
+                      }>(
+                        ({ components, previousProduct }, product, idx) => {
+                          const showSpecies =
+                            !previousProduct ||
+                            !equals(product.species, previousProduct.species);
+                          const showVariety =
+                            !previousProduct ||
+                            !equals(product.variety, previousProduct.variety);
+                          return {
+                            components: [
+                              ...components,
+                              <ProductRow
+                                {...rest}
+                                allProducts={allProducts}
+                                allProductsError={allProductsError}
+                                allProductsLoading={allProductsLoading}
+                                currentProjection={currentProjection}
+                                gridTemplateColumns={gridTemplateColumns}
+                                index={idx}
+                                isEvenRow={!!isEvenRow}
+                                key={idx}
+                                product={product}
+                                previousProduct={previousProduct}
+                                showSpecies={showSpecies}
+                                showVariety={showVariety}
+                                selectedShipper={selectedShipper}
+                                vessels={vessels}
+                              />,
+                            ],
+                            previousProduct: product,
+                          };
+                        },
+                        { components: [] },
+                      ).components
+                    }
+                    {key && (
+                      <ProductTotalRow
+                        gridTemplateColumns={gridTemplateColumns}
+                        productTotals={productTotals[key]}
+                        species={getProductValue(products[0], 'species').value}
+                      />
+                    )}
+                  </l.Div>
+                  <l.Div
+                    background={
+                      isEvenRow
+                        ? th.colors.brand.containerBackground
+                        : 'transparent'
+                    }
+                    borderBottom={th.borders.secondary}
+                    position="absolute"
+                    top={`-${th.spacing.sm}`}
+                    left={`-${th.spacing.sm}`}
+                    height={`calc(${th.sizes.fill} + ${th.spacing.md})`}
+                    width={`calc(${th.sizes.fill} + ${
+                      vessels.length - 3
+                    } * 156px - ${th.sizes.md})`}
+                    zIndex={-1}
+                  />
+                </l.Div>
+              );
+            }, groupedProducts),
+          )}
+          {!groupedProducts[''] && selectedShipper && (
+            <NewProductRow hasProducts={hasProducts} {...rest} />
+          )}
           <ProductTotalRow
             gridTemplateColumns={gridTemplateColumns}
             productTotals={grandProductTotals}

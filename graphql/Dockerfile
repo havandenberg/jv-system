@@ -3,6 +3,7 @@ FROM node:16-alpine
 RUN apk add tzdata
 
 RUN npm install -g graphql
+RUN npm install -g ntlm-client
 RUN npm install -g tslib
 RUN npm install -g postgraphile
 RUN npm install -g postgraphile-plugin-connection-filter

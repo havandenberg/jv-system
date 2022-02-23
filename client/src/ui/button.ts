@@ -52,7 +52,55 @@ const Primary = styled.button<DivProps & TextProps>(
   textPropsSet,
 );
 
+const getStatusStyles = (color: string) => ({
+  ...defaultStyles,
+  ...primaryStyles,
+  background: `${color}33`,
+  ':hover': {
+    background: `${color}4D`,
+    border: th.borders.secondary,
+    color: th.colors.brand.primary,
+  },
+  ':disabled': {
+    cursor: 'default',
+    ':hover': {
+      background: `${color}1A`,
+      border: th.borders.disabled,
+      color: th.colors.brand.secondary,
+    },
+  },
+});
+
+const Success = styled.button<DivProps & TextProps>(
+  getStatusStyles(th.colors.status.success),
+  divPropsSet,
+  textPropsSet,
+);
+
+const Warning = styled.button<DivProps & TextProps>(
+  getStatusStyles(th.colors.status.warning),
+  divPropsSet,
+  textPropsSet,
+);
+
+const Error = styled.button<DivProps & TextProps>(
+  getStatusStyles(th.colors.status.error),
+  divPropsSet,
+  textPropsSet,
+);
+
+const Status = styled.button<DivProps & TextProps>(
+  ({ status }: { status?: string }) =>
+    status ? getStatusStyles(status) : primaryStyles,
+  divPropsSet,
+  textPropsSet,
+);
+
 export default {
   Default,
   Primary,
+  Success,
+  Warning,
+  Error,
+  Status,
 };

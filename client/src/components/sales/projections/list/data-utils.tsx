@@ -5,10 +5,12 @@ import { pluck, uniq } from 'ramda';
 import { LabelInfo } from 'components/column-label';
 import { formatDate } from 'components/date-range-picker';
 import StatusIndicator from 'components/status-indicator';
-import { ShipperProjection, ShipperProjectionProduct } from 'types';
-import b from 'ui/button';
+import {
+  ShipperProjection,
+  ShipperProjectionProduct,
+  ShipperProjectionVesselInfo,
+} from 'types';
 import l from 'ui/layout';
-import th from 'ui/theme';
 
 const SHIPPER_DISTINCT_VALUES_QUERY = loader(
   '../../../../api/directory/shipper/distinct-values.gql',
@@ -35,10 +37,10 @@ export const listLabels: ShipperProjectionLabelInfo[] = [
     getValue: ({ shipper }) => `${shipper?.shipperName} (${shipper?.id})`,
   },
   {
-    key: 'completedAt',
-    label: 'Date Completed',
+    key: 'submittedAt',
+    label: 'Date Submitted',
     sortable: true,
-    getValue: ({ completedAt }) => formatDate(new Date(completedAt)),
+    getValue: ({ submittedAt }) => formatDate(new Date(submittedAt)),
   },
   {
     key: 'totalPallets',
@@ -48,12 +50,18 @@ export const listLabels: ShipperProjectionLabelInfo[] = [
   {
     key: 'id',
     label: 'Summary',
-    getValue: ({ shipperProjectionEntries }) => {
-      if (!shipperProjectionEntries) return '';
+    getValue: ({ shipperProjectionVesselInfosByProjectionId }) => {
+      if (!shipperProjectionVesselInfosByProjectionId) return '';
+      const shipperProjectionEntries = pluck(
+        'shipperProjectionEntriesByVesselInfoId',
+        shipperProjectionVesselInfosByProjectionId.nodes as ShipperProjectionVesselInfo[],
+      )
+        .map(({ nodes }) => nodes)
+        .flat();
       const speciesList = uniq(
         pluck(
           'species',
-          shipperProjectionEntries.nodes.map(
+          shipperProjectionEntries.map(
             (entry) => entry?.product as ShipperProjectionProduct,
           ),
         ),
@@ -61,7 +69,7 @@ export const listLabels: ShipperProjectionLabelInfo[] = [
       return speciesList
         .map(
           (species) =>
-            `${species?.slice(0, 3)}. (${shipperProjectionEntries.nodes
+            `${species?.slice(0, 3)}. (${shipperProjectionEntries
               .filter((entry) => entry?.product?.species === species)
               .reduce(
                 (acc, entry) => acc + parseInt(entry?.palletCount, 10) || 0,
@@ -73,23 +81,14 @@ export const listLabels: ShipperProjectionLabelInfo[] = [
   },
   {
     allowClick: true,
-    key: 'isReviewed',
+    key: 'reviewStatus',
     label: 'Reviewed',
     sortable: true,
-    getValue: ({ isReviewed }) => (
-      <l.Flex>
-        <l.Flex alignCenter justifyCenter>
-          <StatusIndicator status={isReviewed ? 'success' : 'warning'} />
-        </l.Flex>
-        {!isReviewed && (
-          <b.Primary
-            fontSize={th.fontSizes.small}
-            height={th.sizes.icon}
-            ml={40}
-          >
-            Review
-          </b.Primary>
-        )}
+    getValue: ({ approvedAt, rejectedAt }) => (
+      <l.Flex alignCenter justifyCenter>
+        <StatusIndicator
+          status={approvedAt ? 'success' : rejectedAt ? 'error' : 'warning'}
+        />
       </l.Flex>
     ),
   },

@@ -1,5 +1,5 @@
 {
-  "name": "inspections-service",
+  "name": "worker",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
@@ -18,10 +18,11 @@
     "xlsx": "^0.16.9"
   },
   "scripts": {
-    "cdi-run-once": "node src/chile-departure/run-once.js",
-    "pdi-run-once": "node src/peru-departure/run-once.js",
-    "psa-reports-run-once": "node src/psa-arrival/reports/run-once.js",
-    "psa-pallets-run-once": "node src/psa-arrival/pallets/run-once.js",
+    "cdi-run-once": "node src/inspections/chile-departure/run-once.js",
+    "pdi-run-once": "node src/inspections/peru-departure/run-once.js",
+    "psa-reports-run-once": "node src/inspections/psa-arrival/reports/run-once.js",
+    "psa-pallets-run-once": "node src/inspections/psa-arrival/pallets/run-once.js",
+    "projection-reminders-run-once": "node src/projections/weekly-reminder/run-once.js",
     "start": "nodemon src/index.js"
   }
 }

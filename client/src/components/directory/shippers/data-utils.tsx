@@ -1,6 +1,7 @@
 import { LabelInfo } from 'components/column-label';
 import { SORT_ORDER } from 'hooks/use-columns';
 import { Shipper } from 'types';
+import { LineItemCheckbox } from 'ui/checkbox';
 
 export type ShipperLabelInfo = LabelInfo<Shipper>;
 
@@ -51,12 +52,18 @@ export const baseLabels: ShipperLabelInfo[] = [
     label: 'Group ID',
   },
   {
-    key: 'notes',
-    label: 'Notes',
+    key: 'sendProjectionRequest',
+    label: 'Send Projection Request',
+    isBoolean: true,
+    getValue: (data) =>
+      !!data.sendProjectionRequest ? (
+        <LineItemCheckbox checked={true} onChange={() => ({})} />
+      ) : (
+        <LineItemCheckbox checked={false} onChange={() => ({})} />
+      ),
   },
   {
-    key: 'website',
-    label: 'Website',
-    transformKey: 'link',
+    key: 'notes',
+    label: 'Notes',
   },
 ];

@@ -287,7 +287,7 @@ const Agenda = () => {
                 }
                 confirmText="Confirm Copy All"
                 handleConfirm={handleCopyAllToToday}
-                triggerStyles={{ width: 215 }}
+                triggerProps={{ width: 215 }}
                 triggerText="Copy All To Next Mtg"
               />
             )}
