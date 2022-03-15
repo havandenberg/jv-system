@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
+import { ApolloError } from '@apollo/client';
 import { add, endOfISOWeek } from 'date-fns';
 import { OnChangeProps } from 'react-date-range';
 
 import api from 'api';
 import ResetImg from 'assets/images/reset';
-import useItemSelector from 'components/item-selector';
 import { useTabBar } from 'components/tab-bar';
 import useDateRange from 'hooks/use-date-range';
 import { useQueryValue } from 'hooks/use-query-params';
@@ -25,14 +25,14 @@ import ShipperProjectionsList from './list';
 
 export const viewTabs = [
   {
-    id: 'grid',
+    id: 'list',
     customStyles: { ...leftTabStyles, width: th.spacing.lg },
-    text: 'Grid',
+    text: 'List',
   },
   {
-    id: 'list',
+    id: 'grid',
     customStyles: { ...middleTabStyles, width: th.spacing.lg },
-    text: 'List',
+    text: 'Grid',
   },
   {
     id: 'graph',
@@ -51,10 +51,11 @@ export interface ShipperProjectionProps {
   ForwardButton: React.ReactNode;
   BackwardButton: React.ReactNode;
   handleDateChange: (OnChange: OnChangeProps) => void;
-  ShipperItemSelector: React.ReactNode;
-  clearSearch: () => void;
+  shipperDataError?: ApolloError;
+  setShipperId: (id?: string) => void;
   shipperDataLoading: boolean;
   selectedShipper?: Maybe<Shipper> | undefined;
+  shippers?: (Maybe<Shipper> | undefined)[];
   shipperId?: string;
 }
 
@@ -108,28 +109,6 @@ const ShipperProjections = () => {
     (shipper) => shipper && shipper.id === parsedShipperId,
   );
 
-  const { ItemSelector: ShipperItemSelector, clearSearch } =
-    useItemSelector<Shipper>({
-      selectItem: (shipper) => {
-        setShipperId(shipper.id);
-      },
-      allItems: shippers as Shipper[],
-      closeOnSelect: true,
-      clearSearchOnBlur: true,
-      excludedItems: [],
-      error: shipperDataError,
-      errorLabel: 'Shippers',
-      loading: shipperDataLoading,
-      nameKey: 'shipperName',
-      onClear: () => setShipperId(undefined),
-      onlyClearSearch: true,
-      placeholder: 'Select shipper',
-      selectedItem: selectedShipper
-        ? `${selectedShipper.shipperName} (${selectedShipper.id})`
-        : undefined,
-      width: 300,
-    });
-
   const props = {
     coast,
     CoastTabBar: <CoastTabBar />,
@@ -155,11 +134,12 @@ const ShipperProjections = () => {
     ForwardButton,
     BackwardButton,
     handleDateChange,
-    ShipperItemSelector,
-    clearSearch,
     shipperDataLoading,
+    shipperDataError,
     selectedShipper,
+    setShipperId,
     shipperId,
+    shippers,
   };
 
   const getComponent = () => {

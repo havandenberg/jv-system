@@ -26,10 +26,10 @@ import {
   Bar,
   Tooltip,
 } from 'recharts';
-import { shuffle } from 'seed-shuffle';
 
 import api from 'api';
 import ColorPicker from 'components/color-picker';
+import useItemSelector from 'components/item-selector';
 import Breadcrumbs from 'components/nav/breadcrumbs';
 import Page from 'components/page';
 import { DataMessage } from 'components/page/message';
@@ -52,8 +52,6 @@ import { getWeekNumber } from 'utils/date';
 
 import { ShipperProjectionProps } from '..';
 import ProjectionSettings from '../settings';
-
-const shuffledColorSet = shuffle(defaultColorSet, 6);
 
 const getShipperDisplayName = (shipper: Shipper) =>
   `${shipper.shipperName} (${shipper.id})`;
@@ -82,11 +80,35 @@ const ShipperProjectionGraph = ({
   DateRangePicker,
   Reset,
   ViewTabBar,
-  ShipperItemSelector,
-  clearSearch,
   selectedShipper,
+  setShipperId,
+  shipperDataError,
+  shipperDataLoading,
+  shippers,
 }: ShipperProjectionProps) => {
   const { pathname, search } = useLocation();
+
+  const { ItemSelector: ShipperItemSelector, clearSearch } =
+    useItemSelector<Shipper>({
+      selectItem: (shipper) => {
+        setShipperId(shipper.id);
+      },
+      allItems: shippers as Shipper[],
+      closeOnSelect: true,
+      clearSearchOnBlur: true,
+      excludedItems: [],
+      error: shipperDataError,
+      errorLabel: 'Shippers',
+      loading: shipperDataLoading,
+      nameKey: 'shipperName',
+      onClear: () => setShipperId(undefined),
+      onlyClearSearch: true,
+      placeholder: 'Select shipper',
+      selectedItem: selectedShipper
+        ? `${selectedShipper.shipperName} (${selectedShipper.id})`
+        : undefined,
+      width: 300,
+    });
 
   const [startDateQuery] = useQueryValue('startDate');
   const startDate = startDateQuery
@@ -407,8 +429,8 @@ const ShipperProjectionGraph = ({
                 mr={th.spacing.lg}
               >
                 <ColorPicker
-                  activeColor={shuffledColorSet[idx]}
-                  color={shuffledColorSet[idx]}
+                  activeColor={defaultColorSet[idx]}
+                  color={defaultColorSet[idx]}
                   onChange={() => ({})}
                 />
                 <ty.CaptionText
@@ -459,7 +481,7 @@ const ShipperProjectionGraph = ({
               width={60}
             />
             {itemList.map((item, idx) => (
-              <Bar dataKey={item} key={item} fill={shuffledColorSet[idx]} />
+              <Bar dataKey={item} key={item} fill={defaultColorSet[idx]} />
             ))}
           </BarChart>
         </ResponsiveContainer>

@@ -15,6 +15,7 @@ import {
 
 import api from 'api';
 import { formatDate } from 'components/date-range-picker';
+import useItemSelector from 'components/item-selector';
 import Page from 'components/page';
 import StatusIndicator from 'components/status-indicator';
 import { useUserContext } from 'components/user/context';
@@ -22,6 +23,7 @@ import usePrevious from 'hooks/use-previous';
 import { useQueryValue } from 'hooks/use-query-params';
 import {
   Maybe,
+  Shipper,
   ShipperProjection,
   ShipperProjectionEntry,
   ShipperProjectionProduct,
@@ -88,16 +90,39 @@ const ShipperProjectionGrid = ({
   ForwardButton,
   BackwardButton,
   handleDateChange,
-  ShipperItemSelector,
-  clearSearch,
-  shipperDataLoading,
   selectedShipper,
+  setShipperId,
+  shipperDataError,
+  shipperDataLoading,
   shipperId,
+  shippers,
 }: ShipperProjectionProps) => {
   const [startDate] = useQueryValue('startDate');
   const previousStartDate = usePrevious(startDate);
   const [endDate] = useQueryValue('endDate');
   const [projectionId, setProjectionId] = useQueryValue('projectionId');
+
+  const { ItemSelector: ShipperItemSelector, clearSearch } =
+    useItemSelector<Shipper>({
+      selectItem: (shipper) => {
+        setShipperId(shipper.id);
+      },
+      allItems: shippers as Shipper[],
+      closeOnSelect: true,
+      clearSearchOnBlur: true,
+      excludedItems: [],
+      error: shipperDataError,
+      errorLabel: 'Shippers',
+      loading: shipperDataLoading,
+      nameKey: 'shipperName',
+      onClear: () => setShipperId(undefined),
+      onlyClearSearch: true,
+      placeholder: 'Select shipper',
+      selectedItem: selectedShipper
+        ? `${selectedShipper.shipperName} (${selectedShipper.id})`
+        : undefined,
+      width: 300,
+    });
 
   const currentProjections = selectedShipper?.shipperProjections?.nodes
     .filter(

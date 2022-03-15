@@ -240,6 +240,23 @@ const PriceSheet = () => {
     });
   };
 
+  const handleBackward = () => handleWeekChange(-1);
+  const handleForward = () => handleWeekChange(1);
+
+  const handleKeyDown = (event: KeyboardEvent) => {
+    if (event.ctrlKey) {
+      if (event.code === 'ArrowRight') handleForward();
+      else if (event.code === 'ArrowLeft') handleBackward();
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  });
+
   const handleEdit = () => {
     expandAllItems();
     setEditing(true);
@@ -1019,7 +1036,6 @@ const PriceSheet = () => {
             collapseAllItems={collapseAllItems}
             editing={editing}
             expandAllItems={expandAllItems}
-            handleWeekChange={handleWeekChange}
             selectedWeekNumber={selectedWeekNumber}
             startDate={startDate}
           />

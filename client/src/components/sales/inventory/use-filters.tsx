@@ -179,11 +179,12 @@ const useInventoryFilters = ({ items, loading }: Props) => {
       ),
   );
 
-  const { DateRangePicker, handleDateChange } = useDateRange({
-    hideDefinedRanges: true,
-    singleSelection: true,
-    maxDate: endOfISOWeek(add(new Date(), { weeks: 4 })),
-  });
+  const { DateRangePicker, handleDateChange, ForwardButton, BackwardButton } =
+    useDateRange({
+      hideDefinedRanges: true,
+      singleSelection: true,
+      maxDate: endOfISOWeek(add(new Date(), { weeks: 4 })),
+    });
 
   const [{ startDate = formatDate(startOfISOWeek(new Date())) }] =
     useDateRangeQueryParams();
@@ -325,7 +326,11 @@ const useInventoryFilters = ({ items, loading }: Props) => {
               <ty.BodyText>{detailsDateText}</ty.BodyText>
             </l.Flex>
           ) : (
-            DateRangePicker
+            <l.Flex alignCenter>
+              {DateRangePicker}
+              {BackwardButton}
+              {ForwardButton}
+            </l.Flex>
           )}
         </l.Div>
         <div>

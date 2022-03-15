@@ -145,7 +145,7 @@ const CommentsModal = ({
                   </ty.SmallText>
                 </l.Flex>
                 {projection.shipperComments ? (
-                  <l.Div flexBasis="80%" mb={th.spacing.sm}>
+                  <l.Div flexBasis="80%" mb={th.spacing.sm} p={th.spacing.sm}>
                     <ty.CaptionText
                       dangerouslySetInnerHTML={{
                         __html: projection.shipperComments,

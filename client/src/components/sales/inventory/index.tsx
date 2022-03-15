@@ -250,7 +250,7 @@ const Inventory = () => {
             : 192
           : detailsFilteredItems
           ? 135
-          : 168
+          : 166
       }
       headerChildren={
         <>

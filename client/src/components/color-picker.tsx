@@ -49,7 +49,7 @@ const ColorPicker = ({
   return (
     <l.Div relative ref={ref}>
       <l.Div
-        bg={color}
+        bg={activeColor}
         border={th.borders.secondary}
         borderColor={color}
         borderRadius={th.borderRadii.circle}
@@ -60,13 +60,13 @@ const ColorPicker = ({
       />
       {isOpen && (
         <Content>
-          {defaultColorSet.map((color, idx) => (
+          {defaultColorSet.map((c, idx) => (
             <ColorSwatch
-              color={color}
-              isActive={activeColor === color}
+              color={c}
+              isActive={activeColor === c}
               key={idx}
               onClick={() => {
-                onChange(color);
+                onChange(c);
               }}
             />
           ))}

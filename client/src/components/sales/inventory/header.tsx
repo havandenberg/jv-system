@@ -1,11 +1,9 @@
 import React, { Fragment, useCallback, useEffect } from 'react';
-import styled from '@emotion/styled';
 import { capitalCase } from 'change-case';
 import { add, endOfISOWeek, format, startOfISOWeek } from 'date-fns';
 import { mapObjIndexed, times, values } from 'ramda';
 
 import api from 'api';
-import ArrowInCircle from 'assets/images/arrow-in-circle';
 import Chevron from 'assets/images/chevron';
 import Breadcrumbs, { BreadcrumbProps } from 'components/nav/breadcrumbs';
 import useColumns, { SORT_ORDER } from 'hooks/use-columns';
@@ -15,7 +13,6 @@ import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 import {
-  getCurrentWeekNumber,
   isCurrentWeek,
   isDateGreaterThanOrEqualTo,
   isDateLessThanOrEqualTo,
@@ -43,13 +40,6 @@ const gridColumnSpans = [
   { start: 13, end: 14 },
   { start: 14, end: 15 },
 ];
-
-const WeekArrowButton = styled(l.HoverButton)({
-  position: 'absolute',
-  borderRadius: '50%',
-  boxShadow: th.shadows.boxLight,
-  top: 3,
-});
 
 interface Props {
   detailItems?: InventoryItem[];
@@ -97,14 +87,12 @@ const Header = ({
   const categoryLoading =
     speciesLoading || varietyLoading || sizeLoading || shipperLoading;
 
-  const showForwardArrow = selectedWeekNumber < getCurrentWeekNumber() + 3;
-
   const handleBackward = () => handleWeekChange(-1);
   const handleForward = () => handleWeekChange(1);
 
   const handleKeyDown = (event: KeyboardEvent) => {
     if (event.ctrlKey) {
-      if (event.code === 'ArrowRight' && showForwardArrow) handleForward();
+      if (event.code === 'ArrowRight') handleForward();
       else if (event.code === 'ArrowLeft') handleBackward();
     }
   };
@@ -495,34 +483,10 @@ const Header = ({
                 key={weekIdx + 1}
                 py={th.spacing.xs}
               >
-                <l.Flex relative>
-                  {isFirst && (
-                    <WeekArrowButton left={-56} onClick={handleBackward}>
-                      <ArrowInCircle
-                        fill={th.colors.brand.primary}
-                        height={th.sizes.xs}
-                        width={th.sizes.xs}
-                      />
-                    </WeekArrowButton>
-                  )}
-                  <ty.BodyText nowrap>
-                    {isFirst ? 'Week ' : ''}
-                    {selectedWeekNumber + weekIdx}
-                  </ty.BodyText>
-                  {isFirst && showForwardArrow && (
-                    <WeekArrowButton
-                      onClick={handleForward}
-                      transform="scaleX(-1)"
-                      right={-56}
-                    >
-                      <ArrowInCircle
-                        fill={th.colors.brand.primary}
-                        height={th.sizes.xs}
-                        width={th.sizes.xs}
-                      />
-                    </WeekArrowButton>
-                  )}
-                </l.Flex>
+                <ty.BodyText nowrap>
+                  {isFirst ? 'Week ' : ''}
+                  {selectedWeekNumber + weekIdx}
+                </ty.BodyText>
               </l.Flex>
             );
           }, 5)}
