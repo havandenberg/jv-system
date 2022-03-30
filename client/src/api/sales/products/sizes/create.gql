@@ -1,0 +1,5 @@
+mutation COMMON_SIZE_CREATE($commonSize: CommonSizeInput!) {
+  createCommonSize(input: { commonSize: $commonSize }) {
+    clientMutationId
+  }
+}

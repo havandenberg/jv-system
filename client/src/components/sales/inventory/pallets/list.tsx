@@ -58,7 +58,7 @@ const PalletList = ({
           error={null}
           loading={false}
           emptyProps={{
-            header: 'No Pallets Found',
+            header: 'No pallets found',
           }}
         />
       )}

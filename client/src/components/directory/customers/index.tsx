@@ -76,7 +76,7 @@ const CustomerDirectory = ({ actions, TabBar }: SubDirectoryProps) => {
           )}
         </>
       }
-      title="Customer Directory"
+      title="Customers"
     >
       {!isEmpty(items) ? (
         <VirtualizedList
@@ -105,7 +105,7 @@ const CustomerDirectory = ({ actions, TabBar }: SubDirectoryProps) => {
           error={error}
           loading={loading}
           emptyProps={{
-            header: 'No Customers Found',
+            header: 'No customers found',
             text: 'Modify search parameters to view more results.',
           }}
         />

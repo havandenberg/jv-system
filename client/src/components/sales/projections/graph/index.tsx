@@ -491,7 +491,7 @@ const ShipperProjectionGraph = ({
           error={error}
           loading={loading}
           emptyProps={{
-            header: 'No Projections Found',
+            header: 'No projections found',
             text: 'Modify search parameters to view more results.',
           }}
         />

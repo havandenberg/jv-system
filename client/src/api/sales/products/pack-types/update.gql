@@ -1,0 +1,7 @@
+mutation COMMON_PACK_TYPE_UPDATE($id: BigInt!, $updates: CommonPackTypePatch!) {
+  updateCommonPackType(input: { patch: $updates, id: $id }) {
+    commonPackType {
+      id
+    }
+  }
+}

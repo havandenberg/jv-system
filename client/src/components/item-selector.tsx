@@ -152,7 +152,7 @@ const useItemSelector = <T extends { id: string }>({
               />
             ) : (
               <ty.CaptionText disabled mt={th.spacing.md} px={th.spacing.sm}>
-                {loading ? 'Loading...' : `No ${errorLabel} Found...`}
+                {loading ? 'Loading...' : `No ${errorLabel} found...`}
               </ty.CaptionText>
             )}
           </l.Flex>

@@ -9,6 +9,8 @@ import th from 'ui/theme';
 import { TextProps, textPropsSet } from 'ui/typography';
 import { hexColorWithTransparency } from 'ui/utils';
 
+import ColorPicker from './color-picker';
+
 export const EDITABLE_CELL_HEIGHT = 28;
 
 export const Input = styled.input<
@@ -77,6 +79,7 @@ export interface EditableCellProps {
     DivProps &
     TextProps;
   isBoolean?: boolean;
+  isColor?: boolean;
   onChange: React.ChangeEventHandler<HTMLInputElement>;
   showBorder?: boolean;
   secondaryHighlight?: boolean;
@@ -92,6 +95,7 @@ const EditableCell = ({
   highlight,
   inputProps,
   isBoolean,
+  isColor,
   onChange,
   showBorder = true,
   secondaryHighlight,
@@ -128,25 +132,39 @@ const EditableCell = ({
       secondaryHighlight={secondaryHighlight}
     >
       {editing ? (
-        <Input
-          dirty={dirty || localValue !== value}
-          checked={Boolean(localValue)}
-          editing
-          error={error}
-          type={isBoolean ? 'checkbox' : 'text'}
-          onBlur={(e) => {
-            if (localValue !== value) {
-              onChange(e);
-            }
-          }}
-          onChange={(e) => {
-            setLocalValue(isBoolean ? e.target.checked : e.target.value);
-          }}
-          value={`${localValue}`}
-          textAlign="left"
-          warning={warning}
-          {...inputProps}
-        />
+        isColor ? (
+          <ColorPicker
+            activeColor={`${localValue}`}
+            color={`${localValue}`}
+            onChange={(newColor) => {
+              onChange({
+                target: {
+                  value: newColor,
+                },
+              } as any);
+            }}
+          />
+        ) : (
+          <Input
+            dirty={dirty || localValue !== value}
+            checked={Boolean(localValue)}
+            editing
+            error={error}
+            type={isBoolean ? 'checkbox' : 'text'}
+            onBlur={(e) => {
+              if (localValue !== value) {
+                onChange(e);
+              }
+            }}
+            onChange={(e) => {
+              setLocalValue(isBoolean ? e.target.checked : e.target.value);
+            }}
+            value={`${localValue}`}
+            textAlign="left"
+            warning={warning}
+            {...inputProps}
+          />
+        )
       ) : (
         defaultChildren
       )}

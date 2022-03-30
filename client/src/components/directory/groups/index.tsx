@@ -92,7 +92,7 @@ const GroupDirectory = ({ actions, TabBar }: SubDirectoryProps) => {
           )}
         </>
       }
-      title="Group Directory"
+      title="Groups"
     >
       {!isEmpty(items) ? (
         <VirtualizedList
@@ -121,7 +121,7 @@ const GroupDirectory = ({ actions, TabBar }: SubDirectoryProps) => {
           error={error}
           loading={loading}
           emptyProps={{
-            header: 'No Groups Found',
+            header: 'No groups found',
             text: 'Modify search parameters to view more results.',
           }}
         />

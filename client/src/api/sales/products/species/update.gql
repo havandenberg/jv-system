@@ -1,0 +1,7 @@
+mutation COMMON_SPECIES_UPDATE($id: BigInt!, $updates: CommonSpeciesPatch!) {
+  updateCommonSpecies(input: { patch: $updates, id: $id }) {
+    commonSpecies {
+      id
+    }
+  }
+}

@@ -63,7 +63,7 @@ const InventoryItemList = ({
           error={null}
           loading={false}
           emptyProps={{
-            header: 'No Inventory Items Found',
+            header: 'No inventory items found',
           }}
         />
       )}

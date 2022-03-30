@@ -278,7 +278,7 @@ const Inventory = () => {
               error={error}
               loading={loading}
               emptyProps={{
-                header: 'No Inventory Items Found',
+                header: 'No inventory items found',
                 text: 'Modify date parameters to view more results.',
               }}
             />
@@ -316,7 +316,7 @@ const Inventory = () => {
           error={error}
           loading={loading}
           emptyProps={{
-            header: 'No Inventory Items Found',
+            header: 'No inventory items found',
             text: 'Modify date parameters to view more results.',
           }}
         />

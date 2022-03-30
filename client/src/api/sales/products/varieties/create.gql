@@ -1,0 +1,5 @@
+mutation COMMON_VARIETY_CREATE($commonVariety: CommonVarietyInput!) {
+  createCommonVariety(input: { commonVariety: $commonVariety }) {
+    clientMutationId
+  }
+}

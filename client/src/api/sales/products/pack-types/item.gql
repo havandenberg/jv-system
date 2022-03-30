@@ -1,0 +1,22 @@
+query COMMON_PACK_TYPE($id: BigInt!) {
+  commonPackType(id: $id) {
+    commonSpecies {
+      id
+      speciesName
+      commonCategory {
+        id
+        categoryName
+      }
+    }
+    id
+    packTypeDescription
+    packTypeName
+    commonPackTypeTags {
+      nodes {
+        commonPackTypeId
+        nodeId
+        tagText
+      }
+    }
+  }
+}

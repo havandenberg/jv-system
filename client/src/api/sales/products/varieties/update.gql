@@ -1,0 +1,7 @@
+mutation COMMON_VARIETY_UPDATE($id: BigInt!, $updates: CommonVarietyPatch!) {
+  updateCommonVariety(input: { patch: $updates, id: $id }) {
+    commonVariety {
+      id
+    }
+  }
+}

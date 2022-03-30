@@ -1,0 +1,22 @@
+query COMMON_SIZE($id: BigInt!) {
+  commonSize(id: $id) {
+    commonSpecies {
+      id
+      speciesName
+      commonCategory {
+        id
+        categoryName
+      }
+    }
+    id
+    sizeDescription
+    sizeName
+    commonSizeTags {
+      nodes {
+        commonSizeId
+        nodeId
+        tagText
+      }
+    }
+  }
+}

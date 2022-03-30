@@ -76,7 +76,7 @@ const WarehouseDirectory = ({ actions, TabBar }: SubDirectoryProps) => {
           )}
         </>
       }
-      title="Warehouse Directory"
+      title="Warehouses"
     >
       {!isEmpty(items) ? (
         <VirtualizedList
@@ -105,7 +105,7 @@ const WarehouseDirectory = ({ actions, TabBar }: SubDirectoryProps) => {
           error={error}
           loading={loading}
           emptyProps={{
-            header: `No Warehouses Found`,
+            header: `No Warehouses found`,
             text: 'Modify search parameters to view more results.',
           }}
         />

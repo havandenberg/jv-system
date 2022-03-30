@@ -35,12 +35,14 @@ interface Props {
   activeColor: string;
   color?: string;
   onChange: (color: string) => void;
+  readOnly?: boolean;
 }
 
 const ColorPicker = ({
   activeColor,
   color = th.colors.brand.secondary,
   onChange,
+  readOnly,
 }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useOutsideClickRef(() => {
@@ -53,9 +55,9 @@ const ColorPicker = ({
         border={th.borders.secondary}
         borderColor={color}
         borderRadius={th.borderRadii.circle}
-        cursor="pointer"
+        cursor={readOnly ? undefined : 'pointer'}
         height={th.sizes.xs}
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => !readOnly && setIsOpen(!isOpen)}
         width={th.sizes.xs}
       />
       {isOpen && (
@@ -67,6 +69,7 @@ const ColorPicker = ({
               key={idx}
               onClick={() => {
                 onChange(c);
+                setIsOpen(false);
               }}
             />
           ))}

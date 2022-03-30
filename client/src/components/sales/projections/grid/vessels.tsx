@@ -589,7 +589,7 @@ const Vessels = ({
       <DataMessage
         data={vessels}
         emptyProps={{
-          header: 'No Vessels Found',
+          header: 'No vessels found',
           wrapperStyles: {
             height: th.sizes.fill,
             width: 500,

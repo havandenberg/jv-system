@@ -43,7 +43,7 @@ const ShipperProjectionList = ({
   return (
     <Page
       actions={[<ProjectionSettings key={0} />]}
-      extraPaddingTop={105}
+      extraPaddingTop={110}
       headerChildren={
         <>
           <l.Flex>
@@ -134,7 +134,7 @@ const ShipperProjectionList = ({
           error={error}
           loading={loading}
           emptyProps={{
-            header: 'No Projections Found',
+            header: 'No projections found',
             text: 'Modify search parameters to view more results.',
           }}
         />

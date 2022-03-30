@@ -112,7 +112,7 @@ const ProjectionSettings = () => {
                   error={error}
                   loading={loading}
                   emptyProps={{
-                    header: 'No Shippers Found',
+                    header: 'No shippers found',
                     text: 'Modify search parameters to view more results.',
                   }}
                 />

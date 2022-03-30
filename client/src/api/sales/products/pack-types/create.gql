@@ -1,0 +1,5 @@
+mutation COMMON_PACK_TYPE_CREATE($commonPackType: CommonPackTypeInput!) {
+  createCommonPackType(input: { commonPackType: $commonPackType }) {
+    clientMutationId
+  }
+}

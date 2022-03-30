@@ -1,0 +1,5 @@
+mutation COMMON_SPECIES_CREATE($commonSpecies: CommonSpeciesInput!) {
+  createCommonSpecies(input: { commonSpecies: $commonSpecies }) {
+    clientMutationId
+  }
+}

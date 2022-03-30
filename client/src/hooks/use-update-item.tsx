@@ -18,6 +18,7 @@ interface Props<T> {
   defaultEditing?: boolean;
   handleDelete?: MutationFunction;
   handleUpdate: MutationFunction;
+  transformChangesOnUpdate?: (changes: Partial<T>) => any;
   updateFields: string[];
   updateVariables: OperationVariables;
   validationLabels?: LabelInfo<T>[];
@@ -30,6 +31,7 @@ const useUpdateItem = <T,>({
   defaultEditing = false,
   handleDelete,
   handleUpdate,
+  transformChangesOnUpdate,
   updateFields,
   updateVariables,
   validationLabels = [],
@@ -69,7 +71,9 @@ const useUpdateItem = <T,>({
       setUpdateLoading(true);
       handleUpdate({
         variables: {
-          updates: pick(updateFields, changes),
+          updates: transformChangesOnUpdate
+            ? transformChangesOnUpdate(changes)
+            : pick(updateFields, changes),
           ...updateVariables,
         },
       }).then(() => {

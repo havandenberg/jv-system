@@ -1077,7 +1077,7 @@ const PriceSheet = () => {
           error={dataError}
           loading={dataLoading}
           emptyProps={{
-            header: 'No Price Entries Found',
+            header: 'No price entries found',
             text: 'Modify date parameters to view more results.',
           }}
         />

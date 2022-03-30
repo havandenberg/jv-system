@@ -56,6 +56,7 @@ export interface LabelInfo<T> {
   filterPanelProps?: FilterPanelProps;
   infoPanelProps?: InfoPanelProps;
   isBoolean?: boolean;
+  isColor?: boolean;
   readOnly?: boolean;
   sortable?: boolean;
   sortKey?: string;

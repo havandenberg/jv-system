@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
-import { useParams } from 'react-router-dom';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 
 import { useQueryValue } from 'hooks/use-query-params';
 import l, { DivProps, divPropsSet } from 'ui/layout';
@@ -90,6 +90,8 @@ export const useTabBar = (
   defaultTabIndex: number = 0,
   onSelectTab?: (tabId: string) => void,
 ) => {
+  const history = useHistory();
+  const { pathname, search } = useLocation();
   const { routeTabId } = useParams<{
     routeTabId: string;
   }>();
@@ -115,9 +117,15 @@ export const useTabBar = (
 
   useEffect(() => {
     if (paramName && !queryTabId) {
-      setQueryTabId(defaultTabId || firstTab);
+      setQueryTabId(defaultTabId || firstTab, 'replaceIn');
     }
   }, [defaultTabId, firstTab, paramName, queryTabId, setQueryTabId]);
+
+  useEffect(() => {
+    if (isRoute && !routeTabId) {
+      history.replace(`${pathname}/${defaultTabId || firstTab}${search}`);
+    }
+  }, [defaultTabId, firstTab, history, isRoute, pathname, routeTabId, search]);
 
   const Component = () => (
     <TabBar

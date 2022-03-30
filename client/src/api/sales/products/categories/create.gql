@@ -1,0 +1,5 @@
+mutation COMMON_CATEGORY_CREATE($commonCategory: CommonCategoryInput!) {
+  createCommonCategory(input: { commonCategory: $commonCategory }) {
+    clientMutationId
+  }
+}

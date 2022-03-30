@@ -9,12 +9,13 @@ import * as contactDirectory from 'api/directory/contacts';
 import * as shipperDirectory from 'api/directory/shipper';
 import * as warehouseDirectory from 'api/directory/warehouse';
 import * as priceSheet from 'api/sales/price-sheet';
+import * as products from 'api/sales/products';
 import * as agenda from 'api/sales/agenda';
 import * as calendar from 'api/sales/calendar';
 import * as projections from 'api/sales/projections';
 import * as pallets from 'api/sales/inventory/pallets';
-import * as products from 'api/sales/inventory/products';
 import * as inventory from 'api/sales/inventory/item';
+import * as inventoryProducts from 'api/sales/inventory/products';
 import * as vessels from 'api/sales/inventory/vessel';
 import * as user from 'api/user';
 
@@ -30,21 +31,22 @@ const api = setup({
 export default {
   baseURL,
   client: api,
-  ...chileDepartureInspections,
-  ...peruDepartureInspections,
-  ...psaArrivalInspections,
-  ...groupDirectory,
-  ...customerDirectory,
-  ...contactDirectory,
-  ...shipperDirectory,
-  ...warehouseDirectory,
-  ...priceSheet,
-  ...pallets,
-  ...products,
   ...agenda,
   ...calendar,
-  ...user,
+  ...chileDepartureInspections,
+  ...contactDirectory,
+  ...customerDirectory,
+  ...groupDirectory,
   ...inventory,
-  ...vessels,
+  ...inventoryProducts,
+  ...pallets,
+  ...peruDepartureInspections,
+  ...priceSheet,
+  ...products,
   ...projections,
+  ...psaArrivalInspections,
+  ...shipperDirectory,
+  ...user,
+  ...vessels,
+  ...warehouseDirectory,
 };

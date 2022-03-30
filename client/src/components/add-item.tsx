@@ -9,7 +9,6 @@ import ty from 'ui/typography';
 const Wrapper = styled(l.Flex)(({ disabled }: { disabled?: boolean }) => ({
   alignItems: 'center',
   cursor: disabled ? 'default' : 'pointer',
-  justifyContent: 'start',
   margin: `${th.spacing.sm} 0`,
   opacity: disabled ? th.opacities.disabled : th.opacities.secondary,
   transition: th.transitions.default,
@@ -20,7 +19,7 @@ const Wrapper = styled(l.Flex)(({ disabled }: { disabled?: boolean }) => ({
 
 interface Props {
   disabled?: boolean;
-  onClick: () => void;
+  onClick?: () => void;
   text: string;
 }
 

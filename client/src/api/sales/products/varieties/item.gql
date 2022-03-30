@@ -1,0 +1,23 @@
+query COMMON_VARIETY($id: BigInt!) {
+  commonVariety(id: $id) {
+    commonSpecies {
+      id
+      speciesName
+      commonCategory {
+        id
+        categoryName
+      }
+    }
+    id
+    uiColor
+    varietyDescription
+    varietyName
+    commonVarietyTags {
+      nodes {
+        tagText
+        nodeId
+        commonVarietyId
+      }
+    }
+  }
+}

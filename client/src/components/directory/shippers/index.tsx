@@ -76,7 +76,7 @@ const ShipperDirectory = ({ actions, TabBar }: SubDirectoryProps) => {
           )}
         </>
       }
-      title="Shipper Directory"
+      title="Shippers"
     >
       {!isEmpty(items) ? (
         <VirtualizedList
@@ -105,7 +105,7 @@ const ShipperDirectory = ({ actions, TabBar }: SubDirectoryProps) => {
           error={error}
           loading={loading}
           emptyProps={{
-            header: 'No Shippers Found',
+            header: 'No shippers found',
             text: 'Modify search parameters to view more results.',
           }}
         />

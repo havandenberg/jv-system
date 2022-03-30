@@ -153,15 +153,17 @@ export const AreaLink = styled(RouterLink)<DivProps>(
   divPropsSet,
 );
 
-const HoverButton = styled(Flex)(({ active }: { active?: boolean }) => ({
-  alignItems: 'center',
-  cursor: 'pointer',
-  opacity: active ? 1 : th.opacities.disabled,
-  transition: th.transitions.default,
-  ':hover': {
-    opacity: active ? 1 : th.opacities.secondary,
-  },
-}));
+const HoverButton = styled(Flex)(
+  ({ active, dark }: { active?: boolean; dark?: boolean }) => ({
+    alignItems: 'center',
+    cursor: 'pointer',
+    opacity: active ? 1 : dark ? th.opacities.secondary : th.opacities.disabled,
+    transition: th.transitions.default,
+    ':hover': {
+      opacity: active || dark ? 1 : th.opacities.secondary,
+    },
+  }),
+);
 
 export type ImgProps = HeightProps &
   SizeProps &

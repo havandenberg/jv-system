@@ -4,7 +4,7 @@ module.exports = {
     schema: ['public', 'inspection', 'directory', 'sales', 'product'],
     port: 5433,
     appendPlugins:
-      'postgraphile-plugin-connection-filter,postgraphile-plugin-nested-mutations,@graphile-contrib/pg-simplify-inflector,@graphile-contrib/pg-many-to-many,custom-plugin',
+      'postgraphile-plugin-connection-filter,postgraphile-plugin-nested-mutations,@graphile-contrib/pg-simplify-inflector,@graphile-contrib/pg-many-to-many,graphile-upsert-plugin,custom-plugin',
     watch: true,
     dynamicJson: true,
     enhanceGraphiql: true,

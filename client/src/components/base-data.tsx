@@ -59,6 +59,7 @@ const BaseData = <T extends {}>({
           getValue,
           label,
           isBoolean,
+          isColor,
           readOnly,
           transformKey,
           transformValue,
@@ -110,6 +111,7 @@ const BaseData = <T extends {}>({
                 width: 175,
               }}
               isBoolean={isBoolean}
+              isColor={isColor}
               onChange={(e) => {
                 handleChange &&
                   handleChange(

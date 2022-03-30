@@ -4,12 +4,12 @@ import { isEmpty, reduce } from 'ramda';
 import { DataMessage } from 'components/page/message';
 import useColumns, { SORT_ORDER } from 'hooks/use-columns';
 import { Customer, PersonContact, Shipper, Warehouse } from 'types';
+import { LineItemCheckbox } from 'ui/checkbox';
 import l from 'ui/layout';
 import th from 'ui/theme';
 
 import ListItem from '../list-item';
 import { groupContactListLabels, contactListLabels } from './data-utils';
-import { LineItemCheckbox } from 'ui/checkbox';
 
 const ContactList = ({
   baseUrl,
@@ -160,7 +160,7 @@ const ContactList = ({
           error={null}
           loading={false}
           emptyProps={{
-            header: 'No Contacts Found',
+            header: 'No contacts found',
           }}
         />
       )}

@@ -1,0 +1,7 @@
+mutation COMMON_SIZE_UPDATE($id: BigInt!, $updates: CommonSizePatch!) {
+  updateCommonSize(input: { patch: $updates, id: $id }) {
+    commonSize {
+      id
+    }
+  }
+}

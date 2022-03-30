@@ -1,7 +1,7 @@
 mutation SHIPPER_PROJECTION_UPSERT(
   $shipperProjection: ShipperProjectionInput!
 ) {
-  upsertShipperProjection(input: { projection: $shipperProjection }) {
+  upsertShipperProjection(input: { shipperProjection: $shipperProjection }) {
     shipperProjection {
       id
     }

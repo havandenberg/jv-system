@@ -1,91 +1,108 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { noCase } from 'change-case';
 import { isEmpty } from 'ramda';
 
 import api from 'api';
+import AddItem from 'components/add-item';
 import { DataMessage } from 'components/page/message';
 import Page from 'components/page';
-import { Tab, useTabBar } from 'components/tab-bar';
-import VirtualizedList from 'components/virtualized-list';
 import useColumns, { SORT_ORDER } from 'hooks/use-columns';
 import useSearch from 'hooks/use-search';
-import { ProductMaster } from 'types';
+import { CommonCategory, CommonSpecies } from 'types';
+import b from 'ui/button';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 
-import { listLabels } from './data-utils';
+import { listLabels as categoryListLabels } from './category/data-utils';
 import ListItem from './list-item';
+import { listLabels as speciesListLabels } from './species/data-utils';
 
-export const breadcrumbs = (slug: string) => [
-  { text: 'Products', to: `/products/${slug}` },
-];
+export const breadcrumbs = [{ text: 'Products', to: '/sales/products' }];
 
-const tabs: Tab[] = [
-  {
-    id: 'products',
-    text: 'Products',
-    to: `/sales/products`,
-  },
-  {
-    id: 'species',
-    text: 'Species',
-    to: `/sales/products/species`,
-  },
-  {
-    id: 'varieties',
-    text: 'Varieties',
-    to: `/sales/products/varieties`,
-  },
-  {
-    id: 'sizes',
-    text: 'Sizes',
-    to: `/sales/products/sizes`,
-  },
-  {
-    id: 'pack-types',
-    text: 'Pack Types',
-    to: `/sales/products/pack-types`,
-  },
-];
+const gridTemplateColumns = '1fr 2fr 30px';
 
-const gridTemplateColumns = 'repeat(5, 1fr) 30px';
-
-const ProductIndex = () => {
+const CommonProductIndex = () => {
   const { Search } = useSearch();
-  const { data, loading, error } = api.useProductMasters();
-  const items = data ? data.nodes : [];
+  const [editing, setEditing] = useState(false);
 
-  const { TabBar } = useTabBar(tabs, true);
+  const {
+    data: categoriesData,
+    loading: categoriesLoading,
+    error: categoriesError,
+  } = api.useCommonCategories();
+  const categories = categoriesData ? categoriesData.nodes : [];
 
-  const columnLabels = useColumns<ProductMaster>(
-    'id',
+  const {
+    data: speciesData,
+    loading: speciesLoading,
+    error: speciesError,
+  } = api.useCommonSpecieses();
+  const specieses = speciesData ? speciesData.nodes : [];
+
+  const columnLabels = useColumns<CommonSpecies>(
+    'speciesName',
     SORT_ORDER.ASC,
-    listLabels,
+    speciesListLabels(true),
     'product',
-    'product_master',
+    'common_species',
   );
 
   return (
     <Page
-      breadcrumbs={breadcrumbs('')}
+      actions={
+        editing ? (
+          [
+            <l.AreaLink
+              key={0}
+              ml={th.spacing.md}
+              to="/sales/products/categories/create"
+            >
+              <b.Primary>Create Category</b.Primary>
+            </l.AreaLink>,
+            <b.Primary
+              key={1}
+              ml={th.spacing.md}
+              onClick={() => {
+                setEditing(false);
+              }}
+            >
+              Cancel
+            </b.Primary>,
+          ]
+        ) : (
+          <b.Primary
+            onClick={() => {
+              setEditing(true);
+            }}
+          >
+            Edit
+          </b.Primary>
+        )
+      }
+      breadcrumbs={breadcrumbs}
       extraPaddingTop={103}
       headerChildren={
         <>
           <l.Flex alignCenter mb={th.spacing.sm} justifyBetween>
             {Search}
-            <l.Div width={th.spacing.md} />
-            <TabBar />
           </l.Flex>
-          {!loading && (
+          {!speciesLoading && (
             <>
               <ty.SmallText mb={th.spacing.md} pl={th.spacing.sm}>
-                Results: {data ? data.totalCount : '-'}
+                Results: {specieses.length || '-'}
               </ty.SmallText>
               <l.Grid
                 gridTemplateColumns={gridTemplateColumns}
                 mb={th.spacing.sm}
                 pl={th.spacing.sm}
-                pr={data ? (data.totalCount > 12 ? th.spacing.md : 0) : 0}
+                pr={
+                  speciesData
+                    ? speciesData.totalCount > 12
+                      ? th.spacing.md
+                      : 0
+                    : 0
+                }
               >
                 {columnLabels}
               </l.Grid>
@@ -93,34 +110,59 @@ const ProductIndex = () => {
           )}
         </>
       }
-      title="Product Index"
+      title="All Species"
     >
-      {!isEmpty(items) ? (
-        <VirtualizedList
-          rowCount={data ? items.length : 0}
-          rowRenderer={({ key, index, style }) => {
-            const item = items[index];
-            return (
-              item && (
-                <div key={key} style={style}>
-                  <ListItem<ProductMaster>
-                    data={item}
-                    gridTemplateColumns={gridTemplateColumns}
-                    listLabels={listLabels}
-                    slug={`products/${item.id}`}
-                  />
-                </div>
-              )
-            );
-          }}
-        />
+      {!isEmpty(categories) ? (
+        categories.map((category) => {
+          const speciesList = specieses.filter(
+            (species) => species?.commonCategory?.id === category?.id,
+          );
+          return (
+            category && (
+              <>
+                <ListItem<CommonCategory>
+                  data={category}
+                  gridTemplateColumns={gridTemplateColumns}
+                  listLabels={categoryListLabels}
+                  slug={`products/categories/${category.id}`}
+                />
+                {speciesList.map(
+                  (species) =>
+                    species && (
+                      <ListItem<CommonSpecies>
+                        data={species}
+                        gridTemplateColumns={gridTemplateColumns}
+                        key={species.id}
+                        listLabels={speciesListLabels(true)}
+                        slug={`products/${species.id}`}
+                      />
+                    ),
+                )}
+                {editing && (
+                  <l.Div ml={th.spacing.md} my={th.spacing.md}>
+                    <l.AreaLink
+                      to={`/sales/products/create?categoryId=${category.id}`}
+                    >
+                      <AddItem
+                        text={`Create ${noCase(
+                          category.categoryName || '',
+                        )} species`}
+                      />
+                    </l.AreaLink>
+                  </l.Div>
+                )}
+                <l.Div height={th.spacing.md} />
+              </>
+            )
+          );
+        })
       ) : (
         <DataMessage
-          data={items}
-          error={error}
-          loading={loading}
+          data={specieses}
+          error={speciesError || categoriesError}
+          loading={speciesLoading || categoriesLoading}
           emptyProps={{
-            header: 'No Products Found',
+            header: 'No products found',
             text: 'Modify search parameters to view more results.',
           }}
         />
@@ -129,4 +171,4 @@ const ProductIndex = () => {
   );
 };
 
-export default ProductIndex;
+export default CommonProductIndex;

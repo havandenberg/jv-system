@@ -80,7 +80,7 @@ const ContactDirectory = ({ actions, TabBar }: SubDirectoryProps) => {
           )}
         </>
       }
-      title="Internal Directory"
+      title="JV Internal"
     >
       {!isEmpty(items) ? (
         <VirtualizedList
@@ -111,7 +111,7 @@ const ContactDirectory = ({ actions, TabBar }: SubDirectoryProps) => {
           error={error}
           loading={loading}
           emptyProps={{
-            header: 'No Contacts Found',
+            header: 'No contacts found',
             text: 'Modify search parameters to view more results.',
           }}
         />

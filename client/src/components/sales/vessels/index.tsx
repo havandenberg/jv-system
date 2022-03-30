@@ -93,7 +93,7 @@ const Vessels = () => {
           error={error}
           loading={loading}
           emptyProps={{
-            header: 'No Vessels Found',
+            header: 'No vessels found',
             text: 'Modify search parameters to view more results.',
           }}
         />

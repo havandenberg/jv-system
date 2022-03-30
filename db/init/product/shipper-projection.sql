@@ -126,39 +126,6 @@ AS $$
   WHERE id = ANY(ids_to_delete) RETURNING (id);
 $$ LANGUAGE sql VOLATILE STRICT SECURITY DEFINER;
 
-CREATE FUNCTION product.upsert_shipper_projection(
-  projection product.shipper_projection
-)
-  RETURNS product.shipper_projection
-AS $$
-    INSERT INTO product.shipper_projection(
-      id,
-      submitted_at,
-      shipper_comments,
-      jv_comments,
-      approved_at,
-      rejected_at,
-      shipper_id
-    )
-      VALUES (
-        COALESCE(projection.id, (select nextval('product.shipper_projection_id_seq'))),
-        projection.submitted_at,
-        projection.shipper_comments,
-        projection.jv_comments,
-        projection.approved_at,
-        projection.rejected_at,
-        projection.shipper_id
-      )
-    ON CONFLICT (id) DO UPDATE SET
-      submitted_at=EXCLUDED.submitted_at,
-      shipper_comments=EXCLUDED.shipper_comments,
-      jv_comments=EXCLUDED.jv_comments,
-      approved_at=EXCLUDED.approved_at,
-      rejected_at=EXCLUDED.rejected_at,
-      shipper_id=EXCLUDED.shipper_id
-    RETURNING (id, submitted_at, shipper_comments, jv_comments, approved_at, rejected_at, shipper_id)
-$$ LANGUAGE sql VOLATILE STRICT SECURITY DEFINER;
-
 CREATE FUNCTION product.shipper_projection_total_pallets(IN p product.shipper_projection)
 	RETURNS BIGINT
 	LANGUAGE 'sql'

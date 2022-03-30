@@ -218,7 +218,7 @@ const Products = ({
         <DataMessage
           data={products}
           emptyProps={{
-            header: 'No Products Found',
+            header: 'No products found',
             wrapperStyles: {
               width: `calc(${th.sizes.fill} + ${vessels.length - 3} * 156px - ${
                 th.sizes.md

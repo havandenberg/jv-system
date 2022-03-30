@@ -1,0 +1,7 @@
+mutation COMMON_CATEGORY_UPDATE($id: BigInt!, $updates: CommonCategoryPatch!) {
+  updateCommonCategory(input: { patch: $updates, id: $id }) {
+    commonCategory {
+      id
+    }
+  }
+}

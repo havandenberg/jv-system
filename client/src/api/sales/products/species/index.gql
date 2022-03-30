@@ -1,0 +1,72 @@
+query COMMON_SPECIES_LIST(
+  $speciesOrderBy: [CommonSpeciesOrderBy!]
+  $varietiesOrderBy: [CommonVarietiesOrderBy!]
+  $sizesOrderBy: [CommonSizesOrderBy!]
+  $packTypesOrderBy: [CommonPackTypesOrderBy!]
+  $search: [CommonSpeciesFilter!]
+) {
+  commonSpecieses(filter: { and: $search }, orderBy: $speciesOrderBy) {
+    nodes {
+      id
+      speciesDescription
+      speciesName
+      uiColor
+      commonSpeciesTags {
+        nodes {
+          commonSpeciesId
+          nodeId
+          tagText
+        }
+      }
+      commonCategory {
+        categoryDescription
+        categoryName
+        id
+        uiColor
+      }
+      commonVarieties(orderBy: $varietiesOrderBy) {
+        nodes {
+          id
+          uiColor
+          varietyName
+          varietyDescription
+          commonVarietyTags {
+            nodes {
+              tagText
+              nodeId
+              commonVarietyId
+            }
+          }
+        }
+      }
+      commonSizes(orderBy: $sizesOrderBy) {
+        nodes {
+          id
+          sizeDescription
+          sizeName
+          commonSizeTags {
+            nodes {
+              commonSizeId
+              nodeId
+              tagText
+            }
+          }
+        }
+      }
+      commonPackTypes(orderBy: $packTypesOrderBy) {
+        nodes {
+          id
+          packTypeDescription
+          packTypeName
+          commonPackTypeTags {
+            nodes {
+              commonPackTypeId
+              nodeId
+              tagText
+            }
+          }
+        }
+      }
+    }
+  }
+}
