@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import { noCase } from 'change-case';
 import { isEmpty } from 'ramda';
 
@@ -119,7 +119,7 @@ const CommonProductIndex = () => {
           );
           return (
             category && (
-              <>
+              <Fragment key={category.id}>
                 <ListItem<CommonCategory>
                   data={category}
                   gridTemplateColumns={gridTemplateColumns}
@@ -152,7 +152,7 @@ const CommonProductIndex = () => {
                   </l.Div>
                 )}
                 <l.Div height={th.spacing.md} />
-              </>
+              </Fragment>
             )
           );
         })

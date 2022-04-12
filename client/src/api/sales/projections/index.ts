@@ -46,6 +46,7 @@ const useVariables = () => {
 
   const [view = 'list'] = useQueryValue('view');
   const isNotList = view !== 'list';
+  const isGrid = view === 'grid';
   const [{ sortBy = 'submittedAt', sortOrder = SORT_ORDER.DESC }] =
     useSortQueryParams();
   const orderBy = getOrderByString(
@@ -79,16 +80,18 @@ const useVariables = () => {
       : filteredShipperValues.map((val) =>
           val.substring(val.lastIndexOf(' (') + 2, val.length - 1),
         ),
-    startDate: isNotList
-      ? formatDate(startDate)
-      : formatDate(add(startDate, { weeks: -4 })),
+    startDate: isGrid
+      ? formatDate(startOfISOWeek(add(startDate, { weeks: -1 })))
+      : formatDate(startOfISOWeek(add(startDate, { weeks: -4 }))),
     endDate: isNotList
       ? formatDate(endOfISOWeek(add(endDate, { weeks: 4 })))
-      : formatDate(add(endDate, { days: 1, weeks: 4 })),
-    startDatetime: formatDate(add(startDate, { weeks: -4 })),
+      : formatDate(add(endOfISOWeek(endDate), { days: 1 })),
+    startDatetime: isGrid
+      ? formatDate(startOfISOWeek(add(startDate, { weeks: -1 })))
+      : formatDate(startOfISOWeek(add(startDate, { weeks: -4 }))),
     endDatetime: isNotList
       ? formatDate(endOfISOWeek(add(endDate, { weeks: 4 })))
-      : formatDate(add(endDate, { days: 1, weeks: 4 })),
+      : formatDate(add(endOfISOWeek(endDate), { days: 1 })),
     orderBy,
     search: isNotList ? undefined : getSearchArray(search),
   };

@@ -156,9 +156,9 @@ const ShipperProjections = () => {
   useEffect(() => {
     if (shipperId && shipper) {
       if (shipperId.length > 5 && view === 'grid') {
-        setShipperId(shipper.id);
+        setShipperId(shipper.id, 'replaceIn');
       } else if (shipperId.length === 5 && view !== 'grid') {
-        setShipperId(`${shipper.shipperName} (${shipper.id})`);
+        setShipperId(`${shipper.shipperName} (${shipper.id})`, 'replaceIn');
       }
     }
   }, [setShipperId, shipper, shipperId, view]);

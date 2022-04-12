@@ -5,7 +5,7 @@ import api from 'api';
 import BaseData from 'components/base-data';
 import Page from 'components/page';
 import { DataMessage } from 'components/page/message';
-import TagManager, { CommonProductTag } from 'components/tag-manager';
+import { CommonProductTag } from 'components/tag-manager';
 import useUpdateItem from 'hooks/use-update-item';
 import { CommonPackType, CommonPackTypeTag } from 'types';
 import l from 'ui/layout';
@@ -13,6 +13,7 @@ import th from 'ui/theme';
 
 import { transformChangesOnUpdate } from '../utils';
 import { baseLabels } from './data-utils';
+import useTagManager from 'components/tag-manager';
 
 export const breadcrumbs = (packType: CommonPackType) => [
   {
@@ -66,6 +67,18 @@ const CommonPackTypeDetails = () => {
       updateVariables,
     });
 
+  const { tagManager } = useTagManager({
+    commonProductId: packTypeId,
+    editing: editing,
+    handleChange: (tags: CommonProductTag[]) => {
+      handleChange('commonPackTypeTags', {
+        nodes: tags,
+      });
+    },
+    productIdKey: 'commonPackTypeId',
+    tags: (changes?.commonPackTypeTags?.nodes || []) as CommonProductTag[],
+  });
+
   return (
     <Page
       actions={getUpdateActions().defaultActions}
@@ -82,19 +95,7 @@ const CommonPackTypeDetails = () => {
             labels={baseLabels}
           />
           <l.Div ml={th.spacing.sm} my={th.spacing.lg}>
-            <TagManager
-              commonProductId={packTypeId}
-              editing={editing}
-              handleChange={(tags: CommonProductTag[]) => {
-                handleChange('commonPackTypeTags', {
-                  nodes: tags,
-                });
-              }}
-              productIdKey="commonPackTypeId"
-              tags={
-                (changes?.commonPackTypeTags?.nodes || []) as CommonProductTag[]
-              }
-            />
+            {tagManager}
           </l.Div>
         </l.Div>
       ) : (

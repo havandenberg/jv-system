@@ -6,7 +6,7 @@ import BaseData from 'components/base-data';
 import Page from 'components/page';
 import { DataMessage } from 'components/page/message';
 import { Tab, useTabBar } from 'components/tab-bar';
-import TagManager, { CommonProductTag } from 'components/tag-manager';
+import { CommonProductTag } from 'components/tag-manager';
 import useUpdateItem from 'hooks/use-update-item';
 import { useSortQueryParams } from 'hooks/use-query-params';
 import { SORT_ORDER } from 'hooks/use-columns';
@@ -26,6 +26,7 @@ import SizeList from '../size/list';
 import VarietyList from '../variety/list';
 import { transformChangesOnUpdate } from '../utils';
 import { baseLabels } from './data-utils';
+import useTagManager from 'components/tag-manager';
 
 export const breadcrumbs = (species: CommonSpecies, selectedTabId: string) => [
   {
@@ -160,6 +161,18 @@ const CommonSpeciesDetails = () => {
     }
   };
 
+  const { tagManager } = useTagManager({
+    commonProductId: speciesId,
+    editing: editing,
+    handleChange: (tags: CommonProductTag[]) => {
+      handleChange('commonSpeciesTags', {
+        nodes: tags,
+      });
+    },
+    productIdKey: 'commonSpeciesId',
+    tags: (changes?.commonSpeciesTags?.nodes || []) as CommonProductTag[],
+  });
+
   return (
     <Page
       actions={getUpdateActions().defaultActions}
@@ -176,19 +189,7 @@ const CommonSpeciesDetails = () => {
             labels={baseLabels}
           />
           <l.Div ml={th.spacing.sm} my={th.spacing.lg}>
-            <TagManager
-              commonProductId={speciesId}
-              editing={editing}
-              handleChange={(tags: CommonProductTag[]) => {
-                handleChange('commonSpeciesTags', {
-                  nodes: tags,
-                });
-              }}
-              productIdKey="commonSpeciesId"
-              tags={
-                (changes?.commonSpeciesTags?.nodes || []) as CommonProductTag[]
-              }
-            />
+            {tagManager}
           </l.Div>
           <l.Flex alignCenter justifyBetween my={th.spacing.lg}>
             <TabBar />

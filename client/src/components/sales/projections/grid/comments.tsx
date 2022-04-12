@@ -105,16 +105,24 @@ const CommentsModal = ({
                     <l.Flex alignCenter my={th.spacing.md}>
                       <StatusIndicator
                         diameter={12}
-                        status={projection.approvedAt ? 'success' : 'error'}
+                        status={
+                          projection?.reviewStatus === 2
+                            ? 'success'
+                            : projection?.reviewStatus === 0
+                            ? 'error'
+                            : 'warning'
+                        }
                       />
                       <ty.SmallText
                         bold={currentProjectionId === projection.id}
                         ml={th.spacing.sm}
-                        secondary
+                        secondary={currentProjectionId !== projection.id}
                       >
                         {format(
                           new Date(
-                            projection.approvedAt || projection.rejectedAt,
+                            projection?.reviewStatus === 2
+                              ? projection.approvedAt
+                              : projection.rejectedAt,
                           ),
                           'EE, MMM d, h:mm a',
                         )}
@@ -131,19 +139,17 @@ const CommentsModal = ({
                     )}
                   </l.Flex>
                 )}
-                <l.Flex alignCenter mb={th.spacing.sm} mt={th.spacing.md}>
-                  <StatusIndicator diameter={12} status="warning" />
-                  <ty.SmallText
-                    bold={currentProjectionId === projection.id}
-                    ml={th.spacing.sm}
-                    secondary
-                  >
-                    {format(
-                      new Date(projection.submittedAt),
-                      'EE, MMM d, h:mm a',
-                    )}
-                  </ty.SmallText>
-                </l.Flex>
+                <ty.SmallText
+                  bold={currentProjectionId === projection.id}
+                  mb={th.spacing.sm}
+                  mt={th.spacing.md}
+                  secondary={currentProjectionId !== projection.id}
+                >
+                  {format(
+                    new Date(projection.submittedAt),
+                    'EE, MMM d, h:mm a',
+                  )}
+                </ty.SmallText>
                 {projection.shipperComments ? (
                   <l.Div flexBasis="80%" mb={th.spacing.sm} p={th.spacing.sm}>
                     <ty.CaptionText

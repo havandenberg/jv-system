@@ -21,7 +21,16 @@ export type VesselUpdate = Pick<
 >;
 export type ProductUpdate = Pick<
   ShipperProjectionProduct,
-  'id' | 'species' | 'variety' | 'size' | 'packType' | 'plu'
+  | 'id'
+  | 'species'
+  | 'variety'
+  | 'size'
+  | 'packType'
+  | 'plu'
+  | 'commonSpeciesId'
+  | 'commonVarietyId'
+  | 'commonSizeId'
+  | 'commonPackTypeId'
 >;
 export type EntryUpdate = Pick<
   ShipperProjectionEntry,
@@ -71,15 +80,22 @@ export interface ShipperProjectionGridState {
   newItemNextIds: NewItemNextIds;
   removedProductIds: number[];
   skippedWeeks: string[];
+  matchAllCommonProducts: boolean;
+  showOnlyCommonNames: boolean;
 }
 
 export interface ShipperProjectionGridProps {
   changeHandlers: {
     handleVesselChange: (update: VesselUpdate) => void;
     handleEntryChange: (update: EntryUpdate) => void;
-    handleProductChange: (update: ProductUpdate) => void;
+    handleProductChange: (
+      update: ProductUpdate,
+      updateKey?: keyof ProductUpdate,
+    ) => void;
   };
   currentProjection?: Maybe<ShipperProjection>;
+  isAllProjections: boolean;
+  isPortal: boolean;
   newItemHandlers: {
     handleNewVessel: (newVessel: NewVessel) => void;
     handleNewProduct: (newProduct: NewProduct) => void;

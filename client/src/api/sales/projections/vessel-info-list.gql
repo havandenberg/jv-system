@@ -28,12 +28,14 @@ query SHIPPER_PROJECTION_VESSEL_INFO_LIST(
         shipperProjectionVesselInfosByVesselId {
           nodes {
             id
+            vesselName
           }
         }
       }
       vesselId
       shipperId
       shipper {
+        id
         shipperProjections(
           filter: {
             submittedAt: {
@@ -81,6 +83,56 @@ query SHIPPER_PROJECTION_VESSEL_INFO_LIST(
             size
             species
             variety
+            commonSpeciesId
+            commonSpecies {
+              id
+              speciesName
+              uiColor
+              commonSpeciesTags {
+                nodes {
+                  commonSpeciesId
+                  nodeId
+                  tagText
+                }
+              }
+            }
+            commonVarietyId
+            commonVariety {
+              id
+              varietyName
+              uiColor
+              commonVarietyTags {
+                nodes {
+                  tagText
+                  nodeId
+                  commonVarietyId
+                }
+              }
+            }
+            commonSizeId
+            commonSize {
+              id
+              sizeName
+              commonSizeTags {
+                nodes {
+                  commonSizeId
+                  nodeId
+                  tagText
+                }
+              }
+            }
+            commonPackTypeId
+            commonPackType {
+              id
+              packTypeName
+              commonPackTypeTags {
+                nodes {
+                  commonPackTypeId
+                  nodeId
+                  tagText
+                }
+              }
+            }
           }
         }
       }

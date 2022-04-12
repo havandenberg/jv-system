@@ -122,6 +122,21 @@ const StyledTextInput = styled.input(
   width,
 );
 
+export const SmallSelect = styled.select<
+  InputHTMLAttributes<HTMLSelectElement> &
+    SpaceSetProps &
+    WidthProps & {
+      hasError?: boolean;
+    }
+>(
+  ({ hasError }) => ({
+    border: hasError ? th.borders.error : th.borders.secondary,
+    width: th.sizes.fill,
+  }),
+  spaceSet,
+  width,
+);
+
 export const Select = styled.select<
   InputHTMLAttributes<HTMLSelectElement> &
     SpaceSetProps &

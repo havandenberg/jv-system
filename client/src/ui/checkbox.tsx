@@ -56,6 +56,7 @@ const Wrapper = styled(l.Flex)({
 
 export const LineItemCheckbox = ({ checked, label, onChange }: Props) => (
   <l.Flex
+    alignCenter
     cursor="pointer"
     onClick={(e) => {
       e.preventDefault();

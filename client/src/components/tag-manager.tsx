@@ -15,7 +15,7 @@ import l, { DivProps } from 'ui/layout';
 import th from 'ui/theme';
 import ty, { TextProps } from 'ui/typography';
 
-import EditableCell from './editable-cell';
+import useItemSelector from './item-selector';
 
 const TagWrapper = styled(l.Flex)(
   ({
@@ -42,10 +42,11 @@ const TagWrapper = styled(l.Flex)(
 type TagProps = {
   active?: boolean;
   containerStyles?: DivProps;
-  editing?: boolean;
+  editing: boolean;
   onChange: (updatedText: string) => void;
   onRemove: () => void;
   selecting?: boolean;
+  suggestedTags?: CommonProductTag[];
   tagText: string;
   textStyles?: TextProps;
   toggleActive?: () => void;
@@ -58,34 +59,54 @@ const Tag = ({
   onChange,
   onRemove,
   selecting,
+  suggestedTags,
   tagText,
   textStyles,
   toggleActive,
-}: TagProps) => (
-  <TagWrapper
-    active={active}
-    border={th.borders.disabled}
-    editing={editing}
-    selecting={selecting}
-    onClick={selecting && !editing ? toggleActive : undefined}
-    {...containerStyles}
-  >
-    <>
-      <EditableCell
-        content={{ dirty: false, value: tagText }}
-        defaultChildren={<ty.BodyText {...textStyles}>{tagText}</ty.BodyText>}
-        editing={!!editing}
-        inputProps={{ autoFocus: !tagText, width: 100 }}
-        onChange={(e) => onChange(e.target.value)}
-      />
-      {editing && (
-        <l.HoverButton ml={th.spacing.sm} onClick={onRemove}>
-          <Remove height={th.sizes.xs} width={th.sizes.xs} />
-        </l.HoverButton>
-      )}
-    </>
-  </TagWrapper>
-);
+}: TagProps) => {
+  const { ItemSelector } = useItemSelector<CommonProductTag & { id: string }>({
+    allItems: (suggestedTags || []).map((tag) => ({ ...tag, id: tag.nodeId })),
+    closeOnSelect: true,
+    disabled: !editing,
+    editableCellProps: {
+      content: { dirty: false, value: tagText },
+      defaultChildren: <ty.BodyText {...textStyles}>{tagText}</ty.BodyText>,
+      editing: !!editing,
+      inputProps: { autoFocus: !tagText, width: 100 },
+      onChange: (e) => onChange(e.target.value),
+    },
+    errorLabel: 'tags',
+    excludedItems: [],
+    height: 150,
+    loading: false,
+    nameKey: 'tagText',
+    panelGap: 0,
+    selectItem: (tag) => {
+      onChange(tag.tagText);
+    },
+    width: 250,
+  });
+
+  return (
+    <TagWrapper
+      active={active}
+      border={th.borders.disabled}
+      editing={editing}
+      selecting={selecting}
+      onClick={selecting && !editing ? toggleActive : undefined}
+      {...containerStyles}
+    >
+      <>
+        {ItemSelector}
+        {editing && (
+          <l.HoverButton ml={th.spacing.sm} onClick={onRemove}>
+            <Remove height={th.sizes.xs} width={th.sizes.xs} />
+          </l.HoverButton>
+        )}
+      </>
+    </TagWrapper>
+  );
+};
 
 export type CommonProductTag =
   | CommonPackTypeTag
@@ -96,22 +117,24 @@ export type CommonProductTag =
 type TagManagerProps = {
   commonProductId: string;
   editing?: boolean;
-  handleChange: (tags: CommonProductTag[]) => void;
+  handleChange?: (tags: CommonProductTag[]) => void;
   productIdKey:
     | 'commonPackTypeId'
     | 'commonSizeId'
     | 'commonSpeciesId'
     | 'commonVarietyId';
   selecting?: boolean;
+  suggestedTags?: CommonProductTag[];
   tags: CommonProductTag[];
 };
 
-const TagManager = ({
+const useTagManager = ({
   commonProductId,
   editing,
   handleChange,
   productIdKey,
   selecting,
+  suggestedTags,
   tags,
 }: TagManagerProps) => {
   const [selectedTags, setSelectedTags] = useState(tags);
@@ -121,25 +144,33 @@ const TagManager = ({
   const [newTagNextId, setNewTagNextId] = useState(-1);
 
   const handleAddTag = () => {
-    handleChange([
-      ...tags,
-      {
-        [productIdKey]: commonProductId,
-        nodeId: `${newTagNextId}`,
-        tagText: '',
-      },
-    ] as CommonProductTag[]);
-    setNewTagNextId(newTagNextId - 1);
+    if (handleChange) {
+      handleChange([
+        ...tags,
+        {
+          [productIdKey]: commonProductId,
+          nodeId: `${newTagNextId}`,
+          tagText: '',
+        },
+      ] as CommonProductTag[]);
+      setNewTagNextId(newTagNextId - 1);
+    }
   };
 
   const handleChangeTag = (updatedTag: CommonProductTag) => {
-    handleChange(
-      tags.map((tag) => (tag.nodeId === updatedTag.nodeId ? updatedTag : tag)),
-    );
+    if (handleChange) {
+      handleChange(
+        tags.map((tag) =>
+          tag.nodeId === updatedTag.nodeId ? updatedTag : tag,
+        ),
+      );
+    }
   };
 
   const handleRemoveTag = (nodeId: string) => {
-    handleChange(tags.filter((tag) => tag.nodeId !== nodeId));
+    if (handleChange) {
+      handleChange(tags.filter((tag) => tag.nodeId !== nodeId));
+    }
   };
 
   const selectAll = () => {
@@ -164,62 +195,72 @@ const TagManager = ({
     }
   }, [previousTagsLength, tags]);
 
-  return (
-    <>
-      <l.Flex alignCenter height={42}>
-        <ty.BodyText bold mb={11} mr={th.spacing.lg}>
-          Tags:
-        </ty.BodyText>
-        {hasTags || editing ? (
-          <l.Flex flexWrap="wrap">
-            {tags.map((tag) => (
-              <Tag
-                active={
-                  editing || !!selectedTags.find((t) => t.nodeId === tag.nodeId)
-                }
-                editing={editing}
-                selecting={selecting}
-                key={tag.nodeId}
-                onChange={(updatedText: string) => {
-                  handleChangeTag({ ...tag, tagText: updatedText });
-                }}
-                onRemove={() => {
-                  handleRemoveTag(tag.nodeId);
-                }}
-                tagText={tag.tagText}
-                toggleActive={() => {
-                  toggleSelectTag(tag);
-                }}
-              />
-            ))}
-            {editing && (
-              <l.HoverButton mb="9px" ml={th.spacing.md} onClick={handleAddTag}>
-                <Add height={th.sizes.xs} width={th.sizes.xs} />
-              </l.HoverButton>
-            )}
-          </l.Flex>
-        ) : (
-          <ty.BodyText mb={11} secondary>
-            No tags
+  return {
+    selectedTags,
+    tagManager: (
+      <>
+        <l.Flex alignCenter height={42}>
+          <ty.BodyText bold mb={11} mr={th.spacing.lg}>
+            Tags:
           </ty.BodyText>
-        )}
-      </l.Flex>
-      {!editing && hasTags && selecting && (
-        <l.Flex ml={75}>
-          <l.HoverButton dark mr={th.spacing.md} onClick={selectAll}>
-            <ty.SmallText color={th.colors.brand.primaryAccent}>
-              Select All
-            </ty.SmallText>
-          </l.HoverButton>
-          <l.HoverButton dark onClick={selectNone}>
-            <ty.SmallText color={th.colors.brand.primaryAccent}>
-              Select None
-            </ty.SmallText>
-          </l.HoverButton>
+          {hasTags || editing ? (
+            <l.Flex flexWrap="wrap">
+              {tags.map((tag) => (
+                <Tag
+                  active={
+                    editing ||
+                    !selecting ||
+                    !!selectedTags.find((t) => t.nodeId === tag.nodeId)
+                  }
+                  editing={!!editing}
+                  selecting={selecting}
+                  suggestedTags={suggestedTags}
+                  key={tag.nodeId}
+                  onChange={(updatedText: string) => {
+                    handleChangeTag({ ...tag, tagText: updatedText });
+                  }}
+                  onRemove={() => {
+                    handleRemoveTag(tag.nodeId);
+                  }}
+                  tagText={tag.tagText}
+                  toggleActive={() => {
+                    toggleSelectTag(tag);
+                  }}
+                />
+              ))}
+              {editing && (
+                <l.HoverButton
+                  mb="9px"
+                  ml={th.spacing.md}
+                  onClick={handleAddTag}
+                >
+                  <Add height={th.sizes.xs} width={th.sizes.xs} />
+                </l.HoverButton>
+              )}
+            </l.Flex>
+          ) : (
+            <ty.BodyText mb={11} secondary>
+              No tags
+            </ty.BodyText>
+          )}
         </l.Flex>
-      )}
-    </>
-  );
+        {!editing && hasTags && selecting && (
+          <l.Flex ml={75}>
+            <l.HoverButton dark mr={th.spacing.md} onClick={selectAll}>
+              <ty.SmallText color={th.colors.brand.primaryAccent}>
+                Select All
+              </ty.SmallText>
+            </l.HoverButton>
+            <l.HoverButton dark onClick={selectNone}>
+              <ty.SmallText color={th.colors.brand.primaryAccent}>
+                Select None
+              </ty.SmallText>
+            </l.HoverButton>
+          </l.Flex>
+        )}
+      </>
+    ),
+  };
 };
 
-export default TagManager;
+export default useTagManager;

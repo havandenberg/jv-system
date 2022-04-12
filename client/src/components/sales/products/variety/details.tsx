@@ -5,7 +5,7 @@ import api from 'api';
 import BaseData from 'components/base-data';
 import Page from 'components/page';
 import { DataMessage } from 'components/page/message';
-import TagManager, { CommonProductTag } from 'components/tag-manager';
+import { CommonProductTag } from 'components/tag-manager';
 import useUpdateItem from 'hooks/use-update-item';
 import { CommonVariety, CommonVarietyTag } from 'types';
 import l from 'ui/layout';
@@ -13,6 +13,7 @@ import th from 'ui/theme';
 
 import { transformChangesOnUpdate } from '../utils';
 import { baseLabels } from './data-utils';
+import useTagManager from 'components/tag-manager';
 
 export const breadcrumbs = (variety: CommonVariety) => [
   {
@@ -66,6 +67,18 @@ const CommonVarietyDetails = () => {
       updateVariables,
     });
 
+  const { tagManager } = useTagManager({
+    commonProductId: varietyId,
+    editing: editing,
+    handleChange: (tags: CommonProductTag[]) => {
+      handleChange('commonVarietyTags', {
+        nodes: tags,
+      });
+    },
+    productIdKey: 'commonVarietyId',
+    tags: (changes?.commonVarietyTags?.nodes || []) as CommonProductTag[],
+  });
+
   return (
     <Page
       actions={getUpdateActions().defaultActions}
@@ -82,19 +95,7 @@ const CommonVarietyDetails = () => {
             labels={baseLabels}
           />
           <l.Div ml={th.spacing.sm} my={th.spacing.lg}>
-            <TagManager
-              commonProductId={varietyId}
-              editing={editing}
-              handleChange={(tags: CommonProductTag[]) => {
-                handleChange('commonVarietyTags', {
-                  nodes: tags,
-                });
-              }}
-              productIdKey="commonVarietyId"
-              tags={
-                (changes?.commonVarietyTags?.nodes || []) as CommonProductTag[]
-              }
-            />
+            {tagManager}
           </l.Div>
         </l.Div>
       ) : (

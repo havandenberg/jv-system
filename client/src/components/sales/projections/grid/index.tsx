@@ -15,9 +15,9 @@ import {
 
 import api from 'api';
 import { formatDate } from 'components/date-range-picker';
+import ErrorPanel from 'components/error-panel';
 import useItemSelector from 'components/item-selector';
 import Page from 'components/page';
-import StatusIndicator from 'components/status-indicator';
 import { useUserContext } from 'components/user/context';
 import usePrevious from 'hooks/use-previous';
 import { useQueryValue } from 'hooks/use-query-params';
@@ -42,8 +42,9 @@ import {
 import { ShipperProjectionProps } from '../';
 import { getAllVessels, getDuplicateProductIds } from '../data-utils';
 import ProjectionSettings from '../settings';
+import { getProductIdentifier } from '../utils';
 import Products from './products';
-import Vessels from './vessels';
+import ShipperProjectionsReviewModal from './review-modal';
 import {
   EntryUpdate,
   NewItemNextIds,
@@ -56,8 +57,7 @@ import {
   UpdateType,
   VesselUpdate,
 } from './types';
-import ShipperProjectionsReviewModal from './review-modal';
-import ErrorPanel from 'components/error-panel';
+import Vessels from './vessels';
 
 const initialChangesState: ShipperProjectionGridChanges = {
   vesselUpdates: [],
@@ -79,6 +79,8 @@ const initialState: ShipperProjectionGridState = {
   newItemNextIds: initialNewItemNextIds,
   removedProductIds: [],
   skippedWeeks: [],
+  matchAllCommonProducts: true,
+  showOnlyCommonNames: false,
 };
 
 const ShipperProjectionGrid = ({
@@ -97,6 +99,7 @@ const ShipperProjectionGrid = ({
   shipperId,
   shippers,
 }: ShipperProjectionProps) => {
+  const [isPortal, setIsPortal] = useState(false);
   const [startDate] = useQueryValue('startDate');
   const previousStartDate = usePrevious(startDate);
   const [endDate] = useQueryValue('endDate');
@@ -115,7 +118,10 @@ const ShipperProjectionGrid = ({
       errorLabel: 'Shippers',
       loading: shipperDataLoading,
       nameKey: 'shipperName',
-      onClear: () => setShipperId(undefined),
+      onClear: () => {
+        setShipperId(undefined);
+        setProjectionId('all', 'replaceIn');
+      },
       onlyClearSearch: true,
       placeholder: 'Select shipper',
       selectedItem: selectedShipper
@@ -143,11 +149,19 @@ const ShipperProjectionGrid = ({
     if (
       !equals(previousSelectedShipper, selectedShipper) &&
       selectedShipper &&
-      !projectionId
+      currentProjections
     ) {
-      setProjectionId(currentProjections?.[0]?.id);
+      if (currentProjection) {
+        setState((prevState) => ({
+          ...prevState,
+          showOnlyCommonNames: false,
+        }));
+      } else {
+        setProjectionId('all', 'replaceIn');
+      }
     }
   }, [
+    currentProjection,
     currentProjections,
     previousSelectedShipper,
     projectionId,
@@ -156,12 +170,17 @@ const ShipperProjectionGrid = ({
   ]);
 
   useEffect(() => {
-    if (!equals(previousStartDate, startDate) && selectedShipper) {
-      setProjectionId(currentProjections?.[0]?.id);
+    if (
+      !equals(previousStartDate, startDate) &&
+      selectedShipper &&
+      !projectionId
+    ) {
+      setProjectionId(currentProjections?.[0]?.id || 'all', 'replaceIn');
     }
   }, [
     currentProjections,
     previousStartDate,
+    projectionId,
     startDate,
     selectedShipper,
     setProjectionId,
@@ -179,7 +198,7 @@ const ShipperProjectionGrid = ({
       vesselInfo?.vessel?.shipper?.shipperName || 'Unknown shipper',
     (((data ? data.nodes : []) as ShipperProjectionVesselInfo[]).filter(
       (vesselInfo) =>
-        selectedShipper
+        selectedShipper && projectionId !== 'all'
           ? currentProjection
             ? currentProjection?.id === vesselInfo?.projection?.id
             : last(
@@ -220,7 +239,14 @@ const ShipperProjectionGrid = ({
   const [handleDeleteEntries] = api.useDeleteShipperProjectionEntries();
 
   const [state, setState] = useState<ShipperProjectionGridState>(initialState);
-  const { changes, newItemNextIds, removedProductIds, skippedWeeks } = state;
+  const {
+    changes,
+    matchAllCommonProducts,
+    showOnlyCommonNames,
+    newItemNextIds,
+    removedProductIds,
+    skippedWeeks,
+  } = state;
 
   const setChanges = (newChanges: ShipperProjectionGridChanges) => {
     setState((prevState) => ({ ...prevState, changes: newChanges }));
@@ -244,6 +270,20 @@ const ShipperProjectionGrid = ({
     setState((prevState) => ({
       ...prevState,
       skippedWeeks: newSkippedWeeks,
+    }));
+  };
+
+  const toggleMatchAllCommonProducts = () => {
+    setState((prevState) => ({
+      ...prevState,
+      matchAllCommonProducts: !matchAllCommonProducts,
+    }));
+  };
+
+  const toggleShowOnlyCommonNames = () => {
+    setState((prevState) => ({
+      ...prevState,
+      showOnlyCommonNames: !showOnlyCommonNames,
     }));
   };
 
@@ -313,11 +353,11 @@ const ShipperProjectionGrid = ({
             startDate ? new Date(startDate.replace(/-/g, '/')) : new Date(),
           ),
           {
-            weeks: idx,
+            weeks: idx - 1,
           },
         ),
       ),
-    5,
+    6,
   ).filter(
     (date) =>
       !allVessels.find(
@@ -379,7 +419,7 @@ const ShipperProjectionGrid = ({
         )
         .join(' '),
     uniqBy(
-      (product) => product.id,
+      (product) => getProductIdentifier(product, !!selectedShipper),
       pluck('product', allEntries) as ShipperProjectionProduct[],
     )
       .map(
@@ -389,7 +429,9 @@ const ShipperProjectionGrid = ({
             entries: allEntries
               .filter(
                 (entry) =>
-                  parseInt(entry.productId, 10) === parseInt(product.id, 10),
+                  entry.product &&
+                  getProductIdentifier(entry.product, !!selectedShipper) ===
+                    getProductIdentifier(product, !!selectedShipper),
               )
               .map((entry) => ({
                 id: entry.id,
@@ -411,10 +453,14 @@ const ShipperProjectionGrid = ({
     plu: getProductValue(product, 'plu').value,
   })) as ShipperProjectionProduct[];
 
-  const hasConfirmedSkippedWeeks = ghostVesselDates.reduce(
-    (acc, date) => acc && skippedWeeks.includes(date),
-    true,
-  );
+  const hasConfirmedSkippedWeeks = ghostVesselDates
+    .filter((ghostDate) =>
+      isDateGreaterThanOrEqualTo(
+        new Date(ghostDate.replace(/-/g, '/')),
+        new Date(startDate ? startDate.replace(/-/g, '/') : new Date()),
+      ),
+    )
+    .reduce((acc, date) => acc && skippedWeeks.includes(date), true);
 
   const hasValidVesselNames = allVessels.reduce(
     (acc, vessel) =>
@@ -461,35 +507,86 @@ const ShipperProjectionGrid = ({
 
   const duplicateProductIds = getDuplicateProductIds(updatedProducts);
 
+  const hasValidVesselStatuses = allVessels.reduce(
+    (acc, vessel) =>
+      acc &&
+      vessel &&
+      (getWeekNumber(
+        new Date(
+          getVesselValue(
+            vessel as ShipperProjectionVesselInfo,
+            'departureDate',
+          ).value.replace(/-/g, '/'),
+        ),
+      ) >=
+        getWeekNumber(
+          startDate ? new Date(startDate.replace(/-/g, '/')) : new Date(),
+        ) ||
+        ['executed', 'cancelled'].includes(
+          getVesselValue(vessel as ShipperProjectionVesselInfo, 'vesselStatus')
+            .value,
+        )),
+    true,
+  );
+
   const validate = () =>
     hasConfirmedSkippedWeeks &&
     hasValidVesselNames &&
     hasValidVesselDates &&
     hasValidProducts &&
-    isEmpty(duplicateProductIds);
+    isEmpty(duplicateProductIds) &&
+    hasValidVesselStatuses;
 
   const [{ activeUserId }] = useUserContext();
   const [handleCreateUserMessages] = api.useCreateUserMessages();
 
-  const handleReview = (isApproved: boolean, jvComments: string) => {
+  const handleReview = (jvComments: string, reviewStatus: number) => {
     if (currentProjection) {
-      setUpdateLoading((prevLoading) => [...prevLoading, 'review']);
-      handleUpsertProjection({
+      setUpdateLoading((prevLoading) => [...prevLoading, 'products']);
+      handleUpsertProducts({
         variables: {
-          shipperProjection: {
-            id: currentProjection.id,
-            submittedAt: currentProjection.submittedAt,
-            shipperId: selectedShipper?.id,
-            approvedAt: isApproved ? new Date().toLocaleString() : undefined,
-            rejectedAt: isApproved ? undefined : new Date().toLocaleString(),
-            jvComments,
-            reviewStatus: isApproved ? 2 : 0,
-            shipperComments: currentProjection.shipperComments,
-          },
+          shipperProjectionProducts: [
+            ...changes.productUpdates.map((p) => ({
+              species: p.species,
+              variety: p.variety,
+              size: p.size,
+              packType: p.packType,
+              plu: p.plu,
+              id: parseInt(p.id, 10),
+              commonSpeciesId: p.commonSpeciesId,
+              commonVarietyId: p.commonVarietyId,
+              commonSizeId: p.commonSizeId,
+              commonPackTypeId: p.commonPackTypeId,
+            })),
+          ],
         },
       }).then(() => {
+        setUpdateLoading((prevLoading) => [...prevLoading, 'review']);
+        const isApproved = reviewStatus === 2;
+        handleUpsertProjection({
+          variables: {
+            shipperProjection: {
+              id: currentProjection.id,
+              submittedAt: currentProjection.submittedAt,
+              shipperId: selectedShipper?.id,
+              approvedAt: isApproved ? new Date().toLocaleString() : undefined,
+              rejectedAt: isApproved ? undefined : new Date().toLocaleString(),
+              jvComments,
+              reviewStatus:
+                reviewStatus === 1
+                  ? currentProjection.reviewStatus
+                  : reviewStatus,
+              shipperComments: currentProjection.shipperComments,
+            },
+          },
+        }).then(() => {
+          setUpdateLoading((prevLoading) =>
+            prevLoading.filter((l) => l !== 'review'),
+          );
+        });
+
         setUpdateLoading((prevLoading) =>
-          prevLoading.filter((l) => l !== 'review'),
+          prevLoading.filter((l) => l !== 'products'),
         );
       });
     }
@@ -548,6 +645,10 @@ const ShipperProjectionGrid = ({
                 packType: p.packType,
                 plu: p.plu,
                 id: parseInt(p.id, 10),
+                commonSpeciesId: p.commonSpeciesId,
+                commonVarietyId: p.commonVarietyId,
+                commonSizeId: p.commonSizeId,
+                commonPackTypeId: p.commonPackTypeId,
               })),
               ...changes.newProducts.map((p) => ({
                 shipperId: p.shipperId,
@@ -689,18 +790,14 @@ const ShipperProjectionGrid = ({
     }
   };
 
-  const handleCancel = () => {
-    setState(initialState);
-    setSaveAttempt(false);
-  };
-
   useEffect(() => {
     if (
       !isEmpty(previousUpdateLoading) &&
       isEmpty(updateLoading) &&
       !dataLoading
     ) {
-      handleCancel();
+      setState(initialState);
+      setSaveAttempt(false);
     }
   }, [dataLoading, previousUpdateLoading, updateLoading]);
 
@@ -726,9 +823,70 @@ const ShipperProjectionGrid = ({
     handleChange([update], changesKey);
   };
 
-  const handleProductChange = (update: ProductUpdate) => {
-    const changesKey = update.id < 0 ? 'newProducts' : 'productUpdates';
-    handleChange([update], changesKey);
+  const handleProductChange = (
+    update: ProductUpdate,
+    updateKey?: keyof ProductUpdate,
+  ) => {
+    if (
+      updateKey &&
+      [
+        'commonSpeciesId',
+        'commonVarietyId',
+        'commonSizeId',
+        'commonPackTypeId',
+      ].includes(updateKey) &&
+      matchAllCommonProducts
+    ) {
+      handleChange(
+        products
+          .map((product) => {
+            const productUpdates = changes.productUpdates.find(
+              (u) => u.id === product.id,
+            );
+            switch (updateKey) {
+              case 'commonSpeciesId':
+                return product.species === update.species
+                  ? {
+                      ...product,
+                      ...productUpdates,
+                      commonSpeciesId: update.commonSpeciesId,
+                    }
+                  : undefined;
+              case 'commonVarietyId':
+                return product.variety === update.variety
+                  ? {
+                      ...product,
+                      ...productUpdates,
+                      commonVarietyId: update.commonVarietyId,
+                    }
+                  : undefined;
+              case 'commonSizeId':
+                return product.size === update.size
+                  ? {
+                      ...product,
+                      ...productUpdates,
+                      commonSizeId: update.commonSizeId,
+                    }
+                  : undefined;
+              case 'commonPackTypeId':
+                return product.packType === update.packType
+                  ? {
+                      ...product,
+                      ...productUpdates,
+                      commonPackTypeId: update.commonPackTypeId,
+                    }
+                  : undefined;
+              default:
+                return undefined;
+            }
+          })
+          .filter((p) => !!p) as ProductUpdate[],
+        'productUpdates',
+      );
+    } else {
+      const changesKey = update.id < 0 ? 'newProducts' : 'productUpdates';
+      handleChange([update], changesKey);
+    }
   };
 
   const handleEntryChange = (update: EntryUpdate) => {
@@ -846,16 +1004,16 @@ const ShipperProjectionGrid = ({
     if (!startDate) {
       handleDateChange({
         selection: {
-          startDate: startOfISOWeek(new Date()),
-          endDate: startOfISOWeek(new Date()),
+          startDate: new Date(),
+          endDate: new Date(),
           key: 'selection',
         },
       });
     } else if (!equals(startDate, endDate)) {
       handleDateChange({
         selection: {
-          startDate: startOfISOWeek(new Date()),
-          endDate: startOfISOWeek(new Date()),
+          startDate: new Date(startDate.replace(/-/g, '/')),
+          endDate: new Date(startDate.replace(/-/g, '/')),
           key: 'selection',
         },
       });
@@ -865,6 +1023,20 @@ const ShipperProjectionGrid = ({
   return (
     <Page
       actions={[
+        selectedShipper && (
+          <ty.SmallText
+            center
+            cursor="pointer"
+            key="a"
+            mr={th.spacing.lg}
+            mt={th.spacing.sm}
+            onClick={() => setIsPortal(!isPortal)}
+            secondary
+            width={78}
+          >
+            {isPortal ? 'Shipper view' : 'JV view'}
+          </ty.SmallText>
+        ),
         selectedShipper ? (
           <l.AreaLink
             key={0}
@@ -876,52 +1048,15 @@ const ShipperProjectionGrid = ({
         ) : (
           <div key={0} />
         ),
-        <l.Div key={1} mr={th.spacing.md}>
-          <ProjectionSettings />
-        </l.Div>,
-        <l.Flex alignEnd key={2} relative>
-          {currentProjection && !!selectedShipper && (
-            <l.Flex
-              alignCenter
-              height={th.sizes.fill}
-              justifyCenter
-              mr={th.spacing.md}
-            >
-              <StatusIndicator
-                status={
-                  currentProjection.approvedAt
-                    ? 'success'
-                    : currentProjection.rejectedAt
-                    ? 'error'
-                    : 'warning'
-                }
-              />
-            </l.Flex>
-          )}
-          {selectedShipper && (
-            <>
-              <l.Div mr={th.spacing.md}>
-                <ShipperProjectionsReviewModal
-                  handleApprove={(message) => handleReview(true, message)}
-                  handleReject={(message) => handleReview(false, message)}
-                  triggerDisabled={!currentProjection}
-                  confirmLoading={!isEmpty(updateLoading)}
-                />
-              </l.Div>
-              <ShipperProjectionsReviewModal
-                handleApprove={(message) => handleSave(message)}
-                triggerDisabled={saveAttempt && !validate()}
-                confirmLoading={!isEmpty(updateLoading)}
-              />
-            </>
-          )}
-          {saveAttempt && (
-            <l.Div cursor="pointer" position="absolute" right={0} top={42}>
+        <l.Flex alignCenter key={1}>
+          {saveAttempt && !validate() && (
+            <l.Div cursor="pointer" height={20} mr={th.spacing.md}>
               <ErrorPanel
                 customStyles={{
                   border: th.borders.error,
-                  right: 0,
+                  right: -200,
                   left: 'auto',
+                  top: 30,
                   width: 'auto',
                   zIndex: 20,
                 }}
@@ -946,11 +1081,38 @@ const ShipperProjectionGrid = ({
                     text: 'No duplicate products',
                     value: !isEmpty(duplicateProductIds),
                   },
+                  {
+                    text: 'Vessels from last week may only be "Executed" or "Cancelled"',
+                    value: !hasValidVesselStatuses,
+                  },
                 ]}
               />
             </l.Div>
           )}
+          {selectedShipper &&
+            (isPortal ? (
+              <ShipperProjectionsReviewModal
+                handleConfirm={handleSave}
+                isPortal={isPortal}
+                triggerDisabled={
+                  projectionId !== 'all' || (saveAttempt && !validate())
+                }
+                confirmLoading={!isEmpty(updateLoading)}
+              />
+            ) : (
+              <ShipperProjectionsReviewModal
+                handleConfirm={(comments, reviewStatus?: number) =>
+                  handleReview(comments, reviewStatus || 1)
+                }
+                isPortal={isPortal}
+                triggerDisabled={!currentProjection}
+                confirmLoading={!isEmpty(updateLoading)}
+              />
+            ))}
         </l.Flex>,
+        <l.Div key={2} ml={th.spacing.md}>
+          <ProjectionSettings />
+        </l.Div>,
       ]}
       extraPaddingTop={58}
       headerChildren={
@@ -1003,8 +1165,15 @@ const ShipperProjectionGrid = ({
               error={error}
               ghostVesselDates={ghostVesselDates}
               gridTemplateColumns={gridTemplateColumns}
+              isAllProjections={projectionId === 'all'}
+              isPortal={isPortal}
               loading={loading}
+              matchAllCommonProducts={matchAllCommonProducts}
+              productCount={products.length}
+              showOnlyCommonNames={showOnlyCommonNames}
+              toggleShowOnlyCommonNames={toggleShowOnlyCommonNames}
               selectedShipper={selectedShipper}
+              toggleMatchAllCommonProducts={toggleMatchAllCommonProducts}
               setProjectionId={setProjectionId}
               showErrors={saveAttempt}
               skippedWeeks={skippedWeeks}
@@ -1019,10 +1188,13 @@ const ShipperProjectionGrid = ({
               duplicateProductIds={duplicateProductIds}
               gridTemplateColumns={gridTemplateColumns}
               hasVessels={allVessels.length > 0}
+              isAllProjections={projectionId === 'all'}
+              isPortal={isPortal}
               loading={loading}
               products={products}
               selectedShipper={selectedShipper}
               showErrors={saveAttempt}
+              showOnlyCommonNames={showOnlyCommonNames}
               vessels={
                 allVesselsWithGhostVessels as ShipperProjectionVesselInfo[]
               }

@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { capitalCase } from 'change-case';
+import React, { useEffect, useState } from 'react';
+import { capitalCase, pascalCase } from 'change-case';
 import {
   add,
   differenceInCalendarWeeks,
@@ -10,10 +10,11 @@ import {
   isEmpty,
   last,
   mapObjIndexed,
+  pluck,
   sortBy,
   sum,
   times,
-  uniq,
+  uniqBy,
   values,
 } from 'ramda';
 import { useLocation } from 'react-router-dom';
@@ -34,16 +35,20 @@ import Breadcrumbs from 'components/nav/breadcrumbs';
 import Page from 'components/page';
 import { DataMessage } from 'components/page/message';
 import { useTabBar } from 'components/tab-bar';
+import { CommonProductTag } from 'components/tag-manager';
 import {
   useProjectionsQueryParams,
   useQueryValue,
 } from 'hooks/use-query-params';
+import usePrevious from 'hooks/use-previous';
 import {
+  Maybe,
   Shipper,
   ShipperProjectionEntry,
   ShipperProjectionProduct,
   ShipperProjectionVesselInfo,
 } from 'types';
+import { LineItemCheckbox } from 'ui/checkbox';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
@@ -65,6 +70,10 @@ export const graphTabs = (groupingKey: string, hasSelectedShipper: boolean) => {
       id: 'by-item',
       text: `By ${capitalCase(groupingKey)}`,
     },
+    {
+      id: 'by-tags',
+      text: `By ${capitalCase(groupingKey)} Tag`,
+    },
   ];
   if (!hasSelectedShipper) {
     crumbs.push({
@@ -74,6 +83,13 @@ export const graphTabs = (groupingKey: string, hasSelectedShipper: boolean) => {
   }
   return crumbs;
 };
+
+interface UniqueItem {
+  color?: string;
+  commonProductId?: string;
+  name: string;
+  tags: CommonProductTag[];
+}
 
 const ShipperProjectionGraph = ({
   CoastTabBar,
@@ -187,12 +203,25 @@ const ShipperProjectionGraph = ({
   );
 
   const viewByShipper = graphView === 'by-shipper';
+  const viewByTags = graphView === 'by-tags';
 
   const types = [
     { key: 'species', text: species || 'All Species', value: species },
-    { key: 'variety', text: variety || 'All Varieties', value: variety },
-    { key: 'size', text: size || 'All Sizes', value: size },
-    { key: 'packType', text: packType || 'All Pack Types', value: packType },
+    {
+      key: 'variety',
+      text: variety || `All ${viewByTags ? 'Variety Tags' : 'Varieties'}`,
+      value: variety,
+    },
+    {
+      key: 'size',
+      text: size || `All ${viewByTags ? 'Size Tags' : 'Sizes'}`,
+      value: size,
+    },
+    {
+      key: 'packType',
+      text: packType || `${viewByTags ? 'Pack Type Tags' : 'All Pack Types'}`,
+      value: packType,
+    },
     { key: 'plu', text: plu || 'All PLUs', value: plu },
   ];
   const activeTypes = types.filter(({ value }) => !!value);
@@ -232,7 +261,7 @@ const ShipperProjectionGraph = ({
 
         return {
           active: idx === activeTypes.length - 1,
-          text: capitalCase(text),
+          text: capitalCase(text.replace('-tag', '')),
           to: `/sales/projections?${restParamString}${existingCategoriesParam}`,
         };
       }),
@@ -263,46 +292,134 @@ const ShipperProjectionGraph = ({
   );
 
   const getUniqueList = (key: keyof ShipperProjectionProduct) =>
-    uniq(
-      vessels
-        .map((vessel) =>
-          (
-            vessel.shipperProjectionEntriesByVesselInfoId
-              .nodes as ShipperProjectionEntry[]
+    sortBy(
+      (item: UniqueItem) => item.name || 'zzzzzz',
+      uniqBy(
+        ({ commonProductId, name }) =>
+          viewByShipper ? name : commonProductId || name,
+        vessels
+          .map((vessel) =>
+            (
+              vessel.shipperProjectionEntriesByVesselInfoId
+                .nodes as ShipperProjectionEntry[]
+            )
+              .filter((item) => {
+                const {
+                  species: itemSpecies,
+                  variety: itemVariety,
+                  size: itemSize,
+                  packType: itemPackType,
+                  plu: itemPlu,
+                  commonSpecies,
+                  commonVariety,
+                  commonSize,
+                  commonPackType,
+                } = item.product || {};
+
+                const hasValidTags = (
+                  tags: Maybe<CommonProductTag>[] | undefined,
+                  tagParam: string,
+                ) =>
+                  pluck('tagText', (tags || []) as CommonProductTag[]).includes(
+                    tagParam.replace('-tag', ''),
+                  );
+
+                return (
+                  (!species ||
+                    itemSpecies === species ||
+                    hasValidTags(
+                      commonSpecies?.commonSpeciesTags?.nodes,
+                      species,
+                    )) &&
+                  (!variety ||
+                    itemVariety === variety ||
+                    hasValidTags(
+                      commonVariety?.commonVarietyTags?.nodes,
+                      variety,
+                    )) &&
+                  (!size ||
+                    itemSize === size ||
+                    hasValidTags(commonSize?.commonSizeTags?.nodes, size)) &&
+                  (!packType ||
+                    itemPackType === packType ||
+                    hasValidTags(
+                      commonPackType?.commonPackTypeTags?.nodes,
+                      packType,
+                    )) &&
+                  (!plu || itemPlu === plu)
+                );
+              })
+              .map((entry) => ({
+                color: viewByShipper
+                  ? undefined
+                  : entry.product?.[
+                      `common${pascalCase(
+                        key,
+                      )}` as keyof ShipperProjectionProduct
+                    ]?.uiColor,
+                commonProductId:
+                  entry.product?.[
+                    `common${pascalCase(
+                      key,
+                    )}Id` as keyof ShipperProjectionProduct
+                  ],
+                name: viewByShipper
+                  ? getShipperDisplayName(vessel?.projection?.shipper!)
+                  : entry.product?.[
+                      `common${pascalCase(
+                        key,
+                      )}` as keyof ShipperProjectionProduct
+                    ]?.[`${pascalCase(key)}Name`] ||
+                    entry?.product?.[key] ||
+                    '',
+                tags:
+                  entry.product?.[
+                    `common${pascalCase(key)}` as keyof ShipperProjectionProduct
+                  ]?.[`common${pascalCase(key)}Tags`]?.nodes || [],
+              })),
           )
-            .filter((item) => {
-              const {
-                species: itemSpecies,
-                variety: itemVariety,
-                size: itemSize,
-                packType: itemPackType,
-                plu: itemPlu,
-              } = item.product || {};
-              return (
-                (!species || itemSpecies === species) &&
-                (!variety || itemVariety === variety) &&
-                (!size || itemSize === size) &&
-                (!packType || itemPackType === packType) &&
-                (!plu || itemPlu === plu)
-              );
-            })
-            .map((entry) =>
-              viewByShipper
-                ? getShipperDisplayName(vessel?.projection?.shipper!)
-                : entry?.product?.[key],
-            ),
-        )
-        .flat()
-        .sort(),
+          .flat(),
+      ),
     );
 
-  const itemList = getUniqueList(groupingKey);
+  const uniqueList = getUniqueList(groupingKey);
+  const uniqueTagList = sortBy(
+    ({ tagText }: CommonProductTag) => tagText,
+    uniqBy(({ tagText }) => tagText, pluck('tags', uniqueList).flat()),
+  ).map(({ tagText }) => ({ name: tagText || '' } as UniqueItem));
+  const itemList = viewByTags ? uniqueTagList : uniqueList;
+  const previousItemList = usePrevious(itemList);
+
+  const [selectedItems, setSelectedItems] = useState<string[]>(
+    pluck('name', itemList),
+  );
+  const isAllSelected = selectedItems.length === itemList.length;
+
+  const toggleSelectItem = (itemName: string) => {
+    if (selectedItems.includes(itemName)) {
+      if (isAllSelected) {
+        setSelectedItems([itemName]);
+      } else {
+        setSelectedItems(selectedItems.filter((name) => name !== itemName));
+      }
+    } else {
+      setSelectedItems([...selectedItems, itemName]);
+    }
+  };
+
+  const selectAllItems = () => {
+    setSelectedItems(pluck('name', itemList));
+  };
+
+  const unselectAllItems = () => {
+    setSelectedItems([]);
+  };
 
   const getData = () => {
     const data = hasDateRange
       ? times(
           (idx) => ({ week: getWeekText(add(startDate, { weeks: idx })) }),
-          differenceInCalendarWeeks(endDate, startDate) + 5,
+          differenceInCalendarWeeks(endDate, startDate) + 1,
         )
       : [
           ...times(
@@ -330,7 +447,7 @@ const ShipperProjectionGraph = ({
       return {
         ...weekData,
         ...itemList.reduce(
-          (acc, item) => ({
+          (acc, { commonProductId, name: item }) => ({
             ...acc,
             [item]: sum(
               vesselsByWeek
@@ -343,15 +460,85 @@ const ShipperProjectionGraph = ({
                         size: itemSize,
                         packType: itemPackType,
                         plu: itemPlu,
+                        commonSpecies,
+                        commonVariety,
+                        commonSize,
+                        commonPackType,
                       } = entry?.product || {};
+
+                      const hasValidTags = (
+                        tags: Maybe<CommonProductTag>[] | undefined,
+                        tagParam: string,
+                      ) =>
+                        pluck(
+                          'tagText',
+                          (tags || []) as CommonProductTag[],
+                        ).includes(tagParam?.replace('-tag', ''));
+
+                      const hasValidSpeciesTags = hasValidTags(
+                        commonSpecies?.commonSpeciesTags?.nodes,
+                        species,
+                      );
+                      const isValidSpecies =
+                        !species ||
+                        (groupingKey === 'species' &&
+                        (viewByTags ? hasValidSpeciesTags : commonProductId)
+                          ? commonProductId === `${commonSpecies?.id}`
+                          : itemSpecies === species || hasValidSpeciesTags);
+
+                      const hasValidVarietyTags = hasValidTags(
+                        commonSpecies?.commonSpeciesTags?.nodes,
+                        variety,
+                      );
+                      const isValidVariety =
+                        !variety ||
+                        (groupingKey === 'variety' &&
+                        (viewByTags ? hasValidVarietyTags : commonProductId)
+                          ? commonProductId === `${commonVariety?.id}`
+                          : itemVariety === variety || hasValidVarietyTags);
+
+                      const hasValidSizeTags = hasValidTags(
+                        commonSize?.commonSizeTags?.nodes,
+                        size,
+                      );
+                      const isValidSize =
+                        !size ||
+                        (groupingKey === 'size' &&
+                        (viewByTags ? hasValidSizeTags : commonProductId)
+                          ? commonProductId === `${commonSize?.id}`
+                          : itemSize === size || hasValidSizeTags);
+
+                      const hasValidPackTypeTags = hasValidTags(
+                        commonPackType?.commonPackTypeTags?.nodes,
+                        packType,
+                      );
+                      const isValidPackType =
+                        !packType ||
+                        (groupingKey === 'packType' &&
+                        (viewByTags ? hasValidPackTypeTags : commonProductId)
+                          ? commonProductId === `${commonPackType?.id}`
+                          : itemPackType === packType || hasValidPackTypeTags);
+
+                      const isValidPlu = !plu || itemPlu === plu;
+
                       return (
-                        (!species || itemSpecies === species) &&
-                        (!variety || itemVariety === variety) &&
-                        (!size || itemSize === size) &&
-                        (!packType || itemPackType === packType) &&
-                        (!plu || itemPlu === plu) &&
+                        isValidSpecies &&
+                        isValidVariety &&
+                        isValidSize &&
+                        isValidPackType &&
+                        isValidPlu &&
                         (viewByShipper ||
-                          (entry?.product || {})[groupingKey] === item) &&
+                          (viewByTags
+                            ? hasValidTags(
+                                entry?.product?.[
+                                  `common${pascalCase(
+                                    groupingKey,
+                                  )}` as keyof ShipperProjectionProduct
+                                ]?.[`common${pascalCase(groupingKey)}Tags`]
+                                  ?.nodes,
+                                item,
+                              )
+                            : (entry?.product || {})[groupingKey] === item)) &&
                         (!viewByShipper ||
                           getShipperDisplayName(
                             vessel?.projection?.shipper!,
@@ -371,16 +558,29 @@ const ShipperProjectionGraph = ({
 
   const chartData = getData();
 
+  const filteredItemList = itemList.filter(({ name }) =>
+    selectedItems.includes(name),
+  );
+
   useEffect(() => {
     if (!!selectedShipper && graphView === 'by-shipper') {
       handleSelectTab('by-item');
     }
   }, [handleSelectTab, selectedShipper, graphView]);
 
+  useEffect(() => {
+    if (
+      previousItemList &&
+      pluck('name', itemList).join() !== pluck('name', previousItemList).join()
+    ) {
+      setSelectedItems(pluck('name', itemList));
+    }
+  }, [itemList, previousItemList, graphView]);
+
   return (
     <Page
       actions={[<ProjectionSettings key={0} />]}
-      extraPaddingTop={vessels.length > 0 ? 232 : 155}
+      extraPaddingTop={vessels.length > 0 ? 192 : 140}
       headerChildren={
         <>
           <l.Flex mb={th.spacing.lg}>
@@ -413,38 +613,61 @@ const ShipperProjectionGraph = ({
               <l.Div onClick={clearSearch}>{Reset}</l.Div>
             </div>
           </l.Flex>
-          <l.Flex justifyBetween mb={th.spacing.lg}>
+          <l.Flex justifyBetween mb={th.spacing.md}>
             <Breadcrumbs
               breadcrumbs={getBreadcrumbs()}
               customStyles={{ text: { fontSize: th.fontSizes.body } }}
             />
             <GraphTabBar />
           </l.Flex>
-          <l.Flex alignCenter flexWrap="wrap">
-            {itemList.map((item, idx) => (
+          <l.Flex flexWrap="wrap">
+            <l.Div mr={th.spacing.lg}>
+              <LineItemCheckbox
+                checked={isAllSelected}
+                onChange={isAllSelected ? unselectAllItems : selectAllItems}
+              />
+            </l.Div>
+            {itemList.map(({ color, commonProductId, name }, idx) => (
               <l.Flex
                 alignCenter
-                key={item}
+                key={name}
                 mb={th.spacing.sm}
                 mr={th.spacing.lg}
               >
                 <ColorPicker
-                  activeColor={defaultColorSet[idx]}
-                  color={defaultColorSet[idx]}
+                  activeColor={color || defaultColorSet[idx]}
+                  color={color || defaultColorSet[idx]}
                   onChange={() => ({})}
+                  readOnly
                 />
+                <l.Div ml={th.spacing.sm}>
+                  <LineItemCheckbox
+                    checked={selectedItems.includes(name)}
+                    onChange={() => {
+                      toggleSelectItem(name);
+                    }}
+                  />
+                </l.Div>
                 <ty.CaptionText
+                  color={
+                    viewByTags || commonProductId
+                      ? th.colors.text.default
+                      : th.colors.status.error
+                  }
                   cursor="pointer"
                   link
                   ml={th.spacing.sm}
                   nowrap
                   onClick={() => {
                     setProjectionQueryParams({
-                      [viewByShipper ? 'shipperId' : groupingKey]: item,
+                      [viewByShipper ? 'shipperId' : groupingKey]: `${name}${
+                        viewByTags ? '-tag' : ''
+                      }`,
+                      graphView: 'by-item',
                     });
                   }}
                 >
-                  {packType ? item || 'No PLU' : item}
+                  {packType ? name || 'No PLU' : name}
                 </ty.CaptionText>
               </l.Flex>
             ))}
@@ -480,8 +703,12 @@ const ShipperProjectionGraph = ({
               tick={<YTick />}
               width={60}
             />
-            {itemList.map((item, idx) => (
-              <Bar dataKey={item} key={item} fill={defaultColorSet[idx]} />
+            {filteredItemList.map(({ color, name }, idx) => (
+              <Bar
+                dataKey={name}
+                key={name}
+                fill={color || defaultColorSet[idx]}
+              />
             ))}
           </BarChart>
         </ResponsiveContainer>

@@ -43,6 +43,18 @@ CREATE TABLE product.shipper_projection_product (
   size TEXT,
   pack_type TEXT,
   plu TEXT,
+  common_species_id BIGINT
+		REFERENCES product.common_species(id)
+		ON DELETE SET NULL,
+  common_variety_id BIGINT
+		REFERENCES product.common_variety(id)
+		ON DELETE SET NULL,
+  common_size_id BIGINT
+		REFERENCES product.common_size(id)
+		ON DELETE SET NULL,
+  common_pack_type_id BIGINT
+		REFERENCES product.common_pack_type(id)
+		ON DELETE SET NULL,
   shipper_id TEXT
 		REFERENCES directory.shipper(id)
 		ON DELETE SET NULL
@@ -95,7 +107,11 @@ AS $$
         size,
         pack_type,
         plu,
-        shipper_id
+        shipper_id,
+        common_species_id,
+        common_variety_id,
+        common_size_id,
+        common_pack_type_id
       )
         VALUES (
           COALESCE(p.id, (select nextval('product.shipper_projection_product_id_seq'))),
@@ -104,14 +120,22 @@ AS $$
           p.size,
           p.pack_type,
           p.plu,
-          p.shipper_id
+          p.shipper_id,
+          p.common_species_id,
+          p.common_variety_id,
+          p.common_size_id,
+          p.common_pack_type_id
         )
       ON CONFLICT (id) DO UPDATE SET
         species=EXCLUDED.species,
         variety=EXCLUDED.variety,
         size=EXCLUDED.size,
         pack_type=EXCLUDED.pack_type,
-        plu=EXCLUDED.plu
+        plu=EXCLUDED.plu,
+        common_species_id=EXCLUDED.common_species_id,
+        common_variety_id=EXCLUDED.common_variety_id,
+        common_size_id=EXCLUDED.common_size_id,
+        common_pack_type_id=EXCLUDED.common_pack_type_id
     	RETURNING * INTO vals;
     	RETURN NEXT vals;
 	END LOOP;

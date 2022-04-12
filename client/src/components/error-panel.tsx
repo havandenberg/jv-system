@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import AlertImg from 'assets/images/alert';
 import usePrevious from 'hooks/use-previous';
+import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 
@@ -52,7 +53,11 @@ const ErrorPanel = ({
       customStyles={customStyles}
       setShow={setShow}
       show={show}
-      triggerIcon={<AlertImg height={20} width={20} />}
+      triggerIcon={
+        <l.Div zIndex={10}>
+          <AlertImg height={20} width={20} />
+        </l.Div>
+      }
       visible
     />
   );

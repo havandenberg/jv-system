@@ -34,15 +34,19 @@ const ColorSwatch = styled(l.Div)(
 interface Props {
   activeColor: string;
   color?: string;
+  height?: number | string;
   onChange: (color: string) => void;
   readOnly?: boolean;
+  width?: number | string;
 }
 
 const ColorPicker = ({
   activeColor,
   color = th.colors.brand.secondary,
+  height = th.sizes.xs,
   onChange,
   readOnly,
+  width = th.sizes.xs,
 }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useOutsideClickRef(() => {
@@ -56,9 +60,9 @@ const ColorPicker = ({
         borderColor={color}
         borderRadius={th.borderRadii.circle}
         cursor={readOnly ? undefined : 'pointer'}
-        height={th.sizes.xs}
+        height={height}
         onClick={() => !readOnly && setIsOpen(!isOpen)}
-        width={th.sizes.xs}
+        width={width}
       />
       {isOpen && (
         <Content>

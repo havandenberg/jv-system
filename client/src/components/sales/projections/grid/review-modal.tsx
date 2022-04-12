@@ -1,33 +1,78 @@
 import React, { useState } from 'react';
+import { ClipLoader } from 'react-spinners';
 
-import { BasicModal, BasicModalProps } from 'components/modal';
+import Modal, { BasicModalProps } from 'components/modal';
 import { TextArea } from 'ui/input';
+import b from 'ui/button';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 
 interface Props extends Omit<BasicModalProps, 'handleConfirm'> {
-  handleApprove: (message: string) => void;
-  handleReject?: (message: string) => void;
+  handleConfirm: (message: string, reviewStatus?: number) => void;
+  isPortal: boolean;
+  mismatchedProductCount?: number;
+  unmatchedProductCount?: number;
 }
 
 const ShipperProjectionsReviewModal = ({
-  handleApprove,
-  handleReject,
-  ...rest
+  confirmLoading,
+  handleConfirm,
+  isPortal,
+  triggerDisabled,
+  mismatchedProductCount,
+  unmatchedProductCount,
 }: Props) => {
   const [value, setValue] = useState('');
 
   return (
-    <BasicModal
-      title={`${handleReject ? 'Review Shipper' : 'Submit'} Projection`}
-      content={
+    <Modal
+      trigger={(show) => (
+        <b.Status
+          disabled={confirmLoading || triggerDisabled}
+          onClick={show}
+          status={th.colors.status.warning}
+        >
+          {confirmLoading ? (
+            <l.Flex alignCenter justifyCenter>
+              <ClipLoader
+                color={th.colors.brand.secondary}
+                size={th.sizes.xs}
+              />
+            </l.Flex>
+          ) : isPortal ? (
+            'Submit'
+          ) : (
+            'Review'
+          )}
+        </b.Status>
+      )}
+    >
+      {({ hide }) => (
         <>
-          <ty.BodyText mb={th.spacing.lg}>
-            Add comments for {handleReject ? 'shipper' : 'Jac Vandenberg'} below
+          <ty.TitleText>{`${
+            isPortal ? 'Submit' : 'Review Shipper'
+          } Projection`}</ty.TitleText>
+          <ty.BodyText>
+            Add comments for {isPortal ? 'Jac Vandenberg' : 'shipper'} below
             (optional).
           </ty.BodyText>
-          <l.Flex justifyCenter>
+          {unmatchedProductCount && (
+            <ty.BodyText color={th.colors.status.warning} mt={th.spacing.sm}>
+              Unmatched products: {unmatchedProductCount}
+            </ty.BodyText>
+          )}
+          {mismatchedProductCount && (
+            <ty.BodyText color={th.colors.status.warning} mt={th.spacing.sm}>
+              Mismatched products: {mismatchedProductCount}
+            </ty.BodyText>
+          )}
+          {unmatchedProductCount === 0 && mismatchedProductCount === 0 && (
+            <ty.BodyText color={th.colors.status.success} mt={th.spacing.sm}>
+              All products matched!
+            </ty.BodyText>
+          )}
+          <l.Flex justifyCenter mt={th.spacing.lg}>
             <TextArea
               autoFocus
               onChange={(e) => {
@@ -38,17 +83,69 @@ const ShipperProjectionsReviewModal = ({
               value={value}
             />
           </l.Flex>
+          <l.Flex justifyBetween mt={th.spacing.xl}>
+            <b.Status
+              onClick={() => {
+                !isPortal && handleConfirm(value, 0);
+                hide();
+              }}
+              status={th.colors.status.error}
+              width={180}
+            >
+              {isPortal ? 'Cancel' : 'Request Changes'}
+            </b.Status>
+            <>
+              {!isPortal && (
+                <b.Status
+                  disabled={confirmLoading}
+                  ml={th.spacing.lg}
+                  onClick={() => {
+                    handleConfirm(value, 1);
+                    hide();
+                  }}
+                  status={th.colors.status.warning}
+                  width={180}
+                >
+                  {confirmLoading ? (
+                    <l.Flex alignCenter justifyCenter>
+                      <ClipLoader
+                        color={th.colors.brand.secondary}
+                        size={th.sizes.xs}
+                      />
+                    </l.Flex>
+                  ) : (
+                    'Save'
+                  )}
+                </b.Status>
+              )}
+              <b.Status
+                disabled={confirmLoading}
+                ml={th.spacing.lg}
+                onClick={() => {
+                  handleConfirm(value, 2);
+                  hide();
+                }}
+                status={th.colors.status.success}
+                width={180}
+              >
+                {confirmLoading ? (
+                  <l.Flex alignCenter justifyCenter>
+                    <ClipLoader
+                      color={th.colors.brand.secondary}
+                      size={th.sizes.xs}
+                    />
+                  </l.Flex>
+                ) : isPortal ? (
+                  'Confirm Submit'
+                ) : (
+                  'Approve'
+                )}
+              </b.Status>
+            </>
+          </l.Flex>
         </>
-      }
-      confirmText={handleReject ? 'Approve' : 'Confirm Submit'}
-      cancelText={handleReject ? 'Request Changes' : 'Cancel'}
-      triggerText={handleReject ? 'Review' : 'Submit'}
-      confirmProps={{ status: th.colors.status.success, width: 180 }}
-      cancelProps={{ status: th.colors.status.error, width: 180 }}
-      onCancel={handleReject ? () => handleReject(value) : undefined}
-      handleConfirm={() => handleApprove(value)}
-      {...rest}
-    />
+      )}
+    </Modal>
   );
 };
 

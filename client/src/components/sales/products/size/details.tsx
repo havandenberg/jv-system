@@ -5,7 +5,7 @@ import api from 'api';
 import BaseData from 'components/base-data';
 import Page from 'components/page';
 import { DataMessage } from 'components/page/message';
-import TagManager, { CommonProductTag } from 'components/tag-manager';
+import { CommonProductTag } from 'components/tag-manager';
 import useUpdateItem from 'hooks/use-update-item';
 import { CommonSize, CommonSizeTag } from 'types';
 import l from 'ui/layout';
@@ -13,6 +13,7 @@ import th from 'ui/theme';
 
 import { transformChangesOnUpdate } from '../utils';
 import { baseLabels } from './data-utils';
+import useTagManager from 'components/tag-manager';
 
 export const breadcrumbs = (size: CommonSize) => [
   {
@@ -65,6 +66,18 @@ const CommonSizeDetails = () => {
       updateVariables,
     });
 
+  const { tagManager } = useTagManager({
+    commonProductId: sizeId,
+    editing: editing,
+    handleChange: (tags: CommonProductTag[]) => {
+      handleChange('commonSizeTags', {
+        nodes: tags,
+      });
+    },
+    productIdKey: 'commonSizeId',
+    tags: (changes?.commonSizeTags?.nodes || []) as CommonProductTag[],
+  });
+
   return (
     <Page
       actions={getUpdateActions().defaultActions}
@@ -81,19 +94,7 @@ const CommonSizeDetails = () => {
             labels={baseLabels}
           />
           <l.Div ml={th.spacing.sm} my={th.spacing.lg}>
-            <TagManager
-              commonProductId={sizeId}
-              editing={editing}
-              handleChange={(tags: CommonProductTag[]) => {
-                handleChange('commonSizeTags', {
-                  nodes: tags,
-                });
-              }}
-              productIdKey="commonSizeId"
-              tags={
-                (changes?.commonSizeTags?.nodes || []) as CommonProductTag[]
-              }
-            />
+            {tagManager}
           </l.Div>
         </l.Div>
       ) : (

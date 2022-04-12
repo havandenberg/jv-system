@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { sortBy } from 'ramda';
 
 import api from 'api';
 import { BasicModal } from 'components/modal';
@@ -10,7 +11,6 @@ import { LineItemCheckbox } from 'ui/checkbox';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
-import { sortBy } from 'ramda';
 
 interface LineItemProps {
   checked: boolean;
@@ -44,7 +44,7 @@ const LineItem = ({ checked, item, id }: LineItemProps) => {
             ml={th.spacing.lg}
             nowrap
           >
-            {item.shipperName}
+            ({item.id}) - {item.shipperName}
           </ty.CaptionText>
         }
         onChange={() => {
@@ -63,8 +63,11 @@ const LineItem = ({ checked, item, id }: LineItemProps) => {
 };
 
 const ProjectionSettings = () => {
-  const { Search } = useSearch({ paramName: 'settingsSearch' });
-  const { data, loading, error } = api.useShippers('SHIPPER_NAME_ASC');
+  const { Search, search } = useSearch({ paramName: 'settingsSearch' });
+  const { data, loading, error } = api.useShippers(
+    'SHIPPER_NAME_ASC',
+    search || undefined,
+  );
   const items = data
     ? sortBy(
         (shipper) => (shipper?.sendProjectionRequest ? 'a' : 'b'),

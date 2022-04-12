@@ -6,6 +6,10 @@ query SHIPPER_PROJECTION_PRODUCT_LIST($shipperId: String) {
       size
       species
       variety
+      commonSpeciesId
+      commonVarietyId
+      commonSizeId
+      commonPackTypeId
     }
   }
 }

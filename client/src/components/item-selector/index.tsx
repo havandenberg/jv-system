@@ -10,7 +10,7 @@ import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 
-import EditableCell, { EditableCellProps } from './editable-cell';
+import EditableCell, { EditableCellProps } from '../editable-cell';
 
 const RowWrapper = styled(l.Flex)({
   alignItems: 'center',
@@ -28,6 +28,7 @@ interface Props<T> {
   allItems: T[];
   clearSearchOnBlur?: boolean;
   closeOnSelect?: boolean;
+  disabled?: boolean;
   editableCellProps?: EditableCellProps;
   error?: ApolloError;
   errorLabel: string;
@@ -43,6 +44,7 @@ interface Props<T> {
   placeholder?: string;
   selectedItem?: string;
   selectItem: (item: T) => void;
+  title?: string;
   width?: number;
 }
 
@@ -50,6 +52,7 @@ const useItemSelector = <T extends { id: string }>({
   allItems,
   clearSearchOnBlur,
   closeOnSelect,
+  disabled,
   excludedItems,
   editableCellProps,
   error,
@@ -69,7 +72,7 @@ const useItemSelector = <T extends { id: string }>({
   const [focused, setFocused] = useState(false);
 
   const handleFocus = () => {
-    setFocused(true);
+    !disabled && setFocused(true);
   };
 
   const { clearSearch, Search } = useSearch({
@@ -123,6 +126,7 @@ const useItemSelector = <T extends { id: string }>({
                 rowHeight={32}
                 rowRenderer={({ key, index, style }) => {
                   const item = items[index];
+
                   return (
                     item && (
                       <RowWrapper
@@ -136,13 +140,13 @@ const useItemSelector = <T extends { id: string }>({
                         key={key}
                         style={style}
                       >
-                        {getItemContent ? (
-                          getItemContent(item)
-                        ) : (
-                          <ty.CaptionText pl={th.spacing.sm}>
-                            {item.id} - {item[nameKey]}
-                          </ty.CaptionText>
-                        )}
+                        {getItemContent
+                          ? getItemContent(item)
+                          : item && (
+                              <ty.CaptionText pl={th.spacing.sm}>
+                                {item.id} - {item[nameKey]}
+                              </ty.CaptionText>
+                            )}
                       </RowWrapper>
                     )
                   );

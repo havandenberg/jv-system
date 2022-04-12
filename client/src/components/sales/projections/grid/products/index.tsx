@@ -3,7 +3,11 @@ import { equals, groupBy, mapObjIndexed, pluck, values } from 'ramda';
 
 import api from 'api';
 import { DataMessage } from 'components/page/message';
-import { ShipperProjectionProduct, ShipperProjectionVesselInfo } from 'types';
+import {
+  CommonSpecies,
+  ShipperProjectionProduct,
+  ShipperProjectionVesselInfo,
+} from 'types';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
@@ -21,6 +25,7 @@ interface Props extends ShipperProjectionGridProps {
   loading: boolean;
   products: ShipperProjectionProductWithEntries[];
   showErrors: boolean;
+  showOnlyCommonNames: boolean;
   vessels: ShipperProjectionVesselInfo[];
 }
 
@@ -35,6 +40,13 @@ const Products = ({
   ...rest
 }: Props) => {
   const {
+    data: speciesData,
+    loading: speciesLoading,
+    error: speciesError,
+  } = api.useCommonSpecieses();
+  const specieses = (speciesData ? speciesData.nodes : []) as CommonSpecies[];
+
+  const {
     data: allProductsData,
     loading: allProductsLoading,
     error: allProductsError,
@@ -42,6 +54,9 @@ const Products = ({
   const allProducts = (
     allProductsData ? allProductsData.nodes : []
   ) as ShipperProjectionProduct[];
+
+  const error = allProductsError || speciesError;
+  const productsLoading = allProductsLoading || speciesLoading;
 
   const { getProductValue } = rest.valueGetters;
   const groupedProducts = groupBy(
@@ -54,12 +69,11 @@ const Products = ({
       vessel.id === 0
         ? -1
         : pluck('entries', ps)
-            .map((entries) => {
-              const filteredEntry = entries
+            .map((entries) =>
+              entries
                 .filter((entry) => entry.vesselInfoId === vessel.id)
-                .reverse()[0];
-              return filteredEntry ? [filteredEntry] : [];
-            })
+                .reverse(),
+            )
             .flat()
             .reduce((acc, entry) => acc + +entry.palletCount, 0),
     );
@@ -72,6 +86,8 @@ const Products = ({
   );
 
   const grandProductTotals = getProductTotals(products);
+
+  const { isAllProjections, isPortal } = rest;
 
   return (
     <l.Div mb={!hasVessels ? 0 : th.spacing.xxl} relative>
@@ -132,8 +148,9 @@ const Products = ({
                               <ProductRow
                                 {...rest}
                                 allProducts={allProducts}
-                                allProductsError={allProductsError}
-                                allProductsLoading={allProductsLoading}
+                                error={error}
+                                loading={productsLoading}
+                                commonSpecieses={specieses}
                                 currentProjection={currentProjection}
                                 gridTemplateColumns={gridTemplateColumns}
                                 index={idx}
@@ -181,9 +198,12 @@ const Products = ({
               );
             }, groupedProducts),
           )}
-          {!groupedProducts[''] && selectedShipper && (
-            <NewProductRow hasProducts={hasProducts} {...rest} />
-          )}
+          {!groupedProducts[''] &&
+            selectedShipper &&
+            isPortal &&
+            isAllProjections && (
+              <NewProductRow hasProducts={hasProducts} {...rest} />
+            )}
           <ProductTotalRow
             gridTemplateColumns={gridTemplateColumns}
             productTotals={grandProductTotals}
