@@ -4,7 +4,10 @@ import { reduce } from 'ramda';
 
 import InfoImg from 'assets/images/info';
 import UpArrow from 'assets/images/up-arrow';
-import { baseDataTransforms } from 'components/base-data';
+import {
+  BaseDataItemSelectorProps,
+  baseDataTransforms,
+} from 'components/base-data';
 import InfoPanel, { InfoPanelProps } from 'components/info-panel';
 import FilterPanel, { FilterPanelProps } from 'components/filter-panel';
 import { SortOrder, SORT_ORDER } from 'hooks/use-columns';
@@ -55,6 +58,7 @@ export interface LabelInfo<T> {
   label: string;
   filterPanelProps?: FilterPanelProps;
   infoPanelProps?: InfoPanelProps;
+  itemSelectorQueryProps?: BaseDataItemSelectorProps;
   isBoolean?: boolean;
   isColor?: boolean;
   readOnly?: boolean;

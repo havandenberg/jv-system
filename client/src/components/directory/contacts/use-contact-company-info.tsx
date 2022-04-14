@@ -137,6 +137,7 @@ const useContactCompanyInfo = ({
     errorLabel: 'Customers',
     loading: customerDataLoading,
     nameKey: 'customerName',
+    searchParamName: 'customerSearch',
     placeholder: 'Add customers',
   });
 
@@ -151,6 +152,7 @@ const useContactCompanyInfo = ({
     loading: shipperDataLoading,
     nameKey: 'shipperName',
     placeholder: 'Add shippers',
+    searchParamName: 'shipperSearch',
     width: 350,
   });
 
@@ -165,6 +167,7 @@ const useContactCompanyInfo = ({
     loading: warehouseDataLoading,
     nameKey: 'warehouseName',
     placeholder: 'Add warehouses',
+    searchParamName: 'warehouseSearch',
     width: 350,
   });
 

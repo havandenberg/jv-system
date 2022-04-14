@@ -11,6 +11,26 @@ CREATE TABLE product.product_size (
 	shipper_id TEXT
 );
 
+CREATE FUNCTION product.product_size_search_text(IN s product.product_size)
+    RETURNS text
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+SELECT CONCAT (
+		s.id,
+		s.jv_code,
+		s.jv_description,
+    s.species_id,
+    s.variety_id,
+		s.shipper_code,
+		s.shipper_description,
+		s.combine_description,
+		s.shipper_id
+	) FROM product.product_size ss WHERE s.id = ss.id
+$BODY$;
+
 CREATE FUNCTION product.product_size_shipper(IN s product.product_size)
     RETURNS directory.shipper
     LANGUAGE 'sql'

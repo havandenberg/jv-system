@@ -4,6 +4,7 @@ import { loader } from 'graphql.macro';
 import { getOrderByString, getSearchArray } from 'api/utils';
 import { SORT_ORDER } from 'hooks/use-columns';
 import {
+  useQueryValue,
   useSearchQueryParam,
   useSortQueryParams,
 } from 'hooks/use-query-params';
@@ -12,9 +13,13 @@ import { Mutation, Query } from 'types';
 export const PRODUCT_MASTER_DETAILS_QUERY = loader('./details.gql');
 const PRODUCT_MASTER_LIST_QUERY = loader('./list.gql');
 const PRODUCT_MASTER_UPDATE = loader('./update.gql');
+const PRODUCT_SPECIES_LIST_QUERY = loader('./species/list.gql');
 export const PRODUCT_SPECIES_DETAILS_QUERY = loader('./species/details.gql');
+const PRODUCT_VARIETY_LIST_QUERY = loader('./varieties/list.gql');
 export const PRODUCT_VARIETY_DETAILS_QUERY = loader('./variety-details.gql');
+const PRODUCT_SIZE_LIST_QUERY = loader('./sizes/list.gql');
 export const PRODUCT_SIZE_DETAILS_QUERY = loader('./size-details.gql');
+const PACK_MASTER_LIST_QUERY = loader('./pack-masters/list.gql');
 export const PRODUCT_PACK_TYPE_DETAILS = loader('./pack-type-details.gql');
 
 export const useProductMasters = () => {
@@ -68,6 +73,21 @@ export const useUpdateProductMaster = (id: string) => {
   });
 };
 
+export const useProductSpeciesList = () => {
+  const [speciesSearch = ''] = useQueryValue('speciesSearch');
+
+  const { data, error, loading } = useQuery<Query>(PRODUCT_SPECIES_LIST_QUERY, {
+    variables: {
+      search: getSearchArray(speciesSearch),
+    },
+  });
+  return {
+    data: data ? data.productSpecieses : undefined,
+    error,
+    loading,
+  };
+};
+
 export const useProductSpecies = (id: string) => {
   const { data, error, loading } = useQuery<Query>(
     PRODUCT_SPECIES_DETAILS_QUERY,
@@ -79,6 +99,21 @@ export const useProductSpecies = (id: string) => {
   );
   return {
     data: data ? data.productSpecies : undefined,
+    error,
+    loading,
+  };
+};
+
+export const useProductVarietyList = () => {
+  const [varietySearch = ''] = useQueryValue('varietySearch');
+
+  const { data, error, loading } = useQuery<Query>(PRODUCT_VARIETY_LIST_QUERY, {
+    variables: {
+      search: getSearchArray(varietySearch),
+    },
+  });
+  return {
+    data: data ? data.productVarieties : undefined,
     error,
     loading,
   };
@@ -100,10 +135,25 @@ export const useProductVariety = (id: string) => {
   };
 };
 
+export const useProductSizeList = () => {
+  const [sizeSearch = ''] = useQueryValue('sizeSearch');
+
+  const { data, error, loading } = useQuery<Query>(PRODUCT_SIZE_LIST_QUERY, {
+    variables: {
+      search: getSearchArray(sizeSearch),
+    },
+  });
+  return {
+    data: data ? data.productSizes : undefined,
+    error,
+    loading,
+  };
+};
+
 export const useProductSize = (id: string) => {
   const { data, error, loading } = useQuery<Query>(PRODUCT_SIZE_DETAILS_QUERY, {
     variables: {
-      id,
+      id: parseInt(id, 10),
     },
   });
   return {
@@ -113,10 +163,25 @@ export const useProductSize = (id: string) => {
   };
 };
 
+export const usePackMasterList = () => {
+  const [packTypeSearch = ''] = useQueryValue('packTypeSearch');
+
+  const { data, error, loading } = useQuery<Query>(PACK_MASTER_LIST_QUERY, {
+    variables: {
+      search: getSearchArray(packTypeSearch),
+    },
+  });
+  return {
+    data: data ? data.packMasters : undefined,
+    error,
+    loading,
+  };
+};
+
 export const useProductPackType = (id: string) => {
   const { data, error, loading } = useQuery<Query>(PRODUCT_PACK_TYPE_DETAILS, {
     variables: {
-      id,
+      id: parseInt(id, 10),
     },
   });
   return {

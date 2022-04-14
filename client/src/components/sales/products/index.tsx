@@ -40,6 +40,8 @@ const CommonProductIndex = () => {
   } = api.useCommonSpecieses();
   const specieses = speciesData ? speciesData.nodes : [];
 
+  const loading = categoriesLoading || speciesLoading;
+
   const columnLabels = useColumns<CommonSpecies>(
     'speciesName',
     SORT_ORDER.ASC,
@@ -87,7 +89,7 @@ const CommonProductIndex = () => {
           <l.Flex alignCenter mb={th.spacing.sm} justifyBetween>
             {Search}
           </l.Flex>
-          {!speciesLoading && (
+          {!loading && (
             <>
               <ty.SmallText mb={th.spacing.md} pl={th.spacing.sm}>
                 Results: {specieses.length || '-'}
@@ -112,7 +114,7 @@ const CommonProductIndex = () => {
       }
       title="All Species"
     >
-      {!isEmpty(categories) ? (
+      {!loading && !isEmpty(categories) ? (
         categories.map((category) => {
           const speciesList = specieses.filter(
             (species) => species?.commonCategory?.id === category?.id,
@@ -160,7 +162,7 @@ const CommonProductIndex = () => {
         <DataMessage
           data={specieses}
           error={speciesError || categoriesError}
-          loading={speciesLoading || categoriesLoading}
+          loading={loading}
           emptyProps={{
             header: 'No products found',
             text: 'Modify search parameters to view more results.',

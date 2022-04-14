@@ -15,7 +15,11 @@ import ty from 'ui/typography';
 
 import { gridTemplateColumns } from '.';
 import { categoryTypeOrder } from './header';
-import { getFilteredItems, reducePalletData } from './utils';
+import {
+  getFilteredItems,
+  InventoryItemPalletData,
+  reducePalletData,
+} from './utils';
 
 const ItemWrapper = styled(l.Flex)(
   ({ hasItems, isTotal }: { hasItems: boolean; isTotal: boolean }) => ({
@@ -43,15 +47,20 @@ const InventoryCell = ({
 }: {
   index: number;
   isTotal: boolean;
-  palletsAvailable: number;
-  palletsOnHand: number;
+  palletsAvailable: InventoryItemPalletData;
+  palletsOnHand: InventoryItemPalletData;
   to: string;
-}) => (
-  <l.AreaLink key={index} to={to}>
+}) => {
+  const palletsAvailableCount = palletsAvailable.pre + palletsAvailable.real;
+  const palletCount = palletsAvailableCount + palletsOnHand.real;
+  const showPreInventory = index < 14;
+
+  const cell = (
     <ItemWrapper
       borderLeft={index <= 1 ? th.borders.disabled : 0}
       borderRight={index <= 14 && index > 0 ? th.borders.disabled : 0}
-      hasItems={!!(palletsAvailable + palletsOnHand)}
+      hasItems={!!palletCount}
+      key={index}
       isTotal={isTotal}
     >
       <ty.SmallText
@@ -60,7 +69,15 @@ const InventoryCell = ({
         color={th.colors.status.successAlt}
         py={th.spacing.xs}
       >
-        {palletsAvailable || '-'}
+        {(showPreInventory ? palletsAvailable.real : palletsAvailableCount) ||
+          '-'}
+        {palletsAvailable.pre && showPreInventory ? (
+          <ty.Span color={th.colors.status.error} ml={th.spacing.sm}>
+            ({palletsAvailable.pre})
+          </ty.Span>
+        ) : (
+          ''
+        )}
       </ty.SmallText>
       <ty.SmallText
         bold
@@ -68,11 +85,21 @@ const InventoryCell = ({
         color={th.colors.brand.primaryAccent}
         pb={th.spacing.xs}
       >
-        {palletsOnHand || '-'}
+        {palletsOnHand.real || '-'}
       </ty.SmallText>
     </ItemWrapper>
-  </l.AreaLink>
-);
+  );
+
+  if (to === '#') {
+    return cell;
+  }
+
+  return (
+    <l.AreaLink key={index} to={to}>
+      {cell}
+    </l.AreaLink>
+  );
+};
 
 const CategoryWrapper = styled(l.Flex)(
   ({ isTotal, showHover }: { isTotal: boolean; showHover: boolean }) => ({
@@ -121,10 +148,11 @@ const InventoryRow = ({
 
   const getItemsLink = (
     detailsIndex: number,
-    hasPallets: boolean,
+    hasRealPallets: boolean,
+    hasPrePallets: boolean,
     newValue?: string,
   ) => {
-    if (!categoryId) {
+    if (!categoryId || (!hasRealPallets && !hasPrePallets)) {
       return '#';
     }
 
@@ -134,10 +162,10 @@ const InventoryRow = ({
       .filter((value) => value)
       .join('&');
     const restQueryString = restParams
-      ? `${restParams}${hasPallets ? '&' : ''}`
+      ? `${restParams}${hasRealPallets || hasPrePallets ? '&' : ''}`
       : '';
 
-    const detailsQueryString = hasPallets
+    const detailsQueryString = hasRealPallets
       ? `detailsIndex=${detailsIndex}&`
       : '';
 
@@ -179,6 +207,10 @@ const InventoryRow = ({
       ? `${existingCategoriesParam}&`
       : '';
 
+    if (!hasRealPallets) {
+      return `/sales/projections?${restQueryString}${existingCategoriesParamString}&${categoryType}=${newValue}&view=grid`;
+    }
+
     const nextCategoryType = categoryTypeOrder
       .filter((type) => type !== categoryType)
       .find((type) => {
@@ -215,8 +247,12 @@ const InventoryRow = ({
     'palletsAvailable',
   );
   const storageItemsOnHand = reducePalletData(storageItems, 'palletsOnHand');
+  const storageItemsReal = storageItemsAvailable.real + storageItemsOnHand.real;
+  const storageItemsPre = storageItemsAvailable.pre + storageItemsOnHand.pre;
   const totalItemsAvailable = reducePalletData(items, 'palletsAvailable');
   const totalItemsOnHand = reducePalletData(items, 'palletsOnHand');
+  const totalItemsReal = totalItemsAvailable.real + totalItemsOnHand.real;
+  const totalItemsPre = totalItemsAvailable.pre + totalItemsOnHand.pre;
 
   const isTotal = categoryText === 'Total';
 
@@ -258,7 +294,8 @@ const InventoryRow = ({
           palletsOnHand={storageItemsOnHand}
           to={getItemsLink(
             13,
-            !!(storageItemsAvailable + storageItemsOnHand),
+            !!storageItemsReal,
+            !!storageItemsPre,
             categoryId,
           )}
         />
@@ -270,7 +307,9 @@ const InventoryRow = ({
           'palletsAvailable',
         );
         const palletsOnHand = reducePalletData(filteredItems, 'palletsOnHand');
-        const hasPallets = !!(palletsAvailable + palletsOnHand);
+        const hasRealPallets = !!(palletsAvailable.real + palletsOnHand.real);
+        const hasPrePallets = !!(palletsAvailable.pre + palletsOnHand.pre);
+
         return (
           <InventoryCell
             index={idx + 1}
@@ -278,7 +317,7 @@ const InventoryRow = ({
             key={idx}
             palletsAvailable={palletsAvailable}
             palletsOnHand={palletsOnHand}
-            to={getItemsLink(idx, hasPallets, categoryId)}
+            to={getItemsLink(idx, hasRealPallets, hasPrePallets, categoryId)}
           />
         );
       }, 12)}
@@ -288,11 +327,7 @@ const InventoryRow = ({
           isTotal={isTotal}
           palletsAvailable={totalItemsAvailable}
           palletsOnHand={totalItemsOnHand}
-          to={getItemsLink(
-            14,
-            !!(totalItemsAvailable + totalItemsOnHand),
-            categoryId,
-          )}
+          to={getItemsLink(14, !!totalItemsReal, !!totalItemsPre, categoryId)}
         />
       </l.Div>
     </l.Grid>

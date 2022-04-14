@@ -11,7 +11,17 @@ CREATE TABLE product.common_species (
   species_description TEXT,
   ui_color TEXT,
   common_category_id BIGINT
-    REFERENCES product.common_category(id)
+    REFERENCES product.common_category(id),
+  product_species_id TEXT
+    REFERENCES product.product_species(id)
+);
+
+CREATE TABLE product.common_species_product_species (
+  id BIGSERIAL PRIMARY KEY,
+  common_species_id BIGINT
+    REFERENCES product.common_species(id),
+  product_species_id TEXT
+    REFERENCES product.product_species(id)
 );
 
 CREATE TABLE product.common_variety (
@@ -20,7 +30,17 @@ CREATE TABLE product.common_variety (
   variety_description TEXT,
   ui_color TEXT,
   common_species_id BIGINT
-    REFERENCES product.common_species(id)
+    REFERENCES product.common_species(id),
+  product_variety_id TEXT
+    REFERENCES product.product_variety(id)
+);
+
+CREATE TABLE product.common_variety_product_variety (
+  id BIGSERIAL PRIMARY KEY,
+  common_variety_id BIGINT
+    REFERENCES product.common_variety(id),
+  product_variety_id TEXT
+    REFERENCES product.product_variety(id)
 );
 
 CREATE TABLE product.common_size (
@@ -28,7 +48,17 @@ CREATE TABLE product.common_size (
   size_name TEXT,
   size_description TEXT,
   common_species_id BIGINT
-    REFERENCES product.common_species(id)
+    REFERENCES product.common_species(id),
+  product_size_id BIGINT
+    REFERENCES product.product_size(id)
+);
+
+CREATE TABLE product.common_size_product_size (
+  id BIGSERIAL PRIMARY KEY,
+  common_size_id BIGINT
+    REFERENCES product.common_size(id),
+  product_size_id BIGINT
+    REFERENCES product.product_size(id)
 );
 
 CREATE TABLE product.common_pack_type (
@@ -36,7 +66,17 @@ CREATE TABLE product.common_pack_type (
   pack_type_name TEXT,
   pack_type_description TEXT,
   common_species_id BIGINT
-    REFERENCES product.common_species(id)
+    REFERENCES product.common_species(id),
+  pack_master_id BIGINT
+    REFERENCES product.pack_master(id)
+);
+
+CREATE TABLE product.common_pack_type_pack_master (
+  id BIGSERIAL PRIMARY KEY,
+  common_pack_type_id BIGINT
+    REFERENCES product.common_pack_type(id),
+  pack_master_id BIGINT
+    REFERENCES product.pack_master(id)
 );
 
 CREATE TABLE product.common_species_tag (

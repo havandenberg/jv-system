@@ -1,12 +1,18 @@
 import React from 'react';
+import { OperationVariables, useQuery } from '@apollo/client';
 import styled from '@emotion/styled';
+import { pathOr } from 'ramda';
 
+import { getSearchArray } from 'api/utils';
 import { LabelInfo } from 'components/column-label';
-import EditableCell from 'components/editable-cell';
+import { Query } from 'types';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 import { formatPhoneNumber } from 'utils/format';
+
+import EditableCell, { EditableCellProps } from './editable-cell';
+import useItemSelector from './item-selector';
 
 export const baseDataTransforms = {
   link: (val: any) =>
@@ -23,6 +29,160 @@ export const baseDataTransforms = {
     val ? <l.Anchor href={`mailto:${val}`}>{val}</l.Anchor> : null,
 };
 
+export interface BaseDataItemSelectorProps {
+  errorLabel: string;
+  getItemContent?: (item: any) => React.ReactNode;
+  nameKey?: string;
+  query: any;
+  queryName: string;
+  queryVariables?: OperationVariables;
+}
+
+const BaseDataItemSelector = <T extends {}>({
+  editableCellProps,
+  editing,
+  errorLabel,
+  getItemContent,
+  handleChange,
+  labelKey,
+  nameKey = '',
+  query,
+  queryName,
+  queryVariables,
+  value,
+}: BaseDataItemSelectorProps & {
+  editableCellProps: EditableCellProps;
+  editing: boolean;
+  handleChange?: (field: keyof T, value: any) => void;
+  labelKey: keyof T;
+  value: string;
+}) => {
+  const { data: itemSelectorData, loading } = useQuery<Query>(query, {
+    variables: {
+      search: getSearchArray(value) || '',
+      ...queryVariables,
+    },
+  });
+  const allItems = pathOr([], [queryName, 'nodes'], itemSelectorData);
+
+  const { ItemSelector } = useItemSelector({
+    allItems,
+    closeOnSelect: true,
+    disabled: !editing,
+    editableCellProps,
+    errorLabel,
+    getItemContent,
+    height: 150,
+    loading,
+    nameKey,
+    panelGap: 0,
+    selectItem: (item: any) => {
+      handleChange && handleChange(labelKey, item[nameKey || 'id']);
+    },
+    width: 250,
+  });
+
+  return ItemSelector;
+};
+
+interface BaseDataProps<T> {
+  data: T;
+  changes?: T;
+  editing?: boolean;
+  handleChange?: (field: keyof T, value: any) => void;
+  labels: LabelInfo<T>[];
+  showValidation?: boolean;
+}
+
+const BaseDataItem = <T extends {}>({
+  data,
+  changes,
+  editing,
+  handleChange,
+  label: {
+    key,
+    getValue,
+    label,
+    isBoolean,
+    isColor,
+    itemSelectorQueryProps,
+    readOnly,
+    transformKey,
+    transformValue,
+    validate,
+  },
+  showValidation,
+}: Omit<BaseDataProps<T>, 'labels'> & {
+  label: LabelInfo<T>;
+}) => {
+  const content = changes
+    ? {
+        dirty: changes[key] !== data[key],
+        value: `${
+          changes[key] === undefined ? data[key] || '' : changes[key] || ''
+        }`,
+      }
+    : { dirty: false, value: `${data[key]}` };
+  const isValid = !validate || validate(changes || data);
+  const value =
+    (transformKey
+      ? baseDataTransforms[transformKey](data[key])
+      : transformValue
+      ? transformValue(data[key])
+      : data[key]) || '-';
+  const isEditing = !!editing && !readOnly;
+
+  const editableCellProps: EditableCellProps = {
+    bypassLocalValue: true,
+    content,
+    defaultChildren: getValue ? (
+      getValue(data)
+    ) : (
+      <ty.BodyText>{value}</ty.BodyText>
+    ),
+    editing: isEditing,
+    error: showValidation && !isValid,
+    inputProps: {
+      borderRadius: th.borderRadii.default,
+      height: th.sizes.icon,
+      fontSize: th.fontSizes.body,
+      padding: th.spacing.xs,
+      width: 175,
+    },
+    isBoolean,
+    isColor,
+    onChange: (e) => {
+      handleChange &&
+        handleChange(key, isBoolean ? e.target.checked : e.target.value);
+    },
+  };
+
+  return (
+    <l.Div
+      height={th.sizes.fill}
+      pb={th.spacing.md}
+      pr={th.spacing.sm}
+      pt={th.spacing.sm}
+    >
+      <ty.CaptionText mb={th.spacing.sm} secondary>
+        {label}
+      </ty.CaptionText>
+      {itemSelectorQueryProps ? (
+        <BaseDataItemSelector<T>
+          {...itemSelectorQueryProps}
+          editableCellProps={editableCellProps}
+          editing={isEditing}
+          handleChange={handleChange}
+          labelKey={key}
+          value={content.value}
+        />
+      ) : (
+        <EditableCell {...editableCellProps} />
+      )}
+    </l.Div>
+  );
+};
+
 const BaseDataContainer = styled(l.Grid)({
   background: th.colors.brand.containerBackground,
   border: th.borders.primary,
@@ -34,96 +194,11 @@ const BaseDataContainer = styled(l.Grid)({
   paddingTop: th.spacing.sm,
 });
 
-interface Props<T> {
-  data: T;
-  changes?: T;
-  editing?: boolean;
-  handleChange?: (field: keyof T, value: any) => void;
-  labels: LabelInfo<T>[];
-  showValidation?: boolean;
-}
-
-const BaseData = <T extends {}>({
-  data,
-  changes,
-  editing,
-  handleChange,
-  labels,
-  showValidation,
-}: Props<T>) => (
+const BaseData = <T extends {}>({ labels, ...rest }: BaseDataProps<T>) => (
   <BaseDataContainer>
-    {labels.map(
-      (
-        {
-          key,
-          getValue,
-          label,
-          isBoolean,
-          isColor,
-          readOnly,
-          transformKey,
-          transformValue,
-          validate,
-        },
-        idx,
-      ) => {
-        const content = changes
-          ? {
-              dirty: changes[key] !== data[key],
-              value: `${
-                changes[key] === undefined
-                  ? data[key] || ''
-                  : changes[key] || ''
-              }`,
-            }
-          : { dirty: false, value: `${data[key]}` };
-        const isValid = !validate || validate(changes || data);
-        const value =
-          (transformKey
-            ? baseDataTransforms[transformKey](data[key])
-            : getValue
-            ? getValue(data)
-            : transformValue
-            ? transformValue(data[key])
-            : data[key]) || '-';
-
-        return (
-          <l.Div
-            height={th.sizes.fill}
-            key={idx}
-            pb={th.spacing.md}
-            pr={th.spacing.sm}
-            pt={th.spacing.sm}
-          >
-            <ty.CaptionText mb={th.spacing.sm} secondary>
-              {label}
-            </ty.CaptionText>
-            <EditableCell
-              content={content}
-              defaultChildren={<ty.BodyText>{value}</ty.BodyText>}
-              editing={!!editing && !readOnly}
-              error={showValidation && !isValid}
-              inputProps={{
-                borderRadius: th.borderRadii.default,
-                height: th.sizes.icon,
-                fontSize: th.fontSizes.body,
-                padding: th.spacing.xs,
-                width: 175,
-              }}
-              isBoolean={isBoolean}
-              isColor={isColor}
-              onChange={(e) => {
-                handleChange &&
-                  handleChange(
-                    key,
-                    isBoolean ? e.target.checked : e.target.value,
-                  );
-              }}
-            />
-          </l.Div>
-        );
-      },
-    )}
+    {labels.map((label, idx) => (
+      <BaseDataItem<T> key={idx} {...rest} label={label} />
+    ))}
   </BaseDataContainer>
 );
 

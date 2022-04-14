@@ -9,6 +9,13 @@ query COMMON_SIZE($id: BigInt!) {
       }
     }
     id
+    productSizeId
+    productSizesByCommonSizeProductSizeCommonSizeIdAndProductSizeId {
+      nodes {
+        id
+        jvDescription
+      }
+    }
     sizeDescription
     sizeName
     commonSizeTags {

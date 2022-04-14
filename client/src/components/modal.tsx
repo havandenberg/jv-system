@@ -8,10 +8,7 @@ import l, { DivProps } from 'ui/layout';
 import th from 'ui/theme';
 import ty, { TextProps } from 'ui/typography';
 
-export const modalStyles: {
-  content?: React.CSSProperties;
-  overlay?: React.CSSProperties;
-} = {
+export const modalStyles: ReactModal.Styles = {
   overlay: {
     alignItems: 'center',
     background: th.colors.overlay.dark,
@@ -32,13 +29,19 @@ export const modalStyles: {
 
 interface Props {
   children: ({ hide }: { hide: () => void }) => React.ReactNode;
+  customStyles?: ReactModal.Styles;
   trigger: (show: () => void) => React.ReactNode;
 }
 
-const Modal = ({ children, trigger }: Props) => {
+const Modal = ({ children, customStyles, trigger }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   const hide = () => setIsOpen(false);
   const show = () => setIsOpen(true);
+
+  const styles = {
+    overlay: { ...modalStyles.overlay, ...(customStyles?.overlay || {}) },
+    content: { ...modalStyles.content, ...(customStyles?.content || {}) },
+  };
 
   return (
     <>
@@ -47,7 +50,7 @@ const Modal = ({ children, trigger }: Props) => {
         ariaHideApp={false}
         isOpen={isOpen}
         onRequestClose={hide}
-        style={modalStyles}
+        style={styles}
       >
         {children({ hide })}
       </ReactModal>

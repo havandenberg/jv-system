@@ -47,6 +47,7 @@ const CommonVarietyDetails = () => {
     'varietyDescription',
     'uiColor',
     'commonVarietyTags',
+    'productVarietyId',
   ] as (keyof CommonVariety)[];
   const updateVariables = { id: varietyId };
 

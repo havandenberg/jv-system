@@ -1,0 +1,8 @@
+query PRODUCT_VARIETY_LIST($search: [ProductVarietyFilter!]) {
+  productVarieties(filter: { and: $search }) {
+    nodes {
+      id
+      varietyDescription
+    }
+  }
+}

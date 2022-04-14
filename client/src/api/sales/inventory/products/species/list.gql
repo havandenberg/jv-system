@@ -1,5 +1,5 @@
-query PRODUCT_SPECIES_LIST {
-  productSpecieses {
+query PRODUCT_SPECIES_LIST($search: [ProductSpeciesFilter!]) {
+  productSpecieses(filter: { and: $search }) {
     nodes {
       id
       speciesDescription

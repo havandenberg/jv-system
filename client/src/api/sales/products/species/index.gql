@@ -11,6 +11,13 @@ query COMMON_SPECIES_LIST(
       speciesDescription
       speciesName
       uiColor
+      productSpeciesId
+      productSpeciesByCommonSpeciesProductSpeciesCommonSpeciesIdAndProductSpeciesId {
+        nodes {
+          id
+          speciesDescription
+        }
+      }
       commonSpeciesTags {
         nodes {
           commonSpeciesId
@@ -30,6 +37,13 @@ query COMMON_SPECIES_LIST(
           uiColor
           varietyName
           varietyDescription
+          productVarietyId
+          productVarietiesByCommonVarietyProductVarietyCommonVarietyIdAndProductVarietyId {
+            nodes {
+              id
+              varietyDescription
+            }
+          }
           commonVarietyTags {
             nodes {
               tagText
@@ -42,6 +56,13 @@ query COMMON_SPECIES_LIST(
       commonSizes(orderBy: $sizesOrderBy) {
         nodes {
           id
+          productSizeId
+          productSizesByCommonSizeProductSizeCommonSizeIdAndProductSizeId {
+            nodes {
+              id
+              jvDescription
+            }
+          }
           sizeDescription
           sizeName
           commonSizeTags {
@@ -56,6 +77,13 @@ query COMMON_SPECIES_LIST(
       commonPackTypes(orderBy: $packTypesOrderBy) {
         nodes {
           id
+          packMasterId
+          packMastersByCommonPackTypePackMasterCommonPackTypeIdAndPackMasterId {
+            nodes {
+              id
+              packDescription
+            }
+          }
           packTypeDescription
           packTypeName
           commonPackTypeTags {

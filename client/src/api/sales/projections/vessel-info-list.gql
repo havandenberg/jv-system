@@ -36,6 +36,11 @@ query SHIPPER_PROJECTION_VESSEL_INFO_LIST(
       shipperId
       shipper {
         id
+        shipperName
+        country {
+          id
+          countryName
+        }
         shipperProjections(
           filter: {
             submittedAt: {
@@ -88,6 +93,11 @@ query SHIPPER_PROJECTION_VESSEL_INFO_LIST(
               id
               speciesName
               uiColor
+              productSpeciesId
+              productSpecies {
+                id
+                speciesDescription
+              }
               commonSpeciesTags {
                 nodes {
                   commonSpeciesId
@@ -101,6 +111,11 @@ query SHIPPER_PROJECTION_VESSEL_INFO_LIST(
               id
               varietyName
               uiColor
+              productVarietyId
+              productVariety {
+                id
+                varietyDescription
+              }
               commonVarietyTags {
                 nodes {
                   tagText
@@ -113,6 +128,11 @@ query SHIPPER_PROJECTION_VESSEL_INFO_LIST(
             commonSize {
               id
               sizeName
+              productSizeId
+              productSize {
+                id
+                jvDescription
+              }
               commonSizeTags {
                 nodes {
                   commonSizeId
@@ -125,6 +145,11 @@ query SHIPPER_PROJECTION_VESSEL_INFO_LIST(
             commonPackType {
               id
               packTypeName
+              packMasterId
+              packMaster {
+                id
+                packDescription
+              }
               commonPackTypeTags {
                 nodes {
                   commonPackTypeId

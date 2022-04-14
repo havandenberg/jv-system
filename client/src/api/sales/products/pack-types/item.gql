@@ -9,6 +9,13 @@ query COMMON_PACK_TYPE($id: BigInt!) {
       }
     }
     id
+    packMasterId
+    packMastersByCommonPackTypePackMasterCommonPackTypeIdAndPackMasterId {
+      nodes {
+        id
+        packDescription
+      }
+    }
     packTypeDescription
     packTypeName
     commonPackTypeTags {

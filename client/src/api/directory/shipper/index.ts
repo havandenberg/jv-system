@@ -7,6 +7,7 @@ import { getOrderByString, getSearchArray } from 'api/utils';
 import { SORT_ORDER } from 'hooks/use-columns';
 import {
   useQuerySet,
+  useQueryValue,
   useSearchQueryParam,
   useSortQueryParams,
 } from 'hooks/use-query-params';
@@ -21,6 +22,7 @@ export const useShippersVariables = (
   searchOverride?: string,
 ) => {
   const [search = ''] = useSearchQueryParam();
+  const [shipperSearch = ''] = useQueryValue('shipperSearch');
   const [{ sortBy = 'shipperName', sortOrder = SORT_ORDER.ASC }] =
     useSortQueryParams();
   const orderBy = getOrderByString(sortBy, sortOrder);
@@ -38,7 +40,7 @@ export const useShippersVariables = (
   return {
     country: filteredCountryValues,
     orderBy: orderByOverride || orderBy,
-    search: getSearchArray(searchOverride || search),
+    search: getSearchArray(searchOverride || search || shipperSearch),
   };
 };
 

@@ -69,6 +69,7 @@ export interface CellContent {
 }
 
 export interface EditableCellProps {
+  bypassLocalValue?: boolean;
   content: CellContent;
   defaultChildren: React.ReactNode;
   editing: boolean;
@@ -87,6 +88,7 @@ export interface EditableCellProps {
 }
 
 const EditableCell = ({
+  bypassLocalValue,
   content,
   defaultChildren,
   editing,
@@ -157,7 +159,9 @@ const EditableCell = ({
               }
             }}
             onChange={(e) => {
-              setLocalValue(isBoolean ? e.target.checked : e.target.value);
+              bypassLocalValue
+                ? onChange(e)
+                : setLocalValue(isBoolean ? e.target.checked : e.target.value);
             }}
             value={`${localValue}`}
             textAlign="left"

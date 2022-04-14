@@ -3,10 +3,11 @@ import { useLocation, useParams } from 'react-router-dom';
 
 import api from 'api';
 import BaseData from 'components/base-data';
+import useItemSelector from 'components/item-selector';
 import Page from 'components/page';
 import { DataMessage } from 'components/page/message';
 import { Tab, useTabBar } from 'components/tab-bar';
-import { CommonProductTag } from 'components/tag-manager';
+import useTagManager, { CommonProductTag } from 'components/tag-manager';
 import useUpdateItem from 'hooks/use-update-item';
 import { useSortQueryParams } from 'hooks/use-query-params';
 import { SORT_ORDER } from 'hooks/use-columns';
@@ -16,17 +17,18 @@ import {
   CommonSpecies,
   CommonSpeciesTag,
   CommonVariety,
+  ProductSpecies,
 } from 'types';
 import b from 'ui/button';
 import l from 'ui/layout';
 import th from 'ui/theme';
+import ty from 'ui/typography';
 
 import PackTypeList from '../pack-type/list';
 import SizeList from '../size/list';
-import VarietyList from '../variety/list';
 import { transformChangesOnUpdate } from '../utils';
+import VarietyList from '../variety/list';
 import { baseLabels } from './data-utils';
-import useTagManager from 'components/tag-manager';
 
 export const breadcrumbs = (species: CommonSpecies, selectedTabId: string) => [
   {
@@ -81,6 +83,7 @@ const CommonSpeciesDetails = () => {
     'speciesDescription',
     'uiColor',
     'commonSpeciesTags',
+    'productSpeciesId',
   ] as (keyof CommonSpecies)[];
   const updateVariables = { id: speciesId };
 
@@ -163,7 +166,7 @@ const CommonSpeciesDetails = () => {
 
   const { tagManager } = useTagManager({
     commonProductId: speciesId,
-    editing: editing,
+    editing,
     handleChange: (tags: CommonProductTag[]) => {
       handleChange('commonSpeciesTags', {
         nodes: tags,
@@ -171,6 +174,39 @@ const CommonSpeciesDetails = () => {
     },
     productIdKey: 'commonSpeciesId',
     tags: (changes?.commonSpeciesTags?.nodes || []) as CommonProductTag[],
+  });
+
+  const { data: productSpeciesData, loading: productSpeciesLoading } =
+    api.useProductSpeciesList();
+
+  const { ItemSelector } = useItemSelector({
+    allItems: (productSpeciesData?.nodes || []) as ProductSpecies[],
+    closeOnSelect: true,
+    disabled: !editing,
+    errorLabel: 'species',
+    getItemContent: ({ id, speciesDescription }: ProductSpecies) => (
+      <ty.BodyText pl={th.spacing.sm}>
+        {id} - {speciesDescription}
+      </ty.BodyText>
+    ),
+    height: 150,
+    loading: productSpeciesLoading,
+    nameKey: 'id',
+    panelGap: 0,
+    searchParamName: 'speciesSearch',
+    selectItem: (item: any) => {
+      handleChange &&
+        handleChange(
+          'productSpeciesByCommonSpeciesProductSpeciesCommonSpeciesIdAndProductSpeciesId',
+          [
+            ...changes
+              .productSpeciesByCommonSpeciesProductSpeciesCommonSpeciesIdAndProductSpeciesId
+              .nodes,
+            item.id,
+          ],
+        );
+    },
+    width: 250,
   });
 
   return (
@@ -190,6 +226,17 @@ const CommonSpeciesDetails = () => {
           />
           <l.Div ml={th.spacing.sm} my={th.spacing.lg}>
             {tagManager}
+          </l.Div>
+          <l.Div
+            alignCenter
+            ml={th.spacing.sm}
+            mb={th.spacing.lg}
+            mt={`-${th.spacing.sm}`}
+          >
+            <l.Flex mb={th.spacing.sm}>
+              <ty.BodyText mr={th.spacing.lg}>Codes:</ty.BodyText>
+            </l.Flex>
+            {editing && ItemSelector}
           </l.Div>
           <l.Flex alignCenter justifyBetween my={th.spacing.lg}>
             <TabBar />

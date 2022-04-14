@@ -152,6 +152,19 @@ CREATE TABLE product.pack_master (
   hold_code_id TEXT
 );
 
+CREATE FUNCTION product.pack_master_search_text(IN p product.pack_master)
+    RETURNS text
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+SELECT CONCAT (
+		p.id,
+		p.pack_description
+	) FROM product.pack_master pp WHERE p.id = pp.id
+$BODY$;
+
 CREATE FUNCTION product.pack_atmosphere_shipper(IN p product.pack_atmosphere)
     RETURNS directory.shipper
     LANGUAGE 'sql'

@@ -9,6 +9,13 @@ query COMMON_VARIETY($id: BigInt!) {
       }
     }
     id
+    productVarietyId
+    productVarietiesByCommonVarietyProductVarietyCommonVarietyIdAndProductVarietyId {
+      nodes {
+        id
+        varietyDescription
+      }
+    }
     uiColor
     varietyDescription
     varietyName

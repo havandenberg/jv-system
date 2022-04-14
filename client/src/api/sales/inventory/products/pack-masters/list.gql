@@ -1,0 +1,8 @@
+query PACK_MASTER_LIST($search: [PackMasterFilter!]) {
+  packMasters(filter: { and: $search }) {
+    nodes {
+      id
+      packDescription
+    }
+  }
+}

@@ -76,7 +76,6 @@ const Tag = ({
       onChange: (e) => onChange(e.target.value),
     },
     errorLabel: 'tags',
-    excludedItems: [],
     height: 150,
     loading: false,
     nameKey: 'tagText',
@@ -200,7 +199,7 @@ const useTagManager = ({
     tagManager: (
       <>
         <l.Flex alignCenter height={42}>
-          <ty.BodyText bold mb={11} mr={th.spacing.lg}>
+          <ty.BodyText mb={11} mr={th.spacing.lg}>
             Tags:
           </ty.BodyText>
           {hasTags || editing ? (

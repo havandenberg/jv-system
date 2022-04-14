@@ -1,0 +1,8 @@
+query PRODUCT_SIZE_LIST($search: [ProductSizeFilter!]) {
+  productSizes(filter: { and: $search }) {
+    nodes {
+      id
+      jvDescription
+    }
+  }
+}

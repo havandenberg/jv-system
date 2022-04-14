@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { add, endOfISOWeek, isAfter, startOfISOWeek } from 'date-fns';
 import {
   equals,
@@ -113,7 +113,6 @@ const ShipperProjectionGrid = ({
       allItems: shippers as Shipper[],
       closeOnSelect: true,
       clearSearchOnBlur: true,
-      excludedItems: [],
       error: shipperDataError,
       errorLabel: 'Shippers',
       loading: shipperDataLoading,
@@ -1024,18 +1023,28 @@ const ShipperProjectionGrid = ({
     <Page
       actions={[
         selectedShipper && (
-          <ty.SmallText
-            center
-            cursor="pointer"
-            key="a"
-            mr={th.spacing.lg}
-            mt={th.spacing.sm}
-            onClick={() => setIsPortal(!isPortal)}
-            secondary
-            width={78}
-          >
-            {isPortal ? 'Shipper view' : 'JV view'}
-          </ty.SmallText>
+          <Fragment key="a">
+            <l.HoverButton
+              active={!isPortal}
+              mr={th.spacing.sm}
+              mt="4px"
+              onClick={() => setIsPortal(!isPortal)}
+            >
+              <ty.SmallText bold center width={90}>
+                JV view
+              </ty.SmallText>
+            </l.HoverButton>
+            <l.HoverButton
+              active={isPortal}
+              mr={th.spacing.lg}
+              mt="4px"
+              onClick={() => setIsPortal(!isPortal)}
+            >
+              <ty.SmallText bold center width={90}>
+                Shipper view
+              </ty.SmallText>
+            </l.HoverButton>
+          </Fragment>
         ),
         selectedShipper ? (
           <l.AreaLink

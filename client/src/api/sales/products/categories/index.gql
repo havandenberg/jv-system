@@ -11,9 +11,23 @@ query COMMON_CATEGORIES_LIST(
       commonSpecieses(filter: { and: $search }, orderBy: $speciesOrderBy) {
         nodes {
           id
+          productSpeciesId
+          productSpeciesByCommonSpeciesProductSpeciesCommonSpeciesIdAndProductSpeciesId {
+            nodes {
+              id
+              speciesDescription
+            }
+          }
           speciesName
           speciesDescription
           uiColor
+          commonSpeciesTags {
+            nodes {
+              commonSpeciesId
+              nodeId
+              tagText
+            }
+          }
         }
       }
     }

@@ -24,7 +24,7 @@ const RowWrapper = styled(l.Flex)({
   },
 });
 
-interface Props<T> {
+export interface ItemSelectorProps<T> {
   allItems: T[];
   clearSearchOnBlur?: boolean;
   closeOnSelect?: boolean;
@@ -32,7 +32,7 @@ interface Props<T> {
   editableCellProps?: EditableCellProps;
   error?: ApolloError;
   errorLabel: string;
-  excludedItems: T[];
+  excludedItems?: T[];
   getItemContent?: (item: T) => React.ReactNode;
   height?: number;
   key?: string;
@@ -42,9 +42,9 @@ interface Props<T> {
   onlyClearSearch?: boolean;
   panelGap?: string | number;
   placeholder?: string;
+  searchParamName?: string;
   selectedItem?: string;
   selectItem: (item: T) => void;
-  title?: string;
   width?: number;
 }
 
@@ -53,7 +53,7 @@ const useItemSelector = <T extends { id: string }>({
   clearSearchOnBlur,
   closeOnSelect,
   disabled,
-  excludedItems,
+  excludedItems = [],
   editableCellProps,
   error,
   errorLabel,
@@ -65,10 +65,11 @@ const useItemSelector = <T extends { id: string }>({
   onlyClearSearch,
   panelGap = th.spacing.sm,
   placeholder,
+  searchParamName,
   selectedItem,
   selectItem,
   width = 500,
-}: Props<T>) => {
+}: ItemSelectorProps<T>) => {
   const [focused, setFocused] = useState(false);
 
   const handleFocus = () => {
@@ -79,6 +80,7 @@ const useItemSelector = <T extends { id: string }>({
     disabled: !!editableCellProps,
     onClear,
     onlyClearSearch,
+    paramName: searchParamName,
     placeholder,
     showIcon: false,
     value: focused || !selectedItem ? undefined : selectedItem,

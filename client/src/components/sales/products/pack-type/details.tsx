@@ -47,6 +47,7 @@ const CommonPackTypeDetails = () => {
     'packTypeDescription',
     'uiColor',
     'commonPackTypeTags',
+    'packMasterId',
   ] as (keyof CommonPackType)[];
   const updateVariables = { id: packTypeId };
 

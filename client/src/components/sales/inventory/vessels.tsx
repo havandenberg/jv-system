@@ -18,10 +18,12 @@ import { gridTemplateColumns } from '.';
 import { useInventoryContext } from './context';
 import { getFilteredVessels } from './utils';
 
-const VesselLink = styled(l.Flex)({
+const VesselLink = styled(l.Flex)(({ isPre }: { isPre: boolean }) => ({
   alignItems: 'center',
-  background: th.colors.brand.containerBackground,
-  border: th.borders.secondary,
+  background: isPre
+    ? `${th.colors.status.error}33`
+    : th.colors.brand.containerBackground,
+  border: isPre ? th.borders.error : th.borders.secondary,
   borderRadius: th.borderRadii.input,
   justifyContent: 'center',
   padding: `${th.spacing.tn} ${th.spacing.xs}`,
@@ -30,15 +32,17 @@ const VesselLink = styled(l.Flex)({
   ':hover': {
     background: th.colors.brand.containerBackgroundAccent,
   },
-});
+}));
 
 interface Props {
-  vessels: Vessel[];
+  vessels: (Vessel & { shipperId?: string })[];
 }
 
 const InventoryVessels = ({ vessels }: Props) => {
   const [{ coast }] = useInventoryQueryParams();
-  const [{ startDate = formatDate(new Date()) }] = useDateRangeQueryParams();
+  const [
+    { startDate = formatDate(new Date()), endDate = formatDate(new Date()) },
+  ] = useDateRangeQueryParams();
   const currentStartOfWeek = startOfISOWeek(
     new Date(startDate.replace(/-/g, '/')),
   );
@@ -95,22 +99,32 @@ const InventoryVessels = ({ vessels }: Props) => {
               pt={th.spacing.sm}
             >
               <l.Flex flexWrap="wrap" mx="auto">
-                {filteredVessels.map((vessel, idx) => (
-                  <l.Div key={idx} mb={th.spacing.xs} mx={th.spacing.tn}>
-                    <l.AreaLink
-                      title={`${vessel.vesselName} (${vessel.vesselCode})`}
-                      to={`/sales/vessels/${vessel.id}`}
-                    >
-                      <VesselLink>
-                        <ty.SmallText>
-                          {coast === 'EC'
-                            ? vessel.vesselName?.slice(0, 3)
-                            : vessel.vesselName?.slice(3, 6)}
-                        </ty.SmallText>
-                      </VesselLink>
-                    </l.AreaLink>
-                  </l.Div>
-                ))}
+                {filteredVessels.map((vessel, idy) => {
+                  const isPre = vessel.vesselCode.includes('PRE-');
+                  if (isPre && idx < 7) {
+                    return null;
+                  }
+                  return (
+                    <l.Div key={idy} mb={th.spacing.xs} mx={th.spacing.tn}>
+                      <l.AreaLink
+                        title={`${vessel.vesselName} (${vessel.vesselCode})`}
+                        to={
+                          isPre
+                            ? `/sales/projections?coast=${coast}&startDate=${startDate}&endDate=${endDate}&view=grid&shipperId=${vessel.shipperId}`
+                            : `/sales/vessels/${vessel.id}`
+                        }
+                      >
+                        <VesselLink isPre={isPre}>
+                          <ty.SmallText>
+                            {coast === 'EC'
+                              ? vessel.vesselName?.slice(0, 3)
+                              : vessel.vesselName?.slice(3, 6)}
+                          </ty.SmallText>
+                        </VesselLink>
+                      </l.AreaLink>
+                    </l.Div>
+                  );
+                })}
                 <l.Div />
               </l.Flex>
             </l.Div>

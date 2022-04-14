@@ -27,6 +27,7 @@ const ShipperProjectionsReviewModal = ({
 
   return (
     <Modal
+      customStyles={{ content: { width: '55%' } }}
       trigger={(show) => (
         <b.Status
           disabled={confirmLoading || triggerDisabled}

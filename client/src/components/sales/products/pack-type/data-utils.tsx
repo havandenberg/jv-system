@@ -1,5 +1,14 @@
+import { loader } from 'graphql.macro';
+import { pluck } from 'ramda';
+
 import { LabelInfo } from 'components/column-label';
-import { CommonPackType } from 'types';
+import { CommonPackType, CommonPackTypeTag, PackMaster } from 'types';
+import th from 'ui/theme';
+import ty from 'ui/typography';
+
+const PACK_MASTER_QUERY = loader(
+  '../../../../api/sales/inventory/products/pack-masters/list.gql',
+);
 
 export type CommonPackTypeLabelInfo = LabelInfo<CommonPackType>;
 
@@ -13,6 +22,18 @@ export const listLabels: CommonPackTypeLabelInfo[] = [
     key: 'packTypeDescription',
     label: 'Description',
   },
+  {
+    key: 'commonPackTypeTags',
+    label: 'Tags',
+    getValue: ({ commonPackTypeTags }) => (
+      <ty.BodyText>
+        {pluck(
+          'tagText',
+          commonPackTypeTags?.nodes as CommonPackTypeTag[],
+        ).join(', ')}
+      </ty.BodyText>
+    ),
+  },
 ];
 
 export const baseLabels: CommonPackTypeLabelInfo[] = [
@@ -23,5 +44,19 @@ export const baseLabels: CommonPackTypeLabelInfo[] = [
   {
     key: 'packTypeDescription',
     label: 'Description',
+  },
+  {
+    key: 'packMasterId',
+    label: 'Code',
+    itemSelectorQueryProps: {
+      errorLabel: 'sizes',
+      getItemContent: ({ id, packDescription }: PackMaster) => (
+        <ty.BodyText pl={th.spacing.sm}>
+          {id} - {packDescription}
+        </ty.BodyText>
+      ),
+      query: PACK_MASTER_QUERY,
+      queryName: 'packMasters',
+    },
   },
 ];

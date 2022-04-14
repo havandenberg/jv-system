@@ -33,7 +33,7 @@ export const SHIPPER_DISTINCT_VALUES_QUERY = loader(
   '../../../api/directory/shipper/distinct-values.gql',
 );
 
-const useVariables = () => {
+const useVariables = (isInventory?: boolean) => {
   const [endDateQuery] = useQueryValue('endDate');
   const [startDateQuery] = useQueryValue('startDate');
   const endDate = endDateQuery
@@ -75,7 +75,9 @@ const useVariables = () => {
 
   return {
     arrivalPort: coast,
-    shipperId: isNotList
+    shipperId: isInventory
+      ? undefined
+      : isNotList
       ? parsedShipperId
       : filteredShipperValues.map((val) =>
           val.substring(val.lastIndexOf(' (') + 2, val.length - 1),
@@ -83,15 +85,17 @@ const useVariables = () => {
     startDate: isGrid
       ? formatDate(startOfISOWeek(add(startDate, { weeks: -1 })))
       : formatDate(startOfISOWeek(add(startDate, { weeks: -4 }))),
-    endDate: isNotList
-      ? formatDate(endOfISOWeek(add(endDate, { weeks: 4 })))
-      : formatDate(add(endOfISOWeek(endDate), { days: 1 })),
+    endDate:
+      isNotList || isInventory
+        ? formatDate(endOfISOWeek(add(endDate, { weeks: 4 })))
+        : formatDate(add(endOfISOWeek(endDate), { days: 1 })),
     startDatetime: isGrid
       ? formatDate(startOfISOWeek(add(startDate, { weeks: -1 })))
       : formatDate(startOfISOWeek(add(startDate, { weeks: -4 }))),
-    endDatetime: isNotList
-      ? formatDate(endOfISOWeek(add(endDate, { weeks: 4 })))
-      : formatDate(add(endOfISOWeek(endDate), { days: 1 })),
+    endDatetime:
+      isNotList || isInventory
+        ? formatDate(endOfISOWeek(add(endDate, { weeks: 4 })))
+        : formatDate(add(endOfISOWeek(endDate), { days: 1 })),
     orderBy,
     search: isNotList ? undefined : getSearchArray(search),
   };
@@ -113,8 +117,8 @@ export const useShipperProjections = () => {
   };
 };
 
-export const useShipperProjectionVesselInfos = () => {
-  const variables = useVariables();
+export const useShipperProjectionVesselInfos = (isInventory?: boolean) => {
+  const variables = useVariables(isInventory);
   const { data, error, loading } = useQuery<Query>(
     SHIPPER_PROJECTION_VESSEL_INFO_LIST_QUERY,
     {

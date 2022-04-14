@@ -47,6 +47,7 @@ const CommonSizeDetails = () => {
     'sizeDescription',
     'uiColor',
     'commonSizeTags',
+    'productSizeId',
   ] as (keyof CommonSize)[];
   const updateVariables = { id: sizeId };
 

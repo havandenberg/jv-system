@@ -25,7 +25,7 @@ const SpeciesList = ({
     'common_species',
   );
 
-  const gridTemplateColumns = '100px 1fr 2fr 30px';
+  const gridTemplateColumns = '100px 0.8fr 1fr 1fr 30px';
 
   return (
     <>

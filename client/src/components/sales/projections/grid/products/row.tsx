@@ -229,7 +229,6 @@ const ProductRow = (
   const commonSelectorProps = {
     closeOnSelect: true,
     error,
-    excludedItems: [],
     height: 150,
     loading,
     panelGap: 0,
@@ -415,7 +414,6 @@ const ProductRow = (
       getItemContent,
       nameKey: 'text' as keyof ItemLink,
       selectItem,
-      title: 'Link to:',
     };
   };
 

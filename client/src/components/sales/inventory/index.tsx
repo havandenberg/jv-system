@@ -6,7 +6,7 @@ import api from 'api';
 import { DataMessage } from 'components/page/message';
 import Page from 'components/page';
 import { useInventoryQueryParams } from 'hooks/use-query-params';
-import { InventoryItem, Vessel } from 'types';
+import { InventoryItem, ShipperProjectionVesselInfo, Vessel } from 'types';
 import b from 'ui/button';
 import l from 'ui/layout';
 import th from 'ui/theme';
@@ -15,6 +15,7 @@ import Header, { categoryTypeOrder } from './header';
 import InventoryItems from './items';
 import InventoryRow from './row';
 import useInventoryFilters from './use-filters';
+import { convertProjectionsToInventoryItems } from './utils';
 import InventoryVessels from './vessels';
 
 export const gridTemplateColumns =
@@ -40,8 +41,24 @@ const Inventory = () => {
   } = api.useVessels(true);
   const vessels = vesselsData ? vesselsData.nodes : [];
 
-  const loading = itemsLoading || vesselsLoading;
-  const error = itemsError || vesselsError;
+  const {
+    data: projectionsData,
+    loading: projectionsLoading,
+    error: projectionsError,
+  } = api.useShipperProjectionVesselInfos(true);
+  const projections = projectionsData ? projectionsData.nodes : [];
+
+  const loading = itemsLoading || vesselsLoading || projectionsLoading;
+  const error = itemsError || vesselsError || projectionsError;
+
+  const { preInventoryItems, preInventoryVessels } =
+    convertProjectionsToInventoryItems(
+      projections as ShipperProjectionVesselInfo[],
+      startDateQuery ? new Date(startDateQuery.replace(/-/g, '/')) : new Date(),
+    );
+
+  const allItems = [...items, ...preInventoryItems] as InventoryItem[];
+  const allVessels = [...vessels, ...preInventoryVessels] as Vessel[];
 
   const {
     components,
@@ -51,7 +68,7 @@ const Inventory = () => {
     handleWeekChange,
     selectedWeekNumber,
     startDate,
-  } = useInventoryFilters({ items: items as InventoryItem[], loading });
+  } = useInventoryFilters({ items: allItems, loading });
 
   const categoryTypesArray = categoryTypes ? categoryTypes.split(',') : [];
   const categoryType = categoryTypes
@@ -268,7 +285,7 @@ const Inventory = () => {
       }
       title="Inventory"
     >
-      {!isEmpty(filteredItems) ? (
+      {!isEmpty(filteredItems) && !loading ? (
         detailsFilteredItems ? (
           !isEmpty(detailsFilteredItems) ? (
             <InventoryItems items={detailsFilteredItems} />
@@ -285,7 +302,7 @@ const Inventory = () => {
           )
         ) : (
           <>
-            <InventoryVessels vessels={vessels as Vessel[]} />
+            <InventoryVessels vessels={allVessels as Vessel[]} />
             {categories.map((category, idx) => (
               <InventoryRow
                 categoryId={category.id}

@@ -112,7 +112,6 @@ const ShipperProjectionGraph = ({
       allItems: shippers as Shipper[],
       closeOnSelect: true,
       clearSearchOnBlur: true,
-      excludedItems: [],
       error: shipperDataError,
       errorLabel: 'Shippers',
       loading: shipperDataLoading,

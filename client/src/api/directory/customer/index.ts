@@ -7,6 +7,7 @@ import { getOrderByString, getSearchArray } from 'api/utils';
 import { SORT_ORDER } from 'hooks/use-columns';
 import {
   useQuerySet,
+  useQueryValue,
   useSearchQueryParam,
   useSortQueryParams,
 } from 'hooks/use-query-params';
@@ -18,6 +19,7 @@ const CUSTOMER_UPDATE = loader('./update.gql');
 
 export const useCustomers = () => {
   const [search = ''] = useSearchQueryParam();
+  const [customerSearch = ''] = useQueryValue('customerSearch');
   const [{ sortBy = 'customerName', sortOrder = SORT_ORDER.ASC }] =
     useSortQueryParams();
   const orderBy = getOrderByString(sortBy, sortOrder);
@@ -44,7 +46,7 @@ export const useCustomers = () => {
       city: filteredCityValues,
       postalState: filteredPostalStateValues,
       orderBy,
-      search: getSearchArray(search),
+      search: getSearchArray(search || customerSearch),
     },
   });
 
