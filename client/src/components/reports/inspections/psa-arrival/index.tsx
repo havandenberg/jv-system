@@ -82,7 +82,7 @@ const PsaArrivalInspections = ({
           )}
         </>
       }
-      title="Product Inspection Reports"
+      title="PSA Inspections"
     >
       {!isEmpty(inspections) ? (
         <VirtualizedList

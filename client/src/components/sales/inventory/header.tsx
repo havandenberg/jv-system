@@ -343,7 +343,7 @@ const Header = ({
 
   const handleCategoryTypesChange = useCallback(
     (newCategoryTypes: string) => {
-      setCategoryTypes(newCategoryTypes);
+      setCategoryTypes(newCategoryTypes, 'replaceIn');
     },
     [setCategoryTypes],
   );

@@ -67,7 +67,7 @@ const PeruDepartureInspections = ({
           )}
         </>
       }
-      title="Product Inspection Reports"
+      title="Peru Inspections"
     >
       {!isEmpty(inspections) ? (
         <VirtualizedList

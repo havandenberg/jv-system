@@ -80,7 +80,12 @@ const DashboardNav = () => (
                 const pathname = `${it.baseUrl || it.to}/${i.to}`;
                 return (
                   !i.disabled && (
-                    <l.AreaLink key={idx} to={pathname} width={100}>
+                    <l.AreaLink
+                      key={idx}
+                      mb={th.spacing.md}
+                      to={pathname}
+                      width={100}
+                    >
                       <SecondaryItemWrapper>
                         <ty.BodyText center color={th.colors.brand.secondary}>
                           {i.text}

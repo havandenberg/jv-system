@@ -10,6 +10,7 @@ import * as shipperDirectory from 'api/directory/shipper';
 import * as warehouseDirectory from 'api/directory/warehouse';
 import * as priceSheet from 'api/sales/price-sheet';
 import * as products from 'api/sales/products';
+import * as programs from 'api/sales/programs';
 import * as agenda from 'api/sales/agenda';
 import * as calendar from 'api/sales/calendar';
 import * as projections from 'api/sales/projections';
@@ -43,6 +44,7 @@ export default {
   ...peruDepartureInspections,
   ...priceSheet,
   ...products,
+  ...programs,
   ...projections,
   ...psaArrivalInspections,
   ...shipperDirectory,

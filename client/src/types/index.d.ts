@@ -118,6 +118,10 @@ export type Query = Node & {
   commonVarietyProductVarieties?: Maybe<CommonVarietyProductVarietiesConnection>;
   /** Reads and enables pagination through a set of `CommonVarietyTag`. */
   commonVarietyTags?: Maybe<CommonVarietyTagsConnection>;
+  /** Reads and enables pagination through a set of `CustomerProgram`. */
+  customerPrograms?: Maybe<CustomerProgramsConnection>;
+  /** Reads and enables pagination through a set of `CustomerProgramEntry`. */
+  customerProgramEntries?: Maybe<CustomerProgramEntriesConnection>;
   /** Reads and enables pagination through a set of `InventoryItem`. */
   inventoryItems?: Maybe<InventoryItemsConnection>;
   /** Reads and enables pagination through a set of `PackAtmosphere`. */
@@ -168,6 +172,10 @@ export type Query = Node & {
   productVarieties?: Maybe<ProductVarietiesConnection>;
   /** Reads and enables pagination through a set of `ShipperProgram`. */
   shipperPrograms?: Maybe<ShipperProgramsConnection>;
+  /** Reads and enables pagination through a set of `ShipperProgramEntry`. */
+  shipperProgramEntries?: Maybe<ShipperProgramEntriesConnection>;
+  /** Reads and enables pagination through a set of `ShipperProgramEntryCustomerProgramEntry`. */
+  shipperProgramEntryCustomerProgramEntries?: Maybe<ShipperProgramEntryCustomerProgramEntriesConnection>;
   /** Reads and enables pagination through a set of `ShipperProjection`. */
   shipperProjections?: Maybe<ShipperProjectionsConnection>;
   /** Reads and enables pagination through a set of `ShipperProjectionEntry`. */
@@ -232,6 +240,8 @@ export type Query = Node & {
   commonVariety?: Maybe<CommonVariety>;
   commonVarietyProductVariety?: Maybe<CommonVarietyProductVariety>;
   commonVarietyTag?: Maybe<CommonVarietyTag>;
+  customerProgram?: Maybe<CustomerProgram>;
+  customerProgramEntry?: Maybe<CustomerProgramEntry>;
   inventoryItem?: Maybe<InventoryItem>;
   packAtmosphere?: Maybe<PackAtmosphere>;
   packAtmosphereByShipperIdAndMaCode?: Maybe<PackAtmosphere>;
@@ -270,6 +280,8 @@ export type Query = Node & {
   productSpecies?: Maybe<ProductSpecies>;
   productVariety?: Maybe<ProductVariety>;
   shipperProgram?: Maybe<ShipperProgram>;
+  shipperProgramEntry?: Maybe<ShipperProgramEntry>;
+  shipperProgramEntryCustomerProgramEntry?: Maybe<ShipperProgramEntryCustomerProgramEntry>;
   shipperProjection?: Maybe<ShipperProjection>;
   shipperProjectionEntry?: Maybe<ShipperProjectionEntry>;
   shipperProjectionProduct?: Maybe<ShipperProjectionProduct>;
@@ -368,6 +380,10 @@ export type Query = Node & {
   commonVarietyProductVarietyByNodeId?: Maybe<CommonVarietyProductVariety>;
   /** Reads a single `CommonVarietyTag` using its globally unique `ID`. */
   commonVarietyTagByNodeId?: Maybe<CommonVarietyTag>;
+  /** Reads a single `CustomerProgram` using its globally unique `ID`. */
+  customerProgramByNodeId?: Maybe<CustomerProgram>;
+  /** Reads a single `CustomerProgramEntry` using its globally unique `ID`. */
+  customerProgramEntryByNodeId?: Maybe<CustomerProgramEntry>;
   /** Reads a single `InventoryItem` using its globally unique `ID`. */
   inventoryItemByNodeId?: Maybe<InventoryItem>;
   /** Reads a single `PackAtmosphere` using its globally unique `ID`. */
@@ -416,6 +432,10 @@ export type Query = Node & {
   productVarietyByNodeId?: Maybe<ProductVariety>;
   /** Reads a single `ShipperProgram` using its globally unique `ID`. */
   shipperProgramByNodeId?: Maybe<ShipperProgram>;
+  /** Reads a single `ShipperProgramEntry` using its globally unique `ID`. */
+  shipperProgramEntryByNodeId?: Maybe<ShipperProgramEntry>;
+  /** Reads a single `ShipperProgramEntryCustomerProgramEntry` using its globally unique `ID`. */
+  shipperProgramEntryCustomerProgramEntryByNodeId?: Maybe<ShipperProgramEntryCustomerProgramEntry>;
   /** Reads a single `ShipperProjection` using its globally unique `ID`. */
   shipperProjectionByNodeId?: Maybe<ShipperProjection>;
   /** Reads a single `ShipperProjectionEntry` using its globally unique `ID`. */
@@ -957,6 +977,32 @@ export type QueryCommonVarietyTagsArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
+export type QueryCustomerProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CustomerProgramsOrderBy>>;
+  condition?: Maybe<CustomerProgramCondition>;
+  filter?: Maybe<CustomerProgramFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryCustomerProgramEntriesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CustomerProgramEntriesOrderBy>>;
+  condition?: Maybe<CustomerProgramEntryCondition>;
+  filter?: Maybe<CustomerProgramEntryFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
 export type QueryInventoryItemsArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
@@ -1278,6 +1324,32 @@ export type QueryShipperProgramsArgs = {
   orderBy?: Maybe<Array<ShipperProgramsOrderBy>>;
   condition?: Maybe<ShipperProgramCondition>;
   filter?: Maybe<ShipperProgramFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryShipperProgramEntriesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProgramEntriesOrderBy>>;
+  condition?: Maybe<ShipperProgramEntryCondition>;
+  filter?: Maybe<ShipperProgramEntryFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryShipperProgramEntryCustomerProgramEntriesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProgramEntryCustomerProgramEntriesOrderBy>>;
+  condition?: Maybe<ShipperProgramEntryCustomerProgramEntryCondition>;
+  filter?: Maybe<ShipperProgramEntryCustomerProgramEntryFilter>;
 };
 
 
@@ -1686,6 +1758,18 @@ export type QueryCommonVarietyTagArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
+export type QueryCustomerProgramArgs = {
+  id: Scalars['BigInt'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryCustomerProgramEntryArgs = {
+  id: Scalars['BigInt'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
 export type QueryInventoryItemArgs = {
   id: Scalars['BigInt'];
 };
@@ -1923,6 +2007,18 @@ export type QueryProductVarietyArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryShipperProgramArgs = {
+  id: Scalars['BigInt'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryShipperProgramEntryArgs = {
+  id: Scalars['BigInt'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryShipperProgramEntryCustomerProgramEntryArgs = {
   id: Scalars['BigInt'];
 };
 
@@ -2314,6 +2410,18 @@ export type QueryCommonVarietyTagByNodeIdArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
+export type QueryCustomerProgramByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryCustomerProgramEntryByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
 export type QueryInventoryItemByNodeIdArgs = {
   nodeId: Scalars['ID'];
 };
@@ -2453,6 +2561,18 @@ export type QueryProductVarietyByNodeIdArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryShipperProgramByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryShipperProgramEntryByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryShipperProgramEntryCustomerProgramEntryByNodeIdArgs = {
   nodeId: Scalars['ID'];
 };
 
@@ -3283,6 +3403,10 @@ export type CustomerFilter = {
   customerPersonContacts?: Maybe<CustomerToManyCustomerPersonContactFilter>;
   /** Some related `customerPersonContacts` exist. */
   customerPersonContactsExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `customerPrograms` relation. */
+  customerPrograms?: Maybe<CustomerToManyCustomerProgramFilter>;
+  /** Some related `customerPrograms` exist. */
+  customerProgramsExist?: Maybe<Scalars['Boolean']>;
   /** Filter by the object’s `country` relation. */
   country?: Maybe<CountryFilter>;
   /** A related `country` exists. */
@@ -3305,192 +3429,102 @@ export type CustomerToManyCustomerPersonContactFilter = {
   none?: Maybe<CustomerPersonContactFilter>;
 };
 
-/** A filter to be used against `Country` object types. All fields are combined with a logical ‘and.’ */
-export type CountryFilter = {
-  /** Filter by the object’s `id` field. */
-  id?: Maybe<StringFilter>;
-  /** Filter by the object’s `countryName` field. */
-  countryName?: Maybe<StringFilter>;
-  /** Filter by the object’s `customers` relation. */
-  customers?: Maybe<CountryToManyCustomerFilter>;
-  /** Some related `customers` exist. */
-  customersExist?: Maybe<Scalars['Boolean']>;
-  /** Filter by the object’s `shippers` relation. */
-  shippers?: Maybe<CountryToManyShipperFilter>;
-  /** Some related `shippers` exist. */
-  shippersExist?: Maybe<Scalars['Boolean']>;
-  /** Filter by the object’s `warehouses` relation. */
-  warehouses?: Maybe<CountryToManyWarehouseFilter>;
-  /** Some related `warehouses` exist. */
-  warehousesExist?: Maybe<Scalars['Boolean']>;
-  /** Checks for all expressions in this list. */
-  and?: Maybe<Array<CountryFilter>>;
-  /** Checks for any expressions in this list. */
-  or?: Maybe<Array<CountryFilter>>;
-  /** Negates the expression. */
-  not?: Maybe<CountryFilter>;
+/** A filter to be used against many `CustomerProgram` object types. All fields are combined with a logical ‘and.’ */
+export type CustomerToManyCustomerProgramFilter = {
+  /** Every related `CustomerProgram` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<CustomerProgramFilter>;
+  /** Some related `CustomerProgram` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<CustomerProgramFilter>;
+  /** No related `CustomerProgram` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<CustomerProgramFilter>;
 };
 
-/** A filter to be used against many `Customer` object types. All fields are combined with a logical ‘and.’ */
-export type CountryToManyCustomerFilter = {
-  /** Every related `Customer` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  every?: Maybe<CustomerFilter>;
-  /** Some related `Customer` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  some?: Maybe<CustomerFilter>;
-  /** No related `Customer` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  none?: Maybe<CustomerFilter>;
-};
-
-/** A filter to be used against many `Shipper` object types. All fields are combined with a logical ‘and.’ */
-export type CountryToManyShipperFilter = {
-  /** Every related `Shipper` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  every?: Maybe<ShipperFilter>;
-  /** Some related `Shipper` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  some?: Maybe<ShipperFilter>;
-  /** No related `Shipper` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  none?: Maybe<ShipperFilter>;
-};
-
-/** A filter to be used against `Shipper` object types. All fields are combined with a logical ‘and.’ */
-export type ShipperFilter = {
-  /** Filter by the object’s `id` field. */
-  id?: Maybe<StringFilter>;
-  /** Filter by the object’s `shipperName` field. */
-  shipperName?: Maybe<StringFilter>;
-  /** Filter by the object’s `countryId` field. */
-  countryId?: Maybe<StringFilter>;
-  /** Filter by the object’s `groupId` field. */
-  groupId?: Maybe<StringFilter>;
-  /** Filter by the object’s `logoSrc` field. */
-  logoSrc?: Maybe<StringFilter>;
-  /** Filter by the object’s `notes` field. */
-  notes?: Maybe<StringFilter>;
-  /** Filter by the object’s `website` field. */
-  website?: Maybe<StringFilter>;
-  /** Filter by the object’s `sendProjectionRequest` field. */
-  sendProjectionRequest?: Maybe<BooleanFilter>;
-  /** Filter by the object’s `searchText` field. */
-  searchText?: Maybe<StringFilter>;
-  /** Filter by the object’s `shipperProjectionVessels` relation. */
-  shipperProjectionVessels?: Maybe<ShipperToManyShipperProjectionVesselFilter>;
-  /** Some related `shipperProjectionVessels` exist. */
-  shipperProjectionVesselsExist?: Maybe<Scalars['Boolean']>;
-  /** Filter by the object’s `shipperProjectionProducts` relation. */
-  shipperProjectionProducts?: Maybe<ShipperToManyShipperProjectionProductFilter>;
-  /** Some related `shipperProjectionProducts` exist. */
-  shipperProjectionProductsExist?: Maybe<Scalars['Boolean']>;
-  /** Filter by the object’s `shipperProjections` relation. */
-  shipperProjections?: Maybe<ShipperToManyShipperProjectionFilter>;
-  /** Some related `shipperProjections` exist. */
-  shipperProjectionsExist?: Maybe<Scalars['Boolean']>;
-  /** Filter by the object’s `shipperPersonContacts` relation. */
-  shipperPersonContacts?: Maybe<ShipperToManyShipperPersonContactFilter>;
-  /** Some related `shipperPersonContacts` exist. */
-  shipperPersonContactsExist?: Maybe<Scalars['Boolean']>;
-  /** Filter by the object’s `shipperPrograms` relation. */
-  shipperPrograms?: Maybe<ShipperToManyShipperProgramFilter>;
-  /** Some related `shipperPrograms` exist. */
-  shipperProgramsExist?: Maybe<Scalars['Boolean']>;
-  /** Filter by the object’s `shipperProjectionVesselInfos` relation. */
-  shipperProjectionVesselInfos?: Maybe<ShipperToManyShipperProjectionVesselInfoFilter>;
-  /** Some related `shipperProjectionVesselInfos` exist. */
-  shipperProjectionVesselInfosExist?: Maybe<Scalars['Boolean']>;
-  /** Filter by the object’s `country` relation. */
-  country?: Maybe<CountryFilter>;
-  /** A related `country` exists. */
-  countryExists?: Maybe<Scalars['Boolean']>;
-  /** Checks for all expressions in this list. */
-  and?: Maybe<Array<ShipperFilter>>;
-  /** Checks for any expressions in this list. */
-  or?: Maybe<Array<ShipperFilter>>;
-  /** Negates the expression. */
-  not?: Maybe<ShipperFilter>;
-};
-
-/** A filter to be used against many `ShipperProjectionVessel` object types. All fields are combined with a logical ‘and.’ */
-export type ShipperToManyShipperProjectionVesselFilter = {
-  /** Every related `ShipperProjectionVessel` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  every?: Maybe<ShipperProjectionVesselFilter>;
-  /** Some related `ShipperProjectionVessel` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  some?: Maybe<ShipperProjectionVesselFilter>;
-  /** No related `ShipperProjectionVessel` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  none?: Maybe<ShipperProjectionVesselFilter>;
-};
-
-/** A filter to be used against `ShipperProjectionVessel` object types. All fields are combined with a logical ‘and.’ */
-export type ShipperProjectionVesselFilter = {
+/** A filter to be used against `CustomerProgram` object types. All fields are combined with a logical ‘and.’ */
+export type CustomerProgramFilter = {
   /** Filter by the object’s `id` field. */
   id?: Maybe<BigIntFilter>;
-  /** Filter by the object’s `shipperId` field. */
-  shipperId?: Maybe<StringFilter>;
-  /** Filter by the object’s `shipperProjectionVesselInfosByVesselId` relation. */
-  shipperProjectionVesselInfosByVesselId?: Maybe<ShipperProjectionVesselToManyShipperProjectionVesselInfoFilter>;
-  /** Some related `shipperProjectionVesselInfosByVesselId` exist. */
-  shipperProjectionVesselInfosByVesselIdExist?: Maybe<Scalars['Boolean']>;
-  /** Filter by the object’s `shipper` relation. */
-  shipper?: Maybe<ShipperFilter>;
-  /** A related `shipper` exists. */
-  shipperExists?: Maybe<Scalars['Boolean']>;
-  /** Checks for all expressions in this list. */
-  and?: Maybe<Array<ShipperProjectionVesselFilter>>;
-  /** Checks for any expressions in this list. */
-  or?: Maybe<Array<ShipperProjectionVesselFilter>>;
-  /** Negates the expression. */
-  not?: Maybe<ShipperProjectionVesselFilter>;
-};
-
-/** A filter to be used against many `ShipperProjectionVesselInfo` object types. All fields are combined with a logical ‘and.’ */
-export type ShipperProjectionVesselToManyShipperProjectionVesselInfoFilter = {
-  /** Every related `ShipperProjectionVesselInfo` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  every?: Maybe<ShipperProjectionVesselInfoFilter>;
-  /** Some related `ShipperProjectionVesselInfo` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  some?: Maybe<ShipperProjectionVesselInfoFilter>;
-  /** No related `ShipperProjectionVesselInfo` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  none?: Maybe<ShipperProjectionVesselInfoFilter>;
-};
-
-/** A filter to be used against `ShipperProjectionVesselInfo` object types. All fields are combined with a logical ‘and.’ */
-export type ShipperProjectionVesselInfoFilter = {
-  /** Filter by the object’s `id` field. */
-  id?: Maybe<BigIntFilter>;
-  /** Filter by the object’s `vesselName` field. */
-  vesselName?: Maybe<StringFilter>;
-  /** Filter by the object’s `departureDate` field. */
-  departureDate?: Maybe<DateFilter>;
-  /** Filter by the object’s `arrivalDate` field. */
-  arrivalDate?: Maybe<DateFilter>;
+  /** Filter by the object’s `commonSpeciesId` field. */
+  commonSpeciesId?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `commonVarietyId` field. */
+  commonVarietyId?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `commonSizeId` field. */
+  commonSizeId?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `commonPackTypeId` field. */
+  commonPackTypeId?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `customerId` field. */
+  customerId?: Maybe<StringFilter>;
   /** Filter by the object’s `arrivalPort` field. */
   arrivalPort?: Maybe<StringFilter>;
-  /** Filter by the object’s `vesselStatus` field. */
-  vesselStatus?: Maybe<StringFilter>;
-  /** Filter by the object’s `projectionId` field. */
-  projectionId?: Maybe<BigIntFilter>;
-  /** Filter by the object’s `vesselId` field. */
-  vesselId?: Maybe<BigIntFilter>;
-  /** Filter by the object’s `shipperId` field. */
-  shipperId?: Maybe<StringFilter>;
-  /** Filter by the object’s `shipperProjectionEntriesByVesselInfoId` relation. */
-  shipperProjectionEntriesByVesselInfoId?: Maybe<ShipperProjectionVesselInfoToManyShipperProjectionEntryFilter>;
-  /** Some related `shipperProjectionEntriesByVesselInfoId` exist. */
-  shipperProjectionEntriesByVesselInfoIdExist?: Maybe<Scalars['Boolean']>;
-  /** Filter by the object’s `projection` relation. */
-  projection?: Maybe<ShipperProjectionFilter>;
-  /** A related `projection` exists. */
-  projectionExists?: Maybe<Scalars['Boolean']>;
-  /** Filter by the object’s `vessel` relation. */
-  vessel?: Maybe<ShipperProjectionVesselFilter>;
-  /** A related `vessel` exists. */
-  vesselExists?: Maybe<Scalars['Boolean']>;
-  /** Filter by the object’s `shipper` relation. */
-  shipper?: Maybe<ShipperFilter>;
-  /** A related `shipper` exists. */
-  shipperExists?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `plu` field. */
+  plu?: Maybe<StringFilter>;
+  /** Filter by the object’s `customerProgramEntries` relation. */
+  customerProgramEntries?: Maybe<CustomerProgramToManyCustomerProgramEntryFilter>;
+  /** Some related `customerProgramEntries` exist. */
+  customerProgramEntriesExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `commonSpecies` relation. */
+  commonSpecies?: Maybe<CommonSpeciesFilter>;
+  /** A related `commonSpecies` exists. */
+  commonSpeciesExists?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `commonVariety` relation. */
+  commonVariety?: Maybe<CommonVarietyFilter>;
+  /** A related `commonVariety` exists. */
+  commonVarietyExists?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `commonSize` relation. */
+  commonSize?: Maybe<CommonSizeFilter>;
+  /** A related `commonSize` exists. */
+  commonSizeExists?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `commonPackType` relation. */
+  commonPackType?: Maybe<CommonPackTypeFilter>;
+  /** A related `commonPackType` exists. */
+  commonPackTypeExists?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `customer` relation. */
+  customer?: Maybe<CustomerFilter>;
+  /** A related `customer` exists. */
+  customerExists?: Maybe<Scalars['Boolean']>;
   /** Checks for all expressions in this list. */
-  and?: Maybe<Array<ShipperProjectionVesselInfoFilter>>;
+  and?: Maybe<Array<CustomerProgramFilter>>;
   /** Checks for any expressions in this list. */
-  or?: Maybe<Array<ShipperProjectionVesselInfoFilter>>;
+  or?: Maybe<Array<CustomerProgramFilter>>;
   /** Negates the expression. */
-  not?: Maybe<ShipperProjectionVesselInfoFilter>;
+  not?: Maybe<CustomerProgramFilter>;
+};
+
+/** A filter to be used against many `CustomerProgramEntry` object types. All fields are combined with a logical ‘and.’ */
+export type CustomerProgramToManyCustomerProgramEntryFilter = {
+  /** Every related `CustomerProgramEntry` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<CustomerProgramEntryFilter>;
+  /** Some related `CustomerProgramEntry` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<CustomerProgramEntryFilter>;
+  /** No related `CustomerProgramEntry` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<CustomerProgramEntryFilter>;
+};
+
+/** A filter to be used against `CustomerProgramEntry` object types. All fields are combined with a logical ‘and.’ */
+export type CustomerProgramEntryFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `notes` field. */
+  notes?: Maybe<StringFilter>;
+  /** Filter by the object’s `programDate` field. */
+  programDate?: Maybe<DateFilter>;
+  /** Filter by the object’s `palletCount` field. */
+  palletCount?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `customerProgramId` field. */
+  customerProgramId?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `shipperProgramEntryCustomerProgramEntries` relation. */
+  shipperProgramEntryCustomerProgramEntries?: Maybe<CustomerProgramEntryToManyShipperProgramEntryCustomerProgramEntryFilter>;
+  /** Some related `shipperProgramEntryCustomerProgramEntries` exist. */
+  shipperProgramEntryCustomerProgramEntriesExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `customerProgram` relation. */
+  customerProgram?: Maybe<CustomerProgramFilter>;
+  /** A related `customerProgram` exists. */
+  customerProgramExists?: Maybe<Scalars['Boolean']>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<CustomerProgramEntryFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<CustomerProgramEntryFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<CustomerProgramEntryFilter>;
 };
 
 /** A filter to be used against Date fields. All fields are combined with a logical ‘and.’ */
@@ -3520,40 +3554,212 @@ export type DateFilter = {
 };
 
 
-/** A filter to be used against many `ShipperProjectionEntry` object types. All fields are combined with a logical ‘and.’ */
-export type ShipperProjectionVesselInfoToManyShipperProjectionEntryFilter = {
-  /** Every related `ShipperProjectionEntry` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  every?: Maybe<ShipperProjectionEntryFilter>;
-  /** Some related `ShipperProjectionEntry` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  some?: Maybe<ShipperProjectionEntryFilter>;
-  /** No related `ShipperProjectionEntry` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  none?: Maybe<ShipperProjectionEntryFilter>;
+/** A filter to be used against many `ShipperProgramEntryCustomerProgramEntry` object types. All fields are combined with a logical ‘and.’ */
+export type CustomerProgramEntryToManyShipperProgramEntryCustomerProgramEntryFilter = {
+  /** Every related `ShipperProgramEntryCustomerProgramEntry` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<ShipperProgramEntryCustomerProgramEntryFilter>;
+  /** Some related `ShipperProgramEntryCustomerProgramEntry` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<ShipperProgramEntryCustomerProgramEntryFilter>;
+  /** No related `ShipperProgramEntryCustomerProgramEntry` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<ShipperProgramEntryCustomerProgramEntryFilter>;
 };
 
-/** A filter to be used against `ShipperProjectionEntry` object types. All fields are combined with a logical ‘and.’ */
-export type ShipperProjectionEntryFilter = {
+/** A filter to be used against `ShipperProgramEntryCustomerProgramEntry` object types. All fields are combined with a logical ‘and.’ */
+export type ShipperProgramEntryCustomerProgramEntryFilter = {
   /** Filter by the object’s `id` field. */
   id?: Maybe<BigIntFilter>;
   /** Filter by the object’s `palletCount` field. */
   palletCount?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `vesselInfoId` field. */
-  vesselInfoId?: Maybe<BigIntFilter>;
-  /** Filter by the object’s `productId` field. */
-  productId?: Maybe<BigIntFilter>;
-  /** Filter by the object’s `vesselInfo` relation. */
-  vesselInfo?: Maybe<ShipperProjectionVesselInfoFilter>;
-  /** A related `vesselInfo` exists. */
-  vesselInfoExists?: Maybe<Scalars['Boolean']>;
-  /** Filter by the object’s `product` relation. */
-  product?: Maybe<ShipperProjectionProductFilter>;
-  /** A related `product` exists. */
-  productExists?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `customerProgramEntryId` field. */
+  customerProgramEntryId?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `shipperProgramEntryId` field. */
+  shipperProgramEntryId?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `customerProgramEntry` relation. */
+  customerProgramEntry?: Maybe<CustomerProgramEntryFilter>;
+  /** A related `customerProgramEntry` exists. */
+  customerProgramEntryExists?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `shipperProgramEntry` relation. */
+  shipperProgramEntry?: Maybe<ShipperProgramEntryFilter>;
+  /** A related `shipperProgramEntry` exists. */
+  shipperProgramEntryExists?: Maybe<Scalars['Boolean']>;
   /** Checks for all expressions in this list. */
-  and?: Maybe<Array<ShipperProjectionEntryFilter>>;
+  and?: Maybe<Array<ShipperProgramEntryCustomerProgramEntryFilter>>;
   /** Checks for any expressions in this list. */
-  or?: Maybe<Array<ShipperProjectionEntryFilter>>;
+  or?: Maybe<Array<ShipperProgramEntryCustomerProgramEntryFilter>>;
   /** Negates the expression. */
-  not?: Maybe<ShipperProjectionEntryFilter>;
+  not?: Maybe<ShipperProgramEntryCustomerProgramEntryFilter>;
+};
+
+/** A filter to be used against `ShipperProgramEntry` object types. All fields are combined with a logical ‘and.’ */
+export type ShipperProgramEntryFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `notes` field. */
+  notes?: Maybe<StringFilter>;
+  /** Filter by the object’s `programDate` field. */
+  programDate?: Maybe<DateFilter>;
+  /** Filter by the object’s `palletCount` field. */
+  palletCount?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `shipperProgramId` field. */
+  shipperProgramId?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `shipperProgramEntryCustomerProgramEntries` relation. */
+  shipperProgramEntryCustomerProgramEntries?: Maybe<ShipperProgramEntryToManyShipperProgramEntryCustomerProgramEntryFilter>;
+  /** Some related `shipperProgramEntryCustomerProgramEntries` exist. */
+  shipperProgramEntryCustomerProgramEntriesExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `shipperProgram` relation. */
+  shipperProgram?: Maybe<ShipperProgramFilter>;
+  /** A related `shipperProgram` exists. */
+  shipperProgramExists?: Maybe<Scalars['Boolean']>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<ShipperProgramEntryFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<ShipperProgramEntryFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<ShipperProgramEntryFilter>;
+};
+
+/** A filter to be used against many `ShipperProgramEntryCustomerProgramEntry` object types. All fields are combined with a logical ‘and.’ */
+export type ShipperProgramEntryToManyShipperProgramEntryCustomerProgramEntryFilter = {
+  /** Every related `ShipperProgramEntryCustomerProgramEntry` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<ShipperProgramEntryCustomerProgramEntryFilter>;
+  /** Some related `ShipperProgramEntryCustomerProgramEntry` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<ShipperProgramEntryCustomerProgramEntryFilter>;
+  /** No related `ShipperProgramEntryCustomerProgramEntry` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<ShipperProgramEntryCustomerProgramEntryFilter>;
+};
+
+/** A filter to be used against `ShipperProgram` object types. All fields are combined with a logical ‘and.’ */
+export type ShipperProgramFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `commonSpeciesId` field. */
+  commonSpeciesId?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `commonVarietyId` field. */
+  commonVarietyId?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `commonSizeId` field. */
+  commonSizeId?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `commonPackTypeId` field. */
+  commonPackTypeId?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `shipperId` field. */
+  shipperId?: Maybe<StringFilter>;
+  /** Filter by the object’s `arrivalPort` field. */
+  arrivalPort?: Maybe<StringFilter>;
+  /** Filter by the object’s `plu` field. */
+  plu?: Maybe<StringFilter>;
+  /** Filter by the object’s `shipperProgramEntries` relation. */
+  shipperProgramEntries?: Maybe<ShipperProgramToManyShipperProgramEntryFilter>;
+  /** Some related `shipperProgramEntries` exist. */
+  shipperProgramEntriesExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `commonSpecies` relation. */
+  commonSpecies?: Maybe<CommonSpeciesFilter>;
+  /** A related `commonSpecies` exists. */
+  commonSpeciesExists?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `commonVariety` relation. */
+  commonVariety?: Maybe<CommonVarietyFilter>;
+  /** A related `commonVariety` exists. */
+  commonVarietyExists?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `commonSize` relation. */
+  commonSize?: Maybe<CommonSizeFilter>;
+  /** A related `commonSize` exists. */
+  commonSizeExists?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `commonPackType` relation. */
+  commonPackType?: Maybe<CommonPackTypeFilter>;
+  /** A related `commonPackType` exists. */
+  commonPackTypeExists?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `shipper` relation. */
+  shipper?: Maybe<ShipperFilter>;
+  /** A related `shipper` exists. */
+  shipperExists?: Maybe<Scalars['Boolean']>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<ShipperProgramFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<ShipperProgramFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<ShipperProgramFilter>;
+};
+
+/** A filter to be used against many `ShipperProgramEntry` object types. All fields are combined with a logical ‘and.’ */
+export type ShipperProgramToManyShipperProgramEntryFilter = {
+  /** Every related `ShipperProgramEntry` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<ShipperProgramEntryFilter>;
+  /** Some related `ShipperProgramEntry` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<ShipperProgramEntryFilter>;
+  /** No related `ShipperProgramEntry` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<ShipperProgramEntryFilter>;
+};
+
+/** A filter to be used against `CommonSpecies` object types. All fields are combined with a logical ‘and.’ */
+export type CommonSpeciesFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `speciesName` field. */
+  speciesName?: Maybe<StringFilter>;
+  /** Filter by the object’s `speciesDescription` field. */
+  speciesDescription?: Maybe<StringFilter>;
+  /** Filter by the object’s `uiColor` field. */
+  uiColor?: Maybe<StringFilter>;
+  /** Filter by the object’s `commonCategoryId` field. */
+  commonCategoryId?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `productSpeciesId` field. */
+  productSpeciesId?: Maybe<StringFilter>;
+  /** Filter by the object’s `searchText` field. */
+  searchText?: Maybe<StringFilter>;
+  /** Filter by the object’s `shipperProjectionProducts` relation. */
+  shipperProjectionProducts?: Maybe<CommonSpeciesToManyShipperProjectionProductFilter>;
+  /** Some related `shipperProjectionProducts` exist. */
+  shipperProjectionProductsExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `commonVarieties` relation. */
+  commonVarieties?: Maybe<CommonSpeciesToManyCommonVarietyFilter>;
+  /** Some related `commonVarieties` exist. */
+  commonVarietiesExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `commonSizes` relation. */
+  commonSizes?: Maybe<CommonSpeciesToManyCommonSizeFilter>;
+  /** Some related `commonSizes` exist. */
+  commonSizesExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `commonPackTypes` relation. */
+  commonPackTypes?: Maybe<CommonSpeciesToManyCommonPackTypeFilter>;
+  /** Some related `commonPackTypes` exist. */
+  commonPackTypesExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `commonSpeciesTags` relation. */
+  commonSpeciesTags?: Maybe<CommonSpeciesToManyCommonSpeciesTagFilter>;
+  /** Some related `commonSpeciesTags` exist. */
+  commonSpeciesTagsExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `commonSpeciesProductSpecieses` relation. */
+  commonSpeciesProductSpecieses?: Maybe<CommonSpeciesToManyCommonSpeciesProductSpeciesFilter>;
+  /** Some related `commonSpeciesProductSpecieses` exist. */
+  commonSpeciesProductSpeciesesExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `shipperPrograms` relation. */
+  shipperPrograms?: Maybe<CommonSpeciesToManyShipperProgramFilter>;
+  /** Some related `shipperPrograms` exist. */
+  shipperProgramsExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `customerPrograms` relation. */
+  customerPrograms?: Maybe<CommonSpeciesToManyCustomerProgramFilter>;
+  /** Some related `customerPrograms` exist. */
+  customerProgramsExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `commonCategory` relation. */
+  commonCategory?: Maybe<CommonCategoryFilter>;
+  /** A related `commonCategory` exists. */
+  commonCategoryExists?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `productSpecies` relation. */
+  productSpecies?: Maybe<ProductSpeciesFilter>;
+  /** A related `productSpecies` exists. */
+  productSpeciesExists?: Maybe<Scalars['Boolean']>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<CommonSpeciesFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<CommonSpeciesFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<CommonSpeciesFilter>;
+};
+
+/** A filter to be used against many `ShipperProjectionProduct` object types. All fields are combined with a logical ‘and.’ */
+export type CommonSpeciesToManyShipperProjectionProductFilter = {
+  /** Every related `ShipperProjectionProduct` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<ShipperProjectionProductFilter>;
+  /** Some related `ShipperProjectionProduct` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<ShipperProjectionProductFilter>;
+  /** No related `ShipperProjectionProduct` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<ShipperProjectionProductFilter>;
 };
 
 /** A filter to be used against `ShipperProjectionProduct` object types. All fields are combined with a logical ‘and.’ */
@@ -3622,64 +3828,260 @@ export type ShipperProjectionProductToManyShipperProjectionEntryFilter = {
   none?: Maybe<ShipperProjectionEntryFilter>;
 };
 
-/** A filter to be used against `CommonSpecies` object types. All fields are combined with a logical ‘and.’ */
-export type CommonSpeciesFilter = {
+/** A filter to be used against `ShipperProjectionEntry` object types. All fields are combined with a logical ‘and.’ */
+export type ShipperProjectionEntryFilter = {
   /** Filter by the object’s `id` field. */
   id?: Maybe<BigIntFilter>;
-  /** Filter by the object’s `speciesName` field. */
-  speciesName?: Maybe<StringFilter>;
-  /** Filter by the object’s `speciesDescription` field. */
-  speciesDescription?: Maybe<StringFilter>;
-  /** Filter by the object’s `uiColor` field. */
-  uiColor?: Maybe<StringFilter>;
-  /** Filter by the object’s `commonCategoryId` field. */
-  commonCategoryId?: Maybe<BigIntFilter>;
-  /** Filter by the object’s `productSpeciesId` field. */
-  productSpeciesId?: Maybe<StringFilter>;
+  /** Filter by the object’s `palletCount` field. */
+  palletCount?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `vesselInfoId` field. */
+  vesselInfoId?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `productId` field. */
+  productId?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `vesselInfo` relation. */
+  vesselInfo?: Maybe<ShipperProjectionVesselInfoFilter>;
+  /** A related `vesselInfo` exists. */
+  vesselInfoExists?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `product` relation. */
+  product?: Maybe<ShipperProjectionProductFilter>;
+  /** A related `product` exists. */
+  productExists?: Maybe<Scalars['Boolean']>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<ShipperProjectionEntryFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<ShipperProjectionEntryFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<ShipperProjectionEntryFilter>;
+};
+
+/** A filter to be used against `ShipperProjectionVesselInfo` object types. All fields are combined with a logical ‘and.’ */
+export type ShipperProjectionVesselInfoFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `vesselName` field. */
+  vesselName?: Maybe<StringFilter>;
+  /** Filter by the object’s `departureDate` field. */
+  departureDate?: Maybe<DateFilter>;
+  /** Filter by the object’s `arrivalDate` field. */
+  arrivalDate?: Maybe<DateFilter>;
+  /** Filter by the object’s `arrivalPort` field. */
+  arrivalPort?: Maybe<StringFilter>;
+  /** Filter by the object’s `vesselStatus` field. */
+  vesselStatus?: Maybe<StringFilter>;
+  /** Filter by the object’s `projectionId` field. */
+  projectionId?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `vesselId` field. */
+  vesselId?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `shipperId` field. */
+  shipperId?: Maybe<StringFilter>;
+  /** Filter by the object’s `shipperProjectionEntriesByVesselInfoId` relation. */
+  shipperProjectionEntriesByVesselInfoId?: Maybe<ShipperProjectionVesselInfoToManyShipperProjectionEntryFilter>;
+  /** Some related `shipperProjectionEntriesByVesselInfoId` exist. */
+  shipperProjectionEntriesByVesselInfoIdExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `projection` relation. */
+  projection?: Maybe<ShipperProjectionFilter>;
+  /** A related `projection` exists. */
+  projectionExists?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `vessel` relation. */
+  vessel?: Maybe<ShipperProjectionVesselFilter>;
+  /** A related `vessel` exists. */
+  vesselExists?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `shipper` relation. */
+  shipper?: Maybe<ShipperFilter>;
+  /** A related `shipper` exists. */
+  shipperExists?: Maybe<Scalars['Boolean']>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<ShipperProjectionVesselInfoFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<ShipperProjectionVesselInfoFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<ShipperProjectionVesselInfoFilter>;
+};
+
+/** A filter to be used against many `ShipperProjectionEntry` object types. All fields are combined with a logical ‘and.’ */
+export type ShipperProjectionVesselInfoToManyShipperProjectionEntryFilter = {
+  /** Every related `ShipperProjectionEntry` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<ShipperProjectionEntryFilter>;
+  /** Some related `ShipperProjectionEntry` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<ShipperProjectionEntryFilter>;
+  /** No related `ShipperProjectionEntry` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<ShipperProjectionEntryFilter>;
+};
+
+/** A filter to be used against `ShipperProjection` object types. All fields are combined with a logical ‘and.’ */
+export type ShipperProjectionFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `submittedAt` field. */
+  submittedAt?: Maybe<DatetimeFilter>;
+  /** Filter by the object’s `shipperComments` field. */
+  shipperComments?: Maybe<StringFilter>;
+  /** Filter by the object’s `jvComments` field. */
+  jvComments?: Maybe<StringFilter>;
+  /** Filter by the object’s `approvedAt` field. */
+  approvedAt?: Maybe<DatetimeFilter>;
+  /** Filter by the object’s `rejectedAt` field. */
+  rejectedAt?: Maybe<DatetimeFilter>;
+  /** Filter by the object’s `shipperId` field. */
+  shipperId?: Maybe<StringFilter>;
+  /** Filter by the object’s `reviewStatus` field. */
+  reviewStatus?: Maybe<IntFilter>;
   /** Filter by the object’s `searchText` field. */
   searchText?: Maybe<StringFilter>;
+  /** Filter by the object’s `totalPallets` field. */
+  totalPallets?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `shipperProjectionVesselInfosByProjectionId` relation. */
+  shipperProjectionVesselInfosByProjectionId?: Maybe<ShipperProjectionToManyShipperProjectionVesselInfoFilter>;
+  /** Some related `shipperProjectionVesselInfosByProjectionId` exist. */
+  shipperProjectionVesselInfosByProjectionIdExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `shipper` relation. */
+  shipper?: Maybe<ShipperFilter>;
+  /** A related `shipper` exists. */
+  shipperExists?: Maybe<Scalars['Boolean']>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<ShipperProjectionFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<ShipperProjectionFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<ShipperProjectionFilter>;
+};
+
+/** A filter to be used against Int fields. All fields are combined with a logical ‘and.’ */
+export type IntFilter = {
+  /** Is null (if `true` is specified) or is not null (if `false` is specified). */
+  isNull?: Maybe<Scalars['Boolean']>;
+  /** Equal to the specified value. */
+  equalTo?: Maybe<Scalars['Int']>;
+  /** Not equal to the specified value. */
+  notEqualTo?: Maybe<Scalars['Int']>;
+  /** Not equal to the specified value, treating null like an ordinary value. */
+  distinctFrom?: Maybe<Scalars['Int']>;
+  /** Equal to the specified value, treating null like an ordinary value. */
+  notDistinctFrom?: Maybe<Scalars['Int']>;
+  /** Included in the specified list. */
+  in?: Maybe<Array<Scalars['Int']>>;
+  /** Not included in the specified list. */
+  notIn?: Maybe<Array<Scalars['Int']>>;
+  /** Less than the specified value. */
+  lessThan?: Maybe<Scalars['Int']>;
+  /** Less than or equal to the specified value. */
+  lessThanOrEqualTo?: Maybe<Scalars['Int']>;
+  /** Greater than the specified value. */
+  greaterThan?: Maybe<Scalars['Int']>;
+  /** Greater than or equal to the specified value. */
+  greaterThanOrEqualTo?: Maybe<Scalars['Int']>;
+};
+
+/** A filter to be used against many `ShipperProjectionVesselInfo` object types. All fields are combined with a logical ‘and.’ */
+export type ShipperProjectionToManyShipperProjectionVesselInfoFilter = {
+  /** Every related `ShipperProjectionVesselInfo` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<ShipperProjectionVesselInfoFilter>;
+  /** Some related `ShipperProjectionVesselInfo` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<ShipperProjectionVesselInfoFilter>;
+  /** No related `ShipperProjectionVesselInfo` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<ShipperProjectionVesselInfoFilter>;
+};
+
+/** A filter to be used against `Shipper` object types. All fields are combined with a logical ‘and.’ */
+export type ShipperFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<StringFilter>;
+  /** Filter by the object’s `shipperName` field. */
+  shipperName?: Maybe<StringFilter>;
+  /** Filter by the object’s `countryId` field. */
+  countryId?: Maybe<StringFilter>;
+  /** Filter by the object’s `groupId` field. */
+  groupId?: Maybe<StringFilter>;
+  /** Filter by the object’s `logoSrc` field. */
+  logoSrc?: Maybe<StringFilter>;
+  /** Filter by the object’s `notes` field. */
+  notes?: Maybe<StringFilter>;
+  /** Filter by the object’s `website` field. */
+  website?: Maybe<StringFilter>;
+  /** Filter by the object’s `sendProjectionRequest` field. */
+  sendProjectionRequest?: Maybe<BooleanFilter>;
+  /** Filter by the object’s `searchText` field. */
+  searchText?: Maybe<StringFilter>;
+  /** Filter by the object’s `shipperProjectionVessels` relation. */
+  shipperProjectionVessels?: Maybe<ShipperToManyShipperProjectionVesselFilter>;
+  /** Some related `shipperProjectionVessels` exist. */
+  shipperProjectionVesselsExist?: Maybe<Scalars['Boolean']>;
   /** Filter by the object’s `shipperProjectionProducts` relation. */
-  shipperProjectionProducts?: Maybe<CommonSpeciesToManyShipperProjectionProductFilter>;
+  shipperProjectionProducts?: Maybe<ShipperToManyShipperProjectionProductFilter>;
   /** Some related `shipperProjectionProducts` exist. */
   shipperProjectionProductsExist?: Maybe<Scalars['Boolean']>;
-  /** Filter by the object’s `commonVarieties` relation. */
-  commonVarieties?: Maybe<CommonSpeciesToManyCommonVarietyFilter>;
-  /** Some related `commonVarieties` exist. */
-  commonVarietiesExist?: Maybe<Scalars['Boolean']>;
-  /** Filter by the object’s `commonSizes` relation. */
-  commonSizes?: Maybe<CommonSpeciesToManyCommonSizeFilter>;
-  /** Some related `commonSizes` exist. */
-  commonSizesExist?: Maybe<Scalars['Boolean']>;
-  /** Filter by the object’s `commonPackTypes` relation. */
-  commonPackTypes?: Maybe<CommonSpeciesToManyCommonPackTypeFilter>;
-  /** Some related `commonPackTypes` exist. */
-  commonPackTypesExist?: Maybe<Scalars['Boolean']>;
-  /** Filter by the object’s `commonSpeciesTags` relation. */
-  commonSpeciesTags?: Maybe<CommonSpeciesToManyCommonSpeciesTagFilter>;
-  /** Some related `commonSpeciesTags` exist. */
-  commonSpeciesTagsExist?: Maybe<Scalars['Boolean']>;
-  /** Filter by the object’s `commonSpeciesProductSpecieses` relation. */
-  commonSpeciesProductSpecieses?: Maybe<CommonSpeciesToManyCommonSpeciesProductSpeciesFilter>;
-  /** Some related `commonSpeciesProductSpecieses` exist. */
-  commonSpeciesProductSpeciesesExist?: Maybe<Scalars['Boolean']>;
-  /** Filter by the object’s `commonCategory` relation. */
-  commonCategory?: Maybe<CommonCategoryFilter>;
-  /** A related `commonCategory` exists. */
-  commonCategoryExists?: Maybe<Scalars['Boolean']>;
-  /** Filter by the object’s `productSpecies` relation. */
-  productSpecies?: Maybe<ProductSpeciesFilter>;
-  /** A related `productSpecies` exists. */
-  productSpeciesExists?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `shipperProjections` relation. */
+  shipperProjections?: Maybe<ShipperToManyShipperProjectionFilter>;
+  /** Some related `shipperProjections` exist. */
+  shipperProjectionsExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `shipperPersonContacts` relation. */
+  shipperPersonContacts?: Maybe<ShipperToManyShipperPersonContactFilter>;
+  /** Some related `shipperPersonContacts` exist. */
+  shipperPersonContactsExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `shipperProjectionVesselInfos` relation. */
+  shipperProjectionVesselInfos?: Maybe<ShipperToManyShipperProjectionVesselInfoFilter>;
+  /** Some related `shipperProjectionVesselInfos` exist. */
+  shipperProjectionVesselInfosExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `shipperPrograms` relation. */
+  shipperPrograms?: Maybe<ShipperToManyShipperProgramFilter>;
+  /** Some related `shipperPrograms` exist. */
+  shipperProgramsExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `country` relation. */
+  country?: Maybe<CountryFilter>;
+  /** A related `country` exists. */
+  countryExists?: Maybe<Scalars['Boolean']>;
   /** Checks for all expressions in this list. */
-  and?: Maybe<Array<CommonSpeciesFilter>>;
+  and?: Maybe<Array<ShipperFilter>>;
   /** Checks for any expressions in this list. */
-  or?: Maybe<Array<CommonSpeciesFilter>>;
+  or?: Maybe<Array<ShipperFilter>>;
   /** Negates the expression. */
-  not?: Maybe<CommonSpeciesFilter>;
+  not?: Maybe<ShipperFilter>;
+};
+
+/** A filter to be used against many `ShipperProjectionVessel` object types. All fields are combined with a logical ‘and.’ */
+export type ShipperToManyShipperProjectionVesselFilter = {
+  /** Every related `ShipperProjectionVessel` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<ShipperProjectionVesselFilter>;
+  /** Some related `ShipperProjectionVessel` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<ShipperProjectionVesselFilter>;
+  /** No related `ShipperProjectionVessel` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<ShipperProjectionVesselFilter>;
+};
+
+/** A filter to be used against `ShipperProjectionVessel` object types. All fields are combined with a logical ‘and.’ */
+export type ShipperProjectionVesselFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `shipperId` field. */
+  shipperId?: Maybe<StringFilter>;
+  /** Filter by the object’s `shipperProjectionVesselInfosByVesselId` relation. */
+  shipperProjectionVesselInfosByVesselId?: Maybe<ShipperProjectionVesselToManyShipperProjectionVesselInfoFilter>;
+  /** Some related `shipperProjectionVesselInfosByVesselId` exist. */
+  shipperProjectionVesselInfosByVesselIdExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `shipper` relation. */
+  shipper?: Maybe<ShipperFilter>;
+  /** A related `shipper` exists. */
+  shipperExists?: Maybe<Scalars['Boolean']>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<ShipperProjectionVesselFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<ShipperProjectionVesselFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<ShipperProjectionVesselFilter>;
+};
+
+/** A filter to be used against many `ShipperProjectionVesselInfo` object types. All fields are combined with a logical ‘and.’ */
+export type ShipperProjectionVesselToManyShipperProjectionVesselInfoFilter = {
+  /** Every related `ShipperProjectionVesselInfo` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<ShipperProjectionVesselInfoFilter>;
+  /** Some related `ShipperProjectionVesselInfo` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<ShipperProjectionVesselInfoFilter>;
+  /** No related `ShipperProjectionVesselInfo` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<ShipperProjectionVesselInfoFilter>;
 };
 
 /** A filter to be used against many `ShipperProjectionProduct` object types. All fields are combined with a logical ‘and.’ */
-export type CommonSpeciesToManyShipperProjectionProductFilter = {
+export type ShipperToManyShipperProjectionProductFilter = {
   /** Every related `ShipperProjectionProduct` matches the filter criteria. All fields are combined with a logical ‘and.’ */
   every?: Maybe<ShipperProjectionProductFilter>;
   /** Some related `ShipperProjectionProduct` matches the filter criteria. All fields are combined with a logical ‘and.’ */
@@ -3688,14 +4090,196 @@ export type CommonSpeciesToManyShipperProjectionProductFilter = {
   none?: Maybe<ShipperProjectionProductFilter>;
 };
 
-/** A filter to be used against many `CommonVariety` object types. All fields are combined with a logical ‘and.’ */
-export type CommonSpeciesToManyCommonVarietyFilter = {
-  /** Every related `CommonVariety` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  every?: Maybe<CommonVarietyFilter>;
-  /** Some related `CommonVariety` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  some?: Maybe<CommonVarietyFilter>;
-  /** No related `CommonVariety` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  none?: Maybe<CommonVarietyFilter>;
+/** A filter to be used against many `ShipperProjection` object types. All fields are combined with a logical ‘and.’ */
+export type ShipperToManyShipperProjectionFilter = {
+  /** Every related `ShipperProjection` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<ShipperProjectionFilter>;
+  /** Some related `ShipperProjection` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<ShipperProjectionFilter>;
+  /** No related `ShipperProjection` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<ShipperProjectionFilter>;
+};
+
+/** A filter to be used against many `ShipperPersonContact` object types. All fields are combined with a logical ‘and.’ */
+export type ShipperToManyShipperPersonContactFilter = {
+  /** Every related `ShipperPersonContact` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<ShipperPersonContactFilter>;
+  /** Some related `ShipperPersonContact` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<ShipperPersonContactFilter>;
+  /** No related `ShipperPersonContact` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<ShipperPersonContactFilter>;
+};
+
+/** A filter to be used against `ShipperPersonContact` object types. All fields are combined with a logical ‘and.’ */
+export type ShipperPersonContactFilter = {
+  /** Filter by the object’s `shipperId` field. */
+  shipperId?: Maybe<StringFilter>;
+  /** Filter by the object’s `personContactId` field. */
+  personContactId?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `shipper` relation. */
+  shipper?: Maybe<ShipperFilter>;
+  /** Filter by the object’s `personContact` relation. */
+  personContact?: Maybe<PersonContactFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<ShipperPersonContactFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<ShipperPersonContactFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<ShipperPersonContactFilter>;
+};
+
+/** A filter to be used against many `ShipperProjectionVesselInfo` object types. All fields are combined with a logical ‘and.’ */
+export type ShipperToManyShipperProjectionVesselInfoFilter = {
+  /** Every related `ShipperProjectionVesselInfo` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<ShipperProjectionVesselInfoFilter>;
+  /** Some related `ShipperProjectionVesselInfo` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<ShipperProjectionVesselInfoFilter>;
+  /** No related `ShipperProjectionVesselInfo` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<ShipperProjectionVesselInfoFilter>;
+};
+
+/** A filter to be used against many `ShipperProgram` object types. All fields are combined with a logical ‘and.’ */
+export type ShipperToManyShipperProgramFilter = {
+  /** Every related `ShipperProgram` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<ShipperProgramFilter>;
+  /** Some related `ShipperProgram` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<ShipperProgramFilter>;
+  /** No related `ShipperProgram` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<ShipperProgramFilter>;
+};
+
+/** A filter to be used against `Country` object types. All fields are combined with a logical ‘and.’ */
+export type CountryFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<StringFilter>;
+  /** Filter by the object’s `countryName` field. */
+  countryName?: Maybe<StringFilter>;
+  /** Filter by the object’s `customers` relation. */
+  customers?: Maybe<CountryToManyCustomerFilter>;
+  /** Some related `customers` exist. */
+  customersExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `shippers` relation. */
+  shippers?: Maybe<CountryToManyShipperFilter>;
+  /** Some related `shippers` exist. */
+  shippersExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `warehouses` relation. */
+  warehouses?: Maybe<CountryToManyWarehouseFilter>;
+  /** Some related `warehouses` exist. */
+  warehousesExist?: Maybe<Scalars['Boolean']>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<CountryFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<CountryFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<CountryFilter>;
+};
+
+/** A filter to be used against many `Customer` object types. All fields are combined with a logical ‘and.’ */
+export type CountryToManyCustomerFilter = {
+  /** Every related `Customer` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<CustomerFilter>;
+  /** Some related `Customer` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<CustomerFilter>;
+  /** No related `Customer` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<CustomerFilter>;
+};
+
+/** A filter to be used against many `Shipper` object types. All fields are combined with a logical ‘and.’ */
+export type CountryToManyShipperFilter = {
+  /** Every related `Shipper` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<ShipperFilter>;
+  /** Some related `Shipper` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<ShipperFilter>;
+  /** No related `Shipper` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<ShipperFilter>;
+};
+
+/** A filter to be used against many `Warehouse` object types. All fields are combined with a logical ‘and.’ */
+export type CountryToManyWarehouseFilter = {
+  /** Every related `Warehouse` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<WarehouseFilter>;
+  /** Some related `Warehouse` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<WarehouseFilter>;
+  /** No related `Warehouse` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<WarehouseFilter>;
+};
+
+/** A filter to be used against `Warehouse` object types. All fields are combined with a logical ‘and.’ */
+export type WarehouseFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<StringFilter>;
+  /** Filter by the object’s `warehouseName` field. */
+  warehouseName?: Maybe<StringFilter>;
+  /** Filter by the object’s `address1` field. */
+  address1?: Maybe<StringFilter>;
+  /** Filter by the object’s `address2` field. */
+  address2?: Maybe<StringFilter>;
+  /** Filter by the object’s `address3` field. */
+  address3?: Maybe<StringFilter>;
+  /** Filter by the object’s `city` field. */
+  city?: Maybe<StringFilter>;
+  /** Filter by the object’s `postalState` field. */
+  postalState?: Maybe<StringFilter>;
+  /** Filter by the object’s `countryId` field. */
+  countryId?: Maybe<StringFilter>;
+  /** Filter by the object’s `zipCode` field. */
+  zipCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `phone` field. */
+  phone?: Maybe<StringFilter>;
+  /** Filter by the object’s `outQueue` field. */
+  outQueue?: Maybe<StringFilter>;
+  /** Filter by the object’s `stateTaxCode` field. */
+  stateTaxCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `countyTaxCode` field. */
+  countyTaxCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `cityTaxCode` field. */
+  cityTaxCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `miscTaxCode` field. */
+  miscTaxCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `searchText` field. */
+  searchText?: Maybe<StringFilter>;
+  /** Filter by the object’s `warehousePersonContacts` relation. */
+  warehousePersonContacts?: Maybe<WarehouseToManyWarehousePersonContactFilter>;
+  /** Some related `warehousePersonContacts` exist. */
+  warehousePersonContactsExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `country` relation. */
+  country?: Maybe<CountryFilter>;
+  /** A related `country` exists. */
+  countryExists?: Maybe<Scalars['Boolean']>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<WarehouseFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<WarehouseFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<WarehouseFilter>;
+};
+
+/** A filter to be used against many `WarehousePersonContact` object types. All fields are combined with a logical ‘and.’ */
+export type WarehouseToManyWarehousePersonContactFilter = {
+  /** Every related `WarehousePersonContact` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<WarehousePersonContactFilter>;
+  /** Some related `WarehousePersonContact` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<WarehousePersonContactFilter>;
+  /** No related `WarehousePersonContact` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<WarehousePersonContactFilter>;
+};
+
+/** A filter to be used against `WarehousePersonContact` object types. All fields are combined with a logical ‘and.’ */
+export type WarehousePersonContactFilter = {
+  /** Filter by the object’s `warehouseId` field. */
+  warehouseId?: Maybe<StringFilter>;
+  /** Filter by the object’s `personContactId` field. */
+  personContactId?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `warehouse` relation. */
+  warehouse?: Maybe<WarehouseFilter>;
+  /** Filter by the object’s `personContact` relation. */
+  personContact?: Maybe<PersonContactFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<WarehousePersonContactFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<WarehousePersonContactFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<WarehousePersonContactFilter>;
 };
 
 /** A filter to be used against `CommonVariety` object types. All fields are combined with a logical ‘and.’ */
@@ -3724,6 +4308,14 @@ export type CommonVarietyFilter = {
   commonVarietyProductVarieties?: Maybe<CommonVarietyToManyCommonVarietyProductVarietyFilter>;
   /** Some related `commonVarietyProductVarieties` exist. */
   commonVarietyProductVarietiesExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `shipperPrograms` relation. */
+  shipperPrograms?: Maybe<CommonVarietyToManyShipperProgramFilter>;
+  /** Some related `shipperPrograms` exist. */
+  shipperProgramsExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `customerPrograms` relation. */
+  customerPrograms?: Maybe<CommonVarietyToManyCustomerProgramFilter>;
+  /** Some related `customerPrograms` exist. */
+  customerProgramsExist?: Maybe<Scalars['Boolean']>;
   /** Filter by the object’s `commonSpecies` relation. */
   commonSpecies?: Maybe<CommonSpeciesFilter>;
   /** A related `commonSpecies` exists. */
@@ -3864,14 +4456,24 @@ export type ProductVarietyToManyCommonVarietyProductVarietyFilter = {
   none?: Maybe<CommonVarietyProductVarietyFilter>;
 };
 
-/** A filter to be used against many `CommonSize` object types. All fields are combined with a logical ‘and.’ */
-export type CommonSpeciesToManyCommonSizeFilter = {
-  /** Every related `CommonSize` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  every?: Maybe<CommonSizeFilter>;
-  /** Some related `CommonSize` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  some?: Maybe<CommonSizeFilter>;
-  /** No related `CommonSize` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  none?: Maybe<CommonSizeFilter>;
+/** A filter to be used against many `ShipperProgram` object types. All fields are combined with a logical ‘and.’ */
+export type CommonVarietyToManyShipperProgramFilter = {
+  /** Every related `ShipperProgram` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<ShipperProgramFilter>;
+  /** Some related `ShipperProgram` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<ShipperProgramFilter>;
+  /** No related `ShipperProgram` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<ShipperProgramFilter>;
+};
+
+/** A filter to be used against many `CustomerProgram` object types. All fields are combined with a logical ‘and.’ */
+export type CommonVarietyToManyCustomerProgramFilter = {
+  /** Every related `CustomerProgram` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<CustomerProgramFilter>;
+  /** Some related `CustomerProgram` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<CustomerProgramFilter>;
+  /** No related `CustomerProgram` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<CustomerProgramFilter>;
 };
 
 /** A filter to be used against `CommonSize` object types. All fields are combined with a logical ‘and.’ */
@@ -3898,6 +4500,14 @@ export type CommonSizeFilter = {
   commonSizeProductSizes?: Maybe<CommonSizeToManyCommonSizeProductSizeFilter>;
   /** Some related `commonSizeProductSizes` exist. */
   commonSizeProductSizesExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `shipperPrograms` relation. */
+  shipperPrograms?: Maybe<CommonSizeToManyShipperProgramFilter>;
+  /** Some related `shipperPrograms` exist. */
+  shipperProgramsExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `customerPrograms` relation. */
+  customerPrograms?: Maybe<CommonSizeToManyCustomerProgramFilter>;
+  /** Some related `customerPrograms` exist. */
+  customerProgramsExist?: Maybe<Scalars['Boolean']>;
   /** Filter by the object’s `commonSpecies` relation. */
   commonSpecies?: Maybe<CommonSpeciesFilter>;
   /** A related `commonSpecies` exists. */
@@ -4044,14 +4654,24 @@ export type ProductSizeToManyCommonSizeProductSizeFilter = {
   none?: Maybe<CommonSizeProductSizeFilter>;
 };
 
-/** A filter to be used against many `CommonPackType` object types. All fields are combined with a logical ‘and.’ */
-export type CommonSpeciesToManyCommonPackTypeFilter = {
-  /** Every related `CommonPackType` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  every?: Maybe<CommonPackTypeFilter>;
-  /** Some related `CommonPackType` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  some?: Maybe<CommonPackTypeFilter>;
-  /** No related `CommonPackType` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  none?: Maybe<CommonPackTypeFilter>;
+/** A filter to be used against many `ShipperProgram` object types. All fields are combined with a logical ‘and.’ */
+export type CommonSizeToManyShipperProgramFilter = {
+  /** Every related `ShipperProgram` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<ShipperProgramFilter>;
+  /** Some related `ShipperProgram` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<ShipperProgramFilter>;
+  /** No related `ShipperProgram` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<ShipperProgramFilter>;
+};
+
+/** A filter to be used against many `CustomerProgram` object types. All fields are combined with a logical ‘and.’ */
+export type CommonSizeToManyCustomerProgramFilter = {
+  /** Every related `CustomerProgram` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<CustomerProgramFilter>;
+  /** Some related `CustomerProgram` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<CustomerProgramFilter>;
+  /** No related `CustomerProgram` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<CustomerProgramFilter>;
 };
 
 /** A filter to be used against `CommonPackType` object types. All fields are combined with a logical ‘and.’ */
@@ -4078,6 +4698,14 @@ export type CommonPackTypeFilter = {
   commonPackTypePackMasters?: Maybe<CommonPackTypeToManyCommonPackTypePackMasterFilter>;
   /** Some related `commonPackTypePackMasters` exist. */
   commonPackTypePackMastersExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `shipperPrograms` relation. */
+  shipperPrograms?: Maybe<CommonPackTypeToManyShipperProgramFilter>;
+  /** Some related `shipperPrograms` exist. */
+  shipperProgramsExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `customerPrograms` relation. */
+  customerPrograms?: Maybe<CommonPackTypeToManyCustomerProgramFilter>;
+  /** Some related `customerPrograms` exist. */
+  customerProgramsExist?: Maybe<Scalars['Boolean']>;
   /** Filter by the object’s `commonSpecies` relation. */
   commonSpecies?: Maybe<CommonSpeciesFilter>;
   /** A related `commonSpecies` exists. */
@@ -4266,6 +4894,56 @@ export type PackMasterToManyCommonPackTypePackMasterFilter = {
   none?: Maybe<CommonPackTypePackMasterFilter>;
 };
 
+/** A filter to be used against many `ShipperProgram` object types. All fields are combined with a logical ‘and.’ */
+export type CommonPackTypeToManyShipperProgramFilter = {
+  /** Every related `ShipperProgram` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<ShipperProgramFilter>;
+  /** Some related `ShipperProgram` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<ShipperProgramFilter>;
+  /** No related `ShipperProgram` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<ShipperProgramFilter>;
+};
+
+/** A filter to be used against many `CustomerProgram` object types. All fields are combined with a logical ‘and.’ */
+export type CommonPackTypeToManyCustomerProgramFilter = {
+  /** Every related `CustomerProgram` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<CustomerProgramFilter>;
+  /** Some related `CustomerProgram` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<CustomerProgramFilter>;
+  /** No related `CustomerProgram` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<CustomerProgramFilter>;
+};
+
+/** A filter to be used against many `CommonVariety` object types. All fields are combined with a logical ‘and.’ */
+export type CommonSpeciesToManyCommonVarietyFilter = {
+  /** Every related `CommonVariety` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<CommonVarietyFilter>;
+  /** Some related `CommonVariety` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<CommonVarietyFilter>;
+  /** No related `CommonVariety` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<CommonVarietyFilter>;
+};
+
+/** A filter to be used against many `CommonSize` object types. All fields are combined with a logical ‘and.’ */
+export type CommonSpeciesToManyCommonSizeFilter = {
+  /** Every related `CommonSize` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<CommonSizeFilter>;
+  /** Some related `CommonSize` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<CommonSizeFilter>;
+  /** No related `CommonSize` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<CommonSizeFilter>;
+};
+
+/** A filter to be used against many `CommonPackType` object types. All fields are combined with a logical ‘and.’ */
+export type CommonSpeciesToManyCommonPackTypeFilter = {
+  /** Every related `CommonPackType` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<CommonPackTypeFilter>;
+  /** Some related `CommonPackType` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<CommonPackTypeFilter>;
+  /** No related `CommonPackType` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<CommonPackTypeFilter>;
+};
+
 /** A filter to be used against many `CommonSpeciesTag` object types. All fields are combined with a logical ‘and.’ */
 export type CommonSpeciesToManyCommonSpeciesTagFilter = {
   /** Every related `CommonSpeciesTag` matches the filter criteria. All fields are combined with a logical ‘and.’ */
@@ -4378,6 +5056,26 @@ export type ProductSpeciesToManyCommonSpeciesProductSpeciesFilter = {
   none?: Maybe<CommonSpeciesProductSpeciesFilter>;
 };
 
+/** A filter to be used against many `ShipperProgram` object types. All fields are combined with a logical ‘and.’ */
+export type CommonSpeciesToManyShipperProgramFilter = {
+  /** Every related `ShipperProgram` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<ShipperProgramFilter>;
+  /** Some related `ShipperProgram` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<ShipperProgramFilter>;
+  /** No related `ShipperProgram` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<ShipperProgramFilter>;
+};
+
+/** A filter to be used against many `CustomerProgram` object types. All fields are combined with a logical ‘and.’ */
+export type CommonSpeciesToManyCustomerProgramFilter = {
+  /** Every related `CustomerProgram` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<CustomerProgramFilter>;
+  /** Some related `CustomerProgram` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<CustomerProgramFilter>;
+  /** No related `CustomerProgram` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<CustomerProgramFilter>;
+};
+
 /** A filter to be used against `CommonCategory` object types. All fields are combined with a logical ‘and.’ */
 export type CommonCategoryFilter = {
   /** Filter by the object’s `id` field. */
@@ -4410,270 +5108,6 @@ export type CommonCategoryToManyCommonSpeciesFilter = {
   some?: Maybe<CommonSpeciesFilter>;
   /** No related `CommonSpecies` matches the filter criteria. All fields are combined with a logical ‘and.’ */
   none?: Maybe<CommonSpeciesFilter>;
-};
-
-/** A filter to be used against `ShipperProjection` object types. All fields are combined with a logical ‘and.’ */
-export type ShipperProjectionFilter = {
-  /** Filter by the object’s `id` field. */
-  id?: Maybe<BigIntFilter>;
-  /** Filter by the object’s `submittedAt` field. */
-  submittedAt?: Maybe<DatetimeFilter>;
-  /** Filter by the object’s `shipperComments` field. */
-  shipperComments?: Maybe<StringFilter>;
-  /** Filter by the object’s `jvComments` field. */
-  jvComments?: Maybe<StringFilter>;
-  /** Filter by the object’s `approvedAt` field. */
-  approvedAt?: Maybe<DatetimeFilter>;
-  /** Filter by the object’s `rejectedAt` field. */
-  rejectedAt?: Maybe<DatetimeFilter>;
-  /** Filter by the object’s `shipperId` field. */
-  shipperId?: Maybe<StringFilter>;
-  /** Filter by the object’s `reviewStatus` field. */
-  reviewStatus?: Maybe<IntFilter>;
-  /** Filter by the object’s `searchText` field. */
-  searchText?: Maybe<StringFilter>;
-  /** Filter by the object’s `totalPallets` field. */
-  totalPallets?: Maybe<BigIntFilter>;
-  /** Filter by the object’s `shipperProjectionVesselInfosByProjectionId` relation. */
-  shipperProjectionVesselInfosByProjectionId?: Maybe<ShipperProjectionToManyShipperProjectionVesselInfoFilter>;
-  /** Some related `shipperProjectionVesselInfosByProjectionId` exist. */
-  shipperProjectionVesselInfosByProjectionIdExist?: Maybe<Scalars['Boolean']>;
-  /** Filter by the object’s `shipper` relation. */
-  shipper?: Maybe<ShipperFilter>;
-  /** A related `shipper` exists. */
-  shipperExists?: Maybe<Scalars['Boolean']>;
-  /** Checks for all expressions in this list. */
-  and?: Maybe<Array<ShipperProjectionFilter>>;
-  /** Checks for any expressions in this list. */
-  or?: Maybe<Array<ShipperProjectionFilter>>;
-  /** Negates the expression. */
-  not?: Maybe<ShipperProjectionFilter>;
-};
-
-/** A filter to be used against Int fields. All fields are combined with a logical ‘and.’ */
-export type IntFilter = {
-  /** Is null (if `true` is specified) or is not null (if `false` is specified). */
-  isNull?: Maybe<Scalars['Boolean']>;
-  /** Equal to the specified value. */
-  equalTo?: Maybe<Scalars['Int']>;
-  /** Not equal to the specified value. */
-  notEqualTo?: Maybe<Scalars['Int']>;
-  /** Not equal to the specified value, treating null like an ordinary value. */
-  distinctFrom?: Maybe<Scalars['Int']>;
-  /** Equal to the specified value, treating null like an ordinary value. */
-  notDistinctFrom?: Maybe<Scalars['Int']>;
-  /** Included in the specified list. */
-  in?: Maybe<Array<Scalars['Int']>>;
-  /** Not included in the specified list. */
-  notIn?: Maybe<Array<Scalars['Int']>>;
-  /** Less than the specified value. */
-  lessThan?: Maybe<Scalars['Int']>;
-  /** Less than or equal to the specified value. */
-  lessThanOrEqualTo?: Maybe<Scalars['Int']>;
-  /** Greater than the specified value. */
-  greaterThan?: Maybe<Scalars['Int']>;
-  /** Greater than or equal to the specified value. */
-  greaterThanOrEqualTo?: Maybe<Scalars['Int']>;
-};
-
-/** A filter to be used against many `ShipperProjectionVesselInfo` object types. All fields are combined with a logical ‘and.’ */
-export type ShipperProjectionToManyShipperProjectionVesselInfoFilter = {
-  /** Every related `ShipperProjectionVesselInfo` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  every?: Maybe<ShipperProjectionVesselInfoFilter>;
-  /** Some related `ShipperProjectionVesselInfo` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  some?: Maybe<ShipperProjectionVesselInfoFilter>;
-  /** No related `ShipperProjectionVesselInfo` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  none?: Maybe<ShipperProjectionVesselInfoFilter>;
-};
-
-/** A filter to be used against many `ShipperProjectionProduct` object types. All fields are combined with a logical ‘and.’ */
-export type ShipperToManyShipperProjectionProductFilter = {
-  /** Every related `ShipperProjectionProduct` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  every?: Maybe<ShipperProjectionProductFilter>;
-  /** Some related `ShipperProjectionProduct` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  some?: Maybe<ShipperProjectionProductFilter>;
-  /** No related `ShipperProjectionProduct` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  none?: Maybe<ShipperProjectionProductFilter>;
-};
-
-/** A filter to be used against many `ShipperProjection` object types. All fields are combined with a logical ‘and.’ */
-export type ShipperToManyShipperProjectionFilter = {
-  /** Every related `ShipperProjection` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  every?: Maybe<ShipperProjectionFilter>;
-  /** Some related `ShipperProjection` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  some?: Maybe<ShipperProjectionFilter>;
-  /** No related `ShipperProjection` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  none?: Maybe<ShipperProjectionFilter>;
-};
-
-/** A filter to be used against many `ShipperPersonContact` object types. All fields are combined with a logical ‘and.’ */
-export type ShipperToManyShipperPersonContactFilter = {
-  /** Every related `ShipperPersonContact` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  every?: Maybe<ShipperPersonContactFilter>;
-  /** Some related `ShipperPersonContact` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  some?: Maybe<ShipperPersonContactFilter>;
-  /** No related `ShipperPersonContact` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  none?: Maybe<ShipperPersonContactFilter>;
-};
-
-/** A filter to be used against `ShipperPersonContact` object types. All fields are combined with a logical ‘and.’ */
-export type ShipperPersonContactFilter = {
-  /** Filter by the object’s `shipperId` field. */
-  shipperId?: Maybe<StringFilter>;
-  /** Filter by the object’s `personContactId` field. */
-  personContactId?: Maybe<BigIntFilter>;
-  /** Filter by the object’s `shipper` relation. */
-  shipper?: Maybe<ShipperFilter>;
-  /** Filter by the object’s `personContact` relation. */
-  personContact?: Maybe<PersonContactFilter>;
-  /** Checks for all expressions in this list. */
-  and?: Maybe<Array<ShipperPersonContactFilter>>;
-  /** Checks for any expressions in this list. */
-  or?: Maybe<Array<ShipperPersonContactFilter>>;
-  /** Negates the expression. */
-  not?: Maybe<ShipperPersonContactFilter>;
-};
-
-/** A filter to be used against many `ShipperProgram` object types. All fields are combined with a logical ‘and.’ */
-export type ShipperToManyShipperProgramFilter = {
-  /** Every related `ShipperProgram` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  every?: Maybe<ShipperProgramFilter>;
-  /** Some related `ShipperProgram` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  some?: Maybe<ShipperProgramFilter>;
-  /** No related `ShipperProgram` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  none?: Maybe<ShipperProgramFilter>;
-};
-
-/** A filter to be used against `ShipperProgram` object types. All fields are combined with a logical ‘and.’ */
-export type ShipperProgramFilter = {
-  /** Filter by the object’s `id` field. */
-  id?: Maybe<BigIntFilter>;
-  /** Filter by the object’s `species` field. */
-  species?: Maybe<StringFilter>;
-  /** Filter by the object’s `variety` field. */
-  variety?: Maybe<StringFilter>;
-  /** Filter by the object’s `size` field. */
-  size?: Maybe<StringFilter>;
-  /** Filter by the object’s `packType` field. */
-  packType?: Maybe<StringFilter>;
-  /** Filter by the object’s `plu` field. */
-  plu?: Maybe<StringFilter>;
-  /** Filter by the object’s `programDate` field. */
-  programDate?: Maybe<DateFilter>;
-  /** Filter by the object’s `palletCount` field. */
-  palletCount?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `notes` field. */
-  notes?: Maybe<StringFilter>;
-  /** Filter by the object’s `shipperId` field. */
-  shipperId?: Maybe<StringFilter>;
-  /** Filter by the object’s `shipper` relation. */
-  shipper?: Maybe<ShipperFilter>;
-  /** A related `shipper` exists. */
-  shipperExists?: Maybe<Scalars['Boolean']>;
-  /** Checks for all expressions in this list. */
-  and?: Maybe<Array<ShipperProgramFilter>>;
-  /** Checks for any expressions in this list. */
-  or?: Maybe<Array<ShipperProgramFilter>>;
-  /** Negates the expression. */
-  not?: Maybe<ShipperProgramFilter>;
-};
-
-/** A filter to be used against many `ShipperProjectionVesselInfo` object types. All fields are combined with a logical ‘and.’ */
-export type ShipperToManyShipperProjectionVesselInfoFilter = {
-  /** Every related `ShipperProjectionVesselInfo` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  every?: Maybe<ShipperProjectionVesselInfoFilter>;
-  /** Some related `ShipperProjectionVesselInfo` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  some?: Maybe<ShipperProjectionVesselInfoFilter>;
-  /** No related `ShipperProjectionVesselInfo` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  none?: Maybe<ShipperProjectionVesselInfoFilter>;
-};
-
-/** A filter to be used against many `Warehouse` object types. All fields are combined with a logical ‘and.’ */
-export type CountryToManyWarehouseFilter = {
-  /** Every related `Warehouse` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  every?: Maybe<WarehouseFilter>;
-  /** Some related `Warehouse` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  some?: Maybe<WarehouseFilter>;
-  /** No related `Warehouse` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  none?: Maybe<WarehouseFilter>;
-};
-
-/** A filter to be used against `Warehouse` object types. All fields are combined with a logical ‘and.’ */
-export type WarehouseFilter = {
-  /** Filter by the object’s `id` field. */
-  id?: Maybe<StringFilter>;
-  /** Filter by the object’s `warehouseName` field. */
-  warehouseName?: Maybe<StringFilter>;
-  /** Filter by the object’s `address1` field. */
-  address1?: Maybe<StringFilter>;
-  /** Filter by the object’s `address2` field. */
-  address2?: Maybe<StringFilter>;
-  /** Filter by the object’s `address3` field. */
-  address3?: Maybe<StringFilter>;
-  /** Filter by the object’s `city` field. */
-  city?: Maybe<StringFilter>;
-  /** Filter by the object’s `postalState` field. */
-  postalState?: Maybe<StringFilter>;
-  /** Filter by the object’s `countryId` field. */
-  countryId?: Maybe<StringFilter>;
-  /** Filter by the object’s `zipCode` field. */
-  zipCode?: Maybe<StringFilter>;
-  /** Filter by the object’s `phone` field. */
-  phone?: Maybe<StringFilter>;
-  /** Filter by the object’s `outQueue` field. */
-  outQueue?: Maybe<StringFilter>;
-  /** Filter by the object’s `stateTaxCode` field. */
-  stateTaxCode?: Maybe<StringFilter>;
-  /** Filter by the object’s `countyTaxCode` field. */
-  countyTaxCode?: Maybe<StringFilter>;
-  /** Filter by the object’s `cityTaxCode` field. */
-  cityTaxCode?: Maybe<StringFilter>;
-  /** Filter by the object’s `miscTaxCode` field. */
-  miscTaxCode?: Maybe<StringFilter>;
-  /** Filter by the object’s `searchText` field. */
-  searchText?: Maybe<StringFilter>;
-  /** Filter by the object’s `warehousePersonContacts` relation. */
-  warehousePersonContacts?: Maybe<WarehouseToManyWarehousePersonContactFilter>;
-  /** Some related `warehousePersonContacts` exist. */
-  warehousePersonContactsExist?: Maybe<Scalars['Boolean']>;
-  /** Filter by the object’s `country` relation. */
-  country?: Maybe<CountryFilter>;
-  /** A related `country` exists. */
-  countryExists?: Maybe<Scalars['Boolean']>;
-  /** Checks for all expressions in this list. */
-  and?: Maybe<Array<WarehouseFilter>>;
-  /** Checks for any expressions in this list. */
-  or?: Maybe<Array<WarehouseFilter>>;
-  /** Negates the expression. */
-  not?: Maybe<WarehouseFilter>;
-};
-
-/** A filter to be used against many `WarehousePersonContact` object types. All fields are combined with a logical ‘and.’ */
-export type WarehouseToManyWarehousePersonContactFilter = {
-  /** Every related `WarehousePersonContact` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  every?: Maybe<WarehousePersonContactFilter>;
-  /** Some related `WarehousePersonContact` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  some?: Maybe<WarehousePersonContactFilter>;
-  /** No related `WarehousePersonContact` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  none?: Maybe<WarehousePersonContactFilter>;
-};
-
-/** A filter to be used against `WarehousePersonContact` object types. All fields are combined with a logical ‘and.’ */
-export type WarehousePersonContactFilter = {
-  /** Filter by the object’s `warehouseId` field. */
-  warehouseId?: Maybe<StringFilter>;
-  /** Filter by the object’s `personContactId` field. */
-  personContactId?: Maybe<BigIntFilter>;
-  /** Filter by the object’s `warehouse` relation. */
-  warehouse?: Maybe<WarehouseFilter>;
-  /** Filter by the object’s `personContact` relation. */
-  personContact?: Maybe<PersonContactFilter>;
-  /** Checks for all expressions in this list. */
-  and?: Maybe<Array<WarehousePersonContactFilter>>;
-  /** Checks for any expressions in this list. */
-  or?: Maybe<Array<WarehousePersonContactFilter>>;
-  /** Negates the expression. */
-  not?: Maybe<WarehousePersonContactFilter>;
 };
 
 /** A filter to be used against many `ShipperPersonContact` object types. All fields are combined with a logical ‘and.’ */
@@ -4881,9 +5315,19 @@ export type Customer = Node & {
   country?: Maybe<Country>;
   /** Reads and enables pagination through a set of `CustomerPersonContact`. */
   customerPersonContacts: CustomerPersonContactsConnection;
+  /** Reads and enables pagination through a set of `CustomerProgram`. */
+  customerPrograms: CustomerProgramsConnection;
   searchText?: Maybe<Scalars['String']>;
   /** Reads and enables pagination through a set of `PersonContact`. */
   personContactsByCustomerPersonContactCustomerIdAndPersonContactId: CustomerPersonContactsByCustomerPersonContactCustomerIdAndPersonContactIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `CommonSpecies`. */
+  commonSpeciesByCustomerProgramCustomerIdAndCommonSpeciesId: CustomerCommonSpeciesByCustomerProgramCustomerIdAndCommonSpeciesIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `CommonVariety`. */
+  commonVarietiesByCustomerProgramCustomerIdAndCommonVarietyId: CustomerCommonVarietiesByCustomerProgramCustomerIdAndCommonVarietyIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `CommonSize`. */
+  commonSizesByCustomerProgramCustomerIdAndCommonSizeId: CustomerCommonSizesByCustomerProgramCustomerIdAndCommonSizeIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `CommonPackType`. */
+  commonPackTypesByCustomerProgramCustomerIdAndCommonPackTypeId: CustomerCommonPackTypesByCustomerProgramCustomerIdAndCommonPackTypeIdManyToManyConnection;
 };
 
 
@@ -4899,6 +5343,18 @@ export type CustomerCustomerPersonContactsArgs = {
 };
 
 
+export type CustomerCustomerProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CustomerProgramsOrderBy>>;
+  condition?: Maybe<CustomerProgramCondition>;
+  filter?: Maybe<CustomerProgramFilter>;
+};
+
+
 export type CustomerPersonContactsByCustomerPersonContactCustomerIdAndPersonContactIdArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
@@ -4908,6 +5364,54 @@ export type CustomerPersonContactsByCustomerPersonContactCustomerIdAndPersonCont
   orderBy?: Maybe<Array<PersonContactsOrderBy>>;
   condition?: Maybe<PersonContactCondition>;
   filter?: Maybe<PersonContactFilter>;
+};
+
+
+export type CustomerCommonSpeciesByCustomerProgramCustomerIdAndCommonSpeciesIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CommonSpeciesOrderBy>>;
+  condition?: Maybe<CommonSpeciesCondition>;
+  filter?: Maybe<CommonSpeciesFilter>;
+};
+
+
+export type CustomerCommonVarietiesByCustomerProgramCustomerIdAndCommonVarietyIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CommonVarietiesOrderBy>>;
+  condition?: Maybe<CommonVarietyCondition>;
+  filter?: Maybe<CommonVarietyFilter>;
+};
+
+
+export type CustomerCommonSizesByCustomerProgramCustomerIdAndCommonSizeIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CommonSizesOrderBy>>;
+  condition?: Maybe<CommonSizeCondition>;
+  filter?: Maybe<CommonSizeFilter>;
+};
+
+
+export type CustomerCommonPackTypesByCustomerProgramCustomerIdAndCommonPackTypeIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CommonPackTypesOrderBy>>;
+  condition?: Maybe<CommonPackTypeCondition>;
+  filter?: Maybe<CommonPackTypeFilter>;
 };
 
 export type Country = Node & {
@@ -5083,10 +5587,10 @@ export type Shipper = Node & {
   shipperProjections: ShipperProjectionsConnection;
   /** Reads and enables pagination through a set of `ShipperPersonContact`. */
   shipperPersonContacts: ShipperPersonContactsConnection;
-  /** Reads and enables pagination through a set of `ShipperProgram`. */
-  shipperPrograms: ShipperProgramsConnection;
   /** Reads and enables pagination through a set of `ShipperProjectionVesselInfo`. */
   shipperProjectionVesselInfos: ShipperProjectionVesselInfosConnection;
+  /** Reads and enables pagination through a set of `ShipperProgram`. */
+  shipperPrograms: ShipperProgramsConnection;
   searchText?: Maybe<Scalars['String']>;
   /** Reads and enables pagination through a set of `CommonSpecies`. */
   commonSpeciesByShipperProjectionProductShipperIdAndCommonSpeciesId: ShipperCommonSpeciesByShipperProjectionProductShipperIdAndCommonSpeciesIdManyToManyConnection;
@@ -5102,6 +5606,14 @@ export type Shipper = Node & {
   shipperProjectionsByShipperProjectionVesselInfoShipperIdAndProjectionId: ShipperShipperProjectionsByShipperProjectionVesselInfoShipperIdAndProjectionIdManyToManyConnection;
   /** Reads and enables pagination through a set of `ShipperProjectionVessel`. */
   shipperProjectionVesselsByShipperProjectionVesselInfoShipperIdAndVesselId: ShipperShipperProjectionVesselsByShipperProjectionVesselInfoShipperIdAndVesselIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `CommonSpecies`. */
+  commonSpeciesByShipperProgramShipperIdAndCommonSpeciesId: ShipperCommonSpeciesByShipperProgramShipperIdAndCommonSpeciesIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `CommonVariety`. */
+  commonVarietiesByShipperProgramShipperIdAndCommonVarietyId: ShipperCommonVarietiesByShipperProgramShipperIdAndCommonVarietyIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `CommonSize`. */
+  commonSizesByShipperProgramShipperIdAndCommonSizeId: ShipperCommonSizesByShipperProgramShipperIdAndCommonSizeIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `CommonPackType`. */
+  commonPackTypesByShipperProgramShipperIdAndCommonPackTypeId: ShipperCommonPackTypesByShipperProgramShipperIdAndCommonPackTypeIdManyToManyConnection;
 };
 
 
@@ -5153,18 +5665,6 @@ export type ShipperShipperPersonContactsArgs = {
 };
 
 
-export type ShipperShipperProgramsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<ShipperProgramsOrderBy>>;
-  condition?: Maybe<ShipperProgramCondition>;
-  filter?: Maybe<ShipperProgramFilter>;
-};
-
-
 export type ShipperShipperProjectionVesselInfosArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
@@ -5174,6 +5674,18 @@ export type ShipperShipperProjectionVesselInfosArgs = {
   orderBy?: Maybe<Array<ShipperProjectionVesselInfosOrderBy>>;
   condition?: Maybe<ShipperProjectionVesselInfoCondition>;
   filter?: Maybe<ShipperProjectionVesselInfoFilter>;
+};
+
+
+export type ShipperShipperProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProgramsOrderBy>>;
+  condition?: Maybe<ShipperProgramCondition>;
+  filter?: Maybe<ShipperProgramFilter>;
 };
 
 
@@ -5258,6 +5770,54 @@ export type ShipperShipperProjectionVesselsByShipperProjectionVesselInfoShipperI
   orderBy?: Maybe<Array<ShipperProjectionVesselsOrderBy>>;
   condition?: Maybe<ShipperProjectionVesselCondition>;
   filter?: Maybe<ShipperProjectionVesselFilter>;
+};
+
+
+export type ShipperCommonSpeciesByShipperProgramShipperIdAndCommonSpeciesIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CommonSpeciesOrderBy>>;
+  condition?: Maybe<CommonSpeciesCondition>;
+  filter?: Maybe<CommonSpeciesFilter>;
+};
+
+
+export type ShipperCommonVarietiesByShipperProgramShipperIdAndCommonVarietyIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CommonVarietiesOrderBy>>;
+  condition?: Maybe<CommonVarietyCondition>;
+  filter?: Maybe<CommonVarietyFilter>;
+};
+
+
+export type ShipperCommonSizesByShipperProgramShipperIdAndCommonSizeIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CommonSizesOrderBy>>;
+  condition?: Maybe<CommonSizeCondition>;
+  filter?: Maybe<CommonSizeFilter>;
+};
+
+
+export type ShipperCommonPackTypesByShipperProgramShipperIdAndCommonPackTypeIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CommonPackTypesOrderBy>>;
+  condition?: Maybe<CommonPackTypeCondition>;
+  filter?: Maybe<CommonPackTypeFilter>;
 };
 
 /** A connection to a list of `ShipperProjectionVessel` values. */
@@ -5744,6 +6304,10 @@ export type CommonSpecies = Node & {
   commonSpeciesTags: CommonSpeciesTagsConnection;
   /** Reads and enables pagination through a set of `CommonSpeciesProductSpecies`. */
   commonSpeciesProductSpecieses: CommonSpeciesProductSpeciesConnection;
+  /** Reads and enables pagination through a set of `ShipperProgram`. */
+  shipperPrograms: ShipperProgramsConnection;
+  /** Reads and enables pagination through a set of `CustomerProgram`. */
+  customerPrograms: CustomerProgramsConnection;
   searchText?: Maybe<Scalars['String']>;
   /** Reads and enables pagination through a set of `Shipper`. */
   shippersByShipperProjectionProductCommonSpeciesIdAndShipperId: CommonSpeciesShippersByShipperProjectionProductCommonSpeciesIdAndShipperIdManyToManyConnection;
@@ -5761,6 +6325,22 @@ export type CommonSpecies = Node & {
   packMastersByCommonPackTypeCommonSpeciesIdAndPackMasterId: CommonSpeciesPackMastersByCommonPackTypeCommonSpeciesIdAndPackMasterIdManyToManyConnection;
   /** Reads and enables pagination through a set of `ProductSpecies`. */
   productSpeciesByCommonSpeciesProductSpeciesCommonSpeciesIdAndProductSpeciesId: CommonSpeciesProductSpeciesByCommonSpeciesProductSpeciesCommonSpeciesIdAndProductSpeciesIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `CommonVariety`. */
+  commonVarietiesByShipperProgramCommonSpeciesIdAndCommonVarietyId: CommonSpeciesCommonVarietiesByShipperProgramCommonSpeciesIdAndCommonVarietyIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `CommonSize`. */
+  commonSizesByShipperProgramCommonSpeciesIdAndCommonSizeId: CommonSpeciesCommonSizesByShipperProgramCommonSpeciesIdAndCommonSizeIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `CommonPackType`. */
+  commonPackTypesByShipperProgramCommonSpeciesIdAndCommonPackTypeId: CommonSpeciesCommonPackTypesByShipperProgramCommonSpeciesIdAndCommonPackTypeIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `Shipper`. */
+  shippersByShipperProgramCommonSpeciesIdAndShipperId: CommonSpeciesShippersByShipperProgramCommonSpeciesIdAndShipperIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `CommonVariety`. */
+  commonVarietiesByCustomerProgramCommonSpeciesIdAndCommonVarietyId: CommonSpeciesCommonVarietiesByCustomerProgramCommonSpeciesIdAndCommonVarietyIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `CommonSize`. */
+  commonSizesByCustomerProgramCommonSpeciesIdAndCommonSizeId: CommonSpeciesCommonSizesByCustomerProgramCommonSpeciesIdAndCommonSizeIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `CommonPackType`. */
+  commonPackTypesByCustomerProgramCommonSpeciesIdAndCommonPackTypeId: CommonSpeciesCommonPackTypesByCustomerProgramCommonSpeciesIdAndCommonPackTypeIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `Customer`. */
+  customersByCustomerProgramCommonSpeciesIdAndCustomerId: CommonSpeciesCustomersByCustomerProgramCommonSpeciesIdAndCustomerIdManyToManyConnection;
 };
 
 
@@ -5833,6 +6413,30 @@ export type CommonSpeciesCommonSpeciesProductSpeciesesArgs = {
   orderBy?: Maybe<Array<CommonSpeciesProductSpeciesOrderBy>>;
   condition?: Maybe<CommonSpeciesProductSpeciesCondition>;
   filter?: Maybe<CommonSpeciesProductSpeciesFilter>;
+};
+
+
+export type CommonSpeciesShipperProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProgramsOrderBy>>;
+  condition?: Maybe<ShipperProgramCondition>;
+  filter?: Maybe<ShipperProgramFilter>;
+};
+
+
+export type CommonSpeciesCustomerProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CustomerProgramsOrderBy>>;
+  condition?: Maybe<CustomerProgramCondition>;
+  filter?: Maybe<CustomerProgramFilter>;
 };
 
 
@@ -5929,6 +6533,102 @@ export type CommonSpeciesProductSpeciesByCommonSpeciesProductSpeciesCommonSpecie
   orderBy?: Maybe<Array<ProductSpeciesOrderBy>>;
   condition?: Maybe<ProductSpeciesCondition>;
   filter?: Maybe<ProductSpeciesFilter>;
+};
+
+
+export type CommonSpeciesCommonVarietiesByShipperProgramCommonSpeciesIdAndCommonVarietyIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CommonVarietiesOrderBy>>;
+  condition?: Maybe<CommonVarietyCondition>;
+  filter?: Maybe<CommonVarietyFilter>;
+};
+
+
+export type CommonSpeciesCommonSizesByShipperProgramCommonSpeciesIdAndCommonSizeIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CommonSizesOrderBy>>;
+  condition?: Maybe<CommonSizeCondition>;
+  filter?: Maybe<CommonSizeFilter>;
+};
+
+
+export type CommonSpeciesCommonPackTypesByShipperProgramCommonSpeciesIdAndCommonPackTypeIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CommonPackTypesOrderBy>>;
+  condition?: Maybe<CommonPackTypeCondition>;
+  filter?: Maybe<CommonPackTypeFilter>;
+};
+
+
+export type CommonSpeciesShippersByShipperProgramCommonSpeciesIdAndShipperIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShippersOrderBy>>;
+  condition?: Maybe<ShipperCondition>;
+  filter?: Maybe<ShipperFilter>;
+};
+
+
+export type CommonSpeciesCommonVarietiesByCustomerProgramCommonSpeciesIdAndCommonVarietyIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CommonVarietiesOrderBy>>;
+  condition?: Maybe<CommonVarietyCondition>;
+  filter?: Maybe<CommonVarietyFilter>;
+};
+
+
+export type CommonSpeciesCommonSizesByCustomerProgramCommonSpeciesIdAndCommonSizeIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CommonSizesOrderBy>>;
+  condition?: Maybe<CommonSizeCondition>;
+  filter?: Maybe<CommonSizeFilter>;
+};
+
+
+export type CommonSpeciesCommonPackTypesByCustomerProgramCommonSpeciesIdAndCommonPackTypeIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CommonPackTypesOrderBy>>;
+  condition?: Maybe<CommonPackTypeCondition>;
+  filter?: Maybe<CommonPackTypeFilter>;
+};
+
+
+export type CommonSpeciesCustomersByCustomerProgramCommonSpeciesIdAndCustomerIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CustomersOrderBy>>;
+  condition?: Maybe<CustomerCondition>;
+  filter?: Maybe<CustomerFilter>;
 };
 
 export type CommonCategory = Node & {
@@ -6452,6 +7152,10 @@ export type CommonVariety = Node & {
   commonVarietyTags: CommonVarietyTagsConnection;
   /** Reads and enables pagination through a set of `CommonVarietyProductVariety`. */
   commonVarietyProductVarieties: CommonVarietyProductVarietiesConnection;
+  /** Reads and enables pagination through a set of `ShipperProgram`. */
+  shipperPrograms: ShipperProgramsConnection;
+  /** Reads and enables pagination through a set of `CustomerProgram`. */
+  customerPrograms: CustomerProgramsConnection;
   /** Reads and enables pagination through a set of `Shipper`. */
   shippersByShipperProjectionProductCommonVarietyIdAndShipperId: CommonVarietyShippersByShipperProjectionProductCommonVarietyIdAndShipperIdManyToManyConnection;
   /** Reads and enables pagination through a set of `CommonSpecies`. */
@@ -6462,6 +7166,22 @@ export type CommonVariety = Node & {
   commonPackTypesByShipperProjectionProductCommonVarietyIdAndCommonPackTypeId: CommonVarietyCommonPackTypesByShipperProjectionProductCommonVarietyIdAndCommonPackTypeIdManyToManyConnection;
   /** Reads and enables pagination through a set of `ProductVariety`. */
   productVarietiesByCommonVarietyProductVarietyCommonVarietyIdAndProductVarietyId: CommonVarietyProductVarietiesByCommonVarietyProductVarietyCommonVarietyIdAndProductVarietyIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `CommonSpecies`. */
+  commonSpeciesByShipperProgramCommonVarietyIdAndCommonSpeciesId: CommonVarietyCommonSpeciesByShipperProgramCommonVarietyIdAndCommonSpeciesIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `CommonSize`. */
+  commonSizesByShipperProgramCommonVarietyIdAndCommonSizeId: CommonVarietyCommonSizesByShipperProgramCommonVarietyIdAndCommonSizeIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `CommonPackType`. */
+  commonPackTypesByShipperProgramCommonVarietyIdAndCommonPackTypeId: CommonVarietyCommonPackTypesByShipperProgramCommonVarietyIdAndCommonPackTypeIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `Shipper`. */
+  shippersByShipperProgramCommonVarietyIdAndShipperId: CommonVarietyShippersByShipperProgramCommonVarietyIdAndShipperIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `CommonSpecies`. */
+  commonSpeciesByCustomerProgramCommonVarietyIdAndCommonSpeciesId: CommonVarietyCommonSpeciesByCustomerProgramCommonVarietyIdAndCommonSpeciesIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `CommonSize`. */
+  commonSizesByCustomerProgramCommonVarietyIdAndCommonSizeId: CommonVarietyCommonSizesByCustomerProgramCommonVarietyIdAndCommonSizeIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `CommonPackType`. */
+  commonPackTypesByCustomerProgramCommonVarietyIdAndCommonPackTypeId: CommonVarietyCommonPackTypesByCustomerProgramCommonVarietyIdAndCommonPackTypeIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `Customer`. */
+  customersByCustomerProgramCommonVarietyIdAndCustomerId: CommonVarietyCustomersByCustomerProgramCommonVarietyIdAndCustomerIdManyToManyConnection;
 };
 
 
@@ -6498,6 +7218,30 @@ export type CommonVarietyCommonVarietyProductVarietiesArgs = {
   orderBy?: Maybe<Array<CommonVarietyProductVarietiesOrderBy>>;
   condition?: Maybe<CommonVarietyProductVarietyCondition>;
   filter?: Maybe<CommonVarietyProductVarietyFilter>;
+};
+
+
+export type CommonVarietyShipperProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProgramsOrderBy>>;
+  condition?: Maybe<ShipperProgramCondition>;
+  filter?: Maybe<ShipperProgramFilter>;
+};
+
+
+export type CommonVarietyCustomerProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CustomerProgramsOrderBy>>;
+  condition?: Maybe<CustomerProgramCondition>;
+  filter?: Maybe<CustomerProgramFilter>;
 };
 
 
@@ -6558,6 +7302,102 @@ export type CommonVarietyProductVarietiesByCommonVarietyProductVarietyCommonVari
   orderBy?: Maybe<Array<ProductVarietiesOrderBy>>;
   condition?: Maybe<ProductVarietyCondition>;
   filter?: Maybe<ProductVarietyFilter>;
+};
+
+
+export type CommonVarietyCommonSpeciesByShipperProgramCommonVarietyIdAndCommonSpeciesIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CommonSpeciesOrderBy>>;
+  condition?: Maybe<CommonSpeciesCondition>;
+  filter?: Maybe<CommonSpeciesFilter>;
+};
+
+
+export type CommonVarietyCommonSizesByShipperProgramCommonVarietyIdAndCommonSizeIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CommonSizesOrderBy>>;
+  condition?: Maybe<CommonSizeCondition>;
+  filter?: Maybe<CommonSizeFilter>;
+};
+
+
+export type CommonVarietyCommonPackTypesByShipperProgramCommonVarietyIdAndCommonPackTypeIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CommonPackTypesOrderBy>>;
+  condition?: Maybe<CommonPackTypeCondition>;
+  filter?: Maybe<CommonPackTypeFilter>;
+};
+
+
+export type CommonVarietyShippersByShipperProgramCommonVarietyIdAndShipperIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShippersOrderBy>>;
+  condition?: Maybe<ShipperCondition>;
+  filter?: Maybe<ShipperFilter>;
+};
+
+
+export type CommonVarietyCommonSpeciesByCustomerProgramCommonVarietyIdAndCommonSpeciesIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CommonSpeciesOrderBy>>;
+  condition?: Maybe<CommonSpeciesCondition>;
+  filter?: Maybe<CommonSpeciesFilter>;
+};
+
+
+export type CommonVarietyCommonSizesByCustomerProgramCommonVarietyIdAndCommonSizeIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CommonSizesOrderBy>>;
+  condition?: Maybe<CommonSizeCondition>;
+  filter?: Maybe<CommonSizeFilter>;
+};
+
+
+export type CommonVarietyCommonPackTypesByCustomerProgramCommonVarietyIdAndCommonPackTypeIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CommonPackTypesOrderBy>>;
+  condition?: Maybe<CommonPackTypeCondition>;
+  filter?: Maybe<CommonPackTypeFilter>;
+};
+
+
+export type CommonVarietyCustomersByCustomerProgramCommonVarietyIdAndCustomerIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CustomersOrderBy>>;
+  condition?: Maybe<CustomerCondition>;
+  filter?: Maybe<CustomerFilter>;
 };
 
 export type ProductVariety = Node & {
@@ -6857,91 +7697,55 @@ export type CommonVarietyTagCondition = {
   commonVarietyId?: Maybe<Scalars['BigInt']>;
 };
 
-/** A connection to a list of `Shipper` values, with data from `ShipperProjectionProduct`. */
-export type CommonVarietyShippersByShipperProjectionProductCommonVarietyIdAndShipperIdManyToManyConnection = {
-  __typename?: 'CommonVarietyShippersByShipperProjectionProductCommonVarietyIdAndShipperIdManyToManyConnection';
-  /** A list of `Shipper` objects. */
-  nodes: Array<Maybe<Shipper>>;
-  /** A list of edges which contains the `Shipper`, info from the `ShipperProjectionProduct`, and the cursor to aid in pagination. */
-  edges: Array<CommonVarietyShippersByShipperProjectionProductCommonVarietyIdAndShipperIdManyToManyEdge>;
+/** A connection to a list of `ShipperProgram` values. */
+export type ShipperProgramsConnection = {
+  __typename?: 'ShipperProgramsConnection';
+  /** A list of `ShipperProgram` objects. */
+  nodes: Array<Maybe<ShipperProgram>>;
+  /** A list of edges which contains the `ShipperProgram` and cursor to aid in pagination. */
+  edges: Array<ShipperProgramsEdge>;
   /** Information to aid in pagination. */
   pageInfo: PageInfo;
-  /** The count of *all* `Shipper` you could get from the connection. */
+  /** The count of *all* `ShipperProgram` you could get from the connection. */
   totalCount: Scalars['Int'];
 };
 
-/** A `Shipper` edge in the connection, with data from `ShipperProjectionProduct`. */
-export type CommonVarietyShippersByShipperProjectionProductCommonVarietyIdAndShipperIdManyToManyEdge = {
-  __typename?: 'CommonVarietyShippersByShipperProjectionProductCommonVarietyIdAndShipperIdManyToManyEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `Shipper` at the end of the edge. */
-  node?: Maybe<Shipper>;
-  /** Reads and enables pagination through a set of `ShipperProjectionProduct`. */
-  shipperProjectionProducts: ShipperProjectionProductsConnection;
+export type ShipperProgram = Node & {
+  __typename?: 'ShipperProgram';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  commonSpeciesId?: Maybe<Scalars['BigInt']>;
+  commonVarietyId?: Maybe<Scalars['BigInt']>;
+  commonSizeId?: Maybe<Scalars['BigInt']>;
+  commonPackTypeId?: Maybe<Scalars['BigInt']>;
+  shipperId?: Maybe<Scalars['String']>;
+  arrivalPort?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  /** Reads a single `CommonSpecies` that is related to this `ShipperProgram`. */
+  commonSpecies?: Maybe<CommonSpecies>;
+  /** Reads a single `CommonVariety` that is related to this `ShipperProgram`. */
+  commonVariety?: Maybe<CommonVariety>;
+  /** Reads a single `CommonSize` that is related to this `ShipperProgram`. */
+  commonSize?: Maybe<CommonSize>;
+  /** Reads a single `CommonPackType` that is related to this `ShipperProgram`. */
+  commonPackType?: Maybe<CommonPackType>;
+  /** Reads a single `Shipper` that is related to this `ShipperProgram`. */
+  shipper?: Maybe<Shipper>;
+  /** Reads and enables pagination through a set of `ShipperProgramEntry`. */
+  shipperProgramEntries: ShipperProgramEntriesConnection;
 };
 
 
-/** A `Shipper` edge in the connection, with data from `ShipperProjectionProduct`. */
-export type CommonVarietyShippersByShipperProjectionProductCommonVarietyIdAndShipperIdManyToManyEdgeShipperProjectionProductsArgs = {
+export type ShipperProgramShipperProgramEntriesArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['Cursor']>;
   after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<ShipperProjectionProductsOrderBy>>;
-  condition?: Maybe<ShipperProjectionProductCondition>;
-  filter?: Maybe<ShipperProjectionProductFilter>;
-};
-
-/** A connection to a list of `CommonSpecies` values, with data from `ShipperProjectionProduct`. */
-export type CommonVarietyCommonSpeciesByShipperProjectionProductCommonVarietyIdAndCommonSpeciesIdManyToManyConnection = {
-  __typename?: 'CommonVarietyCommonSpeciesByShipperProjectionProductCommonVarietyIdAndCommonSpeciesIdManyToManyConnection';
-  /** A list of `CommonSpecies` objects. */
-  nodes: Array<Maybe<CommonSpecies>>;
-  /** A list of edges which contains the `CommonSpecies`, info from the `ShipperProjectionProduct`, and the cursor to aid in pagination. */
-  edges: Array<CommonVarietyCommonSpeciesByShipperProjectionProductCommonVarietyIdAndCommonSpeciesIdManyToManyEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `CommonSpecies` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-/** A `CommonSpecies` edge in the connection, with data from `ShipperProjectionProduct`. */
-export type CommonVarietyCommonSpeciesByShipperProjectionProductCommonVarietyIdAndCommonSpeciesIdManyToManyEdge = {
-  __typename?: 'CommonVarietyCommonSpeciesByShipperProjectionProductCommonVarietyIdAndCommonSpeciesIdManyToManyEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `CommonSpecies` at the end of the edge. */
-  node?: Maybe<CommonSpecies>;
-  /** Reads and enables pagination through a set of `ShipperProjectionProduct`. */
-  shipperProjectionProducts: ShipperProjectionProductsConnection;
-};
-
-
-/** A `CommonSpecies` edge in the connection, with data from `ShipperProjectionProduct`. */
-export type CommonVarietyCommonSpeciesByShipperProjectionProductCommonVarietyIdAndCommonSpeciesIdManyToManyEdgeShipperProjectionProductsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<ShipperProjectionProductsOrderBy>>;
-  condition?: Maybe<ShipperProjectionProductCondition>;
-  filter?: Maybe<ShipperProjectionProductFilter>;
-};
-
-/** A connection to a list of `CommonSize` values, with data from `ShipperProjectionProduct`. */
-export type CommonVarietyCommonSizesByShipperProjectionProductCommonVarietyIdAndCommonSizeIdManyToManyConnection = {
-  __typename?: 'CommonVarietyCommonSizesByShipperProjectionProductCommonVarietyIdAndCommonSizeIdManyToManyConnection';
-  /** A list of `CommonSize` objects. */
-  nodes: Array<Maybe<CommonSize>>;
-  /** A list of edges which contains the `CommonSize`, info from the `ShipperProjectionProduct`, and the cursor to aid in pagination. */
-  edges: Array<CommonVarietyCommonSizesByShipperProjectionProductCommonVarietyIdAndCommonSizeIdManyToManyEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `CommonSize` you could get from the connection. */
-  totalCount: Scalars['Int'];
+  orderBy?: Maybe<Array<ShipperProgramEntriesOrderBy>>;
+  condition?: Maybe<ShipperProgramEntryCondition>;
+  filter?: Maybe<ShipperProgramEntryFilter>;
 };
 
 export type CommonSize = Node & {
@@ -6963,6 +7767,10 @@ export type CommonSize = Node & {
   commonSizeTags: CommonSizeTagsConnection;
   /** Reads and enables pagination through a set of `CommonSizeProductSize`. */
   commonSizeProductSizes: CommonSizeProductSizesConnection;
+  /** Reads and enables pagination through a set of `ShipperProgram`. */
+  shipperPrograms: ShipperProgramsConnection;
+  /** Reads and enables pagination through a set of `CustomerProgram`. */
+  customerPrograms: CustomerProgramsConnection;
   /** Reads and enables pagination through a set of `Shipper`. */
   shippersByShipperProjectionProductCommonSizeIdAndShipperId: CommonSizeShippersByShipperProjectionProductCommonSizeIdAndShipperIdManyToManyConnection;
   /** Reads and enables pagination through a set of `CommonSpecies`. */
@@ -6973,6 +7781,22 @@ export type CommonSize = Node & {
   commonPackTypesByShipperProjectionProductCommonSizeIdAndCommonPackTypeId: CommonSizeCommonPackTypesByShipperProjectionProductCommonSizeIdAndCommonPackTypeIdManyToManyConnection;
   /** Reads and enables pagination through a set of `ProductSize`. */
   productSizesByCommonSizeProductSizeCommonSizeIdAndProductSizeId: CommonSizeProductSizesByCommonSizeProductSizeCommonSizeIdAndProductSizeIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `CommonSpecies`. */
+  commonSpeciesByShipperProgramCommonSizeIdAndCommonSpeciesId: CommonSizeCommonSpeciesByShipperProgramCommonSizeIdAndCommonSpeciesIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `CommonVariety`. */
+  commonVarietiesByShipperProgramCommonSizeIdAndCommonVarietyId: CommonSizeCommonVarietiesByShipperProgramCommonSizeIdAndCommonVarietyIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `CommonPackType`. */
+  commonPackTypesByShipperProgramCommonSizeIdAndCommonPackTypeId: CommonSizeCommonPackTypesByShipperProgramCommonSizeIdAndCommonPackTypeIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `Shipper`. */
+  shippersByShipperProgramCommonSizeIdAndShipperId: CommonSizeShippersByShipperProgramCommonSizeIdAndShipperIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `CommonSpecies`. */
+  commonSpeciesByCustomerProgramCommonSizeIdAndCommonSpeciesId: CommonSizeCommonSpeciesByCustomerProgramCommonSizeIdAndCommonSpeciesIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `CommonVariety`. */
+  commonVarietiesByCustomerProgramCommonSizeIdAndCommonVarietyId: CommonSizeCommonVarietiesByCustomerProgramCommonSizeIdAndCommonVarietyIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `CommonPackType`. */
+  commonPackTypesByCustomerProgramCommonSizeIdAndCommonPackTypeId: CommonSizeCommonPackTypesByCustomerProgramCommonSizeIdAndCommonPackTypeIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `Customer`. */
+  customersByCustomerProgramCommonSizeIdAndCustomerId: CommonSizeCustomersByCustomerProgramCommonSizeIdAndCustomerIdManyToManyConnection;
 };
 
 
@@ -7009,6 +7833,30 @@ export type CommonSizeCommonSizeProductSizesArgs = {
   orderBy?: Maybe<Array<CommonSizeProductSizesOrderBy>>;
   condition?: Maybe<CommonSizeProductSizeCondition>;
   filter?: Maybe<CommonSizeProductSizeFilter>;
+};
+
+
+export type CommonSizeShipperProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProgramsOrderBy>>;
+  condition?: Maybe<ShipperProgramCondition>;
+  filter?: Maybe<ShipperProgramFilter>;
+};
+
+
+export type CommonSizeCustomerProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CustomerProgramsOrderBy>>;
+  condition?: Maybe<CustomerProgramCondition>;
+  filter?: Maybe<CustomerProgramFilter>;
 };
 
 
@@ -7069,6 +7917,102 @@ export type CommonSizeProductSizesByCommonSizeProductSizeCommonSizeIdAndProductS
   orderBy?: Maybe<Array<ProductSizesOrderBy>>;
   condition?: Maybe<ProductSizeCondition>;
   filter?: Maybe<ProductSizeFilter>;
+};
+
+
+export type CommonSizeCommonSpeciesByShipperProgramCommonSizeIdAndCommonSpeciesIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CommonSpeciesOrderBy>>;
+  condition?: Maybe<CommonSpeciesCondition>;
+  filter?: Maybe<CommonSpeciesFilter>;
+};
+
+
+export type CommonSizeCommonVarietiesByShipperProgramCommonSizeIdAndCommonVarietyIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CommonVarietiesOrderBy>>;
+  condition?: Maybe<CommonVarietyCondition>;
+  filter?: Maybe<CommonVarietyFilter>;
+};
+
+
+export type CommonSizeCommonPackTypesByShipperProgramCommonSizeIdAndCommonPackTypeIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CommonPackTypesOrderBy>>;
+  condition?: Maybe<CommonPackTypeCondition>;
+  filter?: Maybe<CommonPackTypeFilter>;
+};
+
+
+export type CommonSizeShippersByShipperProgramCommonSizeIdAndShipperIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShippersOrderBy>>;
+  condition?: Maybe<ShipperCondition>;
+  filter?: Maybe<ShipperFilter>;
+};
+
+
+export type CommonSizeCommonSpeciesByCustomerProgramCommonSizeIdAndCommonSpeciesIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CommonSpeciesOrderBy>>;
+  condition?: Maybe<CommonSpeciesCondition>;
+  filter?: Maybe<CommonSpeciesFilter>;
+};
+
+
+export type CommonSizeCommonVarietiesByCustomerProgramCommonSizeIdAndCommonVarietyIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CommonVarietiesOrderBy>>;
+  condition?: Maybe<CommonVarietyCondition>;
+  filter?: Maybe<CommonVarietyFilter>;
+};
+
+
+export type CommonSizeCommonPackTypesByCustomerProgramCommonSizeIdAndCommonPackTypeIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CommonPackTypesOrderBy>>;
+  condition?: Maybe<CommonPackTypeCondition>;
+  filter?: Maybe<CommonPackTypeFilter>;
+};
+
+
+export type CommonSizeCustomersByCustomerProgramCommonSizeIdAndCustomerIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CustomersOrderBy>>;
+  condition?: Maybe<CustomerCondition>;
+  filter?: Maybe<CustomerFilter>;
 };
 
 export type ProductSize = Node & {
@@ -7392,128 +8336,101 @@ export type CommonSizeTagCondition = {
   commonSizeId?: Maybe<Scalars['BigInt']>;
 };
 
-/** A connection to a list of `Shipper` values, with data from `ShipperProjectionProduct`. */
-export type CommonSizeShippersByShipperProjectionProductCommonSizeIdAndShipperIdManyToManyConnection = {
-  __typename?: 'CommonSizeShippersByShipperProjectionProductCommonSizeIdAndShipperIdManyToManyConnection';
-  /** A list of `Shipper` objects. */
-  nodes: Array<Maybe<Shipper>>;
-  /** A list of edges which contains the `Shipper`, info from the `ShipperProjectionProduct`, and the cursor to aid in pagination. */
-  edges: Array<CommonSizeShippersByShipperProjectionProductCommonSizeIdAndShipperIdManyToManyEdge>;
+/** Methods to use when ordering `ShipperProgram`. */
+export enum ShipperProgramsOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  CommonSpeciesIdAsc = 'COMMON_SPECIES_ID_ASC',
+  CommonSpeciesIdDesc = 'COMMON_SPECIES_ID_DESC',
+  CommonVarietyIdAsc = 'COMMON_VARIETY_ID_ASC',
+  CommonVarietyIdDesc = 'COMMON_VARIETY_ID_DESC',
+  CommonSizeIdAsc = 'COMMON_SIZE_ID_ASC',
+  CommonSizeIdDesc = 'COMMON_SIZE_ID_DESC',
+  CommonPackTypeIdAsc = 'COMMON_PACK_TYPE_ID_ASC',
+  CommonPackTypeIdDesc = 'COMMON_PACK_TYPE_ID_DESC',
+  ShipperIdAsc = 'SHIPPER_ID_ASC',
+  ShipperIdDesc = 'SHIPPER_ID_DESC',
+  ArrivalPortAsc = 'ARRIVAL_PORT_ASC',
+  ArrivalPortDesc = 'ARRIVAL_PORT_DESC',
+  PluAsc = 'PLU_ASC',
+  PluDesc = 'PLU_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
+/**
+ * A condition to be used against `ShipperProgram` object types. All fields are
+ * tested for equality and combined with a logical ‘and.’
+ */
+export type ShipperProgramCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `commonSpeciesId` field. */
+  commonSpeciesId?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `commonVarietyId` field. */
+  commonVarietyId?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `commonSizeId` field. */
+  commonSizeId?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `commonPackTypeId` field. */
+  commonPackTypeId?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `shipperId` field. */
+  shipperId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `arrivalPort` field. */
+  arrivalPort?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `plu` field. */
+  plu?: Maybe<Scalars['String']>;
+};
+
+/** A connection to a list of `CustomerProgram` values. */
+export type CustomerProgramsConnection = {
+  __typename?: 'CustomerProgramsConnection';
+  /** A list of `CustomerProgram` objects. */
+  nodes: Array<Maybe<CustomerProgram>>;
+  /** A list of edges which contains the `CustomerProgram` and cursor to aid in pagination. */
+  edges: Array<CustomerProgramsEdge>;
   /** Information to aid in pagination. */
   pageInfo: PageInfo;
-  /** The count of *all* `Shipper` you could get from the connection. */
+  /** The count of *all* `CustomerProgram` you could get from the connection. */
   totalCount: Scalars['Int'];
 };
 
-/** A `Shipper` edge in the connection, with data from `ShipperProjectionProduct`. */
-export type CommonSizeShippersByShipperProjectionProductCommonSizeIdAndShipperIdManyToManyEdge = {
-  __typename?: 'CommonSizeShippersByShipperProjectionProductCommonSizeIdAndShipperIdManyToManyEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `Shipper` at the end of the edge. */
-  node?: Maybe<Shipper>;
-  /** Reads and enables pagination through a set of `ShipperProjectionProduct`. */
-  shipperProjectionProducts: ShipperProjectionProductsConnection;
+export type CustomerProgram = Node & {
+  __typename?: 'CustomerProgram';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  commonSpeciesId?: Maybe<Scalars['BigInt']>;
+  commonVarietyId?: Maybe<Scalars['BigInt']>;
+  commonSizeId?: Maybe<Scalars['BigInt']>;
+  commonPackTypeId?: Maybe<Scalars['BigInt']>;
+  customerId?: Maybe<Scalars['String']>;
+  arrivalPort?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  /** Reads a single `CommonSpecies` that is related to this `CustomerProgram`. */
+  commonSpecies?: Maybe<CommonSpecies>;
+  /** Reads a single `CommonVariety` that is related to this `CustomerProgram`. */
+  commonVariety?: Maybe<CommonVariety>;
+  /** Reads a single `CommonSize` that is related to this `CustomerProgram`. */
+  commonSize?: Maybe<CommonSize>;
+  /** Reads a single `CommonPackType` that is related to this `CustomerProgram`. */
+  commonPackType?: Maybe<CommonPackType>;
+  /** Reads a single `Customer` that is related to this `CustomerProgram`. */
+  customer?: Maybe<Customer>;
+  /** Reads and enables pagination through a set of `CustomerProgramEntry`. */
+  customerProgramEntries: CustomerProgramEntriesConnection;
 };
 
 
-/** A `Shipper` edge in the connection, with data from `ShipperProjectionProduct`. */
-export type CommonSizeShippersByShipperProjectionProductCommonSizeIdAndShipperIdManyToManyEdgeShipperProjectionProductsArgs = {
+export type CustomerProgramCustomerProgramEntriesArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['Cursor']>;
   after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<ShipperProjectionProductsOrderBy>>;
-  condition?: Maybe<ShipperProjectionProductCondition>;
-  filter?: Maybe<ShipperProjectionProductFilter>;
-};
-
-/** A connection to a list of `CommonSpecies` values, with data from `ShipperProjectionProduct`. */
-export type CommonSizeCommonSpeciesByShipperProjectionProductCommonSizeIdAndCommonSpeciesIdManyToManyConnection = {
-  __typename?: 'CommonSizeCommonSpeciesByShipperProjectionProductCommonSizeIdAndCommonSpeciesIdManyToManyConnection';
-  /** A list of `CommonSpecies` objects. */
-  nodes: Array<Maybe<CommonSpecies>>;
-  /** A list of edges which contains the `CommonSpecies`, info from the `ShipperProjectionProduct`, and the cursor to aid in pagination. */
-  edges: Array<CommonSizeCommonSpeciesByShipperProjectionProductCommonSizeIdAndCommonSpeciesIdManyToManyEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `CommonSpecies` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-/** A `CommonSpecies` edge in the connection, with data from `ShipperProjectionProduct`. */
-export type CommonSizeCommonSpeciesByShipperProjectionProductCommonSizeIdAndCommonSpeciesIdManyToManyEdge = {
-  __typename?: 'CommonSizeCommonSpeciesByShipperProjectionProductCommonSizeIdAndCommonSpeciesIdManyToManyEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `CommonSpecies` at the end of the edge. */
-  node?: Maybe<CommonSpecies>;
-  /** Reads and enables pagination through a set of `ShipperProjectionProduct`. */
-  shipperProjectionProducts: ShipperProjectionProductsConnection;
-};
-
-
-/** A `CommonSpecies` edge in the connection, with data from `ShipperProjectionProduct`. */
-export type CommonSizeCommonSpeciesByShipperProjectionProductCommonSizeIdAndCommonSpeciesIdManyToManyEdgeShipperProjectionProductsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<ShipperProjectionProductsOrderBy>>;
-  condition?: Maybe<ShipperProjectionProductCondition>;
-  filter?: Maybe<ShipperProjectionProductFilter>;
-};
-
-/** A connection to a list of `CommonVariety` values, with data from `ShipperProjectionProduct`. */
-export type CommonSizeCommonVarietiesByShipperProjectionProductCommonSizeIdAndCommonVarietyIdManyToManyConnection = {
-  __typename?: 'CommonSizeCommonVarietiesByShipperProjectionProductCommonSizeIdAndCommonVarietyIdManyToManyConnection';
-  /** A list of `CommonVariety` objects. */
-  nodes: Array<Maybe<CommonVariety>>;
-  /** A list of edges which contains the `CommonVariety`, info from the `ShipperProjectionProduct`, and the cursor to aid in pagination. */
-  edges: Array<CommonSizeCommonVarietiesByShipperProjectionProductCommonSizeIdAndCommonVarietyIdManyToManyEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `CommonVariety` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-/** A `CommonVariety` edge in the connection, with data from `ShipperProjectionProduct`. */
-export type CommonSizeCommonVarietiesByShipperProjectionProductCommonSizeIdAndCommonVarietyIdManyToManyEdge = {
-  __typename?: 'CommonSizeCommonVarietiesByShipperProjectionProductCommonSizeIdAndCommonVarietyIdManyToManyEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `CommonVariety` at the end of the edge. */
-  node?: Maybe<CommonVariety>;
-  /** Reads and enables pagination through a set of `ShipperProjectionProduct`. */
-  shipperProjectionProducts: ShipperProjectionProductsConnection;
-};
-
-
-/** A `CommonVariety` edge in the connection, with data from `ShipperProjectionProduct`. */
-export type CommonSizeCommonVarietiesByShipperProjectionProductCommonSizeIdAndCommonVarietyIdManyToManyEdgeShipperProjectionProductsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<ShipperProjectionProductsOrderBy>>;
-  condition?: Maybe<ShipperProjectionProductCondition>;
-  filter?: Maybe<ShipperProjectionProductFilter>;
-};
-
-/** A connection to a list of `CommonPackType` values, with data from `ShipperProjectionProduct`. */
-export type CommonSizeCommonPackTypesByShipperProjectionProductCommonSizeIdAndCommonPackTypeIdManyToManyConnection = {
-  __typename?: 'CommonSizeCommonPackTypesByShipperProjectionProductCommonSizeIdAndCommonPackTypeIdManyToManyConnection';
-  /** A list of `CommonPackType` objects. */
-  nodes: Array<Maybe<CommonPackType>>;
-  /** A list of edges which contains the `CommonPackType`, info from the `ShipperProjectionProduct`, and the cursor to aid in pagination. */
-  edges: Array<CommonSizeCommonPackTypesByShipperProjectionProductCommonSizeIdAndCommonPackTypeIdManyToManyEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `CommonPackType` you could get from the connection. */
-  totalCount: Scalars['Int'];
+  orderBy?: Maybe<Array<CustomerProgramEntriesOrderBy>>;
+  condition?: Maybe<CustomerProgramEntryCondition>;
+  filter?: Maybe<CustomerProgramEntryFilter>;
 };
 
 export type CommonPackType = Node & {
@@ -7535,6 +8452,10 @@ export type CommonPackType = Node & {
   commonPackTypeTags: CommonPackTypeTagsConnection;
   /** Reads and enables pagination through a set of `CommonPackTypePackMaster`. */
   commonPackTypePackMasters: CommonPackTypePackMastersConnection;
+  /** Reads and enables pagination through a set of `ShipperProgram`. */
+  shipperPrograms: ShipperProgramsConnection;
+  /** Reads and enables pagination through a set of `CustomerProgram`. */
+  customerPrograms: CustomerProgramsConnection;
   /** Reads and enables pagination through a set of `Shipper`. */
   shippersByShipperProjectionProductCommonPackTypeIdAndShipperId: CommonPackTypeShippersByShipperProjectionProductCommonPackTypeIdAndShipperIdManyToManyConnection;
   /** Reads and enables pagination through a set of `CommonSpecies`. */
@@ -7545,6 +8466,22 @@ export type CommonPackType = Node & {
   commonSizesByShipperProjectionProductCommonPackTypeIdAndCommonSizeId: CommonPackTypeCommonSizesByShipperProjectionProductCommonPackTypeIdAndCommonSizeIdManyToManyConnection;
   /** Reads and enables pagination through a set of `PackMaster`. */
   packMastersByCommonPackTypePackMasterCommonPackTypeIdAndPackMasterId: CommonPackTypePackMastersByCommonPackTypePackMasterCommonPackTypeIdAndPackMasterIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `CommonSpecies`. */
+  commonSpeciesByShipperProgramCommonPackTypeIdAndCommonSpeciesId: CommonPackTypeCommonSpeciesByShipperProgramCommonPackTypeIdAndCommonSpeciesIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `CommonVariety`. */
+  commonVarietiesByShipperProgramCommonPackTypeIdAndCommonVarietyId: CommonPackTypeCommonVarietiesByShipperProgramCommonPackTypeIdAndCommonVarietyIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `CommonSize`. */
+  commonSizesByShipperProgramCommonPackTypeIdAndCommonSizeId: CommonPackTypeCommonSizesByShipperProgramCommonPackTypeIdAndCommonSizeIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `Shipper`. */
+  shippersByShipperProgramCommonPackTypeIdAndShipperId: CommonPackTypeShippersByShipperProgramCommonPackTypeIdAndShipperIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `CommonSpecies`. */
+  commonSpeciesByCustomerProgramCommonPackTypeIdAndCommonSpeciesId: CommonPackTypeCommonSpeciesByCustomerProgramCommonPackTypeIdAndCommonSpeciesIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `CommonVariety`. */
+  commonVarietiesByCustomerProgramCommonPackTypeIdAndCommonVarietyId: CommonPackTypeCommonVarietiesByCustomerProgramCommonPackTypeIdAndCommonVarietyIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `CommonSize`. */
+  commonSizesByCustomerProgramCommonPackTypeIdAndCommonSizeId: CommonPackTypeCommonSizesByCustomerProgramCommonPackTypeIdAndCommonSizeIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `Customer`. */
+  customersByCustomerProgramCommonPackTypeIdAndCustomerId: CommonPackTypeCustomersByCustomerProgramCommonPackTypeIdAndCustomerIdManyToManyConnection;
 };
 
 
@@ -7581,6 +8518,30 @@ export type CommonPackTypeCommonPackTypePackMastersArgs = {
   orderBy?: Maybe<Array<CommonPackTypePackMastersOrderBy>>;
   condition?: Maybe<CommonPackTypePackMasterCondition>;
   filter?: Maybe<CommonPackTypePackMasterFilter>;
+};
+
+
+export type CommonPackTypeShipperProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProgramsOrderBy>>;
+  condition?: Maybe<ShipperProgramCondition>;
+  filter?: Maybe<ShipperProgramFilter>;
+};
+
+
+export type CommonPackTypeCustomerProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CustomerProgramsOrderBy>>;
+  condition?: Maybe<CustomerProgramCondition>;
+  filter?: Maybe<CustomerProgramFilter>;
 };
 
 
@@ -7641,6 +8602,102 @@ export type CommonPackTypePackMastersByCommonPackTypePackMasterCommonPackTypeIdA
   orderBy?: Maybe<Array<PackMastersOrderBy>>;
   condition?: Maybe<PackMasterCondition>;
   filter?: Maybe<PackMasterFilter>;
+};
+
+
+export type CommonPackTypeCommonSpeciesByShipperProgramCommonPackTypeIdAndCommonSpeciesIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CommonSpeciesOrderBy>>;
+  condition?: Maybe<CommonSpeciesCondition>;
+  filter?: Maybe<CommonSpeciesFilter>;
+};
+
+
+export type CommonPackTypeCommonVarietiesByShipperProgramCommonPackTypeIdAndCommonVarietyIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CommonVarietiesOrderBy>>;
+  condition?: Maybe<CommonVarietyCondition>;
+  filter?: Maybe<CommonVarietyFilter>;
+};
+
+
+export type CommonPackTypeCommonSizesByShipperProgramCommonPackTypeIdAndCommonSizeIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CommonSizesOrderBy>>;
+  condition?: Maybe<CommonSizeCondition>;
+  filter?: Maybe<CommonSizeFilter>;
+};
+
+
+export type CommonPackTypeShippersByShipperProgramCommonPackTypeIdAndShipperIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShippersOrderBy>>;
+  condition?: Maybe<ShipperCondition>;
+  filter?: Maybe<ShipperFilter>;
+};
+
+
+export type CommonPackTypeCommonSpeciesByCustomerProgramCommonPackTypeIdAndCommonSpeciesIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CommonSpeciesOrderBy>>;
+  condition?: Maybe<CommonSpeciesCondition>;
+  filter?: Maybe<CommonSpeciesFilter>;
+};
+
+
+export type CommonPackTypeCommonVarietiesByCustomerProgramCommonPackTypeIdAndCommonVarietyIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CommonVarietiesOrderBy>>;
+  condition?: Maybe<CommonVarietyCondition>;
+  filter?: Maybe<CommonVarietyFilter>;
+};
+
+
+export type CommonPackTypeCommonSizesByCustomerProgramCommonPackTypeIdAndCommonSizeIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CommonSizesOrderBy>>;
+  condition?: Maybe<CommonSizeCondition>;
+  filter?: Maybe<CommonSizeFilter>;
+};
+
+
+export type CommonPackTypeCustomersByCustomerProgramCommonPackTypeIdAndCustomerIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CustomersOrderBy>>;
+  condition?: Maybe<CustomerCondition>;
+  filter?: Maybe<CustomerFilter>;
 };
 
 export type PackMaster = Node & {
@@ -8162,6 +9219,52 @@ export type CommonPackTypeTagCondition = {
   commonPackTypeId?: Maybe<Scalars['BigInt']>;
 };
 
+/** Methods to use when ordering `CustomerProgram`. */
+export enum CustomerProgramsOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  CommonSpeciesIdAsc = 'COMMON_SPECIES_ID_ASC',
+  CommonSpeciesIdDesc = 'COMMON_SPECIES_ID_DESC',
+  CommonVarietyIdAsc = 'COMMON_VARIETY_ID_ASC',
+  CommonVarietyIdDesc = 'COMMON_VARIETY_ID_DESC',
+  CommonSizeIdAsc = 'COMMON_SIZE_ID_ASC',
+  CommonSizeIdDesc = 'COMMON_SIZE_ID_DESC',
+  CommonPackTypeIdAsc = 'COMMON_PACK_TYPE_ID_ASC',
+  CommonPackTypeIdDesc = 'COMMON_PACK_TYPE_ID_DESC',
+  CustomerIdAsc = 'CUSTOMER_ID_ASC',
+  CustomerIdDesc = 'CUSTOMER_ID_DESC',
+  ArrivalPortAsc = 'ARRIVAL_PORT_ASC',
+  ArrivalPortDesc = 'ARRIVAL_PORT_DESC',
+  PluAsc = 'PLU_ASC',
+  PluDesc = 'PLU_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
+/**
+ * A condition to be used against `CustomerProgram` object types. All fields are
+ * tested for equality and combined with a logical ‘and.’
+ */
+export type CustomerProgramCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `commonSpeciesId` field. */
+  commonSpeciesId?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `commonVarietyId` field. */
+  commonVarietyId?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `commonSizeId` field. */
+  commonSizeId?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `commonPackTypeId` field. */
+  commonPackTypeId?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `customerId` field. */
+  customerId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `arrivalPort` field. */
+  arrivalPort?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `plu` field. */
+  plu?: Maybe<Scalars['String']>;
+};
+
 /** A connection to a list of `Shipper` values, with data from `ShipperProjectionProduct`. */
 export type CommonPackTypeShippersByShipperProjectionProductCommonPackTypeIdAndShipperIdManyToManyConnection = {
   __typename?: 'CommonPackTypeShippersByShipperProjectionProductCommonPackTypeIdAndShipperIdManyToManyConnection';
@@ -8485,6 +9588,747 @@ export type PackMasterCondition = {
   holdCodeId?: Maybe<Scalars['String']>;
 };
 
+/** A connection to a list of `CommonSpecies` values, with data from `ShipperProgram`. */
+export type CommonPackTypeCommonSpeciesByShipperProgramCommonPackTypeIdAndCommonSpeciesIdManyToManyConnection = {
+  __typename?: 'CommonPackTypeCommonSpeciesByShipperProgramCommonPackTypeIdAndCommonSpeciesIdManyToManyConnection';
+  /** A list of `CommonSpecies` objects. */
+  nodes: Array<Maybe<CommonSpecies>>;
+  /** A list of edges which contains the `CommonSpecies`, info from the `ShipperProgram`, and the cursor to aid in pagination. */
+  edges: Array<CommonPackTypeCommonSpeciesByShipperProgramCommonPackTypeIdAndCommonSpeciesIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `CommonSpecies` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `CommonSpecies` edge in the connection, with data from `ShipperProgram`. */
+export type CommonPackTypeCommonSpeciesByShipperProgramCommonPackTypeIdAndCommonSpeciesIdManyToManyEdge = {
+  __typename?: 'CommonPackTypeCommonSpeciesByShipperProgramCommonPackTypeIdAndCommonSpeciesIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `CommonSpecies` at the end of the edge. */
+  node?: Maybe<CommonSpecies>;
+  /** Reads and enables pagination through a set of `ShipperProgram`. */
+  shipperPrograms: ShipperProgramsConnection;
+};
+
+
+/** A `CommonSpecies` edge in the connection, with data from `ShipperProgram`. */
+export type CommonPackTypeCommonSpeciesByShipperProgramCommonPackTypeIdAndCommonSpeciesIdManyToManyEdgeShipperProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProgramsOrderBy>>;
+  condition?: Maybe<ShipperProgramCondition>;
+  filter?: Maybe<ShipperProgramFilter>;
+};
+
+/** A connection to a list of `CommonVariety` values, with data from `ShipperProgram`. */
+export type CommonPackTypeCommonVarietiesByShipperProgramCommonPackTypeIdAndCommonVarietyIdManyToManyConnection = {
+  __typename?: 'CommonPackTypeCommonVarietiesByShipperProgramCommonPackTypeIdAndCommonVarietyIdManyToManyConnection';
+  /** A list of `CommonVariety` objects. */
+  nodes: Array<Maybe<CommonVariety>>;
+  /** A list of edges which contains the `CommonVariety`, info from the `ShipperProgram`, and the cursor to aid in pagination. */
+  edges: Array<CommonPackTypeCommonVarietiesByShipperProgramCommonPackTypeIdAndCommonVarietyIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `CommonVariety` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `CommonVariety` edge in the connection, with data from `ShipperProgram`. */
+export type CommonPackTypeCommonVarietiesByShipperProgramCommonPackTypeIdAndCommonVarietyIdManyToManyEdge = {
+  __typename?: 'CommonPackTypeCommonVarietiesByShipperProgramCommonPackTypeIdAndCommonVarietyIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `CommonVariety` at the end of the edge. */
+  node?: Maybe<CommonVariety>;
+  /** Reads and enables pagination through a set of `ShipperProgram`. */
+  shipperPrograms: ShipperProgramsConnection;
+};
+
+
+/** A `CommonVariety` edge in the connection, with data from `ShipperProgram`. */
+export type CommonPackTypeCommonVarietiesByShipperProgramCommonPackTypeIdAndCommonVarietyIdManyToManyEdgeShipperProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProgramsOrderBy>>;
+  condition?: Maybe<ShipperProgramCondition>;
+  filter?: Maybe<ShipperProgramFilter>;
+};
+
+/** A connection to a list of `CommonSize` values, with data from `ShipperProgram`. */
+export type CommonPackTypeCommonSizesByShipperProgramCommonPackTypeIdAndCommonSizeIdManyToManyConnection = {
+  __typename?: 'CommonPackTypeCommonSizesByShipperProgramCommonPackTypeIdAndCommonSizeIdManyToManyConnection';
+  /** A list of `CommonSize` objects. */
+  nodes: Array<Maybe<CommonSize>>;
+  /** A list of edges which contains the `CommonSize`, info from the `ShipperProgram`, and the cursor to aid in pagination. */
+  edges: Array<CommonPackTypeCommonSizesByShipperProgramCommonPackTypeIdAndCommonSizeIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `CommonSize` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `CommonSize` edge in the connection, with data from `ShipperProgram`. */
+export type CommonPackTypeCommonSizesByShipperProgramCommonPackTypeIdAndCommonSizeIdManyToManyEdge = {
+  __typename?: 'CommonPackTypeCommonSizesByShipperProgramCommonPackTypeIdAndCommonSizeIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `CommonSize` at the end of the edge. */
+  node?: Maybe<CommonSize>;
+  /** Reads and enables pagination through a set of `ShipperProgram`. */
+  shipperPrograms: ShipperProgramsConnection;
+};
+
+
+/** A `CommonSize` edge in the connection, with data from `ShipperProgram`. */
+export type CommonPackTypeCommonSizesByShipperProgramCommonPackTypeIdAndCommonSizeIdManyToManyEdgeShipperProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProgramsOrderBy>>;
+  condition?: Maybe<ShipperProgramCondition>;
+  filter?: Maybe<ShipperProgramFilter>;
+};
+
+/** A connection to a list of `Shipper` values, with data from `ShipperProgram`. */
+export type CommonPackTypeShippersByShipperProgramCommonPackTypeIdAndShipperIdManyToManyConnection = {
+  __typename?: 'CommonPackTypeShippersByShipperProgramCommonPackTypeIdAndShipperIdManyToManyConnection';
+  /** A list of `Shipper` objects. */
+  nodes: Array<Maybe<Shipper>>;
+  /** A list of edges which contains the `Shipper`, info from the `ShipperProgram`, and the cursor to aid in pagination. */
+  edges: Array<CommonPackTypeShippersByShipperProgramCommonPackTypeIdAndShipperIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Shipper` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `Shipper` edge in the connection, with data from `ShipperProgram`. */
+export type CommonPackTypeShippersByShipperProgramCommonPackTypeIdAndShipperIdManyToManyEdge = {
+  __typename?: 'CommonPackTypeShippersByShipperProgramCommonPackTypeIdAndShipperIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `Shipper` at the end of the edge. */
+  node?: Maybe<Shipper>;
+  /** Reads and enables pagination through a set of `ShipperProgram`. */
+  shipperPrograms: ShipperProgramsConnection;
+};
+
+
+/** A `Shipper` edge in the connection, with data from `ShipperProgram`. */
+export type CommonPackTypeShippersByShipperProgramCommonPackTypeIdAndShipperIdManyToManyEdgeShipperProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProgramsOrderBy>>;
+  condition?: Maybe<ShipperProgramCondition>;
+  filter?: Maybe<ShipperProgramFilter>;
+};
+
+/** A connection to a list of `CommonSpecies` values, with data from `CustomerProgram`. */
+export type CommonPackTypeCommonSpeciesByCustomerProgramCommonPackTypeIdAndCommonSpeciesIdManyToManyConnection = {
+  __typename?: 'CommonPackTypeCommonSpeciesByCustomerProgramCommonPackTypeIdAndCommonSpeciesIdManyToManyConnection';
+  /** A list of `CommonSpecies` objects. */
+  nodes: Array<Maybe<CommonSpecies>>;
+  /** A list of edges which contains the `CommonSpecies`, info from the `CustomerProgram`, and the cursor to aid in pagination. */
+  edges: Array<CommonPackTypeCommonSpeciesByCustomerProgramCommonPackTypeIdAndCommonSpeciesIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `CommonSpecies` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `CommonSpecies` edge in the connection, with data from `CustomerProgram`. */
+export type CommonPackTypeCommonSpeciesByCustomerProgramCommonPackTypeIdAndCommonSpeciesIdManyToManyEdge = {
+  __typename?: 'CommonPackTypeCommonSpeciesByCustomerProgramCommonPackTypeIdAndCommonSpeciesIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `CommonSpecies` at the end of the edge. */
+  node?: Maybe<CommonSpecies>;
+  /** Reads and enables pagination through a set of `CustomerProgram`. */
+  customerPrograms: CustomerProgramsConnection;
+};
+
+
+/** A `CommonSpecies` edge in the connection, with data from `CustomerProgram`. */
+export type CommonPackTypeCommonSpeciesByCustomerProgramCommonPackTypeIdAndCommonSpeciesIdManyToManyEdgeCustomerProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CustomerProgramsOrderBy>>;
+  condition?: Maybe<CustomerProgramCondition>;
+  filter?: Maybe<CustomerProgramFilter>;
+};
+
+/** A connection to a list of `CommonVariety` values, with data from `CustomerProgram`. */
+export type CommonPackTypeCommonVarietiesByCustomerProgramCommonPackTypeIdAndCommonVarietyIdManyToManyConnection = {
+  __typename?: 'CommonPackTypeCommonVarietiesByCustomerProgramCommonPackTypeIdAndCommonVarietyIdManyToManyConnection';
+  /** A list of `CommonVariety` objects. */
+  nodes: Array<Maybe<CommonVariety>>;
+  /** A list of edges which contains the `CommonVariety`, info from the `CustomerProgram`, and the cursor to aid in pagination. */
+  edges: Array<CommonPackTypeCommonVarietiesByCustomerProgramCommonPackTypeIdAndCommonVarietyIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `CommonVariety` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `CommonVariety` edge in the connection, with data from `CustomerProgram`. */
+export type CommonPackTypeCommonVarietiesByCustomerProgramCommonPackTypeIdAndCommonVarietyIdManyToManyEdge = {
+  __typename?: 'CommonPackTypeCommonVarietiesByCustomerProgramCommonPackTypeIdAndCommonVarietyIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `CommonVariety` at the end of the edge. */
+  node?: Maybe<CommonVariety>;
+  /** Reads and enables pagination through a set of `CustomerProgram`. */
+  customerPrograms: CustomerProgramsConnection;
+};
+
+
+/** A `CommonVariety` edge in the connection, with data from `CustomerProgram`. */
+export type CommonPackTypeCommonVarietiesByCustomerProgramCommonPackTypeIdAndCommonVarietyIdManyToManyEdgeCustomerProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CustomerProgramsOrderBy>>;
+  condition?: Maybe<CustomerProgramCondition>;
+  filter?: Maybe<CustomerProgramFilter>;
+};
+
+/** A connection to a list of `CommonSize` values, with data from `CustomerProgram`. */
+export type CommonPackTypeCommonSizesByCustomerProgramCommonPackTypeIdAndCommonSizeIdManyToManyConnection = {
+  __typename?: 'CommonPackTypeCommonSizesByCustomerProgramCommonPackTypeIdAndCommonSizeIdManyToManyConnection';
+  /** A list of `CommonSize` objects. */
+  nodes: Array<Maybe<CommonSize>>;
+  /** A list of edges which contains the `CommonSize`, info from the `CustomerProgram`, and the cursor to aid in pagination. */
+  edges: Array<CommonPackTypeCommonSizesByCustomerProgramCommonPackTypeIdAndCommonSizeIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `CommonSize` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `CommonSize` edge in the connection, with data from `CustomerProgram`. */
+export type CommonPackTypeCommonSizesByCustomerProgramCommonPackTypeIdAndCommonSizeIdManyToManyEdge = {
+  __typename?: 'CommonPackTypeCommonSizesByCustomerProgramCommonPackTypeIdAndCommonSizeIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `CommonSize` at the end of the edge. */
+  node?: Maybe<CommonSize>;
+  /** Reads and enables pagination through a set of `CustomerProgram`. */
+  customerPrograms: CustomerProgramsConnection;
+};
+
+
+/** A `CommonSize` edge in the connection, with data from `CustomerProgram`. */
+export type CommonPackTypeCommonSizesByCustomerProgramCommonPackTypeIdAndCommonSizeIdManyToManyEdgeCustomerProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CustomerProgramsOrderBy>>;
+  condition?: Maybe<CustomerProgramCondition>;
+  filter?: Maybe<CustomerProgramFilter>;
+};
+
+/** A connection to a list of `Customer` values, with data from `CustomerProgram`. */
+export type CommonPackTypeCustomersByCustomerProgramCommonPackTypeIdAndCustomerIdManyToManyConnection = {
+  __typename?: 'CommonPackTypeCustomersByCustomerProgramCommonPackTypeIdAndCustomerIdManyToManyConnection';
+  /** A list of `Customer` objects. */
+  nodes: Array<Maybe<Customer>>;
+  /** A list of edges which contains the `Customer`, info from the `CustomerProgram`, and the cursor to aid in pagination. */
+  edges: Array<CommonPackTypeCustomersByCustomerProgramCommonPackTypeIdAndCustomerIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Customer` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `Customer` edge in the connection, with data from `CustomerProgram`. */
+export type CommonPackTypeCustomersByCustomerProgramCommonPackTypeIdAndCustomerIdManyToManyEdge = {
+  __typename?: 'CommonPackTypeCustomersByCustomerProgramCommonPackTypeIdAndCustomerIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `Customer` at the end of the edge. */
+  node?: Maybe<Customer>;
+  /** Reads and enables pagination through a set of `CustomerProgram`. */
+  customerPrograms: CustomerProgramsConnection;
+};
+
+
+/** A `Customer` edge in the connection, with data from `CustomerProgram`. */
+export type CommonPackTypeCustomersByCustomerProgramCommonPackTypeIdAndCustomerIdManyToManyEdgeCustomerProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CustomerProgramsOrderBy>>;
+  condition?: Maybe<CustomerProgramCondition>;
+  filter?: Maybe<CustomerProgramFilter>;
+};
+
+/** A connection to a list of `CustomerProgramEntry` values. */
+export type CustomerProgramEntriesConnection = {
+  __typename?: 'CustomerProgramEntriesConnection';
+  /** A list of `CustomerProgramEntry` objects. */
+  nodes: Array<Maybe<CustomerProgramEntry>>;
+  /** A list of edges which contains the `CustomerProgramEntry` and cursor to aid in pagination. */
+  edges: Array<CustomerProgramEntriesEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `CustomerProgramEntry` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+export type CustomerProgramEntry = Node & {
+  __typename?: 'CustomerProgramEntry';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  notes?: Maybe<Scalars['String']>;
+  programDate?: Maybe<Scalars['Date']>;
+  palletCount?: Maybe<Scalars['BigFloat']>;
+  customerProgramId?: Maybe<Scalars['BigInt']>;
+  /** Reads a single `CustomerProgram` that is related to this `CustomerProgramEntry`. */
+  customerProgram?: Maybe<CustomerProgram>;
+  /** Reads and enables pagination through a set of `ShipperProgramEntryCustomerProgramEntry`. */
+  shipperProgramEntryCustomerProgramEntries: ShipperProgramEntryCustomerProgramEntriesConnection;
+  /** Reads and enables pagination through a set of `ShipperProgramEntry`. */
+  shipperProgramEntriesByShipperProgramEntryCustomerProgramEntryCustomerProgramEntryIdAndShipperProgramEntryId: CustomerProgramEntryShipperProgramEntriesByShipperProgramEntryCustomerProgramEntryCustomerProgramEntryIdAndShipperProgramEntryIdManyToManyConnection;
+};
+
+
+export type CustomerProgramEntryShipperProgramEntryCustomerProgramEntriesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProgramEntryCustomerProgramEntriesOrderBy>>;
+  condition?: Maybe<ShipperProgramEntryCustomerProgramEntryCondition>;
+  filter?: Maybe<ShipperProgramEntryCustomerProgramEntryFilter>;
+};
+
+
+export type CustomerProgramEntryShipperProgramEntriesByShipperProgramEntryCustomerProgramEntryCustomerProgramEntryIdAndShipperProgramEntryIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProgramEntriesOrderBy>>;
+  condition?: Maybe<ShipperProgramEntryCondition>;
+  filter?: Maybe<ShipperProgramEntryFilter>;
+};
+
+/** A connection to a list of `ShipperProgramEntryCustomerProgramEntry` values. */
+export type ShipperProgramEntryCustomerProgramEntriesConnection = {
+  __typename?: 'ShipperProgramEntryCustomerProgramEntriesConnection';
+  /** A list of `ShipperProgramEntryCustomerProgramEntry` objects. */
+  nodes: Array<Maybe<ShipperProgramEntryCustomerProgramEntry>>;
+  /** A list of edges which contains the `ShipperProgramEntryCustomerProgramEntry` and cursor to aid in pagination. */
+  edges: Array<ShipperProgramEntryCustomerProgramEntriesEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `ShipperProgramEntryCustomerProgramEntry` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+export type ShipperProgramEntryCustomerProgramEntry = Node & {
+  __typename?: 'ShipperProgramEntryCustomerProgramEntry';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  palletCount?: Maybe<Scalars['BigFloat']>;
+  customerProgramEntryId?: Maybe<Scalars['BigInt']>;
+  shipperProgramEntryId?: Maybe<Scalars['BigInt']>;
+  /** Reads a single `CustomerProgramEntry` that is related to this `ShipperProgramEntryCustomerProgramEntry`. */
+  customerProgramEntry?: Maybe<CustomerProgramEntry>;
+  /** Reads a single `ShipperProgramEntry` that is related to this `ShipperProgramEntryCustomerProgramEntry`. */
+  shipperProgramEntry?: Maybe<ShipperProgramEntry>;
+};
+
+export type ShipperProgramEntry = Node & {
+  __typename?: 'ShipperProgramEntry';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  notes?: Maybe<Scalars['String']>;
+  programDate?: Maybe<Scalars['Date']>;
+  palletCount?: Maybe<Scalars['BigFloat']>;
+  shipperProgramId?: Maybe<Scalars['BigInt']>;
+  /** Reads a single `ShipperProgram` that is related to this `ShipperProgramEntry`. */
+  shipperProgram?: Maybe<ShipperProgram>;
+  /** Reads and enables pagination through a set of `ShipperProgramEntryCustomerProgramEntry`. */
+  shipperProgramEntryCustomerProgramEntries: ShipperProgramEntryCustomerProgramEntriesConnection;
+  /** Reads and enables pagination through a set of `CustomerProgramEntry`. */
+  customerProgramEntriesByShipperProgramEntryCustomerProgramEntryShipperProgramEntryIdAndCustomerProgramEntryId: ShipperProgramEntryCustomerProgramEntriesByShipperProgramEntryCustomerProgramEntryShipperProgramEntryIdAndCustomerProgramEntryIdManyToManyConnection;
+};
+
+
+export type ShipperProgramEntryShipperProgramEntryCustomerProgramEntriesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProgramEntryCustomerProgramEntriesOrderBy>>;
+  condition?: Maybe<ShipperProgramEntryCustomerProgramEntryCondition>;
+  filter?: Maybe<ShipperProgramEntryCustomerProgramEntryFilter>;
+};
+
+
+export type ShipperProgramEntryCustomerProgramEntriesByShipperProgramEntryCustomerProgramEntryShipperProgramEntryIdAndCustomerProgramEntryIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CustomerProgramEntriesOrderBy>>;
+  condition?: Maybe<CustomerProgramEntryCondition>;
+  filter?: Maybe<CustomerProgramEntryFilter>;
+};
+
+/** Methods to use when ordering `ShipperProgramEntryCustomerProgramEntry`. */
+export enum ShipperProgramEntryCustomerProgramEntriesOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  PalletCountAsc = 'PALLET_COUNT_ASC',
+  PalletCountDesc = 'PALLET_COUNT_DESC',
+  CustomerProgramEntryIdAsc = 'CUSTOMER_PROGRAM_ENTRY_ID_ASC',
+  CustomerProgramEntryIdDesc = 'CUSTOMER_PROGRAM_ENTRY_ID_DESC',
+  ShipperProgramEntryIdAsc = 'SHIPPER_PROGRAM_ENTRY_ID_ASC',
+  ShipperProgramEntryIdDesc = 'SHIPPER_PROGRAM_ENTRY_ID_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
+/**
+ * A condition to be used against `ShipperProgramEntryCustomerProgramEntry` object
+ * types. All fields are tested for equality and combined with a logical ‘and.’
+ */
+export type ShipperProgramEntryCustomerProgramEntryCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `palletCount` field. */
+  palletCount?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `customerProgramEntryId` field. */
+  customerProgramEntryId?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `shipperProgramEntryId` field. */
+  shipperProgramEntryId?: Maybe<Scalars['BigInt']>;
+};
+
+/** A connection to a list of `CustomerProgramEntry` values, with data from `ShipperProgramEntryCustomerProgramEntry`. */
+export type ShipperProgramEntryCustomerProgramEntriesByShipperProgramEntryCustomerProgramEntryShipperProgramEntryIdAndCustomerProgramEntryIdManyToManyConnection = {
+  __typename?: 'ShipperProgramEntryCustomerProgramEntriesByShipperProgramEntryCustomerProgramEntryShipperProgramEntryIdAndCustomerProgramEntryIdManyToManyConnection';
+  /** A list of `CustomerProgramEntry` objects. */
+  nodes: Array<Maybe<CustomerProgramEntry>>;
+  /** A list of edges which contains the `CustomerProgramEntry`, info from the `ShipperProgramEntryCustomerProgramEntry`, and the cursor to aid in pagination. */
+  edges: Array<ShipperProgramEntryCustomerProgramEntriesByShipperProgramEntryCustomerProgramEntryShipperProgramEntryIdAndCustomerProgramEntryIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `CustomerProgramEntry` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `CustomerProgramEntry` edge in the connection, with data from `ShipperProgramEntryCustomerProgramEntry`. */
+export type ShipperProgramEntryCustomerProgramEntriesByShipperProgramEntryCustomerProgramEntryShipperProgramEntryIdAndCustomerProgramEntryIdManyToManyEdge = {
+  __typename?: 'ShipperProgramEntryCustomerProgramEntriesByShipperProgramEntryCustomerProgramEntryShipperProgramEntryIdAndCustomerProgramEntryIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `CustomerProgramEntry` at the end of the edge. */
+  node?: Maybe<CustomerProgramEntry>;
+  /** Reads and enables pagination through a set of `ShipperProgramEntryCustomerProgramEntry`. */
+  shipperProgramEntryCustomerProgramEntries: ShipperProgramEntryCustomerProgramEntriesConnection;
+};
+
+
+/** A `CustomerProgramEntry` edge in the connection, with data from `ShipperProgramEntryCustomerProgramEntry`. */
+export type ShipperProgramEntryCustomerProgramEntriesByShipperProgramEntryCustomerProgramEntryShipperProgramEntryIdAndCustomerProgramEntryIdManyToManyEdgeShipperProgramEntryCustomerProgramEntriesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProgramEntryCustomerProgramEntriesOrderBy>>;
+  condition?: Maybe<ShipperProgramEntryCustomerProgramEntryCondition>;
+  filter?: Maybe<ShipperProgramEntryCustomerProgramEntryFilter>;
+};
+
+/** Methods to use when ordering `CustomerProgramEntry`. */
+export enum CustomerProgramEntriesOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  NotesAsc = 'NOTES_ASC',
+  NotesDesc = 'NOTES_DESC',
+  ProgramDateAsc = 'PROGRAM_DATE_ASC',
+  ProgramDateDesc = 'PROGRAM_DATE_DESC',
+  PalletCountAsc = 'PALLET_COUNT_ASC',
+  PalletCountDesc = 'PALLET_COUNT_DESC',
+  CustomerProgramIdAsc = 'CUSTOMER_PROGRAM_ID_ASC',
+  CustomerProgramIdDesc = 'CUSTOMER_PROGRAM_ID_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
+/**
+ * A condition to be used against `CustomerProgramEntry` object types. All fields
+ * are tested for equality and combined with a logical ‘and.’
+ */
+export type CustomerProgramEntryCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `notes` field. */
+  notes?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `programDate` field. */
+  programDate?: Maybe<Scalars['Date']>;
+  /** Checks for equality with the object’s `palletCount` field. */
+  palletCount?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `customerProgramId` field. */
+  customerProgramId?: Maybe<Scalars['BigInt']>;
+};
+
+/** A `ShipperProgramEntryCustomerProgramEntry` edge in the connection. */
+export type ShipperProgramEntryCustomerProgramEntriesEdge = {
+  __typename?: 'ShipperProgramEntryCustomerProgramEntriesEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `ShipperProgramEntryCustomerProgramEntry` at the end of the edge. */
+  node?: Maybe<ShipperProgramEntryCustomerProgramEntry>;
+};
+
+/** A connection to a list of `ShipperProgramEntry` values, with data from `ShipperProgramEntryCustomerProgramEntry`. */
+export type CustomerProgramEntryShipperProgramEntriesByShipperProgramEntryCustomerProgramEntryCustomerProgramEntryIdAndShipperProgramEntryIdManyToManyConnection = {
+  __typename?: 'CustomerProgramEntryShipperProgramEntriesByShipperProgramEntryCustomerProgramEntryCustomerProgramEntryIdAndShipperProgramEntryIdManyToManyConnection';
+  /** A list of `ShipperProgramEntry` objects. */
+  nodes: Array<Maybe<ShipperProgramEntry>>;
+  /** A list of edges which contains the `ShipperProgramEntry`, info from the `ShipperProgramEntryCustomerProgramEntry`, and the cursor to aid in pagination. */
+  edges: Array<CustomerProgramEntryShipperProgramEntriesByShipperProgramEntryCustomerProgramEntryCustomerProgramEntryIdAndShipperProgramEntryIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `ShipperProgramEntry` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `ShipperProgramEntry` edge in the connection, with data from `ShipperProgramEntryCustomerProgramEntry`. */
+export type CustomerProgramEntryShipperProgramEntriesByShipperProgramEntryCustomerProgramEntryCustomerProgramEntryIdAndShipperProgramEntryIdManyToManyEdge = {
+  __typename?: 'CustomerProgramEntryShipperProgramEntriesByShipperProgramEntryCustomerProgramEntryCustomerProgramEntryIdAndShipperProgramEntryIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `ShipperProgramEntry` at the end of the edge. */
+  node?: Maybe<ShipperProgramEntry>;
+  /** Reads and enables pagination through a set of `ShipperProgramEntryCustomerProgramEntry`. */
+  shipperProgramEntryCustomerProgramEntries: ShipperProgramEntryCustomerProgramEntriesConnection;
+};
+
+
+/** A `ShipperProgramEntry` edge in the connection, with data from `ShipperProgramEntryCustomerProgramEntry`. */
+export type CustomerProgramEntryShipperProgramEntriesByShipperProgramEntryCustomerProgramEntryCustomerProgramEntryIdAndShipperProgramEntryIdManyToManyEdgeShipperProgramEntryCustomerProgramEntriesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProgramEntryCustomerProgramEntriesOrderBy>>;
+  condition?: Maybe<ShipperProgramEntryCustomerProgramEntryCondition>;
+  filter?: Maybe<ShipperProgramEntryCustomerProgramEntryFilter>;
+};
+
+/** Methods to use when ordering `ShipperProgramEntry`. */
+export enum ShipperProgramEntriesOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  NotesAsc = 'NOTES_ASC',
+  NotesDesc = 'NOTES_DESC',
+  ProgramDateAsc = 'PROGRAM_DATE_ASC',
+  ProgramDateDesc = 'PROGRAM_DATE_DESC',
+  PalletCountAsc = 'PALLET_COUNT_ASC',
+  PalletCountDesc = 'PALLET_COUNT_DESC',
+  ShipperProgramIdAsc = 'SHIPPER_PROGRAM_ID_ASC',
+  ShipperProgramIdDesc = 'SHIPPER_PROGRAM_ID_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
+/**
+ * A condition to be used against `ShipperProgramEntry` object types. All fields
+ * are tested for equality and combined with a logical ‘and.’
+ */
+export type ShipperProgramEntryCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `notes` field. */
+  notes?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `programDate` field. */
+  programDate?: Maybe<Scalars['Date']>;
+  /** Checks for equality with the object’s `palletCount` field. */
+  palletCount?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `shipperProgramId` field. */
+  shipperProgramId?: Maybe<Scalars['BigInt']>;
+};
+
+/** A `CustomerProgramEntry` edge in the connection. */
+export type CustomerProgramEntriesEdge = {
+  __typename?: 'CustomerProgramEntriesEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `CustomerProgramEntry` at the end of the edge. */
+  node?: Maybe<CustomerProgramEntry>;
+};
+
+/** A `CustomerProgram` edge in the connection. */
+export type CustomerProgramsEdge = {
+  __typename?: 'CustomerProgramsEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `CustomerProgram` at the end of the edge. */
+  node?: Maybe<CustomerProgram>;
+};
+
+/** A connection to a list of `Shipper` values, with data from `ShipperProjectionProduct`. */
+export type CommonSizeShippersByShipperProjectionProductCommonSizeIdAndShipperIdManyToManyConnection = {
+  __typename?: 'CommonSizeShippersByShipperProjectionProductCommonSizeIdAndShipperIdManyToManyConnection';
+  /** A list of `Shipper` objects. */
+  nodes: Array<Maybe<Shipper>>;
+  /** A list of edges which contains the `Shipper`, info from the `ShipperProjectionProduct`, and the cursor to aid in pagination. */
+  edges: Array<CommonSizeShippersByShipperProjectionProductCommonSizeIdAndShipperIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Shipper` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `Shipper` edge in the connection, with data from `ShipperProjectionProduct`. */
+export type CommonSizeShippersByShipperProjectionProductCommonSizeIdAndShipperIdManyToManyEdge = {
+  __typename?: 'CommonSizeShippersByShipperProjectionProductCommonSizeIdAndShipperIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `Shipper` at the end of the edge. */
+  node?: Maybe<Shipper>;
+  /** Reads and enables pagination through a set of `ShipperProjectionProduct`. */
+  shipperProjectionProducts: ShipperProjectionProductsConnection;
+};
+
+
+/** A `Shipper` edge in the connection, with data from `ShipperProjectionProduct`. */
+export type CommonSizeShippersByShipperProjectionProductCommonSizeIdAndShipperIdManyToManyEdgeShipperProjectionProductsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProjectionProductsOrderBy>>;
+  condition?: Maybe<ShipperProjectionProductCondition>;
+  filter?: Maybe<ShipperProjectionProductFilter>;
+};
+
+/** A connection to a list of `CommonSpecies` values, with data from `ShipperProjectionProduct`. */
+export type CommonSizeCommonSpeciesByShipperProjectionProductCommonSizeIdAndCommonSpeciesIdManyToManyConnection = {
+  __typename?: 'CommonSizeCommonSpeciesByShipperProjectionProductCommonSizeIdAndCommonSpeciesIdManyToManyConnection';
+  /** A list of `CommonSpecies` objects. */
+  nodes: Array<Maybe<CommonSpecies>>;
+  /** A list of edges which contains the `CommonSpecies`, info from the `ShipperProjectionProduct`, and the cursor to aid in pagination. */
+  edges: Array<CommonSizeCommonSpeciesByShipperProjectionProductCommonSizeIdAndCommonSpeciesIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `CommonSpecies` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `CommonSpecies` edge in the connection, with data from `ShipperProjectionProduct`. */
+export type CommonSizeCommonSpeciesByShipperProjectionProductCommonSizeIdAndCommonSpeciesIdManyToManyEdge = {
+  __typename?: 'CommonSizeCommonSpeciesByShipperProjectionProductCommonSizeIdAndCommonSpeciesIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `CommonSpecies` at the end of the edge. */
+  node?: Maybe<CommonSpecies>;
+  /** Reads and enables pagination through a set of `ShipperProjectionProduct`. */
+  shipperProjectionProducts: ShipperProjectionProductsConnection;
+};
+
+
+/** A `CommonSpecies` edge in the connection, with data from `ShipperProjectionProduct`. */
+export type CommonSizeCommonSpeciesByShipperProjectionProductCommonSizeIdAndCommonSpeciesIdManyToManyEdgeShipperProjectionProductsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProjectionProductsOrderBy>>;
+  condition?: Maybe<ShipperProjectionProductCondition>;
+  filter?: Maybe<ShipperProjectionProductFilter>;
+};
+
+/** A connection to a list of `CommonVariety` values, with data from `ShipperProjectionProduct`. */
+export type CommonSizeCommonVarietiesByShipperProjectionProductCommonSizeIdAndCommonVarietyIdManyToManyConnection = {
+  __typename?: 'CommonSizeCommonVarietiesByShipperProjectionProductCommonSizeIdAndCommonVarietyIdManyToManyConnection';
+  /** A list of `CommonVariety` objects. */
+  nodes: Array<Maybe<CommonVariety>>;
+  /** A list of edges which contains the `CommonVariety`, info from the `ShipperProjectionProduct`, and the cursor to aid in pagination. */
+  edges: Array<CommonSizeCommonVarietiesByShipperProjectionProductCommonSizeIdAndCommonVarietyIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `CommonVariety` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `CommonVariety` edge in the connection, with data from `ShipperProjectionProduct`. */
+export type CommonSizeCommonVarietiesByShipperProjectionProductCommonSizeIdAndCommonVarietyIdManyToManyEdge = {
+  __typename?: 'CommonSizeCommonVarietiesByShipperProjectionProductCommonSizeIdAndCommonVarietyIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `CommonVariety` at the end of the edge. */
+  node?: Maybe<CommonVariety>;
+  /** Reads and enables pagination through a set of `ShipperProjectionProduct`. */
+  shipperProjectionProducts: ShipperProjectionProductsConnection;
+};
+
+
+/** A `CommonVariety` edge in the connection, with data from `ShipperProjectionProduct`. */
+export type CommonSizeCommonVarietiesByShipperProjectionProductCommonSizeIdAndCommonVarietyIdManyToManyEdgeShipperProjectionProductsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProjectionProductsOrderBy>>;
+  condition?: Maybe<ShipperProjectionProductCondition>;
+  filter?: Maybe<ShipperProjectionProductFilter>;
+};
+
+/** A connection to a list of `CommonPackType` values, with data from `ShipperProjectionProduct`. */
+export type CommonSizeCommonPackTypesByShipperProjectionProductCommonSizeIdAndCommonPackTypeIdManyToManyConnection = {
+  __typename?: 'CommonSizeCommonPackTypesByShipperProjectionProductCommonSizeIdAndCommonPackTypeIdManyToManyConnection';
+  /** A list of `CommonPackType` objects. */
+  nodes: Array<Maybe<CommonPackType>>;
+  /** A list of edges which contains the `CommonPackType`, info from the `ShipperProjectionProduct`, and the cursor to aid in pagination. */
+  edges: Array<CommonSizeCommonPackTypesByShipperProjectionProductCommonSizeIdAndCommonPackTypeIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `CommonPackType` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
 /** A `CommonPackType` edge in the connection, with data from `ShipperProjectionProduct`. */
 export type CommonSizeCommonPackTypesByShipperProjectionProductCommonSizeIdAndCommonPackTypeIdManyToManyEdge = {
   __typename?: 'CommonSizeCommonPackTypesByShipperProjectionProductCommonSizeIdAndCommonPackTypeIdManyToManyEdge';
@@ -8598,6 +10442,420 @@ export type ProductSizeCondition = {
   combineDescription?: Maybe<Scalars['String']>;
   /** Checks for equality with the object’s `shipperId` field. */
   shipperId?: Maybe<Scalars['String']>;
+};
+
+/** A connection to a list of `CommonSpecies` values, with data from `ShipperProgram`. */
+export type CommonSizeCommonSpeciesByShipperProgramCommonSizeIdAndCommonSpeciesIdManyToManyConnection = {
+  __typename?: 'CommonSizeCommonSpeciesByShipperProgramCommonSizeIdAndCommonSpeciesIdManyToManyConnection';
+  /** A list of `CommonSpecies` objects. */
+  nodes: Array<Maybe<CommonSpecies>>;
+  /** A list of edges which contains the `CommonSpecies`, info from the `ShipperProgram`, and the cursor to aid in pagination. */
+  edges: Array<CommonSizeCommonSpeciesByShipperProgramCommonSizeIdAndCommonSpeciesIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `CommonSpecies` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `CommonSpecies` edge in the connection, with data from `ShipperProgram`. */
+export type CommonSizeCommonSpeciesByShipperProgramCommonSizeIdAndCommonSpeciesIdManyToManyEdge = {
+  __typename?: 'CommonSizeCommonSpeciesByShipperProgramCommonSizeIdAndCommonSpeciesIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `CommonSpecies` at the end of the edge. */
+  node?: Maybe<CommonSpecies>;
+  /** Reads and enables pagination through a set of `ShipperProgram`. */
+  shipperPrograms: ShipperProgramsConnection;
+};
+
+
+/** A `CommonSpecies` edge in the connection, with data from `ShipperProgram`. */
+export type CommonSizeCommonSpeciesByShipperProgramCommonSizeIdAndCommonSpeciesIdManyToManyEdgeShipperProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProgramsOrderBy>>;
+  condition?: Maybe<ShipperProgramCondition>;
+  filter?: Maybe<ShipperProgramFilter>;
+};
+
+/** A connection to a list of `CommonVariety` values, with data from `ShipperProgram`. */
+export type CommonSizeCommonVarietiesByShipperProgramCommonSizeIdAndCommonVarietyIdManyToManyConnection = {
+  __typename?: 'CommonSizeCommonVarietiesByShipperProgramCommonSizeIdAndCommonVarietyIdManyToManyConnection';
+  /** A list of `CommonVariety` objects. */
+  nodes: Array<Maybe<CommonVariety>>;
+  /** A list of edges which contains the `CommonVariety`, info from the `ShipperProgram`, and the cursor to aid in pagination. */
+  edges: Array<CommonSizeCommonVarietiesByShipperProgramCommonSizeIdAndCommonVarietyIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `CommonVariety` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `CommonVariety` edge in the connection, with data from `ShipperProgram`. */
+export type CommonSizeCommonVarietiesByShipperProgramCommonSizeIdAndCommonVarietyIdManyToManyEdge = {
+  __typename?: 'CommonSizeCommonVarietiesByShipperProgramCommonSizeIdAndCommonVarietyIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `CommonVariety` at the end of the edge. */
+  node?: Maybe<CommonVariety>;
+  /** Reads and enables pagination through a set of `ShipperProgram`. */
+  shipperPrograms: ShipperProgramsConnection;
+};
+
+
+/** A `CommonVariety` edge in the connection, with data from `ShipperProgram`. */
+export type CommonSizeCommonVarietiesByShipperProgramCommonSizeIdAndCommonVarietyIdManyToManyEdgeShipperProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProgramsOrderBy>>;
+  condition?: Maybe<ShipperProgramCondition>;
+  filter?: Maybe<ShipperProgramFilter>;
+};
+
+/** A connection to a list of `CommonPackType` values, with data from `ShipperProgram`. */
+export type CommonSizeCommonPackTypesByShipperProgramCommonSizeIdAndCommonPackTypeIdManyToManyConnection = {
+  __typename?: 'CommonSizeCommonPackTypesByShipperProgramCommonSizeIdAndCommonPackTypeIdManyToManyConnection';
+  /** A list of `CommonPackType` objects. */
+  nodes: Array<Maybe<CommonPackType>>;
+  /** A list of edges which contains the `CommonPackType`, info from the `ShipperProgram`, and the cursor to aid in pagination. */
+  edges: Array<CommonSizeCommonPackTypesByShipperProgramCommonSizeIdAndCommonPackTypeIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `CommonPackType` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `CommonPackType` edge in the connection, with data from `ShipperProgram`. */
+export type CommonSizeCommonPackTypesByShipperProgramCommonSizeIdAndCommonPackTypeIdManyToManyEdge = {
+  __typename?: 'CommonSizeCommonPackTypesByShipperProgramCommonSizeIdAndCommonPackTypeIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `CommonPackType` at the end of the edge. */
+  node?: Maybe<CommonPackType>;
+  /** Reads and enables pagination through a set of `ShipperProgram`. */
+  shipperPrograms: ShipperProgramsConnection;
+};
+
+
+/** A `CommonPackType` edge in the connection, with data from `ShipperProgram`. */
+export type CommonSizeCommonPackTypesByShipperProgramCommonSizeIdAndCommonPackTypeIdManyToManyEdgeShipperProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProgramsOrderBy>>;
+  condition?: Maybe<ShipperProgramCondition>;
+  filter?: Maybe<ShipperProgramFilter>;
+};
+
+/** A connection to a list of `Shipper` values, with data from `ShipperProgram`. */
+export type CommonSizeShippersByShipperProgramCommonSizeIdAndShipperIdManyToManyConnection = {
+  __typename?: 'CommonSizeShippersByShipperProgramCommonSizeIdAndShipperIdManyToManyConnection';
+  /** A list of `Shipper` objects. */
+  nodes: Array<Maybe<Shipper>>;
+  /** A list of edges which contains the `Shipper`, info from the `ShipperProgram`, and the cursor to aid in pagination. */
+  edges: Array<CommonSizeShippersByShipperProgramCommonSizeIdAndShipperIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Shipper` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `Shipper` edge in the connection, with data from `ShipperProgram`. */
+export type CommonSizeShippersByShipperProgramCommonSizeIdAndShipperIdManyToManyEdge = {
+  __typename?: 'CommonSizeShippersByShipperProgramCommonSizeIdAndShipperIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `Shipper` at the end of the edge. */
+  node?: Maybe<Shipper>;
+  /** Reads and enables pagination through a set of `ShipperProgram`. */
+  shipperPrograms: ShipperProgramsConnection;
+};
+
+
+/** A `Shipper` edge in the connection, with data from `ShipperProgram`. */
+export type CommonSizeShippersByShipperProgramCommonSizeIdAndShipperIdManyToManyEdgeShipperProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProgramsOrderBy>>;
+  condition?: Maybe<ShipperProgramCondition>;
+  filter?: Maybe<ShipperProgramFilter>;
+};
+
+/** A connection to a list of `CommonSpecies` values, with data from `CustomerProgram`. */
+export type CommonSizeCommonSpeciesByCustomerProgramCommonSizeIdAndCommonSpeciesIdManyToManyConnection = {
+  __typename?: 'CommonSizeCommonSpeciesByCustomerProgramCommonSizeIdAndCommonSpeciesIdManyToManyConnection';
+  /** A list of `CommonSpecies` objects. */
+  nodes: Array<Maybe<CommonSpecies>>;
+  /** A list of edges which contains the `CommonSpecies`, info from the `CustomerProgram`, and the cursor to aid in pagination. */
+  edges: Array<CommonSizeCommonSpeciesByCustomerProgramCommonSizeIdAndCommonSpeciesIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `CommonSpecies` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `CommonSpecies` edge in the connection, with data from `CustomerProgram`. */
+export type CommonSizeCommonSpeciesByCustomerProgramCommonSizeIdAndCommonSpeciesIdManyToManyEdge = {
+  __typename?: 'CommonSizeCommonSpeciesByCustomerProgramCommonSizeIdAndCommonSpeciesIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `CommonSpecies` at the end of the edge. */
+  node?: Maybe<CommonSpecies>;
+  /** Reads and enables pagination through a set of `CustomerProgram`. */
+  customerPrograms: CustomerProgramsConnection;
+};
+
+
+/** A `CommonSpecies` edge in the connection, with data from `CustomerProgram`. */
+export type CommonSizeCommonSpeciesByCustomerProgramCommonSizeIdAndCommonSpeciesIdManyToManyEdgeCustomerProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CustomerProgramsOrderBy>>;
+  condition?: Maybe<CustomerProgramCondition>;
+  filter?: Maybe<CustomerProgramFilter>;
+};
+
+/** A connection to a list of `CommonVariety` values, with data from `CustomerProgram`. */
+export type CommonSizeCommonVarietiesByCustomerProgramCommonSizeIdAndCommonVarietyIdManyToManyConnection = {
+  __typename?: 'CommonSizeCommonVarietiesByCustomerProgramCommonSizeIdAndCommonVarietyIdManyToManyConnection';
+  /** A list of `CommonVariety` objects. */
+  nodes: Array<Maybe<CommonVariety>>;
+  /** A list of edges which contains the `CommonVariety`, info from the `CustomerProgram`, and the cursor to aid in pagination. */
+  edges: Array<CommonSizeCommonVarietiesByCustomerProgramCommonSizeIdAndCommonVarietyIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `CommonVariety` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `CommonVariety` edge in the connection, with data from `CustomerProgram`. */
+export type CommonSizeCommonVarietiesByCustomerProgramCommonSizeIdAndCommonVarietyIdManyToManyEdge = {
+  __typename?: 'CommonSizeCommonVarietiesByCustomerProgramCommonSizeIdAndCommonVarietyIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `CommonVariety` at the end of the edge. */
+  node?: Maybe<CommonVariety>;
+  /** Reads and enables pagination through a set of `CustomerProgram`. */
+  customerPrograms: CustomerProgramsConnection;
+};
+
+
+/** A `CommonVariety` edge in the connection, with data from `CustomerProgram`. */
+export type CommonSizeCommonVarietiesByCustomerProgramCommonSizeIdAndCommonVarietyIdManyToManyEdgeCustomerProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CustomerProgramsOrderBy>>;
+  condition?: Maybe<CustomerProgramCondition>;
+  filter?: Maybe<CustomerProgramFilter>;
+};
+
+/** A connection to a list of `CommonPackType` values, with data from `CustomerProgram`. */
+export type CommonSizeCommonPackTypesByCustomerProgramCommonSizeIdAndCommonPackTypeIdManyToManyConnection = {
+  __typename?: 'CommonSizeCommonPackTypesByCustomerProgramCommonSizeIdAndCommonPackTypeIdManyToManyConnection';
+  /** A list of `CommonPackType` objects. */
+  nodes: Array<Maybe<CommonPackType>>;
+  /** A list of edges which contains the `CommonPackType`, info from the `CustomerProgram`, and the cursor to aid in pagination. */
+  edges: Array<CommonSizeCommonPackTypesByCustomerProgramCommonSizeIdAndCommonPackTypeIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `CommonPackType` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `CommonPackType` edge in the connection, with data from `CustomerProgram`. */
+export type CommonSizeCommonPackTypesByCustomerProgramCommonSizeIdAndCommonPackTypeIdManyToManyEdge = {
+  __typename?: 'CommonSizeCommonPackTypesByCustomerProgramCommonSizeIdAndCommonPackTypeIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `CommonPackType` at the end of the edge. */
+  node?: Maybe<CommonPackType>;
+  /** Reads and enables pagination through a set of `CustomerProgram`. */
+  customerPrograms: CustomerProgramsConnection;
+};
+
+
+/** A `CommonPackType` edge in the connection, with data from `CustomerProgram`. */
+export type CommonSizeCommonPackTypesByCustomerProgramCommonSizeIdAndCommonPackTypeIdManyToManyEdgeCustomerProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CustomerProgramsOrderBy>>;
+  condition?: Maybe<CustomerProgramCondition>;
+  filter?: Maybe<CustomerProgramFilter>;
+};
+
+/** A connection to a list of `Customer` values, with data from `CustomerProgram`. */
+export type CommonSizeCustomersByCustomerProgramCommonSizeIdAndCustomerIdManyToManyConnection = {
+  __typename?: 'CommonSizeCustomersByCustomerProgramCommonSizeIdAndCustomerIdManyToManyConnection';
+  /** A list of `Customer` objects. */
+  nodes: Array<Maybe<Customer>>;
+  /** A list of edges which contains the `Customer`, info from the `CustomerProgram`, and the cursor to aid in pagination. */
+  edges: Array<CommonSizeCustomersByCustomerProgramCommonSizeIdAndCustomerIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Customer` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `Customer` edge in the connection, with data from `CustomerProgram`. */
+export type CommonSizeCustomersByCustomerProgramCommonSizeIdAndCustomerIdManyToManyEdge = {
+  __typename?: 'CommonSizeCustomersByCustomerProgramCommonSizeIdAndCustomerIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `Customer` at the end of the edge. */
+  node?: Maybe<Customer>;
+  /** Reads and enables pagination through a set of `CustomerProgram`. */
+  customerPrograms: CustomerProgramsConnection;
+};
+
+
+/** A `Customer` edge in the connection, with data from `CustomerProgram`. */
+export type CommonSizeCustomersByCustomerProgramCommonSizeIdAndCustomerIdManyToManyEdgeCustomerProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CustomerProgramsOrderBy>>;
+  condition?: Maybe<CustomerProgramCondition>;
+  filter?: Maybe<CustomerProgramFilter>;
+};
+
+/** A connection to a list of `ShipperProgramEntry` values. */
+export type ShipperProgramEntriesConnection = {
+  __typename?: 'ShipperProgramEntriesConnection';
+  /** A list of `ShipperProgramEntry` objects. */
+  nodes: Array<Maybe<ShipperProgramEntry>>;
+  /** A list of edges which contains the `ShipperProgramEntry` and cursor to aid in pagination. */
+  edges: Array<ShipperProgramEntriesEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `ShipperProgramEntry` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `ShipperProgramEntry` edge in the connection. */
+export type ShipperProgramEntriesEdge = {
+  __typename?: 'ShipperProgramEntriesEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `ShipperProgramEntry` at the end of the edge. */
+  node?: Maybe<ShipperProgramEntry>;
+};
+
+/** A `ShipperProgram` edge in the connection. */
+export type ShipperProgramsEdge = {
+  __typename?: 'ShipperProgramsEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `ShipperProgram` at the end of the edge. */
+  node?: Maybe<ShipperProgram>;
+};
+
+/** A connection to a list of `Shipper` values, with data from `ShipperProjectionProduct`. */
+export type CommonVarietyShippersByShipperProjectionProductCommonVarietyIdAndShipperIdManyToManyConnection = {
+  __typename?: 'CommonVarietyShippersByShipperProjectionProductCommonVarietyIdAndShipperIdManyToManyConnection';
+  /** A list of `Shipper` objects. */
+  nodes: Array<Maybe<Shipper>>;
+  /** A list of edges which contains the `Shipper`, info from the `ShipperProjectionProduct`, and the cursor to aid in pagination. */
+  edges: Array<CommonVarietyShippersByShipperProjectionProductCommonVarietyIdAndShipperIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Shipper` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `Shipper` edge in the connection, with data from `ShipperProjectionProduct`. */
+export type CommonVarietyShippersByShipperProjectionProductCommonVarietyIdAndShipperIdManyToManyEdge = {
+  __typename?: 'CommonVarietyShippersByShipperProjectionProductCommonVarietyIdAndShipperIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `Shipper` at the end of the edge. */
+  node?: Maybe<Shipper>;
+  /** Reads and enables pagination through a set of `ShipperProjectionProduct`. */
+  shipperProjectionProducts: ShipperProjectionProductsConnection;
+};
+
+
+/** A `Shipper` edge in the connection, with data from `ShipperProjectionProduct`. */
+export type CommonVarietyShippersByShipperProjectionProductCommonVarietyIdAndShipperIdManyToManyEdgeShipperProjectionProductsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProjectionProductsOrderBy>>;
+  condition?: Maybe<ShipperProjectionProductCondition>;
+  filter?: Maybe<ShipperProjectionProductFilter>;
+};
+
+/** A connection to a list of `CommonSpecies` values, with data from `ShipperProjectionProduct`. */
+export type CommonVarietyCommonSpeciesByShipperProjectionProductCommonVarietyIdAndCommonSpeciesIdManyToManyConnection = {
+  __typename?: 'CommonVarietyCommonSpeciesByShipperProjectionProductCommonVarietyIdAndCommonSpeciesIdManyToManyConnection';
+  /** A list of `CommonSpecies` objects. */
+  nodes: Array<Maybe<CommonSpecies>>;
+  /** A list of edges which contains the `CommonSpecies`, info from the `ShipperProjectionProduct`, and the cursor to aid in pagination. */
+  edges: Array<CommonVarietyCommonSpeciesByShipperProjectionProductCommonVarietyIdAndCommonSpeciesIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `CommonSpecies` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `CommonSpecies` edge in the connection, with data from `ShipperProjectionProduct`. */
+export type CommonVarietyCommonSpeciesByShipperProjectionProductCommonVarietyIdAndCommonSpeciesIdManyToManyEdge = {
+  __typename?: 'CommonVarietyCommonSpeciesByShipperProjectionProductCommonVarietyIdAndCommonSpeciesIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `CommonSpecies` at the end of the edge. */
+  node?: Maybe<CommonSpecies>;
+  /** Reads and enables pagination through a set of `ShipperProjectionProduct`. */
+  shipperProjectionProducts: ShipperProjectionProductsConnection;
+};
+
+
+/** A `CommonSpecies` edge in the connection, with data from `ShipperProjectionProduct`. */
+export type CommonVarietyCommonSpeciesByShipperProjectionProductCommonVarietyIdAndCommonSpeciesIdManyToManyEdgeShipperProjectionProductsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProjectionProductsOrderBy>>;
+  condition?: Maybe<ShipperProjectionProductCondition>;
+  filter?: Maybe<ShipperProjectionProductFilter>;
+};
+
+/** A connection to a list of `CommonSize` values, with data from `ShipperProjectionProduct`. */
+export type CommonVarietyCommonSizesByShipperProjectionProductCommonVarietyIdAndCommonSizeIdManyToManyConnection = {
+  __typename?: 'CommonVarietyCommonSizesByShipperProjectionProductCommonVarietyIdAndCommonSizeIdManyToManyConnection';
+  /** A list of `CommonSize` objects. */
+  nodes: Array<Maybe<CommonSize>>;
+  /** A list of edges which contains the `CommonSize`, info from the `ShipperProjectionProduct`, and the cursor to aid in pagination. */
+  edges: Array<CommonVarietyCommonSizesByShipperProjectionProductCommonVarietyIdAndCommonSizeIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `CommonSize` you could get from the connection. */
+  totalCount: Scalars['Int'];
 };
 
 /** A `CommonSize` edge in the connection, with data from `ShipperProjectionProduct`. */
@@ -8738,6 +10996,302 @@ export type ProductVarietyCondition = {
   varietyGroup?: Maybe<Scalars['String']>;
   /** Checks for equality with the object’s `combineWith` field. */
   combineWith?: Maybe<Scalars['String']>;
+};
+
+/** A connection to a list of `CommonSpecies` values, with data from `ShipperProgram`. */
+export type CommonVarietyCommonSpeciesByShipperProgramCommonVarietyIdAndCommonSpeciesIdManyToManyConnection = {
+  __typename?: 'CommonVarietyCommonSpeciesByShipperProgramCommonVarietyIdAndCommonSpeciesIdManyToManyConnection';
+  /** A list of `CommonSpecies` objects. */
+  nodes: Array<Maybe<CommonSpecies>>;
+  /** A list of edges which contains the `CommonSpecies`, info from the `ShipperProgram`, and the cursor to aid in pagination. */
+  edges: Array<CommonVarietyCommonSpeciesByShipperProgramCommonVarietyIdAndCommonSpeciesIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `CommonSpecies` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `CommonSpecies` edge in the connection, with data from `ShipperProgram`. */
+export type CommonVarietyCommonSpeciesByShipperProgramCommonVarietyIdAndCommonSpeciesIdManyToManyEdge = {
+  __typename?: 'CommonVarietyCommonSpeciesByShipperProgramCommonVarietyIdAndCommonSpeciesIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `CommonSpecies` at the end of the edge. */
+  node?: Maybe<CommonSpecies>;
+  /** Reads and enables pagination through a set of `ShipperProgram`. */
+  shipperPrograms: ShipperProgramsConnection;
+};
+
+
+/** A `CommonSpecies` edge in the connection, with data from `ShipperProgram`. */
+export type CommonVarietyCommonSpeciesByShipperProgramCommonVarietyIdAndCommonSpeciesIdManyToManyEdgeShipperProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProgramsOrderBy>>;
+  condition?: Maybe<ShipperProgramCondition>;
+  filter?: Maybe<ShipperProgramFilter>;
+};
+
+/** A connection to a list of `CommonSize` values, with data from `ShipperProgram`. */
+export type CommonVarietyCommonSizesByShipperProgramCommonVarietyIdAndCommonSizeIdManyToManyConnection = {
+  __typename?: 'CommonVarietyCommonSizesByShipperProgramCommonVarietyIdAndCommonSizeIdManyToManyConnection';
+  /** A list of `CommonSize` objects. */
+  nodes: Array<Maybe<CommonSize>>;
+  /** A list of edges which contains the `CommonSize`, info from the `ShipperProgram`, and the cursor to aid in pagination. */
+  edges: Array<CommonVarietyCommonSizesByShipperProgramCommonVarietyIdAndCommonSizeIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `CommonSize` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `CommonSize` edge in the connection, with data from `ShipperProgram`. */
+export type CommonVarietyCommonSizesByShipperProgramCommonVarietyIdAndCommonSizeIdManyToManyEdge = {
+  __typename?: 'CommonVarietyCommonSizesByShipperProgramCommonVarietyIdAndCommonSizeIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `CommonSize` at the end of the edge. */
+  node?: Maybe<CommonSize>;
+  /** Reads and enables pagination through a set of `ShipperProgram`. */
+  shipperPrograms: ShipperProgramsConnection;
+};
+
+
+/** A `CommonSize` edge in the connection, with data from `ShipperProgram`. */
+export type CommonVarietyCommonSizesByShipperProgramCommonVarietyIdAndCommonSizeIdManyToManyEdgeShipperProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProgramsOrderBy>>;
+  condition?: Maybe<ShipperProgramCondition>;
+  filter?: Maybe<ShipperProgramFilter>;
+};
+
+/** A connection to a list of `CommonPackType` values, with data from `ShipperProgram`. */
+export type CommonVarietyCommonPackTypesByShipperProgramCommonVarietyIdAndCommonPackTypeIdManyToManyConnection = {
+  __typename?: 'CommonVarietyCommonPackTypesByShipperProgramCommonVarietyIdAndCommonPackTypeIdManyToManyConnection';
+  /** A list of `CommonPackType` objects. */
+  nodes: Array<Maybe<CommonPackType>>;
+  /** A list of edges which contains the `CommonPackType`, info from the `ShipperProgram`, and the cursor to aid in pagination. */
+  edges: Array<CommonVarietyCommonPackTypesByShipperProgramCommonVarietyIdAndCommonPackTypeIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `CommonPackType` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `CommonPackType` edge in the connection, with data from `ShipperProgram`. */
+export type CommonVarietyCommonPackTypesByShipperProgramCommonVarietyIdAndCommonPackTypeIdManyToManyEdge = {
+  __typename?: 'CommonVarietyCommonPackTypesByShipperProgramCommonVarietyIdAndCommonPackTypeIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `CommonPackType` at the end of the edge. */
+  node?: Maybe<CommonPackType>;
+  /** Reads and enables pagination through a set of `ShipperProgram`. */
+  shipperPrograms: ShipperProgramsConnection;
+};
+
+
+/** A `CommonPackType` edge in the connection, with data from `ShipperProgram`. */
+export type CommonVarietyCommonPackTypesByShipperProgramCommonVarietyIdAndCommonPackTypeIdManyToManyEdgeShipperProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProgramsOrderBy>>;
+  condition?: Maybe<ShipperProgramCondition>;
+  filter?: Maybe<ShipperProgramFilter>;
+};
+
+/** A connection to a list of `Shipper` values, with data from `ShipperProgram`. */
+export type CommonVarietyShippersByShipperProgramCommonVarietyIdAndShipperIdManyToManyConnection = {
+  __typename?: 'CommonVarietyShippersByShipperProgramCommonVarietyIdAndShipperIdManyToManyConnection';
+  /** A list of `Shipper` objects. */
+  nodes: Array<Maybe<Shipper>>;
+  /** A list of edges which contains the `Shipper`, info from the `ShipperProgram`, and the cursor to aid in pagination. */
+  edges: Array<CommonVarietyShippersByShipperProgramCommonVarietyIdAndShipperIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Shipper` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `Shipper` edge in the connection, with data from `ShipperProgram`. */
+export type CommonVarietyShippersByShipperProgramCommonVarietyIdAndShipperIdManyToManyEdge = {
+  __typename?: 'CommonVarietyShippersByShipperProgramCommonVarietyIdAndShipperIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `Shipper` at the end of the edge. */
+  node?: Maybe<Shipper>;
+  /** Reads and enables pagination through a set of `ShipperProgram`. */
+  shipperPrograms: ShipperProgramsConnection;
+};
+
+
+/** A `Shipper` edge in the connection, with data from `ShipperProgram`. */
+export type CommonVarietyShippersByShipperProgramCommonVarietyIdAndShipperIdManyToManyEdgeShipperProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProgramsOrderBy>>;
+  condition?: Maybe<ShipperProgramCondition>;
+  filter?: Maybe<ShipperProgramFilter>;
+};
+
+/** A connection to a list of `CommonSpecies` values, with data from `CustomerProgram`. */
+export type CommonVarietyCommonSpeciesByCustomerProgramCommonVarietyIdAndCommonSpeciesIdManyToManyConnection = {
+  __typename?: 'CommonVarietyCommonSpeciesByCustomerProgramCommonVarietyIdAndCommonSpeciesIdManyToManyConnection';
+  /** A list of `CommonSpecies` objects. */
+  nodes: Array<Maybe<CommonSpecies>>;
+  /** A list of edges which contains the `CommonSpecies`, info from the `CustomerProgram`, and the cursor to aid in pagination. */
+  edges: Array<CommonVarietyCommonSpeciesByCustomerProgramCommonVarietyIdAndCommonSpeciesIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `CommonSpecies` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `CommonSpecies` edge in the connection, with data from `CustomerProgram`. */
+export type CommonVarietyCommonSpeciesByCustomerProgramCommonVarietyIdAndCommonSpeciesIdManyToManyEdge = {
+  __typename?: 'CommonVarietyCommonSpeciesByCustomerProgramCommonVarietyIdAndCommonSpeciesIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `CommonSpecies` at the end of the edge. */
+  node?: Maybe<CommonSpecies>;
+  /** Reads and enables pagination through a set of `CustomerProgram`. */
+  customerPrograms: CustomerProgramsConnection;
+};
+
+
+/** A `CommonSpecies` edge in the connection, with data from `CustomerProgram`. */
+export type CommonVarietyCommonSpeciesByCustomerProgramCommonVarietyIdAndCommonSpeciesIdManyToManyEdgeCustomerProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CustomerProgramsOrderBy>>;
+  condition?: Maybe<CustomerProgramCondition>;
+  filter?: Maybe<CustomerProgramFilter>;
+};
+
+/** A connection to a list of `CommonSize` values, with data from `CustomerProgram`. */
+export type CommonVarietyCommonSizesByCustomerProgramCommonVarietyIdAndCommonSizeIdManyToManyConnection = {
+  __typename?: 'CommonVarietyCommonSizesByCustomerProgramCommonVarietyIdAndCommonSizeIdManyToManyConnection';
+  /** A list of `CommonSize` objects. */
+  nodes: Array<Maybe<CommonSize>>;
+  /** A list of edges which contains the `CommonSize`, info from the `CustomerProgram`, and the cursor to aid in pagination. */
+  edges: Array<CommonVarietyCommonSizesByCustomerProgramCommonVarietyIdAndCommonSizeIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `CommonSize` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `CommonSize` edge in the connection, with data from `CustomerProgram`. */
+export type CommonVarietyCommonSizesByCustomerProgramCommonVarietyIdAndCommonSizeIdManyToManyEdge = {
+  __typename?: 'CommonVarietyCommonSizesByCustomerProgramCommonVarietyIdAndCommonSizeIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `CommonSize` at the end of the edge. */
+  node?: Maybe<CommonSize>;
+  /** Reads and enables pagination through a set of `CustomerProgram`. */
+  customerPrograms: CustomerProgramsConnection;
+};
+
+
+/** A `CommonSize` edge in the connection, with data from `CustomerProgram`. */
+export type CommonVarietyCommonSizesByCustomerProgramCommonVarietyIdAndCommonSizeIdManyToManyEdgeCustomerProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CustomerProgramsOrderBy>>;
+  condition?: Maybe<CustomerProgramCondition>;
+  filter?: Maybe<CustomerProgramFilter>;
+};
+
+/** A connection to a list of `CommonPackType` values, with data from `CustomerProgram`. */
+export type CommonVarietyCommonPackTypesByCustomerProgramCommonVarietyIdAndCommonPackTypeIdManyToManyConnection = {
+  __typename?: 'CommonVarietyCommonPackTypesByCustomerProgramCommonVarietyIdAndCommonPackTypeIdManyToManyConnection';
+  /** A list of `CommonPackType` objects. */
+  nodes: Array<Maybe<CommonPackType>>;
+  /** A list of edges which contains the `CommonPackType`, info from the `CustomerProgram`, and the cursor to aid in pagination. */
+  edges: Array<CommonVarietyCommonPackTypesByCustomerProgramCommonVarietyIdAndCommonPackTypeIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `CommonPackType` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `CommonPackType` edge in the connection, with data from `CustomerProgram`. */
+export type CommonVarietyCommonPackTypesByCustomerProgramCommonVarietyIdAndCommonPackTypeIdManyToManyEdge = {
+  __typename?: 'CommonVarietyCommonPackTypesByCustomerProgramCommonVarietyIdAndCommonPackTypeIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `CommonPackType` at the end of the edge. */
+  node?: Maybe<CommonPackType>;
+  /** Reads and enables pagination through a set of `CustomerProgram`. */
+  customerPrograms: CustomerProgramsConnection;
+};
+
+
+/** A `CommonPackType` edge in the connection, with data from `CustomerProgram`. */
+export type CommonVarietyCommonPackTypesByCustomerProgramCommonVarietyIdAndCommonPackTypeIdManyToManyEdgeCustomerProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CustomerProgramsOrderBy>>;
+  condition?: Maybe<CustomerProgramCondition>;
+  filter?: Maybe<CustomerProgramFilter>;
+};
+
+/** A connection to a list of `Customer` values, with data from `CustomerProgram`. */
+export type CommonVarietyCustomersByCustomerProgramCommonVarietyIdAndCustomerIdManyToManyConnection = {
+  __typename?: 'CommonVarietyCustomersByCustomerProgramCommonVarietyIdAndCustomerIdManyToManyConnection';
+  /** A list of `Customer` objects. */
+  nodes: Array<Maybe<Customer>>;
+  /** A list of edges which contains the `Customer`, info from the `CustomerProgram`, and the cursor to aid in pagination. */
+  edges: Array<CommonVarietyCustomersByCustomerProgramCommonVarietyIdAndCustomerIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Customer` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `Customer` edge in the connection, with data from `CustomerProgram`. */
+export type CommonVarietyCustomersByCustomerProgramCommonVarietyIdAndCustomerIdManyToManyEdge = {
+  __typename?: 'CommonVarietyCustomersByCustomerProgramCommonVarietyIdAndCustomerIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `Customer` at the end of the edge. */
+  node?: Maybe<Customer>;
+  /** Reads and enables pagination through a set of `CustomerProgram`. */
+  customerPrograms: CustomerProgramsConnection;
+};
+
+
+/** A `Customer` edge in the connection, with data from `CustomerProgram`. */
+export type CommonVarietyCustomersByCustomerProgramCommonVarietyIdAndCustomerIdManyToManyEdgeCustomerProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CustomerProgramsOrderBy>>;
+  condition?: Maybe<CustomerProgramCondition>;
+  filter?: Maybe<CustomerProgramFilter>;
 };
 
 /** A `CommonVariety` edge in the connection. */
@@ -9099,6 +11653,302 @@ export type CommonSpeciesProductSpeciesByCommonSpeciesProductSpeciesCommonSpecie
   filter?: Maybe<CommonSpeciesProductSpeciesFilter>;
 };
 
+/** A connection to a list of `CommonVariety` values, with data from `ShipperProgram`. */
+export type CommonSpeciesCommonVarietiesByShipperProgramCommonSpeciesIdAndCommonVarietyIdManyToManyConnection = {
+  __typename?: 'CommonSpeciesCommonVarietiesByShipperProgramCommonSpeciesIdAndCommonVarietyIdManyToManyConnection';
+  /** A list of `CommonVariety` objects. */
+  nodes: Array<Maybe<CommonVariety>>;
+  /** A list of edges which contains the `CommonVariety`, info from the `ShipperProgram`, and the cursor to aid in pagination. */
+  edges: Array<CommonSpeciesCommonVarietiesByShipperProgramCommonSpeciesIdAndCommonVarietyIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `CommonVariety` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `CommonVariety` edge in the connection, with data from `ShipperProgram`. */
+export type CommonSpeciesCommonVarietiesByShipperProgramCommonSpeciesIdAndCommonVarietyIdManyToManyEdge = {
+  __typename?: 'CommonSpeciesCommonVarietiesByShipperProgramCommonSpeciesIdAndCommonVarietyIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `CommonVariety` at the end of the edge. */
+  node?: Maybe<CommonVariety>;
+  /** Reads and enables pagination through a set of `ShipperProgram`. */
+  shipperPrograms: ShipperProgramsConnection;
+};
+
+
+/** A `CommonVariety` edge in the connection, with data from `ShipperProgram`. */
+export type CommonSpeciesCommonVarietiesByShipperProgramCommonSpeciesIdAndCommonVarietyIdManyToManyEdgeShipperProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProgramsOrderBy>>;
+  condition?: Maybe<ShipperProgramCondition>;
+  filter?: Maybe<ShipperProgramFilter>;
+};
+
+/** A connection to a list of `CommonSize` values, with data from `ShipperProgram`. */
+export type CommonSpeciesCommonSizesByShipperProgramCommonSpeciesIdAndCommonSizeIdManyToManyConnection = {
+  __typename?: 'CommonSpeciesCommonSizesByShipperProgramCommonSpeciesIdAndCommonSizeIdManyToManyConnection';
+  /** A list of `CommonSize` objects. */
+  nodes: Array<Maybe<CommonSize>>;
+  /** A list of edges which contains the `CommonSize`, info from the `ShipperProgram`, and the cursor to aid in pagination. */
+  edges: Array<CommonSpeciesCommonSizesByShipperProgramCommonSpeciesIdAndCommonSizeIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `CommonSize` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `CommonSize` edge in the connection, with data from `ShipperProgram`. */
+export type CommonSpeciesCommonSizesByShipperProgramCommonSpeciesIdAndCommonSizeIdManyToManyEdge = {
+  __typename?: 'CommonSpeciesCommonSizesByShipperProgramCommonSpeciesIdAndCommonSizeIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `CommonSize` at the end of the edge. */
+  node?: Maybe<CommonSize>;
+  /** Reads and enables pagination through a set of `ShipperProgram`. */
+  shipperPrograms: ShipperProgramsConnection;
+};
+
+
+/** A `CommonSize` edge in the connection, with data from `ShipperProgram`. */
+export type CommonSpeciesCommonSizesByShipperProgramCommonSpeciesIdAndCommonSizeIdManyToManyEdgeShipperProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProgramsOrderBy>>;
+  condition?: Maybe<ShipperProgramCondition>;
+  filter?: Maybe<ShipperProgramFilter>;
+};
+
+/** A connection to a list of `CommonPackType` values, with data from `ShipperProgram`. */
+export type CommonSpeciesCommonPackTypesByShipperProgramCommonSpeciesIdAndCommonPackTypeIdManyToManyConnection = {
+  __typename?: 'CommonSpeciesCommonPackTypesByShipperProgramCommonSpeciesIdAndCommonPackTypeIdManyToManyConnection';
+  /** A list of `CommonPackType` objects. */
+  nodes: Array<Maybe<CommonPackType>>;
+  /** A list of edges which contains the `CommonPackType`, info from the `ShipperProgram`, and the cursor to aid in pagination. */
+  edges: Array<CommonSpeciesCommonPackTypesByShipperProgramCommonSpeciesIdAndCommonPackTypeIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `CommonPackType` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `CommonPackType` edge in the connection, with data from `ShipperProgram`. */
+export type CommonSpeciesCommonPackTypesByShipperProgramCommonSpeciesIdAndCommonPackTypeIdManyToManyEdge = {
+  __typename?: 'CommonSpeciesCommonPackTypesByShipperProgramCommonSpeciesIdAndCommonPackTypeIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `CommonPackType` at the end of the edge. */
+  node?: Maybe<CommonPackType>;
+  /** Reads and enables pagination through a set of `ShipperProgram`. */
+  shipperPrograms: ShipperProgramsConnection;
+};
+
+
+/** A `CommonPackType` edge in the connection, with data from `ShipperProgram`. */
+export type CommonSpeciesCommonPackTypesByShipperProgramCommonSpeciesIdAndCommonPackTypeIdManyToManyEdgeShipperProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProgramsOrderBy>>;
+  condition?: Maybe<ShipperProgramCondition>;
+  filter?: Maybe<ShipperProgramFilter>;
+};
+
+/** A connection to a list of `Shipper` values, with data from `ShipperProgram`. */
+export type CommonSpeciesShippersByShipperProgramCommonSpeciesIdAndShipperIdManyToManyConnection = {
+  __typename?: 'CommonSpeciesShippersByShipperProgramCommonSpeciesIdAndShipperIdManyToManyConnection';
+  /** A list of `Shipper` objects. */
+  nodes: Array<Maybe<Shipper>>;
+  /** A list of edges which contains the `Shipper`, info from the `ShipperProgram`, and the cursor to aid in pagination. */
+  edges: Array<CommonSpeciesShippersByShipperProgramCommonSpeciesIdAndShipperIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Shipper` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `Shipper` edge in the connection, with data from `ShipperProgram`. */
+export type CommonSpeciesShippersByShipperProgramCommonSpeciesIdAndShipperIdManyToManyEdge = {
+  __typename?: 'CommonSpeciesShippersByShipperProgramCommonSpeciesIdAndShipperIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `Shipper` at the end of the edge. */
+  node?: Maybe<Shipper>;
+  /** Reads and enables pagination through a set of `ShipperProgram`. */
+  shipperPrograms: ShipperProgramsConnection;
+};
+
+
+/** A `Shipper` edge in the connection, with data from `ShipperProgram`. */
+export type CommonSpeciesShippersByShipperProgramCommonSpeciesIdAndShipperIdManyToManyEdgeShipperProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProgramsOrderBy>>;
+  condition?: Maybe<ShipperProgramCondition>;
+  filter?: Maybe<ShipperProgramFilter>;
+};
+
+/** A connection to a list of `CommonVariety` values, with data from `CustomerProgram`. */
+export type CommonSpeciesCommonVarietiesByCustomerProgramCommonSpeciesIdAndCommonVarietyIdManyToManyConnection = {
+  __typename?: 'CommonSpeciesCommonVarietiesByCustomerProgramCommonSpeciesIdAndCommonVarietyIdManyToManyConnection';
+  /** A list of `CommonVariety` objects. */
+  nodes: Array<Maybe<CommonVariety>>;
+  /** A list of edges which contains the `CommonVariety`, info from the `CustomerProgram`, and the cursor to aid in pagination. */
+  edges: Array<CommonSpeciesCommonVarietiesByCustomerProgramCommonSpeciesIdAndCommonVarietyIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `CommonVariety` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `CommonVariety` edge in the connection, with data from `CustomerProgram`. */
+export type CommonSpeciesCommonVarietiesByCustomerProgramCommonSpeciesIdAndCommonVarietyIdManyToManyEdge = {
+  __typename?: 'CommonSpeciesCommonVarietiesByCustomerProgramCommonSpeciesIdAndCommonVarietyIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `CommonVariety` at the end of the edge. */
+  node?: Maybe<CommonVariety>;
+  /** Reads and enables pagination through a set of `CustomerProgram`. */
+  customerPrograms: CustomerProgramsConnection;
+};
+
+
+/** A `CommonVariety` edge in the connection, with data from `CustomerProgram`. */
+export type CommonSpeciesCommonVarietiesByCustomerProgramCommonSpeciesIdAndCommonVarietyIdManyToManyEdgeCustomerProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CustomerProgramsOrderBy>>;
+  condition?: Maybe<CustomerProgramCondition>;
+  filter?: Maybe<CustomerProgramFilter>;
+};
+
+/** A connection to a list of `CommonSize` values, with data from `CustomerProgram`. */
+export type CommonSpeciesCommonSizesByCustomerProgramCommonSpeciesIdAndCommonSizeIdManyToManyConnection = {
+  __typename?: 'CommonSpeciesCommonSizesByCustomerProgramCommonSpeciesIdAndCommonSizeIdManyToManyConnection';
+  /** A list of `CommonSize` objects. */
+  nodes: Array<Maybe<CommonSize>>;
+  /** A list of edges which contains the `CommonSize`, info from the `CustomerProgram`, and the cursor to aid in pagination. */
+  edges: Array<CommonSpeciesCommonSizesByCustomerProgramCommonSpeciesIdAndCommonSizeIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `CommonSize` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `CommonSize` edge in the connection, with data from `CustomerProgram`. */
+export type CommonSpeciesCommonSizesByCustomerProgramCommonSpeciesIdAndCommonSizeIdManyToManyEdge = {
+  __typename?: 'CommonSpeciesCommonSizesByCustomerProgramCommonSpeciesIdAndCommonSizeIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `CommonSize` at the end of the edge. */
+  node?: Maybe<CommonSize>;
+  /** Reads and enables pagination through a set of `CustomerProgram`. */
+  customerPrograms: CustomerProgramsConnection;
+};
+
+
+/** A `CommonSize` edge in the connection, with data from `CustomerProgram`. */
+export type CommonSpeciesCommonSizesByCustomerProgramCommonSpeciesIdAndCommonSizeIdManyToManyEdgeCustomerProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CustomerProgramsOrderBy>>;
+  condition?: Maybe<CustomerProgramCondition>;
+  filter?: Maybe<CustomerProgramFilter>;
+};
+
+/** A connection to a list of `CommonPackType` values, with data from `CustomerProgram`. */
+export type CommonSpeciesCommonPackTypesByCustomerProgramCommonSpeciesIdAndCommonPackTypeIdManyToManyConnection = {
+  __typename?: 'CommonSpeciesCommonPackTypesByCustomerProgramCommonSpeciesIdAndCommonPackTypeIdManyToManyConnection';
+  /** A list of `CommonPackType` objects. */
+  nodes: Array<Maybe<CommonPackType>>;
+  /** A list of edges which contains the `CommonPackType`, info from the `CustomerProgram`, and the cursor to aid in pagination. */
+  edges: Array<CommonSpeciesCommonPackTypesByCustomerProgramCommonSpeciesIdAndCommonPackTypeIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `CommonPackType` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `CommonPackType` edge in the connection, with data from `CustomerProgram`. */
+export type CommonSpeciesCommonPackTypesByCustomerProgramCommonSpeciesIdAndCommonPackTypeIdManyToManyEdge = {
+  __typename?: 'CommonSpeciesCommonPackTypesByCustomerProgramCommonSpeciesIdAndCommonPackTypeIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `CommonPackType` at the end of the edge. */
+  node?: Maybe<CommonPackType>;
+  /** Reads and enables pagination through a set of `CustomerProgram`. */
+  customerPrograms: CustomerProgramsConnection;
+};
+
+
+/** A `CommonPackType` edge in the connection, with data from `CustomerProgram`. */
+export type CommonSpeciesCommonPackTypesByCustomerProgramCommonSpeciesIdAndCommonPackTypeIdManyToManyEdgeCustomerProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CustomerProgramsOrderBy>>;
+  condition?: Maybe<CustomerProgramCondition>;
+  filter?: Maybe<CustomerProgramFilter>;
+};
+
+/** A connection to a list of `Customer` values, with data from `CustomerProgram`. */
+export type CommonSpeciesCustomersByCustomerProgramCommonSpeciesIdAndCustomerIdManyToManyConnection = {
+  __typename?: 'CommonSpeciesCustomersByCustomerProgramCommonSpeciesIdAndCustomerIdManyToManyConnection';
+  /** A list of `Customer` objects. */
+  nodes: Array<Maybe<Customer>>;
+  /** A list of edges which contains the `Customer`, info from the `CustomerProgram`, and the cursor to aid in pagination. */
+  edges: Array<CommonSpeciesCustomersByCustomerProgramCommonSpeciesIdAndCustomerIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Customer` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `Customer` edge in the connection, with data from `CustomerProgram`. */
+export type CommonSpeciesCustomersByCustomerProgramCommonSpeciesIdAndCustomerIdManyToManyEdge = {
+  __typename?: 'CommonSpeciesCustomersByCustomerProgramCommonSpeciesIdAndCustomerIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `Customer` at the end of the edge. */
+  node?: Maybe<Customer>;
+  /** Reads and enables pagination through a set of `CustomerProgram`. */
+  customerPrograms: CustomerProgramsConnection;
+};
+
+
+/** A `Customer` edge in the connection, with data from `CustomerProgram`. */
+export type CommonSpeciesCustomersByCustomerProgramCommonSpeciesIdAndCustomerIdManyToManyEdgeCustomerProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CustomerProgramsOrderBy>>;
+  condition?: Maybe<CustomerProgramCondition>;
+  filter?: Maybe<CustomerProgramFilter>;
+};
+
 /** Methods to use when ordering `ShipperProjectionEntry`. */
 export enum ShipperProjectionEntriesOrderBy {
   Natural = 'NATURAL',
@@ -9430,100 +12280,6 @@ export type ShipperPersonContactCondition = {
   personContactId?: Maybe<Scalars['BigInt']>;
 };
 
-/** A connection to a list of `ShipperProgram` values. */
-export type ShipperProgramsConnection = {
-  __typename?: 'ShipperProgramsConnection';
-  /** A list of `ShipperProgram` objects. */
-  nodes: Array<Maybe<ShipperProgram>>;
-  /** A list of edges which contains the `ShipperProgram` and cursor to aid in pagination. */
-  edges: Array<ShipperProgramsEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `ShipperProgram` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-export type ShipperProgram = Node & {
-  __typename?: 'ShipperProgram';
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  nodeId: Scalars['ID'];
-  id: Scalars['BigInt'];
-  species?: Maybe<Scalars['String']>;
-  variety?: Maybe<Scalars['String']>;
-  size?: Maybe<Scalars['String']>;
-  packType?: Maybe<Scalars['String']>;
-  plu?: Maybe<Scalars['String']>;
-  programDate?: Maybe<Scalars['Date']>;
-  palletCount?: Maybe<Scalars['BigFloat']>;
-  notes?: Maybe<Scalars['String']>;
-  shipperId?: Maybe<Scalars['String']>;
-  /** Reads a single `Shipper` that is related to this `ShipperProgram`. */
-  shipper?: Maybe<Shipper>;
-};
-
-/** A `ShipperProgram` edge in the connection. */
-export type ShipperProgramsEdge = {
-  __typename?: 'ShipperProgramsEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `ShipperProgram` at the end of the edge. */
-  node?: Maybe<ShipperProgram>;
-};
-
-/** Methods to use when ordering `ShipperProgram`. */
-export enum ShipperProgramsOrderBy {
-  Natural = 'NATURAL',
-  IdAsc = 'ID_ASC',
-  IdDesc = 'ID_DESC',
-  SpeciesAsc = 'SPECIES_ASC',
-  SpeciesDesc = 'SPECIES_DESC',
-  VarietyAsc = 'VARIETY_ASC',
-  VarietyDesc = 'VARIETY_DESC',
-  SizeAsc = 'SIZE_ASC',
-  SizeDesc = 'SIZE_DESC',
-  PackTypeAsc = 'PACK_TYPE_ASC',
-  PackTypeDesc = 'PACK_TYPE_DESC',
-  PluAsc = 'PLU_ASC',
-  PluDesc = 'PLU_DESC',
-  ProgramDateAsc = 'PROGRAM_DATE_ASC',
-  ProgramDateDesc = 'PROGRAM_DATE_DESC',
-  PalletCountAsc = 'PALLET_COUNT_ASC',
-  PalletCountDesc = 'PALLET_COUNT_DESC',
-  NotesAsc = 'NOTES_ASC',
-  NotesDesc = 'NOTES_DESC',
-  ShipperIdAsc = 'SHIPPER_ID_ASC',
-  ShipperIdDesc = 'SHIPPER_ID_DESC',
-  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
-}
-
-/**
- * A condition to be used against `ShipperProgram` object types. All fields are
- * tested for equality and combined with a logical ‘and.’
- */
-export type ShipperProgramCondition = {
-  /** Checks for equality with the object’s `id` field. */
-  id?: Maybe<Scalars['BigInt']>;
-  /** Checks for equality with the object’s `species` field. */
-  species?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `variety` field. */
-  variety?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `size` field. */
-  size?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `packType` field. */
-  packType?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `plu` field. */
-  plu?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `programDate` field. */
-  programDate?: Maybe<Scalars['Date']>;
-  /** Checks for equality with the object’s `palletCount` field. */
-  palletCount?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `notes` field. */
-  notes?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `shipperId` field. */
-  shipperId?: Maybe<Scalars['String']>;
-};
-
 /** A connection to a list of `CommonSpecies` values, with data from `ShipperProjectionProduct`. */
 export type ShipperCommonSpeciesByShipperProjectionProductShipperIdAndCommonSpeciesIdManyToManyConnection = {
   __typename?: 'ShipperCommonSpeciesByShipperProjectionProductShipperIdAndCommonSpeciesIdManyToManyConnection';
@@ -9766,6 +12522,154 @@ export type ShipperShipperProjectionVesselsByShipperProjectionVesselInfoShipperI
   orderBy?: Maybe<Array<ShipperProjectionVesselInfosOrderBy>>;
   condition?: Maybe<ShipperProjectionVesselInfoCondition>;
   filter?: Maybe<ShipperProjectionVesselInfoFilter>;
+};
+
+/** A connection to a list of `CommonSpecies` values, with data from `ShipperProgram`. */
+export type ShipperCommonSpeciesByShipperProgramShipperIdAndCommonSpeciesIdManyToManyConnection = {
+  __typename?: 'ShipperCommonSpeciesByShipperProgramShipperIdAndCommonSpeciesIdManyToManyConnection';
+  /** A list of `CommonSpecies` objects. */
+  nodes: Array<Maybe<CommonSpecies>>;
+  /** A list of edges which contains the `CommonSpecies`, info from the `ShipperProgram`, and the cursor to aid in pagination. */
+  edges: Array<ShipperCommonSpeciesByShipperProgramShipperIdAndCommonSpeciesIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `CommonSpecies` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `CommonSpecies` edge in the connection, with data from `ShipperProgram`. */
+export type ShipperCommonSpeciesByShipperProgramShipperIdAndCommonSpeciesIdManyToManyEdge = {
+  __typename?: 'ShipperCommonSpeciesByShipperProgramShipperIdAndCommonSpeciesIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `CommonSpecies` at the end of the edge. */
+  node?: Maybe<CommonSpecies>;
+  /** Reads and enables pagination through a set of `ShipperProgram`. */
+  shipperPrograms: ShipperProgramsConnection;
+};
+
+
+/** A `CommonSpecies` edge in the connection, with data from `ShipperProgram`. */
+export type ShipperCommonSpeciesByShipperProgramShipperIdAndCommonSpeciesIdManyToManyEdgeShipperProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProgramsOrderBy>>;
+  condition?: Maybe<ShipperProgramCondition>;
+  filter?: Maybe<ShipperProgramFilter>;
+};
+
+/** A connection to a list of `CommonVariety` values, with data from `ShipperProgram`. */
+export type ShipperCommonVarietiesByShipperProgramShipperIdAndCommonVarietyIdManyToManyConnection = {
+  __typename?: 'ShipperCommonVarietiesByShipperProgramShipperIdAndCommonVarietyIdManyToManyConnection';
+  /** A list of `CommonVariety` objects. */
+  nodes: Array<Maybe<CommonVariety>>;
+  /** A list of edges which contains the `CommonVariety`, info from the `ShipperProgram`, and the cursor to aid in pagination. */
+  edges: Array<ShipperCommonVarietiesByShipperProgramShipperIdAndCommonVarietyIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `CommonVariety` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `CommonVariety` edge in the connection, with data from `ShipperProgram`. */
+export type ShipperCommonVarietiesByShipperProgramShipperIdAndCommonVarietyIdManyToManyEdge = {
+  __typename?: 'ShipperCommonVarietiesByShipperProgramShipperIdAndCommonVarietyIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `CommonVariety` at the end of the edge. */
+  node?: Maybe<CommonVariety>;
+  /** Reads and enables pagination through a set of `ShipperProgram`. */
+  shipperPrograms: ShipperProgramsConnection;
+};
+
+
+/** A `CommonVariety` edge in the connection, with data from `ShipperProgram`. */
+export type ShipperCommonVarietiesByShipperProgramShipperIdAndCommonVarietyIdManyToManyEdgeShipperProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProgramsOrderBy>>;
+  condition?: Maybe<ShipperProgramCondition>;
+  filter?: Maybe<ShipperProgramFilter>;
+};
+
+/** A connection to a list of `CommonSize` values, with data from `ShipperProgram`. */
+export type ShipperCommonSizesByShipperProgramShipperIdAndCommonSizeIdManyToManyConnection = {
+  __typename?: 'ShipperCommonSizesByShipperProgramShipperIdAndCommonSizeIdManyToManyConnection';
+  /** A list of `CommonSize` objects. */
+  nodes: Array<Maybe<CommonSize>>;
+  /** A list of edges which contains the `CommonSize`, info from the `ShipperProgram`, and the cursor to aid in pagination. */
+  edges: Array<ShipperCommonSizesByShipperProgramShipperIdAndCommonSizeIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `CommonSize` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `CommonSize` edge in the connection, with data from `ShipperProgram`. */
+export type ShipperCommonSizesByShipperProgramShipperIdAndCommonSizeIdManyToManyEdge = {
+  __typename?: 'ShipperCommonSizesByShipperProgramShipperIdAndCommonSizeIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `CommonSize` at the end of the edge. */
+  node?: Maybe<CommonSize>;
+  /** Reads and enables pagination through a set of `ShipperProgram`. */
+  shipperPrograms: ShipperProgramsConnection;
+};
+
+
+/** A `CommonSize` edge in the connection, with data from `ShipperProgram`. */
+export type ShipperCommonSizesByShipperProgramShipperIdAndCommonSizeIdManyToManyEdgeShipperProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProgramsOrderBy>>;
+  condition?: Maybe<ShipperProgramCondition>;
+  filter?: Maybe<ShipperProgramFilter>;
+};
+
+/** A connection to a list of `CommonPackType` values, with data from `ShipperProgram`. */
+export type ShipperCommonPackTypesByShipperProgramShipperIdAndCommonPackTypeIdManyToManyConnection = {
+  __typename?: 'ShipperCommonPackTypesByShipperProgramShipperIdAndCommonPackTypeIdManyToManyConnection';
+  /** A list of `CommonPackType` objects. */
+  nodes: Array<Maybe<CommonPackType>>;
+  /** A list of edges which contains the `CommonPackType`, info from the `ShipperProgram`, and the cursor to aid in pagination. */
+  edges: Array<ShipperCommonPackTypesByShipperProgramShipperIdAndCommonPackTypeIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `CommonPackType` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `CommonPackType` edge in the connection, with data from `ShipperProgram`. */
+export type ShipperCommonPackTypesByShipperProgramShipperIdAndCommonPackTypeIdManyToManyEdge = {
+  __typename?: 'ShipperCommonPackTypesByShipperProgramShipperIdAndCommonPackTypeIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `CommonPackType` at the end of the edge. */
+  node?: Maybe<CommonPackType>;
+  /** Reads and enables pagination through a set of `ShipperProgram`. */
+  shipperPrograms: ShipperProgramsConnection;
+};
+
+
+/** A `CommonPackType` edge in the connection, with data from `ShipperProgram`. */
+export type ShipperCommonPackTypesByShipperProgramShipperIdAndCommonPackTypeIdManyToManyEdgeShipperProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProgramsOrderBy>>;
+  condition?: Maybe<ShipperProgramCondition>;
+  filter?: Maybe<ShipperProgramFilter>;
 };
 
 /** A `Shipper` edge in the connection. */
@@ -10045,6 +12949,154 @@ export type CustomerPersonContactsByCustomerPersonContactCustomerIdAndPersonCont
   cursor?: Maybe<Scalars['Cursor']>;
   /** The `PersonContact` at the end of the edge. */
   node?: Maybe<PersonContact>;
+};
+
+/** A connection to a list of `CommonSpecies` values, with data from `CustomerProgram`. */
+export type CustomerCommonSpeciesByCustomerProgramCustomerIdAndCommonSpeciesIdManyToManyConnection = {
+  __typename?: 'CustomerCommonSpeciesByCustomerProgramCustomerIdAndCommonSpeciesIdManyToManyConnection';
+  /** A list of `CommonSpecies` objects. */
+  nodes: Array<Maybe<CommonSpecies>>;
+  /** A list of edges which contains the `CommonSpecies`, info from the `CustomerProgram`, and the cursor to aid in pagination. */
+  edges: Array<CustomerCommonSpeciesByCustomerProgramCustomerIdAndCommonSpeciesIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `CommonSpecies` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `CommonSpecies` edge in the connection, with data from `CustomerProgram`. */
+export type CustomerCommonSpeciesByCustomerProgramCustomerIdAndCommonSpeciesIdManyToManyEdge = {
+  __typename?: 'CustomerCommonSpeciesByCustomerProgramCustomerIdAndCommonSpeciesIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `CommonSpecies` at the end of the edge. */
+  node?: Maybe<CommonSpecies>;
+  /** Reads and enables pagination through a set of `CustomerProgram`. */
+  customerPrograms: CustomerProgramsConnection;
+};
+
+
+/** A `CommonSpecies` edge in the connection, with data from `CustomerProgram`. */
+export type CustomerCommonSpeciesByCustomerProgramCustomerIdAndCommonSpeciesIdManyToManyEdgeCustomerProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CustomerProgramsOrderBy>>;
+  condition?: Maybe<CustomerProgramCondition>;
+  filter?: Maybe<CustomerProgramFilter>;
+};
+
+/** A connection to a list of `CommonVariety` values, with data from `CustomerProgram`. */
+export type CustomerCommonVarietiesByCustomerProgramCustomerIdAndCommonVarietyIdManyToManyConnection = {
+  __typename?: 'CustomerCommonVarietiesByCustomerProgramCustomerIdAndCommonVarietyIdManyToManyConnection';
+  /** A list of `CommonVariety` objects. */
+  nodes: Array<Maybe<CommonVariety>>;
+  /** A list of edges which contains the `CommonVariety`, info from the `CustomerProgram`, and the cursor to aid in pagination. */
+  edges: Array<CustomerCommonVarietiesByCustomerProgramCustomerIdAndCommonVarietyIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `CommonVariety` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `CommonVariety` edge in the connection, with data from `CustomerProgram`. */
+export type CustomerCommonVarietiesByCustomerProgramCustomerIdAndCommonVarietyIdManyToManyEdge = {
+  __typename?: 'CustomerCommonVarietiesByCustomerProgramCustomerIdAndCommonVarietyIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `CommonVariety` at the end of the edge. */
+  node?: Maybe<CommonVariety>;
+  /** Reads and enables pagination through a set of `CustomerProgram`. */
+  customerPrograms: CustomerProgramsConnection;
+};
+
+
+/** A `CommonVariety` edge in the connection, with data from `CustomerProgram`. */
+export type CustomerCommonVarietiesByCustomerProgramCustomerIdAndCommonVarietyIdManyToManyEdgeCustomerProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CustomerProgramsOrderBy>>;
+  condition?: Maybe<CustomerProgramCondition>;
+  filter?: Maybe<CustomerProgramFilter>;
+};
+
+/** A connection to a list of `CommonSize` values, with data from `CustomerProgram`. */
+export type CustomerCommonSizesByCustomerProgramCustomerIdAndCommonSizeIdManyToManyConnection = {
+  __typename?: 'CustomerCommonSizesByCustomerProgramCustomerIdAndCommonSizeIdManyToManyConnection';
+  /** A list of `CommonSize` objects. */
+  nodes: Array<Maybe<CommonSize>>;
+  /** A list of edges which contains the `CommonSize`, info from the `CustomerProgram`, and the cursor to aid in pagination. */
+  edges: Array<CustomerCommonSizesByCustomerProgramCustomerIdAndCommonSizeIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `CommonSize` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `CommonSize` edge in the connection, with data from `CustomerProgram`. */
+export type CustomerCommonSizesByCustomerProgramCustomerIdAndCommonSizeIdManyToManyEdge = {
+  __typename?: 'CustomerCommonSizesByCustomerProgramCustomerIdAndCommonSizeIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `CommonSize` at the end of the edge. */
+  node?: Maybe<CommonSize>;
+  /** Reads and enables pagination through a set of `CustomerProgram`. */
+  customerPrograms: CustomerProgramsConnection;
+};
+
+
+/** A `CommonSize` edge in the connection, with data from `CustomerProgram`. */
+export type CustomerCommonSizesByCustomerProgramCustomerIdAndCommonSizeIdManyToManyEdgeCustomerProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CustomerProgramsOrderBy>>;
+  condition?: Maybe<CustomerProgramCondition>;
+  filter?: Maybe<CustomerProgramFilter>;
+};
+
+/** A connection to a list of `CommonPackType` values, with data from `CustomerProgram`. */
+export type CustomerCommonPackTypesByCustomerProgramCustomerIdAndCommonPackTypeIdManyToManyConnection = {
+  __typename?: 'CustomerCommonPackTypesByCustomerProgramCustomerIdAndCommonPackTypeIdManyToManyConnection';
+  /** A list of `CommonPackType` objects. */
+  nodes: Array<Maybe<CommonPackType>>;
+  /** A list of edges which contains the `CommonPackType`, info from the `CustomerProgram`, and the cursor to aid in pagination. */
+  edges: Array<CustomerCommonPackTypesByCustomerProgramCustomerIdAndCommonPackTypeIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `CommonPackType` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `CommonPackType` edge in the connection, with data from `CustomerProgram`. */
+export type CustomerCommonPackTypesByCustomerProgramCustomerIdAndCommonPackTypeIdManyToManyEdge = {
+  __typename?: 'CustomerCommonPackTypesByCustomerProgramCustomerIdAndCommonPackTypeIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `CommonPackType` at the end of the edge. */
+  node?: Maybe<CommonPackType>;
+  /** Reads and enables pagination through a set of `CustomerProgram`. */
+  customerPrograms: CustomerProgramsConnection;
+};
+
+
+/** A `CommonPackType` edge in the connection, with data from `CustomerProgram`. */
+export type CustomerCommonPackTypesByCustomerProgramCustomerIdAndCommonPackTypeIdManyToManyEdgeCustomerProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CustomerProgramsOrderBy>>;
+  condition?: Maybe<CustomerProgramCondition>;
+  filter?: Maybe<CustomerProgramFilter>;
 };
 
 /** A `CustomerPersonContact` edge in the connection. */
@@ -21152,6 +24204,10 @@ export type Mutation = {
   createCommonVarietyProductVariety?: Maybe<CreateCommonVarietyProductVarietyPayload>;
   /** Creates a single `CommonVarietyTag`. */
   createCommonVarietyTag?: Maybe<CreateCommonVarietyTagPayload>;
+  /** Creates a single `CustomerProgram`. */
+  createCustomerProgram?: Maybe<CreateCustomerProgramPayload>;
+  /** Creates a single `CustomerProgramEntry`. */
+  createCustomerProgramEntry?: Maybe<CreateCustomerProgramEntryPayload>;
   /** Creates a single `InventoryItem`. */
   createInventoryItem?: Maybe<CreateInventoryItemPayload>;
   /** Creates a single `PackAtmosphere`. */
@@ -21202,6 +24258,10 @@ export type Mutation = {
   createProductVariety?: Maybe<CreateProductVarietyPayload>;
   /** Creates a single `ShipperProgram`. */
   createShipperProgram?: Maybe<CreateShipperProgramPayload>;
+  /** Creates a single `ShipperProgramEntry`. */
+  createShipperProgramEntry?: Maybe<CreateShipperProgramEntryPayload>;
+  /** Creates a single `ShipperProgramEntryCustomerProgramEntry`. */
+  createShipperProgramEntryCustomerProgramEntry?: Maybe<CreateShipperProgramEntryCustomerProgramEntryPayload>;
   /** Creates a single `ShipperProjection`. */
   createShipperProjection?: Maybe<CreateShipperProjectionPayload>;
   /** Creates a single `ShipperProjectionEntry`. */
@@ -21384,6 +24444,14 @@ export type Mutation = {
   updateCommonVarietyTagByNodeId?: Maybe<UpdateCommonVarietyTagPayload>;
   /** Updates a single `CommonVarietyTag` using a unique key and a patch. */
   updateCommonVarietyTag?: Maybe<UpdateCommonVarietyTagPayload>;
+  /** Updates a single `CustomerProgram` using its globally unique id and a patch. */
+  updateCustomerProgramByNodeId?: Maybe<UpdateCustomerProgramPayload>;
+  /** Updates a single `CustomerProgram` using a unique key and a patch. */
+  updateCustomerProgram?: Maybe<UpdateCustomerProgramPayload>;
+  /** Updates a single `CustomerProgramEntry` using its globally unique id and a patch. */
+  updateCustomerProgramEntryByNodeId?: Maybe<UpdateCustomerProgramEntryPayload>;
+  /** Updates a single `CustomerProgramEntry` using a unique key and a patch. */
+  updateCustomerProgramEntry?: Maybe<UpdateCustomerProgramEntryPayload>;
   /** Updates a single `InventoryItem` using its globally unique id and a patch. */
   updateInventoryItemByNodeId?: Maybe<UpdateInventoryItemPayload>;
   /** Updates a single `InventoryItem` using a unique key and a patch. */
@@ -21508,6 +24576,14 @@ export type Mutation = {
   updateShipperProgramByNodeId?: Maybe<UpdateShipperProgramPayload>;
   /** Updates a single `ShipperProgram` using a unique key and a patch. */
   updateShipperProgram?: Maybe<UpdateShipperProgramPayload>;
+  /** Updates a single `ShipperProgramEntry` using its globally unique id and a patch. */
+  updateShipperProgramEntryByNodeId?: Maybe<UpdateShipperProgramEntryPayload>;
+  /** Updates a single `ShipperProgramEntry` using a unique key and a patch. */
+  updateShipperProgramEntry?: Maybe<UpdateShipperProgramEntryPayload>;
+  /** Updates a single `ShipperProgramEntryCustomerProgramEntry` using its globally unique id and a patch. */
+  updateShipperProgramEntryCustomerProgramEntryByNodeId?: Maybe<UpdateShipperProgramEntryCustomerProgramEntryPayload>;
+  /** Updates a single `ShipperProgramEntryCustomerProgramEntry` using a unique key and a patch. */
+  updateShipperProgramEntryCustomerProgramEntry?: Maybe<UpdateShipperProgramEntryCustomerProgramEntryPayload>;
   /** Updates a single `ShipperProjection` using its globally unique id and a patch. */
   updateShipperProjectionByNodeId?: Maybe<UpdateShipperProjectionPayload>;
   /** Updates a single `ShipperProjection` using a unique key and a patch. */
@@ -21714,6 +24790,14 @@ export type Mutation = {
   deleteCommonVarietyTagByNodeId?: Maybe<DeleteCommonVarietyTagPayload>;
   /** Deletes a single `CommonVarietyTag` using a unique key. */
   deleteCommonVarietyTag?: Maybe<DeleteCommonVarietyTagPayload>;
+  /** Deletes a single `CustomerProgram` using its globally unique id. */
+  deleteCustomerProgramByNodeId?: Maybe<DeleteCustomerProgramPayload>;
+  /** Deletes a single `CustomerProgram` using a unique key. */
+  deleteCustomerProgram?: Maybe<DeleteCustomerProgramPayload>;
+  /** Deletes a single `CustomerProgramEntry` using its globally unique id. */
+  deleteCustomerProgramEntryByNodeId?: Maybe<DeleteCustomerProgramEntryPayload>;
+  /** Deletes a single `CustomerProgramEntry` using a unique key. */
+  deleteCustomerProgramEntry?: Maybe<DeleteCustomerProgramEntryPayload>;
   /** Deletes a single `InventoryItem` using its globally unique id. */
   deleteInventoryItemByNodeId?: Maybe<DeleteInventoryItemPayload>;
   /** Deletes a single `InventoryItem` using a unique key. */
@@ -21838,6 +24922,14 @@ export type Mutation = {
   deleteShipperProgramByNodeId?: Maybe<DeleteShipperProgramPayload>;
   /** Deletes a single `ShipperProgram` using a unique key. */
   deleteShipperProgram?: Maybe<DeleteShipperProgramPayload>;
+  /** Deletes a single `ShipperProgramEntry` using its globally unique id. */
+  deleteShipperProgramEntryByNodeId?: Maybe<DeleteShipperProgramEntryPayload>;
+  /** Deletes a single `ShipperProgramEntry` using a unique key. */
+  deleteShipperProgramEntry?: Maybe<DeleteShipperProgramEntryPayload>;
+  /** Deletes a single `ShipperProgramEntryCustomerProgramEntry` using its globally unique id. */
+  deleteShipperProgramEntryCustomerProgramEntryByNodeId?: Maybe<DeleteShipperProgramEntryCustomerProgramEntryPayload>;
+  /** Deletes a single `ShipperProgramEntryCustomerProgramEntry` using a unique key. */
+  deleteShipperProgramEntryCustomerProgramEntry?: Maybe<DeleteShipperProgramEntryCustomerProgramEntryPayload>;
   /** Deletes a single `ShipperProjection` using its globally unique id. */
   deleteShipperProjectionByNodeId?: Maybe<DeleteShipperProjectionPayload>;
   /** Deletes a single `ShipperProjection` using a unique key. */
@@ -21900,7 +24992,13 @@ export type Mutation = {
   batchCreatePsaPomegranatePallet?: Maybe<BatchCreatePsaPomegranatePalletPayload>;
   batchCreatePsaStoneFruitPallet?: Maybe<BatchCreatePsaStoneFruitPalletPayload>;
   bulkCreateShipperProjectionVessel?: Maybe<BulkCreateShipperProjectionVesselPayload>;
+  bulkDeleteCustomerProgram?: Maybe<BulkDeleteCustomerProgramPayload>;
+  bulkDeleteShipperProgram?: Maybe<BulkDeleteShipperProgramPayload>;
   bulkDeleteShipperProjectionEntry?: Maybe<BulkDeleteShipperProjectionEntryPayload>;
+  bulkUpsertCustomerProgram?: Maybe<BulkUpsertCustomerProgramPayload>;
+  bulkUpsertCustomerProgramEntry?: Maybe<BulkUpsertCustomerProgramEntryPayload>;
+  bulkUpsertShipperProgram?: Maybe<BulkUpsertShipperProgramPayload>;
+  bulkUpsertShipperProgramEntry?: Maybe<BulkUpsertShipperProgramEntryPayload>;
   bulkUpsertShipperProjectionProduct?: Maybe<BulkUpsertShipperProjectionProductPayload>;
   bulkUpsertAgendaItem?: Maybe<BulkUpsertAgendaItemPayload>;
   bulkUpsertPriceCategory?: Maybe<BulkUpsertPriceCategoryPayload>;
@@ -21988,6 +25086,10 @@ export type Mutation = {
   upsertCommonVarietyProductVariety?: Maybe<UpsertCommonVarietyProductVarietyPayload>;
   /** Upserts a single `CommonVarietyTag`. */
   upsertCommonVarietyTag?: Maybe<UpsertCommonVarietyTagPayload>;
+  /** Upserts a single `CustomerProgram`. */
+  upsertCustomerProgram?: Maybe<UpsertCustomerProgramPayload>;
+  /** Upserts a single `CustomerProgramEntry`. */
+  upsertCustomerProgramEntry?: Maybe<UpsertCustomerProgramEntryPayload>;
   /** Upserts a single `InventoryItem`. */
   upsertInventoryItem?: Maybe<UpsertInventoryItemPayload>;
   /** Upserts a single `PackAtmosphere`. */
@@ -22038,6 +25140,10 @@ export type Mutation = {
   upsertProductVariety?: Maybe<UpsertProductVarietyPayload>;
   /** Upserts a single `ShipperProgram`. */
   upsertShipperProgram?: Maybe<UpsertShipperProgramPayload>;
+  /** Upserts a single `ShipperProgramEntry`. */
+  upsertShipperProgramEntry?: Maybe<UpsertShipperProgramEntryPayload>;
+  /** Upserts a single `ShipperProgramEntryCustomerProgramEntry`. */
+  upsertShipperProgramEntryCustomerProgramEntry?: Maybe<UpsertShipperProgramEntryCustomerProgramEntryPayload>;
   /** Upserts a single `ShipperProjection`. */
   upsertShipperProjection?: Maybe<UpsertShipperProjectionPayload>;
   /** Upserts a single `ShipperProjectionEntry`. */
@@ -22302,6 +25408,18 @@ export type MutationCreateCommonVarietyTagArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateCustomerProgramArgs = {
+  input: CreateCustomerProgramInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateCustomerProgramEntryArgs = {
+  input: CreateCustomerProgramEntryInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreateInventoryItemArgs = {
   input: CreateInventoryItemInput;
 };
@@ -22448,6 +25566,18 @@ export type MutationCreateProductVarietyArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreateShipperProgramArgs = {
   input: CreateShipperProgramInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateShipperProgramEntryArgs = {
+  input: CreateShipperProgramEntryInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateShipperProgramEntryCustomerProgramEntryArgs = {
+  input: CreateShipperProgramEntryCustomerProgramEntryInput;
 };
 
 
@@ -22998,6 +26128,30 @@ export type MutationUpdateCommonVarietyTagArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateCustomerProgramByNodeIdArgs = {
+  input: UpdateCustomerProgramByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateCustomerProgramArgs = {
+  input: UpdateCustomerProgramInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateCustomerProgramEntryByNodeIdArgs = {
+  input: UpdateCustomerProgramEntryByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateCustomerProgramEntryArgs = {
+  input: UpdateCustomerProgramEntryInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateInventoryItemByNodeIdArgs = {
   input: UpdateInventoryItemByNodeIdInput;
 };
@@ -23366,6 +26520,30 @@ export type MutationUpdateShipperProgramByNodeIdArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateShipperProgramArgs = {
   input: UpdateShipperProgramInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateShipperProgramEntryByNodeIdArgs = {
+  input: UpdateShipperProgramEntryByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateShipperProgramEntryArgs = {
+  input: UpdateShipperProgramEntryInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateShipperProgramEntryCustomerProgramEntryByNodeIdArgs = {
+  input: UpdateShipperProgramEntryCustomerProgramEntryByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateShipperProgramEntryCustomerProgramEntryArgs = {
+  input: UpdateShipperProgramEntryCustomerProgramEntryInput;
 };
 
 
@@ -23988,6 +27166,30 @@ export type MutationDeleteCommonVarietyTagArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteCustomerProgramByNodeIdArgs = {
+  input: DeleteCustomerProgramByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteCustomerProgramArgs = {
+  input: DeleteCustomerProgramInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteCustomerProgramEntryByNodeIdArgs = {
+  input: DeleteCustomerProgramEntryByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteCustomerProgramEntryArgs = {
+  input: DeleteCustomerProgramEntryInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteInventoryItemByNodeIdArgs = {
   input: DeleteInventoryItemByNodeIdInput;
 };
@@ -24360,6 +27562,30 @@ export type MutationDeleteShipperProgramArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteShipperProgramEntryByNodeIdArgs = {
+  input: DeleteShipperProgramEntryByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteShipperProgramEntryArgs = {
+  input: DeleteShipperProgramEntryInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteShipperProgramEntryCustomerProgramEntryByNodeIdArgs = {
+  input: DeleteShipperProgramEntryCustomerProgramEntryByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteShipperProgramEntryCustomerProgramEntryArgs = {
+  input: DeleteShipperProgramEntryCustomerProgramEntryInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteShipperProjectionByNodeIdArgs = {
   input: DeleteShipperProjectionByNodeIdInput;
 };
@@ -24588,8 +27814,44 @@ export type MutationBulkCreateShipperProjectionVesselArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationBulkDeleteCustomerProgramArgs = {
+  input: BulkDeleteCustomerProgramInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationBulkDeleteShipperProgramArgs = {
+  input: BulkDeleteShipperProgramInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationBulkDeleteShipperProjectionEntryArgs = {
   input: BulkDeleteShipperProjectionEntryInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationBulkUpsertCustomerProgramArgs = {
+  input: BulkUpsertCustomerProgramInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationBulkUpsertCustomerProgramEntryArgs = {
+  input: BulkUpsertCustomerProgramEntryInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationBulkUpsertShipperProgramArgs = {
+  input: BulkUpsertShipperProgramInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationBulkUpsertShipperProgramEntryArgs = {
+  input: BulkUpsertShipperProgramEntryInput;
 };
 
 
@@ -24882,6 +28144,18 @@ export type MutationUpsertCommonVarietyTagArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpsertCustomerProgramArgs = {
+  input: UpsertCustomerProgramInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpsertCustomerProgramEntryArgs = {
+  input: UpsertCustomerProgramEntryInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpsertInventoryItemArgs = {
   input: UpsertInventoryItemInput;
 };
@@ -25028,6 +28302,18 @@ export type MutationUpsertProductVarietyArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpsertShipperProgramArgs = {
   input: UpsertShipperProgramInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpsertShipperProgramEntryArgs = {
+  input: UpsertShipperProgramEntryInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpsertShipperProgramEntryCustomerProgramEntryArgs = {
+  input: UpsertShipperProgramEntryCustomerProgramEntryInput;
 };
 
 
@@ -25897,6 +29183,7 @@ export type UpdateCustomerOnCustomerPersonContactForCustomerPersonContactCustome
   active?: Maybe<Scalars['Boolean']>;
   countryToCountryId?: Maybe<CustomerCountryIdFkeyInput>;
   customerPersonContactsUsingId?: Maybe<CustomerPersonContactCustomerIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCustomerIdFkeyInverseInput>;
 };
 
 /** Input for the nested mutation of `country` in the `CustomerInput` mutation. */
@@ -25998,6 +29285,7 @@ export type UpdateCustomerOnCustomerForCustomerCountryIdFkeyPatch = {
   active?: Maybe<Scalars['Boolean']>;
   countryToCountryId?: Maybe<CustomerCountryIdFkeyInput>;
   customerPersonContactsUsingId?: Maybe<CustomerPersonContactCustomerIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCustomerIdFkeyInverseInput>;
 };
 
 /** Input for the nested mutation of `customerPersonContact` in the `CustomerInput` mutation. */
@@ -26203,8 +29491,8 @@ export type UpdateShipperOnShipperPersonContactForShipperPersonContactShipperIdF
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
   shipperProjectionsUsingId?: Maybe<ShipperProjectionShipperIdFkeyInverseInput>;
   shipperPersonContactsUsingId?: Maybe<ShipperPersonContactShipperIdFkeyInverseInput>;
-  shipperProgramsUsingId?: Maybe<ShipperProgramShipperIdFkeyInverseInput>;
   shipperProjectionVesselInfosUsingId?: Maybe<FkShipperIdInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramShipperIdFkeyInverseInput>;
 };
 
 /** Input for the nested mutation of `country` in the `ShipperInput` mutation. */
@@ -26282,8 +29570,8 @@ export type UpdateShipperOnShipperForShipperCountryIdFkeyPatch = {
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
   shipperProjectionsUsingId?: Maybe<ShipperProjectionShipperIdFkeyInverseInput>;
   shipperPersonContactsUsingId?: Maybe<ShipperPersonContactShipperIdFkeyInverseInput>;
-  shipperProgramsUsingId?: Maybe<ShipperProgramShipperIdFkeyInverseInput>;
   shipperProjectionVesselInfosUsingId?: Maybe<FkShipperIdInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramShipperIdFkeyInverseInput>;
 };
 
 /** Input for the nested mutation of `shipperProjectionVessel` in the `ShipperInput` mutation. */
@@ -26382,8 +29670,8 @@ export type UpdateShipperOnShipperProjectionVesselForShipperProjectionVesselShip
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
   shipperProjectionsUsingId?: Maybe<ShipperProjectionShipperIdFkeyInverseInput>;
   shipperPersonContactsUsingId?: Maybe<ShipperPersonContactShipperIdFkeyInverseInput>;
-  shipperProgramsUsingId?: Maybe<ShipperProgramShipperIdFkeyInverseInput>;
   shipperProjectionVesselInfosUsingId?: Maybe<FkShipperIdInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramShipperIdFkeyInverseInput>;
 };
 
 /** Input for the nested mutation of `shipperProjectionProduct` in the `ShipperInput` mutation. */
@@ -26495,8 +29783,8 @@ export type UpdateShipperOnShipperProjectionProductForShipperProjectionProductSh
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
   shipperProjectionsUsingId?: Maybe<ShipperProjectionShipperIdFkeyInverseInput>;
   shipperPersonContactsUsingId?: Maybe<ShipperPersonContactShipperIdFkeyInverseInput>;
-  shipperProgramsUsingId?: Maybe<ShipperProgramShipperIdFkeyInverseInput>;
   shipperProjectionVesselInfosUsingId?: Maybe<FkShipperIdInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramShipperIdFkeyInverseInput>;
 };
 
 /** Input for the nested mutation of `shipperProjection` in the `ShipperInput` mutation. */
@@ -26601,8 +29889,8 @@ export type UpdateShipperOnShipperProjectionForShipperProjectionShipperIdFkeyPat
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
   shipperProjectionsUsingId?: Maybe<ShipperProjectionShipperIdFkeyInverseInput>;
   shipperPersonContactsUsingId?: Maybe<ShipperPersonContactShipperIdFkeyInverseInput>;
-  shipperProgramsUsingId?: Maybe<ShipperProgramShipperIdFkeyInverseInput>;
   shipperProjectionVesselInfosUsingId?: Maybe<FkShipperIdInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramShipperIdFkeyInverseInput>;
 };
 
 /** Input for the nested mutation of `shipperPersonContact` in the `ShipperInput` mutation. */
@@ -27224,113 +30512,6 @@ export type ShipperPersonContactShipperIdFkeyShipperPersonContactCreateInput = {
   personContactToPersonContactId?: Maybe<ShipperPersonContactPersonContactIdFkeyInput>;
 };
 
-/** Input for the nested mutation of `shipperProgram` in the `ShipperInput` mutation. */
-export type ShipperProgramShipperIdFkeyInverseInput = {
-  /** Flag indicating whether all other `shipperProgram` records that match this relationship should be removed. */
-  deleteOthers?: Maybe<Scalars['Boolean']>;
-  /** The primary key(s) for `shipperProgram` for the far side of the relationship. */
-  connectById?: Maybe<Array<ShipperProgramShipperProgramPkeyConnect>>;
-  /** The primary key(s) for `shipperProgram` for the far side of the relationship. */
-  connectByNodeId?: Maybe<Array<ShipperProgramNodeIdConnect>>;
-  /** The primary key(s) for `shipperProgram` for the far side of the relationship. */
-  deleteById?: Maybe<Array<ShipperProgramShipperProgramPkeyDelete>>;
-  /** The primary key(s) for `shipperProgram` for the far side of the relationship. */
-  deleteByNodeId?: Maybe<Array<ShipperProgramNodeIdDelete>>;
-  /** The primary key(s) and patch data for `shipperProgram` for the far side of the relationship. */
-  updateById?: Maybe<Array<ShipperProgramOnShipperProgramForShipperProgramShipperIdFkeyUsingShipperProgramPkeyUpdate>>;
-  /** The primary key(s) and patch data for `shipperProgram` for the far side of the relationship. */
-  updateByNodeId?: Maybe<Array<ShipperOnShipperProgramForShipperProgramShipperIdFkeyNodeIdUpdate>>;
-  /** A `ShipperProgramInput` object that will be created and connected to this object. */
-  create?: Maybe<Array<ShipperProgramShipperIdFkeyShipperProgramCreateInput>>;
-};
-
-/** The fields on `shipperProgram` to look up the row to connect. */
-export type ShipperProgramShipperProgramPkeyConnect = {
-  id: Scalars['BigInt'];
-};
-
-/** The globally unique `ID` look up for the row to connect. */
-export type ShipperProgramNodeIdConnect = {
-  /** The globally unique `ID` which identifies a single `shipperProgram` to be connected. */
-  nodeId: Scalars['ID'];
-};
-
-/** The fields on `shipperProgram` to look up the row to delete. */
-export type ShipperProgramShipperProgramPkeyDelete = {
-  id: Scalars['BigInt'];
-};
-
-/** The globally unique `ID` look up for the row to delete. */
-export type ShipperProgramNodeIdDelete = {
-  /** The globally unique `ID` which identifies a single `shipperProgram` to be deleted. */
-  nodeId: Scalars['ID'];
-};
-
-/** The fields on `shipperProgram` to look up the row to update. */
-export type ShipperProgramOnShipperProgramForShipperProgramShipperIdFkeyUsingShipperProgramPkeyUpdate = {
-  /** An object where the defined keys will be set on the `shipperProgram` being updated. */
-  patch: UpdateShipperProgramOnShipperProgramForShipperProgramShipperIdFkeyPatch;
-  id: Scalars['BigInt'];
-};
-
-/** An object where the defined keys will be set on the `shipperProgram` being updated. */
-export type UpdateShipperProgramOnShipperProgramForShipperProgramShipperIdFkeyPatch = {
-  id?: Maybe<Scalars['BigInt']>;
-  species?: Maybe<Scalars['String']>;
-  variety?: Maybe<Scalars['String']>;
-  size?: Maybe<Scalars['String']>;
-  packType?: Maybe<Scalars['String']>;
-  plu?: Maybe<Scalars['String']>;
-  programDate?: Maybe<Scalars['Date']>;
-  palletCount?: Maybe<Scalars['BigFloat']>;
-  notes?: Maybe<Scalars['String']>;
-  shipperToShipperId?: Maybe<ShipperProgramShipperIdFkeyInput>;
-};
-
-/** Input for the nested mutation of `shipper` in the `ShipperProgramInput` mutation. */
-export type ShipperProgramShipperIdFkeyInput = {
-  /** The primary key(s) for `shipper` for the far side of the relationship. */
-  connectById?: Maybe<ShipperShipperPkeyConnect>;
-  /** The primary key(s) for `shipper` for the far side of the relationship. */
-  connectByNodeId?: Maybe<ShipperNodeIdConnect>;
-  /** The primary key(s) for `shipper` for the far side of the relationship. */
-  deleteById?: Maybe<ShipperShipperPkeyDelete>;
-  /** The primary key(s) for `shipper` for the far side of the relationship. */
-  deleteByNodeId?: Maybe<ShipperNodeIdDelete>;
-  /** The primary key(s) and patch data for `shipper` for the far side of the relationship. */
-  updateById?: Maybe<ShipperOnShipperProgramForShipperProgramShipperIdFkeyUsingShipperPkeyUpdate>;
-  /** The primary key(s) and patch data for `shipper` for the far side of the relationship. */
-  updateByNodeId?: Maybe<ShipperProgramOnShipperProgramForShipperProgramShipperIdFkeyNodeIdUpdate>;
-  /** A `ShipperInput` object that will be created and connected to this object. */
-  create?: Maybe<ShipperProgramShipperIdFkeyShipperCreateInput>;
-};
-
-/** The fields on `shipper` to look up the row to update. */
-export type ShipperOnShipperProgramForShipperProgramShipperIdFkeyUsingShipperPkeyUpdate = {
-  /** An object where the defined keys will be set on the `shipper` being updated. */
-  patch: UpdateShipperOnShipperProgramForShipperProgramShipperIdFkeyPatch;
-  id: Scalars['String'];
-};
-
-/** An object where the defined keys will be set on the `shipper` being updated. */
-export type UpdateShipperOnShipperProgramForShipperProgramShipperIdFkeyPatch = {
-  id?: Maybe<Scalars['String']>;
-  shipperName?: Maybe<Scalars['String']>;
-  countryId?: Maybe<Scalars['String']>;
-  groupId?: Maybe<Scalars['String']>;
-  logoSrc?: Maybe<Scalars['String']>;
-  notes?: Maybe<Scalars['String']>;
-  website?: Maybe<Scalars['String']>;
-  sendProjectionRequest?: Maybe<Scalars['Boolean']>;
-  countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
-  shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
-  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
-  shipperProjectionsUsingId?: Maybe<ShipperProjectionShipperIdFkeyInverseInput>;
-  shipperPersonContactsUsingId?: Maybe<ShipperPersonContactShipperIdFkeyInverseInput>;
-  shipperProgramsUsingId?: Maybe<ShipperProgramShipperIdFkeyInverseInput>;
-  shipperProjectionVesselInfosUsingId?: Maybe<FkShipperIdInverseInput>;
-};
-
 /** Input for the nested mutation of `shipperProjectionVesselInfo` in the `ShipperInput` mutation. */
 export type FkShipperIdInverseInput = {
   /** Flag indicating whether all other `shipperProjectionVesselInfo` records that match this relationship should be removed. */
@@ -27594,246 +30775,78 @@ export type UpdateShipperOnShipperProjectionVesselInfoForFkShipperIdPatch = {
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
   shipperProjectionsUsingId?: Maybe<ShipperProjectionShipperIdFkeyInverseInput>;
   shipperPersonContactsUsingId?: Maybe<ShipperPersonContactShipperIdFkeyInverseInput>;
-  shipperProgramsUsingId?: Maybe<ShipperProgramShipperIdFkeyInverseInput>;
   shipperProjectionVesselInfosUsingId?: Maybe<FkShipperIdInverseInput>;
-};
-
-/** The globally unique `ID` look up for the row to update. */
-export type ShipperProjectionVesselInfoOnShipperProjectionVesselInfoForFkShipperIdNodeIdUpdate = {
-  /** The globally unique `ID` which identifies a single `shipper` to be connected. */
-  nodeId: Scalars['ID'];
-  /** An object where the defined keys will be set on the `shipper` being updated. */
-  patch: ShipperPatch;
-};
-
-/** Represents an update to a `Shipper`. Fields that are set will be updated. */
-export type ShipperPatch = {
-  id?: Maybe<Scalars['String']>;
-  shipperName?: Maybe<Scalars['String']>;
-  countryId?: Maybe<Scalars['String']>;
-  groupId?: Maybe<Scalars['String']>;
-  logoSrc?: Maybe<Scalars['String']>;
-  notes?: Maybe<Scalars['String']>;
-  website?: Maybe<Scalars['String']>;
-  sendProjectionRequest?: Maybe<Scalars['Boolean']>;
-  countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
-  shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
-  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
-  shipperProjectionsUsingId?: Maybe<ShipperProjectionShipperIdFkeyInverseInput>;
-  shipperPersonContactsUsingId?: Maybe<ShipperPersonContactShipperIdFkeyInverseInput>;
   shipperProgramsUsingId?: Maybe<ShipperProgramShipperIdFkeyInverseInput>;
-  shipperProjectionVesselInfosUsingId?: Maybe<FkShipperIdInverseInput>;
 };
 
-/** The `shipper` to be created by this mutation. */
-export type FkShipperIdShipperCreateInput = {
-  id: Scalars['String'];
-  shipperName: Scalars['String'];
-  countryId?: Maybe<Scalars['String']>;
-  groupId?: Maybe<Scalars['String']>;
-  logoSrc?: Maybe<Scalars['String']>;
-  notes?: Maybe<Scalars['String']>;
-  website?: Maybe<Scalars['String']>;
-  sendProjectionRequest?: Maybe<Scalars['Boolean']>;
-  countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
-  shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
-  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
-  shipperProjectionsUsingId?: Maybe<ShipperProjectionShipperIdFkeyInverseInput>;
-  shipperPersonContactsUsingId?: Maybe<ShipperPersonContactShipperIdFkeyInverseInput>;
-  shipperProgramsUsingId?: Maybe<ShipperProgramShipperIdFkeyInverseInput>;
-  shipperProjectionVesselInfosUsingId?: Maybe<FkShipperIdInverseInput>;
-};
-
-/** Input for the nested mutation of `shipperProjectionEntry` in the `ShipperProjectionVesselInfoInput` mutation. */
-export type ShipperProjectionEntryVesselInfoIdFkeyInverseInput = {
-  /** Flag indicating whether all other `shipperProjectionEntry` records that match this relationship should be removed. */
+/** Input for the nested mutation of `shipperProgram` in the `ShipperInput` mutation. */
+export type ShipperProgramShipperIdFkeyInverseInput = {
+  /** Flag indicating whether all other `shipperProgram` records that match this relationship should be removed. */
   deleteOthers?: Maybe<Scalars['Boolean']>;
-  /** The primary key(s) for `shipperProjectionEntry` for the far side of the relationship. */
-  connectById?: Maybe<Array<ShipperProjectionEntryShipperProjectionEntryPkeyConnect>>;
-  /** The primary key(s) for `shipperProjectionEntry` for the far side of the relationship. */
-  connectByNodeId?: Maybe<Array<ShipperProjectionEntryNodeIdConnect>>;
-  /** The primary key(s) for `shipperProjectionEntry` for the far side of the relationship. */
-  deleteById?: Maybe<Array<ShipperProjectionEntryShipperProjectionEntryPkeyDelete>>;
-  /** The primary key(s) for `shipperProjectionEntry` for the far side of the relationship. */
-  deleteByNodeId?: Maybe<Array<ShipperProjectionEntryNodeIdDelete>>;
-  /** The primary key(s) and patch data for `shipperProjectionEntry` for the far side of the relationship. */
-  updateById?: Maybe<Array<ShipperProjectionEntryOnShipperProjectionEntryForShipperProjectionEntryVesselInfoIdFkeyUsingShipperProjectionEntryPkeyUpdate>>;
-  /** The primary key(s) and patch data for `shipperProjectionEntry` for the far side of the relationship. */
-  updateByNodeId?: Maybe<Array<ShipperProjectionVesselInfoOnShipperProjectionEntryForShipperProjectionEntryVesselInfoIdFkeyNodeIdUpdate>>;
-  /** A `ShipperProjectionEntryInput` object that will be created and connected to this object. */
-  create?: Maybe<Array<ShipperProjectionEntryVesselInfoIdFkeyShipperProjectionEntryCreateInput>>;
+  /** The primary key(s) for `shipperProgram` for the far side of the relationship. */
+  connectById?: Maybe<Array<ShipperProgramShipperProgramPkeyConnect>>;
+  /** The primary key(s) for `shipperProgram` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<ShipperProgramNodeIdConnect>>;
+  /** The primary key(s) for `shipperProgram` for the far side of the relationship. */
+  deleteById?: Maybe<Array<ShipperProgramShipperProgramPkeyDelete>>;
+  /** The primary key(s) for `shipperProgram` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<ShipperProgramNodeIdDelete>>;
+  /** The primary key(s) and patch data for `shipperProgram` for the far side of the relationship. */
+  updateById?: Maybe<Array<ShipperProgramOnShipperProgramForShipperProgramShipperIdFkeyUsingShipperProgramPkeyUpdate>>;
+  /** The primary key(s) and patch data for `shipperProgram` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<ShipperOnShipperProgramForShipperProgramShipperIdFkeyNodeIdUpdate>>;
+  /** A `ShipperProgramInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<ShipperProgramShipperIdFkeyShipperProgramCreateInput>>;
 };
 
-/** The fields on `shipperProjectionEntry` to look up the row to connect. */
-export type ShipperProjectionEntryShipperProjectionEntryPkeyConnect = {
+/** The fields on `shipperProgram` to look up the row to connect. */
+export type ShipperProgramShipperProgramPkeyConnect = {
   id: Scalars['BigInt'];
 };
 
 /** The globally unique `ID` look up for the row to connect. */
-export type ShipperProjectionEntryNodeIdConnect = {
-  /** The globally unique `ID` which identifies a single `shipperProjectionEntry` to be connected. */
+export type ShipperProgramNodeIdConnect = {
+  /** The globally unique `ID` which identifies a single `shipperProgram` to be connected. */
   nodeId: Scalars['ID'];
 };
 
-/** The fields on `shipperProjectionEntry` to look up the row to delete. */
-export type ShipperProjectionEntryShipperProjectionEntryPkeyDelete = {
+/** The fields on `shipperProgram` to look up the row to delete. */
+export type ShipperProgramShipperProgramPkeyDelete = {
   id: Scalars['BigInt'];
 };
 
 /** The globally unique `ID` look up for the row to delete. */
-export type ShipperProjectionEntryNodeIdDelete = {
-  /** The globally unique `ID` which identifies a single `shipperProjectionEntry` to be deleted. */
+export type ShipperProgramNodeIdDelete = {
+  /** The globally unique `ID` which identifies a single `shipperProgram` to be deleted. */
   nodeId: Scalars['ID'];
 };
 
-/** The fields on `shipperProjectionEntry` to look up the row to update. */
-export type ShipperProjectionEntryOnShipperProjectionEntryForShipperProjectionEntryVesselInfoIdFkeyUsingShipperProjectionEntryPkeyUpdate = {
-  /** An object where the defined keys will be set on the `shipperProjectionEntry` being updated. */
-  patch: UpdateShipperProjectionEntryOnShipperProjectionEntryForShipperProjectionEntryVesselInfoIdFkeyPatch;
+/** The fields on `shipperProgram` to look up the row to update. */
+export type ShipperProgramOnShipperProgramForShipperProgramShipperIdFkeyUsingShipperProgramPkeyUpdate = {
+  /** An object where the defined keys will be set on the `shipperProgram` being updated. */
+  patch: UpdateShipperProgramOnShipperProgramForShipperProgramShipperIdFkeyPatch;
   id: Scalars['BigInt'];
 };
 
-/** An object where the defined keys will be set on the `shipperProjectionEntry` being updated. */
-export type UpdateShipperProjectionEntryOnShipperProjectionEntryForShipperProjectionEntryVesselInfoIdFkeyPatch = {
+/** An object where the defined keys will be set on the `shipperProgram` being updated. */
+export type UpdateShipperProgramOnShipperProgramForShipperProgramShipperIdFkeyPatch = {
   id?: Maybe<Scalars['BigInt']>;
-  palletCount?: Maybe<Scalars['BigFloat']>;
-  productId?: Maybe<Scalars['BigInt']>;
-  shipperProjectionVesselInfoToVesselInfoId?: Maybe<ShipperProjectionEntryVesselInfoIdFkeyInput>;
-  shipperProjectionProductToProductId?: Maybe<ShipperProjectionEntryProductIdFkeyInput>;
-};
-
-/** Input for the nested mutation of `shipperProjectionVesselInfo` in the `ShipperProjectionEntryInput` mutation. */
-export type ShipperProjectionEntryVesselInfoIdFkeyInput = {
-  /** The primary key(s) for `shipperProjectionVesselInfo` for the far side of the relationship. */
-  connectById?: Maybe<ShipperProjectionVesselInfoShipperProjectionVesselInfoPkeyConnect>;
-  /** The primary key(s) for `shipperProjectionVesselInfo` for the far side of the relationship. */
-  connectByNodeId?: Maybe<ShipperProjectionVesselInfoNodeIdConnect>;
-  /** The primary key(s) for `shipperProjectionVesselInfo` for the far side of the relationship. */
-  deleteById?: Maybe<ShipperProjectionVesselInfoShipperProjectionVesselInfoPkeyDelete>;
-  /** The primary key(s) for `shipperProjectionVesselInfo` for the far side of the relationship. */
-  deleteByNodeId?: Maybe<ShipperProjectionVesselInfoNodeIdDelete>;
-  /** The primary key(s) and patch data for `shipperProjectionVesselInfo` for the far side of the relationship. */
-  updateById?: Maybe<ShipperProjectionVesselInfoOnShipperProjectionEntryForShipperProjectionEntryVesselInfoIdFkeyUsingShipperProjectionVesselInfoPkeyUpdate>;
-  /** The primary key(s) and patch data for `shipperProjectionVesselInfo` for the far side of the relationship. */
-  updateByNodeId?: Maybe<ShipperProjectionEntryOnShipperProjectionEntryForShipperProjectionEntryVesselInfoIdFkeyNodeIdUpdate>;
-  /** A `ShipperProjectionVesselInfoInput` object that will be created and connected to this object. */
-  create?: Maybe<ShipperProjectionEntryVesselInfoIdFkeyShipperProjectionVesselInfoCreateInput>;
-};
-
-/** The fields on `shipperProjectionVesselInfo` to look up the row to update. */
-export type ShipperProjectionVesselInfoOnShipperProjectionEntryForShipperProjectionEntryVesselInfoIdFkeyUsingShipperProjectionVesselInfoPkeyUpdate = {
-  /** An object where the defined keys will be set on the `shipperProjectionVesselInfo` being updated. */
-  patch: UpdateShipperProjectionVesselInfoOnShipperProjectionEntryForShipperProjectionEntryVesselInfoIdFkeyPatch;
-  id: Scalars['BigInt'];
-};
-
-/** An object where the defined keys will be set on the `shipperProjectionVesselInfo` being updated. */
-export type UpdateShipperProjectionVesselInfoOnShipperProjectionEntryForShipperProjectionEntryVesselInfoIdFkeyPatch = {
-  id?: Maybe<Scalars['BigInt']>;
-  vesselName?: Maybe<Scalars['String']>;
-  departureDate?: Maybe<Scalars['Date']>;
-  arrivalDate?: Maybe<Scalars['Date']>;
-  arrivalPort?: Maybe<Scalars['String']>;
-  vesselStatus?: Maybe<Scalars['String']>;
-  projectionId?: Maybe<Scalars['BigInt']>;
-  vesselId?: Maybe<Scalars['BigInt']>;
-  shipperId?: Maybe<Scalars['String']>;
-  shipperProjectionToProjectionId?: Maybe<ShipperProjectionVesselInfoProjectionIdFkeyInput>;
-  shipperProjectionVesselToVesselId?: Maybe<ShipperProjectionVesselInfoVesselIdFkeyInput>;
-  shipperToShipperId?: Maybe<FkShipperIdInput>;
-  shipperProjectionEntriesUsingId?: Maybe<ShipperProjectionEntryVesselInfoIdFkeyInverseInput>;
-};
-
-/** The globally unique `ID` look up for the row to update. */
-export type ShipperProjectionEntryOnShipperProjectionEntryForShipperProjectionEntryVesselInfoIdFkeyNodeIdUpdate = {
-  /** The globally unique `ID` which identifies a single `shipperProjectionVesselInfo` to be connected. */
-  nodeId: Scalars['ID'];
-  /** An object where the defined keys will be set on the `shipperProjectionVesselInfo` being updated. */
-  patch: ShipperProjectionVesselInfoPatch;
-};
-
-/** Represents an update to a `ShipperProjectionVesselInfo`. Fields that are set will be updated. */
-export type ShipperProjectionVesselInfoPatch = {
-  id?: Maybe<Scalars['BigInt']>;
-  vesselName?: Maybe<Scalars['String']>;
-  departureDate?: Maybe<Scalars['Date']>;
-  arrivalDate?: Maybe<Scalars['Date']>;
-  arrivalPort?: Maybe<Scalars['String']>;
-  vesselStatus?: Maybe<Scalars['String']>;
-  projectionId?: Maybe<Scalars['BigInt']>;
-  vesselId?: Maybe<Scalars['BigInt']>;
-  shipperId?: Maybe<Scalars['String']>;
-  shipperProjectionToProjectionId?: Maybe<ShipperProjectionVesselInfoProjectionIdFkeyInput>;
-  shipperProjectionVesselToVesselId?: Maybe<ShipperProjectionVesselInfoVesselIdFkeyInput>;
-  shipperToShipperId?: Maybe<FkShipperIdInput>;
-  shipperProjectionEntriesUsingId?: Maybe<ShipperProjectionEntryVesselInfoIdFkeyInverseInput>;
-};
-
-/** The `shipperProjectionVesselInfo` to be created by this mutation. */
-export type ShipperProjectionEntryVesselInfoIdFkeyShipperProjectionVesselInfoCreateInput = {
-  id?: Maybe<Scalars['BigInt']>;
-  vesselName?: Maybe<Scalars['String']>;
-  departureDate?: Maybe<Scalars['Date']>;
-  arrivalDate?: Maybe<Scalars['Date']>;
-  arrivalPort?: Maybe<Scalars['String']>;
-  vesselStatus?: Maybe<Scalars['String']>;
-  projectionId?: Maybe<Scalars['BigInt']>;
-  vesselId?: Maybe<Scalars['BigInt']>;
-  shipperId?: Maybe<Scalars['String']>;
-  shipperProjectionToProjectionId?: Maybe<ShipperProjectionVesselInfoProjectionIdFkeyInput>;
-  shipperProjectionVesselToVesselId?: Maybe<ShipperProjectionVesselInfoVesselIdFkeyInput>;
-  shipperToShipperId?: Maybe<FkShipperIdInput>;
-  shipperProjectionEntriesUsingId?: Maybe<ShipperProjectionEntryVesselInfoIdFkeyInverseInput>;
-};
-
-/** Input for the nested mutation of `shipperProjectionProduct` in the `ShipperProjectionEntryInput` mutation. */
-export type ShipperProjectionEntryProductIdFkeyInput = {
-  /** The primary key(s) for `shipperProjectionProduct` for the far side of the relationship. */
-  connectById?: Maybe<ShipperProjectionProductShipperProjectionProductPkeyConnect>;
-  /** The primary key(s) for `shipperProjectionProduct` for the far side of the relationship. */
-  connectByNodeId?: Maybe<ShipperProjectionProductNodeIdConnect>;
-  /** The primary key(s) for `shipperProjectionProduct` for the far side of the relationship. */
-  deleteById?: Maybe<ShipperProjectionProductShipperProjectionProductPkeyDelete>;
-  /** The primary key(s) for `shipperProjectionProduct` for the far side of the relationship. */
-  deleteByNodeId?: Maybe<ShipperProjectionProductNodeIdDelete>;
-  /** The primary key(s) and patch data for `shipperProjectionProduct` for the far side of the relationship. */
-  updateById?: Maybe<ShipperProjectionProductOnShipperProjectionEntryForShipperProjectionEntryProductIdFkeyUsingShipperProjectionProductPkeyUpdate>;
-  /** The primary key(s) and patch data for `shipperProjectionProduct` for the far side of the relationship. */
-  updateByNodeId?: Maybe<ShipperProjectionEntryOnShipperProjectionEntryForShipperProjectionEntryProductIdFkeyNodeIdUpdate>;
-  /** A `ShipperProjectionProductInput` object that will be created and connected to this object. */
-  create?: Maybe<ShipperProjectionEntryProductIdFkeyShipperProjectionProductCreateInput>;
-};
-
-/** The fields on `shipperProjectionProduct` to look up the row to update. */
-export type ShipperProjectionProductOnShipperProjectionEntryForShipperProjectionEntryProductIdFkeyUsingShipperProjectionProductPkeyUpdate = {
-  /** An object where the defined keys will be set on the `shipperProjectionProduct` being updated. */
-  patch: UpdateShipperProjectionProductOnShipperProjectionEntryForShipperProjectionEntryProductIdFkeyPatch;
-  id: Scalars['BigInt'];
-};
-
-/** An object where the defined keys will be set on the `shipperProjectionProduct` being updated. */
-export type UpdateShipperProjectionProductOnShipperProjectionEntryForShipperProjectionEntryProductIdFkeyPatch = {
-  id?: Maybe<Scalars['BigInt']>;
-  species?: Maybe<Scalars['String']>;
-  variety?: Maybe<Scalars['String']>;
-  size?: Maybe<Scalars['String']>;
-  packType?: Maybe<Scalars['String']>;
-  plu?: Maybe<Scalars['String']>;
-  shipperId?: Maybe<Scalars['String']>;
   commonSpeciesId?: Maybe<Scalars['BigInt']>;
   commonVarietyId?: Maybe<Scalars['BigInt']>;
   commonSizeId?: Maybe<Scalars['BigInt']>;
   commonPackTypeId?: Maybe<Scalars['BigInt']>;
-  shipperToShipperId?: Maybe<ShipperProjectionProductShipperIdFkeyInput>;
-  commonSpeciesToCommonSpeciesId?: Maybe<ShipperProjectionProductCommonSpeciesIdFkeyInput>;
-  commonVarietyToCommonVarietyId?: Maybe<ShipperProjectionProductCommonVarietyIdFkeyInput>;
-  commonSizeToCommonSizeId?: Maybe<ShipperProjectionProductCommonSizeIdFkeyInput>;
-  commonPackTypeToCommonPackTypeId?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyInput>;
-  shipperProjectionEntriesUsingId?: Maybe<ShipperProjectionEntryProductIdFkeyInverseInput>;
+  arrivalPort?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  commonSpeciesToCommonSpeciesId?: Maybe<ShipperProgramCommonSpeciesIdFkeyInput>;
+  commonVarietyToCommonVarietyId?: Maybe<ShipperProgramCommonVarietyIdFkeyInput>;
+  commonSizeToCommonSizeId?: Maybe<ShipperProgramCommonSizeIdFkeyInput>;
+  commonPackTypeToCommonPackTypeId?: Maybe<ShipperProgramCommonPackTypeIdFkeyInput>;
+  shipperToShipperId?: Maybe<ShipperProgramShipperIdFkeyInput>;
+  shipperProgramEntriesUsingId?: Maybe<ShipperProgramEntryShipperProgramIdFkeyInverseInput>;
 };
 
-/** Input for the nested mutation of `commonSpecies` in the `ShipperProjectionProductInput` mutation. */
-export type ShipperProjectionProductCommonSpeciesIdFkeyInput = {
+/** Input for the nested mutation of `commonSpecies` in the `ShipperProgramInput` mutation. */
+export type ShipperProgramCommonSpeciesIdFkeyInput = {
   /** The primary key(s) for `commonSpecies` for the far side of the relationship. */
   connectById?: Maybe<CommonSpeciesCommonSpeciesPkeyConnect>;
   /** The primary key(s) for `commonSpecies` for the far side of the relationship. */
@@ -27843,11 +30856,11 @@ export type ShipperProjectionProductCommonSpeciesIdFkeyInput = {
   /** The primary key(s) for `commonSpecies` for the far side of the relationship. */
   deleteByNodeId?: Maybe<CommonSpecyNodeIdDelete>;
   /** The primary key(s) and patch data for `commonSpecies` for the far side of the relationship. */
-  updateById?: Maybe<CommonSpeciesOnShipperProjectionProductForShipperProjectionProductCommonSpeciesIdFkeyUsingCommonSpeciesPkeyUpdate>;
+  updateById?: Maybe<CommonSpeciesOnShipperProgramForShipperProgramCommonSpeciesIdFkeyUsingCommonSpeciesPkeyUpdate>;
   /** The primary key(s) and patch data for `commonSpecies` for the far side of the relationship. */
-  updateByNodeId?: Maybe<ShipperProjectionProductOnShipperProjectionProductForShipperProjectionProductCommonSpeciesIdFkeyNodeIdUpdate>;
+  updateByNodeId?: Maybe<ShipperProgramOnShipperProgramForShipperProgramCommonSpeciesIdFkeyNodeIdUpdate>;
   /** A `CommonSpeciesInput` object that will be created and connected to this object. */
-  create?: Maybe<ShipperProjectionProductCommonSpeciesIdFkeyCommonSpeciesCreateInput>;
+  create?: Maybe<ShipperProgramCommonSpeciesIdFkeyCommonSpeciesCreateInput>;
 };
 
 /** The fields on `commonSpecies` to look up the row to connect. */
@@ -27873,14 +30886,14 @@ export type CommonSpecyNodeIdDelete = {
 };
 
 /** The fields on `commonSpecies` to look up the row to update. */
-export type CommonSpeciesOnShipperProjectionProductForShipperProjectionProductCommonSpeciesIdFkeyUsingCommonSpeciesPkeyUpdate = {
+export type CommonSpeciesOnShipperProgramForShipperProgramCommonSpeciesIdFkeyUsingCommonSpeciesPkeyUpdate = {
   /** An object where the defined keys will be set on the `commonSpecies` being updated. */
-  patch: UpdateCommonSpeciesOnShipperProjectionProductForShipperProjectionProductCommonSpeciesIdFkeyPatch;
+  patch: UpdateCommonSpeciesOnShipperProgramForShipperProgramCommonSpeciesIdFkeyPatch;
   id: Scalars['BigInt'];
 };
 
 /** An object where the defined keys will be set on the `commonSpecies` being updated. */
-export type UpdateCommonSpeciesOnShipperProjectionProductForShipperProjectionProductCommonSpeciesIdFkeyPatch = {
+export type UpdateCommonSpeciesOnShipperProgramForShipperProgramCommonSpeciesIdFkeyPatch = {
   id?: Maybe<Scalars['BigInt']>;
   speciesName?: Maybe<Scalars['String']>;
   speciesDescription?: Maybe<Scalars['String']>;
@@ -27895,6 +30908,8 @@ export type UpdateCommonSpeciesOnShipperProjectionProductForShipperProjectionPro
   commonPackTypesUsingId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInverseInput>;
   commonSpeciesTagsUsingId?: Maybe<CommonSpeciesTagCommonSpeciesIdFkeyInverseInput>;
   commonSpeciesProductSpeciesUsingId?: Maybe<CommonSpeciesProductSpeciesCommonSpeciesIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonSpeciesIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonSpeciesIdFkeyInverseInput>;
 };
 
 /** Input for the nested mutation of `commonCategory` in the `CommonSpeciesInput` mutation. */
@@ -27995,6 +31010,8 @@ export type UpdateCommonSpeciesOnCommonSpeciesForCommonSpeciesCommonCategoryIdFk
   commonPackTypesUsingId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInverseInput>;
   commonSpeciesTagsUsingId?: Maybe<CommonSpeciesTagCommonSpeciesIdFkeyInverseInput>;
   commonSpeciesProductSpeciesUsingId?: Maybe<CommonSpeciesProductSpeciesCommonSpeciesIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonSpeciesIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonSpeciesIdFkeyInverseInput>;
 };
 
 /** Input for the nested mutation of `productSpecies` in the `CommonSpeciesInput` mutation. */
@@ -28098,6 +31115,8 @@ export type UpdateCommonSpeciesOnCommonSpeciesForCommonSpeciesProductSpeciesIdFk
   commonPackTypesUsingId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInverseInput>;
   commonSpeciesTagsUsingId?: Maybe<CommonSpeciesTagCommonSpeciesIdFkeyInverseInput>;
   commonSpeciesProductSpeciesUsingId?: Maybe<CommonSpeciesProductSpeciesCommonSpeciesIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonSpeciesIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonSpeciesIdFkeyInverseInput>;
 };
 
 /** Input for the nested mutation of `shipperProjectionProduct` in the `CommonSpeciesInput` mutation. */
@@ -28147,22 +31166,69 @@ export type UpdateShipperProjectionProductOnShipperProjectionProductForShipperPr
   shipperProjectionEntriesUsingId?: Maybe<ShipperProjectionEntryProductIdFkeyInverseInput>;
 };
 
-/** Input for the nested mutation of `commonVariety` in the `ShipperProjectionProductInput` mutation. */
-export type ShipperProjectionProductCommonVarietyIdFkeyInput = {
+/** Input for the nested mutation of `commonSpecies` in the `ShipperProjectionProductInput` mutation. */
+export type ShipperProjectionProductCommonSpeciesIdFkeyInput = {
+  /** The primary key(s) for `commonSpecies` for the far side of the relationship. */
+  connectById?: Maybe<CommonSpeciesCommonSpeciesPkeyConnect>;
+  /** The primary key(s) for `commonSpecies` for the far side of the relationship. */
+  connectByNodeId?: Maybe<CommonSpecyNodeIdConnect>;
+  /** The primary key(s) for `commonSpecies` for the far side of the relationship. */
+  deleteById?: Maybe<CommonSpeciesCommonSpeciesPkeyDelete>;
+  /** The primary key(s) for `commonSpecies` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<CommonSpecyNodeIdDelete>;
+  /** The primary key(s) and patch data for `commonSpecies` for the far side of the relationship. */
+  updateById?: Maybe<CommonSpeciesOnShipperProjectionProductForShipperProjectionProductCommonSpeciesIdFkeyUsingCommonSpeciesPkeyUpdate>;
+  /** The primary key(s) and patch data for `commonSpecies` for the far side of the relationship. */
+  updateByNodeId?: Maybe<ShipperProjectionProductOnShipperProjectionProductForShipperProjectionProductCommonSpeciesIdFkeyNodeIdUpdate>;
+  /** A `CommonSpeciesInput` object that will be created and connected to this object. */
+  create?: Maybe<ShipperProjectionProductCommonSpeciesIdFkeyCommonSpeciesCreateInput>;
+};
+
+/** The fields on `commonSpecies` to look up the row to update. */
+export type CommonSpeciesOnShipperProjectionProductForShipperProjectionProductCommonSpeciesIdFkeyUsingCommonSpeciesPkeyUpdate = {
+  /** An object where the defined keys will be set on the `commonSpecies` being updated. */
+  patch: UpdateCommonSpeciesOnShipperProjectionProductForShipperProjectionProductCommonSpeciesIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `commonSpecies` being updated. */
+export type UpdateCommonSpeciesOnShipperProjectionProductForShipperProjectionProductCommonSpeciesIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  speciesName?: Maybe<Scalars['String']>;
+  speciesDescription?: Maybe<Scalars['String']>;
+  uiColor?: Maybe<Scalars['String']>;
+  commonCategoryId?: Maybe<Scalars['BigInt']>;
+  productSpeciesId?: Maybe<Scalars['String']>;
+  commonCategoryToCommonCategoryId?: Maybe<CommonSpeciesCommonCategoryIdFkeyInput>;
+  productSpeciesToProductSpeciesId?: Maybe<CommonSpeciesProductSpeciesIdFkeyInput>;
+  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSpeciesIdFkeyInverseInput>;
+  commonVarietiesUsingId?: Maybe<CommonVarietyCommonSpeciesIdFkeyInverseInput>;
+  commonSizesUsingId?: Maybe<CommonSizeCommonSpeciesIdFkeyInverseInput>;
+  commonPackTypesUsingId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInverseInput>;
+  commonSpeciesTagsUsingId?: Maybe<CommonSpeciesTagCommonSpeciesIdFkeyInverseInput>;
+  commonSpeciesProductSpeciesUsingId?: Maybe<CommonSpeciesProductSpeciesCommonSpeciesIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonSpeciesIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonSpeciesIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `commonVariety` in the `CommonSpeciesInput` mutation. */
+export type CommonVarietyCommonSpeciesIdFkeyInverseInput = {
+  /** Flag indicating whether all other `commonVariety` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
   /** The primary key(s) for `commonVariety` for the far side of the relationship. */
-  connectById?: Maybe<CommonVarietyCommonVarietyPkeyConnect>;
+  connectById?: Maybe<Array<CommonVarietyCommonVarietyPkeyConnect>>;
   /** The primary key(s) for `commonVariety` for the far side of the relationship. */
-  connectByNodeId?: Maybe<CommonVarietyNodeIdConnect>;
+  connectByNodeId?: Maybe<Array<CommonVarietyNodeIdConnect>>;
   /** The primary key(s) for `commonVariety` for the far side of the relationship. */
-  deleteById?: Maybe<CommonVarietyCommonVarietyPkeyDelete>;
+  deleteById?: Maybe<Array<CommonVarietyCommonVarietyPkeyDelete>>;
   /** The primary key(s) for `commonVariety` for the far side of the relationship. */
-  deleteByNodeId?: Maybe<CommonVarietyNodeIdDelete>;
+  deleteByNodeId?: Maybe<Array<CommonVarietyNodeIdDelete>>;
   /** The primary key(s) and patch data for `commonVariety` for the far side of the relationship. */
-  updateById?: Maybe<CommonVarietyOnShipperProjectionProductForShipperProjectionProductCommonVarietyIdFkeyUsingCommonVarietyPkeyUpdate>;
+  updateById?: Maybe<Array<CommonVarietyOnCommonVarietyForCommonVarietyCommonSpeciesIdFkeyUsingCommonVarietyPkeyUpdate>>;
   /** The primary key(s) and patch data for `commonVariety` for the far side of the relationship. */
-  updateByNodeId?: Maybe<ShipperProjectionProductOnShipperProjectionProductForShipperProjectionProductCommonVarietyIdFkeyNodeIdUpdate>;
+  updateByNodeId?: Maybe<Array<CommonSpeciesOnCommonVarietyForCommonVarietyCommonSpeciesIdFkeyNodeIdUpdate>>;
   /** A `CommonVarietyInput` object that will be created and connected to this object. */
-  create?: Maybe<ShipperProjectionProductCommonVarietyIdFkeyCommonVarietyCreateInput>;
+  create?: Maybe<Array<CommonVarietyCommonSpeciesIdFkeyCommonVarietyCreateInput>>;
 };
 
 /** The fields on `commonVariety` to look up the row to connect. */
@@ -28188,25 +31254,26 @@ export type CommonVarietyNodeIdDelete = {
 };
 
 /** The fields on `commonVariety` to look up the row to update. */
-export type CommonVarietyOnShipperProjectionProductForShipperProjectionProductCommonVarietyIdFkeyUsingCommonVarietyPkeyUpdate = {
+export type CommonVarietyOnCommonVarietyForCommonVarietyCommonSpeciesIdFkeyUsingCommonVarietyPkeyUpdate = {
   /** An object where the defined keys will be set on the `commonVariety` being updated. */
-  patch: UpdateCommonVarietyOnShipperProjectionProductForShipperProjectionProductCommonVarietyIdFkeyPatch;
+  patch: UpdateCommonVarietyOnCommonVarietyForCommonVarietyCommonSpeciesIdFkeyPatch;
   id: Scalars['BigInt'];
 };
 
 /** An object where the defined keys will be set on the `commonVariety` being updated. */
-export type UpdateCommonVarietyOnShipperProjectionProductForShipperProjectionProductCommonVarietyIdFkeyPatch = {
+export type UpdateCommonVarietyOnCommonVarietyForCommonVarietyCommonSpeciesIdFkeyPatch = {
   id?: Maybe<Scalars['BigInt']>;
   varietyName?: Maybe<Scalars['String']>;
   varietyDescription?: Maybe<Scalars['String']>;
   uiColor?: Maybe<Scalars['String']>;
-  commonSpeciesId?: Maybe<Scalars['BigInt']>;
   productVarietyId?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonVarietyCommonSpeciesIdFkeyInput>;
   productVarietyToProductVarietyId?: Maybe<CommonVarietyProductVarietyIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonVarietyIdFkeyInverseInput>;
   commonVarietyTagsUsingId?: Maybe<CommonVarietyTagCommonVarietyIdFkeyInverseInput>;
   commonVarietyProductVarietiesUsingId?: Maybe<CommonVarietyProductVarietyCommonVarietyIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonVarietyIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonVarietyIdFkeyInverseInput>;
 };
 
 /** Input for the nested mutation of `commonSpecies` in the `CommonVarietyInput` mutation. */
@@ -28250,47 +31317,517 @@ export type UpdateCommonSpeciesOnCommonVarietyForCommonVarietyCommonSpeciesIdFke
   commonPackTypesUsingId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInverseInput>;
   commonSpeciesTagsUsingId?: Maybe<CommonSpeciesTagCommonSpeciesIdFkeyInverseInput>;
   commonSpeciesProductSpeciesUsingId?: Maybe<CommonSpeciesProductSpeciesCommonSpeciesIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonSpeciesIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonSpeciesIdFkeyInverseInput>;
 };
 
-/** Input for the nested mutation of `commonVariety` in the `CommonSpeciesInput` mutation. */
-export type CommonVarietyCommonSpeciesIdFkeyInverseInput = {
-  /** Flag indicating whether all other `commonVariety` records that match this relationship should be removed. */
+/** Input for the nested mutation of `commonSize` in the `CommonSpeciesInput` mutation. */
+export type CommonSizeCommonSpeciesIdFkeyInverseInput = {
+  /** Flag indicating whether all other `commonSize` records that match this relationship should be removed. */
   deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `commonSize` for the far side of the relationship. */
+  connectById?: Maybe<Array<CommonSizeCommonSizePkeyConnect>>;
+  /** The primary key(s) for `commonSize` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<CommonSizeNodeIdConnect>>;
+  /** The primary key(s) for `commonSize` for the far side of the relationship. */
+  deleteById?: Maybe<Array<CommonSizeCommonSizePkeyDelete>>;
+  /** The primary key(s) for `commonSize` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<CommonSizeNodeIdDelete>>;
+  /** The primary key(s) and patch data for `commonSize` for the far side of the relationship. */
+  updateById?: Maybe<Array<CommonSizeOnCommonSizeForCommonSizeCommonSpeciesIdFkeyUsingCommonSizePkeyUpdate>>;
+  /** The primary key(s) and patch data for `commonSize` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<CommonSpeciesOnCommonSizeForCommonSizeCommonSpeciesIdFkeyNodeIdUpdate>>;
+  /** A `CommonSizeInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<CommonSizeCommonSpeciesIdFkeyCommonSizeCreateInput>>;
+};
+
+/** The fields on `commonSize` to look up the row to connect. */
+export type CommonSizeCommonSizePkeyConnect = {
+  id: Scalars['BigInt'];
+};
+
+/** The globally unique `ID` look up for the row to connect. */
+export type CommonSizeNodeIdConnect = {
+  /** The globally unique `ID` which identifies a single `commonSize` to be connected. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `commonSize` to look up the row to delete. */
+export type CommonSizeCommonSizePkeyDelete = {
+  id: Scalars['BigInt'];
+};
+
+/** The globally unique `ID` look up for the row to delete. */
+export type CommonSizeNodeIdDelete = {
+  /** The globally unique `ID` which identifies a single `commonSize` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `commonSize` to look up the row to update. */
+export type CommonSizeOnCommonSizeForCommonSizeCommonSpeciesIdFkeyUsingCommonSizePkeyUpdate = {
+  /** An object where the defined keys will be set on the `commonSize` being updated. */
+  patch: UpdateCommonSizeOnCommonSizeForCommonSizeCommonSpeciesIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `commonSize` being updated. */
+export type UpdateCommonSizeOnCommonSizeForCommonSizeCommonSpeciesIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  sizeName?: Maybe<Scalars['String']>;
+  sizeDescription?: Maybe<Scalars['String']>;
+  productSizeId?: Maybe<Scalars['BigInt']>;
+  commonSpeciesToCommonSpeciesId?: Maybe<CommonSizeCommonSpeciesIdFkeyInput>;
+  productSizeToProductSizeId?: Maybe<CommonSizeProductSizeIdFkeyInput>;
+  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSizeIdFkeyInverseInput>;
+  commonSizeTagsUsingId?: Maybe<CommonSizeTagCommonSizeIdFkeyInverseInput>;
+  commonSizeProductSizesUsingId?: Maybe<CommonSizeProductSizeCommonSizeIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonSizeIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonSizeIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `commonSpecies` in the `CommonSizeInput` mutation. */
+export type CommonSizeCommonSpeciesIdFkeyInput = {
+  /** The primary key(s) for `commonSpecies` for the far side of the relationship. */
+  connectById?: Maybe<CommonSpeciesCommonSpeciesPkeyConnect>;
+  /** The primary key(s) for `commonSpecies` for the far side of the relationship. */
+  connectByNodeId?: Maybe<CommonSpecyNodeIdConnect>;
+  /** The primary key(s) for `commonSpecies` for the far side of the relationship. */
+  deleteById?: Maybe<CommonSpeciesCommonSpeciesPkeyDelete>;
+  /** The primary key(s) for `commonSpecies` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<CommonSpecyNodeIdDelete>;
+  /** The primary key(s) and patch data for `commonSpecies` for the far side of the relationship. */
+  updateById?: Maybe<CommonSpeciesOnCommonSizeForCommonSizeCommonSpeciesIdFkeyUsingCommonSpeciesPkeyUpdate>;
+  /** The primary key(s) and patch data for `commonSpecies` for the far side of the relationship. */
+  updateByNodeId?: Maybe<CommonSizeOnCommonSizeForCommonSizeCommonSpeciesIdFkeyNodeIdUpdate>;
+  /** A `CommonSpeciesInput` object that will be created and connected to this object. */
+  create?: Maybe<CommonSizeCommonSpeciesIdFkeyCommonSpeciesCreateInput>;
+};
+
+/** The fields on `commonSpecies` to look up the row to update. */
+export type CommonSpeciesOnCommonSizeForCommonSizeCommonSpeciesIdFkeyUsingCommonSpeciesPkeyUpdate = {
+  /** An object where the defined keys will be set on the `commonSpecies` being updated. */
+  patch: UpdateCommonSpeciesOnCommonSizeForCommonSizeCommonSpeciesIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `commonSpecies` being updated. */
+export type UpdateCommonSpeciesOnCommonSizeForCommonSizeCommonSpeciesIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  speciesName?: Maybe<Scalars['String']>;
+  speciesDescription?: Maybe<Scalars['String']>;
+  uiColor?: Maybe<Scalars['String']>;
+  commonCategoryId?: Maybe<Scalars['BigInt']>;
+  productSpeciesId?: Maybe<Scalars['String']>;
+  commonCategoryToCommonCategoryId?: Maybe<CommonSpeciesCommonCategoryIdFkeyInput>;
+  productSpeciesToProductSpeciesId?: Maybe<CommonSpeciesProductSpeciesIdFkeyInput>;
+  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSpeciesIdFkeyInverseInput>;
+  commonVarietiesUsingId?: Maybe<CommonVarietyCommonSpeciesIdFkeyInverseInput>;
+  commonSizesUsingId?: Maybe<CommonSizeCommonSpeciesIdFkeyInverseInput>;
+  commonPackTypesUsingId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInverseInput>;
+  commonSpeciesTagsUsingId?: Maybe<CommonSpeciesTagCommonSpeciesIdFkeyInverseInput>;
+  commonSpeciesProductSpeciesUsingId?: Maybe<CommonSpeciesProductSpeciesCommonSpeciesIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonSpeciesIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonSpeciesIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `commonPackType` in the `CommonSpeciesInput` mutation. */
+export type CommonPackTypeCommonSpeciesIdFkeyInverseInput = {
+  /** Flag indicating whether all other `commonPackType` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `commonPackType` for the far side of the relationship. */
+  connectById?: Maybe<Array<CommonPackTypeCommonPackTypePkeyConnect>>;
+  /** The primary key(s) for `commonPackType` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<CommonPackTypeNodeIdConnect>>;
+  /** The primary key(s) for `commonPackType` for the far side of the relationship. */
+  deleteById?: Maybe<Array<CommonPackTypeCommonPackTypePkeyDelete>>;
+  /** The primary key(s) for `commonPackType` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<CommonPackTypeNodeIdDelete>>;
+  /** The primary key(s) and patch data for `commonPackType` for the far side of the relationship. */
+  updateById?: Maybe<Array<CommonPackTypeOnCommonPackTypeForCommonPackTypeCommonSpeciesIdFkeyUsingCommonPackTypePkeyUpdate>>;
+  /** The primary key(s) and patch data for `commonPackType` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<CommonSpeciesOnCommonPackTypeForCommonPackTypeCommonSpeciesIdFkeyNodeIdUpdate>>;
+  /** A `CommonPackTypeInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<CommonPackTypeCommonSpeciesIdFkeyCommonPackTypeCreateInput>>;
+};
+
+/** The fields on `commonPackType` to look up the row to connect. */
+export type CommonPackTypeCommonPackTypePkeyConnect = {
+  id: Scalars['BigInt'];
+};
+
+/** The globally unique `ID` look up for the row to connect. */
+export type CommonPackTypeNodeIdConnect = {
+  /** The globally unique `ID` which identifies a single `commonPackType` to be connected. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `commonPackType` to look up the row to delete. */
+export type CommonPackTypeCommonPackTypePkeyDelete = {
+  id: Scalars['BigInt'];
+};
+
+/** The globally unique `ID` look up for the row to delete. */
+export type CommonPackTypeNodeIdDelete = {
+  /** The globally unique `ID` which identifies a single `commonPackType` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `commonPackType` to look up the row to update. */
+export type CommonPackTypeOnCommonPackTypeForCommonPackTypeCommonSpeciesIdFkeyUsingCommonPackTypePkeyUpdate = {
+  /** An object where the defined keys will be set on the `commonPackType` being updated. */
+  patch: UpdateCommonPackTypeOnCommonPackTypeForCommonPackTypeCommonSpeciesIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `commonPackType` being updated. */
+export type UpdateCommonPackTypeOnCommonPackTypeForCommonPackTypeCommonSpeciesIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  packTypeName?: Maybe<Scalars['String']>;
+  packTypeDescription?: Maybe<Scalars['String']>;
+  packMasterId?: Maybe<Scalars['BigInt']>;
+  commonSpeciesToCommonSpeciesId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInput>;
+  packMasterToPackMasterId?: Maybe<CommonPackTypePackMasterIdFkeyInput>;
+  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyInverseInput>;
+  commonPackTypeTagsUsingId?: Maybe<CommonPackTypeTagCommonPackTypeIdFkeyInverseInput>;
+  commonPackTypePackMastersUsingId?: Maybe<CommonPackTypePackMasterCommonPackTypeIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonPackTypeIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonPackTypeIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `commonSpecies` in the `CommonPackTypeInput` mutation. */
+export type CommonPackTypeCommonSpeciesIdFkeyInput = {
+  /** The primary key(s) for `commonSpecies` for the far side of the relationship. */
+  connectById?: Maybe<CommonSpeciesCommonSpeciesPkeyConnect>;
+  /** The primary key(s) for `commonSpecies` for the far side of the relationship. */
+  connectByNodeId?: Maybe<CommonSpecyNodeIdConnect>;
+  /** The primary key(s) for `commonSpecies` for the far side of the relationship. */
+  deleteById?: Maybe<CommonSpeciesCommonSpeciesPkeyDelete>;
+  /** The primary key(s) for `commonSpecies` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<CommonSpecyNodeIdDelete>;
+  /** The primary key(s) and patch data for `commonSpecies` for the far side of the relationship. */
+  updateById?: Maybe<CommonSpeciesOnCommonPackTypeForCommonPackTypeCommonSpeciesIdFkeyUsingCommonSpeciesPkeyUpdate>;
+  /** The primary key(s) and patch data for `commonSpecies` for the far side of the relationship. */
+  updateByNodeId?: Maybe<CommonPackTypeOnCommonPackTypeForCommonPackTypeCommonSpeciesIdFkeyNodeIdUpdate>;
+  /** A `CommonSpeciesInput` object that will be created and connected to this object. */
+  create?: Maybe<CommonPackTypeCommonSpeciesIdFkeyCommonSpeciesCreateInput>;
+};
+
+/** The fields on `commonSpecies` to look up the row to update. */
+export type CommonSpeciesOnCommonPackTypeForCommonPackTypeCommonSpeciesIdFkeyUsingCommonSpeciesPkeyUpdate = {
+  /** An object where the defined keys will be set on the `commonSpecies` being updated. */
+  patch: UpdateCommonSpeciesOnCommonPackTypeForCommonPackTypeCommonSpeciesIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `commonSpecies` being updated. */
+export type UpdateCommonSpeciesOnCommonPackTypeForCommonPackTypeCommonSpeciesIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  speciesName?: Maybe<Scalars['String']>;
+  speciesDescription?: Maybe<Scalars['String']>;
+  uiColor?: Maybe<Scalars['String']>;
+  commonCategoryId?: Maybe<Scalars['BigInt']>;
+  productSpeciesId?: Maybe<Scalars['String']>;
+  commonCategoryToCommonCategoryId?: Maybe<CommonSpeciesCommonCategoryIdFkeyInput>;
+  productSpeciesToProductSpeciesId?: Maybe<CommonSpeciesProductSpeciesIdFkeyInput>;
+  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSpeciesIdFkeyInverseInput>;
+  commonVarietiesUsingId?: Maybe<CommonVarietyCommonSpeciesIdFkeyInverseInput>;
+  commonSizesUsingId?: Maybe<CommonSizeCommonSpeciesIdFkeyInverseInput>;
+  commonPackTypesUsingId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInverseInput>;
+  commonSpeciesTagsUsingId?: Maybe<CommonSpeciesTagCommonSpeciesIdFkeyInverseInput>;
+  commonSpeciesProductSpeciesUsingId?: Maybe<CommonSpeciesProductSpeciesCommonSpeciesIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonSpeciesIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonSpeciesIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `commonSpeciesTag` in the `CommonSpeciesInput` mutation. */
+export type CommonSpeciesTagCommonSpeciesIdFkeyInverseInput = {
+  /** Flag indicating whether all other `commonSpeciesTag` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `commonSpeciesTag` for the far side of the relationship. */
+  connectByTagTextAndCommonSpeciesId?: Maybe<Array<CommonSpeciesTagCommonSpeciesTagPkeyConnect>>;
+  /** The primary key(s) for `commonSpeciesTag` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<CommonSpeciesTagNodeIdConnect>>;
+  /** The primary key(s) for `commonSpeciesTag` for the far side of the relationship. */
+  deleteByTagTextAndCommonSpeciesId?: Maybe<Array<CommonSpeciesTagCommonSpeciesTagPkeyDelete>>;
+  /** The primary key(s) for `commonSpeciesTag` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<CommonSpeciesTagNodeIdDelete>>;
+  /** The primary key(s) and patch data for `commonSpeciesTag` for the far side of the relationship. */
+  updateByTagTextAndCommonSpeciesId?: Maybe<Array<CommonSpeciesTagOnCommonSpeciesTagForCommonSpeciesTagCommonSpeciesIdFkeyUsingCommonSpeciesTagPkeyUpdate>>;
+  /** The primary key(s) and patch data for `commonSpeciesTag` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<CommonSpeciesOnCommonSpeciesTagForCommonSpeciesTagCommonSpeciesIdFkeyNodeIdUpdate>>;
+  /** A `CommonSpeciesTagInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<CommonSpeciesTagCommonSpeciesIdFkeyCommonSpeciesTagCreateInput>>;
+};
+
+/** The fields on `commonSpeciesTag` to look up the row to connect. */
+export type CommonSpeciesTagCommonSpeciesTagPkeyConnect = {
+  tagText: Scalars['String'];
+  commonSpeciesId: Scalars['BigInt'];
+};
+
+/** The globally unique `ID` look up for the row to connect. */
+export type CommonSpeciesTagNodeIdConnect = {
+  /** The globally unique `ID` which identifies a single `commonSpeciesTag` to be connected. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `commonSpeciesTag` to look up the row to delete. */
+export type CommonSpeciesTagCommonSpeciesTagPkeyDelete = {
+  tagText: Scalars['String'];
+  commonSpeciesId: Scalars['BigInt'];
+};
+
+/** The globally unique `ID` look up for the row to delete. */
+export type CommonSpeciesTagNodeIdDelete = {
+  /** The globally unique `ID` which identifies a single `commonSpeciesTag` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `commonSpeciesTag` to look up the row to update. */
+export type CommonSpeciesTagOnCommonSpeciesTagForCommonSpeciesTagCommonSpeciesIdFkeyUsingCommonSpeciesTagPkeyUpdate = {
+  /** An object where the defined keys will be set on the `commonSpeciesTag` being updated. */
+  patch: UpdateCommonSpeciesTagOnCommonSpeciesTagForCommonSpeciesTagCommonSpeciesIdFkeyPatch;
+  tagText: Scalars['String'];
+  commonSpeciesId: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `commonSpeciesTag` being updated. */
+export type UpdateCommonSpeciesTagOnCommonSpeciesTagForCommonSpeciesTagCommonSpeciesIdFkeyPatch = {
+  tagText?: Maybe<Scalars['String']>;
+  commonSpeciesToCommonSpeciesId?: Maybe<CommonSpeciesTagCommonSpeciesIdFkeyInput>;
+};
+
+/** Input for the nested mutation of `commonSpecies` in the `CommonSpeciesTagInput` mutation. */
+export type CommonSpeciesTagCommonSpeciesIdFkeyInput = {
+  /** The primary key(s) for `commonSpecies` for the far side of the relationship. */
+  connectById?: Maybe<CommonSpeciesCommonSpeciesPkeyConnect>;
+  /** The primary key(s) for `commonSpecies` for the far side of the relationship. */
+  connectByNodeId?: Maybe<CommonSpecyNodeIdConnect>;
+  /** The primary key(s) for `commonSpecies` for the far side of the relationship. */
+  deleteById?: Maybe<CommonSpeciesCommonSpeciesPkeyDelete>;
+  /** The primary key(s) for `commonSpecies` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<CommonSpecyNodeIdDelete>;
+  /** The primary key(s) and patch data for `commonSpecies` for the far side of the relationship. */
+  updateById?: Maybe<CommonSpeciesOnCommonSpeciesTagForCommonSpeciesTagCommonSpeciesIdFkeyUsingCommonSpeciesPkeyUpdate>;
+  /** The primary key(s) and patch data for `commonSpecies` for the far side of the relationship. */
+  updateByNodeId?: Maybe<CommonSpeciesTagOnCommonSpeciesTagForCommonSpeciesTagCommonSpeciesIdFkeyNodeIdUpdate>;
+  /** A `CommonSpeciesInput` object that will be created and connected to this object. */
+  create?: Maybe<CommonSpeciesTagCommonSpeciesIdFkeyCommonSpeciesCreateInput>;
+};
+
+/** The fields on `commonSpecies` to look up the row to update. */
+export type CommonSpeciesOnCommonSpeciesTagForCommonSpeciesTagCommonSpeciesIdFkeyUsingCommonSpeciesPkeyUpdate = {
+  /** An object where the defined keys will be set on the `commonSpecies` being updated. */
+  patch: UpdateCommonSpeciesOnCommonSpeciesTagForCommonSpeciesTagCommonSpeciesIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `commonSpecies` being updated. */
+export type UpdateCommonSpeciesOnCommonSpeciesTagForCommonSpeciesTagCommonSpeciesIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  speciesName?: Maybe<Scalars['String']>;
+  speciesDescription?: Maybe<Scalars['String']>;
+  uiColor?: Maybe<Scalars['String']>;
+  commonCategoryId?: Maybe<Scalars['BigInt']>;
+  productSpeciesId?: Maybe<Scalars['String']>;
+  commonCategoryToCommonCategoryId?: Maybe<CommonSpeciesCommonCategoryIdFkeyInput>;
+  productSpeciesToProductSpeciesId?: Maybe<CommonSpeciesProductSpeciesIdFkeyInput>;
+  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSpeciesIdFkeyInverseInput>;
+  commonVarietiesUsingId?: Maybe<CommonVarietyCommonSpeciesIdFkeyInverseInput>;
+  commonSizesUsingId?: Maybe<CommonSizeCommonSpeciesIdFkeyInverseInput>;
+  commonPackTypesUsingId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInverseInput>;
+  commonSpeciesTagsUsingId?: Maybe<CommonSpeciesTagCommonSpeciesIdFkeyInverseInput>;
+  commonSpeciesProductSpeciesUsingId?: Maybe<CommonSpeciesProductSpeciesCommonSpeciesIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonSpeciesIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonSpeciesIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `commonSpeciesProductSpecies` in the `CommonSpeciesInput` mutation. */
+export type CommonSpeciesProductSpeciesCommonSpeciesIdFkeyInverseInput = {
+  /** Flag indicating whether all other `commonSpeciesProductSpecies` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `commonSpeciesProductSpecies` for the far side of the relationship. */
+  connectById?: Maybe<Array<CommonSpeciesProductSpeciesCommonSpeciesProductSpeciesPkeyConnect>>;
+  /** The primary key(s) for `commonSpeciesProductSpecies` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<CommonSpeciesProductSpecyNodeIdConnect>>;
+  /** The primary key(s) for `commonSpeciesProductSpecies` for the far side of the relationship. */
+  deleteById?: Maybe<Array<CommonSpeciesProductSpeciesCommonSpeciesProductSpeciesPkeyDelete>>;
+  /** The primary key(s) for `commonSpeciesProductSpecies` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<CommonSpeciesProductSpecyNodeIdDelete>>;
+  /** The primary key(s) and patch data for `commonSpeciesProductSpecies` for the far side of the relationship. */
+  updateById?: Maybe<Array<CommonSpeciesProductSpeciesOnCommonSpeciesProductSpeciesForCommonSpeciesProductSpeciesCommonSpeciesIdFkeyUsingCommonSpeciesProductSpeciesPkeyUpdate>>;
+  /** The primary key(s) and patch data for `commonSpeciesProductSpecies` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<CommonSpeciesOnCommonSpeciesProductSpeciesForCommonSpeciesProductSpeciesCommonSpeciesIdFkeyNodeIdUpdate>>;
+  /** A `CommonSpeciesProductSpeciesInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<CommonSpeciesProductSpeciesCommonSpeciesIdFkeyCommonSpeciesProductSpeciesCreateInput>>;
+};
+
+/** The fields on `commonSpeciesProductSpecies` to look up the row to connect. */
+export type CommonSpeciesProductSpeciesCommonSpeciesProductSpeciesPkeyConnect = {
+  id: Scalars['BigInt'];
+};
+
+/** The globally unique `ID` look up for the row to connect. */
+export type CommonSpeciesProductSpecyNodeIdConnect = {
+  /** The globally unique `ID` which identifies a single `commonSpeciesProductSpecies` to be connected. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `commonSpeciesProductSpecies` to look up the row to delete. */
+export type CommonSpeciesProductSpeciesCommonSpeciesProductSpeciesPkeyDelete = {
+  id: Scalars['BigInt'];
+};
+
+/** The globally unique `ID` look up for the row to delete. */
+export type CommonSpeciesProductSpecyNodeIdDelete = {
+  /** The globally unique `ID` which identifies a single `commonSpeciesProductSpecies` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `commonSpeciesProductSpecies` to look up the row to update. */
+export type CommonSpeciesProductSpeciesOnCommonSpeciesProductSpeciesForCommonSpeciesProductSpeciesCommonSpeciesIdFkeyUsingCommonSpeciesProductSpeciesPkeyUpdate = {
+  /** An object where the defined keys will be set on the `commonSpeciesProductSpecies` being updated. */
+  patch: UpdateCommonSpeciesProductSpeciesOnCommonSpeciesProductSpeciesForCommonSpeciesProductSpeciesCommonSpeciesIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `commonSpeciesProductSpecies` being updated. */
+export type UpdateCommonSpeciesProductSpeciesOnCommonSpeciesProductSpeciesForCommonSpeciesProductSpeciesCommonSpeciesIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  productSpeciesId?: Maybe<Scalars['String']>;
+  commonSpeciesToCommonSpeciesId?: Maybe<CommonSpeciesProductSpeciesCommonSpeciesIdFkeyInput>;
+  productSpeciesToProductSpeciesId?: Maybe<CommonSpeciesProductSpeciesProductSpeciesIdFkeyInput>;
+};
+
+/** Input for the nested mutation of `commonSpecies` in the `CommonSpeciesProductSpeciesInput` mutation. */
+export type CommonSpeciesProductSpeciesCommonSpeciesIdFkeyInput = {
+  /** The primary key(s) for `commonSpecies` for the far side of the relationship. */
+  connectById?: Maybe<CommonSpeciesCommonSpeciesPkeyConnect>;
+  /** The primary key(s) for `commonSpecies` for the far side of the relationship. */
+  connectByNodeId?: Maybe<CommonSpecyNodeIdConnect>;
+  /** The primary key(s) for `commonSpecies` for the far side of the relationship. */
+  deleteById?: Maybe<CommonSpeciesCommonSpeciesPkeyDelete>;
+  /** The primary key(s) for `commonSpecies` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<CommonSpecyNodeIdDelete>;
+  /** The primary key(s) and patch data for `commonSpecies` for the far side of the relationship. */
+  updateById?: Maybe<CommonSpeciesOnCommonSpeciesProductSpeciesForCommonSpeciesProductSpeciesCommonSpeciesIdFkeyUsingCommonSpeciesPkeyUpdate>;
+  /** The primary key(s) and patch data for `commonSpecies` for the far side of the relationship. */
+  updateByNodeId?: Maybe<CommonSpeciesProductSpeciesOnCommonSpeciesProductSpeciesForCommonSpeciesProductSpeciesCommonSpeciesIdFkeyNodeIdUpdate>;
+  /** A `CommonSpeciesInput` object that will be created and connected to this object. */
+  create?: Maybe<CommonSpeciesProductSpeciesCommonSpeciesIdFkeyCommonSpeciesCreateInput>;
+};
+
+/** The fields on `commonSpecies` to look up the row to update. */
+export type CommonSpeciesOnCommonSpeciesProductSpeciesForCommonSpeciesProductSpeciesCommonSpeciesIdFkeyUsingCommonSpeciesPkeyUpdate = {
+  /** An object where the defined keys will be set on the `commonSpecies` being updated. */
+  patch: UpdateCommonSpeciesOnCommonSpeciesProductSpeciesForCommonSpeciesProductSpeciesCommonSpeciesIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `commonSpecies` being updated. */
+export type UpdateCommonSpeciesOnCommonSpeciesProductSpeciesForCommonSpeciesProductSpeciesCommonSpeciesIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  speciesName?: Maybe<Scalars['String']>;
+  speciesDescription?: Maybe<Scalars['String']>;
+  uiColor?: Maybe<Scalars['String']>;
+  commonCategoryId?: Maybe<Scalars['BigInt']>;
+  productSpeciesId?: Maybe<Scalars['String']>;
+  commonCategoryToCommonCategoryId?: Maybe<CommonSpeciesCommonCategoryIdFkeyInput>;
+  productSpeciesToProductSpeciesId?: Maybe<CommonSpeciesProductSpeciesIdFkeyInput>;
+  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSpeciesIdFkeyInverseInput>;
+  commonVarietiesUsingId?: Maybe<CommonVarietyCommonSpeciesIdFkeyInverseInput>;
+  commonSizesUsingId?: Maybe<CommonSizeCommonSpeciesIdFkeyInverseInput>;
+  commonPackTypesUsingId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInverseInput>;
+  commonSpeciesTagsUsingId?: Maybe<CommonSpeciesTagCommonSpeciesIdFkeyInverseInput>;
+  commonSpeciesProductSpeciesUsingId?: Maybe<CommonSpeciesProductSpeciesCommonSpeciesIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonSpeciesIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonSpeciesIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `shipperProgram` in the `CommonSpeciesInput` mutation. */
+export type ShipperProgramCommonSpeciesIdFkeyInverseInput = {
+  /** Flag indicating whether all other `shipperProgram` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `shipperProgram` for the far side of the relationship. */
+  connectById?: Maybe<Array<ShipperProgramShipperProgramPkeyConnect>>;
+  /** The primary key(s) for `shipperProgram` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<ShipperProgramNodeIdConnect>>;
+  /** The primary key(s) for `shipperProgram` for the far side of the relationship. */
+  deleteById?: Maybe<Array<ShipperProgramShipperProgramPkeyDelete>>;
+  /** The primary key(s) for `shipperProgram` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<ShipperProgramNodeIdDelete>>;
+  /** The primary key(s) and patch data for `shipperProgram` for the far side of the relationship. */
+  updateById?: Maybe<Array<ShipperProgramOnShipperProgramForShipperProgramCommonSpeciesIdFkeyUsingShipperProgramPkeyUpdate>>;
+  /** The primary key(s) and patch data for `shipperProgram` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<CommonSpeciesOnShipperProgramForShipperProgramCommonSpeciesIdFkeyNodeIdUpdate>>;
+  /** A `ShipperProgramInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<ShipperProgramCommonSpeciesIdFkeyShipperProgramCreateInput>>;
+};
+
+/** The fields on `shipperProgram` to look up the row to update. */
+export type ShipperProgramOnShipperProgramForShipperProgramCommonSpeciesIdFkeyUsingShipperProgramPkeyUpdate = {
+  /** An object where the defined keys will be set on the `shipperProgram` being updated. */
+  patch: UpdateShipperProgramOnShipperProgramForShipperProgramCommonSpeciesIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `shipperProgram` being updated. */
+export type UpdateShipperProgramOnShipperProgramForShipperProgramCommonSpeciesIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  commonVarietyId?: Maybe<Scalars['BigInt']>;
+  commonSizeId?: Maybe<Scalars['BigInt']>;
+  commonPackTypeId?: Maybe<Scalars['BigInt']>;
+  shipperId?: Maybe<Scalars['String']>;
+  arrivalPort?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  commonSpeciesToCommonSpeciesId?: Maybe<ShipperProgramCommonSpeciesIdFkeyInput>;
+  commonVarietyToCommonVarietyId?: Maybe<ShipperProgramCommonVarietyIdFkeyInput>;
+  commonSizeToCommonSizeId?: Maybe<ShipperProgramCommonSizeIdFkeyInput>;
+  commonPackTypeToCommonPackTypeId?: Maybe<ShipperProgramCommonPackTypeIdFkeyInput>;
+  shipperToShipperId?: Maybe<ShipperProgramShipperIdFkeyInput>;
+  shipperProgramEntriesUsingId?: Maybe<ShipperProgramEntryShipperProgramIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `commonVariety` in the `ShipperProgramInput` mutation. */
+export type ShipperProgramCommonVarietyIdFkeyInput = {
   /** The primary key(s) for `commonVariety` for the far side of the relationship. */
-  connectById?: Maybe<Array<CommonVarietyCommonVarietyPkeyConnect>>;
+  connectById?: Maybe<CommonVarietyCommonVarietyPkeyConnect>;
   /** The primary key(s) for `commonVariety` for the far side of the relationship. */
-  connectByNodeId?: Maybe<Array<CommonVarietyNodeIdConnect>>;
+  connectByNodeId?: Maybe<CommonVarietyNodeIdConnect>;
   /** The primary key(s) for `commonVariety` for the far side of the relationship. */
-  deleteById?: Maybe<Array<CommonVarietyCommonVarietyPkeyDelete>>;
+  deleteById?: Maybe<CommonVarietyCommonVarietyPkeyDelete>;
   /** The primary key(s) for `commonVariety` for the far side of the relationship. */
-  deleteByNodeId?: Maybe<Array<CommonVarietyNodeIdDelete>>;
+  deleteByNodeId?: Maybe<CommonVarietyNodeIdDelete>;
   /** The primary key(s) and patch data for `commonVariety` for the far side of the relationship. */
-  updateById?: Maybe<Array<CommonVarietyOnCommonVarietyForCommonVarietyCommonSpeciesIdFkeyUsingCommonVarietyPkeyUpdate>>;
+  updateById?: Maybe<CommonVarietyOnShipperProgramForShipperProgramCommonVarietyIdFkeyUsingCommonVarietyPkeyUpdate>;
   /** The primary key(s) and patch data for `commonVariety` for the far side of the relationship. */
-  updateByNodeId?: Maybe<Array<CommonSpeciesOnCommonVarietyForCommonVarietyCommonSpeciesIdFkeyNodeIdUpdate>>;
+  updateByNodeId?: Maybe<ShipperProgramOnShipperProgramForShipperProgramCommonVarietyIdFkeyNodeIdUpdate>;
   /** A `CommonVarietyInput` object that will be created and connected to this object. */
-  create?: Maybe<Array<CommonVarietyCommonSpeciesIdFkeyCommonVarietyCreateInput>>;
+  create?: Maybe<ShipperProgramCommonVarietyIdFkeyCommonVarietyCreateInput>;
 };
 
 /** The fields on `commonVariety` to look up the row to update. */
-export type CommonVarietyOnCommonVarietyForCommonVarietyCommonSpeciesIdFkeyUsingCommonVarietyPkeyUpdate = {
+export type CommonVarietyOnShipperProgramForShipperProgramCommonVarietyIdFkeyUsingCommonVarietyPkeyUpdate = {
   /** An object where the defined keys will be set on the `commonVariety` being updated. */
-  patch: UpdateCommonVarietyOnCommonVarietyForCommonVarietyCommonSpeciesIdFkeyPatch;
+  patch: UpdateCommonVarietyOnShipperProgramForShipperProgramCommonVarietyIdFkeyPatch;
   id: Scalars['BigInt'];
 };
 
 /** An object where the defined keys will be set on the `commonVariety` being updated. */
-export type UpdateCommonVarietyOnCommonVarietyForCommonVarietyCommonSpeciesIdFkeyPatch = {
+export type UpdateCommonVarietyOnShipperProgramForShipperProgramCommonVarietyIdFkeyPatch = {
   id?: Maybe<Scalars['BigInt']>;
   varietyName?: Maybe<Scalars['String']>;
   varietyDescription?: Maybe<Scalars['String']>;
   uiColor?: Maybe<Scalars['String']>;
+  commonSpeciesId?: Maybe<Scalars['BigInt']>;
   productVarietyId?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonVarietyCommonSpeciesIdFkeyInput>;
   productVarietyToProductVarietyId?: Maybe<CommonVarietyProductVarietyIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonVarietyIdFkeyInverseInput>;
   commonVarietyTagsUsingId?: Maybe<CommonVarietyTagCommonVarietyIdFkeyInverseInput>;
   commonVarietyProductVarietiesUsingId?: Maybe<CommonVarietyProductVarietyCommonVarietyIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonVarietyIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonVarietyIdFkeyInverseInput>;
 };
 
 /** Input for the nested mutation of `productVariety` in the `CommonVarietyInput` mutation. */
@@ -28392,6 +31929,8 @@ export type UpdateCommonVarietyOnCommonVarietyForCommonVarietyProductVarietyIdFk
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonVarietyIdFkeyInverseInput>;
   commonVarietyTagsUsingId?: Maybe<CommonVarietyTagCommonVarietyIdFkeyInverseInput>;
   commonVarietyProductVarietiesUsingId?: Maybe<CommonVarietyProductVarietyCommonVarietyIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonVarietyIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonVarietyIdFkeyInverseInput>;
 };
 
 /** Input for the nested mutation of `shipperProjectionProduct` in the `CommonVarietyInput` mutation. */
@@ -28441,8 +31980,293 @@ export type UpdateShipperProjectionProductOnShipperProjectionProductForShipperPr
   shipperProjectionEntriesUsingId?: Maybe<ShipperProjectionEntryProductIdFkeyInverseInput>;
 };
 
-/** Input for the nested mutation of `commonSize` in the `ShipperProjectionProductInput` mutation. */
-export type ShipperProjectionProductCommonSizeIdFkeyInput = {
+/** Input for the nested mutation of `commonVariety` in the `ShipperProjectionProductInput` mutation. */
+export type ShipperProjectionProductCommonVarietyIdFkeyInput = {
+  /** The primary key(s) for `commonVariety` for the far side of the relationship. */
+  connectById?: Maybe<CommonVarietyCommonVarietyPkeyConnect>;
+  /** The primary key(s) for `commonVariety` for the far side of the relationship. */
+  connectByNodeId?: Maybe<CommonVarietyNodeIdConnect>;
+  /** The primary key(s) for `commonVariety` for the far side of the relationship. */
+  deleteById?: Maybe<CommonVarietyCommonVarietyPkeyDelete>;
+  /** The primary key(s) for `commonVariety` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<CommonVarietyNodeIdDelete>;
+  /** The primary key(s) and patch data for `commonVariety` for the far side of the relationship. */
+  updateById?: Maybe<CommonVarietyOnShipperProjectionProductForShipperProjectionProductCommonVarietyIdFkeyUsingCommonVarietyPkeyUpdate>;
+  /** The primary key(s) and patch data for `commonVariety` for the far side of the relationship. */
+  updateByNodeId?: Maybe<ShipperProjectionProductOnShipperProjectionProductForShipperProjectionProductCommonVarietyIdFkeyNodeIdUpdate>;
+  /** A `CommonVarietyInput` object that will be created and connected to this object. */
+  create?: Maybe<ShipperProjectionProductCommonVarietyIdFkeyCommonVarietyCreateInput>;
+};
+
+/** The fields on `commonVariety` to look up the row to update. */
+export type CommonVarietyOnShipperProjectionProductForShipperProjectionProductCommonVarietyIdFkeyUsingCommonVarietyPkeyUpdate = {
+  /** An object where the defined keys will be set on the `commonVariety` being updated. */
+  patch: UpdateCommonVarietyOnShipperProjectionProductForShipperProjectionProductCommonVarietyIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `commonVariety` being updated. */
+export type UpdateCommonVarietyOnShipperProjectionProductForShipperProjectionProductCommonVarietyIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  varietyName?: Maybe<Scalars['String']>;
+  varietyDescription?: Maybe<Scalars['String']>;
+  uiColor?: Maybe<Scalars['String']>;
+  commonSpeciesId?: Maybe<Scalars['BigInt']>;
+  productVarietyId?: Maybe<Scalars['String']>;
+  commonSpeciesToCommonSpeciesId?: Maybe<CommonVarietyCommonSpeciesIdFkeyInput>;
+  productVarietyToProductVarietyId?: Maybe<CommonVarietyProductVarietyIdFkeyInput>;
+  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonVarietyIdFkeyInverseInput>;
+  commonVarietyTagsUsingId?: Maybe<CommonVarietyTagCommonVarietyIdFkeyInverseInput>;
+  commonVarietyProductVarietiesUsingId?: Maybe<CommonVarietyProductVarietyCommonVarietyIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonVarietyIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonVarietyIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `commonVarietyTag` in the `CommonVarietyInput` mutation. */
+export type CommonVarietyTagCommonVarietyIdFkeyInverseInput = {
+  /** Flag indicating whether all other `commonVarietyTag` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `commonVarietyTag` for the far side of the relationship. */
+  connectByTagTextAndCommonVarietyId?: Maybe<Array<CommonVarietyTagCommonVarietyTagPkeyConnect>>;
+  /** The primary key(s) for `commonVarietyTag` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<CommonVarietyTagNodeIdConnect>>;
+  /** The primary key(s) for `commonVarietyTag` for the far side of the relationship. */
+  deleteByTagTextAndCommonVarietyId?: Maybe<Array<CommonVarietyTagCommonVarietyTagPkeyDelete>>;
+  /** The primary key(s) for `commonVarietyTag` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<CommonVarietyTagNodeIdDelete>>;
+  /** The primary key(s) and patch data for `commonVarietyTag` for the far side of the relationship. */
+  updateByTagTextAndCommonVarietyId?: Maybe<Array<CommonVarietyTagOnCommonVarietyTagForCommonVarietyTagCommonVarietyIdFkeyUsingCommonVarietyTagPkeyUpdate>>;
+  /** The primary key(s) and patch data for `commonVarietyTag` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<CommonVarietyOnCommonVarietyTagForCommonVarietyTagCommonVarietyIdFkeyNodeIdUpdate>>;
+  /** A `CommonVarietyTagInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<CommonVarietyTagCommonVarietyIdFkeyCommonVarietyTagCreateInput>>;
+};
+
+/** The fields on `commonVarietyTag` to look up the row to connect. */
+export type CommonVarietyTagCommonVarietyTagPkeyConnect = {
+  tagText: Scalars['String'];
+  commonVarietyId: Scalars['BigInt'];
+};
+
+/** The globally unique `ID` look up for the row to connect. */
+export type CommonVarietyTagNodeIdConnect = {
+  /** The globally unique `ID` which identifies a single `commonVarietyTag` to be connected. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `commonVarietyTag` to look up the row to delete. */
+export type CommonVarietyTagCommonVarietyTagPkeyDelete = {
+  tagText: Scalars['String'];
+  commonVarietyId: Scalars['BigInt'];
+};
+
+/** The globally unique `ID` look up for the row to delete. */
+export type CommonVarietyTagNodeIdDelete = {
+  /** The globally unique `ID` which identifies a single `commonVarietyTag` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `commonVarietyTag` to look up the row to update. */
+export type CommonVarietyTagOnCommonVarietyTagForCommonVarietyTagCommonVarietyIdFkeyUsingCommonVarietyTagPkeyUpdate = {
+  /** An object where the defined keys will be set on the `commonVarietyTag` being updated. */
+  patch: UpdateCommonVarietyTagOnCommonVarietyTagForCommonVarietyTagCommonVarietyIdFkeyPatch;
+  tagText: Scalars['String'];
+  commonVarietyId: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `commonVarietyTag` being updated. */
+export type UpdateCommonVarietyTagOnCommonVarietyTagForCommonVarietyTagCommonVarietyIdFkeyPatch = {
+  tagText?: Maybe<Scalars['String']>;
+  commonVarietyToCommonVarietyId?: Maybe<CommonVarietyTagCommonVarietyIdFkeyInput>;
+};
+
+/** Input for the nested mutation of `commonVariety` in the `CommonVarietyTagInput` mutation. */
+export type CommonVarietyTagCommonVarietyIdFkeyInput = {
+  /** The primary key(s) for `commonVariety` for the far side of the relationship. */
+  connectById?: Maybe<CommonVarietyCommonVarietyPkeyConnect>;
+  /** The primary key(s) for `commonVariety` for the far side of the relationship. */
+  connectByNodeId?: Maybe<CommonVarietyNodeIdConnect>;
+  /** The primary key(s) for `commonVariety` for the far side of the relationship. */
+  deleteById?: Maybe<CommonVarietyCommonVarietyPkeyDelete>;
+  /** The primary key(s) for `commonVariety` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<CommonVarietyNodeIdDelete>;
+  /** The primary key(s) and patch data for `commonVariety` for the far side of the relationship. */
+  updateById?: Maybe<CommonVarietyOnCommonVarietyTagForCommonVarietyTagCommonVarietyIdFkeyUsingCommonVarietyPkeyUpdate>;
+  /** The primary key(s) and patch data for `commonVariety` for the far side of the relationship. */
+  updateByNodeId?: Maybe<CommonVarietyTagOnCommonVarietyTagForCommonVarietyTagCommonVarietyIdFkeyNodeIdUpdate>;
+  /** A `CommonVarietyInput` object that will be created and connected to this object. */
+  create?: Maybe<CommonVarietyTagCommonVarietyIdFkeyCommonVarietyCreateInput>;
+};
+
+/** The fields on `commonVariety` to look up the row to update. */
+export type CommonVarietyOnCommonVarietyTagForCommonVarietyTagCommonVarietyIdFkeyUsingCommonVarietyPkeyUpdate = {
+  /** An object where the defined keys will be set on the `commonVariety` being updated. */
+  patch: UpdateCommonVarietyOnCommonVarietyTagForCommonVarietyTagCommonVarietyIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `commonVariety` being updated. */
+export type UpdateCommonVarietyOnCommonVarietyTagForCommonVarietyTagCommonVarietyIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  varietyName?: Maybe<Scalars['String']>;
+  varietyDescription?: Maybe<Scalars['String']>;
+  uiColor?: Maybe<Scalars['String']>;
+  commonSpeciesId?: Maybe<Scalars['BigInt']>;
+  productVarietyId?: Maybe<Scalars['String']>;
+  commonSpeciesToCommonSpeciesId?: Maybe<CommonVarietyCommonSpeciesIdFkeyInput>;
+  productVarietyToProductVarietyId?: Maybe<CommonVarietyProductVarietyIdFkeyInput>;
+  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonVarietyIdFkeyInverseInput>;
+  commonVarietyTagsUsingId?: Maybe<CommonVarietyTagCommonVarietyIdFkeyInverseInput>;
+  commonVarietyProductVarietiesUsingId?: Maybe<CommonVarietyProductVarietyCommonVarietyIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonVarietyIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonVarietyIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `commonVarietyProductVariety` in the `CommonVarietyInput` mutation. */
+export type CommonVarietyProductVarietyCommonVarietyIdFkeyInverseInput = {
+  /** Flag indicating whether all other `commonVarietyProductVariety` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `commonVarietyProductVariety` for the far side of the relationship. */
+  connectById?: Maybe<Array<CommonVarietyProductVarietyCommonVarietyProductVarietyPkeyConnect>>;
+  /** The primary key(s) for `commonVarietyProductVariety` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<CommonVarietyProductVarietyNodeIdConnect>>;
+  /** The primary key(s) for `commonVarietyProductVariety` for the far side of the relationship. */
+  deleteById?: Maybe<Array<CommonVarietyProductVarietyCommonVarietyProductVarietyPkeyDelete>>;
+  /** The primary key(s) for `commonVarietyProductVariety` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<CommonVarietyProductVarietyNodeIdDelete>>;
+  /** The primary key(s) and patch data for `commonVarietyProductVariety` for the far side of the relationship. */
+  updateById?: Maybe<Array<CommonVarietyProductVarietyOnCommonVarietyProductVarietyForCommonVarietyProductVarietyCommonVarietyIdFkeyUsingCommonVarietyProductVarietyPkeyUpdate>>;
+  /** The primary key(s) and patch data for `commonVarietyProductVariety` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<CommonVarietyOnCommonVarietyProductVarietyForCommonVarietyProductVarietyCommonVarietyIdFkeyNodeIdUpdate>>;
+  /** A `CommonVarietyProductVarietyInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<CommonVarietyProductVarietyCommonVarietyIdFkeyCommonVarietyProductVarietyCreateInput>>;
+};
+
+/** The fields on `commonVarietyProductVariety` to look up the row to connect. */
+export type CommonVarietyProductVarietyCommonVarietyProductVarietyPkeyConnect = {
+  id: Scalars['BigInt'];
+};
+
+/** The globally unique `ID` look up for the row to connect. */
+export type CommonVarietyProductVarietyNodeIdConnect = {
+  /** The globally unique `ID` which identifies a single `commonVarietyProductVariety` to be connected. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `commonVarietyProductVariety` to look up the row to delete. */
+export type CommonVarietyProductVarietyCommonVarietyProductVarietyPkeyDelete = {
+  id: Scalars['BigInt'];
+};
+
+/** The globally unique `ID` look up for the row to delete. */
+export type CommonVarietyProductVarietyNodeIdDelete = {
+  /** The globally unique `ID` which identifies a single `commonVarietyProductVariety` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `commonVarietyProductVariety` to look up the row to update. */
+export type CommonVarietyProductVarietyOnCommonVarietyProductVarietyForCommonVarietyProductVarietyCommonVarietyIdFkeyUsingCommonVarietyProductVarietyPkeyUpdate = {
+  /** An object where the defined keys will be set on the `commonVarietyProductVariety` being updated. */
+  patch: UpdateCommonVarietyProductVarietyOnCommonVarietyProductVarietyForCommonVarietyProductVarietyCommonVarietyIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `commonVarietyProductVariety` being updated. */
+export type UpdateCommonVarietyProductVarietyOnCommonVarietyProductVarietyForCommonVarietyProductVarietyCommonVarietyIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  productVarietyId?: Maybe<Scalars['String']>;
+  commonVarietyToCommonVarietyId?: Maybe<CommonVarietyProductVarietyCommonVarietyIdFkeyInput>;
+  productVarietyToProductVarietyId?: Maybe<CommonVarietyProductVarietyProductVarietyIdFkeyInput>;
+};
+
+/** Input for the nested mutation of `commonVariety` in the `CommonVarietyProductVarietyInput` mutation. */
+export type CommonVarietyProductVarietyCommonVarietyIdFkeyInput = {
+  /** The primary key(s) for `commonVariety` for the far side of the relationship. */
+  connectById?: Maybe<CommonVarietyCommonVarietyPkeyConnect>;
+  /** The primary key(s) for `commonVariety` for the far side of the relationship. */
+  connectByNodeId?: Maybe<CommonVarietyNodeIdConnect>;
+  /** The primary key(s) for `commonVariety` for the far side of the relationship. */
+  deleteById?: Maybe<CommonVarietyCommonVarietyPkeyDelete>;
+  /** The primary key(s) for `commonVariety` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<CommonVarietyNodeIdDelete>;
+  /** The primary key(s) and patch data for `commonVariety` for the far side of the relationship. */
+  updateById?: Maybe<CommonVarietyOnCommonVarietyProductVarietyForCommonVarietyProductVarietyCommonVarietyIdFkeyUsingCommonVarietyPkeyUpdate>;
+  /** The primary key(s) and patch data for `commonVariety` for the far side of the relationship. */
+  updateByNodeId?: Maybe<CommonVarietyProductVarietyOnCommonVarietyProductVarietyForCommonVarietyProductVarietyCommonVarietyIdFkeyNodeIdUpdate>;
+  /** A `CommonVarietyInput` object that will be created and connected to this object. */
+  create?: Maybe<CommonVarietyProductVarietyCommonVarietyIdFkeyCommonVarietyCreateInput>;
+};
+
+/** The fields on `commonVariety` to look up the row to update. */
+export type CommonVarietyOnCommonVarietyProductVarietyForCommonVarietyProductVarietyCommonVarietyIdFkeyUsingCommonVarietyPkeyUpdate = {
+  /** An object where the defined keys will be set on the `commonVariety` being updated. */
+  patch: UpdateCommonVarietyOnCommonVarietyProductVarietyForCommonVarietyProductVarietyCommonVarietyIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `commonVariety` being updated. */
+export type UpdateCommonVarietyOnCommonVarietyProductVarietyForCommonVarietyProductVarietyCommonVarietyIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  varietyName?: Maybe<Scalars['String']>;
+  varietyDescription?: Maybe<Scalars['String']>;
+  uiColor?: Maybe<Scalars['String']>;
+  commonSpeciesId?: Maybe<Scalars['BigInt']>;
+  productVarietyId?: Maybe<Scalars['String']>;
+  commonSpeciesToCommonSpeciesId?: Maybe<CommonVarietyCommonSpeciesIdFkeyInput>;
+  productVarietyToProductVarietyId?: Maybe<CommonVarietyProductVarietyIdFkeyInput>;
+  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonVarietyIdFkeyInverseInput>;
+  commonVarietyTagsUsingId?: Maybe<CommonVarietyTagCommonVarietyIdFkeyInverseInput>;
+  commonVarietyProductVarietiesUsingId?: Maybe<CommonVarietyProductVarietyCommonVarietyIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonVarietyIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonVarietyIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `shipperProgram` in the `CommonVarietyInput` mutation. */
+export type ShipperProgramCommonVarietyIdFkeyInverseInput = {
+  /** Flag indicating whether all other `shipperProgram` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `shipperProgram` for the far side of the relationship. */
+  connectById?: Maybe<Array<ShipperProgramShipperProgramPkeyConnect>>;
+  /** The primary key(s) for `shipperProgram` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<ShipperProgramNodeIdConnect>>;
+  /** The primary key(s) for `shipperProgram` for the far side of the relationship. */
+  deleteById?: Maybe<Array<ShipperProgramShipperProgramPkeyDelete>>;
+  /** The primary key(s) for `shipperProgram` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<ShipperProgramNodeIdDelete>>;
+  /** The primary key(s) and patch data for `shipperProgram` for the far side of the relationship. */
+  updateById?: Maybe<Array<ShipperProgramOnShipperProgramForShipperProgramCommonVarietyIdFkeyUsingShipperProgramPkeyUpdate>>;
+  /** The primary key(s) and patch data for `shipperProgram` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<CommonVarietyOnShipperProgramForShipperProgramCommonVarietyIdFkeyNodeIdUpdate>>;
+  /** A `ShipperProgramInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<ShipperProgramCommonVarietyIdFkeyShipperProgramCreateInput>>;
+};
+
+/** The fields on `shipperProgram` to look up the row to update. */
+export type ShipperProgramOnShipperProgramForShipperProgramCommonVarietyIdFkeyUsingShipperProgramPkeyUpdate = {
+  /** An object where the defined keys will be set on the `shipperProgram` being updated. */
+  patch: UpdateShipperProgramOnShipperProgramForShipperProgramCommonVarietyIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `shipperProgram` being updated. */
+export type UpdateShipperProgramOnShipperProgramForShipperProgramCommonVarietyIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  commonSpeciesId?: Maybe<Scalars['BigInt']>;
+  commonSizeId?: Maybe<Scalars['BigInt']>;
+  commonPackTypeId?: Maybe<Scalars['BigInt']>;
+  shipperId?: Maybe<Scalars['String']>;
+  arrivalPort?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  commonSpeciesToCommonSpeciesId?: Maybe<ShipperProgramCommonSpeciesIdFkeyInput>;
+  commonVarietyToCommonVarietyId?: Maybe<ShipperProgramCommonVarietyIdFkeyInput>;
+  commonSizeToCommonSizeId?: Maybe<ShipperProgramCommonSizeIdFkeyInput>;
+  commonPackTypeToCommonPackTypeId?: Maybe<ShipperProgramCommonPackTypeIdFkeyInput>;
+  shipperToShipperId?: Maybe<ShipperProgramShipperIdFkeyInput>;
+  shipperProgramEntriesUsingId?: Maybe<ShipperProgramEntryShipperProgramIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `commonSize` in the `ShipperProgramInput` mutation. */
+export type ShipperProgramCommonSizeIdFkeyInput = {
   /** The primary key(s) for `commonSize` for the far side of the relationship. */
   connectById?: Maybe<CommonSizeCommonSizePkeyConnect>;
   /** The primary key(s) for `commonSize` for the far side of the relationship. */
@@ -28452,44 +32276,22 @@ export type ShipperProjectionProductCommonSizeIdFkeyInput = {
   /** The primary key(s) for `commonSize` for the far side of the relationship. */
   deleteByNodeId?: Maybe<CommonSizeNodeIdDelete>;
   /** The primary key(s) and patch data for `commonSize` for the far side of the relationship. */
-  updateById?: Maybe<CommonSizeOnShipperProjectionProductForShipperProjectionProductCommonSizeIdFkeyUsingCommonSizePkeyUpdate>;
+  updateById?: Maybe<CommonSizeOnShipperProgramForShipperProgramCommonSizeIdFkeyUsingCommonSizePkeyUpdate>;
   /** The primary key(s) and patch data for `commonSize` for the far side of the relationship. */
-  updateByNodeId?: Maybe<ShipperProjectionProductOnShipperProjectionProductForShipperProjectionProductCommonSizeIdFkeyNodeIdUpdate>;
+  updateByNodeId?: Maybe<ShipperProgramOnShipperProgramForShipperProgramCommonSizeIdFkeyNodeIdUpdate>;
   /** A `CommonSizeInput` object that will be created and connected to this object. */
-  create?: Maybe<ShipperProjectionProductCommonSizeIdFkeyCommonSizeCreateInput>;
-};
-
-/** The fields on `commonSize` to look up the row to connect. */
-export type CommonSizeCommonSizePkeyConnect = {
-  id: Scalars['BigInt'];
-};
-
-/** The globally unique `ID` look up for the row to connect. */
-export type CommonSizeNodeIdConnect = {
-  /** The globally unique `ID` which identifies a single `commonSize` to be connected. */
-  nodeId: Scalars['ID'];
-};
-
-/** The fields on `commonSize` to look up the row to delete. */
-export type CommonSizeCommonSizePkeyDelete = {
-  id: Scalars['BigInt'];
-};
-
-/** The globally unique `ID` look up for the row to delete. */
-export type CommonSizeNodeIdDelete = {
-  /** The globally unique `ID` which identifies a single `commonSize` to be deleted. */
-  nodeId: Scalars['ID'];
+  create?: Maybe<ShipperProgramCommonSizeIdFkeyCommonSizeCreateInput>;
 };
 
 /** The fields on `commonSize` to look up the row to update. */
-export type CommonSizeOnShipperProjectionProductForShipperProjectionProductCommonSizeIdFkeyUsingCommonSizePkeyUpdate = {
+export type CommonSizeOnShipperProgramForShipperProgramCommonSizeIdFkeyUsingCommonSizePkeyUpdate = {
   /** An object where the defined keys will be set on the `commonSize` being updated. */
-  patch: UpdateCommonSizeOnShipperProjectionProductForShipperProjectionProductCommonSizeIdFkeyPatch;
+  patch: UpdateCommonSizeOnShipperProgramForShipperProgramCommonSizeIdFkeyPatch;
   id: Scalars['BigInt'];
 };
 
 /** An object where the defined keys will be set on the `commonSize` being updated. */
-export type UpdateCommonSizeOnShipperProjectionProductForShipperProjectionProductCommonSizeIdFkeyPatch = {
+export type UpdateCommonSizeOnShipperProgramForShipperProgramCommonSizeIdFkeyPatch = {
   id?: Maybe<Scalars['BigInt']>;
   sizeName?: Maybe<Scalars['String']>;
   sizeDescription?: Maybe<Scalars['String']>;
@@ -28500,89 +32302,8 @@ export type UpdateCommonSizeOnShipperProjectionProductForShipperProjectionProduc
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSizeIdFkeyInverseInput>;
   commonSizeTagsUsingId?: Maybe<CommonSizeTagCommonSizeIdFkeyInverseInput>;
   commonSizeProductSizesUsingId?: Maybe<CommonSizeProductSizeCommonSizeIdFkeyInverseInput>;
-};
-
-/** Input for the nested mutation of `commonSpecies` in the `CommonSizeInput` mutation. */
-export type CommonSizeCommonSpeciesIdFkeyInput = {
-  /** The primary key(s) for `commonSpecies` for the far side of the relationship. */
-  connectById?: Maybe<CommonSpeciesCommonSpeciesPkeyConnect>;
-  /** The primary key(s) for `commonSpecies` for the far side of the relationship. */
-  connectByNodeId?: Maybe<CommonSpecyNodeIdConnect>;
-  /** The primary key(s) for `commonSpecies` for the far side of the relationship. */
-  deleteById?: Maybe<CommonSpeciesCommonSpeciesPkeyDelete>;
-  /** The primary key(s) for `commonSpecies` for the far side of the relationship. */
-  deleteByNodeId?: Maybe<CommonSpecyNodeIdDelete>;
-  /** The primary key(s) and patch data for `commonSpecies` for the far side of the relationship. */
-  updateById?: Maybe<CommonSpeciesOnCommonSizeForCommonSizeCommonSpeciesIdFkeyUsingCommonSpeciesPkeyUpdate>;
-  /** The primary key(s) and patch data for `commonSpecies` for the far side of the relationship. */
-  updateByNodeId?: Maybe<CommonSizeOnCommonSizeForCommonSizeCommonSpeciesIdFkeyNodeIdUpdate>;
-  /** A `CommonSpeciesInput` object that will be created and connected to this object. */
-  create?: Maybe<CommonSizeCommonSpeciesIdFkeyCommonSpeciesCreateInput>;
-};
-
-/** The fields on `commonSpecies` to look up the row to update. */
-export type CommonSpeciesOnCommonSizeForCommonSizeCommonSpeciesIdFkeyUsingCommonSpeciesPkeyUpdate = {
-  /** An object where the defined keys will be set on the `commonSpecies` being updated. */
-  patch: UpdateCommonSpeciesOnCommonSizeForCommonSizeCommonSpeciesIdFkeyPatch;
-  id: Scalars['BigInt'];
-};
-
-/** An object where the defined keys will be set on the `commonSpecies` being updated. */
-export type UpdateCommonSpeciesOnCommonSizeForCommonSizeCommonSpeciesIdFkeyPatch = {
-  id?: Maybe<Scalars['BigInt']>;
-  speciesName?: Maybe<Scalars['String']>;
-  speciesDescription?: Maybe<Scalars['String']>;
-  uiColor?: Maybe<Scalars['String']>;
-  commonCategoryId?: Maybe<Scalars['BigInt']>;
-  productSpeciesId?: Maybe<Scalars['String']>;
-  commonCategoryToCommonCategoryId?: Maybe<CommonSpeciesCommonCategoryIdFkeyInput>;
-  productSpeciesToProductSpeciesId?: Maybe<CommonSpeciesProductSpeciesIdFkeyInput>;
-  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSpeciesIdFkeyInverseInput>;
-  commonVarietiesUsingId?: Maybe<CommonVarietyCommonSpeciesIdFkeyInverseInput>;
-  commonSizesUsingId?: Maybe<CommonSizeCommonSpeciesIdFkeyInverseInput>;
-  commonPackTypesUsingId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInverseInput>;
-  commonSpeciesTagsUsingId?: Maybe<CommonSpeciesTagCommonSpeciesIdFkeyInverseInput>;
-  commonSpeciesProductSpeciesUsingId?: Maybe<CommonSpeciesProductSpeciesCommonSpeciesIdFkeyInverseInput>;
-};
-
-/** Input for the nested mutation of `commonSize` in the `CommonSpeciesInput` mutation. */
-export type CommonSizeCommonSpeciesIdFkeyInverseInput = {
-  /** Flag indicating whether all other `commonSize` records that match this relationship should be removed. */
-  deleteOthers?: Maybe<Scalars['Boolean']>;
-  /** The primary key(s) for `commonSize` for the far side of the relationship. */
-  connectById?: Maybe<Array<CommonSizeCommonSizePkeyConnect>>;
-  /** The primary key(s) for `commonSize` for the far side of the relationship. */
-  connectByNodeId?: Maybe<Array<CommonSizeNodeIdConnect>>;
-  /** The primary key(s) for `commonSize` for the far side of the relationship. */
-  deleteById?: Maybe<Array<CommonSizeCommonSizePkeyDelete>>;
-  /** The primary key(s) for `commonSize` for the far side of the relationship. */
-  deleteByNodeId?: Maybe<Array<CommonSizeNodeIdDelete>>;
-  /** The primary key(s) and patch data for `commonSize` for the far side of the relationship. */
-  updateById?: Maybe<Array<CommonSizeOnCommonSizeForCommonSizeCommonSpeciesIdFkeyUsingCommonSizePkeyUpdate>>;
-  /** The primary key(s) and patch data for `commonSize` for the far side of the relationship. */
-  updateByNodeId?: Maybe<Array<CommonSpeciesOnCommonSizeForCommonSizeCommonSpeciesIdFkeyNodeIdUpdate>>;
-  /** A `CommonSizeInput` object that will be created and connected to this object. */
-  create?: Maybe<Array<CommonSizeCommonSpeciesIdFkeyCommonSizeCreateInput>>;
-};
-
-/** The fields on `commonSize` to look up the row to update. */
-export type CommonSizeOnCommonSizeForCommonSizeCommonSpeciesIdFkeyUsingCommonSizePkeyUpdate = {
-  /** An object where the defined keys will be set on the `commonSize` being updated. */
-  patch: UpdateCommonSizeOnCommonSizeForCommonSizeCommonSpeciesIdFkeyPatch;
-  id: Scalars['BigInt'];
-};
-
-/** An object where the defined keys will be set on the `commonSize` being updated. */
-export type UpdateCommonSizeOnCommonSizeForCommonSizeCommonSpeciesIdFkeyPatch = {
-  id?: Maybe<Scalars['BigInt']>;
-  sizeName?: Maybe<Scalars['String']>;
-  sizeDescription?: Maybe<Scalars['String']>;
-  productSizeId?: Maybe<Scalars['BigInt']>;
-  commonSpeciesToCommonSpeciesId?: Maybe<CommonSizeCommonSpeciesIdFkeyInput>;
-  productSizeToProductSizeId?: Maybe<CommonSizeProductSizeIdFkeyInput>;
-  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSizeIdFkeyInverseInput>;
-  commonSizeTagsUsingId?: Maybe<CommonSizeTagCommonSizeIdFkeyInverseInput>;
-  commonSizeProductSizesUsingId?: Maybe<CommonSizeProductSizeCommonSizeIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonSizeIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonSizeIdFkeyInverseInput>;
 };
 
 /** Input for the nested mutation of `productSize` in the `CommonSizeInput` mutation. */
@@ -28686,6 +32407,8 @@ export type UpdateCommonSizeOnCommonSizeForCommonSizeProductSizeIdFkeyPatch = {
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSizeIdFkeyInverseInput>;
   commonSizeTagsUsingId?: Maybe<CommonSizeTagCommonSizeIdFkeyInverseInput>;
   commonSizeProductSizesUsingId?: Maybe<CommonSizeProductSizeCommonSizeIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonSizeIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonSizeIdFkeyInverseInput>;
 };
 
 /** Input for the nested mutation of `shipperProjectionProduct` in the `CommonSizeInput` mutation. */
@@ -28735,8 +32458,290 @@ export type UpdateShipperProjectionProductOnShipperProjectionProductForShipperPr
   shipperProjectionEntriesUsingId?: Maybe<ShipperProjectionEntryProductIdFkeyInverseInput>;
 };
 
-/** Input for the nested mutation of `commonPackType` in the `ShipperProjectionProductInput` mutation. */
-export type ShipperProjectionProductCommonPackTypeIdFkeyInput = {
+/** Input for the nested mutation of `commonSize` in the `ShipperProjectionProductInput` mutation. */
+export type ShipperProjectionProductCommonSizeIdFkeyInput = {
+  /** The primary key(s) for `commonSize` for the far side of the relationship. */
+  connectById?: Maybe<CommonSizeCommonSizePkeyConnect>;
+  /** The primary key(s) for `commonSize` for the far side of the relationship. */
+  connectByNodeId?: Maybe<CommonSizeNodeIdConnect>;
+  /** The primary key(s) for `commonSize` for the far side of the relationship. */
+  deleteById?: Maybe<CommonSizeCommonSizePkeyDelete>;
+  /** The primary key(s) for `commonSize` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<CommonSizeNodeIdDelete>;
+  /** The primary key(s) and patch data for `commonSize` for the far side of the relationship. */
+  updateById?: Maybe<CommonSizeOnShipperProjectionProductForShipperProjectionProductCommonSizeIdFkeyUsingCommonSizePkeyUpdate>;
+  /** The primary key(s) and patch data for `commonSize` for the far side of the relationship. */
+  updateByNodeId?: Maybe<ShipperProjectionProductOnShipperProjectionProductForShipperProjectionProductCommonSizeIdFkeyNodeIdUpdate>;
+  /** A `CommonSizeInput` object that will be created and connected to this object. */
+  create?: Maybe<ShipperProjectionProductCommonSizeIdFkeyCommonSizeCreateInput>;
+};
+
+/** The fields on `commonSize` to look up the row to update. */
+export type CommonSizeOnShipperProjectionProductForShipperProjectionProductCommonSizeIdFkeyUsingCommonSizePkeyUpdate = {
+  /** An object where the defined keys will be set on the `commonSize` being updated. */
+  patch: UpdateCommonSizeOnShipperProjectionProductForShipperProjectionProductCommonSizeIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `commonSize` being updated. */
+export type UpdateCommonSizeOnShipperProjectionProductForShipperProjectionProductCommonSizeIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  sizeName?: Maybe<Scalars['String']>;
+  sizeDescription?: Maybe<Scalars['String']>;
+  commonSpeciesId?: Maybe<Scalars['BigInt']>;
+  productSizeId?: Maybe<Scalars['BigInt']>;
+  commonSpeciesToCommonSpeciesId?: Maybe<CommonSizeCommonSpeciesIdFkeyInput>;
+  productSizeToProductSizeId?: Maybe<CommonSizeProductSizeIdFkeyInput>;
+  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSizeIdFkeyInverseInput>;
+  commonSizeTagsUsingId?: Maybe<CommonSizeTagCommonSizeIdFkeyInverseInput>;
+  commonSizeProductSizesUsingId?: Maybe<CommonSizeProductSizeCommonSizeIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonSizeIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonSizeIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `commonSizeTag` in the `CommonSizeInput` mutation. */
+export type CommonSizeTagCommonSizeIdFkeyInverseInput = {
+  /** Flag indicating whether all other `commonSizeTag` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `commonSizeTag` for the far side of the relationship. */
+  connectByTagTextAndCommonSizeId?: Maybe<Array<CommonSizeTagCommonSizeTagPkeyConnect>>;
+  /** The primary key(s) for `commonSizeTag` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<CommonSizeTagNodeIdConnect>>;
+  /** The primary key(s) for `commonSizeTag` for the far side of the relationship. */
+  deleteByTagTextAndCommonSizeId?: Maybe<Array<CommonSizeTagCommonSizeTagPkeyDelete>>;
+  /** The primary key(s) for `commonSizeTag` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<CommonSizeTagNodeIdDelete>>;
+  /** The primary key(s) and patch data for `commonSizeTag` for the far side of the relationship. */
+  updateByTagTextAndCommonSizeId?: Maybe<Array<CommonSizeTagOnCommonSizeTagForCommonSizeTagCommonSizeIdFkeyUsingCommonSizeTagPkeyUpdate>>;
+  /** The primary key(s) and patch data for `commonSizeTag` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<CommonSizeOnCommonSizeTagForCommonSizeTagCommonSizeIdFkeyNodeIdUpdate>>;
+  /** A `CommonSizeTagInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<CommonSizeTagCommonSizeIdFkeyCommonSizeTagCreateInput>>;
+};
+
+/** The fields on `commonSizeTag` to look up the row to connect. */
+export type CommonSizeTagCommonSizeTagPkeyConnect = {
+  tagText: Scalars['String'];
+  commonSizeId: Scalars['BigInt'];
+};
+
+/** The globally unique `ID` look up for the row to connect. */
+export type CommonSizeTagNodeIdConnect = {
+  /** The globally unique `ID` which identifies a single `commonSizeTag` to be connected. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `commonSizeTag` to look up the row to delete. */
+export type CommonSizeTagCommonSizeTagPkeyDelete = {
+  tagText: Scalars['String'];
+  commonSizeId: Scalars['BigInt'];
+};
+
+/** The globally unique `ID` look up for the row to delete. */
+export type CommonSizeTagNodeIdDelete = {
+  /** The globally unique `ID` which identifies a single `commonSizeTag` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `commonSizeTag` to look up the row to update. */
+export type CommonSizeTagOnCommonSizeTagForCommonSizeTagCommonSizeIdFkeyUsingCommonSizeTagPkeyUpdate = {
+  /** An object where the defined keys will be set on the `commonSizeTag` being updated. */
+  patch: UpdateCommonSizeTagOnCommonSizeTagForCommonSizeTagCommonSizeIdFkeyPatch;
+  tagText: Scalars['String'];
+  commonSizeId: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `commonSizeTag` being updated. */
+export type UpdateCommonSizeTagOnCommonSizeTagForCommonSizeTagCommonSizeIdFkeyPatch = {
+  tagText?: Maybe<Scalars['String']>;
+  commonSizeToCommonSizeId?: Maybe<CommonSizeTagCommonSizeIdFkeyInput>;
+};
+
+/** Input for the nested mutation of `commonSize` in the `CommonSizeTagInput` mutation. */
+export type CommonSizeTagCommonSizeIdFkeyInput = {
+  /** The primary key(s) for `commonSize` for the far side of the relationship. */
+  connectById?: Maybe<CommonSizeCommonSizePkeyConnect>;
+  /** The primary key(s) for `commonSize` for the far side of the relationship. */
+  connectByNodeId?: Maybe<CommonSizeNodeIdConnect>;
+  /** The primary key(s) for `commonSize` for the far side of the relationship. */
+  deleteById?: Maybe<CommonSizeCommonSizePkeyDelete>;
+  /** The primary key(s) for `commonSize` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<CommonSizeNodeIdDelete>;
+  /** The primary key(s) and patch data for `commonSize` for the far side of the relationship. */
+  updateById?: Maybe<CommonSizeOnCommonSizeTagForCommonSizeTagCommonSizeIdFkeyUsingCommonSizePkeyUpdate>;
+  /** The primary key(s) and patch data for `commonSize` for the far side of the relationship. */
+  updateByNodeId?: Maybe<CommonSizeTagOnCommonSizeTagForCommonSizeTagCommonSizeIdFkeyNodeIdUpdate>;
+  /** A `CommonSizeInput` object that will be created and connected to this object. */
+  create?: Maybe<CommonSizeTagCommonSizeIdFkeyCommonSizeCreateInput>;
+};
+
+/** The fields on `commonSize` to look up the row to update. */
+export type CommonSizeOnCommonSizeTagForCommonSizeTagCommonSizeIdFkeyUsingCommonSizePkeyUpdate = {
+  /** An object where the defined keys will be set on the `commonSize` being updated. */
+  patch: UpdateCommonSizeOnCommonSizeTagForCommonSizeTagCommonSizeIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `commonSize` being updated. */
+export type UpdateCommonSizeOnCommonSizeTagForCommonSizeTagCommonSizeIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  sizeName?: Maybe<Scalars['String']>;
+  sizeDescription?: Maybe<Scalars['String']>;
+  commonSpeciesId?: Maybe<Scalars['BigInt']>;
+  productSizeId?: Maybe<Scalars['BigInt']>;
+  commonSpeciesToCommonSpeciesId?: Maybe<CommonSizeCommonSpeciesIdFkeyInput>;
+  productSizeToProductSizeId?: Maybe<CommonSizeProductSizeIdFkeyInput>;
+  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSizeIdFkeyInverseInput>;
+  commonSizeTagsUsingId?: Maybe<CommonSizeTagCommonSizeIdFkeyInverseInput>;
+  commonSizeProductSizesUsingId?: Maybe<CommonSizeProductSizeCommonSizeIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonSizeIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonSizeIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `commonSizeProductSize` in the `CommonSizeInput` mutation. */
+export type CommonSizeProductSizeCommonSizeIdFkeyInverseInput = {
+  /** Flag indicating whether all other `commonSizeProductSize` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `commonSizeProductSize` for the far side of the relationship. */
+  connectById?: Maybe<Array<CommonSizeProductSizeCommonSizeProductSizePkeyConnect>>;
+  /** The primary key(s) for `commonSizeProductSize` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<CommonSizeProductSizeNodeIdConnect>>;
+  /** The primary key(s) for `commonSizeProductSize` for the far side of the relationship. */
+  deleteById?: Maybe<Array<CommonSizeProductSizeCommonSizeProductSizePkeyDelete>>;
+  /** The primary key(s) for `commonSizeProductSize` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<CommonSizeProductSizeNodeIdDelete>>;
+  /** The primary key(s) and patch data for `commonSizeProductSize` for the far side of the relationship. */
+  updateById?: Maybe<Array<CommonSizeProductSizeOnCommonSizeProductSizeForCommonSizeProductSizeCommonSizeIdFkeyUsingCommonSizeProductSizePkeyUpdate>>;
+  /** The primary key(s) and patch data for `commonSizeProductSize` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<CommonSizeOnCommonSizeProductSizeForCommonSizeProductSizeCommonSizeIdFkeyNodeIdUpdate>>;
+  /** A `CommonSizeProductSizeInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<CommonSizeProductSizeCommonSizeIdFkeyCommonSizeProductSizeCreateInput>>;
+};
+
+/** The fields on `commonSizeProductSize` to look up the row to connect. */
+export type CommonSizeProductSizeCommonSizeProductSizePkeyConnect = {
+  id: Scalars['BigInt'];
+};
+
+/** The globally unique `ID` look up for the row to connect. */
+export type CommonSizeProductSizeNodeIdConnect = {
+  /** The globally unique `ID` which identifies a single `commonSizeProductSize` to be connected. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `commonSizeProductSize` to look up the row to delete. */
+export type CommonSizeProductSizeCommonSizeProductSizePkeyDelete = {
+  id: Scalars['BigInt'];
+};
+
+/** The globally unique `ID` look up for the row to delete. */
+export type CommonSizeProductSizeNodeIdDelete = {
+  /** The globally unique `ID` which identifies a single `commonSizeProductSize` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `commonSizeProductSize` to look up the row to update. */
+export type CommonSizeProductSizeOnCommonSizeProductSizeForCommonSizeProductSizeCommonSizeIdFkeyUsingCommonSizeProductSizePkeyUpdate = {
+  /** An object where the defined keys will be set on the `commonSizeProductSize` being updated. */
+  patch: UpdateCommonSizeProductSizeOnCommonSizeProductSizeForCommonSizeProductSizeCommonSizeIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `commonSizeProductSize` being updated. */
+export type UpdateCommonSizeProductSizeOnCommonSizeProductSizeForCommonSizeProductSizeCommonSizeIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  productSizeId?: Maybe<Scalars['BigInt']>;
+  commonSizeToCommonSizeId?: Maybe<CommonSizeProductSizeCommonSizeIdFkeyInput>;
+  productSizeToProductSizeId?: Maybe<CommonSizeProductSizeProductSizeIdFkeyInput>;
+};
+
+/** Input for the nested mutation of `commonSize` in the `CommonSizeProductSizeInput` mutation. */
+export type CommonSizeProductSizeCommonSizeIdFkeyInput = {
+  /** The primary key(s) for `commonSize` for the far side of the relationship. */
+  connectById?: Maybe<CommonSizeCommonSizePkeyConnect>;
+  /** The primary key(s) for `commonSize` for the far side of the relationship. */
+  connectByNodeId?: Maybe<CommonSizeNodeIdConnect>;
+  /** The primary key(s) for `commonSize` for the far side of the relationship. */
+  deleteById?: Maybe<CommonSizeCommonSizePkeyDelete>;
+  /** The primary key(s) for `commonSize` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<CommonSizeNodeIdDelete>;
+  /** The primary key(s) and patch data for `commonSize` for the far side of the relationship. */
+  updateById?: Maybe<CommonSizeOnCommonSizeProductSizeForCommonSizeProductSizeCommonSizeIdFkeyUsingCommonSizePkeyUpdate>;
+  /** The primary key(s) and patch data for `commonSize` for the far side of the relationship. */
+  updateByNodeId?: Maybe<CommonSizeProductSizeOnCommonSizeProductSizeForCommonSizeProductSizeCommonSizeIdFkeyNodeIdUpdate>;
+  /** A `CommonSizeInput` object that will be created and connected to this object. */
+  create?: Maybe<CommonSizeProductSizeCommonSizeIdFkeyCommonSizeCreateInput>;
+};
+
+/** The fields on `commonSize` to look up the row to update. */
+export type CommonSizeOnCommonSizeProductSizeForCommonSizeProductSizeCommonSizeIdFkeyUsingCommonSizePkeyUpdate = {
+  /** An object where the defined keys will be set on the `commonSize` being updated. */
+  patch: UpdateCommonSizeOnCommonSizeProductSizeForCommonSizeProductSizeCommonSizeIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `commonSize` being updated. */
+export type UpdateCommonSizeOnCommonSizeProductSizeForCommonSizeProductSizeCommonSizeIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  sizeName?: Maybe<Scalars['String']>;
+  sizeDescription?: Maybe<Scalars['String']>;
+  commonSpeciesId?: Maybe<Scalars['BigInt']>;
+  productSizeId?: Maybe<Scalars['BigInt']>;
+  commonSpeciesToCommonSpeciesId?: Maybe<CommonSizeCommonSpeciesIdFkeyInput>;
+  productSizeToProductSizeId?: Maybe<CommonSizeProductSizeIdFkeyInput>;
+  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSizeIdFkeyInverseInput>;
+  commonSizeTagsUsingId?: Maybe<CommonSizeTagCommonSizeIdFkeyInverseInput>;
+  commonSizeProductSizesUsingId?: Maybe<CommonSizeProductSizeCommonSizeIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonSizeIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonSizeIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `shipperProgram` in the `CommonSizeInput` mutation. */
+export type ShipperProgramCommonSizeIdFkeyInverseInput = {
+  /** Flag indicating whether all other `shipperProgram` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `shipperProgram` for the far side of the relationship. */
+  connectById?: Maybe<Array<ShipperProgramShipperProgramPkeyConnect>>;
+  /** The primary key(s) for `shipperProgram` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<ShipperProgramNodeIdConnect>>;
+  /** The primary key(s) for `shipperProgram` for the far side of the relationship. */
+  deleteById?: Maybe<Array<ShipperProgramShipperProgramPkeyDelete>>;
+  /** The primary key(s) for `shipperProgram` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<ShipperProgramNodeIdDelete>>;
+  /** The primary key(s) and patch data for `shipperProgram` for the far side of the relationship. */
+  updateById?: Maybe<Array<ShipperProgramOnShipperProgramForShipperProgramCommonSizeIdFkeyUsingShipperProgramPkeyUpdate>>;
+  /** The primary key(s) and patch data for `shipperProgram` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<CommonSizeOnShipperProgramForShipperProgramCommonSizeIdFkeyNodeIdUpdate>>;
+  /** A `ShipperProgramInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<ShipperProgramCommonSizeIdFkeyShipperProgramCreateInput>>;
+};
+
+/** The fields on `shipperProgram` to look up the row to update. */
+export type ShipperProgramOnShipperProgramForShipperProgramCommonSizeIdFkeyUsingShipperProgramPkeyUpdate = {
+  /** An object where the defined keys will be set on the `shipperProgram` being updated. */
+  patch: UpdateShipperProgramOnShipperProgramForShipperProgramCommonSizeIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `shipperProgram` being updated. */
+export type UpdateShipperProgramOnShipperProgramForShipperProgramCommonSizeIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  commonSpeciesId?: Maybe<Scalars['BigInt']>;
+  commonVarietyId?: Maybe<Scalars['BigInt']>;
+  commonPackTypeId?: Maybe<Scalars['BigInt']>;
+  shipperId?: Maybe<Scalars['String']>;
+  arrivalPort?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  commonSpeciesToCommonSpeciesId?: Maybe<ShipperProgramCommonSpeciesIdFkeyInput>;
+  commonVarietyToCommonVarietyId?: Maybe<ShipperProgramCommonVarietyIdFkeyInput>;
+  commonSizeToCommonSizeId?: Maybe<ShipperProgramCommonSizeIdFkeyInput>;
+  commonPackTypeToCommonPackTypeId?: Maybe<ShipperProgramCommonPackTypeIdFkeyInput>;
+  shipperToShipperId?: Maybe<ShipperProgramShipperIdFkeyInput>;
+  shipperProgramEntriesUsingId?: Maybe<ShipperProgramEntryShipperProgramIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `commonPackType` in the `ShipperProgramInput` mutation. */
+export type ShipperProgramCommonPackTypeIdFkeyInput = {
   /** The primary key(s) for `commonPackType` for the far side of the relationship. */
   connectById?: Maybe<CommonPackTypeCommonPackTypePkeyConnect>;
   /** The primary key(s) for `commonPackType` for the far side of the relationship. */
@@ -28746,44 +32751,22 @@ export type ShipperProjectionProductCommonPackTypeIdFkeyInput = {
   /** The primary key(s) for `commonPackType` for the far side of the relationship. */
   deleteByNodeId?: Maybe<CommonPackTypeNodeIdDelete>;
   /** The primary key(s) and patch data for `commonPackType` for the far side of the relationship. */
-  updateById?: Maybe<CommonPackTypeOnShipperProjectionProductForShipperProjectionProductCommonPackTypeIdFkeyUsingCommonPackTypePkeyUpdate>;
+  updateById?: Maybe<CommonPackTypeOnShipperProgramForShipperProgramCommonPackTypeIdFkeyUsingCommonPackTypePkeyUpdate>;
   /** The primary key(s) and patch data for `commonPackType` for the far side of the relationship. */
-  updateByNodeId?: Maybe<ShipperProjectionProductOnShipperProjectionProductForShipperProjectionProductCommonPackTypeIdFkeyNodeIdUpdate>;
+  updateByNodeId?: Maybe<ShipperProgramOnShipperProgramForShipperProgramCommonPackTypeIdFkeyNodeIdUpdate>;
   /** A `CommonPackTypeInput` object that will be created and connected to this object. */
-  create?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyCommonPackTypeCreateInput>;
-};
-
-/** The fields on `commonPackType` to look up the row to connect. */
-export type CommonPackTypeCommonPackTypePkeyConnect = {
-  id: Scalars['BigInt'];
-};
-
-/** The globally unique `ID` look up for the row to connect. */
-export type CommonPackTypeNodeIdConnect = {
-  /** The globally unique `ID` which identifies a single `commonPackType` to be connected. */
-  nodeId: Scalars['ID'];
-};
-
-/** The fields on `commonPackType` to look up the row to delete. */
-export type CommonPackTypeCommonPackTypePkeyDelete = {
-  id: Scalars['BigInt'];
-};
-
-/** The globally unique `ID` look up for the row to delete. */
-export type CommonPackTypeNodeIdDelete = {
-  /** The globally unique `ID` which identifies a single `commonPackType` to be deleted. */
-  nodeId: Scalars['ID'];
+  create?: Maybe<ShipperProgramCommonPackTypeIdFkeyCommonPackTypeCreateInput>;
 };
 
 /** The fields on `commonPackType` to look up the row to update. */
-export type CommonPackTypeOnShipperProjectionProductForShipperProjectionProductCommonPackTypeIdFkeyUsingCommonPackTypePkeyUpdate = {
+export type CommonPackTypeOnShipperProgramForShipperProgramCommonPackTypeIdFkeyUsingCommonPackTypePkeyUpdate = {
   /** An object where the defined keys will be set on the `commonPackType` being updated. */
-  patch: UpdateCommonPackTypeOnShipperProjectionProductForShipperProjectionProductCommonPackTypeIdFkeyPatch;
+  patch: UpdateCommonPackTypeOnShipperProgramForShipperProgramCommonPackTypeIdFkeyPatch;
   id: Scalars['BigInt'];
 };
 
 /** An object where the defined keys will be set on the `commonPackType` being updated. */
-export type UpdateCommonPackTypeOnShipperProjectionProductForShipperProjectionProductCommonPackTypeIdFkeyPatch = {
+export type UpdateCommonPackTypeOnShipperProgramForShipperProgramCommonPackTypeIdFkeyPatch = {
   id?: Maybe<Scalars['BigInt']>;
   packTypeName?: Maybe<Scalars['String']>;
   packTypeDescription?: Maybe<Scalars['String']>;
@@ -28794,89 +32777,8 @@ export type UpdateCommonPackTypeOnShipperProjectionProductForShipperProjectionPr
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyInverseInput>;
   commonPackTypeTagsUsingId?: Maybe<CommonPackTypeTagCommonPackTypeIdFkeyInverseInput>;
   commonPackTypePackMastersUsingId?: Maybe<CommonPackTypePackMasterCommonPackTypeIdFkeyInverseInput>;
-};
-
-/** Input for the nested mutation of `commonSpecies` in the `CommonPackTypeInput` mutation. */
-export type CommonPackTypeCommonSpeciesIdFkeyInput = {
-  /** The primary key(s) for `commonSpecies` for the far side of the relationship. */
-  connectById?: Maybe<CommonSpeciesCommonSpeciesPkeyConnect>;
-  /** The primary key(s) for `commonSpecies` for the far side of the relationship. */
-  connectByNodeId?: Maybe<CommonSpecyNodeIdConnect>;
-  /** The primary key(s) for `commonSpecies` for the far side of the relationship. */
-  deleteById?: Maybe<CommonSpeciesCommonSpeciesPkeyDelete>;
-  /** The primary key(s) for `commonSpecies` for the far side of the relationship. */
-  deleteByNodeId?: Maybe<CommonSpecyNodeIdDelete>;
-  /** The primary key(s) and patch data for `commonSpecies` for the far side of the relationship. */
-  updateById?: Maybe<CommonSpeciesOnCommonPackTypeForCommonPackTypeCommonSpeciesIdFkeyUsingCommonSpeciesPkeyUpdate>;
-  /** The primary key(s) and patch data for `commonSpecies` for the far side of the relationship. */
-  updateByNodeId?: Maybe<CommonPackTypeOnCommonPackTypeForCommonPackTypeCommonSpeciesIdFkeyNodeIdUpdate>;
-  /** A `CommonSpeciesInput` object that will be created and connected to this object. */
-  create?: Maybe<CommonPackTypeCommonSpeciesIdFkeyCommonSpeciesCreateInput>;
-};
-
-/** The fields on `commonSpecies` to look up the row to update. */
-export type CommonSpeciesOnCommonPackTypeForCommonPackTypeCommonSpeciesIdFkeyUsingCommonSpeciesPkeyUpdate = {
-  /** An object where the defined keys will be set on the `commonSpecies` being updated. */
-  patch: UpdateCommonSpeciesOnCommonPackTypeForCommonPackTypeCommonSpeciesIdFkeyPatch;
-  id: Scalars['BigInt'];
-};
-
-/** An object where the defined keys will be set on the `commonSpecies` being updated. */
-export type UpdateCommonSpeciesOnCommonPackTypeForCommonPackTypeCommonSpeciesIdFkeyPatch = {
-  id?: Maybe<Scalars['BigInt']>;
-  speciesName?: Maybe<Scalars['String']>;
-  speciesDescription?: Maybe<Scalars['String']>;
-  uiColor?: Maybe<Scalars['String']>;
-  commonCategoryId?: Maybe<Scalars['BigInt']>;
-  productSpeciesId?: Maybe<Scalars['String']>;
-  commonCategoryToCommonCategoryId?: Maybe<CommonSpeciesCommonCategoryIdFkeyInput>;
-  productSpeciesToProductSpeciesId?: Maybe<CommonSpeciesProductSpeciesIdFkeyInput>;
-  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSpeciesIdFkeyInverseInput>;
-  commonVarietiesUsingId?: Maybe<CommonVarietyCommonSpeciesIdFkeyInverseInput>;
-  commonSizesUsingId?: Maybe<CommonSizeCommonSpeciesIdFkeyInverseInput>;
-  commonPackTypesUsingId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInverseInput>;
-  commonSpeciesTagsUsingId?: Maybe<CommonSpeciesTagCommonSpeciesIdFkeyInverseInput>;
-  commonSpeciesProductSpeciesUsingId?: Maybe<CommonSpeciesProductSpeciesCommonSpeciesIdFkeyInverseInput>;
-};
-
-/** Input for the nested mutation of `commonPackType` in the `CommonSpeciesInput` mutation. */
-export type CommonPackTypeCommonSpeciesIdFkeyInverseInput = {
-  /** Flag indicating whether all other `commonPackType` records that match this relationship should be removed. */
-  deleteOthers?: Maybe<Scalars['Boolean']>;
-  /** The primary key(s) for `commonPackType` for the far side of the relationship. */
-  connectById?: Maybe<Array<CommonPackTypeCommonPackTypePkeyConnect>>;
-  /** The primary key(s) for `commonPackType` for the far side of the relationship. */
-  connectByNodeId?: Maybe<Array<CommonPackTypeNodeIdConnect>>;
-  /** The primary key(s) for `commonPackType` for the far side of the relationship. */
-  deleteById?: Maybe<Array<CommonPackTypeCommonPackTypePkeyDelete>>;
-  /** The primary key(s) for `commonPackType` for the far side of the relationship. */
-  deleteByNodeId?: Maybe<Array<CommonPackTypeNodeIdDelete>>;
-  /** The primary key(s) and patch data for `commonPackType` for the far side of the relationship. */
-  updateById?: Maybe<Array<CommonPackTypeOnCommonPackTypeForCommonPackTypeCommonSpeciesIdFkeyUsingCommonPackTypePkeyUpdate>>;
-  /** The primary key(s) and patch data for `commonPackType` for the far side of the relationship. */
-  updateByNodeId?: Maybe<Array<CommonSpeciesOnCommonPackTypeForCommonPackTypeCommonSpeciesIdFkeyNodeIdUpdate>>;
-  /** A `CommonPackTypeInput` object that will be created and connected to this object. */
-  create?: Maybe<Array<CommonPackTypeCommonSpeciesIdFkeyCommonPackTypeCreateInput>>;
-};
-
-/** The fields on `commonPackType` to look up the row to update. */
-export type CommonPackTypeOnCommonPackTypeForCommonPackTypeCommonSpeciesIdFkeyUsingCommonPackTypePkeyUpdate = {
-  /** An object where the defined keys will be set on the `commonPackType` being updated. */
-  patch: UpdateCommonPackTypeOnCommonPackTypeForCommonPackTypeCommonSpeciesIdFkeyPatch;
-  id: Scalars['BigInt'];
-};
-
-/** An object where the defined keys will be set on the `commonPackType` being updated. */
-export type UpdateCommonPackTypeOnCommonPackTypeForCommonPackTypeCommonSpeciesIdFkeyPatch = {
-  id?: Maybe<Scalars['BigInt']>;
-  packTypeName?: Maybe<Scalars['String']>;
-  packTypeDescription?: Maybe<Scalars['String']>;
-  packMasterId?: Maybe<Scalars['BigInt']>;
-  commonSpeciesToCommonSpeciesId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInput>;
-  packMasterToPackMasterId?: Maybe<CommonPackTypePackMasterIdFkeyInput>;
-  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyInverseInput>;
-  commonPackTypeTagsUsingId?: Maybe<CommonPackTypeTagCommonPackTypeIdFkeyInverseInput>;
-  commonPackTypePackMastersUsingId?: Maybe<CommonPackTypePackMasterCommonPackTypeIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonPackTypeIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonPackTypeIdFkeyInverseInput>;
 };
 
 /** Input for the nested mutation of `packMaster` in the `CommonPackTypeInput` mutation. */
@@ -29001,6 +32903,8 @@ export type UpdateCommonPackTypeOnCommonPackTypeForCommonPackTypePackMasterIdFke
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyInverseInput>;
   commonPackTypeTagsUsingId?: Maybe<CommonPackTypeTagCommonPackTypeIdFkeyInverseInput>;
   commonPackTypePackMastersUsingId?: Maybe<CommonPackTypePackMasterCommonPackTypeIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonPackTypeIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonPackTypeIdFkeyInverseInput>;
 };
 
 /** Input for the nested mutation of `shipperProjectionProduct` in the `CommonPackTypeInput` mutation. */
@@ -29050,116 +32954,45 @@ export type UpdateShipperProjectionProductOnShipperProjectionProductForShipperPr
   shipperProjectionEntriesUsingId?: Maybe<ShipperProjectionEntryProductIdFkeyInverseInput>;
 };
 
-/** Input for the nested mutation of `shipperProjectionEntry` in the `ShipperProjectionProductInput` mutation. */
-export type ShipperProjectionEntryProductIdFkeyInverseInput = {
-  /** Flag indicating whether all other `shipperProjectionEntry` records that match this relationship should be removed. */
-  deleteOthers?: Maybe<Scalars['Boolean']>;
-  /** The primary key(s) for `shipperProjectionEntry` for the far side of the relationship. */
-  connectById?: Maybe<Array<ShipperProjectionEntryShipperProjectionEntryPkeyConnect>>;
-  /** The primary key(s) for `shipperProjectionEntry` for the far side of the relationship. */
-  connectByNodeId?: Maybe<Array<ShipperProjectionEntryNodeIdConnect>>;
-  /** The primary key(s) for `shipperProjectionEntry` for the far side of the relationship. */
-  deleteById?: Maybe<Array<ShipperProjectionEntryShipperProjectionEntryPkeyDelete>>;
-  /** The primary key(s) for `shipperProjectionEntry` for the far side of the relationship. */
-  deleteByNodeId?: Maybe<Array<ShipperProjectionEntryNodeIdDelete>>;
-  /** The primary key(s) and patch data for `shipperProjectionEntry` for the far side of the relationship. */
-  updateById?: Maybe<Array<ShipperProjectionEntryOnShipperProjectionEntryForShipperProjectionEntryProductIdFkeyUsingShipperProjectionEntryPkeyUpdate>>;
-  /** The primary key(s) and patch data for `shipperProjectionEntry` for the far side of the relationship. */
-  updateByNodeId?: Maybe<Array<ShipperProjectionProductOnShipperProjectionEntryForShipperProjectionEntryProductIdFkeyNodeIdUpdate>>;
-  /** A `ShipperProjectionEntryInput` object that will be created and connected to this object. */
-  create?: Maybe<Array<ShipperProjectionEntryProductIdFkeyShipperProjectionEntryCreateInput>>;
+/** Input for the nested mutation of `commonPackType` in the `ShipperProjectionProductInput` mutation. */
+export type ShipperProjectionProductCommonPackTypeIdFkeyInput = {
+  /** The primary key(s) for `commonPackType` for the far side of the relationship. */
+  connectById?: Maybe<CommonPackTypeCommonPackTypePkeyConnect>;
+  /** The primary key(s) for `commonPackType` for the far side of the relationship. */
+  connectByNodeId?: Maybe<CommonPackTypeNodeIdConnect>;
+  /** The primary key(s) for `commonPackType` for the far side of the relationship. */
+  deleteById?: Maybe<CommonPackTypeCommonPackTypePkeyDelete>;
+  /** The primary key(s) for `commonPackType` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<CommonPackTypeNodeIdDelete>;
+  /** The primary key(s) and patch data for `commonPackType` for the far side of the relationship. */
+  updateById?: Maybe<CommonPackTypeOnShipperProjectionProductForShipperProjectionProductCommonPackTypeIdFkeyUsingCommonPackTypePkeyUpdate>;
+  /** The primary key(s) and patch data for `commonPackType` for the far side of the relationship. */
+  updateByNodeId?: Maybe<ShipperProjectionProductOnShipperProjectionProductForShipperProjectionProductCommonPackTypeIdFkeyNodeIdUpdate>;
+  /** A `CommonPackTypeInput` object that will be created and connected to this object. */
+  create?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyCommonPackTypeCreateInput>;
 };
 
-/** The fields on `shipperProjectionEntry` to look up the row to update. */
-export type ShipperProjectionEntryOnShipperProjectionEntryForShipperProjectionEntryProductIdFkeyUsingShipperProjectionEntryPkeyUpdate = {
-  /** An object where the defined keys will be set on the `shipperProjectionEntry` being updated. */
-  patch: UpdateShipperProjectionEntryOnShipperProjectionEntryForShipperProjectionEntryProductIdFkeyPatch;
+/** The fields on `commonPackType` to look up the row to update. */
+export type CommonPackTypeOnShipperProjectionProductForShipperProjectionProductCommonPackTypeIdFkeyUsingCommonPackTypePkeyUpdate = {
+  /** An object where the defined keys will be set on the `commonPackType` being updated. */
+  patch: UpdateCommonPackTypeOnShipperProjectionProductForShipperProjectionProductCommonPackTypeIdFkeyPatch;
   id: Scalars['BigInt'];
 };
 
-/** An object where the defined keys will be set on the `shipperProjectionEntry` being updated. */
-export type UpdateShipperProjectionEntryOnShipperProjectionEntryForShipperProjectionEntryProductIdFkeyPatch = {
+/** An object where the defined keys will be set on the `commonPackType` being updated. */
+export type UpdateCommonPackTypeOnShipperProjectionProductForShipperProjectionProductCommonPackTypeIdFkeyPatch = {
   id?: Maybe<Scalars['BigInt']>;
-  palletCount?: Maybe<Scalars['BigFloat']>;
-  vesselInfoId?: Maybe<Scalars['BigInt']>;
-  shipperProjectionVesselInfoToVesselInfoId?: Maybe<ShipperProjectionEntryVesselInfoIdFkeyInput>;
-  shipperProjectionProductToProductId?: Maybe<ShipperProjectionEntryProductIdFkeyInput>;
-};
-
-/** The globally unique `ID` look up for the row to update. */
-export type ShipperProjectionProductOnShipperProjectionEntryForShipperProjectionEntryProductIdFkeyNodeIdUpdate = {
-  /** The globally unique `ID` which identifies a single `shipperProjectionEntry` to be connected. */
-  nodeId: Scalars['ID'];
-  /** An object where the defined keys will be set on the `shipperProjectionEntry` being updated. */
-  patch: ShipperProjectionEntryPatch;
-};
-
-/** Represents an update to a `ShipperProjectionEntry`. Fields that are set will be updated. */
-export type ShipperProjectionEntryPatch = {
-  id?: Maybe<Scalars['BigInt']>;
-  palletCount?: Maybe<Scalars['BigFloat']>;
-  vesselInfoId?: Maybe<Scalars['BigInt']>;
-  productId?: Maybe<Scalars['BigInt']>;
-  shipperProjectionVesselInfoToVesselInfoId?: Maybe<ShipperProjectionEntryVesselInfoIdFkeyInput>;
-  shipperProjectionProductToProductId?: Maybe<ShipperProjectionEntryProductIdFkeyInput>;
-};
-
-/** The `shipperProjectionEntry` to be created by this mutation. */
-export type ShipperProjectionEntryProductIdFkeyShipperProjectionEntryCreateInput = {
-  id?: Maybe<Scalars['BigInt']>;
-  palletCount?: Maybe<Scalars['BigFloat']>;
-  vesselInfoId?: Maybe<Scalars['BigInt']>;
-  shipperProjectionVesselInfoToVesselInfoId?: Maybe<ShipperProjectionEntryVesselInfoIdFkeyInput>;
-  shipperProjectionProductToProductId?: Maybe<ShipperProjectionEntryProductIdFkeyInput>;
-};
-
-/** The globally unique `ID` look up for the row to update. */
-export type CommonPackTypeOnShipperProjectionProductForShipperProjectionProductCommonPackTypeIdFkeyNodeIdUpdate = {
-  /** The globally unique `ID` which identifies a single `shipperProjectionProduct` to be connected. */
-  nodeId: Scalars['ID'];
-  /** An object where the defined keys will be set on the `shipperProjectionProduct` being updated. */
-  patch: ShipperProjectionProductPatch;
-};
-
-/** Represents an update to a `ShipperProjectionProduct`. Fields that are set will be updated. */
-export type ShipperProjectionProductPatch = {
-  id?: Maybe<Scalars['BigInt']>;
-  species?: Maybe<Scalars['String']>;
-  variety?: Maybe<Scalars['String']>;
-  size?: Maybe<Scalars['String']>;
-  packType?: Maybe<Scalars['String']>;
-  plu?: Maybe<Scalars['String']>;
-  shipperId?: Maybe<Scalars['String']>;
+  packTypeName?: Maybe<Scalars['String']>;
+  packTypeDescription?: Maybe<Scalars['String']>;
   commonSpeciesId?: Maybe<Scalars['BigInt']>;
-  commonVarietyId?: Maybe<Scalars['BigInt']>;
-  commonSizeId?: Maybe<Scalars['BigInt']>;
-  commonPackTypeId?: Maybe<Scalars['BigInt']>;
-  shipperToShipperId?: Maybe<ShipperProjectionProductShipperIdFkeyInput>;
-  commonSpeciesToCommonSpeciesId?: Maybe<ShipperProjectionProductCommonSpeciesIdFkeyInput>;
-  commonVarietyToCommonVarietyId?: Maybe<ShipperProjectionProductCommonVarietyIdFkeyInput>;
-  commonSizeToCommonSizeId?: Maybe<ShipperProjectionProductCommonSizeIdFkeyInput>;
-  commonPackTypeToCommonPackTypeId?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyInput>;
-  shipperProjectionEntriesUsingId?: Maybe<ShipperProjectionEntryProductIdFkeyInverseInput>;
-};
-
-/** The `shipperProjectionProduct` to be created by this mutation. */
-export type ShipperProjectionProductCommonPackTypeIdFkeyShipperProjectionProductCreateInput = {
-  id?: Maybe<Scalars['BigInt']>;
-  species?: Maybe<Scalars['String']>;
-  variety?: Maybe<Scalars['String']>;
-  size?: Maybe<Scalars['String']>;
-  packType?: Maybe<Scalars['String']>;
-  plu?: Maybe<Scalars['String']>;
-  shipperId?: Maybe<Scalars['String']>;
-  commonSpeciesId?: Maybe<Scalars['BigInt']>;
-  commonVarietyId?: Maybe<Scalars['BigInt']>;
-  commonSizeId?: Maybe<Scalars['BigInt']>;
-  shipperToShipperId?: Maybe<ShipperProjectionProductShipperIdFkeyInput>;
-  commonSpeciesToCommonSpeciesId?: Maybe<ShipperProjectionProductCommonSpeciesIdFkeyInput>;
-  commonVarietyToCommonVarietyId?: Maybe<ShipperProjectionProductCommonVarietyIdFkeyInput>;
-  commonSizeToCommonSizeId?: Maybe<ShipperProjectionProductCommonSizeIdFkeyInput>;
-  commonPackTypeToCommonPackTypeId?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyInput>;
-  shipperProjectionEntriesUsingId?: Maybe<ShipperProjectionEntryProductIdFkeyInverseInput>;
+  packMasterId?: Maybe<Scalars['BigInt']>;
+  commonSpeciesToCommonSpeciesId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInput>;
+  packMasterToPackMasterId?: Maybe<CommonPackTypePackMasterIdFkeyInput>;
+  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyInverseInput>;
+  commonPackTypeTagsUsingId?: Maybe<CommonPackTypeTagCommonPackTypeIdFkeyInverseInput>;
+  commonPackTypePackMastersUsingId?: Maybe<CommonPackTypePackMasterCommonPackTypeIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonPackTypeIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonPackTypeIdFkeyInverseInput>;
 };
 
 /** Input for the nested mutation of `commonPackTypeTag` in the `CommonPackTypeInput` mutation. */
@@ -29257,6 +33090,8 @@ export type UpdateCommonPackTypeOnCommonPackTypeTagForCommonPackTypeTagCommonPac
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyInverseInput>;
   commonPackTypeTagsUsingId?: Maybe<CommonPackTypeTagCommonPackTypeIdFkeyInverseInput>;
   commonPackTypePackMastersUsingId?: Maybe<CommonPackTypePackMasterCommonPackTypeIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonPackTypeIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonPackTypeIdFkeyInverseInput>;
 };
 
 /** Input for the nested mutation of `commonPackTypePackMaster` in the `CommonPackTypeInput` mutation. */
@@ -29353,10 +33188,1218 @@ export type UpdateCommonPackTypeOnCommonPackTypePackMasterForCommonPackTypePackM
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyInverseInput>;
   commonPackTypeTagsUsingId?: Maybe<CommonPackTypeTagCommonPackTypeIdFkeyInverseInput>;
   commonPackTypePackMastersUsingId?: Maybe<CommonPackTypePackMasterCommonPackTypeIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonPackTypeIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonPackTypeIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `shipperProgram` in the `CommonPackTypeInput` mutation. */
+export type ShipperProgramCommonPackTypeIdFkeyInverseInput = {
+  /** Flag indicating whether all other `shipperProgram` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `shipperProgram` for the far side of the relationship. */
+  connectById?: Maybe<Array<ShipperProgramShipperProgramPkeyConnect>>;
+  /** The primary key(s) for `shipperProgram` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<ShipperProgramNodeIdConnect>>;
+  /** The primary key(s) for `shipperProgram` for the far side of the relationship. */
+  deleteById?: Maybe<Array<ShipperProgramShipperProgramPkeyDelete>>;
+  /** The primary key(s) for `shipperProgram` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<ShipperProgramNodeIdDelete>>;
+  /** The primary key(s) and patch data for `shipperProgram` for the far side of the relationship. */
+  updateById?: Maybe<Array<ShipperProgramOnShipperProgramForShipperProgramCommonPackTypeIdFkeyUsingShipperProgramPkeyUpdate>>;
+  /** The primary key(s) and patch data for `shipperProgram` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<CommonPackTypeOnShipperProgramForShipperProgramCommonPackTypeIdFkeyNodeIdUpdate>>;
+  /** A `ShipperProgramInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<ShipperProgramCommonPackTypeIdFkeyShipperProgramCreateInput>>;
+};
+
+/** The fields on `shipperProgram` to look up the row to update. */
+export type ShipperProgramOnShipperProgramForShipperProgramCommonPackTypeIdFkeyUsingShipperProgramPkeyUpdate = {
+  /** An object where the defined keys will be set on the `shipperProgram` being updated. */
+  patch: UpdateShipperProgramOnShipperProgramForShipperProgramCommonPackTypeIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `shipperProgram` being updated. */
+export type UpdateShipperProgramOnShipperProgramForShipperProgramCommonPackTypeIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  commonSpeciesId?: Maybe<Scalars['BigInt']>;
+  commonVarietyId?: Maybe<Scalars['BigInt']>;
+  commonSizeId?: Maybe<Scalars['BigInt']>;
+  shipperId?: Maybe<Scalars['String']>;
+  arrivalPort?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  commonSpeciesToCommonSpeciesId?: Maybe<ShipperProgramCommonSpeciesIdFkeyInput>;
+  commonVarietyToCommonVarietyId?: Maybe<ShipperProgramCommonVarietyIdFkeyInput>;
+  commonSizeToCommonSizeId?: Maybe<ShipperProgramCommonSizeIdFkeyInput>;
+  commonPackTypeToCommonPackTypeId?: Maybe<ShipperProgramCommonPackTypeIdFkeyInput>;
+  shipperToShipperId?: Maybe<ShipperProgramShipperIdFkeyInput>;
+  shipperProgramEntriesUsingId?: Maybe<ShipperProgramEntryShipperProgramIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `shipper` in the `ShipperProgramInput` mutation. */
+export type ShipperProgramShipperIdFkeyInput = {
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  connectById?: Maybe<ShipperShipperPkeyConnect>;
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  connectByNodeId?: Maybe<ShipperNodeIdConnect>;
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  deleteById?: Maybe<ShipperShipperPkeyDelete>;
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<ShipperNodeIdDelete>;
+  /** The primary key(s) and patch data for `shipper` for the far side of the relationship. */
+  updateById?: Maybe<ShipperOnShipperProgramForShipperProgramShipperIdFkeyUsingShipperPkeyUpdate>;
+  /** The primary key(s) and patch data for `shipper` for the far side of the relationship. */
+  updateByNodeId?: Maybe<ShipperProgramOnShipperProgramForShipperProgramShipperIdFkeyNodeIdUpdate>;
+  /** A `ShipperInput` object that will be created and connected to this object. */
+  create?: Maybe<ShipperProgramShipperIdFkeyShipperCreateInput>;
+};
+
+/** The fields on `shipper` to look up the row to update. */
+export type ShipperOnShipperProgramForShipperProgramShipperIdFkeyUsingShipperPkeyUpdate = {
+  /** An object where the defined keys will be set on the `shipper` being updated. */
+  patch: UpdateShipperOnShipperProgramForShipperProgramShipperIdFkeyPatch;
+  id: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `shipper` being updated. */
+export type UpdateShipperOnShipperProgramForShipperProgramShipperIdFkeyPatch = {
+  id?: Maybe<Scalars['String']>;
+  shipperName?: Maybe<Scalars['String']>;
+  countryId?: Maybe<Scalars['String']>;
+  groupId?: Maybe<Scalars['String']>;
+  logoSrc?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
+  sendProjectionRequest?: Maybe<Scalars['Boolean']>;
+  countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
+  shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
+  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
+  shipperProjectionsUsingId?: Maybe<ShipperProjectionShipperIdFkeyInverseInput>;
+  shipperPersonContactsUsingId?: Maybe<ShipperPersonContactShipperIdFkeyInverseInput>;
+  shipperProjectionVesselInfosUsingId?: Maybe<FkShipperIdInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramShipperIdFkeyInverseInput>;
 };
 
 /** The globally unique `ID` look up for the row to update. */
-export type CommonPackTypePackMasterOnCommonPackTypePackMasterForCommonPackTypePackMasterCommonPackTypeIdFkeyNodeIdUpdate = {
+export type ShipperProgramOnShipperProgramForShipperProgramShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `shipper` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `shipper` being updated. */
+  patch: ShipperPatch;
+};
+
+/** Represents an update to a `Shipper`. Fields that are set will be updated. */
+export type ShipperPatch = {
+  id?: Maybe<Scalars['String']>;
+  shipperName?: Maybe<Scalars['String']>;
+  countryId?: Maybe<Scalars['String']>;
+  groupId?: Maybe<Scalars['String']>;
+  logoSrc?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
+  sendProjectionRequest?: Maybe<Scalars['Boolean']>;
+  countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
+  shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
+  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
+  shipperProjectionsUsingId?: Maybe<ShipperProjectionShipperIdFkeyInverseInput>;
+  shipperPersonContactsUsingId?: Maybe<ShipperPersonContactShipperIdFkeyInverseInput>;
+  shipperProjectionVesselInfosUsingId?: Maybe<FkShipperIdInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramShipperIdFkeyInverseInput>;
+};
+
+/** The `shipper` to be created by this mutation. */
+export type ShipperProgramShipperIdFkeyShipperCreateInput = {
+  id: Scalars['String'];
+  shipperName: Scalars['String'];
+  countryId?: Maybe<Scalars['String']>;
+  groupId?: Maybe<Scalars['String']>;
+  logoSrc?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
+  sendProjectionRequest?: Maybe<Scalars['Boolean']>;
+  countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
+  shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
+  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
+  shipperProjectionsUsingId?: Maybe<ShipperProjectionShipperIdFkeyInverseInput>;
+  shipperPersonContactsUsingId?: Maybe<ShipperPersonContactShipperIdFkeyInverseInput>;
+  shipperProjectionVesselInfosUsingId?: Maybe<FkShipperIdInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramShipperIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `shipperProgramEntry` in the `ShipperProgramInput` mutation. */
+export type ShipperProgramEntryShipperProgramIdFkeyInverseInput = {
+  /** Flag indicating whether all other `shipperProgramEntry` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `shipperProgramEntry` for the far side of the relationship. */
+  connectById?: Maybe<Array<ShipperProgramEntryShipperProgramEntryPkeyConnect>>;
+  /** The primary key(s) for `shipperProgramEntry` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<ShipperProgramEntryNodeIdConnect>>;
+  /** The primary key(s) for `shipperProgramEntry` for the far side of the relationship. */
+  deleteById?: Maybe<Array<ShipperProgramEntryShipperProgramEntryPkeyDelete>>;
+  /** The primary key(s) for `shipperProgramEntry` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<ShipperProgramEntryNodeIdDelete>>;
+  /** The primary key(s) and patch data for `shipperProgramEntry` for the far side of the relationship. */
+  updateById?: Maybe<Array<ShipperProgramEntryOnShipperProgramEntryForShipperProgramEntryShipperProgramIdFkeyUsingShipperProgramEntryPkeyUpdate>>;
+  /** The primary key(s) and patch data for `shipperProgramEntry` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<ShipperProgramOnShipperProgramEntryForShipperProgramEntryShipperProgramIdFkeyNodeIdUpdate>>;
+  /** A `ShipperProgramEntryInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<ShipperProgramEntryShipperProgramIdFkeyShipperProgramEntryCreateInput>>;
+};
+
+/** The fields on `shipperProgramEntry` to look up the row to connect. */
+export type ShipperProgramEntryShipperProgramEntryPkeyConnect = {
+  id: Scalars['BigInt'];
+};
+
+/** The globally unique `ID` look up for the row to connect. */
+export type ShipperProgramEntryNodeIdConnect = {
+  /** The globally unique `ID` which identifies a single `shipperProgramEntry` to be connected. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `shipperProgramEntry` to look up the row to delete. */
+export type ShipperProgramEntryShipperProgramEntryPkeyDelete = {
+  id: Scalars['BigInt'];
+};
+
+/** The globally unique `ID` look up for the row to delete. */
+export type ShipperProgramEntryNodeIdDelete = {
+  /** The globally unique `ID` which identifies a single `shipperProgramEntry` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `shipperProgramEntry` to look up the row to update. */
+export type ShipperProgramEntryOnShipperProgramEntryForShipperProgramEntryShipperProgramIdFkeyUsingShipperProgramEntryPkeyUpdate = {
+  /** An object where the defined keys will be set on the `shipperProgramEntry` being updated. */
+  patch: UpdateShipperProgramEntryOnShipperProgramEntryForShipperProgramEntryShipperProgramIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `shipperProgramEntry` being updated. */
+export type UpdateShipperProgramEntryOnShipperProgramEntryForShipperProgramEntryShipperProgramIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  notes?: Maybe<Scalars['String']>;
+  programDate?: Maybe<Scalars['Date']>;
+  palletCount?: Maybe<Scalars['BigFloat']>;
+  shipperProgramToShipperProgramId?: Maybe<ShipperProgramEntryShipperProgramIdFkeyInput>;
+  shipperProgramEntryCustomerProgramEntriesUsingId?: Maybe<ShipperProgramEntryCustomerPrShipperProgramEntryIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `shipperProgram` in the `ShipperProgramEntryInput` mutation. */
+export type ShipperProgramEntryShipperProgramIdFkeyInput = {
+  /** The primary key(s) for `shipperProgram` for the far side of the relationship. */
+  connectById?: Maybe<ShipperProgramShipperProgramPkeyConnect>;
+  /** The primary key(s) for `shipperProgram` for the far side of the relationship. */
+  connectByNodeId?: Maybe<ShipperProgramNodeIdConnect>;
+  /** The primary key(s) for `shipperProgram` for the far side of the relationship. */
+  deleteById?: Maybe<ShipperProgramShipperProgramPkeyDelete>;
+  /** The primary key(s) for `shipperProgram` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<ShipperProgramNodeIdDelete>;
+  /** The primary key(s) and patch data for `shipperProgram` for the far side of the relationship. */
+  updateById?: Maybe<ShipperProgramOnShipperProgramEntryForShipperProgramEntryShipperProgramIdFkeyUsingShipperProgramPkeyUpdate>;
+  /** The primary key(s) and patch data for `shipperProgram` for the far side of the relationship. */
+  updateByNodeId?: Maybe<ShipperProgramEntryOnShipperProgramEntryForShipperProgramEntryShipperProgramIdFkeyNodeIdUpdate>;
+  /** A `ShipperProgramInput` object that will be created and connected to this object. */
+  create?: Maybe<ShipperProgramEntryShipperProgramIdFkeyShipperProgramCreateInput>;
+};
+
+/** The fields on `shipperProgram` to look up the row to update. */
+export type ShipperProgramOnShipperProgramEntryForShipperProgramEntryShipperProgramIdFkeyUsingShipperProgramPkeyUpdate = {
+  /** An object where the defined keys will be set on the `shipperProgram` being updated. */
+  patch: UpdateShipperProgramOnShipperProgramEntryForShipperProgramEntryShipperProgramIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `shipperProgram` being updated. */
+export type UpdateShipperProgramOnShipperProgramEntryForShipperProgramEntryShipperProgramIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  commonSpeciesId?: Maybe<Scalars['BigInt']>;
+  commonVarietyId?: Maybe<Scalars['BigInt']>;
+  commonSizeId?: Maybe<Scalars['BigInt']>;
+  commonPackTypeId?: Maybe<Scalars['BigInt']>;
+  shipperId?: Maybe<Scalars['String']>;
+  arrivalPort?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  commonSpeciesToCommonSpeciesId?: Maybe<ShipperProgramCommonSpeciesIdFkeyInput>;
+  commonVarietyToCommonVarietyId?: Maybe<ShipperProgramCommonVarietyIdFkeyInput>;
+  commonSizeToCommonSizeId?: Maybe<ShipperProgramCommonSizeIdFkeyInput>;
+  commonPackTypeToCommonPackTypeId?: Maybe<ShipperProgramCommonPackTypeIdFkeyInput>;
+  shipperToShipperId?: Maybe<ShipperProgramShipperIdFkeyInput>;
+  shipperProgramEntriesUsingId?: Maybe<ShipperProgramEntryShipperProgramIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type ShipperProgramEntryOnShipperProgramEntryForShipperProgramEntryShipperProgramIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `shipperProgram` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `shipperProgram` being updated. */
+  patch: ShipperProgramPatch;
+};
+
+/** Represents an update to a `ShipperProgram`. Fields that are set will be updated. */
+export type ShipperProgramPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  commonSpeciesId?: Maybe<Scalars['BigInt']>;
+  commonVarietyId?: Maybe<Scalars['BigInt']>;
+  commonSizeId?: Maybe<Scalars['BigInt']>;
+  commonPackTypeId?: Maybe<Scalars['BigInt']>;
+  shipperId?: Maybe<Scalars['String']>;
+  arrivalPort?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  commonSpeciesToCommonSpeciesId?: Maybe<ShipperProgramCommonSpeciesIdFkeyInput>;
+  commonVarietyToCommonVarietyId?: Maybe<ShipperProgramCommonVarietyIdFkeyInput>;
+  commonSizeToCommonSizeId?: Maybe<ShipperProgramCommonSizeIdFkeyInput>;
+  commonPackTypeToCommonPackTypeId?: Maybe<ShipperProgramCommonPackTypeIdFkeyInput>;
+  shipperToShipperId?: Maybe<ShipperProgramShipperIdFkeyInput>;
+  shipperProgramEntriesUsingId?: Maybe<ShipperProgramEntryShipperProgramIdFkeyInverseInput>;
+};
+
+/** The `shipperProgram` to be created by this mutation. */
+export type ShipperProgramEntryShipperProgramIdFkeyShipperProgramCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  commonSpeciesId?: Maybe<Scalars['BigInt']>;
+  commonVarietyId?: Maybe<Scalars['BigInt']>;
+  commonSizeId?: Maybe<Scalars['BigInt']>;
+  commonPackTypeId?: Maybe<Scalars['BigInt']>;
+  shipperId?: Maybe<Scalars['String']>;
+  arrivalPort?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  commonSpeciesToCommonSpeciesId?: Maybe<ShipperProgramCommonSpeciesIdFkeyInput>;
+  commonVarietyToCommonVarietyId?: Maybe<ShipperProgramCommonVarietyIdFkeyInput>;
+  commonSizeToCommonSizeId?: Maybe<ShipperProgramCommonSizeIdFkeyInput>;
+  commonPackTypeToCommonPackTypeId?: Maybe<ShipperProgramCommonPackTypeIdFkeyInput>;
+  shipperToShipperId?: Maybe<ShipperProgramShipperIdFkeyInput>;
+  shipperProgramEntriesUsingId?: Maybe<ShipperProgramEntryShipperProgramIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `shipperProgramEntryCustomerProgramEntry` in the `ShipperProgramEntryInput` mutation. */
+export type ShipperProgramEntryCustomerPrShipperProgramEntryIdFkeyInverseInput = {
+  /** Flag indicating whether all other `shipperProgramEntryCustomerProgramEntry` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `shipperProgramEntryCustomerProgramEntry` for the far side of the relationship. */
+  connectById?: Maybe<Array<ShipperProgramEntryCustomerProgramEntryShipperProgramEntryCustomerProgramEntryPkeyConnect>>;
+  /** The primary key(s) for `shipperProgramEntryCustomerProgramEntry` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<ShipperProgramEntryCustomerProgramEntryNodeIdConnect>>;
+  /** The primary key(s) for `shipperProgramEntryCustomerProgramEntry` for the far side of the relationship. */
+  deleteById?: Maybe<Array<ShipperProgramEntryCustomerProgramEntryShipperProgramEntryCustomerProgramEntryPkeyDelete>>;
+  /** The primary key(s) for `shipperProgramEntryCustomerProgramEntry` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<ShipperProgramEntryCustomerProgramEntryNodeIdDelete>>;
+  /** The primary key(s) and patch data for `shipperProgramEntryCustomerProgramEntry` for the far side of the relationship. */
+  updateById?: Maybe<Array<ShipperProgramEntryCustomerProgramEntryOnShipperProgramEntryCustomerProgramEntryForShipperProgramEntryCustomerPrShipperProgramEntryIdFkeyUsingShipperProgramEntryCustomerProgramEntryPkeyUpdate>>;
+  /** The primary key(s) and patch data for `shipperProgramEntryCustomerProgramEntry` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<ShipperProgramEntryOnShipperProgramEntryCustomerProgramEntryForShipperProgramEntryCustomerPrShipperProgramEntryIdFkeyNodeIdUpdate>>;
+  /** A `ShipperProgramEntryCustomerProgramEntryInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<ShipperProgramEntryCustomerPrShipperProgramEntryIdFkeyShipperProgramEntryCustomerProgramEntryCreateInput>>;
+};
+
+/** The fields on `shipperProgramEntryCustomerProgramEntry` to look up the row to connect. */
+export type ShipperProgramEntryCustomerProgramEntryShipperProgramEntryCustomerProgramEntryPkeyConnect = {
+  id: Scalars['BigInt'];
+};
+
+/** The globally unique `ID` look up for the row to connect. */
+export type ShipperProgramEntryCustomerProgramEntryNodeIdConnect = {
+  /** The globally unique `ID` which identifies a single `shipperProgramEntryCustomerProgramEntry` to be connected. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `shipperProgramEntryCustomerProgramEntry` to look up the row to delete. */
+export type ShipperProgramEntryCustomerProgramEntryShipperProgramEntryCustomerProgramEntryPkeyDelete = {
+  id: Scalars['BigInt'];
+};
+
+/** The globally unique `ID` look up for the row to delete. */
+export type ShipperProgramEntryCustomerProgramEntryNodeIdDelete = {
+  /** The globally unique `ID` which identifies a single `shipperProgramEntryCustomerProgramEntry` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `shipperProgramEntryCustomerProgramEntry` to look up the row to update. */
+export type ShipperProgramEntryCustomerProgramEntryOnShipperProgramEntryCustomerProgramEntryForShipperProgramEntryCustomerPrShipperProgramEntryIdFkeyUsingShipperProgramEntryCustomerProgramEntryPkeyUpdate = {
+  /** An object where the defined keys will be set on the `shipperProgramEntryCustomerProgramEntry` being updated. */
+  patch: UpdateShipperProgramEntryCustomerProgramEntryOnShipperProgramEntryCustomerProgramEntryForShipperProgramEntryCustomerPrShipperProgramEntryIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `shipperProgramEntryCustomerProgramEntry` being updated. */
+export type UpdateShipperProgramEntryCustomerProgramEntryOnShipperProgramEntryCustomerProgramEntryForShipperProgramEntryCustomerPrShipperProgramEntryIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  palletCount?: Maybe<Scalars['BigFloat']>;
+  customerProgramEntryId?: Maybe<Scalars['BigInt']>;
+  customerProgramEntryToCustomerProgramEntryId?: Maybe<ShipperProgramEntryCustomerPCustomerProgramEntryIdFkeyInput>;
+  shipperProgramEntryToShipperProgramEntryId?: Maybe<ShipperProgramEntryCustomerPrShipperProgramEntryIdFkeyInput>;
+};
+
+/** Input for the nested mutation of `customerProgramEntry` in the `ShipperProgramEntryCustomerProgramEntryInput` mutation. */
+export type ShipperProgramEntryCustomerPCustomerProgramEntryIdFkeyInput = {
+  /** The primary key(s) for `customerProgramEntry` for the far side of the relationship. */
+  connectById?: Maybe<CustomerProgramEntryCustomerProgramEntryPkeyConnect>;
+  /** The primary key(s) for `customerProgramEntry` for the far side of the relationship. */
+  connectByNodeId?: Maybe<CustomerProgramEntryNodeIdConnect>;
+  /** The primary key(s) for `customerProgramEntry` for the far side of the relationship. */
+  deleteById?: Maybe<CustomerProgramEntryCustomerProgramEntryPkeyDelete>;
+  /** The primary key(s) for `customerProgramEntry` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<CustomerProgramEntryNodeIdDelete>;
+  /** The primary key(s) and patch data for `customerProgramEntry` for the far side of the relationship. */
+  updateById?: Maybe<CustomerProgramEntryOnShipperProgramEntryCustomerProgramEntryForShipperProgramEntryCustomerPCustomerProgramEntryIdFkeyUsingCustomerProgramEntryPkeyUpdate>;
+  /** The primary key(s) and patch data for `customerProgramEntry` for the far side of the relationship. */
+  updateByNodeId?: Maybe<ShipperProgramEntryCustomerProgramEntryOnShipperProgramEntryCustomerProgramEntryForShipperProgramEntryCustomerPCustomerProgramEntryIdFkeyNodeIdUpdate>;
+  /** A `CustomerProgramEntryInput` object that will be created and connected to this object. */
+  create?: Maybe<ShipperProgramEntryCustomerPCustomerProgramEntryIdFkeyCustomerProgramEntryCreateInput>;
+};
+
+/** The fields on `customerProgramEntry` to look up the row to connect. */
+export type CustomerProgramEntryCustomerProgramEntryPkeyConnect = {
+  id: Scalars['BigInt'];
+};
+
+/** The globally unique `ID` look up for the row to connect. */
+export type CustomerProgramEntryNodeIdConnect = {
+  /** The globally unique `ID` which identifies a single `customerProgramEntry` to be connected. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `customerProgramEntry` to look up the row to delete. */
+export type CustomerProgramEntryCustomerProgramEntryPkeyDelete = {
+  id: Scalars['BigInt'];
+};
+
+/** The globally unique `ID` look up for the row to delete. */
+export type CustomerProgramEntryNodeIdDelete = {
+  /** The globally unique `ID` which identifies a single `customerProgramEntry` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `customerProgramEntry` to look up the row to update. */
+export type CustomerProgramEntryOnShipperProgramEntryCustomerProgramEntryForShipperProgramEntryCustomerPCustomerProgramEntryIdFkeyUsingCustomerProgramEntryPkeyUpdate = {
+  /** An object where the defined keys will be set on the `customerProgramEntry` being updated. */
+  patch: UpdateCustomerProgramEntryOnShipperProgramEntryCustomerProgramEntryForShipperProgramEntryCustomerPCustomerProgramEntryIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `customerProgramEntry` being updated. */
+export type UpdateCustomerProgramEntryOnShipperProgramEntryCustomerProgramEntryForShipperProgramEntryCustomerPCustomerProgramEntryIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  notes?: Maybe<Scalars['String']>;
+  programDate?: Maybe<Scalars['Date']>;
+  palletCount?: Maybe<Scalars['BigFloat']>;
+  customerProgramId?: Maybe<Scalars['BigInt']>;
+  customerProgramToCustomerProgramId?: Maybe<CustomerProgramEntryCustomerProgramIdFkeyInput>;
+  shipperProgramEntryCustomerProgramEntriesUsingId?: Maybe<ShipperProgramEntryCustomerPCustomerProgramEntryIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `customerProgram` in the `CustomerProgramEntryInput` mutation. */
+export type CustomerProgramEntryCustomerProgramIdFkeyInput = {
+  /** The primary key(s) for `customerProgram` for the far side of the relationship. */
+  connectById?: Maybe<CustomerProgramCustomerProgramPkeyConnect>;
+  /** The primary key(s) for `customerProgram` for the far side of the relationship. */
+  connectByNodeId?: Maybe<CustomerProgramNodeIdConnect>;
+  /** The primary key(s) for `customerProgram` for the far side of the relationship. */
+  deleteById?: Maybe<CustomerProgramCustomerProgramPkeyDelete>;
+  /** The primary key(s) for `customerProgram` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<CustomerProgramNodeIdDelete>;
+  /** The primary key(s) and patch data for `customerProgram` for the far side of the relationship. */
+  updateById?: Maybe<CustomerProgramOnCustomerProgramEntryForCustomerProgramEntryCustomerProgramIdFkeyUsingCustomerProgramPkeyUpdate>;
+  /** The primary key(s) and patch data for `customerProgram` for the far side of the relationship. */
+  updateByNodeId?: Maybe<CustomerProgramEntryOnCustomerProgramEntryForCustomerProgramEntryCustomerProgramIdFkeyNodeIdUpdate>;
+  /** A `CustomerProgramInput` object that will be created and connected to this object. */
+  create?: Maybe<CustomerProgramEntryCustomerProgramIdFkeyCustomerProgramCreateInput>;
+};
+
+/** The fields on `customerProgram` to look up the row to connect. */
+export type CustomerProgramCustomerProgramPkeyConnect = {
+  id: Scalars['BigInt'];
+};
+
+/** The globally unique `ID` look up for the row to connect. */
+export type CustomerProgramNodeIdConnect = {
+  /** The globally unique `ID` which identifies a single `customerProgram` to be connected. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `customerProgram` to look up the row to delete. */
+export type CustomerProgramCustomerProgramPkeyDelete = {
+  id: Scalars['BigInt'];
+};
+
+/** The globally unique `ID` look up for the row to delete. */
+export type CustomerProgramNodeIdDelete = {
+  /** The globally unique `ID` which identifies a single `customerProgram` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `customerProgram` to look up the row to update. */
+export type CustomerProgramOnCustomerProgramEntryForCustomerProgramEntryCustomerProgramIdFkeyUsingCustomerProgramPkeyUpdate = {
+  /** An object where the defined keys will be set on the `customerProgram` being updated. */
+  patch: UpdateCustomerProgramOnCustomerProgramEntryForCustomerProgramEntryCustomerProgramIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `customerProgram` being updated. */
+export type UpdateCustomerProgramOnCustomerProgramEntryForCustomerProgramEntryCustomerProgramIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  commonSpeciesId?: Maybe<Scalars['BigInt']>;
+  commonVarietyId?: Maybe<Scalars['BigInt']>;
+  commonSizeId?: Maybe<Scalars['BigInt']>;
+  commonPackTypeId?: Maybe<Scalars['BigInt']>;
+  customerId?: Maybe<Scalars['String']>;
+  arrivalPort?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  commonSpeciesToCommonSpeciesId?: Maybe<CustomerProgramCommonSpeciesIdFkeyInput>;
+  commonVarietyToCommonVarietyId?: Maybe<CustomerProgramCommonVarietyIdFkeyInput>;
+  commonSizeToCommonSizeId?: Maybe<CustomerProgramCommonSizeIdFkeyInput>;
+  commonPackTypeToCommonPackTypeId?: Maybe<CustomerProgramCommonPackTypeIdFkeyInput>;
+  customerToCustomerId?: Maybe<CustomerProgramCustomerIdFkeyInput>;
+  customerProgramEntriesUsingId?: Maybe<CustomerProgramEntryCustomerProgramIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `commonSpecies` in the `CustomerProgramInput` mutation. */
+export type CustomerProgramCommonSpeciesIdFkeyInput = {
+  /** The primary key(s) for `commonSpecies` for the far side of the relationship. */
+  connectById?: Maybe<CommonSpeciesCommonSpeciesPkeyConnect>;
+  /** The primary key(s) for `commonSpecies` for the far side of the relationship. */
+  connectByNodeId?: Maybe<CommonSpecyNodeIdConnect>;
+  /** The primary key(s) for `commonSpecies` for the far side of the relationship. */
+  deleteById?: Maybe<CommonSpeciesCommonSpeciesPkeyDelete>;
+  /** The primary key(s) for `commonSpecies` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<CommonSpecyNodeIdDelete>;
+  /** The primary key(s) and patch data for `commonSpecies` for the far side of the relationship. */
+  updateById?: Maybe<CommonSpeciesOnCustomerProgramForCustomerProgramCommonSpeciesIdFkeyUsingCommonSpeciesPkeyUpdate>;
+  /** The primary key(s) and patch data for `commonSpecies` for the far side of the relationship. */
+  updateByNodeId?: Maybe<CustomerProgramOnCustomerProgramForCustomerProgramCommonSpeciesIdFkeyNodeIdUpdate>;
+  /** A `CommonSpeciesInput` object that will be created and connected to this object. */
+  create?: Maybe<CustomerProgramCommonSpeciesIdFkeyCommonSpeciesCreateInput>;
+};
+
+/** The fields on `commonSpecies` to look up the row to update. */
+export type CommonSpeciesOnCustomerProgramForCustomerProgramCommonSpeciesIdFkeyUsingCommonSpeciesPkeyUpdate = {
+  /** An object where the defined keys will be set on the `commonSpecies` being updated. */
+  patch: UpdateCommonSpeciesOnCustomerProgramForCustomerProgramCommonSpeciesIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `commonSpecies` being updated. */
+export type UpdateCommonSpeciesOnCustomerProgramForCustomerProgramCommonSpeciesIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  speciesName?: Maybe<Scalars['String']>;
+  speciesDescription?: Maybe<Scalars['String']>;
+  uiColor?: Maybe<Scalars['String']>;
+  commonCategoryId?: Maybe<Scalars['BigInt']>;
+  productSpeciesId?: Maybe<Scalars['String']>;
+  commonCategoryToCommonCategoryId?: Maybe<CommonSpeciesCommonCategoryIdFkeyInput>;
+  productSpeciesToProductSpeciesId?: Maybe<CommonSpeciesProductSpeciesIdFkeyInput>;
+  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSpeciesIdFkeyInverseInput>;
+  commonVarietiesUsingId?: Maybe<CommonVarietyCommonSpeciesIdFkeyInverseInput>;
+  commonSizesUsingId?: Maybe<CommonSizeCommonSpeciesIdFkeyInverseInput>;
+  commonPackTypesUsingId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInverseInput>;
+  commonSpeciesTagsUsingId?: Maybe<CommonSpeciesTagCommonSpeciesIdFkeyInverseInput>;
+  commonSpeciesProductSpeciesUsingId?: Maybe<CommonSpeciesProductSpeciesCommonSpeciesIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonSpeciesIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonSpeciesIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `customerProgram` in the `CommonSpeciesInput` mutation. */
+export type CustomerProgramCommonSpeciesIdFkeyInverseInput = {
+  /** Flag indicating whether all other `customerProgram` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `customerProgram` for the far side of the relationship. */
+  connectById?: Maybe<Array<CustomerProgramCustomerProgramPkeyConnect>>;
+  /** The primary key(s) for `customerProgram` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<CustomerProgramNodeIdConnect>>;
+  /** The primary key(s) for `customerProgram` for the far side of the relationship. */
+  deleteById?: Maybe<Array<CustomerProgramCustomerProgramPkeyDelete>>;
+  /** The primary key(s) for `customerProgram` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<CustomerProgramNodeIdDelete>>;
+  /** The primary key(s) and patch data for `customerProgram` for the far side of the relationship. */
+  updateById?: Maybe<Array<CustomerProgramOnCustomerProgramForCustomerProgramCommonSpeciesIdFkeyUsingCustomerProgramPkeyUpdate>>;
+  /** The primary key(s) and patch data for `customerProgram` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<CommonSpeciesOnCustomerProgramForCustomerProgramCommonSpeciesIdFkeyNodeIdUpdate>>;
+  /** A `CustomerProgramInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<CustomerProgramCommonSpeciesIdFkeyCustomerProgramCreateInput>>;
+};
+
+/** The fields on `customerProgram` to look up the row to update. */
+export type CustomerProgramOnCustomerProgramForCustomerProgramCommonSpeciesIdFkeyUsingCustomerProgramPkeyUpdate = {
+  /** An object where the defined keys will be set on the `customerProgram` being updated. */
+  patch: UpdateCustomerProgramOnCustomerProgramForCustomerProgramCommonSpeciesIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `customerProgram` being updated. */
+export type UpdateCustomerProgramOnCustomerProgramForCustomerProgramCommonSpeciesIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  commonVarietyId?: Maybe<Scalars['BigInt']>;
+  commonSizeId?: Maybe<Scalars['BigInt']>;
+  commonPackTypeId?: Maybe<Scalars['BigInt']>;
+  customerId?: Maybe<Scalars['String']>;
+  arrivalPort?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  commonSpeciesToCommonSpeciesId?: Maybe<CustomerProgramCommonSpeciesIdFkeyInput>;
+  commonVarietyToCommonVarietyId?: Maybe<CustomerProgramCommonVarietyIdFkeyInput>;
+  commonSizeToCommonSizeId?: Maybe<CustomerProgramCommonSizeIdFkeyInput>;
+  commonPackTypeToCommonPackTypeId?: Maybe<CustomerProgramCommonPackTypeIdFkeyInput>;
+  customerToCustomerId?: Maybe<CustomerProgramCustomerIdFkeyInput>;
+  customerProgramEntriesUsingId?: Maybe<CustomerProgramEntryCustomerProgramIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `commonVariety` in the `CustomerProgramInput` mutation. */
+export type CustomerProgramCommonVarietyIdFkeyInput = {
+  /** The primary key(s) for `commonVariety` for the far side of the relationship. */
+  connectById?: Maybe<CommonVarietyCommonVarietyPkeyConnect>;
+  /** The primary key(s) for `commonVariety` for the far side of the relationship. */
+  connectByNodeId?: Maybe<CommonVarietyNodeIdConnect>;
+  /** The primary key(s) for `commonVariety` for the far side of the relationship. */
+  deleteById?: Maybe<CommonVarietyCommonVarietyPkeyDelete>;
+  /** The primary key(s) for `commonVariety` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<CommonVarietyNodeIdDelete>;
+  /** The primary key(s) and patch data for `commonVariety` for the far side of the relationship. */
+  updateById?: Maybe<CommonVarietyOnCustomerProgramForCustomerProgramCommonVarietyIdFkeyUsingCommonVarietyPkeyUpdate>;
+  /** The primary key(s) and patch data for `commonVariety` for the far side of the relationship. */
+  updateByNodeId?: Maybe<CustomerProgramOnCustomerProgramForCustomerProgramCommonVarietyIdFkeyNodeIdUpdate>;
+  /** A `CommonVarietyInput` object that will be created and connected to this object. */
+  create?: Maybe<CustomerProgramCommonVarietyIdFkeyCommonVarietyCreateInput>;
+};
+
+/** The fields on `commonVariety` to look up the row to update. */
+export type CommonVarietyOnCustomerProgramForCustomerProgramCommonVarietyIdFkeyUsingCommonVarietyPkeyUpdate = {
+  /** An object where the defined keys will be set on the `commonVariety` being updated. */
+  patch: UpdateCommonVarietyOnCustomerProgramForCustomerProgramCommonVarietyIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `commonVariety` being updated. */
+export type UpdateCommonVarietyOnCustomerProgramForCustomerProgramCommonVarietyIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  varietyName?: Maybe<Scalars['String']>;
+  varietyDescription?: Maybe<Scalars['String']>;
+  uiColor?: Maybe<Scalars['String']>;
+  commonSpeciesId?: Maybe<Scalars['BigInt']>;
+  productVarietyId?: Maybe<Scalars['String']>;
+  commonSpeciesToCommonSpeciesId?: Maybe<CommonVarietyCommonSpeciesIdFkeyInput>;
+  productVarietyToProductVarietyId?: Maybe<CommonVarietyProductVarietyIdFkeyInput>;
+  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonVarietyIdFkeyInverseInput>;
+  commonVarietyTagsUsingId?: Maybe<CommonVarietyTagCommonVarietyIdFkeyInverseInput>;
+  commonVarietyProductVarietiesUsingId?: Maybe<CommonVarietyProductVarietyCommonVarietyIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonVarietyIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonVarietyIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `customerProgram` in the `CommonVarietyInput` mutation. */
+export type CustomerProgramCommonVarietyIdFkeyInverseInput = {
+  /** Flag indicating whether all other `customerProgram` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `customerProgram` for the far side of the relationship. */
+  connectById?: Maybe<Array<CustomerProgramCustomerProgramPkeyConnect>>;
+  /** The primary key(s) for `customerProgram` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<CustomerProgramNodeIdConnect>>;
+  /** The primary key(s) for `customerProgram` for the far side of the relationship. */
+  deleteById?: Maybe<Array<CustomerProgramCustomerProgramPkeyDelete>>;
+  /** The primary key(s) for `customerProgram` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<CustomerProgramNodeIdDelete>>;
+  /** The primary key(s) and patch data for `customerProgram` for the far side of the relationship. */
+  updateById?: Maybe<Array<CustomerProgramOnCustomerProgramForCustomerProgramCommonVarietyIdFkeyUsingCustomerProgramPkeyUpdate>>;
+  /** The primary key(s) and patch data for `customerProgram` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<CommonVarietyOnCustomerProgramForCustomerProgramCommonVarietyIdFkeyNodeIdUpdate>>;
+  /** A `CustomerProgramInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<CustomerProgramCommonVarietyIdFkeyCustomerProgramCreateInput>>;
+};
+
+/** The fields on `customerProgram` to look up the row to update. */
+export type CustomerProgramOnCustomerProgramForCustomerProgramCommonVarietyIdFkeyUsingCustomerProgramPkeyUpdate = {
+  /** An object where the defined keys will be set on the `customerProgram` being updated. */
+  patch: UpdateCustomerProgramOnCustomerProgramForCustomerProgramCommonVarietyIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `customerProgram` being updated. */
+export type UpdateCustomerProgramOnCustomerProgramForCustomerProgramCommonVarietyIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  commonSpeciesId?: Maybe<Scalars['BigInt']>;
+  commonSizeId?: Maybe<Scalars['BigInt']>;
+  commonPackTypeId?: Maybe<Scalars['BigInt']>;
+  customerId?: Maybe<Scalars['String']>;
+  arrivalPort?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  commonSpeciesToCommonSpeciesId?: Maybe<CustomerProgramCommonSpeciesIdFkeyInput>;
+  commonVarietyToCommonVarietyId?: Maybe<CustomerProgramCommonVarietyIdFkeyInput>;
+  commonSizeToCommonSizeId?: Maybe<CustomerProgramCommonSizeIdFkeyInput>;
+  commonPackTypeToCommonPackTypeId?: Maybe<CustomerProgramCommonPackTypeIdFkeyInput>;
+  customerToCustomerId?: Maybe<CustomerProgramCustomerIdFkeyInput>;
+  customerProgramEntriesUsingId?: Maybe<CustomerProgramEntryCustomerProgramIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `commonSize` in the `CustomerProgramInput` mutation. */
+export type CustomerProgramCommonSizeIdFkeyInput = {
+  /** The primary key(s) for `commonSize` for the far side of the relationship. */
+  connectById?: Maybe<CommonSizeCommonSizePkeyConnect>;
+  /** The primary key(s) for `commonSize` for the far side of the relationship. */
+  connectByNodeId?: Maybe<CommonSizeNodeIdConnect>;
+  /** The primary key(s) for `commonSize` for the far side of the relationship. */
+  deleteById?: Maybe<CommonSizeCommonSizePkeyDelete>;
+  /** The primary key(s) for `commonSize` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<CommonSizeNodeIdDelete>;
+  /** The primary key(s) and patch data for `commonSize` for the far side of the relationship. */
+  updateById?: Maybe<CommonSizeOnCustomerProgramForCustomerProgramCommonSizeIdFkeyUsingCommonSizePkeyUpdate>;
+  /** The primary key(s) and patch data for `commonSize` for the far side of the relationship. */
+  updateByNodeId?: Maybe<CustomerProgramOnCustomerProgramForCustomerProgramCommonSizeIdFkeyNodeIdUpdate>;
+  /** A `CommonSizeInput` object that will be created and connected to this object. */
+  create?: Maybe<CustomerProgramCommonSizeIdFkeyCommonSizeCreateInput>;
+};
+
+/** The fields on `commonSize` to look up the row to update. */
+export type CommonSizeOnCustomerProgramForCustomerProgramCommonSizeIdFkeyUsingCommonSizePkeyUpdate = {
+  /** An object where the defined keys will be set on the `commonSize` being updated. */
+  patch: UpdateCommonSizeOnCustomerProgramForCustomerProgramCommonSizeIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `commonSize` being updated. */
+export type UpdateCommonSizeOnCustomerProgramForCustomerProgramCommonSizeIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  sizeName?: Maybe<Scalars['String']>;
+  sizeDescription?: Maybe<Scalars['String']>;
+  commonSpeciesId?: Maybe<Scalars['BigInt']>;
+  productSizeId?: Maybe<Scalars['BigInt']>;
+  commonSpeciesToCommonSpeciesId?: Maybe<CommonSizeCommonSpeciesIdFkeyInput>;
+  productSizeToProductSizeId?: Maybe<CommonSizeProductSizeIdFkeyInput>;
+  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSizeIdFkeyInverseInput>;
+  commonSizeTagsUsingId?: Maybe<CommonSizeTagCommonSizeIdFkeyInverseInput>;
+  commonSizeProductSizesUsingId?: Maybe<CommonSizeProductSizeCommonSizeIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonSizeIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonSizeIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `customerProgram` in the `CommonSizeInput` mutation. */
+export type CustomerProgramCommonSizeIdFkeyInverseInput = {
+  /** Flag indicating whether all other `customerProgram` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `customerProgram` for the far side of the relationship. */
+  connectById?: Maybe<Array<CustomerProgramCustomerProgramPkeyConnect>>;
+  /** The primary key(s) for `customerProgram` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<CustomerProgramNodeIdConnect>>;
+  /** The primary key(s) for `customerProgram` for the far side of the relationship. */
+  deleteById?: Maybe<Array<CustomerProgramCustomerProgramPkeyDelete>>;
+  /** The primary key(s) for `customerProgram` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<CustomerProgramNodeIdDelete>>;
+  /** The primary key(s) and patch data for `customerProgram` for the far side of the relationship. */
+  updateById?: Maybe<Array<CustomerProgramOnCustomerProgramForCustomerProgramCommonSizeIdFkeyUsingCustomerProgramPkeyUpdate>>;
+  /** The primary key(s) and patch data for `customerProgram` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<CommonSizeOnCustomerProgramForCustomerProgramCommonSizeIdFkeyNodeIdUpdate>>;
+  /** A `CustomerProgramInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<CustomerProgramCommonSizeIdFkeyCustomerProgramCreateInput>>;
+};
+
+/** The fields on `customerProgram` to look up the row to update. */
+export type CustomerProgramOnCustomerProgramForCustomerProgramCommonSizeIdFkeyUsingCustomerProgramPkeyUpdate = {
+  /** An object where the defined keys will be set on the `customerProgram` being updated. */
+  patch: UpdateCustomerProgramOnCustomerProgramForCustomerProgramCommonSizeIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `customerProgram` being updated. */
+export type UpdateCustomerProgramOnCustomerProgramForCustomerProgramCommonSizeIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  commonSpeciesId?: Maybe<Scalars['BigInt']>;
+  commonVarietyId?: Maybe<Scalars['BigInt']>;
+  commonPackTypeId?: Maybe<Scalars['BigInt']>;
+  customerId?: Maybe<Scalars['String']>;
+  arrivalPort?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  commonSpeciesToCommonSpeciesId?: Maybe<CustomerProgramCommonSpeciesIdFkeyInput>;
+  commonVarietyToCommonVarietyId?: Maybe<CustomerProgramCommonVarietyIdFkeyInput>;
+  commonSizeToCommonSizeId?: Maybe<CustomerProgramCommonSizeIdFkeyInput>;
+  commonPackTypeToCommonPackTypeId?: Maybe<CustomerProgramCommonPackTypeIdFkeyInput>;
+  customerToCustomerId?: Maybe<CustomerProgramCustomerIdFkeyInput>;
+  customerProgramEntriesUsingId?: Maybe<CustomerProgramEntryCustomerProgramIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `commonPackType` in the `CustomerProgramInput` mutation. */
+export type CustomerProgramCommonPackTypeIdFkeyInput = {
+  /** The primary key(s) for `commonPackType` for the far side of the relationship. */
+  connectById?: Maybe<CommonPackTypeCommonPackTypePkeyConnect>;
+  /** The primary key(s) for `commonPackType` for the far side of the relationship. */
+  connectByNodeId?: Maybe<CommonPackTypeNodeIdConnect>;
+  /** The primary key(s) for `commonPackType` for the far side of the relationship. */
+  deleteById?: Maybe<CommonPackTypeCommonPackTypePkeyDelete>;
+  /** The primary key(s) for `commonPackType` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<CommonPackTypeNodeIdDelete>;
+  /** The primary key(s) and patch data for `commonPackType` for the far side of the relationship. */
+  updateById?: Maybe<CommonPackTypeOnCustomerProgramForCustomerProgramCommonPackTypeIdFkeyUsingCommonPackTypePkeyUpdate>;
+  /** The primary key(s) and patch data for `commonPackType` for the far side of the relationship. */
+  updateByNodeId?: Maybe<CustomerProgramOnCustomerProgramForCustomerProgramCommonPackTypeIdFkeyNodeIdUpdate>;
+  /** A `CommonPackTypeInput` object that will be created and connected to this object. */
+  create?: Maybe<CustomerProgramCommonPackTypeIdFkeyCommonPackTypeCreateInput>;
+};
+
+/** The fields on `commonPackType` to look up the row to update. */
+export type CommonPackTypeOnCustomerProgramForCustomerProgramCommonPackTypeIdFkeyUsingCommonPackTypePkeyUpdate = {
+  /** An object where the defined keys will be set on the `commonPackType` being updated. */
+  patch: UpdateCommonPackTypeOnCustomerProgramForCustomerProgramCommonPackTypeIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `commonPackType` being updated. */
+export type UpdateCommonPackTypeOnCustomerProgramForCustomerProgramCommonPackTypeIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  packTypeName?: Maybe<Scalars['String']>;
+  packTypeDescription?: Maybe<Scalars['String']>;
+  commonSpeciesId?: Maybe<Scalars['BigInt']>;
+  packMasterId?: Maybe<Scalars['BigInt']>;
+  commonSpeciesToCommonSpeciesId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInput>;
+  packMasterToPackMasterId?: Maybe<CommonPackTypePackMasterIdFkeyInput>;
+  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyInverseInput>;
+  commonPackTypeTagsUsingId?: Maybe<CommonPackTypeTagCommonPackTypeIdFkeyInverseInput>;
+  commonPackTypePackMastersUsingId?: Maybe<CommonPackTypePackMasterCommonPackTypeIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonPackTypeIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonPackTypeIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `customerProgram` in the `CommonPackTypeInput` mutation. */
+export type CustomerProgramCommonPackTypeIdFkeyInverseInput = {
+  /** Flag indicating whether all other `customerProgram` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `customerProgram` for the far side of the relationship. */
+  connectById?: Maybe<Array<CustomerProgramCustomerProgramPkeyConnect>>;
+  /** The primary key(s) for `customerProgram` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<CustomerProgramNodeIdConnect>>;
+  /** The primary key(s) for `customerProgram` for the far side of the relationship. */
+  deleteById?: Maybe<Array<CustomerProgramCustomerProgramPkeyDelete>>;
+  /** The primary key(s) for `customerProgram` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<CustomerProgramNodeIdDelete>>;
+  /** The primary key(s) and patch data for `customerProgram` for the far side of the relationship. */
+  updateById?: Maybe<Array<CustomerProgramOnCustomerProgramForCustomerProgramCommonPackTypeIdFkeyUsingCustomerProgramPkeyUpdate>>;
+  /** The primary key(s) and patch data for `customerProgram` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<CommonPackTypeOnCustomerProgramForCustomerProgramCommonPackTypeIdFkeyNodeIdUpdate>>;
+  /** A `CustomerProgramInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<CustomerProgramCommonPackTypeIdFkeyCustomerProgramCreateInput>>;
+};
+
+/** The fields on `customerProgram` to look up the row to update. */
+export type CustomerProgramOnCustomerProgramForCustomerProgramCommonPackTypeIdFkeyUsingCustomerProgramPkeyUpdate = {
+  /** An object where the defined keys will be set on the `customerProgram` being updated. */
+  patch: UpdateCustomerProgramOnCustomerProgramForCustomerProgramCommonPackTypeIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `customerProgram` being updated. */
+export type UpdateCustomerProgramOnCustomerProgramForCustomerProgramCommonPackTypeIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  commonSpeciesId?: Maybe<Scalars['BigInt']>;
+  commonVarietyId?: Maybe<Scalars['BigInt']>;
+  commonSizeId?: Maybe<Scalars['BigInt']>;
+  customerId?: Maybe<Scalars['String']>;
+  arrivalPort?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  commonSpeciesToCommonSpeciesId?: Maybe<CustomerProgramCommonSpeciesIdFkeyInput>;
+  commonVarietyToCommonVarietyId?: Maybe<CustomerProgramCommonVarietyIdFkeyInput>;
+  commonSizeToCommonSizeId?: Maybe<CustomerProgramCommonSizeIdFkeyInput>;
+  commonPackTypeToCommonPackTypeId?: Maybe<CustomerProgramCommonPackTypeIdFkeyInput>;
+  customerToCustomerId?: Maybe<CustomerProgramCustomerIdFkeyInput>;
+  customerProgramEntriesUsingId?: Maybe<CustomerProgramEntryCustomerProgramIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `customer` in the `CustomerProgramInput` mutation. */
+export type CustomerProgramCustomerIdFkeyInput = {
+  /** The primary key(s) for `customer` for the far side of the relationship. */
+  connectById?: Maybe<CustomerCustomerPkeyConnect>;
+  /** The primary key(s) for `customer` for the far side of the relationship. */
+  connectByNodeId?: Maybe<CustomerNodeIdConnect>;
+  /** The primary key(s) for `customer` for the far side of the relationship. */
+  deleteById?: Maybe<CustomerCustomerPkeyDelete>;
+  /** The primary key(s) for `customer` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<CustomerNodeIdDelete>;
+  /** The primary key(s) and patch data for `customer` for the far side of the relationship. */
+  updateById?: Maybe<CustomerOnCustomerProgramForCustomerProgramCustomerIdFkeyUsingCustomerPkeyUpdate>;
+  /** The primary key(s) and patch data for `customer` for the far side of the relationship. */
+  updateByNodeId?: Maybe<CustomerProgramOnCustomerProgramForCustomerProgramCustomerIdFkeyNodeIdUpdate>;
+  /** A `CustomerInput` object that will be created and connected to this object. */
+  create?: Maybe<CustomerProgramCustomerIdFkeyCustomerCreateInput>;
+};
+
+/** The fields on `customer` to look up the row to update. */
+export type CustomerOnCustomerProgramForCustomerProgramCustomerIdFkeyUsingCustomerPkeyUpdate = {
+  /** An object where the defined keys will be set on the `customer` being updated. */
+  patch: UpdateCustomerOnCustomerProgramForCustomerProgramCustomerIdFkeyPatch;
+  id: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `customer` being updated. */
+export type UpdateCustomerOnCustomerProgramForCustomerProgramCustomerIdFkeyPatch = {
+  id?: Maybe<Scalars['String']>;
+  customerName?: Maybe<Scalars['String']>;
+  address1?: Maybe<Scalars['String']>;
+  address2?: Maybe<Scalars['String']>;
+  city?: Maybe<Scalars['String']>;
+  postalState?: Maybe<Scalars['String']>;
+  zipCode?: Maybe<Scalars['String']>;
+  countryId?: Maybe<Scalars['String']>;
+  phone?: Maybe<Scalars['String']>;
+  logoSrc?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
+  active?: Maybe<Scalars['Boolean']>;
+  countryToCountryId?: Maybe<CustomerCountryIdFkeyInput>;
+  customerPersonContactsUsingId?: Maybe<CustomerPersonContactCustomerIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCustomerIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `customerProgram` in the `CustomerInput` mutation. */
+export type CustomerProgramCustomerIdFkeyInverseInput = {
+  /** Flag indicating whether all other `customerProgram` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `customerProgram` for the far side of the relationship. */
+  connectById?: Maybe<Array<CustomerProgramCustomerProgramPkeyConnect>>;
+  /** The primary key(s) for `customerProgram` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<CustomerProgramNodeIdConnect>>;
+  /** The primary key(s) for `customerProgram` for the far side of the relationship. */
+  deleteById?: Maybe<Array<CustomerProgramCustomerProgramPkeyDelete>>;
+  /** The primary key(s) for `customerProgram` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<CustomerProgramNodeIdDelete>>;
+  /** The primary key(s) and patch data for `customerProgram` for the far side of the relationship. */
+  updateById?: Maybe<Array<CustomerProgramOnCustomerProgramForCustomerProgramCustomerIdFkeyUsingCustomerProgramPkeyUpdate>>;
+  /** The primary key(s) and patch data for `customerProgram` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<CustomerOnCustomerProgramForCustomerProgramCustomerIdFkeyNodeIdUpdate>>;
+  /** A `CustomerProgramInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<CustomerProgramCustomerIdFkeyCustomerProgramCreateInput>>;
+};
+
+/** The fields on `customerProgram` to look up the row to update. */
+export type CustomerProgramOnCustomerProgramForCustomerProgramCustomerIdFkeyUsingCustomerProgramPkeyUpdate = {
+  /** An object where the defined keys will be set on the `customerProgram` being updated. */
+  patch: UpdateCustomerProgramOnCustomerProgramForCustomerProgramCustomerIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `customerProgram` being updated. */
+export type UpdateCustomerProgramOnCustomerProgramForCustomerProgramCustomerIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  commonSpeciesId?: Maybe<Scalars['BigInt']>;
+  commonVarietyId?: Maybe<Scalars['BigInt']>;
+  commonSizeId?: Maybe<Scalars['BigInt']>;
+  commonPackTypeId?: Maybe<Scalars['BigInt']>;
+  arrivalPort?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  commonSpeciesToCommonSpeciesId?: Maybe<CustomerProgramCommonSpeciesIdFkeyInput>;
+  commonVarietyToCommonVarietyId?: Maybe<CustomerProgramCommonVarietyIdFkeyInput>;
+  commonSizeToCommonSizeId?: Maybe<CustomerProgramCommonSizeIdFkeyInput>;
+  commonPackTypeToCommonPackTypeId?: Maybe<CustomerProgramCommonPackTypeIdFkeyInput>;
+  customerToCustomerId?: Maybe<CustomerProgramCustomerIdFkeyInput>;
+  customerProgramEntriesUsingId?: Maybe<CustomerProgramEntryCustomerProgramIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `customerProgramEntry` in the `CustomerProgramInput` mutation. */
+export type CustomerProgramEntryCustomerProgramIdFkeyInverseInput = {
+  /** Flag indicating whether all other `customerProgramEntry` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `customerProgramEntry` for the far side of the relationship. */
+  connectById?: Maybe<Array<CustomerProgramEntryCustomerProgramEntryPkeyConnect>>;
+  /** The primary key(s) for `customerProgramEntry` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<CustomerProgramEntryNodeIdConnect>>;
+  /** The primary key(s) for `customerProgramEntry` for the far side of the relationship. */
+  deleteById?: Maybe<Array<CustomerProgramEntryCustomerProgramEntryPkeyDelete>>;
+  /** The primary key(s) for `customerProgramEntry` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<CustomerProgramEntryNodeIdDelete>>;
+  /** The primary key(s) and patch data for `customerProgramEntry` for the far side of the relationship. */
+  updateById?: Maybe<Array<CustomerProgramEntryOnCustomerProgramEntryForCustomerProgramEntryCustomerProgramIdFkeyUsingCustomerProgramEntryPkeyUpdate>>;
+  /** The primary key(s) and patch data for `customerProgramEntry` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<CustomerProgramOnCustomerProgramEntryForCustomerProgramEntryCustomerProgramIdFkeyNodeIdUpdate>>;
+  /** A `CustomerProgramEntryInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<CustomerProgramEntryCustomerProgramIdFkeyCustomerProgramEntryCreateInput>>;
+};
+
+/** The fields on `customerProgramEntry` to look up the row to update. */
+export type CustomerProgramEntryOnCustomerProgramEntryForCustomerProgramEntryCustomerProgramIdFkeyUsingCustomerProgramEntryPkeyUpdate = {
+  /** An object where the defined keys will be set on the `customerProgramEntry` being updated. */
+  patch: UpdateCustomerProgramEntryOnCustomerProgramEntryForCustomerProgramEntryCustomerProgramIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `customerProgramEntry` being updated. */
+export type UpdateCustomerProgramEntryOnCustomerProgramEntryForCustomerProgramEntryCustomerProgramIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  notes?: Maybe<Scalars['String']>;
+  programDate?: Maybe<Scalars['Date']>;
+  palletCount?: Maybe<Scalars['BigFloat']>;
+  customerProgramToCustomerProgramId?: Maybe<CustomerProgramEntryCustomerProgramIdFkeyInput>;
+  shipperProgramEntryCustomerProgramEntriesUsingId?: Maybe<ShipperProgramEntryCustomerPCustomerProgramEntryIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `shipperProgramEntryCustomerProgramEntry` in the `CustomerProgramEntryInput` mutation. */
+export type ShipperProgramEntryCustomerPCustomerProgramEntryIdFkeyInverseInput = {
+  /** Flag indicating whether all other `shipperProgramEntryCustomerProgramEntry` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `shipperProgramEntryCustomerProgramEntry` for the far side of the relationship. */
+  connectById?: Maybe<Array<ShipperProgramEntryCustomerProgramEntryShipperProgramEntryCustomerProgramEntryPkeyConnect>>;
+  /** The primary key(s) for `shipperProgramEntryCustomerProgramEntry` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<ShipperProgramEntryCustomerProgramEntryNodeIdConnect>>;
+  /** The primary key(s) for `shipperProgramEntryCustomerProgramEntry` for the far side of the relationship. */
+  deleteById?: Maybe<Array<ShipperProgramEntryCustomerProgramEntryShipperProgramEntryCustomerProgramEntryPkeyDelete>>;
+  /** The primary key(s) for `shipperProgramEntryCustomerProgramEntry` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<ShipperProgramEntryCustomerProgramEntryNodeIdDelete>>;
+  /** The primary key(s) and patch data for `shipperProgramEntryCustomerProgramEntry` for the far side of the relationship. */
+  updateById?: Maybe<Array<ShipperProgramEntryCustomerProgramEntryOnShipperProgramEntryCustomerProgramEntryForShipperProgramEntryCustomerPCustomerProgramEntryIdFkeyUsingShipperProgramEntryCustomerProgramEntryPkeyUpdate>>;
+  /** The primary key(s) and patch data for `shipperProgramEntryCustomerProgramEntry` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<CustomerProgramEntryOnShipperProgramEntryCustomerProgramEntryForShipperProgramEntryCustomerPCustomerProgramEntryIdFkeyNodeIdUpdate>>;
+  /** A `ShipperProgramEntryCustomerProgramEntryInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<ShipperProgramEntryCustomerPCustomerProgramEntryIdFkeyShipperProgramEntryCustomerProgramEntryCreateInput>>;
+};
+
+/** The fields on `shipperProgramEntryCustomerProgramEntry` to look up the row to update. */
+export type ShipperProgramEntryCustomerProgramEntryOnShipperProgramEntryCustomerProgramEntryForShipperProgramEntryCustomerPCustomerProgramEntryIdFkeyUsingShipperProgramEntryCustomerProgramEntryPkeyUpdate = {
+  /** An object where the defined keys will be set on the `shipperProgramEntryCustomerProgramEntry` being updated. */
+  patch: UpdateShipperProgramEntryCustomerProgramEntryOnShipperProgramEntryCustomerProgramEntryForShipperProgramEntryCustomerPCustomerProgramEntryIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `shipperProgramEntryCustomerProgramEntry` being updated. */
+export type UpdateShipperProgramEntryCustomerProgramEntryOnShipperProgramEntryCustomerProgramEntryForShipperProgramEntryCustomerPCustomerProgramEntryIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  palletCount?: Maybe<Scalars['BigFloat']>;
+  shipperProgramEntryId?: Maybe<Scalars['BigInt']>;
+  customerProgramEntryToCustomerProgramEntryId?: Maybe<ShipperProgramEntryCustomerPCustomerProgramEntryIdFkeyInput>;
+  shipperProgramEntryToShipperProgramEntryId?: Maybe<ShipperProgramEntryCustomerPrShipperProgramEntryIdFkeyInput>;
+};
+
+/** Input for the nested mutation of `shipperProgramEntry` in the `ShipperProgramEntryCustomerProgramEntryInput` mutation. */
+export type ShipperProgramEntryCustomerPrShipperProgramEntryIdFkeyInput = {
+  /** The primary key(s) for `shipperProgramEntry` for the far side of the relationship. */
+  connectById?: Maybe<ShipperProgramEntryShipperProgramEntryPkeyConnect>;
+  /** The primary key(s) for `shipperProgramEntry` for the far side of the relationship. */
+  connectByNodeId?: Maybe<ShipperProgramEntryNodeIdConnect>;
+  /** The primary key(s) for `shipperProgramEntry` for the far side of the relationship. */
+  deleteById?: Maybe<ShipperProgramEntryShipperProgramEntryPkeyDelete>;
+  /** The primary key(s) for `shipperProgramEntry` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<ShipperProgramEntryNodeIdDelete>;
+  /** The primary key(s) and patch data for `shipperProgramEntry` for the far side of the relationship. */
+  updateById?: Maybe<ShipperProgramEntryOnShipperProgramEntryCustomerProgramEntryForShipperProgramEntryCustomerPrShipperProgramEntryIdFkeyUsingShipperProgramEntryPkeyUpdate>;
+  /** The primary key(s) and patch data for `shipperProgramEntry` for the far side of the relationship. */
+  updateByNodeId?: Maybe<ShipperProgramEntryCustomerProgramEntryOnShipperProgramEntryCustomerProgramEntryForShipperProgramEntryCustomerPrShipperProgramEntryIdFkeyNodeIdUpdate>;
+  /** A `ShipperProgramEntryInput` object that will be created and connected to this object. */
+  create?: Maybe<ShipperProgramEntryCustomerPrShipperProgramEntryIdFkeyShipperProgramEntryCreateInput>;
+};
+
+/** The fields on `shipperProgramEntry` to look up the row to update. */
+export type ShipperProgramEntryOnShipperProgramEntryCustomerProgramEntryForShipperProgramEntryCustomerPrShipperProgramEntryIdFkeyUsingShipperProgramEntryPkeyUpdate = {
+  /** An object where the defined keys will be set on the `shipperProgramEntry` being updated. */
+  patch: UpdateShipperProgramEntryOnShipperProgramEntryCustomerProgramEntryForShipperProgramEntryCustomerPrShipperProgramEntryIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `shipperProgramEntry` being updated. */
+export type UpdateShipperProgramEntryOnShipperProgramEntryCustomerProgramEntryForShipperProgramEntryCustomerPrShipperProgramEntryIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  notes?: Maybe<Scalars['String']>;
+  programDate?: Maybe<Scalars['Date']>;
+  palletCount?: Maybe<Scalars['BigFloat']>;
+  shipperProgramId?: Maybe<Scalars['BigInt']>;
+  shipperProgramToShipperProgramId?: Maybe<ShipperProgramEntryShipperProgramIdFkeyInput>;
+  shipperProgramEntryCustomerProgramEntriesUsingId?: Maybe<ShipperProgramEntryCustomerPrShipperProgramEntryIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type ShipperProgramEntryCustomerProgramEntryOnShipperProgramEntryCustomerProgramEntryForShipperProgramEntryCustomerPrShipperProgramEntryIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `shipperProgramEntry` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `shipperProgramEntry` being updated. */
+  patch: ShipperProgramEntryPatch;
+};
+
+/** Represents an update to a `ShipperProgramEntry`. Fields that are set will be updated. */
+export type ShipperProgramEntryPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  notes?: Maybe<Scalars['String']>;
+  programDate?: Maybe<Scalars['Date']>;
+  palletCount?: Maybe<Scalars['BigFloat']>;
+  shipperProgramId?: Maybe<Scalars['BigInt']>;
+  shipperProgramToShipperProgramId?: Maybe<ShipperProgramEntryShipperProgramIdFkeyInput>;
+  shipperProgramEntryCustomerProgramEntriesUsingId?: Maybe<ShipperProgramEntryCustomerPrShipperProgramEntryIdFkeyInverseInput>;
+};
+
+/** The `shipperProgramEntry` to be created by this mutation. */
+export type ShipperProgramEntryCustomerPrShipperProgramEntryIdFkeyShipperProgramEntryCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  notes?: Maybe<Scalars['String']>;
+  programDate?: Maybe<Scalars['Date']>;
+  palletCount?: Maybe<Scalars['BigFloat']>;
+  shipperProgramId?: Maybe<Scalars['BigInt']>;
+  shipperProgramToShipperProgramId?: Maybe<ShipperProgramEntryShipperProgramIdFkeyInput>;
+  shipperProgramEntryCustomerProgramEntriesUsingId?: Maybe<ShipperProgramEntryCustomerPrShipperProgramEntryIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type CustomerProgramEntryOnShipperProgramEntryCustomerProgramEntryForShipperProgramEntryCustomerPCustomerProgramEntryIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `shipperProgramEntryCustomerProgramEntry` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `shipperProgramEntryCustomerProgramEntry` being updated. */
+  patch: ShipperProgramEntryCustomerProgramEntryPatch;
+};
+
+/** Represents an update to a `ShipperProgramEntryCustomerProgramEntry`. Fields that are set will be updated. */
+export type ShipperProgramEntryCustomerProgramEntryPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  palletCount?: Maybe<Scalars['BigFloat']>;
+  customerProgramEntryId?: Maybe<Scalars['BigInt']>;
+  shipperProgramEntryId?: Maybe<Scalars['BigInt']>;
+  customerProgramEntryToCustomerProgramEntryId?: Maybe<ShipperProgramEntryCustomerPCustomerProgramEntryIdFkeyInput>;
+  shipperProgramEntryToShipperProgramEntryId?: Maybe<ShipperProgramEntryCustomerPrShipperProgramEntryIdFkeyInput>;
+};
+
+/** The `shipperProgramEntryCustomerProgramEntry` to be created by this mutation. */
+export type ShipperProgramEntryCustomerPCustomerProgramEntryIdFkeyShipperProgramEntryCustomerProgramEntryCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  palletCount?: Maybe<Scalars['BigFloat']>;
+  shipperProgramEntryId?: Maybe<Scalars['BigInt']>;
+  customerProgramEntryToCustomerProgramEntryId?: Maybe<ShipperProgramEntryCustomerPCustomerProgramEntryIdFkeyInput>;
+  shipperProgramEntryToShipperProgramEntryId?: Maybe<ShipperProgramEntryCustomerPrShipperProgramEntryIdFkeyInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type CustomerProgramOnCustomerProgramEntryForCustomerProgramEntryCustomerProgramIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `customerProgramEntry` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `customerProgramEntry` being updated. */
+  patch: CustomerProgramEntryPatch;
+};
+
+/** Represents an update to a `CustomerProgramEntry`. Fields that are set will be updated. */
+export type CustomerProgramEntryPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  notes?: Maybe<Scalars['String']>;
+  programDate?: Maybe<Scalars['Date']>;
+  palletCount?: Maybe<Scalars['BigFloat']>;
+  customerProgramId?: Maybe<Scalars['BigInt']>;
+  customerProgramToCustomerProgramId?: Maybe<CustomerProgramEntryCustomerProgramIdFkeyInput>;
+  shipperProgramEntryCustomerProgramEntriesUsingId?: Maybe<ShipperProgramEntryCustomerPCustomerProgramEntryIdFkeyInverseInput>;
+};
+
+/** The `customerProgramEntry` to be created by this mutation. */
+export type CustomerProgramEntryCustomerProgramIdFkeyCustomerProgramEntryCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  notes?: Maybe<Scalars['String']>;
+  programDate?: Maybe<Scalars['Date']>;
+  palletCount?: Maybe<Scalars['BigFloat']>;
+  customerProgramToCustomerProgramId?: Maybe<CustomerProgramEntryCustomerProgramIdFkeyInput>;
+  shipperProgramEntryCustomerProgramEntriesUsingId?: Maybe<ShipperProgramEntryCustomerPCustomerProgramEntryIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type CustomerOnCustomerProgramForCustomerProgramCustomerIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `customerProgram` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `customerProgram` being updated. */
+  patch: CustomerProgramPatch;
+};
+
+/** Represents an update to a `CustomerProgram`. Fields that are set will be updated. */
+export type CustomerProgramPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  commonSpeciesId?: Maybe<Scalars['BigInt']>;
+  commonVarietyId?: Maybe<Scalars['BigInt']>;
+  commonSizeId?: Maybe<Scalars['BigInt']>;
+  commonPackTypeId?: Maybe<Scalars['BigInt']>;
+  customerId?: Maybe<Scalars['String']>;
+  arrivalPort?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  commonSpeciesToCommonSpeciesId?: Maybe<CustomerProgramCommonSpeciesIdFkeyInput>;
+  commonVarietyToCommonVarietyId?: Maybe<CustomerProgramCommonVarietyIdFkeyInput>;
+  commonSizeToCommonSizeId?: Maybe<CustomerProgramCommonSizeIdFkeyInput>;
+  commonPackTypeToCommonPackTypeId?: Maybe<CustomerProgramCommonPackTypeIdFkeyInput>;
+  customerToCustomerId?: Maybe<CustomerProgramCustomerIdFkeyInput>;
+  customerProgramEntriesUsingId?: Maybe<CustomerProgramEntryCustomerProgramIdFkeyInverseInput>;
+};
+
+/** The `customerProgram` to be created by this mutation. */
+export type CustomerProgramCustomerIdFkeyCustomerProgramCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  commonSpeciesId?: Maybe<Scalars['BigInt']>;
+  commonVarietyId?: Maybe<Scalars['BigInt']>;
+  commonSizeId?: Maybe<Scalars['BigInt']>;
+  commonPackTypeId?: Maybe<Scalars['BigInt']>;
+  arrivalPort?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  commonSpeciesToCommonSpeciesId?: Maybe<CustomerProgramCommonSpeciesIdFkeyInput>;
+  commonVarietyToCommonVarietyId?: Maybe<CustomerProgramCommonVarietyIdFkeyInput>;
+  commonSizeToCommonSizeId?: Maybe<CustomerProgramCommonSizeIdFkeyInput>;
+  commonPackTypeToCommonPackTypeId?: Maybe<CustomerProgramCommonPackTypeIdFkeyInput>;
+  customerToCustomerId?: Maybe<CustomerProgramCustomerIdFkeyInput>;
+  customerProgramEntriesUsingId?: Maybe<CustomerProgramEntryCustomerProgramIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type CustomerProgramOnCustomerProgramForCustomerProgramCustomerIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `customer` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `customer` being updated. */
+  patch: CustomerPatch;
+};
+
+/** Represents an update to a `Customer`. Fields that are set will be updated. */
+export type CustomerPatch = {
+  id?: Maybe<Scalars['String']>;
+  customerName?: Maybe<Scalars['String']>;
+  address1?: Maybe<Scalars['String']>;
+  address2?: Maybe<Scalars['String']>;
+  city?: Maybe<Scalars['String']>;
+  postalState?: Maybe<Scalars['String']>;
+  zipCode?: Maybe<Scalars['String']>;
+  countryId?: Maybe<Scalars['String']>;
+  phone?: Maybe<Scalars['String']>;
+  logoSrc?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
+  active?: Maybe<Scalars['Boolean']>;
+  countryToCountryId?: Maybe<CustomerCountryIdFkeyInput>;
+  customerPersonContactsUsingId?: Maybe<CustomerPersonContactCustomerIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCustomerIdFkeyInverseInput>;
+};
+
+/** The `customer` to be created by this mutation. */
+export type CustomerProgramCustomerIdFkeyCustomerCreateInput = {
+  id: Scalars['String'];
+  customerName: Scalars['String'];
+  address1?: Maybe<Scalars['String']>;
+  address2?: Maybe<Scalars['String']>;
+  city?: Maybe<Scalars['String']>;
+  postalState?: Maybe<Scalars['String']>;
+  zipCode?: Maybe<Scalars['String']>;
+  countryId?: Maybe<Scalars['String']>;
+  phone?: Maybe<Scalars['String']>;
+  logoSrc?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
+  active: Scalars['Boolean'];
+  countryToCountryId?: Maybe<CustomerCountryIdFkeyInput>;
+  customerPersonContactsUsingId?: Maybe<CustomerPersonContactCustomerIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCustomerIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type CommonPackTypeOnCustomerProgramForCustomerProgramCommonPackTypeIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `customerProgram` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `customerProgram` being updated. */
+  patch: CustomerProgramPatch;
+};
+
+/** The `customerProgram` to be created by this mutation. */
+export type CustomerProgramCommonPackTypeIdFkeyCustomerProgramCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  commonSpeciesId?: Maybe<Scalars['BigInt']>;
+  commonVarietyId?: Maybe<Scalars['BigInt']>;
+  commonSizeId?: Maybe<Scalars['BigInt']>;
+  customerId?: Maybe<Scalars['String']>;
+  arrivalPort?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  commonSpeciesToCommonSpeciesId?: Maybe<CustomerProgramCommonSpeciesIdFkeyInput>;
+  commonVarietyToCommonVarietyId?: Maybe<CustomerProgramCommonVarietyIdFkeyInput>;
+  commonSizeToCommonSizeId?: Maybe<CustomerProgramCommonSizeIdFkeyInput>;
+  commonPackTypeToCommonPackTypeId?: Maybe<CustomerProgramCommonPackTypeIdFkeyInput>;
+  customerToCustomerId?: Maybe<CustomerProgramCustomerIdFkeyInput>;
+  customerProgramEntriesUsingId?: Maybe<CustomerProgramEntryCustomerProgramIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type CustomerProgramOnCustomerProgramForCustomerProgramCommonPackTypeIdFkeyNodeIdUpdate = {
   /** The globally unique `ID` which identifies a single `commonPackType` to be connected. */
   nodeId: Scalars['ID'];
   /** An object where the defined keys will be set on the `commonPackType` being updated. */
@@ -29375,6 +34418,342 @@ export type CommonPackTypePatch = {
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyInverseInput>;
   commonPackTypeTagsUsingId?: Maybe<CommonPackTypeTagCommonPackTypeIdFkeyInverseInput>;
   commonPackTypePackMastersUsingId?: Maybe<CommonPackTypePackMasterCommonPackTypeIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonPackTypeIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonPackTypeIdFkeyInverseInput>;
+};
+
+/** The `commonPackType` to be created by this mutation. */
+export type CustomerProgramCommonPackTypeIdFkeyCommonPackTypeCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  packTypeName?: Maybe<Scalars['String']>;
+  packTypeDescription?: Maybe<Scalars['String']>;
+  commonSpeciesId?: Maybe<Scalars['BigInt']>;
+  packMasterId?: Maybe<Scalars['BigInt']>;
+  commonSpeciesToCommonSpeciesId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInput>;
+  packMasterToPackMasterId?: Maybe<CommonPackTypePackMasterIdFkeyInput>;
+  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyInverseInput>;
+  commonPackTypeTagsUsingId?: Maybe<CommonPackTypeTagCommonPackTypeIdFkeyInverseInput>;
+  commonPackTypePackMastersUsingId?: Maybe<CommonPackTypePackMasterCommonPackTypeIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonPackTypeIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonPackTypeIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type CommonSizeOnCustomerProgramForCustomerProgramCommonSizeIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `customerProgram` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `customerProgram` being updated. */
+  patch: CustomerProgramPatch;
+};
+
+/** The `customerProgram` to be created by this mutation. */
+export type CustomerProgramCommonSizeIdFkeyCustomerProgramCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  commonSpeciesId?: Maybe<Scalars['BigInt']>;
+  commonVarietyId?: Maybe<Scalars['BigInt']>;
+  commonPackTypeId?: Maybe<Scalars['BigInt']>;
+  customerId?: Maybe<Scalars['String']>;
+  arrivalPort?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  commonSpeciesToCommonSpeciesId?: Maybe<CustomerProgramCommonSpeciesIdFkeyInput>;
+  commonVarietyToCommonVarietyId?: Maybe<CustomerProgramCommonVarietyIdFkeyInput>;
+  commonSizeToCommonSizeId?: Maybe<CustomerProgramCommonSizeIdFkeyInput>;
+  commonPackTypeToCommonPackTypeId?: Maybe<CustomerProgramCommonPackTypeIdFkeyInput>;
+  customerToCustomerId?: Maybe<CustomerProgramCustomerIdFkeyInput>;
+  customerProgramEntriesUsingId?: Maybe<CustomerProgramEntryCustomerProgramIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type CustomerProgramOnCustomerProgramForCustomerProgramCommonSizeIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `commonSize` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `commonSize` being updated. */
+  patch: CommonSizePatch;
+};
+
+/** Represents an update to a `CommonSize`. Fields that are set will be updated. */
+export type CommonSizePatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  sizeName?: Maybe<Scalars['String']>;
+  sizeDescription?: Maybe<Scalars['String']>;
+  commonSpeciesId?: Maybe<Scalars['BigInt']>;
+  productSizeId?: Maybe<Scalars['BigInt']>;
+  commonSpeciesToCommonSpeciesId?: Maybe<CommonSizeCommonSpeciesIdFkeyInput>;
+  productSizeToProductSizeId?: Maybe<CommonSizeProductSizeIdFkeyInput>;
+  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSizeIdFkeyInverseInput>;
+  commonSizeTagsUsingId?: Maybe<CommonSizeTagCommonSizeIdFkeyInverseInput>;
+  commonSizeProductSizesUsingId?: Maybe<CommonSizeProductSizeCommonSizeIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonSizeIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonSizeIdFkeyInverseInput>;
+};
+
+/** The `commonSize` to be created by this mutation. */
+export type CustomerProgramCommonSizeIdFkeyCommonSizeCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  sizeName?: Maybe<Scalars['String']>;
+  sizeDescription?: Maybe<Scalars['String']>;
+  commonSpeciesId?: Maybe<Scalars['BigInt']>;
+  productSizeId?: Maybe<Scalars['BigInt']>;
+  commonSpeciesToCommonSpeciesId?: Maybe<CommonSizeCommonSpeciesIdFkeyInput>;
+  productSizeToProductSizeId?: Maybe<CommonSizeProductSizeIdFkeyInput>;
+  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSizeIdFkeyInverseInput>;
+  commonSizeTagsUsingId?: Maybe<CommonSizeTagCommonSizeIdFkeyInverseInput>;
+  commonSizeProductSizesUsingId?: Maybe<CommonSizeProductSizeCommonSizeIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonSizeIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonSizeIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type CommonVarietyOnCustomerProgramForCustomerProgramCommonVarietyIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `customerProgram` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `customerProgram` being updated. */
+  patch: CustomerProgramPatch;
+};
+
+/** The `customerProgram` to be created by this mutation. */
+export type CustomerProgramCommonVarietyIdFkeyCustomerProgramCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  commonSpeciesId?: Maybe<Scalars['BigInt']>;
+  commonSizeId?: Maybe<Scalars['BigInt']>;
+  commonPackTypeId?: Maybe<Scalars['BigInt']>;
+  customerId?: Maybe<Scalars['String']>;
+  arrivalPort?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  commonSpeciesToCommonSpeciesId?: Maybe<CustomerProgramCommonSpeciesIdFkeyInput>;
+  commonVarietyToCommonVarietyId?: Maybe<CustomerProgramCommonVarietyIdFkeyInput>;
+  commonSizeToCommonSizeId?: Maybe<CustomerProgramCommonSizeIdFkeyInput>;
+  commonPackTypeToCommonPackTypeId?: Maybe<CustomerProgramCommonPackTypeIdFkeyInput>;
+  customerToCustomerId?: Maybe<CustomerProgramCustomerIdFkeyInput>;
+  customerProgramEntriesUsingId?: Maybe<CustomerProgramEntryCustomerProgramIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type CustomerProgramOnCustomerProgramForCustomerProgramCommonVarietyIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `commonVariety` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `commonVariety` being updated. */
+  patch: CommonVarietyPatch;
+};
+
+/** Represents an update to a `CommonVariety`. Fields that are set will be updated. */
+export type CommonVarietyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  varietyName?: Maybe<Scalars['String']>;
+  varietyDescription?: Maybe<Scalars['String']>;
+  uiColor?: Maybe<Scalars['String']>;
+  commonSpeciesId?: Maybe<Scalars['BigInt']>;
+  productVarietyId?: Maybe<Scalars['String']>;
+  commonSpeciesToCommonSpeciesId?: Maybe<CommonVarietyCommonSpeciesIdFkeyInput>;
+  productVarietyToProductVarietyId?: Maybe<CommonVarietyProductVarietyIdFkeyInput>;
+  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonVarietyIdFkeyInverseInput>;
+  commonVarietyTagsUsingId?: Maybe<CommonVarietyTagCommonVarietyIdFkeyInverseInput>;
+  commonVarietyProductVarietiesUsingId?: Maybe<CommonVarietyProductVarietyCommonVarietyIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonVarietyIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonVarietyIdFkeyInverseInput>;
+};
+
+/** The `commonVariety` to be created by this mutation. */
+export type CustomerProgramCommonVarietyIdFkeyCommonVarietyCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  varietyName?: Maybe<Scalars['String']>;
+  varietyDescription?: Maybe<Scalars['String']>;
+  uiColor?: Maybe<Scalars['String']>;
+  commonSpeciesId?: Maybe<Scalars['BigInt']>;
+  productVarietyId?: Maybe<Scalars['String']>;
+  commonSpeciesToCommonSpeciesId?: Maybe<CommonVarietyCommonSpeciesIdFkeyInput>;
+  productVarietyToProductVarietyId?: Maybe<CommonVarietyProductVarietyIdFkeyInput>;
+  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonVarietyIdFkeyInverseInput>;
+  commonVarietyTagsUsingId?: Maybe<CommonVarietyTagCommonVarietyIdFkeyInverseInput>;
+  commonVarietyProductVarietiesUsingId?: Maybe<CommonVarietyProductVarietyCommonVarietyIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonVarietyIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonVarietyIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type CommonSpeciesOnCustomerProgramForCustomerProgramCommonSpeciesIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `customerProgram` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `customerProgram` being updated. */
+  patch: CustomerProgramPatch;
+};
+
+/** The `customerProgram` to be created by this mutation. */
+export type CustomerProgramCommonSpeciesIdFkeyCustomerProgramCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  commonVarietyId?: Maybe<Scalars['BigInt']>;
+  commonSizeId?: Maybe<Scalars['BigInt']>;
+  commonPackTypeId?: Maybe<Scalars['BigInt']>;
+  customerId?: Maybe<Scalars['String']>;
+  arrivalPort?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  commonSpeciesToCommonSpeciesId?: Maybe<CustomerProgramCommonSpeciesIdFkeyInput>;
+  commonVarietyToCommonVarietyId?: Maybe<CustomerProgramCommonVarietyIdFkeyInput>;
+  commonSizeToCommonSizeId?: Maybe<CustomerProgramCommonSizeIdFkeyInput>;
+  commonPackTypeToCommonPackTypeId?: Maybe<CustomerProgramCommonPackTypeIdFkeyInput>;
+  customerToCustomerId?: Maybe<CustomerProgramCustomerIdFkeyInput>;
+  customerProgramEntriesUsingId?: Maybe<CustomerProgramEntryCustomerProgramIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type CustomerProgramOnCustomerProgramForCustomerProgramCommonSpeciesIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `commonSpecies` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `commonSpecies` being updated. */
+  patch: CommonSpeciesPatch;
+};
+
+/** Represents an update to a `CommonSpecies`. Fields that are set will be updated. */
+export type CommonSpeciesPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  speciesName?: Maybe<Scalars['String']>;
+  speciesDescription?: Maybe<Scalars['String']>;
+  uiColor?: Maybe<Scalars['String']>;
+  commonCategoryId?: Maybe<Scalars['BigInt']>;
+  productSpeciesId?: Maybe<Scalars['String']>;
+  commonCategoryToCommonCategoryId?: Maybe<CommonSpeciesCommonCategoryIdFkeyInput>;
+  productSpeciesToProductSpeciesId?: Maybe<CommonSpeciesProductSpeciesIdFkeyInput>;
+  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSpeciesIdFkeyInverseInput>;
+  commonVarietiesUsingId?: Maybe<CommonVarietyCommonSpeciesIdFkeyInverseInput>;
+  commonSizesUsingId?: Maybe<CommonSizeCommonSpeciesIdFkeyInverseInput>;
+  commonPackTypesUsingId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInverseInput>;
+  commonSpeciesTagsUsingId?: Maybe<CommonSpeciesTagCommonSpeciesIdFkeyInverseInput>;
+  commonSpeciesProductSpeciesUsingId?: Maybe<CommonSpeciesProductSpeciesCommonSpeciesIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonSpeciesIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonSpeciesIdFkeyInverseInput>;
+};
+
+/** The `commonSpecies` to be created by this mutation. */
+export type CustomerProgramCommonSpeciesIdFkeyCommonSpeciesCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  speciesName?: Maybe<Scalars['String']>;
+  speciesDescription?: Maybe<Scalars['String']>;
+  uiColor?: Maybe<Scalars['String']>;
+  commonCategoryId?: Maybe<Scalars['BigInt']>;
+  productSpeciesId?: Maybe<Scalars['String']>;
+  commonCategoryToCommonCategoryId?: Maybe<CommonSpeciesCommonCategoryIdFkeyInput>;
+  productSpeciesToProductSpeciesId?: Maybe<CommonSpeciesProductSpeciesIdFkeyInput>;
+  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSpeciesIdFkeyInverseInput>;
+  commonVarietiesUsingId?: Maybe<CommonVarietyCommonSpeciesIdFkeyInverseInput>;
+  commonSizesUsingId?: Maybe<CommonSizeCommonSpeciesIdFkeyInverseInput>;
+  commonPackTypesUsingId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInverseInput>;
+  commonSpeciesTagsUsingId?: Maybe<CommonSpeciesTagCommonSpeciesIdFkeyInverseInput>;
+  commonSpeciesProductSpeciesUsingId?: Maybe<CommonSpeciesProductSpeciesCommonSpeciesIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonSpeciesIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonSpeciesIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type CustomerProgramEntryOnCustomerProgramEntryForCustomerProgramEntryCustomerProgramIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `customerProgram` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `customerProgram` being updated. */
+  patch: CustomerProgramPatch;
+};
+
+/** The `customerProgram` to be created by this mutation. */
+export type CustomerProgramEntryCustomerProgramIdFkeyCustomerProgramCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  commonSpeciesId?: Maybe<Scalars['BigInt']>;
+  commonVarietyId?: Maybe<Scalars['BigInt']>;
+  commonSizeId?: Maybe<Scalars['BigInt']>;
+  commonPackTypeId?: Maybe<Scalars['BigInt']>;
+  customerId?: Maybe<Scalars['String']>;
+  arrivalPort?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  commonSpeciesToCommonSpeciesId?: Maybe<CustomerProgramCommonSpeciesIdFkeyInput>;
+  commonVarietyToCommonVarietyId?: Maybe<CustomerProgramCommonVarietyIdFkeyInput>;
+  commonSizeToCommonSizeId?: Maybe<CustomerProgramCommonSizeIdFkeyInput>;
+  commonPackTypeToCommonPackTypeId?: Maybe<CustomerProgramCommonPackTypeIdFkeyInput>;
+  customerToCustomerId?: Maybe<CustomerProgramCustomerIdFkeyInput>;
+  customerProgramEntriesUsingId?: Maybe<CustomerProgramEntryCustomerProgramIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type ShipperProgramEntryCustomerProgramEntryOnShipperProgramEntryCustomerProgramEntryForShipperProgramEntryCustomerPCustomerProgramEntryIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `customerProgramEntry` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `customerProgramEntry` being updated. */
+  patch: CustomerProgramEntryPatch;
+};
+
+/** The `customerProgramEntry` to be created by this mutation. */
+export type ShipperProgramEntryCustomerPCustomerProgramEntryIdFkeyCustomerProgramEntryCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  notes?: Maybe<Scalars['String']>;
+  programDate?: Maybe<Scalars['Date']>;
+  palletCount?: Maybe<Scalars['BigFloat']>;
+  customerProgramId?: Maybe<Scalars['BigInt']>;
+  customerProgramToCustomerProgramId?: Maybe<CustomerProgramEntryCustomerProgramIdFkeyInput>;
+  shipperProgramEntryCustomerProgramEntriesUsingId?: Maybe<ShipperProgramEntryCustomerPCustomerProgramEntryIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type ShipperProgramEntryOnShipperProgramEntryCustomerProgramEntryForShipperProgramEntryCustomerPrShipperProgramEntryIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `shipperProgramEntryCustomerProgramEntry` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `shipperProgramEntryCustomerProgramEntry` being updated. */
+  patch: ShipperProgramEntryCustomerProgramEntryPatch;
+};
+
+/** The `shipperProgramEntryCustomerProgramEntry` to be created by this mutation. */
+export type ShipperProgramEntryCustomerPrShipperProgramEntryIdFkeyShipperProgramEntryCustomerProgramEntryCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  palletCount?: Maybe<Scalars['BigFloat']>;
+  customerProgramEntryId?: Maybe<Scalars['BigInt']>;
+  customerProgramEntryToCustomerProgramEntryId?: Maybe<ShipperProgramEntryCustomerPCustomerProgramEntryIdFkeyInput>;
+  shipperProgramEntryToShipperProgramEntryId?: Maybe<ShipperProgramEntryCustomerPrShipperProgramEntryIdFkeyInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type ShipperProgramOnShipperProgramEntryForShipperProgramEntryShipperProgramIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `shipperProgramEntry` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `shipperProgramEntry` being updated. */
+  patch: ShipperProgramEntryPatch;
+};
+
+/** The `shipperProgramEntry` to be created by this mutation. */
+export type ShipperProgramEntryShipperProgramIdFkeyShipperProgramEntryCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  notes?: Maybe<Scalars['String']>;
+  programDate?: Maybe<Scalars['Date']>;
+  palletCount?: Maybe<Scalars['BigFloat']>;
+  shipperProgramToShipperProgramId?: Maybe<ShipperProgramEntryShipperProgramIdFkeyInput>;
+  shipperProgramEntryCustomerProgramEntriesUsingId?: Maybe<ShipperProgramEntryCustomerPrShipperProgramEntryIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type CommonPackTypeOnShipperProgramForShipperProgramCommonPackTypeIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `shipperProgram` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `shipperProgram` being updated. */
+  patch: ShipperProgramPatch;
+};
+
+/** The `shipperProgram` to be created by this mutation. */
+export type ShipperProgramCommonPackTypeIdFkeyShipperProgramCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  commonSpeciesId?: Maybe<Scalars['BigInt']>;
+  commonVarietyId?: Maybe<Scalars['BigInt']>;
+  commonSizeId?: Maybe<Scalars['BigInt']>;
+  shipperId?: Maybe<Scalars['String']>;
+  arrivalPort?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  commonSpeciesToCommonSpeciesId?: Maybe<ShipperProgramCommonSpeciesIdFkeyInput>;
+  commonVarietyToCommonVarietyId?: Maybe<ShipperProgramCommonVarietyIdFkeyInput>;
+  commonSizeToCommonSizeId?: Maybe<ShipperProgramCommonSizeIdFkeyInput>;
+  commonPackTypeToCommonPackTypeId?: Maybe<ShipperProgramCommonPackTypeIdFkeyInput>;
+  shipperToShipperId?: Maybe<ShipperProgramShipperIdFkeyInput>;
+  shipperProgramEntriesUsingId?: Maybe<ShipperProgramEntryShipperProgramIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type CommonPackTypePackMasterOnCommonPackTypePackMasterForCommonPackTypePackMasterCommonPackTypeIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `commonPackType` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `commonPackType` being updated. */
+  patch: CommonPackTypePatch;
 };
 
 /** The `commonPackType` to be created by this mutation. */
@@ -29389,6 +34768,8 @@ export type CommonPackTypePackMasterCommonPackTypeIdFkeyCommonPackTypeCreateInpu
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyInverseInput>;
   commonPackTypeTagsUsingId?: Maybe<CommonPackTypeTagCommonPackTypeIdFkeyInverseInput>;
   commonPackTypePackMastersUsingId?: Maybe<CommonPackTypePackMasterCommonPackTypeIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonPackTypeIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonPackTypeIdFkeyInverseInput>;
 };
 
 /** Input for the nested mutation of `packMaster` in the `CommonPackTypePackMasterInput` mutation. */
@@ -29631,6 +35012,8 @@ export type CommonPackTypeTagCommonPackTypeIdFkeyCommonPackTypeCreateInput = {
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyInverseInput>;
   commonPackTypeTagsUsingId?: Maybe<CommonPackTypeTagCommonPackTypeIdFkeyInverseInput>;
   commonPackTypePackMastersUsingId?: Maybe<CommonPackTypePackMasterCommonPackTypeIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonPackTypeIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonPackTypeIdFkeyInverseInput>;
 };
 
 /** The globally unique `ID` look up for the row to update. */
@@ -29655,6 +35038,376 @@ export type CommonPackTypeTagCommonPackTypeIdFkeyCommonPackTypeTagCreateInput = 
 };
 
 /** The globally unique `ID` look up for the row to update. */
+export type ShipperProjectionProductOnShipperProjectionProductForShipperProjectionProductCommonPackTypeIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `commonPackType` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `commonPackType` being updated. */
+  patch: CommonPackTypePatch;
+};
+
+/** The `commonPackType` to be created by this mutation. */
+export type ShipperProjectionProductCommonPackTypeIdFkeyCommonPackTypeCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  packTypeName?: Maybe<Scalars['String']>;
+  packTypeDescription?: Maybe<Scalars['String']>;
+  commonSpeciesId?: Maybe<Scalars['BigInt']>;
+  packMasterId?: Maybe<Scalars['BigInt']>;
+  commonSpeciesToCommonSpeciesId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInput>;
+  packMasterToPackMasterId?: Maybe<CommonPackTypePackMasterIdFkeyInput>;
+  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyInverseInput>;
+  commonPackTypeTagsUsingId?: Maybe<CommonPackTypeTagCommonPackTypeIdFkeyInverseInput>;
+  commonPackTypePackMastersUsingId?: Maybe<CommonPackTypePackMasterCommonPackTypeIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonPackTypeIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonPackTypeIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `shipperProjectionEntry` in the `ShipperProjectionProductInput` mutation. */
+export type ShipperProjectionEntryProductIdFkeyInverseInput = {
+  /** Flag indicating whether all other `shipperProjectionEntry` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `shipperProjectionEntry` for the far side of the relationship. */
+  connectById?: Maybe<Array<ShipperProjectionEntryShipperProjectionEntryPkeyConnect>>;
+  /** The primary key(s) for `shipperProjectionEntry` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<ShipperProjectionEntryNodeIdConnect>>;
+  /** The primary key(s) for `shipperProjectionEntry` for the far side of the relationship. */
+  deleteById?: Maybe<Array<ShipperProjectionEntryShipperProjectionEntryPkeyDelete>>;
+  /** The primary key(s) for `shipperProjectionEntry` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<ShipperProjectionEntryNodeIdDelete>>;
+  /** The primary key(s) and patch data for `shipperProjectionEntry` for the far side of the relationship. */
+  updateById?: Maybe<Array<ShipperProjectionEntryOnShipperProjectionEntryForShipperProjectionEntryProductIdFkeyUsingShipperProjectionEntryPkeyUpdate>>;
+  /** The primary key(s) and patch data for `shipperProjectionEntry` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<ShipperProjectionProductOnShipperProjectionEntryForShipperProjectionEntryProductIdFkeyNodeIdUpdate>>;
+  /** A `ShipperProjectionEntryInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<ShipperProjectionEntryProductIdFkeyShipperProjectionEntryCreateInput>>;
+};
+
+/** The fields on `shipperProjectionEntry` to look up the row to connect. */
+export type ShipperProjectionEntryShipperProjectionEntryPkeyConnect = {
+  id: Scalars['BigInt'];
+};
+
+/** The globally unique `ID` look up for the row to connect. */
+export type ShipperProjectionEntryNodeIdConnect = {
+  /** The globally unique `ID` which identifies a single `shipperProjectionEntry` to be connected. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `shipperProjectionEntry` to look up the row to delete. */
+export type ShipperProjectionEntryShipperProjectionEntryPkeyDelete = {
+  id: Scalars['BigInt'];
+};
+
+/** The globally unique `ID` look up for the row to delete. */
+export type ShipperProjectionEntryNodeIdDelete = {
+  /** The globally unique `ID` which identifies a single `shipperProjectionEntry` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `shipperProjectionEntry` to look up the row to update. */
+export type ShipperProjectionEntryOnShipperProjectionEntryForShipperProjectionEntryProductIdFkeyUsingShipperProjectionEntryPkeyUpdate = {
+  /** An object where the defined keys will be set on the `shipperProjectionEntry` being updated. */
+  patch: UpdateShipperProjectionEntryOnShipperProjectionEntryForShipperProjectionEntryProductIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `shipperProjectionEntry` being updated. */
+export type UpdateShipperProjectionEntryOnShipperProjectionEntryForShipperProjectionEntryProductIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  palletCount?: Maybe<Scalars['BigFloat']>;
+  vesselInfoId?: Maybe<Scalars['BigInt']>;
+  shipperProjectionVesselInfoToVesselInfoId?: Maybe<ShipperProjectionEntryVesselInfoIdFkeyInput>;
+  shipperProjectionProductToProductId?: Maybe<ShipperProjectionEntryProductIdFkeyInput>;
+};
+
+/** Input for the nested mutation of `shipperProjectionVesselInfo` in the `ShipperProjectionEntryInput` mutation. */
+export type ShipperProjectionEntryVesselInfoIdFkeyInput = {
+  /** The primary key(s) for `shipperProjectionVesselInfo` for the far side of the relationship. */
+  connectById?: Maybe<ShipperProjectionVesselInfoShipperProjectionVesselInfoPkeyConnect>;
+  /** The primary key(s) for `shipperProjectionVesselInfo` for the far side of the relationship. */
+  connectByNodeId?: Maybe<ShipperProjectionVesselInfoNodeIdConnect>;
+  /** The primary key(s) for `shipperProjectionVesselInfo` for the far side of the relationship. */
+  deleteById?: Maybe<ShipperProjectionVesselInfoShipperProjectionVesselInfoPkeyDelete>;
+  /** The primary key(s) for `shipperProjectionVesselInfo` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<ShipperProjectionVesselInfoNodeIdDelete>;
+  /** The primary key(s) and patch data for `shipperProjectionVesselInfo` for the far side of the relationship. */
+  updateById?: Maybe<ShipperProjectionVesselInfoOnShipperProjectionEntryForShipperProjectionEntryVesselInfoIdFkeyUsingShipperProjectionVesselInfoPkeyUpdate>;
+  /** The primary key(s) and patch data for `shipperProjectionVesselInfo` for the far side of the relationship. */
+  updateByNodeId?: Maybe<ShipperProjectionEntryOnShipperProjectionEntryForShipperProjectionEntryVesselInfoIdFkeyNodeIdUpdate>;
+  /** A `ShipperProjectionVesselInfoInput` object that will be created and connected to this object. */
+  create?: Maybe<ShipperProjectionEntryVesselInfoIdFkeyShipperProjectionVesselInfoCreateInput>;
+};
+
+/** The fields on `shipperProjectionVesselInfo` to look up the row to update. */
+export type ShipperProjectionVesselInfoOnShipperProjectionEntryForShipperProjectionEntryVesselInfoIdFkeyUsingShipperProjectionVesselInfoPkeyUpdate = {
+  /** An object where the defined keys will be set on the `shipperProjectionVesselInfo` being updated. */
+  patch: UpdateShipperProjectionVesselInfoOnShipperProjectionEntryForShipperProjectionEntryVesselInfoIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `shipperProjectionVesselInfo` being updated. */
+export type UpdateShipperProjectionVesselInfoOnShipperProjectionEntryForShipperProjectionEntryVesselInfoIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  vesselName?: Maybe<Scalars['String']>;
+  departureDate?: Maybe<Scalars['Date']>;
+  arrivalDate?: Maybe<Scalars['Date']>;
+  arrivalPort?: Maybe<Scalars['String']>;
+  vesselStatus?: Maybe<Scalars['String']>;
+  projectionId?: Maybe<Scalars['BigInt']>;
+  vesselId?: Maybe<Scalars['BigInt']>;
+  shipperId?: Maybe<Scalars['String']>;
+  shipperProjectionToProjectionId?: Maybe<ShipperProjectionVesselInfoProjectionIdFkeyInput>;
+  shipperProjectionVesselToVesselId?: Maybe<ShipperProjectionVesselInfoVesselIdFkeyInput>;
+  shipperToShipperId?: Maybe<FkShipperIdInput>;
+  shipperProjectionEntriesUsingId?: Maybe<ShipperProjectionEntryVesselInfoIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `shipperProjectionEntry` in the `ShipperProjectionVesselInfoInput` mutation. */
+export type ShipperProjectionEntryVesselInfoIdFkeyInverseInput = {
+  /** Flag indicating whether all other `shipperProjectionEntry` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `shipperProjectionEntry` for the far side of the relationship. */
+  connectById?: Maybe<Array<ShipperProjectionEntryShipperProjectionEntryPkeyConnect>>;
+  /** The primary key(s) for `shipperProjectionEntry` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<ShipperProjectionEntryNodeIdConnect>>;
+  /** The primary key(s) for `shipperProjectionEntry` for the far side of the relationship. */
+  deleteById?: Maybe<Array<ShipperProjectionEntryShipperProjectionEntryPkeyDelete>>;
+  /** The primary key(s) for `shipperProjectionEntry` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<ShipperProjectionEntryNodeIdDelete>>;
+  /** The primary key(s) and patch data for `shipperProjectionEntry` for the far side of the relationship. */
+  updateById?: Maybe<Array<ShipperProjectionEntryOnShipperProjectionEntryForShipperProjectionEntryVesselInfoIdFkeyUsingShipperProjectionEntryPkeyUpdate>>;
+  /** The primary key(s) and patch data for `shipperProjectionEntry` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<ShipperProjectionVesselInfoOnShipperProjectionEntryForShipperProjectionEntryVesselInfoIdFkeyNodeIdUpdate>>;
+  /** A `ShipperProjectionEntryInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<ShipperProjectionEntryVesselInfoIdFkeyShipperProjectionEntryCreateInput>>;
+};
+
+/** The fields on `shipperProjectionEntry` to look up the row to update. */
+export type ShipperProjectionEntryOnShipperProjectionEntryForShipperProjectionEntryVesselInfoIdFkeyUsingShipperProjectionEntryPkeyUpdate = {
+  /** An object where the defined keys will be set on the `shipperProjectionEntry` being updated. */
+  patch: UpdateShipperProjectionEntryOnShipperProjectionEntryForShipperProjectionEntryVesselInfoIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `shipperProjectionEntry` being updated. */
+export type UpdateShipperProjectionEntryOnShipperProjectionEntryForShipperProjectionEntryVesselInfoIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  palletCount?: Maybe<Scalars['BigFloat']>;
+  productId?: Maybe<Scalars['BigInt']>;
+  shipperProjectionVesselInfoToVesselInfoId?: Maybe<ShipperProjectionEntryVesselInfoIdFkeyInput>;
+  shipperProjectionProductToProductId?: Maybe<ShipperProjectionEntryProductIdFkeyInput>;
+};
+
+/** Input for the nested mutation of `shipperProjectionProduct` in the `ShipperProjectionEntryInput` mutation. */
+export type ShipperProjectionEntryProductIdFkeyInput = {
+  /** The primary key(s) for `shipperProjectionProduct` for the far side of the relationship. */
+  connectById?: Maybe<ShipperProjectionProductShipperProjectionProductPkeyConnect>;
+  /** The primary key(s) for `shipperProjectionProduct` for the far side of the relationship. */
+  connectByNodeId?: Maybe<ShipperProjectionProductNodeIdConnect>;
+  /** The primary key(s) for `shipperProjectionProduct` for the far side of the relationship. */
+  deleteById?: Maybe<ShipperProjectionProductShipperProjectionProductPkeyDelete>;
+  /** The primary key(s) for `shipperProjectionProduct` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<ShipperProjectionProductNodeIdDelete>;
+  /** The primary key(s) and patch data for `shipperProjectionProduct` for the far side of the relationship. */
+  updateById?: Maybe<ShipperProjectionProductOnShipperProjectionEntryForShipperProjectionEntryProductIdFkeyUsingShipperProjectionProductPkeyUpdate>;
+  /** The primary key(s) and patch data for `shipperProjectionProduct` for the far side of the relationship. */
+  updateByNodeId?: Maybe<ShipperProjectionEntryOnShipperProjectionEntryForShipperProjectionEntryProductIdFkeyNodeIdUpdate>;
+  /** A `ShipperProjectionProductInput` object that will be created and connected to this object. */
+  create?: Maybe<ShipperProjectionEntryProductIdFkeyShipperProjectionProductCreateInput>;
+};
+
+/** The fields on `shipperProjectionProduct` to look up the row to update. */
+export type ShipperProjectionProductOnShipperProjectionEntryForShipperProjectionEntryProductIdFkeyUsingShipperProjectionProductPkeyUpdate = {
+  /** An object where the defined keys will be set on the `shipperProjectionProduct` being updated. */
+  patch: UpdateShipperProjectionProductOnShipperProjectionEntryForShipperProjectionEntryProductIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `shipperProjectionProduct` being updated. */
+export type UpdateShipperProjectionProductOnShipperProjectionEntryForShipperProjectionEntryProductIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  species?: Maybe<Scalars['String']>;
+  variety?: Maybe<Scalars['String']>;
+  size?: Maybe<Scalars['String']>;
+  packType?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  shipperId?: Maybe<Scalars['String']>;
+  commonSpeciesId?: Maybe<Scalars['BigInt']>;
+  commonVarietyId?: Maybe<Scalars['BigInt']>;
+  commonSizeId?: Maybe<Scalars['BigInt']>;
+  commonPackTypeId?: Maybe<Scalars['BigInt']>;
+  shipperToShipperId?: Maybe<ShipperProjectionProductShipperIdFkeyInput>;
+  commonSpeciesToCommonSpeciesId?: Maybe<ShipperProjectionProductCommonSpeciesIdFkeyInput>;
+  commonVarietyToCommonVarietyId?: Maybe<ShipperProjectionProductCommonVarietyIdFkeyInput>;
+  commonSizeToCommonSizeId?: Maybe<ShipperProjectionProductCommonSizeIdFkeyInput>;
+  commonPackTypeToCommonPackTypeId?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyInput>;
+  shipperProjectionEntriesUsingId?: Maybe<ShipperProjectionEntryProductIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type ShipperProjectionEntryOnShipperProjectionEntryForShipperProjectionEntryProductIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `shipperProjectionProduct` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `shipperProjectionProduct` being updated. */
+  patch: ShipperProjectionProductPatch;
+};
+
+/** Represents an update to a `ShipperProjectionProduct`. Fields that are set will be updated. */
+export type ShipperProjectionProductPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  species?: Maybe<Scalars['String']>;
+  variety?: Maybe<Scalars['String']>;
+  size?: Maybe<Scalars['String']>;
+  packType?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  shipperId?: Maybe<Scalars['String']>;
+  commonSpeciesId?: Maybe<Scalars['BigInt']>;
+  commonVarietyId?: Maybe<Scalars['BigInt']>;
+  commonSizeId?: Maybe<Scalars['BigInt']>;
+  commonPackTypeId?: Maybe<Scalars['BigInt']>;
+  shipperToShipperId?: Maybe<ShipperProjectionProductShipperIdFkeyInput>;
+  commonSpeciesToCommonSpeciesId?: Maybe<ShipperProjectionProductCommonSpeciesIdFkeyInput>;
+  commonVarietyToCommonVarietyId?: Maybe<ShipperProjectionProductCommonVarietyIdFkeyInput>;
+  commonSizeToCommonSizeId?: Maybe<ShipperProjectionProductCommonSizeIdFkeyInput>;
+  commonPackTypeToCommonPackTypeId?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyInput>;
+  shipperProjectionEntriesUsingId?: Maybe<ShipperProjectionEntryProductIdFkeyInverseInput>;
+};
+
+/** The `shipperProjectionProduct` to be created by this mutation. */
+export type ShipperProjectionEntryProductIdFkeyShipperProjectionProductCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  species?: Maybe<Scalars['String']>;
+  variety?: Maybe<Scalars['String']>;
+  size?: Maybe<Scalars['String']>;
+  packType?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  shipperId?: Maybe<Scalars['String']>;
+  commonSpeciesId?: Maybe<Scalars['BigInt']>;
+  commonVarietyId?: Maybe<Scalars['BigInt']>;
+  commonSizeId?: Maybe<Scalars['BigInt']>;
+  commonPackTypeId?: Maybe<Scalars['BigInt']>;
+  shipperToShipperId?: Maybe<ShipperProjectionProductShipperIdFkeyInput>;
+  commonSpeciesToCommonSpeciesId?: Maybe<ShipperProjectionProductCommonSpeciesIdFkeyInput>;
+  commonVarietyToCommonVarietyId?: Maybe<ShipperProjectionProductCommonVarietyIdFkeyInput>;
+  commonSizeToCommonSizeId?: Maybe<ShipperProjectionProductCommonSizeIdFkeyInput>;
+  commonPackTypeToCommonPackTypeId?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyInput>;
+  shipperProjectionEntriesUsingId?: Maybe<ShipperProjectionEntryProductIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type ShipperProjectionVesselInfoOnShipperProjectionEntryForShipperProjectionEntryVesselInfoIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `shipperProjectionEntry` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `shipperProjectionEntry` being updated. */
+  patch: ShipperProjectionEntryPatch;
+};
+
+/** Represents an update to a `ShipperProjectionEntry`. Fields that are set will be updated. */
+export type ShipperProjectionEntryPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  palletCount?: Maybe<Scalars['BigFloat']>;
+  vesselInfoId?: Maybe<Scalars['BigInt']>;
+  productId?: Maybe<Scalars['BigInt']>;
+  shipperProjectionVesselInfoToVesselInfoId?: Maybe<ShipperProjectionEntryVesselInfoIdFkeyInput>;
+  shipperProjectionProductToProductId?: Maybe<ShipperProjectionEntryProductIdFkeyInput>;
+};
+
+/** The `shipperProjectionEntry` to be created by this mutation. */
+export type ShipperProjectionEntryVesselInfoIdFkeyShipperProjectionEntryCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  palletCount?: Maybe<Scalars['BigFloat']>;
+  productId?: Maybe<Scalars['BigInt']>;
+  shipperProjectionVesselInfoToVesselInfoId?: Maybe<ShipperProjectionEntryVesselInfoIdFkeyInput>;
+  shipperProjectionProductToProductId?: Maybe<ShipperProjectionEntryProductIdFkeyInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type ShipperProjectionEntryOnShipperProjectionEntryForShipperProjectionEntryVesselInfoIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `shipperProjectionVesselInfo` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `shipperProjectionVesselInfo` being updated. */
+  patch: ShipperProjectionVesselInfoPatch;
+};
+
+/** Represents an update to a `ShipperProjectionVesselInfo`. Fields that are set will be updated. */
+export type ShipperProjectionVesselInfoPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  vesselName?: Maybe<Scalars['String']>;
+  departureDate?: Maybe<Scalars['Date']>;
+  arrivalDate?: Maybe<Scalars['Date']>;
+  arrivalPort?: Maybe<Scalars['String']>;
+  vesselStatus?: Maybe<Scalars['String']>;
+  projectionId?: Maybe<Scalars['BigInt']>;
+  vesselId?: Maybe<Scalars['BigInt']>;
+  shipperId?: Maybe<Scalars['String']>;
+  shipperProjectionToProjectionId?: Maybe<ShipperProjectionVesselInfoProjectionIdFkeyInput>;
+  shipperProjectionVesselToVesselId?: Maybe<ShipperProjectionVesselInfoVesselIdFkeyInput>;
+  shipperToShipperId?: Maybe<FkShipperIdInput>;
+  shipperProjectionEntriesUsingId?: Maybe<ShipperProjectionEntryVesselInfoIdFkeyInverseInput>;
+};
+
+/** The `shipperProjectionVesselInfo` to be created by this mutation. */
+export type ShipperProjectionEntryVesselInfoIdFkeyShipperProjectionVesselInfoCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  vesselName?: Maybe<Scalars['String']>;
+  departureDate?: Maybe<Scalars['Date']>;
+  arrivalDate?: Maybe<Scalars['Date']>;
+  arrivalPort?: Maybe<Scalars['String']>;
+  vesselStatus?: Maybe<Scalars['String']>;
+  projectionId?: Maybe<Scalars['BigInt']>;
+  vesselId?: Maybe<Scalars['BigInt']>;
+  shipperId?: Maybe<Scalars['String']>;
+  shipperProjectionToProjectionId?: Maybe<ShipperProjectionVesselInfoProjectionIdFkeyInput>;
+  shipperProjectionVesselToVesselId?: Maybe<ShipperProjectionVesselInfoVesselIdFkeyInput>;
+  shipperToShipperId?: Maybe<FkShipperIdInput>;
+  shipperProjectionEntriesUsingId?: Maybe<ShipperProjectionEntryVesselInfoIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type ShipperProjectionProductOnShipperProjectionEntryForShipperProjectionEntryProductIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `shipperProjectionEntry` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `shipperProjectionEntry` being updated. */
+  patch: ShipperProjectionEntryPatch;
+};
+
+/** The `shipperProjectionEntry` to be created by this mutation. */
+export type ShipperProjectionEntryProductIdFkeyShipperProjectionEntryCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  palletCount?: Maybe<Scalars['BigFloat']>;
+  vesselInfoId?: Maybe<Scalars['BigInt']>;
+  shipperProjectionVesselInfoToVesselInfoId?: Maybe<ShipperProjectionEntryVesselInfoIdFkeyInput>;
+  shipperProjectionProductToProductId?: Maybe<ShipperProjectionEntryProductIdFkeyInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type CommonPackTypeOnShipperProjectionProductForShipperProjectionProductCommonPackTypeIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `shipperProjectionProduct` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `shipperProjectionProduct` being updated. */
+  patch: ShipperProjectionProductPatch;
+};
+
+/** The `shipperProjectionProduct` to be created by this mutation. */
+export type ShipperProjectionProductCommonPackTypeIdFkeyShipperProjectionProductCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  species?: Maybe<Scalars['String']>;
+  variety?: Maybe<Scalars['String']>;
+  size?: Maybe<Scalars['String']>;
+  packType?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  shipperId?: Maybe<Scalars['String']>;
+  commonSpeciesId?: Maybe<Scalars['BigInt']>;
+  commonVarietyId?: Maybe<Scalars['BigInt']>;
+  commonSizeId?: Maybe<Scalars['BigInt']>;
+  shipperToShipperId?: Maybe<ShipperProjectionProductShipperIdFkeyInput>;
+  commonSpeciesToCommonSpeciesId?: Maybe<ShipperProjectionProductCommonSpeciesIdFkeyInput>;
+  commonVarietyToCommonVarietyId?: Maybe<ShipperProjectionProductCommonVarietyIdFkeyInput>;
+  commonSizeToCommonSizeId?: Maybe<ShipperProjectionProductCommonSizeIdFkeyInput>;
+  commonPackTypeToCommonPackTypeId?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyInput>;
+  shipperProjectionEntriesUsingId?: Maybe<ShipperProjectionEntryProductIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
 export type PackMasterOnCommonPackTypeForCommonPackTypePackMasterIdFkeyNodeIdUpdate = {
   /** The globally unique `ID` which identifies a single `commonPackType` to be connected. */
   nodeId: Scalars['ID'];
@@ -29673,6 +35426,8 @@ export type CommonPackTypePackMasterIdFkeyCommonPackTypeCreateInput = {
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyInverseInput>;
   commonPackTypeTagsUsingId?: Maybe<CommonPackTypeTagCommonPackTypeIdFkeyInverseInput>;
   commonPackTypePackMastersUsingId?: Maybe<CommonPackTypePackMasterCommonPackTypeIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonPackTypeIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonPackTypeIdFkeyInverseInput>;
 };
 
 /** The globally unique `ID` look up for the row to update. */
@@ -29721,7 +35476,7 @@ export type CommonPackTypePackMasterIdFkeyPackMasterCreateInput = {
 };
 
 /** The globally unique `ID` look up for the row to update. */
-export type CommonSpeciesOnCommonPackTypeForCommonPackTypeCommonSpeciesIdFkeyNodeIdUpdate = {
+export type ShipperProgramOnShipperProgramForShipperProgramCommonPackTypeIdFkeyNodeIdUpdate = {
   /** The globally unique `ID` which identifies a single `commonPackType` to be connected. */
   nodeId: Scalars['ID'];
   /** An object where the defined keys will be set on the `commonPackType` being updated. */
@@ -29729,491 +35484,7 @@ export type CommonSpeciesOnCommonPackTypeForCommonPackTypeCommonSpeciesIdFkeyNod
 };
 
 /** The `commonPackType` to be created by this mutation. */
-export type CommonPackTypeCommonSpeciesIdFkeyCommonPackTypeCreateInput = {
-  id?: Maybe<Scalars['BigInt']>;
-  packTypeName?: Maybe<Scalars['String']>;
-  packTypeDescription?: Maybe<Scalars['String']>;
-  packMasterId?: Maybe<Scalars['BigInt']>;
-  commonSpeciesToCommonSpeciesId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInput>;
-  packMasterToPackMasterId?: Maybe<CommonPackTypePackMasterIdFkeyInput>;
-  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyInverseInput>;
-  commonPackTypeTagsUsingId?: Maybe<CommonPackTypeTagCommonPackTypeIdFkeyInverseInput>;
-  commonPackTypePackMastersUsingId?: Maybe<CommonPackTypePackMasterCommonPackTypeIdFkeyInverseInput>;
-};
-
-/** Input for the nested mutation of `commonSpeciesTag` in the `CommonSpeciesInput` mutation. */
-export type CommonSpeciesTagCommonSpeciesIdFkeyInverseInput = {
-  /** Flag indicating whether all other `commonSpeciesTag` records that match this relationship should be removed. */
-  deleteOthers?: Maybe<Scalars['Boolean']>;
-  /** The primary key(s) for `commonSpeciesTag` for the far side of the relationship. */
-  connectByTagTextAndCommonSpeciesId?: Maybe<Array<CommonSpeciesTagCommonSpeciesTagPkeyConnect>>;
-  /** The primary key(s) for `commonSpeciesTag` for the far side of the relationship. */
-  connectByNodeId?: Maybe<Array<CommonSpeciesTagNodeIdConnect>>;
-  /** The primary key(s) for `commonSpeciesTag` for the far side of the relationship. */
-  deleteByTagTextAndCommonSpeciesId?: Maybe<Array<CommonSpeciesTagCommonSpeciesTagPkeyDelete>>;
-  /** The primary key(s) for `commonSpeciesTag` for the far side of the relationship. */
-  deleteByNodeId?: Maybe<Array<CommonSpeciesTagNodeIdDelete>>;
-  /** The primary key(s) and patch data for `commonSpeciesTag` for the far side of the relationship. */
-  updateByTagTextAndCommonSpeciesId?: Maybe<Array<CommonSpeciesTagOnCommonSpeciesTagForCommonSpeciesTagCommonSpeciesIdFkeyUsingCommonSpeciesTagPkeyUpdate>>;
-  /** The primary key(s) and patch data for `commonSpeciesTag` for the far side of the relationship. */
-  updateByNodeId?: Maybe<Array<CommonSpeciesOnCommonSpeciesTagForCommonSpeciesTagCommonSpeciesIdFkeyNodeIdUpdate>>;
-  /** A `CommonSpeciesTagInput` object that will be created and connected to this object. */
-  create?: Maybe<Array<CommonSpeciesTagCommonSpeciesIdFkeyCommonSpeciesTagCreateInput>>;
-};
-
-/** The fields on `commonSpeciesTag` to look up the row to connect. */
-export type CommonSpeciesTagCommonSpeciesTagPkeyConnect = {
-  tagText: Scalars['String'];
-  commonSpeciesId: Scalars['BigInt'];
-};
-
-/** The globally unique `ID` look up for the row to connect. */
-export type CommonSpeciesTagNodeIdConnect = {
-  /** The globally unique `ID` which identifies a single `commonSpeciesTag` to be connected. */
-  nodeId: Scalars['ID'];
-};
-
-/** The fields on `commonSpeciesTag` to look up the row to delete. */
-export type CommonSpeciesTagCommonSpeciesTagPkeyDelete = {
-  tagText: Scalars['String'];
-  commonSpeciesId: Scalars['BigInt'];
-};
-
-/** The globally unique `ID` look up for the row to delete. */
-export type CommonSpeciesTagNodeIdDelete = {
-  /** The globally unique `ID` which identifies a single `commonSpeciesTag` to be deleted. */
-  nodeId: Scalars['ID'];
-};
-
-/** The fields on `commonSpeciesTag` to look up the row to update. */
-export type CommonSpeciesTagOnCommonSpeciesTagForCommonSpeciesTagCommonSpeciesIdFkeyUsingCommonSpeciesTagPkeyUpdate = {
-  /** An object where the defined keys will be set on the `commonSpeciesTag` being updated. */
-  patch: UpdateCommonSpeciesTagOnCommonSpeciesTagForCommonSpeciesTagCommonSpeciesIdFkeyPatch;
-  tagText: Scalars['String'];
-  commonSpeciesId: Scalars['BigInt'];
-};
-
-/** An object where the defined keys will be set on the `commonSpeciesTag` being updated. */
-export type UpdateCommonSpeciesTagOnCommonSpeciesTagForCommonSpeciesTagCommonSpeciesIdFkeyPatch = {
-  tagText?: Maybe<Scalars['String']>;
-  commonSpeciesToCommonSpeciesId?: Maybe<CommonSpeciesTagCommonSpeciesIdFkeyInput>;
-};
-
-/** Input for the nested mutation of `commonSpecies` in the `CommonSpeciesTagInput` mutation. */
-export type CommonSpeciesTagCommonSpeciesIdFkeyInput = {
-  /** The primary key(s) for `commonSpecies` for the far side of the relationship. */
-  connectById?: Maybe<CommonSpeciesCommonSpeciesPkeyConnect>;
-  /** The primary key(s) for `commonSpecies` for the far side of the relationship. */
-  connectByNodeId?: Maybe<CommonSpecyNodeIdConnect>;
-  /** The primary key(s) for `commonSpecies` for the far side of the relationship. */
-  deleteById?: Maybe<CommonSpeciesCommonSpeciesPkeyDelete>;
-  /** The primary key(s) for `commonSpecies` for the far side of the relationship. */
-  deleteByNodeId?: Maybe<CommonSpecyNodeIdDelete>;
-  /** The primary key(s) and patch data for `commonSpecies` for the far side of the relationship. */
-  updateById?: Maybe<CommonSpeciesOnCommonSpeciesTagForCommonSpeciesTagCommonSpeciesIdFkeyUsingCommonSpeciesPkeyUpdate>;
-  /** The primary key(s) and patch data for `commonSpecies` for the far side of the relationship. */
-  updateByNodeId?: Maybe<CommonSpeciesTagOnCommonSpeciesTagForCommonSpeciesTagCommonSpeciesIdFkeyNodeIdUpdate>;
-  /** A `CommonSpeciesInput` object that will be created and connected to this object. */
-  create?: Maybe<CommonSpeciesTagCommonSpeciesIdFkeyCommonSpeciesCreateInput>;
-};
-
-/** The fields on `commonSpecies` to look up the row to update. */
-export type CommonSpeciesOnCommonSpeciesTagForCommonSpeciesTagCommonSpeciesIdFkeyUsingCommonSpeciesPkeyUpdate = {
-  /** An object where the defined keys will be set on the `commonSpecies` being updated. */
-  patch: UpdateCommonSpeciesOnCommonSpeciesTagForCommonSpeciesTagCommonSpeciesIdFkeyPatch;
-  id: Scalars['BigInt'];
-};
-
-/** An object where the defined keys will be set on the `commonSpecies` being updated. */
-export type UpdateCommonSpeciesOnCommonSpeciesTagForCommonSpeciesTagCommonSpeciesIdFkeyPatch = {
-  id?: Maybe<Scalars['BigInt']>;
-  speciesName?: Maybe<Scalars['String']>;
-  speciesDescription?: Maybe<Scalars['String']>;
-  uiColor?: Maybe<Scalars['String']>;
-  commonCategoryId?: Maybe<Scalars['BigInt']>;
-  productSpeciesId?: Maybe<Scalars['String']>;
-  commonCategoryToCommonCategoryId?: Maybe<CommonSpeciesCommonCategoryIdFkeyInput>;
-  productSpeciesToProductSpeciesId?: Maybe<CommonSpeciesProductSpeciesIdFkeyInput>;
-  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSpeciesIdFkeyInverseInput>;
-  commonVarietiesUsingId?: Maybe<CommonVarietyCommonSpeciesIdFkeyInverseInput>;
-  commonSizesUsingId?: Maybe<CommonSizeCommonSpeciesIdFkeyInverseInput>;
-  commonPackTypesUsingId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInverseInput>;
-  commonSpeciesTagsUsingId?: Maybe<CommonSpeciesTagCommonSpeciesIdFkeyInverseInput>;
-  commonSpeciesProductSpeciesUsingId?: Maybe<CommonSpeciesProductSpeciesCommonSpeciesIdFkeyInverseInput>;
-};
-
-/** Input for the nested mutation of `commonSpeciesProductSpecies` in the `CommonSpeciesInput` mutation. */
-export type CommonSpeciesProductSpeciesCommonSpeciesIdFkeyInverseInput = {
-  /** Flag indicating whether all other `commonSpeciesProductSpecies` records that match this relationship should be removed. */
-  deleteOthers?: Maybe<Scalars['Boolean']>;
-  /** The primary key(s) for `commonSpeciesProductSpecies` for the far side of the relationship. */
-  connectById?: Maybe<Array<CommonSpeciesProductSpeciesCommonSpeciesProductSpeciesPkeyConnect>>;
-  /** The primary key(s) for `commonSpeciesProductSpecies` for the far side of the relationship. */
-  connectByNodeId?: Maybe<Array<CommonSpeciesProductSpecyNodeIdConnect>>;
-  /** The primary key(s) for `commonSpeciesProductSpecies` for the far side of the relationship. */
-  deleteById?: Maybe<Array<CommonSpeciesProductSpeciesCommonSpeciesProductSpeciesPkeyDelete>>;
-  /** The primary key(s) for `commonSpeciesProductSpecies` for the far side of the relationship. */
-  deleteByNodeId?: Maybe<Array<CommonSpeciesProductSpecyNodeIdDelete>>;
-  /** The primary key(s) and patch data for `commonSpeciesProductSpecies` for the far side of the relationship. */
-  updateById?: Maybe<Array<CommonSpeciesProductSpeciesOnCommonSpeciesProductSpeciesForCommonSpeciesProductSpeciesCommonSpeciesIdFkeyUsingCommonSpeciesProductSpeciesPkeyUpdate>>;
-  /** The primary key(s) and patch data for `commonSpeciesProductSpecies` for the far side of the relationship. */
-  updateByNodeId?: Maybe<Array<CommonSpeciesOnCommonSpeciesProductSpeciesForCommonSpeciesProductSpeciesCommonSpeciesIdFkeyNodeIdUpdate>>;
-  /** A `CommonSpeciesProductSpeciesInput` object that will be created and connected to this object. */
-  create?: Maybe<Array<CommonSpeciesProductSpeciesCommonSpeciesIdFkeyCommonSpeciesProductSpeciesCreateInput>>;
-};
-
-/** The fields on `commonSpeciesProductSpecies` to look up the row to connect. */
-export type CommonSpeciesProductSpeciesCommonSpeciesProductSpeciesPkeyConnect = {
-  id: Scalars['BigInt'];
-};
-
-/** The globally unique `ID` look up for the row to connect. */
-export type CommonSpeciesProductSpecyNodeIdConnect = {
-  /** The globally unique `ID` which identifies a single `commonSpeciesProductSpecies` to be connected. */
-  nodeId: Scalars['ID'];
-};
-
-/** The fields on `commonSpeciesProductSpecies` to look up the row to delete. */
-export type CommonSpeciesProductSpeciesCommonSpeciesProductSpeciesPkeyDelete = {
-  id: Scalars['BigInt'];
-};
-
-/** The globally unique `ID` look up for the row to delete. */
-export type CommonSpeciesProductSpecyNodeIdDelete = {
-  /** The globally unique `ID` which identifies a single `commonSpeciesProductSpecies` to be deleted. */
-  nodeId: Scalars['ID'];
-};
-
-/** The fields on `commonSpeciesProductSpecies` to look up the row to update. */
-export type CommonSpeciesProductSpeciesOnCommonSpeciesProductSpeciesForCommonSpeciesProductSpeciesCommonSpeciesIdFkeyUsingCommonSpeciesProductSpeciesPkeyUpdate = {
-  /** An object where the defined keys will be set on the `commonSpeciesProductSpecies` being updated. */
-  patch: UpdateCommonSpeciesProductSpeciesOnCommonSpeciesProductSpeciesForCommonSpeciesProductSpeciesCommonSpeciesIdFkeyPatch;
-  id: Scalars['BigInt'];
-};
-
-/** An object where the defined keys will be set on the `commonSpeciesProductSpecies` being updated. */
-export type UpdateCommonSpeciesProductSpeciesOnCommonSpeciesProductSpeciesForCommonSpeciesProductSpeciesCommonSpeciesIdFkeyPatch = {
-  id?: Maybe<Scalars['BigInt']>;
-  productSpeciesId?: Maybe<Scalars['String']>;
-  commonSpeciesToCommonSpeciesId?: Maybe<CommonSpeciesProductSpeciesCommonSpeciesIdFkeyInput>;
-  productSpeciesToProductSpeciesId?: Maybe<CommonSpeciesProductSpeciesProductSpeciesIdFkeyInput>;
-};
-
-/** Input for the nested mutation of `commonSpecies` in the `CommonSpeciesProductSpeciesInput` mutation. */
-export type CommonSpeciesProductSpeciesCommonSpeciesIdFkeyInput = {
-  /** The primary key(s) for `commonSpecies` for the far side of the relationship. */
-  connectById?: Maybe<CommonSpeciesCommonSpeciesPkeyConnect>;
-  /** The primary key(s) for `commonSpecies` for the far side of the relationship. */
-  connectByNodeId?: Maybe<CommonSpecyNodeIdConnect>;
-  /** The primary key(s) for `commonSpecies` for the far side of the relationship. */
-  deleteById?: Maybe<CommonSpeciesCommonSpeciesPkeyDelete>;
-  /** The primary key(s) for `commonSpecies` for the far side of the relationship. */
-  deleteByNodeId?: Maybe<CommonSpecyNodeIdDelete>;
-  /** The primary key(s) and patch data for `commonSpecies` for the far side of the relationship. */
-  updateById?: Maybe<CommonSpeciesOnCommonSpeciesProductSpeciesForCommonSpeciesProductSpeciesCommonSpeciesIdFkeyUsingCommonSpeciesPkeyUpdate>;
-  /** The primary key(s) and patch data for `commonSpecies` for the far side of the relationship. */
-  updateByNodeId?: Maybe<CommonSpeciesProductSpeciesOnCommonSpeciesProductSpeciesForCommonSpeciesProductSpeciesCommonSpeciesIdFkeyNodeIdUpdate>;
-  /** A `CommonSpeciesInput` object that will be created and connected to this object. */
-  create?: Maybe<CommonSpeciesProductSpeciesCommonSpeciesIdFkeyCommonSpeciesCreateInput>;
-};
-
-/** The fields on `commonSpecies` to look up the row to update. */
-export type CommonSpeciesOnCommonSpeciesProductSpeciesForCommonSpeciesProductSpeciesCommonSpeciesIdFkeyUsingCommonSpeciesPkeyUpdate = {
-  /** An object where the defined keys will be set on the `commonSpecies` being updated. */
-  patch: UpdateCommonSpeciesOnCommonSpeciesProductSpeciesForCommonSpeciesProductSpeciesCommonSpeciesIdFkeyPatch;
-  id: Scalars['BigInt'];
-};
-
-/** An object where the defined keys will be set on the `commonSpecies` being updated. */
-export type UpdateCommonSpeciesOnCommonSpeciesProductSpeciesForCommonSpeciesProductSpeciesCommonSpeciesIdFkeyPatch = {
-  id?: Maybe<Scalars['BigInt']>;
-  speciesName?: Maybe<Scalars['String']>;
-  speciesDescription?: Maybe<Scalars['String']>;
-  uiColor?: Maybe<Scalars['String']>;
-  commonCategoryId?: Maybe<Scalars['BigInt']>;
-  productSpeciesId?: Maybe<Scalars['String']>;
-  commonCategoryToCommonCategoryId?: Maybe<CommonSpeciesCommonCategoryIdFkeyInput>;
-  productSpeciesToProductSpeciesId?: Maybe<CommonSpeciesProductSpeciesIdFkeyInput>;
-  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSpeciesIdFkeyInverseInput>;
-  commonVarietiesUsingId?: Maybe<CommonVarietyCommonSpeciesIdFkeyInverseInput>;
-  commonSizesUsingId?: Maybe<CommonSizeCommonSpeciesIdFkeyInverseInput>;
-  commonPackTypesUsingId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInverseInput>;
-  commonSpeciesTagsUsingId?: Maybe<CommonSpeciesTagCommonSpeciesIdFkeyInverseInput>;
-  commonSpeciesProductSpeciesUsingId?: Maybe<CommonSpeciesProductSpeciesCommonSpeciesIdFkeyInverseInput>;
-};
-
-/** The globally unique `ID` look up for the row to update. */
-export type CommonSpeciesProductSpeciesOnCommonSpeciesProductSpeciesForCommonSpeciesProductSpeciesCommonSpeciesIdFkeyNodeIdUpdate = {
-  /** The globally unique `ID` which identifies a single `commonSpecies` to be connected. */
-  nodeId: Scalars['ID'];
-  /** An object where the defined keys will be set on the `commonSpecies` being updated. */
-  patch: CommonSpeciesPatch;
-};
-
-/** Represents an update to a `CommonSpecies`. Fields that are set will be updated. */
-export type CommonSpeciesPatch = {
-  id?: Maybe<Scalars['BigInt']>;
-  speciesName?: Maybe<Scalars['String']>;
-  speciesDescription?: Maybe<Scalars['String']>;
-  uiColor?: Maybe<Scalars['String']>;
-  commonCategoryId?: Maybe<Scalars['BigInt']>;
-  productSpeciesId?: Maybe<Scalars['String']>;
-  commonCategoryToCommonCategoryId?: Maybe<CommonSpeciesCommonCategoryIdFkeyInput>;
-  productSpeciesToProductSpeciesId?: Maybe<CommonSpeciesProductSpeciesIdFkeyInput>;
-  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSpeciesIdFkeyInverseInput>;
-  commonVarietiesUsingId?: Maybe<CommonVarietyCommonSpeciesIdFkeyInverseInput>;
-  commonSizesUsingId?: Maybe<CommonSizeCommonSpeciesIdFkeyInverseInput>;
-  commonPackTypesUsingId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInverseInput>;
-  commonSpeciesTagsUsingId?: Maybe<CommonSpeciesTagCommonSpeciesIdFkeyInverseInput>;
-  commonSpeciesProductSpeciesUsingId?: Maybe<CommonSpeciesProductSpeciesCommonSpeciesIdFkeyInverseInput>;
-};
-
-/** The `commonSpecies` to be created by this mutation. */
-export type CommonSpeciesProductSpeciesCommonSpeciesIdFkeyCommonSpeciesCreateInput = {
-  id?: Maybe<Scalars['BigInt']>;
-  speciesName?: Maybe<Scalars['String']>;
-  speciesDescription?: Maybe<Scalars['String']>;
-  uiColor?: Maybe<Scalars['String']>;
-  commonCategoryId?: Maybe<Scalars['BigInt']>;
-  productSpeciesId?: Maybe<Scalars['String']>;
-  commonCategoryToCommonCategoryId?: Maybe<CommonSpeciesCommonCategoryIdFkeyInput>;
-  productSpeciesToProductSpeciesId?: Maybe<CommonSpeciesProductSpeciesIdFkeyInput>;
-  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSpeciesIdFkeyInverseInput>;
-  commonVarietiesUsingId?: Maybe<CommonVarietyCommonSpeciesIdFkeyInverseInput>;
-  commonSizesUsingId?: Maybe<CommonSizeCommonSpeciesIdFkeyInverseInput>;
-  commonPackTypesUsingId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInverseInput>;
-  commonSpeciesTagsUsingId?: Maybe<CommonSpeciesTagCommonSpeciesIdFkeyInverseInput>;
-  commonSpeciesProductSpeciesUsingId?: Maybe<CommonSpeciesProductSpeciesCommonSpeciesIdFkeyInverseInput>;
-};
-
-/** Input for the nested mutation of `productSpecies` in the `CommonSpeciesProductSpeciesInput` mutation. */
-export type CommonSpeciesProductSpeciesProductSpeciesIdFkeyInput = {
-  /** The primary key(s) for `productSpecies` for the far side of the relationship. */
-  connectById?: Maybe<ProductSpeciesProductSpeciesPkeyConnect>;
-  /** The primary key(s) for `productSpecies` for the far side of the relationship. */
-  connectByNodeId?: Maybe<ProductSpecyNodeIdConnect>;
-  /** The primary key(s) for `productSpecies` for the far side of the relationship. */
-  deleteById?: Maybe<ProductSpeciesProductSpeciesPkeyDelete>;
-  /** The primary key(s) for `productSpecies` for the far side of the relationship. */
-  deleteByNodeId?: Maybe<ProductSpecyNodeIdDelete>;
-  /** The primary key(s) and patch data for `productSpecies` for the far side of the relationship. */
-  updateById?: Maybe<ProductSpeciesOnCommonSpeciesProductSpeciesForCommonSpeciesProductSpeciesProductSpeciesIdFkeyUsingProductSpeciesPkeyUpdate>;
-  /** The primary key(s) and patch data for `productSpecies` for the far side of the relationship. */
-  updateByNodeId?: Maybe<CommonSpeciesProductSpeciesOnCommonSpeciesProductSpeciesForCommonSpeciesProductSpeciesProductSpeciesIdFkeyNodeIdUpdate>;
-  /** A `ProductSpeciesInput` object that will be created and connected to this object. */
-  create?: Maybe<CommonSpeciesProductSpeciesProductSpeciesIdFkeyProductSpeciesCreateInput>;
-};
-
-/** The fields on `productSpecies` to look up the row to update. */
-export type ProductSpeciesOnCommonSpeciesProductSpeciesForCommonSpeciesProductSpeciesProductSpeciesIdFkeyUsingProductSpeciesPkeyUpdate = {
-  /** An object where the defined keys will be set on the `productSpecies` being updated. */
-  patch: UpdateProductSpeciesOnCommonSpeciesProductSpeciesForCommonSpeciesProductSpeciesProductSpeciesIdFkeyPatch;
-  id: Scalars['String'];
-};
-
-/** An object where the defined keys will be set on the `productSpecies` being updated. */
-export type UpdateProductSpeciesOnCommonSpeciesProductSpeciesForCommonSpeciesProductSpeciesProductSpeciesIdFkeyPatch = {
-  id?: Maybe<Scalars['String']>;
-  speciesDescription?: Maybe<Scalars['String']>;
-  secondaryDescription?: Maybe<Scalars['String']>;
-  fdaProductCode?: Maybe<Scalars['String']>;
-  fdaIndustryCode?: Maybe<Scalars['String']>;
-  defaultTemperature?: Maybe<Scalars['String']>;
-  commonSpeciesUsingId?: Maybe<CommonSpeciesProductSpeciesIdFkeyInverseInput>;
-  commonSpeciesProductSpeciesUsingId?: Maybe<CommonSpeciesProductSpeciesProductSpeciesIdFkeyInverseInput>;
-};
-
-/** Input for the nested mutation of `commonSpeciesProductSpecies` in the `ProductSpeciesInput` mutation. */
-export type CommonSpeciesProductSpeciesProductSpeciesIdFkeyInverseInput = {
-  /** Flag indicating whether all other `commonSpeciesProductSpecies` records that match this relationship should be removed. */
-  deleteOthers?: Maybe<Scalars['Boolean']>;
-  /** The primary key(s) for `commonSpeciesProductSpecies` for the far side of the relationship. */
-  connectById?: Maybe<Array<CommonSpeciesProductSpeciesCommonSpeciesProductSpeciesPkeyConnect>>;
-  /** The primary key(s) for `commonSpeciesProductSpecies` for the far side of the relationship. */
-  connectByNodeId?: Maybe<Array<CommonSpeciesProductSpecyNodeIdConnect>>;
-  /** The primary key(s) for `commonSpeciesProductSpecies` for the far side of the relationship. */
-  deleteById?: Maybe<Array<CommonSpeciesProductSpeciesCommonSpeciesProductSpeciesPkeyDelete>>;
-  /** The primary key(s) for `commonSpeciesProductSpecies` for the far side of the relationship. */
-  deleteByNodeId?: Maybe<Array<CommonSpeciesProductSpecyNodeIdDelete>>;
-  /** The primary key(s) and patch data for `commonSpeciesProductSpecies` for the far side of the relationship. */
-  updateById?: Maybe<Array<CommonSpeciesProductSpeciesOnCommonSpeciesProductSpeciesForCommonSpeciesProductSpeciesProductSpeciesIdFkeyUsingCommonSpeciesProductSpeciesPkeyUpdate>>;
-  /** The primary key(s) and patch data for `commonSpeciesProductSpecies` for the far side of the relationship. */
-  updateByNodeId?: Maybe<Array<ProductSpeciesOnCommonSpeciesProductSpeciesForCommonSpeciesProductSpeciesProductSpeciesIdFkeyNodeIdUpdate>>;
-  /** A `CommonSpeciesProductSpeciesInput` object that will be created and connected to this object. */
-  create?: Maybe<Array<CommonSpeciesProductSpeciesProductSpeciesIdFkeyCommonSpeciesProductSpeciesCreateInput>>;
-};
-
-/** The fields on `commonSpeciesProductSpecies` to look up the row to update. */
-export type CommonSpeciesProductSpeciesOnCommonSpeciesProductSpeciesForCommonSpeciesProductSpeciesProductSpeciesIdFkeyUsingCommonSpeciesProductSpeciesPkeyUpdate = {
-  /** An object where the defined keys will be set on the `commonSpeciesProductSpecies` being updated. */
-  patch: UpdateCommonSpeciesProductSpeciesOnCommonSpeciesProductSpeciesForCommonSpeciesProductSpeciesProductSpeciesIdFkeyPatch;
-  id: Scalars['BigInt'];
-};
-
-/** An object where the defined keys will be set on the `commonSpeciesProductSpecies` being updated. */
-export type UpdateCommonSpeciesProductSpeciesOnCommonSpeciesProductSpeciesForCommonSpeciesProductSpeciesProductSpeciesIdFkeyPatch = {
-  id?: Maybe<Scalars['BigInt']>;
-  commonSpeciesId?: Maybe<Scalars['BigInt']>;
-  commonSpeciesToCommonSpeciesId?: Maybe<CommonSpeciesProductSpeciesCommonSpeciesIdFkeyInput>;
-  productSpeciesToProductSpeciesId?: Maybe<CommonSpeciesProductSpeciesProductSpeciesIdFkeyInput>;
-};
-
-/** The globally unique `ID` look up for the row to update. */
-export type ProductSpeciesOnCommonSpeciesProductSpeciesForCommonSpeciesProductSpeciesProductSpeciesIdFkeyNodeIdUpdate = {
-  /** The globally unique `ID` which identifies a single `commonSpeciesProductSpecies` to be connected. */
-  nodeId: Scalars['ID'];
-  /** An object where the defined keys will be set on the `commonSpeciesProductSpecies` being updated. */
-  patch: CommonSpeciesProductSpeciesPatch;
-};
-
-/** Represents an update to a `CommonSpeciesProductSpecies`. Fields that are set will be updated. */
-export type CommonSpeciesProductSpeciesPatch = {
-  id?: Maybe<Scalars['BigInt']>;
-  commonSpeciesId?: Maybe<Scalars['BigInt']>;
-  productSpeciesId?: Maybe<Scalars['String']>;
-  commonSpeciesToCommonSpeciesId?: Maybe<CommonSpeciesProductSpeciesCommonSpeciesIdFkeyInput>;
-  productSpeciesToProductSpeciesId?: Maybe<CommonSpeciesProductSpeciesProductSpeciesIdFkeyInput>;
-};
-
-/** The `commonSpeciesProductSpecies` to be created by this mutation. */
-export type CommonSpeciesProductSpeciesProductSpeciesIdFkeyCommonSpeciesProductSpeciesCreateInput = {
-  id?: Maybe<Scalars['BigInt']>;
-  commonSpeciesId?: Maybe<Scalars['BigInt']>;
-  commonSpeciesToCommonSpeciesId?: Maybe<CommonSpeciesProductSpeciesCommonSpeciesIdFkeyInput>;
-  productSpeciesToProductSpeciesId?: Maybe<CommonSpeciesProductSpeciesProductSpeciesIdFkeyInput>;
-};
-
-/** The globally unique `ID` look up for the row to update. */
-export type CommonSpeciesProductSpeciesOnCommonSpeciesProductSpeciesForCommonSpeciesProductSpeciesProductSpeciesIdFkeyNodeIdUpdate = {
-  /** The globally unique `ID` which identifies a single `productSpecies` to be connected. */
-  nodeId: Scalars['ID'];
-  /** An object where the defined keys will be set on the `productSpecies` being updated. */
-  patch: ProductSpeciesPatch;
-};
-
-/** Represents an update to a `ProductSpecies`. Fields that are set will be updated. */
-export type ProductSpeciesPatch = {
-  id?: Maybe<Scalars['String']>;
-  speciesDescription?: Maybe<Scalars['String']>;
-  secondaryDescription?: Maybe<Scalars['String']>;
-  fdaProductCode?: Maybe<Scalars['String']>;
-  fdaIndustryCode?: Maybe<Scalars['String']>;
-  defaultTemperature?: Maybe<Scalars['String']>;
-  commonSpeciesUsingId?: Maybe<CommonSpeciesProductSpeciesIdFkeyInverseInput>;
-  commonSpeciesProductSpeciesUsingId?: Maybe<CommonSpeciesProductSpeciesProductSpeciesIdFkeyInverseInput>;
-};
-
-/** The `productSpecies` to be created by this mutation. */
-export type CommonSpeciesProductSpeciesProductSpeciesIdFkeyProductSpeciesCreateInput = {
-  id: Scalars['String'];
-  speciesDescription?: Maybe<Scalars['String']>;
-  secondaryDescription?: Maybe<Scalars['String']>;
-  fdaProductCode?: Maybe<Scalars['String']>;
-  fdaIndustryCode?: Maybe<Scalars['String']>;
-  defaultTemperature?: Maybe<Scalars['String']>;
-  commonSpeciesUsingId?: Maybe<CommonSpeciesProductSpeciesIdFkeyInverseInput>;
-  commonSpeciesProductSpeciesUsingId?: Maybe<CommonSpeciesProductSpeciesProductSpeciesIdFkeyInverseInput>;
-};
-
-/** The globally unique `ID` look up for the row to update. */
-export type CommonSpeciesOnCommonSpeciesProductSpeciesForCommonSpeciesProductSpeciesCommonSpeciesIdFkeyNodeIdUpdate = {
-  /** The globally unique `ID` which identifies a single `commonSpeciesProductSpecies` to be connected. */
-  nodeId: Scalars['ID'];
-  /** An object where the defined keys will be set on the `commonSpeciesProductSpecies` being updated. */
-  patch: CommonSpeciesProductSpeciesPatch;
-};
-
-/** The `commonSpeciesProductSpecies` to be created by this mutation. */
-export type CommonSpeciesProductSpeciesCommonSpeciesIdFkeyCommonSpeciesProductSpeciesCreateInput = {
-  id?: Maybe<Scalars['BigInt']>;
-  productSpeciesId?: Maybe<Scalars['String']>;
-  commonSpeciesToCommonSpeciesId?: Maybe<CommonSpeciesProductSpeciesCommonSpeciesIdFkeyInput>;
-  productSpeciesToProductSpeciesId?: Maybe<CommonSpeciesProductSpeciesProductSpeciesIdFkeyInput>;
-};
-
-/** The globally unique `ID` look up for the row to update. */
-export type CommonSpeciesTagOnCommonSpeciesTagForCommonSpeciesTagCommonSpeciesIdFkeyNodeIdUpdate = {
-  /** The globally unique `ID` which identifies a single `commonSpecies` to be connected. */
-  nodeId: Scalars['ID'];
-  /** An object where the defined keys will be set on the `commonSpecies` being updated. */
-  patch: CommonSpeciesPatch;
-};
-
-/** The `commonSpecies` to be created by this mutation. */
-export type CommonSpeciesTagCommonSpeciesIdFkeyCommonSpeciesCreateInput = {
-  id?: Maybe<Scalars['BigInt']>;
-  speciesName?: Maybe<Scalars['String']>;
-  speciesDescription?: Maybe<Scalars['String']>;
-  uiColor?: Maybe<Scalars['String']>;
-  commonCategoryId?: Maybe<Scalars['BigInt']>;
-  productSpeciesId?: Maybe<Scalars['String']>;
-  commonCategoryToCommonCategoryId?: Maybe<CommonSpeciesCommonCategoryIdFkeyInput>;
-  productSpeciesToProductSpeciesId?: Maybe<CommonSpeciesProductSpeciesIdFkeyInput>;
-  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSpeciesIdFkeyInverseInput>;
-  commonVarietiesUsingId?: Maybe<CommonVarietyCommonSpeciesIdFkeyInverseInput>;
-  commonSizesUsingId?: Maybe<CommonSizeCommonSpeciesIdFkeyInverseInput>;
-  commonPackTypesUsingId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInverseInput>;
-  commonSpeciesTagsUsingId?: Maybe<CommonSpeciesTagCommonSpeciesIdFkeyInverseInput>;
-  commonSpeciesProductSpeciesUsingId?: Maybe<CommonSpeciesProductSpeciesCommonSpeciesIdFkeyInverseInput>;
-};
-
-/** The globally unique `ID` look up for the row to update. */
-export type CommonSpeciesOnCommonSpeciesTagForCommonSpeciesTagCommonSpeciesIdFkeyNodeIdUpdate = {
-  /** The globally unique `ID` which identifies a single `commonSpeciesTag` to be connected. */
-  nodeId: Scalars['ID'];
-  /** An object where the defined keys will be set on the `commonSpeciesTag` being updated. */
-  patch: CommonSpeciesTagPatch;
-};
-
-/** Represents an update to a `CommonSpeciesTag`. Fields that are set will be updated. */
-export type CommonSpeciesTagPatch = {
-  tagText?: Maybe<Scalars['String']>;
-  commonSpeciesId?: Maybe<Scalars['BigInt']>;
-  commonSpeciesToCommonSpeciesId?: Maybe<CommonSpeciesTagCommonSpeciesIdFkeyInput>;
-};
-
-/** The `commonSpeciesTag` to be created by this mutation. */
-export type CommonSpeciesTagCommonSpeciesIdFkeyCommonSpeciesTagCreateInput = {
-  tagText: Scalars['String'];
-  commonSpeciesToCommonSpeciesId?: Maybe<CommonSpeciesTagCommonSpeciesIdFkeyInput>;
-};
-
-/** The globally unique `ID` look up for the row to update. */
-export type CommonPackTypeOnCommonPackTypeForCommonPackTypeCommonSpeciesIdFkeyNodeIdUpdate = {
-  /** The globally unique `ID` which identifies a single `commonSpecies` to be connected. */
-  nodeId: Scalars['ID'];
-  /** An object where the defined keys will be set on the `commonSpecies` being updated. */
-  patch: CommonSpeciesPatch;
-};
-
-/** The `commonSpecies` to be created by this mutation. */
-export type CommonPackTypeCommonSpeciesIdFkeyCommonSpeciesCreateInput = {
-  id?: Maybe<Scalars['BigInt']>;
-  speciesName?: Maybe<Scalars['String']>;
-  speciesDescription?: Maybe<Scalars['String']>;
-  uiColor?: Maybe<Scalars['String']>;
-  commonCategoryId?: Maybe<Scalars['BigInt']>;
-  productSpeciesId?: Maybe<Scalars['String']>;
-  commonCategoryToCommonCategoryId?: Maybe<CommonSpeciesCommonCategoryIdFkeyInput>;
-  productSpeciesToProductSpeciesId?: Maybe<CommonSpeciesProductSpeciesIdFkeyInput>;
-  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSpeciesIdFkeyInverseInput>;
-  commonVarietiesUsingId?: Maybe<CommonVarietyCommonSpeciesIdFkeyInverseInput>;
-  commonSizesUsingId?: Maybe<CommonSizeCommonSpeciesIdFkeyInverseInput>;
-  commonPackTypesUsingId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInverseInput>;
-  commonSpeciesTagsUsingId?: Maybe<CommonSpeciesTagCommonSpeciesIdFkeyInverseInput>;
-  commonSpeciesProductSpeciesUsingId?: Maybe<CommonSpeciesProductSpeciesCommonSpeciesIdFkeyInverseInput>;
-};
-
-/** The globally unique `ID` look up for the row to update. */
-export type ShipperProjectionProductOnShipperProjectionProductForShipperProjectionProductCommonPackTypeIdFkeyNodeIdUpdate = {
-  /** The globally unique `ID` which identifies a single `commonPackType` to be connected. */
-  nodeId: Scalars['ID'];
-  /** An object where the defined keys will be set on the `commonPackType` being updated. */
-  patch: CommonPackTypePatch;
-};
-
-/** The `commonPackType` to be created by this mutation. */
-export type ShipperProjectionProductCommonPackTypeIdFkeyCommonPackTypeCreateInput = {
+export type ShipperProgramCommonPackTypeIdFkeyCommonPackTypeCreateInput = {
   id?: Maybe<Scalars['BigInt']>;
   packTypeName?: Maybe<Scalars['String']>;
   packTypeDescription?: Maybe<Scalars['String']>;
@@ -30224,227 +35495,33 @@ export type ShipperProjectionProductCommonPackTypeIdFkeyCommonPackTypeCreateInpu
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyInverseInput>;
   commonPackTypeTagsUsingId?: Maybe<CommonPackTypeTagCommonPackTypeIdFkeyInverseInput>;
   commonPackTypePackMastersUsingId?: Maybe<CommonPackTypePackMasterCommonPackTypeIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonPackTypeIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonPackTypeIdFkeyInverseInput>;
 };
 
 /** The globally unique `ID` look up for the row to update. */
-export type CommonSizeOnShipperProjectionProductForShipperProjectionProductCommonSizeIdFkeyNodeIdUpdate = {
-  /** The globally unique `ID` which identifies a single `shipperProjectionProduct` to be connected. */
+export type CommonSizeOnShipperProgramForShipperProgramCommonSizeIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `shipperProgram` to be connected. */
   nodeId: Scalars['ID'];
-  /** An object where the defined keys will be set on the `shipperProjectionProduct` being updated. */
-  patch: ShipperProjectionProductPatch;
+  /** An object where the defined keys will be set on the `shipperProgram` being updated. */
+  patch: ShipperProgramPatch;
 };
 
-/** The `shipperProjectionProduct` to be created by this mutation. */
-export type ShipperProjectionProductCommonSizeIdFkeyShipperProjectionProductCreateInput = {
+/** The `shipperProgram` to be created by this mutation. */
+export type ShipperProgramCommonSizeIdFkeyShipperProgramCreateInput = {
   id?: Maybe<Scalars['BigInt']>;
-  species?: Maybe<Scalars['String']>;
-  variety?: Maybe<Scalars['String']>;
-  size?: Maybe<Scalars['String']>;
-  packType?: Maybe<Scalars['String']>;
-  plu?: Maybe<Scalars['String']>;
-  shipperId?: Maybe<Scalars['String']>;
   commonSpeciesId?: Maybe<Scalars['BigInt']>;
   commonVarietyId?: Maybe<Scalars['BigInt']>;
   commonPackTypeId?: Maybe<Scalars['BigInt']>;
-  shipperToShipperId?: Maybe<ShipperProjectionProductShipperIdFkeyInput>;
-  commonSpeciesToCommonSpeciesId?: Maybe<ShipperProjectionProductCommonSpeciesIdFkeyInput>;
-  commonVarietyToCommonVarietyId?: Maybe<ShipperProjectionProductCommonVarietyIdFkeyInput>;
-  commonSizeToCommonSizeId?: Maybe<ShipperProjectionProductCommonSizeIdFkeyInput>;
-  commonPackTypeToCommonPackTypeId?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyInput>;
-  shipperProjectionEntriesUsingId?: Maybe<ShipperProjectionEntryProductIdFkeyInverseInput>;
-};
-
-/** Input for the nested mutation of `commonSizeTag` in the `CommonSizeInput` mutation. */
-export type CommonSizeTagCommonSizeIdFkeyInverseInput = {
-  /** Flag indicating whether all other `commonSizeTag` records that match this relationship should be removed. */
-  deleteOthers?: Maybe<Scalars['Boolean']>;
-  /** The primary key(s) for `commonSizeTag` for the far side of the relationship. */
-  connectByTagTextAndCommonSizeId?: Maybe<Array<CommonSizeTagCommonSizeTagPkeyConnect>>;
-  /** The primary key(s) for `commonSizeTag` for the far side of the relationship. */
-  connectByNodeId?: Maybe<Array<CommonSizeTagNodeIdConnect>>;
-  /** The primary key(s) for `commonSizeTag` for the far side of the relationship. */
-  deleteByTagTextAndCommonSizeId?: Maybe<Array<CommonSizeTagCommonSizeTagPkeyDelete>>;
-  /** The primary key(s) for `commonSizeTag` for the far side of the relationship. */
-  deleteByNodeId?: Maybe<Array<CommonSizeTagNodeIdDelete>>;
-  /** The primary key(s) and patch data for `commonSizeTag` for the far side of the relationship. */
-  updateByTagTextAndCommonSizeId?: Maybe<Array<CommonSizeTagOnCommonSizeTagForCommonSizeTagCommonSizeIdFkeyUsingCommonSizeTagPkeyUpdate>>;
-  /** The primary key(s) and patch data for `commonSizeTag` for the far side of the relationship. */
-  updateByNodeId?: Maybe<Array<CommonSizeOnCommonSizeTagForCommonSizeTagCommonSizeIdFkeyNodeIdUpdate>>;
-  /** A `CommonSizeTagInput` object that will be created and connected to this object. */
-  create?: Maybe<Array<CommonSizeTagCommonSizeIdFkeyCommonSizeTagCreateInput>>;
-};
-
-/** The fields on `commonSizeTag` to look up the row to connect. */
-export type CommonSizeTagCommonSizeTagPkeyConnect = {
-  tagText: Scalars['String'];
-  commonSizeId: Scalars['BigInt'];
-};
-
-/** The globally unique `ID` look up for the row to connect. */
-export type CommonSizeTagNodeIdConnect = {
-  /** The globally unique `ID` which identifies a single `commonSizeTag` to be connected. */
-  nodeId: Scalars['ID'];
-};
-
-/** The fields on `commonSizeTag` to look up the row to delete. */
-export type CommonSizeTagCommonSizeTagPkeyDelete = {
-  tagText: Scalars['String'];
-  commonSizeId: Scalars['BigInt'];
-};
-
-/** The globally unique `ID` look up for the row to delete. */
-export type CommonSizeTagNodeIdDelete = {
-  /** The globally unique `ID` which identifies a single `commonSizeTag` to be deleted. */
-  nodeId: Scalars['ID'];
-};
-
-/** The fields on `commonSizeTag` to look up the row to update. */
-export type CommonSizeTagOnCommonSizeTagForCommonSizeTagCommonSizeIdFkeyUsingCommonSizeTagPkeyUpdate = {
-  /** An object where the defined keys will be set on the `commonSizeTag` being updated. */
-  patch: UpdateCommonSizeTagOnCommonSizeTagForCommonSizeTagCommonSizeIdFkeyPatch;
-  tagText: Scalars['String'];
-  commonSizeId: Scalars['BigInt'];
-};
-
-/** An object where the defined keys will be set on the `commonSizeTag` being updated. */
-export type UpdateCommonSizeTagOnCommonSizeTagForCommonSizeTagCommonSizeIdFkeyPatch = {
-  tagText?: Maybe<Scalars['String']>;
-  commonSizeToCommonSizeId?: Maybe<CommonSizeTagCommonSizeIdFkeyInput>;
-};
-
-/** Input for the nested mutation of `commonSize` in the `CommonSizeTagInput` mutation. */
-export type CommonSizeTagCommonSizeIdFkeyInput = {
-  /** The primary key(s) for `commonSize` for the far side of the relationship. */
-  connectById?: Maybe<CommonSizeCommonSizePkeyConnect>;
-  /** The primary key(s) for `commonSize` for the far side of the relationship. */
-  connectByNodeId?: Maybe<CommonSizeNodeIdConnect>;
-  /** The primary key(s) for `commonSize` for the far side of the relationship. */
-  deleteById?: Maybe<CommonSizeCommonSizePkeyDelete>;
-  /** The primary key(s) for `commonSize` for the far side of the relationship. */
-  deleteByNodeId?: Maybe<CommonSizeNodeIdDelete>;
-  /** The primary key(s) and patch data for `commonSize` for the far side of the relationship. */
-  updateById?: Maybe<CommonSizeOnCommonSizeTagForCommonSizeTagCommonSizeIdFkeyUsingCommonSizePkeyUpdate>;
-  /** The primary key(s) and patch data for `commonSize` for the far side of the relationship. */
-  updateByNodeId?: Maybe<CommonSizeTagOnCommonSizeTagForCommonSizeTagCommonSizeIdFkeyNodeIdUpdate>;
-  /** A `CommonSizeInput` object that will be created and connected to this object. */
-  create?: Maybe<CommonSizeTagCommonSizeIdFkeyCommonSizeCreateInput>;
-};
-
-/** The fields on `commonSize` to look up the row to update. */
-export type CommonSizeOnCommonSizeTagForCommonSizeTagCommonSizeIdFkeyUsingCommonSizePkeyUpdate = {
-  /** An object where the defined keys will be set on the `commonSize` being updated. */
-  patch: UpdateCommonSizeOnCommonSizeTagForCommonSizeTagCommonSizeIdFkeyPatch;
-  id: Scalars['BigInt'];
-};
-
-/** An object where the defined keys will be set on the `commonSize` being updated. */
-export type UpdateCommonSizeOnCommonSizeTagForCommonSizeTagCommonSizeIdFkeyPatch = {
-  id?: Maybe<Scalars['BigInt']>;
-  sizeName?: Maybe<Scalars['String']>;
-  sizeDescription?: Maybe<Scalars['String']>;
-  commonSpeciesId?: Maybe<Scalars['BigInt']>;
-  productSizeId?: Maybe<Scalars['BigInt']>;
-  commonSpeciesToCommonSpeciesId?: Maybe<CommonSizeCommonSpeciesIdFkeyInput>;
-  productSizeToProductSizeId?: Maybe<CommonSizeProductSizeIdFkeyInput>;
-  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSizeIdFkeyInverseInput>;
-  commonSizeTagsUsingId?: Maybe<CommonSizeTagCommonSizeIdFkeyInverseInput>;
-  commonSizeProductSizesUsingId?: Maybe<CommonSizeProductSizeCommonSizeIdFkeyInverseInput>;
-};
-
-/** Input for the nested mutation of `commonSizeProductSize` in the `CommonSizeInput` mutation. */
-export type CommonSizeProductSizeCommonSizeIdFkeyInverseInput = {
-  /** Flag indicating whether all other `commonSizeProductSize` records that match this relationship should be removed. */
-  deleteOthers?: Maybe<Scalars['Boolean']>;
-  /** The primary key(s) for `commonSizeProductSize` for the far side of the relationship. */
-  connectById?: Maybe<Array<CommonSizeProductSizeCommonSizeProductSizePkeyConnect>>;
-  /** The primary key(s) for `commonSizeProductSize` for the far side of the relationship. */
-  connectByNodeId?: Maybe<Array<CommonSizeProductSizeNodeIdConnect>>;
-  /** The primary key(s) for `commonSizeProductSize` for the far side of the relationship. */
-  deleteById?: Maybe<Array<CommonSizeProductSizeCommonSizeProductSizePkeyDelete>>;
-  /** The primary key(s) for `commonSizeProductSize` for the far side of the relationship. */
-  deleteByNodeId?: Maybe<Array<CommonSizeProductSizeNodeIdDelete>>;
-  /** The primary key(s) and patch data for `commonSizeProductSize` for the far side of the relationship. */
-  updateById?: Maybe<Array<CommonSizeProductSizeOnCommonSizeProductSizeForCommonSizeProductSizeCommonSizeIdFkeyUsingCommonSizeProductSizePkeyUpdate>>;
-  /** The primary key(s) and patch data for `commonSizeProductSize` for the far side of the relationship. */
-  updateByNodeId?: Maybe<Array<CommonSizeOnCommonSizeProductSizeForCommonSizeProductSizeCommonSizeIdFkeyNodeIdUpdate>>;
-  /** A `CommonSizeProductSizeInput` object that will be created and connected to this object. */
-  create?: Maybe<Array<CommonSizeProductSizeCommonSizeIdFkeyCommonSizeProductSizeCreateInput>>;
-};
-
-/** The fields on `commonSizeProductSize` to look up the row to connect. */
-export type CommonSizeProductSizeCommonSizeProductSizePkeyConnect = {
-  id: Scalars['BigInt'];
-};
-
-/** The globally unique `ID` look up for the row to connect. */
-export type CommonSizeProductSizeNodeIdConnect = {
-  /** The globally unique `ID` which identifies a single `commonSizeProductSize` to be connected. */
-  nodeId: Scalars['ID'];
-};
-
-/** The fields on `commonSizeProductSize` to look up the row to delete. */
-export type CommonSizeProductSizeCommonSizeProductSizePkeyDelete = {
-  id: Scalars['BigInt'];
-};
-
-/** The globally unique `ID` look up for the row to delete. */
-export type CommonSizeProductSizeNodeIdDelete = {
-  /** The globally unique `ID` which identifies a single `commonSizeProductSize` to be deleted. */
-  nodeId: Scalars['ID'];
-};
-
-/** The fields on `commonSizeProductSize` to look up the row to update. */
-export type CommonSizeProductSizeOnCommonSizeProductSizeForCommonSizeProductSizeCommonSizeIdFkeyUsingCommonSizeProductSizePkeyUpdate = {
-  /** An object where the defined keys will be set on the `commonSizeProductSize` being updated. */
-  patch: UpdateCommonSizeProductSizeOnCommonSizeProductSizeForCommonSizeProductSizeCommonSizeIdFkeyPatch;
-  id: Scalars['BigInt'];
-};
-
-/** An object where the defined keys will be set on the `commonSizeProductSize` being updated. */
-export type UpdateCommonSizeProductSizeOnCommonSizeProductSizeForCommonSizeProductSizeCommonSizeIdFkeyPatch = {
-  id?: Maybe<Scalars['BigInt']>;
-  productSizeId?: Maybe<Scalars['BigInt']>;
-  commonSizeToCommonSizeId?: Maybe<CommonSizeProductSizeCommonSizeIdFkeyInput>;
-  productSizeToProductSizeId?: Maybe<CommonSizeProductSizeProductSizeIdFkeyInput>;
-};
-
-/** Input for the nested mutation of `commonSize` in the `CommonSizeProductSizeInput` mutation. */
-export type CommonSizeProductSizeCommonSizeIdFkeyInput = {
-  /** The primary key(s) for `commonSize` for the far side of the relationship. */
-  connectById?: Maybe<CommonSizeCommonSizePkeyConnect>;
-  /** The primary key(s) for `commonSize` for the far side of the relationship. */
-  connectByNodeId?: Maybe<CommonSizeNodeIdConnect>;
-  /** The primary key(s) for `commonSize` for the far side of the relationship. */
-  deleteById?: Maybe<CommonSizeCommonSizePkeyDelete>;
-  /** The primary key(s) for `commonSize` for the far side of the relationship. */
-  deleteByNodeId?: Maybe<CommonSizeNodeIdDelete>;
-  /** The primary key(s) and patch data for `commonSize` for the far side of the relationship. */
-  updateById?: Maybe<CommonSizeOnCommonSizeProductSizeForCommonSizeProductSizeCommonSizeIdFkeyUsingCommonSizePkeyUpdate>;
-  /** The primary key(s) and patch data for `commonSize` for the far side of the relationship. */
-  updateByNodeId?: Maybe<CommonSizeProductSizeOnCommonSizeProductSizeForCommonSizeProductSizeCommonSizeIdFkeyNodeIdUpdate>;
-  /** A `CommonSizeInput` object that will be created and connected to this object. */
-  create?: Maybe<CommonSizeProductSizeCommonSizeIdFkeyCommonSizeCreateInput>;
-};
-
-/** The fields on `commonSize` to look up the row to update. */
-export type CommonSizeOnCommonSizeProductSizeForCommonSizeProductSizeCommonSizeIdFkeyUsingCommonSizePkeyUpdate = {
-  /** An object where the defined keys will be set on the `commonSize` being updated. */
-  patch: UpdateCommonSizeOnCommonSizeProductSizeForCommonSizeProductSizeCommonSizeIdFkeyPatch;
-  id: Scalars['BigInt'];
-};
-
-/** An object where the defined keys will be set on the `commonSize` being updated. */
-export type UpdateCommonSizeOnCommonSizeProductSizeForCommonSizeProductSizeCommonSizeIdFkeyPatch = {
-  id?: Maybe<Scalars['BigInt']>;
-  sizeName?: Maybe<Scalars['String']>;
-  sizeDescription?: Maybe<Scalars['String']>;
-  commonSpeciesId?: Maybe<Scalars['BigInt']>;
-  productSizeId?: Maybe<Scalars['BigInt']>;
-  commonSpeciesToCommonSpeciesId?: Maybe<CommonSizeCommonSpeciesIdFkeyInput>;
-  productSizeToProductSizeId?: Maybe<CommonSizeProductSizeIdFkeyInput>;
-  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSizeIdFkeyInverseInput>;
-  commonSizeTagsUsingId?: Maybe<CommonSizeTagCommonSizeIdFkeyInverseInput>;
-  commonSizeProductSizesUsingId?: Maybe<CommonSizeProductSizeCommonSizeIdFkeyInverseInput>;
+  shipperId?: Maybe<Scalars['String']>;
+  arrivalPort?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  commonSpeciesToCommonSpeciesId?: Maybe<ShipperProgramCommonSpeciesIdFkeyInput>;
+  commonVarietyToCommonVarietyId?: Maybe<ShipperProgramCommonVarietyIdFkeyInput>;
+  commonSizeToCommonSizeId?: Maybe<ShipperProgramCommonSizeIdFkeyInput>;
+  commonPackTypeToCommonPackTypeId?: Maybe<ShipperProgramCommonPackTypeIdFkeyInput>;
+  shipperToShipperId?: Maybe<ShipperProgramShipperIdFkeyInput>;
+  shipperProgramEntriesUsingId?: Maybe<ShipperProgramEntryShipperProgramIdFkeyInverseInput>;
 };
 
 /** The globally unique `ID` look up for the row to update. */
@@ -30453,20 +35530,6 @@ export type CommonSizeProductSizeOnCommonSizeProductSizeForCommonSizeProductSize
   nodeId: Scalars['ID'];
   /** An object where the defined keys will be set on the `commonSize` being updated. */
   patch: CommonSizePatch;
-};
-
-/** Represents an update to a `CommonSize`. Fields that are set will be updated. */
-export type CommonSizePatch = {
-  id?: Maybe<Scalars['BigInt']>;
-  sizeName?: Maybe<Scalars['String']>;
-  sizeDescription?: Maybe<Scalars['String']>;
-  commonSpeciesId?: Maybe<Scalars['BigInt']>;
-  productSizeId?: Maybe<Scalars['BigInt']>;
-  commonSpeciesToCommonSpeciesId?: Maybe<CommonSizeCommonSpeciesIdFkeyInput>;
-  productSizeToProductSizeId?: Maybe<CommonSizeProductSizeIdFkeyInput>;
-  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSizeIdFkeyInverseInput>;
-  commonSizeTagsUsingId?: Maybe<CommonSizeTagCommonSizeIdFkeyInverseInput>;
-  commonSizeProductSizesUsingId?: Maybe<CommonSizeProductSizeCommonSizeIdFkeyInverseInput>;
 };
 
 /** The `commonSize` to be created by this mutation. */
@@ -30481,6 +35544,8 @@ export type CommonSizeProductSizeCommonSizeIdFkeyCommonSizeCreateInput = {
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSizeIdFkeyInverseInput>;
   commonSizeTagsUsingId?: Maybe<CommonSizeTagCommonSizeIdFkeyInverseInput>;
   commonSizeProductSizesUsingId?: Maybe<CommonSizeProductSizeCommonSizeIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonSizeIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonSizeIdFkeyInverseInput>;
 };
 
 /** Input for the nested mutation of `productSize` in the `CommonSizeProductSizeInput` mutation. */
@@ -30660,6 +35725,8 @@ export type CommonSizeTagCommonSizeIdFkeyCommonSizeCreateInput = {
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSizeIdFkeyInverseInput>;
   commonSizeTagsUsingId?: Maybe<CommonSizeTagCommonSizeIdFkeyInverseInput>;
   commonSizeProductSizesUsingId?: Maybe<CommonSizeProductSizeCommonSizeIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonSizeIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonSizeIdFkeyInverseInput>;
 };
 
 /** The globally unique `ID` look up for the row to update. */
@@ -30684,6 +35751,58 @@ export type CommonSizeTagCommonSizeIdFkeyCommonSizeTagCreateInput = {
 };
 
 /** The globally unique `ID` look up for the row to update. */
+export type ShipperProjectionProductOnShipperProjectionProductForShipperProjectionProductCommonSizeIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `commonSize` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `commonSize` being updated. */
+  patch: CommonSizePatch;
+};
+
+/** The `commonSize` to be created by this mutation. */
+export type ShipperProjectionProductCommonSizeIdFkeyCommonSizeCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  sizeName?: Maybe<Scalars['String']>;
+  sizeDescription?: Maybe<Scalars['String']>;
+  commonSpeciesId?: Maybe<Scalars['BigInt']>;
+  productSizeId?: Maybe<Scalars['BigInt']>;
+  commonSpeciesToCommonSpeciesId?: Maybe<CommonSizeCommonSpeciesIdFkeyInput>;
+  productSizeToProductSizeId?: Maybe<CommonSizeProductSizeIdFkeyInput>;
+  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSizeIdFkeyInverseInput>;
+  commonSizeTagsUsingId?: Maybe<CommonSizeTagCommonSizeIdFkeyInverseInput>;
+  commonSizeProductSizesUsingId?: Maybe<CommonSizeProductSizeCommonSizeIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonSizeIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonSizeIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type CommonSizeOnShipperProjectionProductForShipperProjectionProductCommonSizeIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `shipperProjectionProduct` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `shipperProjectionProduct` being updated. */
+  patch: ShipperProjectionProductPatch;
+};
+
+/** The `shipperProjectionProduct` to be created by this mutation. */
+export type ShipperProjectionProductCommonSizeIdFkeyShipperProjectionProductCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  species?: Maybe<Scalars['String']>;
+  variety?: Maybe<Scalars['String']>;
+  size?: Maybe<Scalars['String']>;
+  packType?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  shipperId?: Maybe<Scalars['String']>;
+  commonSpeciesId?: Maybe<Scalars['BigInt']>;
+  commonVarietyId?: Maybe<Scalars['BigInt']>;
+  commonPackTypeId?: Maybe<Scalars['BigInt']>;
+  shipperToShipperId?: Maybe<ShipperProjectionProductShipperIdFkeyInput>;
+  commonSpeciesToCommonSpeciesId?: Maybe<ShipperProjectionProductCommonSpeciesIdFkeyInput>;
+  commonVarietyToCommonVarietyId?: Maybe<ShipperProjectionProductCommonVarietyIdFkeyInput>;
+  commonSizeToCommonSizeId?: Maybe<ShipperProjectionProductCommonSizeIdFkeyInput>;
+  commonPackTypeToCommonPackTypeId?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyInput>;
+  shipperProjectionEntriesUsingId?: Maybe<ShipperProjectionEntryProductIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
 export type ProductSizeOnCommonSizeForCommonSizeProductSizeIdFkeyNodeIdUpdate = {
   /** The globally unique `ID` which identifies a single `commonSize` to be connected. */
   nodeId: Scalars['ID'];
@@ -30702,6 +35821,8 @@ export type CommonSizeProductSizeIdFkeyCommonSizeCreateInput = {
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSizeIdFkeyInverseInput>;
   commonSizeTagsUsingId?: Maybe<CommonSizeTagCommonSizeIdFkeyInverseInput>;
   commonSizeProductSizesUsingId?: Maybe<CommonSizeProductSizeCommonSizeIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonSizeIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonSizeIdFkeyInverseInput>;
 };
 
 /** The globally unique `ID` look up for the row to update. */
@@ -30729,7 +35850,7 @@ export type CommonSizeProductSizeIdFkeyProductSizeCreateInput = {
 };
 
 /** The globally unique `ID` look up for the row to update. */
-export type CommonSpeciesOnCommonSizeForCommonSizeCommonSpeciesIdFkeyNodeIdUpdate = {
+export type ShipperProgramOnShipperProgramForShipperProgramCommonSizeIdFkeyNodeIdUpdate = {
   /** The globally unique `ID` which identifies a single `commonSize` to be connected. */
   nodeId: Scalars['ID'];
   /** An object where the defined keys will be set on the `commonSize` being updated. */
@@ -30737,54 +35858,7 @@ export type CommonSpeciesOnCommonSizeForCommonSizeCommonSpeciesIdFkeyNodeIdUpdat
 };
 
 /** The `commonSize` to be created by this mutation. */
-export type CommonSizeCommonSpeciesIdFkeyCommonSizeCreateInput = {
-  id?: Maybe<Scalars['BigInt']>;
-  sizeName?: Maybe<Scalars['String']>;
-  sizeDescription?: Maybe<Scalars['String']>;
-  productSizeId?: Maybe<Scalars['BigInt']>;
-  commonSpeciesToCommonSpeciesId?: Maybe<CommonSizeCommonSpeciesIdFkeyInput>;
-  productSizeToProductSizeId?: Maybe<CommonSizeProductSizeIdFkeyInput>;
-  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSizeIdFkeyInverseInput>;
-  commonSizeTagsUsingId?: Maybe<CommonSizeTagCommonSizeIdFkeyInverseInput>;
-  commonSizeProductSizesUsingId?: Maybe<CommonSizeProductSizeCommonSizeIdFkeyInverseInput>;
-};
-
-/** The globally unique `ID` look up for the row to update. */
-export type CommonSizeOnCommonSizeForCommonSizeCommonSpeciesIdFkeyNodeIdUpdate = {
-  /** The globally unique `ID` which identifies a single `commonSpecies` to be connected. */
-  nodeId: Scalars['ID'];
-  /** An object where the defined keys will be set on the `commonSpecies` being updated. */
-  patch: CommonSpeciesPatch;
-};
-
-/** The `commonSpecies` to be created by this mutation. */
-export type CommonSizeCommonSpeciesIdFkeyCommonSpeciesCreateInput = {
-  id?: Maybe<Scalars['BigInt']>;
-  speciesName?: Maybe<Scalars['String']>;
-  speciesDescription?: Maybe<Scalars['String']>;
-  uiColor?: Maybe<Scalars['String']>;
-  commonCategoryId?: Maybe<Scalars['BigInt']>;
-  productSpeciesId?: Maybe<Scalars['String']>;
-  commonCategoryToCommonCategoryId?: Maybe<CommonSpeciesCommonCategoryIdFkeyInput>;
-  productSpeciesToProductSpeciesId?: Maybe<CommonSpeciesProductSpeciesIdFkeyInput>;
-  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSpeciesIdFkeyInverseInput>;
-  commonVarietiesUsingId?: Maybe<CommonVarietyCommonSpeciesIdFkeyInverseInput>;
-  commonSizesUsingId?: Maybe<CommonSizeCommonSpeciesIdFkeyInverseInput>;
-  commonPackTypesUsingId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInverseInput>;
-  commonSpeciesTagsUsingId?: Maybe<CommonSpeciesTagCommonSpeciesIdFkeyInverseInput>;
-  commonSpeciesProductSpeciesUsingId?: Maybe<CommonSpeciesProductSpeciesCommonSpeciesIdFkeyInverseInput>;
-};
-
-/** The globally unique `ID` look up for the row to update. */
-export type ShipperProjectionProductOnShipperProjectionProductForShipperProjectionProductCommonSizeIdFkeyNodeIdUpdate = {
-  /** The globally unique `ID` which identifies a single `commonSize` to be connected. */
-  nodeId: Scalars['ID'];
-  /** An object where the defined keys will be set on the `commonSize` being updated. */
-  patch: CommonSizePatch;
-};
-
-/** The `commonSize` to be created by this mutation. */
-export type ShipperProjectionProductCommonSizeIdFkeyCommonSizeCreateInput = {
+export type ShipperProgramCommonSizeIdFkeyCommonSizeCreateInput = {
   id?: Maybe<Scalars['BigInt']>;
   sizeName?: Maybe<Scalars['String']>;
   sizeDescription?: Maybe<Scalars['String']>;
@@ -30795,229 +35869,33 @@ export type ShipperProjectionProductCommonSizeIdFkeyCommonSizeCreateInput = {
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSizeIdFkeyInverseInput>;
   commonSizeTagsUsingId?: Maybe<CommonSizeTagCommonSizeIdFkeyInverseInput>;
   commonSizeProductSizesUsingId?: Maybe<CommonSizeProductSizeCommonSizeIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonSizeIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonSizeIdFkeyInverseInput>;
 };
 
 /** The globally unique `ID` look up for the row to update. */
-export type CommonVarietyOnShipperProjectionProductForShipperProjectionProductCommonVarietyIdFkeyNodeIdUpdate = {
-  /** The globally unique `ID` which identifies a single `shipperProjectionProduct` to be connected. */
+export type CommonVarietyOnShipperProgramForShipperProgramCommonVarietyIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `shipperProgram` to be connected. */
   nodeId: Scalars['ID'];
-  /** An object where the defined keys will be set on the `shipperProjectionProduct` being updated. */
-  patch: ShipperProjectionProductPatch;
+  /** An object where the defined keys will be set on the `shipperProgram` being updated. */
+  patch: ShipperProgramPatch;
 };
 
-/** The `shipperProjectionProduct` to be created by this mutation. */
-export type ShipperProjectionProductCommonVarietyIdFkeyShipperProjectionProductCreateInput = {
+/** The `shipperProgram` to be created by this mutation. */
+export type ShipperProgramCommonVarietyIdFkeyShipperProgramCreateInput = {
   id?: Maybe<Scalars['BigInt']>;
-  species?: Maybe<Scalars['String']>;
-  variety?: Maybe<Scalars['String']>;
-  size?: Maybe<Scalars['String']>;
-  packType?: Maybe<Scalars['String']>;
-  plu?: Maybe<Scalars['String']>;
-  shipperId?: Maybe<Scalars['String']>;
   commonSpeciesId?: Maybe<Scalars['BigInt']>;
   commonSizeId?: Maybe<Scalars['BigInt']>;
   commonPackTypeId?: Maybe<Scalars['BigInt']>;
-  shipperToShipperId?: Maybe<ShipperProjectionProductShipperIdFkeyInput>;
-  commonSpeciesToCommonSpeciesId?: Maybe<ShipperProjectionProductCommonSpeciesIdFkeyInput>;
-  commonVarietyToCommonVarietyId?: Maybe<ShipperProjectionProductCommonVarietyIdFkeyInput>;
-  commonSizeToCommonSizeId?: Maybe<ShipperProjectionProductCommonSizeIdFkeyInput>;
-  commonPackTypeToCommonPackTypeId?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyInput>;
-  shipperProjectionEntriesUsingId?: Maybe<ShipperProjectionEntryProductIdFkeyInverseInput>;
-};
-
-/** Input for the nested mutation of `commonVarietyTag` in the `CommonVarietyInput` mutation. */
-export type CommonVarietyTagCommonVarietyIdFkeyInverseInput = {
-  /** Flag indicating whether all other `commonVarietyTag` records that match this relationship should be removed. */
-  deleteOthers?: Maybe<Scalars['Boolean']>;
-  /** The primary key(s) for `commonVarietyTag` for the far side of the relationship. */
-  connectByTagTextAndCommonVarietyId?: Maybe<Array<CommonVarietyTagCommonVarietyTagPkeyConnect>>;
-  /** The primary key(s) for `commonVarietyTag` for the far side of the relationship. */
-  connectByNodeId?: Maybe<Array<CommonVarietyTagNodeIdConnect>>;
-  /** The primary key(s) for `commonVarietyTag` for the far side of the relationship. */
-  deleteByTagTextAndCommonVarietyId?: Maybe<Array<CommonVarietyTagCommonVarietyTagPkeyDelete>>;
-  /** The primary key(s) for `commonVarietyTag` for the far side of the relationship. */
-  deleteByNodeId?: Maybe<Array<CommonVarietyTagNodeIdDelete>>;
-  /** The primary key(s) and patch data for `commonVarietyTag` for the far side of the relationship. */
-  updateByTagTextAndCommonVarietyId?: Maybe<Array<CommonVarietyTagOnCommonVarietyTagForCommonVarietyTagCommonVarietyIdFkeyUsingCommonVarietyTagPkeyUpdate>>;
-  /** The primary key(s) and patch data for `commonVarietyTag` for the far side of the relationship. */
-  updateByNodeId?: Maybe<Array<CommonVarietyOnCommonVarietyTagForCommonVarietyTagCommonVarietyIdFkeyNodeIdUpdate>>;
-  /** A `CommonVarietyTagInput` object that will be created and connected to this object. */
-  create?: Maybe<Array<CommonVarietyTagCommonVarietyIdFkeyCommonVarietyTagCreateInput>>;
-};
-
-/** The fields on `commonVarietyTag` to look up the row to connect. */
-export type CommonVarietyTagCommonVarietyTagPkeyConnect = {
-  tagText: Scalars['String'];
-  commonVarietyId: Scalars['BigInt'];
-};
-
-/** The globally unique `ID` look up for the row to connect. */
-export type CommonVarietyTagNodeIdConnect = {
-  /** The globally unique `ID` which identifies a single `commonVarietyTag` to be connected. */
-  nodeId: Scalars['ID'];
-};
-
-/** The fields on `commonVarietyTag` to look up the row to delete. */
-export type CommonVarietyTagCommonVarietyTagPkeyDelete = {
-  tagText: Scalars['String'];
-  commonVarietyId: Scalars['BigInt'];
-};
-
-/** The globally unique `ID` look up for the row to delete. */
-export type CommonVarietyTagNodeIdDelete = {
-  /** The globally unique `ID` which identifies a single `commonVarietyTag` to be deleted. */
-  nodeId: Scalars['ID'];
-};
-
-/** The fields on `commonVarietyTag` to look up the row to update. */
-export type CommonVarietyTagOnCommonVarietyTagForCommonVarietyTagCommonVarietyIdFkeyUsingCommonVarietyTagPkeyUpdate = {
-  /** An object where the defined keys will be set on the `commonVarietyTag` being updated. */
-  patch: UpdateCommonVarietyTagOnCommonVarietyTagForCommonVarietyTagCommonVarietyIdFkeyPatch;
-  tagText: Scalars['String'];
-  commonVarietyId: Scalars['BigInt'];
-};
-
-/** An object where the defined keys will be set on the `commonVarietyTag` being updated. */
-export type UpdateCommonVarietyTagOnCommonVarietyTagForCommonVarietyTagCommonVarietyIdFkeyPatch = {
-  tagText?: Maybe<Scalars['String']>;
-  commonVarietyToCommonVarietyId?: Maybe<CommonVarietyTagCommonVarietyIdFkeyInput>;
-};
-
-/** Input for the nested mutation of `commonVariety` in the `CommonVarietyTagInput` mutation. */
-export type CommonVarietyTagCommonVarietyIdFkeyInput = {
-  /** The primary key(s) for `commonVariety` for the far side of the relationship. */
-  connectById?: Maybe<CommonVarietyCommonVarietyPkeyConnect>;
-  /** The primary key(s) for `commonVariety` for the far side of the relationship. */
-  connectByNodeId?: Maybe<CommonVarietyNodeIdConnect>;
-  /** The primary key(s) for `commonVariety` for the far side of the relationship. */
-  deleteById?: Maybe<CommonVarietyCommonVarietyPkeyDelete>;
-  /** The primary key(s) for `commonVariety` for the far side of the relationship. */
-  deleteByNodeId?: Maybe<CommonVarietyNodeIdDelete>;
-  /** The primary key(s) and patch data for `commonVariety` for the far side of the relationship. */
-  updateById?: Maybe<CommonVarietyOnCommonVarietyTagForCommonVarietyTagCommonVarietyIdFkeyUsingCommonVarietyPkeyUpdate>;
-  /** The primary key(s) and patch data for `commonVariety` for the far side of the relationship. */
-  updateByNodeId?: Maybe<CommonVarietyTagOnCommonVarietyTagForCommonVarietyTagCommonVarietyIdFkeyNodeIdUpdate>;
-  /** A `CommonVarietyInput` object that will be created and connected to this object. */
-  create?: Maybe<CommonVarietyTagCommonVarietyIdFkeyCommonVarietyCreateInput>;
-};
-
-/** The fields on `commonVariety` to look up the row to update. */
-export type CommonVarietyOnCommonVarietyTagForCommonVarietyTagCommonVarietyIdFkeyUsingCommonVarietyPkeyUpdate = {
-  /** An object where the defined keys will be set on the `commonVariety` being updated. */
-  patch: UpdateCommonVarietyOnCommonVarietyTagForCommonVarietyTagCommonVarietyIdFkeyPatch;
-  id: Scalars['BigInt'];
-};
-
-/** An object where the defined keys will be set on the `commonVariety` being updated. */
-export type UpdateCommonVarietyOnCommonVarietyTagForCommonVarietyTagCommonVarietyIdFkeyPatch = {
-  id?: Maybe<Scalars['BigInt']>;
-  varietyName?: Maybe<Scalars['String']>;
-  varietyDescription?: Maybe<Scalars['String']>;
-  uiColor?: Maybe<Scalars['String']>;
-  commonSpeciesId?: Maybe<Scalars['BigInt']>;
-  productVarietyId?: Maybe<Scalars['String']>;
-  commonSpeciesToCommonSpeciesId?: Maybe<CommonVarietyCommonSpeciesIdFkeyInput>;
-  productVarietyToProductVarietyId?: Maybe<CommonVarietyProductVarietyIdFkeyInput>;
-  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonVarietyIdFkeyInverseInput>;
-  commonVarietyTagsUsingId?: Maybe<CommonVarietyTagCommonVarietyIdFkeyInverseInput>;
-  commonVarietyProductVarietiesUsingId?: Maybe<CommonVarietyProductVarietyCommonVarietyIdFkeyInverseInput>;
-};
-
-/** Input for the nested mutation of `commonVarietyProductVariety` in the `CommonVarietyInput` mutation. */
-export type CommonVarietyProductVarietyCommonVarietyIdFkeyInverseInput = {
-  /** Flag indicating whether all other `commonVarietyProductVariety` records that match this relationship should be removed. */
-  deleteOthers?: Maybe<Scalars['Boolean']>;
-  /** The primary key(s) for `commonVarietyProductVariety` for the far side of the relationship. */
-  connectById?: Maybe<Array<CommonVarietyProductVarietyCommonVarietyProductVarietyPkeyConnect>>;
-  /** The primary key(s) for `commonVarietyProductVariety` for the far side of the relationship. */
-  connectByNodeId?: Maybe<Array<CommonVarietyProductVarietyNodeIdConnect>>;
-  /** The primary key(s) for `commonVarietyProductVariety` for the far side of the relationship. */
-  deleteById?: Maybe<Array<CommonVarietyProductVarietyCommonVarietyProductVarietyPkeyDelete>>;
-  /** The primary key(s) for `commonVarietyProductVariety` for the far side of the relationship. */
-  deleteByNodeId?: Maybe<Array<CommonVarietyProductVarietyNodeIdDelete>>;
-  /** The primary key(s) and patch data for `commonVarietyProductVariety` for the far side of the relationship. */
-  updateById?: Maybe<Array<CommonVarietyProductVarietyOnCommonVarietyProductVarietyForCommonVarietyProductVarietyCommonVarietyIdFkeyUsingCommonVarietyProductVarietyPkeyUpdate>>;
-  /** The primary key(s) and patch data for `commonVarietyProductVariety` for the far side of the relationship. */
-  updateByNodeId?: Maybe<Array<CommonVarietyOnCommonVarietyProductVarietyForCommonVarietyProductVarietyCommonVarietyIdFkeyNodeIdUpdate>>;
-  /** A `CommonVarietyProductVarietyInput` object that will be created and connected to this object. */
-  create?: Maybe<Array<CommonVarietyProductVarietyCommonVarietyIdFkeyCommonVarietyProductVarietyCreateInput>>;
-};
-
-/** The fields on `commonVarietyProductVariety` to look up the row to connect. */
-export type CommonVarietyProductVarietyCommonVarietyProductVarietyPkeyConnect = {
-  id: Scalars['BigInt'];
-};
-
-/** The globally unique `ID` look up for the row to connect. */
-export type CommonVarietyProductVarietyNodeIdConnect = {
-  /** The globally unique `ID` which identifies a single `commonVarietyProductVariety` to be connected. */
-  nodeId: Scalars['ID'];
-};
-
-/** The fields on `commonVarietyProductVariety` to look up the row to delete. */
-export type CommonVarietyProductVarietyCommonVarietyProductVarietyPkeyDelete = {
-  id: Scalars['BigInt'];
-};
-
-/** The globally unique `ID` look up for the row to delete. */
-export type CommonVarietyProductVarietyNodeIdDelete = {
-  /** The globally unique `ID` which identifies a single `commonVarietyProductVariety` to be deleted. */
-  nodeId: Scalars['ID'];
-};
-
-/** The fields on `commonVarietyProductVariety` to look up the row to update. */
-export type CommonVarietyProductVarietyOnCommonVarietyProductVarietyForCommonVarietyProductVarietyCommonVarietyIdFkeyUsingCommonVarietyProductVarietyPkeyUpdate = {
-  /** An object where the defined keys will be set on the `commonVarietyProductVariety` being updated. */
-  patch: UpdateCommonVarietyProductVarietyOnCommonVarietyProductVarietyForCommonVarietyProductVarietyCommonVarietyIdFkeyPatch;
-  id: Scalars['BigInt'];
-};
-
-/** An object where the defined keys will be set on the `commonVarietyProductVariety` being updated. */
-export type UpdateCommonVarietyProductVarietyOnCommonVarietyProductVarietyForCommonVarietyProductVarietyCommonVarietyIdFkeyPatch = {
-  id?: Maybe<Scalars['BigInt']>;
-  productVarietyId?: Maybe<Scalars['String']>;
-  commonVarietyToCommonVarietyId?: Maybe<CommonVarietyProductVarietyCommonVarietyIdFkeyInput>;
-  productVarietyToProductVarietyId?: Maybe<CommonVarietyProductVarietyProductVarietyIdFkeyInput>;
-};
-
-/** Input for the nested mutation of `commonVariety` in the `CommonVarietyProductVarietyInput` mutation. */
-export type CommonVarietyProductVarietyCommonVarietyIdFkeyInput = {
-  /** The primary key(s) for `commonVariety` for the far side of the relationship. */
-  connectById?: Maybe<CommonVarietyCommonVarietyPkeyConnect>;
-  /** The primary key(s) for `commonVariety` for the far side of the relationship. */
-  connectByNodeId?: Maybe<CommonVarietyNodeIdConnect>;
-  /** The primary key(s) for `commonVariety` for the far side of the relationship. */
-  deleteById?: Maybe<CommonVarietyCommonVarietyPkeyDelete>;
-  /** The primary key(s) for `commonVariety` for the far side of the relationship. */
-  deleteByNodeId?: Maybe<CommonVarietyNodeIdDelete>;
-  /** The primary key(s) and patch data for `commonVariety` for the far side of the relationship. */
-  updateById?: Maybe<CommonVarietyOnCommonVarietyProductVarietyForCommonVarietyProductVarietyCommonVarietyIdFkeyUsingCommonVarietyPkeyUpdate>;
-  /** The primary key(s) and patch data for `commonVariety` for the far side of the relationship. */
-  updateByNodeId?: Maybe<CommonVarietyProductVarietyOnCommonVarietyProductVarietyForCommonVarietyProductVarietyCommonVarietyIdFkeyNodeIdUpdate>;
-  /** A `CommonVarietyInput` object that will be created and connected to this object. */
-  create?: Maybe<CommonVarietyProductVarietyCommonVarietyIdFkeyCommonVarietyCreateInput>;
-};
-
-/** The fields on `commonVariety` to look up the row to update. */
-export type CommonVarietyOnCommonVarietyProductVarietyForCommonVarietyProductVarietyCommonVarietyIdFkeyUsingCommonVarietyPkeyUpdate = {
-  /** An object where the defined keys will be set on the `commonVariety` being updated. */
-  patch: UpdateCommonVarietyOnCommonVarietyProductVarietyForCommonVarietyProductVarietyCommonVarietyIdFkeyPatch;
-  id: Scalars['BigInt'];
-};
-
-/** An object where the defined keys will be set on the `commonVariety` being updated. */
-export type UpdateCommonVarietyOnCommonVarietyProductVarietyForCommonVarietyProductVarietyCommonVarietyIdFkeyPatch = {
-  id?: Maybe<Scalars['BigInt']>;
-  varietyName?: Maybe<Scalars['String']>;
-  varietyDescription?: Maybe<Scalars['String']>;
-  uiColor?: Maybe<Scalars['String']>;
-  commonSpeciesId?: Maybe<Scalars['BigInt']>;
-  productVarietyId?: Maybe<Scalars['String']>;
-  commonSpeciesToCommonSpeciesId?: Maybe<CommonVarietyCommonSpeciesIdFkeyInput>;
-  productVarietyToProductVarietyId?: Maybe<CommonVarietyProductVarietyIdFkeyInput>;
-  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonVarietyIdFkeyInverseInput>;
-  commonVarietyTagsUsingId?: Maybe<CommonVarietyTagCommonVarietyIdFkeyInverseInput>;
-  commonVarietyProductVarietiesUsingId?: Maybe<CommonVarietyProductVarietyCommonVarietyIdFkeyInverseInput>;
+  shipperId?: Maybe<Scalars['String']>;
+  arrivalPort?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  commonSpeciesToCommonSpeciesId?: Maybe<ShipperProgramCommonSpeciesIdFkeyInput>;
+  commonVarietyToCommonVarietyId?: Maybe<ShipperProgramCommonVarietyIdFkeyInput>;
+  commonSizeToCommonSizeId?: Maybe<ShipperProgramCommonSizeIdFkeyInput>;
+  commonPackTypeToCommonPackTypeId?: Maybe<ShipperProgramCommonPackTypeIdFkeyInput>;
+  shipperToShipperId?: Maybe<ShipperProgramShipperIdFkeyInput>;
+  shipperProgramEntriesUsingId?: Maybe<ShipperProgramEntryShipperProgramIdFkeyInverseInput>;
 };
 
 /** The globally unique `ID` look up for the row to update. */
@@ -31026,21 +35904,6 @@ export type CommonVarietyProductVarietyOnCommonVarietyProductVarietyForCommonVar
   nodeId: Scalars['ID'];
   /** An object where the defined keys will be set on the `commonVariety` being updated. */
   patch: CommonVarietyPatch;
-};
-
-/** Represents an update to a `CommonVariety`. Fields that are set will be updated. */
-export type CommonVarietyPatch = {
-  id?: Maybe<Scalars['BigInt']>;
-  varietyName?: Maybe<Scalars['String']>;
-  varietyDescription?: Maybe<Scalars['String']>;
-  uiColor?: Maybe<Scalars['String']>;
-  commonSpeciesId?: Maybe<Scalars['BigInt']>;
-  productVarietyId?: Maybe<Scalars['String']>;
-  commonSpeciesToCommonSpeciesId?: Maybe<CommonVarietyCommonSpeciesIdFkeyInput>;
-  productVarietyToProductVarietyId?: Maybe<CommonVarietyProductVarietyIdFkeyInput>;
-  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonVarietyIdFkeyInverseInput>;
-  commonVarietyTagsUsingId?: Maybe<CommonVarietyTagCommonVarietyIdFkeyInverseInput>;
-  commonVarietyProductVarietiesUsingId?: Maybe<CommonVarietyProductVarietyCommonVarietyIdFkeyInverseInput>;
 };
 
 /** The `commonVariety` to be created by this mutation. */
@@ -31056,6 +35919,8 @@ export type CommonVarietyProductVarietyCommonVarietyIdFkeyCommonVarietyCreateInp
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonVarietyIdFkeyInverseInput>;
   commonVarietyTagsUsingId?: Maybe<CommonVarietyTagCommonVarietyIdFkeyInverseInput>;
   commonVarietyProductVarietiesUsingId?: Maybe<CommonVarietyProductVarietyCommonVarietyIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonVarietyIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonVarietyIdFkeyInverseInput>;
 };
 
 /** Input for the nested mutation of `productVariety` in the `CommonVarietyProductVarietyInput` mutation. */
@@ -31227,6 +36092,8 @@ export type CommonVarietyTagCommonVarietyIdFkeyCommonVarietyCreateInput = {
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonVarietyIdFkeyInverseInput>;
   commonVarietyTagsUsingId?: Maybe<CommonVarietyTagCommonVarietyIdFkeyInverseInput>;
   commonVarietyProductVarietiesUsingId?: Maybe<CommonVarietyProductVarietyCommonVarietyIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonVarietyIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonVarietyIdFkeyInverseInput>;
 };
 
 /** The globally unique `ID` look up for the row to update. */
@@ -31251,6 +36118,59 @@ export type CommonVarietyTagCommonVarietyIdFkeyCommonVarietyTagCreateInput = {
 };
 
 /** The globally unique `ID` look up for the row to update. */
+export type ShipperProjectionProductOnShipperProjectionProductForShipperProjectionProductCommonVarietyIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `commonVariety` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `commonVariety` being updated. */
+  patch: CommonVarietyPatch;
+};
+
+/** The `commonVariety` to be created by this mutation. */
+export type ShipperProjectionProductCommonVarietyIdFkeyCommonVarietyCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  varietyName?: Maybe<Scalars['String']>;
+  varietyDescription?: Maybe<Scalars['String']>;
+  uiColor?: Maybe<Scalars['String']>;
+  commonSpeciesId?: Maybe<Scalars['BigInt']>;
+  productVarietyId?: Maybe<Scalars['String']>;
+  commonSpeciesToCommonSpeciesId?: Maybe<CommonVarietyCommonSpeciesIdFkeyInput>;
+  productVarietyToProductVarietyId?: Maybe<CommonVarietyProductVarietyIdFkeyInput>;
+  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonVarietyIdFkeyInverseInput>;
+  commonVarietyTagsUsingId?: Maybe<CommonVarietyTagCommonVarietyIdFkeyInverseInput>;
+  commonVarietyProductVarietiesUsingId?: Maybe<CommonVarietyProductVarietyCommonVarietyIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonVarietyIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonVarietyIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type CommonVarietyOnShipperProjectionProductForShipperProjectionProductCommonVarietyIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `shipperProjectionProduct` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `shipperProjectionProduct` being updated. */
+  patch: ShipperProjectionProductPatch;
+};
+
+/** The `shipperProjectionProduct` to be created by this mutation. */
+export type ShipperProjectionProductCommonVarietyIdFkeyShipperProjectionProductCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  species?: Maybe<Scalars['String']>;
+  variety?: Maybe<Scalars['String']>;
+  size?: Maybe<Scalars['String']>;
+  packType?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  shipperId?: Maybe<Scalars['String']>;
+  commonSpeciesId?: Maybe<Scalars['BigInt']>;
+  commonSizeId?: Maybe<Scalars['BigInt']>;
+  commonPackTypeId?: Maybe<Scalars['BigInt']>;
+  shipperToShipperId?: Maybe<ShipperProjectionProductShipperIdFkeyInput>;
+  commonSpeciesToCommonSpeciesId?: Maybe<ShipperProjectionProductCommonSpeciesIdFkeyInput>;
+  commonVarietyToCommonVarietyId?: Maybe<ShipperProjectionProductCommonVarietyIdFkeyInput>;
+  commonSizeToCommonSizeId?: Maybe<ShipperProjectionProductCommonSizeIdFkeyInput>;
+  commonPackTypeToCommonPackTypeId?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyInput>;
+  shipperProjectionEntriesUsingId?: Maybe<ShipperProjectionEntryProductIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
 export type ProductVarietyOnCommonVarietyForCommonVarietyProductVarietyIdFkeyNodeIdUpdate = {
   /** The globally unique `ID` which identifies a single `commonVariety` to be connected. */
   nodeId: Scalars['ID'];
@@ -31270,6 +36190,8 @@ export type CommonVarietyProductVarietyIdFkeyCommonVarietyCreateInput = {
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonVarietyIdFkeyInverseInput>;
   commonVarietyTagsUsingId?: Maybe<CommonVarietyTagCommonVarietyIdFkeyInverseInput>;
   commonVarietyProductVarietiesUsingId?: Maybe<CommonVarietyProductVarietyCommonVarietyIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonVarietyIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonVarietyIdFkeyInverseInput>;
 };
 
 /** The globally unique `ID` look up for the row to update. */
@@ -31294,7 +36216,7 @@ export type CommonVarietyProductVarietyIdFkeyProductVarietyCreateInput = {
 };
 
 /** The globally unique `ID` look up for the row to update. */
-export type CommonSpeciesOnCommonVarietyForCommonVarietyCommonSpeciesIdFkeyNodeIdUpdate = {
+export type ShipperProgramOnShipperProgramForShipperProgramCommonVarietyIdFkeyNodeIdUpdate = {
   /** The globally unique `ID` which identifies a single `commonVariety` to be connected. */
   nodeId: Scalars['ID'];
   /** An object where the defined keys will be set on the `commonVariety` being updated. */
@@ -31302,17 +36224,369 @@ export type CommonSpeciesOnCommonVarietyForCommonVarietyCommonSpeciesIdFkeyNodeI
 };
 
 /** The `commonVariety` to be created by this mutation. */
-export type CommonVarietyCommonSpeciesIdFkeyCommonVarietyCreateInput = {
+export type ShipperProgramCommonVarietyIdFkeyCommonVarietyCreateInput = {
   id?: Maybe<Scalars['BigInt']>;
   varietyName?: Maybe<Scalars['String']>;
   varietyDescription?: Maybe<Scalars['String']>;
   uiColor?: Maybe<Scalars['String']>;
+  commonSpeciesId?: Maybe<Scalars['BigInt']>;
   productVarietyId?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonVarietyCommonSpeciesIdFkeyInput>;
   productVarietyToProductVarietyId?: Maybe<CommonVarietyProductVarietyIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonVarietyIdFkeyInverseInput>;
   commonVarietyTagsUsingId?: Maybe<CommonVarietyTagCommonVarietyIdFkeyInverseInput>;
   commonVarietyProductVarietiesUsingId?: Maybe<CommonVarietyProductVarietyCommonVarietyIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonVarietyIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonVarietyIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type CommonSpeciesOnShipperProgramForShipperProgramCommonSpeciesIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `shipperProgram` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `shipperProgram` being updated. */
+  patch: ShipperProgramPatch;
+};
+
+/** The `shipperProgram` to be created by this mutation. */
+export type ShipperProgramCommonSpeciesIdFkeyShipperProgramCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  commonVarietyId?: Maybe<Scalars['BigInt']>;
+  commonSizeId?: Maybe<Scalars['BigInt']>;
+  commonPackTypeId?: Maybe<Scalars['BigInt']>;
+  shipperId?: Maybe<Scalars['String']>;
+  arrivalPort?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  commonSpeciesToCommonSpeciesId?: Maybe<ShipperProgramCommonSpeciesIdFkeyInput>;
+  commonVarietyToCommonVarietyId?: Maybe<ShipperProgramCommonVarietyIdFkeyInput>;
+  commonSizeToCommonSizeId?: Maybe<ShipperProgramCommonSizeIdFkeyInput>;
+  commonPackTypeToCommonPackTypeId?: Maybe<ShipperProgramCommonPackTypeIdFkeyInput>;
+  shipperToShipperId?: Maybe<ShipperProgramShipperIdFkeyInput>;
+  shipperProgramEntriesUsingId?: Maybe<ShipperProgramEntryShipperProgramIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type CommonSpeciesProductSpeciesOnCommonSpeciesProductSpeciesForCommonSpeciesProductSpeciesCommonSpeciesIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `commonSpecies` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `commonSpecies` being updated. */
+  patch: CommonSpeciesPatch;
+};
+
+/** The `commonSpecies` to be created by this mutation. */
+export type CommonSpeciesProductSpeciesCommonSpeciesIdFkeyCommonSpeciesCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  speciesName?: Maybe<Scalars['String']>;
+  speciesDescription?: Maybe<Scalars['String']>;
+  uiColor?: Maybe<Scalars['String']>;
+  commonCategoryId?: Maybe<Scalars['BigInt']>;
+  productSpeciesId?: Maybe<Scalars['String']>;
+  commonCategoryToCommonCategoryId?: Maybe<CommonSpeciesCommonCategoryIdFkeyInput>;
+  productSpeciesToProductSpeciesId?: Maybe<CommonSpeciesProductSpeciesIdFkeyInput>;
+  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSpeciesIdFkeyInverseInput>;
+  commonVarietiesUsingId?: Maybe<CommonVarietyCommonSpeciesIdFkeyInverseInput>;
+  commonSizesUsingId?: Maybe<CommonSizeCommonSpeciesIdFkeyInverseInput>;
+  commonPackTypesUsingId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInverseInput>;
+  commonSpeciesTagsUsingId?: Maybe<CommonSpeciesTagCommonSpeciesIdFkeyInverseInput>;
+  commonSpeciesProductSpeciesUsingId?: Maybe<CommonSpeciesProductSpeciesCommonSpeciesIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonSpeciesIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonSpeciesIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `productSpecies` in the `CommonSpeciesProductSpeciesInput` mutation. */
+export type CommonSpeciesProductSpeciesProductSpeciesIdFkeyInput = {
+  /** The primary key(s) for `productSpecies` for the far side of the relationship. */
+  connectById?: Maybe<ProductSpeciesProductSpeciesPkeyConnect>;
+  /** The primary key(s) for `productSpecies` for the far side of the relationship. */
+  connectByNodeId?: Maybe<ProductSpecyNodeIdConnect>;
+  /** The primary key(s) for `productSpecies` for the far side of the relationship. */
+  deleteById?: Maybe<ProductSpeciesProductSpeciesPkeyDelete>;
+  /** The primary key(s) for `productSpecies` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<ProductSpecyNodeIdDelete>;
+  /** The primary key(s) and patch data for `productSpecies` for the far side of the relationship. */
+  updateById?: Maybe<ProductSpeciesOnCommonSpeciesProductSpeciesForCommonSpeciesProductSpeciesProductSpeciesIdFkeyUsingProductSpeciesPkeyUpdate>;
+  /** The primary key(s) and patch data for `productSpecies` for the far side of the relationship. */
+  updateByNodeId?: Maybe<CommonSpeciesProductSpeciesOnCommonSpeciesProductSpeciesForCommonSpeciesProductSpeciesProductSpeciesIdFkeyNodeIdUpdate>;
+  /** A `ProductSpeciesInput` object that will be created and connected to this object. */
+  create?: Maybe<CommonSpeciesProductSpeciesProductSpeciesIdFkeyProductSpeciesCreateInput>;
+};
+
+/** The fields on `productSpecies` to look up the row to update. */
+export type ProductSpeciesOnCommonSpeciesProductSpeciesForCommonSpeciesProductSpeciesProductSpeciesIdFkeyUsingProductSpeciesPkeyUpdate = {
+  /** An object where the defined keys will be set on the `productSpecies` being updated. */
+  patch: UpdateProductSpeciesOnCommonSpeciesProductSpeciesForCommonSpeciesProductSpeciesProductSpeciesIdFkeyPatch;
+  id: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `productSpecies` being updated. */
+export type UpdateProductSpeciesOnCommonSpeciesProductSpeciesForCommonSpeciesProductSpeciesProductSpeciesIdFkeyPatch = {
+  id?: Maybe<Scalars['String']>;
+  speciesDescription?: Maybe<Scalars['String']>;
+  secondaryDescription?: Maybe<Scalars['String']>;
+  fdaProductCode?: Maybe<Scalars['String']>;
+  fdaIndustryCode?: Maybe<Scalars['String']>;
+  defaultTemperature?: Maybe<Scalars['String']>;
+  commonSpeciesUsingId?: Maybe<CommonSpeciesProductSpeciesIdFkeyInverseInput>;
+  commonSpeciesProductSpeciesUsingId?: Maybe<CommonSpeciesProductSpeciesProductSpeciesIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `commonSpeciesProductSpecies` in the `ProductSpeciesInput` mutation. */
+export type CommonSpeciesProductSpeciesProductSpeciesIdFkeyInverseInput = {
+  /** Flag indicating whether all other `commonSpeciesProductSpecies` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `commonSpeciesProductSpecies` for the far side of the relationship. */
+  connectById?: Maybe<Array<CommonSpeciesProductSpeciesCommonSpeciesProductSpeciesPkeyConnect>>;
+  /** The primary key(s) for `commonSpeciesProductSpecies` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<CommonSpeciesProductSpecyNodeIdConnect>>;
+  /** The primary key(s) for `commonSpeciesProductSpecies` for the far side of the relationship. */
+  deleteById?: Maybe<Array<CommonSpeciesProductSpeciesCommonSpeciesProductSpeciesPkeyDelete>>;
+  /** The primary key(s) for `commonSpeciesProductSpecies` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<CommonSpeciesProductSpecyNodeIdDelete>>;
+  /** The primary key(s) and patch data for `commonSpeciesProductSpecies` for the far side of the relationship. */
+  updateById?: Maybe<Array<CommonSpeciesProductSpeciesOnCommonSpeciesProductSpeciesForCommonSpeciesProductSpeciesProductSpeciesIdFkeyUsingCommonSpeciesProductSpeciesPkeyUpdate>>;
+  /** The primary key(s) and patch data for `commonSpeciesProductSpecies` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<ProductSpeciesOnCommonSpeciesProductSpeciesForCommonSpeciesProductSpeciesProductSpeciesIdFkeyNodeIdUpdate>>;
+  /** A `CommonSpeciesProductSpeciesInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<CommonSpeciesProductSpeciesProductSpeciesIdFkeyCommonSpeciesProductSpeciesCreateInput>>;
+};
+
+/** The fields on `commonSpeciesProductSpecies` to look up the row to update. */
+export type CommonSpeciesProductSpeciesOnCommonSpeciesProductSpeciesForCommonSpeciesProductSpeciesProductSpeciesIdFkeyUsingCommonSpeciesProductSpeciesPkeyUpdate = {
+  /** An object where the defined keys will be set on the `commonSpeciesProductSpecies` being updated. */
+  patch: UpdateCommonSpeciesProductSpeciesOnCommonSpeciesProductSpeciesForCommonSpeciesProductSpeciesProductSpeciesIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `commonSpeciesProductSpecies` being updated. */
+export type UpdateCommonSpeciesProductSpeciesOnCommonSpeciesProductSpeciesForCommonSpeciesProductSpeciesProductSpeciesIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  commonSpeciesId?: Maybe<Scalars['BigInt']>;
+  commonSpeciesToCommonSpeciesId?: Maybe<CommonSpeciesProductSpeciesCommonSpeciesIdFkeyInput>;
+  productSpeciesToProductSpeciesId?: Maybe<CommonSpeciesProductSpeciesProductSpeciesIdFkeyInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type ProductSpeciesOnCommonSpeciesProductSpeciesForCommonSpeciesProductSpeciesProductSpeciesIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `commonSpeciesProductSpecies` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `commonSpeciesProductSpecies` being updated. */
+  patch: CommonSpeciesProductSpeciesPatch;
+};
+
+/** Represents an update to a `CommonSpeciesProductSpecies`. Fields that are set will be updated. */
+export type CommonSpeciesProductSpeciesPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  commonSpeciesId?: Maybe<Scalars['BigInt']>;
+  productSpeciesId?: Maybe<Scalars['String']>;
+  commonSpeciesToCommonSpeciesId?: Maybe<CommonSpeciesProductSpeciesCommonSpeciesIdFkeyInput>;
+  productSpeciesToProductSpeciesId?: Maybe<CommonSpeciesProductSpeciesProductSpeciesIdFkeyInput>;
+};
+
+/** The `commonSpeciesProductSpecies` to be created by this mutation. */
+export type CommonSpeciesProductSpeciesProductSpeciesIdFkeyCommonSpeciesProductSpeciesCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  commonSpeciesId?: Maybe<Scalars['BigInt']>;
+  commonSpeciesToCommonSpeciesId?: Maybe<CommonSpeciesProductSpeciesCommonSpeciesIdFkeyInput>;
+  productSpeciesToProductSpeciesId?: Maybe<CommonSpeciesProductSpeciesProductSpeciesIdFkeyInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type CommonSpeciesProductSpeciesOnCommonSpeciesProductSpeciesForCommonSpeciesProductSpeciesProductSpeciesIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `productSpecies` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `productSpecies` being updated. */
+  patch: ProductSpeciesPatch;
+};
+
+/** Represents an update to a `ProductSpecies`. Fields that are set will be updated. */
+export type ProductSpeciesPatch = {
+  id?: Maybe<Scalars['String']>;
+  speciesDescription?: Maybe<Scalars['String']>;
+  secondaryDescription?: Maybe<Scalars['String']>;
+  fdaProductCode?: Maybe<Scalars['String']>;
+  fdaIndustryCode?: Maybe<Scalars['String']>;
+  defaultTemperature?: Maybe<Scalars['String']>;
+  commonSpeciesUsingId?: Maybe<CommonSpeciesProductSpeciesIdFkeyInverseInput>;
+  commonSpeciesProductSpeciesUsingId?: Maybe<CommonSpeciesProductSpeciesProductSpeciesIdFkeyInverseInput>;
+};
+
+/** The `productSpecies` to be created by this mutation. */
+export type CommonSpeciesProductSpeciesProductSpeciesIdFkeyProductSpeciesCreateInput = {
+  id: Scalars['String'];
+  speciesDescription?: Maybe<Scalars['String']>;
+  secondaryDescription?: Maybe<Scalars['String']>;
+  fdaProductCode?: Maybe<Scalars['String']>;
+  fdaIndustryCode?: Maybe<Scalars['String']>;
+  defaultTemperature?: Maybe<Scalars['String']>;
+  commonSpeciesUsingId?: Maybe<CommonSpeciesProductSpeciesIdFkeyInverseInput>;
+  commonSpeciesProductSpeciesUsingId?: Maybe<CommonSpeciesProductSpeciesProductSpeciesIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type CommonSpeciesOnCommonSpeciesProductSpeciesForCommonSpeciesProductSpeciesCommonSpeciesIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `commonSpeciesProductSpecies` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `commonSpeciesProductSpecies` being updated. */
+  patch: CommonSpeciesProductSpeciesPatch;
+};
+
+/** The `commonSpeciesProductSpecies` to be created by this mutation. */
+export type CommonSpeciesProductSpeciesCommonSpeciesIdFkeyCommonSpeciesProductSpeciesCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  productSpeciesId?: Maybe<Scalars['String']>;
+  commonSpeciesToCommonSpeciesId?: Maybe<CommonSpeciesProductSpeciesCommonSpeciesIdFkeyInput>;
+  productSpeciesToProductSpeciesId?: Maybe<CommonSpeciesProductSpeciesProductSpeciesIdFkeyInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type CommonSpeciesTagOnCommonSpeciesTagForCommonSpeciesTagCommonSpeciesIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `commonSpecies` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `commonSpecies` being updated. */
+  patch: CommonSpeciesPatch;
+};
+
+/** The `commonSpecies` to be created by this mutation. */
+export type CommonSpeciesTagCommonSpeciesIdFkeyCommonSpeciesCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  speciesName?: Maybe<Scalars['String']>;
+  speciesDescription?: Maybe<Scalars['String']>;
+  uiColor?: Maybe<Scalars['String']>;
+  commonCategoryId?: Maybe<Scalars['BigInt']>;
+  productSpeciesId?: Maybe<Scalars['String']>;
+  commonCategoryToCommonCategoryId?: Maybe<CommonSpeciesCommonCategoryIdFkeyInput>;
+  productSpeciesToProductSpeciesId?: Maybe<CommonSpeciesProductSpeciesIdFkeyInput>;
+  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSpeciesIdFkeyInverseInput>;
+  commonVarietiesUsingId?: Maybe<CommonVarietyCommonSpeciesIdFkeyInverseInput>;
+  commonSizesUsingId?: Maybe<CommonSizeCommonSpeciesIdFkeyInverseInput>;
+  commonPackTypesUsingId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInverseInput>;
+  commonSpeciesTagsUsingId?: Maybe<CommonSpeciesTagCommonSpeciesIdFkeyInverseInput>;
+  commonSpeciesProductSpeciesUsingId?: Maybe<CommonSpeciesProductSpeciesCommonSpeciesIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonSpeciesIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonSpeciesIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type CommonSpeciesOnCommonSpeciesTagForCommonSpeciesTagCommonSpeciesIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `commonSpeciesTag` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `commonSpeciesTag` being updated. */
+  patch: CommonSpeciesTagPatch;
+};
+
+/** Represents an update to a `CommonSpeciesTag`. Fields that are set will be updated. */
+export type CommonSpeciesTagPatch = {
+  tagText?: Maybe<Scalars['String']>;
+  commonSpeciesId?: Maybe<Scalars['BigInt']>;
+  commonSpeciesToCommonSpeciesId?: Maybe<CommonSpeciesTagCommonSpeciesIdFkeyInput>;
+};
+
+/** The `commonSpeciesTag` to be created by this mutation. */
+export type CommonSpeciesTagCommonSpeciesIdFkeyCommonSpeciesTagCreateInput = {
+  tagText: Scalars['String'];
+  commonSpeciesToCommonSpeciesId?: Maybe<CommonSpeciesTagCommonSpeciesIdFkeyInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type CommonPackTypeOnCommonPackTypeForCommonPackTypeCommonSpeciesIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `commonSpecies` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `commonSpecies` being updated. */
+  patch: CommonSpeciesPatch;
+};
+
+/** The `commonSpecies` to be created by this mutation. */
+export type CommonPackTypeCommonSpeciesIdFkeyCommonSpeciesCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  speciesName?: Maybe<Scalars['String']>;
+  speciesDescription?: Maybe<Scalars['String']>;
+  uiColor?: Maybe<Scalars['String']>;
+  commonCategoryId?: Maybe<Scalars['BigInt']>;
+  productSpeciesId?: Maybe<Scalars['String']>;
+  commonCategoryToCommonCategoryId?: Maybe<CommonSpeciesCommonCategoryIdFkeyInput>;
+  productSpeciesToProductSpeciesId?: Maybe<CommonSpeciesProductSpeciesIdFkeyInput>;
+  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSpeciesIdFkeyInverseInput>;
+  commonVarietiesUsingId?: Maybe<CommonVarietyCommonSpeciesIdFkeyInverseInput>;
+  commonSizesUsingId?: Maybe<CommonSizeCommonSpeciesIdFkeyInverseInput>;
+  commonPackTypesUsingId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInverseInput>;
+  commonSpeciesTagsUsingId?: Maybe<CommonSpeciesTagCommonSpeciesIdFkeyInverseInput>;
+  commonSpeciesProductSpeciesUsingId?: Maybe<CommonSpeciesProductSpeciesCommonSpeciesIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonSpeciesIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonSpeciesIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type CommonSpeciesOnCommonPackTypeForCommonPackTypeCommonSpeciesIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `commonPackType` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `commonPackType` being updated. */
+  patch: CommonPackTypePatch;
+};
+
+/** The `commonPackType` to be created by this mutation. */
+export type CommonPackTypeCommonSpeciesIdFkeyCommonPackTypeCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  packTypeName?: Maybe<Scalars['String']>;
+  packTypeDescription?: Maybe<Scalars['String']>;
+  packMasterId?: Maybe<Scalars['BigInt']>;
+  commonSpeciesToCommonSpeciesId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInput>;
+  packMasterToPackMasterId?: Maybe<CommonPackTypePackMasterIdFkeyInput>;
+  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyInverseInput>;
+  commonPackTypeTagsUsingId?: Maybe<CommonPackTypeTagCommonPackTypeIdFkeyInverseInput>;
+  commonPackTypePackMastersUsingId?: Maybe<CommonPackTypePackMasterCommonPackTypeIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonPackTypeIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonPackTypeIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type CommonSizeOnCommonSizeForCommonSizeCommonSpeciesIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `commonSpecies` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `commonSpecies` being updated. */
+  patch: CommonSpeciesPatch;
+};
+
+/** The `commonSpecies` to be created by this mutation. */
+export type CommonSizeCommonSpeciesIdFkeyCommonSpeciesCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  speciesName?: Maybe<Scalars['String']>;
+  speciesDescription?: Maybe<Scalars['String']>;
+  uiColor?: Maybe<Scalars['String']>;
+  commonCategoryId?: Maybe<Scalars['BigInt']>;
+  productSpeciesId?: Maybe<Scalars['String']>;
+  commonCategoryToCommonCategoryId?: Maybe<CommonSpeciesCommonCategoryIdFkeyInput>;
+  productSpeciesToProductSpeciesId?: Maybe<CommonSpeciesProductSpeciesIdFkeyInput>;
+  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSpeciesIdFkeyInverseInput>;
+  commonVarietiesUsingId?: Maybe<CommonVarietyCommonSpeciesIdFkeyInverseInput>;
+  commonSizesUsingId?: Maybe<CommonSizeCommonSpeciesIdFkeyInverseInput>;
+  commonPackTypesUsingId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInverseInput>;
+  commonSpeciesTagsUsingId?: Maybe<CommonSpeciesTagCommonSpeciesIdFkeyInverseInput>;
+  commonSpeciesProductSpeciesUsingId?: Maybe<CommonSpeciesProductSpeciesCommonSpeciesIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonSpeciesIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonSpeciesIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type CommonSpeciesOnCommonSizeForCommonSizeCommonSpeciesIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `commonSize` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `commonSize` being updated. */
+  patch: CommonSizePatch;
+};
+
+/** The `commonSize` to be created by this mutation. */
+export type CommonSizeCommonSpeciesIdFkeyCommonSizeCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  sizeName?: Maybe<Scalars['String']>;
+  sizeDescription?: Maybe<Scalars['String']>;
+  productSizeId?: Maybe<Scalars['BigInt']>;
+  commonSpeciesToCommonSpeciesId?: Maybe<CommonSizeCommonSpeciesIdFkeyInput>;
+  productSizeToProductSizeId?: Maybe<CommonSizeProductSizeIdFkeyInput>;
+  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSizeIdFkeyInverseInput>;
+  commonSizeTagsUsingId?: Maybe<CommonSizeTagCommonSizeIdFkeyInverseInput>;
+  commonSizeProductSizesUsingId?: Maybe<CommonSizeProductSizeCommonSizeIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonSizeIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonSizeIdFkeyInverseInput>;
 };
 
 /** The globally unique `ID` look up for the row to update. */
@@ -31339,10 +36613,12 @@ export type CommonVarietyCommonSpeciesIdFkeyCommonSpeciesCreateInput = {
   commonPackTypesUsingId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInverseInput>;
   commonSpeciesTagsUsingId?: Maybe<CommonSpeciesTagCommonSpeciesIdFkeyInverseInput>;
   commonSpeciesProductSpeciesUsingId?: Maybe<CommonSpeciesProductSpeciesCommonSpeciesIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonSpeciesIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonSpeciesIdFkeyInverseInput>;
 };
 
 /** The globally unique `ID` look up for the row to update. */
-export type ShipperProjectionProductOnShipperProjectionProductForShipperProjectionProductCommonVarietyIdFkeyNodeIdUpdate = {
+export type CommonSpeciesOnCommonVarietyForCommonVarietyCommonSpeciesIdFkeyNodeIdUpdate = {
   /** The globally unique `ID` which identifies a single `commonVariety` to be connected. */
   nodeId: Scalars['ID'];
   /** An object where the defined keys will be set on the `commonVariety` being updated. */
@@ -31350,18 +36626,47 @@ export type ShipperProjectionProductOnShipperProjectionProductForShipperProjecti
 };
 
 /** The `commonVariety` to be created by this mutation. */
-export type ShipperProjectionProductCommonVarietyIdFkeyCommonVarietyCreateInput = {
+export type CommonVarietyCommonSpeciesIdFkeyCommonVarietyCreateInput = {
   id?: Maybe<Scalars['BigInt']>;
   varietyName?: Maybe<Scalars['String']>;
   varietyDescription?: Maybe<Scalars['String']>;
   uiColor?: Maybe<Scalars['String']>;
-  commonSpeciesId?: Maybe<Scalars['BigInt']>;
   productVarietyId?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonVarietyCommonSpeciesIdFkeyInput>;
   productVarietyToProductVarietyId?: Maybe<CommonVarietyProductVarietyIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonVarietyIdFkeyInverseInput>;
   commonVarietyTagsUsingId?: Maybe<CommonVarietyTagCommonVarietyIdFkeyInverseInput>;
   commonVarietyProductVarietiesUsingId?: Maybe<CommonVarietyProductVarietyCommonVarietyIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonVarietyIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonVarietyIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type ShipperProjectionProductOnShipperProjectionProductForShipperProjectionProductCommonSpeciesIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `commonSpecies` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `commonSpecies` being updated. */
+  patch: CommonSpeciesPatch;
+};
+
+/** The `commonSpecies` to be created by this mutation. */
+export type ShipperProjectionProductCommonSpeciesIdFkeyCommonSpeciesCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  speciesName?: Maybe<Scalars['String']>;
+  speciesDescription?: Maybe<Scalars['String']>;
+  uiColor?: Maybe<Scalars['String']>;
+  commonCategoryId?: Maybe<Scalars['BigInt']>;
+  productSpeciesId?: Maybe<Scalars['String']>;
+  commonCategoryToCommonCategoryId?: Maybe<CommonSpeciesCommonCategoryIdFkeyInput>;
+  productSpeciesToProductSpeciesId?: Maybe<CommonSpeciesProductSpeciesIdFkeyInput>;
+  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSpeciesIdFkeyInverseInput>;
+  commonVarietiesUsingId?: Maybe<CommonVarietyCommonSpeciesIdFkeyInverseInput>;
+  commonSizesUsingId?: Maybe<CommonSizeCommonSpeciesIdFkeyInverseInput>;
+  commonPackTypesUsingId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInverseInput>;
+  commonSpeciesTagsUsingId?: Maybe<CommonSpeciesTagCommonSpeciesIdFkeyInverseInput>;
+  commonSpeciesProductSpeciesUsingId?: Maybe<CommonSpeciesProductSpeciesCommonSpeciesIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonSpeciesIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonSpeciesIdFkeyInverseInput>;
 };
 
 /** The globally unique `ID` look up for the row to update. */
@@ -31415,6 +36720,8 @@ export type CommonSpeciesProductSpeciesIdFkeyCommonSpeciesCreateInput = {
   commonPackTypesUsingId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInverseInput>;
   commonSpeciesTagsUsingId?: Maybe<CommonSpeciesTagCommonSpeciesIdFkeyInverseInput>;
   commonSpeciesProductSpeciesUsingId?: Maybe<CommonSpeciesProductSpeciesCommonSpeciesIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonSpeciesIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonSpeciesIdFkeyInverseInput>;
 };
 
 /** The globally unique `ID` look up for the row to update. */
@@ -31460,6 +36767,8 @@ export type CommonSpeciesCommonCategoryIdFkeyCommonSpeciesCreateInput = {
   commonPackTypesUsingId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInverseInput>;
   commonSpeciesTagsUsingId?: Maybe<CommonSpeciesTagCommonSpeciesIdFkeyInverseInput>;
   commonSpeciesProductSpeciesUsingId?: Maybe<CommonSpeciesProductSpeciesCommonSpeciesIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonSpeciesIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonSpeciesIdFkeyInverseInput>;
 };
 
 /** The globally unique `ID` look up for the row to update. */
@@ -31489,7 +36798,7 @@ export type CommonSpeciesCommonCategoryIdFkeyCommonCategoryCreateInput = {
 };
 
 /** The globally unique `ID` look up for the row to update. */
-export type ShipperProjectionProductOnShipperProjectionProductForShipperProjectionProductCommonSpeciesIdFkeyNodeIdUpdate = {
+export type ShipperProgramOnShipperProgramForShipperProgramCommonSpeciesIdFkeyNodeIdUpdate = {
   /** The globally unique `ID` which identifies a single `commonSpecies` to be connected. */
   nodeId: Scalars['ID'];
   /** An object where the defined keys will be set on the `commonSpecies` being updated. */
@@ -31497,7 +36806,7 @@ export type ShipperProjectionProductOnShipperProjectionProductForShipperProjecti
 };
 
 /** The `commonSpecies` to be created by this mutation. */
-export type ShipperProjectionProductCommonSpeciesIdFkeyCommonSpeciesCreateInput = {
+export type ShipperProgramCommonSpeciesIdFkeyCommonSpeciesCreateInput = {
   id?: Maybe<Scalars['BigInt']>;
   speciesName?: Maybe<Scalars['String']>;
   speciesDescription?: Maybe<Scalars['String']>;
@@ -31512,52 +36821,60 @@ export type ShipperProjectionProductCommonSpeciesIdFkeyCommonSpeciesCreateInput 
   commonPackTypesUsingId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInverseInput>;
   commonSpeciesTagsUsingId?: Maybe<CommonSpeciesTagCommonSpeciesIdFkeyInverseInput>;
   commonSpeciesProductSpeciesUsingId?: Maybe<CommonSpeciesProductSpeciesCommonSpeciesIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonSpeciesIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonSpeciesIdFkeyInverseInput>;
 };
 
 /** The globally unique `ID` look up for the row to update. */
-export type ShipperProjectionEntryOnShipperProjectionEntryForShipperProjectionEntryProductIdFkeyNodeIdUpdate = {
-  /** The globally unique `ID` which identifies a single `shipperProjectionProduct` to be connected. */
+export type ShipperOnShipperProgramForShipperProgramShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `shipperProgram` to be connected. */
   nodeId: Scalars['ID'];
-  /** An object where the defined keys will be set on the `shipperProjectionProduct` being updated. */
-  patch: ShipperProjectionProductPatch;
+  /** An object where the defined keys will be set on the `shipperProgram` being updated. */
+  patch: ShipperProgramPatch;
 };
 
-/** The `shipperProjectionProduct` to be created by this mutation. */
-export type ShipperProjectionEntryProductIdFkeyShipperProjectionProductCreateInput = {
+/** The `shipperProgram` to be created by this mutation. */
+export type ShipperProgramShipperIdFkeyShipperProgramCreateInput = {
   id?: Maybe<Scalars['BigInt']>;
-  species?: Maybe<Scalars['String']>;
-  variety?: Maybe<Scalars['String']>;
-  size?: Maybe<Scalars['String']>;
-  packType?: Maybe<Scalars['String']>;
-  plu?: Maybe<Scalars['String']>;
-  shipperId?: Maybe<Scalars['String']>;
   commonSpeciesId?: Maybe<Scalars['BigInt']>;
   commonVarietyId?: Maybe<Scalars['BigInt']>;
   commonSizeId?: Maybe<Scalars['BigInt']>;
   commonPackTypeId?: Maybe<Scalars['BigInt']>;
-  shipperToShipperId?: Maybe<ShipperProjectionProductShipperIdFkeyInput>;
-  commonSpeciesToCommonSpeciesId?: Maybe<ShipperProjectionProductCommonSpeciesIdFkeyInput>;
-  commonVarietyToCommonVarietyId?: Maybe<ShipperProjectionProductCommonVarietyIdFkeyInput>;
-  commonSizeToCommonSizeId?: Maybe<ShipperProjectionProductCommonSizeIdFkeyInput>;
-  commonPackTypeToCommonPackTypeId?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyInput>;
-  shipperProjectionEntriesUsingId?: Maybe<ShipperProjectionEntryProductIdFkeyInverseInput>;
+  arrivalPort?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  commonSpeciesToCommonSpeciesId?: Maybe<ShipperProgramCommonSpeciesIdFkeyInput>;
+  commonVarietyToCommonVarietyId?: Maybe<ShipperProgramCommonVarietyIdFkeyInput>;
+  commonSizeToCommonSizeId?: Maybe<ShipperProgramCommonSizeIdFkeyInput>;
+  commonPackTypeToCommonPackTypeId?: Maybe<ShipperProgramCommonPackTypeIdFkeyInput>;
+  shipperToShipperId?: Maybe<ShipperProgramShipperIdFkeyInput>;
+  shipperProgramEntriesUsingId?: Maybe<ShipperProgramEntryShipperProgramIdFkeyInverseInput>;
 };
 
 /** The globally unique `ID` look up for the row to update. */
-export type ShipperProjectionVesselInfoOnShipperProjectionEntryForShipperProjectionEntryVesselInfoIdFkeyNodeIdUpdate = {
-  /** The globally unique `ID` which identifies a single `shipperProjectionEntry` to be connected. */
+export type ShipperProjectionVesselInfoOnShipperProjectionVesselInfoForFkShipperIdNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `shipper` to be connected. */
   nodeId: Scalars['ID'];
-  /** An object where the defined keys will be set on the `shipperProjectionEntry` being updated. */
-  patch: ShipperProjectionEntryPatch;
+  /** An object where the defined keys will be set on the `shipper` being updated. */
+  patch: ShipperPatch;
 };
 
-/** The `shipperProjectionEntry` to be created by this mutation. */
-export type ShipperProjectionEntryVesselInfoIdFkeyShipperProjectionEntryCreateInput = {
-  id?: Maybe<Scalars['BigInt']>;
-  palletCount?: Maybe<Scalars['BigFloat']>;
-  productId?: Maybe<Scalars['BigInt']>;
-  shipperProjectionVesselInfoToVesselInfoId?: Maybe<ShipperProjectionEntryVesselInfoIdFkeyInput>;
-  shipperProjectionProductToProductId?: Maybe<ShipperProjectionEntryProductIdFkeyInput>;
+/** The `shipper` to be created by this mutation. */
+export type FkShipperIdShipperCreateInput = {
+  id: Scalars['String'];
+  shipperName: Scalars['String'];
+  countryId?: Maybe<Scalars['String']>;
+  groupId?: Maybe<Scalars['String']>;
+  logoSrc?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
+  sendProjectionRequest?: Maybe<Scalars['Boolean']>;
+  countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
+  shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
+  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
+  shipperProjectionsUsingId?: Maybe<ShipperProjectionShipperIdFkeyInverseInput>;
+  shipperPersonContactsUsingId?: Maybe<ShipperPersonContactShipperIdFkeyInverseInput>;
+  shipperProjectionVesselInfosUsingId?: Maybe<FkShipperIdInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramShipperIdFkeyInverseInput>;
 };
 
 /** The globally unique `ID` look up for the row to update. */
@@ -31693,70 +37010,6 @@ export type FkShipperIdShipperProjectionVesselInfoCreateInput = {
 };
 
 /** The globally unique `ID` look up for the row to update. */
-export type ShipperProgramOnShipperProgramForShipperProgramShipperIdFkeyNodeIdUpdate = {
-  /** The globally unique `ID` which identifies a single `shipper` to be connected. */
-  nodeId: Scalars['ID'];
-  /** An object where the defined keys will be set on the `shipper` being updated. */
-  patch: ShipperPatch;
-};
-
-/** The `shipper` to be created by this mutation. */
-export type ShipperProgramShipperIdFkeyShipperCreateInput = {
-  id: Scalars['String'];
-  shipperName: Scalars['String'];
-  countryId?: Maybe<Scalars['String']>;
-  groupId?: Maybe<Scalars['String']>;
-  logoSrc?: Maybe<Scalars['String']>;
-  notes?: Maybe<Scalars['String']>;
-  website?: Maybe<Scalars['String']>;
-  sendProjectionRequest?: Maybe<Scalars['Boolean']>;
-  countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
-  shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
-  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
-  shipperProjectionsUsingId?: Maybe<ShipperProjectionShipperIdFkeyInverseInput>;
-  shipperPersonContactsUsingId?: Maybe<ShipperPersonContactShipperIdFkeyInverseInput>;
-  shipperProgramsUsingId?: Maybe<ShipperProgramShipperIdFkeyInverseInput>;
-  shipperProjectionVesselInfosUsingId?: Maybe<FkShipperIdInverseInput>;
-};
-
-/** The globally unique `ID` look up for the row to update. */
-export type ShipperOnShipperProgramForShipperProgramShipperIdFkeyNodeIdUpdate = {
-  /** The globally unique `ID` which identifies a single `shipperProgram` to be connected. */
-  nodeId: Scalars['ID'];
-  /** An object where the defined keys will be set on the `shipperProgram` being updated. */
-  patch: ShipperProgramPatch;
-};
-
-/** Represents an update to a `ShipperProgram`. Fields that are set will be updated. */
-export type ShipperProgramPatch = {
-  id?: Maybe<Scalars['BigInt']>;
-  species?: Maybe<Scalars['String']>;
-  variety?: Maybe<Scalars['String']>;
-  size?: Maybe<Scalars['String']>;
-  packType?: Maybe<Scalars['String']>;
-  plu?: Maybe<Scalars['String']>;
-  programDate?: Maybe<Scalars['Date']>;
-  palletCount?: Maybe<Scalars['BigFloat']>;
-  notes?: Maybe<Scalars['String']>;
-  shipperId?: Maybe<Scalars['String']>;
-  shipperToShipperId?: Maybe<ShipperProgramShipperIdFkeyInput>;
-};
-
-/** The `shipperProgram` to be created by this mutation. */
-export type ShipperProgramShipperIdFkeyShipperProgramCreateInput = {
-  id?: Maybe<Scalars['BigInt']>;
-  species?: Maybe<Scalars['String']>;
-  variety?: Maybe<Scalars['String']>;
-  size?: Maybe<Scalars['String']>;
-  packType?: Maybe<Scalars['String']>;
-  plu?: Maybe<Scalars['String']>;
-  programDate?: Maybe<Scalars['Date']>;
-  palletCount?: Maybe<Scalars['BigFloat']>;
-  notes?: Maybe<Scalars['String']>;
-  shipperToShipperId?: Maybe<ShipperProgramShipperIdFkeyInput>;
-};
-
-/** The globally unique `ID` look up for the row to update. */
 export type ShipperProjectionOnShipperProjectionForShipperProjectionShipperIdFkeyNodeIdUpdate = {
   /** The globally unique `ID` which identifies a single `shipper` to be connected. */
   nodeId: Scalars['ID'];
@@ -31779,8 +37032,8 @@ export type ShipperProjectionShipperIdFkeyShipperCreateInput = {
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
   shipperProjectionsUsingId?: Maybe<ShipperProjectionShipperIdFkeyInverseInput>;
   shipperPersonContactsUsingId?: Maybe<ShipperPersonContactShipperIdFkeyInverseInput>;
-  shipperProgramsUsingId?: Maybe<ShipperProgramShipperIdFkeyInverseInput>;
   shipperProjectionVesselInfosUsingId?: Maybe<FkShipperIdInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramShipperIdFkeyInverseInput>;
 };
 
 /** The globally unique `ID` look up for the row to update. */
@@ -31827,8 +37080,8 @@ export type ShipperProjectionProductShipperIdFkeyShipperCreateInput = {
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
   shipperProjectionsUsingId?: Maybe<ShipperProjectionShipperIdFkeyInverseInput>;
   shipperPersonContactsUsingId?: Maybe<ShipperPersonContactShipperIdFkeyInverseInput>;
-  shipperProgramsUsingId?: Maybe<ShipperProgramShipperIdFkeyInverseInput>;
   shipperProjectionVesselInfosUsingId?: Maybe<FkShipperIdInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramShipperIdFkeyInverseInput>;
 };
 
 /** The globally unique `ID` look up for the row to update. */
@@ -31882,8 +37135,8 @@ export type ShipperProjectionVesselShipperIdFkeyShipperCreateInput = {
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
   shipperProjectionsUsingId?: Maybe<ShipperProjectionShipperIdFkeyInverseInput>;
   shipperPersonContactsUsingId?: Maybe<ShipperPersonContactShipperIdFkeyInverseInput>;
-  shipperProgramsUsingId?: Maybe<ShipperProgramShipperIdFkeyInverseInput>;
   shipperProjectionVesselInfosUsingId?: Maybe<FkShipperIdInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramShipperIdFkeyInverseInput>;
 };
 
 /** The globally unique `ID` look up for the row to update. */
@@ -31923,8 +37176,8 @@ export type ShipperCountryIdFkeyShipperCreateInput = {
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
   shipperProjectionsUsingId?: Maybe<ShipperProjectionShipperIdFkeyInverseInput>;
   shipperPersonContactsUsingId?: Maybe<ShipperPersonContactShipperIdFkeyInverseInput>;
-  shipperProgramsUsingId?: Maybe<ShipperProgramShipperIdFkeyInverseInput>;
   shipperProjectionVesselInfosUsingId?: Maybe<FkShipperIdInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramShipperIdFkeyInverseInput>;
 };
 
 /** The globally unique `ID` look up for the row to update. */
@@ -31967,8 +37220,8 @@ export type ShipperPersonContactShipperIdFkeyShipperCreateInput = {
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
   shipperProjectionsUsingId?: Maybe<ShipperProjectionShipperIdFkeyInverseInput>;
   shipperPersonContactsUsingId?: Maybe<ShipperPersonContactShipperIdFkeyInverseInput>;
-  shipperProgramsUsingId?: Maybe<ShipperProgramShipperIdFkeyInverseInput>;
   shipperProjectionVesselInfosUsingId?: Maybe<FkShipperIdInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramShipperIdFkeyInverseInput>;
 };
 
 /** The globally unique `ID` look up for the row to update. */
@@ -32047,25 +37300,6 @@ export type CountryOnCustomerForCustomerCountryIdFkeyNodeIdUpdate = {
   patch: CustomerPatch;
 };
 
-/** Represents an update to a `Customer`. Fields that are set will be updated. */
-export type CustomerPatch = {
-  id?: Maybe<Scalars['String']>;
-  customerName?: Maybe<Scalars['String']>;
-  address1?: Maybe<Scalars['String']>;
-  address2?: Maybe<Scalars['String']>;
-  city?: Maybe<Scalars['String']>;
-  postalState?: Maybe<Scalars['String']>;
-  zipCode?: Maybe<Scalars['String']>;
-  countryId?: Maybe<Scalars['String']>;
-  phone?: Maybe<Scalars['String']>;
-  logoSrc?: Maybe<Scalars['String']>;
-  notes?: Maybe<Scalars['String']>;
-  website?: Maybe<Scalars['String']>;
-  active?: Maybe<Scalars['Boolean']>;
-  countryToCountryId?: Maybe<CustomerCountryIdFkeyInput>;
-  customerPersonContactsUsingId?: Maybe<CustomerPersonContactCustomerIdFkeyInverseInput>;
-};
-
 /** The `customer` to be created by this mutation. */
 export type CustomerCountryIdFkeyCustomerCreateInput = {
   id: Scalars['String'];
@@ -32082,6 +37316,7 @@ export type CustomerCountryIdFkeyCustomerCreateInput = {
   active: Scalars['Boolean'];
   countryToCountryId?: Maybe<CustomerCountryIdFkeyInput>;
   customerPersonContactsUsingId?: Maybe<CustomerPersonContactCustomerIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCustomerIdFkeyInverseInput>;
 };
 
 /** The globally unique `ID` look up for the row to update. */
@@ -32126,6 +37361,7 @@ export type CustomerPersonContactCustomerIdFkeyCustomerCreateInput = {
   active: Scalars['Boolean'];
   countryToCountryId?: Maybe<CustomerCountryIdFkeyInput>;
   customerPersonContactsUsingId?: Maybe<CustomerPersonContactCustomerIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCustomerIdFkeyInverseInput>;
 };
 
 /** The globally unique `ID` look up for the row to update. */
@@ -32544,6 +37780,7 @@ export type CustomerInput = {
   active: Scalars['Boolean'];
   countryToCountryId?: Maybe<CustomerCountryIdFkeyInput>;
   customerPersonContactsUsingId?: Maybe<CustomerPersonContactCustomerIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCustomerIdFkeyInverseInput>;
 };
 
 /** The output of our create `CustomerPersonContact` mutation. */
@@ -32696,8 +37933,8 @@ export type ShipperInput = {
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
   shipperProjectionsUsingId?: Maybe<ShipperProjectionShipperIdFkeyInverseInput>;
   shipperPersonContactsUsingId?: Maybe<ShipperPersonContactShipperIdFkeyInverseInput>;
-  shipperProgramsUsingId?: Maybe<ShipperProgramShipperIdFkeyInverseInput>;
   shipperProjectionVesselInfosUsingId?: Maybe<FkShipperIdInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramShipperIdFkeyInverseInput>;
 };
 
 /** The output of our create `ShipperPersonContact` mutation. */
@@ -34695,6 +39932,8 @@ export type CommonPackTypeInput = {
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyInverseInput>;
   commonPackTypeTagsUsingId?: Maybe<CommonPackTypeTagCommonPackTypeIdFkeyInverseInput>;
   commonPackTypePackMastersUsingId?: Maybe<CommonPackTypePackMasterCommonPackTypeIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonPackTypeIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonPackTypeIdFkeyInverseInput>;
 };
 
 /** The output of our create `CommonPackTypePackMaster` mutation. */
@@ -34834,6 +40073,8 @@ export type CommonSizeInput = {
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSizeIdFkeyInverseInput>;
   commonSizeTagsUsingId?: Maybe<CommonSizeTagCommonSizeIdFkeyInverseInput>;
   commonSizeProductSizesUsingId?: Maybe<CommonSizeProductSizeCommonSizeIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonSizeIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonSizeIdFkeyInverseInput>;
 };
 
 /** The output of our create `CommonSizeProductSize` mutation. */
@@ -34977,6 +40218,8 @@ export type CommonSpeciesInput = {
   commonPackTypesUsingId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInverseInput>;
   commonSpeciesTagsUsingId?: Maybe<CommonSpeciesTagCommonSpeciesIdFkeyInverseInput>;
   commonSpeciesProductSpeciesUsingId?: Maybe<CommonSpeciesProductSpeciesCommonSpeciesIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonSpeciesIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonSpeciesIdFkeyInverseInput>;
 };
 
 /** The output of our create `CommonSpeciesProductSpecies` mutation. */
@@ -35117,6 +40360,8 @@ export type CommonVarietyInput = {
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonVarietyIdFkeyInverseInput>;
   commonVarietyTagsUsingId?: Maybe<CommonVarietyTagCommonVarietyIdFkeyInverseInput>;
   commonVarietyProductVarietiesUsingId?: Maybe<CommonVarietyProductVarietyCommonVarietyIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCommonVarietyIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCommonVarietyIdFkeyInverseInput>;
 };
 
 /** The output of our create `CommonVarietyProductVariety` mutation. */
@@ -35205,6 +40450,113 @@ export type CommonVarietyTagInput = {
   tagText: Scalars['String'];
   commonVarietyId?: Maybe<Scalars['BigInt']>;
   commonVarietyToCommonVarietyId?: Maybe<CommonVarietyTagCommonVarietyIdFkeyInput>;
+};
+
+/** The output of our create `CustomerProgram` mutation. */
+export type CreateCustomerProgramPayload = {
+  __typename?: 'CreateCustomerProgramPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `CustomerProgram` that was created by this mutation. */
+  customerProgram?: Maybe<CustomerProgram>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `CommonSpecies` that is related to this `CustomerProgram`. */
+  commonSpecies?: Maybe<CommonSpecies>;
+  /** Reads a single `CommonVariety` that is related to this `CustomerProgram`. */
+  commonVariety?: Maybe<CommonVariety>;
+  /** Reads a single `CommonSize` that is related to this `CustomerProgram`. */
+  commonSize?: Maybe<CommonSize>;
+  /** Reads a single `CommonPackType` that is related to this `CustomerProgram`. */
+  commonPackType?: Maybe<CommonPackType>;
+  /** Reads a single `Customer` that is related to this `CustomerProgram`. */
+  customer?: Maybe<Customer>;
+  /** An edge for our `CustomerProgram`. May be used by Relay 1. */
+  customerProgramEdge?: Maybe<CustomerProgramsEdge>;
+};
+
+
+/** The output of our create `CustomerProgram` mutation. */
+export type CreateCustomerProgramPayloadCustomerProgramEdgeArgs = {
+  orderBy?: Maybe<Array<CustomerProgramsOrderBy>>;
+};
+
+/** All input for the create `CustomerProgram` mutation. */
+export type CreateCustomerProgramInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `CustomerProgram` to be created by this mutation. */
+  customerProgram: CustomerProgramInput;
+};
+
+/** An input for mutations affecting `CustomerProgram` */
+export type CustomerProgramInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  commonSpeciesId?: Maybe<Scalars['BigInt']>;
+  commonVarietyId?: Maybe<Scalars['BigInt']>;
+  commonSizeId?: Maybe<Scalars['BigInt']>;
+  commonPackTypeId?: Maybe<Scalars['BigInt']>;
+  customerId?: Maybe<Scalars['String']>;
+  arrivalPort?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  commonSpeciesToCommonSpeciesId?: Maybe<CustomerProgramCommonSpeciesIdFkeyInput>;
+  commonVarietyToCommonVarietyId?: Maybe<CustomerProgramCommonVarietyIdFkeyInput>;
+  commonSizeToCommonSizeId?: Maybe<CustomerProgramCommonSizeIdFkeyInput>;
+  commonPackTypeToCommonPackTypeId?: Maybe<CustomerProgramCommonPackTypeIdFkeyInput>;
+  customerToCustomerId?: Maybe<CustomerProgramCustomerIdFkeyInput>;
+  customerProgramEntriesUsingId?: Maybe<CustomerProgramEntryCustomerProgramIdFkeyInverseInput>;
+};
+
+/** The output of our create `CustomerProgramEntry` mutation. */
+export type CreateCustomerProgramEntryPayload = {
+  __typename?: 'CreateCustomerProgramEntryPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `CustomerProgramEntry` that was created by this mutation. */
+  customerProgramEntry?: Maybe<CustomerProgramEntry>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `CustomerProgram` that is related to this `CustomerProgramEntry`. */
+  customerProgram?: Maybe<CustomerProgram>;
+  /** An edge for our `CustomerProgramEntry`. May be used by Relay 1. */
+  customerProgramEntryEdge?: Maybe<CustomerProgramEntriesEdge>;
+};
+
+
+/** The output of our create `CustomerProgramEntry` mutation. */
+export type CreateCustomerProgramEntryPayloadCustomerProgramEntryEdgeArgs = {
+  orderBy?: Maybe<Array<CustomerProgramEntriesOrderBy>>;
+};
+
+/** All input for the create `CustomerProgramEntry` mutation. */
+export type CreateCustomerProgramEntryInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `CustomerProgramEntry` to be created by this mutation. */
+  customerProgramEntry: CustomerProgramEntryInput;
+};
+
+/** An input for mutations affecting `CustomerProgramEntry` */
+export type CustomerProgramEntryInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  notes?: Maybe<Scalars['String']>;
+  programDate?: Maybe<Scalars['Date']>;
+  palletCount?: Maybe<Scalars['BigFloat']>;
+  customerProgramId?: Maybe<Scalars['BigInt']>;
+  customerProgramToCustomerProgramId?: Maybe<CustomerProgramEntryCustomerProgramIdFkeyInput>;
+  shipperProgramEntryCustomerProgramEntriesUsingId?: Maybe<ShipperProgramEntryCustomerPCustomerProgramEntryIdFkeyInverseInput>;
 };
 
 /** The output of our create `InventoryItem` mutation. */
@@ -36322,6 +41674,14 @@ export type CreateShipperProgramPayload = {
   shipperProgram?: Maybe<ShipperProgram>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
+  /** Reads a single `CommonSpecies` that is related to this `ShipperProgram`. */
+  commonSpecies?: Maybe<CommonSpecies>;
+  /** Reads a single `CommonVariety` that is related to this `ShipperProgram`. */
+  commonVariety?: Maybe<CommonVariety>;
+  /** Reads a single `CommonSize` that is related to this `ShipperProgram`. */
+  commonSize?: Maybe<CommonSize>;
+  /** Reads a single `CommonPackType` that is related to this `ShipperProgram`. */
+  commonPackType?: Maybe<CommonPackType>;
   /** Reads a single `Shipper` that is related to this `ShipperProgram`. */
   shipper?: Maybe<Shipper>;
   /** An edge for our `ShipperProgram`. May be used by Relay 1. */
@@ -36348,16 +41708,112 @@ export type CreateShipperProgramInput = {
 /** An input for mutations affecting `ShipperProgram` */
 export type ShipperProgramInput = {
   id?: Maybe<Scalars['BigInt']>;
-  species?: Maybe<Scalars['String']>;
-  variety?: Maybe<Scalars['String']>;
-  size?: Maybe<Scalars['String']>;
-  packType?: Maybe<Scalars['String']>;
+  commonSpeciesId?: Maybe<Scalars['BigInt']>;
+  commonVarietyId?: Maybe<Scalars['BigInt']>;
+  commonSizeId?: Maybe<Scalars['BigInt']>;
+  commonPackTypeId?: Maybe<Scalars['BigInt']>;
+  shipperId?: Maybe<Scalars['String']>;
+  arrivalPort?: Maybe<Scalars['String']>;
   plu?: Maybe<Scalars['String']>;
+  commonSpeciesToCommonSpeciesId?: Maybe<ShipperProgramCommonSpeciesIdFkeyInput>;
+  commonVarietyToCommonVarietyId?: Maybe<ShipperProgramCommonVarietyIdFkeyInput>;
+  commonSizeToCommonSizeId?: Maybe<ShipperProgramCommonSizeIdFkeyInput>;
+  commonPackTypeToCommonPackTypeId?: Maybe<ShipperProgramCommonPackTypeIdFkeyInput>;
+  shipperToShipperId?: Maybe<ShipperProgramShipperIdFkeyInput>;
+  shipperProgramEntriesUsingId?: Maybe<ShipperProgramEntryShipperProgramIdFkeyInverseInput>;
+};
+
+/** The output of our create `ShipperProgramEntry` mutation. */
+export type CreateShipperProgramEntryPayload = {
+  __typename?: 'CreateShipperProgramEntryPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `ShipperProgramEntry` that was created by this mutation. */
+  shipperProgramEntry?: Maybe<ShipperProgramEntry>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `ShipperProgram` that is related to this `ShipperProgramEntry`. */
+  shipperProgram?: Maybe<ShipperProgram>;
+  /** An edge for our `ShipperProgramEntry`. May be used by Relay 1. */
+  shipperProgramEntryEdge?: Maybe<ShipperProgramEntriesEdge>;
+};
+
+
+/** The output of our create `ShipperProgramEntry` mutation. */
+export type CreateShipperProgramEntryPayloadShipperProgramEntryEdgeArgs = {
+  orderBy?: Maybe<Array<ShipperProgramEntriesOrderBy>>;
+};
+
+/** All input for the create `ShipperProgramEntry` mutation. */
+export type CreateShipperProgramEntryInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `ShipperProgramEntry` to be created by this mutation. */
+  shipperProgramEntry: ShipperProgramEntryInput;
+};
+
+/** An input for mutations affecting `ShipperProgramEntry` */
+export type ShipperProgramEntryInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  notes?: Maybe<Scalars['String']>;
   programDate?: Maybe<Scalars['Date']>;
   palletCount?: Maybe<Scalars['BigFloat']>;
-  notes?: Maybe<Scalars['String']>;
-  shipperId?: Maybe<Scalars['String']>;
-  shipperToShipperId?: Maybe<ShipperProgramShipperIdFkeyInput>;
+  shipperProgramId?: Maybe<Scalars['BigInt']>;
+  shipperProgramToShipperProgramId?: Maybe<ShipperProgramEntryShipperProgramIdFkeyInput>;
+  shipperProgramEntryCustomerProgramEntriesUsingId?: Maybe<ShipperProgramEntryCustomerPrShipperProgramEntryIdFkeyInverseInput>;
+};
+
+/** The output of our create `ShipperProgramEntryCustomerProgramEntry` mutation. */
+export type CreateShipperProgramEntryCustomerProgramEntryPayload = {
+  __typename?: 'CreateShipperProgramEntryCustomerProgramEntryPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `ShipperProgramEntryCustomerProgramEntry` that was created by this mutation. */
+  shipperProgramEntryCustomerProgramEntry?: Maybe<ShipperProgramEntryCustomerProgramEntry>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `CustomerProgramEntry` that is related to this `ShipperProgramEntryCustomerProgramEntry`. */
+  customerProgramEntry?: Maybe<CustomerProgramEntry>;
+  /** Reads a single `ShipperProgramEntry` that is related to this `ShipperProgramEntryCustomerProgramEntry`. */
+  shipperProgramEntry?: Maybe<ShipperProgramEntry>;
+  /** An edge for our `ShipperProgramEntryCustomerProgramEntry`. May be used by Relay 1. */
+  shipperProgramEntryCustomerProgramEntryEdge?: Maybe<ShipperProgramEntryCustomerProgramEntriesEdge>;
+};
+
+
+/** The output of our create `ShipperProgramEntryCustomerProgramEntry` mutation. */
+export type CreateShipperProgramEntryCustomerProgramEntryPayloadShipperProgramEntryCustomerProgramEntryEdgeArgs = {
+  orderBy?: Maybe<Array<ShipperProgramEntryCustomerProgramEntriesOrderBy>>;
+};
+
+/** All input for the create `ShipperProgramEntryCustomerProgramEntry` mutation. */
+export type CreateShipperProgramEntryCustomerProgramEntryInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `ShipperProgramEntryCustomerProgramEntry` to be created by this mutation. */
+  shipperProgramEntryCustomerProgramEntry: ShipperProgramEntryCustomerProgramEntryInput;
+};
+
+/** An input for mutations affecting `ShipperProgramEntryCustomerProgramEntry` */
+export type ShipperProgramEntryCustomerProgramEntryInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  palletCount?: Maybe<Scalars['BigFloat']>;
+  customerProgramEntryId?: Maybe<Scalars['BigInt']>;
+  shipperProgramEntryId?: Maybe<Scalars['BigInt']>;
+  customerProgramEntryToCustomerProgramEntryId?: Maybe<ShipperProgramEntryCustomerPCustomerProgramEntryIdFkeyInput>;
+  shipperProgramEntryToShipperProgramEntryId?: Maybe<ShipperProgramEntryCustomerPrShipperProgramEntryIdFkeyInput>;
 };
 
 /** The output of our create `ShipperProjection` mutation. */
@@ -40237,6 +45693,112 @@ export type UpdateCommonVarietyTagInput = {
   commonVarietyId: Scalars['BigInt'];
 };
 
+/** The output of our update `CustomerProgram` mutation. */
+export type UpdateCustomerProgramPayload = {
+  __typename?: 'UpdateCustomerProgramPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `CustomerProgram` that was updated by this mutation. */
+  customerProgram?: Maybe<CustomerProgram>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `CommonSpecies` that is related to this `CustomerProgram`. */
+  commonSpecies?: Maybe<CommonSpecies>;
+  /** Reads a single `CommonVariety` that is related to this `CustomerProgram`. */
+  commonVariety?: Maybe<CommonVariety>;
+  /** Reads a single `CommonSize` that is related to this `CustomerProgram`. */
+  commonSize?: Maybe<CommonSize>;
+  /** Reads a single `CommonPackType` that is related to this `CustomerProgram`. */
+  commonPackType?: Maybe<CommonPackType>;
+  /** Reads a single `Customer` that is related to this `CustomerProgram`. */
+  customer?: Maybe<Customer>;
+  /** An edge for our `CustomerProgram`. May be used by Relay 1. */
+  customerProgramEdge?: Maybe<CustomerProgramsEdge>;
+};
+
+
+/** The output of our update `CustomerProgram` mutation. */
+export type UpdateCustomerProgramPayloadCustomerProgramEdgeArgs = {
+  orderBy?: Maybe<Array<CustomerProgramsOrderBy>>;
+};
+
+/** All input for the `updateCustomerProgramByNodeId` mutation. */
+export type UpdateCustomerProgramByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `CustomerProgram` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `CustomerProgram` being updated. */
+  patch: CustomerProgramPatch;
+};
+
+/** All input for the `updateCustomerProgram` mutation. */
+export type UpdateCustomerProgramInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `CustomerProgram` being updated. */
+  patch: CustomerProgramPatch;
+  id: Scalars['BigInt'];
+};
+
+/** The output of our update `CustomerProgramEntry` mutation. */
+export type UpdateCustomerProgramEntryPayload = {
+  __typename?: 'UpdateCustomerProgramEntryPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `CustomerProgramEntry` that was updated by this mutation. */
+  customerProgramEntry?: Maybe<CustomerProgramEntry>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `CustomerProgram` that is related to this `CustomerProgramEntry`. */
+  customerProgram?: Maybe<CustomerProgram>;
+  /** An edge for our `CustomerProgramEntry`. May be used by Relay 1. */
+  customerProgramEntryEdge?: Maybe<CustomerProgramEntriesEdge>;
+};
+
+
+/** The output of our update `CustomerProgramEntry` mutation. */
+export type UpdateCustomerProgramEntryPayloadCustomerProgramEntryEdgeArgs = {
+  orderBy?: Maybe<Array<CustomerProgramEntriesOrderBy>>;
+};
+
+/** All input for the `updateCustomerProgramEntryByNodeId` mutation. */
+export type UpdateCustomerProgramEntryByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `CustomerProgramEntry` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `CustomerProgramEntry` being updated. */
+  patch: CustomerProgramEntryPatch;
+};
+
+/** All input for the `updateCustomerProgramEntry` mutation. */
+export type UpdateCustomerProgramEntryInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `CustomerProgramEntry` being updated. */
+  patch: CustomerProgramEntryPatch;
+  id: Scalars['BigInt'];
+};
+
 /** The output of our update `InventoryItem` mutation. */
 export type UpdateInventoryItemPayload = {
   __typename?: 'UpdateInventoryItemPayload';
@@ -41712,6 +47274,14 @@ export type UpdateShipperProgramPayload = {
   shipperProgram?: Maybe<ShipperProgram>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
+  /** Reads a single `CommonSpecies` that is related to this `ShipperProgram`. */
+  commonSpecies?: Maybe<CommonSpecies>;
+  /** Reads a single `CommonVariety` that is related to this `ShipperProgram`. */
+  commonVariety?: Maybe<CommonVariety>;
+  /** Reads a single `CommonSize` that is related to this `ShipperProgram`. */
+  commonSize?: Maybe<CommonSize>;
+  /** Reads a single `CommonPackType` that is related to this `ShipperProgram`. */
+  commonPackType?: Maybe<CommonPackType>;
   /** Reads a single `Shipper` that is related to this `ShipperProgram`. */
   shipper?: Maybe<Shipper>;
   /** An edge for our `ShipperProgram`. May be used by Relay 1. */
@@ -41746,6 +47316,106 @@ export type UpdateShipperProgramInput = {
   clientMutationId?: Maybe<Scalars['String']>;
   /** An object where the defined keys will be set on the `ShipperProgram` being updated. */
   patch: ShipperProgramPatch;
+  id: Scalars['BigInt'];
+};
+
+/** The output of our update `ShipperProgramEntry` mutation. */
+export type UpdateShipperProgramEntryPayload = {
+  __typename?: 'UpdateShipperProgramEntryPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `ShipperProgramEntry` that was updated by this mutation. */
+  shipperProgramEntry?: Maybe<ShipperProgramEntry>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `ShipperProgram` that is related to this `ShipperProgramEntry`. */
+  shipperProgram?: Maybe<ShipperProgram>;
+  /** An edge for our `ShipperProgramEntry`. May be used by Relay 1. */
+  shipperProgramEntryEdge?: Maybe<ShipperProgramEntriesEdge>;
+};
+
+
+/** The output of our update `ShipperProgramEntry` mutation. */
+export type UpdateShipperProgramEntryPayloadShipperProgramEntryEdgeArgs = {
+  orderBy?: Maybe<Array<ShipperProgramEntriesOrderBy>>;
+};
+
+/** All input for the `updateShipperProgramEntryByNodeId` mutation. */
+export type UpdateShipperProgramEntryByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `ShipperProgramEntry` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `ShipperProgramEntry` being updated. */
+  patch: ShipperProgramEntryPatch;
+};
+
+/** All input for the `updateShipperProgramEntry` mutation. */
+export type UpdateShipperProgramEntryInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `ShipperProgramEntry` being updated. */
+  patch: ShipperProgramEntryPatch;
+  id: Scalars['BigInt'];
+};
+
+/** The output of our update `ShipperProgramEntryCustomerProgramEntry` mutation. */
+export type UpdateShipperProgramEntryCustomerProgramEntryPayload = {
+  __typename?: 'UpdateShipperProgramEntryCustomerProgramEntryPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `ShipperProgramEntryCustomerProgramEntry` that was updated by this mutation. */
+  shipperProgramEntryCustomerProgramEntry?: Maybe<ShipperProgramEntryCustomerProgramEntry>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `CustomerProgramEntry` that is related to this `ShipperProgramEntryCustomerProgramEntry`. */
+  customerProgramEntry?: Maybe<CustomerProgramEntry>;
+  /** Reads a single `ShipperProgramEntry` that is related to this `ShipperProgramEntryCustomerProgramEntry`. */
+  shipperProgramEntry?: Maybe<ShipperProgramEntry>;
+  /** An edge for our `ShipperProgramEntryCustomerProgramEntry`. May be used by Relay 1. */
+  shipperProgramEntryCustomerProgramEntryEdge?: Maybe<ShipperProgramEntryCustomerProgramEntriesEdge>;
+};
+
+
+/** The output of our update `ShipperProgramEntryCustomerProgramEntry` mutation. */
+export type UpdateShipperProgramEntryCustomerProgramEntryPayloadShipperProgramEntryCustomerProgramEntryEdgeArgs = {
+  orderBy?: Maybe<Array<ShipperProgramEntryCustomerProgramEntriesOrderBy>>;
+};
+
+/** All input for the `updateShipperProgramEntryCustomerProgramEntryByNodeId` mutation. */
+export type UpdateShipperProgramEntryCustomerProgramEntryByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `ShipperProgramEntryCustomerProgramEntry` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `ShipperProgramEntryCustomerProgramEntry` being updated. */
+  patch: ShipperProgramEntryCustomerProgramEntryPatch;
+};
+
+/** All input for the `updateShipperProgramEntryCustomerProgramEntry` mutation. */
+export type UpdateShipperProgramEntryCustomerProgramEntryInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `ShipperProgramEntryCustomerProgramEntry` being updated. */
+  patch: ShipperProgramEntryCustomerProgramEntryPatch;
   id: Scalars['BigInt'];
 };
 
@@ -44179,6 +49849,106 @@ export type DeleteCommonVarietyTagInput = {
   commonVarietyId: Scalars['BigInt'];
 };
 
+/** The output of our delete `CustomerProgram` mutation. */
+export type DeleteCustomerProgramPayload = {
+  __typename?: 'DeleteCustomerProgramPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `CustomerProgram` that was deleted by this mutation. */
+  customerProgram?: Maybe<CustomerProgram>;
+  deletedCustomerProgramNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `CommonSpecies` that is related to this `CustomerProgram`. */
+  commonSpecies?: Maybe<CommonSpecies>;
+  /** Reads a single `CommonVariety` that is related to this `CustomerProgram`. */
+  commonVariety?: Maybe<CommonVariety>;
+  /** Reads a single `CommonSize` that is related to this `CustomerProgram`. */
+  commonSize?: Maybe<CommonSize>;
+  /** Reads a single `CommonPackType` that is related to this `CustomerProgram`. */
+  commonPackType?: Maybe<CommonPackType>;
+  /** Reads a single `Customer` that is related to this `CustomerProgram`. */
+  customer?: Maybe<Customer>;
+  /** An edge for our `CustomerProgram`. May be used by Relay 1. */
+  customerProgramEdge?: Maybe<CustomerProgramsEdge>;
+};
+
+
+/** The output of our delete `CustomerProgram` mutation. */
+export type DeleteCustomerProgramPayloadCustomerProgramEdgeArgs = {
+  orderBy?: Maybe<Array<CustomerProgramsOrderBy>>;
+};
+
+/** All input for the `deleteCustomerProgramByNodeId` mutation. */
+export type DeleteCustomerProgramByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `CustomerProgram` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deleteCustomerProgram` mutation. */
+export type DeleteCustomerProgramInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['BigInt'];
+};
+
+/** The output of our delete `CustomerProgramEntry` mutation. */
+export type DeleteCustomerProgramEntryPayload = {
+  __typename?: 'DeleteCustomerProgramEntryPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `CustomerProgramEntry` that was deleted by this mutation. */
+  customerProgramEntry?: Maybe<CustomerProgramEntry>;
+  deletedCustomerProgramEntryNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `CustomerProgram` that is related to this `CustomerProgramEntry`. */
+  customerProgram?: Maybe<CustomerProgram>;
+  /** An edge for our `CustomerProgramEntry`. May be used by Relay 1. */
+  customerProgramEntryEdge?: Maybe<CustomerProgramEntriesEdge>;
+};
+
+
+/** The output of our delete `CustomerProgramEntry` mutation. */
+export type DeleteCustomerProgramEntryPayloadCustomerProgramEntryEdgeArgs = {
+  orderBy?: Maybe<Array<CustomerProgramEntriesOrderBy>>;
+};
+
+/** All input for the `deleteCustomerProgramEntryByNodeId` mutation. */
+export type DeleteCustomerProgramEntryByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `CustomerProgramEntry` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deleteCustomerProgramEntry` mutation. */
+export type DeleteCustomerProgramEntryInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['BigInt'];
+};
+
 /** The output of our delete `InventoryItem` mutation. */
 export type DeleteInventoryItemPayload = {
   __typename?: 'DeleteInventoryItemPayload';
@@ -45358,6 +51128,14 @@ export type DeleteShipperProgramPayload = {
   deletedShipperProgramNodeId?: Maybe<Scalars['ID']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
+  /** Reads a single `CommonSpecies` that is related to this `ShipperProgram`. */
+  commonSpecies?: Maybe<CommonSpecies>;
+  /** Reads a single `CommonVariety` that is related to this `ShipperProgram`. */
+  commonVariety?: Maybe<CommonVariety>;
+  /** Reads a single `CommonSize` that is related to this `ShipperProgram`. */
+  commonSize?: Maybe<CommonSize>;
+  /** Reads a single `CommonPackType` that is related to this `ShipperProgram`. */
+  commonPackType?: Maybe<CommonPackType>;
   /** Reads a single `Shipper` that is related to this `ShipperProgram`. */
   shipper?: Maybe<Shipper>;
   /** An edge for our `ShipperProgram`. May be used by Relay 1. */
@@ -45383,6 +51161,100 @@ export type DeleteShipperProgramByNodeIdInput = {
 
 /** All input for the `deleteShipperProgram` mutation. */
 export type DeleteShipperProgramInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['BigInt'];
+};
+
+/** The output of our delete `ShipperProgramEntry` mutation. */
+export type DeleteShipperProgramEntryPayload = {
+  __typename?: 'DeleteShipperProgramEntryPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `ShipperProgramEntry` that was deleted by this mutation. */
+  shipperProgramEntry?: Maybe<ShipperProgramEntry>;
+  deletedShipperProgramEntryNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `ShipperProgram` that is related to this `ShipperProgramEntry`. */
+  shipperProgram?: Maybe<ShipperProgram>;
+  /** An edge for our `ShipperProgramEntry`. May be used by Relay 1. */
+  shipperProgramEntryEdge?: Maybe<ShipperProgramEntriesEdge>;
+};
+
+
+/** The output of our delete `ShipperProgramEntry` mutation. */
+export type DeleteShipperProgramEntryPayloadShipperProgramEntryEdgeArgs = {
+  orderBy?: Maybe<Array<ShipperProgramEntriesOrderBy>>;
+};
+
+/** All input for the `deleteShipperProgramEntryByNodeId` mutation. */
+export type DeleteShipperProgramEntryByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `ShipperProgramEntry` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deleteShipperProgramEntry` mutation. */
+export type DeleteShipperProgramEntryInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['BigInt'];
+};
+
+/** The output of our delete `ShipperProgramEntryCustomerProgramEntry` mutation. */
+export type DeleteShipperProgramEntryCustomerProgramEntryPayload = {
+  __typename?: 'DeleteShipperProgramEntryCustomerProgramEntryPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `ShipperProgramEntryCustomerProgramEntry` that was deleted by this mutation. */
+  shipperProgramEntryCustomerProgramEntry?: Maybe<ShipperProgramEntryCustomerProgramEntry>;
+  deletedShipperProgramEntryCustomerProgramEntryNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `CustomerProgramEntry` that is related to this `ShipperProgramEntryCustomerProgramEntry`. */
+  customerProgramEntry?: Maybe<CustomerProgramEntry>;
+  /** Reads a single `ShipperProgramEntry` that is related to this `ShipperProgramEntryCustomerProgramEntry`. */
+  shipperProgramEntry?: Maybe<ShipperProgramEntry>;
+  /** An edge for our `ShipperProgramEntryCustomerProgramEntry`. May be used by Relay 1. */
+  shipperProgramEntryCustomerProgramEntryEdge?: Maybe<ShipperProgramEntryCustomerProgramEntriesEdge>;
+};
+
+
+/** The output of our delete `ShipperProgramEntryCustomerProgramEntry` mutation. */
+export type DeleteShipperProgramEntryCustomerProgramEntryPayloadShipperProgramEntryCustomerProgramEntryEdgeArgs = {
+  orderBy?: Maybe<Array<ShipperProgramEntryCustomerProgramEntriesOrderBy>>;
+};
+
+/** All input for the `deleteShipperProgramEntryCustomerProgramEntryByNodeId` mutation. */
+export type DeleteShipperProgramEntryCustomerProgramEntryByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `ShipperProgramEntryCustomerProgramEntry` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deleteShipperProgramEntryCustomerProgramEntry` mutation. */
+export type DeleteShipperProgramEntryCustomerProgramEntryInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
@@ -46271,6 +52143,52 @@ export type BulkCreateShipperProjectionVesselInput = {
   vessels: Array<Maybe<ShipperProjectionVesselInput>>;
 };
 
+/** The output of our `bulkDeleteCustomerProgram` mutation. */
+export type BulkDeleteCustomerProgramPayload = {
+  __typename?: 'BulkDeleteCustomerProgramPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  bigInts?: Maybe<Array<Maybe<Scalars['BigInt']>>>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** All input for the `bulkDeleteCustomerProgram` mutation. */
+export type BulkDeleteCustomerProgramInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  idsToDelete: Array<Maybe<Scalars['BigInt']>>;
+};
+
+/** The output of our `bulkDeleteShipperProgram` mutation. */
+export type BulkDeleteShipperProgramPayload = {
+  __typename?: 'BulkDeleteShipperProgramPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  bigInts?: Maybe<Array<Maybe<Scalars['BigInt']>>>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** All input for the `bulkDeleteShipperProgram` mutation. */
+export type BulkDeleteShipperProgramInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  idsToDelete: Array<Maybe<Scalars['BigInt']>>;
+};
+
 /** The output of our `bulkDeleteShipperProjectionEntry` mutation. */
 export type BulkDeleteShipperProjectionEntryPayload = {
   __typename?: 'BulkDeleteShipperProjectionEntryPayload';
@@ -46292,6 +52210,98 @@ export type BulkDeleteShipperProjectionEntryInput = {
    */
   clientMutationId?: Maybe<Scalars['String']>;
   idsToDelete: Array<Maybe<Scalars['BigInt']>>;
+};
+
+/** The output of our `bulkUpsertCustomerProgram` mutation. */
+export type BulkUpsertCustomerProgramPayload = {
+  __typename?: 'BulkUpsertCustomerProgramPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  customerPrograms?: Maybe<Array<Maybe<CustomerProgram>>>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** All input for the `bulkUpsertCustomerProgram` mutation. */
+export type BulkUpsertCustomerProgramInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  programs: Array<Maybe<CustomerProgramInput>>;
+};
+
+/** The output of our `bulkUpsertCustomerProgramEntry` mutation. */
+export type BulkUpsertCustomerProgramEntryPayload = {
+  __typename?: 'BulkUpsertCustomerProgramEntryPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  customerProgramEntries?: Maybe<Array<Maybe<CustomerProgramEntry>>>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** All input for the `bulkUpsertCustomerProgramEntry` mutation. */
+export type BulkUpsertCustomerProgramEntryInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  entries: Array<Maybe<CustomerProgramEntryInput>>;
+};
+
+/** The output of our `bulkUpsertShipperProgram` mutation. */
+export type BulkUpsertShipperProgramPayload = {
+  __typename?: 'BulkUpsertShipperProgramPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  shipperPrograms?: Maybe<Array<Maybe<ShipperProgram>>>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** All input for the `bulkUpsertShipperProgram` mutation. */
+export type BulkUpsertShipperProgramInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  programs: Array<Maybe<ShipperProgramInput>>;
+};
+
+/** The output of our `bulkUpsertShipperProgramEntry` mutation. */
+export type BulkUpsertShipperProgramEntryPayload = {
+  __typename?: 'BulkUpsertShipperProgramEntryPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  shipperProgramEntries?: Maybe<Array<Maybe<ShipperProgramEntry>>>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** All input for the `bulkUpsertShipperProgramEntry` mutation. */
+export type BulkUpsertShipperProgramEntryInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  entries: Array<Maybe<ShipperProgramEntryInput>>;
 };
 
 /** The output of our `bulkUpsertShipperProjectionProduct` mutation. */
@@ -47627,6 +53637,72 @@ export type UpsertCommonVarietyTagInput = {
   commonVarietyTag: CommonVarietyTagInput;
 };
 
+/** The output of our upsert `CustomerProgram` mutation. */
+export type UpsertCustomerProgramPayload = {
+  __typename?: 'UpsertCustomerProgramPayload';
+  /** The exact same `clientMutationId` that was provided in the mutation input, unchanged and unused. May be used by a client to track mutations. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `CustomerProgram` that were upserted by this mutation. */
+  customerProgram?: Maybe<CustomerProgram>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `CommonSpecies` that is related to this `CustomerProgram`. */
+  commonSpecies?: Maybe<CommonSpecies>;
+  /** Reads a single `CommonVariety` that is related to this `CustomerProgram`. */
+  commonVariety?: Maybe<CommonVariety>;
+  /** Reads a single `CommonSize` that is related to this `CustomerProgram`. */
+  commonSize?: Maybe<CommonSize>;
+  /** Reads a single `CommonPackType` that is related to this `CustomerProgram`. */
+  commonPackType?: Maybe<CommonPackType>;
+  /** Reads a single `Customer` that is related to this `CustomerProgram`. */
+  customer?: Maybe<Customer>;
+  /** An edge for our `CustomerProgram`. May be used by Relay 1. */
+  customerProgramEdge?: Maybe<CustomerProgramsEdge>;
+};
+
+
+/** The output of our upsert `CustomerProgram` mutation. */
+export type UpsertCustomerProgramPayloadCustomerProgramEdgeArgs = {
+  orderBy?: Maybe<Array<CustomerProgramsOrderBy>>;
+};
+
+/** All input for the upsert `CustomerProgram` mutation. */
+export type UpsertCustomerProgramInput = {
+  /** An arbitrary string value with no semantic meaning. Will be included in the payload verbatim. May be used to track mutations by the client. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `CustomerProgram` to be upserted by this mutation. */
+  customerProgram: CustomerProgramInput;
+};
+
+/** The output of our upsert `CustomerProgramEntry` mutation. */
+export type UpsertCustomerProgramEntryPayload = {
+  __typename?: 'UpsertCustomerProgramEntryPayload';
+  /** The exact same `clientMutationId` that was provided in the mutation input, unchanged and unused. May be used by a client to track mutations. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `CustomerProgramEntry` that were upserted by this mutation. */
+  customerProgramEntry?: Maybe<CustomerProgramEntry>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `CustomerProgram` that is related to this `CustomerProgramEntry`. */
+  customerProgram?: Maybe<CustomerProgram>;
+  /** An edge for our `CustomerProgramEntry`. May be used by Relay 1. */
+  customerProgramEntryEdge?: Maybe<CustomerProgramEntriesEdge>;
+};
+
+
+/** The output of our upsert `CustomerProgramEntry` mutation. */
+export type UpsertCustomerProgramEntryPayloadCustomerProgramEntryEdgeArgs = {
+  orderBy?: Maybe<Array<CustomerProgramEntriesOrderBy>>;
+};
+
+/** All input for the upsert `CustomerProgramEntry` mutation. */
+export type UpsertCustomerProgramEntryInput = {
+  /** An arbitrary string value with no semantic meaning. Will be included in the payload verbatim. May be used to track mutations by the client. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `CustomerProgramEntry` to be upserted by this mutation. */
+  customerProgramEntry: CustomerProgramEntryInput;
+};
+
 /** The output of our upsert `InventoryItem` mutation. */
 export type UpsertInventoryItemPayload = {
   __typename?: 'UpsertInventoryItemPayload';
@@ -48284,6 +54360,14 @@ export type UpsertShipperProgramPayload = {
   shipperProgram?: Maybe<ShipperProgram>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
+  /** Reads a single `CommonSpecies` that is related to this `ShipperProgram`. */
+  commonSpecies?: Maybe<CommonSpecies>;
+  /** Reads a single `CommonVariety` that is related to this `ShipperProgram`. */
+  commonVariety?: Maybe<CommonVariety>;
+  /** Reads a single `CommonSize` that is related to this `ShipperProgram`. */
+  commonSize?: Maybe<CommonSize>;
+  /** Reads a single `CommonPackType` that is related to this `ShipperProgram`. */
+  commonPackType?: Maybe<CommonPackType>;
   /** Reads a single `Shipper` that is related to this `ShipperProgram`. */
   shipper?: Maybe<Shipper>;
   /** An edge for our `ShipperProgram`. May be used by Relay 1. */
@@ -48302,6 +54386,66 @@ export type UpsertShipperProgramInput = {
   clientMutationId?: Maybe<Scalars['String']>;
   /** The `ShipperProgram` to be upserted by this mutation. */
   shipperProgram: ShipperProgramInput;
+};
+
+/** The output of our upsert `ShipperProgramEntry` mutation. */
+export type UpsertShipperProgramEntryPayload = {
+  __typename?: 'UpsertShipperProgramEntryPayload';
+  /** The exact same `clientMutationId` that was provided in the mutation input, unchanged and unused. May be used by a client to track mutations. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `ShipperProgramEntry` that were upserted by this mutation. */
+  shipperProgramEntry?: Maybe<ShipperProgramEntry>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `ShipperProgram` that is related to this `ShipperProgramEntry`. */
+  shipperProgram?: Maybe<ShipperProgram>;
+  /** An edge for our `ShipperProgramEntry`. May be used by Relay 1. */
+  shipperProgramEntryEdge?: Maybe<ShipperProgramEntriesEdge>;
+};
+
+
+/** The output of our upsert `ShipperProgramEntry` mutation. */
+export type UpsertShipperProgramEntryPayloadShipperProgramEntryEdgeArgs = {
+  orderBy?: Maybe<Array<ShipperProgramEntriesOrderBy>>;
+};
+
+/** All input for the upsert `ShipperProgramEntry` mutation. */
+export type UpsertShipperProgramEntryInput = {
+  /** An arbitrary string value with no semantic meaning. Will be included in the payload verbatim. May be used to track mutations by the client. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `ShipperProgramEntry` to be upserted by this mutation. */
+  shipperProgramEntry: ShipperProgramEntryInput;
+};
+
+/** The output of our upsert `ShipperProgramEntryCustomerProgramEntry` mutation. */
+export type UpsertShipperProgramEntryCustomerProgramEntryPayload = {
+  __typename?: 'UpsertShipperProgramEntryCustomerProgramEntryPayload';
+  /** The exact same `clientMutationId` that was provided in the mutation input, unchanged and unused. May be used by a client to track mutations. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `ShipperProgramEntryCustomerProgramEntry` that were upserted by this mutation. */
+  shipperProgramEntryCustomerProgramEntry?: Maybe<ShipperProgramEntryCustomerProgramEntry>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `CustomerProgramEntry` that is related to this `ShipperProgramEntryCustomerProgramEntry`. */
+  customerProgramEntry?: Maybe<CustomerProgramEntry>;
+  /** Reads a single `ShipperProgramEntry` that is related to this `ShipperProgramEntryCustomerProgramEntry`. */
+  shipperProgramEntry?: Maybe<ShipperProgramEntry>;
+  /** An edge for our `ShipperProgramEntryCustomerProgramEntry`. May be used by Relay 1. */
+  shipperProgramEntryCustomerProgramEntryEdge?: Maybe<ShipperProgramEntryCustomerProgramEntriesEdge>;
+};
+
+
+/** The output of our upsert `ShipperProgramEntryCustomerProgramEntry` mutation. */
+export type UpsertShipperProgramEntryCustomerProgramEntryPayloadShipperProgramEntryCustomerProgramEntryEdgeArgs = {
+  orderBy?: Maybe<Array<ShipperProgramEntryCustomerProgramEntriesOrderBy>>;
+};
+
+/** All input for the upsert `ShipperProgramEntryCustomerProgramEntry` mutation. */
+export type UpsertShipperProgramEntryCustomerProgramEntryInput = {
+  /** An arbitrary string value with no semantic meaning. Will be included in the payload verbatim. May be used to track mutations by the client. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `ShipperProgramEntryCustomerProgramEntry` to be upserted by this mutation. */
+  shipperProgramEntryCustomerProgramEntry: ShipperProgramEntryCustomerProgramEntryInput;
 };
 
 /** The output of our upsert `ShipperProjection` mutation. */

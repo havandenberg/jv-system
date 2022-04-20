@@ -1,0 +1,61 @@
+query CUSTOMER_PROGRAM_LIST(
+  $arrivalPort: String!
+  $endDate: Date!
+  $startDate: Date!
+  $customerId: String
+) {
+  customerPrograms(
+    condition: { arrivalPort: $arrivalPort, customerId: $customerId }
+    filter: {
+      customerProgramEntries: {
+        some: {
+          programDate: {
+            greaterThanOrEqualTo: $startDate
+            lessThanOrEqualTo: $endDate
+          }
+        }
+      }
+    }
+  ) {
+    nodes {
+      arrivalPort
+      commonPackType {
+        id
+        packTypeName
+      }
+      commonPackTypeId
+      commonSize {
+        id
+        sizeName
+      }
+      commonSizeId
+      commonSpecies {
+        id
+        speciesName
+        uiColor
+      }
+      commonSpeciesId
+      commonVariety {
+        id
+        uiColor
+        varietyName
+      }
+      commonVarietyId
+      id
+      plu
+      customerId
+      customer {
+        id
+        customerName
+      }
+      customerProgramEntries {
+        nodes {
+          id
+          notes
+          palletCount
+          programDate
+        }
+      }
+    }
+  }
+}

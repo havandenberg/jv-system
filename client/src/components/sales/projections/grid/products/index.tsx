@@ -239,11 +239,6 @@ const Products = ({
           data={products}
           emptyProps={{
             header: 'No products found',
-            wrapperStyles: {
-              width: `calc(${th.sizes.fill} + ${vessels.length - 3} * 156px - ${
-                th.sizes.md
-              })`,
-            },
           }}
           error={null}
           loading={loading}

@@ -1,5 +1,6 @@
 import { startOfISOWeek } from 'date-fns';
 import { sortBy } from 'ramda';
+
 import {
   Maybe,
   PriceCategory,
@@ -7,7 +8,6 @@ import {
   PriceProduct,
   PriceSize,
 } from 'types';
-
 import { isDateGreaterThanOrEqualTo } from 'utils/date';
 
 import {

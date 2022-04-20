@@ -24,6 +24,7 @@ import CreateCommonSize from './products/size/create';
 import CommonSizeDetails from './products/size/details';
 import CreateCommonVariety from './products/variety/create';
 import CommonVarietyDetails from './products/variety/details';
+import Programs from './programs';
 
 const Sales = () => (
   <Switch>
@@ -116,6 +117,8 @@ const Sales = () => (
       path="/sales/products/:speciesId/packTypes/:packTypeId"
       component={CommonPackTypeDetails}
     />
+
+    <Route exact path="/sales/programs" component={Programs} />
 
     <Route exact path="/sales/price-sheet" component={PriceSheet} />
     <Route exact path="/sales/agenda" component={Agenda} />

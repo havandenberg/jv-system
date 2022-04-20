@@ -1,0 +1,9 @@
+mutation BULK_UPSERT_CUSTOMER_PROGRAM_ENTRY(
+  $customerProgramEntries: [CustomerProgramEntryInput]!
+) {
+  bulkUpsertCustomerProgramEntry(input: { entries: $customerProgramEntries }) {
+    customerProgramEntries {
+      id
+    }
+  }
+}

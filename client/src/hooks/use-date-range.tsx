@@ -7,7 +7,7 @@ import DateRangePicker, {
   DateRangeProps,
   formatDate,
 } from 'components/date-range-picker';
-import { useDateRangeQueryParams } from 'hooks/use-query-params';
+import { UpdateType, useDateRangeQueryParams } from 'hooks/use-query-params';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import {
@@ -44,20 +44,23 @@ const useDateRange = (props?: Omit<DateRangeProps, 'onClear'>) => {
   );
 
   const handleDateChange = useCallback(
-    (changeProps: OnChangeProps) => {
+    (changeProps: OnChangeProps, updateType?: UpdateType) => {
       const range = (changeProps as { selection: Range }).selection;
       const dateRangeParams = {
         startDate: range.startDate ? formatDate(range.startDate) : undefined,
         endDate: range.endDate ? formatDate(range.endDate) : undefined,
       };
-      setDateRangeParams(dateRangeParams);
+      setDateRangeParams(dateRangeParams, updateType);
       setSelectedDates([(changeProps as { selection: Range }).selection]);
     },
     [setDateRangeParams],
   );
 
-  const handleClear = () => {
-    setDateRangeParams({ startDate: undefined, endDate: undefined });
+  const handleClear = (updateType?: UpdateType) => {
+    setDateRangeParams(
+      { startDate: undefined, endDate: undefined },
+      updateType,
+    );
     setSelectedDates(undefined);
   };
 
@@ -104,19 +107,22 @@ const useDateRange = (props?: Omit<DateRangeProps, 'onClear'>) => {
       : defaultDate;
 
     if ((!startDateQuery && !allowEmpty) || (isAgenda && !isAgendaDay)) {
-      handleDateChange({
-        selection: {
-          startDate: updatedDate,
-          endDate: updatedDate,
-          key: 'selection',
+      handleDateChange(
+        {
+          selection: {
+            startDate: updatedDate,
+            endDate: updatedDate,
+            key: 'selection',
+          },
         },
-      });
+        'replaceIn',
+      );
     }
   }, [allowEmpty, handleDateChange, startDateQuery, weekChangeType]);
 
   useEffect(() => {
     if (allowEmpty) {
-      handleClear();
+      handleClear('replaceIn');
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 

@@ -242,13 +242,16 @@ const Inventory = () => {
 
   useEffect(() => {
     if (!startDateQuery) {
-      handleDateChange({
-        selection: {
-          startDate: startOfISOWeek(new Date()),
-          endDate: startOfISOWeek(new Date()),
-          key: 'selection',
+      handleDateChange(
+        {
+          selection: {
+            startDate: startOfISOWeek(new Date()),
+            endDate: startOfISOWeek(new Date()),
+            key: 'selection',
+          },
         },
-      });
+        'replaceIn',
+      );
     }
   }, [handleDateChange, startDateQuery]);
 

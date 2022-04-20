@@ -67,7 +67,7 @@ const ChileDepartureInspections = ({
           )}
         </>
       }
-      title="Product Inspection Reports"
+      title="QIMA Inspections"
     >
       {!isEmpty(inspections) ? (
         <VirtualizedList

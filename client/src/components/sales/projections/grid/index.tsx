@@ -931,13 +931,21 @@ const ShipperProjectionGrid = ({
       id: newItemNextIds.product,
     };
 
-    const newEntries = allVessels.map(({ id: vesselInfoId }, idx) => ({
-      palletCount: 0,
-      id: newItemNextIds.entry - idx,
-      vesselInfoId,
-      productId: newItemNextIds.product,
-      product,
-    }));
+    const newEntries = allVessels
+      .filter(
+        ({ departureDate }) =>
+          getWeekNumber(new Date(departureDate.replace(/-/g, '/'))) >=
+          getWeekNumber(
+            startDate ? new Date(startDate.replace(/-/g, '/')) : new Date(),
+          ),
+      )
+      .map(({ id: vesselInfoId }, idx) => ({
+        palletCount: 0,
+        id: newItemNextIds.entry - idx,
+        vesselInfoId,
+        productId: newItemNextIds.product,
+        product,
+      }));
 
     setChanges({
       ...changes,

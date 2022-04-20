@@ -32,7 +32,7 @@ const Header = ({
   >
     <l.Div />
     <l.Flex alignCenter transform="translateX(-25px)">
-      <ty.BodyText>Product</ty.BodyText>
+      <ty.BodyText>Products</ty.BodyText>
       {!editing && (
         <>
           <l.HoverButton

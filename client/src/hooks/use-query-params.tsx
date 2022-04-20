@@ -7,7 +7,7 @@ import {
   useQueryParams,
 } from 'use-query-params';
 
-type UpdateType = UrlUpdateType | undefined;
+export type UpdateType = UrlUpdateType | undefined;
 
 export const dateRangeParamSet = {
   startDate: StringParam,
@@ -88,4 +88,19 @@ export const useProjectionsQueryParams = () =>
     graphView: StringParam,
     view: StringParam,
     projectionId: StringParam,
+  });
+
+export const useProgramsQueryParams = () =>
+  useQuerySet({
+    commonSpeciesId: StringParam,
+    commonVarietyId: StringParam,
+    commonSizeId: StringParam,
+    commonPackTypeId: StringParam,
+    plu: StringParam,
+    coast: StringParam,
+    shipperId: StringParam,
+    customerId: StringParam,
+    startDate: StringParam,
+    endDate: StringParam,
+    view: StringParam,
   });

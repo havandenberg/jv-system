@@ -8,6 +8,7 @@ import { BasicModal } from 'components/modal';
 import { DataMessage } from 'components/page/message';
 import Page from 'components/page';
 import useDateRange from 'hooks/use-date-range';
+import useKeyboardWeekChange from 'hooks/use-keyboard-week-change';
 import usePrevious from 'hooks/use-previous';
 import { useDateRangeQueryParams } from 'hooks/use-query-params';
 import {
@@ -227,35 +228,7 @@ const PriceSheet = () => {
     initialCollapsedItemsState,
   );
 
-  const handleWeekChange = (weeks: number) => {
-    const newDate = add(new Date(startDate.replace(/-/g, '/')), {
-      weeks,
-    });
-    handleDateChange({
-      selection: {
-        startDate: newDate,
-        endDate: newDate,
-        key: 'selection',
-      },
-    });
-  };
-
-  const handleBackward = () => handleWeekChange(-1);
-  const handleForward = () => handleWeekChange(1);
-
-  const handleKeyDown = (event: KeyboardEvent) => {
-    if (event.ctrlKey) {
-      if (event.code === 'ArrowRight') handleForward();
-      else if (event.code === 'ArrowLeft') handleBackward();
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener('keydown', handleKeyDown);
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  });
+  useKeyboardWeekChange(handleDateChange);
 
   const handleEdit = () => {
     expandAllItems();

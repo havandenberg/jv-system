@@ -2,7 +2,7 @@ import React, { ChangeEvent } from 'react';
 import { ApolloError } from '@apollo/client';
 import styled from '@emotion/styled';
 import { pascalCase } from 'change-case';
-import { equals, pick, sortBy, uniqBy } from 'ramda';
+import { equals, pick, sortBy, sum, uniqBy } from 'ramda';
 
 import PlusInCircle from 'assets/images/plus-in-circle';
 import EditableCell from 'components/editable-cell';
@@ -88,13 +88,21 @@ export const ProductTotalRow = ({
     relative
   >
     <l.Flex alignCenter justifyEnd ml={52}>
-      <ty.CaptionText bold textAlign="right">
-        {species === 'Grand' ? 'Grand ' : ''}Total Pallets:
+      <ty.CaptionText textAlign="right">
+        {species === 'Grand' ? 'Grand ' : ''}Total:
+      </ty.CaptionText>
+      <ty.CaptionText
+        bold
+        ml={th.spacing.lg}
+        mr={th.spacing.md}
+        width={th.spacing.lg}
+      >
+        ({sum(productTotals.filter((x) => x > 0))})
       </ty.CaptionText>
     </l.Flex>
     {productTotals.map((total, idx) => (
       <l.Flex alignCenter justifyCenter key={idx}>
-        <ty.CaptionText bold center mr={th.spacing.md}>
+        <ty.CaptionText center mr={th.spacing.md}>
           {total < 0 ? '' : total}
         </ty.CaptionText>
       </l.Flex>
@@ -120,7 +128,7 @@ const Cell = styled(l.Flex)(
       ? th.borders.error
       : warning
       ? th.borders.warning
-      : th.borders.secondary,
+      : th.borders.disabled,
     height: 20,
     padding: `0 ${th.spacing.tn}`,
     position: 'relative',

@@ -1,0 +1,9 @@
+mutation BULK_UPSERT_SHIPPER_PROGRAM_ENTRY(
+  $shipperProgramEntries: [ShipperProgramEntryInput]!
+) {
+  bulkUpsertShipperProgramEntry(input: { entries: $shipperProgramEntries }) {
+    shipperProgramEntries {
+      id
+    }
+  }
+}

@@ -1,0 +1,14 @@
+mutation BULK_UPSERT_CUSTOMER_PROGRAM(
+  $customerPrograms: [CustomerProgramInput]!
+) {
+  bulkUpsertCustomerProgram(input: { programs: $customerPrograms }) {
+    customerPrograms {
+      id
+      commonSpeciesId
+      commonVarietyId
+      commonSizeId
+      commonPackTypeId
+      plu
+    }
+  }
+}

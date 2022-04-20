@@ -72,7 +72,7 @@ const ShipperProjections = () => {
   const { TabBar: ViewTabBar, selectedTabId: view } = useTabBar(
     viewTabs,
     false,
-    'list',
+    'grid',
     'view',
     0,
   );

@@ -208,7 +208,7 @@ const InventoryRow = ({
       : '';
 
     if (!hasRealPallets) {
-      return `/sales/projections?${restQueryString}${existingCategoriesParamString}&${categoryType}=${newValue}&view=grid`;
+      return `/sales/projections?${restQueryString}${existingCategoriesParamString}${categoryType}=${newValue}&view=grid`;
     }
 
     const nextCategoryType = categoryTypeOrder
