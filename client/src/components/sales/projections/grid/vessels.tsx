@@ -618,11 +618,7 @@ const Vessels = ({
           </l.Div>
           <l.Flex mb={th.spacing.md}>
             <ty.BodyText bold mr={100}>
-              Products{' '}
-              <ty.Span fontWeight={th.fontWeights.normal}>
-                ({productCount})
-              </ty.Span>{' '}
-              &#x2193;
+              Products &#x2193;
             </ty.BodyText>
             <ty.BodyText bold>
               Vessels{' '}

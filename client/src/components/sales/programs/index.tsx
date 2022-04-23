@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { equals, isEmpty, omit, reduce } from 'ramda';
+import { equals, isEmpty, omit, pluck, reduce } from 'ramda';
 import { ClipLoader } from 'react-spinners';
 
 import api from 'api';
@@ -37,7 +37,6 @@ import { coastTabs, ResetButton } from '../inventory/use-filters';
 import Header from './header';
 import ShipperPrograms from './shipper';
 import {
-  CollapsedItems,
   CustomerProgramEntryUpdate,
   CustomerProgramUpdate,
   NewCustomerProgram,
@@ -58,11 +57,7 @@ import {
   getDuplicateProgramIds,
 } from './utils';
 import CustomerPrograms from './customer';
-
-const initialCollapsedItemsState: CollapsedItems = {
-  shipperPrograms: [],
-  customerPrograms: [],
-};
+import { add, endOfISOWeek, startOfISOWeek } from 'date-fns';
 
 const initialChangesState: ProgramChanges = {
   shipperProgramUpdates: [],
@@ -92,6 +87,7 @@ const initialState: ProgramState = {
   editing: false,
   newItemNextIds: initialNewItemNextIds,
   removedItems: initialRemovedItemsState,
+  showAllocated: false,
 };
 
 export const viewTabs = [
@@ -109,8 +105,9 @@ const Programs = () => {
   const [shipperId, setShipperId] = useQueryValue('shipperId');
   const [customerId, setCustomerId] = useQueryValue('customerId');
 
-  const [{ startDate = formatDate(new Date()), endDate }] =
-    useDateRangeQueryParams();
+  const [
+    { startDate = formatDate(new Date()), endDate = formatDate(new Date()) },
+  ] = useDateRangeQueryParams();
   const selectedWeekNumber = getWeekNumber(
     new Date(startDate.replace(/-/g, '/')),
   );
@@ -212,7 +209,8 @@ const Programs = () => {
   };
 
   const [state, setState] = useState<ProgramState>(initialState);
-  const { changes, editing, newItemNextIds, removedItems } = state;
+  const { changes, editing, newItemNextIds, removedItems, showAllocated } =
+    state;
   const hasChanges = reduce(
     (acc, key) => acc || changes[key].length > 0,
     false,
@@ -286,9 +284,40 @@ const Programs = () => {
     return getValue(customerProgramEntry, key, changesKey);
   };
 
+  const toggleShowAllocated = () => {
+    setState((prevState) => ({
+      ...prevState,
+      showAllocated: !showAllocated,
+    }));
+  };
+
   const [
     { commonSpeciesId, commonVarietyId, commonSizeId, commonPackTypeId, plu },
   ] = useProgramsQueryParams();
+
+  const [{ startWeeks, endWeeks, referenceDate }, setWeekRange] = useState({
+    startWeeks: 2,
+    endWeeks: 0,
+    referenceDate: new Date(startDate),
+  });
+  const allocatedStartDate = startOfISOWeek(
+    add(referenceDate, { weeks: -startWeeks }),
+  );
+  const allocatedEndDate = endOfISOWeek(
+    add(referenceDate, { weeks: endWeeks }),
+  );
+
+  const handleWeekRangeChange = (
+    key: 'start' | 'end',
+    value: string,
+    referenceDate: Date,
+  ) => {
+    setWeekRange({
+      startWeeks: key === 'start' ? parseInt(value, 10) : startWeeks,
+      endWeeks: key === 'end' ? parseInt(value, 10) : endWeeks,
+      referenceDate,
+    });
+  };
 
   const filterProgram = (program: ShipperProgram | CustomerProgram) =>
     editing ||
@@ -302,7 +331,7 @@ const Programs = () => {
     data: shipperProgramData,
     loading: shipperProgramDataLoading,
     error: shipperProgramDataError,
-  } = api.useShipperPrograms(weekCount);
+  } = api.useShipperPrograms(weekCount, allocatedStartDate, allocatedEndDate);
   const shipperPrograms = (
     shipperProgramData ? shipperProgramData.nodes : []
   ) as ShipperProgram[];
@@ -318,7 +347,7 @@ const Programs = () => {
     data: customerProgramData,
     loading: customerProgramDataLoading,
     error: customerProgramDataError,
-  } = api.useCustomerPrograms(weekCount);
+  } = api.useCustomerPrograms(weekCount, allocatedStartDate, allocatedEndDate);
   const customerPrograms = (
     customerProgramData ? customerProgramData.nodes : []
   ) as CustomerProgram[];
@@ -343,6 +372,10 @@ const Programs = () => {
     updatedShipperPrograms,
   );
 
+  const shipperProgramEntries = allShipperPrograms
+    .map((p) => (p.shipperProgramEntries.nodes || []) as ShipperProgramEntry[])
+    .flat();
+
   const updatedCustomerPrograms = allCustomerPrograms.map((program) => ({
     id: program.id,
     commonSpeciesId: getCustomerProgramValue(program, 'commonSpeciesId').value,
@@ -356,6 +389,12 @@ const Programs = () => {
   const duplicateCustomerProgramIds = getDuplicateProgramIds(
     updatedCustomerPrograms,
   );
+
+  const customerProgramEntries = allCustomerPrograms
+    .map(
+      (p) => (p.customerProgramEntries.nodes || []) as CustomerProgramEntry[],
+    )
+    .flat();
 
   const loading =
     shipperDataLoading ||
@@ -371,19 +410,22 @@ const Programs = () => {
   const [saveAttempt, setSaveAttempt] = useState(false);
   const [updateLoading, setUpdateLoading] = useState<string[]>([]);
   const previousUpdateLoading = usePrevious(updateLoading);
-  const [handleUpsertShipperPrograms] = api.useUpsertShipperPrograms(weekCount);
+  const [handleUpsertShipperPrograms] = api.useUpsertShipperPrograms();
   const [handleUpsertShipperProgramEntries] =
-    api.useUpsertShipperProgramEntries(weekCount);
-  const [handleUpsertCustomerPrograms] =
-    api.useUpsertCustomerPrograms(weekCount);
+    api.useUpsertShipperProgramEntries(
+      weekCount,
+      allocatedStartDate,
+      allocatedEndDate,
+    );
+  const [handleUpsertCustomerPrograms] = api.useUpsertCustomerPrograms();
   const [handleUpsertCustomerProgramEntries] =
-    api.useUpsertCustomerProgramEntries(weekCount);
-  const [handleDeleteShipperProgram] = api.useDeleteShipperProgram(weekCount);
-  const [handleDeleteCustomerProgram] = api.useDeleteCustomerProgram(weekCount);
-
-  const [collapsedItems, setCollapsedItems] = useState(
-    initialCollapsedItemsState,
-  );
+    api.useUpsertCustomerProgramEntries(
+      weekCount,
+      allocatedStartDate,
+      allocatedEndDate,
+    );
+  const [handleDeleteShipperPrograms] = api.useDeleteShipperPrograms();
+  const [handleDeleteCustomerPrograms] = api.useDeleteCustomerPrograms();
 
   const setChanges = (newChanges: ProgramChanges) => {
     setState((prevState) => ({ ...prevState, changes: newChanges }));
@@ -405,7 +447,6 @@ const Programs = () => {
   };
 
   const handleEdit = () => {
-    expandAllItems();
     setEditing(true);
   };
 
@@ -418,196 +459,193 @@ const Programs = () => {
   const handleSave = () => {
     setSaveAttempt(true);
     if (validate()) {
-      setUpdateLoading((prevLoading) => [...prevLoading, 'shipper-programs']);
-      handleUpsertShipperPrograms({
-        variables: {
-          shipperPrograms: [
-            ...changes.shipperProgramUpdates,
-            ...changes.newShipperPrograms,
-          ].map((p) => ({
-            arrivalPort: p.arrivalPort,
-            commonSpeciesId: parseInt(p.commonSpeciesId, 10) || null,
-            commonVarietyId: parseInt(p.commonVarietyId, 10) || null,
-            commonSizeId: parseInt(p.commonSizeId, 10) || null,
-            commonPackTypeId: parseInt(p.commonPackTypeId, 10) || null,
-            plu: p.plu,
-            shipperId: p.shipperId,
-            id: parseInt(p.id, 10) > 0 ? parseInt(p.id, 10) : undefined,
-          })),
-        },
-      }).then((res) => {
-        const updatedPrograms =
-          res.data?.bulkUpsertShipperProgram?.shipperPrograms || [];
-
-        setUpdateLoading((prevLoading) =>
-          prevLoading.filter((l) => l !== 'shipper-programs'),
-        );
-
+      if (!isCustomers) {
         setUpdateLoading((prevLoading) => [
           ...prevLoading,
-          'shipper-programs-entries',
+          `del-shipper-programs`,
         ]);
+        handleDeleteShipperPrograms({
+          variables: { idsToDelete: pluck('id', removedItems.shipperPrograms) },
+        }).then(() => {
+          setUpdateLoading((prevLoading) =>
+            prevLoading.filter((l) => l !== `del-shipper-programs`),
+          );
+        });
 
-        handleUpsertShipperProgramEntries({
+        setUpdateLoading((prevLoading) => [...prevLoading, 'shipper-programs']);
+        handleUpsertShipperPrograms({
           variables: {
-            shipperProgramEntries: [
-              ...changes.shipperProgramEntryUpdates,
-              ...changes.newShipperProgramEntries,
-            ].map((e) => {
-              const updatedProgram = updatedPrograms.find(
-                (p) =>
-                  p?.commonSpeciesId ===
-                    getShipperProgramValue(e.shipperProgram, 'commonSpeciesId')
-                      .value ||
-                  (null &&
+            shipperPrograms: [
+              ...changes.shipperProgramUpdates,
+              ...changes.newShipperPrograms,
+            ].map((p) => ({
+              arrivalPort: p.arrivalPort,
+              commonSpeciesId: parseInt(p.commonSpeciesId, 10) || null,
+              commonVarietyId: parseInt(p.commonVarietyId, 10) || null,
+              commonSizeId: parseInt(p.commonSizeId, 10) || null,
+              commonPackTypeId: parseInt(p.commonPackTypeId, 10) || null,
+              plu: p.plu,
+              shipperId: p.shipperId,
+              id: parseInt(p.id, 10) > 0 ? parseInt(p.id, 10) : undefined,
+            })),
+          },
+        }).then((res) => {
+          const updatedPrograms =
+            res.data?.bulkUpsertShipperProgram?.shipperPrograms || [];
+
+          setUpdateLoading((prevLoading) =>
+            prevLoading.filter((l) => l !== 'shipper-programs'),
+          );
+
+          setUpdateLoading((prevLoading) => [
+            ...prevLoading,
+            'shipper-programs-entries',
+          ]);
+
+          handleUpsertShipperProgramEntries({
+            variables: {
+              shipperProgramEntries: [
+                ...changes.shipperProgramEntryUpdates,
+                ...changes.newShipperProgramEntries,
+              ].map((e) => {
+                const updatedProgram = updatedPrograms.find(
+                  (p) =>
+                    p?.commonSpeciesId ===
+                      getShipperProgramValue(
+                        e.shipperProgram,
+                        'commonSpeciesId',
+                      ).value &&
                     p?.commonVarietyId ===
                       getShipperProgramValue(
                         e.shipperProgram,
                         'commonVarietyId',
-                      ).value) ||
-                  (null &&
+                      ).value &&
                     p?.commonSizeId ===
                       getShipperProgramValue(e.shipperProgram, 'commonSizeId')
-                        .value) ||
-                  (null &&
+                        .value &&
                     p?.commonPackTypeId ===
                       getShipperProgramValue(
                         e.shipperProgram,
                         'commonPackTypeId',
-                      ).value) ||
-                  (null &&
+                      ).value &&
                     p?.plu ===
-                      getShipperProgramValue(e.shipperProgram, 'plu').value),
-              ) || { id: 0 };
+                      getShipperProgramValue(e.shipperProgram, 'plu').value,
+                ) || { id: 0 };
 
-              return {
-                id: parseInt(e.id, 10) > 0 ? parseInt(e.id, 10) : undefined,
-                notes: e.notes,
-                programDate: e.programDate,
-                palletCount: e.palletCount,
-                shipperProgramId:
-                  e.shipperProgramId > 0
-                    ? e.shipperProgramId
-                    : updatedProgram.id,
-              };
-            }),
+                return {
+                  id: parseInt(e.id, 10) > 0 ? parseInt(e.id, 10) : undefined,
+                  notes: e.notes,
+                  programDate: e.programDate,
+                  palletCount: e.palletCount,
+                  shipperProgramId:
+                    e.shipperProgram?.id > 0
+                      ? e.shipperProgram?.id
+                      : updatedProgram.id,
+                };
+              }),
+            },
+          }).then(() => {
+            setUpdateLoading((prevLoading) =>
+              prevLoading.filter((l) => l !== 'shipper-programs-entries'),
+            );
+          });
+        });
+      } else {
+        setUpdateLoading((prevLoading) => [
+          ...prevLoading,
+          `del-customer-program`,
+        ]);
+        handleDeleteCustomerPrograms({
+          variables: {
+            idsToDelete: pluck('id', removedItems.customerPrograms),
           },
         }).then(() => {
           setUpdateLoading((prevLoading) =>
-            prevLoading.filter((l) => l !== 'shipper-programs-entries'),
+            prevLoading.filter((l) => l !== `del-customer-program`),
           );
         });
-      });
-
-      setUpdateLoading((prevLoading) => [...prevLoading, 'customer-programs']);
-      handleUpsertCustomerPrograms({
-        variables: {
-          customerPrograms: [
-            ...changes.customerProgramUpdates,
-            ...changes.newCustomerPrograms,
-          ].map((p) => ({
-            arrivalPort: p.arrivalPort,
-            commonSpeciesId: parseInt(p.commonSpeciesId, 10) || null,
-            commonVarietyId: parseInt(p.commonVarietyId, 10) || null,
-            commonSizeId: parseInt(p.commonSizeId, 10) || null,
-            commonPackTypeId: parseInt(p.commonPackTypeId, 10) || null,
-            plu: p.plu,
-            customerId: p.customerId,
-            id: parseInt(p.id, 10) > 0 ? parseInt(p.id, 10) : undefined,
-          })),
-        },
-      }).then((res) => {
-        const updatedPrograms =
-          res.data?.bulkUpsertCustomerProgram?.customerPrograms || [];
-
-        setUpdateLoading((prevLoading) =>
-          prevLoading.filter((l) => l !== 'customer-programs'),
-        );
 
         setUpdateLoading((prevLoading) => [
           ...prevLoading,
-          'customer-programs-entries',
+          'customer-programs',
         ]);
-
-        handleUpsertCustomerProgramEntries({
+        handleUpsertCustomerPrograms({
           variables: {
-            customerProgramEntries: [
-              ...changes.customerProgramEntryUpdates,
-              ...changes.newCustomerProgramEntries,
-            ].map((e) => {
-              const updatedProgram = updatedPrograms.find(
-                (p) =>
-                  p?.commonSpeciesId ===
-                    getCustomerProgramValue(
-                      e.customerProgram,
-                      'commonSpeciesId',
-                    ).value ||
-                  (null &&
+            customerPrograms: [
+              ...changes.customerProgramUpdates,
+              ...changes.newCustomerPrograms,
+            ].map((p) => ({
+              arrivalPort: p.arrivalPort,
+              commonSpeciesId: parseInt(p.commonSpeciesId, 10) || null,
+              commonVarietyId: parseInt(p.commonVarietyId, 10) || null,
+              commonSizeId: parseInt(p.commonSizeId, 10) || null,
+              commonPackTypeId: parseInt(p.commonPackTypeId, 10) || null,
+              plu: p.plu,
+              customerId: p.customerId,
+              id: parseInt(p.id, 10) > 0 ? parseInt(p.id, 10) : undefined,
+            })),
+          },
+        }).then((res) => {
+          const updatedPrograms =
+            res.data?.bulkUpsertCustomerProgram?.customerPrograms || [];
+
+          setUpdateLoading((prevLoading) =>
+            prevLoading.filter((l) => l !== 'customer-programs'),
+          );
+
+          setUpdateLoading((prevLoading) => [
+            ...prevLoading,
+            'customer-programs-entries',
+          ]);
+
+          handleUpsertCustomerProgramEntries({
+            variables: {
+              customerProgramEntries: [
+                ...changes.customerProgramEntryUpdates,
+                ...changes.newCustomerProgramEntries,
+              ].map((e) => {
+                const updatedProgram = updatedPrograms.find(
+                  (p) =>
+                    p?.commonSpeciesId ===
+                      getCustomerProgramValue(
+                        e.customerProgram,
+                        'commonSpeciesId',
+                      ).value &&
                     p?.commonVarietyId ===
                       getCustomerProgramValue(
                         e.customerProgram,
                         'commonVarietyId',
-                      ).value) ||
-                  (null &&
+                      ).value &&
                     p?.commonSizeId ===
                       getCustomerProgramValue(e.customerProgram, 'commonSizeId')
-                        .value) ||
-                  (null &&
+                        .value &&
                     p?.commonPackTypeId ===
                       getCustomerProgramValue(
                         e.customerProgram,
                         'commonPackTypeId',
-                      ).value) ||
-                  (null &&
+                      ).value &&
                     p?.plu ===
-                      getCustomerProgramValue(e.customerProgram, 'plu').value),
-              ) || { id: 0 };
-              return {
-                id: parseInt(e.id, 10) > 0 ? parseInt(e.id, 10) : undefined,
-                notes: e.notes,
-                programDate: e.programDate,
-                palletCount: e.palletCount,
-                customerProgramId:
-                  e.customerProgramId > 0
-                    ? e.customerProgramId
-                    : updatedProgram.id,
-              };
-            }),
-          },
-        }).then(() => {
-          setUpdateLoading((prevLoading) =>
-            prevLoading.filter((l) => l !== 'customer-programs-entries'),
-          );
+                      getCustomerProgramValue(e.customerProgram, 'plu').value,
+                ) || { id: 0 };
+                return {
+                  id: parseInt(e.id, 10) > 0 ? parseInt(e.id, 10) : undefined,
+                  notes: e.notes,
+                  programDate: e.programDate,
+                  palletCount: e.palletCount,
+                  customerProgramId:
+                    parseInt(e.customerProgram?.id, 10) > 0
+                      ? e.customerProgram?.id
+                      : updatedProgram.id,
+                };
+              }),
+            },
+          }).then(() => {
+            setUpdateLoading((prevLoading) =>
+              prevLoading.filter((l) => l !== 'customer-programs-entries'),
+            );
+          });
         });
-      });
-
-      removedItems.shipperPrograms.forEach(({ id }, idx) => {
-        setUpdateLoading((prevLoading) => [
-          ...prevLoading,
-          `del-shipper-program-${idx}`,
-        ]);
-        handleDeleteShipperProgram({
-          variables: { id },
-        }).then(() => {
-          setUpdateLoading((prevLoading) =>
-            prevLoading.filter((l) => l !== `del-shipper-program-${idx}`),
-          );
-        });
-      });
-
-      removedItems.customerPrograms.forEach(({ id }, idx) => {
-        setUpdateLoading((prevLoading) => [
-          ...prevLoading,
-          `del-customer-program-${idx}`,
-        ]);
-        handleDeleteCustomerProgram({
-          variables: { id },
-        }).then(() => {
-          setUpdateLoading((prevLoading) =>
-            prevLoading.filter((l) => l !== `del-customer-program-${idx}`),
-          );
-        });
-      });
+      }
     }
   };
 
@@ -790,45 +828,6 @@ const Programs = () => {
     }
   };
 
-  const toggleCollapseItem = (key: keyof CollapsedItems, id: number) => {
-    if (collapsedItems[key].includes(id)) {
-      setCollapsedItems({
-        ...collapsedItems,
-        [key]: collapsedItems[key].filter((it) => it !== id),
-      });
-    } else {
-      setCollapsedItems({
-        ...collapsedItems,
-        [key]: [...collapsedItems[key], id],
-      });
-    }
-  };
-
-  const isItemCollapsed = (key: keyof CollapsedItems, id: number) =>
-    collapsedItems[key].includes(id);
-
-  const collapseAllItems = () => {
-    const newCollapsedItems: CollapsedItems = {
-      shipperPrograms: [],
-      customerPrograms: [],
-    };
-    allCustomerPrograms.forEach((customerProgram) => {
-      if (customerProgram) {
-        newCollapsedItems.customerPrograms.push(customerProgram.id);
-      }
-    });
-    allShipperPrograms.forEach((shipperProgram) => {
-      if (shipperProgram) {
-        newCollapsedItems.shipperPrograms.push(shipperProgram.id);
-      }
-    });
-    setCollapsedItems(newCollapsedItems);
-  };
-
-  const expandAllItems = () => {
-    setCollapsedItems(initialCollapsedItemsState);
-  };
-
   const programProps = {
     changeHandlers: {
       handleShipperProgramChange,
@@ -836,10 +835,13 @@ const Programs = () => {
       handleShipperProgramEntryChange,
       handleCustomerProgramEntryChange,
     },
+    customerPrograms,
+    customerProgramEntries,
     editing,
+    endWeeks,
     error,
     handleRemoveItem,
-    isItemCollapsed,
+    handleWeekRangeChange,
     loading,
     newItemHandlers: {
       handleNewShipperProgram,
@@ -848,7 +850,11 @@ const Programs = () => {
       handleNewCustomerProgramEntry,
     },
     selectedWeekNumber,
-    toggleCollapseItem,
+    shipperPrograms,
+    shipperProgramEntries,
+    showAllocated,
+    startWeeks,
+    updateLoading,
     valueGetters: {
       getShipperProgramValue,
       getCustomerProgramValue,
@@ -998,12 +1004,12 @@ const Programs = () => {
       <l.Flex column minHeight="calc(100vh - 289px)">
         <l.Div flex={1} overflowX="auto">
           <Header
-            collapseAllItems={collapseAllItems}
             editing={editing}
-            expandAllItems={expandAllItems}
             increaseWeekCount={increaseWeekCount}
             selectedWeekNumber={selectedWeekNumber}
+            showAllocated={showAllocated}
             startDate={startDate || ''}
+            toggleShowAllocated={toggleShowAllocated}
             weekCount={weekCount}
           />
           {isCustomers ? (
@@ -1012,6 +1018,7 @@ const Programs = () => {
               duplicateProgramIds={duplicateCustomerProgramIds}
               programs={allCustomerPrograms as CustomerProgram[]}
               selectedCustomer={selectedCustomer}
+              shipperProgramEntries={shipperProgramEntries}
             />
           ) : (
             <ShipperPrograms

@@ -2,7 +2,6 @@ import React from 'react';
 import { add, format, startOfISOWeek } from 'date-fns';
 import { times } from 'ramda';
 
-import DoubleArrowInCircle from 'assets/images/double-arrow-in-circle';
 import PlusInCircle from 'assets/images/plus-in-circle';
 import { useProgramsQueryParams } from 'hooks/use-query-params';
 import l from 'ui/layout';
@@ -11,24 +10,25 @@ import ty from 'ui/typography';
 import { getWeekNumber, isCurrentWeek } from 'utils/date';
 
 import { getGridProps } from './utils';
+import { LineItemCheckbox } from 'ui/checkbox';
 
 interface Props {
-  collapseAllItems: () => void;
   editing: boolean;
-  expandAllItems: () => void;
   increaseWeekCount: () => void;
   selectedWeekNumber: number;
+  showAllocated: boolean;
   startDate: string;
+  toggleShowAllocated: () => void;
   weekCount: number;
 }
 
 const Header = ({
-  collapseAllItems,
   editing,
-  expandAllItems,
   increaseWeekCount,
   selectedWeekNumber,
+  showAllocated,
   startDate,
+  toggleShowAllocated,
   weekCount,
 }: Props) => {
   const [{ commonSpeciesId }, setProgramsQueryParams] =
@@ -44,6 +44,7 @@ const Header = ({
       plu: null,
     });
   };
+
   return (
     <l.Div relative>
       <l.Grid
@@ -53,46 +54,30 @@ const Header = ({
       >
         <l.Flex alignCenter justifyBetween>
           <l.Flex alignCenter>
-            <ty.BodyText>Products</ty.BodyText>
-            {!editing && (
-              <>
-                <l.HoverButton
-                  borderRadius={th.borderRadii.circle}
-                  boxShadow={th.shadows.boxLight}
-                  ml={th.spacing.sm}
-                  onClick={collapseAllItems}
-                >
-                  <DoubleArrowInCircle
-                    fill={th.colors.brand.primary}
-                    height={th.sizes.xs}
-                    width={th.sizes.xs}
-                  />
-                </l.HoverButton>
-                <l.HoverButton
-                  borderRadius={th.borderRadii.circle}
-                  boxShadow={th.shadows.boxLight}
-                  ml={th.spacing.sm}
-                  onClick={expandAllItems}
-                  transform="scaleY(-1)"
-                >
-                  <DoubleArrowInCircle
-                    fill={th.colors.brand.primary}
-                    height={th.sizes.xs}
-                    width={th.sizes.xs}
-                  />
-                </l.HoverButton>
-              </>
-            )}
+            <ty.BodyText bold mr={th.spacing.lg}>
+              Products ↓
+            </ty.BodyText>
+            <LineItemCheckbox
+              checked={showAllocated}
+              label={
+                <ty.SmallText mx={th.spacing.sm} nowrap>
+                  Show allocated
+                </ty.SmallText>
+              }
+              onChange={toggleShowAllocated}
+            />
             {commonSpeciesId && (
               <l.HoverButton
-                ml={th.spacing.lg}
+                ml={th.spacing.md}
                 onClick={clearProductQueryParams}
               >
                 <ty.SmallText>Clear product filters</ty.SmallText>
               </l.HoverButton>
             )}
           </l.Flex>
-          <ty.BodyText mr={th.spacing.md}>Week</ty.BodyText>
+          <ty.BodyText bold mr={th.spacing.md}>
+            Weeks →
+          </ty.BodyText>
         </l.Flex>
         {times((i) => {
           const isFirst = i === 0;

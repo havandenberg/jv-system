@@ -6,11 +6,6 @@ import {
   ShipperProgramEntry,
 } from 'types';
 
-export interface CollapsedItems {
-  shipperPrograms: number[];
-  customerPrograms: number[];
-}
-
 export type ShipperProgramUpdate = Pick<
   ShipperProgram,
   | 'id'
@@ -130,6 +125,7 @@ export interface ProgramState {
   editing: boolean;
   newItemNextIds: NewItemNextIds;
   removedItems: RemovedItems;
+  showAllocated: boolean;
 }
 
 export interface ProgramProps {
@@ -143,9 +139,15 @@ export interface ProgramProps {
       update: CustomerProgramEntryUpdate,
     ) => void;
   };
+  customerProgramEntries: CustomerProgramEntry[];
   editing: boolean;
+  endWeeks: number;
   handleRemoveItem: (key: keyof RemovedItems, id: number) => void;
-  isItemCollapsed: (key: keyof CollapsedItems, id: number) => boolean;
+  handleWeekRangeChange: (
+    key: 'start' | 'end',
+    value: string,
+    referenceDate: Date,
+  ) => void;
   newItemHandlers: {
     handleNewShipperProgram: (newShipperProgram: NewShipperProgram) => void;
     handleNewCustomerProgram: (newCustomerProgram: NewCustomerProgram) => void;
@@ -157,7 +159,9 @@ export interface ProgramProps {
     ) => void;
   };
   selectedWeekNumber: number;
-  toggleCollapseItem: (key: keyof CollapsedItems, id: number) => void;
+  shipperProgramEntries: ShipperProgramEntry[];
+  showAllocated: boolean;
+  startWeeks: number;
   valueGetters: {
     getShipperProgramValue: (
       shipperProgram: Maybe<ShipperProgram> | undefined,

@@ -103,4 +103,6 @@ export const useProgramsQueryParams = () =>
     startDate: StringParam,
     endDate: StringParam,
     view: StringParam,
+    customerAllocateSearch: StringParam,
+    shipperAllocateSearch: StringParam,
   });

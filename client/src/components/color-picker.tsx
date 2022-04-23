@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
+import OutsideClickHandler from 'react-outside-click-handler';
 
-import useOutsideClickRef from 'hooks/use-outside-click-ref';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import { defaultColorSet } from 'ui/utils';
@@ -49,37 +49,40 @@ const ColorPicker = ({
   width = th.sizes.xs,
 }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
-  const ref = useOutsideClickRef(() => {
-    setIsOpen(false);
-  });
   return (
-    <l.Div relative ref={ref}>
-      <l.Div
-        bg={activeColor}
-        border={th.borders.secondary}
-        borderColor={color}
-        borderRadius={th.borderRadii.circle}
-        cursor={readOnly ? undefined : 'pointer'}
-        height={height}
-        onClick={() => !readOnly && setIsOpen(!isOpen)}
-        width={width}
-      />
-      {isOpen && (
-        <Content>
-          {defaultColorSet.map((c, idx) => (
-            <ColorSwatch
-              color={c}
-              isActive={activeColor === c}
-              key={idx}
-              onClick={() => {
-                onChange(c);
-                setIsOpen(false);
-              }}
-            />
-          ))}
-        </Content>
-      )}
-    </l.Div>
+    <OutsideClickHandler
+      onOutsideClick={() => {
+        setIsOpen(false);
+      }}
+    >
+      <l.Div relative>
+        <l.Div
+          bg={activeColor}
+          border={th.borders.secondary}
+          borderColor={color}
+          borderRadius={th.borderRadii.circle}
+          cursor={readOnly ? undefined : 'pointer'}
+          height={height}
+          onClick={() => !readOnly && setIsOpen(!isOpen)}
+          width={width}
+        />
+        {isOpen && (
+          <Content>
+            {defaultColorSet.map((c, idx) => (
+              <ColorSwatch
+                color={c}
+                isActive={activeColor === c}
+                key={idx}
+                onClick={() => {
+                  onChange(c);
+                  setIsOpen(false);
+                }}
+              />
+            ))}
+          </Content>
+        )}
+      </l.Div>
+    </OutsideClickHandler>
   );
 };
 

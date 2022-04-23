@@ -2929,7 +2929,41 @@ export enum ContactGroupPersonContactsOrderBy {
   PersonContactIdAsc = 'PERSON_CONTACT_ID_ASC',
   PersonContactIdDesc = 'PERSON_CONTACT_ID_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  ContactGroupByGroupIdIdAsc = 'CONTACT_GROUP_BY_GROUP_ID__ID_ASC',
+  ContactGroupByGroupIdIdDesc = 'CONTACT_GROUP_BY_GROUP_ID__ID_DESC',
+  ContactGroupByGroupIdGroupDescriptionAsc = 'CONTACT_GROUP_BY_GROUP_ID__GROUP_DESCRIPTION_ASC',
+  ContactGroupByGroupIdGroupDescriptionDesc = 'CONTACT_GROUP_BY_GROUP_ID__GROUP_DESCRIPTION_DESC',
+  ContactGroupByGroupIdGroupNameAsc = 'CONTACT_GROUP_BY_GROUP_ID__GROUP_NAME_ASC',
+  ContactGroupByGroupIdGroupNameDesc = 'CONTACT_GROUP_BY_GROUP_ID__GROUP_NAME_DESC',
+  ContactGroupByGroupIdUserIdAsc = 'CONTACT_GROUP_BY_GROUP_ID__USER_ID_ASC',
+  ContactGroupByGroupIdUserIdDesc = 'CONTACT_GROUP_BY_GROUP_ID__USER_ID_DESC',
+  PersonContactByPersonContactIdIdAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__ID_ASC',
+  PersonContactByPersonContactIdIdDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__ID_DESC',
+  PersonContactByPersonContactIdFirstNameAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__FIRST_NAME_ASC',
+  PersonContactByPersonContactIdFirstNameDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__FIRST_NAME_DESC',
+  PersonContactByPersonContactIdLastNameAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__LAST_NAME_ASC',
+  PersonContactByPersonContactIdLastNameDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__LAST_NAME_DESC',
+  PersonContactByPersonContactIdIsPrimaryAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__IS_PRIMARY_ASC',
+  PersonContactByPersonContactIdIsPrimaryDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__IS_PRIMARY_DESC',
+  PersonContactByPersonContactIdEmailAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__EMAIL_ASC',
+  PersonContactByPersonContactIdEmailDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__EMAIL_DESC',
+  PersonContactByPersonContactIdSecondaryEmailAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__SECONDARY_EMAIL_ASC',
+  PersonContactByPersonContactIdSecondaryEmailDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__SECONDARY_EMAIL_DESC',
+  PersonContactByPersonContactIdHomePhoneAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__HOME_PHONE_ASC',
+  PersonContactByPersonContactIdHomePhoneDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__HOME_PHONE_DESC',
+  PersonContactByPersonContactIdCellPhoneAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__CELL_PHONE_ASC',
+  PersonContactByPersonContactIdCellPhoneDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__CELL_PHONE_DESC',
+  PersonContactByPersonContactIdWorkPhoneAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__WORK_PHONE_ASC',
+  PersonContactByPersonContactIdWorkPhoneDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__WORK_PHONE_DESC',
+  PersonContactByPersonContactIdWorkExtensionAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__WORK_EXTENSION_ASC',
+  PersonContactByPersonContactIdWorkExtensionDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__WORK_EXTENSION_DESC',
+  PersonContactByPersonContactIdImageSrcAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__IMAGE_SRC_ASC',
+  PersonContactByPersonContactIdImageSrcDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__IMAGE_SRC_DESC',
+  PersonContactByPersonContactIdIsInternalAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__IS_INTERNAL_ASC',
+  PersonContactByPersonContactIdIsInternalDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__IS_INTERNAL_DESC',
+  PersonContactByPersonContactIdRolesAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__ROLES_ASC',
+  PersonContactByPersonContactIdRolesDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__ROLES_DESC'
 }
 
 /**
@@ -3511,6 +3545,8 @@ export type CustomerProgramEntryFilter = {
   palletCount?: Maybe<BigFloatFilter>;
   /** Filter by the object’s `customerProgramId` field. */
   customerProgramId?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `searchText` field. */
+  searchText?: Maybe<StringFilter>;
   /** Filter by the object’s `shipperProgramEntryCustomerProgramEntries` relation. */
   shipperProgramEntryCustomerProgramEntries?: Maybe<CustomerProgramEntryToManyShipperProgramEntryCustomerProgramEntryFilter>;
   /** Some related `shipperProgramEntryCustomerProgramEntries` exist. */
@@ -3602,6 +3638,8 @@ export type ShipperProgramEntryFilter = {
   palletCount?: Maybe<BigFloatFilter>;
   /** Filter by the object’s `shipperProgramId` field. */
   shipperProgramId?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `searchText` field. */
+  searchText?: Maybe<StringFilter>;
   /** Filter by the object’s `shipperProgramEntryCustomerProgramEntries` relation. */
   shipperProgramEntryCustomerProgramEntries?: Maybe<ShipperProgramEntryToManyShipperProgramEntryCustomerProgramEntryFilter>;
   /** Some related `shipperProgramEntryCustomerProgramEntries` exist. */
@@ -5196,6 +5234,16 @@ export enum PersonContactsOrderBy {
   RolesDesc = 'ROLES_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  ContactGroupPersonContactsByPersonContactIdCountAsc = 'CONTACT_GROUP_PERSON_CONTACTS_BY_PERSON_CONTACT_ID__COUNT_ASC',
+  ContactGroupPersonContactsByPersonContactIdCountDesc = 'CONTACT_GROUP_PERSON_CONTACTS_BY_PERSON_CONTACT_ID__COUNT_DESC',
+  UsersByPersonContactIdCountAsc = 'USERS_BY_PERSON_CONTACT_ID__COUNT_ASC',
+  UsersByPersonContactIdCountDesc = 'USERS_BY_PERSON_CONTACT_ID__COUNT_DESC',
+  CustomerPersonContactsByPersonContactIdCountAsc = 'CUSTOMER_PERSON_CONTACTS_BY_PERSON_CONTACT_ID__COUNT_ASC',
+  CustomerPersonContactsByPersonContactIdCountDesc = 'CUSTOMER_PERSON_CONTACTS_BY_PERSON_CONTACT_ID__COUNT_DESC',
+  ShipperPersonContactsByPersonContactIdCountAsc = 'SHIPPER_PERSON_CONTACTS_BY_PERSON_CONTACT_ID__COUNT_ASC',
+  ShipperPersonContactsByPersonContactIdCountDesc = 'SHIPPER_PERSON_CONTACTS_BY_PERSON_CONTACT_ID__COUNT_DESC',
+  WarehousePersonContactsByPersonContactIdCountAsc = 'WAREHOUSE_PERSON_CONTACTS_BY_PERSON_CONTACT_ID__COUNT_ASC',
+  WarehousePersonContactsByPersonContactIdCountDesc = 'WAREHOUSE_PERSON_CONTACTS_BY_PERSON_CONTACT_ID__COUNT_DESC',
   CustomersByCustomerPersonContactPersonContactIdAndCustomerIdAsc = 'CUSTOMERS_BY_CUSTOMER_PERSON_CONTACT_PERSON_CONTACT_ID_AND_CUSTOMER_ID_ASC',
   CustomersByCustomerPersonContactPersonContactIdAndCustomerIdDesc = 'CUSTOMERS_BY_CUSTOMER_PERSON_CONTACT_PERSON_CONTACT_ID_AND_CUSTOMER_ID_DESC',
   ShippersByShipperPersonContactPersonContactIdAndShipperIdAsc = 'SHIPPERS_BY_SHIPPER_PERSON_CONTACT_PERSON_CONTACT_ID_AND_SHIPPER_ID_ASC',
@@ -5256,7 +5304,37 @@ export enum UsersOrderBy {
   PersonContactIdAsc = 'PERSON_CONTACT_ID_ASC',
   PersonContactIdDesc = 'PERSON_CONTACT_ID_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  PersonContactByPersonContactIdIdAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__ID_ASC',
+  PersonContactByPersonContactIdIdDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__ID_DESC',
+  PersonContactByPersonContactIdFirstNameAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__FIRST_NAME_ASC',
+  PersonContactByPersonContactIdFirstNameDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__FIRST_NAME_DESC',
+  PersonContactByPersonContactIdLastNameAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__LAST_NAME_ASC',
+  PersonContactByPersonContactIdLastNameDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__LAST_NAME_DESC',
+  PersonContactByPersonContactIdIsPrimaryAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__IS_PRIMARY_ASC',
+  PersonContactByPersonContactIdIsPrimaryDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__IS_PRIMARY_DESC',
+  PersonContactByPersonContactIdEmailAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__EMAIL_ASC',
+  PersonContactByPersonContactIdEmailDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__EMAIL_DESC',
+  PersonContactByPersonContactIdSecondaryEmailAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__SECONDARY_EMAIL_ASC',
+  PersonContactByPersonContactIdSecondaryEmailDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__SECONDARY_EMAIL_DESC',
+  PersonContactByPersonContactIdHomePhoneAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__HOME_PHONE_ASC',
+  PersonContactByPersonContactIdHomePhoneDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__HOME_PHONE_DESC',
+  PersonContactByPersonContactIdCellPhoneAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__CELL_PHONE_ASC',
+  PersonContactByPersonContactIdCellPhoneDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__CELL_PHONE_DESC',
+  PersonContactByPersonContactIdWorkPhoneAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__WORK_PHONE_ASC',
+  PersonContactByPersonContactIdWorkPhoneDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__WORK_PHONE_DESC',
+  PersonContactByPersonContactIdWorkExtensionAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__WORK_EXTENSION_ASC',
+  PersonContactByPersonContactIdWorkExtensionDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__WORK_EXTENSION_DESC',
+  PersonContactByPersonContactIdImageSrcAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__IMAGE_SRC_ASC',
+  PersonContactByPersonContactIdImageSrcDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__IMAGE_SRC_DESC',
+  PersonContactByPersonContactIdIsInternalAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__IS_INTERNAL_ASC',
+  PersonContactByPersonContactIdIsInternalDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__IS_INTERNAL_DESC',
+  PersonContactByPersonContactIdRolesAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__ROLES_ASC',
+  PersonContactByPersonContactIdRolesDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__ROLES_DESC',
+  ContactGroupsByUserIdCountAsc = 'CONTACT_GROUPS_BY_USER_ID__COUNT_ASC',
+  ContactGroupsByUserIdCountDesc = 'CONTACT_GROUPS_BY_USER_ID__COUNT_DESC',
+  UserMessagesByUserIdCountAsc = 'USER_MESSAGES_BY_USER_ID__COUNT_ASC',
+  UserMessagesByUserIdCountDesc = 'USER_MESSAGES_BY_USER_ID__COUNT_DESC'
 }
 
 /** A condition to be used against `User` object types. All fields are tested for equality and combined with a logical ‘and.’ */
@@ -5516,7 +5594,15 @@ export enum CustomersOrderBy {
   ActiveAsc = 'ACTIVE_ASC',
   ActiveDesc = 'ACTIVE_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  CountryByCountryIdIdAsc = 'COUNTRY_BY_COUNTRY_ID__ID_ASC',
+  CountryByCountryIdIdDesc = 'COUNTRY_BY_COUNTRY_ID__ID_DESC',
+  CountryByCountryIdCountryNameAsc = 'COUNTRY_BY_COUNTRY_ID__COUNTRY_NAME_ASC',
+  CountryByCountryIdCountryNameDesc = 'COUNTRY_BY_COUNTRY_ID__COUNTRY_NAME_DESC',
+  CustomerPersonContactsByCustomerIdCountAsc = 'CUSTOMER_PERSON_CONTACTS_BY_CUSTOMER_ID__COUNT_ASC',
+  CustomerPersonContactsByCustomerIdCountDesc = 'CUSTOMER_PERSON_CONTACTS_BY_CUSTOMER_ID__COUNT_DESC',
+  CustomerProgramsByCustomerIdCountAsc = 'CUSTOMER_PROGRAMS_BY_CUSTOMER_ID__COUNT_ASC',
+  CustomerProgramsByCustomerIdCountDesc = 'CUSTOMER_PROGRAMS_BY_CUSTOMER_ID__COUNT_DESC'
 }
 
 /**
@@ -6029,7 +6115,47 @@ export enum ShipperProjectionVesselInfosOrderBy {
   ShipperIdAsc = 'SHIPPER_ID_ASC',
   ShipperIdDesc = 'SHIPPER_ID_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  ShipperProjectionByProjectionIdIdAsc = 'SHIPPER_PROJECTION_BY_PROJECTION_ID__ID_ASC',
+  ShipperProjectionByProjectionIdIdDesc = 'SHIPPER_PROJECTION_BY_PROJECTION_ID__ID_DESC',
+  ShipperProjectionByProjectionIdSubmittedAtAsc = 'SHIPPER_PROJECTION_BY_PROJECTION_ID__SUBMITTED_AT_ASC',
+  ShipperProjectionByProjectionIdSubmittedAtDesc = 'SHIPPER_PROJECTION_BY_PROJECTION_ID__SUBMITTED_AT_DESC',
+  ShipperProjectionByProjectionIdShipperCommentsAsc = 'SHIPPER_PROJECTION_BY_PROJECTION_ID__SHIPPER_COMMENTS_ASC',
+  ShipperProjectionByProjectionIdShipperCommentsDesc = 'SHIPPER_PROJECTION_BY_PROJECTION_ID__SHIPPER_COMMENTS_DESC',
+  ShipperProjectionByProjectionIdJvCommentsAsc = 'SHIPPER_PROJECTION_BY_PROJECTION_ID__JV_COMMENTS_ASC',
+  ShipperProjectionByProjectionIdJvCommentsDesc = 'SHIPPER_PROJECTION_BY_PROJECTION_ID__JV_COMMENTS_DESC',
+  ShipperProjectionByProjectionIdApprovedAtAsc = 'SHIPPER_PROJECTION_BY_PROJECTION_ID__APPROVED_AT_ASC',
+  ShipperProjectionByProjectionIdApprovedAtDesc = 'SHIPPER_PROJECTION_BY_PROJECTION_ID__APPROVED_AT_DESC',
+  ShipperProjectionByProjectionIdRejectedAtAsc = 'SHIPPER_PROJECTION_BY_PROJECTION_ID__REJECTED_AT_ASC',
+  ShipperProjectionByProjectionIdRejectedAtDesc = 'SHIPPER_PROJECTION_BY_PROJECTION_ID__REJECTED_AT_DESC',
+  ShipperProjectionByProjectionIdShipperIdAsc = 'SHIPPER_PROJECTION_BY_PROJECTION_ID__SHIPPER_ID_ASC',
+  ShipperProjectionByProjectionIdShipperIdDesc = 'SHIPPER_PROJECTION_BY_PROJECTION_ID__SHIPPER_ID_DESC',
+  ShipperProjectionByProjectionIdReviewStatusAsc = 'SHIPPER_PROJECTION_BY_PROJECTION_ID__REVIEW_STATUS_ASC',
+  ShipperProjectionByProjectionIdReviewStatusDesc = 'SHIPPER_PROJECTION_BY_PROJECTION_ID__REVIEW_STATUS_DESC',
+  ShipperProjectionByProjectionIdTotalPalletsAsc = 'SHIPPER_PROJECTION_BY_PROJECTION_ID__TOTAL_PALLETS_ASC',
+  ShipperProjectionByProjectionIdTotalPalletsDesc = 'SHIPPER_PROJECTION_BY_PROJECTION_ID__TOTAL_PALLETS_DESC',
+  ShipperProjectionVesselByVesselIdIdAsc = 'SHIPPER_PROJECTION_VESSEL_BY_VESSEL_ID__ID_ASC',
+  ShipperProjectionVesselByVesselIdIdDesc = 'SHIPPER_PROJECTION_VESSEL_BY_VESSEL_ID__ID_DESC',
+  ShipperProjectionVesselByVesselIdShipperIdAsc = 'SHIPPER_PROJECTION_VESSEL_BY_VESSEL_ID__SHIPPER_ID_ASC',
+  ShipperProjectionVesselByVesselIdShipperIdDesc = 'SHIPPER_PROJECTION_VESSEL_BY_VESSEL_ID__SHIPPER_ID_DESC',
+  ShipperByShipperIdIdAsc = 'SHIPPER_BY_SHIPPER_ID__ID_ASC',
+  ShipperByShipperIdIdDesc = 'SHIPPER_BY_SHIPPER_ID__ID_DESC',
+  ShipperByShipperIdShipperNameAsc = 'SHIPPER_BY_SHIPPER_ID__SHIPPER_NAME_ASC',
+  ShipperByShipperIdShipperNameDesc = 'SHIPPER_BY_SHIPPER_ID__SHIPPER_NAME_DESC',
+  ShipperByShipperIdCountryIdAsc = 'SHIPPER_BY_SHIPPER_ID__COUNTRY_ID_ASC',
+  ShipperByShipperIdCountryIdDesc = 'SHIPPER_BY_SHIPPER_ID__COUNTRY_ID_DESC',
+  ShipperByShipperIdGroupIdAsc = 'SHIPPER_BY_SHIPPER_ID__GROUP_ID_ASC',
+  ShipperByShipperIdGroupIdDesc = 'SHIPPER_BY_SHIPPER_ID__GROUP_ID_DESC',
+  ShipperByShipperIdLogoSrcAsc = 'SHIPPER_BY_SHIPPER_ID__LOGO_SRC_ASC',
+  ShipperByShipperIdLogoSrcDesc = 'SHIPPER_BY_SHIPPER_ID__LOGO_SRC_DESC',
+  ShipperByShipperIdNotesAsc = 'SHIPPER_BY_SHIPPER_ID__NOTES_ASC',
+  ShipperByShipperIdNotesDesc = 'SHIPPER_BY_SHIPPER_ID__NOTES_DESC',
+  ShipperByShipperIdWebsiteAsc = 'SHIPPER_BY_SHIPPER_ID__WEBSITE_ASC',
+  ShipperByShipperIdWebsiteDesc = 'SHIPPER_BY_SHIPPER_ID__WEBSITE_DESC',
+  ShipperByShipperIdSendProjectionRequestAsc = 'SHIPPER_BY_SHIPPER_ID__SEND_PROJECTION_REQUEST_ASC',
+  ShipperByShipperIdSendProjectionRequestDesc = 'SHIPPER_BY_SHIPPER_ID__SEND_PROJECTION_REQUEST_DESC',
+  ShipperProjectionEntriesByVesselInfoIdCountAsc = 'SHIPPER_PROJECTION_ENTRIES_BY_VESSEL_INFO_ID__COUNT_ASC',
+  ShipperProjectionEntriesByVesselInfoIdCountDesc = 'SHIPPER_PROJECTION_ENTRIES_BY_VESSEL_INFO_ID__COUNT_DESC'
 }
 
 /**
@@ -6102,7 +6228,25 @@ export enum ShipperProjectionVesselsOrderBy {
   ShipperIdAsc = 'SHIPPER_ID_ASC',
   ShipperIdDesc = 'SHIPPER_ID_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  ShipperByShipperIdIdAsc = 'SHIPPER_BY_SHIPPER_ID__ID_ASC',
+  ShipperByShipperIdIdDesc = 'SHIPPER_BY_SHIPPER_ID__ID_DESC',
+  ShipperByShipperIdShipperNameAsc = 'SHIPPER_BY_SHIPPER_ID__SHIPPER_NAME_ASC',
+  ShipperByShipperIdShipperNameDesc = 'SHIPPER_BY_SHIPPER_ID__SHIPPER_NAME_DESC',
+  ShipperByShipperIdCountryIdAsc = 'SHIPPER_BY_SHIPPER_ID__COUNTRY_ID_ASC',
+  ShipperByShipperIdCountryIdDesc = 'SHIPPER_BY_SHIPPER_ID__COUNTRY_ID_DESC',
+  ShipperByShipperIdGroupIdAsc = 'SHIPPER_BY_SHIPPER_ID__GROUP_ID_ASC',
+  ShipperByShipperIdGroupIdDesc = 'SHIPPER_BY_SHIPPER_ID__GROUP_ID_DESC',
+  ShipperByShipperIdLogoSrcAsc = 'SHIPPER_BY_SHIPPER_ID__LOGO_SRC_ASC',
+  ShipperByShipperIdLogoSrcDesc = 'SHIPPER_BY_SHIPPER_ID__LOGO_SRC_DESC',
+  ShipperByShipperIdNotesAsc = 'SHIPPER_BY_SHIPPER_ID__NOTES_ASC',
+  ShipperByShipperIdNotesDesc = 'SHIPPER_BY_SHIPPER_ID__NOTES_DESC',
+  ShipperByShipperIdWebsiteAsc = 'SHIPPER_BY_SHIPPER_ID__WEBSITE_ASC',
+  ShipperByShipperIdWebsiteDesc = 'SHIPPER_BY_SHIPPER_ID__WEBSITE_DESC',
+  ShipperByShipperIdSendProjectionRequestAsc = 'SHIPPER_BY_SHIPPER_ID__SEND_PROJECTION_REQUEST_ASC',
+  ShipperByShipperIdSendProjectionRequestDesc = 'SHIPPER_BY_SHIPPER_ID__SEND_PROJECTION_REQUEST_DESC',
+  ShipperProjectionVesselInfosByVesselIdCountAsc = 'SHIPPER_PROJECTION_VESSEL_INFOS_BY_VESSEL_ID__COUNT_ASC',
+  ShipperProjectionVesselInfosByVesselIdCountDesc = 'SHIPPER_PROJECTION_VESSEL_INFOS_BY_VESSEL_ID__COUNT_DESC'
 }
 
 /**
@@ -6173,7 +6317,23 @@ export enum ShippersOrderBy {
   SendProjectionRequestAsc = 'SEND_PROJECTION_REQUEST_ASC',
   SendProjectionRequestDesc = 'SEND_PROJECTION_REQUEST_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  CountryByCountryIdIdAsc = 'COUNTRY_BY_COUNTRY_ID__ID_ASC',
+  CountryByCountryIdIdDesc = 'COUNTRY_BY_COUNTRY_ID__ID_DESC',
+  CountryByCountryIdCountryNameAsc = 'COUNTRY_BY_COUNTRY_ID__COUNTRY_NAME_ASC',
+  CountryByCountryIdCountryNameDesc = 'COUNTRY_BY_COUNTRY_ID__COUNTRY_NAME_DESC',
+  ShipperProjectionVesselsByShipperIdCountAsc = 'SHIPPER_PROJECTION_VESSELS_BY_SHIPPER_ID__COUNT_ASC',
+  ShipperProjectionVesselsByShipperIdCountDesc = 'SHIPPER_PROJECTION_VESSELS_BY_SHIPPER_ID__COUNT_DESC',
+  ShipperProjectionProductsByShipperIdCountAsc = 'SHIPPER_PROJECTION_PRODUCTS_BY_SHIPPER_ID__COUNT_ASC',
+  ShipperProjectionProductsByShipperIdCountDesc = 'SHIPPER_PROJECTION_PRODUCTS_BY_SHIPPER_ID__COUNT_DESC',
+  ShipperProjectionsByShipperIdCountAsc = 'SHIPPER_PROJECTIONS_BY_SHIPPER_ID__COUNT_ASC',
+  ShipperProjectionsByShipperIdCountDesc = 'SHIPPER_PROJECTIONS_BY_SHIPPER_ID__COUNT_DESC',
+  ShipperPersonContactsByShipperIdCountAsc = 'SHIPPER_PERSON_CONTACTS_BY_SHIPPER_ID__COUNT_ASC',
+  ShipperPersonContactsByShipperIdCountDesc = 'SHIPPER_PERSON_CONTACTS_BY_SHIPPER_ID__COUNT_DESC',
+  ShipperProjectionVesselInfosByShipperIdCountAsc = 'SHIPPER_PROJECTION_VESSEL_INFOS_BY_SHIPPER_ID__COUNT_ASC',
+  ShipperProjectionVesselInfosByShipperIdCountDesc = 'SHIPPER_PROJECTION_VESSEL_INFOS_BY_SHIPPER_ID__COUNT_DESC',
+  ShipperProgramsByShipperIdCountAsc = 'SHIPPER_PROGRAMS_BY_SHIPPER_ID__COUNT_ASC',
+  ShipperProgramsByShipperIdCountDesc = 'SHIPPER_PROGRAMS_BY_SHIPPER_ID__COUNT_DESC'
 }
 
 /** A condition to be used against `Shipper` object types. All fields are tested for equality and combined with a logical ‘and.’ */
@@ -6708,7 +6868,43 @@ export enum CommonSpeciesOrderBy {
   ProductSpeciesIdAsc = 'PRODUCT_SPECIES_ID_ASC',
   ProductSpeciesIdDesc = 'PRODUCT_SPECIES_ID_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  CommonCategoryByCommonCategoryIdIdAsc = 'COMMON_CATEGORY_BY_COMMON_CATEGORY_ID__ID_ASC',
+  CommonCategoryByCommonCategoryIdIdDesc = 'COMMON_CATEGORY_BY_COMMON_CATEGORY_ID__ID_DESC',
+  CommonCategoryByCommonCategoryIdCategoryNameAsc = 'COMMON_CATEGORY_BY_COMMON_CATEGORY_ID__CATEGORY_NAME_ASC',
+  CommonCategoryByCommonCategoryIdCategoryNameDesc = 'COMMON_CATEGORY_BY_COMMON_CATEGORY_ID__CATEGORY_NAME_DESC',
+  CommonCategoryByCommonCategoryIdCategoryDescriptionAsc = 'COMMON_CATEGORY_BY_COMMON_CATEGORY_ID__CATEGORY_DESCRIPTION_ASC',
+  CommonCategoryByCommonCategoryIdCategoryDescriptionDesc = 'COMMON_CATEGORY_BY_COMMON_CATEGORY_ID__CATEGORY_DESCRIPTION_DESC',
+  CommonCategoryByCommonCategoryIdUiColorAsc = 'COMMON_CATEGORY_BY_COMMON_CATEGORY_ID__UI_COLOR_ASC',
+  CommonCategoryByCommonCategoryIdUiColorDesc = 'COMMON_CATEGORY_BY_COMMON_CATEGORY_ID__UI_COLOR_DESC',
+  ProductSpeciesByProductSpeciesIdIdAsc = 'PRODUCT_SPECIES_BY_PRODUCT_SPECIES_ID__ID_ASC',
+  ProductSpeciesByProductSpeciesIdIdDesc = 'PRODUCT_SPECIES_BY_PRODUCT_SPECIES_ID__ID_DESC',
+  ProductSpeciesByProductSpeciesIdSpeciesDescriptionAsc = 'PRODUCT_SPECIES_BY_PRODUCT_SPECIES_ID__SPECIES_DESCRIPTION_ASC',
+  ProductSpeciesByProductSpeciesIdSpeciesDescriptionDesc = 'PRODUCT_SPECIES_BY_PRODUCT_SPECIES_ID__SPECIES_DESCRIPTION_DESC',
+  ProductSpeciesByProductSpeciesIdSecondaryDescriptionAsc = 'PRODUCT_SPECIES_BY_PRODUCT_SPECIES_ID__SECONDARY_DESCRIPTION_ASC',
+  ProductSpeciesByProductSpeciesIdSecondaryDescriptionDesc = 'PRODUCT_SPECIES_BY_PRODUCT_SPECIES_ID__SECONDARY_DESCRIPTION_DESC',
+  ProductSpeciesByProductSpeciesIdFdaProductCodeAsc = 'PRODUCT_SPECIES_BY_PRODUCT_SPECIES_ID__FDA_PRODUCT_CODE_ASC',
+  ProductSpeciesByProductSpeciesIdFdaProductCodeDesc = 'PRODUCT_SPECIES_BY_PRODUCT_SPECIES_ID__FDA_PRODUCT_CODE_DESC',
+  ProductSpeciesByProductSpeciesIdFdaIndustryCodeAsc = 'PRODUCT_SPECIES_BY_PRODUCT_SPECIES_ID__FDA_INDUSTRY_CODE_ASC',
+  ProductSpeciesByProductSpeciesIdFdaIndustryCodeDesc = 'PRODUCT_SPECIES_BY_PRODUCT_SPECIES_ID__FDA_INDUSTRY_CODE_DESC',
+  ProductSpeciesByProductSpeciesIdDefaultTemperatureAsc = 'PRODUCT_SPECIES_BY_PRODUCT_SPECIES_ID__DEFAULT_TEMPERATURE_ASC',
+  ProductSpeciesByProductSpeciesIdDefaultTemperatureDesc = 'PRODUCT_SPECIES_BY_PRODUCT_SPECIES_ID__DEFAULT_TEMPERATURE_DESC',
+  ShipperProjectionProductsByCommonSpeciesIdCountAsc = 'SHIPPER_PROJECTION_PRODUCTS_BY_COMMON_SPECIES_ID__COUNT_ASC',
+  ShipperProjectionProductsByCommonSpeciesIdCountDesc = 'SHIPPER_PROJECTION_PRODUCTS_BY_COMMON_SPECIES_ID__COUNT_DESC',
+  CommonVarietiesByCommonSpeciesIdCountAsc = 'COMMON_VARIETIES_BY_COMMON_SPECIES_ID__COUNT_ASC',
+  CommonVarietiesByCommonSpeciesIdCountDesc = 'COMMON_VARIETIES_BY_COMMON_SPECIES_ID__COUNT_DESC',
+  CommonSizesByCommonSpeciesIdCountAsc = 'COMMON_SIZES_BY_COMMON_SPECIES_ID__COUNT_ASC',
+  CommonSizesByCommonSpeciesIdCountDesc = 'COMMON_SIZES_BY_COMMON_SPECIES_ID__COUNT_DESC',
+  CommonPackTypesByCommonSpeciesIdCountAsc = 'COMMON_PACK_TYPES_BY_COMMON_SPECIES_ID__COUNT_ASC',
+  CommonPackTypesByCommonSpeciesIdCountDesc = 'COMMON_PACK_TYPES_BY_COMMON_SPECIES_ID__COUNT_DESC',
+  CommonSpeciesTagsByCommonSpeciesIdCountAsc = 'COMMON_SPECIES_TAGS_BY_COMMON_SPECIES_ID__COUNT_ASC',
+  CommonSpeciesTagsByCommonSpeciesIdCountDesc = 'COMMON_SPECIES_TAGS_BY_COMMON_SPECIES_ID__COUNT_DESC',
+  CommonSpeciesProductSpeciesByCommonSpeciesIdCountAsc = 'COMMON_SPECIES_PRODUCT_SPECIES_BY_COMMON_SPECIES_ID__COUNT_ASC',
+  CommonSpeciesProductSpeciesByCommonSpeciesIdCountDesc = 'COMMON_SPECIES_PRODUCT_SPECIES_BY_COMMON_SPECIES_ID__COUNT_DESC',
+  ShipperProgramsByCommonSpeciesIdCountAsc = 'SHIPPER_PROGRAMS_BY_COMMON_SPECIES_ID__COUNT_ASC',
+  ShipperProgramsByCommonSpeciesIdCountDesc = 'SHIPPER_PROGRAMS_BY_COMMON_SPECIES_ID__COUNT_DESC',
+  CustomerProgramsByCommonSpeciesIdCountAsc = 'CUSTOMER_PROGRAMS_BY_COMMON_SPECIES_ID__COUNT_ASC',
+  CustomerProgramsByCommonSpeciesIdCountDesc = 'CUSTOMER_PROGRAMS_BY_COMMON_SPECIES_ID__COUNT_DESC'
 }
 
 /**
@@ -6857,7 +7053,31 @@ export enum CommonSpeciesProductSpeciesOrderBy {
   ProductSpeciesIdAsc = 'PRODUCT_SPECIES_ID_ASC',
   ProductSpeciesIdDesc = 'PRODUCT_SPECIES_ID_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  CommonSpeciesByCommonSpeciesIdIdAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__ID_ASC',
+  CommonSpeciesByCommonSpeciesIdIdDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__ID_DESC',
+  CommonSpeciesByCommonSpeciesIdSpeciesNameAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__SPECIES_NAME_ASC',
+  CommonSpeciesByCommonSpeciesIdSpeciesNameDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__SPECIES_NAME_DESC',
+  CommonSpeciesByCommonSpeciesIdSpeciesDescriptionAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__SPECIES_DESCRIPTION_ASC',
+  CommonSpeciesByCommonSpeciesIdSpeciesDescriptionDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__SPECIES_DESCRIPTION_DESC',
+  CommonSpeciesByCommonSpeciesIdUiColorAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__UI_COLOR_ASC',
+  CommonSpeciesByCommonSpeciesIdUiColorDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__UI_COLOR_DESC',
+  CommonSpeciesByCommonSpeciesIdCommonCategoryIdAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__COMMON_CATEGORY_ID_ASC',
+  CommonSpeciesByCommonSpeciesIdCommonCategoryIdDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__COMMON_CATEGORY_ID_DESC',
+  CommonSpeciesByCommonSpeciesIdProductSpeciesIdAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__PRODUCT_SPECIES_ID_ASC',
+  CommonSpeciesByCommonSpeciesIdProductSpeciesIdDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__PRODUCT_SPECIES_ID_DESC',
+  ProductSpeciesByProductSpeciesIdIdAsc = 'PRODUCT_SPECIES_BY_PRODUCT_SPECIES_ID__ID_ASC',
+  ProductSpeciesByProductSpeciesIdIdDesc = 'PRODUCT_SPECIES_BY_PRODUCT_SPECIES_ID__ID_DESC',
+  ProductSpeciesByProductSpeciesIdSpeciesDescriptionAsc = 'PRODUCT_SPECIES_BY_PRODUCT_SPECIES_ID__SPECIES_DESCRIPTION_ASC',
+  ProductSpeciesByProductSpeciesIdSpeciesDescriptionDesc = 'PRODUCT_SPECIES_BY_PRODUCT_SPECIES_ID__SPECIES_DESCRIPTION_DESC',
+  ProductSpeciesByProductSpeciesIdSecondaryDescriptionAsc = 'PRODUCT_SPECIES_BY_PRODUCT_SPECIES_ID__SECONDARY_DESCRIPTION_ASC',
+  ProductSpeciesByProductSpeciesIdSecondaryDescriptionDesc = 'PRODUCT_SPECIES_BY_PRODUCT_SPECIES_ID__SECONDARY_DESCRIPTION_DESC',
+  ProductSpeciesByProductSpeciesIdFdaProductCodeAsc = 'PRODUCT_SPECIES_BY_PRODUCT_SPECIES_ID__FDA_PRODUCT_CODE_ASC',
+  ProductSpeciesByProductSpeciesIdFdaProductCodeDesc = 'PRODUCT_SPECIES_BY_PRODUCT_SPECIES_ID__FDA_PRODUCT_CODE_DESC',
+  ProductSpeciesByProductSpeciesIdFdaIndustryCodeAsc = 'PRODUCT_SPECIES_BY_PRODUCT_SPECIES_ID__FDA_INDUSTRY_CODE_ASC',
+  ProductSpeciesByProductSpeciesIdFdaIndustryCodeDesc = 'PRODUCT_SPECIES_BY_PRODUCT_SPECIES_ID__FDA_INDUSTRY_CODE_DESC',
+  ProductSpeciesByProductSpeciesIdDefaultTemperatureAsc = 'PRODUCT_SPECIES_BY_PRODUCT_SPECIES_ID__DEFAULT_TEMPERATURE_ASC',
+  ProductSpeciesByProductSpeciesIdDefaultTemperatureDesc = 'PRODUCT_SPECIES_BY_PRODUCT_SPECIES_ID__DEFAULT_TEMPERATURE_DESC'
 }
 
 /**
@@ -6922,7 +7142,9 @@ export enum CommonCategoriesOrderBy {
   UiColorAsc = 'UI_COLOR_ASC',
   UiColorDesc = 'UI_COLOR_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  CommonSpeciesByCommonCategoryIdCountAsc = 'COMMON_SPECIES_BY_COMMON_CATEGORY_ID__COUNT_ASC',
+  CommonSpeciesByCommonCategoryIdCountDesc = 'COMMON_SPECIES_BY_COMMON_CATEGORY_ID__COUNT_DESC'
 }
 
 /**
@@ -7017,7 +7239,11 @@ export enum ProductSpeciesOrderBy {
   DefaultTemperatureAsc = 'DEFAULT_TEMPERATURE_ASC',
   DefaultTemperatureDesc = 'DEFAULT_TEMPERATURE_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  CommonSpeciesByProductSpeciesIdCountAsc = 'COMMON_SPECIES_BY_PRODUCT_SPECIES_ID__COUNT_ASC',
+  CommonSpeciesByProductSpeciesIdCountDesc = 'COMMON_SPECIES_BY_PRODUCT_SPECIES_ID__COUNT_DESC',
+  CommonSpeciesProductSpeciesByProductSpeciesIdCountAsc = 'COMMON_SPECIES_PRODUCT_SPECIES_BY_PRODUCT_SPECIES_ID__COUNT_ASC',
+  CommonSpeciesProductSpeciesByProductSpeciesIdCountDesc = 'COMMON_SPECIES_PRODUCT_SPECIES_BY_PRODUCT_SPECIES_ID__COUNT_DESC'
 }
 
 /**
@@ -7087,7 +7313,69 @@ export enum ShipperProjectionProductsOrderBy {
   CommonPackTypeIdAsc = 'COMMON_PACK_TYPE_ID_ASC',
   CommonPackTypeIdDesc = 'COMMON_PACK_TYPE_ID_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  ShipperByShipperIdIdAsc = 'SHIPPER_BY_SHIPPER_ID__ID_ASC',
+  ShipperByShipperIdIdDesc = 'SHIPPER_BY_SHIPPER_ID__ID_DESC',
+  ShipperByShipperIdShipperNameAsc = 'SHIPPER_BY_SHIPPER_ID__SHIPPER_NAME_ASC',
+  ShipperByShipperIdShipperNameDesc = 'SHIPPER_BY_SHIPPER_ID__SHIPPER_NAME_DESC',
+  ShipperByShipperIdCountryIdAsc = 'SHIPPER_BY_SHIPPER_ID__COUNTRY_ID_ASC',
+  ShipperByShipperIdCountryIdDesc = 'SHIPPER_BY_SHIPPER_ID__COUNTRY_ID_DESC',
+  ShipperByShipperIdGroupIdAsc = 'SHIPPER_BY_SHIPPER_ID__GROUP_ID_ASC',
+  ShipperByShipperIdGroupIdDesc = 'SHIPPER_BY_SHIPPER_ID__GROUP_ID_DESC',
+  ShipperByShipperIdLogoSrcAsc = 'SHIPPER_BY_SHIPPER_ID__LOGO_SRC_ASC',
+  ShipperByShipperIdLogoSrcDesc = 'SHIPPER_BY_SHIPPER_ID__LOGO_SRC_DESC',
+  ShipperByShipperIdNotesAsc = 'SHIPPER_BY_SHIPPER_ID__NOTES_ASC',
+  ShipperByShipperIdNotesDesc = 'SHIPPER_BY_SHIPPER_ID__NOTES_DESC',
+  ShipperByShipperIdWebsiteAsc = 'SHIPPER_BY_SHIPPER_ID__WEBSITE_ASC',
+  ShipperByShipperIdWebsiteDesc = 'SHIPPER_BY_SHIPPER_ID__WEBSITE_DESC',
+  ShipperByShipperIdSendProjectionRequestAsc = 'SHIPPER_BY_SHIPPER_ID__SEND_PROJECTION_REQUEST_ASC',
+  ShipperByShipperIdSendProjectionRequestDesc = 'SHIPPER_BY_SHIPPER_ID__SEND_PROJECTION_REQUEST_DESC',
+  CommonSpeciesByCommonSpeciesIdIdAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__ID_ASC',
+  CommonSpeciesByCommonSpeciesIdIdDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__ID_DESC',
+  CommonSpeciesByCommonSpeciesIdSpeciesNameAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__SPECIES_NAME_ASC',
+  CommonSpeciesByCommonSpeciesIdSpeciesNameDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__SPECIES_NAME_DESC',
+  CommonSpeciesByCommonSpeciesIdSpeciesDescriptionAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__SPECIES_DESCRIPTION_ASC',
+  CommonSpeciesByCommonSpeciesIdSpeciesDescriptionDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__SPECIES_DESCRIPTION_DESC',
+  CommonSpeciesByCommonSpeciesIdUiColorAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__UI_COLOR_ASC',
+  CommonSpeciesByCommonSpeciesIdUiColorDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__UI_COLOR_DESC',
+  CommonSpeciesByCommonSpeciesIdCommonCategoryIdAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__COMMON_CATEGORY_ID_ASC',
+  CommonSpeciesByCommonSpeciesIdCommonCategoryIdDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__COMMON_CATEGORY_ID_DESC',
+  CommonSpeciesByCommonSpeciesIdProductSpeciesIdAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__PRODUCT_SPECIES_ID_ASC',
+  CommonSpeciesByCommonSpeciesIdProductSpeciesIdDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__PRODUCT_SPECIES_ID_DESC',
+  CommonVarietyByCommonVarietyIdIdAsc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__ID_ASC',
+  CommonVarietyByCommonVarietyIdIdDesc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__ID_DESC',
+  CommonVarietyByCommonVarietyIdVarietyNameAsc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__VARIETY_NAME_ASC',
+  CommonVarietyByCommonVarietyIdVarietyNameDesc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__VARIETY_NAME_DESC',
+  CommonVarietyByCommonVarietyIdVarietyDescriptionAsc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__VARIETY_DESCRIPTION_ASC',
+  CommonVarietyByCommonVarietyIdVarietyDescriptionDesc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__VARIETY_DESCRIPTION_DESC',
+  CommonVarietyByCommonVarietyIdUiColorAsc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__UI_COLOR_ASC',
+  CommonVarietyByCommonVarietyIdUiColorDesc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__UI_COLOR_DESC',
+  CommonVarietyByCommonVarietyIdCommonSpeciesIdAsc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__COMMON_SPECIES_ID_ASC',
+  CommonVarietyByCommonVarietyIdCommonSpeciesIdDesc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__COMMON_SPECIES_ID_DESC',
+  CommonVarietyByCommonVarietyIdProductVarietyIdAsc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__PRODUCT_VARIETY_ID_ASC',
+  CommonVarietyByCommonVarietyIdProductVarietyIdDesc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__PRODUCT_VARIETY_ID_DESC',
+  CommonSizeByCommonSizeIdIdAsc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__ID_ASC',
+  CommonSizeByCommonSizeIdIdDesc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__ID_DESC',
+  CommonSizeByCommonSizeIdSizeNameAsc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__SIZE_NAME_ASC',
+  CommonSizeByCommonSizeIdSizeNameDesc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__SIZE_NAME_DESC',
+  CommonSizeByCommonSizeIdSizeDescriptionAsc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__SIZE_DESCRIPTION_ASC',
+  CommonSizeByCommonSizeIdSizeDescriptionDesc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__SIZE_DESCRIPTION_DESC',
+  CommonSizeByCommonSizeIdCommonSpeciesIdAsc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__COMMON_SPECIES_ID_ASC',
+  CommonSizeByCommonSizeIdCommonSpeciesIdDesc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__COMMON_SPECIES_ID_DESC',
+  CommonSizeByCommonSizeIdProductSizeIdAsc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__PRODUCT_SIZE_ID_ASC',
+  CommonSizeByCommonSizeIdProductSizeIdDesc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__PRODUCT_SIZE_ID_DESC',
+  CommonPackTypeByCommonPackTypeIdIdAsc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__ID_ASC',
+  CommonPackTypeByCommonPackTypeIdIdDesc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__ID_DESC',
+  CommonPackTypeByCommonPackTypeIdPackTypeNameAsc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__PACK_TYPE_NAME_ASC',
+  CommonPackTypeByCommonPackTypeIdPackTypeNameDesc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__PACK_TYPE_NAME_DESC',
+  CommonPackTypeByCommonPackTypeIdPackTypeDescriptionAsc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__PACK_TYPE_DESCRIPTION_ASC',
+  CommonPackTypeByCommonPackTypeIdPackTypeDescriptionDesc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__PACK_TYPE_DESCRIPTION_DESC',
+  CommonPackTypeByCommonPackTypeIdCommonSpeciesIdAsc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__COMMON_SPECIES_ID_ASC',
+  CommonPackTypeByCommonPackTypeIdCommonSpeciesIdDesc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__COMMON_SPECIES_ID_DESC',
+  CommonPackTypeByCommonPackTypeIdPackMasterIdAsc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__PACK_MASTER_ID_ASC',
+  CommonPackTypeByCommonPackTypeIdPackMasterIdDesc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__PACK_MASTER_ID_DESC',
+  ShipperProjectionEntriesByProductIdCountAsc = 'SHIPPER_PROJECTION_ENTRIES_BY_PRODUCT_ID__COUNT_ASC',
+  ShipperProjectionEntriesByProductIdCountDesc = 'SHIPPER_PROJECTION_ENTRIES_BY_PRODUCT_ID__COUNT_DESC'
 }
 
 /**
@@ -7486,7 +7774,43 @@ export enum CommonVarietiesOrderBy {
   ProductVarietyIdAsc = 'PRODUCT_VARIETY_ID_ASC',
   ProductVarietyIdDesc = 'PRODUCT_VARIETY_ID_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  CommonSpeciesByCommonSpeciesIdIdAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__ID_ASC',
+  CommonSpeciesByCommonSpeciesIdIdDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__ID_DESC',
+  CommonSpeciesByCommonSpeciesIdSpeciesNameAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__SPECIES_NAME_ASC',
+  CommonSpeciesByCommonSpeciesIdSpeciesNameDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__SPECIES_NAME_DESC',
+  CommonSpeciesByCommonSpeciesIdSpeciesDescriptionAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__SPECIES_DESCRIPTION_ASC',
+  CommonSpeciesByCommonSpeciesIdSpeciesDescriptionDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__SPECIES_DESCRIPTION_DESC',
+  CommonSpeciesByCommonSpeciesIdUiColorAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__UI_COLOR_ASC',
+  CommonSpeciesByCommonSpeciesIdUiColorDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__UI_COLOR_DESC',
+  CommonSpeciesByCommonSpeciesIdCommonCategoryIdAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__COMMON_CATEGORY_ID_ASC',
+  CommonSpeciesByCommonSpeciesIdCommonCategoryIdDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__COMMON_CATEGORY_ID_DESC',
+  CommonSpeciesByCommonSpeciesIdProductSpeciesIdAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__PRODUCT_SPECIES_ID_ASC',
+  CommonSpeciesByCommonSpeciesIdProductSpeciesIdDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__PRODUCT_SPECIES_ID_DESC',
+  ProductVarietyByProductVarietyIdIdAsc = 'PRODUCT_VARIETY_BY_PRODUCT_VARIETY_ID__ID_ASC',
+  ProductVarietyByProductVarietyIdIdDesc = 'PRODUCT_VARIETY_BY_PRODUCT_VARIETY_ID__ID_DESC',
+  ProductVarietyByProductVarietyIdVarietyDescriptionAsc = 'PRODUCT_VARIETY_BY_PRODUCT_VARIETY_ID__VARIETY_DESCRIPTION_ASC',
+  ProductVarietyByProductVarietyIdVarietyDescriptionDesc = 'PRODUCT_VARIETY_BY_PRODUCT_VARIETY_ID__VARIETY_DESCRIPTION_DESC',
+  ProductVarietyByProductVarietyIdSecondaryDescriptionAsc = 'PRODUCT_VARIETY_BY_PRODUCT_VARIETY_ID__SECONDARY_DESCRIPTION_ASC',
+  ProductVarietyByProductVarietyIdSecondaryDescriptionDesc = 'PRODUCT_VARIETY_BY_PRODUCT_VARIETY_ID__SECONDARY_DESCRIPTION_DESC',
+  ProductVarietyByProductVarietyIdCustomerLetterSequenceAsc = 'PRODUCT_VARIETY_BY_PRODUCT_VARIETY_ID__CUSTOMER_LETTER_SEQUENCE_ASC',
+  ProductVarietyByProductVarietyIdCustomerLetterSequenceDesc = 'PRODUCT_VARIETY_BY_PRODUCT_VARIETY_ID__CUSTOMER_LETTER_SEQUENCE_DESC',
+  ProductVarietyByProductVarietyIdSummaryCodeAsc = 'PRODUCT_VARIETY_BY_PRODUCT_VARIETY_ID__SUMMARY_CODE_ASC',
+  ProductVarietyByProductVarietyIdSummaryCodeDesc = 'PRODUCT_VARIETY_BY_PRODUCT_VARIETY_ID__SUMMARY_CODE_DESC',
+  ProductVarietyByProductVarietyIdVarietyGroupAsc = 'PRODUCT_VARIETY_BY_PRODUCT_VARIETY_ID__VARIETY_GROUP_ASC',
+  ProductVarietyByProductVarietyIdVarietyGroupDesc = 'PRODUCT_VARIETY_BY_PRODUCT_VARIETY_ID__VARIETY_GROUP_DESC',
+  ProductVarietyByProductVarietyIdCombineWithAsc = 'PRODUCT_VARIETY_BY_PRODUCT_VARIETY_ID__COMBINE_WITH_ASC',
+  ProductVarietyByProductVarietyIdCombineWithDesc = 'PRODUCT_VARIETY_BY_PRODUCT_VARIETY_ID__COMBINE_WITH_DESC',
+  ShipperProjectionProductsByCommonVarietyIdCountAsc = 'SHIPPER_PROJECTION_PRODUCTS_BY_COMMON_VARIETY_ID__COUNT_ASC',
+  ShipperProjectionProductsByCommonVarietyIdCountDesc = 'SHIPPER_PROJECTION_PRODUCTS_BY_COMMON_VARIETY_ID__COUNT_DESC',
+  CommonVarietyTagsByCommonVarietyIdCountAsc = 'COMMON_VARIETY_TAGS_BY_COMMON_VARIETY_ID__COUNT_ASC',
+  CommonVarietyTagsByCommonVarietyIdCountDesc = 'COMMON_VARIETY_TAGS_BY_COMMON_VARIETY_ID__COUNT_DESC',
+  CommonVarietyProductVarietiesByCommonVarietyIdCountAsc = 'COMMON_VARIETY_PRODUCT_VARIETIES_BY_COMMON_VARIETY_ID__COUNT_ASC',
+  CommonVarietyProductVarietiesByCommonVarietyIdCountDesc = 'COMMON_VARIETY_PRODUCT_VARIETIES_BY_COMMON_VARIETY_ID__COUNT_DESC',
+  ShipperProgramsByCommonVarietyIdCountAsc = 'SHIPPER_PROGRAMS_BY_COMMON_VARIETY_ID__COUNT_ASC',
+  ShipperProgramsByCommonVarietyIdCountDesc = 'SHIPPER_PROGRAMS_BY_COMMON_VARIETY_ID__COUNT_DESC',
+  CustomerProgramsByCommonVarietyIdCountAsc = 'CUSTOMER_PROGRAMS_BY_COMMON_VARIETY_ID__COUNT_ASC',
+  CustomerProgramsByCommonVarietyIdCountDesc = 'CUSTOMER_PROGRAMS_BY_COMMON_VARIETY_ID__COUNT_DESC'
 }
 
 /**
@@ -7553,7 +7877,33 @@ export enum CommonVarietyProductVarietiesOrderBy {
   ProductVarietyIdAsc = 'PRODUCT_VARIETY_ID_ASC',
   ProductVarietyIdDesc = 'PRODUCT_VARIETY_ID_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  CommonVarietyByCommonVarietyIdIdAsc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__ID_ASC',
+  CommonVarietyByCommonVarietyIdIdDesc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__ID_DESC',
+  CommonVarietyByCommonVarietyIdVarietyNameAsc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__VARIETY_NAME_ASC',
+  CommonVarietyByCommonVarietyIdVarietyNameDesc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__VARIETY_NAME_DESC',
+  CommonVarietyByCommonVarietyIdVarietyDescriptionAsc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__VARIETY_DESCRIPTION_ASC',
+  CommonVarietyByCommonVarietyIdVarietyDescriptionDesc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__VARIETY_DESCRIPTION_DESC',
+  CommonVarietyByCommonVarietyIdUiColorAsc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__UI_COLOR_ASC',
+  CommonVarietyByCommonVarietyIdUiColorDesc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__UI_COLOR_DESC',
+  CommonVarietyByCommonVarietyIdCommonSpeciesIdAsc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__COMMON_SPECIES_ID_ASC',
+  CommonVarietyByCommonVarietyIdCommonSpeciesIdDesc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__COMMON_SPECIES_ID_DESC',
+  CommonVarietyByCommonVarietyIdProductVarietyIdAsc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__PRODUCT_VARIETY_ID_ASC',
+  CommonVarietyByCommonVarietyIdProductVarietyIdDesc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__PRODUCT_VARIETY_ID_DESC',
+  ProductVarietyByProductVarietyIdIdAsc = 'PRODUCT_VARIETY_BY_PRODUCT_VARIETY_ID__ID_ASC',
+  ProductVarietyByProductVarietyIdIdDesc = 'PRODUCT_VARIETY_BY_PRODUCT_VARIETY_ID__ID_DESC',
+  ProductVarietyByProductVarietyIdVarietyDescriptionAsc = 'PRODUCT_VARIETY_BY_PRODUCT_VARIETY_ID__VARIETY_DESCRIPTION_ASC',
+  ProductVarietyByProductVarietyIdVarietyDescriptionDesc = 'PRODUCT_VARIETY_BY_PRODUCT_VARIETY_ID__VARIETY_DESCRIPTION_DESC',
+  ProductVarietyByProductVarietyIdSecondaryDescriptionAsc = 'PRODUCT_VARIETY_BY_PRODUCT_VARIETY_ID__SECONDARY_DESCRIPTION_ASC',
+  ProductVarietyByProductVarietyIdSecondaryDescriptionDesc = 'PRODUCT_VARIETY_BY_PRODUCT_VARIETY_ID__SECONDARY_DESCRIPTION_DESC',
+  ProductVarietyByProductVarietyIdCustomerLetterSequenceAsc = 'PRODUCT_VARIETY_BY_PRODUCT_VARIETY_ID__CUSTOMER_LETTER_SEQUENCE_ASC',
+  ProductVarietyByProductVarietyIdCustomerLetterSequenceDesc = 'PRODUCT_VARIETY_BY_PRODUCT_VARIETY_ID__CUSTOMER_LETTER_SEQUENCE_DESC',
+  ProductVarietyByProductVarietyIdSummaryCodeAsc = 'PRODUCT_VARIETY_BY_PRODUCT_VARIETY_ID__SUMMARY_CODE_ASC',
+  ProductVarietyByProductVarietyIdSummaryCodeDesc = 'PRODUCT_VARIETY_BY_PRODUCT_VARIETY_ID__SUMMARY_CODE_DESC',
+  ProductVarietyByProductVarietyIdVarietyGroupAsc = 'PRODUCT_VARIETY_BY_PRODUCT_VARIETY_ID__VARIETY_GROUP_ASC',
+  ProductVarietyByProductVarietyIdVarietyGroupDesc = 'PRODUCT_VARIETY_BY_PRODUCT_VARIETY_ID__VARIETY_GROUP_DESC',
+  ProductVarietyByProductVarietyIdCombineWithAsc = 'PRODUCT_VARIETY_BY_PRODUCT_VARIETY_ID__COMBINE_WITH_ASC',
+  ProductVarietyByProductVarietyIdCombineWithDesc = 'PRODUCT_VARIETY_BY_PRODUCT_VARIETY_ID__COMBINE_WITH_DESC'
 }
 
 /**
@@ -7683,7 +8033,19 @@ export enum CommonVarietyTagsOrderBy {
   CommonVarietyIdAsc = 'COMMON_VARIETY_ID_ASC',
   CommonVarietyIdDesc = 'COMMON_VARIETY_ID_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  CommonVarietyByCommonVarietyIdIdAsc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__ID_ASC',
+  CommonVarietyByCommonVarietyIdIdDesc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__ID_DESC',
+  CommonVarietyByCommonVarietyIdVarietyNameAsc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__VARIETY_NAME_ASC',
+  CommonVarietyByCommonVarietyIdVarietyNameDesc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__VARIETY_NAME_DESC',
+  CommonVarietyByCommonVarietyIdVarietyDescriptionAsc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__VARIETY_DESCRIPTION_ASC',
+  CommonVarietyByCommonVarietyIdVarietyDescriptionDesc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__VARIETY_DESCRIPTION_DESC',
+  CommonVarietyByCommonVarietyIdUiColorAsc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__UI_COLOR_ASC',
+  CommonVarietyByCommonVarietyIdUiColorDesc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__UI_COLOR_DESC',
+  CommonVarietyByCommonVarietyIdCommonSpeciesIdAsc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__COMMON_SPECIES_ID_ASC',
+  CommonVarietyByCommonVarietyIdCommonSpeciesIdDesc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__COMMON_SPECIES_ID_DESC',
+  CommonVarietyByCommonVarietyIdProductVarietyIdAsc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__PRODUCT_VARIETY_ID_ASC',
+  CommonVarietyByCommonVarietyIdProductVarietyIdDesc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__PRODUCT_VARIETY_ID_DESC'
 }
 
 /**
@@ -8127,7 +8489,49 @@ export enum CommonSizesOrderBy {
   ProductSizeIdAsc = 'PRODUCT_SIZE_ID_ASC',
   ProductSizeIdDesc = 'PRODUCT_SIZE_ID_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  CommonSpeciesByCommonSpeciesIdIdAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__ID_ASC',
+  CommonSpeciesByCommonSpeciesIdIdDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__ID_DESC',
+  CommonSpeciesByCommonSpeciesIdSpeciesNameAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__SPECIES_NAME_ASC',
+  CommonSpeciesByCommonSpeciesIdSpeciesNameDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__SPECIES_NAME_DESC',
+  CommonSpeciesByCommonSpeciesIdSpeciesDescriptionAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__SPECIES_DESCRIPTION_ASC',
+  CommonSpeciesByCommonSpeciesIdSpeciesDescriptionDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__SPECIES_DESCRIPTION_DESC',
+  CommonSpeciesByCommonSpeciesIdUiColorAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__UI_COLOR_ASC',
+  CommonSpeciesByCommonSpeciesIdUiColorDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__UI_COLOR_DESC',
+  CommonSpeciesByCommonSpeciesIdCommonCategoryIdAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__COMMON_CATEGORY_ID_ASC',
+  CommonSpeciesByCommonSpeciesIdCommonCategoryIdDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__COMMON_CATEGORY_ID_DESC',
+  CommonSpeciesByCommonSpeciesIdProductSpeciesIdAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__PRODUCT_SPECIES_ID_ASC',
+  CommonSpeciesByCommonSpeciesIdProductSpeciesIdDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__PRODUCT_SPECIES_ID_DESC',
+  ProductSizeByProductSizeIdIdAsc = 'PRODUCT_SIZE_BY_PRODUCT_SIZE_ID__ID_ASC',
+  ProductSizeByProductSizeIdIdDesc = 'PRODUCT_SIZE_BY_PRODUCT_SIZE_ID__ID_DESC',
+  ProductSizeByProductSizeIdSpeciesIdAsc = 'PRODUCT_SIZE_BY_PRODUCT_SIZE_ID__SPECIES_ID_ASC',
+  ProductSizeByProductSizeIdSpeciesIdDesc = 'PRODUCT_SIZE_BY_PRODUCT_SIZE_ID__SPECIES_ID_DESC',
+  ProductSizeByProductSizeIdVarietyIdAsc = 'PRODUCT_SIZE_BY_PRODUCT_SIZE_ID__VARIETY_ID_ASC',
+  ProductSizeByProductSizeIdVarietyIdDesc = 'PRODUCT_SIZE_BY_PRODUCT_SIZE_ID__VARIETY_ID_DESC',
+  ProductSizeByProductSizeIdJvCodeAsc = 'PRODUCT_SIZE_BY_PRODUCT_SIZE_ID__JV_CODE_ASC',
+  ProductSizeByProductSizeIdJvCodeDesc = 'PRODUCT_SIZE_BY_PRODUCT_SIZE_ID__JV_CODE_DESC',
+  ProductSizeByProductSizeIdJvDescriptionAsc = 'PRODUCT_SIZE_BY_PRODUCT_SIZE_ID__JV_DESCRIPTION_ASC',
+  ProductSizeByProductSizeIdJvDescriptionDesc = 'PRODUCT_SIZE_BY_PRODUCT_SIZE_ID__JV_DESCRIPTION_DESC',
+  ProductSizeByProductSizeIdShipperCodeAsc = 'PRODUCT_SIZE_BY_PRODUCT_SIZE_ID__SHIPPER_CODE_ASC',
+  ProductSizeByProductSizeIdShipperCodeDesc = 'PRODUCT_SIZE_BY_PRODUCT_SIZE_ID__SHIPPER_CODE_DESC',
+  ProductSizeByProductSizeIdShipperDescriptionAsc = 'PRODUCT_SIZE_BY_PRODUCT_SIZE_ID__SHIPPER_DESCRIPTION_ASC',
+  ProductSizeByProductSizeIdShipperDescriptionDesc = 'PRODUCT_SIZE_BY_PRODUCT_SIZE_ID__SHIPPER_DESCRIPTION_DESC',
+  ProductSizeByProductSizeIdCombineWithAsc = 'PRODUCT_SIZE_BY_PRODUCT_SIZE_ID__COMBINE_WITH_ASC',
+  ProductSizeByProductSizeIdCombineWithDesc = 'PRODUCT_SIZE_BY_PRODUCT_SIZE_ID__COMBINE_WITH_DESC',
+  ProductSizeByProductSizeIdCombineDescriptionAsc = 'PRODUCT_SIZE_BY_PRODUCT_SIZE_ID__COMBINE_DESCRIPTION_ASC',
+  ProductSizeByProductSizeIdCombineDescriptionDesc = 'PRODUCT_SIZE_BY_PRODUCT_SIZE_ID__COMBINE_DESCRIPTION_DESC',
+  ProductSizeByProductSizeIdShipperIdAsc = 'PRODUCT_SIZE_BY_PRODUCT_SIZE_ID__SHIPPER_ID_ASC',
+  ProductSizeByProductSizeIdShipperIdDesc = 'PRODUCT_SIZE_BY_PRODUCT_SIZE_ID__SHIPPER_ID_DESC',
+  ShipperProjectionProductsByCommonSizeIdCountAsc = 'SHIPPER_PROJECTION_PRODUCTS_BY_COMMON_SIZE_ID__COUNT_ASC',
+  ShipperProjectionProductsByCommonSizeIdCountDesc = 'SHIPPER_PROJECTION_PRODUCTS_BY_COMMON_SIZE_ID__COUNT_DESC',
+  CommonSizeTagsByCommonSizeIdCountAsc = 'COMMON_SIZE_TAGS_BY_COMMON_SIZE_ID__COUNT_ASC',
+  CommonSizeTagsByCommonSizeIdCountDesc = 'COMMON_SIZE_TAGS_BY_COMMON_SIZE_ID__COUNT_DESC',
+  CommonSizeProductSizesByCommonSizeIdCountAsc = 'COMMON_SIZE_PRODUCT_SIZES_BY_COMMON_SIZE_ID__COUNT_ASC',
+  CommonSizeProductSizesByCommonSizeIdCountDesc = 'COMMON_SIZE_PRODUCT_SIZES_BY_COMMON_SIZE_ID__COUNT_DESC',
+  ShipperProgramsByCommonSizeIdCountAsc = 'SHIPPER_PROGRAMS_BY_COMMON_SIZE_ID__COUNT_ASC',
+  ShipperProgramsByCommonSizeIdCountDesc = 'SHIPPER_PROGRAMS_BY_COMMON_SIZE_ID__COUNT_DESC',
+  CustomerProgramsByCommonSizeIdCountAsc = 'CUSTOMER_PROGRAMS_BY_COMMON_SIZE_ID__COUNT_ASC',
+  CustomerProgramsByCommonSizeIdCountDesc = 'CUSTOMER_PROGRAMS_BY_COMMON_SIZE_ID__COUNT_DESC'
 }
 
 /**
@@ -8192,7 +8596,37 @@ export enum CommonSizeProductSizesOrderBy {
   ProductSizeIdAsc = 'PRODUCT_SIZE_ID_ASC',
   ProductSizeIdDesc = 'PRODUCT_SIZE_ID_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  CommonSizeByCommonSizeIdIdAsc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__ID_ASC',
+  CommonSizeByCommonSizeIdIdDesc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__ID_DESC',
+  CommonSizeByCommonSizeIdSizeNameAsc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__SIZE_NAME_ASC',
+  CommonSizeByCommonSizeIdSizeNameDesc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__SIZE_NAME_DESC',
+  CommonSizeByCommonSizeIdSizeDescriptionAsc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__SIZE_DESCRIPTION_ASC',
+  CommonSizeByCommonSizeIdSizeDescriptionDesc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__SIZE_DESCRIPTION_DESC',
+  CommonSizeByCommonSizeIdCommonSpeciesIdAsc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__COMMON_SPECIES_ID_ASC',
+  CommonSizeByCommonSizeIdCommonSpeciesIdDesc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__COMMON_SPECIES_ID_DESC',
+  CommonSizeByCommonSizeIdProductSizeIdAsc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__PRODUCT_SIZE_ID_ASC',
+  CommonSizeByCommonSizeIdProductSizeIdDesc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__PRODUCT_SIZE_ID_DESC',
+  ProductSizeByProductSizeIdIdAsc = 'PRODUCT_SIZE_BY_PRODUCT_SIZE_ID__ID_ASC',
+  ProductSizeByProductSizeIdIdDesc = 'PRODUCT_SIZE_BY_PRODUCT_SIZE_ID__ID_DESC',
+  ProductSizeByProductSizeIdSpeciesIdAsc = 'PRODUCT_SIZE_BY_PRODUCT_SIZE_ID__SPECIES_ID_ASC',
+  ProductSizeByProductSizeIdSpeciesIdDesc = 'PRODUCT_SIZE_BY_PRODUCT_SIZE_ID__SPECIES_ID_DESC',
+  ProductSizeByProductSizeIdVarietyIdAsc = 'PRODUCT_SIZE_BY_PRODUCT_SIZE_ID__VARIETY_ID_ASC',
+  ProductSizeByProductSizeIdVarietyIdDesc = 'PRODUCT_SIZE_BY_PRODUCT_SIZE_ID__VARIETY_ID_DESC',
+  ProductSizeByProductSizeIdJvCodeAsc = 'PRODUCT_SIZE_BY_PRODUCT_SIZE_ID__JV_CODE_ASC',
+  ProductSizeByProductSizeIdJvCodeDesc = 'PRODUCT_SIZE_BY_PRODUCT_SIZE_ID__JV_CODE_DESC',
+  ProductSizeByProductSizeIdJvDescriptionAsc = 'PRODUCT_SIZE_BY_PRODUCT_SIZE_ID__JV_DESCRIPTION_ASC',
+  ProductSizeByProductSizeIdJvDescriptionDesc = 'PRODUCT_SIZE_BY_PRODUCT_SIZE_ID__JV_DESCRIPTION_DESC',
+  ProductSizeByProductSizeIdShipperCodeAsc = 'PRODUCT_SIZE_BY_PRODUCT_SIZE_ID__SHIPPER_CODE_ASC',
+  ProductSizeByProductSizeIdShipperCodeDesc = 'PRODUCT_SIZE_BY_PRODUCT_SIZE_ID__SHIPPER_CODE_DESC',
+  ProductSizeByProductSizeIdShipperDescriptionAsc = 'PRODUCT_SIZE_BY_PRODUCT_SIZE_ID__SHIPPER_DESCRIPTION_ASC',
+  ProductSizeByProductSizeIdShipperDescriptionDesc = 'PRODUCT_SIZE_BY_PRODUCT_SIZE_ID__SHIPPER_DESCRIPTION_DESC',
+  ProductSizeByProductSizeIdCombineWithAsc = 'PRODUCT_SIZE_BY_PRODUCT_SIZE_ID__COMBINE_WITH_ASC',
+  ProductSizeByProductSizeIdCombineWithDesc = 'PRODUCT_SIZE_BY_PRODUCT_SIZE_ID__COMBINE_WITH_DESC',
+  ProductSizeByProductSizeIdCombineDescriptionAsc = 'PRODUCT_SIZE_BY_PRODUCT_SIZE_ID__COMBINE_DESCRIPTION_ASC',
+  ProductSizeByProductSizeIdCombineDescriptionDesc = 'PRODUCT_SIZE_BY_PRODUCT_SIZE_ID__COMBINE_DESCRIPTION_DESC',
+  ProductSizeByProductSizeIdShipperIdAsc = 'PRODUCT_SIZE_BY_PRODUCT_SIZE_ID__SHIPPER_ID_ASC',
+  ProductSizeByProductSizeIdShipperIdDesc = 'PRODUCT_SIZE_BY_PRODUCT_SIZE_ID__SHIPPER_ID_DESC'
 }
 
 /**
@@ -8322,7 +8756,17 @@ export enum CommonSizeTagsOrderBy {
   CommonSizeIdAsc = 'COMMON_SIZE_ID_ASC',
   CommonSizeIdDesc = 'COMMON_SIZE_ID_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  CommonSizeByCommonSizeIdIdAsc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__ID_ASC',
+  CommonSizeByCommonSizeIdIdDesc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__ID_DESC',
+  CommonSizeByCommonSizeIdSizeNameAsc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__SIZE_NAME_ASC',
+  CommonSizeByCommonSizeIdSizeNameDesc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__SIZE_NAME_DESC',
+  CommonSizeByCommonSizeIdSizeDescriptionAsc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__SIZE_DESCRIPTION_ASC',
+  CommonSizeByCommonSizeIdSizeDescriptionDesc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__SIZE_DESCRIPTION_DESC',
+  CommonSizeByCommonSizeIdCommonSpeciesIdAsc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__COMMON_SPECIES_ID_ASC',
+  CommonSizeByCommonSizeIdCommonSpeciesIdDesc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__COMMON_SPECIES_ID_DESC',
+  CommonSizeByCommonSizeIdProductSizeIdAsc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__PRODUCT_SIZE_ID_ASC',
+  CommonSizeByCommonSizeIdProductSizeIdDesc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__PRODUCT_SIZE_ID_DESC'
 }
 
 /**
@@ -8356,7 +8800,69 @@ export enum ShipperProgramsOrderBy {
   PluAsc = 'PLU_ASC',
   PluDesc = 'PLU_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  CommonSpeciesByCommonSpeciesIdIdAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__ID_ASC',
+  CommonSpeciesByCommonSpeciesIdIdDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__ID_DESC',
+  CommonSpeciesByCommonSpeciesIdSpeciesNameAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__SPECIES_NAME_ASC',
+  CommonSpeciesByCommonSpeciesIdSpeciesNameDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__SPECIES_NAME_DESC',
+  CommonSpeciesByCommonSpeciesIdSpeciesDescriptionAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__SPECIES_DESCRIPTION_ASC',
+  CommonSpeciesByCommonSpeciesIdSpeciesDescriptionDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__SPECIES_DESCRIPTION_DESC',
+  CommonSpeciesByCommonSpeciesIdUiColorAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__UI_COLOR_ASC',
+  CommonSpeciesByCommonSpeciesIdUiColorDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__UI_COLOR_DESC',
+  CommonSpeciesByCommonSpeciesIdCommonCategoryIdAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__COMMON_CATEGORY_ID_ASC',
+  CommonSpeciesByCommonSpeciesIdCommonCategoryIdDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__COMMON_CATEGORY_ID_DESC',
+  CommonSpeciesByCommonSpeciesIdProductSpeciesIdAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__PRODUCT_SPECIES_ID_ASC',
+  CommonSpeciesByCommonSpeciesIdProductSpeciesIdDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__PRODUCT_SPECIES_ID_DESC',
+  CommonVarietyByCommonVarietyIdIdAsc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__ID_ASC',
+  CommonVarietyByCommonVarietyIdIdDesc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__ID_DESC',
+  CommonVarietyByCommonVarietyIdVarietyNameAsc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__VARIETY_NAME_ASC',
+  CommonVarietyByCommonVarietyIdVarietyNameDesc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__VARIETY_NAME_DESC',
+  CommonVarietyByCommonVarietyIdVarietyDescriptionAsc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__VARIETY_DESCRIPTION_ASC',
+  CommonVarietyByCommonVarietyIdVarietyDescriptionDesc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__VARIETY_DESCRIPTION_DESC',
+  CommonVarietyByCommonVarietyIdUiColorAsc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__UI_COLOR_ASC',
+  CommonVarietyByCommonVarietyIdUiColorDesc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__UI_COLOR_DESC',
+  CommonVarietyByCommonVarietyIdCommonSpeciesIdAsc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__COMMON_SPECIES_ID_ASC',
+  CommonVarietyByCommonVarietyIdCommonSpeciesIdDesc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__COMMON_SPECIES_ID_DESC',
+  CommonVarietyByCommonVarietyIdProductVarietyIdAsc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__PRODUCT_VARIETY_ID_ASC',
+  CommonVarietyByCommonVarietyIdProductVarietyIdDesc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__PRODUCT_VARIETY_ID_DESC',
+  CommonSizeByCommonSizeIdIdAsc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__ID_ASC',
+  CommonSizeByCommonSizeIdIdDesc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__ID_DESC',
+  CommonSizeByCommonSizeIdSizeNameAsc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__SIZE_NAME_ASC',
+  CommonSizeByCommonSizeIdSizeNameDesc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__SIZE_NAME_DESC',
+  CommonSizeByCommonSizeIdSizeDescriptionAsc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__SIZE_DESCRIPTION_ASC',
+  CommonSizeByCommonSizeIdSizeDescriptionDesc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__SIZE_DESCRIPTION_DESC',
+  CommonSizeByCommonSizeIdCommonSpeciesIdAsc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__COMMON_SPECIES_ID_ASC',
+  CommonSizeByCommonSizeIdCommonSpeciesIdDesc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__COMMON_SPECIES_ID_DESC',
+  CommonSizeByCommonSizeIdProductSizeIdAsc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__PRODUCT_SIZE_ID_ASC',
+  CommonSizeByCommonSizeIdProductSizeIdDesc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__PRODUCT_SIZE_ID_DESC',
+  CommonPackTypeByCommonPackTypeIdIdAsc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__ID_ASC',
+  CommonPackTypeByCommonPackTypeIdIdDesc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__ID_DESC',
+  CommonPackTypeByCommonPackTypeIdPackTypeNameAsc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__PACK_TYPE_NAME_ASC',
+  CommonPackTypeByCommonPackTypeIdPackTypeNameDesc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__PACK_TYPE_NAME_DESC',
+  CommonPackTypeByCommonPackTypeIdPackTypeDescriptionAsc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__PACK_TYPE_DESCRIPTION_ASC',
+  CommonPackTypeByCommonPackTypeIdPackTypeDescriptionDesc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__PACK_TYPE_DESCRIPTION_DESC',
+  CommonPackTypeByCommonPackTypeIdCommonSpeciesIdAsc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__COMMON_SPECIES_ID_ASC',
+  CommonPackTypeByCommonPackTypeIdCommonSpeciesIdDesc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__COMMON_SPECIES_ID_DESC',
+  CommonPackTypeByCommonPackTypeIdPackMasterIdAsc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__PACK_MASTER_ID_ASC',
+  CommonPackTypeByCommonPackTypeIdPackMasterIdDesc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__PACK_MASTER_ID_DESC',
+  ShipperByShipperIdIdAsc = 'SHIPPER_BY_SHIPPER_ID__ID_ASC',
+  ShipperByShipperIdIdDesc = 'SHIPPER_BY_SHIPPER_ID__ID_DESC',
+  ShipperByShipperIdShipperNameAsc = 'SHIPPER_BY_SHIPPER_ID__SHIPPER_NAME_ASC',
+  ShipperByShipperIdShipperNameDesc = 'SHIPPER_BY_SHIPPER_ID__SHIPPER_NAME_DESC',
+  ShipperByShipperIdCountryIdAsc = 'SHIPPER_BY_SHIPPER_ID__COUNTRY_ID_ASC',
+  ShipperByShipperIdCountryIdDesc = 'SHIPPER_BY_SHIPPER_ID__COUNTRY_ID_DESC',
+  ShipperByShipperIdGroupIdAsc = 'SHIPPER_BY_SHIPPER_ID__GROUP_ID_ASC',
+  ShipperByShipperIdGroupIdDesc = 'SHIPPER_BY_SHIPPER_ID__GROUP_ID_DESC',
+  ShipperByShipperIdLogoSrcAsc = 'SHIPPER_BY_SHIPPER_ID__LOGO_SRC_ASC',
+  ShipperByShipperIdLogoSrcDesc = 'SHIPPER_BY_SHIPPER_ID__LOGO_SRC_DESC',
+  ShipperByShipperIdNotesAsc = 'SHIPPER_BY_SHIPPER_ID__NOTES_ASC',
+  ShipperByShipperIdNotesDesc = 'SHIPPER_BY_SHIPPER_ID__NOTES_DESC',
+  ShipperByShipperIdWebsiteAsc = 'SHIPPER_BY_SHIPPER_ID__WEBSITE_ASC',
+  ShipperByShipperIdWebsiteDesc = 'SHIPPER_BY_SHIPPER_ID__WEBSITE_DESC',
+  ShipperByShipperIdSendProjectionRequestAsc = 'SHIPPER_BY_SHIPPER_ID__SEND_PROJECTION_REQUEST_ASC',
+  ShipperByShipperIdSendProjectionRequestDesc = 'SHIPPER_BY_SHIPPER_ID__SEND_PROJECTION_REQUEST_DESC',
+  ShipperProgramEntriesByShipperProgramIdCountAsc = 'SHIPPER_PROGRAM_ENTRIES_BY_SHIPPER_PROGRAM_ID__COUNT_ASC',
+  ShipperProgramEntriesByShipperProgramIdCountDesc = 'SHIPPER_PROGRAM_ENTRIES_BY_SHIPPER_PROGRAM_ID__COUNT_DESC'
 }
 
 /**
@@ -8847,7 +9353,91 @@ export enum CommonPackTypesOrderBy {
   PackMasterIdAsc = 'PACK_MASTER_ID_ASC',
   PackMasterIdDesc = 'PACK_MASTER_ID_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  CommonSpeciesByCommonSpeciesIdIdAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__ID_ASC',
+  CommonSpeciesByCommonSpeciesIdIdDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__ID_DESC',
+  CommonSpeciesByCommonSpeciesIdSpeciesNameAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__SPECIES_NAME_ASC',
+  CommonSpeciesByCommonSpeciesIdSpeciesNameDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__SPECIES_NAME_DESC',
+  CommonSpeciesByCommonSpeciesIdSpeciesDescriptionAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__SPECIES_DESCRIPTION_ASC',
+  CommonSpeciesByCommonSpeciesIdSpeciesDescriptionDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__SPECIES_DESCRIPTION_DESC',
+  CommonSpeciesByCommonSpeciesIdUiColorAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__UI_COLOR_ASC',
+  CommonSpeciesByCommonSpeciesIdUiColorDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__UI_COLOR_DESC',
+  CommonSpeciesByCommonSpeciesIdCommonCategoryIdAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__COMMON_CATEGORY_ID_ASC',
+  CommonSpeciesByCommonSpeciesIdCommonCategoryIdDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__COMMON_CATEGORY_ID_DESC',
+  CommonSpeciesByCommonSpeciesIdProductSpeciesIdAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__PRODUCT_SPECIES_ID_ASC',
+  CommonSpeciesByCommonSpeciesIdProductSpeciesIdDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__PRODUCT_SPECIES_ID_DESC',
+  PackMasterByPackMasterIdIdAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__ID_ASC',
+  PackMasterByPackMasterIdIdDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__ID_DESC',
+  PackMasterByPackMasterIdShipperIdAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__SHIPPER_ID_ASC',
+  PackMasterByPackMasterIdShipperIdDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__SHIPPER_ID_DESC',
+  PackMasterByPackMasterIdLabelCodeIdAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__LABEL_CODE_ID_ASC',
+  PackMasterByPackMasterIdLabelCodeIdDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__LABEL_CODE_ID_DESC',
+  PackMasterByPackMasterIdCustomerCodeIdAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__CUSTOMER_CODE_ID_ASC',
+  PackMasterByPackMasterIdCustomerCodeIdDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__CUSTOMER_CODE_ID_DESC',
+  PackMasterByPackMasterIdBoxTypeIdAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__BOX_TYPE_ID_ASC',
+  PackMasterByPackMasterIdBoxTypeIdDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__BOX_TYPE_ID_DESC',
+  PackMasterByPackMasterIdBoxStyleIdAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__BOX_STYLE_ID_ASC',
+  PackMasterByPackMasterIdBoxStyleIdDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__BOX_STYLE_ID_DESC',
+  PackMasterByPackMasterIdPackStyleIdAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__PACK_STYLE_ID_ASC',
+  PackMasterByPackMasterIdPackStyleIdDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__PACK_STYLE_ID_DESC',
+  PackMasterByPackMasterIdOutCodeIdAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__OUT_CODE_ID_ASC',
+  PackMasterByPackMasterIdOutCodeIdDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__OUT_CODE_ID_DESC',
+  PackMasterByPackMasterIdOutQuantityAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__OUT_QUANTITY_ASC',
+  PackMasterByPackMasterIdOutQuantityDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__OUT_QUANTITY_DESC',
+  PackMasterByPackMasterIdOutWeightAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__OUT_WEIGHT_ASC',
+  PackMasterByPackMasterIdOutWeightDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__OUT_WEIGHT_DESC',
+  PackMasterByPackMasterIdProductionCodeIdAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__PRODUCTION_CODE_ID_ASC',
+  PackMasterByPackMasterIdProductionCodeIdDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__PRODUCTION_CODE_ID_DESC',
+  PackMasterByPackMasterIdTreeRipeIdAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__TREE_RIPE_ID_ASC',
+  PackMasterByPackMasterIdTreeRipeIdDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__TREE_RIPE_ID_DESC',
+  PackMasterByPackMasterIdGradeCodeIdAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__GRADE_CODE_ID_ASC',
+  PackMasterByPackMasterIdGradeCodeIdDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__GRADE_CODE_ID_DESC',
+  PackMasterByPackMasterIdMaCodeIdAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__MA_CODE_ID_ASC',
+  PackMasterByPackMasterIdMaCodeIdDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__MA_CODE_ID_DESC',
+  PackMasterByPackMasterIdLinerCodeIdAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__LINER_CODE_ID_ASC',
+  PackMasterByPackMasterIdLinerCodeIdDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__LINER_CODE_ID_DESC',
+  PackMasterByPackMasterIdNetWeightContentsAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__NET_WEIGHT_CONTENTS_ASC',
+  PackMasterByPackMasterIdNetWeightContentsDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__NET_WEIGHT_CONTENTS_DESC',
+  PackMasterByPackMasterIdNetWeightBoxAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__NET_WEIGHT_BOX_ASC',
+  PackMasterByPackMasterIdNetWeightBoxDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__NET_WEIGHT_BOX_DESC',
+  PackMasterByPackMasterIdBoxLengthAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__BOX_LENGTH_ASC',
+  PackMasterByPackMasterIdBoxLengthDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__BOX_LENGTH_DESC',
+  PackMasterByPackMasterIdBoxWidthAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__BOX_WIDTH_ASC',
+  PackMasterByPackMasterIdBoxWidthDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__BOX_WIDTH_DESC',
+  PackMasterByPackMasterIdBoxHeightAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__BOX_HEIGHT_ASC',
+  PackMasterByPackMasterIdBoxHeightDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__BOX_HEIGHT_DESC',
+  PackMasterByPackMasterIdPalletTypeIdAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__PALLET_TYPE_ID_ASC',
+  PackMasterByPackMasterIdPalletTypeIdDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__PALLET_TYPE_ID_DESC',
+  PackMasterByPackMasterIdDefaultPalletQuantityAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__DEFAULT_PALLET_QUANTITY_ASC',
+  PackMasterByPackMasterIdDefaultPalletQuantityDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__DEFAULT_PALLET_QUANTITY_DESC',
+  PackMasterByPackMasterIdPluUpcCodeAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__PLU_UPC_CODE_ASC',
+  PackMasterByPackMasterIdPluUpcCodeDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__PLU_UPC_CODE_DESC',
+  PackMasterByPackMasterIdDestinationCodeIdAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__DESTINATION_CODE_ID_ASC',
+  PackMasterByPackMasterIdDestinationCodeIdDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__DESTINATION_CODE_ID_DESC',
+  PackMasterByPackMasterIdOldPackCodeAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__OLD_PACK_CODE_ASC',
+  PackMasterByPackMasterIdOldPackCodeDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__OLD_PACK_CODE_DESC',
+  PackMasterByPackMasterIdOldLabelCodeAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__OLD_LABEL_CODE_ASC',
+  PackMasterByPackMasterIdOldLabelCodeDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__OLD_LABEL_CODE_DESC',
+  PackMasterByPackMasterIdJvPackCodeAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__JV_PACK_CODE_ASC',
+  PackMasterByPackMasterIdJvPackCodeDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__JV_PACK_CODE_DESC',
+  PackMasterByPackMasterIdPackDescriptionAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__PACK_DESCRIPTION_ASC',
+  PackMasterByPackMasterIdPackDescriptionDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__PACK_DESCRIPTION_DESC',
+  PackMasterByPackMasterIdVarietyIdAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__VARIETY_ID_ASC',
+  PackMasterByPackMasterIdVarietyIdDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__VARIETY_ID_DESC',
+  PackMasterByPackMasterIdSpeciesIdAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__SPECIES_ID_ASC',
+  PackMasterByPackMasterIdSpeciesIdDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__SPECIES_ID_DESC',
+  PackMasterByPackMasterIdHoldCodeIdAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__HOLD_CODE_ID_ASC',
+  PackMasterByPackMasterIdHoldCodeIdDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__HOLD_CODE_ID_DESC',
+  ShipperProjectionProductsByCommonPackTypeIdCountAsc = 'SHIPPER_PROJECTION_PRODUCTS_BY_COMMON_PACK_TYPE_ID__COUNT_ASC',
+  ShipperProjectionProductsByCommonPackTypeIdCountDesc = 'SHIPPER_PROJECTION_PRODUCTS_BY_COMMON_PACK_TYPE_ID__COUNT_DESC',
+  CommonPackTypeTagsByCommonPackTypeIdCountAsc = 'COMMON_PACK_TYPE_TAGS_BY_COMMON_PACK_TYPE_ID__COUNT_ASC',
+  CommonPackTypeTagsByCommonPackTypeIdCountDesc = 'COMMON_PACK_TYPE_TAGS_BY_COMMON_PACK_TYPE_ID__COUNT_DESC',
+  CommonPackTypePackMastersByCommonPackTypeIdCountAsc = 'COMMON_PACK_TYPE_PACK_MASTERS_BY_COMMON_PACK_TYPE_ID__COUNT_ASC',
+  CommonPackTypePackMastersByCommonPackTypeIdCountDesc = 'COMMON_PACK_TYPE_PACK_MASTERS_BY_COMMON_PACK_TYPE_ID__COUNT_DESC',
+  ShipperProgramsByCommonPackTypeIdCountAsc = 'SHIPPER_PROGRAMS_BY_COMMON_PACK_TYPE_ID__COUNT_ASC',
+  ShipperProgramsByCommonPackTypeIdCountDesc = 'SHIPPER_PROGRAMS_BY_COMMON_PACK_TYPE_ID__COUNT_DESC',
+  CustomerProgramsByCommonPackTypeIdCountAsc = 'CUSTOMER_PROGRAMS_BY_COMMON_PACK_TYPE_ID__COUNT_ASC',
+  CustomerProgramsByCommonPackTypeIdCountDesc = 'CUSTOMER_PROGRAMS_BY_COMMON_PACK_TYPE_ID__COUNT_DESC'
 }
 
 /**
@@ -8912,7 +9502,79 @@ export enum CommonPackTypePackMastersOrderBy {
   PackMasterIdAsc = 'PACK_MASTER_ID_ASC',
   PackMasterIdDesc = 'PACK_MASTER_ID_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  CommonPackTypeByCommonPackTypeIdIdAsc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__ID_ASC',
+  CommonPackTypeByCommonPackTypeIdIdDesc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__ID_DESC',
+  CommonPackTypeByCommonPackTypeIdPackTypeNameAsc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__PACK_TYPE_NAME_ASC',
+  CommonPackTypeByCommonPackTypeIdPackTypeNameDesc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__PACK_TYPE_NAME_DESC',
+  CommonPackTypeByCommonPackTypeIdPackTypeDescriptionAsc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__PACK_TYPE_DESCRIPTION_ASC',
+  CommonPackTypeByCommonPackTypeIdPackTypeDescriptionDesc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__PACK_TYPE_DESCRIPTION_DESC',
+  CommonPackTypeByCommonPackTypeIdCommonSpeciesIdAsc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__COMMON_SPECIES_ID_ASC',
+  CommonPackTypeByCommonPackTypeIdCommonSpeciesIdDesc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__COMMON_SPECIES_ID_DESC',
+  CommonPackTypeByCommonPackTypeIdPackMasterIdAsc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__PACK_MASTER_ID_ASC',
+  CommonPackTypeByCommonPackTypeIdPackMasterIdDesc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__PACK_MASTER_ID_DESC',
+  PackMasterByPackMasterIdIdAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__ID_ASC',
+  PackMasterByPackMasterIdIdDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__ID_DESC',
+  PackMasterByPackMasterIdShipperIdAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__SHIPPER_ID_ASC',
+  PackMasterByPackMasterIdShipperIdDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__SHIPPER_ID_DESC',
+  PackMasterByPackMasterIdLabelCodeIdAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__LABEL_CODE_ID_ASC',
+  PackMasterByPackMasterIdLabelCodeIdDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__LABEL_CODE_ID_DESC',
+  PackMasterByPackMasterIdCustomerCodeIdAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__CUSTOMER_CODE_ID_ASC',
+  PackMasterByPackMasterIdCustomerCodeIdDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__CUSTOMER_CODE_ID_DESC',
+  PackMasterByPackMasterIdBoxTypeIdAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__BOX_TYPE_ID_ASC',
+  PackMasterByPackMasterIdBoxTypeIdDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__BOX_TYPE_ID_DESC',
+  PackMasterByPackMasterIdBoxStyleIdAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__BOX_STYLE_ID_ASC',
+  PackMasterByPackMasterIdBoxStyleIdDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__BOX_STYLE_ID_DESC',
+  PackMasterByPackMasterIdPackStyleIdAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__PACK_STYLE_ID_ASC',
+  PackMasterByPackMasterIdPackStyleIdDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__PACK_STYLE_ID_DESC',
+  PackMasterByPackMasterIdOutCodeIdAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__OUT_CODE_ID_ASC',
+  PackMasterByPackMasterIdOutCodeIdDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__OUT_CODE_ID_DESC',
+  PackMasterByPackMasterIdOutQuantityAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__OUT_QUANTITY_ASC',
+  PackMasterByPackMasterIdOutQuantityDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__OUT_QUANTITY_DESC',
+  PackMasterByPackMasterIdOutWeightAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__OUT_WEIGHT_ASC',
+  PackMasterByPackMasterIdOutWeightDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__OUT_WEIGHT_DESC',
+  PackMasterByPackMasterIdProductionCodeIdAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__PRODUCTION_CODE_ID_ASC',
+  PackMasterByPackMasterIdProductionCodeIdDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__PRODUCTION_CODE_ID_DESC',
+  PackMasterByPackMasterIdTreeRipeIdAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__TREE_RIPE_ID_ASC',
+  PackMasterByPackMasterIdTreeRipeIdDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__TREE_RIPE_ID_DESC',
+  PackMasterByPackMasterIdGradeCodeIdAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__GRADE_CODE_ID_ASC',
+  PackMasterByPackMasterIdGradeCodeIdDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__GRADE_CODE_ID_DESC',
+  PackMasterByPackMasterIdMaCodeIdAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__MA_CODE_ID_ASC',
+  PackMasterByPackMasterIdMaCodeIdDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__MA_CODE_ID_DESC',
+  PackMasterByPackMasterIdLinerCodeIdAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__LINER_CODE_ID_ASC',
+  PackMasterByPackMasterIdLinerCodeIdDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__LINER_CODE_ID_DESC',
+  PackMasterByPackMasterIdNetWeightContentsAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__NET_WEIGHT_CONTENTS_ASC',
+  PackMasterByPackMasterIdNetWeightContentsDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__NET_WEIGHT_CONTENTS_DESC',
+  PackMasterByPackMasterIdNetWeightBoxAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__NET_WEIGHT_BOX_ASC',
+  PackMasterByPackMasterIdNetWeightBoxDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__NET_WEIGHT_BOX_DESC',
+  PackMasterByPackMasterIdBoxLengthAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__BOX_LENGTH_ASC',
+  PackMasterByPackMasterIdBoxLengthDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__BOX_LENGTH_DESC',
+  PackMasterByPackMasterIdBoxWidthAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__BOX_WIDTH_ASC',
+  PackMasterByPackMasterIdBoxWidthDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__BOX_WIDTH_DESC',
+  PackMasterByPackMasterIdBoxHeightAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__BOX_HEIGHT_ASC',
+  PackMasterByPackMasterIdBoxHeightDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__BOX_HEIGHT_DESC',
+  PackMasterByPackMasterIdPalletTypeIdAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__PALLET_TYPE_ID_ASC',
+  PackMasterByPackMasterIdPalletTypeIdDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__PALLET_TYPE_ID_DESC',
+  PackMasterByPackMasterIdDefaultPalletQuantityAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__DEFAULT_PALLET_QUANTITY_ASC',
+  PackMasterByPackMasterIdDefaultPalletQuantityDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__DEFAULT_PALLET_QUANTITY_DESC',
+  PackMasterByPackMasterIdPluUpcCodeAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__PLU_UPC_CODE_ASC',
+  PackMasterByPackMasterIdPluUpcCodeDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__PLU_UPC_CODE_DESC',
+  PackMasterByPackMasterIdDestinationCodeIdAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__DESTINATION_CODE_ID_ASC',
+  PackMasterByPackMasterIdDestinationCodeIdDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__DESTINATION_CODE_ID_DESC',
+  PackMasterByPackMasterIdOldPackCodeAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__OLD_PACK_CODE_ASC',
+  PackMasterByPackMasterIdOldPackCodeDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__OLD_PACK_CODE_DESC',
+  PackMasterByPackMasterIdOldLabelCodeAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__OLD_LABEL_CODE_ASC',
+  PackMasterByPackMasterIdOldLabelCodeDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__OLD_LABEL_CODE_DESC',
+  PackMasterByPackMasterIdJvPackCodeAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__JV_PACK_CODE_ASC',
+  PackMasterByPackMasterIdJvPackCodeDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__JV_PACK_CODE_DESC',
+  PackMasterByPackMasterIdPackDescriptionAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__PACK_DESCRIPTION_ASC',
+  PackMasterByPackMasterIdPackDescriptionDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__PACK_DESCRIPTION_DESC',
+  PackMasterByPackMasterIdVarietyIdAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__VARIETY_ID_ASC',
+  PackMasterByPackMasterIdVarietyIdDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__VARIETY_ID_DESC',
+  PackMasterByPackMasterIdSpeciesIdAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__SPECIES_ID_ASC',
+  PackMasterByPackMasterIdSpeciesIdDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__SPECIES_ID_DESC',
+  PackMasterByPackMasterIdHoldCodeIdAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__HOLD_CODE_ID_ASC',
+  PackMasterByPackMasterIdHoldCodeIdDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__HOLD_CODE_ID_DESC'
 }
 
 /**
@@ -9205,7 +9867,17 @@ export enum CommonPackTypeTagsOrderBy {
   CommonPackTypeIdAsc = 'COMMON_PACK_TYPE_ID_ASC',
   CommonPackTypeIdDesc = 'COMMON_PACK_TYPE_ID_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  CommonPackTypeByCommonPackTypeIdIdAsc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__ID_ASC',
+  CommonPackTypeByCommonPackTypeIdIdDesc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__ID_DESC',
+  CommonPackTypeByCommonPackTypeIdPackTypeNameAsc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__PACK_TYPE_NAME_ASC',
+  CommonPackTypeByCommonPackTypeIdPackTypeNameDesc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__PACK_TYPE_NAME_DESC',
+  CommonPackTypeByCommonPackTypeIdPackTypeDescriptionAsc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__PACK_TYPE_DESCRIPTION_ASC',
+  CommonPackTypeByCommonPackTypeIdPackTypeDescriptionDesc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__PACK_TYPE_DESCRIPTION_DESC',
+  CommonPackTypeByCommonPackTypeIdCommonSpeciesIdAsc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__COMMON_SPECIES_ID_ASC',
+  CommonPackTypeByCommonPackTypeIdCommonSpeciesIdDesc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__COMMON_SPECIES_ID_DESC',
+  CommonPackTypeByCommonPackTypeIdPackMasterIdAsc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__PACK_MASTER_ID_ASC',
+  CommonPackTypeByCommonPackTypeIdPackMasterIdDesc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__PACK_MASTER_ID_DESC'
 }
 
 /**
@@ -9239,7 +9911,79 @@ export enum CustomerProgramsOrderBy {
   PluAsc = 'PLU_ASC',
   PluDesc = 'PLU_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  CommonSpeciesByCommonSpeciesIdIdAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__ID_ASC',
+  CommonSpeciesByCommonSpeciesIdIdDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__ID_DESC',
+  CommonSpeciesByCommonSpeciesIdSpeciesNameAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__SPECIES_NAME_ASC',
+  CommonSpeciesByCommonSpeciesIdSpeciesNameDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__SPECIES_NAME_DESC',
+  CommonSpeciesByCommonSpeciesIdSpeciesDescriptionAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__SPECIES_DESCRIPTION_ASC',
+  CommonSpeciesByCommonSpeciesIdSpeciesDescriptionDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__SPECIES_DESCRIPTION_DESC',
+  CommonSpeciesByCommonSpeciesIdUiColorAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__UI_COLOR_ASC',
+  CommonSpeciesByCommonSpeciesIdUiColorDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__UI_COLOR_DESC',
+  CommonSpeciesByCommonSpeciesIdCommonCategoryIdAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__COMMON_CATEGORY_ID_ASC',
+  CommonSpeciesByCommonSpeciesIdCommonCategoryIdDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__COMMON_CATEGORY_ID_DESC',
+  CommonSpeciesByCommonSpeciesIdProductSpeciesIdAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__PRODUCT_SPECIES_ID_ASC',
+  CommonSpeciesByCommonSpeciesIdProductSpeciesIdDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__PRODUCT_SPECIES_ID_DESC',
+  CommonVarietyByCommonVarietyIdIdAsc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__ID_ASC',
+  CommonVarietyByCommonVarietyIdIdDesc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__ID_DESC',
+  CommonVarietyByCommonVarietyIdVarietyNameAsc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__VARIETY_NAME_ASC',
+  CommonVarietyByCommonVarietyIdVarietyNameDesc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__VARIETY_NAME_DESC',
+  CommonVarietyByCommonVarietyIdVarietyDescriptionAsc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__VARIETY_DESCRIPTION_ASC',
+  CommonVarietyByCommonVarietyIdVarietyDescriptionDesc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__VARIETY_DESCRIPTION_DESC',
+  CommonVarietyByCommonVarietyIdUiColorAsc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__UI_COLOR_ASC',
+  CommonVarietyByCommonVarietyIdUiColorDesc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__UI_COLOR_DESC',
+  CommonVarietyByCommonVarietyIdCommonSpeciesIdAsc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__COMMON_SPECIES_ID_ASC',
+  CommonVarietyByCommonVarietyIdCommonSpeciesIdDesc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__COMMON_SPECIES_ID_DESC',
+  CommonVarietyByCommonVarietyIdProductVarietyIdAsc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__PRODUCT_VARIETY_ID_ASC',
+  CommonVarietyByCommonVarietyIdProductVarietyIdDesc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__PRODUCT_VARIETY_ID_DESC',
+  CommonSizeByCommonSizeIdIdAsc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__ID_ASC',
+  CommonSizeByCommonSizeIdIdDesc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__ID_DESC',
+  CommonSizeByCommonSizeIdSizeNameAsc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__SIZE_NAME_ASC',
+  CommonSizeByCommonSizeIdSizeNameDesc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__SIZE_NAME_DESC',
+  CommonSizeByCommonSizeIdSizeDescriptionAsc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__SIZE_DESCRIPTION_ASC',
+  CommonSizeByCommonSizeIdSizeDescriptionDesc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__SIZE_DESCRIPTION_DESC',
+  CommonSizeByCommonSizeIdCommonSpeciesIdAsc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__COMMON_SPECIES_ID_ASC',
+  CommonSizeByCommonSizeIdCommonSpeciesIdDesc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__COMMON_SPECIES_ID_DESC',
+  CommonSizeByCommonSizeIdProductSizeIdAsc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__PRODUCT_SIZE_ID_ASC',
+  CommonSizeByCommonSizeIdProductSizeIdDesc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__PRODUCT_SIZE_ID_DESC',
+  CommonPackTypeByCommonPackTypeIdIdAsc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__ID_ASC',
+  CommonPackTypeByCommonPackTypeIdIdDesc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__ID_DESC',
+  CommonPackTypeByCommonPackTypeIdPackTypeNameAsc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__PACK_TYPE_NAME_ASC',
+  CommonPackTypeByCommonPackTypeIdPackTypeNameDesc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__PACK_TYPE_NAME_DESC',
+  CommonPackTypeByCommonPackTypeIdPackTypeDescriptionAsc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__PACK_TYPE_DESCRIPTION_ASC',
+  CommonPackTypeByCommonPackTypeIdPackTypeDescriptionDesc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__PACK_TYPE_DESCRIPTION_DESC',
+  CommonPackTypeByCommonPackTypeIdCommonSpeciesIdAsc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__COMMON_SPECIES_ID_ASC',
+  CommonPackTypeByCommonPackTypeIdCommonSpeciesIdDesc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__COMMON_SPECIES_ID_DESC',
+  CommonPackTypeByCommonPackTypeIdPackMasterIdAsc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__PACK_MASTER_ID_ASC',
+  CommonPackTypeByCommonPackTypeIdPackMasterIdDesc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__PACK_MASTER_ID_DESC',
+  CustomerByCustomerIdIdAsc = 'CUSTOMER_BY_CUSTOMER_ID__ID_ASC',
+  CustomerByCustomerIdIdDesc = 'CUSTOMER_BY_CUSTOMER_ID__ID_DESC',
+  CustomerByCustomerIdCustomerNameAsc = 'CUSTOMER_BY_CUSTOMER_ID__CUSTOMER_NAME_ASC',
+  CustomerByCustomerIdCustomerNameDesc = 'CUSTOMER_BY_CUSTOMER_ID__CUSTOMER_NAME_DESC',
+  CustomerByCustomerIdAddress_1Asc = 'CUSTOMER_BY_CUSTOMER_ID__ADDRESS_1_ASC',
+  CustomerByCustomerIdAddress_1Desc = 'CUSTOMER_BY_CUSTOMER_ID__ADDRESS_1_DESC',
+  CustomerByCustomerIdAddress_2Asc = 'CUSTOMER_BY_CUSTOMER_ID__ADDRESS_2_ASC',
+  CustomerByCustomerIdAddress_2Desc = 'CUSTOMER_BY_CUSTOMER_ID__ADDRESS_2_DESC',
+  CustomerByCustomerIdCityAsc = 'CUSTOMER_BY_CUSTOMER_ID__CITY_ASC',
+  CustomerByCustomerIdCityDesc = 'CUSTOMER_BY_CUSTOMER_ID__CITY_DESC',
+  CustomerByCustomerIdPostalStateAsc = 'CUSTOMER_BY_CUSTOMER_ID__POSTAL_STATE_ASC',
+  CustomerByCustomerIdPostalStateDesc = 'CUSTOMER_BY_CUSTOMER_ID__POSTAL_STATE_DESC',
+  CustomerByCustomerIdZipCodeAsc = 'CUSTOMER_BY_CUSTOMER_ID__ZIP_CODE_ASC',
+  CustomerByCustomerIdZipCodeDesc = 'CUSTOMER_BY_CUSTOMER_ID__ZIP_CODE_DESC',
+  CustomerByCustomerIdCountryIdAsc = 'CUSTOMER_BY_CUSTOMER_ID__COUNTRY_ID_ASC',
+  CustomerByCustomerIdCountryIdDesc = 'CUSTOMER_BY_CUSTOMER_ID__COUNTRY_ID_DESC',
+  CustomerByCustomerIdPhoneAsc = 'CUSTOMER_BY_CUSTOMER_ID__PHONE_ASC',
+  CustomerByCustomerIdPhoneDesc = 'CUSTOMER_BY_CUSTOMER_ID__PHONE_DESC',
+  CustomerByCustomerIdLogoSrcAsc = 'CUSTOMER_BY_CUSTOMER_ID__LOGO_SRC_ASC',
+  CustomerByCustomerIdLogoSrcDesc = 'CUSTOMER_BY_CUSTOMER_ID__LOGO_SRC_DESC',
+  CustomerByCustomerIdNotesAsc = 'CUSTOMER_BY_CUSTOMER_ID__NOTES_ASC',
+  CustomerByCustomerIdNotesDesc = 'CUSTOMER_BY_CUSTOMER_ID__NOTES_DESC',
+  CustomerByCustomerIdWebsiteAsc = 'CUSTOMER_BY_CUSTOMER_ID__WEBSITE_ASC',
+  CustomerByCustomerIdWebsiteDesc = 'CUSTOMER_BY_CUSTOMER_ID__WEBSITE_DESC',
+  CustomerByCustomerIdActiveAsc = 'CUSTOMER_BY_CUSTOMER_ID__ACTIVE_ASC',
+  CustomerByCustomerIdActiveDesc = 'CUSTOMER_BY_CUSTOMER_ID__ACTIVE_DESC',
+  CustomerProgramEntriesByCustomerProgramIdCountAsc = 'CUSTOMER_PROGRAM_ENTRIES_BY_CUSTOMER_PROGRAM_ID__COUNT_ASC',
+  CustomerProgramEntriesByCustomerProgramIdCountDesc = 'CUSTOMER_PROGRAM_ENTRIES_BY_CUSTOMER_PROGRAM_ID__COUNT_DESC'
 }
 
 /**
@@ -9516,7 +10260,11 @@ export enum PackMastersOrderBy {
   HoldCodeIdAsc = 'HOLD_CODE_ID_ASC',
   HoldCodeIdDesc = 'HOLD_CODE_ID_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  CommonPackTypesByPackMasterIdCountAsc = 'COMMON_PACK_TYPES_BY_PACK_MASTER_ID__COUNT_ASC',
+  CommonPackTypesByPackMasterIdCountDesc = 'COMMON_PACK_TYPES_BY_PACK_MASTER_ID__COUNT_DESC',
+  CommonPackTypePackMastersByPackMasterIdCountAsc = 'COMMON_PACK_TYPE_PACK_MASTERS_BY_PACK_MASTER_ID__COUNT_ASC',
+  CommonPackTypePackMastersByPackMasterIdCountDesc = 'COMMON_PACK_TYPE_PACK_MASTERS_BY_PACK_MASTER_ID__COUNT_DESC'
 }
 
 /**
@@ -9910,6 +10658,7 @@ export type CustomerProgramEntry = Node & {
   customerProgram?: Maybe<CustomerProgram>;
   /** Reads and enables pagination through a set of `ShipperProgramEntryCustomerProgramEntry`. */
   shipperProgramEntryCustomerProgramEntries: ShipperProgramEntryCustomerProgramEntriesConnection;
+  searchText?: Maybe<Scalars['String']>;
   /** Reads and enables pagination through a set of `ShipperProgramEntry`. */
   shipperProgramEntriesByShipperProgramEntryCustomerProgramEntryCustomerProgramEntryIdAndShipperProgramEntryId: CustomerProgramEntryShipperProgramEntriesByShipperProgramEntryCustomerProgramEntryCustomerProgramEntryIdAndShipperProgramEntryIdManyToManyConnection;
 };
@@ -9978,6 +10727,7 @@ export type ShipperProgramEntry = Node & {
   shipperProgram?: Maybe<ShipperProgram>;
   /** Reads and enables pagination through a set of `ShipperProgramEntryCustomerProgramEntry`. */
   shipperProgramEntryCustomerProgramEntries: ShipperProgramEntryCustomerProgramEntriesConnection;
+  searchText?: Maybe<Scalars['String']>;
   /** Reads and enables pagination through a set of `CustomerProgramEntry`. */
   customerProgramEntriesByShipperProgramEntryCustomerProgramEntryShipperProgramEntryIdAndCustomerProgramEntryId: ShipperProgramEntryCustomerProgramEntriesByShipperProgramEntryCustomerProgramEntryShipperProgramEntryIdAndCustomerProgramEntryIdManyToManyConnection;
 };
@@ -10018,7 +10768,27 @@ export enum ShipperProgramEntryCustomerProgramEntriesOrderBy {
   ShipperProgramEntryIdAsc = 'SHIPPER_PROGRAM_ENTRY_ID_ASC',
   ShipperProgramEntryIdDesc = 'SHIPPER_PROGRAM_ENTRY_ID_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  CustomerProgramEntryByCustomerProgramEntryIdIdAsc = 'CUSTOMER_PROGRAM_ENTRY_BY_CUSTOMER_PROGRAM_ENTRY_ID__ID_ASC',
+  CustomerProgramEntryByCustomerProgramEntryIdIdDesc = 'CUSTOMER_PROGRAM_ENTRY_BY_CUSTOMER_PROGRAM_ENTRY_ID__ID_DESC',
+  CustomerProgramEntryByCustomerProgramEntryIdNotesAsc = 'CUSTOMER_PROGRAM_ENTRY_BY_CUSTOMER_PROGRAM_ENTRY_ID__NOTES_ASC',
+  CustomerProgramEntryByCustomerProgramEntryIdNotesDesc = 'CUSTOMER_PROGRAM_ENTRY_BY_CUSTOMER_PROGRAM_ENTRY_ID__NOTES_DESC',
+  CustomerProgramEntryByCustomerProgramEntryIdProgramDateAsc = 'CUSTOMER_PROGRAM_ENTRY_BY_CUSTOMER_PROGRAM_ENTRY_ID__PROGRAM_DATE_ASC',
+  CustomerProgramEntryByCustomerProgramEntryIdProgramDateDesc = 'CUSTOMER_PROGRAM_ENTRY_BY_CUSTOMER_PROGRAM_ENTRY_ID__PROGRAM_DATE_DESC',
+  CustomerProgramEntryByCustomerProgramEntryIdPalletCountAsc = 'CUSTOMER_PROGRAM_ENTRY_BY_CUSTOMER_PROGRAM_ENTRY_ID__PALLET_COUNT_ASC',
+  CustomerProgramEntryByCustomerProgramEntryIdPalletCountDesc = 'CUSTOMER_PROGRAM_ENTRY_BY_CUSTOMER_PROGRAM_ENTRY_ID__PALLET_COUNT_DESC',
+  CustomerProgramEntryByCustomerProgramEntryIdCustomerProgramIdAsc = 'CUSTOMER_PROGRAM_ENTRY_BY_CUSTOMER_PROGRAM_ENTRY_ID__CUSTOMER_PROGRAM_ID_ASC',
+  CustomerProgramEntryByCustomerProgramEntryIdCustomerProgramIdDesc = 'CUSTOMER_PROGRAM_ENTRY_BY_CUSTOMER_PROGRAM_ENTRY_ID__CUSTOMER_PROGRAM_ID_DESC',
+  ShipperProgramEntryByShipperProgramEntryIdIdAsc = 'SHIPPER_PROGRAM_ENTRY_BY_SHIPPER_PROGRAM_ENTRY_ID__ID_ASC',
+  ShipperProgramEntryByShipperProgramEntryIdIdDesc = 'SHIPPER_PROGRAM_ENTRY_BY_SHIPPER_PROGRAM_ENTRY_ID__ID_DESC',
+  ShipperProgramEntryByShipperProgramEntryIdNotesAsc = 'SHIPPER_PROGRAM_ENTRY_BY_SHIPPER_PROGRAM_ENTRY_ID__NOTES_ASC',
+  ShipperProgramEntryByShipperProgramEntryIdNotesDesc = 'SHIPPER_PROGRAM_ENTRY_BY_SHIPPER_PROGRAM_ENTRY_ID__NOTES_DESC',
+  ShipperProgramEntryByShipperProgramEntryIdProgramDateAsc = 'SHIPPER_PROGRAM_ENTRY_BY_SHIPPER_PROGRAM_ENTRY_ID__PROGRAM_DATE_ASC',
+  ShipperProgramEntryByShipperProgramEntryIdProgramDateDesc = 'SHIPPER_PROGRAM_ENTRY_BY_SHIPPER_PROGRAM_ENTRY_ID__PROGRAM_DATE_DESC',
+  ShipperProgramEntryByShipperProgramEntryIdPalletCountAsc = 'SHIPPER_PROGRAM_ENTRY_BY_SHIPPER_PROGRAM_ENTRY_ID__PALLET_COUNT_ASC',
+  ShipperProgramEntryByShipperProgramEntryIdPalletCountDesc = 'SHIPPER_PROGRAM_ENTRY_BY_SHIPPER_PROGRAM_ENTRY_ID__PALLET_COUNT_DESC',
+  ShipperProgramEntryByShipperProgramEntryIdShipperProgramIdAsc = 'SHIPPER_PROGRAM_ENTRY_BY_SHIPPER_PROGRAM_ENTRY_ID__SHIPPER_PROGRAM_ID_ASC',
+  ShipperProgramEntryByShipperProgramEntryIdShipperProgramIdDesc = 'SHIPPER_PROGRAM_ENTRY_BY_SHIPPER_PROGRAM_ENTRY_ID__SHIPPER_PROGRAM_ID_DESC'
 }
 
 /**
@@ -10087,7 +10857,25 @@ export enum CustomerProgramEntriesOrderBy {
   CustomerProgramIdAsc = 'CUSTOMER_PROGRAM_ID_ASC',
   CustomerProgramIdDesc = 'CUSTOMER_PROGRAM_ID_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  CustomerProgramByCustomerProgramIdIdAsc = 'CUSTOMER_PROGRAM_BY_CUSTOMER_PROGRAM_ID__ID_ASC',
+  CustomerProgramByCustomerProgramIdIdDesc = 'CUSTOMER_PROGRAM_BY_CUSTOMER_PROGRAM_ID__ID_DESC',
+  CustomerProgramByCustomerProgramIdCommonSpeciesIdAsc = 'CUSTOMER_PROGRAM_BY_CUSTOMER_PROGRAM_ID__COMMON_SPECIES_ID_ASC',
+  CustomerProgramByCustomerProgramIdCommonSpeciesIdDesc = 'CUSTOMER_PROGRAM_BY_CUSTOMER_PROGRAM_ID__COMMON_SPECIES_ID_DESC',
+  CustomerProgramByCustomerProgramIdCommonVarietyIdAsc = 'CUSTOMER_PROGRAM_BY_CUSTOMER_PROGRAM_ID__COMMON_VARIETY_ID_ASC',
+  CustomerProgramByCustomerProgramIdCommonVarietyIdDesc = 'CUSTOMER_PROGRAM_BY_CUSTOMER_PROGRAM_ID__COMMON_VARIETY_ID_DESC',
+  CustomerProgramByCustomerProgramIdCommonSizeIdAsc = 'CUSTOMER_PROGRAM_BY_CUSTOMER_PROGRAM_ID__COMMON_SIZE_ID_ASC',
+  CustomerProgramByCustomerProgramIdCommonSizeIdDesc = 'CUSTOMER_PROGRAM_BY_CUSTOMER_PROGRAM_ID__COMMON_SIZE_ID_DESC',
+  CustomerProgramByCustomerProgramIdCommonPackTypeIdAsc = 'CUSTOMER_PROGRAM_BY_CUSTOMER_PROGRAM_ID__COMMON_PACK_TYPE_ID_ASC',
+  CustomerProgramByCustomerProgramIdCommonPackTypeIdDesc = 'CUSTOMER_PROGRAM_BY_CUSTOMER_PROGRAM_ID__COMMON_PACK_TYPE_ID_DESC',
+  CustomerProgramByCustomerProgramIdCustomerIdAsc = 'CUSTOMER_PROGRAM_BY_CUSTOMER_PROGRAM_ID__CUSTOMER_ID_ASC',
+  CustomerProgramByCustomerProgramIdCustomerIdDesc = 'CUSTOMER_PROGRAM_BY_CUSTOMER_PROGRAM_ID__CUSTOMER_ID_DESC',
+  CustomerProgramByCustomerProgramIdArrivalPortAsc = 'CUSTOMER_PROGRAM_BY_CUSTOMER_PROGRAM_ID__ARRIVAL_PORT_ASC',
+  CustomerProgramByCustomerProgramIdArrivalPortDesc = 'CUSTOMER_PROGRAM_BY_CUSTOMER_PROGRAM_ID__ARRIVAL_PORT_DESC',
+  CustomerProgramByCustomerProgramIdPluAsc = 'CUSTOMER_PROGRAM_BY_CUSTOMER_PROGRAM_ID__PLU_ASC',
+  CustomerProgramByCustomerProgramIdPluDesc = 'CUSTOMER_PROGRAM_BY_CUSTOMER_PROGRAM_ID__PLU_DESC',
+  ShipperProgramEntryCustomerProgramEntriesByCustomerProgramEntryIdCountAsc = 'SHIPPER_PROGRAM_ENTRY_CUSTOMER_PROGRAM_ENTRIES_BY_CUSTOMER_PROGRAM_ENTRY_ID__COUNT_ASC',
+  ShipperProgramEntryCustomerProgramEntriesByCustomerProgramEntryIdCountDesc = 'SHIPPER_PROGRAM_ENTRY_CUSTOMER_PROGRAM_ENTRIES_BY_CUSTOMER_PROGRAM_ENTRY_ID__COUNT_DESC'
 }
 
 /**
@@ -10167,7 +10955,25 @@ export enum ShipperProgramEntriesOrderBy {
   ShipperProgramIdAsc = 'SHIPPER_PROGRAM_ID_ASC',
   ShipperProgramIdDesc = 'SHIPPER_PROGRAM_ID_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  ShipperProgramByShipperProgramIdIdAsc = 'SHIPPER_PROGRAM_BY_SHIPPER_PROGRAM_ID__ID_ASC',
+  ShipperProgramByShipperProgramIdIdDesc = 'SHIPPER_PROGRAM_BY_SHIPPER_PROGRAM_ID__ID_DESC',
+  ShipperProgramByShipperProgramIdCommonSpeciesIdAsc = 'SHIPPER_PROGRAM_BY_SHIPPER_PROGRAM_ID__COMMON_SPECIES_ID_ASC',
+  ShipperProgramByShipperProgramIdCommonSpeciesIdDesc = 'SHIPPER_PROGRAM_BY_SHIPPER_PROGRAM_ID__COMMON_SPECIES_ID_DESC',
+  ShipperProgramByShipperProgramIdCommonVarietyIdAsc = 'SHIPPER_PROGRAM_BY_SHIPPER_PROGRAM_ID__COMMON_VARIETY_ID_ASC',
+  ShipperProgramByShipperProgramIdCommonVarietyIdDesc = 'SHIPPER_PROGRAM_BY_SHIPPER_PROGRAM_ID__COMMON_VARIETY_ID_DESC',
+  ShipperProgramByShipperProgramIdCommonSizeIdAsc = 'SHIPPER_PROGRAM_BY_SHIPPER_PROGRAM_ID__COMMON_SIZE_ID_ASC',
+  ShipperProgramByShipperProgramIdCommonSizeIdDesc = 'SHIPPER_PROGRAM_BY_SHIPPER_PROGRAM_ID__COMMON_SIZE_ID_DESC',
+  ShipperProgramByShipperProgramIdCommonPackTypeIdAsc = 'SHIPPER_PROGRAM_BY_SHIPPER_PROGRAM_ID__COMMON_PACK_TYPE_ID_ASC',
+  ShipperProgramByShipperProgramIdCommonPackTypeIdDesc = 'SHIPPER_PROGRAM_BY_SHIPPER_PROGRAM_ID__COMMON_PACK_TYPE_ID_DESC',
+  ShipperProgramByShipperProgramIdShipperIdAsc = 'SHIPPER_PROGRAM_BY_SHIPPER_PROGRAM_ID__SHIPPER_ID_ASC',
+  ShipperProgramByShipperProgramIdShipperIdDesc = 'SHIPPER_PROGRAM_BY_SHIPPER_PROGRAM_ID__SHIPPER_ID_DESC',
+  ShipperProgramByShipperProgramIdArrivalPortAsc = 'SHIPPER_PROGRAM_BY_SHIPPER_PROGRAM_ID__ARRIVAL_PORT_ASC',
+  ShipperProgramByShipperProgramIdArrivalPortDesc = 'SHIPPER_PROGRAM_BY_SHIPPER_PROGRAM_ID__ARRIVAL_PORT_DESC',
+  ShipperProgramByShipperProgramIdPluAsc = 'SHIPPER_PROGRAM_BY_SHIPPER_PROGRAM_ID__PLU_ASC',
+  ShipperProgramByShipperProgramIdPluDesc = 'SHIPPER_PROGRAM_BY_SHIPPER_PROGRAM_ID__PLU_DESC',
+  ShipperProgramEntryCustomerProgramEntriesByShipperProgramEntryIdCountAsc = 'SHIPPER_PROGRAM_ENTRY_CUSTOMER_PROGRAM_ENTRIES_BY_SHIPPER_PROGRAM_ENTRY_ID__COUNT_ASC',
+  ShipperProgramEntryCustomerProgramEntriesByShipperProgramEntryIdCountDesc = 'SHIPPER_PROGRAM_ENTRY_CUSTOMER_PROGRAM_ENTRIES_BY_SHIPPER_PROGRAM_ENTRY_ID__COUNT_DESC'
 }
 
 /**
@@ -10414,7 +11220,11 @@ export enum ProductSizesOrderBy {
   ShipperIdAsc = 'SHIPPER_ID_ASC',
   ShipperIdDesc = 'SHIPPER_ID_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  CommonSizesByProductSizeIdCountAsc = 'COMMON_SIZES_BY_PRODUCT_SIZE_ID__COUNT_ASC',
+  CommonSizesByProductSizeIdCountDesc = 'COMMON_SIZES_BY_PRODUCT_SIZE_ID__COUNT_DESC',
+  CommonSizeProductSizesByProductSizeIdCountAsc = 'COMMON_SIZE_PRODUCT_SIZES_BY_PRODUCT_SIZE_ID__COUNT_ASC',
+  CommonSizeProductSizesByProductSizeIdCountDesc = 'COMMON_SIZE_PRODUCT_SIZES_BY_PRODUCT_SIZE_ID__COUNT_DESC'
 }
 
 /**
@@ -10974,7 +11784,11 @@ export enum ProductVarietiesOrderBy {
   CombineWithAsc = 'COMBINE_WITH_ASC',
   CombineWithDesc = 'COMBINE_WITH_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  CommonVarietiesByProductVarietyIdCountAsc = 'COMMON_VARIETIES_BY_PRODUCT_VARIETY_ID__COUNT_ASC',
+  CommonVarietiesByProductVarietyIdCountDesc = 'COMMON_VARIETIES_BY_PRODUCT_VARIETY_ID__COUNT_DESC',
+  CommonVarietyProductVarietiesByProductVarietyIdCountAsc = 'COMMON_VARIETY_PRODUCT_VARIETIES_BY_PRODUCT_VARIETY_ID__COUNT_ASC',
+  CommonVarietyProductVarietiesByProductVarietyIdCountDesc = 'COMMON_VARIETY_PRODUCT_VARIETIES_BY_PRODUCT_VARIETY_ID__COUNT_DESC'
 }
 
 /**
@@ -11343,7 +12157,19 @@ export enum CommonSpeciesTagsOrderBy {
   CommonSpeciesIdAsc = 'COMMON_SPECIES_ID_ASC',
   CommonSpeciesIdDesc = 'COMMON_SPECIES_ID_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  CommonSpeciesByCommonSpeciesIdIdAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__ID_ASC',
+  CommonSpeciesByCommonSpeciesIdIdDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__ID_DESC',
+  CommonSpeciesByCommonSpeciesIdSpeciesNameAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__SPECIES_NAME_ASC',
+  CommonSpeciesByCommonSpeciesIdSpeciesNameDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__SPECIES_NAME_DESC',
+  CommonSpeciesByCommonSpeciesIdSpeciesDescriptionAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__SPECIES_DESCRIPTION_ASC',
+  CommonSpeciesByCommonSpeciesIdSpeciesDescriptionDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__SPECIES_DESCRIPTION_DESC',
+  CommonSpeciesByCommonSpeciesIdUiColorAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__UI_COLOR_ASC',
+  CommonSpeciesByCommonSpeciesIdUiColorDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__UI_COLOR_DESC',
+  CommonSpeciesByCommonSpeciesIdCommonCategoryIdAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__COMMON_CATEGORY_ID_ASC',
+  CommonSpeciesByCommonSpeciesIdCommonCategoryIdDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__COMMON_CATEGORY_ID_DESC',
+  CommonSpeciesByCommonSpeciesIdProductSpeciesIdAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__PRODUCT_SPECIES_ID_ASC',
+  CommonSpeciesByCommonSpeciesIdProductSpeciesIdDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__PRODUCT_SPECIES_ID_DESC'
 }
 
 /**
@@ -11961,7 +12787,47 @@ export enum ShipperProjectionEntriesOrderBy {
   ProductIdAsc = 'PRODUCT_ID_ASC',
   ProductIdDesc = 'PRODUCT_ID_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  ShipperProjectionVesselInfoByVesselInfoIdIdAsc = 'SHIPPER_PROJECTION_VESSEL_INFO_BY_VESSEL_INFO_ID__ID_ASC',
+  ShipperProjectionVesselInfoByVesselInfoIdIdDesc = 'SHIPPER_PROJECTION_VESSEL_INFO_BY_VESSEL_INFO_ID__ID_DESC',
+  ShipperProjectionVesselInfoByVesselInfoIdVesselNameAsc = 'SHIPPER_PROJECTION_VESSEL_INFO_BY_VESSEL_INFO_ID__VESSEL_NAME_ASC',
+  ShipperProjectionVesselInfoByVesselInfoIdVesselNameDesc = 'SHIPPER_PROJECTION_VESSEL_INFO_BY_VESSEL_INFO_ID__VESSEL_NAME_DESC',
+  ShipperProjectionVesselInfoByVesselInfoIdDepartureDateAsc = 'SHIPPER_PROJECTION_VESSEL_INFO_BY_VESSEL_INFO_ID__DEPARTURE_DATE_ASC',
+  ShipperProjectionVesselInfoByVesselInfoIdDepartureDateDesc = 'SHIPPER_PROJECTION_VESSEL_INFO_BY_VESSEL_INFO_ID__DEPARTURE_DATE_DESC',
+  ShipperProjectionVesselInfoByVesselInfoIdArrivalDateAsc = 'SHIPPER_PROJECTION_VESSEL_INFO_BY_VESSEL_INFO_ID__ARRIVAL_DATE_ASC',
+  ShipperProjectionVesselInfoByVesselInfoIdArrivalDateDesc = 'SHIPPER_PROJECTION_VESSEL_INFO_BY_VESSEL_INFO_ID__ARRIVAL_DATE_DESC',
+  ShipperProjectionVesselInfoByVesselInfoIdArrivalPortAsc = 'SHIPPER_PROJECTION_VESSEL_INFO_BY_VESSEL_INFO_ID__ARRIVAL_PORT_ASC',
+  ShipperProjectionVesselInfoByVesselInfoIdArrivalPortDesc = 'SHIPPER_PROJECTION_VESSEL_INFO_BY_VESSEL_INFO_ID__ARRIVAL_PORT_DESC',
+  ShipperProjectionVesselInfoByVesselInfoIdVesselStatusAsc = 'SHIPPER_PROJECTION_VESSEL_INFO_BY_VESSEL_INFO_ID__VESSEL_STATUS_ASC',
+  ShipperProjectionVesselInfoByVesselInfoIdVesselStatusDesc = 'SHIPPER_PROJECTION_VESSEL_INFO_BY_VESSEL_INFO_ID__VESSEL_STATUS_DESC',
+  ShipperProjectionVesselInfoByVesselInfoIdProjectionIdAsc = 'SHIPPER_PROJECTION_VESSEL_INFO_BY_VESSEL_INFO_ID__PROJECTION_ID_ASC',
+  ShipperProjectionVesselInfoByVesselInfoIdProjectionIdDesc = 'SHIPPER_PROJECTION_VESSEL_INFO_BY_VESSEL_INFO_ID__PROJECTION_ID_DESC',
+  ShipperProjectionVesselInfoByVesselInfoIdVesselIdAsc = 'SHIPPER_PROJECTION_VESSEL_INFO_BY_VESSEL_INFO_ID__VESSEL_ID_ASC',
+  ShipperProjectionVesselInfoByVesselInfoIdVesselIdDesc = 'SHIPPER_PROJECTION_VESSEL_INFO_BY_VESSEL_INFO_ID__VESSEL_ID_DESC',
+  ShipperProjectionVesselInfoByVesselInfoIdShipperIdAsc = 'SHIPPER_PROJECTION_VESSEL_INFO_BY_VESSEL_INFO_ID__SHIPPER_ID_ASC',
+  ShipperProjectionVesselInfoByVesselInfoIdShipperIdDesc = 'SHIPPER_PROJECTION_VESSEL_INFO_BY_VESSEL_INFO_ID__SHIPPER_ID_DESC',
+  ShipperProjectionProductByProductIdIdAsc = 'SHIPPER_PROJECTION_PRODUCT_BY_PRODUCT_ID__ID_ASC',
+  ShipperProjectionProductByProductIdIdDesc = 'SHIPPER_PROJECTION_PRODUCT_BY_PRODUCT_ID__ID_DESC',
+  ShipperProjectionProductByProductIdSpeciesAsc = 'SHIPPER_PROJECTION_PRODUCT_BY_PRODUCT_ID__SPECIES_ASC',
+  ShipperProjectionProductByProductIdSpeciesDesc = 'SHIPPER_PROJECTION_PRODUCT_BY_PRODUCT_ID__SPECIES_DESC',
+  ShipperProjectionProductByProductIdVarietyAsc = 'SHIPPER_PROJECTION_PRODUCT_BY_PRODUCT_ID__VARIETY_ASC',
+  ShipperProjectionProductByProductIdVarietyDesc = 'SHIPPER_PROJECTION_PRODUCT_BY_PRODUCT_ID__VARIETY_DESC',
+  ShipperProjectionProductByProductIdSizeAsc = 'SHIPPER_PROJECTION_PRODUCT_BY_PRODUCT_ID__SIZE_ASC',
+  ShipperProjectionProductByProductIdSizeDesc = 'SHIPPER_PROJECTION_PRODUCT_BY_PRODUCT_ID__SIZE_DESC',
+  ShipperProjectionProductByProductIdPackTypeAsc = 'SHIPPER_PROJECTION_PRODUCT_BY_PRODUCT_ID__PACK_TYPE_ASC',
+  ShipperProjectionProductByProductIdPackTypeDesc = 'SHIPPER_PROJECTION_PRODUCT_BY_PRODUCT_ID__PACK_TYPE_DESC',
+  ShipperProjectionProductByProductIdPluAsc = 'SHIPPER_PROJECTION_PRODUCT_BY_PRODUCT_ID__PLU_ASC',
+  ShipperProjectionProductByProductIdPluDesc = 'SHIPPER_PROJECTION_PRODUCT_BY_PRODUCT_ID__PLU_DESC',
+  ShipperProjectionProductByProductIdShipperIdAsc = 'SHIPPER_PROJECTION_PRODUCT_BY_PRODUCT_ID__SHIPPER_ID_ASC',
+  ShipperProjectionProductByProductIdShipperIdDesc = 'SHIPPER_PROJECTION_PRODUCT_BY_PRODUCT_ID__SHIPPER_ID_DESC',
+  ShipperProjectionProductByProductIdCommonSpeciesIdAsc = 'SHIPPER_PROJECTION_PRODUCT_BY_PRODUCT_ID__COMMON_SPECIES_ID_ASC',
+  ShipperProjectionProductByProductIdCommonSpeciesIdDesc = 'SHIPPER_PROJECTION_PRODUCT_BY_PRODUCT_ID__COMMON_SPECIES_ID_DESC',
+  ShipperProjectionProductByProductIdCommonVarietyIdAsc = 'SHIPPER_PROJECTION_PRODUCT_BY_PRODUCT_ID__COMMON_VARIETY_ID_ASC',
+  ShipperProjectionProductByProductIdCommonVarietyIdDesc = 'SHIPPER_PROJECTION_PRODUCT_BY_PRODUCT_ID__COMMON_VARIETY_ID_DESC',
+  ShipperProjectionProductByProductIdCommonSizeIdAsc = 'SHIPPER_PROJECTION_PRODUCT_BY_PRODUCT_ID__COMMON_SIZE_ID_ASC',
+  ShipperProjectionProductByProductIdCommonSizeIdDesc = 'SHIPPER_PROJECTION_PRODUCT_BY_PRODUCT_ID__COMMON_SIZE_ID_DESC',
+  ShipperProjectionProductByProductIdCommonPackTypeIdAsc = 'SHIPPER_PROJECTION_PRODUCT_BY_PRODUCT_ID__COMMON_PACK_TYPE_ID_ASC',
+  ShipperProjectionProductByProductIdCommonPackTypeIdDesc = 'SHIPPER_PROJECTION_PRODUCT_BY_PRODUCT_ID__COMMON_PACK_TYPE_ID_DESC'
 }
 
 /**
@@ -12130,7 +12996,25 @@ export enum ShipperProjectionsOrderBy {
   TotalPalletsAsc = 'TOTAL_PALLETS_ASC',
   TotalPalletsDesc = 'TOTAL_PALLETS_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  ShipperByShipperIdIdAsc = 'SHIPPER_BY_SHIPPER_ID__ID_ASC',
+  ShipperByShipperIdIdDesc = 'SHIPPER_BY_SHIPPER_ID__ID_DESC',
+  ShipperByShipperIdShipperNameAsc = 'SHIPPER_BY_SHIPPER_ID__SHIPPER_NAME_ASC',
+  ShipperByShipperIdShipperNameDesc = 'SHIPPER_BY_SHIPPER_ID__SHIPPER_NAME_DESC',
+  ShipperByShipperIdCountryIdAsc = 'SHIPPER_BY_SHIPPER_ID__COUNTRY_ID_ASC',
+  ShipperByShipperIdCountryIdDesc = 'SHIPPER_BY_SHIPPER_ID__COUNTRY_ID_DESC',
+  ShipperByShipperIdGroupIdAsc = 'SHIPPER_BY_SHIPPER_ID__GROUP_ID_ASC',
+  ShipperByShipperIdGroupIdDesc = 'SHIPPER_BY_SHIPPER_ID__GROUP_ID_DESC',
+  ShipperByShipperIdLogoSrcAsc = 'SHIPPER_BY_SHIPPER_ID__LOGO_SRC_ASC',
+  ShipperByShipperIdLogoSrcDesc = 'SHIPPER_BY_SHIPPER_ID__LOGO_SRC_DESC',
+  ShipperByShipperIdNotesAsc = 'SHIPPER_BY_SHIPPER_ID__NOTES_ASC',
+  ShipperByShipperIdNotesDesc = 'SHIPPER_BY_SHIPPER_ID__NOTES_DESC',
+  ShipperByShipperIdWebsiteAsc = 'SHIPPER_BY_SHIPPER_ID__WEBSITE_ASC',
+  ShipperByShipperIdWebsiteDesc = 'SHIPPER_BY_SHIPPER_ID__WEBSITE_DESC',
+  ShipperByShipperIdSendProjectionRequestAsc = 'SHIPPER_BY_SHIPPER_ID__SEND_PROJECTION_REQUEST_ASC',
+  ShipperByShipperIdSendProjectionRequestDesc = 'SHIPPER_BY_SHIPPER_ID__SEND_PROJECTION_REQUEST_DESC',
+  ShipperProjectionVesselInfosByProjectionIdCountAsc = 'SHIPPER_PROJECTION_VESSEL_INFOS_BY_PROJECTION_ID__COUNT_ASC',
+  ShipperProjectionVesselInfosByProjectionIdCountDesc = 'SHIPPER_PROJECTION_VESSEL_INFOS_BY_PROJECTION_ID__COUNT_DESC'
 }
 
 /**
@@ -12266,7 +13150,49 @@ export enum ShipperPersonContactsOrderBy {
   PersonContactIdAsc = 'PERSON_CONTACT_ID_ASC',
   PersonContactIdDesc = 'PERSON_CONTACT_ID_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  ShipperByShipperIdIdAsc = 'SHIPPER_BY_SHIPPER_ID__ID_ASC',
+  ShipperByShipperIdIdDesc = 'SHIPPER_BY_SHIPPER_ID__ID_DESC',
+  ShipperByShipperIdShipperNameAsc = 'SHIPPER_BY_SHIPPER_ID__SHIPPER_NAME_ASC',
+  ShipperByShipperIdShipperNameDesc = 'SHIPPER_BY_SHIPPER_ID__SHIPPER_NAME_DESC',
+  ShipperByShipperIdCountryIdAsc = 'SHIPPER_BY_SHIPPER_ID__COUNTRY_ID_ASC',
+  ShipperByShipperIdCountryIdDesc = 'SHIPPER_BY_SHIPPER_ID__COUNTRY_ID_DESC',
+  ShipperByShipperIdGroupIdAsc = 'SHIPPER_BY_SHIPPER_ID__GROUP_ID_ASC',
+  ShipperByShipperIdGroupIdDesc = 'SHIPPER_BY_SHIPPER_ID__GROUP_ID_DESC',
+  ShipperByShipperIdLogoSrcAsc = 'SHIPPER_BY_SHIPPER_ID__LOGO_SRC_ASC',
+  ShipperByShipperIdLogoSrcDesc = 'SHIPPER_BY_SHIPPER_ID__LOGO_SRC_DESC',
+  ShipperByShipperIdNotesAsc = 'SHIPPER_BY_SHIPPER_ID__NOTES_ASC',
+  ShipperByShipperIdNotesDesc = 'SHIPPER_BY_SHIPPER_ID__NOTES_DESC',
+  ShipperByShipperIdWebsiteAsc = 'SHIPPER_BY_SHIPPER_ID__WEBSITE_ASC',
+  ShipperByShipperIdWebsiteDesc = 'SHIPPER_BY_SHIPPER_ID__WEBSITE_DESC',
+  ShipperByShipperIdSendProjectionRequestAsc = 'SHIPPER_BY_SHIPPER_ID__SEND_PROJECTION_REQUEST_ASC',
+  ShipperByShipperIdSendProjectionRequestDesc = 'SHIPPER_BY_SHIPPER_ID__SEND_PROJECTION_REQUEST_DESC',
+  PersonContactByPersonContactIdIdAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__ID_ASC',
+  PersonContactByPersonContactIdIdDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__ID_DESC',
+  PersonContactByPersonContactIdFirstNameAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__FIRST_NAME_ASC',
+  PersonContactByPersonContactIdFirstNameDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__FIRST_NAME_DESC',
+  PersonContactByPersonContactIdLastNameAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__LAST_NAME_ASC',
+  PersonContactByPersonContactIdLastNameDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__LAST_NAME_DESC',
+  PersonContactByPersonContactIdIsPrimaryAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__IS_PRIMARY_ASC',
+  PersonContactByPersonContactIdIsPrimaryDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__IS_PRIMARY_DESC',
+  PersonContactByPersonContactIdEmailAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__EMAIL_ASC',
+  PersonContactByPersonContactIdEmailDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__EMAIL_DESC',
+  PersonContactByPersonContactIdSecondaryEmailAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__SECONDARY_EMAIL_ASC',
+  PersonContactByPersonContactIdSecondaryEmailDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__SECONDARY_EMAIL_DESC',
+  PersonContactByPersonContactIdHomePhoneAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__HOME_PHONE_ASC',
+  PersonContactByPersonContactIdHomePhoneDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__HOME_PHONE_DESC',
+  PersonContactByPersonContactIdCellPhoneAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__CELL_PHONE_ASC',
+  PersonContactByPersonContactIdCellPhoneDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__CELL_PHONE_DESC',
+  PersonContactByPersonContactIdWorkPhoneAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__WORK_PHONE_ASC',
+  PersonContactByPersonContactIdWorkPhoneDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__WORK_PHONE_DESC',
+  PersonContactByPersonContactIdWorkExtensionAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__WORK_EXTENSION_ASC',
+  PersonContactByPersonContactIdWorkExtensionDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__WORK_EXTENSION_DESC',
+  PersonContactByPersonContactIdImageSrcAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__IMAGE_SRC_ASC',
+  PersonContactByPersonContactIdImageSrcDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__IMAGE_SRC_DESC',
+  PersonContactByPersonContactIdIsInternalAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__IS_INTERNAL_ASC',
+  PersonContactByPersonContactIdIsInternalDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__IS_INTERNAL_DESC',
+  PersonContactByPersonContactIdRolesAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__ROLES_ASC',
+  PersonContactByPersonContactIdRolesDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__ROLES_DESC'
 }
 
 /**
@@ -12788,7 +13714,63 @@ export enum WarehousePersonContactsOrderBy {
   PersonContactIdAsc = 'PERSON_CONTACT_ID_ASC',
   PersonContactIdDesc = 'PERSON_CONTACT_ID_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  WarehouseByWarehouseIdIdAsc = 'WAREHOUSE_BY_WAREHOUSE_ID__ID_ASC',
+  WarehouseByWarehouseIdIdDesc = 'WAREHOUSE_BY_WAREHOUSE_ID__ID_DESC',
+  WarehouseByWarehouseIdWarehouseNameAsc = 'WAREHOUSE_BY_WAREHOUSE_ID__WAREHOUSE_NAME_ASC',
+  WarehouseByWarehouseIdWarehouseNameDesc = 'WAREHOUSE_BY_WAREHOUSE_ID__WAREHOUSE_NAME_DESC',
+  WarehouseByWarehouseIdAddress_1Asc = 'WAREHOUSE_BY_WAREHOUSE_ID__ADDRESS_1_ASC',
+  WarehouseByWarehouseIdAddress_1Desc = 'WAREHOUSE_BY_WAREHOUSE_ID__ADDRESS_1_DESC',
+  WarehouseByWarehouseIdAddress_2Asc = 'WAREHOUSE_BY_WAREHOUSE_ID__ADDRESS_2_ASC',
+  WarehouseByWarehouseIdAddress_2Desc = 'WAREHOUSE_BY_WAREHOUSE_ID__ADDRESS_2_DESC',
+  WarehouseByWarehouseIdAddress_3Asc = 'WAREHOUSE_BY_WAREHOUSE_ID__ADDRESS_3_ASC',
+  WarehouseByWarehouseIdAddress_3Desc = 'WAREHOUSE_BY_WAREHOUSE_ID__ADDRESS_3_DESC',
+  WarehouseByWarehouseIdCityAsc = 'WAREHOUSE_BY_WAREHOUSE_ID__CITY_ASC',
+  WarehouseByWarehouseIdCityDesc = 'WAREHOUSE_BY_WAREHOUSE_ID__CITY_DESC',
+  WarehouseByWarehouseIdPostalStateAsc = 'WAREHOUSE_BY_WAREHOUSE_ID__POSTAL_STATE_ASC',
+  WarehouseByWarehouseIdPostalStateDesc = 'WAREHOUSE_BY_WAREHOUSE_ID__POSTAL_STATE_DESC',
+  WarehouseByWarehouseIdCountryIdAsc = 'WAREHOUSE_BY_WAREHOUSE_ID__COUNTRY_ID_ASC',
+  WarehouseByWarehouseIdCountryIdDesc = 'WAREHOUSE_BY_WAREHOUSE_ID__COUNTRY_ID_DESC',
+  WarehouseByWarehouseIdZipCodeAsc = 'WAREHOUSE_BY_WAREHOUSE_ID__ZIP_CODE_ASC',
+  WarehouseByWarehouseIdZipCodeDesc = 'WAREHOUSE_BY_WAREHOUSE_ID__ZIP_CODE_DESC',
+  WarehouseByWarehouseIdPhoneAsc = 'WAREHOUSE_BY_WAREHOUSE_ID__PHONE_ASC',
+  WarehouseByWarehouseIdPhoneDesc = 'WAREHOUSE_BY_WAREHOUSE_ID__PHONE_DESC',
+  WarehouseByWarehouseIdOutQueueAsc = 'WAREHOUSE_BY_WAREHOUSE_ID__OUT_QUEUE_ASC',
+  WarehouseByWarehouseIdOutQueueDesc = 'WAREHOUSE_BY_WAREHOUSE_ID__OUT_QUEUE_DESC',
+  WarehouseByWarehouseIdStateTaxCodeAsc = 'WAREHOUSE_BY_WAREHOUSE_ID__STATE_TAX_CODE_ASC',
+  WarehouseByWarehouseIdStateTaxCodeDesc = 'WAREHOUSE_BY_WAREHOUSE_ID__STATE_TAX_CODE_DESC',
+  WarehouseByWarehouseIdCountyTaxCodeAsc = 'WAREHOUSE_BY_WAREHOUSE_ID__COUNTY_TAX_CODE_ASC',
+  WarehouseByWarehouseIdCountyTaxCodeDesc = 'WAREHOUSE_BY_WAREHOUSE_ID__COUNTY_TAX_CODE_DESC',
+  WarehouseByWarehouseIdCityTaxCodeAsc = 'WAREHOUSE_BY_WAREHOUSE_ID__CITY_TAX_CODE_ASC',
+  WarehouseByWarehouseIdCityTaxCodeDesc = 'WAREHOUSE_BY_WAREHOUSE_ID__CITY_TAX_CODE_DESC',
+  WarehouseByWarehouseIdMiscTaxCodeAsc = 'WAREHOUSE_BY_WAREHOUSE_ID__MISC_TAX_CODE_ASC',
+  WarehouseByWarehouseIdMiscTaxCodeDesc = 'WAREHOUSE_BY_WAREHOUSE_ID__MISC_TAX_CODE_DESC',
+  PersonContactByPersonContactIdIdAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__ID_ASC',
+  PersonContactByPersonContactIdIdDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__ID_DESC',
+  PersonContactByPersonContactIdFirstNameAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__FIRST_NAME_ASC',
+  PersonContactByPersonContactIdFirstNameDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__FIRST_NAME_DESC',
+  PersonContactByPersonContactIdLastNameAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__LAST_NAME_ASC',
+  PersonContactByPersonContactIdLastNameDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__LAST_NAME_DESC',
+  PersonContactByPersonContactIdIsPrimaryAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__IS_PRIMARY_ASC',
+  PersonContactByPersonContactIdIsPrimaryDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__IS_PRIMARY_DESC',
+  PersonContactByPersonContactIdEmailAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__EMAIL_ASC',
+  PersonContactByPersonContactIdEmailDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__EMAIL_DESC',
+  PersonContactByPersonContactIdSecondaryEmailAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__SECONDARY_EMAIL_ASC',
+  PersonContactByPersonContactIdSecondaryEmailDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__SECONDARY_EMAIL_DESC',
+  PersonContactByPersonContactIdHomePhoneAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__HOME_PHONE_ASC',
+  PersonContactByPersonContactIdHomePhoneDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__HOME_PHONE_DESC',
+  PersonContactByPersonContactIdCellPhoneAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__CELL_PHONE_ASC',
+  PersonContactByPersonContactIdCellPhoneDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__CELL_PHONE_DESC',
+  PersonContactByPersonContactIdWorkPhoneAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__WORK_PHONE_ASC',
+  PersonContactByPersonContactIdWorkPhoneDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__WORK_PHONE_DESC',
+  PersonContactByPersonContactIdWorkExtensionAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__WORK_EXTENSION_ASC',
+  PersonContactByPersonContactIdWorkExtensionDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__WORK_EXTENSION_DESC',
+  PersonContactByPersonContactIdImageSrcAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__IMAGE_SRC_ASC',
+  PersonContactByPersonContactIdImageSrcDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__IMAGE_SRC_DESC',
+  PersonContactByPersonContactIdIsInternalAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__IS_INTERNAL_ASC',
+  PersonContactByPersonContactIdIsInternalDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__IS_INTERNAL_DESC',
+  PersonContactByPersonContactIdRolesAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__ROLES_ASC',
+  PersonContactByPersonContactIdRolesDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__ROLES_DESC'
 }
 
 /**
@@ -12867,7 +13849,13 @@ export enum WarehousesOrderBy {
   MiscTaxCodeAsc = 'MISC_TAX_CODE_ASC',
   MiscTaxCodeDesc = 'MISC_TAX_CODE_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  CountryByCountryIdIdAsc = 'COUNTRY_BY_COUNTRY_ID__ID_ASC',
+  CountryByCountryIdIdDesc = 'COUNTRY_BY_COUNTRY_ID__ID_DESC',
+  CountryByCountryIdCountryNameAsc = 'COUNTRY_BY_COUNTRY_ID__COUNTRY_NAME_ASC',
+  CountryByCountryIdCountryNameDesc = 'COUNTRY_BY_COUNTRY_ID__COUNTRY_NAME_DESC',
+  WarehousePersonContactsByWarehouseIdCountAsc = 'WAREHOUSE_PERSON_CONTACTS_BY_WAREHOUSE_ID__COUNT_ASC',
+  WarehousePersonContactsByWarehouseIdCountDesc = 'WAREHOUSE_PERSON_CONTACTS_BY_WAREHOUSE_ID__COUNT_DESC'
 }
 
 /**
@@ -12915,7 +13903,59 @@ export enum CustomerPersonContactsOrderBy {
   PersonContactIdAsc = 'PERSON_CONTACT_ID_ASC',
   PersonContactIdDesc = 'PERSON_CONTACT_ID_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  CustomerByCustomerIdIdAsc = 'CUSTOMER_BY_CUSTOMER_ID__ID_ASC',
+  CustomerByCustomerIdIdDesc = 'CUSTOMER_BY_CUSTOMER_ID__ID_DESC',
+  CustomerByCustomerIdCustomerNameAsc = 'CUSTOMER_BY_CUSTOMER_ID__CUSTOMER_NAME_ASC',
+  CustomerByCustomerIdCustomerNameDesc = 'CUSTOMER_BY_CUSTOMER_ID__CUSTOMER_NAME_DESC',
+  CustomerByCustomerIdAddress_1Asc = 'CUSTOMER_BY_CUSTOMER_ID__ADDRESS_1_ASC',
+  CustomerByCustomerIdAddress_1Desc = 'CUSTOMER_BY_CUSTOMER_ID__ADDRESS_1_DESC',
+  CustomerByCustomerIdAddress_2Asc = 'CUSTOMER_BY_CUSTOMER_ID__ADDRESS_2_ASC',
+  CustomerByCustomerIdAddress_2Desc = 'CUSTOMER_BY_CUSTOMER_ID__ADDRESS_2_DESC',
+  CustomerByCustomerIdCityAsc = 'CUSTOMER_BY_CUSTOMER_ID__CITY_ASC',
+  CustomerByCustomerIdCityDesc = 'CUSTOMER_BY_CUSTOMER_ID__CITY_DESC',
+  CustomerByCustomerIdPostalStateAsc = 'CUSTOMER_BY_CUSTOMER_ID__POSTAL_STATE_ASC',
+  CustomerByCustomerIdPostalStateDesc = 'CUSTOMER_BY_CUSTOMER_ID__POSTAL_STATE_DESC',
+  CustomerByCustomerIdZipCodeAsc = 'CUSTOMER_BY_CUSTOMER_ID__ZIP_CODE_ASC',
+  CustomerByCustomerIdZipCodeDesc = 'CUSTOMER_BY_CUSTOMER_ID__ZIP_CODE_DESC',
+  CustomerByCustomerIdCountryIdAsc = 'CUSTOMER_BY_CUSTOMER_ID__COUNTRY_ID_ASC',
+  CustomerByCustomerIdCountryIdDesc = 'CUSTOMER_BY_CUSTOMER_ID__COUNTRY_ID_DESC',
+  CustomerByCustomerIdPhoneAsc = 'CUSTOMER_BY_CUSTOMER_ID__PHONE_ASC',
+  CustomerByCustomerIdPhoneDesc = 'CUSTOMER_BY_CUSTOMER_ID__PHONE_DESC',
+  CustomerByCustomerIdLogoSrcAsc = 'CUSTOMER_BY_CUSTOMER_ID__LOGO_SRC_ASC',
+  CustomerByCustomerIdLogoSrcDesc = 'CUSTOMER_BY_CUSTOMER_ID__LOGO_SRC_DESC',
+  CustomerByCustomerIdNotesAsc = 'CUSTOMER_BY_CUSTOMER_ID__NOTES_ASC',
+  CustomerByCustomerIdNotesDesc = 'CUSTOMER_BY_CUSTOMER_ID__NOTES_DESC',
+  CustomerByCustomerIdWebsiteAsc = 'CUSTOMER_BY_CUSTOMER_ID__WEBSITE_ASC',
+  CustomerByCustomerIdWebsiteDesc = 'CUSTOMER_BY_CUSTOMER_ID__WEBSITE_DESC',
+  CustomerByCustomerIdActiveAsc = 'CUSTOMER_BY_CUSTOMER_ID__ACTIVE_ASC',
+  CustomerByCustomerIdActiveDesc = 'CUSTOMER_BY_CUSTOMER_ID__ACTIVE_DESC',
+  PersonContactByPersonContactIdIdAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__ID_ASC',
+  PersonContactByPersonContactIdIdDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__ID_DESC',
+  PersonContactByPersonContactIdFirstNameAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__FIRST_NAME_ASC',
+  PersonContactByPersonContactIdFirstNameDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__FIRST_NAME_DESC',
+  PersonContactByPersonContactIdLastNameAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__LAST_NAME_ASC',
+  PersonContactByPersonContactIdLastNameDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__LAST_NAME_DESC',
+  PersonContactByPersonContactIdIsPrimaryAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__IS_PRIMARY_ASC',
+  PersonContactByPersonContactIdIsPrimaryDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__IS_PRIMARY_DESC',
+  PersonContactByPersonContactIdEmailAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__EMAIL_ASC',
+  PersonContactByPersonContactIdEmailDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__EMAIL_DESC',
+  PersonContactByPersonContactIdSecondaryEmailAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__SECONDARY_EMAIL_ASC',
+  PersonContactByPersonContactIdSecondaryEmailDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__SECONDARY_EMAIL_DESC',
+  PersonContactByPersonContactIdHomePhoneAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__HOME_PHONE_ASC',
+  PersonContactByPersonContactIdHomePhoneDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__HOME_PHONE_DESC',
+  PersonContactByPersonContactIdCellPhoneAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__CELL_PHONE_ASC',
+  PersonContactByPersonContactIdCellPhoneDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__CELL_PHONE_DESC',
+  PersonContactByPersonContactIdWorkPhoneAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__WORK_PHONE_ASC',
+  PersonContactByPersonContactIdWorkPhoneDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__WORK_PHONE_DESC',
+  PersonContactByPersonContactIdWorkExtensionAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__WORK_EXTENSION_ASC',
+  PersonContactByPersonContactIdWorkExtensionDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__WORK_EXTENSION_DESC',
+  PersonContactByPersonContactIdImageSrcAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__IMAGE_SRC_ASC',
+  PersonContactByPersonContactIdImageSrcDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__IMAGE_SRC_DESC',
+  PersonContactByPersonContactIdIsInternalAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__IS_INTERNAL_ASC',
+  PersonContactByPersonContactIdIsInternalDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__IS_INTERNAL_DESC',
+  PersonContactByPersonContactIdRolesAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__ROLES_ASC',
+  PersonContactByPersonContactIdRolesDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__ROLES_DESC'
 }
 
 /**
@@ -13142,7 +14182,15 @@ export enum ContactGroupsOrderBy {
   UserIdAsc = 'USER_ID_ASC',
   UserIdDesc = 'USER_ID_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  UserByUserIdIdAsc = 'USER_BY_USER_ID__ID_ASC',
+  UserByUserIdIdDesc = 'USER_BY_USER_ID__ID_DESC',
+  UserByUserIdPinAsc = 'USER_BY_USER_ID__PIN_ASC',
+  UserByUserIdPinDesc = 'USER_BY_USER_ID__PIN_DESC',
+  UserByUserIdPersonContactIdAsc = 'USER_BY_USER_ID__PERSON_CONTACT_ID_ASC',
+  UserByUserIdPersonContactIdDesc = 'USER_BY_USER_ID__PERSON_CONTACT_ID_DESC',
+  ContactGroupPersonContactsByGroupIdCountAsc = 'CONTACT_GROUP_PERSON_CONTACTS_BY_GROUP_ID__COUNT_ASC',
+  ContactGroupPersonContactsByGroupIdCountDesc = 'CONTACT_GROUP_PERSON_CONTACTS_BY_GROUP_ID__COUNT_DESC'
 }
 
 /**
@@ -13309,7 +14357,13 @@ export enum UserMessagesOrderBy {
   UserIdAsc = 'USER_ID_ASC',
   UserIdDesc = 'USER_ID_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  UserByUserIdIdAsc = 'USER_BY_USER_ID__ID_ASC',
+  UserByUserIdIdDesc = 'USER_BY_USER_ID__ID_DESC',
+  UserByUserIdPinAsc = 'USER_BY_USER_ID__PIN_ASC',
+  UserByUserIdPinDesc = 'USER_BY_USER_ID__PIN_DESC',
+  UserByUserIdPersonContactIdAsc = 'USER_BY_USER_ID__PERSON_CONTACT_ID_ASC',
+  UserByUserIdPersonContactIdDesc = 'USER_BY_USER_ID__PERSON_CONTACT_ID_DESC'
 }
 
 /**
@@ -13376,7 +14430,13 @@ export enum CountriesOrderBy {
   CountryNameAsc = 'COUNTRY_NAME_ASC',
   CountryNameDesc = 'COUNTRY_NAME_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  CustomersByCountryIdCountAsc = 'CUSTOMERS_BY_COUNTRY_ID__COUNT_ASC',
+  CustomersByCountryIdCountDesc = 'CUSTOMERS_BY_COUNTRY_ID__COUNT_DESC',
+  ShippersByCountryIdCountAsc = 'SHIPPERS_BY_COUNTRY_ID__COUNT_ASC',
+  ShippersByCountryIdCountDesc = 'SHIPPERS_BY_COUNTRY_ID__COUNT_DESC',
+  WarehousesByCountryIdCountAsc = 'WAREHOUSES_BY_COUNTRY_ID__COUNT_ASC',
+  WarehousesByCountryIdCountDesc = 'WAREHOUSES_BY_COUNTRY_ID__COUNT_DESC'
 }
 
 /** A condition to be used against `Country` object types. All fields are tested for equality and combined with a logical ‘and.’ */
@@ -13985,7 +15045,51 @@ export enum PeruDepartureInspectionPalletsOrderBy {
   TotalDefectsPctAsc = 'TOTAL_DEFECTS_PCT_ASC',
   TotalDefectsPctDesc = 'TOTAL_DEFECTS_PCT_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  PeruDepartureInspectionByContainerIdContainerIdAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__CONTAINER_ID_ASC',
+  PeruDepartureInspectionByContainerIdContainerIdDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__CONTAINER_ID_DESC',
+  PeruDepartureInspectionByContainerIdAvgBunchesPerBoxAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__AVG_BUNCHES_PER_BOX_ASC',
+  PeruDepartureInspectionByContainerIdAvgBunchesPerBoxDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__AVG_BUNCHES_PER_BOX_DESC',
+  PeruDepartureInspectionByContainerIdAvgNetWeightAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__AVG_NET_WEIGHT_ASC',
+  PeruDepartureInspectionByContainerIdAvgNetWeightDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__AVG_NET_WEIGHT_DESC',
+  PeruDepartureInspectionByContainerIdBagsPerBoxAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__BAGS_PER_BOX_ASC',
+  PeruDepartureInspectionByContainerIdBagsPerBoxDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__BAGS_PER_BOX_DESC',
+  PeruDepartureInspectionByContainerIdBagTypeAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__BAG_TYPE_ASC',
+  PeruDepartureInspectionByContainerIdBagTypeDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__BAG_TYPE_DESC',
+  PeruDepartureInspectionByContainerIdBrandAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__BRAND_ASC',
+  PeruDepartureInspectionByContainerIdBrandDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__BRAND_DESC',
+  PeruDepartureInspectionByContainerIdBrixAvgAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__BRIX_AVG_ASC',
+  PeruDepartureInspectionByContainerIdBrixAvgDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__BRIX_AVG_DESC',
+  PeruDepartureInspectionByContainerIdBrixMaxAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__BRIX_MAX_ASC',
+  PeruDepartureInspectionByContainerIdBrixMaxDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__BRIX_MAX_DESC',
+  PeruDepartureInspectionByContainerIdBrixMinAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__BRIX_MIN_ASC',
+  PeruDepartureInspectionByContainerIdBrixMinDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__BRIX_MIN_DESC',
+  PeruDepartureInspectionByContainerIdCategoryAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__CATEGORY_ASC',
+  PeruDepartureInspectionByContainerIdCategoryDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__CATEGORY_DESC',
+  PeruDepartureInspectionByContainerIdCommentsAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__COMMENTS_ASC',
+  PeruDepartureInspectionByContainerIdCommentsDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__COMMENTS_DESC',
+  PeruDepartureInspectionByContainerIdConditionScoreAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__CONDITION_SCORE_ASC',
+  PeruDepartureInspectionByContainerIdConditionScoreDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__CONDITION_SCORE_DESC',
+  PeruDepartureInspectionByContainerIdDepartureWeekAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__DEPARTURE_WEEK_ASC',
+  PeruDepartureInspectionByContainerIdDepartureWeekDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__DEPARTURE_WEEK_DESC',
+  PeruDepartureInspectionByContainerIdDestinationAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__DESTINATION_ASC',
+  PeruDepartureInspectionByContainerIdDestinationDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__DESTINATION_DESC',
+  PeruDepartureInspectionByContainerIdExporterAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__EXPORTER_ASC',
+  PeruDepartureInspectionByContainerIdExporterDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__EXPORTER_DESC',
+  PeruDepartureInspectionByContainerIdInspectionDateAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__INSPECTION_DATE_ASC',
+  PeruDepartureInspectionByContainerIdInspectionDateDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__INSPECTION_DATE_DESC',
+  PeruDepartureInspectionByContainerIdPackingDateAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__PACKING_DATE_ASC',
+  PeruDepartureInspectionByContainerIdPackingDateDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__PACKING_DATE_DESC',
+  PeruDepartureInspectionByContainerIdPackingHouseAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__PACKING_HOUSE_ASC',
+  PeruDepartureInspectionByContainerIdPackingHouseDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__PACKING_HOUSE_DESC',
+  PeruDepartureInspectionByContainerIdPackingMaterialAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__PACKING_MATERIAL_ASC',
+  PeruDepartureInspectionByContainerIdPackingMaterialDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__PACKING_MATERIAL_DESC',
+  PeruDepartureInspectionByContainerIdPresentationAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__PRESENTATION_ASC',
+  PeruDepartureInspectionByContainerIdPresentationDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__PRESENTATION_DESC',
+  PeruDepartureInspectionByContainerIdQualityScoreAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__QUALITY_SCORE_ASC',
+  PeruDepartureInspectionByContainerIdQualityScoreDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__QUALITY_SCORE_DESC',
+  PeruDepartureInspectionByContainerIdVarietyAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__VARIETY_ASC',
+  PeruDepartureInspectionByContainerIdVarietyDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__VARIETY_DESC'
 }
 
 /**
@@ -14254,7 +15358,9 @@ export enum PeruDepartureInspectionsOrderBy {
   VarietyAsc = 'VARIETY_ASC',
   VarietyDesc = 'VARIETY_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  PeruDepartureInspectionPalletsByContainerIdCountAsc = 'PERU_DEPARTURE_INSPECTION_PALLETS_BY_CONTAINER_ID__COUNT_ASC',
+  PeruDepartureInspectionPalletsByContainerIdCountDesc = 'PERU_DEPARTURE_INSPECTION_PALLETS_BY_CONTAINER_ID__COUNT_DESC'
 }
 
 /**
@@ -23682,7 +24788,15 @@ export enum PriceEntriesOrderBy {
   HighlightAsc = 'HIGHLIGHT_ASC',
   HighlightDesc = 'HIGHLIGHT_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  PriceSizeBySizeIdIdAsc = 'PRICE_SIZE_BY_SIZE_ID__ID_ASC',
+  PriceSizeBySizeIdIdDesc = 'PRICE_SIZE_BY_SIZE_ID__ID_DESC',
+  PriceSizeBySizeIdProductIdAsc = 'PRICE_SIZE_BY_SIZE_ID__PRODUCT_ID_ASC',
+  PriceSizeBySizeIdProductIdDesc = 'PRICE_SIZE_BY_SIZE_ID__PRODUCT_ID_DESC',
+  PriceSizeBySizeIdSizeNameAsc = 'PRICE_SIZE_BY_SIZE_ID__SIZE_NAME_ASC',
+  PriceSizeBySizeIdSizeNameDesc = 'PRICE_SIZE_BY_SIZE_ID__SIZE_NAME_DESC',
+  PriceSizeBySizeIdSortOrderAsc = 'PRICE_SIZE_BY_SIZE_ID__SORT_ORDER_ASC',
+  PriceSizeBySizeIdSortOrderDesc = 'PRICE_SIZE_BY_SIZE_ID__SORT_ORDER_DESC'
 }
 
 /**
@@ -23851,7 +24965,19 @@ export enum PriceSizesOrderBy {
   SortOrderAsc = 'SORT_ORDER_ASC',
   SortOrderDesc = 'SORT_ORDER_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  PriceProductByProductIdIdAsc = 'PRICE_PRODUCT_BY_PRODUCT_ID__ID_ASC',
+  PriceProductByProductIdIdDesc = 'PRICE_PRODUCT_BY_PRODUCT_ID__ID_DESC',
+  PriceProductByProductIdCategoryIdAsc = 'PRICE_PRODUCT_BY_PRODUCT_ID__CATEGORY_ID_ASC',
+  PriceProductByProductIdCategoryIdDesc = 'PRICE_PRODUCT_BY_PRODUCT_ID__CATEGORY_ID_DESC',
+  PriceProductByProductIdColorAsc = 'PRICE_PRODUCT_BY_PRODUCT_ID__COLOR_ASC',
+  PriceProductByProductIdColorDesc = 'PRICE_PRODUCT_BY_PRODUCT_ID__COLOR_DESC',
+  PriceProductByProductIdProductNameAsc = 'PRICE_PRODUCT_BY_PRODUCT_ID__PRODUCT_NAME_ASC',
+  PriceProductByProductIdProductNameDesc = 'PRICE_PRODUCT_BY_PRODUCT_ID__PRODUCT_NAME_DESC',
+  PriceProductByProductIdSortOrderAsc = 'PRICE_PRODUCT_BY_PRODUCT_ID__SORT_ORDER_ASC',
+  PriceProductByProductIdSortOrderDesc = 'PRICE_PRODUCT_BY_PRODUCT_ID__SORT_ORDER_DESC',
+  PriceEntriesBySizeIdCountAsc = 'PRICE_ENTRIES_BY_SIZE_ID__COUNT_ASC',
+  PriceEntriesBySizeIdCountDesc = 'PRICE_ENTRIES_BY_SIZE_ID__COUNT_DESC'
 }
 
 /**
@@ -23892,7 +25018,15 @@ export enum PriceProductsOrderBy {
   SortOrderAsc = 'SORT_ORDER_ASC',
   SortOrderDesc = 'SORT_ORDER_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  PriceCategoryByCategoryIdIdAsc = 'PRICE_CATEGORY_BY_CATEGORY_ID__ID_ASC',
+  PriceCategoryByCategoryIdIdDesc = 'PRICE_CATEGORY_BY_CATEGORY_ID__ID_DESC',
+  PriceCategoryByCategoryIdCategoryNameAsc = 'PRICE_CATEGORY_BY_CATEGORY_ID__CATEGORY_NAME_ASC',
+  PriceCategoryByCategoryIdCategoryNameDesc = 'PRICE_CATEGORY_BY_CATEGORY_ID__CATEGORY_NAME_DESC',
+  PriceCategoryByCategoryIdSortOrderAsc = 'PRICE_CATEGORY_BY_CATEGORY_ID__SORT_ORDER_ASC',
+  PriceCategoryByCategoryIdSortOrderDesc = 'PRICE_CATEGORY_BY_CATEGORY_ID__SORT_ORDER_DESC',
+  PriceSizesByProductIdCountAsc = 'PRICE_SIZES_BY_PRODUCT_ID__COUNT_ASC',
+  PriceSizesByProductIdCountDesc = 'PRICE_SIZES_BY_PRODUCT_ID__COUNT_DESC'
 }
 
 /**
@@ -23931,7 +25065,9 @@ export enum PriceCategoriesOrderBy {
   SortOrderAsc = 'SORT_ORDER_ASC',
   SortOrderDesc = 'SORT_ORDER_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  PriceProductsByCategoryIdCountAsc = 'PRICE_PRODUCTS_BY_CATEGORY_ID__COUNT_ASC',
+  PriceProductsByCategoryIdCountDesc = 'PRICE_PRODUCTS_BY_CATEGORY_ID__COUNT_DESC'
 }
 
 /**
@@ -24994,11 +26130,13 @@ export type Mutation = {
   bulkCreateShipperProjectionVessel?: Maybe<BulkCreateShipperProjectionVesselPayload>;
   bulkDeleteCustomerProgram?: Maybe<BulkDeleteCustomerProgramPayload>;
   bulkDeleteShipperProgram?: Maybe<BulkDeleteShipperProgramPayload>;
+  bulkDeleteShipperProgramEntryCustomerProgramEntry?: Maybe<BulkDeleteShipperProgramEntryCustomerProgramEntryPayload>;
   bulkDeleteShipperProjectionEntry?: Maybe<BulkDeleteShipperProjectionEntryPayload>;
   bulkUpsertCustomerProgram?: Maybe<BulkUpsertCustomerProgramPayload>;
   bulkUpsertCustomerProgramEntry?: Maybe<BulkUpsertCustomerProgramEntryPayload>;
   bulkUpsertShipperProgram?: Maybe<BulkUpsertShipperProgramPayload>;
   bulkUpsertShipperProgramEntry?: Maybe<BulkUpsertShipperProgramEntryPayload>;
+  bulkUpsertShipperProgramEntryCustomerProgramEntry?: Maybe<BulkUpsertShipperProgramEntryCustomerProgramEntryPayload>;
   bulkUpsertShipperProjectionProduct?: Maybe<BulkUpsertShipperProjectionProductPayload>;
   bulkUpsertAgendaItem?: Maybe<BulkUpsertAgendaItemPayload>;
   bulkUpsertPriceCategory?: Maybe<BulkUpsertPriceCategoryPayload>;
@@ -27826,6 +28964,12 @@ export type MutationBulkDeleteShipperProgramArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationBulkDeleteShipperProgramEntryCustomerProgramEntryArgs = {
+  input: BulkDeleteShipperProgramEntryCustomerProgramEntryInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationBulkDeleteShipperProjectionEntryArgs = {
   input: BulkDeleteShipperProjectionEntryInput;
 };
@@ -27852,6 +28996,12 @@ export type MutationBulkUpsertShipperProgramArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationBulkUpsertShipperProgramEntryArgs = {
   input: BulkUpsertShipperProgramEntryInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationBulkUpsertShipperProgramEntryCustomerProgramEntryArgs = {
+  input: BulkUpsertShipperProgramEntryCustomerProgramEntryInput;
 };
 
 
@@ -52189,6 +53339,29 @@ export type BulkDeleteShipperProgramInput = {
   idsToDelete: Array<Maybe<Scalars['BigInt']>>;
 };
 
+/** The output of our `bulkDeleteShipperProgramEntryCustomerProgramEntry` mutation. */
+export type BulkDeleteShipperProgramEntryCustomerProgramEntryPayload = {
+  __typename?: 'BulkDeleteShipperProgramEntryCustomerProgramEntryPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  bigInts?: Maybe<Array<Maybe<Scalars['BigInt']>>>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** All input for the `bulkDeleteShipperProgramEntryCustomerProgramEntry` mutation. */
+export type BulkDeleteShipperProgramEntryCustomerProgramEntryInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  idsToDelete: Array<Maybe<Scalars['BigInt']>>;
+};
+
 /** The output of our `bulkDeleteShipperProjectionEntry` mutation. */
 export type BulkDeleteShipperProjectionEntryPayload = {
   __typename?: 'BulkDeleteShipperProjectionEntryPayload';
@@ -52302,6 +53475,29 @@ export type BulkUpsertShipperProgramEntryInput = {
    */
   clientMutationId?: Maybe<Scalars['String']>;
   entries: Array<Maybe<ShipperProgramEntryInput>>;
+};
+
+/** The output of our `bulkUpsertShipperProgramEntryCustomerProgramEntry` mutation. */
+export type BulkUpsertShipperProgramEntryCustomerProgramEntryPayload = {
+  __typename?: 'BulkUpsertShipperProgramEntryCustomerProgramEntryPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  shipperProgramEntryCustomerProgramEntries?: Maybe<Array<Maybe<ShipperProgramEntryCustomerProgramEntry>>>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** All input for the `bulkUpsertShipperProgramEntryCustomerProgramEntry` mutation. */
+export type BulkUpsertShipperProgramEntryCustomerProgramEntryInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  allocations: Array<Maybe<ShipperProgramEntryCustomerProgramEntryInput>>;
 };
 
 /** The output of our `bulkUpsertShipperProjectionProduct` mutation. */

@@ -2,7 +2,7 @@ import React, { ChangeEvent } from 'react';
 import { ApolloError } from '@apollo/client';
 import styled from '@emotion/styled';
 import { pascalCase } from 'change-case';
-import { equals, pick, sortBy, sum, times } from 'ramda';
+import { equals, pick, pluck, sortBy, sum, times } from 'ramda';
 
 import PlusInCircle from 'assets/images/plus-in-circle';
 import EditableCell from 'components/editable-cell';
@@ -10,15 +10,17 @@ import useItemSelector from 'components/item-selector';
 import ItemLinkRow, { ItemLink } from 'components/item-selector/link';
 import { BasicModal } from 'components/modal';
 import { useProgramsQueryParams, useQueryValue } from 'hooks/use-query-params';
-import { CommonSpecies, CustomerProgram } from 'types';
+import { CommonSpecies, CustomerProgram, ShipperProgramEntry } from 'types';
 import l, { divPropsSet } from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 import { getDateOfISOWeek, getWeekNumber } from 'utils/date';
 
 import { ProgramProps, CustomerProgramUpdate } from '../types';
+import { getCustomerAvailablePalletEntryTotals } from '../utils';
+import CustomerProgramAllocateModal from './allocate';
 
-const ProgramWrapper = styled(l.Grid)(
+export const ProgramWrapper = styled(l.Grid)(
   {
     alignItems: 'center',
     height: 24,
@@ -68,76 +70,118 @@ export const NewProgramRow = ({
 };
 
 export const ProgramTotalRow = ({
+  editing,
   gridTemplateColumns,
   programTotals,
+  showAllocated,
   species,
 }: {
+  editing: boolean;
   gridTemplateColumns: string;
-  programTotals: number[];
+  programTotals: { total: number; available: number }[];
+  showAllocated: boolean;
   species: string;
-}) => (
-  <ProgramWrapper
-    gridTemplateColumns={gridTemplateColumns}
-    mt={species === 'Grand' ? `-${th.spacing.sm}` : th.spacing.xs}
-    py={th.spacing.md}
-    relative
-  >
-    <l.Flex alignCenter justifyEnd ml={52}>
-      <ty.CaptionText textAlign="right">
-        {species === 'Grand' ? 'Grand ' : ''}Total:
-      </ty.CaptionText>
-      <ty.CaptionText
-        bold
-        ml={th.spacing.lg}
-        mr={th.spacing.md}
-        width={th.spacing.lg}
+}) => {
+  const totals = pluck('total', programTotals);
+  const availableTotals = pluck('available', programTotals);
+
+  return (
+    <l.Div py={th.spacing.md}>
+      <ProgramWrapper
+        gridTemplateColumns={gridTemplateColumns}
+        mt={species === 'Grand' ? `-${th.spacing.sm}` : th.spacing.xs}
+        relative
       >
-        ({sum(programTotals)})
-      </ty.CaptionText>
-    </l.Flex>
-    {programTotals.map((total, idx) => (
-      <l.Flex alignCenter justifyCenter key={idx}>
-        <ty.CaptionText center mr={th.spacing.md}>
-          {total <= 0 ? '' : total}
-        </ty.CaptionText>
-      </l.Flex>
-    ))}
-  </ProgramWrapper>
-);
+        <l.Flex alignCenter justifyEnd ml={52}>
+          <ty.CaptionText textAlign="right">
+            {species === 'Grand' ? 'Grand ' : ''}Total:
+          </ty.CaptionText>
+          <ty.CaptionText
+            bold
+            ml={th.spacing.lg}
+            mr={th.spacing.md}
+            textAlign="right"
+            width={th.spacing.lg}
+          >
+            {sum(totals)}
+          </ty.CaptionText>
+        </l.Flex>
+        {totals.map((total, idx) => (
+          <l.Flex alignCenter justifyCenter key={idx}>
+            <ty.CaptionText center mr={th.spacing.md}>
+              {total <= 0 ? '' : total}
+            </ty.CaptionText>
+          </l.Flex>
+        ))}
+      </ProgramWrapper>
+      {!editing && showAllocated && (
+        <ProgramWrapper
+          gridTemplateColumns={gridTemplateColumns}
+          mt={th.spacing.tn}
+        >
+          {[
+            sum(availableTotals.map((val) => (val < 0 ? 0 : val))),
+            ...availableTotals,
+          ].map((total, idx) => (
+            <ty.SmallText
+              bold={idx === 0}
+              color={
+                total === 0 ? th.colors.status.success : th.colors.status.error
+              }
+              key={idx}
+              mr={th.spacing.md}
+              secondary
+              textAlign={idx === 0 ? 'right' : 'center'}
+            >
+              {total !== null && total !== undefined && total !== -1
+                ? `(${total})`
+                : ''}
+            </ty.SmallText>
+          ))}
+        </ProgramWrapper>
+      )}
+    </l.Div>
+  );
+};
 
 const Cell = styled(l.Flex)(
   ({
+    active,
+    disabled,
     error,
-    isEvenRow,
     onClick,
     warning,
   }: {
-    error: boolean;
-    isEvenRow: boolean;
+    active?: boolean;
+    disabled?: boolean;
+    error?: boolean;
     onClick?: () => void;
-    warning: boolean;
+    warning?: boolean;
   }) => ({
     alignItems: 'center',
-    background: isEvenRow
-      ? th.colors.background
-      : th.colors.brand.containerBackground,
+    background: th.colors.background,
     border: error
       ? th.borders.error
       : warning
       ? th.borders.warning
+      : active
+      ? th.borders.primaryAccent
       : th.borders.disabled,
     height: 20,
     cursor: onClick ? 'pointer' : 'default',
+    opacity: disabled ? th.opacities.disabled : 1,
     padding: `0 ${th.spacing.tn}`,
     position: 'relative',
     transition: th.transitions.default,
     width: `calc(${th.sizes.fill} - ${th.spacing.sm} - 2px)`,
     ':hover': {
-      border: error
-        ? th.borders.error
-        : warning
-        ? th.borders.warning
-        : th.borders.primaryAccent,
+      border: onClick
+        ? error
+          ? th.borders.error
+          : warning
+          ? th.borders.warning
+          : th.borders.primaryAccent
+        : undefined,
     },
   }),
 );
@@ -150,9 +194,9 @@ const ProgramRow = (
     duplicateProgramIds: number[];
     gridTemplateColumns: string;
     index: number;
-    isEvenRow: boolean;
     previousProgram?: CustomerProgram;
     program: CustomerProgram;
+    shipperProgramEntries: ShipperProgramEntry[];
     showSpecies: boolean;
     showVariety: boolean;
   } & ProgramProps,
@@ -173,14 +217,18 @@ const ProgramRow = (
     error,
     duplicateProgramIds,
     gridTemplateColumns,
-    isEvenRow,
     loading,
     previousProgram,
     program,
     selectedWeekNumber,
+    shipperProgramEntries,
+    showAllocated,
     showSpecies,
     showVariety,
     weekCount,
+    handleWeekRangeChange,
+    startWeeks,
+    endWeeks,
   } = props;
   const { id } = program;
 
@@ -403,236 +451,238 @@ const ProgramRow = (
       getCustomerProgramValue(previousProgram, 'commonVarietyId').value,
     );
 
+  const availablePalletEntryTotals = getCustomerAvailablePalletEntryTotals(
+    program,
+    selectedWeekNumber,
+    weekCount,
+  );
+  const availablePalletTotals = [
+    sum(
+      availablePalletEntryTotals.map((total) =>
+        total !== null && total !== undefined && total < 0 ? 0 : total || 0,
+      ),
+    ),
+    ...availablePalletEntryTotals,
+  ];
+
   return (
-    <ProgramWrapper
-      gridTemplateColumns={gridTemplateColumns}
-      mt={isDifferentVariety ? th.spacing.md : undefined}
-    >
-      <l.Grid
-        alignCenter
-        key={program.id}
-        gridColumnGap={th.spacing.xs}
-        gridTemplateColumns="repeat(2, 1fr) repeat(3, 0.7fr)"
-        ml={52}
-        relative
+    <>
+      <ProgramWrapper
+        gridTemplateColumns={gridTemplateColumns}
+        mt={isDifferentVariety ? th.spacing.md : undefined}
       >
-        {editing && (
-          <>
-            <BasicModal
-              title="Confirm Remove Product"
-              content={
-                <ty.BodyText mb={th.spacing.md}>
-                  Are you sure you want to remove this product? This action
-                  cannot be undone.
-                </ty.BodyText>
+        <l.Grid
+          alignCenter
+          key={program.id}
+          gridColumnGap={th.spacing.xs}
+          gridTemplateColumns="repeat(2, 1fr) repeat(3, 0.7fr)"
+          ml={52}
+          relative
+        >
+          {editing && (
+            <>
+              <BasicModal
+                title="Confirm Remove Product"
+                content={
+                  <ty.BodyText mb={th.spacing.md}>
+                    Are you sure you want to remove this product? This action
+                    cannot be undone.
+                  </ty.BodyText>
+                }
+                handleConfirm={() => {
+                  handleRemoveItem('customerPrograms', id);
+                }}
+                shouldConfirm={program.id >= 0}
+                triggerProps={{
+                  position: 'absolute',
+                  left: -45,
+                }}
+                triggerType="remove-icon"
+              />
+              <l.HoverButton
+                onClick={() => {
+                  handleNewCustomerProgram(updatedProgram);
+                }}
+                position="absolute"
+                left={-22}
+              >
+                <PlusInCircle height={th.sizes.xs} width={th.sizes.xs} />
+              </l.HoverButton>
+            </>
+          )}
+          {editing ? (
+            SpeciesSelector
+          ) : showSpecies ? (
+            <Cell
+              {...pick(
+                ['error', 'warning'],
+                speciesLinkSelectorProps.editableCellProps,
+              )}
+              onClick={
+                commonSpeciesId
+                  ? () => {
+                      setProgramsQueryParams({ commonSpeciesId });
+                    }
+                  : undefined
               }
-              handleConfirm={() => {
-                handleRemoveItem('customerPrograms', id);
-              }}
-              shouldConfirm={program.id >= 0}
-              triggerProps={{
-                position: 'absolute',
-                left: -45,
-              }}
-              triggerType="remove-icon"
-            />
-            <l.HoverButton
-              onClick={() => {
-                handleNewCustomerProgram(updatedProgram);
-              }}
-              position="absolute"
-              left={-22}
+              width={89}
             >
-              <PlusInCircle height={th.sizes.xs} width={th.sizes.xs} />
-            </l.HoverButton>
-          </>
-        )}
-        {editing ? (
-          SpeciesSelector
-        ) : showSpecies ? (
-          <Cell
-            {...pick(
-              ['error', 'warning'],
-              speciesLinkSelectorProps.editableCellProps,
-            )}
-            isEvenRow={isEvenRow}
-            onClick={
-              commonSpeciesId
-                ? () => {
-                    setProgramsQueryParams({ commonSpeciesId });
-                  }
-                : undefined
-            }
-            width={89}
-          >
-            <ty.CaptionText
-              bold
-              ellipsis
-              title={program.commonSpecies?.speciesName}
-            >
-              {program.commonSpecies?.speciesName}
-            </ty.CaptionText>
-          </Cell>
-        ) : (
-          <div />
-        )}
-        {commonSpecies && (
-          <>
-            {editing ? (
-              VarietySelector
-            ) : showVariety ? (
-              <Cell
-                {...pick(
-                  ['error', 'warning'],
-                  varietyLinkSelectorProps.editableCellProps,
-                )}
-                isEvenRow={isEvenRow}
-                onClick={
-                  commonSpeciesId && commonVarietyId
-                    ? () => {
-                        setProgramsQueryParams({
-                          commonSpeciesId,
-                          commonVarietyId,
-                        });
-                      }
-                    : undefined
-                }
-                width={89}
+              <ty.CaptionText
+                bold
+                ellipsis
+                title={program.commonSpecies?.speciesName}
               >
-                <ty.CaptionText
-                  ellipsis
-                  title={program.commonVariety?.varietyName}
-                >
-                  {program.commonVariety?.varietyName}
-                </ty.CaptionText>
-              </Cell>
-            ) : (
-              <div />
-            )}
-            {editing ? (
-              SizeSelector
-            ) : (
-              <Cell
-                {...pick(
-                  ['error', 'warning'],
-                  sizeLinkSelectorProps.editableCellProps,
-                )}
-                isEvenRow={isEvenRow}
-                onClick={
-                  commonSpecies && commonSizeId
-                    ? () => {
-                        setProgramsQueryParams({
-                          commonSpeciesId,
-                          commonSizeId,
-                        });
-                      }
-                    : undefined
-                }
-                width={58}
-              >
-                <ty.CaptionText ellipsis title={program.commonSize?.sizeName}>
-                  {program.commonSize?.sizeName}
-                </ty.CaptionText>
-              </Cell>
-            )}
-            {editing ? (
-              PackTypeSelector
-            ) : (
-              <Cell
-                {...pick(
-                  ['error', 'warning'],
-                  packTypeLinkSelectorProps.editableCellProps,
-                )}
-                isEvenRow={isEvenRow}
-                onClick={
-                  commonSpeciesId && commonPackTypeId
-                    ? () => {
-                        setProgramsQueryParams({
-                          commonSpeciesId,
-                          commonPackTypeId,
-                        });
-                      }
-                    : undefined
-                }
-                width={58}
-              >
-                <ty.CaptionText
-                  ellipsis
-                  title={program.commonPackType?.packTypeName}
-                >
-                  {program.commonPackType?.packTypeName}
-                </ty.CaptionText>
-              </Cell>
-            )}
-            <EditableCell
-              content={{ dirty: plu !== program.plu, value: plu || '' }}
-              defaultChildren={
+                {program.commonSpecies?.speciesName}
+              </ty.CaptionText>
+            </Cell>
+          ) : (
+            <div />
+          )}
+          {commonSpecies && (
+            <>
+              {editing ? (
+                VarietySelector
+              ) : showVariety ? (
                 <Cell
-                  error={false}
-                  warning={false}
-                  isEvenRow={isEvenRow}
+                  {...pick(
+                    ['error', 'warning'],
+                    varietyLinkSelectorProps.editableCellProps,
+                  )}
                   onClick={
-                    commonSpeciesId && plu
+                    commonSpeciesId && commonVarietyId
                       ? () => {
                           setProgramsQueryParams({
                             commonSpeciesId,
-                            plu,
+                            commonVarietyId,
+                          });
+                        }
+                      : undefined
+                  }
+                  width={89}
+                >
+                  <ty.CaptionText
+                    ellipsis
+                    title={program.commonVariety?.varietyName}
+                  >
+                    {program.commonVariety?.varietyName}
+                  </ty.CaptionText>
+                </Cell>
+              ) : (
+                <div />
+              )}
+              {editing ? (
+                SizeSelector
+              ) : (
+                <Cell
+                  {...pick(
+                    ['error', 'warning'],
+                    sizeLinkSelectorProps.editableCellProps,
+                  )}
+                  onClick={
+                    commonSpecies && commonSizeId
+                      ? () => {
+                          setProgramsQueryParams({
+                            commonSpeciesId,
+                            commonSizeId,
                           });
                         }
                       : undefined
                   }
                   width={58}
                 >
-                  <ty.CaptionText>{plu}</ty.CaptionText>
+                  <ty.CaptionText ellipsis title={program.commonSize?.sizeName}>
+                    {program.commonSize?.sizeName}
+                  </ty.CaptionText>
                 </Cell>
-              }
-              editing={!!editing}
-              error={isDuplicate}
-              onChange={(e) => {
-                handleChange('plu', e.target.value);
-              }}
-              showBorder={false}
-            />
-          </>
-        )}
-      </l.Grid>
-      {times((index) => {
-        const entry = program.customerProgramEntries.nodes.find(
-          (entry) =>
-            entry &&
-            getWeekNumber(new Date(entry.programDate.replace(/-/g, '/'))) ===
-              selectedWeekNumber + index,
-        );
+              )}
+              {editing ? (
+                PackTypeSelector
+              ) : (
+                <Cell
+                  {...pick(
+                    ['error', 'warning'],
+                    packTypeLinkSelectorProps.editableCellProps,
+                  )}
+                  onClick={
+                    commonSpeciesId && commonPackTypeId
+                      ? () => {
+                          setProgramsQueryParams({
+                            commonSpeciesId,
+                            commonPackTypeId,
+                          });
+                        }
+                      : undefined
+                  }
+                  width={58}
+                >
+                  <ty.CaptionText
+                    ellipsis
+                    title={program.commonPackType?.packTypeName}
+                  >
+                    {program.commonPackType?.packTypeName}
+                  </ty.CaptionText>
+                </Cell>
+              )}
+              <EditableCell
+                content={{ dirty: plu !== program.plu, value: plu || '' }}
+                defaultChildren={
+                  <Cell
+                    onClick={
+                      commonSpeciesId && plu
+                        ? () => {
+                            setProgramsQueryParams({
+                              commonSpeciesId,
+                              plu,
+                            });
+                          }
+                        : undefined
+                    }
+                    width={58}
+                  >
+                    <ty.CaptionText>{plu}</ty.CaptionText>
+                  </Cell>
+                }
+                editing={!!editing}
+                error={isDuplicate}
+                onChange={(e) => {
+                  handleChange('plu', e.target.value);
+                }}
+                showBorder={false}
+              />
+            </>
+          )}
+        </l.Grid>
+        {times((index) => {
+          const entry = program.customerProgramEntries.nodes.find(
+            (entry) =>
+              entry &&
+              getWeekNumber(new Date(entry.programDate.replace(/-/g, '/'))) ===
+                selectedWeekNumber + index,
+          );
 
-        const palletCountCurrentValue = getCustomerProgramEntryValue(
-          entry,
-          'palletCount',
-        ).value;
-        const palletCountInputValue =
-          !!palletCountCurrentValue && palletCountCurrentValue !== '0'
-            ? palletCountCurrentValue
-            : '';
-        const palletCountValue = !!entry?.palletCount
-          ? parseInt(entry?.palletCount, 10)
-          : 0 || '-';
-        const isEntryDirty =
-          getCustomerProgramEntryValue(entry, 'palletCount').value !==
-          entry?.palletCount;
+          const palletCountCurrentValue = getCustomerProgramEntryValue(
+            entry,
+            'palletCount',
+          ).value;
+          const palletCountInputValue =
+            !!palletCountCurrentValue && palletCountCurrentValue !== '0'
+              ? palletCountCurrentValue
+              : '';
+          const palletCountValue = !!entry?.palletCount
+            ? parseInt(entry?.palletCount, 10)
+            : 0;
+          const isEntryDirty =
+            getCustomerProgramEntryValue(entry, 'palletCount').value !==
+            entry?.palletCount;
 
-        return (
-          <l.Flex
-            alignCenter
-            bg={
-              isEvenRow
-                ? th.colors.background
-                : th.colors.brand.containerBackground
-            }
-            height={`calc(${th.sizes.fill} - 6px)`}
-            justifyCenter
-            key={index}
-            mx={th.spacing.tn}
-          >
-            {editing ? (
+          return editing ? (
+            <l.Flex
+              alignCenter
+              height={`calc(${th.sizes.fill} - 6px)`}
+              justifyCenter
+              key={index}
+              mx={th.spacing.tn}
+            >
               <EditableCell
                 content={{
                   dirty: entry?.id < 0 || isEntryDirty,
@@ -664,15 +714,60 @@ const ProgramRow = (
                       });
                 }}
               />
-            ) : (
-              <ty.CaptionText center mr={th.spacing.md}>
-                {palletCountValue || '-'}
-              </ty.CaptionText>
-            )}
-          </l.Flex>
-        );
-      }, weekCount)}
-    </ProgramWrapper>
+            </l.Flex>
+          ) : (
+            <l.Div key={index}>
+              <CustomerProgramAllocateModal
+                disabled={editing || !palletCountValue}
+                shipperProgramEntries={shipperProgramEntries}
+                entry={entry}
+                loading={loading}
+                trigger={(focused) => (
+                  <Cell
+                    active={focused}
+                    alignCenter
+                    disabled={!palletCountValue}
+                    onClick={palletCountValue ? () => ({}) : undefined}
+                    height={`calc(${th.sizes.fill} - 6px)`}
+                    justifyCenter
+                    mx={th.spacing.tn}
+                  >
+                    <ty.CaptionText center mr={th.spacing.md}>
+                      {palletCountValue || '-'}
+                    </ty.CaptionText>
+                  </Cell>
+                )}
+                weekCount={weekCount}
+                handleWeekRangeChange={handleWeekRangeChange}
+                startWeeks={startWeeks}
+                endWeeks={endWeeks}
+              />
+            </l.Div>
+          );
+        }, weekCount)}
+      </ProgramWrapper>
+      {!editing && showAllocated && (
+        <ProgramWrapper
+          gridTemplateColumns={gridTemplateColumns}
+          mt={th.spacing.tn}
+        >
+          {availablePalletTotals.map((total, idx) => (
+            <ty.SmallText
+              bold={idx === 0}
+              color={
+                total === 0 ? th.colors.status.success : th.colors.status.error
+              }
+              key={idx}
+              mr={th.spacing.md}
+              secondary
+              textAlign={idx === 0 ? 'right' : 'center'}
+            >
+              {total !== null && total !== undefined ? `(${total})` : ''}
+            </ty.SmallText>
+          ))}
+        </ProgramWrapper>
+      )}
+    </>
   );
 };
 

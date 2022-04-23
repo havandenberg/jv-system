@@ -1,0 +1,7 @@
+mutation BULK_DELETE_SHIPPER_PROGRAM_ENTRY($idsToDelete: [BigInt]!) {
+  bulkDeleteShipperProgramEntryCustomerProgramEntry(
+    input: { idsToDelete: $idsToDelete }
+  ) {
+    clientMutationId
+  }
+}

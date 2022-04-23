@@ -10,10 +10,10 @@ import {
 
 import CalendarImg from 'assets/images/calendar';
 import CloseImg from 'assets/images/close';
-import useOutsideClickRef from 'hooks/use-outside-click-ref';
 import l, { divPropsSet } from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
+import OutsideClickHandler from 'react-outside-click-handler';
 
 const Wrapper = styled(l.Div)({ position: 'relative', zIndex: 10 });
 
@@ -125,9 +125,6 @@ const DateRangePicker = ({
   ...rest
 }: DateRangeProps) => {
   const [show, setShow] = useState(false);
-  const ref = useOutsideClickRef(() => {
-    setShow(false);
-  });
   const selectedDates = ranges && ranges[0];
   const hasValue = !!(selectedDates && selectedDates.endDate);
   const formattedDateRange =
@@ -154,49 +151,55 @@ const DateRangePicker = ({
     singleSelection && !showLongDate && !showAsWeekNumber ? 200 : undefined;
 
   return (
-    <Wrapper ref={ref}>
-      <Control
-        hasValue={hasValue}
-        onClick={toggleShow}
-        show={show}
-        width={width}
-      >
-        <IconWrapper>
-          <CalendarImg height={18} />
-        </IconWrapper>
-        <DateText hasValue={hasValue} show={show}>
-          {formattedDateRange}
-        </DateText>
-        {hasValue ? (
-          <ClearWrapper onClick={handleClear}>
-            <CloseImg height={12} />
-          </ClearWrapper>
-        ) : (
-          <div />
+    <OutsideClickHandler
+      onOutsideClick={() => {
+        setShow(false);
+      }}
+    >
+      <Wrapper>
+        <Control
+          hasValue={hasValue}
+          onClick={toggleShow}
+          show={show}
+          width={width}
+        >
+          <IconWrapper>
+            <CalendarImg height={18} />
+          </IconWrapper>
+          <DateText hasValue={hasValue} show={show}>
+            {formattedDateRange}
+          </DateText>
+          {hasValue ? (
+            <ClearWrapper onClick={handleClear}>
+              <CloseImg height={12} />
+            </ClearWrapper>
+          ) : (
+            <div />
+          )}
+        </Control>
+        {show && (
+          <PickerWrapper left={offsetLeft}>
+            <DateRange
+              className={hideDefinedRanges ? 'hideDefinedRanges' : undefined}
+              direction="horizontal"
+              moveRangeOnFirstSelection={false}
+              onChange={onChange}
+              ranges={ranges || defaultRange}
+              rangeColors={[th.colors.brand.primaryAccent]}
+              showSelectionPreview={true}
+              {...(singleSelection
+                ? {
+                    focusedRange: [0, 0],
+                    inputRanges: [],
+                    staticRanges: [],
+                  }
+                : undefined)}
+              {...rest}
+            />
+          </PickerWrapper>
         )}
-      </Control>
-      {show && (
-        <PickerWrapper left={offsetLeft}>
-          <DateRange
-            className={hideDefinedRanges ? 'hideDefinedRanges' : undefined}
-            direction="horizontal"
-            moveRangeOnFirstSelection={false}
-            onChange={onChange}
-            ranges={ranges || defaultRange}
-            rangeColors={[th.colors.brand.primaryAccent]}
-            showSelectionPreview={true}
-            {...(singleSelection
-              ? {
-                  focusedRange: [0, 0],
-                  inputRanges: [],
-                  staticRanges: [],
-                }
-              : undefined)}
-            {...rest}
-          />
-        </PickerWrapper>
-      )}
-    </Wrapper>
+      </Wrapper>
+    </OutsideClickHandler>
   );
 };
 

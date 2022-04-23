@@ -10,6 +10,7 @@ import { TextProps, textPropsSet } from 'ui/typography';
 import { hexColorWithTransparency } from 'ui/utils';
 
 import ColorPicker from './color-picker';
+import useDebounce from 'hooks/use-debounce';
 
 export const EDITABLE_CELL_HEIGHT = 28;
 
@@ -72,6 +73,7 @@ export interface EditableCellProps {
   bypassLocalValue?: boolean;
   content: CellContent;
   defaultChildren: React.ReactNode;
+  debounce?: number;
   editing: boolean;
   error?: boolean;
   handleHighlight?: () => void;
@@ -90,6 +92,7 @@ export interface EditableCellProps {
 const EditableCell = ({
   bypassLocalValue,
   content,
+  debounce,
   defaultChildren,
   editing,
   error,
@@ -115,11 +118,22 @@ const EditableCell = ({
     handleHighlight &&
     showToggleHighlight;
 
+  const debouncedLocalValue = useDebounce(localValue, debounce || 500);
+  const previousDebouncedLocalValue = usePrevious(debouncedLocalValue);
+
   useEffect(() => {
     if (previousValue !== value) {
       setLocalValue(value);
     }
   }, [previousValue, value]);
+
+  useEffect(() => {
+    if (debounce && previousDebouncedLocalValue !== debouncedLocalValue) {
+      onChange({
+        target: { value: debouncedLocalValue },
+      } as React.ChangeEvent<HTMLInputElement>);
+    }
+  }, [debounce, debouncedLocalValue, onChange, previousDebouncedLocalValue]);
 
   return (
     <Wrapper

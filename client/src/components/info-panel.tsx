@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
+import OutsideClickHandler from 'react-outside-click-handler';
 
-import useOutsideClickRef from 'hooks/use-outside-click-ref';
 import l, { DivProps, divPropsSet } from 'ui/layout';
 import th from 'ui/theme';
 
@@ -69,16 +69,12 @@ const InfoPanel = ({
   triggerIcon,
   visible,
 }: Props) => {
-  const ref = useOutsideClickRef(() => {
-    setShow(false);
-  });
-
   const toggleShow = () => {
     setShow(!show);
   };
 
   return (
-    <l.Div relative ref={ref}>
+    <l.Div relative>
       {triggerIcon && (
         <Trigger
           hasFilters={hasFilters}
@@ -89,7 +85,15 @@ const InfoPanel = ({
           {triggerIcon}
         </Trigger>
       )}
-      {show && <Panel {...customStyles}>{content}</Panel>}
+      {show && (
+        <OutsideClickHandler
+          onOutsideClick={() => {
+            setShow(false);
+          }}
+        >
+          <Panel {...customStyles}>{content}</Panel>
+        </OutsideClickHandler>
+      )}
     </l.Div>
   );
 };

@@ -1,0 +1,9 @@
+mutation BULK_UPSERT_SHIPPER_PROGRAM_ENTRY_CUSTOMER_PROGRAM_ENTRY(
+  $allocations: [ShipperProgramEntryCustomerProgramEntryInput]!
+) {
+  bulkUpsertShipperProgramEntryCustomerProgramEntry(
+    input: { allocations: $allocations }
+  ) {
+    clientMutationId
+  }
+}

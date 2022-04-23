@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { ApolloError } from '@apollo/client';
 import styled from '@emotion/styled';
 import { pluck } from 'ramda';
+import OutsideClickHandler from 'react-outside-click-handler';
 
 import VirtualizedList from 'components/virtualized-list';
-import useOutsideClickRef from 'hooks/use-outside-click-ref';
 import useSearch from 'hooks/use-search';
 import l from 'ui/layout';
 import th from 'ui/theme';
@@ -44,7 +44,7 @@ export interface ItemSelectorProps<T> {
   placeholder?: string;
   searchParamName?: string;
   selectedItem?: string;
-  selectItem: (item: T) => void;
+  selectItem?: (item: T) => void;
   width?: number;
 }
 
@@ -94,10 +94,6 @@ const useItemSelector = <T extends { id: string }>({
     }
   };
 
-  const ref = useOutsideClickRef(() => {
-    handleBlur();
-  });
-
   const items = allItems.filter(
     (item) => !pluck('id', excludedItems).includes(item.id),
   );
@@ -105,63 +101,65 @@ const useItemSelector = <T extends { id: string }>({
   return {
     clearSearch,
     ItemSelector: (
-      <l.Div relative ref={ref}>
+      <l.Div relative>
         <l.Div onClick={handleFocus}>
           {editableCellProps ? <EditableCell {...editableCellProps} /> : Search}
         </l.Div>
         {focused && (
-          <l.Flex
-            borderRadius={th.borderRadii.default}
-            border={th.borders.secondary}
-            bg={th.colors.background}
-            boxShadow={th.shadows.box}
-            height={height}
-            mt={panelGap}
-            position="absolute"
-            width={width}
-            zIndex={5}
-          >
-            {items && items.length > 0 ? (
-              <VirtualizedList
-                height={height}
-                rowCount={items.length}
-                rowHeight={32}
-                rowRenderer={({ key, index, style }) => {
-                  const item = items[index];
+          <OutsideClickHandler onOutsideClick={handleBlur}>
+            <l.Flex
+              borderRadius={th.borderRadii.default}
+              border={th.borders.secondary}
+              bg={th.colors.background}
+              boxShadow={th.shadows.box}
+              height={height}
+              mt={panelGap}
+              position="absolute"
+              width={width}
+              zIndex={5}
+            >
+              {items && items.length > 0 ? (
+                <VirtualizedList
+                  height={height}
+                  rowCount={items.length}
+                  rowHeight={32}
+                  rowRenderer={({ key, index, style }) => {
+                    const item = items[index];
 
-                  return (
-                    item && (
-                      <RowWrapper
-                        onClick={() => {
-                          selectItem(item);
-                          clearSearch();
-                          if (closeOnSelect) {
-                            handleBlur();
-                          }
-                        }}
-                        key={key}
-                        style={style}
-                      >
-                        {getItemContent
-                          ? getItemContent(item)
-                          : item && (
-                              <ty.CaptionText pl={th.spacing.sm}>
-                                {item.id} - {item[nameKey]}
-                              </ty.CaptionText>
-                            )}
-                      </RowWrapper>
-                    )
-                  );
-                }}
-                style={{ borderRadius: th.borderRadii.default }}
-                width={width}
-              />
-            ) : (
-              <ty.CaptionText disabled mt={th.spacing.md} px={th.spacing.sm}>
-                {loading ? 'Loading...' : `No ${errorLabel} found...`}
-              </ty.CaptionText>
-            )}
-          </l.Flex>
+                    return (
+                      item && (
+                        <RowWrapper
+                          onClick={() => {
+                            selectItem && selectItem(item);
+                            clearSearch();
+                            if (closeOnSelect) {
+                              handleBlur();
+                            }
+                          }}
+                          key={key}
+                          style={style}
+                        >
+                          {getItemContent
+                            ? getItemContent(item)
+                            : item && (
+                                <ty.CaptionText pl={th.spacing.sm}>
+                                  {item.id} - {item[nameKey]}
+                                </ty.CaptionText>
+                              )}
+                        </RowWrapper>
+                      )
+                    );
+                  }}
+                  style={{ borderRadius: th.borderRadii.default }}
+                  width={width}
+                />
+              ) : (
+                <ty.CaptionText disabled mt={th.spacing.md} px={th.spacing.sm}>
+                  {loading ? 'Loading...' : `No ${errorLabel} found...`}
+                </ty.CaptionText>
+              )}
+            </l.Flex>
+          </OutsideClickHandler>
         )}
       </l.Div>
     ),

@@ -54,6 +54,40 @@ query SHIPPER_PROGRAM_LIST(
           notes
           palletCount
           programDate
+          searchText
+          shipperProgram {
+            id
+            plu
+            arrivalPort
+            commonSpecies {
+              id
+              speciesName
+            }
+            commonVariety {
+              id
+              varietyName
+            }
+            commonSize {
+              id
+              sizeName
+            }
+            commonPackType {
+              id
+              packTypeName
+            }
+            shipper {
+              id
+              shipperName
+            }
+          }
+          shipperProgramEntryCustomerProgramEntries {
+            nodes {
+              customerProgramEntryId
+              id
+              palletCount
+              shipperProgramEntryId
+            }
+          }
         }
       }
     }

@@ -12,6 +12,7 @@ RUN npm install -g postgraphile-plugin-nested-mutations
 RUN npm install -g @graphile-contrib/pg-simplify-inflector
 RUN npm install -g @graphile-contrib/pg-many-to-many
 RUN npm install -g graphile-upsert-plugin
+RUN npm install -g @graphile-contrib/pg-order-by-related
 
 COPY ./custom-plugin /tmp/custom-plugin
 RUN cd /tmp/custom-plugin && npm pack

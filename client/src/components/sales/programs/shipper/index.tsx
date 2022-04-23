@@ -1,33 +1,24 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { ApolloError } from '@apollo/client';
-import {
-  equals,
-  groupBy,
-  mapObjIndexed,
-  pluck,
-  sortBy,
-  times,
-  values,
-} from 'ramda';
+import { equals, groupBy, mapObjIndexed, sortBy, values } from 'ramda';
 import { useLocation } from 'react-router-dom';
 
 import api from 'api';
 import { DataMessage } from 'components/page/message';
-import { useQueryValue } from 'hooks/use-query-params';
 import {
   CommonSpecies,
   Maybe,
   Shipper,
   ShipperProgram,
+  CustomerProgramEntry,
   ShipperProgramEntry,
 } from 'types';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
-import { getWeekNumber } from 'utils/date';
 
 import { ProgramProps, ShipperProgramUpdate } from '../types';
-import { getGridProps } from '../utils';
+import { getGridProps, getShipperProgramTotals } from '../utils';
 import ProgramRow, { NewProgramRow, ProgramTotalRow } from './row';
 
 interface Props extends ProgramProps {
@@ -37,6 +28,7 @@ interface Props extends ProgramProps {
   programs: ShipperProgram[];
   selectedShipper?: Maybe<Shipper> | undefined;
   selectedWeekNumber: number;
+  customerProgramEntries: CustomerProgramEntry[];
 }
 
 const ShipperProgramSet = ({
@@ -56,16 +48,20 @@ const ShipperProgramSet = ({
   ) => { dirty: boolean; value: string };
   groupedPrograms: Record<string, ShipperProgram[]>;
   loading: boolean;
-  programTotals: { [key: string]: number[] };
+  programTotals: { [key: string]: { total: number; available: number }[] };
   rest: Pick<
     Props,
     | 'changeHandlers'
+    | 'customerProgramEntries'
     | 'duplicateProgramIds'
     | 'handleRemoveItem'
-    | 'isItemCollapsed'
     | 'newItemHandlers'
+    | 'showAllocated'
+    | 'startWeeks'
+    | 'endWeeks'
+    | 'handleWeekRangeChange'
     | 'selectedWeekNumber'
-    | 'toggleCollapseItem'
+    | 'shipperProgramEntries'
     | 'valueGetters'
     | 'weekCount'
   >;
@@ -129,7 +125,6 @@ const ShipperProgramSet = ({
                             editing={editing}
                             gridTemplateColumns={gridTemplateColumns}
                             index={idx}
-                            isEvenRow={!!isEvenRow}
                             key={idx}
                             loading={loading}
                             program={program}
@@ -146,8 +141,10 @@ const ShipperProgramSet = ({
                 }
                 {key && (
                   <ProgramTotalRow
+                    editing={editing}
                     gridTemplateColumns={gridTemplateColumns}
                     programTotals={programTotals[programTotalsKey]}
+                    showAllocated={rest.showAllocated}
                     species={
                       getShipperProgramValue(programs[0], 'commonSpeciesId')
                         .value
@@ -183,12 +180,9 @@ const ShipperPrograms = ({
   selectedShipper,
   ...rest
 }: Props) => {
-  const { error, selectedWeekNumber } = rest;
+  const { error, selectedWeekNumber, showAllocated } = rest;
 
-  const { pathname } = useLocation();
-  const [startDateQuery] = useQueryValue('startDate');
-  const [endDateQuery] = useQueryValue('endDate');
-  const [coast] = useQueryValue('coast');
+  const { pathname, search } = useLocation();
 
   const { data: speciesData, loading: speciesLoading } =
     api.useCommonSpecieses();
@@ -245,46 +239,34 @@ const ShipperPrograms = ({
     rest.weekCount,
   );
 
-  const getProgramTotals = (ps: ShipperProgram[]) =>
-    times(
-      (index) =>
-        pluck('shipperProgramEntries', ps)
-          .map((entries) =>
-            (entries.nodes as ShipperProgramEntry[])
-              .filter(
-                (entry) =>
-                  entry &&
-                  getWeekNumber(
-                    new Date(entry.programDate.replace(/-/g, '/')),
-                  ) ===
-                    selectedWeekNumber + index,
-              )
-              .reverse(),
-          )
-          .flat()
-          .reduce(
-            (acc, entry) =>
-              acc + +getShipperProgramEntryValue(entry, 'palletCount').value,
-            0,
-          ),
-      weekCount,
-    );
-
   const hasPrograms = programs.length > 0;
 
+  const buildProgramTotals = (progs: ShipperProgram[]) =>
+    getShipperProgramTotals(
+      progs,
+      selectedWeekNumber,
+      weekCount,
+      getShipperProgramEntryValue as (
+        entry: ShipperProgramEntry,
+        key: keyof ShipperProgramEntry,
+      ) => { dirty: boolean; value: string },
+    );
+
   const programTotals = selectedShipper
-    ? mapObjIndexed((ps) => getProgramTotals(ps), groupedProgramsByProduct)
+    ? mapObjIndexed((ps) => buildProgramTotals(ps), groupedProgramsByProduct)
     : Object.keys(groupedProgramsByShipperAndProduct).reduce((acc, key) => {
         const ps = groupedProgramsByShipperAndProduct[key];
-        const newProducts: { [key: string]: number[] } = {};
+        const newProducts: {
+          [key: string]: { total: number; available: number }[];
+        } = {};
         Object.keys(ps).forEach((productKey) => {
           const product = ps[productKey];
-          newProducts[`${key}-${productKey}`] = getProgramTotals(product);
+          newProducts[`${key}-${productKey}`] = buildProgramTotals(product);
         });
         return { ...acc, ...newProducts };
       }, {});
 
-  const grandProgramTotals = getProgramTotals(programs);
+  const grandProgramTotals = buildProgramTotals(programs);
 
   return (
     <l.Div mb={th.spacing.xxl} relative>
@@ -341,9 +323,9 @@ const ShipperPrograms = ({
                       loading={loading}
                       programTotals={programTotals}
                       rest={rest}
-                      shipperTo={`${pathname}?coast=${coast}&startDate=${startDateQuery}&endDate=${endDateQuery}&shipperId=${
+                      shipperTo={`${pathname}${search}&shipperId=${
                         values(programsByShipper)[0]?.[0]?.shipperId
-                      }&view=shippers`}
+                      }`}
                       specieses={specieses}
                     />
                   ),
@@ -356,8 +338,10 @@ const ShipperPrograms = ({
             <NewProgramRow editing={true} hasPrograms={hasPrograms} {...rest} />
           )}
           <ProgramTotalRow
+            editing={editing}
             gridTemplateColumns={gridTemplateColumns}
             programTotals={grandProgramTotals}
+            showAllocated={showAllocated}
             species="Grand"
           />
           <l.Div
@@ -384,7 +368,7 @@ const ShipperPrograms = ({
         <DataMessage
           data={programs}
           emptyProps={{
-            header: 'No shipper programs found',
+            header: 'No customer programs found',
           }}
           error={error}
           loading={loading}
