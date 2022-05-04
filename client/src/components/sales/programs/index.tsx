@@ -1,5 +1,16 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { equals, isEmpty, omit, pluck, reduce } from 'ramda';
+import { add, endOfISOWeek, startOfISOWeek } from 'date-fns';
+import {
+  equals,
+  groupBy,
+  isEmpty,
+  mapObjIndexed,
+  omit,
+  pluck,
+  reduce,
+  values,
+} from 'ramda';
+import { useLocation } from 'react-router-dom';
 import { ClipLoader } from 'react-spinners';
 
 import api from 'api';
@@ -9,6 +20,7 @@ import ErrorPanel from 'components/error-panel';
 import useItemSelector from 'components/item-selector';
 import { BasicModal } from 'components/modal';
 import Page from 'components/page';
+import { DataMessage } from 'components/page/message';
 import { useTabBar } from 'components/tab-bar';
 import useDateRange from 'hooks/use-date-range';
 import useKeyboardWeekChange from 'hooks/use-keyboard-week-change';
@@ -19,6 +31,7 @@ import {
   useQueryValue,
 } from 'hooks/use-query-params';
 import {
+  CommonSpecies,
   Customer,
   CustomerProgram,
   CustomerProgramEntry,
@@ -35,7 +48,8 @@ import { getWeekNumber } from 'utils/date';
 
 import { coastTabs, ResetButton } from '../inventory/use-filters';
 import Header from './header';
-import ShipperPrograms from './shipper';
+import { NewProgramRow, ProgramTotalRow } from './row';
+import ProgramSet from './set';
 import {
   CustomerProgramEntryUpdate,
   CustomerProgramUpdate,
@@ -55,9 +69,10 @@ import {
   getAllCustomerPrograms,
   getAllShipperPrograms,
   getDuplicateProgramIds,
+  getGridProps,
+  getProgramTotals,
+  groupProgramsByProduct,
 } from './utils';
-import CustomerPrograms from './customer';
-import { add, endOfISOWeek, startOfISOWeek } from 'date-fns';
 
 const initialChangesState: ProgramChanges = {
   shipperProgramUpdates: [],
@@ -102,6 +117,7 @@ export const viewTabs = [
 ];
 
 const Programs = () => {
+  const { pathname, search } = useLocation();
   const [shipperId, setShipperId] = useQueryValue('shipperId');
   const [customerId, setCustomerId] = useQueryValue('customerId');
 
@@ -262,6 +278,13 @@ const Programs = () => {
     return getValue(customerProgram, key, changesKey);
   };
 
+  const getProgramValue = (
+    isCustomers ? getCustomerProgramValue : getShipperProgramValue
+  ) as (
+    program: Maybe<CustomerProgram | ShipperProgram> | undefined,
+    key: keyof CustomerProgramUpdate | ShipperProgramUpdate,
+  ) => { dirty: boolean; value: string };
+
   const getShipperProgramEntryValue = (
     shipperProgramEntry: Maybe<ShipperProgramEntry> | undefined,
     key: keyof ShipperProgramEntryUpdate,
@@ -396,11 +419,16 @@ const Programs = () => {
     )
     .flat();
 
+  const { data: speciesData, loading: speciesLoading } =
+    api.useCommonSpecieses();
+  const specieses = (speciesData ? speciesData.nodes : []) as CommonSpecies[];
+
   const loading =
     shipperDataLoading ||
     customerDataLoading ||
     shipperProgramDataLoading ||
-    customerProgramDataLoading;
+    customerProgramDataLoading ||
+    speciesLoading;
   const error =
     shipperDataError ||
     customerDataError ||
@@ -828,6 +856,107 @@ const Programs = () => {
     }
   };
 
+  const programs = (isCustomers ? allCustomerPrograms : allShipperPrograms) as (
+    | CustomerProgram
+    | ShipperProgram
+  )[];
+
+  const groupedProgramsByProduct = groupProgramsByProduct(
+    specieses,
+    programs,
+    getProgramValue,
+  ) as {
+    [key: string]: (CustomerProgram | ShipperProgram)[];
+  };
+
+  const groupedProgramsByCustomerOrShipperAndProduct = mapObjIndexed(
+    (progs: (CustomerProgram | ShipperProgram)[]) =>
+      groupProgramsByProduct(specieses, progs, getProgramValue),
+    groupBy(
+      (program) =>
+        (isCustomers
+          ? (program as CustomerProgram).customer?.customerName
+          : (program as ShipperProgram).shipper?.shipperName) || '',
+      programs,
+    ),
+  ) as Record<
+    string,
+    {
+      [index: string]: (CustomerProgram | ShipperProgram)[];
+    }
+  >;
+
+  const { gridTemplateColumns, gridWidth } = getGridProps(weekCount);
+
+  const hasPrograms = isCustomers
+    ? customerPrograms.length > 0
+    : shipperPrograms.length > 0;
+
+  const getProgramEntryValue = (
+    isCustomers ? getCustomerProgramEntryValue : getShipperProgramEntryValue
+  ) as <
+    L extends CustomerProgramEntry | ShipperProgramEntry,
+    M extends CustomerProgramEntryUpdate | ShipperProgramEntryUpdate,
+  >(
+    entry: Maybe<L> | undefined,
+    key: keyof M,
+  ) => { dirty: boolean; value: string };
+
+  const buildProgramTotals = <T extends CustomerProgram | ShipperProgram>(
+    progs: T[],
+    isCustomersOverride = isCustomers,
+  ) =>
+    getProgramTotals(
+      (isCustomersOverride
+        ? pluck('customerProgramEntries', progs as CustomerProgram[]).map(
+            (es) => es?.nodes || [],
+          )
+        : pluck('shipperProgramEntries', progs as ShipperProgram[]).map(
+            (es) => es?.nodes || [],
+          )
+      ).flat() as (CustomerProgramEntry | ShipperProgramEntry)[],
+      selectedWeekNumber,
+      weekCount,
+      getProgramEntryValue,
+    );
+
+  const programTotals = (isCustomers ? selectedCustomer : selectedShipper)
+    ? mapObjIndexed((ps) => buildProgramTotals(ps), groupedProgramsByProduct)
+    : Object.keys(groupedProgramsByCustomerOrShipperAndProduct).reduce(
+        (acc, key) => {
+          const ps = groupedProgramsByCustomerOrShipperAndProduct[key];
+          const newProducts: {
+            [key: string]: { total: number; available: number | null }[];
+          } = {};
+          if (ps) {
+            Object.keys(ps).forEach((productKey) => {
+              const product = ps[productKey as keyof typeof ps];
+              newProducts[`${key}-${productKey}`] = buildProgramTotals(product);
+            });
+          }
+          return { ...acc, ...newProducts };
+        },
+        {},
+      );
+
+  const customerGrandProgramTotals = buildProgramTotals(
+    allCustomerPrograms,
+    true,
+  );
+  const shipperGrandProgramTotals = buildProgramTotals(
+    allShipperPrograms,
+    false,
+  );
+  const netGrandProgramTotals = customerGrandProgramTotals.map(
+    ({ total, available }, i) => ({
+      total: total - shipperGrandProgramTotals[i].total,
+      available:
+        available === null && shipperGrandProgramTotals[i].available === null
+          ? null
+          : (available || 0) - (shipperGrandProgramTotals[i].available || 0),
+    }),
+  );
+
   const programProps = {
     changeHandlers: {
       handleShipperProgramChange,
@@ -835,13 +964,17 @@ const Programs = () => {
       handleShipperProgramEntryChange,
       handleCustomerProgramEntryChange,
     },
-    customerPrograms,
+    customerPrograms: allCustomerPrograms,
     customerProgramEntries,
+    duplicateProgramIds: isCustomers
+      ? duplicateCustomerProgramIds
+      : duplicateShipperProgramIds,
     editing,
     endWeeks,
     error,
     handleRemoveItem,
     handleWeekRangeChange,
+    isCustomers,
     loading,
     newItemHandlers: {
       handleNewShipperProgram,
@@ -850,7 +983,7 @@ const Programs = () => {
       handleNewCustomerProgramEntry,
     },
     selectedWeekNumber,
-    shipperPrograms,
+    shipperPrograms: allShipperPrograms,
     shipperProgramEntries,
     showAllocated,
     startWeeks,
@@ -1012,22 +1145,157 @@ const Programs = () => {
             toggleShowAllocated={toggleShowAllocated}
             weekCount={weekCount}
           />
-          {isCustomers ? (
-            <CustomerPrograms
-              {...programProps}
-              duplicateProgramIds={duplicateCustomerProgramIds}
-              programs={allCustomerPrograms as CustomerProgram[]}
-              selectedCustomer={selectedCustomer}
-              shipperProgramEntries={shipperProgramEntries}
-            />
-          ) : (
-            <ShipperPrograms
-              {...programProps}
-              duplicateProgramIds={duplicateShipperProgramIds}
-              programs={allShipperPrograms as ShipperProgram[]}
-              selectedShipper={selectedShipper}
-            />
-          )}
+          <l.Div mb={th.spacing.xxl} relative>
+            <l.Grid
+              gridColumnGap={th.spacing.sm}
+              gridTemplateColumns={gridTemplateColumns}
+              mb={th.spacing.sm}
+              mt={th.spacing.md}
+            >
+              <l.Grid
+                gridColumnGap={th.spacing.xs}
+                gridTemplateColumns="repeat(2, 1fr) repeat(3, 0.7fr)"
+                marginLeft={52}
+                relative
+              >
+                <ty.CaptionText secondary>Species</ty.CaptionText>
+                <ty.CaptionText secondary>Variety</ty.CaptionText>
+                <ty.CaptionText secondary>Size</ty.CaptionText>
+                <ty.CaptionText secondary>Pack Type</ty.CaptionText>
+                <ty.CaptionText secondary>PLU/GTIN</ty.CaptionText>
+                {(hasPrograms || editing) && !loading && (
+                  <l.Div
+                    borderTop={th.borders.secondary}
+                    position="absolute"
+                    left={-52}
+                    bottom={`-${th.spacing.sm}`}
+                    width={gridWidth}
+                  />
+                )}
+              </l.Grid>
+            </l.Grid>
+            {(hasPrograms || editing) && !loading ? (
+              <>
+                {(isCustomers ? selectedCustomer : selectedShipper) ? (
+                  <ProgramSet
+                    editing={editing}
+                    getProgramValue={getProgramValue}
+                    groupedPrograms={groupedProgramsByProduct}
+                    loading={loading}
+                    programTotals={programTotals}
+                    rest={programProps}
+                    specieses={specieses}
+                  />
+                ) : (
+                  <>
+                    {values(
+                      mapObjIndexed((programsByCustomerOrShipper, key) => {
+                        const prog = values(
+                          programsByCustomerOrShipper,
+                        )[0]?.[0];
+                        const newId = isCustomers
+                          ? (prog as CustomerProgram)?.customerId
+                          : (prog as ShipperProgram)?.shipperId;
+                        return (
+                          <ProgramSet
+                            editing={editing}
+                            getProgramValue={getProgramValue}
+                            groupedPrograms={programsByCustomerOrShipper}
+                            key={key}
+                            loading={loading}
+                            programTotals={programTotals}
+                            rest={programProps}
+                            to={`${pathname}${search}&${
+                              isCustomers ? 'customerId' : 'shipperId'
+                            }=${newId}`}
+                            specieses={specieses}
+                          />
+                        );
+                      }, groupedProgramsByCustomerOrShipperAndProduct),
+                    )}
+                  </>
+                )}
+                {(isCustomers ? selectedCustomer : selectedShipper) &&
+                  editing && (
+                    <NewProgramRow
+                      hasPrograms={hasPrograms}
+                      handleNewProgram={
+                        isCustomers
+                          ? handleNewCustomerProgram
+                          : handleNewShipperProgram
+                      }
+                      id={(isCustomers ? customerId : shipperId) || ''}
+                      {...programProps}
+                    />
+                  )}
+                <ProgramTotalRow
+                  editing={editing}
+                  gridTemplateColumns={gridTemplateColumns}
+                  programTotals={
+                    isCustomers
+                      ? customerGrandProgramTotals
+                      : shipperGrandProgramTotals
+                  }
+                  showAllocated={showAllocated}
+                  species={`${isCustomers ? 'Customers' : 'Shippers'} Grand`}
+                />
+                {commonSpeciesId && (
+                  <>
+                    <ProgramTotalRow
+                      editing={editing}
+                      gridTemplateColumns={gridTemplateColumns}
+                      programTotals={
+                        isCustomers
+                          ? shipperGrandProgramTotals
+                          : customerGrandProgramTotals
+                      }
+                      showAllocated={showAllocated}
+                      species={`${
+                        isCustomers ? 'Shippers' : 'Customers'
+                      } Grand`}
+                    />
+                    <ProgramTotalRow
+                      editing={editing}
+                      gridTemplateColumns={gridTemplateColumns}
+                      programTotals={netGrandProgramTotals}
+                      showAllocated={showAllocated}
+                      species="Net Grand"
+                    />
+                  </>
+                )}
+                <l.Div
+                  borderLeft={th.borders.secondary}
+                  position="absolute"
+                  top={27}
+                  bottom={0}
+                />
+                <l.Div
+                  borderRight={th.borders.secondary}
+                  position="absolute"
+                  top={26}
+                  left={gridWidth}
+                  bottom={0}
+                />
+                <l.Div
+                  borderBottom={th.borders.secondary}
+                  position="absolute"
+                  bottom={0}
+                  width={gridWidth}
+                />
+              </>
+            ) : (
+              <DataMessage
+                data={isCustomers ? customerPrograms : shipperPrograms}
+                emptyProps={{
+                  header: `No ${
+                    isCustomers ? 'customer' : 'shipper'
+                  } programs found`,
+                }}
+                error={error}
+                loading={loading}
+              />
+            )}
+          </l.Div>
         </l.Div>
       </l.Flex>
     </Page>

@@ -413,8 +413,7 @@ const Header = ({
               color={th.colors.status.successAlt}
               mb={th.spacing.xs}
             >
-              Pallets Available{' '}
-              <ty.Span color={th.colors.status.error}>(PRE)</ty.Span>
+              Pallets Available
             </ty.SmallText>
             <ty.SmallText bold color={th.colors.brand.primaryAccent}>
               Pallets On Hand

@@ -1,5 +1,4 @@
 import React, { ChangeEvent } from 'react';
-import { ApolloError } from '@apollo/client';
 import styled from '@emotion/styled';
 import { pascalCase } from 'change-case';
 import { equals, pick, pluck, sortBy, sum, times } from 'ramda';
@@ -10,15 +9,30 @@ import useItemSelector from 'components/item-selector';
 import ItemLinkRow, { ItemLink } from 'components/item-selector/link';
 import { BasicModal } from 'components/modal';
 import { useProgramsQueryParams, useQueryValue } from 'hooks/use-query-params';
-import { CommonSpecies, CustomerProgram, ShipperProgramEntry } from 'types';
+import {
+  CommonSpecies,
+  CustomerProgram,
+  CustomerProgramEntry,
+  Maybe,
+  ShipperProgram,
+  ShipperProgramEntry,
+} from 'types';
 import l, { divPropsSet } from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 import { getDateOfISOWeek, getWeekNumber } from 'utils/date';
 
-import { ProgramProps, CustomerProgramUpdate } from '../types';
-import { getCustomerAvailablePalletEntryTotals } from '../utils';
-import CustomerProgramAllocateModal from './allocate';
+import ProgramAllocateModal from './allocate';
+import {
+  ProgramProps,
+  CustomerProgramUpdate,
+  NewShipperProgram,
+  NewCustomerProgram,
+  ShipperProgramUpdate,
+  CustomerProgramEntryUpdate,
+  ShipperProgramEntryUpdate,
+} from './types';
+import { getAvailablePalletEntryTotals } from './utils';
 
 export const ProgramWrapper = styled(l.Grid)(
   {
@@ -30,11 +44,19 @@ export const ProgramWrapper = styled(l.Grid)(
 );
 
 export const NewProgramRow = ({
-  newItemHandlers: { handleNewCustomerProgram },
+  handleNewProgram,
   hasPrograms,
-}: ProgramProps & { hasPrograms: boolean }) => {
+  id,
+  isCustomers,
+}: {
+  handleNewProgram: (
+    newProgram: NewCustomerProgram | NewShipperProgram,
+  ) => void;
+  hasPrograms: boolean;
+  id: string;
+  isCustomers: boolean;
+}) => {
   const [arrivalPort] = useQueryValue('coast');
-  const [customerId] = useQueryValue('customerId');
 
   const newProgram = {
     id: -1,
@@ -43,7 +65,8 @@ export const NewProgramRow = ({
     commonSizeId: '',
     commonPackTypeId: '',
     plu: '',
-    customerId,
+    customerId: isCustomers ? id : undefined,
+    shipperId: isCustomers ? undefined : id,
     arrivalPort,
   };
 
@@ -57,7 +80,7 @@ export const NewProgramRow = ({
       >
         <l.HoverButton
           onClick={() => {
-            handleNewCustomerProgram(newProgram);
+            handleNewProgram(newProgram);
           }}
           position="absolute"
           left={-23}
@@ -78,26 +101,39 @@ export const ProgramTotalRow = ({
 }: {
   editing: boolean;
   gridTemplateColumns: string;
-  programTotals: { total: number; available: number }[];
+  programTotals: { total: number; available: number | null }[];
   showAllocated: boolean;
   species: string;
 }) => {
-  const totals = pluck('total', programTotals);
-  const availableTotals = pluck('available', programTotals);
+  const totals = pluck('total', programTotals || []);
+  const availableTotals = pluck('available', programTotals || []);
+
+  const isGrand =
+    species === 'Net Grand' ||
+    species === 'Customers Grand' ||
+    species === 'Shippers Grand';
+  const isNetGrand = species === 'Net Grand';
+
+  const textColor = isNetGrand
+    ? sum(totals) === 0
+      ? th.colors.status.success
+      : th.colors.status.error
+    : undefined;
 
   return (
     <l.Div py={th.spacing.md}>
       <ProgramWrapper
         gridTemplateColumns={gridTemplateColumns}
-        mt={species === 'Grand' ? `-${th.spacing.sm}` : th.spacing.xs}
+        mt={isGrand ? `-${th.spacing.sm}` : th.spacing.xs}
         relative
       >
         <l.Flex alignCenter justifyEnd ml={52}>
           <ty.CaptionText textAlign="right">
-            {species === 'Grand' ? 'Grand ' : ''}Total:
+            {isGrand ? `${species} ` : ''}Total:
           </ty.CaptionText>
           <ty.CaptionText
             bold
+            color={textColor}
             ml={th.spacing.lg}
             mr={th.spacing.md}
             textAlign="right"
@@ -108,35 +144,58 @@ export const ProgramTotalRow = ({
         </l.Flex>
         {totals.map((total, idx) => (
           <l.Flex alignCenter justifyCenter key={idx}>
-            <ty.CaptionText center mr={th.spacing.md}>
-              {total <= 0 ? '' : total}
+            <ty.CaptionText center color={textColor} mr={th.spacing.md}>
+              {total === 0 ? '' : total}
             </ty.CaptionText>
           </l.Flex>
         ))}
       </ProgramWrapper>
-      {!editing && showAllocated && (
+      {!editing && showAllocated && !isNetGrand && (
         <ProgramWrapper
           gridTemplateColumns={gridTemplateColumns}
           mt={th.spacing.tn}
+          relative
         >
-          {[
-            sum(availableTotals.map((val) => (val < 0 ? 0 : val))),
-            ...availableTotals,
-          ].map((total, idx) => (
-            <ty.SmallText
-              bold={idx === 0}
+          <l.Flex alignCenter justifyEnd ml={52}>
+            <ty.CaptionText secondary textAlign="right">
+              Unalloc:
+            </ty.CaptionText>
+            <ty.CaptionText
+              bold
+              color={
+                sum(
+                  availableTotals.map((val) =>
+                    val === null || val < 0 ? 0 : val,
+                  ),
+                ) === 0
+                  ? th.colors.status.success
+                  : th.colors.status.error
+              }
+              ml={th.spacing.lg}
+              mr={th.spacing.md}
+              secondary
+              textAlign="right"
+              width={th.spacing.lg}
+            >
+              {sum(
+                availableTotals.map((val) =>
+                  val === null || val < 0 ? 0 : val,
+                ),
+              )}
+            </ty.CaptionText>
+          </l.Flex>
+          {availableTotals.map((total, idx) => (
+            <ty.CaptionText
               color={
                 total === 0 ? th.colors.status.success : th.colors.status.error
               }
               key={idx}
               mr={th.spacing.md}
               secondary
-              textAlign={idx === 0 ? 'right' : 'center'}
+              textAlign="center"
             >
-              {total !== null && total !== undefined && total !== -1
-                ? `(${total})`
-                : ''}
-            </ty.SmallText>
+              {total !== null && total !== undefined ? total : ''}
+            </ty.CaptionText>
           ))}
         </ProgramWrapper>
       )}
@@ -186,17 +245,17 @@ const Cell = styled(l.Flex)(
   }),
 );
 
-const ProgramRow = (
+const ProgramRow = <
+  T extends CustomerProgram | ShipperProgram,
+  K extends CustomerProgramUpdate | ShipperProgramUpdate,
+>(
   props: {
-    error?: ApolloError;
-    loading: boolean;
     commonSpecieses: CommonSpecies[];
-    duplicateProgramIds: number[];
     gridTemplateColumns: string;
     index: number;
-    previousProgram?: CustomerProgram;
-    program: CustomerProgram;
-    shipperProgramEntries: ShipperProgramEntry[];
+    isCustomers: boolean;
+    previousProgram?: T;
+    program: T;
     showSpecies: boolean;
     showVariety: boolean;
   } & ProgramProps,
@@ -206,21 +265,32 @@ const ProgramRow = (
     changeHandlers: {
       handleCustomerProgramChange,
       handleCustomerProgramEntryChange,
+      handleShipperProgramChange,
+      handleShipperProgramEntryChange,
     },
     handleRemoveItem,
     newItemHandlers: {
       handleNewCustomerProgram,
       handleNewCustomerProgramEntry,
+      handleNewShipperProgram,
+      handleNewShipperProgramEntry,
     },
-    valueGetters: { getCustomerProgramEntryValue, getCustomerProgramValue },
+    valueGetters: {
+      getCustomerProgramEntryValue,
+      getCustomerProgramValue,
+      getShipperProgramEntryValue,
+      getShipperProgramValue,
+    },
     editing,
     error,
     duplicateProgramIds,
     gridTemplateColumns,
+    isCustomers,
     loading,
     previousProgram,
     program,
     selectedWeekNumber,
+    customerProgramEntries,
     shipperProgramEntries,
     showAllocated,
     showSpecies,
@@ -232,20 +302,48 @@ const ProgramRow = (
   } = props;
   const { id } = program;
 
-  const [, setProgramsQueryParams] = useProgramsQueryParams();
+  const [
+    {
+      commonSpeciesId: commonSpeciesIdQuery,
+      commonVarietyId: commonVarietyIdQuery,
+      commonSizeId: commonSizeIdQuery,
+      commonPackTypeId: commonPackTypeIdQuery,
+      plu: pluQuery,
+    },
+    setProgramsQueryParams,
+  ] = useProgramsQueryParams();
 
   const isDuplicate = duplicateProgramIds.includes(parseInt(id, 10));
+
+  const getProgramValue = (
+    isCustomers ? getCustomerProgramValue : getShipperProgramValue
+  ) as (
+    program: Maybe<T> | undefined,
+    key: keyof K,
+  ) => { dirty: boolean; value: string };
+
+  const getProgramEntryValue = (
+    isCustomers ? getCustomerProgramEntryValue : getShipperProgramEntryValue
+  ) as <
+    L extends CustomerProgramEntry | ShipperProgramEntry,
+    M extends CustomerProgramEntryUpdate | ShipperProgramEntryUpdate,
+  >(
+    entry: Maybe<L> | undefined,
+    key: keyof M,
+  ) => { dirty: boolean; value: string };
 
   const updatedProgram = {
     id: program.id,
     arrivalPort: program.arrivalPort,
-    customerId: program.customerId,
-    plu: getCustomerProgramValue(program, 'plu').value,
-    commonSpeciesId: getCustomerProgramValue(program, 'commonSpeciesId').value,
-    commonVarietyId: getCustomerProgramValue(program, 'commonVarietyId').value,
-    commonSizeId: getCustomerProgramValue(program, 'commonSizeId').value,
-    commonPackTypeId: getCustomerProgramValue(program, 'commonPackTypeId')
-      .value,
+    customerId: isCustomers
+      ? (program as CustomerProgram).customerId
+      : undefined,
+    shipperId: isCustomers ? undefined : (program as ShipperProgram).shipperId,
+    plu: getProgramValue(program, 'plu').value,
+    commonSpeciesId: getProgramValue(program, 'commonSpeciesId').value,
+    commonVarietyId: getProgramValue(program, 'commonVarietyId').value,
+    commonSizeId: getProgramValue(program, 'commonSizeId').value,
+    commonPackTypeId: getProgramValue(program, 'commonPackTypeId').value,
     customerProgramEntries: {
       edges: [],
       nodes: [],
@@ -275,12 +373,28 @@ const ProgramRow = (
     (pt) => pt && pt.id === commonPackTypeId,
   );
 
-  const handleChange = (key: keyof CustomerProgram, value: string | null) => {
-    handleCustomerProgramChange({
+  const handleProgramChange = isCustomers
+    ? handleCustomerProgramChange
+    : handleShipperProgramChange;
+
+  const handleChange = (key: keyof T, value: string | null) => {
+    handleProgramChange({
       ...updatedProgram,
       [key]: value,
     });
   };
+
+  const handleNewProgram = isCustomers
+    ? handleNewCustomerProgram
+    : handleNewShipperProgram;
+
+  const handleProgramEntryChange = isCustomers
+    ? handleCustomerProgramEntryChange
+    : handleShipperProgramEntryChange;
+
+  const handleNewProgramEntry = isCustomers
+    ? handleNewCustomerProgramEntry
+    : handleNewShipperProgramEntry;
 
   const commonSelectorProps = {
     closeOnSelect: true,
@@ -381,20 +495,19 @@ const ProgramRow = (
         .filter((link) => !!link) as ItemLink[],
     );
 
-    const commonProductId =
-      updatedProgram[
-        `common${pascalCase(type)}Id` as keyof CustomerProgramUpdate
-      ];
+    const commonProductKey = `common${pascalCase(type)}Id` as keyof (
+      | CustomerProgramUpdate
+      | ShipperProgramUpdate
+    );
+
+    const commonProductId = updatedProgram[commonProductKey];
 
     const getItemContent = (link: ItemLink) => (
       <ItemLinkRow active={link.id === commonProductId} link={link} />
     );
 
     const selectItem = ({ id }: ItemLink) => {
-      handleChange(
-        `common${pascalCase(type)}Id` as keyof CustomerProgramUpdate,
-        id === '-1' ? null : id,
-      );
+      handleChange(commonProductKey, id === '-1' ? null : id);
     };
 
     return {
@@ -406,10 +519,7 @@ const ProgramRow = (
         editing,
         error: !commonProductId || isDuplicate,
         onChange: (e: ChangeEvent<HTMLInputElement>) => {
-          handleChange(
-            `common${pascalCase(type)}Id` as keyof CustomerProgramUpdate,
-            e.target.value,
-          );
+          handleChange(commonProductKey, e.target.value);
         },
         warning: false,
       },
@@ -448,11 +558,20 @@ const ProgramRow = (
     previousProgram &&
     !equals(
       updatedProgram.commonVarietyId,
-      getCustomerProgramValue(previousProgram, 'commonVarietyId').value,
+      getProgramValue(previousProgram, 'commonVarietyId').value,
     );
 
-  const availablePalletEntryTotals = getCustomerAvailablePalletEntryTotals(
-    program,
+  const entries = isCustomers
+    ? (((program as CustomerProgram).customerProgramEntries?.nodes ||
+        []) as CustomerProgramEntry[])
+    : (((program as ShipperProgram).shipperProgramEntries?.nodes ||
+        []) as ShipperProgramEntry[] as (
+        | CustomerProgramEntry
+        | ShipperProgramEntry
+      )[]);
+
+  const availablePalletEntryTotals = getAvailablePalletEntryTotals(
+    entries,
     selectedWeekNumber,
     weekCount,
   );
@@ -490,7 +609,10 @@ const ProgramRow = (
                   </ty.BodyText>
                 }
                 handleConfirm={() => {
-                  handleRemoveItem('customerPrograms', id);
+                  handleRemoveItem(
+                    isCustomers ? 'customerPrograms' : 'shipperPrograms',
+                    id,
+                  );
                 }}
                 shouldConfirm={program.id >= 0}
                 triggerProps={{
@@ -501,7 +623,7 @@ const ProgramRow = (
               />
               <l.HoverButton
                 onClick={() => {
-                  handleNewCustomerProgram(updatedProgram);
+                  handleNewProgram(updatedProgram);
                 }}
                 position="absolute"
                 left={-22}
@@ -518,6 +640,7 @@ const ProgramRow = (
                 ['error', 'warning'],
                 speciesLinkSelectorProps.editableCellProps,
               )}
+              warning={!!commonSpeciesIdQuery}
               onClick={
                 commonSpeciesId
                   ? () => {
@@ -548,6 +671,7 @@ const ProgramRow = (
                     ['error', 'warning'],
                     varietyLinkSelectorProps.editableCellProps,
                   )}
+                  warning={!!commonVarietyIdQuery}
                   onClick={
                     commonSpeciesId && commonVarietyId
                       ? () => {
@@ -578,6 +702,7 @@ const ProgramRow = (
                     ['error', 'warning'],
                     sizeLinkSelectorProps.editableCellProps,
                   )}
+                  warning={!!commonSizeIdQuery}
                   onClick={
                     commonSpecies && commonSizeId
                       ? () => {
@@ -603,6 +728,7 @@ const ProgramRow = (
                     ['error', 'warning'],
                     packTypeLinkSelectorProps.editableCellProps,
                   )}
+                  warning={!!commonPackTypeIdQuery}
                   onClick={
                     commonSpeciesId && commonPackTypeId
                       ? () => {
@@ -627,6 +753,7 @@ const ProgramRow = (
                 content={{ dirty: plu !== program.plu, value: plu || '' }}
                 defaultChildren={
                   <Cell
+                    warning={!!pluQuery}
                     onClick={
                       commonSpeciesId && plu
                         ? () => {
@@ -653,14 +780,14 @@ const ProgramRow = (
           )}
         </l.Grid>
         {times((index) => {
-          const entry = program.customerProgramEntries.nodes.find(
+          const entry = entries.find(
             (entry) =>
               entry &&
               getWeekNumber(new Date(entry.programDate.replace(/-/g, '/'))) ===
                 selectedWeekNumber + index,
           );
 
-          const palletCountCurrentValue = getCustomerProgramEntryValue(
+          const palletCountCurrentValue = getProgramEntryValue(
             entry,
             'palletCount',
           ).value;
@@ -672,7 +799,7 @@ const ProgramRow = (
             ? parseInt(entry?.palletCount, 10)
             : 0;
           const isEntryDirty =
-            getCustomerProgramEntryValue(entry, 'palletCount').value !==
+            getProgramEntryValue(entry, 'palletCount').value !==
             entry?.palletCount;
 
           return editing ? (
@@ -697,11 +824,11 @@ const ProgramRow = (
                 }}
                 onChange={(e) => {
                   entry
-                    ? handleCustomerProgramEntryChange({
+                    ? handleProgramEntryChange({
                         ...entry,
                         palletCount: e.target.value,
                       })
-                    : handleNewCustomerProgramEntry({
+                    : handleNewProgramEntry({
                         id: 0,
                         notes: '',
                         palletCount: e.target.value,
@@ -709,18 +836,27 @@ const ProgramRow = (
                           selectedWeekNumber + index,
                           'yyyy-MM-dd',
                         ),
-                        customerProgramId: program.id,
-                        customerProgram: program,
+                        customerProgramId: isCustomers ? program.id : undefined,
+                        customerProgram: isCustomers
+                          ? (program as CustomerProgram)
+                          : undefined,
+                        shipperProgramId: isCustomers ? undefined : program.id,
+                        shipperProgram: isCustomers
+                          ? undefined
+                          : (program as ShipperProgram),
                       });
                 }}
               />
             </l.Flex>
           ) : (
             <l.Div key={index}>
-              <CustomerProgramAllocateModal
+              <ProgramAllocateModal
                 disabled={editing || !palletCountValue}
-                shipperProgramEntries={shipperProgramEntries}
+                entriesToAllocate={
+                  isCustomers ? shipperProgramEntries : customerProgramEntries
+                }
                 entry={entry}
+                isCustomers={isCustomers}
                 loading={loading}
                 trigger={(focused) => (
                   <Cell
@@ -752,7 +888,7 @@ const ProgramRow = (
           mt={th.spacing.tn}
         >
           {availablePalletTotals.map((total, idx) => (
-            <ty.SmallText
+            <ty.CaptionText
               bold={idx === 0}
               color={
                 total === 0 ? th.colors.status.success : th.colors.status.error
@@ -762,8 +898,8 @@ const ProgramRow = (
               secondary
               textAlign={idx === 0 ? 'right' : 'center'}
             >
-              {total !== null && total !== undefined ? `(${total})` : ''}
-            </ty.SmallText>
+              {total !== null && total !== undefined ? total : ''}
+            </ty.CaptionText>
           ))}
         </ProgramWrapper>
       )}

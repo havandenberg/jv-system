@@ -1,7 +1,10 @@
+import { ApolloError } from '@apollo/client';
 import {
+  Customer,
   CustomerProgram,
   CustomerProgramEntry,
   Maybe,
+  Shipper,
   ShipperProgram,
   ShipperProgramEntry,
 } from 'types';
@@ -139,15 +142,20 @@ export interface ProgramProps {
       update: CustomerProgramEntryUpdate,
     ) => void;
   };
+  duplicateProgramIds: number[];
   customerProgramEntries: CustomerProgramEntry[];
+  customerPrograms: CustomerProgram[];
   editing: boolean;
   endWeeks: number;
+  error?: ApolloError;
   handleRemoveItem: (key: keyof RemovedItems, id: number) => void;
   handleWeekRangeChange: (
     key: 'start' | 'end',
     value: string,
     referenceDate: Date,
   ) => void;
+  isCustomers: boolean;
+  loading: boolean;
   newItemHandlers: {
     handleNewShipperProgram: (newShipperProgram: NewShipperProgram) => void;
     handleNewCustomerProgram: (newCustomerProgram: NewCustomerProgram) => void;
@@ -158,7 +166,10 @@ export interface ProgramProps {
       newCustomerProgramEntry: NewCustomerProgramEntry,
     ) => void;
   };
+  selectedCustomer?: Maybe<Customer> | undefined;
+  selectedShipper?: Maybe<Shipper> | undefined;
   selectedWeekNumber: number;
+  shipperPrograms: ShipperProgram[];
   shipperProgramEntries: ShipperProgramEntry[];
   showAllocated: boolean;
   startWeeks: number;

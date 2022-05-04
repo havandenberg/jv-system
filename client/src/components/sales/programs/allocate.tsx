@@ -15,6 +15,7 @@ import {
   useSearchQueryParam,
 } from 'hooks/use-query-params';
 import {
+  CustomerProgram,
   CustomerProgramEntry,
   Maybe,
   ShipperProgram,
@@ -27,14 +28,13 @@ import th from 'ui/theme';
 import ty, { TextProps } from 'ui/typography';
 import { getWeekNumber } from 'utils/date';
 
-import EditableCell from '../../../editable-cell';
+import EditableCell from '../../editable-cell';
 import {
-  filterShipperProgramEntries,
-  getCustomerAllocatedPalletCount,
+  filterProgramEntries,
   getAvailablePalletCount,
-  sortAllocatedShipperProgramEntries,
-  sortShipperProgramEntries,
-} from '../utils';
+  sortProgramEntries,
+  getAllocatedPalletCount,
+} from './utils';
 
 const gridTemplateColumns =
   'repeat(3, 100px) repeat(3, 70px) 110px repeat(2, 1fr) 1.3fr';
@@ -63,26 +63,28 @@ const EntryRowText = ({
   </ty.CaptionText>
 );
 
-const ShipperProgramEntryRow = ({
+const ProgramEntryRow = <
+  T extends CustomerProgram | ShipperProgram,
+  K extends CustomerProgramEntry | ShipperProgramEntry,
+>({
   allocateCount,
-  customerProgramEntry,
   entry,
+  entryToAllocate,
   handleAllocate,
+  isCustomers,
   program,
 }: {
   allocateCount: string;
-  customerProgramEntry: CustomerProgramEntry;
-  entry: ShipperProgramEntry;
-  handleAllocate: (
-    shipperProgramEntry: ShipperProgramEntry,
-    updatedCount: string,
-  ) => void;
-  program: ShipperProgram;
+  entry: K;
+  entryToAllocate: K;
+  handleAllocate: (programEntry: K, updatedCount: string) => void;
+  isCustomers: boolean;
+  program: T;
 }) => {
   const programDate = entry && new Date(entry.programDate.replace(/-/g, '/'));
 
   const currentAllocatedCount = `${
-    getCustomerAllocatedPalletCount(entry, customerProgramEntry.id) || 0
+    getAllocatedPalletCount(entry, entryToAllocate.id, isCustomers) || 0
   }`;
   const maxAllocateCount =
     Math.min(getAvailablePalletCount(entry)) +
@@ -96,6 +98,14 @@ const ShipperProgramEntryRow = ({
 
   const isDirty = allocateCount !== currentAllocatedCount;
 
+  const name = isCustomers
+    ? `${(program as ShipperProgram)?.shipper?.shipperName} (${
+        (program as ShipperProgram)?.shipper?.id
+      })`
+    : `${(program as CustomerProgram)?.customer?.customerName} (${
+        (program as CustomerProgram)?.customer?.id
+      })`;
+
   return (
     <l.Grid
       alignCenter
@@ -103,7 +113,7 @@ const ShipperProgramEntryRow = ({
       width={th.sizes.fill}
     >
       {[
-        `${program?.shipper?.shipperName} (${program?.shipper?.id})`,
+        name,
         program?.commonSpecies?.speciesName,
         program?.commonVariety?.varietyName,
         program?.commonSize?.sizeName,
@@ -157,10 +167,11 @@ const RowWrapper = styled(l.Flex)(({ allocated }: { allocated: boolean }) => ({
   },
 }));
 
-export interface Props {
+export interface Props<T extends CustomerProgramEntry | ShipperProgramEntry> {
   disabled?: boolean;
-  shipperProgramEntries: ShipperProgramEntry[];
-  entry?: Maybe<CustomerProgramEntry>;
+  entriesToAllocate: T[];
+  entry?: Maybe<T>;
+  isCustomers: boolean;
   loading: boolean;
   trigger: (focused: boolean) => React.ReactNode;
   weekCount: number;
@@ -173,15 +184,18 @@ export interface Props {
   ) => void;
 }
 
-const getInitialAllocateState = (
-  entry: Maybe<CustomerProgramEntry> | undefined,
-  shipperProgramEntries: ShipperProgramEntry[],
+const getInitialAllocateState = <
+  T extends CustomerProgramEntry | ShipperProgramEntry,
+>(
+  entry: Maybe<T> | undefined,
+  entriesToAllocate: T[],
+  isCustomers: boolean,
 ) =>
   entry
-    ? shipperProgramEntries
+    ? entriesToAllocate
         .filter((e) =>
           pluck(
-            'shipperProgramEntryId',
+            isCustomers ? 'shipperProgramEntryId' : 'customerProgramEntryId',
             (entry?.shipperProgramEntryCustomerProgramEntries?.nodes ||
               []) as ShipperProgramEntryCustomerProgramEntry[],
           ).includes(e.id),
@@ -189,7 +203,13 @@ const getInitialAllocateState = (
         .reduce((acc, curr) => {
           const allocation = (
             curr.shipperProgramEntryCustomerProgramEntries?.nodes || []
-          ).find((a) => a && a.customerProgramEntryId === entry.id);
+          ).find(
+            (a) =>
+              a &&
+              (isCustomers
+                ? a.customerProgramEntryId
+                : a?.shipperProgramEntryId) === entry.id,
+          );
 
           if (!allocation) {
             return acc;
@@ -204,33 +224,39 @@ const getInitialAllocateState = (
         }, {})
     : {};
 
-const CustomerProgramAllocateModal = ({
+const ProgramAllocateModal = <
+  T extends CustomerProgramEntry | ShipperProgramEntry,
+>({
   disabled,
-  shipperProgramEntries,
+  entriesToAllocate,
   entry,
+  isCustomers,
   loading,
   trigger,
   weekCount,
   startWeeks,
   endWeeks,
   handleWeekRangeChange,
-}: Props) => {
+}: Props<T>) => {
   const previousLoading = usePrevious(loading);
-  const previousShipperProgramEntries = usePrevious(shipperProgramEntries);
+  const previousEntriesToAllocate = usePrevious(entriesToAllocate);
 
   const [focused, setFocused] = useState(false);
-  const [search, setSearch] = useSearchQueryParam('shipperAllocateSearch');
+  const [search, setSearch] = useSearchQueryParam(
+    isCustomers ? 'shipperAllocateSearch' : 'customerAllocateSearch',
+  );
   const programDate = entry
     ? new Date(entry.programDate.replace(/-/g, '/'))
     : new Date();
 
   const initialAllocateState = getInitialAllocateState(
     entry,
-    shipperProgramEntries,
+    entriesToAllocate,
+    isCustomers,
   );
 
   const [allocateState, setAllocateState] = useState<{
-    [key: number]: { entry: ShipperProgramEntry; allocatedCount: string };
+    [key: number]: { entry: T; allocatedCount: string };
   }>(initialAllocateState);
 
   const availableCount = `${
@@ -250,23 +276,32 @@ const CustomerProgramAllocateModal = ({
   const nonZeroStateValues = values(allocateState).filter(
     (val) =>
       existingAllocations.find(
-        (alloc) => alloc.shipperProgramEntryId === val.entry.id,
+        (alloc) =>
+          (isCustomers
+            ? alloc.shipperProgramEntryId
+            : alloc.customerProgramEntryId) === val.entry.id,
       ) || parseInt(val.allocatedCount, 10) > 0,
   );
 
-  const [{ shipperAllocateSearch }] = useProgramsQueryParams();
+  const [{ customerAllocateSearch, shipperAllocateSearch }] =
+    useProgramsQueryParams();
+  const allocateSearch = isCustomers
+    ? shipperAllocateSearch
+    : customerAllocateSearch;
 
   const allEntries = [
-    ...sortAllocatedShipperProgramEntries(nonZeroStateValues),
-    ...sortShipperProgramEntries(
-      filterShipperProgramEntries(
-        shipperProgramEntries,
-        nonZeroStateValues,
-        shipperAllocateSearch,
-        startWeeks,
+    ...sortProgramEntries(pluck('entry', nonZeroStateValues), isCustomers),
+    ...sortProgramEntries(
+      filterProgramEntries(
+        allocateSearch,
+        entriesToAllocate,
+        isCustomers,
         endWeeks,
         entry,
+        nonZeroStateValues,
+        startWeeks,
       ),
+      isCustomers,
     ),
   ];
 
@@ -275,7 +310,10 @@ const CustomerProgramAllocateModal = ({
   ).reduce(
     (acc, val) => {
       const existingAllocation = existingAllocations.find(
-        (alloc) => alloc.shipperProgramEntryId === val.entry.id,
+        (alloc) =>
+          (isCustomers
+            ? alloc.shipperProgramEntryId
+            : alloc.customerProgramEntryId) === val.entry.id,
       );
 
       return {
@@ -284,8 +322,8 @@ const CustomerProgramAllocateModal = ({
           : [
               ...acc.addedAllocations,
               {
-                customerProgramEntryId: entry?.id,
-                shipperProgramEntryId: val.entry.id,
+                customerProgramEntryId: isCustomers ? entry?.id : val.entry.id,
+                shipperProgramEntryId: isCustomers ? val.entry.id : entry?.id,
                 palletCount: val.allocatedCount,
               },
             ],
@@ -357,13 +395,10 @@ const CustomerProgramAllocateModal = ({
     }
   };
 
-  const handleAllocate = (
-    shipperProgramEntry: ShipperProgramEntry,
-    allocatedCount: string,
-  ) => {
+  const handleAllocate = (entryToAllocate: T, allocatedCount: string) => {
     setAllocateState({
       ...allocateState,
-      [shipperProgramEntry.id]: { entry: shipperProgramEntry, allocatedCount },
+      [entryToAllocate.id]: { entry: entryToAllocate, allocatedCount },
     });
   };
 
@@ -379,17 +414,17 @@ const CustomerProgramAllocateModal = ({
 
   useEffect(() => {
     if (
-      !equals(previousShipperProgramEntries, shipperProgramEntries) ||
+      !equals(previousEntriesToAllocate, entriesToAllocate) ||
       (previousLoading && !loading)
     ) {
       setAllocateState(initialAllocateState);
     }
   }, [
+    entriesToAllocate,
     entry,
     loading,
     previousLoading,
-    previousShipperProgramEntries,
-    shipperProgramEntries,
+    previousEntriesToAllocate,
     initialAllocateState,
   ]);
 
@@ -512,7 +547,11 @@ const CustomerProgramAllocateModal = ({
                     ml={th.spacing.sm}
                     onClick={() => {
                       setAllocateState(
-                        getInitialAllocateState(entry, shipperProgramEntries),
+                        getInitialAllocateState(
+                          entry,
+                          entriesToAllocate,
+                          isCustomers,
+                        ),
                       );
                     }}
                   >
@@ -578,8 +617,12 @@ const CustomerProgramAllocateModal = ({
                 rowCount={allEntries.length}
                 rowHeight={32}
                 rowRenderer={({ index, style }) => {
-                  const item: ShipperProgramEntry = allEntries[index];
-                  const program = item?.shipperProgram as ShipperProgram;
+                  const item: T = allEntries[index];
+                  const program = isCustomers
+                    ? ((item as ShipperProgramEntry)
+                        ?.shipperProgram as ShipperProgram)
+                    : ((item as CustomerProgramEntry)
+                        ?.customerProgram as CustomerProgram);
                   return (
                     item && (
                       <RowWrapper
@@ -591,13 +634,14 @@ const CustomerProgramAllocateModal = ({
                         key={item.id}
                         style={style}
                       >
-                        <ShipperProgramEntryRow
+                        <ProgramEntryRow
                           allocateCount={
                             allocateState[item.id]?.allocatedCount || '0'
                           }
-                          customerProgramEntry={entry as CustomerProgramEntry}
+                          entryToAllocate={entry as T}
                           entry={item}
                           handleAllocate={handleAllocate}
+                          isCustomers={isCustomers}
                           program={program}
                         />
                       </RowWrapper>
@@ -619,4 +663,4 @@ const CustomerProgramAllocateModal = ({
   );
 };
 
-export default CustomerProgramAllocateModal;
+export default ProgramAllocateModal;

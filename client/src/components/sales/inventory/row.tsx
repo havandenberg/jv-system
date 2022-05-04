@@ -69,15 +69,9 @@ const InventoryCell = ({
         color={th.colors.status.successAlt}
         py={th.spacing.xs}
       >
-        {(showPreInventory ? palletsAvailable.real : palletsAvailableCount) ||
-          '-'}
-        {palletsAvailable.pre && showPreInventory ? (
-          <ty.Span color={th.colors.status.error} ml={th.spacing.sm}>
-            ({palletsAvailable.pre})
-          </ty.Span>
-        ) : (
-          ''
-        )}
+        {(showPreInventory
+          ? palletsAvailable.real + palletsAvailable.pre
+          : palletsAvailableCount) || '-'}
       </ty.SmallText>
       <ty.SmallText
         bold

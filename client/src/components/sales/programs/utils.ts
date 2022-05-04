@@ -2,6 +2,7 @@ import { groupBy, pluck, sortBy, sum, times, values } from 'ramda';
 import { add, startOfISOWeek, endOfISOWeek } from 'date-fns';
 
 import {
+  CommonSpecies,
   CustomerProgram,
   CustomerProgramEntry,
   Maybe,
@@ -127,9 +128,12 @@ export const getAvailablePalletCount = (
     ),
   );
 
-export const getShipperAllocatedPalletCount = (
-  entry: CustomerProgramEntry,
-  shipperProgramEntryId: number,
+export const getAllocatedPalletCount = <
+  T extends CustomerProgramEntry | ShipperProgramEntry,
+>(
+  entry: T,
+  programEntryId: number,
+  isCustomers: boolean,
 ) =>
   sum(
     pluck(
@@ -137,34 +141,27 @@ export const getShipperAllocatedPalletCount = (
       (
         (entry.shipperProgramEntryCustomerProgramEntries?.nodes ||
           []) as ShipperProgramEntryCustomerProgramEntry[]
-      ).filter((e) => e.shipperProgramEntryId === shipperProgramEntryId),
+      ).filter(
+        (e) =>
+          (isCustomers ? e.customerProgramEntryId : e.shipperProgramEntryId) ===
+          programEntryId,
+      ),
     ),
   );
 
-export const getCustomerAllocatedPalletCount = (
-  entry: ShipperProgramEntry,
-  customerProgramEntryId: number,
-) =>
-  sum(
-    pluck(
-      'palletCount',
-      (
-        (entry.shipperProgramEntryCustomerProgramEntries?.nodes ||
-          []) as ShipperProgramEntryCustomerProgramEntry[]
-      ).filter((e) => e.customerProgramEntryId === customerProgramEntryId),
-    ),
-  );
-
-export const filterShipperProgramEntries = (
-  entries: ShipperProgramEntry[],
+export const filterProgramEntries = <
+  T extends CustomerProgramEntry | ShipperProgramEntry,
+>(
+  allocateSearch: string,
+  entries: T[],
+  isCustomers: boolean,
+  endWeeks: number,
+  entry: Maybe<T> | undefined,
   nonZeroStateValues: {
-    entry: ShipperProgramEntry;
+    entry: T;
     allocatedCount: string;
   }[],
-  shipperAllocateSearch: string,
   startWeeks: number,
-  endWeeks: number,
-  entry?: Maybe<CustomerProgramEntry>,
 ) => {
   const programDate = entry
     ? new Date(entry.programDate.replace(/-/g, '/'))
@@ -180,24 +177,29 @@ export const filterShipperProgramEntries = (
       ).includes(e?.id) && getAvailablePalletCount(e) > 0;
 
     const matchesSearchText =
-      shipperAllocateSearch &&
-      shipperAllocateSearch
+      allocateSearch &&
+      allocateSearch
         .split(' ')
         .every((s) =>
           (e.searchText || '').toLowerCase().includes(s.toLowerCase()),
         );
-    const isExactMatch =
-      entry?.customerProgram?.commonSpecies?.id ===
-        e?.shipperProgram?.commonSpecies?.id &&
-      entry?.customerProgram?.commonVariety?.id ===
-        e?.shipperProgram?.commonVariety?.id &&
-      entry?.customerProgram?.commonSize?.id ===
-        e?.shipperProgram?.commonSize?.id &&
-      entry?.customerProgram?.commonPackType?.id ===
-        e?.shipperProgram?.commonPackType?.id &&
-      entry?.customerProgram?.plu === e?.shipperProgram?.plu;
 
-    const meetsSearchCriteria = !!shipperAllocateSearch
+    const program = isCustomers
+      ? (entry as CustomerProgramEntry)?.customerProgram
+      : (entry as ShipperProgramEntry)?.shipperProgram;
+
+    const programToAllocate = isCustomers
+      ? (e as ShipperProgramEntry)?.shipperProgram
+      : (e as CustomerProgramEntry)?.customerProgram;
+
+    const isExactMatch =
+      program?.commonSpecies?.id === programToAllocate?.commonSpecies?.id &&
+      program?.commonVariety?.id === programToAllocate?.commonVariety?.id &&
+      program?.commonSize?.id === programToAllocate?.commonSize?.id &&
+      program?.commonPackType?.id === programToAllocate?.commonPackType?.id &&
+      program?.plu === programToAllocate?.plu;
+
+    const meetsSearchCriteria = !!allocateSearch
       ? matchesSearchText
       : isExactMatch;
 
@@ -217,260 +219,131 @@ export const filterShipperProgramEntries = (
   return filteredEntries;
 };
 
-export const filterCustomerProgramEntries = (
-  entries: CustomerProgramEntry[],
-  nonZeroStateValues: {
-    entry: CustomerProgramEntry;
-    allocatedCount: string;
-  }[],
-  customerAllocateSearch: string,
-  startWeeks: number,
-  endWeeks: number,
-  entry?: Maybe<ShipperProgramEntry>,
-) => {
-  const programDate = entry
-    ? new Date(entry.programDate.replace(/-/g, '/'))
-    : new Date();
-  const startDate = startOfISOWeek(add(programDate, { weeks: -startWeeks }));
-  const endDate = endOfISOWeek(add(programDate, { weeks: endWeeks }));
+export const sortProgramEntries = <
+  T extends CustomerProgramEntry | ShipperProgramEntry,
+>(
+  entries: T[],
+  isCustomers: boolean,
+) =>
+  sortBy(
+    (entry) => {
+      const program = isCustomers
+        ? (entry as ShipperProgramEntry).shipperProgram
+        : (entry as CustomerProgramEntry).customerProgram;
+      const name = isCustomers
+        ? (program as ShipperProgram)?.shipper?.shipperName
+        : (program as CustomerProgram)?.customer?.customerName;
+      return `${name}${program?.commonSpecies?.speciesName}${program?.commonVariety?.varietyName}${program?.commonSize?.sizeName}${program?.commonPackType?.packTypeName}${program?.plu}`;
+    },
+    sortBy(
+      ({ programDate }) =>
+        -getWeekNumber(new Date(programDate.replace(/-/g, '/'))),
+      entries,
+    ),
+  );
 
-  const filteredEntries = entries.filter((e) => {
-    const hasAvailablePallets =
-      !pluck(
-        'id',
-        nonZeroStateValues.map((val) => val.entry),
-      ).includes(e?.id) && getAvailablePalletCount(e) > 0;
+export const getProgramTotals = <
+  T extends CustomerProgramEntry | ShipperProgramEntry,
+>(
+  entries: T[],
+  selectedWeekNumber: number,
+  weekCount: number,
+  getProgramEntryValue: (
+    entry: T,
+    key: keyof T,
+  ) => { value: string; dirty: boolean },
+) =>
+  times((index) => {
+    const filteredEntries = entries
+      .filter(
+        (entry) =>
+          entry &&
+          getWeekNumber(new Date(entry.programDate.replace(/-/g, '/'))) ===
+            selectedWeekNumber + index,
+      )
+      .reverse();
 
-    const matchesSearchText =
-      customerAllocateSearch &&
-      customerAllocateSearch
-        .split(' ')
-        .every((s) =>
-          (e.searchText || '').toLowerCase().includes(s.toLowerCase()),
+    return filteredEntries.length === 0
+      ? { total: 0, available: null }
+      : filteredEntries.reduce(
+          (acc, entry) => {
+            const availableCount =
+              entry.palletCount -
+              sum(
+                (
+                  entry.shipperProgramEntryCustomerProgramEntries?.nodes || []
+                ).map((alloc) => alloc && alloc.palletCount),
+              );
+            return {
+              total:
+                acc.total + +getProgramEntryValue(entry, 'palletCount').value,
+              available:
+                acc.available +
+                (entry ? (availableCount < 0 ? 0 : availableCount) : 0),
+            };
+          },
+          { total: 0, available: 0 },
         );
-    const isExactMatch =
-      entry?.shipperProgram?.commonSpecies?.id ===
-        e?.customerProgram?.commonSpecies?.id &&
-      entry?.shipperProgram?.commonVariety?.id ===
-        e?.customerProgram?.commonVariety?.id &&
-      entry?.shipperProgram?.commonSize?.id ===
-        e?.customerProgram?.commonSize?.id &&
-      entry?.shipperProgram?.commonPackType?.id ===
-        e?.customerProgram?.commonPackType?.id &&
-      entry?.shipperProgram?.plu === e?.customerProgram?.plu;
+  }, weekCount);
 
-    const meetsSearchCriteria = !!customerAllocateSearch
-      ? matchesSearchText
-      : isExactMatch;
+export const getAvailablePalletEntryTotals = <
+  T extends CustomerProgramEntry | ShipperProgramEntry,
+>(
+  entries: T[],
+  selectedWeekNumber: number,
+  weekCount: number,
+) =>
+  times((index) => {
+    const entry = entries.find(
+      (e) =>
+        e &&
+        getWeekNumber(new Date(e.programDate.replace(/-/g, '/'))) ===
+          selectedWeekNumber + index,
+    );
+    return (
+      entry &&
+      entry.palletCount -
+        sum(
+          (entry.shipperProgramEntryCustomerProgramEntries?.nodes || []).map(
+            (alloc) => alloc && alloc.palletCount,
+          ),
+        )
+    );
+  }, weekCount);
 
-    const meetsDateCriteria =
-      isDateGreaterThanOrEqualTo(
-        new Date(e.programDate.replace(/-/g, '/')),
-        startDate,
-      ) &&
-      isDateLessThanOrEqualTo(
-        new Date(e.programDate.replace(/-/g, '/')),
-        endDate,
+export const groupProgramsByProduct = <
+  T extends CustomerProgram | ShipperProgram,
+  K extends CustomerProgramUpdate | ShipperProgramUpdate,
+>(
+  specieses: CommonSpecies[],
+  programs: T[],
+  getProgramValue: (
+    program: Maybe<T> | undefined,
+    key: keyof K,
+  ) => { value: string },
+) =>
+  groupBy(
+    (program) => {
+      const species = specieses.find(
+        (s) => s.id === getProgramValue(program, 'commonSpeciesId').value,
       );
-
-    return hasAvailablePallets && meetsSearchCriteria && meetsDateCriteria;
-  });
-
-  return filteredEntries;
-};
-
-export const sortAllocatedShipperProgramEntries = (
-  allocateState: {
-    entry: ShipperProgramEntry;
-    allocatedCount: string;
-  }[],
-) =>
-  sortBy(
-    ({ id }) =>
-      -parseInt(
-        allocateState.find((s) => s.entry.id === id)?.allocatedCount || '0',
-        10,
-      ),
-    sortShipperProgramEntries(
-      pluck('entry', allocateState) as ShipperProgramEntry[],
-    ),
+      return `${species?.speciesName}`;
+    },
+    sortBy((program) => {
+      const species = specieses.find(
+        (s) => s.id === getProgramValue(program, 'commonSpeciesId').value,
+      );
+      const variety = species?.commonVarieties?.nodes.find(
+        (v) => v && v.id === getProgramValue(program, 'commonVarietyId').value,
+      );
+      const size = species?.commonSizes?.nodes.find(
+        (s) => s && s.id === getProgramValue(program, 'commonSizeId').value,
+      );
+      const packType = species?.commonPackTypes?.nodes.find(
+        (p) => p && p.id === getProgramValue(program, 'commonPackTypeId').value,
+      );
+      return `${species?.speciesName} ${variety?.varietyName} ${
+        size?.sizeName
+      } ${packType?.packTypeName} ${getProgramValue(program, 'plu').value}`;
+    }, programs),
   );
-
-export const sortAllocatedCustomerProgramEntries = (
-  allocateState: {
-    entry: CustomerProgramEntry;
-    allocatedCount: string;
-  }[],
-) =>
-  sortBy(
-    ({ id }) =>
-      -parseInt(
-        allocateState.find((s) => s.entry.id === id)?.allocatedCount || '0',
-        10,
-      ),
-    sortCustomerProgramEntries(
-      pluck('entry', allocateState) as CustomerProgramEntry[],
-    ),
-  );
-
-export const sortShipperProgramEntries = (entries: ShipperProgramEntry[]) =>
-  sortBy(
-    ({ shipperProgram: program }) =>
-      `${program?.shipper?.shipperName}${program?.commonSpecies?.speciesName}${program?.commonVariety?.varietyName}${program?.commonSize?.sizeName}${program?.commonPackType?.packTypeName}${program?.plu}`,
-    sortBy(
-      ({ programDate }) =>
-        -getWeekNumber(new Date(programDate.replace(/-/g, '/'))),
-      entries,
-    ),
-  );
-
-export const sortCustomerProgramEntries = (entries: CustomerProgramEntry[]) =>
-  sortBy(
-    ({ customerProgram: program }) =>
-      `${program?.customer?.customerName}${program?.commonSpecies?.speciesName}${program?.commonVariety?.varietyName}${program?.commonSize?.sizeName}${program?.commonPackType?.packTypeName}${program?.plu}`,
-    sortBy(
-      ({ programDate }) =>
-        -getWeekNumber(new Date(programDate.replace(/-/g, '/'))),
-      entries,
-    ),
-  );
-
-export const getShipperProgramTotals = (
-  ps: ShipperProgram[],
-  selectedWeekNumber: number,
-  weekCount: number,
-  getShipperProgramEntryValue: (
-    entry: ShipperProgramEntry,
-    key: keyof ShipperProgramEntry,
-  ) => { value: string; dirty: boolean },
-) =>
-  times((index) => {
-    const filteredEntries = pluck('shipperProgramEntries', ps)
-      .map((entries) =>
-        (entries.nodes as ShipperProgramEntry[])
-          .filter(
-            (entry) =>
-              entry &&
-              getWeekNumber(new Date(entry.programDate.replace(/-/g, '/'))) ===
-                selectedWeekNumber + index,
-          )
-          .reverse(),
-      )
-      .flat();
-
-    return filteredEntries.length === 0
-      ? { total: 0, available: -1 }
-      : filteredEntries.reduce(
-          (acc, entry) => {
-            const availableCount =
-              entry.palletCount -
-              sum(
-                (
-                  entry.shipperProgramEntryCustomerProgramEntries?.nodes || []
-                ).map((alloc) => alloc && alloc.palletCount),
-              );
-            return {
-              total:
-                acc.total +
-                +getShipperProgramEntryValue(entry, 'palletCount').value,
-              available:
-                acc.available +
-                (entry ? (availableCount < 0 ? 0 : availableCount) : 0),
-            };
-          },
-          { total: 0, available: 0 },
-        );
-  }, weekCount);
-
-export const getCustomerProgramTotals = (
-  ps: CustomerProgram[],
-  selectedWeekNumber: number,
-  weekCount: number,
-  getCustomerProgramEntryValue: (
-    entry: CustomerProgramEntry,
-    key: keyof CustomerProgramEntry,
-  ) => { value: string; dirty: boolean },
-) =>
-  times((index) => {
-    const filteredEntries = pluck('customerProgramEntries', ps)
-      .map((entries) =>
-        (entries.nodes as CustomerProgramEntry[])
-          .filter(
-            (entry) =>
-              entry &&
-              getWeekNumber(new Date(entry.programDate.replace(/-/g, '/'))) ===
-                selectedWeekNumber + index,
-          )
-          .reverse(),
-      )
-      .flat();
-
-    return filteredEntries.length === 0
-      ? { total: 0, available: -1 }
-      : filteredEntries.reduce(
-          (acc, entry) => {
-            const availableCount =
-              entry.palletCount -
-              sum(
-                (
-                  entry.shipperProgramEntryCustomerProgramEntries?.nodes || []
-                ).map((alloc) => alloc && alloc.palletCount),
-              );
-            return {
-              total:
-                acc.total +
-                +getCustomerProgramEntryValue(entry, 'palletCount').value,
-              available:
-                acc.available +
-                (entry ? (availableCount < 0 ? 0 : availableCount) : 0),
-            };
-          },
-          { total: 0, available: 0 },
-        );
-  }, weekCount);
-
-export const getShipperAvailablePalletEntryTotals = (
-  program: ShipperProgram,
-  selectedWeekNumber: number,
-  weekCount: number,
-) =>
-  times((index) => {
-    const entry = (program.shipperProgramEntries?.nodes || []).find(
-      (e) =>
-        e &&
-        getWeekNumber(new Date(e.programDate.replace(/-/g, '/'))) ===
-          selectedWeekNumber + index,
-    );
-    return (
-      entry &&
-      entry.palletCount -
-        sum(
-          (entry.shipperProgramEntryCustomerProgramEntries?.nodes || []).map(
-            (alloc) => alloc && alloc.palletCount,
-          ),
-        )
-    );
-  }, weekCount);
-
-export const getCustomerAvailablePalletEntryTotals = (
-  program: CustomerProgram,
-  selectedWeekNumber: number,
-  weekCount: number,
-) =>
-  times((index) => {
-    const entry = (program.customerProgramEntries?.nodes || []).find(
-      (e) =>
-        e &&
-        getWeekNumber(new Date(e.programDate.replace(/-/g, '/'))) ===
-          selectedWeekNumber + index,
-    );
-    return (
-      entry &&
-      entry.palletCount -
-        sum(
-          (entry.shipperProgramEntryCustomerProgramEntries?.nodes || []).map(
-            (alloc) => alloc && alloc.palletCount,
-          ),
-        )
-    );
-  }, weekCount);

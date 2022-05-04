@@ -44,20 +44,29 @@ const useVariables = (
       customerId,
       startDate: startDateQuery,
       endDate: endDateQuery,
+      view,
     },
   ] = useProgramsQueryParams();
+
+  const isCustomers = view === 'customers';
 
   const endDate = endDateQuery
     ? new Date(endDateQuery.replace(/-/g, '/'))
     : new Date();
   const startDate = startOfISOWeek(
-    startDateQuery ? new Date(startDateQuery.replace(/-/g, '/')) : new Date(),
+    startDateQuery
+      ? add(new Date(startDateQuery.replace(/-/g, '/')), { weeks: -4 })
+      : new Date(),
   );
 
   return {
     arrivalPort: coast,
-    customerId: customerId || (weekCount === undefined ? null : undefined),
-    shipperId: shipperId || (weekCount === undefined ? null : undefined),
+    customerId: isCustomers
+      ? customerId || (weekCount === undefined ? null : undefined)
+      : undefined,
+    shipperId: isCustomers
+      ? undefined
+      : shipperId || (weekCount === undefined ? null : undefined),
     startDate: formatDate(min([allocateStartDate || startDate, startDate])),
     endDate: formatDate(
       max([

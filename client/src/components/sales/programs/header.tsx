@@ -4,13 +4,14 @@ import { times } from 'ramda';
 
 import PlusInCircle from 'assets/images/plus-in-circle';
 import { useProgramsQueryParams } from 'hooks/use-query-params';
+import b from 'ui/button';
+import { LineItemCheckbox } from 'ui/checkbox';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 import { getWeekNumber, isCurrentWeek } from 'utils/date';
 
 import { getGridProps } from './utils';
-import { LineItemCheckbox } from 'ui/checkbox';
 
 interface Props {
   editing: boolean;
@@ -37,11 +38,11 @@ const Header = ({
 
   const clearProductQueryParams = () => {
     setProgramsQueryParams({
-      commonSpeciesId: null,
-      commonVarietyId: null,
-      commonSizeId: null,
-      commonPackTypeId: null,
-      plu: null,
+      commonSpeciesId: undefined,
+      commonVarietyId: undefined,
+      commonSizeId: undefined,
+      commonPackTypeId: undefined,
+      plu: undefined,
     });
   };
 
@@ -57,22 +58,25 @@ const Header = ({
             <ty.BodyText bold mr={th.spacing.lg}>
               Products ↓
             </ty.BodyText>
-            <LineItemCheckbox
-              checked={showAllocated}
-              label={
-                <ty.SmallText mx={th.spacing.sm} nowrap>
-                  Show allocated
-                </ty.SmallText>
-              }
-              onChange={toggleShowAllocated}
-            />
-            {commonSpeciesId && (
-              <l.HoverButton
+            {!editing && (
+              <LineItemCheckbox
+                checked={showAllocated}
+                label={
+                  <ty.SmallText mx={th.spacing.sm} nowrap>
+                    Show unallocated
+                  </ty.SmallText>
+                }
+                onChange={toggleShowAllocated}
+              />
+            )}
+            {commonSpeciesId && !editing && (
+              <b.Warning
                 ml={th.spacing.md}
+                small
                 onClick={clearProductQueryParams}
               >
-                <ty.SmallText>Clear product filters</ty.SmallText>
-              </l.HoverButton>
+                Clear filters
+              </b.Warning>
             )}
           </l.Flex>
           <ty.BodyText bold mr={th.spacing.md}>
