@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { TextSetProps } from 'onno';
+import DateTimePicker from 'react-datetime-picker';
 
 import HighlightImg from 'assets/images/highlight';
+import useDebounce from 'hooks/use-debounce';
 import usePrevious from 'hooks/use-previous';
+import { SmallSelect } from 'ui/input';
 import l, { DivProps, divPropsSet } from 'ui/layout';
 import th from 'ui/theme';
 import { TextProps, textPropsSet } from 'ui/typography';
 import { hexColorWithTransparency } from 'ui/utils';
 
 import ColorPicker from './color-picker';
-import useDebounce from 'hooks/use-debounce';
 
 export const EDITABLE_CELL_HEIGHT = 28;
 
@@ -41,16 +43,18 @@ export const Input = styled.input<
 const Wrapper = styled(l.Flex)(
   ({
     highlight,
+    highlightColor,
     showBorder,
     secondaryHighlight,
   }: {
     highlight?: boolean;
+    highlightColor?: string;
     showBorder?: boolean;
     secondaryHighlight?: boolean;
   }) => ({
     alignItems: 'center',
     background: highlight
-      ? th.colors.cellHighlight
+      ? highlightColor || th.colors.cellHighlight
       : secondaryHighlight
       ? th.colors.brand.containerBackground
       : undefined,
@@ -74,15 +78,24 @@ export interface EditableCellProps {
   content: CellContent;
   defaultChildren: React.ReactNode;
   debounce?: number;
+  dropdownOptions?: {
+    content?: React.ReactNode;
+    value: string;
+  }[];
   editing: boolean;
   error?: boolean;
   handleHighlight?: () => void;
   highlight?: boolean;
+  highlightColor?: string;
   inputProps?: React.InputHTMLAttributes<HTMLInputElement> &
+    DivProps &
+    TextProps;
+  selectProps?: React.InputHTMLAttributes<HTMLSelectElement> &
     DivProps &
     TextProps;
   isBoolean?: boolean;
   isColor?: boolean;
+  isDate?: boolean;
   onChange: React.ChangeEventHandler<HTMLInputElement>;
   showBorder?: boolean;
   secondaryHighlight?: boolean;
@@ -94,13 +107,17 @@ const EditableCell = ({
   content,
   debounce,
   defaultChildren,
+  dropdownOptions,
   editing,
   error,
   handleHighlight,
   highlight,
+  highlightColor,
   inputProps,
+  selectProps,
   isBoolean,
   isColor,
+  isDate,
   onChange,
   showBorder = true,
   secondaryHighlight,
@@ -121,6 +138,14 @@ const EditableCell = ({
   const debouncedLocalValue = useDebounce(localValue, debounce || 500);
   const previousDebouncedLocalValue = usePrevious(debouncedLocalValue);
 
+  const dateTimePickerProps = {
+    calendarIcon: null,
+    clearIcon: null,
+    disableClock: true,
+    locale: 'en-US',
+    format: 'y-MM-dd',
+  };
+
   useEffect(() => {
     if (previousValue !== value) {
       setLocalValue(value);
@@ -138,6 +163,7 @@ const EditableCell = ({
   return (
     <Wrapper
       highlight={highlight}
+      highlightColor={highlightColor}
       onMouseEnter={() => {
         setShowToggleHighlight(true);
       }}
@@ -160,6 +186,32 @@ const EditableCell = ({
               } as any);
             }}
           />
+        ) : isDate ? (
+          <DateTimePicker
+            onChange={(date: Date) =>
+              onChange({
+                target: {
+                  value: date,
+                },
+              } as any)
+            }
+            value={new Date(`${localValue}`)}
+            {...dateTimePickerProps}
+          />
+        ) : dropdownOptions ? (
+          <SmallSelect
+            onChange={(e) => {
+              onChange({ target: { value: e.target.value } } as any);
+            }}
+            value={`${localValue}`}
+            {...selectProps}
+          >
+            {dropdownOptions.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.content || option.value}
+              </option>
+            ))}
+          </SmallSelect>
         ) : (
           <Input
             dirty={dirty || localValue !== value}
@@ -190,7 +242,10 @@ const EditableCell = ({
         <l.HoverButton
           bg={th.colors.background}
           borderRadius={th.borderRadii.circle}
-          onClick={handleHighlight}
+          onClick={(e) => {
+            e.stopPropagation();
+            handleHighlight && handleHighlight();
+          }}
           position="absolute"
           left={th.spacing.xs}
         >

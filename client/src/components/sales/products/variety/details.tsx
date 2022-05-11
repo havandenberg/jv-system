@@ -1,11 +1,12 @@
 import React from 'react';
+import { pluck, uniqBy } from 'ramda';
 import { useParams } from 'react-router-dom';
 
 import api from 'api';
 import BaseData from 'components/base-data';
 import Page from 'components/page';
 import { DataMessage } from 'components/page/message';
-import { CommonProductTag } from 'components/tag-manager';
+import useTagManager, { CommonProductTag } from 'components/tag-manager';
 import useUpdateItem from 'hooks/use-update-item';
 import { CommonVariety, CommonVarietyTag } from 'types';
 import l from 'ui/layout';
@@ -13,7 +14,6 @@ import th from 'ui/theme';
 
 import { transformChangesOnUpdate } from '../utils';
 import { baseLabels } from './data-utils';
-import useTagManager from 'components/tag-manager';
 
 export const breadcrumbs = (variety: CommonVariety) => [
   {
@@ -48,6 +48,7 @@ const CommonVarietyDetails = () => {
     'uiColor',
     'commonVarietyTags',
     'productVarietyId',
+    'defaultInvSortKey',
   ] as (keyof CommonVariety)[];
   const updateVariables = { id: varietyId };
 
@@ -68,6 +69,17 @@ const CommonVarietyDetails = () => {
       updateVariables,
     });
 
+  const tags = (changes?.commonVarietyTags?.nodes || []) as CommonProductTag[];
+  const suggestedTags = uniqBy(
+    (tag) => tag?.tagText,
+    pluck(
+      'commonVarietyTags',
+      (data?.commonSpecies?.commonVarieties?.nodes || []) as CommonVariety[],
+    )
+      .map(({ nodes }) => nodes)
+      .flat(),
+  ) as CommonProductTag[];
+
   const { tagManager } = useTagManager({
     commonProductId: varietyId,
     editing: editing,
@@ -77,7 +89,8 @@ const CommonVarietyDetails = () => {
       });
     },
     productIdKey: 'commonVarietyId',
-    tags: (changes?.commonVarietyTags?.nodes || []) as CommonProductTag[],
+    tags,
+    suggestedTags,
   });
 
   return (

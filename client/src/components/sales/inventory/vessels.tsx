@@ -21,9 +21,9 @@ import { getFilteredVessels } from './utils';
 const VesselLink = styled(l.Flex)(({ isPre }: { isPre: boolean }) => ({
   alignItems: 'center',
   background: isPre
-    ? `${th.colors.status.error}33`
+    ? `${th.colors.status.warning}33`
     : th.colors.brand.containerBackground,
-  border: isPre ? th.borders.error : th.borders.secondary,
+  border: isPre ? th.borders.warning : th.borders.secondary,
   borderRadius: th.borderRadii.input,
   justifyContent: 'center',
   padding: `${th.spacing.tn} ${th.spacing.xs}`,

@@ -25,6 +25,8 @@ query SHIPPER_DETAILS($id: String!, $orderBy: [PersonContactsOrderBy!]) {
       }
     }
     notes
+    projectionRequestStartDate
+    projectionRequestEndDate
     sendProjectionRequest
     shipperName
     website

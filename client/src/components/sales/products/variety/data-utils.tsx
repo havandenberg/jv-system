@@ -3,6 +3,7 @@ import { pluck } from 'ramda';
 
 import ColorPicker from 'components/color-picker';
 import { LabelInfo } from 'components/column-label';
+import { inventorySortKeys } from 'components/sales/inventory/utils';
 import { CommonVariety, CommonVarietyTag, ProductVariety } from 'types';
 import th from 'ui/theme';
 import ty from 'ui/typography';
@@ -72,7 +73,7 @@ export const baseLabels: CommonVarietyLabelInfo[] = [
   },
   {
     key: 'productVarietyId',
-    label: 'Code',
+    label: 'Primary Code',
     itemSelectorQueryProps: {
       errorLabel: 'varieties',
       getItemContent: ({ id, varietyDescription }: ProductVariety) => (
@@ -82,6 +83,27 @@ export const baseLabels: CommonVarietyLabelInfo[] = [
       ),
       query: PRODUCT_VARIETY_QUERY,
       queryName: 'productVarieties',
+    },
+  },
+  {
+    key: 'defaultInvSortKey',
+    label: 'Inv Sort Key',
+    dropdownOptions: inventorySortKeys.filter(
+      (item) => item.value !== 'variety',
+    ),
+    getValue: ({ defaultInvSortKey }) => {
+      const selectedKey = inventorySortKeys.find(
+        ({ value }) => value === defaultInvSortKey,
+      );
+      return (
+        <ty.BodyText>
+          {selectedKey
+            ? selectedKey.value
+              ? selectedKey.content || selectedKey.value
+              : 'Default'
+            : defaultInvSortKey || 'Default'}
+        </ty.BodyText>
+      );
     },
   },
 ];

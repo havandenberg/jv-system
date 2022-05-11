@@ -3,6 +3,7 @@ import { pluck } from 'ramda';
 
 import ColorPicker from 'components/color-picker';
 import { LabelInfo } from 'components/column-label';
+import { inventorySortKeys } from 'components/sales/inventory/utils';
 import { CommonSpecies, CommonSpeciesTag, ProductSpecies } from 'types';
 import l from 'ui/layout';
 import th from 'ui/theme';
@@ -98,7 +99,7 @@ export const baseLabels: CommonSpeciesLabelInfo[] = [
   },
   {
     key: 'productSpeciesId',
-    label: 'Code',
+    label: 'Primary Code',
     itemSelectorQueryProps: {
       errorLabel: 'species',
       getItemContent: ({ id, speciesDescription }: ProductSpecies) => (
@@ -108,6 +109,25 @@ export const baseLabels: CommonSpeciesLabelInfo[] = [
       ),
       query: PRODUCT_SPECIES_QUERY,
       queryName: 'productSpecieses',
+    },
+  },
+  {
+    key: 'defaultInvSortKey',
+    label: 'Inv Sort Key',
+    dropdownOptions: inventorySortKeys,
+    getValue: ({ defaultInvSortKey }) => {
+      const selectedKey = inventorySortKeys.find(
+        ({ value }) => value === defaultInvSortKey,
+      );
+      return (
+        <ty.BodyText>
+          {selectedKey
+            ? selectedKey.value
+              ? selectedKey.content || selectedKey.value
+              : 'Default'
+            : defaultInvSortKey || 'Default'}
+        </ty.BodyText>
+      );
     },
   },
 ];

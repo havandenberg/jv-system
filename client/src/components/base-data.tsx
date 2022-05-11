@@ -100,11 +100,13 @@ const BaseDataItem = <T extends {}>({
   editing,
   handleChange,
   label: {
+    dropdownOptions,
     key,
     getValue,
     label,
     isBoolean,
     isColor,
+    isDate,
     itemSelectorQueryProps,
     readOnly,
     transformKey,
@@ -132,6 +134,14 @@ const BaseDataItem = <T extends {}>({
       : data[key]) || '-';
   const isEditing = !!editing && !readOnly;
 
+  const cellInputProps = {
+    borderRadius: th.borderRadii.default,
+    height: th.sizes.icon,
+    fontSize: th.fontSizes.body,
+    padding: th.spacing.xs,
+    width: 175,
+  };
+
   const editableCellProps: EditableCellProps = {
     bypassLocalValue: true,
     content,
@@ -140,17 +150,14 @@ const BaseDataItem = <T extends {}>({
     ) : (
       <ty.BodyText>{value}</ty.BodyText>
     ),
+    dropdownOptions,
     editing: isEditing,
     error: showValidation && !isValid,
-    inputProps: {
-      borderRadius: th.borderRadii.default,
-      height: th.sizes.icon,
-      fontSize: th.fontSizes.body,
-      padding: th.spacing.xs,
-      width: 175,
-    },
+    inputProps: cellInputProps,
+    selectProps: cellInputProps,
     isBoolean,
     isColor,
+    isDate,
     onChange: (e) => {
       handleChange &&
         handleChange(key, isBoolean ? e.target.checked : e.target.value);

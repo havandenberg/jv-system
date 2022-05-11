@@ -9,17 +9,12 @@ import {
 } from 'hooks/use-query-params';
 import { InventoryItem } from 'types';
 
-import { listLabels } from './data-utils';
+import { getSortedItems, isPreInventoryItem } from '../utils';
+import { indexListLabels } from './data-utils';
 import ListItem from './list-item';
-import { getSortedItems } from '../utils';
 
-export const gridTemplateColumns = (
-  count: number = 5,
-  hasShipper: boolean = true,
-) =>
-  `80px ${hasShipper ? '' : '2.5fr '}${
-    count ? 'repeat(' + count + ', 1.5fr) ' : ''
-  }repeat(3, 90px) 30px`;
+export const gridTemplateColumns = (hasShipper: boolean = true) =>
+  `1.5fr 120px ${hasShipper ? '' : '1fr '} 1fr repeat(3, 65px) 50px 30px`;
 
 interface Props {
   items: InventoryItem[];
@@ -27,51 +22,43 @@ interface Props {
 
 const InventoryItems = ({ items }: Props) => {
   const { search } = useLocation();
-  const [{ species, variety, size, packType, plu, shipper }] =
-    useInventoryQueryParams();
+  const [
+    { shipper, species, variety, size, packType, plu, startDate, endDate },
+  ] = useInventoryQueryParams();
   const [{ sortBy = 'vessel', sortOrder = SORT_ORDER.ASC }] =
     useSortQueryParams();
-  const sortedItems = getSortedItems(listLabels, items, sortBy, sortOrder);
-
-  const columnCount =
-    5 -
-    [species, variety, size, packType, plu].filter(
-      (val) => !!val && val !== 'total',
-    ).length;
+  const sortedItems = getSortedItems(
+    indexListLabels({ species, variety, size, packType, plu, shipper }),
+    items,
+    sortBy,
+    sortOrder,
+  );
 
   return (
     <VirtualizedList
       height={618}
       rowCount={sortedItems.length}
       rowRenderer={({ key, index, style }) => {
-        const item = sortedItems[index];
+        const item = sortedItems[index] as InventoryItem;
+        const to = isPreInventoryItem(item)
+          ? `/sales/projections?coast=${item.coast}&shipperId=${item.shipper?.id}&startDate=${startDate}&endDate=${endDate}&view=grid`
+          : `/sales/inventory/items/${item.id}${search}`;
+
         return (
           item && (
             <div key={key} style={style}>
               <ListItem
                 data={item}
-                gridTemplateColumns={gridTemplateColumns(
-                  columnCount,
-                  !!shipper,
-                )}
-                listLabels={listLabels.filter(
-                  (label) =>
-                    (!species ||
-                      species === 'total' ||
-                      label.sortKey !== 'species') &&
-                    (!variety ||
-                      variety === 'total' ||
-                      label.sortKey !== 'variety') &&
-                    (!size || size === 'total' || label.sortKey !== 'size') &&
-                    (!packType ||
-                      packType === 'total' ||
-                      label.sortKey !== 'packType') &&
-                    (!plu || plu === 'total' || label.key !== 'plu') &&
-                    (!shipper ||
-                      shipper === 'total' ||
-                      label.key !== 'shipper'),
-                )}
-                to={`/sales/inventory/items/${item.id}${search}`}
+                gridTemplateColumns={gridTemplateColumns(!!shipper)}
+                listLabels={indexListLabels({
+                  species,
+                  variety,
+                  size,
+                  packType,
+                  plu,
+                  shipper,
+                })}
+                to={to}
               />
             </div>
           )

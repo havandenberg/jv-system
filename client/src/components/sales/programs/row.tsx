@@ -17,7 +17,7 @@ import {
   ShipperProgram,
   ShipperProgramEntry,
 } from 'types';
-import l, { divPropsSet } from 'ui/layout';
+import l, { DivProps, divPropsSet } from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 import { getDateOfISOWeek, getWeekNumber } from 'utils/date';
@@ -33,6 +33,8 @@ import {
   ShipperProgramEntryUpdate,
 } from './types';
 import { getAvailablePalletEntryTotals } from './utils';
+import { hexColorWithTransparency } from 'ui/utils';
+import ProgramNotes from './notes';
 
 export const ProgramWrapper = styled(l.Grid)(
   {
@@ -98,12 +100,14 @@ export const ProgramTotalRow = ({
   programTotals,
   showAllocated,
   species,
+  wrapperStyles,
 }: {
   editing: boolean;
   gridTemplateColumns: string;
   programTotals: { total: number; available: number | null }[];
   showAllocated: boolean;
   species: string;
+  wrapperStyles?: DivProps;
 }) => {
   const totals = pluck('total', programTotals || []);
   const availableTotals = pluck('available', programTotals || []);
@@ -121,7 +125,7 @@ export const ProgramTotalRow = ({
     : undefined;
 
   return (
-    <l.Div py={th.spacing.md}>
+    <l.Div py={th.spacing.md} {...wrapperStyles}>
       <ProgramWrapper
         gridTemplateColumns={gridTemplateColumns}
         mt={isGrand ? `-${th.spacing.sm}` : th.spacing.xs}
@@ -208,17 +212,21 @@ const Cell = styled(l.Flex)(
     active,
     disabled,
     error,
+    highlight,
     onClick,
     warning,
   }: {
     active?: boolean;
     disabled?: boolean;
     error?: boolean;
+    highlight?: boolean;
     onClick?: () => void;
     warning?: boolean;
   }) => ({
     alignItems: 'center',
-    background: th.colors.background,
+    background: highlight
+      ? hexColorWithTransparency(th.colors.background, 0.8)
+      : th.colors.background,
     border: error
       ? th.borders.error
       : warning
@@ -261,6 +269,8 @@ const ProgramRow = <
   } & ProgramProps,
 ) => {
   const {
+    allocatedStartDate,
+    allocatedEndDate,
     commonSpecieses,
     changeHandlers: {
       handleCustomerProgramChange,
@@ -517,7 +527,7 @@ const ProgramRow = <
         content: { dirty: isDirty, value },
         defaultChildren: null,
         editing,
-        error: !commonProductId || isDuplicate,
+        error: isDuplicate,
         onChange: (e: ChangeEvent<HTMLInputElement>) => {
           handleChange(commonProductKey, e.target.value);
         },
@@ -631,6 +641,22 @@ const ProgramRow = <
                 <PlusInCircle height={th.sizes.xs} width={th.sizes.xs} />
               </l.HoverButton>
             </>
+          )}
+          {!editing && (
+            <l.Div
+              cursor="pointer"
+              position="absolute"
+              left={-32}
+              top={th.spacing.xs}
+            >
+              <ProgramNotes
+                allocatedStartDate={allocatedStartDate}
+                allocatedEndDate={allocatedEndDate}
+                isCustomers={isCustomers}
+                program={program}
+                weekCount={weekCount}
+              />
+            </l.Div>
           )}
           {editing ? (
             SpeciesSelector
@@ -802,6 +828,13 @@ const ProgramRow = <
             getProgramEntryValue(entry, 'palletCount').value !==
             entry?.palletCount;
 
+          const isAdWeek = isCustomers
+            ? !!(entry as CustomerProgramEntry)?.isAdWeek
+            : false;
+          const hasNotes = isCustomers
+            ? !!(entry as CustomerProgramEntry)?.notes
+            : false;
+
           return editing ? (
             <l.Flex
               alignCenter
@@ -817,6 +850,18 @@ const ProgramRow = <
                 }}
                 defaultChildren={null}
                 editing={true}
+                highlight={isAdWeek || hasNotes}
+                highlightColor={
+                  isAdWeek
+                    ? hexColorWithTransparency(
+                        th.colors.status.error,
+                        th.opacities.disabled,
+                      )
+                    : hexColorWithTransparency(
+                        th.colors.status.warning,
+                        th.opacities.disabled,
+                      )
+                }
                 inputProps={{
                   min: 0,
                   textAlign: 'center',
@@ -851,6 +896,8 @@ const ProgramRow = <
           ) : (
             <l.Div key={index}>
               <ProgramAllocateModal
+                allocatedStartDate={allocatedStartDate}
+                allocatedEndDate={allocatedEndDate}
                 disabled={editing || !palletCountValue}
                 entriesToAllocate={
                   isCustomers ? shipperProgramEntries : customerProgramEntries
@@ -859,19 +906,36 @@ const ProgramRow = <
                 isCustomers={isCustomers}
                 loading={loading}
                 trigger={(focused) => (
-                  <Cell
-                    active={focused}
-                    alignCenter
-                    disabled={!palletCountValue}
-                    onClick={palletCountValue ? () => ({}) : undefined}
-                    height={`calc(${th.sizes.fill} - 6px)`}
-                    justifyCenter
-                    mx={th.spacing.tn}
+                  <l.Div
+                    background={
+                      isAdWeek
+                        ? hexColorWithTransparency(
+                            th.colors.status.error,
+                            th.opacities.secondary,
+                          )
+                        : hasNotes
+                        ? hexColorWithTransparency(
+                            th.colors.status.warning,
+                            th.opacities.secondary,
+                          )
+                        : undefined
+                    }
                   >
-                    <ty.CaptionText center mr={th.spacing.md}>
-                      {palletCountValue || '-'}
-                    </ty.CaptionText>
-                  </Cell>
+                    <Cell
+                      active={focused}
+                      alignCenter
+                      disabled={!palletCountValue}
+                      onClick={palletCountValue ? () => ({}) : undefined}
+                      height={`calc(${th.sizes.fill} - 6px)`}
+                      highlight={isAdWeek || hasNotes}
+                      justifyCenter
+                      mx={th.spacing.tn}
+                    >
+                      <ty.CaptionText center mr={th.spacing.md}>
+                        {palletCountValue || '-'}
+                      </ty.CaptionText>
+                    </Cell>
+                  </l.Div>
                 )}
                 weekCount={weekCount}
                 handleWeekRangeChange={handleWeekRangeChange}
@@ -887,16 +951,47 @@ const ProgramRow = <
           gridTemplateColumns={gridTemplateColumns}
           mt={th.spacing.tn}
         >
-          {availablePalletTotals.map((total, idx) => (
+          <l.Flex alignCenter justifyBetween>
+            {program.notes ? (
+              <ty.SmallText
+                ml={26}
+                nowrap
+                overflow="hidden"
+                textOverflow="ellipsis"
+                title={program.notes}
+                width={380}
+              >
+                {program.notes}
+              </ty.SmallText>
+            ) : (
+              <div />
+            )}
             <ty.CaptionText
-              bold={idx === 0}
+              bold
+              color={
+                availablePalletTotals[0] === 0
+                  ? th.colors.status.success
+                  : th.colors.status.error
+              }
+              mr={th.spacing.md}
+              secondary
+              textAlign="right"
+            >
+              {availablePalletTotals[0] !== null &&
+              availablePalletTotals[0] !== undefined
+                ? availablePalletTotals[0]
+                : ''}
+            </ty.CaptionText>
+          </l.Flex>
+          {availablePalletTotals.slice(1).map((total, idx) => (
+            <ty.CaptionText
               color={
                 total === 0 ? th.colors.status.success : th.colors.status.error
               }
               key={idx}
               mr={th.spacing.md}
               secondary
-              textAlign={idx === 0 ? 'right' : 'center'}
+              textAlign="center"
             >
               {total !== null && total !== undefined ? total : ''}
             </ty.CaptionText>

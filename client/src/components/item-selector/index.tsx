@@ -28,6 +28,7 @@ export interface ItemSelectorProps<T> {
   allItems: T[];
   clearSearchOnBlur?: boolean;
   closeOnSelect?: boolean;
+  defaultFocused?: boolean;
   disabled?: boolean;
   editableCellProps?: EditableCellProps;
   error?: ApolloError;
@@ -52,6 +53,7 @@ const useItemSelector = <T extends { id: string }>({
   allItems,
   clearSearchOnBlur,
   closeOnSelect,
+  defaultFocused = false,
   disabled,
   excludedItems = [],
   editableCellProps,
@@ -70,7 +72,7 @@ const useItemSelector = <T extends { id: string }>({
   selectItem,
   width = 500,
 }: ItemSelectorProps<T>) => {
-  const [focused, setFocused] = useState(false);
+  const [focused, setFocused] = useState(defaultFocused);
 
   const handleFocus = () => {
     !disabled && setFocused(true);

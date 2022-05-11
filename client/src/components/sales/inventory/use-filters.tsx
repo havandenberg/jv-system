@@ -2,7 +2,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { capitalCase } from 'change-case';
 import { add, endOfISOWeek, format, startOfISOWeek } from 'date-fns';
-import { sortBy, uniq } from 'ramda';
+import { pluck, sortBy, uniq } from 'ramda';
 
 import ResetImg from 'assets/images/reset';
 import { formatDate } from 'components/date-range-picker';
@@ -20,6 +20,7 @@ import ty from 'ui/typography';
 import { getWeekNumber } from 'utils/date';
 
 import { getDateInterval, getFilteredItems } from './utils';
+import { CommonProductTag } from 'components/tag-manager';
 
 export const leftTabStyles = {
   borderBottomRightRadius: 0,
@@ -107,7 +108,7 @@ const useInventoryFilters = ({ items, loading }: Props) => {
       <Select
         mr={th.spacing.md}
         onChange={(e) => {
-          setQuery({ ...selectedFilters, [key]: e.target.value });
+          setQuery({ ...selectedFilters, [key]: e.target.value || undefined });
         }}
         value={selectedFilters[key] || ''}
         width={selectWidth}
@@ -215,6 +216,11 @@ const useInventoryFilters = ({ items, loading }: Props) => {
     variety,
     size,
     packType,
+    sizePackType,
+    speciesTag,
+    varietyTag,
+    sizeTag,
+    packTypeTag,
     plu,
     location,
     shipper,
@@ -230,15 +236,55 @@ const useInventoryFilters = ({ items, loading }: Props) => {
         sizes: itemSizes,
         packType: itemPackType,
       } = item.product || {};
+
+      const commonSpeciesTags =
+        (item.product?.species?.commonSpecieses?.nodes.find(
+          (cs) => cs && cs.productSpeciesId === item.product?.species?.id,
+        )?.commonSpeciesTags?.nodes || []) as CommonProductTag[];
+      const commonVarietyTags =
+        (item.product?.variety?.commonVarieties?.nodes.find(
+          (cv) => cv && cv.productVarietyId === item.product?.variety?.id,
+        )?.commonVarietyTags?.nodes || []) as CommonProductTag[];
+      const commonSizeTags =
+        (item.product?.sizes?.nodes[0]?.commonSizes?.nodes.find(
+          (cs) => cs && cs.productSizeId === item.product?.sizes?.nodes[0]?.id,
+        )?.commonSizeTags?.nodes || []) as CommonProductTag[];
+      const commonPackTypeTags =
+        (item.product?.packType?.commonPackTypes?.nodes.find(
+          (cpt) => cpt && cpt.packMasterId === item.product?.packType?.id,
+        )?.commonPackTypeTags?.nodes || []) as CommonProductTag[];
+
       return (
         (!location || location === item.warehouse?.id) &&
         (!shipper || shipper === item.shipper?.id) &&
         (!countryOfOrigin || countryOfOrigin === item.country?.id) &&
-        (!species || ['total', itemSpecies?.id].includes(species)) &&
-        (!variety || ['total', itemVariety?.id].includes(variety)) &&
-        (!size || ['total', itemSizes?.nodes[0]?.id].includes(size)) &&
-        (!packType ||
-          ['total', itemPackType?.packDescription].includes(packType)) &&
+        (species
+          ? speciesTag
+            ? pluck('tagText', commonSpeciesTags).includes(speciesTag)
+            : ['total', itemSpecies?.id].includes(species)
+          : !speciesTag ||
+            pluck('tagText', commonSpeciesTags).includes(speciesTag)) &&
+        (variety
+          ? varietyTag
+            ? pluck('tagText', commonVarietyTags).includes(varietyTag)
+            : ['total', itemVariety?.id].includes(variety)
+          : !varietyTag ||
+            pluck('tagText', commonVarietyTags).includes(varietyTag)) &&
+        (size
+          ? sizeTag
+            ? pluck('tagText', commonSizeTags).includes(sizeTag)
+            : ['total', itemSizes?.nodes[0]?.id].includes(size)
+          : !sizeTag || pluck('tagText', commonSizeTags).includes(sizeTag)) &&
+        (packType
+          ? packTypeTag
+            ? commonPackTypeTags.includes(packTypeTag)
+            : ['total', itemPackType?.packDescription].includes(packType)
+          : !packTypeTag || commonPackTypeTags.includes(packTypeTag)) &&
+        (!sizePackType ||
+          [
+            'total',
+            `${itemSizes?.nodes[0]?.id}-${itemPackType?.packDescription}`,
+          ].includes(sizePackType)) &&
         (!plu || ['total', item.plu ? 'true' : 'false'].includes(plu))
       );
     },

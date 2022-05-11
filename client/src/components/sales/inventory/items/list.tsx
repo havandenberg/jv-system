@@ -10,10 +10,10 @@ import l from 'ui/layout';
 import th from 'ui/theme';
 
 import { getSortedItems } from '../utils';
-import ListItem from './list-item';
 import { listLabels } from './data-utils';
+import ListItem from './list-item';
 
-const gridTemplateColumns = '80px 2.5fr repeat(5, 1.5fr) repeat(3, 90px) 30px';
+const gridTemplateColumns = '3.5fr repeat(5, 1.5fr) repeat(3, 90px) 30px';
 
 const InventoryItemList = ({
   baseUrl,

@@ -26,31 +26,38 @@ export interface SecondaryNavProps {
   activePathname: string;
   baseUrl: string;
   navItems: NavItemProps[];
+  search?: string;
 }
 
 const SecondaryNav = ({
   activePathname,
   baseUrl,
   navItems,
-}: SecondaryNavProps) => (
-  <l.Flex
-    flex={1}
-    height={th.heights.nav - th.heights.navButton}
-    pt={th.spacing.tn}
-    px={th.spacing.sm}
-  >
-    {navItems.map(({ disabled, search, to, text }, idx) => {
-      const pathname = `${baseUrl}/${to}${search || ''}`;
-      const active = activePathname.includes(pathname);
-      return (
-        <l.AreaLink key={idx} to={disabled ? '#' : pathname}>
-          <NavItem active={active} disabled={disabled} px={th.sizes.icon}>
-            <ty.BodyText>{text}</ty.BodyText>
-          </NavItem>
-        </l.AreaLink>
-      );
-    })}
-  </l.Flex>
-);
+  search,
+}: SecondaryNavProps) => {
+  return (
+    <l.Flex
+      flex={1}
+      height={th.heights.nav - th.heights.navButton}
+      pt={th.spacing.tn}
+      px={th.spacing.sm}
+    >
+      {navItems.map(({ disabled, search: itemSearch, to, text }, idx) => {
+        const path = `${baseUrl}/${to}${itemSearch || ''}`;
+        const active = activePathname.includes(path);
+        return (
+          <l.AreaLink
+            key={idx}
+            to={disabled ? '#' : `${path}${itemSearch ? '' : search}`}
+          >
+            <NavItem active={active} disabled={disabled} px={th.sizes.icon}>
+              <ty.BodyText>{text}</ty.BodyText>
+            </NavItem>
+          </l.AreaLink>
+        );
+      })}
+    </l.Flex>
+  );
+};
 
 export default SecondaryNav;

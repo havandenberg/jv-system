@@ -2,6 +2,7 @@ import { loader } from 'graphql.macro';
 import { pluck } from 'ramda';
 
 import { LabelInfo } from 'components/column-label';
+import { inventorySortKeys } from 'components/sales/inventory/utils';
 import { CommonSize, CommonSizeTag, ProductSize } from 'types';
 import th from 'ui/theme';
 import ty from 'ui/typography';
@@ -44,7 +45,7 @@ export const baseLabels: CommonSizeLabelInfo[] = [
   },
   {
     key: 'productSizeId',
-    label: 'Code',
+    label: 'Primary Code',
     itemSelectorQueryProps: {
       errorLabel: 'sizes',
       getItemContent: ({ id, jvDescription }: ProductSize) => (
@@ -54,6 +55,25 @@ export const baseLabels: CommonSizeLabelInfo[] = [
       ),
       query: PRODUCT_SIZE_QUERY,
       queryName: 'productSizes',
+    },
+  },
+  {
+    key: 'defaultInvSortKey',
+    label: 'Inv Sort Key',
+    dropdownOptions: inventorySortKeys.filter((item) => item.value !== 'size'),
+    getValue: ({ defaultInvSortKey }) => {
+      const selectedKey = inventorySortKeys.find(
+        ({ value }) => value === defaultInvSortKey,
+      );
+      return (
+        <ty.BodyText>
+          {selectedKey
+            ? selectedKey.value
+              ? selectedKey.content || selectedKey.value
+              : 'Default'
+            : defaultInvSortKey || 'Default'}
+        </ty.BodyText>
+      );
     },
   },
 ];

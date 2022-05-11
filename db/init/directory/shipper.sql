@@ -8,7 +8,9 @@ CREATE TABLE directory.shipper (
 	logo_src TEXT,
 	notes TEXT,
 	website TEXT,
-	send_projection_request BOOLEAN
+	send_projection_request BOOLEAN,
+	projection_request_start_date DATE,
+	projection_request_end_date DATE,
 );
 
 CREATE TABLE directory.shipper_person_contact (

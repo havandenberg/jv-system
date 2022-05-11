@@ -1,11 +1,12 @@
 import React from 'react';
+import { pluck, uniqBy } from 'ramda';
 import { useParams } from 'react-router-dom';
 
 import api from 'api';
 import BaseData from 'components/base-data';
 import Page from 'components/page';
 import { DataMessage } from 'components/page/message';
-import { CommonProductTag } from 'components/tag-manager';
+import useTagManager, { CommonProductTag } from 'components/tag-manager';
 import useUpdateItem from 'hooks/use-update-item';
 import { CommonSize, CommonSizeTag } from 'types';
 import l from 'ui/layout';
@@ -13,7 +14,6 @@ import th from 'ui/theme';
 
 import { transformChangesOnUpdate } from '../utils';
 import { baseLabels } from './data-utils';
-import useTagManager from 'components/tag-manager';
 
 export const breadcrumbs = (size: CommonSize) => [
   {
@@ -48,6 +48,7 @@ const CommonSizeDetails = () => {
     'uiColor',
     'commonSizeTags',
     'productSizeId',
+    'defaultInvSortKey',
   ] as (keyof CommonSize)[];
   const updateVariables = { id: sizeId };
 
@@ -67,6 +68,17 @@ const CommonSizeDetails = () => {
       updateVariables,
     });
 
+  const tags = (changes?.commonSizeTags?.nodes || []) as CommonProductTag[];
+  const suggestedTags = uniqBy(
+    (tag) => tag?.tagText,
+    pluck(
+      'commonSizeTags',
+      (data?.commonSpecies?.commonSizes?.nodes || []) as CommonSize[],
+    )
+      .map(({ nodes }) => nodes)
+      .flat(),
+  ) as CommonProductTag[];
+
   const { tagManager } = useTagManager({
     commonProductId: sizeId,
     editing: editing,
@@ -76,7 +88,8 @@ const CommonSizeDetails = () => {
       });
     },
     productIdKey: 'commonSizeId',
-    tags: (changes?.commonSizeTags?.nodes || []) as CommonProductTag[],
+    tags,
+    suggestedTags,
   });
 
   return (

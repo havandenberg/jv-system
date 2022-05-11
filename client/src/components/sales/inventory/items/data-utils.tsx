@@ -1,21 +1,135 @@
 import { LabelInfo } from 'components/column-label';
 import { formatDate } from 'components/date-range-picker';
+import StatusIndicator from 'components/status-indicator';
 import { SORT_ORDER } from 'hooks/use-columns';
 import { InventoryItem } from 'types';
+import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
+import { isPreInventoryItem } from '../utils';
 
 export type InventoryItemLabelInfo = LabelInfo<InventoryItem>;
 
-export const listLabels: InventoryItemLabelInfo[] = [
+export const indexListLabels = ({
+  species,
+  variety,
+  packType,
+  size,
+  plu,
+  shipper,
+}: {
+  species?: string;
+  variety?: string;
+  size?: string;
+  packType?: string;
+  plu?: string;
+  shipper?: string;
+}): InventoryItemLabelInfo[] => [
   {
     key: 'vessel',
     label: 'Vessel',
-    getValue: (data) => (data.vessel ? data.vessel.vesselCode : ''),
+    getValue: ({ vessel }) =>
+      vessel ? `${vessel.vesselCode} - ${vessel.vesselName}` : '',
     defaultSortOrder: SORT_ORDER.ASC,
     sortable: true,
-    customSortBy: (data) => (data.vessel ? data.vessel.vesselCode : ''),
+    customSortBy: ({ vessel }) => (vessel ? vessel.vesselCode : ''),
   },
+  {
+    key: 'vessel',
+    label: 'Discharge Date',
+    getValue: ({ vessel }) => (vessel ? vessel.dischargeDate : ''),
+    defaultSortOrder: SORT_ORDER.ASC,
+    sortable: true,
+    sortKey: 'dischargeDate',
+    customSortBy: ({ vessel }) =>
+      vessel ? new Date(vessel.dischargeDate.replace(/-/g, '/')) : '',
+  },
+  ...((!!shipper
+    ? []
+    : [
+        {
+          key: 'shipper',
+          label: 'Shipper',
+          getValue: (data) => data.shipper?.shipperName || '',
+          defaultSortOrder: SORT_ORDER.ASC,
+          sortable: true,
+          customSortBy: (data) => data.shipper?.shipperName || '',
+        },
+      ]) as InventoryItemLabelInfo[]),
+  {
+    key: 'product',
+    label: 'Details',
+    getValue: ({ plu: pluVal, product }) =>
+      `${(!species && product?.species?.speciesDescription) || ''} ${
+        (!variety && product?.variety?.varietyDescription) || ''
+      } ${(!size && product?.sizes?.nodes[0]?.jvDescription) || ''} ${
+        (!packType && product?.packType?.packDescription) || ''
+      } ${!plu && pluVal ? 'PLU' : ''}`,
+    defaultSortOrder: SORT_ORDER.ASC,
+    sortable: true,
+    sortKey: 'species',
+    customSortBy: ({ plu, product }) =>
+      `${product?.species?.speciesDescription || ''} ${
+        product?.variety?.varietyDescription || ''
+      } ${product?.sizes?.nodes[0]?.jvDescription || ''} ${
+        product?.packType?.packDescription || ''
+      } ${plu ? 'PLU' : ''}`.toLowerCase(),
+  },
+  {
+    key: 'palletsReceived',
+    label: 'Received',
+    sortable: true,
+    defaultSortOrder: SORT_ORDER.DESC,
+    customSortBy: ({ palletsReceived }) => palletsReceived,
+    customStyles: {
+      label: {
+        textAlign: 'center',
+        width: th.sizes.fill,
+      },
+    },
+  },
+  {
+    key: 'palletsOnHand',
+    label: 'On Hand',
+    sortable: true,
+    defaultSortOrder: SORT_ORDER.DESC,
+    customSortBy: ({ palletsOnHand }) => palletsOnHand,
+    customStyles: {
+      label: {
+        color: th.colors.brand.primaryAccent,
+        textAlign: 'center',
+        width: th.sizes.fill,
+      },
+    },
+  },
+  {
+    key: 'palletsAvailable',
+    label: 'Available',
+    sortable: true,
+    defaultSortOrder: SORT_ORDER.DESC,
+    customSortBy: ({ palletsAvailable }) => palletsAvailable,
+    customStyles: {
+      label: {
+        color: th.colors.status.successAlt,
+        textAlign: 'center',
+        width: th.sizes.fill,
+      },
+    },
+  },
+  {
+    key: 'id',
+    label: 'PRE',
+    sortable: true,
+    getValue: (item) => (
+      <l.Flex alignCenter justifyCenter>
+        {isPreInventoryItem(item) && <StatusIndicator status="warning" />}
+      </l.Flex>
+    ),
+    customSortBy: (item) => (isPreInventoryItem(item) ? 'a' : 'z'),
+  },
+];
+
+export const listLabels: InventoryItemLabelInfo[] = [
   {
     key: 'shipper',
     label: 'Shipper',
@@ -63,7 +177,7 @@ export const listLabels: InventoryItemLabelInfo[] = [
   {
     key: 'plu',
     label: 'PLU',
-    getValue: (data) => (data.plu ? 'PLU' : 'No PLU'),
+    getValue: (data) => (data.plu ? 'PLU' : ''),
     defaultSortOrder: SORT_ORDER.ASC,
     sortable: true,
     customSortBy: ({ plu }) => (plu ? 'a' : 'b'),

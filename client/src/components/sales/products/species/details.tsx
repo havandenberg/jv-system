@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { pluck, uniqBy } from 'ramda';
 import { useLocation, useParams } from 'react-router-dom';
 
 import api from 'api';
@@ -69,7 +70,10 @@ const CommonSpeciesDetails = () => {
   }>();
   const { search } = useLocation();
   const [{ sortBy }, setSortQueryParams] = useSortQueryParams();
-  const { data, error, loading } = api.useCommonSpecies(speciesId);
+  const { data: specieses, error, loading } = api.useCommonSpecieses();
+  const data = specieses?.nodes.find(
+    (species) => species && species.id === speciesId,
+  );
 
   const { TabBar, selectedTabId } = useTabBar(
     tabs(data as CommonSpecies, search),
@@ -84,6 +88,7 @@ const CommonSpeciesDetails = () => {
     'uiColor',
     'commonSpeciesTags',
     'productSpeciesId',
+    'defaultInvSortKey',
   ] as (keyof CommonSpecies)[];
   const updateVariables = { id: speciesId };
 
@@ -164,6 +169,14 @@ const CommonSpeciesDetails = () => {
     }
   };
 
+  const tags = (changes?.commonSpeciesTags?.nodes || []) as CommonProductTag[];
+  const suggestedTags = uniqBy(
+    (tag) => tag?.tagText,
+    pluck('commonSpeciesTags', (specieses?.nodes || []) as CommonSpecies[])
+      .map(({ nodes }) => nodes)
+      .flat(),
+  ) as CommonProductTag[];
+
   const { tagManager } = useTagManager({
     commonProductId: speciesId,
     editing,
@@ -173,7 +186,8 @@ const CommonSpeciesDetails = () => {
       });
     },
     productIdKey: 'commonSpeciesId',
-    tags: (changes?.commonSpeciesTags?.nodes || []) as CommonProductTag[],
+    tags,
+    suggestedTags,
   });
 
   const { data: productSpeciesData, loading: productSpeciesLoading } =
@@ -227,7 +241,7 @@ const CommonSpeciesDetails = () => {
           <l.Div ml={th.spacing.sm} my={th.spacing.lg}>
             {tagManager}
           </l.Div>
-          <l.Div
+          {/* <l.Div
             alignCenter
             ml={th.spacing.sm}
             mb={th.spacing.lg}
@@ -236,8 +250,8 @@ const CommonSpeciesDetails = () => {
             <l.Flex mb={th.spacing.sm}>
               <ty.BodyText mr={th.spacing.lg}>Codes:</ty.BodyText>
             </l.Flex>
-            {editing && ItemSelector}
-          </l.Div>
+            {editing && <l.Div width={250}>{ItemSelector}</l.Div>}
+          </l.Div> */}
           <l.Flex alignCenter justifyBetween my={th.spacing.lg}>
             <TabBar />
             <l.AreaLink

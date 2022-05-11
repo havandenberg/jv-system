@@ -7,8 +7,22 @@ query COMMON_PACK_TYPE($id: BigInt!) {
         id
         categoryName
       }
+      commonPackTypes {
+        nodes {
+          id
+          packTypeName
+          commonPackTypeTags {
+            nodes {
+              tagText
+              nodeId
+              commonPackTypeId
+            }
+          }
+        }
+      }
     }
     id
+    defaultInvSortKey
     packMasterId
     packMastersByCommonPackTypePackMasterCommonPackTypeIdAndPackMasterId {
       nodes {

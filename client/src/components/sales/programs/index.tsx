@@ -132,7 +132,7 @@ const Programs = () => {
     viewTabs,
     false,
     'customers',
-    'view',
+    'programsView',
     0,
   );
   const isCustomers = view === 'customers';
@@ -218,7 +218,7 @@ const Programs = () => {
     width: 300,
   });
 
-  const [weekCount, setWeekCount] = useState(32);
+  const [weekCount, setWeekCount] = useState(16);
 
   const increaseWeekCount = () => {
     setWeekCount(weekCount + 4);
@@ -438,14 +438,22 @@ const Programs = () => {
   const [saveAttempt, setSaveAttempt] = useState(false);
   const [updateLoading, setUpdateLoading] = useState<string[]>([]);
   const previousUpdateLoading = usePrevious(updateLoading);
-  const [handleUpsertShipperPrograms] = api.useUpsertShipperPrograms();
+  const [handleUpsertShipperPrograms] = api.useUpsertShipperPrograms(
+    weekCount,
+    allocatedStartDate,
+    allocatedEndDate,
+  );
   const [handleUpsertShipperProgramEntries] =
     api.useUpsertShipperProgramEntries(
       weekCount,
       allocatedStartDate,
       allocatedEndDate,
     );
-  const [handleUpsertCustomerPrograms] = api.useUpsertCustomerPrograms();
+  const [handleUpsertCustomerPrograms] = api.useUpsertCustomerPrograms(
+    weekCount,
+    allocatedStartDate,
+    allocatedEndDate,
+  );
   const [handleUpsertCustomerProgramEntries] =
     api.useUpsertCustomerProgramEntries(
       weekCount,
@@ -539,23 +547,23 @@ const Programs = () => {
                 const updatedProgram = updatedPrograms.find(
                   (p) =>
                     p?.commonSpeciesId ===
-                      getShipperProgramValue(
+                      (getShipperProgramValue(
                         e.shipperProgram,
                         'commonSpeciesId',
-                      ).value &&
+                      ).value || null) &&
                     p?.commonVarietyId ===
-                      getShipperProgramValue(
+                      (getShipperProgramValue(
                         e.shipperProgram,
                         'commonVarietyId',
-                      ).value &&
+                      ).value || null) &&
                     p?.commonSizeId ===
-                      getShipperProgramValue(e.shipperProgram, 'commonSizeId')
-                        .value &&
+                      (getShipperProgramValue(e.shipperProgram, 'commonSizeId')
+                        .value || null) &&
                     p?.commonPackTypeId ===
-                      getShipperProgramValue(
+                      (getShipperProgramValue(
                         e.shipperProgram,
                         'commonPackTypeId',
-                      ).value &&
+                      ).value || null) &&
                     p?.plu ===
                       getShipperProgramValue(e.shipperProgram, 'plu').value,
                 ) || { id: 0 };
@@ -635,23 +643,25 @@ const Programs = () => {
                 const updatedProgram = updatedPrograms.find(
                   (p) =>
                     p?.commonSpeciesId ===
-                      getCustomerProgramValue(
+                      (getCustomerProgramValue(
                         e.customerProgram,
                         'commonSpeciesId',
-                      ).value &&
+                      ).value || null) &&
                     p?.commonVarietyId ===
-                      getCustomerProgramValue(
+                      (getCustomerProgramValue(
                         e.customerProgram,
                         'commonVarietyId',
-                      ).value &&
+                      ).value || null) &&
                     p?.commonSizeId ===
-                      getCustomerProgramValue(e.customerProgram, 'commonSizeId')
-                        .value &&
+                      (getCustomerProgramValue(
+                        e.customerProgram,
+                        'commonSizeId',
+                      ).value || null) &&
                     p?.commonPackTypeId ===
-                      getCustomerProgramValue(
+                      (getCustomerProgramValue(
                         e.customerProgram,
                         'commonPackTypeId',
-                      ).value &&
+                      ).value || null) &&
                     p?.plu ===
                       getCustomerProgramValue(e.customerProgram, 'plu').value,
                 ) || { id: 0 };
@@ -958,6 +968,8 @@ const Programs = () => {
   );
 
   const programProps = {
+    allocatedStartDate,
+    allocatedEndDate,
     changeHandlers: {
       handleShipperProgramChange,
       handleCustomerProgramChange,
@@ -1020,8 +1032,21 @@ const Programs = () => {
   return (
     <Page
       actions={[
+        selectedShipper || selectedCustomer ? (
+          <l.AreaLink
+            key={0}
+            mr={th.spacing.md}
+            to={`/directory/${isCustomers ? 'customers' : 'shippers'}/${
+              isCustomers ? customerId : shipperId
+            }`}
+          >
+            <b.Primary>View {isCustomers ? 'Customer' : 'Shipper'}</b.Primary>
+          </l.AreaLink>
+        ) : (
+          <div key={0} />
+        ),
         editing ? (
-          <l.Flex alignCenter key={0} relative>
+          <l.Flex alignCenter key={1} relative>
             <BasicModal
               title="Confirm Discard Changes"
               content={
@@ -1057,7 +1082,6 @@ const Programs = () => {
             )}
             <b.Primary
               disabled={saveAttempt && !validate()}
-              key={0}
               onClick={handleSave}
               width={88}
             >
@@ -1075,7 +1099,7 @@ const Programs = () => {
           </l.Flex>
         ) : (
           (selectedCustomer || selectedShipper) && (
-            <b.Primary key={0} onClick={handleEdit} width={88}>
+            <b.Primary key={1} onClick={handleEdit} width={88}>
               Edit
             </b.Primary>
           )
@@ -1238,6 +1262,7 @@ const Programs = () => {
                   }
                   showAllocated={showAllocated}
                   species={`${isCustomers ? 'Customers' : 'Shippers'} Grand`}
+                  wrapperStyles={{ pb: th.spacing.sm }}
                 />
                 {commonSpeciesId && (
                   <>
@@ -1253,6 +1278,7 @@ const Programs = () => {
                       species={`${
                         isCustomers ? 'Shippers' : 'Customers'
                       } Grand`}
+                      wrapperStyles={{ py: th.spacing.sm }}
                     />
                     <ProgramTotalRow
                       editing={editing}
@@ -1260,6 +1286,7 @@ const Programs = () => {
                       programTotals={netGrandProgramTotals}
                       showAllocated={showAllocated}
                       species="Net Grand"
+                      wrapperStyles={{ pt: th.spacing.sm }}
                     />
                   </>
                 )}

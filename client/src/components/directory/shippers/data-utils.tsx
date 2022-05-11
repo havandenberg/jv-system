@@ -52,18 +52,28 @@ export const baseLabels: ShipperLabelInfo[] = [
     label: 'Group ID',
   },
   {
+    key: 'notes',
+    label: 'Notes',
+  },
+  {
     key: 'sendProjectionRequest',
     label: 'Send Projection Request',
     isBoolean: true,
     getValue: (data) =>
       !!data.sendProjectionRequest ? (
-        <LineItemCheckbox checked={true} onChange={() => ({})} />
+        <LineItemCheckbox checked={true} disabled onChange={() => ({})} />
       ) : (
-        <LineItemCheckbox checked={false} onChange={() => ({})} />
+        <LineItemCheckbox checked={false} disabled onChange={() => ({})} />
       ),
   },
   {
-    key: 'notes',
-    label: 'Notes',
+    key: 'projectionRequestStartDate',
+    label: 'Projections Start Date',
+    isDate: true,
+  },
+  {
+    key: 'projectionRequestEndDate',
+    label: 'Projections End Date',
+    isDate: true,
   },
 ];

@@ -42,6 +42,7 @@ query CUSTOMER_PROGRAM_LIST(
       }
       commonVarietyId
       id
+      notes
       plu
       customerId
       customer {
@@ -51,6 +52,7 @@ query CUSTOMER_PROGRAM_LIST(
       customerProgramEntries {
         nodes {
           id
+          isAdWeek
           notes
           palletCount
           programDate
@@ -58,6 +60,7 @@ query CUSTOMER_PROGRAM_LIST(
           customerProgram {
             id
             plu
+            notes
             arrivalPort
             commonSpecies {
               id

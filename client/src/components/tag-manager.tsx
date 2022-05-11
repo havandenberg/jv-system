@@ -68,6 +68,7 @@ const Tag = ({
     allItems: (suggestedTags || []).map((tag) => ({ ...tag, id: tag.nodeId })),
     closeOnSelect: true,
     disabled: !editing,
+    defaultFocused: editing,
     editableCellProps: {
       content: { dirty: false, value: tagText },
       defaultChildren: <ty.BodyText {...textStyles}>{tagText}</ty.BodyText>,
@@ -75,6 +76,9 @@ const Tag = ({
       inputProps: { autoFocus: !tagText, width: 100 },
       onChange: (e) => onChange(e.target.value),
     },
+    getItemContent: (item) => (
+      <ty.BodyText ml={th.spacing.sm}>{item.tagText}</ty.BodyText>
+    ),
     errorLabel: 'tags',
     height: 150,
     loading: false,

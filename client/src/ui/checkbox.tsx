@@ -20,6 +20,7 @@ const Label = styled.label({
 
 interface Props {
   checked?: boolean;
+  disabled?: boolean;
   label?: React.ReactNode;
   onChange: () => void;
 }
@@ -40,7 +41,7 @@ export const FilterCheckbox = ({ checked, label, onChange }: Props) => (
   </l.Flex>
 );
 
-const Wrapper = styled(l.Flex)({
+const Wrapper = styled(l.Flex)(({ disabled }: { disabled?: boolean }) => ({
   alignItems: 'center',
   border: th.borders.primary,
   borderRadius: th.borderRadii.default,
@@ -50,21 +51,28 @@ const Wrapper = styled(l.Flex)({
   transition: th.transitions.default,
   width: th.sizes.xs,
   ':hover': {
-    background: th.colors.background,
+    background: disabled ? undefined : th.colors.background,
   },
-});
+}));
 
-export const LineItemCheckbox = ({ checked, label, onChange }: Props) => (
+export const LineItemCheckbox = ({
+  checked,
+  disabled,
+  label,
+  onChange,
+}: Props) => (
   <l.Flex
     alignCenter
-    cursor="pointer"
+    cursor={disabled ? 'default' : 'pointer'}
     onClick={(e) => {
       e.preventDefault();
       e.stopPropagation();
-      onChange();
+      !disabled && onChange();
     }}
   >
-    <Wrapper>{checked && <CheckImg height={10} width={10} />}</Wrapper>
+    <Wrapper disabled={disabled}>
+      {checked && <CheckImg height={10} width={10} />}
+    </Wrapper>
     {label}
   </l.Flex>
 );

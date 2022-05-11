@@ -132,6 +132,8 @@ export interface ProgramState {
 }
 
 export interface ProgramProps {
+  allocatedStartDate: Date;
+  allocatedEndDate: Date;
   changeHandlers: {
     handleShipperProgramChange: (update: ShipperProgramUpdate) => void;
     handleCustomerProgramChange: (update: CustomerProgramUpdate) => void;

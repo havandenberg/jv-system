@@ -62,6 +62,11 @@ export const useInventoryQueryParams = () =>
     variety: StringParam,
     size: StringParam,
     packType: StringParam,
+    speciesTag: StringParam,
+    varietyTag: StringParam,
+    sizeTag: StringParam,
+    packTypeTag: StringParam,
+    sizePackType: StringParam,
     plu: StringParam,
     coast: StringParam,
     location: StringParam,
@@ -86,7 +91,7 @@ export const useProjectionsQueryParams = () =>
     startDate: StringParam,
     endDate: StringParam,
     graphView: StringParam,
-    view: StringParam,
+    projectionsView: StringParam,
     projectionId: StringParam,
   });
 
@@ -102,7 +107,7 @@ export const useProgramsQueryParams = () =>
     customerId: StringParam,
     startDate: StringParam,
     endDate: StringParam,
-    view: StringParam,
+    programsView: StringParam,
     customerAllocateSearch: StringParam,
     shipperAllocateSearch: StringParam,
   });

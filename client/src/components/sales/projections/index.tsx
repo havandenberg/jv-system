@@ -73,7 +73,7 @@ const ShipperProjections = () => {
     viewTabs,
     false,
     'grid',
-    'view',
+    'projectionsView',
     0,
   );
   const isGrid = view === 'grid';
@@ -124,7 +124,7 @@ const ShipperProjections = () => {
           cursor="pointer"
           height={th.sizes.icon}
           width={th.sizes.icon}
-          to={`/sales/projections?view=${view}`}
+          to={`/sales/projections?projectionsView=${view}`}
         >
           <ResetImg height={th.sizes.icon} width={th.sizes.icon} />
         </l.AreaLink>

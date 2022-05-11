@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
+import styled from '@emotion/styled';
 import { sortBy } from 'ramda';
+import DateTimePicker from 'react-datetime-picker';
 
 import api from 'api';
+import { formatDate } from 'components/date-range-picker';
 import { BasicModal } from 'components/modal';
 import { DataMessage } from 'components/page/message';
 import VirtualizedList from 'components/virtualized-list';
@@ -11,6 +14,16 @@ import { LineItemCheckbox } from 'ui/checkbox';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
+
+export const gridTemplateColumns = '3fr 1fr 1fr';
+
+const LocalDateTimePicker = styled(DateTimePicker)({
+  fontSize: th.fontSizes.caption,
+  width: 110,
+  input: {
+    color: th.colors.text.default,
+  },
+});
 
 interface LineItemProps {
   checked: boolean;
@@ -22,10 +35,29 @@ const LineItem = ({ checked, item, id }: LineItemProps) => {
   const [hover, setHover] = useState(false);
   const [handleUpdate] = api.useUpdateShipper(id, 'FIRST_NAME_ASC');
 
+  const dateTimePickerProps = {
+    calendarIcon: null,
+    clearIcon: null,
+    disableClock: true,
+    locale: 'en-US',
+    format: 'y-MM-dd',
+    dayPlaceholder: '',
+    monthPlaceholder: '',
+    yearPlaceholder: '',
+  };
+
+  const projectionRequestStartDate = item.projectionRequestStartDate
+    ? new Date(item.projectionRequestStartDate.replace(/-/g, '/'))
+    : null;
+
+  const projectionRequestEndDate = item.projectionRequestEndDate
+    ? new Date(item.projectionRequestEndDate.replace(/-/g, '/'))
+    : null;
+
   return (
-    <l.Div
+    <l.Grid
+      gridTemplateColumns={gridTemplateColumns}
       mb={th.spacing.md}
-      ml={th.spacing.md}
       onMouseEnter={() => {
         setHover(true);
       }}
@@ -37,11 +69,16 @@ const LineItem = ({ checked, item, id }: LineItemProps) => {
         checked={checked}
         label={
           <ty.CaptionText
-            bold={hover || checked}
+            bold={
+              hover ||
+              (checked &&
+                projectionRequestStartDate &&
+                projectionRequestEndDate)
+            }
             color={
               hover ? th.colors.brand.primaryAccent : th.colors.brand.primary
             }
-            ml={th.spacing.lg}
+            ml={th.spacing.md}
             nowrap
           >
             ({item.id}) - {item.shipperName}
@@ -58,7 +95,39 @@ const LineItem = ({ checked, item, id }: LineItemProps) => {
           });
         }}
       />
-    </l.Div>
+      <l.Div mr={th.spacing.sm}>
+        <LocalDateTimePicker
+          maxDate={projectionRequestEndDate || undefined}
+          onChange={(date: Date) =>
+            handleUpdate({
+              variables: {
+                id,
+                updates: {
+                  projectionRequestStartDate: formatDate(date),
+                },
+              },
+            })
+          }
+          value={projectionRequestStartDate}
+          {...dateTimePickerProps}
+        />
+      </l.Div>
+      <LocalDateTimePicker
+        minDate={projectionRequestStartDate || undefined}
+        onChange={(date: Date) =>
+          handleUpdate({
+            variables: {
+              id,
+              updates: {
+                projectionRequestEndDate: formatDate(date),
+              },
+            },
+          })
+        }
+        value={projectionRequestEndDate}
+        {...dateTimePickerProps}
+      />
+    </l.Grid>
   );
 };
 
@@ -81,13 +150,23 @@ const ProjectionSettings = () => {
       content={
         <l.Flex column alignCenter>
           <div>
-            <l.Div ml={th.spacing.md}>
+            <l.Div>
               <ty.BodyText mb={th.spacing.md}>
                 Send Projection Reminders:
               </ty.BodyText>
               {Search}
             </l.Div>
-            <l.Div height={500} mt={th.spacing.lg}>
+            <l.Grid
+              gridTemplateColumns={gridTemplateColumns}
+              mr={items.length > 17 ? th.spacing.md : 0}
+              mb={th.spacing.md}
+              mt={th.spacing.lg}
+            >
+              <ty.CaptionText secondary>Shipper Name</ty.CaptionText>
+              <ty.CaptionText secondary>Start Date</ty.CaptionText>
+              <ty.CaptionText secondary>End Date</ty.CaptionText>
+            </l.Grid>
+            <l.Div height={500}>
               {data ? (
                 <VirtualizedList
                   height={500}

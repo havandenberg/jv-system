@@ -3491,6 +3491,8 @@ export type CustomerProgramFilter = {
   arrivalPort?: Maybe<StringFilter>;
   /** Filter by the object’s `plu` field. */
   plu?: Maybe<StringFilter>;
+  /** Filter by the object’s `notes` field. */
+  notes?: Maybe<StringFilter>;
   /** Filter by the object’s `customerProgramEntries` relation. */
   customerProgramEntries?: Maybe<CustomerProgramToManyCustomerProgramEntryFilter>;
   /** Some related `customerProgramEntries` exist. */
@@ -3545,6 +3547,8 @@ export type CustomerProgramEntryFilter = {
   palletCount?: Maybe<BigFloatFilter>;
   /** Filter by the object’s `customerProgramId` field. */
   customerProgramId?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `isAdWeek` field. */
+  isAdWeek?: Maybe<BooleanFilter>;
   /** Filter by the object’s `searchText` field. */
   searchText?: Maybe<StringFilter>;
   /** Filter by the object’s `shipperProgramEntryCustomerProgramEntries` relation. */
@@ -3684,6 +3688,8 @@ export type ShipperProgramFilter = {
   arrivalPort?: Maybe<StringFilter>;
   /** Filter by the object’s `plu` field. */
   plu?: Maybe<StringFilter>;
+  /** Filter by the object’s `notes` field. */
+  notes?: Maybe<StringFilter>;
   /** Filter by the object’s `shipperProgramEntries` relation. */
   shipperProgramEntries?: Maybe<ShipperProgramToManyShipperProgramEntryFilter>;
   /** Some related `shipperProgramEntries` exist. */
@@ -3740,6 +3746,8 @@ export type CommonSpeciesFilter = {
   commonCategoryId?: Maybe<BigIntFilter>;
   /** Filter by the object’s `productSpeciesId` field. */
   productSpeciesId?: Maybe<StringFilter>;
+  /** Filter by the object’s `defaultInvSortKey` field. */
+  defaultInvSortKey?: Maybe<StringFilter>;
   /** Filter by the object’s `searchText` field. */
   searchText?: Maybe<StringFilter>;
   /** Filter by the object’s `shipperProjectionProducts` relation. */
@@ -4038,6 +4046,10 @@ export type ShipperFilter = {
   website?: Maybe<StringFilter>;
   /** Filter by the object’s `sendProjectionRequest` field. */
   sendProjectionRequest?: Maybe<BooleanFilter>;
+  /** Filter by the object’s `projectionRequestStartDate` field. */
+  projectionRequestStartDate?: Maybe<DateFilter>;
+  /** Filter by the object’s `projectionRequestEndDate` field. */
+  projectionRequestEndDate?: Maybe<DateFilter>;
   /** Filter by the object’s `searchText` field. */
   searchText?: Maybe<StringFilter>;
   /** Filter by the object’s `shipperProjectionVessels` relation. */
@@ -4334,6 +4346,8 @@ export type CommonVarietyFilter = {
   commonSpeciesId?: Maybe<BigIntFilter>;
   /** Filter by the object’s `productVarietyId` field. */
   productVarietyId?: Maybe<StringFilter>;
+  /** Filter by the object’s `defaultInvSortKey` field. */
+  defaultInvSortKey?: Maybe<StringFilter>;
   /** Filter by the object’s `shipperProjectionProducts` relation. */
   shipperProjectionProducts?: Maybe<CommonVarietyToManyShipperProjectionProductFilter>;
   /** Some related `shipperProjectionProducts` exist. */
@@ -4526,6 +4540,8 @@ export type CommonSizeFilter = {
   commonSpeciesId?: Maybe<BigIntFilter>;
   /** Filter by the object’s `productSizeId` field. */
   productSizeId?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `defaultInvSortKey` field. */
+  defaultInvSortKey?: Maybe<StringFilter>;
   /** Filter by the object’s `shipperProjectionProducts` relation. */
   shipperProjectionProducts?: Maybe<CommonSizeToManyShipperProjectionProductFilter>;
   /** Some related `shipperProjectionProducts` exist. */
@@ -4724,6 +4740,8 @@ export type CommonPackTypeFilter = {
   commonSpeciesId?: Maybe<BigIntFilter>;
   /** Filter by the object’s `packMasterId` field. */
   packMasterId?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `defaultInvSortKey` field. */
+  defaultInvSortKey?: Maybe<StringFilter>;
   /** Filter by the object’s `shipperProjectionProducts` relation. */
   shipperProjectionProducts?: Maybe<CommonPackTypeToManyShipperProjectionProductFilter>;
   /** Some related `shipperProjectionProducts` exist. */
@@ -5663,6 +5681,8 @@ export type Shipper = Node & {
   notes?: Maybe<Scalars['String']>;
   website?: Maybe<Scalars['String']>;
   sendProjectionRequest?: Maybe<Scalars['Boolean']>;
+  projectionRequestStartDate?: Maybe<Scalars['Date']>;
+  projectionRequestEndDate?: Maybe<Scalars['Date']>;
   /** Reads a single `Country` that is related to this `Shipper`. */
   country?: Maybe<Country>;
   /** Reads and enables pagination through a set of `ShipperProjectionVessel`. */
@@ -6154,6 +6174,10 @@ export enum ShipperProjectionVesselInfosOrderBy {
   ShipperByShipperIdWebsiteDesc = 'SHIPPER_BY_SHIPPER_ID__WEBSITE_DESC',
   ShipperByShipperIdSendProjectionRequestAsc = 'SHIPPER_BY_SHIPPER_ID__SEND_PROJECTION_REQUEST_ASC',
   ShipperByShipperIdSendProjectionRequestDesc = 'SHIPPER_BY_SHIPPER_ID__SEND_PROJECTION_REQUEST_DESC',
+  ShipperByShipperIdProjectionRequestStartDateAsc = 'SHIPPER_BY_SHIPPER_ID__PROJECTION_REQUEST_START_DATE_ASC',
+  ShipperByShipperIdProjectionRequestStartDateDesc = 'SHIPPER_BY_SHIPPER_ID__PROJECTION_REQUEST_START_DATE_DESC',
+  ShipperByShipperIdProjectionRequestEndDateAsc = 'SHIPPER_BY_SHIPPER_ID__PROJECTION_REQUEST_END_DATE_ASC',
+  ShipperByShipperIdProjectionRequestEndDateDesc = 'SHIPPER_BY_SHIPPER_ID__PROJECTION_REQUEST_END_DATE_DESC',
   ShipperProjectionEntriesByVesselInfoIdCountAsc = 'SHIPPER_PROJECTION_ENTRIES_BY_VESSEL_INFO_ID__COUNT_ASC',
   ShipperProjectionEntriesByVesselInfoIdCountDesc = 'SHIPPER_PROJECTION_ENTRIES_BY_VESSEL_INFO_ID__COUNT_DESC'
 }
@@ -6245,6 +6269,10 @@ export enum ShipperProjectionVesselsOrderBy {
   ShipperByShipperIdWebsiteDesc = 'SHIPPER_BY_SHIPPER_ID__WEBSITE_DESC',
   ShipperByShipperIdSendProjectionRequestAsc = 'SHIPPER_BY_SHIPPER_ID__SEND_PROJECTION_REQUEST_ASC',
   ShipperByShipperIdSendProjectionRequestDesc = 'SHIPPER_BY_SHIPPER_ID__SEND_PROJECTION_REQUEST_DESC',
+  ShipperByShipperIdProjectionRequestStartDateAsc = 'SHIPPER_BY_SHIPPER_ID__PROJECTION_REQUEST_START_DATE_ASC',
+  ShipperByShipperIdProjectionRequestStartDateDesc = 'SHIPPER_BY_SHIPPER_ID__PROJECTION_REQUEST_START_DATE_DESC',
+  ShipperByShipperIdProjectionRequestEndDateAsc = 'SHIPPER_BY_SHIPPER_ID__PROJECTION_REQUEST_END_DATE_ASC',
+  ShipperByShipperIdProjectionRequestEndDateDesc = 'SHIPPER_BY_SHIPPER_ID__PROJECTION_REQUEST_END_DATE_DESC',
   ShipperProjectionVesselInfosByVesselIdCountAsc = 'SHIPPER_PROJECTION_VESSEL_INFOS_BY_VESSEL_ID__COUNT_ASC',
   ShipperProjectionVesselInfosByVesselIdCountDesc = 'SHIPPER_PROJECTION_VESSEL_INFOS_BY_VESSEL_ID__COUNT_DESC'
 }
@@ -6316,6 +6344,10 @@ export enum ShippersOrderBy {
   WebsiteDesc = 'WEBSITE_DESC',
   SendProjectionRequestAsc = 'SEND_PROJECTION_REQUEST_ASC',
   SendProjectionRequestDesc = 'SEND_PROJECTION_REQUEST_DESC',
+  ProjectionRequestStartDateAsc = 'PROJECTION_REQUEST_START_DATE_ASC',
+  ProjectionRequestStartDateDesc = 'PROJECTION_REQUEST_START_DATE_DESC',
+  ProjectionRequestEndDateAsc = 'PROJECTION_REQUEST_END_DATE_ASC',
+  ProjectionRequestEndDateDesc = 'PROJECTION_REQUEST_END_DATE_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
   CountryByCountryIdIdAsc = 'COUNTRY_BY_COUNTRY_ID__ID_ASC',
@@ -6354,6 +6386,10 @@ export type ShipperCondition = {
   website?: Maybe<Scalars['String']>;
   /** Checks for equality with the object’s `sendProjectionRequest` field. */
   sendProjectionRequest?: Maybe<Scalars['Boolean']>;
+  /** Checks for equality with the object’s `projectionRequestStartDate` field. */
+  projectionRequestStartDate?: Maybe<Scalars['Date']>;
+  /** Checks for equality with the object’s `projectionRequestEndDate` field. */
+  projectionRequestEndDate?: Maybe<Scalars['Date']>;
 };
 
 /** A connection to a list of `ShipperProjectionEntry` values. */
@@ -6448,6 +6484,7 @@ export type CommonSpecies = Node & {
   uiColor?: Maybe<Scalars['String']>;
   commonCategoryId?: Maybe<Scalars['BigInt']>;
   productSpeciesId?: Maybe<Scalars['String']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   /** Reads a single `CommonCategory` that is related to this `CommonSpecies`. */
   commonCategory?: Maybe<CommonCategory>;
   /** Reads a single `ProductSpecies` that is related to this `CommonSpecies`. */
@@ -6867,6 +6904,8 @@ export enum CommonSpeciesOrderBy {
   CommonCategoryIdDesc = 'COMMON_CATEGORY_ID_DESC',
   ProductSpeciesIdAsc = 'PRODUCT_SPECIES_ID_ASC',
   ProductSpeciesIdDesc = 'PRODUCT_SPECIES_ID_DESC',
+  DefaultInvSortKeyAsc = 'DEFAULT_INV_SORT_KEY_ASC',
+  DefaultInvSortKeyDesc = 'DEFAULT_INV_SORT_KEY_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
   CommonCategoryByCommonCategoryIdIdAsc = 'COMMON_CATEGORY_BY_COMMON_CATEGORY_ID__ID_ASC',
@@ -6924,6 +6963,8 @@ export type CommonSpeciesCondition = {
   commonCategoryId?: Maybe<Scalars['BigInt']>;
   /** Checks for equality with the object’s `productSpeciesId` field. */
   productSpeciesId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `defaultInvSortKey` field. */
+  defaultInvSortKey?: Maybe<Scalars['String']>;
 };
 
 /** A connection to a list of `ProductSpecies` values, with data from `CommonSpecies`. */
@@ -7066,6 +7107,8 @@ export enum CommonSpeciesProductSpeciesOrderBy {
   CommonSpeciesByCommonSpeciesIdCommonCategoryIdDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__COMMON_CATEGORY_ID_DESC',
   CommonSpeciesByCommonSpeciesIdProductSpeciesIdAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__PRODUCT_SPECIES_ID_ASC',
   CommonSpeciesByCommonSpeciesIdProductSpeciesIdDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__PRODUCT_SPECIES_ID_DESC',
+  CommonSpeciesByCommonSpeciesIdDefaultInvSortKeyAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__DEFAULT_INV_SORT_KEY_ASC',
+  CommonSpeciesByCommonSpeciesIdDefaultInvSortKeyDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__DEFAULT_INV_SORT_KEY_DESC',
   ProductSpeciesByProductSpeciesIdIdAsc = 'PRODUCT_SPECIES_BY_PRODUCT_SPECIES_ID__ID_ASC',
   ProductSpeciesByProductSpeciesIdIdDesc = 'PRODUCT_SPECIES_BY_PRODUCT_SPECIES_ID__ID_DESC',
   ProductSpeciesByProductSpeciesIdSpeciesDescriptionAsc = 'PRODUCT_SPECIES_BY_PRODUCT_SPECIES_ID__SPECIES_DESCRIPTION_ASC',
@@ -7330,6 +7373,10 @@ export enum ShipperProjectionProductsOrderBy {
   ShipperByShipperIdWebsiteDesc = 'SHIPPER_BY_SHIPPER_ID__WEBSITE_DESC',
   ShipperByShipperIdSendProjectionRequestAsc = 'SHIPPER_BY_SHIPPER_ID__SEND_PROJECTION_REQUEST_ASC',
   ShipperByShipperIdSendProjectionRequestDesc = 'SHIPPER_BY_SHIPPER_ID__SEND_PROJECTION_REQUEST_DESC',
+  ShipperByShipperIdProjectionRequestStartDateAsc = 'SHIPPER_BY_SHIPPER_ID__PROJECTION_REQUEST_START_DATE_ASC',
+  ShipperByShipperIdProjectionRequestStartDateDesc = 'SHIPPER_BY_SHIPPER_ID__PROJECTION_REQUEST_START_DATE_DESC',
+  ShipperByShipperIdProjectionRequestEndDateAsc = 'SHIPPER_BY_SHIPPER_ID__PROJECTION_REQUEST_END_DATE_ASC',
+  ShipperByShipperIdProjectionRequestEndDateDesc = 'SHIPPER_BY_SHIPPER_ID__PROJECTION_REQUEST_END_DATE_DESC',
   CommonSpeciesByCommonSpeciesIdIdAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__ID_ASC',
   CommonSpeciesByCommonSpeciesIdIdDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__ID_DESC',
   CommonSpeciesByCommonSpeciesIdSpeciesNameAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__SPECIES_NAME_ASC',
@@ -7342,6 +7389,8 @@ export enum ShipperProjectionProductsOrderBy {
   CommonSpeciesByCommonSpeciesIdCommonCategoryIdDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__COMMON_CATEGORY_ID_DESC',
   CommonSpeciesByCommonSpeciesIdProductSpeciesIdAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__PRODUCT_SPECIES_ID_ASC',
   CommonSpeciesByCommonSpeciesIdProductSpeciesIdDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__PRODUCT_SPECIES_ID_DESC',
+  CommonSpeciesByCommonSpeciesIdDefaultInvSortKeyAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__DEFAULT_INV_SORT_KEY_ASC',
+  CommonSpeciesByCommonSpeciesIdDefaultInvSortKeyDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__DEFAULT_INV_SORT_KEY_DESC',
   CommonVarietyByCommonVarietyIdIdAsc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__ID_ASC',
   CommonVarietyByCommonVarietyIdIdDesc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__ID_DESC',
   CommonVarietyByCommonVarietyIdVarietyNameAsc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__VARIETY_NAME_ASC',
@@ -7354,6 +7403,8 @@ export enum ShipperProjectionProductsOrderBy {
   CommonVarietyByCommonVarietyIdCommonSpeciesIdDesc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__COMMON_SPECIES_ID_DESC',
   CommonVarietyByCommonVarietyIdProductVarietyIdAsc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__PRODUCT_VARIETY_ID_ASC',
   CommonVarietyByCommonVarietyIdProductVarietyIdDesc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__PRODUCT_VARIETY_ID_DESC',
+  CommonVarietyByCommonVarietyIdDefaultInvSortKeyAsc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__DEFAULT_INV_SORT_KEY_ASC',
+  CommonVarietyByCommonVarietyIdDefaultInvSortKeyDesc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__DEFAULT_INV_SORT_KEY_DESC',
   CommonSizeByCommonSizeIdIdAsc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__ID_ASC',
   CommonSizeByCommonSizeIdIdDesc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__ID_DESC',
   CommonSizeByCommonSizeIdSizeNameAsc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__SIZE_NAME_ASC',
@@ -7364,6 +7415,8 @@ export enum ShipperProjectionProductsOrderBy {
   CommonSizeByCommonSizeIdCommonSpeciesIdDesc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__COMMON_SPECIES_ID_DESC',
   CommonSizeByCommonSizeIdProductSizeIdAsc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__PRODUCT_SIZE_ID_ASC',
   CommonSizeByCommonSizeIdProductSizeIdDesc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__PRODUCT_SIZE_ID_DESC',
+  CommonSizeByCommonSizeIdDefaultInvSortKeyAsc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__DEFAULT_INV_SORT_KEY_ASC',
+  CommonSizeByCommonSizeIdDefaultInvSortKeyDesc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__DEFAULT_INV_SORT_KEY_DESC',
   CommonPackTypeByCommonPackTypeIdIdAsc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__ID_ASC',
   CommonPackTypeByCommonPackTypeIdIdDesc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__ID_DESC',
   CommonPackTypeByCommonPackTypeIdPackTypeNameAsc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__PACK_TYPE_NAME_ASC',
@@ -7374,6 +7427,8 @@ export enum ShipperProjectionProductsOrderBy {
   CommonPackTypeByCommonPackTypeIdCommonSpeciesIdDesc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__COMMON_SPECIES_ID_DESC',
   CommonPackTypeByCommonPackTypeIdPackMasterIdAsc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__PACK_MASTER_ID_ASC',
   CommonPackTypeByCommonPackTypeIdPackMasterIdDesc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__PACK_MASTER_ID_DESC',
+  CommonPackTypeByCommonPackTypeIdDefaultInvSortKeyAsc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__DEFAULT_INV_SORT_KEY_ASC',
+  CommonPackTypeByCommonPackTypeIdDefaultInvSortKeyDesc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__DEFAULT_INV_SORT_KEY_DESC',
   ShipperProjectionEntriesByProductIdCountAsc = 'SHIPPER_PROJECTION_ENTRIES_BY_PRODUCT_ID__COUNT_ASC',
   ShipperProjectionEntriesByProductIdCountDesc = 'SHIPPER_PROJECTION_ENTRIES_BY_PRODUCT_ID__COUNT_DESC'
 }
@@ -7430,6 +7485,7 @@ export type CommonVariety = Node & {
   uiColor?: Maybe<Scalars['String']>;
   commonSpeciesId?: Maybe<Scalars['BigInt']>;
   productVarietyId?: Maybe<Scalars['String']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   /** Reads a single `CommonSpecies` that is related to this `CommonVariety`. */
   commonSpecies?: Maybe<CommonSpecies>;
   /** Reads a single `ProductVariety` that is related to this `CommonVariety`. */
@@ -7773,6 +7829,8 @@ export enum CommonVarietiesOrderBy {
   CommonSpeciesIdDesc = 'COMMON_SPECIES_ID_DESC',
   ProductVarietyIdAsc = 'PRODUCT_VARIETY_ID_ASC',
   ProductVarietyIdDesc = 'PRODUCT_VARIETY_ID_DESC',
+  DefaultInvSortKeyAsc = 'DEFAULT_INV_SORT_KEY_ASC',
+  DefaultInvSortKeyDesc = 'DEFAULT_INV_SORT_KEY_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
   CommonSpeciesByCommonSpeciesIdIdAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__ID_ASC',
@@ -7787,6 +7845,8 @@ export enum CommonVarietiesOrderBy {
   CommonSpeciesByCommonSpeciesIdCommonCategoryIdDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__COMMON_CATEGORY_ID_DESC',
   CommonSpeciesByCommonSpeciesIdProductSpeciesIdAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__PRODUCT_SPECIES_ID_ASC',
   CommonSpeciesByCommonSpeciesIdProductSpeciesIdDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__PRODUCT_SPECIES_ID_DESC',
+  CommonSpeciesByCommonSpeciesIdDefaultInvSortKeyAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__DEFAULT_INV_SORT_KEY_ASC',
+  CommonSpeciesByCommonSpeciesIdDefaultInvSortKeyDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__DEFAULT_INV_SORT_KEY_DESC',
   ProductVarietyByProductVarietyIdIdAsc = 'PRODUCT_VARIETY_BY_PRODUCT_VARIETY_ID__ID_ASC',
   ProductVarietyByProductVarietyIdIdDesc = 'PRODUCT_VARIETY_BY_PRODUCT_VARIETY_ID__ID_DESC',
   ProductVarietyByProductVarietyIdVarietyDescriptionAsc = 'PRODUCT_VARIETY_BY_PRODUCT_VARIETY_ID__VARIETY_DESCRIPTION_ASC',
@@ -7830,6 +7890,8 @@ export type CommonVarietyCondition = {
   commonSpeciesId?: Maybe<Scalars['BigInt']>;
   /** Checks for equality with the object’s `productVarietyId` field. */
   productVarietyId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `defaultInvSortKey` field. */
+  defaultInvSortKey?: Maybe<Scalars['String']>;
 };
 
 /** A connection to a list of `CommonVarietyProductVariety` values. */
@@ -7890,6 +7952,8 @@ export enum CommonVarietyProductVarietiesOrderBy {
   CommonVarietyByCommonVarietyIdCommonSpeciesIdDesc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__COMMON_SPECIES_ID_DESC',
   CommonVarietyByCommonVarietyIdProductVarietyIdAsc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__PRODUCT_VARIETY_ID_ASC',
   CommonVarietyByCommonVarietyIdProductVarietyIdDesc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__PRODUCT_VARIETY_ID_DESC',
+  CommonVarietyByCommonVarietyIdDefaultInvSortKeyAsc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__DEFAULT_INV_SORT_KEY_ASC',
+  CommonVarietyByCommonVarietyIdDefaultInvSortKeyDesc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__DEFAULT_INV_SORT_KEY_DESC',
   ProductVarietyByProductVarietyIdIdAsc = 'PRODUCT_VARIETY_BY_PRODUCT_VARIETY_ID__ID_ASC',
   ProductVarietyByProductVarietyIdIdDesc = 'PRODUCT_VARIETY_BY_PRODUCT_VARIETY_ID__ID_DESC',
   ProductVarietyByProductVarietyIdVarietyDescriptionAsc = 'PRODUCT_VARIETY_BY_PRODUCT_VARIETY_ID__VARIETY_DESCRIPTION_ASC',
@@ -8045,7 +8109,9 @@ export enum CommonVarietyTagsOrderBy {
   CommonVarietyByCommonVarietyIdCommonSpeciesIdAsc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__COMMON_SPECIES_ID_ASC',
   CommonVarietyByCommonVarietyIdCommonSpeciesIdDesc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__COMMON_SPECIES_ID_DESC',
   CommonVarietyByCommonVarietyIdProductVarietyIdAsc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__PRODUCT_VARIETY_ID_ASC',
-  CommonVarietyByCommonVarietyIdProductVarietyIdDesc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__PRODUCT_VARIETY_ID_DESC'
+  CommonVarietyByCommonVarietyIdProductVarietyIdDesc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__PRODUCT_VARIETY_ID_DESC',
+  CommonVarietyByCommonVarietyIdDefaultInvSortKeyAsc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__DEFAULT_INV_SORT_KEY_ASC',
+  CommonVarietyByCommonVarietyIdDefaultInvSortKeyDesc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__DEFAULT_INV_SORT_KEY_DESC'
 }
 
 /**
@@ -8084,6 +8150,7 @@ export type ShipperProgram = Node & {
   shipperId?: Maybe<Scalars['String']>;
   arrivalPort?: Maybe<Scalars['String']>;
   plu?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
   /** Reads a single `CommonSpecies` that is related to this `ShipperProgram`. */
   commonSpecies?: Maybe<CommonSpecies>;
   /** Reads a single `CommonVariety` that is related to this `ShipperProgram`. */
@@ -8119,6 +8186,7 @@ export type CommonSize = Node & {
   sizeDescription?: Maybe<Scalars['String']>;
   commonSpeciesId?: Maybe<Scalars['BigInt']>;
   productSizeId?: Maybe<Scalars['BigInt']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   /** Reads a single `CommonSpecies` that is related to this `CommonSize`. */
   commonSpecies?: Maybe<CommonSpecies>;
   /** Reads a single `ProductSize` that is related to this `CommonSize`. */
@@ -8488,6 +8556,8 @@ export enum CommonSizesOrderBy {
   CommonSpeciesIdDesc = 'COMMON_SPECIES_ID_DESC',
   ProductSizeIdAsc = 'PRODUCT_SIZE_ID_ASC',
   ProductSizeIdDesc = 'PRODUCT_SIZE_ID_DESC',
+  DefaultInvSortKeyAsc = 'DEFAULT_INV_SORT_KEY_ASC',
+  DefaultInvSortKeyDesc = 'DEFAULT_INV_SORT_KEY_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
   CommonSpeciesByCommonSpeciesIdIdAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__ID_ASC',
@@ -8502,6 +8572,8 @@ export enum CommonSizesOrderBy {
   CommonSpeciesByCommonSpeciesIdCommonCategoryIdDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__COMMON_CATEGORY_ID_DESC',
   CommonSpeciesByCommonSpeciesIdProductSpeciesIdAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__PRODUCT_SPECIES_ID_ASC',
   CommonSpeciesByCommonSpeciesIdProductSpeciesIdDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__PRODUCT_SPECIES_ID_DESC',
+  CommonSpeciesByCommonSpeciesIdDefaultInvSortKeyAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__DEFAULT_INV_SORT_KEY_ASC',
+  CommonSpeciesByCommonSpeciesIdDefaultInvSortKeyDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__DEFAULT_INV_SORT_KEY_DESC',
   ProductSizeByProductSizeIdIdAsc = 'PRODUCT_SIZE_BY_PRODUCT_SIZE_ID__ID_ASC',
   ProductSizeByProductSizeIdIdDesc = 'PRODUCT_SIZE_BY_PRODUCT_SIZE_ID__ID_DESC',
   ProductSizeByProductSizeIdSpeciesIdAsc = 'PRODUCT_SIZE_BY_PRODUCT_SIZE_ID__SPECIES_ID_ASC',
@@ -8549,6 +8621,8 @@ export type CommonSizeCondition = {
   commonSpeciesId?: Maybe<Scalars['BigInt']>;
   /** Checks for equality with the object’s `productSizeId` field. */
   productSizeId?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `defaultInvSortKey` field. */
+  defaultInvSortKey?: Maybe<Scalars['String']>;
 };
 
 /** A connection to a list of `CommonSizeProductSize` values. */
@@ -8607,6 +8681,8 @@ export enum CommonSizeProductSizesOrderBy {
   CommonSizeByCommonSizeIdCommonSpeciesIdDesc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__COMMON_SPECIES_ID_DESC',
   CommonSizeByCommonSizeIdProductSizeIdAsc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__PRODUCT_SIZE_ID_ASC',
   CommonSizeByCommonSizeIdProductSizeIdDesc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__PRODUCT_SIZE_ID_DESC',
+  CommonSizeByCommonSizeIdDefaultInvSortKeyAsc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__DEFAULT_INV_SORT_KEY_ASC',
+  CommonSizeByCommonSizeIdDefaultInvSortKeyDesc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__DEFAULT_INV_SORT_KEY_DESC',
   ProductSizeByProductSizeIdIdAsc = 'PRODUCT_SIZE_BY_PRODUCT_SIZE_ID__ID_ASC',
   ProductSizeByProductSizeIdIdDesc = 'PRODUCT_SIZE_BY_PRODUCT_SIZE_ID__ID_DESC',
   ProductSizeByProductSizeIdSpeciesIdAsc = 'PRODUCT_SIZE_BY_PRODUCT_SIZE_ID__SPECIES_ID_ASC',
@@ -8766,7 +8842,9 @@ export enum CommonSizeTagsOrderBy {
   CommonSizeByCommonSizeIdCommonSpeciesIdAsc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__COMMON_SPECIES_ID_ASC',
   CommonSizeByCommonSizeIdCommonSpeciesIdDesc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__COMMON_SPECIES_ID_DESC',
   CommonSizeByCommonSizeIdProductSizeIdAsc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__PRODUCT_SIZE_ID_ASC',
-  CommonSizeByCommonSizeIdProductSizeIdDesc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__PRODUCT_SIZE_ID_DESC'
+  CommonSizeByCommonSizeIdProductSizeIdDesc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__PRODUCT_SIZE_ID_DESC',
+  CommonSizeByCommonSizeIdDefaultInvSortKeyAsc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__DEFAULT_INV_SORT_KEY_ASC',
+  CommonSizeByCommonSizeIdDefaultInvSortKeyDesc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__DEFAULT_INV_SORT_KEY_DESC'
 }
 
 /**
@@ -8799,6 +8877,8 @@ export enum ShipperProgramsOrderBy {
   ArrivalPortDesc = 'ARRIVAL_PORT_DESC',
   PluAsc = 'PLU_ASC',
   PluDesc = 'PLU_DESC',
+  NotesAsc = 'NOTES_ASC',
+  NotesDesc = 'NOTES_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
   CommonSpeciesByCommonSpeciesIdIdAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__ID_ASC',
@@ -8813,6 +8893,8 @@ export enum ShipperProgramsOrderBy {
   CommonSpeciesByCommonSpeciesIdCommonCategoryIdDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__COMMON_CATEGORY_ID_DESC',
   CommonSpeciesByCommonSpeciesIdProductSpeciesIdAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__PRODUCT_SPECIES_ID_ASC',
   CommonSpeciesByCommonSpeciesIdProductSpeciesIdDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__PRODUCT_SPECIES_ID_DESC',
+  CommonSpeciesByCommonSpeciesIdDefaultInvSortKeyAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__DEFAULT_INV_SORT_KEY_ASC',
+  CommonSpeciesByCommonSpeciesIdDefaultInvSortKeyDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__DEFAULT_INV_SORT_KEY_DESC',
   CommonVarietyByCommonVarietyIdIdAsc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__ID_ASC',
   CommonVarietyByCommonVarietyIdIdDesc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__ID_DESC',
   CommonVarietyByCommonVarietyIdVarietyNameAsc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__VARIETY_NAME_ASC',
@@ -8825,6 +8907,8 @@ export enum ShipperProgramsOrderBy {
   CommonVarietyByCommonVarietyIdCommonSpeciesIdDesc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__COMMON_SPECIES_ID_DESC',
   CommonVarietyByCommonVarietyIdProductVarietyIdAsc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__PRODUCT_VARIETY_ID_ASC',
   CommonVarietyByCommonVarietyIdProductVarietyIdDesc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__PRODUCT_VARIETY_ID_DESC',
+  CommonVarietyByCommonVarietyIdDefaultInvSortKeyAsc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__DEFAULT_INV_SORT_KEY_ASC',
+  CommonVarietyByCommonVarietyIdDefaultInvSortKeyDesc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__DEFAULT_INV_SORT_KEY_DESC',
   CommonSizeByCommonSizeIdIdAsc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__ID_ASC',
   CommonSizeByCommonSizeIdIdDesc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__ID_DESC',
   CommonSizeByCommonSizeIdSizeNameAsc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__SIZE_NAME_ASC',
@@ -8835,6 +8919,8 @@ export enum ShipperProgramsOrderBy {
   CommonSizeByCommonSizeIdCommonSpeciesIdDesc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__COMMON_SPECIES_ID_DESC',
   CommonSizeByCommonSizeIdProductSizeIdAsc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__PRODUCT_SIZE_ID_ASC',
   CommonSizeByCommonSizeIdProductSizeIdDesc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__PRODUCT_SIZE_ID_DESC',
+  CommonSizeByCommonSizeIdDefaultInvSortKeyAsc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__DEFAULT_INV_SORT_KEY_ASC',
+  CommonSizeByCommonSizeIdDefaultInvSortKeyDesc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__DEFAULT_INV_SORT_KEY_DESC',
   CommonPackTypeByCommonPackTypeIdIdAsc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__ID_ASC',
   CommonPackTypeByCommonPackTypeIdIdDesc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__ID_DESC',
   CommonPackTypeByCommonPackTypeIdPackTypeNameAsc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__PACK_TYPE_NAME_ASC',
@@ -8845,6 +8931,8 @@ export enum ShipperProgramsOrderBy {
   CommonPackTypeByCommonPackTypeIdCommonSpeciesIdDesc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__COMMON_SPECIES_ID_DESC',
   CommonPackTypeByCommonPackTypeIdPackMasterIdAsc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__PACK_MASTER_ID_ASC',
   CommonPackTypeByCommonPackTypeIdPackMasterIdDesc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__PACK_MASTER_ID_DESC',
+  CommonPackTypeByCommonPackTypeIdDefaultInvSortKeyAsc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__DEFAULT_INV_SORT_KEY_ASC',
+  CommonPackTypeByCommonPackTypeIdDefaultInvSortKeyDesc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__DEFAULT_INV_SORT_KEY_DESC',
   ShipperByShipperIdIdAsc = 'SHIPPER_BY_SHIPPER_ID__ID_ASC',
   ShipperByShipperIdIdDesc = 'SHIPPER_BY_SHIPPER_ID__ID_DESC',
   ShipperByShipperIdShipperNameAsc = 'SHIPPER_BY_SHIPPER_ID__SHIPPER_NAME_ASC',
@@ -8861,6 +8949,10 @@ export enum ShipperProgramsOrderBy {
   ShipperByShipperIdWebsiteDesc = 'SHIPPER_BY_SHIPPER_ID__WEBSITE_DESC',
   ShipperByShipperIdSendProjectionRequestAsc = 'SHIPPER_BY_SHIPPER_ID__SEND_PROJECTION_REQUEST_ASC',
   ShipperByShipperIdSendProjectionRequestDesc = 'SHIPPER_BY_SHIPPER_ID__SEND_PROJECTION_REQUEST_DESC',
+  ShipperByShipperIdProjectionRequestStartDateAsc = 'SHIPPER_BY_SHIPPER_ID__PROJECTION_REQUEST_START_DATE_ASC',
+  ShipperByShipperIdProjectionRequestStartDateDesc = 'SHIPPER_BY_SHIPPER_ID__PROJECTION_REQUEST_START_DATE_DESC',
+  ShipperByShipperIdProjectionRequestEndDateAsc = 'SHIPPER_BY_SHIPPER_ID__PROJECTION_REQUEST_END_DATE_ASC',
+  ShipperByShipperIdProjectionRequestEndDateDesc = 'SHIPPER_BY_SHIPPER_ID__PROJECTION_REQUEST_END_DATE_DESC',
   ShipperProgramEntriesByShipperProgramIdCountAsc = 'SHIPPER_PROGRAM_ENTRIES_BY_SHIPPER_PROGRAM_ID__COUNT_ASC',
   ShipperProgramEntriesByShipperProgramIdCountDesc = 'SHIPPER_PROGRAM_ENTRIES_BY_SHIPPER_PROGRAM_ID__COUNT_DESC'
 }
@@ -8886,6 +8978,8 @@ export type ShipperProgramCondition = {
   arrivalPort?: Maybe<Scalars['String']>;
   /** Checks for equality with the object’s `plu` field. */
   plu?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `notes` field. */
+  notes?: Maybe<Scalars['String']>;
 };
 
 /** A connection to a list of `CustomerProgram` values. */
@@ -8913,6 +9007,7 @@ export type CustomerProgram = Node & {
   customerId?: Maybe<Scalars['String']>;
   arrivalPort?: Maybe<Scalars['String']>;
   plu?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
   /** Reads a single `CommonSpecies` that is related to this `CustomerProgram`. */
   commonSpecies?: Maybe<CommonSpecies>;
   /** Reads a single `CommonVariety` that is related to this `CustomerProgram`. */
@@ -8948,6 +9043,7 @@ export type CommonPackType = Node & {
   packTypeDescription?: Maybe<Scalars['String']>;
   commonSpeciesId?: Maybe<Scalars['BigInt']>;
   packMasterId?: Maybe<Scalars['BigInt']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   /** Reads a single `CommonSpecies` that is related to this `CommonPackType`. */
   commonSpecies?: Maybe<CommonSpecies>;
   /** Reads a single `PackMaster` that is related to this `CommonPackType`. */
@@ -9352,6 +9448,8 @@ export enum CommonPackTypesOrderBy {
   CommonSpeciesIdDesc = 'COMMON_SPECIES_ID_DESC',
   PackMasterIdAsc = 'PACK_MASTER_ID_ASC',
   PackMasterIdDesc = 'PACK_MASTER_ID_DESC',
+  DefaultInvSortKeyAsc = 'DEFAULT_INV_SORT_KEY_ASC',
+  DefaultInvSortKeyDesc = 'DEFAULT_INV_SORT_KEY_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
   CommonSpeciesByCommonSpeciesIdIdAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__ID_ASC',
@@ -9366,6 +9464,8 @@ export enum CommonPackTypesOrderBy {
   CommonSpeciesByCommonSpeciesIdCommonCategoryIdDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__COMMON_CATEGORY_ID_DESC',
   CommonSpeciesByCommonSpeciesIdProductSpeciesIdAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__PRODUCT_SPECIES_ID_ASC',
   CommonSpeciesByCommonSpeciesIdProductSpeciesIdDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__PRODUCT_SPECIES_ID_DESC',
+  CommonSpeciesByCommonSpeciesIdDefaultInvSortKeyAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__DEFAULT_INV_SORT_KEY_ASC',
+  CommonSpeciesByCommonSpeciesIdDefaultInvSortKeyDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__DEFAULT_INV_SORT_KEY_DESC',
   PackMasterByPackMasterIdIdAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__ID_ASC',
   PackMasterByPackMasterIdIdDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__ID_DESC',
   PackMasterByPackMasterIdShipperIdAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__SHIPPER_ID_ASC',
@@ -9455,6 +9555,8 @@ export type CommonPackTypeCondition = {
   commonSpeciesId?: Maybe<Scalars['BigInt']>;
   /** Checks for equality with the object’s `packMasterId` field. */
   packMasterId?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `defaultInvSortKey` field. */
+  defaultInvSortKey?: Maybe<Scalars['String']>;
 };
 
 /** A connection to a list of `CommonPackTypePackMaster` values. */
@@ -9513,6 +9615,8 @@ export enum CommonPackTypePackMastersOrderBy {
   CommonPackTypeByCommonPackTypeIdCommonSpeciesIdDesc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__COMMON_SPECIES_ID_DESC',
   CommonPackTypeByCommonPackTypeIdPackMasterIdAsc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__PACK_MASTER_ID_ASC',
   CommonPackTypeByCommonPackTypeIdPackMasterIdDesc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__PACK_MASTER_ID_DESC',
+  CommonPackTypeByCommonPackTypeIdDefaultInvSortKeyAsc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__DEFAULT_INV_SORT_KEY_ASC',
+  CommonPackTypeByCommonPackTypeIdDefaultInvSortKeyDesc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__DEFAULT_INV_SORT_KEY_DESC',
   PackMasterByPackMasterIdIdAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__ID_ASC',
   PackMasterByPackMasterIdIdDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__ID_DESC',
   PackMasterByPackMasterIdShipperIdAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__SHIPPER_ID_ASC',
@@ -9877,7 +9981,9 @@ export enum CommonPackTypeTagsOrderBy {
   CommonPackTypeByCommonPackTypeIdCommonSpeciesIdAsc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__COMMON_SPECIES_ID_ASC',
   CommonPackTypeByCommonPackTypeIdCommonSpeciesIdDesc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__COMMON_SPECIES_ID_DESC',
   CommonPackTypeByCommonPackTypeIdPackMasterIdAsc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__PACK_MASTER_ID_ASC',
-  CommonPackTypeByCommonPackTypeIdPackMasterIdDesc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__PACK_MASTER_ID_DESC'
+  CommonPackTypeByCommonPackTypeIdPackMasterIdDesc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__PACK_MASTER_ID_DESC',
+  CommonPackTypeByCommonPackTypeIdDefaultInvSortKeyAsc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__DEFAULT_INV_SORT_KEY_ASC',
+  CommonPackTypeByCommonPackTypeIdDefaultInvSortKeyDesc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__DEFAULT_INV_SORT_KEY_DESC'
 }
 
 /**
@@ -9910,6 +10016,8 @@ export enum CustomerProgramsOrderBy {
   ArrivalPortDesc = 'ARRIVAL_PORT_DESC',
   PluAsc = 'PLU_ASC',
   PluDesc = 'PLU_DESC',
+  NotesAsc = 'NOTES_ASC',
+  NotesDesc = 'NOTES_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
   CommonSpeciesByCommonSpeciesIdIdAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__ID_ASC',
@@ -9924,6 +10032,8 @@ export enum CustomerProgramsOrderBy {
   CommonSpeciesByCommonSpeciesIdCommonCategoryIdDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__COMMON_CATEGORY_ID_DESC',
   CommonSpeciesByCommonSpeciesIdProductSpeciesIdAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__PRODUCT_SPECIES_ID_ASC',
   CommonSpeciesByCommonSpeciesIdProductSpeciesIdDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__PRODUCT_SPECIES_ID_DESC',
+  CommonSpeciesByCommonSpeciesIdDefaultInvSortKeyAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__DEFAULT_INV_SORT_KEY_ASC',
+  CommonSpeciesByCommonSpeciesIdDefaultInvSortKeyDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__DEFAULT_INV_SORT_KEY_DESC',
   CommonVarietyByCommonVarietyIdIdAsc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__ID_ASC',
   CommonVarietyByCommonVarietyIdIdDesc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__ID_DESC',
   CommonVarietyByCommonVarietyIdVarietyNameAsc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__VARIETY_NAME_ASC',
@@ -9936,6 +10046,8 @@ export enum CustomerProgramsOrderBy {
   CommonVarietyByCommonVarietyIdCommonSpeciesIdDesc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__COMMON_SPECIES_ID_DESC',
   CommonVarietyByCommonVarietyIdProductVarietyIdAsc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__PRODUCT_VARIETY_ID_ASC',
   CommonVarietyByCommonVarietyIdProductVarietyIdDesc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__PRODUCT_VARIETY_ID_DESC',
+  CommonVarietyByCommonVarietyIdDefaultInvSortKeyAsc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__DEFAULT_INV_SORT_KEY_ASC',
+  CommonVarietyByCommonVarietyIdDefaultInvSortKeyDesc = 'COMMON_VARIETY_BY_COMMON_VARIETY_ID__DEFAULT_INV_SORT_KEY_DESC',
   CommonSizeByCommonSizeIdIdAsc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__ID_ASC',
   CommonSizeByCommonSizeIdIdDesc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__ID_DESC',
   CommonSizeByCommonSizeIdSizeNameAsc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__SIZE_NAME_ASC',
@@ -9946,6 +10058,8 @@ export enum CustomerProgramsOrderBy {
   CommonSizeByCommonSizeIdCommonSpeciesIdDesc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__COMMON_SPECIES_ID_DESC',
   CommonSizeByCommonSizeIdProductSizeIdAsc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__PRODUCT_SIZE_ID_ASC',
   CommonSizeByCommonSizeIdProductSizeIdDesc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__PRODUCT_SIZE_ID_DESC',
+  CommonSizeByCommonSizeIdDefaultInvSortKeyAsc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__DEFAULT_INV_SORT_KEY_ASC',
+  CommonSizeByCommonSizeIdDefaultInvSortKeyDesc = 'COMMON_SIZE_BY_COMMON_SIZE_ID__DEFAULT_INV_SORT_KEY_DESC',
   CommonPackTypeByCommonPackTypeIdIdAsc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__ID_ASC',
   CommonPackTypeByCommonPackTypeIdIdDesc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__ID_DESC',
   CommonPackTypeByCommonPackTypeIdPackTypeNameAsc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__PACK_TYPE_NAME_ASC',
@@ -9956,6 +10070,8 @@ export enum CustomerProgramsOrderBy {
   CommonPackTypeByCommonPackTypeIdCommonSpeciesIdDesc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__COMMON_SPECIES_ID_DESC',
   CommonPackTypeByCommonPackTypeIdPackMasterIdAsc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__PACK_MASTER_ID_ASC',
   CommonPackTypeByCommonPackTypeIdPackMasterIdDesc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__PACK_MASTER_ID_DESC',
+  CommonPackTypeByCommonPackTypeIdDefaultInvSortKeyAsc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__DEFAULT_INV_SORT_KEY_ASC',
+  CommonPackTypeByCommonPackTypeIdDefaultInvSortKeyDesc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__DEFAULT_INV_SORT_KEY_DESC',
   CustomerByCustomerIdIdAsc = 'CUSTOMER_BY_CUSTOMER_ID__ID_ASC',
   CustomerByCustomerIdIdDesc = 'CUSTOMER_BY_CUSTOMER_ID__ID_DESC',
   CustomerByCustomerIdCustomerNameAsc = 'CUSTOMER_BY_CUSTOMER_ID__CUSTOMER_NAME_ASC',
@@ -10007,6 +10123,8 @@ export type CustomerProgramCondition = {
   arrivalPort?: Maybe<Scalars['String']>;
   /** Checks for equality with the object’s `plu` field. */
   plu?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `notes` field. */
+  notes?: Maybe<Scalars['String']>;
 };
 
 /** A connection to a list of `Shipper` values, with data from `ShipperProjectionProduct`. */
@@ -10654,6 +10772,7 @@ export type CustomerProgramEntry = Node & {
   programDate?: Maybe<Scalars['Date']>;
   palletCount?: Maybe<Scalars['BigFloat']>;
   customerProgramId?: Maybe<Scalars['BigInt']>;
+  isAdWeek?: Maybe<Scalars['Boolean']>;
   /** Reads a single `CustomerProgram` that is related to this `CustomerProgramEntry`. */
   customerProgram?: Maybe<CustomerProgram>;
   /** Reads and enables pagination through a set of `ShipperProgramEntryCustomerProgramEntry`. */
@@ -10779,6 +10898,8 @@ export enum ShipperProgramEntryCustomerProgramEntriesOrderBy {
   CustomerProgramEntryByCustomerProgramEntryIdPalletCountDesc = 'CUSTOMER_PROGRAM_ENTRY_BY_CUSTOMER_PROGRAM_ENTRY_ID__PALLET_COUNT_DESC',
   CustomerProgramEntryByCustomerProgramEntryIdCustomerProgramIdAsc = 'CUSTOMER_PROGRAM_ENTRY_BY_CUSTOMER_PROGRAM_ENTRY_ID__CUSTOMER_PROGRAM_ID_ASC',
   CustomerProgramEntryByCustomerProgramEntryIdCustomerProgramIdDesc = 'CUSTOMER_PROGRAM_ENTRY_BY_CUSTOMER_PROGRAM_ENTRY_ID__CUSTOMER_PROGRAM_ID_DESC',
+  CustomerProgramEntryByCustomerProgramEntryIdIsAdWeekAsc = 'CUSTOMER_PROGRAM_ENTRY_BY_CUSTOMER_PROGRAM_ENTRY_ID__IS_AD_WEEK_ASC',
+  CustomerProgramEntryByCustomerProgramEntryIdIsAdWeekDesc = 'CUSTOMER_PROGRAM_ENTRY_BY_CUSTOMER_PROGRAM_ENTRY_ID__IS_AD_WEEK_DESC',
   ShipperProgramEntryByShipperProgramEntryIdIdAsc = 'SHIPPER_PROGRAM_ENTRY_BY_SHIPPER_PROGRAM_ENTRY_ID__ID_ASC',
   ShipperProgramEntryByShipperProgramEntryIdIdDesc = 'SHIPPER_PROGRAM_ENTRY_BY_SHIPPER_PROGRAM_ENTRY_ID__ID_DESC',
   ShipperProgramEntryByShipperProgramEntryIdNotesAsc = 'SHIPPER_PROGRAM_ENTRY_BY_SHIPPER_PROGRAM_ENTRY_ID__NOTES_ASC',
@@ -10856,6 +10977,8 @@ export enum CustomerProgramEntriesOrderBy {
   PalletCountDesc = 'PALLET_COUNT_DESC',
   CustomerProgramIdAsc = 'CUSTOMER_PROGRAM_ID_ASC',
   CustomerProgramIdDesc = 'CUSTOMER_PROGRAM_ID_DESC',
+  IsAdWeekAsc = 'IS_AD_WEEK_ASC',
+  IsAdWeekDesc = 'IS_AD_WEEK_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
   CustomerProgramByCustomerProgramIdIdAsc = 'CUSTOMER_PROGRAM_BY_CUSTOMER_PROGRAM_ID__ID_ASC',
@@ -10874,6 +10997,8 @@ export enum CustomerProgramEntriesOrderBy {
   CustomerProgramByCustomerProgramIdArrivalPortDesc = 'CUSTOMER_PROGRAM_BY_CUSTOMER_PROGRAM_ID__ARRIVAL_PORT_DESC',
   CustomerProgramByCustomerProgramIdPluAsc = 'CUSTOMER_PROGRAM_BY_CUSTOMER_PROGRAM_ID__PLU_ASC',
   CustomerProgramByCustomerProgramIdPluDesc = 'CUSTOMER_PROGRAM_BY_CUSTOMER_PROGRAM_ID__PLU_DESC',
+  CustomerProgramByCustomerProgramIdNotesAsc = 'CUSTOMER_PROGRAM_BY_CUSTOMER_PROGRAM_ID__NOTES_ASC',
+  CustomerProgramByCustomerProgramIdNotesDesc = 'CUSTOMER_PROGRAM_BY_CUSTOMER_PROGRAM_ID__NOTES_DESC',
   ShipperProgramEntryCustomerProgramEntriesByCustomerProgramEntryIdCountAsc = 'SHIPPER_PROGRAM_ENTRY_CUSTOMER_PROGRAM_ENTRIES_BY_CUSTOMER_PROGRAM_ENTRY_ID__COUNT_ASC',
   ShipperProgramEntryCustomerProgramEntriesByCustomerProgramEntryIdCountDesc = 'SHIPPER_PROGRAM_ENTRY_CUSTOMER_PROGRAM_ENTRIES_BY_CUSTOMER_PROGRAM_ENTRY_ID__COUNT_DESC'
 }
@@ -10893,6 +11018,8 @@ export type CustomerProgramEntryCondition = {
   palletCount?: Maybe<Scalars['BigFloat']>;
   /** Checks for equality with the object’s `customerProgramId` field. */
   customerProgramId?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `isAdWeek` field. */
+  isAdWeek?: Maybe<Scalars['Boolean']>;
 };
 
 /** A `ShipperProgramEntryCustomerProgramEntry` edge in the connection. */
@@ -10972,6 +11099,8 @@ export enum ShipperProgramEntriesOrderBy {
   ShipperProgramByShipperProgramIdArrivalPortDesc = 'SHIPPER_PROGRAM_BY_SHIPPER_PROGRAM_ID__ARRIVAL_PORT_DESC',
   ShipperProgramByShipperProgramIdPluAsc = 'SHIPPER_PROGRAM_BY_SHIPPER_PROGRAM_ID__PLU_ASC',
   ShipperProgramByShipperProgramIdPluDesc = 'SHIPPER_PROGRAM_BY_SHIPPER_PROGRAM_ID__PLU_DESC',
+  ShipperProgramByShipperProgramIdNotesAsc = 'SHIPPER_PROGRAM_BY_SHIPPER_PROGRAM_ID__NOTES_ASC',
+  ShipperProgramByShipperProgramIdNotesDesc = 'SHIPPER_PROGRAM_BY_SHIPPER_PROGRAM_ID__NOTES_DESC',
   ShipperProgramEntryCustomerProgramEntriesByShipperProgramEntryIdCountAsc = 'SHIPPER_PROGRAM_ENTRY_CUSTOMER_PROGRAM_ENTRIES_BY_SHIPPER_PROGRAM_ENTRY_ID__COUNT_ASC',
   ShipperProgramEntryCustomerProgramEntriesByShipperProgramEntryIdCountDesc = 'SHIPPER_PROGRAM_ENTRY_CUSTOMER_PROGRAM_ENTRIES_BY_SHIPPER_PROGRAM_ENTRY_ID__COUNT_DESC'
 }
@@ -12169,7 +12298,9 @@ export enum CommonSpeciesTagsOrderBy {
   CommonSpeciesByCommonSpeciesIdCommonCategoryIdAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__COMMON_CATEGORY_ID_ASC',
   CommonSpeciesByCommonSpeciesIdCommonCategoryIdDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__COMMON_CATEGORY_ID_DESC',
   CommonSpeciesByCommonSpeciesIdProductSpeciesIdAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__PRODUCT_SPECIES_ID_ASC',
-  CommonSpeciesByCommonSpeciesIdProductSpeciesIdDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__PRODUCT_SPECIES_ID_DESC'
+  CommonSpeciesByCommonSpeciesIdProductSpeciesIdDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__PRODUCT_SPECIES_ID_DESC',
+  CommonSpeciesByCommonSpeciesIdDefaultInvSortKeyAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__DEFAULT_INV_SORT_KEY_ASC',
+  CommonSpeciesByCommonSpeciesIdDefaultInvSortKeyDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__DEFAULT_INV_SORT_KEY_DESC'
 }
 
 /**
@@ -13013,6 +13144,10 @@ export enum ShipperProjectionsOrderBy {
   ShipperByShipperIdWebsiteDesc = 'SHIPPER_BY_SHIPPER_ID__WEBSITE_DESC',
   ShipperByShipperIdSendProjectionRequestAsc = 'SHIPPER_BY_SHIPPER_ID__SEND_PROJECTION_REQUEST_ASC',
   ShipperByShipperIdSendProjectionRequestDesc = 'SHIPPER_BY_SHIPPER_ID__SEND_PROJECTION_REQUEST_DESC',
+  ShipperByShipperIdProjectionRequestStartDateAsc = 'SHIPPER_BY_SHIPPER_ID__PROJECTION_REQUEST_START_DATE_ASC',
+  ShipperByShipperIdProjectionRequestStartDateDesc = 'SHIPPER_BY_SHIPPER_ID__PROJECTION_REQUEST_START_DATE_DESC',
+  ShipperByShipperIdProjectionRequestEndDateAsc = 'SHIPPER_BY_SHIPPER_ID__PROJECTION_REQUEST_END_DATE_ASC',
+  ShipperByShipperIdProjectionRequestEndDateDesc = 'SHIPPER_BY_SHIPPER_ID__PROJECTION_REQUEST_END_DATE_DESC',
   ShipperProjectionVesselInfosByProjectionIdCountAsc = 'SHIPPER_PROJECTION_VESSEL_INFOS_BY_PROJECTION_ID__COUNT_ASC',
   ShipperProjectionVesselInfosByProjectionIdCountDesc = 'SHIPPER_PROJECTION_VESSEL_INFOS_BY_PROJECTION_ID__COUNT_DESC'
 }
@@ -13167,6 +13302,10 @@ export enum ShipperPersonContactsOrderBy {
   ShipperByShipperIdWebsiteDesc = 'SHIPPER_BY_SHIPPER_ID__WEBSITE_DESC',
   ShipperByShipperIdSendProjectionRequestAsc = 'SHIPPER_BY_SHIPPER_ID__SEND_PROJECTION_REQUEST_ASC',
   ShipperByShipperIdSendProjectionRequestDesc = 'SHIPPER_BY_SHIPPER_ID__SEND_PROJECTION_REQUEST_DESC',
+  ShipperByShipperIdProjectionRequestStartDateAsc = 'SHIPPER_BY_SHIPPER_ID__PROJECTION_REQUEST_START_DATE_ASC',
+  ShipperByShipperIdProjectionRequestStartDateDesc = 'SHIPPER_BY_SHIPPER_ID__PROJECTION_REQUEST_START_DATE_DESC',
+  ShipperByShipperIdProjectionRequestEndDateAsc = 'SHIPPER_BY_SHIPPER_ID__PROJECTION_REQUEST_END_DATE_ASC',
+  ShipperByShipperIdProjectionRequestEndDateDesc = 'SHIPPER_BY_SHIPPER_ID__PROJECTION_REQUEST_END_DATE_DESC',
   PersonContactByPersonContactIdIdAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__ID_ASC',
   PersonContactByPersonContactIdIdDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__ID_DESC',
   PersonContactByPersonContactIdFirstNameAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__FIRST_NAME_ASC',
@@ -30636,6 +30775,8 @@ export type UpdateShipperOnShipperPersonContactForShipperPersonContactShipperIdF
   notes?: Maybe<Scalars['String']>;
   website?: Maybe<Scalars['String']>;
   sendProjectionRequest?: Maybe<Scalars['Boolean']>;
+  projectionRequestStartDate?: Maybe<Scalars['Date']>;
+  projectionRequestEndDate?: Maybe<Scalars['Date']>;
   countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
   shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
@@ -30715,6 +30856,8 @@ export type UpdateShipperOnShipperForShipperCountryIdFkeyPatch = {
   notes?: Maybe<Scalars['String']>;
   website?: Maybe<Scalars['String']>;
   sendProjectionRequest?: Maybe<Scalars['Boolean']>;
+  projectionRequestStartDate?: Maybe<Scalars['Date']>;
+  projectionRequestEndDate?: Maybe<Scalars['Date']>;
   countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
   shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
@@ -30815,6 +30958,8 @@ export type UpdateShipperOnShipperProjectionVesselForShipperProjectionVesselShip
   notes?: Maybe<Scalars['String']>;
   website?: Maybe<Scalars['String']>;
   sendProjectionRequest?: Maybe<Scalars['Boolean']>;
+  projectionRequestStartDate?: Maybe<Scalars['Date']>;
+  projectionRequestEndDate?: Maybe<Scalars['Date']>;
   countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
   shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
@@ -30928,6 +31073,8 @@ export type UpdateShipperOnShipperProjectionProductForShipperProjectionProductSh
   notes?: Maybe<Scalars['String']>;
   website?: Maybe<Scalars['String']>;
   sendProjectionRequest?: Maybe<Scalars['Boolean']>;
+  projectionRequestStartDate?: Maybe<Scalars['Date']>;
+  projectionRequestEndDate?: Maybe<Scalars['Date']>;
   countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
   shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
@@ -31034,6 +31181,8 @@ export type UpdateShipperOnShipperProjectionForShipperProjectionShipperIdFkeyPat
   notes?: Maybe<Scalars['String']>;
   website?: Maybe<Scalars['String']>;
   sendProjectionRequest?: Maybe<Scalars['Boolean']>;
+  projectionRequestStartDate?: Maybe<Scalars['Date']>;
+  projectionRequestEndDate?: Maybe<Scalars['Date']>;
   countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
   shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
@@ -31920,6 +32069,8 @@ export type UpdateShipperOnShipperProjectionVesselInfoForFkShipperIdPatch = {
   notes?: Maybe<Scalars['String']>;
   website?: Maybe<Scalars['String']>;
   sendProjectionRequest?: Maybe<Scalars['Boolean']>;
+  projectionRequestStartDate?: Maybe<Scalars['Date']>;
+  projectionRequestEndDate?: Maybe<Scalars['Date']>;
   countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
   shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
@@ -31987,6 +32138,7 @@ export type UpdateShipperProgramOnShipperProgramForShipperProgramShipperIdFkeyPa
   commonPackTypeId?: Maybe<Scalars['BigInt']>;
   arrivalPort?: Maybe<Scalars['String']>;
   plu?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<ShipperProgramCommonSpeciesIdFkeyInput>;
   commonVarietyToCommonVarietyId?: Maybe<ShipperProgramCommonVarietyIdFkeyInput>;
   commonSizeToCommonSizeId?: Maybe<ShipperProgramCommonSizeIdFkeyInput>;
@@ -32050,6 +32202,7 @@ export type UpdateCommonSpeciesOnShipperProgramForShipperProgramCommonSpeciesIdF
   uiColor?: Maybe<Scalars['String']>;
   commonCategoryId?: Maybe<Scalars['BigInt']>;
   productSpeciesId?: Maybe<Scalars['String']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonCategoryToCommonCategoryId?: Maybe<CommonSpeciesCommonCategoryIdFkeyInput>;
   productSpeciesToProductSpeciesId?: Maybe<CommonSpeciesProductSpeciesIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSpeciesIdFkeyInverseInput>;
@@ -32152,6 +32305,7 @@ export type UpdateCommonSpeciesOnCommonSpeciesForCommonSpeciesCommonCategoryIdFk
   speciesDescription?: Maybe<Scalars['String']>;
   uiColor?: Maybe<Scalars['String']>;
   productSpeciesId?: Maybe<Scalars['String']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonCategoryToCommonCategoryId?: Maybe<CommonSpeciesCommonCategoryIdFkeyInput>;
   productSpeciesToProductSpeciesId?: Maybe<CommonSpeciesProductSpeciesIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSpeciesIdFkeyInverseInput>;
@@ -32257,6 +32411,7 @@ export type UpdateCommonSpeciesOnCommonSpeciesForCommonSpeciesProductSpeciesIdFk
   speciesDescription?: Maybe<Scalars['String']>;
   uiColor?: Maybe<Scalars['String']>;
   commonCategoryId?: Maybe<Scalars['BigInt']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonCategoryToCommonCategoryId?: Maybe<CommonSpeciesCommonCategoryIdFkeyInput>;
   productSpeciesToProductSpeciesId?: Maybe<CommonSpeciesProductSpeciesIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSpeciesIdFkeyInverseInput>;
@@ -32349,6 +32504,7 @@ export type UpdateCommonSpeciesOnShipperProjectionProductForShipperProjectionPro
   uiColor?: Maybe<Scalars['String']>;
   commonCategoryId?: Maybe<Scalars['BigInt']>;
   productSpeciesId?: Maybe<Scalars['String']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonCategoryToCommonCategoryId?: Maybe<CommonSpeciesCommonCategoryIdFkeyInput>;
   productSpeciesToProductSpeciesId?: Maybe<CommonSpeciesProductSpeciesIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSpeciesIdFkeyInverseInput>;
@@ -32417,6 +32573,7 @@ export type UpdateCommonVarietyOnCommonVarietyForCommonVarietyCommonSpeciesIdFke
   varietyDescription?: Maybe<Scalars['String']>;
   uiColor?: Maybe<Scalars['String']>;
   productVarietyId?: Maybe<Scalars['String']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonVarietyCommonSpeciesIdFkeyInput>;
   productVarietyToProductVarietyId?: Maybe<CommonVarietyProductVarietyIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonVarietyIdFkeyInverseInput>;
@@ -32459,6 +32616,7 @@ export type UpdateCommonSpeciesOnCommonVarietyForCommonVarietyCommonSpeciesIdFke
   uiColor?: Maybe<Scalars['String']>;
   commonCategoryId?: Maybe<Scalars['BigInt']>;
   productSpeciesId?: Maybe<Scalars['String']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonCategoryToCommonCategoryId?: Maybe<CommonSpeciesCommonCategoryIdFkeyInput>;
   productSpeciesToProductSpeciesId?: Maybe<CommonSpeciesProductSpeciesIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSpeciesIdFkeyInverseInput>;
@@ -32526,6 +32684,7 @@ export type UpdateCommonSizeOnCommonSizeForCommonSizeCommonSpeciesIdFkeyPatch = 
   sizeName?: Maybe<Scalars['String']>;
   sizeDescription?: Maybe<Scalars['String']>;
   productSizeId?: Maybe<Scalars['BigInt']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonSizeCommonSpeciesIdFkeyInput>;
   productSizeToProductSizeId?: Maybe<CommonSizeProductSizeIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSizeIdFkeyInverseInput>;
@@ -32568,6 +32727,7 @@ export type UpdateCommonSpeciesOnCommonSizeForCommonSizeCommonSpeciesIdFkeyPatch
   uiColor?: Maybe<Scalars['String']>;
   commonCategoryId?: Maybe<Scalars['BigInt']>;
   productSpeciesId?: Maybe<Scalars['String']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonCategoryToCommonCategoryId?: Maybe<CommonSpeciesCommonCategoryIdFkeyInput>;
   productSpeciesToProductSpeciesId?: Maybe<CommonSpeciesProductSpeciesIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSpeciesIdFkeyInverseInput>;
@@ -32635,6 +32795,7 @@ export type UpdateCommonPackTypeOnCommonPackTypeForCommonPackTypeCommonSpeciesId
   packTypeName?: Maybe<Scalars['String']>;
   packTypeDescription?: Maybe<Scalars['String']>;
   packMasterId?: Maybe<Scalars['BigInt']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInput>;
   packMasterToPackMasterId?: Maybe<CommonPackTypePackMasterIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyInverseInput>;
@@ -32677,6 +32838,7 @@ export type UpdateCommonSpeciesOnCommonPackTypeForCommonPackTypeCommonSpeciesIdF
   uiColor?: Maybe<Scalars['String']>;
   commonCategoryId?: Maybe<Scalars['BigInt']>;
   productSpeciesId?: Maybe<Scalars['String']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonCategoryToCommonCategoryId?: Maybe<CommonSpeciesCommonCategoryIdFkeyInput>;
   productSpeciesToProductSpeciesId?: Maybe<CommonSpeciesProductSpeciesIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSpeciesIdFkeyInverseInput>;
@@ -32780,6 +32942,7 @@ export type UpdateCommonSpeciesOnCommonSpeciesTagForCommonSpeciesTagCommonSpecie
   uiColor?: Maybe<Scalars['String']>;
   commonCategoryId?: Maybe<Scalars['BigInt']>;
   productSpeciesId?: Maybe<Scalars['String']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonCategoryToCommonCategoryId?: Maybe<CommonSpeciesCommonCategoryIdFkeyInput>;
   productSpeciesToProductSpeciesId?: Maybe<CommonSpeciesProductSpeciesIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSpeciesIdFkeyInverseInput>;
@@ -32882,6 +33045,7 @@ export type UpdateCommonSpeciesOnCommonSpeciesProductSpeciesForCommonSpeciesProd
   uiColor?: Maybe<Scalars['String']>;
   commonCategoryId?: Maybe<Scalars['BigInt']>;
   productSpeciesId?: Maybe<Scalars['String']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonCategoryToCommonCategoryId?: Maybe<CommonSpeciesCommonCategoryIdFkeyInput>;
   productSpeciesToProductSpeciesId?: Maybe<CommonSpeciesProductSpeciesIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSpeciesIdFkeyInverseInput>;
@@ -32930,6 +33094,7 @@ export type UpdateShipperProgramOnShipperProgramForShipperProgramCommonSpeciesId
   shipperId?: Maybe<Scalars['String']>;
   arrivalPort?: Maybe<Scalars['String']>;
   plu?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<ShipperProgramCommonSpeciesIdFkeyInput>;
   commonVarietyToCommonVarietyId?: Maybe<ShipperProgramCommonVarietyIdFkeyInput>;
   commonSizeToCommonSizeId?: Maybe<ShipperProgramCommonSizeIdFkeyInput>;
@@ -32971,6 +33136,7 @@ export type UpdateCommonVarietyOnShipperProgramForShipperProgramCommonVarietyIdF
   uiColor?: Maybe<Scalars['String']>;
   commonSpeciesId?: Maybe<Scalars['BigInt']>;
   productVarietyId?: Maybe<Scalars['String']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonVarietyCommonSpeciesIdFkeyInput>;
   productVarietyToProductVarietyId?: Maybe<CommonVarietyProductVarietyIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonVarietyIdFkeyInverseInput>;
@@ -33074,6 +33240,7 @@ export type UpdateCommonVarietyOnCommonVarietyForCommonVarietyProductVarietyIdFk
   varietyDescription?: Maybe<Scalars['String']>;
   uiColor?: Maybe<Scalars['String']>;
   commonSpeciesId?: Maybe<Scalars['BigInt']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonVarietyCommonSpeciesIdFkeyInput>;
   productVarietyToProductVarietyId?: Maybe<CommonVarietyProductVarietyIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonVarietyIdFkeyInverseInput>;
@@ -33163,6 +33330,7 @@ export type UpdateCommonVarietyOnShipperProjectionProductForShipperProjectionPro
   uiColor?: Maybe<Scalars['String']>;
   commonSpeciesId?: Maybe<Scalars['BigInt']>;
   productVarietyId?: Maybe<Scalars['String']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonVarietyCommonSpeciesIdFkeyInput>;
   productVarietyToProductVarietyId?: Maybe<CommonVarietyProductVarietyIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonVarietyIdFkeyInverseInput>;
@@ -33263,6 +33431,7 @@ export type UpdateCommonVarietyOnCommonVarietyTagForCommonVarietyTagCommonVariet
   uiColor?: Maybe<Scalars['String']>;
   commonSpeciesId?: Maybe<Scalars['BigInt']>;
   productVarietyId?: Maybe<Scalars['String']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonVarietyCommonSpeciesIdFkeyInput>;
   productVarietyToProductVarietyId?: Maybe<CommonVarietyProductVarietyIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonVarietyIdFkeyInverseInput>;
@@ -33362,6 +33531,7 @@ export type UpdateCommonVarietyOnCommonVarietyProductVarietyForCommonVarietyProd
   uiColor?: Maybe<Scalars['String']>;
   commonSpeciesId?: Maybe<Scalars['BigInt']>;
   productVarietyId?: Maybe<Scalars['String']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonVarietyCommonSpeciesIdFkeyInput>;
   productVarietyToProductVarietyId?: Maybe<CommonVarietyProductVarietyIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonVarietyIdFkeyInverseInput>;
@@ -33407,6 +33577,7 @@ export type UpdateShipperProgramOnShipperProgramForShipperProgramCommonVarietyId
   shipperId?: Maybe<Scalars['String']>;
   arrivalPort?: Maybe<Scalars['String']>;
   plu?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<ShipperProgramCommonSpeciesIdFkeyInput>;
   commonVarietyToCommonVarietyId?: Maybe<ShipperProgramCommonVarietyIdFkeyInput>;
   commonSizeToCommonSizeId?: Maybe<ShipperProgramCommonSizeIdFkeyInput>;
@@ -33447,6 +33618,7 @@ export type UpdateCommonSizeOnShipperProgramForShipperProgramCommonSizeIdFkeyPat
   sizeDescription?: Maybe<Scalars['String']>;
   commonSpeciesId?: Maybe<Scalars['BigInt']>;
   productSizeId?: Maybe<Scalars['BigInt']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonSizeCommonSpeciesIdFkeyInput>;
   productSizeToProductSizeId?: Maybe<CommonSizeProductSizeIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSizeIdFkeyInverseInput>;
@@ -33552,6 +33724,7 @@ export type UpdateCommonSizeOnCommonSizeForCommonSizeProductSizeIdFkeyPatch = {
   sizeName?: Maybe<Scalars['String']>;
   sizeDescription?: Maybe<Scalars['String']>;
   commonSpeciesId?: Maybe<Scalars['BigInt']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonSizeCommonSpeciesIdFkeyInput>;
   productSizeToProductSizeId?: Maybe<CommonSizeProductSizeIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSizeIdFkeyInverseInput>;
@@ -33640,6 +33813,7 @@ export type UpdateCommonSizeOnShipperProjectionProductForShipperProjectionProduc
   sizeDescription?: Maybe<Scalars['String']>;
   commonSpeciesId?: Maybe<Scalars['BigInt']>;
   productSizeId?: Maybe<Scalars['BigInt']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonSizeCommonSpeciesIdFkeyInput>;
   productSizeToProductSizeId?: Maybe<CommonSizeProductSizeIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSizeIdFkeyInverseInput>;
@@ -33739,6 +33913,7 @@ export type UpdateCommonSizeOnCommonSizeTagForCommonSizeTagCommonSizeIdFkeyPatch
   sizeDescription?: Maybe<Scalars['String']>;
   commonSpeciesId?: Maybe<Scalars['BigInt']>;
   productSizeId?: Maybe<Scalars['BigInt']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonSizeCommonSpeciesIdFkeyInput>;
   productSizeToProductSizeId?: Maybe<CommonSizeProductSizeIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSizeIdFkeyInverseInput>;
@@ -33837,6 +34012,7 @@ export type UpdateCommonSizeOnCommonSizeProductSizeForCommonSizeProductSizeCommo
   sizeDescription?: Maybe<Scalars['String']>;
   commonSpeciesId?: Maybe<Scalars['BigInt']>;
   productSizeId?: Maybe<Scalars['BigInt']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonSizeCommonSpeciesIdFkeyInput>;
   productSizeToProductSizeId?: Maybe<CommonSizeProductSizeIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSizeIdFkeyInverseInput>;
@@ -33882,6 +34058,7 @@ export type UpdateShipperProgramOnShipperProgramForShipperProgramCommonSizeIdFke
   shipperId?: Maybe<Scalars['String']>;
   arrivalPort?: Maybe<Scalars['String']>;
   plu?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<ShipperProgramCommonSpeciesIdFkeyInput>;
   commonVarietyToCommonVarietyId?: Maybe<ShipperProgramCommonVarietyIdFkeyInput>;
   commonSizeToCommonSizeId?: Maybe<ShipperProgramCommonSizeIdFkeyInput>;
@@ -33922,6 +34099,7 @@ export type UpdateCommonPackTypeOnShipperProgramForShipperProgramCommonPackTypeI
   packTypeDescription?: Maybe<Scalars['String']>;
   commonSpeciesId?: Maybe<Scalars['BigInt']>;
   packMasterId?: Maybe<Scalars['BigInt']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInput>;
   packMasterToPackMasterId?: Maybe<CommonPackTypePackMasterIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyInverseInput>;
@@ -34048,6 +34226,7 @@ export type UpdateCommonPackTypeOnCommonPackTypeForCommonPackTypePackMasterIdFke
   packTypeName?: Maybe<Scalars['String']>;
   packTypeDescription?: Maybe<Scalars['String']>;
   commonSpeciesId?: Maybe<Scalars['BigInt']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInput>;
   packMasterToPackMasterId?: Maybe<CommonPackTypePackMasterIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyInverseInput>;
@@ -34136,6 +34315,7 @@ export type UpdateCommonPackTypeOnShipperProjectionProductForShipperProjectionPr
   packTypeDescription?: Maybe<Scalars['String']>;
   commonSpeciesId?: Maybe<Scalars['BigInt']>;
   packMasterId?: Maybe<Scalars['BigInt']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInput>;
   packMasterToPackMasterId?: Maybe<CommonPackTypePackMasterIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyInverseInput>;
@@ -34235,6 +34415,7 @@ export type UpdateCommonPackTypeOnCommonPackTypeTagForCommonPackTypeTagCommonPac
   packTypeDescription?: Maybe<Scalars['String']>;
   commonSpeciesId?: Maybe<Scalars['BigInt']>;
   packMasterId?: Maybe<Scalars['BigInt']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInput>;
   packMasterToPackMasterId?: Maybe<CommonPackTypePackMasterIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyInverseInput>;
@@ -34333,6 +34514,7 @@ export type UpdateCommonPackTypeOnCommonPackTypePackMasterForCommonPackTypePackM
   packTypeDescription?: Maybe<Scalars['String']>;
   commonSpeciesId?: Maybe<Scalars['BigInt']>;
   packMasterId?: Maybe<Scalars['BigInt']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInput>;
   packMasterToPackMasterId?: Maybe<CommonPackTypePackMasterIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyInverseInput>;
@@ -34378,6 +34560,7 @@ export type UpdateShipperProgramOnShipperProgramForShipperProgramCommonPackTypeI
   shipperId?: Maybe<Scalars['String']>;
   arrivalPort?: Maybe<Scalars['String']>;
   plu?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<ShipperProgramCommonSpeciesIdFkeyInput>;
   commonVarietyToCommonVarietyId?: Maybe<ShipperProgramCommonVarietyIdFkeyInput>;
   commonSizeToCommonSizeId?: Maybe<ShipperProgramCommonSizeIdFkeyInput>;
@@ -34421,6 +34604,8 @@ export type UpdateShipperOnShipperProgramForShipperProgramShipperIdFkeyPatch = {
   notes?: Maybe<Scalars['String']>;
   website?: Maybe<Scalars['String']>;
   sendProjectionRequest?: Maybe<Scalars['Boolean']>;
+  projectionRequestStartDate?: Maybe<Scalars['Date']>;
+  projectionRequestEndDate?: Maybe<Scalars['Date']>;
   countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
   shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
@@ -34448,6 +34633,8 @@ export type ShipperPatch = {
   notes?: Maybe<Scalars['String']>;
   website?: Maybe<Scalars['String']>;
   sendProjectionRequest?: Maybe<Scalars['Boolean']>;
+  projectionRequestStartDate?: Maybe<Scalars['Date']>;
+  projectionRequestEndDate?: Maybe<Scalars['Date']>;
   countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
   shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
@@ -34467,6 +34654,8 @@ export type ShipperProgramShipperIdFkeyShipperCreateInput = {
   notes?: Maybe<Scalars['String']>;
   website?: Maybe<Scalars['String']>;
   sendProjectionRequest?: Maybe<Scalars['Boolean']>;
+  projectionRequestStartDate?: Maybe<Scalars['Date']>;
+  projectionRequestEndDate?: Maybe<Scalars['Date']>;
   countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
   shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
@@ -34570,6 +34759,7 @@ export type UpdateShipperProgramOnShipperProgramEntryForShipperProgramEntryShipp
   shipperId?: Maybe<Scalars['String']>;
   arrivalPort?: Maybe<Scalars['String']>;
   plu?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<ShipperProgramCommonSpeciesIdFkeyInput>;
   commonVarietyToCommonVarietyId?: Maybe<ShipperProgramCommonVarietyIdFkeyInput>;
   commonSizeToCommonSizeId?: Maybe<ShipperProgramCommonSizeIdFkeyInput>;
@@ -34596,6 +34786,7 @@ export type ShipperProgramPatch = {
   shipperId?: Maybe<Scalars['String']>;
   arrivalPort?: Maybe<Scalars['String']>;
   plu?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<ShipperProgramCommonSpeciesIdFkeyInput>;
   commonVarietyToCommonVarietyId?: Maybe<ShipperProgramCommonVarietyIdFkeyInput>;
   commonSizeToCommonSizeId?: Maybe<ShipperProgramCommonSizeIdFkeyInput>;
@@ -34614,6 +34805,7 @@ export type ShipperProgramEntryShipperProgramIdFkeyShipperProgramCreateInput = {
   shipperId?: Maybe<Scalars['String']>;
   arrivalPort?: Maybe<Scalars['String']>;
   plu?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<ShipperProgramCommonSpeciesIdFkeyInput>;
   commonVarietyToCommonVarietyId?: Maybe<ShipperProgramCommonVarietyIdFkeyInput>;
   commonSizeToCommonSizeId?: Maybe<ShipperProgramCommonSizeIdFkeyInput>;
@@ -34734,6 +34926,7 @@ export type UpdateCustomerProgramEntryOnShipperProgramEntryCustomerProgramEntryF
   programDate?: Maybe<Scalars['Date']>;
   palletCount?: Maybe<Scalars['BigFloat']>;
   customerProgramId?: Maybe<Scalars['BigInt']>;
+  isAdWeek?: Maybe<Scalars['Boolean']>;
   customerProgramToCustomerProgramId?: Maybe<CustomerProgramEntryCustomerProgramIdFkeyInput>;
   shipperProgramEntryCustomerProgramEntriesUsingId?: Maybe<ShipperProgramEntryCustomerPCustomerProgramEntryIdFkeyInverseInput>;
 };
@@ -34795,6 +34988,7 @@ export type UpdateCustomerProgramOnCustomerProgramEntryForCustomerProgramEntryCu
   customerId?: Maybe<Scalars['String']>;
   arrivalPort?: Maybe<Scalars['String']>;
   plu?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CustomerProgramCommonSpeciesIdFkeyInput>;
   commonVarietyToCommonVarietyId?: Maybe<CustomerProgramCommonVarietyIdFkeyInput>;
   commonSizeToCommonSizeId?: Maybe<CustomerProgramCommonSizeIdFkeyInput>;
@@ -34836,6 +35030,7 @@ export type UpdateCommonSpeciesOnCustomerProgramForCustomerProgramCommonSpeciesI
   uiColor?: Maybe<Scalars['String']>;
   commonCategoryId?: Maybe<Scalars['BigInt']>;
   productSpeciesId?: Maybe<Scalars['String']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonCategoryToCommonCategoryId?: Maybe<CommonSpeciesCommonCategoryIdFkeyInput>;
   productSpeciesToProductSpeciesId?: Maybe<CommonSpeciesProductSpeciesIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSpeciesIdFkeyInverseInput>;
@@ -34884,6 +35079,7 @@ export type UpdateCustomerProgramOnCustomerProgramForCustomerProgramCommonSpecie
   customerId?: Maybe<Scalars['String']>;
   arrivalPort?: Maybe<Scalars['String']>;
   plu?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CustomerProgramCommonSpeciesIdFkeyInput>;
   commonVarietyToCommonVarietyId?: Maybe<CustomerProgramCommonVarietyIdFkeyInput>;
   commonSizeToCommonSizeId?: Maybe<CustomerProgramCommonSizeIdFkeyInput>;
@@ -34925,6 +35121,7 @@ export type UpdateCommonVarietyOnCustomerProgramForCustomerProgramCommonVarietyI
   uiColor?: Maybe<Scalars['String']>;
   commonSpeciesId?: Maybe<Scalars['BigInt']>;
   productVarietyId?: Maybe<Scalars['String']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonVarietyCommonSpeciesIdFkeyInput>;
   productVarietyToProductVarietyId?: Maybe<CommonVarietyProductVarietyIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonVarietyIdFkeyInverseInput>;
@@ -34970,6 +35167,7 @@ export type UpdateCustomerProgramOnCustomerProgramForCustomerProgramCommonVariet
   customerId?: Maybe<Scalars['String']>;
   arrivalPort?: Maybe<Scalars['String']>;
   plu?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CustomerProgramCommonSpeciesIdFkeyInput>;
   commonVarietyToCommonVarietyId?: Maybe<CustomerProgramCommonVarietyIdFkeyInput>;
   commonSizeToCommonSizeId?: Maybe<CustomerProgramCommonSizeIdFkeyInput>;
@@ -35010,6 +35208,7 @@ export type UpdateCommonSizeOnCustomerProgramForCustomerProgramCommonSizeIdFkeyP
   sizeDescription?: Maybe<Scalars['String']>;
   commonSpeciesId?: Maybe<Scalars['BigInt']>;
   productSizeId?: Maybe<Scalars['BigInt']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonSizeCommonSpeciesIdFkeyInput>;
   productSizeToProductSizeId?: Maybe<CommonSizeProductSizeIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSizeIdFkeyInverseInput>;
@@ -35055,6 +35254,7 @@ export type UpdateCustomerProgramOnCustomerProgramForCustomerProgramCommonSizeId
   customerId?: Maybe<Scalars['String']>;
   arrivalPort?: Maybe<Scalars['String']>;
   plu?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CustomerProgramCommonSpeciesIdFkeyInput>;
   commonVarietyToCommonVarietyId?: Maybe<CustomerProgramCommonVarietyIdFkeyInput>;
   commonSizeToCommonSizeId?: Maybe<CustomerProgramCommonSizeIdFkeyInput>;
@@ -35095,6 +35295,7 @@ export type UpdateCommonPackTypeOnCustomerProgramForCustomerProgramCommonPackTyp
   packTypeDescription?: Maybe<Scalars['String']>;
   commonSpeciesId?: Maybe<Scalars['BigInt']>;
   packMasterId?: Maybe<Scalars['BigInt']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInput>;
   packMasterToPackMasterId?: Maybe<CommonPackTypePackMasterIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyInverseInput>;
@@ -35140,6 +35341,7 @@ export type UpdateCustomerProgramOnCustomerProgramForCustomerProgramCommonPackTy
   customerId?: Maybe<Scalars['String']>;
   arrivalPort?: Maybe<Scalars['String']>;
   plu?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CustomerProgramCommonSpeciesIdFkeyInput>;
   commonVarietyToCommonVarietyId?: Maybe<CustomerProgramCommonVarietyIdFkeyInput>;
   commonSizeToCommonSizeId?: Maybe<CustomerProgramCommonSizeIdFkeyInput>;
@@ -35229,6 +35431,7 @@ export type UpdateCustomerProgramOnCustomerProgramForCustomerProgramCustomerIdFk
   commonPackTypeId?: Maybe<Scalars['BigInt']>;
   arrivalPort?: Maybe<Scalars['String']>;
   plu?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CustomerProgramCommonSpeciesIdFkeyInput>;
   commonVarietyToCommonVarietyId?: Maybe<CustomerProgramCommonVarietyIdFkeyInput>;
   commonSizeToCommonSizeId?: Maybe<CustomerProgramCommonSizeIdFkeyInput>;
@@ -35270,6 +35473,7 @@ export type UpdateCustomerProgramEntryOnCustomerProgramEntryForCustomerProgramEn
   notes?: Maybe<Scalars['String']>;
   programDate?: Maybe<Scalars['Date']>;
   palletCount?: Maybe<Scalars['BigFloat']>;
+  isAdWeek?: Maybe<Scalars['Boolean']>;
   customerProgramToCustomerProgramId?: Maybe<CustomerProgramEntryCustomerProgramIdFkeyInput>;
   shipperProgramEntryCustomerProgramEntriesUsingId?: Maybe<ShipperProgramEntryCustomerPCustomerProgramEntryIdFkeyInverseInput>;
 };
@@ -35418,6 +35622,7 @@ export type CustomerProgramEntryPatch = {
   programDate?: Maybe<Scalars['Date']>;
   palletCount?: Maybe<Scalars['BigFloat']>;
   customerProgramId?: Maybe<Scalars['BigInt']>;
+  isAdWeek?: Maybe<Scalars['Boolean']>;
   customerProgramToCustomerProgramId?: Maybe<CustomerProgramEntryCustomerProgramIdFkeyInput>;
   shipperProgramEntryCustomerProgramEntriesUsingId?: Maybe<ShipperProgramEntryCustomerPCustomerProgramEntryIdFkeyInverseInput>;
 };
@@ -35428,6 +35633,7 @@ export type CustomerProgramEntryCustomerProgramIdFkeyCustomerProgramEntryCreateI
   notes?: Maybe<Scalars['String']>;
   programDate?: Maybe<Scalars['Date']>;
   palletCount?: Maybe<Scalars['BigFloat']>;
+  isAdWeek?: Maybe<Scalars['Boolean']>;
   customerProgramToCustomerProgramId?: Maybe<CustomerProgramEntryCustomerProgramIdFkeyInput>;
   shipperProgramEntryCustomerProgramEntriesUsingId?: Maybe<ShipperProgramEntryCustomerPCustomerProgramEntryIdFkeyInverseInput>;
 };
@@ -35450,6 +35656,7 @@ export type CustomerProgramPatch = {
   customerId?: Maybe<Scalars['String']>;
   arrivalPort?: Maybe<Scalars['String']>;
   plu?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CustomerProgramCommonSpeciesIdFkeyInput>;
   commonVarietyToCommonVarietyId?: Maybe<CustomerProgramCommonVarietyIdFkeyInput>;
   commonSizeToCommonSizeId?: Maybe<CustomerProgramCommonSizeIdFkeyInput>;
@@ -35467,6 +35674,7 @@ export type CustomerProgramCustomerIdFkeyCustomerProgramCreateInput = {
   commonPackTypeId?: Maybe<Scalars['BigInt']>;
   arrivalPort?: Maybe<Scalars['String']>;
   plu?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CustomerProgramCommonSpeciesIdFkeyInput>;
   commonVarietyToCommonVarietyId?: Maybe<CustomerProgramCommonVarietyIdFkeyInput>;
   commonSizeToCommonSizeId?: Maybe<CustomerProgramCommonSizeIdFkeyInput>;
@@ -35540,6 +35748,7 @@ export type CustomerProgramCommonPackTypeIdFkeyCustomerProgramCreateInput = {
   customerId?: Maybe<Scalars['String']>;
   arrivalPort?: Maybe<Scalars['String']>;
   plu?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CustomerProgramCommonSpeciesIdFkeyInput>;
   commonVarietyToCommonVarietyId?: Maybe<CustomerProgramCommonVarietyIdFkeyInput>;
   commonSizeToCommonSizeId?: Maybe<CustomerProgramCommonSizeIdFkeyInput>;
@@ -35563,6 +35772,7 @@ export type CommonPackTypePatch = {
   packTypeDescription?: Maybe<Scalars['String']>;
   commonSpeciesId?: Maybe<Scalars['BigInt']>;
   packMasterId?: Maybe<Scalars['BigInt']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInput>;
   packMasterToPackMasterId?: Maybe<CommonPackTypePackMasterIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyInverseInput>;
@@ -35579,6 +35789,7 @@ export type CustomerProgramCommonPackTypeIdFkeyCommonPackTypeCreateInput = {
   packTypeDescription?: Maybe<Scalars['String']>;
   commonSpeciesId?: Maybe<Scalars['BigInt']>;
   packMasterId?: Maybe<Scalars['BigInt']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInput>;
   packMasterToPackMasterId?: Maybe<CommonPackTypePackMasterIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyInverseInput>;
@@ -35605,6 +35816,7 @@ export type CustomerProgramCommonSizeIdFkeyCustomerProgramCreateInput = {
   customerId?: Maybe<Scalars['String']>;
   arrivalPort?: Maybe<Scalars['String']>;
   plu?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CustomerProgramCommonSpeciesIdFkeyInput>;
   commonVarietyToCommonVarietyId?: Maybe<CustomerProgramCommonVarietyIdFkeyInput>;
   commonSizeToCommonSizeId?: Maybe<CustomerProgramCommonSizeIdFkeyInput>;
@@ -35628,6 +35840,7 @@ export type CommonSizePatch = {
   sizeDescription?: Maybe<Scalars['String']>;
   commonSpeciesId?: Maybe<Scalars['BigInt']>;
   productSizeId?: Maybe<Scalars['BigInt']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonSizeCommonSpeciesIdFkeyInput>;
   productSizeToProductSizeId?: Maybe<CommonSizeProductSizeIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSizeIdFkeyInverseInput>;
@@ -35644,6 +35857,7 @@ export type CustomerProgramCommonSizeIdFkeyCommonSizeCreateInput = {
   sizeDescription?: Maybe<Scalars['String']>;
   commonSpeciesId?: Maybe<Scalars['BigInt']>;
   productSizeId?: Maybe<Scalars['BigInt']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonSizeCommonSpeciesIdFkeyInput>;
   productSizeToProductSizeId?: Maybe<CommonSizeProductSizeIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSizeIdFkeyInverseInput>;
@@ -35670,6 +35884,7 @@ export type CustomerProgramCommonVarietyIdFkeyCustomerProgramCreateInput = {
   customerId?: Maybe<Scalars['String']>;
   arrivalPort?: Maybe<Scalars['String']>;
   plu?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CustomerProgramCommonSpeciesIdFkeyInput>;
   commonVarietyToCommonVarietyId?: Maybe<CustomerProgramCommonVarietyIdFkeyInput>;
   commonSizeToCommonSizeId?: Maybe<CustomerProgramCommonSizeIdFkeyInput>;
@@ -35694,6 +35909,7 @@ export type CommonVarietyPatch = {
   uiColor?: Maybe<Scalars['String']>;
   commonSpeciesId?: Maybe<Scalars['BigInt']>;
   productVarietyId?: Maybe<Scalars['String']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonVarietyCommonSpeciesIdFkeyInput>;
   productVarietyToProductVarietyId?: Maybe<CommonVarietyProductVarietyIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonVarietyIdFkeyInverseInput>;
@@ -35711,6 +35927,7 @@ export type CustomerProgramCommonVarietyIdFkeyCommonVarietyCreateInput = {
   uiColor?: Maybe<Scalars['String']>;
   commonSpeciesId?: Maybe<Scalars['BigInt']>;
   productVarietyId?: Maybe<Scalars['String']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonVarietyCommonSpeciesIdFkeyInput>;
   productVarietyToProductVarietyId?: Maybe<CommonVarietyProductVarietyIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonVarietyIdFkeyInverseInput>;
@@ -35737,6 +35954,7 @@ export type CustomerProgramCommonSpeciesIdFkeyCustomerProgramCreateInput = {
   customerId?: Maybe<Scalars['String']>;
   arrivalPort?: Maybe<Scalars['String']>;
   plu?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CustomerProgramCommonSpeciesIdFkeyInput>;
   commonVarietyToCommonVarietyId?: Maybe<CustomerProgramCommonVarietyIdFkeyInput>;
   commonSizeToCommonSizeId?: Maybe<CustomerProgramCommonSizeIdFkeyInput>;
@@ -35761,6 +35979,7 @@ export type CommonSpeciesPatch = {
   uiColor?: Maybe<Scalars['String']>;
   commonCategoryId?: Maybe<Scalars['BigInt']>;
   productSpeciesId?: Maybe<Scalars['String']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonCategoryToCommonCategoryId?: Maybe<CommonSpeciesCommonCategoryIdFkeyInput>;
   productSpeciesToProductSpeciesId?: Maybe<CommonSpeciesProductSpeciesIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSpeciesIdFkeyInverseInput>;
@@ -35781,6 +36000,7 @@ export type CustomerProgramCommonSpeciesIdFkeyCommonSpeciesCreateInput = {
   uiColor?: Maybe<Scalars['String']>;
   commonCategoryId?: Maybe<Scalars['BigInt']>;
   productSpeciesId?: Maybe<Scalars['String']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonCategoryToCommonCategoryId?: Maybe<CommonSpeciesCommonCategoryIdFkeyInput>;
   productSpeciesToProductSpeciesId?: Maybe<CommonSpeciesProductSpeciesIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSpeciesIdFkeyInverseInput>;
@@ -35811,6 +36031,7 @@ export type CustomerProgramEntryCustomerProgramIdFkeyCustomerProgramCreateInput 
   customerId?: Maybe<Scalars['String']>;
   arrivalPort?: Maybe<Scalars['String']>;
   plu?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CustomerProgramCommonSpeciesIdFkeyInput>;
   commonVarietyToCommonVarietyId?: Maybe<CustomerProgramCommonVarietyIdFkeyInput>;
   commonSizeToCommonSizeId?: Maybe<CustomerProgramCommonSizeIdFkeyInput>;
@@ -35834,6 +36055,7 @@ export type ShipperProgramEntryCustomerPCustomerProgramEntryIdFkeyCustomerProgra
   programDate?: Maybe<Scalars['Date']>;
   palletCount?: Maybe<Scalars['BigFloat']>;
   customerProgramId?: Maybe<Scalars['BigInt']>;
+  isAdWeek?: Maybe<Scalars['Boolean']>;
   customerProgramToCustomerProgramId?: Maybe<CustomerProgramEntryCustomerProgramIdFkeyInput>;
   shipperProgramEntryCustomerProgramEntriesUsingId?: Maybe<ShipperProgramEntryCustomerPCustomerProgramEntryIdFkeyInverseInput>;
 };
@@ -35890,6 +36112,7 @@ export type ShipperProgramCommonPackTypeIdFkeyShipperProgramCreateInput = {
   shipperId?: Maybe<Scalars['String']>;
   arrivalPort?: Maybe<Scalars['String']>;
   plu?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<ShipperProgramCommonSpeciesIdFkeyInput>;
   commonVarietyToCommonVarietyId?: Maybe<ShipperProgramCommonVarietyIdFkeyInput>;
   commonSizeToCommonSizeId?: Maybe<ShipperProgramCommonSizeIdFkeyInput>;
@@ -35913,6 +36136,7 @@ export type CommonPackTypePackMasterCommonPackTypeIdFkeyCommonPackTypeCreateInpu
   packTypeDescription?: Maybe<Scalars['String']>;
   commonSpeciesId?: Maybe<Scalars['BigInt']>;
   packMasterId?: Maybe<Scalars['BigInt']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInput>;
   packMasterToPackMasterId?: Maybe<CommonPackTypePackMasterIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyInverseInput>;
@@ -36157,6 +36381,7 @@ export type CommonPackTypeTagCommonPackTypeIdFkeyCommonPackTypeCreateInput = {
   packTypeDescription?: Maybe<Scalars['String']>;
   commonSpeciesId?: Maybe<Scalars['BigInt']>;
   packMasterId?: Maybe<Scalars['BigInt']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInput>;
   packMasterToPackMasterId?: Maybe<CommonPackTypePackMasterIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyInverseInput>;
@@ -36202,6 +36427,7 @@ export type ShipperProjectionProductCommonPackTypeIdFkeyCommonPackTypeCreateInpu
   packTypeDescription?: Maybe<Scalars['String']>;
   commonSpeciesId?: Maybe<Scalars['BigInt']>;
   packMasterId?: Maybe<Scalars['BigInt']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInput>;
   packMasterToPackMasterId?: Maybe<CommonPackTypePackMasterIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyInverseInput>;
@@ -36571,6 +36797,7 @@ export type CommonPackTypePackMasterIdFkeyCommonPackTypeCreateInput = {
   packTypeName?: Maybe<Scalars['String']>;
   packTypeDescription?: Maybe<Scalars['String']>;
   commonSpeciesId?: Maybe<Scalars['BigInt']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInput>;
   packMasterToPackMasterId?: Maybe<CommonPackTypePackMasterIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyInverseInput>;
@@ -36640,6 +36867,7 @@ export type ShipperProgramCommonPackTypeIdFkeyCommonPackTypeCreateInput = {
   packTypeDescription?: Maybe<Scalars['String']>;
   commonSpeciesId?: Maybe<Scalars['BigInt']>;
   packMasterId?: Maybe<Scalars['BigInt']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInput>;
   packMasterToPackMasterId?: Maybe<CommonPackTypePackMasterIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyInverseInput>;
@@ -36666,6 +36894,7 @@ export type ShipperProgramCommonSizeIdFkeyShipperProgramCreateInput = {
   shipperId?: Maybe<Scalars['String']>;
   arrivalPort?: Maybe<Scalars['String']>;
   plu?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<ShipperProgramCommonSpeciesIdFkeyInput>;
   commonVarietyToCommonVarietyId?: Maybe<ShipperProgramCommonVarietyIdFkeyInput>;
   commonSizeToCommonSizeId?: Maybe<ShipperProgramCommonSizeIdFkeyInput>;
@@ -36689,6 +36918,7 @@ export type CommonSizeProductSizeCommonSizeIdFkeyCommonSizeCreateInput = {
   sizeDescription?: Maybe<Scalars['String']>;
   commonSpeciesId?: Maybe<Scalars['BigInt']>;
   productSizeId?: Maybe<Scalars['BigInt']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonSizeCommonSpeciesIdFkeyInput>;
   productSizeToProductSizeId?: Maybe<CommonSizeProductSizeIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSizeIdFkeyInverseInput>;
@@ -36870,6 +37100,7 @@ export type CommonSizeTagCommonSizeIdFkeyCommonSizeCreateInput = {
   sizeDescription?: Maybe<Scalars['String']>;
   commonSpeciesId?: Maybe<Scalars['BigInt']>;
   productSizeId?: Maybe<Scalars['BigInt']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonSizeCommonSpeciesIdFkeyInput>;
   productSizeToProductSizeId?: Maybe<CommonSizeProductSizeIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSizeIdFkeyInverseInput>;
@@ -36915,6 +37146,7 @@ export type ShipperProjectionProductCommonSizeIdFkeyCommonSizeCreateInput = {
   sizeDescription?: Maybe<Scalars['String']>;
   commonSpeciesId?: Maybe<Scalars['BigInt']>;
   productSizeId?: Maybe<Scalars['BigInt']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonSizeCommonSpeciesIdFkeyInput>;
   productSizeToProductSizeId?: Maybe<CommonSizeProductSizeIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSizeIdFkeyInverseInput>;
@@ -36966,6 +37198,7 @@ export type CommonSizeProductSizeIdFkeyCommonSizeCreateInput = {
   sizeName?: Maybe<Scalars['String']>;
   sizeDescription?: Maybe<Scalars['String']>;
   commonSpeciesId?: Maybe<Scalars['BigInt']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonSizeCommonSpeciesIdFkeyInput>;
   productSizeToProductSizeId?: Maybe<CommonSizeProductSizeIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSizeIdFkeyInverseInput>;
@@ -37014,6 +37247,7 @@ export type ShipperProgramCommonSizeIdFkeyCommonSizeCreateInput = {
   sizeDescription?: Maybe<Scalars['String']>;
   commonSpeciesId?: Maybe<Scalars['BigInt']>;
   productSizeId?: Maybe<Scalars['BigInt']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonSizeCommonSpeciesIdFkeyInput>;
   productSizeToProductSizeId?: Maybe<CommonSizeProductSizeIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSizeIdFkeyInverseInput>;
@@ -37040,6 +37274,7 @@ export type ShipperProgramCommonVarietyIdFkeyShipperProgramCreateInput = {
   shipperId?: Maybe<Scalars['String']>;
   arrivalPort?: Maybe<Scalars['String']>;
   plu?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<ShipperProgramCommonSpeciesIdFkeyInput>;
   commonVarietyToCommonVarietyId?: Maybe<ShipperProgramCommonVarietyIdFkeyInput>;
   commonSizeToCommonSizeId?: Maybe<ShipperProgramCommonSizeIdFkeyInput>;
@@ -37064,6 +37299,7 @@ export type CommonVarietyProductVarietyCommonVarietyIdFkeyCommonVarietyCreateInp
   uiColor?: Maybe<Scalars['String']>;
   commonSpeciesId?: Maybe<Scalars['BigInt']>;
   productVarietyId?: Maybe<Scalars['String']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonVarietyCommonSpeciesIdFkeyInput>;
   productVarietyToProductVarietyId?: Maybe<CommonVarietyProductVarietyIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonVarietyIdFkeyInverseInput>;
@@ -37237,6 +37473,7 @@ export type CommonVarietyTagCommonVarietyIdFkeyCommonVarietyCreateInput = {
   uiColor?: Maybe<Scalars['String']>;
   commonSpeciesId?: Maybe<Scalars['BigInt']>;
   productVarietyId?: Maybe<Scalars['String']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonVarietyCommonSpeciesIdFkeyInput>;
   productVarietyToProductVarietyId?: Maybe<CommonVarietyProductVarietyIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonVarietyIdFkeyInverseInput>;
@@ -37283,6 +37520,7 @@ export type ShipperProjectionProductCommonVarietyIdFkeyCommonVarietyCreateInput 
   uiColor?: Maybe<Scalars['String']>;
   commonSpeciesId?: Maybe<Scalars['BigInt']>;
   productVarietyId?: Maybe<Scalars['String']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonVarietyCommonSpeciesIdFkeyInput>;
   productVarietyToProductVarietyId?: Maybe<CommonVarietyProductVarietyIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonVarietyIdFkeyInverseInput>;
@@ -37335,6 +37573,7 @@ export type CommonVarietyProductVarietyIdFkeyCommonVarietyCreateInput = {
   varietyDescription?: Maybe<Scalars['String']>;
   uiColor?: Maybe<Scalars['String']>;
   commonSpeciesId?: Maybe<Scalars['BigInt']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonVarietyCommonSpeciesIdFkeyInput>;
   productVarietyToProductVarietyId?: Maybe<CommonVarietyProductVarietyIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonVarietyIdFkeyInverseInput>;
@@ -37381,6 +37620,7 @@ export type ShipperProgramCommonVarietyIdFkeyCommonVarietyCreateInput = {
   uiColor?: Maybe<Scalars['String']>;
   commonSpeciesId?: Maybe<Scalars['BigInt']>;
   productVarietyId?: Maybe<Scalars['String']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonVarietyCommonSpeciesIdFkeyInput>;
   productVarietyToProductVarietyId?: Maybe<CommonVarietyProductVarietyIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonVarietyIdFkeyInverseInput>;
@@ -37407,6 +37647,7 @@ export type ShipperProgramCommonSpeciesIdFkeyShipperProgramCreateInput = {
   shipperId?: Maybe<Scalars['String']>;
   arrivalPort?: Maybe<Scalars['String']>;
   plu?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<ShipperProgramCommonSpeciesIdFkeyInput>;
   commonVarietyToCommonVarietyId?: Maybe<ShipperProgramCommonVarietyIdFkeyInput>;
   commonSizeToCommonSizeId?: Maybe<ShipperProgramCommonSizeIdFkeyInput>;
@@ -37431,6 +37672,7 @@ export type CommonSpeciesProductSpeciesCommonSpeciesIdFkeyCommonSpeciesCreateInp
   uiColor?: Maybe<Scalars['String']>;
   commonCategoryId?: Maybe<Scalars['BigInt']>;
   productSpeciesId?: Maybe<Scalars['String']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonCategoryToCommonCategoryId?: Maybe<CommonSpeciesCommonCategoryIdFkeyInput>;
   productSpeciesToProductSpeciesId?: Maybe<CommonSpeciesProductSpeciesIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSpeciesIdFkeyInverseInput>;
@@ -37604,6 +37846,7 @@ export type CommonSpeciesTagCommonSpeciesIdFkeyCommonSpeciesCreateInput = {
   uiColor?: Maybe<Scalars['String']>;
   commonCategoryId?: Maybe<Scalars['BigInt']>;
   productSpeciesId?: Maybe<Scalars['String']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonCategoryToCommonCategoryId?: Maybe<CommonSpeciesCommonCategoryIdFkeyInput>;
   productSpeciesToProductSpeciesId?: Maybe<CommonSpeciesProductSpeciesIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSpeciesIdFkeyInverseInput>;
@@ -37653,6 +37896,7 @@ export type CommonPackTypeCommonSpeciesIdFkeyCommonSpeciesCreateInput = {
   uiColor?: Maybe<Scalars['String']>;
   commonCategoryId?: Maybe<Scalars['BigInt']>;
   productSpeciesId?: Maybe<Scalars['String']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonCategoryToCommonCategoryId?: Maybe<CommonSpeciesCommonCategoryIdFkeyInput>;
   productSpeciesToProductSpeciesId?: Maybe<CommonSpeciesProductSpeciesIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSpeciesIdFkeyInverseInput>;
@@ -37679,6 +37923,7 @@ export type CommonPackTypeCommonSpeciesIdFkeyCommonPackTypeCreateInput = {
   packTypeName?: Maybe<Scalars['String']>;
   packTypeDescription?: Maybe<Scalars['String']>;
   packMasterId?: Maybe<Scalars['BigInt']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInput>;
   packMasterToPackMasterId?: Maybe<CommonPackTypePackMasterIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyInverseInput>;
@@ -37704,6 +37949,7 @@ export type CommonSizeCommonSpeciesIdFkeyCommonSpeciesCreateInput = {
   uiColor?: Maybe<Scalars['String']>;
   commonCategoryId?: Maybe<Scalars['BigInt']>;
   productSpeciesId?: Maybe<Scalars['String']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonCategoryToCommonCategoryId?: Maybe<CommonSpeciesCommonCategoryIdFkeyInput>;
   productSpeciesToProductSpeciesId?: Maybe<CommonSpeciesProductSpeciesIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSpeciesIdFkeyInverseInput>;
@@ -37730,6 +37976,7 @@ export type CommonSizeCommonSpeciesIdFkeyCommonSizeCreateInput = {
   sizeName?: Maybe<Scalars['String']>;
   sizeDescription?: Maybe<Scalars['String']>;
   productSizeId?: Maybe<Scalars['BigInt']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonSizeCommonSpeciesIdFkeyInput>;
   productSizeToProductSizeId?: Maybe<CommonSizeProductSizeIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSizeIdFkeyInverseInput>;
@@ -37755,6 +38002,7 @@ export type CommonVarietyCommonSpeciesIdFkeyCommonSpeciesCreateInput = {
   uiColor?: Maybe<Scalars['String']>;
   commonCategoryId?: Maybe<Scalars['BigInt']>;
   productSpeciesId?: Maybe<Scalars['String']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonCategoryToCommonCategoryId?: Maybe<CommonSpeciesCommonCategoryIdFkeyInput>;
   productSpeciesToProductSpeciesId?: Maybe<CommonSpeciesProductSpeciesIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSpeciesIdFkeyInverseInput>;
@@ -37782,6 +38030,7 @@ export type CommonVarietyCommonSpeciesIdFkeyCommonVarietyCreateInput = {
   varietyDescription?: Maybe<Scalars['String']>;
   uiColor?: Maybe<Scalars['String']>;
   productVarietyId?: Maybe<Scalars['String']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonVarietyCommonSpeciesIdFkeyInput>;
   productVarietyToProductVarietyId?: Maybe<CommonVarietyProductVarietyIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonVarietyIdFkeyInverseInput>;
@@ -37807,6 +38056,7 @@ export type ShipperProjectionProductCommonSpeciesIdFkeyCommonSpeciesCreateInput 
   uiColor?: Maybe<Scalars['String']>;
   commonCategoryId?: Maybe<Scalars['BigInt']>;
   productSpeciesId?: Maybe<Scalars['String']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonCategoryToCommonCategoryId?: Maybe<CommonSpeciesCommonCategoryIdFkeyInput>;
   productSpeciesToProductSpeciesId?: Maybe<CommonSpeciesProductSpeciesIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSpeciesIdFkeyInverseInput>;
@@ -37862,6 +38112,7 @@ export type CommonSpeciesProductSpeciesIdFkeyCommonSpeciesCreateInput = {
   speciesDescription?: Maybe<Scalars['String']>;
   uiColor?: Maybe<Scalars['String']>;
   commonCategoryId?: Maybe<Scalars['BigInt']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonCategoryToCommonCategoryId?: Maybe<CommonSpeciesCommonCategoryIdFkeyInput>;
   productSpeciesToProductSpeciesId?: Maybe<CommonSpeciesProductSpeciesIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSpeciesIdFkeyInverseInput>;
@@ -37909,6 +38160,7 @@ export type CommonSpeciesCommonCategoryIdFkeyCommonSpeciesCreateInput = {
   speciesDescription?: Maybe<Scalars['String']>;
   uiColor?: Maybe<Scalars['String']>;
   productSpeciesId?: Maybe<Scalars['String']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonCategoryToCommonCategoryId?: Maybe<CommonSpeciesCommonCategoryIdFkeyInput>;
   productSpeciesToProductSpeciesId?: Maybe<CommonSpeciesProductSpeciesIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSpeciesIdFkeyInverseInput>;
@@ -37963,6 +38215,7 @@ export type ShipperProgramCommonSpeciesIdFkeyCommonSpeciesCreateInput = {
   uiColor?: Maybe<Scalars['String']>;
   commonCategoryId?: Maybe<Scalars['BigInt']>;
   productSpeciesId?: Maybe<Scalars['String']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonCategoryToCommonCategoryId?: Maybe<CommonSpeciesCommonCategoryIdFkeyInput>;
   productSpeciesToProductSpeciesId?: Maybe<CommonSpeciesProductSpeciesIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSpeciesIdFkeyInverseInput>;
@@ -37992,6 +38245,7 @@ export type ShipperProgramShipperIdFkeyShipperProgramCreateInput = {
   commonPackTypeId?: Maybe<Scalars['BigInt']>;
   arrivalPort?: Maybe<Scalars['String']>;
   plu?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<ShipperProgramCommonSpeciesIdFkeyInput>;
   commonVarietyToCommonVarietyId?: Maybe<ShipperProgramCommonVarietyIdFkeyInput>;
   commonSizeToCommonSizeId?: Maybe<ShipperProgramCommonSizeIdFkeyInput>;
@@ -38018,6 +38272,8 @@ export type FkShipperIdShipperCreateInput = {
   notes?: Maybe<Scalars['String']>;
   website?: Maybe<Scalars['String']>;
   sendProjectionRequest?: Maybe<Scalars['Boolean']>;
+  projectionRequestStartDate?: Maybe<Scalars['Date']>;
+  projectionRequestEndDate?: Maybe<Scalars['Date']>;
   countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
   shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
@@ -38177,6 +38433,8 @@ export type ShipperProjectionShipperIdFkeyShipperCreateInput = {
   notes?: Maybe<Scalars['String']>;
   website?: Maybe<Scalars['String']>;
   sendProjectionRequest?: Maybe<Scalars['Boolean']>;
+  projectionRequestStartDate?: Maybe<Scalars['Date']>;
+  projectionRequestEndDate?: Maybe<Scalars['Date']>;
   countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
   shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
@@ -38225,6 +38483,8 @@ export type ShipperProjectionProductShipperIdFkeyShipperCreateInput = {
   notes?: Maybe<Scalars['String']>;
   website?: Maybe<Scalars['String']>;
   sendProjectionRequest?: Maybe<Scalars['Boolean']>;
+  projectionRequestStartDate?: Maybe<Scalars['Date']>;
+  projectionRequestEndDate?: Maybe<Scalars['Date']>;
   countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
   shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
@@ -38280,6 +38540,8 @@ export type ShipperProjectionVesselShipperIdFkeyShipperCreateInput = {
   notes?: Maybe<Scalars['String']>;
   website?: Maybe<Scalars['String']>;
   sendProjectionRequest?: Maybe<Scalars['Boolean']>;
+  projectionRequestStartDate?: Maybe<Scalars['Date']>;
+  projectionRequestEndDate?: Maybe<Scalars['Date']>;
   countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
   shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
@@ -38321,6 +38583,8 @@ export type ShipperCountryIdFkeyShipperCreateInput = {
   notes?: Maybe<Scalars['String']>;
   website?: Maybe<Scalars['String']>;
   sendProjectionRequest?: Maybe<Scalars['Boolean']>;
+  projectionRequestStartDate?: Maybe<Scalars['Date']>;
+  projectionRequestEndDate?: Maybe<Scalars['Date']>;
   countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
   shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
@@ -38365,6 +38629,8 @@ export type ShipperPersonContactShipperIdFkeyShipperCreateInput = {
   notes?: Maybe<Scalars['String']>;
   website?: Maybe<Scalars['String']>;
   sendProjectionRequest?: Maybe<Scalars['Boolean']>;
+  projectionRequestStartDate?: Maybe<Scalars['Date']>;
+  projectionRequestEndDate?: Maybe<Scalars['Date']>;
   countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
   shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
@@ -39078,6 +39344,8 @@ export type ShipperInput = {
   notes?: Maybe<Scalars['String']>;
   website?: Maybe<Scalars['String']>;
   sendProjectionRequest?: Maybe<Scalars['Boolean']>;
+  projectionRequestStartDate?: Maybe<Scalars['Date']>;
+  projectionRequestEndDate?: Maybe<Scalars['Date']>;
   countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
   shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
@@ -41077,6 +41345,7 @@ export type CommonPackTypeInput = {
   packTypeDescription?: Maybe<Scalars['String']>;
   commonSpeciesId?: Maybe<Scalars['BigInt']>;
   packMasterId?: Maybe<Scalars['BigInt']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInput>;
   packMasterToPackMasterId?: Maybe<CommonPackTypePackMasterIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyInverseInput>;
@@ -41218,6 +41487,7 @@ export type CommonSizeInput = {
   sizeDescription?: Maybe<Scalars['String']>;
   commonSpeciesId?: Maybe<Scalars['BigInt']>;
   productSizeId?: Maybe<Scalars['BigInt']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonSizeCommonSpeciesIdFkeyInput>;
   productSizeToProductSizeId?: Maybe<CommonSizeProductSizeIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSizeIdFkeyInverseInput>;
@@ -41360,6 +41630,7 @@ export type CommonSpeciesInput = {
   uiColor?: Maybe<Scalars['String']>;
   commonCategoryId?: Maybe<Scalars['BigInt']>;
   productSpeciesId?: Maybe<Scalars['String']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonCategoryToCommonCategoryId?: Maybe<CommonSpeciesCommonCategoryIdFkeyInput>;
   productSpeciesToProductSpeciesId?: Maybe<CommonSpeciesProductSpeciesIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonSpeciesIdFkeyInverseInput>;
@@ -41505,6 +41776,7 @@ export type CommonVarietyInput = {
   uiColor?: Maybe<Scalars['String']>;
   commonSpeciesId?: Maybe<Scalars['BigInt']>;
   productVarietyId?: Maybe<Scalars['String']>;
+  defaultInvSortKey?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonVarietyCommonSpeciesIdFkeyInput>;
   productVarietyToProductVarietyId?: Maybe<CommonVarietyProductVarietyIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonVarietyIdFkeyInverseInput>;
@@ -41655,6 +41927,7 @@ export type CustomerProgramInput = {
   customerId?: Maybe<Scalars['String']>;
   arrivalPort?: Maybe<Scalars['String']>;
   plu?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CustomerProgramCommonSpeciesIdFkeyInput>;
   commonVarietyToCommonVarietyId?: Maybe<CustomerProgramCommonVarietyIdFkeyInput>;
   commonSizeToCommonSizeId?: Maybe<CustomerProgramCommonSizeIdFkeyInput>;
@@ -41705,6 +41978,7 @@ export type CustomerProgramEntryInput = {
   programDate?: Maybe<Scalars['Date']>;
   palletCount?: Maybe<Scalars['BigFloat']>;
   customerProgramId?: Maybe<Scalars['BigInt']>;
+  isAdWeek?: Maybe<Scalars['Boolean']>;
   customerProgramToCustomerProgramId?: Maybe<CustomerProgramEntryCustomerProgramIdFkeyInput>;
   shipperProgramEntryCustomerProgramEntriesUsingId?: Maybe<ShipperProgramEntryCustomerPCustomerProgramEntryIdFkeyInverseInput>;
 };
@@ -42865,6 +43139,7 @@ export type ShipperProgramInput = {
   shipperId?: Maybe<Scalars['String']>;
   arrivalPort?: Maybe<Scalars['String']>;
   plu?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
   commonSpeciesToCommonSpeciesId?: Maybe<ShipperProgramCommonSpeciesIdFkeyInput>;
   commonVarietyToCommonVarietyId?: Maybe<ShipperProgramCommonVarietyIdFkeyInput>;
   commonSizeToCommonSizeId?: Maybe<ShipperProgramCommonSizeIdFkeyInput>;

@@ -41,7 +41,7 @@ const ProgramSet = <
   to?: string;
   specieses: CommonSpecies[];
 }) => {
-  const [{ view }] = useProgramsQueryParams();
+  const [{ programsView: view }] = useProgramsQueryParams();
   const { gridTemplateColumns, gridWidth } = getGridProps(rest.weekCount);
   return (
     <>

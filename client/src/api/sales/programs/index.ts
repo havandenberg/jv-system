@@ -44,7 +44,7 @@ const useVariables = (
       customerId,
       startDate: startDateQuery,
       endDate: endDateQuery,
-      view,
+      programsView: view,
     },
   ] = useProgramsQueryParams();
 
@@ -100,8 +100,27 @@ export const useShipperPrograms = (
   };
 };
 
-export const useUpsertShipperPrograms = () =>
-  useMutation<Mutation>(SHIPPER_PROGRAM_UPSERT);
+export const useUpsertShipperPrograms = (
+  weekCount: number,
+  allocateStartDate: Date,
+  allocateEndDate: Date,
+  refetch?: boolean,
+) => {
+  const variables = useVariables(weekCount, allocateStartDate, allocateEndDate);
+  return useMutation<Mutation>(
+    SHIPPER_PROGRAM_UPSERT,
+    refetch
+      ? {
+          refetchQueries: [
+            {
+              query: CUSTOMER_PROGRAM_LIST_QUERY,
+              variables,
+            },
+          ],
+        }
+      : undefined,
+  );
+};
 
 export const useUpsertShipperProgramEntries = (
   weekCount: number,
@@ -142,8 +161,27 @@ export const useCustomerPrograms = (
   };
 };
 
-export const useUpsertCustomerPrograms = () =>
-  useMutation<Mutation>(CUSTOMER_PROGRAM_UPSERT);
+export const useUpsertCustomerPrograms = (
+  weekCount: number,
+  allocateStartDate: Date,
+  allocateEndDate: Date,
+  refetch?: boolean,
+) => {
+  const variables = useVariables(weekCount, allocateStartDate, allocateEndDate);
+  return useMutation<Mutation>(
+    CUSTOMER_PROGRAM_UPSERT,
+    refetch
+      ? {
+          refetchQueries: [
+            {
+              query: CUSTOMER_PROGRAM_LIST_QUERY,
+              variables,
+            },
+          ],
+        }
+      : undefined,
+  );
+};
 
 export const useUpsertCustomerProgramEntries = (
   weekCount: number,

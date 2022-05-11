@@ -20,7 +20,7 @@ import {
 
 import { gridTemplateColumns } from '.';
 import { gridTemplateColumns as listGridTemplateColumns } from './items';
-import { listLabels } from './items/data-utils';
+import { indexListLabels } from './items/data-utils';
 import InventoryListTotals from './items/list-totals';
 import { Select } from 'ui/input';
 
@@ -31,6 +31,7 @@ export const categoryTypeOrder = [
   'packType',
   'plu',
   'shipper',
+  'sizePackType',
 ];
 
 const gridColumnSpans = [
@@ -59,12 +60,17 @@ const Header = ({
   const [
     {
       species,
+      speciesTag,
       variety,
+      varietyTag,
       size,
+      sizeTag,
       packType,
+      packTypeTag,
       plu,
       shipper,
       detailsIndex,
+      sizePackType,
       categoryTypes,
       ...rest
     },
@@ -113,18 +119,29 @@ const Header = ({
     const restParamString = restParams ? `${restParams}&` : '';
 
     const breadcrumbText: { [key: string]: string } = {
-      species: speciesData
+      species: speciesTag
+        ? speciesTag
+        : speciesData
         ? `${capitalCase(speciesData.speciesDescription || '')}`
         : 'All Species',
-      variety: varietyData
+      variety: varietyTag
+        ? varietyTag
+        : varietyData
         ? `${capitalCase(varietyData.varietyDescription || '')}`
         : 'All Varieties',
-      size: sizeData
+      size: sizeTag
+        ? sizeTag
+        : sizeData
         ? `${capitalCase(sizeData.jvDescription || '')}`
         : 'All Sizes',
-      packType: packType ? `${packType}` : 'All Pack Types',
+      packType: packTypeTag
+        ? packTypeTag
+        : packType
+        ? `${packType}`
+        : 'All Pack Types',
       plu: plu ? (plu === 'true' ? 'PLU' : 'No PLU') : 'All PLU',
       shipper: shipperData ? shipperData.shipperName : 'All Shippers',
+      sizePackType,
     };
 
     const breadcrumbs: BreadcrumbProps[] = [
@@ -141,17 +158,29 @@ const Header = ({
               .map((type) => {
                 switch (type) {
                   case 'variety':
-                    return `variety=${variety}`;
+                    const varietyTagString = varietyTag
+                      ? `&varietyTag=${varietyTag}`
+                      : '';
+                    return `variety=${variety}${varietyTagString}`;
                   case 'size':
-                    return `size=${size}`;
+                    const sizeTagString = sizeTag ? `&sizeTag=${sizeTag}` : '';
+                    return `size=${size}${sizeTagString}`;
                   case 'packType':
-                    return `packType=${packType}`;
+                    const packTypeTagString = packTypeTag
+                      ? `&packTypeTag=${packTypeTag}`
+                      : '';
+                    return `packType=${packType}${packTypeTagString}`;
                   case 'plu':
                     return `plu=${plu}`;
                   case 'shipper':
                     return `shipper=${shipper}`;
+                  case 'sizePackType':
+                    return `sizePackType=${sizePackType}`;
                   default:
-                    return `species=${species}`;
+                    const speciesTagString = speciesTag
+                      ? `&speciesTag=${speciesTag}`
+                      : '';
+                    return `species=${species}${speciesTagString}`;
                 }
               })
               .join('&');
@@ -297,24 +326,10 @@ const Header = ({
   const itemColumnLabels = useColumns<InventoryItem>(
     'vessel',
     SORT_ORDER.ASC,
-    listLabels.filter(
-      (label) =>
-        (!species || species === 'total' || label.sortKey !== 'species') &&
-        (!variety || variety === 'total' || label.sortKey !== 'variety') &&
-        (!size || size === 'total' || label.sortKey !== 'size') &&
-        (!packType || packType === 'total' || label.sortKey !== 'packType') &&
-        (!plu || plu === 'total' || label.key !== 'plu') &&
-        (!shipper || shipper === 'total' || label.key !== 'shipper'),
-    ),
+    indexListLabels({ shipper }),
     'product',
     'inventory_item',
   );
-
-  const columnCount =
-    5 -
-    [species, variety, size, packType, plu].filter(
-      (val) => !!val && val !== 'total',
-    ).length;
 
   const getCategoryOptions = () => {
     const options = [];
@@ -336,6 +351,9 @@ const Header = ({
       }
       if (!shipper) {
         options.push({ text: 'Shipper', value: 'shipper' });
+      }
+      if (!sizePackType) {
+        options.push({ text: 'Size & Pack Type', value: 'sizePackType' });
       }
     }
     return options;
@@ -423,7 +441,7 @@ const Header = ({
       </l.Flex>
       {detailItems ? (
         <l.Grid
-          gridTemplateColumns={listGridTemplateColumns(columnCount, !!shipper)}
+          gridTemplateColumns={listGridTemplateColumns(!!shipper)}
           mb={th.spacing.sm}
           pl={th.spacing.sm}
           pr={detailItems.length > 12 ? th.spacing.md : 0}

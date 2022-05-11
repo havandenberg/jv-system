@@ -111,19 +111,9 @@ export const ProductTotalRow = ({
 );
 
 const Cell = styled(l.Flex)(
-  ({
-    error,
-    isEvenRow,
-    warning,
-  }: {
-    error: boolean;
-    isEvenRow: boolean;
-    warning: boolean;
-  }) => ({
+  ({ error, warning }: { error: boolean; warning: boolean }) => ({
     alignItems: 'center',
-    background: isEvenRow
-      ? th.colors.background
-      : th.colors.brand.containerBackground,
+    background: th.colors.background,
     border: error
       ? th.borders.error
       : warning
@@ -170,7 +160,6 @@ const ProductRow = (
     isPortal,
     duplicateProductIds,
     gridTemplateColumns,
-    isEvenRow,
     loading,
     previousProduct,
     product,
@@ -541,7 +530,6 @@ const ProductRow = (
               ['error', 'warning'],
               speciesLinkSelectorProps.editableCellProps,
             )}
-            isEvenRow={isEvenRow}
             width={89}
           >
             <ty.CaptionText bold ellipsis title={product.species}>
@@ -561,7 +549,6 @@ const ProductRow = (
                   ['error', 'warning'],
                   varietyLinkSelectorProps.editableCellProps,
                 )}
-                isEvenRow={isEvenRow}
                 width={89}
               >
                 <ty.CaptionText ellipsis title={product.variety}>
@@ -579,7 +566,6 @@ const ProductRow = (
                   ['error', 'warning'],
                   sizeLinkSelectorProps.editableCellProps,
                 )}
-                isEvenRow={isEvenRow}
                 width={58}
               >
                 <ty.CaptionText ellipsis title={product.size}>
@@ -595,7 +581,6 @@ const ProductRow = (
                   ['error', 'warning'],
                   packTypeLinkSelectorProps.editableCellProps,
                 )}
-                isEvenRow={isEvenRow}
                 width={58}
               >
                 <ty.CaptionText ellipsis title={product.packType}>
@@ -608,12 +593,9 @@ const ProductRow = (
               defaultChildren={
                 <l.Flex
                   alignCenter
-                  bg={
-                    isEvenRow
-                      ? th.colors.background
-                      : th.colors.brand.containerBackground
-                  }
-                  height={22}
+                  bg={th.colors.background}
+                  border={th.borders.disabled}
+                  height={20}
                   px={th.spacing.tn}
                   width={th.sizes.fill}
                 >
@@ -662,14 +644,9 @@ const ProductRow = (
         return (
           <l.Flex
             alignCenter
-            bg={
-              selectedShipper
-                ? undefined
-                : isEvenRow
-                ? th.colors.background
-                : th.colors.brand.containerBackground
-            }
-            height={`calc(${th.sizes.fill} - 6px)`}
+            bg={selectedShipper ? undefined : th.colors.background}
+            border={th.borders.disabled}
+            height={20}
             justifyCenter
             key={idx}
             mx={th.spacing.sm}

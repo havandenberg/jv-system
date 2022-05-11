@@ -7,8 +7,22 @@ query COMMON_SIZE($id: BigInt!) {
         id
         categoryName
       }
+      commonSizes {
+        nodes {
+          id
+          sizeName
+          commonSizeTags {
+            nodes {
+              tagText
+              nodeId
+              commonSizeId
+            }
+          }
+        }
+      }
     }
     id
+    defaultInvSortKey
     productSizeId
     productSizesByCommonSizeProductSizeCommonSizeIdAndProductSizeId {
       nodes {

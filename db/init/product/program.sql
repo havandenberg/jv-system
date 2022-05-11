@@ -14,6 +14,7 @@ CREATE TABLE product.shipper_program (
 		REFERENCES product.common_pack_type(id)
 		ON DELETE SET NULL,
   plu TEXT,
+	notes TEXT,
   shipper_id TEXT
 		REFERENCES directory.shipper(id)
 		ON DELETE SET NULL
@@ -44,6 +45,7 @@ CREATE TABLE product.customer_program (
   common_pack_type_id BIGINT
 		REFERENCES product.common_pack_type(id)
 		ON DELETE SET NULL,
+	notes TEXT,
   plu TEXT,
   customer_id TEXT
 		REFERENCES directory.customer(id)
@@ -52,6 +54,7 @@ CREATE TABLE product.customer_program (
 
 CREATE TABLE product.customer_program_entry (
 	id BIGSERIAL PRIMARY KEY,
+	is_ad_week BOOLEAN,
 	notes TEXT,
 	program_date DATE,
 	pallet_count NUMERIC,
@@ -88,6 +91,7 @@ AS $$
         common_variety_id,
         common_size_id,
         common_pack_type_id,
+        notes,
 				plu,
         shipper_id
       )
@@ -98,6 +102,7 @@ AS $$
           p.common_variety_id,
           p.common_size_id,
           p.common_pack_type_id,
+          p.notes,
 					p.plu,
           p.shipper_id
         )
@@ -107,6 +112,7 @@ AS $$
         common_variety_id=EXCLUDED.common_variety_id,
         common_size_id=EXCLUDED.common_size_id,
         common_pack_type_id=EXCLUDED.common_pack_type_id,
+        notes=EXCLUDED.notes,
         plu=EXCLUDED.plu,
         shipper_id=EXCLUDED.shipper_id
     	RETURNING * INTO vals;
@@ -188,6 +194,7 @@ AS $$
         common_variety_id,
         common_size_id,
         common_pack_type_id,
+        notes,
 				plu,
         customer_id
       )
@@ -198,6 +205,7 @@ AS $$
           p.common_variety_id,
           p.common_size_id,
           p.common_pack_type_id,
+          p.notes,
 					p.plu,
           p.customer_id
         )
@@ -207,6 +215,7 @@ AS $$
         common_variety_id=EXCLUDED.common_variety_id,
         common_size_id=EXCLUDED.common_size_id,
         common_pack_type_id=EXCLUDED.common_pack_type_id,
+        notes=EXCLUDED.notes,
         plu=EXCLUDED.plu,
         customer_id=EXCLUDED.customer_id
     	RETURNING * INTO vals;
@@ -228,6 +237,7 @@ AS $$
     FOREACH e IN ARRAY entries LOOP
       INSERT INTO product.customer_program_entry(
         id,
+        is_ad_week,
 				notes,
         program_date,
         pallet_count,
@@ -235,12 +245,14 @@ AS $$
       )
         VALUES (
           COALESCE(e.id, (select nextval('product.customer_program_entry_id_seq'))),
+				  e.is_ad_week,
 				  e.notes,
           e.program_date,
           e.pallet_count,
           e.customer_program_id
         )
       ON CONFLICT (id) DO UPDATE SET
+				is_ad_week=EXCLUDED.is_ad_week,
 				notes=EXCLUDED.notes,
         program_date=EXCLUDED.program_date,
         pallet_count=EXCLUDED.pallet_count,

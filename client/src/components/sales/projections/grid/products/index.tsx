@@ -238,7 +238,7 @@ const Products = ({
         <DataMessage
           data={products}
           emptyProps={{
-            header: 'No products found',
+            header: 'No projections found',
           }}
           error={null}
           loading={loading}

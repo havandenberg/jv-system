@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { format } from 'date-fns';
 import { equals, pick, pluck, sum, values } from 'ramda';
@@ -6,8 +6,6 @@ import OutsideClickHandler from 'react-outside-click-handler';
 import { ClipLoader } from 'react-spinners';
 
 import api from 'api';
-import ResetImg from 'assets/images/reset';
-import { ResetButton } from 'components/sales/inventory/use-filters';
 import VirtualizedList from 'components/virtualized-list';
 import usePrevious from 'hooks/use-previous';
 import {
@@ -35,6 +33,7 @@ import {
   sortProgramEntries,
   getAllocatedPalletCount,
 } from './utils';
+import { LineItemCheckbox } from 'ui/checkbox';
 
 const gridTemplateColumns =
   'repeat(3, 100px) repeat(3, 70px) 110px repeat(2, 1fr) 1.3fr';
@@ -182,6 +181,8 @@ export interface Props<T extends CustomerProgramEntry | ShipperProgramEntry> {
     value: string,
     referenceDate: Date,
   ) => void;
+  allocatedStartDate: Date;
+  allocatedEndDate: Date;
 }
 
 const getInitialAllocateState = <
@@ -237,6 +238,8 @@ const ProgramAllocateModal = <
   startWeeks,
   endWeeks,
   handleWeekRangeChange,
+  allocatedStartDate,
+  allocatedEndDate,
 }: Props<T>) => {
   const previousLoading = usePrevious(loading);
   const previousEntriesToAllocate = usePrevious(entriesToAllocate);
@@ -254,6 +257,8 @@ const ProgramAllocateModal = <
     entriesToAllocate,
     isCustomers,
   );
+
+  const [entryState, setEntryState] = useState(entry as T);
 
   const [allocateState, setAllocateState] = useState<{
     [key: number]: { entry: T; allocatedCount: string };
@@ -362,25 +367,77 @@ const ProgramAllocateModal = <
     },
   );
 
-  const isDirty = !equals(
-    initialAllocateState,
-    nonZeroStateValues.reduce(
-      (acc, { allocatedCount, entry }) => ({
-        ...acc,
-        [entry.id]: { entry, allocatedCount },
-      }),
-      {},
-    ),
-  );
+  const isDirty =
+    !equals(
+      initialAllocateState,
+      nonZeroStateValues.reduce(
+        (acc, { allocatedCount, entry }) => ({
+          ...acc,
+          [entry.id]: { entry, allocatedCount },
+        }),
+        {},
+      ),
+    ) || !equals(entry, entryState);
 
+  const [
+    handleUpsertCustomerProgramEntries,
+    { loading: upsertCustomerEntryLoading },
+  ] = api.useUpsertCustomerProgramEntries(
+    weekCount,
+    allocatedStartDate,
+    allocatedEndDate,
+  );
+  const [
+    handleUpsertShipperProgramEntries,
+    { loading: upsertShipperEntryLoading },
+  ] = api.useUpsertShipperProgramEntries(
+    weekCount,
+    allocatedStartDate,
+    allocatedEndDate,
+  );
   const [handleUpsertAllocations, { loading: upsertLoading }] =
     api.useBulkUpsertAllocations(weekCount);
   const [handleDeleteAllocations, { loading: deleteLoading }] =
     api.useBulkDeleteAllocations(weekCount);
-  const updateLoading = upsertLoading || deleteLoading;
+  const updateLoading =
+    upsertCustomerEntryLoading ||
+    upsertShipperEntryLoading ||
+    upsertLoading ||
+    deleteLoading;
+
+  const entryUpsertVariables = entry
+    ? {
+        [isCustomers ? 'customerProgramEntries' : 'shipperProgramEntries']: [
+          {
+            ...pick(
+              ['id', 'notes', 'palletCount', 'programDate'],
+              entryState || {},
+            ),
+            customerProgramId: isCustomers
+              ? ((entryState || {}) as CustomerProgramEntry).customerProgram?.id
+              : undefined,
+            shipperProgramId: isCustomers
+              ? ((entryState || {}) as ShipperProgramEntry).shipperProgram?.id
+              : undefined,
+            isAdWeek: isCustomers
+              ? ((entryState || {}) as CustomerProgramEntry).isAdWeek
+              : undefined,
+          },
+        ],
+      }
+    : {};
 
   const handleSave = () => {
     if (entry) {
+      if (isCustomers) {
+        handleUpsertCustomerProgramEntries({
+          variables: entryUpsertVariables,
+        });
+      } else {
+        handleUpsertShipperProgramEntries({
+          variables: entryUpsertVariables,
+        });
+      }
       handleUpsertAllocations({
         variables: {
           allocations: [...addedAllocations, ...updatedAllocations],
@@ -402,6 +459,20 @@ const ProgramAllocateModal = <
     });
   };
 
+  const handleAdWeekChange = (isAdWeek: boolean) => {
+    setEntryState({
+      ...entryState,
+      isAdWeek,
+    });
+  };
+
+  const handleNotesChange = (notes: string) => {
+    setEntryState({
+      ...entryState,
+      notes,
+    });
+  };
+
   const handleFocus = () => {
     !disabled && setFocused(true);
   };
@@ -412,20 +483,24 @@ const ProgramAllocateModal = <
     setAllocateState(initialAllocateState);
   };
 
+  const handleReset = useCallback(() => {
+    setAllocateState(initialAllocateState);
+    setEntryState(entry as T);
+  }, [entry, initialAllocateState]);
+
   useEffect(() => {
     if (
       !equals(previousEntriesToAllocate, entriesToAllocate) ||
       (previousLoading && !loading)
     ) {
-      setAllocateState(initialAllocateState);
+      handleReset();
     }
   }, [
     entriesToAllocate,
-    entry,
     loading,
     previousLoading,
     previousEntriesToAllocate,
-    initialAllocateState,
+    handleReset,
   ]);
 
   return (
@@ -438,13 +513,91 @@ const ProgramAllocateModal = <
             border={th.borders.secondary}
             bg={th.colors.background}
             boxShadow={th.shadows.box}
-            height={300}
+            height={336}
             mt={th.spacing.tn}
             p={th.spacing.sm}
             position="absolute"
             width={panelWidth}
             zIndex={5}
           >
+            {entry && (
+              <l.Flex alignCenter mb={th.spacing.sm} mx={th.spacing.sm}>
+                <l.Flex alignCenter>
+                  {isCustomers ? (
+                    <LineItemCheckbox
+                      checked={
+                        !!((entryState || {}) as CustomerProgramEntry).isAdWeek
+                      }
+                      label={
+                        <ty.CaptionText ml={th.spacing.sm} mr={th.spacing.lg}>
+                          Ad Week
+                        </ty.CaptionText>
+                      }
+                      onChange={() => {
+                        handleAdWeekChange(
+                          !((entryState || {}) as CustomerProgramEntry)
+                            .isAdWeek,
+                        );
+                      }}
+                    />
+                  ) : (
+                    <div />
+                  )}
+                  <l.Flex alignCenter>
+                    <ty.SmallText mr={th.spacing.sm} secondary>
+                      Notes:
+                    </ty.SmallText>
+                    <EditableCell
+                      content={{
+                        dirty: false,
+                        value: (entryState as T).notes || '',
+                      }}
+                      defaultChildren={null}
+                      editing={true}
+                      inputProps={{
+                        width: 200,
+                      }}
+                      onChange={(e) => {
+                        handleNotesChange(e.target.value);
+                      }}
+                    />
+                  </l.Flex>
+                </l.Flex>
+                <l.Flex alignCenter ml={th.spacing.lg}>
+                  {isDirty ? (
+                    <b.Error
+                      ml={th.spacing.sm}
+                      onClick={handleReset}
+                      small
+                      status={th.colors.brand.primaryAccent}
+                      mx={th.spacing.sm}
+                    >
+                      Reset
+                    </b.Error>
+                  ) : (
+                    <div />
+                  )}
+                  <b.Success
+                    disabled={updateLoading || !isDirty}
+                    onClick={handleSave}
+                    small
+                    status={th.colors.brand.primaryAccent}
+                    mx={th.spacing.sm}
+                  >
+                    {updateLoading ? (
+                      <l.Flex alignCenter justifyCenter>
+                        <ClipLoader
+                          color={th.colors.brand.secondary}
+                          size={th.sizes.xs}
+                        />
+                      </l.Flex>
+                    ) : (
+                      'Save'
+                    )}
+                  </b.Success>
+                </l.Flex>
+              </l.Flex>
+            )}
             <l.Grid
               alignCenter
               gridTemplateColumns={gridTemplateColumns}
@@ -521,63 +674,31 @@ const ProgramAllocateModal = <
                     )}`
                   : '-'}
               </ty.CaptionText>
-              <l.Flex alignCenter>
-                <ty.SmallText mx={th.spacing.sm}>Total:</ty.SmallText>
-                <ty.CaptionText>{entry?.palletCount || '-'}</ty.CaptionText>
-              </l.Flex>
-              <l.Flex alignCenter>
-                <ty.SmallText ml={th.spacing.xs} mr={th.spacing.sm}>
-                  Avail:
-                </ty.SmallText>
-                <ty.CaptionText
-                  bold
-                  color={
-                    availableCount === '0'
-                      ? th.colors.status.success
-                      : th.colors.status.error
-                  }
-                >
-                  {entry ? availableCount : '-'}
-                </ty.CaptionText>
-              </l.Flex>
-              <l.Flex alignCenter justifyBetween>
-                {isDirty ? (
-                  <ResetButton
-                    cursor="pointer"
-                    ml={th.spacing.sm}
-                    onClick={() => {
-                      setAllocateState(
-                        getInitialAllocateState(
-                          entry,
-                          entriesToAllocate,
-                          isCustomers,
-                        ),
-                      );
-                    }}
+              <l.Flex
+                alignCenter
+                gridColumn="8 / 10"
+                justifyBetween
+                width={th.sizes.fill}
+              >
+                <l.Flex alignCenter>
+                  <ty.SmallText mx={th.spacing.sm}>Total:</ty.SmallText>
+                  <ty.CaptionText>{entry?.palletCount || '-'}</ty.CaptionText>
+                </l.Flex>
+                <l.Flex alignCenter>
+                  <ty.SmallText ml={th.spacing.md} mr={th.spacing.sm}>
+                    Avail:
+                  </ty.SmallText>
+                  <ty.CaptionText
+                    bold
+                    color={
+                      availableCount === '0'
+                        ? th.colors.status.success
+                        : th.colors.status.error
+                    }
                   >
-                    <ResetImg height={th.sizes.xs} width={th.sizes.xs} />
-                  </ResetButton>
-                ) : (
-                  <div />
-                )}
-                <b.Success
-                  disabled={updateLoading || !isDirty}
-                  onClick={handleSave}
-                  small
-                  status={th.colors.brand.primaryAccent}
-                  mx={th.spacing.sm}
-                >
-                  {updateLoading ? (
-                    <l.Flex alignCenter justifyCenter>
-                      <ClipLoader
-                        color={th.colors.brand.secondary}
-                        size={th.sizes.xs}
-                      />
-                    </l.Flex>
-                  ) : (
-                    'Save'
-                  )}
-                </b.Success>
+                    {entry ? availableCount : '-'}
+                  </ty.CaptionText>
+                </l.Flex>
               </l.Flex>
             </l.Grid>
             <l.Grid

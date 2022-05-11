@@ -52,6 +52,10 @@ export interface LabelInfo<T> {
     label?: TextProps;
   };
   defaultSortOrder?: SortOrder;
+  dropdownOptions?: {
+    content?: React.ReactNode;
+    value: string;
+  }[];
   filterable?: boolean;
   getValue?: (data: T) => React.ReactNode;
   key: keyof T;
@@ -61,6 +65,7 @@ export interface LabelInfo<T> {
   itemSelectorQueryProps?: BaseDataItemSelectorProps;
   isBoolean?: boolean;
   isColor?: boolean;
+  isDate?: boolean;
   readOnly?: boolean;
   sortable?: boolean;
   sortKey?: string;

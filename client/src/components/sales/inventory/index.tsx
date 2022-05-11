@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
 import { startOfISOWeek } from 'date-fns';
-import { groupBy, isEmpty, mapObjIndexed, sortBy, values } from 'ramda';
+import { groupBy, isEmpty, sortBy } from 'ramda';
 
 import api from 'api';
 import { DataMessage } from 'components/page/message';
 import Page from 'components/page';
+import { CommonProductTag } from 'components/tag-manager';
 import { useInventoryQueryParams } from 'hooks/use-query-params';
 import { InventoryItem, ShipperProjectionVesselInfo, Vessel } from 'types';
 import b from 'ui/button';
@@ -15,7 +16,11 @@ import Header, { categoryTypeOrder } from './header';
 import InventoryItems from './items';
 import InventoryRow from './row';
 import useInventoryFilters from './use-filters';
-import { convertProjectionsToInventoryItems } from './utils';
+import {
+  buildCategories,
+  convertProjectionsToInventoryItems,
+  reduceProductTags,
+} from './utils';
 import InventoryVessels from './vessels';
 
 export const gridTemplateColumns =
@@ -23,7 +28,21 @@ export const gridTemplateColumns =
 
 const Inventory = () => {
   const [
-    { species, variety, size, packType, plu, shipper, categoryTypes, ...rest },
+    {
+      species,
+      variety,
+      size,
+      sizePackType,
+      packType,
+      plu,
+      shipper,
+      speciesTag,
+      varietyTag,
+      sizeTag,
+      packTypeTag,
+      categoryTypes,
+      ...rest
+    },
   ] = useInventoryQueryParams();
 
   const { startDate: startDateQuery } = rest;
@@ -98,147 +117,120 @@ const Inventory = () => {
         return !!item.plu;
       case 'shipper':
         return itemShipper.id;
+      case 'sizePackType':
+        return `${itemSize.id}-${itemPackType.packDescription}`;
       default:
         return itemSpecies.id;
     }
   }, filteredItems as InventoryItem[]);
 
-  const categories = sortBy(
-    ({ text }) => (text === 'Other' ? 'zzzzzzz' : text),
-    Object.keys(groupedItems).map((key) => {
-      const item = groupedItems[key][0];
-      const itemSpecies = item.product?.species || {
-        id: 'other',
-        speciesDescription: 'Other',
-      };
-      const itemVariety = item.product?.variety || {
-        id: 'other',
-        varietyDescription: 'Other',
-      };
-      const itemSize = item.product?.sizes?.nodes[0] || {
-        id: 'other',
-        jvDescription: 'Other',
-      };
-      const itemPackType = item.product?.packType || {
-        id: 'other',
-        packDescription: 'Other',
-      };
-      const itemShipper = item.shipper || {
-        id: 'other',
-        shipperName: 'Other',
-      };
+  const groupedItemsByTag = filteredItems.reduce((acc, item) => {
+    const otherCategory = {
+      id: 'other',
+      packDescription: 'Other',
+      shipperName: 'Other',
+      commonSpeciesTags: { nodes: [] },
+      commonVarietyTags: { nodes: [] },
+      commonSizeTags: { nodes: [] },
+      commonPackTypeTags: { nodes: [] },
+    };
+    const commonSpecies =
+      item.product?.species?.commonSpecieses?.nodes.find(
+        (cs) => cs && cs.productSpeciesId === item.product?.species?.id,
+      ) || otherCategory;
+    const commonVariety =
+      item.product?.variety?.commonVarieties?.nodes.find(
+        (cv) => cv && cv.productVarietyId === item.product?.variety?.id,
+      ) || otherCategory;
+    const commonSize =
+      item.product?.sizes?.nodes[0]?.commonSizes?.nodes.find(
+        (cs) => cs && cs.productSizeId === item.product?.sizes?.nodes[0]?.id,
+      ) || otherCategory;
+    const commonPackType =
+      item.product?.packType?.commonPackTypes?.nodes.find(
+        (cpt) => cpt && cpt.packMasterId === item.product?.packType?.id,
+      ) || otherCategory;
 
-      const getId = () => {
-        switch (categoryType) {
-          case 'variety':
-            return itemVariety.id;
-          case 'size':
-            return itemSize.id;
-          case 'packType':
-            return itemPackType.packDescription;
-          case 'plu':
-            return item.plu ? 'true' : 'false';
-          case 'shipper':
-            return itemShipper.id;
-          default:
-            return itemSpecies.id;
-        }
-      };
-      const id = getId();
+    switch (categoryType) {
+      case 'species':
+        return {
+          ...acc,
+          ...reduceProductTags(
+            acc,
+            (commonSpecies.commonSpeciesTags.nodes || []) as CommonProductTag[],
+            item,
+          ),
+        };
+      case 'variety':
+        return {
+          ...acc,
+          ...reduceProductTags(
+            acc,
+            (commonVariety.commonVarietyTags.nodes || []) as CommonProductTag[],
+            item,
+          ),
+        };
+      case 'size':
+        return {
+          ...acc,
+          ...reduceProductTags(
+            acc,
+            (commonSize.commonSizeTags.nodes || []) as CommonProductTag[],
+            item,
+          ),
+        };
+      case 'packType':
+        return {
+          ...acc,
+          ...reduceProductTags(
+            acc,
+            (commonPackType.commonPackTypeTags.nodes ||
+              []) as CommonProductTag[],
+            item,
+          ),
+        };
+      default:
+        return acc;
+    }
+  }, {} as { [key: string]: InventoryItem[] });
 
-      const getText = () => {
-        switch (categoryType) {
-          case 'variety':
-            return itemVariety.varietyDescription;
-          case 'size':
-            return itemSize.jvDescription;
-          case 'packType':
-            return itemPackType.packDescription === 'other'
-              ? ''
-              : itemPackType.packDescription;
-          case 'plu':
-            return item.plu ? 'PLU' : 'No PLU';
-          case 'shipper':
-            return itemShipper.shipperName;
-          default:
-            return itemSpecies.speciesDescription;
-        }
-      };
-      const text = getText() || 'Other';
+  const buildCategoriesParams = {
+    categoryType,
+    rest,
+    categoryTypeOrder,
+    categoryTypes,
+    params: {
+      species,
+      variety,
+      size,
+      packType,
+      sizePackType,
+      plu,
+      shipper,
+      speciesTag,
+      varietyTag,
+      sizeTag,
+      packTypeTag,
+    },
+  };
 
-      const restParams = values(
-        mapObjIndexed((value, key) => (value ? `${key}=${value}` : ''), rest),
-      )
-        .filter((value) => value)
-        .join('&');
-      const restParamString = restParams ? `${restParams}&` : '';
-
-      const existingCategoriesParam = categoryTypeOrder
-        .filter((type) => {
-          switch (type) {
-            case 'variety':
-              return !!variety;
-            case 'size':
-              return !!size;
-            case 'packType':
-              return !!packType;
-            case 'plu':
-              return !!plu;
-            case 'shipper':
-              return !!shipper;
-            default:
-              return !!species;
-          }
-        })
-        .map((type) => {
-          switch (type) {
-            case 'variety':
-              return `variety=${variety}`;
-            case 'size':
-              return `size=${size}`;
-            case 'packType':
-              return `packType=${packType}`;
-            case 'plu':
-              return `plu=${plu}`;
-            case 'shipper':
-              return `shipper=${shipper}`;
-            default:
-              return `species=${species}`;
-          }
-        })
-        .join('&');
-      const existingCategoriesParamString = existingCategoriesParam
-        ? `${existingCategoriesParam}&`
-        : '';
-
-      const nextCategoryType = categoryTypeOrder
-        .filter((type) => type !== categoryType)
-        .find((type) => {
-          switch (type) {
-            case 'variety':
-              return !variety;
-            case 'size':
-              return !size;
-            case 'packType':
-              return !packType;
-            case 'plu':
-              return !plu;
-            case 'shipper':
-              return !shipper;
-            default:
-              return !species;
-          }
-        });
-
-      const link = `/sales/inventory?${restParamString}${existingCategoriesParamString}${categoryType}=${id}&categoryTypes=${categoryTypes},${nextCategoryType}`;
-
-      return {
-        id,
-        link,
-        text,
-      };
-    }),
-  );
+  const categories = [
+    ...Object.keys(groupedItemsByTag).map(
+      buildCategories(groupedItemsByTag, {
+        ...buildCategoriesParams,
+        isTag: true,
+      }),
+    ),
+    ...sortBy(
+      ({ text }) => (text === 'Other' ? 'zzzzzzz' : text),
+      Object.keys(groupedItems).map(
+        buildCategories(groupedItems, {
+          ...buildCategoriesParams,
+          isTag: false,
+        }),
+      ),
+    ),
+  ];
 
   useEffect(() => {
     if (!startDateQuery) {
@@ -311,8 +303,11 @@ const Inventory = () => {
                 categoryId={category.id}
                 categoryLink={category.link}
                 categoryText={category.text}
+                defaultInvSortKey={category.defaultInvSortKey}
+                tagLink={category.tagLink}
+                tagText={category.tagText}
                 index={idx}
-                items={groupedItems[category.id]}
+                items={{ ...groupedItemsByTag, ...groupedItems }[category.id]}
                 key={idx}
               />
             ))}

@@ -18,15 +18,54 @@ query INVENTORY_ITEM_LIST {
         species {
           id
           speciesDescription
+          commonSpecieses {
+            nodes {
+              id
+              defaultInvSortKey
+              productSpeciesId
+              commonSpeciesTags {
+                nodes {
+                  nodeId
+                  tagText
+                }
+              }
+            }
+          }
         }
         variety {
           id
           varietyDescription
+          commonVarieties {
+            nodes {
+              id
+              defaultInvSortKey
+              productVarietyId
+              commonVarietyTags {
+                nodes {
+                  nodeId
+                  tagText
+                }
+              }
+            }
+          }
         }
         sizes(first: 1) {
           nodes {
             id
             jvDescription
+            commonSizes {
+              nodes {
+                id
+                defaultInvSortKey
+                productSizeId
+                commonSizeTags {
+                  nodes {
+                    nodeId
+                    tagText
+                  }
+                }
+              }
+            }
           }
         }
         packType {
@@ -34,6 +73,19 @@ query INVENTORY_ITEM_LIST {
           id
           label {
             labelName
+          }
+          commonPackTypes {
+            nodes {
+              id
+              defaultInvSortKey
+              packMasterId
+              commonPackTypeTags {
+                nodes {
+                  nodeId
+                  tagText
+                }
+              }
+            }
           }
         }
       }

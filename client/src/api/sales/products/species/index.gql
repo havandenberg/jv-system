@@ -8,6 +8,7 @@ query COMMON_SPECIES_LIST(
   commonSpecieses(filter: { and: $search }, orderBy: $speciesOrderBy) {
     nodes {
       id
+      defaultInvSortKey
       speciesDescription
       speciesName
       uiColor

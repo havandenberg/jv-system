@@ -2,6 +2,7 @@ import { loader } from 'graphql.macro';
 import { pluck } from 'ramda';
 
 import { LabelInfo } from 'components/column-label';
+import { inventorySortKeys } from 'components/sales/inventory/utils';
 import { CommonPackType, CommonPackTypeTag, PackMaster } from 'types';
 import th from 'ui/theme';
 import ty from 'ui/typography';
@@ -47,7 +48,7 @@ export const baseLabels: CommonPackTypeLabelInfo[] = [
   },
   {
     key: 'packMasterId',
-    label: 'Code',
+    label: 'Primary Code',
     itemSelectorQueryProps: {
       errorLabel: 'sizes',
       getItemContent: ({ id, packDescription }: PackMaster) => (
@@ -57,6 +58,27 @@ export const baseLabels: CommonPackTypeLabelInfo[] = [
       ),
       query: PACK_MASTER_QUERY,
       queryName: 'packMasters',
+    },
+  },
+  {
+    key: 'defaultInvSortKey',
+    label: 'Inv Sort Key',
+    dropdownOptions: inventorySortKeys.filter(
+      (item) => item.value !== 'packType',
+    ),
+    getValue: ({ defaultInvSortKey }) => {
+      const selectedKey = inventorySortKeys.find(
+        ({ value }) => value === defaultInvSortKey,
+      );
+      return (
+        <ty.BodyText>
+          {selectedKey
+            ? selectedKey.value
+              ? selectedKey.content || selectedKey.value
+              : 'Default'
+            : defaultInvSortKey || 'Default'}
+        </ty.BodyText>
+      );
     },
   },
 ];

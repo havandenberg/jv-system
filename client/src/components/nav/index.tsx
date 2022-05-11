@@ -10,6 +10,8 @@ import { IS_PRODUCTION } from 'utils/env';
 
 import NavItem, { NavItemProps } from './item';
 import SecondaryNav from './secondary';
+import { StringParam } from 'use-query-params';
+import { useQuerySet } from 'hooks/use-query-params';
 
 export interface NavItemType extends NavItemProps {
   secondaryItems?: NavItemProps[];
@@ -112,6 +114,17 @@ const Nav = () => {
       : []
   ).filter((item) => !IS_PRODUCTION || !item.isDev);
 
+  const [{ coast, startDate, endDate }] = useQuerySet({
+    coast: StringParam,
+    startDate: StringParam,
+    endDate: StringParam,
+  });
+
+  const secondarySearch =
+    coast && startDate && endDate
+      ? `?coast=${coast}&startDate=${startDate}&endDate=${endDate}`
+      : '';
+
   return (
     <Wrapper>
       <Logo to="/">
@@ -142,6 +155,7 @@ const Nav = () => {
               activePathname={pathname}
               baseUrl={hoverBaseUrl || activeBaseUrl}
               navItems={secondaryItems}
+              search={secondarySearch}
             />
           </l.Div>
         </l.Flex>

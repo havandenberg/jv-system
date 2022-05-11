@@ -24,7 +24,7 @@ const Panel = styled(l.Div)(
   divPropsSet,
 );
 
-const Trigger = styled(l.Div)(
+const Trigger = styled(l.Flex)(
   ({
     hasFilters,
     show,
@@ -34,7 +34,8 @@ const Trigger = styled(l.Div)(
     show: boolean;
     visible: boolean;
   }) => ({
-    background: th.colors.background,
+    alignItems: 'center',
+    justifyContent: 'center',
     opacity:
       hasFilters || show
         ? 1

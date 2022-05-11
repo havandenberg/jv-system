@@ -3,6 +3,8 @@ import styled from '@emotion/styled';
 import {
   borderSet,
   BorderSetProps,
+  fontSize,
+  FontSizeProps,
   spaceSet,
   SpaceSetProps,
   width,
@@ -69,7 +71,10 @@ export const ClearWrapper = styled(IconWrapper)({
 });
 
 export const TextArea = styled.textarea<
-  InputHTMLAttributes<HTMLTextAreaElement> & SpaceSetProps & WidthProps
+  InputHTMLAttributes<HTMLTextAreaElement> &
+    FontSizeProps &
+    SpaceSetProps &
+    WidthProps
 >(
   {
     background: th.colors.brand.containerBackground,
@@ -84,6 +89,7 @@ export const TextArea = styled.textarea<
     padding: th.spacing.sm,
     transition: th.transitions.default,
   },
+  fontSize,
   spaceSet,
   width,
 );
@@ -131,6 +137,8 @@ export const SmallSelect = styled.select<
 >(
   ({ hasError }) => ({
     border: hasError ? th.borders.error : th.borders.secondary,
+    height: th.heights.input,
+    fontSize: th.fontSizes.body,
     width: th.sizes.fill,
   }),
   spaceSet,

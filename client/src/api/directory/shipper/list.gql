@@ -30,6 +30,8 @@ query SHIPPER_LIST(
         }
       }
       sendProjectionRequest
+      projectionRequestStartDate
+      projectionRequestEndDate
       shipperName
       shipperProjections {
         nodes {

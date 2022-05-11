@@ -7,8 +7,22 @@ query COMMON_VARIETY($id: BigInt!) {
         id
         categoryName
       }
+      commonVarieties {
+        nodes {
+          id
+          varietyName
+          commonVarietyTags {
+            nodes {
+              tagText
+              nodeId
+              commonVarietyId
+            }
+          }
+        }
+      }
     }
     id
+    defaultInvSortKey
     productVarietyId
     productVarietiesByCommonVarietyProductVarietyCommonVarietyIdAndProductVarietyId {
       nodes {

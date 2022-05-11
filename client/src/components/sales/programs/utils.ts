@@ -342,8 +342,10 @@ export const groupProgramsByProduct = <
       const packType = species?.commonPackTypes?.nodes.find(
         (p) => p && p.id === getProgramValue(program, 'commonPackTypeId').value,
       );
-      return `${species?.speciesName} ${variety?.varietyName} ${
-        size?.sizeName
-      } ${packType?.packTypeName} ${getProgramValue(program, 'plu').value}`;
+      return `${species?.speciesName || 'aaaaa'} ${
+        variety?.varietyName || 'aaaaa'
+      } ${size?.sizeName || 'aaaaa'} ${packType?.packTypeName || 'aaaaa'} ${
+        getProgramValue(program, 'plu').value
+      }`.toLowerCase();
     }, programs),
   );

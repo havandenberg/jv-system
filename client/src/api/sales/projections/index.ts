@@ -44,7 +44,7 @@ const useVariables = (isInventory?: boolean) => {
   );
   const [search = ''] = useSearchQueryParam();
 
-  const [view = 'grid'] = useQueryValue('view');
+  const [view = 'grid'] = useQueryValue('projectionsView');
   const isNotList = view !== 'list';
   const isGrid = view === 'grid';
   const [{ sortBy = 'submittedAt', sortOrder = SORT_ORDER.DESC }] =

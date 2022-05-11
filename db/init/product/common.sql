@@ -7,6 +7,7 @@ CREATE TABLE product.common_category (
 
 CREATE TABLE product.common_species (
 	id BIGSERIAL PRIMARY KEY,
+  default_inv_sort_key TEXT,
   species_name TEXT,
   species_description TEXT,
   ui_color TEXT,
@@ -26,6 +27,7 @@ CREATE TABLE product.common_species_product_species (
 
 CREATE TABLE product.common_variety (
 	id BIGSERIAL PRIMARY KEY,
+  default_inv_sort_key TEXT,
   variety_name TEXT,
   variety_description TEXT,
   ui_color TEXT,
@@ -45,6 +47,7 @@ CREATE TABLE product.common_variety_product_variety (
 
 CREATE TABLE product.common_size (
 	id BIGSERIAL PRIMARY KEY,
+  default_inv_sort_key TEXT,
   size_name TEXT,
   size_description TEXT,
   common_species_id BIGINT
@@ -63,6 +66,7 @@ CREATE TABLE product.common_size_product_size (
 
 CREATE TABLE product.common_pack_type (
 	id BIGSERIAL PRIMARY KEY,
+  default_inv_sort_key TEXT,
   pack_type_name TEXT,
   pack_type_description TEXT,
   common_species_id BIGINT

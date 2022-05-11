@@ -39,22 +39,35 @@ const ListItem = ({
   <l.Div mb={th.spacing.sm}>
     <l.AreaLink to={to}>
       <GridContainer gridTemplateColumns={gridTemplateColumns}>
-        {listLabels.map(({ key, getValue, transformKey }, idx) => (
-          <l.Flex alignCenter key={idx} overflow="hidden" p={th.spacing.sm}>
-            <ty.BodyText
-              nowrap
-              onClick={(e: React.MouseEvent) => {
-                e.stopPropagation();
-              }}
-            >
-              {(transformKey
+        {listLabels.map(
+          ({ customStyles, key, getValue, transformKey }, idx) => {
+            const value =
+              (transformKey
                 ? baseDataTransforms[transformKey](data[key])
                 : getValue
                 ? getValue(data)
-                : data[key]) || '-'}
-            </ty.BodyText>
-          </l.Flex>
-        ))}
+                : data[key]) || '-';
+            return (
+              <l.Flex
+                alignCenter
+                key={idx}
+                overflow="hidden"
+                p={th.spacing.sm}
+                title={value}
+              >
+                <ty.BodyText
+                  nowrap
+                  onClick={(e: React.MouseEvent) => {
+                    e.stopPropagation();
+                  }}
+                  {...customStyles?.label}
+                >
+                  {value}
+                </ty.BodyText>
+              </l.Flex>
+            );
+          },
+        )}
         <l.Flex centered height={th.sizes.fill}>
           <Chevron height={th.spacing.md} />
         </l.Flex>
