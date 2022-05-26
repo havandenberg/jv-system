@@ -84,10 +84,16 @@ export const listLabels: ShipperProjectionLabelInfo[] = [
     key: 'reviewStatus',
     label: 'Reviewed',
     sortable: true,
-    getValue: ({ approvedAt, rejectedAt }) => (
+    getValue: ({ reviewStatus }) => (
       <l.Flex alignCenter justifyCenter>
         <StatusIndicator
-          status={approvedAt ? 'success' : rejectedAt ? 'error' : 'warning'}
+          status={
+            reviewStatus === 2
+              ? 'success'
+              : reviewStatus === 0
+              ? 'error'
+              : 'warning'
+          }
         />
       </l.Flex>
     ),

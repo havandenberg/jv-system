@@ -70,10 +70,16 @@ const CommonSpeciesDetails = () => {
   }>();
   const { search } = useLocation();
   const [{ sortBy }, setSortQueryParams] = useSortQueryParams();
-  const { data: specieses, error, loading } = api.useCommonSpecieses();
-  const data = specieses?.nodes.find(
-    (species) => species && species.id === speciesId,
-  );
+  const { data: speciesesData, error, loading } = api.useCommonSpecieses();
+  const specieses = speciesesData
+    ? (speciesesData.nodes as CommonSpecies[])
+    : [];
+  const data = specieses.find((species) => species && species.id === speciesId);
+
+  const { data: productSpeciesData, loading: productSpeciesLoading } =
+    api.useProductSpeciesList();
+  const productSpecieses = (productSpeciesData?.nodes ||
+    []) as ProductSpecies[];
 
   const { TabBar, selectedTabId } = useTabBar(
     tabs(data as CommonSpecies, search),
@@ -92,7 +98,7 @@ const CommonSpeciesDetails = () => {
   ] as (keyof CommonSpecies)[];
   const updateVariables = { id: speciesId };
 
-  const { changes, editing, handleChange, getUpdateActions } =
+  const { changes, editing, handleChange, getUpdateActions, saveAttempt } =
     useUpdateItem<CommonSpecies>({
       data: data as CommonSpecies,
       handleUpdate,
@@ -107,6 +113,7 @@ const CommonSpeciesDetails = () => {
         ),
       updateFields,
       updateVariables,
+      validationLabels: baseLabels(productSpecieses),
     });
 
   useEffect(() => {
@@ -172,7 +179,7 @@ const CommonSpeciesDetails = () => {
   const tags = (changes?.commonSpeciesTags?.nodes || []) as CommonProductTag[];
   const suggestedTags = uniqBy(
     (tag) => tag?.tagText,
-    pluck('commonSpeciesTags', (specieses?.nodes || []) as CommonSpecies[])
+    pluck('commonSpeciesTags', specieses)
       .map(({ nodes }) => nodes)
       .flat(),
   ) as CommonProductTag[];
@@ -190,11 +197,8 @@ const CommonSpeciesDetails = () => {
     suggestedTags,
   });
 
-  const { data: productSpeciesData, loading: productSpeciesLoading } =
-    api.useProductSpeciesList();
-
   const { ItemSelector } = useItemSelector({
-    allItems: (productSpeciesData?.nodes || []) as ProductSpecies[],
+    allItems: productSpecieses,
     closeOnSelect: true,
     disabled: !editing,
     errorLabel: 'species',
@@ -236,7 +240,8 @@ const CommonSpeciesDetails = () => {
             data={data}
             editing={editing}
             handleChange={handleChange}
-            labels={baseLabels}
+            labels={baseLabels(productSpecieses)}
+            showValidation={saveAttempt}
           />
           <l.Div ml={th.spacing.sm} my={th.spacing.lg}>
             {tagManager}

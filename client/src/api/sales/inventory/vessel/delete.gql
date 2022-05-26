@@ -1,0 +1,5 @@
+mutation VESSEL_DELETE($id: BigInt!) {
+  deleteVessel(input: { id: $id }) {
+    clientMutationId
+  }
+}

@@ -2,7 +2,7 @@ import React, { ChangeEvent } from 'react';
 import { ApolloError } from '@apollo/client';
 import styled from '@emotion/styled';
 import { pascalCase } from 'change-case';
-import { equals, pick, sortBy, sum, uniqBy } from 'ramda';
+import { equals, pick, pluck, sortBy, sum, uniqBy } from 'ramda';
 
 import PlusInCircle from 'assets/images/plus-in-circle';
 import EditableCell from 'components/editable-cell';
@@ -11,10 +11,11 @@ import ItemLinkRow, { ItemLink } from 'components/item-selector/link';
 import { BasicModal } from 'components/modal';
 import {
   CommonSpecies,
-  Maybe,
-  Shipper,
+  Customer,
+  ShipperProjectionEntry,
   ShipperProjectionProduct,
   ShipperProjectionVesselInfo,
+  Vessel,
 } from 'types';
 import l, { divPropsSet } from 'ui/layout';
 import th from 'ui/theme';
@@ -47,6 +48,7 @@ export const NewProductRow = ({
     size: '',
     packType: '',
     plu: '',
+    customerValue: '',
   };
 
   return (
@@ -110,19 +112,41 @@ export const ProductTotalRow = ({
   </ProductWrapper>
 );
 
-const Cell = styled(l.Flex)(
-  ({ error, warning }: { error: boolean; warning: boolean }) => ({
+export const Cell = styled(l.Flex)(
+  ({
+    active,
+    error,
+    onClick,
+    warning,
+  }: {
+    active?: boolean;
+    error: boolean;
+    onClick?: () => void;
+    warning: boolean;
+  }) => ({
     alignItems: 'center',
     background: th.colors.background,
     border: error
       ? th.borders.error
       : warning
       ? th.borders.warning
+      : active
+      ? th.borders.primaryAccent
       : th.borders.disabled,
+    cursor: onClick ? 'pointer' : 'default',
     height: 20,
     padding: `0 ${th.spacing.tn}`,
     position: 'relative',
-    width: `calc(${th.sizes.fill} - ${th.spacing.sm} - 2px)`,
+    transition: th.transitions.default,
+    ':hover': {
+      border: onClick
+        ? error
+          ? th.borders.error
+          : warning
+          ? th.borders.warning
+          : th.borders.primaryAccent
+        : undefined,
+    },
   }),
 );
 
@@ -134,22 +158,25 @@ const ProductRow = (
     isAllProjections: boolean;
     loading: boolean;
     commonSpecieses: CommonSpecies[];
+    customers: Customer[];
     duplicateProductIds: number[];
     gridTemplateColumns: string;
+    hasVesselsFromCurrentWeek: boolean;
     index: number;
     isEvenRow: boolean;
+    parentVessels: Vessel[];
     previousProduct?: ShipperProjectionProductWithEntries;
     product: ShipperProjectionProductWithEntries;
     showOnlyCommonNames: boolean;
     showSpecies: boolean;
     showVariety: boolean;
-    selectedShipper?: Maybe<Shipper>;
     showErrors: boolean;
     vessels: ShipperProjectionVesselInfo[];
   } & ShipperProjectionGridProps,
 ) => {
   const {
     commonSpecieses,
+    customers,
     changeHandlers: { handleEntryChange, handleProductChange },
     newItemHandlers: { handleNewProduct },
     removeItemHandlers: { handleRemoveProduct },
@@ -160,7 +187,10 @@ const ProductRow = (
     isPortal,
     duplicateProductIds,
     gridTemplateColumns,
+    hasVesselsFromCurrentWeek,
     loading,
+    showParentVessels,
+    parentVessels,
     previousProduct,
     product,
     selectedShipper,
@@ -182,10 +212,12 @@ const ProductRow = (
     size: getProductValue(product, 'size').value,
     packType: getProductValue(product, 'packType').value,
     plu: getProductValue(product, 'plu').value,
+    customerValue: getProductValue(product, 'customerValue').value,
     commonSpeciesId: getProductValue(product, 'commonSpeciesId').value,
     commonVarietyId: getProductValue(product, 'commonVarietyId').value,
     commonSizeId: getProductValue(product, 'commonSizeId').value,
     commonPackTypeId: getProductValue(product, 'commonPackTypeId').value,
+    customerId: getProductValue(product, 'customerId').value,
   };
   const {
     species,
@@ -193,10 +225,12 @@ const ProductRow = (
     size,
     packType,
     plu,
+    customerValue,
     commonSpeciesId,
     commonVarietyId,
     commonSizeId,
     commonPackTypeId,
+    customerId,
   } = updatedProduct;
 
   const commonSpecies = commonSpecieses.find((sp) => sp.id === commonSpeciesId);
@@ -209,6 +243,7 @@ const ProductRow = (
   const commonPackType = commonSpecies?.commonPackTypes.nodes.find(
     (pt) => pt && pt.id === commonPackTypeId,
   );
+  const customer = customers.find((c) => c.id === customerId);
 
   const handleChange = (
     key: keyof ShipperProjectionProduct,
@@ -248,6 +283,10 @@ const ProductRow = (
         return showOnlyCommonNames
           ? commonPackType?.packTypeName || packType
           : packType;
+      case 'customerValue':
+        return showOnlyCommonNames
+          ? customer?.customerName || customerValue
+          : customerValue;
       default:
         return '';
     }
@@ -263,6 +302,8 @@ const ProductRow = (
         return commonSize?.sizeName !== size;
       case 'packType':
         return commonPackType?.packTypeName !== packType;
+      case 'customerValue':
+        return customer?.customerName !== customerValue;
       default:
         return true;
     }
@@ -276,6 +317,9 @@ const ProductRow = (
       uniqBy(
         (p) => p[type],
         allProducts.filter((p) => {
+          if (type === 'customerValue') {
+            return !!p.customerValue;
+          }
           const speciesIsValid = !species || p.species === species;
           const varietyIsValid = !variety || p.variety === variety;
           const sizeIsValid = !size || p.size === size;
@@ -308,7 +352,8 @@ const ProductRow = (
         content: { dirty: false, value },
         defaultChildren: null,
         editing: true,
-        error: showErrors && (!value || isDuplicate),
+        error:
+          showErrors && ((!value && type !== 'customerValue') || isDuplicate),
         onChange: (e: ChangeEvent<HTMLInputElement>) => {
           handleChange(type, e.target.value);
         },
@@ -319,8 +364,33 @@ const ProductRow = (
     };
   };
 
+  const { ItemSelector: SpeciesItemSelector } = useItemSelector({
+    errorLabel: 'species',
+    ...getValueSelectorProps('species'),
+  });
+
+  const { ItemSelector: VarietyItemSelector } = useItemSelector({
+    errorLabel: 'varieties',
+    ...getValueSelectorProps('variety'),
+  });
+
+  const { ItemSelector: SizeItemSelector } = useItemSelector({
+    errorLabel: 'sizes',
+    ...getValueSelectorProps('size'),
+  });
+
+  const { ItemSelector: PackTypeItemSelector } = useItemSelector({
+    errorLabel: 'pack types',
+    ...getValueSelectorProps('packType'),
+  });
+
+  const { ItemSelector: CustomerItemSelector } = useItemSelector({
+    errorLabel: 'customers',
+    ...getValueSelectorProps('customerValue'),
+  });
+
   const getLinkSelectorProps = (
-    type: 'species' | 'variety' | 'size' | 'packType',
+    type: 'species' | 'variety' | 'size' | 'packType' | 'customerValue',
   ) => {
     const value = getSelectorValue(type);
     const isDirty = isValueDirty(type);
@@ -402,11 +472,13 @@ const ProductRow = (
         content: { dirty: false, value },
         defaultChildren: null,
         editing: true,
-        error: !commonProductId || (showErrors && (!value || isDuplicate)),
+        error:
+          !isPortal &&
+          (!commonProductId || (showErrors && (!value || isDuplicate))),
         onChange: (e: ChangeEvent<HTMLInputElement>) => {
           handleChange(type, e.target.value);
         },
-        warning: isDirty,
+        warning: !isPortal && isDirty,
       },
       getItemContent,
       nameKey: 'text' as keyof ItemLink,
@@ -414,30 +486,67 @@ const ProductRow = (
     };
   };
 
-  const { ItemSelector: SpeciesItemSelector } = useItemSelector({
-    errorLabel: 'species',
-    ...getValueSelectorProps('species'),
-  });
-
-  const { ItemSelector: VarietyItemSelector } = useItemSelector({
-    errorLabel: 'varieties',
-    ...getValueSelectorProps('variety'),
-  });
-
-  const { ItemSelector: SizeItemSelector } = useItemSelector({
-    errorLabel: 'sizes',
-    ...getValueSelectorProps('size'),
-  });
-
-  const { ItemSelector: PackTypeItemSelector } = useItemSelector({
-    errorLabel: 'pack types',
-    ...getValueSelectorProps('packType'),
-  });
-
   const speciesLinkSelectorProps = getLinkSelectorProps('species');
   const varietyLinkSelectorProps = getLinkSelectorProps('variety');
   const sizeLinkSelectorProps = getLinkSelectorProps('size');
   const packTypeLinkSelectorProps = getLinkSelectorProps('packType');
+
+  const customerLinkItems = customers.map((c) => ({
+    id: c.id,
+    text: c.customerName,
+  }));
+  if (customerId) {
+    customerLinkItems.push({ id: '-1', text: 'Clear linked customer' });
+  }
+
+  const customerLinkSelectorProps = {
+    ...commonSelectorProps,
+    allItems: customerLinkItems.filter(
+      (c) =>
+        c.id === '-1' ||
+        `${c.id} ${c.text}`
+          .toLowerCase()
+          .includes(getSelectorValue('customerValue').toLowerCase()),
+    ),
+    editableCellProps: {
+      bypassLocalValue: true,
+      content: { dirty: false, value: getSelectorValue('customerValue') },
+      defaultChildren: null,
+      editing: true,
+      error:
+        !isPortal &&
+        showErrors &&
+        ((!customer && !!getSelectorValue('customerValue')) || isDuplicate),
+      onChange: (e: ChangeEvent<HTMLInputElement>) => {
+        handleChange('customerValue', e.target.value);
+      },
+      warning:
+        !isPortal &&
+        !!getSelectorValue('customerValue') &&
+        isValueDirty('customerValue'),
+    },
+    getItemContent: (link: ItemLink) => (
+      <ItemLinkRow
+        active={link.id === customerId}
+        link={{
+          ...link,
+          text: link.id === '-1' ? link.text : `${link.id} - ${link.text}`,
+        }}
+      />
+    ),
+    nameKey: 'text' as keyof ItemLink,
+    selectItem: ({ id, text }: ItemLink) => {
+      handleProductChange(
+        {
+          ...updatedProduct,
+          customerId: id === '-1' ? null : id,
+          customerValue: id === '-1' ? updatedProduct.customerValue : text,
+        },
+        'customerId',
+      );
+    },
+    width: 350,
+  };
 
   const { ItemSelector: SpeciesLinkSelector } = useItemSelector({
     errorLabel: 'species',
@@ -459,12 +568,20 @@ const ProductRow = (
     ...packTypeLinkSelectorProps,
   });
 
+  const { ItemSelector: CustomerLinkSelector } = useItemSelector({
+    errorLabel: 'customers',
+    ...customerLinkSelectorProps,
+  });
+
   const SpeciesSelector = isPortal ? SpeciesItemSelector : SpeciesLinkSelector;
   const VarietySelector = isPortal ? VarietyItemSelector : VarietyLinkSelector;
   const SizeSelector = isPortal ? SizeItemSelector : SizeLinkSelector;
   const PackTypeSelector = isPortal
     ? PackTypeItemSelector
     : PackTypeLinkSelector;
+  const CustomerSelector = isPortal
+    ? CustomerItemSelector
+    : CustomerLinkSelector;
 
   const isDifferentVariety =
     previousProduct &&
@@ -487,11 +604,11 @@ const ProductRow = (
         alignCenter
         key={product.id}
         gridColumnGap={th.spacing.xs}
-        gridTemplateColumns="repeat(2, 1fr) repeat(3, 0.7fr)"
+        gridTemplateColumns="repeat(2, 1fr) repeat(3, 0.7fr) 1fr"
         ml={52}
         relative
       >
-        {shipperEditable && (
+        {shipperEditable && hasVesselsFromCurrentWeek && (
           <>
             <BasicModal
               title="Confirm Remove Product"
@@ -530,7 +647,7 @@ const ProductRow = (
               ['error', 'warning'],
               speciesLinkSelectorProps.editableCellProps,
             )}
-            width={89}
+            width={95}
           >
             <ty.CaptionText bold ellipsis title={product.species}>
               {product.species}
@@ -549,7 +666,7 @@ const ProductRow = (
                   ['error', 'warning'],
                   varietyLinkSelectorProps.editableCellProps,
                 )}
-                width={89}
+                width={95}
               >
                 <ty.CaptionText ellipsis title={product.variety}>
                   {product.variety}
@@ -566,7 +683,7 @@ const ProductRow = (
                   ['error', 'warning'],
                   sizeLinkSelectorProps.editableCellProps,
                 )}
-                width={58}
+                width={64}
               >
                 <ty.CaptionText ellipsis title={product.size}>
                   {product.size}
@@ -581,7 +698,7 @@ const ProductRow = (
                   ['error', 'warning'],
                   packTypeLinkSelectorProps.editableCellProps,
                 )}
-                width={58}
+                width={64}
               >
                 <ty.CaptionText ellipsis title={product.packType}>
                   {product.packType}
@@ -597,7 +714,7 @@ const ProductRow = (
                   border={th.borders.disabled}
                   height={20}
                   px={th.spacing.tn}
-                  width={th.sizes.fill}
+                  width={64}
                 >
                   <ty.CaptionText>{plu}</ty.CaptionText>
                 </l.Flex>
@@ -609,17 +726,55 @@ const ProductRow = (
               }}
               showBorder={false}
             />
+            {productEditable ? (
+              CustomerSelector
+            ) : (
+              <Cell
+                {...pick(
+                  ['error', 'warning'],
+                  customerLinkSelectorProps.editableCellProps,
+                )}
+                width={95}
+              >
+                <ty.CaptionText
+                  ellipsis
+                  title={
+                    product.customer
+                      ? `${product.customer?.id} - ${product.customer?.customerName}`
+                      : product.customerValue
+                  }
+                >
+                  {product.customerValue}
+                </ty.CaptionText>
+              </Cell>
+            )}
           </>
         )}
       </l.Grid>
-      {vessels.map((vessel, idx) => {
-        const entries =
-          vessel.shipperProjectionEntriesByVesselInfoId?.nodes.filter(
-            (e) =>
-              e?.product &&
-              getProductIdentifier(e.product, !!selectedShipper) ===
-                getProductIdentifier(product, !!selectedShipper),
-          );
+      {(
+        (showParentVessels ? parentVessels : vessels) as (
+          | Vessel
+          | ShipperProjectionVesselInfo
+        )[]
+      ).map((vessel, idx) => {
+        const entriesList = (
+          showParentVessels
+            ? pluck(
+                'shipperProjectionEntriesByVesselInfoId',
+                vessels.filter((v) => v.vessel?.vesselId === vessel.id),
+              )
+                .map((es) => es?.nodes || [])
+                .flat()
+            : (vessel as ShipperProjectionVesselInfo)
+                .shipperProjectionEntriesByVesselInfoId?.nodes || []
+        ) as ShipperProjectionEntry[];
+
+        const entries = entriesList.filter(
+          (e) =>
+            e?.product &&
+            getProductIdentifier(e.product, !!selectedShipper) ===
+              getProductIdentifier(product, !!selectedShipper),
+        );
         const firstEntry = entries?.[0];
 
         const palletCountCurrentValue = `${entries?.reduce(
@@ -645,7 +800,7 @@ const ProductRow = (
           <l.Flex
             alignCenter
             bg={selectedShipper ? undefined : th.colors.background}
-            border={th.borders.disabled}
+            border={selectedShipper ? undefined : th.borders.disabled}
             height={20}
             justifyCenter
             key={idx}

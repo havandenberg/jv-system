@@ -8,7 +8,7 @@ import Page from 'components/page';
 import { DataMessage } from 'components/page/message';
 import useTagManager, { CommonProductTag } from 'components/tag-manager';
 import useUpdateItem from 'hooks/use-update-item';
-import { CommonPackType, CommonPackTypeTag } from 'types';
+import { CommonPackType, CommonPackTypeTag, PackMaster } from 'types';
 import l from 'ui/layout';
 import th from 'ui/theme';
 
@@ -40,6 +40,9 @@ const CommonPackTypeDetails = () => {
   }>();
   const { data, error, loading } = api.useCommonPackType(packTypeId);
 
+  const { data: packMasterData } = api.usePackMasterList();
+  const packMasters = (packMasterData?.nodes || []) as PackMaster[];
+
   const [handleUpdate] = api.useUpdateCommonPackType();
 
   const updateFields = [
@@ -52,7 +55,7 @@ const CommonPackTypeDetails = () => {
   ] as (keyof CommonPackType)[];
   const updateVariables = { id: packTypeId };
 
-  const { changes, editing, handleChange, getUpdateActions } =
+  const { changes, editing, handleChange, getUpdateActions, saveAttempt } =
     useUpdateItem<CommonPackType>({
       data: data as CommonPackType,
       handleUpdate,
@@ -67,6 +70,7 @@ const CommonPackTypeDetails = () => {
         ),
       updateFields,
       updateVariables,
+      validationLabels: baseLabels(packMasters),
     });
 
   const tags = (changes?.commonPackTypeTags?.nodes || []) as CommonProductTag[];
@@ -106,7 +110,8 @@ const CommonPackTypeDetails = () => {
             data={data}
             editing={editing}
             handleChange={handleChange}
-            labels={baseLabels}
+            labels={baseLabels(packMasters)}
+            showValidation={saveAttempt}
           />
           <l.Div ml={th.spacing.sm} my={th.spacing.lg}>
             {tagManager}

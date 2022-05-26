@@ -168,7 +168,14 @@ const FilterPanel = <T extends {}>({
             </l.Flex>
             <l.Flex>
               {selectedValues.length > 0 && (
-                <ty.CaptionText link onClick={clear} secondary>
+                <ty.CaptionText
+                  link
+                  onClick={() => {
+                    clear();
+                    setShowPanel(false);
+                  }}
+                  secondary
+                >
                   Clear
                 </ty.CaptionText>
               )}

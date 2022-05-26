@@ -3,6 +3,7 @@ import { loader } from 'graphql.macro';
 import { LabelInfo } from 'components/column-label';
 import { SORT_ORDER } from 'hooks/use-columns';
 import { Customer } from 'types';
+import ty from 'ui/typography';
 
 const CUSTOMER_DISTINCT_VALUES_QUERY = loader(
   '../../../api/directory/customer/distinct-values.gql',
@@ -109,7 +110,12 @@ export const baseLabels: CustomerLabelInfo[] = [
   {
     key: 'countryId',
     label: 'Country',
-    getValue: (data) => data.country?.countryName || '',
+    getValue: (data) =>
+      data.country ? (
+        <ty.BodyText>{data.country?.countryName}</ty.BodyText>
+      ) : (
+        ''
+      ),
     readOnly: true,
   },
   {

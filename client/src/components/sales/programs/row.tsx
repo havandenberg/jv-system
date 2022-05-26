@@ -1,7 +1,16 @@
 import React, { ChangeEvent } from 'react';
 import styled from '@emotion/styled';
 import { pascalCase } from 'change-case';
-import { equals, pick, pluck, sortBy, sum, times } from 'ramda';
+import {
+  equals,
+  mapObjIndexed,
+  pick,
+  pluck,
+  sortBy,
+  sum,
+  times,
+  values,
+} from 'ramda';
 
 import PlusInCircle from 'assets/images/plus-in-circle';
 import EditableCell from 'components/editable-cell';
@@ -31,8 +40,9 @@ import {
   ShipperProgramUpdate,
   CustomerProgramEntryUpdate,
   ShipperProgramEntryUpdate,
+  ProgramTotal,
 } from './types';
-import { getAvailablePalletEntryTotals } from './utils';
+import { getAllocatedPalletEntryTotalSets, getProgramTotals } from './utils';
 import { hexColorWithTransparency } from 'ui/utils';
 import ProgramNotes from './notes';
 
@@ -97,6 +107,7 @@ export const NewProgramRow = ({
 export const ProgramTotalRow = ({
   editing,
   gridTemplateColumns,
+  isCustomers,
   programTotals,
   showAllocated,
   species,
@@ -104,13 +115,16 @@ export const ProgramTotalRow = ({
 }: {
   editing: boolean;
   gridTemplateColumns: string;
-  programTotals: { total: number; available: number | null }[];
+  isCustomers: boolean;
+  programTotals: ProgramTotal[];
   showAllocated: boolean;
   species: string;
   wrapperStyles?: DivProps;
 }) => {
   const totals = pluck('total', programTotals || []);
   const availableTotals = pluck('available', programTotals || []);
+  const projectedTotals = pluck('projected', programTotals || []);
+  const hasProjections = sum(projectedTotals.map((val) => val || 0)) > 0;
 
   const isGrand =
     species === 'Net Grand' ||
@@ -119,7 +133,7 @@ export const ProgramTotalRow = ({
   const isNetGrand = species === 'Net Grand';
 
   const textColor = isNetGrand
-    ? sum(totals) === 0
+    ? sum(totals) >= 0
       ? th.colors.status.success
       : th.colors.status.error
     : undefined;
@@ -177,7 +191,6 @@ export const ProgramTotalRow = ({
               }
               ml={th.spacing.lg}
               mr={th.spacing.md}
-              secondary
               textAlign="right"
               width={th.spacing.lg}
             >
@@ -195,7 +208,6 @@ export const ProgramTotalRow = ({
               }
               key={idx}
               mr={th.spacing.md}
-              secondary
               textAlign="center"
             >
               {total !== null && total !== undefined ? total : ''}
@@ -203,6 +215,47 @@ export const ProgramTotalRow = ({
           ))}
         </ProgramWrapper>
       )}
+      {!editing &&
+        !isNetGrand &&
+        !isCustomers &&
+        species !== 'Customers Grand' &&
+        hasProjections && (
+          <ProgramWrapper
+            gridTemplateColumns={gridTemplateColumns}
+            mt={th.spacing.tn}
+            relative
+          >
+            <l.Flex alignCenter justifyEnd ml={52}>
+              <ty.CaptionText secondary textAlign="right">
+                Projected:
+              </ty.CaptionText>
+              <ty.CaptionText
+                bold
+                color={th.colors.status.warningSecondary}
+                ml={th.spacing.lg}
+                mr={th.spacing.md}
+                textAlign="right"
+                width={th.spacing.lg}
+              >
+                {sum(
+                  projectedTotals.map((val) =>
+                    val === null || val < 0 ? 0 : val,
+                  ),
+                )}
+              </ty.CaptionText>
+            </l.Flex>
+            {projectedTotals.map((total, idx) => (
+              <ty.CaptionText
+                color={th.colors.status.warningSecondary}
+                key={idx}
+                mr={th.spacing.md}
+                textAlign="center"
+              >
+                {total !== null && total !== undefined ? total : ''}
+              </ty.CaptionText>
+            ))}
+          </ProgramWrapper>
+        )}
     </l.Div>
   );
 };
@@ -227,10 +280,10 @@ const Cell = styled(l.Flex)(
     background: highlight
       ? hexColorWithTransparency(th.colors.background, 0.8)
       : th.colors.background,
-    border: error
-      ? th.borders.error
-      : warning
+    border: warning
       ? th.borders.warning
+      : error
+      ? th.borders.error
       : active
       ? th.borders.primaryAccent
       : th.borders.disabled,
@@ -240,7 +293,6 @@ const Cell = styled(l.Flex)(
     padding: `0 ${th.spacing.tn}`,
     position: 'relative',
     transition: th.transitions.default,
-    width: `calc(${th.sizes.fill} - ${th.spacing.sm} - 2px)`,
     ':hover': {
       border: onClick
         ? error
@@ -272,6 +324,7 @@ const ProgramRow = <
     allocatedStartDate,
     allocatedEndDate,
     commonSpecieses,
+    customers,
     changeHandlers: {
       handleCustomerProgramChange,
       handleCustomerProgramEntryChange,
@@ -309,6 +362,7 @@ const ProgramRow = <
     handleWeekRangeChange,
     startWeeks,
     endWeeks,
+    vesselInfos,
   } = props;
   const { id } = program;
 
@@ -319,6 +373,7 @@ const ProgramRow = <
       commonSizeId: commonSizeIdQuery,
       commonPackTypeId: commonPackTypeIdQuery,
       plu: pluQuery,
+      customerIdFilter: customerIdQuery,
     },
     setProgramsQueryParams,
   ] = useProgramsQueryParams();
@@ -346,8 +401,8 @@ const ProgramRow = <
     id: program.id,
     arrivalPort: program.arrivalPort,
     customerId: isCustomers
-      ? (program as CustomerProgram).customerId
-      : undefined,
+      ? program.customerId
+      : getProgramValue(program, 'customerId').value,
     shipperId: isCustomers ? undefined : (program as ShipperProgram).shipperId,
     plu: getProgramValue(program, 'plu').value,
     commonSpeciesId: getProgramValue(program, 'commonSpeciesId').value,
@@ -370,6 +425,7 @@ const ProgramRow = <
     commonVarietyId,
     commonSizeId,
     commonPackTypeId,
+    customerId,
   } = updatedProgram;
 
   const commonSpecies = commonSpecieses.find((sp) => sp.id === commonSpeciesId);
@@ -382,6 +438,7 @@ const ProgramRow = <
   const commonPackType = commonSpecies?.commonPackTypes.nodes.find(
     (pt) => pt && pt.id === commonPackTypeId,
   );
+  const customer = customers.find((c) => c && c.id === customerId);
 
   const handleProgramChange = isCustomers
     ? handleCustomerProgramChange
@@ -416,23 +473,52 @@ const ProgramRow = <
   };
 
   const getSelectorValue = (
-    type: 'species' | 'variety' | 'size' | 'packType',
+    type: 'species' | 'variety' | 'size' | 'packType' | 'customer',
   ) => {
     switch (type) {
       case 'species':
-        return commonSpecies?.speciesName || '';
+        return (
+          commonSpecies?.speciesName || updatedProgram.commonSpeciesId || ''
+        );
       case 'variety':
-        return commonVariety?.varietyName || '';
+        return (
+          commonVariety?.varietyName || updatedProgram.commonVarietyId || ''
+        );
       case 'size':
-        return commonSize?.sizeName || '';
+        return commonSize?.sizeName || updatedProgram.commonSizeId || '';
       case 'packType':
-        return commonPackType?.packTypeName || '';
+        return (
+          commonPackType?.packTypeName || updatedProgram.commonPackTypeId || ''
+        );
+      case 'customer':
+        return customer?.customerName || updatedProgram.customerId || '';
       default:
         return '';
     }
   };
 
-  const isValueDirty = (type: 'species' | 'variety' | 'size' | 'packType') => {
+  const getSelectorProduct = (
+    type: 'species' | 'variety' | 'size' | 'packType' | 'customer',
+  ) => {
+    switch (type) {
+      case 'species':
+        return commonSpecies;
+      case 'variety':
+        return commonVariety;
+      case 'size':
+        return commonSize;
+      case 'packType':
+        return commonPackType;
+      case 'customer':
+        return customer;
+      default:
+        return '';
+    }
+  };
+
+  const isValueDirty = (
+    type: 'species' | 'variety' | 'size' | 'packType' | 'customer',
+  ) => {
     switch (type) {
       case 'species':
         return commonSpeciesId !== program.commonSpeciesId;
@@ -442,6 +528,8 @@ const ProgramRow = <
         return commonSizeId !== program.commonSizeId;
       case 'packType':
         return commonPackTypeId !== program.commonPackTypeId;
+      case 'customer':
+        return customerId !== program.customerId;
       default:
         return true;
     }
@@ -502,7 +590,14 @@ const ProgramRow = <
           }
         })
         .flat()
-        .filter((link) => !!link) as ItemLink[],
+        .filter(
+          (link) =>
+            !!link &&
+            (link.id === '-1' ||
+              `${link.id} ${link.text}`
+                .toLowerCase()
+                .includes(getSelectorValue(type).toLowerCase())),
+        ) as ItemLink[],
     );
 
     const commonProductKey = `common${pascalCase(type)}Id` as keyof (
@@ -524,10 +619,13 @@ const ProgramRow = <
       ...commonSelectorProps,
       allItems,
       editableCellProps: {
+        bypassLocalValue: true,
         content: { dirty: isDirty, value },
         defaultChildren: null,
         editing,
-        error: isDuplicate,
+        error:
+          editing &&
+          (isDuplicate || !!(commonProductId && !getSelectorProduct(type))),
         onChange: (e: ChangeEvent<HTMLInputElement>) => {
           handleChange(commonProductKey, e.target.value);
         },
@@ -543,6 +641,52 @@ const ProgramRow = <
   const varietyLinkSelectorProps = getLinkSelectorProps('variety');
   const sizeLinkSelectorProps = getLinkSelectorProps('size');
   const packTypeLinkSelectorProps = getLinkSelectorProps('packType');
+
+  const customerLinkItems = customers.map((c) => ({
+    id: c.id,
+    text: c.customerName,
+  }));
+
+  const customerLinkSelectorProps = {
+    ...commonSelectorProps,
+    allItems: customerLinkItems.filter(
+      (c) =>
+        c.id === '-1' ||
+        `${c.id} ${c.text}`
+          .toLowerCase()
+          .includes(getSelectorValue('customer').toLowerCase()),
+    ),
+    editableCellProps: {
+      bypassLocalValue: true,
+      content: {
+        dirty: isValueDirty('customer'),
+        value: getSelectorValue('customer'),
+      },
+      defaultChildren: null,
+      editing,
+      error:
+        isDuplicate ||
+        !!(getSelectorValue('customer') && !getSelectorProduct('customer')),
+      onChange: (e: ChangeEvent<HTMLInputElement>) => {
+        handleChange('customerId', e.target.value);
+      },
+      warning: false,
+    },
+    getItemContent: (link: ItemLink) => (
+      <ItemLinkRow
+        active={link.id === customerId}
+        link={{
+          ...link,
+          text: link.id === '-1' ? link.text : `${link.id} - ${link.text}`,
+        }}
+      />
+    ),
+    nameKey: 'text' as keyof ItemLink,
+    selectItem: ({ id }: ItemLink) => {
+      handleChange('customerId', id === '-1' ? null : id);
+    },
+    width: 350,
+  };
 
   const { ItemSelector: SpeciesSelector } = useItemSelector({
     errorLabel: 'species',
@@ -564,6 +708,11 @@ const ProgramRow = <
     ...packTypeLinkSelectorProps,
   });
 
+  const { ItemSelector: CustomerSelector } = useItemSelector({
+    errorLabel: 'customers',
+    ...customerLinkSelectorProps,
+  });
+
   const isDifferentVariety =
     previousProgram &&
     !equals(
@@ -580,19 +729,24 @@ const ProgramRow = <
         | ShipperProgramEntry
       )[]);
 
-  const availablePalletEntryTotals = getAvailablePalletEntryTotals(
+  const allocatedPalletTotalSets = getAllocatedPalletEntryTotalSets(
     entries,
     selectedWeekNumber,
     weekCount,
+    isCustomers,
   );
-  const availablePalletTotals = [
-    sum(
-      availablePalletEntryTotals.map((total) =>
-        total !== null && total !== undefined && total < 0 ? 0 : total || 0,
-      ),
+
+  const projectedTotals = pluck(
+    'projected',
+    getProgramTotals(
+      entries,
+      selectedWeekNumber,
+      weekCount,
+      (entry, key) => ({ value: entry[key], dirty: false }),
+      vesselInfos,
     ),
-    ...availablePalletEntryTotals,
-  ];
+  );
+  const hasProjections = sum(projectedTotals.map((val) => val || 0)) > 0;
 
   return (
     <>
@@ -604,7 +758,9 @@ const ProgramRow = <
           alignCenter
           key={program.id}
           gridColumnGap={th.spacing.xs}
-          gridTemplateColumns="repeat(2, 1fr) repeat(3, 0.7fr)"
+          gridTemplateColumns={`repeat(2, 1fr) repeat(3, 0.7fr)${
+            isCustomers ? '' : ' 1fr'
+          }`}
           ml={52}
           relative
         >
@@ -674,7 +830,7 @@ const ProgramRow = <
                     }
                   : undefined
               }
-              width={89}
+              width={95}
             >
               <ty.CaptionText
                 bold
@@ -708,7 +864,7 @@ const ProgramRow = <
                         }
                       : undefined
                   }
-                  width={89}
+                  width={95}
                 >
                   <ty.CaptionText
                     ellipsis
@@ -739,7 +895,7 @@ const ProgramRow = <
                         }
                       : undefined
                   }
-                  width={58}
+                  width={64}
                 >
                   <ty.CaptionText ellipsis title={program.commonSize?.sizeName}>
                     {program.commonSize?.sizeName}
@@ -765,7 +921,7 @@ const ProgramRow = <
                         }
                       : undefined
                   }
-                  width={58}
+                  width={64}
                 >
                   <ty.CaptionText
                     ellipsis
@@ -790,7 +946,7 @@ const ProgramRow = <
                           }
                         : undefined
                     }
-                    width={58}
+                    width={64}
                   >
                     <ty.CaptionText>{plu}</ty.CaptionText>
                   </Cell>
@@ -802,6 +958,38 @@ const ProgramRow = <
                 }}
                 showBorder={false}
               />
+              {isCustomers ? null : editing ? (
+                CustomerSelector
+              ) : (
+                <Cell
+                  {...pick(
+                    ['error', 'warning'],
+                    customerLinkSelectorProps.editableCellProps,
+                  )}
+                  warning={!!customerIdQuery}
+                  onClick={
+                    customerId
+                      ? () => {
+                          setProgramsQueryParams({
+                            customerIdFilter: customerId,
+                          });
+                        }
+                      : undefined
+                  }
+                  width={95}
+                >
+                  <ty.CaptionText
+                    ellipsis
+                    title={
+                      program.customer
+                        ? `${program.customer?.id} - ${program.customer?.customerName}`
+                        : ''
+                    }
+                  >
+                    {program.customer ? program.customer?.customerName : ''}
+                  </ty.CaptionText>
+                </Cell>
+              )}
             </>
           )}
         </l.Grid>
@@ -905,6 +1093,7 @@ const ProgramRow = <
                 entry={entry}
                 isCustomers={isCustomers}
                 loading={loading}
+                program={program}
                 trigger={(focused) => (
                   <l.Div
                     background={
@@ -946,51 +1135,130 @@ const ProgramRow = <
           );
         }, weekCount)}
       </ProgramWrapper>
-      {!editing && showAllocated && (
+      {!editing &&
+        showAllocated &&
+        values(
+          mapObjIndexed((item, id) => {
+            const { name, totals } = item;
+            const index = Object.keys(allocatedPalletTotalSets).indexOf(id);
+            const isFirst = index === 0;
+            const isLast =
+              index === Object.keys(allocatedPalletTotalSets).length - 1;
+            return (
+              <ProgramWrapper
+                gridTemplateColumns={gridTemplateColumns}
+                key={id}
+                mb={isLast && !hasProjections ? th.spacing.xs : th.spacing.tn}
+                mt={isFirst ? th.spacing.xs : th.spacing.tn}
+              >
+                <l.Flex alignCenter justifyBetween>
+                  {isFirst && program.notes ? (
+                    <ty.SmallText
+                      ml={26}
+                      nowrap
+                      overflow="hidden"
+                      textOverflow="ellipsis"
+                      title={program.notes}
+                    >
+                      {program.notes}
+                    </ty.SmallText>
+                  ) : (
+                    <div />
+                  )}
+                  <l.Flex>
+                    <l.HoverButton
+                      dark
+                      onClick={
+                        isLast
+                          ? undefined
+                          : () => {
+                              setProgramsQueryParams({
+                                programsView: isCustomers
+                                  ? 'shippers'
+                                  : 'customers',
+                                [isCustomers ? 'shipperId' : 'customerId']: id,
+                              });
+                            }
+                      }
+                    >
+                      <ty.SmallText
+                        fontSize={th.fontSizes.small}
+                        textAlign="right"
+                      >
+                        {isLast ? 'Unalloc' : name}:
+                      </ty.SmallText>
+                    </l.HoverButton>
+                    <ty.CaptionText
+                      bold
+                      color={
+                        isLast
+                          ? totals[0] === 0
+                            ? th.colors.status.success
+                            : th.colors.status.error
+                          : th.colors.text.default
+                      }
+                      ml={th.spacing.lg}
+                      mr={th.spacing.md}
+                      textAlign="right"
+                      width={th.spacing.lg}
+                    >
+                      {totals[0] !== null && totals[0] !== undefined
+                        ? totals[0]
+                        : ''}
+                    </ty.CaptionText>
+                  </l.Flex>
+                </l.Flex>
+                {(totals as number[]).slice(1).map((total, idx) => (
+                  <ty.CaptionText
+                    color={
+                      isLast
+                        ? total === 0
+                          ? th.colors.status.success
+                          : th.colors.status.error
+                        : th.colors.text.default
+                    }
+                    key={idx}
+                    mr={th.spacing.md}
+                    textAlign="center"
+                  >
+                    {total !== null && total !== undefined ? total : ''}
+                  </ty.CaptionText>
+                ))}
+              </ProgramWrapper>
+            );
+          }, allocatedPalletTotalSets),
+        )}
+      {!editing && !isCustomers && hasProjections && (
         <ProgramWrapper
           gridTemplateColumns={gridTemplateColumns}
           mt={th.spacing.tn}
+          mb={th.spacing.xs}
+          relative
         >
-          <l.Flex alignCenter justifyBetween>
-            {program.notes ? (
-              <ty.SmallText
-                ml={26}
-                nowrap
-                overflow="hidden"
-                textOverflow="ellipsis"
-                title={program.notes}
-                width={380}
-              >
-                {program.notes}
-              </ty.SmallText>
-            ) : (
-              <div />
-            )}
+          <l.Flex alignCenter justifyEnd ml={52}>
+            <ty.SmallText secondary textAlign="right">
+              Projected:
+            </ty.SmallText>
             <ty.CaptionText
               bold
-              color={
-                availablePalletTotals[0] === 0
-                  ? th.colors.status.success
-                  : th.colors.status.error
-              }
+              color={th.colors.status.warningSecondary}
+              ml={th.spacing.lg}
               mr={th.spacing.md}
-              secondary
               textAlign="right"
+              width={th.spacing.lg}
             >
-              {availablePalletTotals[0] !== null &&
-              availablePalletTotals[0] !== undefined
-                ? availablePalletTotals[0]
-                : ''}
+              {sum(
+                projectedTotals.map((val) =>
+                  val === null || val < 0 ? 0 : val,
+                ),
+              )}
             </ty.CaptionText>
           </l.Flex>
-          {availablePalletTotals.slice(1).map((total, idx) => (
+          {projectedTotals.map((total, idx) => (
             <ty.CaptionText
-              color={
-                total === 0 ? th.colors.status.success : th.colors.status.error
-              }
+              color={th.colors.status.warningSecondary}
               key={idx}
               mr={th.spacing.md}
-              secondary
               textAlign="center"
             >
               {total !== null && total !== undefined ? total : ''}

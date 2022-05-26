@@ -15,6 +15,9 @@ CREATE TABLE product.shipper_projection_vessel (
 	id BIGSERIAL PRIMARY KEY,
   shipper_id TEXT
 		REFERENCES directory.shipper(id)
+		ON DELETE SET NULL,
+  vessel_id BIGINT
+		REFERENCES product.vessel(id)
 		ON DELETE SET NULL
 );
 
@@ -43,6 +46,7 @@ CREATE TABLE product.shipper_projection_product (
   size TEXT,
   pack_type TEXT,
   plu TEXT,
+  customer_value TEXT,
   common_species_id BIGINT
 		REFERENCES product.common_species(id)
 		ON DELETE SET NULL,
@@ -57,6 +61,9 @@ CREATE TABLE product.shipper_projection_product (
 		ON DELETE SET NULL,
   shipper_id TEXT
 		REFERENCES directory.shipper(id)
+		ON DELETE SET NULL,
+  customer_id TEXT
+		REFERENCES directory.customer(id)
 		ON DELETE SET NULL
 );
 
@@ -71,7 +78,7 @@ CREATE TABLE product.shipper_projection_entry (
 		ON DELETE SET NULL
 );
 
-CREATE FUNCTION product.bulk_create_shipper_projection_vessel(
+CREATE FUNCTION product.bulk_upsert_shipper_projection_vessel(
   vessels product.shipper_projection_vessel[]
 )
 RETURNS setof product.shipper_projection_vessel
@@ -81,8 +88,19 @@ AS $$
     vals product.shipper_projection_vessel;
   BEGIN
     FOREACH v IN ARRAY vessels LOOP
-      INSERT INTO product.shipper_projection_vessel(shipper_id)
-        VALUES (v.shipper_id)
+      INSERT INTO product.shipper_projection_vessel(
+        id,
+        shipper_id,
+        vessel_id
+      )
+        VALUES (
+          COALESCE(v.id, (select nextval('product.shipper_projection_vessel_id_seq'))),
+          v.shipper_id,
+          v.vessel_id
+        )
+      ON CONFLICT (id) DO UPDATE SET
+        shipper_id=EXCLUDED.shipper_id,
+        vessel_id=EXCLUDED.vessel_id
     	RETURNING * INTO vals;
     	RETURN NEXT vals;
 	END LOOP;
@@ -111,7 +129,9 @@ AS $$
         common_species_id,
         common_variety_id,
         common_size_id,
-        common_pack_type_id
+        common_pack_type_id,
+        customer_id,
+        customer_value
       )
         VALUES (
           COALESCE(p.id, (select nextval('product.shipper_projection_product_id_seq'))),
@@ -124,7 +144,9 @@ AS $$
           p.common_species_id,
           p.common_variety_id,
           p.common_size_id,
-          p.common_pack_type_id
+          p.common_pack_type_id,
+          p.customer_id,
+          p.customer_value
         )
       ON CONFLICT (id) DO UPDATE SET
         species=EXCLUDED.species,
@@ -135,7 +157,9 @@ AS $$
         common_species_id=EXCLUDED.common_species_id,
         common_variety_id=EXCLUDED.common_variety_id,
         common_size_id=EXCLUDED.common_size_id,
-        common_pack_type_id=EXCLUDED.common_pack_type_id
+        common_pack_type_id=EXCLUDED.common_pack_type_id,
+        customer_id=EXCLUDED.customer_id,
+        customer_value=EXCLUDED.customer_value
     	RETURNING * INTO vals;
     	RETURN NEXT vals;
 	END LOOP;

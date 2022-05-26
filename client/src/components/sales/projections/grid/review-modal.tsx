@@ -97,14 +97,13 @@ const ShipperProjectionsReviewModal = ({
             </b.Status>
             <>
               {!isPortal && (
-                <b.Status
+                <b.Primary
                   disabled={confirmLoading}
                   ml={th.spacing.lg}
                   onClick={() => {
                     handleConfirm(value, 1);
                     hide();
                   }}
-                  status={th.colors.status.warning}
                   width={180}
                 >
                   {confirmLoading ? (
@@ -117,7 +116,7 @@ const ShipperProjectionsReviewModal = ({
                   ) : (
                     'Save'
                   )}
-                </b.Status>
+                </b.Primary>
               )}
               <b.Status
                 disabled={confirmLoading}

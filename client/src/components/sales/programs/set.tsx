@@ -11,6 +11,7 @@ import {
   ProgramProps,
   CustomerProgramUpdate,
   ShipperProgramUpdate,
+  ProgramTotal,
 } from './types';
 import ProgramRow, { ProgramTotalRow } from './row';
 import { getGridProps } from './utils';
@@ -22,10 +23,12 @@ const ProgramSet = <
   editing,
   getProgramValue,
   groupedPrograms,
+  isCustomers,
   programTotals,
   rest,
   to,
   specieses,
+  startIndex,
 }: {
   editing: boolean;
   getProgramValue: (
@@ -33,22 +36,29 @@ const ProgramSet = <
     key: keyof K,
   ) => { dirty: boolean; value: string };
   groupedPrograms: Record<string, T[]>;
+  isCustomers: boolean;
   loading: boolean;
   programTotals: {
-    [key: string]: { total: number; available: number | null }[];
+    [key: string]: ProgramTotal[];
   };
   rest: ProgramProps;
   to?: string;
   specieses: CommonSpecies[];
+  startIndex: number;
 }) => {
   const [{ programsView: view }] = useProgramsQueryParams();
-  const { gridTemplateColumns, gridWidth } = getGridProps(rest.weekCount);
+  const { gridTemplateColumns, gridWidth } = getGridProps(
+    rest.weekCount,
+    isCustomers,
+  );
   return (
     <>
       {values(
         mapObjIndexed((programs, key, object) => {
           const isEvenRow =
-            object && Object.keys(object).indexOf(key) % 2 === 0;
+            (((object && Object.keys(object).indexOf(key)) || 0) + startIndex) %
+              2 ===
+            0;
           const isFirstRow = object && Object.keys(object).indexOf(key) === 0;
           const customerName = (programs[0] as CustomerProgram)?.customer
             ?.customerName;
@@ -106,6 +116,12 @@ const ProgramSet = <
                             previousProgram={previousProgram}
                             showSpecies={showSpecies}
                             showVariety={showVariety}
+                            vesselInfos={rest.vesselInfos.filter(
+                              (vesselInfo) =>
+                                program &&
+                                vesselInfo.shipperId ===
+                                  (program as ShipperProgram).shipperId,
+                            )}
                           />,
                         ],
                         previousProgram: program,
@@ -118,6 +134,7 @@ const ProgramSet = <
                   <ProgramTotalRow
                     editing={editing}
                     gridTemplateColumns={gridTemplateColumns}
+                    isCustomers={isCustomers}
                     programTotals={programTotals[programTotalsKey]}
                     showAllocated={rest.showAllocated}
                     species={

@@ -75,7 +75,7 @@ const Details = () => {
       deleteVariables: updateVariables,
       confirmDeleteText: `Are you sure you want to delete group "${
         data ? data.groupName : ''
-      }"`,
+      }"?`,
       updateFields,
       updateVariables,
       validationLabels: baseLabels(true),

@@ -38,7 +38,7 @@ export const getDuplicateProductIds = (products: ShipperProjectionProduct[]) =>
   values(
     groupBy(
       (product) =>
-        `species=${product.species}variety=${product.variety}size=${product.size}packType=${product.packType}plu=${product.plu}`,
+        `species=${product.species}variety=${product.variety}size=${product.size}packType=${product.packType}plu=${product.plu}customer=${product.customerValue}`,
       products,
     ),
   )

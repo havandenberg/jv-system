@@ -67,9 +67,9 @@ const InventoryCell = ({
   availableTo: string;
   onHandTo: string;
 }) => {
-  const palletsAvailableCount = palletsAvailable.pre + palletsAvailable.real;
-  const palletCount = palletsAvailableCount + palletsOnHand.real;
   const showPreInventory = index < 14;
+  const palletsAvailableCount =
+    palletsAvailable.real + (showPreInventory ? 0 : palletsAvailable.pre);
 
   const wrapperProps = {
     borderLeft: index <= 1 ? th.borders.disabled : 0,
@@ -85,15 +85,23 @@ const InventoryCell = ({
       {...wrapperProps}
     >
       <ty.SmallText bold center color={th.colors.status.successAlt}>
-        {(showPreInventory
-          ? palletsAvailable.real + palletsAvailable.pre
-          : palletsAvailableCount) || '-'}
+        {palletsAvailableCount || '-'}
+        {showPreInventory && !!palletsAvailable.pre && (
+          <>
+            <ty.Span
+              color={th.colors.status.warningSecondary}
+              ml={th.spacing.sm}
+            >
+              {palletsAvailable.pre}
+            </ty.Span>
+          </>
+        )}
       </ty.SmallText>
     </ItemWrapper>
   );
 
   const onHandCell = (
-    <ItemWrapper hasItems={!!palletCount} isOnHand={true} {...wrapperProps}>
+    <ItemWrapper hasItems={onHandTo !== '#'} isOnHand={true} {...wrapperProps}>
       <ty.SmallText bold center color={th.colors.brand.primaryAccent}>
         {palletsOnHand.real || '-'}
       </ty.SmallText>

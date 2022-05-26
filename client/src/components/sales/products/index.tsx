@@ -20,7 +20,7 @@ import { listLabels as speciesListLabels } from './species/data-utils';
 
 export const breadcrumbs = [{ text: 'Products', to: '/sales/products' }];
 
-const gridTemplateColumns = '1fr 2fr 30px';
+const gridTemplateColumns = '1fr 0.5fr 1fr 1fr 30px';
 
 const CommonProductIndex = () => {
   const { Search } = useSearch();
@@ -73,13 +73,14 @@ const CommonProductIndex = () => {
             </b.Primary>,
           ]
         ) : (
-          <b.Primary
+          <b.Warning
             onClick={() => {
               setEditing(true);
             }}
+            width={88}
           >
             Edit
-          </b.Primary>
+          </b.Warning>
         )
       }
       breadcrumbs={breadcrumbs}

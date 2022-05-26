@@ -5,10 +5,7 @@ import { times } from 'ramda';
 
 import ArrowInCircle from 'assets/images/arrow-in-circle';
 import { formatDate } from 'components/date-range-picker';
-import {
-  useDateRangeQueryParams,
-  useInventoryQueryParams,
-} from 'hooks/use-query-params';
+import { useDateRangeQueryParams } from 'hooks/use-query-params';
 import { Vessel } from 'types';
 import l from 'ui/layout';
 import th from 'ui/theme';
@@ -39,10 +36,7 @@ interface Props {
 }
 
 const InventoryVessels = ({ vessels }: Props) => {
-  const [{ coast }] = useInventoryQueryParams();
-  const [
-    { startDate = formatDate(new Date()), endDate = formatDate(new Date()) },
-  ] = useDateRangeQueryParams();
+  const [{ startDate = formatDate(new Date()) }] = useDateRangeQueryParams();
   const currentStartOfWeek = startOfISOWeek(
     new Date(startDate.replace(/-/g, '/')),
   );
@@ -100,25 +94,18 @@ const InventoryVessels = ({ vessels }: Props) => {
             >
               <l.Flex flexWrap="wrap" mx="auto">
                 {filteredVessels.map((vessel, idy) => {
-                  const isPre = vessel.vesselCode.includes('PRE-');
-                  if (isPre && idx < 7) {
+                  if (vessel.inventoryItems.nodes.length === 0) {
                     return null;
                   }
                   return (
                     <l.Div key={idy} mb={th.spacing.xs} mx={th.spacing.tn}>
                       <l.AreaLink
                         title={`${vessel.vesselName} (${vessel.vesselCode})`}
-                        to={
-                          isPre
-                            ? `/sales/projections?coast=${coast}&startDate=${startDate}&endDate=${endDate}&view=grid&shipperId=${vessel.shipperId}`
-                            : `/sales/vessels/${vessel.id}`
-                        }
+                        to={`/sales/vessels/${vessel.id}`}
                       >
-                        <VesselLink isPre={isPre}>
+                        <VesselLink isPre={!!vessel.isPre}>
                           <ty.SmallText>
-                            {coast === 'EC'
-                              ? vessel.vesselName?.slice(0, 3)
-                              : vessel.vesselName?.slice(3, 6)}
+                            {vessel.vesselName?.slice(0, 3)}
                           </ty.SmallText>
                         </VesselLink>
                       </l.AreaLink>

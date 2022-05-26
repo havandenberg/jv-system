@@ -89,6 +89,16 @@ query CUSTOMER_PROGRAM_LIST(
               id
               palletCount
               shipperProgramEntryId
+              shipperProgramEntry {
+                id
+                shipperProgram {
+                  id
+                  shipper {
+                    id
+                    shipperName
+                  }
+                }
+              }
             }
           }
         }

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { add, format, getDay, parse, startOfWeek } from 'date-fns';
 import {
   Calendar as BigCalendar,
   dateFnsLocalizer,
@@ -10,7 +11,6 @@ import RRule, { rrulestr } from 'rrule';
 import api from 'api';
 import { DataMessage } from 'components/page/message';
 import Page from 'components/page';
-import { add, format, getDay, parse, startOfWeek } from 'date-fns';
 import { CalendarEvent } from 'types';
 import b from 'ui/button';
 import l from 'ui/layout';

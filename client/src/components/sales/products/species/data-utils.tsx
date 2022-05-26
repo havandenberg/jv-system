@@ -54,28 +54,29 @@ export const listLabels: (isIndex: boolean) => CommonSpeciesLabelInfo[] = (
       ),
   },
   {
+    key: 'productSpeciesId',
+    label: 'Primary Code',
+  },
+  {
+    key: 'commonSpeciesTags',
+    label: 'Tags',
+    getValue: ({ commonSpeciesTags }) => {
+      const tagString = pluck(
+        'tagText',
+        commonSpeciesTags?.nodes as CommonSpeciesTag[],
+      ).join(', ');
+      return tagString ? <ty.BodyText>{tagString}</ty.BodyText> : null;
+    },
+  },
+  {
     key: 'speciesDescription',
     label: 'Description',
   },
-  ...(isIndex
-    ? []
-    : ([
-        {
-          key: 'commonSpeciesTags',
-          label: 'Tags',
-          getValue: ({ commonSpeciesTags }) => (
-            <ty.BodyText>
-              {pluck(
-                'tagText',
-                commonSpeciesTags?.nodes as CommonSpeciesTag[],
-              ).join(', ')}
-            </ty.BodyText>
-          ),
-        },
-      ] as CommonSpeciesLabelInfo[])),
 ];
 
-export const baseLabels: CommonSpeciesLabelInfo[] = [
+export const baseLabels: (
+  productSpecieses: ProductSpecies[],
+) => CommonSpeciesLabelInfo[] = (productSpecieses) => [
   {
     key: 'uiColor',
     label: 'UI Color',
@@ -94,10 +95,6 @@ export const baseLabels: CommonSpeciesLabelInfo[] = [
     label: 'Name',
   },
   {
-    key: 'speciesDescription',
-    label: 'Description',
-  },
-  {
     key: 'productSpeciesId',
     label: 'Primary Code',
     itemSelectorQueryProps: {
@@ -110,6 +107,9 @@ export const baseLabels: CommonSpeciesLabelInfo[] = [
       query: PRODUCT_SPECIES_QUERY,
       queryName: 'productSpecieses',
     },
+    validate: ({ productSpeciesId }) =>
+      !productSpeciesId ||
+      !!productSpecieses.find(({ id }) => id === productSpeciesId),
   },
   {
     key: 'defaultInvSortKey',
@@ -129,5 +129,9 @@ export const baseLabels: CommonSpeciesLabelInfo[] = [
         </ty.BodyText>
       );
     },
+  },
+  {
+    key: 'speciesDescription',
+    label: 'Description',
   },
 ];

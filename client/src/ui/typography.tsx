@@ -142,13 +142,18 @@ const LinkText = styled(RouterLink)<TextProps>(
   textPropsSet,
 );
 
-const TriggerText = styled(BodyText)({
-  cursor: 'pointer',
-  ':hover': {
-    color: th.colors.brand.primaryAccent,
-    textDecoration: 'underline',
-  },
-});
+const TriggerText = styled(BodyText)(
+  ({ active }: { active?: boolean }) => ({
+    color: active ? th.colors.brand.primaryAccent : undefined,
+    cursor: 'pointer',
+    textDecoration: active ? 'underline' : undefined,
+    ':hover': {
+      color: th.colors.brand.primaryAccent,
+      textDecoration: 'underline',
+    },
+  }),
+  textPropsSet,
+);
 
 export default {
   BodyText,

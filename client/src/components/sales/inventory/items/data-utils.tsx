@@ -30,15 +30,15 @@ export const indexListLabels = ({
     label: 'Vessel',
     getValue: ({ vessel }) =>
       vessel ? `${vessel.vesselCode} - ${vessel.vesselName}` : '',
-    defaultSortOrder: SORT_ORDER.ASC,
+    defaultSortOrder: SORT_ORDER.DESC,
     sortable: true,
     customSortBy: ({ vessel }) => (vessel ? vessel.vesselCode : ''),
   },
   {
     key: 'vessel',
-    label: 'Discharge Date',
+    label: 'Available Date',
     getValue: ({ vessel }) => (vessel ? vessel.dischargeDate : ''),
-    defaultSortOrder: SORT_ORDER.ASC,
+    defaultSortOrder: SORT_ORDER.DESC,
     sortable: true,
     sortKey: 'dischargeDate',
     customSortBy: ({ vessel }) =>
@@ -59,12 +59,16 @@ export const indexListLabels = ({
   {
     key: 'product',
     label: 'Details',
-    getValue: ({ plu: pluVal, product }) =>
-      `${(!species && product?.species?.speciesDescription) || ''} ${
-        (!variety && product?.variety?.varietyDescription) || ''
-      } ${(!size && product?.sizes?.nodes[0]?.jvDescription) || ''} ${
-        (!packType && product?.packType?.packDescription) || ''
-      } ${!plu && pluVal ? 'PLU' : ''}`,
+    getValue: ({ plu: pluVal, product }) => {
+      const desc = `${
+        (!species && product?.species?.speciesDescription) || ''
+      } ${(!variety && product?.variety?.varietyDescription) || ''} ${
+        (!size && product?.sizes?.nodes[0]?.jvDescription) || ''
+      } ${(!packType && product?.packType?.packDescription) || ''} ${
+        !plu && pluVal ? 'PLU' : ''
+      }`;
+      return desc.trim() ? desc : undefined;
+    },
     defaultSortOrder: SORT_ORDER.ASC,
     sortable: true,
     sortKey: 'species',
@@ -119,7 +123,9 @@ export const indexListLabels = ({
   {
     key: 'id',
     label: 'PRE',
+    sortKey: 'isPre',
     sortable: true,
+    defaultSortOrder: SORT_ORDER.ASC,
     getValue: (item) => (
       <l.Flex alignCenter justifyCenter>
         {isPreInventoryItem(item) && <StatusIndicator status="warning" />}
@@ -236,7 +242,7 @@ export const baseLabels: InventoryItemLabelInfo[] = [
   },
   {
     key: 'vessel',
-    label: 'Discharge Date',
+    label: 'Available Date',
     getValue: ({ vessel }) =>
       vessel
         ? formatDate(new Date(vessel.dischargeDate.replace(/-/g, '/')))

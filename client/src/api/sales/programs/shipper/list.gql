@@ -44,6 +44,11 @@ query SHIPPER_PROGRAM_LIST(
       id
       notes
       plu
+      customerId
+      customer {
+        id
+        customerName
+      }
       shipperId
       shipper {
         id
@@ -81,6 +86,10 @@ query SHIPPER_PROGRAM_LIST(
               id
               shipperName
             }
+            customer {
+              id
+              customerName
+            }
           }
           shipperProgramEntryCustomerProgramEntries {
             nodes {
@@ -88,6 +97,16 @@ query SHIPPER_PROGRAM_LIST(
               id
               palletCount
               shipperProgramEntryId
+              customerProgramEntry {
+                id
+                customerProgram {
+                  id
+                  customer {
+                    id
+                    customerName
+                  }
+                }
+              }
             }
           }
         }

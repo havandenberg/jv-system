@@ -143,7 +143,7 @@ const ProgramNotes = <T extends CustomerProgram | ShipperProgram>({
             </l.Flex>
           </l.Flex>
           <TextArea
-            autoFocus
+            autoFocus={!programState.notes}
             fontSize={th.fontSizes.caption}
             onChange={handleChange}
             rows={3}

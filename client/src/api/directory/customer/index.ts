@@ -17,7 +17,7 @@ export const CUSTOMER_DETAILS_QUERY = loader('./details.gql');
 const CUSTOMER_LIST_QUERY = loader('./list.gql');
 const CUSTOMER_UPDATE = loader('./update.gql');
 
-export const useCustomers = () => {
+export const useCustomers = (orderByOverride?: string) => {
   const [search = ''] = useSearchQueryParam();
   const [customerSearch = ''] = useQueryValue('customerSearch');
   const [{ sortBy = 'customerName', sortOrder = SORT_ORDER.ASC }] =
@@ -45,7 +45,7 @@ export const useCustomers = () => {
     variables: {
       city: filteredCityValues,
       postalState: filteredPostalStateValues,
-      orderBy,
+      orderBy: orderByOverride || orderBy,
       search: getSearchArray(search || customerSearch),
     },
   });

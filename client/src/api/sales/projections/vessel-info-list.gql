@@ -25,11 +25,20 @@ query SHIPPER_PROJECTION_VESSEL_INFO_LIST(
       vesselName
       vessel {
         id
+        vesselId
+        vessel {
+          id
+          arrivalDate
+        }
         shipperProjectionVesselInfosByVesselId {
           nodes {
             id
             vesselName
           }
+        }
+        shipper {
+          shipperName
+          id
         }
       }
       vesselId
@@ -53,13 +62,6 @@ query SHIPPER_PROJECTION_VESSEL_INFO_LIST(
             id
             submittedAt
           }
-        }
-      }
-      vessel {
-        id
-        shipper {
-          shipperName
-          id
         }
       }
       projection {
@@ -88,6 +90,11 @@ query SHIPPER_PROJECTION_VESSEL_INFO_LIST(
             size
             species
             variety
+            customerValue
+            customer {
+              id
+              customerName
+            }
             commonSpeciesId
             commonSpecies {
               id
@@ -158,6 +165,7 @@ query SHIPPER_PROJECTION_VESSEL_INFO_LIST(
                 }
               }
             }
+            customerId
           }
         }
       }

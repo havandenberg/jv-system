@@ -94,9 +94,11 @@ query INVENTORY_ITEM_LIST {
         id
       }
       vessel {
+        id
         dischargeDate
         vesselCode
         vesselName
+        isPre
       }
       warehouse {
         id

@@ -93,6 +93,7 @@ export const useProjectionsQueryParams = () =>
     graphView: StringParam,
     projectionsView: StringParam,
     projectionId: StringParam,
+    vesselId: StringParam,
   });
 
 export const useProgramsQueryParams = () =>
@@ -102,6 +103,7 @@ export const useProgramsQueryParams = () =>
     commonSizeId: StringParam,
     commonPackTypeId: StringParam,
     plu: StringParam,
+    customerIdFilter: StringParam,
     coast: StringParam,
     shipperId: StringParam,
     customerId: StringParam,

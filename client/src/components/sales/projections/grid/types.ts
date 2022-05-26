@@ -4,9 +4,15 @@ import {
   ShipperProjection,
   ShipperProjectionEntry,
   ShipperProjectionProduct,
+  ShipperProjectionVessel,
   ShipperProjectionVesselInfo,
+  Vessel,
 } from 'types';
 
+export type ParentVesselUpdate = Pick<
+  ShipperProjectionVessel,
+  'id' | 'shipperId' | 'vesselId'
+>;
 export type VesselUpdate = Pick<
   ShipperProjectionVesselInfo,
   | 'id'
@@ -27,16 +33,22 @@ export type ProductUpdate = Pick<
   | 'size'
   | 'packType'
   | 'plu'
+  | 'customerValue'
   | 'commonSpeciesId'
   | 'commonVarietyId'
   | 'commonSizeId'
   | 'commonPackTypeId'
+  | 'customerId'
 >;
 export type EntryUpdate = Pick<
   ShipperProjectionEntry,
   'id' | 'palletCount' | 'vesselInfoId' | 'productId'
 >;
-export type UpdateType = VesselUpdate | ProductUpdate | EntryUpdate;
+export type UpdateType =
+  | ParentVesselUpdate
+  | VesselUpdate
+  | ProductUpdate
+  | EntryUpdate;
 
 export type NewVessel = Pick<
   ShipperProjectionVesselInfo,
@@ -53,7 +65,14 @@ export type NewVessel = Pick<
 >;
 export type NewProduct = Pick<
   ShipperProjectionProduct,
-  'id' | 'species' | 'variety' | 'size' | 'packType' | 'plu' | 'shipperId'
+  | 'id'
+  | 'species'
+  | 'variety'
+  | 'size'
+  | 'packType'
+  | 'plu'
+  | 'customerValue'
+  | 'shipperId'
 >;
 export type NewEntry = Pick<
   ShipperProjectionEntry,
@@ -61,6 +80,7 @@ export type NewEntry = Pick<
 >;
 
 export interface ShipperProjectionGridChanges {
+  parentVesselUpdates: ParentVesselUpdate[];
   vesselUpdates: VesselUpdate[];
   productUpdates: ProductUpdate[];
   entryUpdates: EntryUpdate[];
@@ -82,10 +102,13 @@ export interface ShipperProjectionGridState {
   skippedWeeks: string[];
   matchAllCommonProducts: boolean;
   showOnlyCommonNames: boolean;
+  isPortal: boolean;
+  saveAttempt: boolean;
 }
 
 export interface ShipperProjectionGridProps {
   changeHandlers: {
+    handleParentVesselChange: (update: ParentVesselUpdate) => void;
     handleVesselChange: (update: VesselUpdate) => void;
     handleEntryChange: (update: EntryUpdate) => void;
     handleProductChange: (
@@ -105,7 +128,16 @@ export interface ShipperProjectionGridProps {
     handleRemoveProduct: (id: number) => void;
   };
   selectedShipper?: Maybe<Shipper>;
+  selectedVessel?: Maybe<Vessel>;
+  showParentVessels: boolean;
   valueGetters: {
+    getParentVesselValue: (
+      vessel: Maybe<ShipperProjectionVessel> | undefined,
+      key: keyof ParentVesselUpdate,
+    ) => {
+      dirty: boolean;
+      value: string;
+    };
     getVesselValue: (
       vessel: Maybe<ShipperProjectionVesselInfo> | undefined,
       key: keyof VesselUpdate,

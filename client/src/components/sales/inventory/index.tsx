@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 import { startOfISOWeek } from 'date-fns';
-import { groupBy, isEmpty, sortBy } from 'ramda';
+import { groupBy, isEmpty, pluck, sortBy } from 'ramda';
 
 import api from 'api';
 import { DataMessage } from 'components/page/message';
 import Page from 'components/page';
 import { CommonProductTag } from 'components/tag-manager';
 import { useInventoryQueryParams } from 'hooks/use-query-params';
-import { InventoryItem, ShipperProjectionVesselInfo, Vessel } from 'types';
+import { InventoryItem, Vessel } from 'types';
 import b from 'ui/button';
 import l from 'ui/layout';
 import th from 'ui/theme';
@@ -57,27 +57,31 @@ const Inventory = () => {
     data: vesselsData,
     loading: vesselsLoading,
     error: vesselsError,
-  } = api.useVessels(true);
-  const vessels = vesselsData ? vesselsData.nodes : [];
+  } = api.useVessels({ isInventory: true });
+  const vessels = ((vesselsData ? vesselsData.nodes : []) as Vessel[]).map(
+    (vessel) => {
+      if (!vessel.isPre) {
+        return vessel;
+      }
 
-  const {
-    data: projectionsData,
-    loading: projectionsLoading,
-    error: projectionsError,
-  } = api.useShipperProjectionVesselInfos(true);
-  const projections = projectionsData ? projectionsData.nodes : [];
+      const { preInventoryItems } = convertProjectionsToInventoryItems(vessel);
 
-  const loading = itemsLoading || vesselsLoading || projectionsLoading;
-  const error = itemsError || vesselsError || projectionsError;
+      return { ...vessel, inventoryItems: { nodes: preInventoryItems } };
+    },
+  );
 
-  const { preInventoryItems, preInventoryVessels } =
-    convertProjectionsToInventoryItems(
-      projections as ShipperProjectionVesselInfo[],
-      startDateQuery ? new Date(startDateQuery.replace(/-/g, '/')) : new Date(),
-    );
+  const preInventoryItems = pluck(
+    'inventoryItems',
+    vessels.filter((vessel) => vessel.isPre),
+  )
+    .map((its) => its.nodes)
+    .flat();
+
+  const loading = itemsLoading || vesselsLoading;
+  const error = itemsError || vesselsError;
 
   const allItems = [...items, ...preInventoryItems] as InventoryItem[];
-  const allVessels = [...vessels, ...preInventoryVessels] as Vessel[];
+  const allVessels = vessels;
 
   const {
     components,

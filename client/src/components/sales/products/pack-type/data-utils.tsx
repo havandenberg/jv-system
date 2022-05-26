@@ -20,31 +20,32 @@ export const listLabels: CommonPackTypeLabelInfo[] = [
     sortable: true,
   },
   {
-    key: 'packTypeDescription',
-    label: 'Description',
+    key: 'packMasterId',
+    label: 'Primary Code',
   },
   {
     key: 'commonPackTypeTags',
     label: 'Tags',
-    getValue: ({ commonPackTypeTags }) => (
-      <ty.BodyText>
-        {pluck(
-          'tagText',
-          commonPackTypeTags?.nodes as CommonPackTypeTag[],
-        ).join(', ')}
-      </ty.BodyText>
-    ),
-  },
-];
-
-export const baseLabels: CommonPackTypeLabelInfo[] = [
-  {
-    key: 'packTypeName',
-    label: 'Name',
+    getValue: ({ commonPackTypeTags }) => {
+      const tagString = pluck(
+        'tagText',
+        commonPackTypeTags?.nodes as CommonPackTypeTag[],
+      ).join(', ');
+      return tagString ? <ty.BodyText>{tagString}</ty.BodyText> : null;
+    },
   },
   {
     key: 'packTypeDescription',
     label: 'Description',
+  },
+];
+
+export const baseLabels: (
+  packMasters: PackMaster[],
+) => CommonPackTypeLabelInfo[] = (packMasters) => [
+  {
+    key: 'packTypeName',
+    label: 'Name',
   },
   {
     key: 'packMasterId',
@@ -59,6 +60,8 @@ export const baseLabels: CommonPackTypeLabelInfo[] = [
       query: PACK_MASTER_QUERY,
       queryName: 'packMasters',
     },
+    validate: ({ packMasterId }) =>
+      !packMasterId || !!packMasters.find(({ id }) => id === packMasterId),
   },
   {
     key: 'defaultInvSortKey',
@@ -80,5 +83,9 @@ export const baseLabels: CommonPackTypeLabelInfo[] = [
         </ty.BodyText>
       );
     },
+  },
+  {
+    key: 'packTypeDescription',
+    label: 'Description',
   },
 ];

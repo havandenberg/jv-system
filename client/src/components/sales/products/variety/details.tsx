@@ -8,7 +8,7 @@ import Page from 'components/page';
 import { DataMessage } from 'components/page/message';
 import useTagManager, { CommonProductTag } from 'components/tag-manager';
 import useUpdateItem from 'hooks/use-update-item';
-import { CommonVariety, CommonVarietyTag } from 'types';
+import { CommonVariety, CommonVarietyTag, ProductVariety } from 'types';
 import l from 'ui/layout';
 import th from 'ui/theme';
 
@@ -40,6 +40,10 @@ const CommonVarietyDetails = () => {
   }>();
   const { data, error, loading } = api.useCommonVariety(varietyId);
 
+  const { data: productVarietyData } = api.useProductVarietyList();
+  const productVarieties = (productVarietyData?.nodes ||
+    []) as ProductVariety[];
+
   const [handleUpdate] = api.useUpdateCommonVariety(varietyId);
 
   const updateFields = [
@@ -52,7 +56,7 @@ const CommonVarietyDetails = () => {
   ] as (keyof CommonVariety)[];
   const updateVariables = { id: varietyId };
 
-  const { changes, editing, handleChange, getUpdateActions } =
+  const { changes, editing, handleChange, getUpdateActions, saveAttempt } =
     useUpdateItem<CommonVariety>({
       data: data as CommonVariety,
       handleUpdate,
@@ -67,6 +71,7 @@ const CommonVarietyDetails = () => {
         ),
       updateFields,
       updateVariables,
+      validationLabels: baseLabels(productVarieties),
     });
 
   const tags = (changes?.commonVarietyTags?.nodes || []) as CommonProductTag[];
@@ -106,7 +111,8 @@ const CommonVarietyDetails = () => {
             data={data}
             editing={editing}
             handleChange={handleChange}
-            labels={baseLabels}
+            labels={baseLabels(productVarieties)}
+            showValidation={saveAttempt}
           />
           <l.Div ml={th.spacing.sm} my={th.spacing.lg}>
             {tagManager}

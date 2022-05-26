@@ -17,6 +17,9 @@ CREATE TABLE product.shipper_program (
 	notes TEXT,
   shipper_id TEXT
 		REFERENCES directory.shipper(id)
+		ON DELETE SET NULL,
+  customer_id TEXT
+		REFERENCES directory.customer(id)
 		ON DELETE SET NULL
 );
 
@@ -93,7 +96,8 @@ AS $$
         common_pack_type_id,
         notes,
 				plu,
-        shipper_id
+        shipper_id,
+        customer_id
       )
         VALUES (
           COALESCE(p.id, (select nextval('product.shipper_program_id_seq'))),
@@ -104,7 +108,8 @@ AS $$
           p.common_pack_type_id,
           p.notes,
 					p.plu,
-          p.shipper_id
+          p.shipper_id,
+          p.customer_id
         )
       ON CONFLICT (id) DO UPDATE SET
 				arrival_port=EXCLUDED.arrival_port,
@@ -114,7 +119,8 @@ AS $$
         common_pack_type_id=EXCLUDED.common_pack_type_id,
         notes=EXCLUDED.notes,
         plu=EXCLUDED.plu,
-        shipper_id=EXCLUDED.shipper_id
+        shipper_id=EXCLUDED.shipper_id,
+        customer_id=EXCLUDED.customer_id
     	RETURNING * INTO vals;
     	RETURN NEXT vals;
 	END LOOP;
@@ -359,12 +365,16 @@ AS $BODY$
     cpt.pack_type_name,
     sp.id,
     sp.arrival_port,
-    sp.plu
+    sp.plu,
+    cu.id,
+    cu.customer_name
 	) FROM product.shipper_program_entry spe
     LEFT JOIN product.shipper_program sp
       ON spe.shipper_program_id = sp.id
     LEFT JOIN directory.shipper sh
       ON sp.shipper_id = sh.id
+    LEFT JOIN directory.customer cu
+      ON sp.customer_id = cu.id
     LEFT JOIN product.common_species csp
       ON csp.id = sp.common_species_id
     LEFT JOIN product.common_variety cv

@@ -1,4 +1,4 @@
-import { add, endOfISOWeek, isAfter, isBefore } from 'date-fns';
+import { add, isBefore } from 'date-fns';
 import {
   last,
   mapObjIndexed,
@@ -11,12 +11,14 @@ import {
 } from 'ramda';
 
 import { LabelInfo } from 'components/column-label';
-import { formatDate } from 'components/date-range-picker';
+import { CommonProductTag } from 'components/tag-manager';
 import { SORT_ORDER } from 'hooks/use-columns';
 import {
   InventoryItem,
+  Maybe,
   ShipperProjectionEntry,
   ShipperProjectionProduct,
+  ShipperProjectionVessel,
   ShipperProjectionVesselInfo,
   Vessel,
   Warehouse,
@@ -25,7 +27,6 @@ import { isDateGreaterThanOrEqualTo } from 'utils/date';
 
 import { ShipperProjectionProductWithEntries } from '../projections/grid/types';
 import { getProductIdentifier } from '../projections/utils';
-import { CommonProductTag } from 'components/tag-manager';
 
 export const dateRanges = [1, 1, 1, 1, 1, 1, 1, 3, 4, 7, 7, 7];
 
@@ -65,7 +66,8 @@ export const getFilteredVessels = (
         isBefore(
           new Date(vessel.dischargeDate.replace(/-/g, '/')),
           add(currentStartOfWeek, { days: dateRange.end }),
-        ),
+        ) &&
+        vessel.inventoryItems?.nodes.length > 0,
     ),
   );
   return filteredVessels;
@@ -137,8 +139,7 @@ export const getSortedItems = (
     : items;
 };
 
-export const isPreInventoryItem = (item: InventoryItem) =>
-  item.vesselCode?.includes('PRE-');
+export const isPreInventoryItem = (item: InventoryItem) => !!item.vessel?.isPre;
 
 export interface InventoryItemPalletData {
   pre: number;
@@ -156,9 +157,10 @@ export const reducePalletData = (
       return {
         pre: acc.pre + (isPre ? newPalletCount : 0),
         real: acc.real + (isPre ? 0 : newPalletCount),
+        total: acc.total + newPalletCount,
       };
     },
-    { pre: 0, real: 0 },
+    { pre: 0, real: 0, total: 0 },
   );
 
 export const getVesselDischargeDate = (
@@ -166,12 +168,30 @@ export const getVesselDischargeDate = (
 ) => add(new Date(vessel.arrivalDate.replace(/-/g, '/')), { days: 3 });
 
 export const convertProjectionsToInventoryItems = (
-  projections: ShipperProjectionVesselInfo[],
-  startDate: Date,
+  vessel: Maybe<Vessel> | undefined,
 ) => {
-  const vessels = projections.filter(
+  if (!vessel) {
+    return { preInventoryItems: [], products: [] };
+  }
+
+  const projections = (
+    vessel
+      ? (
+          (vessel.shipperProjectionVessels?.nodes ||
+            []) as ShipperProjectionVessel[]
+        )
+          .map((vessel) =>
+            last(
+              (vessel.shipperProjectionVesselInfosByVesselId?.nodes ||
+                []) as ShipperProjectionVesselInfo[],
+            ),
+          )
+          .flat()
+      : []
+  ) as ShipperProjectionVesselInfo[];
+
+  const vesselInfos = projections.filter(
     (vesselInfo) =>
-      isAfter(getVesselDischargeDate(vesselInfo), endOfISOWeek(startDate)) &&
       vesselInfo.projection?.reviewStatus === 2 &&
       vesselInfo?.id ===
         last(
@@ -181,7 +201,7 @@ export const convertProjectionsToInventoryItems = (
   ) as ShipperProjectionVesselInfo[];
 
   const entries = [
-    ...vessels
+    ...vesselInfos
       .map((vessel) =>
         pathOr([], ['shipperProjectionEntriesByVesselInfoId', 'nodes'], vessel),
       )
@@ -216,38 +236,18 @@ export const convertProjectionsToInventoryItems = (
     ),
   );
 
-  const preInventoryVessels = vessels.map((vessel) => ({
-    id: -vessel.id,
-    vesselCode: `PRE-${vessel.id}`,
-    vesselName: vessel.vesselName,
-    country: vessel.shipper?.country,
-    departureDate: vessel.departureDate,
-    arrivalDate: vessel.arrivalDate,
-    dischargeDate: formatDate(getVesselDischargeDate(vessel)),
-    coast: vessel.arrivalPort,
-    shipperId: vessel.shipperId,
-  })) as (Vessel & { shipperId: string })[];
-
-  const preInventoryItems = vessels
-    .map((vessel) => {
+  const preInventoryItems = vesselInfos
+    .map((vesselInfo) => {
       const vesselProducts = products.filter((product) =>
         entries
-          .filter((entry) => entry.vesselInfoId === vessel.id)
+          .filter((entry) => entry.vesselInfoId === vesselInfo.id)
           .map((entry) => entry?.product?.id)
           .includes(product?.id),
       );
 
-      const preInventoryVessel = preInventoryVessels.find(
-        (v) => v.vesselCode === `PRE-${vessel.id}`,
-      );
-
-      if (!preInventoryVessel) {
-        return [];
-      }
-
       return vesselProducts.map((product) => ({
-        nodeId: `${preInventoryVessel.vesselCode}-${product.id}`,
-        id: `${preInventoryVessel.vesselCode}-${product.id}`,
+        nodeId: `${vessel.vesselCode}-${product.id}`,
+        id: `${vessel.vesselCode}-${product.id}`,
         product: {
           id: `${product.commonSpecies?.productSpeciesId}${product.commonVariety?.productVarietyId}${product.commonSize?.productSizeId}${product.commonPackType?.packMasterId}`,
           nodeId: '',
@@ -262,12 +262,12 @@ export const convertProjectionsToInventoryItems = (
             totalCount: 1,
           },
           entries: product.entries.filter(
-            ({ vesselInfoId }) => vesselInfoId === vessel.id,
+            ({ vesselInfoId }) => vesselInfoId === vesselInfo.id,
           ),
         },
-        vessel: preInventoryVessel,
-        vesselCode: preInventoryVessel.vesselCode,
-        shipper: vessel.shipper,
+        vessel: vessel,
+        vesselCode: vessel.vesselCode,
+        shipper: vesselInfo.shipper,
         palletsReceived: '0',
         palletsCommitted: '0',
         palletsOnHand: '0',
@@ -275,14 +275,14 @@ export const convertProjectionsToInventoryItems = (
           pluck(
             'palletCount',
             product.entries.filter(
-              ({ vesselInfoId }) => vesselInfoId === vessel.id,
+              ({ vesselInfoId }) => vesselInfoId === vesselInfo.id,
             ),
           ),
         )}`,
         palletsShipped: '0',
         plu: !!product.plu,
-        country: preInventoryVessel.country,
-        coast: preInventoryVessel.coast,
+        country: vessel.country,
+        coast: vessel.coast,
         pallets: {
           edges: [],
           nodes: [],
@@ -300,7 +300,6 @@ export const convertProjectionsToInventoryItems = (
   return {
     preInventoryItems,
     products,
-    preInventoryVessels,
   };
 };
 

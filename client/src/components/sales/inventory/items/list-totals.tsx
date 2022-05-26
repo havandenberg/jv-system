@@ -16,14 +16,14 @@ const InventoryListTotals = ({ items, loading }: Props) => (
   <l.Flex>
     <ty.CaptionText mr={th.spacing.lg}>
       Total Received:{' '}
-      {loading ? '-' : reducePalletData(items, 'palletsReceived').real}
+      {loading ? '-' : reducePalletData(items, 'palletsReceived').total}
     </ty.CaptionText>
     <ty.CaptionText color={th.colors.brand.primaryAccent} mr={th.spacing.lg}>
-      On Hand: {loading ? '-' : reducePalletData(items, 'palletsOnHand').real}
+      On Hand: {loading ? '-' : reducePalletData(items, 'palletsOnHand').total}
     </ty.CaptionText>
     <ty.CaptionText color={th.colors.status.successAlt}>
       Available:{' '}
-      {loading ? '-' : reducePalletData(items, 'palletsAvailable').real}
+      {loading ? '-' : reducePalletData(items, 'palletsAvailable').total}
     </ty.CaptionText>
   </l.Flex>
 );

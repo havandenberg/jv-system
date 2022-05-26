@@ -6,7 +6,7 @@ import api from 'api';
 import BaseData from 'components/base-data';
 import { validateItem } from 'components/column-label';
 import Page from 'components/page';
-import { CommonSpecies, CommonSize } from 'types';
+import { CommonSpecies, CommonSize, ProductSize } from 'types';
 import b from 'ui/button';
 import l from 'ui/layout';
 import th from 'ui/theme';
@@ -40,6 +40,10 @@ const CreateCommonSize = () => {
     speciesId: string;
   }>();
   const { data: species } = api.useCommonSpecies(speciesId || '');
+
+  const { data: productSizeData } = api.useProductSizeList();
+  const productSizes = (productSizeData?.nodes || []) as ProductSize[];
+
   const cancelLink = `/sales/products/${speciesId}/sizes${search}`;
 
   const [handleCreate] = api.useCreateCommonSize();
@@ -56,7 +60,7 @@ const CreateCommonSize = () => {
 
   const handleSave = () => {
     setSaveAttempt(true);
-    if (validateItem(changes, baseLabels)) {
+    if (validateItem(changes, baseLabels(productSizes))) {
       setLoading(true);
       handleCreate({
         variables: {
@@ -107,7 +111,7 @@ const CreateCommonSize = () => {
         data={changes}
         editing={true}
         handleChange={handleChange}
-        labels={baseLabels}
+        labels={baseLabels(productSizes)}
         showValidation={saveAttempt}
       />
     </Page>

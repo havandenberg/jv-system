@@ -6,10 +6,16 @@ query SHIPPER_PROJECTION_PRODUCT_LIST($shipperId: String) {
       size
       species
       variety
+      customerValue
       commonSpeciesId
       commonVarietyId
       commonSizeId
       commonPackTypeId
+      customerId
+      customer {
+        id
+        customerName
+      }
     }
   }
 }

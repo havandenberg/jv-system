@@ -6,12 +6,15 @@ import BaseData from 'components/base-data';
 import Page from 'components/page';
 import { DataMessage } from 'components/page/message';
 import { Tab, useTabBar } from 'components/tab-bar';
-import { InventoryItem, Vessel } from 'types';
+import useUpdateItem from 'hooks/use-update-item';
+import { Country, InventoryItem, Vessel, Warehouse } from 'types';
+import b from 'ui/button';
 import l from 'ui/layout';
 import th from 'ui/theme';
 
 import InventoryItemList from '../inventory/items/list';
 import InventoryListTotals from '../inventory/items/list-totals';
+import { convertProjectionsToInventoryItems } from '../inventory/utils';
 import { baseLabels } from './data-utils';
 
 export const breadcrumbs = (id: string, isInventory: boolean) => [
@@ -37,16 +40,80 @@ const Details = () => {
     id: string;
   }>();
   const { pathname } = useLocation();
+  const isInventory = pathname.includes('inventory');
+
   const { data, error, loading } = api.useVessel(id);
   const inventoryItems = data
     ? (data.inventoryItems.nodes as InventoryItem[])
     : [];
 
+  const { preInventoryItems } = convertProjectionsToInventoryItems(data);
+
+  const { data: countriesData } = api.useCountries('COUNTRY_NAME_ASC');
+  const countries = countriesData ? (countriesData.nodes as Country[]) : [];
+
+  const { data: warehouseData } = api.useAllWarehouses('WAREHOUSE_NAME_ASC');
+  const warehouses = warehouseData ? (warehouseData.nodes as Warehouse[]) : [];
+
   const { TabBar } = useTabBar(tabs);
+
+  const [handleUpdate] = api.useUpdateVessel(id);
+
+  const updateFields = [
+    'arrivalDate',
+    'arrivalPort',
+    'coast',
+    'countryId',
+    'departureDate',
+    'dischargeDate',
+    'isPre',
+    'vesselCode',
+    'vesselName',
+    'warehouseId',
+  ];
+  const updateVariables = { id };
+
+  const [handleDelete] = api.useDeleteVessel();
+
+  const { changes, editing, handleChange, getUpdateActions, saveAttempt } =
+    useUpdateItem<Vessel>({
+      data: data as Vessel,
+      handleDelete,
+      handleUpdate,
+      deleteVariables: updateVariables,
+      confirmDeleteText: `Are you sure you want to delete vessel "${
+        data ? data.vesselCode : ''
+      }"?`,
+      updateFields,
+      updateVariables,
+      validationLabels: baseLabels(countries, warehouses),
+    });
+
+  const items = inventoryItems.length > 0 ? inventoryItems : preInventoryItems;
 
   return (
     <Page
-      breadcrumbs={breadcrumbs(id, pathname.includes('inventory'))}
+      actions={
+        isInventory || !data?.isPre
+          ? undefined
+          : [
+              data?.isPre ? (
+                <>
+                  <l.AreaLink
+                    key="pre"
+                    to={`/sales/projections?coast=${data?.coast}&startDate=${data?.departureDate}&endDate=${data?.departureDate}&projectionsView=grid&vesselId=${data?.id}&projectionId=all`}
+                  >
+                    <b.Primary mr={th.spacing.md}>View Projections</b.Primary>
+                    <b.Primary mr={th.spacing.md}>Convert to Real</b.Primary>
+                  </l.AreaLink>
+                </>
+              ) : null,
+              editing
+                ? getUpdateActions().defaultActions
+                : getUpdateActions().editAction,
+            ]
+      }
+      breadcrumbs={breadcrumbs(id, isInventory)}
       title={
         data
           ? `${data.vesselName} (${data.vesselCode})` || 'Vessel'
@@ -55,15 +122,19 @@ const Details = () => {
     >
       {data ? (
         <l.Div pb={th.spacing.xl}>
-          <BaseData<Vessel> data={data} labels={baseLabels} />
+          <BaseData<Vessel>
+            data={data}
+            changes={changes}
+            editing={editing}
+            handleChange={handleChange}
+            labels={baseLabels(countries, warehouses)}
+            showValidation={saveAttempt}
+          />
           <l.Flex alignCenter justifyBetween my={th.spacing.lg}>
             <TabBar />
-            <InventoryListTotals items={inventoryItems} loading={loading} />
+            <InventoryListTotals items={items} loading={loading} />
           </l.Flex>
-          <InventoryItemList
-            baseUrl={`/sales/vessels/${id}`}
-            items={inventoryItems}
-          />
+          <InventoryItemList baseUrl={`/sales/vessels/${id}`} items={items} />
         </l.Div>
       ) : (
         <DataMessage data={data || []} error={error} loading={loading} />

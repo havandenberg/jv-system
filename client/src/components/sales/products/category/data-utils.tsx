@@ -26,6 +26,16 @@ export const listLabels: CommonCategoryLabelInfo[] = [
     ),
   },
   {
+    key: 'id',
+    label: '',
+    getValue: () => <div />,
+  },
+  {
+    key: 'nodeId',
+    label: '',
+    getValue: () => <div />,
+  },
+  {
     key: 'categoryDescription',
     label: 'Description',
   },

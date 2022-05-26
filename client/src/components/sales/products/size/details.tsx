@@ -8,7 +8,7 @@ import Page from 'components/page';
 import { DataMessage } from 'components/page/message';
 import useTagManager, { CommonProductTag } from 'components/tag-manager';
 import useUpdateItem from 'hooks/use-update-item';
-import { CommonSize, CommonSizeTag } from 'types';
+import { CommonSize, CommonSizeTag, ProductSize } from 'types';
 import l from 'ui/layout';
 import th from 'ui/theme';
 
@@ -40,6 +40,9 @@ const CommonSizeDetails = () => {
   }>();
   const { data, error, loading } = api.useCommonSize(sizeId);
 
+  const { data: productSizeData } = api.useProductSizeList();
+  const productSizes = (productSizeData?.nodes || []) as ProductSize[];
+
   const [handleUpdate] = api.useUpdateCommonSize();
 
   const updateFields = [
@@ -52,7 +55,7 @@ const CommonSizeDetails = () => {
   ] as (keyof CommonSize)[];
   const updateVariables = { id: sizeId };
 
-  const { changes, editing, handleChange, getUpdateActions } =
+  const { changes, editing, handleChange, getUpdateActions, saveAttempt } =
     useUpdateItem<CommonSize>({
       data: data as CommonSize,
       handleUpdate,
@@ -66,6 +69,7 @@ const CommonSizeDetails = () => {
         ),
       updateFields,
       updateVariables,
+      validationLabels: baseLabels(productSizes),
     });
 
   const tags = (changes?.commonSizeTags?.nodes || []) as CommonProductTag[];
@@ -105,7 +109,8 @@ const CommonSizeDetails = () => {
             data={data}
             editing={editing}
             handleChange={handleChange}
-            labels={baseLabels}
+            labels={baseLabels(productSizes)}
+            showValidation={saveAttempt}
           />
           <l.Div ml={th.spacing.sm} my={th.spacing.lg}>
             {tagManager}

@@ -7,7 +7,14 @@ import {
   Shipper,
   ShipperProgram,
   ShipperProgramEntry,
+  ShipperProjectionVesselInfo,
 } from 'types';
+
+export interface ProgramTotal {
+  total: number;
+  available: number | null;
+  projected: number | null;
+}
 
 export type ShipperProgramUpdate = Pick<
   ShipperProgram,
@@ -19,6 +26,7 @@ export type ShipperProgramUpdate = Pick<
   | 'commonPackTypeId'
   | 'plu'
   | 'shipperId'
+  | 'customerId'
 >;
 export type ShipperProgramEntryUpdate = Pick<
   ShipperProgramEntry,
@@ -65,6 +73,7 @@ export type NewShipperProgram = Pick<
   | 'commonPackTypeId'
   | 'plu'
   | 'shipperId'
+  | 'customerId'
 >;
 export type NewCustomerProgram = Pick<
   CustomerProgram,
@@ -147,6 +156,7 @@ export interface ProgramProps {
   duplicateProgramIds: number[];
   customerProgramEntries: CustomerProgramEntry[];
   customerPrograms: CustomerProgram[];
+  customers: Customer[];
   editing: boolean;
   endWeeks: number;
   error?: ApolloError;
@@ -193,5 +203,6 @@ export interface ProgramProps {
       key: keyof CustomerProgramEntryUpdate,
     ) => { dirty: boolean; value: string };
   };
+  vesselInfos: ShipperProjectionVesselInfo[];
   weekCount: number;
 }

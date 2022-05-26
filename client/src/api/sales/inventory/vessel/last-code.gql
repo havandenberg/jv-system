@@ -1,0 +1,8 @@
+query LAST_PRE_VESSEL_CODE {
+  vessels(last: 1) {
+    nodes {
+      id
+      preVesselCode
+    }
+  }
+}

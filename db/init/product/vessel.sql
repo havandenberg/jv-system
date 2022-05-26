@@ -1,13 +1,15 @@
 CREATE TABLE product.vessel (
   id BIGSERIAL PRIMARY KEY,
   vessel_code TEXT NOT NULL,
+  pre_vessel_code TEXT,
   vessel_name TEXT,
   arrival_port TEXT,
   country_id TEXT,
   departure_date DATE,
   arrival_date DATE,
   discharge_date DATE,
-  coast TEXT
+  coast TEXT,
+  is_pre BOOLEAN
 );
 
 CREATE FUNCTION product.vessel_country(IN v product.vessel)
@@ -72,6 +74,7 @@ CREATE FUNCTION product.vessel_search_text(IN v product.vessel)
 AS $BODY$
 SELECT CONCAT (
 		v.vessel_code,
+		v.pre_vessel_code,
 		v.vessel_name,
 		v.arrival_port,
 		v.country_id,

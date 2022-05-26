@@ -58,7 +58,7 @@ const ContactDirectory = ({ actions, TabBar }: SubDirectoryProps) => {
           </l.Flex>
           {!loading && (
             <>
-              <ty.SmallText mb={th.spacing.md} pl={th.spacing.sm}>
+              <ty.SmallText mb={th.spacing.md} pl={th.spacing.sm} secondary>
                 Results: {data ? data.totalCount : '-'}
                 {selectedItems.length > 0
                   ? `, Selected: ${selectedItems.length}`

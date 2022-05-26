@@ -11,6 +11,7 @@ mutation SHIPPER_PROJECTION_PRODUCT_UPSERT(
       size
       packType
       plu
+      customerValue
     }
   }
 }

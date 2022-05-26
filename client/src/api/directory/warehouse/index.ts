@@ -15,9 +15,10 @@ import { Mutation, Query } from 'types';
 
 export const WAREHOUSE_DETAILS_QUERY = loader('./details.gql');
 const WAREHOUSE_LIST_QUERY = loader('./list.gql');
+export const WAREHOUSE_LIST_ALL_QUERY = loader('./list-all.gql');
 const WAREHOUSE_UPDATE = loader('./update.gql');
 
-export const useWarehouses = () => {
+export const useWarehouses = (orderByOverride?: string) => {
   const [search = ''] = useSearchQueryParam();
   const [warehouseSearch = ''] = useQueryValue('warehouseSearch');
   const [{ sortBy = 'warehouseName', sortOrder = SORT_ORDER.ASC }] =
@@ -45,8 +46,28 @@ export const useWarehouses = () => {
     variables: {
       city: filteredCityValues,
       postalState: filteredPostalStateValues,
-      orderBy,
+      orderBy: orderByOverride || orderBy,
       search: getSearchArray(search || warehouseSearch),
+    },
+  });
+
+  return {
+    data: data ? data.warehouses : undefined,
+    error,
+    loading,
+  };
+};
+
+export const useAllWarehouses = (orderByOverride?: string) => {
+  const [search = ''] = useSearchQueryParam();
+  const [{ sortBy = 'warehouseName', sortOrder = SORT_ORDER.ASC }] =
+    useSortQueryParams();
+  const orderBy = getOrderByString(sortBy, sortOrder);
+
+  const { data, error, loading } = useQuery<Query>(WAREHOUSE_LIST_ALL_QUERY, {
+    variables: {
+      orderBy: orderByOverride || orderBy,
+      search: getSearchArray(search),
     },
   });
 

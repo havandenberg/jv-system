@@ -1,7 +1,7 @@
-mutation BULK_CREATE_SHIPPER_PROJECTION_VESSEL(
+mutation BULK_UPSERT_SHIPPER_PROJECTION_VESSEL(
   $shipperProjectionVessels: [ShipperProjectionVesselInput]!
 ) {
-  bulkCreateShipperProjectionVessel(
+  bulkUpsertShipperProjectionVessel(
     input: { vessels: $shipperProjectionVessels }
   ) {
     shipperProjectionVessels {

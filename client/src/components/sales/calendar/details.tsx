@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { sentenceCase } from 'change-case';
 import { format, isAfter } from 'date-fns';
 import { mapObjIndexed, pick } from 'ramda';
-import DateTimePicker from 'react-datetime-picker';
 import Modal from 'react-modal';
 import RRuleGeneratorTS, { translations } from 'react-rrule-generator-ts';
 import { ClipLoader } from 'react-spinners';
@@ -11,6 +10,7 @@ import RRule, { Options, RRuleSet, rrulestr } from 'rrule';
 
 import api from 'api';
 import { validateItem } from 'components/column-label';
+import DateTimePicker from 'components/date-time-picker';
 import ModalComponent from 'components/modal';
 import EditableCell, { Input } from 'components/editable-cell';
 import { modalStyles } from 'components/modal';

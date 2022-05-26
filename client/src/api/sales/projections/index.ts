@@ -23,7 +23,7 @@ const SHIPPER_PROJECTION_VESSEL_INFO_LIST_QUERY = loader(
 );
 const SHIPPER_PROJECTION_PRODUCT_LIST_QUERY = loader('./product-list.gql');
 const SHIPPER_PROJECTION_UPSERT = loader('./create/index.gql');
-const BULK_CREATE_SHIPPER_PROJECTION_VESSEL = loader('./create/vessel.gql');
+const BULK_UPSERT_SHIPPER_PROJECTION_VESSEL = loader('./create/vessel.gql');
 const SHIPPER_PROJECTION_VESSEL_INFO_CREATE = loader(
   './create/vessel-info.gql',
 );
@@ -166,8 +166,17 @@ export const useUpsertShipperProjection = () => {
   });
 };
 
-export const useBulkCreateShipperProjectionVessels = () =>
-  useMutation<Mutation>(BULK_CREATE_SHIPPER_PROJECTION_VESSEL);
+export const useBulkUpsertShipperProjectionVessels = () => {
+  const variables = useVariables();
+  return useMutation<Mutation>(BULK_UPSERT_SHIPPER_PROJECTION_VESSEL, {
+    refetchQueries: [
+      {
+        query: SHIPPER_PROJECTION_VESSEL_INFO_LIST_QUERY,
+        variables,
+      },
+    ],
+  });
+};
 
 export const useCreateShipperProjectionVesselInfo = () => {
   const variables = useVariables();

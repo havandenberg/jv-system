@@ -6,7 +6,7 @@ import api from 'api';
 import BaseData from 'components/base-data';
 import { validateItem } from 'components/column-label';
 import Page from 'components/page';
-import { CommonSpecies, CommonVariety } from 'types';
+import { CommonSpecies, CommonVariety, ProductVariety } from 'types';
 import b from 'ui/button';
 import l from 'ui/layout';
 import th from 'ui/theme';
@@ -27,11 +27,6 @@ const breadcrumbs = (species: CommonSpecies) => [
   },
 ];
 
-const initialState = {
-  varietyName: '',
-  varietyDescription: '',
-};
-
 const CreateCommonVariety = () => {
   const { search } = useLocation();
   const history = useHistory();
@@ -40,11 +35,22 @@ const CreateCommonVariety = () => {
     speciesId: string;
   }>();
   const { data: species } = api.useCommonSpecies(speciesId || '');
+
+  const { data: productVarietyData } = api.useProductVarietyList();
+  const productVarieties = (productVarietyData?.nodes ||
+    []) as ProductVariety[];
+
   const cancelLink = `/sales/products/${speciesId}/varieties${search}`;
 
   const [handleCreate] = api.useCreateCommonVariety();
   const [createLoading, setLoading] = useState(false);
   const [saveAttempt, setSaveAttempt] = useState(false);
+
+  const initialState = {
+    varietyName: '',
+    varietyDescription: '',
+    uiColor: species?.uiColor || undefined,
+  };
 
   const [changes, setChanges] = useState<CommonVariety>(
     initialState as CommonVariety,
@@ -56,7 +62,7 @@ const CreateCommonVariety = () => {
 
   const handleSave = () => {
     setSaveAttempt(true);
-    if (validateItem(changes, baseLabels)) {
+    if (validateItem(changes, baseLabels(productVarieties))) {
       setLoading(true);
       handleCreate({
         variables: {
@@ -103,7 +109,7 @@ const CreateCommonVariety = () => {
         data={changes}
         editing={true}
         handleChange={handleChange}
-        labels={baseLabels}
+        labels={baseLabels(productVarieties)}
         showValidation={saveAttempt}
       />
     </Page>

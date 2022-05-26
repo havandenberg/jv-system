@@ -12,8 +12,10 @@ import {
 } from 'onno';
 
 import CloseImg from 'assets/images/close';
-import l from 'ui/layout';
+import l, { DivProps, divPropsSet } from 'ui/layout';
 import th from 'ui/theme';
+
+import { hexColorWithTransparency } from './utils';
 
 const INPUT_WIDTH = th.widths.input;
 const ICON_WIDTH = 48;
@@ -130,19 +132,29 @@ const StyledTextInput = styled.input(
 
 export const SmallSelect = styled.select<
   InputHTMLAttributes<HTMLSelectElement> &
-    SpaceSetProps &
-    WidthProps & {
-      hasError?: boolean;
+    FontSizeProps &
+    DivProps & {
+      dirty?: boolean;
+      error?: boolean;
+      warning?: boolean;
     }
 >(
-  ({ hasError }) => ({
-    border: hasError ? th.borders.error : th.borders.secondary,
+  ({ dirty, error, warning }) => ({
+    background: hexColorWithTransparency(th.colors.white, 0.8),
+    border: error
+      ? th.borders.error
+      : warning
+      ? th.borders.warning
+      : th.borders.secondary,
+    borderRadius: th.borderRadii.input,
+    color: th.colors.text.default,
+    fontWeight: dirty ? 'bold' : undefined,
     height: th.heights.input,
     fontSize: th.fontSizes.body,
-    width: th.sizes.fill,
+    width: `calc(${th.sizes.fill} - ${th.spacing.sm})`,
   }),
-  spaceSet,
-  width,
+  fontSize,
+  divPropsSet,
 );
 
 export const Select = styled.select<

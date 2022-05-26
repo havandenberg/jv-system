@@ -1,0 +1,5 @@
+mutation VESSEL_CREATE($vessel: VesselInput!) {
+  createVessel(input: { vessel: $vessel }) {
+    clientMutationId
+  }
+}

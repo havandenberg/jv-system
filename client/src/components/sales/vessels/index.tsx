@@ -5,34 +5,45 @@ import { isEmpty } from 'ramda';
 import api from 'api';
 import { DataMessage } from 'components/page/message';
 import Page from 'components/page';
+import { useTabBar } from 'components/tab-bar';
 import VirtualizedList from 'components/virtualized-list';
 import useColumns, { SORT_ORDER } from 'hooks/use-columns';
 import useDateRange from 'hooks/use-date-range';
 import useSearch from 'hooks/use-search';
 import { Vessel } from 'types';
+import b from 'ui/button';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 
 import { listLabels } from './data-utils';
 import ListItem from './list-item';
+import { coastTabs } from '../inventory/use-filters';
 
 export const breadcrumbs = [{ text: 'Vessels', to: `/sales/vessels` }];
 
-const gridTemplateColumns = '1fr 0.5fr 0.5fr 2fr 1fr 2fr 30px';
+const gridTemplateColumns = '1fr 0.5fr 2fr 1fr 2fr 0.5fr 30px';
 
 const Vessels = () => {
   const { Search } = useSearch();
   const { data, loading, error } = api.useVessels();
   const items = data ? data.nodes : [];
 
-  const { DateRangePicker } = useDateRange({
+  const { TabBar: CoastFilter, selectedTabId: coast } = useTabBar(
+    coastTabs,
+    false,
+    'EC',
+    'coast',
+    1,
+  );
+
+  const { DateRangePicker, BackwardButton, ForwardButton } = useDateRange({
     maxDate: endOfISOWeek(add(new Date(), { weeks: 4 })),
   });
 
   const columnLabels = useColumns<Vessel>(
     'dischargeDate',
-    SORT_ORDER.ASC,
+    SORT_ORDER.DESC,
     listLabels,
     'product',
     'vessel',
@@ -40,18 +51,33 @@ const Vessels = () => {
 
   return (
     <Page
+      actions={[
+        <l.AreaLink
+          key="create"
+          to={`/sales/vessels/create?coast=${coast}`}
+          mr={th.spacing.md}
+        >
+          <b.Primary>Create</b.Primary>
+        </l.AreaLink>,
+      ]}
       breadcrumbs={breadcrumbs}
       extraPaddingTop={103}
       headerChildren={
         <>
-          <l.Flex mb={th.spacing.sm}>
+          <l.Flex alignCenter mb={th.spacing.sm}>
+            <CoastFilter />
+            <l.Div width={th.spacing.md} />
             {Search}
             <l.Div width={th.spacing.md} />
-            {DateRangePicker}
+            <l.Flex alignCenter>
+              {DateRangePicker}
+              {BackwardButton}
+              {ForwardButton}
+            </l.Flex>
           </l.Flex>
           {!loading && (
             <>
-              <ty.SmallText mb={th.spacing.md} pl={th.spacing.sm}>
+              <ty.SmallText mb={th.spacing.md} pl={108}>
                 Results: {data ? data.totalCount : '-'}
               </ty.SmallText>
               <l.Grid

@@ -120,13 +120,14 @@ const useUpdateItem = <T,>({
         shouldConfirm={!!(hasChanges || shouldConfirmCancel)}
         triggerProps={{
           mr: th.spacing.md,
+          status: th.colors.status.error,
           width: 88,
         }}
         triggerText="Cancel"
       />
     );
     const saveAction = (
-      <b.Primary
+      <b.Success
         key="saveAction"
         disabled={updateLoading}
         onClick={() => {
@@ -141,10 +142,10 @@ const useUpdateItem = <T,>({
         ) : (
           'Save'
         )}
-      </b.Primary>
+      </b.Success>
     );
     const editAction = (
-      <b.Primary
+      <b.Warning
         key="editAction"
         onClick={() => {
           setEditing(true);
@@ -152,7 +153,7 @@ const useUpdateItem = <T,>({
         width={88}
       >
         Edit
-      </b.Primary>
+      </b.Warning>
     );
     const deleteAction = handleDelete && (
       <BasicModal
@@ -170,6 +171,7 @@ const useUpdateItem = <T,>({
         }}
         triggerProps={{
           ml: th.spacing.md,
+          status: th.colors.status.error,
         }}
         triggerText="Delete"
       />

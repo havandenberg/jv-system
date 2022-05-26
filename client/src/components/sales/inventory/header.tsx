@@ -325,7 +325,7 @@ const Header = ({
 
   const itemColumnLabels = useColumns<InventoryItem>(
     'vessel',
-    SORT_ORDER.ASC,
+    SORT_ORDER.DESC,
     indexListLabels({ shipper }),
     'product',
     'inventory_item',
@@ -340,10 +340,10 @@ const Header = ({
       if (!variety) {
         options.push({ text: 'Varieties', value: 'variety' });
       }
-      if (!size) {
+      if (!size && !sizePackType) {
         options.push({ text: 'Sizes', value: 'size' });
       }
-      if (!packType) {
+      if (!packType && !sizePackType) {
         options.push({ text: 'Pack Types', value: 'packType' });
       }
       if (!plu) {
@@ -352,7 +352,7 @@ const Header = ({
       if (!shipper) {
         options.push({ text: 'Shipper', value: 'shipper' });
       }
-      if (!sizePackType) {
+      if (!sizePackType && !size && !packType) {
         options.push({ text: 'Size & Pack Type', value: 'sizePackType' });
       }
     }

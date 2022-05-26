@@ -7,8 +7,7 @@ import { LabelInfo } from 'components/column-label';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
-import { useQuerySet } from 'hooks/use-query-params';
-import { StringParam } from 'use-query-params';
+import { useProjectionsQueryParams } from 'hooks/use-query-params';
 
 const GridContainer = styled(l.Grid)(
   ({ selected }: { selected?: boolean }) => ({
@@ -43,13 +42,7 @@ const ListItem = <T extends {}>({
   projectionId?: string;
   startDate?: string;
 }) => {
-  const [, setQueryParams] = useQuerySet({
-    endDate: StringParam,
-    shipperId: StringParam,
-    projectionId: StringParam,
-    startDate: StringParam,
-    view: StringParam,
-  });
+  const [, setQueryParams] = useProjectionsQueryParams();
   return (
     <l.Div mb={th.spacing.sm}>
       <l.Div
@@ -61,7 +54,7 @@ const ListItem = <T extends {}>({
             shipperId,
             projectionId,
             startDate,
-            view: 'grid',
+            projectionsView: 'grid',
           });
         }}
       >

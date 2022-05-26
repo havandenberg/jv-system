@@ -1,0 +1,8 @@
+query WAREHOUSE_LIST_ALL($search: [WarehouseFilter!]) {
+  warehouses(filter: { and: $search }, orderBy: WAREHOUSE_NAME_ASC) {
+    nodes {
+      id
+      warehouseName
+    }
+  }
+}

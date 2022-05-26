@@ -1,0 +1,7 @@
+mutation VESSEL_UPDATE($id: BigInt!, $updates: VesselPatch!) {
+  updateVessel(input: { patch: $updates, id: $id }) {
+    vessel {
+      id
+    }
+  }
+}

@@ -7,7 +7,7 @@ import BaseData from 'components/base-data';
 import { validateItem } from 'components/column-label';
 import Page from 'components/page';
 import { useQueryValue } from 'hooks/use-query-params';
-import { CommonCategory, CommonSpecies } from 'types';
+import { CommonCategory, CommonSpecies, ProductSpecies } from 'types';
 import b from 'ui/button';
 import l from 'ui/layout';
 import th from 'ui/theme';
@@ -24,11 +24,6 @@ const breadcrumbs = (category: CommonCategory) => [
   },
 ];
 
-const initialState = {
-  speciesName: '',
-  speciesDescription: '',
-};
-
 const CreateCommonSpecies = () => {
   const history = useHistory();
 
@@ -36,6 +31,16 @@ const CreateCommonSpecies = () => {
   const { categoryId: categoryParam } = useParams<{ categoryId: string }>();
   const categoryId = categoryParam || categoryIdQuery;
   const { data: category } = api.useCommonCategory(categoryId || '');
+
+  const { data: productSpeciesData } = api.useProductSpeciesList();
+  const productSpecieses = (productSpeciesData?.nodes ||
+    []) as ProductSpecies[];
+
+  const initialState = {
+    speciesName: '',
+    speciesDescription: '',
+    uiColor: category?.uiColor || undefined,
+  };
 
   const cancelLink = `/sales/products/${
     categoryParam ? 'categories/' + categoryParam : ''
@@ -55,7 +60,7 @@ const CreateCommonSpecies = () => {
 
   const handleSave = () => {
     setSaveAttempt(true);
-    if (validateItem(changes, baseLabels)) {
+    if (validateItem(changes, baseLabels(productSpecieses))) {
       setLoading(true);
       handleCreate({
         variables: {
@@ -106,7 +111,7 @@ const CreateCommonSpecies = () => {
         data={changes}
         editing={true}
         handleChange={handleChange}
-        labels={baseLabels}
+        labels={baseLabels(productSpecieses)}
         showValidation={saveAttempt}
       />
     </Page>

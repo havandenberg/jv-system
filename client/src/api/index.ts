@@ -4,6 +4,7 @@ import * as chileDepartureInspections from 'api/reports/inspections/chile-depart
 import * as peruDepartureInspections from 'api/reports/inspections/peru-departure';
 import * as psaArrivalInspections from 'api/reports/inspections/psa-arrival';
 import * as groupDirectory from 'api/directory/group';
+import * as countryDirectory from 'api/directory/country';
 import * as customerDirectory from 'api/directory/customer';
 import * as contactDirectory from 'api/directory/contacts';
 import * as shipperDirectory from 'api/directory/shipper';
@@ -36,6 +37,7 @@ export default {
   ...calendar,
   ...chileDepartureInspections,
   ...contactDirectory,
+  ...countryDirectory,
   ...customerDirectory,
   ...groupDirectory,
   ...inventory,

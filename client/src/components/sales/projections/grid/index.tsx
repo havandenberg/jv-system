@@ -2,6 +2,7 @@ import React, { Fragment, useEffect, useState } from 'react';
 import { add, endOfISOWeek, isAfter, startOfISOWeek } from 'date-fns';
 import {
   equals,
+  groupBy,
   isEmpty,
   last,
   omit,
@@ -20,14 +21,15 @@ import useItemSelector from 'components/item-selector';
 import Page from 'components/page';
 import { useUserContext } from 'components/user/context';
 import usePrevious from 'hooks/use-previous';
-import { useQueryValue } from 'hooks/use-query-params';
+import { useProjectionsQueryParams } from 'hooks/use-query-params';
 import {
   Maybe,
   Shipper,
-  ShipperProjection,
   ShipperProjectionEntry,
   ShipperProjectionProduct,
+  ShipperProjectionVessel,
   ShipperProjectionVesselInfo,
+  Vessel,
 } from 'types';
 import b from 'ui/button';
 import l from 'ui/layout';
@@ -56,10 +58,12 @@ import {
   ShipperProjectionGridState,
   UpdateType,
   VesselUpdate,
+  ParentVesselUpdate,
 } from './types';
 import Vessels from './vessels';
 
 const initialChangesState: ShipperProjectionGridChanges = {
+  parentVesselUpdates: [],
   vesselUpdates: [],
   productUpdates: [],
   entryUpdates: [],
@@ -81,6 +85,8 @@ const initialState: ShipperProjectionGridState = {
   skippedWeeks: [],
   matchAllCommonProducts: true,
   showOnlyCommonNames: false,
+  isPortal: false,
+  saveAttempt: false,
 };
 
 const ShipperProjectionGrid = ({
@@ -99,35 +105,9 @@ const ShipperProjectionGrid = ({
   shipperId,
   shippers,
 }: ShipperProjectionProps) => {
-  const [isPortal, setIsPortal] = useState(false);
-  const [startDate] = useQueryValue('startDate');
+  const [{ startDate, endDate, projectionId, vesselId }, setProjectionsParams] =
+    useProjectionsQueryParams();
   const previousStartDate = usePrevious(startDate);
-  const [endDate] = useQueryValue('endDate');
-  const [projectionId, setProjectionId] = useQueryValue('projectionId');
-
-  const { ItemSelector: ShipperItemSelector, clearSearch } =
-    useItemSelector<Shipper>({
-      selectItem: (shipper) => {
-        setShipperId(shipper.id);
-      },
-      allItems: shippers as Shipper[],
-      closeOnSelect: true,
-      clearSearchOnBlur: true,
-      error: shipperDataError,
-      errorLabel: 'Shippers',
-      loading: shipperDataLoading,
-      nameKey: 'shipperName',
-      onClear: () => {
-        setShipperId(undefined);
-        setProjectionId('all', 'replaceIn');
-      },
-      onlyClearSearch: true,
-      placeholder: 'Select shipper',
-      selectedItem: selectedShipper
-        ? `${selectedShipper.shipperName} (${selectedShipper.id})`
-        : undefined,
-      width: 300,
-    });
 
   const currentProjections = selectedShipper?.shipperProjections?.nodes
     .filter(
@@ -156,7 +136,7 @@ const ShipperProjectionGrid = ({
           showOnlyCommonNames: false,
         }));
       } else {
-        setProjectionId('all', 'replaceIn');
+        setProjectionsParams({ projectionId: 'all' }, 'replaceIn');
       }
     }
   }, [
@@ -165,7 +145,7 @@ const ShipperProjectionGrid = ({
     previousSelectedShipper,
     projectionId,
     selectedShipper,
-    setProjectionId,
+    setProjectionsParams,
   ]);
 
   useEffect(() => {
@@ -174,7 +154,10 @@ const ShipperProjectionGrid = ({
       selectedShipper &&
       !projectionId
     ) {
-      setProjectionId(currentProjections?.[0]?.id || 'all', 'replaceIn');
+      setProjectionsParams(
+        { projectionId: currentProjections?.[0]?.id || 'all' },
+        'replaceIn',
+      );
     }
   }, [
     currentProjections,
@@ -182,57 +165,100 @@ const ShipperProjectionGrid = ({
     projectionId,
     startDate,
     selectedShipper,
-    setProjectionId,
+    setProjectionsParams,
   ]);
+
+  const {
+    data: vesselsData,
+    loading: vesselsLoading,
+    error: vesselsError,
+  } = api.useVessels({
+    isProjections: true,
+    orderByOverride: 'DISCHARGE_DATE_ASC',
+  });
+  const vessels = ((vesselsData ? vesselsData.nodes : []) as Vessel[]).filter(
+    (vessel) =>
+      !selectedShipper ||
+      vessel?.shipperProjectionVessels?.nodes?.some(
+        (spv) => spv?.shipperId === selectedShipper.id,
+      ),
+  );
+
+  const selectedVessel = vessels.find((v) => v.id === vesselId);
 
   const {
     data,
     loading: dataLoading,
-    error,
+    error: dataError,
   } = api.useShipperProjectionVesselInfos();
-  const loading = dataLoading || shipperDataLoading;
+  const loading = dataLoading || shipperDataLoading || vesselsLoading;
+  const error = dataError || shipperDataError || vesselsError;
 
-  const vessels = sortBy(
+  const allVesselInfos = sortBy(
     (vesselInfo) =>
       vesselInfo?.vessel?.shipper?.shipperName || 'Unknown shipper',
-    (((data ? data.nodes : []) as ShipperProjectionVesselInfo[]).filter(
-      (vesselInfo) =>
-        selectedShipper && projectionId !== 'all'
-          ? currentProjection
-            ? currentProjection?.id === vesselInfo?.projection?.id
-            : last(
-                (
-                  (vesselInfo.shipper?.shipperProjections.nodes ||
-                    []) as ShipperProjection[]
-                ).filter(
-                  (projection) =>
-                    isDateGreaterThanOrEqualTo(
-                      new Date(projection.submittedAt),
-                      startOfISOWeek(
-                        new Date((startDate || '').replace(/-/g, '/')),
-                      ),
-                    ) &&
-                    isDateLessThanOrEqualTo(
-                      new Date(projection.submittedAt),
-                      endOfISOWeek(
-                        new Date((startDate || '').replace(/-/g, '/')),
-                      ),
-                    ),
-                ),
-              )?.id === vesselInfo?.projection?.id
-          : vesselInfo?.id ===
-            last(
-              (vesselInfo.vessel?.shipperProjectionVesselInfosByVesselId
-                .nodes || []) as ShipperProjectionVesselInfo[],
-            )?.id,
-    ) as ShipperProjectionVesselInfo[]) || [],
+    selectedShipper && currentProjection
+      ? (((data ? data.nodes : []) as ShipperProjectionVesselInfo[]).filter(
+          (vesselInfo) => currentProjection?.id === vesselInfo?.projection?.id,
+        ) as ShipperProjectionVesselInfo[]) || []
+      : !vesselId || vesselId === 'all'
+      ? vessels
+          .map((v) =>
+            (v.shipperProjectionVessels?.nodes || [])
+              .filter(
+                (spv) =>
+                  !selectedShipper || selectedShipper.id === spv?.shipperId,
+              )
+              .map(
+                (spv) =>
+                  last(
+                    spv?.shipperProjectionVesselInfosByVesselId?.nodes || [],
+                  ) as ShipperProjectionVesselInfo,
+              )
+              .flat(),
+          )
+          .flat()
+          .concat(
+            (((data ? data.nodes : []) as ShipperProjectionVesselInfo[]).filter(
+              (vesselInfo) =>
+                !vesselInfo.vessel?.vesselId &&
+                vesselInfo.id ===
+                  last(
+                    vesselInfo.vessel?.shipperProjectionVesselInfosByVesselId
+                      ?.nodes || [],
+                  )?.id,
+            ) as ShipperProjectionVesselInfo[]) || [],
+          )
+      : selectedVessel
+      ? (selectedVessel?.shipperProjectionVessels?.nodes || [])
+          .filter(
+            (spv) => !selectedShipper || selectedShipper.id === spv?.shipperId,
+          )
+          .map(
+            (spv) =>
+              last(
+                spv?.shipperProjectionVesselInfosByVesselId?.nodes || [],
+              ) as ShipperProjectionVesselInfo,
+          )
+          .flat()
+      : [],
   );
 
-  const [saveAttempt, setSaveAttempt] = useState(false);
+  const groupedVesselInfos = groupBy(
+    (vesselInfo) => vesselInfo?.vessel?.vesselId || 'Unknown vessel',
+    allVesselInfos,
+  );
+
+  const vesselInfos = vesselId
+    ? allVesselInfos
+    : Object.keys(groupedVesselInfos)
+        .map((vesselKey) => groupedVesselInfos[vesselKey])
+        .flat();
+
   const [updateLoading, setUpdateLoading] = useState<string[]>([]);
   const previousUpdateLoading = usePrevious(updateLoading);
   const [handleUpsertProjection] = api.useUpsertShipperProjection();
-  const [handleBulkCreateVessels] = api.useBulkCreateShipperProjectionVessels();
+  const [handleBulkUpsertVessels] = api.useBulkUpsertShipperProjectionVessels();
   const [handleCreateVesselInfo] = api.useCreateShipperProjectionVesselInfo();
   const [handleUpsertProducts] = api.useUpsertShipperProjectionProducts();
   const [handleDeleteEntries] = api.useDeleteShipperProjectionEntries();
@@ -245,7 +271,34 @@ const ShipperProjectionGrid = ({
     newItemNextIds,
     removedProductIds,
     skippedWeeks,
+    isPortal,
+    saveAttempt,
   } = state;
+
+  const { ItemSelector: ShipperItemSelector, clearSearch } =
+    useItemSelector<Shipper>({
+      selectItem: (shipper) => {
+        setShipperId(shipper.id);
+      },
+      allItems: shippers as Shipper[],
+      closeOnSelect: true,
+      clearSearchOnBlur: true,
+      error: shipperDataError,
+      errorLabel: 'Shippers',
+      loading: shipperDataLoading,
+      nameKey: 'shipperName',
+      onClear: () => {
+        setShipperId(undefined);
+        setProjectionsParams({ projectionId: 'all' }, 'replaceIn');
+        setState(initialState);
+      },
+      onlyClearSearch: true,
+      placeholder: 'Select shipper',
+      selectedItem: selectedShipper
+        ? `${selectedShipper.shipperName} (${selectedShipper.id})`
+        : undefined,
+      width: 300,
+    });
 
   const setChanges = (newChanges: ShipperProjectionGridChanges) => {
     setState((prevState) => ({ ...prevState, changes: newChanges }));
@@ -309,6 +362,11 @@ const ShipperProjectionGrid = ({
     return { dirty: false, value: item[key] === undefined ? '' : item[key] };
   };
 
+  const getParentVesselValue = (
+    vessel: Maybe<ShipperProjectionVessel> | undefined,
+    key: keyof ParentVesselUpdate = 'vesselId',
+  ) => getValue(vessel, key, 'parentVesselUpdates');
+
   const getVesselValue = (
     vessel: Maybe<ShipperProjectionVesselInfo> | undefined,
     key: keyof VesselUpdate,
@@ -334,7 +392,7 @@ const ShipperProjectionGrid = ({
     return getValue(entry, key, changesKey);
   };
 
-  const allVessels = getAllVessels(vessels, changes, getVesselValue);
+  const allVessels = getAllVessels(vesselInfos, changes, getVesselValue);
 
   const toggleSkippedWeeks = (weekToSkip: string) => {
     if (skippedWeeks.includes(weekToSkip)) {
@@ -343,6 +401,8 @@ const ShipperProjectionGrid = ({
       setSkippedWeeks([...skippedWeeks, weekToSkip]);
     }
   };
+
+  const showParentVessels = !vesselId && !currentProjection && !isPortal;
 
   const ghostVesselDates = times(
     (idx) =>
@@ -359,23 +419,32 @@ const ShipperProjectionGrid = ({
     6,
   ).filter(
     (date) =>
-      !allVessels.find(
+      !(
+        (showParentVessels ? vessels : allVessels) as (
+          | Vessel
+          | ShipperProjectionVesselInfo
+        )[]
+      ).find(
         (vessel) =>
           isDateGreaterThanOrEqualTo(
             new Date(
-              getVesselValue(
-                vessel as ShipperProjectionVesselInfo,
-                'departureDate',
-              ).value.replace(/-/g, '/'),
+              showParentVessels
+                ? vessel.departureDate
+                : getVesselValue(
+                    vessel as ShipperProjectionVesselInfo,
+                    'departureDate',
+                  ).value.replace(/-/g, '/'),
             ),
             new Date(date.replace(/-/g, '/')),
           ) &&
           isDateLessThanOrEqualTo(
             new Date(
-              getVesselValue(
-                vessel as ShipperProjectionVesselInfo,
-                'departureDate',
-              ).value.replace(/-/g, '/'),
+              showParentVessels
+                ? vessel.departureDate
+                : getVesselValue(
+                    vessel as ShipperProjectionVesselInfo,
+                    'departureDate',
+                  ).value.replace(/-/g, '/'),
             ),
             endOfISOWeek(new Date(date.replace(/-/g, '/'))),
           ),
@@ -396,8 +465,21 @@ const ShipperProjectionGrid = ({
     ] as ShipperProjectionVesselInfo[],
   );
 
-  const gridTemplateColumns = `500px repeat(${
-    allVesselsWithGhostVessels.length || 1
+  const allParentVesselsWithGhostVessels = sortBy(
+    (vessel) => vessel.departureDate,
+    [
+      ...vessels,
+      ...ghostVesselDates.map((date) => ({
+        id: 0,
+        departureDate: date,
+      })),
+    ] as Vessel[],
+  );
+
+  const gridTemplateColumns = `600px repeat(${
+    showParentVessels
+      ? allParentVesselsWithGhostVessels.length || 1
+      : allVesselsWithGhostVessels.length || 1
   }, 140px)`;
 
   const allEntries = [
@@ -410,7 +492,7 @@ const ShipperProjectionGrid = ({
 
   const products = sortBy(
     (product) =>
-      ['species', 'variety', 'size', 'packType', 'plu']
+      ['species', 'variety', 'size', 'packType', 'plu', 'customerValue']
         .map(
           (key) =>
             getProductValue(product, key as keyof ProductUpdate).value ||
@@ -450,6 +532,7 @@ const ShipperProjectionGrid = ({
     size: getProductValue(product, 'size').value,
     packType: getProductValue(product, 'packType').value,
     plu: getProductValue(product, 'plu').value,
+    customerValue: getProductValue(product, 'customerValue').value,
   })) as ShipperProjectionProduct[];
 
   const hasConfirmedSkippedWeeks = ghostVesselDates
@@ -541,58 +624,79 @@ const ShipperProjectionGrid = ({
 
   const handleReview = (jvComments: string, reviewStatus: number) => {
     if (currentProjection) {
-      setUpdateLoading((prevLoading) => [...prevLoading, 'products']);
-      handleUpsertProducts({
+      setUpdateLoading((prevLoading) => [...prevLoading, 'vessels']);
+      handleBulkUpsertVessels({
         variables: {
-          shipperProjectionProducts: [
-            ...changes.productUpdates.map((p) => ({
-              species: p.species,
-              variety: p.variety,
-              size: p.size,
-              packType: p.packType,
-              plu: p.plu,
-              id: parseInt(p.id, 10),
-              commonSpeciesId: p.commonSpeciesId,
-              commonVarietyId: p.commonVarietyId,
-              commonSizeId: p.commonSizeId,
-              commonPackTypeId: p.commonPackTypeId,
-            })),
-          ],
+          shipperProjectionVessels: changes.parentVesselUpdates.map((v) => ({
+            id: v.id,
+            shipperId: v.shipperId,
+            vesselId: v.vesselId || null,
+          })),
         },
       }).then(() => {
-        setUpdateLoading((prevLoading) => [...prevLoading, 'review']);
-        const isApproved = reviewStatus === 2;
-        handleUpsertProjection({
+        setUpdateLoading((prevLoading) => [...prevLoading, 'products']);
+        handleUpsertProducts({
           variables: {
-            shipperProjection: {
-              id: currentProjection.id,
-              submittedAt: currentProjection.submittedAt,
-              shipperId: selectedShipper?.id,
-              approvedAt: isApproved ? new Date().toLocaleString() : undefined,
-              rejectedAt: isApproved ? undefined : new Date().toLocaleString(),
-              jvComments,
-              reviewStatus:
-                reviewStatus === 1
-                  ? currentProjection.reviewStatus
-                  : reviewStatus,
-              shipperComments: currentProjection.shipperComments,
-            },
+            shipperProjectionProducts: [
+              ...changes.productUpdates.map((p) => ({
+                species: p.species,
+                variety: p.variety,
+                size: p.size,
+                packType: p.packType,
+                plu: p.plu,
+                customerValue: p.customerValue,
+                id: parseInt(p.id, 10),
+                commonSpeciesId: p.commonSpeciesId,
+                commonVarietyId: p.commonVarietyId,
+                commonSizeId: p.commonSizeId,
+                commonPackTypeId: p.commonPackTypeId,
+                customerId: p.customerId,
+              })),
+            ],
           },
         }).then(() => {
+          setUpdateLoading((prevLoading) => [...prevLoading, 'review']);
+          const isApproved = reviewStatus === 2;
+          handleUpsertProjection({
+            variables: {
+              shipperProjection: {
+                id: currentProjection.id,
+                submittedAt: currentProjection.submittedAt,
+                shipperId: selectedShipper?.id,
+                approvedAt: isApproved
+                  ? new Date().toLocaleString()
+                  : undefined,
+                rejectedAt: isApproved
+                  ? undefined
+                  : new Date().toLocaleString(),
+                jvComments,
+                reviewStatus:
+                  reviewStatus === 1
+                    ? currentProjection.reviewStatus
+                    : reviewStatus,
+                shipperComments: currentProjection.shipperComments,
+              },
+            },
+          }).then(() => {
+            setUpdateLoading((prevLoading) =>
+              prevLoading.filter((l) => l !== 'review'),
+            );
+          });
+
           setUpdateLoading((prevLoading) =>
-            prevLoading.filter((l) => l !== 'review'),
+            prevLoading.filter((l) => l !== 'products'),
           );
         });
 
         setUpdateLoading((prevLoading) =>
-          prevLoading.filter((l) => l !== 'products'),
+          prevLoading.filter((l) => l !== 'vessels'),
         );
       });
     }
   };
 
   const handleSave = (shipperComments: string) => {
-    setSaveAttempt(true);
+    setState({ ...state, saveAttempt: true });
     if (validate()) {
       setUpdateLoading((prevLoading) => [...prevLoading, 'projection']);
       handleUpsertProjection({
@@ -643,11 +747,12 @@ const ShipperProjectionGrid = ({
                 size: p.size,
                 packType: p.packType,
                 plu: p.plu,
+                customerValue: p.customerValue,
                 id: parseInt(p.id, 10),
                 commonSpeciesId: p.commonSpeciesId,
                 commonVarietyId: p.commonVarietyId,
                 commonSizeId: p.commonSizeId,
-                commonPackTypeId: p.commonPackTypeId,
+                customerId: p.customerId,
               })),
               ...changes.newProducts.map((p) => ({
                 shipperId: p.shipperId,
@@ -656,6 +761,7 @@ const ShipperProjectionGrid = ({
                 size: p.size,
                 packType: p.packType,
                 plu: p.plu,
+                customerValue: p.customerValue,
               })),
             ],
           },
@@ -669,7 +775,7 @@ const ShipperProjectionGrid = ({
           );
 
           setUpdateLoading((prevLoading) => [...prevLoading, 'new-vessels']);
-          handleBulkCreateVessels({
+          handleBulkUpsertVessels({
             variables: {
               shipperProjectionVessels: changes.newVessels.map(() => ({
                 shipperId: selectedShipper?.id,
@@ -677,7 +783,7 @@ const ShipperProjectionGrid = ({
             },
           }).then((res2) => {
             const createdVessels =
-              res2.data?.bulkCreateShipperProjectionVessel
+              res2.data?.bulkUpsertShipperProjectionVessel
                 ?.shipperProjectionVessels || [];
 
             setUpdateLoading((prevLoading) =>
@@ -685,7 +791,7 @@ const ShipperProjectionGrid = ({
             );
 
             [
-              ...vessels.filter(
+              ...vesselInfos.filter(
                 (v) => v && !pluck('id', changes.vesselUpdates).includes(v.id),
               ),
               ...changes.vesselUpdates,
@@ -705,7 +811,7 @@ const ShipperProjectionGrid = ({
                 projectionId,
                 shipperProjectionEntriesUsingId: {
                   create: [
-                    ...vessels
+                    ...vesselInfos
                       .map((v) =>
                         v.shipperProjectionEntriesByVesselInfoId.nodes
                           .filter(
@@ -736,7 +842,8 @@ const ShipperProjectionGrid = ({
                           p?.variety === newProduct.variety &&
                           p?.size === newProduct.size &&
                           p?.packType === newProduct.packType &&
-                          p?.plu === newProduct.plu,
+                          p?.plu === newProduct.plu &&
+                          p?.customerValue === newProduct.customerValue,
                       ) || { id: 0 };
 
                       return {
@@ -796,7 +903,6 @@ const ShipperProjectionGrid = ({
       !dataLoading
     ) {
       setState(initialState);
-      setSaveAttempt(false);
     }
   }, [dataLoading, previousUpdateLoading, updateLoading]);
 
@@ -817,6 +923,10 @@ const ShipperProjectionGrid = ({
     setChanges({ ...changes, [changesKey]: updatedItems });
   };
 
+  const handleParentVesselChange = (update: ParentVesselUpdate) => {
+    handleChange([update], 'parentVesselUpdates');
+  };
+
   const handleVesselChange = (update: VesselUpdate) => {
     const changesKey = update.id < 0 ? 'newVessels' : 'vesselUpdates';
     handleChange([update], changesKey);
@@ -833,6 +943,7 @@ const ShipperProjectionGrid = ({
         'commonVarietyId',
         'commonSizeId',
         'commonPackTypeId',
+        'customerId',
       ].includes(updateKey) &&
       matchAllCommonProducts
     ) {
@@ -873,6 +984,15 @@ const ShipperProjectionGrid = ({
                       ...product,
                       ...productUpdates,
                       commonPackTypeId: update.commonPackTypeId,
+                    }
+                  : undefined;
+              case 'customerId':
+                return product.id === update.id
+                  ? {
+                      ...product,
+                      ...productUpdates,
+                      customerId: update.customerId,
+                      customerValue: update.customerValue,
                     }
                   : undefined;
               default:
@@ -926,26 +1046,21 @@ const ShipperProjectionGrid = ({
 
   const handleNewProduct = (newProduct: NewProduct) => {
     const product = {
-      ...pick(['species', 'variety', 'size', 'packType', 'plu'], newProduct),
+      ...pick(
+        ['species', 'variety', 'size', 'packType', 'plu', 'customerValue'],
+        newProduct,
+      ),
       shipperId,
       id: newItemNextIds.product,
     };
 
-    const newEntries = allVessels
-      .filter(
-        ({ departureDate }) =>
-          getWeekNumber(new Date(departureDate.replace(/-/g, '/'))) >=
-          getWeekNumber(
-            startDate ? new Date(startDate.replace(/-/g, '/')) : new Date(),
-          ),
-      )
-      .map(({ id: vesselInfoId }, idx) => ({
-        palletCount: 0,
-        id: newItemNextIds.entry - idx,
-        vesselInfoId,
-        productId: newItemNextIds.product,
-        product,
-      }));
+    const newEntries = allVessels.map(({ id: vesselInfoId }, idx) => ({
+      palletCount: 0,
+      id: newItemNextIds.entry - idx,
+      vesselInfoId,
+      productId: newItemNextIds.product,
+      product,
+    }));
 
     setChanges({
       ...changes,
@@ -988,6 +1103,7 @@ const ShipperProjectionGrid = ({
 
   const changeProps = {
     changeHandlers: {
+      handleParentVesselChange,
       handleVesselChange,
       handleEntryChange,
       handleProductChange,
@@ -1001,6 +1117,7 @@ const ShipperProjectionGrid = ({
       handleRemoveProduct,
     },
     valueGetters: {
+      getParentVesselValue,
       getVesselValue,
       getProductValue,
       getEntryValue,
@@ -1036,7 +1153,10 @@ const ShipperProjectionGrid = ({
               active={!isPortal}
               mr={th.spacing.sm}
               mt="4px"
-              onClick={() => setIsPortal(!isPortal)}
+              onClick={() => {
+                setState({ ...initialState, isPortal: false });
+                setChanges(initialChangesState);
+              }}
             >
               <ty.SmallText bold center width={90}>
                 JV view
@@ -1046,7 +1166,10 @@ const ShipperProjectionGrid = ({
               active={isPortal}
               mr={th.spacing.lg}
               mt="4px"
-              onClick={() => setIsPortal(!isPortal)}
+              onClick={() => {
+                setState({ ...initialState, isPortal: true });
+                setChanges(initialChangesState);
+              }}
             >
               <ty.SmallText bold center width={90}>
                 Shipper view
@@ -1131,32 +1254,32 @@ const ShipperProjectionGrid = ({
           <ProjectionSettings />
         </l.Div>,
       ]}
-      extraPaddingTop={58}
+      extraPaddingTop={55}
       headerChildren={
         <>
           <l.Flex mb={th.spacing.md}>
             <l.Div mr={th.spacing.lg}>
-              <ty.CaptionText mb={th.spacing.sm} secondary>
+              <ty.SmallText mb={th.spacing.sm} secondary>
                 View
-              </ty.CaptionText>
+              </ty.SmallText>
               {ViewTabBar}
             </l.Div>
             <l.Div mr={th.spacing.lg}>
-              <ty.CaptionText mb={th.spacing.sm} secondary>
+              <ty.SmallText mb={th.spacing.sm} secondary>
                 Shipper
-              </ty.CaptionText>
+              </ty.SmallText>
               {ShipperItemSelector}
             </l.Div>
             <l.Div mr={th.spacing.lg}>
-              <ty.CaptionText mb={th.spacing.sm} secondary>
+              <ty.SmallText mb={th.spacing.sm} secondary>
                 Coast
-              </ty.CaptionText>
+              </ty.SmallText>
               {CoastTabBar}
             </l.Div>
             <div>
-              <ty.CaptionText mb={th.spacing.sm} secondary>
+              <ty.SmallText mb={th.spacing.sm} secondary>
                 Week Of
-              </ty.CaptionText>
+              </ty.SmallText>
               <l.Flex alignCenter>
                 {DateRangePicker}
                 {BackwardButton}
@@ -1164,7 +1287,7 @@ const ShipperProjectionGrid = ({
               </l.Flex>
             </div>
             <l.Div ml={th.spacing.lg}>
-              <l.Div height={32} />
+              <l.Div height={29} />
               <l.Div onClick={clearSearch}>{Reset}</l.Div>
             </l.Div>
           </l.Flex>
@@ -1182,19 +1305,22 @@ const ShipperProjectionGrid = ({
               error={error}
               ghostVesselDates={ghostVesselDates}
               gridTemplateColumns={gridTemplateColumns}
-              isAllProjections={projectionId === 'all'}
+              isAllProjections={!projectionId || projectionId === 'all'}
               isPortal={isPortal}
               loading={loading}
               matchAllCommonProducts={matchAllCommonProducts}
+              parentVessels={allParentVesselsWithGhostVessels}
               productCount={products.length}
               showOnlyCommonNames={showOnlyCommonNames}
               toggleShowOnlyCommonNames={toggleShowOnlyCommonNames}
               selectedShipper={selectedShipper}
               toggleMatchAllCommonProducts={toggleMatchAllCommonProducts}
-              setProjectionId={setProjectionId}
+              selectedVessel={selectedVessel}
               showErrors={saveAttempt}
+              showParentVessels={showParentVessels}
               skippedWeeks={skippedWeeks}
               toggleSkippedWeeks={toggleSkippedWeeks}
+              vesselId={vesselId}
               vessels={
                 allVesselsWithGhostVessels as ShipperProjectionVesselInfo[]
               }
@@ -1205,13 +1331,16 @@ const ShipperProjectionGrid = ({
               duplicateProductIds={duplicateProductIds}
               gridTemplateColumns={gridTemplateColumns}
               hasVessels={allVessels.length > 0}
-              isAllProjections={projectionId === 'all'}
+              isAllProjections={!projectionId || projectionId === 'all'}
               isPortal={isPortal}
               loading={loading}
+              parentVessels={allParentVesselsWithGhostVessels}
               products={products}
               selectedShipper={selectedShipper}
+              selectedVessel={selectedVessel}
               showErrors={saveAttempt}
               showOnlyCommonNames={showOnlyCommonNames}
+              showParentVessels={showParentVessels}
               vessels={
                 allVesselsWithGhostVessels as ShipperProjectionVesselInfo[]
               }

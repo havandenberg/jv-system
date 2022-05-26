@@ -16,6 +16,7 @@ import { getGridProps } from './utils';
 interface Props {
   editing: boolean;
   increaseWeekCount: () => void;
+  isCustomers: boolean;
   selectedWeekNumber: number;
   showAllocated: boolean;
   startDate: string;
@@ -26,15 +27,19 @@ interface Props {
 const Header = ({
   editing,
   increaseWeekCount,
+  isCustomers,
   selectedWeekNumber,
   showAllocated,
   startDate,
   toggleShowAllocated,
   weekCount,
 }: Props) => {
-  const [{ commonSpeciesId }, setProgramsQueryParams] =
+  const [{ commonSpeciesId, customerIdFilter }, setProgramsQueryParams] =
     useProgramsQueryParams();
-  const { gridTemplateColumns, gridWidth } = getGridProps(weekCount);
+  const { gridTemplateColumns, gridWidth } = getGridProps(
+    weekCount,
+    isCustomers,
+  );
 
   const clearProductQueryParams = () => {
     setProgramsQueryParams({
@@ -43,15 +48,22 @@ const Header = ({
       commonSizeId: undefined,
       commonPackTypeId: undefined,
       plu: undefined,
+      customerIdFilter: undefined,
     });
   };
 
   return (
-    <l.Div relative>
+    <l.Div
+      bg={th.colors.background}
+      position="sticky"
+      top={0}
+      zIndex={5}
+      width={gridWidth}
+    >
       <l.Grid
         alignCenter
         gridTemplateColumns={gridTemplateColumns}
-        mt={th.spacing.lg}
+        pt={th.spacing.lg}
       >
         <l.Flex alignCenter justifyBetween>
           <l.Flex alignCenter>
@@ -63,15 +75,15 @@ const Header = ({
                 checked={showAllocated}
                 label={
                   <ty.SmallText mx={th.spacing.sm} nowrap>
-                    Show unallocated
+                    Show allocated
                   </ty.SmallText>
                 }
                 onChange={toggleShowAllocated}
               />
             )}
-            {commonSpeciesId && !editing && (
+            {(commonSpeciesId || customerIdFilter) && !editing && (
               <b.Warning
-                ml={th.spacing.md}
+                ml={th.spacing.lg}
                 small
                 onClick={clearProductQueryParams}
               >

@@ -6,7 +6,7 @@ import api from 'api';
 import BaseData from 'components/base-data';
 import { validateItem } from 'components/column-label';
 import Page from 'components/page';
-import { CommonSpecies, CommonPackType } from 'types';
+import { CommonSpecies, CommonPackType, PackMaster } from 'types';
 import b from 'ui/button';
 import l from 'ui/layout';
 import th from 'ui/theme';
@@ -40,6 +40,10 @@ const CreateCommonPackType = () => {
     speciesId: string;
   }>();
   const { data: species } = api.useCommonSpecies(speciesId || '');
+
+  const { data: packMasterData } = api.usePackMasterList();
+  const packMasters = (packMasterData?.nodes || []) as PackMaster[];
+
   const cancelLink = `/sales/products/${speciesId}/packTypes${search}`;
 
   const [handleCreate] = api.useCreateCommonPackType();
@@ -56,7 +60,7 @@ const CreateCommonPackType = () => {
 
   const handleSave = () => {
     setSaveAttempt(true);
-    if (validateItem(changes, baseLabels)) {
+    if (validateItem(changes, baseLabels(packMasters))) {
       setLoading(true);
       handleCreate({
         variables: {
@@ -107,7 +111,7 @@ const CreateCommonPackType = () => {
         data={changes}
         editing={true}
         handleChange={handleChange}
-        labels={baseLabels}
+        labels={baseLabels(packMasters)}
         showValidation={saveAttempt}
       />
     </Page>

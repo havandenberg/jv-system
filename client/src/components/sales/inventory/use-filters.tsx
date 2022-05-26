@@ -94,7 +94,13 @@ interface Option {
 const useInventoryFilters = ({ items, loading }: Props) => {
   const [selectedFilters, setQuery] = useInventoryQueryParams();
 
-  const { TabBar: CoastFilter } = useTabBar(coastTabs, false, 'EC', 'coast', 1);
+  const { TabBar: CoastFilter, selectedTabId: coast } = useTabBar(
+    coastTabs,
+    false,
+    'EC',
+    'coast',
+    1,
+  );
 
   const getFilter = (
     key: 'location' | 'shipper' | 'countryOfOrigin' | 'daysInStorage',
@@ -306,7 +312,7 @@ const useInventoryFilters = ({ items, loading }: Props) => {
       days: -1,
     }),
     'M/dd',
-  )}`;
+  )} (Week ${getWeekNumber(currentStartOfWeek)})`;
   const detailsDateText =
     detailsIndex === '13'
       ? `Storage - older than ${format(currentStartOfWeek, 'M/dd')}`
@@ -365,7 +371,7 @@ const useInventoryFilters = ({ items, loading }: Props) => {
         {shipperSelect}
         <l.Div mr={th.spacing.md}>
           <ty.SmallText mb={th.spacing.xs} secondary>
-            Discharge Date
+            Available Date
           </ty.SmallText>
           {detailsIndex ? (
             <l.Flex alignCenter height={34}>
@@ -380,13 +386,13 @@ const useInventoryFilters = ({ items, loading }: Props) => {
           )}
         </l.Div>
         <div>
-          <l.Div height={18} />
+          <l.Div height={20} />
           <ResetButton>
             <l.AreaLink
               cursor="pointer"
               height={th.sizes.icon}
               width={th.sizes.icon}
-              to="/sales/inventory?coast=EC"
+              to={`/sales/inventory?coast=${coast}`}
             >
               <ResetImg height={th.sizes.icon} width={th.sizes.icon} />
             </l.AreaLink>

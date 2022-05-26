@@ -7,6 +7,7 @@ mutation BULK_UPSERT_SHIPPER_PROGRAM($shipperPrograms: [ShipperProgramInput]!) {
       commonSizeId
       commonPackTypeId
       plu
+      customerId
     }
   }
 }

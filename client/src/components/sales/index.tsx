@@ -25,6 +25,7 @@ import CommonSizeDetails from './products/size/details';
 import CreateCommonVariety from './products/variety/create';
 import CommonVarietyDetails from './products/variety/details';
 import Programs from './programs';
+import CreateVessel from './vessels/create';
 
 const Sales = () => (
   <Switch>
@@ -56,6 +57,7 @@ const Sales = () => (
       path="/sales/vessels/:vesselId/items/:id"
       component={InventoryItemDetails}
     />
+    <Route exact path="/sales/vessels/create" component={CreateVessel} />
     <Route exact path="/sales/vessels/:id" component={VesselDetails} />
     <Route exact path="/sales/vessels" component={Vessels} />
 

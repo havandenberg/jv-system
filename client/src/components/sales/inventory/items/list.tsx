@@ -24,14 +24,14 @@ const InventoryItemList = ({
 }) => {
   const { search } = useLocation();
   const columnLabels = useColumns<InventoryItem>(
-    'id',
+    'shipper',
     SORT_ORDER.ASC,
     listLabels,
     'product',
     'inventory_item',
   );
 
-  const [{ sortBy = 'vessel', sortOrder = SORT_ORDER.ASC }] =
+  const [{ sortBy = 'shipper', sortOrder = SORT_ORDER.ASC }] =
     useSortQueryParams();
   const sortedItems = getSortedItems(listLabels, items, sortBy, sortOrder);
 
@@ -53,7 +53,11 @@ const InventoryItemList = ({
                 gridTemplateColumns={gridTemplateColumns}
                 key={idx}
                 listLabels={listLabels}
-                to={`${baseUrl}/items/${item.id}${search}`}
+                to={
+                  item.vessel?.isPre
+                    ? `/sales/projections?coast=${item.vessel?.coast}&startDate=${item.vessel?.departureDate}&endDate=${item.vessel?.departureDate}&projectionsView=grid&shipperId=${item.shipper?.id}&vesselId=${item.vessel?.id}&projectionId=all`
+                    : `${baseUrl}/items/${item.id}${search}`
+                }
               />
             ),
         )

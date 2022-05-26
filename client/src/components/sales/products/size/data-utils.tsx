@@ -20,28 +20,32 @@ export const listLabels: CommonSizeLabelInfo[] = [
     sortable: true,
   },
   {
-    key: 'sizeDescription',
-    label: 'Description',
+    key: 'productSizeId',
+    label: 'Primary Code',
   },
   {
     key: 'commonSizeTags',
     label: 'Tags',
-    getValue: ({ commonSizeTags }) => (
-      <ty.BodyText>
-        {pluck('tagText', commonSizeTags?.nodes as CommonSizeTag[]).join(', ')}
-      </ty.BodyText>
-    ),
-  },
-];
-
-export const baseLabels: CommonSizeLabelInfo[] = [
-  {
-    key: 'sizeName',
-    label: 'Name',
+    getValue: ({ commonSizeTags }) => {
+      const tagString = pluck(
+        'tagText',
+        commonSizeTags?.nodes as CommonSizeTag[],
+      ).join(', ');
+      return tagString ? <ty.BodyText>{tagString}</ty.BodyText> : null;
+    },
   },
   {
     key: 'sizeDescription',
     label: 'Description',
+  },
+];
+
+export const baseLabels: (
+  productSizes: ProductSize[],
+) => CommonSizeLabelInfo[] = (productSizes) => [
+  {
+    key: 'sizeName',
+    label: 'Name',
   },
   {
     key: 'productSizeId',
@@ -56,6 +60,8 @@ export const baseLabels: CommonSizeLabelInfo[] = [
       query: PRODUCT_SIZE_QUERY,
       queryName: 'productSizes',
     },
+    validate: ({ productSizeId }) =>
+      !productSizeId || !!productSizes.find(({ id }) => id === productSizeId),
   },
   {
     key: 'defaultInvSortKey',
@@ -75,5 +81,9 @@ export const baseLabels: CommonSizeLabelInfo[] = [
         </ty.BodyText>
       );
     },
+  },
+  {
+    key: 'sizeDescription',
+    label: 'Description',
   },
 ];

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { TextSetProps } from 'onno';
-import DateTimePicker from 'react-datetime-picker';
 
 import HighlightImg from 'assets/images/highlight';
+import DateTimePicker from 'components/date-time-picker';
 import useDebounce from 'hooks/use-debounce';
 import usePrevious from 'hooks/use-previous';
 import { SmallSelect } from 'ui/input';
@@ -13,6 +13,7 @@ import { TextProps, textPropsSet } from 'ui/typography';
 import { hexColorWithTransparency } from 'ui/utils';
 
 import ColorPicker from './color-picker';
+import { formatDate } from './date-range-picker';
 
 export const EDITABLE_CELL_HEIGHT = 28;
 
@@ -32,7 +33,8 @@ export const Input = styled.input<
       : warning
       ? th.borders.warning
       : th.borders.secondary,
-    cursor: editing ? 'text' : 'default',
+    color: th.colors.text.default,
+    cursor: editing ? undefined : 'default',
     fontWeight: dirty ? 'bold' : undefined,
     width: `calc(${th.sizes.fill} - ${th.spacing.sm})`,
   }),
@@ -144,6 +146,9 @@ const EditableCell = ({
     disableClock: true,
     locale: 'en-US',
     format: 'y-MM-dd',
+    dirty,
+    error,
+    warning,
   };
 
   useEffect(() => {
@@ -191,11 +196,11 @@ const EditableCell = ({
             onChange={(date: Date) =>
               onChange({
                 target: {
-                  value: date,
+                  value: formatDate(date),
                 },
               } as any)
             }
-            value={new Date(`${localValue}`)}
+            value={new Date(`${localValue}`.replace(/-/g, '/'))}
             {...dateTimePickerProps}
           />
         ) : dropdownOptions ? (
@@ -218,6 +223,7 @@ const EditableCell = ({
             checked={Boolean(localValue)}
             editing
             error={error}
+            title={`${localValue}`}
             type={isBoolean ? 'checkbox' : 'text'}
             onBlur={(e) => {
               if (localValue !== value) {

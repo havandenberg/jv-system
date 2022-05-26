@@ -7,13 +7,13 @@ import {
   DateRangePicker as DateRange,
   DateRangePickerProps,
 } from 'react-date-range';
+import OutsideClickHandler from 'react-outside-click-handler';
 
 import CalendarImg from 'assets/images/calendar';
 import CloseImg from 'assets/images/close';
 import l, { divPropsSet } from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
-import OutsideClickHandler from 'react-outside-click-handler';
 
 const Wrapper = styled(l.Div)({ position: 'relative', zIndex: 10 });
 

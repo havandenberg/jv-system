@@ -579,36 +579,36 @@ const ShipperProjectionGraph = ({
   return (
     <Page
       actions={[<ProjectionSettings key={0} />]}
-      extraPaddingTop={vessels.length > 0 ? 192 : 140}
+      extraPaddingTop={189}
       headerChildren={
         <>
           <l.Flex mb={th.spacing.lg}>
             <l.Div mr={th.spacing.lg}>
-              <ty.CaptionText mb={th.spacing.sm} secondary>
+              <ty.SmallText mb={th.spacing.sm} secondary>
                 View
-              </ty.CaptionText>
+              </ty.SmallText>
               {ViewTabBar}
             </l.Div>
             <l.Div mr={th.spacing.lg}>
-              <ty.CaptionText mb={th.spacing.sm} secondary>
+              <ty.SmallText mb={th.spacing.sm} secondary>
                 Shipper
-              </ty.CaptionText>
+              </ty.SmallText>
               {ShipperItemSelector}
             </l.Div>
             <l.Div mr={th.spacing.lg}>
-              <ty.CaptionText mb={th.spacing.sm} secondary>
+              <ty.SmallText mb={th.spacing.sm} secondary>
                 Coast
-              </ty.CaptionText>
+              </ty.SmallText>
               {CoastTabBar}
             </l.Div>
             <l.Div mr={th.spacing.lg}>
-              <ty.CaptionText mb={th.spacing.sm} secondary>
+              <ty.SmallText mb={th.spacing.sm} secondary>
                 Date Range
-              </ty.CaptionText>
+              </ty.SmallText>
               {DateRangePicker}
             </l.Div>
             <div>
-              <l.Div height={32} />
+              <l.Div height={29} />
               <l.Div onClick={clearSearch}>{Reset}</l.Div>
             </div>
           </l.Flex>

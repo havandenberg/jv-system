@@ -32,10 +32,12 @@ export const baseDataTransforms = {
 export interface BaseDataItemSelectorProps {
   errorLabel: string;
   getItemContent?: (item: any) => React.ReactNode;
+  height?: number;
   nameKey?: string;
   query: any;
   queryName: string;
   queryVariables?: OperationVariables;
+  width?: number;
 }
 
 const BaseDataItemSelector = <T extends {}>({
@@ -44,12 +46,14 @@ const BaseDataItemSelector = <T extends {}>({
   errorLabel,
   getItemContent,
   handleChange,
+  height = 150,
   labelKey,
   nameKey = '',
   query,
   queryName,
   queryVariables,
   value,
+  width = 250,
 }: BaseDataItemSelectorProps & {
   editableCellProps: EditableCellProps;
   editing: boolean;
@@ -72,14 +76,14 @@ const BaseDataItemSelector = <T extends {}>({
     editableCellProps,
     errorLabel,
     getItemContent,
-    height: 150,
+    height,
     loading,
     nameKey,
     panelGap: 0,
     selectItem: (item: any) => {
       handleChange && handleChange(labelKey, item[nameKey || 'id']);
     },
-    width: 250,
+    width,
   });
 
   return ItemSelector;
@@ -142,6 +146,13 @@ const BaseDataItem = <T extends {}>({
     width: 175,
   };
 
+  const selectInputProps = {
+    borderRadius: th.borderRadii.default,
+    fontSize: th.fontSizes.body,
+    padding: th.spacing.xs,
+    width: 175,
+  };
+
   const editableCellProps: EditableCellProps = {
     bypassLocalValue: true,
     content,
@@ -154,7 +165,7 @@ const BaseDataItem = <T extends {}>({
     editing: isEditing,
     error: showValidation && !isValid,
     inputProps: cellInputProps,
-    selectProps: cellInputProps,
+    selectProps: selectInputProps,
     isBoolean,
     isColor,
     isDate,

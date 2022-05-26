@@ -100,7 +100,11 @@ const CommentsModal = ({
             </l.Flex>
             <l.Div height={384} overflowY="auto" pr={th.spacing.sm}>
               {currentProjections.map((projection, idx) => (
-                <l.Flex column borderTop={th.borders.disabled} key={idx}>
+                <l.Flex
+                  column
+                  borderTop="1px solid rgba(3,41,74,0.2)"
+                  key={idx}
+                >
                   {(projection.approvedAt || projection.rejectedAt) && (
                     <l.Flex
                       alignEnd

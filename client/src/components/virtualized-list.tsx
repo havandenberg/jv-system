@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import styled from '@emotion/styled';
 import {
+  Index,
   List,
   ListProps,
   ListRowRenderer,
@@ -24,7 +25,8 @@ const ScrollToTop = styled(l.Div)(({ visible }: { visible: boolean }) => ({
 interface OptionalListProps {
   height?: number;
   rowCount: number;
-  rowHeight?: number;
+  rowHeight?: (number | ((params: Index) => number)) &
+    (number | ((info: Index) => number));
   rowRenderer: ListRowRenderer;
   width?: number;
 }

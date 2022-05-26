@@ -25,7 +25,7 @@ const SizeList = ({
     'common_size',
   );
 
-  const gridTemplateColumns = '1fr 1fr 1fr 30px';
+  const gridTemplateColumns = '1fr 0.5fr 1fr 1fr 30px';
 
   return (
     <>

@@ -25,7 +25,7 @@ const InventoryItems = ({ items }: Props) => {
   const [
     { shipper, species, variety, size, packType, plu, startDate, endDate },
   ] = useInventoryQueryParams();
-  const [{ sortBy = 'vessel', sortOrder = SORT_ORDER.ASC }] =
+  const [{ sortBy = 'vessel', sortOrder = SORT_ORDER.DESC }] =
     useSortQueryParams();
   const sortedItems = getSortedItems(
     indexListLabels({ species, variety, size, packType, plu, shipper }),
@@ -41,7 +41,7 @@ const InventoryItems = ({ items }: Props) => {
       rowRenderer={({ key, index, style }) => {
         const item = sortedItems[index] as InventoryItem;
         const to = isPreInventoryItem(item)
-          ? `/sales/projections?coast=${item.coast}&shipperId=${item.shipper?.id}&startDate=${startDate}&endDate=${endDate}&view=grid`
+          ? `/sales/projections?coast=${item.coast}&shipperId=${item.shipper?.id}&startDate=${startDate}&endDate=${endDate}&projectionsView=grid&vesselId=${item.vessel?.id}&projectionId=all`
           : `/sales/inventory/items/${item.id}${search}`;
 
         return (

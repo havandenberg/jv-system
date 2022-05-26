@@ -1,0 +1,8 @@
+query COUNTRY_LIST($orderBy: [CountriesOrderBy!], $search: [CountryFilter!]) {
+  countries(filter: { and: $search }, orderBy: $orderBy) {
+    nodes {
+      id
+      countryName
+    }
+  }
+}

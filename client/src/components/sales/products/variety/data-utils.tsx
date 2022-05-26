@@ -33,23 +33,29 @@ export const listLabels: CommonVarietyLabelInfo[] = [
     sortable: true,
   },
   {
-    key: 'varietyDescription',
-    label: 'Description',
+    key: 'productVarietyId',
+    label: 'Primary Code',
   },
   {
     key: 'commonVarietyTags',
     label: 'Tags',
-    getValue: ({ commonVarietyTags }) => (
-      <ty.BodyText>
-        {pluck('tagText', commonVarietyTags?.nodes as CommonVarietyTag[]).join(
-          ', ',
-        )}
-      </ty.BodyText>
-    ),
+    getValue: ({ commonVarietyTags }) => {
+      const tagString = pluck(
+        'tagText',
+        commonVarietyTags?.nodes as CommonVarietyTag[],
+      ).join(', ');
+      return tagString ? <ty.BodyText>{tagString}</ty.BodyText> : null;
+    },
+  },
+  {
+    key: 'varietyDescription',
+    label: 'Description',
   },
 ];
 
-export const baseLabels: CommonVarietyLabelInfo[] = [
+export const baseLabels: (
+  productVarieties: ProductVariety[],
+) => CommonVarietyLabelInfo[] = (productVarieties) => [
   {
     key: 'uiColor',
     label: 'UI Color',
@@ -84,6 +90,9 @@ export const baseLabels: CommonVarietyLabelInfo[] = [
       query: PRODUCT_VARIETY_QUERY,
       queryName: 'productVarieties',
     },
+    validate: ({ productVarietyId }) =>
+      !productVarietyId ||
+      !!productVarieties.find(({ id }) => id === productVarietyId),
   },
   {
     key: 'defaultInvSortKey',

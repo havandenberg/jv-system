@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { sortBy } from 'ramda';
-import DateTimePicker from 'react-datetime-picker';
 
 import api from 'api';
 import { formatDate } from 'components/date-range-picker';
+import DateTimePicker from 'components/date-time-picker';
 import { BasicModal } from 'components/modal';
 import { DataMessage } from 'components/page/message';
 import VirtualizedList from 'components/virtualized-list';
@@ -22,6 +22,13 @@ const LocalDateTimePicker = styled(DateTimePicker)({
   width: 110,
   input: {
     color: th.colors.text.default,
+  },
+  '.react-datetime-picker__wrapper': {
+    height: 22,
+    padding: 0,
+  },
+  '.react-datetime-picker__inputGroup': {
+    width: 'auto',
   },
 });
 

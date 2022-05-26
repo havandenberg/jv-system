@@ -5,8 +5,10 @@ import api from 'api';
 import { DataMessage } from 'components/page/message';
 import {
   CommonSpecies,
+  Customer,
   ShipperProjectionProduct,
   ShipperProjectionVesselInfo,
+  Vessel,
 } from 'types';
 import l from 'ui/layout';
 import th from 'ui/theme';
@@ -23,6 +25,7 @@ interface Props extends ShipperProjectionGridProps {
   gridTemplateColumns: string;
   hasVessels: boolean;
   loading: boolean;
+  parentVessels: Vessel[];
   products: ShipperProjectionProductWithEntries[];
   showErrors: boolean;
   showOnlyCommonNames: boolean;
@@ -33,9 +36,12 @@ const Products = ({
   currentProjection,
   gridTemplateColumns,
   hasVessels,
-  loading,
+  loading: parentLoading,
+  parentVessels,
   products,
   selectedShipper,
+  selectedVessel,
+  showParentVessels,
   vessels,
   ...rest
 }: Props) => {
@@ -47,6 +53,13 @@ const Products = ({
   const specieses = (speciesData ? speciesData.nodes : []) as CommonSpecies[];
 
   const {
+    data: customersData,
+    loading: customersLoading,
+    error: customerError,
+  } = api.useCustomers('CUSTOMER_NAME_ASC');
+  const customers = (customersData ? customersData.nodes : []) as Customer[];
+
+  const {
     data: allProductsData,
     loading: allProductsLoading,
     error: allProductsError,
@@ -55,8 +68,10 @@ const Products = ({
     allProductsData ? allProductsData.nodes : []
   ) as ShipperProjectionProduct[];
 
-  const error = allProductsError || speciesError;
-  const productsLoading = allProductsLoading || speciesLoading;
+  const error = allProductsError || speciesError || customerError;
+  const productsLoading =
+    allProductsLoading || speciesLoading || customersLoading;
+  const loading = parentLoading || productsLoading;
 
   const { getProductValue } = rest.valueGetters;
   const groupedProducts = groupBy(
@@ -65,13 +80,25 @@ const Products = ({
   );
 
   const getProductTotals = (ps: ShipperProjectionProductWithEntries[]) =>
-    vessels.map((vessel) =>
+    (
+      (showParentVessels ? parentVessels : vessels) as (
+        | Vessel
+        | ShipperProjectionVesselInfo
+      )[]
+    ).map((vessel) =>
       vessel.id === 0
         ? -1
         : pluck('entries', ps)
             .map((entries) =>
               entries
-                .filter((entry) => entry.vesselInfoId === vessel.id)
+                .filter((entry) =>
+                  showParentVessels
+                    ? pluck(
+                        'id',
+                        vessels.filter((v) => v.vessel?.vesselId === vessel.id),
+                      ).includes(entry.vesselInfoId)
+                    : entry.vesselInfoId === vessel.id,
+                )
                 .reverse(),
             )
             .flat()
@@ -89,6 +116,11 @@ const Products = ({
 
   const { isAllProjections, isPortal } = rest;
 
+  const hasVesselsFromCurrentWeek =
+    vessels.filter((v) => v.id !== 0).length > 0;
+
+  const vesselCount = showParentVessels ? parentVessels.length : vessels.length;
+
   return (
     <l.Div mb={!hasVessels ? 0 : th.spacing.xxl} relative>
       <l.Grid
@@ -99,22 +131,51 @@ const Products = ({
       >
         <l.Grid
           gridColumnGap={th.spacing.xs}
-          gridTemplateColumns="repeat(2, 1fr) repeat(3, 0.7fr)"
+          gridTemplateColumns="repeat(2, 1fr) repeat(3, 0.7fr) 1fr"
           marginLeft={52}
           relative
         >
-          <ty.CaptionText secondary>Species</ty.CaptionText>
-          <ty.CaptionText secondary>Variety</ty.CaptionText>
-          <ty.CaptionText secondary>Size</ty.CaptionText>
-          <ty.CaptionText secondary>Pack Type</ty.CaptionText>
+          <ty.CaptionText secondary>
+            Species
+            {isPortal ? (
+              <ty.Span color={th.colors.status.error}>*</ty.Span>
+            ) : (
+              ''
+            )}
+          </ty.CaptionText>
+          <ty.CaptionText secondary>
+            Variety
+            {isPortal ? (
+              <ty.Span color={th.colors.status.error}>*</ty.Span>
+            ) : (
+              ''
+            )}
+          </ty.CaptionText>
+          <ty.CaptionText secondary>
+            Size
+            {isPortal ? (
+              <ty.Span color={th.colors.status.error}>*</ty.Span>
+            ) : (
+              ''
+            )}
+          </ty.CaptionText>
+          <ty.CaptionText nowrap secondary>
+            Pack Type
+            {isPortal ? (
+              <ty.Span color={th.colors.status.error}>*</ty.Span>
+            ) : (
+              ''
+            )}
+          </ty.CaptionText>
           <ty.CaptionText secondary>PLU/GTIN</ty.CaptionText>
+          <ty.CaptionText secondary>Customer</ty.CaptionText>
           {hasVessels && !loading && (
             <l.Div
               borderTop={th.borders.secondary}
               position="absolute"
               left={-52}
               bottom={`-${th.spacing.sm}`}
-              width={`calc(${th.sizes.fill} + ${vessels.length - 3} * 156px - ${
+              width={`calc(${th.sizes.fill} + ${vesselCount - 3} * 156px - ${
                 th.sizes.icon
               } + 544px)`}
             />
@@ -149,18 +210,25 @@ const Products = ({
                                 {...rest}
                                 allProducts={allProducts}
                                 error={error}
-                                loading={productsLoading}
+                                loading={loading}
                                 commonSpecieses={specieses}
                                 currentProjection={currentProjection}
+                                customers={customers}
                                 gridTemplateColumns={gridTemplateColumns}
+                                hasVesselsFromCurrentWeek={
+                                  hasVesselsFromCurrentWeek
+                                }
                                 index={idx}
                                 isEvenRow={!!isEvenRow}
                                 key={idx}
+                                parentVessels={parentVessels}
                                 product={product}
                                 previousProduct={previousProduct}
                                 showSpecies={showSpecies}
+                                showParentVessels={showParentVessels}
                                 showVariety={showVariety}
                                 selectedShipper={selectedShipper}
+                                selectedVessel={selectedVessel}
                                 vessels={vessels}
                               />,
                             ],
@@ -190,8 +258,8 @@ const Products = ({
                     left={`-${th.spacing.sm}`}
                     height={`calc(${th.sizes.fill} + ${th.spacing.md})`}
                     width={`calc(${th.sizes.fill} + ${
-                      vessels.length - 3
-                    } * 156px - ${th.sizes.md})`}
+                      vesselCount - 3
+                    } * 156px - ${th.sizes.md} + 100px)`} // 100px added as difference from 500 to 600 in gridTemplateColumns
                     zIndex={-1}
                   />
                 </l.Div>
@@ -201,8 +269,13 @@ const Products = ({
           {!groupedProducts[''] &&
             selectedShipper &&
             isPortal &&
-            isAllProjections && (
-              <NewProductRow hasProducts={hasProducts} {...rest} />
+            isAllProjections &&
+            hasVesselsFromCurrentWeek && (
+              <NewProductRow
+                hasProducts={hasProducts}
+                showParentVessels={showParentVessels}
+                {...rest}
+              />
             )}
           <ProductTotalRow
             gridTemplateColumns={gridTemplateColumns}
@@ -219,9 +292,7 @@ const Products = ({
             borderRight={th.borders.secondary}
             position="absolute"
             top={26}
-            left={`calc(${th.sizes.fill} + ${
-              vessels.length - 3
-            } * 156px - 57px)`}
+            left={`calc(${th.sizes.fill} + ${vesselCount - 3} * 156px + 43px)`}
             bottom={0}
           />
           <l.Div
@@ -229,9 +300,9 @@ const Products = ({
             position="absolute"
             left={-52}
             bottom={0}
-            width={`calc(${th.sizes.fill} + ${vessels.length - 3} * 156px - ${
+            width={`calc(${th.sizes.fill} + ${vesselCount - 3} * 156px - ${
               th.spacing.xs
-            })`}
+            } + 100px)`}
           />
         </>
       ) : (

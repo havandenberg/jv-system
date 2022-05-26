@@ -44,11 +44,8 @@ const useVariables = (
       customerId,
       startDate: startDateQuery,
       endDate: endDateQuery,
-      programsView: view,
     },
   ] = useProgramsQueryParams();
-
-  const isCustomers = view === 'customers';
 
   const endDate = endDateQuery
     ? new Date(endDateQuery.replace(/-/g, '/'))
@@ -61,12 +58,8 @@ const useVariables = (
 
   return {
     arrivalPort: coast,
-    customerId: isCustomers
-      ? customerId || (weekCount === undefined ? null : undefined)
-      : undefined,
-    shipperId: isCustomers
-      ? undefined
-      : shipperId || (weekCount === undefined ? null : undefined),
+    customerId: customerId || (weekCount === undefined ? null : undefined),
+    shipperId: shipperId || (weekCount === undefined ? null : undefined),
     startDate: formatDate(min([allocateStartDate || startDate, startDate])),
     endDate: formatDate(
       max([

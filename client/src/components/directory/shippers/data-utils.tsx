@@ -1,6 +1,7 @@
 import { LabelInfo } from 'components/column-label';
 import { SORT_ORDER } from 'hooks/use-columns';
 import { Shipper } from 'types';
+import ty from 'ui/typography';
 import { LineItemCheckbox } from 'ui/checkbox';
 
 export type ShipperLabelInfo = LabelInfo<Shipper>;
@@ -23,7 +24,12 @@ export const listLabels: ShipperLabelInfo[] = [
     filterPanelProps: { columnCount: 3 },
     filterable: true,
     sortable: true,
-    getValue: (data) => data.country?.countryName || '',
+    getValue: (data) =>
+      data.country ? (
+        <ty.BodyText>{data.country?.countryName}</ty.BodyText>
+      ) : (
+        ''
+      ),
   },
   {
     key: 'groupId',
@@ -44,7 +50,12 @@ export const baseLabels: ShipperLabelInfo[] = [
   {
     key: 'countryId',
     label: 'Country',
-    getValue: (data) => data.country?.countryName || '',
+    getValue: (data) =>
+      data.country ? (
+        <ty.BodyText>{data.country?.countryName}</ty.BodyText>
+      ) : (
+        ''
+      ),
     readOnly: true,
   },
   {
