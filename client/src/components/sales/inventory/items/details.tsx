@@ -19,7 +19,7 @@ export const breadcrumbs = (id: string, vesselId: string, search: string) => {
     vesselId
       ? {
           text: 'Vessels',
-          to: `/sales/vessels${search}`,
+          to: `/sales/vessels`,
         }
       : {
           text: 'Inventory',
@@ -36,7 +36,7 @@ export const breadcrumbs = (id: string, vesselId: string, search: string) => {
     crumbs.splice(1, 0, {
       text: 'Vessel',
       to: `/sales${vesselId ? '' : '/inventory'}/${
-        vesselId ? 'vessels/' + vesselId + '/' : ''
+        vesselId ? 'vessels/' + vesselId : ''
       }${search}`,
     });
   }

@@ -48,3 +48,36 @@ CREATE FUNCTION directory.shipper_distinct_values()
 AS $BODY$
   SELECT DISTINCT CONCAT(shipper_name, ' (', id, ')') from directory.shipper;
 $BODY$;
+
+CREATE FUNCTION directory.bulk_upsert_shipper(
+  shippers directory.shipper[]
+)
+RETURNS setof directory.shipper
+AS $$
+  DECLARE
+    s directory.shipper;
+    vals directory.shipper;
+  BEGIN
+    FOREACH s IN ARRAY shippers LOOP
+      INSERT INTO directory.shipper(
+        id,
+				shipper_name,
+        country_id,
+        group_id
+      )
+        VALUES (
+          s.id,
+					s.shipper_name,
+          s.country_id,
+          s.group_id
+        )
+      ON CONFLICT (id) DO UPDATE SET
+				shipper_name=EXCLUDED.shipper_name,
+        country_id=EXCLUDED.country_id,
+        group_id=EXCLUDED.group_id
+    	RETURNING * INTO vals;
+    	RETURN NEXT vals;
+	END LOOP;
+	RETURN;
+  END;
+$$ LANGUAGE plpgsql VOLATILE STRICT SET search_path FROM CURRENT;

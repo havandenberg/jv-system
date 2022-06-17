@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { capitalCase } from 'change-case';
-import { add, endOfISOWeek, format, startOfISOWeek } from 'date-fns';
+import { add, endOfISOWeek, format } from 'date-fns';
 import { pluck, sortBy, uniq } from 'ramda';
 
 import ResetImg from 'assets/images/reset';
@@ -19,7 +19,11 @@ import th from 'ui/theme';
 import ty from 'ui/typography';
 import { getWeekNumber } from 'utils/date';
 
-import { getDateInterval, getFilteredItems } from './utils';
+import {
+  getDateInterval,
+  getFilteredItems,
+  getInventoryStartDayIndex,
+} from './utils';
 import { CommonProductTag } from 'components/tag-manager';
 
 export const leftTabStyles = {
@@ -193,21 +197,15 @@ const useInventoryFilters = ({ items, loading }: Props) => {
       maxDate: endOfISOWeek(add(new Date(), { weeks: 4 })),
     });
 
-  const [{ startDate = formatDate(startOfISOWeek(new Date())) }] =
-    useDateRangeQueryParams();
+  const [{ startDate = formatDate(new Date()) }] = useDateRangeQueryParams();
   const selectedWeekNumber = getWeekNumber(
     new Date(startDate.replace(/-/g, '/')),
   );
-  const currentStartOfWeek = startOfISOWeek(
-    new Date(startDate.replace(/-/g, '/')),
-  );
-
+  const currentStartOfWeek = new Date(startDate.replace(/-/g, '/'));
   const handleWeekChange = (weeks: number) => {
-    const newDate = startOfISOWeek(
-      add(new Date(startDate.replace(/-/g, '/')), {
-        weeks,
-      }),
-    );
+    const newDate = add(new Date(startDate.replace(/-/g, '/')), {
+      weeks,
+    });
     handleDateChange({
       selection: {
         startDate: newDate,
@@ -284,12 +282,19 @@ const useInventoryFilters = ({ items, loading }: Props) => {
         (packType
           ? packTypeTag
             ? commonPackTypeTags.includes(packTypeTag)
-            : ['total', itemPackType?.packDescription].includes(packType)
+            : [
+                'total',
+                `${
+                  itemPackType?.label
+                    ? itemPackType.label.labelName + ' - '
+                    : ''
+                }${itemPackType?.packDescription}`,
+              ].includes(packType)
           : !packTypeTag || commonPackTypeTags.includes(packTypeTag)) &&
         (!sizePackType ||
           [
             'total',
-            `${itemSizes?.nodes[0]?.id}-${itemPackType?.packDescription}`,
+            `${itemSizes?.nodes[0]?.id} - ${itemPackType?.packDescription}`,
           ].includes(sizePackType)) &&
         (!plu || ['total', item.plu ? 'true' : 'false'].includes(plu))
       );
@@ -312,11 +317,13 @@ const useInventoryFilters = ({ items, loading }: Props) => {
       days: -1,
     }),
     'M/dd',
-  )} (Week ${getWeekNumber(currentStartOfWeek)})`;
+  )} (Week ${getWeekNumber(
+    getDateInterval(detailsIndex, currentStartOfWeek).start,
+  )})`;
   const detailsDateText =
-    detailsIndex === '13'
+    parseInt(detailsIndex) === 13 - getInventoryStartDayIndex(startDate)
       ? `Storage - older than ${format(currentStartOfWeek, 'M/dd')}`
-      : detailsIndex === '14'
+      : parseInt(detailsIndex) === 14 - getInventoryStartDayIndex(startDate)
       ? 'All Dates'
       : detailsDateRange;
 

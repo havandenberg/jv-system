@@ -40,7 +40,12 @@ export const listLabels: PalletLabelInfo[] = [
   {
     key: 'product',
     label: 'Pack Type',
-    getValue: (data) => data.product?.packType?.packDescription || '',
+    getValue: (data) =>
+      data.product?.packType
+        ? data.product?.packType?.label?.labelName +
+          ' - ' +
+          data.product?.packType?.packDescription
+        : '',
   },
   {
     key: 'currentBoxQuantity',
@@ -137,22 +142,42 @@ export const baseLabels: PalletLabelInfo[] = [
   {
     key: 'product',
     label: 'Species',
-    getValue: (data) => data.product?.species?.speciesDescription || '',
+    getValue: (data) => (
+      <ty.BodyText>
+        {data.product?.species?.speciesDescription || ''}
+      </ty.BodyText>
+    ),
   },
   {
     key: 'product',
     label: 'Variety',
-    getValue: (data) => data.product?.variety?.varietyDescription || '',
+    getValue: (data) => (
+      <ty.BodyText>
+        {data.product?.variety?.varietyDescription || ''}
+      </ty.BodyText>
+    ),
   },
   {
     key: 'product',
     label: 'Size',
-    getValue: (data) => data.product?.sizes?.nodes[0]?.jvDescription || '',
+    getValue: (data) => (
+      <ty.BodyText>
+        {data.product?.sizes?.nodes[0]?.jvDescription || ''}
+      </ty.BodyText>
+    ),
   },
   {
     key: 'product',
     label: 'Pack Type',
-    getValue: (data) => data.product?.packType?.packDescription || '',
+    getValue: (data) => (
+      <ty.BodyText>
+        {data.product?.packType
+          ? data.product?.packType?.label?.labelName +
+            ' - ' +
+            data.product?.packType?.packDescription
+          : ''}
+      </ty.BodyText>
+    ),
   },
   {
     key: 'growerId',
@@ -161,7 +186,9 @@ export const baseLabels: PalletLabelInfo[] = [
   {
     key: 'age',
     label: 'Age (Days)',
-    getValue: ({ age }) => (age ? parseInt(age, 10) : ''),
+    getValue: ({ age }) => (
+      <ty.BodyText>{age ? parseInt(age, 10) : ''}</ty.BodyText>
+    ),
   },
   {
     key: 'currentBoxQuantity',
@@ -227,7 +254,9 @@ export const sectionLabels: PalletSectionLabelInfo[] = [
   {
     key: 'varietyId',
     label: 'Variety',
-    getValue: ({ variety }) => (variety ? variety.varietyDescription : ''),
+    getValue: ({ variety }) => (
+      <ty.BodyText>{variety ? variety.varietyDescription : ''}</ty.BodyText>
+    ),
   },
   {
     key: 'sizeId',

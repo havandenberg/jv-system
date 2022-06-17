@@ -65,3 +65,33 @@ SELECT CONCAT (
 		a.default_pallet_quantity
 	) FROM product.product_master;
 $BODY$;
+
+CREATE FUNCTION product.bulk_upsert_product_master(
+  product_masters product.product_master[]
+)
+RETURNS setof product.product_master
+AS $$
+  DECLARE
+    pm product.product_master;
+    vals product.product_master;
+  BEGIN
+    FOREACH pm IN ARRAY product_masters LOOP
+      INSERT INTO product.product_master(
+        id,
+				default_pallet_quantity,
+				lot_number
+      )
+        VALUES (
+          pm.id,
+					pm.default_pallet_quantity,
+					pm.lot_number
+        )
+      ON CONFLICT (id) DO UPDATE SET
+			  default_pallet_quantity=EXCLUDED.default_pallet_quantity,
+			  lot_number=EXCLUDED.lot_number
+    	RETURNING * INTO vals;
+    	RETURN NEXT vals;
+	END LOOP;
+	RETURN;
+  END;
+$$ LANGUAGE plpgsql VOLATILE STRICT SET search_path FROM CURRENT;

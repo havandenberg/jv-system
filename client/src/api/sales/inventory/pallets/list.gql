@@ -17,6 +17,10 @@ query PALLET_LIST($orderBy: [PalletsOrderBy!], $search: [PalletFilter!]) {
         packType {
           id
           packDescription
+          label {
+            id
+            labelName
+          }
         }
         id
         sizes {

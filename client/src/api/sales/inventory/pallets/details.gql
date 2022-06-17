@@ -1,5 +1,5 @@
 query PALLET_DETAILS($id: BigInt!) {
-  pallet(idParam: $id) {
+  pallet(id: $id) {
     age
     backOrderId
     billOfLading
@@ -39,6 +39,10 @@ query PALLET_DETAILS($id: BigInt!) {
       packType {
         id
         packDescription
+        label {
+          id
+          labelName
+        }
       }
       id
       sizes {

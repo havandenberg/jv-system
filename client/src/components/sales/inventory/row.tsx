@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { isBefore, startOfISOWeek } from 'date-fns';
+import { isBefore } from 'date-fns';
 import { mapObjIndexed, times, values } from 'ramda';
 import { useHistory } from 'react-router-dom';
 
@@ -19,6 +19,7 @@ import { gridTemplateColumns } from '.';
 import { categoryTypeOrder } from './header';
 import {
   getFilteredItems,
+  getInventoryStartDayIndex,
   InventoryItemPalletData,
   reducePalletData,
 } from './utils';
@@ -59,6 +60,7 @@ const InventoryCell = ({
   palletsOnHand,
   availableTo = '#',
   onHandTo = '#',
+  startDate,
 }: {
   index: number;
   isTotal: boolean;
@@ -66,14 +68,18 @@ const InventoryCell = ({
   palletsOnHand: InventoryItemPalletData;
   availableTo: string;
   onHandTo: string;
+  startDate: string;
 }) => {
-  const showPreInventory = index < 14;
+  const showPreInventory = index < 14 - getInventoryStartDayIndex(startDate);
   const palletsAvailableCount =
     palletsAvailable.real + (showPreInventory ? 0 : palletsAvailable.pre);
 
   const wrapperProps = {
     borderLeft: index <= 1 ? th.borders.disabled : 0,
-    borderRight: index <= 14 && index > 0 ? th.borders.disabled : 0,
+    borderRight:
+      index <= 14 - getInventoryStartDayIndex(startDate) && index > 0
+        ? th.borders.disabled
+        : 0,
     isTotal: isTotal,
     paddingTop: th.spacing.xs,
   };
@@ -84,7 +90,15 @@ const InventoryCell = ({
       isOnHand={false}
       {...wrapperProps}
     >
-      <ty.SmallText bold center color={th.colors.status.successAlt}>
+      <ty.SmallText
+        bold
+        center
+        color={
+          (palletsAvailableCount || 0) < 0
+            ? th.colors.status.errorAlt
+            : th.colors.status.successAlt
+        }
+      >
         {palletsAvailableCount || '-'}
         {showPreInventory && !!palletsAvailable.pre && (
           <>
@@ -103,7 +117,7 @@ const InventoryCell = ({
   const onHandCell = (
     <ItemWrapper hasItems={onHandTo !== '#'} isOnHand={true} {...wrapperProps}>
       <ty.SmallText bold center color={th.colors.brand.primaryAccent}>
-        {palletsOnHand.real || '-'}
+        {palletsOnHand.total || '-'}
       </ty.SmallText>
     </ItemWrapper>
   );
@@ -193,9 +207,7 @@ const InventoryRow = ({
     },
   ] = useInventoryQueryParams();
   const [{ startDate = formatDate(new Date()) }] = useDateRangeQueryParams();
-  const currentStartOfWeek = startOfISOWeek(
-    new Date(startDate.replace(/-/g, '/')),
-  );
+  const currentStartOfWeek = new Date(startDate.replace(/-/g, '/'));
 
   const categoryTypesArray = categoryTypes ? categoryTypes.split(',') : [];
   const categoryType = categoryTypes
@@ -397,7 +409,7 @@ const InventoryRow = ({
           ? th.colors.brand.containerBackground
           : undefined
       }
-      gridTemplateColumns={gridTemplateColumns}
+      gridTemplateColumns={gridTemplateColumns(startDate)}
     >
       {categoryLink ? (
         <l.AreaLink height={th.sizes.fill} to={categoryLink}>
@@ -414,11 +426,12 @@ const InventoryRow = ({
           palletsAvailable={storageItemsAvailable}
           palletsOnHand={storageItemsOnHand}
           onHandTo={getItemsLink(
-            13,
+            13 - getInventoryStartDayIndex(startDate),
             !!storageItemsReal,
             !!storageItemsPre,
             categoryId,
           )}
+          startDate={startDate}
         />
       </l.Div>
       {times((idx) => {
@@ -445,22 +458,24 @@ const InventoryRow = ({
               hasPrePallets,
               categoryId,
             )}
+            startDate={startDate}
           />
         );
-      }, 12)}
+      }, 12 - getInventoryStartDayIndex(startDate))}
       <l.Div height={th.sizes.fill} width={th.sizes.fill}>
         <InventoryCell
           availableTo="#"
-          index={14}
+          index={14 - getInventoryStartDayIndex(startDate)}
           isTotal={isTotal}
           palletsAvailable={totalItemsAvailable}
           palletsOnHand={totalItemsOnHand}
           onHandTo={getItemsLink(
-            14,
+            14 - getInventoryStartDayIndex(startDate),
             !!totalItemsReal,
             !!totalItemsPre,
             categoryId,
           )}
+          startDate={startDate}
         />
       </l.Div>
     </l.Grid>

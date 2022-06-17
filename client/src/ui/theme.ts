@@ -24,6 +24,7 @@ export const colors = {
     success: '#06D6A0',
     successAlt: '#008001',
     error: '#F76C5E',
+    errorAlt: '#FF0000',
     warning: '#F4D35E',
     warningSecondary: '#E77728',
   },
@@ -40,7 +41,7 @@ export const heights = {
   input: 32,
   nav: 80,
   navButton: 45,
-  pageHeader: 100,
+  pageHeader: 104,
 };
 
 export const sizes = {

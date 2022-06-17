@@ -60,7 +60,7 @@ export const listLabels: VesselLabelInfo[] = [
       warehouse ? `${warehouse.warehouseName} (${warehouse.id})` : '',
   },
   {
-    defaultSortOrder: SORT_ORDER.ASC,
+    defaultSortOrder: SORT_ORDER.DESC,
     key: 'isPre',
     label: 'PRE',
     sortable: true,
@@ -127,7 +127,11 @@ export const baseLabels: (
       width: 300,
     },
     getValue: ({ country }) =>
-      country ? <ty.BodyText>{country.countryName}</ty.BodyText> : '',
+      country ? (
+        <ty.BodyText>{country.countryName}</ty.BodyText>
+      ) : (
+        <ty.BodyText>-</ty.BodyText>
+      ),
     validate: ({ countryId }) =>
       !!countryId && !!countries.find((c) => c.id === countryId),
   },
@@ -217,7 +221,14 @@ export const baseLabels: (
     },
   },
   {
-    defaultSortOrder: SORT_ORDER.ASC,
+    key: 'invFlag',
+    label: 'Inv Flag',
+    isBoolean: true,
+    getValue: ({ invFlag }) => (
+      <ty.BodyText>{!!invFlag ? 'Yes' : 'No'}</ty.BodyText>
+    ),
+  },
+  {
     key: 'isPre',
     label: 'PRE',
     sortable: true,

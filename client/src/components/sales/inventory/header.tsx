@@ -9,6 +9,7 @@ import Breadcrumbs, { BreadcrumbProps } from 'components/nav/breadcrumbs';
 import useColumns, { SORT_ORDER } from 'hooks/use-columns';
 import { useInventoryQueryParams, useQueryValue } from 'hooks/use-query-params';
 import { InventoryItem } from 'types';
+import { Select } from 'ui/input';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
@@ -22,7 +23,7 @@ import { gridTemplateColumns } from '.';
 import { gridTemplateColumns as listGridTemplateColumns } from './items';
 import { indexListLabels } from './items/data-utils';
 import InventoryListTotals from './items/list-totals';
-import { Select } from 'ui/input';
+import { getInventoryStartDayIndex } from './utils';
 
 export const categoryTypeOrder = [
   'species',
@@ -34,12 +35,12 @@ export const categoryTypeOrder = [
   'sizePackType',
 ];
 
-const gridColumnSpans = [
-  { start: 3, end: 10 },
-  { start: 10, end: 12 },
-  { start: 12, end: 13 },
-  { start: 13, end: 14 },
-  { start: 14, end: 15 },
+const gridColumnSpans = (dayMod: number) => [
+  { start: 3, end: 10 - dayMod },
+  { start: 10 - dayMod, end: 12 - dayMod },
+  { start: 12 - dayMod, end: 13 - dayMod },
+  { start: 13 - dayMod, end: 14 - dayMod },
+  { start: 14 - dayMod, end: 15 - dayMod },
 ];
 
 interface Props {
@@ -198,6 +199,8 @@ const Header = ({
     return breadcrumbs;
   };
 
+  const dayModifier = getInventoryStartDayIndex(startDate);
+
   const getDates = () =>
     times((weekIdx) => {
       const currentStartOfWeek = startOfISOWeek(
@@ -211,7 +214,7 @@ const Header = ({
         case 0:
           return times((dayIdx) => {
             const currentDate = add(currentStartOfWeek, {
-              days: dayIdx,
+              days: dayIdx + dayModifier,
             });
             const isToday =
               format(currentDate, 'yyyy-MM-dd') ===
@@ -227,7 +230,7 @@ const Header = ({
                 }
                 borderTop={th.borders.disabled}
                 borderLeft={dayIdx === 0 ? th.borders.disabled : 0}
-                borderRight={dayIdx < 7 ? th.borders.disabled : 0}
+                borderRight={dayIdx < 7 - dayModifier ? th.borders.disabled : 0}
                 borderBottom={th.borders.disabled}
                 key={`${weekIdx}-${dayIdx}`}
                 py={th.spacing.xs}
@@ -237,7 +240,7 @@ const Header = ({
                 </ty.SmallText>
               </l.Div>
             );
-          }, 7);
+          }, 7 - dayModifier);
         case 1:
           const rangeOneEnd = add(currentStartOfWeek, { days: 2 });
           const rangeTwoStart = add(currentStartOfWeek, { days: 3 });
@@ -344,7 +347,7 @@ const Header = ({
         options.push({ text: 'Sizes', value: 'size' });
       }
       if (!packType && !sizePackType) {
-        options.push({ text: 'Pack Types', value: 'packType' });
+        options.push({ text: 'Label - Pack Type', value: 'packType' });
       }
       if (!plu) {
         options.push({ text: 'PLU', value: 'plu' });
@@ -353,7 +356,7 @@ const Header = ({
         options.push({ text: 'Shipper', value: 'shipper' });
       }
       if (!sizePackType && !size && !packType) {
-        options.push({ text: 'Size & Pack Type', value: 'sizePackType' });
+        options.push({ text: 'Size - Pack Type', value: 'sizePackType' });
       }
     }
     return options;
@@ -444,14 +447,18 @@ const Header = ({
           gridTemplateColumns={listGridTemplateColumns(!!shipper)}
           mb={th.spacing.sm}
           pl={th.spacing.sm}
-          pr={detailItems.length > 12 ? th.spacing.md : 0}
+          pr={
+            detailItems.length > 12 - getInventoryStartDayIndex(startDate)
+              ? th.spacing.md
+              : 0
+          }
         >
           {itemColumnLabels}
         </l.Grid>
       ) : (
         <l.Grid
           alignCenter
-          gridTemplateColumns={gridTemplateColumns}
+          gridTemplateColumns={gridTemplateColumns(startDate)}
           mt={th.sizes.icon}
         >
           <l.Flex
@@ -495,13 +502,13 @@ const Header = ({
                 borderRight={th.borders.disabled}
                 borderTop={th.borders.disabled}
                 column
-                gridColumnStart={gridColumnSpans[weekIdx].start}
-                gridColumnEnd={gridColumnSpans[weekIdx].end}
+                gridColumnStart={gridColumnSpans(dayModifier)[weekIdx].start}
+                gridColumnEnd={gridColumnSpans(dayModifier)[weekIdx].end}
                 justifyCenter
                 key={weekIdx + 1}
                 py={th.spacing.xs}
               >
-                <ty.BodyText nowrap>
+                <ty.BodyText bold={isCurrentWeekVal} nowrap>
                   {isFirst ? 'Week ' : ''}
                   {selectedWeekNumber + weekIdx}
                 </ty.BodyText>
@@ -513,7 +520,7 @@ const Header = ({
             borderRight={th.borders.disabled}
             borderBottom={th.borders.disabled}
             borderTop={th.borders.disabled}
-            gridColumn={15}
+            gridColumn={15 - dayModifier}
             gridRow="1 / 3"
             height={`calc(${th.sizes.fill} - 2px)`}
           >

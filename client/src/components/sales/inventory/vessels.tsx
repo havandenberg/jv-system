@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { startOfISOWeek } from 'date-fns';
 import { times } from 'ramda';
 
 import ArrowInCircle from 'assets/images/arrow-in-circle';
@@ -13,7 +12,7 @@ import ty from 'ui/typography';
 
 import { gridTemplateColumns } from '.';
 import { useInventoryContext } from './context';
-import { getFilteredVessels } from './utils';
+import { getFilteredVessels, getInventoryStartDayIndex } from './utils';
 
 const VesselLink = styled(l.Flex)(({ isPre }: { isPre: boolean }) => ({
   alignItems: 'center',
@@ -37,9 +36,7 @@ interface Props {
 
 const InventoryVessels = ({ vessels }: Props) => {
   const [{ startDate = formatDate(new Date()) }] = useDateRangeQueryParams();
-  const currentStartOfWeek = startOfISOWeek(
-    new Date(startDate.replace(/-/g, '/')),
-  );
+  const currentStartOfWeek = new Date(startDate.replace(/-/g, '/'));
 
   const [{ vesselsIsOpen: isOpen, ...state }, setState] = useInventoryContext();
 
@@ -47,7 +44,7 @@ const InventoryVessels = ({ vessels }: Props) => {
     <>
       <l.Grid
         alignStart
-        gridTemplateColumns={gridTemplateColumns}
+        gridTemplateColumns={gridTemplateColumns(startDate)}
         height={isOpen ? undefined : th.sizes.lg}
         minHeight={th.sizes.lg}
         overflow={isOpen ? 'visible' : 'hidden'}
@@ -78,45 +75,43 @@ const InventoryVessels = ({ vessels }: Props) => {
           width={`calc(${th.sizes.fill} - 1px)`}
         />
         {times((idx) => {
-          const filteredVessels = getFilteredVessels(
-            vessels,
-            idx,
-            currentStartOfWeek,
-          );
+          const filteredVessels =
+            idx < 12 - getInventoryStartDayIndex(startDate) - 2
+              ? getFilteredVessels(vessels, idx, currentStartOfWeek)
+              : [];
           return (
             <l.Div
               borderLeft={idx === 0 ? th.borders.disabled : 0}
-              borderRight={idx >= 11 ? th.borders.disabled : 0}
+              borderRight={
+                idx >= 11 - getInventoryStartDayIndex(startDate)
+                  ? th.borders.disabled
+                  : 0
+              }
               height={`calc(${th.sizes.fill} - ${th.spacing.sm})`}
               key={idx}
               pb={th.spacing.xs}
               pt={th.spacing.sm}
             >
               <l.Flex flexWrap="wrap" mx="auto">
-                {filteredVessels.map((vessel, idy) => {
-                  if (vessel.inventoryItems.nodes.length === 0) {
-                    return null;
-                  }
-                  return (
-                    <l.Div key={idy} mb={th.spacing.xs} mx={th.spacing.tn}>
-                      <l.AreaLink
-                        title={`${vessel.vesselName} (${vessel.vesselCode})`}
-                        to={`/sales/vessels/${vessel.id}`}
-                      >
-                        <VesselLink isPre={!!vessel.isPre}>
-                          <ty.SmallText>
-                            {vessel.vesselName?.slice(0, 3)}
-                          </ty.SmallText>
-                        </VesselLink>
-                      </l.AreaLink>
-                    </l.Div>
-                  );
-                })}
+                {filteredVessels.map((vessel, idy) => (
+                  <l.Div key={idy} mb={th.spacing.xs} mx={th.spacing.tn}>
+                    <l.AreaLink
+                      title={`${vessel.vesselName} (${vessel.vesselCode})`}
+                      to={`/sales/vessels/${vessel.id}`}
+                    >
+                      <VesselLink isPre={!!vessel.isPre}>
+                        <ty.SmallText>
+                          {vessel.vesselName?.slice(0, 3)}
+                        </ty.SmallText>
+                      </VesselLink>
+                    </l.AreaLink>
+                  </l.Div>
+                ))}
                 <l.Div />
               </l.Flex>
             </l.Div>
           );
-        }, 12)}
+        }, 12 - getInventoryStartDayIndex(startDate))}
         <l.Div
           borderRight={th.borders.disabled}
           height={th.sizes.fill}
@@ -126,7 +121,7 @@ const InventoryVessels = ({ vessels }: Props) => {
       <l.Grid
         alignCenter
         borderLeft={th.borders.disabled}
-        gridTemplateColumns={gridTemplateColumns}
+        gridTemplateColumns={gridTemplateColumns(startDate)}
       >
         <l.Div />
         <l.Div borderLeft={th.borders.disabled} height={th.spacing.xs} />
@@ -134,7 +129,7 @@ const InventoryVessels = ({ vessels }: Props) => {
           borderLeft={th.borders.disabled}
           borderRight={th.borders.disabled}
           height={th.spacing.xs}
-          gridColumn="3 / 15"
+          gridColumn={`3 / ${15 - getInventoryStartDayIndex(startDate)}`}
         />
         <l.Div borderRight={th.borders.disabled} height={th.spacing.xs} />
       </l.Grid>

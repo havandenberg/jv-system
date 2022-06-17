@@ -200,7 +200,9 @@ const EditableCell = ({
                 },
               } as any)
             }
-            value={new Date(`${localValue}`.replace(/-/g, '/'))}
+            value={
+              localValue ? new Date(`${localValue}`.replace(/-/g, '/')) : null
+            }
             {...dateTimePickerProps}
           />
         ) : dropdownOptions ? (

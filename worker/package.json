@@ -23,6 +23,7 @@
     "psa-reports-run-once": "node src/inspections/psa-arrival/reports/run-once.js",
     "psa-pallets-run-once": "node src/inspections/psa-arrival/pallets/run-once.js",
     "projection-reminders-run-once": "node src/projections/weekly-reminder/run-once.js",
+    "db2": "node src/db2-connect/run-once.js",
     "start": "nodemon src/index.js"
   }
 }

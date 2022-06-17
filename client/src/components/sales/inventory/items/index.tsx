@@ -9,6 +9,7 @@ import {
 } from 'hooks/use-query-params';
 import { InventoryItem } from 'types';
 
+import { USE_NEW_PRE_INVENTORY } from '..';
 import { getSortedItems, isPreInventoryItem } from '../utils';
 import { indexListLabels } from './data-utils';
 import ListItem from './list-item';
@@ -40,9 +41,10 @@ const InventoryItems = ({ items }: Props) => {
       rowCount={sortedItems.length}
       rowRenderer={({ key, index, style }) => {
         const item = sortedItems[index] as InventoryItem;
-        const to = isPreInventoryItem(item)
-          ? `/sales/projections?coast=${item.coast}&shipperId=${item.shipper?.id}&startDate=${startDate}&endDate=${endDate}&projectionsView=grid&vesselId=${item.vessel?.id}&projectionId=all`
-          : `/sales/inventory/items/${item.id}${search}`;
+        const to =
+          isPreInventoryItem(item) && USE_NEW_PRE_INVENTORY
+            ? `/sales/projections?coast=${item.coast}&shipperId=${item.shipper?.id}&startDate=${startDate}&endDate=${endDate}&projectionsView=grid&vesselId=${item.vessel?.id}&projectionId=all`
+            : `/sales/inventory/items/${item.id}${search}`;
 
         return (
           item && (

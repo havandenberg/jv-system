@@ -8,6 +8,8 @@ const PeruDepartureInspectionPlugin = require('./plugins/inspections/peru-depart
 const PsaArrivalInspectionPlugin = require('./plugins/inspections/psa-arrival-inspection');
 const PriceSheetUpdateEmailPlugin = require('./plugins/sales/price-sheet-update-email');
 const PersonContactOrderByPlugin = require('./plugins/directory/person-contact-order-by');
+const ProjectionReviewEmailPlugin = require('./plugins/projections/projection-review');
+const DB2Connect = require('./plugins/db2-connect');
 
 module.exports = makePluginByCombiningPlugins(
   AtomicMutationsPlugin,
@@ -16,4 +18,6 @@ module.exports = makePluginByCombiningPlugins(
   PsaArrivalInspectionPlugin,
   PriceSheetUpdateEmailPlugin,
   PersonContactOrderByPlugin,
+  ProjectionReviewEmailPlugin,
+  DB2Connect,
 );

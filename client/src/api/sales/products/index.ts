@@ -82,13 +82,13 @@ export const useCreateCommonCategory = () => {
   });
 };
 
-export const useUpdateCommonCategory = () => {
+export const useUpdateCommonCategory = (id: string) => {
   const variables = useVariables();
   return useMutation<Mutation>(COMMON_CATEGORY_UPDATE_QUERY, {
     refetchQueries: [
       {
         query: COMMON_CATEGORY_LIST_QUERY,
-        variables,
+        variables: { ...variables, id },
       },
     ],
   });

@@ -91,20 +91,13 @@ const Details = () => {
               p={th.spacing.md}
             >
               <ty.CaptionText mr={th.spacing.md}>Order ID:</ty.CaptionText>
-              {data.backOrderId && (
-                <>
-                  <ty.CaptionText mr={th.spacing.sm}>
-                    Back Order ID:
-                  </ty.CaptionText>
-                  <StatusIndicator
-                    status={data.shipped ? 'success' : 'error'}
-                  />
-                  <l.Div width={th.spacing.lg} />
-                </>
-              )}
-              <ty.CaptionText mr={th.spacing.lg}>
-                {data.orderId || '-'}
-              </ty.CaptionText>
+              <ty.BodyText mr={th.spacing.lg}>
+                {parseInt(data.orderId || '0', 10) || '-'}
+              </ty.BodyText>
+              <ty.CaptionText mr={th.spacing.md}>Back Order ID:</ty.CaptionText>
+              <ty.BodyText mr={th.spacing.lg}>
+                {parseInt(data.backOrderId || '0', 10) || '-'}
+              </ty.BodyText>
               <ty.CaptionText mr={th.spacing.md}>Shipped:</ty.CaptionText>
               <StatusIndicator status={data.shipped ? 'success' : 'error'} />
             </l.Flex>

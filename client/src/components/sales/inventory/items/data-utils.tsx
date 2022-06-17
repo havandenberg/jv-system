@@ -64,9 +64,13 @@ export const indexListLabels = ({
         (!species && product?.species?.speciesDescription) || ''
       } ${(!variety && product?.variety?.varietyDescription) || ''} ${
         (!size && product?.sizes?.nodes[0]?.jvDescription) || ''
-      } ${(!packType && product?.packType?.packDescription) || ''} ${
-        !plu && pluVal ? 'PLU' : ''
-      }`;
+      } ${
+        (!packType && product?.packType
+          ? product?.packType?.label?.labelName +
+            ' - ' +
+            product?.packType?.packDescription
+          : '') || ''
+      } ${!plu && pluVal ? 'PLU' : ''}`;
       return desc.trim() ? desc : undefined;
     },
     defaultSortOrder: SORT_ORDER.ASC,
@@ -76,7 +80,11 @@ export const indexListLabels = ({
       `${product?.species?.speciesDescription || ''} ${
         product?.variety?.varietyDescription || ''
       } ${product?.sizes?.nodes[0]?.jvDescription || ''} ${
-        product?.packType?.packDescription || ''
+        product?.packType
+          ? product?.packType?.label?.labelName +
+            ' - ' +
+            product?.packType?.packDescription
+          : ''
       } ${plu ? 'PLU' : ''}`.toLowerCase(),
   },
   {
@@ -119,6 +127,19 @@ export const indexListLabels = ({
         width: th.sizes.fill,
       },
     },
+    getValue: ({ palletsAvailable }) => (
+      <ty.BodyText
+        center
+        color={
+          parseInt(palletsAvailable, 10) < 0
+            ? th.colors.status.error
+            : th.colors.status.successAlt
+        }
+        width={th.sizes.fill}
+      >
+        {palletsAvailable}
+      </ty.BodyText>
+    ),
   },
   {
     key: 'id',
@@ -174,11 +195,23 @@ export const listLabels: InventoryItemLabelInfo[] = [
   {
     key: 'product',
     label: 'Pack Type',
-    getValue: (data) => data.product?.packType?.packDescription || '',
+    getValue: ({ product }) =>
+      product?.packType
+        ? `${
+            product.packType.label
+              ? product.packType.label.labelName + ' - '
+              : ''
+          }${product.packType.packDescription}`
+        : '',
     defaultSortOrder: SORT_ORDER.ASC,
     sortable: true,
     sortKey: 'packType',
-    customSortBy: (data) => data.product?.packType?.packDescription || '',
+    customSortBy: (data) =>
+      data.product?.packType
+        ? data.product?.packType?.label?.labelName +
+          ' - ' +
+          data.product?.packType?.packDescription
+        : '',
   },
   {
     key: 'plu',
@@ -214,7 +247,15 @@ export const listLabels: InventoryItemLabelInfo[] = [
     key: 'palletsAvailable',
     label: 'Available',
     getValue: ({ palletsAvailable }) => (
-      <ty.Span color={th.colors.status.successAlt}>{palletsAvailable}</ty.Span>
+      <ty.Span
+        color={
+          parseInt(palletsAvailable, 10) < 0
+            ? th.colors.status.error
+            : th.colors.status.successAlt
+        }
+      >
+        {palletsAvailable}
+      </ty.Span>
     ),
     sortable: true,
     defaultSortOrder: SORT_ORDER.DESC,
@@ -231,71 +272,115 @@ export const baseLabels: InventoryItemLabelInfo[] = [
   {
     key: 'vessel',
     label: 'Vessel Code',
-    getValue: ({ vessel }) =>
-      vessel ? (
-        <ty.LinkText hover="false" to={`/sales/vessels/${vessel.id}`}>
-          {vessel.vesselCode}
-        </ty.LinkText>
-      ) : (
-        ''
-      ),
+    getValue: ({ vessel }) => (
+      <ty.BodyText>
+        {vessel ? (
+          <l.Flex alignCenter>
+            {vessel.isPre && (
+              <l.Div mr={th.spacing.sm}>
+                <StatusIndicator status="warning" />
+              </l.Div>
+            )}
+            <ty.LinkText hover="false" to={`/sales/vessels/${vessel.id}`}>
+              {vessel.vesselCode} - {vessel.vesselName}
+            </ty.LinkText>
+          </l.Flex>
+        ) : (
+          '-'
+        )}
+      </ty.BodyText>
+    ),
   },
   {
     key: 'vessel',
     label: 'Available Date',
-    getValue: ({ vessel }) =>
-      vessel
-        ? formatDate(new Date(vessel.dischargeDate.replace(/-/g, '/')))
-        : '',
+    getValue: ({ vessel }) => (
+      <ty.BodyText>
+        {vessel
+          ? formatDate(new Date(vessel.dischargeDate.replace(/-/g, '/')))
+          : '-'}
+      </ty.BodyText>
+    ),
   },
   {
     key: 'shipper',
     label: 'Shipper',
-    getValue: ({ shipper }) =>
-      shipper ? (
-        <ty.LinkText hover="false" to={`/directory/shippers/${shipper.id}`}>
-          {shipper.shipperName}
-        </ty.LinkText>
-      ) : (
-        ''
-      ),
+    getValue: ({ shipper }) => (
+      <ty.BodyText>
+        {shipper ? (
+          <ty.LinkText hover="false" to={`/directory/shippers/${shipper.id}`}>
+            {shipper.shipperName}
+          </ty.LinkText>
+        ) : (
+          '-'
+        )}
+      </ty.BodyText>
+    ),
   },
   {
     key: 'country',
     label: 'Country Of Origin',
-    getValue: (data) => data.country?.countryName || '',
+    getValue: (data) => (
+      <ty.BodyText>{data.country?.countryName || '-'}</ty.BodyText>
+    ),
   },
   {
     key: 'warehouse',
     label: 'Location',
-    getValue: ({ coast, warehouse }) =>
-      warehouse ? (
-        <ty.LinkText hover="false" to={`/directory/warehouses/${warehouse.id}`}>
-          {coast} - {warehouse.warehouseName}
-        </ty.LinkText>
-      ) : (
-        ''
-      ),
+    getValue: ({ coast, warehouse }) => (
+      <ty.BodyText>
+        {warehouse ? (
+          <ty.LinkText
+            hover="false"
+            to={`/directory/warehouses/${warehouse.id}`}
+          >
+            {coast} - {warehouse.warehouseName}
+          </ty.LinkText>
+        ) : (
+          '-'
+        )}
+      </ty.BodyText>
+    ),
   },
   {
     key: 'product',
     label: 'Species',
-    getValue: (data) => data.product?.species?.speciesDescription || '',
+    getValue: (data) => (
+      <ty.BodyText>
+        {data.product?.species?.speciesDescription || '-'}
+      </ty.BodyText>
+    ),
   },
   {
     key: 'product',
     label: 'Variety',
-    getValue: (data) => data.product?.variety?.varietyDescription || '',
+    getValue: (data) => (
+      <ty.BodyText>
+        {data.product?.variety?.varietyDescription || '-'}
+      </ty.BodyText>
+    ),
   },
   {
     key: 'product',
     label: 'Size',
-    getValue: (data) => data.product?.sizes?.nodes[0]?.jvDescription || '',
+    getValue: (data) => (
+      <ty.BodyText>
+        {data.product?.sizes?.nodes[0]?.jvDescription || '-'}
+      </ty.BodyText>
+    ),
   },
   {
     key: 'product',
     label: 'Pack Type',
-    getValue: (data) => data.product?.packType?.packDescription || '',
+    getValue: (data) => (
+      <ty.BodyText>
+        {data.product?.packType
+          ? data.product?.packType?.label?.labelName +
+            ' - ' +
+            data.product?.packType?.packDescription
+          : '-'}
+      </ty.BodyText>
+    ),
   },
   {
     key: 'plu',
@@ -340,7 +425,10 @@ export const getFeaturedValues = (data: InventoryItem) => [
   {
     customStyles: {
       wrapper: {
-        background: th.colors.status.successAlt,
+        background:
+          data.palletsAvailable < 0
+            ? th.colors.status.error
+            : th.colors.status.successAlt,
       },
     },
     label: 'Available',

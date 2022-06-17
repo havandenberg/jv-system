@@ -33,6 +33,7 @@ query VESSEL_LIST(
       departureDate
       id
       isPre
+      invFlag
       searchText
       shipperProjectionVessels {
         nodes {

@@ -7,10 +7,12 @@ import {
   reduce,
   sortBy,
   sum,
+  times,
   values,
 } from 'ramda';
 
 import { LabelInfo } from 'components/column-label';
+import { formatDate } from 'components/date-range-picker';
 import { CommonProductTag } from 'components/tag-manager';
 import { SORT_ORDER } from 'hooks/use-columns';
 import {
@@ -28,7 +30,14 @@ import { isDateGreaterThanOrEqualTo } from 'utils/date';
 import { ShipperProjectionProductWithEntries } from '../projections/grid/types';
 import { getProductIdentifier } from '../projections/utils';
 
-export const dateRanges = [1, 1, 1, 1, 1, 1, 1, 3, 4, 7, 7, 7];
+export const dateRanges = (startDate: string) => [
+  ...times(() => 1, 7 - getInventoryStartDayIndex(startDate)),
+  3,
+  4,
+  7,
+  7,
+  7,
+];
 
 export const inventorySortKeys = [
   { content: 'Default', value: '' },
@@ -40,13 +49,17 @@ export const inventorySortKeys = [
   { content: 'Size & Pack Type', value: 'sizePackType' },
 ];
 
-export const getDateRange = (idx: number) => {
+export const getInventoryStartDayIndex = (startDate: string) =>
+  new Date(startDate.replace(/-/g, '/')).getDay() - 1;
+
+export const getDateRange = (idx: number, startDate: Date) => {
+  const startDateStr = formatDate(startDate);
   const start = reduce(
     (acc, range) => acc + range,
     0,
-    dateRanges.slice(0, idx),
+    dateRanges(startDateStr).slice(0, idx),
   );
-  return { start, end: start + dateRanges[idx] };
+  return { start, end: start + dateRanges(startDateStr)[idx] };
 };
 
 export const getFilteredVessels = (
@@ -54,27 +67,26 @@ export const getFilteredVessels = (
   idx: number,
   currentStartOfWeek: Date,
 ) => {
-  const dateRange = getDateRange(idx);
+  const dateRange = getDateRange(idx, currentStartOfWeek);
   const filteredVessels = sortBy(
     (vessel) => vessel.vesselCode,
-    vessels.filter(
-      (vessel) =>
+    vessels.filter((vessel) => {
+      const date = new Date(
+        (vessel.dischargeDate || vessel.arrivalDate).replace(/-/g, '/'),
+      );
+      return (
         isDateGreaterThanOrEqualTo(
-          new Date(vessel.dischargeDate.replace(/-/g, '/')),
+          date,
           add(currentStartOfWeek, { days: dateRange.start }),
-        ) &&
-        isBefore(
-          new Date(vessel.dischargeDate.replace(/-/g, '/')),
-          add(currentStartOfWeek, { days: dateRange.end }),
-        ) &&
-        vessel.inventoryItems?.nodes.length > 0,
-    ),
+        ) && isBefore(date, add(currentStartOfWeek, { days: dateRange.end }))
+      );
+    }),
   );
   return filteredVessels;
 };
 
 export const getDateInterval = (idx: number, currentStartOfWeek: Date) => {
-  const dateRange = getDateRange(idx);
+  const dateRange = getDateRange(idx, currentStartOfWeek);
   return {
     start: add(currentStartOfWeek, { days: dateRange.start }),
     end: add(currentStartOfWeek, { days: dateRange.end }),
@@ -86,7 +98,7 @@ export const isWithinDateInterval = (
   idx: number,
   currentStartOfWeek: Date,
 ) => {
-  const dateRange = getDateRange(idx);
+  const dateRange = getDateRange(idx, currentStartOfWeek);
   return (
     item.vessel &&
     isDateGreaterThanOrEqualTo(
@@ -105,7 +117,7 @@ export const getFilteredItems = (
   idx: number,
   currentStartOfWeek: Date,
 ) => {
-  if (idx === 13) {
+  if (idx === 13 - getInventoryStartDayIndex(formatDate(currentStartOfWeek))) {
     return items.filter(
       (item) =>
         item.vessel &&
@@ -115,7 +127,7 @@ export const getFilteredItems = (
         ),
     );
   }
-  if (idx === 14) {
+  if (idx === 14 - getInventoryStartDayIndex(formatDate(currentStartOfWeek))) {
     return items;
   }
   return items.filter((item) =>
@@ -144,6 +156,7 @@ export const isPreInventoryItem = (item: InventoryItem) => !!item.vessel?.isPre;
 export interface InventoryItemPalletData {
   pre: number;
   real: number;
+  total: number;
 }
 
 export const reducePalletData = (
@@ -371,6 +384,9 @@ export const buildCategories =
       speciesDescription: 'Other',
       varietyDescription: 'Other',
       packDescription: 'Other',
+      label: {
+        labelName: 'Other',
+      },
       jvDescription: 'Other',
       shipperName: 'Other',
       commonSpeciesTags: { nodes: [] },
@@ -416,13 +432,15 @@ export const buildCategories =
         case 'packType':
           return isTag
             ? commonPackTypeTag?.tagText
-            : itemPackType.packDescription;
+            : `${
+                itemPackType.label ? itemPackType.label.labelName + ' - ' : ''
+              }${itemPackType.packDescription}`;
         case 'plu':
           return item.plu ? 'true' : 'false';
         case 'shipper':
           return itemShipper.id;
         case 'sizePackType':
-          return `${itemSize.id}-${itemPackType.packDescription}`;
+          return `${itemSize.id} - ${itemPackType.packDescription}`;
         default:
           return isTag ? commonSpeciesTag?.tagText : itemSpecies.id;
       }
@@ -442,13 +460,15 @@ export const buildCategories =
             ? commonPackTypeTag?.tagText
             : itemPackType.packDescription === 'other'
             ? ''
-            : itemPackType.packDescription;
+            : `${
+                itemPackType.label ? itemPackType.label.labelName + ' - ' : ''
+              }${itemPackType.packDescription}`;
         case 'plu':
           return item.plu ? 'PLU' : 'No PLU';
         case 'shipper':
           return itemShipper.shipperName;
         case 'sizePackType':
-          return `${itemSize.jvDescription}-${itemPackType.packDescription}`;
+          return `${itemSize.jvDescription} - ${itemPackType.packDescription}`;
         default:
           return isTag
             ? commonSpeciesTag?.tagText

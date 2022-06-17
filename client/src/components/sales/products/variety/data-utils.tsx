@@ -74,10 +74,6 @@ export const baseLabels: (
     label: 'Name',
   },
   {
-    key: 'varietyDescription',
-    label: 'Description',
-  },
-  {
     key: 'productVarietyId',
     label: 'Primary Code',
     itemSelectorQueryProps: {
@@ -114,5 +110,9 @@ export const baseLabels: (
         </ty.BodyText>
       );
     },
+  },
+  {
+    key: 'varietyDescription',
+    label: 'Description',
   },
 ];

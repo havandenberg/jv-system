@@ -15,3 +15,30 @@ SELECT CONCAT (
 		c.country_name
 	) FROM directory.country cc WHERE c.id = cc.id
 $BODY$;
+
+CREATE FUNCTION directory.bulk_upsert_country(
+  countries directory.country[]
+)
+RETURNS setof directory.country
+AS $$
+  DECLARE
+    co directory.country;
+    vals directory.country;
+  BEGIN
+    FOREACH co IN ARRAY countries LOOP
+      INSERT INTO directory.country(
+        id,
+		    country_name
+      )
+        VALUES (
+          co.id,
+		      co.country_name
+        )
+      ON CONFLICT (id) DO UPDATE SET
+			  country_name=EXCLUDED.country_name
+    	RETURNING * INTO vals;
+    	RETURN NEXT vals;
+	END LOOP;
+	RETURN;
+  END;
+$$ LANGUAGE plpgsql VOLATILE STRICT SET search_path FROM CURRENT;

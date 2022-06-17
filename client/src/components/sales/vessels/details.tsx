@@ -8,7 +8,7 @@ import { DataMessage } from 'components/page/message';
 import { Tab, useTabBar } from 'components/tab-bar';
 import useUpdateItem from 'hooks/use-update-item';
 import { Country, InventoryItem, Vessel, Warehouse } from 'types';
-import b from 'ui/button';
+// import b from 'ui/button';
 import l from 'ui/layout';
 import th from 'ui/theme';
 
@@ -98,15 +98,14 @@ const Details = () => {
           ? undefined
           : [
               data?.isPre ? (
-                <>
-                  <l.AreaLink
-                    key="pre"
+                <React.Fragment key="pre">
+                  {/* <l.AreaLink
                     to={`/sales/projections?coast=${data?.coast}&startDate=${data?.departureDate}&endDate=${data?.departureDate}&projectionsView=grid&vesselId=${data?.id}&projectionId=all`}
                   >
                     <b.Primary mr={th.spacing.md}>View Projections</b.Primary>
-                    <b.Primary mr={th.spacing.md}>Convert to Real</b.Primary>
                   </l.AreaLink>
-                </>
+                  <b.Primary mr={th.spacing.md}>Convert to Real</b.Primary> */}
+                </React.Fragment>
               ) : null,
               editing
                 ? getUpdateActions().defaultActions

@@ -1,6 +1,6 @@
-FROM node:16-alpine
+FROM node:16
 
-RUN apk add tzdata
+RUN apt install tzdata make gcc g++
 
 RUN npm install -g graphql
 RUN npm install -g ntlm-client
@@ -20,6 +20,7 @@ RUN npm install -g /tmp/custom-plugin/custom-plugin-0.0.1.tgz
 RUN rm -rf /tmp/custom-plugin
 
 COPY ./.postgraphilerc.js ./
+COPY ./db2consv_ee.lic /usr/local/lib/node_modules/custom-plugin/node_modules/ibm_db/installer/clidriver/license/db2consv_ee.lic
 
 EXPOSE 5000
 ENTRYPOINT ["postgraphile", "-n", "0.0.0.0"]

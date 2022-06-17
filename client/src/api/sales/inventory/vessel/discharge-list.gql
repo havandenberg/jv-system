@@ -32,6 +32,7 @@ query VESSEL_LIST(
       departureDate
       id
       isPre
+      invFlag
       searchText
       shipperProjectionVessels {
         nodes {
@@ -97,90 +98,6 @@ query VESSEL_LIST(
                   palletCount
                   productId
                   vesselInfoId
-                  product {
-                    id
-                    packType
-                    plu
-                    size
-                    species
-                    variety
-                    customerValue
-                    customer {
-                      id
-                      customerName
-                    }
-                    commonSpeciesId
-                    commonSpecies {
-                      id
-                      speciesName
-                      uiColor
-                      productSpeciesId
-                      productSpecies {
-                        id
-                        speciesDescription
-                      }
-                      commonSpeciesTags {
-                        nodes {
-                          commonSpeciesId
-                          nodeId
-                          tagText
-                        }
-                      }
-                    }
-                    commonVarietyId
-                    commonVariety {
-                      id
-                      varietyName
-                      uiColor
-                      productVarietyId
-                      productVariety {
-                        id
-                        varietyDescription
-                      }
-                      commonVarietyTags {
-                        nodes {
-                          tagText
-                          nodeId
-                          commonVarietyId
-                        }
-                      }
-                    }
-                    commonSizeId
-                    commonSize {
-                      id
-                      sizeName
-                      productSizeId
-                      productSize {
-                        id
-                        jvDescription
-                      }
-                      commonSizeTags {
-                        nodes {
-                          commonSizeId
-                          nodeId
-                          tagText
-                        }
-                      }
-                    }
-                    commonPackTypeId
-                    commonPackType {
-                      id
-                      packTypeName
-                      packMasterId
-                      packMaster {
-                        id
-                        packDescription
-                      }
-                      commonPackTypeTags {
-                        nodes {
-                          commonPackTypeId
-                          nodeId
-                          tagText
-                        }
-                      }
-                    }
-                    customerId
-                  }
                 }
               }
             }

@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from 'react';
 import { noCase } from 'change-case';
-import { isEmpty } from 'ramda';
+import { isEmpty, sortBy } from 'ramda';
 
 import api from 'api';
 import AddItem from 'components/add-item';
@@ -116,7 +116,10 @@ const CommonProductIndex = () => {
       title="All Species"
     >
       {!loading && !isEmpty(categories) ? (
-        categories.map((category) => {
+        sortBy(
+          (c) => c?.categoryName || '',
+          categories as CommonCategory[],
+        ).map((category) => {
           const speciesList = specieses.filter(
             (species) => species?.commonCategory?.id === category?.id,
           );

@@ -52,3 +52,69 @@ SELECT CONCAT (
 		w.misc_tax_code
 	) FROM directory.warehouse ww FULL JOIN directory.country c ON (w.country_id = c.id) WHERE w.id = ww.id
 $BODY$;
+
+CREATE FUNCTION directory.bulk_upsert_warehouse(
+  warehouses directory.warehouse[]
+)
+RETURNS setof directory.warehouse
+AS $$
+  DECLARE
+    w directory.warehouse;
+    vals directory.warehouse;
+  BEGIN
+    FOREACH w IN ARRAY warehouses LOOP
+      INSERT INTO directory.warehouse(
+        id,
+				warehouse_name,
+				address_1,
+				address_2,
+				address_3,
+				city,
+				postal_state,
+				country_id,
+				zip_code,
+				phone,
+				out_queue,
+				state_tax_code,
+				county_tax_code,
+				city_tax_code,
+				misc_tax_code
+      )
+        VALUES (
+          w.id,
+		  		w.warehouse_name,
+					w.address_1,
+					w.address_2,
+					w.address_3,
+					w.city,
+					w.postal_state,
+					w.country_id,
+					w.zip_code,
+					w.phone,
+					w.out_queue,
+					w.state_tax_code,
+					w.county_tax_code,
+					w.city_tax_code,
+					w.misc_tax_code
+        )
+      ON CONFLICT (id) DO UPDATE SET
+				warehouse_name=EXCLUDED.warehouse_name,
+				address_1=EXCLUDED.address_1,
+				address_2=EXCLUDED.address_2,
+				address_3=EXCLUDED.address_3,
+				city=EXCLUDED.city,
+				postal_state=EXCLUDED.postal_state,
+				country_id=EXCLUDED.country_id,
+				zip_code=EXCLUDED.zip_code,
+				phone=EXCLUDED.phone,
+				out_queue=EXCLUDED.out_queue,
+				state_tax_code=EXCLUDED.state_tax_code,
+				county_tax_code=EXCLUDED.county_tax_code,
+				city_tax_code=EXCLUDED.city_tax_code,
+				misc_tax_code=EXCLUDED.misc_tax_code
+    	RETURNING * INTO vals;
+    	RETURN NEXT vals;
+	END LOOP;
+	RETURN;
+  END;
+$$ LANGUAGE plpgsql VOLATILE STRICT SET search_path FROM CURRENT;

@@ -9,7 +9,8 @@ CREATE TABLE product.vessel (
   arrival_date DATE,
   discharge_date DATE,
   coast TEXT,
-  is_pre BOOLEAN
+  is_pre BOOLEAN,
+  inv_flag BOOLEAN
 );
 
 CREATE FUNCTION product.vessel_country(IN v product.vessel)
@@ -52,7 +53,7 @@ CREATE FUNCTION product.vessel_inventory_items(IN v product.vessel)
     PARALLEL UNSAFE
     COST 100
 AS $BODY$
-  SELECT * FROM product.inventory_item i WHERE i.vessel_code = v.vessel_code
+  SELECT * FROM product.inventory_item i WHERE i.vessel_code = v.vessel_code order by v.id DESC limit 1
 $BODY$;
 
 CREATE FUNCTION product.vessel_pallets(IN v product.vessel)
@@ -85,3 +86,60 @@ SELECT CONCAT (
     v.coast
 	) FROM product.vessel vv FULL JOIN directory.country c ON (v.country_id = c.id) WHERE v.id = vv.id
 $BODY$;
+
+CREATE FUNCTION product.bulk_upsert_vessel(
+  vessels product.vessel[]
+)
+RETURNS setof product.vessel
+AS $$
+  DECLARE
+    v product.vessel;
+    vals product.vessel;
+  BEGIN
+    FOREACH v IN ARRAY vessels LOOP
+      INSERT INTO product.vessel(
+        id,
+        vessel_code,
+        pre_vessel_code,
+        vessel_name,
+        arrival_port,
+        country_id,
+        departure_date,
+        arrival_date,
+        discharge_date,
+        coast,
+        is_pre,
+        inv_flag
+      )
+        VALUES (
+          COALESCE(v.id, (select nextval('product.vessel_id_seq'))),
+					v.vessel_code,
+          v.pre_vessel_code,
+					v.vessel_name,
+					v.arrival_port,
+					v.country_id,
+					v.departure_date,
+					v.arrival_date,
+					v.discharge_date,
+					v.coast,
+          v.is_pre,
+          v.inv_flag
+        )
+      ON CONFLICT (id) DO UPDATE SET
+			  vessel_code=EXCLUDED.vessel_code,
+			  pre_vessel_code=EXCLUDED.pre_vessel_code,
+			  vessel_name=EXCLUDED.vessel_name,
+			  arrival_port=EXCLUDED.arrival_port,
+			  country_id=EXCLUDED.country_id,
+			  departure_date=EXCLUDED.departure_date,
+			  arrival_date=EXCLUDED.arrival_date,
+			  discharge_date=EXCLUDED.discharge_date,
+			  coast=EXCLUDED.coast,
+			  is_pre=EXCLUDED.is_pre,
+			  inv_flag=EXCLUDED.inv_flag
+    	RETURNING * INTO vals;
+    	RETURN NEXT vals;
+	END LOOP;
+	RETURN;
+  END;
+$$ LANGUAGE plpgsql VOLATILE STRICT SET search_path FROM CURRENT;

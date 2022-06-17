@@ -12,7 +12,6 @@ import Products from 'components/sales/products';
 import ShipperProjections from 'components/sales/projections';
 import Vessels from 'components/sales/vessels';
 import VesselDetails from 'components/sales/vessels/details';
-import { IS_PRODUCTION } from 'utils/env';
 
 import CreateCommonCategory from './products/category/create';
 import CommonCategoryDetails from './products/category/details';
@@ -126,11 +125,7 @@ const Sales = () => (
     <Route exact path="/sales/agenda" component={Agenda} />
     <Route exact path="/sales/calendar" component={Calendar} />
 
-    {IS_PRODUCTION ? (
-      <Redirect to="/sales/price-sheet" />
-    ) : (
-      <Redirect to="/sales/inventory?coast=EC" />
-    )}
+    <Redirect to="/sales/inventory" />
   </Switch>
 );
 

@@ -16,6 +16,9 @@ db/backups
 db/db_data
 */dist
 
+# license
+*/db2consv_ee.lic
+
 # misc
 *.DS_Store
 *.env

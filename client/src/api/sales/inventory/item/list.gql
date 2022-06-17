@@ -1,5 +1,21 @@
-query INVENTORY_ITEM_LIST {
-  inventoryItems(filter: { palletsOnHand: { notEqualTo: "0" } }) {
+query INVENTORY_ITEM_LIST($startDate: Date!, $endDate: Date!) {
+  inventoryItems(
+    filter: {
+      and: {
+        vesselDischargeDate: {
+          greaterThanOrEqualTo: $startDate
+          lessThanOrEqualTo: $endDate
+        }
+        vesselInvFlag: { equalTo: true }
+        not: {
+          and: {
+            palletsOnHand: { equalTo: "0" }
+            palletsCommitted: { equalTo: "0" }
+          }
+        }
+      }
+    }
+  ) {
     nodes {
       coast
       country {
@@ -72,6 +88,7 @@ query INVENTORY_ITEM_LIST {
           packDescription
           id
           label {
+            id
             labelName
           }
           commonPackTypes {

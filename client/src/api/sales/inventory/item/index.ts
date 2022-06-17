@@ -6,8 +6,10 @@ import { Query } from 'types';
 const INVENTORY_ITEM_DETAILS_QUERY = loader('./details.gql');
 const INVENTORY_ITEM_LIST_QUERY = loader('./list.gql');
 
-export const useInventoryItems = () => {
-  const { data, error, loading } = useQuery<Query>(INVENTORY_ITEM_LIST_QUERY);
+export const useInventoryItems = (startDate: string, endDate: string) => {
+  const { data, error, loading } = useQuery<Query>(INVENTORY_ITEM_LIST_QUERY, {
+    variables: { startDate, endDate },
+  });
 
   return {
     data: data ? data.inventoryItems : undefined,

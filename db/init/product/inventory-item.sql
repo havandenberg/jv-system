@@ -27,7 +27,27 @@ CREATE FUNCTION product.inventory_item_vessel(IN i product.inventory_item)
     PARALLEL UNSAFE
     COST 100
 AS $BODY$
-  SELECT * FROM product.vessel v WHERE v.vessel_code = i.vessel_code LIMIT 1
+  SELECT * FROM product.vessel v WHERE v.vessel_code = i.vessel_code ORDER BY v.discharge_date DESC LIMIT 1
+$BODY$;
+
+CREATE FUNCTION product.inventory_item_vessel_inv_flag(IN i product.inventory_item)
+    RETURNS BOOLEAN
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT inv_flag FROM product.vessel v WHERE v.vessel_code = i.vessel_code ORDER BY v.discharge_date DESC LIMIT 1
+$BODY$;
+
+CREATE FUNCTION product.inventory_item_vessel_discharge_date(IN i product.inventory_item)
+    RETURNS DATE
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT discharge_date FROM product.vessel v WHERE v.vessel_code = i.vessel_code ORDER BY v.discharge_date DESC LIMIT 1
 $BODY$;
 
 CREATE FUNCTION product.inventory_item_product(IN i product.inventory_item)
@@ -84,3 +104,82 @@ AS $BODY$
   AND p.jv_lot_number = i.jv_lot_number
   AND p.shipper_id = i.shipper_id
 $BODY$;
+
+CREATE FUNCTION product.bulk_upsert_inventory_item(
+  inventory_items product.inventory_item[]
+)
+RETURNS setof product.inventory_item
+AS $$
+  DECLARE
+    i product.inventory_item;
+    vals product.inventory_item;
+  BEGIN
+    FOREACH i IN ARRAY inventory_items LOOP
+      INSERT INTO product.inventory_item(
+        id,
+        product_id,
+        location_id,
+        vessel_code,
+        jv_lot_number,
+        shipper_id,
+        pallets_received,
+        pallets_committed,
+        pallets_on_hand,
+        pallets_available,
+        pallets_shipped,
+        pallets_transferred_in,
+        pallets_transferred_out,
+        plu,
+        country_id,
+        special_lot_number,
+        coast,
+        storage_rank,
+        warehouse_id
+      )
+        VALUES (
+          COALESCE(i.id, (select nextval('product.inventory_item_id_seq'))),
+					i.product_id,
+					i.location_id,
+					i.vessel_code,
+					i.jv_lot_number,
+					i.shipper_id,
+					i.pallets_received,
+					i.pallets_committed,
+					i.pallets_on_hand,
+					i.pallets_available,
+					i.pallets_shipped,
+					i.pallets_transferred_in,
+					i.pallets_transferred_out,
+					i.plu,
+					i.country_id,
+					i.special_lot_number,
+					i.coast,
+          i.storage_rank,
+					i.warehouse_id
+        )
+      ON CONFLICT (id) DO UPDATE SET
+			  product_id=EXCLUDED.product_id,
+			  location_id=EXCLUDED.location_id,
+			  vessel_code=EXCLUDED.vessel_code,
+			  jv_lot_number=EXCLUDED.jv_lot_number,
+			  shipper_id=EXCLUDED.shipper_id,
+			  pallets_received=EXCLUDED.pallets_received,
+			  pallets_committed=EXCLUDED.pallets_committed,
+			  pallets_on_hand=EXCLUDED.pallets_on_hand,
+			  pallets_available=EXCLUDED.pallets_available,
+			  pallets_shipped=EXCLUDED.pallets_shipped,
+			  pallets_transferred_in=EXCLUDED.pallets_transferred_in,
+			  pallets_transferred_out=EXCLUDED.pallets_transferred_out,
+			  plu=EXCLUDED.plu,
+			  country_id=EXCLUDED.country_id,
+			  special_lot_number=EXCLUDED.special_lot_number,
+			  coast=EXCLUDED.coast,
+			  storage_rank=EXCLUDED.storage_rank,
+			  warehouse_id=EXCLUDED.warehouse_id
+    	RETURNING * INTO vals;
+    	RETURN NEXT vals;
+	END LOOP;
+	RETURN;
+  END;
+$$ LANGUAGE plpgsql VOLATILE STRICT SET search_path FROM CURRENT;
+

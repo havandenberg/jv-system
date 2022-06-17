@@ -1,4 +1,4 @@
-CREATE TABLE product.pallet_temp_one (
+CREATE TABLE product.pallet (
   id BIGSERIAL PRIMARY KEY,
   vessel_code TEXT NOT NULL,
   pallet_id TEXT NOT NULL,
@@ -12,19 +12,14 @@ CREATE TABLE product.pallet_temp_one (
   row TEXT,
   jv_lot_number TEXT,
   shipper_id TEXT,
-  date_transferred_to_storage DATE,
+  date_transferred_to_storage TEXT,
   order_id TEXT,
   back_order_id TEXT,
   shipped BOOLEAN,
   age NUMERIC,
   volume_discount_code TEXT,
-  original_location_id TEXT
-);
-
-CREATE TABLE product.pallet_temp_two (
-  id BIGSERIAL PRIMARY KEY,
+  original_location_id TEXT,
   filler TEXT,
-  pallet_id TEXT NOT NULL,
   grower_id TEXT,
   old_pack_code TEXT,
   pack_date TEXT,
@@ -33,10 +28,6 @@ CREATE TABLE product.pallet_temp_two (
   bill_of_lading TEXT,
   container_id TEXT,
   temperature_recording TEXT
-);
-
-CREATE TABLE AS product.pallet (
-  SELECT * FROM product.pallet_temp_one pone LEFT JOIN product.pallet_temp_two ptwo ON pone.pallet_id = ptwo.pallet_id
 );
 
 CREATE TABLE product.pallet_section (
@@ -48,16 +39,6 @@ CREATE TABLE product.pallet_section (
   box_quantity NUMERIC,
   pack_date TEXT
 );
-
-CREATE FUNCTION product.pallet(IN palletId BIGINT)
-    RETURNS product.pallet
-    LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-  SELECT * FROM product.pallet p WHERE p.id = palletId
-$BODY$;
 
 CREATE FUNCTION product.pallet_pallet_sections(IN p product.pallet)
     RETURNS SETOF product.pallet_section
@@ -157,14 +138,164 @@ AS $BODY$
   SELECT * FROM product.product_variety v WHERE v.id = p.variety_id
 $BODY$;
 
-CREATE FUNCTION product.pallet_psa_arrival_report(IN p product.pallet)
-    RETURNS inspection.psa_arrival_report
-    LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-  SELECT * FROM inspection.psa_arrival_report par
-  WHERE p.arrival_code = par.arrival_code
-    AND ap.exporter_name = par.exporter_name
-$BODY$;
+-- CREATE FUNCTION product.pallet_psa_arrival_report(IN p product.pallet)
+--     RETURNS inspection.psa_arrival_report
+--     LANGUAGE 'sql'
+--     STABLE
+--     PARALLEL UNSAFE
+--     COST 100
+-- AS $BODY$
+--   SELECT * FROM inspection.psa_arrival_report par
+--   WHERE p.arrival_code = par.arrival_code
+--     AND ap.exporter_name = par.exporter_name
+-- $BODY$;
+
+CREATE FUNCTION product.bulk_upsert_pallet(
+  pallets product.pallet[]
+)
+RETURNS setof product.pallet
+AS $$
+  DECLARE
+    p product.pallet;
+    vals product.pallet;
+  BEGIN
+    FOREACH p IN ARRAY pallets LOOP
+      INSERT INTO product.pallet(
+        id,
+        vessel_code,
+        pallet_id,
+        product_id,
+        current_box_quantity,
+        received_box_quantity,
+        returned_box_quantity,
+        location_id,
+        room,
+        section,
+        row,
+        jv_lot_number,
+        shipper_id,
+        date_transferred_to_storage,
+        order_id,
+        back_order_id,
+        shipped,
+        age,
+        volume_discount_code,
+        original_location_id,
+        filler,
+        grower_id,
+        old_pack_code,
+        pack_date,
+        hatch,
+        deck,
+        bill_of_lading,
+        container_id,
+        temperature_recording
+      )
+        VALUES (
+          COALESCE(p.id, (select nextval('product.pallet_id_seq'))),
+          p.vessel_code,
+          p.pallet_id,
+          p.product_id,
+          p.current_box_quantity,
+          p.received_box_quantity,
+          p.returned_box_quantity,
+          p.location_id,
+          p.room,
+          p.section,
+          p.row,
+          p.jv_lot_number,
+          p.shipper_id,
+          p.date_transferred_to_storage,
+          p.order_id,
+          p.back_order_id,
+          p.shipped,
+          p.age,
+          p.volume_discount_code,
+          p.original_location_id,
+          p.filler,
+          p.grower_id,
+          p.old_pack_code,
+          p.pack_date,
+          p.hatch,
+          p.deck,
+          p.bill_of_lading,
+          p.container_id,
+          p.temperature_recording
+        )
+      ON CONFLICT (id) DO UPDATE SET
+        vessel_code=EXCLUDED.vessel_code,
+        pallet_id=EXCLUDED.pallet_id,
+        product_id=EXCLUDED.product_id,
+        current_box_quantity=EXCLUDED.current_box_quantity,
+        received_box_quantity=EXCLUDED.received_box_quantity,
+        returned_box_quantity=EXCLUDED.returned_box_quantity,
+        location_id=EXCLUDED.location_id,
+        room=EXCLUDED.room,
+        section=EXCLUDED.section,
+        row=EXCLUDED.row,
+        jv_lot_number=EXCLUDED.jv_lot_number,
+        shipper_id=EXCLUDED.shipper_id,
+        date_transferred_to_storage=EXCLUDED.date_transferred_to_storage,
+        order_id=EXCLUDED.order_id,
+        back_order_id=EXCLUDED.back_order_id,
+        shipped=EXCLUDED.shipped,
+        age=EXCLUDED.age,
+        volume_discount_code=EXCLUDED.volume_discount_code,
+        original_location_id=EXCLUDED.original_location_id,
+        filler=EXCLUDED.filler,
+        grower_id=EXCLUDED.grower_id,
+        old_pack_code=EXCLUDED.old_pack_code,
+        pack_date=EXCLUDED.pack_date,
+        hatch=EXCLUDED.hatch,
+        deck=EXCLUDED.deck,
+        bill_of_lading=EXCLUDED.bill_of_lading,
+        container_id=EXCLUDED.container_id,
+        temperature_recording=EXCLUDED.temperature_recording
+    	RETURNING * INTO vals;
+    	RETURN NEXT vals;
+	END LOOP;
+	RETURN;
+  END;
+$$ LANGUAGE plpgsql VOLATILE STRICT SET search_path FROM CURRENT;
+
+CREATE FUNCTION product.bulk_upsert_pallet_section(
+  pallet_sections product.pallet_section[]
+)
+RETURNS setof product.pallet_section
+AS $$
+  DECLARE
+    ps product.pallet_section;
+    vals product.pallet_section;
+  BEGIN
+    FOREACH ps IN ARRAY pallet_sections LOOP
+      INSERT INTO product.pallet_section(
+        id,
+        pallet_id,
+        grower_id,
+        variety_id,
+        size_id,
+        box_quantity,
+        pack_date
+      )
+        VALUES (
+          COALESCE(ps.id, (select nextval('product.pallet_section_id_seq'))),
+          ps.pallet_id,
+          ps.grower_id,
+          ps.variety_id,
+          ps.size_id,
+          ps.box_quantity,
+          ps.pack_date
+        )
+      ON CONFLICT (id) DO UPDATE SET
+        pallet_id=EXCLUDED.pallet_id,
+        grower_id=EXCLUDED.grower_id,
+        variety_id=EXCLUDED.variety_id,
+        size_id=EXCLUDED.size_id,
+        box_quantity=EXCLUDED.box_quantity,
+        pack_date=EXCLUDED.pack_date
+    	RETURNING * INTO vals;
+    	RETURN NEXT vals;
+	END LOOP;
+	RETURN;
+  END;
+$$ LANGUAGE plpgsql VOLATILE STRICT SET search_path FROM CURRENT;

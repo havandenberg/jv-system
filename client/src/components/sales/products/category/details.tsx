@@ -38,7 +38,7 @@ const CommonCategoryDetails = () => {
 
   const { TabBar } = useTabBar(tabs);
 
-  const [handleUpdate] = api.useUpdateCommonCategory();
+  const [handleUpdate] = api.useUpdateCommonCategory(categoryId);
 
   const updateFields = ['categoryName', 'categoryDescription', 'uiColor'];
   const updateVariables = { id: categoryId };

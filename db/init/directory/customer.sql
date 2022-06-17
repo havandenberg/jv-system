@@ -52,3 +52,54 @@ CREATE FUNCTION directory.customer_distinct_values(column_name text, condition_n
 		RETURN QUERY EXECUTE format('select distinct %I from directory.customer where %I = %s', column_name, condition_name, condition_value);
 	END;
 $$ LANGUAGE plpgsql STABLE;
+
+CREATE FUNCTION directory.bulk_upsert_customer(
+  customers directory.customer[]
+)
+RETURNS setof directory.customer
+AS $$
+  DECLARE
+    cu directory.customer;
+    vals directory.customer;
+  BEGIN
+    FOREACH cu IN ARRAY customers LOOP
+      INSERT INTO directory.customer(
+        id,
+				customer_name,
+				address_1,
+				address_2,
+				city,
+				postal_state,
+				zip_code,
+				country_id,
+				phone,
+				active
+      )
+        VALUES (
+          cu.id,
+					cu.customer_name,
+					cu.address_1,
+					cu.address_2,
+					cu.city,
+					cu.postal_state,
+					cu.zip_code,
+					cu.country_id,
+					cu.phone,
+					cu.active
+        )
+      ON CONFLICT (id) DO UPDATE SET
+				customer_name=EXCLUDED.customer_name,
+        address_1=EXCLUDED.address_1,
+        address_2=EXCLUDED.address_2,
+        city=EXCLUDED.city,
+        postal_state=EXCLUDED.postal_state,
+        zip_code=EXCLUDED.zip_code,
+        country_id=EXCLUDED.country_id,
+        phone=EXCLUDED.phone,
+				active=EXCLUDED.active
+    	RETURNING * INTO vals;
+    	RETURN NEXT vals;
+	END LOOP;
+	RETURN;
+  END;
+$$ LANGUAGE plpgsql VOLATILE STRICT SET search_path FROM CURRENT;

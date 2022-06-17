@@ -9,6 +9,7 @@ import { InventoryItem } from 'types';
 import l from 'ui/layout';
 import th from 'ui/theme';
 
+import { USE_NEW_PRE_INVENTORY } from '..';
 import { getSortedItems } from '../utils';
 import { listLabels } from './data-utils';
 import ListItem from './list-item';
@@ -54,7 +55,7 @@ const InventoryItemList = ({
                 key={idx}
                 listLabels={listLabels}
                 to={
-                  item.vessel?.isPre
+                  item.vessel?.isPre && USE_NEW_PRE_INVENTORY
                     ? `/sales/projections?coast=${item.vessel?.coast}&startDate=${item.vessel?.departureDate}&endDate=${item.vessel?.departureDate}&projectionsView=grid&shipperId=${item.shipper?.id}&vesselId=${item.vessel?.id}&projectionId=all`
                     : `${baseUrl}/items/${item.id}${search}`
                 }

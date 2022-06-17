@@ -68,7 +68,6 @@ const useVariables = (options?: VesselsOptions) => {
     ARRIVAL_PORT_DISTINCT_VALUES_QUERY,
     'vesselArrivalPortDistinctValues',
   );
-
   const filteredCoastValues = useFilteredQueryValues(coast, {
     columnName: 'coast',
     tableName: 'vessel',
@@ -76,7 +75,7 @@ const useVariables = (options?: VesselsOptions) => {
   });
 
   return {
-    countryId: filteredCountryIdValues,
+    countryId: [...filteredCountryIdValues, ''],
     arrivalPort: filteredArrivalPortValues.map((val) =>
       val.substring(val.lastIndexOf(' (') + 2, val.length - 1),
     ),

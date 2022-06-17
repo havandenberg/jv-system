@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
-import { startOfISOWeek } from 'date-fns';
+import { add, endOfISOWeek, startOfISOWeek } from 'date-fns';
 import { groupBy, isEmpty, pluck, sortBy } from 'ramda';
 
 import api from 'api';
+import { formatDate } from 'components/date-range-picker';
 import { DataMessage } from 'components/page/message';
 import Page from 'components/page';
 import { CommonProductTag } from 'components/tag-manager';
@@ -19,12 +20,17 @@ import useInventoryFilters from './use-filters';
 import {
   buildCategories,
   convertProjectionsToInventoryItems,
+  getInventoryStartDayIndex,
   reduceProductTags,
 } from './utils';
 import InventoryVessels from './vessels';
 
-export const gridTemplateColumns =
-  '1fr 60px repeat(7, 40px) repeat(5, 90px) 60px';
+export const USE_NEW_PRE_INVENTORY = false;
+
+export const gridTemplateColumns = (startDate: string) =>
+  `1fr 60px repeat(${
+    7 - getInventoryStartDayIndex(startDate)
+  }, 40px) repeat(5, 90px) 60px`;
 
 const Inventory = () => {
   const [
@@ -50,32 +56,55 @@ const Inventory = () => {
     data: itemsData,
     loading: itemsLoading,
     error: itemsError,
-  } = api.useInventoryItems();
-  const items = itemsData ? itemsData.nodes : [];
+  } = api.useInventoryItems(
+    formatDate(
+      startOfISOWeek(
+        add(
+          startDateQuery
+            ? new Date(startDateQuery.replace(/-/g, '/'))
+            : new Date(),
+          { months: -3 },
+        ),
+      ),
+    ),
+    formatDate(
+      endOfISOWeek(
+        add(
+          startDateQuery
+            ? new Date(startDateQuery.replace(/-/g, '/'))
+            : new Date(),
+          { weeks: 4 },
+        ),
+      ),
+    ),
+  );
+  const items = (itemsData ? itemsData.nodes : []) as InventoryItem[];
 
   const {
     data: vesselsData,
     loading: vesselsLoading,
     error: vesselsError,
   } = api.useVessels({ isInventory: true });
-  const vessels = ((vesselsData ? vesselsData.nodes : []) as Vessel[]).map(
-    (vessel) => {
-      if (!vessel.isPre) {
+  const vessels = ((vesselsData ? vesselsData.nodes : []) as Vessel[])
+    .filter((vessel) => !!vessel.invFlag)
+    .map((vessel) => {
+      if (!vessel.isPre || !USE_NEW_PRE_INVENTORY) {
         return vessel;
       }
 
       const { preInventoryItems } = convertProjectionsToInventoryItems(vessel);
 
       return { ...vessel, inventoryItems: { nodes: preInventoryItems } };
-    },
-  );
+    });
 
-  const preInventoryItems = pluck(
-    'inventoryItems',
-    vessels.filter((vessel) => vessel.isPre),
-  )
-    .map((its) => its.nodes)
-    .flat();
+  const preInventoryItems = USE_NEW_PRE_INVENTORY
+    ? pluck(
+        'inventoryItems',
+        vessels.filter((vessel) => vessel.isPre),
+      )
+        .map((its) => its.nodes)
+        .flat()
+    : [];
 
   const loading = itemsLoading || vesselsLoading;
   const error = itemsError || vesselsError;
@@ -102,6 +131,9 @@ const Inventory = () => {
     const otherCategory = {
       id: 'other',
       packDescription: 'Other',
+      label: {
+        labelName: 'Other',
+      },
       shipperName: 'Other',
     };
     const itemSpecies = item.product?.species || otherCategory;
@@ -116,13 +148,15 @@ const Inventory = () => {
       case 'size':
         return itemSize.id;
       case 'packType':
-        return itemPackType.packDescription;
+        return `${
+          itemPackType.label ? itemPackType.label.labelName + ' - ' : ''
+        }${itemPackType.packDescription}`;
       case 'plu':
         return !!item.plu;
       case 'shipper':
         return itemShipper.id;
       case 'sizePackType':
-        return `${itemSize.id}-${itemPackType.packDescription}`;
+        return `${itemSize.id} - ${itemPackType.packDescription}`;
       default:
         return itemSpecies.id;
     }
@@ -241,8 +275,8 @@ const Inventory = () => {
       handleDateChange(
         {
           selection: {
-            startDate: startOfISOWeek(new Date()),
-            endDate: startOfISOWeek(new Date()),
+            startDate: new Date(),
+            endDate: new Date(),
             key: 'selection',
           },
         },
@@ -266,7 +300,7 @@ const Inventory = () => {
             : 192
           : detailsFilteredItems
           ? 135
-          : 166
+          : 162
       }
       headerChildren={
         <>
