@@ -33,6 +33,7 @@ const ItemWrapper = styled(l.Flex)(
     hasItems: boolean;
     isOnHand: boolean;
     isTotal: boolean;
+    title?: string;
   }) => ({
     alignItems: 'center',
     borderTop: isOnHand
@@ -61,6 +62,7 @@ const InventoryCell = ({
   availableTo = '#',
   onHandTo = '#',
   startDate,
+  showPre,
 }: {
   index: number;
   isTotal: boolean;
@@ -68,6 +70,7 @@ const InventoryCell = ({
   palletsOnHand: InventoryItemPalletData;
   availableTo: string;
   onHandTo: string;
+  showPre: boolean;
   startDate: string;
 }) => {
   const showPreInventory = index < 14 - getInventoryStartDayIndex(startDate);
@@ -88,29 +91,43 @@ const InventoryCell = ({
     <ItemWrapper
       hasItems={availableTo !== '#'}
       isOnHand={false}
+      title={
+        palletsAvailableCount || palletsAvailable.pre
+          ? `Real: ${palletsAvailableCount}    Pre: ${palletsAvailable.pre}`
+          : undefined
+      }
       {...wrapperProps}
     >
-      <ty.SmallText
-        bold
-        center
-        color={
-          (palletsAvailableCount || 0) < 0
-            ? th.colors.status.errorAlt
-            : th.colors.status.successAlt
-        }
-      >
-        {palletsAvailableCount || '-'}
-        {showPreInventory && !!palletsAvailable.pre && (
-          <>
-            <ty.Span
-              color={th.colors.status.warningSecondary}
-              ml={th.spacing.sm}
-            >
-              {palletsAvailable.pre}
-            </ty.Span>
-          </>
+      <l.Flex alignItems="center">
+        <ty.SmallText
+          bold
+          center
+          color={
+            (palletsAvailableCount || 0) < 0
+              ? th.colors.status.errorAlt
+              : th.colors.status.successAlt
+          }
+        >
+          {palletsAvailableCount +
+            (showPreInventory && !showPre && !!palletsAvailable.pre
+              ? palletsAvailable.pre
+              : 0) || '-'}
+        </ty.SmallText>
+        {showPreInventory && showPre && !!palletsAvailable.pre && (
+          <ty.SmallText
+            bold
+            center
+            color={
+              (palletsAvailable.pre || 0) < 0
+                ? th.colors.status.warningSecondary
+                : th.colors.status.warningAlt
+            }
+            ml={th.spacing.sm}
+          >
+            {palletsAvailable.pre}
+          </ty.SmallText>
         )}
-      </ty.SmallText>
+      </l.Flex>
     </ItemWrapper>
   );
 
@@ -172,6 +189,7 @@ interface Props {
   categoryLink?: string;
   categoryText: string;
   defaultInvSortKey?: string;
+  showPre: boolean;
   tagLink?: string;
   tagText?: string;
   index: number;
@@ -185,6 +203,7 @@ const InventoryRow = ({
   defaultInvSortKey,
   index,
   items = [],
+  showPre,
   tagLink,
   tagText,
 }: Props) => {
@@ -197,6 +216,7 @@ const InventoryRow = ({
       varietyTag,
       size,
       sizeTag,
+      label,
       packType,
       packTypeTag,
       plu,
@@ -242,6 +262,8 @@ const InventoryRow = ({
             return !!variety;
           case 'size':
             return !!size;
+          case 'label':
+            return !!label;
           case 'packType':
             return !!packType;
           case 'plu':
@@ -264,6 +286,8 @@ const InventoryRow = ({
           case 'size':
             const sizeTagString = sizeTag ? `&sizeTag=${sizeTag}` : '';
             return `size=${size}${sizeTagString}`;
+          case 'label':
+            return `label=${label}`;
           case 'packType':
             const packTypeTagString = packTypeTag
               ? `&packTypeTag=${packTypeTag}`
@@ -297,6 +321,8 @@ const InventoryRow = ({
               return !variety;
             case 'size':
               return !size;
+            case 'label':
+              return !label;
             case 'packType':
               return !packType;
             case 'plu':
@@ -431,6 +457,7 @@ const InventoryRow = ({
             !!storageItemsPre,
             categoryId,
           )}
+          showPre={showPre}
           startDate={startDate}
         />
       </l.Div>
@@ -458,6 +485,7 @@ const InventoryRow = ({
               hasPrePallets,
               categoryId,
             )}
+            showPre={showPre}
             startDate={startDate}
           />
         );
@@ -475,6 +503,7 @@ const InventoryRow = ({
             !!totalItemsPre,
             categoryId,
           )}
+          showPre={showPre}
           startDate={startDate}
         />
       </l.Div>

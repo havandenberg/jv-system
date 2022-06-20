@@ -43,14 +43,17 @@ export const inventorySortKeys = [
   { content: 'Default', value: '' },
   { content: 'Variety', value: 'variety' },
   { content: 'Size', value: 'size' },
+  { content: 'Label', value: 'label' },
   { content: 'Pack Type', value: 'packType' },
   { content: 'Shipper', value: 'shipper' },
   { content: 'PLU', value: 'plu' },
   { content: 'Size & Pack Type', value: 'sizePackType' },
 ];
 
-export const getInventoryStartDayIndex = (startDate: string) =>
-  new Date(startDate.replace(/-/g, '/')).getDay() - 1;
+export const getInventoryStartDayIndex = (startDate: string) => {
+  const dayIndex = new Date(startDate.replace(/-/g, '/')).getDay();
+  return dayIndex > 0 ? dayIndex - 1 : 6;
+};
 
 export const getDateRange = (idx: number, startDate: Date) => {
   const startDateStr = formatDate(startDate);
@@ -116,9 +119,20 @@ export const getFilteredItems = (
   items: InventoryItem[],
   idx: number,
   currentStartOfWeek: Date,
+  secondaryDetailsIndex?: string,
 ) => {
+  const [vesselId, shipperId] = secondaryDetailsIndex?.split('-') || [];
+
+  const filteredItems = secondaryDetailsIndex
+    ? items.filter(
+        (item) =>
+          item.vessel?.id === vesselId &&
+          [item.shipper?.id, item.shipperId].includes(shipperId),
+      )
+    : items;
+
   if (idx === 13 - getInventoryStartDayIndex(formatDate(currentStartOfWeek))) {
-    return items.filter(
+    return filteredItems.filter(
       (item) =>
         item.vessel &&
         isBefore(
@@ -128,12 +142,47 @@ export const getFilteredItems = (
     );
   }
   if (idx === 14 - getInventoryStartDayIndex(formatDate(currentStartOfWeek))) {
-    return items;
+    return filteredItems;
   }
-  return items.filter((item) =>
+  return filteredItems.filter((item) =>
     isWithinDateInterval(item, idx, currentStartOfWeek),
   );
 };
+
+export const getGroupedItems = (items: InventoryItem[], isInventory = true) =>
+  Object.values(
+    items.reduce((acc, item) => {
+      const key = `${item.vessel?.id}-${item.shipper?.id}-${
+        isInventory ? '' : item.product?.species?.id
+      }`;
+      return {
+        ...acc,
+        [key]: {
+          ...(acc[key] || item),
+          palletsAvailable:
+            parseInt(acc[key]?.palletsAvailable || '0', 10) +
+            parseInt(item.palletsAvailable || '0', 10),
+          palletsOnHand:
+            parseInt(acc[key]?.palletsOnHand || '0', 10) +
+            parseInt(item.palletsOnHand || '0', 10),
+          palletsReceived:
+            parseInt(acc[key]?.palletsReceived || '0', 10) +
+            parseInt(item.palletsReceived || '0', 10),
+        },
+      };
+    }, {} as { [key: string]: InventoryItem }),
+  );
+
+export const getDetailedFilteredItems = (
+  items: InventoryItem[],
+  secondaryDetailsIndex: string,
+) =>
+  items.filter((item) =>
+    [
+      `${item.vessel?.id}-${item.shipper?.id}`,
+      `${item.vessel?.id}-${item.shipper?.id}-${item.product?.species?.id}`,
+    ].includes(secondaryDetailsIndex),
+  );
 
 export const getSortedItems = (
   listLabels: LabelInfo<InventoryItem>[],
@@ -385,6 +434,7 @@ export const buildCategories =
       varietyDescription: 'Other',
       packDescription: 'Other',
       label: {
+        labelCode: 'other',
         labelName: 'Other',
       },
       jvDescription: 'Other',
@@ -429,12 +479,12 @@ export const buildCategories =
           return isTag ? commonVarietyTag?.tagText : itemVariety.id;
         case 'size':
           return isTag ? commonSizeTag?.tagText : itemSize.id;
+        case 'label':
+          return itemPackType.label?.labelCode;
         case 'packType':
           return isTag
             ? commonPackTypeTag?.tagText
-            : `${
-                itemPackType.label ? itemPackType.label.labelName + ' - ' : ''
-              }${itemPackType.packDescription}`;
+            : itemPackType.packDescription;
         case 'plu':
           return item.plu ? 'true' : 'false';
         case 'shipper':
@@ -455,14 +505,14 @@ export const buildCategories =
             : itemVariety.varietyDescription;
         case 'size':
           return isTag ? commonSizeTag?.tagText : itemSize.jvDescription;
+        case 'label':
+          return itemPackType?.label?.labelName;
         case 'packType':
           return isTag
             ? commonPackTypeTag?.tagText
             : itemPackType.packDescription === 'other'
             ? ''
-            : `${
-                itemPackType.label ? itemPackType.label.labelName + ' - ' : ''
-              }${itemPackType.packDescription}`;
+            : itemPackType.packDescription;
         case 'plu':
           return item.plu ? 'PLU' : 'No PLU';
         case 'shipper':

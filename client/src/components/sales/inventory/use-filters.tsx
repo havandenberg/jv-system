@@ -146,9 +146,7 @@ const useInventoryFilters = ({ items, loading }: Props) => {
   ];
 
   const itemsFilteredByCoast = (items as InventoryItem[]).filter(
-    (item) =>
-      selectedFilters.coast === item.coast &&
-      !['98', '99'].includes(`${item.product?.species?.id}`),
+    (item) => selectedFilters.coast === item.coast,
   );
 
   const locationOptions = uniq(
@@ -219,6 +217,7 @@ const useInventoryFilters = ({ items, loading }: Props) => {
     species,
     variety,
     size,
+    label,
     packType,
     sizePackType,
     speciesTag,
@@ -230,6 +229,7 @@ const useInventoryFilters = ({ items, loading }: Props) => {
     shipper,
     countryOfOrigin,
     detailsIndex,
+    secondaryDetailsIndex,
   } = selectedFilters;
 
   const filteredItems = (itemsFilteredByCoast as InventoryItem[]).filter(
@@ -279,17 +279,11 @@ const useInventoryFilters = ({ items, loading }: Props) => {
             ? pluck('tagText', commonSizeTags).includes(sizeTag)
             : ['total', itemSizes?.nodes[0]?.id].includes(size)
           : !sizeTag || pluck('tagText', commonSizeTags).includes(sizeTag)) &&
+        (!label || ['total', itemPackType?.label?.labelCode].includes(label)) &&
         (packType
           ? packTypeTag
             ? commonPackTypeTags.includes(packTypeTag)
-            : [
-                'total',
-                `${
-                  itemPackType?.label
-                    ? itemPackType.label.labelName + ' - '
-                    : ''
-                }${itemPackType?.packDescription}`,
-              ].includes(packType)
+            : ['total', itemPackType?.packDescription].includes(packType)
           : !packTypeTag || commonPackTypeTags.includes(packTypeTag)) &&
         (!sizePackType ||
           [
@@ -307,6 +301,7 @@ const useInventoryFilters = ({ items, loading }: Props) => {
       filteredItems,
       parseInt(detailsIndex, 10),
       currentStartOfWeek,
+      secondaryDetailsIndex,
     );
 
   const detailsDateRange = `${format(

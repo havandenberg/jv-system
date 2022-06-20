@@ -92,7 +92,7 @@ const CommonProductIndex = () => {
           </l.Flex>
           {!loading && (
             <>
-              <ty.SmallText mb={th.spacing.md} pl={th.spacing.sm}>
+              <ty.SmallText mb={th.spacing.md} pl={th.spacing.sm} secondary>
                 Results: {specieses.length || '-'}
               </ty.SmallText>
               <l.Grid

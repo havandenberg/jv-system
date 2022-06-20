@@ -61,23 +61,36 @@ const Vessels = () => {
         </l.AreaLink>,
       ]}
       breadcrumbs={breadcrumbs}
-      extraPaddingTop={103}
+      extraPaddingTop={127}
       headerChildren={
         <>
           <l.Flex alignCenter mb={th.spacing.sm}>
-            <CoastFilter />
-            <l.Div width={th.spacing.md} />
-            {Search}
-            <l.Div width={th.spacing.md} />
-            <l.Flex alignCenter>
-              {DateRangePicker}
-              {BackwardButton}
-              {ForwardButton}
-            </l.Flex>
+            <l.Div mr={th.spacing.lg}>
+              <ty.SmallText mb={th.spacing.sm} secondary>
+                Coast
+              </ty.SmallText>
+              <CoastFilter />
+            </l.Div>
+            <l.Div mr={th.spacing.lg}>
+              <ty.SmallText mb={th.spacing.sm} secondary>
+                Search Vessels
+              </ty.SmallText>
+              {Search}
+            </l.Div>
+            <l.Div mr={th.spacing.lg}>
+              <ty.SmallText mb={th.spacing.sm} secondary>
+                Date Range
+              </ty.SmallText>
+              <l.Flex alignCenter>
+                {DateRangePicker}
+                {BackwardButton}
+                {ForwardButton}
+              </l.Flex>
+            </l.Div>
           </l.Flex>
           {!loading && (
             <>
-              <ty.SmallText mb={th.spacing.md} pl={108}>
+              <ty.SmallText mb={th.spacing.md} pl={128} secondary>
                 Results: {data ? data.totalCount : '-'}
               </ty.SmallText>
               <l.Grid
@@ -96,6 +109,7 @@ const Vessels = () => {
     >
       {!isEmpty(items) ? (
         <VirtualizedList
+          height={582}
           rowCount={data ? items.length : 0}
           rowRenderer={({ key, index, style }) => {
             const item = items[index];

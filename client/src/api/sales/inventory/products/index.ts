@@ -16,11 +16,12 @@ const PRODUCT_MASTER_UPDATE = loader('./update.gql');
 const PRODUCT_SPECIES_LIST_QUERY = loader('./species/list.gql');
 export const PRODUCT_SPECIES_DETAILS_QUERY = loader('./species/details.gql');
 const PRODUCT_VARIETY_LIST_QUERY = loader('./varieties/list.gql');
-export const PRODUCT_VARIETY_DETAILS_QUERY = loader('./variety-details.gql');
+export const PRODUCT_VARIETY_DETAILS_QUERY = loader('./varieties/details.gql');
 const PRODUCT_SIZE_LIST_QUERY = loader('./sizes/list.gql');
-export const PRODUCT_SIZE_DETAILS_QUERY = loader('./size-details.gql');
+export const PRODUCT_SIZE_DETAILS_QUERY = loader('./sizes/details.gql');
 const PACK_MASTER_LIST_QUERY = loader('./pack-masters/list.gql');
-export const PRODUCT_PACK_TYPE_DETAILS = loader('./pack-type-details.gql');
+export const PRODUCT_PACK_TYPE_DETAILS = loader('./pack-masters/details.gql');
+export const PACK_LABEL_DETAILS = loader('./pack-masters/label-details.gql');
 
 export const useProductMasters = () => {
   const [search = ''] = useSearchQueryParam();
@@ -186,6 +187,19 @@ export const useProductPackType = (id: string) => {
   });
   return {
     data: data ? data.packMaster : undefined,
+    error,
+    loading,
+  };
+};
+
+export const useProductLabel = (id: string) => {
+  const { data, error, loading } = useQuery<Query>(PACK_LABEL_DETAILS, {
+    variables: {
+      id: parseInt(id, 10),
+    },
+  });
+  return {
+    data: data ? data.packLabel : undefined,
     error,
     loading,
   };

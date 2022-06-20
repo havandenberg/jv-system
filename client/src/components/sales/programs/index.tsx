@@ -597,7 +597,7 @@ const Programs = () => {
               ...changes.shipperProgramUpdates,
               ...changes.newShipperPrograms,
             ].map((p) => ({
-              arrivalPort: p.arrivalPort,
+              arrivalPort: coast,
               commonSpeciesId: parseInt(p.commonSpeciesId, 10) || null,
               commonVarietyId: parseInt(p.commonVarietyId, 10) || null,
               commonSizeId: parseInt(p.commonSizeId, 10) || null,
@@ -1149,7 +1149,7 @@ const Programs = () => {
   return (
     <Page
       actions={[
-        selectedShipper || selectedCustomer ? (
+        (isCustomers ? selectedCustomer : selectedShipper) ? (
           <l.AreaLink
             key={0}
             mr={th.spacing.md}
@@ -1227,6 +1227,12 @@ const Programs = () => {
         <l.Flex mb={th.spacing.md}>
           <l.Div mr={th.spacing.lg}>
             <ty.SmallText mb={th.spacing.sm} secondary>
+              Coast
+            </ty.SmallText>
+            <CoastTabBar />
+          </l.Div>
+          <l.Div mr={th.spacing.lg}>
+            <ty.SmallText mb={th.spacing.sm} secondary>
               View
             </ty.SmallText>
             <ViewTabBar />
@@ -1236,12 +1242,6 @@ const Programs = () => {
               {isCustomers ? 'Customer' : 'Shipper'}
             </ty.SmallText>
             {isCustomers ? CustomerItemSelector : ShipperItemSelector}
-          </l.Div>
-          <l.Div mr={th.spacing.lg}>
-            <ty.SmallText mb={th.spacing.sm} secondary>
-              Coast
-            </ty.SmallText>
-            <CoastTabBar />
           </l.Div>
           <div>
             <ty.SmallText mb={th.spacing.sm} secondary>
@@ -1276,9 +1276,11 @@ const Programs = () => {
       title={`${isCustomers ? 'Customer' : 'Shipper'} Programs`}
     >
       <l.Flex column height="calc(100vh - 289px)">
-        <l.Div flex={1} overflowX="auto">
+        <l.Div flex={1} overflowX="auto" relative>
           <Header
             editing={editing}
+            loading={loading}
+            hasPrograms={hasPrograms}
             increaseWeekCount={increaseWeekCount}
             isCustomers={isCustomers}
             selectedWeekNumber={selectedWeekNumber}
@@ -1288,39 +1290,6 @@ const Programs = () => {
             weekCount={weekCount}
           />
           <l.Div mb={th.spacing.xxl} relative>
-            <l.Grid
-              gridColumnGap={th.spacing.sm}
-              gridTemplateColumns={gridTemplateColumns}
-              mb={th.spacing.sm}
-              mt={th.spacing.md}
-            >
-              <l.Grid
-                gridColumnGap={th.spacing.xs}
-                gridTemplateColumns={`repeat(2, 1fr) repeat(3, 0.7fr)${
-                  isCustomers ? '' : ' 1fr'
-                }`}
-                marginLeft={52}
-                relative
-              >
-                <ty.CaptionText secondary>Species</ty.CaptionText>
-                <ty.CaptionText secondary>Variety</ty.CaptionText>
-                <ty.CaptionText secondary>Size</ty.CaptionText>
-                <ty.CaptionText secondary>Pack Type</ty.CaptionText>
-                <ty.CaptionText secondary>PLU/GTIN</ty.CaptionText>
-                {isCustomers ? null : (
-                  <ty.CaptionText secondary>Customer</ty.CaptionText>
-                )}
-                {(hasPrograms || editing) && !loading && (
-                  <l.Div
-                    borderTop={th.borders.secondary}
-                    position="absolute"
-                    left={-52}
-                    bottom={`-${th.spacing.sm}`}
-                    width={gridWidth}
-                  />
-                )}
-              </l.Grid>
-            </l.Grid>
             {(hasPrograms || editing) && !loading ? (
               <>
                 {(isCustomers ? selectedCustomer : selectedShipper) ? (
@@ -1436,13 +1405,13 @@ const Programs = () => {
                 <l.Div
                   borderLeft={th.borders.secondary}
                   position="absolute"
-                  top={27}
+                  top={`-${th.spacing.sm}`}
                   bottom={0}
                 />
                 <l.Div
                   borderRight={th.borders.secondary}
                   position="absolute"
-                  top={26}
+                  top={`-${th.spacing.sm}`}
                   left={gridWidth}
                   bottom={0}
                 />

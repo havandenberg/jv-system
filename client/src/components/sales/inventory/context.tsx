@@ -3,10 +3,11 @@ import React, { createContext, useContext } from 'react';
 import useLocalStorage from 'hooks/use-local-storage';
 
 interface InventoryState {
+  showPre: boolean;
   vesselsIsOpen: boolean;
 }
 
-const defaultContext = { vesselsIsOpen: false };
+const defaultContext = { showPre: false, vesselsIsOpen: false };
 
 export const InventoryContext = createContext<
   [InventoryState, (value: InventoryState) => void]

@@ -12,7 +12,6 @@ import {
 } from 'types';
 import l from 'ui/layout';
 import th from 'ui/theme';
-import ty from 'ui/typography';
 
 import {
   ShipperProjectionProductWithEntries,
@@ -122,66 +121,11 @@ const Products = ({
   const vesselCount = showParentVessels ? parentVessels.length : vessels.length;
 
   return (
-    <l.Div mb={!hasVessels ? 0 : th.spacing.xxl} relative>
-      <l.Grid
-        gridColumnGap={th.spacing.sm}
-        gridTemplateColumns={gridTemplateColumns}
-        mb={th.spacing.sm}
-        mt={th.spacing.md}
-      >
-        <l.Grid
-          gridColumnGap={th.spacing.xs}
-          gridTemplateColumns="repeat(2, 1fr) repeat(3, 0.7fr) 1fr"
-          marginLeft={52}
-          relative
-        >
-          <ty.CaptionText secondary>
-            Species
-            {isPortal ? (
-              <ty.Span color={th.colors.status.error}>*</ty.Span>
-            ) : (
-              ''
-            )}
-          </ty.CaptionText>
-          <ty.CaptionText secondary>
-            Variety
-            {isPortal ? (
-              <ty.Span color={th.colors.status.error}>*</ty.Span>
-            ) : (
-              ''
-            )}
-          </ty.CaptionText>
-          <ty.CaptionText secondary>
-            Size
-            {isPortal ? (
-              <ty.Span color={th.colors.status.error}>*</ty.Span>
-            ) : (
-              ''
-            )}
-          </ty.CaptionText>
-          <ty.CaptionText nowrap secondary>
-            Pack Type
-            {isPortal ? (
-              <ty.Span color={th.colors.status.error}>*</ty.Span>
-            ) : (
-              ''
-            )}
-          </ty.CaptionText>
-          <ty.CaptionText secondary>PLU/GTIN</ty.CaptionText>
-          <ty.CaptionText secondary>Customer</ty.CaptionText>
-          {hasVessels && !loading && (
-            <l.Div
-              borderTop={th.borders.secondary}
-              position="absolute"
-              left={-52}
-              bottom={`-${th.spacing.sm}`}
-              width={`calc(${th.sizes.fill} + ${vesselCount - 3} * 156px - ${
-                th.sizes.icon
-              } + 544px)`}
-            />
-          )}
-        </l.Grid>
-      </l.Grid>
+    <l.Div
+      pb={!hasVessels ? 0 : th.spacing.xxl}
+      pt={!hasVessels ? 42 : 0}
+      relative
+    >
       {hasVessels && !loading ? (
         <>
           {values(
@@ -189,7 +133,16 @@ const Products = ({
               const isEvenRow =
                 object && Object.keys(object).indexOf(key) % 2 === 0;
               return (
-                <l.Div key={key} my={th.spacing.md} relative>
+                <l.Div
+                  key={key}
+                  mb={th.spacing.md}
+                  mt={
+                    object && Object.keys(object).indexOf(key) === 0
+                      ? th.spacing.sm
+                      : th.spacing.md
+                  }
+                  relative
+                >
                   <l.Div>
                     {
                       products.reduce<{
@@ -285,7 +238,7 @@ const Products = ({
           <l.Div
             borderLeft={th.borders.secondary}
             position="absolute"
-            top={27}
+            top={`-${th.spacing.sm}`}
             bottom={0}
           />
           <l.Div

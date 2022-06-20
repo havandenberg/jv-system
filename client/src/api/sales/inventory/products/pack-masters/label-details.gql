@@ -1,0 +1,9 @@
+query PACK_LABEL_DETAILS($id: BigInt!) {
+  packLabel(id: $id) {
+    id
+    labelCode
+    labelName
+    shipperName
+    shipperId
+  }
+}

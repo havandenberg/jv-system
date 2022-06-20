@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom';
 
 import { DataMessage } from 'components/page/message';
 import useColumns, { SORT_ORDER } from 'hooks/use-columns';
-import { useSortQueryParams } from 'hooks/use-query-params';
+import { useInventoryQueryParams } from 'hooks/use-query-params';
 import { InventoryItem } from 'types';
 import l from 'ui/layout';
 import th from 'ui/theme';
@@ -14,7 +14,10 @@ import { getSortedItems } from '../utils';
 import { listLabels } from './data-utils';
 import ListItem from './list-item';
 
-const gridTemplateColumns = '3.5fr repeat(5, 1.5fr) repeat(3, 90px) 30px';
+const gridTemplateColumns = (secondaryDetailsIndex: string) =>
+  `3.5fr ${
+    secondaryDetailsIndex ? 'repeat(5, 1.5fr)' : '7.5fr'
+  } repeat(3, 90px) 30px`;
 
 const InventoryItemList = ({
   baseUrl,
@@ -24,22 +27,30 @@ const InventoryItemList = ({
   items: InventoryItem[];
 }) => {
   const { search } = useLocation();
+
+  const [
+    { secondaryDetailsIndex, sortBy = 'shipper', sortOrder = SORT_ORDER.ASC },
+  ] = useInventoryQueryParams();
+
   const columnLabels = useColumns<InventoryItem>(
     'shipper',
     SORT_ORDER.ASC,
-    listLabels,
+    listLabels(secondaryDetailsIndex),
     'product',
     'inventory_item',
   );
 
-  const [{ sortBy = 'shipper', sortOrder = SORT_ORDER.ASC }] =
-    useSortQueryParams();
-  const sortedItems = getSortedItems(listLabels, items, sortBy, sortOrder);
+  const sortedItems = getSortedItems(
+    listLabels(secondaryDetailsIndex),
+    items,
+    sortBy,
+    sortOrder,
+  );
 
   return (
     <>
       <l.Grid
-        gridTemplateColumns={gridTemplateColumns}
+        gridTemplateColumns={gridTemplateColumns(secondaryDetailsIndex)}
         mb={th.spacing.sm}
         pl={th.spacing.sm}
       >
@@ -51,13 +62,15 @@ const InventoryItemList = ({
             item && (
               <ListItem
                 data={item}
-                gridTemplateColumns={gridTemplateColumns}
+                gridTemplateColumns={gridTemplateColumns(secondaryDetailsIndex)}
                 key={idx}
-                listLabels={listLabels}
+                listLabels={listLabels(secondaryDetailsIndex)}
                 to={
-                  item.vessel?.isPre && USE_NEW_PRE_INVENTORY
-                    ? `/sales/projections?coast=${item.vessel?.coast}&startDate=${item.vessel?.departureDate}&endDate=${item.vessel?.departureDate}&projectionsView=grid&shipperId=${item.shipper?.id}&vesselId=${item.vessel?.id}&projectionId=all`
-                    : `${baseUrl}/items/${item.id}${search}`
+                  secondaryDetailsIndex
+                    ? item.vessel?.isPre && USE_NEW_PRE_INVENTORY
+                      ? `/sales/projections?coast=${item.vessel?.coast}&startDate=${item.vessel?.departureDate}&endDate=${item.vessel?.departureDate}&projectionsView=grid&shipperId=${item.shipper?.id}&vesselId=${item.vessel?.id}&projectionId=all`
+                      : `${baseUrl}/items/${item.id}${search}`
+                    : `${baseUrl}${search}&secondaryDetailsIndex=${item.vessel?.id}-${item.shipper?.id}-${item.product?.species?.id}`
                 }
               />
             ),

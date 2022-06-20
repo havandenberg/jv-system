@@ -61,6 +61,7 @@ export const useInventoryQueryParams = () =>
     species: StringParam,
     variety: StringParam,
     size: StringParam,
+    label: StringParam,
     packType: StringParam,
     speciesTag: StringParam,
     varietyTag: StringParam,
@@ -76,6 +77,7 @@ export const useInventoryQueryParams = () =>
     startDate: StringParam,
     endDate: StringParam,
     detailsIndex: StringParam,
+    secondaryDetailsIndex: StringParam,
     categoryTypes: StringParam,
   });
 

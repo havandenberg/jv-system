@@ -62,7 +62,7 @@ const getUpdatedVessel = (vessel, db2Vessel, id) => ({
 
 const vesselOptions = {
   db2Query:
-    'select * from JVFIL.ORDP750Z union select * from JVPREFIL.ORDP750Z;',
+    'select * from JVFIL.ORDP750Z union select * from JVPREFIL.ORDP750Z order by BOAT#Z;',
   listQuery: VESSEL_LIST,
   upsertQuery: BULK_UPSERT_VESSEL,
   itemName: 'vessel',

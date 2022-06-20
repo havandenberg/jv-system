@@ -585,6 +585,12 @@ const ShipperProjectionGraph = ({
           <l.Flex mb={th.spacing.lg}>
             <l.Div mr={th.spacing.lg}>
               <ty.SmallText mb={th.spacing.sm} secondary>
+                Coast
+              </ty.SmallText>
+              {CoastTabBar}
+            </l.Div>
+            <l.Div mr={th.spacing.lg}>
+              <ty.SmallText mb={th.spacing.sm} secondary>
                 View
               </ty.SmallText>
               {ViewTabBar}
@@ -594,12 +600,6 @@ const ShipperProjectionGraph = ({
                 Shipper
               </ty.SmallText>
               {ShipperItemSelector}
-            </l.Div>
-            <l.Div mr={th.spacing.lg}>
-              <ty.SmallText mb={th.spacing.sm} secondary>
-                Coast
-              </ty.SmallText>
-              {CoastTabBar}
             </l.Div>
             <l.Div mr={th.spacing.lg}>
               <ty.SmallText mb={th.spacing.sm} secondary>

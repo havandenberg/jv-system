@@ -89,6 +89,7 @@ query INVENTORY_ITEM_LIST($startDate: Date!, $endDate: Date!) {
           id
           label {
             id
+            labelCode
             labelName
           }
           commonPackTypes {

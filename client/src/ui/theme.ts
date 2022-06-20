@@ -26,6 +26,7 @@ export const colors = {
     error: '#F76C5E',
     errorAlt: '#FF0000',
     warning: '#F4D35E',
+    warningAlt: '#F2C103',
     warningSecondary: '#E77728',
   },
   overlay: {
@@ -41,7 +42,7 @@ export const heights = {
   input: 32,
   nav: 80,
   navButton: 45,
-  pageHeader: 104,
+  pageHeader: 100,
 };
 
 export const sizes = {

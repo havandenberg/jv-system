@@ -17,6 +17,8 @@ interface Props {
   editing: boolean;
   increaseWeekCount: () => void;
   isCustomers: boolean;
+  hasPrograms: boolean;
+  loading: boolean;
   selectedWeekNumber: number;
   showAllocated: boolean;
   startDate: string;
@@ -26,6 +28,8 @@ interface Props {
 
 const Header = ({
   editing,
+  hasPrograms,
+  loading,
   increaseWeekCount,
   isCustomers,
   selectedWeekNumber,
@@ -55,6 +59,7 @@ const Header = ({
   return (
     <l.Div
       bg={th.colors.background}
+      borderRight={th.borders.transparent}
       position="sticky"
       top={0}
       zIndex={5}
@@ -63,7 +68,7 @@ const Header = ({
       <l.Grid
         alignCenter
         gridTemplateColumns={gridTemplateColumns}
-        pt={th.spacing.lg}
+        pt={th.spacing.md}
       >
         <l.Flex alignCenter justifyBetween>
           <l.Flex alignCenter>
@@ -75,7 +80,7 @@ const Header = ({
                 checked={showAllocated}
                 label={
                   <ty.SmallText mx={th.spacing.sm} nowrap>
-                    Show allocated
+                    Show details
                   </ty.SmallText>
                 }
                 onChange={toggleShowAllocated}
@@ -147,7 +152,40 @@ const Header = ({
         >
           <PlusInCircle height={th.sizes.xs} width={th.sizes.xs} />
         </l.HoverButton>
-      )}
+      )}{' '}
+      <l.Grid
+        bg={th.colors.white}
+        gridColumnGap={th.spacing.sm}
+        gridTemplateColumns={gridTemplateColumns}
+        py={th.spacing.sm}
+      >
+        <l.Grid
+          gridColumnGap={th.spacing.xs}
+          gridTemplateColumns={`repeat(2, 1fr) repeat(3, 0.7fr)${
+            isCustomers ? '' : ' 1fr'
+          }`}
+          marginLeft={52}
+          relative
+        >
+          <ty.CaptionText secondary>Species</ty.CaptionText>
+          <ty.CaptionText secondary>Variety</ty.CaptionText>
+          <ty.CaptionText secondary>Size</ty.CaptionText>
+          <ty.CaptionText secondary>Pack Type</ty.CaptionText>
+          <ty.CaptionText secondary>PLU/GTIN</ty.CaptionText>
+          {isCustomers ? null : (
+            <ty.CaptionText secondary>Customer</ty.CaptionText>
+          )}
+          {(hasPrograms || editing) && !loading && (
+            <l.Div
+              borderTop={th.borders.secondary}
+              position="absolute"
+              left={-52}
+              bottom={`-${th.spacing.sm}`}
+              width={gridWidth}
+            />
+          )}
+        </l.Grid>
+      </l.Grid>
     </l.Div>
   );
 };

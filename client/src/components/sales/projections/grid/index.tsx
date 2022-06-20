@@ -1254,10 +1254,16 @@ const ShipperProjectionGrid = ({
           <ProjectionSettings />
         </l.Div>,
       ]}
-      extraPaddingTop={55}
+      extraPaddingTop={47}
       headerChildren={
         <>
           <l.Flex mb={th.spacing.md}>
+            <l.Div mr={th.spacing.lg}>
+              <ty.SmallText mb={th.spacing.sm} secondary>
+                Coast
+              </ty.SmallText>
+              {CoastTabBar}
+            </l.Div>
             <l.Div mr={th.spacing.lg}>
               <ty.SmallText mb={th.spacing.sm} secondary>
                 View
@@ -1269,12 +1275,6 @@ const ShipperProjectionGrid = ({
                 Shipper
               </ty.SmallText>
               {ShipperItemSelector}
-            </l.Div>
-            <l.Div mr={th.spacing.lg}>
-              <ty.SmallText mb={th.spacing.sm} secondary>
-                Coast
-              </ty.SmallText>
-              {CoastTabBar}
             </l.Div>
             <div>
               <ty.SmallText mb={th.spacing.sm} secondary>
@@ -1295,57 +1295,56 @@ const ShipperProjectionGrid = ({
       }
       title="Shipper Projections"
     >
-      <l.Flex column minHeight="calc(100vh - 289px)">
-        <l.Div flex={1} overflowX="auto">
-          <>
-            <Vessels
-              {...changeProps}
-              currentProjection={currentProjection}
-              currentProjections={currentProjections}
-              error={error}
-              ghostVesselDates={ghostVesselDates}
-              gridTemplateColumns={gridTemplateColumns}
-              isAllProjections={!projectionId || projectionId === 'all'}
-              isPortal={isPortal}
-              loading={loading}
-              matchAllCommonProducts={matchAllCommonProducts}
-              parentVessels={allParentVesselsWithGhostVessels}
-              productCount={products.length}
-              showOnlyCommonNames={showOnlyCommonNames}
-              toggleShowOnlyCommonNames={toggleShowOnlyCommonNames}
-              selectedShipper={selectedShipper}
-              toggleMatchAllCommonProducts={toggleMatchAllCommonProducts}
-              selectedVessel={selectedVessel}
-              showErrors={saveAttempt}
-              showParentVessels={showParentVessels}
-              skippedWeeks={skippedWeeks}
-              toggleSkippedWeeks={toggleSkippedWeeks}
-              vesselId={vesselId}
-              vessels={
-                allVesselsWithGhostVessels as ShipperProjectionVesselInfo[]
-              }
-            />
-            <Products
-              {...changeProps}
-              currentProjection={currentProjection}
-              duplicateProductIds={duplicateProductIds}
-              gridTemplateColumns={gridTemplateColumns}
-              hasVessels={allVessels.length > 0}
-              isAllProjections={!projectionId || projectionId === 'all'}
-              isPortal={isPortal}
-              loading={loading}
-              parentVessels={allParentVesselsWithGhostVessels}
-              products={products}
-              selectedShipper={selectedShipper}
-              selectedVessel={selectedVessel}
-              showErrors={saveAttempt}
-              showOnlyCommonNames={showOnlyCommonNames}
-              showParentVessels={showParentVessels}
-              vessels={
-                allVesselsWithGhostVessels as ShipperProjectionVesselInfo[]
-              }
-            />
-          </>
+      <l.Flex column height="calc(100vh - 289px)">
+        <l.Div flex={1} overflowX="auto" relative>
+          <Vessels
+            {...changeProps}
+            currentProjection={currentProjection}
+            currentProjections={currentProjections}
+            error={error}
+            ghostVesselDates={ghostVesselDates}
+            gridTemplateColumns={gridTemplateColumns}
+            hasVessels={allVessels.length > 0}
+            isAllProjections={!projectionId || projectionId === 'all'}
+            isPortal={isPortal}
+            loading={loading}
+            matchAllCommonProducts={matchAllCommonProducts}
+            parentVessels={allParentVesselsWithGhostVessels}
+            productCount={products.length}
+            showOnlyCommonNames={showOnlyCommonNames}
+            toggleShowOnlyCommonNames={toggleShowOnlyCommonNames}
+            selectedShipper={selectedShipper}
+            toggleMatchAllCommonProducts={toggleMatchAllCommonProducts}
+            selectedVessel={selectedVessel}
+            showErrors={saveAttempt}
+            showParentVessels={showParentVessels}
+            skippedWeeks={skippedWeeks}
+            toggleSkippedWeeks={toggleSkippedWeeks}
+            vesselId={vesselId}
+            vessels={
+              allVesselsWithGhostVessels as ShipperProjectionVesselInfo[]
+            }
+          />
+          <Products
+            {...changeProps}
+            currentProjection={currentProjection}
+            duplicateProductIds={duplicateProductIds}
+            gridTemplateColumns={gridTemplateColumns}
+            hasVessels={allVessels.length > 0}
+            isAllProjections={!projectionId || projectionId === 'all'}
+            isPortal={isPortal}
+            loading={loading}
+            parentVessels={allParentVesselsWithGhostVessels}
+            products={products}
+            selectedShipper={selectedShipper}
+            selectedVessel={selectedVessel}
+            showErrors={saveAttempt}
+            showOnlyCommonNames={showOnlyCommonNames}
+            showParentVessels={showParentVessels}
+            vessels={
+              allVesselsWithGhostVessels as ShipperProjectionVesselInfo[]
+            }
+          />
         </l.Div>
       </l.Flex>
     </Page>

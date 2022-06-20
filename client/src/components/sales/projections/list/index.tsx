@@ -49,6 +49,12 @@ const ShipperProjectionList = ({
           <l.Flex>
             <l.Div mr={th.spacing.lg}>
               <ty.SmallText mb={th.spacing.sm} secondary>
+                Coast
+              </ty.SmallText>
+              {CoastTabBar}
+            </l.Div>
+            <l.Div mr={th.spacing.lg}>
+              <ty.SmallText mb={th.spacing.sm} secondary>
                 View
               </ty.SmallText>
               {ViewTabBar}
@@ -63,12 +69,6 @@ const ShipperProjectionList = ({
             </l.Div>
             <l.Div mr={th.spacing.lg}>
               <ty.SmallText mb={th.spacing.sm} secondary>
-                Coast
-              </ty.SmallText>
-              {CoastTabBar}
-            </l.Div>
-            <l.Div mr={th.spacing.lg}>
-              <ty.SmallText mb={th.spacing.sm} secondary>
                 Date Range
               </ty.SmallText>
               {DateRangePicker}
@@ -80,7 +80,7 @@ const ShipperProjectionList = ({
           </l.Flex>
           {!loading && (
             <>
-              <ty.SmallText mb={th.spacing.md} ml={216}>
+              <ty.SmallText mb={th.spacing.md} ml={334} secondary>
                 Results: {data ? data.totalCount : '-'}
               </ty.SmallText>
               <l.Grid

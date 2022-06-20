@@ -55,6 +55,7 @@ query VESSEL_DETAILS($id: BigInt!) {
           id
         }
         vessel {
+          id
           dischargeDate
           vesselCode
           vesselName

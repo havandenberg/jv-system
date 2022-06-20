@@ -167,9 +167,9 @@ const SendEmailModal = () => {
   const getMailToLink = () => {
     const { to, cc, bcc } = groupedFinalItems;
     return `mailto:${
-      to ? pluck('email', to).join(',') + (cc || bcc ? '?' : '') : ''
-    }${cc ? 'cc=' + pluck('email', cc).join(',') + (bcc ? '&' : '') : ''}${
-      bcc ? 'bcc=' + pluck('email', bcc).join(',') : ''
+      to ? pluck('email', to).join(';') + (cc || bcc ? '?' : '') : ''
+    }${cc ? 'cc=' + pluck('email', cc).join(';') + (bcc ? '&' : '') : ''}${
+      bcc ? 'bcc=' + pluck('email', bcc).join(';') : ''
     }`;
   };
 

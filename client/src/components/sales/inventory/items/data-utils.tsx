@@ -17,6 +17,8 @@ export const indexListLabels = ({
   size,
   plu,
   shipper,
+  secondaryDetailsIndex,
+  isTotal,
 }: {
   species?: string;
   variety?: string;
@@ -24,25 +26,36 @@ export const indexListLabels = ({
   packType?: string;
   plu?: string;
   shipper?: string;
+  secondaryDetailsIndex?: string;
+  isTotal?: boolean;
 }): InventoryItemLabelInfo[] => [
   {
     key: 'vessel',
     label: 'Vessel',
     getValue: ({ vessel }) =>
       vessel ? `${vessel.vesselCode} - ${vessel.vesselName}` : '',
-    defaultSortOrder: SORT_ORDER.DESC,
+    defaultSortOrder: SORT_ORDER.ASC,
     sortable: true,
-    customSortBy: ({ vessel }) => (vessel ? vessel.vesselCode : ''),
+    customSortBy: ({ shipper, vessel }) =>
+      vessel && shipper
+        ? `${vessel.vesselName} ${new Date(
+            vessel.dischargeDate.replace(/-/g, '/'),
+          ).getTime()} ${shipper.shipperName}`
+        : '',
   },
   {
-    key: 'vessel',
+    key: 'dischargeDate' as keyof InventoryItem,
     label: 'Available Date',
     getValue: ({ vessel }) => (vessel ? vessel.dischargeDate : ''),
-    defaultSortOrder: SORT_ORDER.DESC,
+    defaultSortOrder: SORT_ORDER.ASC,
     sortable: true,
     sortKey: 'dischargeDate',
-    customSortBy: ({ vessel }) =>
-      vessel ? new Date(vessel.dischargeDate.replace(/-/g, '/')) : '',
+    customSortBy: ({ shipper, vessel }) =>
+      vessel && shipper
+        ? `${new Date(vessel.dischargeDate.replace(/-/g, '/')).getTime()} ${
+            vessel.vesselName
+          } ${shipper.shipperName}`
+        : '',
   },
   ...((!!shipper
     ? []
@@ -53,40 +66,59 @@ export const indexListLabels = ({
           getValue: (data) => data.shipper?.shipperName || '',
           defaultSortOrder: SORT_ORDER.ASC,
           sortable: true,
-          customSortBy: (data) => data.shipper?.shipperName || '',
+          customSortBy: ({ shipper, vessel }) =>
+            shipper && vessel
+              ? `${shipper.shipperName} ${new Date(
+                  vessel.dischargeDate.replace(/-/g, '/'),
+                ).getTime()} ${vessel.vesselName}`
+              : '',
         },
       ]) as InventoryItemLabelInfo[]),
-  {
-    key: 'product',
-    label: 'Details',
-    getValue: ({ plu: pluVal, product }) => {
-      const desc = `${
-        (!species && product?.species?.speciesDescription) || ''
-      } ${(!variety && product?.variety?.varietyDescription) || ''} ${
-        (!size && product?.sizes?.nodes[0]?.jvDescription) || ''
-      } ${
-        (!packType && product?.packType
-          ? product?.packType?.label?.labelName +
-            ' - ' +
-            product?.packType?.packDescription
-          : '') || ''
-      } ${!plu && pluVal ? 'PLU' : ''}`;
-      return desc.trim() ? desc : undefined;
-    },
-    defaultSortOrder: SORT_ORDER.ASC,
-    sortable: true,
-    sortKey: 'species',
-    customSortBy: ({ plu, product }) =>
-      `${product?.species?.speciesDescription || ''} ${
-        product?.variety?.varietyDescription || ''
-      } ${product?.sizes?.nodes[0]?.jvDescription || ''} ${
-        product?.packType
-          ? product?.packType?.label?.labelName +
-            ' - ' +
-            product?.packType?.packDescription
-          : ''
-      } ${plu ? 'PLU' : ''}`.toLowerCase(),
-  },
+  ...((!!secondaryDetailsIndex || isTotal
+    ? [
+        {
+          key: 'product',
+          label: isTotal ? 'Species' : 'Details',
+          getValue: ({ plu: pluVal, product }) => {
+            const desc = `${
+              ((!species || (isTotal && !secondaryDetailsIndex)) &&
+                product?.species?.speciesDescription) ||
+              ''
+            } ${
+              (!variety &&
+                secondaryDetailsIndex &&
+                product?.variety?.varietyDescription) ||
+              ''
+            } ${
+              (!size &&
+                secondaryDetailsIndex &&
+                product?.sizes?.nodes[0]?.jvDescription) ||
+              ''
+            } ${
+              (!packType && secondaryDetailsIndex && product?.packType
+                ? product?.packType?.label?.labelName +
+                  ' ' +
+                  product?.packType?.packDescription
+                : '') || ''
+            } ${!plu && secondaryDetailsIndex && pluVal ? 'PLU' : ''}`;
+            return desc.trim() ? desc : undefined;
+          },
+          defaultSortOrder: SORT_ORDER.ASC,
+          sortable: true,
+          sortKey: 'species',
+          customSortBy: ({ plu, product }) =>
+            `${product?.species?.speciesDescription || ''} ${
+              product?.variety?.varietyDescription || ''
+            } ${product?.sizes?.nodes[0]?.jvDescription || ''} ${
+              product?.packType
+                ? product?.packType?.label?.labelName +
+                  ' - ' +
+                  product?.packType?.packDescription
+                : ''
+            } ${plu ? 'PLU' : ''}`.toLowerCase(),
+        },
+      ]
+    : []) as InventoryItemLabelInfo[]),
   {
     key: 'palletsReceived',
     label: 'Received',
@@ -156,7 +188,9 @@ export const indexListLabels = ({
   },
 ];
 
-export const listLabels: InventoryItemLabelInfo[] = [
+export const listLabels: (
+  secondaryDetailsIndex?: string,
+) => InventoryItemLabelInfo[] = (secondaryDetailsIndex) => [
   {
     key: 'shipper',
     label: 'Shipper',
@@ -174,53 +208,60 @@ export const listLabels: InventoryItemLabelInfo[] = [
     sortKey: 'species',
     customSortBy: (data) => data.product?.species?.speciesDescription || '',
   },
-  {
-    key: 'product',
-    label: 'Variety',
-    getValue: (data) => data.product?.variety?.varietyDescription || '',
-    defaultSortOrder: SORT_ORDER.ASC,
-    sortable: true,
-    sortKey: 'variety',
-    customSortBy: (data) => data.product?.variety?.varietyDescription || '',
-  },
-  {
-    key: 'product',
-    label: 'Size',
-    getValue: (data) => data.product?.sizes?.nodes[0]?.jvDescription || '',
-    defaultSortOrder: SORT_ORDER.ASC,
-    sortable: true,
-    sortKey: 'size',
-    customSortBy: (data) => data.product?.sizes?.nodes[0]?.jvDescription || '',
-  },
-  {
-    key: 'product',
-    label: 'Pack Type',
-    getValue: ({ product }) =>
-      product?.packType
-        ? `${
-            product.packType.label
-              ? product.packType.label.labelName + ' - '
-              : ''
-          }${product.packType.packDescription}`
-        : '',
-    defaultSortOrder: SORT_ORDER.ASC,
-    sortable: true,
-    sortKey: 'packType',
-    customSortBy: (data) =>
-      data.product?.packType
-        ? data.product?.packType?.label?.labelName +
-          ' - ' +
-          data.product?.packType?.packDescription
-        : '',
-  },
-  {
-    key: 'plu',
-    label: 'PLU',
-    getValue: (data) => (data.plu ? 'PLU' : ''),
-    defaultSortOrder: SORT_ORDER.ASC,
-    sortable: true,
-    customSortBy: ({ plu }) => (plu ? 'a' : 'b'),
-  },
+  ...((secondaryDetailsIndex
+    ? [
+        {
+          key: 'product',
+          label: 'Variety',
+          getValue: (data) => data.product?.variety?.varietyDescription || '',
+          defaultSortOrder: SORT_ORDER.ASC,
+          sortable: true,
+          sortKey: 'variety',
+          customSortBy: (data) =>
+            data.product?.variety?.varietyDescription || '',
+        },
+        {
+          key: 'product',
+          label: 'Size',
+          getValue: (data) =>
+            data.product?.sizes?.nodes[0]?.jvDescription || '',
+          defaultSortOrder: SORT_ORDER.ASC,
+          sortable: true,
+          sortKey: 'size',
+          customSortBy: (data) =>
+            data.product?.sizes?.nodes[0]?.jvDescription || '',
+        },
+        {
+          key: 'product',
+          label: 'Pack Type',
+          getValue: ({ product }) =>
+            product?.packType
+              ? `${
+                  product.packType.label
+                    ? product.packType.label.labelName + ' - '
+                    : ''
+                }${product.packType.packDescription}`
+              : '',
+          defaultSortOrder: SORT_ORDER.ASC,
+          sortable: true,
+          sortKey: 'packType',
+          customSortBy: (data) =>
+            data.product?.packType
+              ? data.product?.packType?.label?.labelName +
+                ' - ' +
+                data.product?.packType?.packDescription
+              : '',
+        },
+        {
+          key: 'plu',
+          label: 'PLU',
+          getValue: (data) => (data.plu ? 'PLU' : ''),
+          defaultSortOrder: SORT_ORDER.ASC,
+          sortable: true,
+          customSortBy: ({ plu }) => (plu ? 'a' : 'b'),
+        },
+      ]
+    : []) as InventoryItemLabelInfo[]),
   {
     key: 'palletsReceived',
     label: 'Received',

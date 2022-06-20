@@ -67,7 +67,12 @@ const ProgramSet = <
           const name = view === 'customers' ? customerName : shipperName;
           const programTotalsKey = to ? `${name}-${key}` : key;
           return (
-            <l.Div key={key} my={th.spacing.md} relative>
+            <l.Div
+              key={key}
+              mt={isFirstRow ? th.spacing.sm : th.spacing.md}
+              my={th.spacing.md}
+              relative
+            >
               {to && isFirstRow && (
                 <l.Div mb={th.spacing.sm} ml={th.spacing.md}>
                   <ty.LinkText

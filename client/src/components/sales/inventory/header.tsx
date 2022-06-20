@@ -2,6 +2,7 @@ import React, { Fragment, useCallback, useEffect } from 'react';
 import { capitalCase } from 'change-case';
 import { add, endOfISOWeek, format, startOfISOWeek } from 'date-fns';
 import { mapObjIndexed, times, values } from 'ramda';
+import { useLocation } from 'react-router-dom';
 
 import api from 'api';
 import Chevron from 'assets/images/chevron';
@@ -23,13 +24,14 @@ import { gridTemplateColumns } from '.';
 import { gridTemplateColumns as listGridTemplateColumns } from './items';
 import { indexListLabels } from './items/data-utils';
 import InventoryListTotals from './items/list-totals';
-import { getInventoryStartDayIndex } from './utils';
+import { getGroupedItems, getInventoryStartDayIndex } from './utils';
 
 export const categoryTypeOrder = [
   'species',
   'variety',
   'size',
   'packType',
+  'label',
   'plu',
   'shipper',
   'sizePackType',
@@ -48,6 +50,8 @@ interface Props {
   handleWeekChange: (weeks: number) => void;
   loading: boolean;
   selectedWeekNumber: number;
+  setShowPre: (show: boolean) => void;
+  showPre: boolean;
   startDate: string;
 }
 
@@ -56,8 +60,12 @@ const Header = ({
   handleWeekChange,
   loading,
   selectedWeekNumber,
+  setShowPre,
+  showPre,
   startDate,
 }: Props) => {
+  const { pathname, search } = useLocation();
+
   const [
     {
       species,
@@ -66,11 +74,13 @@ const Header = ({
       varietyTag,
       size,
       sizeTag,
+      label,
       packType,
       packTypeTag,
       plu,
       shipper,
       detailsIndex,
+      secondaryDetailsIndex,
       sizePackType,
       categoryTypes,
       ...rest
@@ -86,13 +96,24 @@ const Header = ({
   const { data: sizeData, loading: sizeLoading } = api.useProductSize(
     size || '',
   );
+  const { data: labelData, loading: labelLoading } = api.useProductLabel(
+    label || '',
+  );
   const { data: shipperData, loading: shipperLoading } = api.useShipper(
     shipper || '',
     'FIRST_NAME_ASC',
   );
 
+  const itemsCount = secondaryDetailsIndex
+    ? detailItems?.length || 0
+    : getGroupedItems(detailItems || []).length;
+
   const categoryLoading =
-    speciesLoading || varietyLoading || sizeLoading || shipperLoading;
+    speciesLoading ||
+    varietyLoading ||
+    sizeLoading ||
+    labelLoading ||
+    shipperLoading;
 
   const handleBackward = () => handleWeekChange(-1);
   const handleForward = () => handleWeekChange(1);
@@ -135,6 +156,7 @@ const Header = ({
         : sizeData
         ? `${capitalCase(sizeData.jvDescription || '')}`
         : 'All Sizes',
+      label: labelData ? labelData.labelName || 'Other' : 'All Labels',
       packType: packTypeTag
         ? packTypeTag
         : packType
@@ -166,6 +188,8 @@ const Header = ({
                   case 'size':
                     const sizeTagString = sizeTag ? `&sizeTag=${sizeTag}` : '';
                     return `size=${size}${sizeTagString}`;
+                  case 'label':
+                    return `label=${label}`;
                   case 'packType':
                     const packTypeTagString = packTypeTag
                       ? `&packTypeTag=${packTypeTag}`
@@ -186,15 +210,31 @@ const Header = ({
               })
               .join('&');
             return {
-              active: idx === categoryTypesArray.length - 2,
+              active:
+                idx === categoryTypesArray.length - 2 && !secondaryDetailsIndex,
               text: categoryLoading ? '...' : breadcrumbText[type],
-              to: `/sales/inventory?${restParamString}${existingCategoriesParam}&categoryTypes=${newCategoryTypesArray.join(
-                ',',
-              )}`,
+              to:
+                idx === categoryTypesArray.length - 2
+                  ? secondaryDetailsIndex
+                    ? `/sales/inventory?${restParamString}${existingCategoriesParam}&categoryTypes=${newCategoryTypesArray.join(
+                        ',',
+                      )}&detailsIndex=${detailsIndex}`
+                    : `${pathname}${search}`
+                  : `/sales/inventory?${restParamString}${existingCategoriesParam}&categoryTypes=${newCategoryTypesArray.join(
+                      ',',
+                    )}`,
             };
           })
         : []),
     ];
+
+    if (secondaryDetailsIndex) {
+      breadcrumbs.push({
+        active: true,
+        text: 'Details',
+        to: `${pathname}${search}`,
+      });
+    }
 
     return breadcrumbs;
   };
@@ -327,9 +367,13 @@ const Header = ({
     }, 5);
 
   const itemColumnLabels = useColumns<InventoryItem>(
-    'vessel',
-    SORT_ORDER.DESC,
-    indexListLabels({ shipper }),
+    'dischargeDate' as keyof InventoryItem,
+    SORT_ORDER.ASC,
+    indexListLabels({
+      shipper,
+      secondaryDetailsIndex,
+      isTotal: species === 'total',
+    }),
     'product',
     'inventory_item',
   );
@@ -347,7 +391,10 @@ const Header = ({
         options.push({ text: 'Sizes', value: 'size' });
       }
       if (!packType && !sizePackType) {
-        options.push({ text: 'Label - Pack Type', value: 'packType' });
+        options.push({ text: 'Pack Type', value: 'packType' });
+      }
+      if (!label) {
+        options.push({ text: 'Label', value: 'label' });
       }
       if (!plu) {
         options.push({ text: 'PLU', value: 'plu' });
@@ -355,9 +402,9 @@ const Header = ({
       if (!shipper) {
         options.push({ text: 'Shipper', value: 'shipper' });
       }
-      if (!sizePackType && !size && !packType) {
-        options.push({ text: 'Size - Pack Type', value: 'sizePackType' });
-      }
+      // if (!sizePackType && !size && !packType) {
+      //   options.push({ text: 'Size - Pack Type', value: 'sizePackType' });
+      // }
     }
     return options;
   };
@@ -428,30 +475,43 @@ const Header = ({
         {detailItems ? (
           <InventoryListTotals items={detailItems} loading={loading} />
         ) : (
-          <l.Flex column alignEnd>
-            <ty.SmallText
-              bold
-              color={th.colors.status.successAlt}
-              mb={th.spacing.xs}
+          <l.Flex alignItems="center">
+            <l.HoverButton
+              dark
+              mr={th.spacing.md}
+              onClick={() => {
+                setShowPre(!showPre);
+              }}
             >
-              Pallets Available
-            </ty.SmallText>
-            <ty.SmallText bold color={th.colors.brand.primaryAccent}>
-              Pallets On Hand
-            </ty.SmallText>
+              <ty.SmallText bold color={th.colors.status.warningAlt}>
+                {showPre ? 'Hide Pre' : 'Show Pre'}
+              </ty.SmallText>
+            </l.HoverButton>
+            <l.Flex column alignEnd>
+              <ty.SmallText
+                bold
+                color={th.colors.status.successAlt}
+                mb={th.spacing.xs}
+              >
+                Pallets Available
+              </ty.SmallText>
+              <ty.SmallText bold color={th.colors.brand.primaryAccent}>
+                Pallets On Hand
+              </ty.SmallText>
+            </l.Flex>
           </l.Flex>
         )}
       </l.Flex>
       {detailItems ? (
         <l.Grid
-          gridTemplateColumns={listGridTemplateColumns(!!shipper)}
+          gridTemplateColumns={listGridTemplateColumns(
+            !!shipper,
+            secondaryDetailsIndex,
+            species === 'total',
+          )}
           mb={th.spacing.sm}
           pl={th.spacing.sm}
-          pr={
-            detailItems.length > 12 - getInventoryStartDayIndex(startDate)
-              ? th.spacing.md
-              : 0
-          }
+          pr={itemsCount > 12 ? th.spacing.md : 0}
         >
           {itemColumnLabels}
         </l.Grid>

@@ -6,15 +6,20 @@ import BaseData from 'components/base-data';
 import Page from 'components/page';
 import { DataMessage } from 'components/page/message';
 import { Tab, useTabBar } from 'components/tab-bar';
+import { useQueryValue } from 'hooks/use-query-params';
 import useUpdateItem from 'hooks/use-update-item';
 import { Country, InventoryItem, Vessel, Warehouse } from 'types';
-// import b from 'ui/button';
 import l from 'ui/layout';
 import th from 'ui/theme';
+import ty from 'ui/typography';
 
 import InventoryItemList from '../inventory/items/list';
 import InventoryListTotals from '../inventory/items/list-totals';
-import { convertProjectionsToInventoryItems } from '../inventory/utils';
+import {
+  convertProjectionsToInventoryItems,
+  getDetailedFilteredItems,
+  getGroupedItems,
+} from '../inventory/utils';
 import { baseLabels } from './data-utils';
 
 export const breadcrumbs = (id: string, isInventory: boolean) => [
@@ -41,6 +46,9 @@ const Details = () => {
   }>();
   const { pathname } = useLocation();
   const isInventory = pathname.includes('inventory');
+  const [secondaryDetailsIndex, setSecondaryDetailsIndex] = useQueryValue(
+    'secondaryDetailsIndex',
+  );
 
   const { data, error, loading } = api.useVessel(id);
   const inventoryItems = data
@@ -91,6 +99,16 @@ const Details = () => {
 
   const items = inventoryItems.length > 0 ? inventoryItems : preInventoryItems;
 
+  const groupedItems = getGroupedItems(items, false);
+
+  const filteredItems = secondaryDetailsIndex
+    ? getDetailedFilteredItems(items, secondaryDetailsIndex)
+    : groupedItems;
+
+  const clearSecondaryDetails = () => {
+    setSecondaryDetailsIndex(undefined);
+  };
+
   return (
     <Page
       actions={
@@ -130,10 +148,24 @@ const Details = () => {
             showValidation={saveAttempt}
           />
           <l.Flex alignCenter justifyBetween my={th.spacing.lg}>
-            <TabBar />
-            <InventoryListTotals items={items} loading={loading} />
+            <l.Flex alignCenter>
+              <TabBar />
+              {secondaryDetailsIndex && (
+                <l.HoverButton
+                  dark
+                  ml={th.spacing.lg}
+                  onClick={clearSecondaryDetails}
+                >
+                  <ty.CaptionText>Show All</ty.CaptionText>
+                </l.HoverButton>
+              )}
+            </l.Flex>
+            <InventoryListTotals items={filteredItems} loading={loading} />
           </l.Flex>
-          <InventoryItemList baseUrl={`/sales/vessels/${id}`} items={items} />
+          <InventoryItemList
+            baseUrl={`/sales/vessels/${id}`}
+            items={filteredItems}
+          />
         </l.Div>
       ) : (
         <DataMessage data={data || []} error={error} loading={loading} />
