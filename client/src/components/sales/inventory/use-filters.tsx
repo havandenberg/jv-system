@@ -146,7 +146,9 @@ const useInventoryFilters = ({ items, loading }: Props) => {
   ];
 
   const itemsFilteredByCoast = (items as InventoryItem[]).filter(
-    (item) => selectedFilters.coast === item.coast,
+    (item) =>
+      selectedFilters.coast === item.coast &&
+      !['98', '99'].includes(`${item.product?.species?.id}`),
   );
 
   const locationOptions = uniq(

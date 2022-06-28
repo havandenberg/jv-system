@@ -118,3 +118,10 @@ AS $$
 	RETURN;
   END;
 $$ LANGUAGE plpgsql VOLATILE STRICT SET search_path FROM CURRENT;
+
+CREATE FUNCTION directory.bulk_delete_warehouse(IN ids_to_delete TEXT[])
+  RETURNS setof TEXT
+AS $$
+  DELETE FROM directory.warehouse
+  WHERE id = ANY(ids_to_delete) RETURNING (id);
+$$ LANGUAGE sql VOLATILE STRICT SECURITY DEFINER;

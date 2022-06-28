@@ -19,6 +19,14 @@ const BULK_UPSERT_COUNTRY = gql`
   }
 `;
 
+const BULK_DELETE_COUNTRY = gql`
+  mutation BULK_DELETE_COUNTRY($input: BulkDeleteCountryInput!) {
+    bulkDeleteCountry(input: $input) {
+      clientMutationId
+    }
+  }
+`;
+
 const getUpdatedCountry = (country, db2Country) => ({
   ...country,
   id: db2Country['CNTRYL'],
@@ -29,6 +37,7 @@ const countryOptions = {
   db2Query: 'select * from JVFIL.INVP511L;',
   listQuery: COUNTRY_LIST,
   upsertQuery: BULK_UPSERT_COUNTRY,
+  deleteQuery: BULK_DELETE_COUNTRY,
   itemName: 'country',
   itemPluralName: 'countries',
   itemQueryName: 'countries',

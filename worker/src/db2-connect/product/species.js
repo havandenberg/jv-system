@@ -23,6 +23,14 @@ const BULK_UPSERT_SPECIES = gql`
   }
 `;
 
+const BULK_DELETE_SPECIES = gql`
+  mutation BULK_DELETE_PRODUCT_SPECIES($input: BulkDeleteProductSpeciesInput!) {
+    bulkDeleteProductSpecies(input: $input) {
+      clientMutationId
+    }
+  }
+`;
+
 const getUpdatedSpecies = (species, db2Species) => ({
   ...species,
   id: db2Species['PRODA'],
@@ -36,6 +44,7 @@ const getUpdatedSpecies = (species, db2Species) => ({
 const speciesOptions = {
   db2Query: 'select * from JVFIL.INVP200A;',
   listQuery: SPECIES_LIST,
+  deleteQuery: BULK_DELETE_SPECIES,
   upsertQuery: BULK_UPSERT_SPECIES,
   itemName: 'species',
   itemPluralName: 'species',

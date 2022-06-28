@@ -37,7 +37,7 @@ CREATE FUNCTION product.inventory_item_vessel_inv_flag(IN i product.inventory_it
     PARALLEL UNSAFE
     COST 100
 AS $BODY$
-  SELECT inv_flag FROM product.vessel v WHERE v.vessel_code = i.vessel_code ORDER BY v.discharge_date DESC LIMIT 1
+  SELECT inv_flag FROM product.vessel v WHERE v.vessel_code = i.vessel_code ORDER BY v.discharge_date DESC
 $BODY$;
 
 CREATE FUNCTION product.inventory_item_vessel_discharge_date(IN i product.inventory_item)
@@ -47,7 +47,7 @@ CREATE FUNCTION product.inventory_item_vessel_discharge_date(IN i product.invent
     PARALLEL UNSAFE
     COST 100
 AS $BODY$
-  SELECT discharge_date FROM product.vessel v WHERE v.vessel_code = i.vessel_code ORDER BY v.discharge_date DESC LIMIT 1
+  SELECT discharge_date FROM product.vessel v WHERE v.vessel_code = i.vessel_code ORDER BY v.discharge_date DESC
 $BODY$;
 
 CREATE FUNCTION product.inventory_item_product(IN i product.inventory_item)
@@ -183,3 +183,9 @@ AS $$
   END;
 $$ LANGUAGE plpgsql VOLATILE STRICT SET search_path FROM CURRENT;
 
+CREATE FUNCTION product.bulk_delete_inventory_item(IN ids_to_delete BIGINT[])
+  RETURNS setof BIGINT
+AS $$
+  DELETE FROM product.inventory_item
+  WHERE id = ANY(ids_to_delete) RETURNING (id);
+$$ LANGUAGE sql VOLATILE STRICT SECURITY DEFINER;

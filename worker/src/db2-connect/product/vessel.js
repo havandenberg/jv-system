@@ -30,6 +30,14 @@ const BULK_UPSERT_VESSEL = gql`
   }
 `;
 
+const BULK_DELETE_VESSEL = gql`
+  mutation BULK_DELETE_VESSEL($input: BulkDeleteVesselInput!) {
+    bulkDeleteVessel(input: $input) {
+      clientMutationId
+    }
+  }
+`;
+
 const getUpdatedVessel = (vessel, db2Vessel, id) => ({
   ...vessel,
   id,
@@ -60,18 +68,33 @@ const getUpdatedVessel = (vessel, db2Vessel, id) => ({
   invFlag: !!db2Vessel['INVFGZ'],
 });
 
+const getVesselId = (db2Vessel, vessels) => {
+  const vessel = Object.values(vessels).find(
+    (it) =>
+      it.vesselCode === db2Vessel['BOAT#Z'].trimEnd() &&
+      it.arrivalPort === db2Vessel['ARVPTZ'].trimEnd(),
+  );
+
+  return (
+    vessel?.id ||
+    `${db2Vessel['BOAT#Z'].trimEnd()}-${db2Vessel['ARVPTZ'].trimEnd()}`
+  );
+};
+
 const vesselOptions = {
   db2Query:
     'select * from JVFIL.ORDP750Z union select * from JVPREFIL.ORDP750Z order by BOAT#Z;',
   listQuery: VESSEL_LIST,
+  deleteQuery: BULK_DELETE_VESSEL,
   upsertQuery: BULK_UPSERT_VESSEL,
   itemName: 'vessel',
   itemPluralName: 'vessels',
   itemQueryName: 'vessels',
   upsertQueryName: 'vessels',
   getUpdatedItem: getUpdatedVessel,
-  useIndexAsId: true,
+  getId: getVesselId,
   chunkSize: 200,
+  iterationLimit: 2000,
 };
 
 module.exports = vesselOptions;

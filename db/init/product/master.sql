@@ -95,3 +95,10 @@ AS $$
 	RETURN;
   END;
 $$ LANGUAGE plpgsql VOLATILE STRICT SET search_path FROM CURRENT;
+
+CREATE FUNCTION product.bulk_delete_product_master(IN ids_to_delete TEXT[])
+  RETURNS setof TEXT
+AS $$
+  DELETE FROM product.product_master
+  WHERE id = ANY(ids_to_delete) RETURNING (id);
+$$ LANGUAGE sql VOLATILE STRICT SECURITY DEFINER;

@@ -2,7 +2,7 @@ const { gql } = require('../../api');
 
 const INVENTORY_ITEM_LIST = gql`
   query INVENTORY_ITEM_LIST {
-    inventoryItems(orderBy: ID_ASC) {
+    inventoryItems {
       nodes {
         id
         productId
@@ -36,14 +36,22 @@ const BULK_UPSERT_INVENTORY_ITEM = gql`
   }
 `;
 
+const BULK_DELETE_INVENTORY_ITEM = gql`
+  mutation BULK_DELETE_INVENTORY_ITEM($input: BulkDeleteInventoryItemInput!) {
+    bulkDeleteInventoryItem(input: $input) {
+      clientMutationId
+    }
+  }
+`;
+
 const getUpdatedInventoryItem = (inventoryItem, db2InventoryItem, id) => ({
   ...inventoryItem,
   id,
   productId: db2InventoryItem['PROD#X'],
-  locationId: db2InventoryItem['SRTWHX'],
+  locationId: db2InventoryItem['PLOC#X'],
   vesselCode: db2InventoryItem['BOAT#X'],
   jvLotNumber: db2InventoryItem['JVLOTX'],
-  shipperId: db2InventoryItem['CSHPRX'],
+  shipperId: db2InventoryItem['CSHPRX'] || db2InventoryItem['SHPR#X'],
   palletsReceived: `${db2InventoryItem['PRCVX']}`,
   palletsCommitted: `${db2InventoryItem['PCOMX']}`,
   palletsOnHand: `${db2InventoryItem['PONHX']}`,
@@ -59,17 +67,42 @@ const getUpdatedInventoryItem = (inventoryItem, db2InventoryItem, id) => ({
   warehouseId: db2InventoryItem['SRTWHX'],
 });
 
+const getInventoryItemId = (db2InventoryItem, inventoryItems) => {
+  const inventoryItem = Object.values(inventoryItems).find(
+    (it) =>
+      it.productId === db2InventoryItem['PROD#X'].trimEnd() &&
+      it.locationId === db2InventoryItem['PLOC#X'].trimEnd() &&
+      it.vesselCode === db2InventoryItem['BOAT#X'].trimEnd() &&
+      it.jvLotNumber === db2InventoryItem['JVLOTX'].trimEnd() &&
+      it.shipperId ===
+        (db2InventoryItem['CSHPRX'] || db2InventoryItem['SHPR#X']).trimEnd(),
+  );
+
+  return (
+    inventoryItem?.id ||
+    `${db2InventoryItem['PROD#X'].trimEnd()}-${db2InventoryItem[
+      'PLOC#X'
+    ].trimEnd()}-${db2InventoryItem['BOAT#X'].trimEnd()}-${db2InventoryItem[
+      'JVLOTX'
+    ].trimEnd()}-${(
+      db2InventoryItem['CSHPRX'] || db2InventoryItem['SHPR#X']
+    ).trimEnd()}`
+  );
+};
+
 const inventoryItemOptions = {
-  db2Query: `select * from JVFIL.ORDP730X a union select * from JVPREFIL.ORDP730X b order by PROD#X, BOAT#X, CSHPRX;`,
+  db2Query: `select * from JVFIL.ORDP730X union select * from JVPREFIL.ORDP730X;`,
   listQuery: INVENTORY_ITEM_LIST,
+  deleteQuery: BULK_DELETE_INVENTORY_ITEM,
   upsertQuery: BULK_UPSERT_INVENTORY_ITEM,
   itemName: 'inventory item',
   itemPluralName: 'inventory items',
   itemQueryName: 'inventoryItems',
   upsertQueryName: 'inventoryItems',
   getUpdatedItem: getUpdatedInventoryItem,
-  useIndexAsId: true,
-  chunkSize: 200,
+  getId: getInventoryItemId,
+  chunkSize: 100,
+  iterationLimit: 30000,
 };
 
 module.exports = inventoryItemOptions;

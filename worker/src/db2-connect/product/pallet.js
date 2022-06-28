@@ -46,6 +46,14 @@ const BULK_UPSERT_PALLET = gql`
   }
 `;
 
+const BULK_DELETE_PALLET = gql`
+  mutation BULK_DELETE_PALLET($input: BulkDeletePalletInput!) {
+    bulkDeletePallet(input: $input) {
+      clientMutationId
+    }
+  }
+`;
+
 const getUpdatedPallet = (pallet, db2Pallet, id) => ({
   ...pallet,
   id,
@@ -82,6 +90,7 @@ const getUpdatedPallet = (pallet, db2Pallet, id) => ({
 const palletOptions = {
   db2Query: `select * from JVFIL.ORDP710V master left join JVFIL.ORDP710J secondary on master.PID#V = secondary.PALID;`,
   listQuery: PALLET_LIST,
+  deleteQuery: BULK_DELETE_PALLET,
   upsertQuery: BULK_UPSERT_PALLET,
   itemName: 'pallet',
   itemPluralName: 'pallets',
@@ -94,7 +103,7 @@ const palletOptions = {
 
 const PALLET_SECTION_LIST = gql`
   query PALLET_SECTION_LIST {
-    palletSections(orderBy: ID_ASC) {
+    palletSections {
       nodes {
         id
         palletId
@@ -116,6 +125,14 @@ const BULK_UPSERT_PALLET_SECTION = gql`
   }
 `;
 
+const BULK_DELETE_PALLET_SECTION = gql`
+  mutation BULK_DELETE_PALLET_SECTION($input: BulkDeletePalletSectionInput!) {
+    bulkDeletePalletSection(input: $input) {
+      clientMutationId
+    }
+  }
+`;
+
 const getUpdatedPalletSection = (palletSection, db2Section, id) => ({
   ...palletSection,
   id,
@@ -130,6 +147,7 @@ const getUpdatedPalletSection = (palletSection, db2Section, id) => ({
 const palletSectionOptions = {
   db2Query: `select * from JVFIL.ORDP7102;`,
   listQuery: PALLET_SECTION_LIST,
+  deleteQuery: BULK_DELETE_PALLET_SECTION,
   upsertQuery: BULK_UPSERT_PALLET_SECTION,
   itemName: 'pallet section',
   itemPluralName: 'pallet sections',

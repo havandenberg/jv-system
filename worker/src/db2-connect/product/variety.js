@@ -1,7 +1,4 @@
-const { difference, equals, map } = require('ramda');
-
-const { gql, gqlClient } = require('../../api');
-const { getSlicedChunks, onError } = require('../../utils');
+const { gql } = require('../../api');
 
 const VARIETY_LIST = gql`
   query VARIETY_LIST {
@@ -27,6 +24,14 @@ const BULK_UPSERT_VARIETY = gql`
   }
 `;
 
+const BULK_DELETE_VARIETY = gql`
+  mutation BULK_DELETE_PRODUCT_VARIETY($input: BulkDeleteProductVarietyInput!) {
+    bulkDeleteProductVariety(input: $input) {
+      clientMutationId
+    }
+  }
+`;
+
 const getUpdatedVariety = (variety, db2Variety) => ({
   ...variety,
   id: db2Variety['VARB'],
@@ -41,6 +46,7 @@ const getUpdatedVariety = (variety, db2Variety) => ({
 const varietyOptions = {
   db2Query: 'select * from JVFIL.INVP200B;',
   listQuery: VARIETY_LIST,
+  deleteQuery: BULK_DELETE_VARIETY,
   upsertQuery: BULK_UPSERT_VARIETY,
   itemName: 'variety',
   itemPluralName: 'varieties',
@@ -48,6 +54,7 @@ const varietyOptions = {
   upsertQueryName: 'varieties',
   getUpdatedItem: getUpdatedVariety,
   idKey: 'VARB',
+  iterationLimit: 2000,
 };
 
 module.exports = varietyOptions;

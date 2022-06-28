@@ -27245,6 +27245,10 @@ export type Mutation = {
   deletePriceSize?: Maybe<DeletePriceSizePayload>;
   bulkCreateUserMessage?: Maybe<BulkCreateUserMessagePayload>;
   bulkAddContactsToGroup?: Maybe<BulkAddContactsToGroupPayload>;
+  bulkDeleteCountry?: Maybe<BulkDeleteCountryPayload>;
+  bulkDeleteCustomer?: Maybe<BulkDeleteCustomerPayload>;
+  bulkDeleteShipper?: Maybe<BulkDeleteShipperPayload>;
+  bulkDeleteWarehouse?: Maybe<BulkDeleteWarehousePayload>;
   bulkRemoveContactGroupPersonContact?: Maybe<BulkRemoveContactGroupPersonContactPayload>;
   bulkUpsertCountry?: Maybe<BulkUpsertCountryPayload>;
   bulkUpsertCustomer?: Maybe<BulkUpsertCustomerPayload>;
@@ -27261,9 +27265,18 @@ export type Mutation = {
   batchCreatePsaPomegranatePallet?: Maybe<BatchCreatePsaPomegranatePalletPayload>;
   batchCreatePsaStoneFruitPallet?: Maybe<BatchCreatePsaStoneFruitPalletPayload>;
   bulkDeleteCustomerProgram?: Maybe<BulkDeleteCustomerProgramPayload>;
+  bulkDeleteInventoryItem?: Maybe<BulkDeleteInventoryItemPayload>;
+  bulkDeletePackMaster?: Maybe<BulkDeletePackMasterPayload>;
+  bulkDeletePallet?: Maybe<BulkDeletePalletPayload>;
+  bulkDeletePalletSection?: Maybe<BulkDeletePalletSectionPayload>;
+  bulkDeleteProductMaster?: Maybe<BulkDeleteProductMasterPayload>;
+  bulkDeleteProductSize?: Maybe<BulkDeleteProductSizePayload>;
+  bulkDeleteProductSpecies?: Maybe<BulkDeleteProductSpeciesPayload>;
+  bulkDeleteProductVariety?: Maybe<BulkDeleteProductVarietyPayload>;
   bulkDeleteShipperProgram?: Maybe<BulkDeleteShipperProgramPayload>;
   bulkDeleteShipperProgramEntryCustomerProgramEntry?: Maybe<BulkDeleteShipperProgramEntryCustomerProgramEntryPayload>;
   bulkDeleteShipperProjectionEntry?: Maybe<BulkDeleteShipperProjectionEntryPayload>;
+  bulkDeleteVessel?: Maybe<BulkDeleteVesselPayload>;
   bulkUpsertCustomerProgram?: Maybe<BulkUpsertCustomerProgramPayload>;
   bulkUpsertCustomerProgramEntry?: Maybe<BulkUpsertCustomerProgramEntryPayload>;
   bulkUpsertInventoryItem?: Maybe<BulkUpsertInventoryItemPayload>;
@@ -29996,6 +30009,30 @@ export type MutationBulkAddContactsToGroupArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationBulkDeleteCountryArgs = {
+  input: BulkDeleteCountryInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationBulkDeleteCustomerArgs = {
+  input: BulkDeleteCustomerInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationBulkDeleteShipperArgs = {
+  input: BulkDeleteShipperInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationBulkDeleteWarehouseArgs = {
+  input: BulkDeleteWarehouseInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationBulkRemoveContactGroupPersonContactArgs = {
   input: BulkRemoveContactGroupPersonContactInput;
 };
@@ -30092,6 +30129,54 @@ export type MutationBulkDeleteCustomerProgramArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationBulkDeleteInventoryItemArgs = {
+  input: BulkDeleteInventoryItemInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationBulkDeletePackMasterArgs = {
+  input: BulkDeletePackMasterInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationBulkDeletePalletArgs = {
+  input: BulkDeletePalletInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationBulkDeletePalletSectionArgs = {
+  input: BulkDeletePalletSectionInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationBulkDeleteProductMasterArgs = {
+  input: BulkDeleteProductMasterInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationBulkDeleteProductSizeArgs = {
+  input: BulkDeleteProductSizeInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationBulkDeleteProductSpeciesArgs = {
+  input: BulkDeleteProductSpeciesInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationBulkDeleteProductVarietyArgs = {
+  input: BulkDeleteProductVarietyInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationBulkDeleteShipperProgramArgs = {
   input: BulkDeleteShipperProgramInput;
 };
@@ -30106,6 +30191,12 @@ export type MutationBulkDeleteShipperProgramEntryCustomerProgramEntryArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationBulkDeleteShipperProjectionEntryArgs = {
   input: BulkDeleteShipperProjectionEntryInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationBulkDeleteVesselArgs = {
+  input: BulkDeleteVesselInput;
 };
 
 
@@ -54791,6 +54882,98 @@ export type BulkAddContactsToGroupInput = {
   items: Array<Maybe<ContactGroupPersonContactInput>>;
 };
 
+/** The output of our `bulkDeleteCountry` mutation. */
+export type BulkDeleteCountryPayload = {
+  __typename?: 'BulkDeleteCountryPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  strings?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** All input for the `bulkDeleteCountry` mutation. */
+export type BulkDeleteCountryInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  idsToDelete: Array<Maybe<Scalars['String']>>;
+};
+
+/** The output of our `bulkDeleteCustomer` mutation. */
+export type BulkDeleteCustomerPayload = {
+  __typename?: 'BulkDeleteCustomerPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  strings?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** All input for the `bulkDeleteCustomer` mutation. */
+export type BulkDeleteCustomerInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  idsToDelete: Array<Maybe<Scalars['String']>>;
+};
+
+/** The output of our `bulkDeleteShipper` mutation. */
+export type BulkDeleteShipperPayload = {
+  __typename?: 'BulkDeleteShipperPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  strings?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** All input for the `bulkDeleteShipper` mutation. */
+export type BulkDeleteShipperInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  idsToDelete: Array<Maybe<Scalars['String']>>;
+};
+
+/** The output of our `bulkDeleteWarehouse` mutation. */
+export type BulkDeleteWarehousePayload = {
+  __typename?: 'BulkDeleteWarehousePayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  strings?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** All input for the `bulkDeleteWarehouse` mutation. */
+export type BulkDeleteWarehouseInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  idsToDelete: Array<Maybe<Scalars['String']>>;
+};
+
 /** The output of our `bulkRemoveContactGroupPersonContact` mutation. */
 export type BulkRemoveContactGroupPersonContactPayload = {
   __typename?: 'BulkRemoveContactGroupPersonContactPayload';
@@ -55159,6 +55342,190 @@ export type BulkDeleteCustomerProgramInput = {
   idsToDelete: Array<Maybe<Scalars['BigInt']>>;
 };
 
+/** The output of our `bulkDeleteInventoryItem` mutation. */
+export type BulkDeleteInventoryItemPayload = {
+  __typename?: 'BulkDeleteInventoryItemPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  bigInts?: Maybe<Array<Maybe<Scalars['BigInt']>>>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** All input for the `bulkDeleteInventoryItem` mutation. */
+export type BulkDeleteInventoryItemInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  idsToDelete: Array<Maybe<Scalars['BigInt']>>;
+};
+
+/** The output of our `bulkDeletePackMaster` mutation. */
+export type BulkDeletePackMasterPayload = {
+  __typename?: 'BulkDeletePackMasterPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  bigInts?: Maybe<Array<Maybe<Scalars['BigInt']>>>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** All input for the `bulkDeletePackMaster` mutation. */
+export type BulkDeletePackMasterInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  idsToDelete: Array<Maybe<Scalars['BigInt']>>;
+};
+
+/** The output of our `bulkDeletePallet` mutation. */
+export type BulkDeletePalletPayload = {
+  __typename?: 'BulkDeletePalletPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  bigInts?: Maybe<Array<Maybe<Scalars['BigInt']>>>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** All input for the `bulkDeletePallet` mutation. */
+export type BulkDeletePalletInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  idsToDelete: Array<Maybe<Scalars['BigInt']>>;
+};
+
+/** The output of our `bulkDeletePalletSection` mutation. */
+export type BulkDeletePalletSectionPayload = {
+  __typename?: 'BulkDeletePalletSectionPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  bigInts?: Maybe<Array<Maybe<Scalars['BigInt']>>>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** All input for the `bulkDeletePalletSection` mutation. */
+export type BulkDeletePalletSectionInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  idsToDelete: Array<Maybe<Scalars['BigInt']>>;
+};
+
+/** The output of our `bulkDeleteProductMaster` mutation. */
+export type BulkDeleteProductMasterPayload = {
+  __typename?: 'BulkDeleteProductMasterPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  strings?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** All input for the `bulkDeleteProductMaster` mutation. */
+export type BulkDeleteProductMasterInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  idsToDelete: Array<Maybe<Scalars['String']>>;
+};
+
+/** The output of our `bulkDeleteProductSize` mutation. */
+export type BulkDeleteProductSizePayload = {
+  __typename?: 'BulkDeleteProductSizePayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  bigInts?: Maybe<Array<Maybe<Scalars['BigInt']>>>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** All input for the `bulkDeleteProductSize` mutation. */
+export type BulkDeleteProductSizeInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  idsToDelete: Array<Maybe<Scalars['BigInt']>>;
+};
+
+/** The output of our `bulkDeleteProductSpecies` mutation. */
+export type BulkDeleteProductSpeciesPayload = {
+  __typename?: 'BulkDeleteProductSpeciesPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  strings?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** All input for the `bulkDeleteProductSpecies` mutation. */
+export type BulkDeleteProductSpeciesInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  idsToDelete: Array<Maybe<Scalars['String']>>;
+};
+
+/** The output of our `bulkDeleteProductVariety` mutation. */
+export type BulkDeleteProductVarietyPayload = {
+  __typename?: 'BulkDeleteProductVarietyPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  strings?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** All input for the `bulkDeleteProductVariety` mutation. */
+export type BulkDeleteProductVarietyInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  idsToDelete: Array<Maybe<Scalars['String']>>;
+};
+
 /** The output of our `bulkDeleteShipperProgram` mutation. */
 export type BulkDeleteShipperProgramPayload = {
   __typename?: 'BulkDeleteShipperProgramPayload';
@@ -55220,6 +55587,29 @@ export type BulkDeleteShipperProjectionEntryPayload = {
 
 /** All input for the `bulkDeleteShipperProjectionEntry` mutation. */
 export type BulkDeleteShipperProjectionEntryInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  idsToDelete: Array<Maybe<Scalars['BigInt']>>;
+};
+
+/** The output of our `bulkDeleteVessel` mutation. */
+export type BulkDeleteVesselPayload = {
+  __typename?: 'BulkDeleteVesselPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  bigInts?: Maybe<Array<Maybe<Scalars['BigInt']>>>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** All input for the `bulkDeleteVessel` mutation. */
+export type BulkDeleteVesselInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.

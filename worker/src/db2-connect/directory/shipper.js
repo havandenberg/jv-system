@@ -21,6 +21,14 @@ const BULK_UPSERT_SHIPPER = gql`
   }
 `;
 
+const BULK_DELETE_SHIPPER = gql`
+  mutation BULK_DELETE_SHIPPER($input: BulkDeleteShipperInput!) {
+    bulkDeleteShipper(input: $input) {
+      clientMutationId
+    }
+  }
+`;
+
 const getUpdatedShipper = (shipper, db2Shipper) => ({
   ...shipper,
   id: db2Shipper['SHPR#K'],
@@ -32,6 +40,7 @@ const getUpdatedShipper = (shipper, db2Shipper) => ({
 const shipperOptions = {
   db2Query: 'select * from JVFIL.INVP510K;',
   listQuery: SHIPPER_LIST,
+  deleteQuery: BULK_DELETE_SHIPPER,
   upsertQuery: BULK_UPSERT_SHIPPER,
   itemName: 'shipper',
   itemPluralName: 'shippers',

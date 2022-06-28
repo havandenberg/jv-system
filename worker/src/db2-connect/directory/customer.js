@@ -3,7 +3,7 @@ const { getActive, getCountryId, getPhone, getZipCode } = require('../utils');
 
 const CUSTOMER_LIST = gql`
   query CUSTOMER_LIST {
-    customers {
+    customers(orderBy: ID_ASC) {
       nodes {
         id
         customerName
@@ -28,8 +28,31 @@ const BULK_UPSERT_CUSTOMER = gql`
   }
 `;
 
+const BULK_DELETE_CUSTOMER = gql`
+  mutation BULK_DELETE_CUSTOMER($input: BulkDeleteCustomerInput!) {
+    bulkDeleteCustomer(input: $input) {
+      clientMutationId
+    }
+  }
+`;
+
 const getUpdatedCustomer = (customer, db2Customer) =>
-  db2Customer['CNTRYC'] === '.'
+  !getActive(db2Customer['CDELCD']) ||
+  [
+    '.',
+    'CAN',
+    'HOL',
+    'FRN',
+    'DEN',
+    'ICE',
+    'GER',
+    'IRE',
+    'NOR',
+    'BLG',
+    'UK',
+    'GRC',
+  ].includes(getCountryId(db2Customer['CNTRYC'])) ||
+  db2Customer['CUST#C'] === null
     ? null
     : {
         ...customer,
@@ -50,8 +73,9 @@ const getUpdatedCustomer = (customer, db2Customer) =>
       };
 
 const customerOptions = {
-  db2Query: 'select * from GDSSYFIL.DSSP200C;',
+  db2Query: 'select * from GDSSYFIL.DSSP200C order by CUST#C asc;',
   listQuery: CUSTOMER_LIST,
+  deleteQuery: BULK_DELETE_CUSTOMER,
   upsertQuery: BULK_UPSERT_CUSTOMER,
   itemName: 'customer',
   itemPluralName: 'customers',
@@ -59,6 +83,7 @@ const customerOptions = {
   upsertQueryName: 'customers',
   getUpdatedItem: getUpdatedCustomer,
   idKey: 'CUST#C',
+  iterationLimit: 5000,
 };
 
 module.exports = customerOptions;

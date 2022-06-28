@@ -27,6 +27,14 @@ const BULK_UPSERT_SIZE = gql`
   }
 `;
 
+const BULK_DELETE_SIZE = gql`
+  mutation BULK_DELETE_PRODUCT_SIZE($input: BulkDeleteProductSizeInput!) {
+    bulkDeleteProductSize(input: $input) {
+      clientMutationId
+    }
+  }
+`;
+
 const getUpdatedSize = (size, db2Size, id) => ({
   ...size,
   id,
@@ -44,6 +52,7 @@ const getUpdatedSize = (size, db2Size, id) => ({
 const sizeOptions = {
   db2Query: 'select * from JVFIL.INVP205C;',
   listQuery: SIZE_LIST,
+  deleteQuery: BULK_DELETE_SIZE,
   upsertQuery: BULK_UPSERT_SIZE,
   itemName: 'size',
   itemPluralName: 'sizes',

@@ -8,6 +8,7 @@ query VESSEL_LIST(
   $startDate: Date
 ) {
   vessels(
+    condition: { invFlag: true }
     filter: {
       and: $search
       countryId: { in: $countryId }

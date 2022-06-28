@@ -257,6 +257,7 @@ const VesselHeader = (
     : new Date();
 
   const { data: vesselsData, loading: vesselsLoading } = api.useVessels({
+    isInventory: true,
     orderByOverride: 'DISCHARGE_DATE_DESC',
   });
   const vessels = (vesselsData?.nodes || []) as Vessel[];

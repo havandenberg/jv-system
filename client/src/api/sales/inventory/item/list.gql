@@ -23,6 +23,7 @@ query INVENTORY_ITEM_LIST($startDate: Date!, $endDate: Date!) {
         countryName
       }
       id
+      jvLotNumber
       palletsAvailable
       palletsCommitted
       palletsReceived

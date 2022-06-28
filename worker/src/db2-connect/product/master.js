@@ -20,6 +20,14 @@ const BULK_UPSERT_PRODUCT_MASTER = gql`
   }
 `;
 
+const BULK_DELETE_PRODUCT_MASTER = gql`
+  mutation BULK_DELETE_PRODUCT_MASTER($input: BulkDeleteProductMasterInput!) {
+    bulkDeleteProductMaster(input: $input) {
+      clientMutationId
+    }
+  }
+`;
+
 const getUpdatedProductMaster = (productMaster, db2ProductMaster) => ({
   ...productMaster,
   id: db2ProductMaster['ITEME'],
@@ -30,6 +38,7 @@ const getUpdatedProductMaster = (productMaster, db2ProductMaster) => ({
 const productMasterOptions = {
   db2Query: `select * from JVFIL.INVP200E order by ITEME;`,
   listQuery: PRODUCT_MASTER_LIST,
+  deleteQuery: BULK_DELETE_PRODUCT_MASTER,
   upsertQuery: BULK_UPSERT_PRODUCT_MASTER,
   itemName: 'product master',
   itemPluralName: 'product masters',
@@ -37,6 +46,7 @@ const productMasterOptions = {
   upsertQueryName: 'productMasters',
   getUpdatedItem: getUpdatedProductMaster,
   idKey: 'ITEME',
+  iterationLimit: 2000,
   chunkSize: 10,
 };
 

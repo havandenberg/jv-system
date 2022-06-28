@@ -53,7 +53,7 @@ CREATE FUNCTION product.vessel_inventory_items(IN v product.vessel)
     PARALLEL UNSAFE
     COST 100
 AS $BODY$
-  SELECT * FROM product.inventory_item i WHERE i.vessel_code = v.vessel_code order by v.id DESC limit 1
+  SELECT * FROM product.inventory_item i WHERE i.vessel_code = v.vessel_code order by v.id DESC
 $BODY$;
 
 CREATE FUNCTION product.vessel_pallets(IN v product.vessel)
@@ -143,3 +143,10 @@ AS $$
 	RETURN;
   END;
 $$ LANGUAGE plpgsql VOLATILE STRICT SET search_path FROM CURRENT;
+
+CREATE FUNCTION product.bulk_delete_vessel(IN ids_to_delete BIGINT[])
+  RETURNS setof BIGINT
+AS $$
+  DELETE FROM product.vessel
+  WHERE id = ANY(ids_to_delete) RETURNING (id);
+$$ LANGUAGE sql VOLATILE STRICT SECURITY DEFINER;

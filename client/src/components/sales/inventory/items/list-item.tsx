@@ -8,10 +8,13 @@ import { InventoryItem } from 'types';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
+import { hexColorWithTransparency } from 'ui/utils';
 
 const GridContainer = styled(l.Grid)(
-  ({ selected }: { selected?: boolean }) => ({
-    background: selected
+  ({ distress, selected }: { distress?: boolean; selected?: boolean }) => ({
+    background: distress
+      ? hexColorWithTransparency(th.colors.status.error, 0.2)
+      : selected
       ? th.colors.brand.containerBackgroundAccent
       : th.colors.brand.containerBackground,
     border: selected ? th.borders.secondary : th.borders.disabled,
@@ -19,7 +22,9 @@ const GridContainer = styled(l.Grid)(
     paddingLeft: th.spacing.sm,
     transition: th.transitions.default,
     ':hover': {
-      background: th.colors.brand.containerBackgroundAccent,
+      background: distress
+        ? hexColorWithTransparency(th.colors.status.error, 0.4)
+        : th.colors.brand.containerBackgroundAccent,
       border: th.borders.secondary,
     },
   }),
@@ -38,7 +43,10 @@ const ListItem = ({
 }) => (
   <l.Div mb={th.spacing.sm}>
     <l.AreaLink to={to}>
-      <GridContainer gridTemplateColumns={gridTemplateColumns}>
+      <GridContainer
+        distress={data ? data.jvLotNumber === 'D0000' : false}
+        gridTemplateColumns={gridTemplateColumns}
+      >
         {listLabels.map(
           ({ customStyles, key, getValue, transformKey }, idx) => {
             const value =

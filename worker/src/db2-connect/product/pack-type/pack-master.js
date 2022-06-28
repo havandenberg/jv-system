@@ -48,6 +48,14 @@ const BULK_UPSERT_PACK_MASTER = gql`
   }
 `;
 
+const BULK_DELETE_PACK_MASTER = gql`
+  mutation BULK_DELETE_PACK_MASTER($input: BulkDeletePackMasterInput!) {
+    bulkDeletePackMaster(input: $input) {
+      clientMutationId
+    }
+  }
+`;
+
 const getUpdatedPackMaster = (packMaster, db2PackMaster, id) => ({
   ...packMaster,
   id,
@@ -86,6 +94,7 @@ const getUpdatedPackMaster = (packMaster, db2PackMaster, id) => ({
 const packMasterOptions = {
   db2Query: 'select * from JVFIL.INVP509J;',
   listQuery: PACK_MASTER_LIST,
+  deleteQuery: BULK_DELETE_PACK_MASTER,
   upsertQuery: BULK_UPSERT_PACK_MASTER,
   itemName: 'pack master',
   itemPluralName: 'pack masters',
@@ -93,6 +102,7 @@ const packMasterOptions = {
   upsertQueryName: 'packMasters',
   getUpdatedItem: getUpdatedPackMaster,
   useIndexAsId: true,
+  iterationLimit: 2000,
   chunkSize: 50,
 };
 

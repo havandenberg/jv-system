@@ -103,3 +103,10 @@ AS $$
 	RETURN;
   END;
 $$ LANGUAGE plpgsql VOLATILE STRICT SET search_path FROM CURRENT;
+
+CREATE FUNCTION directory.bulk_delete_customer(IN ids_to_delete TEXT[])
+  RETURNS setof TEXT
+AS $$
+  DELETE FROM directory.customer
+  WHERE id = ANY(ids_to_delete) RETURNING (id);
+$$ LANGUAGE sql VOLATILE STRICT SECURITY DEFINER;
