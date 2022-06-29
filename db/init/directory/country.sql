@@ -1,6 +1,7 @@
 CREATE TABLE directory.country (
 	id TEXT PRIMARY KEY,
-	country_name TEXT NOT NULL
+	country_name TEXT NOT NULL,
+	cmb_id TEXT
 );
 
 CREATE FUNCTION directory.country_search_text(IN c directory.country)
@@ -13,6 +14,7 @@ AS $BODY$
 SELECT CONCAT (
 		c.id,
 		c.country_name
+		c.cmb_id
 	) FROM directory.country cc WHERE c.id = cc.id
 $BODY$;
 
@@ -28,14 +30,17 @@ AS $$
     FOREACH co IN ARRAY countries LOOP
       INSERT INTO directory.country(
         id,
-		    country_name
+		    country_name,
+        cmb_id
       )
         VALUES (
           co.id,
-		      co.country_name
+		      co.country_name,
+          co.cmb_id
         )
       ON CONFLICT (id) DO UPDATE SET
-			  country_name=EXCLUDED.country_name
+			  country_name=EXCLUDED.country_name,
+			  cmb_id=EXCLUDED.cmb_id
     	RETURNING * INTO vals;
     	RETURN NEXT vals;
 	END LOOP;

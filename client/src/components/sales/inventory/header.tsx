@@ -33,6 +33,7 @@ export const categoryTypeOrder = [
   'packType',
   'label',
   'plu',
+  'countryOfOrigin',
   'shipper',
   'sizePackType',
 ];
@@ -79,6 +80,7 @@ const Header = ({
       packTypeTag,
       plu,
       shipper,
+      countryOfOrigin,
       detailsIndex,
       secondaryDetailsIndex,
       sizePackType,
@@ -103,6 +105,11 @@ const Header = ({
     shipper || '',
     'FIRST_NAME_ASC',
   );
+  const { data: countriesData, loading: countryLoading } =
+    api.useCountries('COUNTRY_NAME_ASC');
+  const countryData = countriesData?.nodes.find(
+    (c) => c?.id === countryOfOrigin,
+  );
 
   const itemsCount = secondaryDetailsIndex
     ? detailItems?.length || 0
@@ -113,7 +120,8 @@ const Header = ({
     varietyLoading ||
     sizeLoading ||
     labelLoading ||
-    shipperLoading;
+    shipperLoading ||
+    countryLoading;
 
   const handleBackward = () => handleWeekChange(-1);
   const handleForward = () => handleWeekChange(1);
@@ -154,7 +162,7 @@ const Header = ({
       size: sizeTag
         ? sizeTag
         : sizeData
-        ? `${capitalCase(sizeData.jvDescription || '')}`
+        ? `${capitalCase(sizeData.combineDescription || '')}`
         : 'All Sizes',
       label: labelData ? labelData.labelName || 'Other' : 'All Labels',
       packType: packTypeTag
@@ -164,6 +172,7 @@ const Header = ({
         : 'All Pack Types',
       plu: plu ? (plu === 'true' ? 'PLU' : 'No PLU') : 'All PLU',
       shipper: shipperData ? shipperData.shipperName : 'All Shippers',
+      countryOfOrigin: countryData ? countryData.countryName : 'All Countries',
       sizePackType,
     };
 
@@ -199,6 +208,8 @@ const Header = ({
                     return `plu=${plu}`;
                   case 'shipper':
                     return `shipper=${shipper}`;
+                  case 'countryOfOrigin':
+                    return `countryOfOrigin=${countryOfOrigin}`;
                   case 'sizePackType':
                     return `sizePackType=${sizePackType}`;
                   default:
@@ -401,6 +412,9 @@ const Header = ({
       }
       if (!shipper) {
         options.push({ text: 'Shipper', value: 'shipper' });
+      }
+      if (!countryOfOrigin) {
+        options.push({ text: 'Country', value: 'countryOfOrigin' });
       }
       // if (!sizePackType && !size && !packType) {
       //   options.push({ text: 'Size - Pack Type', value: 'sizePackType' });

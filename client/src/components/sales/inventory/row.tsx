@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { isBefore } from 'date-fns';
 import { mapObjIndexed, times, values } from 'ramda';
 import { useHistory } from 'react-router-dom';
 
@@ -18,7 +17,6 @@ import ty from 'ui/typography';
 import { gridTemplateColumns } from '.';
 import { categoryTypeOrder } from './header';
 import {
-  getFilteredItems,
   getInventoryStartDayIndex,
   InventoryItemPalletData,
   reducePalletData,
@@ -193,7 +191,7 @@ interface Props {
   tagLink?: string;
   tagText?: string;
   index: number;
-  items: InventoryItem[];
+  itemsByDateRange: { [key: number]: InventoryItem[] };
 }
 
 const InventoryRow = ({
@@ -202,7 +200,7 @@ const InventoryRow = ({
   categoryText,
   defaultInvSortKey,
   index,
-  items = [],
+  itemsByDateRange = {},
   showPre,
   tagLink,
   tagText,
@@ -221,13 +219,13 @@ const InventoryRow = ({
       packTypeTag,
       plu,
       shipper,
+      countryOfOrigin,
       sizePackType,
       categoryTypes,
       ...rest
     },
   ] = useInventoryQueryParams();
   const [{ startDate = formatDate(new Date()) }] = useDateRangeQueryParams();
-  const currentStartOfWeek = new Date(startDate.replace(/-/g, '/'));
 
   const categoryTypesArray = categoryTypes ? categoryTypes.split(',') : [];
   const categoryType = categoryTypes
@@ -270,6 +268,8 @@ const InventoryRow = ({
             return !!plu;
           case 'shipper':
             return !!shipper;
+          case 'countryOfOrigin':
+            return !!countryOfOrigin;
           case 'sizePackType':
             return !!sizePackType;
           default:
@@ -297,6 +297,8 @@ const InventoryRow = ({
             return `plu=${plu}`;
           case 'shipper':
             return `shipper=${shipper}`;
+          case 'countryOfOrigin':
+            return `countryOfOrigin=${countryOfOrigin}`;
           case 'sizePackType':
             return `sizePackType=${sizePackType}`;
           default:
@@ -329,6 +331,8 @@ const InventoryRow = ({
               return !plu;
             case 'shipper':
               return !shipper;
+            case 'countryOfOrigin':
+              return !countryOfOrigin;
             case 'sizePackType':
               return !sizePackType;
             default:
@@ -354,24 +358,19 @@ const InventoryRow = ({
     return `/sales/inventory?${restQueryString}${detailsQueryString}${existingCategoriesParamString}${categoryType}=${newValue}&categoryTypes=${categoryTypes},${nextCategoryType}${getNextTagString()}`;
   };
 
-  const storageItems = items.filter(
-    (item) =>
-      item.vessel &&
-      isBefore(
-        new Date(item.vessel.dischargeDate.replace(/-/g, '/')),
-        currentStartOfWeek,
-      ),
-  );
+  const storageItems = itemsByDateRange[-1] || [];
+  const storageItemsPalletData = reducePalletData(storageItems);
 
-  const storageItemsAvailable = reducePalletData(
-    storageItems,
-    'palletsAvailable',
-  );
-  const storageItemsOnHand = reducePalletData(storageItems, 'palletsOnHand');
+  const storageItemsAvailable = storageItemsPalletData.palletsAvailable;
+  const storageItemsOnHand = storageItemsPalletData.palletsOnHand;
   const storageItemsReal = storageItemsAvailable.real + storageItemsOnHand.real;
   const storageItemsPre = storageItemsAvailable.pre + storageItemsOnHand.pre;
-  const totalItemsAvailable = reducePalletData(items, 'palletsAvailable');
-  const totalItemsOnHand = reducePalletData(items, 'palletsOnHand');
+
+  const totalItemsPalletData = reducePalletData(
+    Object.values(itemsByDateRange).flat(),
+  );
+  const totalItemsAvailable = totalItemsPalletData.palletsAvailable;
+  const totalItemsOnHand = totalItemsPalletData.palletsOnHand;
   const totalItemsReal = totalItemsAvailable.real + totalItemsOnHand.real;
   const totalItemsPre = totalItemsAvailable.pre + totalItemsOnHand.pre;
 
@@ -462,12 +461,10 @@ const InventoryRow = ({
         />
       </l.Div>
       {times((idx) => {
-        const filteredItems = getFilteredItems(items, idx, currentStartOfWeek);
-        const palletsAvailable = reducePalletData(
-          filteredItems,
-          'palletsAvailable',
-        );
-        const palletsOnHand = reducePalletData(filteredItems, 'palletsOnHand');
+        const filteredItems = (itemsByDateRange[idx] || []) as InventoryItem[];
+        const palletData = reducePalletData(filteredItems);
+        const palletsAvailable = palletData.palletsAvailable;
+        const palletsOnHand = palletData.palletsOnHand;
         const hasRealPallets = !!(palletsAvailable.real + palletsOnHand.real);
         const hasPrePallets = !!(palletsAvailable.pre + palletsOnHand.pre);
 
@@ -476,7 +473,7 @@ const InventoryRow = ({
             availableTo="#"
             index={idx + 1}
             isTotal={isTotal}
-            key={idx}
+            key={`${idx}`}
             palletsAvailable={palletsAvailable}
             palletsOnHand={palletsOnHand}
             onHandTo={getItemsLink(

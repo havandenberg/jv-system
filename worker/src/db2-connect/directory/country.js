@@ -5,6 +5,7 @@ const COUNTRY_LIST = gql`
     countries {
       nodes {
         id
+        cmbId
         countryName
       }
     }
@@ -31,6 +32,7 @@ const getUpdatedCountry = (country, db2Country) => ({
   ...country,
   id: db2Country['CNTRYL'],
   countryName: db2Country['CNAMEL'],
+  cmbId: db2Country['CMBL'],
 });
 
 const countryOptions = {

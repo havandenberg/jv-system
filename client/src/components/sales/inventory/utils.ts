@@ -16,6 +16,7 @@ import { formatDate } from 'components/date-range-picker';
 import { CommonProductTag } from 'components/tag-manager';
 import { SORT_ORDER } from 'hooks/use-columns';
 import {
+  CommonSpecies,
   InventoryItem,
   Maybe,
   ShipperProjectionEntry,
@@ -46,6 +47,7 @@ export const inventorySortKeys = [
   { content: 'Label', value: 'label' },
   { content: 'Pack Type', value: 'packType' },
   { content: 'Shipper', value: 'shipper' },
+  { content: 'Country', value: 'countryOfOrigin' },
   { content: 'PLU', value: 'plu' },
   { content: 'Size & Pack Type', value: 'sizePackType' },
 ];
@@ -115,40 +117,6 @@ export const isWithinDateInterval = (
   );
 };
 
-export const getFilteredItems = (
-  items: InventoryItem[],
-  idx: number,
-  currentStartOfWeek: Date,
-  secondaryDetailsIndex?: string,
-) => {
-  const [vesselId, shipperId] = secondaryDetailsIndex?.split('-') || [];
-
-  const filteredItems = secondaryDetailsIndex
-    ? items.filter(
-        (item) =>
-          item.vessel?.id === vesselId &&
-          [item.shipper?.id, item.shipperId].includes(shipperId),
-      )
-    : items;
-
-  if (idx === 13 - getInventoryStartDayIndex(formatDate(currentStartOfWeek))) {
-    return filteredItems.filter(
-      (item) =>
-        item.vessel &&
-        isBefore(
-          new Date(item.vessel.dischargeDate.replace(/-/g, '/')),
-          currentStartOfWeek,
-        ),
-    );
-  }
-  if (idx === 14 - getInventoryStartDayIndex(formatDate(currentStartOfWeek))) {
-    return filteredItems;
-  }
-  return filteredItems.filter((item) =>
-    isWithinDateInterval(item, idx, currentStartOfWeek),
-  );
-};
-
 export const getGroupedItems = (items: InventoryItem[], isInventory = true) =>
   Object.values(
     items.reduce((acc, item) => {
@@ -159,6 +127,13 @@ export const getGroupedItems = (items: InventoryItem[], isInventory = true) =>
         ...acc,
         [key]: {
           ...(acc[key] || item),
+          jvLotNumber: acc[key]
+            ? acc[key].jvLotNumber === 'D0000'
+              ? 'D0000'
+              : item.jvLotNumber === 'D0000'
+              ? 'PARTIAL_DISTRESS'
+              : item.jvLotNumber
+            : item.jvLotNumber,
           palletsAvailable:
             parseInt(acc[key]?.palletsAvailable || '0', 10) +
             parseInt(item.palletsAvailable || '0', 10),
@@ -208,21 +183,40 @@ export interface InventoryItemPalletData {
   total: number;
 }
 
-export const reducePalletData = (
-  items: InventoryItem[],
-  key: keyof InventoryItem,
-) =>
+export const reducePalletData = (items: InventoryItem[]) =>
   items.reduce(
     (acc, item) => {
       const isPre = isPreInventoryItem(item);
-      const newPalletCount = parseInt(item[key], 10);
+      const palletsAvailableAcc = acc.palletsAvailable;
+      const palletsOnHandAcc = acc.palletsOnHand;
+      const palletsReceivedAcc = acc.palletsReceived;
+      const newPalletsAvailableCount = parseInt(item.palletsAvailable, 10);
+      const newPalletsOnHandCount = parseInt(item.palletsOnHand, 10);
+      const newPalletsReceivedCount = parseInt(item.palletsReceived, 10);
       return {
-        pre: acc.pre + (isPre ? newPalletCount : 0),
-        real: acc.real + (isPre ? 0 : newPalletCount),
-        total: acc.total + newPalletCount,
+        palletsAvailable: {
+          pre: palletsAvailableAcc.pre + (isPre ? newPalletsAvailableCount : 0),
+          real:
+            palletsAvailableAcc.real + (isPre ? 0 : newPalletsAvailableCount),
+          total: palletsAvailableAcc.total + newPalletsAvailableCount,
+        },
+        palletsOnHand: {
+          pre: palletsOnHandAcc.pre + (isPre ? newPalletsOnHandCount : 0),
+          real: palletsOnHandAcc.real + (isPre ? 0 : newPalletsOnHandCount),
+          total: palletsOnHandAcc.total + newPalletsOnHandCount,
+        },
+        palletsReceived: {
+          pre: palletsReceivedAcc.pre + (isPre ? newPalletsReceivedCount : 0),
+          real: palletsReceivedAcc.real + (isPre ? 0 : newPalletsReceivedCount),
+          total: palletsReceivedAcc.total + newPalletsReceivedCount,
+        },
       };
     },
-    { pre: 0, real: 0, total: 0 },
+    {
+      palletsAvailable: { pre: 0, real: 0, total: 0 },
+      palletsOnHand: { pre: 0, real: 0, total: 0 },
+      palletsReceived: { pre: 0, real: 0, total: 0 },
+    },
   );
 
 export const getVesselDischargeDate = (
@@ -366,29 +360,34 @@ export const convertProjectionsToInventoryItems = (
 };
 
 export const reduceProductTags = (
-  acc: { [key: string]: InventoryItem[] },
+  acc: { [key: string]: { [key: string]: InventoryItem[] } },
   tags: CommonProductTag[],
   item: InventoryItem,
+  dateRangeIndex: string,
 ) =>
   tags.reduce(
     (acc2, tag) => ({
       ...acc2,
-      [tag?.tagText || 'other']: [
-        ...(acc[tag?.tagText || 'other'] || []),
-        item,
-      ],
+      [tag?.tagText || 'other']: {
+        ...(acc[tag?.tagText || 'other'] || {}),
+        [dateRangeIndex]: [
+          ...(acc[tag?.tagText || 'other']?.[dateRangeIndex] || []),
+          item,
+        ],
+      },
     }),
-    {} as { [key: string]: InventoryItem[] },
+    {} as { [key: string]: { [key: string]: InventoryItem[] } },
   );
 
 export const buildCategories =
   (
-    groupedItems: { [key: string]: InventoryItem[] },
+    groupedItems: { [key: string]: { [key: string]: InventoryItem[] } },
     {
       categoryType,
       rest,
       categoryTypeOrder,
       categoryTypes,
+      commonSpecieses,
       isTag,
       params,
     }: {
@@ -398,6 +397,7 @@ export const buildCategories =
       };
       categoryTypeOrder: string[];
       categoryTypes?: string;
+      commonSpecieses: CommonSpecies[];
       isTag: boolean;
       params: {
         species?: string;
@@ -407,6 +407,7 @@ export const buildCategories =
         sizePackType?: string;
         plu?: string;
         shipper?: string;
+        countryOfOrigin?: string;
         speciesTag?: string;
         varietyTag?: string;
         sizeTag?: string;
@@ -426,6 +427,7 @@ export const buildCategories =
       packTypeTag,
       plu,
       shipper,
+      countryOfOrigin,
       sizePackType,
     } = params;
     const otherCategory = {
@@ -433,32 +435,37 @@ export const buildCategories =
       speciesDescription: 'Other',
       varietyDescription: 'Other',
       packDescription: 'Other',
+      combineDescription: 'Other',
       label: {
         labelCode: 'other',
         labelName: 'Other',
       },
       jvDescription: 'Other',
       shipperName: 'Other',
+      countryName: 'Other',
       commonSpeciesTags: { nodes: [] },
       commonVarietyTags: { nodes: [] },
       commonSizeTags: { nodes: [] },
       commonPackTypeTags: { nodes: [] },
       defaultInvSortKey: '',
     };
-    const item = groupedItems[key][0];
+    const item = mapObjIndexed(
+      (val) => Object.values(val).flat(),
+      groupedItems,
+    )[key][0] as InventoryItem;
     const itemSpecies = item.product?.species || otherCategory;
     const itemVariety = item.product?.variety || otherCategory;
     const itemSize = item.product?.sizes?.nodes[0] || otherCategory;
     const itemPackType = item.product?.packType || otherCategory;
     const itemShipper = item.shipper || otherCategory;
+    const itemCountryOfOrigin = item.country || otherCategory;
 
-    const commonSpecies =
-      item.product?.species?.commonSpecieses?.nodes.find(
-        (cs) => cs && cs.productSpeciesId === item.product?.species?.id,
-      ) || otherCategory;
+    const commonSpecies = commonSpecieses.find(
+      (cs) => cs && cs.productSpeciesId === item.product?.species?.id,
+    );
     const commonSpeciesTag = commonSpecies?.commonSpeciesTags?.nodes[0];
     const commonVariety =
-      item.product?.variety?.commonVarieties?.nodes.find(
+      commonSpecies?.commonVarieties?.nodes.find(
         (cv) => cv && cv.productVarietyId === item.product?.variety?.id,
       ) || otherCategory;
     const commonVarietyTag = commonVariety?.commonVarietyTags?.nodes[0];
@@ -478,7 +485,7 @@ export const buildCategories =
         case 'variety':
           return isTag ? commonVarietyTag?.tagText : itemVariety.id;
         case 'size':
-          return isTag ? commonSizeTag?.tagText : itemSize.id;
+          return isTag ? commonSizeTag?.tagText : itemSize.combineDescription;
         case 'label':
           return itemPackType.label?.labelCode;
         case 'packType':
@@ -489,6 +496,8 @@ export const buildCategories =
           return item.plu ? 'true' : 'false';
         case 'shipper':
           return itemShipper.id;
+        case 'countryOfOrigin':
+          return itemCountryOfOrigin.id;
         case 'sizePackType':
           return `${itemSize.id} - ${itemPackType.packDescription}`;
         default:
@@ -504,7 +513,11 @@ export const buildCategories =
             ? commonVarietyTag?.tagText
             : itemVariety.varietyDescription;
         case 'size':
-          return isTag ? commonSizeTag?.tagText : itemSize.jvDescription;
+          return isTag
+            ? commonSizeTag?.tagText
+            : itemSize.combineDescription === 'other'
+            ? ''
+            : itemSize.combineDescription;
         case 'label':
           return itemPackType?.label?.labelName;
         case 'packType':
@@ -517,6 +530,8 @@ export const buildCategories =
           return item.plu ? 'PLU' : 'No PLU';
         case 'shipper':
           return itemShipper.shipperName;
+        case 'countryOfOrigin':
+          return itemCountryOfOrigin.countryName;
         case 'sizePackType':
           return `${itemSize.jvDescription} - ${itemPackType.packDescription}`;
         default:
@@ -547,6 +562,8 @@ export const buildCategories =
             return !!plu;
           case 'shipper':
             return !!shipper;
+          case 'countryOfOrigin':
+            return !!countryOfOrigin;
           case 'sizePackType':
             return !!sizePackType;
           default:
@@ -572,6 +589,8 @@ export const buildCategories =
             return `plu=${plu}`;
           case 'shipper':
             return `shipper=${shipper}`;
+          case 'countryOfOrigin':
+            return `countryOfOrigin=${countryOfOrigin}`;
           case 'sizePackType':
             return `sizePackType=${sizePackType}`;
           default:
@@ -619,6 +638,8 @@ export const buildCategories =
               return !plu;
             case 'shipper':
               return !shipper;
+            case 'countryOfOrigin':
+              return !countryOfOrigin;
             case 'sizePackType':
               return !sizePackType;
             default:

@@ -12,26 +12,28 @@ interface Props {
   loading: boolean;
 }
 
-const InventoryListTotals = ({ items, loading }: Props) => (
-  <l.Flex>
-    <ty.CaptionText mr={th.spacing.lg}>
-      Total Received:{' '}
-      {loading ? '-' : reducePalletData(items, 'palletsReceived').total}
-    </ty.CaptionText>
-    <ty.CaptionText color={th.colors.brand.primaryAccent} mr={th.spacing.lg}>
-      On Hand: {loading ? '-' : reducePalletData(items, 'palletsOnHand').total}
-    </ty.CaptionText>
-    <ty.CaptionText
-      color={
-        reducePalletData(items, 'palletsAvailable').total < 0
-          ? th.colors.status.errorAlt
-          : th.colors.status.successAlt
-      }
-    >
-      Available:{' '}
-      {loading ? '-' : reducePalletData(items, 'palletsAvailable').total}
-    </ty.CaptionText>
-  </l.Flex>
-);
+const InventoryListTotals = ({ items, loading }: Props) => {
+  const palletData = reducePalletData(items);
+  const { palletsAvailable, palletsOnHand, palletsReceived } = palletData;
+  return (
+    <l.Flex>
+      <ty.CaptionText mr={th.spacing.lg}>
+        Total Received: {loading ? '-' : palletsReceived.total}
+      </ty.CaptionText>
+      <ty.CaptionText color={th.colors.brand.primaryAccent} mr={th.spacing.lg}>
+        On Hand: {loading ? '-' : palletsOnHand.total}
+      </ty.CaptionText>
+      <ty.CaptionText
+        color={
+          palletsAvailable.total < 0
+            ? th.colors.status.errorAlt
+            : th.colors.status.successAlt
+        }
+      >
+        Available: {loading ? '-' : palletsAvailable.total}
+      </ty.CaptionText>
+    </l.Flex>
+  );
+};
 
 export default InventoryListTotals;

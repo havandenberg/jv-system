@@ -13,6 +13,7 @@ import ty from 'ui/typography';
 import { gridTemplateColumns } from '.';
 import { useInventoryContext } from './context';
 import { getFilteredVessels, getInventoryStartDayIndex } from './utils';
+import { hexColorWithTransparency } from 'ui/utils';
 
 const VesselLink = styled(l.Flex)(({ isPre }: { isPre: boolean }) => ({
   alignItems: 'center',
@@ -26,7 +27,9 @@ const VesselLink = styled(l.Flex)(({ isPre }: { isPre: boolean }) => ({
   transition: th.transitions.default,
   width: 26,
   ':hover': {
-    background: th.colors.brand.containerBackgroundAccent,
+    background: isPre
+      ? hexColorWithTransparency(th.colors.status.warning, 0.4)
+      : th.colors.brand.containerBackgroundAccent,
   },
 }));
 
@@ -37,6 +40,7 @@ interface Props {
 const InventoryVessels = ({ vessels }: Props) => {
   const [{ startDate = formatDate(new Date()) }] = useDateRangeQueryParams();
   const currentStartOfWeek = new Date(startDate.replace(/-/g, '/'));
+  const inventoryStartDayIndex = getInventoryStartDayIndex(startDate);
 
   const [{ vesselsIsOpen: isOpen, ...state }, setState] = useInventoryContext();
 
@@ -76,16 +80,14 @@ const InventoryVessels = ({ vessels }: Props) => {
         />
         {times((idx) => {
           const filteredVessels =
-            idx < 12 - getInventoryStartDayIndex(startDate) - 2
+            idx < 12 - inventoryStartDayIndex - 2
               ? getFilteredVessels(vessels, idx, currentStartOfWeek)
               : [];
           return (
             <l.Div
               borderLeft={idx === 0 ? th.borders.disabled : 0}
               borderRight={
-                idx >= 11 - getInventoryStartDayIndex(startDate)
-                  ? th.borders.disabled
-                  : 0
+                idx >= 11 - inventoryStartDayIndex ? th.borders.disabled : 0
               }
               height={`calc(${th.sizes.fill} - ${th.spacing.sm})`}
               key={idx}
@@ -111,7 +113,7 @@ const InventoryVessels = ({ vessels }: Props) => {
               </l.Flex>
             </l.Div>
           );
-        }, 12 - getInventoryStartDayIndex(startDate))}
+        }, 12 - inventoryStartDayIndex)}
         <l.Div
           borderRight={th.borders.disabled}
           height={th.sizes.fill}
@@ -129,7 +131,7 @@ const InventoryVessels = ({ vessels }: Props) => {
           borderLeft={th.borders.disabled}
           borderRight={th.borders.disabled}
           height={th.spacing.xs}
-          gridColumn={`3 / ${15 - getInventoryStartDayIndex(startDate)}`}
+          gridColumn={`3 / ${15 - inventoryStartDayIndex}`}
         />
         <l.Div borderRight={th.borders.disabled} height={th.spacing.xs} />
       </l.Grid>

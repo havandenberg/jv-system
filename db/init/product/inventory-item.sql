@@ -87,7 +87,7 @@ CREATE FUNCTION product.inventory_item_country(IN i product.inventory_item)
     PARALLEL UNSAFE
     COST 100
 AS $BODY$
-  SELECT * FROM directory.country c WHERE c.id = i.country_id
+  SELECT * FROM directory.country c WHERE c.id = i.country_id OR c.cmb_id = i.country_id
 $BODY$;
 
 CREATE FUNCTION product.inventory_item_pallets(IN i product.inventory_item)

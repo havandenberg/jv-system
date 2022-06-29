@@ -1,14 +1,13 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect } from 'react';
 import { add, endOfISOWeek, startOfISOWeek } from 'date-fns';
-import { groupBy, isEmpty, pluck, sortBy } from 'ramda';
+import { isEmpty, mapObjIndexed, pluck, sortBy } from 'ramda';
 
 import api from 'api';
 import { formatDate } from 'components/date-range-picker';
 import { DataMessage } from 'components/page/message';
 import Page from 'components/page';
-import { CommonProductTag } from 'components/tag-manager';
 import { useInventoryQueryParams } from 'hooks/use-query-params';
-import { InventoryItem, Vessel } from 'types';
+import { CommonSpecies, InventoryItem, Vessel } from 'types';
 import b from 'ui/button';
 import l from 'ui/layout';
 import th from 'ui/theme';
@@ -22,7 +21,6 @@ import {
   buildCategories,
   convertProjectionsToInventoryItems,
   getInventoryStartDayIndex,
-  reduceProductTags,
 } from './utils';
 import InventoryVessels from './vessels';
 
@@ -43,6 +41,7 @@ const Inventory = () => {
       packType,
       plu,
       shipper,
+      countryOfOrigin,
       speciesTag,
       varietyTag,
       sizeTag,
@@ -52,7 +51,7 @@ const Inventory = () => {
     },
   ] = useInventoryQueryParams();
 
-  const { startDate: startDateQuery } = rest;
+  const { detailsIndex, startDate: startDateQuery } = rest;
   const {
     data: itemsData,
     loading: itemsLoading,
@@ -107,21 +106,48 @@ const Inventory = () => {
         .flat()
     : [];
 
-  const loading = itemsLoading || vesselsLoading;
-  const error = itemsError || vesselsError;
+  const {
+    data: productsData,
+    loading: productsLoading,
+    error: productsError,
+  } = api.useCommonSpecieses();
+  const commonSpecieses = (productsData?.nodes || []) as CommonSpecies[];
+
+  const loading = itemsLoading || vesselsLoading || productsLoading;
+  const error = itemsError || vesselsError || productsError;
 
   const allItems = [...items, ...preInventoryItems] as InventoryItem[];
   const allVessels = vessels;
 
+  const categoryTypesArray = categoryTypes ? categoryTypes.split(',') : [];
+  const categoryType = categoryTypes
+    ? categoryTypesArray[categoryTypesArray.length - 1]
+    : '';
+
   const {
     components,
-    detailsFilteredItems,
-    filteredItems,
+    groupedItems,
     handleDateChange,
     handleWeekChange,
     selectedWeekNumber,
     startDate,
-  } = useInventoryFilters({ items: allItems, loading });
+  } = useInventoryFilters({
+    categoryType,
+    commonSpecieses,
+    items: allItems,
+    loading,
+  });
+  const allFilteredItemsByDateRange = Object.keys(
+    groupedItems.categories,
+  ).reduce((acc, catKey) => {
+    const cat = groupedItems.categories[catKey];
+    return {
+      ...acc,
+      ...mapObjIndexed((val, key) => [...(acc[key] || []), ...val], cat),
+    };
+  }, {} as { [key: string]: InventoryItem[] });
+  const filteredItems = Object.values(allFilteredItemsByDateRange).flat();
+
   const [inventoryContext, setContext] = useInventoryContext();
   const { showPre } = inventoryContext;
 
@@ -129,133 +155,12 @@ const Inventory = () => {
     setContext({ ...inventoryContext, showPre });
   };
 
-  const categoryTypesArray = categoryTypes ? categoryTypes.split(',') : [];
-  const categoryType = categoryTypes
-    ? categoryTypesArray[categoryTypesArray.length - 1]
-    : '';
-
-  const groupedItems = useMemo(
-    () =>
-      groupBy((item) => {
-        const otherCategory = {
-          id: 'other',
-          packDescription: 'Other',
-          label: {
-            labelCode: 'other',
-            labelName: 'Other',
-          },
-          shipperName: 'Other',
-        };
-        const itemSpecies = item.product?.species || otherCategory;
-        const itemVariety = item.product?.variety || otherCategory;
-        const itemSize = item.product?.sizes?.nodes[0] || otherCategory;
-        const itemPackType = item.product?.packType || otherCategory;
-        const itemShipper = item.shipper || otherCategory;
-
-        switch (categoryType) {
-          case 'variety':
-            return itemVariety.id;
-          case 'size':
-            return itemSize.id;
-          case 'label':
-            return `${itemPackType.label?.labelCode}`;
-          case 'packType':
-            return `${itemPackType.packDescription}`;
-          case 'plu':
-            return !!item.plu;
-          case 'shipper':
-            return itemShipper.id;
-          case 'sizePackType':
-            return `${itemSize.id} - ${itemPackType.packDescription}`;
-          default:
-            return itemSpecies.id;
-        }
-      }, filteredItems as InventoryItem[]),
-    [filteredItems, categoryType],
-  );
-
-  const groupedItemsByTag = useMemo(
-    () =>
-      filteredItems.reduce((acc, item) => {
-        const otherCategory = {
-          id: 'other',
-          packDescription: 'Other',
-          shipperName: 'Other',
-          commonSpeciesTags: { nodes: [] },
-          commonVarietyTags: { nodes: [] },
-          commonSizeTags: { nodes: [] },
-          commonPackTypeTags: { nodes: [] },
-        };
-        const commonSpecies =
-          item.product?.species?.commonSpecieses?.nodes.find(
-            (cs) => cs && cs.productSpeciesId === item.product?.species?.id,
-          ) || otherCategory;
-        const commonVariety =
-          item.product?.variety?.commonVarieties?.nodes.find(
-            (cv) => cv && cv.productVarietyId === item.product?.variety?.id,
-          ) || otherCategory;
-        const commonSize =
-          item.product?.sizes?.nodes[0]?.commonSizes?.nodes.find(
-            (cs) =>
-              cs && cs.productSizeId === item.product?.sizes?.nodes[0]?.id,
-          ) || otherCategory;
-        const commonPackType =
-          item.product?.packType?.commonPackTypes?.nodes.find(
-            (cpt) => cpt && cpt.packMasterId === item.product?.packType?.id,
-          ) || otherCategory;
-
-        switch (categoryType) {
-          case 'species':
-            return {
-              ...acc,
-              ...reduceProductTags(
-                acc,
-                (commonSpecies.commonSpeciesTags.nodes ||
-                  []) as CommonProductTag[],
-                item,
-              ),
-            };
-          case 'variety':
-            return {
-              ...acc,
-              ...reduceProductTags(
-                acc,
-                (commonVariety.commonVarietyTags.nodes ||
-                  []) as CommonProductTag[],
-                item,
-              ),
-            };
-          case 'size':
-            return {
-              ...acc,
-              ...reduceProductTags(
-                acc,
-                (commonSize.commonSizeTags.nodes || []) as CommonProductTag[],
-                item,
-              ),
-            };
-          case 'packType':
-            return {
-              ...acc,
-              ...reduceProductTags(
-                acc,
-                (commonPackType.commonPackTypeTags.nodes ||
-                  []) as CommonProductTag[],
-                item,
-              ),
-            };
-          default:
-            return acc;
-        }
-      }, {} as { [key: string]: InventoryItem[] }),
-    [filteredItems, categoryType],
-  );
-
   const buildCategoriesParams = {
     categoryType,
     rest,
     categoryTypeOrder,
     categoryTypes,
+    commonSpecieses,
     params: {
       species,
       variety,
@@ -268,20 +173,21 @@ const Inventory = () => {
       varietyTag,
       sizeTag,
       packTypeTag,
+      countryOfOrigin,
     },
   };
 
   const categories = [
-    ...Object.keys(groupedItemsByTag).map(
-      buildCategories(groupedItemsByTag, {
+    ...Object.keys(groupedItems.tags).map(
+      buildCategories(groupedItems.tags, {
         ...buildCategoriesParams,
         isTag: true,
       }),
     ),
     ...sortBy(
       ({ text }) => (text === 'Other' ? 'zzzzzzz' : text),
-      Object.keys(groupedItems).map(
-        buildCategories(groupedItems, {
+      Object.keys(groupedItems.categories).map(
+        buildCategories(groupedItems.categories, {
           ...buildCategoriesParams,
           isTag: false,
         }),
@@ -314,10 +220,10 @@ const Inventory = () => {
       enableShadow={false}
       extraPaddingTop={
         itemsLoading || isEmpty(filteredItems)
-          ? detailsFilteredItems
+          ? detailsIndex
             ? 135
             : 192
-          : detailsFilteredItems
+          : detailsIndex
           ? 135
           : 162
       }
@@ -325,9 +231,7 @@ const Inventory = () => {
         <>
           <l.Flex>{components}</l.Flex>
           <Header
-            detailItems={
-              detailsFilteredItems ? detailsFilteredItems : undefined
-            }
+            detailItems={detailsIndex ? filteredItems : undefined}
             handleWeekChange={handleWeekChange}
             loading={itemsLoading}
             selectedWeekNumber={selectedWeekNumber}
@@ -340,12 +244,12 @@ const Inventory = () => {
       title="Inventory"
     >
       {!isEmpty(filteredItems) && !loading ? (
-        detailsFilteredItems ? (
-          !isEmpty(detailsFilteredItems) ? (
-            <InventoryItems items={detailsFilteredItems} />
+        detailsIndex ? (
+          !isEmpty(filteredItems) ? (
+            <InventoryItems items={filteredItems} />
           ) : (
             <DataMessage
-              data={detailsFilteredItems}
+              data={filteredItems}
               error={error}
               loading={loading}
               emptyProps={{
@@ -359,14 +263,18 @@ const Inventory = () => {
             <InventoryVessels vessels={allVessels as Vessel[]} />
             {categories.map((category, idx) => (
               <InventoryRow
-                categoryId={category.id}
+                categoryId={`${category.id}`}
                 categoryLink={category.link}
                 categoryText={category.text}
                 defaultInvSortKey={category.defaultInvSortKey}
                 tagLink={category.tagLink}
                 tagText={category.tagText}
                 index={idx}
-                items={{ ...groupedItemsByTag, ...groupedItems }[category.id]}
+                itemsByDateRange={
+                  { ...groupedItems.tags, ...groupedItems.categories }[
+                    `${category.id}`
+                  ]
+                }
                 key={idx}
                 showPre={showPre}
               />
@@ -375,7 +283,7 @@ const Inventory = () => {
               categoryId="total"
               categoryText="Total"
               index={categories.length}
-              items={filteredItems}
+              itemsByDateRange={allFilteredItemsByDateRange}
               showPre={showPre}
             />
             <l.Div

@@ -35,54 +35,15 @@ query INVENTORY_ITEM_LIST($startDate: Date!, $endDate: Date!) {
         species {
           id
           speciesDescription
-          commonSpecieses {
-            nodes {
-              id
-              defaultInvSortKey
-              productSpeciesId
-              commonSpeciesTags {
-                nodes {
-                  nodeId
-                  tagText
-                }
-              }
-            }
-          }
         }
         variety {
           id
           varietyDescription
-          commonVarieties {
-            nodes {
-              id
-              defaultInvSortKey
-              productVarietyId
-              commonVarietyTags {
-                nodes {
-                  nodeId
-                  tagText
-                }
-              }
-            }
-          }
         }
         sizes(first: 1) {
           nodes {
             id
-            jvDescription
-            commonSizes {
-              nodes {
-                id
-                defaultInvSortKey
-                productSizeId
-                commonSizeTags {
-                  nodes {
-                    nodeId
-                    tagText
-                  }
-                }
-              }
-            }
+            combineDescription
           }
         }
         packType {
@@ -92,19 +53,6 @@ query INVENTORY_ITEM_LIST($startDate: Date!, $endDate: Date!) {
             id
             labelCode
             labelName
-          }
-          commonPackTypes {
-            nodes {
-              id
-              defaultInvSortKey
-              packMasterId
-              commonPackTypeTags {
-                nodes {
-                  nodeId
-                  tagText
-                }
-              }
-            }
           }
         }
       }

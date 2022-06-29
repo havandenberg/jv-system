@@ -1,18 +1,19 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { capitalCase } from 'change-case';
-import { add, endOfISOWeek, format } from 'date-fns';
-import { pluck, sortBy, uniq } from 'ramda';
+import { add, endOfISOWeek, format, isBefore } from 'date-fns';
+import { pluck, sortBy, times } from 'ramda';
 
 import ResetImg from 'assets/images/reset';
 import { formatDate } from 'components/date-range-picker';
 import { useTabBar } from 'components/tab-bar';
+import { CommonProductTag } from 'components/tag-manager';
 import useDateRange from 'hooks/use-date-range';
 import {
   useDateRangeQueryParams,
   useInventoryQueryParams,
 } from 'hooks/use-query-params';
-import { InventoryItem } from 'types';
+import { CommonSpecies, InventoryItem } from 'types';
 import { Select } from 'ui/input';
 import l from 'ui/layout';
 import th from 'ui/theme';
@@ -21,10 +22,10 @@ import { getWeekNumber } from 'utils/date';
 
 import {
   getDateInterval,
-  getFilteredItems,
   getInventoryStartDayIndex,
+  isWithinDateInterval,
+  reduceProductTags,
 } from './utils';
-import { CommonProductTag } from 'components/tag-manager';
 
 export const leftTabStyles = {
   borderBottomRightRadius: 0,
@@ -86,6 +87,8 @@ export const ResetButton = styled(l.Flex)({
 });
 
 interface Props {
+  categoryType: string;
+  commonSpecieses: CommonSpecies[];
   items: InventoryItem[];
   loading: boolean;
 }
@@ -95,7 +98,12 @@ interface Option {
   value: string | number;
 }
 
-const useInventoryFilters = ({ items, loading }: Props) => {
+const useInventoryFilters = ({
+  categoryType,
+  commonSpecieses,
+  items,
+  loading,
+}: Props) => {
   const [selectedFilters, setQuery] = useInventoryQueryParams();
 
   const { TabBar: CoastFilter, selectedTabId: coast } = useTabBar(
@@ -132,11 +140,6 @@ const useInventoryFilters = ({ items, loading }: Props) => {
     </div>
   );
 
-  const otherOption = {
-    text: 'Other',
-    value: 'other',
-  };
-
   const getOptions = (options: Option[]) => [
     { text: loading ? '...' : 'All', value: '' },
     ...sortBy(
@@ -145,50 +148,9 @@ const useInventoryFilters = ({ items, loading }: Props) => {
     ),
   ];
 
-  const itemsFilteredByCoast = (items as InventoryItem[]).filter(
-    (item) =>
-      selectedFilters.coast === item.coast &&
-      !['98', '99'].includes(`${item.product?.species?.id}`),
-  );
-
-  const locationOptions = uniq(
-    itemsFilteredByCoast.map((item) =>
-      item.warehouse
-        ? {
-            text: `${item.warehouse.warehouseName} (${item.warehouse.id})`,
-            value: item.warehouse.id,
-          }
-        : otherOption,
-    ),
-  );
-
-  const countryOptions = uniq(
-    itemsFilteredByCoast.map((item) =>
-      item.country
-        ? {
-            text: `${item.country.countryName} (${item.country.id})`,
-            value: item.country.id,
-          }
-        : otherOption,
-    ),
-  );
-
-  const shipperOptions = uniq(
-    itemsFilteredByCoast
-      .filter(
-        (item) =>
-          !selectedFilters.countryOfOrigin ||
-          item.country?.id === selectedFilters.countryOfOrigin,
-      )
-      .map((item) =>
-        item.shipper
-          ? {
-              text: `${item.shipper.shipperName} (${item.shipper.id})`,
-              value: item.shipper.id,
-            }
-          : otherOption,
-      ),
-  );
+  const locationOptions = [] as Option[];
+  const countryOptions = [] as Option[];
+  const shipperOptions = [] as Option[];
 
   const { DateRangePicker, handleDateChange, ForwardButton, BackwardButton } =
     useDateRange({
@@ -234,33 +196,185 @@ const useInventoryFilters = ({ items, loading }: Props) => {
     secondaryDetailsIndex,
   } = selectedFilters;
 
-  const filteredItems = (itemsFilteredByCoast as InventoryItem[]).filter(
-    (item) => {
-      const {
-        species: itemSpecies,
-        variety: itemVariety,
-        sizes: itemSizes,
-        packType: itemPackType,
-      } = item.product || {};
+  const inventoryStartDateIndex = getInventoryStartDayIndex(startDate);
+  const isStorage = parseInt(detailsIndex) === 13 - inventoryStartDateIndex;
+  const isTotal = parseInt(detailsIndex) === 14 - inventoryStartDateIndex;
 
-      const commonSpeciesTags =
-        (item.product?.species?.commonSpecieses?.nodes.find(
-          (cs) => cs && cs.productSpeciesId === item.product?.species?.id,
-        )?.commonSpeciesTags?.nodes || []) as CommonProductTag[];
-      const commonVarietyTags =
-        (item.product?.variety?.commonVarieties?.nodes.find(
-          (cv) => cv && cv.productVarietyId === item.product?.variety?.id,
-        )?.commonVarietyTags?.nodes || []) as CommonProductTag[];
-      const commonSizeTags =
-        (item.product?.sizes?.nodes[0]?.commonSizes?.nodes.find(
-          (cs) => cs && cs.productSizeId === item.product?.sizes?.nodes[0]?.id,
-        )?.commonSizeTags?.nodes || []) as CommonProductTag[];
-      const commonPackTypeTags =
-        (item.product?.packType?.commonPackTypes?.nodes.find(
-          (cpt) => cpt && cpt.packMasterId === item.product?.packType?.id,
-        )?.commonPackTypeTags?.nodes || []) as CommonProductTag[];
+  const [vesselId, shipperId] = secondaryDetailsIndex?.split('-') || [];
 
-      return (
+  const groupedItems = items.reduce<{
+    categories: { [key: string]: { [key: string]: InventoryItem[] } };
+    tags: { [key: string]: { [key: string]: InventoryItem[] } };
+  }>(
+    (acc, item) => {
+      const otherCategory = {
+        id: 'other',
+        combineDescription: 'Other',
+        packDescription: 'Other',
+        label: {
+          labelCode: 'other',
+          labelName: 'Other',
+        },
+        shipperName: 'Other',
+        countryName: 'Other',
+        commonSpeciesTags: { nodes: [] },
+        commonVarietyTags: { nodes: [] },
+        commonSizeTags: { nodes: [] },
+        commonPackTypeTags: { nodes: [] },
+      };
+      const itemSpecies = item.product?.species || otherCategory;
+      const itemVariety = item.product?.variety || otherCategory;
+      const itemSize = item.product?.sizes?.nodes[0] || otherCategory;
+      const itemPackType = item.product?.packType || otherCategory;
+      const itemShipper = item.shipper || otherCategory;
+      const itemCountryOfOrigin = item.country || otherCategory;
+
+      const commonSpecies = commonSpecieses.find(
+        (cs) => cs && cs.productSpeciesId === itemSpecies?.id,
+      );
+      const commonSpeciesTags = (commonSpecies?.commonSpeciesTags?.nodes ||
+        []) as CommonProductTag[];
+      const commonVarietyTags = (commonSpecies?.commonVarieties?.nodes.find(
+        (cv) => cv && cv.productVarietyId === itemVariety?.id,
+      )?.commonVarietyTags?.nodes || []) as CommonProductTag[];
+      const commonSizeTags = (commonSpecies?.commonSizes?.nodes.find(
+        (cs) => cs && cs.productSizeId === itemSize?.id,
+      )?.commonSizeTags?.nodes || []) as CommonProductTag[];
+      const commonPackTypeTags = (commonSpecies?.commonPackTypes?.nodes.find(
+        (cpt) => cpt && cpt.packMasterId === itemPackType?.id,
+      )?.commonPackTypeTags?.nodes || []) as CommonProductTag[];
+
+      const detailsValid =
+        !detailsIndex ||
+        (isStorage
+          ? item.vessel &&
+            (!secondaryDetailsIndex ||
+              (item.vessel?.id === vesselId &&
+                [item.shipper?.id, item.shipperId].includes(shipperId))) &&
+            isBefore(
+              new Date(item.vessel.dischargeDate.replace(/-/g, '/')),
+              currentStartOfWeek,
+            )
+          : isTotal
+          ? !secondaryDetailsIndex ||
+            (item.vessel?.id === vesselId &&
+              [item.shipper?.id, item.shipperId].includes(shipperId))
+          : isWithinDateInterval(
+              item,
+              parseInt(detailsIndex, 10),
+              currentStartOfWeek,
+            ));
+
+      if (
+        !locationOptions.find(({ value }) => value === item.warehouse?.id) &&
+        detailsValid &&
+        item.warehouse
+      ) {
+        locationOptions.push({
+          text: `${item.warehouse.warehouseName} (${item.warehouse.id})`,
+          value: item.warehouse.id,
+        });
+      }
+
+      if (
+        !countryOptions.find(({ value }) => value === item.country?.id) &&
+        detailsValid &&
+        item.country
+      ) {
+        countryOptions.push({
+          text: `${item.country.countryName} (${item.country.id})`,
+          value: item.country.id,
+        });
+      }
+
+      if (
+        (!selectedFilters.countryOfOrigin ||
+          item.country?.id === selectedFilters.countryOfOrigin) &&
+        !shipperOptions.find(({ value }) => value === item.shipper?.id) &&
+        detailsValid &&
+        item.shipper
+      ) {
+        shipperOptions.push({
+          text: `${item.shipper.shipperName} (${item.shipper.id})`,
+          value: item.shipper.id,
+        });
+      }
+
+      const dateRangeIndex = `${times(
+        (idx) => isWithinDateInterval(item, idx, currentStartOfWeek),
+        14 - getInventoryStartDayIndex(formatDate(currentStartOfWeek)),
+      ).indexOf(true)}`;
+
+      const getGroupInfo = () => {
+        switch (categoryType) {
+          case 'variety':
+            return {
+              categoryKey: itemVariety.id,
+              tags: commonVarietyTags,
+            };
+          case 'size':
+            return {
+              categoryKey: `${itemSize.combineDescription}`,
+              tags: commonSizeTags,
+            };
+          case 'label':
+            return {
+              categoryKey: `${itemPackType.label?.labelCode}`,
+            };
+          case 'packType':
+            return {
+              categoryKey: `${itemPackType.packDescription}`,
+              tags: commonPackTypeTags,
+            };
+          case 'plu':
+            return {
+              categoryKey: `${!!item.plu}`,
+            };
+          case 'shipper':
+            return {
+              categoryKey: itemShipper.id,
+            };
+          case 'countryOfOrigin':
+            return {
+              categoryKey: itemCountryOfOrigin.id,
+            };
+          case 'sizePackType':
+            return {
+              categoryKey: `${itemSize.id} - ${itemPackType.packDescription}`,
+            };
+          default:
+            return {
+              categoryKey: itemSpecies.id,
+              tags: commonSpeciesTags,
+            };
+        }
+      };
+
+      const getGroup = () => {
+        const { categoryKey, tags } = getGroupInfo();
+
+        return {
+          categories: {
+            ...acc.categories,
+            [categoryKey]: {
+              ...(acc.categories[categoryKey] || {}),
+              [dateRangeIndex]: [
+                ...(acc.categories[categoryKey]?.[dateRangeIndex] || []),
+                item,
+              ],
+            },
+          },
+          tags: tags
+            ? {
+                ...acc.tags,
+                ...reduceProductTags(acc.tags, tags, item, dateRangeIndex),
+              }
+            : acc.tags,
+        };
+      };
+
+      if (
+        selectedFilters.coast === item.coast &&
         (!location || location === item.warehouse?.id) &&
         (!shipper || shipper === item.shipper?.id) &&
         (!countryOfOrigin || countryOfOrigin === item.country?.id) &&
@@ -279,7 +393,7 @@ const useInventoryFilters = ({ items, loading }: Props) => {
         (size
           ? sizeTag
             ? pluck('tagText', commonSizeTags).includes(sizeTag)
-            : ['total', itemSizes?.nodes[0]?.id].includes(size)
+            : ['total', itemSize?.combineDescription].includes(size)
           : !sizeTag || pluck('tagText', commonSizeTags).includes(sizeTag)) &&
         (!label || ['total', itemPackType?.label?.labelCode].includes(label)) &&
         (packType
@@ -290,21 +404,21 @@ const useInventoryFilters = ({ items, loading }: Props) => {
         (!sizePackType ||
           [
             'total',
-            `${itemSizes?.nodes[0]?.id} - ${itemPackType?.packDescription}`,
+            `${itemSize?.id} - ${itemPackType?.packDescription}`,
           ].includes(sizePackType)) &&
-        (!plu || ['total', item.plu ? 'true' : 'false'].includes(plu))
-      );
+        (!plu || ['total', item.plu ? 'true' : 'false'].includes(plu)) &&
+        detailsValid
+      ) {
+        return getGroup();
+      } else {
+        return acc;
+      }
+    },
+    { categories: {}, tags: {} } as {
+      categories: { [key: string]: { [key: string]: InventoryItem[] } };
+      tags: { [key: string]: { [key: string]: InventoryItem[] } };
     },
   );
-
-  const detailsFilteredItems =
-    detailsIndex &&
-    getFilteredItems(
-      filteredItems,
-      parseInt(detailsIndex, 10),
-      currentStartOfWeek,
-      secondaryDetailsIndex,
-    );
 
   const detailsDateRange = `${format(
     getDateInterval(detailsIndex, currentStartOfWeek).start,
@@ -317,49 +431,22 @@ const useInventoryFilters = ({ items, loading }: Props) => {
   )} (Week ${getWeekNumber(
     getDateInterval(detailsIndex, currentStartOfWeek).start,
   )})`;
-  const detailsDateText =
-    parseInt(detailsIndex) === 13 - getInventoryStartDayIndex(startDate)
-      ? `Storage - older than ${format(currentStartOfWeek, 'M/dd')}`
-      : parseInt(detailsIndex) === 14 - getInventoryStartDayIndex(startDate)
-      ? 'All Dates'
-      : detailsDateRange;
 
-  const filteredLocationOptions = getOptions(
-    detailsFilteredItems
-      ? locationOptions.filter((opt) =>
-          (detailsFilteredItems as InventoryItem[])
-            .map((item) => item.warehouse?.id)
-            .includes(`${opt.value}`),
-        )
-      : locationOptions,
-  );
-  const locationSelect = getFilter('location', filteredLocationOptions);
+  const detailsDateText = isStorage
+    ? `Storage - older than ${format(currentStartOfWeek, 'M/dd')}`
+    : isTotal
+    ? 'All Dates'
+    : detailsDateRange;
 
-  const filteredCountryOptions = getOptions(
-    detailsFilteredItems
-      ? countryOptions.filter((opt) =>
-          (detailsFilteredItems as InventoryItem[])
-            .map((item) => item.country?.id)
-            .includes(`${opt.value}`),
-        )
-      : countryOptions,
-  );
+  const locationSelect = getFilter('location', getOptions(locationOptions));
+
   const countrySelect = getFilter(
     'countryOfOrigin',
-    filteredCountryOptions,
+    getOptions(countryOptions),
     150,
   );
 
-  const filteredShipperOptions = getOptions(
-    detailsFilteredItems
-      ? shipperOptions.filter((opt) =>
-          (detailsFilteredItems as InventoryItem[])
-            .map((item) => item.shipper?.id)
-            .includes(`${opt.value}`),
-        )
-      : shipperOptions,
-  );
-  const shipperSelect = getFilter('shipper', filteredShipperOptions);
+  const shipperSelect = getFilter('shipper', getOptions(shipperOptions));
 
   return {
     components: (
@@ -404,8 +491,7 @@ const useInventoryFilters = ({ items, loading }: Props) => {
         </div>
       </l.Flex>
     ),
-    detailsFilteredItems,
-    filteredItems,
+    groupedItems,
     handleDateChange,
     handleWeekChange,
     selectedWeekNumber,

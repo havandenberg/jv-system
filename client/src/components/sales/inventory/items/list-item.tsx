@@ -11,19 +11,35 @@ import ty from 'ui/typography';
 import { hexColorWithTransparency } from 'ui/utils';
 
 const GridContainer = styled(l.Grid)(
-  ({ distress, selected }: { distress?: boolean; selected?: boolean }) => ({
-    background: distress
+  ({
+    distress,
+    partialDistress,
+    selected,
+  }: {
+    distress?: boolean;
+    partialDistress?: boolean;
+    selected?: boolean;
+  }) => ({
+    backgroundColor: distress
       ? hexColorWithTransparency(th.colors.status.error, 0.2)
       : selected
       ? th.colors.brand.containerBackgroundAccent
       : th.colors.brand.containerBackground,
+    background: partialDistress
+      ? `repeating-linear-gradient( -45deg, ${hexColorWithTransparency(
+          th.colors.status.error,
+          0.2,
+        )}, ${hexColorWithTransparency(th.colors.status.error, 0.2)} 5px, ${
+          th.colors.brand.containerBackground
+        } 5px, ${th.colors.brand.containerBackground} 15px)`
+      : undefined,
     border: selected ? th.borders.secondary : th.borders.disabled,
     borderRadius: th.borderRadii.default,
     paddingLeft: th.spacing.sm,
     transition: th.transitions.default,
     ':hover': {
-      background: distress
-        ? hexColorWithTransparency(th.colors.status.error, 0.4)
+      backgroundColor: distress
+        ? hexColorWithTransparency(th.colors.status.error, 0.3)
         : th.colors.brand.containerBackgroundAccent,
       border: th.borders.secondary,
     },
@@ -45,6 +61,7 @@ const ListItem = ({
     <l.AreaLink to={to}>
       <GridContainer
         distress={data ? data.jvLotNumber === 'D0000' : false}
+        partialDistress={data ? data.jvLotNumber === 'PARTIAL_DISTRESS' : false}
         gridTemplateColumns={gridTemplateColumns}
       >
         {listLabels.map(
