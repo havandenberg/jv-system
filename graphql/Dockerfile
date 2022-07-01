@@ -3,7 +3,6 @@ FROM node:16
 RUN apt install tzdata make gcc g++
 
 RUN npm install -g graphql
-RUN npm install -g ntlm-client
 RUN npm install -g tslib
 RUN npm install -g postgraphile
 RUN npm install -g postgraphile-plugin-connection-filter

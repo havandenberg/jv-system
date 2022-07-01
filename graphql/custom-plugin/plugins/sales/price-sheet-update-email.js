@@ -1,6 +1,5 @@
 const { gql, makeExtendSchemaPlugin } = require('graphile-utils');
-const { ews, getEWSArgs } = require('../../utils/ews');
-const { onError } = require('../../utils/index');
+const { onError, sendEmail } = require('../../utils');
 
 const extendSchemaPlugin = makeExtendSchemaPlugin({
   typeDefs: gql`
@@ -15,24 +14,23 @@ const extendSchemaPlugin = makeExtendSchemaPlugin({
     Mutation: {
       sendPriceSheetUpdateEmail: async (_query, args) => {
         let result = '';
-        await ews
-          .run(
-            'CreateItem',
-            getEWSArgs(
-              'Price Sheet Updated',
-              `The price sheet has been updated. <a href="${process.env.REACT_APP_CLIENT_URL}/sales/price-sheet">View latest changes here.</a>\n\n${args.input.message}`,
-              [
-                // { EmailAddress: 'akorthaus@jacvandenberg.com' },
-                // { EmailAddress: 'bschiro@jacvandenberg.com' },
-                // { EmailAddress: 'fvandenberg@jacvandenberg.com' },
-                // { EmailAddress: 'gvandenberg@jacvandenberg.com' },
-                { EmailAddress: 'hvandenberg@jacvandenberg.com' },
-                // { EmailAddress: 'mfarris@jacvandenberg.com' },
-                // { EmailAddress: 'npaap@jacvandenberg.com' },
-                // { EmailAddress: 'sstedman@jacvandenberg.com' },
-              ],
-            ),
-          )
+        await sendEmail({
+          toRecipients:
+            process.env.REACT_APP_IS_PRODUCTION === 'true'
+              ? [
+                  'akorthaus@jacvandenberg.com',
+                  'bschiro@jacvandenberg.com',
+                  'fvandenberg@jacvandenberg.com',
+                  'gvandenberg@jacvandenberg.com',
+                  'hvandenberg@jacvandenberg.com',
+                  'mfarris@jacvandenberg.com',
+                  'npaap@jacvandenberg.com',
+                  'sstedman@jacvandenberg.com',
+                ]
+              : ['hvandenberg@jacvandenberg.com'],
+          body: `The price sheet has been updated. <a href="${process.env.REACT_APP_CLIENT_URL}/sales/price-sheet">View latest changes here.</a><br /><br />${args.input.message}`,
+          subject: 'Price Sheet Updated',
+        })
           .then(() => {
             const successMessage = `Price Sheet Update email sent at ${new Date()}`;
             result = successMessage;

@@ -1,6 +1,5 @@
 const onError = (e) => {
   console.log(e);
-  console.log(e.response.errors);
 };
 
 const CHUNK_SIZE = 200;

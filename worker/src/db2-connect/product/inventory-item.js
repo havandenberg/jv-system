@@ -48,10 +48,10 @@ const getUpdatedInventoryItem = (inventoryItem, db2InventoryItem, id) => ({
   ...inventoryItem,
   id,
   productId: db2InventoryItem['PROD#X'],
-  locationId: db2InventoryItem['SRTWHX'] || db2InventoryItem['PLOC#X'],
+  locationId: db2InventoryItem['PLOC#X'] || db2InventoryItem['SRTWHX'],
   vesselCode: db2InventoryItem['BOAT#X'],
   jvLotNumber: db2InventoryItem['JVLOTX'],
-  shipperId: db2InventoryItem['CSHPRX'] || db2InventoryItem['SHPR#X'],
+  shipperId: db2InventoryItem['SHPR#X'] || db2InventoryItem['CSHPRX'],
   palletsReceived: `${db2InventoryItem['PRCVX']}`,
   palletsCommitted: `${db2InventoryItem['PCOMX']}`,
   palletsOnHand: `${db2InventoryItem['PONHX']}`,
@@ -71,21 +71,22 @@ const getInventoryItemId = (db2InventoryItem, inventoryItems) => {
   const inventoryItem = Object.values(inventoryItems).find(
     (it) =>
       it.productId === db2InventoryItem['PROD#X'].trimEnd() &&
-      it.locationId === db2InventoryItem['PLOC#X'].trimEnd() &&
+      it.locationId ===
+        (db2InventoryItem['PLOC#X'] || db2InventoryItem['SRTWHX']).trimEnd() &&
       it.vesselCode === db2InventoryItem['BOAT#X'].trimEnd() &&
       it.jvLotNumber === db2InventoryItem['JVLOTX'].trimEnd() &&
       it.shipperId ===
-        (db2InventoryItem['CSHPRX'] || db2InventoryItem['SHPR#X']).trimEnd(),
+        (db2InventoryItem['SHPR#X'] || db2InventoryItem['CSHPRX']).trimEnd(),
   );
 
   return (
     inventoryItem?.id ||
-    `${db2InventoryItem['PROD#X'].trimEnd()}-${db2InventoryItem[
-      'PLOC#X'
-    ].trimEnd()}-${db2InventoryItem['BOAT#X'].trimEnd()}-${db2InventoryItem[
+    `${db2InventoryItem['PROD#X'].trimEnd()}-${(
+      db2InventoryItem['PLOC#X'] || db2InventoryItem['SRTWHX']
+    ).trimEnd()}-${db2InventoryItem['BOAT#X'].trimEnd()}-${db2InventoryItem[
       'JVLOTX'
     ].trimEnd()}-${(
-      db2InventoryItem['CSHPRX'] || db2InventoryItem['SHPR#X']
+      db2InventoryItem['SHPR#X'] || db2InventoryItem['CSHPRX']
     ).trimEnd()}`
   );
 };

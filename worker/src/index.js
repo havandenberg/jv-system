@@ -22,6 +22,10 @@ const {
   fetchPsaApplePallets,
 } = require('./inspections/psa-arrival/pallets');
 const sendProjectionReminders = require('./projections/weekly-reminder');
+const { server: emailServer } = require('./utils/server');
+
+const port = '3002';
+emailServer.listen(port, () => console.log('JV email server live on ' + port));
 
 cron.schedule('0 0 * * *', fetchChileDepartureInspections);
 // cron.schedule('0 4 * * *', fetchPeruDepartureInspections);

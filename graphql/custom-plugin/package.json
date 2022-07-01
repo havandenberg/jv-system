@@ -6,7 +6,7 @@
   "dependencies": {
     "graphile-utils": "^4.11.2",
     "ibm_db": "^2.8.1",
-    "node-ews": "^3.4.2",
+    "node-fetch": "^2.6.1",
     "postgraphile": "^4.11.0"
   }
 }
