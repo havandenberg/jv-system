@@ -87,6 +87,16 @@ SELECT CONCAT (
 	) FROM product.vessel vv FULL JOIN directory.country c ON (v.country_id = c.id) WHERE v.id = vv.id
 $BODY$;
 
+CREATE FUNCTION product.vessel_inspection_vessel_name(IN v product.vessel)
+    RETURNS TEXT
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT CONCAT(r.arrival_name, ' (', r.arrival_code, ')') FROM inspection.psa_arrival_report r WHERE r.arrival_code = v.vessel_code LIMIT 1;
+$BODY$;
+
 CREATE FUNCTION product.bulk_upsert_vessel(
   vessels product.vessel[]
 )

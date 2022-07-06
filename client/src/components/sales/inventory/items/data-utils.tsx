@@ -386,42 +386,97 @@ export const baseLabels: InventoryItemLabelInfo[] = [
   {
     key: 'product',
     label: 'Species',
-    getValue: (data) => (
-      <ty.BodyText>
-        {data.product?.species?.speciesDescription || '-'}
-      </ty.BodyText>
-    ),
+    getValue: ({ product }) => {
+      const commonSpecies = product?.species?.commonSpecies;
+      const value = product?.species?.speciesDescription || '-';
+      return (
+        <ty.BodyText>
+          {commonSpecies ? (
+            <ty.LinkText
+              hover="false"
+              to={`/sales/products/${commonSpecies.id}`}
+            >
+              {value}
+            </ty.LinkText>
+          ) : (
+            value
+          )}
+        </ty.BodyText>
+      );
+    },
   },
   {
     key: 'product',
     label: 'Variety',
-    getValue: (data) => (
-      <ty.BodyText>
-        {data.product?.variety?.varietyDescription || '-'}
-      </ty.BodyText>
-    ),
+    getValue: ({ product }) => {
+      const commonSpecies = product?.species?.commonSpecies;
+      const commonVariety = product?.variety?.commonVariety;
+      const value = product?.variety?.varietyDescription || '-';
+      return (
+        <ty.BodyText>
+          {commonSpecies && commonVariety ? (
+            <ty.LinkText
+              hover="false"
+              to={`/sales/products/${commonSpecies.id}/varieties/${commonVariety.id}`}
+            >
+              {value}
+            </ty.LinkText>
+          ) : (
+            value
+          )}
+        </ty.BodyText>
+      );
+    },
   },
   {
     key: 'product',
     label: 'Size',
-    getValue: (data) => (
-      <ty.BodyText>
-        {data.product?.sizes?.nodes[0]?.jvDescription || '-'}
-      </ty.BodyText>
-    ),
+    getValue: ({ product }) => {
+      const commonSpecies = product?.species?.commonSpecies;
+      const commonSize = product?.sizes?.nodes[0]?.commonSize;
+      const value = product?.sizes?.nodes[0]?.jvDescription || '-';
+      return (
+        <ty.BodyText>
+          {commonSpecies && commonSize ? (
+            <ty.LinkText
+              hover="false"
+              to={`/sales/products/${commonSpecies.id}/sizes/${commonSize.id}`}
+            >
+              {value}
+            </ty.LinkText>
+          ) : (
+            value
+          )}
+        </ty.BodyText>
+      );
+    },
   },
   {
     key: 'product',
     label: 'Pack Type',
-    getValue: (data) => (
-      <ty.BodyText>
-        {data.product?.packType
-          ? data.product?.packType?.label?.labelName +
-            ' - ' +
-            data.product?.packType?.packDescription
-          : '-'}
-      </ty.BodyText>
-    ),
+    getValue: ({ product }) => {
+      const commonSpecies = product?.species?.commonSpecies;
+      const commonPackType = product?.packType?.commonPackType;
+      const value = product?.packType
+        ? product?.packType?.label?.labelName +
+          ' - ' +
+          product?.packType?.packDescription
+        : '-';
+      return (
+        <ty.BodyText>
+          {commonSpecies && commonPackType ? (
+            <ty.LinkText
+              hover="false"
+              to={`/sales/products/${commonSpecies.id}/packTypes/${commonPackType.id}`}
+            >
+              {value}
+            </ty.LinkText>
+          ) : (
+            value
+          )}
+        </ty.BodyText>
+      );
+    },
   },
   {
     key: 'plu',

@@ -12,6 +12,7 @@ query VESSEL_DETAILS($id: BigInt!) {
     dischargeDate
     id
     invFlag
+    inspectionVesselName
     inventoryItems {
       nodes {
         coast

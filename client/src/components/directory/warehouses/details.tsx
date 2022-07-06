@@ -81,6 +81,15 @@ const Details = () => {
 
   return (
     <Page
+      actions={
+        data
+          ? [
+              <l.AreaLink key={0} to={`/sales/inventory?location=${data.id}`}>
+                <b.Primary>Inventory</b.Primary>
+              </l.AreaLink>,
+            ]
+          : []
+      }
       breadcrumbs={warehouseBreadcrumbs(id)}
       title={data ? data.warehouseName : 'Loading...'}
     >

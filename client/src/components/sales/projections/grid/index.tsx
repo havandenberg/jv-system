@@ -1183,7 +1183,7 @@ const ShipperProjectionGrid = ({
             mr={th.spacing.md}
             to={`/directory/shippers/${shipperId}`}
           >
-            <b.Primary>View Shipper</b.Primary>
+            <b.Primary>Shipper</b.Primary>
           </l.AreaLink>
         ) : (
           <div key={0} />

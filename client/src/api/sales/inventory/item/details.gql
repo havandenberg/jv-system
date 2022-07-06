@@ -33,15 +33,27 @@ query INVENTORY_ITEM_DETAILS($id: BigInt!) {
       species {
         id
         speciesDescription
+        commonSpecies {
+          id
+          speciesName
+        }
       }
       variety {
         id
         varietyDescription
+        commonVariety {
+          id
+          varietyName
+        }
       }
       sizes {
         nodes {
           id
           jvDescription
+          commonSize {
+            id
+            sizeName
+          }
         }
       }
       packType {
@@ -50,6 +62,10 @@ query INVENTORY_ITEM_DETAILS($id: BigInt!) {
         label {
           id
           labelName
+        }
+        commonPackType {
+          id
+          packTypeName
         }
       }
     }

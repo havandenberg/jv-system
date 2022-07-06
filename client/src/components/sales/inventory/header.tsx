@@ -95,9 +95,6 @@ const Header = ({
   const { data: varietyData, loading: varietyLoading } = api.useProductVariety(
     variety || '',
   );
-  const { data: sizeData, loading: sizeLoading } = api.useProductSize(
-    size || '',
-  );
   const { data: labelData, loading: labelLoading } = api.useProductLabel(
     label || '',
   );
@@ -118,7 +115,6 @@ const Header = ({
   const categoryLoading =
     speciesLoading ||
     varietyLoading ||
-    sizeLoading ||
     labelLoading ||
     shipperLoading ||
     countryLoading;
@@ -159,11 +155,7 @@ const Header = ({
         : varietyData
         ? `${capitalCase(varietyData.varietyDescription || '')}`
         : 'All Varieties',
-      size: sizeTag
-        ? sizeTag
-        : sizeData
-        ? `${capitalCase(sizeData.combineDescription || '')}`
-        : 'All Sizes',
+      size: sizeTag ? sizeTag : size ? `${size}` : 'All Sizes',
       label: labelData ? labelData.labelName || 'Other' : 'All Labels',
       packType: packTypeTag
         ? packTypeTag

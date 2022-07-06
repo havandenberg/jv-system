@@ -128,8 +128,12 @@ export const getGroupedItems = (items: InventoryItem[], isInventory = true) =>
         [key]: {
           ...(acc[key] || item),
           jvLotNumber: acc[key]
-            ? acc[key].jvLotNumber === 'D0000'
-              ? 'D0000'
+            ? acc[key].jvLotNumber === 'PARTIAL_DISTRESS'
+              ? 'PARTIAL_DISTRESS'
+              : acc[key].jvLotNumber === 'D0000'
+              ? item.jvLotNumber === 'D0000'
+                ? 'D0000'
+                : 'PARTIAL_DISTRESS'
               : item.jvLotNumber === 'D0000'
               ? 'PARTIAL_DISTRESS'
               : item.jvLotNumber

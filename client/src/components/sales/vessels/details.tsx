@@ -9,6 +9,7 @@ import { Tab, useTabBar } from 'components/tab-bar';
 import { useQueryValue } from 'hooks/use-query-params';
 import useUpdateItem from 'hooks/use-update-item';
 import { Country, InventoryItem, Vessel, Warehouse } from 'types';
+import b from 'ui/button';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
@@ -111,25 +112,36 @@ const Details = () => {
 
   return (
     <Page
-      actions={
-        isInventory || !data?.isPre
-          ? undefined
+      actions={[
+        data && data.inspectionVesselName ? (
+          <l.AreaLink
+            key={0}
+            to={`/reports/inspections/arrival?arrivalName=${data.inspectionVesselName}`}
+          >
+            <b.Primary>Inspections</b.Primary>
+          </l.AreaLink>
+        ) : (
+          <b.Primary disabled>Inspections</b.Primary>
+        ),
+        ...(isInventory || !data?.isPre
+          ? []
           : [
               data?.isPre ? (
                 <React.Fragment key="pre">
                   {/* <l.AreaLink
-                    to={`/sales/projections?coast=${data?.coast}&startDate=${data?.departureDate}&endDate=${data?.departureDate}&projectionsView=grid&vesselId=${data?.id}&projectionId=all`}
-                  >
-                    <b.Primary mr={th.spacing.md}>View Projections</b.Primary>
-                  </l.AreaLink>
-                  <b.Primary mr={th.spacing.md}>Convert to Real</b.Primary> */}
+                        mx={th.spacing.md}
+                        to={`/sales/projections?coast=${data?.coast}&startDate=${data?.departureDate}&endDate=${data?.departureDate}&projectionsView=grid&vesselId=${data?.id}&projectionId=all`}
+                      >
+                        <b.Primary>View Projections</b.Primary>
+                      </l.AreaLink>
+                      <b.Primary mr={th.spacing.md}>Convert to Real</b.Primary> */}
                 </React.Fragment>
               ) : null,
               editing
                 ? getUpdateActions().defaultActions
                 : getUpdateActions().editAction,
-            ]
-      }
+            ]),
+      ]}
       breadcrumbs={breadcrumbs(id, isInventory)}
       title={
         data

@@ -165,6 +165,16 @@ SELECT CONCAT (
 	) FROM product.pack_master pp WHERE p.id = pp.id
 $BODY$;
 
+CREATE FUNCTION product.pack_master_common_pack_type(IN p product.pack_master)
+    RETURNS product.common_pack_type
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+	SELECT * FROM product.common_pack_type pt WHERE pt.pack_master_id = p.id LIMIT 1
+$BODY$;
+
 CREATE FUNCTION product.pack_atmosphere_shipper(IN p product.pack_atmosphere)
     RETURNS directory.shipper
     LANGUAGE 'sql'

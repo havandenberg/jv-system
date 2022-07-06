@@ -25,6 +25,16 @@ SELECT CONCAT (
 	) FROM product.product_variety vv WHERE v.id = vv.id
 $BODY$;
 
+CREATE FUNCTION product.product_variety_common_variety(IN v product.product_variety)
+    RETURNS product.common_variety
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+	SELECT * FROM product.common_variety vv WHERE vv.product_variety_id = v.id LIMIT 1
+$BODY$;
+
 CREATE FUNCTION product.bulk_upsert_product_variety(
   varieties product.product_variety[]
 )

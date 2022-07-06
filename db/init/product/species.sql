@@ -24,17 +24,14 @@ SELECT CONCAT (
 	) FROM product.product_species ss WHERE s.id = ss.id
 $BODY$;
 
-CREATE FUNCTION directory.country_search_text(IN c directory.country)
-    RETURNS text
+CREATE FUNCTION product.product_species_common_species(IN s product.product_species)
+    RETURNS product.common_species
     LANGUAGE 'sql'
     STABLE
     PARALLEL UNSAFE
     COST 100
 AS $BODY$
-SELECT CONCAT (
-		c.id,
-		c.country_name
-	) FROM directory.country cc WHERE c.id = cc.id
+	SELECT * FROM product.common_species ss WHERE ss.product_species_id = s.id LIMIT 1
 $BODY$;
 
 CREATE FUNCTION product.bulk_upsert_product_species(

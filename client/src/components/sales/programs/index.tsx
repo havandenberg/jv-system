@@ -1157,7 +1157,7 @@ const Programs = () => {
               isCustomers ? customerId : shipperId
             }`}
           >
-            <b.Primary>View {isCustomers ? 'Customer' : 'Shipper'}</b.Primary>
+            <b.Primary>{isCustomers ? 'Customer' : 'Shipper'}</b.Primary>
           </l.AreaLink>
         ) : (
           <div key={0} />

@@ -61,6 +61,16 @@ AS $BODY$
   SELECT * FROM product.product_variety v WHERE v.id = s.variety_id
 $BODY$;
 
+CREATE FUNCTION product.product_size_common_size(IN s product.product_size)
+    RETURNS product.common_size
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+	SELECT * FROM product.common_size ss WHERE ss.product_size_id = s.id LIMIT 1
+$BODY$;
+
 CREATE FUNCTION product.bulk_upsert_product_size(
   sizes product.product_size[]
 )

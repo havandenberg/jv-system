@@ -79,6 +79,25 @@ const Details = () => {
 
   return (
     <Page
+      actions={
+        data
+          ? [
+              <l.AreaLink
+                key={0}
+                mr={th.spacing.md}
+                to={`/sales/programs?customerId=${data.id}&programsView=customers`}
+              >
+                <b.Primary>Programs</b.Primary>
+              </l.AreaLink>,
+              // <l.AreaLink
+              //   key={1}
+              //   to={`/sales/programs?coast=EC&customerId=${data.id}&programsView=customers`}
+              // >
+              <b.Primary disabled>Orders</b.Primary>,
+              // </l.AreaLink>,
+            ]
+          : []
+      }
       breadcrumbs={customerBreadcrumbs(id)}
       title={data ? data.customerName : 'Loading...'}
     >

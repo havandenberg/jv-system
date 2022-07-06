@@ -1,9 +1,13 @@
 require('dotenv').config();
 const cors = require('cors');
 const express = require('express');
+const ibmdb = require('ibm_db');
 const EWS = require('node-ews');
+const { onError } = require('.');
+const { ewsArgs } = require('./ews');
 
 const server = express();
+const db2Conn = ibmdb.openSync(process.env.DB2_CONNECT_STRING);
 
 server.use(cors());
 server.use(express.json());
@@ -16,38 +20,17 @@ const ewsConfig = {
 
 const ews = new EWS(ewsConfig);
 
-const ewsArgs = ({ toRecipients, body, subject }) => ({
-  attributes: {
-    MessageDisposition: 'SendAndSaveCopy',
-  },
-  SavedItemFolderId: {
-    DistinguishedFolderId: {
-      attributes: {
-        Id: 'sentitems',
-      },
-    },
-  },
-  Items: {
-    Message: {
-      ItemClass: 'IPM.Note',
-      Subject: subject,
-      Body: {
-        attributes: {
-          BodyType: 'HTML',
-        },
-        $value: body,
-      },
-      ToRecipients: {
-        Mailbox: toRecipients.map((recipient) => ({ EmailAddress: recipient })),
-      },
-      IsRead: 'false',
-    },
-  },
+server.post('/send-email', async (req, res) => {
+  const response = await ews
+    .run('CreateItem', ewsArgs(req.body))
+    .catch(onError);
+  return res.status(200).send({ ...response, success: true });
 });
 
-server.post('/send-email', async (req, res) => {
-  const response = await ews.run('CreateItem', ewsArgs(req.body));
-  return res.status(200).send({ ...response, success: true });
+server.post('/db2-query', async (req, res) => {
+  const data = await db2Conn.query(req.body.queryString).catch(onError);
+  console.log(data);
+  return res.status(200).send(JSON.stringify({ data, success: true }));
 });
 
 module.exports = {

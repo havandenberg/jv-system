@@ -67,6 +67,25 @@ const Details = () => {
 
   return (
     <Page
+      actions={
+        data
+          ? [
+              <l.AreaLink
+                key={0}
+                mr={th.spacing.md}
+                to={`/sales/programs?shipperId=${data.id}&programsView=shippers`}
+              >
+                <b.Primary>Programs</b.Primary>
+              </l.AreaLink>,
+              <l.AreaLink
+                key={1}
+                to={`/sales/projections?shipperId=${data.id}`}
+              >
+                <b.Primary disabled>Projections</b.Primary>,
+              </l.AreaLink>,
+            ]
+          : []
+      }
       breadcrumbs={shipperBreadcrumbs(id)}
       title={data ? data.shipperName : 'Loading...'}
     >

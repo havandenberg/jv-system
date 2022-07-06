@@ -3815,6 +3815,8 @@ export type VesselFilter = {
   preVesselCode?: Maybe<StringFilter>;
   /** Filter by the object’s `invFlag` field. */
   invFlag?: Maybe<BooleanFilter>;
+  /** Filter by the object’s `inspectionVesselName` field. */
+  inspectionVesselName?: Maybe<StringFilter>;
   /** Filter by the object’s `searchText` field. */
   searchText?: Maybe<StringFilter>;
   /** Filter by the object’s `shipperProjectionVessels` relation. */
@@ -5061,6 +5063,8 @@ export type CountryFilter = {
   id?: Maybe<StringFilter>;
   /** Filter by the object’s `countryName` field. */
   countryName?: Maybe<StringFilter>;
+  /** Filter by the object’s `cmbId` field. */
+  cmbId?: Maybe<StringFilter>;
   /** Filter by the object’s `searchText` field. */
   searchText?: Maybe<StringFilter>;
   /** Filter by the object’s `customers` relation. */
@@ -5739,6 +5743,7 @@ export type Country = Node & {
   nodeId: Scalars['ID'];
   id: Scalars['String'];
   countryName: Scalars['String'];
+  cmbId?: Maybe<Scalars['String']>;
   /** Reads and enables pagination through a set of `Customer`. */
   customers: CustomersConnection;
   /** Reads and enables pagination through a set of `Shipper`. */
@@ -5841,6 +5846,8 @@ export enum CustomersOrderBy {
   CountryByCountryIdIdDesc = 'COUNTRY_BY_COUNTRY_ID__ID_DESC',
   CountryByCountryIdCountryNameAsc = 'COUNTRY_BY_COUNTRY_ID__COUNTRY_NAME_ASC',
   CountryByCountryIdCountryNameDesc = 'COUNTRY_BY_COUNTRY_ID__COUNTRY_NAME_DESC',
+  CountryByCountryIdCmbIdAsc = 'COUNTRY_BY_COUNTRY_ID__CMB_ID_ASC',
+  CountryByCountryIdCmbIdDesc = 'COUNTRY_BY_COUNTRY_ID__CMB_ID_DESC',
   ShipperProjectionProductsByCustomerIdCountAsc = 'SHIPPER_PROJECTION_PRODUCTS_BY_CUSTOMER_ID__COUNT_ASC',
   ShipperProjectionProductsByCustomerIdCountDesc = 'SHIPPER_PROJECTION_PRODUCTS_BY_CUSTOMER_ID__COUNT_DESC',
   CustomerPersonContactsByCustomerIdCountAsc = 'CUSTOMER_PERSON_CONTACTS_BY_CUSTOMER_ID__COUNT_ASC',
@@ -6283,6 +6290,7 @@ export type Vessel = Node & {
   /** Reads and enables pagination through a set of `ShipperProjectionVessel`. */
   shipperProjectionVessels: ShipperProjectionVesselsConnection;
   country?: Maybe<Country>;
+  inspectionVesselName?: Maybe<Scalars['String']>;
   /** Reads and enables pagination through a set of `InventoryItem`. */
   inventoryItems: InventoryItemsConnection;
   searchText?: Maybe<Scalars['String']>;
@@ -6748,6 +6756,7 @@ export type ProductVariety = Node & {
   commonVarieties: CommonVarietiesConnection;
   /** Reads and enables pagination through a set of `CommonVarietyProductVariety`. */
   commonVarietyProductVarieties: CommonVarietyProductVarietiesConnection;
+  commonVariety?: Maybe<CommonVariety>;
   searchText?: Maybe<Scalars['String']>;
   /** Reads and enables pagination through a set of `CommonSpecies`. */
   commonSpeciesByCommonVarietyProductVarietyIdAndCommonSpeciesId: ProductVarietyCommonSpeciesByCommonVarietyProductVarietyIdAndCommonSpeciesIdManyToManyConnection;
@@ -7661,6 +7670,7 @@ export type ProductSpecies = Node & {
   commonSpecieses: CommonSpeciesConnection;
   /** Reads and enables pagination through a set of `CommonSpeciesProductSpecies`. */
   commonSpeciesProductSpecieses: CommonSpeciesProductSpeciesConnection;
+  commonSpecies?: Maybe<CommonSpecies>;
   searchText?: Maybe<Scalars['String']>;
   /** Reads and enables pagination through a set of `CommonCategory`. */
   commonCategoriesByCommonSpeciesProductSpeciesIdAndCommonCategoryId: ProductSpeciesCommonCategoriesByCommonSpeciesProductSpeciesIdAndCommonCategoryIdManyToManyConnection;
@@ -8361,6 +8371,7 @@ export type ProductSize = Node & {
   commonSizes: CommonSizesConnection;
   /** Reads and enables pagination through a set of `CommonSizeProductSize`. */
   commonSizeProductSizes: CommonSizeProductSizesConnection;
+  commonSize?: Maybe<CommonSize>;
   searchText?: Maybe<Scalars['String']>;
   shipper?: Maybe<Shipper>;
   species?: Maybe<ProductSpecies>;
@@ -9315,6 +9326,7 @@ export type PackMaster = Node & {
   atmosphere?: Maybe<PackAtmosphere>;
   boxStyle?: Maybe<PackBoxStyle>;
   boxType?: Maybe<PackBoxType>;
+  commonPackType?: Maybe<CommonPackType>;
   customerSpecial?: Maybe<PackSpecial>;
   destination?: Maybe<PackDestination>;
   grade?: Maybe<PackGrade>;
@@ -10762,6 +10774,8 @@ export enum ShippersOrderBy {
   CountryByCountryIdIdDesc = 'COUNTRY_BY_COUNTRY_ID__ID_DESC',
   CountryByCountryIdCountryNameAsc = 'COUNTRY_BY_COUNTRY_ID__COUNTRY_NAME_ASC',
   CountryByCountryIdCountryNameDesc = 'COUNTRY_BY_COUNTRY_ID__COUNTRY_NAME_DESC',
+  CountryByCountryIdCmbIdAsc = 'COUNTRY_BY_COUNTRY_ID__CMB_ID_ASC',
+  CountryByCountryIdCmbIdDesc = 'COUNTRY_BY_COUNTRY_ID__CMB_ID_DESC',
   ShipperProjectionVesselsByShipperIdCountAsc = 'SHIPPER_PROJECTION_VESSELS_BY_SHIPPER_ID__COUNT_ASC',
   ShipperProjectionVesselsByShipperIdCountDesc = 'SHIPPER_PROJECTION_VESSELS_BY_SHIPPER_ID__COUNT_DESC',
   ShipperProjectionProductsByShipperIdCountAsc = 'SHIPPER_PROJECTION_PRODUCTS_BY_SHIPPER_ID__COUNT_ASC',
@@ -15421,6 +15435,8 @@ export enum WarehousesOrderBy {
   CountryByCountryIdIdDesc = 'COUNTRY_BY_COUNTRY_ID__ID_DESC',
   CountryByCountryIdCountryNameAsc = 'COUNTRY_BY_COUNTRY_ID__COUNTRY_NAME_ASC',
   CountryByCountryIdCountryNameDesc = 'COUNTRY_BY_COUNTRY_ID__COUNTRY_NAME_DESC',
+  CountryByCountryIdCmbIdAsc = 'COUNTRY_BY_COUNTRY_ID__CMB_ID_ASC',
+  CountryByCountryIdCmbIdDesc = 'COUNTRY_BY_COUNTRY_ID__CMB_ID_DESC',
   WarehousePersonContactsByWarehouseIdCountAsc = 'WAREHOUSE_PERSON_CONTACTS_BY_WAREHOUSE_ID__COUNT_ASC',
   WarehousePersonContactsByWarehouseIdCountDesc = 'WAREHOUSE_PERSON_CONTACTS_BY_WAREHOUSE_ID__COUNT_DESC'
 }
@@ -16366,6 +16382,8 @@ export enum CountriesOrderBy {
   IdDesc = 'ID_DESC',
   CountryNameAsc = 'COUNTRY_NAME_ASC',
   CountryNameDesc = 'COUNTRY_NAME_DESC',
+  CmbIdAsc = 'CMB_ID_ASC',
+  CmbIdDesc = 'CMB_ID_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
   CustomersByCountryIdCountAsc = 'CUSTOMERS_BY_COUNTRY_ID__COUNT_ASC',
@@ -16382,6 +16400,8 @@ export type CountryCondition = {
   id?: Maybe<Scalars['String']>;
   /** Checks for equality with the object’s `countryName` field. */
   countryName?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `cmbId` field. */
+  cmbId?: Maybe<Scalars['String']>;
 };
 
 /** A connection to a list of `PersonContact` values. */
@@ -31746,6 +31766,7 @@ export type CountryOnCustomerForCustomerCountryIdFkeyUsingCountryPkeyUpdate = {
 export type UpdateCountryOnCustomerForCustomerCountryIdFkeyPatch = {
   id?: Maybe<Scalars['String']>;
   countryName?: Maybe<Scalars['String']>;
+  cmbId?: Maybe<Scalars['String']>;
   customersUsingId?: Maybe<CustomerCountryIdFkeyInverseInput>;
   shippersUsingId?: Maybe<ShipperCountryIdFkeyInverseInput>;
   warehousesUsingId?: Maybe<WarehouseCountryIdFkeyInverseInput>;
@@ -31968,6 +31989,7 @@ export type CountryOnShipperForShipperCountryIdFkeyUsingCountryPkeyUpdate = {
 export type UpdateCountryOnShipperForShipperCountryIdFkeyPatch = {
   id?: Maybe<Scalars['String']>;
   countryName?: Maybe<Scalars['String']>;
+  cmbId?: Maybe<Scalars['String']>;
   customersUsingId?: Maybe<CustomerCountryIdFkeyInverseInput>;
   shippersUsingId?: Maybe<ShipperCountryIdFkeyInverseInput>;
   warehousesUsingId?: Maybe<WarehouseCountryIdFkeyInverseInput>;
@@ -34029,6 +34051,7 @@ export type CountryOnWarehouseForWarehouseCountryIdFkeyUsingCountryPkeyUpdate = 
 export type UpdateCountryOnWarehouseForWarehouseCountryIdFkeyPatch = {
   id?: Maybe<Scalars['String']>;
   countryName?: Maybe<Scalars['String']>;
+  cmbId?: Maybe<Scalars['String']>;
   customersUsingId?: Maybe<CustomerCountryIdFkeyInverseInput>;
   shippersUsingId?: Maybe<ShipperCountryIdFkeyInverseInput>;
   warehousesUsingId?: Maybe<WarehouseCountryIdFkeyInverseInput>;
@@ -34299,6 +34322,7 @@ export type WarehouseOnWarehouseForWarehouseCountryIdFkeyNodeIdUpdate = {
 export type CountryPatch = {
   id?: Maybe<Scalars['String']>;
   countryName?: Maybe<Scalars['String']>;
+  cmbId?: Maybe<Scalars['String']>;
   customersUsingId?: Maybe<CustomerCountryIdFkeyInverseInput>;
   shippersUsingId?: Maybe<ShipperCountryIdFkeyInverseInput>;
   warehousesUsingId?: Maybe<WarehouseCountryIdFkeyInverseInput>;
@@ -34308,6 +34332,7 @@ export type CountryPatch = {
 export type WarehouseCountryIdFkeyCountryCreateInput = {
   id: Scalars['String'];
   countryName: Scalars['String'];
+  cmbId?: Maybe<Scalars['String']>;
   customersUsingId?: Maybe<CustomerCountryIdFkeyInverseInput>;
   shippersUsingId?: Maybe<ShipperCountryIdFkeyInverseInput>;
   warehousesUsingId?: Maybe<WarehouseCountryIdFkeyInverseInput>;
@@ -40413,6 +40438,7 @@ export type ShipperOnShipperForShipperCountryIdFkeyNodeIdUpdate = {
 export type ShipperCountryIdFkeyCountryCreateInput = {
   id: Scalars['String'];
   countryName: Scalars['String'];
+  cmbId?: Maybe<Scalars['String']>;
   customersUsingId?: Maybe<CustomerCountryIdFkeyInverseInput>;
   shippersUsingId?: Maybe<ShipperCountryIdFkeyInverseInput>;
   warehousesUsingId?: Maybe<WarehouseCountryIdFkeyInverseInput>;
@@ -40519,6 +40545,7 @@ export type CustomerOnCustomerForCustomerCountryIdFkeyNodeIdUpdate = {
 export type CustomerCountryIdFkeyCountryCreateInput = {
   id: Scalars['String'];
   countryName: Scalars['String'];
+  cmbId?: Maybe<Scalars['String']>;
   customersUsingId?: Maybe<CustomerCountryIdFkeyInverseInput>;
   shippersUsingId?: Maybe<ShipperCountryIdFkeyInverseInput>;
   warehousesUsingId?: Maybe<WarehouseCountryIdFkeyInverseInput>;
@@ -40913,6 +40940,7 @@ export type CreateCountryInput = {
 export type CountryInput = {
   id: Scalars['String'];
   countryName: Scalars['String'];
+  cmbId?: Maybe<Scalars['String']>;
   customersUsingId?: Maybe<CustomerCountryIdFkeyInverseInput>;
   shippersUsingId?: Maybe<ShipperCountryIdFkeyInverseInput>;
   warehousesUsingId?: Maybe<WarehouseCountryIdFkeyInverseInput>;

@@ -1,6 +1,5 @@
-const ibmdb = require('ibm_db');
 const { gql, makeExtendSchemaPlugin } = require('graphile-utils');
-const { onError } = require('../../utils/index');
+const { db2Query, onError } = require('../../utils/index');
 
 const extendSchemaPlugin = makeExtendSchemaPlugin({
   typeDefs: gql`
@@ -16,19 +15,7 @@ const extendSchemaPlugin = makeExtendSchemaPlugin({
     Query: {
       db2Query: async (_query, args) => {
         const { queryString } = args.input;
-        let result = '';
-        await ibmdb
-          .open(process.env.DB2_CONNECT_STRING)
-          .then((conn) =>
-            conn
-              .query(queryString)
-              .then((data) => {
-                result = data;
-                conn.closeSync();
-              })
-              .catch(onError),
-          )
-          .catch(onError);
+        const result = await db2Query({ queryString }).catch(onError);
         return JSON.stringify(result);
       },
     },

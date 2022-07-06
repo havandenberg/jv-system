@@ -29,7 +29,7 @@ const db2UpdateItems = async (
     itemPluralName.charAt(0).toUpperCase() + itemPluralName.slice(1);
 
   console.log(
-    `\n\nUpdating ${itemName} database from DB2 at: ${new Date().toString()}\n\n`,
+    `\nUpdating ${itemName} database from DB2 at: ${new Date().toString()}\n`,
   );
   const startTime = Date.now();
 
@@ -116,29 +116,35 @@ const db2UpdateItems = async (
       }
     }
 
+    const newItemsLog =
+      newItems.length > 0
+        ? `New ${itemPluralName}: ${JSON.stringify(newItems.slice(0, 5))}\n\n`
+        : '';
+    const updatedItemsLog =
+      updatedItems.length > 0
+        ? `Updated ${itemPluralName}: ${JSON.stringify(
+            updatedItems.slice(0, 5),
+          )}\n\n`
+        : '';
+    const deletedItemsLog =
+      itemsToDelete.length > 0
+        ? `Deleted ${itemPluralName}: ${JSON.stringify(
+            itemsToDelete.slice(0, 5),
+          )}\n\n`
+        : '';
+
     console.log(
-      `New ${itemPluralName}: ${JSON.stringify(
-        newItems.slice(0, 5),
-      )}\n\nUpdated ${itemPluralName}: ${JSON.stringify(
-        updatedItems.slice(0, 5).map((updatedItem) => ({
-          oldItem: items[updatedItem.id],
-          updatedItem: updatedItem,
-        })),
-      )}\n\nDeleted ${itemPluralName}: ${JSON.stringify(
-        itemsToDelete.slice(0, 5),
-      )}\n\n${uppercasePluralName} update summary (${iteration + 1}/${
-        iterationMap.length
-      }):\n\n${uppercasePluralName} count: ${
+      `\n${newItemsLog}${updatedItemsLog}${deletedItemsLog}${uppercasePluralName} update summary (${
+        iteration + 1
+      }/${iterationMap.length}, ${
+        (Date.now() - startTime) / 1000
+      }s):\n\nCount: ${
         itemIds.length + iteration * iterationLimit
-      }/${itemCount}\n\nDB2 ${itemPluralName} count: ${
+      }/${itemCount}, DB2 count: ${
         db2ItemIds.length + iteration * iterationLimit
-      }/${db2ItemCount}\n\nNew ${itemPluralName} count: ${
-        newItems.length
-      }\n\nUpdated ${itemPluralName} count: ${
+      }/${db2ItemCount}, New: ${newItems.length}, Updated: ${
         updatedItems.length
-      }\n\nDeleted ${itemPluralName} count: ${
-        idsToDelete.length
-      }\n\nProcessing time: ${(Date.now() - startTime) / 1000}s\n\n`,
+      }, Deleted: ${idsToDelete.length}\n`,
     );
   }
 };
