@@ -8,6 +8,7 @@ import { DataMessage } from 'components/page/message';
 import StatusIndicator from 'components/status-indicator';
 import { Tab, useTabBar } from 'components/tab-bar';
 import { Pallet, PalletSection as PalletSectionType } from 'types';
+import b from 'ui/button';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
@@ -77,6 +78,18 @@ const Details = () => {
 
   return (
     <Page
+      actions={
+        data && data.psaArrivalReport
+          ? [
+              <l.AreaLink
+                key={0}
+                to={`/reports/inspections/arrival/${data.psaArrivalReport.id}`}
+              >
+                <b.Primary>Inspection</b.Primary>
+              </l.AreaLink>,
+            ]
+          : []
+      }
       breadcrumbs={breadcrumbs(id, vesselId, itemId, search)}
       title={data ? 'Pallet' : 'Loading...'}
     >

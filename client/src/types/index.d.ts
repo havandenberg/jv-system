@@ -6512,6 +6512,7 @@ export type Pallet = Node & {
   /** Reads and enables pagination through a set of `PalletSection`. */
   palletSections: PalletSectionsConnection;
   product?: Maybe<ProductMaster>;
+  psaArrivalReport?: Maybe<PsaArrivalReport>;
   searchText?: Maybe<Scalars['String']>;
   shipper?: Maybe<Shipper>;
   vessel?: Maybe<Vessel>;
@@ -14347,3028 +14348,160 @@ export type ProductSizesEdge = {
   node?: Maybe<ProductSize>;
 };
 
-/** A `Pallet` edge in the connection. */
-export type PalletsEdge = {
-  __typename?: 'PalletsEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `Pallet` at the end of the edge. */
-  node?: Maybe<Pallet>;
-};
-
-/** A filter to be used against `Pallet` object types. All fields are combined with a logical ‘and.’ */
-export type PalletFilter = {
-  /** Filter by the object’s `id` field. */
-  id?: Maybe<BigIntFilter>;
-  /** Filter by the object’s `vesselCode` field. */
-  vesselCode?: Maybe<StringFilter>;
-  /** Filter by the object’s `palletId` field. */
-  palletId?: Maybe<StringFilter>;
-  /** Filter by the object’s `productId` field. */
-  productId?: Maybe<StringFilter>;
-  /** Filter by the object’s `currentBoxQuantity` field. */
-  currentBoxQuantity?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `receivedBoxQuantity` field. */
-  receivedBoxQuantity?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `returnedBoxQuantity` field. */
-  returnedBoxQuantity?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `locationId` field. */
-  locationId?: Maybe<StringFilter>;
-  /** Filter by the object’s `room` field. */
-  room?: Maybe<StringFilter>;
-  /** Filter by the object’s `section` field. */
-  section?: Maybe<StringFilter>;
-  /** Filter by the object’s `row` field. */
-  row?: Maybe<StringFilter>;
-  /** Filter by the object’s `jvLotNumber` field. */
-  jvLotNumber?: Maybe<StringFilter>;
-  /** Filter by the object’s `shipperId` field. */
-  shipperId?: Maybe<StringFilter>;
-  /** Filter by the object’s `dateTransferredToStorage` field. */
-  dateTransferredToStorage?: Maybe<StringFilter>;
-  /** Filter by the object’s `orderId` field. */
-  orderId?: Maybe<StringFilter>;
-  /** Filter by the object’s `backOrderId` field. */
-  backOrderId?: Maybe<StringFilter>;
-  /** Filter by the object’s `shipped` field. */
-  shipped?: Maybe<BooleanFilter>;
-  /** Filter by the object’s `age` field. */
-  age?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `volumeDiscountCode` field. */
-  volumeDiscountCode?: Maybe<StringFilter>;
-  /** Filter by the object’s `originalLocationId` field. */
-  originalLocationId?: Maybe<StringFilter>;
-  /** Filter by the object’s `filler` field. */
-  filler?: Maybe<StringFilter>;
-  /** Filter by the object’s `growerId` field. */
-  growerId?: Maybe<StringFilter>;
-  /** Filter by the object’s `oldPackCode` field. */
-  oldPackCode?: Maybe<StringFilter>;
-  /** Filter by the object’s `packDate` field. */
-  packDate?: Maybe<StringFilter>;
-  /** Filter by the object’s `hatch` field. */
-  hatch?: Maybe<StringFilter>;
-  /** Filter by the object’s `deck` field. */
-  deck?: Maybe<StringFilter>;
-  /** Filter by the object’s `billOfLading` field. */
-  billOfLading?: Maybe<StringFilter>;
-  /** Filter by the object’s `containerId` field. */
-  containerId?: Maybe<StringFilter>;
-  /** Filter by the object’s `temperatureRecording` field. */
-  temperatureRecording?: Maybe<StringFilter>;
-  /** Filter by the object’s `searchText` field. */
-  searchText?: Maybe<StringFilter>;
-  /** Checks for all expressions in this list. */
-  and?: Maybe<Array<PalletFilter>>;
-  /** Checks for any expressions in this list. */
-  or?: Maybe<Array<PalletFilter>>;
-  /** Negates the expression. */
-  not?: Maybe<PalletFilter>;
-};
-
-/** A `InventoryItem` edge in the connection. */
-export type InventoryItemsEdge = {
-  __typename?: 'InventoryItemsEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `InventoryItem` at the end of the edge. */
-  node?: Maybe<InventoryItem>;
-};
-
-/** A filter to be used against `InventoryItem` object types. All fields are combined with a logical ‘and.’ */
-export type InventoryItemFilter = {
-  /** Filter by the object’s `id` field. */
-  id?: Maybe<BigIntFilter>;
-  /** Filter by the object’s `productId` field. */
-  productId?: Maybe<StringFilter>;
-  /** Filter by the object’s `locationId` field. */
-  locationId?: Maybe<StringFilter>;
-  /** Filter by the object’s `vesselCode` field. */
-  vesselCode?: Maybe<StringFilter>;
-  /** Filter by the object’s `jvLotNumber` field. */
-  jvLotNumber?: Maybe<StringFilter>;
-  /** Filter by the object’s `shipperId` field. */
-  shipperId?: Maybe<StringFilter>;
-  /** Filter by the object’s `palletsReceived` field. */
-  palletsReceived?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `palletsCommitted` field. */
-  palletsCommitted?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `palletsOnHand` field. */
-  palletsOnHand?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `palletsAvailable` field. */
-  palletsAvailable?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `palletsShipped` field. */
-  palletsShipped?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `palletsTransferredIn` field. */
-  palletsTransferredIn?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `palletsTransferredOut` field. */
-  palletsTransferredOut?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `plu` field. */
-  plu?: Maybe<BooleanFilter>;
-  /** Filter by the object’s `countryId` field. */
-  countryId?: Maybe<StringFilter>;
-  /** Filter by the object’s `specialLotNumber` field. */
-  specialLotNumber?: Maybe<StringFilter>;
-  /** Filter by the object’s `coast` field. */
-  coast?: Maybe<StringFilter>;
-  /** Filter by the object’s `storageRank` field. */
-  storageRank?: Maybe<StringFilter>;
-  /** Filter by the object’s `warehouseId` field. */
-  warehouseId?: Maybe<StringFilter>;
-  /** Filter by the object’s `vesselDischargeDate` field. */
-  vesselDischargeDate?: Maybe<DateFilter>;
-  /** Filter by the object’s `vesselInvFlag` field. */
-  vesselInvFlag?: Maybe<BooleanFilter>;
-  /** Checks for all expressions in this list. */
-  and?: Maybe<Array<InventoryItemFilter>>;
-  /** Checks for any expressions in this list. */
-  or?: Maybe<Array<InventoryItemFilter>>;
-  /** Negates the expression. */
-  not?: Maybe<InventoryItemFilter>;
-};
-
-/** A connection to a list of `Shipper` values, with data from `ShipperProjectionVessel`. */
-export type VesselShippersByShipperProjectionVesselVesselIdAndShipperIdManyToManyConnection = {
-  __typename?: 'VesselShippersByShipperProjectionVesselVesselIdAndShipperIdManyToManyConnection';
-  /** A list of `Shipper` objects. */
-  nodes: Array<Maybe<Shipper>>;
-  /** A list of edges which contains the `Shipper`, info from the `ShipperProjectionVessel`, and the cursor to aid in pagination. */
-  edges: Array<VesselShippersByShipperProjectionVesselVesselIdAndShipperIdManyToManyEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `Shipper` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-/** A `Shipper` edge in the connection, with data from `ShipperProjectionVessel`. */
-export type VesselShippersByShipperProjectionVesselVesselIdAndShipperIdManyToManyEdge = {
-  __typename?: 'VesselShippersByShipperProjectionVesselVesselIdAndShipperIdManyToManyEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `Shipper` at the end of the edge. */
-  node?: Maybe<Shipper>;
-  /** Reads and enables pagination through a set of `ShipperProjectionVessel`. */
-  shipperProjectionVessels: ShipperProjectionVesselsConnection;
-};
-
-
-/** A `Shipper` edge in the connection, with data from `ShipperProjectionVessel`. */
-export type VesselShippersByShipperProjectionVesselVesselIdAndShipperIdManyToManyEdgeShipperProjectionVesselsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<ShipperProjectionVesselsOrderBy>>;
-  condition?: Maybe<ShipperProjectionVesselCondition>;
-  filter?: Maybe<ShipperProjectionVesselFilter>;
-};
-
-/** A connection to a list of `ShipperProjection` values, with data from `ShipperProjectionVesselInfo`. */
-export type ShipperProjectionVesselShipperProjectionsByShipperProjectionVesselInfoVesselIdAndProjectionIdManyToManyConnection = {
-  __typename?: 'ShipperProjectionVesselShipperProjectionsByShipperProjectionVesselInfoVesselIdAndProjectionIdManyToManyConnection';
-  /** A list of `ShipperProjection` objects. */
-  nodes: Array<Maybe<ShipperProjection>>;
-  /** A list of edges which contains the `ShipperProjection`, info from the `ShipperProjectionVesselInfo`, and the cursor to aid in pagination. */
-  edges: Array<ShipperProjectionVesselShipperProjectionsByShipperProjectionVesselInfoVesselIdAndProjectionIdManyToManyEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `ShipperProjection` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-/** A `ShipperProjection` edge in the connection, with data from `ShipperProjectionVesselInfo`. */
-export type ShipperProjectionVesselShipperProjectionsByShipperProjectionVesselInfoVesselIdAndProjectionIdManyToManyEdge = {
-  __typename?: 'ShipperProjectionVesselShipperProjectionsByShipperProjectionVesselInfoVesselIdAndProjectionIdManyToManyEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `ShipperProjection` at the end of the edge. */
-  node?: Maybe<ShipperProjection>;
-  /** Reads and enables pagination through a set of `ShipperProjectionVesselInfo`. */
-  shipperProjectionVesselInfosByProjectionId: ShipperProjectionVesselInfosConnection;
-};
-
-
-/** A `ShipperProjection` edge in the connection, with data from `ShipperProjectionVesselInfo`. */
-export type ShipperProjectionVesselShipperProjectionsByShipperProjectionVesselInfoVesselIdAndProjectionIdManyToManyEdgeShipperProjectionVesselInfosByProjectionIdArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<ShipperProjectionVesselInfosOrderBy>>;
-  condition?: Maybe<ShipperProjectionVesselInfoCondition>;
-  filter?: Maybe<ShipperProjectionVesselInfoFilter>;
-};
-
-/** Methods to use when ordering `ShipperProjection`. */
-export enum ShipperProjectionsOrderBy {
-  Natural = 'NATURAL',
-  IdAsc = 'ID_ASC',
-  IdDesc = 'ID_DESC',
-  SubmittedAtAsc = 'SUBMITTED_AT_ASC',
-  SubmittedAtDesc = 'SUBMITTED_AT_DESC',
-  ShipperCommentsAsc = 'SHIPPER_COMMENTS_ASC',
-  ShipperCommentsDesc = 'SHIPPER_COMMENTS_DESC',
-  JvCommentsAsc = 'JV_COMMENTS_ASC',
-  JvCommentsDesc = 'JV_COMMENTS_DESC',
-  ApprovedAtAsc = 'APPROVED_AT_ASC',
-  ApprovedAtDesc = 'APPROVED_AT_DESC',
-  RejectedAtAsc = 'REJECTED_AT_ASC',
-  RejectedAtDesc = 'REJECTED_AT_DESC',
-  ShipperIdAsc = 'SHIPPER_ID_ASC',
-  ShipperIdDesc = 'SHIPPER_ID_DESC',
-  ReviewStatusAsc = 'REVIEW_STATUS_ASC',
-  ReviewStatusDesc = 'REVIEW_STATUS_DESC',
-  TotalPalletsAsc = 'TOTAL_PALLETS_ASC',
-  TotalPalletsDesc = 'TOTAL_PALLETS_DESC',
-  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
-  ShipperByShipperIdIdAsc = 'SHIPPER_BY_SHIPPER_ID__ID_ASC',
-  ShipperByShipperIdIdDesc = 'SHIPPER_BY_SHIPPER_ID__ID_DESC',
-  ShipperByShipperIdShipperNameAsc = 'SHIPPER_BY_SHIPPER_ID__SHIPPER_NAME_ASC',
-  ShipperByShipperIdShipperNameDesc = 'SHIPPER_BY_SHIPPER_ID__SHIPPER_NAME_DESC',
-  ShipperByShipperIdCountryIdAsc = 'SHIPPER_BY_SHIPPER_ID__COUNTRY_ID_ASC',
-  ShipperByShipperIdCountryIdDesc = 'SHIPPER_BY_SHIPPER_ID__COUNTRY_ID_DESC',
-  ShipperByShipperIdGroupIdAsc = 'SHIPPER_BY_SHIPPER_ID__GROUP_ID_ASC',
-  ShipperByShipperIdGroupIdDesc = 'SHIPPER_BY_SHIPPER_ID__GROUP_ID_DESC',
-  ShipperByShipperIdLogoSrcAsc = 'SHIPPER_BY_SHIPPER_ID__LOGO_SRC_ASC',
-  ShipperByShipperIdLogoSrcDesc = 'SHIPPER_BY_SHIPPER_ID__LOGO_SRC_DESC',
-  ShipperByShipperIdNotesAsc = 'SHIPPER_BY_SHIPPER_ID__NOTES_ASC',
-  ShipperByShipperIdNotesDesc = 'SHIPPER_BY_SHIPPER_ID__NOTES_DESC',
-  ShipperByShipperIdWebsiteAsc = 'SHIPPER_BY_SHIPPER_ID__WEBSITE_ASC',
-  ShipperByShipperIdWebsiteDesc = 'SHIPPER_BY_SHIPPER_ID__WEBSITE_DESC',
-  ShipperByShipperIdSendProjectionRequestAsc = 'SHIPPER_BY_SHIPPER_ID__SEND_PROJECTION_REQUEST_ASC',
-  ShipperByShipperIdSendProjectionRequestDesc = 'SHIPPER_BY_SHIPPER_ID__SEND_PROJECTION_REQUEST_DESC',
-  ShipperByShipperIdProjectionRequestStartDateAsc = 'SHIPPER_BY_SHIPPER_ID__PROJECTION_REQUEST_START_DATE_ASC',
-  ShipperByShipperIdProjectionRequestStartDateDesc = 'SHIPPER_BY_SHIPPER_ID__PROJECTION_REQUEST_START_DATE_DESC',
-  ShipperByShipperIdProjectionRequestEndDateAsc = 'SHIPPER_BY_SHIPPER_ID__PROJECTION_REQUEST_END_DATE_ASC',
-  ShipperByShipperIdProjectionRequestEndDateDesc = 'SHIPPER_BY_SHIPPER_ID__PROJECTION_REQUEST_END_DATE_DESC',
-  ShipperProjectionVesselInfosByProjectionIdCountAsc = 'SHIPPER_PROJECTION_VESSEL_INFOS_BY_PROJECTION_ID__COUNT_ASC',
-  ShipperProjectionVesselInfosByProjectionIdCountDesc = 'SHIPPER_PROJECTION_VESSEL_INFOS_BY_PROJECTION_ID__COUNT_DESC'
-}
-
-/**
- * A condition to be used against `ShipperProjection` object types. All fields are
- * tested for equality and combined with a logical ‘and.’
- */
-export type ShipperProjectionCondition = {
-  /** Checks for equality with the object’s `id` field. */
-  id?: Maybe<Scalars['BigInt']>;
-  /** Checks for equality with the object’s `submittedAt` field. */
-  submittedAt?: Maybe<Scalars['Datetime']>;
-  /** Checks for equality with the object’s `shipperComments` field. */
-  shipperComments?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `jvComments` field. */
-  jvComments?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `approvedAt` field. */
-  approvedAt?: Maybe<Scalars['Datetime']>;
-  /** Checks for equality with the object’s `rejectedAt` field. */
-  rejectedAt?: Maybe<Scalars['Datetime']>;
-  /** Checks for equality with the object’s `shipperId` field. */
-  shipperId?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `reviewStatus` field. */
-  reviewStatus?: Maybe<Scalars['Int']>;
-};
-
-/** A connection to a list of `Shipper` values, with data from `ShipperProjectionVesselInfo`. */
-export type ShipperProjectionVesselShippersByShipperProjectionVesselInfoVesselIdAndShipperIdManyToManyConnection = {
-  __typename?: 'ShipperProjectionVesselShippersByShipperProjectionVesselInfoVesselIdAndShipperIdManyToManyConnection';
-  /** A list of `Shipper` objects. */
-  nodes: Array<Maybe<Shipper>>;
-  /** A list of edges which contains the `Shipper`, info from the `ShipperProjectionVesselInfo`, and the cursor to aid in pagination. */
-  edges: Array<ShipperProjectionVesselShippersByShipperProjectionVesselInfoVesselIdAndShipperIdManyToManyEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `Shipper` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-/** A `Shipper` edge in the connection, with data from `ShipperProjectionVesselInfo`. */
-export type ShipperProjectionVesselShippersByShipperProjectionVesselInfoVesselIdAndShipperIdManyToManyEdge = {
-  __typename?: 'ShipperProjectionVesselShippersByShipperProjectionVesselInfoVesselIdAndShipperIdManyToManyEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `Shipper` at the end of the edge. */
-  node?: Maybe<Shipper>;
-  /** Reads and enables pagination through a set of `ShipperProjectionVesselInfo`. */
-  shipperProjectionVesselInfos: ShipperProjectionVesselInfosConnection;
-};
-
-
-/** A `Shipper` edge in the connection, with data from `ShipperProjectionVesselInfo`. */
-export type ShipperProjectionVesselShippersByShipperProjectionVesselInfoVesselIdAndShipperIdManyToManyEdgeShipperProjectionVesselInfosArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<ShipperProjectionVesselInfosOrderBy>>;
-  condition?: Maybe<ShipperProjectionVesselInfoCondition>;
-  filter?: Maybe<ShipperProjectionVesselInfoFilter>;
-};
-
-/** A `ShipperProjectionVessel` edge in the connection. */
-export type ShipperProjectionVesselsEdge = {
-  __typename?: 'ShipperProjectionVesselsEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `ShipperProjectionVessel` at the end of the edge. */
-  node?: Maybe<ShipperProjectionVessel>;
-};
-
-/** A connection to a list of `ShipperProjection` values. */
-export type ShipperProjectionsConnection = {
-  __typename?: 'ShipperProjectionsConnection';
-  /** A list of `ShipperProjection` objects. */
-  nodes: Array<Maybe<ShipperProjection>>;
-  /** A list of edges which contains the `ShipperProjection` and cursor to aid in pagination. */
-  edges: Array<ShipperProjectionsEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `ShipperProjection` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-/** A `ShipperProjection` edge in the connection. */
-export type ShipperProjectionsEdge = {
-  __typename?: 'ShipperProjectionsEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `ShipperProjection` at the end of the edge. */
-  node?: Maybe<ShipperProjection>;
-};
-
-/** A connection to a list of `ShipperPersonContact` values. */
-export type ShipperPersonContactsConnection = {
-  __typename?: 'ShipperPersonContactsConnection';
-  /** A list of `ShipperPersonContact` objects. */
-  nodes: Array<Maybe<ShipperPersonContact>>;
-  /** A list of edges which contains the `ShipperPersonContact` and cursor to aid in pagination. */
-  edges: Array<ShipperPersonContactsEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `ShipperPersonContact` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-export type ShipperPersonContact = Node & {
-  __typename?: 'ShipperPersonContact';
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  nodeId: Scalars['ID'];
-  shipperId: Scalars['String'];
-  personContactId: Scalars['BigInt'];
-  /** Reads a single `Shipper` that is related to this `ShipperPersonContact`. */
-  shipper?: Maybe<Shipper>;
-  /** Reads a single `PersonContact` that is related to this `ShipperPersonContact`. */
-  personContact?: Maybe<PersonContact>;
-};
-
-/** A `ShipperPersonContact` edge in the connection. */
-export type ShipperPersonContactsEdge = {
-  __typename?: 'ShipperPersonContactsEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `ShipperPersonContact` at the end of the edge. */
-  node?: Maybe<ShipperPersonContact>;
-};
-
-/** Methods to use when ordering `ShipperPersonContact`. */
-export enum ShipperPersonContactsOrderBy {
-  Natural = 'NATURAL',
-  ShipperIdAsc = 'SHIPPER_ID_ASC',
-  ShipperIdDesc = 'SHIPPER_ID_DESC',
-  PersonContactIdAsc = 'PERSON_CONTACT_ID_ASC',
-  PersonContactIdDesc = 'PERSON_CONTACT_ID_DESC',
-  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
-  ShipperByShipperIdIdAsc = 'SHIPPER_BY_SHIPPER_ID__ID_ASC',
-  ShipperByShipperIdIdDesc = 'SHIPPER_BY_SHIPPER_ID__ID_DESC',
-  ShipperByShipperIdShipperNameAsc = 'SHIPPER_BY_SHIPPER_ID__SHIPPER_NAME_ASC',
-  ShipperByShipperIdShipperNameDesc = 'SHIPPER_BY_SHIPPER_ID__SHIPPER_NAME_DESC',
-  ShipperByShipperIdCountryIdAsc = 'SHIPPER_BY_SHIPPER_ID__COUNTRY_ID_ASC',
-  ShipperByShipperIdCountryIdDesc = 'SHIPPER_BY_SHIPPER_ID__COUNTRY_ID_DESC',
-  ShipperByShipperIdGroupIdAsc = 'SHIPPER_BY_SHIPPER_ID__GROUP_ID_ASC',
-  ShipperByShipperIdGroupIdDesc = 'SHIPPER_BY_SHIPPER_ID__GROUP_ID_DESC',
-  ShipperByShipperIdLogoSrcAsc = 'SHIPPER_BY_SHIPPER_ID__LOGO_SRC_ASC',
-  ShipperByShipperIdLogoSrcDesc = 'SHIPPER_BY_SHIPPER_ID__LOGO_SRC_DESC',
-  ShipperByShipperIdNotesAsc = 'SHIPPER_BY_SHIPPER_ID__NOTES_ASC',
-  ShipperByShipperIdNotesDesc = 'SHIPPER_BY_SHIPPER_ID__NOTES_DESC',
-  ShipperByShipperIdWebsiteAsc = 'SHIPPER_BY_SHIPPER_ID__WEBSITE_ASC',
-  ShipperByShipperIdWebsiteDesc = 'SHIPPER_BY_SHIPPER_ID__WEBSITE_DESC',
-  ShipperByShipperIdSendProjectionRequestAsc = 'SHIPPER_BY_SHIPPER_ID__SEND_PROJECTION_REQUEST_ASC',
-  ShipperByShipperIdSendProjectionRequestDesc = 'SHIPPER_BY_SHIPPER_ID__SEND_PROJECTION_REQUEST_DESC',
-  ShipperByShipperIdProjectionRequestStartDateAsc = 'SHIPPER_BY_SHIPPER_ID__PROJECTION_REQUEST_START_DATE_ASC',
-  ShipperByShipperIdProjectionRequestStartDateDesc = 'SHIPPER_BY_SHIPPER_ID__PROJECTION_REQUEST_START_DATE_DESC',
-  ShipperByShipperIdProjectionRequestEndDateAsc = 'SHIPPER_BY_SHIPPER_ID__PROJECTION_REQUEST_END_DATE_ASC',
-  ShipperByShipperIdProjectionRequestEndDateDesc = 'SHIPPER_BY_SHIPPER_ID__PROJECTION_REQUEST_END_DATE_DESC',
-  PersonContactByPersonContactIdIdAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__ID_ASC',
-  PersonContactByPersonContactIdIdDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__ID_DESC',
-  PersonContactByPersonContactIdFirstNameAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__FIRST_NAME_ASC',
-  PersonContactByPersonContactIdFirstNameDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__FIRST_NAME_DESC',
-  PersonContactByPersonContactIdLastNameAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__LAST_NAME_ASC',
-  PersonContactByPersonContactIdLastNameDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__LAST_NAME_DESC',
-  PersonContactByPersonContactIdIsPrimaryAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__IS_PRIMARY_ASC',
-  PersonContactByPersonContactIdIsPrimaryDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__IS_PRIMARY_DESC',
-  PersonContactByPersonContactIdEmailAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__EMAIL_ASC',
-  PersonContactByPersonContactIdEmailDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__EMAIL_DESC',
-  PersonContactByPersonContactIdSecondaryEmailAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__SECONDARY_EMAIL_ASC',
-  PersonContactByPersonContactIdSecondaryEmailDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__SECONDARY_EMAIL_DESC',
-  PersonContactByPersonContactIdHomePhoneAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__HOME_PHONE_ASC',
-  PersonContactByPersonContactIdHomePhoneDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__HOME_PHONE_DESC',
-  PersonContactByPersonContactIdCellPhoneAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__CELL_PHONE_ASC',
-  PersonContactByPersonContactIdCellPhoneDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__CELL_PHONE_DESC',
-  PersonContactByPersonContactIdWorkPhoneAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__WORK_PHONE_ASC',
-  PersonContactByPersonContactIdWorkPhoneDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__WORK_PHONE_DESC',
-  PersonContactByPersonContactIdWorkExtensionAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__WORK_EXTENSION_ASC',
-  PersonContactByPersonContactIdWorkExtensionDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__WORK_EXTENSION_DESC',
-  PersonContactByPersonContactIdImageSrcAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__IMAGE_SRC_ASC',
-  PersonContactByPersonContactIdImageSrcDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__IMAGE_SRC_DESC',
-  PersonContactByPersonContactIdIsInternalAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__IS_INTERNAL_ASC',
-  PersonContactByPersonContactIdIsInternalDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__IS_INTERNAL_DESC',
-  PersonContactByPersonContactIdRolesAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__ROLES_ASC',
-  PersonContactByPersonContactIdRolesDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__ROLES_DESC'
-}
-
-/**
- * A condition to be used against `ShipperPersonContact` object types. All fields
- * are tested for equality and combined with a logical ‘and.’
- */
-export type ShipperPersonContactCondition = {
-  /** Checks for equality with the object’s `shipperId` field. */
-  shipperId?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `personContactId` field. */
-  personContactId?: Maybe<Scalars['BigInt']>;
-};
-
-/** A connection to a list of `Vessel` values, with data from `ShipperProjectionVessel`. */
-export type ShipperVesselsByShipperProjectionVesselShipperIdAndVesselIdManyToManyConnection = {
-  __typename?: 'ShipperVesselsByShipperProjectionVesselShipperIdAndVesselIdManyToManyConnection';
-  /** A list of `Vessel` objects. */
-  nodes: Array<Maybe<Vessel>>;
-  /** A list of edges which contains the `Vessel`, info from the `ShipperProjectionVessel`, and the cursor to aid in pagination. */
-  edges: Array<ShipperVesselsByShipperProjectionVesselShipperIdAndVesselIdManyToManyEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `Vessel` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-/** A `Vessel` edge in the connection, with data from `ShipperProjectionVessel`. */
-export type ShipperVesselsByShipperProjectionVesselShipperIdAndVesselIdManyToManyEdge = {
-  __typename?: 'ShipperVesselsByShipperProjectionVesselShipperIdAndVesselIdManyToManyEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `Vessel` at the end of the edge. */
-  node?: Maybe<Vessel>;
-  /** Reads and enables pagination through a set of `ShipperProjectionVessel`. */
-  shipperProjectionVessels: ShipperProjectionVesselsConnection;
-};
-
-
-/** A `Vessel` edge in the connection, with data from `ShipperProjectionVessel`. */
-export type ShipperVesselsByShipperProjectionVesselShipperIdAndVesselIdManyToManyEdgeShipperProjectionVesselsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<ShipperProjectionVesselsOrderBy>>;
-  condition?: Maybe<ShipperProjectionVesselCondition>;
-  filter?: Maybe<ShipperProjectionVesselFilter>;
-};
-
-/** Methods to use when ordering `Vessel`. */
-export enum VesselsOrderBy {
-  Natural = 'NATURAL',
-  IdAsc = 'ID_ASC',
-  IdDesc = 'ID_DESC',
-  VesselCodeAsc = 'VESSEL_CODE_ASC',
-  VesselCodeDesc = 'VESSEL_CODE_DESC',
-  VesselNameAsc = 'VESSEL_NAME_ASC',
-  VesselNameDesc = 'VESSEL_NAME_DESC',
-  ArrivalPortAsc = 'ARRIVAL_PORT_ASC',
-  ArrivalPortDesc = 'ARRIVAL_PORT_DESC',
-  CountryIdAsc = 'COUNTRY_ID_ASC',
-  CountryIdDesc = 'COUNTRY_ID_DESC',
-  DepartureDateAsc = 'DEPARTURE_DATE_ASC',
-  DepartureDateDesc = 'DEPARTURE_DATE_DESC',
-  ArrivalDateAsc = 'ARRIVAL_DATE_ASC',
-  ArrivalDateDesc = 'ARRIVAL_DATE_DESC',
-  DischargeDateAsc = 'DISCHARGE_DATE_ASC',
-  DischargeDateDesc = 'DISCHARGE_DATE_DESC',
-  CoastAsc = 'COAST_ASC',
-  CoastDesc = 'COAST_DESC',
-  IsPreAsc = 'IS_PRE_ASC',
-  IsPreDesc = 'IS_PRE_DESC',
-  PreVesselCodeAsc = 'PRE_VESSEL_CODE_ASC',
-  PreVesselCodeDesc = 'PRE_VESSEL_CODE_DESC',
-  InvFlagAsc = 'INV_FLAG_ASC',
-  InvFlagDesc = 'INV_FLAG_DESC',
-  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
-  ShipperProjectionVesselsByVesselIdCountAsc = 'SHIPPER_PROJECTION_VESSELS_BY_VESSEL_ID__COUNT_ASC',
-  ShipperProjectionVesselsByVesselIdCountDesc = 'SHIPPER_PROJECTION_VESSELS_BY_VESSEL_ID__COUNT_DESC'
-}
-
-/** A condition to be used against `Vessel` object types. All fields are tested for equality and combined with a logical ‘and.’ */
-export type VesselCondition = {
-  /** Checks for equality with the object’s `id` field. */
-  id?: Maybe<Scalars['BigInt']>;
-  /** Checks for equality with the object’s `vesselCode` field. */
-  vesselCode?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `vesselName` field. */
-  vesselName?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `arrivalPort` field. */
-  arrivalPort?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `countryId` field. */
-  countryId?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `departureDate` field. */
-  departureDate?: Maybe<Scalars['Date']>;
-  /** Checks for equality with the object’s `arrivalDate` field. */
-  arrivalDate?: Maybe<Scalars['Date']>;
-  /** Checks for equality with the object’s `dischargeDate` field. */
-  dischargeDate?: Maybe<Scalars['Date']>;
-  /** Checks for equality with the object’s `coast` field. */
-  coast?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `isPre` field. */
-  isPre?: Maybe<Scalars['Boolean']>;
-  /** Checks for equality with the object’s `preVesselCode` field. */
-  preVesselCode?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `invFlag` field. */
-  invFlag?: Maybe<Scalars['Boolean']>;
-};
-
-/** A connection to a list of `CommonSpecies` values, with data from `ShipperProjectionProduct`. */
-export type ShipperCommonSpeciesByShipperProjectionProductShipperIdAndCommonSpeciesIdManyToManyConnection = {
-  __typename?: 'ShipperCommonSpeciesByShipperProjectionProductShipperIdAndCommonSpeciesIdManyToManyConnection';
-  /** A list of `CommonSpecies` objects. */
-  nodes: Array<Maybe<CommonSpecies>>;
-  /** A list of edges which contains the `CommonSpecies`, info from the `ShipperProjectionProduct`, and the cursor to aid in pagination. */
-  edges: Array<ShipperCommonSpeciesByShipperProjectionProductShipperIdAndCommonSpeciesIdManyToManyEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `CommonSpecies` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-/** A `CommonSpecies` edge in the connection, with data from `ShipperProjectionProduct`. */
-export type ShipperCommonSpeciesByShipperProjectionProductShipperIdAndCommonSpeciesIdManyToManyEdge = {
-  __typename?: 'ShipperCommonSpeciesByShipperProjectionProductShipperIdAndCommonSpeciesIdManyToManyEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `CommonSpecies` at the end of the edge. */
-  node?: Maybe<CommonSpecies>;
-  /** Reads and enables pagination through a set of `ShipperProjectionProduct`. */
-  shipperProjectionProducts: ShipperProjectionProductsConnection;
-};
-
-
-/** A `CommonSpecies` edge in the connection, with data from `ShipperProjectionProduct`. */
-export type ShipperCommonSpeciesByShipperProjectionProductShipperIdAndCommonSpeciesIdManyToManyEdgeShipperProjectionProductsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<ShipperProjectionProductsOrderBy>>;
-  condition?: Maybe<ShipperProjectionProductCondition>;
-  filter?: Maybe<ShipperProjectionProductFilter>;
-};
-
-/** A connection to a list of `CommonVariety` values, with data from `ShipperProjectionProduct`. */
-export type ShipperCommonVarietiesByShipperProjectionProductShipperIdAndCommonVarietyIdManyToManyConnection = {
-  __typename?: 'ShipperCommonVarietiesByShipperProjectionProductShipperIdAndCommonVarietyIdManyToManyConnection';
-  /** A list of `CommonVariety` objects. */
-  nodes: Array<Maybe<CommonVariety>>;
-  /** A list of edges which contains the `CommonVariety`, info from the `ShipperProjectionProduct`, and the cursor to aid in pagination. */
-  edges: Array<ShipperCommonVarietiesByShipperProjectionProductShipperIdAndCommonVarietyIdManyToManyEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `CommonVariety` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-/** A `CommonVariety` edge in the connection, with data from `ShipperProjectionProduct`. */
-export type ShipperCommonVarietiesByShipperProjectionProductShipperIdAndCommonVarietyIdManyToManyEdge = {
-  __typename?: 'ShipperCommonVarietiesByShipperProjectionProductShipperIdAndCommonVarietyIdManyToManyEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `CommonVariety` at the end of the edge. */
-  node?: Maybe<CommonVariety>;
-  /** Reads and enables pagination through a set of `ShipperProjectionProduct`. */
-  shipperProjectionProducts: ShipperProjectionProductsConnection;
-};
-
-
-/** A `CommonVariety` edge in the connection, with data from `ShipperProjectionProduct`. */
-export type ShipperCommonVarietiesByShipperProjectionProductShipperIdAndCommonVarietyIdManyToManyEdgeShipperProjectionProductsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<ShipperProjectionProductsOrderBy>>;
-  condition?: Maybe<ShipperProjectionProductCondition>;
-  filter?: Maybe<ShipperProjectionProductFilter>;
-};
-
-/** A connection to a list of `CommonSize` values, with data from `ShipperProjectionProduct`. */
-export type ShipperCommonSizesByShipperProjectionProductShipperIdAndCommonSizeIdManyToManyConnection = {
-  __typename?: 'ShipperCommonSizesByShipperProjectionProductShipperIdAndCommonSizeIdManyToManyConnection';
-  /** A list of `CommonSize` objects. */
-  nodes: Array<Maybe<CommonSize>>;
-  /** A list of edges which contains the `CommonSize`, info from the `ShipperProjectionProduct`, and the cursor to aid in pagination. */
-  edges: Array<ShipperCommonSizesByShipperProjectionProductShipperIdAndCommonSizeIdManyToManyEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `CommonSize` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-/** A `CommonSize` edge in the connection, with data from `ShipperProjectionProduct`. */
-export type ShipperCommonSizesByShipperProjectionProductShipperIdAndCommonSizeIdManyToManyEdge = {
-  __typename?: 'ShipperCommonSizesByShipperProjectionProductShipperIdAndCommonSizeIdManyToManyEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `CommonSize` at the end of the edge. */
-  node?: Maybe<CommonSize>;
-  /** Reads and enables pagination through a set of `ShipperProjectionProduct`. */
-  shipperProjectionProducts: ShipperProjectionProductsConnection;
-};
-
-
-/** A `CommonSize` edge in the connection, with data from `ShipperProjectionProduct`. */
-export type ShipperCommonSizesByShipperProjectionProductShipperIdAndCommonSizeIdManyToManyEdgeShipperProjectionProductsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<ShipperProjectionProductsOrderBy>>;
-  condition?: Maybe<ShipperProjectionProductCondition>;
-  filter?: Maybe<ShipperProjectionProductFilter>;
-};
-
-/** A connection to a list of `CommonPackType` values, with data from `ShipperProjectionProduct`. */
-export type ShipperCommonPackTypesByShipperProjectionProductShipperIdAndCommonPackTypeIdManyToManyConnection = {
-  __typename?: 'ShipperCommonPackTypesByShipperProjectionProductShipperIdAndCommonPackTypeIdManyToManyConnection';
-  /** A list of `CommonPackType` objects. */
-  nodes: Array<Maybe<CommonPackType>>;
-  /** A list of edges which contains the `CommonPackType`, info from the `ShipperProjectionProduct`, and the cursor to aid in pagination. */
-  edges: Array<ShipperCommonPackTypesByShipperProjectionProductShipperIdAndCommonPackTypeIdManyToManyEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `CommonPackType` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-/** A `CommonPackType` edge in the connection, with data from `ShipperProjectionProduct`. */
-export type ShipperCommonPackTypesByShipperProjectionProductShipperIdAndCommonPackTypeIdManyToManyEdge = {
-  __typename?: 'ShipperCommonPackTypesByShipperProjectionProductShipperIdAndCommonPackTypeIdManyToManyEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `CommonPackType` at the end of the edge. */
-  node?: Maybe<CommonPackType>;
-  /** Reads and enables pagination through a set of `ShipperProjectionProduct`. */
-  shipperProjectionProducts: ShipperProjectionProductsConnection;
-};
-
-
-/** A `CommonPackType` edge in the connection, with data from `ShipperProjectionProduct`. */
-export type ShipperCommonPackTypesByShipperProjectionProductShipperIdAndCommonPackTypeIdManyToManyEdgeShipperProjectionProductsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<ShipperProjectionProductsOrderBy>>;
-  condition?: Maybe<ShipperProjectionProductCondition>;
-  filter?: Maybe<ShipperProjectionProductFilter>;
-};
-
-/** A connection to a list of `Customer` values, with data from `ShipperProjectionProduct`. */
-export type ShipperCustomersByShipperProjectionProductShipperIdAndCustomerIdManyToManyConnection = {
-  __typename?: 'ShipperCustomersByShipperProjectionProductShipperIdAndCustomerIdManyToManyConnection';
-  /** A list of `Customer` objects. */
-  nodes: Array<Maybe<Customer>>;
-  /** A list of edges which contains the `Customer`, info from the `ShipperProjectionProduct`, and the cursor to aid in pagination. */
-  edges: Array<ShipperCustomersByShipperProjectionProductShipperIdAndCustomerIdManyToManyEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `Customer` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-/** A `Customer` edge in the connection, with data from `ShipperProjectionProduct`. */
-export type ShipperCustomersByShipperProjectionProductShipperIdAndCustomerIdManyToManyEdge = {
-  __typename?: 'ShipperCustomersByShipperProjectionProductShipperIdAndCustomerIdManyToManyEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `Customer` at the end of the edge. */
-  node?: Maybe<Customer>;
-  /** Reads and enables pagination through a set of `ShipperProjectionProduct`. */
-  shipperProjectionProducts: ShipperProjectionProductsConnection;
-};
-
-
-/** A `Customer` edge in the connection, with data from `ShipperProjectionProduct`. */
-export type ShipperCustomersByShipperProjectionProductShipperIdAndCustomerIdManyToManyEdgeShipperProjectionProductsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<ShipperProjectionProductsOrderBy>>;
-  condition?: Maybe<ShipperProjectionProductCondition>;
-  filter?: Maybe<ShipperProjectionProductFilter>;
-};
-
-/** A connection to a list of `PersonContact` values, with data from `ShipperPersonContact`. */
-export type ShipperPersonContactsByShipperPersonContactShipperIdAndPersonContactIdManyToManyConnection = {
-  __typename?: 'ShipperPersonContactsByShipperPersonContactShipperIdAndPersonContactIdManyToManyConnection';
-  /** A list of `PersonContact` objects. */
-  nodes: Array<Maybe<PersonContact>>;
-  /** A list of edges which contains the `PersonContact`, info from the `ShipperPersonContact`, and the cursor to aid in pagination. */
-  edges: Array<ShipperPersonContactsByShipperPersonContactShipperIdAndPersonContactIdManyToManyEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `PersonContact` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-/** A `PersonContact` edge in the connection, with data from `ShipperPersonContact`. */
-export type ShipperPersonContactsByShipperPersonContactShipperIdAndPersonContactIdManyToManyEdge = {
-  __typename?: 'ShipperPersonContactsByShipperPersonContactShipperIdAndPersonContactIdManyToManyEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `PersonContact` at the end of the edge. */
-  node?: Maybe<PersonContact>;
-};
-
-/** A connection to a list of `ShipperProjection` values, with data from `ShipperProjectionVesselInfo`. */
-export type ShipperShipperProjectionsByShipperProjectionVesselInfoShipperIdAndProjectionIdManyToManyConnection = {
-  __typename?: 'ShipperShipperProjectionsByShipperProjectionVesselInfoShipperIdAndProjectionIdManyToManyConnection';
-  /** A list of `ShipperProjection` objects. */
-  nodes: Array<Maybe<ShipperProjection>>;
-  /** A list of edges which contains the `ShipperProjection`, info from the `ShipperProjectionVesselInfo`, and the cursor to aid in pagination. */
-  edges: Array<ShipperShipperProjectionsByShipperProjectionVesselInfoShipperIdAndProjectionIdManyToManyEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `ShipperProjection` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-/** A `ShipperProjection` edge in the connection, with data from `ShipperProjectionVesselInfo`. */
-export type ShipperShipperProjectionsByShipperProjectionVesselInfoShipperIdAndProjectionIdManyToManyEdge = {
-  __typename?: 'ShipperShipperProjectionsByShipperProjectionVesselInfoShipperIdAndProjectionIdManyToManyEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `ShipperProjection` at the end of the edge. */
-  node?: Maybe<ShipperProjection>;
-  /** Reads and enables pagination through a set of `ShipperProjectionVesselInfo`. */
-  shipperProjectionVesselInfosByProjectionId: ShipperProjectionVesselInfosConnection;
-};
-
-
-/** A `ShipperProjection` edge in the connection, with data from `ShipperProjectionVesselInfo`. */
-export type ShipperShipperProjectionsByShipperProjectionVesselInfoShipperIdAndProjectionIdManyToManyEdgeShipperProjectionVesselInfosByProjectionIdArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<ShipperProjectionVesselInfosOrderBy>>;
-  condition?: Maybe<ShipperProjectionVesselInfoCondition>;
-  filter?: Maybe<ShipperProjectionVesselInfoFilter>;
-};
-
-/** A connection to a list of `ShipperProjectionVessel` values, with data from `ShipperProjectionVesselInfo`. */
-export type ShipperShipperProjectionVesselsByShipperProjectionVesselInfoShipperIdAndVesselIdManyToManyConnection = {
-  __typename?: 'ShipperShipperProjectionVesselsByShipperProjectionVesselInfoShipperIdAndVesselIdManyToManyConnection';
-  /** A list of `ShipperProjectionVessel` objects. */
-  nodes: Array<Maybe<ShipperProjectionVessel>>;
-  /** A list of edges which contains the `ShipperProjectionVessel`, info from the `ShipperProjectionVesselInfo`, and the cursor to aid in pagination. */
-  edges: Array<ShipperShipperProjectionVesselsByShipperProjectionVesselInfoShipperIdAndVesselIdManyToManyEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `ShipperProjectionVessel` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-/** A `ShipperProjectionVessel` edge in the connection, with data from `ShipperProjectionVesselInfo`. */
-export type ShipperShipperProjectionVesselsByShipperProjectionVesselInfoShipperIdAndVesselIdManyToManyEdge = {
-  __typename?: 'ShipperShipperProjectionVesselsByShipperProjectionVesselInfoShipperIdAndVesselIdManyToManyEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `ShipperProjectionVessel` at the end of the edge. */
-  node?: Maybe<ShipperProjectionVessel>;
-  /** Reads and enables pagination through a set of `ShipperProjectionVesselInfo`. */
-  shipperProjectionVesselInfosByVesselId: ShipperProjectionVesselInfosConnection;
-};
-
-
-/** A `ShipperProjectionVessel` edge in the connection, with data from `ShipperProjectionVesselInfo`. */
-export type ShipperShipperProjectionVesselsByShipperProjectionVesselInfoShipperIdAndVesselIdManyToManyEdgeShipperProjectionVesselInfosByVesselIdArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<ShipperProjectionVesselInfosOrderBy>>;
-  condition?: Maybe<ShipperProjectionVesselInfoCondition>;
-  filter?: Maybe<ShipperProjectionVesselInfoFilter>;
-};
-
-/** A connection to a list of `CommonSpecies` values, with data from `ShipperProgram`. */
-export type ShipperCommonSpeciesByShipperProgramShipperIdAndCommonSpeciesIdManyToManyConnection = {
-  __typename?: 'ShipperCommonSpeciesByShipperProgramShipperIdAndCommonSpeciesIdManyToManyConnection';
-  /** A list of `CommonSpecies` objects. */
-  nodes: Array<Maybe<CommonSpecies>>;
-  /** A list of edges which contains the `CommonSpecies`, info from the `ShipperProgram`, and the cursor to aid in pagination. */
-  edges: Array<ShipperCommonSpeciesByShipperProgramShipperIdAndCommonSpeciesIdManyToManyEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `CommonSpecies` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-/** A `CommonSpecies` edge in the connection, with data from `ShipperProgram`. */
-export type ShipperCommonSpeciesByShipperProgramShipperIdAndCommonSpeciesIdManyToManyEdge = {
-  __typename?: 'ShipperCommonSpeciesByShipperProgramShipperIdAndCommonSpeciesIdManyToManyEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `CommonSpecies` at the end of the edge. */
-  node?: Maybe<CommonSpecies>;
-  /** Reads and enables pagination through a set of `ShipperProgram`. */
-  shipperPrograms: ShipperProgramsConnection;
-};
-
-
-/** A `CommonSpecies` edge in the connection, with data from `ShipperProgram`. */
-export type ShipperCommonSpeciesByShipperProgramShipperIdAndCommonSpeciesIdManyToManyEdgeShipperProgramsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<ShipperProgramsOrderBy>>;
-  condition?: Maybe<ShipperProgramCondition>;
-  filter?: Maybe<ShipperProgramFilter>;
-};
-
-/** A connection to a list of `CommonVariety` values, with data from `ShipperProgram`. */
-export type ShipperCommonVarietiesByShipperProgramShipperIdAndCommonVarietyIdManyToManyConnection = {
-  __typename?: 'ShipperCommonVarietiesByShipperProgramShipperIdAndCommonVarietyIdManyToManyConnection';
-  /** A list of `CommonVariety` objects. */
-  nodes: Array<Maybe<CommonVariety>>;
-  /** A list of edges which contains the `CommonVariety`, info from the `ShipperProgram`, and the cursor to aid in pagination. */
-  edges: Array<ShipperCommonVarietiesByShipperProgramShipperIdAndCommonVarietyIdManyToManyEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `CommonVariety` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-/** A `CommonVariety` edge in the connection, with data from `ShipperProgram`. */
-export type ShipperCommonVarietiesByShipperProgramShipperIdAndCommonVarietyIdManyToManyEdge = {
-  __typename?: 'ShipperCommonVarietiesByShipperProgramShipperIdAndCommonVarietyIdManyToManyEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `CommonVariety` at the end of the edge. */
-  node?: Maybe<CommonVariety>;
-  /** Reads and enables pagination through a set of `ShipperProgram`. */
-  shipperPrograms: ShipperProgramsConnection;
-};
-
-
-/** A `CommonVariety` edge in the connection, with data from `ShipperProgram`. */
-export type ShipperCommonVarietiesByShipperProgramShipperIdAndCommonVarietyIdManyToManyEdgeShipperProgramsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<ShipperProgramsOrderBy>>;
-  condition?: Maybe<ShipperProgramCondition>;
-  filter?: Maybe<ShipperProgramFilter>;
-};
-
-/** A connection to a list of `CommonSize` values, with data from `ShipperProgram`. */
-export type ShipperCommonSizesByShipperProgramShipperIdAndCommonSizeIdManyToManyConnection = {
-  __typename?: 'ShipperCommonSizesByShipperProgramShipperIdAndCommonSizeIdManyToManyConnection';
-  /** A list of `CommonSize` objects. */
-  nodes: Array<Maybe<CommonSize>>;
-  /** A list of edges which contains the `CommonSize`, info from the `ShipperProgram`, and the cursor to aid in pagination. */
-  edges: Array<ShipperCommonSizesByShipperProgramShipperIdAndCommonSizeIdManyToManyEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `CommonSize` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-/** A `CommonSize` edge in the connection, with data from `ShipperProgram`. */
-export type ShipperCommonSizesByShipperProgramShipperIdAndCommonSizeIdManyToManyEdge = {
-  __typename?: 'ShipperCommonSizesByShipperProgramShipperIdAndCommonSizeIdManyToManyEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `CommonSize` at the end of the edge. */
-  node?: Maybe<CommonSize>;
-  /** Reads and enables pagination through a set of `ShipperProgram`. */
-  shipperPrograms: ShipperProgramsConnection;
-};
-
-
-/** A `CommonSize` edge in the connection, with data from `ShipperProgram`. */
-export type ShipperCommonSizesByShipperProgramShipperIdAndCommonSizeIdManyToManyEdgeShipperProgramsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<ShipperProgramsOrderBy>>;
-  condition?: Maybe<ShipperProgramCondition>;
-  filter?: Maybe<ShipperProgramFilter>;
-};
-
-/** A connection to a list of `CommonPackType` values, with data from `ShipperProgram`. */
-export type ShipperCommonPackTypesByShipperProgramShipperIdAndCommonPackTypeIdManyToManyConnection = {
-  __typename?: 'ShipperCommonPackTypesByShipperProgramShipperIdAndCommonPackTypeIdManyToManyConnection';
-  /** A list of `CommonPackType` objects. */
-  nodes: Array<Maybe<CommonPackType>>;
-  /** A list of edges which contains the `CommonPackType`, info from the `ShipperProgram`, and the cursor to aid in pagination. */
-  edges: Array<ShipperCommonPackTypesByShipperProgramShipperIdAndCommonPackTypeIdManyToManyEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `CommonPackType` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-/** A `CommonPackType` edge in the connection, with data from `ShipperProgram`. */
-export type ShipperCommonPackTypesByShipperProgramShipperIdAndCommonPackTypeIdManyToManyEdge = {
-  __typename?: 'ShipperCommonPackTypesByShipperProgramShipperIdAndCommonPackTypeIdManyToManyEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `CommonPackType` at the end of the edge. */
-  node?: Maybe<CommonPackType>;
-  /** Reads and enables pagination through a set of `ShipperProgram`. */
-  shipperPrograms: ShipperProgramsConnection;
-};
-
-
-/** A `CommonPackType` edge in the connection, with data from `ShipperProgram`. */
-export type ShipperCommonPackTypesByShipperProgramShipperIdAndCommonPackTypeIdManyToManyEdgeShipperProgramsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<ShipperProgramsOrderBy>>;
-  condition?: Maybe<ShipperProgramCondition>;
-  filter?: Maybe<ShipperProgramFilter>;
-};
-
-/** A connection to a list of `Customer` values, with data from `ShipperProgram`. */
-export type ShipperCustomersByShipperProgramShipperIdAndCustomerIdManyToManyConnection = {
-  __typename?: 'ShipperCustomersByShipperProgramShipperIdAndCustomerIdManyToManyConnection';
-  /** A list of `Customer` objects. */
-  nodes: Array<Maybe<Customer>>;
-  /** A list of edges which contains the `Customer`, info from the `ShipperProgram`, and the cursor to aid in pagination. */
-  edges: Array<ShipperCustomersByShipperProgramShipperIdAndCustomerIdManyToManyEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `Customer` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-/** A `Customer` edge in the connection, with data from `ShipperProgram`. */
-export type ShipperCustomersByShipperProgramShipperIdAndCustomerIdManyToManyEdge = {
-  __typename?: 'ShipperCustomersByShipperProgramShipperIdAndCustomerIdManyToManyEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `Customer` at the end of the edge. */
-  node?: Maybe<Customer>;
-  /** Reads and enables pagination through a set of `ShipperProgram`. */
-  shipperPrograms: ShipperProgramsConnection;
-};
-
-
-/** A `Customer` edge in the connection, with data from `ShipperProgram`. */
-export type ShipperCustomersByShipperProgramShipperIdAndCustomerIdManyToManyEdgeShipperProgramsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<ShipperProgramsOrderBy>>;
-  condition?: Maybe<ShipperProgramCondition>;
-  filter?: Maybe<ShipperProgramFilter>;
-};
-
-/** A `Shipper` edge in the connection. */
-export type ShippersEdge = {
-  __typename?: 'ShippersEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `Shipper` at the end of the edge. */
-  node?: Maybe<Shipper>;
-};
-
-/** A connection to a list of `Warehouse` values. */
-export type WarehousesConnection = {
-  __typename?: 'WarehousesConnection';
-  /** A list of `Warehouse` objects. */
-  nodes: Array<Maybe<Warehouse>>;
-  /** A list of edges which contains the `Warehouse` and cursor to aid in pagination. */
-  edges: Array<WarehousesEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `Warehouse` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-/** A `Warehouse` edge in the connection. */
-export type WarehousesEdge = {
-  __typename?: 'WarehousesEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `Warehouse` at the end of the edge. */
-  node?: Maybe<Warehouse>;
-};
-
-/** Methods to use when ordering `Warehouse`. */
-export enum WarehousesOrderBy {
-  Natural = 'NATURAL',
-  IdAsc = 'ID_ASC',
-  IdDesc = 'ID_DESC',
-  WarehouseNameAsc = 'WAREHOUSE_NAME_ASC',
-  WarehouseNameDesc = 'WAREHOUSE_NAME_DESC',
-  Address_1Asc = 'ADDRESS_1_ASC',
-  Address_1Desc = 'ADDRESS_1_DESC',
-  Address_2Asc = 'ADDRESS_2_ASC',
-  Address_2Desc = 'ADDRESS_2_DESC',
-  Address_3Asc = 'ADDRESS_3_ASC',
-  Address_3Desc = 'ADDRESS_3_DESC',
-  CityAsc = 'CITY_ASC',
-  CityDesc = 'CITY_DESC',
-  PostalStateAsc = 'POSTAL_STATE_ASC',
-  PostalStateDesc = 'POSTAL_STATE_DESC',
-  CountryIdAsc = 'COUNTRY_ID_ASC',
-  CountryIdDesc = 'COUNTRY_ID_DESC',
-  ZipCodeAsc = 'ZIP_CODE_ASC',
-  ZipCodeDesc = 'ZIP_CODE_DESC',
-  PhoneAsc = 'PHONE_ASC',
-  PhoneDesc = 'PHONE_DESC',
-  OutQueueAsc = 'OUT_QUEUE_ASC',
-  OutQueueDesc = 'OUT_QUEUE_DESC',
-  StateTaxCodeAsc = 'STATE_TAX_CODE_ASC',
-  StateTaxCodeDesc = 'STATE_TAX_CODE_DESC',
-  CountyTaxCodeAsc = 'COUNTY_TAX_CODE_ASC',
-  CountyTaxCodeDesc = 'COUNTY_TAX_CODE_DESC',
-  CityTaxCodeAsc = 'CITY_TAX_CODE_ASC',
-  CityTaxCodeDesc = 'CITY_TAX_CODE_DESC',
-  MiscTaxCodeAsc = 'MISC_TAX_CODE_ASC',
-  MiscTaxCodeDesc = 'MISC_TAX_CODE_DESC',
-  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
-  CountryByCountryIdIdAsc = 'COUNTRY_BY_COUNTRY_ID__ID_ASC',
-  CountryByCountryIdIdDesc = 'COUNTRY_BY_COUNTRY_ID__ID_DESC',
-  CountryByCountryIdCountryNameAsc = 'COUNTRY_BY_COUNTRY_ID__COUNTRY_NAME_ASC',
-  CountryByCountryIdCountryNameDesc = 'COUNTRY_BY_COUNTRY_ID__COUNTRY_NAME_DESC',
-  CountryByCountryIdCmbIdAsc = 'COUNTRY_BY_COUNTRY_ID__CMB_ID_ASC',
-  CountryByCountryIdCmbIdDesc = 'COUNTRY_BY_COUNTRY_ID__CMB_ID_DESC',
-  WarehousePersonContactsByWarehouseIdCountAsc = 'WAREHOUSE_PERSON_CONTACTS_BY_WAREHOUSE_ID__COUNT_ASC',
-  WarehousePersonContactsByWarehouseIdCountDesc = 'WAREHOUSE_PERSON_CONTACTS_BY_WAREHOUSE_ID__COUNT_DESC'
-}
-
-/**
- * A condition to be used against `Warehouse` object types. All fields are tested
- * for equality and combined with a logical ‘and.’
- */
-export type WarehouseCondition = {
-  /** Checks for equality with the object’s `id` field. */
-  id?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `warehouseName` field. */
-  warehouseName?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `address1` field. */
-  address1?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `address2` field. */
-  address2?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `address3` field. */
-  address3?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `city` field. */
-  city?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `postalState` field. */
-  postalState?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `countryId` field. */
-  countryId?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `zipCode` field. */
-  zipCode?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `phone` field. */
-  phone?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `outQueue` field. */
-  outQueue?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `stateTaxCode` field. */
-  stateTaxCode?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `countyTaxCode` field. */
-  countyTaxCode?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `cityTaxCode` field. */
-  cityTaxCode?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `miscTaxCode` field. */
-  miscTaxCode?: Maybe<Scalars['String']>;
-};
-
-/** Methods to use when ordering `CustomerPersonContact`. */
-export enum CustomerPersonContactsOrderBy {
-  Natural = 'NATURAL',
-  CustomerIdAsc = 'CUSTOMER_ID_ASC',
-  CustomerIdDesc = 'CUSTOMER_ID_DESC',
-  PersonContactIdAsc = 'PERSON_CONTACT_ID_ASC',
-  PersonContactIdDesc = 'PERSON_CONTACT_ID_DESC',
-  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
-  CustomerByCustomerIdIdAsc = 'CUSTOMER_BY_CUSTOMER_ID__ID_ASC',
-  CustomerByCustomerIdIdDesc = 'CUSTOMER_BY_CUSTOMER_ID__ID_DESC',
-  CustomerByCustomerIdCustomerNameAsc = 'CUSTOMER_BY_CUSTOMER_ID__CUSTOMER_NAME_ASC',
-  CustomerByCustomerIdCustomerNameDesc = 'CUSTOMER_BY_CUSTOMER_ID__CUSTOMER_NAME_DESC',
-  CustomerByCustomerIdAddress_1Asc = 'CUSTOMER_BY_CUSTOMER_ID__ADDRESS_1_ASC',
-  CustomerByCustomerIdAddress_1Desc = 'CUSTOMER_BY_CUSTOMER_ID__ADDRESS_1_DESC',
-  CustomerByCustomerIdAddress_2Asc = 'CUSTOMER_BY_CUSTOMER_ID__ADDRESS_2_ASC',
-  CustomerByCustomerIdAddress_2Desc = 'CUSTOMER_BY_CUSTOMER_ID__ADDRESS_2_DESC',
-  CustomerByCustomerIdCityAsc = 'CUSTOMER_BY_CUSTOMER_ID__CITY_ASC',
-  CustomerByCustomerIdCityDesc = 'CUSTOMER_BY_CUSTOMER_ID__CITY_DESC',
-  CustomerByCustomerIdPostalStateAsc = 'CUSTOMER_BY_CUSTOMER_ID__POSTAL_STATE_ASC',
-  CustomerByCustomerIdPostalStateDesc = 'CUSTOMER_BY_CUSTOMER_ID__POSTAL_STATE_DESC',
-  CustomerByCustomerIdZipCodeAsc = 'CUSTOMER_BY_CUSTOMER_ID__ZIP_CODE_ASC',
-  CustomerByCustomerIdZipCodeDesc = 'CUSTOMER_BY_CUSTOMER_ID__ZIP_CODE_DESC',
-  CustomerByCustomerIdCountryIdAsc = 'CUSTOMER_BY_CUSTOMER_ID__COUNTRY_ID_ASC',
-  CustomerByCustomerIdCountryIdDesc = 'CUSTOMER_BY_CUSTOMER_ID__COUNTRY_ID_DESC',
-  CustomerByCustomerIdPhoneAsc = 'CUSTOMER_BY_CUSTOMER_ID__PHONE_ASC',
-  CustomerByCustomerIdPhoneDesc = 'CUSTOMER_BY_CUSTOMER_ID__PHONE_DESC',
-  CustomerByCustomerIdLogoSrcAsc = 'CUSTOMER_BY_CUSTOMER_ID__LOGO_SRC_ASC',
-  CustomerByCustomerIdLogoSrcDesc = 'CUSTOMER_BY_CUSTOMER_ID__LOGO_SRC_DESC',
-  CustomerByCustomerIdNotesAsc = 'CUSTOMER_BY_CUSTOMER_ID__NOTES_ASC',
-  CustomerByCustomerIdNotesDesc = 'CUSTOMER_BY_CUSTOMER_ID__NOTES_DESC',
-  CustomerByCustomerIdWebsiteAsc = 'CUSTOMER_BY_CUSTOMER_ID__WEBSITE_ASC',
-  CustomerByCustomerIdWebsiteDesc = 'CUSTOMER_BY_CUSTOMER_ID__WEBSITE_DESC',
-  CustomerByCustomerIdActiveAsc = 'CUSTOMER_BY_CUSTOMER_ID__ACTIVE_ASC',
-  CustomerByCustomerIdActiveDesc = 'CUSTOMER_BY_CUSTOMER_ID__ACTIVE_DESC',
-  PersonContactByPersonContactIdIdAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__ID_ASC',
-  PersonContactByPersonContactIdIdDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__ID_DESC',
-  PersonContactByPersonContactIdFirstNameAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__FIRST_NAME_ASC',
-  PersonContactByPersonContactIdFirstNameDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__FIRST_NAME_DESC',
-  PersonContactByPersonContactIdLastNameAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__LAST_NAME_ASC',
-  PersonContactByPersonContactIdLastNameDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__LAST_NAME_DESC',
-  PersonContactByPersonContactIdIsPrimaryAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__IS_PRIMARY_ASC',
-  PersonContactByPersonContactIdIsPrimaryDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__IS_PRIMARY_DESC',
-  PersonContactByPersonContactIdEmailAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__EMAIL_ASC',
-  PersonContactByPersonContactIdEmailDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__EMAIL_DESC',
-  PersonContactByPersonContactIdSecondaryEmailAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__SECONDARY_EMAIL_ASC',
-  PersonContactByPersonContactIdSecondaryEmailDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__SECONDARY_EMAIL_DESC',
-  PersonContactByPersonContactIdHomePhoneAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__HOME_PHONE_ASC',
-  PersonContactByPersonContactIdHomePhoneDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__HOME_PHONE_DESC',
-  PersonContactByPersonContactIdCellPhoneAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__CELL_PHONE_ASC',
-  PersonContactByPersonContactIdCellPhoneDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__CELL_PHONE_DESC',
-  PersonContactByPersonContactIdWorkPhoneAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__WORK_PHONE_ASC',
-  PersonContactByPersonContactIdWorkPhoneDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__WORK_PHONE_DESC',
-  PersonContactByPersonContactIdWorkExtensionAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__WORK_EXTENSION_ASC',
-  PersonContactByPersonContactIdWorkExtensionDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__WORK_EXTENSION_DESC',
-  PersonContactByPersonContactIdImageSrcAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__IMAGE_SRC_ASC',
-  PersonContactByPersonContactIdImageSrcDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__IMAGE_SRC_DESC',
-  PersonContactByPersonContactIdIsInternalAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__IS_INTERNAL_ASC',
-  PersonContactByPersonContactIdIsInternalDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__IS_INTERNAL_DESC',
-  PersonContactByPersonContactIdRolesAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__ROLES_ASC',
-  PersonContactByPersonContactIdRolesDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__ROLES_DESC'
-}
-
-/**
- * A condition to be used against `CustomerPersonContact` object types. All fields
- * are tested for equality and combined with a logical ‘and.’
- */
-export type CustomerPersonContactCondition = {
-  /** Checks for equality with the object’s `customerId` field. */
-  customerId?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `personContactId` field. */
-  personContactId?: Maybe<Scalars['BigInt']>;
-};
-
-/** A connection to a list of `Shipper` values, with data from `ShipperProjectionProduct`. */
-export type CustomerShippersByShipperProjectionProductCustomerIdAndShipperIdManyToManyConnection = {
-  __typename?: 'CustomerShippersByShipperProjectionProductCustomerIdAndShipperIdManyToManyConnection';
-  /** A list of `Shipper` objects. */
-  nodes: Array<Maybe<Shipper>>;
-  /** A list of edges which contains the `Shipper`, info from the `ShipperProjectionProduct`, and the cursor to aid in pagination. */
-  edges: Array<CustomerShippersByShipperProjectionProductCustomerIdAndShipperIdManyToManyEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `Shipper` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-/** A `Shipper` edge in the connection, with data from `ShipperProjectionProduct`. */
-export type CustomerShippersByShipperProjectionProductCustomerIdAndShipperIdManyToManyEdge = {
-  __typename?: 'CustomerShippersByShipperProjectionProductCustomerIdAndShipperIdManyToManyEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `Shipper` at the end of the edge. */
-  node?: Maybe<Shipper>;
-  /** Reads and enables pagination through a set of `ShipperProjectionProduct`. */
-  shipperProjectionProducts: ShipperProjectionProductsConnection;
-};
-
-
-/** A `Shipper` edge in the connection, with data from `ShipperProjectionProduct`. */
-export type CustomerShippersByShipperProjectionProductCustomerIdAndShipperIdManyToManyEdgeShipperProjectionProductsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<ShipperProjectionProductsOrderBy>>;
-  condition?: Maybe<ShipperProjectionProductCondition>;
-  filter?: Maybe<ShipperProjectionProductFilter>;
-};
-
-/** A connection to a list of `CommonSpecies` values, with data from `ShipperProjectionProduct`. */
-export type CustomerCommonSpeciesByShipperProjectionProductCustomerIdAndCommonSpeciesIdManyToManyConnection = {
-  __typename?: 'CustomerCommonSpeciesByShipperProjectionProductCustomerIdAndCommonSpeciesIdManyToManyConnection';
-  /** A list of `CommonSpecies` objects. */
-  nodes: Array<Maybe<CommonSpecies>>;
-  /** A list of edges which contains the `CommonSpecies`, info from the `ShipperProjectionProduct`, and the cursor to aid in pagination. */
-  edges: Array<CustomerCommonSpeciesByShipperProjectionProductCustomerIdAndCommonSpeciesIdManyToManyEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `CommonSpecies` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-/** A `CommonSpecies` edge in the connection, with data from `ShipperProjectionProduct`. */
-export type CustomerCommonSpeciesByShipperProjectionProductCustomerIdAndCommonSpeciesIdManyToManyEdge = {
-  __typename?: 'CustomerCommonSpeciesByShipperProjectionProductCustomerIdAndCommonSpeciesIdManyToManyEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `CommonSpecies` at the end of the edge. */
-  node?: Maybe<CommonSpecies>;
-  /** Reads and enables pagination through a set of `ShipperProjectionProduct`. */
-  shipperProjectionProducts: ShipperProjectionProductsConnection;
-};
-
-
-/** A `CommonSpecies` edge in the connection, with data from `ShipperProjectionProduct`. */
-export type CustomerCommonSpeciesByShipperProjectionProductCustomerIdAndCommonSpeciesIdManyToManyEdgeShipperProjectionProductsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<ShipperProjectionProductsOrderBy>>;
-  condition?: Maybe<ShipperProjectionProductCondition>;
-  filter?: Maybe<ShipperProjectionProductFilter>;
-};
-
-/** A connection to a list of `CommonVariety` values, with data from `ShipperProjectionProduct`. */
-export type CustomerCommonVarietiesByShipperProjectionProductCustomerIdAndCommonVarietyIdManyToManyConnection = {
-  __typename?: 'CustomerCommonVarietiesByShipperProjectionProductCustomerIdAndCommonVarietyIdManyToManyConnection';
-  /** A list of `CommonVariety` objects. */
-  nodes: Array<Maybe<CommonVariety>>;
-  /** A list of edges which contains the `CommonVariety`, info from the `ShipperProjectionProduct`, and the cursor to aid in pagination. */
-  edges: Array<CustomerCommonVarietiesByShipperProjectionProductCustomerIdAndCommonVarietyIdManyToManyEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `CommonVariety` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-/** A `CommonVariety` edge in the connection, with data from `ShipperProjectionProduct`. */
-export type CustomerCommonVarietiesByShipperProjectionProductCustomerIdAndCommonVarietyIdManyToManyEdge = {
-  __typename?: 'CustomerCommonVarietiesByShipperProjectionProductCustomerIdAndCommonVarietyIdManyToManyEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `CommonVariety` at the end of the edge. */
-  node?: Maybe<CommonVariety>;
-  /** Reads and enables pagination through a set of `ShipperProjectionProduct`. */
-  shipperProjectionProducts: ShipperProjectionProductsConnection;
-};
-
-
-/** A `CommonVariety` edge in the connection, with data from `ShipperProjectionProduct`. */
-export type CustomerCommonVarietiesByShipperProjectionProductCustomerIdAndCommonVarietyIdManyToManyEdgeShipperProjectionProductsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<ShipperProjectionProductsOrderBy>>;
-  condition?: Maybe<ShipperProjectionProductCondition>;
-  filter?: Maybe<ShipperProjectionProductFilter>;
-};
-
-/** A connection to a list of `CommonSize` values, with data from `ShipperProjectionProduct`. */
-export type CustomerCommonSizesByShipperProjectionProductCustomerIdAndCommonSizeIdManyToManyConnection = {
-  __typename?: 'CustomerCommonSizesByShipperProjectionProductCustomerIdAndCommonSizeIdManyToManyConnection';
-  /** A list of `CommonSize` objects. */
-  nodes: Array<Maybe<CommonSize>>;
-  /** A list of edges which contains the `CommonSize`, info from the `ShipperProjectionProduct`, and the cursor to aid in pagination. */
-  edges: Array<CustomerCommonSizesByShipperProjectionProductCustomerIdAndCommonSizeIdManyToManyEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `CommonSize` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-/** A `CommonSize` edge in the connection, with data from `ShipperProjectionProduct`. */
-export type CustomerCommonSizesByShipperProjectionProductCustomerIdAndCommonSizeIdManyToManyEdge = {
-  __typename?: 'CustomerCommonSizesByShipperProjectionProductCustomerIdAndCommonSizeIdManyToManyEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `CommonSize` at the end of the edge. */
-  node?: Maybe<CommonSize>;
-  /** Reads and enables pagination through a set of `ShipperProjectionProduct`. */
-  shipperProjectionProducts: ShipperProjectionProductsConnection;
-};
-
-
-/** A `CommonSize` edge in the connection, with data from `ShipperProjectionProduct`. */
-export type CustomerCommonSizesByShipperProjectionProductCustomerIdAndCommonSizeIdManyToManyEdgeShipperProjectionProductsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<ShipperProjectionProductsOrderBy>>;
-  condition?: Maybe<ShipperProjectionProductCondition>;
-  filter?: Maybe<ShipperProjectionProductFilter>;
-};
-
-/** A connection to a list of `CommonPackType` values, with data from `ShipperProjectionProduct`. */
-export type CustomerCommonPackTypesByShipperProjectionProductCustomerIdAndCommonPackTypeIdManyToManyConnection = {
-  __typename?: 'CustomerCommonPackTypesByShipperProjectionProductCustomerIdAndCommonPackTypeIdManyToManyConnection';
-  /** A list of `CommonPackType` objects. */
-  nodes: Array<Maybe<CommonPackType>>;
-  /** A list of edges which contains the `CommonPackType`, info from the `ShipperProjectionProduct`, and the cursor to aid in pagination. */
-  edges: Array<CustomerCommonPackTypesByShipperProjectionProductCustomerIdAndCommonPackTypeIdManyToManyEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `CommonPackType` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-/** A `CommonPackType` edge in the connection, with data from `ShipperProjectionProduct`. */
-export type CustomerCommonPackTypesByShipperProjectionProductCustomerIdAndCommonPackTypeIdManyToManyEdge = {
-  __typename?: 'CustomerCommonPackTypesByShipperProjectionProductCustomerIdAndCommonPackTypeIdManyToManyEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `CommonPackType` at the end of the edge. */
-  node?: Maybe<CommonPackType>;
-  /** Reads and enables pagination through a set of `ShipperProjectionProduct`. */
-  shipperProjectionProducts: ShipperProjectionProductsConnection;
-};
-
-
-/** A `CommonPackType` edge in the connection, with data from `ShipperProjectionProduct`. */
-export type CustomerCommonPackTypesByShipperProjectionProductCustomerIdAndCommonPackTypeIdManyToManyEdgeShipperProjectionProductsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<ShipperProjectionProductsOrderBy>>;
-  condition?: Maybe<ShipperProjectionProductCondition>;
-  filter?: Maybe<ShipperProjectionProductFilter>;
-};
-
-/** A connection to a list of `PersonContact` values, with data from `CustomerPersonContact`. */
-export type CustomerPersonContactsByCustomerPersonContactCustomerIdAndPersonContactIdManyToManyConnection = {
-  __typename?: 'CustomerPersonContactsByCustomerPersonContactCustomerIdAndPersonContactIdManyToManyConnection';
-  /** A list of `PersonContact` objects. */
-  nodes: Array<Maybe<PersonContact>>;
-  /** A list of edges which contains the `PersonContact`, info from the `CustomerPersonContact`, and the cursor to aid in pagination. */
-  edges: Array<CustomerPersonContactsByCustomerPersonContactCustomerIdAndPersonContactIdManyToManyEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `PersonContact` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-/** A `PersonContact` edge in the connection, with data from `CustomerPersonContact`. */
-export type CustomerPersonContactsByCustomerPersonContactCustomerIdAndPersonContactIdManyToManyEdge = {
-  __typename?: 'CustomerPersonContactsByCustomerPersonContactCustomerIdAndPersonContactIdManyToManyEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `PersonContact` at the end of the edge. */
-  node?: Maybe<PersonContact>;
-};
-
-/** A connection to a list of `CommonSpecies` values, with data from `ShipperProgram`. */
-export type CustomerCommonSpeciesByShipperProgramCustomerIdAndCommonSpeciesIdManyToManyConnection = {
-  __typename?: 'CustomerCommonSpeciesByShipperProgramCustomerIdAndCommonSpeciesIdManyToManyConnection';
-  /** A list of `CommonSpecies` objects. */
-  nodes: Array<Maybe<CommonSpecies>>;
-  /** A list of edges which contains the `CommonSpecies`, info from the `ShipperProgram`, and the cursor to aid in pagination. */
-  edges: Array<CustomerCommonSpeciesByShipperProgramCustomerIdAndCommonSpeciesIdManyToManyEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `CommonSpecies` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-/** A `CommonSpecies` edge in the connection, with data from `ShipperProgram`. */
-export type CustomerCommonSpeciesByShipperProgramCustomerIdAndCommonSpeciesIdManyToManyEdge = {
-  __typename?: 'CustomerCommonSpeciesByShipperProgramCustomerIdAndCommonSpeciesIdManyToManyEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `CommonSpecies` at the end of the edge. */
-  node?: Maybe<CommonSpecies>;
-  /** Reads and enables pagination through a set of `ShipperProgram`. */
-  shipperPrograms: ShipperProgramsConnection;
-};
-
-
-/** A `CommonSpecies` edge in the connection, with data from `ShipperProgram`. */
-export type CustomerCommonSpeciesByShipperProgramCustomerIdAndCommonSpeciesIdManyToManyEdgeShipperProgramsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<ShipperProgramsOrderBy>>;
-  condition?: Maybe<ShipperProgramCondition>;
-  filter?: Maybe<ShipperProgramFilter>;
-};
-
-/** A connection to a list of `CommonVariety` values, with data from `ShipperProgram`. */
-export type CustomerCommonVarietiesByShipperProgramCustomerIdAndCommonVarietyIdManyToManyConnection = {
-  __typename?: 'CustomerCommonVarietiesByShipperProgramCustomerIdAndCommonVarietyIdManyToManyConnection';
-  /** A list of `CommonVariety` objects. */
-  nodes: Array<Maybe<CommonVariety>>;
-  /** A list of edges which contains the `CommonVariety`, info from the `ShipperProgram`, and the cursor to aid in pagination. */
-  edges: Array<CustomerCommonVarietiesByShipperProgramCustomerIdAndCommonVarietyIdManyToManyEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `CommonVariety` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-/** A `CommonVariety` edge in the connection, with data from `ShipperProgram`. */
-export type CustomerCommonVarietiesByShipperProgramCustomerIdAndCommonVarietyIdManyToManyEdge = {
-  __typename?: 'CustomerCommonVarietiesByShipperProgramCustomerIdAndCommonVarietyIdManyToManyEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `CommonVariety` at the end of the edge. */
-  node?: Maybe<CommonVariety>;
-  /** Reads and enables pagination through a set of `ShipperProgram`. */
-  shipperPrograms: ShipperProgramsConnection;
-};
-
-
-/** A `CommonVariety` edge in the connection, with data from `ShipperProgram`. */
-export type CustomerCommonVarietiesByShipperProgramCustomerIdAndCommonVarietyIdManyToManyEdgeShipperProgramsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<ShipperProgramsOrderBy>>;
-  condition?: Maybe<ShipperProgramCondition>;
-  filter?: Maybe<ShipperProgramFilter>;
-};
-
-/** A connection to a list of `CommonSize` values, with data from `ShipperProgram`. */
-export type CustomerCommonSizesByShipperProgramCustomerIdAndCommonSizeIdManyToManyConnection = {
-  __typename?: 'CustomerCommonSizesByShipperProgramCustomerIdAndCommonSizeIdManyToManyConnection';
-  /** A list of `CommonSize` objects. */
-  nodes: Array<Maybe<CommonSize>>;
-  /** A list of edges which contains the `CommonSize`, info from the `ShipperProgram`, and the cursor to aid in pagination. */
-  edges: Array<CustomerCommonSizesByShipperProgramCustomerIdAndCommonSizeIdManyToManyEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `CommonSize` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-/** A `CommonSize` edge in the connection, with data from `ShipperProgram`. */
-export type CustomerCommonSizesByShipperProgramCustomerIdAndCommonSizeIdManyToManyEdge = {
-  __typename?: 'CustomerCommonSizesByShipperProgramCustomerIdAndCommonSizeIdManyToManyEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `CommonSize` at the end of the edge. */
-  node?: Maybe<CommonSize>;
-  /** Reads and enables pagination through a set of `ShipperProgram`. */
-  shipperPrograms: ShipperProgramsConnection;
-};
-
-
-/** A `CommonSize` edge in the connection, with data from `ShipperProgram`. */
-export type CustomerCommonSizesByShipperProgramCustomerIdAndCommonSizeIdManyToManyEdgeShipperProgramsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<ShipperProgramsOrderBy>>;
-  condition?: Maybe<ShipperProgramCondition>;
-  filter?: Maybe<ShipperProgramFilter>;
-};
-
-/** A connection to a list of `CommonPackType` values, with data from `ShipperProgram`. */
-export type CustomerCommonPackTypesByShipperProgramCustomerIdAndCommonPackTypeIdManyToManyConnection = {
-  __typename?: 'CustomerCommonPackTypesByShipperProgramCustomerIdAndCommonPackTypeIdManyToManyConnection';
-  /** A list of `CommonPackType` objects. */
-  nodes: Array<Maybe<CommonPackType>>;
-  /** A list of edges which contains the `CommonPackType`, info from the `ShipperProgram`, and the cursor to aid in pagination. */
-  edges: Array<CustomerCommonPackTypesByShipperProgramCustomerIdAndCommonPackTypeIdManyToManyEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `CommonPackType` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-/** A `CommonPackType` edge in the connection, with data from `ShipperProgram`. */
-export type CustomerCommonPackTypesByShipperProgramCustomerIdAndCommonPackTypeIdManyToManyEdge = {
-  __typename?: 'CustomerCommonPackTypesByShipperProgramCustomerIdAndCommonPackTypeIdManyToManyEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `CommonPackType` at the end of the edge. */
-  node?: Maybe<CommonPackType>;
-  /** Reads and enables pagination through a set of `ShipperProgram`. */
-  shipperPrograms: ShipperProgramsConnection;
-};
-
-
-/** A `CommonPackType` edge in the connection, with data from `ShipperProgram`. */
-export type CustomerCommonPackTypesByShipperProgramCustomerIdAndCommonPackTypeIdManyToManyEdgeShipperProgramsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<ShipperProgramsOrderBy>>;
-  condition?: Maybe<ShipperProgramCondition>;
-  filter?: Maybe<ShipperProgramFilter>;
-};
-
-/** A connection to a list of `Shipper` values, with data from `ShipperProgram`. */
-export type CustomerShippersByShipperProgramCustomerIdAndShipperIdManyToManyConnection = {
-  __typename?: 'CustomerShippersByShipperProgramCustomerIdAndShipperIdManyToManyConnection';
-  /** A list of `Shipper` objects. */
-  nodes: Array<Maybe<Shipper>>;
-  /** A list of edges which contains the `Shipper`, info from the `ShipperProgram`, and the cursor to aid in pagination. */
-  edges: Array<CustomerShippersByShipperProgramCustomerIdAndShipperIdManyToManyEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `Shipper` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-/** A `Shipper` edge in the connection, with data from `ShipperProgram`. */
-export type CustomerShippersByShipperProgramCustomerIdAndShipperIdManyToManyEdge = {
-  __typename?: 'CustomerShippersByShipperProgramCustomerIdAndShipperIdManyToManyEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `Shipper` at the end of the edge. */
-  node?: Maybe<Shipper>;
-  /** Reads and enables pagination through a set of `ShipperProgram`. */
-  shipperPrograms: ShipperProgramsConnection;
-};
-
-
-/** A `Shipper` edge in the connection, with data from `ShipperProgram`. */
-export type CustomerShippersByShipperProgramCustomerIdAndShipperIdManyToManyEdgeShipperProgramsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<ShipperProgramsOrderBy>>;
-  condition?: Maybe<ShipperProgramCondition>;
-  filter?: Maybe<ShipperProgramFilter>;
-};
-
-/** A connection to a list of `CommonSpecies` values, with data from `CustomerProgram`. */
-export type CustomerCommonSpeciesByCustomerProgramCustomerIdAndCommonSpeciesIdManyToManyConnection = {
-  __typename?: 'CustomerCommonSpeciesByCustomerProgramCustomerIdAndCommonSpeciesIdManyToManyConnection';
-  /** A list of `CommonSpecies` objects. */
-  nodes: Array<Maybe<CommonSpecies>>;
-  /** A list of edges which contains the `CommonSpecies`, info from the `CustomerProgram`, and the cursor to aid in pagination. */
-  edges: Array<CustomerCommonSpeciesByCustomerProgramCustomerIdAndCommonSpeciesIdManyToManyEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `CommonSpecies` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-/** A `CommonSpecies` edge in the connection, with data from `CustomerProgram`. */
-export type CustomerCommonSpeciesByCustomerProgramCustomerIdAndCommonSpeciesIdManyToManyEdge = {
-  __typename?: 'CustomerCommonSpeciesByCustomerProgramCustomerIdAndCommonSpeciesIdManyToManyEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `CommonSpecies` at the end of the edge. */
-  node?: Maybe<CommonSpecies>;
-  /** Reads and enables pagination through a set of `CustomerProgram`. */
-  customerPrograms: CustomerProgramsConnection;
-};
-
-
-/** A `CommonSpecies` edge in the connection, with data from `CustomerProgram`. */
-export type CustomerCommonSpeciesByCustomerProgramCustomerIdAndCommonSpeciesIdManyToManyEdgeCustomerProgramsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<CustomerProgramsOrderBy>>;
-  condition?: Maybe<CustomerProgramCondition>;
-  filter?: Maybe<CustomerProgramFilter>;
-};
-
-/** A connection to a list of `CommonVariety` values, with data from `CustomerProgram`. */
-export type CustomerCommonVarietiesByCustomerProgramCustomerIdAndCommonVarietyIdManyToManyConnection = {
-  __typename?: 'CustomerCommonVarietiesByCustomerProgramCustomerIdAndCommonVarietyIdManyToManyConnection';
-  /** A list of `CommonVariety` objects. */
-  nodes: Array<Maybe<CommonVariety>>;
-  /** A list of edges which contains the `CommonVariety`, info from the `CustomerProgram`, and the cursor to aid in pagination. */
-  edges: Array<CustomerCommonVarietiesByCustomerProgramCustomerIdAndCommonVarietyIdManyToManyEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `CommonVariety` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-/** A `CommonVariety` edge in the connection, with data from `CustomerProgram`. */
-export type CustomerCommonVarietiesByCustomerProgramCustomerIdAndCommonVarietyIdManyToManyEdge = {
-  __typename?: 'CustomerCommonVarietiesByCustomerProgramCustomerIdAndCommonVarietyIdManyToManyEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `CommonVariety` at the end of the edge. */
-  node?: Maybe<CommonVariety>;
-  /** Reads and enables pagination through a set of `CustomerProgram`. */
-  customerPrograms: CustomerProgramsConnection;
-};
-
-
-/** A `CommonVariety` edge in the connection, with data from `CustomerProgram`. */
-export type CustomerCommonVarietiesByCustomerProgramCustomerIdAndCommonVarietyIdManyToManyEdgeCustomerProgramsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<CustomerProgramsOrderBy>>;
-  condition?: Maybe<CustomerProgramCondition>;
-  filter?: Maybe<CustomerProgramFilter>;
-};
-
-/** A connection to a list of `CommonSize` values, with data from `CustomerProgram`. */
-export type CustomerCommonSizesByCustomerProgramCustomerIdAndCommonSizeIdManyToManyConnection = {
-  __typename?: 'CustomerCommonSizesByCustomerProgramCustomerIdAndCommonSizeIdManyToManyConnection';
-  /** A list of `CommonSize` objects. */
-  nodes: Array<Maybe<CommonSize>>;
-  /** A list of edges which contains the `CommonSize`, info from the `CustomerProgram`, and the cursor to aid in pagination. */
-  edges: Array<CustomerCommonSizesByCustomerProgramCustomerIdAndCommonSizeIdManyToManyEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `CommonSize` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-/** A `CommonSize` edge in the connection, with data from `CustomerProgram`. */
-export type CustomerCommonSizesByCustomerProgramCustomerIdAndCommonSizeIdManyToManyEdge = {
-  __typename?: 'CustomerCommonSizesByCustomerProgramCustomerIdAndCommonSizeIdManyToManyEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `CommonSize` at the end of the edge. */
-  node?: Maybe<CommonSize>;
-  /** Reads and enables pagination through a set of `CustomerProgram`. */
-  customerPrograms: CustomerProgramsConnection;
-};
-
-
-/** A `CommonSize` edge in the connection, with data from `CustomerProgram`. */
-export type CustomerCommonSizesByCustomerProgramCustomerIdAndCommonSizeIdManyToManyEdgeCustomerProgramsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<CustomerProgramsOrderBy>>;
-  condition?: Maybe<CustomerProgramCondition>;
-  filter?: Maybe<CustomerProgramFilter>;
-};
-
-/** A connection to a list of `CommonPackType` values, with data from `CustomerProgram`. */
-export type CustomerCommonPackTypesByCustomerProgramCustomerIdAndCommonPackTypeIdManyToManyConnection = {
-  __typename?: 'CustomerCommonPackTypesByCustomerProgramCustomerIdAndCommonPackTypeIdManyToManyConnection';
-  /** A list of `CommonPackType` objects. */
-  nodes: Array<Maybe<CommonPackType>>;
-  /** A list of edges which contains the `CommonPackType`, info from the `CustomerProgram`, and the cursor to aid in pagination. */
-  edges: Array<CustomerCommonPackTypesByCustomerProgramCustomerIdAndCommonPackTypeIdManyToManyEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `CommonPackType` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-/** A `CommonPackType` edge in the connection, with data from `CustomerProgram`. */
-export type CustomerCommonPackTypesByCustomerProgramCustomerIdAndCommonPackTypeIdManyToManyEdge = {
-  __typename?: 'CustomerCommonPackTypesByCustomerProgramCustomerIdAndCommonPackTypeIdManyToManyEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `CommonPackType` at the end of the edge. */
-  node?: Maybe<CommonPackType>;
-  /** Reads and enables pagination through a set of `CustomerProgram`. */
-  customerPrograms: CustomerProgramsConnection;
-};
-
-
-/** A `CommonPackType` edge in the connection, with data from `CustomerProgram`. */
-export type CustomerCommonPackTypesByCustomerProgramCustomerIdAndCommonPackTypeIdManyToManyEdgeCustomerProgramsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<CustomerProgramsOrderBy>>;
-  condition?: Maybe<CustomerProgramCondition>;
-  filter?: Maybe<CustomerProgramFilter>;
-};
-
-/** A `CustomerPersonContact` edge in the connection. */
-export type CustomerPersonContactsEdge = {
-  __typename?: 'CustomerPersonContactsEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `CustomerPersonContact` at the end of the edge. */
-  node?: Maybe<CustomerPersonContact>;
-};
-
-/** A connection to a list of `ContactGroup` values, with data from `ContactGroupPersonContact`. */
-export type PersonContactContactGroupsByContactGroupPersonContactPersonContactIdAndGroupIdManyToManyConnection = {
-  __typename?: 'PersonContactContactGroupsByContactGroupPersonContactPersonContactIdAndGroupIdManyToManyConnection';
-  /** A list of `ContactGroup` objects. */
-  nodes: Array<Maybe<ContactGroup>>;
-  /** A list of edges which contains the `ContactGroup`, info from the `ContactGroupPersonContact`, and the cursor to aid in pagination. */
-  edges: Array<PersonContactContactGroupsByContactGroupPersonContactPersonContactIdAndGroupIdManyToManyEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `ContactGroup` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-/** A `ContactGroup` edge in the connection, with data from `ContactGroupPersonContact`. */
-export type PersonContactContactGroupsByContactGroupPersonContactPersonContactIdAndGroupIdManyToManyEdge = {
-  __typename?: 'PersonContactContactGroupsByContactGroupPersonContactPersonContactIdAndGroupIdManyToManyEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `ContactGroup` at the end of the edge. */
-  node?: Maybe<ContactGroup>;
-};
-
-/** Methods to use when ordering `ContactGroup`. */
-export enum ContactGroupsOrderBy {
-  Natural = 'NATURAL',
-  IdAsc = 'ID_ASC',
-  IdDesc = 'ID_DESC',
-  GroupDescriptionAsc = 'GROUP_DESCRIPTION_ASC',
-  GroupDescriptionDesc = 'GROUP_DESCRIPTION_DESC',
-  GroupNameAsc = 'GROUP_NAME_ASC',
-  GroupNameDesc = 'GROUP_NAME_DESC',
-  UserIdAsc = 'USER_ID_ASC',
-  UserIdDesc = 'USER_ID_DESC',
-  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
-  UserByUserIdIdAsc = 'USER_BY_USER_ID__ID_ASC',
-  UserByUserIdIdDesc = 'USER_BY_USER_ID__ID_DESC',
-  UserByUserIdPinAsc = 'USER_BY_USER_ID__PIN_ASC',
-  UserByUserIdPinDesc = 'USER_BY_USER_ID__PIN_DESC',
-  UserByUserIdPersonContactIdAsc = 'USER_BY_USER_ID__PERSON_CONTACT_ID_ASC',
-  UserByUserIdPersonContactIdDesc = 'USER_BY_USER_ID__PERSON_CONTACT_ID_DESC',
-  ContactGroupPersonContactsByGroupIdCountAsc = 'CONTACT_GROUP_PERSON_CONTACTS_BY_GROUP_ID__COUNT_ASC',
-  ContactGroupPersonContactsByGroupIdCountDesc = 'CONTACT_GROUP_PERSON_CONTACTS_BY_GROUP_ID__COUNT_DESC'
-}
-
-/**
- * A condition to be used against `ContactGroup` object types. All fields are
- * tested for equality and combined with a logical ‘and.’
- */
-export type ContactGroupCondition = {
-  /** Checks for equality with the object’s `id` field. */
-  id?: Maybe<Scalars['BigInt']>;
-  /** Checks for equality with the object’s `groupDescription` field. */
-  groupDescription?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `groupName` field. */
-  groupName?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `userId` field. */
-  userId?: Maybe<Scalars['BigInt']>;
-};
-
-/** A connection to a list of `Customer` values, with data from `CustomerPersonContact`. */
-export type PersonContactCustomersByCustomerPersonContactPersonContactIdAndCustomerIdManyToManyConnection = {
-  __typename?: 'PersonContactCustomersByCustomerPersonContactPersonContactIdAndCustomerIdManyToManyConnection';
-  /** A list of `Customer` objects. */
-  nodes: Array<Maybe<Customer>>;
-  /** A list of edges which contains the `Customer`, info from the `CustomerPersonContact`, and the cursor to aid in pagination. */
-  edges: Array<PersonContactCustomersByCustomerPersonContactPersonContactIdAndCustomerIdManyToManyEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `Customer` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-/** A `Customer` edge in the connection, with data from `CustomerPersonContact`. */
-export type PersonContactCustomersByCustomerPersonContactPersonContactIdAndCustomerIdManyToManyEdge = {
-  __typename?: 'PersonContactCustomersByCustomerPersonContactPersonContactIdAndCustomerIdManyToManyEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `Customer` at the end of the edge. */
-  node?: Maybe<Customer>;
-};
-
-/** A connection to a list of `Shipper` values, with data from `ShipperPersonContact`. */
-export type PersonContactShippersByShipperPersonContactPersonContactIdAndShipperIdManyToManyConnection = {
-  __typename?: 'PersonContactShippersByShipperPersonContactPersonContactIdAndShipperIdManyToManyConnection';
-  /** A list of `Shipper` objects. */
-  nodes: Array<Maybe<Shipper>>;
-  /** A list of edges which contains the `Shipper`, info from the `ShipperPersonContact`, and the cursor to aid in pagination. */
-  edges: Array<PersonContactShippersByShipperPersonContactPersonContactIdAndShipperIdManyToManyEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `Shipper` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-/** A `Shipper` edge in the connection, with data from `ShipperPersonContact`. */
-export type PersonContactShippersByShipperPersonContactPersonContactIdAndShipperIdManyToManyEdge = {
-  __typename?: 'PersonContactShippersByShipperPersonContactPersonContactIdAndShipperIdManyToManyEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `Shipper` at the end of the edge. */
-  node?: Maybe<Shipper>;
-};
-
-/** A connection to a list of `Warehouse` values, with data from `WarehousePersonContact`. */
-export type PersonContactWarehousesByWarehousePersonContactPersonContactIdAndWarehouseIdManyToManyConnection = {
-  __typename?: 'PersonContactWarehousesByWarehousePersonContactPersonContactIdAndWarehouseIdManyToManyConnection';
-  /** A list of `Warehouse` objects. */
-  nodes: Array<Maybe<Warehouse>>;
-  /** A list of edges which contains the `Warehouse`, info from the `WarehousePersonContact`, and the cursor to aid in pagination. */
-  edges: Array<PersonContactWarehousesByWarehousePersonContactPersonContactIdAndWarehouseIdManyToManyEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `Warehouse` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-/** A `Warehouse` edge in the connection, with data from `WarehousePersonContact`. */
-export type PersonContactWarehousesByWarehousePersonContactPersonContactIdAndWarehouseIdManyToManyEdge = {
-  __typename?: 'PersonContactWarehousesByWarehousePersonContactPersonContactIdAndWarehouseIdManyToManyEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `Warehouse` at the end of the edge. */
-  node?: Maybe<Warehouse>;
-};
-
-/** A connection to a list of `ContactGroup` values. */
-export type ContactGroupsConnection = {
-  __typename?: 'ContactGroupsConnection';
-  /** A list of `ContactGroup` objects. */
-  nodes: Array<Maybe<ContactGroup>>;
-  /** A list of edges which contains the `ContactGroup` and cursor to aid in pagination. */
-  edges: Array<ContactGroupsEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `ContactGroup` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-/** A `ContactGroup` edge in the connection. */
-export type ContactGroupsEdge = {
-  __typename?: 'ContactGroupsEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `ContactGroup` at the end of the edge. */
-  node?: Maybe<ContactGroup>;
-};
-
-/** A connection to a list of `UserMessage` values. */
-export type UserMessagesConnection = {
-  __typename?: 'UserMessagesConnection';
-  /** A list of `UserMessage` objects. */
-  nodes: Array<Maybe<UserMessage>>;
-  /** A list of edges which contains the `UserMessage` and cursor to aid in pagination. */
-  edges: Array<UserMessagesEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `UserMessage` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-export type UserMessage = Node & {
-  __typename?: 'UserMessage';
+export type PsaArrivalReport = Node & {
+  __typename?: 'PsaArrivalReport';
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars['ID'];
   id: Scalars['BigInt'];
-  actionLink?: Maybe<Scalars['String']>;
-  actionText?: Maybe<Scalars['String']>;
-  details?: Maybe<Scalars['String']>;
-  header?: Maybe<Scalars['String']>;
-  isRead: Scalars['Boolean'];
-  messageDate?: Maybe<Scalars['Datetime']>;
-  priority?: Maybe<Scalars['BigFloat']>;
-  userId?: Maybe<Scalars['BigInt']>;
-  /** Reads a single `User` that is related to this `UserMessage`. */
-  user?: Maybe<User>;
-};
-
-/** A `UserMessage` edge in the connection. */
-export type UserMessagesEdge = {
-  __typename?: 'UserMessagesEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `UserMessage` at the end of the edge. */
-  node?: Maybe<UserMessage>;
-};
-
-/** Methods to use when ordering `UserMessage`. */
-export enum UserMessagesOrderBy {
-  Natural = 'NATURAL',
-  IdAsc = 'ID_ASC',
-  IdDesc = 'ID_DESC',
-  ActionLinkAsc = 'ACTION_LINK_ASC',
-  ActionLinkDesc = 'ACTION_LINK_DESC',
-  ActionTextAsc = 'ACTION_TEXT_ASC',
-  ActionTextDesc = 'ACTION_TEXT_DESC',
-  DetailsAsc = 'DETAILS_ASC',
-  DetailsDesc = 'DETAILS_DESC',
-  HeaderAsc = 'HEADER_ASC',
-  HeaderDesc = 'HEADER_DESC',
-  IsReadAsc = 'IS_READ_ASC',
-  IsReadDesc = 'IS_READ_DESC',
-  MessageDateAsc = 'MESSAGE_DATE_ASC',
-  MessageDateDesc = 'MESSAGE_DATE_DESC',
-  PriorityAsc = 'PRIORITY_ASC',
-  PriorityDesc = 'PRIORITY_DESC',
-  UserIdAsc = 'USER_ID_ASC',
-  UserIdDesc = 'USER_ID_DESC',
-  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
-  UserByUserIdIdAsc = 'USER_BY_USER_ID__ID_ASC',
-  UserByUserIdIdDesc = 'USER_BY_USER_ID__ID_DESC',
-  UserByUserIdPinAsc = 'USER_BY_USER_ID__PIN_ASC',
-  UserByUserIdPinDesc = 'USER_BY_USER_ID__PIN_DESC',
-  UserByUserIdPersonContactIdAsc = 'USER_BY_USER_ID__PERSON_CONTACT_ID_ASC',
-  UserByUserIdPersonContactIdDesc = 'USER_BY_USER_ID__PERSON_CONTACT_ID_DESC'
-}
-
-/**
- * A condition to be used against `UserMessage` object types. All fields are tested
- * for equality and combined with a logical ‘and.’
- */
-export type UserMessageCondition = {
-  /** Checks for equality with the object’s `id` field. */
-  id?: Maybe<Scalars['BigInt']>;
-  /** Checks for equality with the object’s `actionLink` field. */
-  actionLink?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `actionText` field. */
-  actionText?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `details` field. */
-  details?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `header` field. */
-  header?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `isRead` field. */
-  isRead?: Maybe<Scalars['Boolean']>;
-  /** Checks for equality with the object’s `messageDate` field. */
-  messageDate?: Maybe<Scalars['Datetime']>;
-  /** Checks for equality with the object’s `priority` field. */
-  priority?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `userId` field. */
-  userId?: Maybe<Scalars['BigInt']>;
-};
-
-/** A `User` edge in the connection. */
-export type UsersEdge = {
-  __typename?: 'UsersEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `User` at the end of the edge. */
-  node?: Maybe<User>;
-};
-
-/** A connection to a list of `Country` values. */
-export type CountriesConnection = {
-  __typename?: 'CountriesConnection';
-  /** A list of `Country` objects. */
-  nodes: Array<Maybe<Country>>;
-  /** A list of edges which contains the `Country` and cursor to aid in pagination. */
-  edges: Array<CountriesEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `Country` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-/** A `Country` edge in the connection. */
-export type CountriesEdge = {
-  __typename?: 'CountriesEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `Country` at the end of the edge. */
-  node?: Maybe<Country>;
-};
-
-/** Methods to use when ordering `Country`. */
-export enum CountriesOrderBy {
-  Natural = 'NATURAL',
-  IdAsc = 'ID_ASC',
-  IdDesc = 'ID_DESC',
-  CountryNameAsc = 'COUNTRY_NAME_ASC',
-  CountryNameDesc = 'COUNTRY_NAME_DESC',
-  CmbIdAsc = 'CMB_ID_ASC',
-  CmbIdDesc = 'CMB_ID_DESC',
-  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
-  CustomersByCountryIdCountAsc = 'CUSTOMERS_BY_COUNTRY_ID__COUNT_ASC',
-  CustomersByCountryIdCountDesc = 'CUSTOMERS_BY_COUNTRY_ID__COUNT_DESC',
-  ShippersByCountryIdCountAsc = 'SHIPPERS_BY_COUNTRY_ID__COUNT_ASC',
-  ShippersByCountryIdCountDesc = 'SHIPPERS_BY_COUNTRY_ID__COUNT_DESC',
-  WarehousesByCountryIdCountAsc = 'WAREHOUSES_BY_COUNTRY_ID__COUNT_ASC',
-  WarehousesByCountryIdCountDesc = 'WAREHOUSES_BY_COUNTRY_ID__COUNT_DESC'
-}
-
-/** A condition to be used against `Country` object types. All fields are tested for equality and combined with a logical ‘and.’ */
-export type CountryCondition = {
-  /** Checks for equality with the object’s `id` field. */
-  id?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `countryName` field. */
-  countryName?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `cmbId` field. */
-  cmbId?: Maybe<Scalars['String']>;
-};
-
-/** A connection to a list of `PersonContact` values. */
-export type PersonContactsConnection = {
-  __typename?: 'PersonContactsConnection';
-  /** A list of `PersonContact` objects. */
-  nodes: Array<Maybe<PersonContact>>;
-  /** A list of edges which contains the `PersonContact` and cursor to aid in pagination. */
-  edges: Array<PersonContactsEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `PersonContact` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-/** A `PersonContact` edge in the connection. */
-export type PersonContactsEdge = {
-  __typename?: 'PersonContactsEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `PersonContact` at the end of the edge. */
-  node?: Maybe<PersonContact>;
-};
-
-/** A connection to a list of `ChileDepartureInspectionPallet` values. */
-export type ChileDepartureInspectionPalletsConnection = {
-  __typename?: 'ChileDepartureInspectionPalletsConnection';
-  /** A list of `ChileDepartureInspectionPallet` objects. */
-  nodes: Array<Maybe<ChileDepartureInspectionPallet>>;
-  /** A list of edges which contains the `ChileDepartureInspectionPallet` and cursor to aid in pagination. */
-  edges: Array<ChileDepartureInspectionPalletsEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `ChileDepartureInspectionPallet` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-export type ChileDepartureInspectionPallet = Node & {
-  __typename?: 'ChileDepartureInspectionPallet';
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  nodeId: Scalars['ID'];
-  id: Scalars['String'];
-  lotId?: Maybe<Scalars['String']>;
-  lotNumber?: Maybe<Scalars['String']>;
+  reportDate?: Maybe<Scalars['Date']>;
   locationName?: Maybe<Scalars['String']>;
-  shipper?: Maybe<Scalars['String']>;
-  inspectionDate?: Maybe<Scalars['Date']>;
-  productName?: Maybe<Scalars['String']>;
-  packingType?: Maybe<Scalars['String']>;
-  productType?: Maybe<Scalars['String']>;
+  arrivalCode?: Maybe<Scalars['String']>;
+  arrivalName?: Maybe<Scalars['String']>;
+  exporterId?: Maybe<Scalars['BigInt']>;
+  exporterName?: Maybe<Scalars['String']>;
+  /** Reads and enables pagination through a set of `PsaApplePallet`. */
+  applePallets: PsaApplePalletsConnection;
+  /** Reads and enables pagination through a set of `PsaCherryPallet`. */
+  cherryPallets: PsaCherryPalletsConnection;
+  /** Reads and enables pagination through a set of `PsaCitrusPallet`. */
+  citrusPallets: PsaCitrusPalletsConnection;
+  commodityList?: Maybe<Array<Maybe<Scalars['String']>>>;
+  conditionRange?: Maybe<Scalars['String']>;
+  /** Reads and enables pagination through a set of `PsaGrapePallet`. */
+  grapePallets: PsaGrapePalletsConnection;
+  /** Reads and enables pagination through a set of `PsaLemonPallet`. */
+  lemonPallets: PsaLemonPalletsConnection;
   palletCount?: Maybe<Scalars['BigFloat']>;
-  supervisor?: Maybe<Scalars['String']>;
-  palletNumber?: Maybe<Scalars['String']>;
-  boxesCount?: Maybe<Scalars['BigFloat']>;
-  netWeight?: Maybe<Scalars['BigFloat']>;
-  grower?: Maybe<Scalars['String']>;
-  size?: Maybe<Scalars['String']>;
-  variety?: Maybe<Scalars['String']>;
-  packingDate?: Maybe<Scalars['Date']>;
-  label?: Maybe<Scalars['String']>;
-  temperature?: Maybe<Scalars['String']>;
-  openAppearance?: Maybe<Scalars['String']>;
-  color?: Maybe<Scalars['String']>;
-  stem?: Maybe<Scalars['String']>;
-  texture?: Maybe<Scalars['String']>;
-  bunchesCount?: Maybe<Scalars['BigFloat']>;
-  brix?: Maybe<Scalars['BigFloat']>;
-  diameterMin?: Maybe<Scalars['BigFloat']>;
-  diameterMax?: Maybe<Scalars['BigFloat']>;
-  stragglyTightPct?: Maybe<Scalars['BigFloat']>;
-  surfaceDiscPct?: Maybe<Scalars['BigFloat']>;
-  russetScarsPct?: Maybe<Scalars['BigFloat']>;
-  sunburnPct?: Maybe<Scalars['BigFloat']>;
-  undersizedBunchesPct?: Maybe<Scalars['BigFloat']>;
-  otherDefectsPct?: Maybe<Scalars['BigFloat']>;
-  stemDehyPct?: Maybe<Scalars['BigFloat']>;
-  glassyWeakPct?: Maybe<Scalars['BigFloat']>;
-  decayPct?: Maybe<Scalars['BigFloat']>;
-  splitCrushedPct?: Maybe<Scalars['BigFloat']>;
-  drySplitPct?: Maybe<Scalars['BigFloat']>;
-  wetStickyPct?: Maybe<Scalars['BigFloat']>;
-  waterberriesPct?: Maybe<Scalars['BigFloat']>;
-  shatterPct?: Maybe<Scalars['BigFloat']>;
-  totalQualityDefectsPct?: Maybe<Scalars['BigFloat']>;
-  totalConditionDefectsPct?: Maybe<Scalars['BigFloat']>;
-  qualityScore?: Maybe<Scalars['BigFloat']>;
-  conditionScore?: Maybe<Scalars['BigFloat']>;
-  scoreName?: Maybe<Scalars['String']>;
-  reportLink?: Maybe<Scalars['String']>;
-  imagesLink?: Maybe<Scalars['String']>;
-};
-
-/** A `ChileDepartureInspectionPallet` edge in the connection. */
-export type ChileDepartureInspectionPalletsEdge = {
-  __typename?: 'ChileDepartureInspectionPalletsEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `ChileDepartureInspectionPallet` at the end of the edge. */
-  node?: Maybe<ChileDepartureInspectionPallet>;
-};
-
-/** Methods to use when ordering `ChileDepartureInspectionPallet`. */
-export enum ChileDepartureInspectionPalletsOrderBy {
-  Natural = 'NATURAL',
-  IdAsc = 'ID_ASC',
-  IdDesc = 'ID_DESC',
-  LotIdAsc = 'LOT_ID_ASC',
-  LotIdDesc = 'LOT_ID_DESC',
-  LotNumberAsc = 'LOT_NUMBER_ASC',
-  LotNumberDesc = 'LOT_NUMBER_DESC',
-  LocationNameAsc = 'LOCATION_NAME_ASC',
-  LocationNameDesc = 'LOCATION_NAME_DESC',
-  ShipperAsc = 'SHIPPER_ASC',
-  ShipperDesc = 'SHIPPER_DESC',
-  InspectionDateAsc = 'INSPECTION_DATE_ASC',
-  InspectionDateDesc = 'INSPECTION_DATE_DESC',
-  ProductNameAsc = 'PRODUCT_NAME_ASC',
-  ProductNameDesc = 'PRODUCT_NAME_DESC',
-  PackingTypeAsc = 'PACKING_TYPE_ASC',
-  PackingTypeDesc = 'PACKING_TYPE_DESC',
-  ProductTypeAsc = 'PRODUCT_TYPE_ASC',
-  ProductTypeDesc = 'PRODUCT_TYPE_DESC',
-  PalletCountAsc = 'PALLET_COUNT_ASC',
-  PalletCountDesc = 'PALLET_COUNT_DESC',
-  SupervisorAsc = 'SUPERVISOR_ASC',
-  SupervisorDesc = 'SUPERVISOR_DESC',
-  PalletNumberAsc = 'PALLET_NUMBER_ASC',
-  PalletNumberDesc = 'PALLET_NUMBER_DESC',
-  BoxesCountAsc = 'BOXES_COUNT_ASC',
-  BoxesCountDesc = 'BOXES_COUNT_DESC',
-  NetWeightAsc = 'NET_WEIGHT_ASC',
-  NetWeightDesc = 'NET_WEIGHT_DESC',
-  GrowerAsc = 'GROWER_ASC',
-  GrowerDesc = 'GROWER_DESC',
-  SizeAsc = 'SIZE_ASC',
-  SizeDesc = 'SIZE_DESC',
-  VarietyAsc = 'VARIETY_ASC',
-  VarietyDesc = 'VARIETY_DESC',
-  PackingDateAsc = 'PACKING_DATE_ASC',
-  PackingDateDesc = 'PACKING_DATE_DESC',
-  LabelAsc = 'LABEL_ASC',
-  LabelDesc = 'LABEL_DESC',
-  TemperatureAsc = 'TEMPERATURE_ASC',
-  TemperatureDesc = 'TEMPERATURE_DESC',
-  OpenAppearanceAsc = 'OPEN_APPEARANCE_ASC',
-  OpenAppearanceDesc = 'OPEN_APPEARANCE_DESC',
-  ColorAsc = 'COLOR_ASC',
-  ColorDesc = 'COLOR_DESC',
-  StemAsc = 'STEM_ASC',
-  StemDesc = 'STEM_DESC',
-  TextureAsc = 'TEXTURE_ASC',
-  TextureDesc = 'TEXTURE_DESC',
-  BunchesCountAsc = 'BUNCHES_COUNT_ASC',
-  BunchesCountDesc = 'BUNCHES_COUNT_DESC',
-  BrixAsc = 'BRIX_ASC',
-  BrixDesc = 'BRIX_DESC',
-  DiameterMinAsc = 'DIAMETER_MIN_ASC',
-  DiameterMinDesc = 'DIAMETER_MIN_DESC',
-  DiameterMaxAsc = 'DIAMETER_MAX_ASC',
-  DiameterMaxDesc = 'DIAMETER_MAX_DESC',
-  StragglyTightPctAsc = 'STRAGGLY_TIGHT_PCT_ASC',
-  StragglyTightPctDesc = 'STRAGGLY_TIGHT_PCT_DESC',
-  SurfaceDiscPctAsc = 'SURFACE_DISC_PCT_ASC',
-  SurfaceDiscPctDesc = 'SURFACE_DISC_PCT_DESC',
-  RussetScarsPctAsc = 'RUSSET_SCARS_PCT_ASC',
-  RussetScarsPctDesc = 'RUSSET_SCARS_PCT_DESC',
-  SunburnPctAsc = 'SUNBURN_PCT_ASC',
-  SunburnPctDesc = 'SUNBURN_PCT_DESC',
-  UndersizedBunchesPctAsc = 'UNDERSIZED_BUNCHES_PCT_ASC',
-  UndersizedBunchesPctDesc = 'UNDERSIZED_BUNCHES_PCT_DESC',
-  OtherDefectsPctAsc = 'OTHER_DEFECTS_PCT_ASC',
-  OtherDefectsPctDesc = 'OTHER_DEFECTS_PCT_DESC',
-  StemDehyPctAsc = 'STEM_DEHY_PCT_ASC',
-  StemDehyPctDesc = 'STEM_DEHY_PCT_DESC',
-  GlassyWeakPctAsc = 'GLASSY_WEAK_PCT_ASC',
-  GlassyWeakPctDesc = 'GLASSY_WEAK_PCT_DESC',
-  DecayPctAsc = 'DECAY_PCT_ASC',
-  DecayPctDesc = 'DECAY_PCT_DESC',
-  SplitCrushedPctAsc = 'SPLIT_CRUSHED_PCT_ASC',
-  SplitCrushedPctDesc = 'SPLIT_CRUSHED_PCT_DESC',
-  DrySplitPctAsc = 'DRY_SPLIT_PCT_ASC',
-  DrySplitPctDesc = 'DRY_SPLIT_PCT_DESC',
-  WetStickyPctAsc = 'WET_STICKY_PCT_ASC',
-  WetStickyPctDesc = 'WET_STICKY_PCT_DESC',
-  WaterberriesPctAsc = 'WATERBERRIES_PCT_ASC',
-  WaterberriesPctDesc = 'WATERBERRIES_PCT_DESC',
-  ShatterPctAsc = 'SHATTER_PCT_ASC',
-  ShatterPctDesc = 'SHATTER_PCT_DESC',
-  TotalQualityDefectsPctAsc = 'TOTAL_QUALITY_DEFECTS_PCT_ASC',
-  TotalQualityDefectsPctDesc = 'TOTAL_QUALITY_DEFECTS_PCT_DESC',
-  TotalConditionDefectsPctAsc = 'TOTAL_CONDITION_DEFECTS_PCT_ASC',
-  TotalConditionDefectsPctDesc = 'TOTAL_CONDITION_DEFECTS_PCT_DESC',
-  QualityScoreAsc = 'QUALITY_SCORE_ASC',
-  QualityScoreDesc = 'QUALITY_SCORE_DESC',
-  ConditionScoreAsc = 'CONDITION_SCORE_ASC',
-  ConditionScoreDesc = 'CONDITION_SCORE_DESC',
-  ScoreNameAsc = 'SCORE_NAME_ASC',
-  ScoreNameDesc = 'SCORE_NAME_DESC',
-  ReportLinkAsc = 'REPORT_LINK_ASC',
-  ReportLinkDesc = 'REPORT_LINK_DESC',
-  ImagesLinkAsc = 'IMAGES_LINK_ASC',
-  ImagesLinkDesc = 'IMAGES_LINK_DESC',
-  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
-}
-
-/**
- * A condition to be used against `ChileDepartureInspectionPallet` object types.
- * All fields are tested for equality and combined with a logical ‘and.’
- */
-export type ChileDepartureInspectionPalletCondition = {
-  /** Checks for equality with the object’s `id` field. */
-  id?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `lotId` field. */
-  lotId?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `lotNumber` field. */
-  lotNumber?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `locationName` field. */
-  locationName?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `shipper` field. */
-  shipper?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `inspectionDate` field. */
-  inspectionDate?: Maybe<Scalars['Date']>;
-  /** Checks for equality with the object’s `productName` field. */
-  productName?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `packingType` field. */
-  packingType?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `productType` field. */
-  productType?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `palletCount` field. */
-  palletCount?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `supervisor` field. */
-  supervisor?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `palletNumber` field. */
-  palletNumber?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `boxesCount` field. */
-  boxesCount?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `netWeight` field. */
-  netWeight?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `grower` field. */
-  grower?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `size` field. */
-  size?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `variety` field. */
-  variety?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `packingDate` field. */
-  packingDate?: Maybe<Scalars['Date']>;
-  /** Checks for equality with the object’s `label` field. */
-  label?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `temperature` field. */
-  temperature?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `openAppearance` field. */
-  openAppearance?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `color` field. */
-  color?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `stem` field. */
-  stem?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `texture` field. */
-  texture?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `bunchesCount` field. */
-  bunchesCount?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `brix` field. */
-  brix?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `diameterMin` field. */
-  diameterMin?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `diameterMax` field. */
-  diameterMax?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `stragglyTightPct` field. */
-  stragglyTightPct?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `surfaceDiscPct` field. */
-  surfaceDiscPct?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `russetScarsPct` field. */
-  russetScarsPct?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `sunburnPct` field. */
-  sunburnPct?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `undersizedBunchesPct` field. */
-  undersizedBunchesPct?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `otherDefectsPct` field. */
-  otherDefectsPct?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `stemDehyPct` field. */
-  stemDehyPct?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `glassyWeakPct` field. */
-  glassyWeakPct?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `decayPct` field. */
-  decayPct?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `splitCrushedPct` field. */
-  splitCrushedPct?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `drySplitPct` field. */
-  drySplitPct?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `wetStickyPct` field. */
-  wetStickyPct?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `waterberriesPct` field. */
-  waterberriesPct?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `shatterPct` field. */
-  shatterPct?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `totalQualityDefectsPct` field. */
-  totalQualityDefectsPct?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `totalConditionDefectsPct` field. */
-  totalConditionDefectsPct?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `qualityScore` field. */
-  qualityScore?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `conditionScore` field. */
-  conditionScore?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `scoreName` field. */
-  scoreName?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `reportLink` field. */
-  reportLink?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `imagesLink` field. */
-  imagesLink?: Maybe<Scalars['String']>;
-};
-
-/** A filter to be used against `ChileDepartureInspectionPallet` object types. All fields are combined with a logical ‘and.’ */
-export type ChileDepartureInspectionPalletFilter = {
-  /** Filter by the object’s `id` field. */
-  id?: Maybe<StringFilter>;
-  /** Filter by the object’s `lotId` field. */
-  lotId?: Maybe<StringFilter>;
-  /** Filter by the object’s `lotNumber` field. */
-  lotNumber?: Maybe<StringFilter>;
-  /** Filter by the object’s `locationName` field. */
-  locationName?: Maybe<StringFilter>;
-  /** Filter by the object’s `shipper` field. */
-  shipper?: Maybe<StringFilter>;
-  /** Filter by the object’s `inspectionDate` field. */
-  inspectionDate?: Maybe<DateFilter>;
-  /** Filter by the object’s `productName` field. */
-  productName?: Maybe<StringFilter>;
-  /** Filter by the object’s `packingType` field. */
-  packingType?: Maybe<StringFilter>;
-  /** Filter by the object’s `productType` field. */
-  productType?: Maybe<StringFilter>;
-  /** Filter by the object’s `palletCount` field. */
-  palletCount?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `supervisor` field. */
-  supervisor?: Maybe<StringFilter>;
-  /** Filter by the object’s `palletNumber` field. */
-  palletNumber?: Maybe<StringFilter>;
-  /** Filter by the object’s `boxesCount` field. */
-  boxesCount?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `netWeight` field. */
-  netWeight?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `grower` field. */
-  grower?: Maybe<StringFilter>;
-  /** Filter by the object’s `size` field. */
-  size?: Maybe<StringFilter>;
-  /** Filter by the object’s `variety` field. */
-  variety?: Maybe<StringFilter>;
-  /** Filter by the object’s `packingDate` field. */
-  packingDate?: Maybe<DateFilter>;
-  /** Filter by the object’s `label` field. */
-  label?: Maybe<StringFilter>;
-  /** Filter by the object’s `temperature` field. */
-  temperature?: Maybe<StringFilter>;
-  /** Filter by the object’s `openAppearance` field. */
-  openAppearance?: Maybe<StringFilter>;
-  /** Filter by the object’s `color` field. */
-  color?: Maybe<StringFilter>;
-  /** Filter by the object’s `stem` field. */
-  stem?: Maybe<StringFilter>;
-  /** Filter by the object’s `texture` field. */
-  texture?: Maybe<StringFilter>;
-  /** Filter by the object’s `bunchesCount` field. */
-  bunchesCount?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `brix` field. */
-  brix?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `diameterMin` field. */
-  diameterMin?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `diameterMax` field. */
-  diameterMax?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `stragglyTightPct` field. */
-  stragglyTightPct?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `surfaceDiscPct` field. */
-  surfaceDiscPct?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `russetScarsPct` field. */
-  russetScarsPct?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `sunburnPct` field. */
-  sunburnPct?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `undersizedBunchesPct` field. */
-  undersizedBunchesPct?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `otherDefectsPct` field. */
-  otherDefectsPct?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `stemDehyPct` field. */
-  stemDehyPct?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `glassyWeakPct` field. */
-  glassyWeakPct?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `decayPct` field. */
-  decayPct?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `splitCrushedPct` field. */
-  splitCrushedPct?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `drySplitPct` field. */
-  drySplitPct?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `wetStickyPct` field. */
-  wetStickyPct?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `waterberriesPct` field. */
-  waterberriesPct?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `shatterPct` field. */
-  shatterPct?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `totalQualityDefectsPct` field. */
-  totalQualityDefectsPct?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `totalConditionDefectsPct` field. */
-  totalConditionDefectsPct?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `qualityScore` field. */
-  qualityScore?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `conditionScore` field. */
-  conditionScore?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `scoreName` field. */
-  scoreName?: Maybe<StringFilter>;
-  /** Filter by the object’s `reportLink` field. */
-  reportLink?: Maybe<StringFilter>;
-  /** Filter by the object’s `imagesLink` field. */
-  imagesLink?: Maybe<StringFilter>;
-  /** Checks for all expressions in this list. */
-  and?: Maybe<Array<ChileDepartureInspectionPalletFilter>>;
-  /** Checks for any expressions in this list. */
-  or?: Maybe<Array<ChileDepartureInspectionPalletFilter>>;
-  /** Negates the expression. */
-  not?: Maybe<ChileDepartureInspectionPalletFilter>;
-};
-
-/** A connection to a list of `PeruDepartureInspection` values. */
-export type PeruDepartureInspectionsConnection = {
-  __typename?: 'PeruDepartureInspectionsConnection';
-  /** A list of `PeruDepartureInspection` objects. */
-  nodes: Array<Maybe<PeruDepartureInspection>>;
-  /** A list of edges which contains the `PeruDepartureInspection` and cursor to aid in pagination. */
-  edges: Array<PeruDepartureInspectionsEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `PeruDepartureInspection` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-export type PeruDepartureInspection = Node & {
-  __typename?: 'PeruDepartureInspection';
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  nodeId: Scalars['ID'];
-  containerId: Scalars['String'];
-  avgBunchesPerBox: Scalars['BigFloat'];
-  avgNetWeight: Scalars['BigFloat'];
-  bagsPerBox: Scalars['BigFloat'];
-  bagType?: Maybe<Scalars['String']>;
-  brand: Scalars['String'];
-  brixAvg: Scalars['BigFloat'];
-  brixMax: Scalars['BigFloat'];
-  brixMin: Scalars['BigFloat'];
-  category: Scalars['String'];
-  comments: Scalars['String'];
-  conditionScore: Scalars['BigFloat'];
-  departureWeek: Scalars['String'];
-  destination: Scalars['String'];
-  exporter: Scalars['String'];
-  inspectionDate: Scalars['Date'];
-  packingDate: Scalars['Date'];
-  packingHouse: Scalars['String'];
-  packingMaterial: Scalars['String'];
-  presentation: Scalars['String'];
-  qualityScore: Scalars['BigFloat'];
-  variety: Scalars['String'];
-  /** Reads and enables pagination through a set of `PeruDepartureInspectionPallet`. */
-  peruDepartureInspectionPalletsByContainerId: PeruDepartureInspectionPalletsConnection;
+  /** Reads and enables pagination through a set of `PsaPearPallet`. */
+  pearPallets: PsaPearPalletsConnection;
+  /** Reads and enables pagination through a set of `PsaPersimmonPallet`. */
+  persimmonPallets: PsaPersimmonPalletsConnection;
+  /** Reads and enables pagination through a set of `PsaArrivalPicture`. */
+  pictures: PsaArrivalPicturesConnection;
+  /** Reads and enables pagination through a set of `PsaPomegranatePallet`. */
+  pomegranatePallets: PsaPomegranatePalletsConnection;
+  qualityRange?: Maybe<Scalars['String']>;
   searchText?: Maybe<Scalars['String']>;
-  imageUrls?: Maybe<Array<Scalars['String']>>;
+  /** Reads and enables pagination through a set of `PsaStoneFruitPallet`. */
+  stoneFruitPallets: PsaStoneFruitPalletsConnection;
+  varietyList?: Maybe<Array<Maybe<Scalars['String']>>>;
+  vessel?: Maybe<Vessel>;
+  reportUrl: Scalars['String'];
 };
 
 
-export type PeruDepartureInspectionPeruDepartureInspectionPalletsByContainerIdArgs = {
+export type PsaArrivalReportApplePalletsArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['Cursor']>;
   after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<PeruDepartureInspectionPalletsOrderBy>>;
-  condition?: Maybe<PeruDepartureInspectionPalletCondition>;
-  filter?: Maybe<PeruDepartureInspectionPalletFilter>;
+  orderBy?: Maybe<Array<PsaApplePalletsOrderBy>>;
+  filter?: Maybe<PsaApplePalletFilter>;
 };
 
-/** A connection to a list of `PeruDepartureInspectionPallet` values. */
-export type PeruDepartureInspectionPalletsConnection = {
-  __typename?: 'PeruDepartureInspectionPalletsConnection';
-  /** A list of `PeruDepartureInspectionPallet` objects. */
-  nodes: Array<Maybe<PeruDepartureInspectionPallet>>;
-  /** A list of edges which contains the `PeruDepartureInspectionPallet` and cursor to aid in pagination. */
-  edges: Array<PeruDepartureInspectionPalletsEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `PeruDepartureInspectionPallet` you could get from the connection. */
-  totalCount: Scalars['Int'];
+
+export type PsaArrivalReportCherryPalletsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PsaCherryPalletsOrderBy>>;
+  filter?: Maybe<PsaCherryPalletFilter>;
 };
 
-export type PeruDepartureInspectionPallet = Node & {
-  __typename?: 'PeruDepartureInspectionPallet';
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  nodeId: Scalars['ID'];
-  id: Scalars['BigInt'];
-  palletId: Scalars['String'];
-  containerId: Scalars['String'];
-  size: Scalars['String'];
-  netWeight: Scalars['BigFloat'];
-  openingScore: Scalars['BigFloat'];
-  colorScore: Scalars['BigFloat'];
-  stemScore: Scalars['BigFloat'];
-  textureScore: Scalars['BigFloat'];
-  bunchesPerBox: Scalars['BigFloat'];
-  brix: Scalars['BigFloat'];
-  qualityScore: Scalars['BigFloat'];
-  conditionScore: Scalars['BigFloat'];
-  stragglyTightPct: Scalars['BigFloat'];
-  surfaceDiscPct: Scalars['BigFloat'];
-  russetScarsPct: Scalars['BigFloat'];
-  sunburnPct: Scalars['BigFloat'];
-  undersizedBunchesPct: Scalars['BigFloat'];
-  otherDefectsPct: Scalars['BigFloat'];
-  totalQualityDefectsPct: Scalars['BigFloat'];
-  stemDehyPct: Scalars['BigFloat'];
-  glassyWeakPct: Scalars['BigFloat'];
-  decayPct: Scalars['BigFloat'];
-  splitCrushedPct: Scalars['BigFloat'];
-  drySplitPct: Scalars['BigFloat'];
-  wetStickyPct: Scalars['BigFloat'];
-  waterberriesPct: Scalars['BigFloat'];
-  shatterPct: Scalars['BigFloat'];
-  totalConditionDefectsPct: Scalars['BigFloat'];
-  totalDefectsPct: Scalars['BigFloat'];
-  /** Reads a single `PeruDepartureInspection` that is related to this `PeruDepartureInspectionPallet`. */
-  container?: Maybe<PeruDepartureInspection>;
+
+export type PsaArrivalReportCitrusPalletsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PsaCitrusPalletsOrderBy>>;
+  filter?: Maybe<PsaCitrusPalletFilter>;
 };
 
-/** A `PeruDepartureInspectionPallet` edge in the connection. */
-export type PeruDepartureInspectionPalletsEdge = {
-  __typename?: 'PeruDepartureInspectionPalletsEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `PeruDepartureInspectionPallet` at the end of the edge. */
-  node?: Maybe<PeruDepartureInspectionPallet>;
+
+export type PsaArrivalReportGrapePalletsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PsaGrapePalletsOrderBy>>;
+  filter?: Maybe<PsaGrapePalletFilter>;
 };
 
-/** Methods to use when ordering `PeruDepartureInspectionPallet`. */
-export enum PeruDepartureInspectionPalletsOrderBy {
-  Natural = 'NATURAL',
-  IdAsc = 'ID_ASC',
-  IdDesc = 'ID_DESC',
-  PalletIdAsc = 'PALLET_ID_ASC',
-  PalletIdDesc = 'PALLET_ID_DESC',
-  ContainerIdAsc = 'CONTAINER_ID_ASC',
-  ContainerIdDesc = 'CONTAINER_ID_DESC',
-  SizeAsc = 'SIZE_ASC',
-  SizeDesc = 'SIZE_DESC',
-  NetWeightAsc = 'NET_WEIGHT_ASC',
-  NetWeightDesc = 'NET_WEIGHT_DESC',
-  OpeningScoreAsc = 'OPENING_SCORE_ASC',
-  OpeningScoreDesc = 'OPENING_SCORE_DESC',
-  ColorScoreAsc = 'COLOR_SCORE_ASC',
-  ColorScoreDesc = 'COLOR_SCORE_DESC',
-  StemScoreAsc = 'STEM_SCORE_ASC',
-  StemScoreDesc = 'STEM_SCORE_DESC',
-  TextureScoreAsc = 'TEXTURE_SCORE_ASC',
-  TextureScoreDesc = 'TEXTURE_SCORE_DESC',
-  BunchesPerBoxAsc = 'BUNCHES_PER_BOX_ASC',
-  BunchesPerBoxDesc = 'BUNCHES_PER_BOX_DESC',
-  BrixAsc = 'BRIX_ASC',
-  BrixDesc = 'BRIX_DESC',
-  QualityScoreAsc = 'QUALITY_SCORE_ASC',
-  QualityScoreDesc = 'QUALITY_SCORE_DESC',
-  ConditionScoreAsc = 'CONDITION_SCORE_ASC',
-  ConditionScoreDesc = 'CONDITION_SCORE_DESC',
-  StragglyTightPctAsc = 'STRAGGLY_TIGHT_PCT_ASC',
-  StragglyTightPctDesc = 'STRAGGLY_TIGHT_PCT_DESC',
-  SurfaceDiscPctAsc = 'SURFACE_DISC_PCT_ASC',
-  SurfaceDiscPctDesc = 'SURFACE_DISC_PCT_DESC',
-  RussetScarsPctAsc = 'RUSSET_SCARS_PCT_ASC',
-  RussetScarsPctDesc = 'RUSSET_SCARS_PCT_DESC',
-  SunburnPctAsc = 'SUNBURN_PCT_ASC',
-  SunburnPctDesc = 'SUNBURN_PCT_DESC',
-  UndersizedBunchesPctAsc = 'UNDERSIZED_BUNCHES_PCT_ASC',
-  UndersizedBunchesPctDesc = 'UNDERSIZED_BUNCHES_PCT_DESC',
-  OtherDefectsPctAsc = 'OTHER_DEFECTS_PCT_ASC',
-  OtherDefectsPctDesc = 'OTHER_DEFECTS_PCT_DESC',
-  TotalQualityDefectsPctAsc = 'TOTAL_QUALITY_DEFECTS_PCT_ASC',
-  TotalQualityDefectsPctDesc = 'TOTAL_QUALITY_DEFECTS_PCT_DESC',
-  StemDehyPctAsc = 'STEM_DEHY_PCT_ASC',
-  StemDehyPctDesc = 'STEM_DEHY_PCT_DESC',
-  GlassyWeakPctAsc = 'GLASSY_WEAK_PCT_ASC',
-  GlassyWeakPctDesc = 'GLASSY_WEAK_PCT_DESC',
-  DecayPctAsc = 'DECAY_PCT_ASC',
-  DecayPctDesc = 'DECAY_PCT_DESC',
-  SplitCrushedPctAsc = 'SPLIT_CRUSHED_PCT_ASC',
-  SplitCrushedPctDesc = 'SPLIT_CRUSHED_PCT_DESC',
-  DrySplitPctAsc = 'DRY_SPLIT_PCT_ASC',
-  DrySplitPctDesc = 'DRY_SPLIT_PCT_DESC',
-  WetStickyPctAsc = 'WET_STICKY_PCT_ASC',
-  WetStickyPctDesc = 'WET_STICKY_PCT_DESC',
-  WaterberriesPctAsc = 'WATERBERRIES_PCT_ASC',
-  WaterberriesPctDesc = 'WATERBERRIES_PCT_DESC',
-  ShatterPctAsc = 'SHATTER_PCT_ASC',
-  ShatterPctDesc = 'SHATTER_PCT_DESC',
-  TotalConditionDefectsPctAsc = 'TOTAL_CONDITION_DEFECTS_PCT_ASC',
-  TotalConditionDefectsPctDesc = 'TOTAL_CONDITION_DEFECTS_PCT_DESC',
-  TotalDefectsPctAsc = 'TOTAL_DEFECTS_PCT_ASC',
-  TotalDefectsPctDesc = 'TOTAL_DEFECTS_PCT_DESC',
-  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
-  PeruDepartureInspectionByContainerIdContainerIdAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__CONTAINER_ID_ASC',
-  PeruDepartureInspectionByContainerIdContainerIdDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__CONTAINER_ID_DESC',
-  PeruDepartureInspectionByContainerIdAvgBunchesPerBoxAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__AVG_BUNCHES_PER_BOX_ASC',
-  PeruDepartureInspectionByContainerIdAvgBunchesPerBoxDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__AVG_BUNCHES_PER_BOX_DESC',
-  PeruDepartureInspectionByContainerIdAvgNetWeightAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__AVG_NET_WEIGHT_ASC',
-  PeruDepartureInspectionByContainerIdAvgNetWeightDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__AVG_NET_WEIGHT_DESC',
-  PeruDepartureInspectionByContainerIdBagsPerBoxAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__BAGS_PER_BOX_ASC',
-  PeruDepartureInspectionByContainerIdBagsPerBoxDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__BAGS_PER_BOX_DESC',
-  PeruDepartureInspectionByContainerIdBagTypeAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__BAG_TYPE_ASC',
-  PeruDepartureInspectionByContainerIdBagTypeDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__BAG_TYPE_DESC',
-  PeruDepartureInspectionByContainerIdBrandAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__BRAND_ASC',
-  PeruDepartureInspectionByContainerIdBrandDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__BRAND_DESC',
-  PeruDepartureInspectionByContainerIdBrixAvgAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__BRIX_AVG_ASC',
-  PeruDepartureInspectionByContainerIdBrixAvgDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__BRIX_AVG_DESC',
-  PeruDepartureInspectionByContainerIdBrixMaxAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__BRIX_MAX_ASC',
-  PeruDepartureInspectionByContainerIdBrixMaxDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__BRIX_MAX_DESC',
-  PeruDepartureInspectionByContainerIdBrixMinAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__BRIX_MIN_ASC',
-  PeruDepartureInspectionByContainerIdBrixMinDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__BRIX_MIN_DESC',
-  PeruDepartureInspectionByContainerIdCategoryAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__CATEGORY_ASC',
-  PeruDepartureInspectionByContainerIdCategoryDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__CATEGORY_DESC',
-  PeruDepartureInspectionByContainerIdCommentsAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__COMMENTS_ASC',
-  PeruDepartureInspectionByContainerIdCommentsDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__COMMENTS_DESC',
-  PeruDepartureInspectionByContainerIdConditionScoreAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__CONDITION_SCORE_ASC',
-  PeruDepartureInspectionByContainerIdConditionScoreDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__CONDITION_SCORE_DESC',
-  PeruDepartureInspectionByContainerIdDepartureWeekAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__DEPARTURE_WEEK_ASC',
-  PeruDepartureInspectionByContainerIdDepartureWeekDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__DEPARTURE_WEEK_DESC',
-  PeruDepartureInspectionByContainerIdDestinationAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__DESTINATION_ASC',
-  PeruDepartureInspectionByContainerIdDestinationDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__DESTINATION_DESC',
-  PeruDepartureInspectionByContainerIdExporterAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__EXPORTER_ASC',
-  PeruDepartureInspectionByContainerIdExporterDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__EXPORTER_DESC',
-  PeruDepartureInspectionByContainerIdInspectionDateAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__INSPECTION_DATE_ASC',
-  PeruDepartureInspectionByContainerIdInspectionDateDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__INSPECTION_DATE_DESC',
-  PeruDepartureInspectionByContainerIdPackingDateAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__PACKING_DATE_ASC',
-  PeruDepartureInspectionByContainerIdPackingDateDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__PACKING_DATE_DESC',
-  PeruDepartureInspectionByContainerIdPackingHouseAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__PACKING_HOUSE_ASC',
-  PeruDepartureInspectionByContainerIdPackingHouseDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__PACKING_HOUSE_DESC',
-  PeruDepartureInspectionByContainerIdPackingMaterialAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__PACKING_MATERIAL_ASC',
-  PeruDepartureInspectionByContainerIdPackingMaterialDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__PACKING_MATERIAL_DESC',
-  PeruDepartureInspectionByContainerIdPresentationAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__PRESENTATION_ASC',
-  PeruDepartureInspectionByContainerIdPresentationDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__PRESENTATION_DESC',
-  PeruDepartureInspectionByContainerIdQualityScoreAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__QUALITY_SCORE_ASC',
-  PeruDepartureInspectionByContainerIdQualityScoreDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__QUALITY_SCORE_DESC',
-  PeruDepartureInspectionByContainerIdVarietyAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__VARIETY_ASC',
-  PeruDepartureInspectionByContainerIdVarietyDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__VARIETY_DESC'
-}
 
-/**
- * A condition to be used against `PeruDepartureInspectionPallet` object types. All
- * fields are tested for equality and combined with a logical ‘and.’
- */
-export type PeruDepartureInspectionPalletCondition = {
-  /** Checks for equality with the object’s `id` field. */
-  id?: Maybe<Scalars['BigInt']>;
-  /** Checks for equality with the object’s `palletId` field. */
-  palletId?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `containerId` field. */
-  containerId?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `size` field. */
-  size?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `netWeight` field. */
-  netWeight?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `openingScore` field. */
-  openingScore?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `colorScore` field. */
-  colorScore?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `stemScore` field. */
-  stemScore?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `textureScore` field. */
-  textureScore?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `bunchesPerBox` field. */
-  bunchesPerBox?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `brix` field. */
-  brix?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `qualityScore` field. */
-  qualityScore?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `conditionScore` field. */
-  conditionScore?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `stragglyTightPct` field. */
-  stragglyTightPct?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `surfaceDiscPct` field. */
-  surfaceDiscPct?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `russetScarsPct` field. */
-  russetScarsPct?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `sunburnPct` field. */
-  sunburnPct?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `undersizedBunchesPct` field. */
-  undersizedBunchesPct?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `otherDefectsPct` field. */
-  otherDefectsPct?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `totalQualityDefectsPct` field. */
-  totalQualityDefectsPct?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `stemDehyPct` field. */
-  stemDehyPct?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `glassyWeakPct` field. */
-  glassyWeakPct?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `decayPct` field. */
-  decayPct?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `splitCrushedPct` field. */
-  splitCrushedPct?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `drySplitPct` field. */
-  drySplitPct?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `wetStickyPct` field. */
-  wetStickyPct?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `waterberriesPct` field. */
-  waterberriesPct?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `shatterPct` field. */
-  shatterPct?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `totalConditionDefectsPct` field. */
-  totalConditionDefectsPct?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `totalDefectsPct` field. */
-  totalDefectsPct?: Maybe<Scalars['BigFloat']>;
+export type PsaArrivalReportLemonPalletsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PsaLemonPalletsOrderBy>>;
+  filter?: Maybe<PsaLemonPalletFilter>;
 };
 
-/** A filter to be used against `PeruDepartureInspectionPallet` object types. All fields are combined with a logical ‘and.’ */
-export type PeruDepartureInspectionPalletFilter = {
-  /** Filter by the object’s `id` field. */
-  id?: Maybe<BigIntFilter>;
-  /** Filter by the object’s `palletId` field. */
-  palletId?: Maybe<StringFilter>;
-  /** Filter by the object’s `containerId` field. */
-  containerId?: Maybe<StringFilter>;
-  /** Filter by the object’s `size` field. */
-  size?: Maybe<StringFilter>;
-  /** Filter by the object’s `netWeight` field. */
-  netWeight?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `openingScore` field. */
-  openingScore?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `colorScore` field. */
-  colorScore?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `stemScore` field. */
-  stemScore?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `textureScore` field. */
-  textureScore?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `bunchesPerBox` field. */
-  bunchesPerBox?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `brix` field. */
-  brix?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `qualityScore` field. */
-  qualityScore?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `conditionScore` field. */
-  conditionScore?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `stragglyTightPct` field. */
-  stragglyTightPct?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `surfaceDiscPct` field. */
-  surfaceDiscPct?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `russetScarsPct` field. */
-  russetScarsPct?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `sunburnPct` field. */
-  sunburnPct?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `undersizedBunchesPct` field. */
-  undersizedBunchesPct?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `otherDefectsPct` field. */
-  otherDefectsPct?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `totalQualityDefectsPct` field. */
-  totalQualityDefectsPct?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `stemDehyPct` field. */
-  stemDehyPct?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `glassyWeakPct` field. */
-  glassyWeakPct?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `decayPct` field. */
-  decayPct?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `splitCrushedPct` field. */
-  splitCrushedPct?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `drySplitPct` field. */
-  drySplitPct?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `wetStickyPct` field. */
-  wetStickyPct?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `waterberriesPct` field. */
-  waterberriesPct?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `shatterPct` field. */
-  shatterPct?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `totalConditionDefectsPct` field. */
-  totalConditionDefectsPct?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `totalDefectsPct` field. */
-  totalDefectsPct?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `container` relation. */
-  container?: Maybe<PeruDepartureInspectionFilter>;
-  /** Checks for all expressions in this list. */
-  and?: Maybe<Array<PeruDepartureInspectionPalletFilter>>;
-  /** Checks for any expressions in this list. */
-  or?: Maybe<Array<PeruDepartureInspectionPalletFilter>>;
-  /** Negates the expression. */
-  not?: Maybe<PeruDepartureInspectionPalletFilter>;
+
+export type PsaArrivalReportPearPalletsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PsaPearPalletsOrderBy>>;
+  filter?: Maybe<PsaPearPalletFilter>;
 };
 
-/** A filter to be used against `PeruDepartureInspection` object types. All fields are combined with a logical ‘and.’ */
-export type PeruDepartureInspectionFilter = {
-  /** Filter by the object’s `containerId` field. */
-  containerId?: Maybe<StringFilter>;
-  /** Filter by the object’s `avgBunchesPerBox` field. */
-  avgBunchesPerBox?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `avgNetWeight` field. */
-  avgNetWeight?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `bagsPerBox` field. */
-  bagsPerBox?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `bagType` field. */
-  bagType?: Maybe<StringFilter>;
-  /** Filter by the object’s `brand` field. */
-  brand?: Maybe<StringFilter>;
-  /** Filter by the object’s `brixAvg` field. */
-  brixAvg?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `brixMax` field. */
-  brixMax?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `brixMin` field. */
-  brixMin?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `category` field. */
-  category?: Maybe<StringFilter>;
-  /** Filter by the object’s `comments` field. */
-  comments?: Maybe<StringFilter>;
-  /** Filter by the object’s `conditionScore` field. */
-  conditionScore?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `departureWeek` field. */
-  departureWeek?: Maybe<StringFilter>;
-  /** Filter by the object’s `destination` field. */
-  destination?: Maybe<StringFilter>;
-  /** Filter by the object’s `exporter` field. */
-  exporter?: Maybe<StringFilter>;
-  /** Filter by the object’s `inspectionDate` field. */
-  inspectionDate?: Maybe<DateFilter>;
-  /** Filter by the object’s `packingDate` field. */
-  packingDate?: Maybe<DateFilter>;
-  /** Filter by the object’s `packingHouse` field. */
-  packingHouse?: Maybe<StringFilter>;
-  /** Filter by the object’s `packingMaterial` field. */
-  packingMaterial?: Maybe<StringFilter>;
-  /** Filter by the object’s `presentation` field. */
-  presentation?: Maybe<StringFilter>;
-  /** Filter by the object’s `qualityScore` field. */
-  qualityScore?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `variety` field. */
-  variety?: Maybe<StringFilter>;
-  /** Filter by the object’s `searchText` field. */
-  searchText?: Maybe<StringFilter>;
-  /** Filter by the object’s `peruDepartureInspectionPalletsByContainerId` relation. */
-  peruDepartureInspectionPalletsByContainerId?: Maybe<PeruDepartureInspectionToManyPeruDepartureInspectionPalletFilter>;
-  /** Some related `peruDepartureInspectionPalletsByContainerId` exist. */
-  peruDepartureInspectionPalletsByContainerIdExist?: Maybe<Scalars['Boolean']>;
-  /** Checks for all expressions in this list. */
-  and?: Maybe<Array<PeruDepartureInspectionFilter>>;
-  /** Checks for any expressions in this list. */
-  or?: Maybe<Array<PeruDepartureInspectionFilter>>;
-  /** Negates the expression. */
-  not?: Maybe<PeruDepartureInspectionFilter>;
+
+export type PsaArrivalReportPersimmonPalletsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PsaPersimmonPalletsOrderBy>>;
+  filter?: Maybe<PsaPersimmonPalletFilter>;
 };
 
-/** A filter to be used against many `PeruDepartureInspectionPallet` object types. All fields are combined with a logical ‘and.’ */
-export type PeruDepartureInspectionToManyPeruDepartureInspectionPalletFilter = {
-  /** Every related `PeruDepartureInspectionPallet` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  every?: Maybe<PeruDepartureInspectionPalletFilter>;
-  /** Some related `PeruDepartureInspectionPallet` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  some?: Maybe<PeruDepartureInspectionPalletFilter>;
-  /** No related `PeruDepartureInspectionPallet` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  none?: Maybe<PeruDepartureInspectionPalletFilter>;
+
+export type PsaArrivalReportPicturesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  condition?: Maybe<PsaArrivalPictureCondition>;
+  filter?: Maybe<PsaArrivalPictureFilter>;
 };
 
-/** A `PeruDepartureInspection` edge in the connection. */
-export type PeruDepartureInspectionsEdge = {
-  __typename?: 'PeruDepartureInspectionsEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `PeruDepartureInspection` at the end of the edge. */
-  node?: Maybe<PeruDepartureInspection>;
+
+export type PsaArrivalReportPomegranatePalletsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PsaPomegranatePalletsOrderBy>>;
+  filter?: Maybe<PsaPomegranatePalletFilter>;
 };
 
-/** Methods to use when ordering `PeruDepartureInspection`. */
-export enum PeruDepartureInspectionsOrderBy {
-  Natural = 'NATURAL',
-  ContainerIdAsc = 'CONTAINER_ID_ASC',
-  ContainerIdDesc = 'CONTAINER_ID_DESC',
-  AvgBunchesPerBoxAsc = 'AVG_BUNCHES_PER_BOX_ASC',
-  AvgBunchesPerBoxDesc = 'AVG_BUNCHES_PER_BOX_DESC',
-  AvgNetWeightAsc = 'AVG_NET_WEIGHT_ASC',
-  AvgNetWeightDesc = 'AVG_NET_WEIGHT_DESC',
-  BagsPerBoxAsc = 'BAGS_PER_BOX_ASC',
-  BagsPerBoxDesc = 'BAGS_PER_BOX_DESC',
-  BagTypeAsc = 'BAG_TYPE_ASC',
-  BagTypeDesc = 'BAG_TYPE_DESC',
-  BrandAsc = 'BRAND_ASC',
-  BrandDesc = 'BRAND_DESC',
-  BrixAvgAsc = 'BRIX_AVG_ASC',
-  BrixAvgDesc = 'BRIX_AVG_DESC',
-  BrixMaxAsc = 'BRIX_MAX_ASC',
-  BrixMaxDesc = 'BRIX_MAX_DESC',
-  BrixMinAsc = 'BRIX_MIN_ASC',
-  BrixMinDesc = 'BRIX_MIN_DESC',
-  CategoryAsc = 'CATEGORY_ASC',
-  CategoryDesc = 'CATEGORY_DESC',
-  CommentsAsc = 'COMMENTS_ASC',
-  CommentsDesc = 'COMMENTS_DESC',
-  ConditionScoreAsc = 'CONDITION_SCORE_ASC',
-  ConditionScoreDesc = 'CONDITION_SCORE_DESC',
-  DepartureWeekAsc = 'DEPARTURE_WEEK_ASC',
-  DepartureWeekDesc = 'DEPARTURE_WEEK_DESC',
-  DestinationAsc = 'DESTINATION_ASC',
-  DestinationDesc = 'DESTINATION_DESC',
-  ExporterAsc = 'EXPORTER_ASC',
-  ExporterDesc = 'EXPORTER_DESC',
-  InspectionDateAsc = 'INSPECTION_DATE_ASC',
-  InspectionDateDesc = 'INSPECTION_DATE_DESC',
-  PackingDateAsc = 'PACKING_DATE_ASC',
-  PackingDateDesc = 'PACKING_DATE_DESC',
-  PackingHouseAsc = 'PACKING_HOUSE_ASC',
-  PackingHouseDesc = 'PACKING_HOUSE_DESC',
-  PackingMaterialAsc = 'PACKING_MATERIAL_ASC',
-  PackingMaterialDesc = 'PACKING_MATERIAL_DESC',
-  PresentationAsc = 'PRESENTATION_ASC',
-  PresentationDesc = 'PRESENTATION_DESC',
-  QualityScoreAsc = 'QUALITY_SCORE_ASC',
-  QualityScoreDesc = 'QUALITY_SCORE_DESC',
-  VarietyAsc = 'VARIETY_ASC',
-  VarietyDesc = 'VARIETY_DESC',
-  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
-  PeruDepartureInspectionPalletsByContainerIdCountAsc = 'PERU_DEPARTURE_INSPECTION_PALLETS_BY_CONTAINER_ID__COUNT_ASC',
-  PeruDepartureInspectionPalletsByContainerIdCountDesc = 'PERU_DEPARTURE_INSPECTION_PALLETS_BY_CONTAINER_ID__COUNT_DESC'
-}
 
-/**
- * A condition to be used against `PeruDepartureInspection` object types. All
- * fields are tested for equality and combined with a logical ‘and.’
- */
-export type PeruDepartureInspectionCondition = {
-  /** Checks for equality with the object’s `containerId` field. */
-  containerId?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `avgBunchesPerBox` field. */
-  avgBunchesPerBox?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `avgNetWeight` field. */
-  avgNetWeight?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `bagsPerBox` field. */
-  bagsPerBox?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `bagType` field. */
-  bagType?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `brand` field. */
-  brand?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `brixAvg` field. */
-  brixAvg?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `brixMax` field. */
-  brixMax?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `brixMin` field. */
-  brixMin?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `category` field. */
-  category?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `comments` field. */
-  comments?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `conditionScore` field. */
-  conditionScore?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `departureWeek` field. */
-  departureWeek?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `destination` field. */
-  destination?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `exporter` field. */
-  exporter?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `inspectionDate` field. */
-  inspectionDate?: Maybe<Scalars['Date']>;
-  /** Checks for equality with the object’s `packingDate` field. */
-  packingDate?: Maybe<Scalars['Date']>;
-  /** Checks for equality with the object’s `packingHouse` field. */
-  packingHouse?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `packingMaterial` field. */
-  packingMaterial?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `presentation` field. */
-  presentation?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `qualityScore` field. */
-  qualityScore?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `variety` field. */
-  variety?: Maybe<Scalars['String']>;
+export type PsaArrivalReportStoneFruitPalletsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PsaStoneFruitPalletsOrderBy>>;
+  filter?: Maybe<PsaStoneFruitPalletFilter>;
+};
+
+
+export type PsaArrivalReportVarietyListArgs = {
+  com?: Maybe<Scalars['String']>;
 };
 
 /** A connection to a list of `PsaApplePallet` values. */
@@ -17790,219 +14923,6 @@ export enum PsaApplePalletsOrderBy {
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
 }
 
-/**
- * A condition to be used against `PsaApplePallet` object types. All fields are
- * tested for equality and combined with a logical ‘and.’
- */
-export type PsaApplePalletCondition = {
-  /** Checks for equality with the object’s `id` field. */
-  id?: Maybe<Scalars['BigInt']>;
-  /** Checks for equality with the object’s `location` field. */
-  location?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `arrival` field. */
-  arrival?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `importerName` field. */
-  importerName?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `exporterName` field. */
-  exporterName?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `commodity` field. */
-  commodity?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `productCode` field. */
-  productCode?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `variety` field. */
-  variety?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `inspDate` field. */
-  inspDate?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `quantity` field. */
-  quantity?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `hatch` field. */
-  hatch?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `deck` field. */
-  deck?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `containerId` field. */
-  containerId?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `fumigation` field. */
-  fumigation?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `labelCode` field. */
-  labelCode?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `inspLocation` field. */
-  inspLocation?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `importerCode` field. */
-  importerCode?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `lotCode` field. */
-  lotCode?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `inspLot` field. */
-  inspLot?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `runNumber` field. */
-  runNumber?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `palletId` field. */
-  palletId?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `growerCode` field. */
-  growerCode?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `inspGrowerCode` field. */
-  inspGrowerCode?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `packDate` field. */
-  packDate?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `inspPackDate` field. */
-  inspPackDate?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `size` field. */
-  size?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `inspSize` field. */
-  inspSize?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `packCode` field. */
-  packCode?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `packDescription` field. */
-  packDescription?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `secondaryDescription` field. */
-  secondaryDescription?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `inspPackCode` field. */
-  inspPackCode?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `grade` field. */
-  grade?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `inspGrade` field. */
-  inspGrade?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `count` field. */
-  count?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `plu` field. */
-  plu?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `pluPct` field. */
-  pluPct?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `countryOfOrigin` field. */
-  countryOfOrigin?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `upc` field. */
-  upc?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `weight` field. */
-  weight?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `underweightMin` field. */
-  underweightMin?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `underweightMax` field. */
-  underweightMax?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `weighedUnits` field. */
-  weighedUnits?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `underweightUnits` field. */
-  underweightUnits?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `underweightPct` field. */
-  underweightPct?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `pulpTemp` field. */
-  pulpTemp?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `opening` field. */
-  opening?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `groundColor` field. */
-  groundColor?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `blushColor` field. */
-  blushColor?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `blushPct` field. */
-  blushPct?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `scarsPieces` field. */
-  scarsPieces?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `scarsPct` field. */
-  scarsPct?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `scarsDeg` field. */
-  scarsDeg?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `stemPuncturesPieces` field. */
-  stemPuncturesPieces?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `stemPuncturesPct` field. */
-  stemPuncturesPct?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `cutsPieces` field. */
-  cutsPieces?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `cutsPct` field. */
-  cutsPct?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `cutsDeg` field. */
-  cutsDeg?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `sunScaldPieces` field. */
-  sunScaldPieces?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `sunScaldPct` field. */
-  sunScaldPct?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `sunScaldDeg` field. */
-  sunScaldDeg?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `scaldPieces` field. */
-  scaldPieces?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `scaldPct` field. */
-  scaldPct?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `scaldDeg` field. */
-  scaldDeg?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `bruisingPieces` field. */
-  bruisingPieces?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `bruisingPct` field. */
-  bruisingPct?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `bruisingDeg` field. */
-  bruisingDeg?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `crackingPieces` field. */
-  crackingPieces?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `crackingPct` field. */
-  crackingPct?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `bitterPitPieces` field. */
-  bitterPitPieces?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `bitterPitPct` field. */
-  bitterPitPct?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `bitterPitDeg` field. */
-  bitterPitDeg?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `lenticelBreakdownPieces` field. */
-  lenticelBreakdownPieces?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `lenticelBreakdownPct` field. */
-  lenticelBreakdownPct?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `lenticelBreakdownDeg` field. */
-  lenticelBreakdownDeg?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `dehydrationPieces` field. */
-  dehydrationPieces?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `dehydrationPct` field. */
-  dehydrationPct?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `dehydrationDeg` field. */
-  dehydrationDeg?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `cutCount` field. */
-  cutCount?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `watercorePieces` field. */
-  watercorePieces?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `watercorePct` field. */
-  watercorePct?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `internalDamagePieces` field. */
-  internalDamagePieces?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `internalDamagePer` field. */
-  internalDamagePer?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `decayPieces` field. */
-  decayPieces?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `decayPct` field. */
-  decayPct?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `decayDeg` field. */
-  decayDeg?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `moldPieces` field. */
-  moldPieces?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `moldPct` field. */
-  moldPct?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `pressure1` field. */
-  pressure1?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `pressure2` field. */
-  pressure2?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `pressure3` field. */
-  pressure3?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `pressure4` field. */
-  pressure4?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `pressure5` field. */
-  pressure5?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `pressure6` field. */
-  pressure6?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `pressuresMin` field. */
-  pressuresMin?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `pressuresMax` field. */
-  pressuresMax?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `pressuresAvg` field. */
-  pressuresAvg?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `overallQuality` field. */
-  overallQuality?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `overallCondition` field. */
-  overallCondition?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `comment1` field. */
-  comment1?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `comment2` field. */
-  comment2?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `inspectionType` field. */
-  inspectionType?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `shortInsp` field. */
-  shortInsp?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `fixedWeight` field. */
-  fixedWeight?: Maybe<Scalars['String']>;
-};
-
 /** A filter to be used against `PsaApplePallet` object types. All fields are combined with a logical ‘and.’ */
 export type PsaApplePalletFilter = {
   /** Filter by the object’s `id` field. */
@@ -18217,221 +15137,6 @@ export type PsaApplePalletFilter = {
   or?: Maybe<Array<PsaApplePalletFilter>>;
   /** Negates the expression. */
   not?: Maybe<PsaApplePalletFilter>;
-};
-
-/** Methods to use when ordering `PsaArrivalPicture`. */
-export enum PsaArrivalPicturesOrderBy {
-  Natural = 'NATURAL',
-  IdAsc = 'ID_ASC',
-  IdDesc = 'ID_DESC',
-  PictureDateAsc = 'PICTURE_DATE_ASC',
-  PictureDateDesc = 'PICTURE_DATE_DESC',
-  ArrivalCodeAsc = 'ARRIVAL_CODE_ASC',
-  ArrivalCodeDesc = 'ARRIVAL_CODE_DESC',
-  PictureDescriptionAsc = 'PICTURE_DESCRIPTION_ASC',
-  PictureDescriptionDesc = 'PICTURE_DESCRIPTION_DESC',
-  ExporterIdAsc = 'EXPORTER_ID_ASC',
-  ExporterIdDesc = 'EXPORTER_ID_DESC',
-  PalletIdAsc = 'PALLET_ID_ASC',
-  PalletIdDesc = 'PALLET_ID_DESC',
-  ProductCodeAsc = 'PRODUCT_CODE_ASC',
-  ProductCodeDesc = 'PRODUCT_CODE_DESC',
-  VarietyNameAsc = 'VARIETY_NAME_ASC',
-  VarietyNameDesc = 'VARIETY_NAME_DESC',
-  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
-}
-
-/**
- * A condition to be used against `PsaArrivalPicture` object types. All fields are
- * tested for equality and combined with a logical ‘and.’
- */
-export type PsaArrivalPictureCondition = {
-  /** Checks for equality with the object’s `id` field. */
-  id?: Maybe<Scalars['BigInt']>;
-  /** Checks for equality with the object’s `pictureDate` field. */
-  pictureDate?: Maybe<Scalars['Date']>;
-  /** Checks for equality with the object’s `arrivalCode` field. */
-  arrivalCode?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `pictureDescription` field. */
-  pictureDescription?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `exporterId` field. */
-  exporterId?: Maybe<Scalars['BigInt']>;
-  /** Checks for equality with the object’s `palletId` field. */
-  palletId?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `productCode` field. */
-  productCode?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `varietyName` field. */
-  varietyName?: Maybe<Scalars['String']>;
-};
-
-/** A connection to a list of `PsaArrivalReport` values. */
-export type PsaArrivalReportsConnection = {
-  __typename?: 'PsaArrivalReportsConnection';
-  /** A list of `PsaArrivalReport` objects. */
-  nodes: Array<Maybe<PsaArrivalReport>>;
-  /** A list of edges which contains the `PsaArrivalReport` and cursor to aid in pagination. */
-  edges: Array<PsaArrivalReportsEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `PsaArrivalReport` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-export type PsaArrivalReport = Node & {
-  __typename?: 'PsaArrivalReport';
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  nodeId: Scalars['ID'];
-  id: Scalars['BigInt'];
-  reportDate?: Maybe<Scalars['Date']>;
-  locationName?: Maybe<Scalars['String']>;
-  arrivalCode?: Maybe<Scalars['String']>;
-  arrivalName?: Maybe<Scalars['String']>;
-  exporterId?: Maybe<Scalars['BigInt']>;
-  exporterName?: Maybe<Scalars['String']>;
-  /** Reads and enables pagination through a set of `PsaApplePallet`. */
-  applePallets: PsaApplePalletsConnection;
-  /** Reads and enables pagination through a set of `PsaCherryPallet`. */
-  cherryPallets: PsaCherryPalletsConnection;
-  /** Reads and enables pagination through a set of `PsaCitrusPallet`. */
-  citrusPallets: PsaCitrusPalletsConnection;
-  commodityList?: Maybe<Array<Maybe<Scalars['String']>>>;
-  conditionRange?: Maybe<Scalars['String']>;
-  /** Reads and enables pagination through a set of `PsaGrapePallet`. */
-  grapePallets: PsaGrapePalletsConnection;
-  /** Reads and enables pagination through a set of `PsaLemonPallet`. */
-  lemonPallets: PsaLemonPalletsConnection;
-  palletCount?: Maybe<Scalars['BigFloat']>;
-  /** Reads and enables pagination through a set of `PsaPearPallet`. */
-  pearPallets: PsaPearPalletsConnection;
-  /** Reads and enables pagination through a set of `PsaPersimmonPallet`. */
-  persimmonPallets: PsaPersimmonPalletsConnection;
-  /** Reads and enables pagination through a set of `PsaArrivalPicture`. */
-  pictures: PsaArrivalPicturesConnection;
-  /** Reads and enables pagination through a set of `PsaPomegranatePallet`. */
-  pomegranatePallets: PsaPomegranatePalletsConnection;
-  qualityRange?: Maybe<Scalars['String']>;
-  searchText?: Maybe<Scalars['String']>;
-  /** Reads and enables pagination through a set of `PsaStoneFruitPallet`. */
-  stoneFruitPallets: PsaStoneFruitPalletsConnection;
-  varietyList?: Maybe<Array<Maybe<Scalars['String']>>>;
-  vessel?: Maybe<Vessel>;
-  reportUrl: Scalars['String'];
-};
-
-
-export type PsaArrivalReportApplePalletsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<PsaApplePalletsOrderBy>>;
-  filter?: Maybe<PsaApplePalletFilter>;
-};
-
-
-export type PsaArrivalReportCherryPalletsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<PsaCherryPalletsOrderBy>>;
-  filter?: Maybe<PsaCherryPalletFilter>;
-};
-
-
-export type PsaArrivalReportCitrusPalletsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<PsaCitrusPalletsOrderBy>>;
-  filter?: Maybe<PsaCitrusPalletFilter>;
-};
-
-
-export type PsaArrivalReportGrapePalletsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<PsaGrapePalletsOrderBy>>;
-  filter?: Maybe<PsaGrapePalletFilter>;
-};
-
-
-export type PsaArrivalReportLemonPalletsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<PsaLemonPalletsOrderBy>>;
-  filter?: Maybe<PsaLemonPalletFilter>;
-};
-
-
-export type PsaArrivalReportPearPalletsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<PsaPearPalletsOrderBy>>;
-  filter?: Maybe<PsaPearPalletFilter>;
-};
-
-
-export type PsaArrivalReportPersimmonPalletsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<PsaPersimmonPalletsOrderBy>>;
-  filter?: Maybe<PsaPersimmonPalletFilter>;
-};
-
-
-export type PsaArrivalReportPicturesArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  condition?: Maybe<PsaArrivalPictureCondition>;
-  filter?: Maybe<PsaArrivalPictureFilter>;
-};
-
-
-export type PsaArrivalReportPomegranatePalletsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<PsaPomegranatePalletsOrderBy>>;
-  filter?: Maybe<PsaPomegranatePalletFilter>;
-};
-
-
-export type PsaArrivalReportStoneFruitPalletsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<PsaStoneFruitPalletsOrderBy>>;
-  filter?: Maybe<PsaStoneFruitPalletFilter>;
-};
-
-
-export type PsaArrivalReportVarietyListArgs = {
-  com?: Maybe<Scalars['String']>;
 };
 
 /** A connection to a list of `PsaCherryPallet` values. */
@@ -21536,6 +18241,29 @@ export type PsaPersimmonPalletFilter = {
   not?: Maybe<PsaPersimmonPalletFilter>;
 };
 
+/**
+ * A condition to be used against `PsaArrivalPicture` object types. All fields are
+ * tested for equality and combined with a logical ‘and.’
+ */
+export type PsaArrivalPictureCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `pictureDate` field. */
+  pictureDate?: Maybe<Scalars['Date']>;
+  /** Checks for equality with the object’s `arrivalCode` field. */
+  arrivalCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pictureDescription` field. */
+  pictureDescription?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `exporterId` field. */
+  exporterId?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `palletId` field. */
+  palletId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `productCode` field. */
+  productCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `varietyName` field. */
+  varietyName?: Maybe<Scalars['String']>;
+};
+
 /** A connection to a list of `PsaPomegranatePallet` values. */
 export type PsaPomegranatePalletsConnection = {
   __typename?: 'PsaPomegranatePalletsConnection';
@@ -22503,6 +19231,3279 @@ export type PsaStoneFruitPalletFilter = {
   or?: Maybe<Array<PsaStoneFruitPalletFilter>>;
   /** Negates the expression. */
   not?: Maybe<PsaStoneFruitPalletFilter>;
+};
+
+/** A `Pallet` edge in the connection. */
+export type PalletsEdge = {
+  __typename?: 'PalletsEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `Pallet` at the end of the edge. */
+  node?: Maybe<Pallet>;
+};
+
+/** A filter to be used against `Pallet` object types. All fields are combined with a logical ‘and.’ */
+export type PalletFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `vesselCode` field. */
+  vesselCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `palletId` field. */
+  palletId?: Maybe<StringFilter>;
+  /** Filter by the object’s `productId` field. */
+  productId?: Maybe<StringFilter>;
+  /** Filter by the object’s `currentBoxQuantity` field. */
+  currentBoxQuantity?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `receivedBoxQuantity` field. */
+  receivedBoxQuantity?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `returnedBoxQuantity` field. */
+  returnedBoxQuantity?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `locationId` field. */
+  locationId?: Maybe<StringFilter>;
+  /** Filter by the object’s `room` field. */
+  room?: Maybe<StringFilter>;
+  /** Filter by the object’s `section` field. */
+  section?: Maybe<StringFilter>;
+  /** Filter by the object’s `row` field. */
+  row?: Maybe<StringFilter>;
+  /** Filter by the object’s `jvLotNumber` field. */
+  jvLotNumber?: Maybe<StringFilter>;
+  /** Filter by the object’s `shipperId` field. */
+  shipperId?: Maybe<StringFilter>;
+  /** Filter by the object’s `dateTransferredToStorage` field. */
+  dateTransferredToStorage?: Maybe<StringFilter>;
+  /** Filter by the object’s `orderId` field. */
+  orderId?: Maybe<StringFilter>;
+  /** Filter by the object’s `backOrderId` field. */
+  backOrderId?: Maybe<StringFilter>;
+  /** Filter by the object’s `shipped` field. */
+  shipped?: Maybe<BooleanFilter>;
+  /** Filter by the object’s `age` field. */
+  age?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `volumeDiscountCode` field. */
+  volumeDiscountCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `originalLocationId` field. */
+  originalLocationId?: Maybe<StringFilter>;
+  /** Filter by the object’s `filler` field. */
+  filler?: Maybe<StringFilter>;
+  /** Filter by the object’s `growerId` field. */
+  growerId?: Maybe<StringFilter>;
+  /** Filter by the object’s `oldPackCode` field. */
+  oldPackCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `packDate` field. */
+  packDate?: Maybe<StringFilter>;
+  /** Filter by the object’s `hatch` field. */
+  hatch?: Maybe<StringFilter>;
+  /** Filter by the object’s `deck` field. */
+  deck?: Maybe<StringFilter>;
+  /** Filter by the object’s `billOfLading` field. */
+  billOfLading?: Maybe<StringFilter>;
+  /** Filter by the object’s `containerId` field. */
+  containerId?: Maybe<StringFilter>;
+  /** Filter by the object’s `temperatureRecording` field. */
+  temperatureRecording?: Maybe<StringFilter>;
+  /** Filter by the object’s `searchText` field. */
+  searchText?: Maybe<StringFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<PalletFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<PalletFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<PalletFilter>;
+};
+
+/** A `InventoryItem` edge in the connection. */
+export type InventoryItemsEdge = {
+  __typename?: 'InventoryItemsEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `InventoryItem` at the end of the edge. */
+  node?: Maybe<InventoryItem>;
+};
+
+/** A filter to be used against `InventoryItem` object types. All fields are combined with a logical ‘and.’ */
+export type InventoryItemFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `productId` field. */
+  productId?: Maybe<StringFilter>;
+  /** Filter by the object’s `locationId` field. */
+  locationId?: Maybe<StringFilter>;
+  /** Filter by the object’s `vesselCode` field. */
+  vesselCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `jvLotNumber` field. */
+  jvLotNumber?: Maybe<StringFilter>;
+  /** Filter by the object’s `shipperId` field. */
+  shipperId?: Maybe<StringFilter>;
+  /** Filter by the object’s `palletsReceived` field. */
+  palletsReceived?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `palletsCommitted` field. */
+  palletsCommitted?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `palletsOnHand` field. */
+  palletsOnHand?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `palletsAvailable` field. */
+  palletsAvailable?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `palletsShipped` field. */
+  palletsShipped?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `palletsTransferredIn` field. */
+  palletsTransferredIn?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `palletsTransferredOut` field. */
+  palletsTransferredOut?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `plu` field. */
+  plu?: Maybe<BooleanFilter>;
+  /** Filter by the object’s `countryId` field. */
+  countryId?: Maybe<StringFilter>;
+  /** Filter by the object’s `specialLotNumber` field. */
+  specialLotNumber?: Maybe<StringFilter>;
+  /** Filter by the object’s `coast` field. */
+  coast?: Maybe<StringFilter>;
+  /** Filter by the object’s `storageRank` field. */
+  storageRank?: Maybe<StringFilter>;
+  /** Filter by the object’s `warehouseId` field. */
+  warehouseId?: Maybe<StringFilter>;
+  /** Filter by the object’s `vesselDischargeDate` field. */
+  vesselDischargeDate?: Maybe<DateFilter>;
+  /** Filter by the object’s `vesselInvFlag` field. */
+  vesselInvFlag?: Maybe<BooleanFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<InventoryItemFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<InventoryItemFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<InventoryItemFilter>;
+};
+
+/** A connection to a list of `Shipper` values, with data from `ShipperProjectionVessel`. */
+export type VesselShippersByShipperProjectionVesselVesselIdAndShipperIdManyToManyConnection = {
+  __typename?: 'VesselShippersByShipperProjectionVesselVesselIdAndShipperIdManyToManyConnection';
+  /** A list of `Shipper` objects. */
+  nodes: Array<Maybe<Shipper>>;
+  /** A list of edges which contains the `Shipper`, info from the `ShipperProjectionVessel`, and the cursor to aid in pagination. */
+  edges: Array<VesselShippersByShipperProjectionVesselVesselIdAndShipperIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Shipper` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `Shipper` edge in the connection, with data from `ShipperProjectionVessel`. */
+export type VesselShippersByShipperProjectionVesselVesselIdAndShipperIdManyToManyEdge = {
+  __typename?: 'VesselShippersByShipperProjectionVesselVesselIdAndShipperIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `Shipper` at the end of the edge. */
+  node?: Maybe<Shipper>;
+  /** Reads and enables pagination through a set of `ShipperProjectionVessel`. */
+  shipperProjectionVessels: ShipperProjectionVesselsConnection;
+};
+
+
+/** A `Shipper` edge in the connection, with data from `ShipperProjectionVessel`. */
+export type VesselShippersByShipperProjectionVesselVesselIdAndShipperIdManyToManyEdgeShipperProjectionVesselsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProjectionVesselsOrderBy>>;
+  condition?: Maybe<ShipperProjectionVesselCondition>;
+  filter?: Maybe<ShipperProjectionVesselFilter>;
+};
+
+/** A connection to a list of `ShipperProjection` values, with data from `ShipperProjectionVesselInfo`. */
+export type ShipperProjectionVesselShipperProjectionsByShipperProjectionVesselInfoVesselIdAndProjectionIdManyToManyConnection = {
+  __typename?: 'ShipperProjectionVesselShipperProjectionsByShipperProjectionVesselInfoVesselIdAndProjectionIdManyToManyConnection';
+  /** A list of `ShipperProjection` objects. */
+  nodes: Array<Maybe<ShipperProjection>>;
+  /** A list of edges which contains the `ShipperProjection`, info from the `ShipperProjectionVesselInfo`, and the cursor to aid in pagination. */
+  edges: Array<ShipperProjectionVesselShipperProjectionsByShipperProjectionVesselInfoVesselIdAndProjectionIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `ShipperProjection` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `ShipperProjection` edge in the connection, with data from `ShipperProjectionVesselInfo`. */
+export type ShipperProjectionVesselShipperProjectionsByShipperProjectionVesselInfoVesselIdAndProjectionIdManyToManyEdge = {
+  __typename?: 'ShipperProjectionVesselShipperProjectionsByShipperProjectionVesselInfoVesselIdAndProjectionIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `ShipperProjection` at the end of the edge. */
+  node?: Maybe<ShipperProjection>;
+  /** Reads and enables pagination through a set of `ShipperProjectionVesselInfo`. */
+  shipperProjectionVesselInfosByProjectionId: ShipperProjectionVesselInfosConnection;
+};
+
+
+/** A `ShipperProjection` edge in the connection, with data from `ShipperProjectionVesselInfo`. */
+export type ShipperProjectionVesselShipperProjectionsByShipperProjectionVesselInfoVesselIdAndProjectionIdManyToManyEdgeShipperProjectionVesselInfosByProjectionIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProjectionVesselInfosOrderBy>>;
+  condition?: Maybe<ShipperProjectionVesselInfoCondition>;
+  filter?: Maybe<ShipperProjectionVesselInfoFilter>;
+};
+
+/** Methods to use when ordering `ShipperProjection`. */
+export enum ShipperProjectionsOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  SubmittedAtAsc = 'SUBMITTED_AT_ASC',
+  SubmittedAtDesc = 'SUBMITTED_AT_DESC',
+  ShipperCommentsAsc = 'SHIPPER_COMMENTS_ASC',
+  ShipperCommentsDesc = 'SHIPPER_COMMENTS_DESC',
+  JvCommentsAsc = 'JV_COMMENTS_ASC',
+  JvCommentsDesc = 'JV_COMMENTS_DESC',
+  ApprovedAtAsc = 'APPROVED_AT_ASC',
+  ApprovedAtDesc = 'APPROVED_AT_DESC',
+  RejectedAtAsc = 'REJECTED_AT_ASC',
+  RejectedAtDesc = 'REJECTED_AT_DESC',
+  ShipperIdAsc = 'SHIPPER_ID_ASC',
+  ShipperIdDesc = 'SHIPPER_ID_DESC',
+  ReviewStatusAsc = 'REVIEW_STATUS_ASC',
+  ReviewStatusDesc = 'REVIEW_STATUS_DESC',
+  TotalPalletsAsc = 'TOTAL_PALLETS_ASC',
+  TotalPalletsDesc = 'TOTAL_PALLETS_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  ShipperByShipperIdIdAsc = 'SHIPPER_BY_SHIPPER_ID__ID_ASC',
+  ShipperByShipperIdIdDesc = 'SHIPPER_BY_SHIPPER_ID__ID_DESC',
+  ShipperByShipperIdShipperNameAsc = 'SHIPPER_BY_SHIPPER_ID__SHIPPER_NAME_ASC',
+  ShipperByShipperIdShipperNameDesc = 'SHIPPER_BY_SHIPPER_ID__SHIPPER_NAME_DESC',
+  ShipperByShipperIdCountryIdAsc = 'SHIPPER_BY_SHIPPER_ID__COUNTRY_ID_ASC',
+  ShipperByShipperIdCountryIdDesc = 'SHIPPER_BY_SHIPPER_ID__COUNTRY_ID_DESC',
+  ShipperByShipperIdGroupIdAsc = 'SHIPPER_BY_SHIPPER_ID__GROUP_ID_ASC',
+  ShipperByShipperIdGroupIdDesc = 'SHIPPER_BY_SHIPPER_ID__GROUP_ID_DESC',
+  ShipperByShipperIdLogoSrcAsc = 'SHIPPER_BY_SHIPPER_ID__LOGO_SRC_ASC',
+  ShipperByShipperIdLogoSrcDesc = 'SHIPPER_BY_SHIPPER_ID__LOGO_SRC_DESC',
+  ShipperByShipperIdNotesAsc = 'SHIPPER_BY_SHIPPER_ID__NOTES_ASC',
+  ShipperByShipperIdNotesDesc = 'SHIPPER_BY_SHIPPER_ID__NOTES_DESC',
+  ShipperByShipperIdWebsiteAsc = 'SHIPPER_BY_SHIPPER_ID__WEBSITE_ASC',
+  ShipperByShipperIdWebsiteDesc = 'SHIPPER_BY_SHIPPER_ID__WEBSITE_DESC',
+  ShipperByShipperIdSendProjectionRequestAsc = 'SHIPPER_BY_SHIPPER_ID__SEND_PROJECTION_REQUEST_ASC',
+  ShipperByShipperIdSendProjectionRequestDesc = 'SHIPPER_BY_SHIPPER_ID__SEND_PROJECTION_REQUEST_DESC',
+  ShipperByShipperIdProjectionRequestStartDateAsc = 'SHIPPER_BY_SHIPPER_ID__PROJECTION_REQUEST_START_DATE_ASC',
+  ShipperByShipperIdProjectionRequestStartDateDesc = 'SHIPPER_BY_SHIPPER_ID__PROJECTION_REQUEST_START_DATE_DESC',
+  ShipperByShipperIdProjectionRequestEndDateAsc = 'SHIPPER_BY_SHIPPER_ID__PROJECTION_REQUEST_END_DATE_ASC',
+  ShipperByShipperIdProjectionRequestEndDateDesc = 'SHIPPER_BY_SHIPPER_ID__PROJECTION_REQUEST_END_DATE_DESC',
+  ShipperProjectionVesselInfosByProjectionIdCountAsc = 'SHIPPER_PROJECTION_VESSEL_INFOS_BY_PROJECTION_ID__COUNT_ASC',
+  ShipperProjectionVesselInfosByProjectionIdCountDesc = 'SHIPPER_PROJECTION_VESSEL_INFOS_BY_PROJECTION_ID__COUNT_DESC'
+}
+
+/**
+ * A condition to be used against `ShipperProjection` object types. All fields are
+ * tested for equality and combined with a logical ‘and.’
+ */
+export type ShipperProjectionCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `submittedAt` field. */
+  submittedAt?: Maybe<Scalars['Datetime']>;
+  /** Checks for equality with the object’s `shipperComments` field. */
+  shipperComments?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `jvComments` field. */
+  jvComments?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `approvedAt` field. */
+  approvedAt?: Maybe<Scalars['Datetime']>;
+  /** Checks for equality with the object’s `rejectedAt` field. */
+  rejectedAt?: Maybe<Scalars['Datetime']>;
+  /** Checks for equality with the object’s `shipperId` field. */
+  shipperId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `reviewStatus` field. */
+  reviewStatus?: Maybe<Scalars['Int']>;
+};
+
+/** A connection to a list of `Shipper` values, with data from `ShipperProjectionVesselInfo`. */
+export type ShipperProjectionVesselShippersByShipperProjectionVesselInfoVesselIdAndShipperIdManyToManyConnection = {
+  __typename?: 'ShipperProjectionVesselShippersByShipperProjectionVesselInfoVesselIdAndShipperIdManyToManyConnection';
+  /** A list of `Shipper` objects. */
+  nodes: Array<Maybe<Shipper>>;
+  /** A list of edges which contains the `Shipper`, info from the `ShipperProjectionVesselInfo`, and the cursor to aid in pagination. */
+  edges: Array<ShipperProjectionVesselShippersByShipperProjectionVesselInfoVesselIdAndShipperIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Shipper` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `Shipper` edge in the connection, with data from `ShipperProjectionVesselInfo`. */
+export type ShipperProjectionVesselShippersByShipperProjectionVesselInfoVesselIdAndShipperIdManyToManyEdge = {
+  __typename?: 'ShipperProjectionVesselShippersByShipperProjectionVesselInfoVesselIdAndShipperIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `Shipper` at the end of the edge. */
+  node?: Maybe<Shipper>;
+  /** Reads and enables pagination through a set of `ShipperProjectionVesselInfo`. */
+  shipperProjectionVesselInfos: ShipperProjectionVesselInfosConnection;
+};
+
+
+/** A `Shipper` edge in the connection, with data from `ShipperProjectionVesselInfo`. */
+export type ShipperProjectionVesselShippersByShipperProjectionVesselInfoVesselIdAndShipperIdManyToManyEdgeShipperProjectionVesselInfosArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProjectionVesselInfosOrderBy>>;
+  condition?: Maybe<ShipperProjectionVesselInfoCondition>;
+  filter?: Maybe<ShipperProjectionVesselInfoFilter>;
+};
+
+/** A `ShipperProjectionVessel` edge in the connection. */
+export type ShipperProjectionVesselsEdge = {
+  __typename?: 'ShipperProjectionVesselsEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `ShipperProjectionVessel` at the end of the edge. */
+  node?: Maybe<ShipperProjectionVessel>;
+};
+
+/** A connection to a list of `ShipperProjection` values. */
+export type ShipperProjectionsConnection = {
+  __typename?: 'ShipperProjectionsConnection';
+  /** A list of `ShipperProjection` objects. */
+  nodes: Array<Maybe<ShipperProjection>>;
+  /** A list of edges which contains the `ShipperProjection` and cursor to aid in pagination. */
+  edges: Array<ShipperProjectionsEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `ShipperProjection` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `ShipperProjection` edge in the connection. */
+export type ShipperProjectionsEdge = {
+  __typename?: 'ShipperProjectionsEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `ShipperProjection` at the end of the edge. */
+  node?: Maybe<ShipperProjection>;
+};
+
+/** A connection to a list of `ShipperPersonContact` values. */
+export type ShipperPersonContactsConnection = {
+  __typename?: 'ShipperPersonContactsConnection';
+  /** A list of `ShipperPersonContact` objects. */
+  nodes: Array<Maybe<ShipperPersonContact>>;
+  /** A list of edges which contains the `ShipperPersonContact` and cursor to aid in pagination. */
+  edges: Array<ShipperPersonContactsEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `ShipperPersonContact` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+export type ShipperPersonContact = Node & {
+  __typename?: 'ShipperPersonContact';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  shipperId: Scalars['String'];
+  personContactId: Scalars['BigInt'];
+  /** Reads a single `Shipper` that is related to this `ShipperPersonContact`. */
+  shipper?: Maybe<Shipper>;
+  /** Reads a single `PersonContact` that is related to this `ShipperPersonContact`. */
+  personContact?: Maybe<PersonContact>;
+};
+
+/** A `ShipperPersonContact` edge in the connection. */
+export type ShipperPersonContactsEdge = {
+  __typename?: 'ShipperPersonContactsEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `ShipperPersonContact` at the end of the edge. */
+  node?: Maybe<ShipperPersonContact>;
+};
+
+/** Methods to use when ordering `ShipperPersonContact`. */
+export enum ShipperPersonContactsOrderBy {
+  Natural = 'NATURAL',
+  ShipperIdAsc = 'SHIPPER_ID_ASC',
+  ShipperIdDesc = 'SHIPPER_ID_DESC',
+  PersonContactIdAsc = 'PERSON_CONTACT_ID_ASC',
+  PersonContactIdDesc = 'PERSON_CONTACT_ID_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  ShipperByShipperIdIdAsc = 'SHIPPER_BY_SHIPPER_ID__ID_ASC',
+  ShipperByShipperIdIdDesc = 'SHIPPER_BY_SHIPPER_ID__ID_DESC',
+  ShipperByShipperIdShipperNameAsc = 'SHIPPER_BY_SHIPPER_ID__SHIPPER_NAME_ASC',
+  ShipperByShipperIdShipperNameDesc = 'SHIPPER_BY_SHIPPER_ID__SHIPPER_NAME_DESC',
+  ShipperByShipperIdCountryIdAsc = 'SHIPPER_BY_SHIPPER_ID__COUNTRY_ID_ASC',
+  ShipperByShipperIdCountryIdDesc = 'SHIPPER_BY_SHIPPER_ID__COUNTRY_ID_DESC',
+  ShipperByShipperIdGroupIdAsc = 'SHIPPER_BY_SHIPPER_ID__GROUP_ID_ASC',
+  ShipperByShipperIdGroupIdDesc = 'SHIPPER_BY_SHIPPER_ID__GROUP_ID_DESC',
+  ShipperByShipperIdLogoSrcAsc = 'SHIPPER_BY_SHIPPER_ID__LOGO_SRC_ASC',
+  ShipperByShipperIdLogoSrcDesc = 'SHIPPER_BY_SHIPPER_ID__LOGO_SRC_DESC',
+  ShipperByShipperIdNotesAsc = 'SHIPPER_BY_SHIPPER_ID__NOTES_ASC',
+  ShipperByShipperIdNotesDesc = 'SHIPPER_BY_SHIPPER_ID__NOTES_DESC',
+  ShipperByShipperIdWebsiteAsc = 'SHIPPER_BY_SHIPPER_ID__WEBSITE_ASC',
+  ShipperByShipperIdWebsiteDesc = 'SHIPPER_BY_SHIPPER_ID__WEBSITE_DESC',
+  ShipperByShipperIdSendProjectionRequestAsc = 'SHIPPER_BY_SHIPPER_ID__SEND_PROJECTION_REQUEST_ASC',
+  ShipperByShipperIdSendProjectionRequestDesc = 'SHIPPER_BY_SHIPPER_ID__SEND_PROJECTION_REQUEST_DESC',
+  ShipperByShipperIdProjectionRequestStartDateAsc = 'SHIPPER_BY_SHIPPER_ID__PROJECTION_REQUEST_START_DATE_ASC',
+  ShipperByShipperIdProjectionRequestStartDateDesc = 'SHIPPER_BY_SHIPPER_ID__PROJECTION_REQUEST_START_DATE_DESC',
+  ShipperByShipperIdProjectionRequestEndDateAsc = 'SHIPPER_BY_SHIPPER_ID__PROJECTION_REQUEST_END_DATE_ASC',
+  ShipperByShipperIdProjectionRequestEndDateDesc = 'SHIPPER_BY_SHIPPER_ID__PROJECTION_REQUEST_END_DATE_DESC',
+  PersonContactByPersonContactIdIdAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__ID_ASC',
+  PersonContactByPersonContactIdIdDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__ID_DESC',
+  PersonContactByPersonContactIdFirstNameAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__FIRST_NAME_ASC',
+  PersonContactByPersonContactIdFirstNameDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__FIRST_NAME_DESC',
+  PersonContactByPersonContactIdLastNameAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__LAST_NAME_ASC',
+  PersonContactByPersonContactIdLastNameDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__LAST_NAME_DESC',
+  PersonContactByPersonContactIdIsPrimaryAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__IS_PRIMARY_ASC',
+  PersonContactByPersonContactIdIsPrimaryDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__IS_PRIMARY_DESC',
+  PersonContactByPersonContactIdEmailAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__EMAIL_ASC',
+  PersonContactByPersonContactIdEmailDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__EMAIL_DESC',
+  PersonContactByPersonContactIdSecondaryEmailAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__SECONDARY_EMAIL_ASC',
+  PersonContactByPersonContactIdSecondaryEmailDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__SECONDARY_EMAIL_DESC',
+  PersonContactByPersonContactIdHomePhoneAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__HOME_PHONE_ASC',
+  PersonContactByPersonContactIdHomePhoneDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__HOME_PHONE_DESC',
+  PersonContactByPersonContactIdCellPhoneAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__CELL_PHONE_ASC',
+  PersonContactByPersonContactIdCellPhoneDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__CELL_PHONE_DESC',
+  PersonContactByPersonContactIdWorkPhoneAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__WORK_PHONE_ASC',
+  PersonContactByPersonContactIdWorkPhoneDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__WORK_PHONE_DESC',
+  PersonContactByPersonContactIdWorkExtensionAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__WORK_EXTENSION_ASC',
+  PersonContactByPersonContactIdWorkExtensionDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__WORK_EXTENSION_DESC',
+  PersonContactByPersonContactIdImageSrcAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__IMAGE_SRC_ASC',
+  PersonContactByPersonContactIdImageSrcDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__IMAGE_SRC_DESC',
+  PersonContactByPersonContactIdIsInternalAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__IS_INTERNAL_ASC',
+  PersonContactByPersonContactIdIsInternalDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__IS_INTERNAL_DESC',
+  PersonContactByPersonContactIdRolesAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__ROLES_ASC',
+  PersonContactByPersonContactIdRolesDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__ROLES_DESC'
+}
+
+/**
+ * A condition to be used against `ShipperPersonContact` object types. All fields
+ * are tested for equality and combined with a logical ‘and.’
+ */
+export type ShipperPersonContactCondition = {
+  /** Checks for equality with the object’s `shipperId` field. */
+  shipperId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `personContactId` field. */
+  personContactId?: Maybe<Scalars['BigInt']>;
+};
+
+/** A connection to a list of `Vessel` values, with data from `ShipperProjectionVessel`. */
+export type ShipperVesselsByShipperProjectionVesselShipperIdAndVesselIdManyToManyConnection = {
+  __typename?: 'ShipperVesselsByShipperProjectionVesselShipperIdAndVesselIdManyToManyConnection';
+  /** A list of `Vessel` objects. */
+  nodes: Array<Maybe<Vessel>>;
+  /** A list of edges which contains the `Vessel`, info from the `ShipperProjectionVessel`, and the cursor to aid in pagination. */
+  edges: Array<ShipperVesselsByShipperProjectionVesselShipperIdAndVesselIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Vessel` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `Vessel` edge in the connection, with data from `ShipperProjectionVessel`. */
+export type ShipperVesselsByShipperProjectionVesselShipperIdAndVesselIdManyToManyEdge = {
+  __typename?: 'ShipperVesselsByShipperProjectionVesselShipperIdAndVesselIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `Vessel` at the end of the edge. */
+  node?: Maybe<Vessel>;
+  /** Reads and enables pagination through a set of `ShipperProjectionVessel`. */
+  shipperProjectionVessels: ShipperProjectionVesselsConnection;
+};
+
+
+/** A `Vessel` edge in the connection, with data from `ShipperProjectionVessel`. */
+export type ShipperVesselsByShipperProjectionVesselShipperIdAndVesselIdManyToManyEdgeShipperProjectionVesselsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProjectionVesselsOrderBy>>;
+  condition?: Maybe<ShipperProjectionVesselCondition>;
+  filter?: Maybe<ShipperProjectionVesselFilter>;
+};
+
+/** Methods to use when ordering `Vessel`. */
+export enum VesselsOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  VesselCodeAsc = 'VESSEL_CODE_ASC',
+  VesselCodeDesc = 'VESSEL_CODE_DESC',
+  VesselNameAsc = 'VESSEL_NAME_ASC',
+  VesselNameDesc = 'VESSEL_NAME_DESC',
+  ArrivalPortAsc = 'ARRIVAL_PORT_ASC',
+  ArrivalPortDesc = 'ARRIVAL_PORT_DESC',
+  CountryIdAsc = 'COUNTRY_ID_ASC',
+  CountryIdDesc = 'COUNTRY_ID_DESC',
+  DepartureDateAsc = 'DEPARTURE_DATE_ASC',
+  DepartureDateDesc = 'DEPARTURE_DATE_DESC',
+  ArrivalDateAsc = 'ARRIVAL_DATE_ASC',
+  ArrivalDateDesc = 'ARRIVAL_DATE_DESC',
+  DischargeDateAsc = 'DISCHARGE_DATE_ASC',
+  DischargeDateDesc = 'DISCHARGE_DATE_DESC',
+  CoastAsc = 'COAST_ASC',
+  CoastDesc = 'COAST_DESC',
+  IsPreAsc = 'IS_PRE_ASC',
+  IsPreDesc = 'IS_PRE_DESC',
+  PreVesselCodeAsc = 'PRE_VESSEL_CODE_ASC',
+  PreVesselCodeDesc = 'PRE_VESSEL_CODE_DESC',
+  InvFlagAsc = 'INV_FLAG_ASC',
+  InvFlagDesc = 'INV_FLAG_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  ShipperProjectionVesselsByVesselIdCountAsc = 'SHIPPER_PROJECTION_VESSELS_BY_VESSEL_ID__COUNT_ASC',
+  ShipperProjectionVesselsByVesselIdCountDesc = 'SHIPPER_PROJECTION_VESSELS_BY_VESSEL_ID__COUNT_DESC'
+}
+
+/** A condition to be used against `Vessel` object types. All fields are tested for equality and combined with a logical ‘and.’ */
+export type VesselCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `vesselCode` field. */
+  vesselCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `vesselName` field. */
+  vesselName?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `arrivalPort` field. */
+  arrivalPort?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `countryId` field. */
+  countryId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `departureDate` field. */
+  departureDate?: Maybe<Scalars['Date']>;
+  /** Checks for equality with the object’s `arrivalDate` field. */
+  arrivalDate?: Maybe<Scalars['Date']>;
+  /** Checks for equality with the object’s `dischargeDate` field. */
+  dischargeDate?: Maybe<Scalars['Date']>;
+  /** Checks for equality with the object’s `coast` field. */
+  coast?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `isPre` field. */
+  isPre?: Maybe<Scalars['Boolean']>;
+  /** Checks for equality with the object’s `preVesselCode` field. */
+  preVesselCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `invFlag` field. */
+  invFlag?: Maybe<Scalars['Boolean']>;
+};
+
+/** A connection to a list of `CommonSpecies` values, with data from `ShipperProjectionProduct`. */
+export type ShipperCommonSpeciesByShipperProjectionProductShipperIdAndCommonSpeciesIdManyToManyConnection = {
+  __typename?: 'ShipperCommonSpeciesByShipperProjectionProductShipperIdAndCommonSpeciesIdManyToManyConnection';
+  /** A list of `CommonSpecies` objects. */
+  nodes: Array<Maybe<CommonSpecies>>;
+  /** A list of edges which contains the `CommonSpecies`, info from the `ShipperProjectionProduct`, and the cursor to aid in pagination. */
+  edges: Array<ShipperCommonSpeciesByShipperProjectionProductShipperIdAndCommonSpeciesIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `CommonSpecies` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `CommonSpecies` edge in the connection, with data from `ShipperProjectionProduct`. */
+export type ShipperCommonSpeciesByShipperProjectionProductShipperIdAndCommonSpeciesIdManyToManyEdge = {
+  __typename?: 'ShipperCommonSpeciesByShipperProjectionProductShipperIdAndCommonSpeciesIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `CommonSpecies` at the end of the edge. */
+  node?: Maybe<CommonSpecies>;
+  /** Reads and enables pagination through a set of `ShipperProjectionProduct`. */
+  shipperProjectionProducts: ShipperProjectionProductsConnection;
+};
+
+
+/** A `CommonSpecies` edge in the connection, with data from `ShipperProjectionProduct`. */
+export type ShipperCommonSpeciesByShipperProjectionProductShipperIdAndCommonSpeciesIdManyToManyEdgeShipperProjectionProductsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProjectionProductsOrderBy>>;
+  condition?: Maybe<ShipperProjectionProductCondition>;
+  filter?: Maybe<ShipperProjectionProductFilter>;
+};
+
+/** A connection to a list of `CommonVariety` values, with data from `ShipperProjectionProduct`. */
+export type ShipperCommonVarietiesByShipperProjectionProductShipperIdAndCommonVarietyIdManyToManyConnection = {
+  __typename?: 'ShipperCommonVarietiesByShipperProjectionProductShipperIdAndCommonVarietyIdManyToManyConnection';
+  /** A list of `CommonVariety` objects. */
+  nodes: Array<Maybe<CommonVariety>>;
+  /** A list of edges which contains the `CommonVariety`, info from the `ShipperProjectionProduct`, and the cursor to aid in pagination. */
+  edges: Array<ShipperCommonVarietiesByShipperProjectionProductShipperIdAndCommonVarietyIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `CommonVariety` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `CommonVariety` edge in the connection, with data from `ShipperProjectionProduct`. */
+export type ShipperCommonVarietiesByShipperProjectionProductShipperIdAndCommonVarietyIdManyToManyEdge = {
+  __typename?: 'ShipperCommonVarietiesByShipperProjectionProductShipperIdAndCommonVarietyIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `CommonVariety` at the end of the edge. */
+  node?: Maybe<CommonVariety>;
+  /** Reads and enables pagination through a set of `ShipperProjectionProduct`. */
+  shipperProjectionProducts: ShipperProjectionProductsConnection;
+};
+
+
+/** A `CommonVariety` edge in the connection, with data from `ShipperProjectionProduct`. */
+export type ShipperCommonVarietiesByShipperProjectionProductShipperIdAndCommonVarietyIdManyToManyEdgeShipperProjectionProductsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProjectionProductsOrderBy>>;
+  condition?: Maybe<ShipperProjectionProductCondition>;
+  filter?: Maybe<ShipperProjectionProductFilter>;
+};
+
+/** A connection to a list of `CommonSize` values, with data from `ShipperProjectionProduct`. */
+export type ShipperCommonSizesByShipperProjectionProductShipperIdAndCommonSizeIdManyToManyConnection = {
+  __typename?: 'ShipperCommonSizesByShipperProjectionProductShipperIdAndCommonSizeIdManyToManyConnection';
+  /** A list of `CommonSize` objects. */
+  nodes: Array<Maybe<CommonSize>>;
+  /** A list of edges which contains the `CommonSize`, info from the `ShipperProjectionProduct`, and the cursor to aid in pagination. */
+  edges: Array<ShipperCommonSizesByShipperProjectionProductShipperIdAndCommonSizeIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `CommonSize` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `CommonSize` edge in the connection, with data from `ShipperProjectionProduct`. */
+export type ShipperCommonSizesByShipperProjectionProductShipperIdAndCommonSizeIdManyToManyEdge = {
+  __typename?: 'ShipperCommonSizesByShipperProjectionProductShipperIdAndCommonSizeIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `CommonSize` at the end of the edge. */
+  node?: Maybe<CommonSize>;
+  /** Reads and enables pagination through a set of `ShipperProjectionProduct`. */
+  shipperProjectionProducts: ShipperProjectionProductsConnection;
+};
+
+
+/** A `CommonSize` edge in the connection, with data from `ShipperProjectionProduct`. */
+export type ShipperCommonSizesByShipperProjectionProductShipperIdAndCommonSizeIdManyToManyEdgeShipperProjectionProductsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProjectionProductsOrderBy>>;
+  condition?: Maybe<ShipperProjectionProductCondition>;
+  filter?: Maybe<ShipperProjectionProductFilter>;
+};
+
+/** A connection to a list of `CommonPackType` values, with data from `ShipperProjectionProduct`. */
+export type ShipperCommonPackTypesByShipperProjectionProductShipperIdAndCommonPackTypeIdManyToManyConnection = {
+  __typename?: 'ShipperCommonPackTypesByShipperProjectionProductShipperIdAndCommonPackTypeIdManyToManyConnection';
+  /** A list of `CommonPackType` objects. */
+  nodes: Array<Maybe<CommonPackType>>;
+  /** A list of edges which contains the `CommonPackType`, info from the `ShipperProjectionProduct`, and the cursor to aid in pagination. */
+  edges: Array<ShipperCommonPackTypesByShipperProjectionProductShipperIdAndCommonPackTypeIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `CommonPackType` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `CommonPackType` edge in the connection, with data from `ShipperProjectionProduct`. */
+export type ShipperCommonPackTypesByShipperProjectionProductShipperIdAndCommonPackTypeIdManyToManyEdge = {
+  __typename?: 'ShipperCommonPackTypesByShipperProjectionProductShipperIdAndCommonPackTypeIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `CommonPackType` at the end of the edge. */
+  node?: Maybe<CommonPackType>;
+  /** Reads and enables pagination through a set of `ShipperProjectionProduct`. */
+  shipperProjectionProducts: ShipperProjectionProductsConnection;
+};
+
+
+/** A `CommonPackType` edge in the connection, with data from `ShipperProjectionProduct`. */
+export type ShipperCommonPackTypesByShipperProjectionProductShipperIdAndCommonPackTypeIdManyToManyEdgeShipperProjectionProductsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProjectionProductsOrderBy>>;
+  condition?: Maybe<ShipperProjectionProductCondition>;
+  filter?: Maybe<ShipperProjectionProductFilter>;
+};
+
+/** A connection to a list of `Customer` values, with data from `ShipperProjectionProduct`. */
+export type ShipperCustomersByShipperProjectionProductShipperIdAndCustomerIdManyToManyConnection = {
+  __typename?: 'ShipperCustomersByShipperProjectionProductShipperIdAndCustomerIdManyToManyConnection';
+  /** A list of `Customer` objects. */
+  nodes: Array<Maybe<Customer>>;
+  /** A list of edges which contains the `Customer`, info from the `ShipperProjectionProduct`, and the cursor to aid in pagination. */
+  edges: Array<ShipperCustomersByShipperProjectionProductShipperIdAndCustomerIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Customer` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `Customer` edge in the connection, with data from `ShipperProjectionProduct`. */
+export type ShipperCustomersByShipperProjectionProductShipperIdAndCustomerIdManyToManyEdge = {
+  __typename?: 'ShipperCustomersByShipperProjectionProductShipperIdAndCustomerIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `Customer` at the end of the edge. */
+  node?: Maybe<Customer>;
+  /** Reads and enables pagination through a set of `ShipperProjectionProduct`. */
+  shipperProjectionProducts: ShipperProjectionProductsConnection;
+};
+
+
+/** A `Customer` edge in the connection, with data from `ShipperProjectionProduct`. */
+export type ShipperCustomersByShipperProjectionProductShipperIdAndCustomerIdManyToManyEdgeShipperProjectionProductsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProjectionProductsOrderBy>>;
+  condition?: Maybe<ShipperProjectionProductCondition>;
+  filter?: Maybe<ShipperProjectionProductFilter>;
+};
+
+/** A connection to a list of `PersonContact` values, with data from `ShipperPersonContact`. */
+export type ShipperPersonContactsByShipperPersonContactShipperIdAndPersonContactIdManyToManyConnection = {
+  __typename?: 'ShipperPersonContactsByShipperPersonContactShipperIdAndPersonContactIdManyToManyConnection';
+  /** A list of `PersonContact` objects. */
+  nodes: Array<Maybe<PersonContact>>;
+  /** A list of edges which contains the `PersonContact`, info from the `ShipperPersonContact`, and the cursor to aid in pagination. */
+  edges: Array<ShipperPersonContactsByShipperPersonContactShipperIdAndPersonContactIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `PersonContact` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `PersonContact` edge in the connection, with data from `ShipperPersonContact`. */
+export type ShipperPersonContactsByShipperPersonContactShipperIdAndPersonContactIdManyToManyEdge = {
+  __typename?: 'ShipperPersonContactsByShipperPersonContactShipperIdAndPersonContactIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `PersonContact` at the end of the edge. */
+  node?: Maybe<PersonContact>;
+};
+
+/** A connection to a list of `ShipperProjection` values, with data from `ShipperProjectionVesselInfo`. */
+export type ShipperShipperProjectionsByShipperProjectionVesselInfoShipperIdAndProjectionIdManyToManyConnection = {
+  __typename?: 'ShipperShipperProjectionsByShipperProjectionVesselInfoShipperIdAndProjectionIdManyToManyConnection';
+  /** A list of `ShipperProjection` objects. */
+  nodes: Array<Maybe<ShipperProjection>>;
+  /** A list of edges which contains the `ShipperProjection`, info from the `ShipperProjectionVesselInfo`, and the cursor to aid in pagination. */
+  edges: Array<ShipperShipperProjectionsByShipperProjectionVesselInfoShipperIdAndProjectionIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `ShipperProjection` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `ShipperProjection` edge in the connection, with data from `ShipperProjectionVesselInfo`. */
+export type ShipperShipperProjectionsByShipperProjectionVesselInfoShipperIdAndProjectionIdManyToManyEdge = {
+  __typename?: 'ShipperShipperProjectionsByShipperProjectionVesselInfoShipperIdAndProjectionIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `ShipperProjection` at the end of the edge. */
+  node?: Maybe<ShipperProjection>;
+  /** Reads and enables pagination through a set of `ShipperProjectionVesselInfo`. */
+  shipperProjectionVesselInfosByProjectionId: ShipperProjectionVesselInfosConnection;
+};
+
+
+/** A `ShipperProjection` edge in the connection, with data from `ShipperProjectionVesselInfo`. */
+export type ShipperShipperProjectionsByShipperProjectionVesselInfoShipperIdAndProjectionIdManyToManyEdgeShipperProjectionVesselInfosByProjectionIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProjectionVesselInfosOrderBy>>;
+  condition?: Maybe<ShipperProjectionVesselInfoCondition>;
+  filter?: Maybe<ShipperProjectionVesselInfoFilter>;
+};
+
+/** A connection to a list of `ShipperProjectionVessel` values, with data from `ShipperProjectionVesselInfo`. */
+export type ShipperShipperProjectionVesselsByShipperProjectionVesselInfoShipperIdAndVesselIdManyToManyConnection = {
+  __typename?: 'ShipperShipperProjectionVesselsByShipperProjectionVesselInfoShipperIdAndVesselIdManyToManyConnection';
+  /** A list of `ShipperProjectionVessel` objects. */
+  nodes: Array<Maybe<ShipperProjectionVessel>>;
+  /** A list of edges which contains the `ShipperProjectionVessel`, info from the `ShipperProjectionVesselInfo`, and the cursor to aid in pagination. */
+  edges: Array<ShipperShipperProjectionVesselsByShipperProjectionVesselInfoShipperIdAndVesselIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `ShipperProjectionVessel` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `ShipperProjectionVessel` edge in the connection, with data from `ShipperProjectionVesselInfo`. */
+export type ShipperShipperProjectionVesselsByShipperProjectionVesselInfoShipperIdAndVesselIdManyToManyEdge = {
+  __typename?: 'ShipperShipperProjectionVesselsByShipperProjectionVesselInfoShipperIdAndVesselIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `ShipperProjectionVessel` at the end of the edge. */
+  node?: Maybe<ShipperProjectionVessel>;
+  /** Reads and enables pagination through a set of `ShipperProjectionVesselInfo`. */
+  shipperProjectionVesselInfosByVesselId: ShipperProjectionVesselInfosConnection;
+};
+
+
+/** A `ShipperProjectionVessel` edge in the connection, with data from `ShipperProjectionVesselInfo`. */
+export type ShipperShipperProjectionVesselsByShipperProjectionVesselInfoShipperIdAndVesselIdManyToManyEdgeShipperProjectionVesselInfosByVesselIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProjectionVesselInfosOrderBy>>;
+  condition?: Maybe<ShipperProjectionVesselInfoCondition>;
+  filter?: Maybe<ShipperProjectionVesselInfoFilter>;
+};
+
+/** A connection to a list of `CommonSpecies` values, with data from `ShipperProgram`. */
+export type ShipperCommonSpeciesByShipperProgramShipperIdAndCommonSpeciesIdManyToManyConnection = {
+  __typename?: 'ShipperCommonSpeciesByShipperProgramShipperIdAndCommonSpeciesIdManyToManyConnection';
+  /** A list of `CommonSpecies` objects. */
+  nodes: Array<Maybe<CommonSpecies>>;
+  /** A list of edges which contains the `CommonSpecies`, info from the `ShipperProgram`, and the cursor to aid in pagination. */
+  edges: Array<ShipperCommonSpeciesByShipperProgramShipperIdAndCommonSpeciesIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `CommonSpecies` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `CommonSpecies` edge in the connection, with data from `ShipperProgram`. */
+export type ShipperCommonSpeciesByShipperProgramShipperIdAndCommonSpeciesIdManyToManyEdge = {
+  __typename?: 'ShipperCommonSpeciesByShipperProgramShipperIdAndCommonSpeciesIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `CommonSpecies` at the end of the edge. */
+  node?: Maybe<CommonSpecies>;
+  /** Reads and enables pagination through a set of `ShipperProgram`. */
+  shipperPrograms: ShipperProgramsConnection;
+};
+
+
+/** A `CommonSpecies` edge in the connection, with data from `ShipperProgram`. */
+export type ShipperCommonSpeciesByShipperProgramShipperIdAndCommonSpeciesIdManyToManyEdgeShipperProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProgramsOrderBy>>;
+  condition?: Maybe<ShipperProgramCondition>;
+  filter?: Maybe<ShipperProgramFilter>;
+};
+
+/** A connection to a list of `CommonVariety` values, with data from `ShipperProgram`. */
+export type ShipperCommonVarietiesByShipperProgramShipperIdAndCommonVarietyIdManyToManyConnection = {
+  __typename?: 'ShipperCommonVarietiesByShipperProgramShipperIdAndCommonVarietyIdManyToManyConnection';
+  /** A list of `CommonVariety` objects. */
+  nodes: Array<Maybe<CommonVariety>>;
+  /** A list of edges which contains the `CommonVariety`, info from the `ShipperProgram`, and the cursor to aid in pagination. */
+  edges: Array<ShipperCommonVarietiesByShipperProgramShipperIdAndCommonVarietyIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `CommonVariety` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `CommonVariety` edge in the connection, with data from `ShipperProgram`. */
+export type ShipperCommonVarietiesByShipperProgramShipperIdAndCommonVarietyIdManyToManyEdge = {
+  __typename?: 'ShipperCommonVarietiesByShipperProgramShipperIdAndCommonVarietyIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `CommonVariety` at the end of the edge. */
+  node?: Maybe<CommonVariety>;
+  /** Reads and enables pagination through a set of `ShipperProgram`. */
+  shipperPrograms: ShipperProgramsConnection;
+};
+
+
+/** A `CommonVariety` edge in the connection, with data from `ShipperProgram`. */
+export type ShipperCommonVarietiesByShipperProgramShipperIdAndCommonVarietyIdManyToManyEdgeShipperProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProgramsOrderBy>>;
+  condition?: Maybe<ShipperProgramCondition>;
+  filter?: Maybe<ShipperProgramFilter>;
+};
+
+/** A connection to a list of `CommonSize` values, with data from `ShipperProgram`. */
+export type ShipperCommonSizesByShipperProgramShipperIdAndCommonSizeIdManyToManyConnection = {
+  __typename?: 'ShipperCommonSizesByShipperProgramShipperIdAndCommonSizeIdManyToManyConnection';
+  /** A list of `CommonSize` objects. */
+  nodes: Array<Maybe<CommonSize>>;
+  /** A list of edges which contains the `CommonSize`, info from the `ShipperProgram`, and the cursor to aid in pagination. */
+  edges: Array<ShipperCommonSizesByShipperProgramShipperIdAndCommonSizeIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `CommonSize` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `CommonSize` edge in the connection, with data from `ShipperProgram`. */
+export type ShipperCommonSizesByShipperProgramShipperIdAndCommonSizeIdManyToManyEdge = {
+  __typename?: 'ShipperCommonSizesByShipperProgramShipperIdAndCommonSizeIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `CommonSize` at the end of the edge. */
+  node?: Maybe<CommonSize>;
+  /** Reads and enables pagination through a set of `ShipperProgram`. */
+  shipperPrograms: ShipperProgramsConnection;
+};
+
+
+/** A `CommonSize` edge in the connection, with data from `ShipperProgram`. */
+export type ShipperCommonSizesByShipperProgramShipperIdAndCommonSizeIdManyToManyEdgeShipperProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProgramsOrderBy>>;
+  condition?: Maybe<ShipperProgramCondition>;
+  filter?: Maybe<ShipperProgramFilter>;
+};
+
+/** A connection to a list of `CommonPackType` values, with data from `ShipperProgram`. */
+export type ShipperCommonPackTypesByShipperProgramShipperIdAndCommonPackTypeIdManyToManyConnection = {
+  __typename?: 'ShipperCommonPackTypesByShipperProgramShipperIdAndCommonPackTypeIdManyToManyConnection';
+  /** A list of `CommonPackType` objects. */
+  nodes: Array<Maybe<CommonPackType>>;
+  /** A list of edges which contains the `CommonPackType`, info from the `ShipperProgram`, and the cursor to aid in pagination. */
+  edges: Array<ShipperCommonPackTypesByShipperProgramShipperIdAndCommonPackTypeIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `CommonPackType` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `CommonPackType` edge in the connection, with data from `ShipperProgram`. */
+export type ShipperCommonPackTypesByShipperProgramShipperIdAndCommonPackTypeIdManyToManyEdge = {
+  __typename?: 'ShipperCommonPackTypesByShipperProgramShipperIdAndCommonPackTypeIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `CommonPackType` at the end of the edge. */
+  node?: Maybe<CommonPackType>;
+  /** Reads and enables pagination through a set of `ShipperProgram`. */
+  shipperPrograms: ShipperProgramsConnection;
+};
+
+
+/** A `CommonPackType` edge in the connection, with data from `ShipperProgram`. */
+export type ShipperCommonPackTypesByShipperProgramShipperIdAndCommonPackTypeIdManyToManyEdgeShipperProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProgramsOrderBy>>;
+  condition?: Maybe<ShipperProgramCondition>;
+  filter?: Maybe<ShipperProgramFilter>;
+};
+
+/** A connection to a list of `Customer` values, with data from `ShipperProgram`. */
+export type ShipperCustomersByShipperProgramShipperIdAndCustomerIdManyToManyConnection = {
+  __typename?: 'ShipperCustomersByShipperProgramShipperIdAndCustomerIdManyToManyConnection';
+  /** A list of `Customer` objects. */
+  nodes: Array<Maybe<Customer>>;
+  /** A list of edges which contains the `Customer`, info from the `ShipperProgram`, and the cursor to aid in pagination. */
+  edges: Array<ShipperCustomersByShipperProgramShipperIdAndCustomerIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Customer` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `Customer` edge in the connection, with data from `ShipperProgram`. */
+export type ShipperCustomersByShipperProgramShipperIdAndCustomerIdManyToManyEdge = {
+  __typename?: 'ShipperCustomersByShipperProgramShipperIdAndCustomerIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `Customer` at the end of the edge. */
+  node?: Maybe<Customer>;
+  /** Reads and enables pagination through a set of `ShipperProgram`. */
+  shipperPrograms: ShipperProgramsConnection;
+};
+
+
+/** A `Customer` edge in the connection, with data from `ShipperProgram`. */
+export type ShipperCustomersByShipperProgramShipperIdAndCustomerIdManyToManyEdgeShipperProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProgramsOrderBy>>;
+  condition?: Maybe<ShipperProgramCondition>;
+  filter?: Maybe<ShipperProgramFilter>;
+};
+
+/** A `Shipper` edge in the connection. */
+export type ShippersEdge = {
+  __typename?: 'ShippersEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `Shipper` at the end of the edge. */
+  node?: Maybe<Shipper>;
+};
+
+/** A connection to a list of `Warehouse` values. */
+export type WarehousesConnection = {
+  __typename?: 'WarehousesConnection';
+  /** A list of `Warehouse` objects. */
+  nodes: Array<Maybe<Warehouse>>;
+  /** A list of edges which contains the `Warehouse` and cursor to aid in pagination. */
+  edges: Array<WarehousesEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Warehouse` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `Warehouse` edge in the connection. */
+export type WarehousesEdge = {
+  __typename?: 'WarehousesEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `Warehouse` at the end of the edge. */
+  node?: Maybe<Warehouse>;
+};
+
+/** Methods to use when ordering `Warehouse`. */
+export enum WarehousesOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  WarehouseNameAsc = 'WAREHOUSE_NAME_ASC',
+  WarehouseNameDesc = 'WAREHOUSE_NAME_DESC',
+  Address_1Asc = 'ADDRESS_1_ASC',
+  Address_1Desc = 'ADDRESS_1_DESC',
+  Address_2Asc = 'ADDRESS_2_ASC',
+  Address_2Desc = 'ADDRESS_2_DESC',
+  Address_3Asc = 'ADDRESS_3_ASC',
+  Address_3Desc = 'ADDRESS_3_DESC',
+  CityAsc = 'CITY_ASC',
+  CityDesc = 'CITY_DESC',
+  PostalStateAsc = 'POSTAL_STATE_ASC',
+  PostalStateDesc = 'POSTAL_STATE_DESC',
+  CountryIdAsc = 'COUNTRY_ID_ASC',
+  CountryIdDesc = 'COUNTRY_ID_DESC',
+  ZipCodeAsc = 'ZIP_CODE_ASC',
+  ZipCodeDesc = 'ZIP_CODE_DESC',
+  PhoneAsc = 'PHONE_ASC',
+  PhoneDesc = 'PHONE_DESC',
+  OutQueueAsc = 'OUT_QUEUE_ASC',
+  OutQueueDesc = 'OUT_QUEUE_DESC',
+  StateTaxCodeAsc = 'STATE_TAX_CODE_ASC',
+  StateTaxCodeDesc = 'STATE_TAX_CODE_DESC',
+  CountyTaxCodeAsc = 'COUNTY_TAX_CODE_ASC',
+  CountyTaxCodeDesc = 'COUNTY_TAX_CODE_DESC',
+  CityTaxCodeAsc = 'CITY_TAX_CODE_ASC',
+  CityTaxCodeDesc = 'CITY_TAX_CODE_DESC',
+  MiscTaxCodeAsc = 'MISC_TAX_CODE_ASC',
+  MiscTaxCodeDesc = 'MISC_TAX_CODE_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  CountryByCountryIdIdAsc = 'COUNTRY_BY_COUNTRY_ID__ID_ASC',
+  CountryByCountryIdIdDesc = 'COUNTRY_BY_COUNTRY_ID__ID_DESC',
+  CountryByCountryIdCountryNameAsc = 'COUNTRY_BY_COUNTRY_ID__COUNTRY_NAME_ASC',
+  CountryByCountryIdCountryNameDesc = 'COUNTRY_BY_COUNTRY_ID__COUNTRY_NAME_DESC',
+  CountryByCountryIdCmbIdAsc = 'COUNTRY_BY_COUNTRY_ID__CMB_ID_ASC',
+  CountryByCountryIdCmbIdDesc = 'COUNTRY_BY_COUNTRY_ID__CMB_ID_DESC',
+  WarehousePersonContactsByWarehouseIdCountAsc = 'WAREHOUSE_PERSON_CONTACTS_BY_WAREHOUSE_ID__COUNT_ASC',
+  WarehousePersonContactsByWarehouseIdCountDesc = 'WAREHOUSE_PERSON_CONTACTS_BY_WAREHOUSE_ID__COUNT_DESC'
+}
+
+/**
+ * A condition to be used against `Warehouse` object types. All fields are tested
+ * for equality and combined with a logical ‘and.’
+ */
+export type WarehouseCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `warehouseName` field. */
+  warehouseName?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `address1` field. */
+  address1?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `address2` field. */
+  address2?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `address3` field. */
+  address3?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `city` field. */
+  city?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `postalState` field. */
+  postalState?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `countryId` field. */
+  countryId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `zipCode` field. */
+  zipCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `phone` field. */
+  phone?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `outQueue` field. */
+  outQueue?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `stateTaxCode` field. */
+  stateTaxCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `countyTaxCode` field. */
+  countyTaxCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `cityTaxCode` field. */
+  cityTaxCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `miscTaxCode` field. */
+  miscTaxCode?: Maybe<Scalars['String']>;
+};
+
+/** Methods to use when ordering `CustomerPersonContact`. */
+export enum CustomerPersonContactsOrderBy {
+  Natural = 'NATURAL',
+  CustomerIdAsc = 'CUSTOMER_ID_ASC',
+  CustomerIdDesc = 'CUSTOMER_ID_DESC',
+  PersonContactIdAsc = 'PERSON_CONTACT_ID_ASC',
+  PersonContactIdDesc = 'PERSON_CONTACT_ID_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  CustomerByCustomerIdIdAsc = 'CUSTOMER_BY_CUSTOMER_ID__ID_ASC',
+  CustomerByCustomerIdIdDesc = 'CUSTOMER_BY_CUSTOMER_ID__ID_DESC',
+  CustomerByCustomerIdCustomerNameAsc = 'CUSTOMER_BY_CUSTOMER_ID__CUSTOMER_NAME_ASC',
+  CustomerByCustomerIdCustomerNameDesc = 'CUSTOMER_BY_CUSTOMER_ID__CUSTOMER_NAME_DESC',
+  CustomerByCustomerIdAddress_1Asc = 'CUSTOMER_BY_CUSTOMER_ID__ADDRESS_1_ASC',
+  CustomerByCustomerIdAddress_1Desc = 'CUSTOMER_BY_CUSTOMER_ID__ADDRESS_1_DESC',
+  CustomerByCustomerIdAddress_2Asc = 'CUSTOMER_BY_CUSTOMER_ID__ADDRESS_2_ASC',
+  CustomerByCustomerIdAddress_2Desc = 'CUSTOMER_BY_CUSTOMER_ID__ADDRESS_2_DESC',
+  CustomerByCustomerIdCityAsc = 'CUSTOMER_BY_CUSTOMER_ID__CITY_ASC',
+  CustomerByCustomerIdCityDesc = 'CUSTOMER_BY_CUSTOMER_ID__CITY_DESC',
+  CustomerByCustomerIdPostalStateAsc = 'CUSTOMER_BY_CUSTOMER_ID__POSTAL_STATE_ASC',
+  CustomerByCustomerIdPostalStateDesc = 'CUSTOMER_BY_CUSTOMER_ID__POSTAL_STATE_DESC',
+  CustomerByCustomerIdZipCodeAsc = 'CUSTOMER_BY_CUSTOMER_ID__ZIP_CODE_ASC',
+  CustomerByCustomerIdZipCodeDesc = 'CUSTOMER_BY_CUSTOMER_ID__ZIP_CODE_DESC',
+  CustomerByCustomerIdCountryIdAsc = 'CUSTOMER_BY_CUSTOMER_ID__COUNTRY_ID_ASC',
+  CustomerByCustomerIdCountryIdDesc = 'CUSTOMER_BY_CUSTOMER_ID__COUNTRY_ID_DESC',
+  CustomerByCustomerIdPhoneAsc = 'CUSTOMER_BY_CUSTOMER_ID__PHONE_ASC',
+  CustomerByCustomerIdPhoneDesc = 'CUSTOMER_BY_CUSTOMER_ID__PHONE_DESC',
+  CustomerByCustomerIdLogoSrcAsc = 'CUSTOMER_BY_CUSTOMER_ID__LOGO_SRC_ASC',
+  CustomerByCustomerIdLogoSrcDesc = 'CUSTOMER_BY_CUSTOMER_ID__LOGO_SRC_DESC',
+  CustomerByCustomerIdNotesAsc = 'CUSTOMER_BY_CUSTOMER_ID__NOTES_ASC',
+  CustomerByCustomerIdNotesDesc = 'CUSTOMER_BY_CUSTOMER_ID__NOTES_DESC',
+  CustomerByCustomerIdWebsiteAsc = 'CUSTOMER_BY_CUSTOMER_ID__WEBSITE_ASC',
+  CustomerByCustomerIdWebsiteDesc = 'CUSTOMER_BY_CUSTOMER_ID__WEBSITE_DESC',
+  CustomerByCustomerIdActiveAsc = 'CUSTOMER_BY_CUSTOMER_ID__ACTIVE_ASC',
+  CustomerByCustomerIdActiveDesc = 'CUSTOMER_BY_CUSTOMER_ID__ACTIVE_DESC',
+  PersonContactByPersonContactIdIdAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__ID_ASC',
+  PersonContactByPersonContactIdIdDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__ID_DESC',
+  PersonContactByPersonContactIdFirstNameAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__FIRST_NAME_ASC',
+  PersonContactByPersonContactIdFirstNameDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__FIRST_NAME_DESC',
+  PersonContactByPersonContactIdLastNameAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__LAST_NAME_ASC',
+  PersonContactByPersonContactIdLastNameDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__LAST_NAME_DESC',
+  PersonContactByPersonContactIdIsPrimaryAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__IS_PRIMARY_ASC',
+  PersonContactByPersonContactIdIsPrimaryDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__IS_PRIMARY_DESC',
+  PersonContactByPersonContactIdEmailAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__EMAIL_ASC',
+  PersonContactByPersonContactIdEmailDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__EMAIL_DESC',
+  PersonContactByPersonContactIdSecondaryEmailAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__SECONDARY_EMAIL_ASC',
+  PersonContactByPersonContactIdSecondaryEmailDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__SECONDARY_EMAIL_DESC',
+  PersonContactByPersonContactIdHomePhoneAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__HOME_PHONE_ASC',
+  PersonContactByPersonContactIdHomePhoneDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__HOME_PHONE_DESC',
+  PersonContactByPersonContactIdCellPhoneAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__CELL_PHONE_ASC',
+  PersonContactByPersonContactIdCellPhoneDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__CELL_PHONE_DESC',
+  PersonContactByPersonContactIdWorkPhoneAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__WORK_PHONE_ASC',
+  PersonContactByPersonContactIdWorkPhoneDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__WORK_PHONE_DESC',
+  PersonContactByPersonContactIdWorkExtensionAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__WORK_EXTENSION_ASC',
+  PersonContactByPersonContactIdWorkExtensionDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__WORK_EXTENSION_DESC',
+  PersonContactByPersonContactIdImageSrcAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__IMAGE_SRC_ASC',
+  PersonContactByPersonContactIdImageSrcDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__IMAGE_SRC_DESC',
+  PersonContactByPersonContactIdIsInternalAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__IS_INTERNAL_ASC',
+  PersonContactByPersonContactIdIsInternalDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__IS_INTERNAL_DESC',
+  PersonContactByPersonContactIdRolesAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__ROLES_ASC',
+  PersonContactByPersonContactIdRolesDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__ROLES_DESC'
+}
+
+/**
+ * A condition to be used against `CustomerPersonContact` object types. All fields
+ * are tested for equality and combined with a logical ‘and.’
+ */
+export type CustomerPersonContactCondition = {
+  /** Checks for equality with the object’s `customerId` field. */
+  customerId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `personContactId` field. */
+  personContactId?: Maybe<Scalars['BigInt']>;
+};
+
+/** A connection to a list of `Shipper` values, with data from `ShipperProjectionProduct`. */
+export type CustomerShippersByShipperProjectionProductCustomerIdAndShipperIdManyToManyConnection = {
+  __typename?: 'CustomerShippersByShipperProjectionProductCustomerIdAndShipperIdManyToManyConnection';
+  /** A list of `Shipper` objects. */
+  nodes: Array<Maybe<Shipper>>;
+  /** A list of edges which contains the `Shipper`, info from the `ShipperProjectionProduct`, and the cursor to aid in pagination. */
+  edges: Array<CustomerShippersByShipperProjectionProductCustomerIdAndShipperIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Shipper` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `Shipper` edge in the connection, with data from `ShipperProjectionProduct`. */
+export type CustomerShippersByShipperProjectionProductCustomerIdAndShipperIdManyToManyEdge = {
+  __typename?: 'CustomerShippersByShipperProjectionProductCustomerIdAndShipperIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `Shipper` at the end of the edge. */
+  node?: Maybe<Shipper>;
+  /** Reads and enables pagination through a set of `ShipperProjectionProduct`. */
+  shipperProjectionProducts: ShipperProjectionProductsConnection;
+};
+
+
+/** A `Shipper` edge in the connection, with data from `ShipperProjectionProduct`. */
+export type CustomerShippersByShipperProjectionProductCustomerIdAndShipperIdManyToManyEdgeShipperProjectionProductsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProjectionProductsOrderBy>>;
+  condition?: Maybe<ShipperProjectionProductCondition>;
+  filter?: Maybe<ShipperProjectionProductFilter>;
+};
+
+/** A connection to a list of `CommonSpecies` values, with data from `ShipperProjectionProduct`. */
+export type CustomerCommonSpeciesByShipperProjectionProductCustomerIdAndCommonSpeciesIdManyToManyConnection = {
+  __typename?: 'CustomerCommonSpeciesByShipperProjectionProductCustomerIdAndCommonSpeciesIdManyToManyConnection';
+  /** A list of `CommonSpecies` objects. */
+  nodes: Array<Maybe<CommonSpecies>>;
+  /** A list of edges which contains the `CommonSpecies`, info from the `ShipperProjectionProduct`, and the cursor to aid in pagination. */
+  edges: Array<CustomerCommonSpeciesByShipperProjectionProductCustomerIdAndCommonSpeciesIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `CommonSpecies` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `CommonSpecies` edge in the connection, with data from `ShipperProjectionProduct`. */
+export type CustomerCommonSpeciesByShipperProjectionProductCustomerIdAndCommonSpeciesIdManyToManyEdge = {
+  __typename?: 'CustomerCommonSpeciesByShipperProjectionProductCustomerIdAndCommonSpeciesIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `CommonSpecies` at the end of the edge. */
+  node?: Maybe<CommonSpecies>;
+  /** Reads and enables pagination through a set of `ShipperProjectionProduct`. */
+  shipperProjectionProducts: ShipperProjectionProductsConnection;
+};
+
+
+/** A `CommonSpecies` edge in the connection, with data from `ShipperProjectionProduct`. */
+export type CustomerCommonSpeciesByShipperProjectionProductCustomerIdAndCommonSpeciesIdManyToManyEdgeShipperProjectionProductsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProjectionProductsOrderBy>>;
+  condition?: Maybe<ShipperProjectionProductCondition>;
+  filter?: Maybe<ShipperProjectionProductFilter>;
+};
+
+/** A connection to a list of `CommonVariety` values, with data from `ShipperProjectionProduct`. */
+export type CustomerCommonVarietiesByShipperProjectionProductCustomerIdAndCommonVarietyIdManyToManyConnection = {
+  __typename?: 'CustomerCommonVarietiesByShipperProjectionProductCustomerIdAndCommonVarietyIdManyToManyConnection';
+  /** A list of `CommonVariety` objects. */
+  nodes: Array<Maybe<CommonVariety>>;
+  /** A list of edges which contains the `CommonVariety`, info from the `ShipperProjectionProduct`, and the cursor to aid in pagination. */
+  edges: Array<CustomerCommonVarietiesByShipperProjectionProductCustomerIdAndCommonVarietyIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `CommonVariety` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `CommonVariety` edge in the connection, with data from `ShipperProjectionProduct`. */
+export type CustomerCommonVarietiesByShipperProjectionProductCustomerIdAndCommonVarietyIdManyToManyEdge = {
+  __typename?: 'CustomerCommonVarietiesByShipperProjectionProductCustomerIdAndCommonVarietyIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `CommonVariety` at the end of the edge. */
+  node?: Maybe<CommonVariety>;
+  /** Reads and enables pagination through a set of `ShipperProjectionProduct`. */
+  shipperProjectionProducts: ShipperProjectionProductsConnection;
+};
+
+
+/** A `CommonVariety` edge in the connection, with data from `ShipperProjectionProduct`. */
+export type CustomerCommonVarietiesByShipperProjectionProductCustomerIdAndCommonVarietyIdManyToManyEdgeShipperProjectionProductsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProjectionProductsOrderBy>>;
+  condition?: Maybe<ShipperProjectionProductCondition>;
+  filter?: Maybe<ShipperProjectionProductFilter>;
+};
+
+/** A connection to a list of `CommonSize` values, with data from `ShipperProjectionProduct`. */
+export type CustomerCommonSizesByShipperProjectionProductCustomerIdAndCommonSizeIdManyToManyConnection = {
+  __typename?: 'CustomerCommonSizesByShipperProjectionProductCustomerIdAndCommonSizeIdManyToManyConnection';
+  /** A list of `CommonSize` objects. */
+  nodes: Array<Maybe<CommonSize>>;
+  /** A list of edges which contains the `CommonSize`, info from the `ShipperProjectionProduct`, and the cursor to aid in pagination. */
+  edges: Array<CustomerCommonSizesByShipperProjectionProductCustomerIdAndCommonSizeIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `CommonSize` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `CommonSize` edge in the connection, with data from `ShipperProjectionProduct`. */
+export type CustomerCommonSizesByShipperProjectionProductCustomerIdAndCommonSizeIdManyToManyEdge = {
+  __typename?: 'CustomerCommonSizesByShipperProjectionProductCustomerIdAndCommonSizeIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `CommonSize` at the end of the edge. */
+  node?: Maybe<CommonSize>;
+  /** Reads and enables pagination through a set of `ShipperProjectionProduct`. */
+  shipperProjectionProducts: ShipperProjectionProductsConnection;
+};
+
+
+/** A `CommonSize` edge in the connection, with data from `ShipperProjectionProduct`. */
+export type CustomerCommonSizesByShipperProjectionProductCustomerIdAndCommonSizeIdManyToManyEdgeShipperProjectionProductsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProjectionProductsOrderBy>>;
+  condition?: Maybe<ShipperProjectionProductCondition>;
+  filter?: Maybe<ShipperProjectionProductFilter>;
+};
+
+/** A connection to a list of `CommonPackType` values, with data from `ShipperProjectionProduct`. */
+export type CustomerCommonPackTypesByShipperProjectionProductCustomerIdAndCommonPackTypeIdManyToManyConnection = {
+  __typename?: 'CustomerCommonPackTypesByShipperProjectionProductCustomerIdAndCommonPackTypeIdManyToManyConnection';
+  /** A list of `CommonPackType` objects. */
+  nodes: Array<Maybe<CommonPackType>>;
+  /** A list of edges which contains the `CommonPackType`, info from the `ShipperProjectionProduct`, and the cursor to aid in pagination. */
+  edges: Array<CustomerCommonPackTypesByShipperProjectionProductCustomerIdAndCommonPackTypeIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `CommonPackType` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `CommonPackType` edge in the connection, with data from `ShipperProjectionProduct`. */
+export type CustomerCommonPackTypesByShipperProjectionProductCustomerIdAndCommonPackTypeIdManyToManyEdge = {
+  __typename?: 'CustomerCommonPackTypesByShipperProjectionProductCustomerIdAndCommonPackTypeIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `CommonPackType` at the end of the edge. */
+  node?: Maybe<CommonPackType>;
+  /** Reads and enables pagination through a set of `ShipperProjectionProduct`. */
+  shipperProjectionProducts: ShipperProjectionProductsConnection;
+};
+
+
+/** A `CommonPackType` edge in the connection, with data from `ShipperProjectionProduct`. */
+export type CustomerCommonPackTypesByShipperProjectionProductCustomerIdAndCommonPackTypeIdManyToManyEdgeShipperProjectionProductsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProjectionProductsOrderBy>>;
+  condition?: Maybe<ShipperProjectionProductCondition>;
+  filter?: Maybe<ShipperProjectionProductFilter>;
+};
+
+/** A connection to a list of `PersonContact` values, with data from `CustomerPersonContact`. */
+export type CustomerPersonContactsByCustomerPersonContactCustomerIdAndPersonContactIdManyToManyConnection = {
+  __typename?: 'CustomerPersonContactsByCustomerPersonContactCustomerIdAndPersonContactIdManyToManyConnection';
+  /** A list of `PersonContact` objects. */
+  nodes: Array<Maybe<PersonContact>>;
+  /** A list of edges which contains the `PersonContact`, info from the `CustomerPersonContact`, and the cursor to aid in pagination. */
+  edges: Array<CustomerPersonContactsByCustomerPersonContactCustomerIdAndPersonContactIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `PersonContact` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `PersonContact` edge in the connection, with data from `CustomerPersonContact`. */
+export type CustomerPersonContactsByCustomerPersonContactCustomerIdAndPersonContactIdManyToManyEdge = {
+  __typename?: 'CustomerPersonContactsByCustomerPersonContactCustomerIdAndPersonContactIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `PersonContact` at the end of the edge. */
+  node?: Maybe<PersonContact>;
+};
+
+/** A connection to a list of `CommonSpecies` values, with data from `ShipperProgram`. */
+export type CustomerCommonSpeciesByShipperProgramCustomerIdAndCommonSpeciesIdManyToManyConnection = {
+  __typename?: 'CustomerCommonSpeciesByShipperProgramCustomerIdAndCommonSpeciesIdManyToManyConnection';
+  /** A list of `CommonSpecies` objects. */
+  nodes: Array<Maybe<CommonSpecies>>;
+  /** A list of edges which contains the `CommonSpecies`, info from the `ShipperProgram`, and the cursor to aid in pagination. */
+  edges: Array<CustomerCommonSpeciesByShipperProgramCustomerIdAndCommonSpeciesIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `CommonSpecies` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `CommonSpecies` edge in the connection, with data from `ShipperProgram`. */
+export type CustomerCommonSpeciesByShipperProgramCustomerIdAndCommonSpeciesIdManyToManyEdge = {
+  __typename?: 'CustomerCommonSpeciesByShipperProgramCustomerIdAndCommonSpeciesIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `CommonSpecies` at the end of the edge. */
+  node?: Maybe<CommonSpecies>;
+  /** Reads and enables pagination through a set of `ShipperProgram`. */
+  shipperPrograms: ShipperProgramsConnection;
+};
+
+
+/** A `CommonSpecies` edge in the connection, with data from `ShipperProgram`. */
+export type CustomerCommonSpeciesByShipperProgramCustomerIdAndCommonSpeciesIdManyToManyEdgeShipperProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProgramsOrderBy>>;
+  condition?: Maybe<ShipperProgramCondition>;
+  filter?: Maybe<ShipperProgramFilter>;
+};
+
+/** A connection to a list of `CommonVariety` values, with data from `ShipperProgram`. */
+export type CustomerCommonVarietiesByShipperProgramCustomerIdAndCommonVarietyIdManyToManyConnection = {
+  __typename?: 'CustomerCommonVarietiesByShipperProgramCustomerIdAndCommonVarietyIdManyToManyConnection';
+  /** A list of `CommonVariety` objects. */
+  nodes: Array<Maybe<CommonVariety>>;
+  /** A list of edges which contains the `CommonVariety`, info from the `ShipperProgram`, and the cursor to aid in pagination. */
+  edges: Array<CustomerCommonVarietiesByShipperProgramCustomerIdAndCommonVarietyIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `CommonVariety` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `CommonVariety` edge in the connection, with data from `ShipperProgram`. */
+export type CustomerCommonVarietiesByShipperProgramCustomerIdAndCommonVarietyIdManyToManyEdge = {
+  __typename?: 'CustomerCommonVarietiesByShipperProgramCustomerIdAndCommonVarietyIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `CommonVariety` at the end of the edge. */
+  node?: Maybe<CommonVariety>;
+  /** Reads and enables pagination through a set of `ShipperProgram`. */
+  shipperPrograms: ShipperProgramsConnection;
+};
+
+
+/** A `CommonVariety` edge in the connection, with data from `ShipperProgram`. */
+export type CustomerCommonVarietiesByShipperProgramCustomerIdAndCommonVarietyIdManyToManyEdgeShipperProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProgramsOrderBy>>;
+  condition?: Maybe<ShipperProgramCondition>;
+  filter?: Maybe<ShipperProgramFilter>;
+};
+
+/** A connection to a list of `CommonSize` values, with data from `ShipperProgram`. */
+export type CustomerCommonSizesByShipperProgramCustomerIdAndCommonSizeIdManyToManyConnection = {
+  __typename?: 'CustomerCommonSizesByShipperProgramCustomerIdAndCommonSizeIdManyToManyConnection';
+  /** A list of `CommonSize` objects. */
+  nodes: Array<Maybe<CommonSize>>;
+  /** A list of edges which contains the `CommonSize`, info from the `ShipperProgram`, and the cursor to aid in pagination. */
+  edges: Array<CustomerCommonSizesByShipperProgramCustomerIdAndCommonSizeIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `CommonSize` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `CommonSize` edge in the connection, with data from `ShipperProgram`. */
+export type CustomerCommonSizesByShipperProgramCustomerIdAndCommonSizeIdManyToManyEdge = {
+  __typename?: 'CustomerCommonSizesByShipperProgramCustomerIdAndCommonSizeIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `CommonSize` at the end of the edge. */
+  node?: Maybe<CommonSize>;
+  /** Reads and enables pagination through a set of `ShipperProgram`. */
+  shipperPrograms: ShipperProgramsConnection;
+};
+
+
+/** A `CommonSize` edge in the connection, with data from `ShipperProgram`. */
+export type CustomerCommonSizesByShipperProgramCustomerIdAndCommonSizeIdManyToManyEdgeShipperProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProgramsOrderBy>>;
+  condition?: Maybe<ShipperProgramCondition>;
+  filter?: Maybe<ShipperProgramFilter>;
+};
+
+/** A connection to a list of `CommonPackType` values, with data from `ShipperProgram`. */
+export type CustomerCommonPackTypesByShipperProgramCustomerIdAndCommonPackTypeIdManyToManyConnection = {
+  __typename?: 'CustomerCommonPackTypesByShipperProgramCustomerIdAndCommonPackTypeIdManyToManyConnection';
+  /** A list of `CommonPackType` objects. */
+  nodes: Array<Maybe<CommonPackType>>;
+  /** A list of edges which contains the `CommonPackType`, info from the `ShipperProgram`, and the cursor to aid in pagination. */
+  edges: Array<CustomerCommonPackTypesByShipperProgramCustomerIdAndCommonPackTypeIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `CommonPackType` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `CommonPackType` edge in the connection, with data from `ShipperProgram`. */
+export type CustomerCommonPackTypesByShipperProgramCustomerIdAndCommonPackTypeIdManyToManyEdge = {
+  __typename?: 'CustomerCommonPackTypesByShipperProgramCustomerIdAndCommonPackTypeIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `CommonPackType` at the end of the edge. */
+  node?: Maybe<CommonPackType>;
+  /** Reads and enables pagination through a set of `ShipperProgram`. */
+  shipperPrograms: ShipperProgramsConnection;
+};
+
+
+/** A `CommonPackType` edge in the connection, with data from `ShipperProgram`. */
+export type CustomerCommonPackTypesByShipperProgramCustomerIdAndCommonPackTypeIdManyToManyEdgeShipperProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProgramsOrderBy>>;
+  condition?: Maybe<ShipperProgramCondition>;
+  filter?: Maybe<ShipperProgramFilter>;
+};
+
+/** A connection to a list of `Shipper` values, with data from `ShipperProgram`. */
+export type CustomerShippersByShipperProgramCustomerIdAndShipperIdManyToManyConnection = {
+  __typename?: 'CustomerShippersByShipperProgramCustomerIdAndShipperIdManyToManyConnection';
+  /** A list of `Shipper` objects. */
+  nodes: Array<Maybe<Shipper>>;
+  /** A list of edges which contains the `Shipper`, info from the `ShipperProgram`, and the cursor to aid in pagination. */
+  edges: Array<CustomerShippersByShipperProgramCustomerIdAndShipperIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Shipper` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `Shipper` edge in the connection, with data from `ShipperProgram`. */
+export type CustomerShippersByShipperProgramCustomerIdAndShipperIdManyToManyEdge = {
+  __typename?: 'CustomerShippersByShipperProgramCustomerIdAndShipperIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `Shipper` at the end of the edge. */
+  node?: Maybe<Shipper>;
+  /** Reads and enables pagination through a set of `ShipperProgram`. */
+  shipperPrograms: ShipperProgramsConnection;
+};
+
+
+/** A `Shipper` edge in the connection, with data from `ShipperProgram`. */
+export type CustomerShippersByShipperProgramCustomerIdAndShipperIdManyToManyEdgeShipperProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperProgramsOrderBy>>;
+  condition?: Maybe<ShipperProgramCondition>;
+  filter?: Maybe<ShipperProgramFilter>;
+};
+
+/** A connection to a list of `CommonSpecies` values, with data from `CustomerProgram`. */
+export type CustomerCommonSpeciesByCustomerProgramCustomerIdAndCommonSpeciesIdManyToManyConnection = {
+  __typename?: 'CustomerCommonSpeciesByCustomerProgramCustomerIdAndCommonSpeciesIdManyToManyConnection';
+  /** A list of `CommonSpecies` objects. */
+  nodes: Array<Maybe<CommonSpecies>>;
+  /** A list of edges which contains the `CommonSpecies`, info from the `CustomerProgram`, and the cursor to aid in pagination. */
+  edges: Array<CustomerCommonSpeciesByCustomerProgramCustomerIdAndCommonSpeciesIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `CommonSpecies` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `CommonSpecies` edge in the connection, with data from `CustomerProgram`. */
+export type CustomerCommonSpeciesByCustomerProgramCustomerIdAndCommonSpeciesIdManyToManyEdge = {
+  __typename?: 'CustomerCommonSpeciesByCustomerProgramCustomerIdAndCommonSpeciesIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `CommonSpecies` at the end of the edge. */
+  node?: Maybe<CommonSpecies>;
+  /** Reads and enables pagination through a set of `CustomerProgram`. */
+  customerPrograms: CustomerProgramsConnection;
+};
+
+
+/** A `CommonSpecies` edge in the connection, with data from `CustomerProgram`. */
+export type CustomerCommonSpeciesByCustomerProgramCustomerIdAndCommonSpeciesIdManyToManyEdgeCustomerProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CustomerProgramsOrderBy>>;
+  condition?: Maybe<CustomerProgramCondition>;
+  filter?: Maybe<CustomerProgramFilter>;
+};
+
+/** A connection to a list of `CommonVariety` values, with data from `CustomerProgram`. */
+export type CustomerCommonVarietiesByCustomerProgramCustomerIdAndCommonVarietyIdManyToManyConnection = {
+  __typename?: 'CustomerCommonVarietiesByCustomerProgramCustomerIdAndCommonVarietyIdManyToManyConnection';
+  /** A list of `CommonVariety` objects. */
+  nodes: Array<Maybe<CommonVariety>>;
+  /** A list of edges which contains the `CommonVariety`, info from the `CustomerProgram`, and the cursor to aid in pagination. */
+  edges: Array<CustomerCommonVarietiesByCustomerProgramCustomerIdAndCommonVarietyIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `CommonVariety` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `CommonVariety` edge in the connection, with data from `CustomerProgram`. */
+export type CustomerCommonVarietiesByCustomerProgramCustomerIdAndCommonVarietyIdManyToManyEdge = {
+  __typename?: 'CustomerCommonVarietiesByCustomerProgramCustomerIdAndCommonVarietyIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `CommonVariety` at the end of the edge. */
+  node?: Maybe<CommonVariety>;
+  /** Reads and enables pagination through a set of `CustomerProgram`. */
+  customerPrograms: CustomerProgramsConnection;
+};
+
+
+/** A `CommonVariety` edge in the connection, with data from `CustomerProgram`. */
+export type CustomerCommonVarietiesByCustomerProgramCustomerIdAndCommonVarietyIdManyToManyEdgeCustomerProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CustomerProgramsOrderBy>>;
+  condition?: Maybe<CustomerProgramCondition>;
+  filter?: Maybe<CustomerProgramFilter>;
+};
+
+/** A connection to a list of `CommonSize` values, with data from `CustomerProgram`. */
+export type CustomerCommonSizesByCustomerProgramCustomerIdAndCommonSizeIdManyToManyConnection = {
+  __typename?: 'CustomerCommonSizesByCustomerProgramCustomerIdAndCommonSizeIdManyToManyConnection';
+  /** A list of `CommonSize` objects. */
+  nodes: Array<Maybe<CommonSize>>;
+  /** A list of edges which contains the `CommonSize`, info from the `CustomerProgram`, and the cursor to aid in pagination. */
+  edges: Array<CustomerCommonSizesByCustomerProgramCustomerIdAndCommonSizeIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `CommonSize` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `CommonSize` edge in the connection, with data from `CustomerProgram`. */
+export type CustomerCommonSizesByCustomerProgramCustomerIdAndCommonSizeIdManyToManyEdge = {
+  __typename?: 'CustomerCommonSizesByCustomerProgramCustomerIdAndCommonSizeIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `CommonSize` at the end of the edge. */
+  node?: Maybe<CommonSize>;
+  /** Reads and enables pagination through a set of `CustomerProgram`. */
+  customerPrograms: CustomerProgramsConnection;
+};
+
+
+/** A `CommonSize` edge in the connection, with data from `CustomerProgram`. */
+export type CustomerCommonSizesByCustomerProgramCustomerIdAndCommonSizeIdManyToManyEdgeCustomerProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CustomerProgramsOrderBy>>;
+  condition?: Maybe<CustomerProgramCondition>;
+  filter?: Maybe<CustomerProgramFilter>;
+};
+
+/** A connection to a list of `CommonPackType` values, with data from `CustomerProgram`. */
+export type CustomerCommonPackTypesByCustomerProgramCustomerIdAndCommonPackTypeIdManyToManyConnection = {
+  __typename?: 'CustomerCommonPackTypesByCustomerProgramCustomerIdAndCommonPackTypeIdManyToManyConnection';
+  /** A list of `CommonPackType` objects. */
+  nodes: Array<Maybe<CommonPackType>>;
+  /** A list of edges which contains the `CommonPackType`, info from the `CustomerProgram`, and the cursor to aid in pagination. */
+  edges: Array<CustomerCommonPackTypesByCustomerProgramCustomerIdAndCommonPackTypeIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `CommonPackType` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `CommonPackType` edge in the connection, with data from `CustomerProgram`. */
+export type CustomerCommonPackTypesByCustomerProgramCustomerIdAndCommonPackTypeIdManyToManyEdge = {
+  __typename?: 'CustomerCommonPackTypesByCustomerProgramCustomerIdAndCommonPackTypeIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `CommonPackType` at the end of the edge. */
+  node?: Maybe<CommonPackType>;
+  /** Reads and enables pagination through a set of `CustomerProgram`. */
+  customerPrograms: CustomerProgramsConnection;
+};
+
+
+/** A `CommonPackType` edge in the connection, with data from `CustomerProgram`. */
+export type CustomerCommonPackTypesByCustomerProgramCustomerIdAndCommonPackTypeIdManyToManyEdgeCustomerProgramsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CustomerProgramsOrderBy>>;
+  condition?: Maybe<CustomerProgramCondition>;
+  filter?: Maybe<CustomerProgramFilter>;
+};
+
+/** A `CustomerPersonContact` edge in the connection. */
+export type CustomerPersonContactsEdge = {
+  __typename?: 'CustomerPersonContactsEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `CustomerPersonContact` at the end of the edge. */
+  node?: Maybe<CustomerPersonContact>;
+};
+
+/** A connection to a list of `ContactGroup` values, with data from `ContactGroupPersonContact`. */
+export type PersonContactContactGroupsByContactGroupPersonContactPersonContactIdAndGroupIdManyToManyConnection = {
+  __typename?: 'PersonContactContactGroupsByContactGroupPersonContactPersonContactIdAndGroupIdManyToManyConnection';
+  /** A list of `ContactGroup` objects. */
+  nodes: Array<Maybe<ContactGroup>>;
+  /** A list of edges which contains the `ContactGroup`, info from the `ContactGroupPersonContact`, and the cursor to aid in pagination. */
+  edges: Array<PersonContactContactGroupsByContactGroupPersonContactPersonContactIdAndGroupIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `ContactGroup` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `ContactGroup` edge in the connection, with data from `ContactGroupPersonContact`. */
+export type PersonContactContactGroupsByContactGroupPersonContactPersonContactIdAndGroupIdManyToManyEdge = {
+  __typename?: 'PersonContactContactGroupsByContactGroupPersonContactPersonContactIdAndGroupIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `ContactGroup` at the end of the edge. */
+  node?: Maybe<ContactGroup>;
+};
+
+/** Methods to use when ordering `ContactGroup`. */
+export enum ContactGroupsOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  GroupDescriptionAsc = 'GROUP_DESCRIPTION_ASC',
+  GroupDescriptionDesc = 'GROUP_DESCRIPTION_DESC',
+  GroupNameAsc = 'GROUP_NAME_ASC',
+  GroupNameDesc = 'GROUP_NAME_DESC',
+  UserIdAsc = 'USER_ID_ASC',
+  UserIdDesc = 'USER_ID_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  UserByUserIdIdAsc = 'USER_BY_USER_ID__ID_ASC',
+  UserByUserIdIdDesc = 'USER_BY_USER_ID__ID_DESC',
+  UserByUserIdPinAsc = 'USER_BY_USER_ID__PIN_ASC',
+  UserByUserIdPinDesc = 'USER_BY_USER_ID__PIN_DESC',
+  UserByUserIdPersonContactIdAsc = 'USER_BY_USER_ID__PERSON_CONTACT_ID_ASC',
+  UserByUserIdPersonContactIdDesc = 'USER_BY_USER_ID__PERSON_CONTACT_ID_DESC',
+  ContactGroupPersonContactsByGroupIdCountAsc = 'CONTACT_GROUP_PERSON_CONTACTS_BY_GROUP_ID__COUNT_ASC',
+  ContactGroupPersonContactsByGroupIdCountDesc = 'CONTACT_GROUP_PERSON_CONTACTS_BY_GROUP_ID__COUNT_DESC'
+}
+
+/**
+ * A condition to be used against `ContactGroup` object types. All fields are
+ * tested for equality and combined with a logical ‘and.’
+ */
+export type ContactGroupCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `groupDescription` field. */
+  groupDescription?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `groupName` field. */
+  groupName?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `userId` field. */
+  userId?: Maybe<Scalars['BigInt']>;
+};
+
+/** A connection to a list of `Customer` values, with data from `CustomerPersonContact`. */
+export type PersonContactCustomersByCustomerPersonContactPersonContactIdAndCustomerIdManyToManyConnection = {
+  __typename?: 'PersonContactCustomersByCustomerPersonContactPersonContactIdAndCustomerIdManyToManyConnection';
+  /** A list of `Customer` objects. */
+  nodes: Array<Maybe<Customer>>;
+  /** A list of edges which contains the `Customer`, info from the `CustomerPersonContact`, and the cursor to aid in pagination. */
+  edges: Array<PersonContactCustomersByCustomerPersonContactPersonContactIdAndCustomerIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Customer` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `Customer` edge in the connection, with data from `CustomerPersonContact`. */
+export type PersonContactCustomersByCustomerPersonContactPersonContactIdAndCustomerIdManyToManyEdge = {
+  __typename?: 'PersonContactCustomersByCustomerPersonContactPersonContactIdAndCustomerIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `Customer` at the end of the edge. */
+  node?: Maybe<Customer>;
+};
+
+/** A connection to a list of `Shipper` values, with data from `ShipperPersonContact`. */
+export type PersonContactShippersByShipperPersonContactPersonContactIdAndShipperIdManyToManyConnection = {
+  __typename?: 'PersonContactShippersByShipperPersonContactPersonContactIdAndShipperIdManyToManyConnection';
+  /** A list of `Shipper` objects. */
+  nodes: Array<Maybe<Shipper>>;
+  /** A list of edges which contains the `Shipper`, info from the `ShipperPersonContact`, and the cursor to aid in pagination. */
+  edges: Array<PersonContactShippersByShipperPersonContactPersonContactIdAndShipperIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Shipper` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `Shipper` edge in the connection, with data from `ShipperPersonContact`. */
+export type PersonContactShippersByShipperPersonContactPersonContactIdAndShipperIdManyToManyEdge = {
+  __typename?: 'PersonContactShippersByShipperPersonContactPersonContactIdAndShipperIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `Shipper` at the end of the edge. */
+  node?: Maybe<Shipper>;
+};
+
+/** A connection to a list of `Warehouse` values, with data from `WarehousePersonContact`. */
+export type PersonContactWarehousesByWarehousePersonContactPersonContactIdAndWarehouseIdManyToManyConnection = {
+  __typename?: 'PersonContactWarehousesByWarehousePersonContactPersonContactIdAndWarehouseIdManyToManyConnection';
+  /** A list of `Warehouse` objects. */
+  nodes: Array<Maybe<Warehouse>>;
+  /** A list of edges which contains the `Warehouse`, info from the `WarehousePersonContact`, and the cursor to aid in pagination. */
+  edges: Array<PersonContactWarehousesByWarehousePersonContactPersonContactIdAndWarehouseIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Warehouse` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `Warehouse` edge in the connection, with data from `WarehousePersonContact`. */
+export type PersonContactWarehousesByWarehousePersonContactPersonContactIdAndWarehouseIdManyToManyEdge = {
+  __typename?: 'PersonContactWarehousesByWarehousePersonContactPersonContactIdAndWarehouseIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `Warehouse` at the end of the edge. */
+  node?: Maybe<Warehouse>;
+};
+
+/** A connection to a list of `ContactGroup` values. */
+export type ContactGroupsConnection = {
+  __typename?: 'ContactGroupsConnection';
+  /** A list of `ContactGroup` objects. */
+  nodes: Array<Maybe<ContactGroup>>;
+  /** A list of edges which contains the `ContactGroup` and cursor to aid in pagination. */
+  edges: Array<ContactGroupsEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `ContactGroup` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `ContactGroup` edge in the connection. */
+export type ContactGroupsEdge = {
+  __typename?: 'ContactGroupsEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `ContactGroup` at the end of the edge. */
+  node?: Maybe<ContactGroup>;
+};
+
+/** A connection to a list of `UserMessage` values. */
+export type UserMessagesConnection = {
+  __typename?: 'UserMessagesConnection';
+  /** A list of `UserMessage` objects. */
+  nodes: Array<Maybe<UserMessage>>;
+  /** A list of edges which contains the `UserMessage` and cursor to aid in pagination. */
+  edges: Array<UserMessagesEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `UserMessage` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+export type UserMessage = Node & {
+  __typename?: 'UserMessage';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  actionLink?: Maybe<Scalars['String']>;
+  actionText?: Maybe<Scalars['String']>;
+  details?: Maybe<Scalars['String']>;
+  header?: Maybe<Scalars['String']>;
+  isRead: Scalars['Boolean'];
+  messageDate?: Maybe<Scalars['Datetime']>;
+  priority?: Maybe<Scalars['BigFloat']>;
+  userId?: Maybe<Scalars['BigInt']>;
+  /** Reads a single `User` that is related to this `UserMessage`. */
+  user?: Maybe<User>;
+};
+
+/** A `UserMessage` edge in the connection. */
+export type UserMessagesEdge = {
+  __typename?: 'UserMessagesEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `UserMessage` at the end of the edge. */
+  node?: Maybe<UserMessage>;
+};
+
+/** Methods to use when ordering `UserMessage`. */
+export enum UserMessagesOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  ActionLinkAsc = 'ACTION_LINK_ASC',
+  ActionLinkDesc = 'ACTION_LINK_DESC',
+  ActionTextAsc = 'ACTION_TEXT_ASC',
+  ActionTextDesc = 'ACTION_TEXT_DESC',
+  DetailsAsc = 'DETAILS_ASC',
+  DetailsDesc = 'DETAILS_DESC',
+  HeaderAsc = 'HEADER_ASC',
+  HeaderDesc = 'HEADER_DESC',
+  IsReadAsc = 'IS_READ_ASC',
+  IsReadDesc = 'IS_READ_DESC',
+  MessageDateAsc = 'MESSAGE_DATE_ASC',
+  MessageDateDesc = 'MESSAGE_DATE_DESC',
+  PriorityAsc = 'PRIORITY_ASC',
+  PriorityDesc = 'PRIORITY_DESC',
+  UserIdAsc = 'USER_ID_ASC',
+  UserIdDesc = 'USER_ID_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  UserByUserIdIdAsc = 'USER_BY_USER_ID__ID_ASC',
+  UserByUserIdIdDesc = 'USER_BY_USER_ID__ID_DESC',
+  UserByUserIdPinAsc = 'USER_BY_USER_ID__PIN_ASC',
+  UserByUserIdPinDesc = 'USER_BY_USER_ID__PIN_DESC',
+  UserByUserIdPersonContactIdAsc = 'USER_BY_USER_ID__PERSON_CONTACT_ID_ASC',
+  UserByUserIdPersonContactIdDesc = 'USER_BY_USER_ID__PERSON_CONTACT_ID_DESC'
+}
+
+/**
+ * A condition to be used against `UserMessage` object types. All fields are tested
+ * for equality and combined with a logical ‘and.’
+ */
+export type UserMessageCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `actionLink` field. */
+  actionLink?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `actionText` field. */
+  actionText?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `details` field. */
+  details?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `header` field. */
+  header?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `isRead` field. */
+  isRead?: Maybe<Scalars['Boolean']>;
+  /** Checks for equality with the object’s `messageDate` field. */
+  messageDate?: Maybe<Scalars['Datetime']>;
+  /** Checks for equality with the object’s `priority` field. */
+  priority?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `userId` field. */
+  userId?: Maybe<Scalars['BigInt']>;
+};
+
+/** A `User` edge in the connection. */
+export type UsersEdge = {
+  __typename?: 'UsersEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `User` at the end of the edge. */
+  node?: Maybe<User>;
+};
+
+/** A connection to a list of `Country` values. */
+export type CountriesConnection = {
+  __typename?: 'CountriesConnection';
+  /** A list of `Country` objects. */
+  nodes: Array<Maybe<Country>>;
+  /** A list of edges which contains the `Country` and cursor to aid in pagination. */
+  edges: Array<CountriesEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Country` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `Country` edge in the connection. */
+export type CountriesEdge = {
+  __typename?: 'CountriesEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `Country` at the end of the edge. */
+  node?: Maybe<Country>;
+};
+
+/** Methods to use when ordering `Country`. */
+export enum CountriesOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  CountryNameAsc = 'COUNTRY_NAME_ASC',
+  CountryNameDesc = 'COUNTRY_NAME_DESC',
+  CmbIdAsc = 'CMB_ID_ASC',
+  CmbIdDesc = 'CMB_ID_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  CustomersByCountryIdCountAsc = 'CUSTOMERS_BY_COUNTRY_ID__COUNT_ASC',
+  CustomersByCountryIdCountDesc = 'CUSTOMERS_BY_COUNTRY_ID__COUNT_DESC',
+  ShippersByCountryIdCountAsc = 'SHIPPERS_BY_COUNTRY_ID__COUNT_ASC',
+  ShippersByCountryIdCountDesc = 'SHIPPERS_BY_COUNTRY_ID__COUNT_DESC',
+  WarehousesByCountryIdCountAsc = 'WAREHOUSES_BY_COUNTRY_ID__COUNT_ASC',
+  WarehousesByCountryIdCountDesc = 'WAREHOUSES_BY_COUNTRY_ID__COUNT_DESC'
+}
+
+/** A condition to be used against `Country` object types. All fields are tested for equality and combined with a logical ‘and.’ */
+export type CountryCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `countryName` field. */
+  countryName?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `cmbId` field. */
+  cmbId?: Maybe<Scalars['String']>;
+};
+
+/** A connection to a list of `PersonContact` values. */
+export type PersonContactsConnection = {
+  __typename?: 'PersonContactsConnection';
+  /** A list of `PersonContact` objects. */
+  nodes: Array<Maybe<PersonContact>>;
+  /** A list of edges which contains the `PersonContact` and cursor to aid in pagination. */
+  edges: Array<PersonContactsEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `PersonContact` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `PersonContact` edge in the connection. */
+export type PersonContactsEdge = {
+  __typename?: 'PersonContactsEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `PersonContact` at the end of the edge. */
+  node?: Maybe<PersonContact>;
+};
+
+/** A connection to a list of `ChileDepartureInspectionPallet` values. */
+export type ChileDepartureInspectionPalletsConnection = {
+  __typename?: 'ChileDepartureInspectionPalletsConnection';
+  /** A list of `ChileDepartureInspectionPallet` objects. */
+  nodes: Array<Maybe<ChileDepartureInspectionPallet>>;
+  /** A list of edges which contains the `ChileDepartureInspectionPallet` and cursor to aid in pagination. */
+  edges: Array<ChileDepartureInspectionPalletsEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `ChileDepartureInspectionPallet` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+export type ChileDepartureInspectionPallet = Node & {
+  __typename?: 'ChileDepartureInspectionPallet';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['String'];
+  lotId?: Maybe<Scalars['String']>;
+  lotNumber?: Maybe<Scalars['String']>;
+  locationName?: Maybe<Scalars['String']>;
+  shipper?: Maybe<Scalars['String']>;
+  inspectionDate?: Maybe<Scalars['Date']>;
+  productName?: Maybe<Scalars['String']>;
+  packingType?: Maybe<Scalars['String']>;
+  productType?: Maybe<Scalars['String']>;
+  palletCount?: Maybe<Scalars['BigFloat']>;
+  supervisor?: Maybe<Scalars['String']>;
+  palletNumber?: Maybe<Scalars['String']>;
+  boxesCount?: Maybe<Scalars['BigFloat']>;
+  netWeight?: Maybe<Scalars['BigFloat']>;
+  grower?: Maybe<Scalars['String']>;
+  size?: Maybe<Scalars['String']>;
+  variety?: Maybe<Scalars['String']>;
+  packingDate?: Maybe<Scalars['Date']>;
+  label?: Maybe<Scalars['String']>;
+  temperature?: Maybe<Scalars['String']>;
+  openAppearance?: Maybe<Scalars['String']>;
+  color?: Maybe<Scalars['String']>;
+  stem?: Maybe<Scalars['String']>;
+  texture?: Maybe<Scalars['String']>;
+  bunchesCount?: Maybe<Scalars['BigFloat']>;
+  brix?: Maybe<Scalars['BigFloat']>;
+  diameterMin?: Maybe<Scalars['BigFloat']>;
+  diameterMax?: Maybe<Scalars['BigFloat']>;
+  stragglyTightPct?: Maybe<Scalars['BigFloat']>;
+  surfaceDiscPct?: Maybe<Scalars['BigFloat']>;
+  russetScarsPct?: Maybe<Scalars['BigFloat']>;
+  sunburnPct?: Maybe<Scalars['BigFloat']>;
+  undersizedBunchesPct?: Maybe<Scalars['BigFloat']>;
+  otherDefectsPct?: Maybe<Scalars['BigFloat']>;
+  stemDehyPct?: Maybe<Scalars['BigFloat']>;
+  glassyWeakPct?: Maybe<Scalars['BigFloat']>;
+  decayPct?: Maybe<Scalars['BigFloat']>;
+  splitCrushedPct?: Maybe<Scalars['BigFloat']>;
+  drySplitPct?: Maybe<Scalars['BigFloat']>;
+  wetStickyPct?: Maybe<Scalars['BigFloat']>;
+  waterberriesPct?: Maybe<Scalars['BigFloat']>;
+  shatterPct?: Maybe<Scalars['BigFloat']>;
+  totalQualityDefectsPct?: Maybe<Scalars['BigFloat']>;
+  totalConditionDefectsPct?: Maybe<Scalars['BigFloat']>;
+  qualityScore?: Maybe<Scalars['BigFloat']>;
+  conditionScore?: Maybe<Scalars['BigFloat']>;
+  scoreName?: Maybe<Scalars['String']>;
+  reportLink?: Maybe<Scalars['String']>;
+  imagesLink?: Maybe<Scalars['String']>;
+};
+
+/** A `ChileDepartureInspectionPallet` edge in the connection. */
+export type ChileDepartureInspectionPalletsEdge = {
+  __typename?: 'ChileDepartureInspectionPalletsEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `ChileDepartureInspectionPallet` at the end of the edge. */
+  node?: Maybe<ChileDepartureInspectionPallet>;
+};
+
+/** Methods to use when ordering `ChileDepartureInspectionPallet`. */
+export enum ChileDepartureInspectionPalletsOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  LotIdAsc = 'LOT_ID_ASC',
+  LotIdDesc = 'LOT_ID_DESC',
+  LotNumberAsc = 'LOT_NUMBER_ASC',
+  LotNumberDesc = 'LOT_NUMBER_DESC',
+  LocationNameAsc = 'LOCATION_NAME_ASC',
+  LocationNameDesc = 'LOCATION_NAME_DESC',
+  ShipperAsc = 'SHIPPER_ASC',
+  ShipperDesc = 'SHIPPER_DESC',
+  InspectionDateAsc = 'INSPECTION_DATE_ASC',
+  InspectionDateDesc = 'INSPECTION_DATE_DESC',
+  ProductNameAsc = 'PRODUCT_NAME_ASC',
+  ProductNameDesc = 'PRODUCT_NAME_DESC',
+  PackingTypeAsc = 'PACKING_TYPE_ASC',
+  PackingTypeDesc = 'PACKING_TYPE_DESC',
+  ProductTypeAsc = 'PRODUCT_TYPE_ASC',
+  ProductTypeDesc = 'PRODUCT_TYPE_DESC',
+  PalletCountAsc = 'PALLET_COUNT_ASC',
+  PalletCountDesc = 'PALLET_COUNT_DESC',
+  SupervisorAsc = 'SUPERVISOR_ASC',
+  SupervisorDesc = 'SUPERVISOR_DESC',
+  PalletNumberAsc = 'PALLET_NUMBER_ASC',
+  PalletNumberDesc = 'PALLET_NUMBER_DESC',
+  BoxesCountAsc = 'BOXES_COUNT_ASC',
+  BoxesCountDesc = 'BOXES_COUNT_DESC',
+  NetWeightAsc = 'NET_WEIGHT_ASC',
+  NetWeightDesc = 'NET_WEIGHT_DESC',
+  GrowerAsc = 'GROWER_ASC',
+  GrowerDesc = 'GROWER_DESC',
+  SizeAsc = 'SIZE_ASC',
+  SizeDesc = 'SIZE_DESC',
+  VarietyAsc = 'VARIETY_ASC',
+  VarietyDesc = 'VARIETY_DESC',
+  PackingDateAsc = 'PACKING_DATE_ASC',
+  PackingDateDesc = 'PACKING_DATE_DESC',
+  LabelAsc = 'LABEL_ASC',
+  LabelDesc = 'LABEL_DESC',
+  TemperatureAsc = 'TEMPERATURE_ASC',
+  TemperatureDesc = 'TEMPERATURE_DESC',
+  OpenAppearanceAsc = 'OPEN_APPEARANCE_ASC',
+  OpenAppearanceDesc = 'OPEN_APPEARANCE_DESC',
+  ColorAsc = 'COLOR_ASC',
+  ColorDesc = 'COLOR_DESC',
+  StemAsc = 'STEM_ASC',
+  StemDesc = 'STEM_DESC',
+  TextureAsc = 'TEXTURE_ASC',
+  TextureDesc = 'TEXTURE_DESC',
+  BunchesCountAsc = 'BUNCHES_COUNT_ASC',
+  BunchesCountDesc = 'BUNCHES_COUNT_DESC',
+  BrixAsc = 'BRIX_ASC',
+  BrixDesc = 'BRIX_DESC',
+  DiameterMinAsc = 'DIAMETER_MIN_ASC',
+  DiameterMinDesc = 'DIAMETER_MIN_DESC',
+  DiameterMaxAsc = 'DIAMETER_MAX_ASC',
+  DiameterMaxDesc = 'DIAMETER_MAX_DESC',
+  StragglyTightPctAsc = 'STRAGGLY_TIGHT_PCT_ASC',
+  StragglyTightPctDesc = 'STRAGGLY_TIGHT_PCT_DESC',
+  SurfaceDiscPctAsc = 'SURFACE_DISC_PCT_ASC',
+  SurfaceDiscPctDesc = 'SURFACE_DISC_PCT_DESC',
+  RussetScarsPctAsc = 'RUSSET_SCARS_PCT_ASC',
+  RussetScarsPctDesc = 'RUSSET_SCARS_PCT_DESC',
+  SunburnPctAsc = 'SUNBURN_PCT_ASC',
+  SunburnPctDesc = 'SUNBURN_PCT_DESC',
+  UndersizedBunchesPctAsc = 'UNDERSIZED_BUNCHES_PCT_ASC',
+  UndersizedBunchesPctDesc = 'UNDERSIZED_BUNCHES_PCT_DESC',
+  OtherDefectsPctAsc = 'OTHER_DEFECTS_PCT_ASC',
+  OtherDefectsPctDesc = 'OTHER_DEFECTS_PCT_DESC',
+  StemDehyPctAsc = 'STEM_DEHY_PCT_ASC',
+  StemDehyPctDesc = 'STEM_DEHY_PCT_DESC',
+  GlassyWeakPctAsc = 'GLASSY_WEAK_PCT_ASC',
+  GlassyWeakPctDesc = 'GLASSY_WEAK_PCT_DESC',
+  DecayPctAsc = 'DECAY_PCT_ASC',
+  DecayPctDesc = 'DECAY_PCT_DESC',
+  SplitCrushedPctAsc = 'SPLIT_CRUSHED_PCT_ASC',
+  SplitCrushedPctDesc = 'SPLIT_CRUSHED_PCT_DESC',
+  DrySplitPctAsc = 'DRY_SPLIT_PCT_ASC',
+  DrySplitPctDesc = 'DRY_SPLIT_PCT_DESC',
+  WetStickyPctAsc = 'WET_STICKY_PCT_ASC',
+  WetStickyPctDesc = 'WET_STICKY_PCT_DESC',
+  WaterberriesPctAsc = 'WATERBERRIES_PCT_ASC',
+  WaterberriesPctDesc = 'WATERBERRIES_PCT_DESC',
+  ShatterPctAsc = 'SHATTER_PCT_ASC',
+  ShatterPctDesc = 'SHATTER_PCT_DESC',
+  TotalQualityDefectsPctAsc = 'TOTAL_QUALITY_DEFECTS_PCT_ASC',
+  TotalQualityDefectsPctDesc = 'TOTAL_QUALITY_DEFECTS_PCT_DESC',
+  TotalConditionDefectsPctAsc = 'TOTAL_CONDITION_DEFECTS_PCT_ASC',
+  TotalConditionDefectsPctDesc = 'TOTAL_CONDITION_DEFECTS_PCT_DESC',
+  QualityScoreAsc = 'QUALITY_SCORE_ASC',
+  QualityScoreDesc = 'QUALITY_SCORE_DESC',
+  ConditionScoreAsc = 'CONDITION_SCORE_ASC',
+  ConditionScoreDesc = 'CONDITION_SCORE_DESC',
+  ScoreNameAsc = 'SCORE_NAME_ASC',
+  ScoreNameDesc = 'SCORE_NAME_DESC',
+  ReportLinkAsc = 'REPORT_LINK_ASC',
+  ReportLinkDesc = 'REPORT_LINK_DESC',
+  ImagesLinkAsc = 'IMAGES_LINK_ASC',
+  ImagesLinkDesc = 'IMAGES_LINK_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
+/**
+ * A condition to be used against `ChileDepartureInspectionPallet` object types.
+ * All fields are tested for equality and combined with a logical ‘and.’
+ */
+export type ChileDepartureInspectionPalletCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `lotId` field. */
+  lotId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `lotNumber` field. */
+  lotNumber?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `locationName` field. */
+  locationName?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `shipper` field. */
+  shipper?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspectionDate` field. */
+  inspectionDate?: Maybe<Scalars['Date']>;
+  /** Checks for equality with the object’s `productName` field. */
+  productName?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `packingType` field. */
+  packingType?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `productType` field. */
+  productType?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `palletCount` field. */
+  palletCount?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `supervisor` field. */
+  supervisor?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `palletNumber` field. */
+  palletNumber?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `boxesCount` field. */
+  boxesCount?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `netWeight` field. */
+  netWeight?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `grower` field. */
+  grower?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `size` field. */
+  size?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `variety` field. */
+  variety?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `packingDate` field. */
+  packingDate?: Maybe<Scalars['Date']>;
+  /** Checks for equality with the object’s `label` field. */
+  label?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `temperature` field. */
+  temperature?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `openAppearance` field. */
+  openAppearance?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `color` field. */
+  color?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `stem` field. */
+  stem?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `texture` field. */
+  texture?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `bunchesCount` field. */
+  bunchesCount?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `brix` field. */
+  brix?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `diameterMin` field. */
+  diameterMin?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `diameterMax` field. */
+  diameterMax?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `stragglyTightPct` field. */
+  stragglyTightPct?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `surfaceDiscPct` field. */
+  surfaceDiscPct?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `russetScarsPct` field. */
+  russetScarsPct?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `sunburnPct` field. */
+  sunburnPct?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `undersizedBunchesPct` field. */
+  undersizedBunchesPct?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `otherDefectsPct` field. */
+  otherDefectsPct?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `stemDehyPct` field. */
+  stemDehyPct?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `glassyWeakPct` field. */
+  glassyWeakPct?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `decayPct` field. */
+  decayPct?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `splitCrushedPct` field. */
+  splitCrushedPct?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `drySplitPct` field. */
+  drySplitPct?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `wetStickyPct` field. */
+  wetStickyPct?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `waterberriesPct` field. */
+  waterberriesPct?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `shatterPct` field. */
+  shatterPct?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `totalQualityDefectsPct` field. */
+  totalQualityDefectsPct?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `totalConditionDefectsPct` field. */
+  totalConditionDefectsPct?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `qualityScore` field. */
+  qualityScore?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `conditionScore` field. */
+  conditionScore?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `scoreName` field. */
+  scoreName?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `reportLink` field. */
+  reportLink?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `imagesLink` field. */
+  imagesLink?: Maybe<Scalars['String']>;
+};
+
+/** A filter to be used against `ChileDepartureInspectionPallet` object types. All fields are combined with a logical ‘and.’ */
+export type ChileDepartureInspectionPalletFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<StringFilter>;
+  /** Filter by the object’s `lotId` field. */
+  lotId?: Maybe<StringFilter>;
+  /** Filter by the object’s `lotNumber` field. */
+  lotNumber?: Maybe<StringFilter>;
+  /** Filter by the object’s `locationName` field. */
+  locationName?: Maybe<StringFilter>;
+  /** Filter by the object’s `shipper` field. */
+  shipper?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspectionDate` field. */
+  inspectionDate?: Maybe<DateFilter>;
+  /** Filter by the object’s `productName` field. */
+  productName?: Maybe<StringFilter>;
+  /** Filter by the object’s `packingType` field. */
+  packingType?: Maybe<StringFilter>;
+  /** Filter by the object’s `productType` field. */
+  productType?: Maybe<StringFilter>;
+  /** Filter by the object’s `palletCount` field. */
+  palletCount?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `supervisor` field. */
+  supervisor?: Maybe<StringFilter>;
+  /** Filter by the object’s `palletNumber` field. */
+  palletNumber?: Maybe<StringFilter>;
+  /** Filter by the object’s `boxesCount` field. */
+  boxesCount?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `netWeight` field. */
+  netWeight?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `grower` field. */
+  grower?: Maybe<StringFilter>;
+  /** Filter by the object’s `size` field. */
+  size?: Maybe<StringFilter>;
+  /** Filter by the object’s `variety` field. */
+  variety?: Maybe<StringFilter>;
+  /** Filter by the object’s `packingDate` field. */
+  packingDate?: Maybe<DateFilter>;
+  /** Filter by the object’s `label` field. */
+  label?: Maybe<StringFilter>;
+  /** Filter by the object’s `temperature` field. */
+  temperature?: Maybe<StringFilter>;
+  /** Filter by the object’s `openAppearance` field. */
+  openAppearance?: Maybe<StringFilter>;
+  /** Filter by the object’s `color` field. */
+  color?: Maybe<StringFilter>;
+  /** Filter by the object’s `stem` field. */
+  stem?: Maybe<StringFilter>;
+  /** Filter by the object’s `texture` field. */
+  texture?: Maybe<StringFilter>;
+  /** Filter by the object’s `bunchesCount` field. */
+  bunchesCount?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `brix` field. */
+  brix?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `diameterMin` field. */
+  diameterMin?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `diameterMax` field. */
+  diameterMax?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `stragglyTightPct` field. */
+  stragglyTightPct?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `surfaceDiscPct` field. */
+  surfaceDiscPct?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `russetScarsPct` field. */
+  russetScarsPct?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `sunburnPct` field. */
+  sunburnPct?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `undersizedBunchesPct` field. */
+  undersizedBunchesPct?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `otherDefectsPct` field. */
+  otherDefectsPct?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `stemDehyPct` field. */
+  stemDehyPct?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `glassyWeakPct` field. */
+  glassyWeakPct?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `decayPct` field. */
+  decayPct?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `splitCrushedPct` field. */
+  splitCrushedPct?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `drySplitPct` field. */
+  drySplitPct?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `wetStickyPct` field. */
+  wetStickyPct?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `waterberriesPct` field. */
+  waterberriesPct?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `shatterPct` field. */
+  shatterPct?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `totalQualityDefectsPct` field. */
+  totalQualityDefectsPct?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `totalConditionDefectsPct` field. */
+  totalConditionDefectsPct?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `qualityScore` field. */
+  qualityScore?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `conditionScore` field. */
+  conditionScore?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `scoreName` field. */
+  scoreName?: Maybe<StringFilter>;
+  /** Filter by the object’s `reportLink` field. */
+  reportLink?: Maybe<StringFilter>;
+  /** Filter by the object’s `imagesLink` field. */
+  imagesLink?: Maybe<StringFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<ChileDepartureInspectionPalletFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<ChileDepartureInspectionPalletFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<ChileDepartureInspectionPalletFilter>;
+};
+
+/** A connection to a list of `PeruDepartureInspection` values. */
+export type PeruDepartureInspectionsConnection = {
+  __typename?: 'PeruDepartureInspectionsConnection';
+  /** A list of `PeruDepartureInspection` objects. */
+  nodes: Array<Maybe<PeruDepartureInspection>>;
+  /** A list of edges which contains the `PeruDepartureInspection` and cursor to aid in pagination. */
+  edges: Array<PeruDepartureInspectionsEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `PeruDepartureInspection` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+export type PeruDepartureInspection = Node & {
+  __typename?: 'PeruDepartureInspection';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  containerId: Scalars['String'];
+  avgBunchesPerBox: Scalars['BigFloat'];
+  avgNetWeight: Scalars['BigFloat'];
+  bagsPerBox: Scalars['BigFloat'];
+  bagType?: Maybe<Scalars['String']>;
+  brand: Scalars['String'];
+  brixAvg: Scalars['BigFloat'];
+  brixMax: Scalars['BigFloat'];
+  brixMin: Scalars['BigFloat'];
+  category: Scalars['String'];
+  comments: Scalars['String'];
+  conditionScore: Scalars['BigFloat'];
+  departureWeek: Scalars['String'];
+  destination: Scalars['String'];
+  exporter: Scalars['String'];
+  inspectionDate: Scalars['Date'];
+  packingDate: Scalars['Date'];
+  packingHouse: Scalars['String'];
+  packingMaterial: Scalars['String'];
+  presentation: Scalars['String'];
+  qualityScore: Scalars['BigFloat'];
+  variety: Scalars['String'];
+  /** Reads and enables pagination through a set of `PeruDepartureInspectionPallet`. */
+  peruDepartureInspectionPalletsByContainerId: PeruDepartureInspectionPalletsConnection;
+  searchText?: Maybe<Scalars['String']>;
+  imageUrls?: Maybe<Array<Scalars['String']>>;
+};
+
+
+export type PeruDepartureInspectionPeruDepartureInspectionPalletsByContainerIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<PeruDepartureInspectionPalletsOrderBy>>;
+  condition?: Maybe<PeruDepartureInspectionPalletCondition>;
+  filter?: Maybe<PeruDepartureInspectionPalletFilter>;
+};
+
+/** A connection to a list of `PeruDepartureInspectionPallet` values. */
+export type PeruDepartureInspectionPalletsConnection = {
+  __typename?: 'PeruDepartureInspectionPalletsConnection';
+  /** A list of `PeruDepartureInspectionPallet` objects. */
+  nodes: Array<Maybe<PeruDepartureInspectionPallet>>;
+  /** A list of edges which contains the `PeruDepartureInspectionPallet` and cursor to aid in pagination. */
+  edges: Array<PeruDepartureInspectionPalletsEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `PeruDepartureInspectionPallet` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+export type PeruDepartureInspectionPallet = Node & {
+  __typename?: 'PeruDepartureInspectionPallet';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  palletId: Scalars['String'];
+  containerId: Scalars['String'];
+  size: Scalars['String'];
+  netWeight: Scalars['BigFloat'];
+  openingScore: Scalars['BigFloat'];
+  colorScore: Scalars['BigFloat'];
+  stemScore: Scalars['BigFloat'];
+  textureScore: Scalars['BigFloat'];
+  bunchesPerBox: Scalars['BigFloat'];
+  brix: Scalars['BigFloat'];
+  qualityScore: Scalars['BigFloat'];
+  conditionScore: Scalars['BigFloat'];
+  stragglyTightPct: Scalars['BigFloat'];
+  surfaceDiscPct: Scalars['BigFloat'];
+  russetScarsPct: Scalars['BigFloat'];
+  sunburnPct: Scalars['BigFloat'];
+  undersizedBunchesPct: Scalars['BigFloat'];
+  otherDefectsPct: Scalars['BigFloat'];
+  totalQualityDefectsPct: Scalars['BigFloat'];
+  stemDehyPct: Scalars['BigFloat'];
+  glassyWeakPct: Scalars['BigFloat'];
+  decayPct: Scalars['BigFloat'];
+  splitCrushedPct: Scalars['BigFloat'];
+  drySplitPct: Scalars['BigFloat'];
+  wetStickyPct: Scalars['BigFloat'];
+  waterberriesPct: Scalars['BigFloat'];
+  shatterPct: Scalars['BigFloat'];
+  totalConditionDefectsPct: Scalars['BigFloat'];
+  totalDefectsPct: Scalars['BigFloat'];
+  /** Reads a single `PeruDepartureInspection` that is related to this `PeruDepartureInspectionPallet`. */
+  container?: Maybe<PeruDepartureInspection>;
+};
+
+/** A `PeruDepartureInspectionPallet` edge in the connection. */
+export type PeruDepartureInspectionPalletsEdge = {
+  __typename?: 'PeruDepartureInspectionPalletsEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `PeruDepartureInspectionPallet` at the end of the edge. */
+  node?: Maybe<PeruDepartureInspectionPallet>;
+};
+
+/** Methods to use when ordering `PeruDepartureInspectionPallet`. */
+export enum PeruDepartureInspectionPalletsOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  PalletIdAsc = 'PALLET_ID_ASC',
+  PalletIdDesc = 'PALLET_ID_DESC',
+  ContainerIdAsc = 'CONTAINER_ID_ASC',
+  ContainerIdDesc = 'CONTAINER_ID_DESC',
+  SizeAsc = 'SIZE_ASC',
+  SizeDesc = 'SIZE_DESC',
+  NetWeightAsc = 'NET_WEIGHT_ASC',
+  NetWeightDesc = 'NET_WEIGHT_DESC',
+  OpeningScoreAsc = 'OPENING_SCORE_ASC',
+  OpeningScoreDesc = 'OPENING_SCORE_DESC',
+  ColorScoreAsc = 'COLOR_SCORE_ASC',
+  ColorScoreDesc = 'COLOR_SCORE_DESC',
+  StemScoreAsc = 'STEM_SCORE_ASC',
+  StemScoreDesc = 'STEM_SCORE_DESC',
+  TextureScoreAsc = 'TEXTURE_SCORE_ASC',
+  TextureScoreDesc = 'TEXTURE_SCORE_DESC',
+  BunchesPerBoxAsc = 'BUNCHES_PER_BOX_ASC',
+  BunchesPerBoxDesc = 'BUNCHES_PER_BOX_DESC',
+  BrixAsc = 'BRIX_ASC',
+  BrixDesc = 'BRIX_DESC',
+  QualityScoreAsc = 'QUALITY_SCORE_ASC',
+  QualityScoreDesc = 'QUALITY_SCORE_DESC',
+  ConditionScoreAsc = 'CONDITION_SCORE_ASC',
+  ConditionScoreDesc = 'CONDITION_SCORE_DESC',
+  StragglyTightPctAsc = 'STRAGGLY_TIGHT_PCT_ASC',
+  StragglyTightPctDesc = 'STRAGGLY_TIGHT_PCT_DESC',
+  SurfaceDiscPctAsc = 'SURFACE_DISC_PCT_ASC',
+  SurfaceDiscPctDesc = 'SURFACE_DISC_PCT_DESC',
+  RussetScarsPctAsc = 'RUSSET_SCARS_PCT_ASC',
+  RussetScarsPctDesc = 'RUSSET_SCARS_PCT_DESC',
+  SunburnPctAsc = 'SUNBURN_PCT_ASC',
+  SunburnPctDesc = 'SUNBURN_PCT_DESC',
+  UndersizedBunchesPctAsc = 'UNDERSIZED_BUNCHES_PCT_ASC',
+  UndersizedBunchesPctDesc = 'UNDERSIZED_BUNCHES_PCT_DESC',
+  OtherDefectsPctAsc = 'OTHER_DEFECTS_PCT_ASC',
+  OtherDefectsPctDesc = 'OTHER_DEFECTS_PCT_DESC',
+  TotalQualityDefectsPctAsc = 'TOTAL_QUALITY_DEFECTS_PCT_ASC',
+  TotalQualityDefectsPctDesc = 'TOTAL_QUALITY_DEFECTS_PCT_DESC',
+  StemDehyPctAsc = 'STEM_DEHY_PCT_ASC',
+  StemDehyPctDesc = 'STEM_DEHY_PCT_DESC',
+  GlassyWeakPctAsc = 'GLASSY_WEAK_PCT_ASC',
+  GlassyWeakPctDesc = 'GLASSY_WEAK_PCT_DESC',
+  DecayPctAsc = 'DECAY_PCT_ASC',
+  DecayPctDesc = 'DECAY_PCT_DESC',
+  SplitCrushedPctAsc = 'SPLIT_CRUSHED_PCT_ASC',
+  SplitCrushedPctDesc = 'SPLIT_CRUSHED_PCT_DESC',
+  DrySplitPctAsc = 'DRY_SPLIT_PCT_ASC',
+  DrySplitPctDesc = 'DRY_SPLIT_PCT_DESC',
+  WetStickyPctAsc = 'WET_STICKY_PCT_ASC',
+  WetStickyPctDesc = 'WET_STICKY_PCT_DESC',
+  WaterberriesPctAsc = 'WATERBERRIES_PCT_ASC',
+  WaterberriesPctDesc = 'WATERBERRIES_PCT_DESC',
+  ShatterPctAsc = 'SHATTER_PCT_ASC',
+  ShatterPctDesc = 'SHATTER_PCT_DESC',
+  TotalConditionDefectsPctAsc = 'TOTAL_CONDITION_DEFECTS_PCT_ASC',
+  TotalConditionDefectsPctDesc = 'TOTAL_CONDITION_DEFECTS_PCT_DESC',
+  TotalDefectsPctAsc = 'TOTAL_DEFECTS_PCT_ASC',
+  TotalDefectsPctDesc = 'TOTAL_DEFECTS_PCT_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  PeruDepartureInspectionByContainerIdContainerIdAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__CONTAINER_ID_ASC',
+  PeruDepartureInspectionByContainerIdContainerIdDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__CONTAINER_ID_DESC',
+  PeruDepartureInspectionByContainerIdAvgBunchesPerBoxAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__AVG_BUNCHES_PER_BOX_ASC',
+  PeruDepartureInspectionByContainerIdAvgBunchesPerBoxDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__AVG_BUNCHES_PER_BOX_DESC',
+  PeruDepartureInspectionByContainerIdAvgNetWeightAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__AVG_NET_WEIGHT_ASC',
+  PeruDepartureInspectionByContainerIdAvgNetWeightDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__AVG_NET_WEIGHT_DESC',
+  PeruDepartureInspectionByContainerIdBagsPerBoxAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__BAGS_PER_BOX_ASC',
+  PeruDepartureInspectionByContainerIdBagsPerBoxDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__BAGS_PER_BOX_DESC',
+  PeruDepartureInspectionByContainerIdBagTypeAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__BAG_TYPE_ASC',
+  PeruDepartureInspectionByContainerIdBagTypeDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__BAG_TYPE_DESC',
+  PeruDepartureInspectionByContainerIdBrandAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__BRAND_ASC',
+  PeruDepartureInspectionByContainerIdBrandDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__BRAND_DESC',
+  PeruDepartureInspectionByContainerIdBrixAvgAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__BRIX_AVG_ASC',
+  PeruDepartureInspectionByContainerIdBrixAvgDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__BRIX_AVG_DESC',
+  PeruDepartureInspectionByContainerIdBrixMaxAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__BRIX_MAX_ASC',
+  PeruDepartureInspectionByContainerIdBrixMaxDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__BRIX_MAX_DESC',
+  PeruDepartureInspectionByContainerIdBrixMinAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__BRIX_MIN_ASC',
+  PeruDepartureInspectionByContainerIdBrixMinDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__BRIX_MIN_DESC',
+  PeruDepartureInspectionByContainerIdCategoryAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__CATEGORY_ASC',
+  PeruDepartureInspectionByContainerIdCategoryDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__CATEGORY_DESC',
+  PeruDepartureInspectionByContainerIdCommentsAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__COMMENTS_ASC',
+  PeruDepartureInspectionByContainerIdCommentsDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__COMMENTS_DESC',
+  PeruDepartureInspectionByContainerIdConditionScoreAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__CONDITION_SCORE_ASC',
+  PeruDepartureInspectionByContainerIdConditionScoreDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__CONDITION_SCORE_DESC',
+  PeruDepartureInspectionByContainerIdDepartureWeekAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__DEPARTURE_WEEK_ASC',
+  PeruDepartureInspectionByContainerIdDepartureWeekDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__DEPARTURE_WEEK_DESC',
+  PeruDepartureInspectionByContainerIdDestinationAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__DESTINATION_ASC',
+  PeruDepartureInspectionByContainerIdDestinationDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__DESTINATION_DESC',
+  PeruDepartureInspectionByContainerIdExporterAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__EXPORTER_ASC',
+  PeruDepartureInspectionByContainerIdExporterDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__EXPORTER_DESC',
+  PeruDepartureInspectionByContainerIdInspectionDateAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__INSPECTION_DATE_ASC',
+  PeruDepartureInspectionByContainerIdInspectionDateDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__INSPECTION_DATE_DESC',
+  PeruDepartureInspectionByContainerIdPackingDateAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__PACKING_DATE_ASC',
+  PeruDepartureInspectionByContainerIdPackingDateDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__PACKING_DATE_DESC',
+  PeruDepartureInspectionByContainerIdPackingHouseAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__PACKING_HOUSE_ASC',
+  PeruDepartureInspectionByContainerIdPackingHouseDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__PACKING_HOUSE_DESC',
+  PeruDepartureInspectionByContainerIdPackingMaterialAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__PACKING_MATERIAL_ASC',
+  PeruDepartureInspectionByContainerIdPackingMaterialDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__PACKING_MATERIAL_DESC',
+  PeruDepartureInspectionByContainerIdPresentationAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__PRESENTATION_ASC',
+  PeruDepartureInspectionByContainerIdPresentationDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__PRESENTATION_DESC',
+  PeruDepartureInspectionByContainerIdQualityScoreAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__QUALITY_SCORE_ASC',
+  PeruDepartureInspectionByContainerIdQualityScoreDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__QUALITY_SCORE_DESC',
+  PeruDepartureInspectionByContainerIdVarietyAsc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__VARIETY_ASC',
+  PeruDepartureInspectionByContainerIdVarietyDesc = 'PERU_DEPARTURE_INSPECTION_BY_CONTAINER_ID__VARIETY_DESC'
+}
+
+/**
+ * A condition to be used against `PeruDepartureInspectionPallet` object types. All
+ * fields are tested for equality and combined with a logical ‘and.’
+ */
+export type PeruDepartureInspectionPalletCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `palletId` field. */
+  palletId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `containerId` field. */
+  containerId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `size` field. */
+  size?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `netWeight` field. */
+  netWeight?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `openingScore` field. */
+  openingScore?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `colorScore` field. */
+  colorScore?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `stemScore` field. */
+  stemScore?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `textureScore` field. */
+  textureScore?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `bunchesPerBox` field. */
+  bunchesPerBox?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `brix` field. */
+  brix?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `qualityScore` field. */
+  qualityScore?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `conditionScore` field. */
+  conditionScore?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `stragglyTightPct` field. */
+  stragglyTightPct?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `surfaceDiscPct` field. */
+  surfaceDiscPct?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `russetScarsPct` field. */
+  russetScarsPct?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `sunburnPct` field. */
+  sunburnPct?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `undersizedBunchesPct` field. */
+  undersizedBunchesPct?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `otherDefectsPct` field. */
+  otherDefectsPct?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `totalQualityDefectsPct` field. */
+  totalQualityDefectsPct?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `stemDehyPct` field. */
+  stemDehyPct?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `glassyWeakPct` field. */
+  glassyWeakPct?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `decayPct` field. */
+  decayPct?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `splitCrushedPct` field. */
+  splitCrushedPct?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `drySplitPct` field. */
+  drySplitPct?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `wetStickyPct` field. */
+  wetStickyPct?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `waterberriesPct` field. */
+  waterberriesPct?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `shatterPct` field. */
+  shatterPct?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `totalConditionDefectsPct` field. */
+  totalConditionDefectsPct?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `totalDefectsPct` field. */
+  totalDefectsPct?: Maybe<Scalars['BigFloat']>;
+};
+
+/** A filter to be used against `PeruDepartureInspectionPallet` object types. All fields are combined with a logical ‘and.’ */
+export type PeruDepartureInspectionPalletFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `palletId` field. */
+  palletId?: Maybe<StringFilter>;
+  /** Filter by the object’s `containerId` field. */
+  containerId?: Maybe<StringFilter>;
+  /** Filter by the object’s `size` field. */
+  size?: Maybe<StringFilter>;
+  /** Filter by the object’s `netWeight` field. */
+  netWeight?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `openingScore` field. */
+  openingScore?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `colorScore` field. */
+  colorScore?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `stemScore` field. */
+  stemScore?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `textureScore` field. */
+  textureScore?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `bunchesPerBox` field. */
+  bunchesPerBox?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `brix` field. */
+  brix?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `qualityScore` field. */
+  qualityScore?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `conditionScore` field. */
+  conditionScore?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `stragglyTightPct` field. */
+  stragglyTightPct?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `surfaceDiscPct` field. */
+  surfaceDiscPct?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `russetScarsPct` field. */
+  russetScarsPct?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `sunburnPct` field. */
+  sunburnPct?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `undersizedBunchesPct` field. */
+  undersizedBunchesPct?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `otherDefectsPct` field. */
+  otherDefectsPct?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `totalQualityDefectsPct` field. */
+  totalQualityDefectsPct?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `stemDehyPct` field. */
+  stemDehyPct?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `glassyWeakPct` field. */
+  glassyWeakPct?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `decayPct` field. */
+  decayPct?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `splitCrushedPct` field. */
+  splitCrushedPct?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `drySplitPct` field. */
+  drySplitPct?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `wetStickyPct` field. */
+  wetStickyPct?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `waterberriesPct` field. */
+  waterberriesPct?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `shatterPct` field. */
+  shatterPct?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `totalConditionDefectsPct` field. */
+  totalConditionDefectsPct?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `totalDefectsPct` field. */
+  totalDefectsPct?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `container` relation. */
+  container?: Maybe<PeruDepartureInspectionFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<PeruDepartureInspectionPalletFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<PeruDepartureInspectionPalletFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<PeruDepartureInspectionPalletFilter>;
+};
+
+/** A filter to be used against `PeruDepartureInspection` object types. All fields are combined with a logical ‘and.’ */
+export type PeruDepartureInspectionFilter = {
+  /** Filter by the object’s `containerId` field. */
+  containerId?: Maybe<StringFilter>;
+  /** Filter by the object’s `avgBunchesPerBox` field. */
+  avgBunchesPerBox?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `avgNetWeight` field. */
+  avgNetWeight?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `bagsPerBox` field. */
+  bagsPerBox?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `bagType` field. */
+  bagType?: Maybe<StringFilter>;
+  /** Filter by the object’s `brand` field. */
+  brand?: Maybe<StringFilter>;
+  /** Filter by the object’s `brixAvg` field. */
+  brixAvg?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `brixMax` field. */
+  brixMax?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `brixMin` field. */
+  brixMin?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `category` field. */
+  category?: Maybe<StringFilter>;
+  /** Filter by the object’s `comments` field. */
+  comments?: Maybe<StringFilter>;
+  /** Filter by the object’s `conditionScore` field. */
+  conditionScore?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `departureWeek` field. */
+  departureWeek?: Maybe<StringFilter>;
+  /** Filter by the object’s `destination` field. */
+  destination?: Maybe<StringFilter>;
+  /** Filter by the object’s `exporter` field. */
+  exporter?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspectionDate` field. */
+  inspectionDate?: Maybe<DateFilter>;
+  /** Filter by the object’s `packingDate` field. */
+  packingDate?: Maybe<DateFilter>;
+  /** Filter by the object’s `packingHouse` field. */
+  packingHouse?: Maybe<StringFilter>;
+  /** Filter by the object’s `packingMaterial` field. */
+  packingMaterial?: Maybe<StringFilter>;
+  /** Filter by the object’s `presentation` field. */
+  presentation?: Maybe<StringFilter>;
+  /** Filter by the object’s `qualityScore` field. */
+  qualityScore?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `variety` field. */
+  variety?: Maybe<StringFilter>;
+  /** Filter by the object’s `searchText` field. */
+  searchText?: Maybe<StringFilter>;
+  /** Filter by the object’s `peruDepartureInspectionPalletsByContainerId` relation. */
+  peruDepartureInspectionPalletsByContainerId?: Maybe<PeruDepartureInspectionToManyPeruDepartureInspectionPalletFilter>;
+  /** Some related `peruDepartureInspectionPalletsByContainerId` exist. */
+  peruDepartureInspectionPalletsByContainerIdExist?: Maybe<Scalars['Boolean']>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<PeruDepartureInspectionFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<PeruDepartureInspectionFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<PeruDepartureInspectionFilter>;
+};
+
+/** A filter to be used against many `PeruDepartureInspectionPallet` object types. All fields are combined with a logical ‘and.’ */
+export type PeruDepartureInspectionToManyPeruDepartureInspectionPalletFilter = {
+  /** Every related `PeruDepartureInspectionPallet` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<PeruDepartureInspectionPalletFilter>;
+  /** Some related `PeruDepartureInspectionPallet` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<PeruDepartureInspectionPalletFilter>;
+  /** No related `PeruDepartureInspectionPallet` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<PeruDepartureInspectionPalletFilter>;
+};
+
+/** A `PeruDepartureInspection` edge in the connection. */
+export type PeruDepartureInspectionsEdge = {
+  __typename?: 'PeruDepartureInspectionsEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `PeruDepartureInspection` at the end of the edge. */
+  node?: Maybe<PeruDepartureInspection>;
+};
+
+/** Methods to use when ordering `PeruDepartureInspection`. */
+export enum PeruDepartureInspectionsOrderBy {
+  Natural = 'NATURAL',
+  ContainerIdAsc = 'CONTAINER_ID_ASC',
+  ContainerIdDesc = 'CONTAINER_ID_DESC',
+  AvgBunchesPerBoxAsc = 'AVG_BUNCHES_PER_BOX_ASC',
+  AvgBunchesPerBoxDesc = 'AVG_BUNCHES_PER_BOX_DESC',
+  AvgNetWeightAsc = 'AVG_NET_WEIGHT_ASC',
+  AvgNetWeightDesc = 'AVG_NET_WEIGHT_DESC',
+  BagsPerBoxAsc = 'BAGS_PER_BOX_ASC',
+  BagsPerBoxDesc = 'BAGS_PER_BOX_DESC',
+  BagTypeAsc = 'BAG_TYPE_ASC',
+  BagTypeDesc = 'BAG_TYPE_DESC',
+  BrandAsc = 'BRAND_ASC',
+  BrandDesc = 'BRAND_DESC',
+  BrixAvgAsc = 'BRIX_AVG_ASC',
+  BrixAvgDesc = 'BRIX_AVG_DESC',
+  BrixMaxAsc = 'BRIX_MAX_ASC',
+  BrixMaxDesc = 'BRIX_MAX_DESC',
+  BrixMinAsc = 'BRIX_MIN_ASC',
+  BrixMinDesc = 'BRIX_MIN_DESC',
+  CategoryAsc = 'CATEGORY_ASC',
+  CategoryDesc = 'CATEGORY_DESC',
+  CommentsAsc = 'COMMENTS_ASC',
+  CommentsDesc = 'COMMENTS_DESC',
+  ConditionScoreAsc = 'CONDITION_SCORE_ASC',
+  ConditionScoreDesc = 'CONDITION_SCORE_DESC',
+  DepartureWeekAsc = 'DEPARTURE_WEEK_ASC',
+  DepartureWeekDesc = 'DEPARTURE_WEEK_DESC',
+  DestinationAsc = 'DESTINATION_ASC',
+  DestinationDesc = 'DESTINATION_DESC',
+  ExporterAsc = 'EXPORTER_ASC',
+  ExporterDesc = 'EXPORTER_DESC',
+  InspectionDateAsc = 'INSPECTION_DATE_ASC',
+  InspectionDateDesc = 'INSPECTION_DATE_DESC',
+  PackingDateAsc = 'PACKING_DATE_ASC',
+  PackingDateDesc = 'PACKING_DATE_DESC',
+  PackingHouseAsc = 'PACKING_HOUSE_ASC',
+  PackingHouseDesc = 'PACKING_HOUSE_DESC',
+  PackingMaterialAsc = 'PACKING_MATERIAL_ASC',
+  PackingMaterialDesc = 'PACKING_MATERIAL_DESC',
+  PresentationAsc = 'PRESENTATION_ASC',
+  PresentationDesc = 'PRESENTATION_DESC',
+  QualityScoreAsc = 'QUALITY_SCORE_ASC',
+  QualityScoreDesc = 'QUALITY_SCORE_DESC',
+  VarietyAsc = 'VARIETY_ASC',
+  VarietyDesc = 'VARIETY_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  PeruDepartureInspectionPalletsByContainerIdCountAsc = 'PERU_DEPARTURE_INSPECTION_PALLETS_BY_CONTAINER_ID__COUNT_ASC',
+  PeruDepartureInspectionPalletsByContainerIdCountDesc = 'PERU_DEPARTURE_INSPECTION_PALLETS_BY_CONTAINER_ID__COUNT_DESC'
+}
+
+/**
+ * A condition to be used against `PeruDepartureInspection` object types. All
+ * fields are tested for equality and combined with a logical ‘and.’
+ */
+export type PeruDepartureInspectionCondition = {
+  /** Checks for equality with the object’s `containerId` field. */
+  containerId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `avgBunchesPerBox` field. */
+  avgBunchesPerBox?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `avgNetWeight` field. */
+  avgNetWeight?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `bagsPerBox` field. */
+  bagsPerBox?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `bagType` field. */
+  bagType?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `brand` field. */
+  brand?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `brixAvg` field. */
+  brixAvg?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `brixMax` field. */
+  brixMax?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `brixMin` field. */
+  brixMin?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `category` field. */
+  category?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `comments` field. */
+  comments?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `conditionScore` field. */
+  conditionScore?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `departureWeek` field. */
+  departureWeek?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `destination` field. */
+  destination?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `exporter` field. */
+  exporter?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspectionDate` field. */
+  inspectionDate?: Maybe<Scalars['Date']>;
+  /** Checks for equality with the object’s `packingDate` field. */
+  packingDate?: Maybe<Scalars['Date']>;
+  /** Checks for equality with the object’s `packingHouse` field. */
+  packingHouse?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `packingMaterial` field. */
+  packingMaterial?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `presentation` field. */
+  presentation?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `qualityScore` field. */
+  qualityScore?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `variety` field. */
+  variety?: Maybe<Scalars['String']>;
+};
+
+/**
+ * A condition to be used against `PsaApplePallet` object types. All fields are
+ * tested for equality and combined with a logical ‘and.’
+ */
+export type PsaApplePalletCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `location` field. */
+  location?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `arrival` field. */
+  arrival?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `importerName` field. */
+  importerName?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `exporterName` field. */
+  exporterName?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `commodity` field. */
+  commodity?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `productCode` field. */
+  productCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `variety` field. */
+  variety?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspDate` field. */
+  inspDate?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `quantity` field. */
+  quantity?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `hatch` field. */
+  hatch?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `deck` field. */
+  deck?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `containerId` field. */
+  containerId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `fumigation` field. */
+  fumigation?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `labelCode` field. */
+  labelCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspLocation` field. */
+  inspLocation?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `importerCode` field. */
+  importerCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `lotCode` field. */
+  lotCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspLot` field. */
+  inspLot?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `runNumber` field. */
+  runNumber?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `palletId` field. */
+  palletId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `growerCode` field. */
+  growerCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspGrowerCode` field. */
+  inspGrowerCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `packDate` field. */
+  packDate?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspPackDate` field. */
+  inspPackDate?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `size` field. */
+  size?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspSize` field. */
+  inspSize?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `packCode` field. */
+  packCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `packDescription` field. */
+  packDescription?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `secondaryDescription` field. */
+  secondaryDescription?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspPackCode` field. */
+  inspPackCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `grade` field. */
+  grade?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspGrade` field. */
+  inspGrade?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `count` field. */
+  count?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `plu` field. */
+  plu?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pluPct` field. */
+  pluPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `countryOfOrigin` field. */
+  countryOfOrigin?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `upc` field. */
+  upc?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `weight` field. */
+  weight?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `underweightMin` field. */
+  underweightMin?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `underweightMax` field. */
+  underweightMax?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `weighedUnits` field. */
+  weighedUnits?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `underweightUnits` field. */
+  underweightUnits?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `underweightPct` field. */
+  underweightPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pulpTemp` field. */
+  pulpTemp?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `opening` field. */
+  opening?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `groundColor` field. */
+  groundColor?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `blushColor` field. */
+  blushColor?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `blushPct` field. */
+  blushPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `scarsPieces` field. */
+  scarsPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `scarsPct` field. */
+  scarsPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `scarsDeg` field. */
+  scarsDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `stemPuncturesPieces` field. */
+  stemPuncturesPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `stemPuncturesPct` field. */
+  stemPuncturesPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `cutsPieces` field. */
+  cutsPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `cutsPct` field. */
+  cutsPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `cutsDeg` field. */
+  cutsDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `sunScaldPieces` field. */
+  sunScaldPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `sunScaldPct` field. */
+  sunScaldPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `sunScaldDeg` field. */
+  sunScaldDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `scaldPieces` field. */
+  scaldPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `scaldPct` field. */
+  scaldPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `scaldDeg` field. */
+  scaldDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `bruisingPieces` field. */
+  bruisingPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `bruisingPct` field. */
+  bruisingPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `bruisingDeg` field. */
+  bruisingDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `crackingPieces` field. */
+  crackingPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `crackingPct` field. */
+  crackingPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `bitterPitPieces` field. */
+  bitterPitPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `bitterPitPct` field. */
+  bitterPitPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `bitterPitDeg` field. */
+  bitterPitDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `lenticelBreakdownPieces` field. */
+  lenticelBreakdownPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `lenticelBreakdownPct` field. */
+  lenticelBreakdownPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `lenticelBreakdownDeg` field. */
+  lenticelBreakdownDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `dehydrationPieces` field. */
+  dehydrationPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `dehydrationPct` field. */
+  dehydrationPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `dehydrationDeg` field. */
+  dehydrationDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `cutCount` field. */
+  cutCount?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `watercorePieces` field. */
+  watercorePieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `watercorePct` field. */
+  watercorePct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `internalDamagePieces` field. */
+  internalDamagePieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `internalDamagePer` field. */
+  internalDamagePer?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `decayPieces` field. */
+  decayPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `decayPct` field. */
+  decayPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `decayDeg` field. */
+  decayDeg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `moldPieces` field. */
+  moldPieces?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `moldPct` field. */
+  moldPct?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pressure1` field. */
+  pressure1?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pressure2` field. */
+  pressure2?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pressure3` field. */
+  pressure3?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pressure4` field. */
+  pressure4?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pressure5` field. */
+  pressure5?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pressure6` field. */
+  pressure6?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pressuresMin` field. */
+  pressuresMin?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pressuresMax` field. */
+  pressuresMax?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `pressuresAvg` field. */
+  pressuresAvg?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `overallQuality` field. */
+  overallQuality?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `overallCondition` field. */
+  overallCondition?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `comment1` field. */
+  comment1?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `comment2` field. */
+  comment2?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inspectionType` field. */
+  inspectionType?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `shortInsp` field. */
+  shortInsp?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `fixedWeight` field. */
+  fixedWeight?: Maybe<Scalars['String']>;
+};
+
+/** Methods to use when ordering `PsaArrivalPicture`. */
+export enum PsaArrivalPicturesOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  PictureDateAsc = 'PICTURE_DATE_ASC',
+  PictureDateDesc = 'PICTURE_DATE_DESC',
+  ArrivalCodeAsc = 'ARRIVAL_CODE_ASC',
+  ArrivalCodeDesc = 'ARRIVAL_CODE_DESC',
+  PictureDescriptionAsc = 'PICTURE_DESCRIPTION_ASC',
+  PictureDescriptionDesc = 'PICTURE_DESCRIPTION_DESC',
+  ExporterIdAsc = 'EXPORTER_ID_ASC',
+  ExporterIdDesc = 'EXPORTER_ID_DESC',
+  PalletIdAsc = 'PALLET_ID_ASC',
+  PalletIdDesc = 'PALLET_ID_DESC',
+  ProductCodeAsc = 'PRODUCT_CODE_ASC',
+  ProductCodeDesc = 'PRODUCT_CODE_DESC',
+  VarietyNameAsc = 'VARIETY_NAME_ASC',
+  VarietyNameDesc = 'VARIETY_NAME_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
+/** A connection to a list of `PsaArrivalReport` values. */
+export type PsaArrivalReportsConnection = {
+  __typename?: 'PsaArrivalReportsConnection';
+  /** A list of `PsaArrivalReport` objects. */
+  nodes: Array<Maybe<PsaArrivalReport>>;
+  /** A list of edges which contains the `PsaArrivalReport` and cursor to aid in pagination. */
+  edges: Array<PsaArrivalReportsEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `PsaArrivalReport` you could get from the connection. */
+  totalCount: Scalars['Int'];
 };
 
 /** A `PsaArrivalReport` edge in the connection. */

@@ -60,6 +60,9 @@ query PALLET_DETAILS($id: BigInt!) {
         varietyDescription
       }
     }
+    psaArrivalReport {
+      id
+    }
     receivedBoxQuantity
     returnedBoxQuantity
     room

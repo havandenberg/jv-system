@@ -138,17 +138,27 @@ AS $BODY$
   SELECT * FROM product.product_variety v WHERE v.id = p.variety_id
 $BODY$;
 
--- CREATE FUNCTION product.pallet_psa_arrival_report(IN p product.pallet)
---     RETURNS inspection.psa_arrival_report
---     LANGUAGE 'sql'
---     STABLE
---     PARALLEL UNSAFE
---     COST 100
--- AS $BODY$
---   SELECT * FROM inspection.psa_arrival_report par
---   WHERE p.arrival_code = par.arrival_code
---     AND ap.exporter_name = par.exporter_name
--- $BODY$;
+CREATE FUNCTION product.pallet_psa_arrival_report(IN p product.pallet)
+    RETURNS inspection.psa_arrival_report
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT
+    par.id,
+    par.report_date,
+    par.location_name,
+    par.arrival_code,
+    par.arrival_name,
+    par.exporter_id,
+    par.exporter_name
+  FROM inspection.psa_arrival_report par
+  JOIN inspection.psa_arrival_picture pap
+    ON pap.exporter_id = par.exporter_id
+    AND pap.arrival_code = par.arrival_code
+  WHERE pap.pallet_id = p.pallet_id LIMIT 1
+$BODY$;
 
 CREATE FUNCTION product.bulk_upsert_pallet(
   pallets product.pallet[]

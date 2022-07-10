@@ -35,9 +35,9 @@ AS $BODY$
     WHERE b.jv_code = SUBSTRING(a.id, 5, 3)
     AND (
       (b.species_id = SUBSTRING(a.id, 1, 2)
-      AND (b.variety_id = SUBSTRING(a.id, 1, 4) OR b.variety_id IS NULL))
+      AND (b.variety_id = SUBSTRING(a.id, 1, 4) OR b.variety_id = '' OR b.variety_id IS NULL))
     OR
-      ((b.species_id = SUBSTRING(a.id, 1, 2)) OR b.species_id IS NULL)
+      ((b.species_id = SUBSTRING(a.id, 1, 2)) OR b.species_id = '' OR b.species_id IS NULL)
     );
 $BODY$;
 
