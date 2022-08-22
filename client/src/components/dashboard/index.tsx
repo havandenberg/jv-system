@@ -7,7 +7,7 @@ import ty from 'ui/typography';
 import DashboardNav from './nav';
 
 const Dashboard = () => (
-  <Page>
+  <Page extraPaddingTop={-64}>
     <ty.TitleText center mb={th.spacing.lg} pb={th.spacing.md}>
       JV System
     </ty.TitleText>

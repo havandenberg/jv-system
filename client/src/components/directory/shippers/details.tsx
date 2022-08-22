@@ -81,7 +81,7 @@ const Details = () => {
                 key={1}
                 to={`/sales/projections?shipperId=${data.id}`}
               >
-                <b.Primary disabled>Projections</b.Primary>,
+                <b.Primary disabled>Projections</b.Primary>
               </l.AreaLink>,
             ]
           : []

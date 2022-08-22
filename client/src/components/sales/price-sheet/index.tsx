@@ -3,6 +3,7 @@ import { add, endOfISOWeek, startOfISOWeek } from 'date-fns';
 import { isEmpty, omit, pluck, reduce } from 'ramda';
 
 import api from 'api';
+import ResetImg from 'assets/images/reset';
 import { formatDate } from 'components/date-range-picker';
 import { BasicModal } from 'components/modal';
 import { DataMessage } from 'components/page/message';
@@ -47,6 +48,7 @@ import {
   UpdateType,
 } from './types';
 import { getAllItems } from './utils';
+import { ResetButton } from 'components/inventory/inventory/use-filters';
 
 export const gridTemplateColumns = '3fr 1fr 1.3fr repeat(4, 1fr)';
 
@@ -997,13 +999,32 @@ const PriceSheet = () => {
           </l.AreaLink>
         ),
       ]}
-      extraPaddingTop={dataLoading || (!editing && isEmpty(allItems)) ? 90 : 82}
+      extraPaddingTop={
+        dataLoading || (!editing && isEmpty(allItems)) ? 120 : 112
+      }
       headerChildren={
         <>
-          <l.Flex alignCenter>
-            {DateRangePicker}
-            {BackwardButton}
-            {ForwardButton}
+          <l.Flex mb={th.spacing.md}>
+            <div>
+              <ty.SmallText mb={th.spacing.sm} secondary>
+                Week Of
+              </ty.SmallText>
+              <l.Flex alignCenter>
+                {DateRangePicker}
+                {BackwardButton}
+                {ForwardButton}
+              </l.Flex>
+            </div>
+            <ResetButton ml={th.sizes.icon} mt={30}>
+              <l.AreaLink
+                cursor="pointer"
+                height={th.sizes.icon}
+                width={th.sizes.icon}
+                to={`/sales/price-sheet`}
+              >
+                <ResetImg height={th.sizes.icon} width={th.sizes.icon} />
+              </l.AreaLink>
+            </ResetButton>
           </l.Flex>
           <Header
             collapseAllItems={collapseAllItems}

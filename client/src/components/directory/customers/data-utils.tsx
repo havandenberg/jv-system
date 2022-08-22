@@ -5,8 +5,8 @@ import { SORT_ORDER } from 'hooks/use-columns';
 import { Customer } from 'types';
 import ty from 'ui/typography';
 
-const CUSTOMER_DISTINCT_VALUES_QUERY = loader(
-  '../../../api/directory/customer/distinct-values.gql',
+const CUSTOMER_DISTINCT_COLUMN_VALUES_QUERY = loader(
+  '../../../api/directory/customer/distinct-column-values.gql',
 );
 
 export type CustomerLabelInfo = LabelInfo<Customer>;
@@ -36,8 +36,8 @@ export const listLabels: CustomerLabelInfo[] = [
     filterPanelProps: {
       customStyles: { left: -71, width: 364 },
       queryProps: {
-        query: CUSTOMER_DISTINCT_VALUES_QUERY,
-        queryName: 'customerDistinctValues',
+        query: CUSTOMER_DISTINCT_COLUMN_VALUES_QUERY,
+        queryName: 'customerDistinctColumnValues',
         queryVariables: {
           columnName: 'city',
           conditionName: 'active',
@@ -57,8 +57,8 @@ export const listLabels: CustomerLabelInfo[] = [
       columnCount: 3,
       customStyles: { left: -208 },
       queryProps: {
-        query: CUSTOMER_DISTINCT_VALUES_QUERY,
-        queryName: 'customerDistinctValues',
+        query: CUSTOMER_DISTINCT_COLUMN_VALUES_QUERY,
+        queryName: 'customerDistinctColumnValues',
         queryVariables: {
           columnName: 'postal_state',
           conditionName: 'active',

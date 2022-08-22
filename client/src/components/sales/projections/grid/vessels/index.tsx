@@ -293,7 +293,7 @@ const Vessels = ({
                   bold
                   hover
                   fontSize={th.fontSizes.caption}
-                  to={`/sales/vessels/${selectedVessel.id}`}
+                  to={`/inventory/vessels/${selectedVessel.id}`}
                 >
                   {selectedVessel.vesselCode}
                 </ty.LinkText>

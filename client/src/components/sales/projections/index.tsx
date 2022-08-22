@@ -18,7 +18,7 @@ import {
   middleTabStyles,
   ResetButton,
   rightTabStyles,
-} from '../inventory/use-filters';
+} from '../../inventory/inventory/use-filters';
 import ShipperProjectionGraph from './graph';
 import ShipperProjectionsGrid from './grid';
 import ShipperProjectionsList from './list';

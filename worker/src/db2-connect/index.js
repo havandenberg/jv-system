@@ -8,6 +8,9 @@ const warehouseOptions = require('./directory/warehouse');
 const inventoryItemOptions = require('./product/inventory-item');
 const { palletOptions, palletSectionOptions } = require('./product/pallet');
 const vesselOptions = require('./product/vessel');
+const orderMasterOptions = require('./operations/order/master');
+const orderItemOptions = require('./operations/order/item');
+const truckLoadOptions = require('./operations/truck-load');
 const productMasterOptions = require('./product/master');
 const speciesOptions = require('./product/species');
 const varietyOptions = require('./product/variety');
@@ -32,6 +35,12 @@ const db2RunQuery = (tableName, db) => {
       return db2UpdateItems(db, palletSectionOptions);
     case 'product/vessel':
       return db2UpdateItems(db, vesselOptions);
+    case 'operations/order/master':
+      return db2UpdateItems(db, orderMasterOptions);
+    case 'operations/order/item':
+      return db2UpdateItems(db, orderItemOptions);
+    case 'operations/truck-load':
+      return db2UpdateItems(db, truckLoadOptions);
     case 'product/master':
       return db2UpdateItems(db, productMasterOptions);
     case 'product/species':

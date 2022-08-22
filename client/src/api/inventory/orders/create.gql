@@ -1,0 +1,5 @@
+mutation ORDER_MASTER_CREATE($orderMaster: OrderMasterInput!) {
+  createOrderMaster(input: { orderMaster: $orderMaster }) {
+    clientMutationId
+  }
+}

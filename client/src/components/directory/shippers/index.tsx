@@ -44,35 +44,39 @@ const ShipperDirectory = ({ actions, TabBar }: SubDirectoryProps) => {
     <Page
       actions={actions}
       breadcrumbs={breadcrumbs('shippers')}
-      extraPaddingTop={103}
+      extraPaddingTop={117}
       headerChildren={
         <>
-          <l.Flex alignCenter mb={th.spacing.sm} justifyBetween>
-            {Search}
-            <l.Div width={th.spacing.md} />
+          <l.Flex alignEnd mb={th.spacing.lg} justifyBetween>
+            <div>
+              <l.Flex alignCenter justifyBetween mb={th.spacing.sm}>
+                <ty.SmallText secondary>Search</ty.SmallText>
+                {!loading && (
+                  <ty.SmallText secondary>
+                    Results: {data ? data.totalCount : '-'}
+                    {selectedItems.length > 0
+                      ? `, Selected: ${selectedItems.length}`
+                      : ''}
+                  </ty.SmallText>
+                )}
+              </l.Flex>
+              {Search}
+            </div>
             {TabBar}
           </l.Flex>
           {!loading && (
-            <>
-              <ty.SmallText mb={th.spacing.md} pl={th.spacing.sm} secondary>
-                Results: {data ? data.totalCount : '-'}
-                {selectedItems.length > 0
-                  ? `, Selected: ${selectedItems.length}`
-                  : ''}
-              </ty.SmallText>
-              <l.Grid
-                gridTemplateColumns={gridTemplateColumns}
-                mb={th.spacing.sm}
-                pl={th.spacing.sm}
-                pr={data ? (data.totalCount > 12 ? th.spacing.md : 0) : 0}
-              >
-                <LineItemCheckbox
-                  checked={isAllShippersSelected(items)}
-                  onChange={() => toggleAllShippers(items)}
-                />
-                {columnLabels}
-              </l.Grid>
-            </>
+            <l.Grid
+              gridTemplateColumns={gridTemplateColumns}
+              mb={th.spacing.sm}
+              pl={th.spacing.sm}
+              pr={data ? (data.totalCount > 12 ? th.spacing.md : 0) : 0}
+            >
+              <LineItemCheckbox
+                checked={isAllShippersSelected(items)}
+                onChange={() => toggleAllShippers(items)}
+              />
+              {columnLabels}
+            </l.Grid>
           )}
         </>
       }
@@ -80,6 +84,7 @@ const ShipperDirectory = ({ actions, TabBar }: SubDirectoryProps) => {
     >
       {!isEmpty(items) ? (
         <VirtualizedList
+          height={582}
           rowCount={data ? items.length : 0}
           rowRenderer={({ key, index, style }) => {
             const item = items[index];

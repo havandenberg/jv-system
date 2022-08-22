@@ -1,0 +1,106 @@
+query ORDER_ENTRY_LIST(
+  $billingCustomerId: [String!]
+  $salesUserCode: [String!]
+  $orderBy: [OrderEntriesOrderBy!]
+  $search: [OrderEntriesFilter!]
+  $endDate: Date
+  $startDate: Date
+) {
+  orderEntries(
+    condition: { reviewUserCode: null }
+    filter: {
+      and: $search
+      billingCustomerId: { in: $billingCustomerId }
+      salesUserCode: { in: $salesUserCode }
+      or: {
+        orderDate: {
+          greaterThanOrEqualTo: $startDate
+          lessThanOrEqualTo: $endDate
+        }
+      }
+    }
+    orderBy: $orderBy
+  ) {
+    nodes {
+      backOrderId
+      expectedShipDate
+      id
+      orderDate
+      orderId
+      orderStatus
+      billingCustomer {
+        id
+        customerName
+      }
+      items {
+        nodes {
+          backOrderId
+          boxCount
+          deliveryCharge
+          id
+          inventoryItem {
+            id
+            country {
+              id
+              countryName
+            }
+            vessel {
+              id
+              vesselCode
+              vesselName
+              isPre
+              dischargeDate
+            }
+            coast
+            shipper {
+              id
+              shipperName
+            }
+            warehouse {
+              id
+              warehouseName
+            }
+            plu
+            product {
+              id
+              species {
+                id
+                speciesDescription
+              }
+              variety {
+                id
+                varietyDescription
+              }
+              sizes {
+                nodes {
+                  id
+                  combineDescription
+                }
+              }
+              packType {
+                packDescription
+                id
+                label {
+                  id
+                  labelCode
+                  labelName
+                }
+              }
+            }
+          }
+          locationId
+          shipperId
+        }
+      }
+      salesUser {
+        id
+        personContact {
+          id
+          firstName
+          lastName
+        }
+      }
+    }
+    totalCount
+  }
+}

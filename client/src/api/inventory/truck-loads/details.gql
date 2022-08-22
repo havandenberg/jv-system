@@ -1,0 +1,99 @@
+query TRUCK_LOAD_DETAILS($truckLoadId: String!) {
+  truckLoads(condition: { loadId: $truckLoadId }) {
+    nodes {
+      id
+      loadId
+      loadStatus
+      vendorId
+      fob
+      shipDate
+      ryanNumber
+      truckerName
+      expeditorName
+      timeStarted
+      timeCompleted
+      timeIn
+      timeOut
+      timeConfirmed
+      warehouse {
+        id
+        warehouseName
+      }
+      changeFlag
+      licensePlate
+      inUse
+      cartage
+      cartageVendorId
+      temperature
+      loadLock
+      notes
+      orderMasters {
+        nodes {
+          backOrderId
+          billingCustomer {
+            id
+            customerName
+          }
+          expectedShipDate
+          id
+          items {
+            nodes {
+              backOrderId
+              boxCount
+              deliveryCharge
+              id
+              inventoryItem {
+                id
+                vessel {
+                  id
+                  vesselCode
+                  vesselName
+                  isPre
+                }
+                coast
+                plu
+                product {
+                  id
+                  species {
+                    id
+                    speciesDescription
+                  }
+                  variety {
+                    id
+                    varietyDescription
+                  }
+                  sizes {
+                    nodes {
+                      id
+                      combineDescription
+                    }
+                  }
+                  packType {
+                    id
+                    packDescription
+                  }
+                }
+              }
+              isBundle
+              itemStatus
+              lineId
+              orderId
+              palletCount
+              notes
+              unitSellPrice
+              locationId
+              shipperId
+            }
+          }
+          orderId
+          orderStatus
+          shipWarehouse {
+            id
+            warehouseName
+          }
+          truckLoadId
+        }
+      }
+    }
+  }
+}

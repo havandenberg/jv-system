@@ -266,7 +266,11 @@ const TextInput = ({
         onFocus={handleFocus}
         type="text"
         value={value}
-        width={width ? parseInt(`${width}`, 10) - 56 : getInputWidth()}
+        width={
+          width
+            ? parseInt(`${width}`, 10) - (onClear ? 56 : CLEAR_WIDTH)
+            : getInputWidth()
+        }
         {...rest}
       />
       {onClear && value && (

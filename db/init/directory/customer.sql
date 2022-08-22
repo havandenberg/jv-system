@@ -47,11 +47,23 @@ SELECT CONCAT (
 	) FROM directory.customer ccu FULL JOIN directory.country c ON (cu.country_id = c.id) WHERE cu.id = ccu.id
 $BODY$;
 
-CREATE FUNCTION directory.customer_distinct_values(column_name text, condition_name text, condition_value text) RETURNS SETOF text AS $$
+CREATE FUNCTION directory.customer_distinct_column_values(column_name text, condition_name text, condition_value text) RETURNS SETOF text AS $$
 	BEGIN
 		RETURN QUERY EXECUTE format('select distinct %I from directory.customer where %I = %s', column_name, condition_name, condition_value);
 	END;
 $$ LANGUAGE plpgsql STABLE;
+
+CREATE FUNCTION product.customer_distinct_values()
+  RETURNS SETOF TEXT
+	LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT DISTINCT CONCAT(c.customer_name, ' (', c.id, ')')
+  FROM directory.customer c
+	WHERE c.active = true;
+$BODY$;
 
 CREATE FUNCTION directory.bulk_upsert_customer(
   customers directory.customer[]

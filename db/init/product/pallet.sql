@@ -100,6 +100,18 @@ AS $BODY$
   SELECT * FROM directory.warehouse w WHERE w.id = p.original_location_id
 $BODY$;
 
+CREATE FUNCTION product.pallet_order_master(IN p product.pallet)
+    RETURNS operations.order_master
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT * FROM operations.order_master o
+    WHERE CAST (o.order_id AS TEXT) = p.order_id
+    AND CAST (o.back_order_id AS TEXT) = p.back_order_id
+$BODY$;
+
 CREATE FUNCTION product.pallet_search_text(IN p product.pallet)
     RETURNS TEXT
     LANGUAGE 'sql'

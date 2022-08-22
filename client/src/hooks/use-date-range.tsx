@@ -17,7 +17,8 @@ import {
 } from 'utils/date';
 
 const useDateRange = (props?: Omit<DateRangeProps, 'onClear'>) => {
-  const { allowEmpty, weekChangeType } = props || {};
+  const { allowEmpty, onDateChange, weekChangeType } = props || {};
+
   const [
     { startDate: startDateQuery, endDate: endDateQuery },
     setDateRangeParams,
@@ -50,17 +51,25 @@ const useDateRange = (props?: Omit<DateRangeProps, 'onClear'>) => {
         startDate: range.startDate ? formatDate(range.startDate) : undefined,
         endDate: range.endDate ? formatDate(range.endDate) : undefined,
       };
-      setDateRangeParams(dateRangeParams, updateType);
+
+      if (onDateChange) {
+        onDateChange(dateRangeParams);
+      } else {
+        setDateRangeParams(dateRangeParams, updateType);
+      }
+
       setSelectedDates([(changeProps as { selection: Range }).selection]);
     },
-    [setDateRangeParams],
+    [onDateChange, setDateRangeParams],
   );
 
   const handleClear = (updateType?: UpdateType) => {
-    setDateRangeParams(
-      { startDate: undefined, endDate: undefined },
-      updateType,
-    );
+    const dateRangeParams = { startDate: undefined, endDate: undefined };
+    if (onDateChange) {
+      onDateChange(dateRangeParams);
+    } else {
+      setDateRangeParams(dateRangeParams, updateType);
+    }
     setSelectedDates(undefined);
   };
 

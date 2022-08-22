@@ -1,13 +1,5 @@
-query CUSTOMER_DISTINCT_VALUES(
-  $columnName: String
-  $conditionName: String
-  $conditionValue: String
-) {
-  customerDistinctValues(
-    columnName: $columnName
-    conditionName: $conditionName
-    conditionValue: $conditionValue
-  ) {
+query CUSTOMER_DISTINCT_VALUES {
+  customerDistinctValues {
     nodes
   }
 }

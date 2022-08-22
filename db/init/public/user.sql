@@ -3,7 +3,8 @@ CREATE TABLE public.user (
 	pin TEXT UNIQUE,
 	person_contact_id BIGINT
 		REFERENCES directory.person_contact(id)
-		ON DELETE SET NULL
+		ON DELETE SET NULL,
+	user_code TEXT
 );
 
 CREATE TABLE public.user_message (

@@ -1,0 +1,13 @@
+query CUSTOMER_DISTINCT_COLUMN_VALUES(
+  $columnName: String
+  $conditionName: String
+  $conditionValue: String
+) {
+  customerDistinctColumnValues(
+    columnName: $columnName
+    conditionName: $conditionName
+    conditionValue: $conditionValue
+  ) {
+    nodes
+  }
+}

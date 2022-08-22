@@ -57,17 +57,6 @@ export const listLabels: ReportLabelInfo[] = [
     getValue: (data) => `${data.arrivalName} (${data.arrivalCode})`,
   },
   {
-    key: 'locationName',
-    label: 'Location',
-    filterable: true,
-    getValue: (data) =>
-      data.locationName === 'PSA-USEC'
-        ? 'EC'
-        : data.locationName === 'PSA-USWC'
-        ? 'WC'
-        : data.locationName,
-  },
-  {
     defaultSortOrder: SORT_ORDER.ASC,
     key: 'qualityRange',
     label: 'Quality',
@@ -119,7 +108,7 @@ export const baseLabels: ReportLabelInfo[] = [
     label: 'Vessel Code',
     getValue: ({ arrivalCode, vessel }) =>
       vessel ? (
-        <ty.LinkText hover="false" to={`/sales/vessels/${vessel.id}`}>
+        <ty.LinkText hover="false" to={`/inventory/vessels/${vessel.id}`}>
           {arrivalCode}
         </ty.LinkText>
       ) : (

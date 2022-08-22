@@ -1,0 +1,34 @@
+query TRUCK_LOAD_LIST(
+  $orderBy: [TruckLoadsOrderBy!]
+  $search: [TruckLoadFilter!]
+  $endDate: Date
+  $startDate: Date
+) {
+  truckLoads(
+    filter: {
+      and: $search
+      # hasOrderMasters: { greaterThan: 0 }
+      or: {
+        shipDate: {
+          greaterThanOrEqualTo: $startDate
+          lessThanOrEqualTo: $endDate
+        }
+      }
+    }
+    orderBy: $orderBy
+  ) {
+    nodes {
+      id
+      loadId
+      loadStatus
+      vendorId
+      fob
+      shipDate
+      warehouse {
+        id
+        warehouseName
+      }
+    }
+    totalCount
+  }
+}

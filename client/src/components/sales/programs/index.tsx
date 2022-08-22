@@ -48,7 +48,7 @@ import th from 'ui/theme';
 import ty from 'ui/typography';
 import { getWeekNumber } from 'utils/date';
 
-import { coastTabs, ResetButton } from '../inventory/use-filters';
+import { coastTabs, ResetButton } from '../../inventory/inventory/use-filters';
 import Header from './header';
 import { NewProgramRow, ProgramTotalRow } from './row';
 import ProgramSet from './set';

@@ -39,22 +39,16 @@ export const usePsaArrivalInspections = () => {
   ] = useDateRangeQueryParams();
   const orderBy = getOrderByString(sortBy, sortOrder);
 
+  const [coast = ''] = useQueryValue('coast');
   const [variety = ''] = useQueryValue('variety');
 
-  const [{ exporterName, arrivalName, locationName }] = useQuerySet({
+  const [{ exporterName, arrivalName }] = useQuerySet({
     exporterName: StringParam,
     arrivalName: StringParam,
-    locationName: StringParam,
   });
 
   const filteredExporterValues = useFilteredQueryValues(exporterName, {
     columnName: 'exporter_name',
-    tableName: 'psa_arrival_report',
-    schemaName: 'inspection',
-  });
-
-  const filteredLocationValues = useFilteredQueryValues(locationName, {
-    columnName: 'location_name',
     tableName: 'psa_arrival_report',
     schemaName: 'inspection',
   });
@@ -74,7 +68,7 @@ export const usePsaArrivalInspections = () => {
     variables: {
       endDate,
       exporterName: filteredExporterValues,
-      locationName: filteredLocationValues,
+      locationName: coast === 'EC' ? 'PSA-USEC' : 'PSA-USWC',
       orderBy,
       search: getSearchArray(search),
       startDate,

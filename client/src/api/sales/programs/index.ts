@@ -21,8 +21,8 @@ const CUSTOMER_PROGRAM_ENTRY_BULK_UPSERT = loader(
   './customer/bulk-upsert-entry.gql',
 );
 const CUSTOMER_PROGRAM_DELETE = loader('./customer/delete.gql');
-export const CUSTOMER_DISTINCT_VALUES_QUERY = loader(
-  '../../../api/directory/customer/distinct-values.gql',
+export const CUSTOMER_DISTINCT_COLUMN_VALUES_QUERY = loader(
+  '../../../api/directory/customer/distinct-column-values.gql',
 );
 const ALLOCATIONS_UPSERT = loader('./allocations/upsert.gql');
 const ALLOCATIONS_DELETE = loader('./allocations/delete.gql');

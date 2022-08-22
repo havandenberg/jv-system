@@ -115,3 +115,34 @@ export const useProgramsQueryParams = () =>
     customerAllocateSearch: StringParam,
     shipperAllocateSearch: StringParam,
   });
+
+export const useOrdersQueryParams = () =>
+  useQuerySet({
+    species: StringParam,
+    variety: StringParam,
+    size: StringParam,
+    label: StringParam,
+    packType: StringParam,
+    speciesTag: StringParam,
+    varietyTag: StringParam,
+    sizeTag: StringParam,
+    packTypeTag: StringParam,
+    sizePackType: StringParam,
+    plu: StringParam,
+    coast: StringParam,
+    location: StringParam,
+    shipper: StringParam,
+    countryOfOrigin: StringParam,
+    daysInStorage: StringParam,
+    startDate: StringParam,
+    endDate: StringParam,
+    detailsIndex: StringParam,
+    backOrderId: StringParam,
+    lineId: StringParam,
+  });
+
+export const useTruckLoadsQueryParams = () =>
+  useQuerySet({
+    coast: StringParam,
+    location: StringParam,
+  });

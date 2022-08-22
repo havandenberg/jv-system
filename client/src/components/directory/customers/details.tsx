@@ -77,6 +77,8 @@ const Details = () => {
 
   const selectedCustomer = selectedItems.customers.find((c) => c.id === id);
 
+  const billingCustomerParam = data ? `${data.customerName} (${data.id})` : '';
+
   return (
     <Page
       actions={
@@ -89,12 +91,12 @@ const Details = () => {
               >
                 <b.Primary>Programs</b.Primary>
               </l.AreaLink>,
-              // <l.AreaLink
-              //   key={1}
-              //   to={`/sales/programs?coast=EC&customerId=${data.id}&programsView=customers`}
-              // >
-              <b.Primary disabled>Orders</b.Primary>,
-              // </l.AreaLink>,
+              <l.AreaLink
+                key={1}
+                to={`/inventory/orders?billingCustomerId=${billingCustomerParam}`}
+              >
+                <b.Primary>Orders</b.Primary>
+              </l.AreaLink>,
             ]
           : []
       }

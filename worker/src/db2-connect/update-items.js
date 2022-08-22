@@ -123,7 +123,10 @@ const db2UpdateItems = async (
     const updatedItemsLog =
       updatedItems.length > 0
         ? `Updated ${itemPluralName}: ${JSON.stringify(
-            updatedItems.slice(0, 5),
+            updatedItems.slice(0, 5).map((updatedItem) => ({
+              oldItem: items[updatedItem.id],
+              updatedItem: updatedItem,
+            })),
           )}\n\n`
         : '';
     const deletedItemsLog =

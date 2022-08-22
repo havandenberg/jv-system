@@ -1,0 +1,5 @@
+mutation TRUCK_LOAD_CREATE($truckLoad: TruckLoadInput!) {
+  createTruckLoad(input: { truckLoad: $truckLoad }) {
+    clientMutationId
+  }
+}

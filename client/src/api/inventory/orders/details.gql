@@ -1,0 +1,107 @@
+query ORDER_MASTER_DETAILS($orderId: BigFloat!) {
+  orderMasters(condition: { orderId: $orderId }) {
+    nodes {
+      actualShipDate
+      amountOwed
+      backOrderId
+      billingCustomer {
+        id
+        customerName
+      }
+      customerPo
+      deliveryZone
+      entryDate
+      entryUser {
+        id
+        personContact {
+          id
+          firstName
+          lastName
+        }
+      }
+      expectedShipDate
+      fob
+      id
+      invoiceDate
+      invoiceId
+      items {
+        nodes {
+          backOrderId
+          boxCount
+          deliveryCharge
+          id
+          inventoryItem {
+            id
+            vessel {
+              id
+              vesselCode
+              vesselName
+              isPre
+            }
+            coast
+            plu
+            product {
+              id
+              species {
+                id
+                speciesDescription
+              }
+              variety {
+                id
+                varietyDescription
+              }
+              sizes {
+                nodes {
+                  id
+                  combineDescription
+                }
+              }
+              packType {
+                id
+                packDescription
+              }
+            }
+          }
+          isBundle
+          itemStatus
+          lineId
+          orderId
+          palletCount
+          notes
+          unitSellPrice
+          locationId
+          shipperId
+        }
+      }
+      truckLoad {
+        id
+        loadId
+      }
+      vendorId
+      loadStatus
+      loadLocation
+      notes
+      orderDate
+      orderId
+      orderStatus
+      paidCode
+      registerNumber
+      salesUser {
+        id
+        personContact {
+          id
+          firstName
+          lastName
+        }
+      }
+      shipWarehouse {
+        id
+        warehouseName
+      }
+      shippingCustomer {
+        id
+        customerName
+      }
+    }
+  }
+}

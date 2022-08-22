@@ -17,6 +17,8 @@ export const CUSTOMER_DETAILS_QUERY = loader('./details.gql');
 const CUSTOMER_LIST_QUERY = loader('./list.gql');
 const CUSTOMER_UPDATE = loader('./update.gql');
 
+export const CUSTOMER_DISTINCT_VALUES_QUERY = loader('./distinct-values.gql');
+
 export const useCustomers = (orderByOverride?: string) => {
   const [search = ''] = useSearchQueryParam();
   const [customerSearch = ''] = useQueryValue('customerSearch');

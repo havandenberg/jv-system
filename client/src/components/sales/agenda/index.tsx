@@ -3,6 +3,7 @@ import { getDay } from 'date-fns';
 import { isEmpty, pluck, sortBy } from 'ramda';
 
 import api from 'api';
+import ResetImg from 'assets/images/reset';
 import AddItem from 'components/add-item';
 import { BasicModal } from 'components/modal';
 import { formatDate } from 'components/date-range-picker';
@@ -19,6 +20,7 @@ import { getDateOfISOWeek, getNextMeetingDay } from 'utils/date';
 
 import AgendaItem from './item';
 import { AgendaItemUpdate } from './types';
+import { ResetButton } from 'components/inventory/inventory/use-filters';
 
 const Agenda = () => {
   useScrollToTop();
@@ -239,10 +241,27 @@ const Agenda = () => {
       extraPaddingTop={137}
       headerChildren={
         <>
-          <l.Flex alignCenter>
-            {DateRangePicker}
-            {BackwardButton}
-            {ForwardButton}
+          <l.Flex mb={th.spacing.md}>
+            <div>
+              <ty.SmallText mb={th.spacing.sm} secondary>
+                Week Of
+              </ty.SmallText>
+              <l.Flex alignCenter>
+                {DateRangePicker}
+                {BackwardButton}
+                {ForwardButton}
+              </l.Flex>
+            </div>
+            <ResetButton ml={th.sizes.icon} mt={30}>
+              <l.AreaLink
+                cursor="pointer"
+                height={th.sizes.icon}
+                width={th.sizes.icon}
+                to={`/sales/agenda`}
+              >
+                <ResetImg height={th.sizes.icon} width={th.sizes.icon} />
+              </l.AreaLink>
+            </ResetButton>
           </l.Flex>
           <l.Flex my={th.sizes.icon}>
             <ty.BodyText flex={1}>

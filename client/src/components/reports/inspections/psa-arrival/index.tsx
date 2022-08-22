@@ -14,9 +14,10 @@ import ty from 'ui/typography';
 import { InspectionTypes, SubInspectionsProps } from '..';
 import ListItem from '../list-item';
 import { listLabels } from './data-utils';
+import { useTabBar } from 'components/tab-bar';
+import { coastTabs } from 'components/inventory/inventory/use-filters';
 
-export const gridTemplateColumns =
-  '0.8fr 1.2fr 1.2fr 80px 80px 75px 0.9fr 30px';
+export const gridTemplateColumns = '0.8fr 1.2fr 1.2fr 80px 75px 0.9fr 30px';
 
 interface PsaArrivalInspection extends PsaArrivalReport {
   imageUrls?: string[] | null;
@@ -39,6 +40,8 @@ const PsaArrivalInspections = ({
       })
     : [];
 
+  const { TabBar: CoastFilter } = useTabBar(coastTabs, false, 'EC', 'coast', 1);
+
   const columnLabels = useColumns<PsaArrivalReport>(
     'reportDate',
     SORT_ORDER.DESC,
@@ -50,35 +53,52 @@ const PsaArrivalInspections = ({
   return (
     <Page
       breadcrumbs={breadcrumbs}
-      extraPaddingTop={101}
+      extraPaddingTop={117}
       headerChildren={
         <>
-          <l.Flex alignCenter mb={th.spacing.sm} justifyBetween>
+          <l.Flex alignCenter mb={th.spacing.lg} justifyBetween>
             <l.Flex>
-              {Search}
-              <l.Div width={th.spacing.md} />
-              {DateRangePicker}
-              <l.Div width={th.spacing.md} />
+              <l.Div mr={th.spacing.lg}>
+                <ty.SmallText mb={th.spacing.sm} secondary>
+                  Coast
+                </ty.SmallText>
+                <CoastFilter />
+              </l.Div>
+              <l.Div mr={th.spacing.lg}>
+                <l.Flex alignCenter justifyBetween mb={th.spacing.sm}>
+                  <ty.SmallText secondary>Search</ty.SmallText>
+                  {!loading && (
+                    <ty.SmallText secondary>
+                      Results: {data ? data.totalCount : '-'}
+                    </ty.SmallText>
+                  )}
+                </l.Flex>
+                {Search}
+              </l.Div>
+              <l.Div mr={th.spacing.lg}>
+                <ty.SmallText mb={th.spacing.sm} secondary>
+                  Date
+                </ty.SmallText>
+                {DateRangePicker}
+              </l.Div>
             </l.Flex>
-            {TabBar}
+            <div>
+              <l.Div height={26} />
+              {TabBar}
+            </div>
           </l.Flex>
           {!loading && (
-            <>
-              <ty.SmallText mb={th.spacing.md} pl={th.spacing.sm} secondary>
-                Results: {data ? data.totalCount : '-'}
+            <l.Grid
+              gridTemplateColumns={gridTemplateColumns}
+              mb={th.spacing.sm}
+              pl={th.spacing.sm}
+              pr={data ? (data.totalCount > 7 ? th.spacing.md : 0) : 0}
+            >
+              {columnLabels}
+              <ty.SmallText px={th.spacing.sm} secondary>
+                Images
               </ty.SmallText>
-              <l.Grid
-                gridTemplateColumns={gridTemplateColumns}
-                mb={th.spacing.sm}
-                pl={th.spacing.sm}
-                pr={data ? (data.totalCount > 7 ? th.spacing.md : 0) : 0}
-              >
-                {columnLabels}
-                <ty.SmallText px={th.spacing.sm} secondary>
-                  Images
-                </ty.SmallText>
-              </l.Grid>
-            </>
+            </l.Grid>
           )}
         </>
       }

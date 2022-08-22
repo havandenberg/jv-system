@@ -1,0 +1,5 @@
+mutation ORDER_ENTRY_CREATE($orderEntry: OrderEntryInput!) {
+  createOrderEntry(input: { orderEntry: $orderEntry }) {
+    clientMutationId
+  }
+}

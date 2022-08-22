@@ -11,6 +11,8 @@ import {
   startOfISOWeek,
 } from 'date-fns';
 
+export const formatTime = (date: Date) => format(date, 'hh:mm:ss a');
+
 export const getCurrentWeekNumber = () => getISOWeek(new Date());
 
 export const getWeekNumber = (date: Date) => getISOWeek(date);

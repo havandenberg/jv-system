@@ -20,12 +20,27 @@ export interface NavItemType extends NavItemProps {
 
 export const navItems: NavItemType[] = [
   {
+    text: 'Inventory',
+    to: '/inventory',
+    dashboardItems: [
+      { text: 'Inventory', to: 'index' },
+      { text: 'Orders', to: 'orders' },
+      { text: 'Vessels', to: 'vessels' },
+      { text: 'Truck Loads', to: 'truck-loads' },
+      { text: 'Products', to: 'products' },
+    ],
+    secondaryItems: [
+      { text: 'Inventory', to: 'index' },
+      { text: 'Orders', to: 'orders' },
+      { text: 'Vessels', to: 'vessels' },
+      { text: 'Truck Loads', to: 'truck-loads' },
+      { text: 'Products', to: 'products' },
+    ],
+  },
+  {
     text: 'Sales',
     to: '/sales',
     dashboardItems: [
-      { text: 'Inventory', to: 'inventory' },
-      { text: 'Vessels', to: 'vessels' },
-      { text: 'Products', to: 'products' },
       { text: 'Programs', to: 'programs' },
       { text: 'Projections', to: 'projections' },
       { text: 'Price Sheet', to: 'price-sheet' },
@@ -33,9 +48,6 @@ export const navItems: NavItemType[] = [
       { isDev: true, text: 'Calendar', to: 'calendar' },
     ],
     secondaryItems: [
-      { text: 'Inventory', to: 'inventory' },
-      { text: 'Vessels', to: 'vessels' },
-      { text: 'Products', to: 'products' },
       { text: 'Programs', to: 'programs' },
       { text: 'Projections', to: 'projections' },
       { text: 'Price Sheet', to: 'price-sheet' },

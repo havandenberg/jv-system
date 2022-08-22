@@ -196,6 +196,18 @@ export type Query = Node & {
   priceProducts?: Maybe<PriceProductsConnection>;
   /** Reads and enables pagination through a set of `PriceSize`. */
   priceSizes?: Maybe<PriceSizesConnection>;
+  /** Reads and enables pagination through a set of `OrderEntry`. */
+  orderEntries?: Maybe<OrderEntriesConnection>;
+  /** Reads and enables pagination through a set of `OrderEntryItem`. */
+  orderEntryItems?: Maybe<OrderEntryItemsConnection>;
+  /** Reads and enables pagination through a set of `OrderItem`. */
+  orderItems?: Maybe<OrderItemsConnection>;
+  /** Reads and enables pagination through a set of `OrderMaster`. */
+  orderMasters?: Maybe<OrderMastersConnection>;
+  /** Reads and enables pagination through a set of `OrderPallet`. */
+  orderPallets?: Maybe<OrderPalletsConnection>;
+  /** Reads and enables pagination through a set of `TruckLoad`. */
+  truckLoads?: Maybe<TruckLoadsConnection>;
   user?: Maybe<User>;
   userByPin?: Maybe<User>;
   userMessage?: Maybe<UserMessage>;
@@ -289,12 +301,20 @@ export type Query = Node & {
   priceEntry?: Maybe<PriceEntry>;
   priceProduct?: Maybe<PriceProduct>;
   priceSize?: Maybe<PriceSize>;
+  orderEntry?: Maybe<OrderEntry>;
+  orderEntryItem?: Maybe<OrderEntryItem>;
+  orderItem?: Maybe<OrderItem>;
+  orderMaster?: Maybe<OrderMaster>;
+  orderPallet?: Maybe<OrderPallet>;
+  truckLoad?: Maybe<TruckLoad>;
   distinctValues?: Maybe<DistinctValuesConnection>;
-  customerDistinctValues?: Maybe<CustomerDistinctValuesConnection>;
+  customerDistinctColumnValues?: Maybe<CustomerDistinctColumnValuesConnection>;
   shipperDistinctValues?: Maybe<ShipperDistinctValuesConnection>;
   /** Reads and enables pagination through a set of `ChileDepartureInspection`. */
   chileDepartureInspections?: Maybe<ChileDepartureInspectionsConnection>;
   psaInspectionVesselDistinctValues?: Maybe<PsaInspectionVesselDistinctValuesConnection>;
+  customerDistinctValues?: Maybe<CustomerDistinctValuesConnection>;
+  orderMasterCustomerDistinctValues?: Maybe<OrderMasterCustomerDistinctValuesConnection>;
   vesselArrivalPortDistinctValues?: Maybe<VesselArrivalPortDistinctValuesConnection>;
   /** Reads a single `User` using its globally unique `ID`. */
   userByNodeId?: Maybe<User>;
@@ -452,6 +472,18 @@ export type Query = Node & {
   priceProductByNodeId?: Maybe<PriceProduct>;
   /** Reads a single `PriceSize` using its globally unique `ID`. */
   priceSizeByNodeId?: Maybe<PriceSize>;
+  /** Reads a single `OrderEntry` using its globally unique `ID`. */
+  orderEntryByNodeId?: Maybe<OrderEntry>;
+  /** Reads a single `OrderEntryItem` using its globally unique `ID`. */
+  orderEntryItemByNodeId?: Maybe<OrderEntryItem>;
+  /** Reads a single `OrderItem` using its globally unique `ID`. */
+  orderItemByNodeId?: Maybe<OrderItem>;
+  /** Reads a single `OrderMaster` using its globally unique `ID`. */
+  orderMasterByNodeId?: Maybe<OrderMaster>;
+  /** Reads a single `OrderPallet` using its globally unique `ID`. */
+  orderPalletByNodeId?: Maybe<OrderPallet>;
+  /** Reads a single `TruckLoad` using its globally unique `ID`. */
+  truckLoadByNodeId?: Maybe<TruckLoad>;
   db2Query: Scalars['String'];
 };
 
@@ -1477,6 +1509,84 @@ export type QueryPriceSizesArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
+export type QueryOrderEntriesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<OrderEntriesOrderBy>>;
+  condition?: Maybe<OrderEntryCondition>;
+  filter?: Maybe<OrderEntryFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryOrderEntryItemsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<OrderEntryItemsOrderBy>>;
+  condition?: Maybe<OrderEntryItemCondition>;
+  filter?: Maybe<OrderEntryItemFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryOrderItemsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<OrderItemsOrderBy>>;
+  condition?: Maybe<OrderItemCondition>;
+  filter?: Maybe<OrderItemFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryOrderMastersArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<OrderMastersOrderBy>>;
+  condition?: Maybe<OrderMasterCondition>;
+  filter?: Maybe<OrderMasterFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryOrderPalletsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<OrderPalletsOrderBy>>;
+  condition?: Maybe<OrderPalletCondition>;
+  filter?: Maybe<OrderPalletFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryTruckLoadsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<TruckLoadsOrderBy>>;
+  condition?: Maybe<TruckLoadCondition>;
+  filter?: Maybe<TruckLoadFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
 export type QueryUserArgs = {
   id: Scalars['BigInt'];
 };
@@ -2057,6 +2167,42 @@ export type QueryPriceSizeArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
+export type QueryOrderEntryArgs = {
+  id: Scalars['BigInt'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryOrderEntryItemArgs = {
+  id: Scalars['BigInt'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryOrderItemArgs = {
+  id: Scalars['BigInt'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryOrderMasterArgs = {
+  id: Scalars['BigInt'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryOrderPalletArgs = {
+  id: Scalars['BigInt'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryTruckLoadArgs = {
+  id: Scalars['BigInt'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
 export type QueryDistinctValuesArgs = {
   schemaName?: Maybe<Scalars['String']>;
   tableName?: Maybe<Scalars['String']>;
@@ -2071,7 +2217,7 @@ export type QueryDistinctValuesArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QueryCustomerDistinctValuesArgs = {
+export type QueryCustomerDistinctColumnValuesArgs = {
   columnName?: Maybe<Scalars['String']>;
   conditionName?: Maybe<Scalars['String']>;
   conditionValue?: Maybe<Scalars['String']>;
@@ -2110,6 +2256,28 @@ export type QueryChileDepartureInspectionsArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryPsaInspectionVesselDistinctValuesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  filter?: Maybe<StringFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryCustomerDistinctValuesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  filter?: Maybe<StringFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryOrderMasterCustomerDistinctValuesArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
@@ -2599,6 +2767,42 @@ export type QueryPriceSizeByNodeIdArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
+export type QueryOrderEntryByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryOrderEntryItemByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryOrderItemByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryOrderMasterByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryOrderPalletByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryTruckLoadByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
 export type QueryDb2QueryArgs = {
   input?: Maybe<Db2QueryInput>;
 };
@@ -2629,6 +2833,7 @@ export type User = Node & {
   id: Scalars['BigInt'];
   pin?: Maybe<Scalars['String']>;
   personContactId?: Maybe<Scalars['BigInt']>;
+  userCode?: Maybe<Scalars['String']>;
   /** Reads a single `PersonContact` that is related to this `User`. */
   personContact?: Maybe<PersonContact>;
   /** Reads and enables pagination through a set of `ContactGroup`. */
@@ -3100,6 +3305,8 @@ export type UserFilter = {
   pin?: Maybe<StringFilter>;
   /** Filter by the object’s `personContactId` field. */
   personContactId?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `userCode` field. */
+  userCode?: Maybe<StringFilter>;
   /** Filter by the object’s `contactGroups` relation. */
   contactGroups?: Maybe<UserToManyContactGroupFilter>;
   /** Some related `contactGroups` exist. */
@@ -5380,6 +5587,8 @@ export enum UsersOrderBy {
   PinDesc = 'PIN_DESC',
   PersonContactIdAsc = 'PERSON_CONTACT_ID_ASC',
   PersonContactIdDesc = 'PERSON_CONTACT_ID_DESC',
+  UserCodeAsc = 'USER_CODE_ASC',
+  UserCodeDesc = 'USER_CODE_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
   PersonContactByPersonContactIdIdAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__ID_ASC',
@@ -5422,6 +5631,8 @@ export type UserCondition = {
   pin?: Maybe<Scalars['String']>;
   /** Checks for equality with the object’s `personContactId` field. */
   personContactId?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `userCode` field. */
+  userCode?: Maybe<Scalars['String']>;
 };
 
 /** A connection to a list of `CustomerPersonContact` values. */
@@ -6508,6 +6719,7 @@ export type Pallet = Node & {
   billOfLading?: Maybe<Scalars['String']>;
   containerId?: Maybe<Scalars['String']>;
   temperatureRecording?: Maybe<Scalars['String']>;
+  orderMaster?: Maybe<OrderMaster>;
   originalLocation?: Maybe<Warehouse>;
   /** Reads and enables pagination through a set of `PalletSection`. */
   palletSections: PalletSectionsConnection;
@@ -6527,6 +6739,148 @@ export type PalletPalletSectionsArgs = {
   before?: Maybe<Scalars['Cursor']>;
   after?: Maybe<Scalars['Cursor']>;
   filter?: Maybe<PalletSectionFilter>;
+};
+
+export type OrderMaster = Node & {
+  __typename?: 'OrderMaster';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  orderStatus?: Maybe<Scalars['String']>;
+  paidCode?: Maybe<Scalars['Boolean']>;
+  loadStatus?: Maybe<Scalars['String']>;
+  orderId?: Maybe<Scalars['BigFloat']>;
+  backOrderId?: Maybe<Scalars['BigFloat']>;
+  shipWarehouseId?: Maybe<Scalars['String']>;
+  truckLoadId?: Maybe<Scalars['String']>;
+  fob?: Maybe<Scalars['Boolean']>;
+  billingCustomerId?: Maybe<Scalars['String']>;
+  salesUserCode?: Maybe<Scalars['String']>;
+  customerPo?: Maybe<Scalars['String']>;
+  expectedShipDate?: Maybe<Scalars['Date']>;
+  orderDate?: Maybe<Scalars['Date']>;
+  entryDate?: Maybe<Scalars['Date']>;
+  actualShipDate?: Maybe<Scalars['Date']>;
+  invoiceDate?: Maybe<Scalars['Date']>;
+  shippingCustomerId?: Maybe<Scalars['String']>;
+  entryUserCode?: Maybe<Scalars['String']>;
+  registerNumber?: Maybe<Scalars['String']>;
+  deliveryZone?: Maybe<Scalars['String']>;
+  amountOwed?: Maybe<Scalars['BigFloat']>;
+  loadLocation?: Maybe<Scalars['String']>;
+  vendorId?: Maybe<Scalars['String']>;
+  invoiceId?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  billingCustomer?: Maybe<Customer>;
+  entryUser?: Maybe<User>;
+  /** Reads and enables pagination through a set of `OrderItem`. */
+  items: OrderItemsConnection;
+  salesUser?: Maybe<User>;
+  searchText?: Maybe<Scalars['String']>;
+  shipWarehouse?: Maybe<Warehouse>;
+  shippingCustomer?: Maybe<Customer>;
+  truckLoad?: Maybe<TruckLoad>;
+};
+
+
+export type OrderMasterItemsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  filter?: Maybe<OrderItemFilter>;
+};
+
+/** A connection to a list of `OrderItem` values. */
+export type OrderItemsConnection = {
+  __typename?: 'OrderItemsConnection';
+  /** A list of `OrderItem` objects. */
+  nodes: Array<Maybe<OrderItem>>;
+  /** A list of edges which contains the `OrderItem` and cursor to aid in pagination. */
+  edges: Array<OrderItemsEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `OrderItem` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+export type OrderItem = Node & {
+  __typename?: 'OrderItem';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  itemStatus?: Maybe<Scalars['String']>;
+  orderId?: Maybe<Scalars['BigFloat']>;
+  backOrderId?: Maybe<Scalars['BigFloat']>;
+  lineId?: Maybe<Scalars['BigFloat']>;
+  palletCount?: Maybe<Scalars['BigFloat']>;
+  unitSellPrice?: Maybe<Scalars['BigFloat']>;
+  deliveryCharge?: Maybe<Scalars['BigFloat']>;
+  isBundle?: Maybe<Scalars['Boolean']>;
+  boxCount?: Maybe<Scalars['BigFloat']>;
+  productId?: Maybe<Scalars['String']>;
+  locationId?: Maybe<Scalars['String']>;
+  vesselCode?: Maybe<Scalars['String']>;
+  jvLotNumber?: Maybe<Scalars['String']>;
+  shipperId?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  inventoryItem?: Maybe<InventoryItem>;
+  searchText?: Maybe<Scalars['String']>;
+  vessel?: Maybe<Vessel>;
+};
+
+/** A `OrderItem` edge in the connection. */
+export type OrderItemsEdge = {
+  __typename?: 'OrderItemsEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `OrderItem` at the end of the edge. */
+  node?: Maybe<OrderItem>;
+};
+
+/** A filter to be used against `OrderItem` object types. All fields are combined with a logical ‘and.’ */
+export type OrderItemFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `itemStatus` field. */
+  itemStatus?: Maybe<StringFilter>;
+  /** Filter by the object’s `orderId` field. */
+  orderId?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `backOrderId` field. */
+  backOrderId?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `lineId` field. */
+  lineId?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `palletCount` field. */
+  palletCount?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `unitSellPrice` field. */
+  unitSellPrice?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `deliveryCharge` field. */
+  deliveryCharge?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `isBundle` field. */
+  isBundle?: Maybe<BooleanFilter>;
+  /** Filter by the object’s `boxCount` field. */
+  boxCount?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `productId` field. */
+  productId?: Maybe<StringFilter>;
+  /** Filter by the object’s `locationId` field. */
+  locationId?: Maybe<StringFilter>;
+  /** Filter by the object’s `vesselCode` field. */
+  vesselCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `jvLotNumber` field. */
+  jvLotNumber?: Maybe<StringFilter>;
+  /** Filter by the object’s `shipperId` field. */
+  shipperId?: Maybe<StringFilter>;
+  /** Filter by the object’s `notes` field. */
+  notes?: Maybe<StringFilter>;
+  /** Filter by the object’s `searchText` field. */
+  searchText?: Maybe<StringFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<OrderItemFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<OrderItemFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<OrderItemFilter>;
 };
 
 export type Warehouse = Node & {
@@ -6713,6 +7067,136 @@ export type WarehousePersonContactsByWarehousePersonContactWarehouseIdAndPersonC
   cursor?: Maybe<Scalars['Cursor']>;
   /** The `PersonContact` at the end of the edge. */
   node?: Maybe<PersonContact>;
+};
+
+export type TruckLoad = Node & {
+  __typename?: 'TruckLoad';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  loadId?: Maybe<Scalars['String']>;
+  loadStatus?: Maybe<Scalars['String']>;
+  vendorId?: Maybe<Scalars['String']>;
+  fob?: Maybe<Scalars['Boolean']>;
+  ryanNumber?: Maybe<Scalars['String']>;
+  truckerName?: Maybe<Scalars['String']>;
+  expeditorName?: Maybe<Scalars['String']>;
+  timeStarted?: Maybe<Scalars['Datetime']>;
+  timeCompleted?: Maybe<Scalars['Datetime']>;
+  timeIn?: Maybe<Scalars['Datetime']>;
+  timeOut?: Maybe<Scalars['Datetime']>;
+  timeConfirmed?: Maybe<Scalars['Datetime']>;
+  warehouseId?: Maybe<Scalars['String']>;
+  changeFlag?: Maybe<Scalars['Boolean']>;
+  licensePlate?: Maybe<Scalars['String']>;
+  inUse?: Maybe<Scalars['Boolean']>;
+  cartage?: Maybe<Scalars['String']>;
+  temperature?: Maybe<Scalars['String']>;
+  loadLock?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  shipDate?: Maybe<Scalars['Date']>;
+  cartageVendorId?: Maybe<Scalars['String']>;
+  hasOrderMasters?: Maybe<Scalars['Int']>;
+  /** Reads and enables pagination through a set of `OrderMaster`. */
+  orderMasters: OrderMastersConnection;
+  searchText?: Maybe<Scalars['String']>;
+  warehouse?: Maybe<Warehouse>;
+};
+
+
+export type TruckLoadOrderMastersArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  filter?: Maybe<OrderMasterFilter>;
+};
+
+/** A connection to a list of `OrderMaster` values. */
+export type OrderMastersConnection = {
+  __typename?: 'OrderMastersConnection';
+  /** A list of `OrderMaster` objects. */
+  nodes: Array<Maybe<OrderMaster>>;
+  /** A list of edges which contains the `OrderMaster` and cursor to aid in pagination. */
+  edges: Array<OrderMastersEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `OrderMaster` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `OrderMaster` edge in the connection. */
+export type OrderMastersEdge = {
+  __typename?: 'OrderMastersEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `OrderMaster` at the end of the edge. */
+  node?: Maybe<OrderMaster>;
+};
+
+/** A filter to be used against `OrderMaster` object types. All fields are combined with a logical ‘and.’ */
+export type OrderMasterFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `orderStatus` field. */
+  orderStatus?: Maybe<StringFilter>;
+  /** Filter by the object’s `paidCode` field. */
+  paidCode?: Maybe<BooleanFilter>;
+  /** Filter by the object’s `loadStatus` field. */
+  loadStatus?: Maybe<StringFilter>;
+  /** Filter by the object’s `orderId` field. */
+  orderId?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `backOrderId` field. */
+  backOrderId?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `shipWarehouseId` field. */
+  shipWarehouseId?: Maybe<StringFilter>;
+  /** Filter by the object’s `truckLoadId` field. */
+  truckLoadId?: Maybe<StringFilter>;
+  /** Filter by the object’s `fob` field. */
+  fob?: Maybe<BooleanFilter>;
+  /** Filter by the object’s `billingCustomerId` field. */
+  billingCustomerId?: Maybe<StringFilter>;
+  /** Filter by the object’s `salesUserCode` field. */
+  salesUserCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `customerPo` field. */
+  customerPo?: Maybe<StringFilter>;
+  /** Filter by the object’s `expectedShipDate` field. */
+  expectedShipDate?: Maybe<DateFilter>;
+  /** Filter by the object’s `orderDate` field. */
+  orderDate?: Maybe<DateFilter>;
+  /** Filter by the object’s `entryDate` field. */
+  entryDate?: Maybe<DateFilter>;
+  /** Filter by the object’s `actualShipDate` field. */
+  actualShipDate?: Maybe<DateFilter>;
+  /** Filter by the object’s `invoiceDate` field. */
+  invoiceDate?: Maybe<DateFilter>;
+  /** Filter by the object’s `shippingCustomerId` field. */
+  shippingCustomerId?: Maybe<StringFilter>;
+  /** Filter by the object’s `entryUserCode` field. */
+  entryUserCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `registerNumber` field. */
+  registerNumber?: Maybe<StringFilter>;
+  /** Filter by the object’s `deliveryZone` field. */
+  deliveryZone?: Maybe<StringFilter>;
+  /** Filter by the object’s `amountOwed` field. */
+  amountOwed?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `loadLocation` field. */
+  loadLocation?: Maybe<StringFilter>;
+  /** Filter by the object’s `vendorId` field. */
+  vendorId?: Maybe<StringFilter>;
+  /** Filter by the object’s `invoiceId` field. */
+  invoiceId?: Maybe<StringFilter>;
+  /** Filter by the object’s `notes` field. */
+  notes?: Maybe<StringFilter>;
+  /** Filter by the object’s `searchText` field. */
+  searchText?: Maybe<StringFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<OrderMasterFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<OrderMasterFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<OrderMasterFilter>;
 };
 
 /** A connection to a list of `PalletSection` values. */
@@ -21028,6 +21512,8 @@ export enum ContactGroupsOrderBy {
   UserByUserIdPinDesc = 'USER_BY_USER_ID__PIN_DESC',
   UserByUserIdPersonContactIdAsc = 'USER_BY_USER_ID__PERSON_CONTACT_ID_ASC',
   UserByUserIdPersonContactIdDesc = 'USER_BY_USER_ID__PERSON_CONTACT_ID_DESC',
+  UserByUserIdUserCodeAsc = 'USER_BY_USER_ID__USER_CODE_ASC',
+  UserByUserIdUserCodeDesc = 'USER_BY_USER_ID__USER_CODE_DESC',
   ContactGroupPersonContactsByGroupIdCountAsc = 'CONTACT_GROUP_PERSON_CONTACTS_BY_GROUP_ID__COUNT_ASC',
   ContactGroupPersonContactsByGroupIdCountDesc = 'CONTACT_GROUP_PERSON_CONTACTS_BY_GROUP_ID__COUNT_DESC'
 }
@@ -21202,7 +21688,9 @@ export enum UserMessagesOrderBy {
   UserByUserIdPinAsc = 'USER_BY_USER_ID__PIN_ASC',
   UserByUserIdPinDesc = 'USER_BY_USER_ID__PIN_DESC',
   UserByUserIdPersonContactIdAsc = 'USER_BY_USER_ID__PERSON_CONTACT_ID_ASC',
-  UserByUserIdPersonContactIdDesc = 'USER_BY_USER_ID__PERSON_CONTACT_ID_DESC'
+  UserByUserIdPersonContactIdDesc = 'USER_BY_USER_ID__PERSON_CONTACT_ID_DESC',
+  UserByUserIdUserCodeAsc = 'USER_BY_USER_ID__USER_CODE_ASC',
+  UserByUserIdUserCodeDesc = 'USER_BY_USER_ID__USER_CODE_DESC'
 }
 
 /**
@@ -26241,6 +26729,901 @@ export type PriceCategoryCondition = {
   sortOrder?: Maybe<Scalars['Int']>;
 };
 
+/** A connection to a list of `OrderEntry` values. */
+export type OrderEntriesConnection = {
+  __typename?: 'OrderEntriesConnection';
+  /** A list of `OrderEntry` objects. */
+  nodes: Array<Maybe<OrderEntry>>;
+  /** A list of edges which contains the `OrderEntry` and cursor to aid in pagination. */
+  edges: Array<OrderEntriesEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `OrderEntry` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+export type OrderEntry = Node & {
+  __typename?: 'OrderEntry';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  orderId?: Maybe<Scalars['BigFloat']>;
+  backOrderId?: Maybe<Scalars['BigFloat']>;
+  truckLoadId?: Maybe<Scalars['String']>;
+  fob?: Maybe<Scalars['Boolean']>;
+  billingCustomerId?: Maybe<Scalars['String']>;
+  salesUserCode?: Maybe<Scalars['String']>;
+  customerPo?: Maybe<Scalars['String']>;
+  fobDate?: Maybe<Scalars['Date']>;
+  deliveredDate?: Maybe<Scalars['Date']>;
+  orderDate?: Maybe<Scalars['Date']>;
+  reviewUserCode?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  /** Reads and enables pagination through a set of `OrderEntryItem`. */
+  orderEntryItems: OrderEntryItemsConnection;
+  billingCustomer?: Maybe<Customer>;
+  reviewUser?: Maybe<User>;
+  salesUser?: Maybe<User>;
+  searchText?: Maybe<Scalars['String']>;
+};
+
+
+export type OrderEntryOrderEntryItemsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<OrderEntryItemsOrderBy>>;
+  condition?: Maybe<OrderEntryItemCondition>;
+  filter?: Maybe<OrderEntryItemFilter>;
+};
+
+/** A connection to a list of `OrderEntryItem` values. */
+export type OrderEntryItemsConnection = {
+  __typename?: 'OrderEntryItemsConnection';
+  /** A list of `OrderEntryItem` objects. */
+  nodes: Array<Maybe<OrderEntryItem>>;
+  /** A list of edges which contains the `OrderEntryItem` and cursor to aid in pagination. */
+  edges: Array<OrderEntryItemsEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `OrderEntryItem` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+export type OrderEntryItem = Node & {
+  __typename?: 'OrderEntryItem';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  orderEntryId: Scalars['BigInt'];
+  lineId?: Maybe<Scalars['BigFloat']>;
+  palletCount?: Maybe<Scalars['BigFloat']>;
+  unitSellPrice?: Maybe<Scalars['BigFloat']>;
+  deliveryCharge?: Maybe<Scalars['BigFloat']>;
+  locationId?: Maybe<Scalars['String']>;
+  vesselCode?: Maybe<Scalars['String']>;
+  shipperId?: Maybe<Scalars['String']>;
+  species?: Maybe<Scalars['String']>;
+  variety?: Maybe<Scalars['String']>;
+  size?: Maybe<Scalars['String']>;
+  packType?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  label?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  /** Reads a single `OrderEntry` that is related to this `OrderEntryItem`. */
+  orderEntry?: Maybe<OrderEntry>;
+};
+
+/** A `OrderEntryItem` edge in the connection. */
+export type OrderEntryItemsEdge = {
+  __typename?: 'OrderEntryItemsEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `OrderEntryItem` at the end of the edge. */
+  node?: Maybe<OrderEntryItem>;
+};
+
+/** Methods to use when ordering `OrderEntryItem`. */
+export enum OrderEntryItemsOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  OrderEntryIdAsc = 'ORDER_ENTRY_ID_ASC',
+  OrderEntryIdDesc = 'ORDER_ENTRY_ID_DESC',
+  LineIdAsc = 'LINE_ID_ASC',
+  LineIdDesc = 'LINE_ID_DESC',
+  PalletCountAsc = 'PALLET_COUNT_ASC',
+  PalletCountDesc = 'PALLET_COUNT_DESC',
+  UnitSellPriceAsc = 'UNIT_SELL_PRICE_ASC',
+  UnitSellPriceDesc = 'UNIT_SELL_PRICE_DESC',
+  DeliveryChargeAsc = 'DELIVERY_CHARGE_ASC',
+  DeliveryChargeDesc = 'DELIVERY_CHARGE_DESC',
+  LocationIdAsc = 'LOCATION_ID_ASC',
+  LocationIdDesc = 'LOCATION_ID_DESC',
+  VesselCodeAsc = 'VESSEL_CODE_ASC',
+  VesselCodeDesc = 'VESSEL_CODE_DESC',
+  ShipperIdAsc = 'SHIPPER_ID_ASC',
+  ShipperIdDesc = 'SHIPPER_ID_DESC',
+  SpeciesAsc = 'SPECIES_ASC',
+  SpeciesDesc = 'SPECIES_DESC',
+  VarietyAsc = 'VARIETY_ASC',
+  VarietyDesc = 'VARIETY_DESC',
+  SizeAsc = 'SIZE_ASC',
+  SizeDesc = 'SIZE_DESC',
+  PackTypeAsc = 'PACK_TYPE_ASC',
+  PackTypeDesc = 'PACK_TYPE_DESC',
+  PluAsc = 'PLU_ASC',
+  PluDesc = 'PLU_DESC',
+  LabelAsc = 'LABEL_ASC',
+  LabelDesc = 'LABEL_DESC',
+  NotesAsc = 'NOTES_ASC',
+  NotesDesc = 'NOTES_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  OrderEntryByOrderEntryIdIdAsc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__ID_ASC',
+  OrderEntryByOrderEntryIdIdDesc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__ID_DESC',
+  OrderEntryByOrderEntryIdOrderIdAsc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__ORDER_ID_ASC',
+  OrderEntryByOrderEntryIdOrderIdDesc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__ORDER_ID_DESC',
+  OrderEntryByOrderEntryIdBackOrderIdAsc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__BACK_ORDER_ID_ASC',
+  OrderEntryByOrderEntryIdBackOrderIdDesc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__BACK_ORDER_ID_DESC',
+  OrderEntryByOrderEntryIdTruckLoadIdAsc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__TRUCK_LOAD_ID_ASC',
+  OrderEntryByOrderEntryIdTruckLoadIdDesc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__TRUCK_LOAD_ID_DESC',
+  OrderEntryByOrderEntryIdFobAsc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__FOB_ASC',
+  OrderEntryByOrderEntryIdFobDesc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__FOB_DESC',
+  OrderEntryByOrderEntryIdBillingCustomerIdAsc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__BILLING_CUSTOMER_ID_ASC',
+  OrderEntryByOrderEntryIdBillingCustomerIdDesc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__BILLING_CUSTOMER_ID_DESC',
+  OrderEntryByOrderEntryIdSalesUserCodeAsc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__SALES_USER_CODE_ASC',
+  OrderEntryByOrderEntryIdSalesUserCodeDesc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__SALES_USER_CODE_DESC',
+  OrderEntryByOrderEntryIdCustomerPoAsc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__CUSTOMER_PO_ASC',
+  OrderEntryByOrderEntryIdCustomerPoDesc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__CUSTOMER_PO_DESC',
+  OrderEntryByOrderEntryIdFobDateAsc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__FOB_DATE_ASC',
+  OrderEntryByOrderEntryIdFobDateDesc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__FOB_DATE_DESC',
+  OrderEntryByOrderEntryIdDeliveredDateAsc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__DELIVERED_DATE_ASC',
+  OrderEntryByOrderEntryIdDeliveredDateDesc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__DELIVERED_DATE_DESC',
+  OrderEntryByOrderEntryIdOrderDateAsc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__ORDER_DATE_ASC',
+  OrderEntryByOrderEntryIdOrderDateDesc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__ORDER_DATE_DESC',
+  OrderEntryByOrderEntryIdReviewUserCodeAsc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__REVIEW_USER_CODE_ASC',
+  OrderEntryByOrderEntryIdReviewUserCodeDesc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__REVIEW_USER_CODE_DESC',
+  OrderEntryByOrderEntryIdNotesAsc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__NOTES_ASC',
+  OrderEntryByOrderEntryIdNotesDesc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__NOTES_DESC'
+}
+
+/**
+ * A condition to be used against `OrderEntryItem` object types. All fields are
+ * tested for equality and combined with a logical ‘and.’
+ */
+export type OrderEntryItemCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `orderEntryId` field. */
+  orderEntryId?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `lineId` field. */
+  lineId?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `palletCount` field. */
+  palletCount?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `unitSellPrice` field. */
+  unitSellPrice?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `deliveryCharge` field. */
+  deliveryCharge?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `locationId` field. */
+  locationId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `vesselCode` field. */
+  vesselCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `shipperId` field. */
+  shipperId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `species` field. */
+  species?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `variety` field. */
+  variety?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `size` field. */
+  size?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `packType` field. */
+  packType?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `plu` field. */
+  plu?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `label` field. */
+  label?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `notes` field. */
+  notes?: Maybe<Scalars['String']>;
+};
+
+/** A filter to be used against `OrderEntryItem` object types. All fields are combined with a logical ‘and.’ */
+export type OrderEntryItemFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `orderEntryId` field. */
+  orderEntryId?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `lineId` field. */
+  lineId?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `palletCount` field. */
+  palletCount?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `unitSellPrice` field. */
+  unitSellPrice?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `deliveryCharge` field. */
+  deliveryCharge?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `locationId` field. */
+  locationId?: Maybe<StringFilter>;
+  /** Filter by the object’s `vesselCode` field. */
+  vesselCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `shipperId` field. */
+  shipperId?: Maybe<StringFilter>;
+  /** Filter by the object’s `species` field. */
+  species?: Maybe<StringFilter>;
+  /** Filter by the object’s `variety` field. */
+  variety?: Maybe<StringFilter>;
+  /** Filter by the object’s `size` field. */
+  size?: Maybe<StringFilter>;
+  /** Filter by the object’s `packType` field. */
+  packType?: Maybe<StringFilter>;
+  /** Filter by the object’s `plu` field. */
+  plu?: Maybe<StringFilter>;
+  /** Filter by the object’s `label` field. */
+  label?: Maybe<StringFilter>;
+  /** Filter by the object’s `notes` field. */
+  notes?: Maybe<StringFilter>;
+  /** Filter by the object’s `orderEntry` relation. */
+  orderEntry?: Maybe<OrderEntryFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<OrderEntryItemFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<OrderEntryItemFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<OrderEntryItemFilter>;
+};
+
+/** A filter to be used against `OrderEntry` object types. All fields are combined with a logical ‘and.’ */
+export type OrderEntryFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `orderId` field. */
+  orderId?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `backOrderId` field. */
+  backOrderId?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `truckLoadId` field. */
+  truckLoadId?: Maybe<StringFilter>;
+  /** Filter by the object’s `fob` field. */
+  fob?: Maybe<BooleanFilter>;
+  /** Filter by the object’s `billingCustomerId` field. */
+  billingCustomerId?: Maybe<StringFilter>;
+  /** Filter by the object’s `salesUserCode` field. */
+  salesUserCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `customerPo` field. */
+  customerPo?: Maybe<StringFilter>;
+  /** Filter by the object’s `fobDate` field. */
+  fobDate?: Maybe<DateFilter>;
+  /** Filter by the object’s `deliveredDate` field. */
+  deliveredDate?: Maybe<DateFilter>;
+  /** Filter by the object’s `orderDate` field. */
+  orderDate?: Maybe<DateFilter>;
+  /** Filter by the object’s `reviewUserCode` field. */
+  reviewUserCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `notes` field. */
+  notes?: Maybe<StringFilter>;
+  /** Filter by the object’s `searchText` field. */
+  searchText?: Maybe<StringFilter>;
+  /** Filter by the object’s `orderEntryItems` relation. */
+  orderEntryItems?: Maybe<OrderEntryToManyOrderEntryItemFilter>;
+  /** Some related `orderEntryItems` exist. */
+  orderEntryItemsExist?: Maybe<Scalars['Boolean']>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<OrderEntryFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<OrderEntryFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<OrderEntryFilter>;
+};
+
+/** A filter to be used against many `OrderEntryItem` object types. All fields are combined with a logical ‘and.’ */
+export type OrderEntryToManyOrderEntryItemFilter = {
+  /** Every related `OrderEntryItem` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<OrderEntryItemFilter>;
+  /** Some related `OrderEntryItem` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<OrderEntryItemFilter>;
+  /** No related `OrderEntryItem` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<OrderEntryItemFilter>;
+};
+
+/** A `OrderEntry` edge in the connection. */
+export type OrderEntriesEdge = {
+  __typename?: 'OrderEntriesEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `OrderEntry` at the end of the edge. */
+  node?: Maybe<OrderEntry>;
+};
+
+/** Methods to use when ordering `OrderEntry`. */
+export enum OrderEntriesOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  OrderIdAsc = 'ORDER_ID_ASC',
+  OrderIdDesc = 'ORDER_ID_DESC',
+  BackOrderIdAsc = 'BACK_ORDER_ID_ASC',
+  BackOrderIdDesc = 'BACK_ORDER_ID_DESC',
+  TruckLoadIdAsc = 'TRUCK_LOAD_ID_ASC',
+  TruckLoadIdDesc = 'TRUCK_LOAD_ID_DESC',
+  FobAsc = 'FOB_ASC',
+  FobDesc = 'FOB_DESC',
+  BillingCustomerIdAsc = 'BILLING_CUSTOMER_ID_ASC',
+  BillingCustomerIdDesc = 'BILLING_CUSTOMER_ID_DESC',
+  SalesUserCodeAsc = 'SALES_USER_CODE_ASC',
+  SalesUserCodeDesc = 'SALES_USER_CODE_DESC',
+  CustomerPoAsc = 'CUSTOMER_PO_ASC',
+  CustomerPoDesc = 'CUSTOMER_PO_DESC',
+  FobDateAsc = 'FOB_DATE_ASC',
+  FobDateDesc = 'FOB_DATE_DESC',
+  DeliveredDateAsc = 'DELIVERED_DATE_ASC',
+  DeliveredDateDesc = 'DELIVERED_DATE_DESC',
+  OrderDateAsc = 'ORDER_DATE_ASC',
+  OrderDateDesc = 'ORDER_DATE_DESC',
+  ReviewUserCodeAsc = 'REVIEW_USER_CODE_ASC',
+  ReviewUserCodeDesc = 'REVIEW_USER_CODE_DESC',
+  NotesAsc = 'NOTES_ASC',
+  NotesDesc = 'NOTES_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  OrderEntryItemsByOrderEntryIdCountAsc = 'ORDER_ENTRY_ITEMS_BY_ORDER_ENTRY_ID__COUNT_ASC',
+  OrderEntryItemsByOrderEntryIdCountDesc = 'ORDER_ENTRY_ITEMS_BY_ORDER_ENTRY_ID__COUNT_DESC'
+}
+
+/**
+ * A condition to be used against `OrderEntry` object types. All fields are tested
+ * for equality and combined with a logical ‘and.’
+ */
+export type OrderEntryCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `orderId` field. */
+  orderId?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `backOrderId` field. */
+  backOrderId?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `truckLoadId` field. */
+  truckLoadId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `fob` field. */
+  fob?: Maybe<Scalars['Boolean']>;
+  /** Checks for equality with the object’s `billingCustomerId` field. */
+  billingCustomerId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `salesUserCode` field. */
+  salesUserCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `customerPo` field. */
+  customerPo?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `fobDate` field. */
+  fobDate?: Maybe<Scalars['Date']>;
+  /** Checks for equality with the object’s `deliveredDate` field. */
+  deliveredDate?: Maybe<Scalars['Date']>;
+  /** Checks for equality with the object’s `orderDate` field. */
+  orderDate?: Maybe<Scalars['Date']>;
+  /** Checks for equality with the object’s `reviewUserCode` field. */
+  reviewUserCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `notes` field. */
+  notes?: Maybe<Scalars['String']>;
+};
+
+/** Methods to use when ordering `OrderItem`. */
+export enum OrderItemsOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  ItemStatusAsc = 'ITEM_STATUS_ASC',
+  ItemStatusDesc = 'ITEM_STATUS_DESC',
+  OrderIdAsc = 'ORDER_ID_ASC',
+  OrderIdDesc = 'ORDER_ID_DESC',
+  BackOrderIdAsc = 'BACK_ORDER_ID_ASC',
+  BackOrderIdDesc = 'BACK_ORDER_ID_DESC',
+  LineIdAsc = 'LINE_ID_ASC',
+  LineIdDesc = 'LINE_ID_DESC',
+  PalletCountAsc = 'PALLET_COUNT_ASC',
+  PalletCountDesc = 'PALLET_COUNT_DESC',
+  UnitSellPriceAsc = 'UNIT_SELL_PRICE_ASC',
+  UnitSellPriceDesc = 'UNIT_SELL_PRICE_DESC',
+  DeliveryChargeAsc = 'DELIVERY_CHARGE_ASC',
+  DeliveryChargeDesc = 'DELIVERY_CHARGE_DESC',
+  IsBundleAsc = 'IS_BUNDLE_ASC',
+  IsBundleDesc = 'IS_BUNDLE_DESC',
+  BoxCountAsc = 'BOX_COUNT_ASC',
+  BoxCountDesc = 'BOX_COUNT_DESC',
+  ProductIdAsc = 'PRODUCT_ID_ASC',
+  ProductIdDesc = 'PRODUCT_ID_DESC',
+  LocationIdAsc = 'LOCATION_ID_ASC',
+  LocationIdDesc = 'LOCATION_ID_DESC',
+  VesselCodeAsc = 'VESSEL_CODE_ASC',
+  VesselCodeDesc = 'VESSEL_CODE_DESC',
+  JvLotNumberAsc = 'JV_LOT_NUMBER_ASC',
+  JvLotNumberDesc = 'JV_LOT_NUMBER_DESC',
+  ShipperIdAsc = 'SHIPPER_ID_ASC',
+  ShipperIdDesc = 'SHIPPER_ID_DESC',
+  NotesAsc = 'NOTES_ASC',
+  NotesDesc = 'NOTES_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
+/**
+ * A condition to be used against `OrderItem` object types. All fields are tested
+ * for equality and combined with a logical ‘and.’
+ */
+export type OrderItemCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `itemStatus` field. */
+  itemStatus?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `orderId` field. */
+  orderId?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `backOrderId` field. */
+  backOrderId?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `lineId` field. */
+  lineId?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `palletCount` field. */
+  palletCount?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `unitSellPrice` field. */
+  unitSellPrice?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `deliveryCharge` field. */
+  deliveryCharge?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `isBundle` field. */
+  isBundle?: Maybe<Scalars['Boolean']>;
+  /** Checks for equality with the object’s `boxCount` field. */
+  boxCount?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `productId` field. */
+  productId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `locationId` field. */
+  locationId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `vesselCode` field. */
+  vesselCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `jvLotNumber` field. */
+  jvLotNumber?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `shipperId` field. */
+  shipperId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `notes` field. */
+  notes?: Maybe<Scalars['String']>;
+};
+
+/** Methods to use when ordering `OrderMaster`. */
+export enum OrderMastersOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  OrderStatusAsc = 'ORDER_STATUS_ASC',
+  OrderStatusDesc = 'ORDER_STATUS_DESC',
+  PaidCodeAsc = 'PAID_CODE_ASC',
+  PaidCodeDesc = 'PAID_CODE_DESC',
+  LoadStatusAsc = 'LOAD_STATUS_ASC',
+  LoadStatusDesc = 'LOAD_STATUS_DESC',
+  OrderIdAsc = 'ORDER_ID_ASC',
+  OrderIdDesc = 'ORDER_ID_DESC',
+  BackOrderIdAsc = 'BACK_ORDER_ID_ASC',
+  BackOrderIdDesc = 'BACK_ORDER_ID_DESC',
+  ShipWarehouseIdAsc = 'SHIP_WAREHOUSE_ID_ASC',
+  ShipWarehouseIdDesc = 'SHIP_WAREHOUSE_ID_DESC',
+  TruckLoadIdAsc = 'TRUCK_LOAD_ID_ASC',
+  TruckLoadIdDesc = 'TRUCK_LOAD_ID_DESC',
+  FobAsc = 'FOB_ASC',
+  FobDesc = 'FOB_DESC',
+  BillingCustomerIdAsc = 'BILLING_CUSTOMER_ID_ASC',
+  BillingCustomerIdDesc = 'BILLING_CUSTOMER_ID_DESC',
+  SalesUserCodeAsc = 'SALES_USER_CODE_ASC',
+  SalesUserCodeDesc = 'SALES_USER_CODE_DESC',
+  CustomerPoAsc = 'CUSTOMER_PO_ASC',
+  CustomerPoDesc = 'CUSTOMER_PO_DESC',
+  ExpectedShipDateAsc = 'EXPECTED_SHIP_DATE_ASC',
+  ExpectedShipDateDesc = 'EXPECTED_SHIP_DATE_DESC',
+  OrderDateAsc = 'ORDER_DATE_ASC',
+  OrderDateDesc = 'ORDER_DATE_DESC',
+  EntryDateAsc = 'ENTRY_DATE_ASC',
+  EntryDateDesc = 'ENTRY_DATE_DESC',
+  ActualShipDateAsc = 'ACTUAL_SHIP_DATE_ASC',
+  ActualShipDateDesc = 'ACTUAL_SHIP_DATE_DESC',
+  InvoiceDateAsc = 'INVOICE_DATE_ASC',
+  InvoiceDateDesc = 'INVOICE_DATE_DESC',
+  ShippingCustomerIdAsc = 'SHIPPING_CUSTOMER_ID_ASC',
+  ShippingCustomerIdDesc = 'SHIPPING_CUSTOMER_ID_DESC',
+  EntryUserCodeAsc = 'ENTRY_USER_CODE_ASC',
+  EntryUserCodeDesc = 'ENTRY_USER_CODE_DESC',
+  RegisterNumberAsc = 'REGISTER_NUMBER_ASC',
+  RegisterNumberDesc = 'REGISTER_NUMBER_DESC',
+  DeliveryZoneAsc = 'DELIVERY_ZONE_ASC',
+  DeliveryZoneDesc = 'DELIVERY_ZONE_DESC',
+  AmountOwedAsc = 'AMOUNT_OWED_ASC',
+  AmountOwedDesc = 'AMOUNT_OWED_DESC',
+  LoadLocationAsc = 'LOAD_LOCATION_ASC',
+  LoadLocationDesc = 'LOAD_LOCATION_DESC',
+  VendorIdAsc = 'VENDOR_ID_ASC',
+  VendorIdDesc = 'VENDOR_ID_DESC',
+  InvoiceIdAsc = 'INVOICE_ID_ASC',
+  InvoiceIdDesc = 'INVOICE_ID_DESC',
+  NotesAsc = 'NOTES_ASC',
+  NotesDesc = 'NOTES_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
+/**
+ * A condition to be used against `OrderMaster` object types. All fields are tested
+ * for equality and combined with a logical ‘and.’
+ */
+export type OrderMasterCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `orderStatus` field. */
+  orderStatus?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `paidCode` field. */
+  paidCode?: Maybe<Scalars['Boolean']>;
+  /** Checks for equality with the object’s `loadStatus` field. */
+  loadStatus?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `orderId` field. */
+  orderId?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `backOrderId` field. */
+  backOrderId?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `shipWarehouseId` field. */
+  shipWarehouseId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `truckLoadId` field. */
+  truckLoadId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `fob` field. */
+  fob?: Maybe<Scalars['Boolean']>;
+  /** Checks for equality with the object’s `billingCustomerId` field. */
+  billingCustomerId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `salesUserCode` field. */
+  salesUserCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `customerPo` field. */
+  customerPo?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `expectedShipDate` field. */
+  expectedShipDate?: Maybe<Scalars['Date']>;
+  /** Checks for equality with the object’s `orderDate` field. */
+  orderDate?: Maybe<Scalars['Date']>;
+  /** Checks for equality with the object’s `entryDate` field. */
+  entryDate?: Maybe<Scalars['Date']>;
+  /** Checks for equality with the object’s `actualShipDate` field. */
+  actualShipDate?: Maybe<Scalars['Date']>;
+  /** Checks for equality with the object’s `invoiceDate` field. */
+  invoiceDate?: Maybe<Scalars['Date']>;
+  /** Checks for equality with the object’s `shippingCustomerId` field. */
+  shippingCustomerId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `entryUserCode` field. */
+  entryUserCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `registerNumber` field. */
+  registerNumber?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `deliveryZone` field. */
+  deliveryZone?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `amountOwed` field. */
+  amountOwed?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `loadLocation` field. */
+  loadLocation?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `vendorId` field. */
+  vendorId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `invoiceId` field. */
+  invoiceId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `notes` field. */
+  notes?: Maybe<Scalars['String']>;
+};
+
+/** A connection to a list of `OrderPallet` values. */
+export type OrderPalletsConnection = {
+  __typename?: 'OrderPalletsConnection';
+  /** A list of `OrderPallet` objects. */
+  nodes: Array<Maybe<OrderPallet>>;
+  /** A list of edges which contains the `OrderPallet` and cursor to aid in pagination. */
+  edges: Array<OrderPalletsEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `OrderPallet` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+export type OrderPallet = Node & {
+  __typename?: 'OrderPallet';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  palletStatus?: Maybe<Scalars['String']>;
+  orderId?: Maybe<Scalars['BigFloat']>;
+  backOrderId?: Maybe<Scalars['BigFloat']>;
+  lineId?: Maybe<Scalars['BigFloat']>;
+  palletId?: Maybe<Scalars['String']>;
+  conditionCode?: Maybe<Scalars['String']>;
+  repackId?: Maybe<Scalars['String']>;
+  creditCode?: Maybe<Scalars['String']>;
+  priceAdjustment?: Maybe<Scalars['BigFloat']>;
+  freightAdjustment?: Maybe<Scalars['BigFloat']>;
+  notes?: Maybe<Scalars['String']>;
+  orderItem?: Maybe<OrderItem>;
+  productPallet?: Maybe<Pallet>;
+};
+
+/** A `OrderPallet` edge in the connection. */
+export type OrderPalletsEdge = {
+  __typename?: 'OrderPalletsEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `OrderPallet` at the end of the edge. */
+  node?: Maybe<OrderPallet>;
+};
+
+/** Methods to use when ordering `OrderPallet`. */
+export enum OrderPalletsOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  PalletStatusAsc = 'PALLET_STATUS_ASC',
+  PalletStatusDesc = 'PALLET_STATUS_DESC',
+  OrderIdAsc = 'ORDER_ID_ASC',
+  OrderIdDesc = 'ORDER_ID_DESC',
+  BackOrderIdAsc = 'BACK_ORDER_ID_ASC',
+  BackOrderIdDesc = 'BACK_ORDER_ID_DESC',
+  LineIdAsc = 'LINE_ID_ASC',
+  LineIdDesc = 'LINE_ID_DESC',
+  PalletIdAsc = 'PALLET_ID_ASC',
+  PalletIdDesc = 'PALLET_ID_DESC',
+  ConditionCodeAsc = 'CONDITION_CODE_ASC',
+  ConditionCodeDesc = 'CONDITION_CODE_DESC',
+  RepackIdAsc = 'REPACK_ID_ASC',
+  RepackIdDesc = 'REPACK_ID_DESC',
+  CreditCodeAsc = 'CREDIT_CODE_ASC',
+  CreditCodeDesc = 'CREDIT_CODE_DESC',
+  PriceAdjustmentAsc = 'PRICE_ADJUSTMENT_ASC',
+  PriceAdjustmentDesc = 'PRICE_ADJUSTMENT_DESC',
+  FreightAdjustmentAsc = 'FREIGHT_ADJUSTMENT_ASC',
+  FreightAdjustmentDesc = 'FREIGHT_ADJUSTMENT_DESC',
+  NotesAsc = 'NOTES_ASC',
+  NotesDesc = 'NOTES_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
+/**
+ * A condition to be used against `OrderPallet` object types. All fields are tested
+ * for equality and combined with a logical ‘and.’
+ */
+export type OrderPalletCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `palletStatus` field. */
+  palletStatus?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `orderId` field. */
+  orderId?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `backOrderId` field. */
+  backOrderId?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `lineId` field. */
+  lineId?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `palletId` field. */
+  palletId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `conditionCode` field. */
+  conditionCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `repackId` field. */
+  repackId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `creditCode` field. */
+  creditCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `priceAdjustment` field. */
+  priceAdjustment?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `freightAdjustment` field. */
+  freightAdjustment?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `notes` field. */
+  notes?: Maybe<Scalars['String']>;
+};
+
+/** A filter to be used against `OrderPallet` object types. All fields are combined with a logical ‘and.’ */
+export type OrderPalletFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `palletStatus` field. */
+  palletStatus?: Maybe<StringFilter>;
+  /** Filter by the object’s `orderId` field. */
+  orderId?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `backOrderId` field. */
+  backOrderId?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `lineId` field. */
+  lineId?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `palletId` field. */
+  palletId?: Maybe<StringFilter>;
+  /** Filter by the object’s `conditionCode` field. */
+  conditionCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `repackId` field. */
+  repackId?: Maybe<StringFilter>;
+  /** Filter by the object’s `creditCode` field. */
+  creditCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `priceAdjustment` field. */
+  priceAdjustment?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `freightAdjustment` field. */
+  freightAdjustment?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `notes` field. */
+  notes?: Maybe<StringFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<OrderPalletFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<OrderPalletFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<OrderPalletFilter>;
+};
+
+/** A connection to a list of `TruckLoad` values. */
+export type TruckLoadsConnection = {
+  __typename?: 'TruckLoadsConnection';
+  /** A list of `TruckLoad` objects. */
+  nodes: Array<Maybe<TruckLoad>>;
+  /** A list of edges which contains the `TruckLoad` and cursor to aid in pagination. */
+  edges: Array<TruckLoadsEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `TruckLoad` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `TruckLoad` edge in the connection. */
+export type TruckLoadsEdge = {
+  __typename?: 'TruckLoadsEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `TruckLoad` at the end of the edge. */
+  node?: Maybe<TruckLoad>;
+};
+
+/** Methods to use when ordering `TruckLoad`. */
+export enum TruckLoadsOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  LoadIdAsc = 'LOAD_ID_ASC',
+  LoadIdDesc = 'LOAD_ID_DESC',
+  LoadStatusAsc = 'LOAD_STATUS_ASC',
+  LoadStatusDesc = 'LOAD_STATUS_DESC',
+  VendorIdAsc = 'VENDOR_ID_ASC',
+  VendorIdDesc = 'VENDOR_ID_DESC',
+  FobAsc = 'FOB_ASC',
+  FobDesc = 'FOB_DESC',
+  RyanNumberAsc = 'RYAN_NUMBER_ASC',
+  RyanNumberDesc = 'RYAN_NUMBER_DESC',
+  TruckerNameAsc = 'TRUCKER_NAME_ASC',
+  TruckerNameDesc = 'TRUCKER_NAME_DESC',
+  ExpeditorNameAsc = 'EXPEDITOR_NAME_ASC',
+  ExpeditorNameDesc = 'EXPEDITOR_NAME_DESC',
+  TimeStartedAsc = 'TIME_STARTED_ASC',
+  TimeStartedDesc = 'TIME_STARTED_DESC',
+  TimeCompletedAsc = 'TIME_COMPLETED_ASC',
+  TimeCompletedDesc = 'TIME_COMPLETED_DESC',
+  TimeInAsc = 'TIME_IN_ASC',
+  TimeInDesc = 'TIME_IN_DESC',
+  TimeOutAsc = 'TIME_OUT_ASC',
+  TimeOutDesc = 'TIME_OUT_DESC',
+  TimeConfirmedAsc = 'TIME_CONFIRMED_ASC',
+  TimeConfirmedDesc = 'TIME_CONFIRMED_DESC',
+  WarehouseIdAsc = 'WAREHOUSE_ID_ASC',
+  WarehouseIdDesc = 'WAREHOUSE_ID_DESC',
+  ChangeFlagAsc = 'CHANGE_FLAG_ASC',
+  ChangeFlagDesc = 'CHANGE_FLAG_DESC',
+  LicensePlateAsc = 'LICENSE_PLATE_ASC',
+  LicensePlateDesc = 'LICENSE_PLATE_DESC',
+  InUseAsc = 'IN_USE_ASC',
+  InUseDesc = 'IN_USE_DESC',
+  CartageAsc = 'CARTAGE_ASC',
+  CartageDesc = 'CARTAGE_DESC',
+  TemperatureAsc = 'TEMPERATURE_ASC',
+  TemperatureDesc = 'TEMPERATURE_DESC',
+  LoadLockAsc = 'LOAD_LOCK_ASC',
+  LoadLockDesc = 'LOAD_LOCK_DESC',
+  NotesAsc = 'NOTES_ASC',
+  NotesDesc = 'NOTES_DESC',
+  ShipDateAsc = 'SHIP_DATE_ASC',
+  ShipDateDesc = 'SHIP_DATE_DESC',
+  CartageVendorIdAsc = 'CARTAGE_VENDOR_ID_ASC',
+  CartageVendorIdDesc = 'CARTAGE_VENDOR_ID_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
+/**
+ * A condition to be used against `TruckLoad` object types. All fields are tested
+ * for equality and combined with a logical ‘and.’
+ */
+export type TruckLoadCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `loadId` field. */
+  loadId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `loadStatus` field. */
+  loadStatus?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `vendorId` field. */
+  vendorId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `fob` field. */
+  fob?: Maybe<Scalars['Boolean']>;
+  /** Checks for equality with the object’s `ryanNumber` field. */
+  ryanNumber?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `truckerName` field. */
+  truckerName?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `expeditorName` field. */
+  expeditorName?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `timeStarted` field. */
+  timeStarted?: Maybe<Scalars['Datetime']>;
+  /** Checks for equality with the object’s `timeCompleted` field. */
+  timeCompleted?: Maybe<Scalars['Datetime']>;
+  /** Checks for equality with the object’s `timeIn` field. */
+  timeIn?: Maybe<Scalars['Datetime']>;
+  /** Checks for equality with the object’s `timeOut` field. */
+  timeOut?: Maybe<Scalars['Datetime']>;
+  /** Checks for equality with the object’s `timeConfirmed` field. */
+  timeConfirmed?: Maybe<Scalars['Datetime']>;
+  /** Checks for equality with the object’s `warehouseId` field. */
+  warehouseId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `changeFlag` field. */
+  changeFlag?: Maybe<Scalars['Boolean']>;
+  /** Checks for equality with the object’s `licensePlate` field. */
+  licensePlate?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `inUse` field. */
+  inUse?: Maybe<Scalars['Boolean']>;
+  /** Checks for equality with the object’s `cartage` field. */
+  cartage?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `temperature` field. */
+  temperature?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `loadLock` field. */
+  loadLock?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `notes` field. */
+  notes?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `shipDate` field. */
+  shipDate?: Maybe<Scalars['Date']>;
+  /** Checks for equality with the object’s `cartageVendorId` field. */
+  cartageVendorId?: Maybe<Scalars['String']>;
+};
+
+/** A filter to be used against `TruckLoad` object types. All fields are combined with a logical ‘and.’ */
+export type TruckLoadFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `loadId` field. */
+  loadId?: Maybe<StringFilter>;
+  /** Filter by the object’s `loadStatus` field. */
+  loadStatus?: Maybe<StringFilter>;
+  /** Filter by the object’s `vendorId` field. */
+  vendorId?: Maybe<StringFilter>;
+  /** Filter by the object’s `fob` field. */
+  fob?: Maybe<BooleanFilter>;
+  /** Filter by the object’s `ryanNumber` field. */
+  ryanNumber?: Maybe<StringFilter>;
+  /** Filter by the object’s `truckerName` field. */
+  truckerName?: Maybe<StringFilter>;
+  /** Filter by the object’s `expeditorName` field. */
+  expeditorName?: Maybe<StringFilter>;
+  /** Filter by the object’s `timeStarted` field. */
+  timeStarted?: Maybe<DatetimeFilter>;
+  /** Filter by the object’s `timeCompleted` field. */
+  timeCompleted?: Maybe<DatetimeFilter>;
+  /** Filter by the object’s `timeIn` field. */
+  timeIn?: Maybe<DatetimeFilter>;
+  /** Filter by the object’s `timeOut` field. */
+  timeOut?: Maybe<DatetimeFilter>;
+  /** Filter by the object’s `timeConfirmed` field. */
+  timeConfirmed?: Maybe<DatetimeFilter>;
+  /** Filter by the object’s `warehouseId` field. */
+  warehouseId?: Maybe<StringFilter>;
+  /** Filter by the object’s `changeFlag` field. */
+  changeFlag?: Maybe<BooleanFilter>;
+  /** Filter by the object’s `licensePlate` field. */
+  licensePlate?: Maybe<StringFilter>;
+  /** Filter by the object’s `inUse` field. */
+  inUse?: Maybe<BooleanFilter>;
+  /** Filter by the object’s `cartage` field. */
+  cartage?: Maybe<StringFilter>;
+  /** Filter by the object’s `temperature` field. */
+  temperature?: Maybe<StringFilter>;
+  /** Filter by the object’s `loadLock` field. */
+  loadLock?: Maybe<StringFilter>;
+  /** Filter by the object’s `notes` field. */
+  notes?: Maybe<StringFilter>;
+  /** Filter by the object’s `shipDate` field. */
+  shipDate?: Maybe<DateFilter>;
+  /** Filter by the object’s `cartageVendorId` field. */
+  cartageVendorId?: Maybe<StringFilter>;
+  /** Filter by the object’s `hasOrderMasters` field. */
+  hasOrderMasters?: Maybe<IntFilter>;
+  /** Filter by the object’s `searchText` field. */
+  searchText?: Maybe<StringFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<TruckLoadFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<TruckLoadFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<TruckLoadFilter>;
+};
+
 /** A connection to a list of `String` values. */
 export type DistinctValuesConnection = {
   __typename?: 'DistinctValuesConnection';
@@ -26262,19 +27645,19 @@ export type DistinctValueEdge = {
 };
 
 /** A connection to a list of `String` values. */
-export type CustomerDistinctValuesConnection = {
-  __typename?: 'CustomerDistinctValuesConnection';
+export type CustomerDistinctColumnValuesConnection = {
+  __typename?: 'CustomerDistinctColumnValuesConnection';
   /** A list of `String` objects. */
   nodes: Array<Maybe<Scalars['String']>>;
   /** A list of edges which contains the `String` and cursor to aid in pagination. */
-  edges: Array<CustomerDistinctValueEdge>;
+  edges: Array<CustomerDistinctColumnValueEdge>;
   /** The count of *all* `String` you could get from the connection. */
   totalCount: Scalars['Int'];
 };
 
 /** A `String` edge in the connection. */
-export type CustomerDistinctValueEdge = {
-  __typename?: 'CustomerDistinctValueEdge';
+export type CustomerDistinctColumnValueEdge = {
+  __typename?: 'CustomerDistinctColumnValueEdge';
   /** A cursor for use in pagination. */
   cursor?: Maybe<Scalars['Cursor']>;
   /** The `String` at the end of the edge. */
@@ -26391,6 +27774,46 @@ export type PsaInspectionVesselDistinctValuesConnection = {
 /** A `String` edge in the connection. */
 export type PsaInspectionVesselDistinctValueEdge = {
   __typename?: 'PsaInspectionVesselDistinctValueEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `String` at the end of the edge. */
+  node?: Maybe<Scalars['String']>;
+};
+
+/** A connection to a list of `String` values. */
+export type CustomerDistinctValuesConnection = {
+  __typename?: 'CustomerDistinctValuesConnection';
+  /** A list of `String` objects. */
+  nodes: Array<Maybe<Scalars['String']>>;
+  /** A list of edges which contains the `String` and cursor to aid in pagination. */
+  edges: Array<CustomerDistinctValueEdge>;
+  /** The count of *all* `String` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `String` edge in the connection. */
+export type CustomerDistinctValueEdge = {
+  __typename?: 'CustomerDistinctValueEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `String` at the end of the edge. */
+  node?: Maybe<Scalars['String']>;
+};
+
+/** A connection to a list of `String` values. */
+export type OrderMasterCustomerDistinctValuesConnection = {
+  __typename?: 'OrderMasterCustomerDistinctValuesConnection';
+  /** A list of `String` objects. */
+  nodes: Array<Maybe<Scalars['String']>>;
+  /** A list of edges which contains the `String` and cursor to aid in pagination. */
+  edges: Array<OrderMasterCustomerDistinctValueEdge>;
+  /** The count of *all* `String` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `String` edge in the connection. */
+export type OrderMasterCustomerDistinctValueEdge = {
+  __typename?: 'OrderMasterCustomerDistinctValueEdge';
   /** A cursor for use in pagination. */
   cursor?: Maybe<Scalars['Cursor']>;
   /** The `String` at the end of the edge. */
@@ -26580,6 +28003,18 @@ export type Mutation = {
   createPriceProduct?: Maybe<CreatePriceProductPayload>;
   /** Creates a single `PriceSize`. */
   createPriceSize?: Maybe<CreatePriceSizePayload>;
+  /** Creates a single `OrderEntry`. */
+  createOrderEntry?: Maybe<CreateOrderEntryPayload>;
+  /** Creates a single `OrderEntryItem`. */
+  createOrderEntryItem?: Maybe<CreateOrderEntryItemPayload>;
+  /** Creates a single `OrderItem`. */
+  createOrderItem?: Maybe<CreateOrderItemPayload>;
+  /** Creates a single `OrderMaster`. */
+  createOrderMaster?: Maybe<CreateOrderMasterPayload>;
+  /** Creates a single `OrderPallet`. */
+  createOrderPallet?: Maybe<CreateOrderPalletPayload>;
+  /** Creates a single `TruckLoad`. */
+  createTruckLoad?: Maybe<CreateTruckLoadPayload>;
   /** Updates a single `User` using its globally unique id and a patch. */
   updateUserByNodeId?: Maybe<UpdateUserPayload>;
   /** Updates a single `User` using a unique key and a patch. */
@@ -26922,6 +28357,30 @@ export type Mutation = {
   updatePriceSizeByNodeId?: Maybe<UpdatePriceSizePayload>;
   /** Updates a single `PriceSize` using a unique key and a patch. */
   updatePriceSize?: Maybe<UpdatePriceSizePayload>;
+  /** Updates a single `OrderEntry` using its globally unique id and a patch. */
+  updateOrderEntryByNodeId?: Maybe<UpdateOrderEntryPayload>;
+  /** Updates a single `OrderEntry` using a unique key and a patch. */
+  updateOrderEntry?: Maybe<UpdateOrderEntryPayload>;
+  /** Updates a single `OrderEntryItem` using its globally unique id and a patch. */
+  updateOrderEntryItemByNodeId?: Maybe<UpdateOrderEntryItemPayload>;
+  /** Updates a single `OrderEntryItem` using a unique key and a patch. */
+  updateOrderEntryItem?: Maybe<UpdateOrderEntryItemPayload>;
+  /** Updates a single `OrderItem` using its globally unique id and a patch. */
+  updateOrderItemByNodeId?: Maybe<UpdateOrderItemPayload>;
+  /** Updates a single `OrderItem` using a unique key and a patch. */
+  updateOrderItem?: Maybe<UpdateOrderItemPayload>;
+  /** Updates a single `OrderMaster` using its globally unique id and a patch. */
+  updateOrderMasterByNodeId?: Maybe<UpdateOrderMasterPayload>;
+  /** Updates a single `OrderMaster` using a unique key and a patch. */
+  updateOrderMaster?: Maybe<UpdateOrderMasterPayload>;
+  /** Updates a single `OrderPallet` using its globally unique id and a patch. */
+  updateOrderPalletByNodeId?: Maybe<UpdateOrderPalletPayload>;
+  /** Updates a single `OrderPallet` using a unique key and a patch. */
+  updateOrderPallet?: Maybe<UpdateOrderPalletPayload>;
+  /** Updates a single `TruckLoad` using its globally unique id and a patch. */
+  updateTruckLoadByNodeId?: Maybe<UpdateTruckLoadPayload>;
+  /** Updates a single `TruckLoad` using a unique key and a patch. */
+  updateTruckLoad?: Maybe<UpdateTruckLoadPayload>;
   /** Deletes a single `User` using its globally unique id. */
   deleteUserByNodeId?: Maybe<DeleteUserPayload>;
   /** Deletes a single `User` using a unique key. */
@@ -27264,6 +28723,30 @@ export type Mutation = {
   deletePriceSizeByNodeId?: Maybe<DeletePriceSizePayload>;
   /** Deletes a single `PriceSize` using a unique key. */
   deletePriceSize?: Maybe<DeletePriceSizePayload>;
+  /** Deletes a single `OrderEntry` using its globally unique id. */
+  deleteOrderEntryByNodeId?: Maybe<DeleteOrderEntryPayload>;
+  /** Deletes a single `OrderEntry` using a unique key. */
+  deleteOrderEntry?: Maybe<DeleteOrderEntryPayload>;
+  /** Deletes a single `OrderEntryItem` using its globally unique id. */
+  deleteOrderEntryItemByNodeId?: Maybe<DeleteOrderEntryItemPayload>;
+  /** Deletes a single `OrderEntryItem` using a unique key. */
+  deleteOrderEntryItem?: Maybe<DeleteOrderEntryItemPayload>;
+  /** Deletes a single `OrderItem` using its globally unique id. */
+  deleteOrderItemByNodeId?: Maybe<DeleteOrderItemPayload>;
+  /** Deletes a single `OrderItem` using a unique key. */
+  deleteOrderItem?: Maybe<DeleteOrderItemPayload>;
+  /** Deletes a single `OrderMaster` using its globally unique id. */
+  deleteOrderMasterByNodeId?: Maybe<DeleteOrderMasterPayload>;
+  /** Deletes a single `OrderMaster` using a unique key. */
+  deleteOrderMaster?: Maybe<DeleteOrderMasterPayload>;
+  /** Deletes a single `OrderPallet` using its globally unique id. */
+  deleteOrderPalletByNodeId?: Maybe<DeleteOrderPalletPayload>;
+  /** Deletes a single `OrderPallet` using a unique key. */
+  deleteOrderPallet?: Maybe<DeleteOrderPalletPayload>;
+  /** Deletes a single `TruckLoad` using its globally unique id. */
+  deleteTruckLoadByNodeId?: Maybe<DeleteTruckLoadPayload>;
+  /** Deletes a single `TruckLoad` using a unique key. */
+  deleteTruckLoad?: Maybe<DeleteTruckLoadPayload>;
   bulkCreateUserMessage?: Maybe<BulkCreateUserMessagePayload>;
   bulkAddContactsToGroup?: Maybe<BulkAddContactsToGroupPayload>;
   bulkDeleteCountry?: Maybe<BulkDeleteCountryPayload>;
@@ -27336,6 +28819,15 @@ export type Mutation = {
   deletePriceCategoryEntries?: Maybe<DeletePriceCategoryEntriesPayload>;
   deletePriceProductEntries?: Maybe<DeletePriceProductEntriesPayload>;
   deletePriceSizeEntries?: Maybe<DeletePriceSizeEntriesPayload>;
+  bulkDeleteOrderItem?: Maybe<BulkDeleteOrderItemPayload>;
+  bulkDeleteOrderMaster?: Maybe<BulkDeleteOrderMasterPayload>;
+  bulkDeleteOrderPallet?: Maybe<BulkDeleteOrderPalletPayload>;
+  bulkDeleteTruckLoad?: Maybe<BulkDeleteTruckLoadPayload>;
+  bulkUpsertOrderEntry?: Maybe<BulkUpsertOrderEntryPayload>;
+  bulkUpsertOrderItem?: Maybe<BulkUpsertOrderItemPayload>;
+  bulkUpsertOrderMaster?: Maybe<BulkUpsertOrderMasterPayload>;
+  bulkUpsertOrderPallet?: Maybe<BulkUpsertOrderPalletPayload>;
+  bulkUpsertTruckLoad?: Maybe<BulkUpsertTruckLoadPayload>;
   /** Upserts a single `User`. */
   upsertUser?: Maybe<UpsertUserPayload>;
   /** Upserts a single `UserMessage`. */
@@ -27492,6 +28984,18 @@ export type Mutation = {
   upsertPriceProduct?: Maybe<UpsertPriceProductPayload>;
   /** Upserts a single `PriceSize`. */
   upsertPriceSize?: Maybe<UpsertPriceSizePayload>;
+  /** Upserts a single `OrderEntry`. */
+  upsertOrderEntry?: Maybe<UpsertOrderEntryPayload>;
+  /** Upserts a single `OrderEntryItem`. */
+  upsertOrderEntryItem?: Maybe<UpsertOrderEntryItemPayload>;
+  /** Upserts a single `OrderItem`. */
+  upsertOrderItem?: Maybe<UpsertOrderItemPayload>;
+  /** Upserts a single `OrderMaster`. */
+  upsertOrderMaster?: Maybe<UpsertOrderMasterPayload>;
+  /** Upserts a single `OrderPallet`. */
+  upsertOrderPallet?: Maybe<UpsertOrderPalletPayload>;
+  /** Upserts a single `TruckLoad`. */
+  upsertTruckLoad?: Maybe<UpsertTruckLoadPayload>;
   sendPriceSheetUpdateEmail: Scalars['String'];
   reviewShipperProjection: Scalars['String'];
 };
@@ -27962,6 +29466,42 @@ export type MutationCreatePriceProductArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreatePriceSizeArgs = {
   input: CreatePriceSizeInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateOrderEntryArgs = {
+  input: CreateOrderEntryInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateOrderEntryItemArgs = {
+  input: CreateOrderEntryItemInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateOrderItemArgs = {
+  input: CreateOrderItemInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateOrderMasterArgs = {
+  input: CreateOrderMasterInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateOrderPalletArgs = {
+  input: CreateOrderPalletInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateTruckLoadArgs = {
+  input: CreateTruckLoadInput;
 };
 
 
@@ -28992,6 +30532,78 @@ export type MutationUpdatePriceSizeArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateOrderEntryByNodeIdArgs = {
+  input: UpdateOrderEntryByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateOrderEntryArgs = {
+  input: UpdateOrderEntryInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateOrderEntryItemByNodeIdArgs = {
+  input: UpdateOrderEntryItemByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateOrderEntryItemArgs = {
+  input: UpdateOrderEntryItemInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateOrderItemByNodeIdArgs = {
+  input: UpdateOrderItemByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateOrderItemArgs = {
+  input: UpdateOrderItemInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateOrderMasterByNodeIdArgs = {
+  input: UpdateOrderMasterByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateOrderMasterArgs = {
+  input: UpdateOrderMasterInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateOrderPalletByNodeIdArgs = {
+  input: UpdateOrderPalletByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateOrderPalletArgs = {
+  input: UpdateOrderPalletInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateTruckLoadByNodeIdArgs = {
+  input: UpdateTruckLoadByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateTruckLoadArgs = {
+  input: UpdateTruckLoadInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteUserByNodeIdArgs = {
   input: DeleteUserByNodeIdInput;
 };
@@ -30018,6 +31630,78 @@ export type MutationDeletePriceSizeArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteOrderEntryByNodeIdArgs = {
+  input: DeleteOrderEntryByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteOrderEntryArgs = {
+  input: DeleteOrderEntryInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteOrderEntryItemByNodeIdArgs = {
+  input: DeleteOrderEntryItemByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteOrderEntryItemArgs = {
+  input: DeleteOrderEntryItemInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteOrderItemByNodeIdArgs = {
+  input: DeleteOrderItemByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteOrderItemArgs = {
+  input: DeleteOrderItemInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteOrderMasterByNodeIdArgs = {
+  input: DeleteOrderMasterByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteOrderMasterArgs = {
+  input: DeleteOrderMasterInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteOrderPalletByNodeIdArgs = {
+  input: DeleteOrderPalletByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteOrderPalletArgs = {
+  input: DeleteOrderPalletInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteTruckLoadByNodeIdArgs = {
+  input: DeleteTruckLoadByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteTruckLoadArgs = {
+  input: DeleteTruckLoadInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationBulkCreateUserMessageArgs = {
   input: BulkCreateUserMessageInput;
 };
@@ -30446,6 +32130,60 @@ export type MutationDeletePriceProductEntriesArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeletePriceSizeEntriesArgs = {
   input: DeletePriceSizeEntriesInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationBulkDeleteOrderItemArgs = {
+  input: BulkDeleteOrderItemInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationBulkDeleteOrderMasterArgs = {
+  input: BulkDeleteOrderMasterInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationBulkDeleteOrderPalletArgs = {
+  input: BulkDeleteOrderPalletInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationBulkDeleteTruckLoadArgs = {
+  input: BulkDeleteTruckLoadInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationBulkUpsertOrderEntryArgs = {
+  input: BulkUpsertOrderEntryInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationBulkUpsertOrderItemArgs = {
+  input: BulkUpsertOrderItemInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationBulkUpsertOrderMasterArgs = {
+  input: BulkUpsertOrderMasterInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationBulkUpsertOrderPalletArgs = {
+  input: BulkUpsertOrderPalletInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationBulkUpsertTruckLoadArgs = {
+  input: BulkUpsertTruckLoadInput;
 };
 
 
@@ -30918,6 +32656,42 @@ export type MutationUpsertPriceSizeArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpsertOrderEntryArgs = {
+  input: UpsertOrderEntryInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpsertOrderEntryItemArgs = {
+  input: UpsertOrderEntryItemInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpsertOrderItemArgs = {
+  input: UpsertOrderItemInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpsertOrderMasterArgs = {
+  input: UpsertOrderMasterInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpsertOrderPalletArgs = {
+  input: UpsertOrderPalletInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpsertTruckLoadArgs = {
+  input: UpsertTruckLoadInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationSendPriceSheetUpdateEmailArgs = {
   input?: Maybe<PriceSheetUpdateInput>;
 };
@@ -30968,6 +32742,7 @@ export type UserInput = {
   id?: Maybe<Scalars['BigInt']>;
   pin?: Maybe<Scalars['String']>;
   personContactId?: Maybe<Scalars['BigInt']>;
+  userCode?: Maybe<Scalars['String']>;
   personContactToPersonContactId?: Maybe<UserPersonContactIdFkeyInput>;
   contactGroupsUsingId?: Maybe<ContactGroupUserIdFkeyInverseInput>;
   userMessagesUsingId?: Maybe<UserMessageUserIdFkeyInverseInput>;
@@ -31226,6 +33001,7 @@ export type UpdateUserOnContactGroupForContactGroupUserIdFkeyPatch = {
   id?: Maybe<Scalars['BigInt']>;
   pin?: Maybe<Scalars['String']>;
   personContactId?: Maybe<Scalars['BigInt']>;
+  userCode?: Maybe<Scalars['String']>;
   personContactToPersonContactId?: Maybe<UserPersonContactIdFkeyInput>;
   contactGroupsUsingId?: Maybe<ContactGroupUserIdFkeyInverseInput>;
   userMessagesUsingId?: Maybe<UserMessageUserIdFkeyInverseInput>;
@@ -31386,6 +33162,7 @@ export type UserOnUserForUserPersonContactIdFkeyUsingUserPkeyUpdate = {
 export type UpdateUserOnUserForUserPersonContactIdFkeyPatch = {
   id?: Maybe<Scalars['BigInt']>;
   pin?: Maybe<Scalars['String']>;
+  userCode?: Maybe<Scalars['String']>;
   personContactToPersonContactId?: Maybe<UserPersonContactIdFkeyInput>;
   contactGroupsUsingId?: Maybe<ContactGroupUserIdFkeyInverseInput>;
   userMessagesUsingId?: Maybe<UserMessageUserIdFkeyInverseInput>;
@@ -31489,6 +33266,7 @@ export type UpdateUserOnUserMessageForUserMessageUserIdFkeyPatch = {
   id?: Maybe<Scalars['BigInt']>;
   pin?: Maybe<Scalars['String']>;
   personContactId?: Maybe<Scalars['BigInt']>;
+  userCode?: Maybe<Scalars['String']>;
   personContactToPersonContactId?: Maybe<UserPersonContactIdFkeyInput>;
   contactGroupsUsingId?: Maybe<ContactGroupUserIdFkeyInverseInput>;
   userMessagesUsingId?: Maybe<UserMessageUserIdFkeyInverseInput>;
@@ -31514,6 +33292,7 @@ export type UserPatch = {
   id?: Maybe<Scalars['BigInt']>;
   pin?: Maybe<Scalars['String']>;
   personContactId?: Maybe<Scalars['BigInt']>;
+  userCode?: Maybe<Scalars['String']>;
   personContactToPersonContactId?: Maybe<UserPersonContactIdFkeyInput>;
   contactGroupsUsingId?: Maybe<ContactGroupUserIdFkeyInverseInput>;
   userMessagesUsingId?: Maybe<UserMessageUserIdFkeyInverseInput>;
@@ -31524,6 +33303,7 @@ export type UserMessageUserIdFkeyUserCreateInput = {
   id?: Maybe<Scalars['BigInt']>;
   pin?: Maybe<Scalars['String']>;
   personContactId?: Maybe<Scalars['BigInt']>;
+  userCode?: Maybe<Scalars['String']>;
   personContactToPersonContactId?: Maybe<UserPersonContactIdFkeyInput>;
   contactGroupsUsingId?: Maybe<ContactGroupUserIdFkeyInverseInput>;
   userMessagesUsingId?: Maybe<UserMessageUserIdFkeyInverseInput>;
@@ -31583,6 +33363,7 @@ export type PersonContactOnUserForUserPersonContactIdFkeyNodeIdUpdate = {
 export type UserPersonContactIdFkeyUserCreateInput = {
   id?: Maybe<Scalars['BigInt']>;
   pin?: Maybe<Scalars['String']>;
+  userCode?: Maybe<Scalars['String']>;
   personContactToPersonContactId?: Maybe<UserPersonContactIdFkeyInput>;
   contactGroupsUsingId?: Maybe<ContactGroupUserIdFkeyInverseInput>;
   userMessagesUsingId?: Maybe<UserMessageUserIdFkeyInverseInput>;
@@ -40697,6 +42478,7 @@ export type ContactGroupUserIdFkeyUserCreateInput = {
   id?: Maybe<Scalars['BigInt']>;
   pin?: Maybe<Scalars['String']>;
   personContactId?: Maybe<Scalars['BigInt']>;
+  userCode?: Maybe<Scalars['String']>;
   personContactToPersonContactId?: Maybe<UserPersonContactIdFkeyInput>;
   contactGroupsUsingId?: Maybe<ContactGroupUserIdFkeyInverseInput>;
   userMessagesUsingId?: Maybe<UserMessageUserIdFkeyInverseInput>;
@@ -45974,6 +47756,565 @@ export type PriceSizeInput = {
   priceEntriesUsingId?: Maybe<PriceEntrySizeIdFkeyInverseInput>;
 };
 
+/** The output of our create `OrderEntry` mutation. */
+export type CreateOrderEntryPayload = {
+  __typename?: 'CreateOrderEntryPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `OrderEntry` that was created by this mutation. */
+  orderEntry?: Maybe<OrderEntry>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `OrderEntry`. May be used by Relay 1. */
+  orderEntryEdge?: Maybe<OrderEntriesEdge>;
+};
+
+
+/** The output of our create `OrderEntry` mutation. */
+export type CreateOrderEntryPayloadOrderEntryEdgeArgs = {
+  orderBy?: Maybe<Array<OrderEntriesOrderBy>>;
+};
+
+/** All input for the create `OrderEntry` mutation. */
+export type CreateOrderEntryInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `OrderEntry` to be created by this mutation. */
+  orderEntry: OrderEntryInput;
+};
+
+/** An input for mutations affecting `OrderEntry` */
+export type OrderEntryInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  orderId?: Maybe<Scalars['BigFloat']>;
+  backOrderId?: Maybe<Scalars['BigFloat']>;
+  truckLoadId?: Maybe<Scalars['String']>;
+  fob?: Maybe<Scalars['Boolean']>;
+  billingCustomerId?: Maybe<Scalars['String']>;
+  salesUserCode?: Maybe<Scalars['String']>;
+  customerPo?: Maybe<Scalars['String']>;
+  fobDate?: Maybe<Scalars['Date']>;
+  deliveredDate?: Maybe<Scalars['Date']>;
+  orderDate?: Maybe<Scalars['Date']>;
+  reviewUserCode?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  orderEntryItemsUsingId?: Maybe<OrderEntryItemOrderEntryIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `orderEntryItem` in the `OrderEntryInput` mutation. */
+export type OrderEntryItemOrderEntryIdFkeyInverseInput = {
+  /** Flag indicating whether all other `orderEntryItem` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `orderEntryItem` for the far side of the relationship. */
+  connectById?: Maybe<Array<OrderEntryItemOrderEntryItemPkeyConnect>>;
+  /** The primary key(s) for `orderEntryItem` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<OrderEntryItemNodeIdConnect>>;
+  /** The primary key(s) for `orderEntryItem` for the far side of the relationship. */
+  deleteById?: Maybe<Array<OrderEntryItemOrderEntryItemPkeyDelete>>;
+  /** The primary key(s) for `orderEntryItem` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<OrderEntryItemNodeIdDelete>>;
+  /** The primary key(s) and patch data for `orderEntryItem` for the far side of the relationship. */
+  updateById?: Maybe<Array<OrderEntryItemOnOrderEntryItemForOrderEntryItemOrderEntryIdFkeyUsingOrderEntryItemPkeyUpdate>>;
+  /** The primary key(s) and patch data for `orderEntryItem` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<OrderEntryOnOrderEntryItemForOrderEntryItemOrderEntryIdFkeyNodeIdUpdate>>;
+  /** A `OrderEntryItemInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<OrderEntryItemOrderEntryIdFkeyOrderEntryItemCreateInput>>;
+};
+
+/** The fields on `orderEntryItem` to look up the row to connect. */
+export type OrderEntryItemOrderEntryItemPkeyConnect = {
+  id: Scalars['BigInt'];
+};
+
+/** The globally unique `ID` look up for the row to connect. */
+export type OrderEntryItemNodeIdConnect = {
+  /** The globally unique `ID` which identifies a single `orderEntryItem` to be connected. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `orderEntryItem` to look up the row to delete. */
+export type OrderEntryItemOrderEntryItemPkeyDelete = {
+  id: Scalars['BigInt'];
+};
+
+/** The globally unique `ID` look up for the row to delete. */
+export type OrderEntryItemNodeIdDelete = {
+  /** The globally unique `ID` which identifies a single `orderEntryItem` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `orderEntryItem` to look up the row to update. */
+export type OrderEntryItemOnOrderEntryItemForOrderEntryItemOrderEntryIdFkeyUsingOrderEntryItemPkeyUpdate = {
+  /** An object where the defined keys will be set on the `orderEntryItem` being updated. */
+  patch: UpdateOrderEntryItemOnOrderEntryItemForOrderEntryItemOrderEntryIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `orderEntryItem` being updated. */
+export type UpdateOrderEntryItemOnOrderEntryItemForOrderEntryItemOrderEntryIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  lineId?: Maybe<Scalars['BigFloat']>;
+  palletCount?: Maybe<Scalars['BigFloat']>;
+  unitSellPrice?: Maybe<Scalars['BigFloat']>;
+  deliveryCharge?: Maybe<Scalars['BigFloat']>;
+  locationId?: Maybe<Scalars['String']>;
+  vesselCode?: Maybe<Scalars['String']>;
+  shipperId?: Maybe<Scalars['String']>;
+  species?: Maybe<Scalars['String']>;
+  variety?: Maybe<Scalars['String']>;
+  size?: Maybe<Scalars['String']>;
+  packType?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  label?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  orderEntryToOrderEntryId?: Maybe<OrderEntryItemOrderEntryIdFkeyInput>;
+};
+
+/** Input for the nested mutation of `orderEntry` in the `OrderEntryItemInput` mutation. */
+export type OrderEntryItemOrderEntryIdFkeyInput = {
+  /** The primary key(s) for `orderEntry` for the far side of the relationship. */
+  connectById?: Maybe<OrderEntryOrderEntryPkeyConnect>;
+  /** The primary key(s) for `orderEntry` for the far side of the relationship. */
+  connectByNodeId?: Maybe<OrderEntryNodeIdConnect>;
+  /** The primary key(s) for `orderEntry` for the far side of the relationship. */
+  deleteById?: Maybe<OrderEntryOrderEntryPkeyDelete>;
+  /** The primary key(s) for `orderEntry` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<OrderEntryNodeIdDelete>;
+  /** The primary key(s) and patch data for `orderEntry` for the far side of the relationship. */
+  updateById?: Maybe<OrderEntryOnOrderEntryItemForOrderEntryItemOrderEntryIdFkeyUsingOrderEntryPkeyUpdate>;
+  /** The primary key(s) and patch data for `orderEntry` for the far side of the relationship. */
+  updateByNodeId?: Maybe<OrderEntryItemOnOrderEntryItemForOrderEntryItemOrderEntryIdFkeyNodeIdUpdate>;
+  /** A `OrderEntryInput` object that will be created and connected to this object. */
+  create?: Maybe<OrderEntryItemOrderEntryIdFkeyOrderEntryCreateInput>;
+};
+
+/** The fields on `orderEntry` to look up the row to connect. */
+export type OrderEntryOrderEntryPkeyConnect = {
+  id: Scalars['BigInt'];
+};
+
+/** The globally unique `ID` look up for the row to connect. */
+export type OrderEntryNodeIdConnect = {
+  /** The globally unique `ID` which identifies a single `orderEntry` to be connected. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `orderEntry` to look up the row to delete. */
+export type OrderEntryOrderEntryPkeyDelete = {
+  id: Scalars['BigInt'];
+};
+
+/** The globally unique `ID` look up for the row to delete. */
+export type OrderEntryNodeIdDelete = {
+  /** The globally unique `ID` which identifies a single `orderEntry` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `orderEntry` to look up the row to update. */
+export type OrderEntryOnOrderEntryItemForOrderEntryItemOrderEntryIdFkeyUsingOrderEntryPkeyUpdate = {
+  /** An object where the defined keys will be set on the `orderEntry` being updated. */
+  patch: UpdateOrderEntryOnOrderEntryItemForOrderEntryItemOrderEntryIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `orderEntry` being updated. */
+export type UpdateOrderEntryOnOrderEntryItemForOrderEntryItemOrderEntryIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  orderId?: Maybe<Scalars['BigFloat']>;
+  backOrderId?: Maybe<Scalars['BigFloat']>;
+  truckLoadId?: Maybe<Scalars['String']>;
+  fob?: Maybe<Scalars['Boolean']>;
+  billingCustomerId?: Maybe<Scalars['String']>;
+  salesUserCode?: Maybe<Scalars['String']>;
+  customerPo?: Maybe<Scalars['String']>;
+  fobDate?: Maybe<Scalars['Date']>;
+  deliveredDate?: Maybe<Scalars['Date']>;
+  orderDate?: Maybe<Scalars['Date']>;
+  reviewUserCode?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  orderEntryItemsUsingId?: Maybe<OrderEntryItemOrderEntryIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type OrderEntryItemOnOrderEntryItemForOrderEntryItemOrderEntryIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `orderEntry` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `orderEntry` being updated. */
+  patch: OrderEntryPatch;
+};
+
+/** Represents an update to a `OrderEntry`. Fields that are set will be updated. */
+export type OrderEntryPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  orderId?: Maybe<Scalars['BigFloat']>;
+  backOrderId?: Maybe<Scalars['BigFloat']>;
+  truckLoadId?: Maybe<Scalars['String']>;
+  fob?: Maybe<Scalars['Boolean']>;
+  billingCustomerId?: Maybe<Scalars['String']>;
+  salesUserCode?: Maybe<Scalars['String']>;
+  customerPo?: Maybe<Scalars['String']>;
+  fobDate?: Maybe<Scalars['Date']>;
+  deliveredDate?: Maybe<Scalars['Date']>;
+  orderDate?: Maybe<Scalars['Date']>;
+  reviewUserCode?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  orderEntryItemsUsingId?: Maybe<OrderEntryItemOrderEntryIdFkeyInverseInput>;
+};
+
+/** The `orderEntry` to be created by this mutation. */
+export type OrderEntryItemOrderEntryIdFkeyOrderEntryCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  orderId?: Maybe<Scalars['BigFloat']>;
+  backOrderId?: Maybe<Scalars['BigFloat']>;
+  truckLoadId?: Maybe<Scalars['String']>;
+  fob?: Maybe<Scalars['Boolean']>;
+  billingCustomerId?: Maybe<Scalars['String']>;
+  salesUserCode?: Maybe<Scalars['String']>;
+  customerPo?: Maybe<Scalars['String']>;
+  fobDate?: Maybe<Scalars['Date']>;
+  deliveredDate?: Maybe<Scalars['Date']>;
+  orderDate?: Maybe<Scalars['Date']>;
+  reviewUserCode?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  orderEntryItemsUsingId?: Maybe<OrderEntryItemOrderEntryIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type OrderEntryOnOrderEntryItemForOrderEntryItemOrderEntryIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `orderEntryItem` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `orderEntryItem` being updated. */
+  patch: OrderEntryItemPatch;
+};
+
+/** Represents an update to a `OrderEntryItem`. Fields that are set will be updated. */
+export type OrderEntryItemPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  orderEntryId?: Maybe<Scalars['BigInt']>;
+  lineId?: Maybe<Scalars['BigFloat']>;
+  palletCount?: Maybe<Scalars['BigFloat']>;
+  unitSellPrice?: Maybe<Scalars['BigFloat']>;
+  deliveryCharge?: Maybe<Scalars['BigFloat']>;
+  locationId?: Maybe<Scalars['String']>;
+  vesselCode?: Maybe<Scalars['String']>;
+  shipperId?: Maybe<Scalars['String']>;
+  species?: Maybe<Scalars['String']>;
+  variety?: Maybe<Scalars['String']>;
+  size?: Maybe<Scalars['String']>;
+  packType?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  label?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  orderEntryToOrderEntryId?: Maybe<OrderEntryItemOrderEntryIdFkeyInput>;
+};
+
+/** The `orderEntryItem` to be created by this mutation. */
+export type OrderEntryItemOrderEntryIdFkeyOrderEntryItemCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  lineId?: Maybe<Scalars['BigFloat']>;
+  palletCount?: Maybe<Scalars['BigFloat']>;
+  unitSellPrice?: Maybe<Scalars['BigFloat']>;
+  deliveryCharge?: Maybe<Scalars['BigFloat']>;
+  locationId?: Maybe<Scalars['String']>;
+  vesselCode?: Maybe<Scalars['String']>;
+  shipperId?: Maybe<Scalars['String']>;
+  species?: Maybe<Scalars['String']>;
+  variety?: Maybe<Scalars['String']>;
+  size?: Maybe<Scalars['String']>;
+  packType?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  label?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  orderEntryToOrderEntryId?: Maybe<OrderEntryItemOrderEntryIdFkeyInput>;
+};
+
+/** The output of our create `OrderEntryItem` mutation. */
+export type CreateOrderEntryItemPayload = {
+  __typename?: 'CreateOrderEntryItemPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `OrderEntryItem` that was created by this mutation. */
+  orderEntryItem?: Maybe<OrderEntryItem>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `OrderEntry` that is related to this `OrderEntryItem`. */
+  orderEntry?: Maybe<OrderEntry>;
+  /** An edge for our `OrderEntryItem`. May be used by Relay 1. */
+  orderEntryItemEdge?: Maybe<OrderEntryItemsEdge>;
+};
+
+
+/** The output of our create `OrderEntryItem` mutation. */
+export type CreateOrderEntryItemPayloadOrderEntryItemEdgeArgs = {
+  orderBy?: Maybe<Array<OrderEntryItemsOrderBy>>;
+};
+
+/** All input for the create `OrderEntryItem` mutation. */
+export type CreateOrderEntryItemInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `OrderEntryItem` to be created by this mutation. */
+  orderEntryItem: OrderEntryItemInput;
+};
+
+/** An input for mutations affecting `OrderEntryItem` */
+export type OrderEntryItemInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  orderEntryId?: Maybe<Scalars['BigInt']>;
+  lineId?: Maybe<Scalars['BigFloat']>;
+  palletCount?: Maybe<Scalars['BigFloat']>;
+  unitSellPrice?: Maybe<Scalars['BigFloat']>;
+  deliveryCharge?: Maybe<Scalars['BigFloat']>;
+  locationId?: Maybe<Scalars['String']>;
+  vesselCode?: Maybe<Scalars['String']>;
+  shipperId?: Maybe<Scalars['String']>;
+  species?: Maybe<Scalars['String']>;
+  variety?: Maybe<Scalars['String']>;
+  size?: Maybe<Scalars['String']>;
+  packType?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  label?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  orderEntryToOrderEntryId?: Maybe<OrderEntryItemOrderEntryIdFkeyInput>;
+};
+
+/** The output of our create `OrderItem` mutation. */
+export type CreateOrderItemPayload = {
+  __typename?: 'CreateOrderItemPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `OrderItem` that was created by this mutation. */
+  orderItem?: Maybe<OrderItem>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `OrderItem`. May be used by Relay 1. */
+  orderItemEdge?: Maybe<OrderItemsEdge>;
+};
+
+
+/** The output of our create `OrderItem` mutation. */
+export type CreateOrderItemPayloadOrderItemEdgeArgs = {
+  orderBy?: Maybe<Array<OrderItemsOrderBy>>;
+};
+
+/** All input for the create `OrderItem` mutation. */
+export type CreateOrderItemInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `OrderItem` to be created by this mutation. */
+  orderItem: OrderItemInput;
+};
+
+/** An input for mutations affecting `OrderItem` */
+export type OrderItemInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  itemStatus?: Maybe<Scalars['String']>;
+  orderId?: Maybe<Scalars['BigFloat']>;
+  backOrderId?: Maybe<Scalars['BigFloat']>;
+  lineId?: Maybe<Scalars['BigFloat']>;
+  palletCount?: Maybe<Scalars['BigFloat']>;
+  unitSellPrice?: Maybe<Scalars['BigFloat']>;
+  deliveryCharge?: Maybe<Scalars['BigFloat']>;
+  isBundle?: Maybe<Scalars['Boolean']>;
+  boxCount?: Maybe<Scalars['BigFloat']>;
+  productId?: Maybe<Scalars['String']>;
+  locationId?: Maybe<Scalars['String']>;
+  vesselCode?: Maybe<Scalars['String']>;
+  jvLotNumber?: Maybe<Scalars['String']>;
+  shipperId?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+};
+
+/** The output of our create `OrderMaster` mutation. */
+export type CreateOrderMasterPayload = {
+  __typename?: 'CreateOrderMasterPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `OrderMaster` that was created by this mutation. */
+  orderMaster?: Maybe<OrderMaster>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `OrderMaster`. May be used by Relay 1. */
+  orderMasterEdge?: Maybe<OrderMastersEdge>;
+};
+
+
+/** The output of our create `OrderMaster` mutation. */
+export type CreateOrderMasterPayloadOrderMasterEdgeArgs = {
+  orderBy?: Maybe<Array<OrderMastersOrderBy>>;
+};
+
+/** All input for the create `OrderMaster` mutation. */
+export type CreateOrderMasterInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `OrderMaster` to be created by this mutation. */
+  orderMaster: OrderMasterInput;
+};
+
+/** An input for mutations affecting `OrderMaster` */
+export type OrderMasterInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  orderStatus?: Maybe<Scalars['String']>;
+  paidCode?: Maybe<Scalars['Boolean']>;
+  loadStatus?: Maybe<Scalars['String']>;
+  orderId?: Maybe<Scalars['BigFloat']>;
+  backOrderId?: Maybe<Scalars['BigFloat']>;
+  shipWarehouseId?: Maybe<Scalars['String']>;
+  truckLoadId?: Maybe<Scalars['String']>;
+  fob?: Maybe<Scalars['Boolean']>;
+  billingCustomerId?: Maybe<Scalars['String']>;
+  salesUserCode?: Maybe<Scalars['String']>;
+  customerPo?: Maybe<Scalars['String']>;
+  expectedShipDate?: Maybe<Scalars['Date']>;
+  orderDate?: Maybe<Scalars['Date']>;
+  entryDate?: Maybe<Scalars['Date']>;
+  actualShipDate?: Maybe<Scalars['Date']>;
+  invoiceDate?: Maybe<Scalars['Date']>;
+  shippingCustomerId?: Maybe<Scalars['String']>;
+  entryUserCode?: Maybe<Scalars['String']>;
+  registerNumber?: Maybe<Scalars['String']>;
+  deliveryZone?: Maybe<Scalars['String']>;
+  amountOwed?: Maybe<Scalars['BigFloat']>;
+  loadLocation?: Maybe<Scalars['String']>;
+  vendorId?: Maybe<Scalars['String']>;
+  invoiceId?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+};
+
+/** The output of our create `OrderPallet` mutation. */
+export type CreateOrderPalletPayload = {
+  __typename?: 'CreateOrderPalletPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `OrderPallet` that was created by this mutation. */
+  orderPallet?: Maybe<OrderPallet>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `OrderPallet`. May be used by Relay 1. */
+  orderPalletEdge?: Maybe<OrderPalletsEdge>;
+};
+
+
+/** The output of our create `OrderPallet` mutation. */
+export type CreateOrderPalletPayloadOrderPalletEdgeArgs = {
+  orderBy?: Maybe<Array<OrderPalletsOrderBy>>;
+};
+
+/** All input for the create `OrderPallet` mutation. */
+export type CreateOrderPalletInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `OrderPallet` to be created by this mutation. */
+  orderPallet: OrderPalletInput;
+};
+
+/** An input for mutations affecting `OrderPallet` */
+export type OrderPalletInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  palletStatus?: Maybe<Scalars['String']>;
+  orderId?: Maybe<Scalars['BigFloat']>;
+  backOrderId?: Maybe<Scalars['BigFloat']>;
+  lineId?: Maybe<Scalars['BigFloat']>;
+  palletId?: Maybe<Scalars['String']>;
+  conditionCode?: Maybe<Scalars['String']>;
+  repackId?: Maybe<Scalars['String']>;
+  creditCode?: Maybe<Scalars['String']>;
+  priceAdjustment?: Maybe<Scalars['BigFloat']>;
+  freightAdjustment?: Maybe<Scalars['BigFloat']>;
+  notes?: Maybe<Scalars['String']>;
+};
+
+/** The output of our create `TruckLoad` mutation. */
+export type CreateTruckLoadPayload = {
+  __typename?: 'CreateTruckLoadPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `TruckLoad` that was created by this mutation. */
+  truckLoad?: Maybe<TruckLoad>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `TruckLoad`. May be used by Relay 1. */
+  truckLoadEdge?: Maybe<TruckLoadsEdge>;
+};
+
+
+/** The output of our create `TruckLoad` mutation. */
+export type CreateTruckLoadPayloadTruckLoadEdgeArgs = {
+  orderBy?: Maybe<Array<TruckLoadsOrderBy>>;
+};
+
+/** All input for the create `TruckLoad` mutation. */
+export type CreateTruckLoadInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `TruckLoad` to be created by this mutation. */
+  truckLoad: TruckLoadInput;
+};
+
+/** An input for mutations affecting `TruckLoad` */
+export type TruckLoadInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  loadId?: Maybe<Scalars['String']>;
+  loadStatus?: Maybe<Scalars['String']>;
+  vendorId?: Maybe<Scalars['String']>;
+  fob?: Maybe<Scalars['Boolean']>;
+  ryanNumber?: Maybe<Scalars['String']>;
+  truckerName?: Maybe<Scalars['String']>;
+  expeditorName?: Maybe<Scalars['String']>;
+  timeStarted?: Maybe<Scalars['Datetime']>;
+  timeCompleted?: Maybe<Scalars['Datetime']>;
+  timeIn?: Maybe<Scalars['Datetime']>;
+  timeOut?: Maybe<Scalars['Datetime']>;
+  timeConfirmed?: Maybe<Scalars['Datetime']>;
+  warehouseId?: Maybe<Scalars['String']>;
+  changeFlag?: Maybe<Scalars['Boolean']>;
+  licensePlate?: Maybe<Scalars['String']>;
+  inUse?: Maybe<Scalars['Boolean']>;
+  cartage?: Maybe<Scalars['String']>;
+  temperature?: Maybe<Scalars['String']>;
+  loadLock?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  shipDate?: Maybe<Scalars['Date']>;
+  cartageVendorId?: Maybe<Scalars['String']>;
+};
+
 /** The output of our update `User` mutation. */
 export type UpdateUserPayload = {
   __typename?: 'UpdateUserPayload';
@@ -51127,6 +53468,383 @@ export type UpdatePriceSizeInput = {
   id: Scalars['BigInt'];
 };
 
+/** The output of our update `OrderEntry` mutation. */
+export type UpdateOrderEntryPayload = {
+  __typename?: 'UpdateOrderEntryPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `OrderEntry` that was updated by this mutation. */
+  orderEntry?: Maybe<OrderEntry>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `OrderEntry`. May be used by Relay 1. */
+  orderEntryEdge?: Maybe<OrderEntriesEdge>;
+};
+
+
+/** The output of our update `OrderEntry` mutation. */
+export type UpdateOrderEntryPayloadOrderEntryEdgeArgs = {
+  orderBy?: Maybe<Array<OrderEntriesOrderBy>>;
+};
+
+/** All input for the `updateOrderEntryByNodeId` mutation. */
+export type UpdateOrderEntryByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `OrderEntry` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `OrderEntry` being updated. */
+  patch: OrderEntryPatch;
+};
+
+/** All input for the `updateOrderEntry` mutation. */
+export type UpdateOrderEntryInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `OrderEntry` being updated. */
+  patch: OrderEntryPatch;
+  id: Scalars['BigInt'];
+};
+
+/** The output of our update `OrderEntryItem` mutation. */
+export type UpdateOrderEntryItemPayload = {
+  __typename?: 'UpdateOrderEntryItemPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `OrderEntryItem` that was updated by this mutation. */
+  orderEntryItem?: Maybe<OrderEntryItem>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `OrderEntry` that is related to this `OrderEntryItem`. */
+  orderEntry?: Maybe<OrderEntry>;
+  /** An edge for our `OrderEntryItem`. May be used by Relay 1. */
+  orderEntryItemEdge?: Maybe<OrderEntryItemsEdge>;
+};
+
+
+/** The output of our update `OrderEntryItem` mutation. */
+export type UpdateOrderEntryItemPayloadOrderEntryItemEdgeArgs = {
+  orderBy?: Maybe<Array<OrderEntryItemsOrderBy>>;
+};
+
+/** All input for the `updateOrderEntryItemByNodeId` mutation. */
+export type UpdateOrderEntryItemByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `OrderEntryItem` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `OrderEntryItem` being updated. */
+  patch: OrderEntryItemPatch;
+};
+
+/** All input for the `updateOrderEntryItem` mutation. */
+export type UpdateOrderEntryItemInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `OrderEntryItem` being updated. */
+  patch: OrderEntryItemPatch;
+  id: Scalars['BigInt'];
+};
+
+/** The output of our update `OrderItem` mutation. */
+export type UpdateOrderItemPayload = {
+  __typename?: 'UpdateOrderItemPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `OrderItem` that was updated by this mutation. */
+  orderItem?: Maybe<OrderItem>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `OrderItem`. May be used by Relay 1. */
+  orderItemEdge?: Maybe<OrderItemsEdge>;
+};
+
+
+/** The output of our update `OrderItem` mutation. */
+export type UpdateOrderItemPayloadOrderItemEdgeArgs = {
+  orderBy?: Maybe<Array<OrderItemsOrderBy>>;
+};
+
+/** All input for the `updateOrderItemByNodeId` mutation. */
+export type UpdateOrderItemByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `OrderItem` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `OrderItem` being updated. */
+  patch: OrderItemPatch;
+};
+
+/** Represents an update to a `OrderItem`. Fields that are set will be updated. */
+export type OrderItemPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  itemStatus?: Maybe<Scalars['String']>;
+  orderId?: Maybe<Scalars['BigFloat']>;
+  backOrderId?: Maybe<Scalars['BigFloat']>;
+  lineId?: Maybe<Scalars['BigFloat']>;
+  palletCount?: Maybe<Scalars['BigFloat']>;
+  unitSellPrice?: Maybe<Scalars['BigFloat']>;
+  deliveryCharge?: Maybe<Scalars['BigFloat']>;
+  isBundle?: Maybe<Scalars['Boolean']>;
+  boxCount?: Maybe<Scalars['BigFloat']>;
+  productId?: Maybe<Scalars['String']>;
+  locationId?: Maybe<Scalars['String']>;
+  vesselCode?: Maybe<Scalars['String']>;
+  jvLotNumber?: Maybe<Scalars['String']>;
+  shipperId?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+};
+
+/** All input for the `updateOrderItem` mutation. */
+export type UpdateOrderItemInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `OrderItem` being updated. */
+  patch: OrderItemPatch;
+  id: Scalars['BigInt'];
+};
+
+/** The output of our update `OrderMaster` mutation. */
+export type UpdateOrderMasterPayload = {
+  __typename?: 'UpdateOrderMasterPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `OrderMaster` that was updated by this mutation. */
+  orderMaster?: Maybe<OrderMaster>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `OrderMaster`. May be used by Relay 1. */
+  orderMasterEdge?: Maybe<OrderMastersEdge>;
+};
+
+
+/** The output of our update `OrderMaster` mutation. */
+export type UpdateOrderMasterPayloadOrderMasterEdgeArgs = {
+  orderBy?: Maybe<Array<OrderMastersOrderBy>>;
+};
+
+/** All input for the `updateOrderMasterByNodeId` mutation. */
+export type UpdateOrderMasterByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `OrderMaster` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `OrderMaster` being updated. */
+  patch: OrderMasterPatch;
+};
+
+/** Represents an update to a `OrderMaster`. Fields that are set will be updated. */
+export type OrderMasterPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  orderStatus?: Maybe<Scalars['String']>;
+  paidCode?: Maybe<Scalars['Boolean']>;
+  loadStatus?: Maybe<Scalars['String']>;
+  orderId?: Maybe<Scalars['BigFloat']>;
+  backOrderId?: Maybe<Scalars['BigFloat']>;
+  shipWarehouseId?: Maybe<Scalars['String']>;
+  truckLoadId?: Maybe<Scalars['String']>;
+  fob?: Maybe<Scalars['Boolean']>;
+  billingCustomerId?: Maybe<Scalars['String']>;
+  salesUserCode?: Maybe<Scalars['String']>;
+  customerPo?: Maybe<Scalars['String']>;
+  expectedShipDate?: Maybe<Scalars['Date']>;
+  orderDate?: Maybe<Scalars['Date']>;
+  entryDate?: Maybe<Scalars['Date']>;
+  actualShipDate?: Maybe<Scalars['Date']>;
+  invoiceDate?: Maybe<Scalars['Date']>;
+  shippingCustomerId?: Maybe<Scalars['String']>;
+  entryUserCode?: Maybe<Scalars['String']>;
+  registerNumber?: Maybe<Scalars['String']>;
+  deliveryZone?: Maybe<Scalars['String']>;
+  amountOwed?: Maybe<Scalars['BigFloat']>;
+  loadLocation?: Maybe<Scalars['String']>;
+  vendorId?: Maybe<Scalars['String']>;
+  invoiceId?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+};
+
+/** All input for the `updateOrderMaster` mutation. */
+export type UpdateOrderMasterInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `OrderMaster` being updated. */
+  patch: OrderMasterPatch;
+  id: Scalars['BigInt'];
+};
+
+/** The output of our update `OrderPallet` mutation. */
+export type UpdateOrderPalletPayload = {
+  __typename?: 'UpdateOrderPalletPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `OrderPallet` that was updated by this mutation. */
+  orderPallet?: Maybe<OrderPallet>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `OrderPallet`. May be used by Relay 1. */
+  orderPalletEdge?: Maybe<OrderPalletsEdge>;
+};
+
+
+/** The output of our update `OrderPallet` mutation. */
+export type UpdateOrderPalletPayloadOrderPalletEdgeArgs = {
+  orderBy?: Maybe<Array<OrderPalletsOrderBy>>;
+};
+
+/** All input for the `updateOrderPalletByNodeId` mutation. */
+export type UpdateOrderPalletByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `OrderPallet` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `OrderPallet` being updated. */
+  patch: OrderPalletPatch;
+};
+
+/** Represents an update to a `OrderPallet`. Fields that are set will be updated. */
+export type OrderPalletPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  palletStatus?: Maybe<Scalars['String']>;
+  orderId?: Maybe<Scalars['BigFloat']>;
+  backOrderId?: Maybe<Scalars['BigFloat']>;
+  lineId?: Maybe<Scalars['BigFloat']>;
+  palletId?: Maybe<Scalars['String']>;
+  conditionCode?: Maybe<Scalars['String']>;
+  repackId?: Maybe<Scalars['String']>;
+  creditCode?: Maybe<Scalars['String']>;
+  priceAdjustment?: Maybe<Scalars['BigFloat']>;
+  freightAdjustment?: Maybe<Scalars['BigFloat']>;
+  notes?: Maybe<Scalars['String']>;
+};
+
+/** All input for the `updateOrderPallet` mutation. */
+export type UpdateOrderPalletInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `OrderPallet` being updated. */
+  patch: OrderPalletPatch;
+  id: Scalars['BigInt'];
+};
+
+/** The output of our update `TruckLoad` mutation. */
+export type UpdateTruckLoadPayload = {
+  __typename?: 'UpdateTruckLoadPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `TruckLoad` that was updated by this mutation. */
+  truckLoad?: Maybe<TruckLoad>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `TruckLoad`. May be used by Relay 1. */
+  truckLoadEdge?: Maybe<TruckLoadsEdge>;
+};
+
+
+/** The output of our update `TruckLoad` mutation. */
+export type UpdateTruckLoadPayloadTruckLoadEdgeArgs = {
+  orderBy?: Maybe<Array<TruckLoadsOrderBy>>;
+};
+
+/** All input for the `updateTruckLoadByNodeId` mutation. */
+export type UpdateTruckLoadByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `TruckLoad` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `TruckLoad` being updated. */
+  patch: TruckLoadPatch;
+};
+
+/** Represents an update to a `TruckLoad`. Fields that are set will be updated. */
+export type TruckLoadPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  loadId?: Maybe<Scalars['String']>;
+  loadStatus?: Maybe<Scalars['String']>;
+  vendorId?: Maybe<Scalars['String']>;
+  fob?: Maybe<Scalars['Boolean']>;
+  ryanNumber?: Maybe<Scalars['String']>;
+  truckerName?: Maybe<Scalars['String']>;
+  expeditorName?: Maybe<Scalars['String']>;
+  timeStarted?: Maybe<Scalars['Datetime']>;
+  timeCompleted?: Maybe<Scalars['Datetime']>;
+  timeIn?: Maybe<Scalars['Datetime']>;
+  timeOut?: Maybe<Scalars['Datetime']>;
+  timeConfirmed?: Maybe<Scalars['Datetime']>;
+  warehouseId?: Maybe<Scalars['String']>;
+  changeFlag?: Maybe<Scalars['Boolean']>;
+  licensePlate?: Maybe<Scalars['String']>;
+  inUse?: Maybe<Scalars['Boolean']>;
+  cartage?: Maybe<Scalars['String']>;
+  temperature?: Maybe<Scalars['String']>;
+  loadLock?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  shipDate?: Maybe<Scalars['Date']>;
+  cartageVendorId?: Maybe<Scalars['String']>;
+};
+
+/** All input for the `updateTruckLoad` mutation. */
+export type UpdateTruckLoadInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `TruckLoad` being updated. */
+  patch: TruckLoadPatch;
+  id: Scalars['BigInt'];
+};
+
 /** The output of our delete `User` mutation. */
 export type DeleteUserPayload = {
   __typename?: 'DeleteUserPayload';
@@ -54865,6 +57583,272 @@ export type DeletePriceSizeInput = {
   id: Scalars['BigInt'];
 };
 
+/** The output of our delete `OrderEntry` mutation. */
+export type DeleteOrderEntryPayload = {
+  __typename?: 'DeleteOrderEntryPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `OrderEntry` that was deleted by this mutation. */
+  orderEntry?: Maybe<OrderEntry>;
+  deletedOrderEntryNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `OrderEntry`. May be used by Relay 1. */
+  orderEntryEdge?: Maybe<OrderEntriesEdge>;
+};
+
+
+/** The output of our delete `OrderEntry` mutation. */
+export type DeleteOrderEntryPayloadOrderEntryEdgeArgs = {
+  orderBy?: Maybe<Array<OrderEntriesOrderBy>>;
+};
+
+/** All input for the `deleteOrderEntryByNodeId` mutation. */
+export type DeleteOrderEntryByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `OrderEntry` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deleteOrderEntry` mutation. */
+export type DeleteOrderEntryInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['BigInt'];
+};
+
+/** The output of our delete `OrderEntryItem` mutation. */
+export type DeleteOrderEntryItemPayload = {
+  __typename?: 'DeleteOrderEntryItemPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `OrderEntryItem` that was deleted by this mutation. */
+  orderEntryItem?: Maybe<OrderEntryItem>;
+  deletedOrderEntryItemNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `OrderEntry` that is related to this `OrderEntryItem`. */
+  orderEntry?: Maybe<OrderEntry>;
+  /** An edge for our `OrderEntryItem`. May be used by Relay 1. */
+  orderEntryItemEdge?: Maybe<OrderEntryItemsEdge>;
+};
+
+
+/** The output of our delete `OrderEntryItem` mutation. */
+export type DeleteOrderEntryItemPayloadOrderEntryItemEdgeArgs = {
+  orderBy?: Maybe<Array<OrderEntryItemsOrderBy>>;
+};
+
+/** All input for the `deleteOrderEntryItemByNodeId` mutation. */
+export type DeleteOrderEntryItemByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `OrderEntryItem` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deleteOrderEntryItem` mutation. */
+export type DeleteOrderEntryItemInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['BigInt'];
+};
+
+/** The output of our delete `OrderItem` mutation. */
+export type DeleteOrderItemPayload = {
+  __typename?: 'DeleteOrderItemPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `OrderItem` that was deleted by this mutation. */
+  orderItem?: Maybe<OrderItem>;
+  deletedOrderItemNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `OrderItem`. May be used by Relay 1. */
+  orderItemEdge?: Maybe<OrderItemsEdge>;
+};
+
+
+/** The output of our delete `OrderItem` mutation. */
+export type DeleteOrderItemPayloadOrderItemEdgeArgs = {
+  orderBy?: Maybe<Array<OrderItemsOrderBy>>;
+};
+
+/** All input for the `deleteOrderItemByNodeId` mutation. */
+export type DeleteOrderItemByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `OrderItem` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deleteOrderItem` mutation. */
+export type DeleteOrderItemInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['BigInt'];
+};
+
+/** The output of our delete `OrderMaster` mutation. */
+export type DeleteOrderMasterPayload = {
+  __typename?: 'DeleteOrderMasterPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `OrderMaster` that was deleted by this mutation. */
+  orderMaster?: Maybe<OrderMaster>;
+  deletedOrderMasterNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `OrderMaster`. May be used by Relay 1. */
+  orderMasterEdge?: Maybe<OrderMastersEdge>;
+};
+
+
+/** The output of our delete `OrderMaster` mutation. */
+export type DeleteOrderMasterPayloadOrderMasterEdgeArgs = {
+  orderBy?: Maybe<Array<OrderMastersOrderBy>>;
+};
+
+/** All input for the `deleteOrderMasterByNodeId` mutation. */
+export type DeleteOrderMasterByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `OrderMaster` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deleteOrderMaster` mutation. */
+export type DeleteOrderMasterInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['BigInt'];
+};
+
+/** The output of our delete `OrderPallet` mutation. */
+export type DeleteOrderPalletPayload = {
+  __typename?: 'DeleteOrderPalletPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `OrderPallet` that was deleted by this mutation. */
+  orderPallet?: Maybe<OrderPallet>;
+  deletedOrderPalletNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `OrderPallet`. May be used by Relay 1. */
+  orderPalletEdge?: Maybe<OrderPalletsEdge>;
+};
+
+
+/** The output of our delete `OrderPallet` mutation. */
+export type DeleteOrderPalletPayloadOrderPalletEdgeArgs = {
+  orderBy?: Maybe<Array<OrderPalletsOrderBy>>;
+};
+
+/** All input for the `deleteOrderPalletByNodeId` mutation. */
+export type DeleteOrderPalletByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `OrderPallet` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deleteOrderPallet` mutation. */
+export type DeleteOrderPalletInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['BigInt'];
+};
+
+/** The output of our delete `TruckLoad` mutation. */
+export type DeleteTruckLoadPayload = {
+  __typename?: 'DeleteTruckLoadPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `TruckLoad` that was deleted by this mutation. */
+  truckLoad?: Maybe<TruckLoad>;
+  deletedTruckLoadNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `TruckLoad`. May be used by Relay 1. */
+  truckLoadEdge?: Maybe<TruckLoadsEdge>;
+};
+
+
+/** The output of our delete `TruckLoad` mutation. */
+export type DeleteTruckLoadPayloadTruckLoadEdgeArgs = {
+  orderBy?: Maybe<Array<TruckLoadsOrderBy>>;
+};
+
+/** All input for the `deleteTruckLoadByNodeId` mutation. */
+export type DeleteTruckLoadByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `TruckLoad` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deleteTruckLoad` mutation. */
+export type DeleteTruckLoadInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['BigInt'];
+};
+
 /** The output of our `bulkCreateUserMessage` mutation. */
 export type BulkCreateUserMessagePayload = {
   __typename?: 'BulkCreateUserMessagePayload';
@@ -56522,6 +59506,213 @@ export type DeletePriceSizeEntriesInput = {
   clientMutationId?: Maybe<Scalars['String']>;
   selectedSizeId: Scalars['BigInt'];
   selectedDate: Scalars['Date'];
+};
+
+/** The output of our `bulkDeleteOrderItem` mutation. */
+export type BulkDeleteOrderItemPayload = {
+  __typename?: 'BulkDeleteOrderItemPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  strings?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** All input for the `bulkDeleteOrderItem` mutation. */
+export type BulkDeleteOrderItemInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  idsToDelete: Array<Maybe<Scalars['BigFloat']>>;
+};
+
+/** The output of our `bulkDeleteOrderMaster` mutation. */
+export type BulkDeleteOrderMasterPayload = {
+  __typename?: 'BulkDeleteOrderMasterPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  strings?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** All input for the `bulkDeleteOrderMaster` mutation. */
+export type BulkDeleteOrderMasterInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  idsToDelete: Array<Maybe<Scalars['BigFloat']>>;
+};
+
+/** The output of our `bulkDeleteOrderPallet` mutation. */
+export type BulkDeleteOrderPalletPayload = {
+  __typename?: 'BulkDeleteOrderPalletPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  strings?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** All input for the `bulkDeleteOrderPallet` mutation. */
+export type BulkDeleteOrderPalletInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  idsToDelete: Array<Maybe<Scalars['BigFloat']>>;
+};
+
+/** The output of our `bulkDeleteTruckLoad` mutation. */
+export type BulkDeleteTruckLoadPayload = {
+  __typename?: 'BulkDeleteTruckLoadPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  strings?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** All input for the `bulkDeleteTruckLoad` mutation. */
+export type BulkDeleteTruckLoadInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  idsToDelete: Array<Maybe<Scalars['BigFloat']>>;
+};
+
+/** The output of our `bulkUpsertOrderEntry` mutation. */
+export type BulkUpsertOrderEntryPayload = {
+  __typename?: 'BulkUpsertOrderEntryPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  orderEntries?: Maybe<Array<Maybe<OrderEntry>>>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** All input for the `bulkUpsertOrderEntry` mutation. */
+export type BulkUpsertOrderEntryInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  orderEntries: Array<Maybe<OrderEntryInput>>;
+};
+
+/** The output of our `bulkUpsertOrderItem` mutation. */
+export type BulkUpsertOrderItemPayload = {
+  __typename?: 'BulkUpsertOrderItemPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  orderItems?: Maybe<Array<Maybe<OrderItem>>>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** All input for the `bulkUpsertOrderItem` mutation. */
+export type BulkUpsertOrderItemInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  orderItems: Array<Maybe<OrderItemInput>>;
+};
+
+/** The output of our `bulkUpsertOrderMaster` mutation. */
+export type BulkUpsertOrderMasterPayload = {
+  __typename?: 'BulkUpsertOrderMasterPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  orderMasters?: Maybe<Array<Maybe<OrderMaster>>>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** All input for the `bulkUpsertOrderMaster` mutation. */
+export type BulkUpsertOrderMasterInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  orderMasters: Array<Maybe<OrderMasterInput>>;
+};
+
+/** The output of our `bulkUpsertOrderPallet` mutation. */
+export type BulkUpsertOrderPalletPayload = {
+  __typename?: 'BulkUpsertOrderPalletPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  orderPallets?: Maybe<Array<Maybe<OrderPallet>>>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** All input for the `bulkUpsertOrderPallet` mutation. */
+export type BulkUpsertOrderPalletInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  orderPallets: Array<Maybe<OrderPalletInput>>;
+};
+
+/** The output of our `bulkUpsertTruckLoad` mutation. */
+export type BulkUpsertTruckLoadPayload = {
+  __typename?: 'BulkUpsertTruckLoadPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  truckLoads?: Maybe<Array<Maybe<TruckLoad>>>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** All input for the `bulkUpsertTruckLoad` mutation. */
+export type BulkUpsertTruckLoadInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  truckLoads: Array<Maybe<TruckLoadInput>>;
 };
 
 /** The output of our upsert `User` mutation. */
@@ -58762,6 +61953,170 @@ export type UpsertPriceSizeInput = {
   clientMutationId?: Maybe<Scalars['String']>;
   /** The `PriceSize` to be upserted by this mutation. */
   priceSize: PriceSizeInput;
+};
+
+/** The output of our upsert `OrderEntry` mutation. */
+export type UpsertOrderEntryPayload = {
+  __typename?: 'UpsertOrderEntryPayload';
+  /** The exact same `clientMutationId` that was provided in the mutation input, unchanged and unused. May be used by a client to track mutations. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `OrderEntry` that were upserted by this mutation. */
+  orderEntry?: Maybe<OrderEntry>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `OrderEntry`. May be used by Relay 1. */
+  orderEntryEdge?: Maybe<OrderEntriesEdge>;
+};
+
+
+/** The output of our upsert `OrderEntry` mutation. */
+export type UpsertOrderEntryPayloadOrderEntryEdgeArgs = {
+  orderBy?: Maybe<Array<OrderEntriesOrderBy>>;
+};
+
+/** All input for the upsert `OrderEntry` mutation. */
+export type UpsertOrderEntryInput = {
+  /** An arbitrary string value with no semantic meaning. Will be included in the payload verbatim. May be used to track mutations by the client. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `OrderEntry` to be upserted by this mutation. */
+  orderEntry: OrderEntryInput;
+};
+
+/** The output of our upsert `OrderEntryItem` mutation. */
+export type UpsertOrderEntryItemPayload = {
+  __typename?: 'UpsertOrderEntryItemPayload';
+  /** The exact same `clientMutationId` that was provided in the mutation input, unchanged and unused. May be used by a client to track mutations. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `OrderEntryItem` that were upserted by this mutation. */
+  orderEntryItem?: Maybe<OrderEntryItem>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `OrderEntry` that is related to this `OrderEntryItem`. */
+  orderEntry?: Maybe<OrderEntry>;
+  /** An edge for our `OrderEntryItem`. May be used by Relay 1. */
+  orderEntryItemEdge?: Maybe<OrderEntryItemsEdge>;
+};
+
+
+/** The output of our upsert `OrderEntryItem` mutation. */
+export type UpsertOrderEntryItemPayloadOrderEntryItemEdgeArgs = {
+  orderBy?: Maybe<Array<OrderEntryItemsOrderBy>>;
+};
+
+/** All input for the upsert `OrderEntryItem` mutation. */
+export type UpsertOrderEntryItemInput = {
+  /** An arbitrary string value with no semantic meaning. Will be included in the payload verbatim. May be used to track mutations by the client. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `OrderEntryItem` to be upserted by this mutation. */
+  orderEntryItem: OrderEntryItemInput;
+};
+
+/** The output of our upsert `OrderItem` mutation. */
+export type UpsertOrderItemPayload = {
+  __typename?: 'UpsertOrderItemPayload';
+  /** The exact same `clientMutationId` that was provided in the mutation input, unchanged and unused. May be used by a client to track mutations. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `OrderItem` that were upserted by this mutation. */
+  orderItem?: Maybe<OrderItem>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `OrderItem`. May be used by Relay 1. */
+  orderItemEdge?: Maybe<OrderItemsEdge>;
+};
+
+
+/** The output of our upsert `OrderItem` mutation. */
+export type UpsertOrderItemPayloadOrderItemEdgeArgs = {
+  orderBy?: Maybe<Array<OrderItemsOrderBy>>;
+};
+
+/** All input for the upsert `OrderItem` mutation. */
+export type UpsertOrderItemInput = {
+  /** An arbitrary string value with no semantic meaning. Will be included in the payload verbatim. May be used to track mutations by the client. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `OrderItem` to be upserted by this mutation. */
+  orderItem: OrderItemInput;
+};
+
+/** The output of our upsert `OrderMaster` mutation. */
+export type UpsertOrderMasterPayload = {
+  __typename?: 'UpsertOrderMasterPayload';
+  /** The exact same `clientMutationId` that was provided in the mutation input, unchanged and unused. May be used by a client to track mutations. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `OrderMaster` that were upserted by this mutation. */
+  orderMaster?: Maybe<OrderMaster>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `OrderMaster`. May be used by Relay 1. */
+  orderMasterEdge?: Maybe<OrderMastersEdge>;
+};
+
+
+/** The output of our upsert `OrderMaster` mutation. */
+export type UpsertOrderMasterPayloadOrderMasterEdgeArgs = {
+  orderBy?: Maybe<Array<OrderMastersOrderBy>>;
+};
+
+/** All input for the upsert `OrderMaster` mutation. */
+export type UpsertOrderMasterInput = {
+  /** An arbitrary string value with no semantic meaning. Will be included in the payload verbatim. May be used to track mutations by the client. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `OrderMaster` to be upserted by this mutation. */
+  orderMaster: OrderMasterInput;
+};
+
+/** The output of our upsert `OrderPallet` mutation. */
+export type UpsertOrderPalletPayload = {
+  __typename?: 'UpsertOrderPalletPayload';
+  /** The exact same `clientMutationId` that was provided in the mutation input, unchanged and unused. May be used by a client to track mutations. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `OrderPallet` that were upserted by this mutation. */
+  orderPallet?: Maybe<OrderPallet>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `OrderPallet`. May be used by Relay 1. */
+  orderPalletEdge?: Maybe<OrderPalletsEdge>;
+};
+
+
+/** The output of our upsert `OrderPallet` mutation. */
+export type UpsertOrderPalletPayloadOrderPalletEdgeArgs = {
+  orderBy?: Maybe<Array<OrderPalletsOrderBy>>;
+};
+
+/** All input for the upsert `OrderPallet` mutation. */
+export type UpsertOrderPalletInput = {
+  /** An arbitrary string value with no semantic meaning. Will be included in the payload verbatim. May be used to track mutations by the client. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `OrderPallet` to be upserted by this mutation. */
+  orderPallet: OrderPalletInput;
+};
+
+/** The output of our upsert `TruckLoad` mutation. */
+export type UpsertTruckLoadPayload = {
+  __typename?: 'UpsertTruckLoadPayload';
+  /** The exact same `clientMutationId` that was provided in the mutation input, unchanged and unused. May be used by a client to track mutations. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `TruckLoad` that were upserted by this mutation. */
+  truckLoad?: Maybe<TruckLoad>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `TruckLoad`. May be used by Relay 1. */
+  truckLoadEdge?: Maybe<TruckLoadsEdge>;
+};
+
+
+/** The output of our upsert `TruckLoad` mutation. */
+export type UpsertTruckLoadPayloadTruckLoadEdgeArgs = {
+  orderBy?: Maybe<Array<TruckLoadsOrderBy>>;
+};
+
+/** All input for the upsert `TruckLoad` mutation. */
+export type UpsertTruckLoadInput = {
+  /** An arbitrary string value with no semantic meaning. Will be included in the payload verbatim. May be used to track mutations by the client. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `TruckLoad` to be upserted by this mutation. */
+  truckLoad: TruckLoadInput;
 };
 
 export type PriceSheetUpdateInput = {

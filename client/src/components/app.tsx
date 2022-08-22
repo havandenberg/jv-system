@@ -15,10 +15,11 @@ import Dashboard from 'components/dashboard';
 import Directory from 'components/directory';
 import { DirectorySelectionContextProvider } from 'components/directory/selection-context';
 import Footer from 'components/footer';
+import Inventory from 'components/inventory';
+import { InventoryContextProvider } from 'components/inventory/inventory/context';
 import Nav from 'components/nav';
 import Reports from 'components/reports';
 import Sales from 'components/sales';
-import { InventoryContextProvider } from 'components/sales/inventory/context';
 import ScrollToTop from 'components/scroll-to-top';
 import UserDashboard from 'components/user';
 import { UserContextProvider } from 'components/user/context';
@@ -53,6 +54,7 @@ const App = () => (
                       component={Directory}
                     />
                     <Route path="/reports" component={Reports} />
+                    <Route path="/inventory" component={Inventory} />
                     <Route path="/sales" component={Sales} />
                     <Route path="/user" component={UserDashboard} />
                     <Redirect to="/" />
