@@ -24,12 +24,13 @@ const Header = styled(l.Div)(({ shadow }: { shadow?: boolean }) => ({
   paddingTop: th.sizes.icon,
   top: th.heights.nav,
   width: th.sizes.fill,
-  zIndex: 10,
+  zIndex: 30,
 }));
 
 interface Props {
   actions?: React.ReactNode;
   breadcrumbs?: BreadcrumbProps[];
+  centerAction?: React.ReactNode;
   children?: React.ReactNode;
   enableShadow?: boolean;
   extraPaddingTop?: number;
@@ -40,6 +41,7 @@ interface Props {
 const Page = ({
   actions,
   breadcrumbs,
+  centerAction = <div />,
   children,
   enableShadow = true,
   extraPaddingTop,
@@ -64,6 +66,7 @@ const Page = ({
                     {title}
                   </ty.TitleText>
                 )}
+                {centerAction}
                 {actions && <l.Flex>{actions}</l.Flex>}
               </l.Flex>
             )}

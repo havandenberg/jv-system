@@ -1,6 +1,7 @@
 import React, { ChangeEvent } from 'react';
 import styled from '@emotion/styled';
 import { pascalCase } from 'change-case';
+import { add, startOfISOWeek } from 'date-fns';
 import {
   equals,
   mapObjIndexed,
@@ -13,6 +14,7 @@ import {
 } from 'ramda';
 
 import PlusInCircle from 'assets/images/plus-in-circle';
+import { formatDate } from 'components/date-range-picker';
 import EditableCell from 'components/editable-cell';
 import useItemSelector from 'components/item-selector';
 import ItemLinkRow, { ItemLink } from 'components/item-selector/link';
@@ -29,7 +31,7 @@ import {
 import l, { DivProps, divPropsSet } from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
-import { getDateOfISOWeek, getWeekNumber } from 'utils/date';
+import { hexColorWithTransparency } from 'ui/utils';
 
 import ProgramAllocateModal from './allocate';
 import {
@@ -43,7 +45,6 @@ import {
   ProgramTotal,
 } from './types';
 import { getAllocatedPalletEntryTotalSets, getProgramTotals } from './utils';
-import { hexColorWithTransparency } from 'ui/utils';
 import ProgramNotes from './notes';
 
 export const ProgramWrapper = styled(l.Grid)(
@@ -83,7 +84,7 @@ export const NewProgramRow = ({
   };
 
   return (
-    <ProgramWrapper mt={hasPrograms ? th.spacing.xs : th.spacing.md}>
+    <ProgramWrapper mt={hasPrograms ? th.spacing.xs : th.spacing.sm}>
       <l.Flex
         border={th.borders.transparent}
         alignCenter
@@ -365,6 +366,8 @@ const ProgramRow = <
     vesselInfos,
   } = props;
   const { id } = program;
+
+  const [startDate] = useQueryValue('startDate');
 
   const [
     {
@@ -740,7 +743,7 @@ const ProgramRow = <
     'projected',
     getProgramTotals(
       entries,
-      selectedWeekNumber,
+      startDate || '',
       weekCount,
       (entry, key) => ({ value: entry[key], dirty: false }),
       vesselInfos,
@@ -994,11 +997,18 @@ const ProgramRow = <
           )}
         </l.Grid>
         {times((index) => {
+          const weekStartDate = startOfISOWeek(
+            add(
+              new Date(startDate ? startDate.replace(/-/g, '/') : new Date()),
+              { weeks: index },
+            ),
+          );
           const entry = entries.find(
             (entry) =>
               entry &&
-              getWeekNumber(new Date(entry.programDate.replace(/-/g, '/'))) ===
-                selectedWeekNumber + index,
+              startOfISOWeek(
+                new Date(entry.programDate.replace(/-/g, '/')),
+              ).toLocaleString() === weekStartDate.toLocaleString(),
           );
 
           const palletCountCurrentValue = getProgramEntryValue(
@@ -1065,10 +1075,7 @@ const ProgramRow = <
                         id: 0,
                         notes: '',
                         palletCount: e.target.value,
-                        programDate: getDateOfISOWeek(
-                          selectedWeekNumber + index,
-                          'yyyy-MM-dd',
-                        ),
+                        programDate: formatDate(weekStartDate),
                         customerProgramId: isCustomers ? program.id : undefined,
                         customerProgram: isCustomers
                           ? (program as CustomerProgram)

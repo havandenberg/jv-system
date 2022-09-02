@@ -255,7 +255,7 @@ export const getProgramTotals = <
   T extends CustomerProgramEntry | ShipperProgramEntry,
 >(
   entries: T[],
-  selectedWeekNumber: number,
+  startDate: string,
   weekCount: number,
   getProgramEntryValue: (
     entry: T,
@@ -268,8 +268,15 @@ export const getProgramTotals = <
       .filter(
         (entry) =>
           entry &&
-          getWeekNumber(new Date(entry.programDate.replace(/-/g, '/'))) ===
-            selectedWeekNumber + index,
+          startOfISOWeek(
+            new Date(entry.programDate.replace(/-/g, '/')),
+          ).toLocaleString() ===
+            startOfISOWeek(
+              add(
+                new Date(startDate ? startDate.replace(/-/g, '/') : new Date()),
+                { weeks: index },
+              ),
+            ).toLocaleString(),
       )
       .reverse();
 
@@ -279,8 +286,15 @@ export const getProgramTotals = <
       return (
         vesselInfo &&
         arrivalDate &&
-        getWeekNumber(new Date(arrivalDate.replace(/-/g, '/'))) ===
-          selectedWeekNumber + index
+        startOfISOWeek(
+          new Date(arrivalDate.replace(/-/g, '/')),
+        ).toLocaleString() ===
+          startOfISOWeek(
+            add(
+              new Date(startDate ? startDate.replace(/-/g, '/') : new Date()),
+              { weeks: index },
+            ),
+          ).toLocaleString()
       );
     });
 

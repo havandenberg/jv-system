@@ -5,6 +5,10 @@ import {
   BorderSetProps,
   fontSize,
   FontSizeProps,
+  fontWeight,
+  FontWeightProps,
+  maxWidth,
+  MaxWidthProps,
   spaceSet,
   SpaceSetProps,
   width,
@@ -75,10 +79,13 @@ export const ClearWrapper = styled(IconWrapper)({
 export const TextArea = styled.textarea<
   InputHTMLAttributes<HTMLTextAreaElement> &
     FontSizeProps &
+    MaxWidthProps &
     SpaceSetProps &
-    WidthProps
+    WidthProps & {
+      isDirty?: boolean;
+    }
 >(
-  {
+  ({ isDirty }) => ({
     background: th.colors.brand.containerBackground,
     border: th.borders.secondary,
     borderRadius: th.borderRadii.default,
@@ -87,16 +94,24 @@ export const TextArea = styled.textarea<
     cursor: 'text',
     fontFamily: th.fontFamilies.body,
     fontSize: th.fontSizes.body,
+    fontWeight: isDirty ? th.fontWeights.bold : undefined,
     outline: 'none',
     padding: th.spacing.sm,
     transition: th.transitions.default,
-  },
+  }),
   fontSize,
+  maxWidth,
   spaceSet,
   width,
 );
 
-const StyledTextInput = styled.input(
+const StyledTextInput = styled.input<
+  InputHTMLAttributes<HTMLInputElement> &
+    BorderSetProps &
+    FontWeightProps &
+    SpaceSetProps &
+    WidthProps
+>(
   {
     background: 'transparent',
     border: 0,
@@ -126,6 +141,7 @@ const StyledTextInput = styled.input(
     },
   },
   borderSet,
+  fontWeight,
   spaceSet,
   width,
 );
@@ -164,9 +180,10 @@ export const Select = styled.select<
       hasValue?: boolean;
       focused?: boolean;
       hasError?: boolean;
+      isDirty?: boolean;
     }
 >(
-  ({ hasError, hasValue, focused }) => ({
+  ({ hasError, hasValue, isDirty, focused }) => ({
     background: th.colors.brand.containerBackground,
     border: hasError
       ? th.borders.error
@@ -178,6 +195,7 @@ export const Select = styled.select<
     color: th.colors.text.default,
     cursor: 'pointer',
     fontSize: th.fontSizes.caption,
+    fontWeight: isDirty ? 'bold' : undefined,
     height: 34,
     position: 'relative',
     outline: 'none',
@@ -207,12 +225,14 @@ export const Select = styled.select<
 export interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
   hasError?: boolean;
   Icon?: React.ReactNode;
+  isDirty?: boolean;
   onClear?: () => void;
 }
 
 const TextInput = ({
   hasError,
   Icon,
+  isDirty,
   onBlur,
   onClear,
   onFocus,
@@ -259,6 +279,7 @@ const TextInput = ({
     >
       <IconWrapper left={0}>{Icon}</IconWrapper>
       <StyledTextInput
+        fontWeight={isDirty ? 'bold' : undefined}
         pl={Icon ? ICON_WIDTH : DEFAULT_PADDING}
         pr={value && onClear ? CLEAR_WIDTH : DEFAULT_PADDING}
         ref={inputRef}

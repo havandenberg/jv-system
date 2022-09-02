@@ -15,7 +15,7 @@ export const modalStyles: ReactModal.Styles = {
     justifyContent: 'center',
     display: 'flex',
     flexDirection: 'column',
-    zIndex: 20,
+    zIndex: 40,
   },
   content: {
     background: th.colors.background,

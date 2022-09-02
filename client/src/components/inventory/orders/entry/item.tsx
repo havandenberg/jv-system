@@ -1,148 +1,191 @@
-import React from 'react';
+import React, { ChangeEvent, useState } from 'react';
+import { ApolloError } from '@apollo/client';
+import { differenceInDays, format } from 'date-fns';
 import { sortBy } from 'ramda';
 
-import { CommonSpecies, InventoryItem, OrderEntryItem, Shipper, Vessel, Warehouse } from 'types';
+import HighlightImg from 'assets/images/highlight';
+import PlusInCircle from 'assets/images/plus-in-circle';
+import EditableCell from 'components/editable-cell';
+import { reducePalletData } from 'components/inventory/inventory/utils';
+import useItemSelector from 'components/item-selector';
+import ItemLinkRow, { ItemLink } from 'components/item-selector/link';
+import { BasicModal } from 'components/modal';
+import {
+  CommonSpecies,
+  InventoryItem,
+  OrderEntryItem,
+  Shipper,
+  Vessel,
+  Warehouse,
+} from 'types';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 
+import { gridTemplateColumns } from '.';
+import { itemListLabels } from './data-utils';
+import { isDateLessThanOrEqualTo } from 'utils/date';
+
 type Props = {
-  inventoryItems: InventoryItem[];
-  currentItem: OrderEntryItem;
-  updatedItem: OrderEntryItem;
   commonSpecieses: CommonSpecies[];
-  items: InventoryItem[];
+  currentItem: OrderEntryItem;
+  duplicateIds: number[];
+  editing: boolean;
+  error?: ApolloError;
+  fobDate?: string;
+  handleChange: (
+    key: keyof OrderEntryItem,
+    value: string | number | boolean | null,
+  ) => void;
+  handleNewItem: (updatedItem: OrderEntryItem) => void;
+  handleRemoveItem: (id: number) => void;
+  inventoryItems: InventoryItem[];
+  loading: boolean;
+  originalItem?: OrderEntryItem;
+  saveAttempt: boolean;
   shippers: Shipper[];
+  showRemoveIcon: boolean;
+  updatedItem: OrderEntryItem;
   vessels: Vessel[];
   warehouses: Warehouse[];
-  loading: boolean;
 };
 
-interface Option {
-  text: string;
-  value: string | number;
-}
-
 type FilterKey =
-  | 'location'
-  | 'shipper'
-  | 'vessel'
   | 'label'
+  | 'locationId'
+  | 'packType'
+  | 'palletCount'
+  | 'plu'
+  | 'shipperId'
+  | 'size'
   | 'species'
   | 'variety'
-  | 'size'
-  | 'packType'
-  | 'plu';
+  | 'vesselCode'
+  | 'unitSellPrice'
+  | 'deliveryCharge'
+  | 'notes';
 
 const NewOrderEntryItem = ({
+  commonSpecieses,
   currentItem,
+  duplicateIds,
+  editing,
+  error,
+  fobDate,
+  handleChange,
+  handleNewItem,
+  handleRemoveItem,
   inventoryItems,
+  loading,
+  originalItem,
+  saveAttempt,
+  shippers,
+  showRemoveIcon,
   updatedItem,
+  vessels,
+  warehouses,
 }: Props) => {
-  const editableCellProps = {
-    bypassLocalValue: true,
-    content: {
-      dirty: isValueDirty('customer'),
-      value: getSelectorValue('customer'),
-    },
-    defaultChildren: null,
-    editing,
-    error:
-      isDuplicate ||
-      !!(getSelectorValue('customer') && !getSelectorProduct('customer')),
-    onChange: (e: ChangeEvent<HTMLInputElement>) => {
-      handleChange('customerId', e.target.value);
-    },
-    warning: false,
-  };
-
-  const getFilter = (key: FilterKey, optionList: Option[]) => (
-    <EditableCell {...editableCellProps} />
-    <div key={key}>
-      <ty.SmallText mb={th.spacing.xs} secondary>
-        {capitalCase(key)}
-      </ty.SmallText>
-      <Select
-        mr={th.spacing.md}
-        onChange={(e) => {
-          if (key === 'species') {
-            setQuery({
-              ...selectedFilters,
-              [key]: e.target.value || undefined,
-              variety: undefined,
-              size: undefined,
-              packType: undefined,
-            });
-          } else {
-            setQuery({
-              ...selectedFilters,
-              [key]: e.target.value || undefined,
-            });
-          }
-        }}
-        value={selectedFilters[key] || ''}
-        width={selectWidth}
-      >
-        {optionList.map(({ text, value }) => (
-          <option key={value} value={value}>
-            {text}
-          </option>
-        ))}
-      </Select>
-    </div>
-  );
-
-  const getOptions = (options: Option[]) => [
-    { text: 'Any', value: '' },
-    ...sortBy(
-      (opt) => (opt.text === 'Other' ? 'zzzzzzz' : opt.text.toLowerCase()),
-      options,
-    ),
-  ];
-
-  const locationOptions = [] as Option[];
-  const countryOptions = [] as Option[];
-  const shipperOptions = [] as Option[];
-  const labelOptions = [] as Option[];
-  const speciesOptions = [] as Option[];
-  const varietyOptions = [] as Option[];
-  const sizeOptions = [] as Option[];
-  const packTypeOptions = [] as Option[];
-  const pluOptions = [] as Option[];
-
-  const { DateRangePicker, BackwardButton, ForwardButton } = useDateRange({
-    maxDate: endOfISOWeek(add(new Date(), { weeks: 4 })),
-  });
-
-  const [{ startDate = formatDate(new Date()) }] = useDateRangeQueryParams();
-  const selectedWeekNumber = getWeekNumber(
-    new Date(startDate.replace(/-/g, '/')),
-  );
-  const currentStartOfWeek = new Date(startDate.replace(/-/g, '/'));
-
   const {
+    id,
     species,
     variety,
     size,
-    label,
     packType,
-    sizePackType,
-    speciesTag,
-    varietyTag,
-    sizeTag,
-    packTypeTag,
     plu,
-    location,
-    shipper,
-    countryOfOrigin,
-    detailsIndex,
-  } = selectedFilters;
+    shipperId,
+    locationId,
+    vesselCode,
+    label,
+    palletCount,
+    unitSellPrice,
+    deliveryCharge,
+  } = updatedItem;
 
-  const inventoryStartDateIndex = getInventoryStartDayIndex(startDate);
-  const isStorage = parseInt(detailsIndex) === 13 - inventoryStartDateIndex;
-  const isTotal = parseInt(detailsIndex) === 14 - inventoryStartDateIndex;
+  const isDuplicate = duplicateIds.includes(parseInt(id, 10));
 
-  const filteredItems = items.filter((orderMaster) => {
+  const commonSpecies = commonSpecieses.find(
+    (sp) => sp && sp.productSpeciesId === species,
+  );
+  const commonVariety = commonSpecies?.commonVarieties.nodes.find(
+    (v) => v && v.productVarietyId === variety,
+  );
+  const commonSize = commonSpecies?.commonSizes.nodes.find(
+    (sz) => sz && sz.productSizeId === size,
+  );
+  const commonPackType = commonSpecies?.commonPackTypes.nodes.find(
+    (pt) => pt && pt.packMaster?.packDescription === packType,
+  );
+  const shipper = shippers.find((s) => s && s.id === shipperId);
+  const vessel = vessels.find((v) => v && v.vesselCode === vesselCode);
+  const warehouse = warehouses.find((w) => w && w.id === locationId);
+
+  const getSelectorValue = (type: FilterKey) => {
+    switch (type) {
+      case 'species':
+        return commonSpecies?.speciesName || species || '';
+      case 'variety':
+        return commonVariety?.varietyName || variety || '';
+      case 'size':
+        return commonSize?.sizeName || size || '';
+      case 'packType':
+        return commonPackType?.packTypeName || packType || '';
+      case 'shipperId':
+        return shipper?.shipperName || shipperId || '';
+      case 'vesselCode':
+        return vessel?.vesselName || vesselCode || '';
+      case 'locationId':
+        return warehouse?.warehouseName || locationId || '';
+      case 'plu':
+        return plu || '';
+      case 'label':
+        return label || '';
+      default:
+        return '';
+    }
+  };
+
+  const isValueDirty = (type: FilterKey) => {
+    switch (type) {
+      case 'species':
+        return species !== currentItem.species;
+      case 'variety':
+        return variety !== currentItem.variety;
+      case 'size':
+        return size !== currentItem.size;
+      case 'packType':
+        return packType !== currentItem.packType;
+      case 'shipperId':
+        return shipperId !== currentItem.shipperId;
+      case 'vesselCode':
+        return vesselCode !== currentItem.vesselCode;
+      case 'locationId':
+        return locationId !== currentItem.locationId;
+      case 'plu':
+        return plu !== currentItem.plu;
+      case 'label':
+        return label !== currentItem.label;
+      case 'palletCount':
+        return palletCount !== currentItem.palletCount;
+      case 'deliveryCharge':
+        return deliveryCharge !== currentItem.deliveryCharge;
+      case 'unitSellPrice':
+        return unitSellPrice !== currentItem.unitSellPrice;
+      default:
+        return true;
+    }
+  };
+
+  const locationOptions = [] as ItemLink[];
+  const shipperOptions = [] as ItemLink[];
+  const labelOptions = [] as ItemLink[];
+  const speciesOptions = [] as ItemLink[];
+  const varietyOptions = [] as ItemLink[];
+  const sizeOptions = [] as ItemLink[];
+  const packTypeOptions = [] as ItemLink[];
+  const pluOptions = [] as ItemLink[];
+  const vesselOptions = [] as ItemLink[];
+
+  const filteredItems = inventoryItems.filter((item) => {
     const otherCategory = {
       id: 'other',
       speciesDescription: 'Other',
@@ -155,299 +198,523 @@ const NewOrderEntryItem = ({
         labelName: 'Other',
       },
       shipperName: 'Other',
-      countryName: 'Other',
-      commonSpeciesTags: { nodes: [] },
-      commonVarietyTags: { nodes: [] },
-      commonSizeTags: { nodes: [] },
-      commonPackTypeTags: { nodes: [] },
     };
-    const orderItems = (orderMaster.items.nodes || []) as OrderItem[];
 
-    const filteredOrderItems = orderItems.filter((orderItem) => {
-      const item = orderItem.inventoryItem;
+    if (!item) {
+      return false;
+    }
 
-      if (!item) {
-        return false;
-      }
+    const itemSpecies = item.product?.species || otherCategory;
+    const itemVariety = item.product?.variety || otherCategory;
+    const itemSize = item.product?.sizes?.nodes[0] || otherCategory;
+    const itemPackType = item.product?.packType || otherCategory;
 
-      const itemSpecies = item.product?.species || otherCategory;
-      const itemVariety = item.product?.variety || otherCategory;
-      const itemSize = item.product?.sizes?.nodes[0] || otherCategory;
-      const itemPackType = item.product?.packType || otherCategory;
+    const dateValid =
+      !fobDate ||
+      (item.vessel &&
+        isDateLessThanOrEqualTo(
+          new Date(item.vessel.dischargeDate.replace(/-/g, '/')),
+          new Date(fobDate.replace(/-/g, '/')),
+        ));
 
-      const commonSpecies = commonSpecieses.find(
-        (cs) => cs && cs.productSpeciesId === itemSpecies?.id,
-      );
-      const commonSpeciesTags = (commonSpecies?.commonSpeciesTags?.nodes ||
-        []) as CommonProductTag[];
-      const commonVarietyTags = (commonSpecies?.commonVarieties?.nodes.find(
-        (cv) => cv && cv.productVarietyId === itemVariety?.id,
-      )?.commonVarietyTags?.nodes || []) as CommonProductTag[];
-      const commonSizeTags = (commonSpecies?.commonSizes?.nodes.find(
-        (cs) => cs && cs.productSizeId === itemSize?.id,
-      )?.commonSizeTags?.nodes || []) as CommonProductTag[];
-      const commonPackTypeTags = (commonSpecies?.commonPackTypes?.nodes.find(
-        (cpt) => cpt && cpt.packMasterId === itemPackType?.id,
-      )?.commonPackTypeTags?.nodes || []) as CommonProductTag[];
+    const isValid =
+      dateValid &&
+      (!warehouse ||
+        `${item.warehouse?.warehouseName}`.includes(`${locationId}`) ||
+        ['Any', item.warehouse?.id].includes(locationId || undefined)) &&
+      (!shipper ||
+        `${item.shipper?.shipperName}`.includes(`${shipperId}`) ||
+        ['Any', item.shipper?.id].includes(shipperId || undefined)) &&
+      (!species ||
+        `${itemSpecies?.speciesDescription}`.includes(species) ||
+        [itemSpecies?.id].includes(species)) &&
+      (!variety ||
+        `${itemVariety?.varietyDescription}`.includes(variety) ||
+        ['Any', itemVariety?.id].includes(variety)) &&
+      (!size ||
+        `${itemSize?.combineDescription}`.includes(size) ||
+        ['Any', itemSize?.id].includes(size)) &&
+      (!packType ||
+        `${itemPackType?.packDescription}`.includes(packType) ||
+        ['Any', itemPackType?.id].includes(packType)) &&
+      (!vesselCode ||
+        `${item?.vessel?.vesselCode}`.includes(vesselCode) ||
+        ['Any', item?.vessel?.vesselCode].includes(vesselCode)) &&
+      (!label ||
+        `${itemPackType?.label?.labelCode}`.includes(label) ||
+        ['Any', itemPackType?.label?.labelCode].includes(label)) &&
+      (!plu ||
+        (item.plu ? 'PLU' : 'No PLU').includes(plu) ||
+        ['Any', item.plu ? 'PLU' : 'No PLU'].includes(plu));
 
-      const detailsValid =
-        !detailsIndex ||
-        (isStorage
-          ? item.vessel &&
-            isBefore(
-              new Date(item.vessel.dischargeDate.replace(/-/g, '/')),
-              currentStartOfWeek,
-            )
-          : isTotal
-          ? true
-          : isWithinDateInterval(
-              item,
-              parseInt(detailsIndex, 10),
-              currentStartOfWeek,
-            ));
-
+    if (isValid) {
       if (
-        !locationOptions.find(({ value }) => value === item.warehouse?.id) &&
-        detailsValid &&
+        !locationOptions.find(({ id }) => id === item.warehouse?.id) &&
         item.warehouse
       ) {
         locationOptions.push({
           text: `${item.warehouse.warehouseName} (${item.warehouse.id})`,
-          shortText: item.warehouse.warehouseName,
-          value: item.warehouse.id,
+          id: item.warehouse.id,
         });
       }
 
       if (
-        !countryOptions.find(({ value }) => value === item.country?.id) &&
-        detailsValid &&
-        item.country
+        !vesselOptions.find(({ id }) => id === item.vessel?.vesselCode) &&
+        item.vessel
       ) {
-        countryOptions.push({
-          text: `${item.country.countryName} (${item.country.id})`,
-          shortText: item.country.countryName,
-          value: item.country.id,
+        const dischargeDate = new Date(
+          item.vessel.dischargeDate.replace(/-/g, '/'),
+        );
+        const dayCount = differenceInDays(
+          dischargeDate,
+          fobDate ? new Date(fobDate.replace(/-/g, '/')) : new Date(),
+        );
+        vesselOptions.push({
+          text: `${item.vessel.vesselName}|${item.vessel.vesselCode}|${format(
+            dischargeDate,
+            'MMM dd',
+          )}|${dayCount >= 0 ? '+' : ''}${dayCount}d|${item.palletsAvailable}`,
+          id: item.vessel.vesselCode,
         });
       }
 
       if (
-        (!selectedFilters.countryOfOrigin ||
-          item.country?.id === selectedFilters.countryOfOrigin) &&
-        !shipperOptions.find(({ value }) => value === item.shipper?.id) &&
-        detailsValid &&
+        !shipperOptions.find(({ id }) => id === item.shipper?.id) &&
         item.shipper
       ) {
         shipperOptions.push({
           text: `${item.shipper.shipperName} (${item.shipper.id})`,
-          shortText: item.shipper.shipperName,
-          value: item.shipper.id,
+          id: item.shipper.id,
         });
       }
 
       if (
-        (!selectedFilters.species ||
-          itemSpecies?.id === selectedFilters.species) &&
-        !labelOptions.find(
-          ({ value }) => value === itemPackType?.label?.labelCode,
-        ) &&
-        detailsValid &&
+        !labelOptions.find(({ id }) => id === itemPackType?.label?.labelCode) &&
         itemPackType?.label
       ) {
         labelOptions.push({
           text: `${itemPackType.label.labelName}`,
-          shortText: `${itemPackType.label.labelName}`,
-          value: `${itemPackType.label.labelCode}`,
+          id: `${itemPackType.label.labelCode}`,
         });
       }
 
-      if (
-        (!selectedFilters.species ||
-          itemSpecies?.id === selectedFilters.species) &&
-        !pluOptions.find(({ value }) => value === `${item.plu}`) &&
-        detailsValid
-      ) {
+      if (!pluOptions.find(({ id }) => id === (item.plu ? 'PLU' : 'No PLU'))) {
         pluOptions.push({
-          text: `${item.plu}`,
-          shortText: `${item.plu}`,
-          value: `${item.plu}`,
+          text: item.plu ? 'PLU' : 'No PLU',
+          id: item.plu ? 'PLU' : 'No PLU',
         });
       }
 
       if (
-        !speciesOptions.find(({ value }) => value === itemSpecies?.id) &&
-        detailsValid &&
+        !speciesOptions.find(({ id }) => id === itemSpecies?.id) &&
         itemSpecies
       ) {
         speciesOptions.push({
           text: `${itemSpecies.speciesDescription} (${itemSpecies.id})`,
-          shortText: `${itemSpecies.speciesDescription}`,
-          value: itemSpecies.id,
+          id: itemSpecies.id,
         });
       }
 
       if (
-        itemSpecies.id === selectedFilters.species &&
-        !varietyOptions.find(({ value }) => value === itemVariety?.id) &&
-        detailsValid &&
+        !varietyOptions.find(({ id }) => id === itemVariety?.id) &&
         itemVariety
       ) {
         varietyOptions.push({
           text: `${itemVariety.varietyDescription}`,
-          shortText: `${itemVariety.varietyDescription}`,
-          value: itemVariety.id,
+          id: itemVariety.id,
         });
       }
 
-      if (
-        itemSpecies.id === selectedFilters.species &&
-        !sizeOptions.find(({ value }) => value === itemSize?.id) &&
-        detailsValid &&
-        itemSize
-      ) {
+      if (!sizeOptions.find(({ id }) => id === itemSize?.id) && itemSize) {
         sizeOptions.push({
           text: `${itemSize.combineDescription}`,
-          shortText: `${itemSize.combineDescription}`,
-          value: itemSize.id,
+          id: itemSize.id,
         });
       }
 
       if (
-        itemSpecies.id === selectedFilters.species &&
         !packTypeOptions.find(
-          ({ value }) => value === itemPackType?.packDescription,
+          ({ id }) => id === itemPackType?.packDescription,
         ) &&
-        detailsValid &&
         itemPackType
       ) {
         packTypeOptions.push({
           text: `${itemPackType.packDescription}`,
-          shortText: `${itemPackType.packDescription}`,
-          value: `${itemPackType?.packDescription}`,
+          id: `${itemPackType?.packDescription}`,
         });
       }
+    }
 
-      return (
-        selectedFilters.coast === item.coast &&
-        (!location || location === item.warehouse?.id) &&
-        (!shipper || shipper === item.shipper?.id) &&
-        (!countryOfOrigin || countryOfOrigin === item.country?.id) &&
-        (species
-          ? speciesTag
-            ? pluck('tagText', commonSpeciesTags).includes(speciesTag)
-            : ['total', itemSpecies?.id].includes(species)
-          : !speciesTag ||
-            pluck('tagText', commonSpeciesTags).includes(speciesTag)) &&
-        (variety
-          ? varietyTag
-            ? pluck('tagText', commonVarietyTags).includes(varietyTag)
-            : ['total', itemVariety?.id].includes(variety)
-          : !varietyTag ||
-            pluck('tagText', commonVarietyTags).includes(varietyTag)) &&
-        (size
-          ? sizeTag
-            ? pluck('tagText', commonSizeTags).includes(sizeTag)
-            : ['total', itemSize?.combineDescription].includes(size)
-          : !sizeTag || pluck('tagText', commonSizeTags).includes(sizeTag)) &&
-        (!label || ['total', itemPackType?.label?.labelCode].includes(label)) &&
-        (packType
-          ? packTypeTag
-            ? commonPackTypeTags.includes(packTypeTag)
-            : ['total', itemPackType?.packDescription].includes(packType)
-          : !packTypeTag || commonPackTypeTags.includes(packTypeTag)) &&
-        (!sizePackType ||
-          [
-            'total',
-            `${itemSize?.id} - ${itemPackType?.packDescription}`,
-          ].includes(sizePackType)) &&
-        (!plu || ['total', item.plu ? 'true' : 'false'].includes(plu)) &&
-        detailsValid
-      );
-    });
-
-    return filteredOrderItems.some((val) => val);
+    return isValid;
   });
 
-  const detailsDateRange = `${format(
-    getDateInterval(detailsIndex, currentStartOfWeek).start,
-    'M/dd',
-  )} - ${format(
-    add(getDateInterval(detailsIndex, currentStartOfWeek).end, {
-      days: -1,
-    }),
-    'M/dd',
-  )} (Week ${getWeekNumber(
-    getDateInterval(detailsIndex, currentStartOfWeek).start,
-  )})`;
+  const noItemsFound = !loading && filteredItems.length === 0;
 
-  const detailsDateText = isStorage
-    ? `Storage - older than ${format(currentStartOfWeek, 'M/dd')}`
-    : isTotal
-    ? 'All Dates'
-    : detailsDateRange;
+  const getOptions = (options: ItemLink[], allowAny: boolean = true) => [
+    ...(allowAny ? [{ text: 'Any', id: 'Any' }] : []),
+    ...sortBy(
+      (opt) => (opt.text === 'Other' ? 'zzzzzzz' : opt.text.toLowerCase()),
+      options,
+    ),
+  ];
+
+  const commonSelectorProps = {
+    closeOnSelect: true,
+    error,
+    height: 150,
+    loading,
+    panelGap: 0,
+    width: 250,
+  };
 
   const filterOptions = {
-    location: locationOptions,
-    countryOfOrigin: countryOptions,
-    shipper: shipperOptions,
+    locationId: locationOptions,
+    vesselCode: vesselOptions,
+    shipperId: shipperOptions,
     species: speciesOptions,
     variety: varietyOptions,
     size: sizeOptions,
     packType: packTypeOptions,
     label: labelOptions,
     plu: pluOptions,
+    palletCount: [],
+    unitSellPrice: [],
+    deliveryCharge: [],
+    notes: [],
   };
 
-  const locationSelect = getFilter('location', getOptions(locationOptions));
-  const countrySelect = getFilter(
-    'countryOfOrigin',
-    getOptions(countryOptions),
-    150,
-  );
-  const shipperSelect = getFilter('shipper', getOptions(shipperOptions));
-  const labelSelect = getFilter('label', getOptions(labelOptions), 120);
-  const pluSelect = getFilter('plu', getOptions(pluOptions), 90);
-  const speciesSelect = getFilter('species', getOptions(speciesOptions));
-  const varietySelect = getFilter('variety', getOptions(varietyOptions));
-  const sizeSelect = getFilter('size', getOptions(sizeOptions));
-  const packTypeSelect = getFilter('packType', getOptions(packTypeOptions));
+  const getVesselItemContent = (item: ItemLink) => {
+    const isAny = item.id === 'Any';
+    const isLabels = item.id === 'labels';
+
+    const textArray = item.text.split('|');
+    const nameText = textArray[0];
+    const codeText = textArray[1];
+    const dateText = textArray[2];
+    const daysText = textArray[3];
+    const days = parseInt(daysText, 10);
+    const palletsAvailableText = textArray[4];
+    const palletsAvailable = parseInt(palletsAvailableText, 10);
+
+    const isActive = item.id === updatedItem.vesselCode;
+
+    return (
+      <l.Grid
+        alignCenter
+        gridTemplateColumns="1fr 35px 50px 35px 35px"
+        gridColumnGap={th.spacing.md}
+        px={th.spacing.sm}
+        py={th.spacing.md}
+        width={th.sizes.fill}
+      >
+        <ty.CaptionText
+          bold={!isLabels && isActive}
+          nowrap
+          overflow="hidden"
+          secondary={isLabels}
+          textOverflow="ellipsis"
+          title={item.text}
+        >
+          {isAny ? item.text : nameText}
+        </ty.CaptionText>
+        {!isAny && (
+          <ty.CaptionText bold={!isLabels && isActive} secondary={isLabels}>
+            {codeText}
+          </ty.CaptionText>
+        )}
+        {dateText !== undefined && !isAny ? (
+          <ty.CaptionText bold={!isLabels && isActive} secondary={isLabels}>
+            {dateText}
+          </ty.CaptionText>
+        ) : null}
+        {dateText && !isAny ? (
+          <ty.CaptionText
+            bold={!isLabels && (days === 0 || isActive)}
+            color={
+              isLabels
+                ? th.colors.text.default
+                : days > -1
+                ? th.colors.status.success
+                : days > -10
+                ? th.colors.status.warning
+                : th.colors.status.error
+            }
+            secondary={isLabels}
+          >
+            {daysText}
+          </ty.CaptionText>
+        ) : null}
+        {palletsAvailable !== undefined && !isAny ? (
+          <ty.CaptionText
+            bold={!isLabels && isActive}
+            color={
+              isLabels
+                ? th.colors.text.default
+                : palletsAvailable > 0
+                ? th.colors.status.success
+                : palletsAvailable < 0
+                ? th.colors.status.error
+                : th.colors.status.warning
+            }
+            secondary={isLabels}
+          >
+            {palletsAvailableText}
+          </ty.CaptionText>
+        ) : null}
+      </l.Grid>
+    );
+  };
+
+  const getItemSelectorProps = (type: FilterKey, allowAny?: boolean) => {
+    const value = getSelectorValue(type);
+    const isDirty = isValueDirty(type);
+
+    const getItemContent =
+      type === 'vesselCode'
+        ? getVesselItemContent
+        : (link: ItemLink) => (
+            <ItemLinkRow active={link.id === updatedItem[type]} link={link} />
+          );
+
+    const selectItem = ({ id }: ItemLink) => {
+      handleChange(type, id === '-1' ? null : id);
+    };
+
+    const validate = itemListLabels.find(({ key }) => key === type)?.validate;
+    const isValid = validate ? validate(updatedItem) : true;
+
+    const allItems = getOptions(filterOptions[type], allowAny);
+
+    return {
+      ...commonSelectorProps,
+      allItems:
+        type === 'vesselCode'
+          ? [
+              { id: 'Any', text: 'Any' },
+              {
+                id: 'labels',
+                text: 'Name|Code|Arrival|Age|Avail',
+                disabled: true,
+              },
+              ...sortBy(
+                ({ text }) => {
+                  const textArray = text.split('|');
+                  const dateText = textArray[2];
+                  const date = new Date(dateText);
+                  return date;
+                },
+                allItems.filter(({ id }) => id !== 'Any'),
+              ),
+            ]
+          : allItems,
+      editableCellProps: {
+        bypassLocalValue: true,
+        content: { dirty: isDirty, value },
+        defaultChildren: null,
+        editing,
+        error: editing && saveAttempt && (isDuplicate || !isValid),
+        onChange: (e: ChangeEvent<HTMLInputElement>) => {
+          handleChange(type, e.target.value);
+        },
+        warning: noItemsFound,
+      },
+      getItemContent,
+      nameKey: 'text' as keyof ItemLink,
+      selectItem,
+      width:
+        type === 'vesselCode'
+          ? 400
+          : type === 'locationId'
+          ? 283
+          : commonSelectorProps.width,
+    };
+  };
+
+  const { ItemSelector: SpeciesSelector } = useItemSelector({
+    errorLabel: 'species',
+    ...getItemSelectorProps('species', false),
+  });
+
+  const { ItemSelector: VarietySelector } = useItemSelector({
+    errorLabel: 'varieties',
+    ...getItemSelectorProps('variety'),
+  });
+
+  const { ItemSelector: SizeSelector } = useItemSelector({
+    errorLabel: 'sizes',
+    ...getItemSelectorProps('size'),
+  });
+
+  const { ItemSelector: PackTypeSelector } = useItemSelector({
+    errorLabel: 'pack types',
+    ...getItemSelectorProps('packType'),
+  });
+
+  const { ItemSelector: ShipperSelector } = useItemSelector({
+    errorLabel: 'shippers',
+    ...getItemSelectorProps('shipperId'),
+  });
+
+  const { ItemSelector: WarehouseSelector } = useItemSelector({
+    errorLabel: 'warehouses',
+    ...getItemSelectorProps('locationId'),
+  });
+
+  const { ItemSelector: VesselSelector } = useItemSelector({
+    errorLabel: 'vessels',
+    ...getItemSelectorProps('vesselCode'),
+  });
+
+  const { ItemSelector: LabelSelector } = useItemSelector({
+    errorLabel: 'labels',
+    ...getItemSelectorProps('label'),
+  });
+
+  const { ItemSelector: PluSelector } = useItemSelector({
+    errorLabel: 'plu options',
+    ...getItemSelectorProps('plu'),
+  });
+
+  const { palletsAvailable, palletsOnHand, palletsReceived } =
+    reducePalletData(filteredItems);
+
+  const validatePalletCount = itemListLabels.find(
+    ({ key }) => key === 'palletCount',
+  )?.validate;
+  const isPalletCountValid = validatePalletCount
+    ? validatePalletCount(updatedItem)
+    : true;
+
+  const { ItemSelector: PalletCountSelector } = useItemSelector({
+    errorLabel: 'plus',
+    ...commonSelectorProps,
+    allItems: [
+      { text: 'Available', id: '-1', disabled: true },
+      {
+        text: `Total: ${palletsAvailable.total}`,
+        id: `${palletsAvailable.total}`,
+        disabled: true,
+      },
+      {
+        text: `Pre: ${palletsAvailable.pre}`,
+        id: '-2',
+        disabled: true,
+      },
+      {
+        text: `Real: ${palletsAvailable.real}`,
+        id: '-2',
+        disabled: true,
+      },
+      { text: `On Hand: ${palletsOnHand.total}`, id: '-1', disabled: true },
+      { text: `Received: ${palletsReceived.total}`, id: '-1', disabled: true },
+    ],
+    editableCellProps: {
+      bypassLocalValue: true,
+      content: {
+        dirty: isValueDirty('palletCount'),
+        value: updatedItem.palletCount === '' ? '' : updatedItem.palletCount,
+      },
+      defaultChildren: null,
+      editing,
+      error: editing && saveAttempt && (isDuplicate || !isPalletCountValid),
+      inputProps: {
+        type: 'number',
+        min: 1,
+        ml: th.spacing.sm,
+        width: 50,
+      },
+      onChange: (e: ChangeEvent<HTMLInputElement>) => {
+        handleChange('palletCount', e.target.value);
+      },
+      warning:
+        noItemsFound ||
+        palletsAvailable.total - (parseInt(updatedItem.palletCount, 10) || 0) <
+          0,
+    },
+    getItemContent: (link: ItemLink) => {
+      const updatedTotal =
+        parseInt(link.id, 10) - parseInt(updatedItem.palletCount, 10) || 0;
+      return (
+        <l.Div ml={th.spacing.sm}>
+          {link.id === '-1' ? (
+            <ty.CaptionText secondary>{link.text}</ty.CaptionText>
+          ) : link.id === '-2' ? (
+            <ty.CaptionText ml={th.spacing.md}>{link.text}</ty.CaptionText>
+          ) : (
+            <l.Flex ml={th.spacing.md}>
+              <ty.CaptionText>{link.text}</ty.CaptionText>
+              <ty.CaptionText
+                color={
+                  updatedTotal >= 0
+                    ? th.colors.status.success
+                    : th.colors.status.error
+                }
+                ml={th.spacing.lg}
+              >
+                {updatedTotal}
+              </ty.CaptionText>
+            </l.Flex>
+          )}
+        </l.Div>
+      );
+    },
+    nameKey: 'text' as keyof ItemLink,
+    selectItem: ({ id }: ItemLink) => {
+      handleChange('palletCount', id);
+    },
+  });
+
+  const validateUnitSellPrice = itemListLabels.find(
+    ({ key }) => key === 'unitSellPrice',
+  )?.validate;
+  const isUnitSellPriceValid = validateUnitSellPrice
+    ? validateUnitSellPrice(updatedItem)
+    : true;
+
+  const validateDeliveryCharge = itemListLabels.find(
+    ({ key }) => key === 'deliveryCharge',
+  )?.validate;
+  const isDeliveryChargeValid = validateDeliveryCharge
+    ? validateDeliveryCharge(updatedItem)
+    : true;
+
+  const [showNotes, setShowNotes] = useState(!!updatedItem?.notes);
+
+  const toggleNotes = () => setShowNotes(!!updatedItem?.notes || !showNotes);
 
   return (
-    <l.Grid
-      alignCenter
-      key={program.id}
-      gridColumnGap={th.spacing.xs}
-      gridTemplateColumns={`repeat(2, 1fr) repeat(3, 0.7fr)${
-        isCustomers ? '' : ' 1fr'
-      }`}
-      ml={52}
-      relative
-    >
-      {editing && (
+    <>
+      <l.Grid
+        alignCenter
+        gridColumnGap={th.spacing.xs}
+        gridTemplateColumns={gridTemplateColumns}
+        ml={52}
+        relative
+      >
         <>
-          <BasicModal
-            title="Confirm Remove Product"
-            content={
-              <ty.BodyText mb={th.spacing.md}>
-                Are you sure you want to remove this product? This action cannot
-                be undone.
-              </ty.BodyText>
-            }
-            handleConfirm={() => {
-              handleRemoveItem(
-                isCustomers ? 'customerPrograms' : 'shipperPrograms',
-                id,
-              );
-            }}
-            shouldConfirm={program.id >= 0}
-            triggerProps={{
-              position: 'absolute',
-              left: -45,
-            }}
-            triggerType="remove-icon"
-          />
+          {showRemoveIcon && (
+            <BasicModal
+              title="Confirm Remove Product"
+              content={
+                <ty.BodyText mb={th.spacing.md}>
+                  Are you sure you want to remove this product? This action
+                  cannot be undone.
+                </ty.BodyText>
+              }
+              handleConfirm={() => {
+                handleRemoveItem(id);
+              }}
+              shouldConfirm={updatedItem.id >= 0}
+              triggerProps={{
+                position: 'absolute',
+                left: -45,
+              }}
+              triggerType="remove-icon"
+            />
+          )}
           <l.HoverButton
             onClick={() => {
-              handleNewProgram(updatedProgram);
+              handleNewItem(updatedItem);
             }}
             position="absolute"
             left={-22}
@@ -455,202 +722,99 @@ const NewOrderEntryItem = ({
             <PlusInCircle height={th.sizes.xs} width={th.sizes.xs} />
           </l.HoverButton>
         </>
-      )}
-      {!editing && (
-        <l.Div
-          cursor="pointer"
-          position="absolute"
-          left={-32}
-          top={th.spacing.xs}
-        >
-          <ProgramNotes
-            allocatedStartDate={allocatedStartDate}
-            allocatedEndDate={allocatedEndDate}
-            isCustomers={isCustomers}
-            program={program}
-            weekCount={weekCount}
-          />
-        </l.Div>
-      )}
-      {editing ? (
-        SpeciesSelector
-      ) : showSpecies ? (
-        <Cell
-          {...pick(
-            ['error', 'warning'],
-            speciesLinkSelectorProps.editableCellProps,
-          )}
-          warning={!!commonSpeciesIdQuery}
-          onClick={
-            commonSpeciesId
-              ? () => {
-                  setProgramsQueryParams({ commonSpeciesId });
-                }
-              : undefined
-          }
-          width={95}
-        >
-          <ty.CaptionText
-            bold
-            ellipsis
-            title={program.commonSpecies?.speciesName}
-          >
-            {program.commonSpecies?.speciesName}
+        <l.Flex alignCenter>
+          <ty.CaptionText ml={th.spacing.xs} mr="6px">
+            {updatedItem.lineId}
           </ty.CaptionText>
-        </Cell>
-      ) : (
-        <div />
-      )}
-      {commonSpecies && (
-        <>
-          {editing ? (
-            VarietySelector
-          ) : showVariety ? (
-            <Cell
-              {...pick(
-                ['error', 'warning'],
-                varietyLinkSelectorProps.editableCellProps,
-              )}
-              warning={!!commonVarietyIdQuery}
-              onClick={
-                commonSpeciesId && commonVarietyId
-                  ? () => {
-                      setProgramsQueryParams({
-                        commonSpeciesId,
-                        commonVarietyId,
-                      });
-                    }
-                  : undefined
-              }
-              width={95}
-            >
-              <ty.CaptionText
-                ellipsis
-                title={program.commonVariety?.varietyName}
-              >
-                {program.commonVariety?.varietyName}
-              </ty.CaptionText>
-            </Cell>
-          ) : (
-            <div />
-          )}
-          {editing ? (
-            SizeSelector
-          ) : (
-            <Cell
-              {...pick(
-                ['error', 'warning'],
-                sizeLinkSelectorProps.editableCellProps,
-              )}
-              warning={!!commonSizeIdQuery}
-              onClick={
-                commonSpecies && commonSizeId
-                  ? () => {
-                      setProgramsQueryParams({
-                        commonSpeciesId,
-                        commonSizeId,
-                      });
-                    }
-                  : undefined
-              }
-              width={64}
-            >
-              <ty.CaptionText ellipsis title={program.commonSize?.sizeName}>
-                {program.commonSize?.sizeName}
-              </ty.CaptionText>
-            </Cell>
-          )}
-          {editing ? (
-            PackTypeSelector
-          ) : (
-            <Cell
-              {...pick(
-                ['error', 'warning'],
-                packTypeLinkSelectorProps.editableCellProps,
-              )}
-              warning={!!commonPackTypeIdQuery}
-              onClick={
-                commonSpeciesId && commonPackTypeId
-                  ? () => {
-                      setProgramsQueryParams({
-                        commonSpeciesId,
-                        commonPackTypeId,
-                      });
-                    }
-                  : undefined
-              }
-              width={64}
-            >
-              <ty.CaptionText
-                ellipsis
-                title={program.commonPackType?.packTypeName}
-              >
-                {program.commonPackType?.packTypeName}
-              </ty.CaptionText>
-            </Cell>
-          )}
+          <l.HoverButton
+            active={showNotes}
+            borderRadius={th.borderRadii.circle}
+            height={th.sizes.xs}
+            onClick={toggleNotes}
+            width={th.sizes.xs}
+          >
+            <HighlightImg
+              fill={th.colors.brand.primary}
+              height={th.sizes.xs}
+              width={th.sizes.xs}
+            />
+          </l.HoverButton>
+        </l.Flex>
+        {SpeciesSelector}
+        {VarietySelector}
+        {SizeSelector}
+        {PackTypeSelector}
+        {PluSelector}
+        {LabelSelector}
+        {ShipperSelector}
+        {VesselSelector}
+        {WarehouseSelector}
+        {PalletCountSelector}
+        <l.Flex alignCenter>
+          <ty.CaptionText mr={th.spacing.xs}>$</ty.CaptionText>
           <EditableCell
-            content={{ dirty: plu !== program.plu, value: plu || '' }}
-            defaultChildren={
-              <Cell
-                warning={!!pluQuery}
-                onClick={
-                  commonSpeciesId && plu
-                    ? () => {
-                        setProgramsQueryParams({
-                          commonSpeciesId,
-                          plu,
-                        });
-                      }
-                    : undefined
-                }
-                width={64}
-              >
-                <ty.CaptionText>{plu}</ty.CaptionText>
-              </Cell>
-            }
-            editing={!!editing}
-            error={isDuplicate}
-            onChange={(e) => {
-              handleChange('plu', e.target.value);
+            bypassLocalValue
+            content={{
+              dirty: isValueDirty('unitSellPrice'),
+              value: updatedItem.unitSellPrice || '',
             }}
-            showBorder={false}
+            defaultChildren={null}
+            editing={editing}
+            error={
+              editing && saveAttempt && (isDuplicate || !isUnitSellPriceValid)
+            }
+            onChange={(e: ChangeEvent<HTMLInputElement>) => {
+              handleChange('unitSellPrice', e.target.value);
+            }}
+            warning={noItemsFound}
           />
-          {isCustomers ? null : editing ? (
-            CustomerSelector
-          ) : (
-            <Cell
-              {...pick(
-                ['error', 'warning'],
-                customerLinkSelectorProps.editableCellProps,
-              )}
-              warning={!!customerIdQuery}
-              onClick={
-                customerId
-                  ? () => {
-                      setProgramsQueryParams({
-                        customerIdFilter: customerId,
-                      });
-                    }
-                  : undefined
-              }
-              width={95}
-            >
-              <ty.CaptionText
-                ellipsis
-                title={
-                  program.customer
-                    ? `${program.customer?.id} - ${program.customer?.customerName}`
-                    : ''
-                }
-              >
-                {program.customer ? program.customer?.customerName : ''}
-              </ty.CaptionText>
-            </Cell>
-          )}
-        </>
+        </l.Flex>
+        <l.Flex alignCenter>
+          <ty.CaptionText mr={th.spacing.xs}>$</ty.CaptionText>
+          <EditableCell
+            bypassLocalValue
+            content={{
+              dirty: isValueDirty('deliveryCharge'),
+              value: updatedItem.deliveryCharge || '',
+            }}
+            defaultChildren={null}
+            editing={editing}
+            error={
+              editing && saveAttempt && (isDuplicate || !isDeliveryChargeValid)
+            }
+            onChange={(e: ChangeEvent<HTMLInputElement>) => {
+              handleChange('deliveryCharge', e.target.value);
+            }}
+            warning={noItemsFound}
+          />
+        </l.Flex>
+      </l.Grid>
+      {showNotes && (
+        <l.Flex alignCenter>
+          <ty.BodyText ml={82} mr={th.spacing.md} secondary>
+            ↳
+          </ty.BodyText>
+          <EditableCell
+            bypassLocalValue
+            content={{
+              dirty: isValueDirty('notes'),
+              value: updatedItem.notes || '',
+            }}
+            defaultChildren={null}
+            editing={editing}
+            inputProps={{
+              autoFocus: true,
+              borderColor: th.borders.disabled,
+              width: 868,
+            }}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => {
+              handleChange('notes', e.target.value);
+            }}
+            warning={noItemsFound}
+          />
+        </l.Flex>
       )}
-    </l.Grid>
+    </>
   );
 };
 

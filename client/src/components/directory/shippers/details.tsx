@@ -73,12 +73,14 @@ const Details = () => {
               <l.AreaLink
                 key={0}
                 mr={th.spacing.md}
+                target="_blank"
                 to={`/sales/programs?shipperId=${data.id}&programsView=shippers`}
               >
                 <b.Primary>Programs</b.Primary>
               </l.AreaLink>,
               <l.AreaLink
                 key={1}
+                target="_blank"
                 to={`/sales/projections?shipperId=${data.id}`}
               >
                 <b.Primary disabled>Projections</b.Primary>

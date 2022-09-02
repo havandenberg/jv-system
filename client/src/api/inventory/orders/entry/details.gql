@@ -1,0 +1,56 @@
+query ORDER_ENTRY_DETAILS($orderId: BigFloat!) {
+  orderEntries(condition: { orderId: $orderId }) {
+    nodes {
+      id
+      orderId
+      truckLoadId
+      billingCustomer {
+        id
+        customerName
+      }
+      salesUserCode
+      salesUser {
+        id
+        personContact {
+          id
+          firstName
+          lastName
+        }
+      }
+      reviewUserCode
+      reviewUser {
+        id
+        personContact {
+          id
+          firstName
+          lastName
+        }
+      }
+      customerPo
+      fob
+      fobDate
+      orderDate
+      orderEntryItems {
+        nodes {
+          id
+          orderEntryId
+          lineId
+          palletCount
+          unitSellPrice
+          deliveryCharge
+          locationId
+          vesselCode
+          shipperId
+          species
+          variety
+          size
+          packType
+          plu
+          label
+          notes
+        }
+      }
+      reviewUserCode
+    }
+  }
+}

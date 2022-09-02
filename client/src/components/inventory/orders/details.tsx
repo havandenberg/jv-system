@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import api from 'api';
@@ -7,14 +7,17 @@ import Page from 'components/page';
 import { DataMessage } from 'components/page/message';
 import StepTracker from 'components/step-tracker';
 import { Tab, useTabBar } from 'components/tab-bar';
+import usePrevious from 'hooks/use-previous';
 import { useOrdersQueryParams } from 'hooks/use-query-params';
-import { OrderItem, OrderMaster } from 'types';
+import { OrderEntry, OrderItem, OrderMaster } from 'types';
 import b from 'ui/button';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 
 import { baseLabels, indexBaseLabels } from './data-utils';
+import { baseLabels as entryBaseLabels } from './entry/data-utils';
+import OrderEntryList from './entry/list';
 import OrderItemList from './items/list';
 import OrderMasterList from './list';
 
@@ -29,21 +32,26 @@ export const breadcrumbs = (id: string) => [
   },
 ];
 
-const orderMasterTabs: (itemCount: number, pickupCount: number) => Tab[] = (
-  itemCount,
-  pickupCount,
-) => [
-  {
-    id: 'pickup-locations',
-    text: `Pickups${pickupCount ? ' (' + pickupCount + ')' : ''}`,
-  },
-  {
-    id: 'orderItems',
-    text: `Items${itemCount ? ' (' + itemCount + ')' : ''}`,
-  },
+const orderMasterTabs: (
+  itemCount: number,
+  pickupCount: number,
+  entriesCount: number,
+) => Tab[] = (itemCount, pickupCount, entriesCount) => [
+  ...(itemCount > 0
+    ? [
+        {
+          id: 'pickupLocations',
+          text: `Pickups${pickupCount ? ' (' + pickupCount + ')' : ''}`,
+        },
+        {
+          id: 'orderItems',
+          text: `Items${itemCount ? ' (' + itemCount + ')' : ''}`,
+        },
+      ]
+    : []),
   {
     id: 'orderEntries',
-    text: `Entries${itemCount ? ' (' + itemCount + ')' : ''}`,
+    text: `Entries ${entriesCount ? ' (' + entriesCount + ')' : ''}`,
   },
 ];
 
@@ -80,11 +88,30 @@ const Details = () => {
 
   const [{ backOrderId }, setOrdersParams] = useOrdersQueryParams();
 
-  const { data, error, loading } = api.useOrderMaster(id);
+  const {
+    data: orderEntriesData,
+    loading: orderEntriesLoading,
+    error: orderEntriesError,
+  } = api.useOrderEntry(id);
+  const orderEntries = (
+    orderEntriesData ? orderEntriesData.nodes : []
+  ) as OrderEntry[];
+  const latestOrderEntry = orderEntries[0];
+
+  const {
+    data,
+    error: orderMastersError,
+    loading: orderMastersLoading,
+  } = api.useOrderMaster(id);
   const orderMasters = ((data?.nodes || []) as OrderMaster[]).filter(
     (orderMaster) => `${orderMaster?.orderId}` === id,
   );
   const orderMaster = orderMasters[backOrderId ? backOrderId : 0];
+
+  const hasData = orderMaster || orderEntries.length > 0;
+  const loading = orderMastersLoading || orderEntriesLoading;
+  const prevLoading = usePrevious(loading);
+  const error = orderMastersError || orderEntriesError;
 
   const allItems = backOrderId
     ? orderMaster?.items.nodes || []
@@ -92,12 +119,24 @@ const Details = () => {
         .map(({ items }) => (items.nodes || []) as OrderItem[])
         .flat() || [];
 
-  const { TabBar: OrderMasterTabBar, selectedTabId: selectedOrderMasterTab } =
-    useTabBar(orderMasterTabs(allItems.length, orderMasters.length));
+  const {
+    TabBar: OrderMasterTabBar,
+    handleSelectTab,
+    selectedTabId: selectedOrderMasterTab,
+  } = useTabBar(
+    orderMasterTabs(allItems.length, orderMasters.length, orderEntries.length),
+  );
   const { TabBar: OrderItemTabBar } = useTabBar(orderItemTabs(allItems.length));
 
+  useEffect(() => {
+    if (prevLoading && !loading) {
+      handleSelectTab(orderMaster ? 'pickupLocations' : 'orderEntries');
+    }
+  });
+
   const isPickups =
-    selectedOrderMasterTab === 'pickup-locations' && !backOrderId;
+    selectedOrderMasterTab === 'pickupLocations' && !backOrderId;
+  const isEntries = selectedOrderMasterTab === 'orderEntries';
 
   const { totalPallets, totalSellPrice } = allItems.reduce(
     (acc, item) => ({
@@ -122,31 +161,46 @@ const Details = () => {
   return (
     <Page
       actions={[
-        <l.Flex alignCenter key={0}>
-          <StepTracker currentStepId={orderStepId} steps={orderSteps} />
-          <b.Primary ml={th.spacing.lg}>Edit</b.Primary>
-        </l.Flex>,
+        <l.AreaLink
+          key={0}
+          ml={th.spacing.lg}
+          to={`/inventory/orders/${id}/edit`}
+        >
+          <b.Primary>Edit</b.Primary>
+        </l.AreaLink>,
       ]}
       breadcrumbs={breadcrumbs(id)}
-      title={orderMaster ? 'Order' : 'Loading...'}
+      centerAction={
+        <StepTracker currentStepId={orderStepId} steps={orderSteps} />
+      }
+      title={hasData ? 'Order' : 'Loading...'}
     >
-      {orderMaster ? (
+      {hasData ? (
         <l.Div pb={th.spacing.xl}>
-          <BaseData<OrderMaster>
-            data={orderMasters[0]}
-            labels={indexBaseLabels}
-          />
+          {orderMaster ? (
+            <BaseData<OrderMaster>
+              data={orderMaster}
+              labels={indexBaseLabels}
+            />
+          ) : (
+            <>
+              <ty.BodyText italic mb={th.spacing.md} secondary>
+                Viewing latest entry:
+              </ty.BodyText>
+              <BaseData<OrderEntry>
+                data={latestOrderEntry}
+                labels={entryBaseLabels}
+              />
+            </>
+          )}
           <l.Div mt={th.spacing.md} />
-          {backOrderId && (
+          {orderMaster && backOrderId && (
             <>
               <l.Flex alignCenter justifyBetween my={th.spacing.md}>
                 <ty.CaptionText>Pickup Location:</ty.CaptionText>
                 <b.Primary onClick={clearBackOrderId}>Show All</b.Primary>
               </l.Flex>
-              <BaseData<OrderMaster>
-                data={orderMasters[backOrderId]}
-                labels={baseLabels}
-              />
+              <BaseData<OrderMaster> data={orderMaster} labels={baseLabels} />
             </>
           )}
           <l.Flex alignCenter justifyBetween my={th.spacing.lg}>
@@ -171,10 +225,12 @@ const Details = () => {
               </ty.CaptionText>
             </l.Flex>
           </l.Flex>
-          {isPickups ? (
+          {isEntries ? (
+            <OrderEntryList baseUrl={`orders/`} items={orderEntries} />
+          ) : isPickups ? (
             <OrderMasterList
               baseUrl={`orders/`}
-              items={(orderMaster ? orderMasters : []) as OrderMaster[]}
+              items={orderMasters as OrderMaster[]}
             />
           ) : (
             <OrderItemList
@@ -184,7 +240,7 @@ const Details = () => {
           )}
         </l.Div>
       ) : (
-        <DataMessage data={orderMaster || []} error={error} loading={loading} />
+        <DataMessage data={[]} error={error} loading={loading} />
       )}
     </Page>
   );

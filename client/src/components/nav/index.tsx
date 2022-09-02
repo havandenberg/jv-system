@@ -95,7 +95,7 @@ const Wrapper = styled(l.Flex)({
   position: 'fixed',
   right: 0,
   top: 0,
-  zIndex: 11,
+  zIndex: 31,
 });
 
 const Logo = styled(l.AreaLink)({

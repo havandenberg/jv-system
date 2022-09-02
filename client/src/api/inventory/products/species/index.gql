@@ -79,6 +79,10 @@ query COMMON_SPECIES_LIST(
         nodes {
           id
           packMasterId
+          packMaster {
+            id
+            packDescription
+          }
           packMastersByCommonPackTypePackMasterCommonPackTypeIdAndPackMasterId {
             nodes {
               id

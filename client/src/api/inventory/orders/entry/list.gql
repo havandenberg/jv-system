@@ -2,7 +2,7 @@ query ORDER_ENTRY_LIST(
   $billingCustomerId: [String!]
   $salesUserCode: [String!]
   $orderBy: [OrderEntriesOrderBy!]
-  $search: [OrderEntriesFilter!]
+  $search: [OrderEntryFilter!]
   $endDate: Date
   $startDate: Date
 ) {
@@ -13,7 +13,7 @@ query ORDER_ENTRY_LIST(
       billingCustomerId: { in: $billingCustomerId }
       salesUserCode: { in: $salesUserCode }
       or: {
-        orderDate: {
+        fobDate: {
           greaterThanOrEqualTo: $startDate
           lessThanOrEqualTo: $endDate
         }
@@ -22,75 +22,12 @@ query ORDER_ENTRY_LIST(
     orderBy: $orderBy
   ) {
     nodes {
-      backOrderId
-      expectedShipDate
       id
-      orderDate
       orderId
-      orderStatus
+      truckLoadId
       billingCustomer {
         id
         customerName
-      }
-      items {
-        nodes {
-          backOrderId
-          boxCount
-          deliveryCharge
-          id
-          inventoryItem {
-            id
-            country {
-              id
-              countryName
-            }
-            vessel {
-              id
-              vesselCode
-              vesselName
-              isPre
-              dischargeDate
-            }
-            coast
-            shipper {
-              id
-              shipperName
-            }
-            warehouse {
-              id
-              warehouseName
-            }
-            plu
-            product {
-              id
-              species {
-                id
-                speciesDescription
-              }
-              variety {
-                id
-                varietyDescription
-              }
-              sizes {
-                nodes {
-                  id
-                  combineDescription
-                }
-              }
-              packType {
-                packDescription
-                id
-                label {
-                  id
-                  labelCode
-                  labelName
-                }
-              }
-            }
-          }
-          locationId
-          shipperId
-        }
       }
       salesUser {
         id
@@ -100,6 +37,17 @@ query ORDER_ENTRY_LIST(
           lastName
         }
       }
+      reviewUser {
+        id
+        personContact {
+          id
+          firstName
+          lastName
+        }
+      }
+      customerPo
+      fobDate
+      reviewUserCode
     }
     totalCount
   }

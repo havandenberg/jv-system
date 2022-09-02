@@ -46,7 +46,7 @@ import b from 'ui/button';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
-import { getWeekNumber } from 'utils/date';
+import { getWeekNumber, isDateGreaterThanOrEqualTo } from 'utils/date';
 
 import { coastTabs, ResetButton } from '../../inventory/inventory/use-filters';
 import Header from './header';
@@ -440,8 +440,10 @@ const Programs = () => {
       p.id < 0 ||
       ((p.shipperProgramEntries.nodes || []) as ShipperProgramEntry[]).some(
         (e) =>
-          getWeekNumber(new Date(e.programDate.replace(/-/g, '/'))) >=
-          selectedWeekNumber,
+          isDateGreaterThanOrEqualTo(
+            new Date(e.programDate.replace(/-/g, '/')),
+            startOfISOWeek(new Date(startDate.replace(/-/g, '/'))),
+          ),
       ),
   );
 
@@ -461,8 +463,10 @@ const Programs = () => {
       p.id < 0 ||
       ((p.customerProgramEntries.nodes || []) as CustomerProgramEntry[]).some(
         (e) =>
-          getWeekNumber(new Date(e.programDate.replace(/-/g, '/'))) >=
-          selectedWeekNumber,
+          isDateGreaterThanOrEqualTo(
+            new Date(e.programDate.replace(/-/g, '/')),
+            startOfISOWeek(new Date(startDate.replace(/-/g, '/'))),
+          ),
       ),
   );
   const duplicateCustomerProgramIds = getDuplicateProgramIds(
@@ -572,7 +576,39 @@ const Programs = () => {
   const hasDuplicatePrograms = isCustomers
     ? !isEmpty(duplicateCustomerProgramIds)
     : !isEmpty(duplicateShipperProgramIds);
-  const validate = () => !hasDuplicatePrograms;
+
+  const isProgramValid = (
+    program: ShipperProgramUpdate | CustomerProgramUpdate,
+  ) => {
+    const commonSpecies = specieses.find(
+      (s) => s.id === program.commonSpeciesId,
+    );
+    return (
+      commonSpecies &&
+      (!program.commonVarietyId ||
+        commonSpecies.commonVarieties.nodes.find(
+          (v) => v && v.id === program.commonVarietyId,
+        )) &&
+      (!program.commonSizeId ||
+        commonSpecies.commonSizes.nodes.find(
+          (s) => s && s.id === program.commonSizeId,
+        )) &&
+      (!program.commonPackTypeId ||
+        commonSpecies.commonPackTypes.nodes.find(
+          (s) => s && s.id === program.commonPackTypeId,
+        ))
+    );
+  };
+
+  const hasInvalidPrograms = isCustomers
+    ? [...changes.customerProgramUpdates, ...changes.newCustomerPrograms].some(
+        (p) => !isProgramValid(p),
+      )
+    : [...changes.shipperProgramUpdates, ...changes.newShipperPrograms].some(
+        (p) => !isProgramValid(p),
+      );
+
+  const validate = () => !hasDuplicatePrograms && !hasInvalidPrograms;
 
   const handleSave = () => {
     setSaveAttempt(true);
@@ -598,10 +634,10 @@ const Programs = () => {
               ...changes.newShipperPrograms,
             ].map((p) => ({
               arrivalPort: coast,
-              commonSpeciesId: parseInt(p.commonSpeciesId, 10) || null,
-              commonVarietyId: parseInt(p.commonVarietyId, 10) || null,
-              commonSizeId: parseInt(p.commonSizeId, 10) || null,
-              commonPackTypeId: parseInt(p.commonPackTypeId, 10) || null,
+              commonSpeciesId: p.commonSpeciesId || null,
+              commonVarietyId: p.commonVarietyId || null,
+              commonSizeId: p.commonSizeId || null,
+              commonPackTypeId: p.commonPackTypeId || null,
               plu: p.plu,
               shipperId: p.shipperId,
               customerId: p.customerId || null,
@@ -627,31 +663,39 @@ const Programs = () => {
                 ...changes.shipperProgramEntryUpdates,
                 ...changes.newShipperProgramEntries,
               ].map((e) => {
+                const speciesValue = getShipperProgramValue(
+                  e.shipperProgram,
+                  'commonSpeciesId',
+                ).value;
+                const varietyValue = getShipperProgramValue(
+                  e.shipperProgram,
+                  'commonVarietyId',
+                ).value;
+                const sizeValue = getShipperProgramValue(
+                  e.shipperProgram,
+                  'commonSizeId',
+                ).value;
+                const packTypeValue = getShipperProgramValue(
+                  e.shipperProgram,
+                  'commonPackTypeId',
+                ).value;
+                const pluValue = getShipperProgramValue(
+                  e.shipperProgram,
+                  'plu',
+                ).value;
+                const customerIdValue = getShipperProgramValue(
+                  e.shipperProgram,
+                  'customerId',
+                ).value;
+
                 const updatedProgram = updatedPrograms.find(
                   (p) =>
-                    p?.commonSpeciesId ===
-                      (getShipperProgramValue(
-                        e.shipperProgram,
-                        'commonSpeciesId',
-                      ).value || null) &&
-                    p?.commonVarietyId ===
-                      (getShipperProgramValue(
-                        e.shipperProgram,
-                        'commonVarietyId',
-                      ).value || null) &&
-                    p?.commonSizeId ===
-                      (getShipperProgramValue(e.shipperProgram, 'commonSizeId')
-                        .value || null) &&
-                    p?.commonPackTypeId ===
-                      (getShipperProgramValue(
-                        e.shipperProgram,
-                        'commonPackTypeId',
-                      ).value || null) &&
-                    p?.plu ===
-                      getShipperProgramValue(e.shipperProgram, 'plu').value &&
-                    p?.customerId ===
-                      (getShipperProgramValue(e.shipperProgram, 'customerId')
-                        .value || null),
+                    p?.commonSpeciesId === (speciesValue || null) &&
+                    p?.commonVarietyId === (varietyValue || null) &&
+                    p?.commonSizeId === (sizeValue || null) &&
+                    p?.commonPackTypeId === (packTypeValue || null) &&
+                    p?.plu === (pluValue || '') &&
+                    p?.customerId === (customerIdValue || null),
                 ) || { id: 0 };
 
                 return {
@@ -726,31 +770,36 @@ const Programs = () => {
                 ...changes.customerProgramEntryUpdates,
                 ...changes.newCustomerProgramEntries,
               ].map((e) => {
+                const speciesValue = getCustomerProgramValue(
+                  e.customerProgram,
+                  'commonSpeciesId',
+                ).value;
+                const varietyValue = getCustomerProgramValue(
+                  e.customerProgram,
+                  'commonVarietyId',
+                ).value;
+                const sizeValue = getCustomerProgramValue(
+                  e.customerProgram,
+                  'commonSizeId',
+                ).value;
+                const packTypeValue = getCustomerProgramValue(
+                  e.customerProgram,
+                  'commonPackTypeId',
+                ).value;
+                const pluValue = getCustomerProgramValue(
+                  e.customerProgram,
+                  'plu',
+                ).value;
+
                 const updatedProgram = updatedPrograms.find(
                   (p) =>
-                    p?.commonSpeciesId ===
-                      (getCustomerProgramValue(
-                        e.customerProgram,
-                        'commonSpeciesId',
-                      ).value || null) &&
-                    p?.commonVarietyId ===
-                      (getCustomerProgramValue(
-                        e.customerProgram,
-                        'commonVarietyId',
-                      ).value || null) &&
-                    p?.commonSizeId ===
-                      (getCustomerProgramValue(
-                        e.customerProgram,
-                        'commonSizeId',
-                      ).value || null) &&
-                    p?.commonPackTypeId ===
-                      (getCustomerProgramValue(
-                        e.customerProgram,
-                        'commonPackTypeId',
-                      ).value || null) &&
-                    p?.plu ===
-                      getCustomerProgramValue(e.customerProgram, 'plu').value,
+                    p?.commonSpeciesId === (speciesValue || null) &&
+                    p?.commonVarietyId === (varietyValue || null) &&
+                    p?.commonSizeId === (sizeValue || null) &&
+                    p?.commonPackTypeId === (packTypeValue || null) &&
+                    p?.plu === (pluValue || ''),
                 ) || { id: 0 };
+
                 return {
                   id: parseInt(e.id, 10) > 0 ? parseInt(e.id, 10) : undefined,
                   notes: e.notes,
@@ -1005,7 +1054,7 @@ const Programs = () => {
                 (es) => es?.nodes || [],
               )
           ).flat() as (CustomerProgramEntry | ShipperProgramEntry)[],
-          selectedWeekNumber,
+          startDate || '',
           weekCount,
           getProgramEntryValue,
           isCustomersOverride
@@ -1017,13 +1066,7 @@ const Programs = () => {
                     (progs[0] as ShipperProgram).shipperId,
               ),
         ),
-    [
-      getProgramEntryValue,
-      isCustomers,
-      selectedWeekNumber,
-      vesselInfos,
-      weekCount,
-    ],
+    [getProgramEntryValue, isCustomers, startDate, vesselInfos, weekCount],
   );
 
   const programTotals = useMemo(
@@ -1192,6 +1235,10 @@ const Programs = () => {
                     {
                       text: 'No duplicate products',
                       value: hasDuplicatePrograms,
+                    },
+                    {
+                      text: 'All products must be matched',
+                      value: hasInvalidPrograms,
                     },
                   ]}
                 />

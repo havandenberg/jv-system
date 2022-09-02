@@ -9,6 +9,7 @@ export interface ItemLink {
   color?: string | null;
   id: string;
   text: string;
+  disabled?: boolean;
 }
 
 interface Props {

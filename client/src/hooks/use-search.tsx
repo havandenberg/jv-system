@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 
 import SearchImg from 'assets/images/search';
 import TextInput, { TextInputProps } from 'ui/input';
+
 import { UpdateType, useSearchQueryParam } from './use-query-params';
 import useDebounce from './use-debounce';
 
 export interface SearchProps extends TextInputProps {
   disabled?: boolean;
+  error?: boolean;
   onClear?: () => void;
   onlyClearSearch?: boolean;
   paramName?: string;
@@ -26,6 +28,7 @@ const Search = (
   },
 ) => {
   const {
+    error,
     onClear = undefined,
     onlyClearSearch = undefined,
     placeholder = 'Search',
@@ -42,6 +45,7 @@ const Search = (
 
   return (
     <TextInput
+      hasError={error}
       Icon={showIcon ? <SearchImg height={18} /> : undefined}
       onBlur={() => {
         setSearch(debouncedSearch, 'replaceIn');

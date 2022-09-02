@@ -74,8 +74,6 @@ const Details = () => {
 
   const { TabBar } = useTabBar(tabs);
 
-  console.log(data);
-
   return (
     <Page
       actions={
@@ -83,6 +81,7 @@ const Details = () => {
           ? [
               <l.AreaLink
                 key={0}
+                target="_blank"
                 to={`/reports/inspections/arrival/${data.psaArrivalReport.id}`}
               >
                 <b.Primary>Inspection</b.Primary>

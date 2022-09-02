@@ -12,7 +12,7 @@ query ORDER_MASTER_LIST(
       billingCustomerId: { in: $billingCustomerId }
       salesUserCode: { in: $salesUserCode }
       or: {
-        entryDate: {
+        expectedShipDate: {
           greaterThanOrEqualTo: $startDate
           lessThanOrEqualTo: $endDate
         }
@@ -27,6 +27,8 @@ query ORDER_MASTER_LIST(
       orderDate
       orderId
       orderStatus
+      customerPo
+      truckLoadId
       billingCustomer {
         id
         customerName
@@ -92,6 +94,15 @@ query ORDER_MASTER_LIST(
         }
       }
       salesUser {
+        id
+        personContact {
+          id
+          firstName
+          lastName
+        }
+      }
+      entryUserCode
+      entryUser {
         id
         personContact {
           id

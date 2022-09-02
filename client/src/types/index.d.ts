@@ -26756,7 +26756,7 @@ export type OrderEntry = Node & {
   customerPo?: Maybe<Scalars['String']>;
   fobDate?: Maybe<Scalars['Date']>;
   deliveredDate?: Maybe<Scalars['Date']>;
-  orderDate?: Maybe<Scalars['Date']>;
+  orderDate?: Maybe<Scalars['Datetime']>;
   reviewUserCode?: Maybe<Scalars['String']>;
   notes?: Maybe<Scalars['String']>;
   /** Reads and enables pagination through a set of `OrderEntryItem`. */
@@ -26814,6 +26814,7 @@ export type OrderEntryItem = Node & {
   notes?: Maybe<Scalars['String']>;
   /** Reads a single `OrderEntry` that is related to this `OrderEntryItem`. */
   orderEntry?: Maybe<OrderEntry>;
+  searchText?: Maybe<Scalars['String']>;
 };
 
 /** A `OrderEntryItem` edge in the connection. */
@@ -26963,6 +26964,8 @@ export type OrderEntryItemFilter = {
   label?: Maybe<StringFilter>;
   /** Filter by the object’s `notes` field. */
   notes?: Maybe<StringFilter>;
+  /** Filter by the object’s `searchText` field. */
+  searchText?: Maybe<StringFilter>;
   /** Filter by the object’s `orderEntry` relation. */
   orderEntry?: Maybe<OrderEntryFilter>;
   /** Checks for all expressions in this list. */
@@ -26996,7 +26999,7 @@ export type OrderEntryFilter = {
   /** Filter by the object’s `deliveredDate` field. */
   deliveredDate?: Maybe<DateFilter>;
   /** Filter by the object’s `orderDate` field. */
-  orderDate?: Maybe<DateFilter>;
+  orderDate?: Maybe<DatetimeFilter>;
   /** Filter by the object’s `reviewUserCode` field. */
   reviewUserCode?: Maybe<StringFilter>;
   /** Filter by the object’s `notes` field. */
@@ -27095,7 +27098,7 @@ export type OrderEntryCondition = {
   /** Checks for equality with the object’s `deliveredDate` field. */
   deliveredDate?: Maybe<Scalars['Date']>;
   /** Checks for equality with the object’s `orderDate` field. */
-  orderDate?: Maybe<Scalars['Date']>;
+  orderDate?: Maybe<Scalars['Datetime']>;
   /** Checks for equality with the object’s `reviewUserCode` field. */
   reviewUserCode?: Maybe<Scalars['String']>;
   /** Checks for equality with the object’s `notes` field. */
@@ -28823,7 +28826,6 @@ export type Mutation = {
   bulkDeleteOrderMaster?: Maybe<BulkDeleteOrderMasterPayload>;
   bulkDeleteOrderPallet?: Maybe<BulkDeleteOrderPalletPayload>;
   bulkDeleteTruckLoad?: Maybe<BulkDeleteTruckLoadPayload>;
-  bulkUpsertOrderEntry?: Maybe<BulkUpsertOrderEntryPayload>;
   bulkUpsertOrderItem?: Maybe<BulkUpsertOrderItemPayload>;
   bulkUpsertOrderMaster?: Maybe<BulkUpsertOrderMasterPayload>;
   bulkUpsertOrderPallet?: Maybe<BulkUpsertOrderPalletPayload>;
@@ -32154,12 +32156,6 @@ export type MutationBulkDeleteOrderPalletArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationBulkDeleteTruckLoadArgs = {
   input: BulkDeleteTruckLoadInput;
-};
-
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationBulkUpsertOrderEntryArgs = {
-  input: BulkUpsertOrderEntryInput;
 };
 
 
@@ -47801,7 +47797,7 @@ export type OrderEntryInput = {
   customerPo?: Maybe<Scalars['String']>;
   fobDate?: Maybe<Scalars['Date']>;
   deliveredDate?: Maybe<Scalars['Date']>;
-  orderDate?: Maybe<Scalars['Date']>;
+  orderDate?: Maybe<Scalars['Datetime']>;
   reviewUserCode?: Maybe<Scalars['String']>;
   notes?: Maybe<Scalars['String']>;
   orderEntryItemsUsingId?: Maybe<OrderEntryItemOrderEntryIdFkeyInverseInput>;
@@ -47935,7 +47931,7 @@ export type UpdateOrderEntryOnOrderEntryItemForOrderEntryItemOrderEntryIdFkeyPat
   customerPo?: Maybe<Scalars['String']>;
   fobDate?: Maybe<Scalars['Date']>;
   deliveredDate?: Maybe<Scalars['Date']>;
-  orderDate?: Maybe<Scalars['Date']>;
+  orderDate?: Maybe<Scalars['Datetime']>;
   reviewUserCode?: Maybe<Scalars['String']>;
   notes?: Maybe<Scalars['String']>;
   orderEntryItemsUsingId?: Maybe<OrderEntryItemOrderEntryIdFkeyInverseInput>;
@@ -47961,7 +47957,7 @@ export type OrderEntryPatch = {
   customerPo?: Maybe<Scalars['String']>;
   fobDate?: Maybe<Scalars['Date']>;
   deliveredDate?: Maybe<Scalars['Date']>;
-  orderDate?: Maybe<Scalars['Date']>;
+  orderDate?: Maybe<Scalars['Datetime']>;
   reviewUserCode?: Maybe<Scalars['String']>;
   notes?: Maybe<Scalars['String']>;
   orderEntryItemsUsingId?: Maybe<OrderEntryItemOrderEntryIdFkeyInverseInput>;
@@ -47979,7 +47975,7 @@ export type OrderEntryItemOrderEntryIdFkeyOrderEntryCreateInput = {
   customerPo?: Maybe<Scalars['String']>;
   fobDate?: Maybe<Scalars['Date']>;
   deliveredDate?: Maybe<Scalars['Date']>;
-  orderDate?: Maybe<Scalars['Date']>;
+  orderDate?: Maybe<Scalars['Datetime']>;
   reviewUserCode?: Maybe<Scalars['String']>;
   notes?: Maybe<Scalars['String']>;
   orderEntryItemsUsingId?: Maybe<OrderEntryItemOrderEntryIdFkeyInverseInput>;
@@ -59598,29 +59594,6 @@ export type BulkDeleteTruckLoadInput = {
    */
   clientMutationId?: Maybe<Scalars['String']>;
   idsToDelete: Array<Maybe<Scalars['BigFloat']>>;
-};
-
-/** The output of our `bulkUpsertOrderEntry` mutation. */
-export type BulkUpsertOrderEntryPayload = {
-  __typename?: 'BulkUpsertOrderEntryPayload';
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  orderEntries?: Maybe<Array<Maybe<OrderEntry>>>;
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>;
-};
-
-/** All input for the `bulkUpsertOrderEntry` mutation. */
-export type BulkUpsertOrderEntryInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: Maybe<Scalars['String']>;
-  orderEntries: Array<Maybe<OrderEntryInput>>;
 };
 
 /** The output of our `bulkUpsertOrderItem` mutation. */

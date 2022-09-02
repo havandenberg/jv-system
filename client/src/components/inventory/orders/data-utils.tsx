@@ -1,8 +1,11 @@
+import { pick, pluck, sortBy, uniq } from 'ramda';
+
 import { CUSTOMER_DISTINCT_VALUES_QUERY } from 'api/directory/customer';
 import { LabelInfo } from 'components/column-label';
+import StatusIndicator from 'components/status-indicator';
 import { SORT_ORDER } from 'hooks/use-columns';
-import { pluck, sortBy, uniq } from 'ramda';
-import { OrderItem, OrderMaster, ProductMaster } from 'types';
+import { OrderEntry, OrderItem, OrderMaster, ProductMaster } from 'types';
+import l from 'ui/layout';
 import ty from 'ui/typography';
 
 export type OrderMasterLabelInfo = LabelInfo<OrderMaster>;
@@ -11,10 +14,21 @@ export const indexListLabels: OrderMasterLabelInfo[] = [
   {
     key: 'orderId',
     label: 'Order ID',
+    sortable: true,
   },
   {
-    key: 'orderDate',
-    label: 'Order Date',
+    key: 'truckLoadId',
+    label: 'Load ID',
+    sortable: true,
+  },
+  {
+    key: 'customerPo',
+    label: 'PO Number',
+    sortable: true,
+  },
+  {
+    key: 'expectedShipDate',
+    label: 'Ship Date',
     isDate: true,
     sortable: true,
   },
@@ -65,6 +79,24 @@ export const indexListLabels: OrderMasterLabelInfo[] = [
         ''
       ),
   },
+  {
+    defaultSortOrder: SORT_ORDER.ASC,
+    key: 'entryUserCode',
+    label: 'Status',
+    sortable: true,
+    customSortBy: ({ entryUserCode, expectedShipDate, orderStatus }) =>
+      `${!entryUserCode ? '0' : orderStatus} ${new Date(
+        expectedShipDate.replace(/-/g, '/'),
+      ).getTime()}`,
+    getValue: ({ entryUserCode, orderStatus }) =>
+      entryUserCode ? (
+        <ty.BodyText>{orderStatus}</ty.BodyText>
+      ) : (
+        <l.Flex alignCenter justifyCenter>
+          <StatusIndicator status="warning" />
+        </l.Flex>
+      ),
+  },
 ];
 
 export const listLabels: OrderMasterLabelInfo[] = [
@@ -101,7 +133,7 @@ export const listLabels: OrderMasterLabelInfo[] = [
     key: 'id',
     label: 'Summary',
     getValue: ({ items }) => {
-      const orderItems = (items.nodes || []) as OrderItem[];
+      const orderItems = (items?.nodes || []) as OrderItem[];
       const products = orderItems.map(
         ({ inventoryItem }) => inventoryItem?.product,
       ) as ProductMaster[];
@@ -288,3 +320,19 @@ export const getSortedItems = <T extends {}>(
       : sortBy(sortByFunc, items)
     : items;
 };
+
+export const convertOrderEntriesToOrderMasters = (orderEntries: OrderEntry[]) =>
+  orderEntries.map((entry) => ({
+    ...pick(
+      [
+        'orderId',
+        'truckLoadId',
+        'customerPo',
+        'billingCustomerId',
+        'salesUser',
+      ],
+      entry,
+    ),
+    entryUser: entry.reviewUser,
+    expectedShipDate: entry.fobDate,
+  })) as OrderMaster[];

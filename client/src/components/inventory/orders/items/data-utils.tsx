@@ -17,11 +17,7 @@ export const listLabels: (backOrderId?: string) => OrderItemLabelInfo[] = (
           label: 'B/O ID',
           sortable: true,
           customSortBy: (data) =>
-            data ? (
-              <ty.BodyText>{`${data.lineId} ${data.backOrderId}`}</ty.BodyText>
-            ) : (
-              ''
-            ),
+            data ? `${data.backOrderId} ${data.lineId}` : '',
         },
       ] as OrderItemLabelInfo[])),
   {

@@ -12,17 +12,19 @@ import ty from 'ui/typography';
 
 import EditableCell, { EditableCellProps } from '../editable-cell';
 
-const RowWrapper = styled(l.Flex)({
+const RowWrapper = styled(l.Flex)(({ onClick }) => ({
   alignItems: 'center',
   background: th.colors.background,
   borderRadius: th.borderRadii.default,
-  cursor: 'pointer',
+  cursor: onClick ? 'pointer' : 'default',
   justifyContent: 'space-between',
   transition: th.transitions.default,
   ':hover': {
-    background: th.colors.brand.containerBackground,
+    background: onClick
+      ? th.colors.brand.containerBackground
+      : th.colors.background,
   },
-});
+}));
 
 export interface ItemSelectorProps<T> {
   allItems: T[];
@@ -43,14 +45,16 @@ export interface ItemSelectorProps<T> {
   onlyClearSearch?: boolean;
   panelGap?: string | number;
   placeholder?: string;
+  rowHeight?: number;
   searchParamName?: string;
   searchWidth?: string | number;
   selectedItem?: string;
   selectItem?: (item: T) => void;
   width?: number;
+  validationError?: boolean;
 }
 
-const ItemSelector = <T extends { id: string }>({
+const ItemSelector = <T extends { id: string; disabled?: boolean }>({
   clearSearch,
   closeOnSelect,
   editableCellProps,
@@ -64,9 +68,11 @@ const ItemSelector = <T extends { id: string }>({
   loading,
   nameKey,
   panelGap = th.spacing.sm,
+  rowHeight = 32,
   Search,
   selectItem,
   width,
+  validationError,
 }: ItemSelectorProps<T> & {
   clearSearch: () => void;
   handleBlur: () => void;
@@ -97,20 +103,24 @@ const ItemSelector = <T extends { id: string }>({
             <VirtualizedList
               height={height}
               rowCount={items.length}
-              rowHeight={32}
+              rowHeight={rowHeight}
               rowRenderer={({ key, index, style }) => {
-                const item = items[index];
+                const item = items[index] as T;
 
                 return (
                   item && (
                     <RowWrapper
-                      onClick={() => {
-                        selectItem && selectItem(item);
-                        clearSearch();
-                        if (closeOnSelect) {
-                          handleBlur();
-                        }
-                      }}
+                      onClick={
+                        item.disabled
+                          ? undefined
+                          : () => {
+                              selectItem && selectItem(item);
+                              clearSearch();
+                              if (closeOnSelect) {
+                                handleBlur();
+                              }
+                            }
+                      }
                       key={key}
                       style={style}
                     >
@@ -139,7 +149,7 @@ const ItemSelector = <T extends { id: string }>({
   </l.Div>
 );
 
-const useItemSelector = <T extends { id: string }>(
+const useItemSelector = <T extends { id: string; disabled?: boolean }>(
   props: ItemSelectorProps<T>,
 ) => {
   const {
@@ -156,6 +166,7 @@ const useItemSelector = <T extends { id: string }>(
     selectedItem,
     searchWidth,
     width = 500,
+    validationError,
   } = props;
   const [focused, setFocused] = useState(defaultFocused);
 
@@ -165,6 +176,7 @@ const useItemSelector = <T extends { id: string }>(
 
   const { clearSearch, Search } = useSearch({
     disabled: !!editableCellProps,
+    error: validationError,
     onClear,
     onlyClearSearch,
     paramName: searchParamName,

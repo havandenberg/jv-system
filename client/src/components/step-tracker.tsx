@@ -30,7 +30,7 @@ const Step = styled(l.Flex)(
     // background: selected
     //   ? backgroundColor || th.colors.brand.containerBackground
     //   : undefined,
-    border: selected ? th.borders.primary : undefined,
+    // border: selected ? th.borders.primary : undefined,
     borderRadius: th.borderRadii.default,
     color:
       textColor ||
@@ -42,14 +42,19 @@ const Step = styled(l.Flex)(
         : th.colors.status.error),
     cursor: onClick ? 'pointer' : 'default',
     fontWeight: selected ? 'bold' : undefined,
-    opacity: selected || completed ? 1 : th.opacities.disabled,
+    opacity: selected
+      ? 1
+      : completed
+      ? th.opacities.disabled
+      : th.opacities.secondary,
     padding: `${th.spacing.xs} ${th.spacing.md}`,
     ':hover': {
-      opacity: selected
-        ? 1
-        : onClick
-        ? th.opacities.secondary
-        : th.opacities.disabled,
+      opacity:
+        selected || onClick
+          ? 1
+          : completed
+          ? th.opacities.disabled
+          : th.opacities.secondary,
     },
   }),
 );
@@ -82,7 +87,9 @@ const StepTracker = ({ steps, currentStepId, onSelectStep }: Props) => {
             {text}
           </Step>
           {idx < steps.length - 1 && (
-            <ty.BodyText mx={th.spacing.md}>➜</ty.BodyText>
+            <ty.CaptionText mx={th.spacing.md} disabled>
+              ➜
+            </ty.CaptionText>
           )}
         </Fragment>
       ))}

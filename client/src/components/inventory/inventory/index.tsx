@@ -57,6 +57,7 @@ const Inventory = () => {
     secondaryDetailsIndex,
     startDate: startDateQuery,
   } = rest;
+
   const {
     data: itemsData,
     loading: itemsLoading,

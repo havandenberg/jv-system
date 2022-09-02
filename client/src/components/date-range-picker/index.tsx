@@ -18,10 +18,22 @@ import ty from 'ui/typography';
 const Wrapper = styled(l.Div)({ position: 'relative', zIndex: 10 });
 
 const Control = styled(l.Flex)(
-  ({ hasValue, show }: { hasValue?: boolean; show?: boolean }) => ({
+  ({
+    hasError,
+    hasValue,
+    show,
+  }: {
+    hasError?: boolean;
+    hasValue?: boolean;
+    show?: boolean;
+  }) => ({
     alignItems: 'center',
     background: th.colors.brand.containerBackground,
-    border: hasValue || show ? th.borders.secondary : th.borders.disabled,
+    border: hasError
+      ? th.borders.error
+      : hasValue || show
+      ? th.borders.secondary
+      : th.borders.disabled,
     borderRadius: th.borderRadii.input,
     boxShadow: th.shadows.boxLight,
     cursor: 'pointer',
@@ -29,7 +41,7 @@ const Control = styled(l.Flex)(
     transition: th.transitions.default,
     width: th.widths.input,
     ':hover': {
-      border: th.borders.secondary,
+      border: hasError ? th.borders.error : th.borders.secondary,
       '> p': {
         opacity: hasValue ? 1 : th.opacities.secondary,
       },
@@ -102,7 +114,9 @@ const defaultRange = [
 
 export interface DateRangeProps extends DateRangePickerProps {
   allowEmpty?: boolean;
+  hasError?: boolean;
   hideDefinedRanges?: boolean;
+  isDirty?: boolean;
   onDateChange?: (dateRange: { startDate?: string; endDate?: string }) => void;
   onClear: () => void;
   offsetLeft?: string | number;
@@ -114,7 +128,9 @@ export interface DateRangeProps extends DateRangePickerProps {
 }
 
 const DateRangePicker = ({
+  hasError,
   hideDefinedRanges,
+  isDirty,
   onChange,
   onClear,
   offsetLeft = 0,
@@ -159,6 +175,7 @@ const DateRangePicker = ({
     >
       <Wrapper>
         <Control
+          hasError={hasError}
           hasValue={hasValue}
           onClick={toggleShow}
           show={show}
@@ -167,7 +184,7 @@ const DateRangePicker = ({
           <IconWrapper>
             <CalendarImg height={18} />
           </IconWrapper>
-          <DateText hasValue={hasValue} show={show}>
+          <DateText bold={hasValue && isDirty} hasValue={hasValue} show={show}>
             {formattedDateRange}
           </DateText>
           {hasValue ? (

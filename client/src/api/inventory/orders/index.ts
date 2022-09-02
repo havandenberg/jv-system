@@ -18,10 +18,11 @@ import { Mutation, Query } from 'types';
 
 const ORDER_MASTER_DETAILS_QUERY = loader('./details.gql');
 const ORDER_MASTER_LIST_QUERY = loader('./list.gql');
+const ORDER_ENTRY_DETAILS_QUERY = loader('./entry/details.gql');
 const ORDER_ENTRY_LIST_QUERY = loader('./entry/list.gql');
-const ORDER_ENTRY_CREATE_QUERY = loader('./entry/create.gql');
+const ORDER_ENTRY_CREATE = loader('./entry/create.gql');
 
-const useVariables = () => {
+const useVariables = (orderByOverride?: string) => {
   const [search = ''] = useSearchQueryParam();
   const [{ sortBy = 'orderDate', sortOrder = SORT_ORDER.DESC }] =
     useSortQueryParams();
@@ -36,7 +37,12 @@ const useVariables = () => {
       }),
     );
   const formattedEndDate =
-    endDate && formatDate(new Date(endDate.replace(/-/g, '/')));
+    endDate &&
+    formatDate(
+      add(new Date(endDate.replace(/-/g, '/')), {
+        days: startDate === endDate ? 1 : 0,
+      }),
+    );
 
   const [{ billingCustomerId, salesUserCode }] = useQuerySet({
     billingCustomerId: StringParam,
@@ -60,8 +66,8 @@ const useVariables = () => {
     billingCustomerId: filteredCustomerValues.map((val) =>
       val.substring(val.lastIndexOf(' (') + 2, val.length - 1),
     ),
-    salesUserCode: filteredSalesUserCodeValues,
-    orderBy: orderBy,
+    salesUserCode: [...filteredSalesUserCodeValues, 'HV'],
+    orderBy: orderByOverride || orderBy,
     search: getSearchArray(search),
     startDate: formattedStartDate,
     endDate: formattedEndDate,
@@ -95,8 +101,8 @@ export const useOrderMaster = (orderId: string) => {
   };
 };
 
-export const useOrderEntries = () => {
-  const variables = useVariables();
+export const useOrderEntries = (orderByOverride?: string) => {
+  const variables = useVariables(orderByOverride);
 
   const { data, error, loading } = useQuery<Query>(ORDER_ENTRY_LIST_QUERY, {
     variables,
@@ -109,10 +115,23 @@ export const useOrderEntries = () => {
   };
 };
 
+export const useOrderEntry = (orderId: string) => {
+  const { data, error, loading } = useQuery<Query>(ORDER_ENTRY_DETAILS_QUERY, {
+    variables: {
+      orderId,
+    },
+  });
+  return {
+    data: data ? data.orderEntries : undefined,
+    error,
+    loading,
+  };
+};
+
 export const useCreateOrderEntry = () => {
   const variables = useVariables();
 
-  return useMutation<Mutation>(ORDER_ENTRY_CREATE_QUERY, {
+  return useMutation<Mutation>(ORDER_ENTRY_CREATE, {
     refetchQueries: [
       {
         query: ORDER_ENTRY_LIST_QUERY,

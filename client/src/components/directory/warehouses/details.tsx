@@ -84,7 +84,11 @@ const Details = () => {
       actions={
         data
           ? [
-              <l.AreaLink key={0} to={`/inventory/index?location=${data.id}`}>
+              <l.AreaLink
+                key={0}
+                target="_blank"
+                to={`/inventory/index?location=${data.id}`}
+              >
                 <b.Primary>Inventory</b.Primary>
               </l.AreaLink>,
             ]

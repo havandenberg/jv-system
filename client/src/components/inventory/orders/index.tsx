@@ -7,22 +7,36 @@ import Page from 'components/page';
 import VirtualizedList from 'components/virtualized-list';
 import useColumns, { SORT_ORDER } from 'hooks/use-columns';
 import { useSortQueryParams } from 'hooks/use-query-params';
-import { CommonSpecies, OrderMaster } from 'types';
+import { CommonSpecies, OrderEntry, OrderMaster } from 'types';
 import b from 'ui/button';
 import l from 'ui/layout';
 import th from 'ui/theme';
 
-import { getSortedItems, indexListLabels } from './data-utils';
+import {
+  convertOrderEntriesToOrderMasters,
+  getSortedItems,
+  indexListLabels,
+} from './data-utils';
 import ListItem from './list-item';
 import useOrdersFilters from './use-filters';
 
 export const breadcrumbs = [{ text: 'Orders', to: `/inventory/orders` }];
 
-const gridTemplateColumns = '120px 1fr 3fr 1fr 30px';
+const gridTemplateColumns = '90px 90px 110px 1fr 3fr 100px 60px 30px';
 
 const Orders = () => {
-  const [{ sortBy = 'orderDate', sortOrder = SORT_ORDER.DESC }] =
+  const [{ sortBy = 'expectedShipDate', sortOrder = SORT_ORDER.DESC }] =
     useSortQueryParams();
+
+  const {
+    data: orderEntriesData,
+    loading: orderEntriesLoading,
+    error: orderEntriesError,
+  } = api.useOrderEntries('FOB_DATE_DESC');
+  const entryItems = (
+    orderEntriesData ? orderEntriesData.nodes : []
+  ) as OrderEntry[];
+
   const {
     data,
     loading: ordersLoading,
@@ -37,8 +51,8 @@ const Orders = () => {
   } = api.useCommonSpecieses();
   const commonSpecieses = (productsData?.nodes || []) as CommonSpecies[];
 
-  const loading = ordersLoading || productsLoading;
-  const error = ordersError || productsError;
+  const loading = ordersLoading || productsLoading || orderEntriesLoading;
+  const error = ordersError || productsError || orderEntriesError;
 
   const [expanded, setExpanded] = useState(false);
 
@@ -68,15 +82,19 @@ const Orders = () => {
     .map((orderGroup) => orderGroup[0])
     .flat();
 
+  const allOrders = orders.concat(
+    convertOrderEntriesToOrderMasters(entryItems),
+  );
+
   const sortedOrders = getSortedItems(
     indexListLabels,
-    orders,
+    allOrders,
     sortBy,
     sortOrder,
   );
 
   const columnLabels = useColumns<OrderMaster>(
-    'orderDate',
+    'expectedShipDate',
     SORT_ORDER.DESC,
     indexListLabels,
     'operations',
@@ -109,7 +127,7 @@ const Orders = () => {
       }
       title="Orders"
     >
-      {!isEmpty(sortedOrders) ? (
+      {!loading && !isEmpty(sortedOrders) ? (
         <VirtualizedList
           height={expanded ? 440 : 542}
           rowCount={data ? sortedOrders.length : 0}
