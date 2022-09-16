@@ -2,6 +2,7 @@ import React from 'react';
 import { isEmpty } from 'ramda';
 
 import api from 'api';
+import ListItem from 'components/list-item';
 import { DataMessage } from 'components/page/message';
 import Page from 'components/page';
 import { useUserContext } from 'components/user/context';
@@ -16,11 +17,10 @@ import th from 'ui/theme';
 import ty from 'ui/typography';
 
 import { breadcrumbs, SubDirectoryProps } from '..';
-import ListItem from '../list-item';
 import { useDirectorySelectionContext } from '../selection-context';
 import { listLabels } from './data-utils';
 
-const GroupDirectory = ({ actions, TabBar }: SubDirectoryProps) => {
+const GroupDirectory = ({ actions }: SubDirectoryProps) => {
   const { Search } = useSearch();
   const { data, loading, error } = api.useContactGroups();
   const items = data ? data.nodes : [];
@@ -53,7 +53,7 @@ const GroupDirectory = ({ actions, TabBar }: SubDirectoryProps) => {
         <l.AreaLink
           key="create"
           to="/directory/groups/create"
-          mr={th.spacing.md}
+          mr={th.spacing.lg}
         >
           <b.Primary>Create</b.Primary>
         </l.AreaLink>,
@@ -78,7 +78,6 @@ const GroupDirectory = ({ actions, TabBar }: SubDirectoryProps) => {
               </l.Flex>
               {Search}
             </div>
-            {TabBar}
           </l.Flex>
           {!loading && (
             <l.Grid
@@ -113,7 +112,7 @@ const GroupDirectory = ({ actions, TabBar }: SubDirectoryProps) => {
                     listLabels={listLabels(!!activeUser)}
                     onSelectItem={() => selectGroup(item)}
                     selected={!!selectedItems.find((it) => it.id === item.id)}
-                    slug={`groups/${item.id}`}
+                    to={`/directory/groups/${item.id}`}
                   />
                 </div>
               )

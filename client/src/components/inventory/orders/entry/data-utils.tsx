@@ -1,11 +1,11 @@
-import { CUSTOMER_DISTINCT_VALUES_QUERY } from 'api/directory/customer';
 import { LabelInfo } from 'components/column-label';
 import StatusIndicator from 'components/status-indicator';
 import { SORT_ORDER } from 'hooks/use-columns';
-import { groupBy, values } from 'ramda';
-import { OrderEntry, OrderEntryItem } from 'types';
+import { groupBy, pluck, uniq, values } from 'ramda';
+import { CommonSpecies, OrderEntry, OrderEntryItem } from 'types';
 import l from 'ui/layout';
 import ty from 'ui/typography';
+import { formatDateTime } from 'utils/date';
 
 import { NewOrderEntry } from '.';
 
@@ -13,80 +13,72 @@ export type OrderEntryLabelInfo = LabelInfo<OrderEntry>;
 export type NewOrderEntryLabelInfo = LabelInfo<NewOrderEntry>;
 export type OrderEntryItemLabelInfo = LabelInfo<OrderEntryItem>;
 
-export const listLabels: OrderEntryLabelInfo[] = [
-  {
-    key: 'orderId',
-    label: 'Order ID',
-    sortable: true,
-  },
-  {
-    key: 'truckLoadId',
-    label: 'Load ID',
-    sortable: true,
-  },
-  {
-    key: 'customerPo',
-    label: 'PO Number',
-    sortable: true,
-  },
+export const listLabels: (
+  commonSpecieses: CommonSpecies[],
+) => OrderEntryLabelInfo[] = (commonSpecieses) => [
   {
     key: 'orderDate',
-    label: 'Order Date',
+    label: 'Submitted At',
     isDate: true,
     sortable: true,
+    getValue: ({ orderDate }) =>
+      orderDate ? (
+        <ty.BodyText>{formatDateTime(new Date(orderDate))}</ty.BodyText>
+      ) : (
+        ''
+      ),
+  },
+  {
+    key: 'reviewDate',
+    label: 'Reviewed At',
+    isDate: true,
+    sortable: true,
+    getValue: ({ reviewDate }) =>
+      reviewDate ? (
+        <ty.BodyText>{formatDateTime(new Date(reviewDate))}</ty.BodyText>
+      ) : (
+        ''
+      ),
+  },
+  {
+    key: 'fob',
+    label: 'FOB / Del',
+    isBoolean: true,
+    getValue: ({ fob }) => (
+      <ty.BodyText>{fob ? 'FOB' : 'Delivery'}</ty.BodyText>
+    ),
   },
   {
     key: 'fobDate',
     label: 'FOB Date',
     isDate: true,
-    sortable: true,
   },
   {
-    defaultSortOrder: SORT_ORDER.ASC,
-    key: 'billingCustomerId',
-    sortKey: 'billingCustomerId',
-    label: 'Customer',
-    sortable: true,
-    filterable: true,
-    filterPanelProps: {
-      customStyles: {
-        width: 500,
-      },
-      queryProps: {
-        query: CUSTOMER_DISTINCT_VALUES_QUERY,
-        queryName: 'customerDistinctValues',
-      },
-      showSearch: true,
-    },
-    customSortBy: ({ billingCustomer }) =>
-      billingCustomer?.customerName.toLowerCase(),
-    getValue: ({ billingCustomer }) =>
-      billingCustomer ? (
+    key: 'id',
+    label: 'Summary',
+    getValue: ({ orderEntryItems }) => {
+      const orderItems = (orderEntryItems?.nodes || []) as OrderEntryItem[];
+      const speciesList = uniq(pluck('species', orderItems));
+      return (
         <ty.BodyText>
-          {billingCustomer.id} - {billingCustomer.customerName}
+          {speciesList
+            .map((species) => {
+              const commonSpecies = commonSpecieses.find(
+                (cs) => cs.productSpeciesId === species,
+              );
+              return `${
+                (commonSpecies?.speciesName || species || '').slice(0, 3) || '?'
+              }. (${orderItems
+                .filter((orderItem) => orderItem?.species === species)
+                .reduce(
+                  (acc, item) => acc + parseInt(item?.palletCount, 10) || 0,
+                  0,
+                )})`;
+            })
+            .join(', ')}
         </ty.BodyText>
-      ) : (
-        ''
-      ),
-  },
-  {
-    defaultSortOrder: SORT_ORDER.ASC,
-    key: 'salesUserCode',
-    label: 'Sales Assoc.',
-    sortable: true,
-    filterable: true,
-    filterPanelProps: {
-      customStyles: {
-        left: `-96px`,
-      },
+      );
     },
-    customSortBy: ({ salesUser }) => salesUser?.personContact?.firstName,
-    getValue: ({ salesUser }) =>
-      salesUser ? (
-        <ty.BodyText>{salesUser.personContact?.firstName}</ty.BodyText>
-      ) : (
-        ''
-      ),
   },
   {
     defaultSortOrder: SORT_ORDER.ASC,
@@ -111,23 +103,15 @@ export const baseLabels: OrderEntryLabelInfo[] = [
     label: 'Order ID',
   },
   {
-    key: 'orderDate',
-    label: 'Order Date',
-    isDate: true,
+    key: 'truckLoadId',
+    label: 'Load ID',
   },
   {
-    key: 'fobDate',
-    label: 'FOB Date',
-    isDate: true,
-  },
-  {
-    key: 'deliveredDate',
-    label: 'Delivered Date',
-    isDate: true,
+    key: 'customerPo',
+    label: 'Customer PO',
   },
   {
     key: 'billingCustomerId',
-    sortKey: 'billingCustomerId',
     label: 'Customer',
     getValue: ({ billingCustomer }) =>
       billingCustomer ? (
@@ -142,10 +126,6 @@ export const baseLabels: OrderEntryLabelInfo[] = [
       ),
   },
   {
-    key: 'customerPo',
-    label: 'Customer PO',
-  },
-  {
     key: 'salesUserCode',
     label: 'Sales Assoc.',
     getValue: ({ salesUser }) =>
@@ -156,23 +136,66 @@ export const baseLabels: OrderEntryLabelInfo[] = [
       ),
   },
   {
-    defaultSortOrder: SORT_ORDER.ASC,
+    key: 'orderDate',
+    label: 'Submitted At',
+    isDate: true,
+    getValue: ({ orderDate }) =>
+      orderDate ? (
+        <ty.BodyText>{formatDateTime(new Date(orderDate))}</ty.BodyText>
+      ) : (
+        ''
+      ),
+  },
+  {
+    key: 'fob',
+    label: 'FOB / Delivered',
+    isBoolean: true,
+    getValue: ({ fob }) => (
+      <ty.BodyText>{fob ? 'FOB' : 'Delivery'}</ty.BodyText>
+    ),
+  },
+  {
+    key: 'fobDate',
+    label: 'FOB Date',
+    isDate: true,
+  },
+  {
+    key: 'deliveredDate',
+    label: 'Delivered Date',
+    isDate: true,
+  },
+  {
     key: 'reviewUserCode',
     label: 'Status',
-    sortable: true,
-    customSortBy: ({ fobDate, reviewUserCode }) =>
-      `${!reviewUserCode ? 'a' : 'b'} ${new Date(
-        fobDate.replace(/-/g, '/'),
-      ).getTime()}`,
     getValue: ({ reviewUserCode }) => (
       <l.Flex alignCenter justifyCenter>
         <StatusIndicator status={reviewUserCode ? 'success' : 'warning'} />
       </l.Flex>
     ),
   },
+  {
+    key: 'reviewUserCode',
+    label: 'Reviewed At',
+    getValue: ({ reviewDate }) => (
+      <ty.BodyText>
+        {reviewDate ? formatDateTime(new Date(reviewDate)) : '-'}
+      </ty.BodyText>
+    ),
+  },
+  {
+    key: 'reviewUserCode',
+    label: 'Reviewed By',
+    getValue: ({ reviewUser }) => (
+      <ty.BodyText>
+        {reviewUser ? reviewUser.personContact?.firstName : '-'}
+      </ty.BodyText>
+    ),
+  },
 ];
 
-export const itemListLabels: OrderEntryItemLabelInfo[] = [
+export const itemListLabels: (fob: boolean) => OrderEntryItemLabelInfo[] = (
+  fob,
+) => [
   {
     key: 'lineId',
     label: 'Line',
@@ -235,7 +258,8 @@ export const itemListLabels: OrderEntryItemLabelInfo[] = [
   {
     key: 'deliveryCharge',
     label: 'Freight',
-    validate: ({ deliveryCharge }) => parseFloat(deliveryCharge) > 0,
+    show: !fob,
+    validate: ({ deliveryCharge }) => fob || parseFloat(deliveryCharge) > 0,
   },
 ];
 

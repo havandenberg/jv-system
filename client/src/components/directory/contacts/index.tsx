@@ -2,6 +2,7 @@ import React from 'react';
 import { isEmpty } from 'ramda';
 
 import api from 'api';
+import ListItem from 'components/list-item';
 import { DataMessage } from 'components/page/message';
 import Page from 'components/page';
 import VirtualizedList from 'components/virtualized-list';
@@ -14,13 +15,12 @@ import th from 'ui/theme';
 import ty from 'ui/typography';
 
 import { breadcrumbs, SubDirectoryProps } from '..';
-import ListItem from '../list-item';
 import { useDirectorySelectionContext } from '../selection-context';
 import { internalListLabels as listLabels } from './data-utils';
 
 const gridTemplateColumns = '30px 1.5fr 2fr 3.5fr 2fr 30px';
 
-const ContactDirectory = ({ actions, TabBar }: SubDirectoryProps) => {
+const ContactDirectory = ({ actions }: SubDirectoryProps) => {
   const { Search } = useSearch();
   const { data, loading, error } = api.useInternalPersonContacts();
   const items = data ? data.nodes : [];
@@ -66,7 +66,6 @@ const ContactDirectory = ({ actions, TabBar }: SubDirectoryProps) => {
               </l.Flex>
               {Search}
             </div>
-            {TabBar}
           </l.Flex>
           {!loading && (
             <l.Grid
@@ -103,7 +102,7 @@ const ContactDirectory = ({ actions, TabBar }: SubDirectoryProps) => {
                       item.email && selectInternalContact(item)
                     }
                     selected={!!selectedItems.find((it) => it.id === item.id)}
-                    slug={`internal/${item.id}`}
+                    to={`/directory/internal/${item.id}`}
                   />
                 </div>
               )

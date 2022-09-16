@@ -2,13 +2,13 @@ import React from 'react';
 import { isEmpty } from 'ramda';
 import { useLocation } from 'react-router-dom';
 
+import ListItem from 'components/list-item';
 import { DataMessage } from 'components/page/message';
 import useColumns, { SORT_ORDER } from 'hooks/use-columns';
 import { Pallet } from 'types';
 import l from 'ui/layout';
 import th from 'ui/theme';
 
-import ListItem from './list-item';
 import { inventoryListLabels } from './data-utils';
 
 const gridTemplateColumns = 'repeat(2, 1.5fr) repeat(4, 1fr) 80px 30px';

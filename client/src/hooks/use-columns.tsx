@@ -22,12 +22,14 @@ const useColumns = <T extends {}>(
   const handleSortChange = (newSortBy: string, newSortOrder?: SortOrder) => {
     if (sortBy === newSortBy) {
       setSortParams({
+        listScrollTop: 0,
         sortBy,
         sortOrder:
           sortOrder === SORT_ORDER.DESC ? SORT_ORDER.ASC : SORT_ORDER.DESC,
       });
     } else {
       setSortParams({
+        listScrollTop: 0,
         sortBy: newSortBy,
         sortOrder: newSortOrder || defaultSortOrder,
       });
@@ -43,17 +45,19 @@ const useColumns = <T extends {}>(
     }
   }, [defaultSortBy, defaultSortOrder, setSortParams, sortBy, sortOrder]);
 
-  return labels.map((labelInfo, idx) => (
-    <ColumnLabel<T>
-      sortBy={sortBy}
-      sortOrder={sortOrder}
-      handleSortChange={handleSortChange}
-      key={idx}
-      labelInfo={labelInfo}
-      schemaName={schemaName}
-      tableName={tableName}
-    />
-  ));
+  return labels
+    .filter(({ show = true }) => !!show)
+    .map((labelInfo, idx) => (
+      <ColumnLabel<T>
+        sortBy={sortBy}
+        sortOrder={sortOrder}
+        handleSortChange={handleSortChange}
+        key={idx}
+        labelInfo={labelInfo}
+        schemaName={schemaName}
+        tableName={tableName}
+      />
+    ));
 };
 
 export default useColumns;

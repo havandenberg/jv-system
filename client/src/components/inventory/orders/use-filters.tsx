@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { capitalCase } from 'change-case';
 import { add, endOfISOWeek, format, isBefore } from 'date-fns';
 import { pluck, sortBy } from 'ramda';
@@ -7,12 +7,16 @@ import MinusInCircle from 'assets/images/minus-in-circle';
 import PlusInCircle from 'assets/images/plus-in-circle';
 import ResetImg from 'assets/images/reset';
 import { formatDate } from 'components/date-range-picker';
-import { useTabBar } from 'components/tab-bar';
+import { Tab, useTabBar } from 'components/tab-bar';
 import { CommonProductTag } from 'components/tag-manager';
+import { SORT_ORDER } from 'hooks/use-columns';
 import useDateRange from 'hooks/use-date-range';
+import usePrevious from 'hooks/use-previous';
 import {
   useDateRangeQueryParams,
   useOrdersQueryParams,
+  useQueryValue,
+  useSortQueryParams,
 } from 'hooks/use-query-params';
 import useSearch from 'hooks/use-search';
 import { CommonSpecies, OrderItem, OrderMaster } from 'types';
@@ -29,6 +33,17 @@ import {
   isWithinDateInterval,
 } from '../inventory/utils';
 
+const tabs: Tab[] = [
+  {
+    id: 'orders',
+    text: `Orders`,
+  },
+  {
+    id: 'items',
+    text: `Items`,
+  },
+];
+
 interface Props {
   commonSpecieses: CommonSpecies[];
   expanded: boolean;
@@ -41,6 +56,7 @@ interface Option {
   text: string;
   shortText: string;
   value: string | number;
+  isTag?: boolean;
 }
 
 type FilterKey =
@@ -61,7 +77,10 @@ const useOrdersFilters = ({
   loading,
   toggleExpanded,
 }: Props) => {
+  const [, setSortQueryParams] = useSortQueryParams();
+  const [, setScrollTop] = useQueryValue('listScrollTop');
   const [selectedFilters, setQuery] = useOrdersQueryParams();
+  const prevOrdersView = usePrevious(selectedFilters.view);
 
   const { TabBar: CoastFilter, selectedTabId: coast } = useTabBar(
     coastTabs,
@@ -70,6 +89,22 @@ const useOrdersFilters = ({
     'coast',
     1,
   );
+
+  const { TabBar } = useTabBar(tabs, false, 'orders', 'view', 0, () => {
+    setScrollTop('0');
+  });
+
+  useEffect(() => {
+    if (selectedFilters.view !== prevOrdersView) {
+      setSortQueryParams(
+        {
+          sortBy: 'expectedShipDate',
+          sortOrder: SORT_ORDER.DESC,
+        },
+        'replaceIn',
+      );
+    }
+  }, [setSortQueryParams, selectedFilters.view, prevOrdersView]);
 
   const getFilter = (
     key: FilterKey,
@@ -83,10 +118,15 @@ const useOrdersFilters = ({
       <Select
         mr={th.spacing.md}
         onChange={(e) => {
+          const selectedOption = optionList.find(
+            (option) => option.value === e.target.value,
+          );
+          const isTag = selectedOption?.isTag;
           if (key === 'species') {
             setQuery({
               ...selectedFilters,
               [key]: e.target.value || undefined,
+              [`${key}Tag`]: isTag ? e.target.value : undefined,
               variety: undefined,
               size: undefined,
               packType: undefined,
@@ -95,6 +135,7 @@ const useOrdersFilters = ({
             setQuery({
               ...selectedFilters,
               [key]: e.target.value || undefined,
+              [`${key}Tag`]: isTag ? e.target.value : undefined,
             });
           }
         }}
@@ -113,7 +154,12 @@ const useOrdersFilters = ({
   const getOptions = (options: Option[]) => [
     { text: loading ? '...' : 'All', shortText: '', value: '' },
     ...sortBy(
-      (opt) => (opt.text === 'Other' ? 'zzzzzzz' : opt.text.toLowerCase()),
+      (opt) =>
+        opt.text === 'Other'
+          ? 'zzzzzzz'
+          : opt.isTag
+          ? `0 ${opt.text.toLowerCase()}`
+          : opt.text.toLowerCase(),
       options,
     ),
   ];
@@ -128,10 +174,11 @@ const useOrdersFilters = ({
   const packTypeOptions = [] as Option[];
   const pluOptions = [] as Option[];
 
-  const { Search } = useSearch();
+  const { Search } = useSearch({ width: 241 });
 
   const { DateRangePicker, BackwardButton, ForwardButton } = useDateRange({
     maxDate: endOfISOWeek(add(new Date(), { weeks: 4 })),
+    offsetLeft: -110,
   });
 
   const [{ startDate = formatDate(new Date()) }] = useDateRangeQueryParams();
@@ -156,18 +203,21 @@ const useOrdersFilters = ({
     shipper,
     countryOfOrigin,
     detailsIndex,
+    view,
   } = selectedFilters;
+
+  const isOrders = !view || view === 'orders';
 
   const inventoryStartDateIndex = getInventoryStartDayIndex(startDate);
   const isStorage = parseInt(detailsIndex) === 13 - inventoryStartDateIndex;
   const isTotal = parseInt(detailsIndex) === 14 - inventoryStartDateIndex;
+  const allFilteredOrderItems = [] as OrderItem[];
 
-  const filteredItems = items.filter((orderMaster) => {
+  const filteredOrders = items.filter((orderMaster) => {
     const otherCategory = {
       id: 'other',
       speciesDescription: 'Other',
       varietyDescription: 'Other',
-      sizeDescription: 'Other',
       combineDescription: 'Other',
       packDescription: 'Other',
       label: {
@@ -264,9 +314,15 @@ const useOrdersFilters = ({
         });
       }
 
+      const isSpeciesValid =
+        !selectedFilters.species ||
+        itemSpecies.id === selectedFilters.species ||
+        commonSpeciesTags.find(
+          ({ tagText }) => selectedFilters.speciesTag === tagText,
+        );
+
       if (
-        (!selectedFilters.species ||
-          itemSpecies?.id === selectedFilters.species) &&
+        isSpeciesValid &&
         !labelOptions.find(
           ({ value }) => value === itemPackType?.label?.labelCode,
         ) &&
@@ -281,8 +337,7 @@ const useOrdersFilters = ({
       }
 
       if (
-        (!selectedFilters.species ||
-          itemSpecies?.id === selectedFilters.species) &&
+        isSpeciesValid &&
         !pluOptions.find(({ value }) => value === `${item.plu}`) &&
         detailsValid
       ) {
@@ -303,10 +358,20 @@ const useOrdersFilters = ({
           shortText: `${itemSpecies.speciesDescription}`,
           value: itemSpecies.id,
         });
+        commonSpeciesTags.forEach((tag) => {
+          if (!speciesOptions.find(({ value }) => value === tag.tagText)) {
+            speciesOptions.push({
+              text: `${tag.tagText} (tag)`,
+              shortText: `${tag.tagText} (tag)`,
+              value: tag.tagText,
+              isTag: true,
+            });
+          }
+        });
       }
 
       if (
-        itemSpecies.id === selectedFilters.species &&
+        isSpeciesValid &&
         !varietyOptions.find(({ value }) => value === itemVariety?.id) &&
         detailsValid &&
         itemVariety
@@ -316,23 +381,45 @@ const useOrdersFilters = ({
           shortText: `${itemVariety.varietyDescription}`,
           value: itemVariety.id,
         });
+        commonVarietyTags.forEach((tag) => {
+          if (!varietyOptions.find(({ value }) => value === tag.tagText)) {
+            varietyOptions.push({
+              text: `${tag.tagText} (tag)`,
+              shortText: `${tag.tagText} (tag)`,
+              value: tag.tagText,
+              isTag: true,
+            });
+          }
+        });
       }
 
       if (
-        itemSpecies.id === selectedFilters.species &&
-        !sizeOptions.find(({ value }) => value === itemSize?.id) &&
+        isSpeciesValid &&
+        !sizeOptions.find(
+          ({ value }) => value === `${itemSize.combineDescription}`,
+        ) &&
         detailsValid &&
         itemSize
       ) {
         sizeOptions.push({
           text: `${itemSize.combineDescription}`,
           shortText: `${itemSize.combineDescription}`,
-          value: itemSize.id,
+          value: `${itemSize.combineDescription}`,
+        });
+        commonSizeTags.forEach((tag) => {
+          if (!sizeOptions.find(({ value }) => value === tag.tagText)) {
+            sizeOptions.push({
+              text: `${tag.tagText} (tag)`,
+              shortText: `${tag.tagText} (tag)`,
+              value: tag.tagText,
+              isTag: true,
+            });
+          }
         });
       }
 
       if (
-        itemSpecies.id === selectedFilters.species &&
+        isSpeciesValid &&
         !packTypeOptions.find(
           ({ value }) => value === itemPackType?.packDescription,
         ) &&
@@ -343,6 +430,16 @@ const useOrdersFilters = ({
           text: `${itemPackType.packDescription}`,
           shortText: `${itemPackType.packDescription}`,
           value: `${itemPackType?.packDescription}`,
+        });
+        commonPackTypeTags.forEach((tag) => {
+          if (!packTypeOptions.find(({ value }) => value === tag.tagText)) {
+            packTypeOptions.push({
+              text: `${tag.tagText} (tag)`,
+              shortText: `${tag.tagText} (tag)`,
+              value: tag.tagText,
+              isTag: true,
+            });
+          }
         });
       }
 
@@ -382,7 +479,9 @@ const useOrdersFilters = ({
         (!plu || ['total', item.plu ? 'true' : 'false'].includes(plu)) &&
         detailsValid
       );
-    });
+    }) as OrderItem[];
+
+    allFilteredOrderItems.push(...filteredOrderItems);
 
     return filteredOrderItems.some((val) => val);
   });
@@ -442,6 +541,7 @@ const useOrdersFilters = ({
         'varietyTag',
         'sizeTag',
         'packTypeTag',
+        'view',
       ].includes(filterKey) && selectedFilters[filterKey],
   ) as FilterKey[];
 
@@ -449,11 +549,11 @@ const useOrdersFilters = ({
     <l.Flex alignCenter flex={1}>
       {selectedFilterKeys.length > 0 ? (
         selectedFilterKeys.map((filterKey, idx) => {
-          const shortText = filterOptions[filterKey].find(
+          const shortText = filterOptions[filterKey]?.find(
             ({ value }) => value === selectedFilters[filterKey],
           )?.shortText;
           return shortText ? (
-            <l.Flex alignCenter>
+            <l.Flex alignCenter key={filterKey}>
               <ty.CaptionText mx={th.spacing.sm} secondary>
                 {idx > 0 ? '|' : ''}
               </ty.CaptionText>
@@ -472,10 +572,66 @@ const useOrdersFilters = ({
     </l.Flex>
   );
 
+  const hasOrderItems = allFilteredOrderItems.length > 0;
+
+  const itemPrices = allFilteredOrderItems.map((item) =>
+    parseInt(item.unitSellPrice, 10),
+  );
+
+  const { totalItemsPrice, totalPalletCount } = hasOrderItems
+    ? allFilteredOrderItems.reduce<{
+        totalItemsPrice: number;
+        totalPalletCount: number;
+      }>(
+        (acc, item) => ({
+          totalItemsPrice:
+            acc.totalItemsPrice +
+            parseFloat(item.unitSellPrice) * parseInt(item.palletCount, 10),
+          totalPalletCount:
+            acc.totalPalletCount + parseInt(item.palletCount, 10),
+        }),
+        { totalItemsPrice: 0, totalPalletCount: 0 },
+      )
+    : { totalItemsPrice: 0, totalPalletCount: 0 };
+
+  const averagePrice = hasOrderItems
+    ? (totalItemsPrice / totalPalletCount).toFixed(0)
+    : '-';
+  const lowPrice = hasOrderItems ? Math.min(...itemPrices) : '-';
+  const highPrice = hasOrderItems ? Math.max(...itemPrices) : '-';
+
+  const priceValues = (
+    <l.Div position="absolute" top="-6px" right={0}>
+      <ty.SmallText
+        color={th.colors.brand.primaryAccent}
+        mr={th.spacing.md}
+        textAlign="right"
+      >
+        Avg Price:{' '}
+        <ty.Span bold ml={th.spacing.xs}>
+          ${loading ? '-' : averagePrice}
+        </ty.Span>
+      </ty.SmallText>
+      <l.Flex mt={th.spacing.xs}>
+        <ty.SmallText color={th.colors.status.error} nowrap>
+          Low: <ty.Span bold>${loading ? '-' : lowPrice}</ty.Span>
+        </ty.SmallText>
+        <ty.SmallText
+          color={th.colors.status.success}
+          ml={th.spacing.sm}
+          mr={th.spacing.md}
+          nowrap
+        >
+          High: <ty.Span bold>${loading ? '-' : highPrice}</ty.Span>
+        </ty.SmallText>
+      </l.Flex>
+    </l.Div>
+  );
+
   return {
     components: (
       <>
-        <l.Flex alignCenter mb={th.spacing.md}>
+        <l.Flex alignCenter mb={24}>
           <l.Div mr={th.spacing.lg}>
             <ty.SmallText mb={th.spacing.sm} secondary>
               Coast
@@ -483,11 +639,22 @@ const useOrdersFilters = ({
             <CoastFilter />
           </l.Div>
           <l.Div mr={th.spacing.lg}>
+            <ty.SmallText mb={th.spacing.sm} secondary>
+              View
+            </ty.SmallText>
+            <TabBar />
+          </l.Div>
+          <l.Div mr={th.spacing.lg}>
             <l.Flex alignCenter justifyBetween mb={th.spacing.sm}>
               <ty.SmallText secondary>Search</ty.SmallText>
               {!loading && (
                 <ty.SmallText secondary>
-                  Results: {items ? filteredItems.length : '-'}
+                  Results:{' '}
+                  {items
+                    ? isOrders
+                      ? filteredOrders.length
+                      : allFilteredOrderItems.length
+                    : '-'}
                 </ty.SmallText>
               )}
             </l.Flex>
@@ -524,24 +691,53 @@ const useOrdersFilters = ({
           </div>
         </l.Flex>
         {expanded ? (
-          <>
-            <l.Flex alignStart justifyBetween mb={th.spacing.md}>
-              <l.Flex alignCenter>
-                {locationSelect}
-                {countrySelect}
-                {shipperSelect}
-                {labelSelect}
-                {pluSelect}
+          <l.Div relative>
+            <l.Flex alignStart justifyBetween mb={th.spacing.sm}>
+              <l.Flex alignStart>
+                <l.Div mr={th.spacing.md} relative>
+                  <l.HoverButton active onClick={toggleExpanded}>
+                    <MinusInCircle
+                      fill={th.colors.brand.primary}
+                      height={th.sizes.icon}
+                      width={th.sizes.icon}
+                    />
+                  </l.HoverButton>
+                  <l.HoverButton
+                    cursor="pointer"
+                    dark
+                    height={th.sizes.icon}
+                    width={th.sizes.icon}
+                    position="absolute"
+                    top={40}
+                    onClick={() => {
+                      setQuery({
+                        species: undefined,
+                        variety: undefined,
+                        size: undefined,
+                        packType: undefined,
+                        plu: undefined,
+                        label: undefined,
+                        vesselCode: undefined,
+                        shipper: undefined,
+                        location: undefined,
+                        countryOfOrigin: undefined,
+                      });
+                    }}
+                  >
+                    <ResetImg height={th.sizes.icon} width={th.sizes.icon} />
+                  </l.HoverButton>
+                </l.Div>
+                <l.Flex alignCenter>
+                  {locationSelect}
+                  {countrySelect}
+                  {shipperSelect}
+                  {labelSelect}
+                  {pluSelect}
+                </l.Flex>
               </l.Flex>
-              <l.HoverButton active onClick={toggleExpanded}>
-                <MinusInCircle
-                  fill={th.colors.brand.primary}
-                  height={th.sizes.icon}
-                  width={th.sizes.icon}
-                />
-              </l.HoverButton>
+              {!isOrders && priceValues}
             </l.Flex>
-            <l.Flex alignCenter mb={th.spacing.lg}>
+            <l.Flex alignCenter mb={24} ml={40}>
               {speciesSelect}
               {species && (
                 <>
@@ -551,25 +747,27 @@ const useOrdersFilters = ({
                 </>
               )}
             </l.Flex>
-          </>
+          </l.Div>
         ) : (
-          <l.Flex alignCenter mb={th.spacing.lg}>
-            <l.Flex alignCenter flex={1}>
-              <ty.CaptionText>Additional filters:</ty.CaptionText>
-              {selectedFiltersString}
-            </l.Flex>
-            <l.HoverButton onClick={toggleExpanded}>
+          <l.Flex alignCenter mb={24} relative>
+            <l.HoverButton mr={th.spacing.md} onClick={toggleExpanded}>
               <PlusInCircle
                 fill={th.colors.brand.primary}
                 height={th.sizes.icon}
                 width={th.sizes.icon}
               />
             </l.HoverButton>
+            <l.Flex alignCenter flex={1}>
+              <ty.CaptionText>Additional filters:</ty.CaptionText>
+              {selectedFiltersString}
+            </l.Flex>
+            {!isOrders && priceValues}
           </l.Flex>
         )}
       </>
     ),
-    filteredItems,
+    filteredOrders,
+    filteredOrderItems: allFilteredOrderItems,
     coast,
     selectedWeekNumber,
     startDate,

@@ -46,8 +46,43 @@ query ORDER_ENTRY_LIST(
         }
       }
       customerPo
+      fob
       fobDate
+      deliveredDate
       reviewUserCode
+      orderEntryItems {
+        nodes {
+          id
+          orderEntryId
+          lineId
+          palletCount
+          unitSellPrice
+          deliveryCharge
+          locationId
+          vesselCode
+          shipperId
+          species
+          variety
+          size
+          packType
+          plu
+          label
+          notes
+          vessel {
+            id
+            vesselCode
+            vesselName
+          }
+          shipper {
+            id
+            shipperName
+          }
+          warehouse {
+            id
+            warehouseName
+          }
+        }
+      }
     }
     totalCount
   }

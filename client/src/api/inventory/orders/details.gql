@@ -11,6 +11,7 @@ query ORDER_MASTER_DETAILS($orderId: BigFloat!) {
       customerPo
       deliveryZone
       entryDate
+      entryUserCode
       entryUser {
         id
         personContact {
@@ -34,9 +35,14 @@ query ORDER_MASTER_DETAILS($orderId: BigFloat!) {
             id
             vessel {
               id
+              dischargeDate
               vesselCode
               vesselName
               isPre
+            }
+            shipper {
+              id
+              shipperName
             }
             coast
             plu
@@ -58,6 +64,10 @@ query ORDER_MASTER_DETAILS($orderId: BigFloat!) {
               }
               packType {
                 id
+                label {
+                  id
+                  labelName
+                }
                 packDescription
               }
             }
@@ -66,6 +76,10 @@ query ORDER_MASTER_DETAILS($orderId: BigFloat!) {
           itemStatus
           lineId
           orderId
+          order {
+            id
+            expectedShipDate
+          }
           palletCount
           notes
           unitSellPrice
@@ -76,6 +90,7 @@ query ORDER_MASTER_DETAILS($orderId: BigFloat!) {
       truckLoad {
         id
         loadId
+        changeFlag
       }
       vendorId
       loadStatus

@@ -44,6 +44,8 @@ export type Query = Node & {
   users?: Maybe<UsersConnection>;
   /** Reads and enables pagination through a set of `UserMessage`. */
   userMessages?: Maybe<UserMessagesConnection>;
+  /** Reads and enables pagination through a set of `UserRole`. */
+  userRoles?: Maybe<UserRolesConnection>;
   /** Reads and enables pagination through a set of `ContactGroup`. */
   contactGroups?: Maybe<ContactGroupsConnection>;
   /** Reads and enables pagination through a set of `ContactGroupPersonContact`. */
@@ -196,6 +198,8 @@ export type Query = Node & {
   priceProducts?: Maybe<PriceProductsConnection>;
   /** Reads and enables pagination through a set of `PriceSize`. */
   priceSizes?: Maybe<PriceSizesConnection>;
+  /** Reads and enables pagination through a set of `LoadNumber`. */
+  loadNumbers?: Maybe<LoadNumbersConnection>;
   /** Reads and enables pagination through a set of `OrderEntry`. */
   orderEntries?: Maybe<OrderEntriesConnection>;
   /** Reads and enables pagination through a set of `OrderEntryItem`. */
@@ -211,6 +215,7 @@ export type Query = Node & {
   user?: Maybe<User>;
   userByPin?: Maybe<User>;
   userMessage?: Maybe<UserMessage>;
+  userRoleByUserIdAndRoleName?: Maybe<UserRole>;
   contactGroup?: Maybe<ContactGroup>;
   contactGroupPersonContact?: Maybe<ContactGroupPersonContact>;
   country?: Maybe<Country>;
@@ -301,6 +306,7 @@ export type Query = Node & {
   priceEntry?: Maybe<PriceEntry>;
   priceProduct?: Maybe<PriceProduct>;
   priceSize?: Maybe<PriceSize>;
+  loadNumber?: Maybe<LoadNumber>;
   orderEntry?: Maybe<OrderEntry>;
   orderEntryItem?: Maybe<OrderEntryItem>;
   orderItem?: Maybe<OrderItem>;
@@ -472,6 +478,8 @@ export type Query = Node & {
   priceProductByNodeId?: Maybe<PriceProduct>;
   /** Reads a single `PriceSize` using its globally unique `ID`. */
   priceSizeByNodeId?: Maybe<PriceSize>;
+  /** Reads a single `LoadNumber` using its globally unique `ID`. */
+  loadNumberByNodeId?: Maybe<LoadNumber>;
   /** Reads a single `OrderEntry` using its globally unique `ID`. */
   orderEntryByNodeId?: Maybe<OrderEntry>;
   /** Reads a single `OrderEntryItem` using its globally unique `ID`. */
@@ -517,6 +525,19 @@ export type QueryUserMessagesArgs = {
   orderBy?: Maybe<Array<UserMessagesOrderBy>>;
   condition?: Maybe<UserMessageCondition>;
   filter?: Maybe<UserMessageFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryUserRolesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<UserRolesOrderBy>>;
+  condition?: Maybe<UserRoleCondition>;
+  filter?: Maybe<UserRoleFilter>;
 };
 
 
@@ -1509,6 +1530,19 @@ export type QueryPriceSizesArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
+export type QueryLoadNumbersArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<LoadNumbersOrderBy>>;
+  condition?: Maybe<LoadNumberCondition>;
+  filter?: Maybe<LoadNumberFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
 export type QueryOrderEntriesArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
@@ -1601,6 +1635,13 @@ export type QueryUserByPinArgs = {
 /** The root query type which gives access points into the data universe. */
 export type QueryUserMessageArgs = {
   id: Scalars['BigInt'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryUserRoleByUserIdAndRoleNameArgs = {
+  userId: Scalars['BigInt'];
+  roleName: Scalars['String'];
 };
 
 
@@ -2162,6 +2203,12 @@ export type QueryPriceProductArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryPriceSizeArgs = {
+  id: Scalars['BigInt'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryLoadNumberArgs = {
   id: Scalars['BigInt'];
 };
 
@@ -2767,6 +2814,12 @@ export type QueryPriceSizeByNodeIdArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
+export type QueryLoadNumberByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
 export type QueryOrderEntryByNodeIdArgs = {
   nodeId: Scalars['ID'];
 };
@@ -2840,6 +2893,10 @@ export type User = Node & {
   contactGroups: ContactGroupsConnection;
   /** Reads and enables pagination through a set of `UserMessage`. */
   userMessages: UserMessagesConnection;
+  /** Reads and enables pagination through a set of `UserRole`. */
+  userRoles: UserRolesConnection;
+  /** Reads and enables pagination through a set of `LoadNumber`. */
+  loadNumbers: LoadNumbersConnection;
 };
 
 
@@ -2864,6 +2921,30 @@ export type UserUserMessagesArgs = {
   orderBy?: Maybe<Array<UserMessagesOrderBy>>;
   condition?: Maybe<UserMessageCondition>;
   filter?: Maybe<UserMessageFilter>;
+};
+
+
+export type UserUserRolesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<UserRolesOrderBy>>;
+  condition?: Maybe<UserRoleCondition>;
+  filter?: Maybe<UserRoleFilter>;
+};
+
+
+export type UserLoadNumbersArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<LoadNumbersOrderBy>>;
+  condition?: Maybe<LoadNumberCondition>;
+  filter?: Maybe<LoadNumberFilter>;
 };
 
 
@@ -3315,6 +3396,14 @@ export type UserFilter = {
   userMessages?: Maybe<UserToManyUserMessageFilter>;
   /** Some related `userMessages` exist. */
   userMessagesExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `userRoles` relation. */
+  userRoles?: Maybe<UserToManyUserRoleFilter>;
+  /** Some related `userRoles` exist. */
+  userRolesExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `loadNumbers` relation. */
+  loadNumbers?: Maybe<UserToManyLoadNumberFilter>;
+  /** Some related `loadNumbers` exist. */
+  loadNumbersExist?: Maybe<Scalars['Boolean']>;
   /** Filter by the object’s `personContact` relation. */
   personContact?: Maybe<PersonContactFilter>;
   /** A related `personContact` exists. */
@@ -3458,6 +3547,66 @@ export type BigFloatFilter = {
   greaterThanOrEqualTo?: Maybe<Scalars['BigFloat']>;
 };
 
+
+/** A filter to be used against many `UserRole` object types. All fields are combined with a logical ‘and.’ */
+export type UserToManyUserRoleFilter = {
+  /** Every related `UserRole` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<UserRoleFilter>;
+  /** Some related `UserRole` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<UserRoleFilter>;
+  /** No related `UserRole` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<UserRoleFilter>;
+};
+
+/** A filter to be used against `UserRole` object types. All fields are combined with a logical ‘and.’ */
+export type UserRoleFilter = {
+  /** Filter by the object’s `roleName` field. */
+  roleName?: Maybe<StringFilter>;
+  /** Filter by the object’s `userId` field. */
+  userId?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `user` relation. */
+  user?: Maybe<UserFilter>;
+  /** A related `user` exists. */
+  userExists?: Maybe<Scalars['Boolean']>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<UserRoleFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<UserRoleFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<UserRoleFilter>;
+};
+
+/** A filter to be used against many `LoadNumber` object types. All fields are combined with a logical ‘and.’ */
+export type UserToManyLoadNumberFilter = {
+  /** Every related `LoadNumber` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<LoadNumberFilter>;
+  /** Some related `LoadNumber` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<LoadNumberFilter>;
+  /** No related `LoadNumber` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<LoadNumberFilter>;
+};
+
+/** A filter to be used against `LoadNumber` object types. All fields are combined with a logical ‘and.’ */
+export type LoadNumberFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `customerId` field. */
+  customerId?: Maybe<StringFilter>;
+  /** Filter by the object’s `userId` field. */
+  userId?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `hasOrderEntries` field. */
+  hasOrderEntries?: Maybe<BooleanFilter>;
+  /** Filter by the object’s `user` relation. */
+  user?: Maybe<UserFilter>;
+  /** A related `user` exists. */
+  userExists?: Maybe<Scalars['Boolean']>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<LoadNumberFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<LoadNumberFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<LoadNumberFilter>;
+};
 
 /** A filter to be used against `PersonContact` object types. All fields are combined with a logical ‘and.’ */
 export type PersonContactFilter = {
@@ -5620,7 +5769,11 @@ export enum UsersOrderBy {
   ContactGroupsByUserIdCountAsc = 'CONTACT_GROUPS_BY_USER_ID__COUNT_ASC',
   ContactGroupsByUserIdCountDesc = 'CONTACT_GROUPS_BY_USER_ID__COUNT_DESC',
   UserMessagesByUserIdCountAsc = 'USER_MESSAGES_BY_USER_ID__COUNT_ASC',
-  UserMessagesByUserIdCountDesc = 'USER_MESSAGES_BY_USER_ID__COUNT_DESC'
+  UserMessagesByUserIdCountDesc = 'USER_MESSAGES_BY_USER_ID__COUNT_DESC',
+  UserRolesByUserIdCountAsc = 'USER_ROLES_BY_USER_ID__COUNT_ASC',
+  UserRolesByUserIdCountDesc = 'USER_ROLES_BY_USER_ID__COUNT_DESC',
+  LoadNumbersByUserIdCountAsc = 'LOAD_NUMBERS_BY_USER_ID__COUNT_ASC',
+  LoadNumbersByUserIdCountDesc = 'LOAD_NUMBERS_BY_USER_ID__COUNT_DESC'
 }
 
 /** A condition to be used against `User` object types. All fields are tested for equality and combined with a logical ‘and.’ */
@@ -6749,7 +6902,6 @@ export type OrderMaster = Node & {
   orderStatus?: Maybe<Scalars['String']>;
   paidCode?: Maybe<Scalars['Boolean']>;
   loadStatus?: Maybe<Scalars['String']>;
-  orderId?: Maybe<Scalars['BigFloat']>;
   backOrderId?: Maybe<Scalars['BigFloat']>;
   shipWarehouseId?: Maybe<Scalars['String']>;
   truckLoadId?: Maybe<Scalars['String']>;
@@ -6771,6 +6923,7 @@ export type OrderMaster = Node & {
   vendorId?: Maybe<Scalars['String']>;
   invoiceId?: Maybe<Scalars['String']>;
   notes?: Maybe<Scalars['String']>;
+  orderId?: Maybe<Scalars['BigFloat']>;
   billingCustomer?: Maybe<Customer>;
   entryUser?: Maybe<User>;
   /** Reads and enables pagination through a set of `OrderItem`. */
@@ -6826,6 +6979,7 @@ export type OrderItem = Node & {
   shipperId?: Maybe<Scalars['String']>;
   notes?: Maybe<Scalars['String']>;
   inventoryItem?: Maybe<InventoryItem>;
+  order?: Maybe<OrderMaster>;
   searchText?: Maybe<Scalars['String']>;
   vessel?: Maybe<Vessel>;
 };
@@ -7096,9 +7250,11 @@ export type TruckLoad = Node & {
   notes?: Maybe<Scalars['String']>;
   shipDate?: Maybe<Scalars['Date']>;
   cartageVendorId?: Maybe<Scalars['String']>;
-  hasOrderMasters?: Maybe<Scalars['Int']>;
+  count?: Maybe<Scalars['Int']>;
   /** Reads and enables pagination through a set of `OrderMaster`. */
   orderMasters: OrderMastersConnection;
+  /** Reads and enables pagination through a set of `Pallet`. */
+  pallets: PalletsConnection;
   searchText?: Maybe<Scalars['String']>;
   warehouse?: Maybe<Warehouse>;
 };
@@ -7111,6 +7267,16 @@ export type TruckLoadOrderMastersArgs = {
   before?: Maybe<Scalars['Cursor']>;
   after?: Maybe<Scalars['Cursor']>;
   filter?: Maybe<OrderMasterFilter>;
+};
+
+
+export type TruckLoadPalletsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  filter?: Maybe<PalletFilter>;
 };
 
 /** A connection to a list of `OrderMaster` values. */
@@ -7145,8 +7311,6 @@ export type OrderMasterFilter = {
   paidCode?: Maybe<BooleanFilter>;
   /** Filter by the object’s `loadStatus` field. */
   loadStatus?: Maybe<StringFilter>;
-  /** Filter by the object’s `orderId` field. */
-  orderId?: Maybe<BigFloatFilter>;
   /** Filter by the object’s `backOrderId` field. */
   backOrderId?: Maybe<BigFloatFilter>;
   /** Filter by the object’s `shipWarehouseId` field. */
@@ -7189,6 +7353,8 @@ export type OrderMasterFilter = {
   invoiceId?: Maybe<StringFilter>;
   /** Filter by the object’s `notes` field. */
   notes?: Maybe<StringFilter>;
+  /** Filter by the object’s `orderId` field. */
+  orderId?: Maybe<BigFloatFilter>;
   /** Filter by the object’s `searchText` field. */
   searchText?: Maybe<StringFilter>;
   /** Checks for all expressions in this list. */
@@ -7197,6 +7363,76 @@ export type OrderMasterFilter = {
   or?: Maybe<Array<OrderMasterFilter>>;
   /** Negates the expression. */
   not?: Maybe<OrderMasterFilter>;
+};
+
+/** A filter to be used against `Pallet` object types. All fields are combined with a logical ‘and.’ */
+export type PalletFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `vesselCode` field. */
+  vesselCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `palletId` field. */
+  palletId?: Maybe<StringFilter>;
+  /** Filter by the object’s `productId` field. */
+  productId?: Maybe<StringFilter>;
+  /** Filter by the object’s `currentBoxQuantity` field. */
+  currentBoxQuantity?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `receivedBoxQuantity` field. */
+  receivedBoxQuantity?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `returnedBoxQuantity` field. */
+  returnedBoxQuantity?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `locationId` field. */
+  locationId?: Maybe<StringFilter>;
+  /** Filter by the object’s `room` field. */
+  room?: Maybe<StringFilter>;
+  /** Filter by the object’s `section` field. */
+  section?: Maybe<StringFilter>;
+  /** Filter by the object’s `row` field. */
+  row?: Maybe<StringFilter>;
+  /** Filter by the object’s `jvLotNumber` field. */
+  jvLotNumber?: Maybe<StringFilter>;
+  /** Filter by the object’s `shipperId` field. */
+  shipperId?: Maybe<StringFilter>;
+  /** Filter by the object’s `dateTransferredToStorage` field. */
+  dateTransferredToStorage?: Maybe<StringFilter>;
+  /** Filter by the object’s `orderId` field. */
+  orderId?: Maybe<StringFilter>;
+  /** Filter by the object’s `backOrderId` field. */
+  backOrderId?: Maybe<StringFilter>;
+  /** Filter by the object’s `shipped` field. */
+  shipped?: Maybe<BooleanFilter>;
+  /** Filter by the object’s `age` field. */
+  age?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `volumeDiscountCode` field. */
+  volumeDiscountCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `originalLocationId` field. */
+  originalLocationId?: Maybe<StringFilter>;
+  /** Filter by the object’s `filler` field. */
+  filler?: Maybe<StringFilter>;
+  /** Filter by the object’s `growerId` field. */
+  growerId?: Maybe<StringFilter>;
+  /** Filter by the object’s `oldPackCode` field. */
+  oldPackCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `packDate` field. */
+  packDate?: Maybe<StringFilter>;
+  /** Filter by the object’s `hatch` field. */
+  hatch?: Maybe<StringFilter>;
+  /** Filter by the object’s `deck` field. */
+  deck?: Maybe<StringFilter>;
+  /** Filter by the object’s `billOfLading` field. */
+  billOfLading?: Maybe<StringFilter>;
+  /** Filter by the object’s `containerId` field. */
+  containerId?: Maybe<StringFilter>;
+  /** Filter by the object’s `temperatureRecording` field. */
+  temperatureRecording?: Maybe<StringFilter>;
+  /** Filter by the object’s `searchText` field. */
+  searchText?: Maybe<StringFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<PalletFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<PalletFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<PalletFilter>;
 };
 
 /** A connection to a list of `PalletSection` values. */
@@ -19726,76 +19962,6 @@ export type PalletsEdge = {
   node?: Maybe<Pallet>;
 };
 
-/** A filter to be used against `Pallet` object types. All fields are combined with a logical ‘and.’ */
-export type PalletFilter = {
-  /** Filter by the object’s `id` field. */
-  id?: Maybe<BigIntFilter>;
-  /** Filter by the object’s `vesselCode` field. */
-  vesselCode?: Maybe<StringFilter>;
-  /** Filter by the object’s `palletId` field. */
-  palletId?: Maybe<StringFilter>;
-  /** Filter by the object’s `productId` field. */
-  productId?: Maybe<StringFilter>;
-  /** Filter by the object’s `currentBoxQuantity` field. */
-  currentBoxQuantity?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `receivedBoxQuantity` field. */
-  receivedBoxQuantity?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `returnedBoxQuantity` field. */
-  returnedBoxQuantity?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `locationId` field. */
-  locationId?: Maybe<StringFilter>;
-  /** Filter by the object’s `room` field. */
-  room?: Maybe<StringFilter>;
-  /** Filter by the object’s `section` field. */
-  section?: Maybe<StringFilter>;
-  /** Filter by the object’s `row` field. */
-  row?: Maybe<StringFilter>;
-  /** Filter by the object’s `jvLotNumber` field. */
-  jvLotNumber?: Maybe<StringFilter>;
-  /** Filter by the object’s `shipperId` field. */
-  shipperId?: Maybe<StringFilter>;
-  /** Filter by the object’s `dateTransferredToStorage` field. */
-  dateTransferredToStorage?: Maybe<StringFilter>;
-  /** Filter by the object’s `orderId` field. */
-  orderId?: Maybe<StringFilter>;
-  /** Filter by the object’s `backOrderId` field. */
-  backOrderId?: Maybe<StringFilter>;
-  /** Filter by the object’s `shipped` field. */
-  shipped?: Maybe<BooleanFilter>;
-  /** Filter by the object’s `age` field. */
-  age?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `volumeDiscountCode` field. */
-  volumeDiscountCode?: Maybe<StringFilter>;
-  /** Filter by the object’s `originalLocationId` field. */
-  originalLocationId?: Maybe<StringFilter>;
-  /** Filter by the object’s `filler` field. */
-  filler?: Maybe<StringFilter>;
-  /** Filter by the object’s `growerId` field. */
-  growerId?: Maybe<StringFilter>;
-  /** Filter by the object’s `oldPackCode` field. */
-  oldPackCode?: Maybe<StringFilter>;
-  /** Filter by the object’s `packDate` field. */
-  packDate?: Maybe<StringFilter>;
-  /** Filter by the object’s `hatch` field. */
-  hatch?: Maybe<StringFilter>;
-  /** Filter by the object’s `deck` field. */
-  deck?: Maybe<StringFilter>;
-  /** Filter by the object’s `billOfLading` field. */
-  billOfLading?: Maybe<StringFilter>;
-  /** Filter by the object’s `containerId` field. */
-  containerId?: Maybe<StringFilter>;
-  /** Filter by the object’s `temperatureRecording` field. */
-  temperatureRecording?: Maybe<StringFilter>;
-  /** Filter by the object’s `searchText` field. */
-  searchText?: Maybe<StringFilter>;
-  /** Checks for all expressions in this list. */
-  and?: Maybe<Array<PalletFilter>>;
-  /** Checks for any expressions in this list. */
-  or?: Maybe<Array<PalletFilter>>;
-  /** Negates the expression. */
-  not?: Maybe<PalletFilter>;
-};
-
 /** A `InventoryItem` edge in the connection. */
 export type InventoryItemsEdge = {
   __typename?: 'InventoryItemsEdge';
@@ -21714,6 +21880,133 @@ export type UserMessageCondition = {
   messageDate?: Maybe<Scalars['Datetime']>;
   /** Checks for equality with the object’s `priority` field. */
   priority?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `userId` field. */
+  userId?: Maybe<Scalars['BigInt']>;
+};
+
+/** A connection to a list of `UserRole` values. */
+export type UserRolesConnection = {
+  __typename?: 'UserRolesConnection';
+  /** A list of `UserRole` objects. */
+  nodes: Array<Maybe<UserRole>>;
+  /** A list of edges which contains the `UserRole` and cursor to aid in pagination. */
+  edges: Array<UserRolesEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `UserRole` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+export type UserRole = {
+  __typename?: 'UserRole';
+  roleName: Scalars['String'];
+  userId?: Maybe<Scalars['BigInt']>;
+  /** Reads a single `User` that is related to this `UserRole`. */
+  user?: Maybe<User>;
+};
+
+/** A `UserRole` edge in the connection. */
+export type UserRolesEdge = {
+  __typename?: 'UserRolesEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `UserRole` at the end of the edge. */
+  node?: Maybe<UserRole>;
+};
+
+/** Methods to use when ordering `UserRole`. */
+export enum UserRolesOrderBy {
+  Natural = 'NATURAL',
+  RoleNameAsc = 'ROLE_NAME_ASC',
+  RoleNameDesc = 'ROLE_NAME_DESC',
+  UserIdAsc = 'USER_ID_ASC',
+  UserIdDesc = 'USER_ID_DESC',
+  UserByUserIdIdAsc = 'USER_BY_USER_ID__ID_ASC',
+  UserByUserIdIdDesc = 'USER_BY_USER_ID__ID_DESC',
+  UserByUserIdPinAsc = 'USER_BY_USER_ID__PIN_ASC',
+  UserByUserIdPinDesc = 'USER_BY_USER_ID__PIN_DESC',
+  UserByUserIdPersonContactIdAsc = 'USER_BY_USER_ID__PERSON_CONTACT_ID_ASC',
+  UserByUserIdPersonContactIdDesc = 'USER_BY_USER_ID__PERSON_CONTACT_ID_DESC',
+  UserByUserIdUserCodeAsc = 'USER_BY_USER_ID__USER_CODE_ASC',
+  UserByUserIdUserCodeDesc = 'USER_BY_USER_ID__USER_CODE_DESC'
+}
+
+/**
+ * A condition to be used against `UserRole` object types. All fields are tested
+ * for equality and combined with a logical ‘and.’
+ */
+export type UserRoleCondition = {
+  /** Checks for equality with the object’s `roleName` field. */
+  roleName?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `userId` field. */
+  userId?: Maybe<Scalars['BigInt']>;
+};
+
+/** A connection to a list of `LoadNumber` values. */
+export type LoadNumbersConnection = {
+  __typename?: 'LoadNumbersConnection';
+  /** A list of `LoadNumber` objects. */
+  nodes: Array<Maybe<LoadNumber>>;
+  /** A list of edges which contains the `LoadNumber` and cursor to aid in pagination. */
+  edges: Array<LoadNumbersEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `LoadNumber` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+export type LoadNumber = Node & {
+  __typename?: 'LoadNumber';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  customerId?: Maybe<Scalars['String']>;
+  userId?: Maybe<Scalars['BigInt']>;
+  /** Reads a single `User` that is related to this `LoadNumber`. */
+  user?: Maybe<User>;
+  customer?: Maybe<Customer>;
+  hasOrderEntries?: Maybe<Scalars['Boolean']>;
+};
+
+/** A `LoadNumber` edge in the connection. */
+export type LoadNumbersEdge = {
+  __typename?: 'LoadNumbersEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `LoadNumber` at the end of the edge. */
+  node?: Maybe<LoadNumber>;
+};
+
+/** Methods to use when ordering `LoadNumber`. */
+export enum LoadNumbersOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  CustomerIdAsc = 'CUSTOMER_ID_ASC',
+  CustomerIdDesc = 'CUSTOMER_ID_DESC',
+  UserIdAsc = 'USER_ID_ASC',
+  UserIdDesc = 'USER_ID_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  UserByUserIdIdAsc = 'USER_BY_USER_ID__ID_ASC',
+  UserByUserIdIdDesc = 'USER_BY_USER_ID__ID_DESC',
+  UserByUserIdPinAsc = 'USER_BY_USER_ID__PIN_ASC',
+  UserByUserIdPinDesc = 'USER_BY_USER_ID__PIN_DESC',
+  UserByUserIdPersonContactIdAsc = 'USER_BY_USER_ID__PERSON_CONTACT_ID_ASC',
+  UserByUserIdPersonContactIdDesc = 'USER_BY_USER_ID__PERSON_CONTACT_ID_DESC',
+  UserByUserIdUserCodeAsc = 'USER_BY_USER_ID__USER_CODE_ASC',
+  UserByUserIdUserCodeDesc = 'USER_BY_USER_ID__USER_CODE_DESC'
+}
+
+/**
+ * A condition to be used against `LoadNumber` object types. All fields are tested
+ * for equality and combined with a logical ‘and.’
+ */
+export type LoadNumberCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `customerId` field. */
+  customerId?: Maybe<Scalars['String']>;
   /** Checks for equality with the object’s `userId` field. */
   userId?: Maybe<Scalars['BigInt']>;
 };
@@ -26747,7 +27040,6 @@ export type OrderEntry = Node & {
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars['ID'];
   id: Scalars['BigInt'];
-  orderId?: Maybe<Scalars['BigFloat']>;
   backOrderId?: Maybe<Scalars['BigFloat']>;
   truckLoadId?: Maybe<Scalars['String']>;
   fob?: Maybe<Scalars['Boolean']>;
@@ -26759,6 +27051,8 @@ export type OrderEntry = Node & {
   orderDate?: Maybe<Scalars['Datetime']>;
   reviewUserCode?: Maybe<Scalars['String']>;
   notes?: Maybe<Scalars['String']>;
+  orderId?: Maybe<Scalars['BigFloat']>;
+  reviewDate?: Maybe<Scalars['Datetime']>;
   /** Reads and enables pagination through a set of `OrderEntryItem`. */
   orderEntryItems: OrderEntryItemsConnection;
   billingCustomer?: Maybe<Customer>;
@@ -26812,9 +27106,24 @@ export type OrderEntryItem = Node & {
   plu?: Maybe<Scalars['String']>;
   label?: Maybe<Scalars['String']>;
   notes?: Maybe<Scalars['String']>;
+  reviewLocationId?: Maybe<Scalars['String']>;
+  reviewVesselCode?: Maybe<Scalars['String']>;
+  reviewShipperId?: Maybe<Scalars['String']>;
+  reviewSpecies?: Maybe<Scalars['String']>;
+  reviewVariety?: Maybe<Scalars['String']>;
+  reviewSize?: Maybe<Scalars['String']>;
+  reviewPackType?: Maybe<Scalars['String']>;
+  reviewPlu?: Maybe<Scalars['String']>;
+  reviewLabel?: Maybe<Scalars['String']>;
   /** Reads a single `OrderEntry` that is related to this `OrderEntryItem`. */
   orderEntry?: Maybe<OrderEntry>;
+  reviewShipper?: Maybe<Shipper>;
+  reviewVessel?: Maybe<Vessel>;
+  reviewWarehouse?: Maybe<Warehouse>;
   searchText?: Maybe<Scalars['String']>;
+  shipper?: Maybe<Shipper>;
+  vessel?: Maybe<Vessel>;
+  warehouse?: Maybe<Warehouse>;
 };
 
 /** A `OrderEntryItem` edge in the connection. */
@@ -26861,12 +27170,28 @@ export enum OrderEntryItemsOrderBy {
   LabelDesc = 'LABEL_DESC',
   NotesAsc = 'NOTES_ASC',
   NotesDesc = 'NOTES_DESC',
+  ReviewLocationIdAsc = 'REVIEW_LOCATION_ID_ASC',
+  ReviewLocationIdDesc = 'REVIEW_LOCATION_ID_DESC',
+  ReviewVesselCodeAsc = 'REVIEW_VESSEL_CODE_ASC',
+  ReviewVesselCodeDesc = 'REVIEW_VESSEL_CODE_DESC',
+  ReviewShipperIdAsc = 'REVIEW_SHIPPER_ID_ASC',
+  ReviewShipperIdDesc = 'REVIEW_SHIPPER_ID_DESC',
+  ReviewSpeciesAsc = 'REVIEW_SPECIES_ASC',
+  ReviewSpeciesDesc = 'REVIEW_SPECIES_DESC',
+  ReviewVarietyAsc = 'REVIEW_VARIETY_ASC',
+  ReviewVarietyDesc = 'REVIEW_VARIETY_DESC',
+  ReviewSizeAsc = 'REVIEW_SIZE_ASC',
+  ReviewSizeDesc = 'REVIEW_SIZE_DESC',
+  ReviewPackTypeAsc = 'REVIEW_PACK_TYPE_ASC',
+  ReviewPackTypeDesc = 'REVIEW_PACK_TYPE_DESC',
+  ReviewPluAsc = 'REVIEW_PLU_ASC',
+  ReviewPluDesc = 'REVIEW_PLU_DESC',
+  ReviewLabelAsc = 'REVIEW_LABEL_ASC',
+  ReviewLabelDesc = 'REVIEW_LABEL_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
   OrderEntryByOrderEntryIdIdAsc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__ID_ASC',
   OrderEntryByOrderEntryIdIdDesc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__ID_DESC',
-  OrderEntryByOrderEntryIdOrderIdAsc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__ORDER_ID_ASC',
-  OrderEntryByOrderEntryIdOrderIdDesc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__ORDER_ID_DESC',
   OrderEntryByOrderEntryIdBackOrderIdAsc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__BACK_ORDER_ID_ASC',
   OrderEntryByOrderEntryIdBackOrderIdDesc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__BACK_ORDER_ID_DESC',
   OrderEntryByOrderEntryIdTruckLoadIdAsc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__TRUCK_LOAD_ID_ASC',
@@ -26888,7 +27213,11 @@ export enum OrderEntryItemsOrderBy {
   OrderEntryByOrderEntryIdReviewUserCodeAsc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__REVIEW_USER_CODE_ASC',
   OrderEntryByOrderEntryIdReviewUserCodeDesc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__REVIEW_USER_CODE_DESC',
   OrderEntryByOrderEntryIdNotesAsc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__NOTES_ASC',
-  OrderEntryByOrderEntryIdNotesDesc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__NOTES_DESC'
+  OrderEntryByOrderEntryIdNotesDesc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__NOTES_DESC',
+  OrderEntryByOrderEntryIdOrderIdAsc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__ORDER_ID_ASC',
+  OrderEntryByOrderEntryIdOrderIdDesc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__ORDER_ID_DESC',
+  OrderEntryByOrderEntryIdReviewDateAsc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__REVIEW_DATE_ASC',
+  OrderEntryByOrderEntryIdReviewDateDesc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__REVIEW_DATE_DESC'
 }
 
 /**
@@ -26928,6 +27257,24 @@ export type OrderEntryItemCondition = {
   label?: Maybe<Scalars['String']>;
   /** Checks for equality with the object’s `notes` field. */
   notes?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `reviewLocationId` field. */
+  reviewLocationId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `reviewVesselCode` field. */
+  reviewVesselCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `reviewShipperId` field. */
+  reviewShipperId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `reviewSpecies` field. */
+  reviewSpecies?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `reviewVariety` field. */
+  reviewVariety?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `reviewSize` field. */
+  reviewSize?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `reviewPackType` field. */
+  reviewPackType?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `reviewPlu` field. */
+  reviewPlu?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `reviewLabel` field. */
+  reviewLabel?: Maybe<Scalars['String']>;
 };
 
 /** A filter to be used against `OrderEntryItem` object types. All fields are combined with a logical ‘and.’ */
@@ -26964,6 +27311,24 @@ export type OrderEntryItemFilter = {
   label?: Maybe<StringFilter>;
   /** Filter by the object’s `notes` field. */
   notes?: Maybe<StringFilter>;
+  /** Filter by the object’s `reviewLocationId` field. */
+  reviewLocationId?: Maybe<StringFilter>;
+  /** Filter by the object’s `reviewVesselCode` field. */
+  reviewVesselCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `reviewShipperId` field. */
+  reviewShipperId?: Maybe<StringFilter>;
+  /** Filter by the object’s `reviewSpecies` field. */
+  reviewSpecies?: Maybe<StringFilter>;
+  /** Filter by the object’s `reviewVariety` field. */
+  reviewVariety?: Maybe<StringFilter>;
+  /** Filter by the object’s `reviewSize` field. */
+  reviewSize?: Maybe<StringFilter>;
+  /** Filter by the object’s `reviewPackType` field. */
+  reviewPackType?: Maybe<StringFilter>;
+  /** Filter by the object’s `reviewPlu` field. */
+  reviewPlu?: Maybe<StringFilter>;
+  /** Filter by the object’s `reviewLabel` field. */
+  reviewLabel?: Maybe<StringFilter>;
   /** Filter by the object’s `searchText` field. */
   searchText?: Maybe<StringFilter>;
   /** Filter by the object’s `orderEntry` relation. */
@@ -26980,8 +27345,6 @@ export type OrderEntryItemFilter = {
 export type OrderEntryFilter = {
   /** Filter by the object’s `id` field. */
   id?: Maybe<BigIntFilter>;
-  /** Filter by the object’s `orderId` field. */
-  orderId?: Maybe<BigFloatFilter>;
   /** Filter by the object’s `backOrderId` field. */
   backOrderId?: Maybe<BigFloatFilter>;
   /** Filter by the object’s `truckLoadId` field. */
@@ -27004,6 +27367,10 @@ export type OrderEntryFilter = {
   reviewUserCode?: Maybe<StringFilter>;
   /** Filter by the object’s `notes` field. */
   notes?: Maybe<StringFilter>;
+  /** Filter by the object’s `orderId` field. */
+  orderId?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `reviewDate` field. */
+  reviewDate?: Maybe<DatetimeFilter>;
   /** Filter by the object’s `searchText` field. */
   searchText?: Maybe<StringFilter>;
   /** Filter by the object’s `orderEntryItems` relation. */
@@ -27042,8 +27409,6 @@ export enum OrderEntriesOrderBy {
   Natural = 'NATURAL',
   IdAsc = 'ID_ASC',
   IdDesc = 'ID_DESC',
-  OrderIdAsc = 'ORDER_ID_ASC',
-  OrderIdDesc = 'ORDER_ID_DESC',
   BackOrderIdAsc = 'BACK_ORDER_ID_ASC',
   BackOrderIdDesc = 'BACK_ORDER_ID_DESC',
   TruckLoadIdAsc = 'TRUCK_LOAD_ID_ASC',
@@ -27066,6 +27431,10 @@ export enum OrderEntriesOrderBy {
   ReviewUserCodeDesc = 'REVIEW_USER_CODE_DESC',
   NotesAsc = 'NOTES_ASC',
   NotesDesc = 'NOTES_DESC',
+  OrderIdAsc = 'ORDER_ID_ASC',
+  OrderIdDesc = 'ORDER_ID_DESC',
+  ReviewDateAsc = 'REVIEW_DATE_ASC',
+  ReviewDateDesc = 'REVIEW_DATE_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
   OrderEntryItemsByOrderEntryIdCountAsc = 'ORDER_ENTRY_ITEMS_BY_ORDER_ENTRY_ID__COUNT_ASC',
@@ -27079,8 +27448,6 @@ export enum OrderEntriesOrderBy {
 export type OrderEntryCondition = {
   /** Checks for equality with the object’s `id` field. */
   id?: Maybe<Scalars['BigInt']>;
-  /** Checks for equality with the object’s `orderId` field. */
-  orderId?: Maybe<Scalars['BigFloat']>;
   /** Checks for equality with the object’s `backOrderId` field. */
   backOrderId?: Maybe<Scalars['BigFloat']>;
   /** Checks for equality with the object’s `truckLoadId` field. */
@@ -27103,6 +27470,10 @@ export type OrderEntryCondition = {
   reviewUserCode?: Maybe<Scalars['String']>;
   /** Checks for equality with the object’s `notes` field. */
   notes?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `orderId` field. */
+  orderId?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `reviewDate` field. */
+  reviewDate?: Maybe<Scalars['Datetime']>;
 };
 
 /** Methods to use when ordering `OrderItem`. */
@@ -27194,8 +27565,6 @@ export enum OrderMastersOrderBy {
   PaidCodeDesc = 'PAID_CODE_DESC',
   LoadStatusAsc = 'LOAD_STATUS_ASC',
   LoadStatusDesc = 'LOAD_STATUS_DESC',
-  OrderIdAsc = 'ORDER_ID_ASC',
-  OrderIdDesc = 'ORDER_ID_DESC',
   BackOrderIdAsc = 'BACK_ORDER_ID_ASC',
   BackOrderIdDesc = 'BACK_ORDER_ID_DESC',
   ShipWarehouseIdAsc = 'SHIP_WAREHOUSE_ID_ASC',
@@ -27238,6 +27607,8 @@ export enum OrderMastersOrderBy {
   InvoiceIdDesc = 'INVOICE_ID_DESC',
   NotesAsc = 'NOTES_ASC',
   NotesDesc = 'NOTES_DESC',
+  OrderIdAsc = 'ORDER_ID_ASC',
+  OrderIdDesc = 'ORDER_ID_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
 }
@@ -27255,8 +27626,6 @@ export type OrderMasterCondition = {
   paidCode?: Maybe<Scalars['Boolean']>;
   /** Checks for equality with the object’s `loadStatus` field. */
   loadStatus?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `orderId` field. */
-  orderId?: Maybe<Scalars['BigFloat']>;
   /** Checks for equality with the object’s `backOrderId` field. */
   backOrderId?: Maybe<Scalars['BigFloat']>;
   /** Checks for equality with the object’s `shipWarehouseId` field. */
@@ -27299,6 +27668,8 @@ export type OrderMasterCondition = {
   invoiceId?: Maybe<Scalars['String']>;
   /** Checks for equality with the object’s `notes` field. */
   notes?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `orderId` field. */
+  orderId?: Maybe<Scalars['BigFloat']>;
 };
 
 /** A connection to a list of `OrderPallet` values. */
@@ -27615,8 +27986,8 @@ export type TruckLoadFilter = {
   shipDate?: Maybe<DateFilter>;
   /** Filter by the object’s `cartageVendorId` field. */
   cartageVendorId?: Maybe<StringFilter>;
-  /** Filter by the object’s `hasOrderMasters` field. */
-  hasOrderMasters?: Maybe<IntFilter>;
+  /** Filter by the object’s `count` field. */
+  count?: Maybe<IntFilter>;
   /** Filter by the object’s `searchText` field. */
   searchText?: Maybe<StringFilter>;
   /** Checks for all expressions in this list. */
@@ -27854,6 +28225,8 @@ export type Mutation = {
   createUser?: Maybe<CreateUserPayload>;
   /** Creates a single `UserMessage`. */
   createUserMessage?: Maybe<CreateUserMessagePayload>;
+  /** Creates a single `UserRole`. */
+  createUserRole?: Maybe<CreateUserRolePayload>;
   /** Creates a single `ContactGroup`. */
   createContactGroup?: Maybe<CreateContactGroupPayload>;
   /** Creates a single `ContactGroupPersonContact`. */
@@ -28006,6 +28379,8 @@ export type Mutation = {
   createPriceProduct?: Maybe<CreatePriceProductPayload>;
   /** Creates a single `PriceSize`. */
   createPriceSize?: Maybe<CreatePriceSizePayload>;
+  /** Creates a single `LoadNumber`. */
+  createLoadNumber?: Maybe<CreateLoadNumberPayload>;
   /** Creates a single `OrderEntry`. */
   createOrderEntry?: Maybe<CreateOrderEntryPayload>;
   /** Creates a single `OrderEntryItem`. */
@@ -28028,6 +28403,8 @@ export type Mutation = {
   updateUserMessageByNodeId?: Maybe<UpdateUserMessagePayload>;
   /** Updates a single `UserMessage` using a unique key and a patch. */
   updateUserMessage?: Maybe<UpdateUserMessagePayload>;
+  /** Updates a single `UserRole` using a unique key and a patch. */
+  updateUserRoleByUserIdAndRoleName?: Maybe<UpdateUserRolePayload>;
   /** Updates a single `ContactGroup` using its globally unique id and a patch. */
   updateContactGroupByNodeId?: Maybe<UpdateContactGroupPayload>;
   /** Updates a single `ContactGroup` using a unique key and a patch. */
@@ -28360,6 +28737,10 @@ export type Mutation = {
   updatePriceSizeByNodeId?: Maybe<UpdatePriceSizePayload>;
   /** Updates a single `PriceSize` using a unique key and a patch. */
   updatePriceSize?: Maybe<UpdatePriceSizePayload>;
+  /** Updates a single `LoadNumber` using its globally unique id and a patch. */
+  updateLoadNumberByNodeId?: Maybe<UpdateLoadNumberPayload>;
+  /** Updates a single `LoadNumber` using a unique key and a patch. */
+  updateLoadNumber?: Maybe<UpdateLoadNumberPayload>;
   /** Updates a single `OrderEntry` using its globally unique id and a patch. */
   updateOrderEntryByNodeId?: Maybe<UpdateOrderEntryPayload>;
   /** Updates a single `OrderEntry` using a unique key and a patch. */
@@ -28394,6 +28775,8 @@ export type Mutation = {
   deleteUserMessageByNodeId?: Maybe<DeleteUserMessagePayload>;
   /** Deletes a single `UserMessage` using a unique key. */
   deleteUserMessage?: Maybe<DeleteUserMessagePayload>;
+  /** Deletes a single `UserRole` using a unique key. */
+  deleteUserRoleByUserIdAndRoleName?: Maybe<DeleteUserRolePayload>;
   /** Deletes a single `ContactGroup` using its globally unique id. */
   deleteContactGroupByNodeId?: Maybe<DeleteContactGroupPayload>;
   /** Deletes a single `ContactGroup` using a unique key. */
@@ -28726,6 +29109,10 @@ export type Mutation = {
   deletePriceSizeByNodeId?: Maybe<DeletePriceSizePayload>;
   /** Deletes a single `PriceSize` using a unique key. */
   deletePriceSize?: Maybe<DeletePriceSizePayload>;
+  /** Deletes a single `LoadNumber` using its globally unique id. */
+  deleteLoadNumberByNodeId?: Maybe<DeleteLoadNumberPayload>;
+  /** Deletes a single `LoadNumber` using a unique key. */
+  deleteLoadNumber?: Maybe<DeleteLoadNumberPayload>;
   /** Deletes a single `OrderEntry` using its globally unique id. */
   deleteOrderEntryByNodeId?: Maybe<DeleteOrderEntryPayload>;
   /** Deletes a single `OrderEntry` using a unique key. */
@@ -28826,6 +29213,7 @@ export type Mutation = {
   bulkDeleteOrderMaster?: Maybe<BulkDeleteOrderMasterPayload>;
   bulkDeleteOrderPallet?: Maybe<BulkDeleteOrderPalletPayload>;
   bulkDeleteTruckLoad?: Maybe<BulkDeleteTruckLoadPayload>;
+  bulkUpsertLoadNumber?: Maybe<BulkUpsertLoadNumberPayload>;
   bulkUpsertOrderItem?: Maybe<BulkUpsertOrderItemPayload>;
   bulkUpsertOrderMaster?: Maybe<BulkUpsertOrderMasterPayload>;
   bulkUpsertOrderPallet?: Maybe<BulkUpsertOrderPalletPayload>;
@@ -28834,6 +29222,8 @@ export type Mutation = {
   upsertUser?: Maybe<UpsertUserPayload>;
   /** Upserts a single `UserMessage`. */
   upsertUserMessage?: Maybe<UpsertUserMessagePayload>;
+  /** Upserts a single `UserRole`. */
+  upsertUserRole?: Maybe<UpsertUserRolePayload>;
   /** Upserts a single `ContactGroup`. */
   upsertContactGroup?: Maybe<UpsertContactGroupPayload>;
   /** Upserts a single `ContactGroupPersonContact`. */
@@ -28986,6 +29376,8 @@ export type Mutation = {
   upsertPriceProduct?: Maybe<UpsertPriceProductPayload>;
   /** Upserts a single `PriceSize`. */
   upsertPriceSize?: Maybe<UpsertPriceSizePayload>;
+  /** Upserts a single `LoadNumber`. */
+  upsertLoadNumber?: Maybe<UpsertLoadNumberPayload>;
   /** Upserts a single `OrderEntry`. */
   upsertOrderEntry?: Maybe<UpsertOrderEntryPayload>;
   /** Upserts a single `OrderEntryItem`. */
@@ -29012,6 +29404,12 @@ export type MutationCreateUserArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreateUserMessageArgs = {
   input: CreateUserMessageInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateUserRoleArgs = {
+  input: CreateUserRoleInput;
 };
 
 
@@ -29472,6 +29870,12 @@ export type MutationCreatePriceSizeArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateLoadNumberArgs = {
+  input: CreateLoadNumberInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreateOrderEntryArgs = {
   input: CreateOrderEntryInput;
 };
@@ -29534,6 +29938,12 @@ export type MutationUpdateUserMessageByNodeIdArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateUserMessageArgs = {
   input: UpdateUserMessageInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateUserRoleByUserIdAndRoleNameArgs = {
+  input: UpdateUserRoleByUserIdAndRoleNameInput;
 };
 
 
@@ -30534,6 +30944,18 @@ export type MutationUpdatePriceSizeArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateLoadNumberByNodeIdArgs = {
+  input: UpdateLoadNumberByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateLoadNumberArgs = {
+  input: UpdateLoadNumberInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateOrderEntryByNodeIdArgs = {
   input: UpdateOrderEntryByNodeIdInput;
 };
@@ -30632,6 +31054,12 @@ export type MutationDeleteUserMessageByNodeIdArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteUserMessageArgs = {
   input: DeleteUserMessageInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteUserRoleByUserIdAndRoleNameArgs = {
+  input: DeleteUserRoleByUserIdAndRoleNameInput;
 };
 
 
@@ -31632,6 +32060,18 @@ export type MutationDeletePriceSizeArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteLoadNumberByNodeIdArgs = {
+  input: DeleteLoadNumberByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteLoadNumberArgs = {
+  input: DeleteLoadNumberInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteOrderEntryByNodeIdArgs = {
   input: DeleteOrderEntryByNodeIdInput;
 };
@@ -32160,6 +32600,12 @@ export type MutationBulkDeleteTruckLoadArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationBulkUpsertLoadNumberArgs = {
+  input: BulkUpsertLoadNumberInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationBulkUpsertOrderItemArgs = {
   input: BulkUpsertOrderItemInput;
 };
@@ -32192,6 +32638,12 @@ export type MutationUpsertUserArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpsertUserMessageArgs = {
   input: UpsertUserMessageInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpsertUserRoleArgs = {
+  input: UpsertUserRoleInput;
 };
 
 
@@ -32652,6 +33104,12 @@ export type MutationUpsertPriceSizeArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpsertLoadNumberArgs = {
+  input: UpsertLoadNumberInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpsertOrderEntryArgs = {
   input: UpsertOrderEntryInput;
 };
@@ -32742,6 +33200,8 @@ export type UserInput = {
   personContactToPersonContactId?: Maybe<UserPersonContactIdFkeyInput>;
   contactGroupsUsingId?: Maybe<ContactGroupUserIdFkeyInverseInput>;
   userMessagesUsingId?: Maybe<UserMessageUserIdFkeyInverseInput>;
+  userRolesUsingId?: Maybe<UserRoleUserIdFkeyInverseInput>;
+  loadNumbersUsingId?: Maybe<LoadNumberUserIdFkeyInverseInput>;
 };
 
 /** Input for the nested mutation of `personContact` in the `UserInput` mutation. */
@@ -33001,6 +33461,8 @@ export type UpdateUserOnContactGroupForContactGroupUserIdFkeyPatch = {
   personContactToPersonContactId?: Maybe<UserPersonContactIdFkeyInput>;
   contactGroupsUsingId?: Maybe<ContactGroupUserIdFkeyInverseInput>;
   userMessagesUsingId?: Maybe<UserMessageUserIdFkeyInverseInput>;
+  userRolesUsingId?: Maybe<UserRoleUserIdFkeyInverseInput>;
+  loadNumbersUsingId?: Maybe<LoadNumberUserIdFkeyInverseInput>;
 };
 
 /** Input for the nested mutation of `contactGroup` in the `UserInput` mutation. */
@@ -33162,6 +33624,8 @@ export type UpdateUserOnUserForUserPersonContactIdFkeyPatch = {
   personContactToPersonContactId?: Maybe<UserPersonContactIdFkeyInput>;
   contactGroupsUsingId?: Maybe<ContactGroupUserIdFkeyInverseInput>;
   userMessagesUsingId?: Maybe<UserMessageUserIdFkeyInverseInput>;
+  userRolesUsingId?: Maybe<UserRoleUserIdFkeyInverseInput>;
+  loadNumbersUsingId?: Maybe<LoadNumberUserIdFkeyInverseInput>;
 };
 
 /** Input for the nested mutation of `userMessage` in the `UserInput` mutation. */
@@ -33266,6 +33730,280 @@ export type UpdateUserOnUserMessageForUserMessageUserIdFkeyPatch = {
   personContactToPersonContactId?: Maybe<UserPersonContactIdFkeyInput>;
   contactGroupsUsingId?: Maybe<ContactGroupUserIdFkeyInverseInput>;
   userMessagesUsingId?: Maybe<UserMessageUserIdFkeyInverseInput>;
+  userRolesUsingId?: Maybe<UserRoleUserIdFkeyInverseInput>;
+  loadNumbersUsingId?: Maybe<LoadNumberUserIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `userRole` in the `UserInput` mutation. */
+export type UserRoleUserIdFkeyInverseInput = {
+  /** The primary key(s) for `userRole` for the far side of the relationship. */
+  connectByUserIdAndRoleName?: Maybe<Array<UserRoleUserRoleUserIdRoleNameKeyConnect>>;
+  /** The primary key(s) and patch data for `userRole` for the far side of the relationship. */
+  updateByUserIdAndRoleName?: Maybe<Array<UserRoleOnUserRoleForUserRoleUserIdFkeyUsingUserRoleUserIdRoleNameKeyUpdate>>;
+  /** A `UserRoleInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<UserRoleUserIdFkeyUserRoleCreateInput>>;
+};
+
+/** The fields on `userRole` to look up the row to connect. */
+export type UserRoleUserRoleUserIdRoleNameKeyConnect = {
+  userId: Scalars['BigInt'];
+  roleName: Scalars['String'];
+};
+
+/** The fields on `userRole` to look up the row to update. */
+export type UserRoleOnUserRoleForUserRoleUserIdFkeyUsingUserRoleUserIdRoleNameKeyUpdate = {
+  /** An object where the defined keys will be set on the `userRole` being updated. */
+  patch: UpdateUserRoleOnUserRoleForUserRoleUserIdFkeyPatch;
+  userId: Scalars['BigInt'];
+  roleName: Scalars['String'];
+};
+
+/** An object where the defined keys will be set on the `userRole` being updated. */
+export type UpdateUserRoleOnUserRoleForUserRoleUserIdFkeyPatch = {
+  roleName?: Maybe<Scalars['String']>;
+  userToUserId?: Maybe<UserRoleUserIdFkeyInput>;
+};
+
+/** Input for the nested mutation of `user` in the `UserRoleInput` mutation. */
+export type UserRoleUserIdFkeyInput = {
+  /** The primary key(s) for `user` for the far side of the relationship. */
+  connectById?: Maybe<UserUserPkeyConnect>;
+  /** The primary key(s) for `user` for the far side of the relationship. */
+  connectByPin?: Maybe<UserUserPinKeyConnect>;
+  /** The primary key(s) for `user` for the far side of the relationship. */
+  connectByNodeId?: Maybe<UserNodeIdConnect>;
+  /** The primary key(s) for `user` for the far side of the relationship. */
+  deleteById?: Maybe<UserUserPkeyDelete>;
+  /** The primary key(s) for `user` for the far side of the relationship. */
+  deleteByPin?: Maybe<UserUserPinKeyDelete>;
+  /** The primary key(s) for `user` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<UserNodeIdDelete>;
+  /** The primary key(s) and patch data for `user` for the far side of the relationship. */
+  updateById?: Maybe<UserOnUserRoleForUserRoleUserIdFkeyUsingUserPkeyUpdate>;
+  /** The primary key(s) and patch data for `user` for the far side of the relationship. */
+  updateByPin?: Maybe<UserOnUserRoleForUserRoleUserIdFkeyUsingUserPinKeyUpdate>;
+  /** The primary key(s) and patch data for `user` for the far side of the relationship. */
+  updateByNodeId?: Maybe<UserRoleOnUserRoleForUserRoleUserIdFkeyNodeIdUpdate>;
+  /** A `UserInput` object that will be created and connected to this object. */
+  create?: Maybe<UserRoleUserIdFkeyUserCreateInput>;
+};
+
+/** The fields on `user` to look up the row to update. */
+export type UserOnUserRoleForUserRoleUserIdFkeyUsingUserPkeyUpdate = {
+  /** An object where the defined keys will be set on the `user` being updated. */
+  patch: UpdateUserOnUserRoleForUserRoleUserIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `user` being updated. */
+export type UpdateUserOnUserRoleForUserRoleUserIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  pin?: Maybe<Scalars['String']>;
+  personContactId?: Maybe<Scalars['BigInt']>;
+  userCode?: Maybe<Scalars['String']>;
+  personContactToPersonContactId?: Maybe<UserPersonContactIdFkeyInput>;
+  contactGroupsUsingId?: Maybe<ContactGroupUserIdFkeyInverseInput>;
+  userMessagesUsingId?: Maybe<UserMessageUserIdFkeyInverseInput>;
+  userRolesUsingId?: Maybe<UserRoleUserIdFkeyInverseInput>;
+  loadNumbersUsingId?: Maybe<LoadNumberUserIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `loadNumber` in the `UserInput` mutation. */
+export type LoadNumberUserIdFkeyInverseInput = {
+  /** Flag indicating whether all other `loadNumber` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `loadNumber` for the far side of the relationship. */
+  connectById?: Maybe<Array<LoadNumberLoadNumberPkeyConnect>>;
+  /** The primary key(s) for `loadNumber` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<LoadNumberNodeIdConnect>>;
+  /** The primary key(s) for `loadNumber` for the far side of the relationship. */
+  deleteById?: Maybe<Array<LoadNumberLoadNumberPkeyDelete>>;
+  /** The primary key(s) for `loadNumber` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<LoadNumberNodeIdDelete>>;
+  /** The primary key(s) and patch data for `loadNumber` for the far side of the relationship. */
+  updateById?: Maybe<Array<LoadNumberOnLoadNumberForLoadNumberUserIdFkeyUsingLoadNumberPkeyUpdate>>;
+  /** The primary key(s) and patch data for `loadNumber` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<UserOnLoadNumberForLoadNumberUserIdFkeyNodeIdUpdate>>;
+  /** A `LoadNumberInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<LoadNumberUserIdFkeyLoadNumberCreateInput>>;
+};
+
+/** The fields on `loadNumber` to look up the row to connect. */
+export type LoadNumberLoadNumberPkeyConnect = {
+  id: Scalars['BigInt'];
+};
+
+/** The globally unique `ID` look up for the row to connect. */
+export type LoadNumberNodeIdConnect = {
+  /** The globally unique `ID` which identifies a single `loadNumber` to be connected. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `loadNumber` to look up the row to delete. */
+export type LoadNumberLoadNumberPkeyDelete = {
+  id: Scalars['BigInt'];
+};
+
+/** The globally unique `ID` look up for the row to delete. */
+export type LoadNumberNodeIdDelete = {
+  /** The globally unique `ID` which identifies a single `loadNumber` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `loadNumber` to look up the row to update. */
+export type LoadNumberOnLoadNumberForLoadNumberUserIdFkeyUsingLoadNumberPkeyUpdate = {
+  /** An object where the defined keys will be set on the `loadNumber` being updated. */
+  patch: UpdateLoadNumberOnLoadNumberForLoadNumberUserIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `loadNumber` being updated. */
+export type UpdateLoadNumberOnLoadNumberForLoadNumberUserIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  customerId?: Maybe<Scalars['String']>;
+  userToUserId?: Maybe<LoadNumberUserIdFkeyInput>;
+};
+
+/** Input for the nested mutation of `user` in the `LoadNumberInput` mutation. */
+export type LoadNumberUserIdFkeyInput = {
+  /** The primary key(s) for `user` for the far side of the relationship. */
+  connectById?: Maybe<UserUserPkeyConnect>;
+  /** The primary key(s) for `user` for the far side of the relationship. */
+  connectByPin?: Maybe<UserUserPinKeyConnect>;
+  /** The primary key(s) for `user` for the far side of the relationship. */
+  connectByNodeId?: Maybe<UserNodeIdConnect>;
+  /** The primary key(s) for `user` for the far side of the relationship. */
+  deleteById?: Maybe<UserUserPkeyDelete>;
+  /** The primary key(s) for `user` for the far side of the relationship. */
+  deleteByPin?: Maybe<UserUserPinKeyDelete>;
+  /** The primary key(s) for `user` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<UserNodeIdDelete>;
+  /** The primary key(s) and patch data for `user` for the far side of the relationship. */
+  updateById?: Maybe<UserOnLoadNumberForLoadNumberUserIdFkeyUsingUserPkeyUpdate>;
+  /** The primary key(s) and patch data for `user` for the far side of the relationship. */
+  updateByPin?: Maybe<UserOnLoadNumberForLoadNumberUserIdFkeyUsingUserPinKeyUpdate>;
+  /** The primary key(s) and patch data for `user` for the far side of the relationship. */
+  updateByNodeId?: Maybe<LoadNumberOnLoadNumberForLoadNumberUserIdFkeyNodeIdUpdate>;
+  /** A `UserInput` object that will be created and connected to this object. */
+  create?: Maybe<LoadNumberUserIdFkeyUserCreateInput>;
+};
+
+/** The fields on `user` to look up the row to update. */
+export type UserOnLoadNumberForLoadNumberUserIdFkeyUsingUserPkeyUpdate = {
+  /** An object where the defined keys will be set on the `user` being updated. */
+  patch: UpdateUserOnLoadNumberForLoadNumberUserIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `user` being updated. */
+export type UpdateUserOnLoadNumberForLoadNumberUserIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  pin?: Maybe<Scalars['String']>;
+  personContactId?: Maybe<Scalars['BigInt']>;
+  userCode?: Maybe<Scalars['String']>;
+  personContactToPersonContactId?: Maybe<UserPersonContactIdFkeyInput>;
+  contactGroupsUsingId?: Maybe<ContactGroupUserIdFkeyInverseInput>;
+  userMessagesUsingId?: Maybe<UserMessageUserIdFkeyInverseInput>;
+  userRolesUsingId?: Maybe<UserRoleUserIdFkeyInverseInput>;
+  loadNumbersUsingId?: Maybe<LoadNumberUserIdFkeyInverseInput>;
+};
+
+/** The fields on `user` to look up the row to update. */
+export type UserOnLoadNumberForLoadNumberUserIdFkeyUsingUserPinKeyUpdate = {
+  /** An object where the defined keys will be set on the `user` being updated. */
+  patch: UpdateUserOnLoadNumberForLoadNumberUserIdFkeyPatch;
+  pin: Scalars['String'];
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type LoadNumberOnLoadNumberForLoadNumberUserIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `user` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `user` being updated. */
+  patch: UserPatch;
+};
+
+/** Represents an update to a `User`. Fields that are set will be updated. */
+export type UserPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  pin?: Maybe<Scalars['String']>;
+  personContactId?: Maybe<Scalars['BigInt']>;
+  userCode?: Maybe<Scalars['String']>;
+  personContactToPersonContactId?: Maybe<UserPersonContactIdFkeyInput>;
+  contactGroupsUsingId?: Maybe<ContactGroupUserIdFkeyInverseInput>;
+  userMessagesUsingId?: Maybe<UserMessageUserIdFkeyInverseInput>;
+  userRolesUsingId?: Maybe<UserRoleUserIdFkeyInverseInput>;
+  loadNumbersUsingId?: Maybe<LoadNumberUserIdFkeyInverseInput>;
+};
+
+/** The `user` to be created by this mutation. */
+export type LoadNumberUserIdFkeyUserCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  pin?: Maybe<Scalars['String']>;
+  personContactId?: Maybe<Scalars['BigInt']>;
+  userCode?: Maybe<Scalars['String']>;
+  personContactToPersonContactId?: Maybe<UserPersonContactIdFkeyInput>;
+  contactGroupsUsingId?: Maybe<ContactGroupUserIdFkeyInverseInput>;
+  userMessagesUsingId?: Maybe<UserMessageUserIdFkeyInverseInput>;
+  userRolesUsingId?: Maybe<UserRoleUserIdFkeyInverseInput>;
+  loadNumbersUsingId?: Maybe<LoadNumberUserIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type UserOnLoadNumberForLoadNumberUserIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `loadNumber` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `loadNumber` being updated. */
+  patch: LoadNumberPatch;
+};
+
+/** Represents an update to a `LoadNumber`. Fields that are set will be updated. */
+export type LoadNumberPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  customerId?: Maybe<Scalars['String']>;
+  userId?: Maybe<Scalars['BigInt']>;
+  userToUserId?: Maybe<LoadNumberUserIdFkeyInput>;
+};
+
+/** The `loadNumber` to be created by this mutation. */
+export type LoadNumberUserIdFkeyLoadNumberCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  customerId?: Maybe<Scalars['String']>;
+  userToUserId?: Maybe<LoadNumberUserIdFkeyInput>;
+};
+
+/** The fields on `user` to look up the row to update. */
+export type UserOnUserRoleForUserRoleUserIdFkeyUsingUserPinKeyUpdate = {
+  /** An object where the defined keys will be set on the `user` being updated. */
+  patch: UpdateUserOnUserRoleForUserRoleUserIdFkeyPatch;
+  pin: Scalars['String'];
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type UserRoleOnUserRoleForUserRoleUserIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `user` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `user` being updated. */
+  patch: UserPatch;
+};
+
+/** The `user` to be created by this mutation. */
+export type UserRoleUserIdFkeyUserCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  pin?: Maybe<Scalars['String']>;
+  personContactId?: Maybe<Scalars['BigInt']>;
+  userCode?: Maybe<Scalars['String']>;
+  personContactToPersonContactId?: Maybe<UserPersonContactIdFkeyInput>;
+  contactGroupsUsingId?: Maybe<ContactGroupUserIdFkeyInverseInput>;
+  userMessagesUsingId?: Maybe<UserMessageUserIdFkeyInverseInput>;
+  userRolesUsingId?: Maybe<UserRoleUserIdFkeyInverseInput>;
+  loadNumbersUsingId?: Maybe<LoadNumberUserIdFkeyInverseInput>;
+};
+
+/** The `userRole` to be created by this mutation. */
+export type UserRoleUserIdFkeyUserRoleCreateInput = {
+  roleName: Scalars['String'];
+  userToUserId?: Maybe<UserRoleUserIdFkeyInput>;
 };
 
 /** The fields on `user` to look up the row to update. */
@@ -33283,17 +34021,6 @@ export type UserMessageOnUserMessageForUserMessageUserIdFkeyNodeIdUpdate = {
   patch: UserPatch;
 };
 
-/** Represents an update to a `User`. Fields that are set will be updated. */
-export type UserPatch = {
-  id?: Maybe<Scalars['BigInt']>;
-  pin?: Maybe<Scalars['String']>;
-  personContactId?: Maybe<Scalars['BigInt']>;
-  userCode?: Maybe<Scalars['String']>;
-  personContactToPersonContactId?: Maybe<UserPersonContactIdFkeyInput>;
-  contactGroupsUsingId?: Maybe<ContactGroupUserIdFkeyInverseInput>;
-  userMessagesUsingId?: Maybe<UserMessageUserIdFkeyInverseInput>;
-};
-
 /** The `user` to be created by this mutation. */
 export type UserMessageUserIdFkeyUserCreateInput = {
   id?: Maybe<Scalars['BigInt']>;
@@ -33303,6 +34030,8 @@ export type UserMessageUserIdFkeyUserCreateInput = {
   personContactToPersonContactId?: Maybe<UserPersonContactIdFkeyInput>;
   contactGroupsUsingId?: Maybe<ContactGroupUserIdFkeyInverseInput>;
   userMessagesUsingId?: Maybe<UserMessageUserIdFkeyInverseInput>;
+  userRolesUsingId?: Maybe<UserRoleUserIdFkeyInverseInput>;
+  loadNumbersUsingId?: Maybe<LoadNumberUserIdFkeyInverseInput>;
 };
 
 /** The globally unique `ID` look up for the row to update. */
@@ -33363,6 +34092,8 @@ export type UserPersonContactIdFkeyUserCreateInput = {
   personContactToPersonContactId?: Maybe<UserPersonContactIdFkeyInput>;
   contactGroupsUsingId?: Maybe<ContactGroupUserIdFkeyInverseInput>;
   userMessagesUsingId?: Maybe<UserMessageUserIdFkeyInverseInput>;
+  userRolesUsingId?: Maybe<UserRoleUserIdFkeyInverseInput>;
+  loadNumbersUsingId?: Maybe<LoadNumberUserIdFkeyInverseInput>;
 };
 
 /** Input for the nested mutation of `customerPersonContact` in the `PersonContactInput` mutation. */
@@ -42478,6 +43209,8 @@ export type ContactGroupUserIdFkeyUserCreateInput = {
   personContactToPersonContactId?: Maybe<UserPersonContactIdFkeyInput>;
   contactGroupsUsingId?: Maybe<ContactGroupUserIdFkeyInverseInput>;
   userMessagesUsingId?: Maybe<UserMessageUserIdFkeyInverseInput>;
+  userRolesUsingId?: Maybe<UserRoleUserIdFkeyInverseInput>;
+  loadNumbersUsingId?: Maybe<LoadNumberUserIdFkeyInverseInput>;
 };
 
 /** The globally unique `ID` look up for the row to update. */
@@ -42590,6 +43323,48 @@ export type UserMessageInput = {
   priority?: Maybe<Scalars['BigFloat']>;
   userId?: Maybe<Scalars['BigInt']>;
   userToUserId?: Maybe<UserMessageUserIdFkeyInput>;
+};
+
+/** The output of our create `UserRole` mutation. */
+export type CreateUserRolePayload = {
+  __typename?: 'CreateUserRolePayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `UserRole` that was created by this mutation. */
+  userRole?: Maybe<UserRole>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `User` that is related to this `UserRole`. */
+  user?: Maybe<User>;
+  /** An edge for our `UserRole`. May be used by Relay 1. */
+  userRoleEdge?: Maybe<UserRolesEdge>;
+};
+
+
+/** The output of our create `UserRole` mutation. */
+export type CreateUserRolePayloadUserRoleEdgeArgs = {
+  orderBy?: Maybe<Array<UserRolesOrderBy>>;
+};
+
+/** All input for the create `UserRole` mutation. */
+export type CreateUserRoleInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `UserRole` to be created by this mutation. */
+  userRole: UserRoleInput;
+};
+
+/** An input for mutations affecting `UserRole` */
+export type UserRoleInput = {
+  roleName: Scalars['String'];
+  userId?: Maybe<Scalars['BigInt']>;
+  userToUserId?: Maybe<UserRoleUserIdFkeyInput>;
 };
 
 /** The output of our create `ContactGroup` mutation. */
@@ -47752,6 +48527,49 @@ export type PriceSizeInput = {
   priceEntriesUsingId?: Maybe<PriceEntrySizeIdFkeyInverseInput>;
 };
 
+/** The output of our create `LoadNumber` mutation. */
+export type CreateLoadNumberPayload = {
+  __typename?: 'CreateLoadNumberPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `LoadNumber` that was created by this mutation. */
+  loadNumber?: Maybe<LoadNumber>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `User` that is related to this `LoadNumber`. */
+  user?: Maybe<User>;
+  /** An edge for our `LoadNumber`. May be used by Relay 1. */
+  loadNumberEdge?: Maybe<LoadNumbersEdge>;
+};
+
+
+/** The output of our create `LoadNumber` mutation. */
+export type CreateLoadNumberPayloadLoadNumberEdgeArgs = {
+  orderBy?: Maybe<Array<LoadNumbersOrderBy>>;
+};
+
+/** All input for the create `LoadNumber` mutation. */
+export type CreateLoadNumberInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `LoadNumber` to be created by this mutation. */
+  loadNumber: LoadNumberInput;
+};
+
+/** An input for mutations affecting `LoadNumber` */
+export type LoadNumberInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  customerId?: Maybe<Scalars['String']>;
+  userId?: Maybe<Scalars['BigInt']>;
+  userToUserId?: Maybe<LoadNumberUserIdFkeyInput>;
+};
+
 /** The output of our create `OrderEntry` mutation. */
 export type CreateOrderEntryPayload = {
   __typename?: 'CreateOrderEntryPayload';
@@ -47788,7 +48606,6 @@ export type CreateOrderEntryInput = {
 /** An input for mutations affecting `OrderEntry` */
 export type OrderEntryInput = {
   id?: Maybe<Scalars['BigInt']>;
-  orderId?: Maybe<Scalars['BigFloat']>;
   backOrderId?: Maybe<Scalars['BigFloat']>;
   truckLoadId?: Maybe<Scalars['String']>;
   fob?: Maybe<Scalars['Boolean']>;
@@ -47800,6 +48617,8 @@ export type OrderEntryInput = {
   orderDate?: Maybe<Scalars['Datetime']>;
   reviewUserCode?: Maybe<Scalars['String']>;
   notes?: Maybe<Scalars['String']>;
+  orderId?: Maybe<Scalars['BigFloat']>;
+  reviewDate?: Maybe<Scalars['Datetime']>;
   orderEntryItemsUsingId?: Maybe<OrderEntryItemOrderEntryIdFkeyInverseInput>;
 };
 
@@ -47869,6 +48688,15 @@ export type UpdateOrderEntryItemOnOrderEntryItemForOrderEntryItemOrderEntryIdFke
   plu?: Maybe<Scalars['String']>;
   label?: Maybe<Scalars['String']>;
   notes?: Maybe<Scalars['String']>;
+  reviewLocationId?: Maybe<Scalars['String']>;
+  reviewVesselCode?: Maybe<Scalars['String']>;
+  reviewShipperId?: Maybe<Scalars['String']>;
+  reviewSpecies?: Maybe<Scalars['String']>;
+  reviewVariety?: Maybe<Scalars['String']>;
+  reviewSize?: Maybe<Scalars['String']>;
+  reviewPackType?: Maybe<Scalars['String']>;
+  reviewPlu?: Maybe<Scalars['String']>;
+  reviewLabel?: Maybe<Scalars['String']>;
   orderEntryToOrderEntryId?: Maybe<OrderEntryItemOrderEntryIdFkeyInput>;
 };
 
@@ -47922,7 +48750,6 @@ export type OrderEntryOnOrderEntryItemForOrderEntryItemOrderEntryIdFkeyUsingOrde
 /** An object where the defined keys will be set on the `orderEntry` being updated. */
 export type UpdateOrderEntryOnOrderEntryItemForOrderEntryItemOrderEntryIdFkeyPatch = {
   id?: Maybe<Scalars['BigInt']>;
-  orderId?: Maybe<Scalars['BigFloat']>;
   backOrderId?: Maybe<Scalars['BigFloat']>;
   truckLoadId?: Maybe<Scalars['String']>;
   fob?: Maybe<Scalars['Boolean']>;
@@ -47934,6 +48761,8 @@ export type UpdateOrderEntryOnOrderEntryItemForOrderEntryItemOrderEntryIdFkeyPat
   orderDate?: Maybe<Scalars['Datetime']>;
   reviewUserCode?: Maybe<Scalars['String']>;
   notes?: Maybe<Scalars['String']>;
+  orderId?: Maybe<Scalars['BigFloat']>;
+  reviewDate?: Maybe<Scalars['Datetime']>;
   orderEntryItemsUsingId?: Maybe<OrderEntryItemOrderEntryIdFkeyInverseInput>;
 };
 
@@ -47948,7 +48777,6 @@ export type OrderEntryItemOnOrderEntryItemForOrderEntryItemOrderEntryIdFkeyNodeI
 /** Represents an update to a `OrderEntry`. Fields that are set will be updated. */
 export type OrderEntryPatch = {
   id?: Maybe<Scalars['BigInt']>;
-  orderId?: Maybe<Scalars['BigFloat']>;
   backOrderId?: Maybe<Scalars['BigFloat']>;
   truckLoadId?: Maybe<Scalars['String']>;
   fob?: Maybe<Scalars['Boolean']>;
@@ -47960,13 +48788,14 @@ export type OrderEntryPatch = {
   orderDate?: Maybe<Scalars['Datetime']>;
   reviewUserCode?: Maybe<Scalars['String']>;
   notes?: Maybe<Scalars['String']>;
+  orderId?: Maybe<Scalars['BigFloat']>;
+  reviewDate?: Maybe<Scalars['Datetime']>;
   orderEntryItemsUsingId?: Maybe<OrderEntryItemOrderEntryIdFkeyInverseInput>;
 };
 
 /** The `orderEntry` to be created by this mutation. */
 export type OrderEntryItemOrderEntryIdFkeyOrderEntryCreateInput = {
   id?: Maybe<Scalars['BigInt']>;
-  orderId?: Maybe<Scalars['BigFloat']>;
   backOrderId?: Maybe<Scalars['BigFloat']>;
   truckLoadId?: Maybe<Scalars['String']>;
   fob?: Maybe<Scalars['Boolean']>;
@@ -47978,6 +48807,8 @@ export type OrderEntryItemOrderEntryIdFkeyOrderEntryCreateInput = {
   orderDate?: Maybe<Scalars['Datetime']>;
   reviewUserCode?: Maybe<Scalars['String']>;
   notes?: Maybe<Scalars['String']>;
+  orderId?: Maybe<Scalars['BigFloat']>;
+  reviewDate?: Maybe<Scalars['Datetime']>;
   orderEntryItemsUsingId?: Maybe<OrderEntryItemOrderEntryIdFkeyInverseInput>;
 };
 
@@ -48007,6 +48838,15 @@ export type OrderEntryItemPatch = {
   plu?: Maybe<Scalars['String']>;
   label?: Maybe<Scalars['String']>;
   notes?: Maybe<Scalars['String']>;
+  reviewLocationId?: Maybe<Scalars['String']>;
+  reviewVesselCode?: Maybe<Scalars['String']>;
+  reviewShipperId?: Maybe<Scalars['String']>;
+  reviewSpecies?: Maybe<Scalars['String']>;
+  reviewVariety?: Maybe<Scalars['String']>;
+  reviewSize?: Maybe<Scalars['String']>;
+  reviewPackType?: Maybe<Scalars['String']>;
+  reviewPlu?: Maybe<Scalars['String']>;
+  reviewLabel?: Maybe<Scalars['String']>;
   orderEntryToOrderEntryId?: Maybe<OrderEntryItemOrderEntryIdFkeyInput>;
 };
 
@@ -48027,6 +48867,15 @@ export type OrderEntryItemOrderEntryIdFkeyOrderEntryItemCreateInput = {
   plu?: Maybe<Scalars['String']>;
   label?: Maybe<Scalars['String']>;
   notes?: Maybe<Scalars['String']>;
+  reviewLocationId?: Maybe<Scalars['String']>;
+  reviewVesselCode?: Maybe<Scalars['String']>;
+  reviewShipperId?: Maybe<Scalars['String']>;
+  reviewSpecies?: Maybe<Scalars['String']>;
+  reviewVariety?: Maybe<Scalars['String']>;
+  reviewSize?: Maybe<Scalars['String']>;
+  reviewPackType?: Maybe<Scalars['String']>;
+  reviewPlu?: Maybe<Scalars['String']>;
+  reviewLabel?: Maybe<Scalars['String']>;
   orderEntryToOrderEntryId?: Maybe<OrderEntryItemOrderEntryIdFkeyInput>;
 };
 
@@ -48083,6 +48932,15 @@ export type OrderEntryItemInput = {
   plu?: Maybe<Scalars['String']>;
   label?: Maybe<Scalars['String']>;
   notes?: Maybe<Scalars['String']>;
+  reviewLocationId?: Maybe<Scalars['String']>;
+  reviewVesselCode?: Maybe<Scalars['String']>;
+  reviewShipperId?: Maybe<Scalars['String']>;
+  reviewSpecies?: Maybe<Scalars['String']>;
+  reviewVariety?: Maybe<Scalars['String']>;
+  reviewSize?: Maybe<Scalars['String']>;
+  reviewPackType?: Maybe<Scalars['String']>;
+  reviewPlu?: Maybe<Scalars['String']>;
+  reviewLabel?: Maybe<Scalars['String']>;
   orderEntryToOrderEntryId?: Maybe<OrderEntryItemOrderEntryIdFkeyInput>;
 };
 
@@ -48178,7 +49036,6 @@ export type OrderMasterInput = {
   orderStatus?: Maybe<Scalars['String']>;
   paidCode?: Maybe<Scalars['Boolean']>;
   loadStatus?: Maybe<Scalars['String']>;
-  orderId?: Maybe<Scalars['BigFloat']>;
   backOrderId?: Maybe<Scalars['BigFloat']>;
   shipWarehouseId?: Maybe<Scalars['String']>;
   truckLoadId?: Maybe<Scalars['String']>;
@@ -48200,6 +49057,7 @@ export type OrderMasterInput = {
   vendorId?: Maybe<Scalars['String']>;
   invoiceId?: Maybe<Scalars['String']>;
   notes?: Maybe<Scalars['String']>;
+  orderId?: Maybe<Scalars['BigFloat']>;
 };
 
 /** The output of our create `OrderPallet` mutation. */
@@ -48419,6 +49277,50 @@ export type UpdateUserMessageInput = {
   /** An object where the defined keys will be set on the `UserMessage` being updated. */
   patch: UserMessagePatch;
   id: Scalars['BigInt'];
+};
+
+/** The output of our update `UserRole` mutation. */
+export type UpdateUserRolePayload = {
+  __typename?: 'UpdateUserRolePayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `UserRole` that was updated by this mutation. */
+  userRole?: Maybe<UserRole>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `User` that is related to this `UserRole`. */
+  user?: Maybe<User>;
+  /** An edge for our `UserRole`. May be used by Relay 1. */
+  userRoleEdge?: Maybe<UserRolesEdge>;
+};
+
+
+/** The output of our update `UserRole` mutation. */
+export type UpdateUserRolePayloadUserRoleEdgeArgs = {
+  orderBy?: Maybe<Array<UserRolesOrderBy>>;
+};
+
+/** All input for the `updateUserRoleByUserIdAndRoleName` mutation. */
+export type UpdateUserRoleByUserIdAndRoleNameInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `UserRole` being updated. */
+  patch: UserRolePatch;
+  userId: Scalars['BigInt'];
+  roleName: Scalars['String'];
+};
+
+/** Represents an update to a `UserRole`. Fields that are set will be updated. */
+export type UserRolePatch = {
+  roleName?: Maybe<Scalars['String']>;
+  userId?: Maybe<Scalars['BigInt']>;
+  userToUserId?: Maybe<UserRoleUserIdFkeyInput>;
 };
 
 /** The output of our update `ContactGroup` mutation. */
@@ -53464,6 +54366,55 @@ export type UpdatePriceSizeInput = {
   id: Scalars['BigInt'];
 };
 
+/** The output of our update `LoadNumber` mutation. */
+export type UpdateLoadNumberPayload = {
+  __typename?: 'UpdateLoadNumberPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `LoadNumber` that was updated by this mutation. */
+  loadNumber?: Maybe<LoadNumber>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `User` that is related to this `LoadNumber`. */
+  user?: Maybe<User>;
+  /** An edge for our `LoadNumber`. May be used by Relay 1. */
+  loadNumberEdge?: Maybe<LoadNumbersEdge>;
+};
+
+
+/** The output of our update `LoadNumber` mutation. */
+export type UpdateLoadNumberPayloadLoadNumberEdgeArgs = {
+  orderBy?: Maybe<Array<LoadNumbersOrderBy>>;
+};
+
+/** All input for the `updateLoadNumberByNodeId` mutation. */
+export type UpdateLoadNumberByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `LoadNumber` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `LoadNumber` being updated. */
+  patch: LoadNumberPatch;
+};
+
+/** All input for the `updateLoadNumber` mutation. */
+export type UpdateLoadNumberInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `LoadNumber` being updated. */
+  patch: LoadNumberPatch;
+  id: Scalars['BigInt'];
+};
+
 /** The output of our update `OrderEntry` mutation. */
 export type UpdateOrderEntryPayload = {
   __typename?: 'UpdateOrderEntryPayload';
@@ -53668,7 +54619,6 @@ export type OrderMasterPatch = {
   orderStatus?: Maybe<Scalars['String']>;
   paidCode?: Maybe<Scalars['Boolean']>;
   loadStatus?: Maybe<Scalars['String']>;
-  orderId?: Maybe<Scalars['BigFloat']>;
   backOrderId?: Maybe<Scalars['BigFloat']>;
   shipWarehouseId?: Maybe<Scalars['String']>;
   truckLoadId?: Maybe<Scalars['String']>;
@@ -53690,6 +54640,7 @@ export type OrderMasterPatch = {
   vendorId?: Maybe<Scalars['String']>;
   invoiceId?: Maybe<Scalars['String']>;
   notes?: Maybe<Scalars['String']>;
+  orderId?: Maybe<Scalars['BigFloat']>;
 };
 
 /** All input for the `updateOrderMaster` mutation. */
@@ -53941,6 +54892,42 @@ export type DeleteUserMessageInput = {
    */
   clientMutationId?: Maybe<Scalars['String']>;
   id: Scalars['BigInt'];
+};
+
+/** The output of our delete `UserRole` mutation. */
+export type DeleteUserRolePayload = {
+  __typename?: 'DeleteUserRolePayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `UserRole` that was deleted by this mutation. */
+  userRole?: Maybe<UserRole>;
+  deletedUserRoleNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `User` that is related to this `UserRole`. */
+  user?: Maybe<User>;
+  /** An edge for our `UserRole`. May be used by Relay 1. */
+  userRoleEdge?: Maybe<UserRolesEdge>;
+};
+
+
+/** The output of our delete `UserRole` mutation. */
+export type DeleteUserRolePayloadUserRoleEdgeArgs = {
+  orderBy?: Maybe<Array<UserRolesOrderBy>>;
+};
+
+/** All input for the `deleteUserRoleByUserIdAndRoleName` mutation. */
+export type DeleteUserRoleByUserIdAndRoleNameInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  userId: Scalars['BigInt'];
+  roleName: Scalars['String'];
 };
 
 /** The output of our delete `ContactGroup` mutation. */
@@ -57579,6 +58566,52 @@ export type DeletePriceSizeInput = {
   id: Scalars['BigInt'];
 };
 
+/** The output of our delete `LoadNumber` mutation. */
+export type DeleteLoadNumberPayload = {
+  __typename?: 'DeleteLoadNumberPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `LoadNumber` that was deleted by this mutation. */
+  loadNumber?: Maybe<LoadNumber>;
+  deletedLoadNumberNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `User` that is related to this `LoadNumber`. */
+  user?: Maybe<User>;
+  /** An edge for our `LoadNumber`. May be used by Relay 1. */
+  loadNumberEdge?: Maybe<LoadNumbersEdge>;
+};
+
+
+/** The output of our delete `LoadNumber` mutation. */
+export type DeleteLoadNumberPayloadLoadNumberEdgeArgs = {
+  orderBy?: Maybe<Array<LoadNumbersOrderBy>>;
+};
+
+/** All input for the `deleteLoadNumberByNodeId` mutation. */
+export type DeleteLoadNumberByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `LoadNumber` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deleteLoadNumber` mutation. */
+export type DeleteLoadNumberInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['BigInt'];
+};
+
 /** The output of our delete `OrderEntry` mutation. */
 export type DeleteOrderEntryPayload = {
   __typename?: 'DeleteOrderEntryPayload';
@@ -59596,6 +60629,29 @@ export type BulkDeleteTruckLoadInput = {
   idsToDelete: Array<Maybe<Scalars['BigFloat']>>;
 };
 
+/** The output of our `bulkUpsertLoadNumber` mutation. */
+export type BulkUpsertLoadNumberPayload = {
+  __typename?: 'BulkUpsertLoadNumberPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  loadNumbers?: Maybe<Array<Maybe<LoadNumber>>>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** All input for the `bulkUpsertLoadNumber` mutation. */
+export type BulkUpsertLoadNumberInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  loadNumbers: Array<Maybe<LoadNumberInput>>;
+};
+
 /** The output of our `bulkUpsertOrderItem` mutation. */
 export type BulkUpsertOrderItemPayload = {
   __typename?: 'BulkUpsertOrderItemPayload';
@@ -59744,6 +60800,35 @@ export type UpsertUserMessageInput = {
   clientMutationId?: Maybe<Scalars['String']>;
   /** The `UserMessage` to be upserted by this mutation. */
   userMessage: UserMessageInput;
+};
+
+/** The output of our upsert `UserRole` mutation. */
+export type UpsertUserRolePayload = {
+  __typename?: 'UpsertUserRolePayload';
+  /** The exact same `clientMutationId` that was provided in the mutation input, unchanged and unused. May be used by a client to track mutations. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `UserRole` that were upserted by this mutation. */
+  userRole?: Maybe<UserRole>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `User` that is related to this `UserRole`. */
+  user?: Maybe<User>;
+  /** An edge for our `UserRole`. May be used by Relay 1. */
+  userRoleEdge?: Maybe<UserRolesEdge>;
+};
+
+
+/** The output of our upsert `UserRole` mutation. */
+export type UpsertUserRolePayloadUserRoleEdgeArgs = {
+  orderBy?: Maybe<Array<UserRolesOrderBy>>;
+};
+
+/** All input for the upsert `UserRole` mutation. */
+export type UpsertUserRoleInput = {
+  /** An arbitrary string value with no semantic meaning. Will be included in the payload verbatim. May be used to track mutations by the client. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `UserRole` to be upserted by this mutation. */
+  userRole: UserRoleInput;
 };
 
 /** The output of our upsert `ContactGroup` mutation. */
@@ -61926,6 +63011,35 @@ export type UpsertPriceSizeInput = {
   clientMutationId?: Maybe<Scalars['String']>;
   /** The `PriceSize` to be upserted by this mutation. */
   priceSize: PriceSizeInput;
+};
+
+/** The output of our upsert `LoadNumber` mutation. */
+export type UpsertLoadNumberPayload = {
+  __typename?: 'UpsertLoadNumberPayload';
+  /** The exact same `clientMutationId` that was provided in the mutation input, unchanged and unused. May be used by a client to track mutations. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `LoadNumber` that were upserted by this mutation. */
+  loadNumber?: Maybe<LoadNumber>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `User` that is related to this `LoadNumber`. */
+  user?: Maybe<User>;
+  /** An edge for our `LoadNumber`. May be used by Relay 1. */
+  loadNumberEdge?: Maybe<LoadNumbersEdge>;
+};
+
+
+/** The output of our upsert `LoadNumber` mutation. */
+export type UpsertLoadNumberPayloadLoadNumberEdgeArgs = {
+  orderBy?: Maybe<Array<LoadNumbersOrderBy>>;
+};
+
+/** All input for the upsert `LoadNumber` mutation. */
+export type UpsertLoadNumberInput = {
+  /** An arbitrary string value with no semantic meaning. Will be included in the payload verbatim. May be used to track mutations by the client. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `LoadNumber` to be upserted by this mutation. */
+  loadNumber: LoadNumberInput;
 };
 
 /** The output of our upsert `OrderEntry` mutation. */

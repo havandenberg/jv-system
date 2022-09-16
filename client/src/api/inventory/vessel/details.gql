@@ -1,230 +1,232 @@
-query VESSEL_DETAILS($id: BigInt!) {
-  vessel(id: $id) {
-    arrivalDate
-    arrivalPort
-    coast
-    countryId
-    country {
-      id
-      countryName
-    }
-    departureDate
-    dischargeDate
-    id
-    invFlag
-    inspectionVesselName
-    inventoryItems {
-      nodes {
-        coast
-        country {
-          id
-          countryName
-        }
+query VESSEL_DETAILS($vesselCode: String!) {
+  vessels(condition: { vesselCode: $vesselCode }) {
+    nodes {
+      arrivalDate
+      arrivalPort
+      coast
+      countryId
+      country {
         id
-        palletsAvailable
-        palletsCommitted
-        palletsReceived
-        palletsShipped
-        palletsOnHand
-        plu
-        product {
-          id
-          species {
-            id
-            speciesDescription
-          }
-          variety {
-            id
-            varietyDescription
-          }
-          sizes(first: 1) {
-            nodes {
-              id
-              jvDescription
-            }
-          }
-          packType {
-            packDescription
-            id
-            label {
-              labelName
-            }
-          }
-        }
-        shipper {
-          shipperName
-          id
-        }
-        vessel {
-          id
-          dischargeDate
-          vesselCode
-          vesselName
-        }
-        warehouse {
-          id
-          warehouseName
-        }
+        countryName
       }
-    }
-    shipperProjectionVessels {
-      nodes {
-        shipperProjectionVesselInfosByVesselId {
-          nodes {
-            arrivalDate
-            departureDate
-            vesselStatus
-            arrivalPort
+      departureDate
+      dischargeDate
+      id
+      invFlag
+      inspectionVesselName
+      inventoryItems {
+        nodes {
+          coast
+          country {
             id
-            vesselName
-            vessel {
+            countryName
+          }
+          id
+          palletsAvailable
+          palletsCommitted
+          palletsReceived
+          palletsShipped
+          palletsOnHand
+          plu
+          product {
+            id
+            species {
               id
-              vesselId
-              shipperProjectionVesselInfosByVesselId {
-                nodes {
-                  id
-                  vesselName
-                }
-              }
+              speciesDescription
             }
-            vesselId
-            shipperId
-            shipper {
+            variety {
               id
-              shipperName
-              country {
-                id
-                countryName
-              }
-              shipperProjections {
-                nodes {
-                  id
-                  submittedAt
-                }
-              }
+              varietyDescription
             }
-            vessel {
-              id
-              shipper {
-                shipperName
-                id
-              }
-            }
-            projection {
-              id
-              submittedAt
-              approvedAt
-              rejectedAt
-              jvComments
-              shipperComments
-              reviewStatus
-              shipper {
-                id
-                shipperName
-              }
-            }
-            shipperProjectionEntriesByVesselInfoId {
+            sizes(first: 1) {
               nodes {
                 id
-                palletCount
-                productId
-                vesselInfoId
-                product {
+                jvDescription
+              }
+            }
+            packType {
+              packDescription
+              id
+              label {
+                labelName
+              }
+            }
+          }
+          shipper {
+            shipperName
+            id
+          }
+          vessel {
+            id
+            dischargeDate
+            vesselCode
+            vesselName
+          }
+          warehouse {
+            id
+            warehouseName
+          }
+        }
+      }
+      shipperProjectionVessels {
+        nodes {
+          shipperProjectionVesselInfosByVesselId {
+            nodes {
+              arrivalDate
+              departureDate
+              vesselStatus
+              arrivalPort
+              id
+              vesselName
+              vessel {
+                id
+                vesselId
+                shipperProjectionVesselInfosByVesselId {
+                  nodes {
+                    id
+                    vesselName
+                  }
+                }
+              }
+              vesselId
+              shipperId
+              shipper {
+                id
+                shipperName
+                country {
                   id
-                  packType
-                  plu
-                  size
-                  species
-                  variety
-                  customerValue
-                  customer {
+                  countryName
+                }
+                shipperProjections {
+                  nodes {
                     id
-                    customerName
+                    submittedAt
                   }
-                  commonSpeciesId
-                  commonSpecies {
+                }
+              }
+              vessel {
+                id
+                shipper {
+                  shipperName
+                  id
+                }
+              }
+              projection {
+                id
+                submittedAt
+                approvedAt
+                rejectedAt
+                jvComments
+                shipperComments
+                reviewStatus
+                shipper {
+                  id
+                  shipperName
+                }
+              }
+              shipperProjectionEntriesByVesselInfoId {
+                nodes {
+                  id
+                  palletCount
+                  productId
+                  vesselInfoId
+                  product {
                     id
-                    speciesName
-                    uiColor
-                    productSpeciesId
-                    productSpecies {
+                    packType
+                    plu
+                    size
+                    species
+                    variety
+                    customerValue
+                    customer {
                       id
-                      speciesDescription
+                      customerName
                     }
-                    commonSpeciesTags {
-                      nodes {
-                        commonSpeciesId
-                        nodeId
-                        tagText
+                    commonSpeciesId
+                    commonSpecies {
+                      id
+                      speciesName
+                      uiColor
+                      productSpeciesId
+                      productSpecies {
+                        id
+                        speciesDescription
+                      }
+                      commonSpeciesTags {
+                        nodes {
+                          commonSpeciesId
+                          nodeId
+                          tagText
+                        }
                       }
                     }
-                  }
-                  commonVarietyId
-                  commonVariety {
-                    id
-                    varietyName
-                    uiColor
-                    productVarietyId
-                    productVariety {
+                    commonVarietyId
+                    commonVariety {
                       id
-                      varietyDescription
-                    }
-                    commonVarietyTags {
-                      nodes {
-                        tagText
-                        nodeId
-                        commonVarietyId
+                      varietyName
+                      uiColor
+                      productVarietyId
+                      productVariety {
+                        id
+                        varietyDescription
+                      }
+                      commonVarietyTags {
+                        nodes {
+                          tagText
+                          nodeId
+                          commonVarietyId
+                        }
                       }
                     }
-                  }
-                  commonSizeId
-                  commonSize {
-                    id
-                    sizeName
-                    productSizeId
-                    productSize {
+                    commonSizeId
+                    commonSize {
                       id
-                      jvDescription
-                    }
-                    commonSizeTags {
-                      nodes {
-                        commonSizeId
-                        nodeId
-                        tagText
+                      sizeName
+                      productSizeId
+                      productSize {
+                        id
+                        jvDescription
+                      }
+                      commonSizeTags {
+                        nodes {
+                          commonSizeId
+                          nodeId
+                          tagText
+                        }
                       }
                     }
-                  }
-                  commonPackTypeId
-                  commonPackType {
-                    id
-                    packTypeName
-                    packMasterId
-                    packMaster {
+                    commonPackTypeId
+                    commonPackType {
                       id
-                      packDescription
-                    }
-                    commonPackTypeTags {
-                      nodes {
-                        commonPackTypeId
-                        nodeId
-                        tagText
+                      packTypeName
+                      packMasterId
+                      packMaster {
+                        id
+                        packDescription
+                      }
+                      commonPackTypeTags {
+                        nodes {
+                          commonPackTypeId
+                          nodeId
+                          tagText
+                        }
                       }
                     }
+                    customerId
                   }
-                  customerId
                 }
               }
             }
           }
         }
       }
-    }
-    isPre
-    vesselCode
-    vesselName
-    warehouse {
-      id
-      warehouseName
+      isPre
+      vesselCode
+      vesselName
+      warehouse {
+        id
+        warehouseName
+      }
     }
   }
 }

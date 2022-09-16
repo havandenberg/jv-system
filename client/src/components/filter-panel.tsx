@@ -21,6 +21,7 @@ const SearchInput = styled.input({ width: 100 });
 
 export interface FilterPanelProps {
   columnCount?: number;
+  customOptions?: string[];
   customStyles?: DivProps;
   queryProps?: {
     query: any;
@@ -35,12 +36,14 @@ interface Props<T> extends FilterPanelProps {
   schemaName: string;
   showPanel: boolean;
   setShowPanel: (show: boolean) => void;
+  sortKey?: string;
   tableName: string;
   visible: boolean;
 }
 
 const FilterPanel = <T extends {}>({
   columnCount = 2,
+  customOptions,
   customStyles,
   filterKey,
   queryProps,
@@ -48,6 +51,7 @@ const FilterPanel = <T extends {}>({
   setShowPanel,
   showPanel,
   showSearch,
+  sortKey,
   tableName,
   visible,
 }: Props<T>) => {
@@ -56,7 +60,7 @@ const FilterPanel = <T extends {}>({
   const previousTabId = usePrevious(tabId);
 
   const defaultQueryVariables = {
-    columnName: snakeCase(`${filterKey}`),
+    columnName: snakeCase(`${String(filterKey)}`),
     tableName,
     schemaName,
   };
@@ -71,16 +75,20 @@ const FilterPanel = <T extends {}>({
     variables,
   });
 
-  const filterOptions: string[] = pathOr([], [queryName, 'nodes'], data)
-    .map((option: string) => option && option.trim())
-    .sort();
+  const filterOptions: string[] =
+    customOptions ||
+    pathOr([], [queryName, 'nodes'], data)
+      .map((option: string) => option && option.trim())
+      .sort();
   const previousFilterOptions = usePrevious(filterOptions);
   const filterOptionsBySearch = filterOptions.filter(
     (option: string) =>
       !!option && option.toLowerCase().includes(search.toLowerCase()),
   );
 
-  const [queryValue, setQueryValue] = useQueryValue(`${filterKey}`);
+  const [queryValue, setQueryValue] = useQueryValue(
+    sortKey ? sortKey : `${String(filterKey)}`,
+  );
   const queryValueList = queryValue ? queryValue.split(',') : [];
   const queryFilterValues = queryValueList.filter((val: string) =>
     filterOptions ? !filterOptions.includes(val) : false,

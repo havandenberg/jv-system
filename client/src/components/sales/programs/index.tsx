@@ -1195,7 +1195,7 @@ const Programs = () => {
         (isCustomers ? selectedCustomer : selectedShipper) ? (
           <l.AreaLink
             key={0}
-            mr={th.spacing.md}
+            mr={th.spacing.lg}
             to={`/directory/${isCustomers ? 'customers' : 'shippers'}/${
               isCustomers ? customerId : shipperId
             }`}

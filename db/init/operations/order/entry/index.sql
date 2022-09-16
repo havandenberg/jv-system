@@ -11,6 +11,7 @@ CREATE TABLE operations.order_entry (
   delivered_date DATE,
   order_date TIMESTAMP,
   review_user_code TEXT,
+  review_date TIMESTAMP,
   notes TEXT
 );
 

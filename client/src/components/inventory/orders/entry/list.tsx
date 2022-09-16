@@ -1,30 +1,45 @@
 import React from 'react';
 import { isEmpty } from 'ramda';
 
+import api from 'api';
+import { getSortedItems } from 'components/column-label';
+import ListItem from 'components/list-item';
 import { DataMessage } from 'components/page/message';
 import useColumns, { SORT_ORDER } from 'hooks/use-columns';
-import { OrderEntry } from 'types';
+import { useSortQueryParams } from 'hooks/use-query-params';
+import { CommonSpecies, OrderEntry } from 'types';
 import l from 'ui/layout';
 import th from 'ui/theme';
 
 import { listLabels } from './data-utils';
-import ListItem from '../list-item';
 
-const gridTemplateColumns = '80px 80px 90px 1fr 1fr 3fr 100px 60px 30px';
+const gridTemplateColumns = '1fr 1fr 0.6fr 1fr 3fr 80px 30px';
 
-const OrderMasterList = ({
+const OrderEntryList = ({
   baseUrl,
   items,
 }: {
   baseUrl?: string;
   items: OrderEntry[];
 }) => {
+  const [{ sortBy = 'orderDate', sortOrder = SORT_ORDER.ASC }] =
+    useSortQueryParams();
+  const { data: speciesData } = api.useCommonSpecieses();
+  const specieses = (speciesData ? speciesData.nodes : []) as CommonSpecies[];
+
   const columnLabels = useColumns<OrderEntry>(
     'orderDate',
     SORT_ORDER.ASC,
-    listLabels,
+    listLabels(specieses),
     'operations',
     'order_entry',
+  );
+
+  const sortedOrderEntries = getSortedItems(
+    listLabels(specieses),
+    items,
+    sortBy,
+    sortOrder,
   );
 
   return (
@@ -36,16 +51,16 @@ const OrderMasterList = ({
       >
         {columnLabels}
       </l.Grid>
-      {!isEmpty(items) ? (
-        items.map(
+      {!isEmpty(sortedOrderEntries) ? (
+        sortedOrderEntries.map(
           (item, idx) =>
             item && (
               <ListItem
                 data={item}
                 gridTemplateColumns={gridTemplateColumns}
                 key={idx}
-                listLabels={listLabels}
-                slug={`${baseUrl}${item.orderId}/entry/${item.id}`}
+                listLabels={listLabels(specieses)}
+                to={`${baseUrl}${item.orderId}/entry/${item.id}`}
               />
             ),
         )
@@ -63,4 +78,4 @@ const OrderMasterList = ({
   );
 };
 
-export default OrderMasterList;
+export default OrderEntryList;

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import { reduce } from 'ramda';
+import { reduce, sortBy } from 'ramda';
 
 import InfoImg from 'assets/images/info';
 import UpArrow from 'assets/images/up-arrow';
@@ -47,6 +47,8 @@ const ChevronWrapper = styled(l.Div)(({ flip }: { flip: boolean }) => ({
 export interface LabelInfo<T> {
   allowClick?: boolean;
   boldColumn?: boolean;
+  customFilterBy?: (data: T) => boolean;
+  customFilterOptions?: string[];
   customSortBy?: (data: T) => any;
   customStyles?: {
     label?: TextProps;
@@ -67,6 +69,7 @@ export interface LabelInfo<T> {
   isColor?: boolean;
   isDate?: boolean;
   readOnly?: boolean;
+  show?: boolean;
   sortable?: boolean;
   sortKey?: string;
   transformKey?: keyof typeof baseDataTransforms;
@@ -84,6 +87,39 @@ export const validateItem = <T extends {}>(
     true,
     labels,
   );
+
+export const getFilteredItems = <T extends {}>(
+  listLabels: LabelInfo<T>[],
+  items: T[],
+) =>
+  items.filter((item) =>
+    listLabels
+      .map(({ customFilterBy }) =>
+        customFilterBy ? customFilterBy(item) : true,
+      )
+      .every(Boolean),
+  );
+
+export const getSortedItems = <T extends {}>(
+  listLabels: LabelInfo<T>[],
+  items: T[],
+  sortKey: string,
+  sortOrder: string,
+) => {
+  const activeLabel = listLabels.find(
+    (label) => (label.sortKey || label.key) === sortKey,
+  );
+  const sortByFunc =
+    activeLabel &&
+    (activeLabel.customSortBy ||
+      ((item: T) => item[(activeLabel.sortKey || activeLabel.key) as keyof T]));
+
+  return sortKey && sortByFunc
+    ? sortOrder === SORT_ORDER.DESC
+      ? sortBy(sortByFunc, items).reverse()
+      : sortBy(sortByFunc, items)
+    : items;
+};
 
 interface Props<T> {
   sortBy: keyof T;
@@ -170,6 +206,7 @@ const ColumnLabel = <T extends {}>({
             schemaName={schemaName}
             setShowPanel={setShowFilterPanel}
             showPanel={showFilterPanel}
+            sortKey={sortKey}
             tableName={tableName}
             visible={hover}
             {...filterPanelProps}

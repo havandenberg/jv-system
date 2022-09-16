@@ -1,7 +1,10 @@
 import { LabelInfo } from 'components/column-label';
+import StatusIndicator from 'components/status-indicator';
 import { SORT_ORDER } from 'hooks/use-columns';
 import { TruckLoad } from 'types';
+import l from 'ui/layout';
 import ty from 'ui/typography';
+import th from 'ui/theme';
 import { formatTime } from 'utils/date';
 
 export type TruckLoadLabelInfo = LabelInfo<TruckLoad>;
@@ -46,6 +49,28 @@ export const indexListLabels: TruckLoadLabelInfo[] = [
     key: 'loadStatus',
     label: 'Status',
     sortable: true,
+    customSortBy: ({ changeFlag, loadStatus, shipDate }) =>
+      `${changeFlag ? 0 : loadStatus} ${new Date(
+        shipDate.replace(/-/g, '/'),
+      ).getTime()}`,
+    getValue: ({ changeFlag, loadStatus }) => {
+      const status =
+        truckLoadStatusDescriptions[changeFlag ? 'changed' : loadStatus || ''];
+      return (
+        <l.Flex alignCenter justifyCenter>
+          <StatusIndicator
+            color={status?.color}
+            customStyles={{
+              wrapper: {
+                py: th.spacing.tn,
+              },
+            }}
+            text={status?.text}
+            title={status?.title || loadStatus || ''}
+          />
+        </l.Flex>
+      );
+    },
   },
 ];
 
@@ -92,29 +117,79 @@ export const listLabels: TruckLoadLabelInfo[] = [
     key: 'loadStatus',
     label: 'Status',
     sortable: true,
+    customSortBy: ({ changeFlag, loadStatus, shipDate }) =>
+      `${changeFlag ? 0 : loadStatus} ${new Date(
+        shipDate.replace(/-/g, '/'),
+      ).getTime()}`,
+    getValue: ({ changeFlag, loadStatus }) => {
+      const status =
+        truckLoadStatusDescriptions[changeFlag ? 'changed' : loadStatus || ''];
+      return (
+        <l.Flex alignCenter justifyCenter>
+          <StatusIndicator
+            color={status?.color}
+            customStyles={{
+              wrapper: {
+                py: th.spacing.tn,
+              },
+            }}
+            text={status?.text}
+            title={status?.title || loadStatus || ''}
+          />
+        </l.Flex>
+      );
+    },
   },
 ];
 
-export const indexBaseLabels: TruckLoadLabelInfo[] = [
+export const indexBaseLabels: (location?: string) => TruckLoadLabelInfo[] = (
+  location,
+) => [
   {
     key: 'loadId',
     label: 'Load ID',
   },
   {
-    key: 'shipDate',
-    label: 'Ship Date',
+    key: 'orderMasters',
+    label: 'Order ID',
+    getValue: ({ loadId, orderMasters, warehouse }) => {
+      const orderMaster = orderMasters?.nodes?.find(
+        (orderMaster) =>
+          orderMaster?.shipWarehouse?.id === warehouse?.id &&
+          orderMaster?.truckLoadId === loadId,
+      );
+      return orderMaster ? (
+        <ty.LinkText
+          hover="false"
+          to={`/inventory/orders/${orderMaster.orderId}?orderView=${
+            location ? 'orderItems' : 'pickupLocations'
+          }${location ? `&backOrderId=${orderMaster.backOrderId}` : ''}`}
+        >
+          {orderMaster.orderId}
+        </ty.LinkText>
+      ) : (
+        ''
+      );
+    },
   },
   {
     key: 'truckerName',
     label: 'Trucker Name',
   },
   {
-    key: 'ryanNumber',
-    label: 'Ryan Number',
-  },
-  {
     key: 'licensePlate',
     label: 'License Plate',
+  },
+  {
+    key: 'fob',
+    label: 'FOB / Del',
+    getValue: ({ fob }) => (
+      <ty.BodyText>{fob ? 'FOB' : 'Delivery'}</ty.BodyText>
+    ),
+  },
+  {
+    key: 'ryanNumber',
+    label: 'Recorder Number',
   },
   {
     key: 'temperature',
@@ -132,31 +207,6 @@ export const indexBaseLabels: TruckLoadLabelInfo[] = [
 
 export const baseLabels: TruckLoadLabelInfo[] = [
   {
-    key: 'orderMasters',
-    label: 'Order ID',
-    getValue: ({ loadId, orderMasters, warehouse }) => {
-      const orderMaster = orderMasters?.nodes?.find(
-        (orderMaster) =>
-          orderMaster?.shipWarehouse?.id === warehouse?.id &&
-          orderMaster?.truckLoadId === loadId,
-      );
-      return orderMaster ? (
-        <ty.LinkText
-          hover="false"
-          to={`/inventory/orders/${orderMaster.orderId}?backOrderId=${orderMaster.backOrderId}`}
-        >
-          {orderMaster.orderId} ({orderMaster.backOrderId})
-        </ty.LinkText>
-      ) : (
-        ''
-      );
-    },
-  },
-  {
-    key: 'shipDate',
-    label: 'Ship Date',
-  },
-  {
     key: 'warehouseId',
     label: 'Warehouse',
     getValue: ({ warehouse }) =>
@@ -172,12 +222,33 @@ export const baseLabels: TruckLoadLabelInfo[] = [
       ),
   },
   {
-    key: 'vendorId',
-    label: 'Vendor',
+    key: 'shipDate',
+    label: 'Ship Date',
   },
   {
     key: 'expeditorName',
     label: 'Expeditor',
+  },
+  {
+    key: 'vendorId',
+    label: 'Vendor',
+  },
+  {
+    key: 'loadStatus',
+    label: 'Load Status',
+    getValue: ({ changeFlag, loadStatus }) => {
+      const status =
+        truckLoadStatusDescriptions[changeFlag ? 'changed' : loadStatus || ''];
+      return (
+        <l.Flex alignCenter justifyCenter>
+          <StatusIndicator
+            color={status?.color}
+            text={status?.text}
+            title={status?.title || loadStatus || ''}
+          />
+        </l.Flex>
+      );
+    },
   },
   {
     key: 'timeIn',
@@ -221,18 +292,37 @@ export const baseLabels: TruckLoadLabelInfo[] = [
     ),
   },
   {
-    key: 'loadStatus',
-    label: 'Status',
-  },
-  {
-    key: 'fob',
-    label: 'FOB / Del',
-    getValue: ({ fob }) => (
-      <ty.BodyText>{fob ? 'FOB' : 'Delivery'}</ty.BodyText>
-    ),
-  },
-  {
     key: 'notes',
     label: 'Notes',
   },
 ];
+
+export const truckLoadStatusDescriptions: {
+  [key: string]: { color: string; text: string; title: string };
+} = {
+  O: {
+    color: th.colors.status.success,
+    text: 'RTS',
+    title: 'Ready to ship',
+  },
+  P: {
+    color: th.colors.status.warningSecondary,
+    text: 'PTP',
+    title: 'Pick ticket printed',
+  },
+  C: {
+    color: th.colors.status.successAlt,
+    text: 'CON',
+    title: 'Confirmed - truck has checked in',
+  },
+  S: {
+    color: th.colors.status.successAlt,
+    text: 'SHP',
+    title: 'Shipped',
+  },
+  changed: {
+    color: th.colors.status.error,
+    text: 'FLG',
+    title: 'Flagged - order has changed',
+  },
+};

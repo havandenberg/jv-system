@@ -1,6 +1,7 @@
 import React from 'react';
 import { isEmpty } from 'ramda';
 
+import ListItem from 'components/list-item';
 import { DataMessage } from 'components/page/message';
 import useColumns, { SORT_ORDER } from 'hooks/use-columns';
 import { TruckLoad } from 'types';
@@ -8,7 +9,6 @@ import l from 'ui/layout';
 import th from 'ui/theme';
 
 import { listLabels } from './data-utils';
-import ListItem from './list-item';
 
 const gridTemplateColumns = `1fr 1fr 2fr 1fr 100px 100px 100px 30px`;
 
@@ -45,7 +45,7 @@ const TruckLoadList = ({
                 gridTemplateColumns={gridTemplateColumns}
                 key={idx}
                 listLabels={listLabels}
-                slug={`${baseUrl}${item.loadId}?location=${item.warehouse?.id}`}
+                to={`${baseUrl}${item.loadId}?location=${item.warehouse?.id}&truckLoadView=pallets`}
               />
             ),
         )

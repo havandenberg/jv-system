@@ -87,7 +87,9 @@ const InventoryCell = ({
 
   const availableCell = (
     <ItemWrapper
-      hasItems={availableTo !== '#'}
+      hasItems={
+        palletsAvailable.total !== palletsOnHand.total && availableTo !== '#'
+      }
       isOnHand={false}
       title={
         palletsAvailableCount || palletsAvailable.pre
@@ -139,7 +141,7 @@ const InventoryCell = ({
 
   return (
     <l.Div key={index}>
-      {availableTo === '#' ? (
+      {palletsAvailable.total === palletsOnHand.total || availableTo === '#' ? (
         availableCell
       ) : (
         <l.AreaLink to={availableTo}>{availableCell}</l.AreaLink>
@@ -355,7 +357,7 @@ const InventoryRow = ({
       }
     };
 
-    const slug = `?${restQueryString}${detailsQueryString}${existingCategoriesParamString}${categoryType}=${newValue}&categoryTypes=${categoryTypes},${nextCategoryType}${getNextTagString()}`;
+    const slug = `?${restQueryString}${detailsQueryString}${existingCategoriesParamString}${categoryType}=${newValue}&categoryTypes=${categoryTypes},${nextCategoryType}${getNextTagString()}&view=items`;
 
     return {
       available: `/inventory/orders${slug}`,

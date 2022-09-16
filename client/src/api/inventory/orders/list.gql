@@ -35,6 +35,7 @@ query ORDER_MASTER_LIST(
       }
       items {
         nodes {
+          orderId
           backOrderId
           boxCount
           deliveryCharge
@@ -61,6 +62,7 @@ query ORDER_MASTER_LIST(
               id
               warehouseName
             }
+            jvLotNumber
             plu
             product {
               id
@@ -91,6 +93,17 @@ query ORDER_MASTER_LIST(
           }
           locationId
           shipperId
+          palletCount
+          unitSellPrice
+          order {
+            id
+            expectedShipDate
+            salesUserCode
+            billingCustomer {
+              id
+              customerName
+            }
+          }
         }
       }
       salesUser {
@@ -100,6 +113,7 @@ query ORDER_MASTER_LIST(
           firstName
           lastName
         }
+        userCode
       }
       entryUserCode
       entryUser {

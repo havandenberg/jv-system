@@ -2,6 +2,7 @@ import React from 'react';
 import { isEmpty } from 'ramda';
 
 import api from 'api';
+import ListItem from 'components/list-item';
 import { DataMessage } from 'components/page/message';
 import Page from 'components/page';
 import VirtualizedList from 'components/virtualized-list';
@@ -14,13 +15,12 @@ import th from 'ui/theme';
 import ty from 'ui/typography';
 
 import { breadcrumbs, SubDirectoryProps } from '..';
-import ListItem from '../list-item';
 import { useDirectorySelectionContext } from '../selection-context';
 import { listLabels } from './data-utils';
 
 const gridTemplateColumns = '30px 0.5fr 2fr 1.5fr 0.5fr 1.5fr 30px';
 
-const WarehouseDirectory = ({ actions, TabBar }: SubDirectoryProps) => {
+const WarehouseDirectory = ({ actions }: SubDirectoryProps) => {
   const { Search } = useSearch();
   const { data, loading, error } = api.useWarehouses();
   const items = data ? data.nodes : [];
@@ -62,7 +62,6 @@ const WarehouseDirectory = ({ actions, TabBar }: SubDirectoryProps) => {
               </l.Flex>
               {Search}
             </div>
-            {TabBar}
           </l.Flex>
           {!loading && (
             <l.Grid
@@ -97,7 +96,7 @@ const WarehouseDirectory = ({ actions, TabBar }: SubDirectoryProps) => {
                     listLabels={listLabels}
                     onSelectItem={() => selectWarehouse(item)}
                     selected={!!selectedItems.find((it) => it.id === item.id)}
-                    slug={`warehouses/${item.id}`}
+                    to={`/directory/warehouses/${item.id}`}
                   />
                 </div>
               )

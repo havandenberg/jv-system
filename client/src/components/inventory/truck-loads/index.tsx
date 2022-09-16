@@ -4,6 +4,8 @@ import { isEmpty } from 'ramda';
 
 import api from 'api';
 import ResetImg from 'assets/images/reset';
+import { getSortedItems } from 'components/column-label';
+import ListItem from 'components/list-item';
 import { DataMessage } from 'components/page/message';
 import Page from 'components/page';
 import VirtualizedList from 'components/virtualized-list';
@@ -20,9 +22,7 @@ import th from 'ui/theme';
 import ty from 'ui/typography';
 
 import { ResetButton } from '../inventory/use-filters';
-import { getSortedItems } from '../orders/data-utils';
 import { indexListLabels } from './data-utils';
-import ListItem from './list-item';
 
 export const breadcrumbs = [
   { text: 'Truck Loads', to: `/inventory/truck-loads` },
@@ -121,7 +121,9 @@ const TruckLoads = () => {
                     data={item}
                     gridTemplateColumns={gridTemplateColumns}
                     listLabels={indexListLabels}
-                    slug={`truck-loads/${item.loadId}`}
+                    to={`/inventory/truck-loads/${item.loadId}?truckLoadView=${
+                      (item.count || 0) > 1 ? 'pickupLocations' : 'pallets'
+                    }`}
                   />
                 </div>
               )

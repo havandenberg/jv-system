@@ -131,14 +131,14 @@ export const useVessels = (options?: VesselsOptions) => {
   };
 };
 
-export const useVessel = (id: string) => {
+export const useVessel = (vesselCode: string) => {
   const { data, error, loading } = useQuery<Query>(VESSEL_DETAILS_QUERY, {
     variables: {
-      id,
+      vesselCode,
     },
   });
   return {
-    data: data ? data.vessel : undefined,
+    data: data ? data.vessels : undefined,
     error,
     loading,
   };

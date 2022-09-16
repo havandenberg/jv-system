@@ -1,6 +1,8 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 
+import { getSortedItems } from 'components/column-label';
+import ListItem from 'components/list-item';
 import VirtualizedList from 'components/virtualized-list';
 import { SORT_ORDER } from 'hooks/use-columns';
 import {
@@ -13,11 +15,9 @@ import { USE_NEW_PRE_INVENTORY } from '..';
 import {
   getDetailedFilteredItems,
   getGroupedItems,
-  getSortedItems,
   isPreInventoryItem,
 } from '../utils';
 import { indexListLabels } from './data-utils';
-import ListItem from './list-item';
 
 export const gridTemplateColumns = (
   hasShipper: boolean = true,
@@ -104,6 +104,8 @@ const InventoryItems = ({ items }: Props) => {
                   secondaryDetailsIndex,
                   isTotal: species === 'total',
                 })}
+                isHighlight={item.jvLotNumber === 'D0000'}
+                isHalfHighlight={item.jvLotNumber === 'PARTIAL_DISTRESS'}
                 to={to}
               />
             </div>

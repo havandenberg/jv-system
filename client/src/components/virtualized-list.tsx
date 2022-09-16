@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from '@emotion/styled';
 import {
   Index,
@@ -9,6 +9,9 @@ import {
 } from 'react-virtualized';
 
 import UpArrow from 'assets/images/up-arrow';
+import useDebounce from 'hooks/use-debounce';
+import usePrevious from 'hooks/use-previous';
+import { useQueryValue } from 'hooks/use-query-params';
 import l from 'ui/layout';
 import th from 'ui/theme';
 
@@ -33,13 +36,15 @@ interface OptionalListProps {
 
 const VirtualizedList = ({
   height = 650,
-  rowHeight = 48,
+  rowHeight = 36,
   width = 1024,
   ...rest
 }: OptionalListProps & Omit<ListProps, 'height' | 'rowHeight' | 'width'>) => {
   const ref = useRef<List>(null);
+  const [listScrollTop, setListScrollTop] = useQueryValue('listScrollTop');
+  const previousListScrollTop = usePrevious(listScrollTop);
 
-  const [scrollTop, setScrollTop] = useState(0);
+  const [scrollTop, setScrollTop] = useState(listScrollTop || 0);
   const showScrollTop = scrollTop > 64;
 
   const handleScrollToTop = () => {
@@ -47,6 +52,21 @@ const VirtualizedList = ({
       ref.current.scrollToPosition(0);
     }
   };
+
+  const debouncedScrollTop = useDebounce(scrollTop, 500);
+  const previousDebouncedScrollTop = usePrevious(debouncedScrollTop);
+
+  useEffect(() => {
+    if (previousDebouncedScrollTop !== debouncedScrollTop) {
+      setListScrollTop(`${debouncedScrollTop}`, 'replaceIn');
+    }
+  }, [debouncedScrollTop, setListScrollTop, previousDebouncedScrollTop]);
+
+  useEffect(() => {
+    if (previousListScrollTop !== listScrollTop) {
+      setScrollTop(listScrollTop || 0);
+    }
+  }, [listScrollTop, setListScrollTop, previousListScrollTop]);
 
   return (
     <>
@@ -58,6 +78,7 @@ const VirtualizedList = ({
         overscanRowCount={10}
         ref={ref}
         rowHeight={rowHeight}
+        scrollTop={parseFloat(`${scrollTop}`)}
         width={width}
         {...rest}
       />

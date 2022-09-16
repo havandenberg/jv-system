@@ -11,10 +11,8 @@ import {
   values,
 } from 'ramda';
 
-import { LabelInfo } from 'components/column-label';
 import { formatDate } from 'components/date-range-picker';
 import { CommonProductTag } from 'components/tag-manager';
-import { SORT_ORDER } from 'hooks/use-columns';
 import {
   CommonSpecies,
   InventoryItem,
@@ -162,22 +160,6 @@ export const getDetailedFilteredItems = (
       `${item.vessel?.id}-${item.shipper?.id}-${item.product?.species?.id}`,
     ].includes(secondaryDetailsIndex),
   );
-
-export const getSortedItems = (
-  listLabels: LabelInfo<InventoryItem>[],
-  items: InventoryItem[],
-  sortKey: string,
-  sortOrder: string,
-) => {
-  const activeLabel = listLabels.find(
-    (label) => (label.sortKey || label.key) === sortKey,
-  );
-  return activeLabel && activeLabel.customSortBy
-    ? sortOrder === SORT_ORDER.DESC
-      ? sortBy(activeLabel.customSortBy, items).reverse()
-      : sortBy(activeLabel.customSortBy, items)
-    : items;
-};
 
 export const isPreInventoryItem = (item: InventoryItem) => !!item.vessel?.isPre;
 
@@ -709,3 +691,26 @@ export const buildCategories =
       text,
     };
   };
+
+export const getInventoryItemDescription = (
+  inventoryItem: InventoryItem,
+  options?: {
+    species?: boolean;
+    variety?: boolean;
+    size?: boolean;
+    packType?: boolean;
+    plu?: boolean;
+    label?: boolean;
+  },
+) => {
+  const { species, variety, size, packType, plu, label } = options || {};
+  return `${
+    species ? '' : inventoryItem.product?.species?.speciesDescription + ' '
+  }${variety ? '' : inventoryItem.product?.variety?.varietyDescription + ' '}${
+    size
+      ? ''
+      : inventoryItem.product?.sizes.nodes?.[0]?.combineDescription + ' '
+  }${packType ? '' : inventoryItem.product?.packType?.packDescription + ' '}${
+    plu ? '' : inventoryItem.plu + ' '
+  }${label ? '' : inventoryItem.product?.packType?.label?.labelName + ' '}`;
+};

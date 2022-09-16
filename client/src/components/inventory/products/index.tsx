@@ -4,6 +4,7 @@ import { isEmpty, sortBy } from 'ramda';
 
 import api from 'api';
 import AddItem from 'components/add-item';
+import ListItem from 'components/list-item';
 import { DataMessage } from 'components/page/message';
 import Page from 'components/page';
 import useColumns, { SORT_ORDER } from 'hooks/use-columns';
@@ -15,7 +16,6 @@ import th from 'ui/theme';
 import ty from 'ui/typography';
 
 import { listLabels as categoryListLabels } from './category/data-utils';
-import ListItem from './list-item';
 import { listLabels as speciesListLabels } from './species/data-utils';
 
 export const breadcrumbs = [{ text: 'Products', to: '/inventory/products' }];
@@ -135,7 +135,7 @@ const CommonProductIndex = () => {
                   data={category}
                   gridTemplateColumns={gridTemplateColumns}
                   listLabels={categoryListLabels}
-                  slug={`products/categories/${category.id}`}
+                  to={`/inventory/products/categories/${category.id}`}
                 />
                 {speciesList.map(
                   (species) =>
@@ -145,7 +145,7 @@ const CommonProductIndex = () => {
                         gridTemplateColumns={gridTemplateColumns}
                         key={species.id}
                         listLabels={speciesListLabels(true)}
-                        slug={`products/${species.id}`}
+                        to={`/inventory/products/${species.id}`}
                       />
                     ),
                 )}

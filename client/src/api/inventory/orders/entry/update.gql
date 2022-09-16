@@ -1,0 +1,5 @@
+mutation ORDER_ENTRY_UPDATE($id: BigInt!, $orderEntry: OrderEntryPatch!) {
+  updateOrderEntry(input: { id: $id, patch: $orderEntry }) {
+    clientMutationId
+  }
+}

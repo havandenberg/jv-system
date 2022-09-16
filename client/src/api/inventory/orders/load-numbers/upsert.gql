@@ -1,0 +1,5 @@
+mutation LOAD_NUMBERS_UPSERT($loadNumbers: [LoadNumberInput]!) {
+  bulkUpsertLoadNumber(input: { loadNumbers: $loadNumbers }) {
+    clientMutationId
+  }
+}

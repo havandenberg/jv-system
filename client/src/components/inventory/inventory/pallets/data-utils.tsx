@@ -112,7 +112,10 @@ export const baseLabels: PalletLabelInfo[] = [
     label: 'Vessel',
     getValue: ({ vessel }) =>
       vessel ? (
-        <ty.LinkText hover="false" to={`/inventory/vessels/${vessel.id}`}>
+        <ty.LinkText
+          hover="false"
+          to={`/inventory/vessels/${vessel.vesselCode}`}
+        >
           {vessel.vesselCode}
         </ty.LinkText>
       ) : (

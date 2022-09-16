@@ -8,6 +8,7 @@ import useDebounce from './use-debounce';
 
 export interface SearchProps extends TextInputProps {
   disabled?: boolean;
+  disableSearchQuery?: boolean;
   error?: boolean;
   onClear?: () => void;
   onlyClearSearch?: boolean;
@@ -15,6 +16,7 @@ export interface SearchProps extends TextInputProps {
   placeholder?: string;
   showIcon?: boolean;
   value?: string;
+  warning?: boolean;
 }
 
 const Search = (
@@ -28,6 +30,7 @@ const Search = (
   },
 ) => {
   const {
+    disableSearchQuery,
     error,
     onClear = undefined,
     onlyClearSearch = undefined,
@@ -40,15 +43,17 @@ const Search = (
     clearSearch,
     setLocalSearch,
     localSearch,
+    warning,
     ...rest
   } = props;
 
   return (
     <TextInput
       hasError={error}
+      hasWarning={warning}
       Icon={showIcon ? <SearchImg height={18} /> : undefined}
       onBlur={() => {
-        setSearch(debouncedSearch, 'replaceIn');
+        !disableSearchQuery && setSearch(debouncedSearch, 'replaceIn');
       }}
       onClear={() => {
         onClear && (!onlyClearSearch || !search) && onClear();
@@ -65,7 +70,11 @@ const Search = (
 };
 
 const useSearch = (props?: SearchProps) => {
-  const { disabled = false, paramName = undefined } = props ? props : {};
+  const {
+    disableSearchQuery = false,
+    disabled = false,
+    paramName = undefined,
+  } = props ? props : {};
   const [search, setSearch] = useSearchQueryParam(paramName);
   const [localSearch, setLocalSearch] = useState<string | undefined>(
     search || undefined,
@@ -79,11 +88,14 @@ const useSearch = (props?: SearchProps) => {
 
   useEffect(() => {
     if (debouncedSearch !== search) {
-      !disabled && setSearch(debouncedSearch, 'replaceIn');
+      !disabled &&
+        !disableSearchQuery &&
+        setSearch(debouncedSearch, 'replaceIn');
     }
-  }, [debouncedSearch, disabled, search, setSearch]);
+  }, [debouncedSearch, disabled, disableSearchQuery, search, setSearch]);
 
   return {
+    localSearch,
     search,
     Search: (
       <Search

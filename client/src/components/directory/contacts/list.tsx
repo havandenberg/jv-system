@@ -1,6 +1,7 @@
 import React from 'react';
 import { isEmpty, reduce } from 'ramda';
 
+import ListItem from 'components/list-item';
 import { DataMessage } from 'components/page/message';
 import useColumns, { SORT_ORDER } from 'hooks/use-columns';
 import { Customer, PersonContact, Shipper, Warehouse } from 'types';
@@ -8,7 +9,6 @@ import { LineItemCheckbox } from 'ui/checkbox';
 import l from 'ui/layout';
 import th from 'ui/theme';
 
-import ListItem from '../list-item';
 import { groupContactListLabels, contactListLabels } from './data-utils';
 
 const ContactList = ({
@@ -81,7 +81,7 @@ const ContactList = ({
       }${hasWarehouseIds ? '1.5fr ' : ''}30px`
     : '30px 1fr 1.5fr 2fr 2.5fr 90px 30px';
 
-  const getSlug = (item: PersonContact) => {
+  const getLink = (item: PersonContact) => {
     const baseSlug = baseUrl ? `${baseUrl}/contacts/${item.id}` : '';
 
     const customers =
@@ -89,7 +89,9 @@ const ContactList = ({
       item.customersByCustomerPersonContactPersonContactIdAndCustomerId.nodes;
     const customerSlug =
       customers && customers.length > 0
-        ? `customers/${(customers[0] as Customer).id}/contacts/${item.id}`
+        ? `/directory/customers/${(customers[0] as Customer).id}/contacts/${
+            item.id
+          }`
         : '';
 
     const shippers =
@@ -97,7 +99,9 @@ const ContactList = ({
       item.shippersByShipperPersonContactPersonContactIdAndShipperId.nodes;
     const shipperSlug =
       shippers && shippers.length > 0
-        ? `shippers/${(shippers[0] as Shipper).id}/contacts/${item.id}`
+        ? `/directory/shippers/${(shippers[0] as Shipper).id}/contacts/${
+            item.id
+          }`
         : '';
 
     const warehouses =
@@ -106,10 +110,12 @@ const ContactList = ({
         .nodes;
     const warehouseSlug =
       warehouses && warehouses.length > 0
-        ? `warehouses/${(warehouses[0] as Warehouse).id}/contacts/${item.id}`
+        ? `/directory/warehouses/${(warehouses[0] as Warehouse).id}/contacts/${
+            item.id
+          }`
         : '';
 
-    const internalSlug = `internal/${item.id}`;
+    const internalSlug = `/directory/internal/${item.id}`;
 
     return (
       baseSlug || customerSlug || shipperSlug || warehouseSlug || internalSlug
@@ -150,7 +156,7 @@ const ContactList = ({
                     : undefined
                 }
                 listLabels={listLabels}
-                slug={getSlug(item)}
+                to={getLink(item)}
               />
             ),
         )

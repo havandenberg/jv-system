@@ -32,6 +32,7 @@ export interface ItemSelectorProps<T> {
   closeOnSelect?: boolean;
   defaultFocused?: boolean;
   disabled?: boolean;
+  disableSearchQuery?: boolean;
   editableCellProps?: EditableCellProps;
   error?: ApolloError;
   errorLabel: string;
@@ -40,6 +41,7 @@ export interface ItemSelectorProps<T> {
   height?: number;
   key?: string;
   loading: boolean;
+  isDirty?: boolean;
   nameKey: keyof T;
   onClear?: () => void;
   onlyClearSearch?: boolean;
@@ -50,11 +52,12 @@ export interface ItemSelectorProps<T> {
   searchWidth?: string | number;
   selectedItem?: string;
   selectItem?: (item: T) => void;
+  warning?: boolean;
   width?: number;
   validationError?: boolean;
 }
 
-const ItemSelector = <T extends { id: string; disabled?: boolean }>({
+const ItemSelector = <T extends { id?: string; disabled?: boolean }>({
   clearSearch,
   closeOnSelect,
   editableCellProps,
@@ -72,7 +75,6 @@ const ItemSelector = <T extends { id: string; disabled?: boolean }>({
   Search,
   selectItem,
   width,
-  validationError,
 }: ItemSelectorProps<T> & {
   clearSearch: () => void;
   handleBlur: () => void;
@@ -149,7 +151,7 @@ const ItemSelector = <T extends { id: string; disabled?: boolean }>({
   </l.Div>
 );
 
-const useItemSelector = <T extends { id: string; disabled?: boolean }>(
+const useItemSelector = <T extends { id?: string; disabled?: boolean }>(
   props: ItemSelectorProps<T>,
 ) => {
   const {
@@ -157,14 +159,17 @@ const useItemSelector = <T extends { id: string; disabled?: boolean }>(
     clearSearchOnBlur,
     defaultFocused = false,
     disabled,
+    disableSearchQuery,
     excludedItems = [],
     editableCellProps,
+    isDirty,
     onClear,
     onlyClearSearch,
     placeholder,
     searchParamName,
     selectedItem,
     searchWidth,
+    warning,
     width = 500,
     validationError,
   } = props;
@@ -176,13 +181,19 @@ const useItemSelector = <T extends { id: string; disabled?: boolean }>(
 
   const { clearSearch, Search } = useSearch({
     disabled: !!editableCellProps,
+    disableSearchQuery,
     error: validationError,
+    isDirty,
     onClear,
     onlyClearSearch,
     paramName: searchParamName,
     placeholder,
     showIcon: false,
-    value: focused || !selectedItem ? undefined : selectedItem,
+    value:
+      (!disableSearchQuery && focused) || !selectedItem
+        ? undefined
+        : selectedItem,
+    warning,
     width: searchWidth || width,
   });
 

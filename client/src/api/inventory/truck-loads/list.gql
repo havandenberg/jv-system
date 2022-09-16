@@ -7,7 +7,6 @@ query TRUCK_LOAD_LIST(
   truckLoads(
     filter: {
       and: $search
-      # hasOrderMasters: { greaterThan: 0 }
       or: {
         shipDate: {
           greaterThanOrEqualTo: $startDate
@@ -24,6 +23,7 @@ query TRUCK_LOAD_LIST(
       vendorId
       fob
       shipDate
+      count
       warehouse {
         id
         warehouseName

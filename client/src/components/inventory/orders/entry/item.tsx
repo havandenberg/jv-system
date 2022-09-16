@@ -5,6 +5,7 @@ import { sortBy } from 'ramda';
 
 import HighlightImg from 'assets/images/highlight';
 import PlusInCircle from 'assets/images/plus-in-circle';
+import ResetItem from 'assets/images/reset-item';
 import EditableCell from 'components/editable-cell';
 import { reducePalletData } from 'components/inventory/inventory/utils';
 import useItemSelector from 'components/item-selector';
@@ -21,10 +22,10 @@ import {
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
+import { isDateLessThanOrEqualTo } from 'utils/date';
 
 import { gridTemplateColumns } from '.';
 import { itemListLabels } from './data-utils';
-import { isDateLessThanOrEqualTo } from 'utils/date';
 
 type Props = {
   commonSpecieses: CommonSpecies[];
@@ -32,16 +33,19 @@ type Props = {
   duplicateIds: number[];
   editing: boolean;
   error?: ApolloError;
+  fob: boolean;
   fobDate?: string;
+  handleAutoFill: () => void;
   handleChange: (
     key: keyof OrderEntryItem,
     value: string | number | boolean | null,
   ) => void;
   handleNewItem: (updatedItem: OrderEntryItem) => void;
   handleRemoveItem: (id: number) => void;
+  handleResetItem: () => void;
   inventoryItems: InventoryItem[];
+  isReview: boolean;
   loading: boolean;
-  originalItem?: OrderEntryItem;
   saveAttempt: boolean;
   shippers: Shipper[];
   showRemoveIcon: boolean;
@@ -61,6 +65,15 @@ type FilterKey =
   | 'species'
   | 'variety'
   | 'vesselCode'
+  | 'reviewLabel'
+  | 'reviewLocationId'
+  | 'reviewPackType'
+  | 'reviewPlu'
+  | 'reviewShipperId'
+  | 'reviewSize'
+  | 'reviewSpecies'
+  | 'reviewVariety'
+  | 'reviewVesselCode'
   | 'unitSellPrice'
   | 'deliveryCharge'
   | 'notes';
@@ -71,13 +84,16 @@ const NewOrderEntryItem = ({
   duplicateIds,
   editing,
   error,
+  fob,
   fobDate,
+  handleAutoFill,
   handleChange,
   handleNewItem,
+  handleResetItem,
   handleRemoveItem,
   inventoryItems,
+  isReview,
   loading,
-  originalItem,
   saveAttempt,
   shippers,
   showRemoveIcon,
@@ -96,6 +112,15 @@ const NewOrderEntryItem = ({
     locationId,
     vesselCode,
     label,
+    reviewSpecies,
+    reviewVariety,
+    reviewSize,
+    reviewPackType,
+    reviewPlu,
+    reviewShipperId,
+    reviewLocationId,
+    reviewVesselCode,
+    reviewLabel,
     palletCount,
     unitSellPrice,
     deliveryCharge,
@@ -119,6 +144,34 @@ const NewOrderEntryItem = ({
   const vessel = vessels.find((v) => v && v.vesselCode === vesselCode);
   const warehouse = warehouses.find((w) => w && w.id === locationId);
 
+  const reviewCommonSpecies = !!reviewSpecies
+    ? commonSpecieses.find((sp) => sp && sp.productSpeciesId === reviewSpecies)
+    : undefined;
+  const reviewCommonVariety = !!reviewVariety
+    ? commonSpecies?.commonVarieties.nodes.find(
+        (v) => v && v.productVarietyId === reviewVariety,
+      )
+    : undefined;
+  const reviewCommonSize = !!reviewSize
+    ? commonSpecies?.commonSizes.nodes.find(
+        (sz) => sz && sz.productSizeId === reviewSize,
+      )
+    : undefined;
+  const reviewCommonPackType = !!reviewPackType
+    ? commonSpecies?.commonPackTypes.nodes.find(
+        (pt) => pt && pt.packMaster?.packDescription === reviewPackType,
+      )
+    : undefined;
+  const reviewShipper = !!reviewShipperId
+    ? shippers.find((s) => s && s.id === reviewShipperId)
+    : undefined;
+  const reviewVessel = !!reviewVesselCode
+    ? vessels.find((v) => v && v.vesselCode === reviewVesselCode)
+    : undefined;
+  const reviewWarehouse = !!reviewLocationId
+    ? warehouses.find((w) => w && w.id === reviewLocationId)
+    : undefined;
+
   const getSelectorValue = (type: FilterKey) => {
     switch (type) {
       case 'species':
@@ -139,6 +192,24 @@ const NewOrderEntryItem = ({
         return plu || '';
       case 'label':
         return label || '';
+      case 'reviewSpecies':
+        return reviewCommonSpecies?.speciesName || reviewSpecies || '';
+      case 'reviewVariety':
+        return reviewCommonVariety?.varietyName || reviewVariety || '';
+      case 'reviewSize':
+        return reviewCommonSize?.sizeName || reviewSize || '';
+      case 'reviewPackType':
+        return reviewCommonPackType?.packTypeName || reviewPackType || '';
+      case 'reviewShipperId':
+        return reviewShipper?.shipperName || reviewShipperId || '';
+      case 'reviewVesselCode':
+        return reviewVessel?.vesselName || reviewVesselCode || '';
+      case 'reviewLocationId':
+        return reviewWarehouse?.warehouseName || reviewLocationId || '';
+      case 'reviewPlu':
+        return reviewPlu || '';
+      case 'reviewLabel':
+        return reviewLabel || '';
       default:
         return '';
     }
@@ -164,6 +235,20 @@ const NewOrderEntryItem = ({
         return plu !== currentItem.plu;
       case 'label':
         return label !== currentItem.label;
+      case 'reviewSpecies':
+        return reviewSpecies !== currentItem.reviewSpecies;
+      case 'reviewVariety':
+        return reviewVariety !== currentItem.reviewVariety;
+      case 'reviewSize':
+        return reviewSize !== currentItem.reviewSize;
+      case 'reviewPackType':
+        return reviewPackType !== currentItem.reviewPackType;
+      case 'reviewShipperId':
+        return reviewShipperId !== currentItem.reviewShipperId;
+      case 'reviewVesselCode':
+        return reviewVesselCode !== currentItem.reviewVesselCode;
+      case 'reviewLocationId':
+        return reviewLocationId !== currentItem.reviewLocationId;
       case 'palletCount':
         return palletCount !== currentItem.palletCount;
       case 'deliveryCharge':
@@ -183,7 +268,7 @@ const NewOrderEntryItem = ({
   const sizeOptions = [] as ItemLink[];
   const packTypeOptions = [] as ItemLink[];
   const pluOptions = [] as ItemLink[];
-  const vesselOptions = [] as ItemLink[];
+  let vesselOptions = [] as ItemLink[];
 
   const filteredItems = inventoryItems.filter((item) => {
     const otherCategory = {
@@ -217,37 +302,53 @@ const NewOrderEntryItem = ({
           new Date(fobDate.replace(/-/g, '/')),
         ));
 
-    const isValid =
-      dateValid &&
-      (!warehouse ||
-        `${item.warehouse?.warehouseName}`.includes(`${locationId}`) ||
-        ['Any', item.warehouse?.id].includes(locationId || undefined)) &&
-      (!shipper ||
-        `${item.shipper?.shipperName}`.includes(`${shipperId}`) ||
-        ['Any', item.shipper?.id].includes(shipperId || undefined)) &&
-      (!species ||
-        `${itemSpecies?.speciesDescription}`.includes(species) ||
-        [itemSpecies?.id].includes(species)) &&
-      (!variety ||
-        `${itemVariety?.varietyDescription}`.includes(variety) ||
-        ['Any', itemVariety?.id].includes(variety)) &&
-      (!size ||
-        `${itemSize?.combineDescription}`.includes(size) ||
-        ['Any', itemSize?.id].includes(size)) &&
-      (!packType ||
-        `${itemPackType?.packDescription}`.includes(packType) ||
-        ['Any', itemPackType?.id].includes(packType)) &&
-      (!vesselCode ||
-        `${item?.vessel?.vesselCode}`.includes(vesselCode) ||
-        ['Any', item?.vessel?.vesselCode].includes(vesselCode)) &&
-      (!label ||
-        `${itemPackType?.label?.labelCode}`.includes(label) ||
-        ['Any', itemPackType?.label?.labelCode].includes(label)) &&
-      (!plu ||
-        (item.plu ? 'PLU' : 'No PLU').includes(plu) ||
-        ['Any', item.plu ? 'PLU' : 'No PLU'].includes(plu));
+    const getIsValid = (rev: boolean) => {
+      const loc = rev ? reviewLocationId : locationId;
+      const lab = rev ? reviewLabel : label;
+      const spe = rev ? reviewSpecies : species;
+      const vari = rev ? reviewVariety : variety;
+      const siz = rev ? reviewSize : size;
+      const pac = rev ? reviewPackType : packType;
+      const pl = rev ? reviewPlu : plu;
+      const shi = rev ? reviewShipperId : shipperId;
+      const ves = rev ? reviewVesselCode : vesselCode;
 
-    if (isValid) {
+      return (
+        dateValid &&
+        (!(rev ? reviewWarehouse : warehouse) ||
+          `${item.warehouse?.warehouseName}`.includes(`${loc}`) ||
+          ['Any', item.warehouse?.id].includes(loc || undefined)) &&
+        ((!rev ? reviewShipper : shipper) ||
+          `${item.shipper?.shipperName}`.includes(`${shi}`) ||
+          ['Any', item.shipper?.id].includes(shi || undefined)) &&
+        (!spe ||
+          `${itemSpecies?.speciesDescription}`.includes(spe) ||
+          [itemSpecies?.id].includes(spe)) &&
+        (!vari ||
+          `${itemVariety?.varietyDescription}`.includes(vari) ||
+          ['Any', itemVariety?.id].includes(vari)) &&
+        (!siz ||
+          `${itemSize?.combineDescription}`.includes(siz) ||
+          ['Any', itemSize?.id].includes(siz)) &&
+        (!pac ||
+          `${itemPackType?.packDescription}`.includes(pac) ||
+          ['Any', itemPackType?.id].includes(pac)) &&
+        (!ves ||
+          `${item?.vessel?.vesselCode}`.includes(ves) ||
+          ['Any', item?.vessel?.vesselCode].includes(ves)) &&
+        (!lab ||
+          `${itemPackType?.label?.labelCode}`.includes(lab) ||
+          ['Any', itemPackType?.label?.labelCode].includes(lab)) &&
+        (!pl ||
+          (item.plu ? 'PLU' : 'No PLU').includes(pl) ||
+          ['Any', item.plu ? 'PLU' : 'No PLU'].includes(pl))
+      );
+    };
+
+    const isValid = getIsValid(false);
+    const reviewIsValid = getIsValid(true);
+
+    if (isReview ? reviewIsValid : isValid) {
       if (
         !locationOptions.find(({ id }) => id === item.warehouse?.id) &&
         item.warehouse
@@ -258,10 +359,19 @@ const NewOrderEntryItem = ({
         });
       }
 
-      if (
-        !vesselOptions.find(({ id }) => id === item.vessel?.vesselCode) &&
-        item.vessel
-      ) {
+      if (item.vessel) {
+        const currentVesselOptions = vesselOptions.filter(
+          ({ id }) => id === item.vessel?.vesselCode,
+        );
+        const currentPalletsAvailable = currentVesselOptions.reduce(
+          (acc, { text }) => {
+            const textArray = text.split('|');
+            const palletsAvailableText = textArray[4];
+            const palletsAvailable = parseInt(palletsAvailableText, 10);
+            return acc + palletsAvailable;
+          },
+          0,
+        );
         const dischargeDate = new Date(
           item.vessel.dischargeDate.replace(/-/g, '/'),
         );
@@ -269,13 +379,17 @@ const NewOrderEntryItem = ({
           dischargeDate,
           fobDate ? new Date(fobDate.replace(/-/g, '/')) : new Date(),
         );
-        vesselOptions.push({
-          text: `${item.vessel.vesselName}|${item.vessel.vesselCode}|${format(
-            dischargeDate,
-            'MMM dd',
-          )}|${dayCount >= 0 ? '+' : ''}${dayCount}d|${item.palletsAvailable}`,
-          id: item.vessel.vesselCode,
-        });
+        vesselOptions = vesselOptions
+          .filter((option) => option.id !== item.vessel?.vesselCode)
+          .concat({
+            text: `${item.vessel.vesselName}|${item.vessel.vesselCode}|${format(
+              dischargeDate,
+              'MMM dd',
+            )}|${dayCount >= 0 ? '+' : ''}${dayCount}d|${
+              parseInt(item.palletsAvailable, 10) + currentPalletsAvailable
+            }`,
+            id: item.vessel.vesselCode,
+          });
       }
 
       if (
@@ -345,7 +459,7 @@ const NewOrderEntryItem = ({
       }
     }
 
-    return isValid;
+    return isReview ? reviewIsValid : isValid;
   });
 
   const noItemsFound = !loading && filteredItems.length === 0;
@@ -377,6 +491,15 @@ const NewOrderEntryItem = ({
     packType: packTypeOptions,
     label: labelOptions,
     plu: pluOptions,
+    reviewLocationId: locationOptions,
+    reviewVesselCode: vesselOptions,
+    reviewShipperId: shipperOptions,
+    reviewSpecies: speciesOptions,
+    reviewVariety: varietyOptions,
+    reviewSize: sizeOptions,
+    reviewPackType: packTypeOptions,
+    reviewLabel: labelOptions,
+    reviewPlu: pluOptions,
     palletCount: [],
     unitSellPrice: [],
     deliveryCharge: [],
@@ -423,13 +546,10 @@ const NewOrderEntryItem = ({
           </ty.CaptionText>
         )}
         {dateText !== undefined && !isAny ? (
-          <ty.CaptionText bold={!isLabels && isActive} secondary={isLabels}>
-            {dateText}
-          </ty.CaptionText>
+          <ty.CaptionText secondary={isLabels}>{dateText}</ty.CaptionText>
         ) : null}
         {dateText && !isAny ? (
           <ty.CaptionText
-            bold={!isLabels && (days === 0 || isActive)}
             color={
               isLabels
                 ? th.colors.text.default
@@ -446,7 +566,6 @@ const NewOrderEntryItem = ({
         ) : null}
         {palletsAvailable !== undefined && !isAny ? (
           <ty.CaptionText
-            bold={!isLabels && isActive}
             color={
               isLabels
                 ? th.colors.text.default
@@ -469,44 +588,44 @@ const NewOrderEntryItem = ({
     const value = getSelectorValue(type);
     const isDirty = isValueDirty(type);
 
-    const getItemContent =
-      type === 'vesselCode'
-        ? getVesselItemContent
-        : (link: ItemLink) => (
-            <ItemLinkRow active={link.id === updatedItem[type]} link={link} />
-          );
+    const getItemContent = ['vesselCode', 'reviewVesselCode'].includes(type)
+      ? getVesselItemContent
+      : (link: ItemLink) => (
+          <ItemLinkRow active={link.id === updatedItem[type]} link={link} />
+        );
 
     const selectItem = ({ id }: ItemLink) => {
       handleChange(type, id === '-1' ? null : id);
     };
 
-    const validate = itemListLabels.find(({ key }) => key === type)?.validate;
+    const validate = itemListLabels(fob).find(
+      ({ key }) => key === type,
+    )?.validate;
     const isValid = validate ? validate(updatedItem) : true;
 
     const allItems = getOptions(filterOptions[type], allowAny);
 
     return {
       ...commonSelectorProps,
-      allItems:
-        type === 'vesselCode'
-          ? [
-              { id: 'Any', text: 'Any' },
-              {
-                id: 'labels',
-                text: 'Name|Code|Arrival|Age|Avail',
-                disabled: true,
+      allItems: ['vesselCode', 'reviewVesselCode'].includes(type)
+        ? [
+            { id: 'Any', text: 'Any' },
+            {
+              id: 'labels',
+              text: 'Name|Code|Arrival|Age|Avail',
+              disabled: true,
+            },
+            ...sortBy(
+              ({ text }) => {
+                const textArray = text.split('|');
+                const dateText = textArray[2];
+                const date = new Date(dateText);
+                return date;
               },
-              ...sortBy(
-                ({ text }) => {
-                  const textArray = text.split('|');
-                  const dateText = textArray[2];
-                  const date = new Date(dateText);
-                  return date;
-                },
-                allItems.filter(({ id }) => id !== 'Any'),
-              ),
-            ]
-          : allItems,
+              allItems.filter(({ id }) => id !== 'Any'),
+            ),
+          ]
+        : allItems,
       editableCellProps: {
         bypassLocalValue: true,
         content: { dirty: isDirty, value },
@@ -516,69 +635,68 @@ const NewOrderEntryItem = ({
         onChange: (e: ChangeEvent<HTMLInputElement>) => {
           handleChange(type, e.target.value);
         },
-        warning: noItemsFound,
+        warning: !loading && noItemsFound,
       },
       getItemContent,
       nameKey: 'text' as keyof ItemLink,
       selectItem,
-      width:
-        type === 'vesselCode'
-          ? 400
-          : type === 'locationId'
-          ? 283
-          : commonSelectorProps.width,
+      width: ['vesselCode', 'reviewVesselCode'].includes(type)
+        ? 400
+        : ['locationId', 'reviewLocationId'].includes(type)
+        ? 283
+        : commonSelectorProps.width,
     };
   };
 
   const { ItemSelector: SpeciesSelector } = useItemSelector({
     errorLabel: 'species',
-    ...getItemSelectorProps('species', false),
+    ...getItemSelectorProps(isReview ? 'reviewSpecies' : 'species', false),
   });
 
   const { ItemSelector: VarietySelector } = useItemSelector({
     errorLabel: 'varieties',
-    ...getItemSelectorProps('variety'),
+    ...getItemSelectorProps(isReview ? 'reviewVariety' : 'variety'),
   });
 
   const { ItemSelector: SizeSelector } = useItemSelector({
     errorLabel: 'sizes',
-    ...getItemSelectorProps('size'),
+    ...getItemSelectorProps(isReview ? 'reviewSize' : 'size'),
   });
 
   const { ItemSelector: PackTypeSelector } = useItemSelector({
     errorLabel: 'pack types',
-    ...getItemSelectorProps('packType'),
+    ...getItemSelectorProps(isReview ? 'reviewPackType' : 'packType'),
   });
 
   const { ItemSelector: ShipperSelector } = useItemSelector({
     errorLabel: 'shippers',
-    ...getItemSelectorProps('shipperId'),
+    ...getItemSelectorProps(isReview ? 'reviewShipperId' : 'shipperId'),
   });
 
   const { ItemSelector: WarehouseSelector } = useItemSelector({
     errorLabel: 'warehouses',
-    ...getItemSelectorProps('locationId'),
+    ...getItemSelectorProps(isReview ? 'reviewLocationId' : 'locationId'),
   });
 
   const { ItemSelector: VesselSelector } = useItemSelector({
     errorLabel: 'vessels',
-    ...getItemSelectorProps('vesselCode'),
+    ...getItemSelectorProps(isReview ? 'reviewVesselCode' : 'vesselCode'),
   });
 
   const { ItemSelector: LabelSelector } = useItemSelector({
     errorLabel: 'labels',
-    ...getItemSelectorProps('label'),
+    ...getItemSelectorProps(isReview ? 'reviewLabel' : 'label'),
   });
 
   const { ItemSelector: PluSelector } = useItemSelector({
     errorLabel: 'plu options',
-    ...getItemSelectorProps('plu'),
+    ...getItemSelectorProps(isReview ? 'reviewPlu' : 'plu'),
   });
 
   const { palletsAvailable, palletsOnHand, palletsReceived } =
     reducePalletData(filteredItems);
 
-  const validatePalletCount = itemListLabels.find(
+  const validatePalletCount = itemListLabels(fob).find(
     ({ key }) => key === 'palletCount',
   )?.validate;
   const isPalletCountValid = validatePalletCount
@@ -620,16 +738,17 @@ const NewOrderEntryItem = ({
       inputProps: {
         type: 'number',
         min: 1,
-        ml: th.spacing.sm,
         width: 50,
       },
       onChange: (e: ChangeEvent<HTMLInputElement>) => {
         handleChange('palletCount', e.target.value);
       },
       warning:
-        noItemsFound ||
-        palletsAvailable.total - (parseInt(updatedItem.palletCount, 10) || 0) <
-          0,
+        !loading &&
+        (noItemsFound ||
+          palletsAvailable.total -
+            (parseInt(updatedItem.palletCount, 10) || 0) <
+            0),
     },
     getItemContent: (link: ItemLink) => {
       const updatedTotal =
@@ -664,21 +783,21 @@ const NewOrderEntryItem = ({
     },
   });
 
-  const validateUnitSellPrice = itemListLabels.find(
+  const validateUnitSellPrice = itemListLabels(fob).find(
     ({ key }) => key === 'unitSellPrice',
   )?.validate;
   const isUnitSellPriceValid = validateUnitSellPrice
     ? validateUnitSellPrice(updatedItem)
     : true;
 
-  const validateDeliveryCharge = itemListLabels.find(
+  const validateDeliveryCharge = itemListLabels(fob).find(
     ({ key }) => key === 'deliveryCharge',
   )?.validate;
   const isDeliveryChargeValid = validateDeliveryCharge
     ? validateDeliveryCharge(updatedItem)
     : true;
 
-  const [showNotes, setShowNotes] = useState(!!updatedItem?.notes);
+  const [showNotes, setShowNotes] = useState(isReview || !!updatedItem?.notes);
 
   const toggleNotes = () => setShowNotes(!!updatedItem?.notes || !showNotes);
 
@@ -687,41 +806,43 @@ const NewOrderEntryItem = ({
       <l.Grid
         alignCenter
         gridColumnGap={th.spacing.xs}
-        gridTemplateColumns={gridTemplateColumns}
+        gridTemplateColumns={gridTemplateColumns(fob)}
         ml={52}
         relative
       >
-        <>
-          {showRemoveIcon && (
-            <BasicModal
-              title="Confirm Remove Product"
-              content={
-                <ty.BodyText mb={th.spacing.md}>
-                  Are you sure you want to remove this product? This action
-                  cannot be undone.
-                </ty.BodyText>
-              }
-              handleConfirm={() => {
-                handleRemoveItem(id);
+        {!isReview && (
+          <>
+            {showRemoveIcon && (
+              <BasicModal
+                title="Confirm Remove Product"
+                content={
+                  <ty.BodyText mb={th.spacing.md}>
+                    Are you sure you want to remove this product? This action
+                    cannot be undone.
+                  </ty.BodyText>
+                }
+                handleConfirm={() => {
+                  handleRemoveItem(id);
+                }}
+                shouldConfirm={updatedItem.id >= 0}
+                triggerProps={{
+                  position: 'absolute',
+                  left: -45,
+                }}
+                triggerType="remove-icon"
+              />
+            )}
+            <l.HoverButton
+              onClick={() => {
+                handleNewItem(updatedItem);
               }}
-              shouldConfirm={updatedItem.id >= 0}
-              triggerProps={{
-                position: 'absolute',
-                left: -45,
-              }}
-              triggerType="remove-icon"
-            />
-          )}
-          <l.HoverButton
-            onClick={() => {
-              handleNewItem(updatedItem);
-            }}
-            position="absolute"
-            left={-22}
-          >
-            <PlusInCircle height={th.sizes.xs} width={th.sizes.xs} />
-          </l.HoverButton>
-        </>
+              position="absolute"
+              left={-22}
+            >
+              <PlusInCircle height={th.sizes.xs} width={th.sizes.xs} />
+            </l.HoverButton>
+          </>
+        )}
         <l.Flex alignCenter>
           <ty.CaptionText ml={th.spacing.xs} mr="6px">
             {updatedItem.lineId}
@@ -740,55 +861,170 @@ const NewOrderEntryItem = ({
             />
           </l.HoverButton>
         </l.Flex>
-        {SpeciesSelector}
-        {VarietySelector}
-        {SizeSelector}
-        {PackTypeSelector}
-        {PluSelector}
-        {LabelSelector}
-        {ShipperSelector}
-        {VesselSelector}
-        {WarehouseSelector}
-        {PalletCountSelector}
-        <l.Flex alignCenter>
-          <ty.CaptionText mr={th.spacing.xs}>$</ty.CaptionText>
-          <EditableCell
-            bypassLocalValue
-            content={{
-              dirty: isValueDirty('unitSellPrice'),
-              value: updatedItem.unitSellPrice || '',
-            }}
-            defaultChildren={null}
-            editing={editing}
-            error={
-              editing && saveAttempt && (isDuplicate || !isUnitSellPriceValid)
-            }
-            onChange={(e: ChangeEvent<HTMLInputElement>) => {
-              handleChange('unitSellPrice', e.target.value);
-            }}
-            warning={noItemsFound}
-          />
-        </l.Flex>
-        <l.Flex alignCenter>
-          <ty.CaptionText mr={th.spacing.xs}>$</ty.CaptionText>
-          <EditableCell
-            bypassLocalValue
-            content={{
-              dirty: isValueDirty('deliveryCharge'),
-              value: updatedItem.deliveryCharge || '',
-            }}
-            defaultChildren={null}
-            editing={editing}
-            error={
-              editing && saveAttempt && (isDuplicate || !isDeliveryChargeValid)
-            }
-            onChange={(e: ChangeEvent<HTMLInputElement>) => {
-              handleChange('deliveryCharge', e.target.value);
-            }}
-            warning={noItemsFound}
-          />
-        </l.Flex>
+        {isReview ? (
+          <>
+            <ty.CaptionText>
+              {commonSpecies ? commonSpecies.speciesName : updatedItem.species}
+            </ty.CaptionText>
+            <ty.CaptionText secondary={updatedItem.variety === 'Any'}>
+              {commonVariety ? commonVariety.varietyName : updatedItem.variety}
+            </ty.CaptionText>
+            <ty.CaptionText secondary={updatedItem.size === 'Any'}>
+              {commonSize ? commonSize.sizeName : updatedItem.size}
+            </ty.CaptionText>
+            <ty.CaptionText secondary={updatedItem.packType === 'Any'}>
+              {commonPackType
+                ? commonPackType.packTypeName
+                : updatedItem.packType}
+            </ty.CaptionText>
+            <ty.CaptionText secondary={updatedItem.plu === 'Any'}>
+              {updatedItem.plu}
+            </ty.CaptionText>
+            <ty.CaptionText secondary={updatedItem.label === 'Any'}>
+              {updatedItem.label}
+            </ty.CaptionText>
+            {updatedItem.shipper ? (
+              <ty.LinkText
+                hover="false"
+                to={`/directory/shippers/${updatedItem.shipperId}`}
+              >
+                {updatedItem.shipper.shipperName}
+              </ty.LinkText>
+            ) : (
+              <ty.CaptionText secondary={updatedItem.shipperId === 'Any'}>
+                {updatedItem.shipperId}
+              </ty.CaptionText>
+            )}
+            {updatedItem.vessel ? (
+              <ty.LinkText
+                hover="false"
+                to={`/inventory/vessels/${updatedItem.vessel.vesselCode}`}
+              >
+                {updatedItem.vessel.vesselCode}
+              </ty.LinkText>
+            ) : (
+              <ty.CaptionText secondary={updatedItem.vesselCode === 'Any'}>
+                {updatedItem.vesselCode}
+              </ty.CaptionText>
+            )}
+            {updatedItem.warehouse ? (
+              <ty.LinkText
+                hover="false"
+                to={`/directory/warehouses/${updatedItem.locationId}`}
+              >
+                {updatedItem.warehouse.warehouseName}
+              </ty.LinkText>
+            ) : (
+              <ty.CaptionText secondary={updatedItem.locationId === 'Any'}>
+                {updatedItem.locationId}
+              </ty.CaptionText>
+            )}
+          </>
+        ) : (
+          <>
+            {SpeciesSelector}
+            {VarietySelector}
+            {SizeSelector}
+            {PackTypeSelector}
+            {PluSelector}
+            {LabelSelector}
+            {ShipperSelector}
+            {VesselSelector}
+            {WarehouseSelector}
+          </>
+        )}
+        {isReview ? (
+          <ty.CaptionText ml={th.spacing.xs} mr="6px">
+            {updatedItem.palletCount}
+          </ty.CaptionText>
+        ) : (
+          PalletCountSelector
+        )}
+        {isReview ? (
+          <ty.CaptionText ml={th.spacing.xs} mr="6px">
+            $ {updatedItem.unitSellPrice}
+          </ty.CaptionText>
+        ) : (
+          <l.Flex alignCenter>
+            <ty.CaptionText mr={th.spacing.xs}>$</ty.CaptionText>
+            <EditableCell
+              bypassLocalValue
+              content={{
+                dirty: isValueDirty('unitSellPrice'),
+                value: updatedItem.unitSellPrice || '',
+              }}
+              defaultChildren={null}
+              editing={editing}
+              error={
+                editing && saveAttempt && (isDuplicate || !isUnitSellPriceValid)
+              }
+              onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                handleChange('unitSellPrice', e.target.value);
+              }}
+              warning={noItemsFound}
+            />
+          </l.Flex>
+        )}
+        {!fob &&
+          (isReview ? (
+            <ty.CaptionText ml={th.spacing.xs} mr="6px">
+              $ {updatedItem.deliveryCharge}
+            </ty.CaptionText>
+          ) : (
+            <l.Flex alignCenter>
+              <ty.CaptionText mr={th.spacing.xs}>$</ty.CaptionText>
+              <EditableCell
+                bypassLocalValue
+                content={{
+                  dirty: isValueDirty('deliveryCharge'),
+                  value: updatedItem.deliveryCharge || '',
+                }}
+                defaultChildren={null}
+                editing={editing}
+                error={
+                  editing &&
+                  saveAttempt &&
+                  (isDuplicate || !isDeliveryChargeValid)
+                }
+                onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                  handleChange('deliveryCharge', e.target.value);
+                }}
+                warning={noItemsFound}
+              />
+            </l.Flex>
+          ))}
+        <l.HoverButton
+          disabled={!isReview && !species}
+          onClick={
+            isReview ? handleResetItem : species ? handleAutoFill : undefined
+          }
+        >
+          <ResetItem height={th.sizes.xs} width={th.sizes.xs} />
+        </l.HoverButton>
       </l.Grid>
+      {isReview && (
+        <l.Grid
+          alignCenter
+          gridColumnGap={th.spacing.xs}
+          gridTemplateColumns={gridTemplateColumns(fob)}
+          ml={52}
+          mt={th.spacing.xs}
+          relative
+        >
+          <div />
+          {SpeciesSelector}
+          {VarietySelector}
+          {SizeSelector}
+          {PackTypeSelector}
+          {PluSelector}
+          {LabelSelector}
+          {ShipperSelector}
+          {VesselSelector}
+          {WarehouseSelector}
+          <div />
+          <div />
+        </l.Grid>
+      )}
       {showNotes && (
         <l.Flex alignCenter>
           <ty.BodyText ml={82} mr={th.spacing.md} secondary>
@@ -803,7 +1039,7 @@ const NewOrderEntryItem = ({
             defaultChildren={null}
             editing={editing}
             inputProps={{
-              autoFocus: true,
+              autoFocus: !isReview,
               borderColor: th.borders.disabled,
               width: 868,
             }}

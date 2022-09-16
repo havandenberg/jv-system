@@ -1,13 +1,13 @@
 import React from 'react';
 import { isEmpty } from 'ramda';
 
+import ListItem from 'components/list-item';
 import { DataMessage } from 'components/page/message';
 import useColumns, { SORT_ORDER } from 'hooks/use-columns';
 import { CommonSize } from 'types';
 import l from 'ui/layout';
 import th from 'ui/theme';
 
-import ListItem from '../list-item';
 import { listLabels } from './data-utils';
 
 const SizeList = ({
@@ -45,7 +45,7 @@ const SizeList = ({
                 gridTemplateColumns={gridTemplateColumns}
                 key={idx}
                 listLabels={listLabels}
-                slug={`${baseUrl}/sizes/${item.id}`}
+                to={`${baseUrl}/sizes/${item.id}`}
               />
             ),
         )

@@ -1,6 +1,9 @@
 import React from 'react';
+import { differenceInDays } from 'date-fns';
 import { isEmpty } from 'ramda';
 
+import { getSortedItems } from 'components/column-label';
+import ListItem from 'components/list-item';
 import { DataMessage } from 'components/page/message';
 import useColumns, { SORT_ORDER } from 'hooks/use-columns';
 import {
@@ -11,22 +14,14 @@ import { OrderItem } from 'types';
 import l from 'ui/layout';
 import th from 'ui/theme';
 
-import { getSortedItems } from '../data-utils';
-import ListItem from '../list-item';
 import { listLabels } from './data-utils';
 
 const gridTemplateColumns = (backOrderId?: string) =>
   `${
-    backOrderId ? '' : '70px '
-  }70px repeat(2, 1fr) 0.7fr 0.7fr 70px 70px 70px 100px 80px 30px`;
+    backOrderId ? '' : '60px '
+  }60px repeat(2, 1fr) 0.7fr 75px 70px 70px 70px 70px 70px 60px 100px 80px 30px`;
 
-const OrderItemList = ({
-  baseUrl,
-  items,
-}: {
-  baseUrl?: string;
-  items: OrderItem[];
-}) => {
+const OrderItemList = ({ items }: { items: OrderItem[] }) => {
   const [{ sortBy = 'backOrderId', sortOrder = SORT_ORDER.ASC }] =
     useSortQueryParams();
   const [{ backOrderId }] = useOrdersQueryParams();
@@ -57,14 +52,31 @@ const OrderItemList = ({
       </l.Grid>
       {!isEmpty(sortedOrderItems) ? (
         sortedOrderItems.map(
-          (item, idx) =>
+          (item) =>
             item && (
               <ListItem
                 data={item}
                 gridTemplateColumns={gridTemplateColumns(backOrderId)}
-                key={idx}
+                highlightColor={th.colors.status.warningSecondary}
+                isHalfHighlight={
+                  item.order?.expectedShipDate &&
+                  differenceInDays(
+                    new Date(item.order?.expectedShipDate.replace(/-/g, '/')),
+                    new Date(
+                      item.inventoryItem?.vessel?.dischargeDate.replace(
+                        /-/g,
+                        '/',
+                      ),
+                    ),
+                  ) > 7
+                }
+                key={`${item.backOrderId}-${item.lineId}`}
                 listLabels={listLabels(backOrderId)}
-                slug={`${baseUrl}?backOrderId=${item.backOrderId}&lineId=${item.lineId}`}
+                to={
+                  item?.inventoryItem
+                    ? `/inventory/items/${item?.inventoryItem?.id}`
+                    : undefined
+                }
               />
             ),
         )

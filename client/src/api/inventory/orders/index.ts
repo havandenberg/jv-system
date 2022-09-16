@@ -10,6 +10,7 @@ import { formatDate } from 'components/date-range-picker';
 import { SORT_ORDER } from 'hooks/use-columns';
 import {
   useDateRangeQueryParams,
+  useOrdersQueryParams,
   useQuerySet,
   useSearchQueryParam,
   useSortQueryParams,
@@ -21,28 +22,29 @@ const ORDER_MASTER_LIST_QUERY = loader('./list.gql');
 const ORDER_ENTRY_DETAILS_QUERY = loader('./entry/details.gql');
 const ORDER_ENTRY_LIST_QUERY = loader('./entry/list.gql');
 const ORDER_ENTRY_CREATE = loader('./entry/create.gql');
+const ORDER_ENTRY_UPDATE = loader('./entry/update.gql');
+const LOAD_NUMBERS_UPSERT = loader('./load-numbers/upsert.gql');
+const USER_DETAILS_QUERY = loader('../../user/details.gql');
 
 const useVariables = (orderByOverride?: string) => {
   const [search = ''] = useSearchQueryParam();
   const [{ sortBy = 'orderDate', sortOrder = SORT_ORDER.DESC }] =
     useSortQueryParams();
+  const [{ detailsIndex }] = useOrdersQueryParams();
   const orderBy = getOrderByString(sortBy, sortOrder);
 
   const [{ startDate, endDate }] = useDateRangeQueryParams();
-  const formattedStartDate =
-    startDate &&
-    formatDate(
-      add(new Date(startDate.replace(/-/g, '/')), {
-        weeks: startDate === endDate ? -8 : 0,
-      }),
-    );
-  const formattedEndDate =
-    endDate &&
-    formatDate(
-      add(new Date(endDate.replace(/-/g, '/')), {
-        days: startDate === endDate ? 1 : 0,
-      }),
-    );
+  const formattedStartDate = formatDate(
+    add(startDate ? new Date(startDate.replace(/-/g, '/')) : new Date(), {
+      weeks: startDate === endDate ? -8 : 0,
+    }),
+  );
+  const formattedEndDate = formatDate(
+    add(endDate ? new Date(endDate.replace(/-/g, '/')) : new Date(), {
+      days: detailsIndex !== undefined ? 0 : startDate === endDate ? 1 : 0,
+      weeks: detailsIndex !== undefined ? 4 : 0,
+    }),
+  );
 
   const [{ billingCustomerId, salesUserCode }] = useQuerySet({
     billingCustomerId: StringParam,
@@ -66,7 +68,7 @@ const useVariables = (orderByOverride?: string) => {
     billingCustomerId: filteredCustomerValues.map((val) =>
       val.substring(val.lastIndexOf(' (') + 2, val.length - 1),
     ),
-    salesUserCode: [...filteredSalesUserCodeValues, 'HV'],
+    salesUserCode: filteredSalesUserCodeValues,
     orderBy: orderByOverride || orderBy,
     search: getSearchArray(search),
     startDate: formattedStartDate,
@@ -74,8 +76,8 @@ const useVariables = (orderByOverride?: string) => {
   };
 };
 
-export const useOrderMasters = () => {
-  const variables = useVariables();
+export const useOrderMasters = (orderByOverride?: string) => {
+  const variables = useVariables(orderByOverride);
 
   const { data, error, loading } = useQuery<Query>(ORDER_MASTER_LIST_QUERY, {
     variables,
@@ -115,7 +117,7 @@ export const useOrderEntries = (orderByOverride?: string) => {
   };
 };
 
-export const useOrderEntry = (orderId: string) => {
+export const useOrderEntry = (orderId: string = '0') => {
   const { data, error, loading } = useQuery<Query>(ORDER_ENTRY_DETAILS_QUERY, {
     variables: {
       orderId,
@@ -128,8 +130,8 @@ export const useOrderEntry = (orderId: string) => {
   };
 };
 
-export const useCreateOrderEntry = () => {
-  const variables = useVariables();
+export const useCreateOrderEntry = (orderId: string) => {
+  const variables = useVariables('ORDER_DATE_ASC');
 
   return useMutation<Mutation>(ORDER_ENTRY_CREATE, {
     refetchQueries: [
@@ -137,6 +139,41 @@ export const useCreateOrderEntry = () => {
         query: ORDER_ENTRY_LIST_QUERY,
         variables,
       },
+      {
+        query: ORDER_ENTRY_DETAILS_QUERY,
+        variables: {
+          orderId,
+        },
+      },
     ],
   });
 };
+
+export const useUpdateOrderEntry = (orderId: string) => {
+  const variables = useVariables('ORDER_DATE_ASC');
+
+  return useMutation<Mutation>(ORDER_ENTRY_UPDATE, {
+    refetchQueries: [
+      {
+        query: ORDER_ENTRY_LIST_QUERY,
+        variables,
+      },
+      {
+        query: ORDER_ENTRY_DETAILS_QUERY,
+        variables: {
+          orderId,
+        },
+      },
+    ],
+  });
+};
+
+export const useUpsertLoadNumbers = (userId: number) =>
+  useMutation<Mutation>(LOAD_NUMBERS_UPSERT, {
+    refetchQueries: [
+      {
+        query: USER_DETAILS_QUERY,
+        variables: { id: userId, isRead: [true, false] },
+      },
+    ],
+  });

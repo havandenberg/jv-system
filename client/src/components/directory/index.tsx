@@ -1,8 +1,6 @@
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
-import { Tab, useTabBar } from 'components/tab-bar';
-
 import GroupDirectory from './groups';
 import CreateContactGroup from './groups/create';
 import GroupDetails from './groups/details';
@@ -29,45 +27,13 @@ export enum DirectoryTypes {
   CUSTOMERS = 'customers',
 }
 
-const tabs: Tab[] = [
-  {
-    id: DirectoryTypes.INTERNAL,
-    text: 'Internal',
-    to: `/directory/${DirectoryTypes.INTERNAL}`,
-  },
-  {
-    id: DirectoryTypes.CUSTOMERS,
-    text: 'Customers',
-    to: `/directory/${DirectoryTypes.CUSTOMERS}`,
-  },
-  {
-    id: DirectoryTypes.SHIPPERS,
-    text: 'Shippers',
-    to: `/directory/${DirectoryTypes.SHIPPERS}`,
-  },
-  {
-    id: DirectoryTypes.WAREHOUSES,
-    text: 'Warehouses',
-    to: `/directory/${DirectoryTypes.WAREHOUSES}`,
-  },
-  {
-    id: DirectoryTypes.GROUPS,
-    text: 'Groups',
-    to: `/directory/${DirectoryTypes.GROUPS}`,
-  },
-];
-
 export interface SubDirectoryProps {
   actions: React.ReactNode[];
-  TabBar: React.ReactNode;
 }
 
 const Directory = () => {
-  const { TabBar } = useTabBar(tabs, true);
-
   const subDirectoryProps = {
     actions: [<SendMessage key={0} />],
-    TabBar: <TabBar />,
   };
 
   return (

@@ -86,7 +86,7 @@ const Details = () => {
           ? [
               <l.AreaLink
                 key={0}
-                mr={th.spacing.md}
+                mr={th.spacing.lg}
                 target="_blank"
                 to={`/sales/programs?customerId=${data.id}&programsView=customers`}
               >

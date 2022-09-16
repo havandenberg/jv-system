@@ -3,10 +3,12 @@ import { isEmpty } from 'ramda';
 
 import api from 'api';
 import { formatDate } from 'components/date-range-picker';
+import ListItem from 'components/list-item';
 import { DataMessage } from 'components/page/message';
 import Page from 'components/page';
 import VirtualizedList from 'components/virtualized-list';
 import useColumns, { SORT_ORDER } from 'hooks/use-columns';
+import { useProjectionsQueryParams } from 'hooks/use-query-params';
 import useSearch from 'hooks/use-search';
 import { ShipperProjection } from 'types';
 import l from 'ui/layout';
@@ -16,7 +18,6 @@ import ty from 'ui/typography';
 import { ShipperProjectionProps } from '../';
 import ProjectionSettings from '../settings';
 import { listLabels } from './data-utils';
-import ListItem from './item';
 
 const gridTemplateColumns = '1.5fr 150px 115px 2fr 100px 30px';
 
@@ -27,6 +28,7 @@ const ShipperProjectionList = ({
   DateRangePicker,
   handleDateChange,
 }: ShipperProjectionProps) => {
+  const [, setQueryParams] = useProjectionsQueryParams();
   const { Search, clearSearch } = useSearch();
 
   const { data, loading, error } = api.useShipperProjections();
@@ -109,7 +111,7 @@ const ShipperProjectionList = ({
                   <ListItem<ShipperProjection>
                     data={item}
                     gridTemplateColumns={gridTemplateColumns}
-                    handleDateChange={() => {
+                    onClick={() => {
                       handleDateChange({
                         selection: {
                           startDate: submittedAt,
@@ -117,11 +119,15 @@ const ShipperProjectionList = ({
                           key: 'selection',
                         },
                       });
+                      setQueryParams({
+                        endDate: formatDate(submittedAt),
+                        shipperId: item.shipper?.id || '',
+                        projectionId: item.id || '',
+                        startDate: formatDate(submittedAt),
+                        projectionsView: 'grid',
+                      });
                     }}
                     listLabels={listLabels}
-                    projectionId={item.id || ''}
-                    shipperId={item.shipper?.id || ''}
-                    startDate={formatDate(submittedAt)}
                   />
                 </div>
               )

@@ -1,6 +1,7 @@
 import React from 'react';
 import { isEmpty } from 'ramda';
 
+import ListItem from 'components/list-item';
 import { DataMessage } from 'components/page/message';
 import useColumns, { SORT_ORDER } from 'hooks/use-columns';
 import { OrderMaster } from 'types';
@@ -8,9 +9,8 @@ import l from 'ui/layout';
 import th from 'ui/theme';
 
 import { listLabels } from './data-utils';
-import ListItem from './list-item';
 
-const gridTemplateColumns = `70px 1fr 1fr 2fr 2fr 80px 30px`;
+const gridTemplateColumns = `70px 1fr 2fr 2fr 80px 30px`;
 
 const OrderMasterList = ({
   baseUrl,
@@ -45,7 +45,7 @@ const OrderMasterList = ({
                 gridTemplateColumns={gridTemplateColumns}
                 key={idx}
                 listLabels={listLabels}
-                slug={`${baseUrl}${item.orderId}?backOrderId=${item.backOrderId}`}
+                to={`${baseUrl}${item.orderId}?backOrderId=${item.backOrderId}&orderView=orderItems`}
               />
             ),
         )

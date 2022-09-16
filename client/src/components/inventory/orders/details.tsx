@@ -1,14 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 import api from 'api';
 import BaseData from 'components/base-data';
 import Page from 'components/page';
 import { DataMessage } from 'components/page/message';
-import StepTracker from 'components/step-tracker';
 import { Tab, useTabBar } from 'components/tab-bar';
+import { useActiveUser } from 'components/user/context';
+import { SORT_ORDER } from 'hooks/use-columns';
 import usePrevious from 'hooks/use-previous';
-import { useOrdersQueryParams } from 'hooks/use-query-params';
+import {
+  useOrdersQueryParams,
+  useSortQueryParams,
+} from 'hooks/use-query-params';
 import { OrderEntry, OrderItem, OrderMaster } from 'types';
 import b from 'ui/button';
 import l from 'ui/layout';
@@ -32,17 +36,21 @@ export const breadcrumbs = (id: string) => [
   },
 ];
 
-const orderMasterTabs: (
+const tabs: (
   itemCount: number,
   pickupCount: number,
   entriesCount: number,
 ) => Tab[] = (itemCount, pickupCount, entriesCount) => [
   ...(itemCount > 0
     ? [
-        {
-          id: 'pickupLocations',
-          text: `Pickups${pickupCount ? ' (' + pickupCount + ')' : ''}`,
-        },
+        ...(pickupCount && pickupCount > 1
+          ? [
+              {
+                id: 'pickupLocations',
+                text: `Pickups (${pickupCount})`,
+              },
+            ]
+          : []),
         {
           id: 'orderItems',
           text: `Items${itemCount ? ' (' + itemCount + ')' : ''}`,
@@ -55,37 +63,16 @@ const orderMasterTabs: (
   },
 ];
 
-const orderItemTabs: (itemCount: number) => Tab[] = (itemCount) => [
-  {
-    id: 'orderItems',
-    text: `Items${itemCount ? ' (' + itemCount + ')' : ''}`,
-  },
-];
-
-const orderSteps = [
-  {
-    id: 'submitted',
-    text: 'Submitted',
-  },
-  {
-    id: 'reviewing',
-    text: 'Review',
-  },
-  {
-    id: 'loading',
-    text: 'Loading',
-  },
-  {
-    id: 'shipped',
-    text: 'Shipped',
-  },
-];
-
 const Details = () => {
   const { id } = useParams<{
     id: string;
   }>();
 
+  const {
+    roles: { isOrderEntry, isSalesAssoc },
+  } = useActiveUser();
+
+  const [, setSortParams] = useSortQueryParams();
   const [{ backOrderId }, setOrdersParams] = useOrdersQueryParams();
 
   const {
@@ -96,7 +83,7 @@ const Details = () => {
   const orderEntries = (
     orderEntriesData ? orderEntriesData.nodes : []
   ) as OrderEntry[];
-  const latestOrderEntry = orderEntries[0];
+  const latestOrderEntry = orderEntries[orderEntries.length - 1];
 
   const {
     data,
@@ -106,11 +93,14 @@ const Details = () => {
   const orderMasters = ((data?.nodes || []) as OrderMaster[]).filter(
     (orderMaster) => `${orderMaster?.orderId}` === id,
   );
-  const orderMaster = orderMasters[backOrderId ? backOrderId : 0];
+  const orderMaster = backOrderId
+    ? orderMasters.find(
+        (orderMaster) => `${orderMaster?.backOrderId}` === backOrderId,
+      )
+    : orderMasters[0];
 
   const hasData = orderMaster || orderEntries.length > 0;
   const loading = orderMastersLoading || orderEntriesLoading;
-  const prevLoading = usePrevious(loading);
   const error = orderMastersError || orderEntriesError;
 
   const allItems = backOrderId
@@ -119,24 +109,50 @@ const Details = () => {
         .map(({ items }) => (items.nodes || []) as OrderItem[])
         .flat() || [];
 
-  const {
-    TabBar: OrderMasterTabBar,
-    handleSelectTab,
-    selectedTabId: selectedOrderMasterTab,
-  } = useTabBar(
-    orderMasterTabs(allItems.length, orderMasters.length, orderEntries.length),
+  const { TabBar, selectedTabId } = useTabBar(
+    tabs(
+      allItems.length,
+      backOrderId ? 0 : orderMasters.length,
+      orderEntries.length,
+    ),
+    false,
+    'pickupLocations',
+    'orderView',
   );
-  const { TabBar: OrderItemTabBar } = useTabBar(orderItemTabs(allItems.length));
+  const prevSelectedTabId = usePrevious(selectedTabId);
 
   useEffect(() => {
-    if (prevLoading && !loading) {
-      handleSelectTab(orderMaster ? 'pickupLocations' : 'orderEntries');
+    if (prevSelectedTabId !== selectedTabId) {
+      const isEntries = selectedTabId === 'orderEntries';
+      setSortParams(
+        {
+          sortBy: isEntries ? 'orderDate' : 'backOrderId',
+          sortOrder: isEntries ? SORT_ORDER.DESC : SORT_ORDER.ASC,
+        },
+        'replaceIn',
+      );
     }
-  });
+  }, [prevSelectedTabId, selectedTabId, setSortParams]);
+
+  useEffect(() => {
+    if (
+      orderMasters &&
+      orderMasters.length === 1 &&
+      orderMaster &&
+      !backOrderId
+    ) {
+      setOrdersParams(
+        { backOrderId: `${orderMaster.backOrderId}`, orderView: 'orderItems' },
+        'replaceIn',
+      );
+    }
+  }, [backOrderId, orderMasters, orderMaster, setOrdersParams]);
 
   const isPickups =
-    selectedOrderMasterTab === 'pickupLocations' && !backOrderId;
-  const isEntries = selectedOrderMasterTab === 'orderEntries';
+    selectedTabId === 'pickupLocations' &&
+    !backOrderId &&
+    orderMasters.length > 1;
+  const isEntries = selectedTabId === 'orderEntries';
 
   const { totalPallets, totalSellPrice } = allItems.reduce(
     (acc, item) => ({
@@ -152,27 +168,36 @@ const Details = () => {
     },
   );
 
-  const [orderStepId] = useState(orderSteps[1]?.id);
-
   const clearBackOrderId = () => {
-    setOrdersParams({ backOrderId: undefined });
+    setOrdersParams({
+      backOrderId: undefined,
+      orderView: orderMasters.length > 1 ? 'pickupLocations' : 'orderItems',
+    });
   };
 
   return (
     <Page
       actions={[
-        <l.AreaLink
-          key={0}
-          ml={th.spacing.lg}
-          to={`/inventory/orders/${id}/edit`}
-        >
-          <b.Primary>Edit</b.Primary>
-        </l.AreaLink>,
+        isSalesAssoc && orderEntries.length > 0 ? (
+          <l.AreaLink
+            key="edit"
+            ml={th.spacing.lg}
+            to={`/inventory/orders/${id}/edit`}
+          >
+            <b.Warning>Edit</b.Warning>
+          </l.AreaLink>
+        ) : null,
+        isOrderEntry && orderEntries.length > 0 && (
+          <l.AreaLink
+            key="review"
+            ml={th.spacing.lg}
+            to={`/inventory/orders/${id}/review`}
+          >
+            <b.Warning>Review</b.Warning>
+          </l.AreaLink>
+        ),
       ]}
       breadcrumbs={breadcrumbs(id)}
-      centerAction={
-        <StepTracker currentStepId={orderStepId} steps={orderSteps} />
-      }
       title={hasData ? 'Order' : 'Loading...'}
     >
       {hasData ? (
@@ -180,13 +205,13 @@ const Details = () => {
           {orderMaster ? (
             <BaseData<OrderMaster>
               data={orderMaster}
-              labels={indexBaseLabels}
+              labels={indexBaseLabels(backOrderId)}
             />
           ) : (
             <>
-              <ty.BodyText italic mb={th.spacing.md} secondary>
-                Viewing latest entry:
-              </ty.BodyText>
+              <ty.CaptionText italic mb={th.spacing.md} secondary>
+                Last entry submitted:
+              </ty.CaptionText>
               <BaseData<OrderEntry>
                 data={latestOrderEntry}
                 labels={entryBaseLabels}
@@ -194,17 +219,25 @@ const Details = () => {
             </>
           )}
           <l.Div mt={th.spacing.md} />
-          {orderMaster && backOrderId && (
+          {orderMaster && (backOrderId || orderMasters.length === 1) && (
             <>
-              <l.Flex alignCenter justifyBetween my={th.spacing.md}>
+              <l.Flex alignCenter my={th.spacing.md}>
                 <ty.CaptionText>Pickup Location:</ty.CaptionText>
-                <b.Primary onClick={clearBackOrderId}>Show All</b.Primary>
+                {orderMasters.length > 1 && (
+                  <l.HoverButton
+                    dark
+                    ml={th.spacing.lg}
+                    onClick={clearBackOrderId}
+                  >
+                    <ty.CaptionText>Show All</ty.CaptionText>
+                  </l.HoverButton>
+                )}
               </l.Flex>
               <BaseData<OrderMaster> data={orderMaster} labels={baseLabels} />
             </>
           )}
           <l.Flex alignCenter justifyBetween my={th.spacing.lg}>
-            {backOrderId ? <OrderItemTabBar /> : <OrderMasterTabBar />}
+            <TabBar />
             <l.Flex alignCenter>
               <ty.CaptionText mr={th.spacing.lg}>
                 Total Pallets:{' '}
@@ -226,17 +259,17 @@ const Details = () => {
             </l.Flex>
           </l.Flex>
           {isEntries ? (
-            <OrderEntryList baseUrl={`orders/`} items={orderEntries} />
+            <OrderEntryList
+              baseUrl={`/inventory/orders/`}
+              items={orderEntries}
+            />
           ) : isPickups ? (
             <OrderMasterList
-              baseUrl={`orders/`}
+              baseUrl={`/inventory/orders/`}
               items={orderMasters as OrderMaster[]}
             />
           ) : (
-            <OrderItemList
-              baseUrl={`orders/${id}`}
-              items={(allItems || []) as OrderItem[]}
-            />
+            <OrderItemList items={(allItems || []) as OrderItem[]} />
           )}
         </l.Div>
       ) : (

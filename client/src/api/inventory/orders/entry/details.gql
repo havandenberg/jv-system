@@ -15,9 +15,11 @@ query ORDER_ENTRY_DETAILS($orderId: BigFloat!) {
           id
           firstName
           lastName
+          email
         }
       }
       reviewUserCode
+      reviewDate
       reviewUser {
         id
         personContact {
@@ -47,10 +49,44 @@ query ORDER_ENTRY_DETAILS($orderId: BigFloat!) {
           packType
           plu
           label
+          reviewLocationId
+          reviewVesselCode
+          reviewShipperId
+          reviewSpecies
+          reviewVariety
+          reviewSize
+          reviewPackType
+          reviewPlu
+          reviewLabel
           notes
+          vessel {
+            id
+            vesselCode
+            vesselName
+          }
+          shipper {
+            id
+            shipperName
+          }
+          warehouse {
+            id
+            warehouseName
+          }
+          reviewVessel {
+            id
+            vesselCode
+            vesselName
+          }
+          reviewShipper {
+            id
+            shipperName
+          }
+          reviewWarehouse {
+            id
+            warehouseName
+          }
         }
       }
-      reviewUserCode
     }
   }
 }

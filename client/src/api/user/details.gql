@@ -1,11 +1,23 @@
 query USER_DETAILS($id: BigInt!, $isRead: [Boolean!]) {
   user(id: $id) {
     id
+    loadNumbers(filter: { hasOrderEntries: { equalTo: false } }) {
+      nodes {
+        id
+        customerId
+        customer {
+          id
+          customerName
+        }
+      }
+    }
     pin
     personContact {
       firstName
       id
+      email
     }
+    userCode
     userMessages(filter: { isRead: { in: $isRead } }) {
       nodes {
         actionLink
@@ -16,6 +28,12 @@ query USER_DETAILS($id: BigInt!, $isRead: [Boolean!]) {
         isRead
         messageDate
         priority
+      }
+    }
+    userRoles {
+      nodes {
+        roleName
+        userId
       }
     }
   }

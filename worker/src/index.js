@@ -64,6 +64,9 @@ if (process.env.REACT_APP_IS_PRODUCTION === 'true') {
   cron.schedule('*/5 5-22 * * *', () =>
     db2UpdateTable('operations/order/item'),
   );
+  cron.schedule('*/5 5-22 * * *', () =>
+    db2UpdateTable('operations/truck-load'),
+  );
 
   cron.schedule('*/4 5-22 * * *', () => db2UpdateTable('product/master'));
   cron.schedule('*/4 5-22 * * *', () => db2UpdateTable('product/species'));

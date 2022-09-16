@@ -1,32 +1,49 @@
 import React, { useState } from 'react';
-import { isEmpty } from 'ramda';
+import { differenceInDays } from 'date-fns';
+import { isEmpty, uniq } from 'ramda';
 
 import api from 'api';
+import { getSortedItems } from 'components/column-label';
+import ListItem from 'components/list-item';
 import { DataMessage } from 'components/page/message';
 import Page from 'components/page';
+import { useActiveUser } from 'components/user/context';
 import VirtualizedList from 'components/virtualized-list';
 import useColumns, { SORT_ORDER } from 'hooks/use-columns';
-import { useSortQueryParams } from 'hooks/use-query-params';
-import { CommonSpecies, OrderEntry, OrderMaster } from 'types';
+import {
+  useOrdersQueryParams,
+  useSortQueryParams,
+} from 'hooks/use-query-params';
+import { CommonSpecies, OrderEntry, OrderItem, OrderMaster } from 'types';
 import b from 'ui/button';
 import l from 'ui/layout';
 import th from 'ui/theme';
 
 import {
   convertOrderEntriesToOrderMasters,
-  getSortedItems,
   indexListLabels,
 } from './data-utils';
-import ListItem from './list-item';
+import { indexListLabels as itemIndexListLabels } from './items/data-utils';
 import useOrdersFilters from './use-filters';
 
 export const breadcrumbs = [{ text: 'Orders', to: `/inventory/orders` }];
 
-const gridTemplateColumns = '90px 90px 110px 1fr 3fr 100px 60px 30px';
+const orderMasterGridTemplateColumns =
+  '90px 90px 110px 1fr 3fr 100px 60px 30px';
+
+const orderItemGridTemplateColumns =
+  '70px 1fr 70px 50px 1fr 80px 80px 40px 80px 50px 30px';
 
 const Orders = () => {
+  const {
+    roles: { isSalesAssoc },
+  } = useActiveUser();
+
   const [{ sortBy = 'expectedShipDate', sortOrder = SORT_ORDER.DESC }] =
     useSortQueryParams();
+  const [selectedFilters] = useOrdersQueryParams();
+
+  const isOrders = !selectedFilters.view || selectedFilters.view === 'orders';
 
   const {
     data: orderEntriesData,
@@ -41,7 +58,7 @@ const Orders = () => {
     data,
     loading: ordersLoading,
     error: ordersError,
-  } = api.useOrderMasters();
+  } = api.useOrderMasters(isOrders ? undefined : 'EXPECTED_SHIP_DATE_DESC');
   const items = (data ? data.nodes : []) as OrderMaster[];
 
   const {
@@ -58,15 +75,16 @@ const Orders = () => {
 
   const toggleExpanded = () => setExpanded(!expanded);
 
-  const { components, coast, filteredItems } = useOrdersFilters({
-    commonSpecieses,
-    expanded,
-    items,
-    loading,
-    toggleExpanded,
-  });
+  const { components, coast, filteredOrders, filteredOrderItems } =
+    useOrdersFilters({
+      commonSpecieses,
+      expanded,
+      items,
+      loading,
+      toggleExpanded,
+    });
 
-  const ordersGroupedByLocation = filteredItems.reduce((acc, item) => {
+  const ordersGroupedByLocation = filteredOrders.reduce((acc, item) => {
     const { orderId } = item || {};
     if (!acc || !orderId) {
       return acc;
@@ -82,9 +100,26 @@ const Orders = () => {
     .map((orderGroup) => orderGroup[0])
     .flat();
 
+  const hasProductFilters = [
+    'species',
+    'variety',
+    'size',
+    'packType',
+    'plu',
+    'label',
+    'vesselCode',
+    'shipper',
+    'location',
+    'countryOfOrigin',
+  ].some((key) => selectedFilters[key]);
+
   const allOrders = orders.concat(
-    convertOrderEntriesToOrderMasters(entryItems),
+    hasProductFilters ? [] : convertOrderEntriesToOrderMasters(entryItems),
   );
+
+  const salesAssocOptions = uniq(
+    allOrders.map(({ salesUser }) => salesUser?.userCode || ''),
+  ) as string[];
 
   const sortedOrders = getSortedItems(
     indexListLabels,
@@ -93,7 +128,22 @@ const Orders = () => {
     sortOrder,
   );
 
-  const columnLabels = useColumns<OrderMaster>(
+  const sortedOrderItems = getSortedItems(
+    itemIndexListLabels(selectedFilters, salesAssocOptions),
+    filteredOrderItems,
+    sortBy,
+    sortOrder,
+  );
+
+  const orderItemColumnLabels = useColumns<OrderItem>(
+    'productId',
+    SORT_ORDER.DESC,
+    itemIndexListLabels(selectedFilters, salesAssocOptions),
+    'operations',
+    'order_item',
+  );
+
+  const orderMasterColumnLabels = useColumns(
     'expectedShipDate',
     SORT_ORDER.DESC,
     indexListLabels,
@@ -101,15 +151,37 @@ const Orders = () => {
     'order_master',
   );
 
+  const columnLabels = isOrders
+    ? orderMasterColumnLabels
+    : orderItemColumnLabels;
+
+  const gridTemplateColumns = isOrders
+    ? orderMasterGridTemplateColumns
+    : orderItemGridTemplateColumns;
+
   return (
     <Page
-      actions={[
-        <l.AreaLink key="create" to={`/inventory/orders/create?coast=${coast}`}>
-          <b.Primary>New Order</b.Primary>
-        </l.AreaLink>,
-      ]}
+      actions={
+        isSalesAssoc
+          ? [
+              <l.AreaLink
+                key="create"
+                to={`/inventory/orders/create?coast=${coast}`}
+              >
+                <b.Success>New Order</b.Success>
+              </l.AreaLink>,
+              <l.AreaLink
+                key="load-numbers"
+                ml={th.spacing.lg}
+                to={`/inventory/orders/load-numbers`}
+              >
+                <b.Primary>Load Numbers</b.Primary>
+              </l.AreaLink>,
+            ]
+          : undefined
+      }
       breadcrumbs={breadcrumbs}
-      extraPaddingTop={expanded ? 258 : 156}
+      extraPaddingTop={expanded ? 248 : 156}
       headerChildren={
         <>
           {components}
@@ -127,7 +199,7 @@ const Orders = () => {
       }
       title="Orders"
     >
-      {!loading && !isEmpty(sortedOrders) ? (
+      {!loading && isOrders && !isEmpty(sortedOrders) ? (
         <VirtualizedList
           height={expanded ? 440 : 542}
           rowCount={data ? sortedOrders.length : 0}
@@ -140,7 +212,46 @@ const Orders = () => {
                     data={item}
                     gridTemplateColumns={gridTemplateColumns}
                     listLabels={indexListLabels}
-                    slug={`orders/${item.orderId}`}
+                    to={`/inventory/orders/${item.orderId}?orderView=${
+                      item.entryUserCode ? 'pickupLocations' : 'orderEntries'
+                    }`}
+                  />
+                </div>
+              )
+            );
+          }}
+        />
+      ) : !isEmpty(sortedOrderItems) ? (
+        <VirtualizedList
+          height={expanded ? 440 : 542}
+          rowCount={data ? sortedOrderItems.length : 0}
+          rowRenderer={({ key, index, style }) => {
+            const item = sortedOrderItems[index];
+            return (
+              item && (
+                <div key={key} style={style}>
+                  <ListItem<OrderItem>
+                    data={item}
+                    gridTemplateColumns={gridTemplateColumns}
+                    highlightColor={th.colors.status.warningSecondary}
+                    isHalfHighlight={
+                      differenceInDays(
+                        new Date(
+                          item.order?.expectedShipDate.replace(/-/g, '/'),
+                        ),
+                        new Date(
+                          item.inventoryItem?.vessel?.dischargeDate.replace(
+                            /-/g,
+                            '/',
+                          ),
+                        ),
+                      ) > 7
+                    }
+                    listLabels={itemIndexListLabels(
+                      selectedFilters,
+                      salesAssocOptions,
+                    )}
+                    to={`/inventory/orders/${item.orderId}?backOrderId=${item?.backOrderId}&orderView=orderItems`}
                   />
                 </div>
               )

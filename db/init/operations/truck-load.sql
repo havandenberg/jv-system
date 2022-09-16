@@ -37,31 +37,29 @@ AS $BODY$
     AND om.ship_warehouse_id = t.warehouse_id;
 $BODY$;
 
-CREATE FUNCTION operations.truck_load_has_order_masters(IN t operations.truck_load)
+CREATE FUNCTION operations.truck_load_count(IN t operations.truck_load)
     RETURNS INT
     LANGUAGE 'sql'
     STABLE
     PARALLEL UNSAFE
     COST 100
 AS $BODY$
-  SELECT COUNT(*) FROM operations.order_master om
-    WHERE om.truck_load_id = t.load_id
-    AND om.vendor_id = t.vendor_id
-    AND om.ship_warehouse_id = t.warehouse_id;
+  SELECT COUNT(*) FROM operations.truck_load tl
+    WHERE tl.load_id = t.load_id;
 $BODY$;
 
--- CREATE FUNCTION operations.truck_load_pallets(IN t operations.truck_load)
---     RETURNS setof product.pallet
---     LANGUAGE 'sql'
---     STABLE
---     PARALLEL UNSAFE
---     COST 100
--- AS $BODY$
---   SELECT p.* FROM product.pallet p FULL JOIN operations.order_master om
---     ON p.order_id = CAST(om.order_id AS TEXT)
---       AND p.back_order_id = CAST(om.back_order_id AS TEXT)
---     WHERE om.truck_load_id = t.load_id;
--- $BODY$;
+CREATE FUNCTION operations.truck_load_pallets(IN t operations.truck_load)
+    RETURNS setof product.pallet
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT * FROM product.pallet p JOIN operations.order_master om
+    ON p.order_id = CAST(om.order_id AS TEXT)
+      AND p.back_order_id = CAST(om.back_order_id AS TEXT)
+    WHERE om.truck_load_id = t.load_id;
+$BODY$;
 
 CREATE FUNCTION operations.truck_load_warehouse(IN t operations.truck_load)
     RETURNS directory.warehouse

@@ -4,6 +4,7 @@ import { isEmpty } from 'ramda';
 
 import api from 'api';
 import ResetImg from 'assets/images/reset';
+import ListItem from 'components/list-item';
 import { DataMessage } from 'components/page/message';
 import Page from 'components/page';
 import { useTabBar } from 'components/tab-bar';
@@ -19,7 +20,6 @@ import ty from 'ui/typography';
 
 import { coastTabs, ResetButton } from '../inventory/use-filters';
 import { listLabels } from './data-utils';
-import ListItem from './list-item';
 
 export const breadcrumbs = [{ text: 'Vessels', to: `/inventory/vessels` }];
 
@@ -52,14 +52,14 @@ const Vessels = () => {
 
   return (
     <Page
-      actions={[
-        <l.AreaLink
-          key="create"
-          to={`/inventory/vessels/create?coast=${coast}`}
-        >
-          <b.Primary>Create</b.Primary>
-        </l.AreaLink>,
-      ]}
+      // actions={[
+      //   <l.AreaLink
+      //     key="create"
+      //     to={`/inventory/vessels/create?coast=${coast}`}
+      //   >
+      //     <b.Success>Create</b.Success>
+      //   </l.AreaLink>,
+      // ]}
       breadcrumbs={breadcrumbs}
       extraPaddingTop={115}
       headerChildren={
@@ -133,7 +133,7 @@ const Vessels = () => {
                     data={item}
                     gridTemplateColumns={gridTemplateColumns}
                     listLabels={listLabels}
-                    slug={`vessels/${item.id}`}
+                    to={`/inventory/vessels/${item.vesselCode}`}
                   />
                 </div>
               )

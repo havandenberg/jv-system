@@ -1180,7 +1180,7 @@ const ShipperProjectionGrid = ({
         selectedShipper ? (
           <l.AreaLink
             key={0}
-            mr={th.spacing.md}
+            mr={th.spacing.lg}
             to={`/directory/shippers/${shipperId}`}
           >
             <b.Primary>Shipper</b.Primary>
@@ -1250,7 +1250,7 @@ const ShipperProjectionGrid = ({
               />
             ))}
         </l.Flex>,
-        <l.Div key={2} ml={th.spacing.md}>
+        <l.Div key={2} ml={th.spacing.lg}>
           <ProjectionSettings />
         </l.Div>,
       ]}

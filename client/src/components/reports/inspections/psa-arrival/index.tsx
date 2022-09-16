@@ -2,8 +2,10 @@ import React from 'react';
 import { isEmpty, pluck } from 'ramda';
 
 import api from 'api';
+import { coastTabs } from 'components/inventory/inventory/use-filters';
 import { DataMessage } from 'components/page/message';
 import Page from 'components/page';
+import { useTabBar } from 'components/tab-bar';
 import VirtualizedList from 'components/virtualized-list';
 import useColumns, { SORT_ORDER } from 'hooks/use-columns';
 import { PsaArrivalPicture, PsaArrivalReport } from 'types';
@@ -14,8 +16,6 @@ import ty from 'ui/typography';
 import { InspectionTypes, SubInspectionsProps } from '..';
 import ListItem from '../list-item';
 import { listLabels } from './data-utils';
-import { useTabBar } from 'components/tab-bar';
-import { coastTabs } from 'components/inventory/inventory/use-filters';
 
 export const gridTemplateColumns = '0.8fr 1.2fr 1.2fr 80px 75px 0.9fr 30px';
 

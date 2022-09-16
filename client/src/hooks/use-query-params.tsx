@@ -16,7 +16,11 @@ export const dateRangeParamSet = {
 };
 export const idParam = 'id';
 export const searchParam = 'search';
-const sortParamSet = { sortBy: StringParam, sortOrder: StringParam };
+const sortParamSet = {
+  sortBy: StringParam,
+  sortOrder: StringParam,
+  listScrollTop: StringParam,
+};
 
 export const useQuerySet = (
   paramSet: QueryParamConfigMap,
@@ -139,10 +143,13 @@ export const useOrdersQueryParams = () =>
     detailsIndex: StringParam,
     backOrderId: StringParam,
     lineId: StringParam,
+    view: StringParam,
+    orderView: StringParam,
   });
 
 export const useTruckLoadsQueryParams = () =>
   useQuerySet({
     coast: StringParam,
     location: StringParam,
+    truckLoadView: StringParam,
   });

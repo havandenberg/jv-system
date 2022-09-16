@@ -46,7 +46,9 @@ const useDateRange = (props?: Omit<DateRangeProps, 'onClear'>) => {
 
   const handleDateChange = useCallback(
     (changeProps: OnChangeProps, updateType?: UpdateType) => {
-      const range = (changeProps as { selection: Range }).selection;
+      const range =
+        (changeProps as { selection: Range }).selection ||
+        (changeProps as { range1: Range }).range1;
       const dateRangeParams = {
         startDate: range.startDate ? formatDate(range.startDate) : undefined,
         endDate: range.endDate ? formatDate(range.endDate) : undefined,
@@ -58,7 +60,7 @@ const useDateRange = (props?: Omit<DateRangeProps, 'onClear'>) => {
         setDateRangeParams(dateRangeParams, updateType);
       }
 
-      setSelectedDates([(changeProps as { selection: Range }).selection]);
+      setSelectedDates([range]);
     },
     [onDateChange, setDateRangeParams],
   );

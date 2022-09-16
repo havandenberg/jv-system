@@ -2,6 +2,7 @@ import React from 'react';
 import { isEmpty } from 'ramda';
 
 import api from 'api';
+import ListItem from 'components/list-item';
 import { DataMessage } from 'components/page/message';
 import Page from 'components/page';
 import { Tab, useTabBar } from 'components/tab-bar';
@@ -14,7 +15,6 @@ import th from 'ui/theme';
 import ty from 'ui/typography';
 
 import { listLabels } from './data-utils';
-import ListItem from './list-item';
 
 export const breadcrumbs = (slug: string) => [
   { text: 'Products', to: `/products/${slug}` },
@@ -107,7 +107,7 @@ const ProductIndex = () => {
                     data={item}
                     gridTemplateColumns={gridTemplateColumns}
                     listLabels={listLabels}
-                    slug={`products/${item.id}`}
+                    to={`/inventory/products/${item.id}`}
                   />
                 </div>
               )

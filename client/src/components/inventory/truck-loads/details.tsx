@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 
 import api from 'api';
@@ -6,9 +6,13 @@ import BaseData from 'components/base-data';
 import Page from 'components/page';
 import { DataMessage } from 'components/page/message';
 import { Tab, useTabBar } from 'components/tab-bar';
-import { useTruckLoadsQueryParams } from 'hooks/use-query-params';
+import { SORT_ORDER } from 'hooks/use-columns';
+import usePrevious from 'hooks/use-previous';
+import {
+  useSortQueryParams,
+  useTruckLoadsQueryParams,
+} from 'hooks/use-query-params';
 import { TruckLoad } from 'types';
-import b from 'ui/button';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
@@ -26,24 +30,22 @@ export const breadcrumbs = (id: string) => [
     to: `/inventory/truck-loads/${id}`,
   },
 ];
-const truckLoadTabs: (itemCount: number, pickupCount: number) => Tab[] = (
+
+const tabs: (itemCount: number, pickupCount: number) => Tab[] = (
   itemCount,
   pickupCount,
 ) => [
-  {
-    id: 'pickup-locations',
-    text: `Pickup Locations${pickupCount ? ' (' + pickupCount + ')' : ''}`,
-  },
-  {
-    id: 'pallets',
-    text: `Pallets${itemCount ? ' (' + itemCount + ')' : ''}`,
-  },
-];
-
-const palletTabs: (itemCount: number) => Tab[] = (itemCount) => [
+  ...(pickupCount && pickupCount > 1
+    ? [
+        {
+          id: 'pickupLocations',
+          text: `Pickups (${pickupCount})`,
+        },
+      ]
+    : []),
   {
     id: 'pallets',
-    text: `Pallets${itemCount ? ' (' + itemCount + ')' : ''}`,
+    text: `Pallets ${itemCount ? ' (' + itemCount + ')' : ''}`,
   },
 ];
 
@@ -51,22 +53,54 @@ const Details = () => {
   const { id } = useParams<{
     id: string;
   }>();
+
+  const [, setSortParams] = useSortQueryParams();
   const [{ location }, setTruckLoadsParams] = useTruckLoadsQueryParams();
 
   const { data, error, loading } = api.useTruckLoad(id);
-  const truckLoads = (data?.nodes || []) as TruckLoad[];
+  const truckLoads = useMemo(() => (data?.nodes || []) as TruckLoad[], [data]);
   const truckLoad = location
     ? truckLoads.find((truckLoad) => `${truckLoad?.warehouse?.id}` === location)
     : truckLoads[0];
 
-  const { TabBar: TruckLoadTabBar, selectedTabId: selectedTruckLoadTab } =
-    useTabBar(truckLoadTabs(0, truckLoads.length));
-  const { TabBar: PalletTabBar } = useTabBar(palletTabs(0));
+  const { TabBar, selectedTabId } = useTabBar(
+    tabs(0, location ? 0 : truckLoads.length),
+    false,
+    'pickupLocations',
+    'truckLoadView',
+  );
+  const prevSelectedTabId = usePrevious(selectedTabId);
 
-  const isPickups = selectedTruckLoadTab === 'pickup-locations' && !location;
+  useEffect(() => {
+    if (prevSelectedTabId !== selectedTabId) {
+      const isPickups = selectedTabId === 'pickupLocations';
+      setSortParams(
+        {
+          sortBy: isPickups ? 'backOrderId' : 'palletId',
+          sortOrder: SORT_ORDER.ASC,
+        },
+        'replaceIn',
+      );
+    }
+  }, [prevSelectedTabId, selectedTabId, setSortParams]);
+
+  useEffect(() => {
+    if (truckLoads && truckLoads.length === 1 && truckLoad && !location) {
+      setTruckLoadsParams(
+        { location: `${truckLoad.warehouse?.id}`, truckLoadView: 'pallets' },
+        'replaceIn',
+      );
+    }
+  }, [location, truckLoads, truckLoad, setTruckLoadsParams]);
+
+  const isPickups =
+    selectedTabId === 'pickupLocations' && !location && truckLoads.length > 1;
 
   const clearLocation = () => {
-    setTruckLoadsParams({ location: undefined });
+    setTruckLoadsParams({
+      location: undefined,
+      truckLoadView: truckLoads.length > 1 ? 'pickupLocations' : 'pallets',
+    });
   };
 
   return (
@@ -76,21 +110,35 @@ const Details = () => {
     >
       {truckLoad ? (
         <l.Div pb={th.spacing.xl}>
-          <BaseData<TruckLoad> data={truckLoad} labels={indexBaseLabels} />
-          {location && (
+          <BaseData<TruckLoad>
+            data={truckLoad}
+            labels={indexBaseLabels((truckLoad && location) || undefined)}
+          />
+          {(location || truckLoads.length === 1) && (
             <>
-              <l.Flex alignCenter justifyBetween my={th.spacing.md}>
+              <l.Flex alignCenter my={th.spacing.md}>
                 <ty.CaptionText>Pickup Location:</ty.CaptionText>
-                <b.Primary onClick={clearLocation}>Show All</b.Primary>
+                {truckLoads.length > 1 && (
+                  <l.HoverButton
+                    dark
+                    ml={th.spacing.lg}
+                    onClick={clearLocation}
+                  >
+                    <ty.CaptionText>Show All</ty.CaptionText>
+                  </l.HoverButton>
+                )}
               </l.Flex>
               <BaseData<TruckLoad> data={truckLoad} labels={baseLabels} />
             </>
           )}
           <l.Flex alignCenter justifyBetween my={th.spacing.lg}>
-            {location ? <PalletTabBar /> : <TruckLoadTabBar />}
+            <TabBar />
           </l.Flex>
           {isPickups ? (
-            <TruckLoadList baseUrl={`truck-loads/`} items={truckLoads} />
+            <TruckLoadList
+              baseUrl="/inventory/truck-loads/"
+              items={truckLoads}
+            />
           ) : (
             <DataMessage data={[]} error={error} loading={loading} />
           )}

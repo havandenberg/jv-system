@@ -1,13 +1,13 @@
 import React from 'react';
 import { isEmpty } from 'ramda';
 
+import ListItem from 'components/list-item';
 import { DataMessage } from 'components/page/message';
 import useColumns, { SORT_ORDER } from 'hooks/use-columns';
 import { CommonVariety } from 'types';
 import l from 'ui/layout';
 import th from 'ui/theme';
 
-import ListItem from '../list-item';
 import { listLabels } from './data-utils';
 
 const VarietyList = ({
@@ -45,7 +45,7 @@ const VarietyList = ({
                 gridTemplateColumns={gridTemplateColumns}
                 key={idx}
                 listLabels={listLabels}
-                slug={`${baseUrl}/varieties/${item.id}`}
+                to={`${baseUrl}/varieties/${item.id}`}
               />
             ),
         )

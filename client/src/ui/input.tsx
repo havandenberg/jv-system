@@ -30,15 +30,19 @@ const Wrapper = styled(l.Div)(
   ({
     hasError,
     hasValue,
+    hasWarning,
     focused,
   }: {
     hasError?: boolean;
     hasValue?: boolean;
+    hasWarning?: boolean;
     focused?: boolean;
   }) => ({
     background: th.colors.brand.containerBackground,
     border: hasError
       ? th.borders.error
+      : hasWarning
+      ? th.borders.warning
       : hasValue || focused
       ? th.borders.secondary
       : th.borders.disabled,
@@ -50,7 +54,11 @@ const Wrapper = styled(l.Div)(
     transition: th.transitions.default,
     width: INPUT_WIDTH,
     ':hover': {
-      border: hasError ? th.borders.error : th.borders.secondary,
+      border: hasError
+        ? th.borders.error
+        : hasWarning
+        ? th.borders.warning
+        : th.borders.secondary,
     },
   }),
   width,
@@ -224,6 +232,7 @@ export const Select = styled.select<
 
 export interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
   hasError?: boolean;
+  hasWarning?: boolean;
   Icon?: React.ReactNode;
   isDirty?: boolean;
   onClear?: () => void;
@@ -231,6 +240,7 @@ export interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
 
 const TextInput = ({
   hasError,
+  hasWarning,
   Icon,
   isDirty,
   onBlur,
@@ -273,6 +283,7 @@ const TextInput = ({
   return (
     <Wrapper
       hasError={hasError}
+      hasWarning={hasWarning}
       hasValue={!!value}
       focused={focused}
       width={width}

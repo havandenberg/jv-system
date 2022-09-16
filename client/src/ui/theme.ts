@@ -81,10 +81,10 @@ export const fontFamilies = {
 };
 
 export const fontSizes = {
-  small: '12px',
-  caption: '14px',
-  body: '16px',
-  large: '20px',
+  small: '11px',
+  caption: '12px',
+  body: '14px',
+  large: '16px',
   title: '26px',
   display: '32px',
   huge: '48px',

@@ -325,7 +325,10 @@ export const baseLabels: InventoryItemLabelInfo[] = [
                 <StatusIndicator status="warning" />
               </l.Div>
             )}
-            <ty.LinkText hover="false" to={`/inventory/vessels/${vessel.id}`}>
+            <ty.LinkText
+              hover="false"
+              to={`/inventory/vessels/${vessel.vesselCode}`}
+            >
               {vessel.vesselCode} - {vessel.vesselName}
             </ty.LinkText>
           </l.Flex>

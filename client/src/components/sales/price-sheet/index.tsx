@@ -992,7 +992,7 @@ const PriceSheet = () => {
         !editing && (
           <l.AreaLink
             key={1}
-            ml={th.spacing.md}
+            ml={th.spacing.lg}
             to={`/sales/agenda?endDate=${startDate}&startDate=${startDate}`}
           >
             <b.Primary width={126}>Agenda</b.Primary>

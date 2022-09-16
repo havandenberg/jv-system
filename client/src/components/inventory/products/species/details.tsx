@@ -158,21 +158,21 @@ const CommonSpeciesDetails = () => {
       case 'sizes':
         return (
           <SizeList
-            baseUrl={`products/${speciesId}`}
+            baseUrl={`/inventory/products/${speciesId}`}
             sizes={(data?.commonSizes.nodes || []) as CommonSize[]}
           />
         );
       case 'packTypes':
         return (
           <PackTypeList
-            baseUrl={`products/${speciesId}`}
+            baseUrl={`/inventory/products/${speciesId}`}
             packTypes={(data?.commonPackTypes.nodes || []) as CommonPackType[]}
           />
         );
       default:
         return (
           <VarietyList
-            baseUrl={`products/${speciesId}`}
+            baseUrl={`/inventory/products/${speciesId}`}
             varieties={(data?.commonVarieties.nodes || []) as CommonVariety[]}
           />
         );

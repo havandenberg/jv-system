@@ -8,7 +8,7 @@ import th from 'ui/theme';
 import ty from 'ui/typography';
 import TextInput from 'ui/input';
 
-import { useUserContext } from './context';
+import { useActiveUser } from './context';
 import { userMessagePriorityMap } from './messages';
 
 interface State {
@@ -24,9 +24,11 @@ const initialState = {
 const UserLogin = () => {
   const { data: authData, refetch } = api.useGetUserAuthList();
 
-  const [userState, setUserState] = useUserContext();
-  const { activeUserId } = userState;
-  const { data: activeUser } = api.useGetUser(activeUserId || 0);
+  const {
+    apiData: { data: activeUser },
+    userState,
+    setUserState,
+  } = useActiveUser();
 
   const [state, setState] = useState<State>(initialState);
   const { error, pin } = state;

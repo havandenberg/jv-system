@@ -71,15 +71,23 @@ const Details = () => {
         data
           ? [
               <l.AreaLink
-                key={0}
-                mr={th.spacing.md}
+                key="inventory"
+                mr={th.spacing.lg}
+                target="_blank"
+                to={`/inventory/index?shipper=${data.id}`}
+              >
+                <b.Primary>Inventory</b.Primary>
+              </l.AreaLink>,
+              <l.AreaLink
+                key="programs"
+                mr={th.spacing.lg}
                 target="_blank"
                 to={`/sales/programs?shipperId=${data.id}&programsView=shippers`}
               >
                 <b.Primary>Programs</b.Primary>
               </l.AreaLink>,
               <l.AreaLink
-                key={1}
+                key="projections"
                 target="_blank"
                 to={`/sales/projections?shipperId=${data.id}`}
               >

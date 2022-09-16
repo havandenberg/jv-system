@@ -34,6 +34,7 @@ import {
 import { Link as RouterLink } from 'react-router-dom';
 
 import th from './theme';
+import { hexColorWithTransparency } from './utils';
 
 interface CustomDivProps {
   alignCenter?: boolean;
@@ -154,13 +155,31 @@ export const AreaLink = styled(RouterLink)<DivProps>(
 );
 
 const HoverButton = styled(Flex)(
-  ({ active, dark }: { active?: boolean; dark?: boolean }) => ({
+  ({
+    active,
+    disabled,
+    dark,
+  }: {
+    active?: boolean;
+    dark?: boolean;
+    disabled?: boolean;
+  }) => ({
     alignItems: 'center',
-    cursor: 'pointer',
-    opacity: active ? 1 : dark ? th.opacities.secondary : th.opacities.disabled,
+    cursor: !disabled ? 'pointer' : 'default',
+    opacity: !disabled
+      ? active
+        ? 1
+        : dark
+        ? th.opacities.secondary
+        : th.opacities.disabled
+      : th.opacities.disabled,
     transition: th.transitions.default,
     ':hover': {
-      opacity: active || dark ? 1 : th.opacities.secondary,
+      opacity: !disabled
+        ? active || dark
+          ? 1
+          : th.opacities.secondary
+        : th.opacities.disabled,
     },
   }),
 );
@@ -182,6 +201,45 @@ const GalleryWrapper = styled(Div)(
   divPropsSet,
 );
 
+const GridContainer = styled(Grid)(
+  ({
+    highlightColor = th.colors.status.error,
+    isHighlight,
+    isHalfHighlight,
+    selected,
+  }: {
+    highlightColor?: string;
+    isHighlight?: boolean;
+    isHalfHighlight?: boolean;
+    selected?: boolean;
+  }) => ({
+    backgroundColor: isHighlight
+      ? hexColorWithTransparency(highlightColor, 0.2)
+      : selected
+      ? th.colors.brand.containerBackgroundAccent
+      : th.colors.brand.containerBackground,
+    background: isHalfHighlight
+      ? `repeating-linear-gradient( -45deg, ${hexColorWithTransparency(
+          highlightColor,
+          0.2,
+        )}, ${hexColorWithTransparency(highlightColor, 0.2)} 5px, ${
+          th.colors.brand.containerBackground
+        } 5px, ${th.colors.brand.containerBackground} 15px)`
+      : undefined,
+    border: selected ? th.borders.secondary : th.borders.disabled,
+    borderRadius: th.borderRadii.default,
+    paddingLeft: th.spacing.sm,
+    transition: th.transitions.default,
+    ':hover': {
+      backgroundColor: isHighlight
+        ? hexColorWithTransparency(highlightColor, 0.3)
+        : th.colors.brand.containerBackgroundAccent,
+      border: th.borders.secondary,
+    },
+  }),
+  divPropsSet,
+);
+
 export default {
   AreaLink,
   Anchor,
@@ -189,6 +247,7 @@ export default {
   Flex,
   GalleryWrapper,
   Grid,
+  GridContainer,
   HoverButton,
   Img,
   Span,

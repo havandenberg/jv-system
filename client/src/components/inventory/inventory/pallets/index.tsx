@@ -2,6 +2,7 @@ import React from 'react';
 import { isEmpty } from 'ramda';
 
 import api from 'api';
+import ListItem from 'components/list-item';
 import { DataMessage } from 'components/page/message';
 import Page from 'components/page';
 import VirtualizedList from 'components/virtualized-list';
@@ -13,7 +14,6 @@ import th from 'ui/theme';
 import ty from 'ui/typography';
 
 import { listLabels } from './data-utils';
-import ListItem from './list-item';
 
 const gridTemplateColumns =
   '1.5fr 70px 2fr repeat(2, 1fr) 60px repeat(3, 1fr) 80px 30px';

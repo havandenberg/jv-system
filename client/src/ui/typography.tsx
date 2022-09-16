@@ -115,6 +115,7 @@ const Span = styled.span<TextProps>(textPropsSet);
 const LinkText = styled(RouterLink)<TextProps>(
   ({ hover = 'true' }: { hover?: string }) => ({
     cursor: 'pointer',
+    fontSize: th.fontSizes.body,
     textDecoration: hover === 'true' ? 'none' : 'underline',
     ':hover': {
       color: th.colors.brand.primaryAccent,

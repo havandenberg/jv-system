@@ -2,17 +2,20 @@ import React from 'react';
 import { isEmpty } from 'ramda';
 import { useLocation } from 'react-router-dom';
 
+import { getSortedItems } from 'components/column-label';
+import ListItem from 'components/list-item';
 import { DataMessage } from 'components/page/message';
 import useColumns, { SORT_ORDER } from 'hooks/use-columns';
-import { useInventoryQueryParams } from 'hooks/use-query-params';
+import {
+  useInventoryQueryParams,
+  useSortQueryParams,
+} from 'hooks/use-query-params';
 import { InventoryItem } from 'types';
 import l from 'ui/layout';
 import th from 'ui/theme';
 
 import { USE_NEW_PRE_INVENTORY } from '..';
-import { getSortedItems } from '../utils';
 import { listLabels } from './data-utils';
-import ListItem from './list-item';
 
 const gridTemplateColumns = (secondaryDetailsIndex: string) =>
   `3.5fr ${
@@ -28,9 +31,9 @@ const InventoryItemList = ({
 }) => {
   const { search } = useLocation();
 
-  const [
-    { secondaryDetailsIndex, sortBy = 'shipper', sortOrder = SORT_ORDER.ASC },
-  ] = useInventoryQueryParams();
+  const [{ sortBy = 'shipper', sortOrder = SORT_ORDER.ASC }] =
+    useSortQueryParams();
+  const [{ secondaryDetailsIndex }] = useInventoryQueryParams();
 
   const columnLabels = useColumns<InventoryItem>(
     'shipper',
@@ -58,13 +61,15 @@ const InventoryItemList = ({
       </l.Grid>
       {!isEmpty(sortedItems) ? (
         sortedItems.map(
-          (item, idx) =>
+          (item) =>
             item && (
               <ListItem
                 data={item}
                 gridTemplateColumns={gridTemplateColumns(secondaryDetailsIndex)}
-                key={idx}
+                key={item.id}
                 listLabels={listLabels(secondaryDetailsIndex)}
+                isHighlight={item.jvLotNumber === 'D0000'}
+                isHalfHighlight={item.jvLotNumber === 'PARTIAL_DISTRESS'}
                 to={
                   secondaryDetailsIndex
                     ? item.vessel?.isPre && USE_NEW_PRE_INVENTORY

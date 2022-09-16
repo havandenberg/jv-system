@@ -14,8 +14,77 @@ CREATE TABLE operations.order_entry_item (
   pack_type TEXT,
   plu TEXT,
   label TEXT,
+  review_location_id TEXT,
+  review_vessel_code TEXT,
+  review_shipper_id TEXT,
+  review_species TEXT,
+  review_variety TEXT,
+  review_size TEXT,
+  review_pack_type TEXT,
+  review_plu TEXT,
+  review_label TEXT,
   notes TEXT
 );
+
+CREATE FUNCTION operations.order_entry_item_vessel(IN o operations.order_entry_item)
+	RETURNS product.vessel
+	LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT * FROM product.vessel v WHERE v.vessel_code = o.vessel_code LIMIT 1;
+$BODY$;
+
+CREATE FUNCTION operations.order_entry_item_warehouse(IN o operations.order_entry_item)
+	RETURNS directory.warehouse
+	LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT * FROM directory.warehouse w WHERE w.id = o.location_id;
+$BODY$;
+
+CREATE FUNCTION operations.order_entry_item_shipper(IN o operations.order_entry_item)
+	RETURNS directory.shipper
+	LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT * FROM directory.shipper s WHERE s.id = o.shipper_id;
+$BODY$;
+
+CREATE FUNCTION operations.order_entry_item_review_vessel(IN o operations.order_entry_item)
+	RETURNS product.vessel
+	LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT * FROM product.vessel v WHERE v.vessel_code = o.review_vessel_code LIMIT 1;
+$BODY$;
+
+CREATE FUNCTION operations.order_entry_item_review_warehouse(IN o operations.order_entry_item)
+	RETURNS directory.warehouse
+	LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT * FROM directory.warehouse w WHERE w.id = o.review_location_id;
+$BODY$;
+
+CREATE FUNCTION operations.order_entry_item_review_shipper(IN o operations.order_entry_item)
+	RETURNS directory.shipper
+	LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT * FROM directory.shipper s WHERE s.id = o.review_shipper_id;
+$BODY$;
 
 CREATE FUNCTION operations.order_entry_item_search_text(IN o operations.order_entry_item)
 	RETURNS TEXT

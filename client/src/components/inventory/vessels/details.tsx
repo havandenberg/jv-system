@@ -6,7 +6,7 @@ import BaseData from 'components/base-data';
 import Page from 'components/page';
 import { DataMessage } from 'components/page/message';
 import { Tab, useTabBar } from 'components/tab-bar';
-import { useQueryValue } from 'hooks/use-query-params';
+import { useQueryValue, useSortQueryParams } from 'hooks/use-query-params';
 import useUpdateItem from 'hooks/use-update-item';
 import { Country, InventoryItem, Vessel, Warehouse } from 'types';
 import b from 'ui/button';
@@ -22,6 +22,7 @@ import {
   getGroupedItems,
 } from '../inventory/utils';
 import { baseLabels } from './data-utils';
+import { SORT_ORDER } from 'hooks/use-columns';
 
 export const breadcrumbs = (id: string, isInventory: boolean) => [
   {
@@ -47,16 +48,19 @@ const Details = () => {
   }>();
   const { pathname } = useLocation();
   const isInventory = pathname.includes('inventory');
+  const [{ sortBy }, setSortParams] = useSortQueryParams();
   const [secondaryDetailsIndex, setSecondaryDetailsIndex] = useQueryValue(
     'secondaryDetailsIndex',
   );
 
   const { data, error, loading } = api.useVessel(id);
-  const inventoryItems = data
-    ? (data.inventoryItems.nodes as InventoryItem[])
+  const vessels = (data?.nodes || []) as Vessel[];
+  const vessel = vessels[vessels.length - 1];
+  const inventoryItems = vessel
+    ? (vessel.inventoryItems.nodes as InventoryItem[])
     : [];
 
-  const { preInventoryItems } = convertProjectionsToInventoryItems(data);
+  const { preInventoryItems } = convertProjectionsToInventoryItems(vessel);
 
   const { data: countriesData } = api.useCountries('COUNTRY_NAME_ASC');
   const countries = countriesData ? (countriesData.nodes as Country[]) : [];
@@ -66,7 +70,7 @@ const Details = () => {
 
   const { TabBar } = useTabBar(tabs);
 
-  const [handleUpdate] = api.useUpdateVessel(id);
+  const [handleUpdate] = api.useUpdateVessel(vessel?.id || 0);
 
   const updateFields = [
     'arrivalDate',
@@ -80,18 +84,18 @@ const Details = () => {
     'vesselName',
     'warehouseId',
   ];
-  const updateVariables = { id };
+  const updateVariables = { id: vessel?.id || 0 };
 
   const [handleDelete] = api.useDeleteVessel();
 
   const { changes, editing, handleChange, getUpdateActions, saveAttempt } =
     useUpdateItem<Vessel>({
-      data: data as Vessel,
+      data: vessel as Vessel,
       handleDelete,
       handleUpdate,
       deleteVariables: updateVariables,
       confirmDeleteText: `Are you sure you want to delete vessel "${
-        data ? data.vesselCode : ''
+        vessel ? vessel.vesselCode : ''
       }"?`,
       updateFields,
       updateVariables,
@@ -108,16 +112,27 @@ const Details = () => {
 
   const clearSecondaryDetails = () => {
     setSecondaryDetailsIndex(undefined);
+    if (
+      ![
+        'shipper',
+        'species',
+        'palletsReceived',
+        'palletsOnHand',
+        'palletsAvailable',
+      ].includes(sortBy)
+    ) {
+      setSortParams({ sortBy: 'species', sortOrder: SORT_ORDER.ASC });
+    }
   };
 
   return (
     <Page
       actions={[
-        data && data.inspectionVesselName ? (
+        vessel && vessel.inspectionVesselName ? (
           <l.AreaLink
             key={0}
             target="_blank"
-            to={`/reports/inspections/arrival?arrivalName=${data.inspectionVesselName}`}
+            to={`/reports/inspections/arrival?arrivalName=${vessel.inspectionVesselName}`}
           >
             <b.Primary>Inspections</b.Primary>
           </l.AreaLink>
@@ -126,10 +141,10 @@ const Details = () => {
             Inspections
           </b.Primary>
         ),
-        ...(isInventory || !data?.isPre
+        ...(isInventory || !vessel?.isPre
           ? []
           : [
-              data?.isPre ? (
+              vessel?.isPre ? (
                 <React.Fragment key="pre">
                   {/* <l.AreaLink
                         mx={th.spacing.md}
@@ -147,15 +162,15 @@ const Details = () => {
       ]}
       breadcrumbs={breadcrumbs(id, isInventory)}
       title={
-        data
-          ? `${data.vesselName} (${data.vesselCode})` || 'Vessel'
+        vessel
+          ? `${vessel.vesselName} (${vessel.vesselCode})` || 'Vessel'
           : 'Loading...'
       }
     >
       {data ? (
         <l.Div pb={th.spacing.xl}>
           <BaseData<Vessel>
-            data={data}
+            data={vessel}
             changes={changes}
             editing={editing}
             handleChange={handleChange}

@@ -1,6 +1,7 @@
 import { LabelInfo } from 'components/column-label';
 import { SORT_ORDER } from 'hooks/use-columns';
 import { ContactGroup } from 'types';
+import ty from 'ui/typography';
 
 export type ContactGroupLabelInfo = LabelInfo<ContactGroup>;
 
@@ -13,7 +14,9 @@ export const listLabels: (hasUser: boolean) => ContactGroupLabelInfo[] = (
       key: 'userId',
       label: 'Type',
       isBoolean: true,
-      getValue: (data) => (!!data.userId ? 'Private' : 'Public'),
+      getValue: (data) => (
+        <ty.BodyText>{!!data.userId ? 'Private' : 'Public'}</ty.BodyText>
+      ),
     });
   }
   return [
@@ -49,7 +52,9 @@ export const baseLabels: (userReadOnly: boolean) => ContactGroupLabelInfo[] = (
     key: 'userId',
     label: userReadOnly ? 'Type' : 'Private',
     isBoolean: true,
-    getValue: (data) => (!!data.userId ? 'Private' : 'Public'),
+    getValue: (data) => (
+      <ty.BodyText>{!!data.userId ? 'Private' : 'Public'}</ty.BodyText>
+    ),
     readOnly: userReadOnly,
   },
 ];
