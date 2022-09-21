@@ -283,13 +283,16 @@ const VesselHeader = (
     (v) => v.id === getParentVesselValue(vessel.vessel, 'vesselId').value,
   );
 
-  const allItems = sortBy(
-    (v) => -parseInt(v.vesselCode || '', 10),
+  const allItems = () =>
     sortBy(
-      (v) => v.vesselName || '',
-      vessels.filter((v) => (v.searchText || '').includes(vesselSearch || '')),
-    ),
-  );
+      (v) => -parseInt(v.vesselCode || '', 10),
+      sortBy(
+        (v) => v.vesselName || '',
+        vessels.filter((v) =>
+          (v.searchText || '').includes(vesselSearch || ''),
+        ),
+      ),
+    );
 
   const { ItemSelector: VesselSelector } = useItemSelector({
     allItems,

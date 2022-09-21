@@ -3,7 +3,7 @@ import { OperationVariables, useQuery } from '@apollo/client';
 import styled from '@emotion/styled';
 import { snakeCase } from 'change-case';
 import { loader } from 'graphql.macro';
-import { pathOr, sortBy } from 'ramda';
+import { Ord, pathOr, sortBy } from 'ramda';
 
 import FilterImg from 'assets/images/filter';
 import InfoPanel from 'components/info-panel';
@@ -14,6 +14,7 @@ import { FilterCheckbox } from 'ui/checkbox';
 import l, { DivProps } from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
+import { ArrayParam, useQueryParam } from 'use-query-params';
 
 const DISTINCT_VALUES_QUERY = loader('../api/distinct-values.gql');
 
@@ -22,6 +23,7 @@ const SearchInput = styled.input({ width: 100 });
 export interface FilterPanelProps {
   columnCount?: number;
   customOptions?: string[];
+  customOptionsSort?: (opt: string) => Ord;
   customStyles?: DivProps;
   queryProps?: {
     query: any;
@@ -44,6 +46,7 @@ interface Props<T> extends FilterPanelProps {
 const FilterPanel = <T extends {}>({
   columnCount = 2,
   customOptions,
+  customOptionsSort,
   customStyles,
   filterKey,
   queryProps,
@@ -75,27 +78,31 @@ const FilterPanel = <T extends {}>({
     variables,
   });
 
-  const filterOptions: string[] =
+  const filterOptions: string[] = sortBy(
+    customOptionsSort ? customOptionsSort : (opt) => opt,
     customOptions ||
-    pathOr([], [queryName, 'nodes'], data)
-      .map((option: string) => option && option.trim())
-      .sort();
+      pathOr([], [queryName, 'nodes'], data).map(
+        (option: string) => option && option.trim(),
+      ),
+  );
   const previousFilterOptions = usePrevious(filterOptions);
   const filterOptionsBySearch = filterOptions.filter(
     (option: string) =>
       !!option && option.toLowerCase().includes(search.toLowerCase()),
   );
 
-  const [queryValue, setQueryValue] = useQueryValue(
+  const [queryValue, setQueryValue] = useQueryParam(
     sortKey ? sortKey : `${String(filterKey)}`,
+    ArrayParam,
   );
-  const queryValueList = queryValue ? queryValue.split(',') : [];
-  const queryFilterValues = queryValueList.filter((val: string) =>
-    filterOptions ? !filterOptions.includes(val) : false,
-  );
-  const filterValues = queryValueList.filter((val: string) =>
-    filterOptions ? filterOptions.includes(val) : false,
-  );
+
+  const queryValueList = (queryValue || []) as string[];
+  const queryFilterValues = queryValueList.filter((val) =>
+    val && filterOptions ? !filterOptions.includes(val) : false,
+  ) as string[];
+  const filterValues = queryValueList.filter((val) =>
+    val && filterOptions ? filterOptions.includes(val) : false,
+  ) as string[];
   const [selectedValues, setSelectedValues] = useState<string[]>(filterValues);
 
   const sortedOptions = sortBy(
@@ -112,17 +119,15 @@ const FilterPanel = <T extends {}>({
     setQueryValue(
       allValues
         ? queryFilterValues.length > 0
-          ? queryFilterValues.join(',')
+          ? queryFilterValues
           : undefined
-        : [...queryFilterValues, ...selectedValues].join(','),
+        : [...queryFilterValues, ...selectedValues],
     );
   };
 
   const clear = () => {
     setSelectedValues([]);
-    setQueryValue(
-      queryFilterValues.length > 0 ? queryFilterValues.join(',') : undefined,
-    );
+    setQueryValue(queryFilterValues.length > 0 ? queryFilterValues : undefined);
   };
 
   const handleFilterChange = (newFilterKey: string) => {
@@ -137,7 +142,11 @@ const FilterPanel = <T extends {}>({
   };
 
   useEffect(() => {
-    if (filterOptions && !previousFilterOptions) {
+    if (
+      filterOptions.length > 0 &&
+      previousFilterOptions &&
+      previousFilterOptions.length === 0
+    ) {
       setSelectedValues(filterValues);
     }
   }, [filterOptions, filterValues, previousFilterOptions]);

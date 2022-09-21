@@ -10,6 +10,7 @@ query COMMON_PACK_TYPE($id: BigInt!) {
       commonPackTypes {
         nodes {
           id
+          isRepack
           packTypeName
           commonPackTypeTags {
             nodes {
@@ -23,6 +24,7 @@ query COMMON_PACK_TYPE($id: BigInt!) {
     }
     id
     defaultInvSortKey
+    isRepack
     packMasterId
     packMastersByCommonPackTypePackMasterCommonPackTypeIdAndPackMasterId {
       nodes {

@@ -7,7 +7,7 @@ import { Query } from 'types';
 const DISTINCT_VALUES_QUERY = loader('../distinct-values.gql');
 
 const useFilteredQueryValues = (
-  queryValues: string,
+  queryValues: string | string[],
   variables?: OperationVariables,
   query = DISTINCT_VALUES_QUERY,
   queryName: string = 'distinctValues',
@@ -19,11 +19,12 @@ const useFilteredQueryValues = (
     .filter((val) => !!val)
     .map((option: string) => option.trim());
   const filteredValues = queryValues
-    ? queryValues
-        .split(',')
-        .filter((val: string) =>
-          defaultValues.length > 0 ? defaultValues.includes(val) : false,
-        )
+    ? (typeof queryValues === 'string'
+        ? queryValues.split(',')
+        : queryValues
+      ).filter((val: string) =>
+        defaultValues.length > 0 ? defaultValues.includes(val) : false,
+      )
     : [];
   return filteredValues.length > 0 ? filteredValues : defaultValues;
 };

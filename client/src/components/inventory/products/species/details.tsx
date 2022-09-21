@@ -201,7 +201,7 @@ const CommonSpeciesDetails = () => {
   });
 
   const { ItemSelector } = useItemSelector({
-    allItems: productSpecieses,
+    allItems: () => productSpecieses,
     closeOnSelect: true,
     disabled: !editing,
     errorLabel: 'species',
@@ -266,7 +266,7 @@ const CommonSpeciesDetails = () => {
               ml={th.spacing.md}
               to={`/inventory/products/${data.id}/${selectedTabId}/create`}
             >
-              <b.Primary>Create</b.Primary>
+              <b.Success>Create</b.Success>
             </l.AreaLink>
           </l.Flex>
           <List />

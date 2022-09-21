@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from '@apollo/client';
 import { add } from 'date-fns';
 import { loader } from 'graphql.macro';
-import { StringParam } from 'use-query-params';
+import { ArrayParam } from 'use-query-params';
 
 import { CUSTOMER_DISTINCT_VALUES_QUERY } from 'api/directory/customer';
 import useFilteredQueryValues from 'api/hooks/use-filtered-query-values';
@@ -17,6 +17,7 @@ import {
 } from 'hooks/use-query-params';
 import { Mutation, Query } from 'types';
 
+const USER_DETAILS_QUERY = loader('../../user/details.gql');
 const ORDER_MASTER_DETAILS_QUERY = loader('./details.gql');
 const ORDER_MASTER_LIST_QUERY = loader('./list.gql');
 const ORDER_ENTRY_DETAILS_QUERY = loader('./entry/details.gql');
@@ -24,7 +25,7 @@ const ORDER_ENTRY_LIST_QUERY = loader('./entry/list.gql');
 const ORDER_ENTRY_CREATE = loader('./entry/create.gql');
 const ORDER_ENTRY_UPDATE = loader('./entry/update.gql');
 const LOAD_NUMBERS_UPSERT = loader('./load-numbers/upsert.gql');
-const USER_DETAILS_QUERY = loader('../../user/details.gql');
+const NEXT_ORDER_NUMBER_QUERY = loader('./load-numbers/next-order-number.gql');
 
 const useVariables = (orderByOverride?: string) => {
   const [search = ''] = useSearchQueryParam();
@@ -47,8 +48,8 @@ const useVariables = (orderByOverride?: string) => {
   );
 
   const [{ billingCustomerId, salesUserCode }] = useQuerySet({
-    billingCustomerId: StringParam,
-    salesUserCode: StringParam,
+    billingCustomerId: ArrayParam,
+    salesUserCode: ArrayParam,
   });
 
   const filteredSalesUserCodeValues = useFilteredQueryValues(salesUserCode, {
@@ -177,3 +178,12 @@ export const useUpsertLoadNumbers = (userId: number) =>
       },
     ],
   });
+
+export const useNextOrderNumber = () => {
+  const { data, error, loading } = useQuery<Query>(NEXT_ORDER_NUMBER_QUERY);
+  return {
+    data: data ? data.nextOrderNumber : undefined,
+    error,
+    loading,
+  };
+};

@@ -71,14 +71,14 @@ const InventoryCell = ({
   showPre: boolean;
   startDate: string;
 }) => {
-  const showPreInventory = index < 14 - getInventoryStartDayIndex(startDate);
+  const showPreInventory = index < 15 - getInventoryStartDayIndex(startDate);
   const palletsAvailableCount =
     palletsAvailable.real + (showPreInventory ? 0 : palletsAvailable.pre);
 
   const wrapperProps = {
     borderLeft: index <= 1 ? th.borders.disabled : 0,
     borderRight:
-      index <= 14 - getInventoryStartDayIndex(startDate) && index > 0
+      index <= 15 - getInventoryStartDayIndex(startDate) && index > 0
         ? th.borders.disabled
         : 0,
     isTotal: isTotal,
@@ -93,7 +93,9 @@ const InventoryCell = ({
       isOnHand={false}
       title={
         palletsAvailableCount || palletsAvailable.pre
-          ? `Real: ${palletsAvailable.real}    Pre: ${palletsAvailable.pre}`
+          ? `Real: ${palletsAvailable.real}
+Pre: ${palletsAvailable.pre}
+Com: ${palletsOnHand.total - palletsAvailable.total}`
           : undefined
       }
       {...wrapperProps}
@@ -373,6 +375,20 @@ const InventoryRow = ({
   const storageItemsReal = storageItemsAvailable.real + storageItemsOnHand.real;
   const storageItemsPre = storageItemsAvailable.pre + storageItemsOnHand.pre;
 
+  const weekItems =
+    (itemsByDateRange[-1] || []).concat(
+      times(
+        (idx) => itemsByDateRange[idx] || [],
+        7 - getInventoryStartDayIndex(startDate),
+      ).flat(),
+    ) || [];
+  const weekItemsPalletData = reducePalletData(weekItems);
+
+  const weekItemsAvailable = weekItemsPalletData.palletsAvailable;
+  const weekItemsOnHand = weekItemsPalletData.palletsOnHand;
+  const weekItemsReal = weekItemsAvailable.real + weekItemsOnHand.real;
+  const weekItemsPre = weekItemsAvailable.pre + weekItemsOnHand.pre;
+
   const totalItemsPalletData = reducePalletData(
     Object.values(itemsByDateRange).flat(),
   );
@@ -445,6 +461,13 @@ const InventoryRow = ({
     categoryId,
   );
 
+  const weekItemsLink = getItemsLink(
+    15 - getInventoryStartDayIndex(startDate),
+    !!weekItemsReal,
+    !!weekItemsPre,
+    categoryId,
+  );
+
   return (
     <l.Grid
       alignCenter
@@ -504,11 +527,53 @@ const InventoryRow = ({
             startDate={startDate}
           />
         );
-      }, 12 - getInventoryStartDayIndex(startDate))}
+      }, 7 - getInventoryStartDayIndex(startDate))}
+      <l.Div height={th.sizes.fill} width={th.sizes.fill}>
+        <InventoryCell
+          availableTo={weekItemsLink.available}
+          index={15 - getInventoryStartDayIndex(startDate)}
+          isTotal={isTotal}
+          palletsAvailable={weekItemsAvailable}
+          palletsOnHand={weekItemsOnHand}
+          onHandTo={weekItemsLink.onHand}
+          showPre={showPre}
+          startDate={startDate}
+        />
+      </l.Div>
+      {times((idx) => {
+        const idy = idx + 7 - getInventoryStartDayIndex(startDate);
+        const filteredItems = (itemsByDateRange[idy] || []) as InventoryItem[];
+        const palletData = reducePalletData(filteredItems);
+        const palletsAvailable = palletData.palletsAvailable;
+        const palletsOnHand = palletData.palletsOnHand;
+        const hasRealPallets = !!(palletsAvailable.real + palletsOnHand.real);
+        const hasPrePallets = !!(palletsAvailable.pre + palletsOnHand.pre);
+
+        const itemsLink = getItemsLink(
+          idy,
+          hasRealPallets,
+          hasPrePallets,
+          categoryId,
+        );
+
+        return (
+          <InventoryCell
+            availableTo={itemsLink.available}
+            index={idy + 1}
+            isTotal={isTotal}
+            key={`${idy}`}
+            palletsAvailable={palletsAvailable}
+            palletsOnHand={palletsOnHand}
+            onHandTo={itemsLink.onHand}
+            showPre={showPre}
+            startDate={startDate}
+          />
+        );
+      }, 5)}
       <l.Div height={th.sizes.fill} width={th.sizes.fill}>
         <InventoryCell
           availableTo={totalItemsLink.available}
-          index={14 - getInventoryStartDayIndex(startDate)}
+          index={15 - getInventoryStartDayIndex(startDate)}
           isTotal={isTotal}
           palletsAvailable={totalItemsAvailable}
           palletsOnHand={totalItemsOnHand}

@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client';
 import { add } from 'date-fns';
 import { loader } from 'graphql.macro';
-import { StringParam } from 'use-query-params';
+import { ArrayParam, StringParam } from 'use-query-params';
 
 import useFilteredQueryValues from 'api/hooks/use-filtered-query-values';
 import { getOrderByString, getSearchArray } from 'api/utils';
@@ -43,8 +43,8 @@ export const usePsaArrivalInspections = () => {
   const [variety = ''] = useQueryValue('variety');
 
   const [{ exporterName, arrivalName }] = useQuerySet({
-    exporterName: StringParam,
-    arrivalName: StringParam,
+    exporterName: ArrayParam,
+    arrivalName: ArrayParam,
   });
 
   const filteredExporterValues = useFilteredQueryValues(exporterName, {

@@ -81,42 +81,49 @@ export const baseLabels: CustomerLabelInfo[] = [
   {
     key: 'customerName',
     label: 'Customer Name',
+    readOnly: true,
   },
   {
     key: 'phone',
     label: 'Phone Number',
     transformKey: 'phone',
+    readOnly: true,
   },
   {
     key: 'address1',
     label: 'Address 1',
+    readOnly: true,
   },
   {
     key: 'address2',
     label: 'Address 2',
+    readOnly: true,
   },
   {
     key: 'city',
     label: 'City',
+    readOnly: true,
   },
   {
     key: 'postalState',
     label: 'State',
+    readOnly: true,
   },
   {
     key: 'zipCode',
     label: 'Zip Code',
+    readOnly: true,
   },
   {
     key: 'countryId',
     label: 'Country',
+    readOnly: true,
     getValue: (data) =>
       data.country ? (
         <ty.BodyText>{data.country?.countryName}</ty.BodyText>
       ) : (
         ''
       ),
-    readOnly: true,
   },
   {
     key: 'notes',

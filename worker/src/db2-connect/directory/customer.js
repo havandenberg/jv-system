@@ -15,6 +15,7 @@ const CUSTOMER_LIST = gql`
         countryId
         phone
         active
+        salesUserCode
       }
     }
   }
@@ -70,6 +71,7 @@ const getUpdatedCustomer = (customer, db2Customer) =>
           db2Customer['TEL#C'],
         ),
         active: getActive(db2Customer['CDELCD']),
+        salesUserCode: db2Customer['SLSM1C'],
       };
 
 const customerOptions = {

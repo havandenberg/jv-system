@@ -32,7 +32,11 @@ import {
   useProgramsQueryParams,
 } from 'hooks/use-query-params';
 import {
+  CommonPackTypeTag,
+  CommonSizeTag,
   CommonSpecies,
+  CommonSpeciesTag,
+  CommonVarietyTag,
   Customer,
   CustomerProgram,
   CustomerProgramEntry,
@@ -169,7 +173,7 @@ const Programs = () => {
       selectItem: (shipper) => {
         setProgramsQueryParams({ shipperId: shipper.id });
       },
-      allItems: shippers as Shipper[],
+      allItems: () => shippers as Shipper[],
       closeOnSelect: true,
       clearSearchOnBlur: true,
       error: shipperDataError,
@@ -194,7 +198,7 @@ const Programs = () => {
     data: customerData,
     loading: customerDataLoading,
     error: customerDataError,
-  } = api.useCustomers();
+  } = api.useCustomers('CUSTOMER_NAME_ASC');
   const customers = (customerData ? customerData.nodes : []) as Customer[];
   const selectedCustomer = customers.find(
     (customer) => customer && customer.id === customerId,
@@ -207,7 +211,7 @@ const Programs = () => {
     selectItem: (customer) => {
       setProgramsQueryParams({ customerId: customer.id });
     },
-    allItems: customers as Customer[],
+    allItems: () => customers as Customer[],
     closeOnSelect: true,
     error: customerDataError,
     errorLabel: 'Customers',
@@ -227,7 +231,7 @@ const Programs = () => {
     width: 350,
   });
 
-  const [weekCount, setWeekCount] = useState(24);
+  const [weekCount, setWeekCount] = useState(16);
 
   const increaseWeekCount = () => {
     setWeekCount(weekCount + 4);
@@ -365,14 +369,54 @@ const Programs = () => {
   const filterProgram = useMemo(
     () => (program: ShipperProgram | CustomerProgram) =>
       editing ||
-      ((!commonSpeciesId || program.commonSpeciesId === commonSpeciesId) &&
-        (!commonVarietyId || program.commonVarietyId === commonVarietyId) &&
-        (!commonSizeId || program.commonSizeId === commonSizeId) &&
-        (!commonPackTypeId || program.commonPackTypeId === commonPackTypeId) &&
-        (!plu || program.plu === plu) &&
+      ((!commonSpeciesId ||
+        commonSpeciesId.some((id: string) =>
+          [
+            program.commonSpecies?.speciesName,
+            ...pluck(
+              'tagText',
+              (program.commonSpecies?.commonSpeciesTags?.nodes ||
+                []) as CommonSpeciesTag[],
+            ).map((tagText) => `${tagText} (tag)`),
+          ].includes(id),
+        )) &&
+        (!commonVarietyId ||
+          commonVarietyId.some((id: string) =>
+            [
+              program.commonVariety?.varietyName,
+              ...pluck(
+                'tagText',
+                (program.commonVariety?.commonVarietyTags?.nodes ||
+                  []) as CommonVarietyTag[],
+              ).map((tagText) => `${tagText} (tag)`),
+            ].includes(id),
+          )) &&
+        (!commonSizeId ||
+          commonSizeId.some((id: string) =>
+            [
+              program.commonSize?.sizeName,
+              ...pluck(
+                'tagText',
+                (program.commonSize?.commonSizeTags?.nodes ||
+                  []) as CommonSizeTag[],
+              ).map((tagText) => `${tagText} (tag)`),
+            ].includes(id),
+          )) &&
+        (!commonPackTypeId ||
+          commonPackTypeId.some((id: string) =>
+            [
+              program.commonPackType?.packTypeName,
+              ...pluck(
+                'tagText',
+                (program.commonPackType?.commonPackTypeTags?.nodes ||
+                  []) as CommonPackTypeTag[],
+              ).map((tagText) => `${tagText} (tag)`),
+            ].includes(id),
+          )) &&
+        (!plu || plu.includes(program.plu)) &&
         (isCustomers ||
           !customerIdFilter ||
-          program.customerId === customerIdFilter)),
+          customerIdFilter.includes(program.customer?.customerName))),
     [
       commonPackTypeId,
       commonSizeId,
@@ -435,18 +479,20 @@ const Programs = () => {
     .map((p) => (p.shipperProgramEntries.nodes || []) as ShipperProgramEntry[])
     .flat();
 
-  const filteredShipperPrograms = allShipperPrograms.filter(
-    (p) =>
-      p.id < 0 ||
-      ((p.shipperProgramEntries.nodes || []) as ShipperProgramEntry[]).some(
-        (e) =>
-          isDateGreaterThanOrEqualTo(
-            new Date(e.programDate.replace(/-/g, '/')),
-            startOfISOWeek(new Date(startDate.replace(/-/g, '/'))),
-          ),
-      ),
-  );
-
+  const getFilteredShipperPrograms = (progs: ShipperProgram[]) =>
+    progs.filter(
+      (p) =>
+        p.id < 0 ||
+        ((p.shipperProgramEntries.nodes || []) as ShipperProgramEntry[]).some(
+          (e) =>
+            isDateGreaterThanOrEqualTo(
+              new Date(e.programDate.replace(/-/g, '/')),
+              startOfISOWeek(new Date(startDate.replace(/-/g, '/'))),
+            ),
+        ),
+    );
+  const filteredShipperPrograms =
+    getFilteredShipperPrograms(allShipperPrograms);
   const duplicateShipperProgramIds = getDuplicateProgramIds(
     filteredShipperPrograms,
     false,
@@ -458,17 +504,20 @@ const Programs = () => {
     )
     .flat();
 
-  const filteredCustomerPrograms = allCustomerPrograms.filter(
-    (p) =>
-      p.id < 0 ||
-      ((p.customerProgramEntries.nodes || []) as CustomerProgramEntry[]).some(
-        (e) =>
-          isDateGreaterThanOrEqualTo(
-            new Date(e.programDate.replace(/-/g, '/')),
-            startOfISOWeek(new Date(startDate.replace(/-/g, '/'))),
-          ),
-      ),
-  );
+  const getFilteredCustomerPrograms = (progs: CustomerProgram[]) =>
+    progs.filter(
+      (p) =>
+        p.id < 0 ||
+        ((p.customerProgramEntries.nodes || []) as CustomerProgramEntry[]).some(
+          (e) =>
+            isDateGreaterThanOrEqualTo(
+              new Date(e.programDate.replace(/-/g, '/')),
+              startOfISOWeek(new Date(startDate.replace(/-/g, '/'))),
+            ),
+        ),
+    );
+  const filteredCustomerPrograms =
+    getFilteredCustomerPrograms(allCustomerPrograms);
   const duplicateCustomerProgramIds = getDuplicateProgramIds(
     filteredCustomerPrograms,
     true,
@@ -1192,19 +1241,6 @@ const Programs = () => {
   return (
     <Page
       actions={[
-        (isCustomers ? selectedCustomer : selectedShipper) ? (
-          <l.AreaLink
-            key={0}
-            mr={th.spacing.lg}
-            to={`/directory/${isCustomers ? 'customers' : 'shippers'}/${
-              isCustomers ? customerId : shipperId
-            }`}
-          >
-            <b.Primary>{isCustomers ? 'Customer' : 'Shipper'}</b.Primary>
-          </l.AreaLink>
-        ) : (
-          <div key={0} />
-        ),
         editing ? (
           <l.Flex alignCenter key={1} relative>
             <BasicModal
@@ -1217,7 +1253,11 @@ const Programs = () => {
               confirmText="Discard"
               handleConfirm={handleCancel}
               shouldConfirm={hasChanges}
-              triggerProps={{ mr: th.spacing.md, width: 88 }}
+              triggerProps={{
+                mr: th.spacing.md,
+                status: th.colors.status.error,
+                width: 88,
+              }}
               triggerText="Cancel"
             />
             {saveAttempt && !validate() && (
@@ -1244,7 +1284,7 @@ const Programs = () => {
                 />
               </l.Div>
             )}
-            <b.Primary
+            <b.Success
               disabled={saveAttempt && !validate()}
               onClick={handleSave}
               width={88}
@@ -1259,14 +1299,27 @@ const Programs = () => {
               ) : (
                 'Save'
               )}
-            </b.Primary>
+            </b.Success>
           </l.Flex>
         ) : (
           (isCustomers ? selectedCustomer : selectedShipper) && (
-            <b.Primary key={1} onClick={handleEdit} width={88}>
+            <b.Warning key={1} onClick={handleEdit} width={88}>
               Edit
-            </b.Primary>
+            </b.Warning>
           )
+        ),
+        (isCustomers ? selectedCustomer : selectedShipper) ? (
+          <l.AreaLink
+            key={0}
+            ml={th.spacing.lg}
+            to={`/directory/${isCustomers ? 'customers' : 'shippers'}/${
+              isCustomers ? customerId : shipperId
+            }`}
+          >
+            <b.Primary>{isCustomers ? 'Customer' : 'Shipper'}</b.Primary>
+          </l.AreaLink>
+        ) : (
+          <div key={0} />
         ),
       ]}
       extraPaddingTop={55}
@@ -1330,6 +1383,11 @@ const Programs = () => {
             hasPrograms={hasPrograms}
             increaseWeekCount={increaseWeekCount}
             isCustomers={isCustomers}
+            programs={
+              isCustomers
+                ? getFilteredCustomerPrograms(customerPrograms)
+                : getFilteredShipperPrograms(shipperPrograms)
+            }
             selectedWeekNumber={selectedWeekNumber}
             showAllocated={showAllocated}
             startDate={startDate || ''}

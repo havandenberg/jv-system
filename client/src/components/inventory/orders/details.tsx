@@ -179,13 +179,12 @@ const Details = () => {
     <Page
       actions={[
         isSalesAssoc && orderEntries.length > 0 ? (
-          <l.AreaLink
-            key="edit"
-            ml={th.spacing.lg}
-            to={`/inventory/orders/${id}/edit`}
-          >
-            <b.Warning>Edit</b.Warning>
-          </l.AreaLink>
+          <React.Fragment key="sales-actions">
+            <b.Error disabled>Cancel</b.Error>
+            <l.AreaLink ml={th.spacing.lg} to={`/inventory/orders/${id}/edit`}>
+              <b.Warning>Edit</b.Warning>
+            </l.AreaLink>
+          </React.Fragment>
         ) : null,
         isOrderEntry && orderEntries.length > 0 && (
           <l.AreaLink

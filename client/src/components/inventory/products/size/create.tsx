@@ -1,12 +1,19 @@
 import React, { Fragment, useState } from 'react';
+import { uniqBy, pluck, omit } from 'ramda';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { ClipLoader } from 'react-spinners';
 
 import api from 'api';
 import BaseData from 'components/base-data';
 import { validateItem } from 'components/column-label';
+import useTagManager, { CommonProductTag } from 'components/tag-manager';
 import Page from 'components/page';
-import { CommonSpecies, CommonSize, ProductSize } from 'types';
+import {
+  CommonSpecies,
+  CommonSize,
+  ProductSize,
+  CommonSizeTagsConnection,
+} from 'types';
 import b from 'ui/button';
 import l from 'ui/layout';
 import th from 'ui/theme';
@@ -28,6 +35,12 @@ const breadcrumbs = (species: CommonSpecies) => [
 ];
 
 const initialState = {
+  commonSizeTags: {
+    edges: [],
+    nodes: [],
+    pageInfo: { hasNextPage: false, hasPreviousPage: false },
+    totalCount: 0,
+  } as CommonSizeTagsConnection,
   sizeName: '',
   sizeDescription: '',
 };
@@ -54,6 +67,27 @@ const CreateCommonSize = () => {
     initialState as CommonSize,
   );
 
+  const tags = (changes?.commonSizeTags?.nodes || []) as CommonProductTag[];
+  const suggestedTags = uniqBy(
+    (tag) => tag?.tagText,
+    pluck('commonSizeTags', (species?.commonSizes?.nodes || []) as CommonSize[])
+      .map(({ nodes }) => nodes)
+      .flat(),
+  ) as CommonProductTag[];
+
+  const { tagManager } = useTagManager({
+    commonProductId: '',
+    editing: true,
+    handleChange: (tags: CommonProductTag[]) => {
+      handleChange('commonSizeTags', {
+        nodes: tags,
+      });
+    },
+    productIdKey: 'commonSizeId',
+    tags,
+    suggestedTags,
+  });
+
   const handleChange = (field: keyof CommonSize, value: any) => {
     setChanges({ ...changes, [field]: value } as CommonSize);
   };
@@ -64,7 +98,15 @@ const CreateCommonSize = () => {
       setLoading(true);
       handleCreate({
         variables: {
-          commonSize: { ...changes, commonSpeciesId: speciesId },
+          commonSize: {
+            ...omit(['commonSizeTags'], changes),
+            commonSpeciesId: speciesId,
+            commonSizeTagsUsingId: {
+              create: changes.commonSizeTags.nodes.map((tag) => ({
+                tagText: tag?.tagText || '',
+              })),
+            },
+          },
         },
       }).then(() => {
         history.push(cancelLink);
@@ -77,9 +119,9 @@ const CreateCommonSize = () => {
       actions={[
         <Fragment key={0}>
           <l.AreaLink to={cancelLink}>
-            <b.Primary width={88}>Cancel</b.Primary>
+            <b.Error width={88}>Cancel</b.Error>
           </l.AreaLink>
-          <b.Primary ml={th.spacing.md} onClick={handleSave} width={88}>
+          <b.Success ml={th.spacing.md} onClick={handleSave} width={88}>
             {createLoading ? (
               <l.Flex alignCenter justifyCenter>
                 <ClipLoader
@@ -90,7 +132,7 @@ const CreateCommonSize = () => {
             ) : (
               'Create'
             )}
-          </b.Primary>
+          </b.Success>
         </Fragment>,
       ]}
       breadcrumbs={breadcrumbs(species as CommonSpecies)}
@@ -114,6 +156,9 @@ const CreateCommonSize = () => {
         labels={baseLabels(productSizes)}
         showValidation={saveAttempt}
       />
+      <l.Div ml={th.spacing.sm} my={th.spacing.lg}>
+        {tagManager}
+      </l.Div>
     </Page>
   );
 };

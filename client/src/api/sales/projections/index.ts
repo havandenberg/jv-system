@@ -11,6 +11,7 @@ import { getOrderByString, getSearchArray } from 'api/utils';
 import { formatDate } from 'components/date-range-picker';
 import { SORT_ORDER } from 'hooks/use-columns';
 import {
+  useQueryArrayValue,
   useQueryValue,
   useSearchQueryParam,
   useSortQueryParams,
@@ -54,7 +55,7 @@ const useVariables = (isInventory?: boolean) => {
     isNotList ? SORT_ORDER.ASC : sortOrder,
   );
 
-  const [shipperId] = useQueryValue('shipperId');
+  const [shipperId] = useQueryArrayValue('shipperId');
   const parsedShipperId = shipperId
     ? shipperId.length === 5
       ? shipperId
@@ -63,7 +64,7 @@ const useVariables = (isInventory?: boolean) => {
   const [coast = 'EC'] = useQueryValue('coast');
 
   const filteredShipperValues = useFilteredQueryValues(
-    shipperId || '',
+    shipperId as string[],
     {
       columnName: 'id',
       tableName: 'shipper',

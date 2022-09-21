@@ -18,6 +18,16 @@ query ORDER_ENTRY_DETAILS($orderId: BigFloat!) {
           email
         }
       }
+      submittedByUserCode
+      submittedByUser {
+        id
+        personContact {
+          id
+          firstName
+          lastName
+          email
+        }
+      }
       reviewUserCode
       reviewDate
       reviewUser {
@@ -31,6 +41,7 @@ query ORDER_ENTRY_DETAILS($orderId: BigFloat!) {
       customerPo
       fob
       fobDate
+      deliveredDate
       orderDate
       orderEntryItems {
         nodes {
@@ -49,6 +60,7 @@ query ORDER_ENTRY_DETAILS($orderId: BigFloat!) {
           packType
           plu
           label
+          countryOfOrigin
           reviewLocationId
           reviewVesselCode
           reviewShipperId
@@ -58,6 +70,7 @@ query ORDER_ENTRY_DETAILS($orderId: BigFloat!) {
           reviewPackType
           reviewPlu
           reviewLabel
+          reviewCountryOfOrigin
           notes
           vessel {
             id

@@ -968,7 +968,11 @@ const PriceSheet = () => {
               confirmText="Discard"
               handleConfirm={handleCancel}
               shouldConfirm={hasChanges}
-              triggerProps={{ mr: th.spacing.md, width: 88 }}
+              triggerProps={{
+                mr: th.spacing.md,
+                status: th.colors.status.error,
+                width: 88,
+              }}
               triggerText="Cancel"
             />
             <PriceSheetSaveModal
@@ -985,9 +989,9 @@ const PriceSheet = () => {
             </l.Div>
           </l.Flex>
         ) : (
-          <b.Primary key={0} onClick={handleEdit} width={88}>
+          <b.Warning key={0} onClick={handleEdit} width={88}>
             Edit
-          </b.Primary>
+          </b.Warning>
         ),
         !editing && (
           <l.AreaLink

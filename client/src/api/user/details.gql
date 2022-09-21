@@ -8,6 +8,7 @@ query USER_DETAILS($id: BigInt!, $isRead: [Boolean!]) {
         customer {
           id
           customerName
+          salesUserCode
         }
       }
     }

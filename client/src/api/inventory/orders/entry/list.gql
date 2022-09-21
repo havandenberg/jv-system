@@ -7,7 +7,6 @@ query ORDER_ENTRY_LIST(
   $startDate: Date
 ) {
   orderEntries(
-    condition: { reviewUserCode: null }
     filter: {
       and: $search
       billingCustomerId: { in: $billingCustomerId }
@@ -30,6 +29,14 @@ query ORDER_ENTRY_LIST(
         customerName
       }
       salesUser {
+        id
+        personContact {
+          id
+          firstName
+          lastName
+        }
+      }
+      submittedByUser {
         id
         personContact {
           id
@@ -67,6 +74,7 @@ query ORDER_ENTRY_LIST(
           packType
           plu
           label
+          countryOfOrigin
           notes
           vessel {
             id

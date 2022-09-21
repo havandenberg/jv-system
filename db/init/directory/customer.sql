@@ -13,7 +13,8 @@ CREATE TABLE directory.customer (
 	logo_src TEXT,
 	notes TEXT,
 	website TEXT,
-	active BOOLEAN NOT NULL
+	active BOOLEAN NOT NULL,
+	sales_user_code TEXT
 );
 
 CREATE TABLE directory.customer_person_contact (
@@ -23,6 +24,16 @@ CREATE TABLE directory.customer_person_contact (
   FOREIGN KEY (customer_id) REFERENCES directory.customer(id) ON UPDATE CASCADE ON DELETE CASCADE,
   FOREIGN KEY (person_contact_id) REFERENCES directory.person_contact(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
+
+CREATE FUNCTION directory.customer_sales_user(IN c directory.customer)
+	RETURNS public.user
+	LANGUAGE 'sql'
+		STABLE
+		PARALLEL UNSAFE
+		COST 100
+AS $BODY$
+	SELECT * FROM public.user u WHERE u.user_code = c.sales_user_code;
+$BODY$;
 
 CREATE FUNCTION directory.customer_search_text(IN cu directory.customer)
     RETURNS text
@@ -43,7 +54,8 @@ SELECT CONCAT (
 		cu.country_id,
 		c.country_name,
 		cu.notes,
-		cu.website
+		cu.website,
+		cu.sales_user_code
 	) FROM directory.customer ccu FULL JOIN directory.country c ON (cu.country_id = c.id) WHERE cu.id = ccu.id
 $BODY$;
 
@@ -85,7 +97,8 @@ AS $$
 				zip_code,
 				country_id,
 				phone,
-				active
+				active,
+				sales_user_code
       )
         VALUES (
           cu.id,
@@ -97,7 +110,8 @@ AS $$
 					cu.zip_code,
 					cu.country_id,
 					cu.phone,
-					cu.active
+					cu.active,
+					cu.sales_user_code
         )
       ON CONFLICT (id) DO UPDATE SET
 				customer_name=EXCLUDED.customer_name,
@@ -108,7 +122,8 @@ AS $$
         zip_code=EXCLUDED.zip_code,
         country_id=EXCLUDED.country_id,
         phone=EXCLUDED.phone,
-				active=EXCLUDED.active
+				active=EXCLUDED.active,
+				sales_user_code=EXCLUDED.sales_user_code
     	RETURNING * INTO vals;
     	RETURN NEXT vals;
 	END LOOP;

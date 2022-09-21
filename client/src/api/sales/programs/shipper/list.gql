@@ -22,23 +22,43 @@ query SHIPPER_PROGRAM_LIST(
       commonPackType {
         id
         packTypeName
+        commonPackTypeTags {
+          nodes {
+            tagText
+          }
+        }
       }
       commonPackTypeId
       commonSize {
         id
         sizeName
+        commonSizeTags {
+          nodes {
+            tagText
+          }
+        }
       }
       commonSizeId
       commonSpecies {
         id
         speciesName
         uiColor
+        commonSpeciesTags {
+          nodes {
+            tagText
+          }
+        }
       }
       commonSpeciesId
       commonVariety {
         id
         uiColor
         varietyName
+        commonVarietyTags {
+          nodes {
+            tagText
+          }
+        }
       }
       commonVarietyId
       id

@@ -4,6 +4,7 @@ import { loader } from 'graphql.macro';
 import { Mutation, Query } from 'types';
 
 const USER_LIST_QUERY = loader('./list.gql');
+const USERS_BY_ROLE_QUERY = loader('./list-by-role.gql');
 const USER_DETAILS_QUERY = loader('./details.gql');
 const USER_UPDATE_QUERY = loader('./update.gql');
 const USER_MESSAGES_CREATE = loader('./message/create.gql');
@@ -17,6 +18,17 @@ export const useGetUserAuthList = () => {
     error,
     loading,
     refetch,
+  };
+};
+
+export const useGetUsersByRole = (userRoles: string[]) => {
+  const { data, error, loading } = useQuery<Query>(USERS_BY_ROLE_QUERY, {
+    variables: { userRoles },
+  });
+  return {
+    data: data ? data.users : undefined,
+    error,
+    loading,
   };
 };
 

@@ -15,14 +15,19 @@ import l, { divPropsSet } from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 
-const Wrapper = styled(l.Div)({ position: 'relative', zIndex: 10 });
+const Wrapper = styled(l.Div)({
+  position: 'relative',
+  zIndex: 10,
+});
 
 const Control = styled(l.Flex)(
   ({
+    disabled,
     hasError,
     hasValue,
     show,
   }: {
+    disabled?: boolean;
     hasError?: boolean;
     hasValue?: boolean;
     show?: boolean;
@@ -36,14 +41,24 @@ const Control = styled(l.Flex)(
       : th.borders.disabled,
     borderRadius: th.borderRadii.input,
     boxShadow: th.shadows.boxLight,
-    cursor: 'pointer',
+    cursor: disabled ? 'default' : 'pointer',
     height: th.heights.input,
+    opacity: disabled ? th.opacities.disabled : 1,
     transition: th.transitions.default,
     width: th.widths.input,
     ':hover': {
-      border: hasError ? th.borders.error : th.borders.secondary,
+      border:
+        disabled && !hasValue
+          ? th.borders.disabled
+          : hasError
+          ? th.borders.error
+          : th.borders.secondary,
       '> p': {
-        opacity: hasValue ? 1 : th.opacities.secondary,
+        opacity: hasValue
+          ? 1
+          : disabled
+          ? th.opacities.disabled
+          : th.opacities.secondary,
       },
     },
   }),
@@ -114,6 +129,7 @@ const defaultRange = [
 
 export interface DateRangeProps extends DateRangePickerProps {
   allowEmpty?: boolean;
+  disabled?: boolean;
   hasError?: boolean;
   hideDefinedRanges?: boolean;
   isDirty?: boolean;
@@ -128,6 +144,7 @@ export interface DateRangeProps extends DateRangePickerProps {
 }
 
 const DateRangePicker = ({
+  disabled,
   hasError,
   hideDefinedRanges,
   isDirty,
@@ -175,9 +192,10 @@ const DateRangePicker = ({
     >
       <Wrapper>
         <Control
+          disabled={disabled}
           hasError={hasError}
           hasValue={hasValue}
-          onClick={toggleShow}
+          onClick={!disabled ? toggleShow : undefined}
           show={show}
           width={width}
         >
@@ -187,7 +205,7 @@ const DateRangePicker = ({
           <DateText bold={hasValue && isDirty} hasValue={hasValue} show={show}>
             {formattedDateRange}
           </DateText>
-          {hasValue ? (
+          {!disabled && hasValue ? (
             <ClearWrapper onClick={handleClear}>
               <CloseImg height={12} />
             </ClearWrapper>
@@ -195,7 +213,7 @@ const DateRangePicker = ({
             <div />
           )}
         </Control>
-        {show && (
+        {!disabled && show && (
           <PickerWrapper left={offsetLeft}>
             <DateRange
               className={hideDefinedRanges ? 'hideDefinedRanges' : undefined}

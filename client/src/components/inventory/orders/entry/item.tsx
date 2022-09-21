@@ -12,6 +12,7 @@ import useItemSelector from 'components/item-selector';
 import ItemLinkRow, { ItemLink } from 'components/item-selector/link';
 import { BasicModal } from 'components/modal';
 import {
+  CommonPackType,
   CommonSpecies,
   InventoryItem,
   OrderEntryItem,
@@ -65,6 +66,7 @@ type FilterKey =
   | 'species'
   | 'variety'
   | 'vesselCode'
+  | 'countryOfOrigin'
   | 'reviewLabel'
   | 'reviewLocationId'
   | 'reviewPackType'
@@ -74,6 +76,7 @@ type FilterKey =
   | 'reviewSpecies'
   | 'reviewVariety'
   | 'reviewVesselCode'
+  | 'reviewCountryOfOrigin'
   | 'unitSellPrice'
   | 'deliveryCharge'
   | 'notes';
@@ -112,6 +115,7 @@ const NewOrderEntryItem = ({
     locationId,
     vesselCode,
     label,
+    countryOfOrigin,
     reviewSpecies,
     reviewVariety,
     reviewSize,
@@ -121,6 +125,7 @@ const NewOrderEntryItem = ({
     reviewLocationId,
     reviewVesselCode,
     reviewLabel,
+    reviewCountryOfOrigin,
     palletCount,
     unitSellPrice,
     deliveryCharge,
@@ -138,7 +143,7 @@ const NewOrderEntryItem = ({
     (sz) => sz && sz.productSizeId === size,
   );
   const commonPackType = commonSpecies?.commonPackTypes.nodes.find(
-    (pt) => pt && pt.packMaster?.packDescription === packType,
+    (pt) => pt && [pt.id, pt.packMaster?.packDescription].includes(packType),
   );
   const shipper = shippers.find((s) => s && s.id === shipperId);
   const vessel = vessels.find((v) => v && v.vesselCode === vesselCode);
@@ -159,7 +164,9 @@ const NewOrderEntryItem = ({
     : undefined;
   const reviewCommonPackType = !!reviewPackType
     ? commonSpecies?.commonPackTypes.nodes.find(
-        (pt) => pt && pt.packMaster?.packDescription === reviewPackType,
+        (pt) =>
+          pt &&
+          [pt.id, pt.packMaster?.packDescription].includes(reviewPackType),
       )
     : undefined;
   const reviewShipper = !!reviewShipperId
@@ -172,6 +179,10 @@ const NewOrderEntryItem = ({
     ? warehouses.find((w) => w && w.id === reviewLocationId)
     : undefined;
 
+  const repackPackTypes = (
+    (commonSpecies?.commonPackTypes.nodes || []) as CommonPackType[]
+  ).filter((pt) => !!pt?.isRepack);
+
   const getSelectorValue = (type: FilterKey) => {
     switch (type) {
       case 'species':
@@ -181,7 +192,11 @@ const NewOrderEntryItem = ({
       case 'size':
         return commonSize?.sizeName || size || '';
       case 'packType':
-        return commonPackType?.packTypeName || packType || '';
+        return commonPackType
+          ? commonPackType.isRepack
+            ? `Rp - ${commonPackType.packTypeName}`
+            : commonPackType.packTypeName || ''
+          : packType || '';
       case 'shipperId':
         return shipper?.shipperName || shipperId || '';
       case 'vesselCode':
@@ -192,6 +207,8 @@ const NewOrderEntryItem = ({
         return plu || '';
       case 'label':
         return label || '';
+      case 'countryOfOrigin':
+        return countryOfOrigin || '';
       case 'reviewSpecies':
         return reviewCommonSpecies?.speciesName || reviewSpecies || '';
       case 'reviewVariety':
@@ -199,7 +216,11 @@ const NewOrderEntryItem = ({
       case 'reviewSize':
         return reviewCommonSize?.sizeName || reviewSize || '';
       case 'reviewPackType':
-        return reviewCommonPackType?.packTypeName || reviewPackType || '';
+        return reviewCommonPackType
+          ? reviewCommonPackType.isRepack
+            ? `Rp - ${reviewCommonPackType.packTypeName}`
+            : reviewCommonPackType.packTypeName || ''
+          : reviewPackType || '';
       case 'reviewShipperId':
         return reviewShipper?.shipperName || reviewShipperId || '';
       case 'reviewVesselCode':
@@ -210,6 +231,8 @@ const NewOrderEntryItem = ({
         return reviewPlu || '';
       case 'reviewLabel':
         return reviewLabel || '';
+      case 'reviewCountryOfOrigin':
+        return reviewCountryOfOrigin || '';
       default:
         return '';
     }
@@ -235,6 +258,8 @@ const NewOrderEntryItem = ({
         return plu !== currentItem.plu;
       case 'label':
         return label !== currentItem.label;
+      case 'countryOfOrigin':
+        return countryOfOrigin !== currentItem.countryOfOrigin;
       case 'reviewSpecies':
         return reviewSpecies !== currentItem.reviewSpecies;
       case 'reviewVariety':
@@ -249,6 +274,8 @@ const NewOrderEntryItem = ({
         return reviewVesselCode !== currentItem.reviewVesselCode;
       case 'reviewLocationId':
         return reviewLocationId !== currentItem.reviewLocationId;
+      case 'reviewCountryOfOrigin':
+        return reviewCountryOfOrigin !== currentItem.reviewCountryOfOrigin;
       case 'palletCount':
         return palletCount !== currentItem.palletCount;
       case 'deliveryCharge':
@@ -266,8 +293,13 @@ const NewOrderEntryItem = ({
   const speciesOptions = [] as ItemLink[];
   const varietyOptions = [] as ItemLink[];
   const sizeOptions = [] as ItemLink[];
-  const packTypeOptions = [] as ItemLink[];
+  const packTypeOptions = repackPackTypes.map((pt) => ({
+    color: th.colors.brand.primaryAccent,
+    id: pt?.id || pt?.packMasterId,
+    text: `Repack - ${pt?.packTypeName}`,
+  })) as ItemLink[];
   const pluOptions = [] as ItemLink[];
+  const countryOptions = [] as ItemLink[];
   let vesselOptions = [] as ItemLink[];
 
   const filteredItems = inventoryItems.filter((item) => {
@@ -312,36 +344,56 @@ const NewOrderEntryItem = ({
       const pl = rev ? reviewPlu : plu;
       const shi = rev ? reviewShipperId : shipperId;
       const ves = rev ? reviewVesselCode : vesselCode;
+      const cou = rev ? reviewCountryOfOrigin : countryOfOrigin;
 
       return (
         dateValid &&
         (!(rev ? reviewWarehouse : warehouse) ||
-          `${item.warehouse?.warehouseName}`.includes(`${loc}`) ||
+          `${item.warehouse?.warehouseName}`
+            .toLowerCase()
+            .includes(`${loc}`.toLowerCase()) ||
           ['Any', item.warehouse?.id].includes(loc || undefined)) &&
         ((!rev ? reviewShipper : shipper) ||
-          `${item.shipper?.shipperName}`.includes(`${shi}`) ||
+          `${item.shipper?.shipperName}`
+            .toLowerCase()
+            .includes(`${shi}`.toLowerCase()) ||
           ['Any', item.shipper?.id].includes(shi || undefined)) &&
         (!spe ||
-          `${itemSpecies?.speciesDescription}`.includes(spe) ||
+          `${itemSpecies?.speciesDescription}`
+            .toLowerCase()
+            .includes(spe.toLowerCase()) ||
           [itemSpecies?.id].includes(spe)) &&
         (!vari ||
-          `${itemVariety?.varietyDescription}`.includes(vari) ||
+          `${itemVariety?.varietyDescription}`
+            .toLowerCase()
+            .includes(vari.toLowerCase()) ||
           ['Any', itemVariety?.id].includes(vari)) &&
         (!siz ||
-          `${itemSize?.combineDescription}`.includes(siz) ||
+          `${itemSize?.combineDescription}`
+            .toLowerCase()
+            .includes(siz.toLowerCase()) ||
           ['Any', itemSize?.id].includes(siz)) &&
         (!pac ||
-          `${itemPackType?.packDescription}`.includes(pac) ||
-          ['Any', itemPackType?.id].includes(pac)) &&
+          `${itemPackType?.packDescription}`
+            .toLowerCase()
+            .includes(pac.toLowerCase()) ||
+          ['Any', itemPackType?.packDescription].includes(pac)) &&
         (!ves ||
-          `${item?.vessel?.vesselCode}`.includes(ves) ||
+          `${item?.vessel?.vesselCode}`
+            .toLowerCase()
+            .includes(ves.toLowerCase()) ||
           ['Any', item?.vessel?.vesselCode].includes(ves)) &&
         (!lab ||
-          `${itemPackType?.label?.labelCode}`.includes(lab) ||
+          `${itemPackType?.label?.labelCode}`
+            .toLowerCase()
+            .includes(lab.toLowerCase()) ||
           ['Any', itemPackType?.label?.labelCode].includes(lab)) &&
         (!pl ||
           (item.plu ? 'PLU' : 'No PLU').includes(pl) ||
-          ['Any', item.plu ? 'PLU' : 'No PLU'].includes(pl))
+          ['Any', item.plu ? 'PLU' : 'No PLU'].includes(pl)) &&
+        (!cou ||
+          `${item.country?.id}`.toLowerCase().includes(cou.toLowerCase()) ||
+          ['Any', item.country?.id].includes(cou))
       );
     };
 
@@ -419,6 +471,15 @@ const NewOrderEntryItem = ({
         });
       }
 
+      if (!countryOptions.find(({ id }) => id === item.country?.id)) {
+        if (item.country) {
+          countryOptions.push({
+            text: item.country.id,
+            id: item.country.id,
+          });
+        }
+      }
+
       if (
         !speciesOptions.find(({ id }) => id === itemSpecies?.id) &&
         itemSpecies
@@ -467,7 +528,12 @@ const NewOrderEntryItem = ({
   const getOptions = (options: ItemLink[], allowAny: boolean = true) => [
     ...(allowAny ? [{ text: 'Any', id: 'Any' }] : []),
     ...sortBy(
-      (opt) => (opt.text === 'Other' ? 'zzzzzzz' : opt.text.toLowerCase()),
+      (opt) =>
+        opt.text === 'Other'
+          ? 'zzzzzzz'
+          : opt.text.includes('Repack -')
+          ? `0-${opt.text.toLowerCase()}`
+          : opt.text.toLowerCase(),
       options,
     ),
   ];
@@ -491,6 +557,7 @@ const NewOrderEntryItem = ({
     packType: packTypeOptions,
     label: labelOptions,
     plu: pluOptions,
+    countryOfOrigin: countryOptions,
     reviewLocationId: locationOptions,
     reviewVesselCode: vesselOptions,
     reviewShipperId: shipperOptions,
@@ -500,6 +567,7 @@ const NewOrderEntryItem = ({
     reviewPackType: packTypeOptions,
     reviewLabel: labelOptions,
     reviewPlu: pluOptions,
+    reviewCountryOfOrigin: countryOptions,
     palletCount: [],
     unitSellPrice: [],
     deliveryCharge: [],
@@ -607,25 +675,26 @@ const NewOrderEntryItem = ({
 
     return {
       ...commonSelectorProps,
-      allItems: ['vesselCode', 'reviewVesselCode'].includes(type)
-        ? [
-            { id: 'Any', text: 'Any' },
-            {
-              id: 'labels',
-              text: 'Name|Code|Arrival|Age|Avail',
-              disabled: true,
-            },
-            ...sortBy(
-              ({ text }) => {
-                const textArray = text.split('|');
-                const dateText = textArray[2];
-                const date = new Date(dateText);
-                return date;
+      allItems: () =>
+        ['vesselCode', 'reviewVesselCode'].includes(type)
+          ? [
+              { id: 'Any', text: 'Any' },
+              {
+                id: 'labels',
+                text: 'Name|Code|Arrival|Age|Avail',
+                disabled: true,
               },
-              allItems.filter(({ id }) => id !== 'Any'),
-            ),
-          ]
-        : allItems,
+              ...sortBy(
+                ({ text }) => {
+                  const textArray = text.split('|');
+                  const dateText = textArray[2];
+                  const date = new Date(dateText);
+                  return date;
+                },
+                allItems.filter(({ id }) => id !== 'Any'),
+              ),
+            ]
+          : allItems,
       editableCellProps: {
         bypassLocalValue: true,
         content: { dirty: isDirty, value },
@@ -639,6 +708,9 @@ const NewOrderEntryItem = ({
       },
       getItemContent,
       nameKey: 'text' as keyof ItemLink,
+      offset: ['vesselCode', 'reviewVesselCode'].includes(type)
+        ? -150
+        : undefined,
       selectItem,
       width: ['vesselCode', 'reviewVesselCode'].includes(type)
         ? 400
@@ -675,7 +747,7 @@ const NewOrderEntryItem = ({
 
   const { ItemSelector: WarehouseSelector } = useItemSelector({
     errorLabel: 'warehouses',
-    ...getItemSelectorProps(isReview ? 'reviewLocationId' : 'locationId'),
+    ...getItemSelectorProps(isReview ? 'reviewLocationId' : 'locationId', !fob),
   });
 
   const { ItemSelector: VesselSelector } = useItemSelector({
@@ -693,6 +765,13 @@ const NewOrderEntryItem = ({
     ...getItemSelectorProps(isReview ? 'reviewPlu' : 'plu'),
   });
 
+  const { ItemSelector: CountrySelector } = useItemSelector({
+    errorLabel: 'country options',
+    ...getItemSelectorProps(
+      isReview ? 'reviewCountryOfOrigin' : 'countryOfOrigin',
+    ),
+  });
+
   const { palletsAvailable, palletsOnHand, palletsReceived } =
     reducePalletData(filteredItems);
 
@@ -706,7 +785,7 @@ const NewOrderEntryItem = ({
   const { ItemSelector: PalletCountSelector } = useItemSelector({
     errorLabel: 'plus',
     ...commonSelectorProps,
-    allItems: [
+    allItems: () => [
       { text: 'Available', id: '-1', disabled: true },
       {
         text: `Total: ${palletsAvailable.total}`,
@@ -863,60 +942,80 @@ const NewOrderEntryItem = ({
         </l.Flex>
         {isReview ? (
           <>
-            <ty.CaptionText>
+            <ty.CaptionText ellipsis>
               {commonSpecies ? commonSpecies.speciesName : updatedItem.species}
             </ty.CaptionText>
-            <ty.CaptionText secondary={updatedItem.variety === 'Any'}>
+            <ty.CaptionText ellipsis secondary={updatedItem.variety === 'Any'}>
               {commonVariety ? commonVariety.varietyName : updatedItem.variety}
             </ty.CaptionText>
-            <ty.CaptionText secondary={updatedItem.size === 'Any'}>
+            <ty.CaptionText ellipsis secondary={updatedItem.size === 'Any'}>
               {commonSize ? commonSize.sizeName : updatedItem.size}
             </ty.CaptionText>
-            <ty.CaptionText secondary={updatedItem.packType === 'Any'}>
+            <ty.CaptionText ellipsis secondary={updatedItem.packType === 'Any'}>
               {commonPackType
-                ? commonPackType.packTypeName
+                ? commonPackType.isRepack
+                  ? `Rp - ${commonPackType.packTypeName}`
+                  : commonPackType.packTypeName || ''
                 : updatedItem.packType}
             </ty.CaptionText>
-            <ty.CaptionText secondary={updatedItem.plu === 'Any'}>
+            <ty.CaptionText ellipsis secondary={updatedItem.plu === 'Any'}>
               {updatedItem.plu}
             </ty.CaptionText>
-            <ty.CaptionText secondary={updatedItem.label === 'Any'}>
+            <ty.CaptionText
+              ellipsis
+              secondary={updatedItem.countryOfOrigin === 'Any'}
+            >
+              {updatedItem.countryOfOrigin}
+            </ty.CaptionText>
+            <ty.CaptionText ellipsis secondary={updatedItem.label === 'Any'}>
               {updatedItem.label}
             </ty.CaptionText>
-            {updatedItem.shipper ? (
-              <ty.LinkText
-                hover="false"
-                to={`/directory/shippers/${updatedItem.shipperId}`}
-              >
-                {updatedItem.shipper.shipperName}
-              </ty.LinkText>
-            ) : (
-              <ty.CaptionText secondary={updatedItem.shipperId === 'Any'}>
-                {updatedItem.shipperId}
-              </ty.CaptionText>
-            )}
-            {updatedItem.vessel ? (
-              <ty.LinkText
-                hover="false"
-                to={`/inventory/vessels/${updatedItem.vessel.vesselCode}`}
-              >
-                {updatedItem.vessel.vesselCode}
-              </ty.LinkText>
-            ) : (
-              <ty.CaptionText secondary={updatedItem.vesselCode === 'Any'}>
-                {updatedItem.vesselCode}
-              </ty.CaptionText>
-            )}
             {updatedItem.warehouse ? (
               <ty.LinkText
+                ellipsis
                 hover="false"
                 to={`/directory/warehouses/${updatedItem.locationId}`}
               >
                 {updatedItem.warehouse.warehouseName}
               </ty.LinkText>
             ) : (
-              <ty.CaptionText secondary={updatedItem.locationId === 'Any'}>
+              <ty.CaptionText
+                ellipsis
+                secondary={updatedItem.locationId === 'Any'}
+              >
                 {updatedItem.locationId}
+              </ty.CaptionText>
+            )}
+            {updatedItem.shipper ? (
+              <ty.LinkText
+                ellipsis
+                hover="false"
+                to={`/directory/shippers/${updatedItem.shipperId}`}
+              >
+                {updatedItem.shipper.shipperName}
+              </ty.LinkText>
+            ) : (
+              <ty.CaptionText
+                ellipsis
+                secondary={updatedItem.shipperId === 'Any'}
+              >
+                {updatedItem.shipperId}
+              </ty.CaptionText>
+            )}
+            {updatedItem.vessel ? (
+              <ty.LinkText
+                ellipsis
+                hover="false"
+                to={`/inventory/vessels/${updatedItem.vessel.vesselCode}`}
+              >
+                {updatedItem.vessel.vesselCode}
+              </ty.LinkText>
+            ) : (
+              <ty.CaptionText
+                ellipsis
+                secondary={updatedItem.vesselCode === 'Any'}
+              >
+                {updatedItem.vesselCode}
               </ty.CaptionText>
             )}
           </>
@@ -927,10 +1026,11 @@ const NewOrderEntryItem = ({
             {SizeSelector}
             {PackTypeSelector}
             {PluSelector}
+            {CountrySelector}
             {LabelSelector}
+            {WarehouseSelector}
             {ShipperSelector}
             {VesselSelector}
-            {WarehouseSelector}
           </>
         )}
         {isReview ? (
@@ -1017,11 +1117,14 @@ const NewOrderEntryItem = ({
           {SizeSelector}
           {PackTypeSelector}
           {PluSelector}
+          {CountrySelector}
           {LabelSelector}
+          {WarehouseSelector}
           {ShipperSelector}
           {VesselSelector}
-          {WarehouseSelector}
-          <div />
+          <ty.CaptionText color={th.colors.status.success} ml={th.spacing.xs}>
+            Avail: {palletsAvailable.total - palletCount}
+          </ty.CaptionText>
           <div />
         </l.Grid>
       )}

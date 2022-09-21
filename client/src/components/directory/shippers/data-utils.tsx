@@ -70,12 +70,13 @@ export const baseLabels: ShipperLabelInfo[] = [
     key: 'sendProjectionRequest',
     label: 'Send Projection Request',
     isBoolean: true,
-    getValue: (data) =>
-      !!data.sendProjectionRequest ? (
-        <LineItemCheckbox checked={true} disabled onChange={() => ({})} />
-      ) : (
-        <LineItemCheckbox checked={false} disabled onChange={() => ({})} />
-      ),
+    getValue: (data) => (
+      <LineItemCheckbox
+        checked={!!data.sendProjectionRequest}
+        disabled
+        onChange={() => ({})}
+      />
+    ),
   },
   {
     key: 'projectionRequestStartDate',

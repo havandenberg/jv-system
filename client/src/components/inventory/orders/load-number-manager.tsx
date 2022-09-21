@@ -18,7 +18,7 @@ import ty from 'ui/typography';
 
 const Wrapper = styled(l.Div)({
   background: th.colors.brand.containerBackground,
-  border: th.borders.primary,
+  border: th.borders.disabled,
   borderRadius: th.borderRadii.default,
   padding: th.spacing.sm,
 });
@@ -58,7 +58,7 @@ const StyledLoadNumber = ({
   }
 
   const { ItemSelector } = useItemSelector<Customer>({
-    allItems,
+    allItems: () => allItems,
     closeOnSelect: true,
     editableCellProps: {
       bypassLocalValue: true,
@@ -202,7 +202,7 @@ const LoadNumberManager = () => {
     >
       <l.Flex alignCenter mb={th.spacing.lg} mt={th.spacing.md}>
         <ty.CaptionText mr={th.spacing.lg} secondary>
-          Generate new load numbers:
+          Generate load numbers:
         </ty.CaptionText>
         <TextInput
           key="count"
@@ -216,18 +216,18 @@ const LoadNumberManager = () => {
           value={upsertCount}
           width={100}
         />
-        <b.Primary
+        <b.Success
           key="upsert"
           disabled={upsertLoading || upsertError}
           ml={th.spacing.lg}
           onClick={upsertLoadNumbers}
         >
           Generate
-        </b.Primary>
+        </b.Success>
       </l.Flex>
-      <ty.CaptionText my={th.spacing.lg} secondary>
+      <ty.BodyText mb={th.spacing.md} mt={th.spacing.lg}>
         Unassigned load numbers:
-      </ty.CaptionText>
+      </ty.BodyText>
       <l.Grid
         alignStart
         gridColumnGap={th.spacing.lg}
@@ -252,9 +252,9 @@ const LoadNumberManager = () => {
           />
         ))}
       </l.Grid>
-      <ty.CaptionText my={th.spacing.lg} secondary>
-        Assigned load numbers:
-      </ty.CaptionText>
+      <ty.BodyText mb={th.spacing.md} mt={th.spacing.lg}>
+        Unsubmitted load numbers:
+      </ty.BodyText>
       <l.Grid
         alignStart
         gridColumnGap={th.spacing.lg}

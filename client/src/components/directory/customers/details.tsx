@@ -59,12 +59,13 @@ const Details = () => {
   ];
   const updateVariables = { id };
 
-  const { changes, editing, handleChange } = useUpdateItem<Customer>({
-    data: data as Customer,
-    handleUpdate,
-    updateFields,
-    updateVariables,
-  });
+  const { changes, editing, handleChange, getUpdateActions } =
+    useUpdateItem<Customer>({
+      data: data as Customer,
+      handleUpdate,
+      updateFields,
+      updateVariables,
+    });
 
   const [
     selectedItems,
@@ -84,17 +85,16 @@ const Details = () => {
       actions={
         data
           ? [
+              getUpdateActions().defaultActions,
               <l.AreaLink
                 key={0}
-                mr={th.spacing.lg}
-                target="_blank"
+                mx={th.spacing.lg}
                 to={`/sales/programs?customerId=${data.id}&programsView=customers`}
               >
                 <b.Primary>Programs</b.Primary>
               </l.AreaLink>,
               <l.AreaLink
                 key={1}
-                target="_blank"
                 to={`/inventory/orders?billingCustomerId=${billingCustomerParam}`}
               >
                 <b.Primary>Orders</b.Primary>
@@ -121,7 +121,7 @@ const Details = () => {
               ml={th.spacing.md}
               to={`/directory/create?customerId=${data.id}`}
             >
-              <b.Primary>Create</b.Primary>
+              <b.Success>Create</b.Success>
             </l.AreaLink>
           </l.Flex>
           <ContactList

@@ -1,12 +1,19 @@
 import React, { Fragment, useState } from 'react';
+import { uniqBy, pluck, omit } from 'ramda';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { ClipLoader } from 'react-spinners';
 
 import api from 'api';
 import BaseData from 'components/base-data';
 import { validateItem } from 'components/column-label';
+import useTagManager, { CommonProductTag } from 'components/tag-manager';
 import Page from 'components/page';
-import { CommonSpecies, CommonPackType, PackMaster } from 'types';
+import {
+  CommonSpecies,
+  CommonPackType,
+  PackMaster,
+  CommonPackTypeTagsConnection,
+} from 'types';
 import b from 'ui/button';
 import l from 'ui/layout';
 import th from 'ui/theme';
@@ -28,6 +35,12 @@ const breadcrumbs = (species: CommonSpecies) => [
 ];
 
 const initialState = {
+  commonPackTypeTags: {
+    edges: [],
+    nodes: [],
+    pageInfo: { hasNextPage: false, hasPreviousPage: false },
+    totalCount: 0,
+  } as CommonPackTypeTagsConnection,
   packTypeName: '',
   packTypeDescription: '',
 };
@@ -54,6 +67,30 @@ const CreateCommonPackType = () => {
     initialState as CommonPackType,
   );
 
+  const tags = (changes?.commonPackTypeTags?.nodes || []) as CommonProductTag[];
+  const suggestedTags = uniqBy(
+    (tag) => tag?.tagText,
+    pluck(
+      'commonPackTypeTags',
+      (species?.commonPackTypes?.nodes || []) as CommonPackType[],
+    )
+      .map(({ nodes }) => nodes)
+      .flat(),
+  ) as CommonProductTag[];
+
+  const { tagManager } = useTagManager({
+    commonProductId: '',
+    editing: true,
+    handleChange: (tags: CommonProductTag[]) => {
+      handleChange('commonPackTypeTags', {
+        nodes: tags,
+      });
+    },
+    productIdKey: 'commonPackTypeId',
+    tags,
+    suggestedTags,
+  });
+
   const handleChange = (field: keyof CommonPackType, value: any) => {
     setChanges({ ...changes, [field]: value } as CommonPackType);
   };
@@ -64,7 +101,15 @@ const CreateCommonPackType = () => {
       setLoading(true);
       handleCreate({
         variables: {
-          commonPackType: { ...changes, commonSpeciesId: speciesId },
+          commonPackType: {
+            ...omit(['commonPackTypeTags'], changes),
+            commonSpeciesId: speciesId,
+            commonPackTypeTagsUsingId: {
+              create: changes.commonPackTypeTags.nodes.map((tag) => ({
+                tagText: tag?.tagText || '',
+              })),
+            },
+          },
         },
       }).then(() => {
         history.push(cancelLink);
@@ -77,9 +122,9 @@ const CreateCommonPackType = () => {
       actions={[
         <Fragment key={0}>
           <l.AreaLink to={cancelLink}>
-            <b.Primary width={88}>Cancel</b.Primary>
+            <b.Error width={88}>Cancel</b.Error>
           </l.AreaLink>
-          <b.Primary ml={th.spacing.md} onClick={handleSave} width={88}>
+          <b.Success ml={th.spacing.md} onClick={handleSave} width={88}>
             {createLoading ? (
               <l.Flex alignCenter justifyCenter>
                 <ClipLoader
@@ -90,7 +135,7 @@ const CreateCommonPackType = () => {
             ) : (
               'Create'
             )}
-          </b.Primary>
+          </b.Success>
         </Fragment>,
       ]}
       breadcrumbs={breadcrumbs(species as CommonSpecies)}
@@ -114,6 +159,9 @@ const CreateCommonPackType = () => {
         labels={baseLabels(packMasters)}
         showValidation={saveAttempt}
       />
+      <l.Div ml={th.spacing.sm} my={th.spacing.lg}>
+        {tagManager}
+      </l.Div>
     </Page>
   );
 };

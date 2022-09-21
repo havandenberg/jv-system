@@ -78,6 +78,7 @@ query COMMON_SPECIES_LIST(
       commonPackTypes(orderBy: $packTypesOrderBy) {
         nodes {
           id
+          isRepack
           packMasterId
           packMaster {
             id

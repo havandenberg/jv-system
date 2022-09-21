@@ -1,4 +1,5 @@
 import React, { Fragment, useState } from 'react';
+import { omit, pluck, uniqBy } from 'ramda';
 import { useHistory, useParams } from 'react-router-dom';
 import { ClipLoader } from 'react-spinners';
 
@@ -6,8 +7,14 @@ import api from 'api';
 import BaseData from 'components/base-data';
 import { validateItem } from 'components/column-label';
 import Page from 'components/page';
+import useTagManager, { CommonProductTag } from 'components/tag-manager';
 import { useQueryValue } from 'hooks/use-query-params';
-import { CommonCategory, CommonSpecies, ProductSpecies } from 'types';
+import {
+  CommonCategory,
+  CommonSpecies,
+  CommonSpeciesTagsConnection,
+  ProductSpecies,
+} from 'types';
 import b from 'ui/button';
 import l from 'ui/layout';
 import th from 'ui/theme';
@@ -32,11 +39,21 @@ const CreateCommonSpecies = () => {
   const categoryId = categoryParam || categoryIdQuery;
   const { data: category } = api.useCommonCategory(categoryId || '');
 
+  const { data: speciesesData } = api.useCommonSpecieses();
+  const specieses = speciesesData
+    ? (speciesesData.nodes as CommonSpecies[])
+    : [];
   const { data: productSpeciesData } = api.useProductSpeciesList();
   const productSpecieses = (productSpeciesData?.nodes ||
     []) as ProductSpecies[];
 
   const initialState = {
+    commonSpeciesTags: {
+      edges: [],
+      nodes: [],
+      pageInfo: { hasNextPage: false, hasPreviousPage: false },
+      totalCount: 0,
+    } as CommonSpeciesTagsConnection,
     speciesName: '',
     speciesDescription: '',
     uiColor: category?.uiColor || undefined,
@@ -54,6 +71,27 @@ const CreateCommonSpecies = () => {
     initialState as CommonSpecies,
   );
 
+  const tags = (changes?.commonSpeciesTags?.nodes || []) as CommonProductTag[];
+  const suggestedTags = uniqBy(
+    (tag) => tag?.tagText,
+    pluck('commonSpeciesTags', specieses)
+      .map(({ nodes }) => nodes)
+      .flat(),
+  ) as CommonProductTag[];
+
+  const { tagManager } = useTagManager({
+    commonProductId: '',
+    editing: true,
+    handleChange: (tags: CommonProductTag[]) => {
+      handleChange('commonSpeciesTags', {
+        nodes: tags,
+      });
+    },
+    productIdKey: 'commonSpeciesId',
+    tags,
+    suggestedTags,
+  });
+
   const handleChange = (field: keyof CommonSpecies, value: any) => {
     setChanges({ ...changes, [field]: value } as CommonSpecies);
   };
@@ -64,7 +102,15 @@ const CreateCommonSpecies = () => {
       setLoading(true);
       handleCreate({
         variables: {
-          commonSpecies: { ...changes, commonCategoryId: categoryId },
+          commonSpecies: {
+            ...omit(['commonSpeciesTags'], changes),
+            commonCategoryId: categoryId,
+            commonSpeciesTagsUsingId: {
+              create: changes.commonSpeciesTags.nodes.map((tag) => ({
+                tagText: tag?.tagText || '',
+              })),
+            },
+          },
         },
       }).then(() => {
         history.push(cancelLink);
@@ -77,9 +123,9 @@ const CreateCommonSpecies = () => {
       actions={[
         <Fragment key={0}>
           <l.AreaLink to={cancelLink}>
-            <b.Primary width={88}>Cancel</b.Primary>
+            <b.Error width={88}>Cancel</b.Error>
           </l.AreaLink>
-          <b.Primary ml={th.spacing.md} onClick={handleSave} width={88}>
+          <b.Success ml={th.spacing.md} onClick={handleSave} width={88}>
             {createLoading ? (
               <l.Flex alignCenter justifyCenter>
                 <ClipLoader
@@ -90,7 +136,7 @@ const CreateCommonSpecies = () => {
             ) : (
               'Create'
             )}
-          </b.Primary>
+          </b.Success>
         </Fragment>,
       ]}
       breadcrumbs={breadcrumbs(category as CommonCategory)}
@@ -114,6 +160,9 @@ const CreateCommonSpecies = () => {
         labels={baseLabels(productSpecieses)}
         showValidation={saveAttempt}
       />
+      <l.Div ml={th.spacing.sm} my={th.spacing.lg}>
+        {tagManager}
+      </l.Div>
     </Page>
   );
 };

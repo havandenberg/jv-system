@@ -1,10 +1,11 @@
 import React from 'react';
 import { add, format, startOfISOWeek } from 'date-fns';
-import { times } from 'ramda';
+import { Ord, times } from 'ramda';
 
 import PlusInCircle from 'assets/images/plus-in-circle';
-import { useProgramsQueryParams } from 'hooks/use-query-params';
-import b from 'ui/button';
+import { LabelInfo } from 'components/column-label';
+import useColumns, { SORT_ORDER } from 'hooks/use-columns';
+import { ShipperProgram, CustomerProgram } from 'types';
 import { LineItemCheckbox } from 'ui/checkbox';
 import l from 'ui/layout';
 import th from 'ui/theme';
@@ -13,12 +14,77 @@ import { getWeekNumber, isCurrentWeek } from 'utils/date';
 
 import { getGridProps } from './utils';
 
+interface ProgramFilterOptions {
+  speciesOptions: string[];
+  varietyOptions: string[];
+  sizeOptions: string[];
+  packTypeOptions: string[];
+  customerOptions: string[];
+}
+
+const listLabels: (
+  options: ProgramFilterOptions,
+  isCustomers: boolean,
+  customOptionsSort: (opt: string) => Ord,
+) => LabelInfo<ShipperProgram | CustomerProgram>[] = (
+  {
+    speciesOptions,
+    varietyOptions,
+    sizeOptions,
+    packTypeOptions,
+    customerOptions,
+  },
+  isCustomers,
+  customOptionsSort,
+) => [
+  {
+    label: 'Species',
+    key: 'commonSpeciesId',
+    filterable: true,
+    filterPanelProps: { customOptions: speciesOptions, customOptionsSort },
+  },
+  {
+    label: 'Variety',
+    key: 'commonVarietyId',
+    filterable: true,
+    filterPanelProps: { customOptions: varietyOptions, customOptionsSort },
+  },
+  {
+    label: 'Size',
+    key: 'commonSizeId',
+    filterable: true,
+    filterPanelProps: { customOptions: sizeOptions, customOptionsSort },
+  },
+  {
+    label: 'Pack Type',
+    key: 'commonPackTypeId',
+    filterable: true,
+    filterPanelProps: { customOptions: packTypeOptions, customOptionsSort },
+  },
+  {
+    label: 'PLU/GTIN',
+    key: 'plu',
+  },
+  ...((isCustomers
+    ? []
+    : [
+        {
+          label: 'Customer',
+          key: 'customerId',
+          sortKey: 'customerIdFilter',
+          filterable: true,
+          filterPanelProps: { customOptions: customerOptions },
+        },
+      ]) as LabelInfo<ShipperProgram | CustomerProgram>[]),
+];
+
 interface Props {
   editing: boolean;
   increaseWeekCount: () => void;
   isCustomers: boolean;
   hasPrograms: boolean;
   loading: boolean;
+  programs: (ShipperProgram | CustomerProgram)[];
   selectedWeekNumber: number;
   showAllocated: boolean;
   startDate: string;
@@ -32,29 +98,79 @@ const Header = ({
   loading,
   increaseWeekCount,
   isCustomers,
+  programs,
   selectedWeekNumber,
   showAllocated,
   startDate,
   toggleShowAllocated,
   weekCount,
 }: Props) => {
-  const [{ commonSpeciesId, customerIdFilter }, setProgramsQueryParams] =
-    useProgramsQueryParams();
   const { gridTemplateColumns, gridWidth } = getGridProps(
     weekCount,
     isCustomers,
   );
 
-  const clearProductQueryParams = () => {
-    setProgramsQueryParams({
-      commonSpeciesId: undefined,
-      commonVarietyId: undefined,
-      commonSizeId: undefined,
-      commonPackTypeId: undefined,
-      plu: undefined,
-      customerIdFilter: undefined,
-    });
-  };
+  const getNewOptions = (currentOptions: string[], newOptions: string[]) => [
+    ...currentOptions,
+    ...(newOptions
+      .map((opt) => (currentOptions.includes(opt) ? undefined : opt))
+      .filter((opt) => !!opt) as string[]),
+  ];
+
+  const filterOptions = programs.reduce<{
+    speciesOptions: string[];
+    varietyOptions: string[];
+    sizeOptions: string[];
+    packTypeOptions: string[];
+    customerOptions: string[];
+  }>(
+    (acc, prog) => ({
+      speciesOptions: getNewOptions(acc.speciesOptions, [
+        prog.commonSpecies?.speciesName || '',
+        ...((prog.commonSpecies?.commonSpeciesTags?.nodes || []).map(
+          (tag) => `${tag?.tagText} (tag)`,
+        ) as string[]),
+      ]),
+      varietyOptions: getNewOptions(acc.varietyOptions, [
+        prog.commonVariety?.varietyName || '',
+        ...((prog.commonVariety?.commonVarietyTags?.nodes || []).map(
+          (tag) => `${tag?.tagText} (tag)`,
+        ) as string[]),
+      ]),
+      sizeOptions: getNewOptions(acc.sizeOptions, [
+        prog.commonSize?.sizeName || '',
+        ...((prog.commonSize?.commonSizeTags?.nodes || []).map(
+          (tag) => `${tag?.tagText} (tag)`,
+        ) as string[]),
+      ]),
+      packTypeOptions: getNewOptions(acc.packTypeOptions, [
+        prog.commonPackType?.packTypeName || '',
+        ...((prog.commonPackType?.commonPackTypeTags?.nodes || []).map(
+          (tag) => `${tag?.tagText} (tag)`,
+        ) as string[]),
+      ]),
+      customerOptions: getNewOptions(acc.customerOptions, [
+        prog.customer?.customerName || '',
+      ]),
+    }),
+    {
+      speciesOptions: [],
+      varietyOptions: [],
+      sizeOptions: [],
+      packTypeOptions: [],
+      customerOptions: [],
+    },
+  );
+
+  const columnLabels = useColumns<ShipperProgram | CustomerProgram>(
+    'commonSpeciesId',
+    SORT_ORDER.ASC,
+    listLabels(filterOptions, isCustomers, (option) =>
+      option.includes(' (tag)') ? `A-${option}` : `B-${option}`,
+    ),
+    'product',
+    isCustomers ? 'customer_program' : 'shipper_program',
+  );
 
   return (
     <l.Div
@@ -85,15 +201,6 @@ const Header = ({
                 }
                 onChange={toggleShowAllocated}
               />
-            )}
-            {(commonSpeciesId || customerIdFilter) && !editing && (
-              <b.Warning
-                ml={th.spacing.lg}
-                small
-                onClick={clearProductQueryParams}
-              >
-                Clear filters
-              </b.Warning>
             )}
           </l.Flex>
           <ty.BodyText bold mr={th.spacing.md}>
@@ -167,14 +274,7 @@ const Header = ({
           marginLeft={52}
           relative
         >
-          <ty.CaptionText secondary>Species</ty.CaptionText>
-          <ty.CaptionText secondary>Variety</ty.CaptionText>
-          <ty.CaptionText secondary>Size</ty.CaptionText>
-          <ty.CaptionText secondary>Pack Type</ty.CaptionText>
-          <ty.CaptionText secondary>PLU/GTIN</ty.CaptionText>
-          {isCustomers ? null : (
-            <ty.CaptionText secondary>Customer</ty.CaptionText>
-          )}
+          {columnLabels}
           {(hasPrograms || editing) && !loading && (
             <l.Div
               borderTop={th.borders.secondary}

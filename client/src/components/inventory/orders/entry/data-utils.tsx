@@ -105,6 +105,9 @@ export const baseLabels: OrderEntryLabelInfo[] = [
   {
     key: 'truckLoadId',
     label: 'Load ID',
+    getValue: ({ truckLoadId }) => (
+      <ty.BodyText>{truckLoadId === '' ? 'HOLD' : truckLoadId}</ty.BodyText>
+    ),
   },
   {
     key: 'customerPo',
@@ -136,17 +139,6 @@ export const baseLabels: OrderEntryLabelInfo[] = [
       ),
   },
   {
-    key: 'orderDate',
-    label: 'Submitted At',
-    isDate: true,
-    getValue: ({ orderDate }) =>
-      orderDate ? (
-        <ty.BodyText>{formatDateTime(new Date(orderDate))}</ty.BodyText>
-      ) : (
-        ''
-      ),
-  },
-  {
     key: 'fob',
     label: 'FOB / Delivered',
     isBoolean: true,
@@ -165,12 +157,23 @@ export const baseLabels: OrderEntryLabelInfo[] = [
     isDate: true,
   },
   {
-    key: 'reviewUserCode',
-    label: 'Status',
-    getValue: ({ reviewUserCode }) => (
-      <l.Flex alignCenter justifyCenter>
-        <StatusIndicator status={reviewUserCode ? 'success' : 'warning'} />
-      </l.Flex>
+    key: 'orderDate',
+    label: 'Submitted At',
+    isDate: true,
+    getValue: ({ orderDate }) =>
+      orderDate ? (
+        <ty.BodyText>{formatDateTime(new Date(orderDate))}</ty.BodyText>
+      ) : (
+        ''
+      ),
+  },
+  {
+    key: 'submittedByUser',
+    label: 'Submitted By',
+    getValue: ({ submittedByUser }) => (
+      <ty.BodyText>
+        {submittedByUser ? submittedByUser.personContact?.firstName : '-'}
+      </ty.BodyText>
     ),
   },
   {
@@ -189,6 +192,15 @@ export const baseLabels: OrderEntryLabelInfo[] = [
       <ty.BodyText>
         {reviewUser ? reviewUser.personContact?.firstName : '-'}
       </ty.BodyText>
+    ),
+  },
+  {
+    key: 'reviewUserCode',
+    label: 'Status',
+    getValue: ({ reviewUserCode }) => (
+      <l.Flex alignCenter justifyCenter>
+        <StatusIndicator status={reviewUserCode ? 'success' : 'warning'} />
+      </l.Flex>
     ),
   },
 ];
@@ -226,9 +238,19 @@ export const itemListLabels: (fob: boolean) => OrderEntryItemLabelInfo[] = (
     validate: ({ plu }) => plu !== '',
   },
   {
+    key: 'countryOfOrigin',
+    label: 'COO',
+    validate: ({ countryOfOrigin }) => countryOfOrigin !== '',
+  },
+  {
     key: 'label',
     label: 'Label',
     validate: ({ label }) => label !== '',
+  },
+  {
+    key: 'locationId',
+    label: 'Location',
+    validate: ({ locationId }) => locationId !== '',
   },
   {
     key: 'shipperId',
@@ -239,11 +261,6 @@ export const itemListLabels: (fob: boolean) => OrderEntryItemLabelInfo[] = (
     key: 'vesselCode',
     label: 'Vessel',
     validate: ({ vesselCode }) => vesselCode !== '',
-  },
-  {
-    key: 'locationId',
-    label: 'Location',
-    validate: ({ locationId }) => locationId !== '',
   },
   {
     key: 'palletCount',

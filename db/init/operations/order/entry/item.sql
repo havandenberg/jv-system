@@ -13,6 +13,7 @@ CREATE TABLE operations.order_entry_item (
   size TEXT,
   pack_type TEXT,
   plu TEXT,
+  country_of_origin TEXT,
   label TEXT,
   review_location_id TEXT,
   review_vessel_code TEXT,
@@ -22,6 +23,7 @@ CREATE TABLE operations.order_entry_item (
   review_size TEXT,
   review_pack_type TEXT,
   review_plu TEXT,
+  review_country_of_origin TEXT,
   review_label TEXT,
   notes TEXT
 );

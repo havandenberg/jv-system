@@ -6,6 +6,7 @@ CREATE TABLE operations.order_entry (
   fob BOOLEAN,
   billing_customer_id TEXT,
   sales_user_code TEXT,
+  submitted_by_user_code TEXT,
   customer_po TEXT,
   fob_date DATE,
   delivered_date DATE,
@@ -33,6 +34,16 @@ CREATE FUNCTION operations.order_entry_sales_user(IN o operations.order_entry)
     COST 100
 AS $BODY$
   SELECT * FROM public.user u WHERE u.user_code = o.sales_user_code;
+$BODY$;
+
+CREATE FUNCTION operations.order_entry_submitted_by_user(IN o operations.order_entry)
+    RETURNS public.user
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT * FROM public.user u WHERE u.user_code = o.submitted_by_user_code;
 $BODY$;
 
 CREATE FUNCTION operations.order_entry_review_user(IN o operations.order_entry)

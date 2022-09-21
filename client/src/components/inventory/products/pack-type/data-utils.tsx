@@ -38,6 +38,13 @@ export const listLabels: CommonPackTypeLabelInfo[] = [
     key: 'packTypeDescription',
     label: 'Description',
   },
+  {
+    key: 'isRepack',
+    label: 'Repack',
+    getValue: ({ isRepack }) => (
+      <ty.BodyText>{isRepack ? 'Yes' : '-'}</ty.BodyText>
+    ),
+  },
 ];
 
 export const baseLabels: (
@@ -87,5 +94,13 @@ export const baseLabels: (
   {
     key: 'packTypeDescription',
     label: 'Description',
+  },
+  {
+    key: 'isRepack',
+    label: 'Repack',
+    isBoolean: true,
+    getValue: ({ isRepack }) => (
+      <ty.BodyText>{!!isRepack ? 'Yes' : '-'}</ty.BodyText>
+    ),
   },
 ];

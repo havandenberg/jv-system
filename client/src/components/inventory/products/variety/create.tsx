@@ -1,12 +1,19 @@
 import React, { Fragment, useState } from 'react';
+import { uniqBy, pluck, omit } from 'ramda';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { ClipLoader } from 'react-spinners';
 
 import api from 'api';
 import BaseData from 'components/base-data';
 import { validateItem } from 'components/column-label';
+import useTagManager, { CommonProductTag } from 'components/tag-manager';
 import Page from 'components/page';
-import { CommonSpecies, CommonVariety, ProductVariety } from 'types';
+import {
+  CommonSpecies,
+  CommonVariety,
+  CommonVarietyTagsConnection,
+  ProductVariety,
+} from 'types';
 import b from 'ui/button';
 import l from 'ui/layout';
 import th from 'ui/theme';
@@ -47,6 +54,12 @@ const CreateCommonVariety = () => {
   const [saveAttempt, setSaveAttempt] = useState(false);
 
   const initialState = {
+    commonVarietyTags: {
+      edges: [],
+      nodes: [],
+      pageInfo: { hasNextPage: false, hasPreviousPage: false },
+      totalCount: 0,
+    } as CommonVarietyTagsConnection,
     varietyName: '',
     varietyDescription: '',
     uiColor: species?.uiColor || undefined,
@@ -55,6 +68,30 @@ const CreateCommonVariety = () => {
   const [changes, setChanges] = useState<CommonVariety>(
     initialState as CommonVariety,
   );
+
+  const tags = (changes?.commonVarietyTags?.nodes || []) as CommonProductTag[];
+  const suggestedTags = uniqBy(
+    (tag) => tag?.tagText,
+    pluck(
+      'commonVarietyTags',
+      (species?.commonVarieties.nodes || []) as CommonVariety[],
+    )
+      .map(({ nodes }) => nodes)
+      .flat(),
+  ) as CommonProductTag[];
+
+  const { tagManager } = useTagManager({
+    commonProductId: '',
+    editing: true,
+    handleChange: (tags: CommonProductTag[]) => {
+      handleChange('commonVarietyTags', {
+        nodes: tags,
+      });
+    },
+    productIdKey: 'commonVarietyId',
+    tags,
+    suggestedTags,
+  });
 
   const handleChange = (field: keyof CommonVariety, value: any) => {
     setChanges({ ...changes, [field]: value } as CommonVariety);
@@ -66,7 +103,15 @@ const CreateCommonVariety = () => {
       setLoading(true);
       handleCreate({
         variables: {
-          commonVariety: { ...changes, commonSpeciesId: speciesId },
+          commonVariety: {
+            ...omit(['commonVarietyTags'], changes),
+            commonSpeciesId: speciesId,
+            commonVarietyTagsUsingId: {
+              create: changes.commonVarietyTags.nodes.map((tag) => ({
+                tagText: tag?.tagText || '',
+              })),
+            },
+          },
         },
       }).then(() => {
         history.push(cancelLink);
@@ -79,9 +124,9 @@ const CreateCommonVariety = () => {
       actions={[
         <Fragment key={0}>
           <l.AreaLink to={cancelLink}>
-            <b.Primary width={88}>Cancel</b.Primary>
+            <b.Error width={88}>Cancel</b.Error>
           </l.AreaLink>
-          <b.Primary ml={th.spacing.md} onClick={handleSave} width={88}>
+          <b.Success ml={th.spacing.md} onClick={handleSave} width={88}>
             {createLoading ? (
               <l.Flex alignCenter justifyCenter>
                 <ClipLoader
@@ -92,7 +137,7 @@ const CreateCommonVariety = () => {
             ) : (
               'Create'
             )}
-          </b.Primary>
+          </b.Success>
         </Fragment>,
       ]}
       breadcrumbs={breadcrumbs(species as CommonSpecies)}
@@ -116,6 +161,9 @@ const CreateCommonVariety = () => {
         labels={baseLabels(productVarieties)}
         showValidation={saveAttempt}
       />
+      <l.Div ml={th.spacing.sm} my={th.spacing.lg}>
+        {tagManager}
+      </l.Div>
     </Page>
   );
 };

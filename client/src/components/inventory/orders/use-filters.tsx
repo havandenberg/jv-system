@@ -211,6 +211,7 @@ const useOrdersFilters = ({
   const inventoryStartDateIndex = getInventoryStartDayIndex(startDate);
   const isStorage = parseInt(detailsIndex) === 13 - inventoryStartDateIndex;
   const isTotal = parseInt(detailsIndex) === 14 - inventoryStartDateIndex;
+  const isWeekTotal = parseInt(detailsIndex) === 15 - inventoryStartDateIndex;
   const allFilteredOrderItems = [] as OrderItem[];
 
   const filteredOrders = items.filter((orderMaster) => {
@@ -270,6 +271,12 @@ const useOrdersFilters = ({
             )
           : isTotal
           ? true
+          : isWeekTotal
+          ? item.vessel &&
+            isBefore(
+              new Date(item.vessel.dischargeDate.replace(/-/g, '/')),
+              add(currentStartOfWeek, { weeks: 1 }),
+            )
           : isWithinDateInterval(
               item,
               parseInt(detailsIndex, 10),
@@ -502,6 +509,8 @@ const useOrdersFilters = ({
     ? `Storage - older than ${format(currentStartOfWeek, 'M/dd')}`
     : isTotal
     ? 'All Dates'
+    : isWeekTotal
+    ? 'This Week'
     : detailsDateRange;
 
   const filterOptions = {
@@ -607,13 +616,18 @@ const useOrdersFilters = ({
         mr={th.spacing.md}
         textAlign="right"
       >
-        Avg Price:{' '}
+        Plts:
+        <ty.Span bold ml={th.spacing.xs} mr={th.spacing.sm}>
+          {loading ? '-' : totalPalletCount}
+        </ty.Span>
+        |<l.Span ml={th.spacing.sm} />
+        Avg Price:
         <ty.Span bold ml={th.spacing.xs}>
           ${loading ? '-' : averagePrice}
         </ty.Span>
       </ty.SmallText>
-      <l.Flex mt={th.spacing.xs}>
-        <ty.SmallText color={th.colors.status.error} nowrap>
+      <l.Flex justifyEnd mt={th.spacing.xs}>
+        <ty.SmallText color={th.colors.status.error} nowrap textAlign="right">
           Low: <ty.Span bold>${loading ? '-' : lowPrice}</ty.Span>
         </ty.SmallText>
         <ty.SmallText

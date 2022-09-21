@@ -73,7 +73,6 @@ const Details = () => {
               <l.AreaLink
                 key="inventory"
                 mr={th.spacing.lg}
-                target="_blank"
                 to={`/inventory/index?shipper=${data.id}`}
               >
                 <b.Primary>Inventory</b.Primary>
@@ -81,14 +80,12 @@ const Details = () => {
               <l.AreaLink
                 key="programs"
                 mr={th.spacing.lg}
-                target="_blank"
                 to={`/sales/programs?shipperId=${data.id}&programsView=shippers`}
               >
                 <b.Primary>Programs</b.Primary>
               </l.AreaLink>,
               <l.AreaLink
                 key="projections"
-                target="_blank"
                 to={`/sales/projections?shipperId=${data.id}`}
               >
                 <b.Primary disabled>Projections</b.Primary>
@@ -115,7 +112,7 @@ const Details = () => {
               ml={th.spacing.md}
               to={`/directory/create?shipperId=${data.id}`}
             >
-              <b.Primary>Create</b.Primary>
+              <b.Success>Create</b.Success>
             </l.AreaLink>
           </l.Flex>
           <ContactList

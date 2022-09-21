@@ -35,6 +35,7 @@ query CUSTOMER_LIST(
       }
       phone
       postalState
+      salesUserCode
       zipCode
       notes
     }

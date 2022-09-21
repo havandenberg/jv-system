@@ -84,11 +84,7 @@ const Details = () => {
       actions={
         data
           ? [
-              <l.AreaLink
-                key={0}
-                target="_blank"
-                to={`/inventory/index?location=${data.id}`}
-              >
+              <l.AreaLink key={0} to={`/inventory/index?location=${data.id}`}>
                 <b.Primary>Inventory</b.Primary>
               </l.AreaLink>,
             ]
@@ -113,7 +109,7 @@ const Details = () => {
               ml={th.spacing.md}
               to={`/directory/create?warehouseId=${data.id}`}
             >
-              <b.Primary>Create</b.Primary>
+              <b.Success>Create</b.Success>
             </l.AreaLink>
           </l.Flex>
           <ContactList

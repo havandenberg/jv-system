@@ -1,4 +1,5 @@
 import {
+  ArrayParam,
   DecodedValueMap,
   QueryParamConfigMap,
   StringParam,
@@ -48,6 +49,9 @@ export const useQueryValue = (paramName: string) => {
 
   return [query, updateQuery] as const;
 };
+
+export const useQueryArrayValue = (paramName: string) =>
+  useQueryParam(paramName, ArrayParam);
 
 export const useDateRangeQueryParams = (updateType?: UpdateType) =>
   useQuerySet(dateRangeParamSet, updateType);
@@ -104,12 +108,12 @@ export const useProjectionsQueryParams = () =>
 
 export const useProgramsQueryParams = () =>
   useQuerySet({
-    commonSpeciesId: StringParam,
-    commonVarietyId: StringParam,
-    commonSizeId: StringParam,
-    commonPackTypeId: StringParam,
+    commonSpeciesId: ArrayParam,
+    commonVarietyId: ArrayParam,
+    commonSizeId: ArrayParam,
+    commonPackTypeId: ArrayParam,
     plu: StringParam,
-    customerIdFilter: StringParam,
+    customerIdFilter: ArrayParam,
     coast: StringParam,
     shipperId: StringParam,
     customerId: StringParam,

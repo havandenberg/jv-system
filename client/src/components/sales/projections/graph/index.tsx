@@ -109,7 +109,7 @@ const ShipperProjectionGraph = ({
       selectItem: (shipper) => {
         setShipperId(shipper.id);
       },
-      allItems: shippers as Shipper[],
+      allItems: () => shippers as Shipper[],
       closeOnSelect: true,
       clearSearchOnBlur: true,
       error: shipperDataError,

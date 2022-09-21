@@ -238,7 +238,7 @@ const Agenda = () => {
           <b.Primary>Price Sheet</b.Primary>
         </l.AreaLink>,
       ]}
-      extraPaddingTop={137}
+      extraPaddingTop={153}
       headerChildren={
         <>
           <l.Flex mb={th.spacing.md}>
@@ -295,21 +295,24 @@ const Agenda = () => {
               }}
               text="Add agenda item"
             />
-            {allItems.length > 0 && !isNextDate && (
-              <BasicModal
-                title="Copy All Items To Next Mtg"
-                content={
-                  <ty.BodyText>
-                    This will copy all items from current day's agenda to the
-                    next upcoming meeting date. Please confirm.
-                  </ty.BodyText>
-                }
-                confirmText="Confirm Copy All"
-                handleConfirm={handleCopyAllToToday}
-                triggerProps={{ width: 215 }}
-                triggerText="Copy All To Next Mtg"
-              />
-            )}
+            {allItems.length === 1
+              ? allItems[0].id > 0
+              : allItems.length > 0 &&
+                !isNextDate && (
+                  <BasicModal
+                    title="Copy All Items To Next Mtg"
+                    content={
+                      <ty.BodyText>
+                        This will copy all items from current day's agenda to
+                        the next upcoming meeting date. Please confirm.
+                      </ty.BodyText>
+                    }
+                    confirmText="Confirm Copy All"
+                    handleConfirm={handleCopyAllToToday}
+                    triggerProps={{ width: 215 }}
+                    triggerText="Copy All To Next Mtg"
+                  />
+                )}
           </l.Flex>
         </>
       }

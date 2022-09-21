@@ -544,64 +544,65 @@ const ProgramRow = <
     const value = getSelectorValue(type);
     const isDirty = isValueDirty(type);
 
-    const allItems = sortBy(
-      (p) => p.text,
-      commonSpecieses
-        .map((s) => {
-          const speciesIsValid = s.id === commonSpeciesId;
-          switch (type) {
-            case 'variety':
-              return (
-                speciesIsValid &&
-                s.commonVarieties.nodes.map(
-                  (v) =>
-                    v && {
-                      color: v.uiColor,
-                      id: v.id,
-                      text: v.varietyName || '',
-                    },
-                )
-              );
-            case 'size':
-              return (
-                speciesIsValid &&
-                s.commonSizes.nodes.map(
-                  (sz) =>
-                    sz && {
-                      id: sz.id,
-                      text: sz.sizeName || '',
-                    },
-                )
-              );
-            case 'packType':
-              return (
-                speciesIsValid &&
-                s.commonPackTypes.nodes.map(
-                  (pt) =>
-                    pt && {
-                      id: pt.id,
-                      text: pt.packTypeName || '',
-                    },
-                )
-              );
-            default:
-              return {
-                color: s.uiColor,
-                id: s.id,
-                text: s.speciesName || '',
-              };
-          }
-        })
-        .flat()
-        .filter(
-          (link) =>
-            !!link &&
-            (link.id === '-1' ||
-              `${link.id} ${link.text}`
-                .toLowerCase()
-                .includes(getSelectorValue(type).toLowerCase())),
-        ) as ItemLink[],
-    );
+    const allItems = () =>
+      sortBy(
+        (p) => p.text,
+        commonSpecieses
+          .map((s) => {
+            const speciesIsValid = s.id === commonSpeciesId;
+            switch (type) {
+              case 'variety':
+                return (
+                  speciesIsValid &&
+                  s.commonVarieties.nodes.map(
+                    (v) =>
+                      v && {
+                        color: v.uiColor,
+                        id: v.id,
+                        text: v.varietyName || '',
+                      },
+                  )
+                );
+              case 'size':
+                return (
+                  speciesIsValid &&
+                  s.commonSizes.nodes.map(
+                    (sz) =>
+                      sz && {
+                        id: sz.id,
+                        text: sz.sizeName || '',
+                      },
+                  )
+                );
+              case 'packType':
+                return (
+                  speciesIsValid &&
+                  s.commonPackTypes.nodes.map(
+                    (pt) =>
+                      pt && {
+                        id: pt.id,
+                        text: pt.packTypeName || '',
+                      },
+                  )
+                );
+              default:
+                return {
+                  color: s.uiColor,
+                  id: s.id,
+                  text: s.speciesName || '',
+                };
+            }
+          })
+          .flat()
+          .filter(
+            (link) =>
+              !!link &&
+              (link.id === '-1' ||
+                `${link.id} ${link.text}`
+                  .toLowerCase()
+                  .includes(getSelectorValue(type).toLowerCase())),
+          ) as ItemLink[],
+      );
 
     const commonProductKey = `common${pascalCase(type)}Id` as keyof (
       | CustomerProgramUpdate
@@ -652,13 +653,14 @@ const ProgramRow = <
 
   const customerLinkSelectorProps = {
     ...commonSelectorProps,
-    allItems: customerLinkItems.filter(
-      (c) =>
-        c.id === '-1' ||
-        `${c.id} ${c.text}`
-          .toLowerCase()
-          .includes(getSelectorValue('customer').toLowerCase()),
-    ),
+    allItems: () =>
+      customerLinkItems.filter(
+        (c) =>
+          c.id === '-1' ||
+          `${c.id} ${c.text}`
+            .toLowerCase()
+            .includes(getSelectorValue('customer').toLowerCase()),
+      ),
     editableCellProps: {
       bypassLocalValue: true,
       content: {
@@ -668,8 +670,9 @@ const ProgramRow = <
       defaultChildren: null,
       editing,
       error:
-        isDuplicate ||
-        !!(getSelectorValue('customer') && !getSelectorProduct('customer')),
+        editing &&
+        (isDuplicate ||
+          !!(getSelectorValue('customer') && !getSelectorProduct('customer'))),
       onChange: (e: ChangeEvent<HTMLInputElement>) => {
         handleChange('customerId', e.target.value);
       },
@@ -826,13 +829,6 @@ const ProgramRow = <
                 speciesLinkSelectorProps.editableCellProps,
               )}
               warning={!!commonSpeciesIdQuery}
-              onClick={
-                commonSpeciesId
-                  ? () => {
-                      setProgramsQueryParams({ commonSpeciesId });
-                    }
-                  : undefined
-              }
               width={95}
             >
               <ty.CaptionText
@@ -857,16 +853,6 @@ const ProgramRow = <
                     varietyLinkSelectorProps.editableCellProps,
                   )}
                   warning={!!commonVarietyIdQuery}
-                  onClick={
-                    commonSpeciesId && commonVarietyId
-                      ? () => {
-                          setProgramsQueryParams({
-                            commonSpeciesId,
-                            commonVarietyId,
-                          });
-                        }
-                      : undefined
-                  }
                   width={95}
                 >
                   <ty.CaptionText
@@ -888,16 +874,6 @@ const ProgramRow = <
                     sizeLinkSelectorProps.editableCellProps,
                   )}
                   warning={!!commonSizeIdQuery}
-                  onClick={
-                    commonSpecies && commonSizeId
-                      ? () => {
-                          setProgramsQueryParams({
-                            commonSpeciesId,
-                            commonSizeId,
-                          });
-                        }
-                      : undefined
-                  }
                   width={64}
                 >
                   <ty.CaptionText ellipsis title={program.commonSize?.sizeName}>
@@ -914,16 +890,6 @@ const ProgramRow = <
                     packTypeLinkSelectorProps.editableCellProps,
                   )}
                   warning={!!commonPackTypeIdQuery}
-                  onClick={
-                    commonSpeciesId && commonPackTypeId
-                      ? () => {
-                          setProgramsQueryParams({
-                            commonSpeciesId,
-                            commonPackTypeId,
-                          });
-                        }
-                      : undefined
-                  }
                   width={64}
                 >
                   <ty.CaptionText
@@ -937,20 +903,7 @@ const ProgramRow = <
               <EditableCell
                 content={{ dirty: plu !== program.plu, value: plu || '' }}
                 defaultChildren={
-                  <Cell
-                    warning={!!pluQuery}
-                    onClick={
-                      commonSpeciesId && plu
-                        ? () => {
-                            setProgramsQueryParams({
-                              commonSpeciesId,
-                              plu,
-                            });
-                          }
-                        : undefined
-                    }
-                    width={64}
-                  >
+                  <Cell warning={!!pluQuery} width={64}>
                     <ty.CaptionText>{plu}</ty.CaptionText>
                   </Cell>
                 }
@@ -970,15 +923,6 @@ const ProgramRow = <
                     customerLinkSelectorProps.editableCellProps,
                   )}
                   warning={!!customerIdQuery}
-                  onClick={
-                    customerId
-                      ? () => {
-                          setProgramsQueryParams({
-                            customerIdFilter: customerId,
-                          });
-                        }
-                      : undefined
-                  }
                   width={95}
                 >
                   <ty.CaptionText

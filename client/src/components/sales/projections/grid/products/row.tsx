@@ -312,30 +312,31 @@ const ProductRow = (
   const getValueSelectorProps = (type: keyof ShipperProjectionProduct) => {
     const value = getSelectorValue(type);
 
-    const allItems = sortBy(
-      (p) => p[type],
-      uniqBy(
+    const allItems = () =>
+      sortBy(
         (p) => p[type],
-        allProducts.filter((p) => {
-          if (type === 'customerValue') {
-            return !!p.customerValue;
-          }
-          const speciesIsValid = !species || p.species === species;
-          const varietyIsValid = !variety || p.variety === variety;
-          const sizeIsValid = !size || p.size === size;
-          switch (type) {
-            case 'variety':
-              return speciesIsValid;
-            case 'size':
-              return speciesIsValid && varietyIsValid;
-            case 'packType':
-              return speciesIsValid && varietyIsValid && sizeIsValid;
-            default:
-              return true;
-          }
-        }),
-      ) as ShipperProjectionProduct[],
-    );
+        uniqBy(
+          (p) => p[type],
+          allProducts.filter((p) => {
+            if (type === 'customerValue') {
+              return !!p.customerValue;
+            }
+            const speciesIsValid = !species || p.species === species;
+            const varietyIsValid = !variety || p.variety === variety;
+            const sizeIsValid = !size || p.size === size;
+            switch (type) {
+              case 'variety':
+                return speciesIsValid;
+              case 'size':
+                return speciesIsValid && varietyIsValid;
+              case 'packType':
+                return speciesIsValid && varietyIsValid && sizeIsValid;
+              default:
+                return true;
+            }
+          }),
+        ) as ShipperProjectionProduct[],
+      );
 
     const getItemContent = (item: ShipperProjectionProduct) => (
       <ty.CaptionText pl={th.spacing.sm}>{item[type]}</ty.CaptionText>
@@ -467,7 +468,7 @@ const ProductRow = (
 
     return {
       ...commonSelectorProps,
-      allItems,
+      allItems: () => allItems,
       editableCellProps: {
         content: { dirty: false, value },
         defaultChildren: null,
@@ -501,13 +502,14 @@ const ProductRow = (
 
   const customerLinkSelectorProps = {
     ...commonSelectorProps,
-    allItems: customerLinkItems.filter(
-      (c) =>
-        c.id === '-1' ||
-        `${c.id} ${c.text}`
-          .toLowerCase()
-          .includes(getSelectorValue('customerValue').toLowerCase()),
-    ),
+    allItems: () =>
+      customerLinkItems.filter(
+        (c) =>
+          c.id === '-1' ||
+          `${c.id} ${c.text}`
+            .toLowerCase()
+            .includes(getSelectorValue('customerValue').toLowerCase()),
+      ),
     editableCellProps: {
       bypassLocalValue: true,
       content: { dirty: false, value: getSelectorValue('customerValue') },

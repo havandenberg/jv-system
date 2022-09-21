@@ -23,6 +23,11 @@ export const indexListLabels: OrderMasterLabelInfo[] = [
     key: 'truckLoadId',
     label: 'Load ID',
     sortable: true,
+    getValue: ({ entryUserCode, truckLoadId }) => (
+      <ty.BodyText>
+        {!entryUserCode && truckLoadId === '' ? 'HOLD' : truckLoadId || '-'}
+      </ty.BodyText>
+    ),
   },
   {
     key: 'customerPo',
@@ -359,7 +364,7 @@ export const baseLabels: OrderMasterLabelInfo[] = [
 ];
 
 export const convertOrderEntriesToOrderMasters = (orderEntries: OrderEntry[]) =>
-  uniqBy((entry) => entry.truckLoadId, orderEntries).map((entry) => ({
+  uniqBy((entry) => entry.orderId, orderEntries).map((entry) => ({
     ...pick(
       ['orderId', 'truckLoadId', 'customerPo', 'billingCustomer', 'salesUser'],
       entry,

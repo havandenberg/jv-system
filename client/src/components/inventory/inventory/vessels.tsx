@@ -80,14 +80,19 @@ const InventoryVessels = ({ vessels }: Props) => {
         />
         {times((idx) => {
           const filteredVessels =
+            idx !== 7 - inventoryStartDayIndex &&
             idx < 12 - inventoryStartDayIndex - 2
-              ? getFilteredVessels(vessels, idx, currentStartOfWeek)
+              ? getFilteredVessels(
+                  vessels,
+                  idx > 7 - inventoryStartDayIndex ? idx + 1 : idx,
+                  currentStartOfWeek,
+                )
               : [];
           return (
             <l.Div
               borderLeft={idx === 0 ? th.borders.disabled : 0}
               borderRight={
-                idx >= 11 - inventoryStartDayIndex ? th.borders.disabled : 0
+                idx >= 12 - inventoryStartDayIndex ? th.borders.disabled : 0
               }
               height={`calc(${th.sizes.fill} - ${th.spacing.sm})`}
               key={idx}
@@ -113,7 +118,7 @@ const InventoryVessels = ({ vessels }: Props) => {
               </l.Flex>
             </l.Div>
           );
-        }, 12 - inventoryStartDayIndex)}
+        }, 13 - inventoryStartDayIndex)}
         <l.Div
           borderRight={th.borders.disabled}
           height={th.sizes.fill}
@@ -131,7 +136,7 @@ const InventoryVessels = ({ vessels }: Props) => {
           borderLeft={th.borders.disabled}
           borderRight={th.borders.disabled}
           height={th.spacing.xs}
-          gridColumn={`3 / ${15 - inventoryStartDayIndex}`}
+          gridColumn={`3 / ${16 - inventoryStartDayIndex}`}
         />
         <l.Div borderRight={th.borders.disabled} height={th.spacing.xs} />
       </l.Grid>

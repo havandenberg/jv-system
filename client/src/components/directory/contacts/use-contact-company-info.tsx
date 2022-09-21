@@ -131,7 +131,7 @@ const useContactCompanyInfo = ({
     selectItem: (c) => {
       setAdditionalCustomers([...additionalCustomers, c]);
     },
-    allItems: (customerData ? customerData.nodes : []) as Customer[],
+    allItems: () => (customerData ? customerData.nodes : []) as Customer[],
     excludedItems: allCustomers,
     error: customerDataError,
     errorLabel: 'Customers',
@@ -145,7 +145,7 @@ const useContactCompanyInfo = ({
     selectItem: (s) => {
       setAdditionalShippers([...additionalShippers, s]);
     },
-    allItems: (shipperData ? shipperData.nodes : []) as Shipper[],
+    allItems: () => (shipperData ? shipperData.nodes : []) as Shipper[],
     excludedItems: allShippers,
     error: shipperDataError,
     errorLabel: 'Shippers',
@@ -160,7 +160,7 @@ const useContactCompanyInfo = ({
     selectItem: (w) => {
       setAdditionalWarehouses([...additionalWarehouses, w]);
     },
-    allItems: (warehouseData ? warehouseData.nodes : []) as Warehouse[],
+    allItems: () => (warehouseData ? warehouseData.nodes : []) as Warehouse[],
     excludedItems: allWarehouses,
     error: warehouseDataError,
     errorLabel: 'Warehouses',

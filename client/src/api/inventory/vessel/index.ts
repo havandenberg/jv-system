@@ -2,7 +2,7 @@ import { useMutation, useQuery } from '@apollo/client';
 import { add, endOfISOWeek, startOfISOWeek } from 'date-fns';
 import { loader } from 'graphql.macro';
 import { equals } from 'ramda';
-import { StringParam } from 'use-query-params';
+import { ArrayParam } from 'use-query-params';
 
 import useFilteredQueryValues from 'api/hooks/use-filtered-query-values';
 import { getOrderByString, getSearchArray } from 'api/utils';
@@ -47,9 +47,9 @@ const useVariables = (options?: VesselsOptions) => {
     startDate && new Date(startDate.replace(/-/g, '/'));
 
   const [{ countryId, arrivalPort, coast }] = useQuerySet({
-    countryId: StringParam,
-    arrivalPort: StringParam,
-    coast: StringParam,
+    countryId: ArrayParam,
+    arrivalPort: ArrayParam,
+    coast: ArrayParam,
   });
 
   const filteredCountryIdValues = useFilteredQueryValues(countryId, {
@@ -75,7 +75,7 @@ const useVariables = (options?: VesselsOptions) => {
   });
 
   return {
-    countryId: [...filteredCountryIdValues, ''],
+    countryId: [...filteredCountryIdValues, ...(countryId ? [] : [''])],
     arrivalPort: filteredArrivalPortValues.map((val) =>
       val.substring(val.lastIndexOf(' (') + 2, val.length - 1),
     ),

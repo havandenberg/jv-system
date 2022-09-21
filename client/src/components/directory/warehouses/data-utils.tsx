@@ -1,6 +1,7 @@
 import { LabelInfo } from 'components/column-label';
 import { SORT_ORDER } from 'hooks/use-columns';
 import { Warehouse } from 'types';
+import ty from 'ui/typography';
 
 export type WarehouseLabelInfo = LabelInfo<Warehouse>;
 
@@ -84,7 +85,9 @@ export const baseLabels: WarehouseLabelInfo[] = [
   {
     key: 'countryId',
     label: 'Country',
-    getValue: (data) => data.country?.countryName || '',
+    getValue: (data) => (
+      <ty.BodyText>{data.country?.countryName || ''}</ty.BodyText>
+    ),
     readOnly: true,
   },
   {

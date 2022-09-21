@@ -131,7 +131,6 @@ const Details = () => {
         vessel && vessel.inspectionVesselName ? (
           <l.AreaLink
             key={0}
-            target="_blank"
             to={`/reports/inspections/arrival?arrivalName=${vessel.inspectionVesselName}`}
           >
             <b.Primary>Inspections</b.Primary>

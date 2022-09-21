@@ -280,7 +280,7 @@ const ShipperProjectionGrid = ({
       selectItem: (shipper) => {
         setShipperId(shipper.id);
       },
-      allItems: shippers as Shipper[],
+      allItems: () => shippers as Shipper[],
       closeOnSelect: true,
       clearSearchOnBlur: true,
       error: shipperDataError,
@@ -1177,17 +1177,6 @@ const ShipperProjectionGrid = ({
             </l.HoverButton>
           </Fragment>
         ),
-        selectedShipper ? (
-          <l.AreaLink
-            key={0}
-            mr={th.spacing.lg}
-            to={`/directory/shippers/${shipperId}`}
-          >
-            <b.Primary>Shipper</b.Primary>
-          </l.AreaLink>
-        ) : (
-          <div key={0} />
-        ),
         <l.Flex alignCenter key={1}>
           {saveAttempt && !validate() && (
             <l.Div cursor="pointer" height={20} mr={th.spacing.md}>
@@ -1250,6 +1239,17 @@ const ShipperProjectionGrid = ({
               />
             ))}
         </l.Flex>,
+        selectedShipper ? (
+          <l.AreaLink
+            key={0}
+            ml={th.spacing.lg}
+            to={`/directory/shippers/${shipperId}`}
+          >
+            <b.Primary>Shipper</b.Primary>
+          </l.AreaLink>
+        ) : (
+          <div key={0} />
+        ),
         <l.Div key={2} ml={th.spacing.lg}>
           <ProjectionSettings />
         </l.Div>,

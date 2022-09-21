@@ -72,11 +72,11 @@ const CommonCategoryDetails = () => {
               ml={th.spacing.md}
               to={`/inventory/products/categories/${data.id}/create`}
             >
-              <b.Primary>Create</b.Primary>
+              <b.Success>Create</b.Success>
             </l.AreaLink>
           </l.Flex>
           <SpeciesList
-            baseUrl={`products`}
+            baseUrl={`/inventory/products`}
             specieses={(data?.commonSpecieses?.nodes || []) as CommonSpecies[]}
           />
         </l.Div>

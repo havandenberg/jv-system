@@ -36,6 +36,7 @@ import {
   OrderEntry,
   OrderEntryItem,
   Shipper,
+  User,
   Vessel,
   Warehouse,
 } from 'types';
@@ -53,6 +54,7 @@ import {
 } from './data-utils';
 import NewOrderEntryItem from './item';
 import ReviewModal from './review-modal';
+import { USER_ROLE } from 'components/user/roles';
 
 export type NewOrderEntry = Pick<
   OrderEntry,
@@ -63,6 +65,7 @@ export type NewOrderEntry = Pick<
   | 'fobDate'
   | 'deliveredDate'
   | 'salesUserCode'
+  | 'submittedByUserCode'
   | 'truckLoadId'
   | 'fob'
   | 'orderEntryItems'
@@ -83,7 +86,7 @@ export const breadcrumbs = (isReview: boolean, id?: string) => [
 ];
 
 export const gridTemplateColumns = (fob: boolean) =>
-  `40px 1fr 1fr 0.5fr 1fr 0.5fr 0.5fr 1fr 0.7fr 0.7fr 70px 70px${
+  `40px 1fr 1fr 0.5fr 1fr 0.5fr 0.5fr 0.5fr 1fr 0.7fr 0.7fr 70px 70px${
     fob ? '' : ' 70px'
   } 30px`;
 
@@ -116,6 +119,15 @@ const CreateOrderEntry = () => {
       loading: userDataLoading,
     },
   } = useActiveUser();
+  const [handleCreateUserMessages] = api.useCreateUserMessages();
+
+  const {
+    data: salesUsersData,
+    loading: salesUsersLoading,
+    error: salesUsersError,
+  } = api.useGetUsersByRole([USER_ROLE.SALES_ASSOC]);
+  const salesUsers = (salesUsersData?.nodes || []) as User[];
+
   const loadNumbers = (activeUser?.loadNumbers.nodes || []) as LoadNumber[];
   const nextLoadNumber =
     loadNumbers.find((loadNumber) => !loadNumber.customer) || loadNumbers[0];
@@ -131,23 +143,13 @@ const CreateOrderEntry = () => {
     packType: '',
     plu: '',
     label: '',
+    countryOfOrigin: '',
     vesselCode: '',
     locationId: '',
     shipperId: '',
     palletCount: 0,
     unitSellPrice: 0,
     deliveryCharge: 0,
-  };
-
-  const autoFilledOrderItem = {
-    label: 'Any',
-    locationId: 'Any',
-    packType: 'Any',
-    plu: 'Any',
-    shipperId: 'Any',
-    size: 'Any',
-    variety: 'Any',
-    vesselCode: 'Any',
   };
 
   const {
@@ -158,12 +160,19 @@ const CreateOrderEntry = () => {
   const orderEntries = (entriesData ? entriesData.nodes : []) as OrderEntry[];
   const latestOrderEntry = orderEntries[orderEntries.length - 1];
 
+  const {
+    data: nextOrderNumber,
+    loading: nextOrderNumberLoading,
+    error: nextOrderNumberError,
+  } = api.useNextOrderNumber();
+
   const initialState = {
-    orderId: '',
+    orderId: nextOrderNumber,
     orderDate: new Date(),
     billingCustomerId: customerIdQuery || nextLoadNumber?.customer?.id || '',
     truckLoadId: loadNumberQuery || nextLoadNumber?.id || '',
     salesUserCode: activeUser?.userCode || '',
+    submittedByUserCode: activeUser?.userCode || '',
     customerPo: '',
     fob: true,
     fobDate: null,
@@ -194,18 +203,22 @@ const CreateOrderEntry = () => {
         ...pick(
           [
             'orderId',
-            'truckLoadId',
             'customerPo',
             'fob',
             'fobDate',
             'deliveredDate',
             'salesUserCode',
+            'submittedByUserCode',
             'notes',
           ],
           latestOrderEntry,
         ),
         billingCustomerId: latestOrderEntry.billingCustomer?.id || '',
         deliveredDate: latestOrderEntry.deliveredDate || null,
+        truckLoadId:
+          latestOrderEntry.truckLoadId === ''
+            ? 'HOLD'
+            : latestOrderEntry.truckLoadId,
         orderDate: new Date(),
         orderEntryItems: {
           edges: [],
@@ -221,6 +234,18 @@ const CreateOrderEntry = () => {
       },
     [latestOrderEntry],
   );
+
+  const autoFilledOrderItem = {
+    label: 'Any',
+    locationId: changes.fob ? '' : 'Any',
+    packType: 'Any',
+    plu: 'Any',
+    shipperId: 'Any',
+    size: 'Any',
+    variety: 'Any',
+    vesselCode: 'Any',
+    countryOfOrigin: 'Any',
+  };
 
   const cancelLink = `/inventory/orders${
     latestOrderEntryState ? '/' + latestOrderEntryState.orderId : ''
@@ -296,9 +321,12 @@ const CreateOrderEntry = () => {
 
   const hasValidLoadNumber =
     !!changes.truckLoadId &&
-    (!!id || pluck('id', loadNumbers).includes(changes.truckLoadId));
+    (!!id ||
+      ['HOLD', ...pluck('id', loadNumbers)].includes(changes.truckLoadId));
 
   const hasValidCustomer = !!customer;
+
+  const hasValidSalesUser = !!changes.salesUserCode;
 
   const hasValidDates = !!changes.fob
     ? !!changes.fobDate
@@ -325,35 +353,44 @@ const CreateOrderEntry = () => {
     isEmpty(invalidIds);
 
   const { ItemSelector: LoadNumberSelector } = useItemSelector<LoadNumber>({
-    allItems: sortBy(
-      (loadNumber) =>
-        loadNumber.id === changes.truckLoadId
-          ? 'a'
-          : loadNumber.customer
-          ? 'b'
-          : 'c',
-      loadNumbers,
-    ),
+    allItems: () => [
+      {
+        id: 'HOLD',
+      } as LoadNumber,
+      ...sortBy(
+        (loadNumber) =>
+          loadNumber.id === changes.truckLoadId
+            ? 'a'
+            : loadNumber.customer
+            ? 'b'
+            : 'c',
+        loadNumbers,
+      ),
+    ],
     closeOnSelect: true,
     disableSearchQuery: true,
     error: userDataError,
     errorLabel: 'load numbers',
     getItemContent: ({ id, customer }) => {
       const active = id === changes.truckLoadId;
+      const isHold = id === 'HOLD';
       return (
         <l.Flex ml={th.spacing.sm}>
           <ty.CaptionText bold={active} nowrap>
-            {id} -
+            {isHold ? 'HOLD' : id}
+            {isHold ? '' : ' -'}
           </ty.CaptionText>
-          <ty.CaptionText
-            bold={active}
-            ml={th.spacing.xs}
-            secondary={!customer}
-          >
-            {customer
-              ? customer.customerName + ' (' + customer.id + ')'
-              : 'Unassigned'}
-          </ty.CaptionText>
+          {!isHold && (
+            <ty.CaptionText
+              bold={active}
+              ml={th.spacing.xs}
+              secondary={!customer}
+            >
+              {customer
+                ? customer.customerName + ' (' + customer.id + ')'
+                : 'Unassigned'}
+            </ty.CaptionText>
+          )}
         </l.Flex>
       );
     },
@@ -376,6 +413,9 @@ const CreateOrderEntry = () => {
         billingCustomerId: ln.customer
           ? ln.customer.id
           : changes.billingCustomerId,
+        salesUserCode: ln.customer
+          ? ln.customer.salesUserCode
+          : changes.salesUserCode,
       }),
     placeholder: 'Select',
     searchWidth: 150,
@@ -383,8 +423,16 @@ const CreateOrderEntry = () => {
     validationError: saveAttempt && !hasValidLoadNumber,
   });
 
-  const loadNumberDataLoading = customerDataLoading || userDataLoading;
-  const loadNumberDataError = customerDataError || userDataError;
+  const loadNumberDataLoading =
+    customerDataLoading ||
+    nextOrderNumberLoading ||
+    salesUsersLoading ||
+    userDataLoading;
+  const loadNumberDataError =
+    customerDataError ||
+    nextOrderNumberError ||
+    salesUsersError ||
+    userDataError;
   const prevLoadNumberDataLoading = usePrevious(loadNumberDataLoading);
 
   useEffect(() => {
@@ -421,10 +469,15 @@ const CreateOrderEntry = () => {
   );
 
   const { ItemSelector: CustomerItemSelector } = useItemSelector<Customer>({
-    allItems: sortBy(
-      (c) => (c.id === changes.billingCustomerId ? 'a' : 'b'),
-      customers,
-    ),
+    allItems: (localValue: string) =>
+      sortBy(
+        (c) => (c.id === changes.billingCustomerId ? 'a' : 'b'),
+        customers.filter((c) =>
+          `${c.id} ${c.customerName}`
+            .toLowerCase()
+            .includes(localValue.toLowerCase()),
+        ),
+      ),
     closeOnSelect: true,
     disableSearchQuery: true,
     error: customerDataError,
@@ -454,7 +507,13 @@ const CreateOrderEntry = () => {
       changes.billingCustomerId ||
       latestOrderEntryState?.billingCustomerId ||
       undefined,
-    selectItem: (c) => handleChange('billingCustomerId', c.id),
+    selectItem: (c) => {
+      setChanges({
+        ...changes,
+        billingCustomerId: c.id,
+        salesUserCode: c.salesUserCode || activeUser?.userCode,
+      });
+    },
     placeholder: 'Select',
     searchWidth: 150,
     warning:
@@ -463,6 +522,55 @@ const CreateOrderEntry = () => {
         : hasLoadNumberWithCustomer,
     width: 350,
     validationError: saveAttempt && !hasValidCustomer,
+  });
+
+  const salesUser = salesUsers.find(
+    (u) => u.userCode === changes.salesUserCode,
+  );
+
+  const { ItemSelector: SalesUserItemSelector } = useItemSelector<User>({
+    allItems: () =>
+      sortBy(
+        (u) =>
+          u.userCode ===
+          (changes.salesUserCode || latestOrderEntryState?.salesUserCode)
+            ? '0'
+            : salesUser
+            ? salesUser?.personContact?.firstName || 'c'
+            : 'b',
+        salesUsers,
+      ),
+    closeOnSelect: true,
+    disableSearchQuery: true,
+    error: salesUsersError,
+    errorLabel: 'sales users',
+    getItemContent: ({ userCode, personContact }) => {
+      const active = userCode === changes.salesUserCode;
+      const { firstName } = personContact || {};
+      return (
+        <l.Flex ml={th.spacing.sm}>
+          <ty.CaptionText bold={active} ml={th.spacing.xs}>
+            {firstName}
+          </ty.CaptionText>
+        </l.Flex>
+      );
+    },
+    loading: salesUsersLoading,
+    nameKey: 'userCode',
+    onClear: () => handleChange('salesUserCode', activeUser?.userCode),
+    selectedItem:
+      salesUser?.personContact?.firstName || `${changes.salesUserCode}`,
+    selectItem: (u) => handleChange('salesUserCode', u.userCode),
+    placeholder: 'Select',
+    searchWidth: 150,
+    warning:
+      selectedLoadNumber && selectedLoadNumber.customer
+        ? selectedLoadNumber.customer.salesUserCode !== changes.salesUserCode
+        : customer
+        ? customer.salesUserCode !== changes.salesUserCode
+        : hasLoadNumberWithCustomer,
+    width: 350,
+    validationError: saveAttempt && !hasValidSalesUser,
   });
 
   const {
@@ -512,6 +620,7 @@ const CreateOrderEntry = () => {
   const dateRangeProps = (fieldName: 'fobDate' | 'deliveredDate') =>
     ({
       allowEmpty: true,
+      disabled: fieldName === 'fobDate' && !changes.fob,
       hasError: saveAttempt && !hasValidDates,
       hideDefinedRanges: true,
       isDirty:
@@ -537,6 +646,29 @@ const CreateOrderEntry = () => {
     DateRangePicker: DeliveredDateRangePicker,
     handleDateChange: handleDeliveredDateChange,
   } = useDateRange(dateRangeProps('deliveredDate'));
+
+  const previousDeliveredDate = usePrevious(changes.deliveredDate);
+
+  useEffect(() => {
+    if (previousDeliveredDate !== changes.deliveredDate && !changes.fob) {
+      const fobDate = changes.deliveredDate
+        ? add(new Date(changes.deliveredDate.replace(/-/g, '/')), {
+            days: -3,
+          })
+        : undefined;
+      handleFOBDateChange({
+        selection: {
+          startDate: fobDate,
+          endDate: fobDate,
+        },
+      });
+    }
+  }, [
+    changes.deliveredDate,
+    changes.fob,
+    handleFOBDateChange,
+    previousDeliveredDate,
+  ]);
 
   useEffect(() => {
     if (
@@ -596,8 +728,10 @@ const CreateOrderEntry = () => {
       handleCreate({
         variables: {
           orderEntry: {
-            ...omit(['id', 'orderEntryItems'], changes),
-            orderId: changes.truckLoadId,
+            ...omit(['id', 'orderEntryItems', 'deliveredDate'], changes),
+            deliveredDate: changes.fob ? undefined : changes.deliveredDate,
+            truckLoadId:
+              changes.truckLoadId === 'HOLD' ? '' : changes.truckLoadId,
             orderEntryItemsUsingId: {
               create: (changes.orderEntryItems.nodes as OrderEntryItem[]).map(
                 (entryItem) => ({
@@ -608,6 +742,9 @@ const CreateOrderEntry = () => {
                       'shipper',
                       'vessel',
                       'warehouse',
+                      'reviewShipper',
+                      'reviewVessel',
+                      'reviewWarehouse',
                       '__typename',
                     ],
                     entryItem,
@@ -621,6 +758,7 @@ const CreateOrderEntry = () => {
                   reviewLocationId: entryItem.locationId,
                   reviewPlu: entryItem.plu,
                   reviewShipperId: entryItem.shipperId,
+                  reviewCountryOfOrigin: entryItem.countryOfOrigin,
                   deliveryCharge: changes.fob ? 0 : entryItem.deliveryCharge,
                 }),
               ),
@@ -628,9 +766,26 @@ const CreateOrderEntry = () => {
           },
         },
       }).then(() => {
-        history.push(
-          `/inventory/orders/${changes.truckLoadId}?sortBy=expectedShipDate&sortOrder=DESC&orderView=orderEntries`,
-        );
+        handleCreateUserMessages({
+          variables: {
+            messages: [
+              {
+                actionLink: `/inventory/orders/${changes.orderId}/review`,
+                actionText: 'Review Order',
+                details: `Order ${changes.orderId} for ${customer?.customerName} submitted by ${activeUser?.personContact?.firstName}.`,
+                header: 'Order Ready for Review',
+                isRead: false,
+                messageDate: new Date().toISOString(),
+                priority: 2,
+                userId: activeUser?.id,
+              },
+            ],
+          },
+        }).then(() => {
+          history.push(
+            `/inventory/orders/${changes.orderId}?sortBy=expectedShipDate&sortOrder=DESC&orderView=orderEntries`,
+          );
+        });
       });
     }
   };
@@ -665,6 +820,7 @@ const CreateOrderEntry = () => {
                     'reviewLocationId',
                     'reviewPlu',
                     'reviewShipperId',
+                    'reviewCountryOfOrigin',
                     'notes',
                   ],
                   entryItem,
@@ -673,11 +829,28 @@ const CreateOrderEntry = () => {
             },
           },
         },
-      }).then(() => {
-        history.push(
-          `/inventory/orders/${changes.truckLoadId}?sortBy=expectedShipDate&sortOrder=DESC&orderView=orderEntries`,
-        );
-      });
+      })
+        .then(() => {
+          handleCreateUserMessages({
+            variables: {
+              messages: [
+                {
+                  details: `Order ${changes.orderId} for ${customer?.customerName} has been approved.`,
+                  header: 'Order Approved',
+                  isRead: false,
+                  messageDate: new Date().toISOString(),
+                  priority: 3,
+                  userId: activeUser?.id,
+                },
+              ],
+            },
+          });
+        })
+        .then(() => {
+          history.push(
+            `/inventory/orders/${changes.truckLoadId}?sortBy=expectedShipDate&sortOrder=DESC&orderView=orderEntries`,
+          );
+        });
     }
   };
 
@@ -827,7 +1000,13 @@ const CreateOrderEntry = () => {
                 width="45%"
               >
                 <ty.CaptionText mr={th.spacing.lg} secondary textAlign="right">
-                  Order / Load Number:
+                  Order Number:
+                </ty.CaptionText>
+                <l.Flex alignCenter>
+                  <ty.BodyText>{changes.orderId}</ty.BodyText>
+                </l.Flex>
+                <ty.CaptionText mr={th.spacing.lg} secondary textAlign="right">
+                  Load Number:
                 </ty.CaptionText>
                 <l.Flex alignCenter height={th.heights.input} zIndex={17}>
                   {id && latestOrderEntryState.truckLoadId ? (
@@ -888,7 +1067,7 @@ const CreateOrderEntry = () => {
                   <option value="del">Delivered</option>
                 </Select>
                 <ty.CaptionText mr={th.spacing.lg} secondary textAlign="right">
-                  FOB Date:
+                  {changes.fob ? '' : 'Est. '}FOB Date:
                 </ty.CaptionText>
                 <l.Div zIndex={15}>{FOBDateRangePicker}</l.Div>
                 {!changes.fob ? (
@@ -912,12 +1091,24 @@ const CreateOrderEntry = () => {
                 width="45%"
               >
                 <ty.CaptionText mr={th.spacing.lg} secondary textAlign="right">
-                  Sales Assoc:
+                  Submitted By:
                 </ty.CaptionText>
-                <l.Flex alignCenter height={th.heights.input}>
+                <l.Flex alignCenter>
                   <ty.BodyText>
                     {activeUser?.personContact?.firstName}
                   </ty.BodyText>
+                </l.Flex>
+                <ty.CaptionText mr={th.spacing.lg} secondary textAlign="right">
+                  Sales Assoc:
+                </ty.CaptionText>
+                <l.Flex alignCenter height={th.heights.input}>
+                  {id && latestOrderEntryState.salesUserCode ? (
+                    <ty.BodyText>
+                      {latestOrderEntryState.salesUserCode}
+                    </ty.BodyText>
+                  ) : (
+                    SalesUserItemSelector
+                  )}
                 </l.Flex>
                 {customer ? (
                   <ty.CaptionText
@@ -934,7 +1125,6 @@ const CreateOrderEntry = () => {
                   {customer ? (
                     <ty.LinkText
                       hover="false"
-                      target="_blank"
                       to={`/directory/customers/${customer.id}`}
                     >
                       {customer.customerName}

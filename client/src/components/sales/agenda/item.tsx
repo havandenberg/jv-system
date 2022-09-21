@@ -132,23 +132,27 @@ const AgendaItem = ({
               confirmText="Discard"
               handleConfirm={handleCancel}
               shouldConfirm={item.id >= 0 || hasChanges}
-              triggerProps={{ mb: th.spacing.md, width: 115 }}
+              triggerProps={{
+                mb: th.spacing.md,
+                status: th.colors.status.error,
+                width: 115,
+              }}
               triggerText="Cancel"
             />
-            <b.Primary
+            <b.Success
               onClick={() => {
                 handleSave(item.id, handleCancel);
               }}
               width={115}
             >
               Save
-            </b.Primary>
+            </b.Success>
           </Fragment>
         ) : (
           <Fragment key={1}>
-            <b.Primary onClick={handleEdit} width={115}>
+            <b.Warning onClick={handleEdit} width={115}>
               Edit
-            </b.Primary>
+            </b.Warning>
             {!isNextDate && (
               <b.Primary
                 onClick={() => handleCopyToToday(item)}

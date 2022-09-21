@@ -4,6 +4,20 @@ CREATE TABLE load_number (
   user_id BIGINT REFERENCES public.user(id) ON DELETE SET NULL,
 );
 
+CREATE TABLE order_number (
+  id BIGSERIAL PRIMARY KEY
+);
+
+CREATE FUNCTION operations.next_order_number()
+    RETURNS BIGINT
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT nextval('order_number_id_seq');
+$BODY$;
+
 CREATE FUNCTION operations.load_number_customer(IN ln operations.load_number)
     RETURNS directory.customer
     LANGUAGE 'sql'

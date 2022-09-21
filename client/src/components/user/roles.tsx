@@ -3,7 +3,8 @@ import { pascalCase } from 'change-case';
 import { User } from 'types';
 
 export enum USER_ROLE {
-  SALES_ASSOC = 'sales-assoc',
+  SALES_ASSOC = 'sales_assoc',
+  ORDER_ENTRY = 'order_entry',
 }
 
 export const getUserRoles = (user: User) => {

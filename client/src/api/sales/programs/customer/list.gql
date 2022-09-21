@@ -65,18 +65,38 @@ query CUSTOMER_PROGRAM_LIST(
             commonSpecies {
               id
               speciesName
+              commonSpeciesTags {
+                nodes {
+                  tagText
+                }
+              }
             }
             commonVariety {
               id
               varietyName
+              commonVarietyTags {
+                nodes {
+                  tagText
+                }
+              }
             }
             commonSize {
               id
               sizeName
+              commonSizeTags {
+                nodes {
+                  tagText
+                }
+              }
             }
             commonPackType {
               id
               packTypeName
+              commonPackTypeTags {
+                nodes {
+                  tagText
+                }
+              }
             }
             customer {
               id

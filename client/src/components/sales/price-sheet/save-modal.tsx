@@ -46,6 +46,7 @@ const PriceSheetSaveModal = ({
       }
       shouldConfirm={sendNotification}
       triggerProps={{
+        status: th.colors.status.success,
         width: 88,
       }}
       triggerText={sendNotification ? 'Next' : 'Save'}

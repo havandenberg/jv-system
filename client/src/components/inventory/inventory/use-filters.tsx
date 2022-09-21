@@ -199,6 +199,7 @@ const useInventoryFilters = ({
   const inventoryStartDateIndex = getInventoryStartDayIndex(startDate);
   const isStorage = parseInt(detailsIndex) === 13 - inventoryStartDateIndex;
   const isTotal = parseInt(detailsIndex) === 14 - inventoryStartDateIndex;
+  const isWeekTotal = parseInt(detailsIndex) === 15 - inventoryStartDateIndex;
 
   const [vesselId, shipperId] = secondaryDetailsIndex?.split('-') || [];
 
@@ -259,6 +260,15 @@ const useInventoryFilters = ({
           ? !secondaryDetailsIndex ||
             (item.vessel?.id === vesselId &&
               [item.shipper?.id, item.shipperId].includes(shipperId))
+          : isWeekTotal
+          ? item.vessel &&
+            (!secondaryDetailsIndex ||
+              (item.vessel?.id === vesselId &&
+                [item.shipper?.id, item.shipperId].includes(shipperId))) &&
+            isBefore(
+              new Date(item.vessel.dischargeDate.replace(/-/g, '/')),
+              add(currentStartOfWeek, { weeks: 1 }),
+            )
           : isWithinDateInterval(
               item,
               parseInt(detailsIndex, 10),
@@ -436,6 +446,8 @@ const useInventoryFilters = ({
     ? `Storage - older than ${format(currentStartOfWeek, 'M/dd')}`
     : isTotal
     ? 'All Dates'
+    : isWeekTotal
+    ? 'This Week'
     : detailsDateRange;
 
   const locationSelect = getFilter('location', getOptions(locationOptions));

@@ -55,7 +55,7 @@ const GroupDirectory = ({ actions }: SubDirectoryProps) => {
           to="/directory/groups/create"
           mr={th.spacing.lg}
         >
-          <b.Primary>Create</b.Primary>
+          <b.Success>Create</b.Success>
         </l.AreaLink>,
         ...actions,
       ]}

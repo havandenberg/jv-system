@@ -48,7 +48,6 @@ export interface LabelInfo<T> {
   allowClick?: boolean;
   boldColumn?: boolean;
   customFilterBy?: (data: T) => boolean;
-  customFilterOptions?: string[];
   customSortBy?: (data: T) => any;
   customStyles?: {
     label?: TextProps;

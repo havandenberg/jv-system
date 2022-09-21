@@ -39,11 +39,11 @@ export const categoryTypeOrder = [
 ];
 
 const gridColumnSpans = (dayMod: number) => [
-  { start: 3, end: 10 - dayMod },
-  { start: 10 - dayMod, end: 12 - dayMod },
-  { start: 12 - dayMod, end: 13 - dayMod },
+  { start: 3, end: 11 - dayMod },
+  { start: 11 - dayMod, end: 13 - dayMod },
   { start: 13 - dayMod, end: 14 - dayMod },
   { start: 14 - dayMod, end: 15 - dayMod },
+  { start: 15 - dayMod, end: 16 - dayMod },
 ];
 
 interface Props {
@@ -255,35 +255,56 @@ const Header = ({
 
       switch (weekIdx) {
         case 0:
-          return times((dayIdx) => {
-            const currentDate = add(currentStartOfWeek, {
-              days: dayIdx + dayModifier,
-            });
-            const isToday =
-              format(currentDate, 'yyyy-MM-dd') ===
-              format(new Date(), 'yyyy-MM-dd');
-            return (
-              <l.Div
-                bg={
-                  isCurrentWeekVal
-                    ? isToday
-                      ? th.colors.brand.containerBackgroundAccent
-                      : th.colors.brand.containerBackground
-                    : undefined
-                }
-                borderTop={th.borders.disabled}
-                borderLeft={dayIdx === 0 ? th.borders.disabled : 0}
-                borderRight={dayIdx < 7 - dayModifier ? th.borders.disabled : 0}
-                borderBottom={th.borders.disabled}
-                key={`${weekIdx}-${dayIdx}`}
-                py={th.spacing.xs}
-              >
-                <ty.SmallText bold={isToday} textAlign="center">
-                  {format(currentDate, dayIdx === 0 ? 'M/d' : 'd')}
-                </ty.SmallText>
-              </l.Div>
-            );
-          }, 7 - dayModifier);
+          return [
+            ...times((dayIdx) => {
+              const currentDate = add(currentStartOfWeek, {
+                days: dayIdx + dayModifier,
+              });
+              const isToday =
+                format(currentDate, 'yyyy-MM-dd') ===
+                format(new Date(), 'yyyy-MM-dd');
+              return (
+                <l.Div
+                  bg={
+                    isCurrentWeekVal
+                      ? isToday
+                        ? th.colors.brand.containerBackgroundAccent
+                        : th.colors.brand.containerBackground
+                      : undefined
+                  }
+                  borderTop={th.borders.disabled}
+                  borderLeft={dayIdx === 0 ? th.borders.disabled : 0}
+                  borderRight={
+                    dayIdx < 7 - dayModifier ? th.borders.disabled : 0
+                  }
+                  borderBottom={th.borders.disabled}
+                  key={`${weekIdx}-${dayIdx}`}
+                  py={th.spacing.xs}
+                >
+                  <ty.SmallText bold={isToday} textAlign="center">
+                    {format(currentDate, dayIdx === 0 ? 'M/d' : 'd')}
+                  </ty.SmallText>
+                </l.Div>
+              );
+            }, 7 - dayModifier),
+            <l.Div
+              bg={
+                isCurrentWeekVal
+                  ? th.colors.brand.containerBackground
+                  : undefined
+              }
+              borderTop={th.borders.disabled}
+              borderLeft={0}
+              borderRight={th.borders.disabled}
+              borderBottom={th.borders.disabled}
+              key={`${weekIdx}-total`}
+              py={th.spacing.xs}
+            >
+              <ty.SmallText textAlign="center">
+                Tot{dayModifier > 1 ? 'al' : ''}
+              </ty.SmallText>
+            </l.Div>,
+          ];
         case 1:
           const rangeOneEnd = add(currentStartOfWeek, { days: 2 });
           const rangeTwoStart = add(currentStartOfWeek, { days: 3 });
@@ -586,7 +607,7 @@ const Header = ({
             borderRight={th.borders.disabled}
             borderBottom={th.borders.disabled}
             borderTop={th.borders.disabled}
-            gridColumn={15 - dayModifier}
+            gridColumn={16 - dayModifier}
             gridRow="1 / 3"
             height={`calc(${th.sizes.fill} - 2px)`}
           >

@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from '@apollo/client';
 import { loader } from 'graphql.macro';
-import { StringParam } from 'use-query-params';
+import { ArrayParam } from 'use-query-params';
 
 import useFilteredQueryValues from 'api/hooks/use-filtered-query-values';
 import { getOrderByString, getSearchArray } from 'api/utils';
@@ -28,7 +28,7 @@ export const useShippersVariables = (
   const orderBy = getOrderByString(sortBy, sortOrder);
 
   const [{ countryId }] = useQuerySet({
-    countryId: StringParam,
+    countryId: ArrayParam,
   });
 
   const filteredCountryValues = useFilteredQueryValues(countryId, {

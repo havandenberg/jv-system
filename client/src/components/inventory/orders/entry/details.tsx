@@ -127,7 +127,7 @@ const Details = () => {
             const commonPackType =
               commonSpecies &&
               (commonSpecies.commonPackTypes.nodes || []).find(
-                (p) => p && p.packMasterId === item.packType,
+                (p) => p && [p.id, p.packMasterId].includes(item.packType),
               );
             const reviewCommonSpecies = commonSpecieses.find(
               (s) => s.productSpeciesId === item.reviewSpecies,
@@ -160,6 +160,8 @@ const Details = () => {
               item.reviewVesselCode !== item.vesselCode;
             const isReviewPluDirty = item.reviewPlu !== item.plu;
             const isReviewLabelDirty = item.reviewLabel !== item.label;
+            const isReviewCountryDirty =
+              item.reviewCountryOfOrigin !== item.countryOfOrigin;
 
             const isReviewDirty =
               isReviewSpeciesDirty ||
@@ -170,7 +172,8 @@ const Details = () => {
               isReviewLocationDirty ||
               isReviewVesselDirty ||
               isReviewPluDirty ||
-              isReviewLabelDirty;
+              isReviewLabelDirty ||
+              isReviewCountryDirty;
 
             return (
               <Fragment key={item.id}>
@@ -187,28 +190,31 @@ const Details = () => {
                   borderBottom={isReviewDirty ? 0 : th.borders.disabled}
                   gridColumnGap={th.spacing.xs}
                   gridTemplateColumns={gridTemplateColumns(false)}
-                  py={th.spacing.sm}
+                  py={th.spacing.xs}
                   relative
                 >
-                  <ty.CaptionText pl={th.spacing.sm}>
+                  <ty.CaptionText ellipsis pl={th.spacing.sm}>
                     {item.lineId}
                   </ty.CaptionText>
-                  <ty.CaptionText pl={th.spacing.sm}>
+                  <ty.CaptionText ellipsis pl={th.spacing.sm}>
                     {commonSpecies ? commonSpecies.speciesName : item.species}
                   </ty.CaptionText>
                   <ty.CaptionText
+                    ellipsis
                     pl={th.spacing.sm}
                     secondary={item.variety === 'Any'}
                   >
                     {commonVariety ? commonVariety.varietyName : item.variety}
                   </ty.CaptionText>
                   <ty.CaptionText
+                    ellipsis
                     pl={th.spacing.sm}
                     secondary={item.size === 'Any'}
                   >
                     {commonSize ? commonSize.sizeName : item.size}
                   </ty.CaptionText>
                   <ty.CaptionText
+                    ellipsis
                     pl={th.spacing.sm}
                     secondary={item.packType === 'Any'}
                   >
@@ -217,52 +223,29 @@ const Details = () => {
                       : item.packType}
                   </ty.CaptionText>
                   <ty.CaptionText
+                    ellipsis
                     pl={th.spacing.sm}
                     secondary={item.plu === 'Any'}
                   >
                     {item.plu}
                   </ty.CaptionText>
                   <ty.CaptionText
+                    ellipsis
+                    pl={th.spacing.sm}
+                    secondary={item.countryOfOrigin === 'Any'}
+                  >
+                    {item.countryOfOrigin}
+                  </ty.CaptionText>
+                  <ty.CaptionText
+                    ellipsis
                     pl={th.spacing.sm}
                     secondary={item.label === 'Any'}
                   >
                     {item.label}
                   </ty.CaptionText>
-                  {item.shipper ? (
-                    <ty.LinkText
-                      hover="false"
-                      pl={th.spacing.sm}
-                      to={`/directory/shippers/${item.shipperId}`}
-                    >
-                      {item.shipper.shipperName}
-                    </ty.LinkText>
-                  ) : (
-                    <ty.CaptionText
-                      pl={th.spacing.sm}
-                      secondary={item.shipperId === 'Any'}
-                    >
-                      {item.shipperId}
-                    </ty.CaptionText>
-                  )}
-                  {item.vessel ? (
-                    <ty.LinkText
-                      hover="false"
-                      pl={th.spacing.sm}
-                      to={`/inventory/vessels/${item.vessel.vesselCode}`}
-                    >
-                      {item.vessel.vesselCode}
-                    </ty.LinkText>
-                  ) : (
-                    <ty.CaptionText
-                      hover="false"
-                      pl={th.spacing.sm}
-                      secondary={item.vesselCode === 'Any'}
-                    >
-                      {item.vesselCode}
-                    </ty.CaptionText>
-                  )}
                   {item.warehouse ? (
                     <ty.LinkText
+                      ellipsis
                       hover="false"
                       pl={th.spacing.sm}
                       to={`/directory/warehouses/${item.locationId}`}
@@ -271,13 +254,51 @@ const Details = () => {
                     </ty.LinkText>
                   ) : (
                     <ty.CaptionText
+                      ellipsis
                       pl={th.spacing.sm}
                       secondary={item.locationId === 'Any'}
                     >
                       {item.locationId}
                     </ty.CaptionText>
                   )}
-                  <ty.CaptionText pl={th.spacing.sm}>
+                  {item.shipper ? (
+                    <ty.LinkText
+                      ellipsis
+                      hover="false"
+                      pl={th.spacing.sm}
+                      to={`/directory/shippers/${item.shipperId}`}
+                    >
+                      {item.shipper.shipperName}
+                    </ty.LinkText>
+                  ) : (
+                    <ty.CaptionText
+                      ellipsis
+                      pl={th.spacing.sm}
+                      secondary={item.shipperId === 'Any'}
+                    >
+                      {item.shipperId}
+                    </ty.CaptionText>
+                  )}
+                  {item.vessel ? (
+                    <ty.LinkText
+                      ellipsis
+                      hover="false"
+                      pl={th.spacing.sm}
+                      to={`/inventory/vessels/${item.vessel.vesselCode}`}
+                    >
+                      {item.vessel.vesselCode}
+                    </ty.LinkText>
+                  ) : (
+                    <ty.CaptionText
+                      ellipsis
+                      hover="false"
+                      pl={th.spacing.sm}
+                      secondary={item.vesselCode === 'Any'}
+                    >
+                      {item.vesselCode}
+                    </ty.CaptionText>
+                  )}
+                  <ty.CaptionText ellipsis pl={th.spacing.sm}>
                     {item.palletCount}
                   </ty.CaptionText>
                   <l.Flex alignCenter>
@@ -304,11 +325,11 @@ const Details = () => {
                     borderBottom={th.borders.disabled}
                     gridColumnGap={th.spacing.xs}
                     gridTemplateColumns={gridTemplateColumns(false)}
-                    py={th.spacing.sm}
+                    py={th.spacing.xs}
                     relative
                   >
                     <div />
-                    <ty.CaptionText pl={th.spacing.sm}>
+                    <ty.CaptionText ellipsis pl={th.spacing.sm}>
                       {isReviewSpeciesDirty
                         ? reviewCommonSpecies
                           ? reviewCommonSpecies.speciesName
@@ -316,6 +337,7 @@ const Details = () => {
                         : '-'}
                     </ty.CaptionText>
                     <ty.CaptionText
+                      ellipsis
                       pl={th.spacing.sm}
                       secondary={item.reviewVariety === 'Any'}
                     >
@@ -326,6 +348,7 @@ const Details = () => {
                         : '-'}
                     </ty.CaptionText>
                     <ty.CaptionText
+                      ellipsis
                       pl={th.spacing.sm}
                       secondary={item.reviewSize === 'Any'}
                     >
@@ -336,6 +359,7 @@ const Details = () => {
                         : '-'}
                     </ty.CaptionText>
                     <ty.CaptionText
+                      ellipsis
                       pl={th.spacing.sm}
                       secondary={item.reviewPackType === 'Any'}
                     >
@@ -346,51 +370,29 @@ const Details = () => {
                         : '-'}
                     </ty.CaptionText>
                     <ty.CaptionText
+                      ellipsis
                       pl={th.spacing.sm}
                       secondary={item.reviewPlu === 'Any'}
                     >
                       {isReviewPluDirty ? item.reviewPlu : '-'}
                     </ty.CaptionText>
                     <ty.CaptionText
+                      ellipsis
+                      pl={th.spacing.sm}
+                      secondary={item.reviewCountryOfOrigin === 'Any'}
+                    >
+                      {isReviewCountryDirty ? item.reviewCountryOfOrigin : '-'}
+                    </ty.CaptionText>
+                    <ty.CaptionText
+                      ellipsis
                       pl={th.spacing.sm}
                       secondary={item.reviewLabel === 'Any'}
                     >
                       {isReviewLabelDirty ? item.reviewLabel : '-'}
                     </ty.CaptionText>
-                    {item.reviewShipper && isReviewShipperDirty ? (
-                      <ty.LinkText
-                        hover="false"
-                        pl={th.spacing.sm}
-                        to={`/directory/shippers/${item.reviewShipperId}`}
-                      >
-                        {item.reviewShipper.shipperName}
-                      </ty.LinkText>
-                    ) : (
-                      <ty.CaptionText
-                        pl={th.spacing.sm}
-                        secondary={item.reviewShipperId === 'Any'}
-                      >
-                        {isReviewShipperDirty ? item.reviewShipperId : '-'}
-                      </ty.CaptionText>
-                    )}
-                    {item.reviewVessel && isReviewVesselDirty ? (
-                      <ty.LinkText
-                        hover="false"
-                        pl={th.spacing.sm}
-                        to={`/inventory/vessels/${item.reviewVessel.vesselCode}`}
-                      >
-                        {item.reviewVessel.vesselCode}
-                      </ty.LinkText>
-                    ) : (
-                      <ty.CaptionText
-                        pl={th.spacing.sm}
-                        secondary={item.reviewVesselCode === 'Any'}
-                      >
-                        {isReviewVesselDirty ? item.reviewVesselCode : '-'}
-                      </ty.CaptionText>
-                    )}
                     {item.reviewWarehouse && isReviewLocationDirty ? (
                       <ty.LinkText
+                        ellipsis
                         hover="false"
                         pl={th.spacing.sm}
                         to={`/directory/warehouses/${item.reviewLocationId}`}
@@ -399,10 +401,47 @@ const Details = () => {
                       </ty.LinkText>
                     ) : (
                       <ty.CaptionText
+                        ellipsis
                         pl={th.spacing.sm}
                         secondary={item.reviewLocationId === 'Any'}
                       >
                         {isReviewLocationDirty ? item.reviewLocationId : '-'}
+                      </ty.CaptionText>
+                    )}
+                    {item.reviewShipper && isReviewShipperDirty ? (
+                      <ty.LinkText
+                        ellipsis
+                        hover="false"
+                        pl={th.spacing.sm}
+                        to={`/directory/shippers/${item.reviewShipperId}`}
+                      >
+                        {item.reviewShipper.shipperName}
+                      </ty.LinkText>
+                    ) : (
+                      <ty.CaptionText
+                        ellipsis
+                        pl={th.spacing.sm}
+                        secondary={item.reviewShipperId === 'Any'}
+                      >
+                        {isReviewShipperDirty ? item.reviewShipperId : '-'}
+                      </ty.CaptionText>
+                    )}
+                    {item.reviewVessel && isReviewVesselDirty ? (
+                      <ty.LinkText
+                        ellipsis
+                        hover="false"
+                        pl={th.spacing.sm}
+                        to={`/inventory/vessels/${item.reviewVessel.vesselCode}`}
+                      >
+                        {item.reviewVessel.vesselCode}
+                      </ty.LinkText>
+                    ) : (
+                      <ty.CaptionText
+                        ellipsis
+                        pl={th.spacing.sm}
+                        secondary={item.reviewVesselCode === 'Any'}
+                      >
+                        {isReviewVesselDirty ? item.reviewVesselCode : '-'}
                       </ty.CaptionText>
                     )}
                   </l.Grid>

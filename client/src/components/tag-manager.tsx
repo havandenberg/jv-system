@@ -65,7 +65,8 @@ const Tag = ({
   toggleActive,
 }: TagProps) => {
   const { ItemSelector } = useItemSelector<CommonProductTag & { id: string }>({
-    allItems: (suggestedTags || []).map((tag) => ({ ...tag, id: tag.nodeId })),
+    allItems: () =>
+      (suggestedTags || []).map((tag) => ({ ...tag, id: tag.nodeId })),
     closeOnSelect: true,
     disabled: !editing,
     defaultFocused: editing,

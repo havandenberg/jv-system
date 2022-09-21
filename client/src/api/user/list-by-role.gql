@@ -1,0 +1,13 @@
+query USERS_BY_ROLE($userRoles: [String!]) {
+  users(filter: { userRoles: { some: { roleName: { in: $userRoles } } } }) {
+    nodes {
+      id
+      pin
+      userCode
+      personContact {
+        id
+        firstName
+      }
+    }
+  }
+}

@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client';
 import { snakeCase } from 'change-case';
 import { add } from 'date-fns';
 import { loader } from 'graphql.macro';
-import { StringParam } from 'use-query-params';
+import { ArrayParam } from 'use-query-params';
 
 import useFilteredQueryValues from 'api/hooks/use-filtered-query-values';
 import { getSearchArray } from 'api/utils';
@@ -32,8 +32,8 @@ export const useChileDepartureInspections = () => {
   const orderBy = snakeCase(sortBy);
 
   const [{ shipper, variety }] = useQuerySet({
-    shipper: StringParam,
-    variety: StringParam,
+    shipper: ArrayParam,
+    variety: ArrayParam,
   });
 
   const filteredExporterValues = useFilteredQueryValues(shipper, {

@@ -27,7 +27,7 @@ const RowWrapper = styled(l.Flex)(({ onClick }) => ({
 }));
 
 export interface ItemSelectorProps<T> {
-  allItems: T[];
+  allItems: (localValue: string) => T[];
   clearSearchOnBlur?: boolean;
   closeOnSelect?: boolean;
   defaultFocused?: boolean;
@@ -43,6 +43,7 @@ export interface ItemSelectorProps<T> {
   loading: boolean;
   isDirty?: boolean;
   nameKey: keyof T;
+  offset?: string | number;
   onClear?: () => void;
   onlyClearSearch?: boolean;
   panelGap?: string | number;
@@ -70,6 +71,7 @@ const ItemSelector = <T extends { id?: string; disabled?: boolean }>({
   items,
   loading,
   nameKey,
+  offset,
   panelGap = th.spacing.sm,
   rowHeight = 32,
   Search,
@@ -96,6 +98,7 @@ const ItemSelector = <T extends { id?: string; disabled?: boolean }>({
           bg={th.colors.background}
           boxShadow={th.shadows.box}
           height={height}
+          ml={offset}
           mt={panelGap}
           position="absolute"
           width={width}
@@ -179,7 +182,7 @@ const useItemSelector = <T extends { id?: string; disabled?: boolean }>(
     !disabled && setFocused(true);
   };
 
-  const { clearSearch, Search } = useSearch({
+  const { clearSearch, localSearch, Search } = useSearch({
     disabled: !!editableCellProps,
     disableSearchQuery,
     error: validationError,
@@ -204,7 +207,7 @@ const useItemSelector = <T extends { id?: string; disabled?: boolean }>(
     }
   };
 
-  const items = allItems.filter(
+  const items = allItems(localSearch || '').filter(
     (item) => !pluck('id', excludedItems).includes(item.id),
   );
 

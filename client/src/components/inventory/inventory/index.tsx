@@ -28,8 +28,8 @@ import InventoryVessels from './vessels';
 export const USE_NEW_PRE_INVENTORY = false;
 
 export const gridTemplateColumns = (startDate: string) =>
-  `1fr 60px repeat(${7 - getInventoryStartDayIndex(startDate)}, ${Math.ceil(
-    280 / Math.max(3, 7 - getInventoryStartDayIndex(startDate)),
+  `1fr 60px repeat(${8 - getInventoryStartDayIndex(startDate)}, ${Math.ceil(
+    300 / Math.max(3, 8 - getInventoryStartDayIndex(startDate)),
   )}px) repeat(5, 90px) 60px`;
 
 const Inventory = () => {

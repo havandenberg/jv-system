@@ -67,7 +67,7 @@ const BaseDataItemSelector = <T extends {}>({
       ...queryVariables,
     },
   });
-  const allItems = pathOr([], [queryName, 'nodes'], itemSelectorData);
+  const allItems = () => pathOr([], [queryName, 'nodes'], itemSelectorData);
 
   const { ItemSelector } = useItemSelector({
     allItems,

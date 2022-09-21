@@ -69,6 +69,7 @@ CREATE TABLE product.common_pack_type (
   default_inv_sort_key TEXT,
   pack_type_name TEXT,
   pack_type_description TEXT,
+  is_repack BOOLEAN,
   common_species_id BIGINT
     REFERENCES product.common_species(id),
   pack_master_id BIGINT
