@@ -25,6 +25,16 @@ CREATE TABLE directory.customer_person_contact (
   FOREIGN KEY (person_contact_id) REFERENCES directory.person_contact(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
+CREATE FUNCTION directory.customer_vendor(IN c directory.customer)
+    RETURNS directory.vendor
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT * FROM directory.vendor v WHERE v.id = c.id
+$BODY$;
+
 CREATE FUNCTION directory.customer_sales_user(IN c directory.customer)
 	RETURNS public.user
 	LANGUAGE 'sql'

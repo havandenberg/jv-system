@@ -17,6 +17,7 @@ import { breadcrumbs } from '..';
 import { customerBreadcrumbs } from '../customers/details';
 import { shipperBreadcrumbs } from '../shippers/details';
 import { warehouseBreadcrumbs } from '../warehouses/details';
+import { vendorBreadcrumbs } from '../vendors/details';
 import { baseLabels } from './data-utils';
 import useContactCompanyInfo from './use-contact-company-info';
 
@@ -36,19 +37,22 @@ const initialState = {
 
 const CreatePersonContact = () => {
   const history = useHistory();
-  const [{ customerId, shipperId, warehouseId }] = useQuerySet({
+  const [{ customerId, shipperId, warehouseId, vendorId }] = useQuerySet({
     customerId: StringParam,
     shipperId: StringParam,
     warehouseId: StringParam,
+    vendorId: StringParam,
   });
   const { data: customer } = api.useCustomer(customerId);
   const { data: shipper } = api.useShipper(shipperId);
   const { data: warehouse } = api.useWarehouse(warehouseId);
+  const { data: vendor } = api.useVendor(vendorId);
 
   const [handleCreate] = api.useCreatePersonContact({
     customerId,
     shipperId,
     warehouseId,
+    vendorId,
   });
   const [createLoading, setLoading] = useState(false);
   const [saveAttempt, setSaveAttempt] = useState(false);
@@ -56,12 +60,13 @@ const CreatePersonContact = () => {
   const [changes, setChanges] = useState<PersonContact>(
     initialState as PersonContact,
   );
-  const { allCustomers, allShippers, allWarehouses, info } =
+  const { allCustomers, allShippers, allWarehouses, allVendors, info } =
     useContactCompanyInfo({
       customer,
       editing: true,
       shipper,
       warehouse,
+      vendor,
     });
 
   const getCancelLink = () => {
@@ -71,6 +76,8 @@ const CreatePersonContact = () => {
       return `/directory/shippers/${shipperId}`;
     } else if (warehouseId) {
       return `/directory/warehouses/${warehouseId}`;
+    } else if (vendorId) {
+      return `/directory/vendors/${vendorId}`;
     } else {
       return `/directory/internal`;
     }
@@ -91,6 +98,11 @@ const CreatePersonContact = () => {
       return [
         ...warehouseBreadcrumbs(warehouseId),
         { text: 'Contact', to: `/directory/create?warehouseId=${warehouseId}` },
+      ];
+    } else if (vendorId) {
+      return [
+        ...vendorBreadcrumbs(vendorId),
+        { text: 'Contact', to: `/directory/create?vendorId=${vendorId}` },
       ];
     } else {
       return breadcrumbs('internal');
@@ -122,6 +134,11 @@ const CreatePersonContact = () => {
             warehousePersonContactsUsingId: {
               create: warehouseId
                 ? allWarehouses.map((w) => ({ warehouseId: w.id }))
+                : [],
+            },
+            vendorPersonContactsUsingId: {
+              create: vendorId
+                ? allVendors.map((w) => ({ vendorId: w.id }))
                 : [],
             },
           },

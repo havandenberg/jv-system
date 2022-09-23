@@ -5,7 +5,7 @@ import api from 'api';
 import RemoveImg from 'assets/images/remove';
 import useItemSelector from 'components/item-selector';
 import usePrevious from 'hooks/use-previous';
-import { Customer, Maybe, Shipper, Warehouse } from 'types';
+import { Customer, Maybe, Shipper, Vendor, Warehouse } from 'types';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
@@ -70,9 +70,11 @@ interface Props {
   defaultAdditionalCustomers?: Customer[];
   defaultAdditionalShippers?: Shipper[];
   defaultAdditionalWarehouses?: Warehouse[];
+  defaultAdditionalVendors?: Vendor[];
   editing: boolean;
   shipper?: Maybe<Shipper>;
   warehouse?: Maybe<Warehouse>;
+  vendor?: Maybe<Vendor>;
 }
 
 const useContactCompanyInfo = ({
@@ -83,6 +85,8 @@ const useContactCompanyInfo = ({
   defaultAdditionalShippers = [],
   warehouse,
   defaultAdditionalWarehouses = [],
+  vendor,
+  defaultAdditionalVendors = [],
 }: Props) => {
   const previousDefaultAdditionalCustomers = usePrevious(
     defaultAdditionalCustomers,
@@ -93,6 +97,9 @@ const useContactCompanyInfo = ({
   const previousDefaultAdditionalWarehouses = usePrevious(
     defaultAdditionalWarehouses,
   );
+  const previousDefaultAdditionalVendors = usePrevious(
+    defaultAdditionalVendors,
+  );
   const [additionalCustomers, setAdditionalCustomers] = useState<Customer[]>(
     defaultAdditionalCustomers,
   );
@@ -101,6 +108,9 @@ const useContactCompanyInfo = ({
   );
   const [additionalWarehouses, setAdditionalWarehouses] = useState<Warehouse[]>(
     defaultAdditionalWarehouses,
+  );
+  const [additionalVendors, setAdditionalVendors] = useState<Vendor[]>(
+    defaultAdditionalVendors,
   );
   const {
     data: customerData,
@@ -117,6 +127,11 @@ const useContactCompanyInfo = ({
     loading: warehouseDataLoading,
     error: warehouseDataError,
   } = api.useWarehouses();
+  const {
+    data: vendorData,
+    loading: vendorDataLoading,
+    error: vendorDataError,
+  } = api.useVendors();
   const allCustomers = customer
     ? [customer, ...sortBy(prop('customerName'), additionalCustomers)]
     : [];
@@ -125,6 +140,9 @@ const useContactCompanyInfo = ({
     : [];
   const allWarehouses = warehouse
     ? [warehouse, ...sortBy(prop('warehouseName'), additionalWarehouses)]
+    : [];
+  const allVendors = vendor
+    ? [vendor, ...sortBy(prop('vendorName'), additionalVendors)]
     : [];
 
   const { ItemSelector: CustomerItemSelector } = useItemSelector<Customer>({
@@ -171,10 +189,26 @@ const useContactCompanyInfo = ({
     width: 350,
   });
 
+  const { ItemSelector: VendorItemSelector } = useItemSelector<Vendor>({
+    selectItem: (w) => {
+      setAdditionalVendors([...additionalVendors, w]);
+    },
+    allItems: () => (vendorData ? vendorData.nodes : []) as Vendor[],
+    excludedItems: allVendors,
+    error: vendorDataError,
+    errorLabel: 'Vendors',
+    loading: vendorDataLoading,
+    nameKey: 'vendorName',
+    placeholder: 'Add vendors',
+    searchParamName: 'vendorSearch',
+    width: 350,
+  });
+
   const handleReset = () => {
     setAdditionalCustomers(defaultAdditionalCustomers);
     setAdditionalShippers(defaultAdditionalShippers);
     setAdditionalWarehouses(defaultAdditionalWarehouses);
+    setAdditionalVendors(defaultAdditionalVendors);
   };
 
   useEffect(() => {
@@ -198,6 +232,12 @@ const useContactCompanyInfo = ({
       setAdditionalWarehouses(defaultAdditionalWarehouses);
     }
   }, [defaultAdditionalWarehouses, previousDefaultAdditionalWarehouses]);
+
+  useEffect(() => {
+    if (!equals(previousDefaultAdditionalVendors, defaultAdditionalVendors)) {
+      setAdditionalVendors(defaultAdditionalVendors);
+    }
+  }, [defaultAdditionalVendors, previousDefaultAdditionalVendors]);
 
   const customerInfo = customer && (
     <>
@@ -255,6 +295,24 @@ const useContactCompanyInfo = ({
       )}
     </l.Grid>
   );
+  const vendorInfo = vendor && (
+    <l.Grid gridTemplateColumns="120px 1fr">
+      <CompanyContent
+        allItems={allVendors}
+        baseTo="/directory/vendors"
+        editing={editing}
+        label="Vendor"
+        nameKey="vendorName"
+        setAdditionalItems={setAdditionalVendors}
+      />
+      {editing && (
+        <>
+          <div />
+          <l.Flex pt={th.spacing.sm}>{VendorItemSelector}</l.Flex>
+        </>
+      )}
+    </l.Grid>
+  );
 
   const info = !!customer
     ? customerInfo
@@ -262,9 +320,18 @@ const useContactCompanyInfo = ({
     ? shipperInfo
     : !!warehouse
     ? warehouseInfo
+    : !!vendor
+    ? vendorInfo
     : null;
 
-  return { allCustomers, allShippers, allWarehouses, info, handleReset };
+  return {
+    allCustomers,
+    allShippers,
+    allWarehouses,
+    allVendors,
+    info,
+    handleReset,
+  };
 };
 
 export default useContactCompanyInfo;

@@ -21,6 +21,16 @@ CREATE TABLE directory.shipper_person_contact (
   FOREIGN KEY (person_contact_id) REFERENCES directory.person_contact(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
+CREATE FUNCTION directory.shipper_vendor(IN s directory.shipper)
+    RETURNS directory.vendor
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT * FROM directory.vendor v WHERE v.id = s.id
+$BODY$;
+
 CREATE FUNCTION directory.shipper_search_text(IN s directory.shipper)
     RETURNS text
     LANGUAGE 'sql'

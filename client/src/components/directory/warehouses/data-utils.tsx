@@ -91,6 +91,19 @@ export const baseLabels: WarehouseLabelInfo[] = [
     readOnly: true,
   },
   {
+    key: 'vendor',
+    label: 'Vendor',
+    getValue: ({ vendor }) =>
+      vendor ? (
+        <ty.LinkText hover="false" to={`/directory/vendors/${vendor.id}`}>
+          {vendor.id}
+        </ty.LinkText>
+      ) : (
+        '-'
+      ),
+    readOnly: true,
+  },
+  {
     key: 'outQueue',
     label: 'Out Queue',
   },

@@ -116,7 +116,7 @@ const Details = () => {
             </l.AreaLink>
           </l.Flex>
           <ContactList
-            baseUrl={`shippers/${id}`}
+            baseUrl={`${id}`}
             personContacts={personContacts as PersonContact[]}
             selectedItem={selectedShipper}
             selectContact={selectShipperPersonContact(data)}

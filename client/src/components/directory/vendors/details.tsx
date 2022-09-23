@@ -7,7 +7,7 @@ import Page from 'components/page';
 import { DataMessage } from 'components/page/message';
 import { Tab, useTabBar } from 'components/tab-bar';
 import useUpdateItem from 'hooks/use-update-item';
-import { PersonContact, Warehouse } from 'types';
+import { PersonContact, Vendor } from 'types';
 import b from 'ui/button';
 import l from 'ui/layout';
 import th from 'ui/theme';
@@ -16,12 +16,12 @@ import ContactList from '../contacts/list';
 import { useDirectorySelectionContext } from '../selection-context';
 import { baseLabels } from './data-utils';
 
-export const warehouseBreadcrumbs = (id: string) => [
+export const vendorBreadcrumbs = (id: string) => [
   {
     text: 'Directory',
-    to: `/directory/warehouses`,
+    to: `/directory/vendors`,
   },
-  { text: 'Warehouse', to: `/directory/warehouses/${id}` },
+  { text: 'Vendor', to: `/directory/vendors/${id}` },
 ];
 
 const tabs: Tab[] = [
@@ -35,18 +35,17 @@ const Details = () => {
   const { id } = useParams<{
     id: string;
   }>();
-  const { data, error, loading } = api.useWarehouse(id);
+  const { data, error, loading } = api.useVendor(id);
   const personContacts = data
-    ? data.personContactsByWarehousePersonContactWarehouseIdAndPersonContactId
-        .nodes
+    ? data.personContactsByVendorPersonContactVendorIdAndPersonContactId.nodes
     : [];
 
   const { TabBar } = useTabBar(tabs);
 
-  const [handleUpdate] = api.useUpdateWarehouse(id);
+  const [handleUpdate] = api.useUpdateVendor(id);
 
   const updateFields = [
-    'warehouseName',
+    'vendorName',
     'phone',
     'address1',
     'address2',
@@ -61,8 +60,8 @@ const Details = () => {
   ];
   const updateVariables = { id };
 
-  const { changes, editing, handleChange } = useUpdateItem<Warehouse>({
-    data: data as Warehouse,
+  const { changes, editing, handleChange } = useUpdateItem<Vendor>({
+    data: data as Vendor,
     handleUpdate,
     updateFields,
     updateVariables,
@@ -71,43 +70,38 @@ const Details = () => {
   const [
     selectedItems,
     {
-      selectWarehousePersonContact,
-      isAllWarehousePersonContactsSelected,
-      toggleAllWarehousePersonContacts,
+      selectVendorPersonContact,
+      isAllVendorPersonContactsSelected,
+      toggleAllVendorPersonContacts,
     },
   ] = useDirectorySelectionContext();
 
-  const selectedWarehouse = selectedItems.warehouses.find((c) => c.id === id);
+  const selectedVendor = selectedItems.vendors.find((c) => c.id === id);
 
   return (
     <Page
-      actions={
-        data
-          ? [
-              <l.AreaLink key={0} to={`/inventory/index?location=${data.id}`}>
-                <b.Primary>Inventory</b.Primary>
-              </l.AreaLink>,
-            ]
-          : []
-      }
-      breadcrumbs={warehouseBreadcrumbs(id)}
-      title={data ? data.warehouseName : 'Loading...'}
+      breadcrumbs={vendorBreadcrumbs(id)}
+      title={data ? data.vendorName : 'Loading...'}
     >
       {data ? (
         <l.Div pb={th.spacing.xl}>
-          <BaseData<Warehouse>
+          <BaseData<Vendor>
             changes={changes}
             data={data}
             editing={editing}
             handleChange={handleChange}
-            labels={baseLabels}
+            labels={baseLabels({
+              isShipper: !!data.shipper,
+              isCustomer: !!data.customer,
+              isWarehouse: !!data.warehouse,
+            })}
           />
           <l.Flex alignCenter justifyBetween my={th.spacing.lg}>
             <TabBar />
             <l.AreaLink
               key={1}
               ml={th.spacing.md}
-              to={`/directory/create?warehouseId=${data.id}`}
+              to={`/directory/create?vendorId=${data.id}`}
             >
               <b.Success>Create</b.Success>
             </l.AreaLink>
@@ -115,10 +109,10 @@ const Details = () => {
           <ContactList
             baseUrl={`${id}`}
             personContacts={personContacts as PersonContact[]}
-            selectedItem={selectedWarehouse}
-            selectContact={selectWarehousePersonContact(data)}
-            toggleAllContacts={() => toggleAllWarehousePersonContacts(data)}
-            isAllContactsSelected={isAllWarehousePersonContactsSelected(data)}
+            selectedItem={selectedVendor}
+            selectContact={selectVendorPersonContact(data)}
+            toggleAllContacts={() => toggleAllVendorPersonContacts(data)}
+            isAllContactsSelected={isAllVendorPersonContactsSelected(data)}
           />
         </l.Div>
       ) : (

@@ -5,6 +5,7 @@ const countryOptions = require('./directory/country');
 const customerOptions = require('./directory/customer');
 const shipperOptions = require('./directory/shipper');
 const warehouseOptions = require('./directory/warehouse');
+const vendorOptions = require('./directory/vendor');
 const inventoryItemOptions = require('./product/inventory-item');
 const { palletOptions, palletSectionOptions } = require('./product/pallet');
 const vesselOptions = require('./product/vessel');
@@ -27,6 +28,8 @@ const db2RunQuery = (tableName, db) => {
       return db2UpdateItems(db, shipperOptions);
     case 'directory/warehouse':
       return db2UpdateItems(db, warehouseOptions);
+    case 'directory/vendor':
+      return db2UpdateItems(db, vendorOptions);
     case 'product/inventory-item':
       return db2UpdateItems(db, inventoryItemOptions);
     case 'product/pallet':

@@ -32,5 +32,8 @@ query CUSTOMER_DETAILS($id: String!, $orderBy: [PersonContactsOrderBy!]) {
     postalState
     website
     zipCode
+    vendor {
+      id
+    }
   }
 }

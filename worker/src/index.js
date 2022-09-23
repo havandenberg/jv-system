@@ -48,6 +48,7 @@ if (process.env.REACT_APP_IS_PRODUCTION === 'true') {
   cron.schedule('*/5 5-22 * * *', () => db2UpdateTable('directory/shipper'));
   cron.schedule('*/5 5-22 * * *', () => db2UpdateTable('directory/customer'));
   cron.schedule('*/5 5-22 * * *', () => db2UpdateTable('directory/warehouse'));
+  cron.schedule('*/5 5-22 * * *', () => db2UpdateTable('directory/vendor'));
 
   cron.schedule('30 */2 5-22 * * *', () => db2UpdateTable('product/vessel'));
   cron.schedule('*/5 5-22 * * *', () =>

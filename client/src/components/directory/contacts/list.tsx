@@ -4,7 +4,7 @@ import { isEmpty, reduce } from 'ramda';
 import ListItem from 'components/list-item';
 import { DataMessage } from 'components/page/message';
 import useColumns, { SORT_ORDER } from 'hooks/use-columns';
-import { Customer, PersonContact, Shipper, Warehouse } from 'types';
+import { Customer, PersonContact, Shipper, Vendor, Warehouse } from 'types';
 import { LineItemCheckbox } from 'ui/checkbox';
 import l from 'ui/layout';
 import th from 'ui/theme';
@@ -62,9 +62,24 @@ const ContactList = ({
     false,
     personContacts,
   );
+  const hasVendorIds = reduce(
+    (acc, contact) =>
+      acc ||
+      (contact.vendorsByVendorPersonContactPersonContactIdAndVendorId &&
+        !isEmpty(
+          contact.vendorsByVendorPersonContactPersonContactIdAndVendorId.nodes,
+        )),
+    false,
+    personContacts,
+  );
 
   const listLabels = isGroup
-    ? groupContactListLabels(hasCustomerIds, hasShipperIds, hasWarehouseIds)
+    ? groupContactListLabels(
+        hasCustomerIds,
+        hasShipperIds,
+        hasWarehouseIds,
+        hasVendorIds,
+      )
     : contactListLabels;
 
   const columnLabels = useColumns<PersonContact>(
@@ -115,10 +130,23 @@ const ContactList = ({
           }`
         : '';
 
+    const vendors =
+      item.vendorsByVendorPersonContactPersonContactIdAndVendorId &&
+      item.vendorsByVendorPersonContactPersonContactIdAndVendorId.nodes;
+    const vendorSlug =
+      vendors && vendors.length > 0
+        ? `/directory/vendors/${(vendors[0] as Vendor).id}/contacts/${item.id}`
+        : '';
+
     const internalSlug = `/directory/internal/${item.id}`;
 
     return (
-      baseSlug || customerSlug || shipperSlug || warehouseSlug || internalSlug
+      baseSlug ||
+      customerSlug ||
+      shipperSlug ||
+      warehouseSlug ||
+      vendorSlug ||
+      internalSlug
     );
   };
 

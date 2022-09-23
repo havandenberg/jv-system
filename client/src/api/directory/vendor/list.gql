@@ -1,0 +1,36 @@
+query VENDOR_LIST(
+  $vendorType: [String!]
+  $orderBy: [VendorsOrderBy!]
+  $search: [VendorFilter!]
+) {
+  vendors(
+    filter: { and: $search, vendorType: { in: $vendorType } }
+    orderBy: $orderBy
+  ) {
+    nodes {
+      id
+      vendorName
+      vendorType
+      city
+      postalState
+      phone
+      personContactsByVendorPersonContactVendorIdAndPersonContactId {
+        nodes {
+          vendorsByVendorPersonContactPersonContactIdAndVendorId {
+            nodes {
+              vendorName
+              id
+            }
+          }
+          email
+          firstName
+          id
+          isPrimary
+          lastName
+          workPhone
+        }
+      }
+    }
+    totalCount
+  }
+}

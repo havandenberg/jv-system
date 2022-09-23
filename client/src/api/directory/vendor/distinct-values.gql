@@ -1,0 +1,5 @@
+query VENDOR_DISTINCT_VALUES {
+  vendorDistinctValues {
+    nodes
+  }
+}

@@ -126,6 +126,19 @@ export const baseLabels: CustomerLabelInfo[] = [
       ),
   },
   {
+    key: 'vendor',
+    label: 'Vendor',
+    getValue: ({ vendor }) =>
+      vendor ? (
+        <ty.LinkText hover="false" to={`/directory/vendors/${vendor.id}`}>
+          {vendor.id}
+        </ty.LinkText>
+      ) : (
+        '-'
+      ),
+    readOnly: true,
+  },
+  {
     key: 'notes',
     label: 'Notes',
   },

@@ -1,0 +1,51 @@
+query VENDOR_DETAILS($id: String!, $orderBy: [PersonContactsOrderBy!]) {
+  vendor(id: $id) {
+    id
+    personContactsByVendorPersonContactVendorIdAndPersonContactId(
+      orderBy: $orderBy
+    ) {
+      nodes {
+        vendorsByVendorPersonContactPersonContactIdAndVendorId {
+          nodes {
+            vendorName
+            id
+          }
+        }
+        email
+        firstName
+        id
+        isPrimary
+        lastName
+        workPhone
+      }
+    }
+    vendorName
+    address1
+    address2
+    city
+    postalState
+    zipCode
+    countryId
+    country {
+      countryName
+    }
+    shipper {
+      id
+    }
+    customer {
+      id
+    }
+    warehouse {
+      id
+    }
+    phone
+    attention
+    vendorType
+    ledgerCode
+    bankCode
+    has1099
+    id1099
+    isTemp
+    notes
+  }
+}

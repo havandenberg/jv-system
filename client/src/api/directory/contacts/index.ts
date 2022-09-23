@@ -12,6 +12,7 @@ import { Mutation, Query } from 'types';
 import { CUSTOMER_DETAILS_QUERY } from '../customer';
 import { SHIPPER_DETAILS_QUERY } from '../shipper';
 import { WAREHOUSE_DETAILS_QUERY } from '../warehouse';
+import { VENDOR_DETAILS_QUERY } from '../vendor';
 
 const PERSON_CONTACT_DETAILS_QUERY = loader('./details.gql');
 const INTERNAL_CONTACT_LIST_QUERY = loader('./internal-list.gql');
@@ -25,6 +26,7 @@ interface PersonContactVariables {
   customerId?: string;
   shipperId?: string;
   warehouseId?: string;
+  vendorId?: string;
 }
 
 export const useInternalPersonContacts = () => {
@@ -142,6 +144,7 @@ export const useDeletePersonContact = ({
   customerId,
   shipperId,
   warehouseId,
+  vendorId,
 }: PersonContactVariables) => {
   const [search = ''] = useSearchQueryParam();
   const [{ sortBy = 'firstName', sortOrder = SORT_ORDER.ASC }] =
@@ -174,6 +177,13 @@ export const useDeletePersonContact = ({
         query: WAREHOUSE_DETAILS_QUERY,
         variables: {
           id: warehouseId || '',
+          orderBy,
+        },
+      },
+      {
+        query: VENDOR_DETAILS_QUERY,
+        variables: {
+          id: vendorId || '',
           orderBy,
         },
       },

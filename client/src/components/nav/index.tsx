@@ -76,6 +76,7 @@ export const navItems: NavItemType[] = [
       { text: 'Customers', to: 'customers' },
       { text: 'Shippers', to: 'shippers' },
       { text: 'Warehouses', to: 'warehouses' },
+      { text: 'Vendors', to: 'vendors' },
       { text: 'Groups', to: 'groups' },
     ],
     secondaryItems: [
@@ -83,6 +84,7 @@ export const navItems: NavItemType[] = [
       { text: 'Customers', to: 'customers' },
       { text: 'Shippers', to: 'shippers' },
       { text: 'Warehouses', to: 'warehouses' },
+      { text: 'Vendors', to: 'vendors' },
       { text: 'Groups', to: 'groups' },
     ],
   },

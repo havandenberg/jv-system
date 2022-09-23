@@ -7,7 +7,7 @@ import BaseData from 'components/base-data';
 import Page from 'components/page';
 import { DataMessage } from 'components/page/message';
 import useUpdateItem from 'hooks/use-update-item';
-import { Customer, PersonContact, Shipper, Warehouse } from 'types';
+import { Customer, PersonContact, Shipper, Vendor, Warehouse } from 'types';
 import l from 'ui/layout';
 import th from 'ui/theme';
 
@@ -65,20 +65,37 @@ export const warehouseContactBreadcrumbs = (
   },
 ];
 
+export const vendorContactBreadcrumbs = (vendorId: string, id: string) => [
+  {
+    text: 'Directory',
+    to: `/directory/vendors`,
+  },
+  {
+    text: 'Vendor',
+    to: `/directory/vendors/${vendorId}`,
+  },
+  {
+    text: 'Contact',
+    to: `/directory/vendors/${vendorId}/contacts/${id}`,
+  },
+];
+
 const Details = () => {
   const history = useHistory();
-  const { id, customerId, shipperId, warehouseId } = useParams<{
+  const { id, customerId, shipperId, warehouseId, vendorId } = useParams<{
     id: string;
     customerId: string;
     shipperId: string;
     warehouseId: string;
+    vendorId: string;
   }>();
-  const isInternal = !customerId && !shipperId && !warehouseId;
+  const isInternal = !customerId && !shipperId && !warehouseId && !vendorId;
 
   const { data, error, loading } = api.usePersonContact(id);
   const { data: customer } = api.useCustomer(customerId);
   const { data: shipper } = api.useShipper(shipperId);
   const { data: warehouse } = api.useWarehouse(warehouseId);
+  const { data: vendor } = api.useVendor(vendorId);
 
   const [handleUpdate] = api.useUpdatePersonContact(id);
 
@@ -100,6 +117,7 @@ const Details = () => {
     customerId,
     shipperId,
     warehouseId,
+    vendorId,
   });
 
   const [
@@ -108,6 +126,7 @@ const Details = () => {
       removeSelectedContactsFromCustomer,
       removeSelectedContactsFromShipper,
       removeSelectedContactsFromWarehouse,
+      removeSelectedContactsFromVendor,
     },
   ] = useDirectorySelectionContext();
 
@@ -121,6 +140,9 @@ const Details = () => {
       }
       if (warehouseId) {
         removeSelectedContactsFromWarehouse([data], warehouseId);
+      }
+      if (vendorId) {
+        removeSelectedContactsFromVendor([data], vendorId);
       }
     }
     const breadcrumb = breadcrumbs[isInternal ? 0 : 1];
@@ -142,31 +164,44 @@ const Details = () => {
       validationLabels: baseLabels(true, isInternal),
     });
 
-  const { allCustomers, allShippers, allWarehouses, info, handleReset } =
-    useContactCompanyInfo({
-      customer,
-      defaultAdditionalCustomers: data
-        ? (
-            data.customersByCustomerPersonContactPersonContactIdAndCustomerId
-              .nodes as Customer[]
-          ).filter((c) => c.id !== customerId)
-        : [],
-      editing,
-      shipper,
-      defaultAdditionalShippers: data
-        ? (
-            data.shippersByShipperPersonContactPersonContactIdAndShipperId
-              .nodes as Shipper[]
-          ).filter((s) => s.id !== shipperId)
-        : [],
-      warehouse,
-      defaultAdditionalWarehouses: data
-        ? (
-            data.warehousesByWarehousePersonContactPersonContactIdAndWarehouseId
-              .nodes as Warehouse[]
-          ).filter((w) => w.id !== warehouseId)
-        : [],
-    });
+  const {
+    allCustomers,
+    allShippers,
+    allWarehouses,
+    allVendors,
+    info,
+    handleReset,
+  } = useContactCompanyInfo({
+    customer,
+    defaultAdditionalCustomers: data
+      ? (
+          data.customersByCustomerPersonContactPersonContactIdAndCustomerId
+            .nodes as Customer[]
+        ).filter((c) => c.id !== customerId)
+      : [],
+    editing,
+    shipper,
+    defaultAdditionalShippers: data
+      ? (
+          data.shippersByShipperPersonContactPersonContactIdAndShipperId
+            .nodes as Shipper[]
+        ).filter((s) => s.id !== shipperId)
+      : [],
+    warehouse,
+    defaultAdditionalWarehouses: data
+      ? (
+          data.warehousesByWarehousePersonContactPersonContactIdAndWarehouseId
+            .nodes as Warehouse[]
+        ).filter((w) => w.id !== warehouseId)
+      : [],
+    vendor,
+    defaultAdditionalVendors: data
+      ? (
+          data.vendorsByVendorPersonContactPersonContactIdAndVendorId
+            .nodes as Vendor[]
+        ).filter((w) => w.id !== vendorId)
+      : [],
+  });
 
   const hasCompanyChanges = data
     ? !equals(
@@ -201,6 +236,17 @@ const Details = () => {
           ),
         ),
         sortBy((wid) => `${wid}`, pluck('id', allWarehouses)),
+      ) ||
+      !equals(
+        sortBy(
+          (vid) => `${vid}`,
+          pluck(
+            'id',
+            data.vendorsByVendorPersonContactPersonContactIdAndVendorId
+              .nodes as Vendor[],
+          ),
+        ),
+        sortBy((vid) => `${vid}`, pluck('id', allVendors)),
       )
     : false;
 
@@ -233,6 +279,15 @@ const Details = () => {
     const warehousesToRemove = (currentWarehouses as Warehouse[]).filter(
       (w) => !pluck('id', allWarehouses).includes(w.id),
     );
+    const currentVendors = data
+      ? data.vendorsByVendorPersonContactPersonContactIdAndVendorId.nodes
+      : [];
+    const vendorsToAdd = allVendors.filter(
+      (v) => !pluck('id', currentVendors as Vendor[]).includes(v.id),
+    );
+    const vendorsToRemove = (currentVendors as Vendor[]).filter(
+      (v) => !pluck('id', allVendors).includes(v.id),
+    );
     handleUpdate({
       variables: {
         id,
@@ -262,6 +317,13 @@ const Details = () => {
               }),
             ),
           },
+          vendorPersonContactsUsingId: {
+            create: vendorsToAdd.map((v) => ({ vendorId: v.id })),
+            deleteByVendorIdAndPersonContactId: vendorsToRemove.map((v) => ({
+              vendorId: v.id,
+              personContactId: id,
+            })),
+          },
         },
       },
     });
@@ -274,6 +336,8 @@ const Details = () => {
       return shipperContactBreadcrumbs(shipperId, id);
     } else if (warehouseId) {
       return warehouseContactBreadcrumbs(warehouseId, id);
+    } else if (vendorId) {
+      return vendorContactBreadcrumbs(vendorId, id);
     } else {
       return internalContactBreadcrumbs(id);
     }

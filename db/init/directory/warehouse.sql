@@ -26,6 +26,16 @@ CREATE TABLE directory.warehouse_person_contact (
   FOREIGN KEY (person_contact_id) REFERENCES directory.person_contact(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
+CREATE FUNCTION directory.warehouse_vendor(IN w directory.warehouse)
+    RETURNS directory.vendor
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT * FROM directory.vendor v WHERE v.id = w.id
+$BODY$;
+
 CREATE FUNCTION directory.warehouse_search_text(IN w directory.warehouse)
     RETURNS TEXT
     LANGUAGE 'sql'

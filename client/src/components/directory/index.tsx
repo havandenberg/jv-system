@@ -13,6 +13,8 @@ import CreatePersonContact from './contacts/create';
 import ContactDetails from './contacts/details';
 import WarehouseDirectory from './warehouses';
 import WarehouseDetails from './warehouses/details';
+import VendorDirectory from './vendors';
+import VendorDetails from './vendors/details';
 import SendMessage from './send-message';
 
 export const breadcrumbs = (slug: string) => [
@@ -25,6 +27,7 @@ export enum DirectoryTypes {
   INTERNAL = 'internal',
   SHIPPERS = 'shippers',
   CUSTOMERS = 'customers',
+  VENDORS = 'vendors',
 }
 
 export interface SubDirectoryProps {
@@ -100,6 +103,17 @@ const Directory = () => {
         exact
         path="/directory/warehouses"
         render={() => <WarehouseDirectory {...subDirectoryProps} />}
+      />
+      <Route
+        exact
+        path="/directory/vendors/:vendorId/contacts/:id"
+        component={ContactDetails}
+      />
+      <Route exact path="/directory/vendors/:id" component={VendorDetails} />
+      <Route
+        exact
+        path="/directory/vendors"
+        render={() => <VendorDirectory {...subDirectoryProps} />}
       />
       <Redirect to="/directory/internal" />
     </Switch>

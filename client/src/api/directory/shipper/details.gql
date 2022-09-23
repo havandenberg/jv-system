@@ -30,5 +30,8 @@ query SHIPPER_DETAILS($id: String!, $orderBy: [PersonContactsOrderBy!]) {
     sendProjectionRequest
     shipperName
     website
+    vendor {
+      id
+    }
   }
 }

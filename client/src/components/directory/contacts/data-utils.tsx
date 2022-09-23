@@ -3,7 +3,8 @@ import { pluck } from 'ramda';
 
 import { LabelInfo } from 'components/column-label';
 import { SORT_ORDER } from 'hooks/use-columns';
-import { Customer, PersonContact, Shipper, Warehouse } from 'types';
+import { Customer, PersonContact, Shipper, Vendor, Warehouse } from 'types';
+import ty from 'ui/typography';
 
 export type PersonContactLabelInfo = LabelInfo<PersonContact>;
 
@@ -66,10 +67,12 @@ export const groupContactListLabels: (
   hasCustomerIds: boolean,
   hasShipperIds: boolean,
   hasWarehouseIds: boolean,
+  hasVendorIds: boolean,
 ) => PersonContactLabelInfo[] = (
   hasCustomerIds: boolean,
   hasShipperIds: boolean,
   hasWarehouseIds: boolean,
+  hasVendorIds: boolean,
 ) => {
   const companyLabels: PersonContactLabelInfo[] = [];
   if (hasCustomerIds) {
@@ -127,6 +130,24 @@ export const groupContactListLabels: (
       sortable: true,
     });
   }
+  if (hasVendorIds) {
+    companyLabels.push({
+      defaultSortOrder: SORT_ORDER.ASC,
+      key: 'vendorsByVendorPersonContactPersonContactIdAndVendorId',
+      label: 'Vendor(s)',
+      getValue: (data) =>
+        data.vendorsByVendorPersonContactPersonContactIdAndVendorId
+          ? pluck(
+              'vendorName',
+              data.vendorsByVendorPersonContactPersonContactIdAndVendorId
+                .nodes as Vendor[],
+            )
+              .map((n) => sentenceCase(n))
+              .join(', ')
+          : '',
+      sortable: true,
+    });
+  }
   return [
     {
       defaultSortOrder: SORT_ORDER.ASC,
@@ -160,7 +181,11 @@ export const baseLabels: (
           key: 'isPrimary',
           label: editing ? 'Active' : 'Status',
           isBoolean: true,
-          getValue: (data) => (!!data.isPrimary ? 'Active' : 'Inactive'),
+          getValue: (data) => (
+            <ty.BodyText>
+              {!!data.isPrimary ? 'Active' : 'Inactive'}
+            </ty.BodyText>
+          ),
         },
       ];
   return [

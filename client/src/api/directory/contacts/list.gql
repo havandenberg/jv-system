@@ -26,6 +26,12 @@ query PERSON_CONTACT_LIST(
           id
         }
       }
+      vendorsByVendorPersonContactPersonContactIdAndVendorId {
+        nodes {
+          vendorName
+          id
+        }
+      }
     }
     totalCount
   }

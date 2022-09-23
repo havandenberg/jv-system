@@ -1,0 +1,7 @@
+mutation VENDOR_UPDATE($id: String!, $updates: VendorPatch!) {
+  updateVendor(input: { patch: $updates, id: $id }) {
+    vendor {
+      id
+    }
+  }
+}

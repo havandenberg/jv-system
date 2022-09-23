@@ -30,5 +30,11 @@ query INTERNAL_CONTACT_DETAILS($id: BigInt!) {
         id
       }
     }
+    vendorsByVendorPersonContactPersonContactIdAndVendorId {
+      nodes {
+        vendorName
+        id
+      }
+    }
   }
 }

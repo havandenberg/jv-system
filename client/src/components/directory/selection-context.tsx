@@ -16,6 +16,8 @@ import {
   PersonContact,
   Shipper,
   Warehouse,
+  Vendor,
+  VendorPersonContact,
 } from 'types';
 
 interface SelectedGroup extends ContactGroup {
@@ -34,12 +36,17 @@ interface SelectedWarehouse extends Warehouse {
   selectedContacts: PersonContact[];
 }
 
+interface SelectedVendor extends Vendor {
+  selectedContacts: PersonContact[];
+}
+
 interface DirectorySelectionState {
   groups: SelectedGroup[];
   customers: SelectedCustomer[];
   internal: PersonContact[];
   shippers: SelectedShipper[];
   warehouses: SelectedWarehouse[];
+  vendors: SelectedVendor[];
 }
 
 const defaultContext = {
@@ -48,6 +55,7 @@ const defaultContext = {
   internal: [],
   shippers: [],
   warehouses: [],
+  vendors: [],
 };
 
 export const DirectorySelectionContext = createContext<
@@ -87,6 +95,13 @@ export const DirectorySelectionContext = createContext<
     toggleAllGroups: () => {},
     toggleAllGroupPersonContacts: () => {},
     removeSelectedContactsFromGroup: () => {},
+    selectVendor: () => {},
+    selectVendorPersonContact: () => {},
+    isAllVendorsSelected: () => {},
+    isAllVendorPersonContactsSelected: () => {},
+    toggleAllVendors: () => {},
+    toggleAllVendorPersonContacts: () => {},
+    removeSelectedContactsFromVendor: () => {},
   },
 ]);
 
@@ -376,6 +391,62 @@ export const DirectorySelectionContextProvider = ({
             ...item,
             selectedContacts: item
               .personContactsByContactGroupPersonContactGroupIdAndPersonContactId
+              .nodes as PersonContact[],
+          })),
+        ],
+      });
+    }
+  };
+
+  const selectVendor = (item: Vendor) => {
+    const selectedVendors = selectedItems.vendors;
+    if (selectedVendors.find((it) => it.id === item.id)) {
+      setSelectedItems({
+        ...selectedItems,
+        vendors: selectedVendors.filter((it) => it.id !== item.id),
+      });
+    } else {
+      setSelectedItems({
+        ...selectedItems,
+        vendors: [
+          ...selectedVendors,
+          {
+            ...item,
+            selectedContacts: item
+              .personContactsByVendorPersonContactVendorIdAndPersonContactId
+              .nodes as PersonContact[],
+          },
+        ],
+      });
+    }
+  };
+
+  const isAllVendorsSelected = (items: Vendor[]) =>
+    items.reduce(
+      (acc, item) =>
+        acc && !!selectedItems.vendors.find((it) => it.id === item.id),
+      true,
+    );
+
+  const toggleAllVendors = (items: Vendor[]) => {
+    const selectedVendors = selectedItems.vendors;
+    const filteredVendors = selectedVendors.filter(
+      (it) => !pluck('id', items).includes(it.id),
+    );
+    if (isAllVendorsSelected(items)) {
+      setSelectedItems({
+        ...selectedItems,
+        vendors: filteredVendors,
+      });
+    } else {
+      setSelectedItems({
+        ...selectedItems,
+        vendors: [
+          ...filteredVendors,
+          ...items.map((item) => ({
+            ...item,
+            selectedContacts: item
+              .personContactsByVendorPersonContactVendorIdAndPersonContactId
               .nodes as PersonContact[],
           })),
         ],
@@ -963,6 +1034,148 @@ export const DirectorySelectionContextProvider = ({
     }
   };
 
+  const selectVendorPersonContact =
+    (vendor: Vendor) => (item: PersonContact) => {
+      const selectedVendor = selectedItems.vendors.find(
+        (a) => a.id === vendor.id,
+      );
+      if (selectedVendor) {
+        if (selectedVendor.selectedContacts.find((it) => it.id === item.id)) {
+          const newVendorContacts = selectedVendor.selectedContacts.filter(
+            (it) => it.id !== item.id,
+          );
+          if (newVendorContacts.length === 0) {
+            setSelectedItems({
+              ...selectedItems,
+              vendors: selectedItems.vendors.filter((a) => a.id !== vendor.id),
+            });
+          } else {
+            setSelectedItems({
+              ...selectedItems,
+              vendors: selectedItems.vendors.map((a) =>
+                a.id === vendor.id
+                  ? {
+                      ...a,
+                      selectedContacts: newVendorContacts,
+                    }
+                  : a,
+              ),
+            });
+          }
+        } else {
+          setSelectedItems({
+            ...selectedItems,
+            vendors: selectedItems.vendors.map((a) =>
+              a.id === vendor.id
+                ? {
+                    ...a,
+                    selectedContacts: [
+                      ...selectedVendor.selectedContacts,
+                      item,
+                    ],
+                  }
+                : a,
+            ),
+          });
+        }
+      } else {
+        setSelectedItems({
+          ...selectedItems,
+          vendors: [
+            ...selectedItems.vendors,
+            {
+              ...vendor,
+              selectedContacts: [item],
+            },
+          ],
+        });
+      }
+    };
+
+  const isAllVendorPersonContactsSelected = (vendor: Vendor) => {
+    const selectedVendor = selectedItems.vendors.find(
+      (a) => a.id === vendor.id,
+    );
+    return selectedVendor
+      ? vendor.personContactsByVendorPersonContactVendorIdAndPersonContactId.nodes.reduce(
+          (acc, item) =>
+            acc &&
+            !!item &&
+            !!selectedVendor.selectedContacts.find((it) => it.id === item.id),
+          true,
+        )
+      : false;
+  };
+
+  const toggleAllVendorPersonContacts = (vendor: Vendor) => {
+    const selectedVendor = selectedItems.vendors.find(
+      (a) => a.id === vendor.id,
+    );
+    if (selectedVendor) {
+      if (isAllVendorPersonContactsSelected(vendor)) {
+        setSelectedItems({
+          ...selectedItems,
+          vendors: selectedItems.vendors.filter((a) => a.id !== vendor.id),
+        });
+      } else {
+        setSelectedItems({
+          ...selectedItems,
+          vendors: selectedItems.vendors.map((a) =>
+            a.id === vendor.id
+              ? {
+                  ...a,
+                  selectedContacts: vendor
+                    .personContactsByVendorPersonContactVendorIdAndPersonContactId
+                    .nodes as PersonContact[],
+                }
+              : a,
+          ),
+        });
+      }
+    } else {
+      setSelectedItems({
+        ...selectedItems,
+        vendors: [
+          ...selectedItems.vendors,
+          {
+            ...vendor,
+            selectedContacts: vendor
+              .personContactsByVendorPersonContactVendorIdAndPersonContactId
+              .nodes as PersonContact[],
+          },
+        ],
+      });
+    }
+  };
+
+  const removeSelectedContactsFromVendor = (
+    contactsToRemove: VendorPersonContact[],
+    vendorId: string,
+  ) => {
+    const selectedVendor = selectedItems.vendors.find((a) => a.id === vendorId);
+    if (selectedVendor) {
+      const newSelectedContacts = selectedVendor.selectedContacts.filter(
+        (a) => !pluck('personContactId', contactsToRemove).includes(a.id),
+      );
+      const filteredVendors = selectedItems.vendors.filter(
+        (a) => a.id !== selectedVendor.id,
+      );
+      const newVendors = isEmpty(newSelectedContacts)
+        ? filteredVendors
+        : [
+            ...filteredVendors,
+            {
+              ...selectedVendor,
+              selectedContacts: newSelectedContacts,
+            },
+          ];
+      setSelectedItems({
+        ...selectedItems,
+        vendors: newVendors,
+      });
+    }
+  };
+
   return (
     <DirectorySelectionContext.Provider
       children={children}
@@ -1001,6 +1214,13 @@ export const DirectorySelectionContextProvider = ({
           toggleAllGroups,
           toggleAllGroupPersonContacts,
           removeSelectedContactsFromGroup,
+          selectVendor,
+          selectVendorPersonContact,
+          isAllVendorsSelected,
+          isAllVendorPersonContactsSelected,
+          toggleAllVendors,
+          toggleAllVendorPersonContacts,
+          removeSelectedContactsFromVendor,
         },
       ]}
     />

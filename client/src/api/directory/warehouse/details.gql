@@ -35,5 +35,8 @@ query WAREHOUSE_DETAILS($id: String!, $orderBy: [PersonContactsOrderBy!]) {
     stateTaxCode
     warehouseName
     zipCode
+    vendor {
+      id
+    }
   }
 }

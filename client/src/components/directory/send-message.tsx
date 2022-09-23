@@ -132,6 +132,17 @@ const SendEmailModal = () => {
         .flat() as FinalItem[],
     );
     flattenedItems = flattenedItems.concat(
+      selectedItems.vendors
+        .map((vendor) =>
+          vendor.selectedContacts.map((item) => ({
+            ...item,
+            checked: !!item.email,
+            type: 'to',
+          })),
+        )
+        .flat() as FinalItem[],
+    );
+    flattenedItems = flattenedItems.concat(
       selectedItems.groups
         .map((group) =>
           group.selectedContacts.map((item) => ({
@@ -297,6 +308,36 @@ const SendEmailModal = () => {
                             {warehouse.warehouseName}
                           </ty.CaptionText>
                           {warehouse.selectedContacts.map((item) => {
+                            const finalItem = getFinalItem(item);
+                            return (
+                              finalItem && (
+                                <LineItem
+                                  item={finalItem}
+                                  key={item.id}
+                                  setFinalItemType={(type: FinalItemType) =>
+                                    setFinalItemType(finalItem, type)
+                                  }
+                                  toggleChecked={() => toggleChecked(finalItem)}
+                                />
+                              )
+                            );
+                          })}
+                        </Fragment>
+                      ),
+                  )}
+                </l.Div>
+              )}
+              {!isEmpty(selectedItems.vendors) && (
+                <l.Div mb={th.spacing.lg}>
+                  <ty.BodyText>Vendors</ty.BodyText>
+                  {selectedItems.vendors.map(
+                    (vendor) =>
+                      !isEmpty(vendor.selectedContacts) && (
+                        <Fragment key={vendor.id}>
+                          <ty.CaptionText bold my={th.spacing.md}>
+                            {vendor.vendorName}
+                          </ty.CaptionText>
+                          {vendor.selectedContacts.map((item) => {
                             const finalItem = getFinalItem(item);
                             return (
                               finalItem && (

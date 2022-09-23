@@ -5,6 +5,7 @@ import * as countryDirectory from 'api/directory/country';
 import * as customerDirectory from 'api/directory/customer';
 import * as contactDirectory from 'api/directory/contacts';
 import * as shipperDirectory from 'api/directory/shipper';
+import * as vendorDirectory from 'api/directory/vendor';
 import * as warehouseDirectory from 'api/directory/warehouse';
 import * as inventory from 'api/inventory/inventory/item';
 import * as orders from 'api/inventory/orders';
@@ -56,5 +57,6 @@ export default {
   ...truckLoads,
   ...user,
   ...vessels,
+  ...vendorDirectory,
   ...warehouseDirectory,
 };
