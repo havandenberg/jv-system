@@ -55,14 +55,14 @@ const Inspections = () => {
   const { search } = useLocation();
   const { Search } = useSearch();
   const [{ startDate: startDateQuery, endDate }] = useDateRangeQueryParams();
-  const { TabBar, selectedTabId } = useTabBar(
-    tabs(
+  const { TabBar, selectedTabId } = useTabBar({
+    tabs: tabs(
       startDateQuery && endDate
         ? `?startDate=${startDateQuery}&endDate=${endDate}`
         : '',
     ),
-    true,
-  );
+    isRoute: true,
+  });
   const isArrival = InspectionTypes.ARRIVAL === selectedTabId;
   const { DateRangePicker } = useDateRange({
     allowEmpty: true,

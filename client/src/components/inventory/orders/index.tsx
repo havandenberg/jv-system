@@ -14,27 +14,46 @@ import {
   useOrdersQueryParams,
   useSortQueryParams,
 } from 'hooks/use-query-params';
-import { CommonSpecies, OrderEntry, OrderItem, OrderMaster } from 'types';
+import {
+  CommonSpecies,
+  InvoiceHeader,
+  OrderEntry,
+  OrderItem,
+  OrderMaster,
+} from 'types';
 import b from 'ui/button';
 import l from 'ui/layout';
 import th from 'ui/theme';
 
 import {
+  convertInvoiceHeadersToOrderMasters,
   convertOrderEntriesToOrderMasters,
   indexListLabels,
+  OrderItemInvoiceItem,
+  OrderMasterInvoiceHeader,
 } from './data-utils';
 import { indexListLabels as itemIndexListLabels } from './items/data-utils';
 import useOrdersFilters from './use-filters';
+import { useLocation } from 'react-router-dom';
+import { IS_PRODUCTION } from 'utils/env';
 
-export const breadcrumbs = [{ text: 'Orders', to: `/inventory/orders` }];
+export const breadcrumbs = (isInvoices: boolean) => [
+  {
+    text: isInvoices ? 'Invoices' : 'Orders',
+    to: isInvoices ? '/accounting/invoices' : '/inventory/orders',
+  },
+];
 
-const orderMasterGridTemplateColumns =
-  '90px 90px 110px 1fr 3fr 100px 60px 30px';
+const orderMasterGridTemplateColumns = (isInvoices: boolean) =>
+  `90px 90px${isInvoices ? ' 90px' : ''} 110px 1fr 3fr 100px 60px 30px`;
 
 const orderItemGridTemplateColumns =
   '70px 1fr 70px 50px 1fr 80px 80px 40px 80px 50px 30px';
 
 const Orders = () => {
+  const { pathname } = useLocation();
+  const isInvoices = pathname.includes('accounting/invoices');
+
   const {
     roles: { isSalesAssoc },
   } = useActiveUser();
@@ -43,7 +62,9 @@ const Orders = () => {
     useSortQueryParams();
   const [selectedFilters] = useOrdersQueryParams();
 
-  const isOrders = !selectedFilters.view || selectedFilters.view === 'orders';
+  const isOrders =
+    !selectedFilters.view ||
+    ['invoices', 'orders'].includes(selectedFilters.view);
 
   const {
     data: orderEntriesData,
@@ -58,9 +79,21 @@ const Orders = () => {
     data,
     loading: ordersLoading,
     error: ordersError,
-  } = api.useOrderMasters(isOrders ? undefined : 'EXPECTED_SHIP_DATE_DESC');
-  const items = (data ? data.nodes : []) as OrderMaster[];
+  } = api.useOrders(
+    isOrders && !isInvoices ? undefined : 'EXPECTED_SHIP_DATE_DESC',
+  );
+  const orderMasters = (data ? data.nodes : []) as OrderMaster[];
 
+  const {
+    data: invoicesData,
+    loading: invoicesLoading,
+    error: invoicesError,
+  } = api.useInvoices(isOrders ? undefined : 'EXPECTED_SHIP_DATE_DESC');
+  const invoices = (invoicesData ? invoicesData.nodes : []) as InvoiceHeader[];
+
+  const items = isInvoices
+    ? convertInvoiceHeadersToOrderMasters(invoices)
+    : orderMasters;
   const {
     data: productsData,
     loading: productsLoading,
@@ -68,8 +101,15 @@ const Orders = () => {
   } = api.useCommonSpecieses();
   const commonSpecieses = (productsData?.nodes || []) as CommonSpecies[];
 
-  const loading = ordersLoading || productsLoading || orderEntriesLoading;
-  const error = ordersError || productsError || orderEntriesError;
+  const loading =
+    (isInvoices ? invoicesLoading : ordersLoading) ||
+    productsLoading ||
+    orderEntriesLoading;
+  const error =
+    (isInvoices ? invoicesError : ordersError) ||
+    invoicesError ||
+    productsError ||
+    orderEntriesError;
 
   const [expanded, setExpanded] = useState(false);
 
@@ -80,6 +120,7 @@ const Orders = () => {
       commonSpecieses,
       expanded,
       items,
+      isInvoices,
       loading,
       toggleExpanded,
     });
@@ -114,7 +155,9 @@ const Orders = () => {
   ].some((key) => selectedFilters[key]);
 
   const allOrders = orders.concat(
-    hasProductFilters ? [] : convertOrderEntriesToOrderMasters(entryItems),
+    hasProductFilters || isInvoices
+      ? []
+      : convertOrderEntriesToOrderMasters(entryItems),
   );
 
   const salesAssocOptions = uniq(
@@ -122,7 +165,7 @@ const Orders = () => {
   ) as string[];
 
   const sortedOrders = getSortedItems(
-    indexListLabels,
+    indexListLabels(isInvoices),
     allOrders,
     sortBy,
     sortOrder,
@@ -146,9 +189,9 @@ const Orders = () => {
   const orderMasterColumnLabels = useColumns(
     'expectedShipDate',
     SORT_ORDER.DESC,
-    indexListLabels,
+    indexListLabels(isInvoices),
     'operations',
-    'order_master',
+    isInvoices ? 'invoice_header' : 'order_master',
   );
 
   const columnLabels = isOrders
@@ -156,13 +199,13 @@ const Orders = () => {
     : orderItemColumnLabels;
 
   const gridTemplateColumns = isOrders
-    ? orderMasterGridTemplateColumns
+    ? orderMasterGridTemplateColumns(isInvoices)
     : orderItemGridTemplateColumns;
 
   return (
     <Page
       actions={
-        isSalesAssoc
+        !IS_PRODUCTION && isSalesAssoc && !isInvoices
           ? [
               <l.AreaLink
                 key="create"
@@ -180,8 +223,8 @@ const Orders = () => {
             ]
           : undefined
       }
-      breadcrumbs={breadcrumbs}
-      extraPaddingTop={expanded ? 248 : 156}
+      breadcrumbs={breadcrumbs(isInvoices)}
+      extraPaddingTop={expanded ? 240 : 148}
       headerChildren={
         <>
           {components}
@@ -197,74 +240,110 @@ const Orders = () => {
           )}
         </>
       }
-      title="Orders"
+      title={isInvoices ? 'Customer Invoices' : 'Orders'}
     >
-      {!loading && isOrders && !isEmpty(sortedOrders) ? (
-        <VirtualizedList
-          height={expanded ? 440 : 542}
-          rowCount={data ? sortedOrders.length : 0}
-          rowRenderer={({ key, index, style }) => {
-            const item = sortedOrders[index];
-            return (
-              item && (
-                <div key={key} style={style}>
-                  <ListItem<OrderMaster>
-                    data={item}
-                    gridTemplateColumns={gridTemplateColumns}
-                    listLabels={indexListLabels}
-                    to={`/inventory/orders/${item.orderId}?orderView=${
-                      item.entryUserCode ? 'pickupLocations' : 'orderEntries'
-                    }`}
-                  />
-                </div>
-              )
-            );
-          }}
-        />
-      ) : !isEmpty(sortedOrderItems) ? (
-        <VirtualizedList
-          height={expanded ? 440 : 542}
-          rowCount={data ? sortedOrderItems.length : 0}
-          rowRenderer={({ key, index, style }) => {
-            const item = sortedOrderItems[index];
-            return (
-              item && (
-                <div key={key} style={style}>
-                  <ListItem<OrderItem>
-                    data={item}
-                    gridTemplateColumns={gridTemplateColumns}
-                    highlightColor={th.colors.status.warningSecondary}
-                    isHalfHighlight={
-                      differenceInDays(
-                        new Date(
-                          item.order?.expectedShipDate.replace(/-/g, '/'),
-                        ),
-                        new Date(
-                          item.inventoryItem?.vessel?.dischargeDate.replace(
-                            /-/g,
-                            '/',
+      {!loading ? (
+        isOrders ? (
+          !isEmpty(sortedOrders) ? (
+            <VirtualizedList
+              height={expanded ? 440 : 542}
+              rowCount={data ? sortedOrders.length : 0}
+              rowRenderer={({ key, index, style }) => {
+                const item = sortedOrders[index];
+                return (
+                  item && (
+                    <div key={key} style={style}>
+                      <ListItem<OrderMasterInvoiceHeader>
+                        data={item}
+                        gridTemplateColumns={gridTemplateColumns}
+                        listLabels={indexListLabels(isInvoices)}
+                        to={`/${
+                          isInvoices
+                            ? 'accounting/invoices'
+                            : 'inventory/orders'
+                        }/${item.orderId}?orderView=${
+                          isInvoices || item.entryUserCode
+                            ? 'pickupLocations'
+                            : 'orderEntries'
+                        }`}
+                      />
+                    </div>
+                  )
+                );
+              }}
+            />
+          ) : (
+            <DataMessage
+              data={sortedOrders}
+              error={error}
+              loading={loading}
+              emptyProps={{
+                header: `No ${isInvoices ? 'invoices' : 'orders'} found`,
+                text: 'Modify search parameters to view more results.',
+              }}
+            />
+          )
+        ) : !isEmpty(sortedOrderItems) ? (
+          <VirtualizedList
+            height={expanded ? 440 : 542}
+            rowCount={data ? sortedOrderItems.length : 0}
+            rowRenderer={({ key, index, style }) => {
+              const item = sortedOrderItems[index] as OrderItemInvoiceItem;
+              return (
+                item && (
+                  <div key={key} style={style}>
+                    <ListItem<OrderItemInvoiceItem>
+                      data={item}
+                      gridTemplateColumns={gridTemplateColumns}
+                      highlightColor={th.colors.status.warningSecondary}
+                      isHalfHighlight={
+                        differenceInDays(
+                          new Date(
+                            item.order?.expectedShipDate.replace(/-/g, '/'),
                           ),
-                        ),
-                      ) > 7
-                    }
-                    listLabels={itemIndexListLabels(
-                      selectedFilters,
-                      salesAssocOptions,
-                    )}
-                    to={`/inventory/orders/${item.orderId}?backOrderId=${item?.backOrderId}&orderView=orderItems`}
-                  />
-                </div>
-              )
-            );
-          }}
-        />
+                          new Date(
+                            item.inventoryItem?.vessel?.dischargeDate.replace(
+                              /-/g,
+                              '/',
+                            ),
+                          ),
+                        ) > 7
+                      }
+                      listLabels={itemIndexListLabels(
+                        selectedFilters,
+                        salesAssocOptions,
+                      )}
+                      to={`/${
+                        isInvoices ? 'accounting/invoices' : 'inventory/orders'
+                      }/${item.orderId}?${
+                        isInvoices
+                          ? ''
+                          : 'backOrderId=' + item?.backOrderId + '&'
+                      }&orderView=orderItems`}
+                    />
+                  </div>
+                )
+              );
+            }}
+          />
+        ) : (
+          <DataMessage
+            data={sortedOrders}
+            error={error}
+            loading={loading}
+            emptyProps={{
+              header: `No ${isInvoices ? 'invoice' : 'order'} items found`,
+              text: 'Modify search parameters to view more results.',
+            }}
+          />
+        )
       ) : (
         <DataMessage
           data={sortedOrders}
           error={error}
           loading={loading}
           emptyProps={{
-            header: 'No orders found',
+            header: `No ${isInvoices ? 'invoices' : 'orders'} found`,
             text: 'Modify search parameters to view more results.',
           }}
         />

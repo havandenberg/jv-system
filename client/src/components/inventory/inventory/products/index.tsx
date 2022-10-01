@@ -55,7 +55,7 @@ const ProductIndex = () => {
   const { data, loading, error } = api.useProductMasters();
   const items = data ? data.nodes : [];
 
-  const { TabBar } = useTabBar(tabs, true);
+  const { TabBar } = useTabBar({ tabs, isRoute: true });
 
   const columnLabels = useColumns<ProductMaster>(
     'id',

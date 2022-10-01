@@ -19,7 +19,7 @@ import { listLabels } from './data-utils';
 const gridTemplateColumns = (backOrderId?: string) =>
   `${
     backOrderId ? '' : '60px '
-  }60px repeat(2, 1fr) 0.7fr 75px 70px 70px 70px 70px 70px 60px 100px 80px 30px`;
+  }60px repeat(2, 1fr) 0.7fr 75px 70px 60px 80px 100px 60px 60px 100px 60px 30px`;
 
 const OrderItemList = ({ items }: { items: OrderItem[] }) => {
   const [{ sortBy = 'backOrderId', sortOrder = SORT_ORDER.ASC }] =

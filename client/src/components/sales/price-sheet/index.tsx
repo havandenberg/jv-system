@@ -980,7 +980,7 @@ const PriceSheet = () => {
               sendNotification={sendNotification}
               updateLoading={!isEmpty(updateLoading)}
             />
-            <l.Div position="absolute" right={0} top={42}>
+            <l.Div position="absolute" mb={th.spacing.sm} right={0} top={42}>
               <FilterCheckbox
                 checked={sendNotification}
                 label="Send email notification"

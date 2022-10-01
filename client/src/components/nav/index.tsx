@@ -56,6 +56,19 @@ export const navItems: NavItemType[] = [
     ],
   },
   {
+    text: 'Accounting',
+    to: '/accounting',
+    isDev: true,
+    dashboardItems: [
+      { text: 'Invoices', to: 'invoices' },
+      { text: 'Expenses', to: 'expenses' },
+    ],
+    secondaryItems: [
+      { text: 'Invoices', to: 'invoices' },
+      { text: 'Expenses', to: 'expenses' },
+    ],
+  },
+  {
     baseUrl: '/reports',
     text: 'Reports',
     to: '/reports/inspections',
@@ -155,15 +168,17 @@ const Nav = () => {
         >
           <l.Div onMouseLeave={() => setHoverTo('')}>
             <l.Flex height={th.heights.navButton}>
-              {navItems.map((item, idx) => (
-                <NavItem
-                  active={pathname.includes(item.to)}
-                  hover={hoverItem && hoverItem.to === item.to}
-                  key={idx}
-                  {...item}
-                  setHover={setHoverTo}
-                />
-              ))}
+              {navItems
+                .filter((item) => !IS_PRODUCTION || !item.isDev)
+                .map((item, idx) => (
+                  <NavItem
+                    active={pathname.includes(item.to)}
+                    hover={hoverItem && hoverItem.to === item.to}
+                    key={idx}
+                    {...item}
+                    setHover={setHoverTo}
+                  />
+                ))}
             </l.Flex>
             <SecondaryNav
               activePathname={pathname}

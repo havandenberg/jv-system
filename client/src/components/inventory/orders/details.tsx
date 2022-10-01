@@ -19,7 +19,11 @@ import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 
-import { baseLabels, indexBaseLabels } from './data-utils';
+import {
+  baseLabels,
+  indexBaseLabels,
+  OrderMasterInvoiceHeader,
+} from './data-utils';
 import { baseLabels as entryBaseLabels } from './entry/data-utils';
 import OrderEntryList from './entry/list';
 import OrderItemList from './items/list';
@@ -28,7 +32,7 @@ import OrderMasterList from './list';
 export const breadcrumbs = (id: string) => [
   {
     text: 'Orders',
-    to: `/inventory/orders`,
+    to: '/inventory/orders',
   },
   {
     text: 'Order',
@@ -89,11 +93,12 @@ const Details = () => {
     data,
     error: orderMastersError,
     loading: orderMastersLoading,
-  } = api.useOrderMaster(id);
+  } = api.useOrder(id);
+
   const orderMasters = ((data?.nodes || []) as OrderMaster[]).filter(
     (orderMaster) => `${orderMaster?.orderId}` === id,
   );
-  const orderMaster = backOrderId
+  const orderMaster: OrderMasterInvoiceHeader | undefined = backOrderId
     ? orderMasters.find(
         (orderMaster) => `${orderMaster?.backOrderId}` === backOrderId,
       )
@@ -109,16 +114,16 @@ const Details = () => {
         .map(({ items }) => (items.nodes || []) as OrderItem[])
         .flat() || [];
 
-  const { TabBar, selectedTabId } = useTabBar(
-    tabs(
+  const { TabBar, selectedTabId } = useTabBar({
+    tabs: tabs(
       allItems.length,
       backOrderId ? 0 : orderMasters.length,
       orderEntries.length,
     ),
-    false,
-    'pickupLocations',
-    'orderView',
-  );
+    isRoute: false,
+    defaultTabId: 'pickupLocations',
+    paramName: 'orderView',
+  });
   const prevSelectedTabId = usePrevious(selectedTabId);
 
   useEffect(() => {
@@ -197,12 +202,12 @@ const Details = () => {
         ),
       ]}
       breadcrumbs={breadcrumbs(id)}
-      title={hasData ? 'Order' : 'Loading...'}
+      title={hasData ? 'Order Details' : 'Loading...'}
     >
       {hasData ? (
         <l.Div pb={th.spacing.xl}>
           {orderMaster ? (
-            <BaseData<OrderMaster>
+            <BaseData<OrderMasterInvoiceHeader>
               data={orderMaster}
               labels={indexBaseLabels(backOrderId)}
             />

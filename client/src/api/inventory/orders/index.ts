@@ -77,7 +77,7 @@ const useVariables = (orderByOverride?: string) => {
   };
 };
 
-export const useOrderMasters = (orderByOverride?: string) => {
+export const useOrders = (orderByOverride?: string) => {
   const variables = useVariables(orderByOverride);
 
   const { data, error, loading } = useQuery<Query>(ORDER_MASTER_LIST_QUERY, {
@@ -91,7 +91,7 @@ export const useOrderMasters = (orderByOverride?: string) => {
   };
 };
 
-export const useOrderMaster = (orderId: string) => {
+export const useOrder = (orderId: string) => {
   const { data, error, loading } = useQuery<Query>(ORDER_MASTER_DETAILS_QUERY, {
     variables: {
       orderId,

@@ -1,0 +1,116 @@
+query INVOICE_HEADER_LIST(
+  $billingCustomerId: [String!]
+  $salesUserCode: [String!]
+  $orderBy: [InvoiceHeadersOrderBy!]
+  $search: [InvoiceHeaderFilter!]
+  $endDate: Date
+  $startDate: Date
+) {
+  invoiceHeaders(
+    filter: {
+      and: $search
+      billingCustomerId: { in: $billingCustomerId }
+      salesUserCode: { in: $salesUserCode }
+      or: {
+        actualShipDate: {
+          greaterThanOrEqualTo: $startDate
+          lessThanOrEqualTo: $endDate
+        }
+      }
+    }
+    orderBy: $orderBy
+  ) {
+    nodes {
+      orderId
+      backOrderId
+      truckLoadId
+      shipWarehouseId
+      invoiceId
+      salesUserCode
+      paidCode
+      customerPo
+      invoiceDate
+      actualShipDate
+      amountOwed
+      vendor {
+        id
+        vendorName
+      }
+      billingCustomer {
+        id
+        customerName
+      }
+      items {
+        nodes {
+          id
+          orderId
+          backOrderId
+          lineId
+          pickedQty
+          unitSellPrice
+          pallet {
+            backOrderId
+            id
+            jvLotNumber
+            locationId
+            orderId
+            packDate
+            palletId
+            product {
+              packType {
+                id
+                packDescription
+                label {
+                  id
+                  labelName
+                  labelCode
+                }
+              }
+              id
+              sizes {
+                nodes {
+                  id
+                  jvDescription
+                  combineDescription
+                }
+              }
+              species {
+                id
+                speciesDescription
+              }
+              variety {
+                id
+                varietyDescription
+              }
+            }
+            shipped
+            shipper {
+              id
+              shipperName
+            }
+            vessel {
+              coast
+              dischargeDate
+              id
+              vesselCode
+            }
+            warehouse {
+              id
+              warehouseName
+            }
+          }
+        }
+      }
+      salesUser {
+        id
+        personContact {
+          id
+          firstName
+          lastName
+        }
+        userCode
+      }
+    }
+    totalCount
+  }
+}

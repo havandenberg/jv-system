@@ -7,7 +7,7 @@ import ResetImg from 'assets/images/reset';
 import ListItem from 'components/list-item';
 import { DataMessage } from 'components/page/message';
 import Page from 'components/page';
-import { useTabBar } from 'components/tab-bar';
+import useCoastTabBar from 'components/tab-bar/coast-tab-bar';
 import VirtualizedList from 'components/virtualized-list';
 import useColumns, { SORT_ORDER } from 'hooks/use-columns';
 import useDateRange from 'hooks/use-date-range';
@@ -18,7 +18,7 @@ import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 
-import { coastTabs, ResetButton } from '../inventory/use-filters';
+import { ResetButton } from '../inventory/use-filters';
 import { listLabels } from './data-utils';
 
 export const breadcrumbs = [{ text: 'Vessels', to: `/inventory/vessels` }];
@@ -30,13 +30,7 @@ const Vessels = () => {
   const { data, loading, error } = api.useVessels();
   const items = data ? data.nodes : [];
 
-  const { TabBar: CoastFilter, selectedTabId: coast } = useTabBar(
-    coastTabs,
-    false,
-    'EC',
-    'coast',
-    1,
-  );
+  const { TabBar: CoastFilter, selectedTabId: coast } = useCoastTabBar();
 
   const { DateRangePicker, BackwardButton, ForwardButton } = useDateRange({
     maxDate: endOfISOWeek(add(new Date(), { weeks: 4 })),

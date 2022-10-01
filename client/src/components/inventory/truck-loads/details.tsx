@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 
 import api from 'api';
 import BaseData from 'components/base-data';
+import PalletList from 'components/inventory/inventory/pallets/list';
 import Page from 'components/page';
 import { DataMessage } from 'components/page/message';
 import { Tab, useTabBar } from 'components/tab-bar';
@@ -12,7 +13,7 @@ import {
   useSortQueryParams,
   useTruckLoadsQueryParams,
 } from 'hooks/use-query-params';
-import { TruckLoad } from 'types';
+import { Pallet, TruckLoad } from 'types';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
@@ -62,13 +63,17 @@ const Details = () => {
   const truckLoad = location
     ? truckLoads.find((truckLoad) => `${truckLoad?.warehouse?.id}` === location)
     : truckLoads[0];
-
-  const { TabBar, selectedTabId } = useTabBar(
-    tabs(0, location ? 0 : truckLoads.length),
-    false,
-    'pickupLocations',
-    'truckLoadView',
+  const pallets = ((truckLoad?.pallets.nodes || []) as Pallet[]).filter(
+    (pallet) => !location || location === pallet.locationId,
   );
+  const hasPallets = pallets.length > 0;
+
+  const { TabBar, selectedTabId } = useTabBar({
+    tabs: tabs(pallets.length, location ? 0 : truckLoads.length),
+    isRoute: false,
+    defaultTabId: 'pickupLocations',
+    paramName: 'truckLoadView',
+  });
   const prevSelectedTabId = usePrevious(selectedTabId);
 
   useEffect(() => {
@@ -106,13 +111,16 @@ const Details = () => {
   return (
     <Page
       breadcrumbs={breadcrumbs(id)}
-      title={truckLoad ? 'Truck Load' : 'Loading...'}
+      title={truckLoad ? 'Truck Load Details' : 'Loading...'}
     >
       {truckLoad ? (
         <l.Div pb={th.spacing.xl}>
           <BaseData<TruckLoad>
             data={truckLoad}
-            labels={indexBaseLabels((truckLoad && location) || undefined)}
+            labels={indexBaseLabels(
+              (truckLoad && location) || undefined,
+              hasPallets,
+            )}
           />
           {(location || truckLoads.length === 1) && (
             <>
@@ -139,8 +147,10 @@ const Details = () => {
               baseUrl="/inventory/truck-loads/"
               items={truckLoads}
             />
+          ) : hasPallets ? (
+            <PalletList baseUrl={`/inventory`} pallets={pallets} />
           ) : (
-            <DataMessage data={[]} error={error} loading={loading} />
+            <DataMessage data={pallets} error={error} loading={loading} />
           )}
         </l.Div>
       ) : (

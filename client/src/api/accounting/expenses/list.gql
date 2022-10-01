@@ -1,0 +1,38 @@
+query EXPENSE_HEADER_LIST(
+  $billingCustomerId: [String!]
+  $salesUserCode: [String!]
+  $orderBy: [OrderMastersOrderBy!]
+  $search: [OrderMasterFilter!]
+  $endDate: Date
+  $startDate: Date
+) {
+  expenseHeaders(
+    filter: {
+      and: $search
+      billingCustomerId: { in: $billingCustomerId }
+      salesUserCode: { in: $salesUserCode }
+      or: {
+        expectedShipDate: {
+          greaterThanOrEqualTo: $startDate
+          lessThanOrEqualTo: $endDate
+        }
+      }
+    }
+    orderBy: $orderBy
+  ) {
+    nodes {
+      id
+      vendorId
+      voucherId
+      invoiceId
+      isEstimated
+      paidCode
+      expenseAmount
+      checkNumber
+      expenseCode
+      truckLoadId
+      vesselCode
+    }
+    totalCount
+  }
+}

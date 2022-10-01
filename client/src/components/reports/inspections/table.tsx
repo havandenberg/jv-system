@@ -75,7 +75,7 @@ const Table = <T extends {}>({
   getTableData,
   pallets,
 }: TableProps<T>) => {
-  const { selectedTabId, TabBar } = useTabBar(tableTabs);
+  const { selectedTabId, TabBar } = useTabBar({ tabs: tableTabs });
   const tableData = getTableData(selectedTabId);
   return (
     <>

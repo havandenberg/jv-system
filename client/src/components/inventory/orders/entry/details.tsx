@@ -58,7 +58,7 @@ const Details = () => {
   const allItems = (orderEntry?.orderEntryItems?.nodes ||
     []) as OrderEntryItem[];
 
-  const { TabBar } = useTabBar(tabs(allItems.length));
+  const { TabBar } = useTabBar({ tabs: tabs(allItems.length) });
 
   const columnLabels = useColumns<OrderEntryItem>(
     'species',
@@ -87,14 +87,15 @@ const Details = () => {
         <l.Div pb={th.spacing.xl}>
           {orderEntry && (
             <>
-              <ty.CaptionText
+              <ty.BodyText
                 color={isLatestEntry ? undefined : th.colors.status.error}
+                bold={!isLatestEntry}
                 italic
                 mb={th.spacing.md}
                 secondary={isLatestEntry}
               >
                 Viewing {isLatestEntry ? 'latest' : 'previous'} entry:
-              </ty.CaptionText>
+              </ty.BodyText>
               <BaseData<OrderEntry> data={orderEntry} labels={baseLabels} />
             </>
           )}
@@ -246,6 +247,7 @@ const Details = () => {
                   {item.warehouse ? (
                     <ty.LinkText
                       ellipsis
+                      fontSize={th.fontSizes.caption}
                       hover="false"
                       pl={th.spacing.sm}
                       to={`/directory/warehouses/${item.locationId}`}
@@ -264,6 +266,7 @@ const Details = () => {
                   {item.shipper ? (
                     <ty.LinkText
                       ellipsis
+                      fontSize={th.fontSizes.caption}
                       hover="false"
                       pl={th.spacing.sm}
                       to={`/directory/shippers/${item.shipperId}`}
@@ -282,6 +285,7 @@ const Details = () => {
                   {item.vessel ? (
                     <ty.LinkText
                       ellipsis
+                      fontSize={th.fontSizes.caption}
                       hover="false"
                       pl={th.spacing.sm}
                       to={`/inventory/vessels/${item.vessel.vesselCode}`}
@@ -393,6 +397,7 @@ const Details = () => {
                     {item.reviewWarehouse && isReviewLocationDirty ? (
                       <ty.LinkText
                         ellipsis
+                        fontSize={th.fontSizes.caption}
                         hover="false"
                         pl={th.spacing.sm}
                         to={`/directory/warehouses/${item.reviewLocationId}`}
@@ -411,6 +416,7 @@ const Details = () => {
                     {item.reviewShipper && isReviewShipperDirty ? (
                       <ty.LinkText
                         ellipsis
+                        fontSize={th.fontSizes.caption}
                         hover="false"
                         pl={th.spacing.sm}
                         to={`/directory/shippers/${item.reviewShipperId}`}
@@ -429,6 +435,7 @@ const Details = () => {
                     {item.reviewVessel && isReviewVesselDirty ? (
                       <ty.LinkText
                         ellipsis
+                        fontSize={th.fontSizes.caption}
                         hover="false"
                         pl={th.spacing.sm}
                         to={`/inventory/vessels/${item.reviewVessel.vesselCode}`}

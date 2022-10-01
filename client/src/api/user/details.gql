@@ -12,6 +12,7 @@ query USER_DETAILS($id: BigInt!, $isRead: [Boolean!]) {
         }
       }
     }
+    defaultCoast
     pin
     personContact {
       firstName

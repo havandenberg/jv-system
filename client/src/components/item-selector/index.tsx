@@ -6,25 +6,34 @@ import OutsideClickHandler from 'react-outside-click-handler';
 
 import VirtualizedList from 'components/virtualized-list';
 import useSearch from 'hooks/use-search';
+import { FilterCheckbox } from 'ui/checkbox';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 
 import EditableCell, { EditableCellProps } from '../editable-cell';
 
-const RowWrapper = styled(l.Flex)(({ onClick }) => ({
-  alignItems: 'center',
-  background: th.colors.background,
-  borderRadius: th.borderRadii.default,
-  cursor: onClick ? 'pointer' : 'default',
-  justifyContent: 'space-between',
-  transition: th.transitions.default,
-  ':hover': {
-    background: onClick
-      ? th.colors.brand.containerBackground
-      : th.colors.background,
-  },
-}));
+const RowWrapper = styled(l.Flex)(
+  ({
+    isMultiSelect,
+    onClick,
+  }: {
+    isMultiSelect?: boolean;
+    onClick?: () => void;
+  }) => ({
+    alignItems: 'center',
+    background: th.colors.background,
+    borderRadius: th.borderRadii.default,
+    cursor: onClick ? 'pointer' : 'default',
+    justifyContent: isMultiSelect ? 'flex-start' : 'space-between',
+    transition: th.transitions.default,
+    ':hover': {
+      background: onClick
+        ? th.colors.brand.containerBackground
+        : th.colors.background,
+    },
+  }),
+);
 
 export interface ItemSelectorProps<T> {
   allItems: (localValue: string) => T[];
@@ -42,6 +51,7 @@ export interface ItemSelectorProps<T> {
   key?: string;
   loading: boolean;
   isDirty?: boolean;
+  isMultiSelect?: boolean;
   nameKey: keyof T;
   offset?: string | number;
   onClear?: () => void;
@@ -68,6 +78,7 @@ const ItemSelector = <T extends { id?: string; disabled?: boolean }>({
   handleBlur,
   handleFocus,
   height = 300,
+  isMultiSelect,
   items,
   loading,
   nameKey,
@@ -76,6 +87,7 @@ const ItemSelector = <T extends { id?: string; disabled?: boolean }>({
   rowHeight = 32,
   Search,
   selectItem,
+  selectedItem,
   width,
 }: ItemSelectorProps<T> & {
   clearSearch: () => void;
@@ -85,74 +97,90 @@ const ItemSelector = <T extends { id?: string; disabled?: boolean }>({
   items: T[];
   Search: React.ReactNode;
   width?: number;
-}) => (
-  <l.Div relative>
-    <l.Div onClick={handleFocus}>
-      {editableCellProps ? <EditableCell {...editableCellProps} /> : Search}
-    </l.Div>
-    {focused && (
-      <OutsideClickHandler onOutsideClick={handleBlur}>
-        <l.Flex
-          borderRadius={th.borderRadii.default}
-          border={th.borders.secondary}
-          bg={th.colors.background}
-          boxShadow={th.shadows.box}
-          height={height}
-          ml={offset}
-          mt={panelGap}
-          position="absolute"
-          width={width}
-          zIndex={5}
-        >
-          {items && items.length > 0 ? (
-            <VirtualizedList
-              height={height}
-              rowCount={items.length}
-              rowHeight={rowHeight}
-              rowRenderer={({ key, index, style }) => {
-                const item = items[index] as T;
+}) => {
+  const selectedItems =
+    isMultiSelect && selectedItem ? selectedItem.split(',') : [];
+  return (
+    <l.Div relative>
+      <l.Div onClick={handleFocus}>
+        {editableCellProps ? <EditableCell {...editableCellProps} /> : Search}
+      </l.Div>
+      {focused && (
+        <OutsideClickHandler onOutsideClick={handleBlur}>
+          <l.Flex
+            borderRadius={th.borderRadii.default}
+            border={th.borders.secondary}
+            bg={th.colors.background}
+            boxShadow={th.shadows.box}
+            height={height}
+            ml={offset}
+            mt={panelGap}
+            position="absolute"
+            width={width}
+            zIndex={5}
+          >
+            {items && items.length > 0 ? (
+              <VirtualizedList
+                height={height}
+                rowCount={items.length}
+                rowHeight={rowHeight}
+                rowRenderer={({ key, index, style }) => {
+                  const item = items[index] as T;
 
-                return (
-                  item && (
-                    <RowWrapper
-                      onClick={
-                        item.disabled
-                          ? undefined
-                          : () => {
-                              selectItem && selectItem(item);
-                              clearSearch();
-                              if (closeOnSelect) {
-                                handleBlur();
+                  const isSelected =
+                    item?.id && selectedItems.includes(item.id);
+
+                  return (
+                    item && (
+                      <RowWrapper
+                        isMultiSelect={isMultiSelect}
+                        onClick={
+                          item.disabled
+                            ? undefined
+                            : () => {
+                                selectItem && selectItem(item);
+                                clearSearch();
+                                if (closeOnSelect) {
+                                  handleBlur();
+                                }
                               }
-                            }
-                      }
-                      key={key}
-                      style={style}
-                    >
-                      {getItemContent
-                        ? getItemContent(item)
-                        : item && (
-                            <ty.CaptionText pl={th.spacing.sm}>
-                              {item.id} - {item[nameKey]}
-                            </ty.CaptionText>
-                          )}
-                    </RowWrapper>
-                  )
-                );
-              }}
-              style={{ borderRadius: th.borderRadii.default }}
-              width={width}
-            />
-          ) : (
-            <ty.CaptionText disabled mt={th.spacing.md} px={th.spacing.sm}>
-              {loading ? 'Loading...' : `No ${errorLabel} found...`}
-            </ty.CaptionText>
-          )}
-        </l.Flex>
-      </OutsideClickHandler>
-    )}
-  </l.Div>
-);
+                        }
+                        key={key}
+                        style={style}
+                      >
+                        {isMultiSelect && (
+                          <l.Div ml={th.spacing.xs}>
+                            <FilterCheckbox
+                              checked={!!isSelected}
+                              onChange={() => ({})}
+                            />
+                          </l.Div>
+                        )}
+                        {getItemContent
+                          ? getItemContent(item)
+                          : item && (
+                              <ty.CaptionText pl={th.spacing.sm}>
+                                {item.id} - {item[nameKey]}
+                              </ty.CaptionText>
+                            )}
+                      </RowWrapper>
+                    )
+                  );
+                }}
+                style={{ borderRadius: th.borderRadii.default }}
+                width={width}
+              />
+            ) : (
+              <ty.CaptionText disabled mt={th.spacing.md} px={th.spacing.sm}>
+                {loading ? 'Loading...' : `No ${errorLabel} found...`}
+              </ty.CaptionText>
+            )}
+          </l.Flex>
+        </OutsideClickHandler>
+      )}
+    </l.Div>
+  );
+};
 
 const useItemSelector = <T extends { id?: string; disabled?: boolean }>(
   props: ItemSelectorProps<T>,

@@ -1,0 +1,110 @@
+query INVOICE_HEADER_DETAILS($orderId: BigFloat!) {
+  invoiceHeaders(condition: { orderId: $orderId }) {
+    nodes {
+      orderId
+      backOrderId
+      truckLoadId
+      shipWarehouseId
+      invoiceId
+      salesUserCode
+      customerPo
+      invoiceDate
+      actualShipDate
+      amountOwed
+      paidCode
+      vendor {
+        id
+        vendorName
+      }
+      billingCustomer {
+        id
+        customerName
+      }
+      items {
+        nodes {
+          id
+          orderId
+          backOrderId
+          lineId
+          unitSellPrice
+          sequenceId
+          pickedQty
+          palletStatus
+          conditionCode
+          repackId
+          creditCode
+          priceAdjustment
+          deliveryCharge
+          freightAdjustment
+          creditAmount
+          brokerageAmount
+          layerMult
+          alertStatus
+          returnStatus
+          rejectionStatus
+          notes
+          pallet {
+            backOrderId
+            id
+            jvLotNumber
+            locationId
+            orderId
+            packDate
+            palletId
+            product {
+              packType {
+                id
+                packDescription
+                label {
+                  id
+                  labelName
+                  labelCode
+                }
+              }
+              id
+              sizes {
+                nodes {
+                  id
+                  jvDescription
+                  combineDescription
+                }
+              }
+              species {
+                id
+                speciesDescription
+              }
+              variety {
+                id
+                varietyDescription
+              }
+            }
+            shipped
+            shipper {
+              id
+              shipperName
+            }
+            vessel {
+              coast
+              dischargeDate
+              id
+              vesselCode
+            }
+            warehouse {
+              id
+              warehouseName
+            }
+          }
+        }
+      }
+      salesUser {
+        id
+        personContact {
+          id
+          firstName
+          lastName
+        }
+        userCode
+      }
+    }
+  }
+}

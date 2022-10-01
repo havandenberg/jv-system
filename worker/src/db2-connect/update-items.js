@@ -5,6 +5,7 @@ const { getSlicedChunks, onError } = require('../utils');
 
 const defaultIterationLimit = 5000;
 const LOG_ONLY = false;
+const DB2_LOG_ONLY = false;
 
 const db2UpdateItems = async (
   db,
@@ -33,10 +34,16 @@ const db2UpdateItems = async (
   );
   const startTime = Date.now();
 
-  const itemsData = await gqlClient.request(listQuery).catch(onError);
-  const itemCount = (itemsData?.[itemQueryName]?.nodes || []).length;
   const db2ItemsData = await db.query(db2Query).catch(onError);
   const db2ItemCount = db2ItemsData.length;
+
+  if (DB2_LOG_ONLY) {
+    console.log(db2ItemsData.reverse().slice(0, 10));
+    return;
+  }
+
+  const itemsData = await gqlClient.request(listQuery).catch(onError);
+  const itemCount = (itemsData?.[itemQueryName]?.nodes || []).length;
   const iterationMap = times(
     (iteration) => iteration,
     Math.ceil(db2ItemCount / iterationLimit),

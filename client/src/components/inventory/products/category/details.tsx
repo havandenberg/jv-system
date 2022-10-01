@@ -36,7 +36,7 @@ const CommonCategoryDetails = () => {
   }>();
   const { data, error, loading } = api.useCommonCategory(categoryId);
 
-  const { TabBar } = useTabBar(tabs);
+  const { TabBar } = useTabBar({ tabs });
 
   const [handleUpdate] = api.useUpdateCommonCategory(categoryId);
 

@@ -6,19 +6,18 @@ import { OnChangeProps } from 'react-date-range';
 import api from 'api';
 import ResetImg from 'assets/images/reset';
 import { useTabBar } from 'components/tab-bar';
+import useCoastTabBar, {
+  leftTabStyles,
+  middleTabStyles,
+  rightTabStyles,
+} from 'components/tab-bar/coast-tab-bar';
 import useDateRange from 'hooks/use-date-range';
 import { useQueryValue } from 'hooks/use-query-params';
 import { Maybe, Shipper } from 'types';
 import l from 'ui/layout';
 import th from 'ui/theme';
 
-import {
-  coastTabs,
-  leftTabStyles,
-  middleTabStyles,
-  ResetButton,
-  rightTabStyles,
-} from '../../inventory/inventory/use-filters';
+import { ResetButton } from '../../inventory/inventory/use-filters';
 import ShipperProjectionGraph from './graph';
 import ShipperProjectionsGrid from './grid';
 import ShipperProjectionsList from './list';
@@ -69,22 +68,16 @@ const ShipperProjections = () => {
     : '';
   const { data: shipper } = api.useShipper(parsedShipperId, 'FIRST_NAME_ASC');
 
-  const { TabBar: ViewTabBar, selectedTabId: view } = useTabBar(
-    viewTabs,
-    false,
-    'grid',
-    'projectionsView',
-    1,
-  );
+  const { TabBar: ViewTabBar, selectedTabId: view } = useTabBar({
+    tabs: viewTabs,
+    isRoute: false,
+    defaultTabId: 'grid',
+    paramName: 'projectionsView',
+    defaultTabIndex: 1,
+  });
   const isGrid = view === 'grid';
 
-  const { TabBar: CoastTabBar, selectedTabId: coast } = useTabBar(
-    coastTabs,
-    false,
-    'EC',
-    'coast',
-    1,
-  );
+  const { TabBar: CoastTabBar, selectedTabId: coast } = useCoastTabBar();
 
   const {
     DateRangePicker,

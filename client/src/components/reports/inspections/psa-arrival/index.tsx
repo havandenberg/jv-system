@@ -2,10 +2,9 @@ import React from 'react';
 import { isEmpty, pluck } from 'ramda';
 
 import api from 'api';
-import { coastTabs } from 'components/inventory/inventory/use-filters';
 import { DataMessage } from 'components/page/message';
 import Page from 'components/page';
-import { useTabBar } from 'components/tab-bar';
+import useCoastTabBar from 'components/tab-bar/coast-tab-bar';
 import VirtualizedList from 'components/virtualized-list';
 import useColumns, { SORT_ORDER } from 'hooks/use-columns';
 import { PsaArrivalPicture, PsaArrivalReport } from 'types';
@@ -40,7 +39,7 @@ const PsaArrivalInspections = ({
       })
     : [];
 
-  const { TabBar: CoastFilter } = useTabBar(coastTabs, false, 'EC', 'coast', 1);
+  const { TabBar: CoastFilter } = useCoastTabBar();
 
   const columnLabels = useColumns<PsaArrivalReport>(
     'reportDate',

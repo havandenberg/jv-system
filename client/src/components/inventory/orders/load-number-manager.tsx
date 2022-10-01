@@ -8,6 +8,7 @@ import api from 'api';
 import useItemSelector from 'components/item-selector';
 import ItemLinkRow from 'components/item-selector/link';
 import Page from 'components/page';
+import useCoastTabBar from 'components/tab-bar/coast-tab-bar';
 import { useActiveUser } from 'components/user/context';
 import { Customer, LoadNumber } from 'types';
 import b from 'ui/button';
@@ -15,6 +16,8 @@ import TextInput from 'ui/input';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
+
+import { filterLoadNumbersByCoast } from './entry/data-utils';
 
 const Wrapper = styled(l.Div)({
   background: th.colors.brand.containerBackground,
@@ -137,6 +140,8 @@ export const breadcrumbs = [
 ];
 
 const LoadNumberManager = () => {
+  const { TabBar: CoastFilter, selectedTabId: coast } = useCoastTabBar();
+
   const {
     apiData: { data, loading },
     roles: { isSalesAssoc },
@@ -147,7 +152,10 @@ const LoadNumberManager = () => {
 
   const sortedLoadNumbers = sortBy(
     ({ customerId }) => (customerId ? 'b' : 'a'),
-    sortBy(({ id }) => parseInt(id, 10), loadNumbers),
+    sortBy(
+      ({ id }) => parseInt(id, 10),
+      filterLoadNumbersByCoast(loadNumbers, coast),
+    ),
   );
   const assignedLoadNumbers = sortedLoadNumbers.filter(
     ({ customerId }) => customerId,
@@ -175,10 +183,12 @@ const LoadNumberManager = () => {
         loadNumbers: times(
           () => ({
             customerId: '',
+            id: 0,
             userId,
           }),
           upsertCount,
         ),
+        coast,
       },
     });
   };
@@ -201,32 +211,40 @@ const LoadNumberManager = () => {
       title="My Load Numbers"
     >
       <l.Flex alignCenter mb={th.spacing.lg} mt={th.spacing.md}>
-        <ty.CaptionText mr={th.spacing.lg} secondary>
-          Generate load numbers:
-        </ty.CaptionText>
-        <TextInput
-          key="count"
-          max={40 - unassignedLoadNumbers.length}
-          min={1}
-          onChange={(e) => {
-            const newVal = parseInt(e.target.value, 10);
-            setUpsertCount(newVal > 40 ? 40 : newVal);
-          }}
-          type="number"
-          value={upsertCount}
-          width={100}
-        />
+        <l.Div mr={th.spacing.lg}>
+          <ty.CaptionText mb={th.spacing.sm} mr={th.spacing.lg} secondary>
+            Coast
+          </ty.CaptionText>
+          <CoastFilter />
+        </l.Div>
+        <l.Div mr={th.spacing.lg}>
+          <ty.CaptionText mb={th.spacing.sm} secondary>
+            New load numbers
+          </ty.CaptionText>
+          <TextInput
+            key="count"
+            max={40 - unassignedLoadNumbers.length}
+            min={1}
+            onChange={(e) => {
+              const newVal = parseInt(e.target.value, 10);
+              setUpsertCount(newVal > 40 ? 40 : newVal);
+            }}
+            type="number"
+            value={upsertCount}
+            width={100}
+          />
+        </l.Div>
         <b.Success
+          alignSelf="flex-end"
           key="upsert"
           disabled={upsertLoading || upsertError}
-          ml={th.spacing.lg}
           onClick={upsertLoadNumbers}
         >
           Generate
         </b.Success>
       </l.Flex>
-      <ty.BodyText mb={th.spacing.md} mt={th.spacing.lg}>
-        Unassigned load numbers:
+      <ty.BodyText bold mb={th.spacing.md} mt={th.spacing.xl}>
+        Unassigned:
       </ty.BodyText>
       <l.Grid
         alignStart
@@ -245,6 +263,7 @@ const LoadNumberManager = () => {
               handleUpsert({
                 variables: {
                   loadNumbers: [updatedLoadNumber],
+                  coast,
                 },
               });
             }}
@@ -252,8 +271,8 @@ const LoadNumberManager = () => {
           />
         ))}
       </l.Grid>
-      <ty.BodyText mb={th.spacing.md} mt={th.spacing.lg}>
-        Unsubmitted load numbers:
+      <ty.BodyText bold mb={th.spacing.md} mt={th.spacing.xl}>
+        Assigned:
       </ty.BodyText>
       <l.Grid
         alignStart

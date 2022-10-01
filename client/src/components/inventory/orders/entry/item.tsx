@@ -13,6 +13,7 @@ import ItemLinkRow, { ItemLink } from 'components/item-selector/link';
 import { BasicModal } from 'components/modal';
 import {
   CommonPackType,
+  CommonSize,
   CommonSpecies,
   InventoryItem,
   OrderEntryItem,
@@ -29,6 +30,7 @@ import { gridTemplateColumns } from '.';
 import { itemListLabels } from './data-utils';
 
 type Props = {
+  coast: string;
   commonSpecieses: CommonSpecies[];
   currentItem: OrderEntryItem;
   duplicateIds: number[];
@@ -82,6 +84,7 @@ type FilterKey =
   | 'notes';
 
 const NewOrderEntryItem = ({
+  coast,
   commonSpecieses,
   currentItem,
   duplicateIds,
@@ -139,8 +142,8 @@ const NewOrderEntryItem = ({
   const commonVariety = commonSpecies?.commonVarieties.nodes.find(
     (v) => v && v.productVarietyId === variety,
   );
-  const commonSize = commonSpecies?.commonSizes.nodes.find(
-    (sz) => sz && sz.productSizeId === size,
+  const commonSizes = commonSpecies?.commonSizes.nodes.filter(
+    (sz) => sz && size?.split(',').includes(sz.productSizeId),
   );
   const commonPackType = commonSpecies?.commonPackTypes.nodes.find(
     (pt) => pt && [pt.id, pt.packMaster?.packDescription].includes(packType),
@@ -190,7 +193,13 @@ const NewOrderEntryItem = ({
       case 'variety':
         return commonVariety?.varietyName || variety || '';
       case 'size':
-        return commonSize?.sizeName || size || '';
+        return (
+          ((commonSizes || []) as CommonSize[])
+            .map((s) => s.sizeName)
+            .join(', ') ||
+          size ||
+          ''
+        );
       case 'packType':
         return commonPackType
           ? commonPackType.isRepack
@@ -326,6 +335,8 @@ const NewOrderEntryItem = ({
     const itemSize = item.product?.sizes?.nodes[0] || otherCategory;
     const itemPackType = item.product?.packType || otherCategory;
 
+    const coastValid = item.vessel && item.vessel.coast === coast;
+
     const dateValid =
       !fobDate ||
       (item.vessel &&
@@ -347,6 +358,7 @@ const NewOrderEntryItem = ({
       const cou = rev ? reviewCountryOfOrigin : countryOfOrigin;
 
       return (
+        coastValid &&
         dateValid &&
         (!(rev ? reviewWarehouse : warehouse) ||
           `${item.warehouse?.warehouseName}`
@@ -372,8 +384,11 @@ const NewOrderEntryItem = ({
           `${itemSize?.combineDescription}`
             .toLowerCase()
             .includes(siz.toLowerCase()) ||
-          ['Any', itemSize?.id].includes(siz)) &&
+          ['Any', itemSize?.id].some((val) =>
+            (siz || '').split(',').includes(val),
+          )) &&
         (!pac ||
+          pac.includes('Repack -') ||
           `${itemPackType?.packDescription}`
             .toLowerCase()
             .includes(pac.toLowerCase()) ||
@@ -500,13 +515,6 @@ const NewOrderEntryItem = ({
         });
       }
 
-      if (!sizeOptions.find(({ id }) => id === itemSize?.id) && itemSize) {
-        sizeOptions.push({
-          text: `${itemSize.combineDescription}`,
-          id: itemSize.id,
-        });
-      }
-
       if (
         !packTypeOptions.find(
           ({ id }) => id === itemPackType?.packDescription,
@@ -518,6 +526,23 @@ const NewOrderEntryItem = ({
           id: `${itemPackType?.packDescription}`,
         });
       }
+    }
+
+    const spe = isReview ? reviewSpecies : species;
+    if (
+      species &&
+      spe &&
+      (`${itemSpecies?.speciesDescription}`
+        .toLowerCase()
+        .includes(spe.toLowerCase()) ||
+        [itemSpecies?.id].includes(spe)) &&
+      !sizeOptions.find(({ id }) => id === itemSize?.id) &&
+      itemSize
+    ) {
+      sizeOptions.push({
+        text: `${itemSize.combineDescription}`,
+        id: itemSize.id,
+      });
     }
 
     return isReview ? reviewIsValid : isValid;
@@ -652,8 +677,13 @@ const NewOrderEntryItem = ({
     );
   };
 
-  const getItemSelectorProps = (type: FilterKey, allowAny?: boolean) => {
+  const getItemSelectorProps = (
+    type: FilterKey,
+    allowAny?: boolean,
+    isMultiSelect?: boolean,
+  ) => {
     const value = getSelectorValue(type);
+    const values = isMultiSelect ? value.split(',') : [];
     const isDirty = isValueDirty(type);
 
     const getItemContent = ['vesselCode', 'reviewVesselCode'].includes(type)
@@ -663,7 +693,17 @@ const NewOrderEntryItem = ({
         );
 
     const selectItem = ({ id }: ItemLink) => {
-      handleChange(type, id === '-1' ? null : id);
+      const newValues = isMultiSelect
+        ? id === 'Any'
+          ? [id]
+          : values.includes(id)
+          ? values.filter((val) => val !== id)
+          : [...values.filter((v) => v !== 'Any'), id]
+        : [id];
+      const newValue = isMultiSelect
+        ? newValues.filter((v) => !!v).join(',')
+        : newValues[0];
+      handleChange(type, id === '-1' ? null : newValue);
     };
 
     const validate = itemListLabels(fob).find(
@@ -707,11 +747,13 @@ const NewOrderEntryItem = ({
         warning: !loading && noItemsFound,
       },
       getItemContent,
+      isMultiSelect,
       nameKey: 'text' as keyof ItemLink,
       offset: ['vesselCode', 'reviewVesselCode'].includes(type)
         ? -150
         : undefined,
       selectItem,
+      selectedItem: updatedItem[type],
       width: ['vesselCode', 'reviewVesselCode'].includes(type)
         ? 400
         : ['locationId', 'reviewLocationId'].includes(type)
@@ -732,7 +774,7 @@ const NewOrderEntryItem = ({
 
   const { ItemSelector: SizeSelector } = useItemSelector({
     errorLabel: 'sizes',
-    ...getItemSelectorProps(isReview ? 'reviewSize' : 'size'),
+    ...getItemSelectorProps(isReview ? 'reviewSize' : 'size', true, true),
   });
 
   const { ItemSelector: PackTypeSelector } = useItemSelector({
@@ -949,7 +991,11 @@ const NewOrderEntryItem = ({
               {commonVariety ? commonVariety.varietyName : updatedItem.variety}
             </ty.CaptionText>
             <ty.CaptionText ellipsis secondary={updatedItem.size === 'Any'}>
-              {commonSize ? commonSize.sizeName : updatedItem.size}
+              {commonSizes
+                ? ((commonSizes || []) as CommonSize[])
+                    .map((s) => s.sizeName)
+                    .join(', ')
+                : updatedItem.size}
             </ty.CaptionText>
             <ty.CaptionText ellipsis secondary={updatedItem.packType === 'Any'}>
               {commonPackType

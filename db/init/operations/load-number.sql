@@ -1,22 +1,11 @@
-CREATE TABLE load_number (
-  id BIGSERIAL PRIMARY KEY,
+CREATE SEQUENCE operations.ec_load_number_id_seq;
+CREATE SEQUENCE operations.wc_load_number_id_seq;
+
+CREATE TABLE operations.load_number (
+  id BIGINT PRIMARY KEY,
   customer_id TEXT,
-  user_id BIGINT REFERENCES public.user(id) ON DELETE SET NULL,
+  user_id BIGINT REFERENCES public.user(id) ON DELETE SET NULL
 );
-
-CREATE TABLE order_number (
-  id BIGSERIAL PRIMARY KEY
-);
-
-CREATE FUNCTION operations.next_order_number()
-    RETURNS BIGINT
-    LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-  SELECT nextval('order_number_id_seq');
-$BODY$;
 
 CREATE FUNCTION operations.load_number_customer(IN ln operations.load_number)
     RETURNS directory.customer
@@ -42,7 +31,8 @@ AS $BODY$
 $BODY$;
 
 CREATE FUNCTION operations.bulk_upsert_load_number(
-  load_numbers operations.load_number[]
+  load_numbers operations.load_number[],
+  coast TEXT
 )
 RETURNS setof operations.load_number
 AS $$
@@ -57,7 +47,11 @@ AS $$
         user_id
       )
         VALUES (
-          COALESCE(ln.id, (select nextval('operations.load_number_id_seq'))),
+          CASE
+            WHEN ln.id = 0
+            THEN nextval('operations.' || LOWER(coast) || '_load_number_id_seq')
+            ELSE ln.id
+          END,
           ln.customer_id,
           ln.user_id
         )
@@ -71,3 +65,17 @@ AS $$
 	RETURN;
   END;
 $$ LANGUAGE plpgsql VOLATILE STRICT SET search_path FROM CURRENT;
+
+CREATE TABLE order_number (
+  id BIGSERIAL PRIMARY KEY
+);
+
+CREATE FUNCTION operations.next_order_number()
+    RETURNS BIGINT
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT nextval('order_number_id_seq');
+$BODY$;

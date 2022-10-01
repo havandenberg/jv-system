@@ -68,7 +68,7 @@ const Details = () => {
   const { data: warehouseData } = api.useAllWarehouses('WAREHOUSE_NAME_ASC');
   const warehouses = warehouseData ? (warehouseData.nodes as Warehouse[]) : [];
 
-  const { TabBar } = useTabBar(tabs);
+  const { TabBar } = useTabBar({ tabs });
 
   const [handleUpdate] = api.useUpdateVessel(vessel?.id || 0);
 

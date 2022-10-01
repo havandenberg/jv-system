@@ -7,7 +7,6 @@ const ORDER_MASTER_LIST = gql`
       nodes {
         id
         orderStatus
-        paidCode
         loadStatus
         orderId
         backOrderId
@@ -21,15 +20,11 @@ const ORDER_MASTER_LIST = gql`
         orderDate
         entryDate
         actualShipDate
-        invoiceDate
         shippingCustomerId
         entryUserCode
-        registerNumber
         deliveryZone
-        amountOwed
         loadLocation
         vendorId
-        invoiceId
         notes
       }
     }
@@ -56,7 +51,6 @@ const getUpdatedOrderMaster = (orderMaster, db2OrderMaster, id) => ({
   ...orderMaster,
   id,
   orderStatus: db2OrderMaster['STATA'],
-  paidCode: !!db2OrderMaster['PAIDA'],
   loadStatus: db2OrderMaster['LDSTSA'],
   orderId: `${db2OrderMaster['ORD#A']}`,
   backOrderId: `${db2OrderMaster['BONBRA']}`,
@@ -86,19 +80,11 @@ const getUpdatedOrderMaster = (orderMaster, db2OrderMaster, id) => ({
     db2OrderMaster['ASPMMA'],
     db2OrderMaster['ASPYYA'],
   ),
-  invoiceDate: getDate(
-    db2OrderMaster['INVDDA'],
-    db2OrderMaster['INVMMA'],
-    db2OrderMaster['INVYYA'],
-  ),
   shippingCustomerId: db2OrderMaster['SHP#A'],
   entryUserCode: db2OrderMaster['USRIDA'],
-  registerNumber: `${db2OrderMaster['REG#A']}`,
   deliveryZone: db2OrderMaster['DLZNA'],
-  amountOwed: `${db2OrderMaster['INV$A']}`,
   loadLocation: db2OrderMaster['LDLOCA'],
   vendorId: db2OrderMaster['TRKIDA'],
-  invoiceId: db2OrderMaster['INV#A'],
 });
 
 const getOrderMasterId = (db2OrderMaster, orderMasters) => {

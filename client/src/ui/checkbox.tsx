@@ -26,7 +26,7 @@ interface Props {
 }
 
 export const FilterCheckbox = ({ checked, label, onChange }: Props) => (
-  <l.Flex cursor="pointer" key={`${label}`} mb={th.spacing.sm}>
+  <l.Flex cursor="pointer" key={`${label}`}>
     <Input
       checked={!!checked}
       id={`${label}`}

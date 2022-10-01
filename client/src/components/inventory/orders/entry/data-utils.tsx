@@ -2,8 +2,9 @@ import { LabelInfo } from 'components/column-label';
 import StatusIndicator from 'components/status-indicator';
 import { SORT_ORDER } from 'hooks/use-columns';
 import { groupBy, pluck, uniq, values } from 'ramda';
-import { CommonSpecies, OrderEntry, OrderEntryItem } from 'types';
+import { CommonSpecies, LoadNumber, OrderEntry, OrderEntryItem } from 'types';
 import l from 'ui/layout';
+import th from 'ui/theme';
 import ty from 'ui/typography';
 import { formatDateTime } from 'utils/date';
 
@@ -89,11 +90,24 @@ export const listLabels: (
       `${!reviewUserCode ? 'a' : 'b'} ${new Date(
         fobDate.replace(/-/g, '/'),
       ).getTime()}`,
-    getValue: ({ reviewUserCode }) => (
-      <l.Flex alignCenter justifyCenter>
-        <StatusIndicator status={reviewUserCode ? 'success' : 'warning'} />
-      </l.Flex>
-    ),
+    getValue: ({ reviewUserCode }) => {
+      const status =
+        orderEntryStatusDescriptions[reviewUserCode ? 'app' : 'rev'];
+      return (
+        <l.Flex alignCenter justifyCenter>
+          <StatusIndicator
+            color={status?.color}
+            customStyles={{
+              wrapper: {
+                py: th.spacing.tn,
+              },
+            }}
+            text={status?.text}
+            title={status?.title || ''}
+          />
+        </l.Flex>
+      );
+    },
   },
 ];
 
@@ -197,11 +211,19 @@ export const baseLabels: OrderEntryLabelInfo[] = [
   {
     key: 'reviewUserCode',
     label: 'Status',
-    getValue: ({ reviewUserCode }) => (
-      <l.Flex alignCenter justifyCenter>
-        <StatusIndicator status={reviewUserCode ? 'success' : 'warning'} />
-      </l.Flex>
-    ),
+    getValue: ({ reviewUserCode }) => {
+      const status =
+        orderEntryStatusDescriptions[reviewUserCode ? 'app' : 'rev'];
+      return (
+        <l.Flex alignCenter justifyCenter>
+          <StatusIndicator
+            color={status?.color}
+            text={status?.text}
+            title={status?.title || ''}
+          />
+        </l.Flex>
+      );
+    },
   },
 ];
 
@@ -280,6 +302,14 @@ export const itemListLabels: (fob: boolean) => OrderEntryItemLabelInfo[] = (
   },
 ];
 
+export const filterLoadNumbersByCoast = (
+  loadNumbers: LoadNumber[],
+  coast: string,
+) =>
+  loadNumbers.filter((ln) =>
+    ln && coast === 'WC' ? ln.id > 400000 && ln.id < 500000 : ln.id < 400000,
+  );
+
 export const getDuplicateOrderEntryItemIds = (items: OrderEntryItem[]) =>
   values(
     groupBy(
@@ -291,3 +321,14 @@ export const getDuplicateOrderEntryItemIds = (items: OrderEntryItem[]) =>
     .filter((duplicateItems) => duplicateItems.length > 1)
     .map((duplicateItems) => duplicateItems.map((p) => parseInt(p.id, 10)))
     .flat();
+
+const orderEntryStatusDescriptions: {
+  [key: string]: { color: string; text: string; title: string };
+} = {
+  app: {
+    color: th.colors.status.success,
+    text: 'APP',
+    title: 'Approved',
+  },
+  rev: { color: th.colors.status.warning, text: 'REV', title: 'In Review' },
+};

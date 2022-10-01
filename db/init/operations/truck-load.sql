@@ -55,10 +55,13 @@ CREATE FUNCTION operations.truck_load_pallets(IN t operations.truck_load)
     PARALLEL UNSAFE
     COST 100
 AS $BODY$
-  SELECT * FROM product.pallet p JOIN operations.order_master om
-    ON p.order_id = CAST(om.order_id AS TEXT)
-      AND p.back_order_id = CAST(om.back_order_id AS TEXT)
-    WHERE om.truck_load_id = t.load_id;
+  SELECT p.* FROM accounting.invoice_header ih
+    INNER JOIN accounting.invoice_item ii
+        ON  ih.order_id = ii.order_id
+        AND ih.back_order_id = ii.back_order_id
+    INNER JOIN product.pallet p
+        ON ii.pallet_id = p.pallet_id
+  WHERE truck_load_id = t.load_id;
 $BODY$;
 
 CREATE FUNCTION operations.truck_load_warehouse(IN t operations.truck_load)

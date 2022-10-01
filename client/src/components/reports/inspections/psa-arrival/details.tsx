@@ -153,7 +153,10 @@ const Details = () => {
     ? data.palletCount
     : 0;
 
-  const { TabBar } = useTabBar(tabs(id, palletCount, search), true);
+  const { TabBar } = useTabBar({
+    tabs: tabs(id, palletCount, search),
+    isRoute: true,
+  });
 
   const palletIds = comVarData
     ? pluck(

@@ -1,5 +1,7 @@
 import { setup } from 'axios-cache-adapter';
 
+import * as expenses from 'api/accounting/expenses';
+import * as invoices from 'api/accounting/invoices';
 import * as groupDirectory from 'api/directory/group';
 import * as countryDirectory from 'api/directory/country';
 import * as customerDirectory from 'api/directory/customer';
@@ -42,9 +44,11 @@ export default {
   ...contactDirectory,
   ...countryDirectory,
   ...customerDirectory,
+  ...expenses,
   ...groupDirectory,
   ...inventory,
   ...inventoryProducts,
+  ...invoices,
   ...orders,
   ...pallets,
   ...peruDepartureInspections,

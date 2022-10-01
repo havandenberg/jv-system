@@ -41,7 +41,7 @@ const Details = () => {
         .nodes
     : [];
 
-  const { TabBar } = useTabBar(tabs);
+  const { TabBar } = useTabBar({ tabs });
 
   const [handleUpdate] = api.useUpdateWarehouse(id);
 

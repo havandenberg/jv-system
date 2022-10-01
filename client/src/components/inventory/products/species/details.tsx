@@ -84,10 +84,10 @@ const CommonSpeciesDetails = () => {
   const productSpecieses = (productSpeciesData?.nodes ||
     []) as ProductSpecies[];
 
-  const { TabBar, selectedTabId } = useTabBar(
-    tabs(data as CommonSpecies, search),
-    true,
-  );
+  const { TabBar, selectedTabId } = useTabBar({
+    tabs: tabs(data as CommonSpecies, search),
+    isRoute: true,
+  });
 
   const [handleUpdate] = api.useUpdateCommonSpecies();
 

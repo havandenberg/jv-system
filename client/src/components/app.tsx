@@ -11,6 +11,7 @@ import {
 } from 'react-router-dom';
 import { QueryParamProvider } from 'use-query-params';
 
+import Accounting from 'components/accounting';
 import Dashboard from 'components/dashboard';
 import Directory from 'components/directory';
 import { DirectorySelectionContextProvider } from 'components/directory/selection-context';
@@ -49,13 +50,14 @@ const App = () => (
                   <Nav />
                   <Switch>
                     <Route exact path="/" component={Dashboard} />
+                    <Route path="/inventory" component={Inventory} />
+                    <Route path="/sales" component={Sales} />
+                    <Route path="/reports" component={Reports} />
                     <Route
                       path="/directory/:routeTabId?"
                       component={Directory}
                     />
-                    <Route path="/reports" component={Reports} />
-                    <Route path="/inventory" component={Inventory} />
-                    <Route path="/sales" component={Sales} />
+                    <Route path="/accounting" component={Accounting} />
                     <Route path="/user" component={UserDashboard} />
                     <Redirect to="/" />
                   </Switch>

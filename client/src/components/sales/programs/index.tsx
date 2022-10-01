@@ -24,6 +24,7 @@ import { BasicModal } from 'components/modal';
 import Page from 'components/page';
 import { DataMessage } from 'components/page/message';
 import { useTabBar } from 'components/tab-bar';
+import useCoastTabBar from 'components/tab-bar/coast-tab-bar';
 import useDateRange from 'hooks/use-date-range';
 import useKeyboardWeekChange from 'hooks/use-keyboard-week-change';
 import usePrevious from 'hooks/use-previous';
@@ -52,7 +53,7 @@ import th from 'ui/theme';
 import ty from 'ui/typography';
 import { getWeekNumber, isDateGreaterThanOrEqualTo } from 'utils/date';
 
-import { coastTabs, ResetButton } from '../../inventory/inventory/use-filters';
+import { ResetButton } from '../../inventory/inventory/use-filters';
 import Header from './header';
 import { NewProgramRow, ProgramTotalRow } from './row';
 import ProgramSet from './set';
@@ -147,7 +148,7 @@ const Programs = () => {
     new Date(startDate.replace(/-/g, '/')),
   );
 
-  const { TabBar: CoastTabBar } = useTabBar(coastTabs, false, 'EC', 'coast', 1);
+  const { TabBar: CoastTabBar } = useCoastTabBar();
 
   const { DateRangePicker, ForwardButton, BackwardButton, handleDateChange } =
     useDateRange({
@@ -251,14 +252,14 @@ const Programs = () => {
     setSaveAttempt(false);
   }, [showAllocated]);
 
-  const { TabBar: ViewTabBar, selectedTabId: view } = useTabBar(
-    viewTabs,
-    false,
-    'customers',
-    'programsView',
-    0,
-    handleCancel,
-  );
+  const { TabBar: ViewTabBar, selectedTabId: view } = useTabBar({
+    tabs: viewTabs,
+    isRoute: false,
+    defaultTabId: 'customers',
+    paramName: 'programsView',
+    defaultTabIndex: 0,
+    onSelectTab: handleCancel,
+  });
   const isCustomers = view === 'customers';
 
   const getValue = <T extends UpdateType>(

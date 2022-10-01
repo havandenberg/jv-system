@@ -43,13 +43,13 @@ export const StyledTab = styled(l.Flex)(
   divPropsSet,
 );
 
-interface Props {
+export interface TabBarProps {
   onSelectTab?: (tabId: string) => void;
   selectedTabId: string;
   tabs: Tab[];
 }
 
-const TabBar = ({ onSelectTab, selectedTabId, tabs }: Props) => (
+const TabBar = ({ onSelectTab, selectedTabId, tabs }: TabBarProps) => (
   <l.Flex>
     {tabs.map(({ customStyles, disabled, id, text, to }, idx) => {
       const selected = selectedTabId === id;
@@ -82,14 +82,23 @@ const TabBar = ({ onSelectTab, selectedTabId, tabs }: Props) => (
 
 export default TabBar;
 
-export const useTabBar = (
-  tabs: Tab[],
-  isRoute?: boolean,
-  defaultTabId?: string,
-  paramName?: string,
-  defaultTabIndex: number = 0,
-  onSelectTab?: (tabId: string) => void,
-) => {
+export interface UseTabBarProps {
+  tabs: Tab[];
+  isRoute?: boolean;
+  defaultTabId?: string;
+  paramName?: string;
+  defaultTabIndex?: number;
+  onSelectTab?: (tabId: string) => void;
+}
+
+export const useTabBar = ({
+  defaultTabId,
+  defaultTabIndex = 0,
+  isRoute,
+  onSelectTab,
+  paramName,
+  tabs,
+}: UseTabBarProps) => {
   const history = useHistory();
   const { pathname, search } = useLocation();
   const { routeTabId } = useParams<{

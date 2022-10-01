@@ -49,7 +49,7 @@ const Details = () => {
   const [removeContacts, { loading: removeLoading }] =
     api.useRemoveContactsFromGroup(id);
 
-  const { TabBar } = useTabBar(tabs);
+  const { TabBar } = useTabBar({ tabs });
 
   const [handleUpdate] = api.useUpdateContactGroup(id);
 

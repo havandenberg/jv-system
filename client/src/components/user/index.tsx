@@ -36,15 +36,14 @@ const UserDashboard = () => {
     data: activeUser,
     error,
     loading,
-    refetch,
   } = api.useGetUser(activeUserId || 0, showReadMessages);
   const { id } = activeUser?.personContact || {};
 
   const messages = activeUser?.userMessages.nodes || [];
 
-  const { selectedTabId, TabBar } = useTabBar(
-    tabs(activeUser ? messages.length : undefined),
-  );
+  const { selectedTabId, TabBar } = useTabBar({
+    tabs: tabs(activeUser ? messages.length : undefined),
+  });
 
   const getContent = () => {
     switch (selectedTabId) {
@@ -59,7 +58,6 @@ const UserDashboard = () => {
             showReadMessages={showReadMessages}
             setShowReadMessages={(show: boolean) => {
               setShowReadMessages(show);
-              refetch();
             }}
             userId={activeUserId || 0}
           />

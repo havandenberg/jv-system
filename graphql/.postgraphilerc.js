@@ -8,6 +8,7 @@ module.exports = {
       'sales',
       'product',
       'operations',
+      'accounting',
     ],
     port: 5433,
     appendPlugins:

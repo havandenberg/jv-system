@@ -40,7 +40,7 @@ const Details = () => {
     ? data.personContactsByVendorPersonContactVendorIdAndPersonContactId.nodes
     : [];
 
-  const { TabBar } = useTabBar(tabs);
+  const { TabBar } = useTabBar({ tabs });
 
   const [handleUpdate] = api.useUpdateVendor(id);
 

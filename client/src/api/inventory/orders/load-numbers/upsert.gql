@@ -1,5 +1,8 @@
-mutation LOAD_NUMBERS_UPSERT($loadNumbers: [LoadNumberInput]!) {
-  bulkUpsertLoadNumber(input: { loadNumbers: $loadNumbers }) {
+mutation LOAD_NUMBERS_UPSERT(
+  $loadNumbers: [LoadNumberInput]!
+  $coast: String!
+) {
+  bulkUpsertLoadNumber(input: { loadNumbers: $loadNumbers, coast: $coast }) {
     clientMutationId
   }
 }

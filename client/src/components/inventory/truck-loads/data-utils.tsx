@@ -142,23 +142,36 @@ export const listLabels: TruckLoadLabelInfo[] = [
   },
 ];
 
-export const indexBaseLabels: (location?: string) => TruckLoadLabelInfo[] = (
-  location,
-) => [
+export const indexBaseLabels: (
+  location?: string,
+  isInvoice?: boolean,
+) => TruckLoadLabelInfo[] = (location, isInvoice) => [
   {
     key: 'loadId',
     label: 'Load ID',
   },
   {
     key: 'orderMasters',
-    label: 'Order ID',
-    getValue: ({ loadId, orderMasters, warehouse }) => {
+    label: isInvoice ? 'Invoice ID' : 'Order ID',
+    getValue: ({ loadId, orderMasters, pallets, warehouse }) => {
       const orderMaster = orderMasters?.nodes?.find(
         (orderMaster) =>
           orderMaster?.shipWarehouse?.id === warehouse?.id &&
           orderMaster?.truckLoadId === loadId,
       );
-      return orderMaster ? (
+      const pallet = (pallets?.nodes || [])[0];
+      return isInvoice ? (
+        pallet ? (
+          <ty.LinkText
+            hover="false"
+            to={`/accounting/invoices/${pallet.orderId}`}
+          >
+            {pallet.orderId}
+          </ty.LinkText>
+        ) : (
+          ''
+        )
+      ) : orderMaster ? (
         <ty.LinkText
           hover="false"
           to={`/inventory/orders/${orderMaster.orderId}?orderView=${

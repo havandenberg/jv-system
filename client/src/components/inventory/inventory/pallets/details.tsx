@@ -72,7 +72,7 @@ const Details = () => {
   }>();
   const { data, error, loading } = api.usePallet(id);
 
-  const { TabBar } = useTabBar(tabs);
+  const { TabBar } = useTabBar({ tabs });
 
   return (
     <Page

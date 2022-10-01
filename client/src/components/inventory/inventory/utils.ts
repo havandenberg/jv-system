@@ -705,12 +705,12 @@ export const getInventoryItemDescription = (
 ) => {
   const { species, variety, size, packType, plu, label } = options || {};
   return `${
-    species ? '' : inventoryItem.product?.species?.speciesDescription + ' '
-  }${variety ? '' : inventoryItem.product?.variety?.varietyDescription + ' '}${
+    species ? '' : inventoryItem.product?.species?.speciesDescription + ', '
+  }${variety ? '' : inventoryItem.product?.variety?.varietyDescription + ', '}${
     size
       ? ''
-      : inventoryItem.product?.sizes.nodes?.[0]?.combineDescription + ' '
-  }${packType ? '' : inventoryItem.product?.packType?.packDescription + ' '}${
-    plu ? '' : inventoryItem.plu + ' '
-  }${label ? '' : inventoryItem.product?.packType?.label?.labelName + ' '}`;
+      : inventoryItem.product?.sizes.nodes?.[0]?.combineDescription + ', '
+  }${packType ? '' : inventoryItem.product?.packType?.packDescription + ', '}${
+    plu ? '' : (inventoryItem.plu ? 'PLU' : 'No PLU') + ', '
+  }${label ? '' : inventoryItem.product?.packType?.label?.labelName + ', '}`;
 };

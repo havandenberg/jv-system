@@ -75,7 +75,7 @@ CREATE FUNCTION directory.customer_distinct_column_values(column_name text, cond
 	END;
 $$ LANGUAGE plpgsql STABLE;
 
-CREATE FUNCTION product.customer_distinct_values()
+CREATE FUNCTION directory.customer_distinct_values()
   RETURNS SETOF TEXT
 	LANGUAGE 'sql'
     STABLE

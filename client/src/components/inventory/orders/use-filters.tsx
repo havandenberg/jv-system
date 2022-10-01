@@ -8,6 +8,7 @@ import PlusInCircle from 'assets/images/plus-in-circle';
 import ResetImg from 'assets/images/reset';
 import { formatDate } from 'components/date-range-picker';
 import { Tab, useTabBar } from 'components/tab-bar';
+import useCoastTabBar from 'components/tab-bar/coast-tab-bar';
 import { CommonProductTag } from 'components/tag-manager';
 import { SORT_ORDER } from 'hooks/use-columns';
 import useDateRange from 'hooks/use-date-range';
@@ -26,17 +27,17 @@ import th from 'ui/theme';
 import ty from 'ui/typography';
 import { getWeekNumber } from 'utils/date';
 
-import { coastTabs, ResetButton } from '../inventory/use-filters';
+import { ResetButton } from '../inventory/use-filters';
 import {
   getDateInterval,
   getInventoryStartDayIndex,
   isWithinDateInterval,
 } from '../inventory/utils';
 
-const tabs: Tab[] = [
+const tabs = (isInvoices: boolean): Tab[] => [
   {
-    id: 'orders',
-    text: `Orders`,
+    id: isInvoices ? 'invoices' : 'orders',
+    text: isInvoices ? 'Invoices' : 'Orders',
   },
   {
     id: 'items',
@@ -48,6 +49,7 @@ interface Props {
   commonSpecieses: CommonSpecies[];
   expanded: boolean;
   items: OrderMaster[];
+  isInvoices: boolean;
   loading: boolean;
   toggleExpanded: () => void;
 }
@@ -74,6 +76,7 @@ const useOrdersFilters = ({
   commonSpecieses,
   expanded,
   items,
+  isInvoices,
   loading,
   toggleExpanded,
 }: Props) => {
@@ -82,16 +85,17 @@ const useOrdersFilters = ({
   const [selectedFilters, setQuery] = useOrdersQueryParams();
   const prevOrdersView = usePrevious(selectedFilters.view);
 
-  const { TabBar: CoastFilter, selectedTabId: coast } = useTabBar(
-    coastTabs,
-    false,
-    'EC',
-    'coast',
-    1,
-  );
+  const { TabBar: CoastFilter, selectedTabId: coast } = useCoastTabBar();
 
-  const { TabBar } = useTabBar(tabs, false, 'orders', 'view', 0, () => {
-    setScrollTop('0');
+  const { TabBar } = useTabBar({
+    tabs: tabs(isInvoices),
+    isRoute: false,
+    defaultTabId: isInvoices ? 'invoices' : 'orders',
+    paramName: 'view',
+    defaultTabIndex: 0,
+    onSelectTab: () => {
+      setScrollTop('0');
+    },
   });
 
   useEffect(() => {
@@ -206,7 +210,8 @@ const useOrdersFilters = ({
     view,
   } = selectedFilters;
 
-  const isOrders = !view || view === 'orders';
+  const isOrders =
+    !view || ['invoices', 'orders'].includes(selectedFilters.view);
 
   const inventoryStartDateIndex = getInventoryStartDayIndex(startDate);
   const isStorage = parseInt(detailsIndex) === 13 - inventoryStartDateIndex;
@@ -275,7 +280,7 @@ const useOrdersFilters = ({
           ? item.vessel &&
             isBefore(
               new Date(item.vessel.dischargeDate.replace(/-/g, '/')),
-              add(currentStartOfWeek, { weeks: 1 }),
+              endOfISOWeek(currentStartOfWeek),
             )
           : isWithinDateInterval(
               item,
@@ -510,7 +515,7 @@ const useOrdersFilters = ({
     : isTotal
     ? 'All Dates'
     : isWeekTotal
-    ? 'This Week'
+    ? `This Week - thru ${format(endOfISOWeek(currentStartOfWeek), 'M/dd')}`
     : detailsDateRange;
 
   const filterOptions = {
@@ -583,9 +588,9 @@ const useOrdersFilters = ({
 
   const hasOrderItems = allFilteredOrderItems.length > 0;
 
-  const itemPrices = allFilteredOrderItems.map((item) =>
-    parseInt(item.unitSellPrice, 10),
-  );
+  const itemPrices = allFilteredOrderItems
+    .map((item) => parseInt(item.unitSellPrice, 10))
+    .filter((price) => price > 0);
 
   const { totalItemsPrice, totalPalletCount } = hasOrderItems
     ? allFilteredOrderItems.reduce<{
@@ -647,19 +652,19 @@ const useOrdersFilters = ({
       <>
         <l.Flex alignCenter mb={24}>
           <l.Div mr={th.spacing.lg}>
-            <ty.SmallText mb={th.spacing.sm} secondary>
+            <ty.SmallText mb={th.spacing.xs} secondary>
               Coast
             </ty.SmallText>
             <CoastFilter />
           </l.Div>
           <l.Div mr={th.spacing.lg}>
-            <ty.SmallText mb={th.spacing.sm} secondary>
+            <ty.SmallText mb={th.spacing.xs} secondary>
               View
             </ty.SmallText>
             <TabBar />
           </l.Div>
           <l.Div mr={th.spacing.lg}>
-            <l.Flex alignCenter justifyBetween mb={th.spacing.sm}>
+            <l.Flex alignCenter justifyBetween mb={th.spacing.xs}>
               <ty.SmallText secondary>Search</ty.SmallText>
               {!loading && (
                 <ty.SmallText secondary>
@@ -675,7 +680,7 @@ const useOrdersFilters = ({
             {Search}
           </l.Div>
           <l.Div mr={th.spacing.lg}>
-            <ty.SmallText mb={th.spacing.sm} secondary>
+            <ty.SmallText mb={th.spacing.xs} secondary>
               Date
             </ty.SmallText>
             {detailsIndex ? (

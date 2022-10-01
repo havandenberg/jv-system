@@ -218,12 +218,13 @@ const FilterPanel = <T extends {}>({
             overflowY="auto"
           >
             {sortedOptions.map((option) => (
-              <FilterCheckbox
-                checked={selectedValues.includes(option)}
-                key={option}
-                label={option}
-                onChange={() => handleFilterChange(option)}
-              />
+              <l.Div key={option} mb={th.spacing.sm}>
+                <FilterCheckbox
+                  checked={selectedValues.includes(option)}
+                  label={option}
+                  onChange={() => handleFilterChange(option)}
+                />
+              </l.Div>
             ))}
           </l.Grid>
         </>

@@ -1,3 +1,5 @@
+import { format } from 'date-fns';
+
 import { CUSTOMER_DISTINCT_VALUES_QUERY } from 'api/directory/customer';
 import { LabelInfo } from 'components/column-label';
 import { getInventoryItemDescription } from 'components/inventory/inventory/utils';
@@ -84,16 +86,6 @@ export const listLabels: (backOrderId?: string) => OrderItemLabelInfo[] = (
   },
   {
     key: 'inventoryItem',
-    label: 'PLU',
-    getValue: ({ inventoryItem }) =>
-      inventoryItem ? (
-        <ty.BodyText>{String(!!inventoryItem.plu)}</ty.BodyText>
-      ) : (
-        ''
-      ),
-  },
-  {
-    key: 'inventoryItem',
     label: 'Label',
     getValue: ({ inventoryItem }) =>
       inventoryItem ? (
@@ -113,6 +105,20 @@ export const listLabels: (backOrderId?: string) => OrderItemLabelInfo[] = (
       ) : (
         ''
       ),
+  },
+  {
+    key: 'inventoryItem',
+    label: 'Avail Date',
+    getValue: ({ inventoryItem }) => {
+      const dischargeDate = inventoryItem?.vessel?.dischargeDate;
+      return dischargeDate ? (
+        <ty.BodyText>
+          {format(new Date(dischargeDate.replace(/-/g, '/')), 'M/dd')}
+        </ty.BodyText>
+      ) : (
+        ''
+      );
+    },
   },
   {
     key: 'inventoryItem',
@@ -144,7 +150,7 @@ export const listLabels: (backOrderId?: string) => OrderItemLabelInfo[] = (
   },
   {
     key: 'itemStatus',
-    label: 'Item Status',
+    label: 'Status',
   },
 ];
 

@@ -9,12 +9,18 @@ const getCountryId = (countryId) =>
     ? 'USA'
     : countryId;
 
-const getDate = (day, month, year) =>
-  day && month && year
-    ? `2${('' + year).padStart(3, '0')}-${('' + month).padStart(2, '0')}-${(
-        '' + day
-      ).padStart(2, '0')}`
-    : null;
+const invalidDates = ['2002-09-31'];
+
+const getDate = (day, month, year) => {
+  const dateString =
+    day && month && year
+      ? `2${('' + year).padStart(3, '0')}-${('' + month).padStart(2, '0')}-${(
+          '' + day
+        ).padStart(2, '0')}`
+      : null;
+
+  return !invalidDates.includes(dateString) ? dateString : null;
+};
 
 const getPhone = (area, exc, tel) => `${area || ''}${exc || ''}${tel || ''}`;
 

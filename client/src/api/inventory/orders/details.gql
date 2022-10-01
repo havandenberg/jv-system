@@ -2,7 +2,6 @@ query ORDER_MASTER_DETAILS($orderId: BigFloat!) {
   orderMasters(condition: { orderId: $orderId }) {
     nodes {
       actualShipDate
-      amountOwed
       backOrderId
       billingCustomer {
         id
@@ -23,8 +22,6 @@ query ORDER_MASTER_DETAILS($orderId: BigFloat!) {
       expectedShipDate
       fob
       id
-      invoiceDate
-      invoiceId
       items {
         nodes {
           backOrderId
@@ -99,8 +96,6 @@ query ORDER_MASTER_DETAILS($orderId: BigFloat!) {
       orderDate
       orderId
       orderStatus
-      paidCode
-      registerNumber
       salesUser {
         id
         personContact {

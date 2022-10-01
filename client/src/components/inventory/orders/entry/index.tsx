@@ -1,4 +1,10 @@
-import React, { Fragment, useEffect, useMemo, useState } from 'react';
+import React, {
+  Fragment,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { add, endOfISOWeek, startOfISOWeek } from 'date-fns';
 import {
   equals,
@@ -23,7 +29,9 @@ import useItemSelector from 'components/item-selector';
 import Page from 'components/page';
 import { DataMessage } from 'components/page/message';
 import { Tab, useTabBar } from 'components/tab-bar';
+import useCoastTabBar from 'components/tab-bar/coast-tab-bar';
 import { useActiveUser } from 'components/user/context';
+import { USER_ROLE } from 'components/user/roles';
 import useColumns, { SORT_ORDER } from 'hooks/use-columns';
 import useDateRange from 'hooks/use-date-range';
 import usePrevious from 'hooks/use-previous';
@@ -49,12 +57,12 @@ import { isDateGreaterThanOrEqualTo } from 'utils/date';
 
 import {
   baseLabels,
+  filterLoadNumbersByCoast,
   getDuplicateOrderEntryItemIds,
   itemListLabels,
 } from './data-utils';
 import NewOrderEntryItem from './item';
 import ReviewModal from './review-modal';
-import { USER_ROLE } from 'components/user/roles';
 
 export type NewOrderEntry = Pick<
   OrderEntry,
@@ -121,6 +129,9 @@ const CreateOrderEntry = () => {
   } = useActiveUser();
   const [handleCreateUserMessages] = api.useCreateUserMessages();
 
+  const { TabBar: CoastFilter, selectedTabId: coast } = useCoastTabBar();
+  const previousCoast = usePrevious(coast);
+
   const {
     data: salesUsersData,
     loading: salesUsersLoading,
@@ -128,7 +139,10 @@ const CreateOrderEntry = () => {
   } = api.useGetUsersByRole([USER_ROLE.SALES_ASSOC]);
   const salesUsers = (salesUsersData?.nodes || []) as User[];
 
-  const loadNumbers = (activeUser?.loadNumbers.nodes || []) as LoadNumber[];
+  const loadNumbers = filterLoadNumbersByCoast(
+    (activeUser?.loadNumbers.nodes || []) as LoadNumber[],
+    coast,
+  );
   const nextLoadNumber =
     loadNumbers.find((loadNumber) => !loadNumber.customer) || loadNumbers[0];
 
@@ -284,9 +298,12 @@ const CreateOrderEntry = () => {
     }),
   );
 
-  const handleChange = (field: keyof NewOrderEntry, value: any) => {
-    setChanges({ ...changes, [field]: value } as NewOrderEntry);
-  };
+  const handleChange = useCallback(
+    (field: keyof NewOrderEntry, value: any) => {
+      setChanges({ ...changes, [field]: value } as NewOrderEntry);
+    },
+    [changes],
+  );
 
   const startDate = changes.fobDate;
 
@@ -459,6 +476,19 @@ const CreateOrderEntry = () => {
     customer,
   ]);
 
+  useEffect(() => {
+    if (!id && coast !== previousCoast && changes.truckLoadId !== 'HOLD') {
+      handleChange('truckLoadId', nextLoadNumber?.id);
+    }
+  }, [
+    changes.truckLoadId,
+    coast,
+    handleChange,
+    id,
+    nextLoadNumber,
+    previousCoast,
+  ]);
+
   const selectedLoadNumber = loadNumbers.find(
     (ln) => ln.id === changes.truckLoadId,
   );
@@ -615,7 +645,9 @@ const CreateOrderEntry = () => {
     warehouseDataError ||
     vesselDataError;
 
-  const { TabBar } = useTabBar(tabs(changes.orderEntryItems.nodes.length));
+  const { TabBar } = useTabBar({
+    tabs: tabs(changes.orderEntryItems.nodes.length),
+  });
 
   const dateRangeProps = (fieldName: 'fobDate' | 'deliveredDate') =>
     ({
@@ -848,7 +880,7 @@ const CreateOrderEntry = () => {
         })
         .then(() => {
           history.push(
-            `/inventory/orders/${changes.truckLoadId}?sortBy=expectedShipDate&sortOrder=DESC&orderView=orderEntries`,
+            `/inventory/orders/${changes.orderId}?sortBy=expectedShipDate&sortOrder=DESC&orderView=orderEntries`,
           );
         });
     }
@@ -992,12 +1024,24 @@ const CreateOrderEntry = () => {
             )
           ) : (
             <l.Flex alignStart mt={th.spacing.lg}>
+              <l.Div mt={`-${th.spacing.lg}`}>
+                <ty.CaptionText mb={th.spacing.xs} secondary>
+                  Coast
+                </ty.CaptionText>
+                <l.Div width={84}>
+                  {id && latestOrderEntryState.truckLoadId ? (
+                    <ty.BodyText mt={th.spacing.sm}>{coast}</ty.BodyText>
+                  ) : (
+                    <CoastFilter />
+                  )}
+                </l.Div>
+              </l.Div>
               <l.Grid
                 alignCenter
                 gridRowGap={th.sizes.icon}
-                gridTemplateColumns="220px 1fr"
+                gridTemplateColumns="200px 1fr"
                 mr={th.spacing.md}
-                width="45%"
+                width="35%"
               >
                 <ty.CaptionText mr={th.spacing.lg} secondary textAlign="right">
                   Order Number:
@@ -1058,7 +1102,24 @@ const CreateOrderEntry = () => {
                     )
                   }
                   onChange={(e) => {
-                    handleChange('fob', e.target.value === 'fob');
+                    const isFOB = e.target.value === 'fob';
+                    setChanges({
+                      ...changes,
+                      fob: isFOB,
+                      orderEntryItems: {
+                        ...changes.orderEntryItems,
+                        nodes: (
+                          (changes.orderEntryItems.nodes ||
+                            []) as OrderEntryItem[]
+                        ).map((item) => ({
+                          ...item,
+                          locationId:
+                            isFOB && item.locationId === 'Any'
+                              ? ''
+                              : item.locationId,
+                        })),
+                      },
+                    });
                   }}
                   value={changes.fob ? 'fob' : 'del'}
                   width={150}
@@ -1201,6 +1262,7 @@ const CreateOrderEntry = () => {
               py={th.spacing.xs}
             >
               <NewOrderEntryItem
+                coast={coast}
                 commonSpecieses={commonSpecieses}
                 currentItem={
                   ((item &&

@@ -12,6 +12,10 @@ const vesselOptions = require('./product/vessel');
 const orderMasterOptions = require('./operations/order/master');
 const orderItemOptions = require('./operations/order/item');
 const truckLoadOptions = require('./operations/truck-load');
+const expenseHeaderOptions = require('./accounting/expense/header');
+const expenseItemOptions = require('./accounting/expense/item');
+const invoiceHeaderOptions = require('./accounting/invoice/header');
+const invoiceItemOptions = require('./accounting/invoice/item');
 const productMasterOptions = require('./product/master');
 const speciesOptions = require('./product/species');
 const varietyOptions = require('./product/variety');
@@ -44,6 +48,14 @@ const db2RunQuery = (tableName, db) => {
       return db2UpdateItems(db, orderItemOptions);
     case 'operations/truck-load':
       return db2UpdateItems(db, truckLoadOptions);
+    case 'accounting/invoice/header':
+      return db2UpdateItems(db, invoiceHeaderOptions);
+    case 'accounting/invoice/item':
+      return db2UpdateItems(db, invoiceItemOptions);
+    case 'accounting/expense/header':
+      return db2UpdateItems(db, expenseHeaderOptions);
+    case 'accounting/expense/item':
+      return db2UpdateItems(db, expenseItemOptions);
     case 'product/master':
       return db2UpdateItems(db, productMasterOptions);
     case 'product/species':

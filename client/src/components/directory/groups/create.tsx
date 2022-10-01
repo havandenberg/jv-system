@@ -58,7 +58,7 @@ const CreateContactGroup = () => {
     useSortQueryParams();
   const [handleCreate] = api.useCreateContactGroup();
 
-  const { TabBar } = useTabBar(tabs);
+  const { TabBar } = useTabBar({ tabs });
 
   const [createLoading, setLoading] = useState(false);
   const [saveAttempt, setSaveAttempt] = useState(false);

@@ -193,13 +193,13 @@ const ShipperProjectionGraph = ({
     handleSelectTab,
     TabBar: GraphTabBar,
     selectedTabId: graphView,
-  } = useTabBar(
-    graphTabs(groupingKey, !!selectedShipper),
-    false,
-    'by-item',
-    'graphView',
-    0,
-  );
+  } = useTabBar({
+    tabs: graphTabs(groupingKey, !!selectedShipper),
+    isRoute: false,
+    defaultTabId: 'by-item',
+    paramName: 'graphView',
+    defaultTabIndex: 0,
+  });
 
   const viewByShipper = graphView === 'by-shipper';
   const viewByTags = graphView === 'by-tags';

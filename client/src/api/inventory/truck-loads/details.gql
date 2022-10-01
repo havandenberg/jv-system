@@ -94,6 +94,19 @@ query TRUCK_LOAD_DETAILS($truckLoadId: String!) {
           truckLoadId
         }
       }
+      pallets {
+        nodes {
+          containerId
+          currentBoxQuantity
+          growerId
+          id
+          locationId
+          orderId
+          palletId
+          packDate
+          shipped
+        }
+      }
     }
   }
 }

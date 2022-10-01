@@ -22,7 +22,7 @@ const initialState = {
 };
 
 const UserLogin = () => {
-  const { data: authData, refetch } = api.useGetUserAuthList();
+  const { data: authData } = api.useGetUserAuthList();
 
   const {
     apiData: { data: activeUser },
@@ -52,7 +52,6 @@ const UserLogin = () => {
       if (user) {
         setUserState({ ...userState, activeUserId: user.id });
         setState(initialState);
-        refetch();
         return true;
       } else {
         setState({ ...state, error: true, pin: '' });

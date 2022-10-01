@@ -6,7 +6,7 @@ import { pluck, sortBy, times } from 'ramda';
 
 import ResetImg from 'assets/images/reset';
 import { formatDate } from 'components/date-range-picker';
-import { useTabBar } from 'components/tab-bar';
+import useCoastTabBar from 'components/tab-bar/coast-tab-bar';
 import { CommonProductTag } from 'components/tag-manager';
 import useDateRange from 'hooks/use-date-range';
 import {
@@ -26,54 +26,6 @@ import {
   isWithinDateInterval,
   reduceProductTags,
 } from './utils';
-
-export const leftTabStyles = {
-  borderBottomRightRadius: 0,
-  borderTopRightRadius: 0,
-  justifyContent: 'center',
-  marginRight: th.spacing.sm,
-  padding: `${th.spacing.sm} 10px ${th.spacing.sm} 12px`,
-  width: th.spacing.md,
-  style: {
-    borderBottomRightRadius: 0,
-    borderTopRightRadius: 0,
-  },
-};
-
-export const middleTabStyles = {
-  borderRadius: 0,
-  justifyContent: 'center',
-  marginRight: th.spacing.sm,
-  padding: `${th.spacing.sm} 10px ${th.spacing.sm} 10px`,
-  width: th.spacing.md,
-  style: {
-    borderRadius: 0,
-  },
-};
-
-export const rightTabStyles = {
-  justifyContent: 'center',
-  marginRight: 0,
-  padding: `${th.spacing.sm} 12px ${th.spacing.sm} 10px`,
-  width: th.spacing.md,
-  style: {
-    borderBottomLeftRadius: 0,
-    borderTopLeftRadius: 0,
-  },
-};
-
-export const coastTabs = [
-  {
-    id: 'WC',
-    customStyles: leftTabStyles,
-    text: 'W',
-  },
-  {
-    id: 'EC',
-    customStyles: rightTabStyles,
-    text: 'E',
-  },
-];
 
 export const ResetButton = styled(l.Flex)({
   alignItems: 'center',
@@ -106,13 +58,7 @@ const useInventoryFilters = ({
 }: Props) => {
   const [selectedFilters, setQuery] = useInventoryQueryParams();
 
-  const { TabBar: CoastFilter, selectedTabId: coast } = useTabBar(
-    coastTabs,
-    false,
-    'EC',
-    'coast',
-    1,
-  );
+  const { TabBar: CoastFilter, selectedTabId: coast } = useCoastTabBar();
 
   const getFilter = (
     key: 'location' | 'shipper' | 'countryOfOrigin' | 'daysInStorage',
@@ -267,7 +213,7 @@ const useInventoryFilters = ({
                 [item.shipper?.id, item.shipperId].includes(shipperId))) &&
             isBefore(
               new Date(item.vessel.dischargeDate.replace(/-/g, '/')),
-              add(currentStartOfWeek, { weeks: 1 }),
+              endOfISOWeek(currentStartOfWeek),
             )
           : isWithinDateInterval(
               item,
@@ -447,7 +393,7 @@ const useInventoryFilters = ({
     : isTotal
     ? 'All Dates'
     : isWeekTotal
-    ? 'This Week'
+    ? `This Week - thru ${format(endOfISOWeek(currentStartOfWeek), 'M/dd')}`
     : detailsDateRange;
 
   const locationSelect = getFilter('location', getOptions(locationOptions));

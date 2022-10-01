@@ -1,19 +1,50 @@
-import { pick, pluck, uniq, uniqBy } from 'ramda';
+import { pick, pluck, uniq, uniqBy, values } from 'ramda';
 
 import { CUSTOMER_DISTINCT_VALUES_QUERY } from 'api/directory/customer';
 import { LabelInfo } from 'components/column-label';
 import StatusIndicator from 'components/status-indicator';
 import { SORT_ORDER } from 'hooks/use-columns';
-import { OrderEntry, OrderItem, OrderMaster, ProductMaster } from 'types';
+import {
+  InvoiceHeader,
+  InvoiceItem,
+  OrderEntry,
+  OrderItem,
+  OrderMaster,
+  ProductMaster,
+} from 'types';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 
 import { truckLoadStatusDescriptions } from '../truck-loads/data-utils';
+import { invoiceStatusDescriptions } from 'components/accounting/invoices/data-utils';
 
-export type OrderMasterLabelInfo = LabelInfo<OrderMaster>;
+export type OrderItemInvoiceItem = OrderItem & {
+  invoiceId?: string;
+  items?: InvoiceItem[];
+};
 
-export const indexListLabels: OrderMasterLabelInfo[] = [
+export type OrderMasterInvoiceHeader = OrderMaster & {
+  invoiceId?: string;
+  paidCode?: string;
+};
+export type OrderMasterLabelInfo = LabelInfo<OrderMasterInvoiceHeader>;
+
+export const indexListLabels: (
+  isInvoices: boolean,
+) => OrderMasterLabelInfo[] = (isInvoices) => [
+  ...(isInvoices
+    ? [
+        {
+          key: 'invoiceId',
+          label: 'Invoice ID',
+          sortable: true,
+          getValue: ({ invoiceId }) => (
+            <ty.BodyText>{invoiceId || ''}</ty.BodyText>
+          ),
+        } as OrderMasterLabelInfo,
+      ]
+    : []),
   {
     key: 'orderId',
     label: 'Order ID',
@@ -62,7 +93,7 @@ export const indexListLabels: OrderMasterLabelInfo[] = [
     getValue: ({ billingCustomer }) =>
       billingCustomer ? (
         <ty.BodyText>
-          {billingCustomer.id} - {billingCustomer.customerName}
+          {billingCustomer.customerName} ({billingCustomer.id})
         </ty.BodyText>
       ) : (
         ''
@@ -89,28 +120,38 @@ export const indexListLabels: OrderMasterLabelInfo[] = [
   },
   {
     defaultSortOrder: SORT_ORDER.ASC,
-    key: 'entryUserCode',
+    key: isInvoices ? 'paidCode' : 'entryUserCode',
     label: 'Status',
     sortable: true,
-    customSortBy: ({ entryUserCode, expectedShipDate, orderStatus }) =>
-      `${!entryUserCode ? '0' : orderStatus} ${new Date(
+    customSortBy: ({
+      entryUserCode,
+      expectedShipDate,
+      orderStatus,
+      paidCode,
+    }) =>
+      `${isInvoices ? paidCode : !entryUserCode ? '0' : orderStatus} ${new Date(
         expectedShipDate.replace(/-/g, '/'),
       ).getTime()}`,
-    getValue: ({ entryUserCode, orderStatus }) => {
-      const status =
-        orderStatusDescriptions[entryUserCode ? orderStatus || '' : 'review'];
+    getValue: ({ entryUserCode, orderStatus, paidCode }) => {
+      const status = isInvoices
+        ? invoiceStatusDescriptions[paidCode || '']
+        : orderStatusDescriptions[entryUserCode ? orderStatus || '' : 'review'];
       return (
         <l.Flex alignCenter justifyCenter>
-          <StatusIndicator
-            color={status?.color}
-            customStyles={{
-              wrapper: {
-                py: th.spacing.tn,
-              },
-            }}
-            text={status?.text}
-            title={status?.title || orderStatus || ''}
-          />
+          {status ? (
+            <StatusIndicator
+              color={status?.color}
+              customStyles={{
+                wrapper: {
+                  py: th.spacing.tn,
+                },
+              }}
+              text={status?.text}
+              title={status?.title || orderStatus || ''}
+            />
+          ) : (
+            <ty.BodyText>-</ty.BodyText>
+          )}
         </l.Flex>
       );
     },
@@ -179,16 +220,20 @@ export const listLabels: OrderMasterLabelInfo[] = [
         orderStatusDescriptions[entryUserCode ? orderStatus || '' : 'review'];
       return (
         <l.Flex alignCenter justifyCenter>
-          <StatusIndicator
-            color={status?.color}
-            customStyles={{
-              wrapper: {
-                py: th.spacing.tn,
-              },
-            }}
-            text={status?.text}
-            title={status?.title || orderStatus || ''}
-          />
+          {status ? (
+            <StatusIndicator
+              color={status?.color}
+              customStyles={{
+                wrapper: {
+                  py: th.spacing.tn,
+                },
+              }}
+              text={status?.text}
+              title={status?.title || orderStatus || ''}
+            />
+          ) : (
+            <ty.BodyText>-</ty.BodyText>
+          )}
         </l.Flex>
       );
     },
@@ -204,18 +249,18 @@ export const indexBaseLabels: (
   },
   {
     key: 'truckLoadId',
-    label: 'Truck Load',
-    getValue: ({ shipWarehouse, truckLoad }) =>
-      truckLoad ? (
+    label: 'Truck Load ID',
+    getValue: ({ shipWarehouse, truckLoad, truckLoadId }) =>
+      truckLoad || truckLoadId ? (
         <ty.LinkText
           hover="false"
-          to={`/inventory/truck-loads/${truckLoad.loadId}?truckLoadView=${
-            backOrderId ? 'pallets' : 'pickupLocations'
-          }${
+          to={`/inventory/truck-loads/${
+            truckLoad?.loadId || truckLoadId || ''
+          }?truckLoadView=${backOrderId ? 'pallets' : 'pickupLocations'}${
             backOrderId && shipWarehouse ? `&location=${shipWarehouse.id}` : ''
           }`}
         >
-          {truckLoad.loadId}
+          {truckLoad?.loadId || truckLoadId || ''}
         </ty.LinkText>
       ) : (
         <ty.BodyText>-</ty.BodyText>
@@ -317,11 +362,15 @@ export const baseLabels: OrderMasterLabelInfo[] = [
         orderStatusDescriptions[entryUserCode ? orderStatus || '' : 'review'];
       return (
         <l.Flex alignCenter justifyCenter>
-          <StatusIndicator
-            color={status?.color}
-            text={status?.text}
-            title={status?.title || orderStatus || ''}
-          />
+          {status ? (
+            <StatusIndicator
+              color={status?.color}
+              text={status?.text}
+              title={status?.title || orderStatus || ''}
+            />
+          ) : (
+            <ty.BodyText>-</ty.BodyText>
+          )}
         </l.Flex>
       );
     },
@@ -331,16 +380,8 @@ export const baseLabels: OrderMasterLabelInfo[] = [
     label: 'Back Order ID',
   },
   {
-    key: 'registerNumber',
-    label: 'Register Number',
-  },
-  {
     key: 'deliveryZone',
     label: 'Delivery Zone',
-  },
-  {
-    key: 'paidCode',
-    label: 'Paid Code',
   },
   {
     key: 'loadStatus',
@@ -352,11 +393,15 @@ export const baseLabels: OrderMasterLabelInfo[] = [
         ];
       return (
         <l.Flex alignCenter justifyCenter>
-          <StatusIndicator
-            color={status?.color}
-            text={status?.text}
-            title={status?.title || loadStatus || ''}
-          />
+          {status ? (
+            <StatusIndicator
+              color={status?.color}
+              text={status?.text}
+              title={status?.title || loadStatus || ''}
+            />
+          ) : (
+            <ty.BodyText>-</ty.BodyText>
+          )}
         </l.Flex>
       );
     },
@@ -372,6 +417,78 @@ export const convertOrderEntriesToOrderMasters = (orderEntries: OrderEntry[]) =>
     entryUser: entry.reviewUser,
     expectedShipDate: entry.fobDate,
   })) as OrderMaster[];
+
+export const convertInvoiceHeadersToOrderMasters = (
+  invoiceHeaders: InvoiceHeader[],
+) =>
+  invoiceHeaders.map((invoiceHeader) => ({
+    ...pick(
+      [
+        'orderId',
+        'backOrderId',
+        'truckLoadId',
+        'customerPo',
+        'billingCustomer',
+        'salesUser',
+        'invoiceId',
+        'paidCode',
+      ],
+      invoiceHeader,
+    ),
+    expectedShipDate: invoiceHeader.actualShipDate,
+    orderStatus: 'SHP',
+    items: {
+      nodes: values(
+        ((invoiceHeader.items.nodes || []) as InvoiceItem[]).reduce<{
+          [key: string]: OrderItem;
+        }>(
+          (acc, item) => ({
+            ...acc,
+            [`${item.orderId}-${item.backOrderId}-${item.lineId}`]: {
+              ...pick(
+                [
+                  'orderId',
+                  'backOrderId',
+                  'lineId',
+                  'unitSellPrice',
+                  'deliveryCharge',
+                ],
+                item,
+              ),
+              boxCount: item.pickedQty,
+              palletCount:
+                (acc[`${item.orderId}-${item.backOrderId}-${item.lineId}`]
+                  ?.palletCount
+                  ? parseInt(
+                      acc[`${item.orderId}-${item.backOrderId}-${item.lineId}`]
+                        ?.palletCount,
+                    )
+                  : 0) + 1,
+              unitSellPrice: item?.unitSellPrice,
+              inventoryItem: {
+                ...(item.pallet || {}),
+                ...(item.pallet?.vessel || {}),
+                plu: `${item.pallet?.product?.packType?.packDescription}`.includes(
+                  'PLU',
+                ),
+                product: (item.pallet?.product || {}) as ProductMaster,
+              },
+              invoiceId: invoiceHeader?.invoiceId,
+              order: {
+                orderId: invoiceHeader?.orderId,
+                backOrderId: invoiceHeader?.backOrderId,
+                invoiceId: invoiceHeader?.invoiceId,
+                expectedShipDate: invoiceHeader?.actualShipDate,
+                salesUserCode: invoiceHeader?.salesUserCode,
+                billingCustomer: invoiceHeader?.billingCustomer,
+              } as OrderMasterInvoiceHeader,
+            } as OrderItemInvoiceItem,
+          }),
+          {},
+        ),
+      ),
+    },
+  })) as OrderMasterInvoiceHeader[];
 
 export const orderSteps = [
   {
@@ -423,7 +540,12 @@ export const getCurrentOrderStep = (
 const orderStatusDescriptions: {
   [key: string]: { color: string; text: string; title: string };
 } = {
-  O: { color: th.colors.status.successAlt, text: 'SHP', title: 'Shipped' },
+  A: {
+    color: th.colors.status.successAlt,
+    text: 'SHP',
+    title: 'Shipped',
+  },
+  O: { color: th.colors.brand.secondary, text: 'O', title: 'Other' },
   B: {
     color: th.colors.status.success,
     text: 'RTS',

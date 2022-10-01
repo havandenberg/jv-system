@@ -56,7 +56,9 @@ const Details = () => {
   const { search } = useLocation();
   const { data, error, loading } = api.useInventoryItem(id);
 
-  const { TabBar } = useTabBar(tabs(loading, data?.pallets.nodes.length || 0));
+  const { TabBar } = useTabBar({
+    tabs: tabs(loading, data?.pallets.nodes.length || 0),
+  });
 
   const featuredValues = data ? getFeaturedValues(data as InventoryItem) : [];
 

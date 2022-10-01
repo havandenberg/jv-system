@@ -72,7 +72,7 @@ const getUpdatedPallet = (pallet, db2Pallet, id) => ({
   dateTransferredToStorage: `${db2Pallet['TRNCSV']}`,
   orderId: `${db2Pallet['ORD#V']}`,
   backOrderId: `${db2Pallet['BONBRV']}`,
-  shipped: db2Pallet['SHPFGV'] === 'TRUE',
+  shipped: db2Pallet['SHPFGV'] === 'Y',
   age: `${db2Pallet['AGEDV']}`,
   volumeDiscountCode: `${db2Pallet['VOLDCV']}`,
   originalLocationId: db2Pallet['ORGLCV'],
