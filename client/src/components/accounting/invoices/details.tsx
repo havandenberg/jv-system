@@ -3,6 +3,10 @@ import { useParams } from 'react-router-dom';
 
 import api from 'api';
 import BaseData from 'components/base-data';
+import {
+  convertInvoiceHeadersToOrderMasters,
+  OrderItemInvoiceItem,
+} from 'components/inventory/orders/data-utils';
 import { baseLabels as entryBaseLabels } from 'components/inventory/orders/entry/data-utils';
 import OrderEntryList from 'components/inventory/orders/entry/list';
 import Page from 'components/page';
@@ -15,13 +19,10 @@ import { InvoiceHeader, InvoiceItem, OrderEntry, OrderItem } from 'types';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
+import { formatCurrency } from 'utils/format';
 
 import { baseLabels } from './data-utils';
 import InvoiceItemList from './items/list';
-import {
-  convertInvoiceHeadersToOrderMasters,
-  OrderItemInvoiceItem,
-} from 'components/inventory/orders/data-utils';
 
 export const breadcrumbs = (id: string) => [
   {
@@ -174,12 +175,7 @@ const Details = () => {
               <ty.CaptionText color={th.colors.brand.primaryAccent}>
                 Total Invoice Amount:{' '}
                 <ty.Span bold ml={th.spacing.xs}>
-                  {loading
-                    ? '-'
-                    : totalSellPrice.toLocaleString('en-US', {
-                        style: 'currency',
-                        currency: 'USD',
-                      })}
+                  {loading ? '-' : formatCurrency(totalSellPrice)}
                 </ty.Span>
               </ty.CaptionText>
             </l.Flex>

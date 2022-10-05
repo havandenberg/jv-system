@@ -1,7 +1,6 @@
 import { useMutation, useQuery } from '@apollo/client';
 import { add } from 'date-fns';
 import { loader } from 'graphql.macro';
-import { ArrayParam } from 'use-query-params';
 
 import { CUSTOMER_DISTINCT_VALUES_QUERY } from 'api/directory/customer';
 import useFilteredQueryValues from 'api/hooks/use-filtered-query-values';
@@ -11,7 +10,6 @@ import { SORT_ORDER } from 'hooks/use-columns';
 import {
   useDateRangeQueryParams,
   useOrdersQueryParams,
-  useQuerySet,
   useSearchQueryParam,
   useSortQueryParams,
 } from 'hooks/use-query-params';
@@ -31,7 +29,8 @@ const useVariables = (orderByOverride?: string) => {
   const [search = ''] = useSearchQueryParam();
   const [{ sortBy = 'orderDate', sortOrder = SORT_ORDER.DESC }] =
     useSortQueryParams();
-  const [{ detailsIndex }] = useOrdersQueryParams();
+  const [{ billingCustomerId, detailsIndex, salesUserCode }] =
+    useOrdersQueryParams();
   const orderBy = getOrderByString(sortBy, sortOrder);
 
   const [{ startDate, endDate }] = useDateRangeQueryParams();
@@ -46,11 +45,6 @@ const useVariables = (orderByOverride?: string) => {
       weeks: detailsIndex !== undefined ? 4 : 0,
     }),
   );
-
-  const [{ billingCustomerId, salesUserCode }] = useQuerySet({
-    billingCustomerId: ArrayParam,
-    salesUserCode: ArrayParam,
-  });
 
   const filteredSalesUserCodeValues = useFilteredQueryValues(salesUserCode, {
     columnName: 'sales_user_code',

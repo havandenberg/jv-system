@@ -6,6 +6,7 @@ import { getInventoryItemDescription } from 'components/inventory/inventory/util
 import { SORT_ORDER } from 'hooks/use-columns';
 import { OrderItem } from 'types';
 import ty from 'ui/typography';
+import { formatCurrency } from 'utils/format';
 
 export type OrderItemLabelInfo = LabelInfo<OrderItem>;
 
@@ -143,7 +144,7 @@ export const listLabels: (backOrderId?: string) => OrderItemLabelInfo[] = (
     label: 'Unit Sell Price',
     getValue: ({ unitSellPrice }) =>
       unitSellPrice ? (
-        <ty.BodyText>{`$${parseFloat(unitSellPrice).toFixed(2)}`}</ty.BodyText>
+        <ty.BodyText>{formatCurrency(parseFloat(unitSellPrice))}</ty.BodyText>
       ) : (
         ''
       ),
@@ -279,7 +280,7 @@ export const indexListLabels: (
     sortable: true,
     getValue: ({ unitSellPrice }) =>
       unitSellPrice ? (
-        <ty.BodyText>{`$${parseFloat(unitSellPrice).toFixed(2)}`}</ty.BodyText>
+        <ty.BodyText>{formatCurrency(parseFloat(unitSellPrice))}</ty.BodyText>
       ) : (
         ''
       ),

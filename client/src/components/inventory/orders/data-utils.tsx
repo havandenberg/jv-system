@@ -352,7 +352,15 @@ export const baseLabels: OrderMasterLabelInfo[] = [
   },
   {
     key: 'vendorId',
-    label: 'Vendor',
+    label: 'Trucker',
+    getValue: ({ vendor }) =>
+      vendor ? (
+        <ty.LinkText hover="false" to={`/directory/vendors/${vendor.id}`}>
+          {vendor.vendorName}
+        </ty.LinkText>
+      ) : (
+        ''
+      ),
   },
   {
     key: 'orderStatus',

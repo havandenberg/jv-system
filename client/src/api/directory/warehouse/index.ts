@@ -18,6 +18,8 @@ const WAREHOUSE_LIST_QUERY = loader('./list.gql');
 export const WAREHOUSE_LIST_ALL_QUERY = loader('./list-all.gql');
 const WAREHOUSE_UPDATE = loader('./update.gql');
 
+export const WAREHOUSE_DISTINCT_VALUES_QUERY = loader('./distinct-values.gql');
+
 export const useWarehouses = (orderByOverride?: string) => {
   const [search = ''] = useSearchQueryParam();
   const [warehouseSearch = ''] = useQueryValue('warehouseSearch');

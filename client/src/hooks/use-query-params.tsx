@@ -149,6 +149,8 @@ export const useOrdersQueryParams = () =>
     lineId: StringParam,
     view: StringParam,
     orderView: StringParam,
+    billingCustomerId: ArrayParam,
+    salesUserCode: ArrayParam,
   });
 
 export const useTruckLoadsQueryParams = () =>
@@ -156,4 +158,12 @@ export const useTruckLoadsQueryParams = () =>
     coast: StringParam,
     location: StringParam,
     truckLoadView: StringParam,
+    fob: StringParam,
+    warehouseId: ArrayParam,
+  });
+
+export const useExpensesQueryParams = () =>
+  useQuerySet({
+    expenseCode: ArrayParam,
+    vesselCode: ArrayParam,
   });

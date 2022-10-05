@@ -18,6 +18,7 @@ import b from 'ui/button';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
+import { formatCurrency } from 'utils/format';
 
 import {
   baseLabels,
@@ -252,12 +253,7 @@ const Details = () => {
               <ty.CaptionText color={th.colors.brand.primaryAccent}>
                 Total Sell Price:{' '}
                 <ty.Span bold ml={th.spacing.xs}>
-                  {loading
-                    ? '-'
-                    : totalSellPrice.toLocaleString('en-US', {
-                        style: 'currency',
-                        currency: 'USD',
-                      })}
+                  {loading ? '-' : formatCurrency(totalSellPrice)}
                 </ty.Span>
               </ty.CaptionText>
             </l.Flex>

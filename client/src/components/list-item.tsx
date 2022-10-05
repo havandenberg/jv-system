@@ -8,7 +8,10 @@ import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 
+import Expandable from './expandable';
+
 const ListItem = <T extends {}>({
+  content,
   data,
   gridTemplateColumns,
   highlightColor,
@@ -20,6 +23,7 @@ const ListItem = <T extends {}>({
   selected,
   to,
 }: {
+  content?: React.ReactNode;
   data: T;
   gridTemplateColumns: string;
   highlightColor?: string;
@@ -31,13 +35,14 @@ const ListItem = <T extends {}>({
   selected?: boolean;
   to?: string;
 }) => {
-  const content = (
-    <l.GridContainer
-      gridTemplateColumns={gridTemplateColumns}
-      highlightColor={highlightColor}
-      isHighlight={isHighlight}
-      isHalfHighlight={isHalfHighlight}
-    >
+  const clickable = !!onClick || !!to;
+
+  const [isOpen, setIsOpen] = React.useState(false);
+
+  const toggleIsOpen = () => setIsOpen(!isOpen);
+
+  const header = (
+    <l.Grid gridTemplateColumns={gridTemplateColumns}>
       {onSelectItem && (
         <l.Flex justifyStart centered height={th.sizes.fill}>
           <LineItemCheckbox checked={selected} onChange={onSelectItem} />
@@ -54,8 +59,9 @@ const ListItem = <T extends {}>({
           <ty.BodyText
             nowrap
             onClick={(e: React.MouseEvent) => {
-              (!onClick || !allowClick) && e.stopPropagation();
+              !content && (!onClick || !allowClick) && e.stopPropagation();
             }}
+            width={th.sizes.fill}
           >
             {(transformKey
               ? baseDataTransforms[transformKey](data[key])
@@ -65,20 +71,40 @@ const ListItem = <T extends {}>({
           </ty.BodyText>
         </l.Flex>
       ))}
-      <l.Flex centered height={th.sizes.fill}>
-        <Chevron height={th.spacing.md} />
-      </l.Flex>
-    </l.GridContainer>
+      {clickable && (
+        <l.Flex centered height={th.sizes.fill}>
+          <Chevron height={th.spacing.md} />
+        </l.Flex>
+      )}
+    </l.Grid>
+  );
+
+  const components = (
+    <l.Cell
+      clickable={clickable || !!content}
+      highlightColor={highlightColor}
+      isHighlight={isHighlight}
+      isHalfHighlight={isHalfHighlight}
+    >
+      {content ? (
+        <Expandable
+          header={header}
+          content={content}
+          isOpen={isOpen}
+          toggleIsOpen={toggleIsOpen}
+        />
+      ) : (
+        header
+      )}
+    </l.Cell>
   );
 
   return (
-    <l.Div mb={th.spacing.sm}>
+    <l.Div mb={th.spacing.sm} width={th.sizes.fill}>
       {onClick || !to ? (
-        <l.Div cursor="pointer" onClick={onClick}>
-          {content}
-        </l.Div>
+        <l.Div onClick={onClick}>{components}</l.Div>
       ) : (
-        <l.AreaLink to={to ? to : '#'}>{content}</l.AreaLink>
+        <l.AreaLink to={to ? to : '#'}>{components}</l.AreaLink>
       )}
     </l.Div>
   );

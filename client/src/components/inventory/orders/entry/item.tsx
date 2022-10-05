@@ -69,16 +69,6 @@ type FilterKey =
   | 'variety'
   | 'vesselCode'
   | 'countryOfOrigin'
-  | 'reviewLabel'
-  | 'reviewLocationId'
-  | 'reviewPackType'
-  | 'reviewPlu'
-  | 'reviewShipperId'
-  | 'reviewSize'
-  | 'reviewSpecies'
-  | 'reviewVariety'
-  | 'reviewVesselCode'
-  | 'reviewCountryOfOrigin'
   | 'unitSellPrice'
   | 'deliveryCharge'
   | 'notes';
@@ -119,16 +109,6 @@ const NewOrderEntryItem = ({
     vesselCode,
     label,
     countryOfOrigin,
-    reviewSpecies,
-    reviewVariety,
-    reviewSize,
-    reviewPackType,
-    reviewPlu,
-    reviewShipperId,
-    reviewLocationId,
-    reviewVesselCode,
-    reviewLabel,
-    reviewCountryOfOrigin,
     palletCount,
     unitSellPrice,
     deliveryCharge,
@@ -151,36 +131,6 @@ const NewOrderEntryItem = ({
   const shipper = shippers.find((s) => s && s.id === shipperId);
   const vessel = vessels.find((v) => v && v.vesselCode === vesselCode);
   const warehouse = warehouses.find((w) => w && w.id === locationId);
-
-  const reviewCommonSpecies = !!reviewSpecies
-    ? commonSpecieses.find((sp) => sp && sp.productSpeciesId === reviewSpecies)
-    : undefined;
-  const reviewCommonVariety = !!reviewVariety
-    ? commonSpecies?.commonVarieties.nodes.find(
-        (v) => v && v.productVarietyId === reviewVariety,
-      )
-    : undefined;
-  const reviewCommonSize = !!reviewSize
-    ? commonSpecies?.commonSizes.nodes.find(
-        (sz) => sz && sz.productSizeId === reviewSize,
-      )
-    : undefined;
-  const reviewCommonPackType = !!reviewPackType
-    ? commonSpecies?.commonPackTypes.nodes.find(
-        (pt) =>
-          pt &&
-          [pt.id, pt.packMaster?.packDescription].includes(reviewPackType),
-      )
-    : undefined;
-  const reviewShipper = !!reviewShipperId
-    ? shippers.find((s) => s && s.id === reviewShipperId)
-    : undefined;
-  const reviewVessel = !!reviewVesselCode
-    ? vessels.find((v) => v && v.vesselCode === reviewVesselCode)
-    : undefined;
-  const reviewWarehouse = !!reviewLocationId
-    ? warehouses.find((w) => w && w.id === reviewLocationId)
-    : undefined;
 
   const repackPackTypes = (
     (commonSpecies?.commonPackTypes.nodes || []) as CommonPackType[]
@@ -218,30 +168,6 @@ const NewOrderEntryItem = ({
         return label || '';
       case 'countryOfOrigin':
         return countryOfOrigin || '';
-      case 'reviewSpecies':
-        return reviewCommonSpecies?.speciesName || reviewSpecies || '';
-      case 'reviewVariety':
-        return reviewCommonVariety?.varietyName || reviewVariety || '';
-      case 'reviewSize':
-        return reviewCommonSize?.sizeName || reviewSize || '';
-      case 'reviewPackType':
-        return reviewCommonPackType
-          ? reviewCommonPackType.isRepack
-            ? `Rp - ${reviewCommonPackType.packTypeName}`
-            : reviewCommonPackType.packTypeName || ''
-          : reviewPackType || '';
-      case 'reviewShipperId':
-        return reviewShipper?.shipperName || reviewShipperId || '';
-      case 'reviewVesselCode':
-        return reviewVessel?.vesselName || reviewVesselCode || '';
-      case 'reviewLocationId':
-        return reviewWarehouse?.warehouseName || reviewLocationId || '';
-      case 'reviewPlu':
-        return reviewPlu || '';
-      case 'reviewLabel':
-        return reviewLabel || '';
-      case 'reviewCountryOfOrigin':
-        return reviewCountryOfOrigin || '';
       default:
         return '';
     }
@@ -269,22 +195,6 @@ const NewOrderEntryItem = ({
         return label !== currentItem.label;
       case 'countryOfOrigin':
         return countryOfOrigin !== currentItem.countryOfOrigin;
-      case 'reviewSpecies':
-        return reviewSpecies !== currentItem.reviewSpecies;
-      case 'reviewVariety':
-        return reviewVariety !== currentItem.reviewVariety;
-      case 'reviewSize':
-        return reviewSize !== currentItem.reviewSize;
-      case 'reviewPackType':
-        return reviewPackType !== currentItem.reviewPackType;
-      case 'reviewShipperId':
-        return reviewShipperId !== currentItem.reviewShipperId;
-      case 'reviewVesselCode':
-        return reviewVesselCode !== currentItem.reviewVesselCode;
-      case 'reviewLocationId':
-        return reviewLocationId !== currentItem.reviewLocationId;
-      case 'reviewCountryOfOrigin':
-        return reviewCountryOfOrigin !== currentItem.reviewCountryOfOrigin;
       case 'palletCount':
         return palletCount !== currentItem.palletCount;
       case 'deliveryCharge':
@@ -345,77 +255,62 @@ const NewOrderEntryItem = ({
           new Date(fobDate.replace(/-/g, '/')),
         ));
 
-    const getIsValid = (rev: boolean) => {
-      const loc = rev ? reviewLocationId : locationId;
-      const lab = rev ? reviewLabel : label;
-      const spe = rev ? reviewSpecies : species;
-      const vari = rev ? reviewVariety : variety;
-      const siz = rev ? reviewSize : size;
-      const pac = rev ? reviewPackType : packType;
-      const pl = rev ? reviewPlu : plu;
-      const shi = rev ? reviewShipperId : shipperId;
-      const ves = rev ? reviewVesselCode : vesselCode;
-      const cou = rev ? reviewCountryOfOrigin : countryOfOrigin;
+    const isValid =
+      coastValid &&
+      dateValid &&
+      (!warehouse ||
+        `${item.warehouse?.warehouseName}`
+          .toLowerCase()
+          .includes(`${locationId}`.toLowerCase()) ||
+        ['Any', item.warehouse?.id].includes(locationId || undefined)) &&
+      (!shipper ||
+        `${item.shipper?.shipperName}`
+          .toLowerCase()
+          .includes(`${shipperId}`.toLowerCase()) ||
+        ['Any', item.shipper?.id].includes(shipperId || undefined)) &&
+      (!species ||
+        `${itemSpecies?.speciesDescription}`
+          .toLowerCase()
+          .includes(species.toLowerCase()) ||
+        [itemSpecies?.id].includes(species)) &&
+      (!variety ||
+        `${itemVariety?.varietyDescription}`
+          .toLowerCase()
+          .includes(variety.toLowerCase()) ||
+        ['Any', itemVariety?.id].includes(variety)) &&
+      (!size ||
+        `${itemSize?.combineDescription}`
+          .toLowerCase()
+          .includes(size.toLowerCase()) ||
+        ['Any', itemSize?.id].some((val) =>
+          (size || '').split(',').includes(val),
+        )) &&
+      (!packType ||
+        packType.includes('Repack -') ||
+        `${itemPackType?.packDescription}`
+          .toLowerCase()
+          .includes(packType.toLowerCase()) ||
+        ['Any', itemPackType?.packDescription].includes(packType)) &&
+      (!vesselCode ||
+        `${item?.vessel?.vesselCode}`
+          .toLowerCase()
+          .includes(vesselCode.toLowerCase()) ||
+        ['Any', item?.vessel?.vesselCode].includes(vesselCode)) &&
+      (!label ||
+        `${itemPackType?.label?.labelCode}`
+          .toLowerCase()
+          .includes(label.toLowerCase()) ||
+        ['Any', itemPackType?.label?.labelCode].includes(label)) &&
+      (!plu ||
+        (item.plu ? 'PLU' : 'No PLU').includes(plu) ||
+        ['Any', item.plu ? 'PLU' : 'No PLU'].includes(plu)) &&
+      (!countryOfOrigin ||
+        `${item.country?.id}`
+          .toLowerCase()
+          .includes(countryOfOrigin.toLowerCase()) ||
+        ['Any', item.country?.id].includes(countryOfOrigin));
 
-      return (
-        coastValid &&
-        dateValid &&
-        (!(rev ? reviewWarehouse : warehouse) ||
-          `${item.warehouse?.warehouseName}`
-            .toLowerCase()
-            .includes(`${loc}`.toLowerCase()) ||
-          ['Any', item.warehouse?.id].includes(loc || undefined)) &&
-        ((!rev ? reviewShipper : shipper) ||
-          `${item.shipper?.shipperName}`
-            .toLowerCase()
-            .includes(`${shi}`.toLowerCase()) ||
-          ['Any', item.shipper?.id].includes(shi || undefined)) &&
-        (!spe ||
-          `${itemSpecies?.speciesDescription}`
-            .toLowerCase()
-            .includes(spe.toLowerCase()) ||
-          [itemSpecies?.id].includes(spe)) &&
-        (!vari ||
-          `${itemVariety?.varietyDescription}`
-            .toLowerCase()
-            .includes(vari.toLowerCase()) ||
-          ['Any', itemVariety?.id].includes(vari)) &&
-        (!siz ||
-          `${itemSize?.combineDescription}`
-            .toLowerCase()
-            .includes(siz.toLowerCase()) ||
-          ['Any', itemSize?.id].some((val) =>
-            (siz || '').split(',').includes(val),
-          )) &&
-        (!pac ||
-          pac.includes('Repack -') ||
-          `${itemPackType?.packDescription}`
-            .toLowerCase()
-            .includes(pac.toLowerCase()) ||
-          ['Any', itemPackType?.packDescription].includes(pac)) &&
-        (!ves ||
-          `${item?.vessel?.vesselCode}`
-            .toLowerCase()
-            .includes(ves.toLowerCase()) ||
-          ['Any', item?.vessel?.vesselCode].includes(ves)) &&
-        (!lab ||
-          `${itemPackType?.label?.labelCode}`
-            .toLowerCase()
-            .includes(lab.toLowerCase()) ||
-          ['Any', itemPackType?.label?.labelCode].includes(lab)) &&
-        (!pl ||
-          (item.plu ? 'PLU' : 'No PLU').includes(pl) ||
-          ['Any', item.plu ? 'PLU' : 'No PLU'].includes(pl)) &&
-        (!cou ||
-          `${item.country?.id}`.toLowerCase().includes(cou.toLowerCase()) ||
-          ['Any', item.country?.id].includes(cou))
-      );
-    };
-
-    const isValid = getIsValid(false);
-    const reviewIsValid = getIsValid(true);
-
-    if (isReview ? reviewIsValid : isValid) {
+    if (isValid) {
       if (
         !locationOptions.find(({ id }) => id === item.warehouse?.id) &&
         item.warehouse
@@ -528,14 +423,12 @@ const NewOrderEntryItem = ({
       }
     }
 
-    const spe = isReview ? reviewSpecies : species;
     if (
       species &&
-      spe &&
       (`${itemSpecies?.speciesDescription}`
         .toLowerCase()
-        .includes(spe.toLowerCase()) ||
-        [itemSpecies?.id].includes(spe)) &&
+        .includes(species.toLowerCase()) ||
+        [itemSpecies?.id].includes(species)) &&
       !sizeOptions.find(({ id }) => id === itemSize?.id) &&
       itemSize
     ) {
@@ -545,7 +438,7 @@ const NewOrderEntryItem = ({
       });
     }
 
-    return isReview ? reviewIsValid : isValid;
+    return isValid;
   });
 
   const noItemsFound = !loading && filteredItems.length === 0;
@@ -764,54 +657,52 @@ const NewOrderEntryItem = ({
 
   const { ItemSelector: SpeciesSelector } = useItemSelector({
     errorLabel: 'species',
-    ...getItemSelectorProps(isReview ? 'reviewSpecies' : 'species', false),
+    ...getItemSelectorProps('species', false),
   });
 
   const { ItemSelector: VarietySelector } = useItemSelector({
     errorLabel: 'varieties',
-    ...getItemSelectorProps(isReview ? 'reviewVariety' : 'variety'),
+    ...getItemSelectorProps('variety'),
   });
 
   const { ItemSelector: SizeSelector } = useItemSelector({
     errorLabel: 'sizes',
-    ...getItemSelectorProps(isReview ? 'reviewSize' : 'size', true, true),
+    ...getItemSelectorProps('size', true, true),
   });
 
   const { ItemSelector: PackTypeSelector } = useItemSelector({
     errorLabel: 'pack types',
-    ...getItemSelectorProps(isReview ? 'reviewPackType' : 'packType'),
+    ...getItemSelectorProps('packType'),
   });
 
   const { ItemSelector: ShipperSelector } = useItemSelector({
     errorLabel: 'shippers',
-    ...getItemSelectorProps(isReview ? 'reviewShipperId' : 'shipperId'),
+    ...getItemSelectorProps('shipperId'),
   });
 
   const { ItemSelector: WarehouseSelector } = useItemSelector({
     errorLabel: 'warehouses',
-    ...getItemSelectorProps(isReview ? 'reviewLocationId' : 'locationId', !fob),
+    ...getItemSelectorProps('locationId', !fob),
   });
 
   const { ItemSelector: VesselSelector } = useItemSelector({
     errorLabel: 'vessels',
-    ...getItemSelectorProps(isReview ? 'reviewVesselCode' : 'vesselCode'),
+    ...getItemSelectorProps('vesselCode'),
   });
 
   const { ItemSelector: LabelSelector } = useItemSelector({
     errorLabel: 'labels',
-    ...getItemSelectorProps(isReview ? 'reviewLabel' : 'label'),
+    ...getItemSelectorProps('label'),
   });
 
   const { ItemSelector: PluSelector } = useItemSelector({
     errorLabel: 'plu options',
-    ...getItemSelectorProps(isReview ? 'reviewPlu' : 'plu'),
+    ...getItemSelectorProps('plu'),
   });
 
   const { ItemSelector: CountrySelector } = useItemSelector({
     errorLabel: 'country options',
-    ...getItemSelectorProps(
-      isReview ? 'reviewCountryOfOrigin' : 'countryOfOrigin',
-    ),
+    ...getItemSelectorProps('countryOfOrigin'),
   });
 
   const { palletsAvailable, palletsOnHand, palletsReceived } =

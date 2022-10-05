@@ -1,6 +1,7 @@
 import { useMutation, useQuery } from '@apollo/client';
 import { loader } from 'graphql.macro';
 
+import useFilteredQueryValues from 'api/hooks/use-filtered-query-values';
 import { getOrderByString, getSearchArray } from 'api/utils';
 import { SORT_ORDER } from 'hooks/use-columns';
 import {
@@ -11,11 +12,12 @@ import {
 } from 'hooks/use-query-params';
 import { Mutation, Query } from 'types';
 import { ArrayParam } from 'use-query-params';
-import useFilteredQueryValues from 'api/hooks/use-filtered-query-values';
 
 export const VENDOR_DETAILS_QUERY = loader('./details.gql');
 export const VENDOR_LIST_QUERY = loader('./list.gql');
 const VENDOR_UPDATE = loader('./update.gql');
+
+export const VENDOR_DISTINCT_VALUES_QUERY = loader('./distinct-values.gql');
 
 export const useVendorsVariables = (
   orderByOverride?: string,

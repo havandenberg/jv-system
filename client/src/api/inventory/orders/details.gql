@@ -89,7 +89,10 @@ query ORDER_MASTER_DETAILS($orderId: BigFloat!) {
         loadId
         changeFlag
       }
-      vendorId
+      vendor {
+        id
+        vendorName
+      }
       loadStatus
       loadLocation
       notes

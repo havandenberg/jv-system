@@ -1,10 +1,12 @@
+import { format } from 'date-fns';
+
 import { LabelInfo } from 'components/column-label';
 import { getInventoryItemDescription } from 'components/inventory/inventory/utils';
 import { OrderItemLabelInfo } from 'components/inventory/orders/items/data-utils';
 import { SORT_ORDER } from 'hooks/use-columns';
 import { InvoiceItem } from 'types';
 import ty from 'ui/typography';
-import { format } from 'date-fns';
+import { formatCurrency } from 'utils/format';
 
 export type InvoiceItemLabelInfo = LabelInfo<InvoiceItem>;
 
@@ -85,7 +87,7 @@ export const listLabels: OrderItemLabelInfo[] = [
     label: 'Unit Price',
     getValue: ({ unitSellPrice }) =>
       unitSellPrice ? (
-        <ty.BodyText>{`$${parseFloat(unitSellPrice).toFixed(2)}`}</ty.BodyText>
+        <ty.BodyText>{formatCurrency(parseFloat(unitSellPrice))}</ty.BodyText>
       ) : (
         ''
       ),

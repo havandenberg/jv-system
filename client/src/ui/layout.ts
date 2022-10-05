@@ -201,13 +201,15 @@ const GalleryWrapper = styled(Div)(
   divPropsSet,
 );
 
-const GridContainer = styled(Grid)(
+const Cell = styled(Div)(
   ({
+    clickable = true,
     highlightColor = th.colors.status.error,
     isHighlight,
     isHalfHighlight,
     selected,
   }: {
+    clickable?: boolean;
     highlightColor?: string;
     isHighlight?: boolean;
     isHalfHighlight?: boolean;
@@ -233,8 +235,10 @@ const GridContainer = styled(Grid)(
     ':hover': {
       backgroundColor: isHighlight
         ? hexColorWithTransparency(highlightColor, 0.3)
-        : th.colors.brand.containerBackgroundAccent,
-      border: th.borders.secondary,
+        : clickable
+        ? th.colors.brand.containerBackgroundAccent
+        : th.colors.brand.containerBackground,
+      border: clickable ? th.borders.secondary : th.borders.disabled,
     },
   }),
   divPropsSet,
@@ -243,11 +247,11 @@ const GridContainer = styled(Grid)(
 export default {
   AreaLink,
   Anchor,
+  Cell,
   Div,
   Flex,
   GalleryWrapper,
   Grid,
-  GridContainer,
   HoverButton,
   Img,
   Span,

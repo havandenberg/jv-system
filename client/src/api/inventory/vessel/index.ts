@@ -23,9 +23,11 @@ const VESSEL_CREATE_QUERY = loader('./create.gql');
 const VESSEL_UPDATE_QUERY = loader('./update.gql');
 const VESSEL_DELETE_QUERY = loader('./delete.gql');
 const LAST_PRE_VESSEL_CODE_QUERY = loader('./last-code.gql');
+
 export const ARRIVAL_PORT_DISTINCT_VALUES_QUERY = loader(
   './arrival-port-distinct-values.gql',
 );
+export const VESSEL_DISTINCT_VALUES_QUERY = loader('./distinct-values.gql');
 
 interface VesselsOptions {
   isInventory?: boolean;

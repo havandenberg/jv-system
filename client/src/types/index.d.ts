@@ -210,6 +210,8 @@ export type Query = Node & {
   orderEntries?: Maybe<OrderEntriesConnection>;
   /** Reads and enables pagination through a set of `OrderEntryItem`. */
   orderEntryItems?: Maybe<OrderEntryItemsConnection>;
+  /** Reads and enables pagination through a set of `OrderEntryReviewItem`. */
+  orderEntryReviewItems?: Maybe<OrderEntryReviewItemsConnection>;
   /** Reads and enables pagination through a set of `OrderItem`. */
   orderItems?: Maybe<OrderItemsConnection>;
   /** Reads and enables pagination through a set of `OrderMaster`. */
@@ -326,6 +328,7 @@ export type Query = Node & {
   loadNumber?: Maybe<LoadNumber>;
   orderEntry?: Maybe<OrderEntry>;
   orderEntryItem?: Maybe<OrderEntryItem>;
+  orderEntryReviewItem?: Maybe<OrderEntryReviewItem>;
   orderItem?: Maybe<OrderItem>;
   orderMaster?: Maybe<OrderMaster>;
   orderPallet?: Maybe<OrderPallet>;
@@ -336,12 +339,13 @@ export type Query = Node & {
   invoiceItem?: Maybe<InvoiceItem>;
   distinctValues?: Maybe<DistinctValuesConnection>;
   customerDistinctColumnValues?: Maybe<CustomerDistinctColumnValuesConnection>;
+  customerDistinctValues?: Maybe<CustomerDistinctValuesConnection>;
   shipperDistinctValues?: Maybe<ShipperDistinctValuesConnection>;
   vendorDistinctValues?: Maybe<VendorDistinctValuesConnection>;
+  warehouseDistinctValues?: Maybe<WarehouseDistinctValuesConnection>;
   /** Reads and enables pagination through a set of `ChileDepartureInspection`. */
   chileDepartureInspections?: Maybe<ChileDepartureInspectionsConnection>;
   psaInspectionVesselDistinctValues?: Maybe<PsaInspectionVesselDistinctValuesConnection>;
-  customerDistinctValues?: Maybe<CustomerDistinctValuesConnection>;
   orderMasterCustomerDistinctValues?: Maybe<OrderMasterCustomerDistinctValuesConnection>;
   vesselArrivalPortDistinctValues?: Maybe<VesselArrivalPortDistinctValuesConnection>;
   nextOrderNumber?: Maybe<Scalars['BigInt']>;
@@ -513,6 +517,8 @@ export type Query = Node & {
   orderEntryByNodeId?: Maybe<OrderEntry>;
   /** Reads a single `OrderEntryItem` using its globally unique `ID`. */
   orderEntryItemByNodeId?: Maybe<OrderEntryItem>;
+  /** Reads a single `OrderEntryReviewItem` using its globally unique `ID`. */
+  orderEntryReviewItemByNodeId?: Maybe<OrderEntryReviewItem>;
   /** Reads a single `OrderItem` using its globally unique `ID`. */
   orderItemByNodeId?: Maybe<OrderItem>;
   /** Reads a single `OrderMaster` using its globally unique `ID`. */
@@ -1645,6 +1651,19 @@ export type QueryOrderEntryItemsArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
+export type QueryOrderEntryReviewItemsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<OrderEntryReviewItemsOrderBy>>;
+  condition?: Maybe<OrderEntryReviewItemCondition>;
+  filter?: Maybe<OrderEntryReviewItemFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
 export type QueryOrderItemsArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
@@ -2373,6 +2392,12 @@ export type QueryOrderEntryItemArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
+export type QueryOrderEntryReviewItemArgs = {
+  id: Scalars['BigInt'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
 export type QueryOrderItemArgs = {
   id: Scalars['BigInt'];
 };
@@ -2449,6 +2474,17 @@ export type QueryCustomerDistinctColumnValuesArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
+export type QueryCustomerDistinctValuesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  filter?: Maybe<StringFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
 export type QueryShipperDistinctValuesArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
@@ -2461,6 +2497,17 @@ export type QueryShipperDistinctValuesArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryVendorDistinctValuesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  filter?: Maybe<StringFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryWarehouseDistinctValuesArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
@@ -2485,17 +2532,6 @@ export type QueryChileDepartureInspectionsArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryPsaInspectionVesselDistinctValuesArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  filter?: Maybe<StringFilter>;
-};
-
-
-/** The root query type which gives access points into the data universe. */
-export type QueryCustomerDistinctValuesArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
@@ -3027,6 +3063,12 @@ export type QueryOrderEntryByNodeIdArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryOrderEntryItemByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryOrderEntryReviewItemByNodeIdArgs = {
   nodeId: Scalars['ID'];
 };
 
@@ -7352,6 +7394,7 @@ export type OrderMaster = Node & {
   shipWarehouse?: Maybe<Warehouse>;
   shippingCustomer?: Maybe<Customer>;
   truckLoad?: Maybe<TruckLoad>;
+  vendor?: Maybe<Vendor>;
 };
 
 
@@ -7870,6 +7913,7 @@ export type TruckLoad = Node & {
   /** Reads and enables pagination through a set of `Pallet`. */
   pallets: PalletsConnection;
   searchText?: Maybe<Scalars['String']>;
+  vendor?: Maybe<Vendor>;
   warehouse?: Maybe<Warehouse>;
 };
 
@@ -27868,52 +27912,82 @@ export type OrderEntryItem = Node & {
   plu?: Maybe<Scalars['String']>;
   label?: Maybe<Scalars['String']>;
   notes?: Maybe<Scalars['String']>;
-  reviewLocationId?: Maybe<Scalars['String']>;
-  reviewVesselCode?: Maybe<Scalars['String']>;
-  reviewShipperId?: Maybe<Scalars['String']>;
-  reviewSpecies?: Maybe<Scalars['String']>;
-  reviewVariety?: Maybe<Scalars['String']>;
-  reviewSize?: Maybe<Scalars['String']>;
-  reviewPackType?: Maybe<Scalars['String']>;
-  reviewPlu?: Maybe<Scalars['String']>;
-  reviewLabel?: Maybe<Scalars['String']>;
   countryOfOrigin?: Maybe<Scalars['String']>;
-  reviewCountryOfOrigin?: Maybe<Scalars['String']>;
   /** Reads a single `OrderEntry` that is related to this `OrderEntryItem`. */
   orderEntry?: Maybe<OrderEntry>;
-  reviewShipper?: Maybe<Shipper>;
-  reviewVessel?: Maybe<Vessel>;
-  reviewWarehouse?: Maybe<Warehouse>;
+  /** Reads and enables pagination through a set of `OrderEntryReviewItem`. */
+  orderEntryReviewItems: OrderEntryReviewItemsConnection;
   searchText?: Maybe<Scalars['String']>;
   shipper?: Maybe<Shipper>;
   vessel?: Maybe<Vessel>;
   warehouse?: Maybe<Warehouse>;
 };
 
-/** A `OrderEntryItem` edge in the connection. */
-export type OrderEntryItemsEdge = {
-  __typename?: 'OrderEntryItemsEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `OrderEntryItem` at the end of the edge. */
-  node?: Maybe<OrderEntryItem>;
+
+export type OrderEntryItemOrderEntryReviewItemsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<OrderEntryReviewItemsOrderBy>>;
+  condition?: Maybe<OrderEntryReviewItemCondition>;
+  filter?: Maybe<OrderEntryReviewItemFilter>;
 };
 
-/** Methods to use when ordering `OrderEntryItem`. */
-export enum OrderEntryItemsOrderBy {
+/** A connection to a list of `OrderEntryReviewItem` values. */
+export type OrderEntryReviewItemsConnection = {
+  __typename?: 'OrderEntryReviewItemsConnection';
+  /** A list of `OrderEntryReviewItem` objects. */
+  nodes: Array<Maybe<OrderEntryReviewItem>>;
+  /** A list of edges which contains the `OrderEntryReviewItem` and cursor to aid in pagination. */
+  edges: Array<OrderEntryReviewItemsEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `OrderEntryReviewItem` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+export type OrderEntryReviewItem = Node & {
+  __typename?: 'OrderEntryReviewItem';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  orderEntryItemId: Scalars['BigInt'];
+  locationId?: Maybe<Scalars['String']>;
+  vesselCode?: Maybe<Scalars['String']>;
+  shipperId?: Maybe<Scalars['String']>;
+  species?: Maybe<Scalars['String']>;
+  variety?: Maybe<Scalars['String']>;
+  size?: Maybe<Scalars['String']>;
+  packType?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  countryOfOrigin?: Maybe<Scalars['String']>;
+  label?: Maybe<Scalars['String']>;
+  palletCount?: Maybe<Scalars['BigFloat']>;
+  /** Reads a single `OrderEntryItem` that is related to this `OrderEntryReviewItem`. */
+  orderEntryItem?: Maybe<OrderEntryItem>;
+  shipper?: Maybe<Shipper>;
+  vessel?: Maybe<Vessel>;
+  warehouse?: Maybe<Warehouse>;
+};
+
+/** A `OrderEntryReviewItem` edge in the connection. */
+export type OrderEntryReviewItemsEdge = {
+  __typename?: 'OrderEntryReviewItemsEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `OrderEntryReviewItem` at the end of the edge. */
+  node?: Maybe<OrderEntryReviewItem>;
+};
+
+/** Methods to use when ordering `OrderEntryReviewItem`. */
+export enum OrderEntryReviewItemsOrderBy {
   Natural = 'NATURAL',
   IdAsc = 'ID_ASC',
   IdDesc = 'ID_DESC',
-  OrderEntryIdAsc = 'ORDER_ENTRY_ID_ASC',
-  OrderEntryIdDesc = 'ORDER_ENTRY_ID_DESC',
-  LineIdAsc = 'LINE_ID_ASC',
-  LineIdDesc = 'LINE_ID_DESC',
-  PalletCountAsc = 'PALLET_COUNT_ASC',
-  PalletCountDesc = 'PALLET_COUNT_DESC',
-  UnitSellPriceAsc = 'UNIT_SELL_PRICE_ASC',
-  UnitSellPriceDesc = 'UNIT_SELL_PRICE_DESC',
-  DeliveryChargeAsc = 'DELIVERY_CHARGE_ASC',
-  DeliveryChargeDesc = 'DELIVERY_CHARGE_DESC',
+  OrderEntryItemIdAsc = 'ORDER_ENTRY_ITEM_ID_ASC',
+  OrderEntryItemIdDesc = 'ORDER_ENTRY_ITEM_ID_DESC',
   LocationIdAsc = 'LOCATION_ID_ASC',
   LocationIdDesc = 'LOCATION_ID_DESC',
   VesselCodeAsc = 'VESSEL_CODE_ASC',
@@ -27930,83 +28004,59 @@ export enum OrderEntryItemsOrderBy {
   PackTypeDesc = 'PACK_TYPE_DESC',
   PluAsc = 'PLU_ASC',
   PluDesc = 'PLU_DESC',
-  LabelAsc = 'LABEL_ASC',
-  LabelDesc = 'LABEL_DESC',
-  NotesAsc = 'NOTES_ASC',
-  NotesDesc = 'NOTES_DESC',
-  ReviewLocationIdAsc = 'REVIEW_LOCATION_ID_ASC',
-  ReviewLocationIdDesc = 'REVIEW_LOCATION_ID_DESC',
-  ReviewVesselCodeAsc = 'REVIEW_VESSEL_CODE_ASC',
-  ReviewVesselCodeDesc = 'REVIEW_VESSEL_CODE_DESC',
-  ReviewShipperIdAsc = 'REVIEW_SHIPPER_ID_ASC',
-  ReviewShipperIdDesc = 'REVIEW_SHIPPER_ID_DESC',
-  ReviewSpeciesAsc = 'REVIEW_SPECIES_ASC',
-  ReviewSpeciesDesc = 'REVIEW_SPECIES_DESC',
-  ReviewVarietyAsc = 'REVIEW_VARIETY_ASC',
-  ReviewVarietyDesc = 'REVIEW_VARIETY_DESC',
-  ReviewSizeAsc = 'REVIEW_SIZE_ASC',
-  ReviewSizeDesc = 'REVIEW_SIZE_DESC',
-  ReviewPackTypeAsc = 'REVIEW_PACK_TYPE_ASC',
-  ReviewPackTypeDesc = 'REVIEW_PACK_TYPE_DESC',
-  ReviewPluAsc = 'REVIEW_PLU_ASC',
-  ReviewPluDesc = 'REVIEW_PLU_DESC',
-  ReviewLabelAsc = 'REVIEW_LABEL_ASC',
-  ReviewLabelDesc = 'REVIEW_LABEL_DESC',
   CountryOfOriginAsc = 'COUNTRY_OF_ORIGIN_ASC',
   CountryOfOriginDesc = 'COUNTRY_OF_ORIGIN_DESC',
-  ReviewCountryOfOriginAsc = 'REVIEW_COUNTRY_OF_ORIGIN_ASC',
-  ReviewCountryOfOriginDesc = 'REVIEW_COUNTRY_OF_ORIGIN_DESC',
+  LabelAsc = 'LABEL_ASC',
+  LabelDesc = 'LABEL_DESC',
+  PalletCountAsc = 'PALLET_COUNT_ASC',
+  PalletCountDesc = 'PALLET_COUNT_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
-  OrderEntryByOrderEntryIdIdAsc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__ID_ASC',
-  OrderEntryByOrderEntryIdIdDesc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__ID_DESC',
-  OrderEntryByOrderEntryIdBackOrderIdAsc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__BACK_ORDER_ID_ASC',
-  OrderEntryByOrderEntryIdBackOrderIdDesc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__BACK_ORDER_ID_DESC',
-  OrderEntryByOrderEntryIdTruckLoadIdAsc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__TRUCK_LOAD_ID_ASC',
-  OrderEntryByOrderEntryIdTruckLoadIdDesc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__TRUCK_LOAD_ID_DESC',
-  OrderEntryByOrderEntryIdFobAsc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__FOB_ASC',
-  OrderEntryByOrderEntryIdFobDesc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__FOB_DESC',
-  OrderEntryByOrderEntryIdBillingCustomerIdAsc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__BILLING_CUSTOMER_ID_ASC',
-  OrderEntryByOrderEntryIdBillingCustomerIdDesc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__BILLING_CUSTOMER_ID_DESC',
-  OrderEntryByOrderEntryIdSalesUserCodeAsc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__SALES_USER_CODE_ASC',
-  OrderEntryByOrderEntryIdSalesUserCodeDesc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__SALES_USER_CODE_DESC',
-  OrderEntryByOrderEntryIdCustomerPoAsc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__CUSTOMER_PO_ASC',
-  OrderEntryByOrderEntryIdCustomerPoDesc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__CUSTOMER_PO_DESC',
-  OrderEntryByOrderEntryIdFobDateAsc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__FOB_DATE_ASC',
-  OrderEntryByOrderEntryIdFobDateDesc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__FOB_DATE_DESC',
-  OrderEntryByOrderEntryIdDeliveredDateAsc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__DELIVERED_DATE_ASC',
-  OrderEntryByOrderEntryIdDeliveredDateDesc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__DELIVERED_DATE_DESC',
-  OrderEntryByOrderEntryIdOrderDateAsc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__ORDER_DATE_ASC',
-  OrderEntryByOrderEntryIdOrderDateDesc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__ORDER_DATE_DESC',
-  OrderEntryByOrderEntryIdReviewUserCodeAsc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__REVIEW_USER_CODE_ASC',
-  OrderEntryByOrderEntryIdReviewUserCodeDesc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__REVIEW_USER_CODE_DESC',
-  OrderEntryByOrderEntryIdNotesAsc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__NOTES_ASC',
-  OrderEntryByOrderEntryIdNotesDesc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__NOTES_DESC',
-  OrderEntryByOrderEntryIdOrderIdAsc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__ORDER_ID_ASC',
-  OrderEntryByOrderEntryIdOrderIdDesc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__ORDER_ID_DESC',
-  OrderEntryByOrderEntryIdReviewDateAsc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__REVIEW_DATE_ASC',
-  OrderEntryByOrderEntryIdReviewDateDesc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__REVIEW_DATE_DESC',
-  OrderEntryByOrderEntryIdSubmittedByUserCodeAsc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__SUBMITTED_BY_USER_CODE_ASC',
-  OrderEntryByOrderEntryIdSubmittedByUserCodeDesc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__SUBMITTED_BY_USER_CODE_DESC'
+  OrderEntryItemByOrderEntryItemIdIdAsc = 'ORDER_ENTRY_ITEM_BY_ORDER_ENTRY_ITEM_ID__ID_ASC',
+  OrderEntryItemByOrderEntryItemIdIdDesc = 'ORDER_ENTRY_ITEM_BY_ORDER_ENTRY_ITEM_ID__ID_DESC',
+  OrderEntryItemByOrderEntryItemIdOrderEntryIdAsc = 'ORDER_ENTRY_ITEM_BY_ORDER_ENTRY_ITEM_ID__ORDER_ENTRY_ID_ASC',
+  OrderEntryItemByOrderEntryItemIdOrderEntryIdDesc = 'ORDER_ENTRY_ITEM_BY_ORDER_ENTRY_ITEM_ID__ORDER_ENTRY_ID_DESC',
+  OrderEntryItemByOrderEntryItemIdLineIdAsc = 'ORDER_ENTRY_ITEM_BY_ORDER_ENTRY_ITEM_ID__LINE_ID_ASC',
+  OrderEntryItemByOrderEntryItemIdLineIdDesc = 'ORDER_ENTRY_ITEM_BY_ORDER_ENTRY_ITEM_ID__LINE_ID_DESC',
+  OrderEntryItemByOrderEntryItemIdPalletCountAsc = 'ORDER_ENTRY_ITEM_BY_ORDER_ENTRY_ITEM_ID__PALLET_COUNT_ASC',
+  OrderEntryItemByOrderEntryItemIdPalletCountDesc = 'ORDER_ENTRY_ITEM_BY_ORDER_ENTRY_ITEM_ID__PALLET_COUNT_DESC',
+  OrderEntryItemByOrderEntryItemIdUnitSellPriceAsc = 'ORDER_ENTRY_ITEM_BY_ORDER_ENTRY_ITEM_ID__UNIT_SELL_PRICE_ASC',
+  OrderEntryItemByOrderEntryItemIdUnitSellPriceDesc = 'ORDER_ENTRY_ITEM_BY_ORDER_ENTRY_ITEM_ID__UNIT_SELL_PRICE_DESC',
+  OrderEntryItemByOrderEntryItemIdDeliveryChargeAsc = 'ORDER_ENTRY_ITEM_BY_ORDER_ENTRY_ITEM_ID__DELIVERY_CHARGE_ASC',
+  OrderEntryItemByOrderEntryItemIdDeliveryChargeDesc = 'ORDER_ENTRY_ITEM_BY_ORDER_ENTRY_ITEM_ID__DELIVERY_CHARGE_DESC',
+  OrderEntryItemByOrderEntryItemIdLocationIdAsc = 'ORDER_ENTRY_ITEM_BY_ORDER_ENTRY_ITEM_ID__LOCATION_ID_ASC',
+  OrderEntryItemByOrderEntryItemIdLocationIdDesc = 'ORDER_ENTRY_ITEM_BY_ORDER_ENTRY_ITEM_ID__LOCATION_ID_DESC',
+  OrderEntryItemByOrderEntryItemIdVesselCodeAsc = 'ORDER_ENTRY_ITEM_BY_ORDER_ENTRY_ITEM_ID__VESSEL_CODE_ASC',
+  OrderEntryItemByOrderEntryItemIdVesselCodeDesc = 'ORDER_ENTRY_ITEM_BY_ORDER_ENTRY_ITEM_ID__VESSEL_CODE_DESC',
+  OrderEntryItemByOrderEntryItemIdShipperIdAsc = 'ORDER_ENTRY_ITEM_BY_ORDER_ENTRY_ITEM_ID__SHIPPER_ID_ASC',
+  OrderEntryItemByOrderEntryItemIdShipperIdDesc = 'ORDER_ENTRY_ITEM_BY_ORDER_ENTRY_ITEM_ID__SHIPPER_ID_DESC',
+  OrderEntryItemByOrderEntryItemIdSpeciesAsc = 'ORDER_ENTRY_ITEM_BY_ORDER_ENTRY_ITEM_ID__SPECIES_ASC',
+  OrderEntryItemByOrderEntryItemIdSpeciesDesc = 'ORDER_ENTRY_ITEM_BY_ORDER_ENTRY_ITEM_ID__SPECIES_DESC',
+  OrderEntryItemByOrderEntryItemIdVarietyAsc = 'ORDER_ENTRY_ITEM_BY_ORDER_ENTRY_ITEM_ID__VARIETY_ASC',
+  OrderEntryItemByOrderEntryItemIdVarietyDesc = 'ORDER_ENTRY_ITEM_BY_ORDER_ENTRY_ITEM_ID__VARIETY_DESC',
+  OrderEntryItemByOrderEntryItemIdSizeAsc = 'ORDER_ENTRY_ITEM_BY_ORDER_ENTRY_ITEM_ID__SIZE_ASC',
+  OrderEntryItemByOrderEntryItemIdSizeDesc = 'ORDER_ENTRY_ITEM_BY_ORDER_ENTRY_ITEM_ID__SIZE_DESC',
+  OrderEntryItemByOrderEntryItemIdPackTypeAsc = 'ORDER_ENTRY_ITEM_BY_ORDER_ENTRY_ITEM_ID__PACK_TYPE_ASC',
+  OrderEntryItemByOrderEntryItemIdPackTypeDesc = 'ORDER_ENTRY_ITEM_BY_ORDER_ENTRY_ITEM_ID__PACK_TYPE_DESC',
+  OrderEntryItemByOrderEntryItemIdPluAsc = 'ORDER_ENTRY_ITEM_BY_ORDER_ENTRY_ITEM_ID__PLU_ASC',
+  OrderEntryItemByOrderEntryItemIdPluDesc = 'ORDER_ENTRY_ITEM_BY_ORDER_ENTRY_ITEM_ID__PLU_DESC',
+  OrderEntryItemByOrderEntryItemIdLabelAsc = 'ORDER_ENTRY_ITEM_BY_ORDER_ENTRY_ITEM_ID__LABEL_ASC',
+  OrderEntryItemByOrderEntryItemIdLabelDesc = 'ORDER_ENTRY_ITEM_BY_ORDER_ENTRY_ITEM_ID__LABEL_DESC',
+  OrderEntryItemByOrderEntryItemIdNotesAsc = 'ORDER_ENTRY_ITEM_BY_ORDER_ENTRY_ITEM_ID__NOTES_ASC',
+  OrderEntryItemByOrderEntryItemIdNotesDesc = 'ORDER_ENTRY_ITEM_BY_ORDER_ENTRY_ITEM_ID__NOTES_DESC',
+  OrderEntryItemByOrderEntryItemIdCountryOfOriginAsc = 'ORDER_ENTRY_ITEM_BY_ORDER_ENTRY_ITEM_ID__COUNTRY_OF_ORIGIN_ASC',
+  OrderEntryItemByOrderEntryItemIdCountryOfOriginDesc = 'ORDER_ENTRY_ITEM_BY_ORDER_ENTRY_ITEM_ID__COUNTRY_OF_ORIGIN_DESC'
 }
 
 /**
- * A condition to be used against `OrderEntryItem` object types. All fields are
- * tested for equality and combined with a logical ‘and.’
+ * A condition to be used against `OrderEntryReviewItem` object types. All fields
+ * are tested for equality and combined with a logical ‘and.’
  */
-export type OrderEntryItemCondition = {
+export type OrderEntryReviewItemCondition = {
   /** Checks for equality with the object’s `id` field. */
   id?: Maybe<Scalars['BigInt']>;
-  /** Checks for equality with the object’s `orderEntryId` field. */
-  orderEntryId?: Maybe<Scalars['BigInt']>;
-  /** Checks for equality with the object’s `lineId` field. */
-  lineId?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `palletCount` field. */
-  palletCount?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `unitSellPrice` field. */
-  unitSellPrice?: Maybe<Scalars['BigFloat']>;
-  /** Checks for equality with the object’s `deliveryCharge` field. */
-  deliveryCharge?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `orderEntryItemId` field. */
+  orderEntryItemId?: Maybe<Scalars['BigInt']>;
   /** Checks for equality with the object’s `locationId` field. */
   locationId?: Maybe<Scalars['String']>;
   /** Checks for equality with the object’s `vesselCode` field. */
@@ -28023,32 +28073,50 @@ export type OrderEntryItemCondition = {
   packType?: Maybe<Scalars['String']>;
   /** Checks for equality with the object’s `plu` field. */
   plu?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `label` field. */
-  label?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `notes` field. */
-  notes?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `reviewLocationId` field. */
-  reviewLocationId?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `reviewVesselCode` field. */
-  reviewVesselCode?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `reviewShipperId` field. */
-  reviewShipperId?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `reviewSpecies` field. */
-  reviewSpecies?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `reviewVariety` field. */
-  reviewVariety?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `reviewSize` field. */
-  reviewSize?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `reviewPackType` field. */
-  reviewPackType?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `reviewPlu` field. */
-  reviewPlu?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `reviewLabel` field. */
-  reviewLabel?: Maybe<Scalars['String']>;
   /** Checks for equality with the object’s `countryOfOrigin` field. */
   countryOfOrigin?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `reviewCountryOfOrigin` field. */
-  reviewCountryOfOrigin?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `label` field. */
+  label?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `palletCount` field. */
+  palletCount?: Maybe<Scalars['BigFloat']>;
+};
+
+/** A filter to be used against `OrderEntryReviewItem` object types. All fields are combined with a logical ‘and.’ */
+export type OrderEntryReviewItemFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `orderEntryItemId` field. */
+  orderEntryItemId?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `locationId` field. */
+  locationId?: Maybe<StringFilter>;
+  /** Filter by the object’s `vesselCode` field. */
+  vesselCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `shipperId` field. */
+  shipperId?: Maybe<StringFilter>;
+  /** Filter by the object’s `species` field. */
+  species?: Maybe<StringFilter>;
+  /** Filter by the object’s `variety` field. */
+  variety?: Maybe<StringFilter>;
+  /** Filter by the object’s `size` field. */
+  size?: Maybe<StringFilter>;
+  /** Filter by the object’s `packType` field. */
+  packType?: Maybe<StringFilter>;
+  /** Filter by the object’s `plu` field. */
+  plu?: Maybe<StringFilter>;
+  /** Filter by the object’s `countryOfOrigin` field. */
+  countryOfOrigin?: Maybe<StringFilter>;
+  /** Filter by the object’s `label` field. */
+  label?: Maybe<StringFilter>;
+  /** Filter by the object’s `palletCount` field. */
+  palletCount?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `orderEntryItem` relation. */
+  orderEntryItem?: Maybe<OrderEntryItemFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<OrderEntryReviewItemFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<OrderEntryReviewItemFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<OrderEntryReviewItemFilter>;
 };
 
 /** A filter to be used against `OrderEntryItem` object types. All fields are combined with a logical ‘and.’ */
@@ -28085,30 +28153,14 @@ export type OrderEntryItemFilter = {
   label?: Maybe<StringFilter>;
   /** Filter by the object’s `notes` field. */
   notes?: Maybe<StringFilter>;
-  /** Filter by the object’s `reviewLocationId` field. */
-  reviewLocationId?: Maybe<StringFilter>;
-  /** Filter by the object’s `reviewVesselCode` field. */
-  reviewVesselCode?: Maybe<StringFilter>;
-  /** Filter by the object’s `reviewShipperId` field. */
-  reviewShipperId?: Maybe<StringFilter>;
-  /** Filter by the object’s `reviewSpecies` field. */
-  reviewSpecies?: Maybe<StringFilter>;
-  /** Filter by the object’s `reviewVariety` field. */
-  reviewVariety?: Maybe<StringFilter>;
-  /** Filter by the object’s `reviewSize` field. */
-  reviewSize?: Maybe<StringFilter>;
-  /** Filter by the object’s `reviewPackType` field. */
-  reviewPackType?: Maybe<StringFilter>;
-  /** Filter by the object’s `reviewPlu` field. */
-  reviewPlu?: Maybe<StringFilter>;
-  /** Filter by the object’s `reviewLabel` field. */
-  reviewLabel?: Maybe<StringFilter>;
   /** Filter by the object’s `countryOfOrigin` field. */
   countryOfOrigin?: Maybe<StringFilter>;
-  /** Filter by the object’s `reviewCountryOfOrigin` field. */
-  reviewCountryOfOrigin?: Maybe<StringFilter>;
   /** Filter by the object’s `searchText` field. */
   searchText?: Maybe<StringFilter>;
+  /** Filter by the object’s `orderEntryReviewItems` relation. */
+  orderEntryReviewItems?: Maybe<OrderEntryItemToManyOrderEntryReviewItemFilter>;
+  /** Some related `orderEntryReviewItems` exist. */
+  orderEntryReviewItemsExist?: Maybe<Scalars['Boolean']>;
   /** Filter by the object’s `orderEntry` relation. */
   orderEntry?: Maybe<OrderEntryFilter>;
   /** Checks for all expressions in this list. */
@@ -28117,6 +28169,16 @@ export type OrderEntryItemFilter = {
   or?: Maybe<Array<OrderEntryItemFilter>>;
   /** Negates the expression. */
   not?: Maybe<OrderEntryItemFilter>;
+};
+
+/** A filter to be used against many `OrderEntryReviewItem` object types. All fields are combined with a logical ‘and.’ */
+export type OrderEntryItemToManyOrderEntryReviewItemFilter = {
+  /** Every related `OrderEntryReviewItem` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<OrderEntryReviewItemFilter>;
+  /** Some related `OrderEntryReviewItem` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<OrderEntryReviewItemFilter>;
+  /** No related `OrderEntryReviewItem` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<OrderEntryReviewItemFilter>;
 };
 
 /** A filter to be used against `OrderEntry` object types. All fields are combined with a logical ‘and.’ */
@@ -28173,6 +28235,129 @@ export type OrderEntryToManyOrderEntryItemFilter = {
   some?: Maybe<OrderEntryItemFilter>;
   /** No related `OrderEntryItem` matches the filter criteria. All fields are combined with a logical ‘and.’ */
   none?: Maybe<OrderEntryItemFilter>;
+};
+
+/** A `OrderEntryItem` edge in the connection. */
+export type OrderEntryItemsEdge = {
+  __typename?: 'OrderEntryItemsEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `OrderEntryItem` at the end of the edge. */
+  node?: Maybe<OrderEntryItem>;
+};
+
+/** Methods to use when ordering `OrderEntryItem`. */
+export enum OrderEntryItemsOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  OrderEntryIdAsc = 'ORDER_ENTRY_ID_ASC',
+  OrderEntryIdDesc = 'ORDER_ENTRY_ID_DESC',
+  LineIdAsc = 'LINE_ID_ASC',
+  LineIdDesc = 'LINE_ID_DESC',
+  PalletCountAsc = 'PALLET_COUNT_ASC',
+  PalletCountDesc = 'PALLET_COUNT_DESC',
+  UnitSellPriceAsc = 'UNIT_SELL_PRICE_ASC',
+  UnitSellPriceDesc = 'UNIT_SELL_PRICE_DESC',
+  DeliveryChargeAsc = 'DELIVERY_CHARGE_ASC',
+  DeliveryChargeDesc = 'DELIVERY_CHARGE_DESC',
+  LocationIdAsc = 'LOCATION_ID_ASC',
+  LocationIdDesc = 'LOCATION_ID_DESC',
+  VesselCodeAsc = 'VESSEL_CODE_ASC',
+  VesselCodeDesc = 'VESSEL_CODE_DESC',
+  ShipperIdAsc = 'SHIPPER_ID_ASC',
+  ShipperIdDesc = 'SHIPPER_ID_DESC',
+  SpeciesAsc = 'SPECIES_ASC',
+  SpeciesDesc = 'SPECIES_DESC',
+  VarietyAsc = 'VARIETY_ASC',
+  VarietyDesc = 'VARIETY_DESC',
+  SizeAsc = 'SIZE_ASC',
+  SizeDesc = 'SIZE_DESC',
+  PackTypeAsc = 'PACK_TYPE_ASC',
+  PackTypeDesc = 'PACK_TYPE_DESC',
+  PluAsc = 'PLU_ASC',
+  PluDesc = 'PLU_DESC',
+  LabelAsc = 'LABEL_ASC',
+  LabelDesc = 'LABEL_DESC',
+  NotesAsc = 'NOTES_ASC',
+  NotesDesc = 'NOTES_DESC',
+  CountryOfOriginAsc = 'COUNTRY_OF_ORIGIN_ASC',
+  CountryOfOriginDesc = 'COUNTRY_OF_ORIGIN_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  OrderEntryByOrderEntryIdIdAsc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__ID_ASC',
+  OrderEntryByOrderEntryIdIdDesc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__ID_DESC',
+  OrderEntryByOrderEntryIdBackOrderIdAsc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__BACK_ORDER_ID_ASC',
+  OrderEntryByOrderEntryIdBackOrderIdDesc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__BACK_ORDER_ID_DESC',
+  OrderEntryByOrderEntryIdTruckLoadIdAsc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__TRUCK_LOAD_ID_ASC',
+  OrderEntryByOrderEntryIdTruckLoadIdDesc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__TRUCK_LOAD_ID_DESC',
+  OrderEntryByOrderEntryIdFobAsc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__FOB_ASC',
+  OrderEntryByOrderEntryIdFobDesc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__FOB_DESC',
+  OrderEntryByOrderEntryIdBillingCustomerIdAsc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__BILLING_CUSTOMER_ID_ASC',
+  OrderEntryByOrderEntryIdBillingCustomerIdDesc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__BILLING_CUSTOMER_ID_DESC',
+  OrderEntryByOrderEntryIdSalesUserCodeAsc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__SALES_USER_CODE_ASC',
+  OrderEntryByOrderEntryIdSalesUserCodeDesc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__SALES_USER_CODE_DESC',
+  OrderEntryByOrderEntryIdCustomerPoAsc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__CUSTOMER_PO_ASC',
+  OrderEntryByOrderEntryIdCustomerPoDesc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__CUSTOMER_PO_DESC',
+  OrderEntryByOrderEntryIdFobDateAsc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__FOB_DATE_ASC',
+  OrderEntryByOrderEntryIdFobDateDesc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__FOB_DATE_DESC',
+  OrderEntryByOrderEntryIdDeliveredDateAsc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__DELIVERED_DATE_ASC',
+  OrderEntryByOrderEntryIdDeliveredDateDesc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__DELIVERED_DATE_DESC',
+  OrderEntryByOrderEntryIdOrderDateAsc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__ORDER_DATE_ASC',
+  OrderEntryByOrderEntryIdOrderDateDesc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__ORDER_DATE_DESC',
+  OrderEntryByOrderEntryIdReviewUserCodeAsc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__REVIEW_USER_CODE_ASC',
+  OrderEntryByOrderEntryIdReviewUserCodeDesc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__REVIEW_USER_CODE_DESC',
+  OrderEntryByOrderEntryIdNotesAsc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__NOTES_ASC',
+  OrderEntryByOrderEntryIdNotesDesc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__NOTES_DESC',
+  OrderEntryByOrderEntryIdOrderIdAsc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__ORDER_ID_ASC',
+  OrderEntryByOrderEntryIdOrderIdDesc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__ORDER_ID_DESC',
+  OrderEntryByOrderEntryIdReviewDateAsc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__REVIEW_DATE_ASC',
+  OrderEntryByOrderEntryIdReviewDateDesc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__REVIEW_DATE_DESC',
+  OrderEntryByOrderEntryIdSubmittedByUserCodeAsc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__SUBMITTED_BY_USER_CODE_ASC',
+  OrderEntryByOrderEntryIdSubmittedByUserCodeDesc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__SUBMITTED_BY_USER_CODE_DESC',
+  OrderEntryReviewItemsByOrderEntryItemIdCountAsc = 'ORDER_ENTRY_REVIEW_ITEMS_BY_ORDER_ENTRY_ITEM_ID__COUNT_ASC',
+  OrderEntryReviewItemsByOrderEntryItemIdCountDesc = 'ORDER_ENTRY_REVIEW_ITEMS_BY_ORDER_ENTRY_ITEM_ID__COUNT_DESC'
+}
+
+/**
+ * A condition to be used against `OrderEntryItem` object types. All fields are
+ * tested for equality and combined with a logical ‘and.’
+ */
+export type OrderEntryItemCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `orderEntryId` field. */
+  orderEntryId?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `lineId` field. */
+  lineId?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `palletCount` field. */
+  palletCount?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `unitSellPrice` field. */
+  unitSellPrice?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `deliveryCharge` field. */
+  deliveryCharge?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `locationId` field. */
+  locationId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `vesselCode` field. */
+  vesselCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `shipperId` field. */
+  shipperId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `species` field. */
+  species?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `variety` field. */
+  variety?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `size` field. */
+  size?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `packType` field. */
+  packType?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `plu` field. */
+  plu?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `label` field. */
+  label?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `notes` field. */
+  notes?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `countryOfOrigin` field. */
+  countryOfOrigin?: Maybe<Scalars['String']>;
 };
 
 /** A `OrderEntry` edge in the connection. */
@@ -28802,6 +28987,7 @@ export type ExpenseHeader = Node & {
   truckLoad?: Maybe<TruckLoad>;
   vendor?: Maybe<Vendor>;
   vessel?: Maybe<Vessel>;
+  vesselDischargeDate?: Maybe<Scalars['Date']>;
 };
 
 
@@ -29021,6 +29207,8 @@ export type ExpenseHeaderFilter = {
   notes?: Maybe<StringFilter>;
   /** Filter by the object’s `searchText` field. */
   searchText?: Maybe<StringFilter>;
+  /** Filter by the object’s `vesselDischargeDate` field. */
+  vesselDischargeDate?: Maybe<DateFilter>;
   /** Checks for all expressions in this list. */
   and?: Maybe<Array<ExpenseHeaderFilter>>;
   /** Checks for any expressions in this list. */
@@ -29587,6 +29775,26 @@ export type CustomerDistinctColumnValueEdge = {
 };
 
 /** A connection to a list of `String` values. */
+export type CustomerDistinctValuesConnection = {
+  __typename?: 'CustomerDistinctValuesConnection';
+  /** A list of `String` objects. */
+  nodes: Array<Maybe<Scalars['String']>>;
+  /** A list of edges which contains the `String` and cursor to aid in pagination. */
+  edges: Array<CustomerDistinctValueEdge>;
+  /** The count of *all* `String` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `String` edge in the connection. */
+export type CustomerDistinctValueEdge = {
+  __typename?: 'CustomerDistinctValueEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `String` at the end of the edge. */
+  node?: Maybe<Scalars['String']>;
+};
+
+/** A connection to a list of `String` values. */
 export type ShipperDistinctValuesConnection = {
   __typename?: 'ShipperDistinctValuesConnection';
   /** A list of `String` objects. */
@@ -29620,6 +29828,26 @@ export type VendorDistinctValuesConnection = {
 /** A `String` edge in the connection. */
 export type VendorDistinctValueEdge = {
   __typename?: 'VendorDistinctValueEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `String` at the end of the edge. */
+  node?: Maybe<Scalars['String']>;
+};
+
+/** A connection to a list of `String` values. */
+export type WarehouseDistinctValuesConnection = {
+  __typename?: 'WarehouseDistinctValuesConnection';
+  /** A list of `String` objects. */
+  nodes: Array<Maybe<Scalars['String']>>;
+  /** A list of edges which contains the `String` and cursor to aid in pagination. */
+  edges: Array<WarehouseDistinctValueEdge>;
+  /** The count of *all* `String` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `String` edge in the connection. */
+export type WarehouseDistinctValueEdge = {
+  __typename?: 'WarehouseDistinctValueEdge';
   /** A cursor for use in pagination. */
   cursor?: Maybe<Scalars['Cursor']>;
   /** The `String` at the end of the edge. */
@@ -29716,26 +29944,6 @@ export type PsaInspectionVesselDistinctValuesConnection = {
 /** A `String` edge in the connection. */
 export type PsaInspectionVesselDistinctValueEdge = {
   __typename?: 'PsaInspectionVesselDistinctValueEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `String` at the end of the edge. */
-  node?: Maybe<Scalars['String']>;
-};
-
-/** A connection to a list of `String` values. */
-export type CustomerDistinctValuesConnection = {
-  __typename?: 'CustomerDistinctValuesConnection';
-  /** A list of `String` objects. */
-  nodes: Array<Maybe<Scalars['String']>>;
-  /** A list of edges which contains the `String` and cursor to aid in pagination. */
-  edges: Array<CustomerDistinctValueEdge>;
-  /** The count of *all* `String` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-/** A `String` edge in the connection. */
-export type CustomerDistinctValueEdge = {
-  __typename?: 'CustomerDistinctValueEdge';
   /** A cursor for use in pagination. */
   cursor?: Maybe<Scalars['Cursor']>;
   /** The `String` at the end of the edge. */
@@ -29959,6 +30167,8 @@ export type Mutation = {
   createOrderEntry?: Maybe<CreateOrderEntryPayload>;
   /** Creates a single `OrderEntryItem`. */
   createOrderEntryItem?: Maybe<CreateOrderEntryItemPayload>;
+  /** Creates a single `OrderEntryReviewItem`. */
+  createOrderEntryReviewItem?: Maybe<CreateOrderEntryReviewItemPayload>;
   /** Creates a single `OrderItem`. */
   createOrderItem?: Maybe<CreateOrderItemPayload>;
   /** Creates a single `OrderMaster`. */
@@ -30343,6 +30553,10 @@ export type Mutation = {
   updateOrderEntryItemByNodeId?: Maybe<UpdateOrderEntryItemPayload>;
   /** Updates a single `OrderEntryItem` using a unique key and a patch. */
   updateOrderEntryItem?: Maybe<UpdateOrderEntryItemPayload>;
+  /** Updates a single `OrderEntryReviewItem` using its globally unique id and a patch. */
+  updateOrderEntryReviewItemByNodeId?: Maybe<UpdateOrderEntryReviewItemPayload>;
+  /** Updates a single `OrderEntryReviewItem` using a unique key and a patch. */
+  updateOrderEntryReviewItem?: Maybe<UpdateOrderEntryReviewItemPayload>;
   /** Updates a single `OrderItem` using its globally unique id and a patch. */
   updateOrderItemByNodeId?: Maybe<UpdateOrderItemPayload>;
   /** Updates a single `OrderItem` using a unique key and a patch. */
@@ -30743,6 +30957,10 @@ export type Mutation = {
   deleteOrderEntryItemByNodeId?: Maybe<DeleteOrderEntryItemPayload>;
   /** Deletes a single `OrderEntryItem` using a unique key. */
   deleteOrderEntryItem?: Maybe<DeleteOrderEntryItemPayload>;
+  /** Deletes a single `OrderEntryReviewItem` using its globally unique id. */
+  deleteOrderEntryReviewItemByNodeId?: Maybe<DeleteOrderEntryReviewItemPayload>;
+  /** Deletes a single `OrderEntryReviewItem` using a unique key. */
+  deleteOrderEntryReviewItem?: Maybe<DeleteOrderEntryReviewItemPayload>;
   /** Deletes a single `OrderItem` using its globally unique id. */
   deleteOrderItemByNodeId?: Maybe<DeleteOrderItemPayload>;
   /** Deletes a single `OrderItem` using a unique key. */
@@ -31036,6 +31254,8 @@ export type Mutation = {
   upsertOrderEntry?: Maybe<UpsertOrderEntryPayload>;
   /** Upserts a single `OrderEntryItem`. */
   upsertOrderEntryItem?: Maybe<UpsertOrderEntryItemPayload>;
+  /** Upserts a single `OrderEntryReviewItem`. */
+  upsertOrderEntryReviewItem?: Maybe<UpsertOrderEntryReviewItemPayload>;
   /** Upserts a single `OrderItem`. */
   upsertOrderItem?: Maybe<UpsertOrderItemPayload>;
   /** Upserts a single `OrderMaster`. */
@@ -31564,6 +31784,12 @@ export type MutationCreateOrderEntryArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreateOrderEntryItemArgs = {
   input: CreateOrderEntryItemInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateOrderEntryReviewItemArgs = {
+  input: CreateOrderEntryReviewItemInput;
 };
 
 
@@ -32716,6 +32942,18 @@ export type MutationUpdateOrderEntryItemByNodeIdArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateOrderEntryItemArgs = {
   input: UpdateOrderEntryItemInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateOrderEntryReviewItemByNodeIdArgs = {
+  input: UpdateOrderEntryReviewItemByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateOrderEntryReviewItemArgs = {
+  input: UpdateOrderEntryReviewItemInput;
 };
 
 
@@ -33920,6 +34158,18 @@ export type MutationDeleteOrderEntryItemArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteOrderEntryReviewItemByNodeIdArgs = {
+  input: DeleteOrderEntryReviewItemByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteOrderEntryReviewItemArgs = {
+  input: DeleteOrderEntryReviewItemInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteOrderItemByNodeIdArgs = {
   input: DeleteOrderItemByNodeIdInput;
 };
@@ -35068,6 +35318,12 @@ export type MutationUpsertOrderEntryArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpsertOrderEntryItemArgs = {
   input: UpsertOrderEntryItemInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpsertOrderEntryReviewItemArgs = {
+  input: UpsertOrderEntryReviewItemInput;
 };
 
 
@@ -51185,18 +51441,9 @@ export type UpdateOrderEntryItemOnOrderEntryItemForOrderEntryItemOrderEntryIdFke
   plu?: Maybe<Scalars['String']>;
   label?: Maybe<Scalars['String']>;
   notes?: Maybe<Scalars['String']>;
-  reviewLocationId?: Maybe<Scalars['String']>;
-  reviewVesselCode?: Maybe<Scalars['String']>;
-  reviewShipperId?: Maybe<Scalars['String']>;
-  reviewSpecies?: Maybe<Scalars['String']>;
-  reviewVariety?: Maybe<Scalars['String']>;
-  reviewSize?: Maybe<Scalars['String']>;
-  reviewPackType?: Maybe<Scalars['String']>;
-  reviewPlu?: Maybe<Scalars['String']>;
-  reviewLabel?: Maybe<Scalars['String']>;
   countryOfOrigin?: Maybe<Scalars['String']>;
-  reviewCountryOfOrigin?: Maybe<Scalars['String']>;
   orderEntryToOrderEntryId?: Maybe<OrderEntryItemOrderEntryIdFkeyInput>;
+  orderEntryReviewItemsUsingId?: Maybe<OrderEntryReviewItemOrderEntryItemIdFkeyInverseInput>;
 };
 
 /** Input for the nested mutation of `orderEntry` in the `OrderEntryItemInput` mutation. */
@@ -51314,8 +51561,122 @@ export type OrderEntryItemOrderEntryIdFkeyOrderEntryCreateInput = {
   orderEntryItemsUsingId?: Maybe<OrderEntryItemOrderEntryIdFkeyInverseInput>;
 };
 
+/** Input for the nested mutation of `orderEntryReviewItem` in the `OrderEntryItemInput` mutation. */
+export type OrderEntryReviewItemOrderEntryItemIdFkeyInverseInput = {
+  /** Flag indicating whether all other `orderEntryReviewItem` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `orderEntryReviewItem` for the far side of the relationship. */
+  connectById?: Maybe<Array<OrderEntryReviewItemOrderEntryReviewItemPkeyConnect>>;
+  /** The primary key(s) for `orderEntryReviewItem` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<OrderEntryReviewItemNodeIdConnect>>;
+  /** The primary key(s) for `orderEntryReviewItem` for the far side of the relationship. */
+  deleteById?: Maybe<Array<OrderEntryReviewItemOrderEntryReviewItemPkeyDelete>>;
+  /** The primary key(s) for `orderEntryReviewItem` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<OrderEntryReviewItemNodeIdDelete>>;
+  /** The primary key(s) and patch data for `orderEntryReviewItem` for the far side of the relationship. */
+  updateById?: Maybe<Array<OrderEntryReviewItemOnOrderEntryReviewItemForOrderEntryReviewItemOrderEntryItemIdFkeyUsingOrderEntryReviewItemPkeyUpdate>>;
+  /** The primary key(s) and patch data for `orderEntryReviewItem` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<OrderEntryItemOnOrderEntryReviewItemForOrderEntryReviewItemOrderEntryItemIdFkeyNodeIdUpdate>>;
+  /** A `OrderEntryReviewItemInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<OrderEntryReviewItemOrderEntryItemIdFkeyOrderEntryReviewItemCreateInput>>;
+};
+
+/** The fields on `orderEntryReviewItem` to look up the row to connect. */
+export type OrderEntryReviewItemOrderEntryReviewItemPkeyConnect = {
+  id: Scalars['BigInt'];
+};
+
+/** The globally unique `ID` look up for the row to connect. */
+export type OrderEntryReviewItemNodeIdConnect = {
+  /** The globally unique `ID` which identifies a single `orderEntryReviewItem` to be connected. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `orderEntryReviewItem` to look up the row to delete. */
+export type OrderEntryReviewItemOrderEntryReviewItemPkeyDelete = {
+  id: Scalars['BigInt'];
+};
+
+/** The globally unique `ID` look up for the row to delete. */
+export type OrderEntryReviewItemNodeIdDelete = {
+  /** The globally unique `ID` which identifies a single `orderEntryReviewItem` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `orderEntryReviewItem` to look up the row to update. */
+export type OrderEntryReviewItemOnOrderEntryReviewItemForOrderEntryReviewItemOrderEntryItemIdFkeyUsingOrderEntryReviewItemPkeyUpdate = {
+  /** An object where the defined keys will be set on the `orderEntryReviewItem` being updated. */
+  patch: UpdateOrderEntryReviewItemOnOrderEntryReviewItemForOrderEntryReviewItemOrderEntryItemIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `orderEntryReviewItem` being updated. */
+export type UpdateOrderEntryReviewItemOnOrderEntryReviewItemForOrderEntryReviewItemOrderEntryItemIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  locationId?: Maybe<Scalars['String']>;
+  vesselCode?: Maybe<Scalars['String']>;
+  shipperId?: Maybe<Scalars['String']>;
+  species?: Maybe<Scalars['String']>;
+  variety?: Maybe<Scalars['String']>;
+  size?: Maybe<Scalars['String']>;
+  packType?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  countryOfOrigin?: Maybe<Scalars['String']>;
+  label?: Maybe<Scalars['String']>;
+  palletCount?: Maybe<Scalars['BigFloat']>;
+  orderEntryItemToOrderEntryItemId?: Maybe<OrderEntryReviewItemOrderEntryItemIdFkeyInput>;
+};
+
+/** Input for the nested mutation of `orderEntryItem` in the `OrderEntryReviewItemInput` mutation. */
+export type OrderEntryReviewItemOrderEntryItemIdFkeyInput = {
+  /** The primary key(s) for `orderEntryItem` for the far side of the relationship. */
+  connectById?: Maybe<OrderEntryItemOrderEntryItemPkeyConnect>;
+  /** The primary key(s) for `orderEntryItem` for the far side of the relationship. */
+  connectByNodeId?: Maybe<OrderEntryItemNodeIdConnect>;
+  /** The primary key(s) for `orderEntryItem` for the far side of the relationship. */
+  deleteById?: Maybe<OrderEntryItemOrderEntryItemPkeyDelete>;
+  /** The primary key(s) for `orderEntryItem` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<OrderEntryItemNodeIdDelete>;
+  /** The primary key(s) and patch data for `orderEntryItem` for the far side of the relationship. */
+  updateById?: Maybe<OrderEntryItemOnOrderEntryReviewItemForOrderEntryReviewItemOrderEntryItemIdFkeyUsingOrderEntryItemPkeyUpdate>;
+  /** The primary key(s) and patch data for `orderEntryItem` for the far side of the relationship. */
+  updateByNodeId?: Maybe<OrderEntryReviewItemOnOrderEntryReviewItemForOrderEntryReviewItemOrderEntryItemIdFkeyNodeIdUpdate>;
+  /** A `OrderEntryItemInput` object that will be created and connected to this object. */
+  create?: Maybe<OrderEntryReviewItemOrderEntryItemIdFkeyOrderEntryItemCreateInput>;
+};
+
+/** The fields on `orderEntryItem` to look up the row to update. */
+export type OrderEntryItemOnOrderEntryReviewItemForOrderEntryReviewItemOrderEntryItemIdFkeyUsingOrderEntryItemPkeyUpdate = {
+  /** An object where the defined keys will be set on the `orderEntryItem` being updated. */
+  patch: UpdateOrderEntryItemOnOrderEntryReviewItemForOrderEntryReviewItemOrderEntryItemIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `orderEntryItem` being updated. */
+export type UpdateOrderEntryItemOnOrderEntryReviewItemForOrderEntryReviewItemOrderEntryItemIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  orderEntryId?: Maybe<Scalars['BigInt']>;
+  lineId?: Maybe<Scalars['BigFloat']>;
+  palletCount?: Maybe<Scalars['BigFloat']>;
+  unitSellPrice?: Maybe<Scalars['BigFloat']>;
+  deliveryCharge?: Maybe<Scalars['BigFloat']>;
+  locationId?: Maybe<Scalars['String']>;
+  vesselCode?: Maybe<Scalars['String']>;
+  shipperId?: Maybe<Scalars['String']>;
+  species?: Maybe<Scalars['String']>;
+  variety?: Maybe<Scalars['String']>;
+  size?: Maybe<Scalars['String']>;
+  packType?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  label?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  countryOfOrigin?: Maybe<Scalars['String']>;
+  orderEntryToOrderEntryId?: Maybe<OrderEntryItemOrderEntryIdFkeyInput>;
+  orderEntryReviewItemsUsingId?: Maybe<OrderEntryReviewItemOrderEntryItemIdFkeyInverseInput>;
+};
+
 /** The globally unique `ID` look up for the row to update. */
-export type OrderEntryOnOrderEntryItemForOrderEntryItemOrderEntryIdFkeyNodeIdUpdate = {
+export type OrderEntryReviewItemOnOrderEntryReviewItemForOrderEntryReviewItemOrderEntryItemIdFkeyNodeIdUpdate = {
   /** The globally unique `ID` which identifies a single `orderEntryItem` to be connected. */
   nodeId: Scalars['ID'];
   /** An object where the defined keys will be set on the `orderEntryItem` being updated. */
@@ -51340,18 +51701,83 @@ export type OrderEntryItemPatch = {
   plu?: Maybe<Scalars['String']>;
   label?: Maybe<Scalars['String']>;
   notes?: Maybe<Scalars['String']>;
-  reviewLocationId?: Maybe<Scalars['String']>;
-  reviewVesselCode?: Maybe<Scalars['String']>;
-  reviewShipperId?: Maybe<Scalars['String']>;
-  reviewSpecies?: Maybe<Scalars['String']>;
-  reviewVariety?: Maybe<Scalars['String']>;
-  reviewSize?: Maybe<Scalars['String']>;
-  reviewPackType?: Maybe<Scalars['String']>;
-  reviewPlu?: Maybe<Scalars['String']>;
-  reviewLabel?: Maybe<Scalars['String']>;
   countryOfOrigin?: Maybe<Scalars['String']>;
-  reviewCountryOfOrigin?: Maybe<Scalars['String']>;
   orderEntryToOrderEntryId?: Maybe<OrderEntryItemOrderEntryIdFkeyInput>;
+  orderEntryReviewItemsUsingId?: Maybe<OrderEntryReviewItemOrderEntryItemIdFkeyInverseInput>;
+};
+
+/** The `orderEntryItem` to be created by this mutation. */
+export type OrderEntryReviewItemOrderEntryItemIdFkeyOrderEntryItemCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  orderEntryId?: Maybe<Scalars['BigInt']>;
+  lineId?: Maybe<Scalars['BigFloat']>;
+  palletCount?: Maybe<Scalars['BigFloat']>;
+  unitSellPrice?: Maybe<Scalars['BigFloat']>;
+  deliveryCharge?: Maybe<Scalars['BigFloat']>;
+  locationId?: Maybe<Scalars['String']>;
+  vesselCode?: Maybe<Scalars['String']>;
+  shipperId?: Maybe<Scalars['String']>;
+  species?: Maybe<Scalars['String']>;
+  variety?: Maybe<Scalars['String']>;
+  size?: Maybe<Scalars['String']>;
+  packType?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  label?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  countryOfOrigin?: Maybe<Scalars['String']>;
+  orderEntryToOrderEntryId?: Maybe<OrderEntryItemOrderEntryIdFkeyInput>;
+  orderEntryReviewItemsUsingId?: Maybe<OrderEntryReviewItemOrderEntryItemIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type OrderEntryItemOnOrderEntryReviewItemForOrderEntryReviewItemOrderEntryItemIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `orderEntryReviewItem` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `orderEntryReviewItem` being updated. */
+  patch: OrderEntryReviewItemPatch;
+};
+
+/** Represents an update to a `OrderEntryReviewItem`. Fields that are set will be updated. */
+export type OrderEntryReviewItemPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  orderEntryItemId?: Maybe<Scalars['BigInt']>;
+  locationId?: Maybe<Scalars['String']>;
+  vesselCode?: Maybe<Scalars['String']>;
+  shipperId?: Maybe<Scalars['String']>;
+  species?: Maybe<Scalars['String']>;
+  variety?: Maybe<Scalars['String']>;
+  size?: Maybe<Scalars['String']>;
+  packType?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  countryOfOrigin?: Maybe<Scalars['String']>;
+  label?: Maybe<Scalars['String']>;
+  palletCount?: Maybe<Scalars['BigFloat']>;
+  orderEntryItemToOrderEntryItemId?: Maybe<OrderEntryReviewItemOrderEntryItemIdFkeyInput>;
+};
+
+/** The `orderEntryReviewItem` to be created by this mutation. */
+export type OrderEntryReviewItemOrderEntryItemIdFkeyOrderEntryReviewItemCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  locationId?: Maybe<Scalars['String']>;
+  vesselCode?: Maybe<Scalars['String']>;
+  shipperId?: Maybe<Scalars['String']>;
+  species?: Maybe<Scalars['String']>;
+  variety?: Maybe<Scalars['String']>;
+  size?: Maybe<Scalars['String']>;
+  packType?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  countryOfOrigin?: Maybe<Scalars['String']>;
+  label?: Maybe<Scalars['String']>;
+  palletCount?: Maybe<Scalars['BigFloat']>;
+  orderEntryItemToOrderEntryItemId?: Maybe<OrderEntryReviewItemOrderEntryItemIdFkeyInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type OrderEntryOnOrderEntryItemForOrderEntryItemOrderEntryIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `orderEntryItem` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `orderEntryItem` being updated. */
+  patch: OrderEntryItemPatch;
 };
 
 /** The `orderEntryItem` to be created by this mutation. */
@@ -51371,18 +51797,9 @@ export type OrderEntryItemOrderEntryIdFkeyOrderEntryItemCreateInput = {
   plu?: Maybe<Scalars['String']>;
   label?: Maybe<Scalars['String']>;
   notes?: Maybe<Scalars['String']>;
-  reviewLocationId?: Maybe<Scalars['String']>;
-  reviewVesselCode?: Maybe<Scalars['String']>;
-  reviewShipperId?: Maybe<Scalars['String']>;
-  reviewSpecies?: Maybe<Scalars['String']>;
-  reviewVariety?: Maybe<Scalars['String']>;
-  reviewSize?: Maybe<Scalars['String']>;
-  reviewPackType?: Maybe<Scalars['String']>;
-  reviewPlu?: Maybe<Scalars['String']>;
-  reviewLabel?: Maybe<Scalars['String']>;
   countryOfOrigin?: Maybe<Scalars['String']>;
-  reviewCountryOfOrigin?: Maybe<Scalars['String']>;
   orderEntryToOrderEntryId?: Maybe<OrderEntryItemOrderEntryIdFkeyInput>;
+  orderEntryReviewItemsUsingId?: Maybe<OrderEntryReviewItemOrderEntryItemIdFkeyInverseInput>;
 };
 
 /** The output of our create `OrderEntryItem` mutation. */
@@ -51438,18 +51855,62 @@ export type OrderEntryItemInput = {
   plu?: Maybe<Scalars['String']>;
   label?: Maybe<Scalars['String']>;
   notes?: Maybe<Scalars['String']>;
-  reviewLocationId?: Maybe<Scalars['String']>;
-  reviewVesselCode?: Maybe<Scalars['String']>;
-  reviewShipperId?: Maybe<Scalars['String']>;
-  reviewSpecies?: Maybe<Scalars['String']>;
-  reviewVariety?: Maybe<Scalars['String']>;
-  reviewSize?: Maybe<Scalars['String']>;
-  reviewPackType?: Maybe<Scalars['String']>;
-  reviewPlu?: Maybe<Scalars['String']>;
-  reviewLabel?: Maybe<Scalars['String']>;
   countryOfOrigin?: Maybe<Scalars['String']>;
-  reviewCountryOfOrigin?: Maybe<Scalars['String']>;
   orderEntryToOrderEntryId?: Maybe<OrderEntryItemOrderEntryIdFkeyInput>;
+  orderEntryReviewItemsUsingId?: Maybe<OrderEntryReviewItemOrderEntryItemIdFkeyInverseInput>;
+};
+
+/** The output of our create `OrderEntryReviewItem` mutation. */
+export type CreateOrderEntryReviewItemPayload = {
+  __typename?: 'CreateOrderEntryReviewItemPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `OrderEntryReviewItem` that was created by this mutation. */
+  orderEntryReviewItem?: Maybe<OrderEntryReviewItem>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `OrderEntryItem` that is related to this `OrderEntryReviewItem`. */
+  orderEntryItem?: Maybe<OrderEntryItem>;
+  /** An edge for our `OrderEntryReviewItem`. May be used by Relay 1. */
+  orderEntryReviewItemEdge?: Maybe<OrderEntryReviewItemsEdge>;
+};
+
+
+/** The output of our create `OrderEntryReviewItem` mutation. */
+export type CreateOrderEntryReviewItemPayloadOrderEntryReviewItemEdgeArgs = {
+  orderBy?: Maybe<Array<OrderEntryReviewItemsOrderBy>>;
+};
+
+/** All input for the create `OrderEntryReviewItem` mutation. */
+export type CreateOrderEntryReviewItemInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `OrderEntryReviewItem` to be created by this mutation. */
+  orderEntryReviewItem: OrderEntryReviewItemInput;
+};
+
+/** An input for mutations affecting `OrderEntryReviewItem` */
+export type OrderEntryReviewItemInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  orderEntryItemId?: Maybe<Scalars['BigInt']>;
+  locationId?: Maybe<Scalars['String']>;
+  vesselCode?: Maybe<Scalars['String']>;
+  shipperId?: Maybe<Scalars['String']>;
+  species?: Maybe<Scalars['String']>;
+  variety?: Maybe<Scalars['String']>;
+  size?: Maybe<Scalars['String']>;
+  packType?: Maybe<Scalars['String']>;
+  plu?: Maybe<Scalars['String']>;
+  countryOfOrigin?: Maybe<Scalars['String']>;
+  label?: Maybe<Scalars['String']>;
+  palletCount?: Maybe<Scalars['BigFloat']>;
+  orderEntryItemToOrderEntryItemId?: Maybe<OrderEntryReviewItemOrderEntryItemIdFkeyInput>;
 };
 
 /** The output of our create `OrderItem` mutation. */
@@ -57389,6 +57850,55 @@ export type UpdateOrderEntryItemInput = {
   id: Scalars['BigInt'];
 };
 
+/** The output of our update `OrderEntryReviewItem` mutation. */
+export type UpdateOrderEntryReviewItemPayload = {
+  __typename?: 'UpdateOrderEntryReviewItemPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `OrderEntryReviewItem` that was updated by this mutation. */
+  orderEntryReviewItem?: Maybe<OrderEntryReviewItem>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `OrderEntryItem` that is related to this `OrderEntryReviewItem`. */
+  orderEntryItem?: Maybe<OrderEntryItem>;
+  /** An edge for our `OrderEntryReviewItem`. May be used by Relay 1. */
+  orderEntryReviewItemEdge?: Maybe<OrderEntryReviewItemsEdge>;
+};
+
+
+/** The output of our update `OrderEntryReviewItem` mutation. */
+export type UpdateOrderEntryReviewItemPayloadOrderEntryReviewItemEdgeArgs = {
+  orderBy?: Maybe<Array<OrderEntryReviewItemsOrderBy>>;
+};
+
+/** All input for the `updateOrderEntryReviewItemByNodeId` mutation. */
+export type UpdateOrderEntryReviewItemByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `OrderEntryReviewItem` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `OrderEntryReviewItem` being updated. */
+  patch: OrderEntryReviewItemPatch;
+};
+
+/** All input for the `updateOrderEntryReviewItem` mutation. */
+export type UpdateOrderEntryReviewItemInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `OrderEntryReviewItem` being updated. */
+  patch: OrderEntryReviewItemPatch;
+  id: Scalars['BigInt'];
+};
+
 /** The output of our update `OrderItem` mutation. */
 export type UpdateOrderItemPayload = {
   __typename?: 'UpdateOrderItemPayload';
@@ -61984,6 +62494,52 @@ export type DeleteOrderEntryItemByNodeIdInput = {
 
 /** All input for the `deleteOrderEntryItem` mutation. */
 export type DeleteOrderEntryItemInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['BigInt'];
+};
+
+/** The output of our delete `OrderEntryReviewItem` mutation. */
+export type DeleteOrderEntryReviewItemPayload = {
+  __typename?: 'DeleteOrderEntryReviewItemPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `OrderEntryReviewItem` that was deleted by this mutation. */
+  orderEntryReviewItem?: Maybe<OrderEntryReviewItem>;
+  deletedOrderEntryReviewItemNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `OrderEntryItem` that is related to this `OrderEntryReviewItem`. */
+  orderEntryItem?: Maybe<OrderEntryItem>;
+  /** An edge for our `OrderEntryReviewItem`. May be used by Relay 1. */
+  orderEntryReviewItemEdge?: Maybe<OrderEntryReviewItemsEdge>;
+};
+
+
+/** The output of our delete `OrderEntryReviewItem` mutation. */
+export type DeleteOrderEntryReviewItemPayloadOrderEntryReviewItemEdgeArgs = {
+  orderBy?: Maybe<Array<OrderEntryReviewItemsOrderBy>>;
+};
+
+/** All input for the `deleteOrderEntryReviewItemByNodeId` mutation. */
+export type DeleteOrderEntryReviewItemByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `OrderEntryReviewItem` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deleteOrderEntryReviewItem` mutation. */
+export type DeleteOrderEntryReviewItemInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
@@ -66878,6 +67434,35 @@ export type UpsertOrderEntryItemInput = {
   clientMutationId?: Maybe<Scalars['String']>;
   /** The `OrderEntryItem` to be upserted by this mutation. */
   orderEntryItem: OrderEntryItemInput;
+};
+
+/** The output of our upsert `OrderEntryReviewItem` mutation. */
+export type UpsertOrderEntryReviewItemPayload = {
+  __typename?: 'UpsertOrderEntryReviewItemPayload';
+  /** The exact same `clientMutationId` that was provided in the mutation input, unchanged and unused. May be used by a client to track mutations. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `OrderEntryReviewItem` that were upserted by this mutation. */
+  orderEntryReviewItem?: Maybe<OrderEntryReviewItem>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `OrderEntryItem` that is related to this `OrderEntryReviewItem`. */
+  orderEntryItem?: Maybe<OrderEntryItem>;
+  /** An edge for our `OrderEntryReviewItem`. May be used by Relay 1. */
+  orderEntryReviewItemEdge?: Maybe<OrderEntryReviewItemsEdge>;
+};
+
+
+/** The output of our upsert `OrderEntryReviewItem` mutation. */
+export type UpsertOrderEntryReviewItemPayloadOrderEntryReviewItemEdgeArgs = {
+  orderBy?: Maybe<Array<OrderEntryReviewItemsOrderBy>>;
+};
+
+/** All input for the upsert `OrderEntryReviewItem` mutation. */
+export type UpsertOrderEntryReviewItemInput = {
+  /** An arbitrary string value with no semantic meaning. Will be included in the payload verbatim. May be used to track mutations by the client. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `OrderEntryReviewItem` to be upserted by this mutation. */
+  orderEntryReviewItem: OrderEntryReviewItemInput;
 };
 
 /** The output of our upsert `OrderItem` mutation. */

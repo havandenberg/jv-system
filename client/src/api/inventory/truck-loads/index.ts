@@ -2,6 +2,8 @@ import { useMutation, useQuery } from '@apollo/client';
 import { add } from 'date-fns';
 import { loader } from 'graphql.macro';
 
+import { WAREHOUSE_DISTINCT_VALUES_QUERY } from 'api/directory/warehouse';
+import useFilteredQueryValues from 'api/hooks/use-filtered-query-values';
 import { getOrderByString, getSearchArray } from 'api/utils';
 import { formatDate } from 'components/date-range-picker';
 import { SORT_ORDER } from 'hooks/use-columns';
@@ -9,8 +11,10 @@ import {
   useDateRangeQueryParams,
   useSearchQueryParam,
   useSortQueryParams,
+  useTruckLoadsQueryParams,
 } from 'hooks/use-query-params';
 import { Mutation, Query } from 'types';
+import { VENDOR_DISTINCT_VALUES_QUERY } from 'api/directory/vendor';
 
 const TRUCK_LOAD_DETAILS_QUERY = loader('./details.gql');
 const TRUCK_LOAD_LIST_QUERY = loader('./list.gql');
@@ -20,6 +24,7 @@ const useVariables = () => {
   const [search = ''] = useSearchQueryParam();
   const [{ sortBy = 'shipDate', sortOrder = SORT_ORDER.DESC }] =
     useSortQueryParams();
+  const [{ warehouseId }] = useTruckLoadsQueryParams();
   const orderBy = getOrderByString(sortBy, sortOrder);
 
   const [{ startDate, endDate }] = useDateRangeQueryParams();
@@ -33,11 +38,31 @@ const useVariables = () => {
   const formattedEndDate =
     endDate && formatDate(new Date(endDate.replace(/-/g, '/')));
 
+  const filteredWarehouseValues = useFilteredQueryValues(
+    warehouseId,
+    {},
+    WAREHOUSE_DISTINCT_VALUES_QUERY,
+    'warehouseDistinctValues',
+  );
+
+  const filteredVendorValues = useFilteredQueryValues(
+    warehouseId,
+    {},
+    VENDOR_DISTINCT_VALUES_QUERY,
+    'vendorDistinctValues',
+  );
+
   return {
     orderBy: orderBy,
     search: getSearchArray(search),
     startDate: formattedStartDate,
     endDate: formattedEndDate,
+    warehouseId: filteredWarehouseValues.map((val) =>
+      val.substring(val.lastIndexOf(' (') + 2, val.length - 1),
+    ),
+    vendorId: filteredVendorValues.map((val) =>
+      val.substring(val.lastIndexOf(' (') + 2, val.length - 1),
+    ),
   };
 };
 

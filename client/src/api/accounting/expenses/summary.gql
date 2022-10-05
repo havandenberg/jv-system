@@ -1,0 +1,47 @@
+query EXPENSE_HEADER_LIST($vesselCode: String!) {
+  expenseHeaders(condition: { vesselCode: $vesselCode }) {
+    nodes {
+      id
+      vendor {
+        id
+        vendorName
+      }
+      voucherId
+      invoiceId
+      isEstimated
+      isProrate
+      paidCode
+      expenseAmount
+      checkNumber
+      expenseCode
+      truckLoadId
+      vesselDischargeDate
+      vessel {
+        id
+        dischargeDate
+        vesselCode
+        vesselName
+      }
+      items {
+        nodes {
+          id
+          vendorId
+          voucherId
+          sequenceId
+          quantity
+          unitPrice
+          itemAmount
+          billOfLadingId
+          productCode
+          palletId
+          shipper {
+            id
+            shipperName
+          }
+          notes
+        }
+      }
+    }
+    totalCount
+  }
+}

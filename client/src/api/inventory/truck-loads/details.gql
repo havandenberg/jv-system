@@ -4,7 +4,10 @@ query TRUCK_LOAD_DETAILS($truckLoadId: String!) {
       id
       loadId
       loadStatus
-      vendorId
+      vendor {
+        id
+        vendorName
+      }
       fob
       shipDate
       ryanNumber

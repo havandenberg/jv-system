@@ -2,13 +2,13 @@ import React from 'react';
 import { add, format, startOfISOWeek } from 'date-fns';
 import { times } from 'ramda';
 
+import { CollapseAllControl } from 'components/expandable';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 import { getWeekNumber, isCurrentWeek } from 'utils/date';
 
 import { gridTemplateColumns } from '.';
-import DoubleArrowInCircle from 'assets/images/double-arrow-in-circle';
 
 interface Props {
   collapseAllItems: () => void;
@@ -34,33 +34,10 @@ const Header = ({
     <l.Flex alignCenter transform="translateX(-25px)">
       <ty.BodyText>Products</ty.BodyText>
       {!editing && (
-        <>
-          <l.HoverButton
-            borderRadius={th.borderRadii.circle}
-            boxShadow={th.shadows.boxLight}
-            ml={th.spacing.sm}
-            onClick={collapseAllItems}
-          >
-            <DoubleArrowInCircle
-              fill={th.colors.brand.primary}
-              height={th.sizes.xs}
-              width={th.sizes.xs}
-            />
-          </l.HoverButton>
-          <l.HoverButton
-            borderRadius={th.borderRadii.circle}
-            boxShadow={th.shadows.boxLight}
-            ml={th.spacing.sm}
-            onClick={expandAllItems}
-            transform="scaleY(-1)"
-          >
-            <DoubleArrowInCircle
-              fill={th.colors.brand.primary}
-              height={th.sizes.xs}
-              width={th.sizes.xs}
-            />
-          </l.HoverButton>
-        </>
+        <CollapseAllControl
+          collapseAllItems={collapseAllItems}
+          expandAllItems={expandAllItems}
+        />
       )}
     </l.Flex>
     <ty.BodyText center>Size</ty.BodyText>

@@ -44,28 +44,16 @@ const Details = () => {
 
   const [handleUpdate] = api.useUpdateVendor(id);
 
-  const updateFields = [
-    'vendorName',
-    'phone',
-    'address1',
-    'address2',
-    'address3',
-    'city',
-    'postalState',
-    'outQueue',
-    'stateTaxCode',
-    'countyTaxCode',
-    'cityTaxCode',
-    'miscTaxCode',
-  ];
+  const updateFields = ['vendorName', 'notes'];
   const updateVariables = { id };
 
-  const { changes, editing, handleChange } = useUpdateItem<Vendor>({
-    data: data as Vendor,
-    handleUpdate,
-    updateFields,
-    updateVariables,
-  });
+  const { changes, editing, handleChange, getUpdateActions } =
+    useUpdateItem<Vendor>({
+      data: data as Vendor,
+      handleUpdate,
+      updateFields,
+      updateVariables,
+    });
 
   const [
     selectedItems,
@@ -80,6 +68,7 @@ const Details = () => {
 
   return (
     <Page
+      actions={getUpdateActions().defaultActions}
       breadcrumbs={vendorBreadcrumbs(id)}
       title={data ? data.vendorName : 'Loading...'}
     >

@@ -87,6 +87,17 @@ SELECT CONCAT (
 	) FROM product.vessel vv FULL JOIN directory.country c ON (v.country_id = c.id) WHERE v.id = vv.id
 $BODY$;
 
+CREATE FUNCTION product.vessel_distinct_values()
+  RETURNS SETOF TEXT
+	LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT DISTINCT CONCAT(v.vessel_name, ' (', v.vessel_code, ')')
+  FROM product.vessel v;
+$BODY$;
+
 CREATE FUNCTION product.vessel_inspection_vessel_name(IN v product.vessel)
     RETURNS TEXT
     LANGUAGE 'sql'

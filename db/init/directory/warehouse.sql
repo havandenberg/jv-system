@@ -63,6 +63,16 @@ SELECT CONCAT (
 	) FROM directory.warehouse ww FULL JOIN directory.country c ON (w.country_id = c.id) WHERE w.id = ww.id
 $BODY$;
 
+CREATE FUNCTION directory.warehouse_distinct_values()
+  RETURNS SETOF TEXT
+	LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT DISTINCT CONCAT(warehouse_name, ' (', id, ')') from directory.warehouse;
+$BODY$;
+
 CREATE FUNCTION directory.bulk_upsert_warehouse(
   warehouses directory.warehouse[]
 )

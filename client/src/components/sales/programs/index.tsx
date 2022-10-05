@@ -178,7 +178,7 @@ const Programs = () => {
       closeOnSelect: true,
       clearSearchOnBlur: true,
       error: shipperDataError,
-      errorLabel: 'Shippers',
+      errorLabel: 'shippers',
       loading: shipperDataLoading,
       nameKey: 'shipperName',
       onClear: () => {
@@ -215,7 +215,7 @@ const Programs = () => {
     allItems: () => customers as Customer[],
     closeOnSelect: true,
     error: customerDataError,
-    errorLabel: 'Customers',
+    errorLabel: 'customers',
     loading: customerDataLoading,
     nameKey: 'customerName',
     onClear: () => {

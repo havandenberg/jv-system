@@ -3,8 +3,8 @@ import { add } from 'date-fns';
 import { loader } from 'graphql.macro';
 import { ArrayParam } from 'use-query-params';
 
-import { CUSTOMER_DISTINCT_VALUES_QUERY } from 'api/directory/customer';
 import useFilteredQueryValues from 'api/hooks/use-filtered-query-values';
+import { VESSEL_DISTINCT_VALUES_QUERY } from 'api/inventory/vessel';
 import { getOrderByString, getSearchArray } from 'api/utils';
 import { formatDate } from 'components/date-range-picker';
 import { SORT_ORDER } from 'hooks/use-columns';
@@ -18,48 +18,49 @@ import { Query } from 'types';
 
 const EXPENSE_HEADER_DETAILS_QUERY = loader('./details.gql');
 const EXPENSE_HEADER_LIST_QUERY = loader('./list.gql');
+const EXPENSE_HEADER_SUMMARY_QUERY = loader('./summary.gql');
+
+const EXPENSES_SUMMARY_VESSELS_QUERY = loader('./vessels.gql');
 
 const useVariables = (orderByOverride?: string) => {
   const [search = ''] = useSearchQueryParam();
-  const [{ sortBy = 'voucherId', sortOrder = SORT_ORDER.ASC }] =
+  const [{ sortBy = 'vesselDischargeDate', sortOrder = SORT_ORDER.ASC }] =
     useSortQueryParams();
   const orderBy = getOrderByString(sortBy, sortOrder);
 
   const [{ startDate, endDate }] = useDateRangeQueryParams();
   const formattedStartDate = formatDate(
     add(startDate ? new Date(startDate.replace(/-/g, '/')) : new Date(), {
-      weeks: startDate === endDate ? -8 : 0,
+      weeks: startDate === endDate ? -1 : 0,
     }),
   );
   const formattedEndDate = formatDate(
-    add(endDate ? new Date(endDate.replace(/-/g, '/')) : new Date(), {
-      days: startDate === endDate ? 1 : 0,
-    }),
+    endDate ? new Date(endDate.replace(/-/g, '/')) : new Date(),
   );
 
-  const [{ billingCustomerId, salesUserCode }] = useQuerySet({
-    billingCustomerId: ArrayParam,
-    salesUserCode: ArrayParam,
+  const [{ expenseCode, vesselCode }] = useQuerySet({
+    expenseCode: ArrayParam,
+    vesselCode: ArrayParam,
   });
 
-  const filteredSalesUserCodeValues = useFilteredQueryValues(salesUserCode, {
-    columnName: 'sales_user_code',
-    tableName: 'order_master',
-    schemaName: 'operations',
+  const filteredExpenseCodeValues = useFilteredQueryValues(expenseCode, {
+    columnName: 'expense_code',
+    tableName: 'expense_header',
+    schemaName: 'accounting',
   });
 
-  const filteredCustomerValues = useFilteredQueryValues(
-    billingCustomerId,
+  const filteredVesselValues = useFilteredQueryValues(
+    vesselCode,
     {},
-    CUSTOMER_DISTINCT_VALUES_QUERY,
-    'customerDistinctValues',
+    VESSEL_DISTINCT_VALUES_QUERY,
+    'vesselDistinctValues',
   );
 
   return {
-    billingCustomerId: filteredCustomerValues.map((val) =>
+    expenseCode: filteredExpenseCodeValues,
+    vesselCode: filteredVesselValues.map((val) =>
       val.substring(val.lastIndexOf(' (') + 2, val.length - 1),
     ),
-    salesUserCode: filteredSalesUserCodeValues,
     orderBy: orderByOverride || orderBy,
     search: getSearchArray(search),
     startDate: formattedStartDate,
@@ -67,7 +68,7 @@ const useVariables = (orderByOverride?: string) => {
   };
 };
 
-export const useOrders = (orderByOverride?: string) => {
+export const useExpenses = (orderByOverride?: string) => {
   const variables = useVariables(orderByOverride);
 
   const { data, error, loading } = useQuery<Query>(EXPENSE_HEADER_LIST_QUERY, {
@@ -81,7 +82,7 @@ export const useOrders = (orderByOverride?: string) => {
   };
 };
 
-export const useOrder = (orderId: string) => {
+export const useExpense = (orderId: string) => {
   const { data, error, loading } = useQuery<Query>(
     EXPENSE_HEADER_DETAILS_QUERY,
     {
@@ -91,7 +92,40 @@ export const useOrder = (orderId: string) => {
     },
   );
   return {
-    data: data ? data.orderMasters : undefined,
+    data: data ? data.expenseHeaders : undefined,
+    error,
+    loading,
+  };
+};
+
+export const useExpensesVessels = () => {
+  const [vesselSearch = ''] = useSearchQueryParam('vesselSearch');
+  const { data, error, loading } = useQuery<Query>(
+    EXPENSES_SUMMARY_VESSELS_QUERY,
+    {
+      variables: {
+        search: getSearchArray(vesselSearch),
+      },
+    },
+  );
+
+  return {
+    data: data ? data.vessels : undefined,
+    error,
+    loading,
+  };
+};
+
+export const useExpensesSummary = (vesselCode: string) => {
+  const { data, error, loading } = useQuery<Query>(
+    EXPENSE_HEADER_SUMMARY_QUERY,
+    {
+      variables: { vesselCode },
+    },
+  );
+
+  return {
+    data: data ? data.expenseHeaders : undefined,
     error,
     loading,
   };

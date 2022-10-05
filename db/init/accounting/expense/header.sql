@@ -51,6 +51,16 @@ AS $BODY$
   SELECT * FROM product.vessel v WHERE v.vessel_code = e.vessel_code LIMIT 1;
 $BODY$;
 
+CREATE FUNCTION accounting.expense_header_vessel_discharge_date(IN e accounting.expense_header)
+    RETURNS DATE
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT discharge_date FROM product.vessel v WHERE v.vessel_code = e.vessel_code ORDER BY v.discharge_date DESC
+$BODY$;
+
 CREATE FUNCTION accounting.expense_header_items(IN e accounting.expense_header)
     RETURNS setof accounting.expense_item
     LANGUAGE 'sql'

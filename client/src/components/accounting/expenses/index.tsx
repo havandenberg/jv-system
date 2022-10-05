@@ -4,62 +4,56 @@ import { isEmpty } from 'ramda';
 
 import api from 'api';
 import ResetImg from 'assets/images/reset';
-import { getFilteredItems, getSortedItems } from 'components/column-label';
+import { getSortedItems } from 'components/column-label';
+import { ResetButton } from 'components/inventory/inventory/use-filters';
 import ListItem from 'components/list-item';
 import { DataMessage } from 'components/page/message';
 import Page from 'components/page';
 import VirtualizedList from 'components/virtualized-list';
 import useColumns, { SORT_ORDER } from 'hooks/use-columns';
 import useDateRange from 'hooks/use-date-range';
-import {
-  useSortQueryParams,
-  useTruckLoadsQueryParams,
-} from 'hooks/use-query-params';
+import { useSortQueryParams } from 'hooks/use-query-params';
 import useSearch from 'hooks/use-search';
-import { TruckLoad } from 'types';
+import { ExpenseHeader } from 'types';
+import b from 'ui/button';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 
-import { ResetButton } from '../inventory/use-filters';
-import { indexListLabels } from './data-utils';
+import { listLabels } from './data-utils';
 
-export const breadcrumbs = [
-  { text: 'Truck Loads', to: `/inventory/truck-loads` },
-];
+export const breadcrumbs = [{ text: 'Expenses', to: `/accounting/expenses` }];
 
-const gridTemplateColumns = '0.8fr 1fr 1fr 2fr 2fr 2fr 1fr 0.5fr 30px';
+const gridTemplateColumns = '2fr 0.8fr 0.8fr 2fr 1fr 1fr 0.7fr 30px';
 
-const TruckLoads = () => {
+const Expenses = () => {
   const { Search } = useSearch();
-  const [{ sortBy = 'shipDate', sortOrder = SORT_ORDER.DESC }] =
-    useSortQueryParams();
-  const [{ coast = 'EC', fob }] = useTruckLoadsQueryParams();
-  const { data, loading, error } = api.useTruckLoads();
-  const items = (data ? data.nodes : []) as TruckLoad[];
+  const [{ sortBy, sortOrder }] = useSortQueryParams();
+
+  const { data, loading, error } = api.useExpenses();
+  const items = (data ? data.nodes : []) as ExpenseHeader[];
 
   const { DateRangePicker, BackwardButton, ForwardButton } = useDateRange({
     maxDate: endOfISOWeek(add(new Date(), { weeks: 4 })),
   });
 
-  const columnLabels = useColumns<TruckLoad>(
-    'shipDate',
+  const columnLabels = useColumns<ExpenseHeader>(
+    'vesselCode',
     SORT_ORDER.DESC,
-    indexListLabels(fob),
-    'operations',
-    'truck_load',
+    listLabels,
+    'accounting',
+    'expense_header',
   );
 
-  const filteredItems = getFilteredItems(indexListLabels(fob), items);
-  const sortedItems = getSortedItems(
-    indexListLabels(fob),
-    filteredItems,
-    sortBy,
-    sortOrder,
-  );
+  const sortedExpenses = getSortedItems(listLabels, items, sortBy, sortOrder);
 
   return (
     <Page
+      actions={[
+        <l.AreaLink key="summary" to="/accounting/expenses/summary">
+          <b.Primary>Summary</b.Primary>
+        </l.AreaLink>,
+      ]}
       breadcrumbs={breadcrumbs}
       extraPaddingTop={112}
       headerChildren={
@@ -93,7 +87,7 @@ const TruckLoads = () => {
                   cursor="pointer"
                   height={th.sizes.icon}
                   width={th.sizes.icon}
-                  to={`/inventory/truck-loads?coast=${coast}`}
+                  to="/accounting/expenses"
                 >
                   <ResetImg height={th.sizes.icon} width={th.sizes.icon} />
                 </l.AreaLink>
@@ -112,24 +106,22 @@ const TruckLoads = () => {
           )}
         </>
       }
-      title="Truck Loads"
+      title="Expenses"
     >
-      {!isEmpty(sortedItems) ? (
+      {!isEmpty(sortedExpenses) ? (
         <VirtualizedList
           height={582}
-          rowCount={data ? sortedItems.length : 0}
+          rowCount={data ? sortedExpenses.length : 0}
           rowRenderer={({ key, index, style }) => {
-            const item = sortedItems[index];
+            const item = sortedExpenses[index];
             return (
               item && (
                 <div key={key} style={style}>
-                  <ListItem<TruckLoad>
+                  <ListItem<ExpenseHeader>
                     data={item}
                     gridTemplateColumns={gridTemplateColumns}
-                    listLabels={indexListLabels(fob)}
-                    to={`/inventory/truck-loads/${item.loadId}?truckLoadView=${
-                      (item.count || 0) > 1 ? 'pickupLocations' : 'pallets'
-                    }`}
+                    listLabels={listLabels}
+                    to={`/accounting/expenses/${item.vendor?.id}-${item.voucherId}`}
                   />
                 </div>
               )
@@ -142,7 +134,7 @@ const TruckLoads = () => {
           error={error}
           loading={loading}
           emptyProps={{
-            header: 'No truck loads found',
+            header: 'No expenses found',
             text: 'Modify search parameters to view more results.',
           }}
         />
@@ -151,4 +143,4 @@ const TruckLoads = () => {
   );
 };
 
-export default TruckLoads;
+export default Expenses;

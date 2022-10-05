@@ -61,16 +61,6 @@ query ORDER_ENTRY_DETAILS($orderId: BigFloat!) {
           plu
           label
           countryOfOrigin
-          reviewLocationId
-          reviewVesselCode
-          reviewShipperId
-          reviewSpecies
-          reviewVariety
-          reviewSize
-          reviewPackType
-          reviewPlu
-          reviewLabel
-          reviewCountryOfOrigin
           notes
           vessel {
             id
@@ -85,18 +75,35 @@ query ORDER_ENTRY_DETAILS($orderId: BigFloat!) {
             id
             warehouseName
           }
-          reviewVessel {
-            id
-            vesselCode
-            vesselName
-          }
-          reviewShipper {
-            id
-            shipperName
-          }
-          reviewWarehouse {
-            id
-            warehouseName
+          orderEntryReviewItems {
+            nodes {
+              id
+              orderEntryItemId
+              locationId
+              vesselCode
+              shipperId
+              species
+              variety
+              size
+              packType
+              plu
+              label
+              countryOfOrigin
+              palletCount
+              vessel {
+                id
+                vesselCode
+                vesselName
+              }
+              shipper {
+                id
+                shipperName
+              }
+              warehouse {
+                id
+                warehouseName
+              }
+            }
           }
         }
       }

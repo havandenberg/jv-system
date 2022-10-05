@@ -148,9 +148,8 @@ const CreateOrderEntry = () => {
 
   const [newItemNextId, setNewItemNextId] = useState(-2);
 
-  const newOrderItem = {
+  const newOrderReviewItem = {
     id: -1,
-    lineId: 1,
     species: '',
     variety: '',
     size: '',
@@ -162,6 +161,11 @@ const CreateOrderEntry = () => {
     locationId: '',
     shipperId: '',
     palletCount: 0,
+  };
+
+  const newOrderItem = {
+    ...newOrderReviewItem,
+    lineId: 1,
     unitSellPrice: 0,
     deliveryCharge: 0,
   };
@@ -774,23 +778,10 @@ const CreateOrderEntry = () => {
                       'shipper',
                       'vessel',
                       'warehouse',
-                      'reviewShipper',
-                      'reviewVessel',
-                      'reviewWarehouse',
                       '__typename',
                     ],
                     entryItem,
                   ),
-                  reviewSpecies: entryItem.species,
-                  reviewVariety: entryItem.variety,
-                  reviewSize: entryItem.size,
-                  reviewPackType: entryItem.packType,
-                  reviewLabel: entryItem.label,
-                  reviewVesselCode: entryItem.vesselCode,
-                  reviewLocationId: entryItem.locationId,
-                  reviewPlu: entryItem.plu,
-                  reviewShipperId: entryItem.shipperId,
-                  reviewCountryOfOrigin: entryItem.countryOfOrigin,
                   deliveryCharge: changes.fob ? 0 : entryItem.deliveryCharge,
                 }),
               ),
@@ -841,22 +832,7 @@ const CreateOrderEntry = () => {
                 changes.orderEntryItems.nodes as OrderEntryItem[]
               ).map((entryItem) => ({
                 id: entryItem.id,
-                patch: pick(
-                  [
-                    'reviewSpecies',
-                    'reviewVariety',
-                    'reviewSize',
-                    'reviewPackType',
-                    'reviewLabel',
-                    'reviewVesselCode',
-                    'reviewLocationId',
-                    'reviewPlu',
-                    'reviewShipperId',
-                    'reviewCountryOfOrigin',
-                    'notes',
-                  ],
-                  entryItem,
-                ),
+                patch: pick(['notes'], entryItem),
               })),
             },
           },

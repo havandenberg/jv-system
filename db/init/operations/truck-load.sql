@@ -74,6 +74,17 @@ AS $BODY$
   SELECT * FROM directory.warehouse w WHERE w.id = t.warehouse_id
 $BODY$;
 
+CREATE FUNCTION operations.truck_load_vendor(IN t operations.truck_load)
+    RETURNS directory.vendor
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT * FROM directory.vendor v
+    WHERE v.id = t.vendor_id;
+$BODY$;
+
 CREATE FUNCTION operations.truck_load_search_text(IN t operations.truck_load)
 	RETURNS TEXT
 	LANGUAGE 'sql'

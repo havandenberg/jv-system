@@ -1,3 +1,6 @@
+import { CUSTOMER_DISTINCT_VALUES_QUERY } from 'api/directory/customer';
+import { WAREHOUSE_DISTINCT_VALUES_QUERY } from 'api/directory/warehouse';
+import { VENDOR_DISTINCT_VALUES_QUERY } from 'api/directory/vendor';
 import { LabelInfo } from 'components/column-label';
 import StatusIndicator from 'components/status-indicator';
 import { SORT_ORDER } from 'hooks/use-columns';
@@ -9,7 +12,9 @@ import { formatTime } from 'utils/date';
 
 export type TruckLoadLabelInfo = LabelInfo<TruckLoad>;
 
-export const indexListLabels: TruckLoadLabelInfo[] = [
+export const indexListLabels: (selectedFOB: string) => TruckLoadLabelInfo[] = (
+  selectedFOB,
+) => [
   {
     key: 'loadId',
     label: 'Load ID',
@@ -21,9 +26,40 @@ export const indexListLabels: TruckLoadLabelInfo[] = [
     sortable: true,
   },
   {
-    key: 'vendorId',
-    label: 'Vendor',
+    key: 'shipDate',
+    label: 'Del Date',
     sortable: true,
+    customSortBy: ({ loadId, orderMasters }) => true,
+    getValue: ({ loadId, orderMasters, warehouse }) => {
+      const orderMaster = orderMasters?.nodes?.find(
+        (orderMaster) =>
+          orderMaster?.shipWarehouse?.id === warehouse?.id &&
+          orderMaster?.truckLoadId === loadId,
+      );
+      return orderMaster ? (
+        <ty.BodyText>-</ty.BodyText>
+      ) : (
+        <ty.BodyText>-</ty.BodyText>
+      );
+    },
+  },
+  {
+    key: 'vendorId',
+    label: 'Trucker',
+    sortable: true,
+    filterable: true,
+    filterPanelProps: {
+      customStyles: {
+        width: 500,
+      },
+      queryProps: {
+        query: VENDOR_DISTINCT_VALUES_QUERY,
+        queryName: 'vendorDistinctValues',
+      },
+      showSearch: true,
+    },
+    getValue: ({ vendor }) =>
+      vendor ? <ty.BodyText>{vendor.vendorName}</ty.BodyText> : '',
   },
   {
     defaultSortOrder: SORT_ORDER.ASC,
@@ -31,18 +67,63 @@ export const indexListLabels: TruckLoadLabelInfo[] = [
     label: 'Warehouse',
     sortable: true,
     filterable: true,
+    filterPanelProps: {
+      customStyles: {
+        width: 500,
+      },
+      queryProps: {
+        query: WAREHOUSE_DISTINCT_VALUES_QUERY,
+        queryName: 'warehouseDistinctValues',
+      },
+      showSearch: true,
+    },
     customSortBy: ({ warehouse }) =>
       warehouse?.warehouseName.toLowerCase() || '',
     getValue: ({ warehouse }) =>
       warehouse ? <ty.BodyText>{warehouse.warehouseName}</ty.BodyText> : '',
   },
   {
+    defaultSortOrder: SORT_ORDER.ASC,
+    key: 'warehouseId',
+    label: 'Customer',
+    sortable: true,
+    filterable: true,
+    filterPanelProps: {
+      customStyles: {
+        width: 500,
+      },
+      queryProps: {
+        query: CUSTOMER_DISTINCT_VALUES_QUERY,
+        queryName: 'customerDistinctValues',
+      },
+      showSearch: true,
+    },
+    customSortBy: ({ warehouse }) =>
+      warehouse?.warehouseName.toLowerCase() || '',
+    getValue: ({ loadId, orderMasters, warehouse }) => {
+      const orderMaster = orderMasters?.nodes?.find(
+        (orderMaster) =>
+          orderMaster?.shipWarehouse?.id === warehouse?.id &&
+          orderMaster?.truckLoadId === loadId,
+      );
+      return orderMaster ? (
+        <ty.BodyText>{orderMaster.billingCustomer?.customerName}</ty.BodyText>
+      ) : (
+        <ty.BodyText>-</ty.BodyText>
+      );
+    },
+  },
+  {
     key: 'fob',
     label: 'FOB / Del',
+    filterable: true,
+    filterPanelProps: {
+      customOptions: ['FOB', 'Delivered'],
+    },
+    customFilterBy: ({ fob }) =>
+      !selectedFOB || (selectedFOB === 'FOB' ? !!fob : !fob),
     sortable: true,
-    getValue: ({ fob }) => (
-      <ty.BodyText>{fob ? 'FOB' : 'Delivery'}</ty.BodyText>
-    ),
+    getValue: ({ fob }) => <ty.BodyText>{fob ? 'FOB' : 'Del'}</ty.BodyText>,
   },
   {
     defaultSortOrder: SORT_ORDER.ASC,
@@ -82,8 +163,10 @@ export const listLabels: TruckLoadLabelInfo[] = [
   },
   {
     key: 'vendorId',
-    label: 'Vendor',
+    label: 'Trucker',
     sortable: true,
+    getValue: ({ vendor }) =>
+      vendor ? <ty.BodyText>{vendor.vendorName}</ty.BodyText> : '',
   },
   {
     defaultSortOrder: SORT_ORDER.ASC,
@@ -244,7 +327,15 @@ export const baseLabels: TruckLoadLabelInfo[] = [
   },
   {
     key: 'vendorId',
-    label: 'Vendor',
+    label: 'Trucker',
+    getValue: ({ vendor }) =>
+      vendor ? (
+        <ty.LinkText hover="false" to={`/directory/vendors/${vendor.id}`}>
+          {vendor.vendorName}
+        </ty.LinkText>
+      ) : (
+        ''
+      ),
   },
   {
     key: 'loadStatus',

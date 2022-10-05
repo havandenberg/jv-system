@@ -1,18 +1,18 @@
 query EXPENSE_HEADER_LIST(
-  $billingCustomerId: [String!]
-  $salesUserCode: [String!]
-  $orderBy: [OrderMastersOrderBy!]
-  $search: [OrderMasterFilter!]
+  $expenseCode: [String!]
+  $vesselCode: [String!]
+  $orderBy: [ExpenseHeadersOrderBy!]
+  $search: [ExpenseHeaderFilter!]
   $endDate: Date
   $startDate: Date
 ) {
   expenseHeaders(
     filter: {
       and: $search
-      billingCustomerId: { in: $billingCustomerId }
-      salesUserCode: { in: $salesUserCode }
+      expenseCode: { in: $expenseCode }
+      vesselCode: { in: $vesselCode }
       or: {
-        expectedShipDate: {
+        vesselDischargeDate: {
           greaterThanOrEqualTo: $startDate
           lessThanOrEqualTo: $endDate
         }
@@ -22,7 +22,10 @@ query EXPENSE_HEADER_LIST(
   ) {
     nodes {
       id
-      vendorId
+      vendor {
+        id
+        vendorName
+      }
       voucherId
       invoiceId
       isEstimated
@@ -31,7 +34,13 @@ query EXPENSE_HEADER_LIST(
       checkNumber
       expenseCode
       truckLoadId
-      vesselCode
+      vesselDischargeDate
+      vessel {
+        id
+        dischargeDate
+        vesselCode
+        vesselName
+      }
     }
     totalCount
   }

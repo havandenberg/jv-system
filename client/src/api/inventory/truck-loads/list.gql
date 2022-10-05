@@ -3,10 +3,14 @@ query TRUCK_LOAD_LIST(
   $search: [TruckLoadFilter!]
   $endDate: Date
   $startDate: Date
+  $warehouseId: [String!]
+  $vendorId: [String!]
 ) {
   truckLoads(
     filter: {
       and: $search
+      warehouseId: { in: $warehouseId }
+      vendorId: { in: $vendorId }
       or: {
         shipDate: {
           greaterThanOrEqualTo: $startDate
@@ -20,7 +24,10 @@ query TRUCK_LOAD_LIST(
       id
       loadId
       loadStatus
-      vendorId
+      vendor {
+        id
+        vendorName
+      }
       fob
       shipDate
       count

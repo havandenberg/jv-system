@@ -1,0 +1,5 @@
+query WAREHOUSE_DISTINCT_VALUES {
+  warehouseDistinctValues {
+    nodes
+  }
+}

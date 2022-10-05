@@ -130,51 +130,6 @@ const Details = () => {
               (commonSpecies.commonPackTypes.nodes || []).find(
                 (p) => p && [p.id, p.packMasterId].includes(item.packType),
               );
-            const reviewCommonSpecies = commonSpecieses.find(
-              (s) => s.productSpeciesId === item.reviewSpecies,
-            );
-            const reviewCommonVariety =
-              commonSpecies &&
-              (commonSpecies.commonVarieties.nodes || []).find(
-                (v) => v && v.productVarietyId === item.reviewVariety,
-              );
-            const reviewCommonSize =
-              commonSpecies &&
-              (commonSpecies.commonSizes.nodes || []).find(
-                (s) => s && s.productSizeId === item.reviewSize,
-              );
-            const reviewCommonPackType =
-              commonSpecies &&
-              (commonSpecies.commonPackTypes.nodes || []).find(
-                (p) => p && p.packMasterId === item.reviewPackType,
-              );
-
-            const isReviewSpeciesDirty = item.reviewSpecies !== item.species;
-            const isReviewVarietyDirty = item.reviewVariety !== item.variety;
-            const isReviewSizeDirty = item.reviewSize !== item.size;
-            const isReviewPackTypeDirty = item.reviewPackType !== item.packType;
-            const isReviewShipperDirty =
-              item.reviewShipperId !== item.shipperId;
-            const isReviewLocationDirty =
-              item.reviewLocationId !== item.locationId;
-            const isReviewVesselDirty =
-              item.reviewVesselCode !== item.vesselCode;
-            const isReviewPluDirty = item.reviewPlu !== item.plu;
-            const isReviewLabelDirty = item.reviewLabel !== item.label;
-            const isReviewCountryDirty =
-              item.reviewCountryOfOrigin !== item.countryOfOrigin;
-
-            const isReviewDirty =
-              isReviewSpeciesDirty ||
-              isReviewVarietyDirty ||
-              isReviewSizeDirty ||
-              isReviewPackTypeDirty ||
-              isReviewShipperDirty ||
-              isReviewLocationDirty ||
-              isReviewVesselDirty ||
-              isReviewPluDirty ||
-              isReviewLabelDirty ||
-              isReviewCountryDirty;
 
             return (
               <Fragment key={item.id}>
@@ -188,7 +143,7 @@ const Details = () => {
                   borderLeft={th.borders.disabled}
                   borderRight={th.borders.disabled}
                   borderTop={idx === 0 ? th.borders.disabled : 0}
-                  borderBottom={isReviewDirty ? 0 : th.borders.disabled}
+                  borderBottom={th.borders.disabled}
                   gridColumnGap={th.spacing.xs}
                   gridTemplateColumns={gridTemplateColumns(false)}
                   py={th.spacing.xs}
@@ -316,143 +271,6 @@ const Details = () => {
                     <ty.CaptionText>{item.deliveryCharge}</ty.CaptionText>
                   </l.Flex>
                 </l.Grid>
-                {orderEntry?.reviewUserCode && isReviewDirty && (
-                  <l.Grid
-                    alignCenter
-                    background={
-                      idx % 2 === 0
-                        ? th.colors.brand.containerBackground
-                        : undefined
-                    }
-                    borderLeft={th.borders.disabled}
-                    borderRight={th.borders.disabled}
-                    borderBottom={th.borders.disabled}
-                    gridColumnGap={th.spacing.xs}
-                    gridTemplateColumns={gridTemplateColumns(false)}
-                    py={th.spacing.xs}
-                    relative
-                  >
-                    <div />
-                    <ty.CaptionText ellipsis pl={th.spacing.sm}>
-                      {isReviewSpeciesDirty
-                        ? reviewCommonSpecies
-                          ? reviewCommonSpecies.speciesName
-                          : item.reviewSpecies
-                        : '-'}
-                    </ty.CaptionText>
-                    <ty.CaptionText
-                      ellipsis
-                      pl={th.spacing.sm}
-                      secondary={item.reviewVariety === 'Any'}
-                    >
-                      {isReviewVarietyDirty
-                        ? reviewCommonVariety
-                          ? reviewCommonVariety.varietyName
-                          : item.reviewVariety
-                        : '-'}
-                    </ty.CaptionText>
-                    <ty.CaptionText
-                      ellipsis
-                      pl={th.spacing.sm}
-                      secondary={item.reviewSize === 'Any'}
-                    >
-                      {isReviewSizeDirty
-                        ? reviewCommonSize
-                          ? reviewCommonSize.sizeName
-                          : item.reviewSize
-                        : '-'}
-                    </ty.CaptionText>
-                    <ty.CaptionText
-                      ellipsis
-                      pl={th.spacing.sm}
-                      secondary={item.reviewPackType === 'Any'}
-                    >
-                      {isReviewPackTypeDirty
-                        ? reviewCommonPackType
-                          ? reviewCommonPackType.packTypeName
-                          : item.reviewPackType
-                        : '-'}
-                    </ty.CaptionText>
-                    <ty.CaptionText
-                      ellipsis
-                      pl={th.spacing.sm}
-                      secondary={item.reviewPlu === 'Any'}
-                    >
-                      {isReviewPluDirty ? item.reviewPlu : '-'}
-                    </ty.CaptionText>
-                    <ty.CaptionText
-                      ellipsis
-                      pl={th.spacing.sm}
-                      secondary={item.reviewCountryOfOrigin === 'Any'}
-                    >
-                      {isReviewCountryDirty ? item.reviewCountryOfOrigin : '-'}
-                    </ty.CaptionText>
-                    <ty.CaptionText
-                      ellipsis
-                      pl={th.spacing.sm}
-                      secondary={item.reviewLabel === 'Any'}
-                    >
-                      {isReviewLabelDirty ? item.reviewLabel : '-'}
-                    </ty.CaptionText>
-                    {item.reviewWarehouse && isReviewLocationDirty ? (
-                      <ty.LinkText
-                        ellipsis
-                        fontSize={th.fontSizes.caption}
-                        hover="false"
-                        pl={th.spacing.sm}
-                        to={`/directory/warehouses/${item.reviewLocationId}`}
-                      >
-                        {item.reviewWarehouse.warehouseName}
-                      </ty.LinkText>
-                    ) : (
-                      <ty.CaptionText
-                        ellipsis
-                        pl={th.spacing.sm}
-                        secondary={item.reviewLocationId === 'Any'}
-                      >
-                        {isReviewLocationDirty ? item.reviewLocationId : '-'}
-                      </ty.CaptionText>
-                    )}
-                    {item.reviewShipper && isReviewShipperDirty ? (
-                      <ty.LinkText
-                        ellipsis
-                        fontSize={th.fontSizes.caption}
-                        hover="false"
-                        pl={th.spacing.sm}
-                        to={`/directory/shippers/${item.reviewShipperId}`}
-                      >
-                        {item.reviewShipper.shipperName}
-                      </ty.LinkText>
-                    ) : (
-                      <ty.CaptionText
-                        ellipsis
-                        pl={th.spacing.sm}
-                        secondary={item.reviewShipperId === 'Any'}
-                      >
-                        {isReviewShipperDirty ? item.reviewShipperId : '-'}
-                      </ty.CaptionText>
-                    )}
-                    {item.reviewVessel && isReviewVesselDirty ? (
-                      <ty.LinkText
-                        ellipsis
-                        fontSize={th.fontSizes.caption}
-                        hover="false"
-                        pl={th.spacing.sm}
-                        to={`/inventory/vessels/${item.reviewVessel.vesselCode}`}
-                      >
-                        {item.reviewVessel.vesselCode}
-                      </ty.LinkText>
-                    ) : (
-                      <ty.CaptionText
-                        ellipsis
-                        pl={th.spacing.sm}
-                        secondary={item.reviewVesselCode === 'Any'}
-                      >
-                        {isReviewVesselDirty ? item.reviewVesselCode : '-'}
-                      </ty.CaptionText>
-                    )}
-                  </l.Grid>
-                )}
               </Fragment>
             );
           })}
