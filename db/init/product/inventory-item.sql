@@ -20,6 +20,8 @@ CREATE TABLE product.inventory_item (
   warehouse_id TEXT
 );
 
+CREATE INDEX ON product.inventory_item (product_id, location_id, vessel_code, jv_lot_number, shipper_id);
+
 CREATE FUNCTION product.inventory_item_vessel(IN i product.inventory_item)
     RETURNS product.vessel
     LANGUAGE 'sql'

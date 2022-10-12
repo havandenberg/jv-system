@@ -91,14 +91,14 @@ const useVariables = (options?: VesselsOptions) => {
     startDate: formatDate(
       isInventory
         ? startOfISOWeek(formattedStartDate || new Date())
+        : search
+        ? add(new Date(), { years: -1 })
         : startDate
         ? isProjections
           ? startOfISOWeek(add(formattedStartDate, { weeks: -1 }))
           : equals(startDate, endDate)
           ? add(formattedStartDate, { weeks: -4 })
           : formattedStartDate
-        : search
-        ? add(new Date(), { years: -1 })
         : new Date(),
     ),
     endDate: formatDate(

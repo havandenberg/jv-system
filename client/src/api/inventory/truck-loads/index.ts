@@ -20,7 +20,7 @@ const TRUCK_LOAD_DETAILS_QUERY = loader('./details.gql');
 const TRUCK_LOAD_LIST_QUERY = loader('./list.gql');
 const TRUCK_LOAD_CREATE_QUERY = loader('./create.gql');
 
-const useVariables = () => {
+const useVariables = (orderByOverride?: string) => {
   const [search = ''] = useSearchQueryParam();
   const [{ sortBy = 'shipDate', sortOrder = SORT_ORDER.DESC }] =
     useSortQueryParams();
@@ -53,7 +53,7 @@ const useVariables = () => {
   );
 
   return {
-    orderBy: orderBy,
+    orderBy: orderByOverride || orderBy,
     search: getSearchArray(search),
     startDate: formattedStartDate,
     endDate: formattedEndDate,
@@ -66,8 +66,8 @@ const useVariables = () => {
   };
 };
 
-export const useTruckLoads = () => {
-  const variables = useVariables();
+export const useTruckLoads = (orderByOverride?: string) => {
+  const variables = useVariables(orderByOverride);
 
   const { data, error, loading } = useQuery<Query>(TRUCK_LOAD_LIST_QUERY, {
     variables,

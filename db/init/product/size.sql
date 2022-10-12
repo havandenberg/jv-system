@@ -11,6 +11,8 @@ CREATE TABLE product.product_size (
 	shipper_id TEXT
 );
 
+CREATE INDEX ON product.product_size (species_id, variety_id, jv_code);
+
 CREATE FUNCTION product.product_size_search_text(IN s product.product_size)
     RETURNS text
     LANGUAGE 'sql'

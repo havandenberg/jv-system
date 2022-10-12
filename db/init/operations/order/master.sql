@@ -22,6 +22,8 @@ CREATE TABLE operations.order_master (
   notes TEXT
 );
 
+CREATE INDEX ON operations.order_master (order_id, back_order_id, billing_customer_id, sales_user_code, expected_ship_date);
+
 CREATE FUNCTION operations.order_master_ship_warehouse(IN o operations.order_master)
     RETURNS directory.warehouse
     LANGUAGE 'sql'

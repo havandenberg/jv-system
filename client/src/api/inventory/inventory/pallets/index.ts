@@ -32,14 +32,14 @@ export const usePallets = () => {
   };
 };
 
-export const usePallet = (id: string) => {
+export const usePallet = (palletId: string) => {
   const { data, error, loading } = useQuery<Query>(PALLET_DETAILS_QUERY, {
     variables: {
-      id,
+      palletId,
     },
   });
   return {
-    data: data ? data.pallet : undefined,
+    data: data ? data.pallets : undefined,
     error,
     loading,
   };

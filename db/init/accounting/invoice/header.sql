@@ -26,6 +26,8 @@ CREATE TABLE accounting.invoice_header (
   notes TEXT
 );
 
+CREATE INDEX ON accounting.invoice_header (order_id, back_order_id, billing_customer_id, sales_user_code, actual_ship_date);
+
 CREATE FUNCTION accounting.invoice_header_ship_warehouse(IN i accounting.invoice_header)
     RETURNS directory.warehouse
     LANGUAGE 'sql'

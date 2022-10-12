@@ -1,7 +1,11 @@
-query EXPENSE_HEADER_LIST($vesselCode: String!) {
-  expenseHeaders(condition: { vesselCode: $vesselCode }) {
+query EXPENSE_HEADER_LIST($vesselCode: String!, $shipperId: String!) {
+  expenseHeaderSummary(
+    vesselCodeParam: $vesselCode
+    shipperIdParam: $shipperId
+  ) {
     nodes {
       id
+      vendorId
       vendor {
         id
         vendorName
@@ -15,14 +19,19 @@ query EXPENSE_HEADER_LIST($vesselCode: String!) {
       checkNumber
       expenseCode
       truckLoadId
+      receivableCut
+      apHide
+      entryDate
+      customsEntryCode
       vesselDischargeDate
+      vesselCode
       vessel {
         id
         dischargeDate
         vesselCode
         vesselName
       }
-      items {
+      items(filter: { shipperId: { equalTo: $shipperId }, vesselCode: { equalTo: $vesselCode } }) {
         nodes {
           id
           vendorId
@@ -33,11 +42,17 @@ query EXPENSE_HEADER_LIST($vesselCode: String!) {
           itemAmount
           billOfLadingId
           productCode
-          palletId
+          pallet {
+            id
+            palletId
+            vesselCode
+          }
           shipper {
             id
             shipperName
           }
+          expenseCode
+          vesselCode
           notes
         }
       }

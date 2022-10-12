@@ -16,6 +16,8 @@ CREATE TABLE operations.order_entry (
   notes TEXT
 );
 
+CREATE INDEX ON operations.order_entry (order_id, back_order_id, billing_customer_id, sales_user_code, fob_date);
+
 CREATE FUNCTION operations.order_entry_billing_customer(IN o operations.order_entry)
     RETURNS directory.customer
     LANGUAGE 'sql'

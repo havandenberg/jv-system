@@ -10,8 +10,13 @@ CREATE TABLE accounting.expense_item (
   product_code TEXT,
   pallet_id TEXT,
   shipper_id TEXT,
+  expense_code TEXT,
+  vessel_code TEXT,
   notes TEXT
 );
+
+CREATE INDEX ON accounting.expense_item(vendor_id, voucher_id);
+CREATE INDEX ON accounting.expense_item(shipper_id);
 
 CREATE FUNCTION accounting.expense_item_pallet(IN e accounting.expense_item)
     RETURNS product.pallet
@@ -58,6 +63,16 @@ AS $BODY$
   SELECT * FROM directory.shipper s WHERE s.id = e.shipper_id;
 $BODY$;
 
+CREATE FUNCTION accounting.expense_item_vessel(IN e accounting.expense_item)
+    RETURNS product.vessel
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT * FROM product.vessel v WHERE v.vessel_code = e.vessel_code LIMIT 1;
+$BODY$;
+
 CREATE FUNCTION accounting.bulk_upsert_expense_item(
   expense_items accounting.expense_item[]
 )
@@ -80,6 +95,8 @@ AS $$
         product_code,
         pallet_id,
         shipper_id,
+        expense_code,
+        vessel_code,
         notes
       )
         VALUES (
@@ -94,6 +111,8 @@ AS $$
           ei.product_code,
           ei.pallet_id,
           ei.shipper_id,
+          ei.expense_code,
+          ei.vessel_code,
           ei.notes
         )
       ON CONFLICT (id) DO UPDATE SET
@@ -107,6 +126,8 @@ AS $$
         product_code=EXCLUDED.product_code,
         pallet_id=EXCLUDED.pallet_id,
         shipper_id=EXCLUDED.shipper_id,
+        expense_code=EXCLUDED.expense_code,
+        vessel_code=EXCLUDED.vessel_code,
         notes=EXCLUDED.notes
     	RETURNING * INTO vals;
     	RETURN NEXT vals;

@@ -30,6 +30,8 @@ CREATE TABLE product.pallet (
   temperature_recording TEXT
 );
 
+CREATE INDEX ON product.pallet (pallet_id);
+
 CREATE TABLE product.pallet_section (
   id BIGSERIAL PRIMARY KEY,
   pallet_id TEXT NOT NULL,

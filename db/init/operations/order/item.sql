@@ -17,6 +17,8 @@ CREATE TABLE operations.order_item (
   notes TEXT
 );
 
+CREATE INDEX ON operations.order_item (order_id, back_order_id);
+
 CREATE FUNCTION operations.order_item_order(IN o operations.order_item)
     RETURNS operations.order_master
     LANGUAGE 'sql'

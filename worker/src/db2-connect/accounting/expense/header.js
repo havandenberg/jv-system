@@ -21,7 +21,6 @@ const EXPENSE_HEADER_LIST = gql`
         truckLoadId
         vesselCode
         customsEntryCode
-        notes
       }
     }
   }

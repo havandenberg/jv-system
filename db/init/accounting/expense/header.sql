@@ -14,9 +14,21 @@ CREATE TABLE accounting.expense_header (
   expense_code TEXT,
   truck_load_id TEXT,
   vessel_code TEXT,
-  customs_entry_code TEXT,
+  customs_entry_code TEXT
+);
+
+CREATE INDEX ON accounting.expense_header (vendor_id, voucher_id);
+CREATE INDEX ON accounting.expense_header (vessel_code);
+
+CREATE TABLE accounting.expense_header_review (
+  id BIGSERIAL PRIMARY KEY,
+  expense_header_id BIGINT REFERENCES accounting.expense_header(id),
+  expense_code TEXT,
+  is_approved BOOLEAN,
   notes TEXT
 );
+
+CREATE INDEX ON accounting.expense_header_review(expense_header_id);
 
 CREATE FUNCTION accounting.expense_header_vendor(IN e accounting.expense_header)
     RETURNS directory.vendor
@@ -73,6 +85,20 @@ AS $BODY$
     AND ei.vendor_id = e.vendor_id;
 $BODY$;
 
+CREATE FUNCTION accounting.expense_header_summary(IN vessel_code_param TEXT, IN shipper_id_param TEXT)
+    RETURNS setof accounting.expense_header
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+SELECT * FROM accounting.expense_header eh
+  WHERE eh.vessel_code = vessel_code_param
+  OR vessel_code_param IN (
+    SELECT DISTINCT vessel_code FROM accounting.expense_header_items(eh) ei
+  );
+$BODY$;
+
 CREATE FUNCTION accounting.expense_header_search_text(IN e accounting.expense_header)
 	RETURNS TEXT
 	LANGUAGE 'sql'
@@ -114,8 +140,7 @@ AS $$
         expense_code,
         truck_load_id,
         vessel_code,
-        customs_entry_code,
-        notes
+        customs_entry_code
       )
         VALUES (
           COALESCE(eh.id, (select nextval('accounting.expense_header_id_seq'))),
@@ -133,8 +158,7 @@ AS $$
           eh.expense_code,
           eh.truck_load_id,
           eh.vessel_code,
-          eh.customs_entry_code,
-          eh.notes
+          eh.customs_entry_code
         )
       ON CONFLICT (id) DO UPDATE SET
         vendor_id=EXCLUDED.vendor_id,
@@ -151,7 +175,42 @@ AS $$
         expense_code=EXCLUDED.expense_code,
         truck_load_id=EXCLUDED.truck_load_id,
         vessel_code=EXCLUDED.vessel_code,
-        customs_entry_code=EXCLUDED.customs_entry_code,
+        customs_entry_code=EXCLUDED.customs_entry_code
+    	RETURNING * INTO vals;
+    	RETURN NEXT vals;
+	END LOOP;
+	RETURN;
+  END;
+$$ LANGUAGE plpgsql VOLATILE STRICT SET search_path FROM CURRENT;
+
+CREATE FUNCTION accounting.bulk_upsert_expense_header_review(
+  reviews accounting.expense_header_review[]
+)
+RETURNS setof accounting.expense_header_review
+AS $$
+  DECLARE
+    ehr accounting.expense_header_review;
+    vals accounting.expense_header_review;
+  BEGIN
+    FOREACH ehr IN ARRAY reviews LOOP
+      INSERT INTO accounting.expense_header_review(
+        id,
+        expense_header_id,
+        expense_code,
+        is_approved,
+        notes
+      )
+        VALUES (
+          COALESCE(ehr.id, (select nextval('accounting.expense_header_review_id_seq'))),
+          ehr.expense_header_id,
+          ehr.expense_code,
+          ehr.is_approved,
+          ehr.notes
+        )
+      ON CONFLICT (id) DO UPDATE SET
+        expense_header_id=EXCLUDED.expense_header_id,
+        expense_code=EXCLUDED.expense_code,
+        is_approved=EXCLUDED.is_approved,
         notes=EXCLUDED.notes
     	RETURNING * INTO vals;
     	RETURN NEXT vals;

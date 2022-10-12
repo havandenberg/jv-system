@@ -1,0 +1,11 @@
+query EXPENSE_HEADER_REVIEW_LIST($expenseHeaderIds: [BigInt!]) {
+  expenseHeaderReviews(filter: {expenseHeaderId: {in: $expenseHeaderIds}}) {
+    nodes {
+      id
+      expenseHeaderId
+      expenseCode
+      isApproved
+      notes
+    }
+  }
+}

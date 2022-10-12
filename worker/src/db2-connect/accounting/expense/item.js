@@ -15,6 +15,8 @@ const EXPENSE_ITEM_LIST = gql`
         productCode
         palletId
         shipperId
+        expenseCode
+        vesselCode
         notes
       }
     }
@@ -50,6 +52,8 @@ const getUpdatedExpenseItem = (expenseItem, db2ExpenseItem, id) => ({
   productCode: `${db2ExpenseItem['PRODB']}`,
   palletId: `${db2ExpenseItem['PID#B']}`,
   shipperId: `${db2ExpenseItem['SHPRB']}`,
+  expenseCode: `${db2ExpenseItem['EXPB']}`,
+  vesselCode: `${db2ExpenseItem['BOATB']}`,
 });
 
 const getExpenseItemId = (db2ExpenseItem, expenseItems) => {

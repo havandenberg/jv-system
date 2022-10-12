@@ -63,6 +63,7 @@ const Wrapper = styled(l.Flex)(
     borderLeft: showBorder ? th.borders.disabled : undefined,
     height: EDITABLE_CELL_HEIGHT,
     lineHeight: 1,
+    width: th.sizes.fill,
     position: 'relative',
     ':first-of-type': {
       borderLeft: 0,

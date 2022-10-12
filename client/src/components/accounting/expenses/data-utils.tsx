@@ -1,7 +1,6 @@
-import { format } from 'date-fns';
-
 import { LabelInfo } from 'components/column-label';
 import StatusIndicator from 'components/status-indicator';
+import { SORT_ORDER } from 'hooks/use-columns';
 import { ExpenseHeader, ExpenseItem } from 'types';
 import l from 'ui/layout';
 import ty from 'ui/typography';
@@ -13,91 +12,16 @@ export type ExpenseHeaderLabelInfo = LabelInfo<
 >;
 export type ExpenseItemLabelInfo = LabelInfo<ExpenseItem>;
 
-export const indexListLabels: ExpenseHeaderLabelInfo[] = [
+export const listLabels: (shipperId: string) => ExpenseHeaderLabelInfo[] = (
+  shipperId,
+) => [
   {
-    key: 'vesselCode',
-    label: 'Vessel',
-    sortable: true,
-    customSortBy: ({ vessel }) => vessel?.vesselName,
-    getValue: ({ vessel }) => (
-      <ty.BodyText>
-        {vessel ? `${vessel.vesselCode} - ${vessel.vesselName}` : '-'}
-      </ty.BodyText>
-    ),
-  },
-  {
-    key: 'vesselCode',
-    label: 'Disch Date',
-    sortable: true,
-    customSortBy: ({ vessel }) =>
-      vessel?.dischargeDate
-        ? `${new Date(vessel.dischargeDate.replace(/-/g, '/')).getTime()} ${
-            vessel?.vesselName
-          }`
-        : vessel?.vesselName,
-    getValue: ({ vessel }) => (
-      <ty.BodyText>
-        {vessel
-          ? format(new Date(vessel.dischargeDate.replace(/-/g, '/')), 'M/dd')
-          : '-'}
-      </ty.BodyText>
-    ),
-  },
-  {
-    key: 'expenseCode',
-    label: 'Expense Type',
-    filterable: true,
-    sortable: true,
-  },
-  {
+    defaultSortOrder: SORT_ORDER.ASC,
     key: 'vendorId',
     label: 'Vendor',
     sortable: true,
-    customSortBy: ({ vendor }) => vendor?.vendorName,
-    getValue: ({ vendor }) => (
-      <ty.BodyText>{vendor ? vendor.vendorName : '-'}</ty.BodyText>
-    ),
-  },
-  {
-    key: 'voucherId',
-    label: 'Voucher Code',
-    sortable: true,
-  },
-  {
-    key: 'invoiceId',
-    label: 'Invoice ID',
-    sortable: true,
-  },
-  {
-    key: 'paidCode',
-    label: 'Paid Code',
-    filterable: true,
-    sortable: true,
-    getValue: ({ paidCode }) => {
-      const status = expenseStatusDescriptions[paidCode || 'X'];
-      return (
-        <l.Flex alignCenter justifyCenter>
-          {status ? (
-            <StatusIndicator
-              color={status?.color}
-              customStyles={{ wrapper: { py: th.spacing.tn } }}
-              text={status?.text}
-              title={status?.title}
-            />
-          ) : (
-            <ty.BodyText>-</ty.BodyText>
-          )}
-        </l.Flex>
-      );
-    },
-  },
-];
-
-export const listLabels: ExpenseHeaderLabelInfo[] = [
-  {
-    key: 'vendorId',
-    label: 'Vendor',
-    customSortBy: ({ vendor }) => vendor?.vendorName,
+    customSortBy: ({ vendor, voucherId }) =>
+      `${vendor?.vendorName} ${voucherId}`,
     getValue: ({ vendor }) =>
       vendor ? (
         <l.Flex alignCenter>
@@ -111,18 +35,25 @@ export const listLabels: ExpenseHeaderLabelInfo[] = [
       ),
   },
   {
+    defaultSortOrder: SORT_ORDER.ASC,
     key: 'invoiceId',
     label: 'Invoice ID',
+    sortable: true,
+    customSortBy: ({ invoiceId }) => invoiceId || 'zzzzz',
   },
   {
+    defaultSortOrder: SORT_ORDER.ASC,
     key: 'voucherId',
     label: 'Voucher Code',
+    sortable: true,
   },
   {
+    defaultSortOrder: SORT_ORDER.ASC,
     key: 'truckLoadId',
     label: 'Load ID',
+    sortable: true,
     getValue: ({ truckLoadId }) =>
-      truckLoadId ? (
+      truckLoadId && truckLoadId !== shipperId ? (
         <ty.LinkText hover="false" to={`/inventory/truck-loads/${truckLoadId}`}>
           {truckLoadId}
         </ty.LinkText>
@@ -131,39 +62,133 @@ export const listLabels: ExpenseHeaderLabelInfo[] = [
       ),
   },
   {
+    defaultSortOrder: SORT_ORDER.DESC,
     key: 'isProrate',
-    label: 'Prorate',
+    label: 'Prorate?',
+    sortable: true,
     getValue: ({ isProrate }) => (
-      <ty.BodyText>{isProrate ? 'Yes' : 'No'}</ty.BodyText>
+      <ty.BodyText>{isProrate ? 'Yes' : '-'}</ty.BodyText>
     ),
   },
   {
-    key: 'totalQuantity',
-    label: 'Quantity',
-    getValue: ({ items }) => {
-      const totalQuantity = ((items.nodes || []) as ExpenseItem[]).reduce(
-        (acc, item) => acc + parseInt(item.quantity, 10),
-        0,
-      );
+    defaultSortOrder: SORT_ORDER.DESC,
+    key: 'isEstimated',
+    label: 'Est?',
+    sortable: true,
+    getValue: ({ isEstimated }) => (
+      <ty.BodyText>{isEstimated ? 'Yes' : '-'}</ty.BodyText>
+    ),
+  },
+  {
+    key: 'paidCode',
+    label: 'Paid?',
+    sortable: true,
+    getValue: ({ expenseCode, paidCode, vendorId }) => {
+      const status =
+        expenseCode &&
+        !alwaysPaidExpenseCodes.includes(expenseCode) &&
+        vendorId &&
+        !alwaysPaidVendorIds.includes(vendorId) &&
+        expenseStatusDescriptions[paidCode || 'X'];
       return (
-        <ty.BodyText mr={th.spacing.lg} textAlign="right">
-          {totalQuantity}
+        <l.Flex alignCenter justifyCenter>
+          {status ? (
+            <StatusIndicator
+              color={status?.color}
+              customStyles={{ wrapper: { py: th.spacing.tn } }}
+              text={status?.text}
+              title={status?.title}
+            />
+          ) : (
+            <ty.BodyText center>-</ty.BodyText>
+          )}
+        </l.Flex>
+      );
+    },
+  },
+  {
+    defaultSortOrder: SORT_ORDER.DESC,
+    key: 'expenseAmount',
+    label: 'Avg Price',
+    sortable: true,
+    sortKey: 'avgPrice',
+    customSortBy: ({ items }) => {
+      const { expenseAmount, totalQuantity } = (
+        (items?.nodes || []) as ExpenseItem[]
+      ).reduce(
+        (acc, item) => ({
+          expenseAmount: acc.expenseAmount + parseInt(item.itemAmount, 10),
+          totalQuantity: acc.totalQuantity + parseInt(item.quantity, 10),
+        }),
+        { expenseAmount: 0, totalQuantity: 0 },
+      );
+      return expenseAmount / (totalQuantity || 1);
+    },
+    getValue: ({ items }) => {
+      const { expenseAmount, totalQuantity } = (
+        (items?.nodes || []) as ExpenseItem[]
+      ).reduce(
+        (acc, item) => ({
+          expenseAmount: acc.expenseAmount + parseInt(item.itemAmount, 10),
+          totalQuantity: acc.totalQuantity + parseInt(item.quantity, 10),
+        }),
+        { expenseAmount: 0, totalQuantity: 0 },
+      );
+      const avgPrice = expenseAmount / (totalQuantity || 1);
+      return (
+        <ty.BodyText mr={th.spacing.md} textAlign="right">
+          {avgPrice ? formatCurrency(avgPrice) : '-'}
         </ty.BodyText>
       );
     },
   },
   {
+    defaultSortOrder: SORT_ORDER.DESC,
+    key: 'totalQuantity',
+    label: 'Quantity',
+    sortable: true,
+    customSortBy: ({ items }) =>
+      ((items?.nodes || []) as ExpenseItem[]).reduce(
+        (acc, item) => acc + parseInt(item.quantity, 10),
+        0,
+      ),
+    getValue: ({ items }) => {
+      const totalQuantity = ((items?.nodes || []) as ExpenseItem[]).reduce(
+        (acc, item) => acc + parseInt(item.quantity, 10),
+        0,
+      );
+      return (
+        <ty.BodyText mr={th.spacing.md} textAlign="right">
+          {totalQuantity ? totalQuantity.toLocaleString() : '-'}
+        </ty.BodyText>
+      );
+    },
+  },
+  {
+    defaultSortOrder: SORT_ORDER.DESC,
     key: 'expenseAmount',
     label: 'Amount',
-    getValue: ({ expenseAmount }) => (
-      <ty.BodyText
-        color={th.colors.brand.primaryAccent}
-        mr={th.sizes.icon}
-        textAlign="right"
-      >
-        {expenseAmount ? formatCurrency(parseFloat(expenseAmount)) : '-'}
-      </ty.BodyText>
-    ),
+    sortable: true,
+    customSortBy: ({ items }) =>
+      ((items?.nodes || []) as ExpenseItem[]).reduce(
+        (acc, item) => acc + parseFloat(item.itemAmount),
+        0,
+      ),
+    getValue: ({ items }) => {
+      const expenseAmount = ((items?.nodes || []) as ExpenseItem[]).reduce(
+        (acc, item) => acc + parseFloat(item.itemAmount),
+        0,
+      );
+      return (
+        <ty.BodyText
+          color={th.colors.brand.primaryAccent}
+          mr={th.spacing.md}
+          textAlign="right"
+        >
+          {expenseAmount ? formatCurrency(expenseAmount) : '-'}
+        </ty.BodyText>
+      );
+    },
   },
 ];
 
@@ -176,10 +201,10 @@ export const itemListLabels: ExpenseItemLabelInfo[] = [
   {
     key: 'palletId',
     label: 'Pallet ID',
-    getValue: ({ palletId }) =>
-      palletId ? (
-        <ty.LinkText hover="false" to={`/inventory/pallets/${palletId}`}>
-          {palletId}
+    getValue: ({ pallet }) =>
+      pallet ? (
+        <ty.LinkText hover="false" to={`/inventory/pallets/${pallet.palletId}`}>
+          {pallet.palletId}
         </ty.LinkText>
       ) : (
         <ty.BodyText>-</ty.BodyText>
@@ -210,7 +235,7 @@ export const itemListLabels: ExpenseItemLabelInfo[] = [
     label: 'Quantity',
     getValue: ({ quantity }) => (
       <ty.BodyText mr={th.spacing.lg} textAlign="right">
-        {quantity}
+        {quantity.toLocaleString()}
       </ty.BodyText>
     ),
   },
@@ -230,10 +255,20 @@ export const baseLabels: ExpenseHeaderLabelInfo[] = [];
 export const expenseStatusDescriptions: {
   [key: string]: { color: string; text: string; title: string };
 } = {
+  A: {
+    color: th.colors.status.success,
+    text: 'APP',
+    title: 'All expenses approved',
+  },
   P: {
     color: th.colors.status.successAlt,
     text: 'PAID',
     title: 'Paid in full',
+  },
+  R: {
+    color: th.colors.status.warning,
+    text: 'REV',
+    title: 'Some or all expenses in review',
   },
   X: {
     color: th.colors.status.warning,
@@ -241,6 +276,9 @@ export const expenseStatusDescriptions: {
     title: 'Unpaid or partially paid',
   },
 };
+
+export const alwaysPaidExpenseCodes = ['860', '920', '923', '925'];
+export const alwaysPaidVendorIds = ['09960'];
 
 export const expenseCodeDescriptions: {
   [key: string]: string;

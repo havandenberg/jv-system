@@ -93,7 +93,7 @@ const Vessels = () => {
                   cursor="pointer"
                   height={th.sizes.icon}
                   width={th.sizes.icon}
-                  to={`/inventory/orders?coast=${coast}`}
+                  to={`/inventory/vessels?coast=${coast}`}
                 >
                   <ResetImg height={th.sizes.icon} width={th.sizes.icon} />
                 </l.AreaLink>

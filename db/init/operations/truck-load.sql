@@ -24,6 +24,8 @@ CREATE TABLE operations.truck_load (
   notes TEXT
 );
 
+CREATE INDEX ON operations.truck_load (load_id, ship_date);
+
 CREATE FUNCTION operations.truck_load_order_masters(IN t operations.truck_load)
     RETURNS setof operations.order_master
     LANGUAGE 'sql'

@@ -116,7 +116,19 @@ export const baseLabels: PalletLabelInfo[] = [
           hover="false"
           to={`/inventory/vessels/${vessel.vesselCode}`}
         >
-          {vessel.vesselCode}
+          {vessel.vesselCode} - {vessel.vesselName}
+        </ty.LinkText>
+      ) : (
+        ''
+      ),
+  },
+  {
+    key: 'shipperId',
+    label: 'Shipper',
+    getValue: ({ shipper }) =>
+      shipper ? (
+        <ty.LinkText hover="false" to={`/directory/shippers/${shipper.id}`}>
+          {shipper.id} - {shipper.shipperName}
         </ty.LinkText>
       ) : (
         ''
@@ -132,7 +144,7 @@ export const baseLabels: PalletLabelInfo[] = [
     getValue: ({ warehouse }) =>
       warehouse ? (
         <ty.LinkText hover="false" to={`/directory/warehouses/${warehouse.id}`}>
-          {warehouse.warehouseName}
+          {warehouse.id} - {warehouse.warehouseName}
         </ty.LinkText>
       ) : (
         ''

@@ -29,7 +29,11 @@ import VesselDetails from 'components/inventory/vessels/details';
 
 const InventoryTab = () => (
   <Switch>
-    <Route exact path="/inventory/pallets/:id" component={PalletDetails} />
+    <Route
+      exact
+      path="/inventory/pallets/:palletId"
+      component={PalletDetails}
+    />
     <Route exact path="/inventory/pallets" component={Pallets} />
     <Route
       exact

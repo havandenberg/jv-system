@@ -71,13 +71,18 @@ export const navItems: NavItemType[] = [
   {
     text: 'Accounting',
     to: '/accounting',
-    isDev: true,
     dashboardItems: [
-      { text: 'Invoices', to: 'invoices' },
+      {
+        text: 'Invoices',
+        to: 'invoices',
+      },
       { text: 'Expenses', to: 'expenses' },
     ],
     secondaryItems: [
-      { text: 'Invoices', to: 'invoices' },
+      {
+        text: 'Invoices',
+        to: 'invoices',
+      },
       { text: 'Expenses', to: 'expenses' },
     ],
   },

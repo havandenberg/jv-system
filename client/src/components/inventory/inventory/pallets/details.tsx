@@ -65,30 +65,31 @@ const tabs: Tab[] = [
 
 const Details = () => {
   const { search } = useLocation();
-  const { id, vesselId, itemId } = useParams<{
-    id: string;
+  const { palletId, vesselId, itemId } = useParams<{
+    palletId: string;
     vesselId: string;
     itemId: string;
   }>();
-  const { data, error, loading } = api.usePallet(id);
+  const { data, error, loading } = api.usePallet(palletId);
+  const pallet = ((data?.nodes || []) as Pallet[])[0] || null;
 
   const { TabBar } = useTabBar({ tabs });
 
   return (
     <Page
       actions={
-        data && data.psaArrivalReport
+        pallet && pallet.psaArrivalReport
           ? [
               <l.AreaLink
                 key={0}
-                to={`/reports/inspections/arrival/${data.psaArrivalReport.id}`}
+                to={`/reports/inspections/arrival/${pallet.psaArrivalReport.id}`}
               >
                 <b.Primary>Inspection</b.Primary>
               </l.AreaLink>,
             ]
           : []
       }
-      breadcrumbs={breadcrumbs(id, vesselId, itemId, search)}
+      breadcrumbs={breadcrumbs(palletId, vesselId, itemId, search)}
       title={data ? 'Pallet' : 'Loading...'}
     >
       {data ? (
@@ -101,31 +102,35 @@ const Details = () => {
               borderRadius={th.borderRadii.default}
               p={th.spacing.md}
             >
-              <ty.CaptionText mr={th.spacing.md}>Order ID:</ty.CaptionText>
+              <ty.CaptionText mr={th.spacing.md}>
+                {pallet.shipped ? 'Invoice' : 'Order'} ID:
+              </ty.CaptionText>
               <ty.LinkText
                 hover="false"
                 mr={th.spacing.lg}
-                to={`/inventory/orders/${data.orderId}?`}
+                to={`/${
+                  pallet.shipped ? 'accounting/invoices' : 'inventory/orders'
+                }/${pallet.orderId}?`}
               >
-                {data.orderId === undefined ? '-' : data.orderId}
+                {pallet.orderId === undefined ? '-' : pallet.orderId}
               </ty.LinkText>
               <ty.CaptionText mr={th.spacing.md}>Back Order ID:</ty.CaptionText>
               <ty.LinkText
                 hover="false"
-                to={`/inventory/orders/${data.orderId}?backOrderId=${data.backOrderId}`}
+                to={`/inventory/orders/${pallet.orderId}?backOrderId=${pallet.backOrderId}`}
                 mr={th.spacing.lg}
               >
-                {data.backOrderId === undefined ? '-' : data.backOrderId}
+                {pallet.backOrderId === undefined ? '-' : pallet.backOrderId}
               </ty.LinkText>
               <ty.CaptionText mr={th.spacing.md}>Shipped:</ty.CaptionText>
-              <StatusIndicator status={data.shipped ? 'success' : 'error'} />
+              <StatusIndicator status={pallet.shipped ? 'success' : 'error'} />
             </l.Flex>
           </l.Flex>
-          <BaseData<Pallet> data={data} labels={baseLabels} />
+          <BaseData<Pallet> data={pallet} labels={baseLabels} />
           <l.Div my={th.spacing.lg}>
             <TabBar />
           </l.Div>
-          {(data.palletSections.nodes as PalletSectionType[]).map(
+          {(pallet.palletSections.nodes as PalletSectionType[]).map(
             (section, idx) => (
               <PalletSection key={idx} section={section} />
             ),

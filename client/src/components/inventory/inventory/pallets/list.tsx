@@ -48,7 +48,7 @@ const PalletList = ({
                 gridTemplateColumns={gridTemplateColumns}
                 key={idx}
                 listLabels={inventoryListLabels}
-                to={`${baseUrl}/pallets/${pallet.id}${search}`}
+                to={`${baseUrl}/pallets/${pallet.palletId}${search}`}
               />
             ),
         )

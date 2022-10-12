@@ -6,6 +6,7 @@ import CheckImg from 'assets/images/check';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
+import { hexColorWithTransparency } from './utils';
 
 const Input = styled.input(
   {
@@ -41,19 +42,28 @@ export const FilterCheckbox = ({ checked, label, onChange }: Props) => (
   </l.Flex>
 );
 
-const Wrapper = styled(l.Flex)(({ disabled }: { disabled?: boolean }) => ({
-  alignItems: 'center',
-  border: th.borders.primary,
-  borderRadius: th.borderRadii.default,
-  height: th.sizes.xs,
-  justifyContent: 'center',
-  position: 'relative',
-  transition: th.transitions.default,
-  width: th.sizes.xs,
-  ':hover': {
-    background: disabled ? undefined : th.colors.background,
-  },
-}));
+const Wrapper = styled(l.Flex)(
+  ({ checked, disabled }: { checked?: boolean; disabled?: boolean }) => ({
+    alignItems: 'center',
+    background: checked
+      ? hexColorWithTransparency(th.colors.status.success, 0.5)
+      : undefined,
+    border: th.borders.primary,
+    borderRadius: th.borderRadii.default,
+    height: th.sizes.xs,
+    justifyContent: 'center',
+    position: 'relative',
+    transition: th.transitions.default,
+    width: th.sizes.xs,
+    ':hover': {
+      background: disabled
+        ? undefined
+        : checked
+        ? hexColorWithTransparency(th.colors.status.success, 0.3)
+        : th.colors.background,
+    },
+  }),
+);
 
 export const LineItemCheckbox = ({
   checked,
@@ -70,7 +80,7 @@ export const LineItemCheckbox = ({
       !disabled && onChange();
     }}
   >
-    <Wrapper disabled={disabled}>
+    <Wrapper checked={checked} disabled={disabled}>
       {checked && <CheckImg height={10} width={10} />}
     </Wrapper>
     {label}

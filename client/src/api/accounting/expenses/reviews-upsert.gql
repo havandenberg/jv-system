@@ -1,0 +1,9 @@
+mutation EXPENSE_HEADER_REVIEW_BULK_UPSERT(
+  $reviews: [ExpenseHeaderReviewInput]!
+) {
+  bulkUpsertExpenseHeaderReview(input: { reviews: $reviews }) {
+    expenseHeaderReviews {
+      id
+    }
+  }
+}
