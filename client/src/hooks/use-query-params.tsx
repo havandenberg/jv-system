@@ -159,7 +159,9 @@ export const useTruckLoadsQueryParams = () =>
     location: StringParam,
     truckLoadView: StringParam,
     fob: StringParam,
+    customerId: ArrayParam,
     warehouseId: ArrayParam,
+    vendorId: ArrayParam,
   });
 
 export const useExpensesQueryParams = () =>

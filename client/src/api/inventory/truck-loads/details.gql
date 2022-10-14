@@ -21,7 +21,7 @@ query TRUCK_LOAD_DETAILS($truckLoadId: String!) {
       warehouse {
         id
         warehouseName
-      }
+        }
       changeFlag
       licensePlate
       inUse
@@ -30,72 +30,78 @@ query TRUCK_LOAD_DETAILS($truckLoadId: String!) {
       temperature
       loadLock
       notes
-      orderMasters {
-        nodes {
-          backOrderId
-          billingCustomer {
-            id
-            customerName
-          }
-          expectedShipDate
+      orderMaster {
+        backOrderId
+        billingCustomer {
           id
-          items {
-            nodes {
-              backOrderId
-              boxCount
-              deliveryCharge
+          customerName
+        }
+        expectedShipDate
+        id
+        items {
+          nodes {
+            backOrderId
+            boxCount
+            deliveryCharge
+            id
+            inventoryItem {
               id
-              inventoryItem {
+              vessel {
                 id
-                vessel {
+                vesselCode
+                vesselName
+                isPre
+              }
+              coast
+              plu
+              product {
+                id
+                species {
                   id
-                  vesselCode
-                  vesselName
-                  isPre
+                  speciesDescription
+                  commonSpecies {
+                    id
+                    palletWeight
+                  }
                 }
-                coast
-                plu
-                product {
+                variety {
                   id
-                  species {
+                  varietyDescription
+                }
+                sizes {
+                  nodes {
                     id
-                    speciesDescription
+                    combineDescription
                   }
-                  variety {
+                }
+                packType {
+                  id
+                  packDescription
+                  commonPackType {
                     id
-                    varietyDescription
-                  }
-                  sizes {
-                    nodes {
-                      id
-                      combineDescription
-                    }
-                  }
-                  packType {
-                    id
-                    packDescription
+                    palletWeight
                   }
                 }
               }
-              isBundle
-              itemStatus
-              lineId
-              orderId
-              palletCount
-              notes
-              unitSellPrice
-              locationId
-              shipperId
             }
+            isBundle
+            itemStatus
+            lineId
+            orderId
+            palletCount
+            notes
+            unitSellPrice
+            locationId
+            shipperId
           }
-          orderId
-          orderStatus
-          shipWarehouse {
-            id
-            warehouseName
-          }
-          truckLoadId
         }
+        orderId
+        orderStatus
+        shipWarehouse {
+          id
+          warehouseName
+        }
+        truckLoadId
       }
       pallets {
         nodes {
@@ -108,6 +114,25 @@ query TRUCK_LOAD_DETAILS($truckLoadId: String!) {
           palletId
           packDate
           shipped
+          product {
+            id
+            species {
+              id
+              speciesDescription
+              commonSpecies {
+                id
+                palletWeight
+              }
+            }
+            packType {
+              id
+              packDescription
+              commonPackType {
+                id
+                palletWeight
+              }
+            }
+          }
         }
       }
     }

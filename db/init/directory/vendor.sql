@@ -94,14 +94,15 @@ SELECT CONCAT (
 	) FROM directory.vendor vv WHERE v.id = vv.id
 $BODY$;
 
-CREATE FUNCTION directory.vendor_distinct_values()
+CREATE FUNCTION directory.vendor_distinct_values(IN vendor_type_param TEXT)
   RETURNS SETOF TEXT
 	LANGUAGE 'sql'
     STABLE
     PARALLEL UNSAFE
     COST 100
 AS $BODY$
-  SELECT DISTINCT CONCAT(vendor_name, ' (', id, ')') from directory.vendor;
+  SELECT DISTINCT CONCAT(vendor_name, ' (', id, ')') FROM directory.vendor v
+    WHERE vendor_type_param = v.vendor_type;
 $BODY$;
 
 CREATE FUNCTION directory.bulk_upsert_vendor(

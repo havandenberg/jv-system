@@ -56,19 +56,6 @@ export const navItems: NavItemType[] = [
     ],
   },
   {
-    baseUrl: '/reports',
-    text: 'Reports',
-    to: '/reports/inspections',
-    dashboardItems: [
-      { text: 'Inspections', to: 'inspections' },
-      // { text: 'Movement', to: 'movement' },
-    ],
-    secondaryItems: [
-      { text: 'Inspections', to: 'inspections' },
-      // { text: 'Movement', to: 'movement' },
-    ],
-  },
-  {
     text: 'Accounting',
     to: '/accounting',
     dashboardItems: [
@@ -84,6 +71,19 @@ export const navItems: NavItemType[] = [
         to: 'invoices',
       },
       { text: 'Expenses', to: 'expenses' },
+    ],
+  },
+  {
+    baseUrl: '/reports',
+    text: 'Reports',
+    to: '/reports/inspections',
+    dashboardItems: [
+      { text: 'Inspections', to: 'inspections' },
+      // { text: 'Movement', to: 'movement' },
+    ],
+    secondaryItems: [
+      { text: 'Inspections', to: 'inspections' },
+      // { text: 'Movement', to: 'movement' },
     ],
   },
   {

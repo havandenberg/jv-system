@@ -134,4 +134,10 @@ export const baseLabels: (
     key: 'speciesDescription',
     label: 'Description',
   },
+  {
+    key: 'palletWeight',
+    label: 'Pallet Weight (lbs)',
+    validate: ({ palletWeight }) =>
+      !palletWeight || !isNaN(Number(palletWeight)),
+  },
 ];

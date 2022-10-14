@@ -3,13 +3,11 @@ query TRUCK_LOAD_LIST(
   $search: [TruckLoadFilter!]
   $endDate: Date
   $startDate: Date
-  $warehouseId: [String!]
   $vendorId: [String!]
 ) {
   truckLoads(
     filter: {
       and: $search
-      warehouseId: { in: $warehouseId }
       vendorId: { in: $vendorId }
       or: {
         shipDate: {
@@ -31,9 +29,46 @@ query TRUCK_LOAD_LIST(
       fob
       shipDate
       count
-      warehouse {
+      orderMaster {
         id
-        warehouseName
+        billingCustomer {
+          id
+          customerName
+        }
+        items {
+          nodes {
+            id
+            inventoryItem {
+              id
+              product {
+                id
+                species {
+                  id
+                  speciesDescription
+                  commonSpecies {
+                    id
+                    palletWeight
+                  }
+                }
+                packType {
+                  id
+                  packDescription
+                  commonPackType {
+                    id
+                    palletWeight
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      invoiceHeader {
+        id
+        billingCustomer {
+          id
+          customerName
+        }
       }
     }
     totalCount

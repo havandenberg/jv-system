@@ -98,6 +98,7 @@ const CommonSpeciesDetails = () => {
     'commonSpeciesTags',
     'productSpeciesId',
     'defaultInvSortKey',
+    'palletWeight',
   ] as (keyof CommonSpecies)[];
   const updateVariables = { id: speciesId };
 

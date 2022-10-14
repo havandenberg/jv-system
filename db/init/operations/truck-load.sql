@@ -24,10 +24,10 @@ CREATE TABLE operations.truck_load (
   notes TEXT
 );
 
-CREATE INDEX ON operations.truck_load (load_id, ship_date);
+CREATE INDEX ON operations.truck_load (load_id, ship_date, vendor_id);
 
-CREATE FUNCTION operations.truck_load_order_masters(IN t operations.truck_load)
-    RETURNS setof operations.order_master
+CREATE FUNCTION operations.truck_load_order_master(IN t operations.truck_load)
+    RETURNS operations.order_master
     LANGUAGE 'sql'
     STABLE
     PARALLEL UNSAFE
@@ -36,7 +36,22 @@ AS $BODY$
   SELECT * FROM operations.order_master om
     WHERE om.truck_load_id = t.load_id
     AND om.vendor_id = t.vendor_id
-    AND om.ship_warehouse_id = t.warehouse_id;
+    AND om.ship_warehouse_id = t.warehouse_id
+    LIMIT 1;
+$BODY$;
+
+CREATE FUNCTION operations.truck_load_invoice_header(IN t operations.truck_load)
+    RETURNS accounting.invoice_header
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT * FROM accounting.invoice_header ih
+    WHERE ih.truck_load_id = t.load_id
+    AND ih.vendor_id = t.vendor_id
+    AND ih.ship_warehouse_id = t.warehouse_id
+    LIMIT 1;
 $BODY$;
 
 CREATE FUNCTION operations.truck_load_count(IN t operations.truck_load)

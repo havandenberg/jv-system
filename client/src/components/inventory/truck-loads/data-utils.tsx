@@ -1,20 +1,22 @@
 import { CUSTOMER_DISTINCT_VALUES_QUERY } from 'api/directory/customer';
-import { WAREHOUSE_DISTINCT_VALUES_QUERY } from 'api/directory/warehouse';
 import { VENDOR_DISTINCT_VALUES_QUERY } from 'api/directory/vendor';
 import { LabelInfo } from 'components/column-label';
 import StatusIndicator from 'components/status-indicator';
 import { SORT_ORDER } from 'hooks/use-columns';
-import { TruckLoad } from 'types';
+import { OrderItem, Pallet, TruckLoad } from 'types';
 import l from 'ui/layout';
 import ty from 'ui/typography';
 import th from 'ui/theme';
 import { formatTime } from 'utils/date';
 
+export const TRUCK_LOAD_MAX_WEIGHT = 40000;
+
 export type TruckLoadLabelInfo = LabelInfo<TruckLoad>;
 
-export const indexListLabels: (selectedFOB: string) => TruckLoadLabelInfo[] = (
-  selectedFOB,
-) => [
+export const indexListLabels: (
+  selectedFOB: string,
+  customerId?: string[],
+) => TruckLoadLabelInfo[] = (selectedFOB, customerId) => [
   {
     key: 'loadId',
     label: 'Load ID',
@@ -28,14 +30,10 @@ export const indexListLabels: (selectedFOB: string) => TruckLoadLabelInfo[] = (
   {
     key: 'shipDate',
     label: 'Del Date',
+    sortKey: 'deliveredDate',
     sortable: true,
-    customSortBy: ({ loadId, orderMasters }) => true,
-    getValue: ({ loadId, orderMasters, warehouse }) => {
-      const orderMaster = orderMasters?.nodes?.find(
-        (orderMaster) =>
-          orderMaster?.shipWarehouse?.id === warehouse?.id &&
-          orderMaster?.truckLoadId === loadId,
-      );
+    customSortBy: ({ orderMaster }) => true,
+    getValue: ({ orderMaster }) => {
       return orderMaster ? (
         <ty.BodyText>-</ty.BodyText>
       ) : (
@@ -47,6 +45,7 @@ export const indexListLabels: (selectedFOB: string) => TruckLoadLabelInfo[] = (
     key: 'vendorId',
     label: 'Trucker',
     sortable: true,
+    customSortBy: ({ vendor }) => vendor?.vendorName.toLowerCase() || 'zzzzz',
     filterable: true,
     filterPanelProps: {
       customStyles: {
@@ -55,36 +54,25 @@ export const indexListLabels: (selectedFOB: string) => TruckLoadLabelInfo[] = (
       queryProps: {
         query: VENDOR_DISTINCT_VALUES_QUERY,
         queryName: 'vendorDistinctValues',
+        queryVariables: {
+          vendorType: 'FR',
+        },
       },
       showSearch: true,
     },
     getValue: ({ vendor }) =>
-      vendor ? <ty.BodyText>{vendor.vendorName}</ty.BodyText> : '',
+      vendor ? (
+        <ty.BodyText>
+          {vendor.vendorName} ({vendor.id})
+        </ty.BodyText>
+      ) : (
+        ''
+      ),
   },
   {
     defaultSortOrder: SORT_ORDER.ASC,
-    key: 'warehouseId',
-    label: 'Warehouse',
-    sortable: true,
-    filterable: true,
-    filterPanelProps: {
-      customStyles: {
-        width: 500,
-      },
-      queryProps: {
-        query: WAREHOUSE_DISTINCT_VALUES_QUERY,
-        queryName: 'warehouseDistinctValues',
-      },
-      showSearch: true,
-    },
-    customSortBy: ({ warehouse }) =>
-      warehouse?.warehouseName.toLowerCase() || '',
-    getValue: ({ warehouse }) =>
-      warehouse ? <ty.BodyText>{warehouse.warehouseName}</ty.BodyText> : '',
-  },
-  {
-    defaultSortOrder: SORT_ORDER.ASC,
-    key: 'warehouseId',
+    key: 'orderMaster',
+    sortKey: 'customerId',
     label: 'Customer',
     sortable: true,
     filterable: true,
@@ -98,32 +86,32 @@ export const indexListLabels: (selectedFOB: string) => TruckLoadLabelInfo[] = (
       },
       showSearch: true,
     },
-    customSortBy: ({ warehouse }) =>
-      warehouse?.warehouseName.toLowerCase() || '',
-    getValue: ({ loadId, orderMasters, warehouse }) => {
-      const orderMaster = orderMasters?.nodes?.find(
-        (orderMaster) =>
-          orderMaster?.shipWarehouse?.id === warehouse?.id &&
-          orderMaster?.truckLoadId === loadId,
+    customFilterBy: ({ orderMaster, invoiceHeader }) => {
+      const customer = (orderMaster || invoiceHeader)?.billingCustomer;
+      return (
+        !customerId ||
+        (!!customer &&
+          customerId
+            .map((val) =>
+              val.substring(val.lastIndexOf(' (') + 2, val.length - 1),
+            )
+            .includes(customer.id))
       );
-      return orderMaster ? (
-        <ty.BodyText>{orderMaster.billingCustomer?.customerName}</ty.BodyText>
+    },
+    customSortBy: ({ orderMaster, invoiceHeader }) =>
+      (
+        orderMaster || invoiceHeader
+      )?.billingCustomer?.customerName?.toLowerCase() || 'zzzzzz',
+    getValue: ({ orderMaster, invoiceHeader }) => {
+      const customer = (orderMaster || invoiceHeader)?.billingCustomer;
+      return customer ? (
+        <ty.BodyText>
+          {customer.customerName} ({customer.id})
+        </ty.BodyText>
       ) : (
         <ty.BodyText>-</ty.BodyText>
       );
     },
-  },
-  {
-    key: 'fob',
-    label: 'FOB / Del',
-    filterable: true,
-    filterPanelProps: {
-      customOptions: ['FOB', 'Delivered'],
-    },
-    customFilterBy: ({ fob }) =>
-      !selectedFOB || (selectedFOB === 'FOB' ? !!fob : !fob),
-    sortable: true,
-    getValue: ({ fob }) => <ty.BodyText>{fob ? 'FOB' : 'Del'}</ty.BodyText>,
   },
   {
     defaultSortOrder: SORT_ORDER.ASC,
@@ -234,14 +222,9 @@ export const indexBaseLabels: (
     label: 'Load ID',
   },
   {
-    key: 'orderMasters',
+    key: 'orderMaster',
     label: isInvoice ? 'Invoice ID' : 'Order ID',
-    getValue: ({ loadId, orderMasters, pallets, warehouse }) => {
-      const orderMaster = orderMasters?.nodes?.find(
-        (orderMaster) =>
-          orderMaster?.shipWarehouse?.id === warehouse?.id &&
-          orderMaster?.truckLoadId === loadId,
-      );
+    getValue: ({ orderMaster, pallets }) => {
       const pallet = (pallets?.nodes || [])[0];
       return isInvoice ? (
         pallet ? (
@@ -396,6 +379,33 @@ export const baseLabels: TruckLoadLabelInfo[] = [
     ),
   },
   {
+    key: 'pallets',
+    label: 'Est. Total Weight',
+    getValue: (tl) => {
+      const loadWeight = getTruckLoadWeight(tl);
+      const isOverweight = isTruckLoadOverweight(tl);
+      const overweightStatus = truckLoadStatusDescriptions.overweight;
+      return (
+        <l.Flex alignCenter justifyCenter>
+          <ty.BodyText
+            color={isOverweight ? th.colors.status.error : undefined}
+            fontWeight={isOverweight ? 'bold' : undefined}
+            mr={th.spacing.sm}
+          >
+            {loadWeight.toLocaleString()} lbs
+          </ty.BodyText>
+          {isOverweight && (
+            <StatusIndicator
+              color={overweightStatus.color}
+              text={overweightStatus.text}
+              title={overweightStatus.title}
+            />
+          )}
+        </l.Flex>
+      );
+    },
+  },
+  {
     key: 'notes',
     label: 'Notes',
   },
@@ -429,4 +439,37 @@ export const truckLoadStatusDescriptions: {
     text: 'FLG',
     title: 'Flagged - order has changed',
   },
+  overweight: {
+    color: th.colors.status.errorAlt,
+    text: 'OVR',
+    title: 'Overweight - estimated weight exceeds max load weight (40,000 lbs)',
+  },
 };
+
+export const getTruckLoadWeight = ({ orderMaster, pallets }: TruckLoad) => {
+  const itemsLoadWeight = (
+    (orderMaster?.items?.nodes || []) as OrderItem[]
+  ).reduce((acc, item) => {
+    const speciesWeight =
+      item.inventoryItem?.product?.species?.commonSpecies?.palletWeight || 0;
+    const packTypeWeight =
+      item.inventoryItem?.product?.packType?.commonPackType?.palletWeight || 0;
+    return acc + (packTypeWeight || speciesWeight) * item.palletCount;
+  }, 0);
+
+  const palletsLoadWeight = ((pallets?.nodes || []) as Pallet[]).reduce(
+    (acc, pallet) => {
+      const speciesWeight =
+        pallet.product?.species?.commonSpecies?.palletWeight || 0;
+      const packTypeWeight =
+        pallet.product?.packType?.commonPackType?.palletWeight || 0;
+      return acc + parseInt(packTypeWeight || speciesWeight, 10);
+    },
+    0,
+  );
+
+  return palletsLoadWeight || itemsLoadWeight;
+};
+
+export const isTruckLoadOverweight = (truckLoad: TruckLoad) =>
+  getTruckLoadWeight(truckLoad) > TRUCK_LOAD_MAX_WEIGHT;

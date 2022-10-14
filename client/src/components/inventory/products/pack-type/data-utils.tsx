@@ -103,4 +103,10 @@ export const baseLabels: (
       <ty.BodyText>{!!isRepack ? 'Yes' : '-'}</ty.BodyText>
     ),
   },
+  {
+    key: 'palletWeight',
+    label: 'Pallet Weight (lbs)',
+    validate: ({ palletWeight }) =>
+      !palletWeight || !isNaN(Number(palletWeight)),
+  },
 ];

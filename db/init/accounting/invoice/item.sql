@@ -23,7 +23,7 @@ CREATE TABLE accounting.invoice_item (
   notes TEXT
 );
 
-CREATE INDEX ON accounting.invoice_item (order_id, back_order_id);
+CREATE INDEX ON accounting.invoice_item (order_id, back_order_id, pallet_id);
 
 CREATE FUNCTION accounting.invoice_item_pallet(IN i accounting.invoice_item)
     RETURNS product.pallet

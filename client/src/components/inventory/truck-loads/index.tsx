@@ -22,20 +22,22 @@ import th from 'ui/theme';
 import ty from 'ui/typography';
 
 import { ResetButton } from '../inventory/use-filters';
-import { indexListLabels } from './data-utils';
+import { indexListLabels, isTruckLoadOverweight } from './data-utils';
 
 export const breadcrumbs = [
   { text: 'Truck Loads', to: `/inventory/truck-loads` },
 ];
 
-const gridTemplateColumns = '0.8fr 1fr 1fr 2fr 2fr 2fr 1fr 0.5fr 30px';
+const gridTemplateColumns = '0.4fr 0.6fr 0.6fr 1.5fr 2fr 0.3fr 30px';
 
 const TruckLoads = () => {
   const { Search } = useSearch();
   const [{ sortBy = 'shipDate', sortOrder = SORT_ORDER.DESC }] =
     useSortQueryParams();
-  const [{ coast = 'EC', fob }] = useTruckLoadsQueryParams();
-  const { data, loading, error } = api.useTruckLoads();
+  const [{ coast = 'EC', fob, customerId }] = useTruckLoadsQueryParams();
+  const { data, loading, error } = api.useTruckLoads(
+    sortBy === 'customerId' ? 'SHIP_DATE_DESC' : undefined,
+  );
   const items = (data ? data.nodes : []) as TruckLoad[];
 
   const { DateRangePicker, BackwardButton, ForwardButton } = useDateRange({
@@ -45,15 +47,46 @@ const TruckLoads = () => {
   const columnLabels = useColumns<TruckLoad>(
     'shipDate',
     SORT_ORDER.DESC,
-    indexListLabels(fob),
+    indexListLabels(fob, customerId),
     'operations',
     'truck_load',
   );
 
-  const filteredItems = getFilteredItems(indexListLabels(fob), items);
-  const sortedItems = getSortedItems(
-    indexListLabels(fob),
-    filteredItems,
+  const filteredItems = getFilteredItems(
+    indexListLabels(fob, customerId),
+    items,
+  );
+
+  const truckLoadsGroupedByLocation = filteredItems.reduce((acc, item) => {
+    const { loadId } = item || {};
+
+    if (!acc || !loadId) {
+      return acc;
+    }
+
+    if (!acc[loadId]) {
+      acc[loadId] = [];
+    }
+
+    acc[loadId].push(item as TruckLoad);
+
+    return acc;
+  }, {} as { [key: string]: TruckLoad[] });
+
+  const truckLoads = Object.values(truckLoadsGroupedByLocation)
+    .map(
+      (truckLoadGroup) =>
+        truckLoadGroup.find((tl) => {
+          const customer = (tl.orderMaster || tl.invoiceHeader)
+            ?.billingCustomer;
+          return !!customer;
+        }) || truckLoadGroup[0],
+    )
+    .flat();
+
+  const sortedTruckLoads = getSortedItems(
+    indexListLabels(fob, customerId),
+    truckLoads,
     sortBy,
     sortOrder,
   );
@@ -70,7 +103,7 @@ const TruckLoads = () => {
                 <ty.SmallText secondary>Search</ty.SmallText>
                 {!loading && (
                   <ty.SmallText secondary>
-                    Results: {data ? data.totalCount : '-'}
+                    Results: {sortedTruckLoads ? sortedTruckLoads.length : '-'}
                   </ty.SmallText>
                 )}
               </l.Flex>
@@ -114,19 +147,24 @@ const TruckLoads = () => {
       }
       title="Truck Loads"
     >
-      {!isEmpty(sortedItems) ? (
+      {!isEmpty(sortedTruckLoads) ? (
         <VirtualizedList
           height={582}
-          rowCount={data ? sortedItems.length : 0}
+          rowCount={data ? sortedTruckLoads.length : 0}
           rowRenderer={({ key, index, style }) => {
-            const item = sortedItems[index];
+            const item = sortedTruckLoads[index] as TruckLoad;
+
+            const isOverweight = isTruckLoadOverweight(item);
+
             return (
               item && (
                 <div key={key} style={style}>
                   <ListItem<TruckLoad>
                     data={item}
                     gridTemplateColumns={gridTemplateColumns}
-                    listLabels={indexListLabels(fob)}
+                    highlightColor={th.colors.status.errorAlt}
+                    isHighlight={isOverweight}
+                    listLabels={indexListLabels(fob, customerId)}
                     to={`/inventory/truck-loads/${item.loadId}?truckLoadView=${
                       (item.count || 0) > 1 ? 'pickupLocations' : 'pallets'
                     }`}

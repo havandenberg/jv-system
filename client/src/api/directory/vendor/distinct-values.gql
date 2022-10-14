@@ -1,5 +1,5 @@
-query VENDOR_DISTINCT_VALUES {
-  vendorDistinctValues {
+query VENDOR_DISTINCT_VALUES($vendorType: String) {
+  vendorDistinctValues(vendorTypeParam: $vendorType) {
     nodes
   }
 }

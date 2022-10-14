@@ -9,6 +9,7 @@ query COMMON_SPECIES_LIST(
     nodes {
       id
       defaultInvSortKey
+      palletWeight
       speciesDescription
       speciesName
       uiColor
@@ -79,6 +80,7 @@ query COMMON_SPECIES_LIST(
         nodes {
           id
           isRepack
+          palletWeight
           packMasterId
           packMaster {
             id

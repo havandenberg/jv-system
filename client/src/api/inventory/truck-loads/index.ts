@@ -2,7 +2,6 @@ import { useMutation, useQuery } from '@apollo/client';
 import { add } from 'date-fns';
 import { loader } from 'graphql.macro';
 
-import { WAREHOUSE_DISTINCT_VALUES_QUERY } from 'api/directory/warehouse';
 import useFilteredQueryValues from 'api/hooks/use-filtered-query-values';
 import { getOrderByString, getSearchArray } from 'api/utils';
 import { formatDate } from 'components/date-range-picker';
@@ -24,7 +23,7 @@ const useVariables = (orderByOverride?: string) => {
   const [search = ''] = useSearchQueryParam();
   const [{ sortBy = 'shipDate', sortOrder = SORT_ORDER.DESC }] =
     useSortQueryParams();
-  const [{ warehouseId }] = useTruckLoadsQueryParams();
+  const [{ vendorId }] = useTruckLoadsQueryParams();
   const orderBy = getOrderByString(sortBy, sortOrder);
 
   const [{ startDate, endDate }] = useDateRangeQueryParams();
@@ -38,16 +37,9 @@ const useVariables = (orderByOverride?: string) => {
   const formattedEndDate =
     endDate && formatDate(new Date(endDate.replace(/-/g, '/')));
 
-  const filteredWarehouseValues = useFilteredQueryValues(
-    warehouseId,
-    {},
-    WAREHOUSE_DISTINCT_VALUES_QUERY,
-    'warehouseDistinctValues',
-  );
-
   const filteredVendorValues = useFilteredQueryValues(
-    warehouseId,
-    {},
+    vendorId,
+    { vendorType: 'FR' },
     VENDOR_DISTINCT_VALUES_QUERY,
     'vendorDistinctValues',
   );
@@ -57,9 +49,6 @@ const useVariables = (orderByOverride?: string) => {
     search: getSearchArray(search),
     startDate: formattedStartDate,
     endDate: formattedEndDate,
-    warehouseId: filteredWarehouseValues.map((val) =>
-      val.substring(val.lastIndexOf(' (') + 2, val.length - 1),
-    ),
     vendorId: filteredVendorValues.map((val) =>
       val.substring(val.lastIndexOf(' (') + 2, val.length - 1),
     ),

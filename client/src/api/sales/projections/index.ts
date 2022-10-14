@@ -1,6 +1,7 @@
 import { useMutation, useQuery } from '@apollo/client';
 import { add, endOfISOWeek, startOfISOWeek } from 'date-fns';
 import { loader } from 'graphql.macro';
+import { useLocation } from 'react-router-dom';
 
 import {
   SHIPPER_LIST_QUERY,
@@ -35,6 +36,7 @@ export const SHIPPER_DISTINCT_VALUES_QUERY = loader(
 );
 
 const useVariables = (isInventory?: boolean) => {
+  const { pathname } = useLocation();
   const [endDateQuery] = useQueryValue('endDate');
   const [startDateQuery] = useQueryValue('startDate');
   const endDate = endDateQuery
@@ -48,6 +50,7 @@ const useVariables = (isInventory?: boolean) => {
   const [view = 'grid'] = useQueryValue('projectionsView');
   const isNotList = view !== 'list';
   const isGrid = view === 'grid';
+  const isPrograms = pathname.includes('programs');
   const [{ sortBy = 'submittedAt', sortOrder = SORT_ORDER.DESC }] =
     useSortQueryParams();
   const orderBy = getOrderByString(
@@ -56,10 +59,10 @@ const useVariables = (isInventory?: boolean) => {
   );
 
   const [shipperId] = useQueryArrayValue('shipperId');
-  const parsedShipperId = shipperId
-    ? shipperId.length === 5
-      ? shipperId
-      : shipperId.slice(-6, -1)
+  const parsedShipperId = shipperId?.[0]
+    ? shipperId[0].length === 5
+      ? shipperId[0]
+      : shipperId[0].slice(-6, -1)
     : undefined;
   const [coast = 'EC'] = useQueryValue('coast');
 
@@ -78,7 +81,7 @@ const useVariables = (isInventory?: boolean) => {
     arrivalPort: coast,
     shipperId: isInventory
       ? undefined
-      : isNotList
+      : isNotList || isPrograms
       ? parsedShipperId
       : filteredShipperValues.map((val) =>
           val.substring(val.lastIndexOf(' (') + 2, val.length - 1),

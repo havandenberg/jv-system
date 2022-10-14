@@ -8,6 +8,7 @@ CREATE TABLE product.common_category (
 CREATE TABLE product.common_species (
 	id BIGSERIAL PRIMARY KEY,
   default_inv_sort_key TEXT,
+  pallet_weight NUMERIC,
   species_name TEXT,
   species_description TEXT,
   ui_color TEXT,
@@ -70,6 +71,7 @@ CREATE TABLE product.common_pack_type (
   pack_type_name TEXT,
   pack_type_description TEXT,
   is_repack BOOLEAN,
+  pallet_weight NUMERIC,
   common_species_id BIGINT
     REFERENCES product.common_species(id),
   pack_master_id BIGINT
