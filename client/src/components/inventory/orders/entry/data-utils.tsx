@@ -1,8 +1,15 @@
 import { LabelInfo } from 'components/column-label';
+import { getClosestPalletRate } from 'components/inventory/truck-loads/rates/data-utils';
 import StatusIndicator from 'components/status-indicator';
 import { SORT_ORDER } from 'hooks/use-columns';
 import { groupBy, pluck, uniq, values } from 'ramda';
-import { CommonSpecies, LoadNumber, OrderEntry, OrderEntryItem } from 'types';
+import {
+  CommonSpecies,
+  LoadNumber,
+  OrderEntry,
+  OrderEntryItem,
+  TruckRate,
+} from 'types';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
@@ -321,6 +328,53 @@ export const getDuplicateOrderEntryItemIds = (items: OrderEntryItem[]) =>
     .filter((duplicateItems) => duplicateItems.length > 1)
     .map((duplicateItems) => duplicateItems.map((p) => parseInt(p.id, 10)))
     .flat();
+
+export const getOrderEntryItemEstimatedFreight = (
+  orderEntryItem: OrderEntryItem,
+  truckRate?: TruckRate,
+) => {
+  const { palletCount, deliveryCharge } = orderEntryItem;
+  const palletCountInt = parseInt(palletCount, 10);
+  const deliveryChargeFloat = parseFloat(deliveryCharge);
+  const estimate = truckRate && getClosestPalletRate(truckRate, palletCountInt);
+  const isEstimate = !deliveryChargeFloat || deliveryChargeFloat === estimate;
+  return truckRate && isEstimate
+    ? estimate || deliveryChargeFloat
+    : deliveryChargeFloat || 0;
+};
+
+export const getOrderEntryEstimatedFreight = (
+  orderEntryItems: OrderEntryItem[],
+  truckRate?: TruckRate,
+) =>
+  orderEntryItems.reduce(
+    (sum, item) =>
+      sum +
+      getOrderEntryItemEstimatedFreight(item, truckRate) * item.palletCount,
+    0,
+  ) as number;
+
+export const getOrderEntryItemEstimatedTotal = (
+  orderEntryItem: OrderEntryItem,
+  truckRate?: TruckRate,
+) => {
+  const { unitSellPrice, palletCount } = orderEntryItem;
+  const price = parseFloat(unitSellPrice);
+  const pallets = parseInt(palletCount, 10);
+  const freightPerPallet = truckRate
+    ? getOrderEntryItemEstimatedFreight(orderEntryItem, truckRate)
+    : 0;
+  return (price + freightPerPallet) * pallets;
+};
+
+export const getOrderEntryEstimatedTotal = (
+  orderEntryItems: OrderEntryItem[],
+  truckRate?: TruckRate,
+) =>
+  orderEntryItems.reduce(
+    (sum, item) => sum + getOrderEntryItemEstimatedTotal(item, truckRate),
+    0,
+  );
 
 const orderEntryStatusDescriptions: {
   [key: string]: { color: string; text: string; title: string };

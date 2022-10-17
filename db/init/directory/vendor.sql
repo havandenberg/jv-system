@@ -66,6 +66,16 @@ CREATE TABLE directory.vendor_person_contact (
   FOREIGN KEY (person_contact_id) REFERENCES directory.person_contact(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
+CREATE FUNCTION directory.vendor_truck_rates(IN v directory.vendor)
+    RETURNS setof operations.truck_rate
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT * FROM operations.truck_rate tr WHERE tr.vendor_id = v.id
+$BODY$;
+
 CREATE FUNCTION directory.vendor_search_text(IN v directory.vendor)
     RETURNS TEXT
     LANGUAGE 'sql'

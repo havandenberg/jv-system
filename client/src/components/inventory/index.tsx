@@ -9,6 +9,8 @@ import OrderEntryDetails from 'components/inventory/orders/entry/details';
 import CreateOrder from 'components/inventory/orders/entry';
 import LoadNumberManager from 'components/inventory/orders/load-number-manager';
 import TruckLoads from 'components/inventory/truck-loads';
+import TruckRates from 'components/inventory/truck-loads/rates';
+import TruckRateDetails from 'components/inventory/truck-loads/rates/details';
 import TruckLoadDetails from 'components/inventory/truck-loads/details';
 import Pallets from 'components/inventory/inventory/pallets';
 import PalletDetails from 'components/inventory/inventory/pallets/details';
@@ -58,6 +60,12 @@ const InventoryTab = () => (
     <Route exact path="/inventory/orders/:id" component={OrderDetails} />
     <Route exact path="/inventory/orders" component={Orders} />
 
+    <Route
+      exact
+      path="/inventory/truck-loads/rates/:id"
+      component={TruckRateDetails}
+    />
+    <Route exact path="/inventory/truck-loads/rates" component={TruckRates} />
     <Route
       exact
       path="/inventory/truck-loads/:id"

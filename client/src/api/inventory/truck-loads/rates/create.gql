@@ -1,0 +1,5 @@
+mutation TRUCK_RATE_CREATE($truckRate: TruckRateInput!) {
+  createTruckRate(input: { truckRate: $truckRate }) {
+    clientMutationId
+  }
+}

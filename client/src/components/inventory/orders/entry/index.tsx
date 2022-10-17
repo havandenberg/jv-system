@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import React, {
   Fragment,
   useCallback,
@@ -44,6 +45,7 @@ import {
   OrderEntry,
   OrderEntryItem,
   Shipper,
+  TruckRate,
   User,
   Vessel,
   Warehouse,
@@ -59,10 +61,14 @@ import {
   baseLabels,
   filterLoadNumbersByCoast,
   getDuplicateOrderEntryItemIds,
+  getOrderEntryEstimatedFreight,
+  getOrderEntryEstimatedTotal,
+  getOrderEntryItemEstimatedFreight,
   itemListLabels,
 } from './data-utils';
 import NewOrderEntryItem from './item';
 import ReviewModal from './review-modal';
+import { formatCurrency } from 'utils/format';
 
 export type NewOrderEntry = Pick<
   OrderEntry,
@@ -334,10 +340,22 @@ const CreateOrderEntry = () => {
     loading: customerDataLoading,
     error: customerDataError,
   } = api.useCustomers('CUSTOMER_NAME_ASC');
-
   const customers = (customerData ? customerData.nodes : []) as Customer[];
   const customer = customers.find(
     (customer) => customer.id === changes.billingCustomerId,
+  );
+
+  const {
+    data: truckRateData,
+    loading: truckRateDataLoading,
+    error: truckRateDataError,
+  } = api.useTruckRates('POSTAL_STATE_ASC');
+  const truckRates = (truckRateData ? truckRateData.nodes : []) as TruckRate[];
+  const defaultTruckRate = truckRates.find(
+    (truckRate) =>
+      customer &&
+      truckRate.isDefault &&
+      truckRate.postalState === customer?.postalState,
   );
 
   const hasValidLoadNumber =
@@ -639,12 +657,14 @@ const CreateOrderEntry = () => {
     entriesDataLoading ||
     productsDataLoading ||
     shipperDataLoading ||
+    truckRateDataLoading ||
     warehouseDataLoading ||
     vesselDataLoading;
 
   const error =
     entriesDataError ||
     productsDataError ||
+    truckRateDataError ||
     shipperDataError ||
     warehouseDataError ||
     vesselDataError;
@@ -862,23 +882,49 @@ const CreateOrderEntry = () => {
     }
   };
 
-  const handleItemChange = (updatedItem: OrderEntryItem) => {
-    setChanges({
-      ...changes,
-      orderEntryItems: {
-        ...changes.orderEntryItems,
-        nodes: sortBy(
-          (item) => item?.lineId,
-          [
-            ...changes.orderEntryItems.nodes.filter(
-              (it) => it?.id !== updatedItem.id,
-            ),
-            updatedItem,
-          ],
-        ),
-      },
-    });
-  };
+  const handleItemChange = useCallback(
+    (updatedItem: OrderEntryItem) => {
+      const currentItem = changes.orderEntryItems.nodes.find(
+        (it) => it?.id === updatedItem.id,
+      );
+
+      const previousEstimate =
+        currentItem &&
+        getOrderEntryItemEstimatedFreight(currentItem, defaultTruckRate);
+
+      const shouldUpdateDeliveryCharge =
+        !currentItem?.deliveryCharge ||
+        (currentItem?.deliveryCharge === updatedItem.deliveryCharge &&
+          !changes.fob &&
+          currentItem &&
+          previousEstimate === currentItem?.deliveryCharge);
+
+      setChanges({
+        ...changes,
+        orderEntryItems: {
+          ...changes.orderEntryItems,
+          nodes: sortBy(
+            (item) => item?.lineId,
+            [
+              ...changes.orderEntryItems.nodes.filter(
+                (it) => it?.id !== updatedItem.id,
+              ),
+              {
+                ...updatedItem,
+                deliveryCharge: shouldUpdateDeliveryCharge
+                  ? getOrderEntryItemEstimatedFreight(
+                      updatedItem,
+                      defaultTruckRate,
+                    )
+                  : updatedItem.deliveryCharge,
+              },
+            ],
+          ),
+        },
+      });
+    },
+    [changes, defaultTruckRate],
+  );
 
   const handleNewItem = (updatedItem?: OrderEntryItem) => {
     setChanges({
@@ -913,6 +959,19 @@ const CreateOrderEntry = () => {
       },
     });
   };
+
+  const orderEntryEstimatedTotal = getOrderEntryEstimatedTotal(
+    (changes.orderEntryItems.nodes || []) as OrderEntryItem[],
+    defaultTruckRate,
+  );
+
+  const orderEntryEstimatedFreight = getOrderEntryEstimatedFreight(
+    (changes.orderEntryItems.nodes || []) as OrderEntryItem[],
+    defaultTruckRate,
+  );
+
+  const orderEntryEstimatedItemsTotal =
+    orderEntryEstimatedTotal - orderEntryEstimatedFreight;
 
   return (
     <Page
@@ -1211,12 +1270,61 @@ const CreateOrderEntry = () => {
               </l.Grid>
             </l.Flex>
           )}
-          <l.Div
+          <l.Flex
+            alignCenter
+            justifyBetween
             mb={th.spacing.lg}
             mt={isReview ? th.spacing.lg : th.spacing.xl}
           >
             <TabBar />
-          </l.Div>
+            <l.Flex alignCenter>
+              {!changes.fob && (
+                <>
+                  <ty.CaptionText
+                    color={th.colors.brand.primaryAccent}
+                    mr={th.spacing.lg}
+                  >
+                    Est. Items Total:
+                    <ty.Span bold ml={th.spacing.md}>
+                      {orderEntryEstimatedItemsTotal
+                        ? formatCurrency(orderEntryEstimatedItemsTotal)
+                        : '$-'}
+                    </ty.Span>
+                  </ty.CaptionText>
+                  <ty.CaptionText
+                    color={th.colors.status.error}
+                    mr={th.spacing.lg}
+                  >
+                    Est. Freight:
+                    <ty.Span bold ml={th.spacing.md}>
+                      {orderEntryEstimatedFreight
+                        ? formatCurrency(orderEntryEstimatedFreight)
+                        : '$-'}
+                    </ty.Span>
+                  </ty.CaptionText>
+                </>
+              )}
+              <ty.CaptionText
+                color={th.colors.status.successAlt}
+                mr={th.spacing.lg}
+              >
+                Est. Order Total:
+                <ty.Span bold ml={th.spacing.md}>
+                  {(
+                    changes.fob
+                      ? orderEntryEstimatedItemsTotal
+                      : orderEntryEstimatedTotal
+                  )
+                    ? formatCurrency(
+                        changes.fob
+                          ? orderEntryEstimatedItemsTotal
+                          : orderEntryEstimatedTotal,
+                      )
+                    : '$-'}
+                </ty.Span>
+              </ty.CaptionText>
+            </l.Flex>
+          </l.Flex>
           <l.Grid
             gridTemplateColumns={gridTemplateColumns(!!changes.fob)}
             gridColumnGap={th.spacing.xs}

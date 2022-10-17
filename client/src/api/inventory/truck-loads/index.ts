@@ -1,7 +1,8 @@
-import { useMutation, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { add } from 'date-fns';
 import { loader } from 'graphql.macro';
 
+import { VENDOR_DISTINCT_VALUES_QUERY } from 'api/directory/vendor';
 import useFilteredQueryValues from 'api/hooks/use-filtered-query-values';
 import { getOrderByString, getSearchArray } from 'api/utils';
 import { formatDate } from 'components/date-range-picker';
@@ -12,12 +13,10 @@ import {
   useSortQueryParams,
   useTruckLoadsQueryParams,
 } from 'hooks/use-query-params';
-import { Mutation, Query } from 'types';
-import { VENDOR_DISTINCT_VALUES_QUERY } from 'api/directory/vendor';
+import { Query } from 'types';
 
 const TRUCK_LOAD_DETAILS_QUERY = loader('./details.gql');
 const TRUCK_LOAD_LIST_QUERY = loader('./list.gql');
-const TRUCK_LOAD_CREATE_QUERY = loader('./create.gql');
 
 const useVariables = (orderByOverride?: string) => {
   const [search = ''] = useSearchQueryParam();
@@ -79,29 +78,5 @@ export const useTruckLoad = (truckLoadId: string) => {
     data: data ? data.truckLoads : undefined,
     error,
     loading,
-  };
-};
-
-export const useCreateTruckLoad = () => {
-  const variables = useVariables();
-
-  return useMutation<Mutation>(TRUCK_LOAD_CREATE_QUERY, {
-    refetchQueries: [
-      {
-        query: TRUCK_LOAD_LIST_QUERY,
-        variables,
-      },
-    ],
-  });
-};
-export const useNextTruckLoadId = () => {
-  // const { data, error, loading } = useQuery<Query>(NEXT_TRUCK_LOAD_ID_QUERY);
-  return {
-    // data: data ? data.vessels?.nodes[0]?.preVesselCode : undefined,
-    // error,
-    // loading,
-    data: '12345',
-    error: null,
-    loading: false,
   };
 };

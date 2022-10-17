@@ -72,6 +72,13 @@ export const listLabels: (isIndex: boolean) => CommonSpeciesLabelInfo[] = (
     key: 'speciesDescription',
     label: 'Description',
   },
+  {
+    key: 'palletWeight',
+    label: 'Pallet Weight (lbs)',
+    getValue: ({ palletWeight }) => (
+      <ty.BodyText>{palletWeight?.toLocaleString() || '-'}</ty.BodyText>
+    ),
+  },
 ];
 
 export const baseLabels: (
@@ -137,6 +144,9 @@ export const baseLabels: (
   {
     key: 'palletWeight',
     label: 'Pallet Weight (lbs)',
+    getValue: ({ palletWeight }) => (
+      <ty.BodyText>{palletWeight?.toLocaleString() || '-'}</ty.BodyText>
+    ),
     validate: ({ palletWeight }) =>
       !palletWeight || !isNaN(Number(palletWeight)),
   },

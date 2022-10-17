@@ -220,7 +220,7 @@ const Inventory = () => {
     <Page
       actions={
         <l.AreaLink to="/inventory/pallets">
-          <b.Primary>Pallet Search</b.Primary>
+          <b.Primary>Pallets</b.Primary>
         </l.AreaLink>
       }
       enableShadow={false}

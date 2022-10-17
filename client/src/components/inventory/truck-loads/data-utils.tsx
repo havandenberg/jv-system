@@ -14,9 +14,8 @@ export const TRUCK_LOAD_MAX_WEIGHT = 40000;
 export type TruckLoadLabelInfo = LabelInfo<TruckLoad>;
 
 export const indexListLabels: (
-  selectedFOB: string,
   customerId?: string[],
-) => TruckLoadLabelInfo[] = (selectedFOB, customerId) => [
+) => TruckLoadLabelInfo[] = (customerId) => [
   {
     key: 'loadId',
     label: 'Load ID',
@@ -154,7 +153,13 @@ export const listLabels: TruckLoadLabelInfo[] = [
     label: 'Trucker',
     sortable: true,
     getValue: ({ vendor }) =>
-      vendor ? <ty.BodyText>{vendor.vendorName}</ty.BodyText> : '',
+      vendor ? (
+        <ty.BodyText>
+          {vendor.vendorName} ({vendor.id})
+        </ty.BodyText>
+      ) : (
+        ''
+      ),
   },
   {
     defaultSortOrder: SORT_ORDER.ASC,
@@ -314,7 +319,7 @@ export const baseLabels: TruckLoadLabelInfo[] = [
     getValue: ({ vendor }) =>
       vendor ? (
         <ty.LinkText hover="false" to={`/directory/vendors/${vendor.id}`}>
-          {vendor.vendorName}
+          {vendor.vendorName} ({vendor.id})
         </ty.LinkText>
       ) : (
         ''

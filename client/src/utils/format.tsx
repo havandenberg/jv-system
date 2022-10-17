@@ -7,9 +7,10 @@ export const formatPhoneNumber = (phoneNumberString: string) => {
   return null;
 };
 
-export const formatCurrency = (value: number) => {
+export const formatCurrency = (value: number, round?: boolean) => {
   return value.toLocaleString('en-US', {
     style: 'currency',
     currency: 'USD',
+    maximumFractionDigits: round ? 0 : undefined,
   });
 };

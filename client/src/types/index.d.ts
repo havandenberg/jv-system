@@ -220,6 +220,8 @@ export type Query = Node & {
   orderPallets?: Maybe<OrderPalletsConnection>;
   /** Reads and enables pagination through a set of `TruckLoad`. */
   truckLoads?: Maybe<TruckLoadsConnection>;
+  /** Reads and enables pagination through a set of `TruckRate`. */
+  truckRates?: Maybe<TruckRatesConnection>;
   /** Reads and enables pagination through a set of `ExpenseHeader`. */
   expenseHeaders?: Maybe<ExpenseHeadersConnection>;
   /** Reads and enables pagination through a set of `ExpenseHeaderReview`. */
@@ -335,6 +337,7 @@ export type Query = Node & {
   orderMaster?: Maybe<OrderMaster>;
   orderPallet?: Maybe<OrderPallet>;
   truckLoad?: Maybe<TruckLoad>;
+  truckRate?: Maybe<TruckRate>;
   expenseHeader?: Maybe<ExpenseHeader>;
   expenseHeaderReview?: Maybe<ExpenseHeaderReview>;
   expenseItem?: Maybe<ExpenseItem>;
@@ -534,6 +537,8 @@ export type Query = Node & {
   orderPalletByNodeId?: Maybe<OrderPallet>;
   /** Reads a single `TruckLoad` using its globally unique `ID`. */
   truckLoadByNodeId?: Maybe<TruckLoad>;
+  /** Reads a single `TruckRate` using its globally unique `ID`. */
+  truckRateByNodeId?: Maybe<TruckRate>;
   /** Reads a single `ExpenseHeader` using its globally unique `ID`. */
   expenseHeaderByNodeId?: Maybe<ExpenseHeader>;
   /** Reads a single `ExpenseHeaderReview` using its globally unique `ID`. */
@@ -1725,6 +1730,19 @@ export type QueryTruckLoadsArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
+export type QueryTruckRatesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<TruckRatesOrderBy>>;
+  condition?: Maybe<TruckRateCondition>;
+  filter?: Maybe<TruckRateFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
 export type QueryExpenseHeadersArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
@@ -2439,6 +2457,12 @@ export type QueryOrderPalletArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryTruckLoadArgs = {
+  id: Scalars['BigInt'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryTruckRateArgs = {
   id: Scalars['BigInt'];
 };
 
@@ -3159,6 +3183,12 @@ export type QueryOrderPalletByNodeIdArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryTruckLoadByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryTruckRateByNodeIdArgs = {
   nodeId: Scalars['ID'];
 };
 
@@ -7767,6 +7797,8 @@ export type Vendor = Node & {
   customer?: Maybe<Customer>;
   searchText?: Maybe<Scalars['String']>;
   shipper?: Maybe<Shipper>;
+  /** Reads and enables pagination through a set of `TruckRate`. */
+  truckRates: TruckRatesConnection;
   warehouse?: Maybe<Warehouse>;
   /** Reads and enables pagination through a set of `PersonContact`. */
   personContactsByVendorPersonContactVendorIdAndPersonContactId: VendorPersonContactsByVendorPersonContactVendorIdAndPersonContactIdManyToManyConnection;
@@ -7782,6 +7814,16 @@ export type VendorVendorPersonContactsArgs = {
   orderBy?: Maybe<Array<VendorPersonContactsOrderBy>>;
   condition?: Maybe<VendorPersonContactCondition>;
   filter?: Maybe<VendorPersonContactFilter>;
+};
+
+
+export type VendorTruckRatesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  filter?: Maybe<TruckRateFilter>;
 };
 
 
@@ -7910,6 +7952,111 @@ export type VendorPersonContactCondition = {
   vendorId?: Maybe<Scalars['String']>;
   /** Checks for equality with the object’s `personContactId` field. */
   personContactId?: Maybe<Scalars['BigInt']>;
+};
+
+/** A connection to a list of `TruckRate` values. */
+export type TruckRatesConnection = {
+  __typename?: 'TruckRatesConnection';
+  /** A list of `TruckRate` objects. */
+  nodes: Array<Maybe<TruckRate>>;
+  /** A list of edges which contains the `TruckRate` and cursor to aid in pagination. */
+  edges: Array<TruckRatesEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `TruckRate` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+export type TruckRate = Node & {
+  __typename?: 'TruckRate';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  locationDescription?: Maybe<Scalars['String']>;
+  vendorId?: Maybe<Scalars['String']>;
+  postalState?: Maybe<Scalars['String']>;
+  isDefault?: Maybe<Scalars['Boolean']>;
+  fullLoadRate?: Maybe<Scalars['BigFloat']>;
+  palletRate1?: Maybe<Scalars['BigFloat']>;
+  palletRate2?: Maybe<Scalars['BigFloat']>;
+  palletRate3?: Maybe<Scalars['BigFloat']>;
+  palletRate4?: Maybe<Scalars['BigFloat']>;
+  palletRate5?: Maybe<Scalars['BigFloat']>;
+  palletRate6?: Maybe<Scalars['BigFloat']>;
+  palletRate7?: Maybe<Scalars['BigFloat']>;
+  palletRate8?: Maybe<Scalars['BigFloat']>;
+  palletRate9?: Maybe<Scalars['BigFloat']>;
+  palletRate10?: Maybe<Scalars['BigFloat']>;
+  palletRate11?: Maybe<Scalars['BigFloat']>;
+  palletRate12?: Maybe<Scalars['BigFloat']>;
+  palletRate13?: Maybe<Scalars['BigFloat']>;
+  palletRate14?: Maybe<Scalars['BigFloat']>;
+  palletRate15?: Maybe<Scalars['BigFloat']>;
+  notes?: Maybe<Scalars['String']>;
+  vendor?: Maybe<Vendor>;
+};
+
+/** A `TruckRate` edge in the connection. */
+export type TruckRatesEdge = {
+  __typename?: 'TruckRatesEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `TruckRate` at the end of the edge. */
+  node?: Maybe<TruckRate>;
+};
+
+/** A filter to be used against `TruckRate` object types. All fields are combined with a logical ‘and.’ */
+export type TruckRateFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `locationDescription` field. */
+  locationDescription?: Maybe<StringFilter>;
+  /** Filter by the object’s `vendorId` field. */
+  vendorId?: Maybe<StringFilter>;
+  /** Filter by the object’s `postalState` field. */
+  postalState?: Maybe<StringFilter>;
+  /** Filter by the object’s `isDefault` field. */
+  isDefault?: Maybe<BooleanFilter>;
+  /** Filter by the object’s `fullLoadRate` field. */
+  fullLoadRate?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `palletRate1` field. */
+  palletRate1?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `palletRate2` field. */
+  palletRate2?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `palletRate3` field. */
+  palletRate3?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `palletRate4` field. */
+  palletRate4?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `palletRate5` field. */
+  palletRate5?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `palletRate6` field. */
+  palletRate6?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `palletRate7` field. */
+  palletRate7?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `palletRate8` field. */
+  palletRate8?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `palletRate9` field. */
+  palletRate9?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `palletRate10` field. */
+  palletRate10?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `palletRate11` field. */
+  palletRate11?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `palletRate12` field. */
+  palletRate12?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `palletRate13` field. */
+  palletRate13?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `palletRate14` field. */
+  palletRate14?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `palletRate15` field. */
+  palletRate15?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `notes` field. */
+  notes?: Maybe<StringFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<TruckRateFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<TruckRateFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<TruckRateFilter>;
 };
 
 /** A connection to a list of `PersonContact` values, with data from `VendorPersonContact`. */
@@ -29204,6 +29351,108 @@ export type TruckLoadFilter = {
   not?: Maybe<TruckLoadFilter>;
 };
 
+/** Methods to use when ordering `TruckRate`. */
+export enum TruckRatesOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  LocationDescriptionAsc = 'LOCATION_DESCRIPTION_ASC',
+  LocationDescriptionDesc = 'LOCATION_DESCRIPTION_DESC',
+  VendorIdAsc = 'VENDOR_ID_ASC',
+  VendorIdDesc = 'VENDOR_ID_DESC',
+  PostalStateAsc = 'POSTAL_STATE_ASC',
+  PostalStateDesc = 'POSTAL_STATE_DESC',
+  IsDefaultAsc = 'IS_DEFAULT_ASC',
+  IsDefaultDesc = 'IS_DEFAULT_DESC',
+  FullLoadRateAsc = 'FULL_LOAD_RATE_ASC',
+  FullLoadRateDesc = 'FULL_LOAD_RATE_DESC',
+  PalletRate_1Asc = 'PALLET_RATE_1_ASC',
+  PalletRate_1Desc = 'PALLET_RATE_1_DESC',
+  PalletRate_2Asc = 'PALLET_RATE_2_ASC',
+  PalletRate_2Desc = 'PALLET_RATE_2_DESC',
+  PalletRate_3Asc = 'PALLET_RATE_3_ASC',
+  PalletRate_3Desc = 'PALLET_RATE_3_DESC',
+  PalletRate_4Asc = 'PALLET_RATE_4_ASC',
+  PalletRate_4Desc = 'PALLET_RATE_4_DESC',
+  PalletRate_5Asc = 'PALLET_RATE_5_ASC',
+  PalletRate_5Desc = 'PALLET_RATE_5_DESC',
+  PalletRate_6Asc = 'PALLET_RATE_6_ASC',
+  PalletRate_6Desc = 'PALLET_RATE_6_DESC',
+  PalletRate_7Asc = 'PALLET_RATE_7_ASC',
+  PalletRate_7Desc = 'PALLET_RATE_7_DESC',
+  PalletRate_8Asc = 'PALLET_RATE_8_ASC',
+  PalletRate_8Desc = 'PALLET_RATE_8_DESC',
+  PalletRate_9Asc = 'PALLET_RATE_9_ASC',
+  PalletRate_9Desc = 'PALLET_RATE_9_DESC',
+  PalletRate_10Asc = 'PALLET_RATE_10_ASC',
+  PalletRate_10Desc = 'PALLET_RATE_10_DESC',
+  PalletRate_11Asc = 'PALLET_RATE_11_ASC',
+  PalletRate_11Desc = 'PALLET_RATE_11_DESC',
+  PalletRate_12Asc = 'PALLET_RATE_12_ASC',
+  PalletRate_12Desc = 'PALLET_RATE_12_DESC',
+  PalletRate_13Asc = 'PALLET_RATE_13_ASC',
+  PalletRate_13Desc = 'PALLET_RATE_13_DESC',
+  PalletRate_14Asc = 'PALLET_RATE_14_ASC',
+  PalletRate_14Desc = 'PALLET_RATE_14_DESC',
+  PalletRate_15Asc = 'PALLET_RATE_15_ASC',
+  PalletRate_15Desc = 'PALLET_RATE_15_DESC',
+  NotesAsc = 'NOTES_ASC',
+  NotesDesc = 'NOTES_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
+/**
+ * A condition to be used against `TruckRate` object types. All fields are tested
+ * for equality and combined with a logical ‘and.’
+ */
+export type TruckRateCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `locationDescription` field. */
+  locationDescription?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `vendorId` field. */
+  vendorId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `postalState` field. */
+  postalState?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `isDefault` field. */
+  isDefault?: Maybe<Scalars['Boolean']>;
+  /** Checks for equality with the object’s `fullLoadRate` field. */
+  fullLoadRate?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `palletRate1` field. */
+  palletRate1?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `palletRate2` field. */
+  palletRate2?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `palletRate3` field. */
+  palletRate3?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `palletRate4` field. */
+  palletRate4?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `palletRate5` field. */
+  palletRate5?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `palletRate6` field. */
+  palletRate6?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `palletRate7` field. */
+  palletRate7?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `palletRate8` field. */
+  palletRate8?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `palletRate9` field. */
+  palletRate9?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `palletRate10` field. */
+  palletRate10?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `palletRate11` field. */
+  palletRate11?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `palletRate12` field. */
+  palletRate12?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `palletRate13` field. */
+  palletRate13?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `palletRate14` field. */
+  palletRate14?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `palletRate15` field. */
+  palletRate15?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `notes` field. */
+  notes?: Maybe<Scalars['String']>;
+};
+
 /** A connection to a list of `ExpenseHeader` values. */
 export type ExpenseHeadersConnection = {
   __typename?: 'ExpenseHeadersConnection';
@@ -30515,6 +30764,8 @@ export type Mutation = {
   createOrderPallet?: Maybe<CreateOrderPalletPayload>;
   /** Creates a single `TruckLoad`. */
   createTruckLoad?: Maybe<CreateTruckLoadPayload>;
+  /** Creates a single `TruckRate`. */
+  createTruckRate?: Maybe<CreateTruckRatePayload>;
   /** Creates a single `ExpenseHeader`. */
   createExpenseHeader?: Maybe<CreateExpenseHeaderPayload>;
   /** Creates a single `ExpenseHeaderReview`. */
@@ -30913,6 +31164,10 @@ export type Mutation = {
   updateTruckLoadByNodeId?: Maybe<UpdateTruckLoadPayload>;
   /** Updates a single `TruckLoad` using a unique key and a patch. */
   updateTruckLoad?: Maybe<UpdateTruckLoadPayload>;
+  /** Updates a single `TruckRate` using its globally unique id and a patch. */
+  updateTruckRateByNodeId?: Maybe<UpdateTruckRatePayload>;
+  /** Updates a single `TruckRate` using a unique key and a patch. */
+  updateTruckRate?: Maybe<UpdateTruckRatePayload>;
   /** Updates a single `ExpenseHeader` using its globally unique id and a patch. */
   updateExpenseHeaderByNodeId?: Maybe<UpdateExpenseHeaderPayload>;
   /** Updates a single `ExpenseHeader` using a unique key and a patch. */
@@ -31321,6 +31576,10 @@ export type Mutation = {
   deleteTruckLoadByNodeId?: Maybe<DeleteTruckLoadPayload>;
   /** Deletes a single `TruckLoad` using a unique key. */
   deleteTruckLoad?: Maybe<DeleteTruckLoadPayload>;
+  /** Deletes a single `TruckRate` using its globally unique id. */
+  deleteTruckRateByNodeId?: Maybe<DeleteTruckRatePayload>;
+  /** Deletes a single `TruckRate` using a unique key. */
+  deleteTruckRate?: Maybe<DeleteTruckRatePayload>;
   /** Deletes a single `ExpenseHeader` using its globally unique id. */
   deleteExpenseHeaderByNodeId?: Maybe<DeleteExpenseHeaderPayload>;
   /** Deletes a single `ExpenseHeader` using a unique key. */
@@ -31613,6 +31872,8 @@ export type Mutation = {
   upsertOrderPallet?: Maybe<UpsertOrderPalletPayload>;
   /** Upserts a single `TruckLoad`. */
   upsertTruckLoad?: Maybe<UpsertTruckLoadPayload>;
+  /** Upserts a single `TruckRate`. */
+  upsertTruckRate?: Maybe<UpsertTruckRatePayload>;
   /** Upserts a single `ExpenseHeader`. */
   upsertExpenseHeader?: Maybe<UpsertExpenseHeaderPayload>;
   /** Upserts a single `ExpenseHeaderReview`. */
@@ -32165,6 +32426,12 @@ export type MutationCreateOrderPalletArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreateTruckLoadArgs = {
   input: CreateTruckLoadInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateTruckRateArgs = {
+  input: CreateTruckRateInput;
 };
 
 
@@ -33359,6 +33626,18 @@ export type MutationUpdateTruckLoadByNodeIdArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateTruckLoadArgs = {
   input: UpdateTruckLoadInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateTruckRateByNodeIdArgs = {
+  input: UpdateTruckRateByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateTruckRateArgs = {
+  input: UpdateTruckRateInput;
 };
 
 
@@ -34587,6 +34866,18 @@ export type MutationDeleteTruckLoadArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteTruckRateByNodeIdArgs = {
+  input: DeleteTruckRateByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteTruckRateArgs = {
+  input: DeleteTruckRateInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteExpenseHeaderByNodeIdArgs = {
   input: DeleteExpenseHeaderByNodeIdInput;
 };
@@ -35735,6 +36026,12 @@ export type MutationUpsertOrderPalletArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpsertTruckLoadArgs = {
   input: UpsertTruckLoadInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpsertTruckRateArgs = {
+  input: UpsertTruckRateInput;
 };
 
 
@@ -52564,6 +52861,65 @@ export type TruckLoadInput = {
   cartageVendorId?: Maybe<Scalars['String']>;
 };
 
+/** The output of our create `TruckRate` mutation. */
+export type CreateTruckRatePayload = {
+  __typename?: 'CreateTruckRatePayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `TruckRate` that was created by this mutation. */
+  truckRate?: Maybe<TruckRate>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `TruckRate`. May be used by Relay 1. */
+  truckRateEdge?: Maybe<TruckRatesEdge>;
+};
+
+
+/** The output of our create `TruckRate` mutation. */
+export type CreateTruckRatePayloadTruckRateEdgeArgs = {
+  orderBy?: Maybe<Array<TruckRatesOrderBy>>;
+};
+
+/** All input for the create `TruckRate` mutation. */
+export type CreateTruckRateInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `TruckRate` to be created by this mutation. */
+  truckRate: TruckRateInput;
+};
+
+/** An input for mutations affecting `TruckRate` */
+export type TruckRateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  locationDescription?: Maybe<Scalars['String']>;
+  vendorId?: Maybe<Scalars['String']>;
+  postalState?: Maybe<Scalars['String']>;
+  isDefault?: Maybe<Scalars['Boolean']>;
+  fullLoadRate?: Maybe<Scalars['BigFloat']>;
+  palletRate1?: Maybe<Scalars['BigFloat']>;
+  palletRate2?: Maybe<Scalars['BigFloat']>;
+  palletRate3?: Maybe<Scalars['BigFloat']>;
+  palletRate4?: Maybe<Scalars['BigFloat']>;
+  palletRate5?: Maybe<Scalars['BigFloat']>;
+  palletRate6?: Maybe<Scalars['BigFloat']>;
+  palletRate7?: Maybe<Scalars['BigFloat']>;
+  palletRate8?: Maybe<Scalars['BigFloat']>;
+  palletRate9?: Maybe<Scalars['BigFloat']>;
+  palletRate10?: Maybe<Scalars['BigFloat']>;
+  palletRate11?: Maybe<Scalars['BigFloat']>;
+  palletRate12?: Maybe<Scalars['BigFloat']>;
+  palletRate13?: Maybe<Scalars['BigFloat']>;
+  palletRate14?: Maybe<Scalars['BigFloat']>;
+  palletRate15?: Maybe<Scalars['BigFloat']>;
+  notes?: Maybe<Scalars['String']>;
+};
+
 /** The output of our create `ExpenseHeader` mutation. */
 export type CreateExpenseHeaderPayload = {
   __typename?: 'CreateExpenseHeaderPayload';
@@ -58856,6 +59212,79 @@ export type UpdateTruckLoadInput = {
   id: Scalars['BigInt'];
 };
 
+/** The output of our update `TruckRate` mutation. */
+export type UpdateTruckRatePayload = {
+  __typename?: 'UpdateTruckRatePayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `TruckRate` that was updated by this mutation. */
+  truckRate?: Maybe<TruckRate>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `TruckRate`. May be used by Relay 1. */
+  truckRateEdge?: Maybe<TruckRatesEdge>;
+};
+
+
+/** The output of our update `TruckRate` mutation. */
+export type UpdateTruckRatePayloadTruckRateEdgeArgs = {
+  orderBy?: Maybe<Array<TruckRatesOrderBy>>;
+};
+
+/** All input for the `updateTruckRateByNodeId` mutation. */
+export type UpdateTruckRateByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `TruckRate` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `TruckRate` being updated. */
+  patch: TruckRatePatch;
+};
+
+/** Represents an update to a `TruckRate`. Fields that are set will be updated. */
+export type TruckRatePatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  locationDescription?: Maybe<Scalars['String']>;
+  vendorId?: Maybe<Scalars['String']>;
+  postalState?: Maybe<Scalars['String']>;
+  isDefault?: Maybe<Scalars['Boolean']>;
+  fullLoadRate?: Maybe<Scalars['BigFloat']>;
+  palletRate1?: Maybe<Scalars['BigFloat']>;
+  palletRate2?: Maybe<Scalars['BigFloat']>;
+  palletRate3?: Maybe<Scalars['BigFloat']>;
+  palletRate4?: Maybe<Scalars['BigFloat']>;
+  palletRate5?: Maybe<Scalars['BigFloat']>;
+  palletRate6?: Maybe<Scalars['BigFloat']>;
+  palletRate7?: Maybe<Scalars['BigFloat']>;
+  palletRate8?: Maybe<Scalars['BigFloat']>;
+  palletRate9?: Maybe<Scalars['BigFloat']>;
+  palletRate10?: Maybe<Scalars['BigFloat']>;
+  palletRate11?: Maybe<Scalars['BigFloat']>;
+  palletRate12?: Maybe<Scalars['BigFloat']>;
+  palletRate13?: Maybe<Scalars['BigFloat']>;
+  palletRate14?: Maybe<Scalars['BigFloat']>;
+  palletRate15?: Maybe<Scalars['BigFloat']>;
+  notes?: Maybe<Scalars['String']>;
+};
+
+/** All input for the `updateTruckRate` mutation. */
+export type UpdateTruckRateInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `TruckRate` being updated. */
+  patch: TruckRatePatch;
+  id: Scalars['BigInt'];
+};
+
 /** The output of our update `ExpenseHeader` mutation. */
 export type UpdateExpenseHeaderPayload = {
   __typename?: 'UpdateExpenseHeaderPayload';
@@ -63427,6 +63856,50 @@ export type DeleteTruckLoadByNodeIdInput = {
 
 /** All input for the `deleteTruckLoad` mutation. */
 export type DeleteTruckLoadInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['BigInt'];
+};
+
+/** The output of our delete `TruckRate` mutation. */
+export type DeleteTruckRatePayload = {
+  __typename?: 'DeleteTruckRatePayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `TruckRate` that was deleted by this mutation. */
+  truckRate?: Maybe<TruckRate>;
+  deletedTruckRateNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `TruckRate`. May be used by Relay 1. */
+  truckRateEdge?: Maybe<TruckRatesEdge>;
+};
+
+
+/** The output of our delete `TruckRate` mutation. */
+export type DeleteTruckRatePayloadTruckRateEdgeArgs = {
+  orderBy?: Maybe<Array<TruckRatesOrderBy>>;
+};
+
+/** All input for the `deleteTruckRateByNodeId` mutation. */
+export type DeleteTruckRateByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `TruckRate` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deleteTruckRate` mutation. */
+export type DeleteTruckRateInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
@@ -68351,6 +68824,33 @@ export type UpsertTruckLoadInput = {
   clientMutationId?: Maybe<Scalars['String']>;
   /** The `TruckLoad` to be upserted by this mutation. */
   truckLoad: TruckLoadInput;
+};
+
+/** The output of our upsert `TruckRate` mutation. */
+export type UpsertTruckRatePayload = {
+  __typename?: 'UpsertTruckRatePayload';
+  /** The exact same `clientMutationId` that was provided in the mutation input, unchanged and unused. May be used by a client to track mutations. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `TruckRate` that were upserted by this mutation. */
+  truckRate?: Maybe<TruckRate>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `TruckRate`. May be used by Relay 1. */
+  truckRateEdge?: Maybe<TruckRatesEdge>;
+};
+
+
+/** The output of our upsert `TruckRate` mutation. */
+export type UpsertTruckRatePayloadTruckRateEdgeArgs = {
+  orderBy?: Maybe<Array<TruckRatesOrderBy>>;
+};
+
+/** All input for the upsert `TruckRate` mutation. */
+export type UpsertTruckRateInput = {
+  /** An arbitrary string value with no semantic meaning. Will be included in the payload verbatim. May be used to track mutations by the client. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `TruckRate` to be upserted by this mutation. */
+  truckRate: TruckRateInput;
 };
 
 /** The output of our upsert `ExpenseHeader` mutation. */

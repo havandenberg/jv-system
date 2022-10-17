@@ -127,8 +127,12 @@ const EditableCell = ({
   warning,
 }: EditableCellProps) => {
   const { dirty, value } = content;
-  const previousValue = usePrevious(value);
-  const [localValue, setLocalValue] = useState(value);
+
+  const inputRef = React.useRef<HTMLInputElement>(null);
+
+  const [localState, setLocalState] = useState({ cursor: 0, value });
+  const localValue = localState.value;
+  const cursorLocation = localState.cursor;
 
   const [showToggleHighlight, setShowToggleHighlight] = useState(false);
 
@@ -153,10 +157,11 @@ const EditableCell = ({
   };
 
   useEffect(() => {
-    if (previousValue !== value) {
-      setLocalValue(value);
+    const input = inputRef.current;
+    if (input && input.type === 'text') {
+      input.setSelectionRange(cursorLocation, cursorLocation);
     }
-  }, [previousValue, value]);
+  }, [inputRef, cursorLocation, localValue]);
 
   useEffect(() => {
     if (debounce && previousDebouncedLocalValue !== debouncedLocalValue) {
@@ -208,6 +213,7 @@ const EditableCell = ({
           />
         ) : dropdownOptions ? (
           <SmallSelect
+            error={error}
             onChange={(e) => {
               onChange({ target: { value: e.target.value } } as any);
             }}
@@ -226,6 +232,7 @@ const EditableCell = ({
             checked={Boolean(localValue)}
             editing
             error={error}
+            ref={inputRef}
             title={`${localValue}`}
             type={isBoolean ? 'checkbox' : 'text'}
             onBlur={(e) => {
@@ -234,9 +241,13 @@ const EditableCell = ({
               }
             }}
             onChange={(e) => {
-              bypassLocalValue
-                ? onChange(e)
-                : setLocalValue(isBoolean ? e.target.checked : e.target.value);
+              if (bypassLocalValue) {
+                onChange(e);
+              }
+              setLocalState({
+                cursor: e.target.selectionStart || 0,
+                value: isBoolean ? e.target.checked : e.target.value,
+              });
             }}
             value={`${localValue}`}
             textAlign="left"

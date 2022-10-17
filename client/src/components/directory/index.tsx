@@ -15,6 +15,8 @@ import WarehouseDirectory from './warehouses';
 import WarehouseDetails from './warehouses/details';
 import VendorDirectory from './vendors';
 import VendorDetails from './vendors/details';
+import CreateVendorRate from '../inventory/truck-loads/rates/create';
+import VendorRateDetails from '../inventory/truck-loads/rates/details';
 import SendMessage from './send-message';
 
 export const breadcrumbs = (slug: string) => [
@@ -108,6 +110,16 @@ const Directory = () => {
         exact
         path="/directory/vendors/:vendorId/contacts/:id"
         component={ContactDetails}
+      />
+      <Route
+        exact
+        path="/directory/vendors/:vendorId/rates/create"
+        component={CreateVendorRate}
+      />
+      <Route
+        exact
+        path="/directory/vendors/:vendorId/rates/:id"
+        component={VendorRateDetails}
       />
       <Route exact path="/directory/vendors/:id" component={VendorDetails} />
       <Route

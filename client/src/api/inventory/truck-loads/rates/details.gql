@@ -1,0 +1,29 @@
+query TRUCK_RATE_DETAILS($id: BigInt!) {
+  truckRate(id: $id) {
+    id
+    fullLoadRate
+    isDefault
+    locationDescription
+    notes
+    palletRate1
+    palletRate10
+    palletRate11
+    palletRate12
+    palletRate13
+    palletRate14
+    palletRate15
+    palletRate2
+    palletRate3
+    palletRate4
+    palletRate5
+    palletRate6
+    palletRate7
+    palletRate8
+    palletRate9
+    postalState
+    vendor {
+      id
+      vendorName
+    }
+  }
+}

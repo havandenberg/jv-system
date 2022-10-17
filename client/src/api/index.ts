@@ -15,6 +15,7 @@ import * as pallets from 'api/inventory/inventory/pallets';
 import * as inventoryProducts from 'api/inventory/inventory/products';
 import * as products from 'api/inventory/products';
 import * as truckLoads from 'api/inventory/truck-loads';
+import * as truckRates from 'api/inventory/truck-loads/rates';
 import * as vessels from 'api/inventory/vessel';
 import * as chileDepartureInspections from 'api/reports/inspections/chile-departure';
 import * as peruDepartureInspections from 'api/reports/inspections/peru-departure';
@@ -59,6 +60,7 @@ export default {
   ...psaArrivalInspections,
   ...shipperDirectory,
   ...truckLoads,
+  ...truckRates,
   ...user,
   ...vessels,
   ...vendorDirectory,

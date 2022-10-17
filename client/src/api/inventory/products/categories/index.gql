@@ -11,6 +11,7 @@ query COMMON_CATEGORIES_LIST(
       commonSpecieses(filter: { and: $search }, orderBy: $speciesOrderBy) {
         nodes {
           id
+          palletWeight
           productSpeciesId
           productSpeciesByCommonSpeciesProductSpeciesCommonSpeciesIdAndProductSpeciesId {
             nodes {

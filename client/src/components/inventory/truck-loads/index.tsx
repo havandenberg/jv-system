@@ -17,6 +17,7 @@ import {
 } from 'hooks/use-query-params';
 import useSearch from 'hooks/use-search';
 import { TruckLoad } from 'types';
+import b from 'ui/button';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
@@ -47,15 +48,12 @@ const TruckLoads = () => {
   const columnLabels = useColumns<TruckLoad>(
     'shipDate',
     SORT_ORDER.DESC,
-    indexListLabels(fob, customerId),
+    indexListLabels(customerId),
     'operations',
     'truck_load',
   );
 
-  const filteredItems = getFilteredItems(
-    indexListLabels(fob, customerId),
-    items,
-  );
+  const filteredItems = getFilteredItems(indexListLabels(customerId), items);
 
   const truckLoadsGroupedByLocation = filteredItems.reduce((acc, item) => {
     const { loadId } = item || {};
@@ -85,7 +83,7 @@ const TruckLoads = () => {
     .flat();
 
   const sortedTruckLoads = getSortedItems(
-    indexListLabels(fob, customerId),
+    indexListLabels(customerId),
     truckLoads,
     sortBy,
     sortOrder,
@@ -93,6 +91,11 @@ const TruckLoads = () => {
 
   return (
     <Page
+      actions={[
+        <l.AreaLink key="rates" to="/inventory/truck-loads/rates">
+          <b.Primary>Rates</b.Primary>
+        </l.AreaLink>,
+      ]}
       breadcrumbs={breadcrumbs}
       extraPaddingTop={112}
       headerChildren={
@@ -164,7 +167,7 @@ const TruckLoads = () => {
                     gridTemplateColumns={gridTemplateColumns}
                     highlightColor={th.colors.status.errorAlt}
                     isHighlight={isOverweight}
-                    listLabels={indexListLabels(fob, customerId)}
+                    listLabels={indexListLabels(customerId)}
                     to={`/inventory/truck-loads/${item.loadId}?truckLoadView=${
                       (item.count || 0) > 1 ? 'pickupLocations' : 'pallets'
                     }`}

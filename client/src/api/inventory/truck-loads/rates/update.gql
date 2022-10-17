@@ -1,0 +1,7 @@
+mutation TRUCK_RATE_UPDATE($id: BigInt!, $updates: TruckRatePatch!) {
+  updateTruckRate(input: { patch: $updates, id: $id }) {
+    truckRate {
+      id
+    }
+  }
+}

@@ -45,6 +45,13 @@ export const listLabels: CommonPackTypeLabelInfo[] = [
       <ty.BodyText>{isRepack ? 'Yes' : '-'}</ty.BodyText>
     ),
   },
+  {
+    key: 'palletWeight',
+    label: 'Pallet Weight (lbs)',
+    getValue: ({ palletWeight }) => (
+      <ty.BodyText>{palletWeight?.toLocaleString() || '-'}</ty.BodyText>
+    ),
+  },
 ];
 
 export const baseLabels: (
@@ -106,6 +113,9 @@ export const baseLabels: (
   {
     key: 'palletWeight',
     label: 'Pallet Weight (lbs)',
+    getValue: ({ palletWeight }) => (
+      <ty.BodyText>{palletWeight?.toLocaleString() || '-'}</ty.BodyText>
+    ),
     validate: ({ palletWeight }) =>
       !palletWeight || !isNaN(Number(palletWeight)),
   },

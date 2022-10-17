@@ -4,28 +4,27 @@ import { isEmpty } from 'ramda';
 import ListItem from 'components/list-item';
 import { DataMessage } from 'components/page/message';
 import useColumns, { SORT_ORDER } from 'hooks/use-columns';
-import { CommonSpecies } from 'types';
+import { TruckRate } from 'types';
 import l from 'ui/layout';
 import th from 'ui/theme';
 
+import { gridTemplateColumns } from '.';
 import { listLabels } from './data-utils';
 
-const SpeciesList = ({
+const TruckRateList = ({
   baseUrl,
-  specieses,
+  truckRates,
 }: {
   baseUrl: string;
-  specieses: CommonSpecies[];
+  truckRates: TruckRate[];
 }) => {
-  const columnLabels = useColumns<CommonSpecies>(
-    'speciesName',
+  const columnLabels = useColumns<TruckRate>(
+    'postalState',
     SORT_ORDER.ASC,
-    listLabels(false),
-    'product',
-    'common_species',
+    listLabels,
+    'operations',
+    'truck_rate',
   );
-
-  const gridTemplateColumns = '100px 0.8fr 0.5fr 1fr 1fr 0.7fr 30px';
 
   return (
     <>
@@ -36,26 +35,26 @@ const SpeciesList = ({
       >
         {columnLabels}
       </l.Grid>
-      {!isEmpty(specieses) ? (
-        specieses.map(
+      {!isEmpty(truckRates) ? (
+        truckRates.map(
           (item, idx) =>
             item && (
-              <ListItem<CommonSpecies>
+              <ListItem<TruckRate>
                 data={item}
                 gridTemplateColumns={gridTemplateColumns}
                 key={idx}
-                listLabels={listLabels(false)}
-                to={`${baseUrl}/${item.id}`}
+                listLabels={listLabels}
+                to={`${baseUrl}/rates/${item.id}`}
               />
             ),
         )
       ) : (
         <DataMessage
-          data={specieses}
+          data={truckRates}
           error={null}
           loading={false}
           emptyProps={{
-            header: 'No species found',
+            header: 'No truck rates found',
           }}
         />
       )}
@@ -63,4 +62,4 @@ const SpeciesList = ({
   );
 };
 
-export default SpeciesList;
+export default TruckRateList;

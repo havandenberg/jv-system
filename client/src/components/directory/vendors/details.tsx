@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 import api from 'api';
@@ -6,8 +6,11 @@ import BaseData from 'components/base-data';
 import Page from 'components/page';
 import { DataMessage } from 'components/page/message';
 import { Tab, useTabBar } from 'components/tab-bar';
+import TruckRateList from 'components/inventory/truck-loads/rates/list';
+import { SORT_ORDER } from 'hooks/use-columns';
+import { useQueryValue, useSortQueryParams } from 'hooks/use-query-params';
 import useUpdateItem from 'hooks/use-update-item';
-import { PersonContact, Vendor } from 'types';
+import { PersonContact, TruckRate, Vendor } from 'types';
 import b from 'ui/button';
 import l from 'ui/layout';
 import th from 'ui/theme';
@@ -24,23 +27,41 @@ export const vendorBreadcrumbs = (id: string) => [
   { text: 'Vendor', to: `/directory/vendors/${id}` },
 ];
 
-const tabs: Tab[] = [
+const tabs: (isFreight: boolean) => Tab[] = (isFreight) => [
   {
     id: 'contacts',
     text: 'Contacts',
   },
+  ...(isFreight
+    ? [
+        {
+          id: 'rates',
+          text: 'Rates',
+        },
+      ]
+    : []),
 ];
 
 const Details = () => {
+  const [{ sortBy }, setSortQueryParams] = useSortQueryParams();
+  const [view] = useQueryValue('view');
   const { id } = useParams<{
     id: string;
   }>();
-  const { data, error, loading } = api.useVendor(id);
+  const { data, error, loading } = api.useVendor(
+    id,
+    view === 'rates' ? 'FIRST_NAME_ASC' : undefined,
+  );
   const personContacts = data
     ? data.personContactsByVendorPersonContactVendorIdAndPersonContactId.nodes
     : [];
 
-  const { TabBar } = useTabBar({ tabs });
+  const { TabBar, selectedTabId } = useTabBar({
+    tabs: tabs(data?.vendorType === 'FR'),
+    defaultTabId: 'contacts',
+    paramName: 'view',
+  });
+  const isRates = selectedTabId === 'rates';
 
   const [handleUpdate] = api.useUpdateVendor(id);
 
@@ -65,6 +86,29 @@ const Details = () => {
   ] = useDirectorySelectionContext();
 
   const selectedVendor = selectedItems.vendors.find((c) => c.id === id);
+  useEffect(() => {
+    if (selectedTabId === 'rates') {
+      if (!['vendorId', 'postalState', 'isDefault'].includes(sortBy)) {
+        setSortQueryParams(
+          {
+            sortBy: 'postalState',
+            sortOrder: SORT_ORDER.ASC,
+          },
+          'replaceIn',
+        );
+      }
+    } else {
+      if (['vendorId', 'postalState', 'isDefault'].includes(sortBy)) {
+        setSortQueryParams(
+          {
+            sortBy: 'firstName',
+            sortOrder: SORT_ORDER.ASC,
+          },
+          'replaceIn',
+        );
+      }
+    }
+  }, [selectedTabId, setSortQueryParams, sortBy]);
 
   return (
     <Page
@@ -90,19 +134,30 @@ const Details = () => {
             <l.AreaLink
               key={1}
               ml={th.spacing.md}
-              to={`/directory/create?vendorId=${data.id}`}
+              to={
+                isRates
+                  ? `/directory/vendors/${data.id}/rates/create`
+                  : `/directory/create?vendorId=${data.id}`
+              }
             >
               <b.Success>Create</b.Success>
             </l.AreaLink>
           </l.Flex>
-          <ContactList
-            baseUrl={`${id}`}
-            personContacts={personContacts as PersonContact[]}
-            selectedItem={selectedVendor}
-            selectContact={selectVendorPersonContact(data)}
-            toggleAllContacts={() => toggleAllVendorPersonContacts(data)}
-            isAllContactsSelected={isAllVendorPersonContactsSelected(data)}
-          />
+          {isRates ? (
+            <TruckRateList
+              baseUrl={`/directory/vendors/${data.id}`}
+              truckRates={(data.truckRates?.nodes || []) as TruckRate[]}
+            />
+          ) : (
+            <ContactList
+              baseUrl={`${id}`}
+              personContacts={personContacts as PersonContact[]}
+              selectedItem={selectedVendor}
+              selectContact={selectVendorPersonContact(data)}
+              toggleAllContacts={() => toggleAllVendorPersonContacts(data)}
+              isAllContactsSelected={isAllVendorPersonContactsSelected(data)}
+            />
+          )}
         </l.Div>
       ) : (
         <DataMessage data={data || []} error={error} loading={loading} />

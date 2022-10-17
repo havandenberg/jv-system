@@ -18,6 +18,7 @@ import {
   InventoryItem,
   OrderEntryItem,
   Shipper,
+  TruckRate,
   Vessel,
   Warehouse,
 } from 'types';
@@ -33,6 +34,7 @@ type Props = {
   coast: string;
   commonSpecieses: CommonSpecies[];
   currentItem: OrderEntryItem;
+  defaultTruckRate?: TruckRate;
   duplicateIds: number[];
   editing: boolean;
   error?: ApolloError;
@@ -77,6 +79,7 @@ const NewOrderEntryItem = ({
   coast,
   commonSpecieses,
   currentItem,
+  defaultTruckRate,
   duplicateIds,
   editing,
   error,
