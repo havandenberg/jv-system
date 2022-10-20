@@ -1,0 +1,5 @@
+mutation USER_BOOKMARK_DELETE($id: BigInt!) {
+  deleteUserBookmark(input: { id: $id }) {
+    clientMutationId
+  }
+}

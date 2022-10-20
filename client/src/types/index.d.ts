@@ -44,6 +44,8 @@ export type Query = Node & {
   orderNumbers?: Maybe<OrderNumbersConnection>;
   /** Reads and enables pagination through a set of `User`. */
   users?: Maybe<UsersConnection>;
+  /** Reads and enables pagination through a set of `UserBookmark`. */
+  userBookmarks?: Maybe<UserBookmarksConnection>;
   /** Reads and enables pagination through a set of `UserMessage`. */
   userMessages?: Maybe<UserMessagesConnection>;
   /** Reads and enables pagination through a set of `UserRole`. */
@@ -235,6 +237,7 @@ export type Query = Node & {
   orderNumber?: Maybe<OrderNumber>;
   user?: Maybe<User>;
   userByPin?: Maybe<User>;
+  userBookmark?: Maybe<UserBookmark>;
   userMessage?: Maybe<UserMessage>;
   userRoleByUserIdAndRoleName?: Maybe<UserRole>;
   contactGroup?: Maybe<ContactGroup>;
@@ -363,6 +366,8 @@ export type Query = Node & {
   orderNumberByNodeId?: Maybe<OrderNumber>;
   /** Reads a single `User` using its globally unique `ID`. */
   userByNodeId?: Maybe<User>;
+  /** Reads a single `UserBookmark` using its globally unique `ID`. */
+  userBookmarkByNodeId?: Maybe<UserBookmark>;
   /** Reads a single `UserMessage` using its globally unique `ID`. */
   userMessageByNodeId?: Maybe<UserMessage>;
   /** Reads a single `ContactGroup` using its globally unique `ID`. */
@@ -582,6 +587,19 @@ export type QueryUsersArgs = {
   orderBy?: Maybe<Array<UsersOrderBy>>;
   condition?: Maybe<UserCondition>;
   filter?: Maybe<UserFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryUserBookmarksArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<UserBookmarksOrderBy>>;
+  condition?: Maybe<UserBookmarkCondition>;
+  filter?: Maybe<UserBookmarkFilter>;
 };
 
 
@@ -1826,6 +1844,12 @@ export type QueryUserByPinArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
+export type QueryUserBookmarkArgs = {
+  id: Scalars['BigInt'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
 export type QueryUserMessageArgs = {
   id: Scalars['BigInt'];
 };
@@ -2666,6 +2690,12 @@ export type QueryUserByNodeIdArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
+export type QueryUserBookmarkByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
 export type QueryUserMessageByNodeIdArgs = {
   nodeId: Scalars['ID'];
 };
@@ -3366,6 +3396,8 @@ export type User = Node & {
   userRoles: UserRolesConnection;
   /** Reads and enables pagination through a set of `LoadNumber`. */
   loadNumbers: LoadNumbersConnection;
+  /** Reads and enables pagination through a set of `UserBookmark`. */
+  userBookmarks: UserBookmarksConnection;
 };
 
 
@@ -3414,6 +3446,18 @@ export type UserLoadNumbersArgs = {
   orderBy?: Maybe<Array<LoadNumbersOrderBy>>;
   condition?: Maybe<LoadNumberCondition>;
   filter?: Maybe<LoadNumberFilter>;
+};
+
+
+export type UserUserBookmarksArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<UserBookmarksOrderBy>>;
+  condition?: Maybe<UserBookmarkCondition>;
+  filter?: Maybe<UserBookmarkFilter>;
 };
 
 export type PersonContact = Node & {
@@ -3875,6 +3919,10 @@ export type UserFilter = {
   loadNumbers?: Maybe<UserToManyLoadNumberFilter>;
   /** Some related `loadNumbers` exist. */
   loadNumbersExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `userBookmarks` relation. */
+  userBookmarks?: Maybe<UserToManyUserBookmarkFilter>;
+  /** Some related `userBookmarks` exist. */
+  userBookmarksExist?: Maybe<Scalars['Boolean']>;
   /** Filter by the object’s `personContact` relation. */
   personContact?: Maybe<PersonContactFilter>;
   /** A related `personContact` exists. */
@@ -4077,6 +4125,68 @@ export type LoadNumberFilter = {
   or?: Maybe<Array<LoadNumberFilter>>;
   /** Negates the expression. */
   not?: Maybe<LoadNumberFilter>;
+};
+
+/** A filter to be used against many `UserBookmark` object types. All fields are combined with a logical ‘and.’ */
+export type UserToManyUserBookmarkFilter = {
+  /** Every related `UserBookmark` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<UserBookmarkFilter>;
+  /** Some related `UserBookmark` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<UserBookmarkFilter>;
+  /** No related `UserBookmark` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<UserBookmarkFilter>;
+};
+
+/** A filter to be used against `UserBookmark` object types. All fields are combined with a logical ‘and.’ */
+export type UserBookmarkFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `category` field. */
+  category?: Maybe<StringFilter>;
+  /** Filter by the object’s `linkUrl` field. */
+  linkUrl?: Maybe<StringFilter>;
+  /** Filter by the object’s `linkDescription` field. */
+  linkDescription?: Maybe<StringFilter>;
+  /** Filter by the object’s `sortOrder` field. */
+  sortOrder?: Maybe<IntFilter>;
+  /** Filter by the object’s `userId` field. */
+  userId?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `user` relation. */
+  user?: Maybe<UserFilter>;
+  /** A related `user` exists. */
+  userExists?: Maybe<Scalars['Boolean']>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<UserBookmarkFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<UserBookmarkFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<UserBookmarkFilter>;
+};
+
+/** A filter to be used against Int fields. All fields are combined with a logical ‘and.’ */
+export type IntFilter = {
+  /** Is null (if `true` is specified) or is not null (if `false` is specified). */
+  isNull?: Maybe<Scalars['Boolean']>;
+  /** Equal to the specified value. */
+  equalTo?: Maybe<Scalars['Int']>;
+  /** Not equal to the specified value. */
+  notEqualTo?: Maybe<Scalars['Int']>;
+  /** Not equal to the specified value, treating null like an ordinary value. */
+  distinctFrom?: Maybe<Scalars['Int']>;
+  /** Equal to the specified value, treating null like an ordinary value. */
+  notDistinctFrom?: Maybe<Scalars['Int']>;
+  /** Included in the specified list. */
+  in?: Maybe<Array<Scalars['Int']>>;
+  /** Not included in the specified list. */
+  notIn?: Maybe<Array<Scalars['Int']>>;
+  /** Less than the specified value. */
+  lessThan?: Maybe<Scalars['Int']>;
+  /** Less than or equal to the specified value. */
+  lessThanOrEqualTo?: Maybe<Scalars['Int']>;
+  /** Greater than the specified value. */
+  greaterThan?: Maybe<Scalars['Int']>;
+  /** Greater than or equal to the specified value. */
+  greaterThanOrEqualTo?: Maybe<Scalars['Int']>;
 };
 
 /** A filter to be used against `PersonContact` object types. All fields are combined with a logical ‘and.’ */
@@ -4476,32 +4586,6 @@ export type ShipperProjectionFilter = {
   or?: Maybe<Array<ShipperProjectionFilter>>;
   /** Negates the expression. */
   not?: Maybe<ShipperProjectionFilter>;
-};
-
-/** A filter to be used against Int fields. All fields are combined with a logical ‘and.’ */
-export type IntFilter = {
-  /** Is null (if `true` is specified) or is not null (if `false` is specified). */
-  isNull?: Maybe<Scalars['Boolean']>;
-  /** Equal to the specified value. */
-  equalTo?: Maybe<Scalars['Int']>;
-  /** Not equal to the specified value. */
-  notEqualTo?: Maybe<Scalars['Int']>;
-  /** Not equal to the specified value, treating null like an ordinary value. */
-  distinctFrom?: Maybe<Scalars['Int']>;
-  /** Equal to the specified value, treating null like an ordinary value. */
-  notDistinctFrom?: Maybe<Scalars['Int']>;
-  /** Included in the specified list. */
-  in?: Maybe<Array<Scalars['Int']>>;
-  /** Not included in the specified list. */
-  notIn?: Maybe<Array<Scalars['Int']>>;
-  /** Less than the specified value. */
-  lessThan?: Maybe<Scalars['Int']>;
-  /** Less than or equal to the specified value. */
-  lessThanOrEqualTo?: Maybe<Scalars['Int']>;
-  /** Greater than the specified value. */
-  greaterThan?: Maybe<Scalars['Int']>;
-  /** Greater than or equal to the specified value. */
-  greaterThanOrEqualTo?: Maybe<Scalars['Int']>;
 };
 
 /** A filter to be used against many `ShipperProjectionVesselInfo` object types. All fields are combined with a logical ‘and.’ */
@@ -6335,7 +6419,9 @@ export enum UsersOrderBy {
   UserRolesByUserIdCountAsc = 'USER_ROLES_BY_USER_ID__COUNT_ASC',
   UserRolesByUserIdCountDesc = 'USER_ROLES_BY_USER_ID__COUNT_DESC',
   LoadNumbersByUserIdCountAsc = 'LOAD_NUMBERS_BY_USER_ID__COUNT_ASC',
-  LoadNumbersByUserIdCountDesc = 'LOAD_NUMBERS_BY_USER_ID__COUNT_DESC'
+  LoadNumbersByUserIdCountDesc = 'LOAD_NUMBERS_BY_USER_ID__COUNT_DESC',
+  UserBookmarksByUserIdCountAsc = 'USER_BOOKMARKS_BY_USER_ID__COUNT_ASC',
+  UserBookmarksByUserIdCountDesc = 'USER_BOOKMARKS_BY_USER_ID__COUNT_DESC'
 }
 
 /** A condition to be used against `User` object types. All fields are tested for equality and combined with a logical ‘and.’ */
@@ -23121,6 +23207,90 @@ export type LoadNumberCondition = {
   userId?: Maybe<Scalars['BigInt']>;
 };
 
+/** A connection to a list of `UserBookmark` values. */
+export type UserBookmarksConnection = {
+  __typename?: 'UserBookmarksConnection';
+  /** A list of `UserBookmark` objects. */
+  nodes: Array<Maybe<UserBookmark>>;
+  /** A list of edges which contains the `UserBookmark` and cursor to aid in pagination. */
+  edges: Array<UserBookmarksEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `UserBookmark` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+export type UserBookmark = Node & {
+  __typename?: 'UserBookmark';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  category?: Maybe<Scalars['String']>;
+  linkUrl?: Maybe<Scalars['String']>;
+  linkDescription?: Maybe<Scalars['String']>;
+  sortOrder: Scalars['Int'];
+  userId?: Maybe<Scalars['BigInt']>;
+  /** Reads a single `User` that is related to this `UserBookmark`. */
+  user?: Maybe<User>;
+};
+
+/** A `UserBookmark` edge in the connection. */
+export type UserBookmarksEdge = {
+  __typename?: 'UserBookmarksEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `UserBookmark` at the end of the edge. */
+  node?: Maybe<UserBookmark>;
+};
+
+/** Methods to use when ordering `UserBookmark`. */
+export enum UserBookmarksOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  CategoryAsc = 'CATEGORY_ASC',
+  CategoryDesc = 'CATEGORY_DESC',
+  LinkUrlAsc = 'LINK_URL_ASC',
+  LinkUrlDesc = 'LINK_URL_DESC',
+  LinkDescriptionAsc = 'LINK_DESCRIPTION_ASC',
+  LinkDescriptionDesc = 'LINK_DESCRIPTION_DESC',
+  SortOrderAsc = 'SORT_ORDER_ASC',
+  SortOrderDesc = 'SORT_ORDER_DESC',
+  UserIdAsc = 'USER_ID_ASC',
+  UserIdDesc = 'USER_ID_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  UserByUserIdIdAsc = 'USER_BY_USER_ID__ID_ASC',
+  UserByUserIdIdDesc = 'USER_BY_USER_ID__ID_DESC',
+  UserByUserIdPinAsc = 'USER_BY_USER_ID__PIN_ASC',
+  UserByUserIdPinDesc = 'USER_BY_USER_ID__PIN_DESC',
+  UserByUserIdPersonContactIdAsc = 'USER_BY_USER_ID__PERSON_CONTACT_ID_ASC',
+  UserByUserIdPersonContactIdDesc = 'USER_BY_USER_ID__PERSON_CONTACT_ID_DESC',
+  UserByUserIdUserCodeAsc = 'USER_BY_USER_ID__USER_CODE_ASC',
+  UserByUserIdUserCodeDesc = 'USER_BY_USER_ID__USER_CODE_DESC',
+  UserByUserIdDefaultCoastAsc = 'USER_BY_USER_ID__DEFAULT_COAST_ASC',
+  UserByUserIdDefaultCoastDesc = 'USER_BY_USER_ID__DEFAULT_COAST_DESC'
+}
+
+/**
+ * A condition to be used against `UserBookmark` object types. All fields are
+ * tested for equality and combined with a logical ‘and.’
+ */
+export type UserBookmarkCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `category` field. */
+  category?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `linkUrl` field. */
+  linkUrl?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `linkDescription` field. */
+  linkDescription?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `sortOrder` field. */
+  sortOrder?: Maybe<Scalars['Int']>;
+  /** Checks for equality with the object’s `userId` field. */
+  userId?: Maybe<Scalars['BigInt']>;
+};
+
 /** A `User` edge in the connection. */
 export type UsersEdge = {
   __typename?: 'UsersEdge';
@@ -30588,6 +30758,8 @@ export type Mutation = {
   createOrderNumber?: Maybe<CreateOrderNumberPayload>;
   /** Creates a single `User`. */
   createUser?: Maybe<CreateUserPayload>;
+  /** Creates a single `UserBookmark`. */
+  createUserBookmark?: Maybe<CreateUserBookmarkPayload>;
   /** Creates a single `UserMessage`. */
   createUserMessage?: Maybe<CreateUserMessagePayload>;
   /** Creates a single `UserRole`. */
@@ -30786,6 +30958,10 @@ export type Mutation = {
   updateUser?: Maybe<UpdateUserPayload>;
   /** Updates a single `User` using a unique key and a patch. */
   updateUserByPin?: Maybe<UpdateUserPayload>;
+  /** Updates a single `UserBookmark` using its globally unique id and a patch. */
+  updateUserBookmarkByNodeId?: Maybe<UpdateUserBookmarkPayload>;
+  /** Updates a single `UserBookmark` using a unique key and a patch. */
+  updateUserBookmark?: Maybe<UpdateUserBookmarkPayload>;
   /** Updates a single `UserMessage` using its globally unique id and a patch. */
   updateUserMessageByNodeId?: Maybe<UpdateUserMessagePayload>;
   /** Updates a single `UserMessage` using a unique key and a patch. */
@@ -31198,6 +31374,10 @@ export type Mutation = {
   deleteUser?: Maybe<DeleteUserPayload>;
   /** Deletes a single `User` using a unique key. */
   deleteUserByPin?: Maybe<DeleteUserPayload>;
+  /** Deletes a single `UserBookmark` using its globally unique id. */
+  deleteUserBookmarkByNodeId?: Maybe<DeleteUserBookmarkPayload>;
+  /** Deletes a single `UserBookmark` using a unique key. */
+  deleteUserBookmark?: Maybe<DeleteUserBookmarkPayload>;
   /** Deletes a single `UserMessage` using its globally unique id. */
   deleteUserMessageByNodeId?: Maybe<DeleteUserMessagePayload>;
   /** Deletes a single `UserMessage` using a unique key. */
@@ -31601,6 +31781,7 @@ export type Mutation = {
   /** Deletes a single `InvoiceItem` using a unique key. */
   deleteInvoiceItem?: Maybe<DeleteInvoiceItemPayload>;
   bulkCreateUserMessage?: Maybe<BulkCreateUserMessagePayload>;
+  bulkUpsertUserBookmark?: Maybe<BulkUpsertUserBookmarkPayload>;
   bulkAddContactsToGroup?: Maybe<BulkAddContactsToGroupPayload>;
   bulkDeleteCountry?: Maybe<BulkDeleteCountryPayload>;
   bulkDeleteCustomer?: Maybe<BulkDeleteCustomerPayload>;
@@ -31696,6 +31877,8 @@ export type Mutation = {
   upsertOrderNumber?: Maybe<UpsertOrderNumberPayload>;
   /** Upserts a single `User`. */
   upsertUser?: Maybe<UpsertUserPayload>;
+  /** Upserts a single `UserBookmark`. */
+  upsertUserBookmark?: Maybe<UpsertUserBookmarkPayload>;
   /** Upserts a single `UserMessage`. */
   upsertUserMessage?: Maybe<UpsertUserMessagePayload>;
   /** Upserts a single `UserRole`. */
@@ -31898,6 +32081,12 @@ export type MutationCreateOrderNumberArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreateUserArgs = {
   input: CreateUserInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateUserBookmarkArgs = {
+  input: CreateUserBookmarkInput;
 };
 
 
@@ -32492,6 +32681,18 @@ export type MutationUpdateUserArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateUserByPinArgs = {
   input: UpdateUserByPinInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateUserBookmarkByNodeIdArgs = {
+  input: UpdateUserBookmarkByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateUserBookmarkArgs = {
+  input: UpdateUserBookmarkInput;
 };
 
 
@@ -33732,6 +33933,18 @@ export type MutationDeleteUserByPinArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteUserBookmarkByNodeIdArgs = {
+  input: DeleteUserBookmarkByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteUserBookmarkArgs = {
+  input: DeleteUserBookmarkInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteUserMessageByNodeIdArgs = {
   input: DeleteUserMessageByNodeIdInput;
 };
@@ -34944,6 +35157,12 @@ export type MutationBulkCreateUserMessageArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationBulkUpsertUserBookmarkArgs = {
+  input: BulkUpsertUserBookmarkInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationBulkAddContactsToGroupArgs = {
   input: BulkAddContactsToGroupInput;
 };
@@ -35498,6 +35717,12 @@ export type MutationUpsertOrderNumberArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpsertUserArgs = {
   input: UpsertUserInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpsertUserBookmarkArgs = {
+  input: UpsertUserBookmarkInput;
 };
 
 
@@ -36161,6 +36386,7 @@ export type UserInput = {
   userMessagesUsingId?: Maybe<UserMessageUserIdFkeyInverseInput>;
   userRolesUsingId?: Maybe<UserRoleUserIdFkeyInverseInput>;
   loadNumbersUsingId?: Maybe<LoadNumberUserIdFkeyInverseInput>;
+  userBookmarksUsingId?: Maybe<UserBookmarkUserIdFkeyInverseInput>;
 };
 
 /** Input for the nested mutation of `personContact` in the `UserInput` mutation. */
@@ -36424,6 +36650,7 @@ export type UpdateUserOnContactGroupForContactGroupUserIdFkeyPatch = {
   userMessagesUsingId?: Maybe<UserMessageUserIdFkeyInverseInput>;
   userRolesUsingId?: Maybe<UserRoleUserIdFkeyInverseInput>;
   loadNumbersUsingId?: Maybe<LoadNumberUserIdFkeyInverseInput>;
+  userBookmarksUsingId?: Maybe<UserBookmarkUserIdFkeyInverseInput>;
 };
 
 /** Input for the nested mutation of `contactGroup` in the `UserInput` mutation. */
@@ -36589,6 +36816,7 @@ export type UpdateUserOnUserForUserPersonContactIdFkeyPatch = {
   userMessagesUsingId?: Maybe<UserMessageUserIdFkeyInverseInput>;
   userRolesUsingId?: Maybe<UserRoleUserIdFkeyInverseInput>;
   loadNumbersUsingId?: Maybe<LoadNumberUserIdFkeyInverseInput>;
+  userBookmarksUsingId?: Maybe<UserBookmarkUserIdFkeyInverseInput>;
 };
 
 /** Input for the nested mutation of `userMessage` in the `UserInput` mutation. */
@@ -36696,6 +36924,7 @@ export type UpdateUserOnUserMessageForUserMessageUserIdFkeyPatch = {
   userMessagesUsingId?: Maybe<UserMessageUserIdFkeyInverseInput>;
   userRolesUsingId?: Maybe<UserRoleUserIdFkeyInverseInput>;
   loadNumbersUsingId?: Maybe<LoadNumberUserIdFkeyInverseInput>;
+  userBookmarksUsingId?: Maybe<UserBookmarkUserIdFkeyInverseInput>;
 };
 
 /** Input for the nested mutation of `userRole` in the `UserInput` mutation. */
@@ -36771,6 +37000,7 @@ export type UpdateUserOnUserRoleForUserRoleUserIdFkeyPatch = {
   userMessagesUsingId?: Maybe<UserMessageUserIdFkeyInverseInput>;
   userRolesUsingId?: Maybe<UserRoleUserIdFkeyInverseInput>;
   loadNumbersUsingId?: Maybe<LoadNumberUserIdFkeyInverseInput>;
+  userBookmarksUsingId?: Maybe<UserBookmarkUserIdFkeyInverseInput>;
 };
 
 /** Input for the nested mutation of `loadNumber` in the `UserInput` mutation. */
@@ -36872,17 +37102,123 @@ export type UpdateUserOnLoadNumberForLoadNumberUserIdFkeyPatch = {
   userMessagesUsingId?: Maybe<UserMessageUserIdFkeyInverseInput>;
   userRolesUsingId?: Maybe<UserRoleUserIdFkeyInverseInput>;
   loadNumbersUsingId?: Maybe<LoadNumberUserIdFkeyInverseInput>;
+  userBookmarksUsingId?: Maybe<UserBookmarkUserIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `userBookmark` in the `UserInput` mutation. */
+export type UserBookmarkUserIdFkeyInverseInput = {
+  /** Flag indicating whether all other `userBookmark` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `userBookmark` for the far side of the relationship. */
+  connectById?: Maybe<Array<UserBookmarkUserBookmarkPkeyConnect>>;
+  /** The primary key(s) for `userBookmark` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<UserBookmarkNodeIdConnect>>;
+  /** The primary key(s) for `userBookmark` for the far side of the relationship. */
+  deleteById?: Maybe<Array<UserBookmarkUserBookmarkPkeyDelete>>;
+  /** The primary key(s) for `userBookmark` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<UserBookmarkNodeIdDelete>>;
+  /** The primary key(s) and patch data for `userBookmark` for the far side of the relationship. */
+  updateById?: Maybe<Array<UserBookmarkOnUserBookmarkForUserBookmarkUserIdFkeyUsingUserBookmarkPkeyUpdate>>;
+  /** The primary key(s) and patch data for `userBookmark` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<UserOnUserBookmarkForUserBookmarkUserIdFkeyNodeIdUpdate>>;
+  /** A `UserBookmarkInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<UserBookmarkUserIdFkeyUserBookmarkCreateInput>>;
+};
+
+/** The fields on `userBookmark` to look up the row to connect. */
+export type UserBookmarkUserBookmarkPkeyConnect = {
+  id: Scalars['BigInt'];
+};
+
+/** The globally unique `ID` look up for the row to connect. */
+export type UserBookmarkNodeIdConnect = {
+  /** The globally unique `ID` which identifies a single `userBookmark` to be connected. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `userBookmark` to look up the row to delete. */
+export type UserBookmarkUserBookmarkPkeyDelete = {
+  id: Scalars['BigInt'];
+};
+
+/** The globally unique `ID` look up for the row to delete. */
+export type UserBookmarkNodeIdDelete = {
+  /** The globally unique `ID` which identifies a single `userBookmark` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** The fields on `userBookmark` to look up the row to update. */
+export type UserBookmarkOnUserBookmarkForUserBookmarkUserIdFkeyUsingUserBookmarkPkeyUpdate = {
+  /** An object where the defined keys will be set on the `userBookmark` being updated. */
+  patch: UpdateUserBookmarkOnUserBookmarkForUserBookmarkUserIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `userBookmark` being updated. */
+export type UpdateUserBookmarkOnUserBookmarkForUserBookmarkUserIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  category?: Maybe<Scalars['String']>;
+  linkUrl?: Maybe<Scalars['String']>;
+  linkDescription?: Maybe<Scalars['String']>;
+  sortOrder?: Maybe<Scalars['Int']>;
+  userToUserId?: Maybe<UserBookmarkUserIdFkeyInput>;
+};
+
+/** Input for the nested mutation of `user` in the `UserBookmarkInput` mutation. */
+export type UserBookmarkUserIdFkeyInput = {
+  /** The primary key(s) for `user` for the far side of the relationship. */
+  connectById?: Maybe<UserUserPkeyConnect>;
+  /** The primary key(s) for `user` for the far side of the relationship. */
+  connectByPin?: Maybe<UserUserPinKeyConnect>;
+  /** The primary key(s) for `user` for the far side of the relationship. */
+  connectByNodeId?: Maybe<UserNodeIdConnect>;
+  /** The primary key(s) for `user` for the far side of the relationship. */
+  deleteById?: Maybe<UserUserPkeyDelete>;
+  /** The primary key(s) for `user` for the far side of the relationship. */
+  deleteByPin?: Maybe<UserUserPinKeyDelete>;
+  /** The primary key(s) for `user` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<UserNodeIdDelete>;
+  /** The primary key(s) and patch data for `user` for the far side of the relationship. */
+  updateById?: Maybe<UserOnUserBookmarkForUserBookmarkUserIdFkeyUsingUserPkeyUpdate>;
+  /** The primary key(s) and patch data for `user` for the far side of the relationship. */
+  updateByPin?: Maybe<UserOnUserBookmarkForUserBookmarkUserIdFkeyUsingUserPinKeyUpdate>;
+  /** The primary key(s) and patch data for `user` for the far side of the relationship. */
+  updateByNodeId?: Maybe<UserBookmarkOnUserBookmarkForUserBookmarkUserIdFkeyNodeIdUpdate>;
+  /** A `UserInput` object that will be created and connected to this object. */
+  create?: Maybe<UserBookmarkUserIdFkeyUserCreateInput>;
 };
 
 /** The fields on `user` to look up the row to update. */
-export type UserOnLoadNumberForLoadNumberUserIdFkeyUsingUserPinKeyUpdate = {
+export type UserOnUserBookmarkForUserBookmarkUserIdFkeyUsingUserPkeyUpdate = {
   /** An object where the defined keys will be set on the `user` being updated. */
-  patch: UpdateUserOnLoadNumberForLoadNumberUserIdFkeyPatch;
+  patch: UpdateUserOnUserBookmarkForUserBookmarkUserIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** An object where the defined keys will be set on the `user` being updated. */
+export type UpdateUserOnUserBookmarkForUserBookmarkUserIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  pin?: Maybe<Scalars['String']>;
+  personContactId?: Maybe<Scalars['BigInt']>;
+  userCode?: Maybe<Scalars['String']>;
+  defaultCoast?: Maybe<Scalars['String']>;
+  personContactToPersonContactId?: Maybe<UserPersonContactIdFkeyInput>;
+  contactGroupsUsingId?: Maybe<ContactGroupUserIdFkeyInverseInput>;
+  userMessagesUsingId?: Maybe<UserMessageUserIdFkeyInverseInput>;
+  userRolesUsingId?: Maybe<UserRoleUserIdFkeyInverseInput>;
+  loadNumbersUsingId?: Maybe<LoadNumberUserIdFkeyInverseInput>;
+  userBookmarksUsingId?: Maybe<UserBookmarkUserIdFkeyInverseInput>;
+};
+
+/** The fields on `user` to look up the row to update. */
+export type UserOnUserBookmarkForUserBookmarkUserIdFkeyUsingUserPinKeyUpdate = {
+  /** An object where the defined keys will be set on the `user` being updated. */
+  patch: UpdateUserOnUserBookmarkForUserBookmarkUserIdFkeyPatch;
   pin: Scalars['String'];
 };
 
 /** The globally unique `ID` look up for the row to update. */
-export type LoadNumberOnLoadNumberForLoadNumberUserIdFkeyNodeIdUpdate = {
+export type UserBookmarkOnUserBookmarkForUserBookmarkUserIdFkeyNodeIdUpdate = {
   /** The globally unique `ID` which identifies a single `user` to be connected. */
   nodeId: Scalars['ID'];
   /** An object where the defined keys will be set on the `user` being updated. */
@@ -36901,6 +37237,66 @@ export type UserPatch = {
   userMessagesUsingId?: Maybe<UserMessageUserIdFkeyInverseInput>;
   userRolesUsingId?: Maybe<UserRoleUserIdFkeyInverseInput>;
   loadNumbersUsingId?: Maybe<LoadNumberUserIdFkeyInverseInput>;
+  userBookmarksUsingId?: Maybe<UserBookmarkUserIdFkeyInverseInput>;
+};
+
+/** The `user` to be created by this mutation. */
+export type UserBookmarkUserIdFkeyUserCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  pin?: Maybe<Scalars['String']>;
+  personContactId?: Maybe<Scalars['BigInt']>;
+  userCode?: Maybe<Scalars['String']>;
+  defaultCoast?: Maybe<Scalars['String']>;
+  personContactToPersonContactId?: Maybe<UserPersonContactIdFkeyInput>;
+  contactGroupsUsingId?: Maybe<ContactGroupUserIdFkeyInverseInput>;
+  userMessagesUsingId?: Maybe<UserMessageUserIdFkeyInverseInput>;
+  userRolesUsingId?: Maybe<UserRoleUserIdFkeyInverseInput>;
+  loadNumbersUsingId?: Maybe<LoadNumberUserIdFkeyInverseInput>;
+  userBookmarksUsingId?: Maybe<UserBookmarkUserIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type UserOnUserBookmarkForUserBookmarkUserIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `userBookmark` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `userBookmark` being updated. */
+  patch: UserBookmarkPatch;
+};
+
+/** Represents an update to a `UserBookmark`. Fields that are set will be updated. */
+export type UserBookmarkPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  category?: Maybe<Scalars['String']>;
+  linkUrl?: Maybe<Scalars['String']>;
+  linkDescription?: Maybe<Scalars['String']>;
+  sortOrder?: Maybe<Scalars['Int']>;
+  userId?: Maybe<Scalars['BigInt']>;
+  userToUserId?: Maybe<UserBookmarkUserIdFkeyInput>;
+};
+
+/** The `userBookmark` to be created by this mutation. */
+export type UserBookmarkUserIdFkeyUserBookmarkCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  category?: Maybe<Scalars['String']>;
+  linkUrl?: Maybe<Scalars['String']>;
+  linkDescription?: Maybe<Scalars['String']>;
+  sortOrder: Scalars['Int'];
+  userToUserId?: Maybe<UserBookmarkUserIdFkeyInput>;
+};
+
+/** The fields on `user` to look up the row to update. */
+export type UserOnLoadNumberForLoadNumberUserIdFkeyUsingUserPinKeyUpdate = {
+  /** An object where the defined keys will be set on the `user` being updated. */
+  patch: UpdateUserOnLoadNumberForLoadNumberUserIdFkeyPatch;
+  pin: Scalars['String'];
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type LoadNumberOnLoadNumberForLoadNumberUserIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `user` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `user` being updated. */
+  patch: UserPatch;
 };
 
 /** The `user` to be created by this mutation. */
@@ -36915,6 +37311,7 @@ export type LoadNumberUserIdFkeyUserCreateInput = {
   userMessagesUsingId?: Maybe<UserMessageUserIdFkeyInverseInput>;
   userRolesUsingId?: Maybe<UserRoleUserIdFkeyInverseInput>;
   loadNumbersUsingId?: Maybe<LoadNumberUserIdFkeyInverseInput>;
+  userBookmarksUsingId?: Maybe<UserBookmarkUserIdFkeyInverseInput>;
 };
 
 /** The globally unique `ID` look up for the row to update. */
@@ -36967,6 +37364,7 @@ export type UserRoleUserIdFkeyUserCreateInput = {
   userMessagesUsingId?: Maybe<UserMessageUserIdFkeyInverseInput>;
   userRolesUsingId?: Maybe<UserRoleUserIdFkeyInverseInput>;
   loadNumbersUsingId?: Maybe<LoadNumberUserIdFkeyInverseInput>;
+  userBookmarksUsingId?: Maybe<UserBookmarkUserIdFkeyInverseInput>;
 };
 
 /** The `userRole` to be created by this mutation. */
@@ -37002,6 +37400,7 @@ export type UserMessageUserIdFkeyUserCreateInput = {
   userMessagesUsingId?: Maybe<UserMessageUserIdFkeyInverseInput>;
   userRolesUsingId?: Maybe<UserRoleUserIdFkeyInverseInput>;
   loadNumbersUsingId?: Maybe<LoadNumberUserIdFkeyInverseInput>;
+  userBookmarksUsingId?: Maybe<UserBookmarkUserIdFkeyInverseInput>;
 };
 
 /** The globally unique `ID` look up for the row to update. */
@@ -37065,6 +37464,7 @@ export type UserPersonContactIdFkeyUserCreateInput = {
   userMessagesUsingId?: Maybe<UserMessageUserIdFkeyInverseInput>;
   userRolesUsingId?: Maybe<UserRoleUserIdFkeyInverseInput>;
   loadNumbersUsingId?: Maybe<LoadNumberUserIdFkeyInverseInput>;
+  userBookmarksUsingId?: Maybe<UserBookmarkUserIdFkeyInverseInput>;
 };
 
 /** Input for the nested mutation of `customerPersonContact` in the `PersonContactInput` mutation. */
@@ -46585,6 +46985,7 @@ export type ContactGroupUserIdFkeyUserCreateInput = {
   userMessagesUsingId?: Maybe<UserMessageUserIdFkeyInverseInput>;
   userRolesUsingId?: Maybe<UserRoleUserIdFkeyInverseInput>;
   loadNumbersUsingId?: Maybe<LoadNumberUserIdFkeyInverseInput>;
+  userBookmarksUsingId?: Maybe<UserBookmarkUserIdFkeyInverseInput>;
 };
 
 /** The globally unique `ID` look up for the row to update. */
@@ -46649,6 +47050,52 @@ export type UserPersonContactIdFkeyPersonContactCreateInput = {
   shipperPersonContactsUsingId?: Maybe<ShipperPersonContactPersonContactIdFkeyInverseInput>;
   warehousePersonContactsUsingId?: Maybe<WarehousePersonContactPersonContactIdFkeyInverseInput>;
   vendorPersonContactsUsingId?: Maybe<VendorPersonContactPersonContactIdFkeyInverseInput>;
+};
+
+/** The output of our create `UserBookmark` mutation. */
+export type CreateUserBookmarkPayload = {
+  __typename?: 'CreateUserBookmarkPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `UserBookmark` that was created by this mutation. */
+  userBookmark?: Maybe<UserBookmark>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `User` that is related to this `UserBookmark`. */
+  user?: Maybe<User>;
+  /** An edge for our `UserBookmark`. May be used by Relay 1. */
+  userBookmarkEdge?: Maybe<UserBookmarksEdge>;
+};
+
+
+/** The output of our create `UserBookmark` mutation. */
+export type CreateUserBookmarkPayloadUserBookmarkEdgeArgs = {
+  orderBy?: Maybe<Array<UserBookmarksOrderBy>>;
+};
+
+/** All input for the create `UserBookmark` mutation. */
+export type CreateUserBookmarkInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `UserBookmark` to be created by this mutation. */
+  userBookmark: UserBookmarkInput;
+};
+
+/** An input for mutations affecting `UserBookmark` */
+export type UserBookmarkInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  category?: Maybe<Scalars['String']>;
+  linkUrl?: Maybe<Scalars['String']>;
+  linkDescription?: Maybe<Scalars['String']>;
+  sortOrder: Scalars['Int'];
+  userId?: Maybe<Scalars['BigInt']>;
+  userToUserId?: Maybe<UserBookmarkUserIdFkeyInput>;
 };
 
 /** The output of our create `UserMessage` mutation. */
@@ -53507,6 +53954,55 @@ export type UpdateUserByPinInput = {
   pin: Scalars['String'];
 };
 
+/** The output of our update `UserBookmark` mutation. */
+export type UpdateUserBookmarkPayload = {
+  __typename?: 'UpdateUserBookmarkPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `UserBookmark` that was updated by this mutation. */
+  userBookmark?: Maybe<UserBookmark>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `User` that is related to this `UserBookmark`. */
+  user?: Maybe<User>;
+  /** An edge for our `UserBookmark`. May be used by Relay 1. */
+  userBookmarkEdge?: Maybe<UserBookmarksEdge>;
+};
+
+
+/** The output of our update `UserBookmark` mutation. */
+export type UpdateUserBookmarkPayloadUserBookmarkEdgeArgs = {
+  orderBy?: Maybe<Array<UserBookmarksOrderBy>>;
+};
+
+/** All input for the `updateUserBookmarkByNodeId` mutation. */
+export type UpdateUserBookmarkByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `UserBookmark` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `UserBookmark` being updated. */
+  patch: UserBookmarkPatch;
+};
+
+/** All input for the `updateUserBookmark` mutation. */
+export type UpdateUserBookmarkInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `UserBookmark` being updated. */
+  patch: UserBookmarkPatch;
+  id: Scalars['BigInt'];
+};
+
 /** The output of our update `UserMessage` mutation. */
 export type UpdateUserMessagePayload = {
   __typename?: 'UpdateUserMessagePayload';
@@ -59695,6 +60191,52 @@ export type DeleteUserByPinInput = {
   pin: Scalars['String'];
 };
 
+/** The output of our delete `UserBookmark` mutation. */
+export type DeleteUserBookmarkPayload = {
+  __typename?: 'DeleteUserBookmarkPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `UserBookmark` that was deleted by this mutation. */
+  userBookmark?: Maybe<UserBookmark>;
+  deletedUserBookmarkNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `User` that is related to this `UserBookmark`. */
+  user?: Maybe<User>;
+  /** An edge for our `UserBookmark`. May be used by Relay 1. */
+  userBookmarkEdge?: Maybe<UserBookmarksEdge>;
+};
+
+
+/** The output of our delete `UserBookmark` mutation. */
+export type DeleteUserBookmarkPayloadUserBookmarkEdgeArgs = {
+  orderBy?: Maybe<Array<UserBookmarksOrderBy>>;
+};
+
+/** All input for the `deleteUserBookmarkByNodeId` mutation. */
+export type DeleteUserBookmarkByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `UserBookmark` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deleteUserBookmark` mutation. */
+export type DeleteUserBookmarkInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['BigInt'];
+};
+
 /** The output of our delete `UserMessage` mutation. */
 export type DeleteUserMessagePayload = {
   __typename?: 'DeleteUserMessagePayload';
@@ -64153,6 +64695,29 @@ export type BulkCreateUserMessageInput = {
   messages: Array<Maybe<UserMessageInput>>;
 };
 
+/** The output of our `bulkUpsertUserBookmark` mutation. */
+export type BulkUpsertUserBookmarkPayload = {
+  __typename?: 'BulkUpsertUserBookmarkPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  userBookmarks?: Maybe<Array<Maybe<UserBookmark>>>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** All input for the `bulkUpsertUserBookmark` mutation. */
+export type BulkUpsertUserBookmarkInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  userBookmarks: Array<Maybe<UserBookmarkInput>>;
+};
+
 /** The output of our `bulkAddContactsToGroup` mutation. */
 export type BulkAddContactsToGroupPayload = {
   __typename?: 'BulkAddContactsToGroupPayload';
@@ -66304,6 +66869,35 @@ export type UpsertUserInput = {
   clientMutationId?: Maybe<Scalars['String']>;
   /** The `User` to be upserted by this mutation. */
   user: UserInput;
+};
+
+/** The output of our upsert `UserBookmark` mutation. */
+export type UpsertUserBookmarkPayload = {
+  __typename?: 'UpsertUserBookmarkPayload';
+  /** The exact same `clientMutationId` that was provided in the mutation input, unchanged and unused. May be used by a client to track mutations. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `UserBookmark` that were upserted by this mutation. */
+  userBookmark?: Maybe<UserBookmark>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `User` that is related to this `UserBookmark`. */
+  user?: Maybe<User>;
+  /** An edge for our `UserBookmark`. May be used by Relay 1. */
+  userBookmarkEdge?: Maybe<UserBookmarksEdge>;
+};
+
+
+/** The output of our upsert `UserBookmark` mutation. */
+export type UpsertUserBookmarkPayloadUserBookmarkEdgeArgs = {
+  orderBy?: Maybe<Array<UserBookmarksOrderBy>>;
+};
+
+/** All input for the upsert `UserBookmark` mutation. */
+export type UpsertUserBookmarkInput = {
+  /** An arbitrary string value with no semantic meaning. Will be included in the payload verbatim. May be used to track mutations by the client. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `UserBookmark` to be upserted by this mutation. */
+  userBookmark: UserBookmarkInput;
 };
 
 /** The output of our upsert `UserMessage` mutation. */

@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { useLocation } from 'react-router-dom';
+import { StringParam } from 'use-query-params';
 
 import LogoImg from 'assets/images/jv-logo-white-no-text.png';
 import UserLogin from 'components/user/login';
+import { useQuerySet } from 'hooks/use-query-params';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import { IS_PRODUCTION } from 'utils/env';
 
 import NavItem, { NavItemProps } from './item';
 import SecondaryNav from './secondary';
-import { StringParam } from 'use-query-params';
-import { useQuerySet } from 'hooks/use-query-params';
 
 export interface NavItemType extends NavItemProps {
   secondaryItems?: NavItemProps[];

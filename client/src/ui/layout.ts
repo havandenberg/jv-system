@@ -237,7 +237,7 @@ const Cell = styled(Div)(
         ? hexColorWithTransparency(highlightColor, 0.3)
         : clickable
         ? th.colors.brand.containerBackgroundAccent
-        : th.colors.brand.containerBackground,
+        : undefined,
       border: clickable ? th.borders.secondary : th.borders.disabled,
     },
   }),

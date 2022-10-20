@@ -130,7 +130,10 @@ const EditableCell = ({
 
   const inputRef = React.useRef<HTMLInputElement>(null);
 
-  const [localState, setLocalState] = useState({ cursor: 0, value });
+  const [localState, setLocalState] = useState({
+    cursor: 0,
+    value: value === 'null' ? '' : value,
+  });
   const localValue = localState.value;
   const cursorLocation = localState.cursor;
 
@@ -249,7 +252,7 @@ const EditableCell = ({
                 value: isBoolean ? e.target.checked : e.target.value,
               });
             }}
-            value={`${localValue}`}
+            value={localValue || ''}
             textAlign="left"
             warning={warning}
             {...inputProps}

@@ -7,6 +7,7 @@ import { UpdateType, useSearchQueryParam } from './use-query-params';
 import useDebounce from './use-debounce';
 
 export interface SearchProps extends TextInputProps {
+  disableClear?: boolean;
   disabled?: boolean;
   disableSearchQuery?: boolean;
   error?: boolean;
@@ -30,6 +31,7 @@ const Search = (
   },
 ) => {
   const {
+    disableClear,
     disableSearchQuery,
     error,
     onClear = undefined,
@@ -55,10 +57,14 @@ const Search = (
       onBlur={() => {
         !disableSearchQuery && setSearch(debouncedSearch, 'replaceIn');
       }}
-      onClear={() => {
-        onClear && (!onlyClearSearch || !search) && onClear();
-        clearSearch();
-      }}
+      onClear={
+        disableClear
+          ? undefined
+          : () => {
+              onClear && (!onlyClearSearch || !search) && onClear();
+              clearSearch();
+            }
+      }
       onChange={(e) => {
         setLocalSearch(e.target.value || undefined);
       }}

@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import { Redirect, useHistory } from 'react-router-dom';
 
-import api from 'api';
 import Page from 'components/page';
 import { useTabBar } from 'components/tab-bar';
+import { User, UserMessage } from 'types';
 import b from 'ui/button';
 import l from 'ui/layout';
 import th from 'ui/theme';
 
-import { useUserContext } from './context';
+import { useActiveUser } from './context';
+import UserBookmarks from './bookmarks';
 import UserSettings from './settings';
 import UserMessages from './messages';
-import { UserMessage } from 'types';
 
 const tabs = (messageCount?: number) => [
   {
@@ -30,14 +30,13 @@ const UserDashboard = () => {
   const history = useHistory();
   const [showReadMessages, setShowReadMessages] = useState(false);
 
-  const [userState, setUserState] = useUserContext();
-  const { activeUserId } = userState;
   const {
-    data: activeUser,
-    error,
-    loading,
-  } = api.useGetUser(activeUserId || 0, showReadMessages);
-  const { id } = activeUser?.personContact || {};
+    apiData: { data: activeUser, error, loading },
+    userState,
+    setUserState,
+  } = useActiveUser();
+  const { id: activeUserId } = activeUser || {};
+  const { id: personContactId } = activeUser?.personContact || {};
 
   const messages = activeUser?.userMessages.nodes || [];
 
@@ -77,23 +76,30 @@ const UserDashboard = () => {
   return (
     <Page
       actions={[
-        <l.AreaLink key={0} to={`/directory/internal/${id}`}>
-          <b.Primary>Contact Info</b.Primary>
+        <l.AreaLink key={0} mr={th.spacing.lg} to="/">
+          <b.Error onClick={handleLogout}>Logout</b.Error>
         </l.AreaLink>,
-        <l.AreaLink key={1} to="/">
-          <b.Primary ml={th.spacing.md} onClick={handleLogout}>
-            Logout
-          </b.Primary>
+        <l.AreaLink key={1} to={`/directory/internal/${personContactId}`}>
+          <b.Primary>Contact Info</b.Primary>
         </l.AreaLink>,
       ]}
       title="User Dashboard"
     >
-      <>
-        <l.Div mb={th.spacing.lg}>
-          <TabBar />
+      <l.Flex justifyBetween>
+        <l.Div width="60%">
+          <l.Div mb={th.spacing.lg}>
+            <TabBar />
+          </l.Div>
+          {getContent()}
         </l.Div>
-        {getContent()}
-      </>
+        <l.Div width="35%">
+          <UserBookmarks
+            id={activeUserId}
+            showReadMessages={showReadMessages}
+            user={activeUser as User}
+          />
+        </l.Div>
+      </l.Flex>
     </Page>
   );
 };

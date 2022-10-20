@@ -1,12 +1,3 @@
-CREATE TABLE public.user (
-	id BIGSERIAL PRIMARY KEY,
-	default_coast TEXT,
-	pin TEXT UNIQUE,
-	person_contact_id BIGINT
-		REFERENCES directory.person_contact(id)
-		ON DELETE SET NULL,
-	user_code TEXT
-);
 
 CREATE TABLE public.user_message (
 	id BIGSERIAL PRIMARY KEY,
@@ -60,11 +51,3 @@ AS $$
 	RETURN;
   END;
 $$ LANGUAGE plpgsql VOLATILE STRICT SET search_path FROM CURRENT;
-
-CREATE TABLE public.user_role (
-	role_name TEXT NOT NULL,
-	user_id BIGINT
-		REFERENCES public.user(id)
-		ON DELETE CASCADE,
-	UNIQUE (user_id, role_name)
-);

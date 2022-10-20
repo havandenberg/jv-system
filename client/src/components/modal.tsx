@@ -73,7 +73,7 @@ export interface BasicModalProps {
   shouldConfirm?: boolean;
   title?: string;
   triggerDisabled?: boolean;
-  triggerProps?: DivProps & TextProps & { status?: string };
+  triggerProps?: DivProps & TextProps & { small?: boolean; status?: string };
   triggerText?: string;
   triggerType?: 'remove-icon' | 'default' | 'text';
 }

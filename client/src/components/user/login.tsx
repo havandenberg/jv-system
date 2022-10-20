@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
 import api from 'api';
 import { BasicModal } from 'components/modal';
@@ -9,6 +10,7 @@ import ty from 'ui/typography';
 import TextInput from 'ui/input';
 
 import { useActiveUser } from './context';
+import AddBookmark from './bookmarks/add';
 import { userMessagePriorityMap } from './messages';
 
 interface State {
@@ -22,6 +24,7 @@ const initialState = {
 };
 
 const UserLogin = () => {
+  const { pathname } = useLocation();
   const { data: authData } = api.useGetUserAuthList();
 
   const {
@@ -61,7 +64,16 @@ const UserLogin = () => {
   };
 
   return (
-    <l.Div position="absolute" bottom={th.spacing.sm} right={th.spacing.md}>
+    <l.Flex
+      alignCenter
+      height={20}
+      position="absolute"
+      bottom={th.spacing.sm}
+      right={th.spacing.xl}
+    >
+      {activeUser && !['/', '/user'].includes(pathname) && (
+        <AddBookmark user={activeUser} />
+      )}
       {activeUser ? (
         <l.AreaLink to="/user">
           <l.Flex alignCenter>
@@ -114,7 +126,7 @@ const UserLogin = () => {
           triggerType="text"
         />
       )}
-    </l.Div>
+    </l.Flex>
   );
 };
 

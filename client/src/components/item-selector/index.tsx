@@ -40,6 +40,7 @@ export interface ItemSelectorProps<T> {
   clearSearchOnBlur?: boolean;
   closeOnSelect?: boolean;
   defaultFocused?: boolean;
+  disableClear?: boolean;
   disabled?: boolean;
   disableSearchQuery?: boolean;
   editableCellProps?: EditableCellProps;
@@ -96,12 +97,11 @@ const ItemSelector = <T extends { id?: string; disabled?: boolean }>({
   focused: boolean;
   items: T[];
   Search: React.ReactNode;
-  width?: number;
 }) => {
   const selectedItems =
     isMultiSelect && selectedItem ? selectedItem.split(',') : [];
   return (
-    <l.Div relative>
+    <l.Div relative width={width}>
       <l.Div onClick={handleFocus}>
         {editableCellProps ? <EditableCell {...editableCellProps} /> : Search}
       </l.Div>
@@ -189,6 +189,7 @@ const useItemSelector = <T extends { id?: string; disabled?: boolean }>(
     allItems,
     clearSearchOnBlur,
     defaultFocused = false,
+    disableClear,
     disabled,
     disableSearchQuery,
     excludedItems = [],
@@ -211,6 +212,7 @@ const useItemSelector = <T extends { id?: string; disabled?: boolean }>(
   };
 
   const { clearSearch, localSearch, Search } = useSearch({
+    disableClear,
     disabled: !!editableCellProps,
     disableSearchQuery,
     error: validationError,
@@ -241,6 +243,7 @@ const useItemSelector = <T extends { id?: string; disabled?: boolean }>(
 
   return {
     clearSearch,
+    localSearch,
     ItemSelector: (
       <ItemSelector
         {...props}

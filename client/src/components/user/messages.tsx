@@ -125,7 +125,7 @@ const UserMessages = ({
   const groupedMessages = groupBy((message) => message.priority, messages);
 
   return (
-    <l.Div width={700}>
+    <>
       <l.Flex justifyEnd mb={th.spacing.md}>
         <LineItemCheckbox
           checked={showReadMessages}
@@ -169,11 +169,11 @@ const UserMessages = ({
           error={error}
           loading={loading}
           emptyProps={{
-            header: `No${showReadMessages ? '' : ' Unread'} Messages`,
+            header: `No${showReadMessages ? '' : ' unread'} messages`,
           }}
         />
       )}
-    </l.Div>
+    </>
   );
 };
 

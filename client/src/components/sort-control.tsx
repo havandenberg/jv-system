@@ -62,8 +62,8 @@ interface Props {
   color?: string;
   disableDown?: boolean;
   disableUp?: boolean;
-  onDown: () => void;
-  onUp: () => void;
+  onDown: (e: React.MouseEvent<HTMLDivElement>) => void;
+  onUp: (e: React.MouseEvent<HTMLDivElement>) => void;
   sideLength?: string | number;
   arrowSideLength?: string | number;
 }

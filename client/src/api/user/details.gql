@@ -20,6 +20,15 @@ query USER_DETAILS($id: BigInt!, $isRead: [Boolean!]) {
       email
     }
     userCode
+    userBookmarks {
+      nodes {
+        id
+        category
+        linkUrl
+        linkDescription
+        sortOrder
+      }
+    }
     userMessages(filter: { isRead: { in: $isRead } }) {
       nodes {
         actionLink

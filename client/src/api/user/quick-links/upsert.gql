@@ -1,0 +1,7 @@
+mutation USER_BOOKMARKS_UPSERT(
+  $userBookmarks: [UserBookmarkInput]!
+) {
+  bulkUpsertUserBookmark(input: { userBookmarks: $userBookmarks }) {
+    clientMutationId
+  }
+}

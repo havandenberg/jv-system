@@ -30,7 +30,7 @@ export const breadcrumbs = (id: string) => [
     to: '/accounting/invoices',
   },
   {
-    text: 'Invoices',
+    text: 'Invoice',
     to: `/accounting/invoices/${id}`,
   },
 ];

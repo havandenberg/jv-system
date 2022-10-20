@@ -9,6 +9,8 @@ const USER_DETAILS_QUERY = loader('./details.gql');
 const USER_UPDATE_QUERY = loader('./update.gql');
 const USER_MESSAGES_CREATE = loader('./message/create.gql');
 const USER_MESSAGE_UPDATE = loader('./message/update.gql');
+const USER_BOOKMARKS_UPSERT = loader('./quick-links/upsert.gql');
+const USER_BOOKMARK_DELETE = loader('./quick-links/delete.gql');
 
 export const useGetUserAuthList = () => {
   const { data, error, loading, refetch } = useQuery<Query>(USER_LIST_QUERY);
@@ -66,6 +68,32 @@ export const useUpdateUserMessage = (
   showReadMessages: boolean = false,
 ) =>
   useMutation<Mutation>(USER_MESSAGE_UPDATE, {
+    refetchQueries: [
+      {
+        query: USER_DETAILS_QUERY,
+        variables: { id, isRead: showReadMessages ? [true, false] : [false] },
+      },
+    ],
+  });
+
+export const useUpsertUserBookmarks = (
+  id: number,
+  showReadMessages: boolean = false,
+) =>
+  useMutation<Mutation>(USER_BOOKMARKS_UPSERT, {
+    refetchQueries: [
+      {
+        query: USER_DETAILS_QUERY,
+        variables: { id, isRead: showReadMessages ? [true, false] : [false] },
+      },
+    ],
+  });
+
+export const useDeleteUserBookmark = (
+  id: number,
+  showReadMessages: boolean = false,
+) =>
+  useMutation<Mutation>(USER_BOOKMARK_DELETE, {
     refetchQueries: [
       {
         query: USER_DETAILS_QUERY,
