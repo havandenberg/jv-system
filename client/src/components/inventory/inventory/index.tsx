@@ -69,7 +69,7 @@ const Inventory = () => {
           startDateQuery
             ? new Date(startDateQuery.replace(/-/g, '/'))
             : new Date(),
-          { months: -4 },
+          { months: -6 },
         ),
       ),
     ),
