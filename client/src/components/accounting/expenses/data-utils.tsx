@@ -117,7 +117,7 @@ export const listLabels: (shipperId: string) => ExpenseHeaderLabelInfo[] = (
         (items?.nodes || []) as ExpenseItem[]
       ).reduce(
         (acc, item) => ({
-          expenseAmount: acc.expenseAmount + parseInt(item.itemAmount, 10),
+          expenseAmount: acc.expenseAmount + parseFloat(item.itemAmount),
           totalQuantity: acc.totalQuantity + parseInt(item.quantity, 10),
         }),
         { expenseAmount: 0, totalQuantity: 0 },
@@ -129,7 +129,7 @@ export const listLabels: (shipperId: string) => ExpenseHeaderLabelInfo[] = (
         (items?.nodes || []) as ExpenseItem[]
       ).reduce(
         (acc, item) => ({
-          expenseAmount: acc.expenseAmount + parseInt(item.itemAmount, 10),
+          expenseAmount: acc.expenseAmount + parseFloat(item.itemAmount),
           totalQuantity: acc.totalQuantity + parseInt(item.quantity, 10),
         }),
         { expenseAmount: 0, totalQuantity: 0 },

@@ -42,8 +42,8 @@ const BULK_DELETE_EXPENSE_ITEM = gql`
 const getUpdatedExpenseItem = (expenseItem, db2ExpenseItem, id) => ({
   ...expenseItem,
   id,
-  vendorId: `${db2ExpenseItem['VEND#B']}`,
-  voucherId: `${db2ExpenseItem['VOCH#B']}`,
+  vendorId: `${db2ExpenseItem['VEND#B'].trimEnd()}`,
+  voucherId: `${db2ExpenseItem['VOCH#B'].trimEnd()}`,
   sequenceId: `${db2ExpenseItem['SEQB']}`,
   quantity: `${db2ExpenseItem['QTYB']}`,
   unitPrice: `${db2ExpenseItem['PRICEB']}`,
@@ -84,7 +84,6 @@ const expenseItemOptions = {
   getUpdatedItem: getUpdatedExpenseItem,
   getId: getExpenseItemId,
   chunkSize: 100,
-  iterationLimit: 5000,
 };
 
 module.exports = expenseItemOptions;

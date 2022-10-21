@@ -81,10 +81,10 @@ const InventoryVessels = ({ vessels }: Props) => {
         {times((idx) => {
           const filteredVessels =
             idx !== 7 - inventoryStartDayIndex &&
-            idx < 12 - inventoryStartDayIndex - 2
+            idx < 12 - inventoryStartDayIndex - 1
               ? getFilteredVessels(
                   vessels,
-                  idx > 7 - inventoryStartDayIndex ? idx + 1 : idx,
+                  idx > 7 - inventoryStartDayIndex ? idx - 1 : idx,
                   currentStartOfWeek,
                 )
               : [];

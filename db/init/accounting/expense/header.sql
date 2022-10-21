@@ -22,13 +22,29 @@ CREATE INDEX ON accounting.expense_header (vessel_code);
 
 CREATE TABLE accounting.expense_header_review (
   id BIGSERIAL PRIMARY KEY,
-  expense_header_id BIGINT REFERENCES accounting.expense_header(id),
+  vendor_id TEXT,
+  voucher_id TEXT,
   expense_code TEXT,
   is_approved BOOLEAN,
   notes TEXT
 );
 
 CREATE INDEX ON accounting.expense_header_review(expense_header_id);
+
+CREATE FUNCTION accounting.expense_header_reviews_list(IN vessel_code_param TEXT, IN shipper_id_param TEXT)
+    RETURNS setof accounting.expense_header_review
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT r.* FROM accounting.expense_header_review r JOIN accounting.expense_header eh
+    ON eh.vessel_code = vessel_code_param
+      OR vessel_code_param IN (
+        SELECT DISTINCT vessel_code FROM accounting.expense_header_items(eh) ei
+      )
+    WHERE r.vendor_id = eh.vendor_id AND r.voucher_id = eh.voucher_id;
+$BODY$;
 
 CREATE FUNCTION accounting.expense_header_vendor(IN e accounting.expense_header)
     RETURNS directory.vendor
@@ -92,11 +108,11 @@ CREATE FUNCTION accounting.expense_header_summary(IN vessel_code_param TEXT, IN 
     PARALLEL UNSAFE
     COST 100
 AS $BODY$
-SELECT * FROM accounting.expense_header eh
-  WHERE eh.vessel_code = vessel_code_param
-  OR vessel_code_param IN (
-    SELECT DISTINCT vessel_code FROM accounting.expense_header_items(eh) ei
-  );
+  SELECT * FROM accounting.expense_header eh
+    WHERE eh.vessel_code = vessel_code_param
+    OR vessel_code_param IN (
+      SELECT DISTINCT vessel_code FROM accounting.expense_header_items(eh) ei
+    );
 $BODY$;
 
 CREATE FUNCTION accounting.expense_header_search_text(IN e accounting.expense_header)
@@ -195,20 +211,23 @@ AS $$
     FOREACH ehr IN ARRAY reviews LOOP
       INSERT INTO accounting.expense_header_review(
         id,
-        expense_header_id,
+        vendor_id,
+        voucher_id,
         expense_code,
         is_approved,
         notes
       )
         VALUES (
           COALESCE(ehr.id, (select nextval('accounting.expense_header_review_id_seq'))),
-          ehr.expense_header_id,
+          ehr.vendor_id,
+          ehr.voucher_id,
           ehr.expense_code,
           ehr.is_approved,
           ehr.notes
         )
       ON CONFLICT (id) DO UPDATE SET
-        expense_header_id=EXCLUDED.expense_header_id,
+        vendor_id=EXCLUDED.vendor_id,
+        voucher_id=EXCLUDED.voucher_id,
         expense_code=EXCLUDED.expense_code,
         is_approved=EXCLUDED.is_approved,
         notes=EXCLUDED.notes

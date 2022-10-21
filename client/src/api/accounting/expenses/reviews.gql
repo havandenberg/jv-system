@@ -1,8 +1,12 @@
-query EXPENSE_HEADER_REVIEW_LIST($expenseHeaderIds: [BigInt!]) {
-  expenseHeaderReviews(filter: {expenseHeaderId: {in: $expenseHeaderIds}}) {
+query EXPENSE_HEADER_REVIEW_LIST($vesselCode: String!, $shipperId: String!) {
+  expenseHeaderReviewsList(
+    vesselCodeParam: $vesselCode
+    shipperIdParam: $shipperId
+  ) {
     nodes {
       id
-      expenseHeaderId
+      vendorId
+      voucherId
       expenseCode
       isApproved
       notes

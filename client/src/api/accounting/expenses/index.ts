@@ -43,27 +43,33 @@ export const useExpensesSummary = (vesselCode: string, shipperId: string) => {
   };
 };
 
-export const useExpensesSummaryReviews = (expenseIds: string[]) => {
+export const useExpensesSummaryReviews = (
+  vesselCode: string,
+  shipperId: string,
+) => {
   const { data, error, loading } = useQuery<Query>(
     EXPENSE_HEADER_REVIEW_LIST_QUERY,
     {
-      variables: { expenseHeaderIds: expenseIds },
+      variables: { vesselCode, shipperId },
     },
   );
 
   return {
-    data: data ? data.expenseHeaderReviews : undefined,
+    data: data ? data.expenseHeaderReviewsList : undefined,
     error,
     loading,
   };
 };
 
-export const useUpsertExpenseReviews = (expenseIds: string[]) =>
+export const useUpsertExpenseReviews = (
+  vesselCode: string,
+  shipperId: string,
+) =>
   useMutation<Mutation>(EXPENSE_HEADER_REVIEW_BULK_UPSERT, {
     refetchQueries: [
       {
         query: EXPENSE_HEADER_REVIEW_LIST_QUERY,
-        variables: { expenseHeaderIds: expenseIds },
+        variables: { vesselCode, shipperId },
       },
     ],
     awaitRefetchQueries: true,

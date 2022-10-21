@@ -127,6 +127,7 @@ const EditableCell = ({
   warning,
 }: EditableCellProps) => {
   const { dirty, value } = content;
+  const previousValue = usePrevious(value);
 
   const inputRef = React.useRef<HTMLInputElement>(null);
 
@@ -158,6 +159,12 @@ const EditableCell = ({
     error,
     warning,
   };
+
+  useEffect(() => {
+    if (previousValue !== value) {
+      setLocalState({ ...localState, value });
+    }
+  }, [localState, previousValue, value]);
 
   useEffect(() => {
     const input = inputRef.current;

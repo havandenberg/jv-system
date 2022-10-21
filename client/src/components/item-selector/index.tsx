@@ -87,6 +87,7 @@ const ItemSelector = <T extends { id?: string; disabled?: boolean }>({
   panelGap = th.spacing.sm,
   rowHeight = 32,
   Search,
+  searchWidth,
   selectItem,
   selectedItem,
   width,
@@ -101,7 +102,7 @@ const ItemSelector = <T extends { id?: string; disabled?: boolean }>({
   const selectedItems =
     isMultiSelect && selectedItem ? selectedItem.split(',') : [];
   return (
-    <l.Div relative width={width}>
+    <l.Div relative width={searchWidth}>
       <l.Div onClick={handleFocus}>
         {editableCellProps ? <EditableCell {...editableCellProps} /> : Search}
       </l.Div>

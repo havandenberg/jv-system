@@ -45,8 +45,8 @@ const BULK_DELETE_EXPENSE_HEADER = gql`
 const getUpdatedExpenseHeader = (expenseHeader, db2ExpenseHeader, id) => ({
   ...expenseHeader,
   id,
-  vendorId: `${db2ExpenseHeader['VEND#A']}`,
-  voucherId: `${db2ExpenseHeader['VOCH#A']}`,
+  vendorId: `${db2ExpenseHeader['VEND#A'].trimEnd()}`,
+  voucherId: `${db2ExpenseHeader['VOCH#A'].trimEnd()}`,
   invoiceId: `${db2ExpenseHeader['APINVA']}`,
   isEstimated: `${db2ExpenseHeader['ESTA']}` === 'Y',
   paidCode: `${db2ExpenseHeader['PAIDA']}`,
@@ -93,7 +93,6 @@ const expenseHeaderOptions = {
   getUpdatedItem: getUpdatedExpenseHeader,
   getId: getExpenseHeaderId,
   chunkSize: 100,
-  iterationLimit: 5000,
 };
 
 module.exports = expenseHeaderOptions;

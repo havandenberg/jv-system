@@ -71,19 +71,18 @@ const Expenses = () => {
     error: expensesError,
   } = api.useExpensesSummary(vesselCode || '', shipperId || '');
   const expenses = (expensesData ? expensesData.nodes : []) as ExpenseHeader[];
-  const expenseIds = pluck('id', expenses);
 
   const {
     data: expenseReviewsData,
     loading: expensesReviewsLoading,
     error: expensesReviewsError,
-  } = api.useExpensesSummaryReviews(expenseIds);
+  } = api.useExpensesSummaryReviews(vesselCode || '', shipperId || '');
   const expenseReviews = (
     expenseReviewsData ? expenseReviewsData.nodes : []
   ) as ExpenseHeaderReview[];
 
   const [handleUpsert, { loading: upsertLoading }] =
-    api.useUpsertExpenseReviews(expenseIds);
+    api.useUpsertExpenseReviews(vesselCode || '', shipperId || '');
 
   const {
     data: shippersData,
@@ -254,15 +253,21 @@ const Expenses = () => {
   const [changes, setChanges] = useState<ExpenseHeaderReview[]>([]);
   const hasChanges = changes.length > 0;
 
-  const getUpdatedExpenseReview = (expenseId: string, expenseCode: string) =>
+  const getUpdatedExpenseReview = (
+    vendorId: string,
+    voucherId: string,
+    expenseCode: string,
+  ) =>
     changes.find(
       (review) =>
-        review.expenseHeaderId === expenseId &&
+        review.vendorId === vendorId &&
+        review.voucherId === voucherId &&
         review.expenseCode === expenseCode,
     ) ||
     expenseReviews.find(
       (review) =>
-        review.expenseHeaderId === expenseId &&
+        review.vendorId === vendorId &&
+        review.voucherId === voucherId &&
         review.expenseCode === expenseCode,
     );
 
@@ -279,7 +284,11 @@ const Expenses = () => {
           const expenseQuantity = (
             (exp.items?.nodes || []) as ExpenseItem[]
           ).reduce((acc3, it) => acc3 + parseInt(it.quantity, 10), 0);
-          const review = getUpdatedExpenseReview(exp.id, code);
+          const review = getUpdatedExpenseReview(
+            exp.vendorId || '',
+            exp.voucherId || '',
+            code,
+          );
           return {
             categoryPrice:
               acc2.categoryPrice +
@@ -349,13 +358,21 @@ const Expenses = () => {
     ? expenseStatusDescriptions.P
     : expenseStatusDescriptions.X;
 
-  const toggleApproveExpense = (expenseId: string, expenseCode: string) => {
-    const review = getUpdatedExpenseReview(expenseId, expenseCode);
+  const toggleApproveExpense = (
+    vendorId: string,
+    voucherId: string,
+    expenseCode: string,
+  ) => {
+    const review = getUpdatedExpenseReview(vendorId, voucherId, expenseCode);
     if (review) {
       setChanges([
         ...changes.filter(
-          ({ expenseHeaderId: expId, expenseCode: expCode }) =>
-            !(expId === expenseId && expCode === expenseCode),
+          ({ vendorId: vendId, voucherId: vouchId, expenseCode: expCode }) =>
+            !(
+              vendId === vendorId &&
+              vouchId === voucherId &&
+              expCode === expenseCode
+            ),
         ),
         { ...review, isApproved: !review.isApproved },
       ]);
@@ -363,7 +380,8 @@ const Expenses = () => {
       setChanges([
         ...changes,
         {
-          expenseHeaderId: expenseId,
+          vendorId,
+          voucherId,
           expenseCode,
           isApproved: true,
           notes: '',
@@ -375,8 +393,13 @@ const Expenses = () => {
   const toggleApproveExpenseCode = (expenseCode: string) => {
     const expReviews = groupedExpenses[expenseCode].map(
       (e) =>
-        getUpdatedExpenseReview(e.id, expenseCode) || {
-          expenseHeaderId: e.id,
+        getUpdatedExpenseReview(
+          e.vendorId || '',
+          e.voucherId || '',
+          expenseCode,
+        ) || {
+          voucherId: e.voucherId,
+          vendorId: e.vendorId,
           expenseCode,
           isApproved: false,
           notes: '',
@@ -395,20 +418,28 @@ const Expenses = () => {
   };
 
   const handleNotesChange = (
-    expenseId: string,
+    vendorId: string,
+    voucherId: string,
     expenseCode: string,
     notes: string,
   ) => {
-    const review = getUpdatedExpenseReview(expenseId, expenseCode) || {
-      expenseHeaderId: expenseId,
+    const review = getUpdatedExpenseReview(
+      vendorId,
+      voucherId,
+      expenseCode,
+    ) || {
+      vendorId,
+      voucherId,
       expenseCode,
       isApproved: false,
       notes: '',
     };
     setChanges([
       ...changes.filter(
-        ({ expenseHeaderId: expId, expenseCode: expCode }) =>
-          expId !== expenseId && expCode !== expenseCode,
+        ({ vendorId: vendId, voucherId: vouchId, expenseCode: expCode }) =>
+          vendId !== vendorId &&
+          voucherId !== vouchId &&
+          expCode !== expenseCode,
       ),
       { ...review, notes },
     ] as ExpenseHeaderReview[]);
@@ -634,7 +665,8 @@ const Expenses = () => {
                   <l.Div mt={th.spacing.md}>
                     {sortedExpenses.map((exp) => {
                       const expReview = getUpdatedExpenseReview(
-                        exp.id,
+                        exp.vendorId || '',
+                        exp.voucherId || '',
                         expenseCode,
                       );
 
@@ -658,7 +690,11 @@ const Expenses = () => {
                             isHighlight={!!expReview?.notes}
                             listLabels={listLabels(shipperId)}
                             onSelectItem={() => {
-                              toggleApproveExpense(exp.id, expenseCode);
+                              toggleApproveExpense(
+                                exp.vendorId || '',
+                                exp.voucherId || '',
+                                expenseCode,
+                              );
                             }}
                             selected={!!expReview?.isApproved}
                             content={
@@ -752,7 +788,8 @@ const Expenses = () => {
                                     }}
                                     onChange={(e) => {
                                       handleNotesChange(
-                                        exp.id,
+                                        exp.voucherId || '',
+                                        exp.vendorId || '',
                                         expenseCode,
                                         e.target.value,
                                       );

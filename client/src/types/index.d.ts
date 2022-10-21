@@ -359,6 +359,8 @@ export type Query = Node & {
   vesselArrivalPortDistinctValues?: Maybe<VesselArrivalPortDistinctValuesConnection>;
   vesselDistinctValues?: Maybe<VesselDistinctValuesConnection>;
   nextOrderNumber?: Maybe<Scalars['BigInt']>;
+  /** Reads and enables pagination through a set of `ExpenseHeaderReview`. */
+  expenseHeaderReviewsList?: Maybe<ExpenseHeaderReviewsConnection>;
   /** Reads and enables pagination through a set of `ExpenseHeader`. */
   expenseHeaderSummary?: Maybe<ExpenseHeadersConnection>;
   expenseSummaryTruckLoadIds?: Maybe<ExpenseSummaryTruckLoadIdsConnection>;
@@ -2648,6 +2650,19 @@ export type QueryVesselDistinctValuesArgs = {
   before?: Maybe<Scalars['Cursor']>;
   after?: Maybe<Scalars['Cursor']>;
   filter?: Maybe<StringFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryExpenseHeaderReviewsListArgs = {
+  vesselCodeParam?: Maybe<Scalars['String']>;
+  shipperIdParam?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  filter?: Maybe<ExpenseHeaderReviewFilter>;
 };
 
 
@@ -29656,8 +29671,6 @@ export type ExpenseHeader = Node & {
   truckLoadId?: Maybe<Scalars['String']>;
   vesselCode?: Maybe<Scalars['String']>;
   customsEntryCode?: Maybe<Scalars['String']>;
-  /** Reads and enables pagination through a set of `ExpenseHeaderReview`. */
-  expenseHeaderReviews: ExpenseHeaderReviewsConnection;
   /** Reads and enables pagination through a set of `ExpenseItem`. */
   items: ExpenseItemsConnection;
   searchText?: Maybe<Scalars['String']>;
@@ -29666,18 +29679,6 @@ export type ExpenseHeader = Node & {
   vessel?: Maybe<Vessel>;
   vesselCodesByLoad: ExpenseHeaderVesselCodesByLoadConnection;
   vesselDischargeDate?: Maybe<Scalars['Date']>;
-};
-
-
-export type ExpenseHeaderExpenseHeaderReviewsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<ExpenseHeaderReviewsOrderBy>>;
-  condition?: Maybe<ExpenseHeaderReviewCondition>;
-  filter?: Maybe<ExpenseHeaderReviewFilter>;
 };
 
 
@@ -29700,191 +29701,6 @@ export type ExpenseHeaderVesselCodesByLoadArgs = {
   before?: Maybe<Scalars['Cursor']>;
   after?: Maybe<Scalars['Cursor']>;
   filter?: Maybe<StringFilter>;
-};
-
-/** A connection to a list of `ExpenseHeaderReview` values. */
-export type ExpenseHeaderReviewsConnection = {
-  __typename?: 'ExpenseHeaderReviewsConnection';
-  /** A list of `ExpenseHeaderReview` objects. */
-  nodes: Array<Maybe<ExpenseHeaderReview>>;
-  /** A list of edges which contains the `ExpenseHeaderReview` and cursor to aid in pagination. */
-  edges: Array<ExpenseHeaderReviewsEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** The count of *all* `ExpenseHeaderReview` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
-export type ExpenseHeaderReview = Node & {
-  __typename?: 'ExpenseHeaderReview';
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  nodeId: Scalars['ID'];
-  id: Scalars['BigInt'];
-  expenseHeaderId?: Maybe<Scalars['BigInt']>;
-  expenseCode?: Maybe<Scalars['String']>;
-  isApproved?: Maybe<Scalars['Boolean']>;
-  notes?: Maybe<Scalars['String']>;
-  /** Reads a single `ExpenseHeader` that is related to this `ExpenseHeaderReview`. */
-  expenseHeader?: Maybe<ExpenseHeader>;
-};
-
-/** A `ExpenseHeaderReview` edge in the connection. */
-export type ExpenseHeaderReviewsEdge = {
-  __typename?: 'ExpenseHeaderReviewsEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `ExpenseHeaderReview` at the end of the edge. */
-  node?: Maybe<ExpenseHeaderReview>;
-};
-
-/** Methods to use when ordering `ExpenseHeaderReview`. */
-export enum ExpenseHeaderReviewsOrderBy {
-  Natural = 'NATURAL',
-  IdAsc = 'ID_ASC',
-  IdDesc = 'ID_DESC',
-  ExpenseHeaderIdAsc = 'EXPENSE_HEADER_ID_ASC',
-  ExpenseHeaderIdDesc = 'EXPENSE_HEADER_ID_DESC',
-  ExpenseCodeAsc = 'EXPENSE_CODE_ASC',
-  ExpenseCodeDesc = 'EXPENSE_CODE_DESC',
-  IsApprovedAsc = 'IS_APPROVED_ASC',
-  IsApprovedDesc = 'IS_APPROVED_DESC',
-  NotesAsc = 'NOTES_ASC',
-  NotesDesc = 'NOTES_DESC',
-  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
-  ExpenseHeaderByExpenseHeaderIdIdAsc = 'EXPENSE_HEADER_BY_EXPENSE_HEADER_ID__ID_ASC',
-  ExpenseHeaderByExpenseHeaderIdIdDesc = 'EXPENSE_HEADER_BY_EXPENSE_HEADER_ID__ID_DESC',
-  ExpenseHeaderByExpenseHeaderIdVendorIdAsc = 'EXPENSE_HEADER_BY_EXPENSE_HEADER_ID__VENDOR_ID_ASC',
-  ExpenseHeaderByExpenseHeaderIdVendorIdDesc = 'EXPENSE_HEADER_BY_EXPENSE_HEADER_ID__VENDOR_ID_DESC',
-  ExpenseHeaderByExpenseHeaderIdVoucherIdAsc = 'EXPENSE_HEADER_BY_EXPENSE_HEADER_ID__VOUCHER_ID_ASC',
-  ExpenseHeaderByExpenseHeaderIdVoucherIdDesc = 'EXPENSE_HEADER_BY_EXPENSE_HEADER_ID__VOUCHER_ID_DESC',
-  ExpenseHeaderByExpenseHeaderIdInvoiceIdAsc = 'EXPENSE_HEADER_BY_EXPENSE_HEADER_ID__INVOICE_ID_ASC',
-  ExpenseHeaderByExpenseHeaderIdInvoiceIdDesc = 'EXPENSE_HEADER_BY_EXPENSE_HEADER_ID__INVOICE_ID_DESC',
-  ExpenseHeaderByExpenseHeaderIdIsEstimatedAsc = 'EXPENSE_HEADER_BY_EXPENSE_HEADER_ID__IS_ESTIMATED_ASC',
-  ExpenseHeaderByExpenseHeaderIdIsEstimatedDesc = 'EXPENSE_HEADER_BY_EXPENSE_HEADER_ID__IS_ESTIMATED_DESC',
-  ExpenseHeaderByExpenseHeaderIdPaidCodeAsc = 'EXPENSE_HEADER_BY_EXPENSE_HEADER_ID__PAID_CODE_ASC',
-  ExpenseHeaderByExpenseHeaderIdPaidCodeDesc = 'EXPENSE_HEADER_BY_EXPENSE_HEADER_ID__PAID_CODE_DESC',
-  ExpenseHeaderByExpenseHeaderIdReceivableCutAsc = 'EXPENSE_HEADER_BY_EXPENSE_HEADER_ID__RECEIVABLE_CUT_ASC',
-  ExpenseHeaderByExpenseHeaderIdReceivableCutDesc = 'EXPENSE_HEADER_BY_EXPENSE_HEADER_ID__RECEIVABLE_CUT_DESC',
-  ExpenseHeaderByExpenseHeaderIdApHideAsc = 'EXPENSE_HEADER_BY_EXPENSE_HEADER_ID__AP_HIDE_ASC',
-  ExpenseHeaderByExpenseHeaderIdApHideDesc = 'EXPENSE_HEADER_BY_EXPENSE_HEADER_ID__AP_HIDE_DESC',
-  ExpenseHeaderByExpenseHeaderIdIsProrateAsc = 'EXPENSE_HEADER_BY_EXPENSE_HEADER_ID__IS_PRORATE_ASC',
-  ExpenseHeaderByExpenseHeaderIdIsProrateDesc = 'EXPENSE_HEADER_BY_EXPENSE_HEADER_ID__IS_PRORATE_DESC',
-  ExpenseHeaderByExpenseHeaderIdExpenseAmountAsc = 'EXPENSE_HEADER_BY_EXPENSE_HEADER_ID__EXPENSE_AMOUNT_ASC',
-  ExpenseHeaderByExpenseHeaderIdExpenseAmountDesc = 'EXPENSE_HEADER_BY_EXPENSE_HEADER_ID__EXPENSE_AMOUNT_DESC',
-  ExpenseHeaderByExpenseHeaderIdCheckNumberAsc = 'EXPENSE_HEADER_BY_EXPENSE_HEADER_ID__CHECK_NUMBER_ASC',
-  ExpenseHeaderByExpenseHeaderIdCheckNumberDesc = 'EXPENSE_HEADER_BY_EXPENSE_HEADER_ID__CHECK_NUMBER_DESC',
-  ExpenseHeaderByExpenseHeaderIdEntryDateAsc = 'EXPENSE_HEADER_BY_EXPENSE_HEADER_ID__ENTRY_DATE_ASC',
-  ExpenseHeaderByExpenseHeaderIdEntryDateDesc = 'EXPENSE_HEADER_BY_EXPENSE_HEADER_ID__ENTRY_DATE_DESC',
-  ExpenseHeaderByExpenseHeaderIdExpenseCodeAsc = 'EXPENSE_HEADER_BY_EXPENSE_HEADER_ID__EXPENSE_CODE_ASC',
-  ExpenseHeaderByExpenseHeaderIdExpenseCodeDesc = 'EXPENSE_HEADER_BY_EXPENSE_HEADER_ID__EXPENSE_CODE_DESC',
-  ExpenseHeaderByExpenseHeaderIdTruckLoadIdAsc = 'EXPENSE_HEADER_BY_EXPENSE_HEADER_ID__TRUCK_LOAD_ID_ASC',
-  ExpenseHeaderByExpenseHeaderIdTruckLoadIdDesc = 'EXPENSE_HEADER_BY_EXPENSE_HEADER_ID__TRUCK_LOAD_ID_DESC',
-  ExpenseHeaderByExpenseHeaderIdVesselCodeAsc = 'EXPENSE_HEADER_BY_EXPENSE_HEADER_ID__VESSEL_CODE_ASC',
-  ExpenseHeaderByExpenseHeaderIdVesselCodeDesc = 'EXPENSE_HEADER_BY_EXPENSE_HEADER_ID__VESSEL_CODE_DESC',
-  ExpenseHeaderByExpenseHeaderIdCustomsEntryCodeAsc = 'EXPENSE_HEADER_BY_EXPENSE_HEADER_ID__CUSTOMS_ENTRY_CODE_ASC',
-  ExpenseHeaderByExpenseHeaderIdCustomsEntryCodeDesc = 'EXPENSE_HEADER_BY_EXPENSE_HEADER_ID__CUSTOMS_ENTRY_CODE_DESC'
-}
-
-/**
- * A condition to be used against `ExpenseHeaderReview` object types. All fields
- * are tested for equality and combined with a logical ‘and.’
- */
-export type ExpenseHeaderReviewCondition = {
-  /** Checks for equality with the object’s `id` field. */
-  id?: Maybe<Scalars['BigInt']>;
-  /** Checks for equality with the object’s `expenseHeaderId` field. */
-  expenseHeaderId?: Maybe<Scalars['BigInt']>;
-  /** Checks for equality with the object’s `expenseCode` field. */
-  expenseCode?: Maybe<Scalars['String']>;
-  /** Checks for equality with the object’s `isApproved` field. */
-  isApproved?: Maybe<Scalars['Boolean']>;
-  /** Checks for equality with the object’s `notes` field. */
-  notes?: Maybe<Scalars['String']>;
-};
-
-/** A filter to be used against `ExpenseHeaderReview` object types. All fields are combined with a logical ‘and.’ */
-export type ExpenseHeaderReviewFilter = {
-  /** Filter by the object’s `id` field. */
-  id?: Maybe<BigIntFilter>;
-  /** Filter by the object’s `expenseHeaderId` field. */
-  expenseHeaderId?: Maybe<BigIntFilter>;
-  /** Filter by the object’s `expenseCode` field. */
-  expenseCode?: Maybe<StringFilter>;
-  /** Filter by the object’s `isApproved` field. */
-  isApproved?: Maybe<BooleanFilter>;
-  /** Filter by the object’s `notes` field. */
-  notes?: Maybe<StringFilter>;
-  /** Filter by the object’s `expenseHeader` relation. */
-  expenseHeader?: Maybe<ExpenseHeaderFilter>;
-  /** A related `expenseHeader` exists. */
-  expenseHeaderExists?: Maybe<Scalars['Boolean']>;
-  /** Checks for all expressions in this list. */
-  and?: Maybe<Array<ExpenseHeaderReviewFilter>>;
-  /** Checks for any expressions in this list. */
-  or?: Maybe<Array<ExpenseHeaderReviewFilter>>;
-  /** Negates the expression. */
-  not?: Maybe<ExpenseHeaderReviewFilter>;
-};
-
-/** A filter to be used against `ExpenseHeader` object types. All fields are combined with a logical ‘and.’ */
-export type ExpenseHeaderFilter = {
-  /** Filter by the object’s `id` field. */
-  id?: Maybe<BigIntFilter>;
-  /** Filter by the object’s `vendorId` field. */
-  vendorId?: Maybe<StringFilter>;
-  /** Filter by the object’s `voucherId` field. */
-  voucherId?: Maybe<StringFilter>;
-  /** Filter by the object’s `invoiceId` field. */
-  invoiceId?: Maybe<StringFilter>;
-  /** Filter by the object’s `isEstimated` field. */
-  isEstimated?: Maybe<BooleanFilter>;
-  /** Filter by the object’s `paidCode` field. */
-  paidCode?: Maybe<StringFilter>;
-  /** Filter by the object’s `receivableCut` field. */
-  receivableCut?: Maybe<BooleanFilter>;
-  /** Filter by the object’s `apHide` field. */
-  apHide?: Maybe<BooleanFilter>;
-  /** Filter by the object’s `isProrate` field. */
-  isProrate?: Maybe<BooleanFilter>;
-  /** Filter by the object’s `expenseAmount` field. */
-  expenseAmount?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `checkNumber` field. */
-  checkNumber?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `entryDate` field. */
-  entryDate?: Maybe<DateFilter>;
-  /** Filter by the object’s `expenseCode` field. */
-  expenseCode?: Maybe<StringFilter>;
-  /** Filter by the object’s `truckLoadId` field. */
-  truckLoadId?: Maybe<StringFilter>;
-  /** Filter by the object’s `vesselCode` field. */
-  vesselCode?: Maybe<StringFilter>;
-  /** Filter by the object’s `customsEntryCode` field. */
-  customsEntryCode?: Maybe<StringFilter>;
-  /** Filter by the object’s `searchText` field. */
-  searchText?: Maybe<StringFilter>;
-  /** Filter by the object’s `vesselDischargeDate` field. */
-  vesselDischargeDate?: Maybe<DateFilter>;
-  /** Filter by the object’s `expenseHeaderReviews` relation. */
-  expenseHeaderReviews?: Maybe<ExpenseHeaderToManyExpenseHeaderReviewFilter>;
-  /** Some related `expenseHeaderReviews` exist. */
-  expenseHeaderReviewsExist?: Maybe<Scalars['Boolean']>;
-  /** Checks for all expressions in this list. */
-  and?: Maybe<Array<ExpenseHeaderFilter>>;
-  /** Checks for any expressions in this list. */
-  or?: Maybe<Array<ExpenseHeaderFilter>>;
-  /** Negates the expression. */
-  not?: Maybe<ExpenseHeaderFilter>;
-};
-
-/** A filter to be used against many `ExpenseHeaderReview` object types. All fields are combined with a logical ‘and.’ */
-export type ExpenseHeaderToManyExpenseHeaderReviewFilter = {
-  /** Every related `ExpenseHeaderReview` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  every?: Maybe<ExpenseHeaderReviewFilter>;
-  /** Some related `ExpenseHeaderReview` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  some?: Maybe<ExpenseHeaderReviewFilter>;
-  /** No related `ExpenseHeaderReview` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  none?: Maybe<ExpenseHeaderReviewFilter>;
 };
 
 /** A connection to a list of `ExpenseItem` values. */
@@ -30037,9 +29853,7 @@ export enum ExpenseHeadersOrderBy {
   CustomsEntryCodeAsc = 'CUSTOMS_ENTRY_CODE_ASC',
   CustomsEntryCodeDesc = 'CUSTOMS_ENTRY_CODE_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
-  ExpenseHeaderReviewsByExpenseHeaderIdCountAsc = 'EXPENSE_HEADER_REVIEWS_BY_EXPENSE_HEADER_ID__COUNT_ASC',
-  ExpenseHeaderReviewsByExpenseHeaderIdCountDesc = 'EXPENSE_HEADER_REVIEWS_BY_EXPENSE_HEADER_ID__COUNT_DESC'
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
 }
 
 /**
@@ -30079,6 +29893,146 @@ export type ExpenseHeaderCondition = {
   vesselCode?: Maybe<Scalars['String']>;
   /** Checks for equality with the object’s `customsEntryCode` field. */
   customsEntryCode?: Maybe<Scalars['String']>;
+};
+
+/** A filter to be used against `ExpenseHeader` object types. All fields are combined with a logical ‘and.’ */
+export type ExpenseHeaderFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `vendorId` field. */
+  vendorId?: Maybe<StringFilter>;
+  /** Filter by the object’s `voucherId` field. */
+  voucherId?: Maybe<StringFilter>;
+  /** Filter by the object’s `invoiceId` field. */
+  invoiceId?: Maybe<StringFilter>;
+  /** Filter by the object’s `isEstimated` field. */
+  isEstimated?: Maybe<BooleanFilter>;
+  /** Filter by the object’s `paidCode` field. */
+  paidCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `receivableCut` field. */
+  receivableCut?: Maybe<BooleanFilter>;
+  /** Filter by the object’s `apHide` field. */
+  apHide?: Maybe<BooleanFilter>;
+  /** Filter by the object’s `isProrate` field. */
+  isProrate?: Maybe<BooleanFilter>;
+  /** Filter by the object’s `expenseAmount` field. */
+  expenseAmount?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `checkNumber` field. */
+  checkNumber?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `entryDate` field. */
+  entryDate?: Maybe<DateFilter>;
+  /** Filter by the object’s `expenseCode` field. */
+  expenseCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `truckLoadId` field. */
+  truckLoadId?: Maybe<StringFilter>;
+  /** Filter by the object’s `vesselCode` field. */
+  vesselCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `customsEntryCode` field. */
+  customsEntryCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `searchText` field. */
+  searchText?: Maybe<StringFilter>;
+  /** Filter by the object’s `vesselDischargeDate` field. */
+  vesselDischargeDate?: Maybe<DateFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<ExpenseHeaderFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<ExpenseHeaderFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<ExpenseHeaderFilter>;
+};
+
+/** A connection to a list of `ExpenseHeaderReview` values. */
+export type ExpenseHeaderReviewsConnection = {
+  __typename?: 'ExpenseHeaderReviewsConnection';
+  /** A list of `ExpenseHeaderReview` objects. */
+  nodes: Array<Maybe<ExpenseHeaderReview>>;
+  /** A list of edges which contains the `ExpenseHeaderReview` and cursor to aid in pagination. */
+  edges: Array<ExpenseHeaderReviewsEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `ExpenseHeaderReview` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+export type ExpenseHeaderReview = Node & {
+  __typename?: 'ExpenseHeaderReview';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  expenseCode?: Maybe<Scalars['String']>;
+  isApproved?: Maybe<Scalars['Boolean']>;
+  notes?: Maybe<Scalars['String']>;
+  vendorId?: Maybe<Scalars['String']>;
+  voucherId?: Maybe<Scalars['String']>;
+};
+
+/** A `ExpenseHeaderReview` edge in the connection. */
+export type ExpenseHeaderReviewsEdge = {
+  __typename?: 'ExpenseHeaderReviewsEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `ExpenseHeaderReview` at the end of the edge. */
+  node?: Maybe<ExpenseHeaderReview>;
+};
+
+/** Methods to use when ordering `ExpenseHeaderReview`. */
+export enum ExpenseHeaderReviewsOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  ExpenseCodeAsc = 'EXPENSE_CODE_ASC',
+  ExpenseCodeDesc = 'EXPENSE_CODE_DESC',
+  IsApprovedAsc = 'IS_APPROVED_ASC',
+  IsApprovedDesc = 'IS_APPROVED_DESC',
+  NotesAsc = 'NOTES_ASC',
+  NotesDesc = 'NOTES_DESC',
+  VendorIdAsc = 'VENDOR_ID_ASC',
+  VendorIdDesc = 'VENDOR_ID_DESC',
+  VoucherIdAsc = 'VOUCHER_ID_ASC',
+  VoucherIdDesc = 'VOUCHER_ID_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
+/**
+ * A condition to be used against `ExpenseHeaderReview` object types. All fields
+ * are tested for equality and combined with a logical ‘and.’
+ */
+export type ExpenseHeaderReviewCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `expenseCode` field. */
+  expenseCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `isApproved` field. */
+  isApproved?: Maybe<Scalars['Boolean']>;
+  /** Checks for equality with the object’s `notes` field. */
+  notes?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `vendorId` field. */
+  vendorId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `voucherId` field. */
+  voucherId?: Maybe<Scalars['String']>;
+};
+
+/** A filter to be used against `ExpenseHeaderReview` object types. All fields are combined with a logical ‘and.’ */
+export type ExpenseHeaderReviewFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `expenseCode` field. */
+  expenseCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `isApproved` field. */
+  isApproved?: Maybe<BooleanFilter>;
+  /** Filter by the object’s `notes` field. */
+  notes?: Maybe<StringFilter>;
+  /** Filter by the object’s `vendorId` field. */
+  vendorId?: Maybe<StringFilter>;
+  /** Filter by the object’s `voucherId` field. */
+  voucherId?: Maybe<StringFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<ExpenseHeaderReviewFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<ExpenseHeaderReviewFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<ExpenseHeaderReviewFilter>;
 };
 
 /** Methods to use when ordering `ExpenseItem`. */
@@ -53418,210 +53372,6 @@ export type ExpenseHeaderInput = {
   truckLoadId?: Maybe<Scalars['String']>;
   vesselCode?: Maybe<Scalars['String']>;
   customsEntryCode?: Maybe<Scalars['String']>;
-  expenseHeaderReviewsUsingId?: Maybe<ExpenseHeaderReviewExpenseHeaderIdFkeyInverseInput>;
-};
-
-/** Input for the nested mutation of `expenseHeaderReview` in the `ExpenseHeaderInput` mutation. */
-export type ExpenseHeaderReviewExpenseHeaderIdFkeyInverseInput = {
-  /** Flag indicating whether all other `expenseHeaderReview` records that match this relationship should be removed. */
-  deleteOthers?: Maybe<Scalars['Boolean']>;
-  /** The primary key(s) for `expenseHeaderReview` for the far side of the relationship. */
-  connectById?: Maybe<Array<ExpenseHeaderReviewExpenseHeaderReviewPkeyConnect>>;
-  /** The primary key(s) for `expenseHeaderReview` for the far side of the relationship. */
-  connectByNodeId?: Maybe<Array<ExpenseHeaderReviewNodeIdConnect>>;
-  /** The primary key(s) for `expenseHeaderReview` for the far side of the relationship. */
-  deleteById?: Maybe<Array<ExpenseHeaderReviewExpenseHeaderReviewPkeyDelete>>;
-  /** The primary key(s) for `expenseHeaderReview` for the far side of the relationship. */
-  deleteByNodeId?: Maybe<Array<ExpenseHeaderReviewNodeIdDelete>>;
-  /** The primary key(s) and patch data for `expenseHeaderReview` for the far side of the relationship. */
-  updateById?: Maybe<Array<ExpenseHeaderReviewOnExpenseHeaderReviewForExpenseHeaderReviewExpenseHeaderIdFkeyUsingExpenseHeaderReviewPkeyUpdate>>;
-  /** The primary key(s) and patch data for `expenseHeaderReview` for the far side of the relationship. */
-  updateByNodeId?: Maybe<Array<ExpenseHeaderOnExpenseHeaderReviewForExpenseHeaderReviewExpenseHeaderIdFkeyNodeIdUpdate>>;
-  /** A `ExpenseHeaderReviewInput` object that will be created and connected to this object. */
-  create?: Maybe<Array<ExpenseHeaderReviewExpenseHeaderIdFkeyExpenseHeaderReviewCreateInput>>;
-};
-
-/** The fields on `expenseHeaderReview` to look up the row to connect. */
-export type ExpenseHeaderReviewExpenseHeaderReviewPkeyConnect = {
-  id: Scalars['BigInt'];
-};
-
-/** The globally unique `ID` look up for the row to connect. */
-export type ExpenseHeaderReviewNodeIdConnect = {
-  /** The globally unique `ID` which identifies a single `expenseHeaderReview` to be connected. */
-  nodeId: Scalars['ID'];
-};
-
-/** The fields on `expenseHeaderReview` to look up the row to delete. */
-export type ExpenseHeaderReviewExpenseHeaderReviewPkeyDelete = {
-  id: Scalars['BigInt'];
-};
-
-/** The globally unique `ID` look up for the row to delete. */
-export type ExpenseHeaderReviewNodeIdDelete = {
-  /** The globally unique `ID` which identifies a single `expenseHeaderReview` to be deleted. */
-  nodeId: Scalars['ID'];
-};
-
-/** The fields on `expenseHeaderReview` to look up the row to update. */
-export type ExpenseHeaderReviewOnExpenseHeaderReviewForExpenseHeaderReviewExpenseHeaderIdFkeyUsingExpenseHeaderReviewPkeyUpdate = {
-  /** An object where the defined keys will be set on the `expenseHeaderReview` being updated. */
-  patch: UpdateExpenseHeaderReviewOnExpenseHeaderReviewForExpenseHeaderReviewExpenseHeaderIdFkeyPatch;
-  id: Scalars['BigInt'];
-};
-
-/** An object where the defined keys will be set on the `expenseHeaderReview` being updated. */
-export type UpdateExpenseHeaderReviewOnExpenseHeaderReviewForExpenseHeaderReviewExpenseHeaderIdFkeyPatch = {
-  id?: Maybe<Scalars['BigInt']>;
-  expenseCode?: Maybe<Scalars['String']>;
-  isApproved?: Maybe<Scalars['Boolean']>;
-  notes?: Maybe<Scalars['String']>;
-  expenseHeaderToExpenseHeaderId?: Maybe<ExpenseHeaderReviewExpenseHeaderIdFkeyInput>;
-};
-
-/** Input for the nested mutation of `expenseHeader` in the `ExpenseHeaderReviewInput` mutation. */
-export type ExpenseHeaderReviewExpenseHeaderIdFkeyInput = {
-  /** The primary key(s) for `expenseHeader` for the far side of the relationship. */
-  connectById?: Maybe<ExpenseHeaderExpenseHeaderPkeyConnect>;
-  /** The primary key(s) for `expenseHeader` for the far side of the relationship. */
-  connectByNodeId?: Maybe<ExpenseHeaderNodeIdConnect>;
-  /** The primary key(s) for `expenseHeader` for the far side of the relationship. */
-  deleteById?: Maybe<ExpenseHeaderExpenseHeaderPkeyDelete>;
-  /** The primary key(s) for `expenseHeader` for the far side of the relationship. */
-  deleteByNodeId?: Maybe<ExpenseHeaderNodeIdDelete>;
-  /** The primary key(s) and patch data for `expenseHeader` for the far side of the relationship. */
-  updateById?: Maybe<ExpenseHeaderOnExpenseHeaderReviewForExpenseHeaderReviewExpenseHeaderIdFkeyUsingExpenseHeaderPkeyUpdate>;
-  /** The primary key(s) and patch data for `expenseHeader` for the far side of the relationship. */
-  updateByNodeId?: Maybe<ExpenseHeaderReviewOnExpenseHeaderReviewForExpenseHeaderReviewExpenseHeaderIdFkeyNodeIdUpdate>;
-  /** A `ExpenseHeaderInput` object that will be created and connected to this object. */
-  create?: Maybe<ExpenseHeaderReviewExpenseHeaderIdFkeyExpenseHeaderCreateInput>;
-};
-
-/** The fields on `expenseHeader` to look up the row to connect. */
-export type ExpenseHeaderExpenseHeaderPkeyConnect = {
-  id: Scalars['BigInt'];
-};
-
-/** The globally unique `ID` look up for the row to connect. */
-export type ExpenseHeaderNodeIdConnect = {
-  /** The globally unique `ID` which identifies a single `expenseHeader` to be connected. */
-  nodeId: Scalars['ID'];
-};
-
-/** The fields on `expenseHeader` to look up the row to delete. */
-export type ExpenseHeaderExpenseHeaderPkeyDelete = {
-  id: Scalars['BigInt'];
-};
-
-/** The globally unique `ID` look up for the row to delete. */
-export type ExpenseHeaderNodeIdDelete = {
-  /** The globally unique `ID` which identifies a single `expenseHeader` to be deleted. */
-  nodeId: Scalars['ID'];
-};
-
-/** The fields on `expenseHeader` to look up the row to update. */
-export type ExpenseHeaderOnExpenseHeaderReviewForExpenseHeaderReviewExpenseHeaderIdFkeyUsingExpenseHeaderPkeyUpdate = {
-  /** An object where the defined keys will be set on the `expenseHeader` being updated. */
-  patch: UpdateExpenseHeaderOnExpenseHeaderReviewForExpenseHeaderReviewExpenseHeaderIdFkeyPatch;
-  id: Scalars['BigInt'];
-};
-
-/** An object where the defined keys will be set on the `expenseHeader` being updated. */
-export type UpdateExpenseHeaderOnExpenseHeaderReviewForExpenseHeaderReviewExpenseHeaderIdFkeyPatch = {
-  id?: Maybe<Scalars['BigInt']>;
-  vendorId?: Maybe<Scalars['String']>;
-  voucherId?: Maybe<Scalars['String']>;
-  invoiceId?: Maybe<Scalars['String']>;
-  isEstimated?: Maybe<Scalars['Boolean']>;
-  paidCode?: Maybe<Scalars['String']>;
-  receivableCut?: Maybe<Scalars['Boolean']>;
-  apHide?: Maybe<Scalars['Boolean']>;
-  isProrate?: Maybe<Scalars['Boolean']>;
-  expenseAmount?: Maybe<Scalars['BigFloat']>;
-  checkNumber?: Maybe<Scalars['BigFloat']>;
-  entryDate?: Maybe<Scalars['Date']>;
-  expenseCode?: Maybe<Scalars['String']>;
-  truckLoadId?: Maybe<Scalars['String']>;
-  vesselCode?: Maybe<Scalars['String']>;
-  customsEntryCode?: Maybe<Scalars['String']>;
-  expenseHeaderReviewsUsingId?: Maybe<ExpenseHeaderReviewExpenseHeaderIdFkeyInverseInput>;
-};
-
-/** The globally unique `ID` look up for the row to update. */
-export type ExpenseHeaderReviewOnExpenseHeaderReviewForExpenseHeaderReviewExpenseHeaderIdFkeyNodeIdUpdate = {
-  /** The globally unique `ID` which identifies a single `expenseHeader` to be connected. */
-  nodeId: Scalars['ID'];
-  /** An object where the defined keys will be set on the `expenseHeader` being updated. */
-  patch: ExpenseHeaderPatch;
-};
-
-/** Represents an update to a `ExpenseHeader`. Fields that are set will be updated. */
-export type ExpenseHeaderPatch = {
-  id?: Maybe<Scalars['BigInt']>;
-  vendorId?: Maybe<Scalars['String']>;
-  voucherId?: Maybe<Scalars['String']>;
-  invoiceId?: Maybe<Scalars['String']>;
-  isEstimated?: Maybe<Scalars['Boolean']>;
-  paidCode?: Maybe<Scalars['String']>;
-  receivableCut?: Maybe<Scalars['Boolean']>;
-  apHide?: Maybe<Scalars['Boolean']>;
-  isProrate?: Maybe<Scalars['Boolean']>;
-  expenseAmount?: Maybe<Scalars['BigFloat']>;
-  checkNumber?: Maybe<Scalars['BigFloat']>;
-  entryDate?: Maybe<Scalars['Date']>;
-  expenseCode?: Maybe<Scalars['String']>;
-  truckLoadId?: Maybe<Scalars['String']>;
-  vesselCode?: Maybe<Scalars['String']>;
-  customsEntryCode?: Maybe<Scalars['String']>;
-  expenseHeaderReviewsUsingId?: Maybe<ExpenseHeaderReviewExpenseHeaderIdFkeyInverseInput>;
-};
-
-/** The `expenseHeader` to be created by this mutation. */
-export type ExpenseHeaderReviewExpenseHeaderIdFkeyExpenseHeaderCreateInput = {
-  id?: Maybe<Scalars['BigInt']>;
-  vendorId?: Maybe<Scalars['String']>;
-  voucherId?: Maybe<Scalars['String']>;
-  invoiceId?: Maybe<Scalars['String']>;
-  isEstimated?: Maybe<Scalars['Boolean']>;
-  paidCode?: Maybe<Scalars['String']>;
-  receivableCut?: Maybe<Scalars['Boolean']>;
-  apHide?: Maybe<Scalars['Boolean']>;
-  isProrate?: Maybe<Scalars['Boolean']>;
-  expenseAmount?: Maybe<Scalars['BigFloat']>;
-  checkNumber?: Maybe<Scalars['BigFloat']>;
-  entryDate?: Maybe<Scalars['Date']>;
-  expenseCode?: Maybe<Scalars['String']>;
-  truckLoadId?: Maybe<Scalars['String']>;
-  vesselCode?: Maybe<Scalars['String']>;
-  customsEntryCode?: Maybe<Scalars['String']>;
-  expenseHeaderReviewsUsingId?: Maybe<ExpenseHeaderReviewExpenseHeaderIdFkeyInverseInput>;
-};
-
-/** The globally unique `ID` look up for the row to update. */
-export type ExpenseHeaderOnExpenseHeaderReviewForExpenseHeaderReviewExpenseHeaderIdFkeyNodeIdUpdate = {
-  /** The globally unique `ID` which identifies a single `expenseHeaderReview` to be connected. */
-  nodeId: Scalars['ID'];
-  /** An object where the defined keys will be set on the `expenseHeaderReview` being updated. */
-  patch: ExpenseHeaderReviewPatch;
-};
-
-/** Represents an update to a `ExpenseHeaderReview`. Fields that are set will be updated. */
-export type ExpenseHeaderReviewPatch = {
-  id?: Maybe<Scalars['BigInt']>;
-  expenseHeaderId?: Maybe<Scalars['BigInt']>;
-  expenseCode?: Maybe<Scalars['String']>;
-  isApproved?: Maybe<Scalars['Boolean']>;
-  notes?: Maybe<Scalars['String']>;
-  expenseHeaderToExpenseHeaderId?: Maybe<ExpenseHeaderReviewExpenseHeaderIdFkeyInput>;
-};
-
-/** The `expenseHeaderReview` to be created by this mutation. */
-export type ExpenseHeaderReviewExpenseHeaderIdFkeyExpenseHeaderReviewCreateInput = {
-  id?: Maybe<Scalars['BigInt']>;
-  expenseCode?: Maybe<Scalars['String']>;
-  isApproved?: Maybe<Scalars['Boolean']>;
-  notes?: Maybe<Scalars['String']>;
-  expenseHeaderToExpenseHeaderId?: Maybe<ExpenseHeaderReviewExpenseHeaderIdFkeyInput>;
 };
 
 /** The output of our create `ExpenseHeaderReview` mutation. */
@@ -53636,8 +53386,6 @@ export type CreateExpenseHeaderReviewPayload = {
   expenseHeaderReview?: Maybe<ExpenseHeaderReview>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-  /** Reads a single `ExpenseHeader` that is related to this `ExpenseHeaderReview`. */
-  expenseHeader?: Maybe<ExpenseHeader>;
   /** An edge for our `ExpenseHeaderReview`. May be used by Relay 1. */
   expenseHeaderReviewEdge?: Maybe<ExpenseHeaderReviewsEdge>;
 };
@@ -53662,11 +53410,11 @@ export type CreateExpenseHeaderReviewInput = {
 /** An input for mutations affecting `ExpenseHeaderReview` */
 export type ExpenseHeaderReviewInput = {
   id?: Maybe<Scalars['BigInt']>;
-  expenseHeaderId?: Maybe<Scalars['BigInt']>;
   expenseCode?: Maybe<Scalars['String']>;
   isApproved?: Maybe<Scalars['Boolean']>;
   notes?: Maybe<Scalars['String']>;
-  expenseHeaderToExpenseHeaderId?: Maybe<ExpenseHeaderReviewExpenseHeaderIdFkeyInput>;
+  vendorId?: Maybe<Scalars['String']>;
+  voucherId?: Maybe<Scalars['String']>;
 };
 
 /** The output of our create `ExpenseItem` mutation. */
@@ -59816,6 +59564,26 @@ export type UpdateExpenseHeaderByNodeIdInput = {
   patch: ExpenseHeaderPatch;
 };
 
+/** Represents an update to a `ExpenseHeader`. Fields that are set will be updated. */
+export type ExpenseHeaderPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  vendorId?: Maybe<Scalars['String']>;
+  voucherId?: Maybe<Scalars['String']>;
+  invoiceId?: Maybe<Scalars['String']>;
+  isEstimated?: Maybe<Scalars['Boolean']>;
+  paidCode?: Maybe<Scalars['String']>;
+  receivableCut?: Maybe<Scalars['Boolean']>;
+  apHide?: Maybe<Scalars['Boolean']>;
+  isProrate?: Maybe<Scalars['Boolean']>;
+  expenseAmount?: Maybe<Scalars['BigFloat']>;
+  checkNumber?: Maybe<Scalars['BigFloat']>;
+  entryDate?: Maybe<Scalars['Date']>;
+  expenseCode?: Maybe<Scalars['String']>;
+  truckLoadId?: Maybe<Scalars['String']>;
+  vesselCode?: Maybe<Scalars['String']>;
+  customsEntryCode?: Maybe<Scalars['String']>;
+};
+
 /** All input for the `updateExpenseHeader` mutation. */
 export type UpdateExpenseHeaderInput = {
   /**
@@ -59840,8 +59608,6 @@ export type UpdateExpenseHeaderReviewPayload = {
   expenseHeaderReview?: Maybe<ExpenseHeaderReview>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-  /** Reads a single `ExpenseHeader` that is related to this `ExpenseHeaderReview`. */
-  expenseHeader?: Maybe<ExpenseHeader>;
   /** An edge for our `ExpenseHeaderReview`. May be used by Relay 1. */
   expenseHeaderReviewEdge?: Maybe<ExpenseHeaderReviewsEdge>;
 };
@@ -59863,6 +59629,16 @@ export type UpdateExpenseHeaderReviewByNodeIdInput = {
   nodeId: Scalars['ID'];
   /** An object where the defined keys will be set on the `ExpenseHeaderReview` being updated. */
   patch: ExpenseHeaderReviewPatch;
+};
+
+/** Represents an update to a `ExpenseHeaderReview`. Fields that are set will be updated. */
+export type ExpenseHeaderReviewPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  expenseCode?: Maybe<Scalars['String']>;
+  isApproved?: Maybe<Scalars['Boolean']>;
+  notes?: Maybe<Scalars['String']>;
+  vendorId?: Maybe<Scalars['String']>;
+  voucherId?: Maybe<Scalars['String']>;
 };
 
 /** All input for the `updateExpenseHeaderReview` mutation. */
@@ -64507,8 +64283,6 @@ export type DeleteExpenseHeaderReviewPayload = {
   deletedExpenseHeaderReviewNodeId?: Maybe<Scalars['ID']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-  /** Reads a single `ExpenseHeader` that is related to this `ExpenseHeaderReview`. */
-  expenseHeader?: Maybe<ExpenseHeader>;
   /** An edge for our `ExpenseHeaderReview`. May be used by Relay 1. */
   expenseHeaderReviewEdge?: Maybe<ExpenseHeaderReviewsEdge>;
 };
@@ -69483,8 +69257,6 @@ export type UpsertExpenseHeaderReviewPayload = {
   expenseHeaderReview?: Maybe<ExpenseHeaderReview>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-  /** Reads a single `ExpenseHeader` that is related to this `ExpenseHeaderReview`. */
-  expenseHeader?: Maybe<ExpenseHeader>;
   /** An edge for our `ExpenseHeaderReview`. May be used by Relay 1. */
   expenseHeaderReviewEdge?: Maybe<ExpenseHeaderReviewsEdge>;
 };
