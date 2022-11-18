@@ -130,7 +130,7 @@ const truckLoadOptions = {
   getUpdatedItem: getUpdatedTruckLoad,
   getId: getTruckLoadId,
   chunkSize: 100,
-  iterationLimit: 1000,
+  iterationLimit: 30000,
 };
 
 module.exports = truckLoadOptions;

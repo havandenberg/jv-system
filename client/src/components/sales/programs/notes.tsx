@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
-import { pick } from 'ramda';
+import React, { useEffect, useState } from 'react';
+import { equals, pick } from 'ramda';
 import { ClipLoader } from 'react-spinners';
 
 import api from 'api';
 import HighlightImg from 'assets/images/highlight';
 import InfoPanel from 'components/info-panel';
+import usePrevious from 'hooks/use-previous';
 import { CustomerProgram, ShipperProgram } from 'types';
 import b from 'ui/button';
 import { TextArea } from 'ui/input';
@@ -28,6 +29,7 @@ const ProgramNotes = <T extends CustomerProgram | ShipperProgram>({
   program,
   weekCount,
 }: Props<T>) => {
+  const previousProgram = usePrevious(program);
   const [show, setShow] = useState(false);
 
   const [programState, setProgramState] = useState(program as T);
@@ -67,12 +69,8 @@ const ProgramNotes = <T extends CustomerProgram | ShipperProgram>({
               ],
               programState,
             ),
-            customerId: isCustomers
-              ? (programState as CustomerProgram).customer?.id
-              : undefined,
-            shipperId: isCustomers
-              ? (programState as ShipperProgram).shipper?.id
-              : undefined,
+            customerId: (programState as CustomerProgram).customer?.id,
+            shipperId: (programState as ShipperProgram).shipper?.id,
           },
         ],
       }
@@ -91,14 +89,24 @@ const ProgramNotes = <T extends CustomerProgram | ShipperProgram>({
       if (isCustomers) {
         handleUpsertCustomerPrograms({
           variables: programUpsertVariables,
+        }).then(() => {
+          setShow(false);
         });
       } else {
         handleUpsertShipperPrograms({
           variables: programUpsertVariables,
+        }).then(() => {
+          setShow(false);
         });
       }
     }
   };
+
+  useEffect(() => {
+    if (!equals(previousProgram, program)) {
+      setProgramState(program);
+    }
+  }, [previousProgram, program]);
 
   return (
     <InfoPanel

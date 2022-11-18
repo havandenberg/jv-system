@@ -39,7 +39,7 @@ const InventoryTab = () => (
     <Route exact path="/inventory/pallets" component={Pallets} />
     <Route
       exact
-      path="/inventory/items/:itemId/pallets/:id"
+      path="/inventory/items/:itemId/pallets/:palletId"
       component={PalletDetails}
     />
     <Route exact path="/inventory/items/:id" component={InventoryItemDetails} />

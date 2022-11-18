@@ -106,7 +106,7 @@ export const useUpsertShipperPrograms = (
       ? {
           refetchQueries: [
             {
-              query: CUSTOMER_PROGRAM_LIST_QUERY,
+              query: SHIPPER_PROGRAM_LIST_QUERY,
               variables,
             },
           ],

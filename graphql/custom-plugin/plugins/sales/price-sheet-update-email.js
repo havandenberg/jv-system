@@ -26,6 +26,7 @@ const extendSchemaPlugin = makeExtendSchemaPlugin({
                   'mfarris@jacvandenberg.com',
                   'npaap@jacvandenberg.com',
                   'sstedman@jacvandenberg.com',
+                  'jstair@jacvandenberg.com',
                 ]
               : ['hvandenberg@jacvandenberg.com'],
           body: `The price sheet has been updated. <a href="${process.env.REACT_APP_CLIENT_URL}/sales/price-sheet">View latest changes here.</a><br /><br />${args.input.message}`,

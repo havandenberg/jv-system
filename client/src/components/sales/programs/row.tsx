@@ -353,7 +353,6 @@ const ProgramRow = <
     loading,
     previousProgram,
     program,
-    selectedWeekNumber,
     customerProgramEntries,
     shipperProgramEntries,
     showAllocated,
@@ -737,7 +736,7 @@ const ProgramRow = <
 
   const allocatedPalletTotalSets = getAllocatedPalletEntryTotalSets(
     entries,
-    selectedWeekNumber,
+    startDate,
     weekCount,
     isCustomers,
   );

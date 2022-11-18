@@ -72,8 +72,14 @@ const Details = () => {
   }>();
   const { data, error, loading } = api.usePallet(palletId);
   const pallet = ((data?.nodes || []) as Pallet[])[0] || null;
+  const palletSections = (pallet?.palletSections.nodes ||
+    []) as PalletSectionType[];
 
   const { TabBar } = useTabBar({ tabs });
+
+  const hasOrder = ![undefined, null, '0'].includes(pallet?.orderId);
+  const hasBackOrder =
+    hasOrder && ![undefined, null, '0'].includes(pallet?.backOrderId);
 
   return (
     <Page
@@ -105,23 +111,31 @@ const Details = () => {
               <ty.CaptionText mr={th.spacing.md}>
                 {pallet.shipped ? 'Invoice' : 'Order'} ID:
               </ty.CaptionText>
-              <ty.LinkText
-                hover="false"
-                mr={th.spacing.lg}
-                to={`/${
-                  pallet.shipped ? 'accounting/invoices' : 'inventory/orders'
-                }/${pallet.orderId}?`}
-              >
-                {pallet.orderId === undefined ? '-' : pallet.orderId}
-              </ty.LinkText>
+              {hasOrder ? (
+                <ty.LinkText
+                  hover="false"
+                  mr={th.spacing.lg}
+                  to={`/${
+                    pallet.shipped ? 'accounting/invoices' : 'inventory/orders'
+                  }/${pallet.orderId}?`}
+                >
+                  {pallet.orderId}
+                </ty.LinkText>
+              ) : (
+                <ty.BodyText mr={th.spacing.lg}>-</ty.BodyText>
+              )}
               <ty.CaptionText mr={th.spacing.md}>Back Order ID:</ty.CaptionText>
-              <ty.LinkText
-                hover="false"
-                to={`/inventory/orders/${pallet.orderId}?backOrderId=${pallet.backOrderId}`}
-                mr={th.spacing.lg}
-              >
-                {pallet.backOrderId === undefined ? '-' : pallet.backOrderId}
-              </ty.LinkText>
+              {hasBackOrder ? (
+                <ty.LinkText
+                  hover="false"
+                  to={`/inventory/orders/${pallet.orderId}?backOrderId=${pallet.backOrderId}`}
+                  mr={th.spacing.lg}
+                >
+                  {pallet.backOrderId}
+                </ty.LinkText>
+              ) : (
+                <ty.BodyText mr={th.spacing.lg}>-</ty.BodyText>
+              )}
               <ty.CaptionText mr={th.spacing.md}>Shipped:</ty.CaptionText>
               <StatusIndicator status={pallet.shipped ? 'success' : 'error'} />
             </l.Flex>
@@ -130,11 +144,21 @@ const Details = () => {
           <l.Div my={th.spacing.lg}>
             <TabBar />
           </l.Div>
-          {(pallet.palletSections.nodes as PalletSectionType[]).map(
-            (section, idx) => (
+          {palletSections.length > 0 ? (
+            palletSections.map((section, idx) => (
               <PalletSection key={idx} section={section} />
-            ),
+            ))
+          ) : (
+            <DataMessage
+              data={palletSections}
+              error={error}
+              loading={false}
+              emptyProps={{
+                header: 'No sections found',
+              }}
+            />
           )}
+
           <l.Div height={th.spacing.xxl} />
         </>
       ) : (

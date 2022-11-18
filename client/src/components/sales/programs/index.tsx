@@ -132,7 +132,6 @@ const Programs = () => {
       commonVarietyId,
       commonSizeId,
       commonPackTypeId,
-      plu,
       shipperId,
       coast,
       customerId,
@@ -372,52 +371,63 @@ const Programs = () => {
       editing ||
       ((!commonSpeciesId ||
         commonSpeciesId.some((id: string) =>
-          [
-            program.commonSpecies?.speciesName,
-            ...pluck(
-              'tagText',
-              (program.commonSpecies?.commonSpeciesTags?.nodes ||
-                []) as CommonSpeciesTag[],
-            ).map((tagText) => `${tagText} (tag)`),
-          ].includes(id),
+          id === 'None'
+            ? !program.commonSpecies?.speciesName
+            : [
+                program.commonSpecies?.speciesName,
+                ...pluck(
+                  'tagText',
+                  (program.commonSpecies?.commonSpeciesTags?.nodes ||
+                    []) as CommonSpeciesTag[],
+                ).map((tagText) => `${tagText} (tag)`),
+              ].includes(id),
         )) &&
         (!commonVarietyId ||
           commonVarietyId.some((id: string) =>
-            [
-              program.commonVariety?.varietyName,
-              ...pluck(
-                'tagText',
-                (program.commonVariety?.commonVarietyTags?.nodes ||
-                  []) as CommonVarietyTag[],
-              ).map((tagText) => `${tagText} (tag)`),
-            ].includes(id),
+            id === 'None'
+              ? !program.commonVariety?.varietyName
+              : [
+                  program.commonVariety?.varietyName,
+                  ...pluck(
+                    'tagText',
+                    (program.commonVariety?.commonVarietyTags?.nodes ||
+                      []) as CommonVarietyTag[],
+                  ).map((tagText) => `${tagText} (tag)`),
+                ].includes(id),
           )) &&
         (!commonSizeId ||
           commonSizeId.some((id: string) =>
-            [
-              program.commonSize?.sizeName,
-              ...pluck(
-                'tagText',
-                (program.commonSize?.commonSizeTags?.nodes ||
-                  []) as CommonSizeTag[],
-              ).map((tagText) => `${tagText} (tag)`),
-            ].includes(id),
+            id === 'None'
+              ? !program.commonSize?.sizeName
+              : [
+                  program.commonSize?.sizeName,
+                  ...pluck(
+                    'tagText',
+                    (program.commonSize?.commonSizeTags?.nodes ||
+                      []) as CommonSizeTag[],
+                  ).map((tagText) => `${tagText} (tag)`),
+                ].includes(id),
           )) &&
         (!commonPackTypeId ||
           commonPackTypeId.some((id: string) =>
-            [
-              program.commonPackType?.packTypeName,
-              ...pluck(
-                'tagText',
-                (program.commonPackType?.commonPackTypeTags?.nodes ||
-                  []) as CommonPackTypeTag[],
-              ).map((tagText) => `${tagText} (tag)`),
-            ].includes(id),
+            id === 'None'
+              ? !program.commonPackType?.packTypeName
+              : [
+                  program.commonPackType?.packTypeName,
+                  ...pluck(
+                    'tagText',
+                    (program.commonPackType?.commonPackTypeTags?.nodes ||
+                      []) as CommonPackTypeTag[],
+                  ).map((tagText) => `${tagText} (tag)`),
+                ].includes(id),
           )) &&
-        (!plu || plu.includes(program.plu)) &&
         (isCustomers ||
           !customerIdFilter ||
-          customerIdFilter.includes(program.customer?.customerName))),
+          customerIdFilter.some((id: string) =>
+            id === 'None'
+              ? !program.customer?.customerName
+              : [program.customer?.customerName].includes(id),
+          ))),
     [
       commonPackTypeId,
       commonSizeId,
@@ -426,7 +436,6 @@ const Programs = () => {
       customerIdFilter,
       editing,
       isCustomers,
-      plu,
     ],
   );
 
@@ -752,7 +761,7 @@ const Programs = () => {
                   id: parseInt(e.id, 10) > 0 ? parseInt(e.id, 10) : undefined,
                   notes: e.notes,
                   programDate: e.programDate,
-                  palletCount: e.palletCount,
+                  palletCount: e.palletCount || 0,
                   shipperProgramId:
                     e.shipperProgram?.id > 0
                       ? e.shipperProgram?.id
@@ -854,7 +863,7 @@ const Programs = () => {
                   id: parseInt(e.id, 10) > 0 ? parseInt(e.id, 10) : undefined,
                   notes: e.notes,
                   programDate: e.programDate,
-                  palletCount: e.palletCount,
+                  palletCount: e.palletCount || 0,
                   customerProgramId:
                     parseInt(e.customerProgram?.id, 10) > 0
                       ? e.customerProgram?.id
@@ -1078,6 +1087,10 @@ const Programs = () => {
       >,
     [getProgramValue, isCustomers, programs, specieses],
   );
+
+  const sortedCustomerOrShipperIds = Object.keys(
+    groupedProgramsByCustomerOrShipperAndProduct,
+  ).sort();
 
   const getProgramEntryValue = (
     isCustomers ? getCustomerProgramEntryValue : getShipperProgramEntryValue
@@ -1412,46 +1425,43 @@ const Programs = () => {
                   />
                 ) : (
                   <>
-                    {Object.keys(groupedProgramsByCustomerOrShipperAndProduct)
-                      .sort()
-                      .map((key) => {
-                        const programsByCustomerOrShipper =
-                          groupedProgramsByCustomerOrShipperAndProduct[key];
-                        const prog = values(
-                          programsByCustomerOrShipper,
-                        )[0]?.[0];
-                        const newId = isCustomers
-                          ? (prog as CustomerProgram)?.customerId
-                          : (prog as ShipperProgram)?.shipperId;
-                        const index = Object.keys(
-                          groupedProgramsByCustomerOrShipperAndProduct,
-                        ).indexOf(key);
-                        const startIndex = sum(
-                          values(
-                            groupedProgramsByCustomerOrShipperAndProduct,
-                          ).map((curr, idx) =>
-                            idx < index ? Object.keys(curr).length : 0,
-                          ),
-                        );
+                    {sortedCustomerOrShipperIds.map((key, index) => {
+                      const programsByCustomerOrShipper =
+                        groupedProgramsByCustomerOrShipperAndProduct[key];
+                      const prog = values(programsByCustomerOrShipper)[0]?.[0];
+                      const newId = isCustomers
+                        ? (prog as CustomerProgram)?.customerId
+                        : (prog as ShipperProgram)?.shipperId;
+                      const startIndex = sum(
+                        values(sortedCustomerOrShipperIds).map((curr, idx) =>
+                          idx < index
+                            ? values(
+                                groupedProgramsByCustomerOrShipperAndProduct[
+                                  curr as string
+                                ],
+                              ).length
+                            : 0,
+                        ),
+                      );
 
-                        return (
-                          <ProgramSet
-                            editing={editing}
-                            getProgramValue={getProgramValue}
-                            groupedPrograms={programsByCustomerOrShipper}
-                            isCustomers={isCustomers}
-                            key={key}
-                            loading={loading}
-                            programTotals={programTotals}
-                            rest={programProps}
-                            to={`${pathname}${search}&${
-                              isCustomers ? 'customerId' : 'shipperId'
-                            }=${newId}`}
-                            specieses={specieses}
-                            startIndex={startIndex}
-                          />
-                        );
-                      })}
+                      return (
+                        <ProgramSet
+                          editing={editing}
+                          getProgramValue={getProgramValue}
+                          groupedPrograms={programsByCustomerOrShipper}
+                          isCustomers={isCustomers}
+                          key={key}
+                          loading={loading}
+                          programTotals={programTotals}
+                          rest={programProps}
+                          to={`${pathname}${search}&${
+                            isCustomers ? 'customerId' : 'shipperId'
+                          }=${newId}`}
+                          specieses={specieses}
+                          startIndex={startIndex}
+                        />
+                      );
+                    })}
                   </>
                 )}
                 {(isCustomers ? selectedCustomer : selectedShipper) &&

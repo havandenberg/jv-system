@@ -113,7 +113,10 @@ const Header = ({
   const getNewOptions = (currentOptions: string[], newOptions: string[]) => [
     ...currentOptions,
     ...(newOptions
-      .map((opt) => (currentOptions.includes(opt) ? undefined : opt))
+      .map((opt) => {
+        const optVal = opt === '' ? 'None' : opt;
+        return currentOptions.includes(optVal) ? undefined : optVal;
+      })
       .filter((opt) => !!opt) as string[]),
   ];
 

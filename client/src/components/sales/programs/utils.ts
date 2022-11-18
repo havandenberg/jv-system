@@ -376,7 +376,7 @@ export const getAllocatedPalletEntryTotalSets = <
   T extends CustomerProgramEntry | ShipperProgramEntry,
 >(
   entries: T[],
-  selectedWeekNumber: number,
+  startDate: string | null | undefined,
   weekCount: number,
   isCustomers: boolean,
 ) => {
@@ -412,8 +412,15 @@ export const getAllocatedPalletEntryTotalSets = <
       const entry = entries.find(
         (e) =>
           e &&
-          getWeekNumber(new Date(e.programDate.replace(/-/g, '/'))) ===
-            selectedWeekNumber + index,
+          startOfISOWeek(
+            new Date(e.programDate.replace(/-/g, '/')),
+          ).toLocaleString() ===
+            startOfISOWeek(
+              add(
+                new Date(startDate ? startDate.replace(/-/g, '/') : new Date()),
+                { weeks: index },
+              ),
+            ).toLocaleString(),
       );
       const total =
         entry &&
