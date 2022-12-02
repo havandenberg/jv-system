@@ -1,4 +1,3 @@
-import { VENDOR_DISTINCT_VALUES_QUERY } from 'api/directory/vendor';
 import { LabelInfo } from 'components/column-label';
 import { times } from 'ramda';
 import { TruckRate } from 'types';
@@ -11,36 +10,6 @@ const PALLETS_PER_TRUCK_LOAD = 18;
 export type TruckRateLabelInfo = LabelInfo<TruckRate>;
 
 export const indexListLabels: TruckRateLabelInfo[] = [
-  {
-    key: 'vendorId',
-    label: 'Trucker',
-    sortable: true,
-    customSortBy: ({ vendor }) => vendor?.vendorName.toLowerCase() || 'zzzzz',
-    filterable: true,
-    filterPanelProps: {
-      customStyles: {
-        width: 500,
-      },
-      queryProps: {
-        query: VENDOR_DISTINCT_VALUES_QUERY,
-        queryName: 'vendorDistinctValues',
-        queryVariables: {
-          vendorType: 'FR',
-        },
-      },
-      showSearch: true,
-    },
-    readOnly: true,
-    getValue: ({ vendor }) =>
-      vendor ? (
-        <ty.LinkText hover="false" to={`/directory/vendors/${vendor.id}`}>
-          {vendor.vendorName} ({vendor.id})
-        </ty.LinkText>
-      ) : (
-        ''
-      ),
-    validate: ({ vendorId }) => !!vendorId,
-  },
   {
     key: 'locationDescription',
     label: 'Description',
@@ -70,10 +39,6 @@ export const indexListLabels: TruckRateLabelInfo[] = [
       <ty.BodyText>{getPalletRatesDescription(truckRate) || '-'}</ty.BodyText>
     ),
   },
-  {
-    key: 'notes',
-    label: 'Notes',
-  },
 ];
 
 export const listLabels: TruckRateLabelInfo[] = [
@@ -85,9 +50,26 @@ export const listLabels: TruckRateLabelInfo[] = [
     validate: ({ postalState }) => !!postalState,
   },
   ...indexListLabels.slice(1),
+  {
+    key: 'notes',
+    label: 'Notes',
+  },
 ];
 
 export const baseLabels: TruckRateLabelInfo[] = [
+  {
+    key: 'vendorId',
+    label: 'Vendor',
+    getValue: ({ vendor }) =>
+      vendor ? (
+        <ty.LinkText hover="false" to={`/directory/vendors/${vendor.id}`}>
+          {vendor.vendorName}
+        </ty.LinkText>
+      ) : (
+        <ty.BodyText>-</ty.BodyText>
+      ),
+    readOnly: true,
+  },
   indexListLabels[0],
   {
     key: 'postalState',
@@ -96,7 +78,7 @@ export const baseLabels: TruckRateLabelInfo[] = [
     dropdownOptions: [{ content: '', value: '' }, ...postalStates],
     validate: ({ postalState }) => !!postalState,
   },
-  ...indexListLabels.slice(1, 4),
+  ...indexListLabels.slice(1, 3),
   ...times((idx) => {
     const count = idx + 1;
     const key = `palletRate${count}` as keyof TruckRate;

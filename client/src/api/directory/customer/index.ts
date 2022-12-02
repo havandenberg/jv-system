@@ -59,10 +59,10 @@ export const useCustomers = (orderByOverride?: string) => {
   };
 };
 
-export const useCustomer = (id: string) => {
+export const useCustomer = (id: string, orderByOverride?: string) => {
   const [{ sortBy = 'firstName', sortOrder = SORT_ORDER.ASC }] =
     useSortQueryParams();
-  const orderBy = getOrderByString(sortBy, sortOrder);
+  const orderBy = orderByOverride || getOrderByString(sortBy, sortOrder);
 
   const { data, error, loading } = useQuery<Query>(CUSTOMER_DETAILS_QUERY, {
     variables: {

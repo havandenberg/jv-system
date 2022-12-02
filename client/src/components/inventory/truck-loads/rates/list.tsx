@@ -8,8 +8,9 @@ import { TruckRate } from 'types';
 import l from 'ui/layout';
 import th from 'ui/theme';
 
-import { gridTemplateColumns } from '.';
 import { listLabels } from './data-utils';
+
+export const gridTemplateColumns = '80px 80px 100px 1fr 0.4fr 30px';
 
 const TruckRateList = ({
   baseUrl,

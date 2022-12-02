@@ -7,12 +7,13 @@ import Page from 'components/page';
 import { DataMessage } from 'components/page/message';
 import { Tab, useTabBar } from 'components/tab-bar';
 import useColumns, { SORT_ORDER } from 'hooks/use-columns';
-import { CommonSpecies, OrderEntry, OrderEntryItem } from 'types';
+import { CommonSpecies, OrderEntry, OrderEntryItem, TruckRate } from 'types';
 import b from 'ui/button';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 
+import OrderEntryTotals from '../totals';
 import { gridTemplateColumns } from '.';
 import { baseLabels, itemListLabels } from './data-utils';
 
@@ -47,13 +48,33 @@ const Details = () => {
   const { data: productsData } = api.useCommonSpecieses();
   const commonSpecieses = (productsData?.nodes || []) as CommonSpecies[];
 
-  const { data, loading, error } = api.useOrderEntry(orderId);
+  const {
+    data,
+    loading: orderEntryLoading,
+    error: orderEntryError,
+  } = api.useOrderEntry(orderId);
   const orderEntries = (data ? data.nodes : []) as OrderEntry[];
   const latestOrderEntry = orderEntries[orderEntries.length - 1];
   const orderEntry = entryId
     ? orderEntries.find((entry) => entry && entry.id === entryId)
     : latestOrderEntry;
   const isLatestEntry = latestOrderEntry?.id === orderEntry?.id;
+
+  const {
+    data: truckRateData,
+    loading: truckRateDataLoading,
+    error: truckRateDataError,
+  } = api.useTruckRates('POSTAL_STATE_ASC');
+  const truckRates = (truckRateData ? truckRateData.nodes : []) as TruckRate[];
+  const defaultTruckRate = truckRates.find(
+    (truckRate) =>
+      orderEntry?.billingCustomer &&
+      truckRate.isDefault &&
+      truckRate.postalState === orderEntry?.billingCustomer?.postalState,
+  );
+
+  const loading = orderEntryLoading || truckRateDataLoading;
+  const error = orderEntryError || truckRateDataError;
 
   const allItems = (orderEntry?.orderEntryItems?.nodes ||
     []) as OrderEntryItem[];
@@ -101,6 +122,12 @@ const Details = () => {
           )}
           <l.Flex alignCenter justifyBetween my={th.spacing.lg}>
             <TabBar />
+            {orderEntry && (
+              <OrderEntryTotals
+                orderEntry={orderEntry}
+                truckRate={defaultTruckRate}
+              />
+            )}
           </l.Flex>
           <l.Grid
             gridTemplateColumns={gridTemplateColumns(false)}

@@ -6,7 +6,7 @@ const customerOptions = require('./directory/customer');
 const shipperOptions = require('./directory/shipper');
 const warehouseOptions = require('./directory/warehouse');
 const vendorOptions = require('./directory/vendor');
-const { activeInventoryItemOptions, inventoryItemOptions } = require('./product/inventory-item');
+const inventoryItemOptions = require('./product/inventory-item');
 const { palletOptions, palletSectionOptions } = require('./product/pallet');
 const vesselOptions = require('./product/vessel');
 const orderMasterOptions = require('./operations/order/master');
@@ -34,8 +34,6 @@ const db2RunQuery = (tableName, db) => {
       return db2UpdateItems(db, warehouseOptions);
     case 'directory/vendor':
       return db2UpdateItems(db, vendorOptions);
-    case 'product/active-inventory-item':
-      return db2UpdateItems(db, activeInventoryItemOptions);
     case 'product/inventory-item':
       return db2UpdateItems(db, inventoryItemOptions);
     case 'product/pallet':

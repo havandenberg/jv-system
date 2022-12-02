@@ -67,6 +67,7 @@ CREATE TABLE product.common_size_product_size (
 
 CREATE TABLE product.common_pack_type (
 	id BIGSERIAL PRIMARY KEY,
+  box_count BIGINT,
   default_inv_sort_key TEXT,
   pack_type_name TEXT,
   pack_type_description TEXT,

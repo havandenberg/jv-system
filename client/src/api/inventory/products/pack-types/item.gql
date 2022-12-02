@@ -22,6 +22,7 @@ query COMMON_PACK_TYPE($id: BigInt!) {
         }
       }
     }
+    boxCount
     id
     defaultInvSortKey
     isRepack

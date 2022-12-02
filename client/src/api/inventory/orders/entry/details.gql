@@ -7,6 +7,7 @@ query ORDER_ENTRY_DETAILS($orderId: BigFloat!) {
       billingCustomer {
         id
         customerName
+        postalState
       }
       salesUserCode
       salesUser {
@@ -61,6 +62,8 @@ query ORDER_ENTRY_DETAILS($orderId: BigFloat!) {
           plu
           label
           countryOfOrigin
+          boxCount
+          palletWeight
           notes
           vessel {
             id
@@ -90,6 +93,8 @@ query ORDER_ENTRY_DETAILS($orderId: BigFloat!) {
               label
               countryOfOrigin
               palletCount
+              boxCount
+              palletWeight
               vessel {
                 id
                 vesselCode

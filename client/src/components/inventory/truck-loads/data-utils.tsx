@@ -9,6 +9,7 @@ import ty from 'ui/typography';
 import th from 'ui/theme';
 import { formatTime } from 'utils/date';
 
+export const TRUCK_LOAD_MAX_PALLETS = 14;
 export const TRUCK_LOAD_MAX_WEIGHT = 40000;
 
 export type TruckLoadLabelInfo = LabelInfo<TruckLoad>;

@@ -19,7 +19,7 @@ export const breadcrumbs = [
   { text: 'Rates', to: `/inventory/truck-loads/rates` },
 ];
 
-export const gridTemplateColumns = '3fr 3fr 1fr 1.5fr 5fr 2fr 30px';
+export const gridTemplateColumns = '200px 80px 100px 1fr 30px';
 
 const TruckRates = () => {
   const { data, loading, error } = api.useTruckRates();

@@ -1,10 +1,8 @@
 const { gql } = require('../../api');
 
-const INVENTORY_ITEM_LIST = (isActive) => gql`
+const INVENTORY_ITEM_LIST = gql`
   query INVENTORY_ITEM_LIST {
-     ${isActive
-      ? 'activeInventoryItems'
-      : 'inventoryItems'} {
+     inventoryItems {
       nodes {
         id
         productId
@@ -93,24 +91,9 @@ const getInventoryItemId = (db2InventoryItem, inventoryItems) => {
   );
 };
 
-const activeInventoryItemOptions = {
-  db2Query: `select * from JVFIL.ORDP730X where PAVLX != 0 OR PONHX != 0 union select * from JVPREFIL.ORDP730X where PAVLX != 0 OR PONHX != 0;`,
-  listQuery: INVENTORY_ITEM_LIST(true),
-  // deleteQuery: BULK_DELETE_INVENTORY_ITEM,
-  upsertQuery: BULK_UPSERT_INVENTORY_ITEM,
-  itemName: 'inventory item',
-  itemPluralName: 'inventory items',
-  itemQueryName: 'activeInventoryItems',
-  upsertQueryName: 'inventoryItems',
-  getUpdatedItem: getUpdatedInventoryItem,
-  getId: getInventoryItemId,
-  chunkSize: 100,
-  iterationLimit: 2000,
-};
-
 const inventoryItemOptions = {
   db2Query: `select * from JVFIL.ORDP730X union select * from JVPREFIL.ORDP730X;`,
-  listQuery: INVENTORY_ITEM_LIST(false),
+  listQuery: INVENTORY_ITEM_LIST,
   deleteQuery: BULK_DELETE_INVENTORY_ITEM,
   upsertQuery: BULK_UPSERT_INVENTORY_ITEM,
   itemName: 'inventory item',
@@ -123,7 +106,4 @@ const inventoryItemOptions = {
   iterationLimit: 40000,
 };
 
-module.exports = {
-  activeInventoryItemOptions,
-  inventoryItemOptions,
-};
+module.exports = inventoryItemOptions;

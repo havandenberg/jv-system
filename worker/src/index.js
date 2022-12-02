@@ -44,40 +44,29 @@ cron.schedule('26 0 * * *', fetchPsaApplePallets);
 // cron.schedule('26 0 * * *', sendProjectionReminders);
 
 if (process.env.REACT_APP_IS_PRODUCTION === 'true') {
-  cron.schedule('*/5 5-22 * * *', () => db2UpdateTable('directory/country'));
-  cron.schedule('*/5 5-22 * * *', () => db2UpdateTable('directory/shipper'));
-  cron.schedule('*/5 5-22 * * *', () => db2UpdateTable('directory/customer'));
-  cron.schedule('*/5 5-22 * * *', () => db2UpdateTable('directory/warehouse'));
-  cron.schedule('*/5 5-22 * * *', () => db2UpdateTable('directory/vendor'));
+  cron.schedule('*/30 5-22 * * *', () => db2UpdateTable('directory/country'));
+  cron.schedule('*/30 5-22 * * *', () => db2UpdateTable('directory/shipper'));
+  cron.schedule('*/30 5-22 * * *', () => db2UpdateTable('directory/customer'));
+  cron.schedule('*/30 5-22 * * *', () => db2UpdateTable('directory/warehouse'));
+  cron.schedule('*/30 5-22 * * *', () => db2UpdateTable('directory/vendor'));
+
   cron.schedule('30 */5 5-22 * * *', () => db2UpdateTable('product/vessel'));
-  cron.schedule('*/3 5-22 * * *', () =>
-    db2UpdateTable('product/active-inventory-item'),
-  );
   cron.schedule('*/5 5-22 * * *', () =>
     db2UpdateTable('operations/order/master'),
   );
   cron.schedule('*/5 5-22 * * *', () =>
     db2UpdateTable('operations/order/item'),
   );
-  cron.schedule('*/5 5-22 * * *', () =>
+
+  // cron.schedule('0 7 * * *', () => db2UpdateTable('accounting/invoice/header'));
+  // cron.schedule('0 7 * * *', () => db2UpdateTable('accounting/invoice/item'));
+
+  cron.schedule('*/10 5-22 * * *', () =>
+    db2UpdateTable('product/inventory-item'),
+  );
+  cron.schedule('*/10 5-22 * * *', () =>
     db2UpdateTable('operations/truck-load'),
   );
-
-  cron.schedule('0 7 * * *', () => db2UpdateTable('accounting/invoice/header'));
-  cron.schedule('0 7 * * *', () => db2UpdateTable('accounting/invoice/item'));
-
-  cron.schedule('*/8 5-22 * * *', () => db2UpdateTable('product/master'));
-  cron.schedule('*/8 5-22 * * *', () => db2UpdateTable('product/species'));
-  cron.schedule('*/8 5-22 * * *', () => db2UpdateTable('product/variety'));
-  cron.schedule('*/8 5-22 * * *', () => db2UpdateTable('product/size'));
-  cron.schedule('*/8 5-22 * * *', () => db2UpdateTable('product/pack-master'));
-
-  cron.schedule('15 */10 5-22 * * *', () => db2UpdateTable('product/pallet'));
-  cron.schedule('45 1-59/10 5-22 * * *', () =>
-    db2UpdateTable('product/pallet-section'),
-  );
-  cron.schedule('*/10 5-22 * * *', () => db2UpdateTable('accounting/expense/header'));
-  cron.schedule('*/10 5-22 * * *', () => db2UpdateTable('accounting/expense/item'));
 
   cron.schedule('*/15 5-22 * * *', () =>
     db2UpdateTable('product/pack-atmosphere'),
@@ -108,7 +97,17 @@ if (process.env.REACT_APP_IS_PRODUCTION === 'true') {
     db2UpdateTable('product/pack-tree-ripe'),
   );
 
+  cron.schedule('*/30 5-22 * * *', () => db2UpdateTable('product/master'));
+  cron.schedule('*/30 5-22 * * *', () => db2UpdateTable('product/species'));
+  cron.schedule('*/30 5-22 * * *', () => db2UpdateTable('product/variety'));
+  cron.schedule('*/30 5-22 * * *', () => db2UpdateTable('product/size'));
+  cron.schedule('*/30 5-22 * * *', () => db2UpdateTable('product/pack-master'));
+
+  cron.schedule('15 5-22 * * *', () => db2UpdateTable('accounting/expense/header'));
+  cron.schedule('15 5-22 * * *', () => db2UpdateTable('accounting/expense/item'));
+
+  cron.schedule('0 23 * * *', () => db2UpdateTable('product/pallet'));
   cron.schedule('0 23 * * *', () =>
-  db2UpdateTable('product/inventory-item'),
-);
+    db2UpdateTable('product/pallet-section'),
+  );
 }

@@ -54,6 +54,7 @@ const CommonPackTypeDetails = () => {
     'defaultInvSortKey',
     'isRepack',
     'palletWeight',
+    'boxCount',
   ] as (keyof CommonPackType)[];
   const updateVariables = { id: packTypeId };
 

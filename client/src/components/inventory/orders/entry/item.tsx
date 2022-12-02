@@ -1,7 +1,7 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { ApolloError } from '@apollo/client';
 import { differenceInDays, format } from 'date-fns';
-import { sortBy } from 'ramda';
+import { equals, sortBy } from 'ramda';
 
 import HighlightImg from 'assets/images/highlight';
 import PlusInCircle from 'assets/images/plus-in-circle';
@@ -11,6 +11,7 @@ import { reducePalletData } from 'components/inventory/inventory/utils';
 import useItemSelector from 'components/item-selector';
 import ItemLinkRow, { ItemLink } from 'components/item-selector/link';
 import { BasicModal } from 'components/modal';
+import usePrevious from 'hooks/use-previous';
 import {
   CommonPackType,
   CommonSize,
@@ -28,7 +29,10 @@ import ty from 'ui/typography';
 import { isDateLessThanOrEqualTo } from 'utils/date';
 
 import { gridTemplateColumns } from '.';
-import { itemListLabels } from './data-utils';
+import {
+  getOrderEntryItemEstimatedFreight,
+  itemListLabels,
+} from './data-utils';
 
 type Props = {
   coast: string;
@@ -41,10 +45,7 @@ type Props = {
   fob: boolean;
   fobDate?: string;
   handleAutoFill: () => void;
-  handleChange: (
-    key: keyof OrderEntryItem,
-    value: string | number | boolean | null,
-  ) => void;
+  handleChange: (updatedItem: OrderEntryItem) => void;
   handleNewItem: (updatedItem: OrderEntryItem) => void;
   handleRemoveItem: (id: number) => void;
   handleResetItem: () => void;
@@ -116,6 +117,7 @@ const NewOrderEntryItem = ({
     unitSellPrice,
     deliveryCharge,
   } = updatedItem;
+  const previousUpdatedItem = usePrevious(updatedItem);
 
   const isDuplicate = duplicateIds.includes(parseInt(id, 10));
 
@@ -138,6 +140,7 @@ const NewOrderEntryItem = ({
   const repackPackTypes = (
     (commonSpecies?.commonPackTypes.nodes || []) as CommonPackType[]
   ).filter((pt) => !!pt?.isRepack);
+  const repackPackType = repackPackTypes.find((pt) => pt && pt.id === packType);
 
   const getSelectorValue = (type: FilterKey) => {
     switch (type) {
@@ -599,7 +602,7 @@ const NewOrderEntryItem = ({
       const newValue = isMultiSelect
         ? newValues.filter((v) => !!v).join(',')
         : newValues[0];
-      handleChange(type, id === '-1' ? null : newValue);
+      handleChange({ ...updatedItem, [type]: id === '-1' ? null : newValue });
     };
 
     const validate = itemListLabels(fob).find(
@@ -638,7 +641,7 @@ const NewOrderEntryItem = ({
         editing,
         error: editing && saveAttempt && (isDuplicate || !isValid),
         onChange: (e: ChangeEvent<HTMLInputElement>) => {
-          handleChange(type, e.target.value);
+          handleChange({ ...updatedItem, [type]: e.target.value });
         },
         warning: !loading && noItemsFound,
       },
@@ -753,10 +756,10 @@ const NewOrderEntryItem = ({
       inputProps: {
         type: 'number',
         min: 1,
-        width: 50,
+        width: 60,
       },
       onChange: (e: ChangeEvent<HTMLInputElement>) => {
-        handleChange('palletCount', e.target.value);
+        handleChange({ ...updatedItem, palletCount: e.target.value });
       },
       warning:
         !loading &&
@@ -794,7 +797,7 @@ const NewOrderEntryItem = ({
     },
     nameKey: 'text' as keyof ItemLink,
     selectItem: ({ id }: ItemLink) => {
-      handleChange('palletCount', id);
+      handleChange({ ...updatedItem, palletCount: id });
     },
   });
 
@@ -805,6 +808,8 @@ const NewOrderEntryItem = ({
     ? validateUnitSellPrice(updatedItem)
     : true;
 
+  const [shouldEstimateDeliveryCharge, setShouldEstimateDeliveryCharge] =
+    useState(deliveryCharge ? false : true);
   const validateDeliveryCharge = itemListLabels(fob).find(
     ({ key }) => key === 'deliveryCharge',
   )?.validate;
@@ -815,6 +820,72 @@ const NewOrderEntryItem = ({
   const [showNotes, setShowNotes] = useState(isReview || !!updatedItem?.notes);
 
   const toggleNotes = () => setShowNotes(!!updatedItem?.notes || !showNotes);
+
+  const getItemDefaultPalletQuantity = (it?: InventoryItem) =>
+    it &&
+    (it.product?.packType?.defaultPalletQuantity ||
+      it?.product?.packType?.commonPackType?.boxCount);
+
+  const boxCountItem = (filteredItems || []).find((it) =>
+    getItemDefaultPalletQuantity(it),
+  );
+  const boxCount =
+    getItemDefaultPalletQuantity(boxCountItem) || repackPackType?.boxCount || 1;
+
+  const updatedDeliveryCharge =
+    shouldEstimateDeliveryCharge &&
+    previousUpdatedItem &&
+    previousUpdatedItem.deliveryCharge === updatedItem.deliveryCharge
+      ? getOrderEntryItemEstimatedFreight(
+          updatedItem,
+          defaultTruckRate,
+          boxCount,
+        )
+      : updatedItem.deliveryCharge;
+
+  const palletWeight =
+    commonPackType?.palletWeight || commonSpecies?.palletWeight || 0;
+
+  useEffect(() => {
+    if (!equals(previousUpdatedItem, updatedItem)) {
+      handleChange({
+        ...updatedItem,
+        deliveryCharge: updatedDeliveryCharge,
+        boxCount,
+        palletWeight,
+      });
+    }
+  }, [
+    boxCount,
+    handleChange,
+    palletWeight,
+    previousUpdatedItem,
+    updatedDeliveryCharge,
+    updatedItem,
+  ]);
+
+  useEffect(() => {
+    if (
+      updatedItem &&
+      commonSpecies &&
+      inventoryItems.length > 0 &&
+      (updatedItem.boxCount === undefined ||
+        updatedItem.palletWeight === undefined)
+    ) {
+      handleChange({
+        ...updatedItem,
+        boxCount,
+        palletWeight,
+      });
+    }
+  }, [
+    boxCount,
+    commonSpecies,
+    handleChange,
+    inventoryItems.length,
+    palletWeight,
+    updatedItem,
+  ]);
 
   return (
     <>
@@ -999,7 +1070,10 @@ const NewOrderEntryItem = ({
                 editing && saveAttempt && (isDuplicate || !isUnitSellPriceValid)
               }
               onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                handleChange('unitSellPrice', e.target.value);
+                handleChange({
+                  ...updatedItem,
+                  unitSellPrice: parseFloat(e.target.value),
+                });
               }}
               warning={noItemsFound}
             />
@@ -1027,7 +1101,11 @@ const NewOrderEntryItem = ({
                   (isDuplicate || !isDeliveryChargeValid)
                 }
                 onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                  handleChange('deliveryCharge', e.target.value);
+                  setShouldEstimateDeliveryCharge(e.target.value === '');
+                  handleChange({
+                    ...updatedItem,
+                    deliveryCharge: e.target.value,
+                  });
                 }}
                 warning={noItemsFound}
               />
@@ -1087,7 +1165,7 @@ const NewOrderEntryItem = ({
               width: 868,
             }}
             onChange={(e: ChangeEvent<HTMLInputElement>) => {
-              handleChange('notes', e.target.value);
+              handleChange({ ...updatedItem, notes: e.target.value });
             }}
             warning={noItemsFound}
           />

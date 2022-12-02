@@ -57,18 +57,15 @@ import th from 'ui/theme';
 import ty from 'ui/typography';
 import { isDateGreaterThanOrEqualTo } from 'utils/date';
 
+import OrderEntryTotals from '../totals';
 import {
   baseLabels,
   filterLoadNumbersByCoast,
   getDuplicateOrderEntryItemIds,
-  getOrderEntryEstimatedFreight,
-  getOrderEntryEstimatedTotal,
-  getOrderEntryItemEstimatedFreight,
   itemListLabels,
 } from './data-utils';
 import NewOrderEntryItem from './item';
 import ReviewModal from './review-modal';
-import { formatCurrency } from 'utils/format';
 
 export type NewOrderEntry = Pick<
   OrderEntry,
@@ -167,6 +164,8 @@ const CreateOrderEntry = () => {
     locationId: '',
     shipperId: '',
     palletCount: 0,
+    boxCount: 1,
+    palletWeight: 0,
   };
 
   const newOrderItem = {
@@ -795,6 +794,7 @@ const CreateOrderEntry = () => {
                     [
                       'id',
                       'orderEntryId',
+                      'orderEntryReviewItems',
                       'shipper',
                       'vessel',
                       'warehouse',
@@ -884,21 +884,6 @@ const CreateOrderEntry = () => {
 
   const handleItemChange = useCallback(
     (updatedItem: OrderEntryItem) => {
-      const currentItem = changes.orderEntryItems.nodes.find(
-        (it) => it?.id === updatedItem.id,
-      );
-
-      const previousEstimate =
-        currentItem &&
-        getOrderEntryItemEstimatedFreight(currentItem, defaultTruckRate);
-
-      const shouldUpdateDeliveryCharge =
-        !currentItem?.deliveryCharge ||
-        (currentItem?.deliveryCharge === updatedItem.deliveryCharge &&
-          !changes.fob &&
-          currentItem &&
-          previousEstimate === currentItem?.deliveryCharge);
-
       setChanges({
         ...changes,
         orderEntryItems: {
@@ -909,21 +894,13 @@ const CreateOrderEntry = () => {
               ...changes.orderEntryItems.nodes.filter(
                 (it) => it?.id !== updatedItem.id,
               ),
-              {
-                ...updatedItem,
-                deliveryCharge: shouldUpdateDeliveryCharge
-                  ? getOrderEntryItemEstimatedFreight(
-                      updatedItem,
-                      defaultTruckRate,
-                    )
-                  : updatedItem.deliveryCharge,
-              },
+              updatedItem,
             ],
           ),
         },
       });
     },
-    [changes, defaultTruckRate],
+    [changes],
   );
 
   const handleNewItem = (updatedItem?: OrderEntryItem) => {
@@ -959,19 +936,6 @@ const CreateOrderEntry = () => {
       },
     });
   };
-
-  const orderEntryEstimatedTotal = getOrderEntryEstimatedTotal(
-    (changes.orderEntryItems.nodes || []) as OrderEntryItem[],
-    defaultTruckRate,
-  );
-
-  const orderEntryEstimatedFreight = getOrderEntryEstimatedFreight(
-    (changes.orderEntryItems.nodes || []) as OrderEntryItem[],
-    defaultTruckRate,
-  );
-
-  const orderEntryEstimatedItemsTotal =
-    orderEntryEstimatedTotal - orderEntryEstimatedFreight;
 
   return (
     <Page
@@ -1059,7 +1023,7 @@ const CreateOrderEntry = () => {
             )
           ) : (
             <l.Flex alignStart mt={th.spacing.lg}>
-              <l.Div mt={`-${th.spacing.lg}`}>
+              <l.Div mt={`-${th.spacing.md}`}>
                 <ty.CaptionText mb={th.spacing.xs} secondary>
                   Coast
                 </ty.CaptionText>
@@ -1126,42 +1090,48 @@ const CreateOrderEntry = () => {
                 <ty.CaptionText mr={th.spacing.lg} secondary textAlign="right">
                   FOB / Delivered:
                 </ty.CaptionText>
-                <Select
-                  isDirty={
-                    !!(
-                      id &&
-                      changes.fob !==
-                        (latestOrderEntryState?.fob !== undefined
-                          ? latestOrderEntryState.fob
-                          : initialState.fob)
-                    )
-                  }
-                  onChange={(e) => {
-                    const isFOB = e.target.value === 'fob';
-                    setChanges({
-                      ...changes,
-                      fob: isFOB,
-                      orderEntryItems: {
-                        ...changes.orderEntryItems,
-                        nodes: (
-                          (changes.orderEntryItems.nodes ||
-                            []) as OrderEntryItem[]
-                        ).map((item) => ({
-                          ...item,
-                          locationId:
-                            isFOB && item.locationId === 'Any'
-                              ? ''
-                              : item.locationId,
-                        })),
-                      },
-                    });
-                  }}
-                  value={changes.fob ? 'fob' : 'del'}
-                  width={150}
-                >
-                  <option value="fob">FOB</option>
-                  <option value="del">Delivered</option>
-                </Select>
+                {id && latestOrderEntryState.fob !== undefined ? (
+                  <ty.BodyText>
+                    {latestOrderEntryState.fob ? 'FOB' : 'Delivered'}
+                  </ty.BodyText>
+                ) : (
+                  <Select
+                    isDirty={
+                      !!(
+                        id &&
+                        changes.fob !==
+                          (latestOrderEntryState?.fob !== undefined
+                            ? latestOrderEntryState.fob
+                            : initialState.fob)
+                      )
+                    }
+                    onChange={(e) => {
+                      const isFOB = e.target.value === 'fob';
+                      setChanges({
+                        ...changes,
+                        fob: isFOB,
+                        orderEntryItems: {
+                          ...changes.orderEntryItems,
+                          nodes: (
+                            (changes.orderEntryItems.nodes ||
+                              []) as OrderEntryItem[]
+                          ).map((item) => ({
+                            ...item,
+                            locationId:
+                              isFOB && item.locationId === 'Any'
+                                ? ''
+                                : item.locationId,
+                          })),
+                        },
+                      });
+                    }}
+                    value={changes.fob ? 'fob' : 'del'}
+                    width={150}
+                  >
+                    <option value="fob">FOB</option>
+                    <option value="del">Delivered</option>
+                  </Select>
+                )}
                 <ty.CaptionText mr={th.spacing.lg} secondary textAlign="right">
                   {changes.fob ? '' : 'Est. '}FOB Date:
                 </ty.CaptionText>
@@ -1271,59 +1241,16 @@ const CreateOrderEntry = () => {
             </l.Flex>
           )}
           <l.Flex
-            alignCenter
+            alignEnd
             justifyBetween
             mb={th.spacing.lg}
-            mt={isReview ? th.spacing.lg : th.spacing.xl}
+            mt={isReview ? th.spacing.lg : th.sizes.md}
           >
             <TabBar />
-            <l.Flex alignCenter>
-              {!changes.fob && (
-                <>
-                  <ty.CaptionText
-                    color={th.colors.brand.primaryAccent}
-                    mr={th.spacing.lg}
-                  >
-                    Est. Items Total:
-                    <ty.Span bold ml={th.spacing.md}>
-                      {orderEntryEstimatedItemsTotal
-                        ? formatCurrency(orderEntryEstimatedItemsTotal)
-                        : '$-'}
-                    </ty.Span>
-                  </ty.CaptionText>
-                  <ty.CaptionText
-                    color={th.colors.status.error}
-                    mr={th.spacing.lg}
-                  >
-                    Est. Freight:
-                    <ty.Span bold ml={th.spacing.md}>
-                      {orderEntryEstimatedFreight
-                        ? formatCurrency(orderEntryEstimatedFreight)
-                        : '$-'}
-                    </ty.Span>
-                  </ty.CaptionText>
-                </>
-              )}
-              <ty.CaptionText
-                color={th.colors.status.successAlt}
-                mr={th.spacing.lg}
-              >
-                Est. Order Total:
-                <ty.Span bold ml={th.spacing.md}>
-                  {(
-                    changes.fob
-                      ? orderEntryEstimatedItemsTotal
-                      : orderEntryEstimatedTotal
-                  )
-                    ? formatCurrency(
-                        changes.fob
-                          ? orderEntryEstimatedItemsTotal
-                          : orderEntryEstimatedTotal,
-                      )
-                    : '$-'}
-                </ty.Span>
-              </ty.CaptionText>
-            </l.Flex>
+            <OrderEntryTotals
+              orderEntry={changes as OrderEntry}
+              truckRate={defaultTruckRate}
+            />
           </l.Flex>
           <l.Grid
             gridTemplateColumns={gridTemplateColumns(!!changes.fob)}
@@ -1356,6 +1283,7 @@ const CreateOrderEntry = () => {
                     )) ||
                     item) as OrderEntryItem
                 }
+                defaultTruckRate={defaultTruckRate}
                 duplicateIds={duplicateIds}
                 editing={true}
                 error={error}
@@ -1371,9 +1299,7 @@ const CreateOrderEntry = () => {
                     ),
                   } as OrderEntryItem)
                 }
-                handleChange={(key: keyof OrderEntryItem, value: any) => {
-                  handleItemChange({ ...item, [key]: value } as OrderEntryItem);
-                }}
+                handleChange={handleItemChange}
                 handleNewItem={handleNewItem}
                 handleRemoveItem={handleRemoveItem}
                 handleResetItem={() =>

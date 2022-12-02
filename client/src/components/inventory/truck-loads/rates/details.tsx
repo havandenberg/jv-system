@@ -7,6 +7,7 @@ import Page from 'components/page';
 import { DataMessage } from 'components/page/message';
 import useUpdateItem from 'hooks/use-update-item';
 import { TruckRate } from 'types';
+import b from 'ui/button';
 import l from 'ui/layout';
 import th from 'ui/theme';
 
@@ -83,7 +84,16 @@ const Details = () => {
 
   return (
     <Page
-      actions={getUpdateActions().defaultActions}
+      actions={[
+        ...getUpdateActions().defaultActions,
+        <l.AreaLink
+          key="all-rates"
+          ml={th.spacing.lg}
+          to="/inventory/truck-loads/rates"
+        >
+          <b.Primary>All Rates</b.Primary>
+        </l.AreaLink>,
+      ]}
       breadcrumbs={breadcrumbs(isList, vendorId, id)}
       title={data ? data.locationDescription || 'Rate' : 'Loading...'}
     >

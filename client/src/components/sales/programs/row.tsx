@@ -34,6 +34,7 @@ import ty from 'ui/typography';
 import { hexColorWithTransparency } from 'ui/utils';
 
 import ProgramAllocateModal from './allocate';
+import ProgramNotes from './notes';
 import {
   ProgramProps,
   CustomerProgramUpdate,
@@ -45,7 +46,6 @@ import {
   ProgramTotal,
 } from './types';
 import { getAllocatedPalletEntryTotalSets, getProgramTotals } from './utils';
-import ProgramNotes from './notes';
 
 export const ProgramWrapper = styled(l.Grid)(
   {

@@ -78,11 +78,13 @@ query COMMON_SPECIES_LIST(
       }
       commonPackTypes(orderBy: $packTypesOrderBy) {
         nodes {
+          boxCount
           id
           isRepack
           palletWeight
           packMasterId
           packMaster {
+            defaultPalletQuantity
             id
             packDescription
           }

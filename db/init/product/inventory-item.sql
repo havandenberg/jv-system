@@ -22,16 +22,6 @@ CREATE TABLE product.inventory_item (
 
 CREATE INDEX ON product.inventory_item (product_id, location_id, vessel_code, jv_lot_number, shipper_id);
 
-CREATE FUNCTION product.active_inventory_items()
-    RETURNS setof product.inventory_item
-    LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-  SELECT * FROM product.inventory_item i WHERE i.pallets_available != '0' OR i.pallets_on_hand != '0'
-$BODY$;
-
 CREATE FUNCTION product.inventory_item_vessel(IN i product.inventory_item)
     RETURNS product.vessel
     LANGUAGE 'sql'

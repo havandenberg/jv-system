@@ -13,7 +13,7 @@ import th from 'ui/theme';
 
 import { listLabels } from './data-utils';
 
-const gridTemplateColumns = '1fr 1fr 0.6fr 1fr 3fr 80px 30px';
+const gridTemplateColumns = '1fr 1fr 0.8fr 1fr 3fr 80px 30px';
 
 const OrderEntryList = ({
   baseUrl,

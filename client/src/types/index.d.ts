@@ -5601,6 +5601,8 @@ export type CommonPackTypeFilter = {
   isRepack?: Maybe<BooleanFilter>;
   /** Filter by the object’s `palletWeight` field. */
   palletWeight?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `boxCount` field. */
+  boxCount?: Maybe<BigIntFilter>;
   /** Filter by the object’s `shipperProjectionProducts` relation. */
   shipperProjectionProducts?: Maybe<CommonPackTypeToManyShipperProjectionProductFilter>;
   /** Some related `shipperProjectionProducts` exist. */
@@ -10581,6 +10583,8 @@ export enum ShipperProjectionProductsOrderBy {
   CommonPackTypeByCommonPackTypeIdIsRepackDesc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__IS_REPACK_DESC',
   CommonPackTypeByCommonPackTypeIdPalletWeightAsc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__PALLET_WEIGHT_ASC',
   CommonPackTypeByCommonPackTypeIdPalletWeightDesc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__PALLET_WEIGHT_DESC',
+  CommonPackTypeByCommonPackTypeIdBoxCountAsc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__BOX_COUNT_ASC',
+  CommonPackTypeByCommonPackTypeIdBoxCountDesc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__BOX_COUNT_DESC',
   CustomerByCustomerIdIdAsc = 'CUSTOMER_BY_CUSTOMER_ID__ID_ASC',
   CustomerByCustomerIdIdDesc = 'CUSTOMER_BY_CUSTOMER_ID__ID_DESC',
   CustomerByCustomerIdCustomerNameAsc = 'CUSTOMER_BY_CUSTOMER_ID__CUSTOMER_NAME_ASC',
@@ -10779,6 +10783,7 @@ export type CommonPackType = Node & {
   defaultInvSortKey?: Maybe<Scalars['String']>;
   isRepack?: Maybe<Scalars['Boolean']>;
   palletWeight?: Maybe<Scalars['BigFloat']>;
+  boxCount?: Maybe<Scalars['BigInt']>;
   /** Reads a single `CommonSpecies` that is related to this `CommonPackType`. */
   commonSpecies?: Maybe<CommonSpecies>;
   /** Reads a single `PackMaster` that is related to this `CommonPackType`. */
@@ -11218,6 +11223,8 @@ export enum CommonPackTypesOrderBy {
   IsRepackDesc = 'IS_REPACK_DESC',
   PalletWeightAsc = 'PALLET_WEIGHT_ASC',
   PalletWeightDesc = 'PALLET_WEIGHT_DESC',
+  BoxCountAsc = 'BOX_COUNT_ASC',
+  BoxCountDesc = 'BOX_COUNT_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
   CommonSpeciesByCommonSpeciesIdIdAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__ID_ASC',
@@ -11331,6 +11338,8 @@ export type CommonPackTypeCondition = {
   isRepack?: Maybe<Scalars['Boolean']>;
   /** Checks for equality with the object’s `palletWeight` field. */
   palletWeight?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `boxCount` field. */
+  boxCount?: Maybe<Scalars['BigInt']>;
 };
 
 /** A connection to a list of `CommonPackTypePackMaster` values. */
@@ -11395,6 +11404,8 @@ export enum CommonPackTypePackMastersOrderBy {
   CommonPackTypeByCommonPackTypeIdIsRepackDesc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__IS_REPACK_DESC',
   CommonPackTypeByCommonPackTypeIdPalletWeightAsc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__PALLET_WEIGHT_ASC',
   CommonPackTypeByCommonPackTypeIdPalletWeightDesc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__PALLET_WEIGHT_DESC',
+  CommonPackTypeByCommonPackTypeIdBoxCountAsc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__BOX_COUNT_ASC',
+  CommonPackTypeByCommonPackTypeIdBoxCountDesc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__BOX_COUNT_DESC',
   PackMasterByPackMasterIdIdAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__ID_ASC',
   PackMasterByPackMasterIdIdDesc = 'PACK_MASTER_BY_PACK_MASTER_ID__ID_DESC',
   PackMasterByPackMasterIdShipperIdAsc = 'PACK_MASTER_BY_PACK_MASTER_ID__SHIPPER_ID_ASC',
@@ -11765,7 +11776,9 @@ export enum CommonPackTypeTagsOrderBy {
   CommonPackTypeByCommonPackTypeIdIsRepackAsc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__IS_REPACK_ASC',
   CommonPackTypeByCommonPackTypeIdIsRepackDesc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__IS_REPACK_DESC',
   CommonPackTypeByCommonPackTypeIdPalletWeightAsc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__PALLET_WEIGHT_ASC',
-  CommonPackTypeByCommonPackTypeIdPalletWeightDesc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__PALLET_WEIGHT_DESC'
+  CommonPackTypeByCommonPackTypeIdPalletWeightDesc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__PALLET_WEIGHT_DESC',
+  CommonPackTypeByCommonPackTypeIdBoxCountAsc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__BOX_COUNT_ASC',
+  CommonPackTypeByCommonPackTypeIdBoxCountDesc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__BOX_COUNT_DESC'
 }
 
 /**
@@ -11862,6 +11875,8 @@ export enum ShipperProgramsOrderBy {
   CommonPackTypeByCommonPackTypeIdIsRepackDesc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__IS_REPACK_DESC',
   CommonPackTypeByCommonPackTypeIdPalletWeightAsc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__PALLET_WEIGHT_ASC',
   CommonPackTypeByCommonPackTypeIdPalletWeightDesc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__PALLET_WEIGHT_DESC',
+  CommonPackTypeByCommonPackTypeIdBoxCountAsc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__BOX_COUNT_ASC',
+  CommonPackTypeByCommonPackTypeIdBoxCountDesc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__BOX_COUNT_DESC',
   ShipperByShipperIdIdAsc = 'SHIPPER_BY_SHIPPER_ID__ID_ASC',
   ShipperByShipperIdIdDesc = 'SHIPPER_BY_SHIPPER_ID__ID_DESC',
   ShipperByShipperIdShipperNameAsc = 'SHIPPER_BY_SHIPPER_ID__SHIPPER_NAME_ASC',
@@ -12466,6 +12481,8 @@ export enum CustomerProgramsOrderBy {
   CommonPackTypeByCommonPackTypeIdIsRepackDesc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__IS_REPACK_DESC',
   CommonPackTypeByCommonPackTypeIdPalletWeightAsc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__PALLET_WEIGHT_ASC',
   CommonPackTypeByCommonPackTypeIdPalletWeightDesc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__PALLET_WEIGHT_DESC',
+  CommonPackTypeByCommonPackTypeIdBoxCountAsc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__BOX_COUNT_ASC',
+  CommonPackTypeByCommonPackTypeIdBoxCountDesc = 'COMMON_PACK_TYPE_BY_COMMON_PACK_TYPE_ID__BOX_COUNT_DESC',
   CustomerByCustomerIdIdAsc = 'CUSTOMER_BY_CUSTOMER_ID__ID_ASC',
   CustomerByCustomerIdIdDesc = 'CUSTOMER_BY_CUSTOMER_ID__ID_DESC',
   CustomerByCustomerIdCustomerNameAsc = 'CUSTOMER_BY_CUSTOMER_ID__CUSTOMER_NAME_ASC',
@@ -28426,6 +28443,8 @@ export type OrderEntryItem = Node & {
   label?: Maybe<Scalars['String']>;
   notes?: Maybe<Scalars['String']>;
   countryOfOrigin?: Maybe<Scalars['String']>;
+  boxCount?: Maybe<Scalars['BigFloat']>;
+  palletWeight?: Maybe<Scalars['BigFloat']>;
   /** Reads a single `OrderEntry` that is related to this `OrderEntryItem`. */
   orderEntry?: Maybe<OrderEntry>;
   /** Reads and enables pagination through a set of `OrderEntryReviewItem`. */
@@ -28478,6 +28497,8 @@ export type OrderEntryReviewItem = Node & {
   countryOfOrigin?: Maybe<Scalars['String']>;
   label?: Maybe<Scalars['String']>;
   palletCount?: Maybe<Scalars['BigFloat']>;
+  boxCount?: Maybe<Scalars['BigFloat']>;
+  palletWeight?: Maybe<Scalars['BigFloat']>;
   /** Reads a single `OrderEntryItem` that is related to this `OrderEntryReviewItem`. */
   orderEntryItem?: Maybe<OrderEntryItem>;
   shipper?: Maybe<Shipper>;
@@ -28523,6 +28544,10 @@ export enum OrderEntryReviewItemsOrderBy {
   LabelDesc = 'LABEL_DESC',
   PalletCountAsc = 'PALLET_COUNT_ASC',
   PalletCountDesc = 'PALLET_COUNT_DESC',
+  BoxCountAsc = 'BOX_COUNT_ASC',
+  BoxCountDesc = 'BOX_COUNT_DESC',
+  PalletWeightAsc = 'PALLET_WEIGHT_ASC',
+  PalletWeightDesc = 'PALLET_WEIGHT_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
   OrderEntryItemByOrderEntryItemIdIdAsc = 'ORDER_ENTRY_ITEM_BY_ORDER_ENTRY_ITEM_ID__ID_ASC',
@@ -28558,7 +28583,11 @@ export enum OrderEntryReviewItemsOrderBy {
   OrderEntryItemByOrderEntryItemIdNotesAsc = 'ORDER_ENTRY_ITEM_BY_ORDER_ENTRY_ITEM_ID__NOTES_ASC',
   OrderEntryItemByOrderEntryItemIdNotesDesc = 'ORDER_ENTRY_ITEM_BY_ORDER_ENTRY_ITEM_ID__NOTES_DESC',
   OrderEntryItemByOrderEntryItemIdCountryOfOriginAsc = 'ORDER_ENTRY_ITEM_BY_ORDER_ENTRY_ITEM_ID__COUNTRY_OF_ORIGIN_ASC',
-  OrderEntryItemByOrderEntryItemIdCountryOfOriginDesc = 'ORDER_ENTRY_ITEM_BY_ORDER_ENTRY_ITEM_ID__COUNTRY_OF_ORIGIN_DESC'
+  OrderEntryItemByOrderEntryItemIdCountryOfOriginDesc = 'ORDER_ENTRY_ITEM_BY_ORDER_ENTRY_ITEM_ID__COUNTRY_OF_ORIGIN_DESC',
+  OrderEntryItemByOrderEntryItemIdBoxCountAsc = 'ORDER_ENTRY_ITEM_BY_ORDER_ENTRY_ITEM_ID__BOX_COUNT_ASC',
+  OrderEntryItemByOrderEntryItemIdBoxCountDesc = 'ORDER_ENTRY_ITEM_BY_ORDER_ENTRY_ITEM_ID__BOX_COUNT_DESC',
+  OrderEntryItemByOrderEntryItemIdPalletWeightAsc = 'ORDER_ENTRY_ITEM_BY_ORDER_ENTRY_ITEM_ID__PALLET_WEIGHT_ASC',
+  OrderEntryItemByOrderEntryItemIdPalletWeightDesc = 'ORDER_ENTRY_ITEM_BY_ORDER_ENTRY_ITEM_ID__PALLET_WEIGHT_DESC'
 }
 
 /**
@@ -28592,6 +28621,10 @@ export type OrderEntryReviewItemCondition = {
   label?: Maybe<Scalars['String']>;
   /** Checks for equality with the object’s `palletCount` field. */
   palletCount?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `boxCount` field. */
+  boxCount?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `palletWeight` field. */
+  palletWeight?: Maybe<Scalars['BigFloat']>;
 };
 
 /** A filter to be used against `OrderEntryReviewItem` object types. All fields are combined with a logical ‘and.’ */
@@ -28622,6 +28655,10 @@ export type OrderEntryReviewItemFilter = {
   label?: Maybe<StringFilter>;
   /** Filter by the object’s `palletCount` field. */
   palletCount?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `boxCount` field. */
+  boxCount?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `palletWeight` field. */
+  palletWeight?: Maybe<BigFloatFilter>;
   /** Filter by the object’s `orderEntryItem` relation. */
   orderEntryItem?: Maybe<OrderEntryItemFilter>;
   /** Checks for all expressions in this list. */
@@ -28668,6 +28705,10 @@ export type OrderEntryItemFilter = {
   notes?: Maybe<StringFilter>;
   /** Filter by the object’s `countryOfOrigin` field. */
   countryOfOrigin?: Maybe<StringFilter>;
+  /** Filter by the object’s `boxCount` field. */
+  boxCount?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `palletWeight` field. */
+  palletWeight?: Maybe<BigFloatFilter>;
   /** Filter by the object’s `searchText` field. */
   searchText?: Maybe<StringFilter>;
   /** Filter by the object’s `orderEntryReviewItems` relation. */
@@ -28796,6 +28837,10 @@ export enum OrderEntryItemsOrderBy {
   NotesDesc = 'NOTES_DESC',
   CountryOfOriginAsc = 'COUNTRY_OF_ORIGIN_ASC',
   CountryOfOriginDesc = 'COUNTRY_OF_ORIGIN_DESC',
+  BoxCountAsc = 'BOX_COUNT_ASC',
+  BoxCountDesc = 'BOX_COUNT_DESC',
+  PalletWeightAsc = 'PALLET_WEIGHT_ASC',
+  PalletWeightDesc = 'PALLET_WEIGHT_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
   OrderEntryByOrderEntryIdIdAsc = 'ORDER_ENTRY_BY_ORDER_ENTRY_ID__ID_ASC',
@@ -28871,6 +28916,10 @@ export type OrderEntryItemCondition = {
   notes?: Maybe<Scalars['String']>;
   /** Checks for equality with the object’s `countryOfOrigin` field. */
   countryOfOrigin?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `boxCount` field. */
+  boxCount?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `palletWeight` field. */
+  palletWeight?: Maybe<Scalars['BigFloat']>;
 };
 
 /** A `OrderEntry` edge in the connection. */
@@ -31758,6 +31807,7 @@ export type Mutation = {
   batchCreatePsaPersimmonPallet?: Maybe<BatchCreatePsaPersimmonPalletPayload>;
   batchCreatePsaPomegranatePallet?: Maybe<BatchCreatePsaPomegranatePalletPayload>;
   batchCreatePsaStoneFruitPallet?: Maybe<BatchCreatePsaStoneFruitPalletPayload>;
+  bulkDeleteActiveInventoryItem?: Maybe<BulkDeleteActiveInventoryItemPayload>;
   bulkDeleteCustomerProgram?: Maybe<BulkDeleteCustomerProgramPayload>;
   bulkDeleteInventoryItem?: Maybe<BulkDeleteInventoryItemPayload>;
   bulkDeletePackMaster?: Maybe<BulkDeletePackMasterPayload>;
@@ -35245,6 +35295,12 @@ export type MutationBatchCreatePsaPomegranatePalletArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationBatchCreatePsaStoneFruitPalletArgs = {
   input: BatchCreatePsaStoneFruitPalletInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationBulkDeleteActiveInventoryItemArgs = {
+  input: BulkDeleteActiveInventoryItemInput;
 };
 
 
@@ -39039,6 +39095,7 @@ export type UpdateCommonPackTypeOnShipperProjectionProductForShipperProjectionPr
   defaultInvSortKey?: Maybe<Scalars['String']>;
   isRepack?: Maybe<Scalars['Boolean']>;
   palletWeight?: Maybe<Scalars['BigFloat']>;
+  boxCount?: Maybe<Scalars['BigInt']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInput>;
   packMasterToPackMasterId?: Maybe<CommonPackTypePackMasterIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyInverseInput>;
@@ -39131,6 +39188,7 @@ export type UpdateCommonPackTypeOnCommonPackTypeForCommonPackTypeCommonSpeciesId
   defaultInvSortKey?: Maybe<Scalars['String']>;
   isRepack?: Maybe<Scalars['Boolean']>;
   palletWeight?: Maybe<Scalars['BigFloat']>;
+  boxCount?: Maybe<Scalars['BigInt']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInput>;
   packMasterToPackMasterId?: Maybe<CommonPackTypePackMasterIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyInverseInput>;
@@ -39260,6 +39318,7 @@ export type UpdateCommonPackTypeOnCommonPackTypeForCommonPackTypePackMasterIdFke
   defaultInvSortKey?: Maybe<Scalars['String']>;
   isRepack?: Maybe<Scalars['Boolean']>;
   palletWeight?: Maybe<Scalars['BigFloat']>;
+  boxCount?: Maybe<Scalars['BigInt']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInput>;
   packMasterToPackMasterId?: Maybe<CommonPackTypePackMasterIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyInverseInput>;
@@ -41978,6 +42037,7 @@ export type UpdateCommonPackTypeOnShipperProgramForShipperProgramCommonPackTypeI
   defaultInvSortKey?: Maybe<Scalars['String']>;
   isRepack?: Maybe<Scalars['Boolean']>;
   palletWeight?: Maybe<Scalars['BigFloat']>;
+  boxCount?: Maybe<Scalars['BigInt']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInput>;
   packMasterToPackMasterId?: Maybe<CommonPackTypePackMasterIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyInverseInput>;
@@ -42080,6 +42140,7 @@ export type UpdateCommonPackTypeOnCommonPackTypeTagForCommonPackTypeTagCommonPac
   defaultInvSortKey?: Maybe<Scalars['String']>;
   isRepack?: Maybe<Scalars['Boolean']>;
   palletWeight?: Maybe<Scalars['BigFloat']>;
+  boxCount?: Maybe<Scalars['BigInt']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInput>;
   packMasterToPackMasterId?: Maybe<CommonPackTypePackMasterIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyInverseInput>;
@@ -42181,6 +42242,7 @@ export type UpdateCommonPackTypeOnCommonPackTypePackMasterForCommonPackTypePackM
   defaultInvSortKey?: Maybe<Scalars['String']>;
   isRepack?: Maybe<Scalars['Boolean']>;
   palletWeight?: Maybe<Scalars['BigFloat']>;
+  boxCount?: Maybe<Scalars['BigInt']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInput>;
   packMasterToPackMasterId?: Maybe<CommonPackTypePackMasterIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyInverseInput>;
@@ -43068,6 +43130,7 @@ export type UpdateCommonPackTypeOnCustomerProgramForCustomerProgramCommonPackTyp
   defaultInvSortKey?: Maybe<Scalars['String']>;
   isRepack?: Maybe<Scalars['Boolean']>;
   palletWeight?: Maybe<Scalars['BigFloat']>;
+  boxCount?: Maybe<Scalars['BigInt']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInput>;
   packMasterToPackMasterId?: Maybe<CommonPackTypePackMasterIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyInverseInput>;
@@ -43556,6 +43619,7 @@ export type CommonPackTypePatch = {
   defaultInvSortKey?: Maybe<Scalars['String']>;
   isRepack?: Maybe<Scalars['Boolean']>;
   palletWeight?: Maybe<Scalars['BigFloat']>;
+  boxCount?: Maybe<Scalars['BigInt']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInput>;
   packMasterToPackMasterId?: Maybe<CommonPackTypePackMasterIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyInverseInput>;
@@ -43575,6 +43639,7 @@ export type CustomerProgramCommonPackTypeIdFkeyCommonPackTypeCreateInput = {
   defaultInvSortKey?: Maybe<Scalars['String']>;
   isRepack?: Maybe<Scalars['Boolean']>;
   palletWeight?: Maybe<Scalars['BigFloat']>;
+  boxCount?: Maybe<Scalars['BigInt']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInput>;
   packMasterToPackMasterId?: Maybe<CommonPackTypePackMasterIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyInverseInput>;
@@ -43987,6 +44052,7 @@ export type CommonPackTypePackMasterCommonPackTypeIdFkeyCommonPackTypeCreateInpu
   defaultInvSortKey?: Maybe<Scalars['String']>;
   isRepack?: Maybe<Scalars['Boolean']>;
   palletWeight?: Maybe<Scalars['BigFloat']>;
+  boxCount?: Maybe<Scalars['BigInt']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInput>;
   packMasterToPackMasterId?: Maybe<CommonPackTypePackMasterIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyInverseInput>;
@@ -44234,6 +44300,7 @@ export type CommonPackTypeTagCommonPackTypeIdFkeyCommonPackTypeCreateInput = {
   defaultInvSortKey?: Maybe<Scalars['String']>;
   isRepack?: Maybe<Scalars['Boolean']>;
   palletWeight?: Maybe<Scalars['BigFloat']>;
+  boxCount?: Maybe<Scalars['BigInt']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInput>;
   packMasterToPackMasterId?: Maybe<CommonPackTypePackMasterIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyInverseInput>;
@@ -44282,6 +44349,7 @@ export type ShipperProgramCommonPackTypeIdFkeyCommonPackTypeCreateInput = {
   defaultInvSortKey?: Maybe<Scalars['String']>;
   isRepack?: Maybe<Scalars['Boolean']>;
   palletWeight?: Maybe<Scalars['BigFloat']>;
+  boxCount?: Maybe<Scalars['BigInt']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInput>;
   packMasterToPackMasterId?: Maybe<CommonPackTypePackMasterIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyInverseInput>;
@@ -45936,6 +46004,7 @@ export type CommonPackTypePackMasterIdFkeyCommonPackTypeCreateInput = {
   defaultInvSortKey?: Maybe<Scalars['String']>;
   isRepack?: Maybe<Scalars['Boolean']>;
   palletWeight?: Maybe<Scalars['BigFloat']>;
+  boxCount?: Maybe<Scalars['BigInt']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInput>;
   packMasterToPackMasterId?: Maybe<CommonPackTypePackMasterIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyInverseInput>;
@@ -46007,6 +46076,7 @@ export type CommonPackTypeCommonSpeciesIdFkeyCommonPackTypeCreateInput = {
   defaultInvSortKey?: Maybe<Scalars['String']>;
   isRepack?: Maybe<Scalars['Boolean']>;
   palletWeight?: Maybe<Scalars['BigFloat']>;
+  boxCount?: Maybe<Scalars['BigInt']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInput>;
   packMasterToPackMasterId?: Maybe<CommonPackTypePackMasterIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyInverseInput>;
@@ -46064,6 +46134,7 @@ export type ShipperProjectionProductCommonPackTypeIdFkeyCommonPackTypeCreateInpu
   defaultInvSortKey?: Maybe<Scalars['String']>;
   isRepack?: Maybe<Scalars['Boolean']>;
   palletWeight?: Maybe<Scalars['BigFloat']>;
+  boxCount?: Maybe<Scalars['BigInt']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInput>;
   packMasterToPackMasterId?: Maybe<CommonPackTypePackMasterIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyInverseInput>;
@@ -49584,6 +49655,7 @@ export type CommonPackTypeInput = {
   defaultInvSortKey?: Maybe<Scalars['String']>;
   isRepack?: Maybe<Scalars['Boolean']>;
   palletWeight?: Maybe<Scalars['BigFloat']>;
+  boxCount?: Maybe<Scalars['BigInt']>;
   commonSpeciesToCommonSpeciesId?: Maybe<CommonPackTypeCommonSpeciesIdFkeyInput>;
   packMasterToPackMasterId?: Maybe<CommonPackTypePackMasterIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCommonPackTypeIdFkeyInverseInput>;
@@ -52571,6 +52643,8 @@ export type UpdateOrderEntryItemOnOrderEntryItemForOrderEntryItemOrderEntryIdFke
   label?: Maybe<Scalars['String']>;
   notes?: Maybe<Scalars['String']>;
   countryOfOrigin?: Maybe<Scalars['String']>;
+  boxCount?: Maybe<Scalars['BigFloat']>;
+  palletWeight?: Maybe<Scalars['BigFloat']>;
   orderEntryToOrderEntryId?: Maybe<OrderEntryItemOrderEntryIdFkeyInput>;
   orderEntryReviewItemsUsingId?: Maybe<OrderEntryReviewItemOrderEntryItemIdFkeyInverseInput>;
 };
@@ -52753,6 +52827,8 @@ export type UpdateOrderEntryReviewItemOnOrderEntryReviewItemForOrderEntryReviewI
   countryOfOrigin?: Maybe<Scalars['String']>;
   label?: Maybe<Scalars['String']>;
   palletCount?: Maybe<Scalars['BigFloat']>;
+  boxCount?: Maybe<Scalars['BigFloat']>;
+  palletWeight?: Maybe<Scalars['BigFloat']>;
   orderEntryItemToOrderEntryItemId?: Maybe<OrderEntryReviewItemOrderEntryItemIdFkeyInput>;
 };
 
@@ -52800,6 +52876,8 @@ export type UpdateOrderEntryItemOnOrderEntryReviewItemForOrderEntryReviewItemOrd
   label?: Maybe<Scalars['String']>;
   notes?: Maybe<Scalars['String']>;
   countryOfOrigin?: Maybe<Scalars['String']>;
+  boxCount?: Maybe<Scalars['BigFloat']>;
+  palletWeight?: Maybe<Scalars['BigFloat']>;
   orderEntryToOrderEntryId?: Maybe<OrderEntryItemOrderEntryIdFkeyInput>;
   orderEntryReviewItemsUsingId?: Maybe<OrderEntryReviewItemOrderEntryItemIdFkeyInverseInput>;
 };
@@ -52831,6 +52909,8 @@ export type OrderEntryItemPatch = {
   label?: Maybe<Scalars['String']>;
   notes?: Maybe<Scalars['String']>;
   countryOfOrigin?: Maybe<Scalars['String']>;
+  boxCount?: Maybe<Scalars['BigFloat']>;
+  palletWeight?: Maybe<Scalars['BigFloat']>;
   orderEntryToOrderEntryId?: Maybe<OrderEntryItemOrderEntryIdFkeyInput>;
   orderEntryReviewItemsUsingId?: Maybe<OrderEntryReviewItemOrderEntryItemIdFkeyInverseInput>;
 };
@@ -52854,6 +52934,8 @@ export type OrderEntryReviewItemOrderEntryItemIdFkeyOrderEntryItemCreateInput = 
   label?: Maybe<Scalars['String']>;
   notes?: Maybe<Scalars['String']>;
   countryOfOrigin?: Maybe<Scalars['String']>;
+  boxCount?: Maybe<Scalars['BigFloat']>;
+  palletWeight?: Maybe<Scalars['BigFloat']>;
   orderEntryToOrderEntryId?: Maybe<OrderEntryItemOrderEntryIdFkeyInput>;
   orderEntryReviewItemsUsingId?: Maybe<OrderEntryReviewItemOrderEntryItemIdFkeyInverseInput>;
 };
@@ -52881,6 +52963,8 @@ export type OrderEntryReviewItemPatch = {
   countryOfOrigin?: Maybe<Scalars['String']>;
   label?: Maybe<Scalars['String']>;
   palletCount?: Maybe<Scalars['BigFloat']>;
+  boxCount?: Maybe<Scalars['BigFloat']>;
+  palletWeight?: Maybe<Scalars['BigFloat']>;
   orderEntryItemToOrderEntryItemId?: Maybe<OrderEntryReviewItemOrderEntryItemIdFkeyInput>;
 };
 
@@ -52898,6 +52982,8 @@ export type OrderEntryReviewItemOrderEntryItemIdFkeyOrderEntryReviewItemCreateIn
   countryOfOrigin?: Maybe<Scalars['String']>;
   label?: Maybe<Scalars['String']>;
   palletCount?: Maybe<Scalars['BigFloat']>;
+  boxCount?: Maybe<Scalars['BigFloat']>;
+  palletWeight?: Maybe<Scalars['BigFloat']>;
   orderEntryItemToOrderEntryItemId?: Maybe<OrderEntryReviewItemOrderEntryItemIdFkeyInput>;
 };
 
@@ -52927,6 +53013,8 @@ export type OrderEntryItemOrderEntryIdFkeyOrderEntryItemCreateInput = {
   label?: Maybe<Scalars['String']>;
   notes?: Maybe<Scalars['String']>;
   countryOfOrigin?: Maybe<Scalars['String']>;
+  boxCount?: Maybe<Scalars['BigFloat']>;
+  palletWeight?: Maybe<Scalars['BigFloat']>;
   orderEntryToOrderEntryId?: Maybe<OrderEntryItemOrderEntryIdFkeyInput>;
   orderEntryReviewItemsUsingId?: Maybe<OrderEntryReviewItemOrderEntryItemIdFkeyInverseInput>;
 };
@@ -52985,6 +53073,8 @@ export type OrderEntryItemInput = {
   label?: Maybe<Scalars['String']>;
   notes?: Maybe<Scalars['String']>;
   countryOfOrigin?: Maybe<Scalars['String']>;
+  boxCount?: Maybe<Scalars['BigFloat']>;
+  palletWeight?: Maybe<Scalars['BigFloat']>;
   orderEntryToOrderEntryId?: Maybe<OrderEntryItemOrderEntryIdFkeyInput>;
   orderEntryReviewItemsUsingId?: Maybe<OrderEntryReviewItemOrderEntryItemIdFkeyInverseInput>;
 };
@@ -53039,6 +53129,8 @@ export type OrderEntryReviewItemInput = {
   countryOfOrigin?: Maybe<Scalars['String']>;
   label?: Maybe<Scalars['String']>;
   palletCount?: Maybe<Scalars['BigFloat']>;
+  boxCount?: Maybe<Scalars['BigFloat']>;
+  palletWeight?: Maybe<Scalars['BigFloat']>;
   orderEntryItemToOrderEntryItemId?: Maybe<OrderEntryReviewItemOrderEntryItemIdFkeyInput>;
 };
 
@@ -64996,6 +65088,29 @@ export type BatchCreatePsaStoneFruitPalletInput = {
    */
   clientMutationId?: Maybe<Scalars['String']>;
   newPallets: Array<Maybe<PsaStoneFruitPalletInput>>;
+};
+
+/** The output of our `bulkDeleteActiveInventoryItem` mutation. */
+export type BulkDeleteActiveInventoryItemPayload = {
+  __typename?: 'BulkDeleteActiveInventoryItemPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  bigInts?: Maybe<Array<Maybe<Scalars['BigInt']>>>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** All input for the `bulkDeleteActiveInventoryItem` mutation. */
+export type BulkDeleteActiveInventoryItemInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  idsToDelete: Array<Maybe<Scalars['BigInt']>>;
 };
 
 /** The output of our `bulkDeleteCustomerProgram` mutation. */

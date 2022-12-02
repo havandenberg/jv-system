@@ -111,6 +111,12 @@ export const baseLabels: (
     ),
   },
   {
+    key: 'boxCount',
+    label: 'Box Count',
+    getValue: ({ boxCount }) => <ty.BodyText>{boxCount || '-'}</ty.BodyText>,
+    validate: ({ boxCount }) => !boxCount || !isNaN(Number(boxCount)),
+  },
+  {
     key: 'palletWeight',
     label: 'Pallet Weight (lbs)',
     getValue: ({ palletWeight }) => (

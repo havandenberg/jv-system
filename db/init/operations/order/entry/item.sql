@@ -15,6 +15,8 @@ CREATE TABLE operations.order_entry_item (
   plu TEXT,
   country_of_origin TEXT,
   label TEXT,
+  box_count NUMERIC,
+  pallet_weight NUMERIC,
   notes TEXT
 );
 

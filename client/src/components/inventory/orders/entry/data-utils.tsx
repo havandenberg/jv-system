@@ -49,11 +49,12 @@ export const listLabels: (
       ),
   },
   {
-    key: 'fob',
-    label: 'FOB / Del',
-    isBoolean: true,
-    getValue: ({ fob }) => (
-      <ty.BodyText>{fob ? 'FOB' : 'Delivery'}</ty.BodyText>
+    key: 'reviewUserCode',
+    label: 'Reviewed By',
+    getValue: ({ reviewUser }) => (
+      <ty.BodyText>
+        {reviewUser ? reviewUser.personContact?.firstName : '-'}
+      </ty.BodyText>
     ),
   },
   {
@@ -303,7 +304,7 @@ export const itemListLabels: (fob: boolean) => OrderEntryItemLabelInfo[] = (
   },
   {
     key: 'deliveryCharge',
-    label: 'Freight',
+    label: 'Unit Frt.',
     show: !fob,
     validate: ({ deliveryCharge }) => fob || parseFloat(deliveryCharge) > 0,
   },
@@ -329,18 +330,26 @@ export const getDuplicateOrderEntryItemIds = (items: OrderEntryItem[]) =>
     .map((duplicateItems) => duplicateItems.map((p) => parseInt(p.id, 10)))
     .flat();
 
+export const getOrderEntryEstimatedWeight = (
+  orderEntryItems: OrderEntryItem[],
+) =>
+  orderEntryItems.reduce(
+    (sum, item) => sum + (item.palletWeight || 0) * item.palletCount,
+    0,
+  ) as number;
+
 export const getOrderEntryItemEstimatedFreight = (
   orderEntryItem: OrderEntryItem,
   truckRate?: TruckRate,
+  boxCount?: number,
 ) => {
   const { palletCount, deliveryCharge } = orderEntryItem;
   const palletCountInt = parseInt(palletCount, 10);
   const deliveryChargeFloat = parseFloat(deliveryCharge);
-  const estimate = truckRate && getClosestPalletRate(truckRate, palletCountInt);
-  const isEstimate = !deliveryChargeFloat || deliveryChargeFloat === estimate;
-  return truckRate && isEstimate
-    ? estimate || deliveryChargeFloat
-    : deliveryChargeFloat || 0;
+  const palletEstimate =
+    truckRate && getClosestPalletRate(truckRate, palletCountInt);
+  const estimate = palletEstimate && palletEstimate / (boxCount || 1);
+  return +((truckRate && (estimate || deliveryChargeFloat)) || 0).toFixed(2);
 };
 
 export const getOrderEntryEstimatedFreight = (
@@ -357,9 +366,10 @@ export const getOrderEntryEstimatedFreight = (
 export const getOrderEntryItemEstimatedTotal = (
   orderEntryItem: OrderEntryItem,
   truckRate?: TruckRate,
+  boxCount?: number,
 ) => {
   const { unitSellPrice, palletCount } = orderEntryItem;
-  const price = parseFloat(unitSellPrice);
+  const price = parseFloat(unitSellPrice) * (boxCount || 1);
   const pallets = parseInt(palletCount, 10);
   const freightPerPallet = truckRate
     ? getOrderEntryItemEstimatedFreight(orderEntryItem, truckRate)
@@ -372,7 +382,8 @@ export const getOrderEntryEstimatedTotal = (
   truckRate?: TruckRate,
 ) =>
   orderEntryItems.reduce(
-    (sum, item) => sum + getOrderEntryItemEstimatedTotal(item, truckRate),
+    (sum, item) =>
+      sum + getOrderEntryItemEstimatedTotal(item, truckRate, item.boxCount),
     0,
   );
 

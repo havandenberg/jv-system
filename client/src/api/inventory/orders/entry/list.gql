@@ -27,6 +27,7 @@ query ORDER_ENTRY_LIST(
       billingCustomer {
         id
         customerName
+        postalState
       }
       salesUser {
         id
@@ -75,6 +76,8 @@ query ORDER_ENTRY_LIST(
           plu
           label
           countryOfOrigin
+          boxCount
+          palletWeight
           notes
           vessel {
             id

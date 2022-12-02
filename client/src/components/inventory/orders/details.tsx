@@ -13,12 +13,11 @@ import {
   useOrdersQueryParams,
   useSortQueryParams,
 } from 'hooks/use-query-params';
-import { OrderEntry, OrderItem, OrderMaster } from 'types';
+import { OrderEntry, OrderItem, OrderMaster, TruckRate } from 'types';
 import b from 'ui/button';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
-import { formatCurrency } from 'utils/format';
 
 import {
   baseLabels,
@@ -29,6 +28,7 @@ import { baseLabels as entryBaseLabels } from './entry/data-utils';
 import OrderEntryList from './entry/list';
 import OrderItemList from './items/list';
 import OrderMasterList from './list';
+import OrderEntryTotals from './totals';
 
 export const breadcrumbs = (id: string) => [
   {
@@ -105,9 +105,23 @@ const Details = () => {
       )
     : orderMasters[0];
 
+  const {
+    data: truckRateData,
+    loading: truckRateDataLoading,
+    error: truckRateDataError,
+  } = api.useTruckRates('POSTAL_STATE_ASC');
+  const truckRates = (truckRateData ? truckRateData.nodes : []) as TruckRate[];
+  const defaultTruckRate = truckRates.find(
+    (truckRate) =>
+      latestOrderEntry?.billingCustomer &&
+      truckRate.isDefault &&
+      truckRate.postalState === latestOrderEntry?.billingCustomer?.postalState,
+  );
+
   const hasData = orderMaster || orderEntries.length > 0;
-  const loading = orderMastersLoading || orderEntriesLoading;
-  const error = orderMastersError || orderEntriesError;
+  const loading =
+    orderMastersLoading || orderEntriesLoading || truckRateDataLoading;
+  const error = orderMastersError || orderEntriesError || truckRateDataError;
 
   const allItems = backOrderId
     ? orderMaster?.items.nodes || []
@@ -159,20 +173,6 @@ const Details = () => {
     !backOrderId &&
     orderMasters.length > 1;
   const isEntries = selectedTabId === 'orderEntries';
-
-  const { totalPallets, totalSellPrice } = allItems.reduce(
-    (acc, item) => ({
-      totalPallets: acc.totalPallets + parseInt(item?.palletCount, 10) || 0,
-      totalSellPrice:
-        acc.totalSellPrice +
-        (parseFloat(item?.unitSellPrice) || 0) *
-          (parseInt(item?.boxCount, 10) || 0),
-    }),
-    { totalPallets: 0, totalSellPrice: 0 } as {
-      totalPallets: number;
-      totalSellPrice: number;
-    },
-  );
 
   const clearBackOrderId = () => {
     setOrdersParams({
@@ -243,20 +243,12 @@ const Details = () => {
           )}
           <l.Flex alignCenter justifyBetween my={th.spacing.lg}>
             <TabBar />
-            <l.Flex alignCenter>
-              <ty.CaptionText mr={th.spacing.lg}>
-                Total Pallets:{' '}
-                <ty.Span bold ml={th.spacing.xs}>
-                  {loading ? '-' : totalPallets}
-                </ty.Span>
-              </ty.CaptionText>
-              <ty.CaptionText color={th.colors.brand.primaryAccent}>
-                Total Sell Price:{' '}
-                <ty.Span bold ml={th.spacing.xs}>
-                  {loading ? '-' : formatCurrency(totalSellPrice)}
-                </ty.Span>
-              </ty.CaptionText>
-            </l.Flex>
+            {latestOrderEntry && (
+              <OrderEntryTotals
+                orderEntry={latestOrderEntry}
+                truckRate={defaultTruckRate}
+              />
+            )}
           </l.Flex>
           {isEntries ? (
             <OrderEntryList
