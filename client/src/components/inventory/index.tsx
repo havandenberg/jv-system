@@ -75,7 +75,7 @@ const InventoryTab = () => (
 
     <Route
       exact
-      path="/inventory/vessels/:vesselId/items/:itemId/pallets/:id"
+      path="/inventory/vessels/:vesselId/items/:itemId/pallets/:palletId"
       component={PalletDetails}
     />
     <Route

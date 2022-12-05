@@ -1,0 +1,7 @@
+mutation VESSEL_CONTROLS_UPSERT(
+  $vesselControls: [VesselControlInput]!
+) {
+  bulkUpsertVesselControl(input: { vesselControls: $vesselControls }) {
+    clientMutationId
+  }
+}

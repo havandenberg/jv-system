@@ -73,6 +73,7 @@ const ShipperDirectory = ({ actions }: SubDirectoryProps) => {
               <LineItemCheckbox
                 checked={isAllShippersSelected(items)}
                 onChange={() => toggleAllShippers(items)}
+                status="warning"
               />
               {columnLabels}
             </l.Grid>

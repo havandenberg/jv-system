@@ -4,6 +4,8 @@ import { Shipper } from 'types';
 import ty from 'ui/typography';
 import { LineItemCheckbox } from 'ui/checkbox';
 
+export const DEFAULT_VESSEL_CONTROL_DAYS_UNTIL_DUE = 45;
+
 export type ShipperLabelInfo = LabelInfo<Shipper>;
 
 export const listLabels: ShipperLabelInfo[] = [
@@ -46,6 +48,7 @@ export const baseLabels: ShipperLabelInfo[] = [
   {
     key: 'shipperName',
     label: 'Shipper Name',
+    readOnly: true,
   },
   {
     key: 'countryId',
@@ -61,6 +64,7 @@ export const baseLabels: ShipperLabelInfo[] = [
   {
     key: 'groupId',
     label: 'Group ID',
+    readOnly: true,
   },
   {
     key: 'vendor',
@@ -100,5 +104,21 @@ export const baseLabels: ShipperLabelInfo[] = [
     key: 'projectionRequestEndDate',
     label: 'Projections End Date',
     isDate: true,
+  },
+  {
+    key: 'vesselControlDaysUntilDue',
+    label: 'Vessel Control Days Until Due',
+    getValue: ({ vesselControlDaysUntilDue }) => (
+      <ty.BodyText
+        disabled={
+          !vesselControlDaysUntilDue ||
+          vesselControlDaysUntilDue === DEFAULT_VESSEL_CONTROL_DAYS_UNTIL_DUE
+        }
+      >
+        {vesselControlDaysUntilDue || DEFAULT_VESSEL_CONTROL_DAYS_UNTIL_DUE}
+      </ty.BodyText>
+    ),
+    validate: ({ vesselControlDaysUntilDue }) =>
+      !vesselControlDaysUntilDue || !isNaN(Number(vesselControlDaysUntilDue)),
   },
 ];

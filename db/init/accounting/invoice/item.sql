@@ -17,9 +17,7 @@ CREATE TABLE accounting.invoice_item (
   credit_amount NUMERIC,
   brokerage_amount NUMERIC,
   layer_mult BOOLEAN,
-  alert_status BOOLEAN,
-  return_status BOOLEAN,
-  rejection_status BOOLEAN,
+  flag TEXT,
   notes TEXT
 );
 
@@ -66,9 +64,7 @@ AS $$
         credit_amount,
         brokerage_amount,
         layer_mult,
-        alert_status,
-        return_status,
-        rejection_status,
+        flag,
         notes
       )
         VALUES (
@@ -90,9 +86,7 @@ AS $$
           ii.credit_amount,
           ii.brokerage_amount,
           ii.layer_mult,
-          ii.alert_status,
-          ii.return_status,
-          ii.rejection_status,
+          ii.flag,
           ii.notes
         )
       ON CONFLICT (id) DO UPDATE SET
@@ -113,9 +107,7 @@ AS $$
         credit_amount=EXCLUDED.credit_amount,
         brokerage_amount=EXCLUDED.brokerage_amount,
         layer_mult=EXCLUDED.layer_mult,
-        alert_status=EXCLUDED.alert_status,
-        return_status=EXCLUDED.return_status,
-        rejection_status=EXCLUDED.rejection_status,
+        flag=EXCLUDED.flag,
         notes=EXCLUDED.notes
     	RETURNING * INTO vals;
     	RETURN NEXT vals;

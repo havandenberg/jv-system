@@ -11,6 +11,7 @@ query INVOICE_HEADER_DETAILS($orderId: BigFloat!) {
       invoiceDate
       actualShipDate
       amountOwed
+      flag
       paidCode
       vendor {
         id
@@ -39,9 +40,7 @@ query INVOICE_HEADER_DETAILS($orderId: BigFloat!) {
           creditAmount
           brokerageAmount
           layerMult
-          alertStatus
-          returnStatus
-          rejectionStatus
+          flag
           notes
           pallet {
             backOrderId

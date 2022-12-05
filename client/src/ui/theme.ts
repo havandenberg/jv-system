@@ -7,8 +7,8 @@ export const colors = {
   white: '#FFFFFF',
   brand: {
     containerBackgroundLight: 'rgba(3,41,74,0.025)',
-    containerBackground: 'rgba(3,41,74,0.05)',
-    containerBackgroundAccent: 'rgba(3,41,74,0.1)',
+    containerBackground: '#F3F4F6',
+    containerBackgroundAccent: 'rgba(3,41,74,0.15)',
     primary: '#03294A',
     primaryAccent: '#064C89',
     secondary: 'rgba(3,41,74,0.7)',

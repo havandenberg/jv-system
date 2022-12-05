@@ -1,0 +1,94 @@
+query VESSEL_CONTROL_VESSEL_LIST(
+  $orderBy: [VesselsOrderBy!]
+  $search: [VesselFilter!]
+  $countryId: [String!]
+  $arrivalPort: [String!]
+  $coast: [String!]
+  $endDate: Date
+  $startDate: Date
+) {
+  vessels(
+    condition: { invFlag: true, isPre: false }
+    filter: {
+      and: $search
+      countryId: { in: $countryId }
+      arrivalPort: { in: $arrivalPort }
+      coast: { in: $coast }
+      dischargeDate: {
+        greaterThanOrEqualTo: $startDate
+        lessThanOrEqualTo: $endDate
+      }
+    }
+    orderBy: $orderBy
+  ) {
+    nodes {
+      arrivalPort
+      arrivalDate
+      coast
+      country {
+        countryName
+        id
+      }
+      dischargeDate
+      departureDate
+      id
+      pallets {
+        nodes {
+          id
+          orderMaster {
+            id
+            orderId
+            backOrderId
+            salesUserCode
+          }
+          invoiceHeader {
+            id
+            actualShipDate
+            amountOwed
+            billingCustomer {
+              id
+              customerName
+            }
+            truckLoadId
+            salesUserCode
+            salesUser {
+              userCode
+              personContact {
+                firstName
+                email
+              }
+              id
+            }
+            invoiceId
+            orderId
+            paidCode
+            flag
+            totalAmount
+            totalCreditAmount
+            conditionCode
+            creditCode
+          }
+          billOfLading
+          palletId
+          shipped
+          shipper {
+            id
+            shipperName
+            vesselControlDaysUntilDue
+          }
+          vessel {
+            id
+            vesselName
+            dischargeDate
+          }
+        }
+      }
+      vesselName
+      vesselCode
+      warehouse {
+        id
+        warehouseName
+      }
+    }
+  }
+}

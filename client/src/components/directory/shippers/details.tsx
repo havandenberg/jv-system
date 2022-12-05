@@ -44,15 +44,22 @@ const Details = () => {
 
   const [handleUpdate] = api.useUpdateShipper(id);
 
-  const updateFields = ['shipperName', 'groupId', 'notes', 'website'];
+  const updateFields = [
+    'shipperName',
+    'groupId',
+    'notes',
+    'website',
+    'vesselControlDaysUntilDue',
+  ];
   const updateVariables = { id };
 
-  const { changes, editing, handleChange } = useUpdateItem<Shipper>({
-    data: data as Shipper,
-    handleUpdate,
-    updateFields,
-    updateVariables,
-  });
+  const { changes, editing, handleChange, getUpdateActions } =
+    useUpdateItem<Shipper>({
+      data: data as Shipper,
+      handleUpdate,
+      updateFields,
+      updateVariables,
+    });
 
   const [
     selectedItems,
@@ -67,12 +74,13 @@ const Details = () => {
 
   return (
     <Page
-      actions={
-        data
+      actions={[
+        ...getUpdateActions().defaultActions,
+        ...(data && !editing
           ? [
               <l.AreaLink
                 key="inventory"
-                mr={th.spacing.lg}
+                mx={th.spacing.lg}
                 to={`/inventory/index?shipper=${data.id}`}
               >
                 <b.Primary>Inventory</b.Primary>
@@ -91,8 +99,8 @@ const Details = () => {
                 <b.Primary disabled>Projections</b.Primary>
               </l.AreaLink>,
             ]
-          : []
-      }
+          : []),
+      ]}
       breadcrumbs={shipperBreadcrumbs(id)}
       title={data ? data.shipperName : 'Loading...'}
     >

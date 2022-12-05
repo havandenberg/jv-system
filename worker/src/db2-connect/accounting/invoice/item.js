@@ -22,9 +22,7 @@ const INVOICE_ITEM_LIST = gql`
         creditAmount
         brokerageAmount
         layerMult
-        alertStatus
-        returnStatus
-        rejectionStatus
+        flag
         notes
       }
     }
@@ -67,9 +65,7 @@ const getUpdatedInvoiceItem = (invoiceItem, db2InvoiceItem, id) => ({
   creditAmount: `${db2InvoiceItem['CRAMTU']}`,
   brokerageAmount: `${db2InvoiceItem['BRKRGU']}`,
   layerMult: db2InvoiceItem['LAYERU'] === 1,
-  alertStatus: !!`${db2InvoiceItem['FLAG1U']}`,
-  returnStatus: !!`${db2InvoiceItem['FLAG2U']}`,
-  rejectionStatus: !!`${db2InvoiceItem['FLAG3U']}`,
+  flag: `${db2InvoiceItem['FLAG5U']}`,
 });
 
 const getInvoiceItemId = (db2InvoiceItem, invoiceItems) => {

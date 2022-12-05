@@ -90,6 +90,66 @@ AS $BODY$
     AND ii.back_order_id = i.back_order_id;
 $BODY$;
 
+CREATE FUNCTION accounting.invoice_header_flag(IN i accounting.invoice_header)
+    RETURNS TEXT
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT CONCAT(ii.flag) FROM accounting.invoice_item ii
+    WHERE ii.order_id = i.order_id
+      AND ii.back_order_id = i.back_order_id;
+$BODY$;
+
+CREATE FUNCTION accounting.invoice_header_total_amount(IN i accounting.invoice_header)
+    RETURNS NUMERIC
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT SUM((ii.unit_sell_price + ii.delivery_charge) * ii.picked_qty) FROM accounting.invoice_item ii
+    WHERE ii.order_id = i.order_id
+      AND ii.back_order_id = i.back_order_id;
+$BODY$;
+
+CREATE FUNCTION accounting.invoice_header_total_credit_amount(IN i accounting.invoice_header)
+    RETURNS NUMERIC
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT SUM(ii.credit_amount) FROM accounting.invoice_item ii
+    WHERE ii.order_id = i.order_id
+      AND ii.back_order_id = i.back_order_id;
+$BODY$;
+
+CREATE FUNCTION accounting.invoice_header_condition_code(IN i accounting.invoice_header)
+    RETURNS TEXT
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT COALESCE(ii.condition_code) FROM accounting.invoice_item ii
+    WHERE ii.order_id = i.order_id
+      AND ii.back_order_id = i.back_order_id;
+$BODY$;
+
+CREATE FUNCTION accounting.invoice_header_credit_code(IN i accounting.invoice_header)
+    RETURNS TEXT
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT COALESCE(ii.credit_code) FROM accounting.invoice_item ii
+    WHERE ii.order_id = i.order_id
+      AND ii.back_order_id = i.back_order_id;
+$BODY$;
+
 CREATE FUNCTION accounting.invoice_header_truck_load(IN i accounting.invoice_header)
     RETURNS operations.truck_load
     LANGUAGE 'sql'

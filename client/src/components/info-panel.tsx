@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import OutsideClickHandler from 'react-outside-click-handler';
 
@@ -55,8 +55,9 @@ export interface InfoPanelProps {
 }
 interface Props extends InfoPanelProps {
   hasFilters?: boolean;
-  setShow: (show: boolean) => void;
-  show: boolean;
+  hover?: boolean;
+  setShow?: (show: boolean) => void;
+  show?: boolean;
   triggerIcon?: React.ReactNode;
   visible: boolean;
 }
@@ -65,21 +66,30 @@ const InfoPanel = ({
   content,
   customStyles,
   hasFilters = false,
+  hover,
   setShow,
-  show,
+  show: showProp,
   triggerIcon,
   visible,
 }: Props) => {
-  const toggleShow = () => {
-    setShow(!show);
+  const [localShow, setLocalShow] = useState(!!showProp);
+  const show = !!(setShow ? showProp : localShow);
+
+  const toggleShow = (newShow?: boolean) => () => {
+    const updatedShow = newShow === undefined ? !show : newShow;
+    !!setShow ? setShow(updatedShow) : setLocalShow(updatedShow);
   };
 
   return (
-    <l.Div relative>
+    <l.Div
+      relative
+      onMouseEnter={hover ? toggleShow(true) : undefined}
+      onMouseLeave={hover ? toggleShow(false) : undefined}
+    >
       {triggerIcon && (
         <Trigger
           hasFilters={hasFilters}
-          onClick={toggleShow}
+          onClick={toggleShow()}
           show={show}
           visible={visible}
         >
@@ -89,7 +99,7 @@ const InfoPanel = ({
       {show && (
         <OutsideClickHandler
           onOutsideClick={() => {
-            setShow(false);
+            toggleShow(false);
           }}
         >
           <Panel {...customStyles}>{content}</Panel>

@@ -96,71 +96,78 @@ const Details = () => {
           : []
       }
       breadcrumbs={breadcrumbs(palletId, vesselId, itemId, search)}
-      title={data ? 'Pallet' : 'Loading...'}
+      title={pallet ? 'Pallet' : 'Loading...'}
     >
       {data ? (
-        <>
-          <l.Flex mb={th.spacing.md}>
-            <l.Flex
-              alignCenter
-              bg={th.colors.brand.containerBackground}
-              border={th.borders.primary}
-              borderRadius={th.borderRadii.default}
-              p={th.spacing.md}
-            >
-              <ty.CaptionText mr={th.spacing.md}>
-                {pallet.shipped ? 'Invoice' : 'Order'} ID:
-              </ty.CaptionText>
-              {hasOrder ? (
-                <ty.LinkText
-                  hover="false"
-                  mr={th.spacing.lg}
-                  to={`/${
-                    pallet.shipped ? 'accounting/invoices' : 'inventory/orders'
-                  }/${pallet.orderId}?`}
-                >
-                  {pallet.orderId}
-                </ty.LinkText>
-              ) : (
-                <ty.BodyText mr={th.spacing.lg}>-</ty.BodyText>
-              )}
-              <ty.CaptionText mr={th.spacing.md}>Back Order ID:</ty.CaptionText>
-              {hasBackOrder ? (
-                <ty.LinkText
-                  hover="false"
-                  to={`/inventory/orders/${pallet.orderId}?backOrderId=${pallet.backOrderId}`}
-                  mr={th.spacing.lg}
-                >
-                  {pallet.backOrderId}
-                </ty.LinkText>
-              ) : (
-                <ty.BodyText mr={th.spacing.lg}>-</ty.BodyText>
-              )}
-              <ty.CaptionText mr={th.spacing.md}>Shipped:</ty.CaptionText>
-              <StatusIndicator status={pallet.shipped ? 'success' : 'error'} />
+        pallet && (
+          <>
+            <l.Flex mb={th.spacing.md}>
+              <l.Flex
+                alignCenter
+                bg={th.colors.brand.containerBackground}
+                border={th.borders.primary}
+                borderRadius={th.borderRadii.default}
+                p={th.spacing.md}
+              >
+                <ty.CaptionText mr={th.spacing.md}>
+                  {pallet.shipped ? 'Invoice' : 'Order'} ID:
+                </ty.CaptionText>
+                {hasOrder ? (
+                  <ty.LinkText
+                    hover="false"
+                    mr={th.spacing.lg}
+                    to={`/${
+                      pallet.shipped
+                        ? 'accounting/invoices'
+                        : 'inventory/orders'
+                    }/${pallet.orderId}?`}
+                  >
+                    {pallet.orderId}
+                  </ty.LinkText>
+                ) : (
+                  <ty.BodyText mr={th.spacing.lg}>-</ty.BodyText>
+                )}
+                <ty.CaptionText mr={th.spacing.md}>
+                  Back Order ID:
+                </ty.CaptionText>
+                {hasBackOrder ? (
+                  <ty.LinkText
+                    hover="false"
+                    to={`/inventory/orders/${pallet.orderId}?backOrderId=${pallet.backOrderId}`}
+                    mr={th.spacing.lg}
+                  >
+                    {pallet.backOrderId}
+                  </ty.LinkText>
+                ) : (
+                  <ty.BodyText mr={th.spacing.lg}>-</ty.BodyText>
+                )}
+                <ty.CaptionText mr={th.spacing.md}>Shipped:</ty.CaptionText>
+                <StatusIndicator
+                  status={pallet.shipped ? 'success' : 'error'}
+                />
+              </l.Flex>
             </l.Flex>
-          </l.Flex>
-          <BaseData<Pallet> data={pallet} labels={baseLabels} />
-          <l.Div my={th.spacing.lg}>
-            <TabBar />
-          </l.Div>
-          {palletSections.length > 0 ? (
-            palletSections.map((section, idx) => (
-              <PalletSection key={idx} section={section} />
-            ))
-          ) : (
-            <DataMessage
-              data={palletSections}
-              error={error}
-              loading={false}
-              emptyProps={{
-                header: 'No sections found',
-              }}
-            />
-          )}
-
-          <l.Div height={th.spacing.xxl} />
-        </>
+            <BaseData<Pallet> data={pallet} labels={baseLabels} />
+            <l.Div my={th.spacing.lg}>
+              <TabBar />
+            </l.Div>
+            {palletSections.length > 0 ? (
+              palletSections.map((section, idx) => (
+                <PalletSection key={idx} section={section} />
+              ))
+            ) : (
+              <DataMessage
+                data={palletSections}
+                error={error}
+                loading={false}
+                emptyProps={{
+                  header: 'No sections found',
+                }}
+              />
+            )}
+            <l.Div height={th.spacing.xxl} />
+          </>
+        )
       ) : (
         <DataMessage data={data || []} error={error} loading={loading} />
       )}

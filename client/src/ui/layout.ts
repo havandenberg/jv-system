@@ -44,7 +44,7 @@ interface CustomDivProps {
   column?: boolean;
   columnOnMobile?: boolean;
   columnReverseOnMobile?: boolean;
-  cursor?: 'default' | 'pointer';
+  cursor?: 'default' | 'pointer' | 'text';
   inline?: boolean;
   justifyBetween?: boolean;
   justifyCenter?: boolean;
@@ -205,12 +205,14 @@ const Cell = styled(Div)(
   ({
     clickable = true,
     highlightColor = th.colors.status.error,
+    hoverable,
     isHighlight,
     isHalfHighlight,
     selected,
   }: {
     clickable?: boolean;
     highlightColor?: string;
+    hoverable?: boolean;
     isHighlight?: boolean;
     isHalfHighlight?: boolean;
     selected?: boolean;
@@ -225,8 +227,14 @@ const Cell = styled(Div)(
           highlightColor,
           0.2,
         )}, ${hexColorWithTransparency(highlightColor, 0.2)} 5px, ${
-          th.colors.brand.containerBackground
-        } 5px, ${th.colors.brand.containerBackground} 15px)`
+          selected
+            ? th.colors.brand.containerBackgroundAccent
+            : th.colors.brand.containerBackground
+        } 5px, ${
+          selected
+            ? th.colors.brand.containerBackgroundAccent
+            : th.colors.brand.containerBackground
+        } 15px)`
       : undefined,
     border: selected ? th.borders.secondary : th.borders.disabled,
     borderRadius: th.borderRadii.default,
@@ -235,10 +243,11 @@ const Cell = styled(Div)(
     ':hover': {
       backgroundColor: isHighlight
         ? hexColorWithTransparency(highlightColor, 0.3)
-        : clickable
+        : clickable || hoverable
         ? th.colors.brand.containerBackgroundAccent
         : undefined,
-      border: clickable ? th.borders.secondary : th.borders.disabled,
+      border:
+        clickable || hoverable ? th.borders.secondary : th.borders.disabled,
     },
   }),
   divPropsSet,

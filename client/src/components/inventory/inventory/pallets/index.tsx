@@ -77,7 +77,7 @@ const Pallets = () => {
                     data={item as Pallet}
                     gridTemplateColumns={gridTemplateColumns}
                     listLabels={listLabels}
-                    to={`/inventory/pallets/${item.id}`}
+                    to={`/inventory/pallets/${item.palletId}`}
                   />
                 </div>
               )

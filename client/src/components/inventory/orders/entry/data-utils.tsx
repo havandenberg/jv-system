@@ -14,6 +14,7 @@ import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 import { formatDateTime } from 'utils/date';
+import { roundToNearestQuarter } from 'utils/format';
 
 import { NewOrderEntry } from '.';
 
@@ -349,7 +350,9 @@ export const getOrderEntryItemEstimatedFreight = (
   const palletEstimate =
     truckRate && getClosestPalletRate(truckRate, palletCountInt);
   const estimate = palletEstimate && palletEstimate / (boxCount || 1);
-  return +((truckRate && (estimate || deliveryChargeFloat)) || 0).toFixed(2);
+  return +roundToNearestQuarter(
+    (truckRate && (estimate || deliveryChargeFloat)) || 0,
+  );
 };
 
 export const getOrderEntryEstimatedFreight = (

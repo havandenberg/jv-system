@@ -2,6 +2,8 @@ import { setup } from 'axios-cache-adapter';
 
 import * as expenses from 'api/accounting/expenses';
 import * as invoices from 'api/accounting/invoices';
+import * as unpaids from 'api/accounting/unpaids';
+import * as vesselControls from 'api/accounting/vessel-control';
 import * as groupDirectory from 'api/directory/group';
 import * as countryDirectory from 'api/directory/country';
 import * as customerDirectory from 'api/directory/customer';
@@ -61,8 +63,10 @@ export default {
   ...shipperDirectory,
   ...truckLoads,
   ...truckRates,
+  ...unpaids,
   ...user,
   ...vessels,
+  ...vesselControls,
   ...vendorDirectory,
   ...warehouseDirectory,
 };

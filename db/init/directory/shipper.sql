@@ -11,6 +11,7 @@ CREATE TABLE directory.shipper (
 	send_projection_request BOOLEAN,
 	projection_request_start_date DATE,
 	projection_request_end_date DATE,
+  vessel_control_days_until_due NUMERIC,
 );
 
 CREATE TABLE directory.shipper_person_contact (

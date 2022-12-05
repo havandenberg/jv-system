@@ -161,6 +161,7 @@ const ContactList = ({
           <LineItemCheckbox
             checked={!!isAllContactsSelected}
             onChange={toggleAllContacts}
+            status="warning"
           />
         )}
         {columnLabels}

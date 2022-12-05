@@ -1,0 +1,15 @@
+mutation UNPAIDS_NOTIFY(
+  $message: String!
+  $startOfWeek: String!
+  $endOfWeek: String!
+  $unpaidReminders: [UnpaidSalesUserInput]!
+) {
+  sendUnpaidsNotificationEmails(
+    input: {
+      message: $message
+      startOfWeek: $startOfWeek
+      endOfWeek: $endOfWeek
+      unpaidReminders: $unpaidReminders
+    }
+  )
+}

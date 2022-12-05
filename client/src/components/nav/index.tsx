@@ -63,6 +63,7 @@ export const navItems: NavItemType[] = [
         text: 'Invoices',
         to: 'invoices',
       },
+      { isDev: true, text: 'Unpaids', to: 'unpaids' },
       { text: 'Expenses', to: 'expenses' },
     ],
     secondaryItems: [
@@ -70,6 +71,7 @@ export const navItems: NavItemType[] = [
         text: 'Invoices',
         to: 'invoices',
       },
+      { isDev: true, text: 'Unpaids', to: 'unpaids' },
       { text: 'Expenses', to: 'expenses' },
     ],
   },

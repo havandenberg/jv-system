@@ -1,0 +1,7 @@
+mutation UNPAIDS_UPSERT(
+  $unpaids: [UnpaidInput]!
+) {
+  bulkUpsertUnpaid(input: { unpaids: $unpaids }) {
+    clientMutationId
+  }
+}

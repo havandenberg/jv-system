@@ -82,10 +82,10 @@ const Details = () => {
 
   return (
     <Page
-      actions={
-        data
+      actions={[
+        ...getUpdateActions().defaultActions,
+        ...(data && !editing
           ? [
-              getUpdateActions().defaultActions,
               <l.AreaLink
                 key={0}
                 mx={th.spacing.lg}
@@ -100,8 +100,8 @@ const Details = () => {
                 <b.Primary>Orders</b.Primary>
               </l.AreaLink>,
             ]
-          : []
-      }
+          : []),
+      ]}
       breadcrumbs={customerBreadcrumbs(id)}
       title={data ? data.customerName : 'Loading...'}
     >

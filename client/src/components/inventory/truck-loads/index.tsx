@@ -35,7 +35,7 @@ const TruckLoads = () => {
   const { Search } = useSearch();
   const [{ sortBy = 'shipDate', sortOrder = SORT_ORDER.DESC }] =
     useSortQueryParams();
-  const [{ coast = 'EC', fob, customerId }] = useTruckLoadsQueryParams();
+  const [{ coast = 'EC', customerId }] = useTruckLoadsQueryParams();
   const { data, loading, error } = api.useTruckLoads(
     sortBy === 'customerId' ? 'SHIP_DATE_DESC' : undefined,
   );

@@ -108,10 +108,7 @@ export const baseLabels: ReportLabelInfo[] = [
     label: 'Vessel Code',
     getValue: ({ arrivalCode, vessel }) =>
       vessel ? (
-        <ty.LinkText
-          hover="false"
-          to={`/inventory/vessels/${vessel.vesselCode}`}
-        >
+        <ty.LinkText hover="false" to={`/inventory/vessels/${arrivalCode}`}>
           {arrivalCode}
         </ty.LinkText>
       ) : (

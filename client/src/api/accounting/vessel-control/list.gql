@@ -1,0 +1,60 @@
+query VESSEL_CONTROL_LIST(
+  $orderBy: [VesselControlsOrderBy!]
+  $dateFilter: VesselControlFilter!
+) {
+  vesselControls(filter: $dateFilter, orderBy: $orderBy) {
+    nodes {
+      approval1
+      approval2
+      dateSent
+      id
+      isLiquidated
+      nodeId
+      notes1
+      notes2
+      shipper {
+        id
+        shipperName
+        vesselControlDaysUntilDue
+      }
+      unpaids {
+        nodes {
+          id
+          invoiceId
+          shipperId
+          vesselCode
+          invoice {
+            id
+            amountOwed
+            salesUser {
+              userCode
+              id
+            }
+            invoiceId
+            orderId
+            paidCode
+            flag
+          }
+          isApproved
+          isUrgent
+          notes
+        }
+      }
+      vessel {
+        id
+        arrivalDate
+        dischargeDate
+        vesselName
+        vesselCode
+        country {
+          id
+          countryName
+        }
+        warehouse {
+          id
+          warehouseName
+        }
+      }
+    }
+  }
+}

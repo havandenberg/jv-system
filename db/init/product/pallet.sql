@@ -114,6 +114,18 @@ AS $BODY$
     AND CAST (o.back_order_id AS TEXT) = p.back_order_id
 $BODY$;
 
+CREATE FUNCTION product.pallet_invoice_header(IN p product.pallet)
+    RETURNS accounting.invoice_header
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT * FROM accounting.invoice_header i
+    WHERE CAST (i.order_id AS TEXT) = p.order_id
+    AND CAST (i.back_order_id AS TEXT) = p.back_order_id
+$BODY$;
+
 CREATE FUNCTION product.pallet_search_text(IN p product.pallet)
     RETURNS TEXT
     LANGUAGE 'sql'

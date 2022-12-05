@@ -31,6 +31,7 @@ query INVOICE_HEADER_LIST(
       customerPo
       invoiceDate
       actualShipDate
+      flag
       amountOwed
       vendor {
         id
@@ -48,6 +49,7 @@ query INVOICE_HEADER_LIST(
           lineId
           pickedQty
           unitSellPrice
+          flag
           pallet {
             backOrderId
             id

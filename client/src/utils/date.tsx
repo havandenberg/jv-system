@@ -13,6 +13,7 @@ import {
 
 export const formatTime = (date: Date) => format(date, 'hh:mm:ss a');
 export const formatDateTime = (date: Date) => format(date, 'MMM d, h:mm a');
+export const formatShortDate = (date: Date) => format(date, 'd-MMM');
 
 export const getCurrentWeekNumber = () => getISOWeek(new Date());
 

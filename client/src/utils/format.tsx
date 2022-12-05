@@ -16,3 +16,6 @@ export const formatCurrency = (value: number, round?: boolean) =>
 
 export const formatNumber = (value: number, round?: boolean) =>
   formatCurrency(value, round).replace('$', '').slice(0, -3);
+
+export const roundToNearestQuarter = (number: number) =>
+  (Math.round(number * 4) / 4).toFixed(2);

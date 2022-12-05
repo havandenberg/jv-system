@@ -89,6 +89,7 @@ const GroupDirectory = ({ actions }: SubDirectoryProps) => {
               <LineItemCheckbox
                 checked={isAllGroupsSelected(items)}
                 onChange={() => toggleAllGroups(items)}
+                status="warning"
               />
               {columnLabels}
             </l.Grid>

@@ -26,6 +26,7 @@ const ScrollToTop = styled(l.Div)(({ visible }: { visible: boolean }) => ({
 }));
 
 interface OptionalListProps {
+  disableScrollTracking?: boolean;
   height?: number;
   rowCount: number;
   rowHeight?: (number | ((params: Index) => number)) &
@@ -35,7 +36,9 @@ interface OptionalListProps {
 }
 
 const VirtualizedList = ({
+  disableScrollTracking,
   height = 650,
+  onScroll,
   rowHeight = 36,
   width = 1024,
   ...rest
@@ -48,8 +51,8 @@ const VirtualizedList = ({
   const showScrollTop = scrollTop > 64;
 
   const handleScrollToTop = () => {
-    if (ref && ref.current && showScrollTop) {
-      ref.current.scrollToPosition(0);
+    if (showScrollTop) {
+      setScrollTop(0);
     }
   };
 
@@ -72,13 +75,20 @@ const VirtualizedList = ({
     <>
       <List
         height={height}
-        onScroll={({ scrollTop }: ScrollParams) => {
-          setScrollTop(scrollTop);
-        }}
+        onScroll={
+          disableScrollTracking
+            ? undefined
+            : (scrollParams: ScrollParams) => {
+                setScrollTop(scrollParams.scrollTop);
+                onScroll && onScroll(scrollParams);
+              }
+        }
         overscanRowCount={10}
         ref={ref}
         rowHeight={rowHeight}
-        scrollTop={parseFloat(`${scrollTop}`)}
+        scrollTop={
+          disableScrollTracking ? undefined : parseFloat(`${scrollTop}`)
+        }
         width={width}
         {...rest}
       />

@@ -19,6 +19,7 @@ import { Mutation, Query } from 'types';
 const VESSEL_DETAILS_QUERY = loader('./details.gql');
 const VESSEL_LIST_BY_DEPARTURE_QUERY = loader('./departure-list.gql');
 const VESSEL_LIST_BY_DISCHARGE_QUERY = loader('./discharge-list.gql');
+const VESSEL_CONTROL_VESSEL_LIST_QUERY = loader('./vessel-control-list.gql');
 const VESSEL_CREATE_QUERY = loader('./create.gql');
 const VESSEL_UPDATE_QUERY = loader('./update.gql');
 const VESSEL_DELETE_QUERY = loader('./delete.gql');
@@ -32,11 +33,13 @@ export const VESSEL_DISTINCT_VALUES_QUERY = loader('./distinct-values.gql');
 interface VesselsOptions {
   isInventory?: boolean;
   isProjections?: boolean;
+  isVesselControl?: boolean;
   orderByOverride?: string;
 }
 
 const useVariables = (options?: VesselsOptions) => {
-  const { isInventory, isProjections, orderByOverride } = options || {};
+  const { isInventory, isProjections, isVesselControl, orderByOverride } =
+    options || {};
 
   const [search = ''] = useSearchQueryParam();
   const [{ sortBy = 'dischargeDate', sortOrder = SORT_ORDER.DESC }] =
@@ -47,6 +50,7 @@ const useVariables = (options?: VesselsOptions) => {
   const [{ startDate, endDate }] = useDateRangeQueryParams();
   const formattedStartDate =
     startDate && new Date(startDate.replace(/-/g, '/'));
+  const formattedEndDate = endDate && new Date(endDate.replace(/-/g, '/'));
 
   const [{ countryId, arrivalPort, coast }] = useQuerySet({
     countryId: ArrayParam,
@@ -89,7 +93,12 @@ const useVariables = (options?: VesselsOptions) => {
       : orderBy,
     search: getSearchArray(search),
     startDate: formatDate(
-      isInventory
+      isVesselControl
+        ? add(formattedStartDate || new Date(), {
+            days: -44,
+            weeks: equals(startDate, endDate) ? -4 : 0,
+          })
+        : isInventory
         ? startOfISOWeek(formattedStartDate || new Date())
         : search
         ? add(new Date(), { years: -1 })
@@ -102,7 +111,9 @@ const useVariables = (options?: VesselsOptions) => {
         : new Date(),
     ),
     endDate: formatDate(
-      isInventory
+      isVesselControl
+        ? add(formattedEndDate || new Date(), { days: -45 })
+        : isInventory
         ? add(startDate ? formattedStartDate : new Date(), { weeks: 5 })
         : endDate
         ? equals(startDate, endDate) || isProjections
@@ -114,12 +125,14 @@ const useVariables = (options?: VesselsOptions) => {
 };
 
 export const useVessels = (options?: VesselsOptions) => {
-  const { isProjections } = options || {};
+  const { isProjections, isVesselControl } = options || {};
   const variables = useVariables(options);
 
   const { data, error, loading } = useQuery<Query>(
     isProjections
       ? VESSEL_LIST_BY_DEPARTURE_QUERY
+      : isVesselControl
+      ? VESSEL_CONTROL_VESSEL_LIST_QUERY
       : VESSEL_LIST_BY_DISCHARGE_QUERY,
     {
       variables,

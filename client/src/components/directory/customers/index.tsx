@@ -73,6 +73,7 @@ const CustomerDirectory = ({ actions }: SubDirectoryProps) => {
               <LineItemCheckbox
                 checked={isAllCustomersSelected(items)}
                 onChange={() => toggleAllCustomers(items)}
+                status="warning"
               />
               {columnLabels}
             </l.Grid>
