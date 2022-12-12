@@ -508,6 +508,15 @@ export const baseLabels: InventoryItemLabelInfo[] = [
     key: 'palletsTransferredOut',
     label: 'Pallets Transferred Out',
   },
+  {
+    key: 'product',
+    label: 'Customer Program',
+    getValue: (data) => (
+      <ty.BodyText>
+        {data.product?.packType?.customerSpecial?.customerName || '-'}
+      </ty.BodyText>
+    ),
+  },
 ];
 
 export const getFeaturedValues = (data: InventoryItem) => [

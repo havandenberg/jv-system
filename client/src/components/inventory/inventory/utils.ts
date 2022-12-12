@@ -46,6 +46,7 @@ export const inventorySortKeys = [
   { content: 'Pack Type', value: 'packType' },
   { content: 'Shipper', value: 'shipper' },
   { content: 'Country', value: 'countryOfOrigin' },
+  { content: 'Program', value: 'program' },
   { content: 'PLU', value: 'plu' },
   { content: 'Size & Pack Type', value: 'sizePackType' },
 ];
@@ -394,6 +395,7 @@ export const buildCategories =
         plu?: string;
         shipper?: string;
         countryOfOrigin?: string;
+        program?: string;
         speciesTag?: string;
         varietyTag?: string;
         sizeTag?: string;
@@ -414,6 +416,7 @@ export const buildCategories =
       plu,
       shipper,
       countryOfOrigin,
+      program,
       sizePackType,
     } = params;
     const otherCategory = {
@@ -429,6 +432,7 @@ export const buildCategories =
       jvDescription: 'Other',
       shipperName: 'Other',
       countryName: 'Other',
+      customerSpecial: { customerName: 'No Program' },
       commonSpeciesTags: { nodes: [] },
       commonVarietyTags: { nodes: [] },
       commonSizeTags: { nodes: [] },
@@ -484,6 +488,8 @@ export const buildCategories =
           return itemShipper.id;
         case 'countryOfOrigin':
           return itemCountryOfOrigin.id;
+        case 'program':
+          return itemPackType.customerSpecial?.customerName || 'no program';
         case 'sizePackType':
           return `${itemSize.id} - ${itemPackType.packDescription}`;
         default:
@@ -518,6 +524,8 @@ export const buildCategories =
           return itemShipper.shipperName;
         case 'countryOfOrigin':
           return itemCountryOfOrigin.countryName;
+        case 'program':
+          return itemPackType?.customerSpecial?.customerName || 'No Program';
         case 'sizePackType':
           return `${itemSize.jvDescription} - ${itemPackType.packDescription}`;
         default:
@@ -550,6 +558,8 @@ export const buildCategories =
             return !!shipper;
           case 'countryOfOrigin':
             return !!countryOfOrigin;
+          case 'program':
+            return !!program;
           case 'sizePackType':
             return !!sizePackType;
           default:
@@ -577,6 +587,8 @@ export const buildCategories =
             return `shipper=${shipper}`;
           case 'countryOfOrigin':
             return `countryOfOrigin=${countryOfOrigin}`;
+          case 'program':
+            return `program=${program || 'no program'}`;
           case 'sizePackType':
             return `sizePackType=${sizePackType}`;
           default:
@@ -626,6 +638,8 @@ export const buildCategories =
               return !shipper;
             case 'countryOfOrigin':
               return !countryOfOrigin;
+            case 'program':
+              return !program;
             case 'sizePackType':
               return !sizePackType;
             default:
@@ -701,9 +715,11 @@ export const getInventoryItemDescription = (
     packType?: boolean;
     plu?: boolean;
     label?: boolean;
+    program?: boolean;
   },
 ) => {
-  const { species, variety, size, packType, plu, label } = options || {};
+  const { species, variety, size, packType, plu, label, program } =
+    options || {};
   return `${
     species ? '' : inventoryItem.product?.species?.speciesDescription + ', '
   }${variety ? '' : inventoryItem.product?.variety?.varietyDescription + ', '}${
@@ -712,5 +728,9 @@ export const getInventoryItemDescription = (
       : inventoryItem.product?.sizes.nodes?.[0]?.combineDescription + ', '
   }${packType ? '' : inventoryItem.product?.packType?.packDescription + ', '}${
     plu ? '' : (inventoryItem.plu ? 'PLU' : 'No PLU') + ', '
-  }${label ? '' : inventoryItem.product?.packType?.label?.labelName + ', '}`;
+  }${label ? '' : inventoryItem.product?.packType?.label?.labelName + ', '}${
+    program
+      ? ''
+      : inventoryItem.product?.packType?.customerSpecial?.customerName + ', '
+  }`;
 };

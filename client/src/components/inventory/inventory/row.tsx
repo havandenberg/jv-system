@@ -224,6 +224,7 @@ const InventoryRow = ({
       plu,
       shipper,
       countryOfOrigin,
+      program,
       sizePackType,
       categoryTypes,
       ...rest
@@ -274,6 +275,8 @@ const InventoryRow = ({
             return !!shipper;
           case 'countryOfOrigin':
             return !!countryOfOrigin;
+          case 'program':
+            return !!program;
           case 'sizePackType':
             return !!sizePackType;
           default:
@@ -303,6 +306,8 @@ const InventoryRow = ({
             return `shipper=${shipper}`;
           case 'countryOfOrigin':
             return `countryOfOrigin=${countryOfOrigin}`;
+          case 'program':
+            return `program=${program || 'no program'}`;
           case 'sizePackType':
             return `sizePackType=${sizePackType}`;
           default:
@@ -337,6 +342,8 @@ const InventoryRow = ({
               return !shipper;
             case 'countryOfOrigin':
               return !countryOfOrigin;
+            case 'program':
+              return !program;
             case 'sizePackType':
               return !sizePackType;
             default:

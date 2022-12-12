@@ -43,6 +43,7 @@ const Inventory = () => {
       plu,
       shipper,
       countryOfOrigin,
+      program,
       speciesTag,
       varietyTag,
       sizeTag,
@@ -180,6 +181,7 @@ const Inventory = () => {
       sizeTag,
       packTypeTag,
       countryOfOrigin,
+      program,
     },
   };
 

@@ -87,6 +87,7 @@ export const useInventoryQueryParams = () =>
     detailsIndex: StringParam,
     secondaryDetailsIndex: StringParam,
     categoryTypes: StringParam,
+    program: StringParam,
   });
 
 export const useProjectionsQueryParams = () =>

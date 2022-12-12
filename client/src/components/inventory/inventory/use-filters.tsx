@@ -138,6 +138,7 @@ const useInventoryFilters = ({
     location,
     shipper,
     countryOfOrigin,
+    program,
     detailsIndex,
     secondaryDetailsIndex,
   } = selectedFilters;
@@ -168,6 +169,7 @@ const useInventoryFilters = ({
         commonVarietyTags: { nodes: [] },
         commonSizeTags: { nodes: [] },
         commonPackTypeTags: { nodes: [] },
+        customerSpecial: { customerName: 'No Program' },
       };
       const itemSpecies = item.product?.species || otherCategory;
       const itemVariety = item.product?.variety || otherCategory;
@@ -294,6 +296,12 @@ const useInventoryFilters = ({
             return {
               categoryKey: itemCountryOfOrigin.id,
             };
+          case 'program':
+            return {
+              categoryKey: `${
+                itemPackType.customerSpecial?.customerName || 'no program'
+              }`,
+            };
           case 'sizePackType':
             return {
               categoryKey: `${itemSize.id} - ${itemPackType.packDescription}`,
@@ -352,6 +360,11 @@ const useInventoryFilters = ({
             : ['total', itemSize?.combineDescription].includes(size)
           : !sizeTag || pluck('tagText', commonSizeTags).includes(sizeTag)) &&
         (!label || ['total', itemPackType?.label?.labelCode].includes(label)) &&
+        (!program ||
+          ['total', itemPackType?.customerSpecial?.customerName].includes(
+            program,
+          ) ||
+          (program === 'no program' && !itemPackType?.customerSpecial)) &&
         (packType
           ? packTypeTag
             ? commonPackTypeTags.includes(packTypeTag)

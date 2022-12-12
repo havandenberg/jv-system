@@ -59,6 +59,10 @@ query INVENTORY_ITEM_LIST($startDate: Date!, $endDate: Date!) {
             labelCode
             labelName
           }
+          customerSpecial {
+            id
+            customerName
+          }
         }
       }
       shipper {

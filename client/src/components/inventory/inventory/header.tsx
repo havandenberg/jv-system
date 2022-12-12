@@ -81,6 +81,7 @@ const Header = ({
       plu,
       shipper,
       countryOfOrigin,
+      program,
       detailsIndex,
       secondaryDetailsIndex,
       sizePackType,
@@ -165,6 +166,8 @@ const Header = ({
       plu: plu ? (plu === 'true' ? 'PLU' : 'No PLU') : 'All PLU',
       shipper: shipperData ? shipperData.shipperName : 'All Shippers',
       countryOfOrigin: countryData ? countryData.countryName : 'All Countries',
+      program:
+        program === 'no program' ? 'No Program' : program || 'All Programs',
       sizePackType,
     };
 
@@ -202,6 +205,8 @@ const Header = ({
                     return `shipper=${shipper}`;
                   case 'countryOfOrigin':
                     return `countryOfOrigin=${countryOfOrigin}`;
+                  case 'program':
+                    return `program=${program || 'no program'}`;
                   case 'sizePackType':
                     return `sizePackType=${sizePackType}`;
                   default:
@@ -408,26 +413,29 @@ const Header = ({
       options.push({ text: 'Species', value: 'species' });
     }
     if (!!species) {
-      if (!variety) {
-        options.push({ text: 'Varieties', value: 'variety' });
-      }
-      if (!size && !sizePackType) {
-        options.push({ text: 'Sizes', value: 'size' });
-      }
-      if (!packType && !sizePackType) {
-        options.push({ text: 'Pack Type', value: 'packType' });
+      if (!countryOfOrigin) {
+        options.push({ text: 'Country', value: 'countryOfOrigin' });
       }
       if (!label) {
         options.push({ text: 'Label', value: 'label' });
       }
+      if (!packType && !sizePackType) {
+        options.push({ text: 'Pack Type', value: 'packType' });
+      }
       if (!plu) {
         options.push({ text: 'PLU', value: 'plu' });
+      }
+      if (!program) {
+        options.push({ text: 'Program', value: 'program' });
       }
       if (!shipper) {
         options.push({ text: 'Shipper', value: 'shipper' });
       }
-      if (!countryOfOrigin) {
-        options.push({ text: 'Country', value: 'countryOfOrigin' });
+      if (!size && !sizePackType) {
+        options.push({ text: 'Sizes', value: 'size' });
+      }
+      if (!variety) {
+        options.push({ text: 'Varieties', value: 'variety' });
       }
       // if (!sizePackType && !size && !packType) {
       //   options.push({ text: 'Size - Pack Type', value: 'sizePackType' });
