@@ -1,7 +1,32 @@
-const { gqlClient, PROJECTION_REMINDERS } = require('../../api');
+const { gqlClient } = require('../../api');
 const { ews, ewsArgs, onError } = require('../../utils/server');
 
+const PROJECTION_REMINDERS = gql`
+  query PROJECTION_REMINDERS {
+    shippers {
+      nodes {
+        id
+        sendProjectionRequest
+        shipperName
+        shipperPersonContacts {
+          nodes {
+            personContact {
+              firstName
+              id
+              email
+              lastName
+              isPrimary
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
 const sendProjectionReminders = () => {
+  console.log(`\nSending projection reminders at: ${new Date().toString()}\n`);
+
   gqlClient.request(PROJECTION_REMINDERS).then(({ shippers: { nodes } }) => {
     const shippersInfo = nodes.map((shipper) => {
       const primaryContact = shipper.shipperPersonContacts?.nodes.filter(

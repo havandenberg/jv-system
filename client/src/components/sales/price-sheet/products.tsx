@@ -1,4 +1,5 @@
 import React from 'react';
+import { add, startOfISOWeek } from 'date-fns';
 import { sortBy, times } from 'ramda';
 
 import ColorPicker from 'components/color-picker';
@@ -36,6 +37,7 @@ const Products = (props: Props) => {
     isItemCollapsed,
     newItemHandlers: { handleNewProduct, handleNewEntry },
     selectedWeekNumber,
+    startDate,
     toggleCollapseItem,
     valueGetters: { getProductValue, getEntryValue },
   } = props;
@@ -215,6 +217,12 @@ const Products = (props: Props) => {
                     }}
                   />
                   {times((i) => {
+                    const startOfWeek = startOfISOWeek(
+                      add(new Date(startDate.replace(/-/g, '/')), {
+                        weeks: 1 * i,
+                      }),
+                    );
+                    const displayedWeekNumber = getWeekNumber(startOfWeek);
                     const data = productRoot.priceEntriesBySizeId.nodes.find(
                       (e) =>
                         e &&
@@ -222,8 +230,7 @@ const Products = (props: Props) => {
                           typeof e.entryDate === 'string'
                             ? new Date(e.entryDate.replace(/-/g, '/'))
                             : e.entryDate,
-                        ) ===
-                          selectedWeekNumber + i,
+                        ) === displayedWeekNumber,
                     );
                     const content = getEntryValue(data, 'content');
                     return (
@@ -235,9 +242,6 @@ const Products = (props: Props) => {
                           </ty.SmallText>
                         }
                         editing={editing}
-                        secondaryHighlight={isCurrentWeek(
-                          selectedWeekNumber + i,
-                        )}
                         inputProps={{
                           color: textColor,
                           fontWeight: content.dirty ? 'bold' : undefined,

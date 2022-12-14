@@ -138,9 +138,17 @@ const NotifyUnpaids = ({
         ) {
           return acc;
         }
-        const unpaids = groupedUnpaids[itemKey]?.unpaids;
 
-        const { vessel, shipper, invoice } = unpaids[0] || {};
+        const { shipper, vessel } =
+          vesselControls.find(
+            (vc) =>
+              vc.vessel?.vesselCode === vesselCode &&
+              vc.shipper?.id === shipperId,
+          ) || {};
+
+        const unpaids = groupedUnpaids[itemKey]?.unpaids;
+        const { invoice } = unpaids[0] || {};
+
         const dueDate =
           vessel && shipper && getVesselControlDueDate(vessel, shipper);
         const isPast = dueDate && isBefore(dueDate, startOfWeek);

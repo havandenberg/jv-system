@@ -6,7 +6,7 @@ import {
   Views,
 } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import RRule, { rrulestr } from 'rrule';
+import { RRule, rrulestr } from 'rrule';
 
 import api from 'api';
 import { DataMessage } from 'components/page/message';

@@ -3,9 +3,9 @@ import { sentenceCase } from 'change-case';
 import { format, isAfter } from 'date-fns';
 import { mapObjIndexed, pick } from 'ramda';
 import Modal from 'react-modal';
-import RRuleGeneratorTS, { translations } from 'react-rrule-generator-ts';
+// import RRuleGeneratorTS, { translations } from 'react-rrule-generator-ts';
 import { ClipLoader } from 'react-spinners';
-import RRule, { Options, RRuleSet, rrulestr } from 'rrule';
+import { RRule, Options, RRuleSet, rrulestr } from 'rrule';
 // import 'react-rrule-generator-ts/dist/index.css';
 
 import api from 'api';
@@ -446,14 +446,14 @@ const CalendarEventDetails = ({ event, handleCancel }: Props) => {
             Repeat
           </ty.CaptionText>
         )}
-        <RRuleGeneratorTS
+        {/* <RRuleGeneratorTS
           onChange={(rrule: any) => console.log(rrule)}
           config={{
             hideStart: false,
           }}
           translations={translations.english}
           value={displayedRRule.toText()}
-        />
+        /> */}
         <l.Flex mb={th.spacing.md}>
           <l.Flex
             alignCenter

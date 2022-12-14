@@ -22,28 +22,30 @@ const {
   fetchPsaApplePallets,
 } = require('./inspections/psa-arrival/pallets');
 const sendProjectionReminders = require('./projections/weekly-reminder');
+const sendUnpaidsReminders = require('./accounting/unpaids');
 const { server: emailServer } = require('./utils/server');
 
 const port = '3002';
 emailServer.listen(port, () => console.log('JV email server live on ' + port));
 
-cron.schedule('0 0 * * *', fetchChileDepartureInspections);
-// cron.schedule('0 4 * * *', fetchPeruDepartureInspections);
-cron.schedule('55 23 * * *', fetchPsaArrivalInspections);
-
-cron.schedule('10 0 * * *', fetchPsaGrapePallets);
-cron.schedule('12 0 * * *', fetchPsaCitrusPallets);
-cron.schedule('14 0 * * *', fetchPsaStoneFruitPallets);
-cron.schedule('16 0 * * *', fetchPsaPomegranatePallets);
-cron.schedule('18 0 * * *', fetchPsaPersimmonPallets);
-cron.schedule('20 0 * * *', fetchPsaPearPallets);
-cron.schedule('22 0 * * *', fetchPsaLemonPallets);
-cron.schedule('24 0 * * *', fetchPsaCherryPallets);
-cron.schedule('26 0 * * *', fetchPsaApplePallets);
-
-// cron.schedule('26 0 * * *', sendProjectionReminders);
-
 if (process.env.REACT_APP_IS_PRODUCTION === 'true') {
+  // cron.schedule('0 8 * * *', sendUnpaidsReminders);
+  // cron.schedule('26 0 * * *', sendProjectionReminders);
+
+  cron.schedule('0 0 * * *', fetchChileDepartureInspections);
+  // cron.schedule('0 4 * * *', fetchPeruDepartureInspections);
+  cron.schedule('55 23 * * *', fetchPsaArrivalInspections);
+
+  cron.schedule('10 0 * * *', fetchPsaGrapePallets);
+  cron.schedule('12 0 * * *', fetchPsaCitrusPallets);
+  cron.schedule('14 0 * * *', fetchPsaStoneFruitPallets);
+  cron.schedule('16 0 * * *', fetchPsaPomegranatePallets);
+  cron.schedule('18 0 * * *', fetchPsaPersimmonPallets);
+  cron.schedule('20 0 * * *', fetchPsaPearPallets);
+  cron.schedule('22 0 * * *', fetchPsaLemonPallets);
+  cron.schedule('24 0 * * *', fetchPsaCherryPallets);
+  cron.schedule('26 0 * * *', fetchPsaApplePallets);
+
   cron.schedule('*/30 5-22 * * *', () => db2UpdateTable('directory/country'));
   cron.schedule('*/30 5-22 * * *', () => db2UpdateTable('directory/shipper'));
   cron.schedule('*/30 5-22 * * *', () => db2UpdateTable('directory/customer'));

@@ -5,6 +5,7 @@
   "license": "MIT",
   "dependencies": {
     "cors": "^2.8.5",
+    "date-fns": "^2.29.3",
     "dbmate": "^1.0.3",
     "decompress": "^4.2.1",
     "dotenv": "^16.0.1",
@@ -25,6 +26,7 @@
     "psa-reports-run-once": "node src/inspections/psa-arrival/reports/run-once.js",
     "psa-pallets-run-once": "node src/inspections/psa-arrival/pallets/run-once.js",
     "proj-rem-run-once": "node src/projections/weekly-reminder/run-once.js",
+    "unpaids-run-once": "node src/accounting/unpaids/run-once.js",
     "db2": "node src/db2-connect/run-once.js",
     "start": "nodemon src/index.js"
   }

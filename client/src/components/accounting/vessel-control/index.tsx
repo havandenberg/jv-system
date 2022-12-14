@@ -319,7 +319,7 @@ const VesselControlLog = () => {
       }
       title="Vessel Control Log"
     >
-      {!loading && !isEmpty(vesselControlItems) ? (
+      {!loading ? (
         <ScrollSync>
           {({ onScroll, scrollLeft, scrollTop }) => (
             <Wrapper>
@@ -379,41 +379,53 @@ const VesselControlLog = () => {
                   )}
                 </l.Grid>
               </l.Div>
-              <Grid
-                columnCount={1}
-                columnWidth={VESSEL_CONTROL_LOG_WIDTH}
-                height={700}
-                onScroll={onScroll}
-                rowCount={updatedVesselControlItems.length + 1}
-                rowHeight={46}
-                width={1024}
-                cellRenderer={({ key, rowIndex, style }) => {
-                  const vesselControlItem = updatedVesselControlItems[rowIndex];
-                  const vesselControlId = `${vesselControlItem?.vessel?.vesselCode}-${vesselControlItem?.shipper?.id}`;
-                  return (
-                    vesselControlItem && (
-                      <div
-                        key={key}
-                        style={{ ...style, background: th.colors.background }}
-                      >
-                        <ListItem<VesselControlItem>
-                          data={vesselControlItem}
-                          gridTemplateColumns={gridTemplateColumns}
-                          hoverable
-                          listLabels={listLabels(handleChange)}
-                          isHalfHighlight={!!vesselControlItem.isLiquidated}
-                          highlightColor={th.colors.status.success}
-                          offsetTop={scrollTop}
-                          onSelectItem={() => {
-                            toggleSelectItem(vesselControlId);
-                          }}
-                          selected={selectedItems.includes(vesselControlId)}
-                        />
-                      </div>
-                    )
-                  );
-                }}
-              />
+              {!isEmpty(vesselControlItems) ? (
+                <Grid
+                  columnCount={1}
+                  columnWidth={VESSEL_CONTROL_LOG_WIDTH}
+                  height={700}
+                  onScroll={onScroll}
+                  rowCount={updatedVesselControlItems.length + 1}
+                  rowHeight={46}
+                  width={1024}
+                  cellRenderer={({ rowIndex, style }) => {
+                    const vesselControlItem =
+                      updatedVesselControlItems[rowIndex];
+                    const vesselControlId = `${vesselControlItem?.vessel?.vesselCode}-${vesselControlItem?.shipper?.id}`;
+                    return (
+                      vesselControlItem && (
+                        <div
+                          key={vesselControlId}
+                          style={{ ...style, background: th.colors.background }}
+                        >
+                          <ListItem<VesselControlItem>
+                            data={vesselControlItem}
+                            gridTemplateColumns={gridTemplateColumns}
+                            hoverable
+                            listLabels={listLabels(handleChange)}
+                            isHalfHighlight={!!vesselControlItem.isLiquidated}
+                            highlightColor={th.colors.status.success}
+                            offsetTop={scrollTop}
+                            onSelectItem={() => {
+                              toggleSelectItem(vesselControlId);
+                            }}
+                            selected={selectedItems.includes(vesselControlId)}
+                          />
+                        </div>
+                      )
+                    );
+                  }}
+                />
+              ) : (
+                <DataMessage
+                  data={vesselControlItems}
+                  error={error}
+                  loading={loading}
+                  emptyProps={{
+                    header: 'No data found',
+                  }}
+                />
+              )}
             </Wrapper>
           )}
         </ScrollSync>

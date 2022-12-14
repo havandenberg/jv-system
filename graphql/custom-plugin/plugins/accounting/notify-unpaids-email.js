@@ -110,7 +110,10 @@ const extendSchemaPlugin = makeExtendSchemaPlugin({
           } = reminder;
           const startDate = pastUnpaids[0]?.dueDate || startOfWeek;
           const endDate =
-            futureUnpaids[futureUnpaids.length - 1]?.dueDate || endOfWeek;
+            futureUnpaids[futureUnpaids.length - 1]?.dueDate ||
+            currentUnpaids[currentUnpaids.length - 1]?.dueDate ||
+            pastUnpaids[pastUnpaids.length - 1]?.dueDate ||
+            endOfWeek;
           const baseUrl = `${process.env.REACT_APP_CLIENT_URL}/accounting/unpaids?salesUserCode=${userCode}&startDate=${startDate}&endDate=${endDate}`;
 
           await sendEmail({

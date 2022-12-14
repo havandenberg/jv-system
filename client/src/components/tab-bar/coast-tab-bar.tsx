@@ -1,10 +1,9 @@
-import React from 'react';
+import { omit } from 'ramda';
 
 import { useActiveUser } from 'components/user/context';
 import th from 'ui/theme';
 
 import { UseTabBarProps, useTabBar } from '.';
-import { omit } from 'ramda';
 
 export const leftTabStyles = {
   borderBottomRightRadius: 0,

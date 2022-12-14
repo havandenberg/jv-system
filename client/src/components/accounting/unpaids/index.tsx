@@ -26,6 +26,7 @@ import ty from 'ui/typography';
 
 import { SALES_USER_CODES } from '../vessel-control/unpaids';
 import { getSortedUnpaids, listLabels } from './data-utils';
+import { LineItemCheckbox } from 'ui/checkbox';
 
 const gridTemplateColumns =
   '50px 1fr 40px 60px 80px 70px 40px 1fr 90px 75px 55px 90px 1fr';
@@ -41,8 +42,13 @@ const Unpaids = () => {
 
   const [salesUserCode, setSalesUserCodeQuery] = useQueryValue('salesUserCode');
 
+  const [showLiq, setShowLiq] = useState(false);
+
   const { data, loading, error } = api.useUnpaids();
-  const unpaids = getSortedUnpaids(data);
+  const unpaids = getSortedUnpaids(
+    data.filter((up) => showLiq || !up.vesselControl?.isLiquidated),
+    showLiq,
+  );
 
   const [changes, setChanges] = useState<Unpaid[]>([]);
 
@@ -202,6 +208,18 @@ const Unpaids = () => {
                 {BackwardButton}
                 {ForwardButton}
               </l.Flex>
+            </l.Div>
+            <l.Div mr={th.spacing.lg}>
+              <ty.SmallText mb={th.spacing.sm} secondary>
+                Liq?
+              </ty.SmallText>
+              <LineItemCheckbox
+                checked={showLiq}
+                onChange={() => {
+                  setShowLiq(!showLiq);
+                }}
+                status="success"
+              />
             </l.Div>
             <div>
               <l.Div height={24} />

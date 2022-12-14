@@ -4,13 +4,28 @@ CREATE TABLE accounting.vessel_control (
   shipper_id TEXT NOT NULL,
   approval_1 BOOLEAN,
   approval_2 BOOLEAN,
-  date_sent TIMESTAMP,
+  date_sent DATE,
   is_liquidated BOOLEAN,
   notes_1 TEXT,
   notes_2 TEXT
 );
 
 CREATE INDEX ON accounting.vessel_control (vessel_code, shipper_id);
+
+CREATE FUNCTION accounting.all_vessel_controls()
+  RETURNS setof accounting.vessel_control
+  LANGUAGE 'sql'
+  STABLE
+  PARALLEL UNSAFE
+  COST 100
+AS $BODY$
+  SELECT COALESCE(vc.id, CONCAT(v.id, s.id)::BIGINT), v.vessel_code, s.id, vc.approval_1, vc.approval_2, vc.date_sent, vc.is_liquidated, vc.notes_1, vc.notes_2 FROM product.vessel v
+    LEFT JOIN product.pallet p ON p.vessel_code = v.vessel_code
+    LEFT JOIN directory.shipper s ON s.id = p.shipper_id
+    LEFT JOIN accounting.vessel_control vc ON vc.vessel_code = v.vessel_code AND vc.shipper_id = s.id
+      GROUP BY v.id, s.id, vc.id
+      ORDER BY v.discharge_date + COALESCE(s.vessel_control_days_until_due, 45)::INTEGER DESC, v.vessel_code, s.shipper_name
+$BODY$;
 
 CREATE FUNCTION accounting.vessel_control_vessel(IN vc accounting.vessel_control)
   RETURNS product.vessel
@@ -20,6 +35,18 @@ CREATE FUNCTION accounting.vessel_control_vessel(IN vc accounting.vessel_control
   COST 100
 AS $BODY$
   SELECT * FROM product.vessel v WHERE v.vessel_code = vc.vessel_code ORDER BY v.discharge_date DESC LIMIT 1
+$BODY$;
+
+CREATE FUNCTION accounting.vessel_control_pallets(IN vc accounting.vessel_control)
+  RETURNS setof product.pallet
+  LANGUAGE 'sql'
+  STABLE
+  PARALLEL UNSAFE
+  COST 100
+AS $BODY$
+  SELECT * FROM product.pallet p
+    WHERE (SELECT v.vessel_code FROM product.vessel v WHERE v.vessel_code = p.vessel_code ORDER BY v.discharge_date DESC LIMIT 1) = vc.vessel_code
+    AND p.shipper_id = vc.shipper_id;
 $BODY$;
 
 CREATE FUNCTION accounting.vessel_control_due_date(IN vc accounting.vessel_control)

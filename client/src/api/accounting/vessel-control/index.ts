@@ -1,8 +1,8 @@
+import { useMemo } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
 import { add } from 'date-fns';
 import { loader } from 'graphql.macro';
 
-import { useVessels } from 'api/inventory/vessel';
 import { getOrderByString } from 'api/utils';
 import {
   buildVesselControlItems,
@@ -16,18 +16,18 @@ import {
   useSearchQueryParam,
   useSortQueryParams,
 } from 'hooks/use-query-params';
-import { Mutation, Query, Vessel, VesselControl } from 'types';
+import { Mutation, Query, VesselControl } from 'types';
 
-const VESSEL_CONTROL_LIST_QUERY = loader('./list.gql');
+export const VESSEL_CONTROL_LIST_QUERY = loader('./list.gql');
 const VESSEL_CONTROLS_UPSERT = loader('./upsert.gql');
 const UNPAIDS_NOTIFY = loader('./notify.gql');
 
-const useVariables = (orderByOverride?: string) => {
+export const useVariables = (orderByOverride?: string, isUnpaids?: boolean) => {
   const [{ sortBy = 'id', sortOrder = SORT_ORDER.ASC }] = useSortQueryParams();
   const orderBy = getOrderByString(sortBy, sortOrder);
 
   const [vesselControlView] = useQueryValue('vesselControlView');
-  const isDue = vesselControlView === 'due';
+  const isDue = isUnpaids || vesselControlView === 'due';
 
   const [{ startDate, endDate }] = useDateRangeQueryParams();
   const formattedStartDate = formatDate(
@@ -36,17 +36,15 @@ const useVariables = (orderByOverride?: string) => {
     }),
   );
   const formattedEndDate = formatDate(
-    add(endDate ? new Date(endDate.replace(/-/g, '/')) : new Date(), {
-      weeks: startDate === endDate ? 1 : 0,
-    }),
+    endDate
+      ? add(new Date(endDate.replace(/-/g, '/')), { days: isDue ? 0 : 1 })
+      : new Date(),
   );
 
   const dateFilter = {
-    and: {
-      [isDue ? 'dueDate' : 'dateSent']: {
-        greaterThanOrEqualTo: formattedStartDate,
-        lessThanOrEqualTo: formattedEndDate,
-      },
+    [isDue ? 'dueDate' : 'dateSent']: {
+      greaterThanOrEqualTo: formattedStartDate,
+      lessThanOrEqualTo: formattedEndDate,
     },
   };
 
@@ -67,33 +65,20 @@ export const useVesselControlItems = () => {
 
   const {
     data: vesselControlsData,
-    loading: vesselControlsLoading,
-    error: vesselControlsError,
+    loading,
+    error,
   } = useQuery<Query>(VESSEL_CONTROL_LIST_QUERY, {
     variables,
   });
-  const vesselControls = (
-    vesselControlsData ? vesselControlsData.vesselControls?.nodes : []
-  ) as VesselControl[];
 
-  const {
-    data: vesselsData,
-    loading: vesselsLoading,
-    error: vesselsError,
-  } = useVessels({
-    isVesselControl: true,
-    orderByOverride: 'DISCHARGE_DATE_DESC',
-  });
-  const vessels = (vesselsData ? vesselsData.nodes : []) as Vessel[];
-
-  const loading = vesselControlsLoading || vesselsLoading;
-  const error = vesselControlsError || vesselsError;
-
-  const data = buildVesselControlItems(
-    vessels,
-    vesselControls,
-    search?.split(' '),
-  ) as VesselControlItem[];
+  const data = useMemo(
+    () =>
+      buildVesselControlItems(
+        (vesselControlsData?.allVesselControls?.nodes || []) as VesselControl[],
+        search?.split(' '),
+      ) as VesselControlItem[],
+    [search, vesselControlsData],
+  );
 
   const filteredData = data.filter((vc) => {
     if (isLiquidated) {

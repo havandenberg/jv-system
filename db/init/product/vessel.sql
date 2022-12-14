@@ -13,7 +13,7 @@ CREATE TABLE product.vessel (
   inv_flag BOOLEAN
 );
 
-CREATE INDEX ON product.vessel (vessel_code);
+CREATE INDEX ON product.vessel (vessel_code, discharge_date);
 
 CREATE FUNCTION product.vessel_country(IN v product.vessel)
     RETURNS directory.country

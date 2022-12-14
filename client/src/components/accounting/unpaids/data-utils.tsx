@@ -4,7 +4,7 @@ import InfoPanel from 'components/info-panel';
 import StatusIndicator from 'components/status-indicator';
 import { differenceInDays } from 'date-fns';
 import { groupBy, sortBy } from 'ramda';
-import { Pallet, Unpaid, Vessel } from 'types';
+import { Pallet, Shipper, Unpaid, Vessel, VesselControl } from 'types';
 import { LineItemCheckbox } from 'ui/checkbox';
 import l from 'ui/layout';
 import th from 'ui/theme';
@@ -250,19 +250,21 @@ export const listLabels: (
   },
 ];
 
-export const getSortedUnpaids = (unpaids: Unpaid[]) =>
+export const getSortedUnpaids = (unpaids: Unpaid[], showLiq: boolean) =>
   sortBy((unpaid) => {
     const key = `${unpaid.vessel?.vesselCode}-${unpaid.shipper?.shipperName}`;
 
-    return unpaid.vesselControl?.isLiquidated
+    return !showLiq && unpaid.vesselControl?.isLiquidated
       ? `zzzzz ${key}`
-      : unpaid.isUrgent && !!unpaid.invoice?.flag && !unpaid.isApproved
+      : unpaid.isUrgent &&
+        !!unpaid.invoice?.flag &&
+        (showLiq || !unpaid.isApproved)
       ? `000 0 ${key}`
-      : unpaid.isUrgent && !unpaid.isApproved
+      : unpaid.isUrgent && (showLiq || !unpaid.isApproved)
       ? `000 1 ${key}`
-      : !!unpaid.invoice?.flag && !unpaid.isApproved
+      : !!unpaid.invoice?.flag && (showLiq || !unpaid.isApproved)
       ? `000 2 ${key}`
-      : !unpaid.isApproved
+      : showLiq || !unpaid.isApproved
       ? `${key}`
       : `zzzza ${key}`;
   }, unpaids);
@@ -274,58 +276,60 @@ export const emptyUnpaid = {
   notes: '',
 };
 
-export const palletSearchText = (pallet: Pallet, vessel: Vessel) =>
-  `${vessel?.vesselName} ${vessel?.vesselCode} ${pallet.shipper?.id} ${pallet.shipper?.shipperName} ${pallet.invoiceHeader?.invoiceId} ${pallet.invoiceHeader?.billingCustomer?.customerName} ${pallet.invoiceHeader?.truckLoadId}`.toLowerCase();
+export const palletSearchText = (
+  pallet: Pallet,
+  vessel: Vessel,
+  shipper: Shipper,
+) =>
+  `${vessel?.vesselName} ${vessel?.vesselCode} ${shipper?.id} ${shipper?.shipperName} ${pallet.invoiceHeader?.invoiceId} ${pallet.invoiceHeader?.billingCustomer?.customerName} ${pallet.invoiceHeader?.truckLoadId}`.toLowerCase();
 
 export const buildUnpaidItems = (
-  vessels: Vessel[],
-  unpaids: Unpaid[],
+  vesselControls: VesselControl[],
   salesUserCode?: string | null,
   searchArray?: string[],
 ) =>
-  vessels
-    .map((vessel) => {
-      const vesselPallets = (vessel.pallets?.nodes || []) as Pallet[];
-      const palletsGroupedByVesselShipper = groupBy(
-        ({ invoiceHeader, shipper }) =>
-          `${shipper?.id}-${invoiceHeader?.invoiceId}` || 'UNK',
+  vesselControls
+    .map((vesselControl) => {
+      const vessel = vesselControl.vessel as Vessel;
+      const shipper = vesselControl.shipper as Shipper;
+      const vesselPallets = (vesselControl.pallets?.nodes || []) as Pallet[];
+
+      const palletsGroupedByInvoice = groupBy(
+        ({ invoiceHeader }) => invoiceHeader?.invoiceId || 'UNK',
         vesselPallets.filter((p) => {
-          const searchText = palletSearchText(p, vessel);
+          const searchText = palletSearchText(p, vessel, shipper);
           return (
             (!salesUserCode ||
               salesUserCode === 'all' ||
               p.invoiceHeader?.salesUserCode === salesUserCode) &&
             (!searchArray ||
               searchArray.every((searchVal) =>
-                searchText.includes(searchVal.toLowerCase()),
+                searchText.toLowerCase().includes(searchVal.toLowerCase()),
               ))
           );
         }),
       );
-      return Object.values(palletsGroupedByVesselShipper).map(
-        (vesselShipperPallets) => {
-          const shipper = vesselShipperPallets[0].shipper;
-          const invoice = vesselShipperPallets[0].invoiceHeader;
-          const unpaid =
-            unpaids.find(
-              (u) =>
-                u.vessel?.vesselCode === vessel.vesselCode &&
-                u.shipper?.id === shipper?.id &&
-                u.invoice?.invoiceId === invoice?.invoiceId,
-            ) || emptyUnpaid;
 
-          return {
-            vessel,
-            shipper,
-            invoice,
-            vesselCode: vessel.vesselCode,
-            shipperId: shipper?.id,
-            invoiceId: invoice?.invoiceId,
-            orderId: invoice?.orderId,
-            ...unpaid,
-          };
-        },
-      );
+      const unpaids = (vesselControl.unpaids.nodes || []) as Unpaid[];
+
+      return Object.values(palletsGroupedByInvoice).map((invoicePallets) => {
+        const invoice = invoicePallets[0].invoiceHeader;
+        const unpaid =
+          unpaids.find((u) => u.invoiceId === invoice?.invoiceId) ||
+          emptyUnpaid;
+
+        return {
+          ...unpaid,
+          vessel,
+          shipper,
+          invoice,
+          vesselCode: vessel.vesselCode,
+          shipperId: shipper?.id,
+          invoiceId: invoice?.invoiceId,
+          orderId: invoice?.orderId,
+          vesselControl,
+        };
+      });
     })
     .flat() as Unpaid[];
 

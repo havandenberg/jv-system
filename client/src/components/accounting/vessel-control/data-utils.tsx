@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { add } from 'date-fns';
-import { groupBy } from 'ramda';
+import { omit } from 'ramda';
 
 import { LabelInfo } from 'components/column-label';
 import DateTimePicker from 'components/date-time-picker';
@@ -14,8 +14,8 @@ import th from 'ui/theme';
 import ty from 'ui/typography';
 import { formatShortDate } from 'utils/date';
 
-import UnpaidsManager from './unpaids';
 import { emptyUnpaid, palletSearchText } from '../unpaids/data-utils';
+import UnpaidsManager from './unpaids';
 
 const LocalDateTimePicker = styled(DateTimePicker)({
   fontSize: th.fontSizes.caption,
@@ -294,111 +294,82 @@ export const getVesselControlDueDate = (vessel: Vessel, shipper: Shipper) =>
       })
     : undefined;
 
-const emptyVesselControl = {
-  approval1: false,
-  approval2: false,
-  dateSent: '',
-  isLiquidated: false,
-  notes1: '',
-  notes2: '',
-  unpaids: {
-    edges: [],
-    nodes: [],
-    nodeId: '',
-    totalCount: 0,
-  },
-};
-
 export const buildVesselControlItems = (
-  vessels: Vessel[],
   vesselControls: VesselControl[],
   searchArray?: string[],
 ) =>
-  vessels
-    .map((vessel) => {
-      const vesselPallets = (vessel.pallets?.nodes || []) as Pallet[];
-      const palletsGroupedByVesselShipper = groupBy(
-        ({ shipper }) => shipper?.id || 'UNK',
-        vesselPallets.filter((p) => {
-          const searchText = palletSearchText(p, vessel);
+  vesselControls
+    .map((vesselControl) => {
+      const pallets = ((vesselControl.pallets?.nodes || []) as Pallet[]).filter(
+        (p) => {
+          const searchText = palletSearchText(
+            p,
+            vesselControl.vessel as Vessel,
+            vesselControl.shipper as Shipper,
+          );
           return (
             !searchArray ||
             searchArray.every((searchVal) =>
-              searchText.includes(searchVal.toLowerCase()),
+              searchText.toLowerCase().includes(searchVal.toLowerCase()),
             )
           );
-        }),
-      );
-      return Object.values(palletsGroupedByVesselShipper).map(
-        (vesselShipperPallets) => {
-          const shipper = vesselShipperPallets[0].shipper;
-          const vesselControl =
-            vesselControls.find(
-              (vesselControl) =>
-                vesselControl.vessel?.vesselCode === vessel.vesselCode &&
-                vesselControl.shipper?.id === shipper?.id,
-            ) || emptyVesselControl;
-
-          const unpaids = (vesselControl?.unpaids?.nodes || []) as Unpaid[];
-
-          const groupedPallets = vesselShipperPallets.reduce((acc, pallet) => {
-            const salesUserCode =
-              pallet.orderMaster?.salesUserCode ||
-              pallet.invoiceHeader?.salesUserCode ||
-              'UNK';
-            const orderId =
-              pallet.orderMaster?.orderId ||
-              pallet.invoiceHeader?.orderId ||
-              'UNK';
-            const info = acc[salesUserCode]?.[orderId] || { pallets: [] };
-            const currentUnpaid = unpaids.find(
-              (unpaid) => unpaid.invoiceId === pallet.invoiceHeader?.invoiceId,
-            );
-            return {
-              ...acc,
-              [salesUserCode]: {
-                ...acc[salesUserCode],
-                [orderId]: {
-                  pallets: [...info.pallets, pallet],
-                  unpaid:
-                    info.unpaid ||
-                    (currentUnpaid
-                      ? {
-                          ...currentUnpaid,
-                          orderId: pallet.invoiceHeader?.orderId,
-                          invoice: pallet.invoiceHeader,
-                          shipper: pallet.shipper,
-                          vessel: pallet.vessel,
-                        }
-                      : {
-                          ...emptyUnpaid,
-                          vesselCode: vessel.vesselCode,
-                          shipperId: shipper?.id,
-                          invoiceId: pallet.invoiceHeader?.invoiceId,
-                          orderId: pallet.invoiceHeader?.orderId,
-                          invoice: pallet.invoiceHeader,
-                          shipper: pallet.shipper,
-                          vessel: pallet.vessel,
-                        }),
-                },
-              },
-            };
-          }, {} as { [key: string]: { [key: string]: { pallets: Pallet[]; unpaid: Unpaid } } });
-
-          const palletsShipped = vesselShipperPallets.filter(
-            (pallet) => pallet.shipped,
-          ).length;
-
-          return {
-            vessel,
-            shipper,
-            groupedPallets,
-            palletsReceived: vesselShipperPallets.length,
-            palletsShipped,
-            ...vesselControl,
-            unpaids: { ...vesselControl.unpaids, nodes: unpaids },
-          };
         },
       );
+
+      if (pallets.length === 0) {
+        return null;
+      }
+
+      const groupedPallets = pallets.reduce((acc, pallet) => {
+        const salesUserCode =
+          pallet.orderMaster?.salesUserCode ||
+          pallet.invoiceHeader?.salesUserCode ||
+          'UNK';
+        const orderId = pallet.invoiceHeader?.orderId || 'UNK';
+        const info = acc[salesUserCode]?.[orderId] || { pallets: [] };
+        const currentUnpaid = vesselControl.unpaids.nodes?.find(
+          (unpaid) =>
+            unpaid && unpaid.invoiceId === pallet.invoiceHeader?.invoiceId,
+        );
+        return {
+          ...acc,
+          [salesUserCode]: {
+            ...acc[salesUserCode],
+            [orderId]: {
+              pallets: [...info.pallets, pallet],
+              unpaid:
+                info.unpaid ||
+                (currentUnpaid
+                  ? {
+                      ...currentUnpaid,
+                      orderId: pallet.invoiceHeader?.orderId,
+                      invoice: pallet.invoiceHeader,
+                      shipper: pallet.shipper,
+                      vessel: pallet.vessel,
+                    }
+                  : {
+                      ...emptyUnpaid,
+                      vesselCode: vesselControl.vessel?.vesselCode,
+                      shipperId: vesselControl.shipper?.id,
+                      invoiceId: pallet.invoiceHeader?.invoiceId,
+                      orderId: pallet.invoiceHeader?.orderId,
+                      invoice: pallet.invoiceHeader,
+                      shipper: pallet.shipper,
+                      vessel: pallet.vessel,
+                    }),
+            },
+          },
+        };
+      }, {} as { [key: string]: { [key: string]: { pallets: Pallet[]; unpaid: Unpaid } } });
+
+      const palletsShipped = pallets.filter((pallet) => pallet.shipped).length;
+
+      return {
+        ...omit(['nodeId'], vesselControl),
+        groupedPallets,
+        palletsReceived: pallets.length,
+        palletsShipped,
+        id: vesselControl.id === '0' ? undefined : vesselControl.id,
+      };
     })
-    .flat() as VesselControlItem[];
+    .filter((vc) => !!vc) as VesselControlItem[];

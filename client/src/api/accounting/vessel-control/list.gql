@@ -1,8 +1,5 @@
-query VESSEL_CONTROL_LIST(
-  $orderBy: [VesselControlsOrderBy!]
-  $dateFilter: VesselControlFilter!
-) {
-  vesselControls(filter: $dateFilter, orderBy: $orderBy) {
+query VESSEL_CONTROL_LIST($dateFilter: VesselControlFilter!) {
+  allVesselControls(filter: $dateFilter) {
     nodes {
       approval1
       approval2
@@ -23,21 +20,45 @@ query VESSEL_CONTROL_LIST(
           invoiceId
           shipperId
           vesselCode
-          invoice {
+          isApproved
+          isUrgent
+          notes
+        }
+      }
+      pallets {
+        nodes {
+          id
+          invoiceHeader {
             id
+            actualShipDate
             amountOwed
+            billingCustomer {
+              id
+              customerName
+            }
+            truckLoadId
+            salesUserCode
             salesUser {
               userCode
+              personContact {
+                firstName
+                email
+              }
               id
             }
             invoiceId
             orderId
             paidCode
             flag
+            totalAmount
+            totalCreditAmount
+            conditionCode
+            creditCode
           }
-          isApproved
-          isUrgent
-          notes
+          billOfLading
+          palletId
+          shipped
+          searchText
         }
       }
       vessel {
