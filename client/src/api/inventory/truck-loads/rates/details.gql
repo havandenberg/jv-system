@@ -25,5 +25,11 @@ query TRUCK_RATE_DETAILS($id: BigInt!) {
       id
       vendorName
     }
+    customersByTruckRateCustomerTruckRateIdAndCustomerId {
+      nodes {
+        id
+        customerName
+      }
+    }
   }
 }

@@ -43,7 +43,7 @@ const TruckRates = () => {
   return (
     <Page
       breadcrumbs={breadcrumbs}
-      extraPaddingTop={65}
+      extraPaddingTop={isEmpty(truckRates) ? 58 : 65}
       headerChildren={
         <>
           {!loading && (

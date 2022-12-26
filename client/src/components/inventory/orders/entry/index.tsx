@@ -354,7 +354,9 @@ const CreateOrderEntry = () => {
     (truckRate) =>
       customer &&
       truckRate.isDefault &&
-      truckRate.postalState === customer?.postalState,
+      truckRate.customersByTruckRateCustomerTruckRateIdAndCustomerId?.nodes.find(
+        (c) => c.id === customer.id,
+      ),
   );
 
   const hasValidLoadNumber =

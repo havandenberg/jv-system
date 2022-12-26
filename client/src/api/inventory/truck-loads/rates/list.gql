@@ -1,14 +1,6 @@
-query TRUCK_RATE_LIST(
-  $orderBy: [TruckRatesOrderBy!]
-  $vendorId: [String!]
-) {
-  truckRates(
-    filter: {
-      vendorId: { in: $vendorId }
-    }
-    orderBy: $orderBy
-  ) {
-    nodes {fullLoadRate
+query TRUCK_RATE_LIST($orderBy: [TruckRatesOrderBy!], $vendorId: [String!]) {
+  truckRates(filter: { vendorId: { in: $vendorId } }, orderBy: $orderBy) {
+    nodes {
       id
       fullLoadRate
       isDefault
@@ -33,6 +25,12 @@ query TRUCK_RATE_LIST(
       vendor {
         id
         vendorName
+      }
+      customersByTruckRateCustomerTruckRateIdAndCustomerId {
+        nodes {
+          id
+          customerName
+        }
       }
     }
   }

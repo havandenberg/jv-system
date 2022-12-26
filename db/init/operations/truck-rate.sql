@@ -33,3 +33,11 @@ AS $BODY$
   SELECT * FROM directory.vendor v
     WHERE v.id = tr.vendor_id;
 $BODY$;
+
+CREATE TABLE operations.truck_rate_customer (
+  truck_rate_id BIGINT NOT NULL,
+  customer_id TEXT NOT NULL,
+  PRIMARY KEY (truck_rate_id, customer_id),
+  FOREIGN KEY (truck_rate_id) REFERENCES operations.truck_rate(id) ON UPDATE CASCADE ON DELETE CASCADE,
+  FOREIGN KEY (customer_id) REFERENCES directory.customer(id) ON UPDATE CASCADE ON DELETE CASCADE
+);

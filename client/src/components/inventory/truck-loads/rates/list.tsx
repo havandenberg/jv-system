@@ -12,13 +12,7 @@ import { listLabels } from './data-utils';
 
 export const gridTemplateColumns = '80px 80px 100px 1fr 0.4fr 30px';
 
-const TruckRateList = ({
-  baseUrl,
-  truckRates,
-}: {
-  baseUrl: string;
-  truckRates: TruckRate[];
-}) => {
+const TruckRateList = ({ truckRates }: { truckRates: TruckRate[] }) => {
   const columnLabels = useColumns<TruckRate>(
     'postalState',
     SORT_ORDER.ASC,
@@ -45,7 +39,7 @@ const TruckRateList = ({
                 gridTemplateColumns={gridTemplateColumns}
                 key={idx}
                 listLabels={listLabels}
-                to={`${baseUrl}/rates/${item.id}`}
+                to={`/directory/vendors/${item.vendor?.id}/rates/${item.id}`}
               />
             ),
         )

@@ -38,6 +38,7 @@ const RowWrapper = styled(l.Flex)(
 export interface ItemSelectorProps<T> {
   allItems: (localValue: string) => T[];
   clearSearchOnBlur?: boolean;
+  clearSearchOnSelect?: boolean;
   closeOnSelect?: boolean;
   defaultFocused?: boolean;
   disableClear?: boolean;
@@ -71,6 +72,7 @@ export interface ItemSelectorProps<T> {
 
 const ItemSelector = <T extends { id?: string; disabled?: boolean }>({
   clearSearch,
+  clearSearchOnSelect = true,
   closeOnSelect,
   editableCellProps,
   errorLabel,
@@ -140,7 +142,7 @@ const ItemSelector = <T extends { id?: string; disabled?: boolean }>({
                             ? undefined
                             : () => {
                                 selectItem && selectItem(item);
-                                clearSearch();
+                                clearSearchOnSelect && clearSearch();
                                 if (closeOnSelect) {
                                   handleBlur();
                                 }

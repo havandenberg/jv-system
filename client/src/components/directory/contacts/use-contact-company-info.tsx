@@ -157,6 +157,7 @@ const useContactCompanyInfo = ({
     nameKey: 'customerName',
     searchParamName: 'customerSearch',
     placeholder: 'Add customers',
+    width: 350,
   });
 
   const { ItemSelector: ShipperItemSelector } = useItemSelector<Shipper>({

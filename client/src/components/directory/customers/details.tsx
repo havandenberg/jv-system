@@ -3,11 +3,12 @@ import { useParams } from 'react-router-dom';
 
 import api from 'api';
 import BaseData from 'components/base-data';
+import TruckRateList from 'components/inventory/truck-loads/rates/list';
 import Page from 'components/page';
 import { DataMessage } from 'components/page/message';
 import { Tab, useTabBar } from 'components/tab-bar';
 import useUpdateItem from 'hooks/use-update-item';
-import { Customer, PersonContact } from 'types';
+import { Customer, PersonContact, TruckRate } from 'types';
 import b from 'ui/button';
 import l from 'ui/layout';
 import th from 'ui/theme';
@@ -29,19 +30,28 @@ const tabs: Tab[] = [
     id: 'contacts',
     text: 'Contacts',
   },
+  {
+    id: 'truck-rates',
+    text: 'Truck Rates',
+  },
 ];
 
 const Details = () => {
   const { id } = useParams<{
     id: string;
   }>();
-  const { data, error, loading } = api.useCustomer(id);
+  const { data, error, loading } = api.useCustomer(id, 'FIRST_NAME_ASC');
   const personContacts = data
     ? data.personContactsByCustomerPersonContactCustomerIdAndPersonContactId
         .nodes
     : [];
 
-  const { TabBar } = useTabBar({ tabs });
+  const { TabBar, selectedTabId } = useTabBar({
+    tabs,
+    defaultTabId: 'contacts',
+    paramName: 'view',
+  });
+  const isRates = selectedTabId === 'truck-rates';
 
   const [handleUpdate] = api.useUpdateCustomer(id);
 
@@ -87,14 +97,14 @@ const Details = () => {
         ...(data && !editing
           ? [
               <l.AreaLink
-                key={0}
+                key="programs"
                 mx={th.spacing.lg}
                 to={`/sales/programs?customerId=${data.id}&programsView=customers`}
               >
                 <b.Primary>Programs</b.Primary>
               </l.AreaLink>,
               <l.AreaLink
-                key={1}
+                key="orders"
                 to={`/inventory/orders?billingCustomerId=${billingCustomerParam}`}
               >
                 <b.Primary>Orders</b.Primary>
@@ -124,14 +134,23 @@ const Details = () => {
               <b.Success>Create</b.Success>
             </l.AreaLink>
           </l.Flex>
-          <ContactList
-            baseUrl={`${id}`}
-            personContacts={personContacts as PersonContact[]}
-            selectedItem={selectedCustomer}
-            selectContact={selectCustomerPersonContact(data)}
-            toggleAllContacts={() => toggleAllCustomerPersonContacts(data)}
-            isAllContactsSelected={isAllCustomerPersonContactsSelected(data)}
-          />
+          {isRates ? (
+            <TruckRateList
+              truckRates={
+                (data.truckRatesByTruckRateCustomerCustomerIdAndTruckRateId
+                  ?.nodes || []) as TruckRate[]
+              }
+            />
+          ) : (
+            <ContactList
+              baseUrl={`${id}`}
+              personContacts={personContacts as PersonContact[]}
+              selectedItem={selectedCustomer}
+              selectContact={selectCustomerPersonContact(data)}
+              toggleAllContacts={() => toggleAllCustomerPersonContacts(data)}
+              isAllContactsSelected={isAllCustomerPersonContactsSelected(data)}
+            />
+          )}
         </l.Div>
       ) : (
         <DataMessage data={data || []} error={error} loading={loading} />

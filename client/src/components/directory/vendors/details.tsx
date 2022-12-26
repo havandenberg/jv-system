@@ -145,7 +145,6 @@ const Details = () => {
           </l.Flex>
           {isRates ? (
             <TruckRateList
-              baseUrl={`/directory/vendors/${data.id}`}
               truckRates={(data.truckRates?.nodes || []) as TruckRate[]}
             />
           ) : (

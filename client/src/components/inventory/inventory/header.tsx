@@ -15,6 +15,7 @@ import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 import {
+  getWeekNumber,
   isCurrentWeek,
   isDateGreaterThanOrEqualTo,
   isDateLessThanOrEqualTo,
@@ -582,9 +583,13 @@ const Header = ({
           </l.Div>
           {times((weekIdx) => {
             const isFirst = weekIdx === 0;
-            const isCurrentWeekVal = isCurrentWeek(
-              selectedWeekNumber + weekIdx,
+            const startOfWeek = startOfISOWeek(
+              add(new Date(startDate.replace(/-/g, '/')), {
+                weeks: 1 * weekIdx,
+              }),
             );
+            const displayedWeekNumber = getWeekNumber(startOfWeek);
+            const isCurrentWeekVal = isCurrentWeek(displayedWeekNumber);
             return (
               <l.Flex
                 alignCenter
@@ -605,7 +610,7 @@ const Header = ({
               >
                 <ty.BodyText bold={isCurrentWeekVal} nowrap>
                   {isFirst ? 'Week ' : ''}
-                  {selectedWeekNumber + weekIdx}
+                  {displayedWeekNumber}
                 </ty.BodyText>
               </l.Flex>
             );

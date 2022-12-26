@@ -1,12 +1,14 @@
 import React from 'react';
+import { omit } from 'ramda';
 import { useLocation, useParams } from 'react-router-dom';
 
 import api from 'api';
 import BaseData from 'components/base-data';
+import CustomerSelector from 'components/directory/customers/selector';
 import Page from 'components/page';
 import { DataMessage } from 'components/page/message';
 import useUpdateItem from 'hooks/use-update-item';
-import { TruckRate } from 'types';
+import { Customer, TruckRate } from 'types';
 import b from 'ui/button';
 import l from 'ui/layout';
 import th from 'ui/theme';
@@ -71,6 +73,7 @@ const Details = () => {
     'palletRate14',
     'palletRate15',
     'notes',
+    'truckRateCustomersUsingId',
   ];
   const updateVariables = { id };
 
@@ -78,9 +81,47 @@ const Details = () => {
     useUpdateItem<TruckRate>({
       data: data as TruckRate,
       handleUpdate,
+      transformChangesOnUpdate: (changes) => {
+        const customers = changes
+          .customersByTruckRateCustomerTruckRateIdAndCustomerId
+          ?.nodes as Customer[];
+        const customersToDelete =
+          data?.customersByTruckRateCustomerTruckRateIdAndCustomerId?.nodes.filter(
+            (c) => !customers.find((nc) => nc.id === c?.id),
+          );
+        const newCustomers = customers.filter(
+          (c) =>
+            !data?.customersByTruckRateCustomerTruckRateIdAndCustomerId?.nodes.find(
+              (nc) => nc?.id === c?.id,
+            ),
+        );
+        return {
+          ...omit(
+            [
+              'customersByTruckRateCustomerTruckRateIdAndCustomerId',
+              '__typename',
+              'vendor',
+            ],
+            changes,
+          ),
+          truckRateCustomersUsingId: {
+            deleteByTruckRateIdAndCustomerId:
+              customersToDelete?.map((c) => ({
+                truckRateId: changes.id,
+                customerId: c?.id,
+              })) || [],
+            create: newCustomers.map((c) => ({
+              customerId: c.id,
+            })),
+          },
+        };
+      },
       updateFields,
       updateVariables,
     });
+  const customers = (changes
+    ?.customersByTruckRateCustomerTruckRateIdAndCustomerId?.nodes ||
+    []) as Customer[];
 
   return (
     <Page
@@ -105,6 +146,27 @@ const Details = () => {
             editing={editing}
             handleChange={handleChange}
             labels={baseLabels}
+          />
+          <CustomerSelector
+            customers={customers}
+            editing={editing}
+            handleAdd={(customer) => {
+              handleChange(
+                'customersByTruckRateCustomerTruckRateIdAndCustomerId',
+                {
+                  nodes: [...customers, customer],
+                },
+              );
+            }}
+            handleRemove={(customer) => {
+              handleChange(
+                'customersByTruckRateCustomerTruckRateIdAndCustomerId',
+                {
+                  ...changes?.customersByTruckRateCustomerTruckRateIdAndCustomerId,
+                  nodes: customers.filter((c) => c.id !== customer.id),
+                },
+              );
+            }}
           />
         </l.Div>
       ) : (

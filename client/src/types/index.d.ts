@@ -15088,6 +15088,43 @@ export type CreateTruckLoadPayloadTruckLoadEdgeArgs = {
   orderBy?: Maybe<Array<TruckLoadsOrderBy>>;
 };
 
+/** All input for the create `TruckRateCustomer` mutation. */
+export type CreateTruckRateCustomerInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `TruckRateCustomer` to be created by this mutation. */
+  truckRateCustomer: TruckRateCustomerInput;
+};
+
+/** The output of our create `TruckRateCustomer` mutation. */
+export type CreateTruckRateCustomerPayload = {
+  __typename?: 'CreateTruckRateCustomerPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `TruckRateCustomer` that was created by this mutation. */
+  truckRateCustomer?: Maybe<TruckRateCustomer>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `TruckRate` that is related to this `TruckRateCustomer`. */
+  truckRate?: Maybe<TruckRate>;
+  /** Reads a single `Customer` that is related to this `TruckRateCustomer`. */
+  customer?: Maybe<Customer>;
+  /** An edge for our `TruckRateCustomer`. May be used by Relay 1. */
+  truckRateCustomerEdge?: Maybe<TruckRateCustomersEdge>;
+};
+
+
+/** The output of our create `TruckRateCustomer` mutation. */
+export type CreateTruckRateCustomerPayloadTruckRateCustomerEdgeArgs = {
+  orderBy?: Maybe<Array<TruckRateCustomersOrderBy>>;
+};
+
 /** All input for the create `TruckRate` mutation. */
 export type CreateTruckRateInput = {
   /**
@@ -15531,6 +15568,8 @@ export type Customer = Node & {
   shipperPrograms: ShipperProgramsConnection;
   /** Reads and enables pagination through a set of `CustomerProgram`. */
   customerPrograms: CustomerProgramsConnection;
+  /** Reads and enables pagination through a set of `TruckRateCustomer`. */
+  truckRateCustomers: TruckRateCustomersConnection;
   salesUser?: Maybe<User>;
   searchText?: Maybe<Scalars['String']>;
   vendor?: Maybe<Vendor>;
@@ -15564,6 +15603,8 @@ export type Customer = Node & {
   commonSizesByCustomerProgramCustomerIdAndCommonSizeId: CustomerCommonSizesByCustomerProgramCustomerIdAndCommonSizeIdManyToManyConnection;
   /** Reads and enables pagination through a set of `CommonPackType`. */
   commonPackTypesByCustomerProgramCustomerIdAndCommonPackTypeId: CustomerCommonPackTypesByCustomerProgramCustomerIdAndCommonPackTypeIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `TruckRate`. */
+  truckRatesByTruckRateCustomerCustomerIdAndTruckRateId: CustomerTruckRatesByTruckRateCustomerCustomerIdAndTruckRateIdManyToManyConnection;
 };
 
 
@@ -15612,6 +15653,18 @@ export type CustomerCustomerProgramsArgs = {
   orderBy?: Maybe<Array<CustomerProgramsOrderBy>>;
   condition?: Maybe<CustomerProgramCondition>;
   filter?: Maybe<CustomerProgramFilter>;
+};
+
+
+export type CustomerTruckRateCustomersArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<TruckRateCustomersOrderBy>>;
+  condition?: Maybe<TruckRateCustomerCondition>;
+  filter?: Maybe<TruckRateCustomerFilter>;
 };
 
 
@@ -15792,6 +15845,18 @@ export type CustomerCommonPackTypesByCustomerProgramCustomerIdAndCommonPackTypeI
   orderBy?: Maybe<Array<CommonPackTypesOrderBy>>;
   condition?: Maybe<CommonPackTypeCondition>;
   filter?: Maybe<CommonPackTypeFilter>;
+};
+
+
+export type CustomerTruckRatesByTruckRateCustomerCustomerIdAndTruckRateIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<TruckRatesOrderBy>>;
+  condition?: Maybe<TruckRateCondition>;
+  filter?: Maybe<TruckRateFilter>;
 };
 
 /** A connection to a list of `CommonPackType` values, with data from `CustomerProgram`. */
@@ -16303,6 +16368,7 @@ export type CustomerCountryIdFkeyCustomerCreateInput = {
   customerPersonContactsUsingId?: Maybe<CustomerPersonContactCustomerIdFkeyInverseInput>;
   shipperProgramsUsingId?: Maybe<ShipperProgramCustomerIdFkeyInverseInput>;
   customerProgramsUsingId?: Maybe<CustomerProgramCustomerIdFkeyInverseInput>;
+  truckRateCustomersUsingId?: Maybe<TruckRateCustomerCustomerIdFkeyInverseInput>;
 };
 
 /** Input for the nested mutation of `country` in the `CustomerInput` mutation. */
@@ -16441,6 +16507,10 @@ export type CustomerFilter = {
   customerPrograms?: Maybe<CustomerToManyCustomerProgramFilter>;
   /** Some related `customerPrograms` exist. */
   customerProgramsExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `truckRateCustomers` relation. */
+  truckRateCustomers?: Maybe<CustomerToManyTruckRateCustomerFilter>;
+  /** Some related `truckRateCustomers` exist. */
+  truckRateCustomersExist?: Maybe<Scalars['Boolean']>;
   /** Filter by the object’s `country` relation. */
   country?: Maybe<CountryFilter>;
   /** A related `country` exists. */
@@ -16474,6 +16544,7 @@ export type CustomerInput = {
   customerPersonContactsUsingId?: Maybe<CustomerPersonContactCustomerIdFkeyInverseInput>;
   shipperProgramsUsingId?: Maybe<ShipperProgramCustomerIdFkeyInverseInput>;
   customerProgramsUsingId?: Maybe<CustomerProgramCustomerIdFkeyInverseInput>;
+  truckRateCustomersUsingId?: Maybe<TruckRateCustomerCustomerIdFkeyInverseInput>;
 };
 
 /** The globally unique `ID` look up for the row to connect. */
@@ -16563,6 +16634,21 @@ export type CustomerOnShipperProjectionProductForShipperProjectionProductCustome
   id: Scalars['String'];
 };
 
+/** The globally unique `ID` look up for the row to update. */
+export type CustomerOnTruckRateCustomerForTruckRateCustomerCustomerIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `truckRateCustomer` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `truckRateCustomer` being updated. */
+  patch: TruckRateCustomerPatch;
+};
+
+/** The fields on `customer` to look up the row to update. */
+export type CustomerOnTruckRateCustomerForTruckRateCustomerCustomerIdFkeyUsingCustomerPkeyUpdate = {
+  /** An object where the defined keys will be set on the `customer` being updated. */
+  patch: UpdateCustomerOnTruckRateCustomerForTruckRateCustomerCustomerIdFkeyPatch;
+  id: Scalars['String'];
+};
+
 /** Represents an update to a `Customer`. Fields that are set will be updated. */
 export type CustomerPatch = {
   id?: Maybe<Scalars['String']>;
@@ -16584,6 +16670,7 @@ export type CustomerPatch = {
   customerPersonContactsUsingId?: Maybe<CustomerPersonContactCustomerIdFkeyInverseInput>;
   shipperProgramsUsingId?: Maybe<ShipperProgramCustomerIdFkeyInverseInput>;
   customerProgramsUsingId?: Maybe<CustomerProgramCustomerIdFkeyInverseInput>;
+  truckRateCustomersUsingId?: Maybe<TruckRateCustomerCustomerIdFkeyInverseInput>;
 };
 
 export type CustomerPersonContact = Node & {
@@ -16630,6 +16717,7 @@ export type CustomerPersonContactCustomerIdFkeyCustomerCreateInput = {
   customerPersonContactsUsingId?: Maybe<CustomerPersonContactCustomerIdFkeyInverseInput>;
   shipperProgramsUsingId?: Maybe<ShipperProgramCustomerIdFkeyInverseInput>;
   customerProgramsUsingId?: Maybe<CustomerProgramCustomerIdFkeyInverseInput>;
+  truckRateCustomersUsingId?: Maybe<TruckRateCustomerCustomerIdFkeyInverseInput>;
 };
 
 /** The `customerPersonContact` to be created by this mutation. */
@@ -17330,6 +17418,7 @@ export type CustomerProgramCustomerIdFkeyCustomerCreateInput = {
   customerPersonContactsUsingId?: Maybe<CustomerPersonContactCustomerIdFkeyInverseInput>;
   shipperProgramsUsingId?: Maybe<ShipperProgramCustomerIdFkeyInverseInput>;
   customerProgramsUsingId?: Maybe<CustomerProgramCustomerIdFkeyInverseInput>;
+  truckRateCustomersUsingId?: Maybe<TruckRateCustomerCustomerIdFkeyInverseInput>;
 };
 
 /** The `customerProgram` to be created by this mutation. */
@@ -18197,6 +18286,38 @@ export type CustomerToManyShipperProjectionProductFilter = {
   none?: Maybe<ShipperProjectionProductFilter>;
 };
 
+/** A filter to be used against many `TruckRateCustomer` object types. All fields are combined with a logical ‘and.’ */
+export type CustomerToManyTruckRateCustomerFilter = {
+  /** Every related `TruckRateCustomer` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<TruckRateCustomerFilter>;
+  /** Some related `TruckRateCustomer` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<TruckRateCustomerFilter>;
+  /** No related `TruckRateCustomer` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<TruckRateCustomerFilter>;
+};
+
+/** A connection to a list of `TruckRate` values, with data from `TruckRateCustomer`. */
+export type CustomerTruckRatesByTruckRateCustomerCustomerIdAndTruckRateIdManyToManyConnection = {
+  __typename?: 'CustomerTruckRatesByTruckRateCustomerCustomerIdAndTruckRateIdManyToManyConnection';
+  /** A list of `TruckRate` objects. */
+  nodes: Array<Maybe<TruckRate>>;
+  /** A list of edges which contains the `TruckRate`, info from the `TruckRateCustomer`, and the cursor to aid in pagination. */
+  edges: Array<CustomerTruckRatesByTruckRateCustomerCustomerIdAndTruckRateIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `TruckRate` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `TruckRate` edge in the connection, with data from `TruckRateCustomer`. */
+export type CustomerTruckRatesByTruckRateCustomerCustomerIdAndTruckRateIdManyToManyEdge = {
+  __typename?: 'CustomerTruckRatesByTruckRateCustomerCustomerIdAndTruckRateIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `TruckRate` at the end of the edge. */
+  node?: Maybe<TruckRate>;
+};
+
 /** A connection to a list of `Customer` values. */
 export type CustomersConnection = {
   __typename?: 'CustomersConnection';
@@ -18265,7 +18386,9 @@ export enum CustomersOrderBy {
   ShipperProgramsByCustomerIdCountAsc = 'SHIPPER_PROGRAMS_BY_CUSTOMER_ID__COUNT_ASC',
   ShipperProgramsByCustomerIdCountDesc = 'SHIPPER_PROGRAMS_BY_CUSTOMER_ID__COUNT_DESC',
   CustomerProgramsByCustomerIdCountAsc = 'CUSTOMER_PROGRAMS_BY_CUSTOMER_ID__COUNT_ASC',
-  CustomerProgramsByCustomerIdCountDesc = 'CUSTOMER_PROGRAMS_BY_CUSTOMER_ID__COUNT_DESC'
+  CustomerProgramsByCustomerIdCountDesc = 'CUSTOMER_PROGRAMS_BY_CUSTOMER_ID__COUNT_DESC',
+  TruckRateCustomersByCustomerIdCountAsc = 'TRUCK_RATE_CUSTOMERS_BY_CUSTOMER_ID__COUNT_ASC',
+  TruckRateCustomersByCustomerIdCountDesc = 'TRUCK_RATE_CUSTOMERS_BY_CUSTOMER_ID__COUNT_DESC'
 }
 
 export type Db2QueryInput = {
@@ -22528,6 +22651,55 @@ export type DeleteTruckRateByNodeIdInput = {
   nodeId: Scalars['ID'];
 };
 
+/** All input for the `deleteTruckRateCustomerByNodeId` mutation. */
+export type DeleteTruckRateCustomerByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `TruckRateCustomer` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deleteTruckRateCustomer` mutation. */
+export type DeleteTruckRateCustomerInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  truckRateId: Scalars['BigInt'];
+  customerId: Scalars['String'];
+};
+
+/** The output of our delete `TruckRateCustomer` mutation. */
+export type DeleteTruckRateCustomerPayload = {
+  __typename?: 'DeleteTruckRateCustomerPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `TruckRateCustomer` that was deleted by this mutation. */
+  truckRateCustomer?: Maybe<TruckRateCustomer>;
+  deletedTruckRateCustomerNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `TruckRate` that is related to this `TruckRateCustomer`. */
+  truckRate?: Maybe<TruckRate>;
+  /** Reads a single `Customer` that is related to this `TruckRateCustomer`. */
+  customer?: Maybe<Customer>;
+  /** An edge for our `TruckRateCustomer`. May be used by Relay 1. */
+  truckRateCustomerEdge?: Maybe<TruckRateCustomersEdge>;
+};
+
+
+/** The output of our delete `TruckRateCustomer` mutation. */
+export type DeleteTruckRateCustomerPayloadTruckRateCustomerEdgeArgs = {
+  orderBy?: Maybe<Array<TruckRateCustomersOrderBy>>;
+};
+
 /** All input for the `deleteTruckRate` mutation. */
 export type DeleteTruckRateInput = {
   /**
@@ -25083,6 +25255,8 @@ export type Mutation = {
   createTruckLoad?: Maybe<CreateTruckLoadPayload>;
   /** Creates a single `TruckRate`. */
   createTruckRate?: Maybe<CreateTruckRatePayload>;
+  /** Creates a single `TruckRateCustomer`. */
+  createTruckRateCustomer?: Maybe<CreateTruckRateCustomerPayload>;
   /** Creates a single `ExpenseHeader`. */
   createExpenseHeader?: Maybe<CreateExpenseHeaderPayload>;
   /** Creates a single `ExpenseHeaderReview`. */
@@ -25493,6 +25667,10 @@ export type Mutation = {
   updateTruckRateByNodeId?: Maybe<UpdateTruckRatePayload>;
   /** Updates a single `TruckRate` using a unique key and a patch. */
   updateTruckRate?: Maybe<UpdateTruckRatePayload>;
+  /** Updates a single `TruckRateCustomer` using its globally unique id and a patch. */
+  updateTruckRateCustomerByNodeId?: Maybe<UpdateTruckRateCustomerPayload>;
+  /** Updates a single `TruckRateCustomer` using a unique key and a patch. */
+  updateTruckRateCustomer?: Maybe<UpdateTruckRateCustomerPayload>;
   /** Updates a single `ExpenseHeader` using its globally unique id and a patch. */
   updateExpenseHeaderByNodeId?: Maybe<UpdateExpenseHeaderPayload>;
   /** Updates a single `ExpenseHeader` using a unique key and a patch. */
@@ -25917,6 +26095,10 @@ export type Mutation = {
   deleteTruckRateByNodeId?: Maybe<DeleteTruckRatePayload>;
   /** Deletes a single `TruckRate` using a unique key. */
   deleteTruckRate?: Maybe<DeleteTruckRatePayload>;
+  /** Deletes a single `TruckRateCustomer` using its globally unique id. */
+  deleteTruckRateCustomerByNodeId?: Maybe<DeleteTruckRateCustomerPayload>;
+  /** Deletes a single `TruckRateCustomer` using a unique key. */
+  deleteTruckRateCustomer?: Maybe<DeleteTruckRateCustomerPayload>;
   /** Deletes a single `ExpenseHeader` using its globally unique id. */
   deleteExpenseHeaderByNodeId?: Maybe<DeleteExpenseHeaderPayload>;
   /** Deletes a single `ExpenseHeader` using a unique key. */
@@ -26225,6 +26407,8 @@ export type Mutation = {
   upsertTruckLoad?: Maybe<UpsertTruckLoadPayload>;
   /** Upserts a single `TruckRate`. */
   upsertTruckRate?: Maybe<UpsertTruckRatePayload>;
+  /** Upserts a single `TruckRateCustomer`. */
+  upsertTruckRateCustomer?: Maybe<UpsertTruckRateCustomerPayload>;
   /** Upserts a single `ExpenseHeader`. */
   upsertExpenseHeader?: Maybe<UpsertExpenseHeaderPayload>;
   /** Upserts a single `ExpenseHeaderReview`. */
@@ -26794,6 +26978,12 @@ export type MutationCreateTruckLoadArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreateTruckRateArgs = {
   input: CreateTruckRateInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateTruckRateCustomerArgs = {
+  input: CreateTruckRateCustomerInput;
 };
 
 
@@ -28024,6 +28214,18 @@ export type MutationUpdateTruckRateByNodeIdArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateTruckRateArgs = {
   input: UpdateTruckRateInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateTruckRateCustomerByNodeIdArgs = {
+  input: UpdateTruckRateCustomerByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateTruckRateCustomerArgs = {
+  input: UpdateTruckRateCustomerInput;
 };
 
 
@@ -29300,6 +29502,18 @@ export type MutationDeleteTruckRateArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteTruckRateCustomerByNodeIdArgs = {
+  input: DeleteTruckRateCustomerByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteTruckRateCustomerArgs = {
+  input: DeleteTruckRateCustomerInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteExpenseHeaderByNodeIdArgs = {
   input: DeleteExpenseHeaderByNodeIdInput;
 };
@@ -30508,6 +30722,12 @@ export type MutationUpsertTruckLoadArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpsertTruckRateArgs = {
   input: UpsertTruckRateInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpsertTruckRateCustomerArgs = {
+  input: UpsertTruckRateCustomerInput;
 };
 
 
@@ -47059,6 +47279,8 @@ export type Query = Node & {
   truckLoads?: Maybe<TruckLoadsConnection>;
   /** Reads and enables pagination through a set of `TruckRate`. */
   truckRates?: Maybe<TruckRatesConnection>;
+  /** Reads and enables pagination through a set of `TruckRateCustomer`. */
+  truckRateCustomers?: Maybe<TruckRateCustomersConnection>;
   /** Reads and enables pagination through a set of `ExpenseHeader`. */
   expenseHeaders?: Maybe<ExpenseHeadersConnection>;
   /** Reads and enables pagination through a set of `ExpenseHeaderReview`. */
@@ -47180,6 +47402,7 @@ export type Query = Node & {
   orderPallet?: Maybe<OrderPallet>;
   truckLoad?: Maybe<TruckLoad>;
   truckRate?: Maybe<TruckRate>;
+  truckRateCustomer?: Maybe<TruckRateCustomer>;
   expenseHeader?: Maybe<ExpenseHeader>;
   expenseHeaderReview?: Maybe<ExpenseHeaderReview>;
   expenseItem?: Maybe<ExpenseItem>;
@@ -47389,6 +47612,8 @@ export type Query = Node & {
   truckLoadByNodeId?: Maybe<TruckLoad>;
   /** Reads a single `TruckRate` using its globally unique `ID`. */
   truckRateByNodeId?: Maybe<TruckRate>;
+  /** Reads a single `TruckRateCustomer` using its globally unique `ID`. */
+  truckRateCustomerByNodeId?: Maybe<TruckRateCustomer>;
   /** Reads a single `ExpenseHeader` using its globally unique `ID`. */
   expenseHeaderByNodeId?: Maybe<ExpenseHeader>;
   /** Reads a single `ExpenseHeaderReview` using its globally unique `ID`. */
@@ -48610,6 +48835,19 @@ export type QueryTruckRatesArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
+export type QueryTruckRateCustomersArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<TruckRateCustomersOrderBy>>;
+  condition?: Maybe<TruckRateCustomerCondition>;
+  filter?: Maybe<TruckRateCustomerFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
 export type QueryExpenseHeadersArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
@@ -49363,6 +49601,13 @@ export type QueryTruckLoadArgs = {
 /** The root query type which gives access points into the data universe. */
 export type QueryTruckRateArgs = {
   id: Scalars['BigInt'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryTruckRateCustomerArgs = {
+  truckRateId: Scalars['BigInt'];
+  customerId: Scalars['String'];
 };
 
 
@@ -50130,6 +50375,12 @@ export type QueryTruckLoadByNodeIdArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryTruckRateByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryTruckRateCustomerByNodeIdArgs = {
   nodeId: Scalars['ID'];
 };
 
@@ -51948,6 +52199,7 @@ export type ShipperProgramCustomerIdFkeyCustomerCreateInput = {
   customerPersonContactsUsingId?: Maybe<CustomerPersonContactCustomerIdFkeyInverseInput>;
   shipperProgramsUsingId?: Maybe<ShipperProgramCustomerIdFkeyInverseInput>;
   customerProgramsUsingId?: Maybe<CustomerProgramCustomerIdFkeyInverseInput>;
+  truckRateCustomersUsingId?: Maybe<TruckRateCustomerCustomerIdFkeyInverseInput>;
 };
 
 /** Input for the nested mutation of `customer` in the `ShipperProgramInput` mutation. */
@@ -54097,6 +54349,7 @@ export type ShipperProjectionProductCustomerIdFkeyCustomerCreateInput = {
   customerPersonContactsUsingId?: Maybe<CustomerPersonContactCustomerIdFkeyInverseInput>;
   shipperProgramsUsingId?: Maybe<ShipperProgramCustomerIdFkeyInverseInput>;
   customerProgramsUsingId?: Maybe<CustomerProgramCustomerIdFkeyInverseInput>;
+  truckRateCustomersUsingId?: Maybe<TruckRateCustomerCustomerIdFkeyInverseInput>;
 };
 
 /** Input for the nested mutation of `customer` in the `ShipperProjectionProductInput` mutation. */
@@ -56607,7 +56860,35 @@ export type TruckRate = Node & {
   palletRate14?: Maybe<Scalars['BigFloat']>;
   palletRate15?: Maybe<Scalars['BigFloat']>;
   notes?: Maybe<Scalars['String']>;
+  /** Reads and enables pagination through a set of `TruckRateCustomer`. */
+  truckRateCustomers: TruckRateCustomersConnection;
   vendor?: Maybe<Vendor>;
+  /** Reads and enables pagination through a set of `Customer`. */
+  customersByTruckRateCustomerTruckRateIdAndCustomerId: TruckRateCustomersByTruckRateCustomerTruckRateIdAndCustomerIdManyToManyConnection;
+};
+
+
+export type TruckRateTruckRateCustomersArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<TruckRateCustomersOrderBy>>;
+  condition?: Maybe<TruckRateCustomerCondition>;
+  filter?: Maybe<TruckRateCustomerFilter>;
+};
+
+
+export type TruckRateCustomersByTruckRateCustomerTruckRateIdAndCustomerIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CustomersOrderBy>>;
+  condition?: Maybe<CustomerCondition>;
+  filter?: Maybe<CustomerFilter>;
 };
 
 /**
@@ -56661,6 +56942,387 @@ export type TruckRateCondition = {
   notes?: Maybe<Scalars['String']>;
 };
 
+export type TruckRateCustomer = Node & {
+  __typename?: 'TruckRateCustomer';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  truckRateId: Scalars['BigInt'];
+  customerId: Scalars['String'];
+  /** Reads a single `TruckRate` that is related to this `TruckRateCustomer`. */
+  truckRate?: Maybe<TruckRate>;
+  /** Reads a single `Customer` that is related to this `TruckRateCustomer`. */
+  customer?: Maybe<Customer>;
+};
+
+/**
+ * A condition to be used against `TruckRateCustomer` object types. All fields are
+ * tested for equality and combined with a logical ‘and.’
+ */
+export type TruckRateCustomerCondition = {
+  /** Checks for equality with the object’s `truckRateId` field. */
+  truckRateId?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `customerId` field. */
+  customerId?: Maybe<Scalars['String']>;
+};
+
+/** The `customer` to be created by this mutation. */
+export type TruckRateCustomerCustomerIdFkeyCustomerCreateInput = {
+  id: Scalars['String'];
+  customerName: Scalars['String'];
+  address1?: Maybe<Scalars['String']>;
+  address2?: Maybe<Scalars['String']>;
+  city?: Maybe<Scalars['String']>;
+  postalState?: Maybe<Scalars['String']>;
+  zipCode?: Maybe<Scalars['String']>;
+  countryId?: Maybe<Scalars['String']>;
+  phone?: Maybe<Scalars['String']>;
+  logoSrc?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
+  active: Scalars['Boolean'];
+  salesUserCode?: Maybe<Scalars['String']>;
+  countryToCountryId?: Maybe<CustomerCountryIdFkeyInput>;
+  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCustomerIdFkeyInverseInput>;
+  customerPersonContactsUsingId?: Maybe<CustomerPersonContactCustomerIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCustomerIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCustomerIdFkeyInverseInput>;
+  truckRateCustomersUsingId?: Maybe<TruckRateCustomerCustomerIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `customer` in the `TruckRateCustomerInput` mutation. */
+export type TruckRateCustomerCustomerIdFkeyInput = {
+  /** The primary key(s) for `customer` for the far side of the relationship. */
+  connectById?: Maybe<CustomerCustomerPkeyConnect>;
+  /** The primary key(s) for `customer` for the far side of the relationship. */
+  connectByNodeId?: Maybe<CustomerNodeIdConnect>;
+  /** The primary key(s) for `customer` for the far side of the relationship. */
+  deleteById?: Maybe<CustomerCustomerPkeyDelete>;
+  /** The primary key(s) for `customer` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<CustomerNodeIdDelete>;
+  /** The primary key(s) and patch data for `customer` for the far side of the relationship. */
+  updateById?: Maybe<CustomerOnTruckRateCustomerForTruckRateCustomerCustomerIdFkeyUsingCustomerPkeyUpdate>;
+  /** The primary key(s) and patch data for `customer` for the far side of the relationship. */
+  updateByNodeId?: Maybe<TruckRateCustomerOnTruckRateCustomerForTruckRateCustomerCustomerIdFkeyNodeIdUpdate>;
+  /** A `CustomerInput` object that will be created and connected to this object. */
+  create?: Maybe<TruckRateCustomerCustomerIdFkeyCustomerCreateInput>;
+};
+
+/** Input for the nested mutation of `truckRateCustomer` in the `CustomerInput` mutation. */
+export type TruckRateCustomerCustomerIdFkeyInverseInput = {
+  /** Flag indicating whether all other `truckRateCustomer` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `truckRateCustomer` for the far side of the relationship. */
+  connectByTruckRateIdAndCustomerId?: Maybe<Array<TruckRateCustomerTruckRateCustomerPkeyConnect>>;
+  /** The primary key(s) for `truckRateCustomer` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<TruckRateCustomerNodeIdConnect>>;
+  /** The primary key(s) for `truckRateCustomer` for the far side of the relationship. */
+  deleteByTruckRateIdAndCustomerId?: Maybe<Array<TruckRateCustomerTruckRateCustomerPkeyDelete>>;
+  /** The primary key(s) for `truckRateCustomer` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<TruckRateCustomerNodeIdDelete>>;
+  /** The primary key(s) and patch data for `truckRateCustomer` for the far side of the relationship. */
+  updateByTruckRateIdAndCustomerId?: Maybe<Array<TruckRateCustomerOnTruckRateCustomerForTruckRateCustomerCustomerIdFkeyUsingTruckRateCustomerPkeyUpdate>>;
+  /** The primary key(s) and patch data for `truckRateCustomer` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<CustomerOnTruckRateCustomerForTruckRateCustomerCustomerIdFkeyNodeIdUpdate>>;
+  /** A `TruckRateCustomerInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<TruckRateCustomerCustomerIdFkeyTruckRateCustomerCreateInput>>;
+};
+
+/** The `truckRateCustomer` to be created by this mutation. */
+export type TruckRateCustomerCustomerIdFkeyTruckRateCustomerCreateInput = {
+  truckRateId?: Maybe<Scalars['BigInt']>;
+  truckRateToTruckRateId?: Maybe<TruckRateCustomerTruckRateIdFkeyInput>;
+  customerToCustomerId?: Maybe<TruckRateCustomerCustomerIdFkeyInput>;
+};
+
+/** A filter to be used against `TruckRateCustomer` object types. All fields are combined with a logical ‘and.’ */
+export type TruckRateCustomerFilter = {
+  /** Filter by the object’s `truckRateId` field. */
+  truckRateId?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `customerId` field. */
+  customerId?: Maybe<StringFilter>;
+  /** Filter by the object’s `truckRate` relation. */
+  truckRate?: Maybe<TruckRateFilter>;
+  /** Filter by the object’s `customer` relation. */
+  customer?: Maybe<CustomerFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<TruckRateCustomerFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<TruckRateCustomerFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<TruckRateCustomerFilter>;
+};
+
+/** An input for mutations affecting `TruckRateCustomer` */
+export type TruckRateCustomerInput = {
+  truckRateId?: Maybe<Scalars['BigInt']>;
+  customerId?: Maybe<Scalars['String']>;
+  truckRateToTruckRateId?: Maybe<TruckRateCustomerTruckRateIdFkeyInput>;
+  customerToCustomerId?: Maybe<TruckRateCustomerCustomerIdFkeyInput>;
+};
+
+/** The globally unique `ID` look up for the row to connect. */
+export type TruckRateCustomerNodeIdConnect = {
+  /** The globally unique `ID` which identifies a single `truckRateCustomer` to be connected. */
+  nodeId: Scalars['ID'];
+};
+
+/** The globally unique `ID` look up for the row to delete. */
+export type TruckRateCustomerNodeIdDelete = {
+  /** The globally unique `ID` which identifies a single `truckRateCustomer` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type TruckRateCustomerOnTruckRateCustomerForTruckRateCustomerCustomerIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `customer` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `customer` being updated. */
+  patch: CustomerPatch;
+};
+
+/** The fields on `truckRateCustomer` to look up the row to update. */
+export type TruckRateCustomerOnTruckRateCustomerForTruckRateCustomerCustomerIdFkeyUsingTruckRateCustomerPkeyUpdate = {
+  /** An object where the defined keys will be set on the `truckRateCustomer` being updated. */
+  patch: UpdateTruckRateCustomerOnTruckRateCustomerForTruckRateCustomerCustomerIdFkeyPatch;
+  truckRateId: Scalars['BigInt'];
+  customerId: Scalars['String'];
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type TruckRateCustomerOnTruckRateCustomerForTruckRateCustomerTruckRateIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `truckRate` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `truckRate` being updated. */
+  patch: TruckRatePatch;
+};
+
+/** The fields on `truckRateCustomer` to look up the row to update. */
+export type TruckRateCustomerOnTruckRateCustomerForTruckRateCustomerTruckRateIdFkeyUsingTruckRateCustomerPkeyUpdate = {
+  /** An object where the defined keys will be set on the `truckRateCustomer` being updated. */
+  patch: UpdateTruckRateCustomerOnTruckRateCustomerForTruckRateCustomerTruckRateIdFkeyPatch;
+  truckRateId: Scalars['BigInt'];
+  customerId: Scalars['String'];
+};
+
+/** Represents an update to a `TruckRateCustomer`. Fields that are set will be updated. */
+export type TruckRateCustomerPatch = {
+  truckRateId?: Maybe<Scalars['BigInt']>;
+  customerId?: Maybe<Scalars['String']>;
+  truckRateToTruckRateId?: Maybe<TruckRateCustomerTruckRateIdFkeyInput>;
+  customerToCustomerId?: Maybe<TruckRateCustomerCustomerIdFkeyInput>;
+};
+
+/** The fields on `truckRateCustomer` to look up the row to connect. */
+export type TruckRateCustomerTruckRateCustomerPkeyConnect = {
+  truckRateId: Scalars['BigInt'];
+  customerId: Scalars['String'];
+};
+
+/** The fields on `truckRateCustomer` to look up the row to delete. */
+export type TruckRateCustomerTruckRateCustomerPkeyDelete = {
+  truckRateId: Scalars['BigInt'];
+  customerId: Scalars['String'];
+};
+
+/** Input for the nested mutation of `truckRate` in the `TruckRateCustomerInput` mutation. */
+export type TruckRateCustomerTruckRateIdFkeyInput = {
+  /** The primary key(s) for `truckRate` for the far side of the relationship. */
+  connectById?: Maybe<TruckRateTruckRatePkeyConnect>;
+  /** The primary key(s) for `truckRate` for the far side of the relationship. */
+  connectByNodeId?: Maybe<TruckRateNodeIdConnect>;
+  /** The primary key(s) for `truckRate` for the far side of the relationship. */
+  deleteById?: Maybe<TruckRateTruckRatePkeyDelete>;
+  /** The primary key(s) for `truckRate` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<TruckRateNodeIdDelete>;
+  /** The primary key(s) and patch data for `truckRate` for the far side of the relationship. */
+  updateById?: Maybe<TruckRateOnTruckRateCustomerForTruckRateCustomerTruckRateIdFkeyUsingTruckRatePkeyUpdate>;
+  /** The primary key(s) and patch data for `truckRate` for the far side of the relationship. */
+  updateByNodeId?: Maybe<TruckRateCustomerOnTruckRateCustomerForTruckRateCustomerTruckRateIdFkeyNodeIdUpdate>;
+  /** A `TruckRateInput` object that will be created and connected to this object. */
+  create?: Maybe<TruckRateCustomerTruckRateIdFkeyTruckRateCreateInput>;
+};
+
+/** Input for the nested mutation of `truckRateCustomer` in the `TruckRateInput` mutation. */
+export type TruckRateCustomerTruckRateIdFkeyInverseInput = {
+  /** Flag indicating whether all other `truckRateCustomer` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `truckRateCustomer` for the far side of the relationship. */
+  connectByTruckRateIdAndCustomerId?: Maybe<Array<TruckRateCustomerTruckRateCustomerPkeyConnect>>;
+  /** The primary key(s) for `truckRateCustomer` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<TruckRateCustomerNodeIdConnect>>;
+  /** The primary key(s) for `truckRateCustomer` for the far side of the relationship. */
+  deleteByTruckRateIdAndCustomerId?: Maybe<Array<TruckRateCustomerTruckRateCustomerPkeyDelete>>;
+  /** The primary key(s) for `truckRateCustomer` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<TruckRateCustomerNodeIdDelete>>;
+  /** The primary key(s) and patch data for `truckRateCustomer` for the far side of the relationship. */
+  updateByTruckRateIdAndCustomerId?: Maybe<Array<TruckRateCustomerOnTruckRateCustomerForTruckRateCustomerTruckRateIdFkeyUsingTruckRateCustomerPkeyUpdate>>;
+  /** The primary key(s) and patch data for `truckRateCustomer` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<TruckRateOnTruckRateCustomerForTruckRateCustomerTruckRateIdFkeyNodeIdUpdate>>;
+  /** A `TruckRateCustomerInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<TruckRateCustomerTruckRateIdFkeyTruckRateCustomerCreateInput>>;
+};
+
+/** The `truckRate` to be created by this mutation. */
+export type TruckRateCustomerTruckRateIdFkeyTruckRateCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  locationDescription?: Maybe<Scalars['String']>;
+  vendorId?: Maybe<Scalars['String']>;
+  postalState?: Maybe<Scalars['String']>;
+  isDefault?: Maybe<Scalars['Boolean']>;
+  fullLoadRate?: Maybe<Scalars['BigFloat']>;
+  palletRate1?: Maybe<Scalars['BigFloat']>;
+  palletRate2?: Maybe<Scalars['BigFloat']>;
+  palletRate3?: Maybe<Scalars['BigFloat']>;
+  palletRate4?: Maybe<Scalars['BigFloat']>;
+  palletRate5?: Maybe<Scalars['BigFloat']>;
+  palletRate6?: Maybe<Scalars['BigFloat']>;
+  palletRate7?: Maybe<Scalars['BigFloat']>;
+  palletRate8?: Maybe<Scalars['BigFloat']>;
+  palletRate9?: Maybe<Scalars['BigFloat']>;
+  palletRate10?: Maybe<Scalars['BigFloat']>;
+  palletRate11?: Maybe<Scalars['BigFloat']>;
+  palletRate12?: Maybe<Scalars['BigFloat']>;
+  palletRate13?: Maybe<Scalars['BigFloat']>;
+  palletRate14?: Maybe<Scalars['BigFloat']>;
+  palletRate15?: Maybe<Scalars['BigFloat']>;
+  notes?: Maybe<Scalars['String']>;
+  truckRateCustomersUsingId?: Maybe<TruckRateCustomerTruckRateIdFkeyInverseInput>;
+};
+
+/** The `truckRateCustomer` to be created by this mutation. */
+export type TruckRateCustomerTruckRateIdFkeyTruckRateCustomerCreateInput = {
+  customerId?: Maybe<Scalars['String']>;
+  truckRateToTruckRateId?: Maybe<TruckRateCustomerTruckRateIdFkeyInput>;
+  customerToCustomerId?: Maybe<TruckRateCustomerCustomerIdFkeyInput>;
+};
+
+/** A connection to a list of `Customer` values, with data from `TruckRateCustomer`. */
+export type TruckRateCustomersByTruckRateCustomerTruckRateIdAndCustomerIdManyToManyConnection = {
+  __typename?: 'TruckRateCustomersByTruckRateCustomerTruckRateIdAndCustomerIdManyToManyConnection';
+  /** A list of `Customer` objects. */
+  nodes: Array<Maybe<Customer>>;
+  /** A list of edges which contains the `Customer`, info from the `TruckRateCustomer`, and the cursor to aid in pagination. */
+  edges: Array<TruckRateCustomersByTruckRateCustomerTruckRateIdAndCustomerIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Customer` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `Customer` edge in the connection, with data from `TruckRateCustomer`. */
+export type TruckRateCustomersByTruckRateCustomerTruckRateIdAndCustomerIdManyToManyEdge = {
+  __typename?: 'TruckRateCustomersByTruckRateCustomerTruckRateIdAndCustomerIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `Customer` at the end of the edge. */
+  node?: Maybe<Customer>;
+};
+
+/** A connection to a list of `TruckRateCustomer` values. */
+export type TruckRateCustomersConnection = {
+  __typename?: 'TruckRateCustomersConnection';
+  /** A list of `TruckRateCustomer` objects. */
+  nodes: Array<Maybe<TruckRateCustomer>>;
+  /** A list of edges which contains the `TruckRateCustomer` and cursor to aid in pagination. */
+  edges: Array<TruckRateCustomersEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `TruckRateCustomer` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `TruckRateCustomer` edge in the connection. */
+export type TruckRateCustomersEdge = {
+  __typename?: 'TruckRateCustomersEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `TruckRateCustomer` at the end of the edge. */
+  node?: Maybe<TruckRateCustomer>;
+};
+
+/** Methods to use when ordering `TruckRateCustomer`. */
+export enum TruckRateCustomersOrderBy {
+  Natural = 'NATURAL',
+  TruckRateIdAsc = 'TRUCK_RATE_ID_ASC',
+  TruckRateIdDesc = 'TRUCK_RATE_ID_DESC',
+  CustomerIdAsc = 'CUSTOMER_ID_ASC',
+  CustomerIdDesc = 'CUSTOMER_ID_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  TruckRateByTruckRateIdIdAsc = 'TRUCK_RATE_BY_TRUCK_RATE_ID__ID_ASC',
+  TruckRateByTruckRateIdIdDesc = 'TRUCK_RATE_BY_TRUCK_RATE_ID__ID_DESC',
+  TruckRateByTruckRateIdLocationDescriptionAsc = 'TRUCK_RATE_BY_TRUCK_RATE_ID__LOCATION_DESCRIPTION_ASC',
+  TruckRateByTruckRateIdLocationDescriptionDesc = 'TRUCK_RATE_BY_TRUCK_RATE_ID__LOCATION_DESCRIPTION_DESC',
+  TruckRateByTruckRateIdVendorIdAsc = 'TRUCK_RATE_BY_TRUCK_RATE_ID__VENDOR_ID_ASC',
+  TruckRateByTruckRateIdVendorIdDesc = 'TRUCK_RATE_BY_TRUCK_RATE_ID__VENDOR_ID_DESC',
+  TruckRateByTruckRateIdPostalStateAsc = 'TRUCK_RATE_BY_TRUCK_RATE_ID__POSTAL_STATE_ASC',
+  TruckRateByTruckRateIdPostalStateDesc = 'TRUCK_RATE_BY_TRUCK_RATE_ID__POSTAL_STATE_DESC',
+  TruckRateByTruckRateIdIsDefaultAsc = 'TRUCK_RATE_BY_TRUCK_RATE_ID__IS_DEFAULT_ASC',
+  TruckRateByTruckRateIdIsDefaultDesc = 'TRUCK_RATE_BY_TRUCK_RATE_ID__IS_DEFAULT_DESC',
+  TruckRateByTruckRateIdFullLoadRateAsc = 'TRUCK_RATE_BY_TRUCK_RATE_ID__FULL_LOAD_RATE_ASC',
+  TruckRateByTruckRateIdFullLoadRateDesc = 'TRUCK_RATE_BY_TRUCK_RATE_ID__FULL_LOAD_RATE_DESC',
+  TruckRateByTruckRateIdPalletRate_1Asc = 'TRUCK_RATE_BY_TRUCK_RATE_ID__PALLET_RATE_1_ASC',
+  TruckRateByTruckRateIdPalletRate_1Desc = 'TRUCK_RATE_BY_TRUCK_RATE_ID__PALLET_RATE_1_DESC',
+  TruckRateByTruckRateIdPalletRate_2Asc = 'TRUCK_RATE_BY_TRUCK_RATE_ID__PALLET_RATE_2_ASC',
+  TruckRateByTruckRateIdPalletRate_2Desc = 'TRUCK_RATE_BY_TRUCK_RATE_ID__PALLET_RATE_2_DESC',
+  TruckRateByTruckRateIdPalletRate_3Asc = 'TRUCK_RATE_BY_TRUCK_RATE_ID__PALLET_RATE_3_ASC',
+  TruckRateByTruckRateIdPalletRate_3Desc = 'TRUCK_RATE_BY_TRUCK_RATE_ID__PALLET_RATE_3_DESC',
+  TruckRateByTruckRateIdPalletRate_4Asc = 'TRUCK_RATE_BY_TRUCK_RATE_ID__PALLET_RATE_4_ASC',
+  TruckRateByTruckRateIdPalletRate_4Desc = 'TRUCK_RATE_BY_TRUCK_RATE_ID__PALLET_RATE_4_DESC',
+  TruckRateByTruckRateIdPalletRate_5Asc = 'TRUCK_RATE_BY_TRUCK_RATE_ID__PALLET_RATE_5_ASC',
+  TruckRateByTruckRateIdPalletRate_5Desc = 'TRUCK_RATE_BY_TRUCK_RATE_ID__PALLET_RATE_5_DESC',
+  TruckRateByTruckRateIdPalletRate_6Asc = 'TRUCK_RATE_BY_TRUCK_RATE_ID__PALLET_RATE_6_ASC',
+  TruckRateByTruckRateIdPalletRate_6Desc = 'TRUCK_RATE_BY_TRUCK_RATE_ID__PALLET_RATE_6_DESC',
+  TruckRateByTruckRateIdPalletRate_7Asc = 'TRUCK_RATE_BY_TRUCK_RATE_ID__PALLET_RATE_7_ASC',
+  TruckRateByTruckRateIdPalletRate_7Desc = 'TRUCK_RATE_BY_TRUCK_RATE_ID__PALLET_RATE_7_DESC',
+  TruckRateByTruckRateIdPalletRate_8Asc = 'TRUCK_RATE_BY_TRUCK_RATE_ID__PALLET_RATE_8_ASC',
+  TruckRateByTruckRateIdPalletRate_8Desc = 'TRUCK_RATE_BY_TRUCK_RATE_ID__PALLET_RATE_8_DESC',
+  TruckRateByTruckRateIdPalletRate_9Asc = 'TRUCK_RATE_BY_TRUCK_RATE_ID__PALLET_RATE_9_ASC',
+  TruckRateByTruckRateIdPalletRate_9Desc = 'TRUCK_RATE_BY_TRUCK_RATE_ID__PALLET_RATE_9_DESC',
+  TruckRateByTruckRateIdPalletRate_10Asc = 'TRUCK_RATE_BY_TRUCK_RATE_ID__PALLET_RATE_10_ASC',
+  TruckRateByTruckRateIdPalletRate_10Desc = 'TRUCK_RATE_BY_TRUCK_RATE_ID__PALLET_RATE_10_DESC',
+  TruckRateByTruckRateIdPalletRate_11Asc = 'TRUCK_RATE_BY_TRUCK_RATE_ID__PALLET_RATE_11_ASC',
+  TruckRateByTruckRateIdPalletRate_11Desc = 'TRUCK_RATE_BY_TRUCK_RATE_ID__PALLET_RATE_11_DESC',
+  TruckRateByTruckRateIdPalletRate_12Asc = 'TRUCK_RATE_BY_TRUCK_RATE_ID__PALLET_RATE_12_ASC',
+  TruckRateByTruckRateIdPalletRate_12Desc = 'TRUCK_RATE_BY_TRUCK_RATE_ID__PALLET_RATE_12_DESC',
+  TruckRateByTruckRateIdPalletRate_13Asc = 'TRUCK_RATE_BY_TRUCK_RATE_ID__PALLET_RATE_13_ASC',
+  TruckRateByTruckRateIdPalletRate_13Desc = 'TRUCK_RATE_BY_TRUCK_RATE_ID__PALLET_RATE_13_DESC',
+  TruckRateByTruckRateIdPalletRate_14Asc = 'TRUCK_RATE_BY_TRUCK_RATE_ID__PALLET_RATE_14_ASC',
+  TruckRateByTruckRateIdPalletRate_14Desc = 'TRUCK_RATE_BY_TRUCK_RATE_ID__PALLET_RATE_14_DESC',
+  TruckRateByTruckRateIdPalletRate_15Asc = 'TRUCK_RATE_BY_TRUCK_RATE_ID__PALLET_RATE_15_ASC',
+  TruckRateByTruckRateIdPalletRate_15Desc = 'TRUCK_RATE_BY_TRUCK_RATE_ID__PALLET_RATE_15_DESC',
+  TruckRateByTruckRateIdNotesAsc = 'TRUCK_RATE_BY_TRUCK_RATE_ID__NOTES_ASC',
+  TruckRateByTruckRateIdNotesDesc = 'TRUCK_RATE_BY_TRUCK_RATE_ID__NOTES_DESC',
+  CustomerByCustomerIdIdAsc = 'CUSTOMER_BY_CUSTOMER_ID__ID_ASC',
+  CustomerByCustomerIdIdDesc = 'CUSTOMER_BY_CUSTOMER_ID__ID_DESC',
+  CustomerByCustomerIdCustomerNameAsc = 'CUSTOMER_BY_CUSTOMER_ID__CUSTOMER_NAME_ASC',
+  CustomerByCustomerIdCustomerNameDesc = 'CUSTOMER_BY_CUSTOMER_ID__CUSTOMER_NAME_DESC',
+  CustomerByCustomerIdAddress_1Asc = 'CUSTOMER_BY_CUSTOMER_ID__ADDRESS_1_ASC',
+  CustomerByCustomerIdAddress_1Desc = 'CUSTOMER_BY_CUSTOMER_ID__ADDRESS_1_DESC',
+  CustomerByCustomerIdAddress_2Asc = 'CUSTOMER_BY_CUSTOMER_ID__ADDRESS_2_ASC',
+  CustomerByCustomerIdAddress_2Desc = 'CUSTOMER_BY_CUSTOMER_ID__ADDRESS_2_DESC',
+  CustomerByCustomerIdCityAsc = 'CUSTOMER_BY_CUSTOMER_ID__CITY_ASC',
+  CustomerByCustomerIdCityDesc = 'CUSTOMER_BY_CUSTOMER_ID__CITY_DESC',
+  CustomerByCustomerIdPostalStateAsc = 'CUSTOMER_BY_CUSTOMER_ID__POSTAL_STATE_ASC',
+  CustomerByCustomerIdPostalStateDesc = 'CUSTOMER_BY_CUSTOMER_ID__POSTAL_STATE_DESC',
+  CustomerByCustomerIdZipCodeAsc = 'CUSTOMER_BY_CUSTOMER_ID__ZIP_CODE_ASC',
+  CustomerByCustomerIdZipCodeDesc = 'CUSTOMER_BY_CUSTOMER_ID__ZIP_CODE_DESC',
+  CustomerByCustomerIdCountryIdAsc = 'CUSTOMER_BY_CUSTOMER_ID__COUNTRY_ID_ASC',
+  CustomerByCustomerIdCountryIdDesc = 'CUSTOMER_BY_CUSTOMER_ID__COUNTRY_ID_DESC',
+  CustomerByCustomerIdPhoneAsc = 'CUSTOMER_BY_CUSTOMER_ID__PHONE_ASC',
+  CustomerByCustomerIdPhoneDesc = 'CUSTOMER_BY_CUSTOMER_ID__PHONE_DESC',
+  CustomerByCustomerIdLogoSrcAsc = 'CUSTOMER_BY_CUSTOMER_ID__LOGO_SRC_ASC',
+  CustomerByCustomerIdLogoSrcDesc = 'CUSTOMER_BY_CUSTOMER_ID__LOGO_SRC_DESC',
+  CustomerByCustomerIdNotesAsc = 'CUSTOMER_BY_CUSTOMER_ID__NOTES_ASC',
+  CustomerByCustomerIdNotesDesc = 'CUSTOMER_BY_CUSTOMER_ID__NOTES_DESC',
+  CustomerByCustomerIdWebsiteAsc = 'CUSTOMER_BY_CUSTOMER_ID__WEBSITE_ASC',
+  CustomerByCustomerIdWebsiteDesc = 'CUSTOMER_BY_CUSTOMER_ID__WEBSITE_DESC',
+  CustomerByCustomerIdActiveAsc = 'CUSTOMER_BY_CUSTOMER_ID__ACTIVE_ASC',
+  CustomerByCustomerIdActiveDesc = 'CUSTOMER_BY_CUSTOMER_ID__ACTIVE_DESC',
+  CustomerByCustomerIdSalesUserCodeAsc = 'CUSTOMER_BY_CUSTOMER_ID__SALES_USER_CODE_ASC',
+  CustomerByCustomerIdSalesUserCodeDesc = 'CUSTOMER_BY_CUSTOMER_ID__SALES_USER_CODE_DESC'
+}
+
 /** A filter to be used against `TruckRate` object types. All fields are combined with a logical ‘and.’ */
 export type TruckRateFilter = {
   /** Filter by the object’s `id` field. */
@@ -56707,6 +57369,10 @@ export type TruckRateFilter = {
   palletRate15?: Maybe<BigFloatFilter>;
   /** Filter by the object’s `notes` field. */
   notes?: Maybe<StringFilter>;
+  /** Filter by the object’s `truckRateCustomers` relation. */
+  truckRateCustomers?: Maybe<TruckRateToManyTruckRateCustomerFilter>;
+  /** Some related `truckRateCustomers` exist. */
+  truckRateCustomersExist?: Maybe<Scalars['Boolean']>;
   /** Checks for all expressions in this list. */
   and?: Maybe<Array<TruckRateFilter>>;
   /** Checks for any expressions in this list. */
@@ -56739,6 +57405,34 @@ export type TruckRateInput = {
   palletRate14?: Maybe<Scalars['BigFloat']>;
   palletRate15?: Maybe<Scalars['BigFloat']>;
   notes?: Maybe<Scalars['String']>;
+  truckRateCustomersUsingId?: Maybe<TruckRateCustomerTruckRateIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to connect. */
+export type TruckRateNodeIdConnect = {
+  /** The globally unique `ID` which identifies a single `truckRate` to be connected. */
+  nodeId: Scalars['ID'];
+};
+
+/** The globally unique `ID` look up for the row to delete. */
+export type TruckRateNodeIdDelete = {
+  /** The globally unique `ID` which identifies a single `truckRate` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type TruckRateOnTruckRateCustomerForTruckRateCustomerTruckRateIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `truckRateCustomer` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `truckRateCustomer` being updated. */
+  patch: TruckRateCustomerPatch;
+};
+
+/** The fields on `truckRate` to look up the row to update. */
+export type TruckRateOnTruckRateCustomerForTruckRateCustomerTruckRateIdFkeyUsingTruckRatePkeyUpdate = {
+  /** An object where the defined keys will be set on the `truckRate` being updated. */
+  patch: UpdateTruckRateOnTruckRateCustomerForTruckRateCustomerTruckRateIdFkeyPatch;
+  id: Scalars['BigInt'];
 };
 
 /** Represents an update to a `TruckRate`. Fields that are set will be updated. */
@@ -56765,6 +57459,27 @@ export type TruckRatePatch = {
   palletRate14?: Maybe<Scalars['BigFloat']>;
   palletRate15?: Maybe<Scalars['BigFloat']>;
   notes?: Maybe<Scalars['String']>;
+  truckRateCustomersUsingId?: Maybe<TruckRateCustomerTruckRateIdFkeyInverseInput>;
+};
+
+/** A filter to be used against many `TruckRateCustomer` object types. All fields are combined with a logical ‘and.’ */
+export type TruckRateToManyTruckRateCustomerFilter = {
+  /** Every related `TruckRateCustomer` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<TruckRateCustomerFilter>;
+  /** Some related `TruckRateCustomer` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<TruckRateCustomerFilter>;
+  /** No related `TruckRateCustomer` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<TruckRateCustomerFilter>;
+};
+
+/** The fields on `truckRate` to look up the row to connect. */
+export type TruckRateTruckRatePkeyConnect = {
+  id: Scalars['BigInt'];
+};
+
+/** The fields on `truckRate` to look up the row to delete. */
+export type TruckRateTruckRatePkeyDelete = {
+  id: Scalars['BigInt'];
 };
 
 /** A connection to a list of `TruckRate` values. */
@@ -56837,7 +57552,9 @@ export enum TruckRatesOrderBy {
   NotesAsc = 'NOTES_ASC',
   NotesDesc = 'NOTES_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  TruckRateCustomersByTruckRateIdCountAsc = 'TRUCK_RATE_CUSTOMERS_BY_TRUCK_RATE_ID__COUNT_ASC',
+  TruckRateCustomersByTruckRateIdCountDesc = 'TRUCK_RATE_CUSTOMERS_BY_TRUCK_RATE_ID__COUNT_DESC'
 }
 
 export type Unpaid = Node & {
@@ -61422,6 +62139,58 @@ export type UpdateTruckRateByNodeIdInput = {
   patch: TruckRatePatch;
 };
 
+/** All input for the `updateTruckRateCustomerByNodeId` mutation. */
+export type UpdateTruckRateCustomerByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `TruckRateCustomer` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `TruckRateCustomer` being updated. */
+  patch: TruckRateCustomerPatch;
+};
+
+/** All input for the `updateTruckRateCustomer` mutation. */
+export type UpdateTruckRateCustomerInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `TruckRateCustomer` being updated. */
+  patch: TruckRateCustomerPatch;
+  truckRateId: Scalars['BigInt'];
+  customerId: Scalars['String'];
+};
+
+/** The output of our update `TruckRateCustomer` mutation. */
+export type UpdateTruckRateCustomerPayload = {
+  __typename?: 'UpdateTruckRateCustomerPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `TruckRateCustomer` that was updated by this mutation. */
+  truckRateCustomer?: Maybe<TruckRateCustomer>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `TruckRate` that is related to this `TruckRateCustomer`. */
+  truckRate?: Maybe<TruckRate>;
+  /** Reads a single `Customer` that is related to this `TruckRateCustomer`. */
+  customer?: Maybe<Customer>;
+  /** An edge for our `TruckRateCustomer`. May be used by Relay 1. */
+  truckRateCustomerEdge?: Maybe<TruckRateCustomersEdge>;
+};
+
+
+/** The output of our update `TruckRateCustomer` mutation. */
+export type UpdateTruckRateCustomerPayloadTruckRateCustomerEdgeArgs = {
+  orderBy?: Maybe<Array<TruckRateCustomersOrderBy>>;
+};
+
 /** All input for the `updateTruckRate` mutation. */
 export type UpdateTruckRateInput = {
   /**
@@ -64470,6 +65239,37 @@ export type UpsertTruckLoadPayload = {
 /** The output of our upsert `TruckLoad` mutation. */
 export type UpsertTruckLoadPayloadTruckLoadEdgeArgs = {
   orderBy?: Maybe<Array<TruckLoadsOrderBy>>;
+};
+
+/** All input for the upsert `TruckRateCustomer` mutation. */
+export type UpsertTruckRateCustomerInput = {
+  /** An arbitrary string value with no semantic meaning. Will be included in the payload verbatim. May be used to track mutations by the client. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `TruckRateCustomer` to be upserted by this mutation. */
+  truckRateCustomer: TruckRateCustomerInput;
+};
+
+/** The output of our upsert `TruckRateCustomer` mutation. */
+export type UpsertTruckRateCustomerPayload = {
+  __typename?: 'UpsertTruckRateCustomerPayload';
+  /** The exact same `clientMutationId` that was provided in the mutation input, unchanged and unused. May be used by a client to track mutations. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `TruckRateCustomer` that were upserted by this mutation. */
+  truckRateCustomer?: Maybe<TruckRateCustomer>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `TruckRate` that is related to this `TruckRateCustomer`. */
+  truckRate?: Maybe<TruckRate>;
+  /** Reads a single `Customer` that is related to this `TruckRateCustomer`. */
+  customer?: Maybe<Customer>;
+  /** An edge for our `TruckRateCustomer`. May be used by Relay 1. */
+  truckRateCustomerEdge?: Maybe<TruckRateCustomersEdge>;
+};
+
+
+/** The output of our upsert `TruckRateCustomer` mutation. */
+export type UpsertTruckRateCustomerPayloadTruckRateCustomerEdgeArgs = {
+  orderBy?: Maybe<Array<TruckRateCustomersOrderBy>>;
 };
 
 /** All input for the upsert `TruckRate` mutation. */
@@ -68778,6 +69578,7 @@ export type UpdateCustomerOnCustomerForCustomerCountryIdFkeyPatch = {
   customerPersonContactsUsingId?: Maybe<CustomerPersonContactCustomerIdFkeyInverseInput>;
   shipperProgramsUsingId?: Maybe<ShipperProgramCustomerIdFkeyInverseInput>;
   customerProgramsUsingId?: Maybe<CustomerProgramCustomerIdFkeyInverseInput>;
+  truckRateCustomersUsingId?: Maybe<TruckRateCustomerCustomerIdFkeyInverseInput>;
 };
 
 /** An object where the defined keys will be set on the `customer` being updated. */
@@ -68801,6 +69602,7 @@ export type UpdateCustomerOnCustomerPersonContactForCustomerPersonContactCustome
   customerPersonContactsUsingId?: Maybe<CustomerPersonContactCustomerIdFkeyInverseInput>;
   shipperProgramsUsingId?: Maybe<ShipperProgramCustomerIdFkeyInverseInput>;
   customerProgramsUsingId?: Maybe<CustomerProgramCustomerIdFkeyInverseInput>;
+  truckRateCustomersUsingId?: Maybe<TruckRateCustomerCustomerIdFkeyInverseInput>;
 };
 
 /** An object where the defined keys will be set on the `customer` being updated. */
@@ -68824,6 +69626,7 @@ export type UpdateCustomerOnCustomerProgramForCustomerProgramCustomerIdFkeyPatch
   customerPersonContactsUsingId?: Maybe<CustomerPersonContactCustomerIdFkeyInverseInput>;
   shipperProgramsUsingId?: Maybe<ShipperProgramCustomerIdFkeyInverseInput>;
   customerProgramsUsingId?: Maybe<CustomerProgramCustomerIdFkeyInverseInput>;
+  truckRateCustomersUsingId?: Maybe<TruckRateCustomerCustomerIdFkeyInverseInput>;
 };
 
 /** An object where the defined keys will be set on the `customer` being updated. */
@@ -68847,6 +69650,7 @@ export type UpdateCustomerOnShipperProgramForShipperProgramCustomerIdFkeyPatch =
   customerPersonContactsUsingId?: Maybe<CustomerPersonContactCustomerIdFkeyInverseInput>;
   shipperProgramsUsingId?: Maybe<ShipperProgramCustomerIdFkeyInverseInput>;
   customerProgramsUsingId?: Maybe<CustomerProgramCustomerIdFkeyInverseInput>;
+  truckRateCustomersUsingId?: Maybe<TruckRateCustomerCustomerIdFkeyInverseInput>;
 };
 
 /** An object where the defined keys will be set on the `customer` being updated. */
@@ -68870,6 +69674,31 @@ export type UpdateCustomerOnShipperProjectionProductForShipperProjectionProductC
   customerPersonContactsUsingId?: Maybe<CustomerPersonContactCustomerIdFkeyInverseInput>;
   shipperProgramsUsingId?: Maybe<ShipperProgramCustomerIdFkeyInverseInput>;
   customerProgramsUsingId?: Maybe<CustomerProgramCustomerIdFkeyInverseInput>;
+  truckRateCustomersUsingId?: Maybe<TruckRateCustomerCustomerIdFkeyInverseInput>;
+};
+
+/** An object where the defined keys will be set on the `customer` being updated. */
+export type UpdateCustomerOnTruckRateCustomerForTruckRateCustomerCustomerIdFkeyPatch = {
+  id?: Maybe<Scalars['String']>;
+  customerName?: Maybe<Scalars['String']>;
+  address1?: Maybe<Scalars['String']>;
+  address2?: Maybe<Scalars['String']>;
+  city?: Maybe<Scalars['String']>;
+  postalState?: Maybe<Scalars['String']>;
+  zipCode?: Maybe<Scalars['String']>;
+  countryId?: Maybe<Scalars['String']>;
+  phone?: Maybe<Scalars['String']>;
+  logoSrc?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
+  active?: Maybe<Scalars['Boolean']>;
+  salesUserCode?: Maybe<Scalars['String']>;
+  countryToCountryId?: Maybe<CustomerCountryIdFkeyInput>;
+  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCustomerIdFkeyInverseInput>;
+  customerPersonContactsUsingId?: Maybe<CustomerPersonContactCustomerIdFkeyInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramCustomerIdFkeyInverseInput>;
+  customerProgramsUsingId?: Maybe<CustomerProgramCustomerIdFkeyInverseInput>;
+  truckRateCustomersUsingId?: Maybe<TruckRateCustomerCustomerIdFkeyInverseInput>;
 };
 
 /** An object where the defined keys will be set on the `customerPersonContact` being updated. */
@@ -70169,6 +70998,47 @@ export type UpdateShipperProjectionVesselOnShipperProjectionVesselInfoForShipper
   shipperToShipperId?: Maybe<ShipperProjectionVesselShipperIdFkeyInput>;
   vesselToVesselId?: Maybe<ShipperProjectionVesselVesselIdFkeyInput>;
   shipperProjectionVesselInfosUsingId?: Maybe<ShipperProjectionVesselInfoVesselIdFkeyInverseInput>;
+};
+
+/** An object where the defined keys will be set on the `truckRateCustomer` being updated. */
+export type UpdateTruckRateCustomerOnTruckRateCustomerForTruckRateCustomerCustomerIdFkeyPatch = {
+  truckRateId?: Maybe<Scalars['BigInt']>;
+  truckRateToTruckRateId?: Maybe<TruckRateCustomerTruckRateIdFkeyInput>;
+  customerToCustomerId?: Maybe<TruckRateCustomerCustomerIdFkeyInput>;
+};
+
+/** An object where the defined keys will be set on the `truckRateCustomer` being updated. */
+export type UpdateTruckRateCustomerOnTruckRateCustomerForTruckRateCustomerTruckRateIdFkeyPatch = {
+  customerId?: Maybe<Scalars['String']>;
+  truckRateToTruckRateId?: Maybe<TruckRateCustomerTruckRateIdFkeyInput>;
+  customerToCustomerId?: Maybe<TruckRateCustomerCustomerIdFkeyInput>;
+};
+
+/** An object where the defined keys will be set on the `truckRate` being updated. */
+export type UpdateTruckRateOnTruckRateCustomerForTruckRateCustomerTruckRateIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  locationDescription?: Maybe<Scalars['String']>;
+  vendorId?: Maybe<Scalars['String']>;
+  postalState?: Maybe<Scalars['String']>;
+  isDefault?: Maybe<Scalars['Boolean']>;
+  fullLoadRate?: Maybe<Scalars['BigFloat']>;
+  palletRate1?: Maybe<Scalars['BigFloat']>;
+  palletRate2?: Maybe<Scalars['BigFloat']>;
+  palletRate3?: Maybe<Scalars['BigFloat']>;
+  palletRate4?: Maybe<Scalars['BigFloat']>;
+  palletRate5?: Maybe<Scalars['BigFloat']>;
+  palletRate6?: Maybe<Scalars['BigFloat']>;
+  palletRate7?: Maybe<Scalars['BigFloat']>;
+  palletRate8?: Maybe<Scalars['BigFloat']>;
+  palletRate9?: Maybe<Scalars['BigFloat']>;
+  palletRate10?: Maybe<Scalars['BigFloat']>;
+  palletRate11?: Maybe<Scalars['BigFloat']>;
+  palletRate12?: Maybe<Scalars['BigFloat']>;
+  palletRate13?: Maybe<Scalars['BigFloat']>;
+  palletRate14?: Maybe<Scalars['BigFloat']>;
+  palletRate15?: Maybe<Scalars['BigFloat']>;
+  notes?: Maybe<Scalars['String']>;
+  truckRateCustomersUsingId?: Maybe<TruckRateCustomerTruckRateIdFkeyInverseInput>;
 };
 
 /** An object where the defined keys will be set on the `userBookmark` being updated. */

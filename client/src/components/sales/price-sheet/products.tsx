@@ -16,7 +16,7 @@ import {
   getRandomColor,
   hexColorWithTransparency,
 } from 'ui/utils';
-import { getDateOfISOWeek, getWeekNumber, isCurrentWeek } from 'utils/date';
+import { getDateOfISOWeek, getWeekNumber } from 'utils/date';
 
 import AddItem from '../../add-item';
 import { gridTemplateColumns } from '.';

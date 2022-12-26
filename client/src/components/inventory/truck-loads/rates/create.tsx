@@ -6,9 +6,10 @@ import { ClipLoader } from 'react-spinners';
 import api from 'api';
 import BaseData from 'components/base-data';
 import { validateItem } from 'components/column-label';
+import CustomerSelector from 'components/directory/customers/selector';
 import Page from 'components/page';
 import usePrevious from 'hooks/use-previous';
-import { TruckRate } from 'types';
+import { Customer, TruckRate } from 'types';
 import b from 'ui/button';
 import l from 'ui/layout';
 import th from 'ui/theme';
@@ -74,6 +75,9 @@ const CreateTruckRate = () => {
   const handleChange = (field: keyof TruckRate, value: any) => {
     setChanges({ ...changes, [field]: value } as TruckRate);
   };
+  const customers = (changes
+    ?.customersByTruckRateCustomerTruckRateIdAndCustomerId?.nodes ||
+    []) as Customer[];
 
   const handleSave = () => {
     setSaveAttempt(true);
@@ -81,7 +85,18 @@ const CreateTruckRate = () => {
       setLoading(true);
       handleCreate({
         variables: {
-          truckRate: omit(['vendor'], changes),
+          truckRate: {
+            ...omit(
+              [
+                'customersByTruckRateCustomerTruckRateIdAndCustomerId',
+                'vendor',
+              ],
+              changes,
+            ),
+            truckRateCustomersUsingId: {
+              create: customers.map((c) => ({ customerId: c.id })),
+            },
+          },
         },
       }).then(() => {
         history.push(cancelLink);
@@ -126,6 +141,21 @@ const CreateTruckRate = () => {
         handleChange={handleChange}
         labels={baseLabels}
         showValidation={saveAttempt}
+      />
+      <CustomerSelector
+        customers={customers}
+        editing
+        handleAdd={(customer) => {
+          handleChange('customersByTruckRateCustomerTruckRateIdAndCustomerId', {
+            nodes: [...customers, customer],
+          });
+        }}
+        handleRemove={(customer) => {
+          handleChange('customersByTruckRateCustomerTruckRateIdAndCustomerId', {
+            ...changes?.customersByTruckRateCustomerTruckRateIdAndCustomerId,
+            nodes: customers.filter((c) => c.id !== customer.id),
+          });
+        }}
       />
     </Page>
   );
