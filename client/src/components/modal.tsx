@@ -27,14 +27,17 @@ export const modalStyles: ReactModal.Styles = {
   },
 };
 
-interface Props {
+interface Props extends Omit<ReactModal.Props, 'children' | 'isOpen'> {
   children: ({ hide }: { hide: () => void }) => React.ReactNode;
   customStyles?: ReactModal.Styles;
-  trigger: (show: () => void) => React.ReactNode;
+  isOpen?: boolean;
+  trigger?: (show: () => void) => React.ReactNode;
 }
 
-const Modal = ({ children, customStyles, trigger }: Props) => {
-  const [isOpen, setIsOpen] = useState(false);
+const Modal = ({ children, customStyles, trigger, ...rest }: Props) => {
+  const [isLocalOpen, setIsOpen] = useState(false);
+  const isOpen = rest.isOpen !== undefined ? rest.isOpen : isLocalOpen;
+
   const hide = () => setIsOpen(false);
   const show = () => setIsOpen(true);
 
@@ -45,12 +48,13 @@ const Modal = ({ children, customStyles, trigger }: Props) => {
 
   return (
     <>
-      {trigger(show)}
+      {trigger && trigger(show)}
       <ReactModal
         ariaHideApp={false}
-        isOpen={isOpen}
         onRequestClose={hide}
         style={styles}
+        {...rest}
+        isOpen={isOpen}
       >
         {children({ hide })}
       </ReactModal>

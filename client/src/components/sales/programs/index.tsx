@@ -54,10 +54,12 @@ import ty from 'ui/typography';
 import { getWeekNumber, isDateGreaterThanOrEqualTo } from 'utils/date';
 
 import { ResetButton } from '../../inventory/inventory/use-filters';
+import ProgramAllocateModal from './allocate';
 import Header from './header';
 import { NewProgramRow, ProgramTotalRow } from './row';
 import ProgramSet from './set';
 import {
+  AllocateState,
   CustomerProgramEntryUpdate,
   CustomerProgramUpdate,
   NewCustomerProgram,
@@ -353,6 +355,10 @@ const Programs = () => {
   const allocatedEndDate = endOfISOWeek(
     add(referenceDate, { weeks: endWeeks }),
   );
+
+  const [allocateState, setAllocateState] = useState<AllocateState>({
+    isOpen: false,
+  });
 
   const handleWeekRangeChange = (
     key: 'start' | 'end',
@@ -1188,6 +1194,7 @@ const Programs = () => {
   );
 
   const programProps = {
+    allocateState,
     allocatedStartDate,
     allocatedEndDate,
     changeHandlers: {
@@ -1197,13 +1204,11 @@ const Programs = () => {
       handleCustomerProgramEntryChange,
     },
     customerPrograms: allCustomerPrograms,
-    customerProgramEntries,
     customers,
     duplicateProgramIds: isCustomers
       ? duplicateCustomerProgramIds
       : duplicateShipperProgramIds,
     editing,
-    endWeeks,
     error,
     handleRemoveItem,
     handleWeekRangeChange,
@@ -1217,10 +1222,9 @@ const Programs = () => {
     },
     selectedCustomer,
     selectedWeekNumber,
+    setAllocateState,
     shipperPrograms: allShipperPrograms,
-    shipperProgramEntries,
     showAllocated,
-    startWeeks,
     updateLoading,
     valueGetters: {
       getShipperProgramValue,
@@ -1553,6 +1557,23 @@ const Programs = () => {
           </l.Div>
         </l.Div>
       </l.Flex>
+      <ProgramAllocateModal
+        allocatedStartDate={allocatedStartDate}
+        allocatedEndDate={allocatedEndDate}
+        entriesToAllocate={
+          isCustomers ? shipperProgramEntries : customerProgramEntries
+        }
+        handleClose={() => {
+          setAllocateState({ ...allocateState, isOpen: false });
+        }}
+        isCustomers={isCustomers}
+        loading={loading}
+        weekCount={weekCount}
+        handleWeekRangeChange={handleWeekRangeChange}
+        startWeeks={startWeeks}
+        endWeeks={endWeeks}
+        {...allocateState}
+      />
     </Page>
   );
 };

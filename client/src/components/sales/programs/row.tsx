@@ -33,7 +33,6 @@ import th from 'ui/theme';
 import ty from 'ui/typography';
 import { hexColorWithTransparency } from 'ui/utils';
 
-import ProgramAllocateModal from './allocate';
 import ProgramNotes from './notes';
 import {
   ProgramProps,
@@ -353,15 +352,11 @@ const ProgramRow = <
     loading,
     previousProgram,
     program,
-    customerProgramEntries,
-    shipperProgramEntries,
+    setAllocateState,
     showAllocated,
     showSpecies,
     showVariety,
     weekCount,
-    handleWeekRangeChange,
-    startWeeks,
-    endWeeks,
     vesselInfos,
   } = props;
   const { id } = program;
@@ -1032,55 +1027,42 @@ const ProgramRow = <
               />
             </l.Flex>
           ) : (
-            <l.Div key={index}>
-              <ProgramAllocateModal
-                allocatedStartDate={allocatedStartDate}
-                allocatedEndDate={allocatedEndDate}
-                disabled={editing || !palletCountValue}
-                entriesToAllocate={
-                  isCustomers ? shipperProgramEntries : customerProgramEntries
+            <l.Div
+              background={
+                isAdWeek
+                  ? hexColorWithTransparency(
+                      th.colors.status.error,
+                      th.opacities.secondary,
+                    )
+                  : hasNotes
+                  ? hexColorWithTransparency(
+                      th.colors.status.warning,
+                      th.opacities.secondary,
+                    )
+                  : undefined
+              }
+              key={index}
+            >
+              <Cell
+                alignCenter
+                disabled={!palletCountValue}
+                onClick={
+                  !editing && palletCountValue
+                    ? () => {
+                        entry &&
+                          setAllocateState({ entry, program, isOpen: true });
+                      }
+                    : undefined
                 }
-                entry={entry}
-                isCustomers={isCustomers}
-                loading={loading}
-                program={program}
-                trigger={(focused) => (
-                  <l.Div
-                    background={
-                      isAdWeek
-                        ? hexColorWithTransparency(
-                            th.colors.status.error,
-                            th.opacities.secondary,
-                          )
-                        : hasNotes
-                        ? hexColorWithTransparency(
-                            th.colors.status.warning,
-                            th.opacities.secondary,
-                          )
-                        : undefined
-                    }
-                  >
-                    <Cell
-                      active={focused}
-                      alignCenter
-                      disabled={!palletCountValue}
-                      onClick={palletCountValue ? () => ({}) : undefined}
-                      height={`calc(${th.sizes.fill} - 6px)`}
-                      highlight={isAdWeek || hasNotes}
-                      justifyCenter
-                      mx={th.spacing.tn}
-                    >
-                      <ty.CaptionText center mr={th.spacing.md}>
-                        {palletCountValue || '-'}
-                      </ty.CaptionText>
-                    </Cell>
-                  </l.Div>
-                )}
-                weekCount={weekCount}
-                handleWeekRangeChange={handleWeekRangeChange}
-                startWeeks={startWeeks}
-                endWeeks={endWeeks}
-              />
+                height={`calc(${th.sizes.fill} - 6px)`}
+                highlight={isAdWeek || hasNotes}
+                justifyCenter
+                mx={th.spacing.tn}
+              >
+                <ty.CaptionText center mr={th.spacing.md}>
+                  {palletCountValue || '-'}
+                </ty.CaptionText>
+              </Cell>
             </l.Div>
           );
         }, weekCount)}

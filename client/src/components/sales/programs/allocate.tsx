@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { format } from 'date-fns';
 import { equals, pick, pluck, sum, values } from 'ramda';
-import OutsideClickHandler from 'react-outside-click-handler';
 import { ClipLoader } from 'react-spinners';
 
 import api from 'api';
@@ -34,6 +33,8 @@ import {
   getAllocatedPalletCount,
 } from './utils';
 import { LineItemCheckbox } from 'ui/checkbox';
+import Modal from 'components/modal';
+import { DataMessage } from 'components/page/message';
 
 const gridTemplateColumns = (isCustomers?: boolean) =>
   `repeat(3, 100px) repeat(3, 70px)${
@@ -187,12 +188,12 @@ export interface Props<
   T extends CustomerProgramEntry | ShipperProgramEntry,
   K extends CustomerProgram | ShipperProgram,
 > {
-  disabled?: boolean;
   entriesToAllocate: T[];
   entry?: Maybe<T>;
+  handleClose: () => void;
   isCustomers: boolean;
+  isOpen: boolean;
   loading: boolean;
-  trigger: (focused: boolean) => React.ReactNode;
   weekCount: number;
   startWeeks: number;
   endWeeks: number;
@@ -203,10 +204,10 @@ export interface Props<
   ) => void;
   allocatedStartDate: Date;
   allocatedEndDate: Date;
-  program: K;
+  program?: K;
 }
 
-const getInitialAllocateState = <
+export const getInitialAllocateState = <
   T extends CustomerProgramEntry | ShipperProgramEntry,
 >(
   entry: Maybe<T> | undefined,
@@ -250,12 +251,12 @@ const ProgramAllocateModal = <
   T extends CustomerProgramEntry | ShipperProgramEntry,
   K extends CustomerProgram | ShipperProgram,
 >({
-  disabled,
   entriesToAllocate,
   entry,
+  handleClose,
   isCustomers,
-  loading,
-  trigger,
+  isOpen,
+  loading: dataLoading,
   weekCount,
   startWeeks,
   endWeeks,
@@ -264,10 +265,9 @@ const ProgramAllocateModal = <
   allocatedEndDate,
   program,
 }: Props<T, K>) => {
-  const previousLoading = usePrevious(loading);
+  const previousLoading = usePrevious(dataLoading);
   const previousEntriesToAllocate = usePrevious(entriesToAllocate);
 
-  const [focused, setFocused] = useState(false);
   const [search, setSearch] = useSearchQueryParam(
     isCustomers ? 'shipperAllocateSearch' : 'customerAllocateSearch',
   );
@@ -286,6 +286,8 @@ const ProgramAllocateModal = <
   const [allocateState, setAllocateState] = useState<{
     [key: number]: { entry: T; allocatedCount: string };
   }>(initialAllocateState);
+
+  const loading = dataLoading || entryState?.id !== entry?.id;
 
   const availableCount = `${
     entry
@@ -505,16 +507,6 @@ const ProgramAllocateModal = <
     });
   };
 
-  const handleFocus = () => {
-    !disabled && setFocused(true);
-  };
-
-  const handleBlur = () => {
-    setFocused(false);
-    setSearch(undefined);
-    setAllocateState(initialAllocateState);
-  };
-
   const handleReset = useCallback(() => {
     setAllocateState(initialAllocateState);
     setEntryState(entry as T);
@@ -535,183 +527,184 @@ const ProgramAllocateModal = <
     handleReset,
   ]);
 
+  useEffect(() => {
+    if (entry && previousEntriesToAllocate !== entriesToAllocate) {
+      setEntryState(entry as T);
+      setAllocateState(initialAllocateState);
+    }
+  }, [
+    program,
+    entry,
+    initialAllocateState,
+    previousEntriesToAllocate,
+    entriesToAllocate,
+  ]);
+
+  const columnLabels = (labels: string[], gridTemplateCols: string) => (
+    <l.Grid
+      gridTemplateColumns={gridTemplateCols}
+      mb={th.spacing.sm}
+      mr={th.spacing.md}
+    >
+      {labels.map((val, idx) => (
+        <ty.SmallText
+          key={idx}
+          ml={th.spacing.sm}
+          nowrap
+          overflow="hidden"
+          secondary
+          textOverflow="ellipsis"
+          title={val}
+          width={th.sizes.fill}
+        >
+          {val}
+        </ty.SmallText>
+      ))}
+    </l.Grid>
+  );
+
   return (
-    <l.Div relative>
-      <l.Div onClick={handleFocus}>{trigger(focused)}</l.Div>
-      {focused && (
-        <OutsideClickHandler onOutsideClick={handleBlur}>
-          <l.Div
-            borderRadius={th.borderRadii.default}
-            border={th.borders.secondary}
-            bg={th.colors.background}
-            boxShadow={th.shadows.box}
-            height={372}
-            mt={th.spacing.tn}
-            p={th.spacing.sm}
-            position="absolute"
-            width={panelWidth}
-            zIndex={5}
-          >
-            {entry && (
-              <l.Grid
-                alignCenter
-                gridTemplateColumns="250px 1fr 2fr"
-                justifyBetween
-                mb={th.spacing.sm}
+    <Modal
+      customStyles={{ content: { width: 'auto' } }}
+      isOpen={isOpen}
+      onRequestClose={handleClose}
+    >
+      {() =>
+        program &&
+        entry &&
+        entryState && (
+          <>
+            <ty.TitleText>Allocate Programs</ty.TitleText>
+            <l.Flex alignCenter justifyBetween mb={th.spacing.md}>
+              <ty.CaptionText
+                bold
+                color={th.colors.brand.primaryAccent}
+                ml={th.spacing.sm}
+                nowrap
               >
-                <l.Flex alignCenter>
-                  <ty.CaptionText
-                    bold
-                    color={th.colors.brand.primaryAccent}
-                    ml={th.spacing.sm}
-                    mr={th.spacing.lg}
-                    nowrap
-                  >
-                    {isCustomers ? 'Customer' : 'Shipper'} program:
-                  </ty.CaptionText>
-                  {isCustomers ? (
-                    <LineItemCheckbox
-                      checked={
-                        !!((entryState || {}) as CustomerProgramEntry).isAdWeek
-                      }
-                      label={
-                        <ty.CaptionText
-                          ml={th.spacing.sm}
-                          mr={th.spacing.lg}
-                          nowrap
-                        >
-                          Ad
-                        </ty.CaptionText>
-                      }
-                      onChange={() => {
-                        handleAdWeekChange(
-                          !((entryState || {}) as CustomerProgramEntry)
-                            .isAdWeek,
-                        );
-                      }}
-                    />
-                  ) : (
-                    <div />
-                  )}
-                </l.Flex>
-                <l.Flex alignCenter>
-                  <ty.SmallText mr={14} secondary>
-                    Notes:
-                  </ty.SmallText>
-                  <EditableCell
-                    content={{
-                      dirty: (entryState as T).notes !== entry.notes,
-                      value: (entryState as T).notes || '',
-                    }}
-                    defaultChildren={null}
-                    editing={true}
-                    inputProps={{
-                      title: (entryState as T).notes,
-                      width: 146,
-                    }}
-                    onChange={(e) => {
-                      handleNotesChange(e.target.value);
-                    }}
-                  />
-                </l.Flex>
-                <l.Flex alignCenter justifyBetween ml={28}>
-                  <l.Flex alignCenter>
-                    <ty.SmallText mr={th.spacing.sm} secondary>
-                      Week:{' '}
-                    </ty.SmallText>
-                    <ty.CaptionText
-                      mr={th.spacing.md}
-                      nowrap
-                      pr={th.spacing.sm}
-                    >
-                      {programDate
-                        ? `${getWeekNumber(programDate)} - ${format(
-                            programDate,
-                            'M/d',
-                          )}`
-                        : '-'}
-                    </ty.CaptionText>
-                  </l.Flex>
-                  <l.Flex alignCenter>
-                    <ty.SmallText mx={th.spacing.sm} secondary>
-                      Total:
-                    </ty.SmallText>
-                    <ty.CaptionText>{entry?.palletCount || '-'}</ty.CaptionText>
-                  </l.Flex>
-                  <l.Flex alignCenter justifyEnd width={130}>
-                    {isDirty ? (
-                      <b.Error
-                        ml={th.spacing.sm}
-                        onClick={handleReset}
-                        small
-                        status={th.colors.brand.primaryAccent}
-                        mx={th.spacing.sm}
-                      >
-                        Reset
-                      </b.Error>
-                    ) : (
-                      <div />
-                    )}
-                    <b.Success
-                      disabled={updateLoading || !isDirty}
-                      onClick={handleSave}
-                      small
-                      status={th.colors.brand.primaryAccent}
-                      mx={th.spacing.sm}
-                    >
-                      {updateLoading ? (
-                        <l.Flex alignCenter justifyCenter>
-                          <ClipLoader
-                            color={th.colors.brand.secondary}
-                            size={th.sizes.xs}
-                          />
-                        </l.Flex>
-                      ) : (
-                        'Save'
-                      )}
-                    </b.Success>
-                  </l.Flex>
-                </l.Flex>
-              </l.Grid>
-            )}
-            <l.Grid
-              gridTemplateColumns={`repeat(3, 100px) repeat(3, 70px)${
-                isCustomers ? '' : ' 1fr'
-              }`}
-              mb={th.spacing.sm}
-              mr={th.spacing.md}
-              pb={th.spacing.sm}
-              borderBottom={th.borders.disabled}
-            >
-              {[
-                name,
-                program?.commonSpecies?.speciesName,
-                program?.commonVariety?.varietyName,
-                program?.commonSize?.sizeName,
-                program?.commonPackType?.packTypeName,
-                program?.plu,
-                ...(isCustomers ? [] : [program?.customer ? customerName : '']),
-              ].map((val, idx) => (
-                <EntryRowText
-                  customStyles={{
-                    fontWeight:
-                      idx === 0 ||
-                      (idx === 6 &&
-                        val ===
-                          `${program?.customer?.customerName} (${program?.customer?.id})`)
-                        ? th.fontWeights.bold
-                        : undefined,
+                Allocate to {isCustomers ? 'customer' : 'shipper'} program:
+              </ty.CaptionText>
+              <l.Flex alignCenter>
+                <ty.SmallText mr={14} secondary>
+                  Notes:
+                </ty.SmallText>
+                <EditableCell
+                  content={{
+                    dirty: (entryState as T).notes !== entry.notes,
+                    value: (entryState as T).notes || '',
                   }}
-                  key={idx}
-                  value={val || '-'}
+                  defaultChildren={null}
+                  editing={true}
+                  inputProps={{
+                    title: (entryState as T).notes,
+                    width: 146,
+                  }}
+                  onChange={(e) => {
+                    handleNotesChange(e.target.value);
+                  }}
                 />
-              ))}
-            </l.Grid>
+              </l.Flex>
+              {isCustomers ? (
+                <LineItemCheckbox
+                  checked={
+                    !!((entryState || {}) as CustomerProgramEntry).isAdWeek
+                  }
+                  label={
+                    <ty.CaptionText ml={th.spacing.sm} nowrap>
+                      Ad
+                    </ty.CaptionText>
+                  }
+                  onChange={() => {
+                    handleAdWeekChange(
+                      !((entryState || {}) as CustomerProgramEntry).isAdWeek,
+                    );
+                  }}
+                />
+              ) : (
+                <div />
+              )}
+              <l.Flex alignCenter>
+                <ty.SmallText mr={th.spacing.sm} secondary>
+                  Week:{' '}
+                </ty.SmallText>
+                <ty.CaptionText mr={th.spacing.md} nowrap pr={th.spacing.sm}>
+                  {programDate
+                    ? `${getWeekNumber(programDate)} - ${format(
+                        programDate,
+                        'M/d',
+                      )}`
+                    : '-'}
+                </ty.CaptionText>
+              </l.Flex>
+              <l.Flex alignCenter>
+                <ty.SmallText mx={th.spacing.sm} secondary>
+                  Total:
+                </ty.SmallText>
+                <ty.CaptionText>{entry?.palletCount || '-'}</ty.CaptionText>
+              </l.Flex>
+              <b.Error
+                disabled={!isDirty || loading}
+                ml={th.spacing.sm}
+                onClick={handleReset}
+                small
+                status={th.colors.brand.primaryAccent}
+                mx={th.spacing.sm}
+              >
+                Reset
+              </b.Error>
+            </l.Flex>
+            {columnLabels(
+              [
+                isCustomers ? 'Customer' : 'Shipper',
+                'Species',
+                'Variety',
+                'Size',
+                'Pack Type',
+                'PLU/GTIN',
+                ...(isCustomers ? [] : ['Customer']),
+              ],
+              `repeat(6, 120px)${isCustomers ? '' : ' 120px'}`,
+            )}
+            <RowWrapper allocated py={th.spacing.sm}>
+              <l.Grid
+                gridTemplateColumns={`repeat(6, 120px)${
+                  isCustomers ? '' : ' 120px'
+                }`}
+              >
+                {[
+                  name,
+                  program?.commonSpecies?.speciesName,
+                  program?.commonVariety?.varietyName,
+                  program?.commonSize?.sizeName,
+                  program?.commonPackType?.packTypeName,
+                  program?.plu,
+                  ...(isCustomers
+                    ? []
+                    : [program?.customer ? customerName : '-']),
+                ].map((val, idx) => (
+                  <EntryRowText
+                    customStyles={{
+                      fontWeight:
+                        idx === 0 ||
+                        (idx === 6 &&
+                          val ===
+                            `${program?.customer?.customerName} (${program?.customer?.id})`)
+                          ? th.fontWeights.bold
+                          : undefined,
+                    }}
+                    key={idx}
+                    value={val || '-'}
+                  />
+                ))}
+              </l.Grid>
+            </RowWrapper>
             <l.Grid
               alignCenter
-              gridTemplateColumns="250px 1fr 2fr"
+              borderTop={th.borders.disabled}
+              gridTemplateColumns="0.9fr 1fr 2fr"
               mb={th.spacing.md}
-              mt={th.spacing.sm}
+              mt={th.spacing.md}
+              pt={th.spacing.md}
             >
               <ty.CaptionText
                 bold
@@ -719,7 +712,7 @@ const ProgramAllocateModal = <
                 ml={th.spacing.sm}
                 nowrap
               >
-                Allocate {isCustomers ? 'shipper' : 'customer'} programs:
+                {isCustomers ? 'Shipper' : 'Customer'} programs:
               </ty.CaptionText>
               <l.Flex alignCenter>
                 <ty.SmallText mr={th.spacing.sm} secondary>
@@ -740,7 +733,7 @@ const ProgramAllocateModal = <
                 />
               </l.Flex>
               <l.Flex alignCenter ml={28}>
-                <ty.SmallText mr={th.spacing.sm} secondary>
+                <ty.SmallText mr={th.spacing.sm} nowrap secondary>
                   Previous weeks:
                 </ty.SmallText>
                 <EditableCell
@@ -783,7 +776,7 @@ const ProgramAllocateModal = <
                     );
                   }}
                 />
-                <ty.SmallText ml={th.spacing.lg} mr={th.spacing.sm} secondary>
+                <ty.SmallText ml={th.spacing.md} mr={th.spacing.sm} secondary>
                   Avail:
                 </ty.SmallText>
                 <ty.CaptionText
@@ -793,17 +786,14 @@ const ProgramAllocateModal = <
                       ? th.colors.status.success
                       : th.colors.status.error
                   }
+                  mr={th.spacing.md}
                 >
                   {entry ? availableCount : '-'}
                 </ty.CaptionText>
               </l.Flex>
             </l.Grid>
-            <l.Grid
-              gridTemplateColumns={gridTemplateColumns(isCustomers)}
-              mb={th.spacing.sm}
-              mr={th.spacing.md}
-            >
-              {[
+            {columnLabels(
+              [
                 isCustomers ? 'Shipper' : 'Customer',
                 'Species',
                 'Variety',
@@ -815,28 +805,16 @@ const ProgramAllocateModal = <
                 'Total',
                 'Avail',
                 'Alloc',
-              ].map((val, idx) => (
-                <ty.SmallText
-                  key={idx}
-                  ml={th.spacing.sm}
-                  nowrap
-                  overflow="hidden"
-                  secondary
-                  textOverflow="ellipsis"
-                  title={val}
-                  width={th.sizes.fill}
-                >
-                  {val}
-                </ty.SmallText>
-              ))}
-            </l.Grid>
-            {allEntries.length > 0 ? (
+              ],
+              gridTemplateColumns(isCustomers),
+            )}
+            {allEntries.length > 0 && !loading ? (
               <VirtualizedList
-                height={230}
+                height={302}
                 rowCount={allEntries.length}
                 rowHeight={32}
                 rowRenderer={({ index, style }) => {
-                  const item: T = allEntries[index];
+                  const item = allEntries[index] as T;
                   const rowProgram = isCustomers
                     ? ((item as ShipperProgramEntry)
                         ?.shipperProgram as ShipperProgram)
@@ -872,19 +850,41 @@ const ProgramAllocateModal = <
                 width={panelWidth}
               />
             ) : (
-              <ty.CaptionText
-                disabled
-                italic
-                mt={th.spacing.md}
-                px={th.spacing.sm}
-              >
-                No matching programs found - try adjusting search criteria.
-              </ty.CaptionText>
+              <DataMessage
+                data={allEntries}
+                emptyProps={{
+                  header: 'No matching programs found',
+                  text: 'Try adjusting search criteria',
+                }}
+                error={null}
+                loading={loading}
+              />
             )}
-          </l.Div>
-        </OutsideClickHandler>
-      )}
-    </l.Div>
+            <l.Flex justifyCenter mt={th.spacing.xl}>
+              <b.Error disabled={updateLoading} onClick={handleClose}>
+                Close
+              </b.Error>
+              <b.Success
+                disabled={updateLoading || !isDirty}
+                ml={th.spacing.lg}
+                onClick={handleSave}
+              >
+                {updateLoading ? (
+                  <l.Flex alignCenter justifyCenter>
+                    <ClipLoader
+                      color={th.colors.brand.secondary}
+                      size={th.sizes.xs}
+                    />
+                  </l.Flex>
+                ) : (
+                  'Save'
+                )}
+              </b.Success>
+            </l.Flex>
+          </>
+        )
+      }
+    </Modal>
   );
 };
 

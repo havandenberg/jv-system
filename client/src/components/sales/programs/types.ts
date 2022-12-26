@@ -141,6 +141,7 @@ export interface ProgramState {
 }
 
 export interface ProgramProps {
+  allocateState: AllocateState;
   allocatedStartDate: Date;
   allocatedEndDate: Date;
   changeHandlers: {
@@ -154,11 +155,9 @@ export interface ProgramProps {
     ) => void;
   };
   duplicateProgramIds: number[];
-  customerProgramEntries: CustomerProgramEntry[];
   customerPrograms: CustomerProgram[];
   customers: Customer[];
   editing: boolean;
-  endWeeks: number;
   error?: ApolloError;
   handleRemoveItem: (key: keyof RemovedItems, id: number) => void;
   handleWeekRangeChange: (
@@ -181,10 +180,9 @@ export interface ProgramProps {
   selectedCustomer?: Maybe<Customer> | undefined;
   selectedShipper?: Maybe<Shipper> | undefined;
   selectedWeekNumber: number;
+  setAllocateState: (state: AllocateState) => void;
   shipperPrograms: ShipperProgram[];
-  shipperProgramEntries: ShipperProgramEntry[];
   showAllocated: boolean;
-  startWeeks: number;
   valueGetters: {
     getShipperProgramValue: (
       shipperProgram: Maybe<ShipperProgram> | undefined,
@@ -205,4 +203,10 @@ export interface ProgramProps {
   };
   vesselInfos: ShipperProjectionVesselInfo[];
   weekCount: number;
+}
+
+export interface AllocateState {
+  entry?: CustomerProgramEntry | ShipperProgramEntry;
+  program?: CustomerProgram | ShipperProgram;
+  isOpen: boolean;
 }
