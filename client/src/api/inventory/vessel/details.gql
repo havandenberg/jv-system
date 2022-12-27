@@ -22,6 +22,9 @@ query VESSEL_DETAILS($vesselCode: String!) {
             countryName
           }
           id
+          pallets {
+            totalCount
+          }
           palletsAvailable
           palletsCommitted
           palletsReceived

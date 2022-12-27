@@ -1,4 +1,6 @@
+const { sortBy } = require('ramda');
 const { gql } = require('../../api');
+const { onError } = require('../../utils');
 const { getDate } = require('../utils');
 
 const VESSEL_LIST = gql`
@@ -70,20 +72,32 @@ const getUpdatedVessel = (vessel, db2Vessel, id) => ({
 
 const getVesselId = (db2Vessel, vessels) => {
   const vessel = Object.values(vessels).find(
-    (it) =>
-      it.vesselCode === db2Vessel['BOAT#Z'].trimEnd() &&
-      it.arrivalPort === db2Vessel['ARVPTZ'].trimEnd(),
+    (it) => it.vesselCode === db2Vessel['BOAT#Z'].trimEnd(),
   );
 
-  return (
-    vessel?.id ||
-    `${db2Vessel['BOAT#Z'].trimEnd()}-${db2Vessel['ARVPTZ'].trimEnd()}`
-  );
+  return vessel?.id || `${db2Vessel['BOAT#Z'].trimEnd()}`;
 };
 
 const vesselOptions = {
-  db2Query:
-    'select * from JVFIL.ORDP750Z union select * from JVPREFIL.ORDP750Z order by BOAT#Z;',
+  getDB2Items: async (db) => {
+    const realVessels = await db
+      .query('select * from JVFIL.ORDP750Z;')
+      .catch(onError);
+    const preVessels = await db
+      .query('select * from JVPREFIL.ORDP750Z;')
+      .catch(onError);
+    const vessels = sortBy(
+      (v) => v['BOAT#Z'],
+      [
+        ...realVessels.filter((v) => {
+          const vesselCode = parseInt(v['BOAT#Z'], 10);
+          return isNaN(vesselCode) || vesselCode < 700 || vesselCode > 899;
+        }),
+        ...preVessels,
+      ],
+    );
+    return vessels;
+  },
   listQuery: VESSEL_LIST,
   deleteQuery: BULK_DELETE_VESSEL,
   upsertQuery: BULK_UPSERT_VESSEL,

@@ -20,7 +20,7 @@ import { listLabels } from './data-utils';
 const gridTemplateColumns = (secondaryDetailsIndex: string) =>
   `3.5fr ${
     secondaryDetailsIndex ? 'repeat(5, 1.5fr)' : '7.5fr'
-  } repeat(3, 90px) 30px`;
+  } repeat(3, 70px)${secondaryDetailsIndex ? ' 50px' : ''} 30px`;
 
 const InventoryItemList = ({
   baseUrl,

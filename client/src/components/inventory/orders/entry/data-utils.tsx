@@ -316,7 +316,7 @@ export const filterLoadNumbersByCoast = (
   coast: string,
 ) =>
   loadNumbers.filter((ln) =>
-    ln && coast === 'WC' ? ln.id > 400000 && ln.id < 500000 : ln.id < 400000,
+    ln && coast === 'WC' ? ln.id >= 40000 && ln.id < 50000 : ln.id < 40000,
   );
 
 export const getDuplicateOrderEntryItemIds = (items: OrderEntryItem[]) =>

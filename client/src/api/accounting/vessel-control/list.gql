@@ -18,6 +18,9 @@ query VESSEL_CONTROL_LIST($dateFilter: VesselControlFilter!) {
         nodes {
           id
           invoiceId
+          invoice {
+            paidCode
+          }
           shipperId
           vesselCode
           isApproved

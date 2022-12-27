@@ -11870,8 +11870,6 @@ export enum CountriesOrderBy {
   CmbIdDesc = 'CMB_ID_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
-  CustomersByCountryIdCountAsc = 'CUSTOMERS_BY_COUNTRY_ID__COUNT_ASC',
-  CustomersByCountryIdCountDesc = 'CUSTOMERS_BY_COUNTRY_ID__COUNT_DESC',
   ShippersByCountryIdCountAsc = 'SHIPPERS_BY_COUNTRY_ID__COUNT_ASC',
   ShippersByCountryIdCountDesc = 'SHIPPERS_BY_COUNTRY_ID__COUNT_DESC',
   WarehousesByCountryIdCountAsc = 'WAREHOUSES_BY_COUNTRY_ID__COUNT_ASC',
@@ -11885,25 +11883,11 @@ export type Country = Node & {
   id: Scalars['String'];
   countryName: Scalars['String'];
   cmbId?: Maybe<Scalars['String']>;
-  /** Reads and enables pagination through a set of `Customer`. */
-  customers: CustomersConnection;
   /** Reads and enables pagination through a set of `Shipper`. */
   shippers: ShippersConnection;
   /** Reads and enables pagination through a set of `Warehouse`. */
   warehouses: WarehousesConnection;
   searchText?: Maybe<Scalars['String']>;
-};
-
-
-export type CountryCustomersArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  orderBy?: Maybe<Array<CustomersOrderBy>>;
-  condition?: Maybe<CustomerCondition>;
-  filter?: Maybe<CustomerFilter>;
 };
 
 
@@ -11960,10 +11944,6 @@ export type CountryFilter = {
   cmbId?: Maybe<StringFilter>;
   /** Filter by the object’s `searchText` field. */
   searchText?: Maybe<StringFilter>;
-  /** Filter by the object’s `customers` relation. */
-  customers?: Maybe<CountryToManyCustomerFilter>;
-  /** Some related `customers` exist. */
-  customersExist?: Maybe<Scalars['Boolean']>;
   /** Filter by the object’s `shippers` relation. */
   shippers?: Maybe<CountryToManyShipperFilter>;
   /** Some related `shippers` exist. */
@@ -11985,7 +11965,6 @@ export type CountryInput = {
   id: Scalars['String'];
   countryName: Scalars['String'];
   cmbId?: Maybe<Scalars['String']>;
-  customersUsingId?: Maybe<CustomerCountryIdFkeyInverseInput>;
   shippersUsingId?: Maybe<ShipperCountryIdFkeyInverseInput>;
   warehousesUsingId?: Maybe<WarehouseCountryIdFkeyInverseInput>;
 };
@@ -12000,21 +11979,6 @@ export type CountryNodeIdConnect = {
 export type CountryNodeIdDelete = {
   /** The globally unique `ID` which identifies a single `country` to be deleted. */
   nodeId: Scalars['ID'];
-};
-
-/** The globally unique `ID` look up for the row to update. */
-export type CountryOnCustomerForCustomerCountryIdFkeyNodeIdUpdate = {
-  /** The globally unique `ID` which identifies a single `customer` to be connected. */
-  nodeId: Scalars['ID'];
-  /** An object where the defined keys will be set on the `customer` being updated. */
-  patch: CustomerPatch;
-};
-
-/** The fields on `country` to look up the row to update. */
-export type CountryOnCustomerForCustomerCountryIdFkeyUsingCountryPkeyUpdate = {
-  /** An object where the defined keys will be set on the `country` being updated. */
-  patch: UpdateCountryOnCustomerForCustomerCountryIdFkeyPatch;
-  id: Scalars['String'];
 };
 
 /** The globally unique `ID` look up for the row to update. */
@@ -12052,19 +12016,8 @@ export type CountryPatch = {
   id?: Maybe<Scalars['String']>;
   countryName?: Maybe<Scalars['String']>;
   cmbId?: Maybe<Scalars['String']>;
-  customersUsingId?: Maybe<CustomerCountryIdFkeyInverseInput>;
   shippersUsingId?: Maybe<ShipperCountryIdFkeyInverseInput>;
   warehousesUsingId?: Maybe<WarehouseCountryIdFkeyInverseInput>;
-};
-
-/** A filter to be used against many `Customer` object types. All fields are combined with a logical ‘and.’ */
-export type CountryToManyCustomerFilter = {
-  /** Every related `Customer` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  every?: Maybe<CustomerFilter>;
-  /** Some related `Customer` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  some?: Maybe<CustomerFilter>;
-  /** No related `Customer` matches the filter criteria. All fields are combined with a logical ‘and.’ */
-  none?: Maybe<CustomerFilter>;
 };
 
 /** A filter to be used against many `Shipper` object types. All fields are combined with a logical ‘and.’ */
@@ -12783,8 +12736,6 @@ export type CreateCustomerPayload = {
   customer?: Maybe<Customer>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-  /** Reads a single `Country` that is related to this `Customer`. */
-  country?: Maybe<Country>;
   /** An edge for our `Customer`. May be used by Relay 1. */
   customerEdge?: Maybe<CustomersEdge>;
 };
@@ -15558,8 +15509,6 @@ export type Customer = Node & {
   website?: Maybe<Scalars['String']>;
   active: Scalars['Boolean'];
   salesUserCode?: Maybe<Scalars['String']>;
-  /** Reads a single `Country` that is related to this `Customer`. */
-  country?: Maybe<Country>;
   /** Reads and enables pagination through a set of `ShipperProjectionProduct`. */
   shipperProjectionProducts: ShipperProjectionProductsConnection;
   /** Reads and enables pagination through a set of `CustomerPersonContact`. */
@@ -15570,6 +15519,7 @@ export type Customer = Node & {
   customerPrograms: CustomerProgramsConnection;
   /** Reads and enables pagination through a set of `TruckRateCustomer`. */
   truckRateCustomers: TruckRateCustomersConnection;
+  country?: Maybe<Country>;
   salesUser?: Maybe<User>;
   searchText?: Maybe<Scalars['String']>;
   vendor?: Maybe<Vendor>;
@@ -16338,77 +16288,6 @@ export type CustomerCondition = {
   salesUserCode?: Maybe<Scalars['String']>;
 };
 
-/** The `country` to be created by this mutation. */
-export type CustomerCountryIdFkeyCountryCreateInput = {
-  id: Scalars['String'];
-  countryName: Scalars['String'];
-  cmbId?: Maybe<Scalars['String']>;
-  customersUsingId?: Maybe<CustomerCountryIdFkeyInverseInput>;
-  shippersUsingId?: Maybe<ShipperCountryIdFkeyInverseInput>;
-  warehousesUsingId?: Maybe<WarehouseCountryIdFkeyInverseInput>;
-};
-
-/** The `customer` to be created by this mutation. */
-export type CustomerCountryIdFkeyCustomerCreateInput = {
-  id: Scalars['String'];
-  customerName: Scalars['String'];
-  address1?: Maybe<Scalars['String']>;
-  address2?: Maybe<Scalars['String']>;
-  city?: Maybe<Scalars['String']>;
-  postalState?: Maybe<Scalars['String']>;
-  zipCode?: Maybe<Scalars['String']>;
-  phone?: Maybe<Scalars['String']>;
-  logoSrc?: Maybe<Scalars['String']>;
-  notes?: Maybe<Scalars['String']>;
-  website?: Maybe<Scalars['String']>;
-  active: Scalars['Boolean'];
-  salesUserCode?: Maybe<Scalars['String']>;
-  countryToCountryId?: Maybe<CustomerCountryIdFkeyInput>;
-  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCustomerIdFkeyInverseInput>;
-  customerPersonContactsUsingId?: Maybe<CustomerPersonContactCustomerIdFkeyInverseInput>;
-  shipperProgramsUsingId?: Maybe<ShipperProgramCustomerIdFkeyInverseInput>;
-  customerProgramsUsingId?: Maybe<CustomerProgramCustomerIdFkeyInverseInput>;
-  truckRateCustomersUsingId?: Maybe<TruckRateCustomerCustomerIdFkeyInverseInput>;
-};
-
-/** Input for the nested mutation of `country` in the `CustomerInput` mutation. */
-export type CustomerCountryIdFkeyInput = {
-  /** The primary key(s) for `country` for the far side of the relationship. */
-  connectById?: Maybe<CountryCountryPkeyConnect>;
-  /** The primary key(s) for `country` for the far side of the relationship. */
-  connectByNodeId?: Maybe<CountryNodeIdConnect>;
-  /** The primary key(s) for `country` for the far side of the relationship. */
-  deleteById?: Maybe<CountryCountryPkeyDelete>;
-  /** The primary key(s) for `country` for the far side of the relationship. */
-  deleteByNodeId?: Maybe<CountryNodeIdDelete>;
-  /** The primary key(s) and patch data for `country` for the far side of the relationship. */
-  updateById?: Maybe<CountryOnCustomerForCustomerCountryIdFkeyUsingCountryPkeyUpdate>;
-  /** The primary key(s) and patch data for `country` for the far side of the relationship. */
-  updateByNodeId?: Maybe<CustomerOnCustomerForCustomerCountryIdFkeyNodeIdUpdate>;
-  /** A `CountryInput` object that will be created and connected to this object. */
-  create?: Maybe<CustomerCountryIdFkeyCountryCreateInput>;
-};
-
-/** Input for the nested mutation of `customer` in the `CountryInput` mutation. */
-export type CustomerCountryIdFkeyInverseInput = {
-  /** Flag indicating whether all other `customer` records that match this relationship should be removed. */
-  deleteOthers?: Maybe<Scalars['Boolean']>;
-  /** The primary key(s) for `customer` for the far side of the relationship. */
-  connectById?: Maybe<Array<CustomerCustomerPkeyConnect>>;
-  /** The primary key(s) for `customer` for the far side of the relationship. */
-  connectByNodeId?: Maybe<Array<CustomerNodeIdConnect>>;
-  /** The primary key(s) for `customer` for the far side of the relationship. */
-  deleteById?: Maybe<Array<CustomerCustomerPkeyDelete>>;
-  /** The primary key(s) for `customer` for the far side of the relationship. */
-  deleteByNodeId?: Maybe<Array<CustomerNodeIdDelete>>;
-  /** The primary key(s) and patch data for `customer` for the far side of the relationship. */
-  updateById?: Maybe<Array<CustomerOnCustomerForCustomerCountryIdFkeyUsingCustomerPkeyUpdate>>;
-  /** The primary key(s) and patch data for `customer` for the far side of the relationship. */
-  updateByNodeId?: Maybe<Array<CountryOnCustomerForCustomerCountryIdFkeyNodeIdUpdate>>;
-  /** A `CustomerInput` object that will be created and connected to this object. */
-  create?: Maybe<Array<CustomerCountryIdFkeyCustomerCreateInput>>;
-};
-
 /** The fields on `customer` to look up the row to connect. */
 export type CustomerCustomerPkeyConnect = {
   id: Scalars['String'];
@@ -16511,10 +16390,6 @@ export type CustomerFilter = {
   truckRateCustomers?: Maybe<CustomerToManyTruckRateCustomerFilter>;
   /** Some related `truckRateCustomers` exist. */
   truckRateCustomersExist?: Maybe<Scalars['Boolean']>;
-  /** Filter by the object’s `country` relation. */
-  country?: Maybe<CountryFilter>;
-  /** A related `country` exists. */
-  countryExists?: Maybe<Scalars['Boolean']>;
   /** Checks for all expressions in this list. */
   and?: Maybe<Array<CustomerFilter>>;
   /** Checks for any expressions in this list. */
@@ -16539,7 +16414,6 @@ export type CustomerInput = {
   website?: Maybe<Scalars['String']>;
   active: Scalars['Boolean'];
   salesUserCode?: Maybe<Scalars['String']>;
-  countryToCountryId?: Maybe<CustomerCountryIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCustomerIdFkeyInverseInput>;
   customerPersonContactsUsingId?: Maybe<CustomerPersonContactCustomerIdFkeyInverseInput>;
   shipperProgramsUsingId?: Maybe<ShipperProgramCustomerIdFkeyInverseInput>;
@@ -16557,21 +16431,6 @@ export type CustomerNodeIdConnect = {
 export type CustomerNodeIdDelete = {
   /** The globally unique `ID` which identifies a single `customer` to be deleted. */
   nodeId: Scalars['ID'];
-};
-
-/** The globally unique `ID` look up for the row to update. */
-export type CustomerOnCustomerForCustomerCountryIdFkeyNodeIdUpdate = {
-  /** The globally unique `ID` which identifies a single `country` to be connected. */
-  nodeId: Scalars['ID'];
-  /** An object where the defined keys will be set on the `country` being updated. */
-  patch: CountryPatch;
-};
-
-/** The fields on `customer` to look up the row to update. */
-export type CustomerOnCustomerForCustomerCountryIdFkeyUsingCustomerPkeyUpdate = {
-  /** An object where the defined keys will be set on the `customer` being updated. */
-  patch: UpdateCustomerOnCustomerForCustomerCountryIdFkeyPatch;
-  id: Scalars['String'];
 };
 
 /** The globally unique `ID` look up for the row to update. */
@@ -16665,7 +16524,6 @@ export type CustomerPatch = {
   website?: Maybe<Scalars['String']>;
   active?: Maybe<Scalars['Boolean']>;
   salesUserCode?: Maybe<Scalars['String']>;
-  countryToCountryId?: Maybe<CustomerCountryIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCustomerIdFkeyInverseInput>;
   customerPersonContactsUsingId?: Maybe<CustomerPersonContactCustomerIdFkeyInverseInput>;
   shipperProgramsUsingId?: Maybe<ShipperProgramCustomerIdFkeyInverseInput>;
@@ -16712,7 +16570,6 @@ export type CustomerPersonContactCustomerIdFkeyCustomerCreateInput = {
   website?: Maybe<Scalars['String']>;
   active: Scalars['Boolean'];
   salesUserCode?: Maybe<Scalars['String']>;
-  countryToCountryId?: Maybe<CustomerCountryIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCustomerIdFkeyInverseInput>;
   customerPersonContactsUsingId?: Maybe<CustomerPersonContactCustomerIdFkeyInverseInput>;
   shipperProgramsUsingId?: Maybe<ShipperProgramCustomerIdFkeyInverseInput>;
@@ -17413,7 +17270,6 @@ export type CustomerProgramCustomerIdFkeyCustomerCreateInput = {
   website?: Maybe<Scalars['String']>;
   active: Scalars['Boolean'];
   salesUserCode?: Maybe<Scalars['String']>;
-  countryToCountryId?: Maybe<CustomerCountryIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCustomerIdFkeyInverseInput>;
   customerPersonContactsUsingId?: Maybe<CustomerPersonContactCustomerIdFkeyInverseInput>;
   shipperProgramsUsingId?: Maybe<ShipperProgramCustomerIdFkeyInverseInput>;
@@ -18373,12 +18229,6 @@ export enum CustomersOrderBy {
   SalesUserCodeDesc = 'SALES_USER_CODE_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
-  CountryByCountryIdIdAsc = 'COUNTRY_BY_COUNTRY_ID__ID_ASC',
-  CountryByCountryIdIdDesc = 'COUNTRY_BY_COUNTRY_ID__ID_DESC',
-  CountryByCountryIdCountryNameAsc = 'COUNTRY_BY_COUNTRY_ID__COUNTRY_NAME_ASC',
-  CountryByCountryIdCountryNameDesc = 'COUNTRY_BY_COUNTRY_ID__COUNTRY_NAME_DESC',
-  CountryByCountryIdCmbIdAsc = 'COUNTRY_BY_COUNTRY_ID__CMB_ID_ASC',
-  CountryByCountryIdCmbIdDesc = 'COUNTRY_BY_COUNTRY_ID__CMB_ID_DESC',
   ShipperProjectionProductsByCustomerIdCountAsc = 'SHIPPER_PROJECTION_PRODUCTS_BY_CUSTOMER_ID__COUNT_ASC',
   ShipperProjectionProductsByCustomerIdCountDesc = 'SHIPPER_PROJECTION_PRODUCTS_BY_CUSTOMER_ID__COUNT_DESC',
   CustomerPersonContactsByCustomerIdCountAsc = 'CUSTOMER_PERSON_CONTACTS_BY_CUSTOMER_ID__COUNT_ASC',
@@ -19370,8 +19220,6 @@ export type DeleteCustomerPayload = {
   deletedCustomerNodeId?: Maybe<Scalars['ID']>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-  /** Reads a single `Country` that is related to this `Customer`. */
-  country?: Maybe<Country>;
   /** An edge for our `Customer`. May be used by Relay 1. */
   customerEdge?: Maybe<CustomersEdge>;
 };
@@ -24867,6 +24715,7 @@ export type LoadNumber = Node & {
   user?: Maybe<User>;
   customer?: Maybe<Customer>;
   hasOrderEntries?: Maybe<Scalars['Boolean']>;
+  orderMaster?: Maybe<OrderMaster>;
 };
 
 /**
@@ -51068,7 +50917,6 @@ export type ShipperCountryIdFkeyCountryCreateInput = {
   id: Scalars['String'];
   countryName: Scalars['String'];
   cmbId?: Maybe<Scalars['String']>;
-  customersUsingId?: Maybe<CustomerCountryIdFkeyInverseInput>;
   shippersUsingId?: Maybe<ShipperCountryIdFkeyInverseInput>;
   warehousesUsingId?: Maybe<WarehouseCountryIdFkeyInverseInput>;
 };
@@ -52194,7 +52042,6 @@ export type ShipperProgramCustomerIdFkeyCustomerCreateInput = {
   website?: Maybe<Scalars['String']>;
   active: Scalars['Boolean'];
   salesUserCode?: Maybe<Scalars['String']>;
-  countryToCountryId?: Maybe<CustomerCountryIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCustomerIdFkeyInverseInput>;
   customerPersonContactsUsingId?: Maybe<CustomerPersonContactCustomerIdFkeyInverseInput>;
   shipperProgramsUsingId?: Maybe<ShipperProgramCustomerIdFkeyInverseInput>;
@@ -54344,7 +54191,6 @@ export type ShipperProjectionProductCustomerIdFkeyCustomerCreateInput = {
   website?: Maybe<Scalars['String']>;
   active: Scalars['Boolean'];
   salesUserCode?: Maybe<Scalars['String']>;
-  countryToCountryId?: Maybe<CustomerCountryIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCustomerIdFkeyInverseInput>;
   customerPersonContactsUsingId?: Maybe<CustomerPersonContactCustomerIdFkeyInverseInput>;
   shipperProgramsUsingId?: Maybe<ShipperProgramCustomerIdFkeyInverseInput>;
@@ -56981,7 +56827,6 @@ export type TruckRateCustomerCustomerIdFkeyCustomerCreateInput = {
   website?: Maybe<Scalars['String']>;
   active: Scalars['Boolean'];
   salesUserCode?: Maybe<Scalars['String']>;
-  countryToCountryId?: Maybe<CustomerCountryIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCustomerIdFkeyInverseInput>;
   customerPersonContactsUsingId?: Maybe<CustomerPersonContactCustomerIdFkeyInverseInput>;
   shipperProgramsUsingId?: Maybe<ShipperProgramCustomerIdFkeyInverseInput>;
@@ -58699,8 +58544,6 @@ export type UpdateCustomerPayload = {
   customer?: Maybe<Customer>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-  /** Reads a single `Country` that is related to this `Customer`. */
-  country?: Maybe<Country>;
   /** An edge for our `Customer`. May be used by Relay 1. */
   customerEdge?: Maybe<CustomersEdge>;
 };
@@ -63338,8 +63181,6 @@ export type UpsertCustomerPayload = {
   customer?: Maybe<Customer>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
-  /** Reads a single `Country` that is related to this `Customer`. */
-  country?: Maybe<Country>;
   /** An edge for our `Customer`. May be used by Relay 1. */
   customerEdge?: Maybe<CustomersEdge>;
 };
@@ -68139,7 +67980,6 @@ export type WarehouseCountryIdFkeyCountryCreateInput = {
   id: Scalars['String'];
   countryName: Scalars['String'];
   cmbId?: Maybe<Scalars['String']>;
-  customersUsingId?: Maybe<CustomerCountryIdFkeyInverseInput>;
   shippersUsingId?: Maybe<ShipperCountryIdFkeyInverseInput>;
   warehousesUsingId?: Maybe<WarehouseCountryIdFkeyInverseInput>;
 };
@@ -69529,21 +69369,10 @@ export type UpdateContactGroupPersonContactOnContactGroupPersonContactForContact
 };
 
 /** An object where the defined keys will be set on the `country` being updated. */
-export type UpdateCountryOnCustomerForCustomerCountryIdFkeyPatch = {
-  id?: Maybe<Scalars['String']>;
-  countryName?: Maybe<Scalars['String']>;
-  cmbId?: Maybe<Scalars['String']>;
-  customersUsingId?: Maybe<CustomerCountryIdFkeyInverseInput>;
-  shippersUsingId?: Maybe<ShipperCountryIdFkeyInverseInput>;
-  warehousesUsingId?: Maybe<WarehouseCountryIdFkeyInverseInput>;
-};
-
-/** An object where the defined keys will be set on the `country` being updated. */
 export type UpdateCountryOnShipperForShipperCountryIdFkeyPatch = {
   id?: Maybe<Scalars['String']>;
   countryName?: Maybe<Scalars['String']>;
   cmbId?: Maybe<Scalars['String']>;
-  customersUsingId?: Maybe<CustomerCountryIdFkeyInverseInput>;
   shippersUsingId?: Maybe<ShipperCountryIdFkeyInverseInput>;
   warehousesUsingId?: Maybe<WarehouseCountryIdFkeyInverseInput>;
 };
@@ -69553,32 +69382,8 @@ export type UpdateCountryOnWarehouseForWarehouseCountryIdFkeyPatch = {
   id?: Maybe<Scalars['String']>;
   countryName?: Maybe<Scalars['String']>;
   cmbId?: Maybe<Scalars['String']>;
-  customersUsingId?: Maybe<CustomerCountryIdFkeyInverseInput>;
   shippersUsingId?: Maybe<ShipperCountryIdFkeyInverseInput>;
   warehousesUsingId?: Maybe<WarehouseCountryIdFkeyInverseInput>;
-};
-
-/** An object where the defined keys will be set on the `customer` being updated. */
-export type UpdateCustomerOnCustomerForCustomerCountryIdFkeyPatch = {
-  id?: Maybe<Scalars['String']>;
-  customerName?: Maybe<Scalars['String']>;
-  address1?: Maybe<Scalars['String']>;
-  address2?: Maybe<Scalars['String']>;
-  city?: Maybe<Scalars['String']>;
-  postalState?: Maybe<Scalars['String']>;
-  zipCode?: Maybe<Scalars['String']>;
-  phone?: Maybe<Scalars['String']>;
-  logoSrc?: Maybe<Scalars['String']>;
-  notes?: Maybe<Scalars['String']>;
-  website?: Maybe<Scalars['String']>;
-  active?: Maybe<Scalars['Boolean']>;
-  salesUserCode?: Maybe<Scalars['String']>;
-  countryToCountryId?: Maybe<CustomerCountryIdFkeyInput>;
-  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCustomerIdFkeyInverseInput>;
-  customerPersonContactsUsingId?: Maybe<CustomerPersonContactCustomerIdFkeyInverseInput>;
-  shipperProgramsUsingId?: Maybe<ShipperProgramCustomerIdFkeyInverseInput>;
-  customerProgramsUsingId?: Maybe<CustomerProgramCustomerIdFkeyInverseInput>;
-  truckRateCustomersUsingId?: Maybe<TruckRateCustomerCustomerIdFkeyInverseInput>;
 };
 
 /** An object where the defined keys will be set on the `customer` being updated. */
@@ -69597,7 +69402,6 @@ export type UpdateCustomerOnCustomerPersonContactForCustomerPersonContactCustome
   website?: Maybe<Scalars['String']>;
   active?: Maybe<Scalars['Boolean']>;
   salesUserCode?: Maybe<Scalars['String']>;
-  countryToCountryId?: Maybe<CustomerCountryIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCustomerIdFkeyInverseInput>;
   customerPersonContactsUsingId?: Maybe<CustomerPersonContactCustomerIdFkeyInverseInput>;
   shipperProgramsUsingId?: Maybe<ShipperProgramCustomerIdFkeyInverseInput>;
@@ -69621,7 +69425,6 @@ export type UpdateCustomerOnCustomerProgramForCustomerProgramCustomerIdFkeyPatch
   website?: Maybe<Scalars['String']>;
   active?: Maybe<Scalars['Boolean']>;
   salesUserCode?: Maybe<Scalars['String']>;
-  countryToCountryId?: Maybe<CustomerCountryIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCustomerIdFkeyInverseInput>;
   customerPersonContactsUsingId?: Maybe<CustomerPersonContactCustomerIdFkeyInverseInput>;
   shipperProgramsUsingId?: Maybe<ShipperProgramCustomerIdFkeyInverseInput>;
@@ -69645,7 +69448,6 @@ export type UpdateCustomerOnShipperProgramForShipperProgramCustomerIdFkeyPatch =
   website?: Maybe<Scalars['String']>;
   active?: Maybe<Scalars['Boolean']>;
   salesUserCode?: Maybe<Scalars['String']>;
-  countryToCountryId?: Maybe<CustomerCountryIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCustomerIdFkeyInverseInput>;
   customerPersonContactsUsingId?: Maybe<CustomerPersonContactCustomerIdFkeyInverseInput>;
   shipperProgramsUsingId?: Maybe<ShipperProgramCustomerIdFkeyInverseInput>;
@@ -69669,7 +69471,6 @@ export type UpdateCustomerOnShipperProjectionProductForShipperProjectionProductC
   website?: Maybe<Scalars['String']>;
   active?: Maybe<Scalars['Boolean']>;
   salesUserCode?: Maybe<Scalars['String']>;
-  countryToCountryId?: Maybe<CustomerCountryIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCustomerIdFkeyInverseInput>;
   customerPersonContactsUsingId?: Maybe<CustomerPersonContactCustomerIdFkeyInverseInput>;
   shipperProgramsUsingId?: Maybe<ShipperProgramCustomerIdFkeyInverseInput>;
@@ -69693,7 +69494,6 @@ export type UpdateCustomerOnTruckRateCustomerForTruckRateCustomerCustomerIdFkeyP
   website?: Maybe<Scalars['String']>;
   active?: Maybe<Scalars['Boolean']>;
   salesUserCode?: Maybe<Scalars['String']>;
-  countryToCountryId?: Maybe<CustomerCountryIdFkeyInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductCustomerIdFkeyInverseInput>;
   customerPersonContactsUsingId?: Maybe<CustomerPersonContactCustomerIdFkeyInverseInput>;
   shipperProgramsUsingId?: Maybe<ShipperProgramCustomerIdFkeyInverseInput>;

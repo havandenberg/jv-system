@@ -11,6 +11,7 @@ const db2UpdateItems = async (
   db,
   {
     db2Query,
+    getDB2Items,
     listQuery,
     deleteQuery,
     upsertQuery,
@@ -34,7 +35,9 @@ const db2UpdateItems = async (
   );
   const startTime = Date.now();
 
-  const db2ItemsData = await db.query(db2Query).catch(onError);
+  const db2ItemsData = getDB2Items
+    ? await getDB2Items(db)
+    : await db.query(db2Query).catch(onError);
   const db2ItemCount = (db2ItemsData || []).length;
 
   if (DB2_LOG_ONLY) {

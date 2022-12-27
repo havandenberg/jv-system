@@ -1,4 +1,4 @@
-const { gqlClient } = require('../../api');
+const { gql, gqlClient } = require('../../api');
 const { ews, ewsArgs, onError } = require('../../utils/server');
 
 const PROJECTION_REMINDERS = gql`

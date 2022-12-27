@@ -302,6 +302,7 @@ export const buildUnpaidItems = (
             (!salesUserCode ||
               salesUserCode === 'all' ||
               p.invoiceHeader?.salesUserCode === salesUserCode) &&
+            p.invoiceHeader?.paidCode !== 'P' &&
             (!searchArray ||
               searchArray.every((searchVal) =>
                 searchText.toLowerCase().includes(searchVal.toLowerCase()),
@@ -338,8 +339,13 @@ export const getUnpaidsInfo = (unpaids: Unpaid[]) =>
     (acc, unpaid) => ({
       isAllUrgent: !!acc.isAllUrgent && !!unpaid.isUrgent,
       isAlert: !!acc.isAlert || !!unpaid.invoice?.flag,
-      isAllApproved: !!acc.isAllApproved && !!unpaid.isApproved,
-      isPartialApproved: !!acc.isPartialApproved || !!unpaid.isApproved,
+      isAllApproved:
+        !!acc.isAllApproved &&
+        (!!unpaid.isApproved || unpaid.invoice?.paidCode === 'P'),
+      isPartialApproved:
+        !!acc.isPartialApproved ||
+        !!unpaid.isApproved ||
+        unpaid.invoice?.paidCode === 'P',
     }),
     {
       isAllUrgent: true,

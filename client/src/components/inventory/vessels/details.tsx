@@ -189,7 +189,10 @@ const Details = () => {
                 </l.HoverButton>
               )}
             </l.Flex>
-            <InventoryListTotals items={filteredItems} loading={loading} />
+            <InventoryListTotals
+              items={secondaryDetailsIndex ? filteredItems : items}
+              loading={loading}
+            />
           </l.Flex>
           <InventoryItemList
             baseUrl={`/inventory/vessels/${id}`}

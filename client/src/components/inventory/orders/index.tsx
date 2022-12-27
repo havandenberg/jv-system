@@ -205,14 +205,16 @@ const Orders = () => {
   return (
     <Page
       actions={
-        !IS_PRODUCTION && isSalesAssoc && !isInvoices
+        isSalesAssoc && !isInvoices
           ? [
-              <l.AreaLink
-                key="create"
-                to={`/inventory/orders/create?coast=${coast}`}
-              >
-                <b.Success>New Order</b.Success>
-              </l.AreaLink>,
+              !IS_PRODUCTION && (
+                <l.AreaLink
+                  key="create"
+                  to={`/inventory/orders/create?coast=${coast}`}
+                >
+                  <b.Success>New Order</b.Success>
+                </l.AreaLink>
+              ),
               <l.AreaLink
                 key="load-numbers"
                 ml={th.spacing.lg}

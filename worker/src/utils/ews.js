@@ -1,4 +1,4 @@
-const ewsArgs = ({ toRecipients, body, subject }) => ({
+const ewsArgs = ({ ccRecipients = [], toRecipients = [], body, subject }) => ({
   attributes: {
     MessageDisposition: 'SendAndSaveCopy',
   },
@@ -18,6 +18,9 @@ const ewsArgs = ({ toRecipients, body, subject }) => ({
           BodyType: 'HTML',
         },
         $value: body,
+      },
+      CcRecipients: {
+        Mailbox: ccRecipients.map((recipient) => ({ EmailAddress: recipient })),
       },
       ToRecipients: {
         Mailbox: toRecipients.map((recipient) => ({ EmailAddress: recipient })),

@@ -702,7 +702,9 @@ const useOrdersFilters = ({
                 cursor="pointer"
                 height={th.sizes.icon}
                 width={th.sizes.icon}
-                to={`/inventory/orders?coast=${coast}`}
+                to={`${
+                  isInvoices ? '/accounting/invoices' : '/inventory/orders'
+                }?coast=${coast}`}
               >
                 <ResetImg height={th.sizes.icon} width={th.sizes.icon} />
               </l.AreaLink>

@@ -423,6 +423,10 @@ const sendUnpaidsNotificationEmails = () => {
           .run(
             'CreateItem',
             ewsArgs({
+              ccRecipients:
+                process.env.REACT_APP_IS_PRODUCTION === 'true'
+                  ? ['jpaap@jacvandenberg.com']
+                  : [],
               toRecipients:
                 process.env.REACT_APP_IS_PRODUCTION === 'true'
                   ? [email]

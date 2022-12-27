@@ -117,6 +117,10 @@ const extendSchemaPlugin = makeExtendSchemaPlugin({
           const baseUrl = `${process.env.REACT_APP_CLIENT_URL}/accounting/unpaids?salesUserCode=${userCode}&startDate=${startDate}&endDate=${endDate}`;
 
           await sendEmail({
+            ccRecipients:
+              process.env.REACT_APP_IS_PRODUCTION === 'true'
+                ? ['jpaap@jacvandenberg.com']
+                : [],
             toRecipients:
               process.env.REACT_APP_IS_PRODUCTION === 'true'
                 ? [email]

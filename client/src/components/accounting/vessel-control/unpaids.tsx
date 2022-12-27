@@ -35,14 +35,10 @@ const UnpaidsBySalesAssoc = ({
       content={
         <>
           <ty.SmallText secondary>Invoices:</ty.SmallText>
-          {unpaids.map((unpaid) => {
+          {unpaids.map((unpaid, idx) => {
             const isAlert = unpaid.invoice?.flag;
             return (
-              <l.Flex
-                alignCenter
-                key={unpaid.orderId || unpaid.invoice?.orderId}
-                mt={th.spacing.sm}
-              >
+              <l.Flex alignCenter key={idx} mt={th.spacing.sm}>
                 <l.Div pr={th.spacing.xs}>
                   <LineItemCheckbox
                     checked={!!unpaid.isApproved}
@@ -68,6 +64,9 @@ const UnpaidsBySalesAssoc = ({
                   to={`/accounting/invoices/${
                     unpaid.orderId || unpaid.invoice?.orderId
                   }`}
+                  textDecoration={
+                    unpaid.invoice?.paidCode === 'P' ? 'line-through' : 'none'
+                  }
                 >
                   {unpaid.invoiceId}
                 </ty.LinkText>

@@ -18,6 +18,7 @@ import th from 'ui/theme';
 import ty from 'ui/typography';
 
 import { filterLoadNumbersByCoast } from './entry/data-utils';
+import { DataMessage } from 'components/page/message';
 
 const Wrapper = styled(l.Div)({
   background: th.colors.brand.containerBackground,
@@ -246,58 +247,80 @@ const LoadNumberManager = () => {
       <ty.BodyText bold mb={th.spacing.md} mt={th.spacing.xl}>
         Unassigned:
       </ty.BodyText>
-      <l.Grid
-        alignStart
-        gridColumnGap={th.spacing.lg}
-        gridRowGap={th.spacing.md}
-        gridTemplateColumns="repeat(5, 1fr)"
-      >
-        {unassignedLoadNumbers.map((loadNumber) => (
-          <StyledLoadNumber
-            customers={customers}
-            error={customerDataError}
-            key={loadNumber.id}
-            loading={customerDataLoading}
-            loadNumber={loadNumber}
-            handleUpdate={(updatedLoadNumber) => {
-              handleUpsert({
-                variables: {
-                  loadNumbers: [updatedLoadNumber],
-                  coast,
-                },
-              });
-            }}
-            userId={userId}
-          />
-        ))}
-      </l.Grid>
+      {unassignedLoadNumbers.length > 0 ? (
+        <l.Grid
+          alignStart
+          gridColumnGap={th.spacing.lg}
+          gridRowGap={th.spacing.md}
+          gridTemplateColumns="repeat(5, 1fr)"
+        >
+          {unassignedLoadNumbers.map((loadNumber) => (
+            <StyledLoadNumber
+              customers={customers}
+              error={customerDataError}
+              key={loadNumber.id}
+              loading={customerDataLoading}
+              loadNumber={loadNumber}
+              handleUpdate={(updatedLoadNumber) => {
+                handleUpsert({
+                  variables: {
+                    loadNumbers: [updatedLoadNumber],
+                    coast,
+                  },
+                });
+              }}
+              userId={userId}
+            />
+          ))}
+        </l.Grid>
+      ) : (
+        <DataMessage
+          data={unassignedLoadNumbers}
+          error={customerDataError}
+          loading={loading}
+          emptyProps={{
+            header: 'No unassigned load numbers',
+          }}
+        />
+      )}
       <ty.BodyText bold mb={th.spacing.md} mt={th.spacing.xl}>
         Assigned:
       </ty.BodyText>
-      <l.Grid
-        alignStart
-        gridColumnGap={th.spacing.lg}
-        gridRowGap={th.spacing.md}
-        gridTemplateColumns="repeat(4, 1fr)"
-      >
-        {assignedLoadNumbers.map((loadNumber) => (
-          <StyledLoadNumber
-            customers={customers}
-            error={customerDataError}
-            key={loadNumber.id}
-            loading={customerDataLoading}
-            loadNumber={loadNumber}
-            handleUpdate={(updatedLoadNumber) => {
-              handleUpsert({
-                variables: {
-                  loadNumbers: [updatedLoadNumber],
-                },
-              });
-            }}
-            userId={userId}
-          />
-        ))}
-      </l.Grid>
+      {assignedLoadNumbers.length > 0 ? (
+        <l.Grid
+          alignStart
+          gridColumnGap={th.spacing.lg}
+          gridRowGap={th.spacing.md}
+          gridTemplateColumns="repeat(4, 1fr)"
+        >
+          {assignedLoadNumbers.map((loadNumber) => (
+            <StyledLoadNumber
+              customers={customers}
+              error={customerDataError}
+              key={loadNumber.id}
+              loading={customerDataLoading}
+              loadNumber={loadNumber}
+              handleUpdate={(updatedLoadNumber) => {
+                handleUpsert({
+                  variables: {
+                    loadNumbers: [updatedLoadNumber],
+                  },
+                });
+              }}
+              userId={userId}
+            />
+          ))}
+        </l.Grid>
+      ) : (
+        <DataMessage
+          data={assignedLoadNumbers}
+          error={customerDataError}
+          loading={loading}
+          emptyProps={{
+            header: 'No assigned load numbers',
+          }}
+        />
+      )}
     </Page>
   );
 };

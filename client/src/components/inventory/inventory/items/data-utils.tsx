@@ -310,6 +310,17 @@ export const listLabels: (
       },
     },
   },
+  ...((secondaryDetailsIndex
+    ? [
+        {
+          key: 'palletsReceived',
+          label: 'Plts',
+          getValue: ({ pallets }) => (
+            <ty.BodyText>{pallets?.totalCount || 0}</ty.BodyText>
+          ),
+        },
+      ]
+    : []) as InventoryItemLabelInfo[]),
 ];
 
 export const baseLabels: InventoryItemLabelInfo[] = [

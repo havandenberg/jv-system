@@ -38,22 +38,7 @@ const BULK_DELETE_CUSTOMER = gql`
 `;
 
 const getUpdatedCustomer = (customer, db2Customer) =>
-  !getActive(db2Customer['CDELCD']) ||
-  [
-    '.',
-    'CAN',
-    'HOL',
-    'FRN',
-    'DEN',
-    'ICE',
-    'GER',
-    'IRE',
-    'NOR',
-    'BLG',
-    'UK',
-    'GRC',
-  ].includes(getCountryId(db2Customer['CNTRYC'])) ||
-  db2Customer['CUST#C'] === null
+  !getActive(db2Customer['CDELCD']) || db2Customer['CUST#C'] === null
     ? null
     : {
         ...customer,

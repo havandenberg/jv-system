@@ -6,9 +6,7 @@ CREATE TABLE directory.customer (
 	city TEXT,
 	postal_state TEXT,
 	zip_code TEXT,
-	country_id TEXT
-		REFERENCES directory.country(id)
-		ON DELETE SET NULL,
+	country_id TEXT,
 	phone TEXT,
 	logo_src TEXT,
 	notes TEXT,
@@ -24,6 +22,16 @@ CREATE TABLE directory.customer_person_contact (
   FOREIGN KEY (customer_id) REFERENCES directory.customer(id) ON UPDATE CASCADE ON DELETE CASCADE,
   FOREIGN KEY (person_contact_id) REFERENCES directory.person_contact(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
+
+CREATE FUNCTION directory.customer_country(IN c directory.customer)
+    RETURNS directory.country
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT * FROM directory.country co WHERE co.id = c.country_id
+$BODY$;
 
 CREATE FUNCTION directory.customer_vendor(IN c directory.customer)
     RETURNS directory.vendor

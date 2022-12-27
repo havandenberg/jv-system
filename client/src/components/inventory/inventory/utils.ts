@@ -145,7 +145,9 @@ export const getGroupedItems = (items: InventoryItem[], isInventory = true) =>
             parseInt(item.palletsOnHand || '0', 10),
           palletsReceived:
             parseInt(acc[key]?.palletsReceived || '0', 10) +
-            parseInt(item.palletsReceived || '0', 10),
+            (item.pallets?.totalCount !== undefined
+              ? item.pallets?.totalCount || 0
+              : parseInt(item.palletsReceived || '0', 10)),
         },
       };
     }, {} as { [key: string]: InventoryItem }),
@@ -179,7 +181,10 @@ export const reducePalletData = (items: InventoryItem[]) =>
       const palletsReceivedAcc = acc.palletsReceived;
       const newPalletsAvailableCount = parseInt(item.palletsAvailable, 10);
       const newPalletsOnHandCount = parseInt(item.palletsOnHand, 10);
-      const newPalletsReceivedCount = parseInt(item.palletsReceived, 10);
+      const newPalletsReceivedCount =
+        item.pallets?.totalCount !== undefined
+          ? item.pallets?.totalCount || 0
+          : parseInt(item.palletsReceived || '0', 10);
       return {
         palletsAvailable: {
           pre: palletsAvailableAcc.pre + (isPre ? newPalletsAvailableCount : 0),
