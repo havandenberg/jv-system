@@ -62,7 +62,7 @@ query COMMON_SPECIES_LIST(
           productSizesByCommonSizeProductSizeCommonSizeIdAndProductSizeId {
             nodes {
               id
-              jvDescription
+              combineDescription
             }
           }
           sizeDescription

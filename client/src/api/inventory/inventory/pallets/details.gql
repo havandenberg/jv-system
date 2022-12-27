@@ -49,7 +49,7 @@ query PALLET_DETAILS($palletId: String!) {
         sizes {
           nodes {
             id
-            jvDescription
+            combineDescription
           }
         }
         species {

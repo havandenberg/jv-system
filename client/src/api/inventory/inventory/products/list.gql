@@ -15,7 +15,7 @@ query PRODUCT_MASTER_LIST(
       sizes {
         nodes {
           jvCode
-          jvDescription
+          combineDescription
         }
       }
       species {

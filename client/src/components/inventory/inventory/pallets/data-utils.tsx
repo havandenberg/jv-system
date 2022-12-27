@@ -35,7 +35,7 @@ export const listLabels: PalletLabelInfo[] = [
   {
     key: 'product',
     label: 'Size',
-    getValue: (data) => data.product?.sizes?.nodes[0]?.jvDescription || '',
+    getValue: (data) => data.product?.sizes?.nodes[0]?.combineDescription || '',
   },
   {
     key: 'product',
@@ -177,7 +177,7 @@ export const baseLabels: PalletLabelInfo[] = [
     label: 'Size',
     getValue: (data) => (
       <ty.BodyText>
-        {data.product?.sizes?.nodes[0]?.jvDescription || ''}
+        {data.product?.sizes?.nodes[0]?.combineDescription || ''}
       </ty.BodyText>
     ),
   },

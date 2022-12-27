@@ -46,7 +46,7 @@ const db2UpdateItems = async (
   const itemCount = (itemsData?.[itemQueryName]?.nodes || []).length;
   const iterationMap = times(
     (iteration) => iteration,
-    Math.ceil(db2ItemCount / iterationLimit),
+    Math.ceil(Math.max(db2ItemCount, itemCount) / iterationLimit),
   );
 
   for (const iteration of iterationMap) {
@@ -103,10 +103,11 @@ const db2UpdateItems = async (
     const itemsToUpsert = [...updatedItems, ...newItems];
     const itemsToDelete = idsToDelete.map((id) => items[id]);
 
-    const chunks = getSlicedChunks(itemsToUpsert, chunkSize);
+    const upsertChunks = getSlicedChunks(itemsToUpsert, chunkSize);
+    const deleteChunks = getSlicedChunks(idsToDelete, chunkSize);
 
     if (!LOG_ONLY) {
-      for (let values of chunks) {
+      for (let values of upsertChunks) {
         await gqlClient
           .request(upsertQuery, {
             input: { [upsertQueryName]: values },
@@ -115,11 +116,13 @@ const db2UpdateItems = async (
       }
 
       if (!!deleteQuery) {
-        await gqlClient
-          .request(deleteQuery, {
-            input: { idsToDelete },
-          })
-          .catch(onError);
+        for (let values of deleteChunks) {
+          await gqlClient
+            .request(deleteQuery, {
+              input: { idsToDelete: values },
+            })
+            .catch(onError);
+        }
       }
     }
 

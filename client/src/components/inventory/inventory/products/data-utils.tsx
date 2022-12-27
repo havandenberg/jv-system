@@ -26,9 +26,9 @@ export const listLabels: ProductMasterLabelInfo[] = [
     label: 'Sizes',
     getValue: (data) =>
       data.sizes
-        ? uniq(pluck('jvDescription', data.sizes.nodes as ProductSize[])).join(
-            ', ',
-          )
+        ? uniq(
+            pluck('combineDescription', data.sizes.nodes as ProductSize[]),
+          ).join(', ')
         : '-',
   },
   {

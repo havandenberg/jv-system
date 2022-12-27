@@ -154,7 +154,7 @@ query VESSEL_LIST(
                       productSizeId
                       productSize {
                         id
-                        jvDescription
+                        combineDescription
                       }
                       commonSizeTags {
                         nodes {

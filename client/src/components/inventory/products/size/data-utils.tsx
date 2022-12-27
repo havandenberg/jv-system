@@ -52,9 +52,9 @@ export const baseLabels: (
     label: 'Primary Code',
     itemSelectorQueryProps: {
       errorLabel: 'sizes',
-      getItemContent: ({ id, jvDescription }: ProductSize) => (
+      getItemContent: ({ id, combineDescription }: ProductSize) => (
         <ty.BodyText pl={th.spacing.sm}>
-          {id} - {jvDescription}
+          {id} - {combineDescription}
         </ty.BodyText>
       ),
       query: PRODUCT_SIZE_QUERY,

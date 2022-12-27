@@ -64,7 +64,6 @@ query INVOICE_HEADER_DETAILS($orderId: BigFloat!) {
               sizes {
                 nodes {
                   id
-                  jvDescription
                   combineDescription
                 }
               }

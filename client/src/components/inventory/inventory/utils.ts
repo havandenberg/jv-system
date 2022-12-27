@@ -429,7 +429,6 @@ export const buildCategories =
         labelCode: 'other',
         labelName: 'Other',
       },
-      jvDescription: 'Other',
       shipperName: 'Other',
       countryName: 'Other',
       customerSpecial: { customerName: 'No Program' },
@@ -527,7 +526,7 @@ export const buildCategories =
         case 'program':
           return itemPackType?.customerSpecial?.customerName || 'No Program';
         case 'sizePackType':
-          return `${itemSize.jvDescription} - ${itemPackType.packDescription}`;
+          return `${itemSize.combineDescription} - ${itemPackType.packDescription}`;
         default:
           return isTag
             ? commonSpeciesTag?.tagText

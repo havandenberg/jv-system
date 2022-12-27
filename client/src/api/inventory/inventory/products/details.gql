@@ -10,7 +10,7 @@ query PRODUCT_MASTER_DETAILS($id: String!) {
     sizes {
       nodes {
         jvCode
-        jvDescription
+        combineDescription
       }
     }
     species {

@@ -27,7 +27,7 @@ query COMMON_SIZE($id: BigInt!) {
     productSizesByCommonSizeProductSizeCommonSizeIdAndProductSizeId {
       nodes {
         id
-        jvDescription
+        combineDescription
       }
     }
     sizeDescription

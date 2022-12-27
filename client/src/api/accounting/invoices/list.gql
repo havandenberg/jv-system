@@ -72,7 +72,6 @@ query INVOICE_HEADER_LIST(
               sizes {
                 nodes {
                   id
-                  jvDescription
                   combineDescription
                 }
               }
