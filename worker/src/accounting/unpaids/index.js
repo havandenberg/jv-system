@@ -1,5 +1,5 @@
 const { add, endOfISOWeek, isBefore, startOfISOWeek } = require('date-fns');
-const { sortBy, omit } = require('ramda');
+const { sortBy, mergeDeepLeft, omit } = require('ramda');
 
 const { gql, gqlClient } = require('../../api');
 const { ews, ewsArgs, onError } = require('../../utils/server');
@@ -45,32 +45,34 @@ const UNPAIDS_NOTIFICATIONS = (startDate, endDate) => gql`
         pallets {
           nodes {
             id
-            invoiceHeader {
-              id
-              actualShipDate
-              amountOwed
-              billingCustomer {
+            invoiceHeaders {
+              nodes {
                 id
-                customerName
-              }
-              truckLoadId
-              salesUserCode
-              salesUser {
-                userCode
-                personContact {
-                  firstName
-                  email
+                actualShipDate
+                amountOwed
+                billingCustomer {
+                  id
+                  customerName
                 }
-                id
+                truckLoadId
+                salesUserCode
+                salesUser {
+                  userCode
+                  personContact {
+                    firstName
+                    email
+                  }
+                  id
+                }
+                invoiceId
+                orderId
+                paidCode
+                flag
+                totalAmount
+                totalCreditAmount
+                conditionCode
+                creditCode
               }
-              invoiceId
-              orderId
-              paidCode
-              flag
-              totalAmount
-              totalCreditAmount
-              conditionCode
-              creditCode
             }
             billOfLading
             palletId
@@ -110,45 +112,52 @@ const buildVesselControlItems = (vesselControls) =>
     .map((vesselControl) => {
       const pallets = vesselControl.pallets?.nodes || [];
       const groupedPallets = pallets.reduce((acc, pallet) => {
-        const salesUserCode =
-          pallet.orderMaster?.salesUserCode ||
-          pallet.invoiceHeader?.salesUserCode ||
-          'UNK';
-        const orderId = pallet.invoiceHeader?.orderId || 'UNK';
-        const info = acc[salesUserCode]?.[orderId] || { pallets: [] };
-        const currentUnpaid = vesselControl.unpaids.nodes?.find(
-          (unpaid) =>
-            unpaid && unpaid.invoiceId === pallet.invoiceHeader?.invoiceId,
-        );
-        return {
-          ...acc,
-          [salesUserCode]: {
-            ...acc[salesUserCode],
-            [orderId]: {
-              pallets: [...info.pallets, pallet],
-              unpaid:
-                info.unpaid ||
-                (currentUnpaid
-                  ? {
-                      ...currentUnpaid,
-                      orderId: pallet.invoiceHeader?.orderId,
-                      invoice: pallet.invoiceHeader,
-                      shipper: pallet.shipper,
-                      vessel: pallet.vessel,
-                    }
-                  : {
-                      ...emptyUnpaid,
-                      vesselCode: vesselControl.vessel?.vesselCode,
-                      shipperId: vesselControl.shipper?.id,
-                      invoiceId: pallet.invoiceHeader?.invoiceId,
-                      orderId: pallet.invoiceHeader?.orderId,
-                      invoice: pallet.invoiceHeader,
-                      shipper: pallet.shipper,
-                      vessel: pallet.vessel,
-                    }),
-            },
+        const newValues = pallet.invoiceHeaders.nodes?.reduce(
+          (acc2, invoice) => {
+            const salesUserCode = invoice?.salesUserCode || 'UNK';
+            const orderId = invoice?.orderId || 'UNK';
+            const info = acc2[salesUserCode]?.[orderId] || { pallets: [] };
+            const accInfo =
+              info.pallets.length > 0
+                ? { pallets: [] }
+                : acc[salesUserCode]?.[orderId] || { pallets: [] };
+            const currentUnpaid = vesselControl.unpaids.nodes?.find(
+              (unpaid) => unpaid && unpaid.invoiceId === invoice?.invoiceId,
+            );
+            return {
+              ...acc2,
+              [salesUserCode]: {
+                ...acc2[salesUserCode],
+                [orderId]: {
+                  pallets: [...accInfo.pallets, ...info.pallets, pallet],
+                  unpaid:
+                    info.unpaid ||
+                    (currentUnpaid
+                      ? {
+                          ...currentUnpaid,
+                          orderId: invoice?.orderId,
+                          invoice,
+                          shipper: vesselControl.shipper,
+                          vessel: vesselControl.vessel,
+                        }
+                      : {
+                          ...emptyUnpaid,
+                          vesselCode: vesselControl.vessel?.vesselCode,
+                          shipperId: vesselControl.shipper?.id,
+                          invoiceId: invoice?.invoiceId,
+                          orderId: invoice?.orderId,
+                          invoice,
+                          shipper: vesselControl.shipper,
+                          vessel: vesselControl.vessel,
+                        }),
+                },
+              },
+            };
           },
-        };
+          {},
+        );
+
+        return mergeDeepLeft(newValues, acc);
       }, {});
 
       const palletsShipped = pallets.filter((pallet) => pallet.shipped).length;
@@ -168,8 +177,13 @@ const getUnpaidsInfo = (unpaids) =>
     (acc, unpaid) => ({
       isAllUrgent: !!acc.isAllUrgent && !!unpaid.isUrgent,
       isAlert: !!acc.isAlert || !!unpaid.invoice?.flag,
-      isAllApproved: !!acc.isAllApproved && !!unpaid.isApproved,
-      isPartialApproved: !!acc.isPartialApproved || !!unpaid.isApproved,
+      isAllApproved:
+        !!acc.isAllApproved &&
+        (!!unpaid.isApproved || unpaid.invoice?.paidCode === 'P'),
+      isPartialApproved:
+        !!acc.isPartialApproved ||
+        !!unpaid.isApproved ||
+        unpaid.invoice?.paidCode === 'P',
     }),
     {
       isAllUrgent: true,

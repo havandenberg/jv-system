@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { add } from 'date-fns';
-import { omit } from 'ramda';
+import { mergeDeepLeft, omit } from 'ramda';
 
 import { LabelInfo } from 'components/column-label';
 import DateTimePicker from 'components/date-time-picker';
@@ -321,44 +321,59 @@ export const buildVesselControlItems = (
       }
 
       const groupedPallets = pallets.reduce((acc, pallet) => {
-        const salesUserCode =
-          pallet.orderMaster?.salesUserCode ||
-          pallet.invoiceHeader?.salesUserCode ||
-          'UNK';
-        const orderId = pallet.invoiceHeader?.orderId || 'UNK';
-        const info = acc[salesUserCode]?.[orderId] || { pallets: [] };
-        const currentUnpaid = vesselControl.unpaids.nodes?.find(
-          (unpaid) =>
-            unpaid && unpaid.invoiceId === pallet.invoiceHeader?.invoiceId,
-        );
-        return {
-          ...acc,
-          [salesUserCode]: {
-            ...acc[salesUserCode],
-            [orderId]: {
-              pallets: [...info.pallets, pallet],
-              unpaid:
-                info.unpaid ||
-                (currentUnpaid
-                  ? {
-                      ...currentUnpaid,
-                      orderId: pallet.invoiceHeader?.orderId,
-                      invoice: pallet.invoiceHeader,
-                      shipper: pallet.shipper,
-                      vessel: pallet.vessel,
-                    }
-                  : {
-                      ...emptyUnpaid,
-                      vesselCode: vesselControl.vessel?.vesselCode,
-                      shipperId: vesselControl.shipper?.id,
-                      invoiceId: pallet.invoiceHeader?.invoiceId,
-                      orderId: pallet.invoiceHeader?.orderId,
-                      invoice: pallet.invoiceHeader,
-                      shipper: pallet.shipper,
-                      vessel: pallet.vessel,
-                    }),
-            },
+        const newValues = pallet.invoiceHeaders.nodes?.reduce(
+          (acc2, invoice) => {
+            const salesUserCode = invoice?.salesUserCode || 'UNK';
+            const orderId = invoice?.orderId || 'UNK';
+            const info = acc2[salesUserCode]?.[orderId] || { pallets: [] };
+            const accInfo =
+              info.pallets.length > 0
+                ? { pallets: [] }
+                : acc[salesUserCode]?.[orderId] || { pallets: [] };
+            const currentUnpaid = vesselControl.unpaids.nodes?.find(
+              (unpaid) => unpaid && unpaid.invoiceId === invoice?.invoiceId,
+            );
+            return {
+              ...acc2,
+              [salesUserCode]: {
+                ...acc2[salesUserCode],
+                [orderId]: {
+                  pallets: [...accInfo.pallets, ...info.pallets, pallet],
+                  unpaid:
+                    info.unpaid ||
+                    (currentUnpaid
+                      ? {
+                          ...currentUnpaid,
+                          orderId: invoice?.orderId,
+                          invoice,
+                          shipper: vesselControl.shipper,
+                          vessel: vesselControl.vessel,
+                        }
+                      : {
+                          ...emptyUnpaid,
+                          vesselCode: vesselControl.vessel?.vesselCode,
+                          shipperId: vesselControl.shipper?.id,
+                          invoiceId: invoice?.invoiceId,
+                          orderId: invoice?.orderId,
+                          invoice,
+                          shipper: vesselControl.shipper,
+                          vessel: vesselControl.vessel,
+                        }),
+                },
+              },
+            };
           },
+          {} as {
+            [key: string]: {
+              [key: string]: { pallets: Pallet[]; unpaid: Unpaid };
+            };
+          },
+        );
+
+        return mergeDeepLeft(newValues, acc) as {
+          [key: string]: {
+            [key: string]: { pallets: Pallet[]; unpaid: Unpaid };
+          };
         };
       }, {} as { [key: string]: { [key: string]: { pallets: Pallet[]; unpaid: Unpaid } } });
 

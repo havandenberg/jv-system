@@ -108,7 +108,7 @@ const Details = () => {
         <l.Div pb={th.spacing.xl}>
           {orderEntry && (
             <>
-              <ty.BodyText
+              <ty.CaptionText
                 color={isLatestEntry ? undefined : th.colors.status.error}
                 bold={!isLatestEntry}
                 italic
@@ -116,7 +116,7 @@ const Details = () => {
                 secondary={isLatestEntry}
               >
                 Viewing {isLatestEntry ? 'latest' : 'previous'} entry:
-              </ty.BodyText>
+              </ty.CaptionText>
               <BaseData<OrderEntry> data={orderEntry} labels={baseLabels} />
             </>
           )}

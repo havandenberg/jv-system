@@ -46,7 +46,11 @@ const Unpaids = () => {
 
   const { data, loading, error } = api.useUnpaids();
   const unpaids = getSortedUnpaids(
-    data.filter((up) => showLiq || !up.vesselControl?.isLiquidated),
+    data.filter(
+      (up) =>
+        showLiq ||
+        (!up.vesselControl?.isLiquidated && !(up.invoice?.paidCode === 'P')),
+    ),
     showLiq,
   );
 

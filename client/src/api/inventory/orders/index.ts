@@ -168,7 +168,11 @@ export const useUpsertLoadNumbers = (userId: number) =>
     refetchQueries: [
       {
         query: USER_DETAILS_QUERY,
-        variables: { id: userId, isRead: [true, false] },
+        variables: {
+          id: userId,
+          isRead: [false],
+          getUsedLoadNumbers: [true, false],
+        },
       },
     ],
   });

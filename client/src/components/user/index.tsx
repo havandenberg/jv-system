@@ -12,6 +12,7 @@ import { useActiveUser } from './context';
 import UserBookmarks from './bookmarks';
 import UserSettings from './settings';
 import UserMessages from './messages';
+import { DataMessage } from 'components/page/message';
 
 const tabs = (messageCount?: number) => [
   {
@@ -34,11 +35,13 @@ const UserDashboard = () => {
     apiData: { data: activeUser, error, loading },
     userState,
     setUserState,
-  } = useActiveUser();
+  } = useActiveUser({ showReadMessages: true });
   const { id: activeUserId } = activeUser || {};
   const { id: personContactId } = activeUser?.personContact || {};
 
-  const messages = activeUser?.userMessages.nodes || [];
+  const messages = (
+    (activeUser?.userMessages.nodes || []) as UserMessage[]
+  ).filter((message: UserMessage) => message?.isRead === !!showReadMessages);
 
   const { selectedTabId, TabBar } = useTabBar({
     tabs: tabs(activeUser ? messages.length : undefined),
@@ -69,7 +72,7 @@ const UserDashboard = () => {
     history.push('/');
   };
 
-  if (!activeUserId) {
+  if (!activeUserId && !loading) {
     return <Redirect to="/" />;
   }
 
@@ -85,21 +88,33 @@ const UserDashboard = () => {
       ]}
       title="User Dashboard"
     >
-      <l.Flex justifyBetween>
-        <l.Div width="60%">
-          <l.Div mb={th.spacing.lg}>
-            <TabBar />
+      {activeUserId ? (
+        <l.Flex justifyBetween>
+          <l.Div width="60%">
+            <l.Div mb={th.spacing.lg}>
+              <TabBar />
+            </l.Div>
+            {getContent()}
           </l.Div>
-          {getContent()}
-        </l.Div>
-        <l.Div width="35%">
-          <UserBookmarks
-            id={activeUserId}
-            showReadMessages={showReadMessages}
-            user={activeUser as User}
-          />
-        </l.Div>
-      </l.Flex>
+          <l.Div width="35%">
+            <UserBookmarks
+              id={activeUserId}
+              showReadMessages={showReadMessages}
+              user={activeUser as User}
+            />
+          </l.Div>
+        </l.Flex>
+      ) : (
+        <DataMessage
+          data={activeUser ? [activeUser] : []}
+          error={error}
+          loading={loading}
+          emptyProps={{
+            header: 'An error occurred',
+            text: 'Please login again',
+          }}
+        />
+      )}
     </Page>
   );
 };

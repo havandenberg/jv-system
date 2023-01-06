@@ -230,15 +230,14 @@ export const indexBaseLabels: (
   {
     key: 'orderMaster',
     label: isInvoice ? 'Invoice ID' : 'Order ID',
-    getValue: ({ orderMaster, pallets }) => {
-      const pallet = (pallets?.nodes || [])[0];
-      return isInvoice ? (
-        pallet ? (
+    getValue: ({ orderMaster, invoiceHeader }) =>
+      isInvoice ? (
+        invoiceHeader ? (
           <ty.LinkText
             hover="false"
-            to={`/accounting/invoices/${pallet.orderId}`}
+            to={`/accounting/invoices/${invoiceHeader.orderId}`}
           >
-            {pallet.orderId}
+            {invoiceHeader.orderId}
           </ty.LinkText>
         ) : (
           ''
@@ -254,8 +253,7 @@ export const indexBaseLabels: (
         </ty.LinkText>
       ) : (
         ''
-      );
-    },
+      ),
   },
   {
     key: 'truckerName',

@@ -46,7 +46,6 @@ const InventoryTab = () => (
 
     <Route exact path="/inventory/orders/create" component={CreateOrder} />
     <Route
-      exact
       path="/inventory/orders/load-numbers"
       component={LoadNumberManager}
     />

@@ -78,7 +78,7 @@ AS $BODY$
         AND ih.back_order_id = ii.back_order_id
     INNER JOIN product.pallet p
         ON ii.pallet_id = p.pallet_id
-  WHERE truck_load_id = t.load_id;
+  WHERE ih.truck_load_id = t.load_id;
 $BODY$;
 
 CREATE FUNCTION operations.truck_load_warehouse(IN t operations.truck_load)

@@ -649,7 +649,7 @@ const NewOrderEntryItem = ({
       isMultiSelect,
       nameKey: 'text' as keyof ItemLink,
       offset: ['vesselCode', 'reviewVesselCode'].includes(type)
-        ? -150
+        ? -152
         : undefined,
       selectItem,
       selectedItem: updatedItem[type],
@@ -796,6 +796,7 @@ const NewOrderEntryItem = ({
       );
     },
     nameKey: 'text' as keyof ItemLink,
+    offset: -73,
     selectItem: ({ id }: ItemLink) => {
       handleChange({ ...updatedItem, palletCount: id });
     },

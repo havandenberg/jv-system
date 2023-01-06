@@ -1,7 +1,11 @@
-query USER_DETAILS($id: BigInt!, $isRead: [Boolean!]) {
+query USER_DETAILS(
+  $id: BigInt!
+  $isRead: [Boolean!]
+  $getUsedLoadNumbers: [Boolean!]
+) {
   user(id: $id) {
     id
-    loadNumbers(filter: { hasOrderEntries: { equalTo: false } }) {
+    loadNumbers(filter: { isUsed: { in: $getUsedLoadNumbers } }) {
       nodes {
         id
         customerId
@@ -10,6 +14,19 @@ query USER_DETAILS($id: BigInt!, $isRead: [Boolean!]) {
           customerName
           salesUserCode
         }
+        orderEntries {
+          nodes {
+            orderId
+          }
+        }
+        notes
+        orderMaster {
+          orderId
+        }
+        invoiceHeader {
+          orderId
+        }
+        isUsed
       }
     }
     defaultCoast

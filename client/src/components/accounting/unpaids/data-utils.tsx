@@ -3,8 +3,8 @@ import EditableCell from 'components/editable-cell';
 import InfoPanel from 'components/info-panel';
 import StatusIndicator from 'components/status-indicator';
 import { differenceInDays } from 'date-fns';
-import { groupBy, sortBy } from 'ramda';
-import { Pallet, Shipper, Unpaid, Vessel, VesselControl } from 'types';
+import { pluck, sortBy } from 'ramda';
+import { InvoiceHeader, Pallet, Shipper, Unpaid, Vessel } from 'types';
 import { LineItemCheckbox } from 'ui/checkbox';
 import l from 'ui/layout';
 import th from 'ui/theme';
@@ -281,58 +281,23 @@ export const palletSearchText = (
   vessel: Vessel,
   shipper: Shipper,
 ) =>
-  `${vessel?.vesselName} ${vessel?.vesselCode} ${shipper?.id} ${shipper?.shipperName} ${pallet.invoiceHeader?.invoiceId} ${pallet.invoiceHeader?.billingCustomer?.customerName} ${pallet.invoiceHeader?.truckLoadId}`.toLowerCase();
-
-export const buildUnpaidItems = (
-  vesselControls: VesselControl[],
-  salesUserCode?: string | null,
-  searchArray?: string[],
-) =>
-  vesselControls
-    .map((vesselControl) => {
-      const vessel = vesselControl.vessel as Vessel;
-      const shipper = vesselControl.shipper as Shipper;
-      const vesselPallets = (vesselControl.pallets?.nodes || []) as Pallet[];
-
-      const palletsGroupedByInvoice = groupBy(
-        ({ invoiceHeader }) => invoiceHeader?.invoiceId || 'UNK',
-        vesselPallets.filter((p) => {
-          const searchText = palletSearchText(p, vessel, shipper);
-          return (
-            (!salesUserCode ||
-              salesUserCode === 'all' ||
-              p.invoiceHeader?.salesUserCode === salesUserCode) &&
-            p.invoiceHeader?.paidCode !== 'P' &&
-            (!searchArray ||
-              searchArray.every((searchVal) =>
-                searchText.toLowerCase().includes(searchVal.toLowerCase()),
-              ))
-          );
-        }),
-      );
-
-      const unpaids = (vesselControl.unpaids.nodes || []) as Unpaid[];
-
-      return Object.values(palletsGroupedByInvoice).map((invoicePallets) => {
-        const invoice = invoicePallets[0].invoiceHeader;
-        const unpaid =
-          unpaids.find((u) => u.invoiceId === invoice?.invoiceId) ||
-          emptyUnpaid;
-
-        return {
-          ...unpaid,
-          vessel,
-          shipper,
-          invoice,
-          vesselCode: vessel.vesselCode,
-          shipperId: shipper?.id,
-          invoiceId: invoice?.invoiceId,
-          orderId: invoice?.orderId,
-          vesselControl,
-        };
-      });
-    })
-    .flat() as Unpaid[];
+  `${vessel?.vesselName} ${vessel?.vesselCode} ${shipper?.id} ${
+    shipper?.shipperName
+  } ${pluck(
+    'orderId',
+    (pallet.invoiceHeaders.nodes || []) as InvoiceHeader[],
+  ).join(',')} ${pluck(
+    'invoiceId',
+    (pallet.invoiceHeaders.nodes || []) as InvoiceHeader[],
+  ).join(',')} ${pluck(
+    'billingCustomer',
+    (pallet.invoiceHeaders.nodes || []) as InvoiceHeader[],
+  )
+    .map((c) => c?.customerName)
+    .join(',')} ${pluck(
+    'truckLoadId',
+    (pallet.invoiceHeaders.nodes || []) as InvoiceHeader[],
+  ).join(',')}`.toLowerCase();
 
 export const getUnpaidsInfo = (unpaids: Unpaid[]) =>
   unpaids.reduce(

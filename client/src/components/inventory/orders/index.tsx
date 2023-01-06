@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { differenceInDays } from 'date-fns';
 import { isEmpty, uniq } from 'ramda';
+import { useLocation } from 'react-router-dom';
 
 import api from 'api';
 import { getSortedItems } from 'components/column-label';
@@ -24,6 +25,7 @@ import {
 import b from 'ui/button';
 import l from 'ui/layout';
 import th from 'ui/theme';
+import { IS_PRODUCTION } from 'utils/env';
 
 import {
   convertInvoiceHeadersToOrderMasters,
@@ -34,8 +36,6 @@ import {
 } from './data-utils';
 import { indexListLabels as itemIndexListLabels } from './items/data-utils';
 import useOrdersFilters from './use-filters';
-import { useLocation } from 'react-router-dom';
-import { IS_PRODUCTION } from 'utils/env';
 
 export const breadcrumbs = (isInvoices: boolean) => [
   {

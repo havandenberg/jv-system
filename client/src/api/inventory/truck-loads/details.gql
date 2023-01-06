@@ -21,7 +21,7 @@ query TRUCK_LOAD_DETAILS($truckLoadId: String!) {
       warehouse {
         id
         warehouseName
-        }
+      }
       changeFlag
       licensePlate
       inUse
@@ -30,6 +30,9 @@ query TRUCK_LOAD_DETAILS($truckLoadId: String!) {
       temperature
       loadLock
       notes
+      invoiceHeader {
+        orderId
+      }
       orderMaster {
         backOrderId
         billingCustomer {

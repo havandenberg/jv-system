@@ -24711,11 +24711,25 @@ export type LoadNumber = Node & {
   id: Scalars['BigInt'];
   customerId?: Maybe<Scalars['String']>;
   userId?: Maybe<Scalars['BigInt']>;
+  notes?: Maybe<Scalars['String']>;
   /** Reads a single `User` that is related to this `LoadNumber`. */
   user?: Maybe<User>;
   customer?: Maybe<Customer>;
-  hasOrderEntries?: Maybe<Scalars['Boolean']>;
+  invoiceHeader?: Maybe<InvoiceHeader>;
+  isUsed?: Maybe<Scalars['Boolean']>;
+  /** Reads and enables pagination through a set of `OrderEntry`. */
+  orderEntries: OrderEntriesConnection;
   orderMaster?: Maybe<OrderMaster>;
+};
+
+
+export type LoadNumberOrderEntriesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  filter?: Maybe<OrderEntryFilter>;
 };
 
 /**
@@ -24729,6 +24743,8 @@ export type LoadNumberCondition = {
   customerId?: Maybe<Scalars['String']>;
   /** Checks for equality with the object’s `userId` field. */
   userId?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `notes` field. */
+  notes?: Maybe<Scalars['String']>;
 };
 
 /** A filter to be used against `LoadNumber` object types. All fields are combined with a logical ‘and.’ */
@@ -24739,8 +24755,10 @@ export type LoadNumberFilter = {
   customerId?: Maybe<StringFilter>;
   /** Filter by the object’s `userId` field. */
   userId?: Maybe<BigIntFilter>;
-  /** Filter by the object’s `hasOrderEntries` field. */
-  hasOrderEntries?: Maybe<BooleanFilter>;
+  /** Filter by the object’s `notes` field. */
+  notes?: Maybe<StringFilter>;
+  /** Filter by the object’s `isUsed` field. */
+  isUsed?: Maybe<BooleanFilter>;
   /** Filter by the object’s `user` relation. */
   user?: Maybe<UserFilter>;
   /** A related `user` exists. */
@@ -24758,6 +24776,7 @@ export type LoadNumberInput = {
   id: Scalars['BigInt'];
   customerId?: Maybe<Scalars['String']>;
   userId?: Maybe<Scalars['BigInt']>;
+  notes?: Maybe<Scalars['String']>;
   userToUserId?: Maybe<LoadNumberUserIdFkeyInput>;
 };
 
@@ -24803,6 +24822,7 @@ export type LoadNumberPatch = {
   id?: Maybe<Scalars['BigInt']>;
   customerId?: Maybe<Scalars['String']>;
   userId?: Maybe<Scalars['BigInt']>;
+  notes?: Maybe<Scalars['String']>;
   userToUserId?: Maybe<LoadNumberUserIdFkeyInput>;
 };
 
@@ -24854,6 +24874,7 @@ export type LoadNumberUserIdFkeyInverseInput = {
 export type LoadNumberUserIdFkeyLoadNumberCreateInput = {
   id: Scalars['BigInt'];
   customerId?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
   userToUserId?: Maybe<LoadNumberUserIdFkeyInput>;
 };
 
@@ -24903,6 +24924,8 @@ export enum LoadNumbersOrderBy {
   CustomerIdDesc = 'CUSTOMER_ID_DESC',
   UserIdAsc = 'USER_ID_ASC',
   UserIdDesc = 'USER_ID_DESC',
+  NotesAsc = 'NOTES_ASC',
+  NotesDesc = 'NOTES_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
   UserByUserIdIdAsc = 'USER_BY_USER_ID__ID_ASC',
@@ -34508,7 +34531,8 @@ export type Pallet = Node & {
   billOfLading?: Maybe<Scalars['String']>;
   containerId?: Maybe<Scalars['String']>;
   temperatureRecording?: Maybe<Scalars['String']>;
-  invoiceHeader?: Maybe<InvoiceHeader>;
+  /** Reads and enables pagination through a set of `InvoiceHeader`. */
+  invoiceHeaders: InvoiceHeadersConnection;
   orderMaster?: Maybe<OrderMaster>;
   originalLocation?: Maybe<Warehouse>;
   /** Reads and enables pagination through a set of `PalletSection`. */
@@ -34519,6 +34543,16 @@ export type Pallet = Node & {
   shipper?: Maybe<Shipper>;
   vessel?: Maybe<Vessel>;
   warehouse?: Maybe<Warehouse>;
+};
+
+
+export type PalletInvoiceHeadersArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  filter?: Maybe<InvoiceHeaderFilter>;
 };
 
 
@@ -69651,6 +69685,7 @@ export type UpdateCustomerProgramOnCustomerProgramForCustomerProgramCustomerIdFk
 export type UpdateLoadNumberOnLoadNumberForLoadNumberUserIdFkeyPatch = {
   id?: Maybe<Scalars['BigInt']>;
   customerId?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
   userToUserId?: Maybe<LoadNumberUserIdFkeyInput>;
 };
 

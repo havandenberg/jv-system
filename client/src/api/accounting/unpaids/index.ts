@@ -1,10 +1,14 @@
 import { useMemo } from 'react';
+import { pluck } from 'ramda';
 import { useMutation, useQuery } from '@apollo/client';
 import { loader } from 'graphql.macro';
 
-import { buildUnpaidItems } from 'components/accounting/unpaids/data-utils';
+import {
+  buildVesselControlItems,
+  VesselControlItem,
+} from 'components/accounting/vessel-control/data-utils';
 import { useQueryValue, useSearchQueryParam } from 'hooks/use-query-params';
-import { Mutation, Query, Unpaid, VesselControl } from 'types';
+import { Mutation, Query, VesselControl } from 'types';
 
 import { useVariables, VESSEL_CONTROL_LIST_QUERY } from '../vessel-control';
 
@@ -23,18 +27,29 @@ export const useUnpaids = () => {
     variables,
   });
 
-  const data = useMemo(
+  const vesselControls = useMemo(
     () =>
-      buildUnpaidItems(
+      buildVesselControlItems(
         (vesselControlsData?.allVesselControls?.nodes || []) as VesselControl[],
-        salesUserCode,
         search?.split(' '),
-      ) as Unpaid[],
-    [salesUserCode, search, vesselControlsData],
+      ) as VesselControlItem[],
+    [search, vesselControlsData],
   );
 
+  const unpaids = vesselControls
+    .map(({ groupedPallets }) =>
+      Object.keys(groupedPallets)
+        .map((suc) =>
+          !salesUserCode || salesUserCode === 'all' || suc === salesUserCode
+            ? pluck('unpaid', Object.values(groupedPallets[suc]))
+            : [],
+        )
+        .flat(),
+    )
+    .flat();
+
   return {
-    data: data,
+    data: unpaids,
     error,
     loading,
   };

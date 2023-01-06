@@ -31,32 +31,34 @@ query VESSEL_CONTROL_LIST($dateFilter: VesselControlFilter!) {
       pallets {
         nodes {
           id
-          invoiceHeader {
-            id
-            actualShipDate
-            amountOwed
-            billingCustomer {
+          invoiceHeaders {
+            nodes {
               id
-              customerName
-            }
-            truckLoadId
-            salesUserCode
-            salesUser {
-              userCode
-              personContact {
-                firstName
-                email
+              actualShipDate
+              amountOwed
+              billingCustomer {
+                id
+                customerName
               }
-              id
+              truckLoadId
+              salesUserCode
+              salesUser {
+                userCode
+                personContact {
+                  firstName
+                  email
+                }
+                id
+              }
+              invoiceId
+              orderId
+              paidCode
+              flag
+              totalAmount
+              totalCreditAmount
+              conditionCode
+              creditCode
             }
-            invoiceId
-            orderId
-            paidCode
-            flag
-            totalAmount
-            totalCreditAmount
-            conditionCode
-            creditCode
           }
           billOfLading
           palletId

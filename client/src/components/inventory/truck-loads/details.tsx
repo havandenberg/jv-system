@@ -64,7 +64,11 @@ const Details = () => {
     ? truckLoads.find((truckLoad) => `${truckLoad?.warehouse?.id}` === location)
     : truckLoads[0];
   const pallets = ((truckLoad?.pallets.nodes || []) as Pallet[]).filter(
-    (pallet) => !location || location === pallet.locationId,
+    (pallet) =>
+      !location ||
+      (pallet.locationId && ['25', '37'].includes(location)
+        ? ['25', '37'].includes(pallet.locationId)
+        : location === pallet.locationId),
   );
   const hasPallets = pallets.length > 0;
 

@@ -156,9 +156,14 @@ const UnpaidsManager = ({ handleChange, vesselControlItem }: Props) => {
   };
 
   const handleToggleUrgent = (salesUserCode: string) => {
-    const invoiceIds = Object.values(groupedPallets[salesUserCode])
-      .flat()
-      .map(({ pallets }) => pallets[0]?.invoiceHeader?.invoiceId);
+    const invoiceIds = Object.keys(groupedPallets[salesUserCode]).map(
+      (orderId) => {
+        const pallets = groupedPallets[salesUserCode][orderId]?.pallets;
+        return pallets[0]?.invoiceHeaders.nodes?.find(
+          (invoice) => orderId === invoice?.orderId,
+        )?.invoiceId;
+      },
+    );
 
     const updatedUnpaids = unpaids.map((u) => {
       if (invoiceIds.includes(u.invoiceId)) {
@@ -191,9 +196,14 @@ const UnpaidsManager = ({ handleChange, vesselControlItem }: Props) => {
         />
       </l.Flex>
       {SALES_USER_CODES.map((salesUserCode) => {
-        const invoiceIds = Object.values(groupedPallets[salesUserCode] || {})
-          .flat()
-          .map(({ pallets }) => pallets[0]?.invoiceHeader?.invoiceId);
+        const invoiceIds = groupedPallets[salesUserCode]
+          ? Object.keys(groupedPallets[salesUserCode]).map((orderId) => {
+              const pallets = groupedPallets[salesUserCode][orderId]?.pallets;
+              return pallets[0]?.invoiceHeaders.nodes?.find(
+                (invoice) => orderId === invoice?.orderId,
+              )?.invoiceId;
+            })
+          : [];
 
         const filteredUnpaids = sortBy(
           ({ invoiceId }) => invoiceId,

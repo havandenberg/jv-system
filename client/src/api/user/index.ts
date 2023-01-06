@@ -34,11 +34,19 @@ export const useGetUsersByRole = (userRoles: string[]) => {
   };
 };
 
-export const useGetUser = (id: number, showReadMessages: boolean = false) => {
+export const useGetUser = (
+  id: number,
+  showReadMessages: boolean = true,
+  getUsedLoadNumbers: boolean = false,
+) => {
   const { data, error, loading, refetch } = useQuery<Query>(
     USER_DETAILS_QUERY,
     {
-      variables: { id, isRead: showReadMessages ? [true, false] : [false] },
+      variables: {
+        id,
+        isRead: showReadMessages ? [true, false] : [false],
+        getUsedLoadNumbers: getUsedLoadNumbers ? [true, false] : [false],
+      },
     },
   );
 
@@ -66,12 +74,17 @@ export const useCreateUserMessages = () =>
 export const useUpdateUserMessage = (
   id: number,
   showReadMessages: boolean = false,
+  getUsedLoadNumbers: boolean = false,
 ) =>
   useMutation<Mutation>(USER_MESSAGE_UPDATE, {
     refetchQueries: [
       {
         query: USER_DETAILS_QUERY,
-        variables: { id, isRead: showReadMessages ? [true, false] : [false] },
+        variables: {
+          id,
+          isRead: showReadMessages ? [true, false] : [false],
+          getUsedLoadNumbers: getUsedLoadNumbers ? [true, false] : [false],
+        },
       },
     ],
   });
@@ -79,6 +92,7 @@ export const useUpdateUserMessage = (
 export const useUpsertUserBookmarks = (
   id: number,
   showReadMessages: boolean = false,
+  getUsedLoadNumbers: boolean = false,
 ) =>
   useMutation<Mutation>(USER_BOOKMARKS_UPSERT, {
     refetchQueries: [
@@ -92,12 +106,17 @@ export const useUpsertUserBookmarks = (
 export const useDeleteUserBookmark = (
   id: number,
   showReadMessages: boolean = false,
+  getUsedLoadNumbers: boolean = false,
 ) =>
   useMutation<Mutation>(USER_BOOKMARK_DELETE, {
     refetchQueries: [
       {
         query: USER_DETAILS_QUERY,
-        variables: { id, isRead: showReadMessages ? [true, false] : [false] },
+        variables: {
+          id,
+          isRead: showReadMessages ? [true, false] : [false],
+          getUsedLoadNumbers: getUsedLoadNumbers ? [true, false] : [false],
+        },
       },
     ],
   });

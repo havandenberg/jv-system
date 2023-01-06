@@ -1,24 +1,31 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { ApolloError } from '@apollo/client';
 import styled from '@emotion/styled';
-import { sortBy, times } from 'ramda';
-import { Redirect } from 'react-router-dom';
+import { min, sortBy, times } from 'ramda';
+import { Redirect, useLocation } from 'react-router-dom';
 
 import api from 'api';
+import { formatDate } from 'components/date-range-picker';
+import EditableCell from 'components/editable-cell';
 import useItemSelector from 'components/item-selector';
 import ItemLinkRow from 'components/item-selector/link';
 import Page from 'components/page';
+import { DataMessage } from 'components/page/message';
+import { useTabBar } from 'components/tab-bar';
 import useCoastTabBar from 'components/tab-bar/coast-tab-bar';
 import { useActiveUser } from 'components/user/context';
+import usePrevious from 'hooks/use-previous';
 import { Customer, LoadNumber } from 'types';
 import b from 'ui/button';
 import TextInput from 'ui/input';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
+import { IS_PRODUCTION } from 'utils/env';
 
 import { filterLoadNumbersByCoast } from './entry/data-utils';
-import { DataMessage } from 'components/page/message';
+
+const MAX_AVAILABLE_LOAD_NUMBERS = 40;
 
 const Wrapper = styled(l.Div)({
   background: th.colors.brand.containerBackground,
@@ -28,26 +35,37 @@ const Wrapper = styled(l.Div)({
 });
 
 interface Props {
+  coast: string;
   customers: Customer[];
   error?: ApolloError;
   handleUpdate: (
-    updatedLoadNumber: Pick<LoadNumber, 'customerId' | 'id' | 'userId'>,
+    updatedLoadNumber: Pick<
+      LoadNumber,
+      'customerId' | 'id' | 'notes' | 'userId'
+    >,
   ) => void;
   loading: boolean;
   loadNumber: LoadNumber;
+  isPrint?: boolean;
   userId: number;
 }
 
 const StyledLoadNumber = ({
+  coast,
   customers,
   error,
   handleUpdate,
   loading,
   loadNumber,
+  isPrint,
   userId,
 }: Props) => {
   const [customerId, setCustomerId] = useState(loadNumber.customerId || '');
   const customer = customers.find((customer) => customer.id === customerId);
+  const [notes, setNotes] = useState(loadNumber.notes || '');
+
+  const { invoiceHeader, orderEntries, orderMaster } = loadNumber;
+  const orderEntry = orderEntries?.nodes[0];
 
   let allItems = customerId
     ? customers.filter((customer) =>
@@ -78,10 +96,10 @@ const StyledLoadNumber = ({
       onChange: (e: ChangeEvent<HTMLInputElement>) => {
         setCustomerId(e.target.value);
       },
-      warning: !customer,
+      warning: !isPrint && !customer,
       inputProps: {
-        placeholder: 'Customer',
-        width: loadNumber.customerId ? 135 : 80,
+        placeholder: isPrint ? '' : 'Customer',
+        width: !isPrint && loadNumber.customerId ? 135 : 80,
       },
     },
     error,
@@ -108,30 +126,84 @@ const StyledLoadNumber = ({
       handleUpdate({
         id: loadNumber.id,
         customerId: c.id,
+        notes: loadNumber.notes,
         userId,
       });
     },
     width: 350,
   });
 
+  const notesInput = (
+    <EditableCell
+      content={{
+        dirty: loadNumber.notes !== notes,
+        value: notes,
+      }}
+      debounce={500}
+      defaultChildren={null}
+      editing={true}
+      error={!!error}
+      onChange={(e: ChangeEvent<HTMLInputElement>) => {
+        setNotes(e.target.value);
+        handleUpdate({
+          id: loadNumber.id,
+          customerId: loadNumber.customerId,
+          notes: e.target.value,
+          userId,
+        });
+      }}
+      warning={false}
+      inputProps={{
+        mt: th.spacing.tn,
+        placeholder: isPrint ? '' : 'Notes',
+        width: th.sizes.fill,
+      }}
+    />
+  );
+
   return (
-    <Wrapper>
-      <l.Flex alignCenter justifyBetween>
-        <ty.BodyText>{loadNumber.id}</ty.BodyText>
-        {ItemSelector}
-      </l.Flex>
-      {customer && (
-        <l.Flex justifyCenter mt={th.spacing.tn}>
-          <ty.LinkText
-            fontSize={th.fontSizes.small}
-            secondary
-            to={`/inventory/orders/create?loadNumber=${loadNumber.id}&customerId=${customer.id}`}
-          >
-            Create Order
-          </ty.LinkText>
+    <l.Flex alignStart>
+      <Wrapper minWidth={isPrint ? 155 : th.sizes.fill}>
+        <l.Flex alignCenter justifyBetween>
+          <ty.BodyText>{loadNumber.id}</ty.BodyText>
+          {ItemSelector}
+        </l.Flex>
+        {customer && !isPrint && (
+          <>
+            {notesInput}
+
+            <l.Flex justifyCenter mt={th.spacing.xs}>
+              <ty.LinkText
+                fontSize={th.fontSizes.small}
+                secondary
+                to={
+                  invoiceHeader
+                    ? `/accounting/invoices/${invoiceHeader.orderId}`
+                    : orderMaster
+                    ? `/inventory/orders/${orderMaster.orderId}`
+                    : orderEntry
+                    ? `/inventory/orders/${orderEntry.orderId}?orderView=orderEntries`
+                    : `/inventory/orders/create?coast=${coast}&loadNumber=${loadNumber.id}&customerId=${customer.id}`
+                }
+              >
+                {invoiceHeader || orderMaster || orderEntry ? 'View' : 'Create'}{' '}
+                {invoiceHeader ? 'Invoice' : 'Order'}
+                {invoiceHeader
+                  ? ` ${invoiceHeader.orderId}`
+                  : orderMaster
+                  ? ` ${orderMaster.orderId}`
+                  : ''}
+              </ty.LinkText>
+            </l.Flex>
+          </>
+        )}
+      </Wrapper>
+      {isPrint && (
+        <l.Flex ml={th.spacing.md} width={th.sizes.fill}>
+          {notesInput}
         </l.Flex>
       )}
-    </Wrapper>
+    </l.Flex>
   );
 };
 
@@ -140,43 +212,68 @@ export const breadcrumbs = [
   { text: 'Load Numbers', to: '/inventory/orders/load-numbers' },
 ];
 
+const tabs = [
+  { id: 'available', text: 'Available' },
+  { id: 'used', text: 'Used' },
+];
+
 const LoadNumberManager = () => {
+  const { pathname } = useLocation();
   const { TabBar: CoastFilter, selectedTabId: coast } = useCoastTabBar();
+  const { TabBar: StatusFilter, selectedTabId: status } = useTabBar({
+    tabs,
+    paramName: 'status',
+  });
+  const isAvailable = status === 'available';
+  const isPrint = pathname.includes('print');
 
   const {
-    apiData: { data, loading },
+    apiData: { data, loading: dataLoading },
     roles: { isSalesAssoc },
-  } = useActiveUser();
+  } = useActiveUser({ getUsedLoadNumbers: true });
   const userId = data?.id;
   const userCode = data?.userCode;
+  const userName = data?.personContact?.firstName;
   const loadNumbers = (data?.loadNumbers?.nodes || []) as LoadNumber[];
 
   const sortedLoadNumbers = sortBy(
-    ({ customerId }) => (customerId ? 'b' : 'a'),
-    sortBy(
-      ({ id }) => parseInt(id, 10),
-      filterLoadNumbersByCoast(loadNumbers, coast),
-    ),
+    ({ id }) => parseInt(id, 10),
+    filterLoadNumbersByCoast(loadNumbers, coast),
+  ) as LoadNumber[];
+  const availableLoadNumbers = sortedLoadNumbers.filter(
+    ({ isUsed }) => !isUsed,
   );
-  const assignedLoadNumbers = sortedLoadNumbers.filter(
+  const usedLoadNumbers = sortedLoadNumbers.filter(({ isUsed }) => !!isUsed);
+  const assignedLoadNumbers = availableLoadNumbers.filter(
     ({ customerId }) => customerId,
   );
-  const unassignedLoadNumbers = sortedLoadNumbers.filter(
+  const unassignedLoadNumbers = availableLoadNumbers.filter(
     ({ customerId }) => !customerId,
   );
 
-  const [upsertCount, setUpsertCount] = useState(20);
+  const availableCount = min(
+    20,
+    MAX_AVAILABLE_LOAD_NUMBERS - unassignedLoadNumbers.length,
+  );
+  const prevAvailableCount = usePrevious(availableCount);
+  const isMax = availableCount <= 0;
+
+  const [upsertCount, setUpsertCount] = useState(isMax ? 0 : availableCount);
 
   const {
     data: customerData,
     loading: customerDataLoading,
     error: customerDataError,
   } = api.useCustomers('CUSTOMER_NAME_ASC');
+  const loading = dataLoading || customerDataLoading;
 
   const customers = (customerData ? customerData.nodes : []) as Customer[];
 
   const [handleUpsert, { loading: upsertLoading, error: upsertError }] =
     api.useUpsertLoadNumbers(userId || 0);
+
+  const disableGenerate =
+    upsertCount === 0 || isMax || upsertLoading || upsertError;
 
   const upsertLoadNumbers = () => {
     handleUpsert({
@@ -185,6 +282,7 @@ const LoadNumberManager = () => {
           () => ({
             customerId: '',
             id: 0,
+            notes: '',
             userId,
           }),
           upsertCount,
@@ -194,6 +292,26 @@ const LoadNumberManager = () => {
     });
   };
 
+  const handleUpdateLoadNumber = (
+    updatedLoadNumber: Pick<
+      LoadNumber,
+      'id' | 'customerId' | 'notes' | 'userId'
+    >,
+  ) => {
+    handleUpsert({
+      variables: {
+        loadNumbers: [updatedLoadNumber],
+        coast,
+      },
+    });
+  };
+
+  useEffect(() => {
+    if (prevAvailableCount !== availableCount) {
+      setUpsertCount(isMax ? 0 : availableCount);
+    }
+  }, [prevAvailableCount, isMax, availableCount]);
+
   if (!loading && !isSalesAssoc) {
     return <Redirect to="/inventory/orders" />;
   }
@@ -201,126 +319,232 @@ const LoadNumberManager = () => {
   return (
     <Page
       actions={[
+        isAvailable && (
+          <l.AreaLink
+            key="print"
+            mr={th.spacing.lg}
+            to={`/inventory/orders/load-numbers${
+              isPrint ? '' : '/print?status=available&coast=' + coast
+            }`}
+          >
+            <b.Primary>{isPrint ? 'Default View' : 'Print View'}</b.Primary>
+          </l.AreaLink>
+        ),
         <l.AreaLink
           key="my-orders"
           to={`/inventory/orders?salesUserCode=${userCode}`}
         >
           <b.Primary>My Orders</b.Primary>
         </l.AreaLink>,
+        !IS_PRODUCTION && (
+          <l.AreaLink
+            key="create"
+            ml={th.spacing.lg}
+            to={`/inventory/orders/create?coast=${coast}`}
+          >
+            <b.Success>New Order</b.Success>
+          </l.AreaLink>
+        ),
       ]}
       breadcrumbs={breadcrumbs}
+      extraPaddingTop={isPrint ? 40 : 90}
+      headerChildren={
+        <l.Flex
+          alignEnd
+          justifyBetween
+          height={isPrint ? undefined : 58}
+          mb={th.spacing.lg}
+        >
+          {isPrint ? (
+            <l.Flex alignCenter>
+              <ty.LargeText>
+                User: <ty.Span bold>{userName}</ty.Span>
+              </ty.LargeText>
+              <ty.LargeText ml={th.spacing.lg}>
+                Coast:{' '}
+                <ty.Span bold>{coast === 'EC' ? 'East' : 'West'}</ty.Span>
+              </ty.LargeText>
+              <ty.LargeText ml={th.spacing.lg}>
+                Updated: <ty.Span bold>{formatDate(new Date())}</ty.Span>
+              </ty.LargeText>
+            </l.Flex>
+          ) : (
+            <l.Flex alignEnd>
+              <StatusFilter />
+              <l.Div ml={th.spacing.lg}>
+                <ty.CaptionText mb={th.spacing.sm} mr={th.spacing.lg} secondary>
+                  Coast
+                </ty.CaptionText>
+                <CoastFilter />
+              </l.Div>
+            </l.Flex>
+          )}
+          {!isPrint && isAvailable && (
+            <l.Flex alignCenter>
+              <l.Flex alignCenter mr={th.spacing.md}>
+                <ty.CaptionText mr={th.spacing.md} secondary>
+                  New:
+                </ty.CaptionText>
+                <TextInput
+                  key="count"
+                  max={40 - unassignedLoadNumbers.length}
+                  min={0}
+                  onChange={(e) => {
+                    const newVal = parseInt(e.target.value, 10);
+                    setUpsertCount(newVal > 40 ? 40 : newVal);
+                  }}
+                  type="number"
+                  value={upsertCount}
+                  width={80}
+                />
+              </l.Flex>
+              <b.Success
+                alignSelf="flex-end"
+                key="upsert"
+                disabled={disableGenerate}
+                onClick={upsertLoadNumbers}
+              >
+                Generate
+              </b.Success>
+            </l.Flex>
+          )}
+        </l.Flex>
+      }
       title="My Load Numbers"
     >
-      <l.Flex alignCenter mb={th.spacing.lg} mt={th.spacing.md}>
-        <l.Div mr={th.spacing.lg}>
-          <ty.CaptionText mb={th.spacing.sm} mr={th.spacing.lg} secondary>
-            Coast
-          </ty.CaptionText>
-          <CoastFilter />
-        </l.Div>
-        <l.Div mr={th.spacing.lg}>
-          <ty.CaptionText mb={th.spacing.sm} secondary>
-            New load numbers
-          </ty.CaptionText>
-          <TextInput
-            key="count"
-            max={40 - unassignedLoadNumbers.length}
-            min={1}
-            onChange={(e) => {
-              const newVal = parseInt(e.target.value, 10);
-              setUpsertCount(newVal > 40 ? 40 : newVal);
-            }}
-            type="number"
-            value={upsertCount}
-            width={100}
-          />
-        </l.Div>
-        <b.Success
-          alignSelf="flex-end"
-          key="upsert"
-          disabled={upsertLoading || upsertError}
-          onClick={upsertLoadNumbers}
-        >
-          Generate
-        </b.Success>
-      </l.Flex>
-      <ty.BodyText bold mb={th.spacing.md} mt={th.spacing.xl}>
-        Unassigned:
-      </ty.BodyText>
-      {unassignedLoadNumbers.length > 0 ? (
-        <l.Grid
-          alignStart
-          gridColumnGap={th.spacing.lg}
-          gridRowGap={th.spacing.md}
-          gridTemplateColumns="repeat(5, 1fr)"
-        >
-          {unassignedLoadNumbers.map((loadNumber) => (
-            <StyledLoadNumber
-              customers={customers}
-              error={customerDataError}
-              key={loadNumber.id}
-              loading={customerDataLoading}
-              loadNumber={loadNumber}
-              handleUpdate={(updatedLoadNumber) => {
-                handleUpsert({
-                  variables: {
-                    loadNumbers: [updatedLoadNumber],
-                    coast,
-                  },
-                });
-              }}
-              userId={userId}
-            />
-          ))}
-        </l.Grid>
+      {isAvailable ? (
+        <>
+          {!isPrint && (
+            <ty.BodyText bold my={th.spacing.md}>
+              Unassigned:
+              <ty.Span
+                fontWeight={th.fontWeights.normal}
+                ml={th.spacing.sm}
+                secondary
+              >
+                ({unassignedLoadNumbers.length} / {MAX_AVAILABLE_LOAD_NUMBERS})
+              </ty.Span>
+            </ty.BodyText>
+          )}
+          {
+            <l.Div mt={isPrint ? th.spacing.md : 0}>
+              {!loading &&
+              (isPrint ? availableLoadNumbers : unassignedLoadNumbers).length >
+                0 ? (
+                <l.Grid
+                  alignStart
+                  gridColumnGap={th.spacing.lg}
+                  gridRowGap={th.spacing.md}
+                  gridTemplateColumns={`repeat(${isPrint ? 2 : 5}, 1fr)`}
+                >
+                  {(isPrint ? availableLoadNumbers : unassignedLoadNumbers).map(
+                    (loadNumber) => (
+                      <StyledLoadNumber
+                        coast={coast}
+                        customers={customers}
+                        error={customerDataError}
+                        key={loadNumber.id}
+                        loading={customerDataLoading}
+                        loadNumber={loadNumber}
+                        handleUpdate={(updatedLoadNumber) =>
+                          handleUpdateLoadNumber(updatedLoadNumber)
+                        }
+                        isPrint={isPrint}
+                        userId={userId}
+                      />
+                    ),
+                  )}
+                </l.Grid>
+              ) : (
+                <DataMessage
+                  data={isPrint ? availableLoadNumbers : unassignedLoadNumbers}
+                  error={customerDataError}
+                  loading={loading}
+                  emptyProps={{
+                    header: `No${isPrint ? '' : ' unassigned'} load numbers`,
+                  }}
+                />
+              )}
+            </l.Div>
+          }
+          {!isPrint && (
+            <>
+              <ty.BodyText bold mb={th.spacing.md} mt={th.spacing.lg}>
+                Assigned:
+              </ty.BodyText>
+              {!loading && assignedLoadNumbers.length > 0 ? (
+                <l.Grid
+                  alignStart
+                  gridColumnGap={th.spacing.lg}
+                  gridRowGap={th.spacing.md}
+                  gridTemplateColumns="repeat(4, 1fr)"
+                >
+                  {assignedLoadNumbers.map((loadNumber) => (
+                    <StyledLoadNumber
+                      coast={coast}
+                      customers={customers}
+                      error={customerDataError}
+                      key={loadNumber.id}
+                      loading={customerDataLoading}
+                      loadNumber={loadNumber}
+                      handleUpdate={(updatedLoadNumber) =>
+                        handleUpdateLoadNumber(updatedLoadNumber)
+                      }
+                      userId={userId}
+                    />
+                  ))}
+                </l.Grid>
+              ) : (
+                <DataMessage
+                  data={assignedLoadNumbers}
+                  error={customerDataError}
+                  loading={loading}
+                  emptyProps={{
+                    header: 'No assigned load numbers',
+                  }}
+                />
+              )}
+            </>
+          )}
+        </>
       ) : (
-        <DataMessage
-          data={unassignedLoadNumbers}
-          error={customerDataError}
-          loading={loading}
-          emptyProps={{
-            header: 'No unassigned load numbers',
-          }}
-        />
-      )}
-      <ty.BodyText bold mb={th.spacing.md} mt={th.spacing.xl}>
-        Assigned:
-      </ty.BodyText>
-      {assignedLoadNumbers.length > 0 ? (
-        <l.Grid
-          alignStart
-          gridColumnGap={th.spacing.lg}
-          gridRowGap={th.spacing.md}
-          gridTemplateColumns="repeat(4, 1fr)"
-        >
-          {assignedLoadNumbers.map((loadNumber) => (
-            <StyledLoadNumber
-              customers={customers}
+        <>
+          <l.Div height={th.spacing.md} />
+          {!loading && usedLoadNumbers.length > 0 ? (
+            <l.Grid
+              alignStart
+              gridColumnGap={th.spacing.lg}
+              gridRowGap={th.spacing.md}
+              gridTemplateColumns="repeat(4, 1fr)"
+            >
+              {usedLoadNumbers.map((loadNumber) => (
+                <StyledLoadNumber
+                  coast={coast}
+                  customers={customers}
+                  error={customerDataError}
+                  key={loadNumber.id}
+                  loading={customerDataLoading}
+                  loadNumber={loadNumber}
+                  handleUpdate={(updatedLoadNumber) =>
+                    handleUpdateLoadNumber(updatedLoadNumber)
+                  }
+                  userId={userId}
+                />
+              ))}
+            </l.Grid>
+          ) : (
+            <DataMessage
+              data={usedLoadNumbers}
               error={customerDataError}
-              key={loadNumber.id}
-              loading={customerDataLoading}
-              loadNumber={loadNumber}
-              handleUpdate={(updatedLoadNumber) => {
-                handleUpsert({
-                  variables: {
-                    loadNumbers: [updatedLoadNumber],
-                  },
-                });
+              loading={loading}
+              emptyProps={{
+                header: 'No used load numbers',
               }}
-              userId={userId}
             />
-          ))}
-        </l.Grid>
-      ) : (
-        <DataMessage
-          data={assignedLoadNumbers}
-          error={customerDataError}
-          loading={loading}
-          emptyProps={{
-            header: 'No assigned load numbers',
-          }}
-        />
+          )}
+        </>
       )}
+      <l.Div height={th.spacing.xxl} />
     </Page>
   );
 };

@@ -33,14 +33,17 @@ CREATE FUNCTION product.product_master_sizes(IN a product.product_master)
 AS $BODY$
   (SELECT * FROM product.product_size b
     WHERE b.jv_code = SUBSTRING(a.id, 5, 3)
-    AND (
-      (b.species_id = SUBSTRING(a.id, 1, 2)
-      AND (b.variety_id = SUBSTRING(a.id, 1, 4) OR b.variety_id = '' OR b.variety_id IS NULL))
+    AND (b.species_id = SUBSTRING(a.id, 1, 2)
+      AND b.variety_id = SUBSTRING(a.id, 1, 4)
     )) UNION
   (SELECT * FROM product.product_size b
     WHERE b.jv_code = SUBSTRING(a.id, 5, 3)
-    AND (
-      (b.species_id = '' OR b.species_id IS NULL)));
+    AND (b.species_id = SUBSTRING(a.id, 1, 2)
+      AND (b.variety_id = '' OR b.variety_id IS NULL))
+    ) UNION
+  (SELECT * FROM product.product_size b
+    WHERE b.jv_code = SUBSTRING(a.id, 5, 3)
+    AND ((b.species_id = '' OR b.species_id IS NULL)));
 $BODY$;
 
 CREATE FUNCTION product.product_master_pack_type(IN a product.product_master)

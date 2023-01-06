@@ -114,16 +114,17 @@ AS $BODY$
     AND CAST (o.back_order_id AS TEXT) = p.back_order_id
 $BODY$;
 
-CREATE FUNCTION product.pallet_invoice_header(IN p product.pallet)
-    RETURNS accounting.invoice_header
+CREATE FUNCTION product.pallet_invoice_headers(IN p product.pallet)
+    RETURNS setof accounting.invoice_header
     LANGUAGE 'sql'
     STABLE
     PARALLEL UNSAFE
     COST 100
 AS $BODY$
-  SELECT * FROM accounting.invoice_header i
-    WHERE CAST (i.order_id AS TEXT) = p.order_id
-    AND CAST (i.back_order_id AS TEXT) = p.back_order_id
+  SELECT i.* FROM accounting.invoice_header i
+    JOIN accounting.invoice_item ii ON ii.order_id = i.order_id
+      AND ii.back_order_id = i.back_order_id
+    WHERE ii.pallet_id = p.pallet_id
 $BODY$;
 
 CREATE FUNCTION product.pallet_search_text(IN p product.pallet)

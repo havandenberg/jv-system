@@ -117,11 +117,13 @@ const CreateOrderEntry = () => {
     id: string;
   }>();
 
-  const [{ customerId: customerIdQuery, loadNumber: loadNumberQuery }] =
-    useQuerySet({
-      customerId: StringParam,
-      loadNumber: StringParam,
-    });
+  const [
+    { customerId: customerIdQuery, loadNumber: loadNumberQuery },
+    setQuery,
+  ] = useQuerySet({
+    customerId: StringParam,
+    loadNumber: StringParam,
+  });
 
   const {
     apiData: {
@@ -440,11 +442,13 @@ const CreateOrderEntry = () => {
       changes.truckLoadId !== loadNumberQuery,
     loading: userDataLoading,
     nameKey: 'id',
-    onClear: () =>
+    onClear: () => {
+      setQuery({ loadNumber: undefined });
       handleChange(
         'truckLoadId',
-        loadNumberQuery || latestOrderEntryState?.truckLoadId || undefined,
-      ),
+        latestOrderEntryState?.truckLoadId || undefined,
+      );
+    },
     selectedItem: changes.truckLoadId || undefined,
     selectItem: (ln) =>
       setChanges({
@@ -1006,6 +1010,14 @@ const CreateOrderEntry = () => {
                 )}
               </b.Success>
             </Fragment>,
+            <l.AreaLink
+              key="load-numbers"
+              ml={th.spacing.lg}
+              target="_blank"
+              to={`/inventory/orders/load-numbers`}
+            >
+              <b.Primary>Load Numbers</b.Primary>
+            </l.AreaLink>,
           ]
         )
       }
@@ -1053,15 +1065,22 @@ const CreateOrderEntry = () => {
                 <ty.CaptionText mr={th.spacing.lg} secondary textAlign="right">
                   Load Number:
                 </ty.CaptionText>
-                <l.Flex alignCenter height={th.heights.input} zIndex={17}>
-                  {id && latestOrderEntryState.truckLoadId ? (
-                    <ty.BodyText>
-                      {latestOrderEntryState.truckLoadId}
-                    </ty.BodyText>
-                  ) : (
-                    LoadNumberSelector
+                <l.Div zIndex={17}>
+                  <l.Flex alignCenter height={th.heights.input}>
+                    {id && latestOrderEntryState.truckLoadId ? (
+                      <ty.BodyText>
+                        {latestOrderEntryState.truckLoadId}
+                      </ty.BodyText>
+                    ) : (
+                      LoadNumberSelector
+                    )}
+                  </l.Flex>
+                  {selectedLoadNumber && (
+                    <ty.CaptionText mt={th.spacing.sm} secondary>
+                      {selectedLoadNumber.notes}
+                    </ty.CaptionText>
                   )}
-                </l.Flex>
+                </l.Div>
                 <ty.CaptionText mr={th.spacing.lg} secondary textAlign="right">
                   Customer Number:
                 </ty.CaptionText>
