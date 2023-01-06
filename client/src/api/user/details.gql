@@ -17,14 +17,29 @@ query USER_DETAILS(
         orderEntries {
           nodes {
             orderId
+            billingCustomer {
+              id
+              customerName
+              salesUserCode
+            }
           }
         }
         notes
         orderMaster {
           orderId
+          billingCustomer {
+            id
+            customerName
+            salesUserCode
+          }
         }
         invoiceHeader {
           orderId
+          billingCustomer {
+            id
+            customerName
+            salesUserCode
+          }
         }
         isUsed
       }

@@ -61,11 +61,18 @@ const StyledLoadNumber = ({
   userId,
 }: Props) => {
   const [customerId, setCustomerId] = useState(loadNumber.customerId || '');
-  const customer = customers.find((customer) => customer.id === customerId);
+  const loadNumberCustomer = customers.find(
+    (customer) => customer.id === customerId,
+  );
   const [notes, setNotes] = useState(loadNumber.notes || '');
 
   const { invoiceHeader, orderEntries, orderMaster } = loadNumber;
   const orderEntry = orderEntries?.nodes[0];
+  const billingCustomer =
+    orderEntry?.billingCustomer ||
+    invoiceHeader?.billingCustomer ||
+    orderMaster?.billingCustomer;
+  const customer = billingCustomer || loadNumberCustomer;
 
   let allItems = customerId
     ? customers.filter((customer) =>
@@ -133,7 +140,11 @@ const StyledLoadNumber = ({
     width: 350,
   });
 
-  const notesInput = (
+  const notesInput = billingCustomer ? (
+    <ty.CaptionText my={th.spacing.xs} secondary>
+      {notes || '-'}
+    </ty.CaptionText>
+  ) : (
     <EditableCell
       content={{
         dirty: loadNumber.notes !== notes,
@@ -166,15 +177,24 @@ const StyledLoadNumber = ({
       <Wrapper minWidth={isPrint ? 155 : th.sizes.fill}>
         <l.Flex alignCenter justifyBetween>
           <ty.BodyText>{loadNumber.id}</ty.BodyText>
-          {ItemSelector}
+          {billingCustomer ? (
+            <ty.LinkText
+              ellipsis
+              my={th.spacing.xs}
+              hover={false}
+              to={`/directory/customers/${billingCustomer.id}`}
+              width={135}
+            >{`${billingCustomer.customerName} (${billingCustomer.id})`}</ty.LinkText>
+          ) : (
+            ItemSelector
+          )}
         </l.Flex>
         {customer && !isPrint && (
           <>
             {notesInput}
-
             <l.Flex justifyCenter mt={th.spacing.xs}>
               <ty.LinkText
-                fontSize={th.fontSizes.small}
+                fontSize={th.fontSizes.caption}
                 secondary
                 to={
                   invoiceHeader
