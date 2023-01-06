@@ -574,32 +574,42 @@ export const buildCategories =
         switch (type) {
           case 'variety':
             const varietyTagString = varietyTag
-              ? `&varietyTag=${varietyTag}`
+              ? `&varietyTag=${encodeURIComponent(varietyTag)}`
               : '';
-            return `variety=${variety}${varietyTagString}`;
+            return `variety=${encodeURIComponent(
+              variety || '',
+            )}${varietyTagString}`;
           case 'size':
-            const sizeTagString = sizeTag ? `&sizeTag=${sizeTag}` : '';
-            return `size=${size}${sizeTagString}`;
+            const sizeTagString = sizeTag
+              ? `&sizeTag=${encodeURIComponent(sizeTag)}`
+              : '';
+            return `size=${encodeURIComponent(size || '')}${sizeTagString}`;
           case 'packType':
             const packTypeTagString = packTypeTag
-              ? `&packTypeTag=${packTypeTag}`
+              ? `&packTypeTag=${encodeURIComponent(packTypeTag)}`
               : '';
-            return `packType=${packType}${packTypeTagString}`;
+            return `packType=${encodeURIComponent(
+              packType || '',
+            )}${packTypeTagString}`;
           case 'plu':
-            return `plu=${plu}`;
+            return `plu=${encodeURIComponent(plu || '')}`;
           case 'shipper':
-            return `shipper=${shipper}`;
+            return `shipper=${encodeURIComponent(shipper || '')}`;
           case 'countryOfOrigin':
-            return `countryOfOrigin=${countryOfOrigin}`;
+            return `countryOfOrigin=${encodeURIComponent(
+              countryOfOrigin || '',
+            )}`;
           case 'program':
-            return `program=${program || 'no program'}`;
+            return `program=${encodeURIComponent(program || 'no program')}`;
           case 'sizePackType':
-            return `sizePackType=${sizePackType}`;
+            return `sizePackType=${encodeURIComponent(sizePackType || '')}`;
           default:
             const speciesTagString = speciesTag
-              ? `&speciesTag=${speciesTag}`
+              ? `&speciesTag=${encodeURIComponent(speciesTag)}`
               : '';
-            return `species=${species}${speciesTagString}`;
+            return `species=${encodeURIComponent(
+              species || '',
+            )}${speciesTagString}`;
         }
       })
       .join('&');
@@ -651,7 +661,9 @@ export const buildCategories =
           }
         });
 
-    const nextCategoryString = `${categoryType}=${id}&categoryTypes=${categoryTypes},${nextCategoryType}`;
+    const nextCategoryString = `${categoryType}=${encodeURIComponent(
+      id || '',
+    )}&categoryTypes=${categoryTypes},${nextCategoryType}`;
 
     const getTagText = () => {
       switch (categoryType) {
@@ -674,19 +686,19 @@ export const buildCategories =
         case 'variety':
           return !isTag || (isTagLink && varietyTag === tagText)
             ? ''
-            : `&varietyTag=${tagText}`;
+            : `&varietyTag=${encodeURIComponent(tagText)}`;
         case 'size':
           return !isTag || (isTagLink && sizeTag === tagText)
             ? ''
-            : `&sizeTag=${tagText}`;
+            : `&sizeTag=${encodeURIComponent(tagText)}`;
         case 'packType':
           return !isTag || (isTagLink && packTypeTag === tagText)
             ? ''
-            : `&packTypeTag=${tagText}`;
+            : `&packTypeTag=${encodeURIComponent(tagText)}`;
         case 'species':
           return !isTag || (isTagLink && speciesTag === tagText)
             ? ''
-            : `&speciesTag=${tagText}`;
+            : `&speciesTag=${encodeURIComponent(tagText)}`;
         default:
           return '';
       }

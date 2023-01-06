@@ -287,34 +287,38 @@ const InventoryRow = ({
         switch (type) {
           case 'variety':
             const varietyTagString = varietyTag
-              ? `&varietyTag=${varietyTag}`
+              ? `&varietyTag=${encodeURIComponent(varietyTag)}`
               : '';
-            return `variety=${variety}${varietyTagString}`;
+            return `variety=${encodeURIComponent(variety)}${varietyTagString}`;
           case 'size':
-            const sizeTagString = sizeTag ? `&sizeTag=${sizeTag}` : '';
-            return `size=${size}${sizeTagString}`;
+            const sizeTagString = sizeTag
+              ? `&sizeTag=${encodeURIComponent(sizeTag)}`
+              : '';
+            return `size=${encodeURIComponent(size)}${sizeTagString}`;
           case 'label':
-            return `label=${label}`;
+            return `label=${encodeURIComponent(label)}`;
           case 'packType':
             const packTypeTagString = packTypeTag
-              ? `&packTypeTag=${packTypeTag}`
+              ? `&packTypeTag=${encodeURIComponent(packTypeTag)}`
               : '';
-            return `packType=${packType}${packTypeTagString}`;
+            return `packType=${encodeURIComponent(
+              packType,
+            )}${packTypeTagString}`;
           case 'plu':
-            return `plu=${plu}`;
+            return `plu=${encodeURIComponent(plu)}`;
           case 'shipper':
-            return `shipper=${shipper}`;
+            return `shipper=${encodeURIComponent(shipper)}`;
           case 'countryOfOrigin':
-            return `countryOfOrigin=${countryOfOrigin}`;
+            return `countryOfOrigin=${encodeURIComponent(countryOfOrigin)}`;
           case 'program':
-            return `program=${program || 'no program'}`;
+            return `program=${encodeURIComponent(program || 'no program')}`;
           case 'sizePackType':
-            return `sizePackType=${sizePackType}`;
+            return `sizePackType=${encodeURIComponent(sizePackType)}`;
           default:
             const speciesTagString = speciesTag
-              ? `&speciesTag=${speciesTag}`
+              ? `&speciesTag=${encodeURIComponent(speciesTag)}`
               : '';
-            return `species=${species}${speciesTagString}`;
+            return `species=${encodeURIComponent(species)}${speciesTagString}`;
         }
       })
       .join('&');
@@ -354,19 +358,21 @@ const InventoryRow = ({
     const getNextTagString = () => {
       switch (categoryType) {
         case 'variety':
-          return tagText ? `&varietyTag=${tagText}` : '';
+          return tagText ? `&varietyTag=${encodeURIComponent(tagText)}` : '';
         case 'size':
-          return tagText ? `&sizeTag=${tagText}` : '';
+          return tagText ? `&sizeTag=${encodeURIComponent(tagText)}` : '';
         case 'packType':
-          return tagText ? `&packTypeTag=${tagText}` : '';
+          return tagText ? `&packTypeTag=${encodeURIComponent(tagText)}` : '';
         case 'species':
-          return tagText ? `&speciesTag=${tagText}` : '';
+          return tagText ? `&speciesTag=${encodeURIComponent(tagText)}` : '';
         default:
           return '';
       }
     };
 
-    const slug = `?${restQueryString}${detailsQueryString}${existingCategoriesParamString}${categoryType}=${newValue}&categoryTypes=${categoryTypes},${nextCategoryType}${getNextTagString()}&view=items`;
+    const slug = `?${restQueryString}${detailsQueryString}${existingCategoriesParamString}${categoryType}=${encodeURIComponent(
+      newValue || '',
+    )}&categoryTypes=${categoryTypes},${nextCategoryType}${getNextTagString()}&view=items`;
 
     return {
       available: `/inventory/orders${slug}`,
