@@ -3,6 +3,7 @@ const { onError } = require('../utils');
 const db2UpdateItems = require('./update-items');
 const countryOptions = require('./directory/country');
 const customerOptions = require('./directory/customer');
+const customerVolumeDiscountOptions = require('./directory/customer/volume-discount');
 const shipperOptions = require('./directory/shipper');
 const warehouseOptions = require('./directory/warehouse');
 const vendorOptions = require('./directory/vendor');
@@ -28,6 +29,8 @@ const db2RunQuery = (tableName, db) => {
       return db2UpdateItems(db, countryOptions);
     case 'directory/customer':
       return db2UpdateItems(db, customerOptions);
+    case 'directory/customer/volume-discount':
+      return db2UpdateItems(db, customerVolumeDiscountOptions);
     case 'directory/shipper':
       return db2UpdateItems(db, shipperOptions);
     case 'directory/warehouse':

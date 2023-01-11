@@ -102,28 +102,20 @@ AS $BODY$
       AND ii.back_order_id = i.back_order_id;
 $BODY$;
 
-CREATE FUNCTION accounting.invoice_header_total_amount(IN i accounting.invoice_header)
-    RETURNS NUMERIC
+CREATE FUNCTION accounting.invoice_header_total_amounts_by_vessel_and_shipper(IN i accounting.invoice_header)
+    RETURNS SETOF TEXT
     LANGUAGE 'sql'
     STABLE
     PARALLEL UNSAFE
     COST 100
 AS $BODY$
-  SELECT SUM((ii.unit_sell_price + ii.delivery_charge) * ii.picked_qty) FROM accounting.invoice_item ii
+  SELECT CONCAT(v.vessel_code, ',', s.id, ',', SUM((ii.unit_sell_price + ii.delivery_charge) * ii.picked_qty), ',', SUM(ii.credit_amount)) FROM accounting.invoice_item ii
+  LEFT JOIN product.pallet p ON p.pallet_id = ii.pallet_id
+  LEFT JOIN product.vessel v ON v.vessel_code = p.vessel_code
+  LEFT JOIN directory.shipper s ON s.id = p.shipper_id
     WHERE ii.order_id = i.order_id
-      AND ii.back_order_id = i.back_order_id;
-$BODY$;
-
-CREATE FUNCTION accounting.invoice_header_total_credit_amount(IN i accounting.invoice_header)
-    RETURNS NUMERIC
-    LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-  SELECT SUM(ii.credit_amount) FROM accounting.invoice_item ii
-    WHERE ii.order_id = i.order_id
-      AND ii.back_order_id = i.back_order_id;
+      AND ii.back_order_id = i.back_order_id
+    GROUP BY v.vessel_code, s.id;
 $BODY$;
 
 CREATE FUNCTION accounting.invoice_header_condition_code(IN i accounting.invoice_header)

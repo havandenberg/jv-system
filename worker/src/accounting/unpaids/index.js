@@ -68,8 +68,6 @@ const UNPAIDS_NOTIFICATIONS = (startDate, endDate) => gql`
                 orderId
                 paidCode
                 flag
-                totalAmount
-                totalCreditAmount
                 conditionCode
                 creditCode
               }

@@ -136,30 +136,52 @@ export const listLabels: (
   {
     key: 'invoice',
     label: 'Invoice Amt.',
-    getValue: ({ invoice }) => (
-      <ty.BodyText pr={th.spacing.sm} textAlign="right">
-        {invoice?.totalAmount && invoice?.totalAmount !== '0'
-          ? formatCurrency(parseFloat(invoice?.totalAmount), true)
-          : '-'}
-      </ty.BodyText>
-    ),
+    getValue: ({ invoice, shipper, vessel }) => {
+      const totalAmount =
+        invoice?.totalAmountsByVesselAndShipper.nodes
+          .find((value) => {
+            const [vesselCode, shipperId] = value?.split(',') || [];
+            return (
+              vesselCode === vessel?.vesselCode && shipperId === shipper?.id
+            );
+          })
+          ?.split(',')[2] || '0';
+      return (
+        <ty.BodyText pr={th.spacing.sm} textAlign="right">
+          {totalAmount !== '0'
+            ? formatCurrency(parseFloat(totalAmount), true)
+            : '-'}
+        </ty.BodyText>
+      );
+    },
   },
   {
     key: 'invoice',
     label: 'Credit',
-    getValue: ({ invoice }) => (
-      <ty.BodyText
-        textAlign="right"
-        pr={th.spacing.sm}
-        color={
-          invoice?.creditCode === '2' ? th.colors.status.errorAlt : undefined
-        }
-      >
-        {invoice?.totalCreditAmount && invoice?.totalCreditAmount !== '0'
-          ? formatCurrency(parseFloat(invoice?.totalCreditAmount), true)
-          : '-'}
-      </ty.BodyText>
-    ),
+    getValue: ({ invoice, shipper, vessel }) => {
+      const totalCreditAmount =
+        invoice?.totalAmountsByVesselAndShipper.nodes
+          .find((value) => {
+            const [vesselCode, shipperId] = value?.split(',') || [];
+            return (
+              vesselCode === vessel?.vesselCode && shipperId === shipper?.id
+            );
+          })
+          ?.split(',')[3] || '0';
+      return (
+        <ty.BodyText
+          color={
+            invoice?.creditCode === '2' ? th.colors.status.errorAlt : undefined
+          }
+          pr={th.spacing.sm}
+          textAlign="right"
+        >
+          {totalCreditAmount !== '0'
+            ? formatCurrency(parseFloat(totalCreditAmount), true)
+            : '-'}
+        </ty.BodyText>
+      );
+    },
   },
   {
     key: 'invoice',

@@ -41,3 +41,5 @@ const { db2UpdateTable } = require('.');
 // db2UpdateTable('product/pack-special');
 // db2UpdateTable('product/pack-style');
 // db2UpdateTable('product/pack-tree-ripe');
+
+// db2UpdateTable('directory/customer/volume-discount');

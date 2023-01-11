@@ -1,5 +1,10 @@
-const { gql } = require('../../api');
-const { getActive, getCountryId, getPhone, getZipCode } = require('../utils');
+const { gql } = require('../../../api');
+const {
+  getActive,
+  getCountryId,
+  getPhone,
+  getZipCode,
+} = require('../../utils');
 
 const CUSTOMER_LIST = gql`
   query CUSTOMER_LIST {

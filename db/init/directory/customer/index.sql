@@ -43,6 +43,16 @@ AS $BODY$
   SELECT * FROM directory.vendor v WHERE v.id = c.id
 $BODY$;
 
+CREATE FUNCTION directory.customer_volume_discounts(IN c directory.customer)
+	RETURNS setof directory.customer_volume_discount
+	LANGUAGE 'sql'
+	STABLE
+	PARALLEL UNSAFE
+	COST 100
+AS $BODY$
+  SELECT * FROM directory.customer_volume_discount cvd WHERE cvd.customer_id = c.id;
+$BODY$;
+
 CREATE FUNCTION directory.customer_sales_user(IN c directory.customer)
 	RETURNS public.user
 	LANGUAGE 'sql'

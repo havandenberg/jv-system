@@ -572,6 +572,29 @@ export type BulkDeleteCustomerProgramPayload = {
   query?: Maybe<Query>;
 };
 
+/** All input for the `bulkDeleteCustomerVolumeDiscount` mutation. */
+export type BulkDeleteCustomerVolumeDiscountInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  idsToDelete: Array<Maybe<Scalars['BigInt']>>;
+};
+
+/** The output of our `bulkDeleteCustomerVolumeDiscount` mutation. */
+export type BulkDeleteCustomerVolumeDiscountPayload = {
+  __typename?: 'BulkDeleteCustomerVolumeDiscountPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  bigInts?: Maybe<Array<Maybe<Scalars['BigInt']>>>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
 /** All input for the `bulkDeleteExpenseHeader` mutation. */
 export type BulkDeleteExpenseHeaderInput = {
   /**
@@ -1235,6 +1258,29 @@ export type BulkUpsertCustomerProgramPayload = {
    */
   clientMutationId?: Maybe<Scalars['String']>;
   customerPrograms?: Maybe<Array<Maybe<CustomerProgram>>>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** All input for the `bulkUpsertCustomerVolumeDiscount` mutation. */
+export type BulkUpsertCustomerVolumeDiscountInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  customerVolumeDiscounts: Array<Maybe<CustomerVolumeDiscountInput>>;
+};
+
+/** The output of our `bulkUpsertCustomerVolumeDiscount` mutation. */
+export type BulkUpsertCustomerVolumeDiscountPayload = {
+  __typename?: 'BulkUpsertCustomerVolumeDiscountPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  customerVolumeDiscounts?: Maybe<Array<Maybe<CustomerVolumeDiscount>>>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
 };
@@ -12861,6 +12907,39 @@ export type CreateCustomerProgramPayloadCustomerProgramEdgeArgs = {
   orderBy?: Maybe<Array<CustomerProgramsOrderBy>>;
 };
 
+/** All input for the create `CustomerVolumeDiscount` mutation. */
+export type CreateCustomerVolumeDiscountInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `CustomerVolumeDiscount` to be created by this mutation. */
+  customerVolumeDiscount: CustomerVolumeDiscountInput;
+};
+
+/** The output of our create `CustomerVolumeDiscount` mutation. */
+export type CreateCustomerVolumeDiscountPayload = {
+  __typename?: 'CreateCustomerVolumeDiscountPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `CustomerVolumeDiscount` that was created by this mutation. */
+  customerVolumeDiscount?: Maybe<CustomerVolumeDiscount>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `CustomerVolumeDiscount`. May be used by Relay 1. */
+  customerVolumeDiscountEdge?: Maybe<CustomerVolumeDiscountsEdge>;
+};
+
+
+/** The output of our create `CustomerVolumeDiscount` mutation. */
+export type CreateCustomerVolumeDiscountPayloadCustomerVolumeDiscountEdgeArgs = {
+  orderBy?: Maybe<Array<CustomerVolumeDiscountsOrderBy>>;
+};
+
 /** All input for the create `ExpenseHeader` mutation. */
 export type CreateExpenseHeaderInput = {
   /**
@@ -15523,6 +15602,8 @@ export type Customer = Node & {
   salesUser?: Maybe<User>;
   searchText?: Maybe<Scalars['String']>;
   vendor?: Maybe<Vendor>;
+  /** Reads and enables pagination through a set of `CustomerVolumeDiscount`. */
+  volumeDiscounts: CustomerVolumeDiscountsConnection;
   /** Reads and enables pagination through a set of `Shipper`. */
   shippersByShipperProjectionProductCustomerIdAndShipperId: CustomerShippersByShipperProjectionProductCustomerIdAndShipperIdManyToManyConnection;
   /** Reads and enables pagination through a set of `CommonSpecies`. */
@@ -15615,6 +15696,16 @@ export type CustomerTruckRateCustomersArgs = {
   orderBy?: Maybe<Array<TruckRateCustomersOrderBy>>;
   condition?: Maybe<TruckRateCustomerCondition>;
   filter?: Maybe<TruckRateCustomerFilter>;
+};
+
+
+export type CustomerVolumeDiscountsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  filter?: Maybe<CustomerVolumeDiscountFilter>;
 };
 
 
@@ -18174,6 +18265,103 @@ export type CustomerTruckRatesByTruckRateCustomerCustomerIdAndTruckRateIdManyToM
   node?: Maybe<TruckRate>;
 };
 
+export type CustomerVolumeDiscount = Node & {
+  __typename?: 'CustomerVolumeDiscount';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  customerId?: Maybe<Scalars['String']>;
+  volumeDiscountCode?: Maybe<Scalars['String']>;
+  amount?: Maybe<Scalars['String']>;
+  customer?: Maybe<Customer>;
+};
+
+/**
+ * A condition to be used against `CustomerVolumeDiscount` object types. All fields
+ * are tested for equality and combined with a logical ‘and.’
+ */
+export type CustomerVolumeDiscountCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `customerId` field. */
+  customerId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `volumeDiscountCode` field. */
+  volumeDiscountCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `amount` field. */
+  amount?: Maybe<Scalars['String']>;
+};
+
+/** A filter to be used against `CustomerVolumeDiscount` object types. All fields are combined with a logical ‘and.’ */
+export type CustomerVolumeDiscountFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `customerId` field. */
+  customerId?: Maybe<StringFilter>;
+  /** Filter by the object’s `volumeDiscountCode` field. */
+  volumeDiscountCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `amount` field. */
+  amount?: Maybe<StringFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<CustomerVolumeDiscountFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<CustomerVolumeDiscountFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<CustomerVolumeDiscountFilter>;
+};
+
+/** An input for mutations affecting `CustomerVolumeDiscount` */
+export type CustomerVolumeDiscountInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  customerId?: Maybe<Scalars['String']>;
+  volumeDiscountCode?: Maybe<Scalars['String']>;
+  amount?: Maybe<Scalars['String']>;
+};
+
+/** Represents an update to a `CustomerVolumeDiscount`. Fields that are set will be updated. */
+export type CustomerVolumeDiscountPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  customerId?: Maybe<Scalars['String']>;
+  volumeDiscountCode?: Maybe<Scalars['String']>;
+  amount?: Maybe<Scalars['String']>;
+};
+
+/** A connection to a list of `CustomerVolumeDiscount` values. */
+export type CustomerVolumeDiscountsConnection = {
+  __typename?: 'CustomerVolumeDiscountsConnection';
+  /** A list of `CustomerVolumeDiscount` objects. */
+  nodes: Array<Maybe<CustomerVolumeDiscount>>;
+  /** A list of edges which contains the `CustomerVolumeDiscount` and cursor to aid in pagination. */
+  edges: Array<CustomerVolumeDiscountsEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `CustomerVolumeDiscount` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `CustomerVolumeDiscount` edge in the connection. */
+export type CustomerVolumeDiscountsEdge = {
+  __typename?: 'CustomerVolumeDiscountsEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `CustomerVolumeDiscount` at the end of the edge. */
+  node?: Maybe<CustomerVolumeDiscount>;
+};
+
+/** Methods to use when ordering `CustomerVolumeDiscount`. */
+export enum CustomerVolumeDiscountsOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  CustomerIdAsc = 'CUSTOMER_ID_ASC',
+  CustomerIdDesc = 'CUSTOMER_ID_DESC',
+  VolumeDiscountCodeAsc = 'VOLUME_DISCOUNT_CODE_ASC',
+  VolumeDiscountCodeDesc = 'VOLUME_DISCOUNT_CODE_DESC',
+  AmountAsc = 'AMOUNT_ASC',
+  AmountDesc = 'AMOUNT_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
 /** A connection to a list of `Customer` values. */
 export type CustomersConnection = {
   __typename?: 'CustomersConnection';
@@ -19377,6 +19565,50 @@ export type DeleteCustomerProgramPayload = {
 /** The output of our delete `CustomerProgram` mutation. */
 export type DeleteCustomerProgramPayloadCustomerProgramEdgeArgs = {
   orderBy?: Maybe<Array<CustomerProgramsOrderBy>>;
+};
+
+/** All input for the `deleteCustomerVolumeDiscountByNodeId` mutation. */
+export type DeleteCustomerVolumeDiscountByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `CustomerVolumeDiscount` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deleteCustomerVolumeDiscount` mutation. */
+export type DeleteCustomerVolumeDiscountInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['BigInt'];
+};
+
+/** The output of our delete `CustomerVolumeDiscount` mutation. */
+export type DeleteCustomerVolumeDiscountPayload = {
+  __typename?: 'DeleteCustomerVolumeDiscountPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `CustomerVolumeDiscount` that was deleted by this mutation. */
+  customerVolumeDiscount?: Maybe<CustomerVolumeDiscount>;
+  deletedCustomerVolumeDiscountNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `CustomerVolumeDiscount`. May be used by Relay 1. */
+  customerVolumeDiscountEdge?: Maybe<CustomerVolumeDiscountsEdge>;
+};
+
+
+/** The output of our delete `CustomerVolumeDiscount` mutation. */
+export type DeleteCustomerVolumeDiscountPayloadCustomerVolumeDiscountEdgeArgs = {
+  orderBy?: Maybe<Array<CustomerVolumeDiscountsOrderBy>>;
 };
 
 /** All input for the `deleteExpenseHeaderByNodeId` mutation. */
@@ -24181,8 +24413,7 @@ export type InvoiceHeader = Node & {
   searchText?: Maybe<Scalars['String']>;
   shipWarehouse?: Maybe<Warehouse>;
   shippingCustomer?: Maybe<Customer>;
-  totalAmount?: Maybe<Scalars['BigFloat']>;
-  totalCreditAmount?: Maybe<Scalars['BigFloat']>;
+  totalAmountsByVesselAndShipper: InvoiceHeaderTotalAmountsByVesselAndShipperConnection;
   truckLoad?: Maybe<TruckLoad>;
   vendor?: Maybe<Vendor>;
 };
@@ -24195,6 +24426,16 @@ export type InvoiceHeaderItemsArgs = {
   before?: Maybe<Scalars['Cursor']>;
   after?: Maybe<Scalars['Cursor']>;
   filter?: Maybe<InvoiceItemFilter>;
+};
+
+
+export type InvoiceHeaderTotalAmountsByVesselAndShipperArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  filter?: Maybe<StringFilter>;
 };
 
 /**
@@ -24314,10 +24555,6 @@ export type InvoiceHeaderFilter = {
   flag?: Maybe<StringFilter>;
   /** Filter by the object’s `searchText` field. */
   searchText?: Maybe<StringFilter>;
-  /** Filter by the object’s `totalAmount` field. */
-  totalAmount?: Maybe<BigFloatFilter>;
-  /** Filter by the object’s `totalCreditAmount` field. */
-  totalCreditAmount?: Maybe<BigFloatFilter>;
   /** Checks for all expressions in this list. */
   and?: Maybe<Array<InvoiceHeaderFilter>>;
   /** Checks for any expressions in this list. */
@@ -24382,6 +24619,26 @@ export type InvoiceHeaderPatch = {
   registerNumber?: Maybe<Scalars['String']>;
   deliveryZone?: Maybe<Scalars['String']>;
   notes?: Maybe<Scalars['String']>;
+};
+
+/** A connection to a list of `String` values. */
+export type InvoiceHeaderTotalAmountsByVesselAndShipperConnection = {
+  __typename?: 'InvoiceHeaderTotalAmountsByVesselAndShipperConnection';
+  /** A list of `String` objects. */
+  nodes: Array<Maybe<Scalars['String']>>;
+  /** A list of edges which contains the `String` and cursor to aid in pagination. */
+  edges: Array<InvoiceHeaderTotalAmountsByVesselAndShipperEdge>;
+  /** The count of *all* `String` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `String` edge in the connection. */
+export type InvoiceHeaderTotalAmountsByVesselAndShipperEdge = {
+  __typename?: 'InvoiceHeaderTotalAmountsByVesselAndShipperEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `String` at the end of the edge. */
+  node?: Maybe<Scalars['String']>;
 };
 
 /** A connection to a list of `InvoiceHeader` values. */
@@ -24963,6 +25220,8 @@ export type Mutation = {
   createCustomer?: Maybe<CreateCustomerPayload>;
   /** Creates a single `CustomerPersonContact`. */
   createCustomerPersonContact?: Maybe<CreateCustomerPersonContactPayload>;
+  /** Creates a single `CustomerVolumeDiscount`. */
+  createCustomerVolumeDiscount?: Maybe<CreateCustomerVolumeDiscountPayload>;
   /** Creates a single `PersonContact`. */
   createPersonContact?: Maybe<CreatePersonContactPayload>;
   /** Creates a single `Shipper`. */
@@ -25183,6 +25442,10 @@ export type Mutation = {
   updateCustomerPersonContactByNodeId?: Maybe<UpdateCustomerPersonContactPayload>;
   /** Updates a single `CustomerPersonContact` using a unique key and a patch. */
   updateCustomerPersonContact?: Maybe<UpdateCustomerPersonContactPayload>;
+  /** Updates a single `CustomerVolumeDiscount` using its globally unique id and a patch. */
+  updateCustomerVolumeDiscountByNodeId?: Maybe<UpdateCustomerVolumeDiscountPayload>;
+  /** Updates a single `CustomerVolumeDiscount` using a unique key and a patch. */
+  updateCustomerVolumeDiscount?: Maybe<UpdateCustomerVolumeDiscountPayload>;
   /** Updates a single `PersonContact` using its globally unique id and a patch. */
   updatePersonContactByNodeId?: Maybe<UpdatePersonContactPayload>;
   /** Updates a single `PersonContact` using a unique key and a patch. */
@@ -25611,6 +25874,10 @@ export type Mutation = {
   deleteCustomerPersonContactByNodeId?: Maybe<DeleteCustomerPersonContactPayload>;
   /** Deletes a single `CustomerPersonContact` using a unique key. */
   deleteCustomerPersonContact?: Maybe<DeleteCustomerPersonContactPayload>;
+  /** Deletes a single `CustomerVolumeDiscount` using its globally unique id. */
+  deleteCustomerVolumeDiscountByNodeId?: Maybe<DeleteCustomerVolumeDiscountPayload>;
+  /** Deletes a single `CustomerVolumeDiscount` using a unique key. */
+  deleteCustomerVolumeDiscount?: Maybe<DeleteCustomerVolumeDiscountPayload>;
   /** Deletes a single `PersonContact` using its globally unique id. */
   deletePersonContactByNodeId?: Maybe<DeletePersonContactPayload>;
   /** Deletes a single `PersonContact` using a unique key. */
@@ -26004,12 +26271,14 @@ export type Mutation = {
   bulkAddContactsToGroup?: Maybe<BulkAddContactsToGroupPayload>;
   bulkDeleteCountry?: Maybe<BulkDeleteCountryPayload>;
   bulkDeleteCustomer?: Maybe<BulkDeleteCustomerPayload>;
+  bulkDeleteCustomerVolumeDiscount?: Maybe<BulkDeleteCustomerVolumeDiscountPayload>;
   bulkDeleteShipper?: Maybe<BulkDeleteShipperPayload>;
   bulkDeleteVendor?: Maybe<BulkDeleteVendorPayload>;
   bulkDeleteWarehouse?: Maybe<BulkDeleteWarehousePayload>;
   bulkRemoveContactGroupPersonContact?: Maybe<BulkRemoveContactGroupPersonContactPayload>;
   bulkUpsertCountry?: Maybe<BulkUpsertCountryPayload>;
   bulkUpsertCustomer?: Maybe<BulkUpsertCustomerPayload>;
+  bulkUpsertCustomerVolumeDiscount?: Maybe<BulkUpsertCustomerVolumeDiscountPayload>;
   bulkUpsertShipper?: Maybe<BulkUpsertShipperPayload>;
   bulkUpsertUnpaid?: Maybe<BulkUpsertUnpaidPayload>;
   bulkUpsertVendor?: Maybe<BulkUpsertVendorPayload>;
@@ -26115,6 +26384,8 @@ export type Mutation = {
   upsertCustomer?: Maybe<UpsertCustomerPayload>;
   /** Upserts a single `CustomerPersonContact`. */
   upsertCustomerPersonContact?: Maybe<UpsertCustomerPersonContactPayload>;
+  /** Upserts a single `CustomerVolumeDiscount`. */
+  upsertCustomerVolumeDiscount?: Maybe<UpsertCustomerVolumeDiscountPayload>;
   /** Upserts a single `PersonContact`. */
   upsertPersonContact?: Maybe<UpsertPersonContactPayload>;
   /** Upserts a single `Shipper`. */
@@ -26358,6 +26629,12 @@ export type MutationCreateCustomerArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreateCustomerPersonContactArgs = {
   input: CreateCustomerPersonContactInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateCustomerVolumeDiscountArgs = {
+  input: CreateCustomerVolumeDiscountInput;
 };
 
 
@@ -27018,6 +27295,18 @@ export type MutationUpdateCustomerPersonContactByNodeIdArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateCustomerPersonContactArgs = {
   input: UpdateCustomerPersonContactInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateCustomerVolumeDiscountByNodeIdArgs = {
+  input: UpdateCustomerVolumeDiscountByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateCustomerVolumeDiscountArgs = {
+  input: UpdateCustomerVolumeDiscountInput;
 };
 
 
@@ -28306,6 +28595,18 @@ export type MutationDeleteCustomerPersonContactArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteCustomerVolumeDiscountByNodeIdArgs = {
+  input: DeleteCustomerVolumeDiscountByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteCustomerVolumeDiscountArgs = {
+  input: DeleteCustomerVolumeDiscountInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeletePersonContactByNodeIdArgs = {
   input: DeletePersonContactByNodeIdInput;
 };
@@ -29500,6 +29801,12 @@ export type MutationBulkDeleteCustomerArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationBulkDeleteCustomerVolumeDiscountArgs = {
+  input: BulkDeleteCustomerVolumeDiscountInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationBulkDeleteShipperArgs = {
   input: BulkDeleteShipperInput;
 };
@@ -29532,6 +29839,12 @@ export type MutationBulkUpsertCountryArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationBulkUpsertCustomerArgs = {
   input: BulkUpsertCustomerInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationBulkUpsertCustomerVolumeDiscountArgs = {
+  input: BulkUpsertCustomerVolumeDiscountInput;
 };
 
 
@@ -30102,6 +30415,12 @@ export type MutationUpsertCustomerArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpsertCustomerPersonContactArgs = {
   input: UpsertCustomerPersonContactInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpsertCustomerVolumeDiscountArgs = {
+  input: UpsertCustomerVolumeDiscountInput;
 };
 
 
@@ -46998,6 +47317,8 @@ export type Query = Node & {
   customers?: Maybe<CustomersConnection>;
   /** Reads and enables pagination through a set of `CustomerPersonContact`. */
   customerPersonContacts?: Maybe<CustomerPersonContactsConnection>;
+  /** Reads and enables pagination through a set of `CustomerVolumeDiscount`. */
+  customerVolumeDiscounts?: Maybe<CustomerVolumeDiscountsConnection>;
   /** Reads and enables pagination through a set of `PersonContact`. */
   personContacts?: Maybe<PersonContactsConnection>;
   /** Reads and enables pagination through a set of `Shipper`. */
@@ -47189,6 +47510,7 @@ export type Query = Node & {
   country?: Maybe<Country>;
   customer?: Maybe<Customer>;
   customerPersonContact?: Maybe<CustomerPersonContact>;
+  customerVolumeDiscount?: Maybe<CustomerVolumeDiscount>;
   personContact?: Maybe<PersonContact>;
   shipper?: Maybe<Shipper>;
   shipperPersonContact?: Maybe<ShipperPersonContact>;
@@ -47331,6 +47653,8 @@ export type Query = Node & {
   customerByNodeId?: Maybe<Customer>;
   /** Reads a single `CustomerPersonContact` using its globally unique `ID`. */
   customerPersonContactByNodeId?: Maybe<CustomerPersonContact>;
+  /** Reads a single `CustomerVolumeDiscount` using its globally unique `ID`. */
+  customerVolumeDiscountByNodeId?: Maybe<CustomerVolumeDiscount>;
   /** Reads a single `PersonContact` using its globally unique `ID`. */
   personContactByNodeId?: Maybe<PersonContact>;
   /** Reads a single `Shipper` using its globally unique `ID`. */
@@ -47648,6 +47972,19 @@ export type QueryCustomerPersonContactsArgs = {
   orderBy?: Maybe<Array<CustomerPersonContactsOrderBy>>;
   condition?: Maybe<CustomerPersonContactCondition>;
   filter?: Maybe<CustomerPersonContactFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryCustomerVolumeDiscountsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CustomerVolumeDiscountsOrderBy>>;
+  condition?: Maybe<CustomerVolumeDiscountCondition>;
+  filter?: Maybe<CustomerVolumeDiscountFilter>;
 };
 
 
@@ -48891,6 +49228,12 @@ export type QueryCustomerPersonContactArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
+export type QueryCustomerVolumeDiscountArgs = {
+  id: Scalars['BigInt'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
 export type QueryPersonContactArgs = {
   id: Scalars['BigInt'];
 };
@@ -49766,6 +50109,12 @@ export type QueryCustomerByNodeIdArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryCustomerPersonContactByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryCustomerVolumeDiscountByNodeIdArgs = {
   nodeId: Scalars['ID'];
 };
 
@@ -58746,6 +59095,53 @@ export type UpdateCustomerProgramPayloadCustomerProgramEdgeArgs = {
   orderBy?: Maybe<Array<CustomerProgramsOrderBy>>;
 };
 
+/** All input for the `updateCustomerVolumeDiscountByNodeId` mutation. */
+export type UpdateCustomerVolumeDiscountByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `CustomerVolumeDiscount` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `CustomerVolumeDiscount` being updated. */
+  patch: CustomerVolumeDiscountPatch;
+};
+
+/** All input for the `updateCustomerVolumeDiscount` mutation. */
+export type UpdateCustomerVolumeDiscountInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `CustomerVolumeDiscount` being updated. */
+  patch: CustomerVolumeDiscountPatch;
+  id: Scalars['BigInt'];
+};
+
+/** The output of our update `CustomerVolumeDiscount` mutation. */
+export type UpdateCustomerVolumeDiscountPayload = {
+  __typename?: 'UpdateCustomerVolumeDiscountPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `CustomerVolumeDiscount` that was updated by this mutation. */
+  customerVolumeDiscount?: Maybe<CustomerVolumeDiscount>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `CustomerVolumeDiscount`. May be used by Relay 1. */
+  customerVolumeDiscountEdge?: Maybe<CustomerVolumeDiscountsEdge>;
+};
+
+
+/** The output of our update `CustomerVolumeDiscount` mutation. */
+export type UpdateCustomerVolumeDiscountPayloadCustomerVolumeDiscountEdgeArgs = {
+  orderBy?: Maybe<Array<CustomerVolumeDiscountsOrderBy>>;
+};
+
 /** All input for the `updateExpenseHeaderByNodeId` mutation. */
 export type UpdateExpenseHeaderByNodeIdInput = {
   /**
@@ -63320,6 +63716,33 @@ export type UpsertCustomerProgramPayload = {
 /** The output of our upsert `CustomerProgram` mutation. */
 export type UpsertCustomerProgramPayloadCustomerProgramEdgeArgs = {
   orderBy?: Maybe<Array<CustomerProgramsOrderBy>>;
+};
+
+/** All input for the upsert `CustomerVolumeDiscount` mutation. */
+export type UpsertCustomerVolumeDiscountInput = {
+  /** An arbitrary string value with no semantic meaning. Will be included in the payload verbatim. May be used to track mutations by the client. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `CustomerVolumeDiscount` to be upserted by this mutation. */
+  customerVolumeDiscount: CustomerVolumeDiscountInput;
+};
+
+/** The output of our upsert `CustomerVolumeDiscount` mutation. */
+export type UpsertCustomerVolumeDiscountPayload = {
+  __typename?: 'UpsertCustomerVolumeDiscountPayload';
+  /** The exact same `clientMutationId` that was provided in the mutation input, unchanged and unused. May be used by a client to track mutations. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `CustomerVolumeDiscount` that were upserted by this mutation. */
+  customerVolumeDiscount?: Maybe<CustomerVolumeDiscount>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `CustomerVolumeDiscount`. May be used by Relay 1. */
+  customerVolumeDiscountEdge?: Maybe<CustomerVolumeDiscountsEdge>;
+};
+
+
+/** The output of our upsert `CustomerVolumeDiscount` mutation. */
+export type UpsertCustomerVolumeDiscountPayloadCustomerVolumeDiscountEdgeArgs = {
+  orderBy?: Maybe<Array<CustomerVolumeDiscountsOrderBy>>;
 };
 
 /** All input for the upsert `ExpenseHeader` mutation. */

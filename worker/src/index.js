@@ -120,4 +120,8 @@ if (process.env.REACT_APP_IS_PRODUCTION === 'true') {
 
   cron.schedule('0 23 * * *', () => db2UpdateTable('product/pallet'));
   cron.schedule('0 23 * * *', () => db2UpdateTable('product/pallet-section'));
+
+  cron.schedule('0 23 * * *', () =>
+    db2UpdateTable('directory/customer/volume-discount'),
+  );
 }

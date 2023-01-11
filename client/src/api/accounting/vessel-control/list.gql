@@ -39,6 +39,12 @@ query VESSEL_CONTROL_LIST($dateFilter: VesselControlFilter!) {
               billingCustomer {
                 id
                 customerName
+                volumeDiscounts {
+                  nodes {
+                    volumeDiscountCode
+                    amount
+                  }
+                }
               }
               truckLoadId
               salesUserCode
@@ -54,8 +60,9 @@ query VESSEL_CONTROL_LIST($dateFilter: VesselControlFilter!) {
               orderId
               paidCode
               flag
-              totalAmount
-              totalCreditAmount
+              totalAmountsByVesselAndShipper {
+                nodes
+              }
               conditionCode
               creditCode
             }
@@ -64,6 +71,7 @@ query VESSEL_CONTROL_LIST($dateFilter: VesselControlFilter!) {
           palletId
           shipped
           searchText
+          volumeDiscountCode
         }
       }
       vessel {

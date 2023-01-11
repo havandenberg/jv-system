@@ -270,7 +270,10 @@ const Unpaids = () => {
                         gridTemplateColumns={gridTemplateColumns}
                         hoverable
                         listLabels={listLabels(handleChange)}
-                        isHalfHighlight={!!item.vesselControl?.isLiquidated}
+                        isHalfHighlight={
+                          !!item.vesselControl?.isLiquidated ||
+                          item.invoice?.paidCode === 'P'
+                        }
                         highlightColor={th.colors.status.success}
                         index={index}
                         offsetTop={scrollTop}
