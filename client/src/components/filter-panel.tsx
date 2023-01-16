@@ -25,6 +25,7 @@ export interface FilterPanelProps {
   customOptions?: string[];
   customOptionsSort?: (opt: string) => Ord;
   customStyles?: DivProps;
+  portalId?: string;
   queryProps?: {
     query: any;
     queryName: string;
@@ -49,6 +50,7 @@ const FilterPanel = <T extends {}>({
   customOptionsSort,
   customStyles,
   filterKey,
+  portalId,
   queryProps,
   schemaName,
   setShowPanel,
@@ -230,6 +232,7 @@ const FilterPanel = <T extends {}>({
         </>
       }
       customStyles={customStyles}
+      portalId={portalId}
       setShow={setShowPanel}
       show={showPanel}
       triggerIcon={<FilterImg height={14} width={14} />}

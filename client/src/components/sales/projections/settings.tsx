@@ -176,6 +176,7 @@ const ProjectionSettings = () => {
             <l.Div height={500}>
               {data ? (
                 <VirtualizedList
+                  disableScrollTracking
                   height={500}
                   rowCount={items.length}
                   rowHeight={28}

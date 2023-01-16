@@ -151,6 +151,7 @@ const AddContactsToGroup = ({ addContacts, group, confirmLoading }: Props) => {
           <l.Div height={500} mt={th.spacing.lg}>
             {data ? (
               <VirtualizedList
+                disableScrollTracking
                 height={500}
                 rowCount={items.length}
                 rowHeight={28}

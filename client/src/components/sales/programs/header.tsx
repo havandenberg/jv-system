@@ -41,25 +41,41 @@ const listLabels: (
     label: 'Species',
     key: 'commonSpeciesId',
     filterable: true,
-    filterPanelProps: { customOptions: speciesOptions, customOptionsSort },
+    filterPanelProps: {
+      customOptions: speciesOptions,
+      customOptionsSort,
+      portalId: 'species-filter',
+    },
   },
   {
     label: 'Variety',
     key: 'commonVarietyId',
     filterable: true,
-    filterPanelProps: { customOptions: varietyOptions, customOptionsSort },
+    filterPanelProps: {
+      customOptions: varietyOptions,
+      customOptionsSort,
+      portalId: 'variety-filter',
+    },
   },
   {
     label: 'Size',
     key: 'commonSizeId',
     filterable: true,
-    filterPanelProps: { customOptions: sizeOptions, customOptionsSort },
+    filterPanelProps: {
+      customOptions: sizeOptions,
+      customOptionsSort,
+      portalId: 'size-filter',
+    },
   },
   {
     label: 'Pack Type',
     key: 'commonPackTypeId',
     filterable: true,
-    filterPanelProps: { customOptions: packTypeOptions, customOptionsSort },
+    filterPanelProps: {
+      customOptions: packTypeOptions,
+      customOptionsSort,
+      portalId: 'pack-type-filter',
+    },
   },
   {
     label: 'PLU/GTIN',
@@ -73,7 +89,10 @@ const listLabels: (
           key: 'customerId',
           sortKey: 'customerIdFilter',
           filterable: true,
-          filterPanelProps: { customOptions: customerOptions },
+          filterPanelProps: {
+            customOptions: customerOptions,
+            portalId: 'customer-filter',
+          },
         },
       ]) as LabelInfo<ShipperProgram | CustomerProgram>[]),
 ];
@@ -179,8 +198,6 @@ const Header = ({
     <l.Div
       bg={th.colors.background}
       borderRight={th.borders.transparent}
-      position="sticky"
-      top={0}
       zIndex={5}
       width={gridWidth}
     >

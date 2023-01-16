@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
+import { createPortal } from 'react-dom';
 import OutsideClickHandler from 'react-outside-click-handler';
 
 import l, { DivProps, divPropsSet } from 'ui/layout';
@@ -56,6 +57,7 @@ export interface InfoPanelProps {
 interface Props extends InfoPanelProps {
   hasFilters?: boolean;
   hover?: boolean;
+  portalId?: string;
   setShow?: (show: boolean) => void;
   show?: boolean;
   triggerIcon?: React.ReactNode;
@@ -67,6 +69,7 @@ const InfoPanel = ({
   customStyles,
   hasFilters = false,
   hover,
+  portalId,
   setShow,
   show: showProp,
   triggerIcon,
@@ -75,36 +78,42 @@ const InfoPanel = ({
   const [localShow, setLocalShow] = useState(!!showProp);
   const show = !!(setShow ? showProp : localShow);
 
-  const toggleShow = (newShow?: boolean) => () => {
+  const portalElement = portalId
+    ? document.getElementById(portalId)
+    : undefined;
+
+  const toggleShow = (newShow?: boolean) => {
     const updatedShow = newShow === undefined ? !show : newShow;
     !!setShow ? setShow(updatedShow) : setLocalShow(updatedShow);
   };
 
+  const contentPanel = show && (
+    <OutsideClickHandler
+      onOutsideClick={() => {
+        toggleShow(false);
+      }}
+    >
+      <Panel {...customStyles}>{content}</Panel>
+    </OutsideClickHandler>
+  );
+
   return (
     <l.Div
       relative
-      onMouseEnter={hover ? toggleShow(true) : undefined}
-      onMouseLeave={hover ? toggleShow(false) : undefined}
+      onMouseEnter={hover ? () => toggleShow(true) : undefined}
+      onMouseLeave={hover ? () => toggleShow(false) : undefined}
     >
       {triggerIcon && (
         <Trigger
           hasFilters={hasFilters}
-          onClick={toggleShow()}
+          onClick={() => toggleShow()}
           show={show}
           visible={visible}
         >
           {triggerIcon}
         </Trigger>
       )}
-      {show && (
-        <OutsideClickHandler
-          onOutsideClick={() => {
-            toggleShow(false);
-          }}
-        >
-          <Panel {...customStyles}>{content}</Panel>
-        </OutsideClickHandler>
-      )}
+      {portalElement ? createPortal(contentPanel, portalElement) : contentPanel}
     </l.Div>
   );
 };

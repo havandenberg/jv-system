@@ -1,6 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled from '@emotion/styled';
 import {
+  Grid,
+  GridCellRenderer,
+  GridProps,
   Index,
   List,
   ListProps,
@@ -15,6 +18,12 @@ import { useQueryValue } from 'hooks/use-query-params';
 import l from 'ui/layout';
 import th from 'ui/theme';
 
+export const GridWrapper = styled(l.Div)({
+  '& .ReactVirtualized__Grid__innerScrollContainer': {
+    overflow: 'visible !important',
+  },
+});
+
 const ScrollToTop = styled(l.Div)(({ visible }: { visible: boolean }) => ({
   position: 'fixed',
   bottom: 50,
@@ -26,6 +35,7 @@ const ScrollToTop = styled(l.Div)(({ visible }: { visible: boolean }) => ({
 }));
 
 interface OptionalListProps {
+  disableScrollTop?: boolean;
   disableScrollTracking?: boolean;
   height?: number;
   rowCount: number;
@@ -36,6 +46,7 @@ interface OptionalListProps {
 }
 
 const VirtualizedList = ({
+  disableScrollTop,
   disableScrollTracking,
   height = 650,
   onScroll,
@@ -79,7 +90,7 @@ const VirtualizedList = ({
           disableScrollTracking
             ? undefined
             : (scrollParams: ScrollParams) => {
-                setScrollTop(scrollParams.scrollTop);
+                !disableScrollTop && setScrollTop(scrollParams.scrollTop);
                 onScroll && onScroll(scrollParams);
               }
         }
@@ -100,3 +111,81 @@ const VirtualizedList = ({
 };
 
 export default VirtualizedList;
+
+interface OptionalGridProps {
+  disableScrollTop?: boolean;
+  disableScrollTracking?: boolean;
+  height?: number;
+  rowCount: number;
+  rowHeight?: (number | ((params: Index) => number)) &
+    (number | ((info: Index) => number));
+  cellRenderer: GridCellRenderer;
+  width?: number;
+}
+
+export const VirtualizedGrid = ({
+  disableScrollTop,
+  disableScrollTracking,
+  height = 650,
+  onScroll,
+  rowHeight = 36,
+  width = 1024,
+  ...rest
+}: OptionalGridProps & Omit<GridProps, 'height' | 'rowHeight' | 'width'>) => {
+  const ref = useRef<Grid>(null);
+  const [listScrollTop, setListScrollTop] = useQueryValue('listScrollTop');
+  const previousListScrollTop = usePrevious(listScrollTop);
+
+  const [scrollTop, setScrollTop] = useState(listScrollTop || 0);
+  const showScrollTop = scrollTop > 64;
+
+  const handleScrollToTop = () => {
+    if (showScrollTop) {
+      setScrollTop(0);
+    }
+  };
+
+  const debouncedScrollTop = useDebounce(scrollTop, 500);
+  const previousDebouncedScrollTop = usePrevious(debouncedScrollTop);
+
+  useEffect(() => {
+    if (previousDebouncedScrollTop !== debouncedScrollTop) {
+      setListScrollTop(`${debouncedScrollTop}`, 'replaceIn');
+    }
+  }, [debouncedScrollTop, setListScrollTop, previousDebouncedScrollTop]);
+
+  useEffect(() => {
+    if (previousListScrollTop !== listScrollTop) {
+      setScrollTop(listScrollTop || 0);
+    }
+  }, [listScrollTop, setListScrollTop, previousListScrollTop]);
+
+  return (
+    <>
+      <Grid
+        height={height}
+        onScroll={
+          disableScrollTracking
+            ? undefined
+            : (scrollParams: ScrollParams) => {
+                !disableScrollTop && setScrollTop(scrollParams.scrollTop);
+                onScroll && onScroll(scrollParams);
+              }
+        }
+        overscanRowCount={10}
+        ref={ref}
+        rowHeight={rowHeight}
+        scrollTop={
+          disableScrollTracking || disableScrollTop
+            ? undefined
+            : parseFloat(`${scrollTop}`)
+        }
+        width={width}
+        {...rest}
+      />
+      <ScrollToTop onClick={handleScrollToTop} visible={showScrollTop}>
+        <UpArrow height={th.sizes.sm} />
+      </ScrollToTop>
+    </>
+  );
+};

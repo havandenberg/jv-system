@@ -1,9 +1,8 @@
 import React, { Fragment, useState } from 'react';
-import styled from '@emotion/styled';
 import { add, endOfISOWeek } from 'date-fns';
 import { isEmpty, pick } from 'ramda';
 import { ClipLoader } from 'react-spinners';
-import { Grid, ScrollSync } from 'react-virtualized';
+import { ScrollSync } from 'react-virtualized';
 
 import api from 'api';
 import ResetImg from 'assets/images/reset';
@@ -13,6 +12,7 @@ import { BasicModal } from 'components/modal';
 import { DataMessage } from 'components/page/message';
 import Page from 'components/page';
 import { useTabBar } from 'components/tab-bar';
+import { GridWrapper, VirtualizedGrid } from 'components/virtualized-list';
 import useColumns, { SORT_ORDER } from 'hooks/use-columns';
 import useDateRange from 'hooks/use-date-range';
 import useSearch from 'hooks/use-search';
@@ -45,12 +45,6 @@ export const dateRangeTabs = [
     text: 'Sent',
   },
 ];
-
-const Wrapper = styled(l.Div)({
-  '& .ReactVirtualized__Grid__innerScrollContainer': {
-    overflow: 'visible !important',
-  },
-});
 
 const VesselControlLog = () => {
   const { Search } = useSearch({ paramName: 'vesselControlSearch' });
@@ -322,7 +316,7 @@ const VesselControlLog = () => {
       {!loading ? (
         <ScrollSync>
           {({ onScroll, scrollLeft, scrollTop }) => (
-            <Wrapper>
+            <GridWrapper>
               <l.Div overflowX="hidden" width={1008}>
                 <l.Grid
                   bg={th.colors.background}
@@ -380,7 +374,7 @@ const VesselControlLog = () => {
                 </l.Grid>
               </l.Div>
               {!isEmpty(vesselControlItems) ? (
-                <Grid
+                <VirtualizedGrid
                   columnCount={1}
                   columnWidth={VESSEL_CONTROL_LOG_WIDTH}
                   height={700}
@@ -426,7 +420,7 @@ const VesselControlLog = () => {
                   }}
                 />
               )}
-            </Wrapper>
+            </GridWrapper>
           )}
         </ScrollSync>
       ) : (

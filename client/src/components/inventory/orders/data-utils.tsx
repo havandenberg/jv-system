@@ -1,7 +1,9 @@
 import { pick, pluck, uniq, uniqBy, values } from 'ramda';
 
 import { CUSTOMER_DISTINCT_VALUES_QUERY } from 'api/directory/customer';
+import { invoiceStatusDescriptions } from 'components/accounting/invoices/data-utils';
 import { LabelInfo } from 'components/column-label';
+import { formatDate } from 'components/date-range-picker';
 import StatusIndicator from 'components/status-indicator';
 import { SORT_ORDER } from 'hooks/use-columns';
 import {
@@ -17,7 +19,6 @@ import th from 'ui/theme';
 import ty from 'ui/typography';
 
 import { truckLoadStatusDescriptions } from '../truck-loads/data-utils';
-import { invoiceStatusDescriptions } from 'components/accounting/invoices/data-utils';
 
 export type OrderItemInvoiceItem = OrderItem & {
   invoiceId?: string;
@@ -70,6 +71,17 @@ export const indexListLabels: (
     label: 'Ship Date',
     isDate: true,
     sortable: true,
+    customSortBy: ({ expectedShipDate, truckLoad }) =>
+      truckLoad?.shipDate
+        ? new Date(truckLoad?.shipDate.replace(/-/g, '/'))
+        : new Date(expectedShipDate.replace(/-/g, '/')),
+    getValue: ({ expectedShipDate, truckLoad }) => (
+      <ty.BodyText>
+        {truckLoad?.shipDate
+          ? formatDate(new Date(truckLoad?.shipDate.replace(/-/g, '/')))
+          : formatDate(new Date(expectedShipDate.replace(/-/g, '/')))}
+      </ty.BodyText>
+    ),
   },
   {
     defaultSortOrder: SORT_ORDER.ASC,

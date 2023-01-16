@@ -810,6 +810,7 @@ const ProgramAllocateModal = <
             )}
             {allEntries.length > 0 && !loading ? (
               <VirtualizedList
+                disableScrollTracking
                 height={302}
                 rowCount={allEntries.length}
                 rowHeight={32}

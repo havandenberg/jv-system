@@ -7,7 +7,6 @@ import {
   Shipper,
   ShipperProgram,
   ShipperProgramEntry,
-  ShipperProjectionVesselInfo,
 } from 'types';
 
 export interface ProgramTotal {
@@ -201,7 +200,6 @@ export interface ProgramProps {
       key: keyof CustomerProgramEntryUpdate,
     ) => { dirty: boolean; value: string };
   };
-  vesselInfos: ShipperProjectionVesselInfo[];
   weekCount: number;
 }
 

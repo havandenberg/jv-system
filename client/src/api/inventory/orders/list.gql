@@ -29,6 +29,9 @@ query ORDER_MASTER_LIST(
       orderStatus
       customerPo
       truckLoadId
+      truckLoad {
+        shipDate
+      }
       billingCustomer {
         id
         customerName
