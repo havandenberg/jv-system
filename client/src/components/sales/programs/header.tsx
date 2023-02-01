@@ -44,7 +44,9 @@ const listLabels: (
     filterPanelProps: {
       customOptions: speciesOptions,
       customOptionsSort,
-      portalId: 'species-filter',
+      portalId: 'programs-portal',
+      portalTop: -4,
+      portalLeft: 32,
     },
   },
   {
@@ -54,7 +56,9 @@ const listLabels: (
     filterPanelProps: {
       customOptions: varietyOptions,
       customOptionsSort,
-      portalId: 'variety-filter',
+      portalId: 'programs-portal',
+      portalTop: -4,
+      portalLeft: 140,
     },
   },
   {
@@ -64,7 +68,9 @@ const listLabels: (
     filterPanelProps: {
       customOptions: sizeOptions,
       customOptionsSort,
-      portalId: 'size-filter',
+      portalId: 'programs-portal',
+      portalTop: -4,
+      portalLeft: 248,
     },
   },
   {
@@ -74,7 +80,9 @@ const listLabels: (
     filterPanelProps: {
       customOptions: packTypeOptions,
       customOptionsSort,
-      portalId: 'pack-type-filter',
+      portalId: 'programs-portal',
+      portalTop: -4,
+      portalLeft: 323,
     },
   },
   {
@@ -91,7 +99,9 @@ const listLabels: (
           filterable: true,
           filterPanelProps: {
             customOptions: customerOptions,
-            portalId: 'customer-filter',
+            portalId: 'programs-portal',
+            portalTop: -4,
+            portalLeft: 478,
           },
         },
       ]) as LabelInfo<ShipperProgram | CustomerProgram>[]),

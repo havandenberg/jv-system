@@ -26,6 +26,8 @@ export interface FilterPanelProps {
   customOptionsSort?: (opt: string) => Ord;
   customStyles?: DivProps;
   portalId?: string;
+  portalLeft?: number;
+  portalTop?: number;
   queryProps?: {
     query: any;
     queryName: string;
@@ -50,7 +52,6 @@ const FilterPanel = <T extends {}>({
   customOptionsSort,
   customStyles,
   filterKey,
-  portalId,
   queryProps,
   schemaName,
   setShowPanel,
@@ -59,6 +60,7 @@ const FilterPanel = <T extends {}>({
   sortKey,
   tableName,
   visible,
+  ...rest
 }: Props<T>) => {
   const [search, setSearch] = useState('');
   const [tabId] = useQueryValue('reportType');
@@ -232,12 +234,12 @@ const FilterPanel = <T extends {}>({
         </>
       }
       customStyles={customStyles}
-      portalId={portalId}
       setShow={setShowPanel}
       show={showPanel}
       triggerIcon={<FilterImg height={14} width={14} />}
       hasFilters={filterValues.length > 0}
       visible={visible}
+      {...rest}
     />
   );
 };

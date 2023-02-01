@@ -1,22 +1,16 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { add, endOfISOWeek, startOfISOWeek } from 'date-fns';
-import { equals, isEmpty, last, omit, pluck, reduce } from 'ramda';
+import { isEmpty, last, omit, pluck, reduce } from 'ramda';
 import { ClipLoader } from 'react-spinners';
 import { ScrollSync } from 'react-virtualized';
 
 import api from 'api';
-import ResetImg from 'assets/images/reset';
 import { formatDate } from 'components/date-range-picker';
 import ErrorPanel from 'components/error-panel';
-import useItemSelector from 'components/item-selector';
 import { BasicModal } from 'components/modal';
 import Page from 'components/page';
 import { DataMessage } from 'components/page/message';
-import { useTabBar } from 'components/tab-bar';
-import useCoastTabBar from 'components/tab-bar/coast-tab-bar';
 import { GridWrapper, VirtualizedGrid } from 'components/virtualized-list';
-import useDateRange from 'hooks/use-date-range';
-import useKeyboardWeekChange from 'hooks/use-keyboard-week-change';
 import usePrevious from 'hooks/use-previous';
 import {
   useDateRangeQueryParams,
@@ -39,8 +33,8 @@ import th from 'ui/theme';
 import ty from 'ui/typography';
 import { getWeekNumber } from 'utils/date';
 
-import { ResetButton } from '../../inventory/inventory/use-filters';
 import ProgramAllocateModal from './allocate';
+import ProgramsFilters from './filters';
 import Header from './header';
 import { getProgramTotalRows, NewProgramRow } from './row';
 import {
@@ -97,17 +91,6 @@ const initialState: ProgramState = {
   showAllocated: false,
 };
 
-export const viewTabs = [
-  {
-    id: 'customers',
-    text: 'Customers',
-  },
-  {
-    id: 'shippers',
-    text: 'Shippers',
-  },
-];
-
 const Programs = () => {
   const [
     {
@@ -119,63 +102,24 @@ const Programs = () => {
       coast,
       customerId,
       customerIdFilter,
+      programsView,
     },
-    setProgramsQueryParams,
   ] = useProgramsQueryParams();
 
-  const [
-    { startDate = formatDate(new Date()), endDate = formatDate(new Date()) },
-  ] = useDateRangeQueryParams();
+  const [{ startDate = formatDate(new Date()) }] = useDateRangeQueryParams();
   const selectedWeekNumber = getWeekNumber(
     new Date(startDate.replace(/-/g, '/')),
   );
-
-  const { TabBar: CoastTabBar } = useCoastTabBar();
-
-  const { DateRangePicker, ForwardButton, BackwardButton, handleDateChange } =
-    useDateRange({
-      hideDefinedRanges: true,
-      singleSelection: true,
-      offsetLeft: `-${th.spacing.md}`,
-    });
-
-  useKeyboardWeekChange(handleDateChange);
 
   const {
     data: shipperData,
     loading: shipperDataLoading,
     error: shipperDataError,
   } = api.useShippers('SHIPPER_NAME_ASC', '');
-  const shippers = shipperData ? shipperData.nodes : [];
+  const shippers = (shipperData ? shipperData.nodes : []) as Shipper[];
   const selectedShipper = shippers.find(
     (shipper) => shipper && shipper.id === shipperId,
   );
-
-  const { ItemSelector: ShipperItemSelector, clearSearch: clearShipperSearch } =
-    useItemSelector<Shipper>({
-      selectItem: (shipper) => {
-        setProgramsQueryParams({ shipperId: shipper.id });
-      },
-      allItems: () => shippers as Shipper[],
-      closeOnSelect: true,
-      clearSearchOnBlur: true,
-      error: shipperDataError,
-      errorLabel: 'shippers',
-      loading: shipperDataLoading,
-      nameKey: 'shipperName',
-      onClear: () => {
-        setProgramsQueryParams({ shipperId: undefined });
-        handleCancel();
-      },
-      onlyClearSearch: true,
-      placeholder: 'Select shipper',
-      searchParamName: 'shipperSearch',
-      selectedItem: selectedShipper
-        ? `${selectedShipper.shipperName} (${selectedShipper.id})`
-        : undefined,
-      searchWidth: 300,
-      width: 350,
-    });
 
   const {
     data: customerData,
@@ -186,33 +130,6 @@ const Programs = () => {
   const selectedCustomer = customers.find(
     (customer) => customer && customer.id === customerId,
   );
-
-  const {
-    ItemSelector: CustomerItemSelector,
-    clearSearch: clearCustomerSearch,
-  } = useItemSelector<Customer>({
-    selectItem: (customer) => {
-      setProgramsQueryParams({ customerId: customer.id });
-    },
-    allItems: () => customers as Customer[],
-    closeOnSelect: true,
-    error: customerDataError,
-    errorLabel: 'customers',
-    loading: customerDataLoading,
-    nameKey: 'customerName',
-    onClear: () => {
-      setProgramsQueryParams({ customerId: undefined });
-      handleCancel();
-    },
-    onlyClearSearch: true,
-    placeholder: 'Select customer',
-    searchParamName: 'customerSearch',
-    selectedItem: selectedCustomer
-      ? `${selectedCustomer.customerName} (${selectedCustomer.id})`
-      : undefined,
-    searchWidth: 300,
-    width: 350,
-  });
 
   const [weekCount, setWeekCount] = useState(24);
 
@@ -234,15 +151,7 @@ const Programs = () => {
     setSaveAttempt(false);
   }, [showAllocated]);
 
-  const { TabBar: ViewTabBar, selectedTabId: view } = useTabBar({
-    tabs: viewTabs,
-    isRoute: false,
-    defaultTabId: 'customers',
-    paramName: 'programsView',
-    defaultTabIndex: 0,
-    onSelectTab: handleCancel,
-  });
-  const isCustomers = view === 'customers';
+  const isCustomers = programsView === 'customers';
 
   const getValue = <T extends UpdateType>(
     item: any,
@@ -763,9 +672,6 @@ const Programs = () => {
     getProgramValue,
     getProgramEntryValue,
     programProps,
-    selectedCustomerOrShipperId: isCustomers
-      ? selectedCustomer?.id
-      : selectedShipper?.id,
     startDate,
     vesselInfos,
     weekCount,
@@ -778,11 +684,13 @@ const Programs = () => {
   } = useFilterAndGroupPrograms<
     ShipperProgram,
     ShipperProgramEntry,
-    ShipperProgramUpdate
+    ShipperProgramUpdate,
+    Shipper
   >({
     ...filterAndGroupProgramsArgs,
     isCustomers: false,
     programs: allShipperPrograms,
+    selectedCustomerOrShipper: selectedShipper,
   });
 
   const {
@@ -792,11 +700,13 @@ const Programs = () => {
   } = useFilterAndGroupPrograms<
     CustomerProgram,
     CustomerProgramEntry,
-    CustomerProgramUpdate
+    CustomerProgramUpdate,
+    Customer
   >({
     ...filterAndGroupProgramsArgs,
     isCustomers: true,
     programs: allCustomerPrograms,
+    selectedCustomerOrShipper: selectedCustomer,
   });
 
   const netGrandProgramTotals = shipperGrandProgramTotals.map(
@@ -1094,26 +1004,6 @@ const Programs = () => {
     }
   };
 
-  useEffect(() => {
-    if (!startDate) {
-      handleDateChange({
-        selection: {
-          startDate: new Date(),
-          endDate: new Date(),
-          key: 'selection',
-        },
-      });
-    } else if (!equals(startDate, endDate)) {
-      handleDateChange({
-        selection: {
-          startDate: new Date(startDate.replace(/-/g, '/')),
-          endDate: new Date(startDate.replace(/-/g, '/')),
-          key: 'selection',
-        },
-      });
-    }
-  }, [endDate, handleDateChange, startDate]);
-
   return (
     <Page
       actions={[
@@ -1200,54 +1090,19 @@ const Programs = () => {
       ]}
       extraPaddingTop={55}
       headerChildren={
-        <l.Flex mb={th.spacing.md}>
-          <l.Div mr={th.spacing.lg}>
-            <ty.SmallText mb={th.spacing.sm} secondary>
-              Coast
-            </ty.SmallText>
-            <CoastTabBar />
-          </l.Div>
-          <l.Div mr={th.spacing.lg}>
-            <ty.SmallText mb={th.spacing.sm} secondary>
-              View
-            </ty.SmallText>
-            <ViewTabBar />
-          </l.Div>
-          <l.Div mr={th.spacing.lg}>
-            <ty.SmallText mb={th.spacing.sm} secondary>
-              {isCustomers ? 'Customer' : 'Shipper'}
-            </ty.SmallText>
-            {isCustomers ? CustomerItemSelector : ShipperItemSelector}
-          </l.Div>
-          <div>
-            <ty.SmallText mb={th.spacing.sm} secondary>
-              Week Of
-            </ty.SmallText>
-            <l.Flex alignCenter>
-              {DateRangePicker}
-              {BackwardButton}
-              {ForwardButton}
-            </l.Flex>
-          </div>
-          <ResetButton
-            ml={th.sizes.icon}
-            mt={29}
-            onClick={() => {
-              clearCustomerSearch();
-              clearShipperSearch();
-              setEditing(false);
-            }}
-          >
-            <l.AreaLink
-              cursor="pointer"
-              height={th.sizes.icon}
-              width={th.sizes.icon}
-              to={`/sales/programs?programsView=${view}&coast=${coast}`}
-            >
-              <ResetImg height={th.sizes.icon} width={th.sizes.icon} />
-            </l.AreaLink>
-          </ResetButton>
-        </l.Flex>
+        <ProgramsFilters
+          isCustomers={isCustomers}
+          shippers={shippers as Shipper[]}
+          shipperDataLoading={shipperDataLoading}
+          shipperDataError={shipperDataError}
+          selectedShipper={selectedShipper}
+          customers={customers as Customer[]}
+          customerDataLoading={customerDataLoading}
+          customerDataError={customerDataError}
+          selectedCustomer={selectedCustomer}
+          handleCancel={handleCancel}
+          setEditing={setEditing}
+        />
       }
       title={`${isCustomers ? 'Customer' : 'Shipper'} Programs`}
     >
@@ -1278,32 +1133,7 @@ const Programs = () => {
                   />
                 </l.Div>
               </l.Div>
-              <l.Div
-                left={32}
-                top={70}
-                position="absolute"
-                id="species-filter"
-              />
-              <l.Div
-                left={140}
-                top={70}
-                position="absolute"
-                id="variety-filter"
-              />
-              <l.Div left={248} top={70} position="absolute" id="size-filter" />
-              <l.Div
-                left={323}
-                top={70}
-                position="absolute"
-                id="pack-type-filter"
-              />
-              <l.Div
-                left={478}
-                top={70}
-                position="absolute"
-                id="customer-filter"
-              />
-              <l.Div relative id="program-item-selector-portal" />
+              <l.Div relative id="programs-portal" />
               {(hasPrograms || editing) && !loading ? (
                 <VirtualizedGrid
                   disableScrollTop

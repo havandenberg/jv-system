@@ -34,6 +34,7 @@ export interface BaseDataItemSelectorProps {
   getItemContent?: (item: any) => React.ReactNode;
   height?: number;
   nameKey?: string;
+  offset?: string | number;
   query: any;
   queryName: string;
   queryVariables?: OperationVariables;
@@ -49,6 +50,7 @@ const BaseDataItemSelector = <T extends {}>({
   height = 150,
   labelKey,
   nameKey = '',
+  offset,
   query,
   queryName,
   queryVariables,
@@ -79,7 +81,8 @@ const BaseDataItemSelector = <T extends {}>({
     height,
     loading,
     nameKey,
-    panelGap: 0,
+    offset,
+    panelGap: 2,
     selectItem: (item: any) => {
       handleChange && handleChange(labelKey, item[nameKey || 'id']);
     },
@@ -203,7 +206,7 @@ const BaseDataItem = <T extends {}>({
 
 const BaseDataContainer = styled(l.Grid)({
   background: th.colors.brand.containerBackground,
-  border: th.borders.primary,
+  border: th.borders.secondary,
   borderRadius: th.borderRadii.default,
   gridTemplateColumns: 'repeat(5, 1fr)',
   paddingBottom: th.spacing.sm,

@@ -18,6 +18,12 @@ module.exports = {
     enhanceGraphiql: true,
     graphiql: '/',
     extendedErrors: 'hint,detail,errcode',
+    allowExplain:
+      process.env.REACT_APP_IS_PRODUCTION === 'true'
+        ? undefined
+        : (req) => {
+            return true;
+          },
     cors: true,
     graphileBuildOptions: {
       connectionFilterRelations: true,

@@ -231,6 +231,7 @@ export const Select = styled.select<
 );
 
 export interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
+  closeOnClear?: boolean;
   hasError?: boolean;
   hasWarning?: boolean;
   Icon?: React.ReactNode;
@@ -239,6 +240,7 @@ export interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 const TextInput = ({
+  closeOnClear,
   hasError,
   hasWarning,
   Icon,
@@ -265,9 +267,13 @@ const TextInput = ({
     }
   };
 
-  const handleClear = () => {
+  const handleClear = (e: React.MouseEvent<HTMLInputElement>) => {
     onClear && onClear();
-    inputRef.current && inputRef.current.focus();
+    if (closeOnClear) {
+      e.stopPropagation();
+    } else {
+      inputRef.current && inputRef.current.focus();
+    }
   };
 
   const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {

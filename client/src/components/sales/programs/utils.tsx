@@ -14,9 +14,11 @@ import {
   CommonSpecies,
   CommonSpeciesTag,
   CommonVarietyTag,
+  Customer,
   CustomerProgram,
   CustomerProgramEntry,
   Maybe,
+  Shipper,
   ShipperProgram,
   ShipperProgramEntry,
   ShipperProgramEntryCustomerProgramEntry,
@@ -250,6 +252,7 @@ export const useFilterAndGroupPrograms = <
   T extends CustomerProgram | ShipperProgram,
   K extends CustomerProgramEntry | ShipperProgramEntry,
   J extends CustomerProgramUpdate | ShipperProgramUpdate,
+  L extends Customer | Shipper,
 >({
   commonSpecieses,
   commonSpeciesId,
@@ -261,7 +264,7 @@ export const useFilterAndGroupPrograms = <
   getProgramValue,
   getProgramEntryValue,
   isCustomers,
-  selectedCustomerOrShipperId,
+  selectedCustomerOrShipper,
   startDate,
   programProps,
   programs,
@@ -284,7 +287,7 @@ export const useFilterAndGroupPrograms = <
     key: keyof K,
   ) => { value: string; dirty: boolean };
   isCustomers: boolean;
-  selectedCustomerOrShipperId?: string;
+  selectedCustomerOrShipper?: L;
   startDate: string;
   programs: T[];
   programProps: Omit<
@@ -313,11 +316,11 @@ export const useFilterAndGroupPrograms = <
 
   const filteredPrograms = programs.reduce((acc, program) => {
     const isValid =
-      (selectedCustomerOrShipperId
+      (selectedCustomerOrShipper?.id
         ? (isCustomers
             ? program.customerId
             : (program as ShipperProgram).shipperId) ===
-          selectedCustomerOrShipperId
+          selectedCustomerOrShipper?.id
         : true) &&
       (editing ||
         ((!commonSpeciesId ||
@@ -392,9 +395,12 @@ export const useFilterAndGroupPrograms = <
               ),
             ))));
 
-    const customerOrShipperKey = isCustomers
-      ? program.customerId
-      : (program as ShipperProgram).shipperId;
+    const customerOrShipperKey =
+      (isCustomers
+        ? program.customer?.customerName ||
+          (selectedCustomerOrShipper as Customer)?.customerName
+        : (program as ShipperProgram).shipper?.shipperName) ||
+      (selectedCustomerOrShipper as Shipper)?.shipperName;
 
     if (!isValid || !customerOrShipperKey) {
       return acc;
@@ -486,7 +492,7 @@ export const useFilterAndGroupPrograms = <
   }, [] as T[]);
 
   const duplicateProgramIds = (
-    selectedCustomerOrShipperId
+    selectedCustomerOrShipper?.id
       ? Object.values(groupedPrograms)
           .map((customerOrShipper) =>
             Object.keys(customerOrShipper)
@@ -519,7 +525,11 @@ export const useFilterAndGroupPrograms = <
       return speciesKeys
         .map((speciesKey, speciesIdx) => {
           const programsBySpecies = customerOrShipper[speciesKey];
-          const programs = values(programsBySpecies.programs).flat() as T[];
+          const programs = sortBy(
+            (prog: T) =>
+              `${prog.commonVariety?.varietyName} ${prog.commonSize?.sizeName} ${prog.commonPackType?.packTypeName} ${prog.plu} ${prog.customer?.customerName}`.toLowerCase(),
+            values(programsBySpecies.programs).flat() as T[],
+          );
 
           const { programTotals } = programsBySpecies;
 
@@ -541,10 +551,15 @@ export const useFilterAndGroupPrograms = <
             0;
           const isFirstRow = speciesIdx === 0;
 
-          const customerName = (programs[0] as CustomerProgram)?.customer
-            ?.customerName;
-          const shipperName = (programs[0] as ShipperProgram)?.shipper
-            ?.shipperName;
+          const customerName =
+            editing && selectedCustomerOrShipper
+              ? (selectedCustomerOrShipper as Customer)?.customerName
+              : (programs[0] as CustomerProgram)?.customer?.customerName ||
+                'UNK';
+          const shipperName =
+            editing && selectedCustomerOrShipper
+              ? (selectedCustomerOrShipper as Shipper)?.shipperName
+              : (programs[0] as ShipperProgram)?.shipper?.shipperName;
           const name = isCustomers ? customerName : shipperName;
 
           const speciesName = speciesKeys.join(' - ');

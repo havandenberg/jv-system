@@ -874,7 +874,7 @@ const ProgramRow = <
   const { ItemSelector: SpeciesSelector } = useItemSelector({
     errorLabel: 'species',
     ...speciesLinkSelectorProps,
-    portalId: 'program-item-selector-portal',
+    portalId: 'programs-portal',
     portalTop,
     portalLeft: 52,
   });
@@ -882,7 +882,7 @@ const ProgramRow = <
   const { ItemSelector: VarietySelector } = useItemSelector({
     errorLabel: 'varieties',
     ...varietyLinkSelectorProps,
-    portalId: 'program-item-selector-portal',
+    portalId: 'programs-portal',
     portalTop,
     portalLeft: 160,
   });
@@ -890,7 +890,7 @@ const ProgramRow = <
   const { ItemSelector: SizeSelector } = useItemSelector({
     errorLabel: 'sizes',
     ...sizeLinkSelectorProps,
-    portalId: 'program-item-selector-portal',
+    portalId: 'programs-portal',
     portalTop,
     portalLeft: 268,
   });
@@ -898,7 +898,7 @@ const ProgramRow = <
   const { ItemSelector: PackTypeSelector } = useItemSelector({
     errorLabel: 'pack types',
     ...packTypeLinkSelectorProps,
-    portalId: 'program-item-selector-portal',
+    portalId: 'programs-portal',
     portalTop,
     portalLeft: 343,
   });
@@ -906,7 +906,7 @@ const ProgramRow = <
   const { ItemSelector: CustomerSelector } = useItemSelector({
     errorLabel: 'customers',
     ...customerLinkSelectorProps,
-    portalId: 'program-item-selector-portal',
+    portalId: 'programs-portal',
     portalTop,
     portalLeft: 498,
   });
@@ -977,6 +977,7 @@ const ProgramRow = <
               allocatedStartDate={allocatedStartDate}
               allocatedEndDate={allocatedEndDate}
               isCustomers={isCustomers}
+              portalTop={portalTop}
               program={program}
               weekCount={weekCount}
             />

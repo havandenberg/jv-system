@@ -58,6 +58,8 @@ interface Props extends InfoPanelProps {
   hasFilters?: boolean;
   hover?: boolean;
   portalId?: string;
+  portalLeft?: number;
+  portalTop?: number;
   setShow?: (show: boolean) => void;
   show?: boolean;
   triggerIcon?: React.ReactNode;
@@ -70,6 +72,8 @@ const InfoPanel = ({
   hasFilters = false,
   hover,
   portalId,
+  portalLeft,
+  portalTop,
   setShow,
   show: showProp,
   triggerIcon,
@@ -93,7 +97,13 @@ const InfoPanel = ({
         toggleShow(false);
       }}
     >
-      <Panel {...customStyles}>{content}</Panel>
+      <Panel
+        left={portalId ? portalLeft : `-${th.spacing.xs}`}
+        top={portalId ? portalTop : 24}
+        {...customStyles}
+      >
+        {content}
+      </Panel>
     </OutsideClickHandler>
   );
 

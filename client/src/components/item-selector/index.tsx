@@ -40,6 +40,7 @@ export interface ItemSelectorProps<T> {
   allItems: (localValue: string) => T[];
   clearSearchOnBlur?: boolean;
   clearSearchOnSelect?: boolean;
+  closeOnClear?: boolean;
   closeOnSelect?: boolean;
   defaultFocused?: boolean;
   disableClear?: boolean;
@@ -116,79 +117,79 @@ const ItemSelector = <T extends { id?: string; disabled?: boolean }>({
     : undefined;
 
   const contentPanel = focused && (
-    <l.Div position="absolute" left={portalLeft} top={portalTop}>
-      <OutsideClickHandler onOutsideClick={handleBlur}>
-        <l.Flex
-          borderRadius={th.borderRadii.default}
-          border={th.borders.secondary}
-          bg={th.colors.background}
-          boxShadow={th.shadows.box}
-          height={height}
-          ml={portalElement ? 0 : offset}
-          mt={portalElement ? 0 : panelGap}
-          position="absolute"
-          width={width}
-          zIndex={5}
-        >
-          {items && items.length > 0 ? (
-            <VirtualizedList
-              disableScrollTracking
-              height={height}
-              rowCount={items.length}
-              rowHeight={rowHeight}
-              rowRenderer={({ key, index, style }) => {
-                const item = items[index] as T;
+    <OutsideClickHandler onOutsideClick={handleBlur}>
+      <l.Flex
+        borderRadius={th.borderRadii.default}
+        border={th.borders.secondary}
+        bg={th.colors.background}
+        boxShadow={th.shadows.box}
+        height={height}
+        left={portalElement ? portalLeft : offset}
+        top={
+          portalElement ? portalTop : `calc(${th.sizes.fill} + ${panelGap}px)`
+        }
+        position="absolute"
+        width={width}
+        zIndex={5}
+      >
+        {items && items.length > 0 ? (
+          <VirtualizedList
+            disableScrollTracking
+            height={height}
+            rowCount={items.length}
+            rowHeight={rowHeight}
+            rowRenderer={({ key, index, style }) => {
+              const item = items[index] as T;
 
-                const isSelected = item?.id && selectedItems.includes(item.id);
+              const isSelected = item?.id && selectedItems.includes(item.id);
 
-                return (
-                  item && (
-                    <RowWrapper
-                      isMultiSelect={isMultiSelect}
-                      onClick={
-                        item.disabled
-                          ? undefined
-                          : () => {
-                              selectItem && selectItem(item);
-                              clearSearchOnSelect && clearSearch();
-                              if (closeOnSelect) {
-                                handleBlur();
-                              }
+              return (
+                item && (
+                  <RowWrapper
+                    isMultiSelect={isMultiSelect}
+                    onClick={
+                      item.disabled
+                        ? undefined
+                        : () => {
+                            selectItem && selectItem(item);
+                            clearSearchOnSelect && clearSearch();
+                            if (closeOnSelect) {
+                              handleBlur();
                             }
-                      }
-                      key={key}
-                      style={style}
-                    >
-                      {isMultiSelect && (
-                        <l.Div ml={th.spacing.xs}>
-                          <FilterCheckbox
-                            checked={!!isSelected}
-                            onChange={() => ({})}
-                          />
-                        </l.Div>
-                      )}
-                      {getItemContent
-                        ? getItemContent(item)
-                        : item && (
-                            <ty.CaptionText pl={th.spacing.sm}>
-                              {item.id} - {item[nameKey]}
-                            </ty.CaptionText>
-                          )}
-                    </RowWrapper>
-                  )
-                );
-              }}
-              style={{ borderRadius: th.borderRadii.default }}
-              width={width}
-            />
-          ) : (
-            <ty.CaptionText disabled mt={th.spacing.md} px={th.spacing.sm}>
-              {loading ? 'Loading...' : `No ${errorLabel} found...`}
-            </ty.CaptionText>
-          )}
-        </l.Flex>
-      </OutsideClickHandler>
-    </l.Div>
+                          }
+                    }
+                    key={key}
+                    style={style}
+                  >
+                    {isMultiSelect && (
+                      <l.Div ml={th.spacing.xs}>
+                        <FilterCheckbox
+                          checked={!!isSelected}
+                          onChange={() => ({})}
+                        />
+                      </l.Div>
+                    )}
+                    {getItemContent
+                      ? getItemContent(item)
+                      : item && (
+                          <ty.CaptionText pl={th.spacing.sm}>
+                            {item.id} - {item[nameKey]}
+                          </ty.CaptionText>
+                        )}
+                  </RowWrapper>
+                )
+              );
+            }}
+            style={{ borderRadius: th.borderRadii.default }}
+            width={width}
+          />
+        ) : (
+          <ty.CaptionText disabled mt={th.spacing.md} px={th.spacing.sm}>
+            {loading ? 'Loading...' : `No ${errorLabel} found...`}
+          </ty.CaptionText>
+        )}
+      </l.Flex>
+    </OutsideClickHandler>
   );
 
   return (
@@ -207,6 +208,7 @@ const useItemSelector = <T extends { id?: string; disabled?: boolean }>(
   const {
     allItems,
     clearSearchOnBlur,
+    closeOnClear = true,
     defaultFocused = false,
     disableClear,
     disabled,
@@ -231,12 +233,16 @@ const useItemSelector = <T extends { id?: string; disabled?: boolean }>(
   };
 
   const { clearSearch, localSearch, Search } = useSearch({
+    closeOnClear,
     disableClear,
     disabled: !!editableCellProps,
     disableSearchQuery,
     error: validationError,
     isDirty,
-    onClear,
+    onClear: () => {
+      onClear && onClear();
+      closeOnClear && setFocused(false);
+    },
     onlyClearSearch,
     paramName: searchParamName,
     placeholder,

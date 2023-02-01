@@ -18,6 +18,7 @@ type Props<T extends CustomerProgram | ShipperProgram> = {
   allocatedStartDate: Date;
   allocatedEndDate: Date;
   isCustomers: boolean;
+  portalTop: number;
   program: T;
   weekCount: number;
 };
@@ -26,6 +27,7 @@ const ProgramNotes = <T extends CustomerProgram | ShipperProgram>({
   allocatedStartDate,
   allocatedEndDate,
   isCustomers,
+  portalTop,
   program,
   weekCount,
 }: Props<T>) => {
@@ -163,6 +165,9 @@ const ProgramNotes = <T extends CustomerProgram | ShipperProgram>({
       customStyles={{
         width: 300,
       }}
+      portalId="programs-portal"
+      portalTop={portalTop}
+      portalLeft={24}
       setShow={() => {
         setShow(!show);
       }}
