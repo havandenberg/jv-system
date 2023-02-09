@@ -1,22 +1,11 @@
-const { add, endOfISOWeek, isBefore, startOfISOWeek } = require('date-fns');
-const { sortBy, mergeDeepLeft, omit } = require('ramda');
+const { mergeDeepLeft, omit, pick, pluck, times, values } = require('ramda');
 
 const { gql, gqlClient } = require('../../api');
-const { ews, ewsArgs, onError } = require('../../utils/server');
-const {
-  formatDate,
-  isDateGreaterThanOrEqualTo,
-  isDateLessThanOrEqualTo,
-} = require('../../utils/date');
+const { onError } = require('../../utils');
 
-const UNPAIDS_NOTIFICATIONS = (startDate, endDate) => gql`
-  query UNPAIDS_NOTIFICATIONS {
-    allVesselControls(filter: {
-      dueDate: {
-        greaterThanOrEqualTo: ${startDate},
-        lessThanOrEqualTo: ${endDate}
-      }
-    }) {
+const ALL_VESSEL_CONTROLS = gql`
+  query ALL_VESSEL_CONTROLS {
+    allVesselControls {
       nodes {
         approval1
         approval2
@@ -98,6 +87,22 @@ const UNPAIDS_NOTIFICATIONS = (startDate, endDate) => gql`
   }
 `;
 
+const BULK_UPSERT_VESSEL_CONTROLS = gql`
+  mutation VESSEL_CONTROLS_UPSERT($vesselControls: [VesselControlInput]!) {
+    bulkUpsertVesselControl(input: { vesselControls: $vesselControls }) {
+      clientMutationId
+    }
+  }
+`;
+
+const BULK_UPSERT_UNPAIDS = gql`
+  mutation UNPAIDS_UPSERT($unpaids: [UnpaidInput]!) {
+    bulkUpsertUnpaid(input: { unpaids: $unpaids }) {
+      clientMutationId
+    }
+  }
+`;
+
 const emptyUnpaid = {
   isUrgent: false,
   isAlert: false,
@@ -112,8 +117,17 @@ const buildVesselControlItems = (vesselControls) =>
       const groupedPallets = pallets.reduce((acc, pallet) => {
         const newValues = pallet.invoiceHeaders.nodes?.reduce(
           (acc2, invoice) => {
-            const salesUserCode = invoice?.salesUserCode || 'UNK';
-            const orderId = invoice?.orderId || 'UNK';
+            const salesUserCode = invoice?.salesUserCode;
+            const orderId = invoice?.orderId;
+
+            if (
+              !salesUserCode ||
+              ['HS', 'JJ'].includes(salesUserCode) ||
+              !orderId
+            ) {
+              return acc2;
+            }
+
             const info = acc2[salesUserCode]?.[orderId] || { pallets: [] };
             const accInfo =
               info.pallets.length > 0
@@ -165,10 +179,14 @@ const buildVesselControlItems = (vesselControls) =>
         groupedPallets,
         palletsReceived: pallets.length,
         palletsShipped,
-        id: vesselControl.id === '0' ? undefined : vesselControl.id,
+        id:
+          vesselControl.id ===
+          `${vesselControl.vessel?.id}${vesselControl.shipper?.id}`
+            ? undefined
+            : vesselControl.id,
       };
     })
-    .filter((vc) => !!vc);
+    .filter((vc) => !!vc && !!vc.vessel && !!vc.shipper);
 
 const getUnpaidsInfo = (unpaids) =>
   unpaids.reduce(
@@ -191,101 +209,59 @@ const getUnpaidsInfo = (unpaids) =>
     },
   );
 
-const DEFAULT_VESSEL_CONTROL_DAYS_UNTIL_DUE = 45;
+const iterationLimit = 200;
 
-const getVesselControlDueDate = (vessel, shipper) =>
-  vessel.dischargeDate
-    ? add(new Date(vessel.dischargeDate.replace(/-/g, '/')), {
-        days:
-          shipper.vesselControlDaysUntilDue ||
-          DEFAULT_VESSEL_CONTROL_DAYS_UNTIL_DUE,
-      })
-    : undefined;
-
-const getUnpaidVesselInputList = (vesselsInput) =>
-  sortBy(
-    ({ dueDate }) =>
-      dueDate ? new Date(dueDate.replace(/-/g, '/')).getTime() : 0,
-    Object.values(vesselsInput).map(({ shippers, ...rest }) => ({
-      ...rest,
-      shippers: Object.values(shippers),
-    })),
+const generateVesselControlsAndUnpaids = () => {
+  console.log(
+    `\nGenerating vessel controls and unpaids at: ${new Date().toString()}\n`,
   );
 
-const getUnpaidsContent = (unpaids, vesselCode, shipperId, baseUrl) =>
-  `${unpaids
-    .map(
-      ({ invoiceId, customerName, flag, isUrgent }) => `
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      - <a href="${baseUrl}&unpaidSearch=${vesselCode}%20${shipperId}%20${invoiceId}">${invoiceId}</a>
-        - ${customerName}
-      ${
-        isUrgent
-          ? '&nbsp;&nbsp;- <span style="color: #E77728;">URGENT</span>'
-          : ''
-      }
-      ${
-        flag
-          ? '&nbsp;&nbsp;- <span style="color: #FF0000;">Alert: ' +
-            flag +
-            '</span>'
-          : ''
-      }<br />`,
-    )
-    .join('')}`;
-
-const getUnpaidsShipperContent = (shippers, vesselCode, baseUrl) =>
-  `${shippers
-    .map(
-      ({ shipperId, shipperName, unpaids }) => `
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        - <a href="${baseUrl}&unpaidSearch=${vesselCode}%20${shipperId}">${shipperId} - ${shipperName}</a>
-        <br />
-        ${getUnpaidsContent(unpaids, vesselCode, shipperId, baseUrl)}`,
-    )
-    .join('')}`;
-
-const getUnpaidsVesselContent = (unpaids, header, baseUrl) =>
-  `<p style="font-weight: bold;">${header}</p><br /><br />
-    ${
-      unpaids.length > 0
-        ? unpaids
-            .map(
-              ({ dueDate, shipDate, vesselName, vesselCode, shippers }) => `
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                - <a href="${baseUrl}&unpaidSearch=${vesselCode}">${vesselCode} - ${vesselName}</a>&nbsp;&nbsp;&nbsp;&nbsp;
-                Due: ${dueDate}&nbsp;&nbsp;&nbsp;&nbsp;
-                Shipped: ${shipDate}
-                <br />
-                ${getUnpaidsShipperContent(
-                  shippers,
-                  vesselCode,
-                  baseUrl,
-                )}<br />`,
-            )
-            .join('')
-        : '&nbsp;&nbsp;&nbsp;&nbsp;None.'
-    }`;
-
-const sendUnpaidsNotificationEmails = () => {
-  console.log(`\nSending unpaids reminders at: ${new Date().toString()}\n`);
-
-  const startOfWeek = startOfISOWeek(new Date());
-  const endOfWeek = endOfISOWeek(new Date());
-  const startDate = add(startOfWeek, { weeks: -2 });
-  const endDate = add(endOfWeek, { weeks: 1 });
-
   gqlClient
-    .request(
-      UNPAIDS_NOTIFICATIONS(
-        `"${formatDate(startDate)}"`,
-        `"${formatDate(endDate)}"`,
-      ),
-    )
+    .request(ALL_VESSEL_CONTROLS)
     .then(async ({ allVesselControls: { nodes } }) => {
-      const vesselControls = buildVesselControlItems(nodes);
+      const allVesselControls = buildVesselControlItems(nodes);
+      const filteredVesselControls = allVesselControls.map((vesselControl) => ({
+        ...pick(
+          [
+            'approval1',
+            'approval2',
+            'dateSent',
+            'id',
+            'isLiquidated',
+            'notes1',
+            'notes2',
+          ],
+          vesselControl,
+        ),
+        shipperId: vesselControl.shipper?.id,
+        vesselCode: vesselControl.vessel?.vesselCode,
+      }));
 
-      const groupedUnpaids = vesselControls.reduce(
+      const vcIterationMap = times(
+        (iteration) => iteration,
+        Math.ceil(filteredVesselControls.length / iterationLimit),
+      );
+
+      for (const vcIteration of vcIterationMap) {
+        const vesselControls = filteredVesselControls.slice(
+          vcIteration * iterationLimit,
+          (vcIteration + 1) * iterationLimit,
+        );
+
+        await gqlClient
+          .request(BULK_UPSERT_VESSEL_CONTROLS, {
+            vesselControls,
+          })
+          .catch(onError);
+      }
+
+      console.log(
+        `${
+          filteredVesselControls.filter((vc) => !vc.id).length
+        } new vessel controls generated at ${new Date()}\n`,
+      );
+
+      const groupedUnpaids = allVesselControls.reduce(
         (acc, vesselControl) => ({
           ...acc,
           ...Object.keys(vesselControl?.groupedPallets || {}).reduce(
@@ -295,9 +271,9 @@ const sendUnpaidsNotificationEmails = () => {
 
               const itemKey = `${vesselControl?.vessel?.vesselCode}-${vesselControl?.shipper?.id}-${salesUserCode}`;
 
-              const ups = Object.values(groupedPalletsBySalesUser)
-                .map(({ unpaid }) => unpaid)
-                .filter((up) => !up.isApproved);
+              const ups = Object.values(groupedPalletsBySalesUser).map(
+                ({ unpaid }) => unpaid,
+              );
               const up = ups[0];
 
               const { isAllApproved, isPartialApproved } = getUnpaidsInfo(ups);
@@ -320,151 +296,51 @@ const sendUnpaidsNotificationEmails = () => {
         {},
       );
 
-      const unpaidRemindersInfo = Object.keys(groupedUnpaids).reduce(
-        (acc, itemKey) => {
-          const [vesselCode, shipperId, salesUserCode] = itemKey.split('-');
-          if (!salesUserCode || salesUserCode === 'UNK') {
-            return acc;
-          }
+      const allUnpaids = Object.keys(groupedUnpaids)
+        .map((itemKey) => {
+          const { unpaids } = groupedUnpaids[itemKey];
+          const [vesselCode, shipperId] = itemKey.split('-');
+          return unpaids
+            .map((up) => ({
+              ...pick(
+                ['id', 'invoiceId', 'isApproved', 'isUrgent', 'notes'],
+                up,
+              ),
+              vesselCode,
+              shipperId,
+            }))
+            .filter((up) => up.shipperId && up.vesselCode);
+        })
+        .flat();
 
-          const { shipper, vessel } =
-            vesselControls.find(
-              (vc) =>
-                vc.vessel?.vesselCode === vesselCode &&
-                vc.shipper?.id === shipperId,
-            ) || {};
-
-          const unpaids = groupedUnpaids[itemKey]?.unpaids;
-          const { invoice } = unpaids[0] || {};
-
-          const dueDate =
-            vessel && shipper && getVesselControlDueDate(vessel, shipper);
-          const isPast = dueDate && isBefore(dueDate, startOfWeek);
-          const isCurrent =
-            dueDate &&
-            isDateGreaterThanOrEqualTo(dueDate, startOfWeek) &&
-            isDateLessThanOrEqualTo(dueDate, endOfWeek);
-
-          const vesselKey = isPast
-            ? 'pastUnpaids'
-            : isCurrent
-            ? 'currentUnpaids'
-            : 'futureUnpaids';
-
-          return {
-            ...acc,
-            [salesUserCode]: {
-              ...acc[salesUserCode],
-              userCode: invoice?.salesUser?.userCode || '',
-              firstName: invoice?.salesUser?.personContact?.firstName || '',
-              email: invoice?.salesUser?.personContact?.email || '',
-              [vesselKey]: {
-                ...acc[salesUserCode]?.[vesselKey],
-                [vesselCode]: {
-                  vesselCode: unpaids[0]?.vesselCode || '',
-                  vesselName: vessel?.vesselName || '',
-                  dueDate: dueDate ? formatDate(dueDate) : '',
-                  shipDate: unpaids[0]?.invoice?.actualShipDate
-                    ? formatDate(
-                        new Date(
-                          unpaids[0]?.invoice?.actualShipDate.replace(
-                            /-/g,
-                            '/',
-                          ),
-                        ),
-                      )
-                    : '',
-                  shippers: {
-                    ...acc[salesUserCode]?.[vesselKey]?.[vesselCode]?.shippers,
-                    [shipperId]: {
-                      shipperId: shipper?.id || '',
-                      shipperName: shipper?.shipperName || '',
-                      unpaids: unpaids.map((unpaid) => ({
-                        isUrgent: !!unpaid?.isUrgent,
-                        invoiceId: unpaid?.invoice?.invoiceId || '',
-                        flag: unpaid?.invoice?.flag || '',
-                        customerName:
-                          unpaid?.invoice?.billingCustomer?.customerName || '',
-                      })),
-                    },
-                  },
-                },
-              },
-            },
-          };
-        },
-        {},
+      const upIterationMap = times(
+        (iteration) => iteration,
+        Math.ceil(allUnpaids.length / iterationLimit),
       );
 
-      const unpaidReminders = Object.keys(unpaidRemindersInfo).map(
-        (salesUserCode) => {
-          const unpaidsBySalesUser = unpaidRemindersInfo[salesUserCode];
-          return {
-            ...unpaidRemindersInfo[salesUserCode],
-            pastUnpaids: unpaidsBySalesUser?.pastUnpaids
-              ? getUnpaidVesselInputList(unpaidsBySalesUser.pastUnpaids)
-              : [],
-            currentUnpaids: unpaidsBySalesUser?.currentUnpaids
-              ? getUnpaidVesselInputList(unpaidsBySalesUser.currentUnpaids)
-              : [],
-            futureUnpaids: unpaidsBySalesUser?.futureUnpaids
-              ? getUnpaidVesselInputList(unpaidsBySalesUser.futureUnpaids)
-              : [],
-          };
-        },
-      );
+      for (const upIteration of upIterationMap) {
+        const unpaids = allUnpaids.slice(
+          upIteration * iterationLimit,
+          (upIteration + 1) * iterationLimit,
+        );
 
-      for (const reminder of unpaidReminders) {
-        const {
-          userCode,
-          firstName,
-          email,
-          pastUnpaids,
-          currentUnpaids,
-          futureUnpaids,
-        } = reminder;
-        const startDate = pastUnpaids[0]?.dueDate || startOfWeek;
-        const endDate =
-          futureUnpaids[futureUnpaids.length - 1]?.dueDate ||
-          currentUnpaids[currentUnpaids.length - 1]?.dueDate ||
-          pastUnpaids[pastUnpaids.length - 1]?.dueDate ||
-          endOfWeek;
-        const baseUrl = `${process.env.REACT_APP_CLIENT_URL}/accounting/unpaids?salesUserCode=${userCode}&startDate=${startDate}&endDate=${endDate}`;
-
-        await ews
-          .run(
-            'CreateItem',
-            ewsArgs({
-              ccRecipients:
-                process.env.REACT_APP_IS_PRODUCTION === 'true'
-                  ? ['jpaap@jacvandenberg.com']
-                  : [],
-              toRecipients:
-                process.env.REACT_APP_IS_PRODUCTION === 'true'
-                  ? [email]
-                  : ['hvandenberg@jacvandenberg.com'],
-              body: `Dear ${firstName},<br /><br />
-              Please review the following list of unpaids. <a href="${baseUrl}">Complete unpaids here.</a><br /><br />
-              ${getUnpaidsVesselContent(pastUnpaids, 'Past Due:', baseUrl)}
-              ${getUnpaidsVesselContent(currentUnpaids, 'This Week:', baseUrl)}
-              ${getUnpaidsVesselContent(futureUnpaids, 'Upcoming:', baseUrl)}
-              <br /><br />`,
-              subject:
-                'Unpaids Summary - ' +
-                new Date().toLocaleDateString('en-us', {
-                  weekday: 'short',
-                  month: 'short',
-                  day: 'numeric',
-                }),
-            }),
-          )
-          .then(() => {
-            const successMessage = `Unpaids Summary email sent to ${userCode} at ${new Date()}\n`;
-            console.log(successMessage);
+        await gqlClient
+          .request(BULK_UPSERT_UNPAIDS, {
+            unpaids,
           })
           .catch(onError);
       }
+
+      console.log(
+        `${
+          allUnpaids.filter((up) => !up.id).length
+        } new unpaids generated at ${new Date()}\n`,
+      );
     });
 };
 
-module.exports = sendUnpaidsNotificationEmails;
+module.exports = {
+  generateVesselControlsAndUnpaids,
+  getUnpaidsInfo,
+  buildVesselControlItems,
+};

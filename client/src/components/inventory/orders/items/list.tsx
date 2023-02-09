@@ -58,7 +58,7 @@ const OrderItemList = ({ items }: { items: OrderItem[] }) => {
                 data={item}
                 gridTemplateColumns={gridTemplateColumns(backOrderId)}
                 highlightColor={th.colors.status.warningSecondary}
-                isHalfHighlight={
+                isHighlight={
                   item.order?.expectedShipDate &&
                   differenceInDays(
                     new Date(item.order?.expectedShipDate.replace(/-/g, '/')),

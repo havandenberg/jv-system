@@ -121,10 +121,10 @@ CREATE FUNCTION product.pallet_invoice_headers(IN p product.pallet)
     PARALLEL UNSAFE
     COST 100
 AS $BODY$
-  SELECT i.* FROM accounting.invoice_header i
-    JOIN accounting.invoice_item ii ON ii.order_id = i.order_id
+  SELECT i.* FROM accounting.invoice_item ii
+    JOIN accounting.invoice_header i ON ii.order_id = i.order_id
       AND ii.back_order_id = i.back_order_id
-    WHERE ii.pallet_id = p.pallet_id
+    WHERE p.pallet_id = ii.pallet_id
 $BODY$;
 
 CREATE FUNCTION product.pallet_search_text(IN p product.pallet)

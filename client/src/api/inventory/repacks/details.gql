@@ -1,0 +1,73 @@
+query REPACK_HEADER_DETAILS($repackCode: String!) {
+  repackHeaders(condition: { repackCode: $repackCode }) {
+    nodes {
+      id
+      repackCode
+      runNumber
+      boxesIn
+      boxesOut
+      weightIn
+      weightOut
+      whBagsOut
+      whWeightIn
+      whWeightOut
+      whBoxesIn
+      whBoxesOut
+      repackDate
+      repackStyleId
+      warehouseId
+      warehouse {
+        id
+        warehouseName
+      }
+      entryUserCode
+      items {
+        nodes {
+          id
+          repackCode
+          runNumber
+          palletId
+          newPalletId
+          boxesIn
+          boxesOut
+          notes
+          pallet {
+            containerId
+            currentBoxQuantity
+            growerId
+            id
+            locationId
+            orderId
+            palletId
+            packDate
+            shipped
+            product {
+              id
+              species {
+                id
+                speciesDescription
+                commonSpecies {
+                  id
+                  palletWeight
+                }
+              }
+              packType {
+                id
+                packDescription
+                commonPackType {
+                  id
+                  palletWeight
+                }
+              }
+            }
+          }
+        }
+      }
+      repackStyle {
+        id
+        styleName
+      }
+      notes
+    }
+  }
+}

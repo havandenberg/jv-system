@@ -12,16 +12,21 @@ const { palletOptions, palletSectionOptions } = require('./product/pallet');
 const vesselOptions = require('./product/vessel');
 const orderMasterOptions = require('./operations/order/master');
 const orderItemOptions = require('./operations/order/item');
+const repackHeaderOptions = require('./operations/repack/header');
+const repackItemOptions = require('./operations/repack/item');
 const truckLoadOptions = require('./operations/truck-load');
 const expenseHeaderOptions = require('./accounting/expense/header');
 const expenseItemOptions = require('./accounting/expense/item');
 const invoiceHeaderOptions = require('./accounting/invoice/header');
 const invoiceItemOptions = require('./accounting/invoice/item');
+const invoiceItemHistoryOptions = require('./accounting/invoice/item-history');
+const customerPaymentOptions = require('./accounting/customer-payment');
 const productMasterOptions = require('./product/master');
 const speciesOptions = require('./product/species');
 const varietyOptions = require('./product/variety');
 const sizeOptions = require('./product/size');
 const packTypeOptions = require('./product/pack-type');
+const repackStyleOptions = require('./product/repack-style');
 
 const db2RunQuery = (tableName, db) => {
   switch (tableName) {
@@ -49,12 +54,20 @@ const db2RunQuery = (tableName, db) => {
       return db2UpdateItems(db, orderMasterOptions);
     case 'operations/order/item':
       return db2UpdateItems(db, orderItemOptions);
+    case 'operations/repack/header':
+      return db2UpdateItems(db, repackHeaderOptions);
+    case 'operations/repack/item':
+      return db2UpdateItems(db, repackItemOptions);
     case 'operations/truck-load':
       return db2UpdateItems(db, truckLoadOptions);
     case 'accounting/invoice/header':
       return db2UpdateItems(db, invoiceHeaderOptions);
     case 'accounting/invoice/item':
       return db2UpdateItems(db, invoiceItemOptions);
+    case 'accounting/invoice/item-history':
+      return db2UpdateItems(db, invoiceItemHistoryOptions);
+    case 'accounting/customer-payment':
+      return db2UpdateItems(db, customerPaymentOptions);
     case 'accounting/expense/header':
       return db2UpdateItems(db, expenseHeaderOptions);
     case 'accounting/expense/item':
@@ -97,6 +110,8 @@ const db2RunQuery = (tableName, db) => {
       return db2UpdateItems(db, packTypeOptions.packTreeRipeOptions);
     case 'product/pack-master':
       return db2UpdateItems(db, packTypeOptions.packMasterOptions);
+    case 'product/repack-style':
+      return db2UpdateItems(db, repackStyleOptions);
     default:
       return db.query('select 1 from sysibm.sysdummy1;');
   }

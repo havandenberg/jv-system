@@ -1,13 +1,9 @@
-import { useMemo } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
 import { add } from 'date-fns';
 import { loader } from 'graphql.macro';
 
 import { getOrderByString } from 'api/utils';
-import {
-  buildVesselControlItems,
-  VesselControlItem,
-} from 'components/accounting/vessel-control/data-utils';
+import { vesselControlSearchText } from 'components/accounting/unpaids/data-utils';
 import { formatDate } from 'components/date-range-picker';
 import { SORT_ORDER } from 'hooks/use-columns';
 import {
@@ -54,40 +50,27 @@ export const useVariables = (orderByOverride?: string, isUnpaids?: boolean) => {
   };
 };
 
-export const useVesselControlItems = () => {
+export const useVesselControls = () => {
   const [search = ''] = useSearchQueryParam('vesselControlSearch');
+  const searchArray = search?.split(' ');
   const variables = useVariables('ID_ASC');
-  const [liquidatedStatus] = useQueryValue('liquidatedStatus');
-  const isLiquidated = liquidatedStatus === 'liquidated';
-  const isNotLiquidated = liquidatedStatus === 'unliquidated';
-  const [vesselControlView] = useQueryValue('vesselControlView');
-  const isDue = vesselControlView === 'due';
 
-  const {
-    data: vesselControlsData,
-    loading,
-    error,
-  } = useQuery<Query>(VESSEL_CONTROL_LIST_QUERY, {
+  const { data, loading, error } = useQuery<Query>(VESSEL_CONTROL_LIST_QUERY, {
     variables,
   });
 
-  const data = useMemo(
-    () =>
-      buildVesselControlItems(
-        (vesselControlsData?.allVesselControls?.nodes || []) as VesselControl[],
-        search?.split(' '),
-      ) as VesselControlItem[],
-    [search, vesselControlsData],
-  );
+  const vesselControls = (data?.vesselControls?.nodes || []) as VesselControl[];
 
-  const filteredData = data.filter((vc) => {
-    if (isLiquidated) {
-      return vc.isLiquidated && (isDue || !!vc.id);
-    }
-    if (isNotLiquidated) {
-      return !vc.isLiquidated && (isDue || !!vc.id);
-    }
-    return isDue || !!vc.id;
+  const filteredData = vesselControls.filter((vc) => {
+    const searchText = vesselControlSearchText(vc);
+
+    const isSearchValid =
+      !searchArray ||
+      searchArray.every((searchVal) =>
+        searchText.toLowerCase().includes(searchVal.toLowerCase()),
+      );
+
+    return isSearchValid;
   });
 
   return {

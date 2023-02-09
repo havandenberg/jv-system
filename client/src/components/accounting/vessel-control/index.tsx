@@ -17,13 +17,14 @@ import useColumns, { SORT_ORDER } from 'hooks/use-columns';
 import useDateRange from 'hooks/use-date-range';
 import useSearch from 'hooks/use-search';
 import { useQueryValue } from 'hooks/use-query-params';
+import { VesselControl } from 'types';
 import b from 'ui/button';
 import { LineItemCheckbox } from 'ui/checkbox';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 
-import { listLabels, VesselControlItem } from './data-utils';
+import { listLabels } from './data-utils';
 import NotifyUnpaids from './notify';
 import {
   gridTemplateColumns as unpaidsGridTemplateColumns,
@@ -48,16 +49,18 @@ export const dateRangeTabs = [
 
 const VesselControlLog = () => {
   const { Search } = useSearch({ paramName: 'vesselControlSearch' });
+  const [liquidatedStatus, setLiquidatedStatus] =
+    useQueryValue('liquidatedStatus');
+  const isLiquidated = liquidatedStatus === 'liquidated';
+  const isNotLiquidated = liquidatedStatus === 'unliquidated';
+  const [vesselControlView] = useQueryValue('vesselControlView');
+  const isDue = vesselControlView === 'due';
 
-  const {
-    data: vesselControlItems,
-    loading,
-    error,
-  } = api.useVesselControlItems();
+  const { data: vesselControls, loading, error } = api.useVesselControls();
 
-  const [changes, setChanges] = useState<VesselControlItem[]>([]);
+  const [changes, setChanges] = useState<VesselControl[]>([]);
 
-  const handleChange = (updatedItem: VesselControlItem) => {
+  const handleChange = (updatedItem: VesselControl) => {
     setChanges((prevChanges) => {
       const existingChange = prevChanges.find(
         (change) =>
@@ -142,7 +145,7 @@ const VesselControlLog = () => {
     maxDate: endOfISOWeek(add(new Date(), { weeks: 4 })),
   });
 
-  const columnLabels = useColumns<VesselControlItem>(
+  const columnLabels = useColumns<VesselControl>(
     'dueDate',
     SORT_ORDER.ASC,
     listLabels(handleChange),
@@ -152,21 +155,28 @@ const VesselControlLog = () => {
 
   const isDirty = !isEmpty(changes);
 
-  const updatedVesselControlItems = [
-    ...vesselControlItems.map((vesselControl) => {
-      const updatedVesselControlItem = changes.find(
+  const updatedVesselControls = [
+    ...vesselControls.map((vesselControl) => {
+      const updatedVesselControl = changes.find(
         (change) =>
           change.vessel?.vesselCode === vesselControl.vessel?.vesselCode &&
           change.shipper?.id === vesselControl.shipper?.id,
       );
-      return updatedVesselControlItem || vesselControl;
+      return updatedVesselControl || vesselControl;
     }),
     ...changes.filter((change) => !change.id),
-  ];
+  ].filter((vc) => {
+    if (isLiquidated) {
+      return vc.isLiquidated && (isDue || !!vc.id);
+    }
+    if (isNotLiquidated) {
+      return !vc.isLiquidated && (isDue || !!vc.id);
+    }
+    return isDue || !!vc.id;
+  });
 
   const [selectedItems, setSelectedItems] = useState<(string | number)[]>([]);
-  const isAllSelected =
-    selectedItems.length === updatedVesselControlItems.length;
+  const isAllSelected = selectedItems.length === updatedVesselControls.length;
 
   const toggleSelectItem = (key: string) => {
     if (selectedItems.includes(key)) {
@@ -185,15 +195,12 @@ const VesselControlLog = () => {
       setSelectedItems([]);
     } else {
       setSelectedItems(
-        updatedVesselControlItems.map(
+        updatedVesselControls.map(
           (item) => `${item.vessel?.vesselCode}-${item.shipper?.id}`,
         ),
       );
     }
   };
-
-  const [liquidatedStatus, setLiquidatedStatus] =
-    useQueryValue('liquidatedStatus');
 
   const toggleLiquidatedStatus = () => {
     switch (liquidatedStatus) {
@@ -248,13 +255,13 @@ const VesselControlLog = () => {
                 selectedItems
                   .map((it) => {
                     const info = `${it}`.split('-');
-                    return vesselControlItems.find(
+                    return vesselControls.find(
                       (vc) =>
                         vc.vessel?.vesselCode === info[0] &&
                         vc.shipper?.id === info[1],
                     );
                   })
-                  .filter(Boolean) as VesselControlItem[]
+                  .filter(Boolean) as VesselControl[]
               }
             />
           </l.Div>
@@ -270,7 +277,7 @@ const VesselControlLog = () => {
                 {!loading && (
                   <ty.SmallText secondary>
                     Results:{' '}
-                    {vesselControlItems ? vesselControlItems.length : '-'}
+                    {updatedVesselControls ? updatedVesselControls.length : '-'}
                     {selectedItems.length > 0
                       ? `, Selected: ${selectedItems.length}`
                       : ''}
@@ -373,31 +380,30 @@ const VesselControlLog = () => {
                   )}
                 </l.Grid>
               </l.Div>
-              {!isEmpty(vesselControlItems) ? (
+              {!isEmpty(vesselControls) ? (
                 <VirtualizedGrid
                   columnCount={1}
                   columnWidth={VESSEL_CONTROL_LOG_WIDTH}
                   height={700}
                   onScroll={onScroll}
-                  rowCount={updatedVesselControlItems.length + 1}
+                  rowCount={updatedVesselControls.length + 1}
                   rowHeight={46}
                   width={1024}
                   cellRenderer={({ rowIndex, style }) => {
-                    const vesselControlItem =
-                      updatedVesselControlItems[rowIndex];
-                    const vesselControlId = `${vesselControlItem?.vessel?.vesselCode}-${vesselControlItem?.shipper?.id}`;
+                    const vesselControl = updatedVesselControls[rowIndex];
+                    const vesselControlId = `${vesselControl?.vessel?.vesselCode}-${vesselControl?.shipper?.id}`;
                     return (
-                      vesselControlItem && (
+                      vesselControl && (
                         <div
                           key={vesselControlId}
                           style={{ ...style, background: th.colors.background }}
                         >
-                          <ListItem<VesselControlItem>
-                            data={vesselControlItem}
+                          <ListItem<VesselControl>
+                            data={vesselControl}
                             gridTemplateColumns={gridTemplateColumns}
                             hoverable
                             listLabels={listLabels(handleChange)}
-                            isHalfHighlight={!!vesselControlItem.isLiquidated}
+                            isHalfHighlight={!!vesselControl.isLiquidated}
                             highlightColor={th.colors.status.success}
                             offsetTop={scrollTop}
                             onSelectItem={() => {
@@ -412,7 +418,7 @@ const VesselControlLog = () => {
                 />
               ) : (
                 <DataMessage
-                  data={vesselControlItems}
+                  data={vesselControls}
                   error={error}
                   loading={loading}
                   emptyProps={{
@@ -425,7 +431,7 @@ const VesselControlLog = () => {
         </ScrollSync>
       ) : (
         <DataMessage
-          data={vesselControlItems}
+          data={vesselControls}
           error={error}
           loading={loading}
           emptyProps={{

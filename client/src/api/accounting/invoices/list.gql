@@ -62,6 +62,7 @@ query INVOICE_HEADER_LIST(
               packType {
                 id
                 packDescription
+                pluUpcCode
                 label {
                   id
                   labelName

@@ -21,6 +21,7 @@ const PRODUCT_SIZE_LIST_QUERY = loader('./sizes/list.gql');
 export const PRODUCT_SIZE_DETAILS_QUERY = loader('./sizes/details.gql');
 const PACK_MASTER_LIST_QUERY = loader('./pack-masters/list.gql');
 export const PRODUCT_PACK_TYPE_DETAILS = loader('./pack-masters/details.gql');
+const REPACK_STYLE_LIST_QUERY = loader('./repack-styles/list.gql');
 export const PACK_LABEL_DETAILS = loader('./pack-masters/label-details.gql');
 
 export const useProductMasters = () => {
@@ -174,6 +175,21 @@ export const usePackMasterList = () => {
   });
   return {
     data: data ? data.packMasters : undefined,
+    error,
+    loading,
+  };
+};
+
+export const useRepackStyleList = () => {
+  const [repackStyleSearch = ''] = useQueryValue('repackStyleSearch');
+
+  const { data, error, loading } = useQuery<Query>(REPACK_STYLE_LIST_QUERY, {
+    variables: {
+      search: getSearchArray(repackStyleSearch),
+    },
+  });
+  return {
+    data: data ? data.repackStyles : undefined,
     error,
     loading,
   };

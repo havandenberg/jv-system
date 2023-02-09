@@ -1,3 +1,3 @@
-const sendUnpaidsNotificationEmails = require('.');
+const { generateVesselControlsAndUnpaids } = require('.');
 
-sendUnpaidsNotificationEmails();
+generateVesselControlsAndUnpaids();

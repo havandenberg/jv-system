@@ -1,0 +1,51 @@
+query REPACK_HEADER_LIST(
+  $warehouseId: [String!]
+  $orderBy: [RepackHeadersOrderBy!]
+  $search: [RepackHeaderFilter!]
+  $endDate: Date
+  $startDate: Date
+) {
+  repackHeaders(
+    filter: {
+      and: $search
+      warehouseId: { in: $warehouseId }
+      or: {
+        repackDate: {
+          greaterThanOrEqualTo: $startDate
+          lessThanOrEqualTo: $endDate
+        }
+      }
+    }
+    orderBy: $orderBy
+  ) {
+    nodes {
+      id
+      count
+      repackCode
+      runNumber
+      boxesIn
+      boxesOut
+      weightIn
+      weightOut
+      whBagsOut
+      whWeightIn
+      whWeightOut
+      whBoxesIn
+      whBoxesOut
+      repackDate
+      repackStyleId
+      warehouseId
+      warehouse {
+        id
+        warehouseName
+      }
+      entryUserCode
+      repackStyle {
+        id
+        styleName
+      }
+      notes
+    }
+    totalCount
+  }
+}

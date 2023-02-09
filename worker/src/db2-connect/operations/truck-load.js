@@ -1,4 +1,5 @@
 const { gql } = require('../../api');
+const { getDateTime } = require('../utils');
 
 const TRUCK_LOAD_LIST = gql`
   query TRUCK_LOAD_LIST {
@@ -48,30 +49,9 @@ const BULK_DELETE_TRUCK_LOAD = gql`
   }
 `;
 
-const getTime = (dateString, timeInput, hasSeconds) => {
-  const parseSeconds = hasSeconds || `${timeInput}`.length > 4;
-  const timeString = `${timeInput}`.padStart(parseSeconds ? 6 : 4, '0');
-  const dateTimeString = parseSeconds
-    ? `${dateString}T${timeString.substring(0, 2)}:${timeString.substring(
-        2,
-        4,
-      )}:${timeString.substring(4, 6)}`
-    : `${dateString}T${timeString.substring(0, 2)}:${timeString.substring(
-        2,
-        4,
-      )}:00`;
-  const isValid = Date.parse(dateTimeString);
-  return isValid ? dateTimeString : null;
-};
-
 const getUpdatedTruckLoad = (truckLoad, db2TruckLoad, id) => {
-  const shipDateString = `${db2TruckLoad['SHPDTY']}`.padStart(6, '0');
-  const shipDate = `20${shipDateString.substring(
-    0,
-    2,
-  )}-${shipDateString.substring(2, 4)}-${shipDateString.substring(4, 6)}`;
-  const isValidShipDate = Date.parse(shipDate);
-  if (!isValidShipDate) {
+  const shipDate = getDateTime(db2TruckLoad['SHPDTY']);
+  if (!shipDate) {
     return null;
   }
   return {
@@ -85,11 +65,15 @@ const getUpdatedTruckLoad = (truckLoad, db2TruckLoad, id) => {
     ryanNumber: db2TruckLoad['RYAN#Y'],
     truckerName: db2TruckLoad['TRKNMY'],
     expeditorName: db2TruckLoad['EXPEDY'],
-    timeStarted: getTime(shipDate, db2TruckLoad['TSTRTY']),
-    timeCompleted: getTime(shipDate, db2TruckLoad['TCOMPY']),
-    timeIn: getTime(shipDate, db2TruckLoad['TIMINY'], true),
-    timeOut: getTime(shipDate, db2TruckLoad['TIMOTY'], true),
-    timeConfirmed: getTime(shipDate, db2TruckLoad['TCNFRY'], true),
+    timeStarted: getDateTime(db2TruckLoad['SHPDTY'], db2TruckLoad['TSTRTY']),
+    timeCompleted: getDateTime(db2TruckLoad['SHPDTY'], db2TruckLoad['TCOMPY']),
+    timeIn: getDateTime(db2TruckLoad['SHPDTY'], db2TruckLoad['TIMINY'], true),
+    timeOut: getDateTime(db2TruckLoad['SHPDTY'], db2TruckLoad['TIMOTY'], true),
+    timeConfirmed: getDateTime(
+      db2TruckLoad['SHPDTY'],
+      db2TruckLoad['TCNFRY'],
+      true,
+    ),
     warehouseId: `${db2TruckLoad['LOCNY'].trimEnd()}`,
     changeFlag: !!db2TruckLoad['CFLAGY'],
     licensePlate: db2TruckLoad['TLIC#Y'],

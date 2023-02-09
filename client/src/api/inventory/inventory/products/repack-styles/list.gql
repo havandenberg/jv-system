@@ -1,0 +1,12 @@
+query REPACK_STYLE_LIST($search: [RepackStyleFilter!]) {
+  repackStyles(filter: { and: $search }) {
+    nodes {
+      id
+      styleName
+      styleDescription
+      lqdCode
+      filmLength
+      packOutWeight
+    }
+  }
+}

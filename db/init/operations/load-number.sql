@@ -59,8 +59,8 @@ AS $BODY$
     WHERE om.truck_load_id = CAST (ln.id AS TEXT);
 $BODY$;
 
-CREATE FUNCTION operations.load_number_invoice_header(IN ln operations.load_number)
-    RETURNS accounting.invoice_header
+CREATE FUNCTION operations.load_number_invoice_headers(IN ln operations.load_number)
+    RETURNS SETOF accounting.invoice_header
     LANGUAGE 'sql'
     STABLE
     PARALLEL UNSAFE

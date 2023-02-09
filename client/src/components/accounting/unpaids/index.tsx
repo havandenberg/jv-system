@@ -1,5 +1,4 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import { add, endOfISOWeek } from 'date-fns';
 import { isEmpty, pick } from 'ramda';
 import { ClipLoader } from 'react-spinners';
 import { ScrollSync } from 'react-virtualized';
@@ -19,6 +18,7 @@ import { useQueryValue } from 'hooks/use-query-params';
 import useSearch from 'hooks/use-search';
 import { Unpaid } from 'types';
 import b from 'ui/button';
+import { LineItemCheckbox } from 'ui/checkbox';
 import { Select } from 'ui/input';
 import l from 'ui/layout';
 import th from 'ui/theme';
@@ -26,10 +26,9 @@ import ty from 'ui/typography';
 
 import { SALES_USER_CODES } from '../vessel-control/unpaids';
 import { getSortedUnpaids, listLabels } from './data-utils';
-import { LineItemCheckbox } from 'ui/checkbox';
 
 const gridTemplateColumns =
-  '50px 1fr 40px 60px 80px 70px 40px 1fr 90px 75px 55px 90px 1fr';
+  '50px 1fr 40px 60px 80px 70px 40px 1fr 90px 75px 75px 90px 1fr';
 
 const Unpaids = () => {
   const {
@@ -101,9 +100,7 @@ const Unpaids = () => {
       .then(handleCancel);
   };
 
-  const { DateRangePicker, BackwardButton, ForwardButton } = useDateRange({
-    maxDate: endOfISOWeek(add(new Date(), { weeks: 4 })),
-  });
+  const { DateRangePicker, BackwardButton, ForwardButton } = useDateRange();
 
   const columnLabels = useColumns<Unpaid>(
     'isApproved',
@@ -197,7 +194,7 @@ const Unpaids = () => {
                 <ty.SmallText secondary>Search</ty.SmallText>
                 {!loading && (
                   <ty.SmallText secondary>
-                    Results: {data ? data.length : '-'}
+                    Results: {updatedUnpaids ? updatedUnpaids.length : '-'}
                   </ty.SmallText>
                 )}
               </l.Flex>
@@ -244,7 +241,13 @@ const Unpaids = () => {
             gridTemplateColumns={gridTemplateColumns}
             pb={th.spacing.sm}
             pl={th.spacing.sm}
-            pr={data ? (data.length > 12 ? th.spacing.md : 0) : 0}
+            pr={
+              updatedUnpaids
+                ? updatedUnpaids.length > 12
+                  ? th.spacing.md
+                  : 0
+                : 0
+            }
           >
             {columnLabels}
           </l.Grid>
@@ -258,7 +261,7 @@ const Unpaids = () => {
             <VirtualizedList
               height={700}
               onScroll={onScroll}
-              rowCount={data ? updatedUnpaids.length : 0}
+              rowCount={updatedUnpaids ? updatedUnpaids.length : 0}
               rowHeight={46}
               rowRenderer={({ key, index, style }) => {
                 const item = updatedUnpaids[index];

@@ -2,7 +2,7 @@ CREATE TABLE accounting.unpaid (
   id BIGSERIAL PRIMARY KEY,
   vessel_code TEXT NOT NULL,
   shipper_id TEXT NOT NULL,
-  invoice_id NUMERIC NOT NULL,
+  invoice_id TEXT NOT NULL,
   is_urgent BOOLEAN,
   is_approved BOOLEAN,
   notes TEXT

@@ -17,6 +17,7 @@ query PALLET_LIST($orderBy: [PalletsOrderBy!], $search: [PalletFilter!]) {
         packType {
           id
           packDescription
+          pluUpcCode
           label {
             id
             labelName

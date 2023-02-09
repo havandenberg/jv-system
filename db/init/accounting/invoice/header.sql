@@ -5,7 +5,7 @@ CREATE TABLE accounting.invoice_header (
   back_order_id NUMERIC,
   truck_load_id TEXT,
   ship_warehouse_id TEXT,
-  invoice_id NUMERIC,
+  invoice_id TEXT,
   billing_customer_id TEXT,
   sales_user_code TEXT,
   customer_po TEXT,
@@ -26,7 +26,7 @@ CREATE TABLE accounting.invoice_header (
   notes TEXT
 );
 
-CREATE INDEX ON accounting.invoice_header (order_id, back_order_id, billing_customer_id, sales_user_code, actual_ship_date, truck_load_id);
+CREATE INDEX ON accounting.invoice_header (order_id, back_order_id, invoice_id, billing_customer_id, sales_user_code, actual_ship_date, truck_load_id);
 
 CREATE FUNCTION accounting.invoice_header_ship_warehouse(IN i accounting.invoice_header)
     RETURNS directory.warehouse
@@ -90,6 +90,40 @@ AS $BODY$
     AND ii.back_order_id = i.back_order_id;
 $BODY$;
 
+CREATE FUNCTION accounting.invoice_header_item_histories(IN i accounting.invoice_header)
+    RETURNS SETOF accounting.invoice_item_history
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT * FROM accounting.invoice_item_history h
+    WHERE h.order_id = i.order_id AND h.back_order_id = i.back_order_id;
+$BODY$;
+
+CREATE FUNCTION accounting.invoice_header_payments(IN i accounting.invoice_header)
+    RETURNS setof accounting.customer_payment
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT * FROM accounting.customer_payment p
+    WHERE p.invoice_id = i.invoice_id;
+$BODY$;
+
+CREATE FUNCTION accounting.invoice_header_net_amount_due(IN i accounting.invoice_header)
+    RETURNS NUMERIC
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT SUM(p.net_amount_due) FROM accounting.customer_payment p
+    WHERE p.invoice_id = i.invoice_id OR
+      p.invoice_id LIKE '%' || SUBSTRING(i.invoice_id, 2);
+$BODY$;
+
 CREATE FUNCTION accounting.invoice_header_flag(IN i accounting.invoice_header)
     RETURNS TEXT
     LANGUAGE 'sql'
@@ -109,13 +143,71 @@ CREATE FUNCTION accounting.invoice_header_total_amounts_by_vessel_and_shipper(IN
     PARALLEL UNSAFE
     COST 100
 AS $BODY$
-  SELECT CONCAT(v.vessel_code, ',', s.id, ',', SUM((ii.unit_sell_price + ii.delivery_charge) * ii.picked_qty), ',', SUM(ii.credit_amount)) FROM accounting.invoice_item ii
+  SELECT CONCAT(v.vessel_code, ',', s.id, ',', SUM((ii.unit_sell_price + ii.delivery_charge - ii.volume_discount_amount) * ii.picked_qty), ',', SUM(ii.credit_amount)) FROM accounting.invoice_item ii
   LEFT JOIN product.pallet p ON p.pallet_id = ii.pallet_id
   LEFT JOIN product.vessel v ON v.vessel_code = p.vessel_code
   LEFT JOIN directory.shipper s ON s.id = p.shipper_id
     WHERE ii.order_id = i.order_id
       AND ii.back_order_id = i.back_order_id
     GROUP BY v.vessel_code, s.id;
+$BODY$;
+
+CREATE FUNCTION accounting.invoice_header_split_invoices(IN i accounting.invoice_header)
+    RETURNS SETOF accounting.invoice_header
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT * FROM accounting.invoice_header ih
+    WHERE ih.truck_load_id LIKE 'A' || SUBSTRING(i.truck_load_id, 2, 4)
+      AND ih.truck_load_id != i.truck_load_id;
+$BODY$;
+
+CREATE FUNCTION accounting.invoice_header_rejected_invoices(IN i accounting.invoice_header)
+    RETURNS SETOF accounting.invoice_header
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT * FROM accounting.invoice_header ih
+    WHERE ih.truck_load_id LIKE '%R%'
+      AND ih.truck_load_id LIKE '%' || SUBSTRING(i.truck_load_id, 2, 4) || '%'
+      AND ih.truck_load_id != i.truck_load_id;
+$BODY$;
+
+CREATE FUNCTION accounting.invoice_header_original_invoice(IN i accounting.invoice_header)
+    RETURNS accounting.invoice_header
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT * FROM accounting.invoice_header ih
+    WHERE ih.truck_load_id LIKE '0' || SUBSTRING(i.truck_load_id, 2, 4)
+      AND ih.truck_load_id != i.truck_load_id;
+$BODY$;
+
+CREATE FUNCTION accounting.invoice_header_deleted_item_amounts(IN i accounting.invoice_header)
+    RETURNS SETOF TEXT
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT CONCAT(iih.pallet_id, ',', (iih.unit_sell_price + iih.delivery_charge) * iih.picked_qty) FROM accounting.invoice_item_history iih
+  LEFT JOIN product.pallet p ON p.pallet_id = iih.pallet_id
+  LEFT JOIN directory.customer_volume_discount cvd ON cvd.customer_id = i.billing_customer_id AND cvd.volume_discount_code = p.volume_discount_code
+    WHERE iih.order_id = i.order_id
+      AND iih.back_order_id = i.back_order_id
+      AND iih.pallet_id NOT IN (
+        SELECT ii.pallet_id FROM accounting.invoice_item ii
+          WHERE ii.order_id = i.order_id
+          OR ii.order_id IN (
+            SELECT ih.order_id FROM accounting.invoice_header_rejected_invoices(i) ih
+          )
+      );
 $BODY$;
 
 CREATE FUNCTION accounting.invoice_header_condition_code(IN i accounting.invoice_header)
@@ -151,7 +243,6 @@ CREATE FUNCTION accounting.invoice_header_truck_load(IN i accounting.invoice_hea
 AS $BODY$
   SELECT * FROM operations.truck_load tl
   WHERE tl.load_id = i.truck_load_id
-    AND tl.vendor_id = i.vendor_id
     AND tl.warehouse_id = i.ship_warehouse_id;
 $BODY$;
 

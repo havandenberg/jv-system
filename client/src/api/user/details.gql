@@ -33,12 +33,14 @@ query USER_DETAILS(
             salesUserCode
           }
         }
-        invoiceHeader {
-          orderId
-          billingCustomer {
-            id
-            customerName
-            salesUserCode
+        invoiceHeaders {
+          nodes {
+            orderId
+            billingCustomer {
+              id
+              customerName
+              salesUserCode
+            }
           }
         }
         isUsed

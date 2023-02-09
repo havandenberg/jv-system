@@ -14,6 +14,7 @@ import * as warehouseDirectory from 'api/directory/warehouse';
 import * as inventory from 'api/inventory/inventory/item';
 import * as orders from 'api/inventory/orders';
 import * as pallets from 'api/inventory/inventory/pallets';
+import * as repacks from 'api/inventory/repacks';
 import * as inventoryProducts from 'api/inventory/inventory/products';
 import * as products from 'api/inventory/products';
 import * as truckLoads from 'api/inventory/truck-loads';
@@ -60,6 +61,7 @@ export default {
   ...programs,
   ...projections,
   ...psaArrivalInspections,
+  ...repacks,
   ...shipperDirectory,
   ...truckLoads,
   ...truckRates,

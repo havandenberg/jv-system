@@ -258,7 +258,9 @@ export const listLabels: (
         {
           key: 'plu',
           label: 'PLU',
-          getValue: (data) => (data.plu ? 'PLU' : ''),
+          getValue: (data) => (
+            <ty.BodyText>{data.plu ? 'PLU' : 'NO PLU'}</ty.BodyText>
+          ),
           defaultSortOrder: SORT_ORDER.ASC,
           sortable: true,
           customSortBy: ({ plu }) => (plu ? 'a' : 'b'),
@@ -498,6 +500,9 @@ export const baseLabels: InventoryItemLabelInfo[] = [
   {
     key: 'plu',
     label: 'PLU',
+    getValue: (data) => (
+      <ty.BodyText>{data.plu ? 'PLU' : 'NO PLU'}</ty.BodyText>
+    ),
   },
   {
     key: 'jvLotNumber',

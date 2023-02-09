@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { endOfISOWeek, isBefore, startOfISOWeek } from 'date-fns';
-import { sortBy } from 'ramda';
+import { groupBy, mapObjIndexed, sortBy } from 'ramda';
 
 import api from 'api';
 import { formatDate } from 'components/date-range-picker';
 import { BasicModal } from 'components/modal';
-import StatusIndicator from 'components/status-indicator';
 import usePrevious from 'hooks/use-previous';
-import { Unpaid } from 'types';
+import { Unpaid, VesselControl } from 'types';
 import { LineItemCheckbox } from 'ui/checkbox';
 import { TextArea } from 'ui/input';
 import l from 'ui/layout';
@@ -19,12 +18,8 @@ import {
 } from 'utils/date';
 
 import { getUnpaidsInfo } from '../unpaids/data-utils';
-import {
-  getVesselControlDueDate,
-  UnpaidItem,
-  VesselControlItem,
-} from './data-utils';
-import { SALES_USER_CODES } from './unpaids';
+import { getVesselControlDueDate } from './data-utils';
+import { SALES_USER_CODES, UnpaidsBySalesAssoc } from './unpaids';
 
 export const gridTemplateColumns = `repeat(4, 1fr)`;
 
@@ -43,7 +38,6 @@ interface UnpaidVesselsInput {
           isUrgent: boolean;
           flag: string;
           customerName: string;
-          shipDate: string;
         }[];
       };
     };
@@ -53,7 +47,7 @@ interface UnpaidVesselsInput {
 const NotifyUnpaids = ({
   vesselControls,
 }: {
-  vesselControls: VesselControlItem[];
+  vesselControls: VesselControl[];
 }) => {
   const previousVesselControls = usePrevious(vesselControls);
 
@@ -65,37 +59,31 @@ const NotifyUnpaids = ({
   );
 
   const groupedUnpaids = vesselControls.reduce(
-    (acc, vesselControl) => ({
-      ...acc,
-      ...Object.keys(vesselControl?.groupedPallets || {}).reduce(
-        (acc2, salesUserCode) => {
-          const groupedPalletsBySalesUser =
-            vesselControl?.groupedPallets?.[salesUserCode] || {};
-
-          const itemKey = `${vesselControl?.vessel?.vesselCode}-${vesselControl?.shipper?.id}-${salesUserCode}`;
-
-          const ups = Object.values(groupedPalletsBySalesUser)
-            .map(({ unpaid }) => unpaid)
-            .filter((up) => !up.isApproved) as UnpaidItem[];
+    (acc, vesselControl) => {
+      const groupedUnpaidsBySalesUser = groupBy(
+        (up) =>
+          `${vesselControl?.vessel?.vesselCode}-${vesselControl?.shipper?.id}-${up.invoice?.salesUserCode}`,
+        (vesselControl?.unpaids.nodes || []) as Unpaid[],
+      );
+      return {
+        ...acc,
+        ...mapObjIndexed((unpaids) => {
+          const ups = unpaids.filter((up) => !up.isApproved);
           const up = ups[0];
 
           const { isAllApproved, isPartialApproved } = getUnpaidsInfo(ups);
 
-          return up
+          return ups.length > 0
             ? {
-                ...acc2,
-                [itemKey]: {
-                  isAllApproved,
-                  isPartialApproved,
-                  isLiquidated: up.vesselControl?.isLiquidated,
-                  unpaids: ups,
-                },
+                isAllApproved,
+                isPartialApproved,
+                isLiquidated: up.vesselControl?.isLiquidated,
+                unpaids: ups,
               }
-            : acc2;
-        },
-        {},
-      ),
-    }),
+            : undefined;
+        }, groupedUnpaidsBySalesUser),
+      };
+    },
     {} as {
       [key: string]: {
         isAllApproved: boolean;
@@ -123,7 +111,16 @@ const NotifyUnpaids = ({
         dueDate ? new Date(dueDate.replace(/-/g, '/')).getTime() : 0,
       Object.values(vesselsInput).map(({ shippers, ...rest }) => ({
         ...rest,
-        shippers: Object.values(shippers),
+        shippers: sortBy(
+          ({ shipperName }) => shipperName,
+          Object.values(shippers).map(({ unpaids, ...rest2 }) => ({
+            ...rest2,
+            unpaids: sortBy(
+              ({ invoiceId }) => invoiceId,
+              Object.values(unpaids),
+            ),
+          })),
+        ),
       })),
     );
 
@@ -292,7 +289,6 @@ const NotifyUnpaids = ({
                 borderBottom={th.borders.disabled}
                 mb={th.spacing.md}
                 pb={th.spacing.md}
-                mr={th.spacing.md}
               >
                 <l.Flex alignCenter mb={12}>
                   {!!vesselControl?.isLiquidated && (
@@ -324,20 +320,11 @@ const NotifyUnpaids = ({
                     const itemKey = `${vesselControl?.vessel?.vesselCode}-${vesselControl?.shipper?.id}-${salesUserCode}`;
 
                     const unpaidsInfo = groupedUnpaids[itemKey];
-                    const { isAllApproved, isPartialApproved } =
-                      unpaidsInfo || {};
 
                     return (
                       unpaidsInfo && (
                         <l.Flex key={itemKey} alignCenter>
-                          <StatusIndicator
-                            color={
-                              !isPartialApproved ? 'transparent' : undefined
-                            }
-                            halfSelected={isAllApproved}
-                            selected={isAllApproved}
-                            status={!isPartialApproved ? undefined : 'success'}
-                          />
+                          <UnpaidsBySalesAssoc {...unpaidsInfo} />
                           <l.Div width={th.spacing.sm} />
                           <LineItemCheckbox
                             checked={selectedItems.includes(itemKey)}

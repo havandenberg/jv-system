@@ -71,7 +71,7 @@ CREATE TABLE product.common_pack_type (
   default_inv_sort_key TEXT,
   pack_type_name TEXT,
   pack_type_description TEXT,
-  is_repack BOOLEAN,
+  repack_style_id TEXT,
   pallet_weight NUMERIC,
   common_species_id BIGINT
     REFERENCES product.common_species(id),
@@ -86,6 +86,16 @@ CREATE TABLE product.common_pack_type_pack_master (
   pack_master_id BIGINT
     REFERENCES product.pack_master(id)
 );
+
+CREATE FUNCTION product.common_pack_type_repack_style(IN cpt product.common_pack_type)
+    RETURNS product.repack_style
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT * FROM product.repack_style rs WHERE rs.id = cpt.repack_style_id
+$BODY$;
 
 CREATE TABLE product.common_species_tag (
 	tag_text TEXT,

@@ -63,11 +63,13 @@ query TRUCK_LOAD_LIST(
           }
         }
       }
-      invoiceHeader {
-        id
-        billingCustomer {
+      invoiceHeaders {
+        nodes {
           id
-          customerName
+          billingCustomer {
+            id
+            customerName
+          }
         }
       }
     }

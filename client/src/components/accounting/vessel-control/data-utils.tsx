@@ -1,20 +1,18 @@
 import styled from '@emotion/styled';
 import { add } from 'date-fns';
-import { mergeDeepLeft, omit } from 'ramda';
 
 import { LabelInfo } from 'components/column-label';
 import DateTimePicker from 'components/date-time-picker';
 import { DEFAULT_VESSEL_CONTROL_DAYS_UNTIL_DUE } from 'components/directory/shippers/data-utils';
 import EditableCell from 'components/editable-cell';
 import { SORT_ORDER } from 'hooks/use-columns';
-import { Pallet, Shipper, Unpaid, Vessel, VesselControl } from 'types';
+import { Shipper, Vessel, VesselControl } from 'types';
 import { LineItemCheckbox } from 'ui/checkbox';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 import { formatShortDate } from 'utils/date';
 
-import { emptyUnpaid, palletSearchText } from '../unpaids/data-utils';
 import UnpaidsManager from './unpaids';
 
 const LocalDateTimePicker = styled(DateTimePicker)({
@@ -44,25 +42,10 @@ const dateTimePickerProps = {
   yearPlaceholder: '',
 };
 
-export type VesselControlItem = VesselControl & {
-  groupedPallets: {
-    [key: string]: {
-      [key: string]: {
-        pallets: Pallet[];
-        unpaid: Unpaid & { orderId: string };
-      };
-    };
-  };
-  palletsReceived: number;
-  palletsShipped: number;
-};
-
-export type VesselControlLabelInfo = LabelInfo<VesselControlItem>;
-
-export type UnpaidItem = Unpaid & { orderId: string };
+export type VesselControlLabelInfo = LabelInfo<VesselControl>;
 
 export const listLabels: (
-  handleChange: (updatedItem: VesselControlItem) => void,
+  handleChange: (updatedItem: VesselControl) => void,
 ) => VesselControlLabelInfo[] = (handleChange) => [
   {
     defaultSortOrder: SORT_ORDER.ASC,
@@ -217,8 +200,8 @@ export const listLabels: (
   {
     key: 'vessel',
     label: 'Rcvd.',
-    getValue: ({ palletsReceived }) => (
-      <ty.BodyText>{palletsReceived || '-'}</ty.BodyText>
+    getValue: ({ pallets }) => (
+      <ty.BodyText>{pallets.totalCount || '-'}</ty.BodyText>
     ),
   },
   {
@@ -231,15 +214,15 @@ export const listLabels: (
   {
     key: 'vessel',
     label: 'Diff',
-    getValue: ({ palletsReceived, palletsShipped }) => (
-      <ty.BodyText>{palletsReceived - palletsShipped}</ty.BodyText>
+    getValue: ({ pallets, palletsShipped }) => (
+      <ty.BodyText>{pallets.totalCount - palletsShipped}</ty.BodyText>
     ),
   },
   {
     key: 'unpaids',
     label: 'Unpaids:',
     getValue: (data) => (
-      <UnpaidsManager handleChange={handleChange} vesselControlItem={data} />
+      <UnpaidsManager handleChange={handleChange} vesselControl={data} />
     ),
     allowOverflow: true,
   },
@@ -293,98 +276,3 @@ export const getVesselControlDueDate = (vessel: Vessel, shipper: Shipper) =>
           DEFAULT_VESSEL_CONTROL_DAYS_UNTIL_DUE,
       })
     : undefined;
-
-export const buildVesselControlItems = (
-  vesselControls: VesselControl[],
-  searchArray?: string[],
-) =>
-  vesselControls
-    .map((vesselControl) => {
-      const pallets = ((vesselControl.pallets?.nodes || []) as Pallet[]).filter(
-        (p) => {
-          const searchText = palletSearchText(
-            p,
-            vesselControl.vessel as Vessel,
-            vesselControl.shipper as Shipper,
-          );
-          return (
-            !searchArray ||
-            searchArray.every((searchVal) =>
-              searchText.toLowerCase().includes(searchVal.toLowerCase()),
-            )
-          );
-        },
-      );
-
-      if (pallets.length === 0) {
-        return null;
-      }
-
-      const groupedPallets = pallets.reduce((acc, pallet) => {
-        const newValues = pallet.invoiceHeaders.nodes?.reduce(
-          (acc2, invoice) => {
-            const salesUserCode = invoice?.salesUserCode || 'UNK';
-            const orderId = invoice?.orderId || 'UNK';
-            const info = acc2[salesUserCode]?.[orderId] || { pallets: [] };
-            const accInfo =
-              info.pallets.length > 0
-                ? { pallets: [] }
-                : acc[salesUserCode]?.[orderId] || { pallets: [] };
-            const currentUnpaid = vesselControl.unpaids.nodes?.find(
-              (unpaid) => unpaid && unpaid.invoiceId === invoice?.invoiceId,
-            );
-            return {
-              ...acc2,
-              [salesUserCode]: {
-                ...acc2[salesUserCode],
-                [orderId]: {
-                  pallets: [...accInfo.pallets, ...info.pallets, pallet],
-                  unpaid:
-                    info.unpaid ||
-                    (currentUnpaid
-                      ? {
-                          ...currentUnpaid,
-                          orderId: invoice?.orderId,
-                          invoice,
-                          shipper: vesselControl.shipper,
-                          vessel: vesselControl.vessel,
-                        }
-                      : {
-                          ...emptyUnpaid,
-                          vesselCode: vesselControl.vessel?.vesselCode,
-                          shipperId: vesselControl.shipper?.id,
-                          invoiceId: invoice?.invoiceId,
-                          orderId: invoice?.orderId,
-                          invoice,
-                          shipper: vesselControl.shipper,
-                          vessel: vesselControl.vessel,
-                        }),
-                },
-              },
-            };
-          },
-          {} as {
-            [key: string]: {
-              [key: string]: { pallets: Pallet[]; unpaid: Unpaid };
-            };
-          },
-        );
-
-        return mergeDeepLeft(newValues, acc) as {
-          [key: string]: {
-            [key: string]: { pallets: Pallet[]; unpaid: Unpaid };
-          };
-        };
-      }, {} as { [key: string]: { [key: string]: { pallets: Pallet[]; unpaid: Unpaid } } });
-
-      const palletsShipped = pallets.filter((pallet) => pallet.shipped).length;
-
-      return {
-        ...omit(['nodeId'], vesselControl),
-        groupedPallets,
-        palletsReceived: pallets.length,
-        palletsShipped,
-        id: vesselControl.id === '0' ? undefined : vesselControl.id,
-      };
-    })
-    .filter((vc) => !!vc) as VesselControlItem[];

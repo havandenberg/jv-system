@@ -21,6 +21,91 @@ query INVOICE_HEADER_DETAILS($orderId: BigFloat!) {
         id
         customerName
       }
+      netAmountDue
+      totalAmountsByVesselAndShipper {
+        nodes
+      }
+      payments {
+        nodes {
+          id
+          checkNumber
+          transactionCode
+          transactionType
+          netAmountDue
+          notes
+        }
+      }
+      itemHistories {
+        nodes {
+          id
+          orderId
+          backOrderId
+          lineId
+          unitSellPrice
+          sequenceId
+          palletId
+          pickedQty
+          conditionCode
+          creditCode
+          priceAdjustment
+          deliveryCharge
+          freightAdjustment
+          pallet {
+            backOrderId
+            id
+            jvLotNumber
+            locationId
+            orderId
+            packDate
+            palletId
+            product {
+              packType {
+                id
+                packDescription
+                pluUpcCode
+                label {
+                  id
+                  labelName
+                  labelCode
+                }
+              }
+              id
+              sizes {
+                nodes {
+                  id
+                  combineDescription
+                }
+              }
+              species {
+                id
+                speciesDescription
+              }
+              variety {
+                id
+                varietyDescription
+              }
+            }
+            shipped
+            shipper {
+              id
+              shipperName
+            }
+            vessel {
+              coast
+              dischargeDate
+              id
+              vesselCode
+            }
+            warehouse {
+              id
+              warehouseName
+            }
+          }
+        }
+      }
+      deletedItemAmounts {
+        nodes
+      }
       items {
         nodes {
           id
@@ -32,7 +117,6 @@ query INVOICE_HEADER_DETAILS($orderId: BigFloat!) {
           pickedQty
           palletStatus
           conditionCode
-          repackId
           creditCode
           priceAdjustment
           deliveryCharge
@@ -54,6 +138,7 @@ query INVOICE_HEADER_DETAILS($orderId: BigFloat!) {
               packType {
                 id
                 packDescription
+                pluUpcCode
                 label {
                   id
                   labelName
@@ -102,6 +187,256 @@ query INVOICE_HEADER_DETAILS($orderId: BigFloat!) {
           lastName
         }
         userCode
+      }
+      rejectedInvoices {
+        nodes {
+          orderId
+          amountOwed
+          netAmountDue
+          truckLoadId
+          items {
+            nodes {
+              id
+              orderId
+              backOrderId
+              lineId
+              unitSellPrice
+              sequenceId
+              pickedQty
+              palletStatus
+              conditionCode
+              creditCode
+              priceAdjustment
+              deliveryCharge
+              freightAdjustment
+              creditAmount
+              brokerageAmount
+              layerMult
+              flag
+              notes
+              pallet {
+                backOrderId
+                id
+                jvLotNumber
+                locationId
+                orderId
+                packDate
+                palletId
+                product {
+                  packType {
+                    id
+                    packDescription
+                    pluUpcCode
+                    label {
+                      id
+                      labelName
+                      labelCode
+                    }
+                  }
+                  id
+                  sizes {
+                    nodes {
+                      id
+                      combineDescription
+                    }
+                  }
+                  species {
+                    id
+                    speciesDescription
+                  }
+                  variety {
+                    id
+                    varietyDescription
+                  }
+                }
+                shipped
+                shipper {
+                  id
+                  shipperName
+                }
+                vessel {
+                  coast
+                  dischargeDate
+                  id
+                  vesselCode
+                }
+                warehouse {
+                  id
+                  warehouseName
+                }
+              }
+            }
+          }
+          totalAmountsByVesselAndShipper {
+            nodes
+          }
+        }
+      }
+      originalInvoice {
+        orderId
+        amountOwed
+        netAmountDue
+        truckLoadId
+        items {
+          nodes {
+            id
+            orderId
+            backOrderId
+            lineId
+            unitSellPrice
+            sequenceId
+            pickedQty
+            palletStatus
+            conditionCode
+            creditCode
+            priceAdjustment
+            deliveryCharge
+            freightAdjustment
+            creditAmount
+            brokerageAmount
+            layerMult
+            flag
+            notes
+            pallet {
+              backOrderId
+              id
+              jvLotNumber
+              locationId
+              orderId
+              packDate
+              palletId
+              product {
+                packType {
+                  id
+                  packDescription
+                  pluUpcCode
+                  label {
+                    id
+                    labelName
+                    labelCode
+                  }
+                }
+                id
+                sizes {
+                  nodes {
+                    id
+                    combineDescription
+                  }
+                }
+                species {
+                  id
+                  speciesDescription
+                }
+                variety {
+                  id
+                  varietyDescription
+                }
+              }
+              shipped
+              shipper {
+                id
+                shipperName
+              }
+              vessel {
+                coast
+                dischargeDate
+                id
+                vesselCode
+              }
+              warehouse {
+                id
+                warehouseName
+              }
+            }
+          }
+        }
+        totalAmountsByVesselAndShipper {
+          nodes
+        }
+      }
+      splitInvoices {
+        nodes {
+          orderId
+          amountOwed
+          netAmountDue
+          truckLoadId
+          items {
+            nodes {
+              id
+              orderId
+              backOrderId
+              lineId
+              unitSellPrice
+              sequenceId
+              pickedQty
+              palletStatus
+              conditionCode
+              creditCode
+              priceAdjustment
+              deliveryCharge
+              freightAdjustment
+              creditAmount
+              brokerageAmount
+              layerMult
+              flag
+              notes
+              pallet {
+                backOrderId
+                id
+                jvLotNumber
+                locationId
+                orderId
+                packDate
+                palletId
+                product {
+                  packType {
+                    id
+                    packDescription
+                    pluUpcCode
+                    label {
+                      id
+                      labelName
+                      labelCode
+                    }
+                  }
+                  id
+                  sizes {
+                    nodes {
+                      id
+                      combineDescription
+                    }
+                  }
+                  species {
+                    id
+                    speciesDescription
+                  }
+                  variety {
+                    id
+                    varietyDescription
+                  }
+                }
+                shipped
+                shipper {
+                  id
+                  shipperName
+                }
+                vessel {
+                  coast
+                  dischargeDate
+                  id
+                  vesselCode
+                }
+                warehouse {
+                  id
+                  warehouseName
+                }
+              }
+            }
+          }
+          totalAmountsByVesselAndShipper {
+            nodes
+          }
+        }
       }
     }
   }

@@ -59,17 +59,16 @@ const Details = () => {
   const [{ location }, setTruckLoadsParams] = useTruckLoadsQueryParams();
 
   const { data, error, loading } = api.useTruckLoad(id);
-  const truckLoads = useMemo(() => (data?.nodes || []) as TruckLoad[], [data]);
+  const truckLoads = useMemo(
+    () => ((data?.nodes || []) as TruckLoad[]).filter((tl) => tl.loadId === id),
+    [data, id],
+  );
   const truckLoad = location
     ? truckLoads.find((truckLoad) => `${truckLoad?.warehouse?.id}` === location)
     : truckLoads[0];
-  const pallets = ((truckLoad?.pallets.nodes || []) as Pallet[]).filter(
-    (pallet) =>
-      !location ||
-      (pallet.locationId && ['25', '37'].includes(location)
-        ? ['25', '37'].includes(pallet.locationId)
-        : location === pallet.locationId),
-  );
+  const pallets = location
+    ? ((truckLoad?.pallets.nodes || []) as Pallet[])
+    : truckLoads.map((tl) => tl.pallets.nodes as Pallet[]).flat();
   const hasPallets = pallets.length > 0;
 
   const { TabBar, selectedTabId } = useTabBar({
@@ -152,7 +151,11 @@ const Details = () => {
               items={truckLoads}
             />
           ) : hasPallets ? (
-            <PalletList baseUrl={`/inventory`} pallets={pallets} />
+            <PalletList
+              baseUrl={`/inventory`}
+              pallets={pallets}
+              originalLoad={truckLoad?.originalTruckLoad || undefined}
+            />
           ) : (
             <DataMessage data={pallets} error={error} loading={loading} />
           )}

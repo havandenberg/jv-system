@@ -86,27 +86,42 @@ export const indexListLabels: (
       },
       showSearch: true,
     },
-    customFilterBy: ({ orderMaster, invoiceHeader }) => {
-      const customer = (orderMaster || invoiceHeader)?.billingCustomer;
+    customFilterBy: ({ orderMaster, invoiceHeaders }) => {
+      const customers = (
+        orderMaster ? [orderMaster] : invoiceHeaders?.nodes || []
+      ).map((c) => c?.billingCustomer);
       return (
         !customerId ||
-        (!!customer &&
-          customerId
-            .map((val) =>
-              val.substring(val.lastIndexOf(' (') + 2, val.length - 1),
-            )
-            .includes(customer.id))
+        (customers.length > 0 &&
+          customers.some(
+            (customer) =>
+              customer &&
+              customerId
+                .map((val) =>
+                  val.substring(val.lastIndexOf(' (') + 2, val.length - 1),
+                )
+                .includes(customer.id),
+          ))
       );
     },
-    customSortBy: ({ orderMaster, invoiceHeader }) =>
-      (
-        orderMaster || invoiceHeader
-      )?.billingCustomer?.customerName?.toLowerCase() || 'zzzzzz',
-    getValue: ({ orderMaster, invoiceHeader }) => {
-      const customer = (orderMaster || invoiceHeader)?.billingCustomer;
-      return customer ? (
+    customSortBy: ({ orderMaster, invoiceHeaders }) =>
+      (orderMaster ? [orderMaster] : invoiceHeaders?.nodes || [])
+        .map((c) => c?.billingCustomer?.customerName?.toLowerCase() || 'zzzzzz')
+        .join(','),
+    getValue: ({ orderMaster, invoiceHeaders }) => {
+      const customers = (
+        orderMaster ? [orderMaster] : invoiceHeaders?.nodes || []
+      ).map((c) => c?.billingCustomer);
+      return customers.length > 0 ? (
         <ty.BodyText>
-          {customer.customerName} ({customer.id})
+          {customers.map(
+            (customer) =>
+              customer && (
+                <ty.Span mr={th.spacing.sm}>
+                  {customer.customerName} ({customer.id})
+                </ty.Span>
+              ),
+          )}
         </ty.BodyText>
       ) : (
         <ty.BodyText>-</ty.BodyText>
@@ -229,16 +244,19 @@ export const indexBaseLabels: (
   },
   {
     key: 'orderMaster',
-    label: isInvoice ? 'Invoice ID' : 'Order ID',
-    getValue: ({ orderMaster, invoiceHeader }) =>
+    label: 'Order ID',
+    getValue: ({ orderMaster, invoiceHeaders }) =>
       isInvoice ? (
-        invoiceHeader ? (
-          <ty.LinkText
-            hover="false"
-            to={`/accounting/invoices/${invoiceHeader.orderId}`}
-          >
-            {invoiceHeader.orderId}
-          </ty.LinkText>
+        invoiceHeaders ? (
+          (invoiceHeaders?.nodes || []).map((invoice) => (
+            <ty.LinkText
+              hover="false"
+              mr={th.spacing.sm}
+              to={`/accounting/invoices/${invoice?.orderId}`}
+            >
+              {invoice?.orderId}
+            </ty.LinkText>
+          ))
         ) : (
           ''
         )

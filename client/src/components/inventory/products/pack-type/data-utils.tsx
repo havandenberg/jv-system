@@ -3,15 +3,24 @@ import { pluck } from 'ramda';
 
 import { LabelInfo } from 'components/column-label';
 import { inventorySortKeys } from 'components/inventory/inventory/utils';
-import { CommonPackType, CommonPackTypeTag, PackMaster } from 'types';
+import {
+  CommonPackType,
+  CommonPackTypeTag,
+  PackMaster,
+  RepackStyle,
+} from 'types';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 
 const PACK_MASTER_QUERY = loader(
   '../../../../api/inventory/inventory/products/pack-masters/list.gql',
 );
+const REPACK_STYLE_QUERY = loader(
+  '../../../../api/inventory/inventory/products/repack-styles/list.gql',
+);
 
 export type CommonPackTypeLabelInfo = LabelInfo<CommonPackType>;
+export type RepackStyleLabelInfo = LabelInfo<RepackStyle>;
 
 export const listLabels: CommonPackTypeLabelInfo[] = [
   {
@@ -39,10 +48,10 @@ export const listLabels: CommonPackTypeLabelInfo[] = [
     label: 'Description',
   },
   {
-    key: 'isRepack',
-    label: 'Repack',
-    getValue: ({ isRepack }) => (
-      <ty.BodyText>{isRepack ? 'Yes' : '-'}</ty.BodyText>
+    key: 'repackStyleId',
+    label: 'Repack Style',
+    getValue: ({ repackStyle }) => (
+      <ty.BodyText>{repackStyle?.id || '-'}</ty.BodyText>
     ),
   },
   {
@@ -56,7 +65,8 @@ export const listLabels: CommonPackTypeLabelInfo[] = [
 
 export const baseLabels: (
   packMasters: PackMaster[],
-) => CommonPackTypeLabelInfo[] = (packMasters) => [
+  repackStyles: RepackStyle[],
+) => CommonPackTypeLabelInfo[] = (packMasters, repackStyles) => [
   {
     key: 'packTypeName',
     label: 'Name',
@@ -103,12 +113,22 @@ export const baseLabels: (
     label: 'Description',
   },
   {
-    key: 'isRepack',
+    key: 'repackStyleId',
     label: 'Repack',
-    isBoolean: true,
-    getValue: ({ isRepack }) => (
-      <ty.BodyText>{!!isRepack ? 'Yes' : '-'}</ty.BodyText>
-    ),
+    itemSelectorQueryProps: {
+      errorLabel: 'repack styles',
+      getItemContent: ({ id, styleDescription }: RepackStyle) => (
+        <ty.BodyText pl={th.spacing.sm}>
+          {id} - {styleDescription}
+        </ty.BodyText>
+      ),
+      offset: -142,
+      query: REPACK_STYLE_QUERY,
+      queryName: 'repackStyles',
+      width: 350,
+    },
+    validate: ({ repackStyleId }) =>
+      !repackStyleId || !!repackStyles.find(({ id }) => id === repackStyleId),
   },
   {
     key: 'boxCount',
@@ -124,5 +144,32 @@ export const baseLabels: (
     ),
     validate: ({ palletWeight }) =>
       !palletWeight || !isNaN(Number(palletWeight)),
+  },
+];
+
+export const repackStyleBaseLabels: RepackStyleLabelInfo[] = [
+  {
+    key: 'id',
+    label: 'Repack Code',
+  },
+  {
+    key: 'styleName',
+    label: 'Short Desc',
+  },
+  {
+    key: 'styleDescription',
+    label: 'Long Desc',
+  },
+  {
+    key: 'lqdCode',
+    label: 'LQD Code',
+  },
+  {
+    key: 'filmLength',
+    label: 'Film Length',
+  },
+  {
+    key: 'packOutWeight',
+    label: 'Box Weight (lbs)',
   },
 ];

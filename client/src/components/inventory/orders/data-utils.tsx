@@ -9,6 +9,7 @@ import { SORT_ORDER } from 'hooks/use-columns';
 import {
   InvoiceHeader,
   InvoiceItem,
+  InvoiceItemHistory,
   OrderEntry,
   OrderItem,
   OrderMaster,
@@ -438,77 +439,150 @@ export const convertOrderEntriesToOrderMasters = (orderEntries: OrderEntry[]) =>
     expectedShipDate: entry.fobDate,
   })) as OrderMaster[];
 
+const getOrderInvoiceItems = (
+  orderInvoices: OrderMasterInvoiceHeader[],
+  invoiceItems: InvoiceItem[],
+) =>
+  orderInvoices
+    .map(({ items }) =>
+      ((items.nodes || []) as OrderItem[]).map(
+        (item) =>
+          ({
+            ...item,
+            items:
+              invoiceItems?.filter(
+                (invoiceItem) =>
+                  `${item.orderId}-${item.backOrderId}-${item.lineId}` ===
+                  `${invoiceItem.orderId}-${invoiceItem.backOrderId}-${invoiceItem.lineId}`,
+              ) || [],
+          } as OrderItemInvoiceItem),
+      ),
+    )
+    .flat();
+
+const convertInvoiceItemsToOrderItems = (
+  invoiceHeader: InvoiceHeader,
+  invoiceItems: InvoiceItem[],
+) =>
+  values(
+    invoiceItems.reduce<{
+      [key: string]: OrderItem;
+    }>(
+      (acc, item) => ({
+        ...acc,
+        [`${item.orderId}-${item.backOrderId}-${item.lineId}`]: {
+          ...pick(
+            [
+              'orderId',
+              'backOrderId',
+              'lineId',
+              'unitSellPrice',
+              'deliveryCharge',
+            ],
+            item,
+          ),
+          boxCount: item.pickedQty,
+          palletCount:
+            (acc[`${item.orderId}-${item.backOrderId}-${item.lineId}`]
+              ?.palletCount
+              ? parseInt(
+                  acc[`${item.orderId}-${item.backOrderId}-${item.lineId}`]
+                    ?.palletCount,
+                )
+              : 0) + 1,
+          unitSellPrice: item?.unitSellPrice,
+          inventoryItem: {
+            ...(item.pallet || {}),
+            ...(item.pallet?.vessel || {}),
+            plu: item.pallet?.product?.packType?.pluUpcCode === 'Y',
+            product: (item.pallet?.product || {}) as ProductMaster,
+          },
+          invoiceId: invoiceHeader?.invoiceId,
+          order: {
+            orderId: invoiceHeader?.orderId,
+            backOrderId: invoiceHeader?.backOrderId,
+            invoiceId: invoiceHeader?.invoiceId,
+            expectedShipDate: invoiceHeader?.actualShipDate,
+            salesUserCode: invoiceHeader?.salesUserCode,
+            billingCustomer: invoiceHeader?.billingCustomer,
+          } as OrderMasterInvoiceHeader,
+        } as OrderItemInvoiceItem,
+      }),
+      {} as { [key: string]: OrderItemInvoiceItem },
+    ),
+  );
+
+const convertInvoiceHeaderToOrderMaster = (invoiceHeader: InvoiceHeader) => ({
+  ...pick(
+    [
+      'orderId',
+      'backOrderId',
+      'truckLoadId',
+      'customerPo',
+      'billingCustomer',
+      'salesUser',
+      'invoiceId',
+      'paidCode',
+    ],
+    invoiceHeader,
+  ),
+  expectedShipDate: invoiceHeader.actualShipDate,
+  orderStatus: 'SHP',
+  items: {
+    nodes: convertInvoiceItemsToOrderItems(
+      invoiceHeader,
+      (invoiceHeader.items?.nodes || []) as InvoiceItem[],
+    ),
+  },
+});
+
 export const convertInvoiceHeadersToOrderMasters = (
   invoiceHeaders: InvoiceHeader[],
-) =>
-  invoiceHeaders.map((invoiceHeader) => ({
-    ...pick(
-      [
-        'orderId',
-        'backOrderId',
-        'truckLoadId',
-        'customerPo',
-        'billingCustomer',
-        'salesUser',
-        'invoiceId',
-        'paidCode',
-      ],
-      invoiceHeader,
+  invoiceItems?: InvoiceItem[],
+  rejectedInvoices?: InvoiceHeader[],
+) => {
+  const orderInvoices = invoiceHeaders.map(
+    convertInvoiceHeaderToOrderMaster,
+  ) as OrderMasterInvoiceHeader[];
+
+  const orderInvoiceItems = invoiceItems
+    ? getOrderInvoiceItems(orderInvoices, invoiceItems)
+    : [];
+
+  const rejectedOrderItems = (rejectedInvoices
+    ?.map((ihs) => ihs?.items?.nodes || [])
+    .flat() || []) as InvoiceItem[];
+
+  const rejectedOrderInvoices = (rejectedInvoices?.map(
+    convertInvoiceHeaderToOrderMaster,
+  ) || []) as OrderMasterInvoiceHeader[];
+
+  const palletIds = ((invoiceItems || []) as InvoiceItem[])
+    .concat(rejectedOrderItems)
+    .map((item) => item.palletId || item.pallet?.palletId);
+
+  const itemHistories = (invoiceHeaders
+    .map((ihs) => ihs?.itemHistories?.nodes || [])
+    .flat() || []) as InvoiceItemHistory[];
+
+  const deletedItems = getOrderInvoiceItems(
+    orderInvoices,
+    (itemHistories as InvoiceItem[]).filter(
+      (item) =>
+        item && !palletIds.includes(item.palletId || item.pallet?.palletId),
     ),
-    expectedShipDate: invoiceHeader.actualShipDate,
-    orderStatus: 'SHP',
-    items: {
-      nodes: values(
-        ((invoiceHeader.items.nodes || []) as InvoiceItem[]).reduce<{
-          [key: string]: OrderItem;
-        }>(
-          (acc, item) => ({
-            ...acc,
-            [`${item.orderId}-${item.backOrderId}-${item.lineId}`]: {
-              ...pick(
-                [
-                  'orderId',
-                  'backOrderId',
-                  'lineId',
-                  'unitSellPrice',
-                  'deliveryCharge',
-                ],
-                item,
-              ),
-              boxCount: item.pickedQty,
-              palletCount:
-                (acc[`${item.orderId}-${item.backOrderId}-${item.lineId}`]
-                  ?.palletCount
-                  ? parseInt(
-                      acc[`${item.orderId}-${item.backOrderId}-${item.lineId}`]
-                        ?.palletCount,
-                    )
-                  : 0) + 1,
-              unitSellPrice: item?.unitSellPrice,
-              inventoryItem: {
-                ...(item.pallet || {}),
-                ...(item.pallet?.vessel || {}),
-                plu: `${item.pallet?.product?.packType?.packDescription}`.includes(
-                  'PLU',
-                ),
-                product: (item.pallet?.product || {}) as ProductMaster,
-              },
-              invoiceId: invoiceHeader?.invoiceId,
-              order: {
-                orderId: invoiceHeader?.orderId,
-                backOrderId: invoiceHeader?.backOrderId,
-                invoiceId: invoiceHeader?.invoiceId,
-                expectedShipDate: invoiceHeader?.actualShipDate,
-                salesUserCode: invoiceHeader?.salesUserCode,
-                billingCustomer: invoiceHeader?.billingCustomer,
-              } as OrderMasterInvoiceHeader,
-            } as OrderItemInvoiceItem,
-          }),
-          {},
-        ),
-      ),
-    },
-  })) as OrderMasterInvoiceHeader[];
+  ).filter((item) => item?.items && item.items.length > 0);
+
+  return {
+    deletedItems,
+    invoices: orderInvoices,
+    items: orderInvoiceItems,
+    rejectedItems: getOrderInvoiceItems(
+      rejectedOrderInvoices,
+      rejectedOrderItems,
+    ),
+  };
+};
 
 export const orderSteps = [
   {

@@ -30,8 +30,38 @@ query TRUCK_LOAD_DETAILS($truckLoadId: String!) {
       temperature
       loadLock
       notes
-      invoiceHeader {
-        orderId
+      rejectedTruckLoads {
+        nodes {
+          loadId
+          invoiceHeaders {
+            nodes {
+              orderId
+            }
+          }
+        }
+      }
+      splitTruckLoads {
+        nodes {
+          loadId
+          invoiceHeaders {
+            nodes {
+              orderId
+            }
+          }
+        }
+      }
+      originalTruckLoad {
+        loadId
+        invoiceHeaders {
+          nodes {
+            orderId
+          }
+        }
+      }
+      invoiceHeaders {
+        nodes {
+          orderId
+        }
       }
       orderMaster {
         backOrderId

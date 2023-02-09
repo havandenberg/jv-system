@@ -69,7 +69,10 @@ query INVENTORY_ITEM_DETAILS($id: BigInt!) {
         }
         commonPackType {
           id
-          isRepack
+          repackStyle {
+            id
+            styleName
+          }
           packTypeName
         }
       }

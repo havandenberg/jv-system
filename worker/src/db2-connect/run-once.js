@@ -15,8 +15,13 @@ const { db2UpdateTable } = require('.');
 // db2UpdateTable('operations/order/item');
 // db2UpdateTable('operations/truck-load');
 
+// db2UpdateTable('operations/repack/header');
+// db2UpdateTable('operations/repack/item');
+
 // db2UpdateTable('accounting/invoice/header');
 // db2UpdateTable('accounting/invoice/item');
+// db2UpdateTable('accounting/invoice/item-history');
+// db2UpdateTable('accounting/customer-payment');
 
 // db2UpdateTable('accounting/expense/header');
 // db2UpdateTable('accounting/expense/item');
@@ -41,5 +46,7 @@ const { db2UpdateTable } = require('.');
 // db2UpdateTable('product/pack-special');
 // db2UpdateTable('product/pack-style');
 // db2UpdateTable('product/pack-tree-ripe');
+
+// db2UpdateTable('product/repack-style');
 
 // db2UpdateTable('directory/customer/volume-discount');

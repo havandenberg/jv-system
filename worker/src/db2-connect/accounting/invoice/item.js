@@ -11,9 +11,9 @@ const INVOICE_ITEM_LIST = gql`
         lineId
         sequenceId
         pickedQty
+        creditedQty
         palletId
         conditionCode
-        repackId
         creditCode
         unitSellPrice
         priceAdjustment
@@ -21,6 +21,8 @@ const INVOICE_ITEM_LIST = gql`
         freightAdjustment
         creditAmount
         brokerageAmount
+        volumeDiscountAmount
+        miaAdjustment
         layerMult
         flag
         notes
@@ -54,9 +56,9 @@ const getUpdatedInvoiceItem = (invoiceItem, db2InvoiceItem, id) => ({
   lineId: `${db2InvoiceItem['LINE#U']}`,
   sequenceId: `${db2InvoiceItem['SEQ#U']}`,
   pickedQty: `${db2InvoiceItem['SHPQTU']}`,
+  creditedQty: `${db2InvoiceItem['CCLQTU']}`,
   palletId: `${db2InvoiceItem['PID#U']}`,
   conditionCode: `${db2InvoiceItem['CONCDU']}`,
-  repackId: `${db2InvoiceItem['CODE#U']}`,
   creditCode: `${db2InvoiceItem['CRCODU']}`,
   unitSellPrice: `${db2InvoiceItem['SELLPU']}`,
   priceAdjustment: `${db2InvoiceItem['ADJU']}`,
@@ -64,6 +66,8 @@ const getUpdatedInvoiceItem = (invoiceItem, db2InvoiceItem, id) => ({
   freightAdjustment: `${db2InvoiceItem['ADJFU']}`,
   creditAmount: `${db2InvoiceItem['CRAMTU']}`,
   brokerageAmount: `${db2InvoiceItem['BRKRGU']}`,
+  volumeDiscountAmount: `${db2InvoiceItem['VLD1U']}`,
+  miaAdjustment: `${db2InvoiceItem['MIAU']}`,
   layerMult: db2InvoiceItem['LAYERU'] === 1,
   flag: `${db2InvoiceItem['FLAG5U']}`,
 });

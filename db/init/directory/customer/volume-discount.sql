@@ -2,8 +2,10 @@ CREATE TABLE directory.customer_volume_discount (
   id BIGSERIAL PRIMARY KEY,
 	customer_id TEXT,
 	volume_discount_code TEXT,
-	amount TEXT
+	amount NUMERIC
 );
+
+CREATE INDEX ON directory.customer_volume_discount (customer_id);
 
 CREATE FUNCTION directory.customer_volume_discount_customer(IN cvd directory.customer_volume_discount)
   RETURNS directory.customer

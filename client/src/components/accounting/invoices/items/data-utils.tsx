@@ -1,5 +1,3 @@
-import { format } from 'date-fns';
-
 import { LabelInfo } from 'components/column-label';
 import { getInventoryItemDescription } from 'components/inventory/inventory/utils';
 import { OrderItemLabelInfo } from 'components/inventory/orders/items/data-utils';
@@ -13,28 +11,86 @@ export type InvoiceItemLabelInfo = LabelInfo<InvoiceItem>;
 export const listLabels: OrderItemLabelInfo[] = [
   {
     defaultSortOrder: SORT_ORDER.ASC,
-    key: 'backOrderId',
-    label: 'B/O ID',
-    sortable: true,
-    customSortBy: (data) => (data ? `${data.backOrderId} ${data.lineId}` : ''),
-  },
-  {
-    defaultSortOrder: SORT_ORDER.ASC,
     key: 'lineId',
     label: 'Line ID',
     sortable: true,
+    customSortBy: ({ lineId }) => parseInt(lineId, 10),
   },
   {
     defaultSortOrder: SORT_ORDER.ASC,
     key: 'inventoryItem',
-    label: 'Description',
+    sortKey: 'species',
+    label: 'Species',
     sortable: true,
     customSortBy: ({ inventoryItem }) =>
-      inventoryItem ? getInventoryItemDescription(inventoryItem, {}) : 'zzzzz',
+      inventoryItem ? getInventoryItemDescription(inventoryItem) : '',
     getValue: ({ inventoryItem }) =>
       inventoryItem ? (
         <ty.BodyText>
-          {getInventoryItemDescription(inventoryItem, {})}
+          {inventoryItem.product?.species?.speciesDescription}
+        </ty.BodyText>
+      ) : (
+        ''
+      ),
+  },
+  {
+    key: 'inventoryItem',
+    sortKey: 'variety',
+    label: 'Variety',
+    getValue: ({ inventoryItem }) =>
+      inventoryItem ? (
+        <ty.BodyText>
+          {inventoryItem.product?.variety?.varietyDescription}
+        </ty.BodyText>
+      ) : (
+        ''
+      ),
+  },
+  {
+    key: 'inventoryItem',
+    label: 'Size',
+    getValue: ({ inventoryItem }) =>
+      inventoryItem ? (
+        <ty.BodyText>
+          {inventoryItem.product?.sizes.nodes?.[0]?.combineDescription}
+        </ty.BodyText>
+      ) : (
+        ''
+      ),
+  },
+  {
+    key: 'inventoryItem',
+    label: 'Pack Type',
+    getValue: ({ inventoryItem }) =>
+      inventoryItem ? (
+        <ty.BodyText>
+          {inventoryItem.product?.packType?.packDescription}
+        </ty.BodyText>
+      ) : (
+        ''
+      ),
+  },
+  {
+    key: 'inventoryItem',
+    label: 'Label',
+    getValue: ({ inventoryItem }) =>
+      inventoryItem ? (
+        <ty.BodyText>
+          {inventoryItem.product?.packType?.label?.labelName}
+        </ty.BodyText>
+      ) : (
+        ''
+      ),
+  },
+  {
+    key: 'inventoryItem',
+    label: 'PLU',
+    getValue: ({ inventoryItem }) =>
+      inventoryItem ? (
+        <ty.BodyText>
+          {inventoryItem.product?.packType?.pluUpcCode === 'Y'
+            ? 'PLU'
+            : 'NO PLU'}
         </ty.BodyText>
       ) : (
         ''
@@ -49,20 +105,6 @@ export const listLabels: OrderItemLabelInfo[] = [
       ) : (
         ''
       ),
-  },
-  {
-    key: 'inventoryItem',
-    label: 'Avail Date',
-    getValue: ({ inventoryItem }) => {
-      const dischargeDate = inventoryItem?.vessel?.dischargeDate;
-      return dischargeDate ? (
-        <ty.BodyText>
-          {format(new Date(dischargeDate.replace(/-/g, '/')), 'M/dd')}
-        </ty.BodyText>
-      ) : (
-        ''
-      );
-    },
   },
   {
     key: 'inventoryItem',
@@ -96,15 +138,20 @@ export const listLabels: OrderItemLabelInfo[] = [
 
 export const itemListLabels: InvoiceItemLabelInfo[] = [
   {
-    key: 'backOrderId',
-    label: 'B/O ID',
-  },
-  {
-    key: 'lineId',
-    label: 'Line ID',
-  },
-  {
     key: 'sequenceId',
     label: 'Sequence ID',
+  },
+  {
+    key: 'palletId',
+    label: 'Pallet ID',
+    getValue: ({ pallet }) => (
+      <ty.LinkText hover="false" to={`/inventory/pallets/${pallet?.palletId}`}>
+        {pallet?.palletId}
+      </ty.LinkText>
+    ),
+  },
+  {
+    key: 'pickedQty',
+    label: 'Box Count',
   },
 ];

@@ -40,18 +40,52 @@ AS $BODY$
     LIMIT 1;
 $BODY$;
 
-CREATE FUNCTION operations.truck_load_invoice_header(IN t operations.truck_load)
-    RETURNS accounting.invoice_header
+CREATE FUNCTION operations.truck_load_invoice_headers(IN t operations.truck_load)
+    RETURNS SETOF accounting.invoice_header
     LANGUAGE 'sql'
     STABLE
     PARALLEL UNSAFE
     COST 100
 AS $BODY$
   SELECT * FROM accounting.invoice_header ih
-    WHERE ih.truck_load_id = t.load_id
-    AND ih.vendor_id = t.vendor_id
-    AND ih.ship_warehouse_id = t.warehouse_id
-    LIMIT 1;
+    WHERE ih.truck_load_id = t.load_id;
+$BODY$;
+
+CREATE FUNCTION operations.truck_load_split_truck_loads(IN t operations.truck_load)
+    RETURNS SETOF operations.truck_load
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT * FROM operations.truck_load tl
+    WHERE tl.load_id LIKE 'A' || SUBSTRING(t.load_id, 2, 4)
+      AND tl.load_id != t.load_id;
+$BODY$;
+
+CREATE FUNCTION operations.truck_load_rejected_truck_loads(IN t operations.truck_load)
+    RETURNS SETOF operations.truck_load
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT * FROM operations.truck_load tl
+    WHERE tl.load_id LIKE '%R%'
+      AND tl.load_id LIKE '%' || SUBSTRING(t.load_id, 2, 4) || '%'
+      AND tl.load_id != t.load_id;
+$BODY$;
+
+CREATE FUNCTION operations.truck_load_original_truck_load(IN t operations.truck_load)
+    RETURNS operations.truck_load
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT * FROM operations.truck_load tl
+    WHERE tl.load_id LIKE '0' || SUBSTRING(t.load_id, 2, 4)
+      AND tl.load_id != t.load_id;
 $BODY$;
 
 CREATE FUNCTION operations.truck_load_count(IN t operations.truck_load)
@@ -65,6 +99,7 @@ AS $BODY$
     WHERE tl.load_id = t.load_id;
 $BODY$;
 
+-- RYANPID
 CREATE FUNCTION operations.truck_load_pallets(IN t operations.truck_load)
     RETURNS setof product.pallet
     LANGUAGE 'sql'
@@ -78,7 +113,11 @@ AS $BODY$
         AND ih.back_order_id = ii.back_order_id
     INNER JOIN product.pallet p
         ON ii.pallet_id = p.pallet_id
-  WHERE ih.truck_load_id = t.load_id;
+  WHERE ih.truck_load_id = t.load_id AND
+    (CASE WHEN p.location_id IN ('25', '37', '50', '16') THEN t.warehouse_id IN ('25', '37', '50', '16')
+      WHEN p.location_id IN ('30', '03', '39') THEN t.warehouse_id IN ('30', '03', '39')
+      ELSE p.location_id = t.warehouse_id
+    END);
 $BODY$;
 
 CREATE FUNCTION operations.truck_load_warehouse(IN t operations.truck_load)

@@ -8,12 +8,18 @@ import Page from 'components/page';
 import { DataMessage } from 'components/page/message';
 import useTagManager, { CommonProductTag } from 'components/tag-manager';
 import useUpdateItem from 'hooks/use-update-item';
-import { CommonPackType, CommonPackTypeTag, PackMaster } from 'types';
+import {
+  CommonPackType,
+  CommonPackTypeTag,
+  PackMaster,
+  RepackStyle,
+} from 'types';
 import l from 'ui/layout';
 import th from 'ui/theme';
+import ty from 'ui/typography';
 
 import { transformChangesOnUpdate } from '../utils';
-import { baseLabels } from './data-utils';
+import { baseLabels, repackStyleBaseLabels } from './data-utils';
 
 export const breadcrumbs = (packType: CommonPackType) => [
   {
@@ -43,6 +49,9 @@ const CommonPackTypeDetails = () => {
   const { data: packMasterData } = api.usePackMasterList();
   const packMasters = (packMasterData?.nodes || []) as PackMaster[];
 
+  const { data: repackStyleData } = api.useRepackStyleList();
+  const repackStyles = (repackStyleData?.nodes || []) as RepackStyle[];
+
   const [handleUpdate] = api.useUpdateCommonPackType();
 
   const updateFields = [
@@ -52,7 +61,7 @@ const CommonPackTypeDetails = () => {
     'commonPackTypeTags',
     'packMasterId',
     'defaultInvSortKey',
-    'isRepack',
+    'repackStyleId',
     'palletWeight',
     'boxCount',
   ] as (keyof CommonPackType)[];
@@ -73,8 +82,12 @@ const CommonPackTypeDetails = () => {
         ),
       updateFields,
       updateVariables,
-      validationLabels: baseLabels(packMasters),
+      validationLabels: baseLabels(packMasters, repackStyles),
     });
+
+  const selectedRepackStyle = repackStyles.find(
+    (repackStyle) => repackStyle?.id === changes?.repackStyleId,
+  );
 
   const tags = (changes?.commonPackTypeTags?.nodes || []) as CommonProductTag[];
   const suggestedTags = uniqBy(
@@ -113,12 +126,22 @@ const CommonPackTypeDetails = () => {
             data={data}
             editing={editing}
             handleChange={handleChange}
-            labels={baseLabels(packMasters)}
+            labels={baseLabels(packMasters, repackStyles)}
             showValidation={saveAttempt}
           />
           <l.Div ml={th.spacing.sm} my={th.spacing.lg}>
             {tagManager}
           </l.Div>
+          {selectedRepackStyle && (
+            <>
+              <ty.CaptionText my={th.spacing.md}>Repack Style:</ty.CaptionText>
+              <BaseData<RepackStyle>
+                data={selectedRepackStyle}
+                editing={false}
+                labels={repackStyleBaseLabels}
+              />
+            </>
+          )}
         </l.Div>
       ) : (
         <DataMessage data={data || []} error={error} loading={loading} />

@@ -170,3 +170,9 @@ export const useExpensesQueryParams = () =>
     expenseCode: ArrayParam,
     vesselCode: ArrayParam,
   });
+
+export const useRepackQueryParams = () =>
+  useQuerySet({
+    repackView: StringParam,
+    runNumber: StringParam,
+  });

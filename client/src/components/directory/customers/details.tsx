@@ -105,9 +105,20 @@ const Details = () => {
               </l.AreaLink>,
               <l.AreaLink
                 key="orders"
-                to={`/inventory/orders?billingCustomerId=${billingCustomerParam}`}
+                mr={th.spacing.lg}
+                to={`/inventory/orders?billingCustomerId=${encodeURIComponent(
+                  billingCustomerParam,
+                )}`}
               >
                 <b.Primary>Orders</b.Primary>
+              </l.AreaLink>,
+              <l.AreaLink
+                key="invoices"
+                to={`/accounting/invoices?billingCustomerId=${encodeURIComponent(
+                  billingCustomerParam,
+                )}`}
+              >
+                <b.Primary>Invoices</b.Primary>
               </l.AreaLink>,
             ]
           : []),

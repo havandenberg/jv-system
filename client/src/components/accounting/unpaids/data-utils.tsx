@@ -4,13 +4,15 @@ import InfoPanel from 'components/info-panel';
 import StatusIndicator from 'components/status-indicator';
 import { differenceInDays } from 'date-fns';
 import { pluck, sortBy } from 'ramda';
-import { InvoiceHeader, Pallet, Shipper, Unpaid, Vessel } from 'types';
+import { InvoiceHeader, Unpaid, VesselControl } from 'types';
 import { LineItemCheckbox } from 'ui/checkbox';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 import { formatShortDate } from 'utils/date';
 import { formatCurrency } from 'utils/format';
+
+import { getInvoiceNetAmountDue } from '../invoices/data-utils';
 
 export type UnpaidLabelInfo = LabelInfo<Unpaid>;
 
@@ -41,7 +43,7 @@ export const listLabels: (
         <ty.LinkText
           hover="false"
           target="_blank"
-          to={`/directory/shipper/${shipper.id}`}
+          to={`/directory/shippers/${shipper.id}`}
         >
           {shipper.shipperName}
         </ty.LinkText>
@@ -147,7 +149,7 @@ export const listLabels: (
           })
           ?.split(',')[2] || '0';
       return (
-        <ty.BodyText pr={th.spacing.sm} textAlign="right">
+        <ty.BodyText textAlign="right">
           {totalAmount !== '0'
             ? formatCurrency(parseFloat(totalAmount), true)
             : '-'}
@@ -173,7 +175,6 @@ export const listLabels: (
           color={
             invoice?.creditCode === '2' ? th.colors.status.errorAlt : undefined
           }
-          pr={th.spacing.sm}
           textAlign="right"
         >
           {totalCreditAmount !== '0'
@@ -186,13 +187,16 @@ export const listLabels: (
   {
     key: 'invoice',
     label: 'Due',
-    getValue: ({ invoice }) => (
-      <ty.BodyText pr={th.spacing.sm} textAlign="right">
-        {invoice?.amountOwed && invoice?.amountOwed !== '0'
-          ? formatCurrency(parseFloat(invoice?.amountOwed), true)
-          : '-'}
-      </ty.BodyText>
-    ),
+    getValue: ({ invoice }) => {
+      const netAmountDue = invoice && getInvoiceNetAmountDue(invoice);
+      return (
+        <ty.BodyText textAlign="right">
+          {netAmountDue && netAmountDue > 0
+            ? formatCurrency(netAmountDue, true)
+            : '-'}
+        </ty.BodyText>
+      );
+    },
   },
   {
     key: 'isApproved',
@@ -298,28 +302,22 @@ export const emptyUnpaid = {
   notes: '',
 };
 
-export const palletSearchText = (
-  pallet: Pallet,
-  vessel: Vessel,
-  shipper: Shipper,
-) =>
-  `${vessel?.vesselName} ${vessel?.vesselCode} ${shipper?.id} ${
+export const vesselControlSearchText = ({
+  shipper,
+  unpaids,
+  vessel,
+}: VesselControl) => {
+  const invoices = (unpaids?.nodes || []).map(
+    (u) => u?.invoice,
+  ) as InvoiceHeader[];
+  return `${vessel?.vesselName} ${vessel?.vesselCode} ${shipper?.id} ${
     shipper?.shipperName
-  } ${pluck(
-    'orderId',
-    (pallet.invoiceHeaders.nodes || []) as InvoiceHeader[],
-  ).join(',')} ${pluck(
-    'invoiceId',
-    (pallet.invoiceHeaders.nodes || []) as InvoiceHeader[],
-  ).join(',')} ${pluck(
-    'billingCustomer',
-    (pallet.invoiceHeaders.nodes || []) as InvoiceHeader[],
-  )
+  } ${pluck('orderId', invoices).join(',')} ${pluck('invoiceId', invoices).join(
+    ',',
+  )} ${pluck('billingCustomer', invoices)
     .map((c) => c?.customerName)
-    .join(',')} ${pluck(
-    'truckLoadId',
-    (pallet.invoiceHeaders.nodes || []) as InvoiceHeader[],
-  ).join(',')}`.toLowerCase();
+    .join(',')} ${pluck('truckLoadId', invoices).join(',')}`.toLowerCase();
+};
 
 export const getUnpaidsInfo = (unpaids: Unpaid[]) =>
   unpaids.reduce(

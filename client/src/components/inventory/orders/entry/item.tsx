@@ -139,8 +139,7 @@ const NewOrderEntryItem = ({
 
   const repackPackTypes = (
     (commonSpecies?.commonPackTypes.nodes || []) as CommonPackType[]
-  ).filter((pt) => !!pt?.isRepack);
-  const repackPackType = repackPackTypes.find((pt) => pt && pt.id === packType);
+  ).filter((pt) => !!pt?.repackStyle);
 
   const getSelectorValue = (type: FilterKey) => {
     switch (type) {
@@ -158,7 +157,7 @@ const NewOrderEntryItem = ({
         );
       case 'packType':
         return commonPackType
-          ? commonPackType.isRepack
+          ? commonPackType.repackStyle
             ? `Rp - ${commonPackType.packTypeName}`
             : commonPackType.packTypeName || ''
           : packType || '';
@@ -830,8 +829,7 @@ const NewOrderEntryItem = ({
   const boxCountItem = (filteredItems || []).find((it) =>
     getItemDefaultPalletQuantity(it),
   );
-  const boxCount =
-    getItemDefaultPalletQuantity(boxCountItem) || repackPackType?.boxCount || 1;
+  const boxCount = getItemDefaultPalletQuantity(boxCountItem) || 1;
 
   const updatedDeliveryCharge =
     shouldEstimateDeliveryCharge &&
@@ -965,7 +963,7 @@ const NewOrderEntryItem = ({
             </ty.CaptionText>
             <ty.CaptionText ellipsis secondary={updatedItem.packType === 'Any'}>
               {commonPackType
-                ? commonPackType.isRepack
+                ? commonPackType.repackStyle
                   ? `Rp - ${commonPackType.packTypeName}`
                   : commonPackType.packTypeName || ''
                 : updatedItem.packType}

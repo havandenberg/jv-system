@@ -92,8 +92,9 @@ const Orders = () => {
   const invoices = (invoicesData ? invoicesData.nodes : []) as InvoiceHeader[];
 
   const items = isInvoices
-    ? convertInvoiceHeadersToOrderMasters(invoices)
+    ? convertInvoiceHeadersToOrderMasters(invoices).invoices
     : orderMasters;
+
   const {
     data: productsData,
     loading: productsLoading,
@@ -190,7 +191,7 @@ const Orders = () => {
     'expectedShipDate',
     SORT_ORDER.DESC,
     indexListLabels(isInvoices),
-    'operations',
+    isInvoices ? 'accounting' : 'operations',
     isInvoices ? 'invoice_header' : 'order_master',
   );
 
@@ -298,7 +299,7 @@ const Orders = () => {
                       data={item}
                       gridTemplateColumns={gridTemplateColumns}
                       highlightColor={th.colors.status.warningSecondary}
-                      isHalfHighlight={
+                      isHighlight={
                         differenceInDays(
                           new Date(
                             item.order?.expectedShipDate.replace(/-/g, '/'),

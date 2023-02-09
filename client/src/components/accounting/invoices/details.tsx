@@ -3,10 +3,7 @@ import { useParams } from 'react-router-dom';
 
 import api from 'api';
 import BaseData from 'components/base-data';
-import {
-  convertInvoiceHeadersToOrderMasters,
-  OrderItemInvoiceItem,
-} from 'components/inventory/orders/data-utils';
+import { convertInvoiceHeadersToOrderMasters } from 'components/inventory/orders/data-utils';
 import { baseLabels as entryBaseLabels } from 'components/inventory/orders/entry/data-utils';
 import OrderEntryList from 'components/inventory/orders/entry/list';
 import Page from 'components/page';
@@ -15,13 +12,18 @@ import { Tab, useTabBar } from 'components/tab-bar';
 import { SORT_ORDER } from 'hooks/use-columns';
 import usePrevious from 'hooks/use-previous';
 import { useSortQueryParams } from 'hooks/use-query-params';
-import { InvoiceHeader, InvoiceItem, OrderEntry, OrderItem } from 'types';
+import { InvoiceHeader, InvoiceItem, OrderEntry } from 'types';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 import { formatCurrency } from 'utils/format';
 
-import { baseLabels } from './data-utils';
+import {
+  baseLabels,
+  getInvoiceNetAmountDue,
+  getInvoicePalletCounts,
+  getTotalInvoiceAmount,
+} from './data-utils';
 import InvoiceItemList from './items/list';
 
 export const breadcrumbs = (id: string) => [
@@ -90,21 +92,18 @@ const Details = () => {
       .map(({ items }) => (items.nodes || []) as InvoiceItem[])
       .flat() || [];
 
-  const allOrderItems = convertInvoiceHeadersToOrderMasters(invoiceHeaders)
-    .map(({ items }) =>
-      ((items.nodes || []) as OrderItem[]).map(
-        (item) =>
-          ({
-            ...item,
-            items: allInvoiceItems.filter(
-              (invoiceItem) =>
-                `${item.orderId}-${item.backOrderId}-${item.lineId}` ===
-                `${invoiceItem.orderId}-${invoiceItem.backOrderId}-${invoiceItem.lineId}`,
-            ),
-          } as OrderItemInvoiceItem),
-      ),
-    )
-    .flat() as OrderItemInvoiceItem[];
+  const rejectedInvoices = (invoiceHeader?.rejectedInvoices?.nodes ||
+    []) as InvoiceHeader[];
+
+  const {
+    deletedItems,
+    items: allOrderItems,
+    rejectedItems,
+  } = convertInvoiceHeadersToOrderMasters(
+    invoiceHeaders,
+    allInvoiceItems,
+    rejectedInvoices,
+  );
 
   const { TabBar, selectedTabId } = useTabBar({
     tabs: tabs(allOrderItems.length, orderEntries.length),
@@ -119,7 +118,7 @@ const Details = () => {
       const isEntries = selectedTabId === 'orderEntries';
       setSortParams(
         {
-          sortBy: isEntries ? 'orderDate' : 'backOrderId',
+          sortBy: isEntries ? 'orderDate' : 'lineId',
           sortOrder: isEntries ? SORT_ORDER.DESC : SORT_ORDER.ASC,
         },
         'replaceIn',
@@ -129,19 +128,10 @@ const Details = () => {
 
   const isEntries = selectedTabId === 'orderEntries';
 
-  const { totalPallets, totalSellPrice } = allOrderItems.reduce(
-    (acc, item) => ({
-      totalPallets: acc.totalPallets + parseInt(item?.palletCount, 10) || 0,
-      totalSellPrice:
-        acc.totalSellPrice +
-        (parseFloat(item?.unitSellPrice) || 0) *
-          (parseInt(item?.boxCount, 10) || 0),
-    }),
-    { totalPallets: 0, totalSellPrice: 0 } as {
-      totalPallets: number;
-      totalSellPrice: number;
-    },
-  );
+  const { totalPallets, totalRejectedPallets } =
+    getInvoicePalletCounts(invoiceHeader);
+  const totalInvoiceAmount = getTotalInvoiceAmount(invoiceHeader);
+  const netAmountDue = getInvoiceNetAmountDue(invoiceHeader);
 
   return (
     <Page
@@ -166,18 +156,51 @@ const Details = () => {
           <l.Flex alignCenter justifyBetween my={th.spacing.lg}>
             <TabBar />
             <l.Flex alignCenter>
-              <ty.CaptionText mr={th.spacing.lg}>
-                Total Pallets:{' '}
-                <ty.Span bold ml={th.spacing.xs}>
-                  {loading ? '-' : totalPallets}
-                </ty.Span>
-              </ty.CaptionText>
-              <ty.CaptionText color={th.colors.brand.primaryAccent}>
-                Total Invoice Amount:{' '}
-                <ty.Span bold ml={th.spacing.xs}>
-                  {loading ? '-' : formatCurrency(totalSellPrice)}
-                </ty.Span>
-              </ty.CaptionText>
+              <l.Flex alignEnd column mr={th.spacing.xl}>
+                <ty.CaptionText>
+                  Total Pallets:{' '}
+                  <ty.Span bold ml={th.spacing.xs}>
+                    {loading ? '-' : totalPallets}
+                  </ty.Span>
+                </ty.CaptionText>
+                {!loading && totalRejectedPallets > 0 && (
+                  <ty.CaptionText
+                    color={th.colors.status.errorAlt}
+                    mt={th.spacing.xs}
+                  >
+                    Rejected:{' '}
+                    <ty.Span ml={th.spacing.xs}>{totalRejectedPallets}</ty.Span>
+                  </ty.CaptionText>
+                )}
+              </l.Flex>
+              <l.Flex alignEnd column mr={th.spacing.sm}>
+                <ty.CaptionText
+                  color={th.colors.brand.primaryAccent}
+                  mb={th.spacing.xs}
+                >
+                  Total Invoice Amount:{' '}
+                  <ty.Span bold ml={th.spacing.xs}>
+                    {loading ? '-' : formatCurrency(totalInvoiceAmount)}
+                  </ty.Span>
+                </ty.CaptionText>
+                {!loading &&
+                  (netAmountDue < 0 ? (
+                    <ty.CaptionText bold color={th.colors.status.errorAlt}>
+                      Unpaid
+                    </ty.CaptionText>
+                  ) : netAmountDue === 0 ? (
+                    <ty.CaptionText bold color={th.colors.status.successAlt}>
+                      Paid In Full
+                    </ty.CaptionText>
+                  ) : (
+                    <ty.CaptionText color={th.colors.status.errorAlt}>
+                      Net Amount Due:{' '}
+                      <ty.Span bold ml={th.spacing.xs}>
+                        {formatCurrency(netAmountDue)}
+                      </ty.Span>
+                    </ty.CaptionText>
+                  ))}
+              </l.Flex>
             </l.Flex>
           </l.Flex>
           {isEntries ? (
@@ -186,7 +209,13 @@ const Details = () => {
               items={orderEntries}
             />
           ) : (
-            <InvoiceItemList items={allOrderItems} />
+            <InvoiceItemList
+              deletedItems={deletedItems}
+              items={allOrderItems}
+              rejectedItems={rejectedItems}
+              rejectedInvoices={rejectedInvoices}
+              originalInvoice={invoiceHeader.originalInvoice || undefined}
+            />
           )}
         </l.Div>
       ) : (

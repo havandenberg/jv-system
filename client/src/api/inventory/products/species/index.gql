@@ -80,7 +80,10 @@ query COMMON_SPECIES_LIST(
         nodes {
           boxCount
           id
-          isRepack
+          repackStyle {
+            id
+            styleName
+          }
           palletWeight
           packMasterId
           packMaster {

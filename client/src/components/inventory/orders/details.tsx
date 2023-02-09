@@ -19,11 +19,7 @@ import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 
-import {
-  baseLabels,
-  indexBaseLabels,
-  OrderMasterInvoiceHeader,
-} from './data-utils';
+import { baseLabels, indexBaseLabels } from './data-utils';
 import { baseLabels as entryBaseLabels } from './entry/data-utils';
 import OrderEntryList from './entry/list';
 import OrderItemList from './items/list';
@@ -99,7 +95,7 @@ const Details = () => {
   const orderMasters = ((data?.nodes || []) as OrderMaster[]).filter(
     (orderMaster) => `${orderMaster?.orderId}` === id,
   );
-  const orderMaster: OrderMasterInvoiceHeader | undefined = backOrderId
+  const orderMaster: OrderMaster | undefined = backOrderId
     ? orderMasters.find(
         (orderMaster) => `${orderMaster?.backOrderId}` === backOrderId,
       )
@@ -208,7 +204,7 @@ const Details = () => {
       {hasData ? (
         <l.Div pb={th.spacing.xl}>
           {orderMaster ? (
-            <BaseData<OrderMasterInvoiceHeader>
+            <BaseData<OrderMaster>
               data={orderMaster}
               labels={indexBaseLabels(backOrderId)}
             />

@@ -48,9 +48,12 @@ const useVariables = (orderByOverride?: string) => {
     search: getSearchArray(search),
     startDate: formattedStartDate,
     endDate: formattedEndDate,
-    vendorId: filteredVendorValues.map((val) =>
-      val.substring(val.lastIndexOf(' (') + 2, val.length - 1),
-    ),
+    vendorId: [
+      '55555',
+      ...filteredVendorValues.map((val) =>
+        val.substring(val.lastIndexOf(' (') + 2, val.length - 1),
+      ),
+    ],
   };
 };
 

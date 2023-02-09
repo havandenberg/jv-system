@@ -7,17 +7,17 @@ import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 
-import { UnpaidItem, VesselControlItem } from './data-utils';
 import { hexColorWithTransparency } from 'ui/utils';
 
 import { getUnpaidsInfo } from '../unpaids/data-utils';
 import InfoPanel from 'components/info-panel';
+import { Unpaid, VesselControl } from 'types';
 
 export const SALES_USER_CODES = ['AK', 'BS', 'CP', 'GV', 'MF', 'NP', 'SS'];
 
 export const gridTemplateColumns = '60px repeat(7, 50px)';
 
-const UnpaidsBySalesAssoc = ({
+export const UnpaidsBySalesAssoc = ({
   isAllApproved,
   isLiquidated,
   isPartialApproved,
@@ -26,7 +26,7 @@ const UnpaidsBySalesAssoc = ({
   isAllApproved?: boolean;
   isLiquidated?: boolean;
   isPartialApproved?: boolean;
-  unpaids: UnpaidItem[];
+  unpaids: Unpaid[];
 }) => {
   const [show, setShow] = useState(false);
 
@@ -61,9 +61,7 @@ const UnpaidsBySalesAssoc = ({
                   hover="false"
                   ml={th.spacing.xs}
                   target="_blank"
-                  to={`/accounting/invoices/${
-                    unpaid.orderId || unpaid.invoice?.orderId
-                  }`}
+                  to={`/accounting/invoices/${unpaid.invoice?.orderId}`}
                   textDecoration={
                     unpaid.invoice?.paidCode === 'P' ? 'line-through' : 'none'
                   }
@@ -109,31 +107,13 @@ const UnpaidsBySalesAssoc = ({
 };
 
 type Props = {
-  handleChange: (updatedItem: VesselControlItem) => void;
-  vesselControlItem: VesselControlItem;
+  handleChange: (updatedItem: VesselControl) => void;
+  vesselControl: VesselControl;
 };
 
-const UnpaidsManager = ({ handleChange, vesselControlItem }: Props) => {
-  const { groupedPallets, isLiquidated } = vesselControlItem;
-  const unpaids = Object.values(groupedPallets)
-    .reduce(
-      (acc, palletsByShipper) =>
-        [
-          ...acc,
-          ...Object.values(palletsByShipper).map(({ unpaid }) => unpaid),
-        ] as UnpaidItem[],
-      [] as UnpaidItem[],
-    )
-    .map(
-      (unpaid) =>
-        (vesselControlItem.unpaids.nodes || []).find(
-          (u) =>
-            u &&
-            u.vesselCode === unpaid.vesselCode &&
-            u.shipperId === unpaid.shipperId &&
-            u.invoiceId === unpaid.invoiceId,
-        ) || unpaid,
-    ) as UnpaidItem[];
+const UnpaidsManager = ({ handleChange, vesselControl }: Props) => {
+  const { isLiquidated } = vesselControl;
+  const unpaids = (vesselControl.unpaids.nodes || []) as Unpaid[];
 
   const { isAllUrgent, isAllApproved, isPartialApproved } =
     unpaids.length > 0
@@ -150,31 +130,22 @@ const UnpaidsManager = ({ handleChange, vesselControlItem }: Props) => {
       isUrgent: !isAllUrgent,
     }));
     handleChange({
-      ...vesselControlItem,
-      unpaids: { ...vesselControlItem.unpaids, nodes: updatedUnpaids },
+      ...vesselControl,
+      unpaids: { ...vesselControl.unpaids, nodes: updatedUnpaids },
     });
   };
 
   const handleToggleUrgent = (salesUserCode: string) => {
-    const invoiceIds = Object.keys(groupedPallets[salesUserCode]).map(
-      (orderId) => {
-        const pallets = groupedPallets[salesUserCode][orderId]?.pallets;
-        return pallets[0]?.invoiceHeaders.nodes?.find(
-          (invoice) => orderId === invoice?.orderId,
-        )?.invoiceId;
-      },
-    );
-
     const updatedUnpaids = unpaids.map((u) => {
-      if (invoiceIds.includes(u.invoiceId)) {
+      if (u.invoice?.salesUserCode === salesUserCode) {
         return { ...u, isUrgent: !u.isUrgent };
       }
       return u;
     });
 
     handleChange({
-      ...vesselControlItem,
-      unpaids: { ...vesselControlItem.unpaids, nodes: updatedUnpaids },
+      ...vesselControl,
+      unpaids: { ...vesselControl.unpaids, nodes: updatedUnpaids },
     });
   };
 
@@ -196,18 +167,11 @@ const UnpaidsManager = ({ handleChange, vesselControlItem }: Props) => {
         />
       </l.Flex>
       {SALES_USER_CODES.map((salesUserCode) => {
-        const invoiceIds = groupedPallets[salesUserCode]
-          ? Object.keys(groupedPallets[salesUserCode]).map((orderId) => {
-              const pallets = groupedPallets[salesUserCode][orderId]?.pallets;
-              return pallets[0]?.invoiceHeaders.nodes?.find(
-                (invoice) => orderId === invoice?.orderId,
-              )?.invoiceId;
-            })
-          : [];
-
         const filteredUnpaids = sortBy(
           ({ invoiceId }) => invoiceId,
-          unpaids.filter((unpaid) => invoiceIds.includes(unpaid.invoiceId)),
+          unpaids.filter(
+            ({ invoice }) => invoice?.salesUserCode === salesUserCode,
+          ),
         );
 
         const {
@@ -217,7 +181,7 @@ const UnpaidsManager = ({ handleChange, vesselControlItem }: Props) => {
           isPartialApproved: isPartialApprovedBySalesAssoc,
         } = getUnpaidsInfo(filteredUnpaids);
 
-        return groupedPallets[salesUserCode] ? (
+        return filteredUnpaids.length > 0 ? (
           <l.Flex alignCenter key={salesUserCode} justifyCenter>
             <UnpaidsBySalesAssoc
               isAllApproved={isAllApprovedBySalesAssoc}

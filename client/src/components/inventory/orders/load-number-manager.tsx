@@ -66,8 +66,11 @@ const StyledLoadNumber = ({
   );
   const [notes, setNotes] = useState(loadNumber.notes || '');
 
-  const { invoiceHeader, orderEntries, orderMaster } = loadNumber;
+  const { invoiceHeaders, orderEntries, orderMaster } = loadNumber;
   const orderEntry = orderEntries?.nodes[0];
+  const invoiceHeader = invoiceHeaders?.nodes?.find(
+    (ih) => ih?.truckLoadId === loadNumber.id,
+  );
   const billingCustomer =
     orderEntry?.billingCustomer ||
     invoiceHeader?.billingCustomer ||

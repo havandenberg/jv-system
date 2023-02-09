@@ -1,14 +1,9 @@
-import { useMemo } from 'react';
-import { pluck } from 'ramda';
 import { useMutation, useQuery } from '@apollo/client';
 import { loader } from 'graphql.macro';
 
-import {
-  buildVesselControlItems,
-  VesselControlItem,
-} from 'components/accounting/vessel-control/data-utils';
+import { vesselControlSearchText } from 'components/accounting/unpaids/data-utils';
 import { useQueryValue, useSearchQueryParam } from 'hooks/use-query-params';
-import { Mutation, Query, VesselControl } from 'types';
+import { Mutation, Query, Unpaid, VesselControl } from 'types';
 
 import { useVariables, VESSEL_CONTROL_LIST_QUERY } from '../vessel-control';
 
@@ -27,26 +22,35 @@ export const useUnpaids = () => {
     variables,
   });
 
-  const vesselControls = useMemo(
-    () =>
-      buildVesselControlItems(
-        (vesselControlsData?.allVesselControls?.nodes || []) as VesselControl[],
-        search?.split(' '),
-      ) as VesselControlItem[],
-    [search, vesselControlsData],
-  );
+  const vesselControls = (vesselControlsData?.vesselControls?.nodes ||
+    []) as VesselControl[];
+  const searchArray = search?.split(' ');
 
   const unpaids = vesselControls
-    .map(({ groupedPallets }) =>
-      Object.keys(groupedPallets)
-        .map((suc) =>
-          !salesUserCode || salesUserCode === 'all' || suc === salesUserCode
-            ? pluck('unpaid', Object.values(groupedPallets[suc]))
-            : [],
-        )
-        .flat(),
+    .map(({ unpaids, ...rest }) =>
+      unpaids?.nodes
+        ?.filter((unpaid) => {
+          const searchText = vesselControlSearchText({
+            ...rest,
+            unpaids: { ...unpaids, nodes: [unpaid] },
+          });
+
+          const isSearchValid =
+            !searchArray ||
+            searchArray.every((searchVal) =>
+              searchText.toLowerCase().includes(searchVal.toLowerCase()),
+            );
+
+          return (
+            isSearchValid &&
+            (!salesUserCode ||
+              salesUserCode === 'all' ||
+              unpaid?.invoice?.salesUserCode === salesUserCode)
+          );
+        })
+        .map((up) => ({ ...up, vessel: rest.vessel, shipper: rest.shipper })),
     )
-    .flat();
+    .flat() as Unpaid[];
 
   return {
     data: unpaids,

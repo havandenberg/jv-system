@@ -10,7 +10,10 @@ query COMMON_PACK_TYPE($id: BigInt!) {
       commonPackTypes {
         nodes {
           id
-          isRepack
+          repackStyle {
+            id
+            styleName
+          }
           packTypeName
           commonPackTypeTags {
             nodes {
@@ -25,7 +28,15 @@ query COMMON_PACK_TYPE($id: BigInt!) {
     boxCount
     id
     defaultInvSortKey
-    isRepack
+    repackStyleId
+    repackStyle {
+      id
+      styleName
+      styleDescription
+      lqdCode
+      filmLength
+      packOutWeight
+    }
     palletWeight
     packMasterId
     packMastersByCommonPackTypePackMasterCommonPackTypeIdAndPackMasterId {

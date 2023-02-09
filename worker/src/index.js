@@ -22,16 +22,14 @@ const {
   fetchPsaApplePallets,
 } = require('./inspections/psa-arrival/pallets');
 const sendProjectionReminders = require('./projections/weekly-reminder');
-const sendUnpaidsReminders = require('./accounting/unpaids');
+const generateVesselControlsAndUnpaids = require('./accounting/unpaids');
+const sendUnpaidsReminders = require('./accounting/unpaids/notifications');
 const { server: emailServer } = require('./utils/server');
 
 const port = '3002';
 emailServer.listen(port, () => console.log('JV email server live on ' + port));
 
 if (process.env.REACT_APP_IS_PRODUCTION === 'true') {
-  // cron.schedule('0 8 * * *', sendUnpaidsReminders);
-  // cron.schedule('26 0 * * *', sendProjectionReminders);
-
   cron.schedule('0 0 * * *', fetchChileDepartureInspections);
   // cron.schedule('0 4 * * *', fetchPeruDepartureInspections);
   cron.schedule('55 23 * * *', fetchPsaArrivalInspections);
@@ -45,6 +43,10 @@ if (process.env.REACT_APP_IS_PRODUCTION === 'true') {
   cron.schedule('22 0 * * *', fetchPsaLemonPallets);
   cron.schedule('24 0 * * *', fetchPsaCherryPallets);
   cron.schedule('26 0 * * *', fetchPsaApplePallets);
+
+  // cron.schedule('0 8 * * *', sendUnpaidsReminders);
+  // cron.schedule('26 0 * * *', sendProjectionReminders);
+  cron.schedule('0 1 * * *', generateVesselControlsAndUnpaids);
 
   cron.schedule('*/30 5-22 * * *', () => db2UpdateTable('directory/country'));
   cron.schedule('*/30 5-22 * * *', () => db2UpdateTable('directory/shipper'));
@@ -65,6 +67,13 @@ if (process.env.REACT_APP_IS_PRODUCTION === 'true') {
   );
   cron.schedule('*/10 5-22 * * *', () =>
     db2UpdateTable('operations/truck-load'),
+  );
+
+  cron.schedule('*/12 5-22 * * *', () =>
+    db2UpdateTable('operations/repack/header'),
+  );
+  cron.schedule('*/12 5-22 * * *', () =>
+    db2UpdateTable('operations/repack/item'),
   );
 
   cron.schedule('*/15 5-22 * * *', () =>
@@ -117,9 +126,17 @@ if (process.env.REACT_APP_IS_PRODUCTION === 'true') {
   cron.schedule('0 5-22/6 * * *', () =>
     db2UpdateTable('accounting/invoice/item'),
   );
+  cron.schedule('0 5-22/6 * * *', () =>
+    db2UpdateTable('accounting/invoice/item-history'),
+  );
+  cron.schedule('0 5-22/6 * * *', () =>
+    db2UpdateTable('accounting/customer-payment'),
+  );
 
   cron.schedule('0 23 * * *', () => db2UpdateTable('product/pallet'));
   cron.schedule('0 23 * * *', () => db2UpdateTable('product/pallet-section'));
+
+  cron.schedule('0 23 * * *', () => db2UpdateTable('product/repack-style'));
 
   cron.schedule('0 23 * * *', () =>
     db2UpdateTable('directory/customer/volume-discount'),

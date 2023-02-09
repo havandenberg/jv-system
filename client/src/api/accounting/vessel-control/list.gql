@@ -1,5 +1,5 @@
 query VESSEL_CONTROL_LIST($dateFilter: VesselControlFilter!) {
-  allVesselControls(filter: $dateFilter) {
+  vesselControls(filter: $dateFilter) {
     nodes {
       approval1
       approval2
@@ -14,64 +14,73 @@ query VESSEL_CONTROL_LIST($dateFilter: VesselControlFilter!) {
         shipperName
         vesselControlDaysUntilDue
       }
+      pallets {
+        totalCount
+      }
+      palletsShipped
       unpaids {
         nodes {
           id
           invoiceId
           invoice {
+            id
+            actualShipDate
+            amountOwed
+            billingCustomer {
+              id
+              customerName
+              volumeDiscounts {
+                nodes {
+                  volumeDiscountCode
+                  amount
+                }
+              }
+            }
+            deletedItemAmounts {
+              nodes
+            }
+            truckLoadId
+            rejectedInvoices {
+              nodes {
+                orderId
+                amountOwed
+                netAmountDue
+                truckLoadId
+                items {
+                  nodes {
+                    palletId
+                  }
+                }
+                totalAmountsByVesselAndShipper {
+                  nodes
+                }
+              }
+            }
+            salesUserCode
+            salesUser {
+              userCode
+              personContact {
+                firstName
+                email
+              }
+              id
+            }
+            invoiceId
+            orderId
             paidCode
+            flag
+            totalAmountsByVesselAndShipper {
+              nodes
+            }
+            conditionCode
+            creditCode
+            netAmountDue
           }
           shipperId
           vesselCode
           isApproved
           isUrgent
           notes
-        }
-      }
-      pallets {
-        nodes {
-          id
-          invoiceHeaders {
-            nodes {
-              id
-              actualShipDate
-              amountOwed
-              billingCustomer {
-                id
-                customerName
-                volumeDiscounts {
-                  nodes {
-                    volumeDiscountCode
-                    amount
-                  }
-                }
-              }
-              truckLoadId
-              salesUserCode
-              salesUser {
-                userCode
-                personContact {
-                  firstName
-                  email
-                }
-                id
-              }
-              invoiceId
-              orderId
-              paidCode
-              flag
-              totalAmountsByVesselAndShipper {
-                nodes
-              }
-              conditionCode
-              creditCode
-            }
-          }
-          billOfLading
-          palletId
-          shipped
-          searchText
-          volumeDiscountCode
         }
       }
       vessel {

@@ -59,7 +59,7 @@ const getUpdatedInvoiceHeader = (invoiceHeader, db2InvoiceHeader, id) => ({
   backOrderId: `${db2InvoiceHeader['BONBRA']}`,
   truckLoadId: `${db2InvoiceHeader['LOAD#A']}`,
   shipWarehouseId: `${db2InvoiceHeader['PWHSEA']}`,
-  invoiceId: `${parseInt(db2InvoiceHeader['INV#A'], 10)}`,
+  invoiceId: `${db2InvoiceHeader['INV#A']}`,
   billingCustomerId: `${db2InvoiceHeader['CUSTA']}`,
   salesUserCode: `${db2InvoiceHeader['SLSMCA']}`,
   customerPo: `${db2InvoiceHeader['CPO#A']}`,
