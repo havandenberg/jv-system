@@ -75,7 +75,7 @@ export const baseLabels: (
     key: 'packMasterId',
     label: 'Primary Code',
     itemSelectorQueryProps: {
-      errorLabel: 'sizes',
+      errorLabel: 'pack types',
       getItemContent: ({ id, packDescription }: PackMaster) => (
         <ty.BodyText pl={th.spacing.sm}>
           {id} - {packDescription}

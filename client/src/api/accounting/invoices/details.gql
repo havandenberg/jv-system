@@ -22,6 +22,7 @@ query INVOICE_HEADER_DETAILS($orderId: BigFloat!) {
         customerName
       }
       netAmountDue
+      totalAmount
       totalAmountsByVesselAndShipper {
         nodes
       }
@@ -103,9 +104,6 @@ query INVOICE_HEADER_DETAILS($orderId: BigFloat!) {
           }
         }
       }
-      deletedItemAmounts {
-        nodes
-      }
       items {
         nodes {
           id
@@ -123,6 +121,7 @@ query INVOICE_HEADER_DETAILS($orderId: BigFloat!) {
           freightAdjustment
           creditAmount
           brokerageAmount
+          volumeDiscountAmount
           layerMult
           flag
           notes

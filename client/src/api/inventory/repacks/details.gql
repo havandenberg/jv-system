@@ -66,6 +66,13 @@ query REPACK_HEADER_DETAILS($repackCode: String!) {
       repackStyle {
         id
         styleName
+        styleDescription
+        commonPackType {
+          id
+          commonSpecies {
+            id
+          }
+        }
       }
       notes
     }

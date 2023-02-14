@@ -36,26 +36,7 @@ query VESSEL_CONTROL_LIST($dateFilter: VesselControlFilter!) {
                 }
               }
             }
-            deletedItemAmounts {
-              nodes
-            }
             truckLoadId
-            rejectedInvoices {
-              nodes {
-                orderId
-                amountOwed
-                netAmountDue
-                truckLoadId
-                items {
-                  nodes {
-                    palletId
-                  }
-                }
-                totalAmountsByVesselAndShipper {
-                  nodes
-                }
-              }
-            }
             salesUserCode
             salesUser {
               userCode
@@ -69,6 +50,7 @@ query VESSEL_CONTROL_LIST($dateFilter: VesselControlFilter!) {
             orderId
             paidCode
             flag
+            totalAmount
             totalAmountsByVesselAndShipper {
               nodes
             }

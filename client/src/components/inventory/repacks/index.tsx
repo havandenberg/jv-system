@@ -24,7 +24,7 @@ import { indexListLabels } from './data-utils';
 
 export const breadcrumbs = [{ text: 'Repacks', to: `/inventory/repacks` }];
 
-const gridTemplateColumns = '1fr 1fr 1fr 1fr 30px';
+const gridTemplateColumns = '0.75fr 0.75fr 1fr 1fr 0.5fr 0.5fr 30px';
 
 const Repacks = () => {
   const { Search } = useSearch();
@@ -140,16 +140,12 @@ const Repacks = () => {
           rowRenderer={({ key, index, style }) => {
             const item = repacks[index] as RepackHeader;
 
-            const isHighlight = item.boxesIn / item.boxesOut > 1.1;
-
             return (
               item && (
                 <div key={key} style={style}>
                   <ListItem<RepackHeader>
                     data={item}
                     gridTemplateColumns={gridTemplateColumns}
-                    highlightColor={th.colors.status.errorAlt}
-                    isHighlight={isHighlight}
                     listLabels={indexListLabels}
                     to={`/inventory/repacks/${item.repackCode}?repackView=${
                       (item.count || 0) > 1 ? 'runs' : 'pallets'

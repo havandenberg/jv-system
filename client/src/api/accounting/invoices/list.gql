@@ -30,6 +30,7 @@ query INVOICE_HEADER_LIST(
       paidCode
       customerPo
       invoiceDate
+      totalAmount
       actualShipDate
       flag
       amountOwed

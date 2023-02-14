@@ -467,8 +467,10 @@ const convertInvoiceItemsToOrderItems = (
   values(
     invoiceItems.reduce<{
       [key: string]: OrderItem;
-    }>(
-      (acc, item) => ({
+    }>((acc, item) => {
+      const currentItem =
+        acc[`${item.orderId}-${item.backOrderId}-${item.lineId}`];
+      return {
         ...acc,
         [`${item.orderId}-${item.backOrderId}-${item.lineId}`]: {
           ...pick(
@@ -481,16 +483,20 @@ const convertInvoiceItemsToOrderItems = (
             ],
             item,
           ),
-          boxCount: item.pickedQty,
+          boxCount:
+            (currentItem?.boxCount ? parseInt(currentItem?.boxCount, 10) : 0) +
+              parseInt(item.pickedQty, 10) >
+            0
+              ? parseInt(item.pickedQty, 10)
+              : 0,
           palletCount:
-            (acc[`${item.orderId}-${item.backOrderId}-${item.lineId}`]
-              ?.palletCount
-              ? parseInt(
-                  acc[`${item.orderId}-${item.backOrderId}-${item.lineId}`]
-                    ?.palletCount,
-                )
+            (currentItem?.palletCount
+              ? parseInt(currentItem?.palletCount)
               : 0) + 1,
-          unitSellPrice: item?.unitSellPrice,
+          unitSellPrice:
+            item?.unitSellPrice > 0
+              ? item?.unitSellPrice
+              : currentItem?.unitSellPrice || 0,
           inventoryItem: {
             ...(item.pallet || {}),
             ...(item.pallet?.vessel || {}),
@@ -507,9 +513,8 @@ const convertInvoiceItemsToOrderItems = (
             billingCustomer: invoiceHeader?.billingCustomer,
           } as OrderMasterInvoiceHeader,
         } as OrderItemInvoiceItem,
-      }),
-      {} as { [key: string]: OrderItemInvoiceItem },
-    ),
+      };
+    }, {} as { [key: string]: OrderItemInvoiceItem }),
   );
 
 const convertInvoiceHeaderToOrderMaster = (invoiceHeader: InvoiceHeader) => ({

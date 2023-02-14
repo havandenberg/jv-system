@@ -7,6 +7,16 @@ CREATE TABLE product.repack_style (
   pack_out_weight NUMERIC
 );
 
+CREATE FUNCTION product.repack_style_common_pack_type(IN r product.repack_style)
+    RETURNS product.common_pack_type
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT * FROM product.common_pack_type pt WHERE pt.repack_style_id = r.id
+$BODY$;
+
 CREATE FUNCTION product.repack_style_search_text(IN r product.repack_style)
     RETURNS TEXT
     LANGUAGE 'sql'
@@ -20,6 +30,16 @@ SELECT CONCAT (
 		rs.style_description,
 		rs.lqd_code
 	) FROM product.repack_style rs WHERE rs.id = r.id
+$BODY$;
+
+CREATE FUNCTION directory.repack_style_distinct_values()
+  RETURNS SETOF TEXT
+	LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT DISTINCT CONCAT(style_description, ' (', id, ')') from product.repack_style;
 $BODY$;
 
 CREATE FUNCTION product.bulk_upsert_repack_style(

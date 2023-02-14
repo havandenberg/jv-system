@@ -1,5 +1,3 @@
-import { sum, uniqBy } from 'ramda';
-
 import { LabelInfo } from 'components/column-label';
 import StatusIndicator from 'components/status-indicator';
 import { InvoiceHeader } from 'types';
@@ -92,18 +90,6 @@ export const baseLabels: InvoiceHeaderLabelInfo[] = [
   },
 ];
 
-export const getTotalInvoiceAmount = (invoice: InvoiceHeader) =>
-  parseFloat(
-    (
-      sum(
-        invoice?.totalAmountsByVesselAndShipper.nodes.map((value) => {
-          const amount = value?.split(',')[2];
-          return amount ? parseFloat(amount) : 0;
-        }) || [],
-      ) + parseFloat(invoice?.amountOwed || '0')
-    ).toFixed(2),
-  );
-
 export const getInvoicePalletCounts = (invoice: InvoiceHeader) => ({
   totalPallets: invoice?.items?.nodes?.length || 0,
   totalRejectedPallets:
@@ -111,42 +97,15 @@ export const getInvoicePalletCounts = (invoice: InvoiceHeader) => ({
       .length || 0,
 });
 
-export const getInvoiceNetAmountDue = (invoice: InvoiceHeader) => {
-  const totalInvoiceAmount = getTotalInvoiceAmount(invoice);
-  const netAmountDue = parseFloat(invoice?.netAmountDue || '0');
+export const isInvoicePaidInFull = (invoice: InvoiceHeader) =>
+  invoice.paidCode === 'P' || parseFloat(invoice.netAmountDue) === 0;
 
-  const totalCreditedAmount = parseFloat(
-    invoice?.totalAmountsByVesselAndShipper?.nodes
-      ?.find((value) => value?.split(',')[0] === 'CCC')
-      ?.split(',')[2] || '0',
-  );
-
-  const rejectedInvoices = invoice?.rejectedInvoices?.nodes || [];
-  const totalRejectedAmount = sum(
-    rejectedInvoices.map((ih) => (ih ? getTotalInvoiceAmount(ih) : 0)) || [],
-  );
-
-  const deletedAmounts = uniqBy(
-    (iih) => iih?.split(',')[0],
-    invoice?.deletedItemAmounts?.nodes || [],
-  ).map((iih) => (iih?.split(',')[1] ? parseFloat(iih?.split(',')[1]) : 0));
-  const totalDeletedAmount = parseFloat(sum(deletedAmounts).toFixed(2));
-
-  const calculatedNetAmountDue = parseFloat(
-    (
-      totalInvoiceAmount +
-      totalRejectedAmount -
-      totalCreditedAmount +
-      totalDeletedAmount
-    ).toFixed(2),
-  );
-
-  const isFullAmountDue = [calculatedNetAmountDue, totalInvoiceAmount].includes(
-    netAmountDue,
-  );
-
-  return isFullAmountDue ? -1 : netAmountDue - totalRejectedAmount;
-};
+export const isInvoiceUnpaid = (invoice: InvoiceHeader) =>
+  ![invoice.totalAmount, invoice.netAmountDue].includes(null) &&
+  parseFloat(invoice.totalAmount).toFixed(2) ===
+    (parseFloat(invoice.netAmountDue) - parseFloat(invoice.amountOwed)).toFixed(
+      2,
+    );
 
 export const invoiceStatusDescriptions: {
   [key: string]: { color: string; text: string; title: string };

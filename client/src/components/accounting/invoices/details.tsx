@@ -20,9 +20,9 @@ import { formatCurrency } from 'utils/format';
 
 import {
   baseLabels,
-  getInvoiceNetAmountDue,
   getInvoicePalletCounts,
-  getTotalInvoiceAmount,
+  isInvoicePaidInFull,
+  isInvoiceUnpaid,
 } from './data-utils';
 import InvoiceItemList from './items/list';
 
@@ -41,14 +41,10 @@ const tabs: (itemCount: number, entriesCount: number) => Tab[] = (
   itemCount,
   entriesCount,
 ) => [
-  ...(itemCount > 0
-    ? [
-        {
-          id: 'invoiceItems',
-          text: `Items${itemCount ? ' (' + itemCount + ')' : ''}`,
-        },
-      ]
-    : []),
+  {
+    id: 'invoiceItems',
+    text: `Items${itemCount ? ' (' + itemCount + ')' : ''}`,
+  },
   {
     id: 'orderEntries',
     text: `Entries ${entriesCount ? ' (' + entriesCount + ')' : ''}`,
@@ -130,8 +126,9 @@ const Details = () => {
 
   const { totalPallets, totalRejectedPallets } =
     getInvoicePalletCounts(invoiceHeader);
-  const totalInvoiceAmount = getTotalInvoiceAmount(invoiceHeader);
-  const netAmountDue = getInvoiceNetAmountDue(invoiceHeader);
+
+  const isPaidInFull = invoiceHeader && isInvoicePaidInFull(invoiceHeader);
+  const isUnpaid = invoiceHeader && isInvoiceUnpaid(invoiceHeader);
 
   return (
     <Page
@@ -180,23 +177,30 @@ const Details = () => {
                 >
                   Total Invoice Amount:{' '}
                   <ty.Span bold ml={th.spacing.xs}>
-                    {loading ? '-' : formatCurrency(totalInvoiceAmount)}
+                    {loading
+                      ? '-'
+                      : formatCurrency(
+                          parseFloat(invoiceHeader?.totalAmount) || 0,
+                        )}
                   </ty.Span>
                 </ty.CaptionText>
                 {!loading &&
-                  (netAmountDue < 0 ? (
-                    <ty.CaptionText bold color={th.colors.status.errorAlt}>
-                      Unpaid
-                    </ty.CaptionText>
-                  ) : netAmountDue === 0 ? (
+                  invoiceHeader?.totalAmount !== null &&
+                  (isPaidInFull ? (
                     <ty.CaptionText bold color={th.colors.status.successAlt}>
                       Paid In Full
+                    </ty.CaptionText>
+                  ) : isUnpaid ? (
+                    <ty.CaptionText bold color={th.colors.status.errorAlt}>
+                      Unpaid
                     </ty.CaptionText>
                   ) : (
                     <ty.CaptionText color={th.colors.status.errorAlt}>
                       Net Amount Due:{' '}
                       <ty.Span bold ml={th.spacing.xs}>
-                        {formatCurrency(netAmountDue)}
+                        {formatCurrency(
+                          parseFloat(invoiceHeader?.netAmountDue) || 0,
+                        )}
                       </ty.Span>
                     </ty.CaptionText>
                   ))}

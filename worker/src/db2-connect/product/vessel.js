@@ -75,7 +75,7 @@ const getVesselId = (db2Vessel, vessels) => {
     (it) => it.vesselCode === db2Vessel['BOAT#Z'].trimEnd(),
   );
 
-  return vessel?.id || `${db2Vessel['BOAT#Z'].trimEnd()}`;
+  return vessel?.vesselCode || `${db2Vessel['BOAT#Z'].trimEnd()}`;
 };
 
 const vesselOptions = {

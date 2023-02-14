@@ -101,9 +101,14 @@ export const listLabels: OrderItemLabelInfo[] = [
     label: 'Vessel',
     getValue: ({ inventoryItem }) =>
       inventoryItem ? (
-        <ty.BodyText>{inventoryItem.vessel?.vesselCode}</ty.BodyText>
+        <ty.LinkText
+          hover="false"
+          to={`/inventory/vessels/${inventoryItem.vessel?.vesselCode}`}
+        >
+          {inventoryItem.vessel?.vesselCode}
+        </ty.LinkText>
       ) : (
-        ''
+        <ty.BodyText>-</ty.BodyText>
       ),
   },
   {
@@ -111,9 +116,14 @@ export const listLabels: OrderItemLabelInfo[] = [
     label: 'Shipper',
     getValue: ({ inventoryItem }) =>
       inventoryItem ? (
-        <ty.BodyText>{inventoryItem.shipper?.shipperName}</ty.BodyText>
+        <ty.LinkText
+          hover="false"
+          to={`/directory/shippers/${inventoryItem.shipper?.id}`}
+        >
+          {inventoryItem.shipper?.shipperName}
+        </ty.LinkText>
       ) : (
-        ''
+        <ty.BodyText>-</ty.BodyText>
       ),
   },
   {

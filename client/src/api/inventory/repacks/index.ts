@@ -18,6 +18,10 @@ import { Query } from 'types';
 const REPACK_HEADER_DETAILS_QUERY = loader('./details.gql');
 const REPACK_HEADER_LIST_QUERY = loader('./list.gql');
 
+export const REPACK_STYLE_DISTINCT_VALUES_QUERY = loader(
+  './distinct-values.gql',
+);
+
 const useVariables = (orderByOverride?: string) => {
   const [search = ''] = useSearchQueryParam();
   const [{ sortBy = 'repackDate', sortOrder = SORT_ORDER.DESC }] =
@@ -44,7 +48,17 @@ const useVariables = (orderByOverride?: string) => {
     'warehouseDistinctValues',
   );
 
+  const filteredRepackStyleValues = useFilteredQueryValues(
+    warehouseId,
+    {},
+    REPACK_STYLE_DISTINCT_VALUES_QUERY,
+    'repackStyleDistinctValues',
+  );
+
   return {
+    repackStyleId: filteredRepackStyleValues.map((val) =>
+      val.substring(val.lastIndexOf(' (') + 2, val.length - 1),
+    ),
     warehouseId: filteredWarehouseValues.map((val) =>
       val.substring(val.lastIndexOf(' (') + 2, val.length - 1),
     ),

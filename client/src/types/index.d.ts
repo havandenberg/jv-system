@@ -25146,7 +25146,6 @@ export type InvoiceHeader = Node & {
   billingCustomer?: Maybe<Customer>;
   conditionCode?: Maybe<Scalars['String']>;
   creditCode?: Maybe<Scalars['String']>;
-  deletedItemAmounts: InvoiceHeaderDeletedItemAmountsConnection;
   flag?: Maybe<Scalars['String']>;
   /** Reads and enables pagination through a set of `InvoiceItemHistory`. */
   itemHistories: InvoiceItemHistoriesConnection;
@@ -25164,19 +25163,10 @@ export type InvoiceHeader = Node & {
   shippingCustomer?: Maybe<Customer>;
   /** Reads and enables pagination through a set of `InvoiceHeader`. */
   splitInvoices: InvoiceHeadersConnection;
+  totalAmount?: Maybe<Scalars['BigFloat']>;
   totalAmountsByVesselAndShipper: InvoiceHeaderTotalAmountsByVesselAndShipperConnection;
   truckLoad?: Maybe<TruckLoad>;
   vendor?: Maybe<Vendor>;
-};
-
-
-export type InvoiceHeaderDeletedItemAmountsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  filter?: Maybe<StringFilter>;
 };
 
 
@@ -25296,26 +25286,6 @@ export type InvoiceHeaderCondition = {
   notes?: Maybe<Scalars['String']>;
 };
 
-/** A `String` edge in the connection. */
-export type InvoiceHeaderDeletedItemAmountEdge = {
-  __typename?: 'InvoiceHeaderDeletedItemAmountEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `String` at the end of the edge. */
-  node?: Maybe<Scalars['String']>;
-};
-
-/** A connection to a list of `String` values. */
-export type InvoiceHeaderDeletedItemAmountsConnection = {
-  __typename?: 'InvoiceHeaderDeletedItemAmountsConnection';
-  /** A list of `String` objects. */
-  nodes: Array<Maybe<Scalars['String']>>;
-  /** A list of edges which contains the `String` and cursor to aid in pagination. */
-  edges: Array<InvoiceHeaderDeletedItemAmountEdge>;
-  /** The count of *all* `String` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
 /** A filter to be used against `InvoiceHeader` object types. All fields are combined with a logical ‘and.’ */
 export type InvoiceHeaderFilter = {
   /** Filter by the object’s `id` field. */
@@ -25378,6 +25348,8 @@ export type InvoiceHeaderFilter = {
   netAmountDue?: Maybe<BigFloatFilter>;
   /** Filter by the object’s `searchText` field. */
   searchText?: Maybe<StringFilter>;
+  /** Filter by the object’s `totalAmount` field. */
+  totalAmount?: Maybe<BigFloatFilter>;
   /** Checks for all expressions in this list. */
   and?: Maybe<Array<InvoiceHeaderFilter>>;
   /** Checks for any expressions in this list. */
@@ -49009,6 +48981,7 @@ export type Query = Node & {
   distinctValues?: Maybe<DistinctValuesConnection>;
   customerDistinctColumnValues?: Maybe<CustomerDistinctColumnValuesConnection>;
   customerDistinctValues?: Maybe<CustomerDistinctValuesConnection>;
+  repackStyleDistinctValues?: Maybe<RepackStyleDistinctValuesConnection>;
   shipperDistinctValues?: Maybe<ShipperDistinctValuesConnection>;
   vendorDistinctValues?: Maybe<VendorDistinctValuesConnection>;
   warehouseDistinctValues?: Maybe<WarehouseDistinctValuesConnection>;
@@ -51415,6 +51388,17 @@ export type QueryCustomerDistinctValuesArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
+export type QueryRepackStyleDistinctValuesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  filter?: Maybe<StringFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
 export type QueryShipperDistinctValuesArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
@@ -52543,6 +52527,7 @@ export type RepackStyle = Node & {
   lqdCode?: Maybe<Scalars['String']>;
   filmLength?: Maybe<Scalars['BigFloat']>;
   packOutWeight?: Maybe<Scalars['BigFloat']>;
+  commonPackType?: Maybe<CommonPackType>;
   searchText?: Maybe<Scalars['String']>;
 };
 
@@ -52563,6 +52548,26 @@ export type RepackStyleCondition = {
   filmLength?: Maybe<Scalars['BigFloat']>;
   /** Checks for equality with the object’s `packOutWeight` field. */
   packOutWeight?: Maybe<Scalars['BigFloat']>;
+};
+
+/** A `String` edge in the connection. */
+export type RepackStyleDistinctValueEdge = {
+  __typename?: 'RepackStyleDistinctValueEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `String` at the end of the edge. */
+  node?: Maybe<Scalars['String']>;
+};
+
+/** A connection to a list of `String` values. */
+export type RepackStyleDistinctValuesConnection = {
+  __typename?: 'RepackStyleDistinctValuesConnection';
+  /** A list of `String` objects. */
+  nodes: Array<Maybe<Scalars['String']>>;
+  /** A list of edges which contains the `String` and cursor to aid in pagination. */
+  edges: Array<RepackStyleDistinctValueEdge>;
+  /** The count of *all* `String` you could get from the connection. */
+  totalCount: Scalars['Int'];
 };
 
 /** A filter to be used against `RepackStyle` object types. All fields are combined with a logical ‘and.’ */

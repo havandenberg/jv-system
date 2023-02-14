@@ -1,4 +1,5 @@
 query REPACK_HEADER_LIST(
+  $repackStyleId: [String!]
   $warehouseId: [String!]
   $orderBy: [RepackHeadersOrderBy!]
   $search: [RepackHeaderFilter!]
@@ -8,6 +9,7 @@ query REPACK_HEADER_LIST(
   repackHeaders(
     filter: {
       and: $search
+      repackStyleId: { in: $repackStyleId }
       warehouseId: { in: $warehouseId }
       or: {
         repackDate: {
@@ -43,6 +45,7 @@ query REPACK_HEADER_LIST(
       repackStyle {
         id
         styleName
+        styleDescription
       }
       notes
     }

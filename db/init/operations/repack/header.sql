@@ -96,7 +96,7 @@ CREATE FUNCTION operations.repack_header_weight_in(IN r operations.repack_header
     PARALLEL UNSAFE
     COST 100
 AS $BODY$
-  SELECT SUM(ri.boxes_out * (
+  SELECT SUM(ri.boxes_in * (
       SELECT net_weight_box FROM product.product_master_pack_type(pm)
     )) FROM operations.repack_header_items(r) AS ri
     LEFT JOIN product.pallet p ON p.pallet_id = ri.pallet_id

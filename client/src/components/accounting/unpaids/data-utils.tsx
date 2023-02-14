@@ -1,9 +1,10 @@
+import { differenceInDays } from 'date-fns';
+import { pluck, sortBy } from 'ramda';
+
 import { LabelInfo } from 'components/column-label';
 import EditableCell from 'components/editable-cell';
 import InfoPanel from 'components/info-panel';
 import StatusIndicator from 'components/status-indicator';
-import { differenceInDays } from 'date-fns';
-import { pluck, sortBy } from 'ramda';
 import { InvoiceHeader, Unpaid, VesselControl } from 'types';
 import { LineItemCheckbox } from 'ui/checkbox';
 import l from 'ui/layout';
@@ -12,7 +13,7 @@ import ty from 'ui/typography';
 import { formatShortDate } from 'utils/date';
 import { formatCurrency } from 'utils/format';
 
-import { getInvoiceNetAmountDue } from '../invoices/data-utils';
+import { isInvoicePaidInFull, isInvoiceUnpaid } from '../invoices/data-utils';
 
 export type UnpaidLabelInfo = LabelInfo<Unpaid>;
 
@@ -188,10 +189,12 @@ export const listLabels: (
     key: 'invoice',
     label: 'Due',
     getValue: ({ invoice }) => {
-      const netAmountDue = invoice && getInvoiceNetAmountDue(invoice);
+      const isPaidInFull = invoice && isInvoicePaidInFull(invoice);
+      const isUnpaid = invoice && isInvoiceUnpaid(invoice);
+      const netAmountDue = parseFloat(invoice?.netAmountDue) || 0;
       return (
         <ty.BodyText textAlign="right">
-          {netAmountDue && netAmountDue > 0
+          {invoice && netAmountDue && !isPaidInFull && !isUnpaid
             ? formatCurrency(netAmountDue, true)
             : '-'}
         </ty.BodyText>

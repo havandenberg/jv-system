@@ -112,18 +112,6 @@ AS $BODY$
     WHERE p.invoice_id = i.invoice_id;
 $BODY$;
 
-CREATE FUNCTION accounting.invoice_header_net_amount_due(IN i accounting.invoice_header)
-    RETURNS NUMERIC
-    LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-  SELECT SUM(p.net_amount_due) FROM accounting.customer_payment p
-    WHERE p.invoice_id = i.invoice_id OR
-      p.invoice_id LIKE '%' || SUBSTRING(i.invoice_id, 2);
-$BODY$;
-
 CREATE FUNCTION accounting.invoice_header_flag(IN i accounting.invoice_header)
     RETURNS TEXT
     LANGUAGE 'sql'
@@ -134,6 +122,36 @@ AS $BODY$
   SELECT CONCAT(ii.flag) FROM accounting.invoice_item ii
     WHERE ii.order_id = i.order_id
       AND ii.back_order_id = i.back_order_id;
+$BODY$;
+
+CREATE FUNCTION accounting.invoice_header_total_amount(IN i accounting.invoice_header)
+    RETURNS NUMERIC
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT SUM((ii.unit_sell_price + ii.delivery_charge - ii.volume_discount_amount) * ii.picked_qty) FROM accounting.invoice_item ii
+  LEFT JOIN product.pallet p ON p.pallet_id = ii.pallet_id
+  LEFT JOIN product.vessel v ON v.vessel_code = p.vessel_code
+  LEFT JOIN directory.shipper s ON s.id = p.shipper_id
+    WHERE ii.order_id = i.order_id
+      AND ii.back_order_id = i.back_order_id;
+$BODY$;
+
+CREATE FUNCTION accounting.invoice_header_net_amount_due(IN i accounting.invoice_header)
+    RETURNS NUMERIC
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT (
+    SELECT accounting.invoice_header_total_amount(i)::NUMERIC
+  ) + COALESCE(SUM(p.net_amount_due), 0) + i.amount_owed FROM accounting.customer_payment p
+    WHERE (p.invoice_id = i.invoice_id
+      OR p.invoice_id LIKE '%' || SUBSTRING(i.invoice_id, 2))
+      AND p.net_amount_due < 0;
 $BODY$;
 
 CREATE FUNCTION accounting.invoice_header_total_amounts_by_vessel_and_shipper(IN i accounting.invoice_header)
@@ -187,27 +205,6 @@ AS $BODY$
   SELECT * FROM accounting.invoice_header ih
     WHERE ih.truck_load_id LIKE '0' || SUBSTRING(i.truck_load_id, 2, 4)
       AND ih.truck_load_id != i.truck_load_id;
-$BODY$;
-
-CREATE FUNCTION accounting.invoice_header_deleted_item_amounts(IN i accounting.invoice_header)
-    RETURNS SETOF TEXT
-    LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-  SELECT CONCAT(iih.pallet_id, ',', (iih.unit_sell_price + iih.delivery_charge) * iih.picked_qty) FROM accounting.invoice_item_history iih
-  LEFT JOIN product.pallet p ON p.pallet_id = iih.pallet_id
-  LEFT JOIN directory.customer_volume_discount cvd ON cvd.customer_id = i.billing_customer_id AND cvd.volume_discount_code = p.volume_discount_code
-    WHERE iih.order_id = i.order_id
-      AND iih.back_order_id = i.back_order_id
-      AND iih.pallet_id NOT IN (
-        SELECT ii.pallet_id FROM accounting.invoice_item ii
-          WHERE ii.order_id = i.order_id
-          OR ii.order_id IN (
-            SELECT ih.order_id FROM accounting.invoice_header_rejected_invoices(i) ih
-          )
-      );
 $BODY$;
 
 CREATE FUNCTION accounting.invoice_header_condition_code(IN i accounting.invoice_header)

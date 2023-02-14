@@ -42,10 +42,12 @@ export const useUnpaids = () => {
             );
 
           return (
+            unpaid &&
             isSearchValid &&
+            !(unpaid.invoice?.paidCode === 'P') &&
             (!salesUserCode ||
               salesUserCode === 'all' ||
-              unpaid?.invoice?.salesUserCode === salesUserCode)
+              unpaid.invoice?.salesUserCode === salesUserCode)
           );
         })
         .map((up) => ({ ...up, vessel: rest.vessel, shipper: rest.shipper })),
