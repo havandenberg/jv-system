@@ -290,7 +290,7 @@ const Unpaids = () => {
           error={error}
           loading={loading}
           emptyProps={{
-            header: 'No data found',
+            header: 'No unpaids found',
           }}
         />
       )}

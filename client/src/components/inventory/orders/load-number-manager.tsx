@@ -68,9 +68,7 @@ const StyledLoadNumber = ({
 
   const { invoiceHeaders, orderEntries, orderMaster } = loadNumber;
   const orderEntry = orderEntries?.nodes[0];
-  const invoiceHeader = invoiceHeaders?.nodes?.find(
-    (ih) => ih?.truckLoadId === loadNumber.id,
-  );
+  const invoiceHeader = invoiceHeaders?.nodes[0];
   const billingCustomer =
     orderEntry?.billingCustomer ||
     invoiceHeader?.billingCustomer ||
@@ -266,7 +264,9 @@ const LoadNumberManager = () => {
   const availableLoadNumbers = sortedLoadNumbers.filter(
     ({ isUsed }) => !isUsed,
   );
-  const usedLoadNumbers = sortedLoadNumbers.filter(({ isUsed }) => !!isUsed);
+  const usedLoadNumbers = sortedLoadNumbers
+    .filter(({ isUsed }) => !!isUsed)
+    .reverse();
   const assignedLoadNumbers = availableLoadNumbers.filter(
     ({ customerId }) => customerId,
   );

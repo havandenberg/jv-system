@@ -422,7 +422,7 @@ const VesselControlLog = () => {
                   error={error}
                   loading={loading}
                   emptyProps={{
-                    header: 'No data found',
+                    header: 'No vessel controls found',
                   }}
                 />
               )}
@@ -435,7 +435,7 @@ const VesselControlLog = () => {
           error={error}
           loading={loading}
           emptyProps={{
-            header: 'No data found',
+            header: 'No vessel controls found',
           }}
         />
       )}

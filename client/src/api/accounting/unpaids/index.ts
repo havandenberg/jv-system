@@ -50,7 +50,12 @@ export const useUnpaids = () => {
               unpaid.invoice?.salesUserCode === salesUserCode)
           );
         })
-        .map((up) => ({ ...up, vessel: rest.vessel, shipper: rest.shipper })),
+        .map((up) => ({
+          ...up,
+          vessel: rest.vessel,
+          shipper: rest.shipper,
+          vesselControl: rest,
+        })),
     )
     .flat() as Unpaid[];
 

@@ -40,6 +40,11 @@ const db2UpdateItems = async (
     : await db.query(db2Query).catch(onError);
   const db2ItemCount = (db2ItemsData || []).length;
 
+  if (db2ItemCount === 0) {
+    console.log(`No ${itemName} data found in DB2`);
+    return;
+  }
+
   if (DB2_LOG_ONLY) {
     console.log(db2ItemsData.reverse().slice(0, 10));
     return;

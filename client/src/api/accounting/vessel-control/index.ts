@@ -32,9 +32,12 @@ export const useVariables = (orderByOverride?: string, isUnpaids?: boolean) => {
     }),
   );
   const formattedEndDate = formatDate(
-    endDate
-      ? add(new Date(endDate.replace(/-/g, '/')), { days: isDue ? 0 : 1 })
-      : new Date(),
+    add(
+      endDate
+        ? add(new Date(endDate.replace(/-/g, '/')), { days: isDue ? 0 : 1 })
+        : new Date(),
+      { days: isUnpaids ? 45 : 0 },
+    ),
   );
 
   const dateFilter = {
