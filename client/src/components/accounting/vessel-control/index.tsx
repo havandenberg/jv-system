@@ -1,11 +1,11 @@
 import React, { Fragment, useState } from 'react';
-import { add, endOfISOWeek } from 'date-fns';
 import { isEmpty, pick } from 'ramda';
 import { ClipLoader } from 'react-spinners';
 import { ScrollSync } from 'react-virtualized';
 
 import api from 'api';
 import ResetImg from 'assets/images/reset';
+import { getSortedItems } from 'components/column-label';
 import { ResetButton } from 'components/inventory/inventory/use-filters';
 import ListItem from 'components/list-item';
 import { BasicModal } from 'components/modal';
@@ -16,7 +16,7 @@ import { GridWrapper, VirtualizedGrid } from 'components/virtualized-list';
 import useColumns, { SORT_ORDER } from 'hooks/use-columns';
 import useDateRange from 'hooks/use-date-range';
 import useSearch from 'hooks/use-search';
-import { useQueryValue } from 'hooks/use-query-params';
+import { useQueryValue, useSortQueryParams } from 'hooks/use-query-params';
 import { VesselControl } from 'types';
 import b from 'ui/button';
 import { LineItemCheckbox } from 'ui/checkbox';
@@ -24,7 +24,7 @@ import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 
-import { listLabels } from './data-utils';
+import { listLabels, VesselControlLabelInfo } from './data-utils';
 import NotifyUnpaids from './notify';
 import {
   gridTemplateColumns as unpaidsGridTemplateColumns,
@@ -47,8 +47,45 @@ export const dateRangeTabs = [
   },
 ];
 
+const VesselControlItem = ({
+  item,
+  listLabels,
+  onSelectItem,
+  scrollTop,
+  selected,
+}: {
+  index: number;
+  item: VesselControl;
+  listLabels: VesselControlLabelInfo[];
+  onSelectItem: () => void;
+  scrollTop: number;
+  selected: boolean;
+}) => {
+  const { data, loading, error } = api.useVesselControlDetails(item.id || 0);
+
+  const itemWithDetails = {
+    ...item,
+    ...(!loading && !error && !!data ? data : {}),
+  };
+
+  return (
+    <ListItem<VesselControl>
+      data={itemWithDetails}
+      gridTemplateColumns={gridTemplateColumns}
+      hoverable
+      listLabels={listLabels}
+      isHalfHighlight={!!item.isLiquidated}
+      highlightColor={th.colors.status.success}
+      offsetTop={scrollTop}
+      onSelectItem={onSelectItem}
+      selected={selected}
+    />
+  );
+};
+
 const VesselControlLog = () => {
   const { Search } = useSearch({ paramName: 'vesselControlSearch' });
+  const [{ sortBy, sortOrder }] = useSortQueryParams();
   const [liquidatedStatus, setLiquidatedStatus] =
     useQueryValue('liquidatedStatus');
   const isLiquidated = liquidatedStatus === 'liquidated';
@@ -141,12 +178,10 @@ const VesselControlLog = () => {
     paramName: 'vesselControlView',
   });
 
-  const { DateRangePicker, BackwardButton, ForwardButton } = useDateRange({
-    maxDate: endOfISOWeek(add(new Date(), { weeks: 4 })),
-  });
+  const { DateRangePicker, BackwardButton, ForwardButton } = useDateRange();
 
   const columnLabels = useColumns<VesselControl>(
-    'dueDate',
+    'vesselCode',
     SORT_ORDER.ASC,
     listLabels(handleChange),
     'accounting',
@@ -155,25 +190,30 @@ const VesselControlLog = () => {
 
   const isDirty = !isEmpty(changes);
 
-  const updatedVesselControls = [
-    ...vesselControls.map((vesselControl) => {
-      const updatedVesselControl = changes.find(
-        (change) =>
-          change.vessel?.vesselCode === vesselControl.vessel?.vesselCode &&
-          change.shipper?.id === vesselControl.shipper?.id,
-      );
-      return updatedVesselControl || vesselControl;
+  const updatedVesselControls = getSortedItems(
+    listLabels(handleChange),
+    [
+      ...vesselControls.map((vesselControl) => {
+        const updatedVesselControl = changes.find(
+          (change) =>
+            change.vessel?.vesselCode === vesselControl.vessel?.vesselCode &&
+            change.shipper?.id === vesselControl.shipper?.id,
+        );
+        return updatedVesselControl || vesselControl;
+      }),
+      ...changes.filter((change) => !change.id),
+    ].filter((vc) => {
+      if (isLiquidated) {
+        return vc.isLiquidated && (isDue || !!vc.id);
+      }
+      if (isNotLiquidated) {
+        return !vc.isLiquidated && (isDue || !!vc.id);
+      }
+      return isDue || !!vc.id;
     }),
-    ...changes.filter((change) => !change.id),
-  ].filter((vc) => {
-    if (isLiquidated) {
-      return vc.isLiquidated && (isDue || !!vc.id);
-    }
-    if (isNotLiquidated) {
-      return !vc.isLiquidated && (isDue || !!vc.id);
-    }
-    return isDue || !!vc.id;
-  });
+    sortBy,
+    sortOrder,
+  );
 
   const [selectedItems, setSelectedItems] = useState<(string | number)[]>([]);
   const isAllSelected = selectedItems.length === updatedVesselControls.length;
@@ -384,6 +424,7 @@ const VesselControlLog = () => {
                 <VirtualizedGrid
                   columnCount={1}
                   columnWidth={VESSEL_CONTROL_LOG_WIDTH}
+                  disableScrollTop
                   height={700}
                   onScroll={onScroll}
                   rowCount={updatedVesselControls.length + 1}
@@ -398,14 +439,12 @@ const VesselControlLog = () => {
                           key={vesselControlId}
                           style={{ ...style, background: th.colors.background }}
                         >
-                          <ListItem<VesselControl>
-                            data={vesselControl}
+                          <VesselControlItem
+                            item={vesselControl}
                             gridTemplateColumns={gridTemplateColumns}
                             hoverable
                             listLabels={listLabels(handleChange)}
-                            isHalfHighlight={!!vesselControl.isLiquidated}
-                            highlightColor={th.colors.status.success}
-                            offsetTop={scrollTop}
+                            scrollTop={scrollTop}
                             onSelectItem={() => {
                               toggleSelectItem(vesselControlId);
                             }}

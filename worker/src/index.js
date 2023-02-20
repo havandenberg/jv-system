@@ -22,7 +22,7 @@ const {
   fetchPsaApplePallets,
 } = require('./inspections/psa-arrival/pallets');
 const sendProjectionReminders = require('./projections/weekly-reminder');
-const generateVesselControlsAndUnpaids = require('./accounting/unpaids');
+const { generateVesselControlsAndUnpaids } = require('./accounting/unpaids');
 const sendUnpaidsReminders = require('./accounting/unpaids/notifications');
 const { server: emailServer } = require('./utils/server');
 

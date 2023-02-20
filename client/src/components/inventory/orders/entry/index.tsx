@@ -144,8 +144,14 @@ const CreateOrderEntry = () => {
   } = api.useGetUsersByRole([USER_ROLE.SALES_ASSOC]);
   const salesUsers = (salesUsersData?.nodes || []) as User[];
 
+  const {
+    data: loadNumbersData,
+    loading: loadNumbersLoading,
+    error: loadNumbersError,
+  } = api.useLoadNumbersByUser(activeUser?.id || 0, true);
+
   const loadNumbers = filterLoadNumbersByCoast(
-    (activeUser?.loadNumbers.nodes || []) as LoadNumber[],
+    (loadNumbersData?.nodes || []) as LoadNumber[],
     coast,
   );
   const nextLoadNumber =
@@ -419,7 +425,7 @@ const CreateOrderEntry = () => {
       return (
         <l.Flex ml={th.spacing.sm}>
           <ty.CaptionText bold={active} nowrap>
-            {isHold ? 'HOLD' : id}
+            {isHold ? 'HOLD' : id.padStart(5, '0')}
             {isHold ? '' : ' -'}
           </ty.CaptionText>
           {!isHold && (
@@ -449,7 +455,9 @@ const CreateOrderEntry = () => {
         latestOrderEntryState?.truckLoadId || undefined,
       );
     },
-    selectedItem: changes.truckLoadId || undefined,
+    selectedItem: changes.truckLoadId
+      ? changes.truckLoadId.padStart(5, '0')
+      : undefined,
     selectItem: (ln) =>
       setChanges({
         ...changes,
@@ -469,11 +477,13 @@ const CreateOrderEntry = () => {
 
   const loadNumberDataLoading =
     customerDataLoading ||
+    loadNumbersLoading ||
     nextOrderNumberLoading ||
     salesUsersLoading ||
     userDataLoading;
   const loadNumberDataError =
     customerDataError ||
+    loadNumbersError ||
     nextOrderNumberError ||
     salesUsersError ||
     userDataError;

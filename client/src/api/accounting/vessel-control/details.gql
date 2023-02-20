@@ -1,0 +1,9 @@
+query VESSEL_CONTROL_DETAILS($id: BigInt!) {
+  vesselControl(id: $id) {
+    id
+    pallets {
+      totalCount
+    }
+    palletsShipped
+  }
+}

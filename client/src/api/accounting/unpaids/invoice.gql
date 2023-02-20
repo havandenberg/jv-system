@@ -1,0 +1,12 @@
+query UNPAID_INVOICE_DETAILS($id: BigInt!) {
+  invoiceHeader(id: $id) {
+    id
+    invoiceId
+    orderId
+    totalAmount
+    totalAmountsByVesselAndShipper {
+      nodes
+    }
+    netAmountDue
+  }
+}

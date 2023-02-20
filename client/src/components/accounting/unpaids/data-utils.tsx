@@ -5,6 +5,7 @@ import { LabelInfo } from 'components/column-label';
 import EditableCell from 'components/editable-cell';
 import InfoPanel from 'components/info-panel';
 import StatusIndicator from 'components/status-indicator';
+import { SORT_ORDER } from 'hooks/use-columns';
 import { InvoiceHeader, Unpaid, VesselControl } from 'types';
 import { LineItemCheckbox } from 'ui/checkbox';
 import l from 'ui/layout';
@@ -21,8 +22,18 @@ export const listLabels: (
   handleChange: (updatedItem: Unpaid) => void,
 ) => UnpaidLabelInfo[] = (handleChange) => [
   {
+    defaultSortOrder: SORT_ORDER.ASC,
     key: 'vessel',
     label: 'Vessel',
+    sortable: true,
+    customSortBy: ({ invoice, shipper, vessel }) => {
+      const shipDate = new Date(invoice?.actualShipDate.replace(/-/g, '/'));
+      return (
+        `${vessel?.vesselCode}-${
+          shipper?.shipperName
+        }-${shipDate?.getTime()}` || ''
+      ).toLowerCase();
+    },
     getValue: ({ vessel }) =>
       vessel ? (
         <ty.LinkText
@@ -37,8 +48,18 @@ export const listLabels: (
       ),
   },
   {
+    defaultSortOrder: SORT_ORDER.ASC,
     key: 'shipper',
     label: 'Shipper',
+    sortable: true,
+    customSortBy: ({ invoice, shipper, vessel }) => {
+      const shipDate = new Date(invoice?.actualShipDate.replace(/-/g, '/'));
+      return (
+        `${shipper?.shipperName}-${
+          vessel?.vesselCode
+        }-${shipDate?.getTime()}` || ''
+      ).toLowerCase();
+    },
     getValue: ({ shipper }) =>
       shipper ? (
         <ty.LinkText
@@ -62,8 +83,12 @@ export const listLabels: (
     ),
   },
   {
+    defaultSortOrder: SORT_ORDER.ASC,
     key: 'invoice',
     label: 'Load #',
+    sortable: true,
+    sortKey: 'loadId',
+    customSortBy: ({ invoice }) => invoice?.truckLoadId || '',
     getValue: ({ invoice }) =>
       invoice ? (
         <ty.LinkText
@@ -78,8 +103,12 @@ export const listLabels: (
       ),
   },
   {
+    defaultSortOrder: SORT_ORDER.ASC,
     key: 'invoice',
     label: 'Invoice #',
+    sortable: true,
+    sortKey: 'invoiceId',
+    customSortBy: ({ invoice }) => invoice?.invoiceId || '',
     getValue: ({ invoice }) =>
       invoice ? (
         <ty.LinkText
@@ -94,8 +123,19 @@ export const listLabels: (
       ),
   },
   {
+    defaultSortOrder: SORT_ORDER.DESC,
     key: 'invoice',
     label: 'Ship Date',
+    sortable: true,
+    sortKey: 'shipDate',
+    customSortBy: ({ invoice, shipper, vessel }) => {
+      const shipDate = new Date(invoice?.actualShipDate.replace(/-/g, '/'));
+      return (
+        `${-shipDate?.getTime()}-${vessel?.vesselCode}-${
+          shipper?.shipperName
+        }` || ''
+      ).toLowerCase();
+    },
     getValue: ({ invoice }) => (
       <ty.BodyText>
         {invoice?.actualShipDate
@@ -105,8 +145,18 @@ export const listLabels: (
     ),
   },
   {
+    defaultSortOrder: SORT_ORDER.DESC,
     key: 'invoice',
     label: 'Days',
+    sortable: true,
+    sortKey: 'days',
+    customSortBy: ({ invoice }) =>
+      invoice?.actualShipDate
+        ? differenceInDays(
+            new Date(),
+            new Date(invoice.actualShipDate.replace(/-/g, '/')),
+          )
+        : '',
     getValue: ({ invoice }) => (
       <ty.BodyText>
         {invoice?.actualShipDate
@@ -119,8 +169,13 @@ export const listLabels: (
     ),
   },
   {
+    defaultSortOrder: SORT_ORDER.ASC,
     key: 'invoice',
     label: 'Ship To',
+    sortable: true,
+    sortKey: 'customer',
+    customSortBy: ({ invoice, shipper, vessel }) =>
+      `${invoice?.billingCustomer?.customerName}-${vessel?.vesselCode}-${shipper?.shipperName}`.toLowerCase(),
     getValue: ({ invoice }) =>
       invoice ? (
         <ty.LinkText
@@ -141,7 +196,7 @@ export const listLabels: (
     label: 'Invoice Amt.',
     getValue: ({ invoice, shipper, vessel }) => {
       const totalAmount =
-        invoice?.totalAmountsByVesselAndShipper.nodes
+        invoice?.totalAmountsByVesselAndShipper?.nodes
           .find((value) => {
             const [vesselCode, shipperId] = value?.split(',') || [];
             return (
@@ -149,9 +204,12 @@ export const listLabels: (
             );
           })
           ?.split(',')[2] || '0';
+      const loading = !invoice?.totalAmountsByVesselAndShipper;
       return (
-        <ty.BodyText textAlign="right">
-          {totalAmount !== '0'
+        <ty.BodyText textAlign={loading ? 'center' : 'right'}>
+          {loading
+            ? '...'
+            : totalAmount && totalAmount !== '0'
             ? formatCurrency(parseFloat(totalAmount), true)
             : '-'}
         </ty.BodyText>
@@ -163,7 +221,7 @@ export const listLabels: (
     label: 'Credit',
     getValue: ({ invoice, shipper, vessel }) => {
       const totalCreditAmount =
-        invoice?.totalAmountsByVesselAndShipper.nodes
+        invoice?.totalAmountsByVesselAndShipper?.nodes
           .find((value) => {
             const [vesselCode, shipperId] = value?.split(',') || [];
             return (
@@ -171,14 +229,17 @@ export const listLabels: (
             );
           })
           ?.split(',')[3] || '0';
+      const loading = !invoice?.totalAmountsByVesselAndShipper;
       return (
         <ty.BodyText
           color={
             invoice?.creditCode === '2' ? th.colors.status.errorAlt : undefined
           }
-          textAlign="right"
+          textAlign={loading ? 'center' : 'right'}
         >
-          {totalCreditAmount !== '0'
+          {loading
+            ? '...'
+            : totalCreditAmount && totalCreditAmount !== '0'
             ? formatCurrency(parseFloat(totalCreditAmount), true)
             : '-'}
         </ty.BodyText>
@@ -192,9 +253,12 @@ export const listLabels: (
       const isPaidInFull = invoice && isInvoicePaidInFull(invoice);
       const isUnpaid = invoice && isInvoiceUnpaid(invoice);
       const netAmountDue = parseFloat(invoice?.netAmountDue) || 0;
+      const loading = invoice?.netAmountDue === undefined;
       return (
-        <ty.BodyText textAlign="right">
-          {invoice && netAmountDue && !isPaidInFull && !isUnpaid
+        <ty.BodyText textAlign={loading ? 'center' : 'right'}>
+          {loading
+            ? '...'
+            : invoice && netAmountDue && !isPaidInFull && !isUnpaid
             ? formatCurrency(netAmountDue, true)
             : '-'}
         </ty.BodyText>
@@ -202,6 +266,7 @@ export const listLabels: (
     },
   },
   {
+    defaultSortOrder: SORT_ORDER.ASC,
     key: 'isApproved',
     label: 'Status',
     sortable: true,

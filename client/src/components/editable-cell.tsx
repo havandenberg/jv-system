@@ -174,7 +174,11 @@ const EditableCell = ({
   }, [inputRef, cursorLocation, localValue]);
 
   useEffect(() => {
-    if (debounce && previousDebouncedLocalValue !== debouncedLocalValue) {
+    if (
+      debounce &&
+      previousDebouncedLocalValue &&
+      previousDebouncedLocalValue !== debouncedLocalValue
+    ) {
       onChange({
         target: { value: debouncedLocalValue },
       } as React.ChangeEvent<HTMLInputElement>);

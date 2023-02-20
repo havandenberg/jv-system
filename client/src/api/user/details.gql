@@ -1,51 +1,6 @@
-query USER_DETAILS(
-  $id: BigInt!
-  $isRead: [Boolean!]
-  $getUsedLoadNumbers: [Boolean!]
-) {
+query USER_DETAILS($id: BigInt!, $isRead: [Boolean!]) {
   user(id: $id) {
     id
-    loadNumbers(filter: { isUsed: { in: $getUsedLoadNumbers } }) {
-      nodes {
-        id
-        customerId
-        customer {
-          id
-          customerName
-          salesUserCode
-        }
-        orderEntries {
-          nodes {
-            orderId
-            billingCustomer {
-              id
-              customerName
-              salesUserCode
-            }
-          }
-        }
-        notes
-        orderMaster {
-          orderId
-          billingCustomer {
-            id
-            customerName
-            salesUserCode
-          }
-        }
-        invoiceHeaders {
-          nodes {
-            orderId
-            billingCustomer {
-              id
-              customerName
-              salesUserCode
-            }
-          }
-        }
-        isUsed
-      }
-    }
     defaultCoast
     pin
     personContact {

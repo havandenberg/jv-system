@@ -14,10 +14,6 @@ query VESSEL_CONTROL_LIST($dateFilter: VesselControlFilter!) {
         shipperName
         vesselControlDaysUntilDue
       }
-      pallets {
-        totalCount
-      }
-      palletsShipped
       unpaids {
         nodes {
           id
@@ -29,12 +25,6 @@ query VESSEL_CONTROL_LIST($dateFilter: VesselControlFilter!) {
             billingCustomer {
               id
               customerName
-              volumeDiscounts {
-                nodes {
-                  volumeDiscountCode
-                  amount
-                }
-              }
             }
             truckLoadId
             salesUserCode
@@ -50,13 +40,8 @@ query VESSEL_CONTROL_LIST($dateFilter: VesselControlFilter!) {
             orderId
             paidCode
             flag
-            totalAmount
-            totalAmountsByVesselAndShipper {
-              nodes
-            }
             conditionCode
             creditCode
-            netAmountDue
           }
           shipperId
           vesselCode

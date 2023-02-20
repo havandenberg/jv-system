@@ -5,6 +5,7 @@ import { ScrollSync } from 'react-virtualized';
 
 import api from 'api';
 import ResetImg from 'assets/images/reset';
+import { getSortedItems } from 'components/column-label';
 import { ResetButton } from 'components/inventory/inventory/use-filters';
 import ListItem from 'components/list-item';
 import { BasicModal } from 'components/modal';
@@ -14,7 +15,7 @@ import { useActiveUser } from 'components/user/context';
 import VirtualizedList from 'components/virtualized-list';
 import useColumns, { SORT_ORDER } from 'hooks/use-columns';
 import useDateRange from 'hooks/use-date-range';
-import { useQueryValue } from 'hooks/use-query-params';
+import { useQueryValue, useSortQueryParams } from 'hooks/use-query-params';
 import useSearch from 'hooks/use-search';
 import { Unpaid } from 'types';
 import b from 'ui/button';
@@ -25,10 +26,49 @@ import th from 'ui/theme';
 import ty from 'ui/typography';
 
 import { SALES_USER_CODES } from '../vessel-control/unpaids';
-import { getSortedUnpaids, listLabels } from './data-utils';
+import { getSortedUnpaids, listLabels, UnpaidLabelInfo } from './data-utils';
 
 const gridTemplateColumns =
   '50px 1fr 40px 60px 80px 70px 40px 1fr 90px 75px 75px 90px 1fr';
+
+const UnpaidItem = ({
+  index,
+  item,
+  listLabels,
+  scrollTop,
+}: {
+  index: number;
+  item: Unpaid;
+  listLabels: UnpaidLabelInfo[];
+  scrollTop: number;
+}) => {
+  const { data, loading, error } = api.useUnpaidInvoiceDetails(
+    item.invoice?.id || 0,
+  );
+
+  const itemWithDetails = {
+    ...item,
+    invoice: {
+      ...item.invoice,
+      ...(!loading && !error && !!data ? data : {}),
+    },
+  } as Unpaid;
+
+  return (
+    <ListItem<Unpaid>
+      data={itemWithDetails}
+      gridTemplateColumns={gridTemplateColumns}
+      hoverable
+      listLabels={listLabels}
+      isHalfHighlight={
+        !!item.vesselControl?.isLiquidated || item.invoice?.paidCode === 'P'
+      }
+      highlightColor={th.colors.status.success}
+      index={index}
+      offsetTop={scrollTop}
+    />
+  );
+};
 
 const Unpaids = () => {
   const {
@@ -38,6 +78,7 @@ const Unpaids = () => {
   const activeUserCode = apiData?.data?.userCode;
 
   const { Search } = useSearch({ paramName: 'unpaidSearch' });
+  const [{ sortBy, sortOrder }] = useSortQueryParams();
 
   const [salesUserCode, setSalesUserCodeQuery] = useQueryValue('salesUserCode');
 
@@ -99,8 +140,8 @@ const Unpaids = () => {
   const { DateRangePicker, BackwardButton, ForwardButton } = useDateRange();
 
   const columnLabels = useColumns<Unpaid>(
-    'isApproved',
-    SORT_ORDER.DESC,
+    'vessel',
+    SORT_ORDER.ASC,
     listLabels(handleChange),
     'accounting',
     'unpaid',
@@ -108,17 +149,22 @@ const Unpaids = () => {
 
   const isDirty = !isEmpty(changes);
 
-  const updatedUnpaids = [
-    ...unpaids.map((unpaid) => {
-      const updatedUnpaidItem = changes.find(
-        (change) =>
-          change.vessel?.vesselCode === unpaid.vessel?.vesselCode &&
-          change.shipper?.id === unpaid.shipper?.id &&
-          change.invoice?.invoiceId === unpaid.invoice?.invoiceId,
-      );
-      return updatedUnpaidItem || unpaid;
-    }),
-  ];
+  const updatedUnpaids = getSortedItems(
+    listLabels(handleChange),
+    [
+      ...unpaids.map((unpaid) => {
+        const updatedUnpaidItem = changes.find(
+          (change) =>
+            change.vessel?.vesselCode === unpaid.vessel?.vesselCode &&
+            change.shipper?.id === unpaid.shipper?.id &&
+            change.invoice?.invoiceId === unpaid.invoice?.invoiceId,
+        );
+        return updatedUnpaidItem || unpaid;
+      }),
+    ],
+    sortBy,
+    sortOrder,
+  );
 
   useEffect(() => {
     if (!salesUserCode && isSalesAssoc) {
@@ -255,6 +301,7 @@ const Unpaids = () => {
         <ScrollSync>
           {({ onScroll, scrollTop }) => (
             <VirtualizedList
+              disableScrollTop
               height={700}
               onScroll={onScroll}
               rowCount={updatedUnpaids ? updatedUnpaids.length : 0}
@@ -264,18 +311,11 @@ const Unpaids = () => {
                 return (
                   item && (
                     <div key={key} style={style}>
-                      <ListItem<Unpaid>
-                        data={item}
-                        gridTemplateColumns={gridTemplateColumns}
-                        hoverable
+                      <UnpaidItem
                         listLabels={listLabels(handleChange)}
-                        isHalfHighlight={
-                          !!item.vesselControl?.isLiquidated ||
-                          item.invoice?.paidCode === 'P'
-                        }
-                        highlightColor={th.colors.status.success}
                         index={index}
-                        offsetTop={scrollTop}
+                        item={item}
+                        scrollTop={scrollTop}
                       />
                     </div>
                   )

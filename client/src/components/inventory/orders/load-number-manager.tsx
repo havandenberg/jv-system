@@ -177,7 +177,7 @@ const StyledLoadNumber = ({
     <l.Flex alignStart>
       <Wrapper minWidth={isPrint ? 155 : th.sizes.fill}>
         <l.Flex alignCenter justifyBetween>
-          <ty.BodyText>{loadNumber.id}</ty.BodyText>
+          <ty.BodyText>{loadNumber.id.padStart(5, '0')}</ty.BodyText>
           {billingCustomer ? (
             <ty.LinkText
               ellipsis
@@ -249,13 +249,19 @@ const LoadNumberManager = () => {
   const isPrint = pathname.includes('print');
 
   const {
-    apiData: { data, loading: dataLoading },
+    apiData: { data, loading: userDataLoading },
     roles: { isSalesAssoc },
   } = useActiveUser({ getUsedLoadNumbers: true });
   const userId = data?.id;
   const userCode = data?.userCode;
   const userName = data?.personContact?.firstName;
-  const loadNumbers = (data?.loadNumbers?.nodes || []) as LoadNumber[];
+
+  const {
+    data: loadNumbersData,
+    loading: loadNumbersLoading,
+    refetch,
+  } = api.useLoadNumbersByUser(userId, true);
+  const loadNumbers = (loadNumbersData?.nodes || []) as LoadNumber[];
 
   const sortedLoadNumbers = sortBy(
     ({ id }) => parseInt(id, 10),
@@ -282,23 +288,31 @@ const LoadNumberManager = () => {
   const isMax = availableCount <= 0;
 
   const [upsertCount, setUpsertCount] = useState(isMax ? 0 : availableCount);
+  const [isGenerating, setIsGenerating] = useState(false);
 
   const {
     data: customerData,
     loading: customerDataLoading,
     error: customerDataError,
   } = api.useCustomers('CUSTOMER_NAME_ASC');
-  const loading = dataLoading || customerDataLoading;
+  const loading = userDataLoading || customerDataLoading || loadNumbersLoading;
 
   const customers = (customerData ? customerData.nodes : []) as Customer[];
 
   const [handleUpsert, { loading: upsertLoading, error: upsertError }] =
-    api.useUpsertLoadNumbers(userId || 0);
+    api.useUpsertLoadNumbers();
 
   const disableGenerate =
-    upsertCount === 0 || isMax || upsertLoading || upsertError;
+    userDataLoading ||
+    loadNumbersLoading ||
+    isGenerating ||
+    upsertCount === 0 ||
+    isMax ||
+    upsertLoading ||
+    upsertError;
 
   const upsertLoadNumbers = () => {
+    setIsGenerating(true);
     handleUpsert({
       variables: {
         loadNumbers: times(
@@ -312,7 +326,16 @@ const LoadNumberManager = () => {
         ),
         coast,
       },
-    });
+    })
+      .then(() =>
+        refetch({
+          userId,
+          getUsedLoadNumbers: [true, false],
+        }),
+      )
+      .then(() => {
+        setIsGenerating(false);
+      });
   };
 
   const handleUpdateLoadNumber = (
@@ -321,12 +344,21 @@ const LoadNumberManager = () => {
       'id' | 'customerId' | 'notes' | 'userId'
     >,
   ) => {
+    setIsGenerating(true);
     handleUpsert({
       variables: {
         loadNumbers: [updatedLoadNumber],
         coast,
       },
-    });
+    }).then(() =>
+      refetch({
+        userId,
+        getUsedLoadNumbers: [true, false],
+      }),
+    )
+    .then(() => {
+      setIsGenerating(false);
+    });;
   };
 
   useEffect(() => {
@@ -410,7 +442,11 @@ const LoadNumberManager = () => {
                 </ty.CaptionText>
                 <TextInput
                   key="count"
-                  max={40 - unassignedLoadNumbers.length}
+                  max={
+                    40 - unassignedLoadNumbers.length >= 0
+                      ? 40 - unassignedLoadNumbers.length
+                      : 0
+                  }
                   min={0}
                   onChange={(e) => {
                     const newVal = parseInt(e.target.value, 10);

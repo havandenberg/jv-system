@@ -143,7 +143,7 @@ const NotifyUnpaids = ({
               vc.shipper?.id === shipperId,
           ) || {};
 
-        const unpaids = groupedUnpaids[itemKey]?.unpaids;
+        const unpaids = (groupedUnpaids[itemKey]?.unpaids || []) as Unpaid[];
         const { invoice } = unpaids[0] || {};
 
         const dueDate =
@@ -185,13 +185,15 @@ const NotifyUnpaids = ({
                   [shipperId]: {
                     shipperId: shipper?.id || '',
                     shipperName: shipper?.shipperName || '',
-                    unpaids: unpaids.map((unpaid) => ({
-                      isUrgent: !!unpaid?.isUrgent,
-                      invoiceId: unpaid?.invoice?.invoiceId || '',
-                      flag: unpaid?.invoice?.flag || '',
-                      customerName:
-                        unpaid?.invoice?.billingCustomer?.customerName || '',
-                    })),
+                    unpaids: unpaids
+                      .filter((unpaid) => unpaid?.invoice?.paidCode !== 'P')
+                      .map((unpaid) => ({
+                        isUrgent: !!unpaid?.isUrgent,
+                        invoiceId: unpaid?.invoice?.invoiceId || '',
+                        flag: unpaid?.invoice?.flag || '',
+                        customerName:
+                          unpaid?.invoice?.billingCustomer?.customerName || '',
+                      })),
                   },
                 },
               },

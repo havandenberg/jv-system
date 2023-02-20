@@ -15,13 +15,13 @@ import {
 } from 'hooks/use-query-params';
 import { Mutation, Query } from 'types';
 
-const USER_DETAILS_QUERY = loader('../../user/details.gql');
 const ORDER_MASTER_DETAILS_QUERY = loader('./details.gql');
 const ORDER_MASTER_LIST_QUERY = loader('./list.gql');
 const ORDER_ENTRY_DETAILS_QUERY = loader('./entry/details.gql');
 const ORDER_ENTRY_LIST_QUERY = loader('./entry/list.gql');
 const ORDER_ENTRY_CREATE = loader('./entry/create.gql');
 const ORDER_ENTRY_UPDATE = loader('./entry/update.gql');
+const LOAD_NUMBERS_LIST_QUERY = loader('./load-numbers/list.gql');
 const LOAD_NUMBERS_UPSERT = loader('./load-numbers/upsert.gql');
 const NEXT_ORDER_NUMBER_QUERY = loader('./load-numbers/next-order-number.gql');
 
@@ -163,19 +163,30 @@ export const useUpdateOrderEntry = (orderId: string) => {
   });
 };
 
-export const useUpsertLoadNumbers = (userId: number) =>
-  useMutation<Mutation>(LOAD_NUMBERS_UPSERT, {
-    refetchQueries: [
-      {
-        query: USER_DETAILS_QUERY,
-        variables: {
-          id: userId,
-          isRead: [false],
-          getUsedLoadNumbers: [true, false],
-        },
+export const useLoadNumbersByUser = (
+  userId: number,
+  getUsedLoadNumbers: boolean = false,
+) => {
+  const { data, error, loading, refetch } = useQuery<Query>(
+    LOAD_NUMBERS_LIST_QUERY,
+    {
+      variables: {
+        userId,
+        getUsedLoadNumbers: getUsedLoadNumbers ? [true, false] : [false],
       },
-    ],
-  });
+    },
+  );
+
+  return {
+    data: data ? data.loadNumbers : undefined,
+    error,
+    loading,
+    refetch,
+  };
+};
+
+export const useUpsertLoadNumbers = () =>
+  useMutation<Mutation>(LOAD_NUMBERS_UPSERT);
 
 export const useNextOrderNumber = () => {
   const { data, error, loading } = useQuery<Query>(NEXT_ORDER_NUMBER_QUERY);

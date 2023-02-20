@@ -14,6 +14,7 @@ import {
 } from 'hooks/use-query-params';
 import { Mutation, Query, VesselControl } from 'types';
 
+export const VESSEL_CONTROL_DETAILS_QUERY = loader('./details.gql');
 export const VESSEL_CONTROL_LIST_QUERY = loader('./list.gql');
 const VESSEL_CONTROLS_UPSERT = loader('./upsert.gql');
 const UNPAIDS_NOTIFY = loader('./notify.gql');
@@ -95,3 +96,19 @@ export const useUpsertVesselControls = () =>
 
 export const useSendUnpaidsNotification = () =>
   useMutation<Mutation>(UNPAIDS_NOTIFY);
+
+export const useVesselControlDetails = (id: number) => {
+  const { data, loading, error } = useQuery<Query>(
+    VESSEL_CONTROL_DETAILS_QUERY,
+    {
+      variables: {
+        id,
+      },
+    },
+  );
+  return {
+    data: data?.vesselControl,
+    error,
+    loading,
+  };
+};

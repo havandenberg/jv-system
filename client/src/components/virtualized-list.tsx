@@ -71,10 +71,18 @@ const VirtualizedList = ({
   const previousDebouncedScrollTop = usePrevious(debouncedScrollTop);
 
   useEffect(() => {
-    if (previousDebouncedScrollTop !== debouncedScrollTop) {
+    if (
+      !disableScrollTop &&
+      previousDebouncedScrollTop !== debouncedScrollTop
+    ) {
       setListScrollTop(`${debouncedScrollTop}`, 'replaceIn');
     }
-  }, [debouncedScrollTop, setListScrollTop, previousDebouncedScrollTop]);
+  }, [
+    debouncedScrollTop,
+    disableScrollTop,
+    setListScrollTop,
+    previousDebouncedScrollTop,
+  ]);
 
   useEffect(() => {
     if (previousListScrollTop !== listScrollTop) {
@@ -98,7 +106,9 @@ const VirtualizedList = ({
         ref={ref}
         rowHeight={rowHeight}
         scrollTop={
-          disableScrollTracking ? undefined : parseFloat(`${scrollTop}`)
+          disableScrollTracking || disableScrollTop
+            ? undefined
+            : parseFloat(`${scrollTop}`)
         }
         width={width}
         {...rest}
@@ -149,10 +159,18 @@ export const VirtualizedGrid = ({
   const previousDebouncedScrollTop = usePrevious(debouncedScrollTop);
 
   useEffect(() => {
-    if (previousDebouncedScrollTop !== debouncedScrollTop) {
+    if (
+      !disableScrollTop &&
+      previousDebouncedScrollTop !== debouncedScrollTop
+    ) {
       setListScrollTop(`${debouncedScrollTop}`, 'replaceIn');
     }
-  }, [debouncedScrollTop, setListScrollTop, previousDebouncedScrollTop]);
+  }, [
+    debouncedScrollTop,
+    disableScrollTop,
+    setListScrollTop,
+    previousDebouncedScrollTop,
+  ]);
 
   useEffect(() => {
     if (previousListScrollTop !== listScrollTop) {

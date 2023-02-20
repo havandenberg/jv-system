@@ -53,6 +53,7 @@ export const listLabels: (
     label: 'Due Date',
     sortable: true,
     sortKey: 'dueDate',
+    customSortBy: () => ({}),
     getValue: ({ shipper, vessel }) => {
       const dueDate =
         vessel && shipper && getVesselControlDueDate(vessel, shipper);
@@ -125,8 +126,13 @@ export const listLabels: (
     ),
   },
   {
+    defaultSortOrder: SORT_ORDER.ASC,
     key: 'vessel',
     label: 'Code',
+    sortable: true,
+    sortKey: 'vesselCode',
+    customSortBy: ({ shipper, vessel }) =>
+      (`${vessel?.vesselCode}-${shipper?.shipperName}` || '').toLowerCase(),
     getValue: ({ vessel }) =>
       vessel ? (
         <ty.LinkText
@@ -175,8 +181,12 @@ export const listLabels: (
     ),
   },
   {
+    defaultSortOrder: SORT_ORDER.ASC,
     key: 'shipper',
     label: 'Shipper',
+    sortable: true,
+    customSortBy: ({ shipper, vessel }) =>
+      (`${shipper?.shipperName}-${vessel?.vesselCode}` || '').toLowerCase(),
     getValue: ({ shipper }) =>
       shipper ? (
         <ty.LinkText
@@ -201,21 +211,23 @@ export const listLabels: (
     key: 'vessel',
     label: 'Rcvd.',
     getValue: ({ pallets }) => (
-      <ty.BodyText>{pallets.totalCount || '-'}</ty.BodyText>
+      <ty.BodyText>{pallets ? pallets.totalCount : '...'}</ty.BodyText>
     ),
   },
   {
     key: 'vessel',
     label: 'Sold',
-    getValue: ({ palletsShipped }) => (
-      <ty.BodyText>{palletsShipped || '-'}</ty.BodyText>
+    getValue: ({ pallets, palletsShipped }) => (
+      <ty.BodyText>{pallets ? palletsShipped : '...'}</ty.BodyText>
     ),
   },
   {
     key: 'vessel',
     label: 'Diff',
     getValue: ({ pallets, palletsShipped }) => (
-      <ty.BodyText>{pallets.totalCount - palletsShipped}</ty.BodyText>
+      <ty.BodyText>
+        {pallets ? pallets.totalCount - palletsShipped : '...'}
+      </ty.BodyText>
     ),
   },
   {

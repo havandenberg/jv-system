@@ -34,18 +34,13 @@ export const useGetUsersByRole = (userRoles: string[]) => {
   };
 };
 
-export const useGetUser = (
-  id: number,
-  showReadMessages: boolean = true,
-  getUsedLoadNumbers: boolean = false,
-) => {
+export const useGetUser = (id: number, showReadMessages: boolean = true) => {
   const { data, error, loading, refetch } = useQuery<Query>(
     USER_DETAILS_QUERY,
     {
       variables: {
         id,
         isRead: showReadMessages ? [true, false] : [false],
-        getUsedLoadNumbers: getUsedLoadNumbers ? [true, false] : [false],
       },
     },
   );

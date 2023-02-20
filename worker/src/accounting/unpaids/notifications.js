@@ -191,9 +191,7 @@ const sendUnpaidsNotificationEmails = () => {
           const shipperId = shipper?.id || 'UNK';
           const unpaids = (vesselControl.unpaids.nodes || []).filter(
             (unpaid) =>
-              !vesselControl.isLiquidated &&
-              unpaid?.invoice?.paidCode !== 'P' &&
-              !unpaid?.isApproved,
+              unpaid?.invoice?.paidCode !== 'P' && !unpaid?.isApproved,
           );
 
           const dueDate =

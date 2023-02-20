@@ -8,6 +8,7 @@ import { Mutation, Query, Unpaid, VesselControl } from 'types';
 import { useVariables, VESSEL_CONTROL_LIST_QUERY } from '../vessel-control';
 
 const UNPAIDS_UPSERT = loader('./upsert.gql');
+const UNPAIDS_INVOICE_DETAILS_QUERY = loader('./invoice.gql');
 
 export const useUnpaids = () => {
   const variables = useVariables(undefined, true);
@@ -75,3 +76,19 @@ export const useUpsertUnpaids = (orderByOverride?: string) =>
       },
     ],
   });
+
+export const useUnpaidInvoiceDetails = (id: number) => {
+  const { data, loading, error } = useQuery<Query>(
+    UNPAIDS_INVOICE_DETAILS_QUERY,
+    {
+      variables: {
+        id,
+      },
+    },
+  );
+  return {
+    data: data?.invoiceHeader,
+    error,
+    loading,
+  };
+};
