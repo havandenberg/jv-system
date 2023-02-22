@@ -358,13 +358,14 @@ const VesselControlLog = () => {
           </l.Flex>
         </>
       }
+      noMaxWidth
       title="Vessel Control Log"
     >
       {!loading ? (
         <ScrollSync>
           {({ onScroll, scrollLeft, scrollTop }) => (
             <GridWrapper>
-              <l.Div overflowX="hidden" width={1008}>
+              <l.Div overflowX="hidden" width={window.innerWidth - 64 - 16}>
                 <l.Grid
                   bg={th.colors.background}
                   gridTemplateColumns={gridTemplateColumns}
@@ -427,9 +428,9 @@ const VesselControlLog = () => {
                   disableScrollTop
                   height={700}
                   onScroll={onScroll}
-                  rowCount={updatedVesselControls.length + 1}
+                  rowCount={updatedVesselControls.length}
                   rowHeight={46}
-                  width={1024}
+                  width={window.innerWidth - 64}
                   cellRenderer={({ rowIndex, style }) => {
                     const vesselControl = updatedVesselControls[rowIndex];
                     const vesselControlId = `${vesselControl?.vessel?.vesselCode}-${vesselControl?.shipper?.id}`;
@@ -456,27 +457,31 @@ const VesselControlLog = () => {
                   }}
                 />
               ) : (
-                <DataMessage
-                  data={vesselControls}
-                  error={error}
-                  loading={loading}
-                  emptyProps={{
-                    header: 'No vessel controls found',
-                  }}
-                />
+                <l.Div width={window.innerWidth - 64}>
+                  <DataMessage
+                    data={vesselControls}
+                    error={error}
+                    loading={loading}
+                    emptyProps={{
+                      header: 'No vessel controls found',
+                    }}
+                  />
+                </l.Div>
               )}
             </GridWrapper>
           )}
         </ScrollSync>
       ) : (
-        <DataMessage
-          data={vesselControls}
-          error={error}
-          loading={loading}
-          emptyProps={{
-            header: 'No vessel controls found',
-          }}
-        />
+        <l.Div width={window.innerWidth - 64}>
+          <DataMessage
+            data={vesselControls}
+            error={error}
+            loading={loading}
+            emptyProps={{
+              header: 'No vessel controls found',
+            }}
+          />
+        </l.Div>
       )}
     </Page>
   );
