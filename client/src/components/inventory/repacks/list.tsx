@@ -10,7 +10,7 @@ import th from 'ui/theme';
 
 import { listLabels } from './data-utils';
 
-const gridTemplateColumns = `1fr 30px`;
+const gridTemplateColumns = `1fr 1fr 100px 100px 100px 2fr 30px`;
 
 const RepackList = ({
   baseUrl,
@@ -45,7 +45,7 @@ const RepackList = ({
                 gridTemplateColumns={gridTemplateColumns}
                 key={idx}
                 listLabels={listLabels}
-                to={`${baseUrl}${item.repackCode}?runNumber=${item.runNumber}&repackView=pallets`}
+                to={`${baseUrl}${item.repackCode}?runNumber=${item.runNumber}&repackView=items`}
               />
             ),
         )

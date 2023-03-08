@@ -14,8 +14,10 @@ import Page from 'components/page';
 import { useActiveUser } from 'components/user/context';
 import VirtualizedList from 'components/virtualized-list';
 import useColumns, { SORT_ORDER } from 'hooks/use-columns';
-import useDateRange from 'hooks/use-date-range';
-import { useQueryValue, useSortQueryParams } from 'hooks/use-query-params';
+import {
+  useSortQueryParams,
+  useUnpaidsQueryParams,
+} from 'hooks/use-query-params';
 import useSearch from 'hooks/use-search';
 import { Unpaid } from 'types';
 import b from 'ui/button';
@@ -26,7 +28,7 @@ import th from 'ui/theme';
 import ty from 'ui/typography';
 
 import { SALES_USER_CODES } from '../vessel-control/unpaids';
-import { getSortedUnpaids, listLabels, UnpaidLabelInfo } from './data-utils';
+import { listLabels, UnpaidLabelInfo } from './data-utils';
 
 const gridTemplateColumns =
   '50px 1fr 40px 60px 80px 70px 40px 1fr 90px 75px 75px 90px 1fr';
@@ -60,9 +62,8 @@ const UnpaidItem = ({
       gridTemplateColumns={gridTemplateColumns}
       hoverable
       listLabels={listLabels}
-      isHalfHighlight={
-        !!item.vesselControl?.isLiquidated || item.invoice?.paidCode === 'P'
-      }
+      isHalfHighlight={!!item.vesselControl?.isLiquidated}
+      isHighlight={item.invoice?.paidCode === 'P'}
       highlightColor={th.colors.status.success}
       index={index}
       offsetTop={scrollTop}
@@ -80,15 +81,16 @@ const Unpaids = () => {
   const { Search } = useSearch({ paramName: 'unpaidSearch' });
   const [{ sortBy, sortOrder }] = useSortQueryParams();
 
-  const [salesUserCode, setSalesUserCodeQuery] = useQueryValue('salesUserCode');
+  const [{ salesUserCode, showLiq }, setParams] = useUnpaidsQueryParams();
 
-  const [showLiq, setShowLiq] = useState(false);
-
-  const { data, loading, error } = api.useUnpaids();
-  const unpaids = getSortedUnpaids(
-    data.filter((up) => showLiq || !up.vesselControl?.isLiquidated),
-    showLiq,
-  );
+  const {
+    data: unpaids,
+    vesselCodeOptions,
+    loadIdOptions,
+    invoiceIdOptions,
+    loading,
+    error,
+  } = api.useUnpaids();
 
   const [changes, setChanges] = useState<Unpaid[]>([]);
 
@@ -137,12 +139,15 @@ const Unpaids = () => {
       .then(handleCancel);
   };
 
-  const { DateRangePicker, BackwardButton, ForwardButton } = useDateRange();
-
   const columnLabels = useColumns<Unpaid>(
-    'vessel',
+    'vesselCode',
     SORT_ORDER.ASC,
-    listLabels(handleChange),
+    listLabels(
+      handleChange,
+      vesselCodeOptions,
+      loadIdOptions,
+      invoiceIdOptions,
+    ),
     'accounting',
     'unpaid',
   );
@@ -168,9 +173,15 @@ const Unpaids = () => {
 
   useEffect(() => {
     if (!salesUserCode && isSalesAssoc) {
-      setSalesUserCodeQuery(activeUserCode || undefined, 'replaceIn');
+      setParams({ salesUserCode: activeUserCode || undefined }, 'replaceIn');
     }
-  }, [salesUserCode, isSalesAssoc, setSalesUserCodeQuery, activeUserCode]);
+  }, [salesUserCode, isSalesAssoc, setParams, activeUserCode]);
+
+  useEffect(() => {
+    if (showLiq === undefined) {
+      setParams({ showLiq: 1 }, 'replaceIn');
+    }
+  }, [showLiq, setParams]);
 
   return (
     <Page
@@ -218,12 +229,14 @@ const Unpaids = () => {
               </ty.SmallText>
               <Select
                 onChange={(e) => {
-                  setSalesUserCodeQuery(e.target.value || undefined);
+                  setParams({ salesUserCode: e.target.value || undefined });
                 }}
                 value={salesUserCode || 'all'}
                 width={72}
               >
-                <option value="all">All</option>
+                <option key="all" value="all">
+                  All
+                </option>
                 {SALES_USER_CODES.map((code) => (
                   <option key={code} value={code}>
                     {code}
@@ -244,22 +257,12 @@ const Unpaids = () => {
             </l.Div>
             <l.Div mr={th.spacing.lg}>
               <ty.SmallText mb={th.spacing.sm} secondary>
-                Date Range
-              </ty.SmallText>
-              <l.Flex alignCenter>
-                {DateRangePicker}
-                {BackwardButton}
-                {ForwardButton}
-              </l.Flex>
-            </l.Div>
-            <l.Div mr={th.spacing.lg}>
-              <ty.SmallText mb={th.spacing.sm} secondary>
                 Liq?
               </ty.SmallText>
               <LineItemCheckbox
                 checked={showLiq}
                 onChange={() => {
-                  setShowLiq(!showLiq);
+                  setParams({ showLiq: !showLiq });
                 }}
                 status="success"
               />

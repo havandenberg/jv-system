@@ -3,6 +3,7 @@ query PRODUCT_SIZE_LIST($search: [ProductSizeFilter!]) {
     nodes {
       id
       combineDescription
+      jvDescription
     }
   }
 }

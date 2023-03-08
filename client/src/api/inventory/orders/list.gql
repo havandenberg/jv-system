@@ -22,6 +22,7 @@ query ORDER_MASTER_LIST(
   ) {
     nodes {
       backOrderId
+      actualShipDate
       expectedShipDate
       id
       orderDate
@@ -81,6 +82,7 @@ query ORDER_MASTER_LIST(
                 nodes {
                   id
                   combineDescription
+                  jvDescription
                 }
               }
               packType {
@@ -96,10 +98,12 @@ query ORDER_MASTER_LIST(
           }
           locationId
           shipperId
+          specialLotNumber
           palletCount
           unitSellPrice
           order {
             id
+            actualShipDate
             expectedShipDate
             salesUserCode
             billingCustomer {

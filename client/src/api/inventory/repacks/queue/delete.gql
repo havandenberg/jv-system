@@ -1,0 +1,5 @@
+mutation BULK_DELETE_REPACK_QUEUE($idsToDelete: [BigInt]!) {
+  bulkDeleteRepackQueue(input: { idsToDelete: $idsToDelete }) {
+    clientMutationId
+  }
+}

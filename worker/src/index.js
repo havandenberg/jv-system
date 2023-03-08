@@ -61,6 +61,9 @@ if (process.env.REACT_APP_IS_PRODUCTION === 'true') {
   cron.schedule('*/5 5-22 * * *', () =>
     db2UpdateTable('operations/order/item'),
   );
+  cron.schedule('*/5 5-22 * * *', () =>
+    db2UpdateTable('operations/order/comment'),
+  );
 
   cron.schedule('*/10 5-22 * * *', () =>
     db2UpdateTable('product/inventory-item'),

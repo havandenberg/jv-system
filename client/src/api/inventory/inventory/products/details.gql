@@ -11,6 +11,7 @@ query PRODUCT_MASTER_DETAILS($id: String!) {
       nodes {
         jvCode
         combineDescription
+        jvDescription
       }
     }
     species {

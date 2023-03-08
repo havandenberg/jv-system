@@ -92,6 +92,7 @@ const VesselControlLog = () => {
   const isNotLiquidated = liquidatedStatus === 'unliquidated';
   const [vesselControlView] = useQueryValue('vesselControlView');
   const isDue = vesselControlView === 'due';
+  const maxWidth = window.innerWidth - 64;
 
   const { data: vesselControls, loading, error } = api.useVesselControls();
 
@@ -119,7 +120,7 @@ const VesselControlLog = () => {
   const [upsertVesselControls, { loading: upsertVesselControlsLoading }] =
     api.useUpsertVesselControls();
   const [upsertUnpaids, { loading: upsertUnpaidsLoading }] =
-    api.useUpsertUnpaids('ID_ASC');
+    api.useUpsertUnpaids();
 
   const upsertLoading = upsertVesselControlsLoading || upsertUnpaidsLoading;
 
@@ -365,7 +366,7 @@ const VesselControlLog = () => {
         <ScrollSync>
           {({ onScroll, scrollLeft, scrollTop }) => (
             <GridWrapper>
-              <l.Div overflowX="hidden" width={window.innerWidth - 64 - 16}>
+              <l.Div overflowX="hidden" width={maxWidth - 16}>
                 <l.Grid
                   bg={th.colors.background}
                   gridTemplateColumns={gridTemplateColumns}
@@ -430,7 +431,7 @@ const VesselControlLog = () => {
                   onScroll={onScroll}
                   rowCount={updatedVesselControls.length}
                   rowHeight={46}
-                  width={window.innerWidth - 64}
+                  width={maxWidth}
                   cellRenderer={({ rowIndex, style }) => {
                     const vesselControl = updatedVesselControls[rowIndex];
                     const vesselControlId = `${vesselControl?.vessel?.vesselCode}-${vesselControl?.shipper?.id}`;
@@ -441,9 +442,8 @@ const VesselControlLog = () => {
                           style={{ ...style, background: th.colors.background }}
                         >
                           <VesselControlItem
+                            index={rowIndex}
                             item={vesselControl}
-                            gridTemplateColumns={gridTemplateColumns}
-                            hoverable
                             listLabels={listLabels(handleChange)}
                             scrollTop={scrollTop}
                             onSelectItem={() => {
@@ -457,7 +457,7 @@ const VesselControlLog = () => {
                   }}
                 />
               ) : (
-                <l.Div width={window.innerWidth - 64}>
+                <l.Div width={maxWidth}>
                   <DataMessage
                     data={vesselControls}
                     error={error}
@@ -472,7 +472,7 @@ const VesselControlLog = () => {
           )}
         </ScrollSync>
       ) : (
-        <l.Div width={window.innerWidth - 64}>
+        <l.Div width={maxWidth}>
           <DataMessage
             data={vesselControls}
             error={error}

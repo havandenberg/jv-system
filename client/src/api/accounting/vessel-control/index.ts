@@ -2,15 +2,12 @@ import { useMutation, useQuery } from '@apollo/client';
 import { add } from 'date-fns';
 import { loader } from 'graphql.macro';
 
-import { getOrderByString } from 'api/utils';
 import { vesselControlSearchText } from 'components/accounting/unpaids/data-utils';
 import { formatDate } from 'components/date-range-picker';
-import { SORT_ORDER } from 'hooks/use-columns';
 import {
   useDateRangeQueryParams,
   useQueryValue,
   useSearchQueryParam,
-  useSortQueryParams,
 } from 'hooks/use-query-params';
 import { Mutation, Query, VesselControl } from 'types';
 
@@ -19,10 +16,8 @@ export const VESSEL_CONTROL_LIST_QUERY = loader('./list.gql');
 const VESSEL_CONTROLS_UPSERT = loader('./upsert.gql');
 const UNPAIDS_NOTIFY = loader('./notify.gql');
 
-export const useVariables = (orderByOverride?: string, isUnpaids?: boolean) => {
-  const [{ sortBy = 'id', sortOrder = SORT_ORDER.ASC }] = useSortQueryParams();
-  const orderBy = getOrderByString(sortBy, sortOrder);
-
+export const useVariables = (isUnpaids?: boolean) => {
+  const [search] = useQueryValue('vesselControlSearch');
   const [vesselControlView] = useQueryValue('vesselControlView');
   const isDue = isUnpaids || vesselControlView === 'due';
 
@@ -41,23 +36,24 @@ export const useVariables = (orderByOverride?: string, isUnpaids?: boolean) => {
     ),
   );
 
-  const dateFilter = {
-    [isDue ? 'dueDate' : 'dateSent']: {
-      greaterThanOrEqualTo: formattedStartDate,
-      lessThanOrEqualTo: formattedEndDate,
-    },
-  };
-
   return {
-    dateFilter,
-    orderBy: orderByOverride || orderBy,
+    vesselControlFilter:
+      isUnpaids || search
+        ? undefined
+        : {
+            [isDue ? 'dueDate' : 'dateSent']: {
+              greaterThanOrEqualTo: formattedStartDate,
+              lessThanOrEqualTo: formattedEndDate,
+            },
+          },
+    unpaidFilter: isUnpaids ? { isPaid: { equalTo: false } } : undefined,
   };
 };
 
 export const useVesselControls = () => {
   const [search = ''] = useSearchQueryParam('vesselControlSearch');
   const searchArray = search?.split(' ');
-  const variables = useVariables('ID_ASC');
+  const variables = useVariables();
 
   const { data, loading, error } = useQuery<Query>(VESSEL_CONTROL_LIST_QUERY, {
     variables,
@@ -89,7 +85,7 @@ export const useUpsertVesselControls = () =>
     refetchQueries: [
       {
         query: VESSEL_CONTROL_LIST_QUERY,
-        variables: useVariables('ID_ASC'),
+        variables: useVariables(),
       },
     ],
   });

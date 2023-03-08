@@ -61,7 +61,6 @@ const Wrapper = styled(l.Flex)(
       ? th.colors.brand.containerBackground
       : undefined,
     borderLeft: showBorder ? th.borders.disabled : undefined,
-    height: EDITABLE_CELL_HEIGHT,
     lineHeight: 1,
     width: th.sizes.fill,
     position: 'relative',
@@ -90,6 +89,7 @@ export interface EditableCellProps {
   handleHighlight?: () => void;
   highlight?: boolean;
   highlightColor?: string;
+  height?: string | number;
   inputProps?: React.InputHTMLAttributes<HTMLInputElement> &
     DivProps &
     TextProps;
@@ -114,6 +114,7 @@ const EditableCell = ({
   editing,
   error,
   handleHighlight,
+  height = EDITABLE_CELL_HEIGHT,
   highlight,
   highlightColor,
   inputProps,
@@ -187,6 +188,7 @@ const EditableCell = ({
 
   return (
     <Wrapper
+      height={height}
       highlight={highlight}
       highlightColor={highlightColor}
       onMouseEnter={() => {

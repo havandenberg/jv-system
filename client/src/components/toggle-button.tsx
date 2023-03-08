@@ -19,7 +19,7 @@ interface Props {
   value?: number;
 }
 
-const StatusIndicator = ({
+const ToggleButton = ({
   color,
   customStyles,
   diameter = th.sizes.xs,
@@ -27,30 +27,28 @@ const StatusIndicator = ({
   text,
   title,
   value,
-}: Props) => {
-  return (
-    <l.Flex
-      alignCenter
-      background={color || th.colors.status[status]}
-      borderRadius={text ? th.borderRadii.default : th.borderRadii.circle}
-      height={text ? 'auto' : diameter}
-      justifyCenter
-      p={text ? th.spacing.xs : 0}
-      title={title}
-      width={text ? 'auto' : diameter}
-      {...(customStyles?.wrapper || {})}
-    >
-      {(text || value !== undefined) && (
-        <ty.SmallText
-          bold
-          color={contrastColor(color || th.colors.status[status])}
-          {...(customStyles?.text || {})}
-        >
-          {constantCase(text || '') || value}
-        </ty.SmallText>
-      )}
-    </l.Flex>
-  );
-};
+}: Props) => (
+  <l.Flex
+    alignCenter
+    background={color || th.colors.status[status]}
+    borderRadius={text ? th.borderRadii.default : th.borderRadii.circle}
+    height={text ? 'auto' : diameter}
+    justifyCenter
+    p={text ? th.spacing.xs : 0}
+    title={title}
+    width={text ? 'auto' : diameter}
+    {...(customStyles?.wrapper || {})}
+  >
+    {(text || value !== undefined) && (
+      <ty.SmallText
+        bold
+        color={contrastColor(color || th.colors.status[status])}
+        {...(customStyles?.text || {})}
+      >
+        {constantCase(text || '') || value}
+      </ty.SmallText>
+    )}
+  </l.Flex>
+);
 
-export default StatusIndicator;
+export default ToggleButton;

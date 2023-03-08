@@ -224,7 +224,7 @@ const useOrdersFilters = ({
       id: 'other',
       speciesDescription: 'Other',
       varietyDescription: 'Other',
-      combineDescription: 'Other',
+      jvDescription: 'Other',
       packDescription: 'Other',
       label: {
         labelCode: 'other',
@@ -408,15 +408,15 @@ const useOrdersFilters = ({
       if (
         isSpeciesValid &&
         !sizeOptions.find(
-          ({ value }) => value === `${itemSize.combineDescription}`,
+          ({ value }) => value === `${itemSize.jvDescription}`,
         ) &&
         detailsValid &&
         itemSize
       ) {
         sizeOptions.push({
-          text: `${itemSize.combineDescription}`,
-          shortText: `${itemSize.combineDescription}`,
-          value: `${itemSize.combineDescription}`,
+          text: `${itemSize.jvDescription}`,
+          shortText: `${itemSize.jvDescription}`,
+          value: `${itemSize.jvDescription}`,
         });
         commonSizeTags.forEach((tag) => {
           if (!sizeOptions.find(({ value }) => value === tag.tagText)) {
@@ -475,7 +475,7 @@ const useOrdersFilters = ({
         (size
           ? sizeTag
             ? pluck('tagText', commonSizeTags).includes(sizeTag)
-            : ['total', itemSize?.combineDescription].includes(size)
+            : ['total', itemSize?.jvDescription].includes(size)
           : !sizeTag || pluck('tagText', commonSizeTags).includes(sizeTag)) &&
         (!label || ['total', itemPackType?.label?.labelCode].includes(label)) &&
         (packType

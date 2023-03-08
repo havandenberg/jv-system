@@ -1,4 +1,4 @@
-const { mergeDeepLeft, omit, pick, pluck, times, values } = require('ramda');
+const { mergeDeepLeft, omit, pick, times } = require('ramda');
 
 const { gql, gqlClient } = require('../../api');
 const { onError } = require('../../utils');

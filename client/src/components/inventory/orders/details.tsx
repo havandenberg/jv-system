@@ -13,12 +13,19 @@ import {
   useOrdersQueryParams,
   useSortQueryParams,
 } from 'hooks/use-query-params';
-import { OrderEntry, OrderItem, OrderMaster, TruckRate } from 'types';
+import {
+  OrderEntry,
+  OrderItem,
+  OrderMaster,
+  RepackQueue,
+  TruckRate,
+} from 'types';
 import b from 'ui/button';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 
+import RepackQueueList from '../repacks/queue/list';
 import { baseLabels, indexBaseLabels } from './data-utils';
 import { baseLabels as entryBaseLabels } from './entry/data-utils';
 import OrderEntryList from './entry/list';
@@ -41,7 +48,8 @@ const tabs: (
   itemCount: number,
   pickupCount: number,
   entriesCount: number,
-) => Tab[] = (itemCount, pickupCount, entriesCount) => [
+  repackCount: number,
+) => Tab[] = (itemCount, pickupCount, entriesCount, repackCount) => [
   ...(itemCount > 0
     ? [
         ...(pickupCount && pickupCount > 1
@@ -62,6 +70,14 @@ const tabs: (
     id: 'orderEntries',
     text: `Entries ${entriesCount ? ' (' + entriesCount + ')' : ''}`,
   },
+  ...(repackCount > 0
+    ? [
+        {
+          id: 'repacks',
+          text: `Repacks ${repackCount ? ' (' + repackCount + ')' : ''}`,
+        },
+      ]
+    : []),
 ];
 
 const Details = () => {
@@ -101,6 +117,8 @@ const Details = () => {
       )
     : orderMasters[0];
 
+  const repacks = (orderMaster?.repackQueues?.nodes || []) as RepackQueue[];
+
   const {
     data: truckRateData,
     loading: truckRateDataLoading,
@@ -130,6 +148,7 @@ const Details = () => {
       allItems.length,
       backOrderId ? 0 : orderMasters.length,
       orderEntries.length,
+      orderMaster?.repackQueues?.nodes?.length || 0,
     ),
     isRoute: false,
     defaultTabId: 'pickupLocations',
@@ -142,13 +161,17 @@ const Details = () => {
       const isEntries = selectedTabId === 'orderEntries';
       setSortParams(
         {
-          sortBy: isEntries ? 'orderDate' : 'backOrderId',
+          sortBy: isEntries
+            ? 'orderDate'
+            : orderMasters.length > 1
+            ? 'backOrderId'
+            : 'lineId',
           sortOrder: isEntries ? SORT_ORDER.DESC : SORT_ORDER.ASC,
         },
         'replaceIn',
       );
     }
-  }, [prevSelectedTabId, selectedTabId, setSortParams]);
+  }, [orderMasters.length, prevSelectedTabId, selectedTabId, setSortParams]);
 
   useEffect(() => {
     if (
@@ -169,6 +192,7 @@ const Details = () => {
     !backOrderId &&
     orderMasters.length > 1;
   const isEntries = selectedTabId === 'orderEntries';
+  const isRepacks = selectedTabId === 'repacks';
 
   const clearBackOrderId = () => {
     setOrdersParams({
@@ -256,6 +280,8 @@ const Details = () => {
               baseUrl={`/inventory/orders/`}
               items={orderMasters as OrderMaster[]}
             />
+          ) : isRepacks ? (
+            <RepackQueueList baseUrl={`/inventory/repacks/`} items={repacks} />
           ) : (
             <OrderItemList items={(allItems || []) as OrderItem[]} />
           )}

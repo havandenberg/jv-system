@@ -47,6 +47,7 @@ interface Props {
   content: React.ReactNode;
   disabled?: boolean;
   header: React.ReactNode;
+  hideToggle?: boolean;
   isOpen: boolean;
   showBorder?: boolean;
   toggleIsOpen: () => void;
@@ -56,6 +57,7 @@ const Expandable = ({
   content,
   disabled,
   header,
+  hideToggle,
   isOpen,
   showBorder,
   toggleIsOpen,
@@ -69,7 +71,7 @@ const Expandable = ({
       mt={showBorder ? th.spacing.md : undefined}
       pt={showBorder ? th.spacing.md : undefined}
     >
-      {disabled ? (
+      {hideToggle ? null : disabled ? (
         <l.Div width={th.sizes.xs} />
       ) : (
         <l.Div

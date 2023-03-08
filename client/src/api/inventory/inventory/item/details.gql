@@ -50,6 +50,7 @@ query INVENTORY_ITEM_DETAILS($id: BigInt!) {
         nodes {
           id
           combineDescription
+          jvDescription
           commonSize {
             id
             sizeName

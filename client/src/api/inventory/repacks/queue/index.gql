@@ -1,0 +1,45 @@
+query REPACK_QUEUE(
+  $repackStyleId: [String!]
+  $warehouseId: [String!]
+  $orderBy: [RepackQueuesOrderBy!]
+  $repackDate: DateFilter!
+  $search: [RepackQueueFilter!]
+) {
+  repackQueues(
+    filter: {
+      and: $search
+      repackStyleId: { in: $repackStyleId }
+      warehouseId: { in: $warehouseId }
+      repackDate: $repackDate
+    }
+    orderBy: $orderBy
+  ) {
+    nodes {
+      id
+      orderId
+      repackCode
+      repackDate
+      repackStyleId
+      warehouseId
+      palletCount
+      shipDate
+      delDate
+      warehouse {
+        id
+        warehouseName
+      }
+      repackStyle {
+        id
+        styleName
+        styleDescription
+        lqdCode
+      }
+      invoices {
+        totalCount
+      }
+      orderNotes
+      notes
+    }
+    totalCount
+  }
+}

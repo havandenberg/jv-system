@@ -20,12 +20,21 @@ export type UnpaidLabelInfo = LabelInfo<Unpaid>;
 
 export const listLabels: (
   handleChange: (updatedItem: Unpaid) => void,
-) => UnpaidLabelInfo[] = (handleChange) => [
+  vesselCodeOptions?: string[],
+  loadIdOptions?: string[],
+  invoiceIdOptions?: string[],
+) => UnpaidLabelInfo[] = (
+  handleChange,
+  vesselCodeOptions,
+  loadIdOptions,
+  invoiceIdOptions,
+) => [
   {
     defaultSortOrder: SORT_ORDER.ASC,
     key: 'vessel',
     label: 'Vessel',
     sortable: true,
+    sortKey: 'vesselCode',
     customSortBy: ({ invoice, shipper, vessel }) => {
       const shipDate = new Date(invoice?.actualShipDate.replace(/-/g, '/'));
       return (
@@ -33,6 +42,12 @@ export const listLabels: (
           shipper?.shipperName
         }-${shipDate?.getTime()}` || ''
       ).toLowerCase();
+    },
+    filterable: true,
+    filterPanelProps: {
+      columnCount: 4,
+      customOptions: vesselCodeOptions || [],
+      showSearch: true,
     },
     getValue: ({ vessel }) =>
       vessel ? (
@@ -89,6 +104,12 @@ export const listLabels: (
     sortable: true,
     sortKey: 'loadId',
     customSortBy: ({ invoice }) => invoice?.truckLoadId || '',
+    filterable: true,
+    filterPanelProps: {
+      columnCount: 3,
+      customOptions: loadIdOptions || [],
+      showSearch: true,
+    },
     getValue: ({ invoice }) =>
       invoice ? (
         <ty.LinkText
@@ -109,6 +130,11 @@ export const listLabels: (
     sortable: true,
     sortKey: 'invoiceId',
     customSortBy: ({ invoice }) => invoice?.invoiceId || '',
+    filterable: true,
+    filterPanelProps: {
+      customOptions: invoiceIdOptions || [],
+      showSearch: true,
+    },
     getValue: ({ invoice }) =>
       invoice ? (
         <ty.LinkText
@@ -272,7 +298,9 @@ export const listLabels: (
     sortable: true,
     getValue: ({ isApproved, ...rest }) => (
       <l.Flex alignCenter>
-        <StatusIndicator selected={!!rest.isUrgent} status="warning" />
+        <div title="Urgent">
+          <StatusIndicator selected={!!rest.isUrgent} status="warning" />
+        </div>
         <l.Div width={th.spacing.sm} />
         {rest.invoice?.flag ? (
           <InfoPanel
@@ -309,15 +337,19 @@ export const listLabels: (
             visible
           />
         ) : (
-          <StatusIndicator selected={!!rest.invoice?.flag} status="error" />
+          <div title="Alert">
+            <StatusIndicator selected={!!rest.invoice?.flag} status="error" />
+          </div>
         )}
         <l.Div width={th.spacing.sm} />
-        <LineItemCheckbox
-          checked={!!isApproved}
-          onChange={() => {
-            handleChange({ ...rest, isApproved: !isApproved });
-          }}
-        />
+        <div title="Click to approve/unapprove">
+          <LineItemCheckbox
+            checked={!!isApproved}
+            onChange={() => {
+              handleChange({ ...rest, isApproved: !isApproved });
+            }}
+          />
+        </div>
       </l.Flex>
     ),
     allowOverflow: true,

@@ -243,6 +243,17 @@ AS $BODY$
     AND tl.warehouse_id = i.ship_warehouse_id;
 $BODY$;
 
+CREATE FUNCTION accounting.invoice_header_repack_queues(IN i accounting.invoice_header)
+    RETURNS SETOF operations.repack_queue
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT * FROM operations.repack_queue rq
+    WHERE rq.order_id = i.order_id;
+$BODY$;
+
 CREATE FUNCTION accounting.invoice_header_search_text(IN o accounting.invoice_header)
 	RETURNS TEXT
 	LANGUAGE 'sql'

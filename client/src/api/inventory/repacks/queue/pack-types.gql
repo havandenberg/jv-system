@@ -1,0 +1,18 @@
+query REPACK_STYLE_LIST {
+  commonPackTypes(filter: { repackStyleId: { notEqualTo: "" } }) {
+    nodes {
+      commonSpecies {
+        id
+        uiColor
+        speciesName
+      }
+      id
+      packTypeDescription
+      repackStyle {
+        id
+        styleName
+        styleDescription
+      }
+    }
+  }
+}

@@ -28,6 +28,7 @@ query PALLET_LIST($orderBy: [PalletsOrderBy!], $search: [PalletFilter!]) {
           nodes {
             id
             combineDescription
+            jvDescription
           }
         }
         species {

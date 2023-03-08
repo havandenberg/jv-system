@@ -18,6 +18,7 @@ const ORDER_ITEM_LIST = gql`
         locationId
         vesselCode
         jvLotNumber
+        specialLotNumber
         shipperId
         notes
       }
@@ -76,6 +77,7 @@ const getUpdatedOrderItem = (orderItem, db2OrderItem, id) => ({
   locationId: db2OrderItem['SWHS#B'],
   vesselCode: db2OrderItem['BOAT#B'],
   jvLotNumber: db2OrderItem['JVLOTB'],
+  specialLotNumber: db2OrderItem['LOTSPB'],
   shipperId: db2OrderItem['SHPIDB'],
 });
 

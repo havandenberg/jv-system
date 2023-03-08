@@ -95,7 +95,7 @@ export const indexListLabels = ({
             } ${
               (!size &&
                 secondaryDetailsIndex &&
-                product?.sizes?.nodes[0]?.combineDescription) ||
+                product?.sizes?.nodes[0]?.jvDescription) ||
               ''
             } ${
               (!packType && secondaryDetailsIndex && product?.packType
@@ -112,7 +112,7 @@ export const indexListLabels = ({
           customSortBy: ({ plu, product }) =>
             `${product?.species?.speciesDescription || ''} ${
               product?.variety?.varietyDescription || ''
-            } ${product?.sizes?.nodes[0]?.combineDescription || ''} ${
+            } ${product?.sizes?.nodes[0]?.jvDescription || ''} ${
               product?.packType
                 ? product?.packType?.label?.labelName +
                   ' - ' +
@@ -227,12 +227,12 @@ export const listLabels: (
           key: 'product',
           label: 'Size',
           getValue: (data) =>
-            data.product?.sizes?.nodes[0]?.combineDescription || '',
+            data.product?.sizes?.nodes[0]?.jvDescription || '',
           defaultSortOrder: SORT_ORDER.ASC,
           sortable: true,
           sortKey: 'size',
           customSortBy: (data) =>
-            data.product?.sizes?.nodes[0]?.combineDescription || '',
+            data.product?.sizes?.nodes[0]?.jvDescription || '',
         },
         {
           key: 'product',
@@ -453,7 +453,7 @@ export const baseLabels: InventoryItemLabelInfo[] = [
     getValue: ({ product }) => {
       const commonSpecies = product?.species?.commonSpecies;
       const commonSize = product?.sizes?.nodes[0]?.commonSize;
-      const value = product?.sizes?.nodes[0]?.combineDescription || '-';
+      const value = product?.sizes?.nodes[0]?.jvDescription || '-';
       return (
         <ty.BodyText>
           {commonSpecies && commonSize ? (

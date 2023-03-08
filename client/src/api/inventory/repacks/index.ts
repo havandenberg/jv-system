@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { add } from 'date-fns';
 import { loader } from 'graphql.macro';
 
@@ -13,20 +13,25 @@ import {
   useSearchQueryParam,
   useSortQueryParams,
 } from 'hooks/use-query-params';
-import { Query } from 'types';
+import { Mutation, Query } from 'types';
 
 const REPACK_HEADER_DETAILS_QUERY = loader('./details.gql');
 const REPACK_HEADER_LIST_QUERY = loader('./list.gql');
+const REPACK_QUEUES_LIST_QUERY = loader('./queue/index.gql');
+const NEW_REPACK_QUEUE_LIST_QUERY = loader('./queue/new-list.gql');
+const REPACK_PACK_TYPE_LIST_QUERY = loader('./queue/pack-types.gql');
+const REPACK_QUEUES_DELETE = loader('./queue/delete.gql');
+const REPACK_QUEUES_UPSERT = loader('./queue/upsert.gql');
 
 export const REPACK_STYLE_DISTINCT_VALUES_QUERY = loader(
   './distinct-values.gql',
 );
 
-const useVariables = (orderByOverride?: string) => {
-  const [search = ''] = useSearchQueryParam();
+const useVariables = (isNullRepackDate: boolean, orderByOverride?: string) => {
+  const [search = ''] = useSearchQueryParam('repackQueueSearch');
   const [{ sortBy = 'repackDate', sortOrder = SORT_ORDER.DESC }] =
     useSortQueryParams();
-  const [{ warehouseId }] = useRepackQueryParams();
+  const [{ repackStyleId, warehouseId }] = useRepackQueryParams();
   const orderBy = getOrderByString(sortBy, sortOrder);
 
   const [{ startDate, endDate }] = useDateRangeQueryParams();
@@ -37,7 +42,7 @@ const useVariables = (orderByOverride?: string) => {
   );
   const formattedEndDate = formatDate(
     add(endDate ? new Date(endDate.replace(/-/g, '/')) : new Date(), {
-      days: startDate === endDate ? 1 : 0,
+      months: 1,
     }),
   );
 
@@ -49,7 +54,7 @@ const useVariables = (orderByOverride?: string) => {
   );
 
   const filteredRepackStyleValues = useFilteredQueryValues(
-    warehouseId,
+    repackStyleId,
     {},
     REPACK_STYLE_DISTINCT_VALUES_QUERY,
     'repackStyleDistinctValues',
@@ -64,13 +69,17 @@ const useVariables = (orderByOverride?: string) => {
     ),
     orderBy: orderByOverride || orderBy,
     search: getSearchArray(search),
-    startDate: formattedStartDate,
-    endDate: formattedEndDate,
+    repackDate: isNullRepackDate
+      ? { isNull: true }
+      : {
+          greaterThanOrEqualTo: formattedStartDate,
+          lessThanOrEqualTo: formattedEndDate,
+        },
   };
 };
 
 export const useRepacks = (orderByOverride?: string) => {
-  const variables = useVariables(orderByOverride);
+  const variables = useVariables(false, orderByOverride);
 
   const { data, error, loading } = useQuery<Query>(REPACK_HEADER_LIST_QUERY, {
     variables,
@@ -98,3 +107,57 @@ export const useRepack = (repackCode: string) => {
     loading,
   };
 };
+
+export const useRepackCommonPackTypes = () => {
+  const { data, error, loading } = useQuery<Query>(REPACK_PACK_TYPE_LIST_QUERY);
+
+  return {
+    data: data ? data.commonPackTypes : undefined,
+    error,
+    loading,
+  };
+};
+
+export const useRepackQueues = (
+  isNullRepackDate: boolean,
+  orderByOverride?: string,
+) => {
+  const variables = useVariables(isNullRepackDate, orderByOverride);
+
+  const { data, error, loading } = useQuery<Query>(REPACK_QUEUES_LIST_QUERY, {
+    variables,
+  });
+
+  return {
+    data: data ? data.repackQueues : undefined,
+    error,
+    loading,
+  };
+};
+
+export const useNewRepackQueues = () => {
+  const { data, error, loading } = useQuery<Query>(NEW_REPACK_QUEUE_LIST_QUERY);
+
+  return {
+    data: data ? data.newRepackQueues : undefined,
+    error,
+    loading,
+  };
+};
+
+export const useDeleteRepackQueues = () =>
+  useMutation<Mutation>(REPACK_QUEUES_DELETE);
+
+export const useUpsertRepackQueues = (orderByOverride?: string) =>
+  useMutation<Mutation>(REPACK_QUEUES_UPSERT, {
+    refetchQueries: [
+      {
+        query: REPACK_QUEUES_LIST_QUERY,
+        variables: useVariables(true, orderByOverride),
+      },
+      {
+        query: REPACK_QUEUES_LIST_QUERY,
+        variables: useVariables(false, orderByOverride),
+      },
+    ],
+  });

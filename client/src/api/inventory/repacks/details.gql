@@ -1,5 +1,5 @@
 query REPACK_HEADER_DETAILS($repackCode: String!) {
-  repackHeaders(condition: { repackCode: $repackCode }) {
+  repackHeaders(filter: { repackCode: { like: $repackCode } }) {
     nodes {
       id
       repackCode
@@ -41,6 +41,11 @@ query REPACK_HEADER_DETAILS($repackCode: String!) {
             palletId
             packDate
             shipped
+            vesselCode
+            shipper {
+              id
+              shipperName
+            }
             product {
               id
               species {

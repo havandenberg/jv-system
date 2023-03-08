@@ -13,6 +13,7 @@ import {
   CommonPackType,
   PackMaster,
   CommonPackTypeTagsConnection,
+  RepackStyle,
 } from 'types';
 import b from 'ui/button';
 import l from 'ui/layout';
@@ -57,6 +58,9 @@ const CreateCommonPackType = () => {
   const { data: packMasterData } = api.usePackMasterList();
   const packMasters = (packMasterData?.nodes || []) as PackMaster[];
 
+  const { data: repackStyleData } = api.useRepackStyleList();
+  const repackStyles = (repackStyleData?.nodes || []) as RepackStyle[];
+
   const cancelLink = `/inventory/products/${speciesId}/packTypes${search}`;
 
   const [handleCreate] = api.useCreateCommonPackType();
@@ -97,7 +101,7 @@ const CreateCommonPackType = () => {
 
   const handleSave = () => {
     setSaveAttempt(true);
-    if (validateItem(changes, baseLabels(packMasters))) {
+    if (validateItem(changes, baseLabels(packMasters, repackStyles))) {
       setLoading(true);
       handleCreate({
         variables: {
@@ -156,7 +160,7 @@ const CreateCommonPackType = () => {
         data={changes}
         editing={true}
         handleChange={handleChange}
-        labels={baseLabels(packMasters)}
+        labels={baseLabels(packMasters, repackStyles)}
         showValidation={saveAttempt}
       />
       <l.Div ml={th.spacing.sm} my={th.spacing.lg}>

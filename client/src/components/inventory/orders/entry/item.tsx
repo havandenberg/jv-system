@@ -232,7 +232,7 @@ const NewOrderEntryItem = ({
       speciesDescription: 'Other',
       varietyDescription: 'Other',
       sizeDescription: 'Other',
-      combineDescription: 'Other',
+      jvDescription: 'Other',
       packDescription: 'Other',
       label: {
         labelCode: 'other',
@@ -284,7 +284,7 @@ const NewOrderEntryItem = ({
           .includes(variety.toLowerCase()) ||
         ['Any', itemVariety?.id].includes(variety)) &&
       (!size ||
-        `${itemSize?.combineDescription}`
+        `${itemSize?.jvDescription}`
           .toLowerCase()
           .includes(size.toLowerCase()) ||
         ['Any', itemSize?.id].some((val) =>
@@ -438,7 +438,7 @@ const NewOrderEntryItem = ({
       itemSize
     ) {
       sizeOptions.push({
-        text: `${itemSize.combineDescription}`,
+        text: `${itemSize.jvDescription}`,
         id: itemSize.id,
       });
     }

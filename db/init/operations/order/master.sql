@@ -86,6 +86,17 @@ AS $BODY$
     AND oi.back_order_id = o.back_order_id;
 $BODY$;
 
+CREATE FUNCTION operations.order_master_comments(IN o operations.order_master)
+    RETURNS SETOF operations.order_comment
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT * FROM operations.order_comment oc
+  WHERE oc.order_id = o.order_id;
+$BODY$;
+
 CREATE FUNCTION operations.order_master_truck_load(IN o operations.order_master)
     RETURNS operations.truck_load
     LANGUAGE 'sql'
@@ -108,6 +119,17 @@ CREATE FUNCTION operations.order_master_vendor(IN o operations.order_master)
 AS $BODY$
   SELECT * FROM directory.vendor v
     WHERE v.id = o.vendor_id;
+$BODY$;
+
+CREATE FUNCTION operations.order_master_repack_queues(IN o operations.order_master)
+    RETURNS SETOF operations.repack_queue
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT * FROM operations.repack_queue rq
+    WHERE rq.order_id = o.order_id;
 $BODY$;
 
 CREATE FUNCTION operations.order_master_search_text(IN o operations.order_master)

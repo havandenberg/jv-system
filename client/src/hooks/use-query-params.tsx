@@ -1,5 +1,6 @@
 import {
   ArrayParam,
+  BooleanParam,
   DecodedValueMap,
   QueryParamConfigMap,
   StringParam,
@@ -171,8 +172,26 @@ export const useExpensesQueryParams = () =>
     vesselCode: ArrayParam,
   });
 
+export const useUnpaidsQueryParams = () =>
+  useQuerySet({
+    salesUserCode: StringParam,
+    showLiq: BooleanParam,
+    vesselCode: ArrayParam,
+    loadId: ArrayParam,
+    invoiceId: ArrayParam,
+  });
+
 export const useRepackQueryParams = () =>
   useQuerySet({
     repackView: StringParam,
     runNumber: StringParam,
+    repackStyleId: ArrayParam,
+    warehouseId: ArrayParam,
+  });
+
+export const useRepackQueueQueryParams = () =>
+  useQuerySet({
+    showShipped: BooleanParam,
+    showNew: BooleanParam,
+    warehouse: StringParam,
   });

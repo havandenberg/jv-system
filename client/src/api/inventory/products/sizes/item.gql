@@ -28,6 +28,7 @@ query COMMON_SIZE($id: BigInt!) {
       nodes {
         id
         combineDescription
+        jvDescription
       }
     }
     sizeDescription

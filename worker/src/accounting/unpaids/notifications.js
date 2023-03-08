@@ -114,12 +114,12 @@ const getUnpaidVesselInputList = (vesselsInput) =>
     })),
   );
 
-const getUnpaidsContent = (unpaids, vesselCode, shipperId, baseUrl) =>
+const getUnpaidsContent = (unpaids, vesselCode, shipperName, baseUrl) =>
   `${unpaids
     .map(
       ({ invoiceId, customerName, flag, isUrgent }) => `
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      - <a href="${baseUrl}&unpaidSearch=${vesselCode}%20${shipperId}%20${invoiceId}">${invoiceId}</a>
+      - <a href="${baseUrl}&vesselCode=${vesselCode}&invoiceId=${invoiceId}&unpaidSearch=${shipperName}">${invoiceId}</a>
         - ${customerName}
       ${
         isUrgent
@@ -141,9 +141,9 @@ const getUnpaidsShipperContent = (shippers, vesselCode, baseUrl) =>
     .map(
       ({ shipperId, shipperName, unpaids }) => `
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        - <a href="${baseUrl}&unpaidSearch=${vesselCode}%20${shipperId}">${shipperId} - ${shipperName}</a>
+        - <a href="${baseUrl}&vesselCode=${vesselCode}&unpaidSearch=${shipperName}">${shipperId} - ${shipperName}</a>
         <br />
-        ${getUnpaidsContent(unpaids, vesselCode, shipperId, baseUrl)}`,
+        ${getUnpaidsContent(unpaids, vesselCode, shipperName, baseUrl)}`,
     )
     .join('')}`;
 
@@ -155,7 +155,7 @@ const getUnpaidsVesselContent = (unpaids, header, baseUrl) =>
             .map(
               ({ dueDate, shipDate, vesselName, vesselCode, shippers }) => `
                 &nbsp;&nbsp;&nbsp;&nbsp;
-                - <a href="${baseUrl}&unpaidSearch=${vesselCode}">${vesselCode} - ${vesselName}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                - <a href="${baseUrl}&vesselCode=${vesselCode}">${vesselCode} - ${vesselName}</a>&nbsp;&nbsp;&nbsp;&nbsp;
                 Due: ${dueDate}&nbsp;&nbsp;&nbsp;&nbsp;
                 Shipped: ${shipDate}
                 <br />
@@ -286,13 +286,7 @@ const sendUnpaidsNotificationEmails = () => {
           currentUnpaids,
           futureUnpaids,
         } = reminder;
-        const startDate = pastUnpaids[0]?.dueDate || startOfWeek;
-        const endDate =
-          futureUnpaids[futureUnpaids.length - 1]?.dueDate ||
-          currentUnpaids[currentUnpaids.length - 1]?.dueDate ||
-          pastUnpaids[pastUnpaids.length - 1]?.dueDate ||
-          endOfWeek;
-        const baseUrl = `${process.env.REACT_APP_CLIENT_URL}/accounting/unpaids?salesUserCode=${userCode}&startDate=${startDate}&endDate=${endDate}`;
+        const baseUrl = `${process.env.REACT_APP_CLIENT_URL}/accounting/unpaids?salesUserCode=${userCode}`;
 
         await ews
           .run(

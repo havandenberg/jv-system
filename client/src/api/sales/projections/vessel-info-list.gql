@@ -139,6 +139,7 @@ query SHIPPER_PROJECTION_VESSEL_INFO_LIST(
               productSize {
                 id
                 combineDescription
+                jvDescription
               }
               commonSizeTags {
                 nodes {

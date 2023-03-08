@@ -35,6 +35,7 @@ query TRUCK_LOAD_LIST(
           id
           customerName
         }
+        expectedShipDate
         items {
           nodes {
             id
@@ -70,6 +71,7 @@ query TRUCK_LOAD_LIST(
             id
             customerName
           }
+          expectedShipDate
         }
       }
     }

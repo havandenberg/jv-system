@@ -1,3 +1,4 @@
+const { generateVesselControlsAndUnpaids } = require('../accounting/unpaids');
 const { db2UpdateTable } = require('.');
 
 // db2UpdateTable('directory/country');
@@ -13,6 +14,7 @@ const { db2UpdateTable } = require('.');
 
 // db2UpdateTable('operations/order/master');
 // db2UpdateTable('operations/order/item');
+// db2UpdateTable('operations/order/comment');
 // db2UpdateTable('operations/truck-load');
 
 // db2UpdateTable('operations/repack/header');
@@ -50,3 +52,5 @@ const { db2UpdateTable } = require('.');
 // db2UpdateTable('product/repack-style');
 
 // db2UpdateTable('directory/customer/volume-discount');
+
+// generateVesselControlsAndUnpaids();

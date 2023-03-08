@@ -3,20 +3,14 @@ query REPACK_HEADER_LIST(
   $warehouseId: [String!]
   $orderBy: [RepackHeadersOrderBy!]
   $search: [RepackHeaderFilter!]
-  $endDate: Date
-  $startDate: Date
+  $repackDate: DateFilter!
 ) {
   repackHeaders(
     filter: {
       and: $search
       repackStyleId: { in: $repackStyleId }
       warehouseId: { in: $warehouseId }
-      or: {
-        repackDate: {
-          greaterThanOrEqualTo: $startDate
-          lessThanOrEqualTo: $endDate
-        }
-      }
+      repackDate: $repackDate
     }
     orderBy: $orderBy
   ) {
@@ -46,6 +40,15 @@ query REPACK_HEADER_LIST(
         id
         styleName
         styleDescription
+      }
+      repackQueue {
+        orderId
+        orders {
+          totalCount
+        }
+        invoices {
+          totalCount
+        }
       }
       notes
     }

@@ -13,6 +13,7 @@ CREATE TABLE operations.order_item (
   location_id TEXT,
   vessel_code TEXT,
   jv_lot_number TEXT,
+  special_lot_number TEXT,
   shipper_id TEXT,
   notes TEXT
 );
@@ -46,6 +47,16 @@ AS $BODY$
     AND i.jv_lot_number = o.jv_lot_number
     AND i.shipper_id = o.shipper_id
   LIMIT 1;
+$BODY$;
+
+CREATE FUNCTION operations.order_item_product(IN o operations.order_item)
+    RETURNS product.product_master
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT * FROM product.product_master pm WHERE pm.id = o.product_id
 $BODY$;
 
 CREATE FUNCTION operations.order_item_vessel(IN o operations.order_item)
@@ -97,6 +108,7 @@ AS $$
         location_id,
         vessel_code,
         jv_lot_number,
+        special_lot_number,
         shipper_id,
         notes
       )
@@ -115,6 +127,7 @@ AS $$
           oi.location_id,
           oi.vessel_code,
           oi.jv_lot_number,
+          oi.special_lot_number,
           oi.shipper_id,
           oi.notes
         )
@@ -132,6 +145,7 @@ AS $$
 			  location_id=EXCLUDED.location_id,
 			  vessel_code=EXCLUDED.vessel_code,
 			  jv_lot_number=EXCLUDED.jv_lot_number,
+        special_lot_number=EXCLUDED.special_lot_number,
 			  shipper_id=EXCLUDED.shipper_id,
 			  notes=EXCLUDED.notes
     	RETURNING * INTO vals;

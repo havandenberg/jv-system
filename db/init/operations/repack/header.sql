@@ -16,6 +16,17 @@ CREATE TABLE operations.repack_header (
 
 CREATE INDEX ON operations.repack_header (repack_code, run_number, repack_date, warehouse_id);
 
+CREATE FUNCTION operations.repack_header_repack_queue(IN r operations.repack_header)
+    RETURNS operations.repack_queue
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT * FROM operations.repack_queue rq
+    WHERE rq.repack_code = r.repack_code;
+$BODY$;
+
 CREATE FUNCTION operations.repack_header_warehouse(IN r operations.repack_header)
     RETURNS directory.warehouse
     LANGUAGE 'sql'
@@ -97,7 +108,7 @@ CREATE FUNCTION operations.repack_header_weight_in(IN r operations.repack_header
     COST 100
 AS $BODY$
   SELECT SUM(ri.boxes_in * (
-      SELECT net_weight_box FROM product.product_master_pack_type(pm)
+      SELECT net_weight_contents FROM product.product_master_pack_type(pm)
     )) FROM operations.repack_header_items(r) AS ri
     LEFT JOIN product.pallet p ON p.pallet_id = ri.pallet_id
     LEFT JOIN product.product_master pm ON pm.id = p.product_id;

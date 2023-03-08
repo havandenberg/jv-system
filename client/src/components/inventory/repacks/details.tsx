@@ -1,10 +1,8 @@
 import React, { useEffect, useMemo } from 'react';
-import { pluck } from 'ramda';
 import { useParams } from 'react-router-dom';
 
 import api from 'api';
 import BaseData from 'components/base-data';
-import PalletList from 'components/inventory/inventory/pallets/list';
 import Page from 'components/page';
 import { DataMessage } from 'components/page/message';
 import { Tab, useTabBar } from 'components/tab-bar';
@@ -14,13 +12,15 @@ import {
   useSortQueryParams,
   useRepackQueryParams,
 } from 'hooks/use-query-params';
-import { Pallet, RepackHeader, RepackItem } from 'types';
+import { RepackHeader, RepackItem } from 'types';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 
 import { baseLabels, indexBaseLabels } from './data-utils';
+import RepackItemList from './items/list';
 import RepackList from './list';
+import { groupBy, sortBy, values } from 'ramda';
 
 export const breadcrumbs = (id: string) => [
   {
@@ -33,11 +33,11 @@ export const breadcrumbs = (id: string) => [
   },
 ];
 
-const tabs: (runCount: number, palletCount: number) => Tab[] = (
+const tabs: (runCount: number, itemCount: number) => Tab[] = (
   runCount,
-  palletCount,
+  itemCount,
 ) => [
-  ...(runCount && palletCount > 1
+  ...(runCount > 1
     ? [
         {
           id: 'runs',
@@ -46,8 +46,8 @@ const tabs: (runCount: number, palletCount: number) => Tab[] = (
       ]
     : []),
   {
-    id: 'pallets',
-    text: `Pallets ${palletCount ? ' (' + palletCount + ')' : ''}`,
+    id: 'items',
+    text: `Items ${itemCount ? ' (' + itemCount + ')' : ''}`,
   },
 ];
 
@@ -59,22 +59,54 @@ const Details = () => {
   const [, setSortParams] = useSortQueryParams();
   const [{ runNumber }, setRepackParams] = useRepackQueryParams();
 
-  const { data, error, loading } = api.useRepack(id);
-  const repacks = useMemo(() => (data?.nodes || []) as RepackHeader[], [data]);
-  const repack = runNumber
-    ? repacks.find((repack) => `${repack?.runNumber}` === runNumber)
-    : repacks[0];
-  const pallets = (
-    runNumber
-      ? pluck('pallet', (repack?.items.nodes || []) as RepackItem[])
-      : repacks
-          .map((rp) => pluck('pallet', (rp?.items.nodes || []) as RepackItem[]))
-          .flat()
-  ) as Pallet[];
-  const hasPallets = pallets.length > 0;
+  const repackCodeSearchArray = id.split('-');
+  const originalRepackCode = `${repackCodeSearchArray[0] || ''}-${
+    repackCodeSearchArray[1]?.replace(/\D/g, '') || ''
+  }`;
+  const repackCodeSearch = `${originalRepackCode}%`;
+
+  const { data, error, loading } = api.useRepack(repackCodeSearch);
+  const repacks = useMemo(
+    () =>
+      ((data?.nodes || []) as RepackHeader[]).filter(
+        (rh) =>
+          rh?.runNumber !== '1' &&
+          rh?.repackCode?.split('-')?.[1]?.replace(/\D/g, '') ===
+            repackCodeSearchArray[1]?.replace(/\D/g, ''),
+      ),
+    [data, repackCodeSearchArray],
+  );
+  const filteredRepacks = values(
+    groupBy((rp) => rp?.repackCode || 'UNK', repacks),
+  )
+    .map((rg) =>
+      rg.length > 1 ? sortBy((rp) => rp.repackDate, rg)[rg.length - 1] : rg,
+    )
+    .flat();
+
+  const repack =
+    runNumber !== undefined
+      ? filteredRepacks.find((repack) =>
+          repack?.runNumber
+            ? `${repack?.runNumber}` === runNumber
+            : repack.repackCode === id,
+        )
+      : filteredRepacks.find(
+          (repack) => repack?.repackCode === originalRepackCode,
+        );
+
+  const items = (
+    runNumber !== undefined
+      ? repack?.items.nodes || []
+      : filteredRepacks.map((rp) => rp?.items.nodes || []).flat()
+  ) as RepackItem[];
+  const hasItems = items.length > 0;
 
   const { TabBar, selectedTabId } = useTabBar({
-    tabs: tabs(pallets.length, runNumber ? 0 : repacks.length),
+    tabs: tabs(
+      runNumber !== undefined ? 0 : filteredRepacks.length,
+      items.length,
+    ),
     isRoute: false,
     defaultTabId: 'runs',
     paramName: 'repackView',
@@ -95,20 +127,28 @@ const Details = () => {
   }, [prevSelectedTabId, selectedTabId, setSortParams]);
 
   useEffect(() => {
-    if (repacks && repacks.length === 1 && repack && !runNumber) {
+    if (
+      filteredRepacks &&
+      filteredRepacks.length === 1 &&
+      repack &&
+      runNumber === undefined
+    ) {
       setRepackParams(
-        { runNumber: `${repack.runNumber}`, repackView: 'pallets' },
+        { runNumber: `${repack.runNumber}`, repackView: 'items' },
         'replaceIn',
       );
     }
-  }, [runNumber, repacks, repack, setRepackParams]);
+  }, [runNumber, filteredRepacks, repack, setRepackParams]);
 
-  const isRuns = selectedTabId === 'runs' && !runNumber && repacks.length > 1;
+  const isRuns =
+    selectedTabId === 'runs' &&
+    runNumber === undefined &&
+    filteredRepacks.length > 1;
 
   const clearLocation = () => {
     setRepackParams({
       runNumber: undefined,
-      repackView: repacks.length > 1 ? 'runs' : 'pallets',
+      repackView: filteredRepacks.length > 1 ? 'runs' : 'items',
     });
   };
 
@@ -120,11 +160,11 @@ const Details = () => {
       {repack ? (
         <l.Div pb={th.spacing.xl}>
           <BaseData<RepackHeader> data={repack} labels={indexBaseLabels} />
-          {(runNumber || repacks.length === 1) && (
+          {(runNumber !== undefined || filteredRepacks.length === 1) && (
             <>
               <l.Flex alignCenter my={th.spacing.md}>
                 <ty.CaptionText>Run:</ty.CaptionText>
-                {repacks.length > 1 && (
+                {filteredRepacks.length > 1 && (
                   <l.HoverButton
                     dark
                     ml={th.spacing.lg}
@@ -141,15 +181,15 @@ const Details = () => {
             <TabBar />
           </l.Flex>
           {isRuns ? (
-            <RepackList baseUrl="/inventory/repacks/" items={repacks} />
-          ) : hasPallets ? (
-            <PalletList baseUrl={`/inventory`} pallets={pallets} />
+            <RepackList baseUrl="/inventory/repacks/" items={filteredRepacks} />
+          ) : hasItems ? (
+            <RepackItemList items={items} />
           ) : (
-            <DataMessage data={pallets} error={error} loading={loading} />
+            <DataMessage data={items} error={error} loading={loading} />
           )}
         </l.Div>
       ) : (
-        <DataMessage data={repacks} error={error} loading={loading} />
+        <DataMessage data={filteredRepacks} error={error} loading={loading} />
       )}
     </Page>
   );

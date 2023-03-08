@@ -1,0 +1,5 @@
+mutation REPACK_QUEUES_UPSERT($repackQueues: [RepackQueueInput]!) {
+  bulkUpsertRepackQueue(input: { repackQueues: $repackQueues }) {
+    clientMutationId
+  }
+}

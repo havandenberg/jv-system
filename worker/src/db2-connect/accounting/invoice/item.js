@@ -15,6 +15,7 @@ const INVOICE_ITEM_LIST = gql`
         palletId
         conditionCode
         creditCode
+        repackCode
         unitSellPrice
         priceAdjustment
         deliveryCharge
@@ -60,6 +61,7 @@ const getUpdatedInvoiceItem = (invoiceItem, db2InvoiceItem, id) => ({
   palletId: `${db2InvoiceItem['PID#U']}`,
   conditionCode: `${db2InvoiceItem['CONCDU']}`,
   creditCode: `${db2InvoiceItem['CRCODU']}`,
+  repackCode: `${db2InvoiceItem['CODE#U']}`,
   unitSellPrice: `${db2InvoiceItem['SELLPU']}`,
   priceAdjustment: `${db2InvoiceItem['ADJU']}`,
   deliveryCharge: `${db2InvoiceItem['FRTU']}`,

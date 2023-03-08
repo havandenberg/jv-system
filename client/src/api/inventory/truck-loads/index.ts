@@ -23,14 +23,17 @@ const useVariables = (orderByOverride?: string) => {
   const [{ sortBy = 'shipDate', sortOrder = SORT_ORDER.DESC }] =
     useSortQueryParams();
   const [{ vendorId }] = useTruckLoadsQueryParams();
-  const orderBy = getOrderByString(sortBy, sortOrder);
+  const orderBy = getOrderByString(
+    sortBy === 'deliveredDate' ? 'shipDate' : sortBy,
+    sortOrder,
+  );
 
   const [{ startDate, endDate }] = useDateRangeQueryParams();
   const formattedStartDate =
     startDate &&
     formatDate(
       add(new Date(startDate.replace(/-/g, '/')), {
-        weeks: startDate === endDate ? -8 : 0,
+        weeks: startDate === endDate ? -2 : 0,
       }),
     );
   const formattedEndDate =

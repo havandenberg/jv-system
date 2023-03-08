@@ -431,7 +431,7 @@ export const buildCategories =
       speciesDescription: 'Other',
       varietyDescription: 'Other',
       packDescription: 'Other',
-      combineDescription: 'Other',
+      jvDescription: 'Other',
       label: {
         labelCode: 'other',
         labelName: 'Other',
@@ -481,7 +481,7 @@ export const buildCategories =
         case 'variety':
           return isTag ? commonVarietyTag?.tagText : itemVariety.id;
         case 'size':
-          return isTag ? commonSizeTag?.tagText : itemSize.combineDescription;
+          return isTag ? commonSizeTag?.tagText : itemSize.jvDescription;
         case 'label':
           return itemPackType.label?.labelCode;
         case 'packType':
@@ -513,9 +513,9 @@ export const buildCategories =
         case 'size':
           return isTag
             ? commonSizeTag?.tagText
-            : itemSize.combineDescription === 'other'
+            : itemSize.jvDescription === 'other'
             ? ''
-            : itemSize.combineDescription;
+            : itemSize.jvDescription;
         case 'label':
           return itemPackType?.label?.labelName;
         case 'packType':
@@ -533,7 +533,7 @@ export const buildCategories =
         case 'program':
           return itemPackType?.customerSpecial?.customerName || 'No Program';
         case 'sizePackType':
-          return `${itemSize.combineDescription} - ${itemPackType.packDescription}`;
+          return `${itemSize.jvDescription} - ${itemPackType.packDescription}`;
         default:
           return isTag
             ? commonSpeciesTag?.tagText
@@ -743,7 +743,7 @@ export const getInventoryItemDescription = (
   }${variety ? '' : inventoryItem.product?.variety?.varietyDescription + ', '}${
     size
       ? ''
-      : inventoryItem.product?.sizes.nodes?.[0]?.combineDescription + ', '
+      : inventoryItem.product?.sizes.nodes?.[0]?.jvDescription + ', '
   }${packType ? '' : inventoryItem.product?.packType?.packDescription + ', '}${
     plu ? '' : (inventoryItem.plu ? 'PLU' : 'No PLU') + ', '
   }${label ? '' : inventoryItem.product?.packType?.label?.labelName + ', '}${

@@ -4,6 +4,7 @@ import { InvoiceHeader } from 'types';
 import l from 'ui/layout';
 import ty from 'ui/typography';
 import th from 'ui/theme';
+import { formatDate } from 'components/date-range-picker';
 
 export type InvoiceHeaderLabelInfo = LabelInfo<InvoiceHeader>;
 
@@ -64,9 +65,32 @@ export const baseLabels: InvoiceHeaderLabelInfo[] = [
     label: 'Invoice ID',
   },
   {
+    key: 'fob',
+    label: 'FOB / Del',
+    getValue: ({ truckLoad }) => (
+      <ty.BodyText>
+        {truckLoad ? (truckLoad.fob ? 'FOB' : 'Delivery') : '-'}
+      </ty.BodyText>
+    ),
+  },
+  {
     key: 'actualShipDate',
     label: 'Ship Date',
     isDate: true,
+  },
+  {
+    key: 'expectedShipDate',
+    label: 'Delivered Date',
+    isDate: true,
+    getValue: ({ expectedShipDate, truckLoad }) => (
+      <ty.BodyText>
+        {truckLoad
+          ? truckLoad.fob
+            ? '-'
+            : formatDate(new Date(expectedShipDate.replace(/-/g, '/')))
+          : '-'}
+      </ty.BodyText>
+    ),
   },
   {
     key: 'paidCode',

@@ -12,6 +12,7 @@ const { palletOptions, palletSectionOptions } = require('./product/pallet');
 const vesselOptions = require('./product/vessel');
 const orderMasterOptions = require('./operations/order/master');
 const orderItemOptions = require('./operations/order/item');
+const orderCommentOptions = require('./operations/order/comment');
 const repackHeaderOptions = require('./operations/repack/header');
 const repackItemOptions = require('./operations/repack/item');
 const truckLoadOptions = require('./operations/truck-load');
@@ -54,6 +55,8 @@ const db2RunQuery = (tableName, db) => {
       return db2UpdateItems(db, orderMasterOptions);
     case 'operations/order/item':
       return db2UpdateItems(db, orderItemOptions);
+    case 'operations/order/comment':
+      return db2UpdateItems(db, orderCommentOptions);
     case 'operations/repack/header':
       return db2UpdateItems(db, repackHeaderOptions);
     case 'operations/repack/item':

@@ -13,7 +13,7 @@ import { getUnpaidsInfo } from '../unpaids/data-utils';
 import InfoPanel from 'components/info-panel';
 import { Unpaid, VesselControl } from 'types';
 
-export const SALES_USER_CODES = ['AK', 'BS', 'CP', 'GV', 'MF', 'NP', 'SS'];
+export const SALES_USER_CODES = ['AK', 'BS', 'GV', 'MF', 'NP', 'SS'];
 
 export const gridTemplateColumns = '60px repeat(7, 50px)';
 

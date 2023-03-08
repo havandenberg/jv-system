@@ -6,13 +6,14 @@ import BaseData from 'components/base-data';
 import { convertInvoiceHeadersToOrderMasters } from 'components/inventory/orders/data-utils';
 import { baseLabels as entryBaseLabels } from 'components/inventory/orders/entry/data-utils';
 import OrderEntryList from 'components/inventory/orders/entry/list';
+import RepackQueueList from 'components/inventory/repacks/queue/list';
 import Page from 'components/page';
 import { DataMessage } from 'components/page/message';
 import { Tab, useTabBar } from 'components/tab-bar';
 import { SORT_ORDER } from 'hooks/use-columns';
 import usePrevious from 'hooks/use-previous';
 import { useSortQueryParams } from 'hooks/use-query-params';
-import { InvoiceHeader, InvoiceItem, OrderEntry } from 'types';
+import { InvoiceHeader, InvoiceItem, OrderEntry, RepackQueue } from 'types';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
@@ -37,10 +38,11 @@ export const breadcrumbs = (id: string) => [
   },
 ];
 
-const tabs: (itemCount: number, entriesCount: number) => Tab[] = (
-  itemCount,
-  entriesCount,
-) => [
+const tabs: (
+  itemCount: number,
+  entriesCount: number,
+  repackCount: number,
+) => Tab[] = (itemCount, entriesCount, repackCount) => [
   {
     id: 'invoiceItems',
     text: `Items${itemCount ? ' (' + itemCount + ')' : ''}`,
@@ -49,6 +51,14 @@ const tabs: (itemCount: number, entriesCount: number) => Tab[] = (
     id: 'orderEntries',
     text: `Entries ${entriesCount ? ' (' + entriesCount + ')' : ''}`,
   },
+  ...(repackCount > 0
+    ? [
+        {
+          id: 'repacks',
+          text: `Repacks ${repackCount ? ' (' + repackCount + ')' : ''}`,
+        },
+      ]
+    : []),
 ];
 
 const Details = () => {
@@ -78,6 +88,7 @@ const Details = () => {
     (invoiceHeader) => `${invoiceHeader?.orderId}` === id,
   );
   const invoiceHeader = invoiceHeaders[0];
+  const repacks = (invoiceHeader?.repackQueues?.nodes || []) as RepackQueue[];
 
   const hasData = invoiceHeader || orderEntries.length > 0;
   const loading = invoiceHeadersLoading || orderEntriesLoading;
@@ -102,7 +113,7 @@ const Details = () => {
   );
 
   const { TabBar, selectedTabId } = useTabBar({
-    tabs: tabs(allOrderItems.length, orderEntries.length),
+    tabs: tabs(allOrderItems.length, orderEntries.length, repacks.length),
     isRoute: false,
     defaultTabId: 'invoiceItems',
     paramName: 'invoiceView',
@@ -123,6 +134,7 @@ const Details = () => {
   }, [prevSelectedTabId, selectedTabId, setSortParams]);
 
   const isEntries = selectedTabId === 'orderEntries';
+  const isRepacks = selectedTabId === 'repacks';
 
   const { totalPallets, totalRejectedPallets } =
     getInvoicePalletCounts(invoiceHeader);
@@ -212,6 +224,8 @@ const Details = () => {
               baseUrl={`/inventory/orders/`}
               items={orderEntries}
             />
+          ) : isRepacks ? (
+            <RepackQueueList baseUrl={`/inventory/repacks/`} items={repacks} />
           ) : (
             <InvoiceItemList
               deletedItems={deletedItems}

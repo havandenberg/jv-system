@@ -24,13 +24,13 @@ import { indexListLabels } from './data-utils';
 
 export const breadcrumbs = [{ text: 'Repacks', to: `/inventory/repacks` }];
 
-const gridTemplateColumns = '0.75fr 0.75fr 1fr 1fr 0.5fr 0.5fr 30px';
+const gridTemplateColumns = '0.5fr 0.5fr 1fr 1.2fr 100px 100px 30px';
 
 const Repacks = () => {
   const { Search } = useSearch();
   const [{ sortBy = 'repackDate', sortOrder = SORT_ORDER.DESC }] =
     useSortQueryParams();
-  const { data, loading, error } = api.useRepacks();
+  const { data, loading, error } = api.useRepacks('REPACK_DATE_DESC');
   const items = (data ? data.nodes : []) as RepackHeader[];
 
   const { DateRangePicker, BackwardButton, ForwardButton } = useDateRange({
@@ -47,27 +47,9 @@ const Repacks = () => {
 
   const filteredItems = getFilteredItems(indexListLabels, items);
 
-  const repacksGroupedByRunNumber = filteredItems.reduce((acc, item) => {
-    const { runNumber } = item || {};
-
-    if (!acc || !runNumber) {
-      return acc;
-    }
-
-    if (!acc[runNumber]) {
-      acc[runNumber] = [];
-    }
-
-    acc[runNumber].push(item as RepackHeader);
-
-    return acc;
-  }, {} as { [key: string]: RepackHeader[] });
-
   const repacks = getSortedItems(
     indexListLabels,
-    Object.values(repacksGroupedByRunNumber)
-      .map((repackGroup) => repackGroup[0])
-      .flat(),
+    filteredItems,
     sortBy,
     sortOrder,
   );

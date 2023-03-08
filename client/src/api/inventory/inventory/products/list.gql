@@ -16,6 +16,7 @@ query PRODUCT_MASTER_LIST(
         nodes {
           jvCode
           combineDescription
+          jvDescription
         }
       }
       species {

@@ -21,6 +21,7 @@ const Wrapper = styled(l.Flex)({
 
 const ListItem = <T extends {}>({
   content,
+  error,
   data,
   gridTemplateColumns,
   highlightColor,
@@ -28,7 +29,9 @@ const ListItem = <T extends {}>({
   index,
   isHighlight,
   isHalfHighlight,
+  isOpen: isOpenProp,
   listLabels,
+  handleToggleOpen,
   offsetTop,
   onClick,
   onSelectItem,
@@ -38,13 +41,16 @@ const ListItem = <T extends {}>({
 }: {
   content?: React.ReactNode;
   data: T;
+  error?: boolean;
   gridTemplateColumns: string;
   highlightColor?: string;
   hoverable?: boolean;
   index?: number;
   isHighlight?: boolean;
   isHalfHighlight?: boolean;
+  isOpen?: boolean;
   listLabels: LabelInfo<T>[];
+  handleToggleOpen?: () => void;
   offsetTop?: number;
   onClick?: () => void;
   onSelectItem?: () => void;
@@ -54,7 +60,10 @@ const ListItem = <T extends {}>({
 }) => {
   const clickable = !!onClick || !!to;
 
-  const [isOpen, setIsOpen] = React.useState(false);
+  const [isLocalOpen, setIsLocalOpen] = React.useState(false);
+
+  const isOpen = isOpenProp !== undefined ? isOpenProp : isLocalOpen;
+  const setIsOpen = handleToggleOpen || setIsLocalOpen;
 
   const toggleIsOpen = () => setIsOpen(!isOpen);
 
@@ -141,6 +150,7 @@ const ListItem = <T extends {}>({
   const components = (
     <l.Cell
       clickable={clickable || !!content}
+      error={error}
       hoverable={hoverable}
       highlightColor={highlightColor}
       isHighlight={isHighlight}
@@ -151,6 +161,7 @@ const ListItem = <T extends {}>({
         <Expandable
           header={header}
           content={content}
+          hideToggle={isOpenProp !== undefined && !handleToggleOpen}
           isOpen={isOpen}
           toggleIsOpen={toggleIsOpen}
         />

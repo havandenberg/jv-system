@@ -45,6 +45,7 @@ query VESSEL_DETAILS($vesselCode: String!) {
               nodes {
                 id
                 combineDescription
+                jvDescription
               }
             }
             packType {
@@ -189,6 +190,7 @@ query VESSEL_DETAILS($vesselCode: String!) {
                       productSize {
                         id
                         combineDescription
+                        jvDescription
                       }
                       commonSizeTags {
                         nodes {

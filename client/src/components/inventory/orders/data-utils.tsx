@@ -1,4 +1,4 @@
-import { pick, pluck, uniq, uniqBy, values } from 'ramda';
+import { pick, pluck, sortBy, uniq, uniqBy, values } from 'ramda';
 
 import { CUSTOMER_DISTINCT_VALUES_QUERY } from 'api/directory/customer';
 import { invoiceStatusDescriptions } from 'components/accounting/invoices/data-utils';
@@ -10,6 +10,7 @@ import {
   InvoiceHeader,
   InvoiceItem,
   InvoiceItemHistory,
+  OrderComment,
   OrderEntry,
   OrderItem,
   OrderMaster,
@@ -309,6 +310,42 @@ export const indexBaseLabels: (
         ''
       ),
   },
+  {
+    key: 'comments',
+    label: 'Comments',
+    getValue: (orderMaster) => {
+      const comments = sortBy(
+        (om) => `${om.backOrderId} ${om.lineId}`,
+        (orderMaster?.comments?.nodes || []) as OrderComment[],
+      );
+      return (
+        <l.Div>
+          {comments.length > 0 ? (
+            <>
+              {comments.map(({ printCode, notes }, idx) => (
+                <l.Flex
+                  alignCenter
+                  justifyBetween
+                  key={idx}
+                  ml={th.spacing.xs}
+                  mr={th.spacing.md}
+                  mb={th.spacing.sm}
+                  mt={th.spacing.xs}
+                >
+                  <ty.CaptionText nowrap>{notes}</ty.CaptionText>
+                  <ty.CaptionText ml={th.spacing.sm} textAlign="right">
+                    ({printCode})
+                  </ty.CaptionText>
+                </l.Flex>
+              ))}
+            </>
+          ) : (
+            <ty.BodyText>-</ty.BodyText>
+          )}
+        </l.Div>
+      );
+    },
+  },
 ];
 
 export const baseLabels: OrderMasterLabelInfo[] = [
@@ -328,9 +365,26 @@ export const baseLabels: OrderMasterLabelInfo[] = [
       ),
   },
   {
-    key: 'expectedShipDate',
+    key: 'fob',
+    label: 'FOB / Del',
+    getValue: ({ fob }) => (
+      <ty.BodyText>{fob ? 'FOB' : 'Delivery'}</ty.BodyText>
+    ),
+  },
+  {
+    key: 'actualShipDate',
     label: 'Ship Date',
     isDate: true,
+  },
+  {
+    key: 'expectedShipDate',
+    label: 'Delivered Date',
+    isDate: true,
+    getValue: ({ expectedShipDate, fob }) => (
+      <ty.BodyText>
+        {fob ? '-' : formatDate(new Date(expectedShipDate.replace(/-/g, '/')))}
+      </ty.BodyText>
+    ),
   },
   {
     key: 'id',

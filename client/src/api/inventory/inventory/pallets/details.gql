@@ -51,6 +51,7 @@ query PALLET_DETAILS($palletId: String!) {
           nodes {
             id
             combineDescription
+            jvDescription
           }
         }
         species {

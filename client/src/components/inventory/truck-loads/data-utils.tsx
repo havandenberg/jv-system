@@ -1,8 +1,9 @@
 import { CUSTOMER_DISTINCT_VALUES_QUERY } from 'api/directory/customer';
 import { VENDOR_DISTINCT_VALUES_QUERY } from 'api/directory/vendor';
 import { LabelInfo } from 'components/column-label';
+import { formatDate } from 'components/date-range-picker';
 import StatusIndicator from 'components/status-indicator';
-import { SORT_ORDER } from 'hooks/use-columns';
+import { SortOrder, SORT_ORDER } from 'hooks/use-columns';
 import { OrderItem, Pallet, TruckLoad } from 'types';
 import l from 'ui/layout';
 import ty from 'ui/typography';
@@ -15,8 +16,9 @@ export const TRUCK_LOAD_MAX_WEIGHT = 40000;
 export type TruckLoadLabelInfo = LabelInfo<TruckLoad>;
 
 export const indexListLabels: (
+  sortOrder: SortOrder,
   customerId?: string[],
-) => TruckLoadLabelInfo[] = (customerId) => [
+) => TruckLoadLabelInfo[] = (sortOrder, customerId) => [
   {
     key: 'loadId',
     label: 'Load ID',
@@ -32,42 +34,28 @@ export const indexListLabels: (
     label: 'Del Date',
     sortKey: 'deliveredDate',
     sortable: true,
-    customSortBy: ({ orderMaster }) => true,
-    getValue: ({ orderMaster }) => {
-      return orderMaster ? (
-        <ty.BodyText>-</ty.BodyText>
-      ) : (
-        <ty.BodyText>-</ty.BodyText>
+    customSortBy: ({ orderMaster, invoiceHeaders, vendor }) => {
+      const deliveredDate = orderMaster
+        ? orderMaster.expectedShipDate
+        : invoiceHeaders?.nodes[0]?.expectedShipDate;
+      return deliveredDate && vendor?.id !== '55555'
+        ? `${new Date(deliveredDate.replace(/-/g, '/')).getTime()}`
+        : sortOrder === SORT_ORDER.ASC
+        ? '99999999'
+        : '0';
+    },
+    getValue: ({ orderMaster, invoiceHeaders, vendor }) => {
+      const deliveredDate = orderMaster
+        ? orderMaster.expectedShipDate
+        : invoiceHeaders?.nodes[0]?.expectedShipDate;
+      return (
+        <ty.BodyText>
+          {deliveredDate && vendor?.id !== '55555'
+            ? formatDate(new Date(deliveredDate.replace(/-/g, '/')))
+            : '-'}
+        </ty.BodyText>
       );
     },
-  },
-  {
-    key: 'vendorId',
-    label: 'Trucker',
-    sortable: true,
-    customSortBy: ({ vendor }) => vendor?.vendorName.toLowerCase() || 'zzzzz',
-    filterable: true,
-    filterPanelProps: {
-      customStyles: {
-        width: 500,
-      },
-      queryProps: {
-        query: VENDOR_DISTINCT_VALUES_QUERY,
-        queryName: 'vendorDistinctValues',
-        queryVariables: {
-          vendorType: 'FR',
-        },
-      },
-      showSearch: true,
-    },
-    getValue: ({ vendor }) =>
-      vendor ? (
-        <ty.BodyText>
-          {vendor.vendorName} ({vendor.id})
-        </ty.BodyText>
-      ) : (
-        ''
-      ),
   },
   {
     defaultSortOrder: SORT_ORDER.ASC,
@@ -127,6 +115,34 @@ export const indexListLabels: (
         <ty.BodyText>-</ty.BodyText>
       );
     },
+  },
+  {
+    key: 'vendorId',
+    label: 'Trucker',
+    sortable: true,
+    customSortBy: ({ vendor }) => vendor?.vendorName.toLowerCase() || 'zzzzz',
+    filterable: true,
+    filterPanelProps: {
+      customStyles: {
+        width: 500,
+      },
+      queryProps: {
+        query: VENDOR_DISTINCT_VALUES_QUERY,
+        queryName: 'vendorDistinctValues',
+        queryVariables: {
+          vendorType: 'FR',
+        },
+      },
+      showSearch: true,
+    },
+    getValue: ({ vendor }) =>
+      vendor ? (
+        <ty.BodyText>
+          {vendor?.id === '55555' ? '-' : `${vendor.vendorName} (${vendor.id})`}
+        </ty.BodyText>
+      ) : (
+        ''
+      ),
   },
   {
     defaultSortOrder: SORT_ORDER.ASC,

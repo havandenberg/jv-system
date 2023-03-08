@@ -67,7 +67,7 @@ export const listLabels: (backOrderId?: string) => OrderItemLabelInfo[] = (
     getValue: ({ inventoryItem }) =>
       inventoryItem ? (
         <ty.BodyText>
-          {inventoryItem.product?.sizes.nodes?.[0]?.combineDescription}
+          {inventoryItem.product?.sizes.nodes?.[0]?.jvDescription}
         </ty.BodyText>
       ) : (
         ''
@@ -102,9 +102,14 @@ export const listLabels: (backOrderId?: string) => OrderItemLabelInfo[] = (
     label: 'Vessel',
     getValue: ({ inventoryItem }) =>
       inventoryItem ? (
-        <ty.BodyText>{inventoryItem.vessel?.vesselCode}</ty.BodyText>
+        <ty.LinkText
+          hover="false"
+          to={`/inventory/vessels/${inventoryItem.vessel?.vesselCode}`}
+        >
+          {inventoryItem.vessel?.vesselCode}
+        </ty.LinkText>
       ) : (
-        ''
+        <ty.BodyText>-</ty.BodyText>
       ),
   },
   {
@@ -126,9 +131,14 @@ export const listLabels: (backOrderId?: string) => OrderItemLabelInfo[] = (
     label: 'Shipper',
     getValue: ({ inventoryItem }) =>
       inventoryItem ? (
-        <ty.BodyText>{inventoryItem.shipper?.shipperName}</ty.BodyText>
+        <ty.LinkText
+          hover="false"
+          to={`/directory/shippers/${inventoryItem.shipper?.id}`}
+        >
+          {inventoryItem.shipper?.shipperName}
+        </ty.LinkText>
       ) : (
-        ''
+        <ty.BodyText>-</ty.BodyText>
       ),
   },
   {
@@ -150,8 +160,8 @@ export const listLabels: (backOrderId?: string) => OrderItemLabelInfo[] = (
       ),
   },
   {
-    key: 'itemStatus',
-    label: 'Status',
+    key: 'specialLotNumber',
+    label: 'Repack',
   },
 ];
 

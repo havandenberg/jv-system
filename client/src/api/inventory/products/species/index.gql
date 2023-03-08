@@ -63,6 +63,7 @@ query COMMON_SPECIES_LIST(
             nodes {
               id
               combineDescription
+              jvDescription
             }
           }
           sizeDescription

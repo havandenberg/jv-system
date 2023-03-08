@@ -10,6 +10,7 @@ import CreateOrder from 'components/inventory/orders/entry';
 import LoadNumberManager from 'components/inventory/orders/load-number-manager';
 import Repacks from 'components/inventory/repacks';
 import RepackDetails from 'components/inventory/repacks/details';
+import RepackQueue from 'components/inventory/repacks/queue';
 import TruckLoads from 'components/inventory/truck-loads';
 import TruckRates from 'components/inventory/truck-loads/rates';
 import TruckRateDetails from 'components/inventory/truck-loads/rates/details';
@@ -61,6 +62,7 @@ const InventoryTab = () => (
     <Route exact path="/inventory/orders/:id" component={OrderDetails} />
     <Route exact path="/inventory/orders" component={Orders} />
 
+    <Route exact path="/inventory/repacks/queue" component={RepackQueue} />
     <Route exact path="/inventory/repacks/:id" component={RepackDetails} />
     <Route exact path="/inventory/repacks" component={Repacks} />
 

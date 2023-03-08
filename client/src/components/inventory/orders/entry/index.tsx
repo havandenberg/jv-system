@@ -1159,8 +1159,12 @@ const CreateOrderEntry = () => {
                     value={changes.fob ? 'fob' : 'del'}
                     width={150}
                   >
-                    <option value="fob">FOB</option>
-                    <option value="del">Delivered</option>
+                    <option key="fob" value="fob">
+                      FOB
+                    </option>
+                    <option key="del" value="del">
+                      Delivered
+                    </option>
                   </Select>
                 )}
                 <ty.CaptionText mr={th.spacing.lg} secondary textAlign="right">

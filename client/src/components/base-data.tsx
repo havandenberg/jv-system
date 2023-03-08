@@ -167,6 +167,7 @@ const BaseDataItem = <T extends {}>({
     dropdownOptions,
     editing: isEditing,
     error: showValidation && !isValid,
+    height: 'auto',
     inputProps: cellInputProps,
     selectProps: selectInputProps,
     isBoolean,

@@ -4,12 +4,17 @@ query INVOICE_HEADER_DETAILS($orderId: BigFloat!) {
       orderId
       backOrderId
       truckLoadId
+      truckLoad {
+        loadId
+        fob
+      }
       shipWarehouseId
       invoiceId
       salesUserCode
       customerPo
       invoiceDate
       actualShipDate
+      expectedShipDate
       amountOwed
       flag
       paidCode
@@ -34,6 +39,31 @@ query INVOICE_HEADER_DETAILS($orderId: BigFloat!) {
           transactionType
           netAmountDue
           notes
+        }
+      }
+      repackQueues {
+        nodes {
+          id
+          repackCode
+          repackDate
+          repackStyle {
+            id
+            styleDescription
+          }
+          warehouse {
+            id
+            warehouseName
+          }
+          palletCount
+          repackHeaders {
+            nodes {
+              id
+              boxesIn
+              boxesOut
+              weightIn
+              weightOut
+            }
+          }
         }
       }
       itemHistories {
@@ -75,6 +105,7 @@ query INVOICE_HEADER_DETAILS($orderId: BigFloat!) {
                 nodes {
                   id
                   combineDescription
+                  jvDescription
                 }
               }
               species {
@@ -116,6 +147,7 @@ query INVOICE_HEADER_DETAILS($orderId: BigFloat!) {
           palletStatus
           conditionCode
           creditCode
+          repackCode
           priceAdjustment
           deliveryCharge
           freightAdjustment
@@ -149,6 +181,7 @@ query INVOICE_HEADER_DETAILS($orderId: BigFloat!) {
                 nodes {
                   id
                   combineDescription
+                  jvDescription
                 }
               }
               species {
@@ -205,6 +238,7 @@ query INVOICE_HEADER_DETAILS($orderId: BigFloat!) {
               palletStatus
               conditionCode
               creditCode
+              repackCode
               priceAdjustment
               deliveryCharge
               freightAdjustment
@@ -237,6 +271,7 @@ query INVOICE_HEADER_DETAILS($orderId: BigFloat!) {
                     nodes {
                       id
                       combineDescription
+                      jvDescription
                     }
                   }
                   species {
@@ -288,6 +323,7 @@ query INVOICE_HEADER_DETAILS($orderId: BigFloat!) {
             palletStatus
             conditionCode
             creditCode
+            repackCode
             priceAdjustment
             deliveryCharge
             freightAdjustment
@@ -320,6 +356,7 @@ query INVOICE_HEADER_DETAILS($orderId: BigFloat!) {
                   nodes {
                     id
                     combineDescription
+                    jvDescription
                   }
                 }
                 species {
@@ -371,6 +408,7 @@ query INVOICE_HEADER_DETAILS($orderId: BigFloat!) {
               palletStatus
               conditionCode
               creditCode
+              repackCode
               priceAdjustment
               deliveryCharge
               freightAdjustment
@@ -403,6 +441,7 @@ query INVOICE_HEADER_DETAILS($orderId: BigFloat!) {
                     nodes {
                       id
                       combineDescription
+                      jvDescription
                     }
                   }
                   species {

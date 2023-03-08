@@ -1,0 +1,5 @@
+query NEW_REPACK_QUEUE_LIST {
+  newRepackQueues {
+    nodes
+  }
+}

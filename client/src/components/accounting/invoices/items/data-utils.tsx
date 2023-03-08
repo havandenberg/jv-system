@@ -52,7 +52,7 @@ export const listLabels: OrderItemLabelInfo[] = [
     getValue: ({ inventoryItem }) =>
       inventoryItem ? (
         <ty.BodyText>
-          {inventoryItem.product?.sizes.nodes?.[0]?.combineDescription}
+          {inventoryItem.product?.sizes.nodes?.[0]?.jvDescription}
         </ty.BodyText>
       ) : (
         ''

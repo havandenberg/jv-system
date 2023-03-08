@@ -29,7 +29,7 @@ export const breadcrumbs = [
   { text: 'Truck Loads', to: `/inventory/truck-loads` },
 ];
 
-const gridTemplateColumns = '0.4fr 0.6fr 0.6fr 1.5fr 2fr 0.3fr 30px';
+const gridTemplateColumns = '0.4fr 0.6fr 0.6fr 1.5fr 1.5fr 0.3fr 30px';
 
 const TruckLoads = () => {
   const { Search } = useSearch();
@@ -48,12 +48,15 @@ const TruckLoads = () => {
   const columnLabels = useColumns<TruckLoad>(
     'shipDate',
     SORT_ORDER.DESC,
-    indexListLabels(customerId),
+    indexListLabels(sortOrder, customerId),
     'operations',
     'truck_load',
   );
 
-  const filteredItems = getFilteredItems(indexListLabels(customerId), items);
+  const filteredItems = getFilteredItems(
+    indexListLabels(sortOrder, customerId),
+    items,
+  );
 
   const truckLoadsGroupedByLocation = filteredItems.reduce((acc, item) => {
     const { loadId } = item || {};
@@ -75,7 +78,7 @@ const TruckLoads = () => {
     .map(
       (truckLoadGroup) =>
         truckLoadGroup.find((tl) => {
-          const customer = (tl.orderMaster || tl.invoiceHeader)
+          const customer = (tl.orderMaster || tl.invoiceHeaders?.nodes?.[0])
             ?.billingCustomer;
           return !!customer;
         }) || truckLoadGroup[0],
@@ -83,7 +86,7 @@ const TruckLoads = () => {
     .flat();
 
   const sortedTruckLoads = getSortedItems(
-    indexListLabels(customerId),
+    indexListLabels(sortOrder, customerId),
     truckLoads,
     sortBy,
     sortOrder,
@@ -167,7 +170,7 @@ const TruckLoads = () => {
                     gridTemplateColumns={gridTemplateColumns}
                     highlightColor={th.colors.status.errorAlt}
                     isHighlight={isOverweight}
-                    listLabels={indexListLabels(customerId)}
+                    listLabels={indexListLabels(sortOrder, customerId)}
                     to={`/inventory/truck-loads/${item.loadId}?truckLoadView=${
                       (item.count || 0) > 1 ? 'pickupLocations' : 'pallets'
                     }`}

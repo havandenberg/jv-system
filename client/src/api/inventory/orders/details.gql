@@ -7,6 +7,15 @@ query ORDER_MASTER_DETAILS($orderId: BigFloat!) {
         id
         customerName
       }
+      comments {
+        nodes {
+          id
+          backOrderId
+          lineId
+          printCode
+          notes
+        }
+      }
       customerPo
       deliveryZone
       entryDate
@@ -57,6 +66,7 @@ query ORDER_MASTER_DETAILS($orderId: BigFloat!) {
                 nodes {
                   id
                   combineDescription
+                  jvDescription
                 }
               }
               packType {
@@ -75,6 +85,7 @@ query ORDER_MASTER_DETAILS($orderId: BigFloat!) {
           orderId
           order {
             id
+            actualShipDate
             expectedShipDate
           }
           palletCount
@@ -82,6 +93,7 @@ query ORDER_MASTER_DETAILS($orderId: BigFloat!) {
           unitSellPrice
           locationId
           shipperId
+          specialLotNumber
         }
       }
       truckLoad {
@@ -99,6 +111,31 @@ query ORDER_MASTER_DETAILS($orderId: BigFloat!) {
       orderDate
       orderId
       orderStatus
+      repackQueues {
+        nodes {
+          id
+          repackCode
+          repackDate
+          repackStyle {
+            id
+            styleDescription
+          }
+          warehouse {
+            id
+            warehouseName
+          }
+          palletCount
+          repackHeaders {
+            nodes {
+              id
+              boxesIn
+              boxesOut
+              weightIn
+              weightOut
+            }
+          }
+        }
+      }
       salesUser {
         id
         personContact {

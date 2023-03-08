@@ -25,7 +25,7 @@ const PackTypeList = ({
     'common_pack_type',
   );
 
-  const gridTemplateColumns = '1fr 0.5fr 1fr 1fr 0.7fr 0.7fr 30px';
+  const gridTemplateColumns = '1fr 0.7fr 0.5fr 0.7fr 1fr 0.7fr 30px';
 
   return (
     <>

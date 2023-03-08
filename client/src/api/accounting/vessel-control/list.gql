@@ -1,5 +1,8 @@
-query VESSEL_CONTROL_LIST($dateFilter: VesselControlFilter!) {
-  vesselControls(filter: $dateFilter) {
+query VESSEL_CONTROL_LIST(
+  $vesselControlFilter: VesselControlFilter
+  $unpaidFilter: UnpaidFilter
+) {
+  vesselControls(filter: $vesselControlFilter) {
     nodes {
       approval1
       approval2
@@ -14,7 +17,7 @@ query VESSEL_CONTROL_LIST($dateFilter: VesselControlFilter!) {
         shipperName
         vesselControlDaysUntilDue
       }
-      unpaids {
+      unpaids(filter: $unpaidFilter) {
         nodes {
           id
           invoiceId

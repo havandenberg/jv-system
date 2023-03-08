@@ -15,23 +15,27 @@ import { formatShortDate } from 'utils/date';
 
 import UnpaidsManager from './unpaids';
 
-const LocalDateTimePicker = styled(DateTimePicker)({
-  fontSize: th.fontSizes.caption,
-  width: 60,
-  input: {
-    color: th.colors.text.default,
-  },
-  '.react-datetime-picker__wrapper': {
-    height: 22,
-    padding: 0,
-  },
-  '.react-datetime-picker__inputGroup': {
-    minWidth: 0,
-    width: 58,
-  },
-});
+export const LocalDateTimePicker = styled(DateTimePicker)(
+  ({ dirty, error }: { dirty?: boolean; error?: boolean }) => ({
+    fontSize: th.fontSizes.caption,
+    width: 60,
+    input: {
+      borderColor: error ? th.colors.status.error : undefined,
+      color: th.colors.text.default,
+      fontWeight: dirty ? th.fontWeights.bold : th.fontWeights.normal,
+    },
+    '.react-datetime-picker__wrapper': {
+      height: 22,
+      padding: 0,
+    },
+    '.react-datetime-picker__inputGroup': {
+      minWidth: 0,
+      width: 58,
+    },
+  }),
+);
 
-const dateTimePickerProps = {
+export const dateTimePickerProps = {
   calendarIcon: null,
   clearIcon: null,
   disableClock: true,

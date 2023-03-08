@@ -29,8 +29,19 @@ export const listLabels: CommonPackTypeLabelInfo[] = [
     sortable: true,
   },
   {
+    key: 'packTypeDescription',
+    label: 'Description',
+  },
+  {
     key: 'packMasterId',
     label: 'Primary Code',
+  },
+  {
+    key: 'repackStyleId',
+    label: 'Repack Style',
+    getValue: ({ repackStyle }) => (
+      <ty.BodyText>{repackStyle?.id || '-'}</ty.BodyText>
+    ),
   },
   {
     key: 'commonPackTypeTags',
@@ -42,17 +53,6 @@ export const listLabels: CommonPackTypeLabelInfo[] = [
       ).join(', ');
       return tagString ? <ty.BodyText>{tagString}</ty.BodyText> : null;
     },
-  },
-  {
-    key: 'packTypeDescription',
-    label: 'Description',
-  },
-  {
-    key: 'repackStyleId',
-    label: 'Repack Style',
-    getValue: ({ repackStyle }) => (
-      <ty.BodyText>{repackStyle?.id || '-'}</ty.BodyText>
-    ),
   },
   {
     key: 'palletWeight',
@@ -72,6 +72,10 @@ export const baseLabels: (
     label: 'Name',
   },
   {
+    key: 'packTypeDescription',
+    label: 'Description',
+  },
+  {
     key: 'packMasterId',
     label: 'Primary Code',
     itemSelectorQueryProps: {
@@ -86,6 +90,23 @@ export const baseLabels: (
     },
     validate: ({ packMasterId }) =>
       !packMasterId || !!packMasters.find(({ id }) => id === packMasterId),
+  },
+  {
+    key: 'repackStyleId',
+    label: 'Repack',
+    itemSelectorQueryProps: {
+      errorLabel: 'repack styles',
+      getItemContent: ({ id, styleDescription }: RepackStyle) => (
+        <ty.BodyText pl={th.spacing.sm}>
+          {id} - {styleDescription}
+        </ty.BodyText>
+      ),
+      query: REPACK_STYLE_QUERY,
+      queryName: 'repackStyles',
+      width: 350,
+    },
+    validate: ({ repackStyleId }) =>
+      !repackStyleId || !!repackStyles.find(({ id }) => id === repackStyleId),
   },
   {
     key: 'defaultInvSortKey',
@@ -107,28 +128,6 @@ export const baseLabels: (
         </ty.BodyText>
       );
     },
-  },
-  {
-    key: 'packTypeDescription',
-    label: 'Description',
-  },
-  {
-    key: 'repackStyleId',
-    label: 'Repack',
-    itemSelectorQueryProps: {
-      errorLabel: 'repack styles',
-      getItemContent: ({ id, styleDescription }: RepackStyle) => (
-        <ty.BodyText pl={th.spacing.sm}>
-          {id} - {styleDescription}
-        </ty.BodyText>
-      ),
-      offset: -142,
-      query: REPACK_STYLE_QUERY,
-      queryName: 'repackStyles',
-      width: 350,
-    },
-    validate: ({ repackStyleId }) =>
-      !repackStyleId || !!repackStyles.find(({ id }) => id === repackStyleId),
   },
   {
     key: 'boxCount',

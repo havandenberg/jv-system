@@ -44,6 +44,7 @@ query INVENTORY_ITEM_LIST($startDate: Date!, $endDate: Date!) {
           nodes {
             id
             combineDescription
+            jvDescription
           }
         }
         packType {

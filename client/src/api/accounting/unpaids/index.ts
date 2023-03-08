@@ -1,8 +1,14 @@
 import { useMutation, useQuery } from '@apollo/client';
 import { loader } from 'graphql.macro';
 
-import { vesselControlSearchText } from 'components/accounting/unpaids/data-utils';
-import { useQueryValue, useSearchQueryParam } from 'hooks/use-query-params';
+import {
+  getSortedUnpaids,
+  vesselControlSearchText,
+} from 'components/accounting/unpaids/data-utils';
+import {
+  useSearchQueryParam,
+  useUnpaidsQueryParams,
+} from 'hooks/use-query-params';
 import { Mutation, Query, Unpaid, VesselControl } from 'types';
 
 import { useVariables, VESSEL_CONTROL_LIST_QUERY } from '../vessel-control';
@@ -11,9 +17,10 @@ const UNPAIDS_UPSERT = loader('./upsert.gql');
 const UNPAIDS_INVOICE_DETAILS_QUERY = loader('./invoice.gql');
 
 export const useUnpaids = () => {
-  const variables = useVariables(undefined, true);
+  const variables = useVariables(true);
   const [search = ''] = useSearchQueryParam('unpaidSearch');
-  const [salesUserCode] = useQueryValue('salesUserCode');
+  const [{ invoiceId, loadId, salesUserCode, showLiq, vesselCode }] =
+    useUnpaidsQueryParams();
 
   const {
     data: vesselControlsData,
@@ -27,52 +34,85 @@ export const useUnpaids = () => {
     []) as VesselControl[];
   const searchArray = search?.split(' ');
 
-  const unpaids = vesselControls
-    .map(({ unpaids, ...rest }) =>
-      unpaids?.nodes
-        ?.filter((unpaid) => {
-          const searchText = vesselControlSearchText({
-            ...rest,
-            unpaids: { ...unpaids, nodes: [unpaid] },
-          });
+  const vesselCodeOptions: string[] = [];
+  const loadIdOptions: string[] = [];
+  const invoiceIdOptions: string[] = [];
 
-          const isSearchValid =
-            !searchArray ||
-            searchArray.every((searchVal) =>
-              searchText.toLowerCase().includes(searchVal.toLowerCase()),
-            );
+  const unpaids = getSortedUnpaids(
+    vesselControls
+      .map(({ unpaids, ...rest }) =>
+        unpaids?.nodes
+          ?.filter((unpaid) => {
+            const searchText = vesselControlSearchText({
+              ...rest,
+              unpaids: { ...unpaids, nodes: [unpaid] },
+            });
+            const isSearchValid =
+              !searchArray ||
+              searchArray.every((searchVal) =>
+                searchText.toLowerCase().includes(searchVal.toLowerCase()),
+              );
 
-          return (
-            unpaid &&
-            isSearchValid &&
-            !(unpaid.invoice?.paidCode === 'P') &&
-            (!salesUserCode ||
-              salesUserCode === 'all' ||
-              unpaid.invoice?.salesUserCode === salesUserCode)
-          );
-        })
-        .map((up) => ({
-          ...up,
-          vessel: rest.vessel,
-          shipper: rest.shipper,
-          vesselControl: rest,
-        })),
-    )
-    .flat() as Unpaid[];
+            const isLiqValid = showLiq || !rest.isLiquidated;
+            const isVesselCodeValid =
+              !vesselCode || vesselCode.includes(rest.vessel?.vesselCode);
+            const isLoadIdValid =
+              !loadId || loadId.includes(unpaid?.invoice?.truckLoadId);
+            const isInvoiceIdValid =
+              !invoiceId || invoiceId.includes(unpaid?.invoice?.invoiceId);
+
+            const isValid =
+              unpaid &&
+              isSearchValid &&
+              isLiqValid &&
+              isVesselCodeValid &&
+              isLoadIdValid &&
+              isInvoiceIdValid &&
+              (!salesUserCode ||
+                salesUserCode === 'all' ||
+                unpaid.invoice?.salesUserCode === salesUserCode);
+
+            if (isValid) {
+              if (!vesselCodeOptions.includes(`${rest.vessel?.vesselCode}`)) {
+                vesselCodeOptions.push(`${rest.vessel?.vesselCode}`);
+              }
+              if (!loadIdOptions.includes(`${unpaid?.invoice?.truckLoadId}`)) {
+                loadIdOptions.push(`${unpaid?.invoice?.truckLoadId}`);
+              }
+              if (!invoiceIdOptions.includes(`${unpaid?.invoice?.invoiceId}`)) {
+                invoiceIdOptions.push(`${unpaid?.invoice?.invoiceId}`);
+              }
+            }
+
+            return isValid;
+          })
+          .map((up) => ({
+            ...up,
+            vessel: rest.vessel,
+            shipper: rest.shipper,
+            vesselControl: rest,
+          })),
+      )
+      .flat() as Unpaid[],
+    showLiq,
+  );
 
   return {
     data: unpaids,
+    vesselCodeOptions: vesselCodeOptions.sort(),
+    loadIdOptions: loadIdOptions.sort(),
+    invoiceIdOptions: invoiceIdOptions.sort(),
     error,
     loading,
   };
 };
 
-export const useUpsertUnpaids = (orderByOverride?: string) =>
+export const useUpsertUnpaids = () =>
   useMutation<Mutation>(UNPAIDS_UPSERT, {
     refetchQueries: [
       {
         query: VESSEL_CONTROL_LIST_QUERY,
-        variables: useVariables(orderByOverride, true),
+        variables: useVariables(true),
       },
     ],
   });

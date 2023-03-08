@@ -204,6 +204,7 @@ const GalleryWrapper = styled(Div)(
 const Cell = styled(Div)(
   ({
     clickable = true,
+    error,
     highlightColor = th.colors.status.error,
     hoverable,
     isHighlight,
@@ -211,6 +212,7 @@ const Cell = styled(Div)(
     selected,
   }: {
     clickable?: boolean;
+    error?: boolean;
     highlightColor?: string;
     hoverable?: boolean;
     isHighlight?: boolean;
@@ -236,7 +238,11 @@ const Cell = styled(Div)(
             : th.colors.brand.containerBackground
         } 15px)`
       : undefined,
-    border: selected ? th.borders.secondary : th.borders.disabled,
+    border: error
+      ? th.borders.error
+      : selected
+      ? th.borders.secondary
+      : th.borders.disabled,
     borderRadius: th.borderRadii.default,
     paddingLeft: th.spacing.sm,
     transition: th.transitions.default,
@@ -246,8 +252,11 @@ const Cell = styled(Div)(
         : clickable || hoverable
         ? th.colors.brand.containerBackgroundAccent
         : undefined,
-      border:
-        clickable || hoverable ? th.borders.secondary : th.borders.disabled,
+      border: error
+        ? th.borders.error
+        : clickable || hoverable
+        ? th.borders.secondary
+        : th.borders.disabled,
     },
   }),
   divPropsSet,

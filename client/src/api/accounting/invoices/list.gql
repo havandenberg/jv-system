@@ -32,6 +32,7 @@ query INVOICE_HEADER_LIST(
       invoiceDate
       totalAmount
       actualShipDate
+      expectedShipDate
       flag
       amountOwed
       vendor {
@@ -75,6 +76,7 @@ query INVOICE_HEADER_LIST(
                 nodes {
                   id
                   combineDescription
+                  jvDescription
                 }
               }
               species {
