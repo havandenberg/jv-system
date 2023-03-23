@@ -41,19 +41,19 @@ query VESSEL_DETAILS($vesselCode: String!) {
               id
               varietyDescription
             }
-            sizes(first: 1) {
-              nodes {
-                id
-                combineDescription
-                jvDescription
-              }
-            }
-            packType {
-              packDescription
+          }
+          sizes(first: 1) {
+            nodes {
               id
-              label {
-                labelName
-              }
+              combineDescription
+              jvDescription
+            }
+          }
+          packType {
+            packDescription
+            id
+            label {
+              labelName
             }
           }
           shipper {

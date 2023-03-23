@@ -24,7 +24,7 @@ type Props = {
 
 const OrderEntryTotals = ({ orderEntry, truckRate }: Props) => {
   const totalPalletCount = orderEntry.orderEntryItems.nodes.reduce(
-    (acc, item) => acc + parseInt(item?.palletCount, 10) || 0,
+    (acc, item) => acc + (item ? parseInt(item.palletCount, 10) : 0),
     0,
   );
   const estimatedWeight = getOrderEntryEstimatedWeight(

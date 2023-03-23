@@ -491,7 +491,7 @@ export const getTruckLoadWeight = ({ orderMaster, pallets }: TruckLoad) => {
     const speciesWeight =
       item.inventoryItem?.product?.species?.commonSpecies?.palletWeight || 0;
     const packTypeWeight =
-      item.inventoryItem?.product?.packType?.commonPackType?.palletWeight || 0;
+      item.inventoryItem?.packType?.commonPackType?.palletWeight || 0;
     return acc + (packTypeWeight || speciesWeight) * item.palletCount;
   }, 0);
 
@@ -499,8 +499,7 @@ export const getTruckLoadWeight = ({ orderMaster, pallets }: TruckLoad) => {
     (acc, pallet) => {
       const speciesWeight =
         pallet.product?.species?.commonSpecies?.palletWeight || 0;
-      const packTypeWeight =
-        pallet.product?.packType?.commonPackType?.palletWeight || 0;
+      const packTypeWeight = pallet.packType?.commonPackType?.palletWeight || 0;
       return acc + parseInt(packTypeWeight || speciesWeight, 10);
     },
     0,

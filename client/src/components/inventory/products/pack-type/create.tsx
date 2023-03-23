@@ -31,7 +31,7 @@ const breadcrumbs = (species: CommonSpecies) => [
   },
   {
     text: species?.speciesName || '',
-    to: `/inventory/products/${species?.id}/packTypes`,
+    to: `/inventory/products/${species?.id}/pack-types`,
   },
 ];
 
@@ -61,7 +61,7 @@ const CreateCommonPackType = () => {
   const { data: repackStyleData } = api.useRepackStyleList();
   const repackStyles = (repackStyleData?.nodes || []) as RepackStyle[];
 
-  const cancelLink = `/inventory/products/${speciesId}/packTypes${search}`;
+  const cancelLink = `/inventory/products/${speciesId}/pack-types${search}`;
 
   const [handleCreate] = api.useCreateCommonPackType();
   const [createLoading, setLoading] = useState(false);
@@ -150,7 +150,7 @@ const CreateCommonPackType = () => {
         <ty.LinkText
           bold
           hover={false}
-          to={`/inventory/products/${species?.id}/packTypes`}
+          to={`/inventory/products/${species?.id}/pack-types`}
         >
           {species?.speciesName}
         </ty.LinkText>

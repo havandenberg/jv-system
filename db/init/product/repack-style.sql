@@ -32,16 +32,6 @@ SELECT CONCAT (
 	) FROM product.repack_style rs WHERE rs.id = r.id
 $BODY$;
 
-CREATE FUNCTION directory.repack_style_distinct_values()
-  RETURNS SETOF TEXT
-	LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-  SELECT DISTINCT CONCAT(style_description, ' (', id, ')') from product.repack_style;
-$BODY$;
-
 CREATE FUNCTION product.bulk_upsert_repack_style(
   repack_styles product.repack_style[]
 )

@@ -1,17 +1,10 @@
 query REPACK_HEADER_LIST(
-  $repackStyleId: [String!]
-  $warehouseId: [String!]
   $orderBy: [RepackHeadersOrderBy!]
   $search: [RepackHeaderFilter!]
   $repackDate: DateFilter!
 ) {
   repackHeaders(
-    filter: {
-      and: $search
-      repackStyleId: { in: $repackStyleId }
-      warehouseId: { in: $warehouseId }
-      repackDate: $repackDate
-    }
+    filter: { and: $search, repackDate: $repackDate }
     orderBy: $orderBy
   ) {
     nodes {
@@ -34,6 +27,14 @@ query REPACK_HEADER_LIST(
       warehouse {
         id
         warehouseName
+      }
+      vessel {
+        vesselCode
+        vesselName
+      }
+      shipper {
+        id
+        shipperName
       }
       entryUserCode
       repackStyle {

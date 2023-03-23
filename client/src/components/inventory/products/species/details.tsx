@@ -63,7 +63,7 @@ const tabs: (species: CommonSpecies, search: string) => Tab[] = (
   {
     id: 'packTypes',
     text: 'Pack Types',
-    to: `/inventory/products/${species?.id}/packTypes${search}`,
+    to: `/inventory/products/${species?.id}/pack-types${search}`,
   },
 ];
 

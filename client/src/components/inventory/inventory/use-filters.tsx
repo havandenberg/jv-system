@@ -157,7 +157,7 @@ const useInventoryFilters = ({
     (acc, item) => {
       const otherCategory = {
         id: 'other',
-        jvDescription: 'Other',
+        combineDescription: 'Other',
         packDescription: 'Other',
         label: {
           labelCode: 'other',
@@ -173,8 +173,8 @@ const useInventoryFilters = ({
       };
       const itemSpecies = item.product?.species || otherCategory;
       const itemVariety = item.product?.variety || otherCategory;
-      const itemSize = item.product?.sizes?.nodes[0] || otherCategory;
-      const itemPackType = item.product?.packType || otherCategory;
+      const itemSize = item.sizes?.nodes[0] || otherCategory;
+      const itemPackType = item.packType || otherCategory;
       const itemShipper = item.shipper || otherCategory;
       const itemCountryOfOrigin = item.country || otherCategory;
 
@@ -272,7 +272,7 @@ const useInventoryFilters = ({
             };
           case 'size':
             return {
-              categoryKey: `${itemSize.jvDescription}`,
+              categoryKey: `${itemSize.combineDescription}`,
               tags: commonSizeTags,
             };
           case 'label':
@@ -357,7 +357,7 @@ const useInventoryFilters = ({
         (size
           ? sizeTag
             ? pluck('tagText', commonSizeTags).includes(sizeTag)
-            : ['total', itemSize?.sizeDescription].includes(size)
+            : ['total', itemSize?.combineDescription].includes(size)
           : !sizeTag || pluck('tagText', commonSizeTags).includes(sizeTag)) &&
         (!label || ['total', itemPackType?.label?.labelCode].includes(label)) &&
         (!program ||

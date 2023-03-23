@@ -554,7 +554,7 @@ const convertInvoiceItemsToOrderItems = (
           inventoryItem: {
             ...(item.pallet || {}),
             ...(item.pallet?.vessel || {}),
-            plu: item.pallet?.product?.packType?.pluUpcCode === 'Y',
+            plu: item.pallet?.packType?.pluUpcCode === 'Y',
             product: (item.pallet?.product || {}) as ProductMaster,
           },
           invoiceId: invoiceHeader?.invoiceId,

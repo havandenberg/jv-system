@@ -305,15 +305,15 @@ export const convertProjectionsToInventoryItems = (
           variety: product.commonVariety?.productVariety,
           size: product.commonSize?.productSize,
           packType: product.commonPackType?.packMaster,
-          sizes: {
-            edges: [],
-            nodes: [product.commonSize?.productSize],
-            pageInfo: { hasNextPage: false, hasPreviousPage: false },
-            totalCount: 1,
-          },
           entries: product.entries.filter(
             ({ vesselInfoId }) => vesselInfoId === vesselInfo.id,
           ),
+        },
+        sizes: {
+          edges: [],
+          nodes: [product.commonSize?.productSize],
+          pageInfo: { hasNextPage: false, hasPreviousPage: false },
+          totalCount: 1,
         },
         vessel: vessel,
         vesselCode: vessel.vesselCode,
@@ -431,7 +431,7 @@ export const buildCategories =
       speciesDescription: 'Other',
       varietyDescription: 'Other',
       packDescription: 'Other',
-      jvDescription: 'Other',
+      combineDescription: 'Other',
       label: {
         labelCode: 'other',
         labelName: 'Other',
@@ -451,8 +451,8 @@ export const buildCategories =
     )[key][0] as InventoryItem;
     const itemSpecies = item.product?.species || otherCategory;
     const itemVariety = item.product?.variety || otherCategory;
-    const itemSize = item.product?.sizes?.nodes[0] || otherCategory;
-    const itemPackType = item.product?.packType || otherCategory;
+    const itemSize = item.sizes?.nodes[0] || otherCategory;
+    const itemPackType = item.packType || otherCategory;
     const itemShipper = item.shipper || otherCategory;
     const itemCountryOfOrigin = item.country || otherCategory;
 
@@ -466,13 +466,13 @@ export const buildCategories =
       ) || otherCategory;
     const commonVarietyTag = commonVariety?.commonVarietyTags?.nodes[0];
     const commonSize =
-      item.product?.sizes?.nodes[0]?.commonSizes?.nodes.find(
-        (cs) => cs && cs.productSizeId === item.product?.sizes?.nodes[0]?.id,
+      item.sizes?.nodes[0]?.commonSizes?.nodes.find(
+        (cs) => cs && cs.productSizeId === item.sizes?.nodes[0]?.id,
       ) || otherCategory;
     const commonSizeTag = commonSize?.commonSizeTags?.nodes[0];
     const commonPackType =
-      item.product?.packType?.commonPackTypes?.nodes.find(
-        (cpt) => cpt && cpt.packMasterId === item.product?.packType?.id,
+      item.packType?.commonPackTypes?.nodes.find(
+        (cpt) => cpt && cpt.packMasterId === item.packType?.id,
       ) || otherCategory;
     const commonPackTypeTag = commonPackType?.commonPackTypeTags?.nodes[0];
 
@@ -481,7 +481,7 @@ export const buildCategories =
         case 'variety':
           return isTag ? commonVarietyTag?.tagText : itemVariety.id;
         case 'size':
-          return isTag ? commonSizeTag?.tagText : itemSize.jvDescription;
+          return isTag ? commonSizeTag?.tagText : itemSize.combineDescription;
         case 'label':
           return itemPackType.label?.labelCode;
         case 'packType':
@@ -513,9 +513,9 @@ export const buildCategories =
         case 'size':
           return isTag
             ? commonSizeTag?.tagText
-            : itemSize.jvDescription === 'other'
+            : itemSize.combineDescription === 'other'
             ? ''
-            : itemSize.jvDescription;
+            : itemSize.combineDescription;
         case 'label':
           return itemPackType?.label?.labelName;
         case 'packType':
@@ -533,7 +533,7 @@ export const buildCategories =
         case 'program':
           return itemPackType?.customerSpecial?.customerName || 'No Program';
         case 'sizePackType':
-          return `${itemSize.jvDescription} - ${itemPackType.packDescription}`;
+          return `${itemSize.combineDescription} - ${itemPackType.packDescription}`;
         default:
           return isTag
             ? commonSpeciesTag?.tagText
@@ -741,14 +741,10 @@ export const getInventoryItemDescription = (
   return `${
     species ? '' : inventoryItem.product?.species?.speciesDescription + ', '
   }${variety ? '' : inventoryItem.product?.variety?.varietyDescription + ', '}${
-    size
-      ? ''
-      : inventoryItem.product?.sizes.nodes?.[0]?.jvDescription + ', '
-  }${packType ? '' : inventoryItem.product?.packType?.packDescription + ', '}${
+    size ? '' : inventoryItem.sizes.nodes?.[0]?.combineDescription + ', '
+  }${packType ? '' : inventoryItem.packType?.packDescription + ', '}${
     plu ? '' : (inventoryItem.plu ? 'PLU' : 'No PLU') + ', '
-  }${label ? '' : inventoryItem.product?.packType?.label?.labelName + ', '}${
-    program
-      ? ''
-      : inventoryItem.product?.packType?.customerSpecial?.customerName + ', '
+  }${label ? '' : inventoryItem.packType?.label?.labelName + ', '}${
+    program ? '' : inventoryItem.packType?.customerSpecial?.customerName + ', '
   }`;
 };

@@ -90,24 +90,7 @@ query INVOICE_HEADER_DETAILS($orderId: BigFloat!) {
             packDate
             palletId
             product {
-              packType {
-                id
-                packDescription
-                pluUpcCode
-                label {
-                  id
-                  labelName
-                  labelCode
-                }
-              }
               id
-              sizes {
-                nodes {
-                  id
-                  combineDescription
-                  jvDescription
-                }
-              }
               species {
                 id
                 speciesDescription
@@ -115,6 +98,23 @@ query INVOICE_HEADER_DETAILS($orderId: BigFloat!) {
               variety {
                 id
                 varietyDescription
+              }
+            }
+            packType {
+              id
+              packDescription
+              pluUpcCode
+              label {
+                id
+                labelName
+                labelCode
+              }
+            }
+            sizes {
+              nodes {
+                id
+                combineDescription
+                jvDescription
               }
             }
             shipped
@@ -166,24 +166,7 @@ query INVOICE_HEADER_DETAILS($orderId: BigFloat!) {
             packDate
             palletId
             product {
-              packType {
-                id
-                packDescription
-                pluUpcCode
-                label {
-                  id
-                  labelName
-                  labelCode
-                }
-              }
               id
-              sizes {
-                nodes {
-                  id
-                  combineDescription
-                  jvDescription
-                }
-              }
               species {
                 id
                 speciesDescription
@@ -191,6 +174,23 @@ query INVOICE_HEADER_DETAILS($orderId: BigFloat!) {
               variety {
                 id
                 varietyDescription
+              }
+            }
+            packType {
+              id
+              packDescription
+              pluUpcCode
+              label {
+                id
+                labelName
+                labelCode
+              }
+            }
+            sizes {
+              nodes {
+                id
+                combineDescription
+                jvDescription
               }
             }
             shipped
@@ -256,24 +256,7 @@ query INVOICE_HEADER_DETAILS($orderId: BigFloat!) {
                 packDate
                 palletId
                 product {
-                  packType {
-                    id
-                    packDescription
-                    pluUpcCode
-                    label {
-                      id
-                      labelName
-                      labelCode
-                    }
-                  }
                   id
-                  sizes {
-                    nodes {
-                      id
-                      combineDescription
-                      jvDescription
-                    }
-                  }
                   species {
                     id
                     speciesDescription
@@ -281,6 +264,23 @@ query INVOICE_HEADER_DETAILS($orderId: BigFloat!) {
                   variety {
                     id
                     varietyDescription
+                  }
+                }
+                packType {
+                  id
+                  packDescription
+                  pluUpcCode
+                  label {
+                    id
+                    labelName
+                    labelCode
+                  }
+                }
+                sizes {
+                  nodes {
+                    id
+                    combineDescription
+                    jvDescription
                   }
                 }
                 shipped
@@ -341,24 +341,7 @@ query INVOICE_HEADER_DETAILS($orderId: BigFloat!) {
               packDate
               palletId
               product {
-                packType {
-                  id
-                  packDescription
-                  pluUpcCode
-                  label {
-                    id
-                    labelName
-                    labelCode
-                  }
-                }
                 id
-                sizes {
-                  nodes {
-                    id
-                    combineDescription
-                    jvDescription
-                  }
-                }
                 species {
                   id
                   speciesDescription
@@ -366,6 +349,23 @@ query INVOICE_HEADER_DETAILS($orderId: BigFloat!) {
                 variety {
                   id
                   varietyDescription
+                }
+              }
+              packType {
+                id
+                packDescription
+                pluUpcCode
+                label {
+                  id
+                  labelName
+                  labelCode
+                }
+              }
+              sizes {
+                nodes {
+                  id
+                  combineDescription
+                  jvDescription
                 }
               }
               shipped
@@ -426,24 +426,7 @@ query INVOICE_HEADER_DETAILS($orderId: BigFloat!) {
                 packDate
                 palletId
                 product {
-                  packType {
-                    id
-                    packDescription
-                    pluUpcCode
-                    label {
-                      id
-                      labelName
-                      labelCode
-                    }
-                  }
                   id
-                  sizes {
-                    nodes {
-                      id
-                      combineDescription
-                      jvDescription
-                    }
-                  }
                   species {
                     id
                     speciesDescription
@@ -451,6 +434,23 @@ query INVOICE_HEADER_DETAILS($orderId: BigFloat!) {
                   variety {
                     id
                     varietyDescription
+                  }
+                }
+                packType {
+                  id
+                  packDescription
+                  pluUpcCode
+                  label {
+                    id
+                    labelName
+                    labelCode
+                  }
+                }
+                sizes {
+                  nodes {
+                    id
+                    combineDescription
+                    jvDescription
                   }
                 }
                 shipped

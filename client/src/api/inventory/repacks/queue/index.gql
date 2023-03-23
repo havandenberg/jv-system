@@ -1,17 +1,10 @@
 query REPACK_QUEUE(
-  $repackStyleId: [String!]
-  $warehouseId: [String!]
   $orderBy: [RepackQueuesOrderBy!]
   $repackDate: DateFilter!
   $search: [RepackQueueFilter!]
 ) {
   repackQueues(
-    filter: {
-      and: $search
-      repackStyleId: { in: $repackStyleId }
-      warehouseId: { in: $warehouseId }
-      repackDate: $repackDate
-    }
+    filter: { and: $search, repackDate: $repackDate }
     orderBy: $orderBy
   ) {
     nodes {

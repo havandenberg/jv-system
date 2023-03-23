@@ -2,18 +2,15 @@ import { useMutation, useQuery } from '@apollo/client';
 import { add } from 'date-fns';
 import { loader } from 'graphql.macro';
 
-import { WAREHOUSE_DISTINCT_VALUES_QUERY } from 'api/directory/warehouse';
-import useFilteredQueryValues from 'api/hooks/use-filtered-query-values';
 import { getOrderByString, getSearchArray } from 'api/utils';
 import { formatDate } from 'components/date-range-picker';
 import { SORT_ORDER } from 'hooks/use-columns';
 import {
   useDateRangeQueryParams,
-  useRepackQueryParams,
   useSearchQueryParam,
   useSortQueryParams,
 } from 'hooks/use-query-params';
-import { Mutation, Query } from 'types';
+import { Mutation, Query, RepackHeader } from 'types';
 
 const REPACK_HEADER_DETAILS_QUERY = loader('./details.gql');
 const REPACK_HEADER_LIST_QUERY = loader('./list.gql');
@@ -23,15 +20,10 @@ const REPACK_PACK_TYPE_LIST_QUERY = loader('./queue/pack-types.gql');
 const REPACK_QUEUES_DELETE = loader('./queue/delete.gql');
 const REPACK_QUEUES_UPSERT = loader('./queue/upsert.gql');
 
-export const REPACK_STYLE_DISTINCT_VALUES_QUERY = loader(
-  './distinct-values.gql',
-);
-
 const useVariables = (isNullRepackDate: boolean, orderByOverride?: string) => {
   const [search = ''] = useSearchQueryParam('repackQueueSearch');
   const [{ sortBy = 'repackDate', sortOrder = SORT_ORDER.DESC }] =
     useSortQueryParams();
-  const [{ repackStyleId, warehouseId }] = useRepackQueryParams();
   const orderBy = getOrderByString(sortBy, sortOrder);
 
   const [{ startDate, endDate }] = useDateRangeQueryParams();
@@ -46,27 +38,7 @@ const useVariables = (isNullRepackDate: boolean, orderByOverride?: string) => {
     }),
   );
 
-  const filteredWarehouseValues = useFilteredQueryValues(
-    warehouseId,
-    {},
-    WAREHOUSE_DISTINCT_VALUES_QUERY,
-    'warehouseDistinctValues',
-  );
-
-  const filteredRepackStyleValues = useFilteredQueryValues(
-    repackStyleId,
-    {},
-    REPACK_STYLE_DISTINCT_VALUES_QUERY,
-    'repackStyleDistinctValues',
-  );
-
   return {
-    repackStyleId: filteredRepackStyleValues.map((val) =>
-      val.substring(val.lastIndexOf(' (') + 2, val.length - 1),
-    ),
-    warehouseId: filteredWarehouseValues.map((val) =>
-      val.substring(val.lastIndexOf(' (') + 2, val.length - 1),
-    ),
     orderBy: orderByOverride || orderBy,
     search: getSearchArray(search),
     repackDate: isNullRepackDate
@@ -84,9 +56,45 @@ export const useRepacks = (orderByOverride?: string) => {
   const { data, error, loading } = useQuery<Query>(REPACK_HEADER_LIST_QUERY, {
     variables,
   });
+  const repacks = (data?.repackHeaders?.nodes || []) as RepackHeader[];
+
+  const vesselOptions: string[] = [];
+  const shipperOptions: string[] = [];
+  const warehouseOptions: string[] = [];
+  const repackStyleOptions: string[] = [];
+
+  repacks.forEach((repack) => {
+    if (repack) {
+      const { vessel, shipper, warehouse, repackStyle } = repack;
+
+      const vesselOption = `${vessel?.vesselCode} - ${vessel?.vesselName}`;
+      if (!vesselOptions.includes(vesselOption)) {
+        vesselOptions.push(vesselOption);
+      }
+
+      const shipperOption = `${shipper?.shipperName} (${shipper?.id})`;
+      if (!shipperOptions.includes(shipperOption)) {
+        shipperOptions.push(shipperOption);
+      }
+
+      const warehouseOption = `${warehouse?.warehouseName} (${warehouse?.id})`;
+      if (!warehouseOptions.includes(warehouseOption)) {
+        warehouseOptions.push(warehouseOption);
+      }
+
+      const repackStyleOption = `${repackStyle?.styleDescription} (${repackStyle?.id})`;
+      if (!repackStyleOptions.includes(repackStyleOption)) {
+        repackStyleOptions.push(repackStyleOption);
+      }
+    }
+  });
 
   return {
     data: data ? data.repackHeaders : undefined,
+    vesselOptions: vesselOptions.sort(),
+    shipperOptions: shipperOptions.sort(),
+    warehouseOptions: warehouseOptions.sort(),
+    repackStyleOptions: repackStyleOptions.sort(),
     error,
     loading,
   };

@@ -25130,10 +25130,13 @@ export type InventoryItem = Node & {
   storageRank?: Maybe<Scalars['String']>;
   warehouseId?: Maybe<Scalars['String']>;
   country?: Maybe<Country>;
+  packType?: Maybe<PackMaster>;
   /** Reads and enables pagination through a set of `Pallet`. */
   pallets: PalletsConnection;
   product?: Maybe<ProductMaster>;
   shipper?: Maybe<Shipper>;
+  /** Reads and enables pagination through a set of `ProductSize`. */
+  sizes: ProductSizesConnection;
   vessel?: Maybe<Vessel>;
   vesselDischargeDate?: Maybe<Scalars['Date']>;
   vesselInvFlag?: Maybe<Scalars['Boolean']>;
@@ -25148,6 +25151,16 @@ export type InventoryItemPalletsArgs = {
   before?: Maybe<Scalars['Cursor']>;
   after?: Maybe<Scalars['Cursor']>;
   filter?: Maybe<PalletFilter>;
+};
+
+
+export type InventoryItemSizesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  filter?: Maybe<ProductSizeFilter>;
 };
 
 /**
@@ -36761,12 +36774,15 @@ export type Pallet = Node & {
   invoiceHeaders: InvoiceHeadersConnection;
   orderMaster?: Maybe<OrderMaster>;
   originalLocation?: Maybe<Warehouse>;
+  packType?: Maybe<PackMaster>;
   /** Reads and enables pagination through a set of `PalletSection`. */
   palletSections: PalletSectionsConnection;
   product?: Maybe<ProductMaster>;
   psaArrivalReport?: Maybe<PsaArrivalReport>;
   searchText?: Maybe<Scalars['String']>;
   shipper?: Maybe<Shipper>;
+  /** Reads and enables pagination through a set of `ProductSize`. */
+  sizes: ProductSizesConnection;
   vessel?: Maybe<Vessel>;
   warehouse?: Maybe<Warehouse>;
 };
@@ -36789,6 +36805,16 @@ export type PalletPalletSectionsArgs = {
   before?: Maybe<Scalars['Cursor']>;
   after?: Maybe<Scalars['Cursor']>;
   filter?: Maybe<PalletSectionFilter>;
+};
+
+
+export type PalletSizesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  filter?: Maybe<ProductSizeFilter>;
 };
 
 /** A condition to be used against `Pallet` object types. All fields are tested for equality and combined with a logical ‘and.’ */
@@ -39523,22 +39549,9 @@ export type ProductMaster = Node & {
   id: Scalars['String'];
   defaultPalletQuantity?: Maybe<Scalars['String']>;
   lotNumber?: Maybe<Scalars['String']>;
-  packType?: Maybe<PackMaster>;
   searchText?: Maybe<Scalars['String']>;
-  /** Reads and enables pagination through a set of `ProductSize`. */
-  sizes: ProductSizesConnection;
   species?: Maybe<ProductSpecies>;
   variety?: Maybe<ProductVariety>;
-};
-
-
-export type ProductMasterSizesArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  filter?: Maybe<ProductSizeFilter>;
 };
 
 /**
@@ -52831,6 +52844,8 @@ export type RepackHeader = Node & {
   repackQueue?: Maybe<RepackQueue>;
   repackStyle?: Maybe<RepackStyle>;
   searchText?: Maybe<Scalars['String']>;
+  shipper?: Maybe<Shipper>;
+  vessel?: Maybe<Vessel>;
   warehouse?: Maybe<Warehouse>;
   weightIn?: Maybe<Scalars['BigFloat']>;
   weightOut?: Maybe<Scalars['BigFloat']>;

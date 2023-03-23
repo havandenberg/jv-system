@@ -1,5 +1,0 @@
-query REPACK_STYLE_DISTINCT_VALUES {
-  repackStyleDistinctValues {
-    nodes
-  }
-}

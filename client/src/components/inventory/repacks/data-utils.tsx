@@ -1,5 +1,3 @@
-import { REPACK_STYLE_DISTINCT_VALUES_QUERY } from 'api/inventory/repacks';
-import { WAREHOUSE_DISTINCT_VALUES_QUERY } from 'api/directory/warehouse';
 import { LabelInfo } from 'components/column-label';
 import { SORT_ORDER } from 'hooks/use-columns';
 import { RepackHeader } from 'types';
@@ -8,7 +6,17 @@ import ty from 'ui/typography';
 
 export type RepackHeaderLabelInfo = LabelInfo<RepackHeader>;
 
-export const indexListLabels: RepackHeaderLabelInfo[] = [
+export const indexListLabels: (
+  vesselOptions: string[],
+  shipperOptions: string[],
+  warehouseOptions: string[],
+  repackStyleOptions: string[],
+) => RepackHeaderLabelInfo[] = (
+  vesselOptions,
+  shipperOptions,
+  warehouseOptions,
+  repackStyleOptions,
+) => [
   {
     key: 'repackDate',
     label: 'Repack Date',
@@ -34,13 +42,7 @@ export const indexListLabels: RepackHeaderLabelInfo[] = [
     label: 'Warehouse',
     filterable: true,
     filterPanelProps: {
-      customStyles: {
-        width: 500,
-      },
-      queryProps: {
-        query: WAREHOUSE_DISTINCT_VALUES_QUERY,
-        queryName: 'warehouseDistinctValues',
-      },
+      customOptions: warehouseOptions || [],
       showSearch: true,
     },
     sortable: true,
@@ -57,6 +59,51 @@ export const indexListLabels: RepackHeaderLabelInfo[] = [
       ),
   },
   {
+    defaultSortOrder: SORT_ORDER.ASC,
+    key: 'vessel',
+    label: 'Vessel',
+    filterable: true,
+    filterPanelProps: {
+      customStyles: { width: 500 },
+      customOptions: vesselOptions || [],
+      showSearch: true,
+    },
+    customSortBy: ({ vessel }) => vessel?.vesselCode || 'zzz',
+    sortable: true,
+    getValue: ({ vessel }) =>
+      vessel ? (
+        <ty.LinkText
+          hover="false"
+          to={`/inventory/vessels/${vessel?.vesselCode}`}
+          ml={th.spacing.sm}
+        >
+          {vessel.vesselCode}
+        </ty.LinkText>
+      ) : (
+        ''
+      ),
+  },
+  {
+    defaultSortOrder: SORT_ORDER.ASC,
+    key: 'shipper',
+    label: 'Shipper',
+    filterable: true,
+    filterPanelProps: {
+      customOptions: shipperOptions || [],
+      showSearch: true,
+    },
+    customSortBy: ({ shipper }) => shipper?.shipperName || 'zzz',
+    sortable: true,
+    getValue: ({ shipper }) =>
+      shipper ? (
+        <ty.LinkText hover="false" to={`/directory/shippers/${shipper?.id}`}>
+          {shipper.shipperName}
+        </ty.LinkText>
+      ) : (
+        ''
+      ),
+  },
+  {
     key: 'repackStyleId',
     label: 'Repack Style',
     sortable: true,
@@ -66,10 +113,7 @@ export const indexListLabels: RepackHeaderLabelInfo[] = [
         left: -234,
         width: 500,
       },
-      queryProps: {
-        query: REPACK_STYLE_DISTINCT_VALUES_QUERY,
-        queryName: 'repackStyleDistinctValues',
-      },
+      customOptions: repackStyleOptions || [],
       showSearch: true,
     },
     getValue: ({ repackStyle }) =>

@@ -11,7 +11,10 @@ import Page from 'components/page';
 import VirtualizedList from 'components/virtualized-list';
 import useColumns, { SORT_ORDER } from 'hooks/use-columns';
 import useDateRange from 'hooks/use-date-range';
-import { useSortQueryParams } from 'hooks/use-query-params';
+import {
+  useRepackQueryParams,
+  useSortQueryParams,
+} from 'hooks/use-query-params';
 import useSearch from 'hooks/use-search';
 import { RepackHeader } from 'types';
 import b from 'ui/button';
@@ -24,35 +27,68 @@ import { indexListLabels } from './data-utils';
 
 export const breadcrumbs = [{ text: 'Repacks', to: `/inventory/repacks` }];
 
-const gridTemplateColumns = '0.5fr 0.5fr 1fr 1.2fr 100px 100px 30px';
+const gridTemplateColumns =
+  '0.5fr 0.6fr 0.6fr 0.4fr 0.8fr 1.2fr 100px 100px 30px';
 
 const Repacks = () => {
-  const { Search } = useSearch();
+  const { Search, search } = useSearch();
   const [{ sortBy = 'repackDate', sortOrder = SORT_ORDER.DESC }] =
     useSortQueryParams();
-  const { data, loading, error } = api.useRepacks('REPACK_DATE_DESC');
+  const [{ repackStyleId, shipper, warehouseId, vessel }] =
+    useRepackQueryParams();
+  const {
+    data,
+    vesselOptions,
+    shipperOptions,
+    warehouseOptions,
+    repackStyleOptions,
+    loading,
+    error,
+  } = api.useRepacks('REPACK_DATE_DESC');
   const items = (data ? data.nodes : []) as RepackHeader[];
 
   const { DateRangePicker, BackwardButton, ForwardButton } = useDateRange({
     maxDate: endOfISOWeek(add(new Date(), { weeks: 4 })),
   });
 
+  const listLabels = indexListLabels(
+    vesselOptions,
+    shipperOptions,
+    warehouseOptions,
+    repackStyleOptions,
+  );
+
   const columnLabels = useColumns<RepackHeader>(
     'repackDate',
     SORT_ORDER.DESC,
-    indexListLabels,
+    listLabels,
     'operations',
     'repack_header',
   );
 
-  const filteredItems = getFilteredItems(indexListLabels, items);
-
-  const repacks = getSortedItems(
-    indexListLabels,
-    filteredItems,
-    sortBy,
-    sortOrder,
+  const filteredItems = getFilteredItems(
+    listLabels,
+    items.filter(
+      (i) =>
+        (!vessel ||
+          vessel.includes(
+            `${i.vessel?.vesselCode} - ${i.vessel?.vesselName}`,
+          )) &&
+        (!shipper ||
+          shipper.includes(`${i.shipper?.shipperName} (${i.shipper?.id})`)) &&
+        (!warehouseId ||
+          warehouseId.includes(
+            `${i.warehouse?.warehouseName} (${i.warehouse?.id})`,
+          )) &&
+        (!repackStyleId ||
+          repackStyleId.includes(
+            `${i.repackStyle?.styleDescription} (${i.repackStyle?.id})`,
+          )) &&
+        (!search || i.repackCode?.includes(search)),
+    ),
   );
+
+  const repacks = getSortedItems(listLabels, filteredItems, sortBy, sortOrder);
 
   return (
     <Page
@@ -128,9 +164,9 @@ const Repacks = () => {
                   <ListItem<RepackHeader>
                     data={item}
                     gridTemplateColumns={gridTemplateColumns}
-                    listLabels={indexListLabels}
+                    listLabels={listLabels}
                     to={`/inventory/repacks/${item.repackCode}?repackView=${
-                      (item.count || 0) > 1 ? 'runs' : 'pallets'
+                      (item.count || 0) > 1 ? 'runs' : 'items'
                     }`}
                   />
                 </div>

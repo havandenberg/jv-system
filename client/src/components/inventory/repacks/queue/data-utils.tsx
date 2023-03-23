@@ -263,7 +263,7 @@ export const indexListLabels: (
         ? uniq(
             orderItems.map(
               (oi) =>
-                oi?.inventoryItem?.product?.sizes?.nodes?.[0]?.jvDescription ||
+                oi?.inventoryItem?.sizes?.nodes?.[0]?.combineDescription ||
                 'UNK',
             ),
           ).join(', ')
@@ -273,7 +273,7 @@ export const indexListLabels: (
         ? uniq(
             invoiceItems.map(
               (ii) =>
-                ii?.pallet?.product?.sizes?.nodes?.[0]?.jvDescription || 'UNK',
+                ii?.pallet?.sizes?.nodes?.[0]?.combineDescription || 'UNK',
             ),
           ).join(', ')
         : undefined;
@@ -289,8 +289,7 @@ export const indexListLabels: (
       const orderLabels = orderItems
         ? uniq(
             orderItems.map(
-              (oi) =>
-                oi?.inventoryItem?.product?.packType?.label?.labelName || 'UNK',
+              (oi) => oi?.inventoryItem?.packType?.label?.labelName || 'UNK',
             ),
           ).join(', ')
         : undefined;
@@ -298,7 +297,7 @@ export const indexListLabels: (
       const invoiceLabels = invoiceItems
         ? uniq(
             invoiceItems.map(
-              (ii) => ii?.pallet?.product?.packType?.label?.labelName || 'UNK',
+              (ii) => ii?.pallet?.packType?.label?.labelName || 'UNK',
             ),
           ).join(', ')
         : undefined;
@@ -311,6 +310,9 @@ export const indexListLabels: (
     allowOverflow: true,
     filterable: true,
     filterPanelProps: {
+      customStyles: {
+        width: 200,
+      },
       customOptions: pluck('warehouseName', warehouseOptions),
       portalId: 'repack-queue-portal',
       portalTop: -4,

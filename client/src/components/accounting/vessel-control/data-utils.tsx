@@ -50,7 +50,15 @@ export type VesselControlLabelInfo = LabelInfo<VesselControl>;
 
 export const listLabels: (
   handleChange: (updatedItem: VesselControl) => void,
-) => VesselControlLabelInfo[] = (handleChange) => [
+  vesselOptions: string[],
+  shipperOptions: string[],
+  arrivalOptions: string[],
+) => VesselControlLabelInfo[] = (
+  handleChange,
+  vesselOptions,
+  shipperOptions,
+  arrivalOptions,
+) => [
   {
     defaultSortOrder: SORT_ORDER.ASC,
     key: 'dueDate',
@@ -151,15 +159,45 @@ export const listLabels: (
       ),
   },
   {
+    defaultSortOrder: SORT_ORDER.ASC,
     key: 'vessel',
     label: 'Vessel Name',
+    sortable: true,
+    customSortBy: ({ shipper, vessel }) =>
+      (`${vessel?.vesselName}-${shipper?.shipperName}` || '').toLowerCase(),
+    filterable: true,
+    filterPanelProps: {
+      customStyles: { width: 500 },
+      customOptions: vesselOptions || [],
+      showSearch: true,
+      portalId: 'vessel-control-portal',
+      portalTop: -4,
+      portalLeft: 344,
+    },
     getValue: ({ vessel }) => (
       <ty.BodyText>{vessel?.vesselName || '-'}</ty.BodyText>
     ),
   },
   {
+    defaultSortOrder: SORT_ORDER.ASC,
     key: 'vessel',
     label: 'Arrival Location',
+    sortable: true,
+    sortKey: 'arrivalLocation',
+    customSortBy: ({ shipper, vessel }) =>
+      (
+        `${vessel?.warehouse?.warehouseName}-${vessel?.vesselCode}-${shipper?.shipperName}` ||
+        ''
+      ).toLowerCase(),
+    filterable: true,
+    filterPanelProps: {
+      columnCount: 1,
+      customStyles: { width: 250 },
+      customOptions: arrivalOptions || [],
+      portalId: 'vessel-control-portal',
+      portalTop: -4,
+      portalLeft: 496,
+    },
     getValue: ({ vessel }) =>
       vessel ? (
         <ty.LinkText
@@ -187,10 +225,11 @@ export const listLabels: (
   {
     defaultSortOrder: SORT_ORDER.ASC,
     key: 'shipper',
-    label: 'Shipper',
+    label: 'Code',
     sortable: true,
+    sortKey: 'shipperCode',
     customSortBy: ({ shipper, vessel }) =>
-      (`${shipper?.shipperName}-${vessel?.vesselCode}` || '').toLowerCase(),
+      (`${shipper?.id}-${vessel?.vesselCode}` || '').toLowerCase(),
     getValue: ({ shipper }) =>
       shipper ? (
         <ty.LinkText
@@ -198,11 +237,31 @@ export const listLabels: (
           target="_blank"
           to={`/directory/shippers/${shipper.id}`}
         >
-          {shipper.shipperName}
+          {shipper.id}
         </ty.LinkText>
       ) : (
-        <ty.BodyText>-</ty.BodyText>
+        <ty.BodyText>{'-'}</ty.BodyText>
       ),
+  },
+  {
+    defaultSortOrder: SORT_ORDER.ASC,
+    key: 'shipper',
+    label: 'Shipper Name',
+    sortable: true,
+    customSortBy: ({ shipper, vessel }) =>
+      (`${shipper?.shipperName}-${vessel?.vesselCode}` || '').toLowerCase(),
+    filterable: true,
+    filterPanelProps: {
+      customStyles: { width: 500 },
+      customOptions: shipperOptions || [],
+      portalId: 'vessel-control-portal',
+      portalTop: -4,
+      portalLeft: 786,
+      showSearch: true,
+    },
+    getValue: ({ shipper }) => (
+      <ty.BodyText>{shipper?.shipperName || '-'}</ty.BodyText>
+    ),
   },
   {
     key: 'vessel',

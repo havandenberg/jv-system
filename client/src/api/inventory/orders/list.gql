@@ -78,21 +78,21 @@ query ORDER_MASTER_LIST(
                 id
                 varietyDescription
               }
-              sizes {
-                nodes {
-                  id
-                  combineDescription
-                  jvDescription
-                }
-              }
-              packType {
-                packDescription
+            }
+            sizes {
+              nodes {
                 id
-                label {
-                  id
-                  labelCode
-                  labelName
-                }
+                combineDescription
+                jvDescription
+              }
+            }
+            packType {
+              packDescription
+              id
+              label {
+                id
+                labelCode
+                labelName
               }
             }
           }

@@ -231,8 +231,7 @@ const NewOrderEntryItem = ({
       id: 'other',
       speciesDescription: 'Other',
       varietyDescription: 'Other',
-      sizeDescription: 'Other',
-      jvDescription: 'Other',
+      combineDescription: 'Other',
       packDescription: 'Other',
       label: {
         labelCode: 'other',
@@ -247,8 +246,8 @@ const NewOrderEntryItem = ({
 
     const itemSpecies = item.product?.species || otherCategory;
     const itemVariety = item.product?.variety || otherCategory;
-    const itemSize = item.product?.sizes?.nodes[0] || otherCategory;
-    const itemPackType = item.product?.packType || otherCategory;
+    const itemSize = item.sizes?.nodes[0] || otherCategory;
+    const itemPackType = item.packType || otherCategory;
 
     const coastValid = item.vessel && item.vessel.coast === coast;
 
@@ -284,7 +283,7 @@ const NewOrderEntryItem = ({
           .includes(variety.toLowerCase()) ||
         ['Any', itemVariety?.id].includes(variety)) &&
       (!size ||
-        `${itemSize?.jvDescription}`
+        `${itemSize?.combineDescription}`
           .toLowerCase()
           .includes(size.toLowerCase()) ||
         ['Any', itemSize?.id].some((val) =>
@@ -438,7 +437,7 @@ const NewOrderEntryItem = ({
       itemSize
     ) {
       sizeOptions.push({
-        text: `${itemSize.jvDescription}`,
+        text: `${itemSize.combineDescription}`,
         id: itemSize.id,
       });
     }
@@ -823,8 +822,8 @@ const NewOrderEntryItem = ({
 
   const getItemDefaultPalletQuantity = (it?: InventoryItem) =>
     it &&
-    (it.product?.packType?.defaultPalletQuantity ||
-      it?.product?.packType?.commonPackType?.boxCount);
+    (it.packType?.defaultPalletQuantity ||
+      it?.packType?.commonPackType?.boxCount);
 
   const boxCountItem = (filteredItems || []).find((it) =>
     getItemDefaultPalletQuantity(it),

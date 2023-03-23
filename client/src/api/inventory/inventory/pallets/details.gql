@@ -37,23 +37,7 @@ query PALLET_DETAILS($palletId: String!) {
         }
       }
       product {
-        packType {
-          id
-          packDescription
-          pluUpcCode
-          label {
-            id
-            labelName
-          }
-        }
         id
-        sizes {
-          nodes {
-            id
-            combineDescription
-            jvDescription
-          }
-        }
         species {
           id
           speciesDescription
@@ -61,6 +45,22 @@ query PALLET_DETAILS($palletId: String!) {
         variety {
           id
           varietyDescription
+        }
+      }
+      packType {
+        id
+        packDescription
+        pluUpcCode
+        label {
+          id
+          labelName
+        }
+      }
+      sizes {
+        nodes {
+          id
+          combineDescription
+          jvDescription
         }
       }
       psaArrivalReport {

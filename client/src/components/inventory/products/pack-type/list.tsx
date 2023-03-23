@@ -45,7 +45,7 @@ const PackTypeList = ({
                 gridTemplateColumns={gridTemplateColumns}
                 key={idx}
                 listLabels={listLabels}
-                to={`${baseUrl}/packTypes/${item.id}`}
+                to={`${baseUrl}/pack-types/${item.id}`}
               />
             ),
         )

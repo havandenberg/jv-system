@@ -35,16 +35,16 @@ export const listLabels: PalletLabelInfo[] = [
   {
     key: 'product',
     label: 'Size',
-    getValue: (data) => data.product?.sizes?.nodes[0]?.jvDescription || '',
+    getValue: (data) => data.sizes?.nodes[0]?.combineDescription || '',
   },
   {
     key: 'product',
     label: 'Pack Type',
     getValue: (data) =>
-      data.product?.packType
-        ? data.product?.packType?.label?.labelName +
+      data.packType
+        ? data.packType?.label?.labelName +
           ' - ' +
-          data.product?.packType?.packDescription
+          data.packType?.packDescription
         : '',
   },
   {
@@ -177,7 +177,7 @@ export const baseLabels: PalletLabelInfo[] = [
     label: 'Size',
     getValue: (data) => (
       <ty.BodyText>
-        {data.product?.sizes?.nodes[0]?.jvDescription || ''}
+        {data.sizes?.nodes[0]?.combineDescription || ''}
       </ty.BodyText>
     ),
   },
@@ -186,10 +186,10 @@ export const baseLabels: PalletLabelInfo[] = [
     label: 'Pack Type',
     getValue: (data) => (
       <ty.BodyText>
-        {data.product?.packType
-          ? data.product?.packType?.label?.labelName +
+        {data.packType
+          ? data.packType?.label?.labelName +
             ' - ' +
-            data.product?.packType?.packDescription
+            data.packType?.packDescription
           : ''}
       </ty.BodyText>
     ),

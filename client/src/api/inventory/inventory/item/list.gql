@@ -40,30 +40,30 @@ query INVENTORY_ITEM_LIST($startDate: Date!, $endDate: Date!) {
           id
           varietyDescription
         }
-        sizes(first: 1) {
-          nodes {
-            id
-            combineDescription
-            jvDescription
-          }
-        }
-        packType {
-          commonPackType {
-            id
-            boxCount
-          }
-          defaultPalletQuantity
-          packDescription
+      }
+      sizes(first: 1) {
+        nodes {
           id
-          label {
-            id
-            labelCode
-            labelName
-          }
-          customerSpecial {
-            id
-            customerName
-          }
+          combineDescription
+          jvDescription
+        }
+      }
+      packType {
+        commonPackType {
+          id
+          boxCount
+        }
+        defaultPalletQuantity
+        packDescription
+        id
+        label {
+          id
+          labelCode
+          labelName
+        }
+        customerSpecial {
+          id
+          customerName
         }
       }
       shipper {

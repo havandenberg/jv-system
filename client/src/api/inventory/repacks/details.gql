@@ -56,13 +56,13 @@ query REPACK_HEADER_DETAILS($repackCode: String!) {
                   palletWeight
                 }
               }
-              packType {
+            }
+            packType {
+              id
+              packDescription
+              commonPackType {
                 id
-                packDescription
-                commonPackType {
-                  id
-                  palletWeight
-                }
+                palletWeight
               }
             }
           }

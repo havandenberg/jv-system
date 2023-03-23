@@ -172,6 +172,15 @@ export const useExpensesQueryParams = () =>
     vesselCode: ArrayParam,
   });
 
+export const useVesselControlQueryParams = () =>
+  useQuerySet({
+    liquidatedStatus: StringParam,
+    vessel: ArrayParam,
+    shipper: ArrayParam,
+    arrivalLocation: ArrayParam,
+    vesselControlView: StringParam,
+  });
+
 export const useUnpaidsQueryParams = () =>
   useQuerySet({
     salesUserCode: StringParam,
@@ -187,6 +196,8 @@ export const useRepackQueryParams = () =>
     runNumber: StringParam,
     repackStyleId: ArrayParam,
     warehouseId: ArrayParam,
+    vessel: ArrayParam,
+    shipper: ArrayParam,
   });
 
 export const useRepackQueueQueryParams = () =>

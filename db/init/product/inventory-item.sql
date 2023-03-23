@@ -62,6 +62,52 @@ AS $BODY$
   SELECT * FROM product.product_master pm WHERE pm.id = i.product_id
 $BODY$;
 
+CREATE FUNCTION product.inventory_item_sizes(IN a product.inventory_item)
+    RETURNS SETOF product.product_size
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  (SELECT * FROM product.product_size b
+    WHERE b.jv_code = SUBSTRING(a.product_id, 5, 3)
+    AND (b.species_id = SUBSTRING(a.product_id, 1, 2)
+      AND b.variety_id = SUBSTRING(a.product_id, 1, 4)
+      AND b.shipper_id = a.shipper_id
+    )) UNION
+  (SELECT * FROM product.product_size b
+    WHERE b.jv_code = SUBSTRING(a.product_id, 5, 3)
+    AND (b.species_id = SUBSTRING(a.product_id, 1, 2)
+      AND b.variety_id = ''
+      AND b.shipper_id = a.shipper_id
+    )) UNION
+  (SELECT * FROM product.product_size b
+    WHERE b.jv_code = SUBSTRING(a.product_id, 5, 3)
+    AND (b.species_id = SUBSTRING(a.product_id, 1, 2)
+      AND b.variety_id = ''
+      AND b.shipper_id = ''
+    )) UNION
+  (SELECT * FROM product.product_size b
+    WHERE b.jv_code = SUBSTRING(a.product_id, 5, 3)
+    AND (b.species_id = ''
+      AND b.variety_id = ''
+      AND b.shipper_id = ''
+    ))
+  ORDER BY jv_code, shipper_id DESC, species_id DESC, variety_id DESC;
+$BODY$;
+
+CREATE FUNCTION product.inventory_item_pack_type(IN a product.inventory_item)
+    RETURNS product.pack_master
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT * FROM product.pack_master b
+    WHERE b.jv_pack_code = SUBSTRING(a.product_id, 8, 4)
+    AND b.shipper_id = a.shipper_id;
+$BODY$;
+
 CREATE FUNCTION product.inventory_item_warehouse(IN i product.inventory_item)
     RETURNS directory.warehouse
     LANGUAGE 'sql'

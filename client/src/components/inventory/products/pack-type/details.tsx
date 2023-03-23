@@ -32,11 +32,11 @@ export const breadcrumbs = (packType: CommonPackType) => [
   },
   {
     text: packType?.commonSpecies?.speciesName || '',
-    to: `/inventory/products/${packType?.commonSpecies?.id}/packTypes`,
+    to: `/inventory/products/${packType?.commonSpecies?.id}/pack-types`,
   },
   {
     text: 'Pack Type',
-    to: `/inventory/products/${packType?.commonSpecies?.id}/packTypes/${packType?.id}`,
+    to: `/inventory/products/${packType?.commonSpecies?.id}/pack-types/${packType?.id}`,
   },
 ];
 

@@ -80,6 +80,32 @@ AS $BODY$
     AND ri.run_number = r.run_number;
 $BODY$;
 
+CREATE FUNCTION operations.repack_header_vessel(IN r operations.repack_header)
+    RETURNS product.vessel
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT v.* FROM operations.repack_header_items(r) i
+    JOIN product.pallet p ON p.pallet_id = i.pallet_id
+    JOIN product.vessel v ON p.vessel_code = v.vessel_code
+    ORDER BY v.id DESC LIMIT 1;
+$BODY$;
+
+CREATE FUNCTION operations.repack_header_shipper(IN r operations.repack_header)
+    RETURNS directory.shipper
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT s.* FROM operations.repack_header_items(r) i
+    JOIN product.pallet p ON p.pallet_id = i.pallet_id
+    JOIN directory.shipper s ON p.shipper_id = s.id
+    LIMIT 1;
+$BODY$;
+
 CREATE FUNCTION operations.repack_header_boxes_in(IN r operations.repack_header)
     RETURNS NUMERIC
     LANGUAGE 'sql'
@@ -108,10 +134,9 @@ CREATE FUNCTION operations.repack_header_weight_in(IN r operations.repack_header
     COST 100
 AS $BODY$
   SELECT SUM(ri.boxes_in * (
-      SELECT net_weight_contents FROM product.product_master_pack_type(pm)
+      SELECT net_weight_contents FROM product.pallet_pack_type(p)
     )) FROM operations.repack_header_items(r) AS ri
     LEFT JOIN product.pallet p ON p.pallet_id = ri.pallet_id
-    LEFT JOIN product.product_master pm ON pm.id = p.product_id;
 $BODY$;
 
 CREATE FUNCTION operations.repack_header_weight_out(IN r operations.repack_header)

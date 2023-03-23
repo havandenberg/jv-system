@@ -46,36 +46,36 @@ query INVENTORY_ITEM_DETAILS($id: BigInt!) {
           varietyName
         }
       }
-      sizes {
-        nodes {
+    }
+    sizes {
+      nodes {
+        id
+        combineDescription
+        jvDescription
+        commonSize {
           id
-          combineDescription
-          jvDescription
-          commonSize {
-            id
-            sizeName
-          }
+          sizeName
         }
       }
-      packType {
+    }
+    packType {
+      id
+      packDescription
+      label {
         id
-        packDescription
-        label {
+        labelName
+      }
+      customerSpecial {
+        id
+        customerName
+      }
+      commonPackType {
+        id
+        repackStyle {
           id
-          labelName
+          styleName
         }
-        customerSpecial {
-          id
-          customerName
-        }
-        commonPackType {
-          id
-          repackStyle {
-            id
-            styleName
-          }
-          packTypeName
-        }
+        packTypeName
       }
     }
     shipper {

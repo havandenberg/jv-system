@@ -14,23 +14,7 @@ query PALLET_LIST($orderBy: [PalletsOrderBy!], $search: [PalletFilter!]) {
         shipperName
       }
       product {
-        packType {
-          id
-          packDescription
-          pluUpcCode
-          label {
-            id
-            labelName
-          }
-        }
         id
-        sizes {
-          nodes {
-            id
-            combineDescription
-            jvDescription
-          }
-        }
         species {
           id
           speciesDescription
@@ -38,6 +22,22 @@ query PALLET_LIST($orderBy: [PalletsOrderBy!], $search: [PalletFilter!]) {
         variety {
           id
           varietyDescription
+        }
+      }
+      packType {
+        id
+        packDescription
+        pluUpcCode
+        label {
+          id
+          labelName
+        }
+      }
+      sizes {
+        nodes {
+          id
+          combineDescription
+          jvDescription
         }
       }
       vessel {

@@ -16,7 +16,10 @@ import { GridWrapper, VirtualizedGrid } from 'components/virtualized-list';
 import useColumns, { SORT_ORDER } from 'hooks/use-columns';
 import useDateRange from 'hooks/use-date-range';
 import useSearch from 'hooks/use-search';
-import { useQueryValue, useSortQueryParams } from 'hooks/use-query-params';
+import {
+  useSortQueryParams,
+  useVesselControlQueryParams,
+} from 'hooks/use-query-params';
 import { VesselControl } from 'types';
 import b from 'ui/button';
 import { LineItemCheckbox } from 'ui/checkbox';
@@ -24,7 +27,10 @@ import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 
-import { listLabels, VesselControlLabelInfo } from './data-utils';
+import {
+  listLabels as getListLabels,
+  VesselControlLabelInfo,
+} from './data-utils';
 import NotifyUnpaids from './notify';
 import {
   gridTemplateColumns as unpaidsGridTemplateColumns,
@@ -32,7 +38,7 @@ import {
 } from './unpaids';
 
 const gridTemplateColumns =
-  '30px 1fr 0.5fr 0.5fr 1fr 0.5fr 0.7fr 2fr 2fr 1fr 2fr 1fr 0.7fr 0.7fr 0.7fr 430px 3fr 3fr';
+  '30px 1fr 0.5fr 0.5fr 1fr 0.5fr 0.8fr 2fr 2fr 1fr 0.8fr 2fr 1fr 0.7fr 0.7fr 0.7fr 430px 3fr 3fr';
 
 const VESSEL_CONTROL_LOG_WIDTH = 2078;
 
@@ -86,15 +92,17 @@ const VesselControlItem = ({
 const VesselControlLog = () => {
   const { Search } = useSearch({ paramName: 'vesselControlSearch' });
   const [{ sortBy, sortOrder }] = useSortQueryParams();
-  const [liquidatedStatus, setLiquidatedStatus] =
-    useQueryValue('liquidatedStatus');
-  const isLiquidated = liquidatedStatus === 'liquidated';
-  const isNotLiquidated = liquidatedStatus === 'unliquidated';
-  const [vesselControlView] = useQueryValue('vesselControlView');
-  const isDue = vesselControlView === 'due';
+  const [{ liquidatedStatus }, setQueryParams] = useVesselControlQueryParams();
   const maxWidth = window.innerWidth - 64;
 
-  const { data: vesselControls, loading, error } = api.useVesselControls();
+  const {
+    data: vesselControls,
+    vesselOptions,
+    shipperOptions,
+    arrivalOptions,
+    loading,
+    error,
+  } = api.useVesselControls();
 
   const [changes, setChanges] = useState<VesselControl[]>([]);
 
@@ -181,10 +189,17 @@ const VesselControlLog = () => {
 
   const { DateRangePicker, BackwardButton, ForwardButton } = useDateRange();
 
+  const listLabels = getListLabels(
+    handleChange,
+    vesselOptions,
+    shipperOptions,
+    arrivalOptions,
+  );
+
   const columnLabels = useColumns<VesselControl>(
     'vesselCode',
     SORT_ORDER.ASC,
-    listLabels(handleChange),
+    listLabels,
     'accounting',
     'vessel_control',
   );
@@ -192,7 +207,7 @@ const VesselControlLog = () => {
   const isDirty = !isEmpty(changes);
 
   const updatedVesselControls = getSortedItems(
-    listLabels(handleChange),
+    listLabels,
     [
       ...vesselControls.map((vesselControl) => {
         const updatedVesselControl = changes.find(
@@ -203,15 +218,7 @@ const VesselControlLog = () => {
         return updatedVesselControl || vesselControl;
       }),
       ...changes.filter((change) => !change.id),
-    ].filter((vc) => {
-      if (isLiquidated) {
-        return vc.isLiquidated && (isDue || !!vc.id);
-      }
-      if (isNotLiquidated) {
-        return !vc.isLiquidated && (isDue || !!vc.id);
-      }
-      return isDue || !!vc.id;
-    }),
+    ],
     sortBy,
     sortOrder,
   );
@@ -246,13 +253,13 @@ const VesselControlLog = () => {
   const toggleLiquidatedStatus = () => {
     switch (liquidatedStatus) {
       case undefined:
-        setLiquidatedStatus('unliquidated');
+        setQueryParams({ liquidatedStatus: 'unliquidated' });
         break;
       case 'unliquidated':
-        setLiquidatedStatus('liquidated');
+        setQueryParams({ liquidatedStatus: 'liquidated' });
         break;
       default:
-        setLiquidatedStatus(undefined);
+        setQueryParams({ liquidatedStatus: undefined });
     }
   };
 
@@ -368,6 +375,7 @@ const VesselControlLog = () => {
             <GridWrapper>
               <l.Div overflowX="hidden" width={maxWidth - 16}>
                 <l.Grid
+                  alignCenter
                   bg={th.colors.background}
                   gridTemplateColumns={gridTemplateColumns}
                   pb={th.spacing.sm}
@@ -395,7 +403,7 @@ const VesselControlLog = () => {
                         </l.Div>
                         {label}
                       </l.Flex>
-                    ) : idx === 14 ? (
+                    ) : idx === 15 ? (
                       <l.Grid
                         alignCenter
                         gridTemplateColumns={unpaidsGridTemplateColumns}
@@ -422,6 +430,12 @@ const VesselControlLog = () => {
                   )}
                 </l.Grid>
               </l.Div>
+              <l.Div
+                transform={`translateX(-${scrollLeft}px)`}
+                zIndex={2}
+                relative
+                id="vessel-control-portal"
+              />
               {!isEmpty(vesselControls) ? (
                 <VirtualizedGrid
                   columnCount={1}
@@ -444,7 +458,7 @@ const VesselControlLog = () => {
                           <VesselControlItem
                             index={rowIndex}
                             item={vesselControl}
-                            listLabels={listLabels(handleChange)}
+                            listLabels={listLabels}
                             scrollTop={scrollTop}
                             onSelectItem={() => {
                               toggleSelectItem(vesselControlId);

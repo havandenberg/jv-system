@@ -51,13 +51,13 @@ query TRUCK_LOAD_LIST(
                     palletWeight
                   }
                 }
-                packType {
+              }
+              packType {
+                id
+                packDescription
+                commonPackType {
                   id
-                  packDescription
-                  commonPackType {
-                    id
-                    palletWeight
-                  }
+                  palletWeight
                 }
               }
             }

@@ -122,6 +122,9 @@ if (process.env.REACT_APP_IS_PRODUCTION === 'true') {
   cron.schedule('15 5-22/2 * * *', () =>
     db2UpdateTable('accounting/expense/item'),
   );
+  cron.schedule('0 5-22/3 * * *', () =>
+    db2UpdateTable('accounting/customer-payment'),
+  );
 
   cron.schedule('0 5-22/6 * * *', () =>
     db2UpdateTable('accounting/invoice/header'),
@@ -131,9 +134,6 @@ if (process.env.REACT_APP_IS_PRODUCTION === 'true') {
   );
   cron.schedule('0 5-22/6 * * *', () =>
     db2UpdateTable('accounting/invoice/item-history'),
-  );
-  cron.schedule('0 5-22/6 * * *', () =>
-    db2UpdateTable('accounting/customer-payment'),
   );
 
   cron.schedule('0 23 * * *', () => db2UpdateTable('product/pallet'));

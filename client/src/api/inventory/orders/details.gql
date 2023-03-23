@@ -62,21 +62,21 @@ query ORDER_MASTER_DETAILS($orderId: BigFloat!) {
                 id
                 varietyDescription
               }
-              sizes {
-                nodes {
-                  id
-                  combineDescription
-                  jvDescription
-                }
-              }
-              packType {
+            }
+            sizes {
+              nodes {
                 id
-                label {
-                  id
-                  labelName
-                }
-                packDescription
+                combineDescription
+                jvDescription
               }
+            }
+            packType {
+              id
+              label {
+                id
+                labelName
+              }
+              packDescription
             }
           }
           isBundle

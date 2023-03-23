@@ -8,6 +8,7 @@ import {
   useDateRangeQueryParams,
   useQueryValue,
   useSearchQueryParam,
+  useVesselControlQueryParams,
 } from 'hooks/use-query-params';
 import { Mutation, Query, VesselControl } from 'types';
 
@@ -54,6 +55,12 @@ export const useVesselControls = () => {
   const [search = ''] = useSearchQueryParam('vesselControlSearch');
   const searchArray = search?.split(' ');
   const variables = useVariables();
+  const [
+    { vessel, shipper, arrivalLocation, liquidatedStatus, vesselControlView },
+  ] = useVesselControlQueryParams();
+  const isLiquidated = liquidatedStatus === 'liquidated';
+  const isNotLiquidated = liquidatedStatus === 'unliquidated';
+  const isDue = vesselControlView === 'due';
 
   const { data, loading, error } = useQuery<Query>(VESSEL_CONTROL_LIST_QUERY, {
     variables,
@@ -61,20 +68,61 @@ export const useVesselControls = () => {
 
   const vesselControls = (data?.vesselControls?.nodes || []) as VesselControl[];
 
+  const vesselOptions: string[] = [];
+  const shipperOptions: string[] = [];
+  const arrivalOptions: string[] = [];
+
   const filteredData = vesselControls.filter((vc) => {
     const searchText = vesselControlSearchText(vc);
-
     const isSearchValid =
       !searchArray ||
       searchArray.every((searchVal) =>
         searchText.toLowerCase().includes(searchVal.toLowerCase()),
       );
 
-    return isSearchValid;
+    let isLiquidationStatusValid = true;
+    if (isLiquidated) {
+      isLiquidationStatusValid = !!vc.isLiquidated && (isDue || !!vc.id);
+    } else if (isNotLiquidated) {
+      isLiquidationStatusValid = !vc.isLiquidated && (isDue || !!vc.id);
+    } else {
+      isLiquidationStatusValid = isDue || !!vc.id;
+    }
+
+    const vesselOption = `${vc.vessel?.vesselCode} - ${vc.vessel?.vesselName}`;
+    const isVesselCodeValid = !vessel || vessel.includes(vesselOption);
+    if (!vesselOptions.includes(vesselOption)) {
+      vesselOptions.push(vesselOption);
+    }
+
+    const shipperOption = `${vc.shipper?.shipperName} (${vc.shipper?.id})`;
+    const isShipperValid = !shipper || shipper.includes(shipperOption);
+    if (!shipperOptions.includes(shipperOption)) {
+      shipperOptions.push(shipperOption);
+    }
+
+    const arrivalOption = `${vc.vessel?.warehouse?.warehouseName} (${vc.vessel?.warehouse?.id})`;
+    const isArrivalLocationValid =
+      !arrivalLocation || arrivalLocation.includes(arrivalOption);
+    if (!arrivalOptions.includes(arrivalOption)) {
+      arrivalOptions.push(arrivalOption);
+    }
+
+    const isValid =
+      isVesselCodeValid &&
+      isSearchValid &&
+      isShipperValid &&
+      isArrivalLocationValid &&
+      isLiquidationStatusValid;
+
+    return isValid;
   });
 
   return {
     data: filteredData,
+    vesselOptions: vesselOptions.sort(),
+    shipperOptions: shipperOptions.sort(),
+    arrivalOptions: arrivalOptions.sort(),
     error,
     loading,
   };

@@ -52,7 +52,7 @@ export const listLabels: OrderItemLabelInfo[] = [
     getValue: ({ inventoryItem }) =>
       inventoryItem ? (
         <ty.BodyText>
-          {inventoryItem.product?.sizes.nodes?.[0]?.jvDescription}
+          {inventoryItem.sizes.nodes?.[0]?.combineDescription}
         </ty.BodyText>
       ) : (
         ''
@@ -63,9 +63,7 @@ export const listLabels: OrderItemLabelInfo[] = [
     label: 'Pack Type',
     getValue: ({ inventoryItem }) =>
       inventoryItem ? (
-        <ty.BodyText>
-          {inventoryItem.product?.packType?.packDescription}
-        </ty.BodyText>
+        <ty.BodyText>{inventoryItem.packType?.packDescription}</ty.BodyText>
       ) : (
         ''
       ),
@@ -75,9 +73,7 @@ export const listLabels: OrderItemLabelInfo[] = [
     label: 'Label',
     getValue: ({ inventoryItem }) =>
       inventoryItem ? (
-        <ty.BodyText>
-          {inventoryItem.product?.packType?.label?.labelName}
-        </ty.BodyText>
+        <ty.BodyText>{inventoryItem.packType?.label?.labelName}</ty.BodyText>
       ) : (
         ''
       ),
@@ -88,9 +84,7 @@ export const listLabels: OrderItemLabelInfo[] = [
     getValue: ({ inventoryItem }) =>
       inventoryItem ? (
         <ty.BodyText>
-          {inventoryItem.product?.packType?.pluUpcCode === 'Y'
-            ? 'PLU'
-            : 'NO PLU'}
+          {inventoryItem.packType?.pluUpcCode === 'Y' ? 'PLU' : 'NO PLU'}
         </ty.BodyText>
       ) : (
         ''

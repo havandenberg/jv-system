@@ -141,12 +141,12 @@ const InventoryTab = () => (
     />
     <Route
       exact
-      path="/inventory/products/:speciesId/packTypes/create"
+      path="/inventory/products/:speciesId/pack-types/create"
       component={CreateCommonPackType}
     />
     <Route
       exact
-      path="/inventory/products/:speciesId/packTypes/:packTypeId"
+      path="/inventory/products/:speciesId/pack-types/:packTypeId"
       component={CommonPackTypeDetails}
     />
 

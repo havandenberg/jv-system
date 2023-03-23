@@ -224,7 +224,7 @@ const useOrdersFilters = ({
       id: 'other',
       speciesDescription: 'Other',
       varietyDescription: 'Other',
-      jvDescription: 'Other',
+      combineDescription: 'Other',
       packDescription: 'Other',
       label: {
         labelCode: 'other',
@@ -248,8 +248,8 @@ const useOrdersFilters = ({
 
       const itemSpecies = item.product?.species || otherCategory;
       const itemVariety = item.product?.variety || otherCategory;
-      const itemSize = item.product?.sizes?.nodes[0] || otherCategory;
-      const itemPackType = item.product?.packType || otherCategory;
+      const itemSize = item.sizes?.nodes[0] || otherCategory;
+      const itemPackType = item.packType || otherCategory;
 
       const commonSpecies = commonSpecieses.find(
         (cs) => cs && cs.productSpeciesId === itemSpecies?.id,
@@ -408,15 +408,15 @@ const useOrdersFilters = ({
       if (
         isSpeciesValid &&
         !sizeOptions.find(
-          ({ value }) => value === `${itemSize.jvDescription}`,
+          ({ value }) => value === `${itemSize.combineDescription}`,
         ) &&
         detailsValid &&
         itemSize
       ) {
         sizeOptions.push({
-          text: `${itemSize.jvDescription}`,
-          shortText: `${itemSize.jvDescription}`,
-          value: `${itemSize.jvDescription}`,
+          text: `${itemSize.combineDescription}`,
+          shortText: `${itemSize.combineDescription}`,
+          value: `${itemSize.combineDescription}`,
         });
         commonSizeTags.forEach((tag) => {
           if (!sizeOptions.find(({ value }) => value === tag.tagText)) {
@@ -475,7 +475,7 @@ const useOrdersFilters = ({
         (size
           ? sizeTag
             ? pluck('tagText', commonSizeTags).includes(sizeTag)
-            : ['total', itemSize?.jvDescription].includes(size)
+            : ['total', itemSize?.combineDescription].includes(size)
           : !sizeTag || pluck('tagText', commonSizeTags).includes(sizeTag)) &&
         (!label || ['total', itemPackType?.label?.labelCode].includes(label)) &&
         (packType

@@ -61,24 +61,7 @@ query INVOICE_HEADER_LIST(
             packDate
             palletId
             product {
-              packType {
-                id
-                packDescription
-                pluUpcCode
-                label {
-                  id
-                  labelName
-                  labelCode
-                }
-              }
               id
-              sizes {
-                nodes {
-                  id
-                  combineDescription
-                  jvDescription
-                }
-              }
               species {
                 id
                 speciesDescription
@@ -86,6 +69,23 @@ query INVOICE_HEADER_LIST(
               variety {
                 id
                 varietyDescription
+              }
+            }
+            packType {
+              id
+              packDescription
+              pluUpcCode
+              label {
+                id
+                labelName
+                labelCode
+              }
+            }
+            sizes {
+              nodes {
+                id
+                combineDescription
+                jvDescription
               }
             }
             shipped

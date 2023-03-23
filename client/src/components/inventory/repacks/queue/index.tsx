@@ -61,6 +61,7 @@ export interface UpdatedQueueItem {
 
 interface RepackQueueState {
   changes: RepackQueue[];
+  loadingNewItems: boolean;
   newItemNextId: number;
   saveAttempt: boolean;
   selectedItems: {
@@ -71,6 +72,7 @@ interface RepackQueueState {
 
 const initialState: RepackQueueState = {
   changes: [],
+  loadingNewItems: true,
   newItemNextId: -1,
   saveAttempt: false,
   selectedItems: {},
@@ -124,12 +126,17 @@ const RepackQueueList = () => {
   } = api.useRepackCommonPackTypes();
   const repackPackTypes = (repackPackTypeData?.nodes || []) as CommonPackType[];
 
-  const loading =
-    newRepackQueueLoading || repackQueueLoading || repackPackTypeLoading;
-  const error = newRepackQueueError || repackQueueError || repackPackTypeError;
+  const [
+    { changes, loadingNewItems, saveAttempt, selectedItems, updatedItems },
+    setState,
+  ] = useState<RepackQueueState>(initialState);
 
-  const [{ changes, saveAttempt, selectedItems, updatedItems }, setState] =
-    useState<RepackQueueState>(initialState);
+  const loading =
+    newRepackQueueLoading ||
+    repackQueueLoading ||
+    repackPackTypeLoading ||
+    loadingNewItems;
+  const error = newRepackQueueError || repackQueueError || repackPackTypeError;
 
   useEffect(() => {
     if (prevNewRepackQueueLoading && !newRepackQueueLoading) {
@@ -140,9 +147,10 @@ const RepackQueueList = () => {
           ...getNewRepackQueues(newRepackQueues, state.newItemNextId),
         ],
         newItemNextId: state.newItemNextId - newRepackQueues.length,
+        loadingNewItems: false,
       }));
     }
-  }, [newRepackQueueLoading, prevNewRepackQueueLoading, newRepackQueues]);
+  }, [prevNewRepackQueueLoading, newRepackQueueLoading, newRepackQueues]);
 
   const isDirty = !isEmpty(changes);
 
@@ -428,7 +436,7 @@ const RepackQueueList = () => {
                   color={contrastColor(
                     packType?.commonSpecies?.uiColor || undefined,
                   )}
-                  to={`/inventory/products/${packType?.commonSpecies?.id}/packTypes/${packType?.id}`}
+                  to={`/inventory/products/${packType?.commonSpecies?.id}/pack-types/${packType?.id}`}
                   transform={`translateX(${scrollLeft}px)`}
                 >{`${packType?.commonSpecies?.speciesName} - ${packType?.repackStyle?.styleDescription} - ${packType?.packTypeDescription}`}</ty.LinkText>
               ) : (
@@ -676,7 +684,7 @@ const RepackQueueList = () => {
                   id="repack-queue-portal"
                   zIndex={5}
                 />
-                {!isEmpty(updatedRepackQueues) ? (
+                {!isEmpty(allChanges) ? (
                   <VirtualizedGrid
                     disableScrollTop
                     columnCount={1}
@@ -700,7 +708,7 @@ const RepackQueueList = () => {
                 ) : (
                   <l.Div width={maxWidth}>
                     <DataMessage
-                      data={updatedRepackQueues}
+                      data={allChanges}
                       error={error}
                       loading={loading}
                       emptyProps={{
