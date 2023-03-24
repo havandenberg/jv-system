@@ -105,6 +105,7 @@ const Details = () => {
     'email',
     'secondaryEmail',
     'homePhone',
+    'homeExtension',
     'cellPhone',
     'workPhone',
     'workExtension',

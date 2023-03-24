@@ -13,7 +13,7 @@ query INTERNAL_CONTACT_LIST(
       lastName
       email
       isPrimary
-      workPhone
+      homeExtension
       workExtension
     }
     totalCount

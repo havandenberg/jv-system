@@ -27,6 +27,10 @@ export const internalListLabels: PersonContactLabelInfo[] = [
     transformKey: 'email',
   },
   {
+    key: 'homeExtension',
+    label: 'Home Extension',
+  },
+  {
     key: 'workExtension',
     label: 'Work Extension',
   },
@@ -210,9 +214,17 @@ export const baseLabels: (
       transformKey: 'email',
     },
     {
+      key: 'roles',
+      label: 'Role(s)',
+    },
+    {
       key: 'homePhone',
       label: 'Home Phone',
       transformKey: 'phone',
+    },
+    {
+      key: 'homeExtension',
+      label: 'Home Extension',
     },
     {
       key: 'cellPhone',
@@ -227,10 +239,6 @@ export const baseLabels: (
     {
       key: 'workExtension',
       label: 'Work Extension',
-    },
-    {
-      key: 'roles',
-      label: 'Role(s)',
     },
     ...internalLabels,
   ];

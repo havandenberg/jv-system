@@ -4,6 +4,7 @@ query INTERNAL_CONTACT_DETAILS($id: BigInt!) {
     email
     firstName
     homePhone
+    homeExtension
     id
     imageSrc
     isPrimary

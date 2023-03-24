@@ -18,7 +18,7 @@ import { breadcrumbs, SubDirectoryProps } from '..';
 import { useDirectorySelectionContext } from '../selection-context';
 import { internalListLabels as listLabels } from './data-utils';
 
-const gridTemplateColumns = '30px 1.5fr 2fr 3.5fr 2fr 30px';
+const gridTemplateColumns = '30px 1.5fr 2fr 3.5fr 2fr 2fr 30px';
 
 const ContactDirectory = ({ actions }: SubDirectoryProps) => {
   const { Search } = useSearch();

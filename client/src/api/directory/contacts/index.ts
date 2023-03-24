@@ -14,8 +14,8 @@ import { SHIPPER_DETAILS_QUERY } from '../shipper';
 import { WAREHOUSE_DETAILS_QUERY } from '../warehouse';
 import { VENDOR_DETAILS_QUERY } from '../vendor';
 
-const PERSON_CONTACT_DETAILS_QUERY = loader('./details.gql');
-const INTERNAL_CONTACT_LIST_QUERY = loader('./internal-list.gql');
+const PERSON_CONTACT_DETAILS_QUERY = loader('./details2.gql');
+const INTERNAL_CONTACT_LIST_QUERY = loader('./internal-list2.gql');
 const PERSON_CONTACT_LIST_QUERY = loader('./list.gql');
 const PERSON_CONTACT_UPDATE = loader('./update.gql');
 const PERSON_CONTACT_CREATE = loader('./create.gql');
