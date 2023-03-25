@@ -188,6 +188,8 @@ export const useUnpaidsQueryParams = () =>
     vesselCode: ArrayParam,
     loadId: ArrayParam,
     invoiceId: ArrayParam,
+    customer: ArrayParam,
+    shipper: ArrayParam,
   });
 
 export const useRepackQueryParams = () =>

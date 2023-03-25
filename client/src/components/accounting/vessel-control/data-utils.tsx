@@ -65,7 +65,15 @@ export const listLabels: (
     label: 'Due Date',
     sortable: true,
     sortKey: 'dueDate',
-    customSortBy: () => ({}),
+    customSortBy: ({ shipper, vessel }) => {
+      const dueDate =
+        vessel && shipper && getVesselControlDueDate(vessel, shipper);
+      return (
+        `${dueDate ? new Date(dueDate).getTime() : 0}-${vessel?.vesselCode}-${
+          shipper?.shipperName
+        }` || ''
+      ).toLowerCase();
+    },
     getValue: ({ shipper, vessel }) => {
       const dueDate =
         vessel && shipper && getVesselControlDueDate(vessel, shipper);
@@ -336,7 +344,7 @@ export const listLabels: (
           width: th.sizes.fill,
         }}
         onChange={(e) => {
-          handleChange({ ...rest, notes1: e.target.value });
+          handleChange({ ...rest, notes2: e.target.value });
         }}
       />
     ),

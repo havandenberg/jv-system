@@ -20,21 +20,16 @@ const UNPAIDS_NOTIFY = loader('./notify.gql');
 export const useVariables = (isUnpaids?: boolean) => {
   const [search] = useQueryValue('vesselControlSearch');
   const [vesselControlView] = useQueryValue('vesselControlView');
-  const isDue = isUnpaids || vesselControlView === 'due';
+  const isDue = vesselControlView === 'due';
 
   const [{ startDate, endDate }] = useDateRangeQueryParams();
   const formattedStartDate = formatDate(
-    add(startDate ? new Date(startDate.replace(/-/g, '/')) : new Date(), {
-      weeks: startDate === endDate ? -2 : 0,
-    }),
+    startDate ? new Date(startDate.replace(/-/g, '/')) : new Date(),
   );
   const formattedEndDate = formatDate(
-    add(
-      endDate
-        ? add(new Date(endDate.replace(/-/g, '/')), { days: isDue ? 0 : 1 })
-        : new Date(),
-      { days: isUnpaids ? 45 : 0 },
-    ),
+    endDate
+      ? add(new Date(endDate.replace(/-/g, '/')), { days: isDue ? 0 : 1 })
+      : new Date(),
   );
 
   return {
@@ -43,7 +38,8 @@ export const useVariables = (isUnpaids?: boolean) => {
         ? undefined
         : {
             [isDue ? 'dueDate' : 'dateSent']: {
-              greaterThanOrEqualTo: formattedStartDate,
+              greaterThanOrEqualTo:
+                startDate === endDate ? undefined : formattedStartDate,
               lessThanOrEqualTo: formattedEndDate,
             },
           },

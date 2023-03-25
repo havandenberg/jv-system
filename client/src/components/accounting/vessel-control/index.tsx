@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { isEmpty, pick } from 'ramda';
 import { ClipLoader } from 'react-spinners';
 import { ScrollSync } from 'react-virtualized';
@@ -11,6 +11,7 @@ import ListItem from 'components/list-item';
 import { BasicModal } from 'components/modal';
 import { DataMessage } from 'components/page/message';
 import Page from 'components/page';
+import StatusIndicator from 'components/status-indicator';
 import { useTabBar } from 'components/tab-bar';
 import { GridWrapper, VirtualizedGrid } from 'components/virtualized-list';
 import useColumns, { SORT_ORDER } from 'hooks/use-columns';
@@ -20,7 +21,7 @@ import {
   useSortQueryParams,
   useVesselControlQueryParams,
 } from 'hooks/use-query-params';
-import { VesselControl } from 'types';
+import { Unpaid, VesselControl } from 'types';
 import b from 'ui/button';
 import { LineItemCheckbox } from 'ui/checkbox';
 import l from 'ui/layout';
@@ -226,6 +227,34 @@ const VesselControlLog = () => {
   const [selectedItems, setSelectedItems] = useState<(string | number)[]>([]);
   const isAllSelected = selectedItems.length === updatedVesselControls.length;
 
+  const isAllUrgent = updatedVesselControls.every(
+    (vesselControl) =>
+      vesselControl.unpaids.nodes.every((unpaid) => unpaid?.isUrgent) ||
+      vesselControl.unpaids.nodes.length === 0,
+  );
+  const isSomeUrgent = updatedVesselControls.some(
+    (vesselControl) =>
+      vesselControl.unpaids.nodes.some((unpaid) => unpaid?.isUrgent) &&
+      vesselControl.unpaids.nodes.length > 0,
+  );
+  const handleToggleAllUrgent = () => {
+    setChanges(
+      updatedVesselControls.map((vesselControl) => ({
+        ...vesselControl,
+        unpaids: {
+          ...vesselControl.unpaids,
+          nodes: vesselControl.unpaids.nodes.map(
+            (unpaid) =>
+              ({
+                ...unpaid,
+                isUrgent: !isAllUrgent,
+              } as Unpaid),
+          ),
+        },
+      })),
+    );
+  };
+
   const toggleSelectItem = (key: string) => {
     if (selectedItems.includes(key)) {
       if (isAllSelected) {
@@ -262,6 +291,12 @@ const VesselControlLog = () => {
         setQueryParams({ liquidatedStatus: undefined });
     }
   };
+
+  useEffect(() => {
+    if (liquidatedStatus === undefined) {
+      setQueryParams({ liquidatedStatus: 'unliquidated' }, 'replaceIn');
+    }
+  }, [liquidatedStatus, setQueryParams]);
 
   return (
     <Page
@@ -410,9 +445,18 @@ const VesselControlLog = () => {
                         key={label.key}
                         ml={th.spacing.sm}
                       >
-                        <l.Div transform={`translateX(-${th.spacing.sm})`}>
+                        <l.Flex
+                          alignCenter
+                          transform={`translateX(-${th.spacing.sm})`}
+                        >
                           {label}
-                        </l.Div>
+                          <StatusIndicator
+                            halfSelected={isSomeUrgent}
+                            selected={isAllUrgent}
+                            status="warning"
+                            onClick={handleToggleAllUrgent}
+                          />
+                        </l.Flex>
                         {SALES_USER_CODES.map((userCode) => (
                           <ty.SmallText
                             key={userCode}

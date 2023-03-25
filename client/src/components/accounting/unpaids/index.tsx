@@ -28,10 +28,10 @@ import th from 'ui/theme';
 import ty from 'ui/typography';
 
 import { SALES_USER_CODES } from '../vessel-control/unpaids';
-import { listLabels, UnpaidLabelInfo } from './data-utils';
+import { listLabels as getListLabels, UnpaidLabelInfo } from './data-utils';
 
 const gridTemplateColumns =
-  '50px 1fr 40px 60px 80px 70px 40px 1fr 90px 75px 75px 90px 1fr';
+  '50px 1fr 40px 65px 80px 70px 48px 1fr 80px 65px 65px 90px 1fr';
 
 const UnpaidItem = ({
   index,
@@ -88,6 +88,8 @@ const Unpaids = () => {
     vesselCodeOptions,
     loadIdOptions,
     invoiceIdOptions,
+    customerOptions,
+    shipperOptions,
     loading,
     error,
   } = api.useUnpaids();
@@ -139,15 +141,19 @@ const Unpaids = () => {
       .then(handleCancel);
   };
 
+  const listLabels = getListLabels(
+    handleChange,
+    vesselCodeOptions,
+    loadIdOptions,
+    invoiceIdOptions,
+    customerOptions,
+    shipperOptions,
+  );
+
   const columnLabels = useColumns<Unpaid>(
     'vesselCode',
     SORT_ORDER.ASC,
-    listLabels(
-      handleChange,
-      vesselCodeOptions,
-      loadIdOptions,
-      invoiceIdOptions,
-    ),
+    listLabels,
     'accounting',
     'unpaid',
   );
@@ -155,7 +161,7 @@ const Unpaids = () => {
   const isDirty = !isEmpty(changes);
 
   const updatedUnpaids = getSortedItems(
-    listLabels(handleChange),
+    listLabels,
     [
       ...unpaids.map((unpaid) => {
         const updatedUnpaidItem = changes.find(
@@ -171,6 +177,28 @@ const Unpaids = () => {
     sortOrder,
   );
 
+  const isAllApproved = updatedUnpaids?.every((unpaid) => unpaid.isApproved);
+  const handleToggleApproveAll = () => {
+    setChanges((prevChanges) => {
+      const existingChanges = prevChanges.filter(
+        (change) =>
+          !unpaids.find(
+            (unpaid) =>
+              unpaid.vessel?.vesselCode === change.vessel?.vesselCode &&
+              unpaid.shipper?.id === change.shipper?.id &&
+              unpaid.invoice?.invoiceId === change.invoice?.invoiceId,
+          ),
+      );
+      return [
+        ...existingChanges,
+        ...unpaids.map((unpaid) => ({
+          ...unpaid,
+          isApproved: !isAllApproved,
+        })),
+      ];
+    });
+  };
+
   useEffect(() => {
     if (!salesUserCode && isSalesAssoc) {
       setParams({ salesUserCode: activeUserCode || undefined }, 'replaceIn');
@@ -179,7 +207,7 @@ const Unpaids = () => {
 
   useEffect(() => {
     if (showLiq === undefined) {
-      setParams({ showLiq: 1 }, 'replaceIn');
+      setParams({ showLiq: 0 }, 'replaceIn');
     }
   }, [showLiq, setParams]);
 
@@ -219,7 +247,7 @@ const Unpaids = () => {
           </b.Success>
         </Fragment>
       }
-      extraPaddingTop={92}
+      extraPaddingTop={94}
       headerChildren={
         <>
           <l.Flex alignCenter mb={th.spacing.lg}>
@@ -282,6 +310,7 @@ const Unpaids = () => {
             </div>
           </l.Flex>
           <l.Grid
+            alignCenter
             bg={th.colors.background}
             gridTemplateColumns={gridTemplateColumns}
             pb={th.spacing.sm}
@@ -294,7 +323,24 @@ const Unpaids = () => {
                 : 0
             }
           >
-            {columnLabels}
+            {columnLabels.map((label, index) =>
+              index === 11 ? (
+                <l.Flex alignCenter>
+                  {label}
+                  <l.Div
+                    ml={13}
+                    title="Click to approve/unapprove all visible unpaids"
+                  >
+                    <LineItemCheckbox
+                      checked={!loading && !!isAllApproved}
+                      onChange={handleToggleApproveAll}
+                    />
+                  </l.Div>
+                </l.Flex>
+              ) : (
+                label
+              ),
+            )}
           </l.Grid>
         </>
       }
@@ -315,7 +361,7 @@ const Unpaids = () => {
                   item && (
                     <div key={key} style={style}>
                       <UnpaidItem
-                        listLabels={listLabels(handleChange)}
+                        listLabels={listLabels}
                         index={index}
                         item={item}
                         scrollTop={scrollTop}

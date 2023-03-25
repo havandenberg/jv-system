@@ -19,8 +19,17 @@ const UNPAIDS_INVOICE_DETAILS_QUERY = loader('./invoice.gql');
 export const useUnpaids = () => {
   const variables = useVariables(true);
   const [search = ''] = useSearchQueryParam('unpaidSearch');
-  const [{ invoiceId, loadId, salesUserCode, showLiq, vesselCode }] =
-    useUnpaidsQueryParams();
+  const [
+    {
+      invoiceId,
+      loadId,
+      salesUserCode,
+      showLiq,
+      vesselCode,
+      customer,
+      shipper,
+    },
+  ] = useUnpaidsQueryParams();
 
   const {
     data: vesselControlsData,
@@ -37,6 +46,8 @@ export const useUnpaids = () => {
   const vesselCodeOptions: string[] = [];
   const loadIdOptions: string[] = [];
   const invoiceIdOptions: string[] = [];
+  const customerOptions: string[] = [];
+  const shipperOptions: string[] = [];
 
   const unpaids = getSortedUnpaids(
     vesselControls
@@ -60,6 +71,16 @@ export const useUnpaids = () => {
               !loadId || loadId.includes(unpaid?.invoice?.truckLoadId);
             const isInvoiceIdValid =
               !invoiceId || invoiceId.includes(unpaid?.invoice?.invoiceId);
+            const customerOption = `${unpaid?.invoice?.billingCustomer?.customerName} (${unpaid?.invoice?.billingCustomer?.id})`;
+            const isCustomerValid =
+              !customer || customer.includes(customerOption);
+            const shipperOption = `${rest.shipper?.shipperName} (${rest.shipper?.id})`;
+            const isShipperValid = !shipper || shipper.includes(shipperOption);
+
+            const isSalesUserValid =
+              !salesUserCode ||
+              salesUserCode === 'all' ||
+              unpaid?.invoice?.salesUserCode === salesUserCode;
 
             const isValid =
               unpaid &&
@@ -68,11 +89,11 @@ export const useUnpaids = () => {
               isVesselCodeValid &&
               isLoadIdValid &&
               isInvoiceIdValid &&
-              (!salesUserCode ||
-                salesUserCode === 'all' ||
-                unpaid.invoice?.salesUserCode === salesUserCode);
+              isCustomerValid &&
+              isShipperValid &&
+              isSalesUserValid;
 
-            if (isValid) {
+            if (unpaid && isLiqValid && isSalesUserValid) {
               if (!vesselCodeOptions.includes(`${rest.vessel?.vesselCode}`)) {
                 vesselCodeOptions.push(`${rest.vessel?.vesselCode}`);
               }
@@ -81,6 +102,12 @@ export const useUnpaids = () => {
               }
               if (!invoiceIdOptions.includes(`${unpaid?.invoice?.invoiceId}`)) {
                 invoiceIdOptions.push(`${unpaid?.invoice?.invoiceId}`);
+              }
+              if (!customerOptions.includes(customerOption)) {
+                customerOptions.push(customerOption);
+              }
+              if (!shipperOptions.includes(shipperOption)) {
+                shipperOptions.push(shipperOption);
               }
             }
 
@@ -102,6 +129,8 @@ export const useUnpaids = () => {
     vesselCodeOptions: vesselCodeOptions.sort(),
     loadIdOptions: loadIdOptions.sort(),
     invoiceIdOptions: invoiceIdOptions.sort(),
+    customerOptions: customerOptions.sort(),
+    shipperOptions: shipperOptions.sort(),
     error,
     loading,
   };

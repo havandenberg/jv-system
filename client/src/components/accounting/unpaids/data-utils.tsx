@@ -20,19 +20,23 @@ export type UnpaidLabelInfo = LabelInfo<Unpaid>;
 
 export const listLabels: (
   handleChange: (updatedItem: Unpaid) => void,
-  vesselCodeOptions?: string[],
-  loadIdOptions?: string[],
-  invoiceIdOptions?: string[],
+  vesselCodeOptions: string[],
+  loadIdOptions: string[],
+  invoiceIdOptions: string[],
+  customerOptions: string[],
+  shipperOptions: string[],
 ) => UnpaidLabelInfo[] = (
   handleChange,
   vesselCodeOptions,
   loadIdOptions,
   invoiceIdOptions,
+  customerOptions,
+  shipperOptions,
 ) => [
   {
     defaultSortOrder: SORT_ORDER.ASC,
     key: 'vessel',
-    label: 'Vessel',
+    label: 'Vsl',
     sortable: true,
     sortKey: 'vesselCode',
     customSortBy: ({ invoice, shipper, vessel }) => {
@@ -74,6 +78,14 @@ export const listLabels: (
           vessel?.vesselCode
         }-${shipDate?.getTime()}` || ''
       ).toLowerCase();
+    },
+    filterable: true,
+    filterPanelProps: {
+      customStyles: {
+        width: 500,
+      },
+      customOptions: shipperOptions || [],
+      showSearch: true,
     },
     getValue: ({ shipper }) =>
       shipper ? (
@@ -173,9 +185,9 @@ export const listLabels: (
   {
     defaultSortOrder: SORT_ORDER.DESC,
     key: 'invoice',
-    label: 'Days',
+    label: 'Age',
     sortable: true,
-    sortKey: 'days',
+    sortKey: 'age',
     customSortBy: ({ invoice }) =>
       invoice?.actualShipDate
         ? differenceInDays(
@@ -202,6 +214,14 @@ export const listLabels: (
     sortKey: 'customer',
     customSortBy: ({ invoice, shipper, vessel }) =>
       `${invoice?.billingCustomer?.customerName}-${vessel?.vesselCode}-${shipper?.shipperName}`.toLowerCase(),
+    filterable: true,
+    filterPanelProps: {
+      customStyles: {
+        width: 500,
+      },
+      customOptions: customerOptions || [],
+      showSearch: true,
+    },
     getValue: ({ invoice }) =>
       invoice ? (
         <ty.LinkText

@@ -10,17 +10,17 @@ import ty from 'ui/typography';
 const Content = styled(l.Div)(
   ({
     extraPaddingTop = 0,
+    maxWidth,
     noMaxWidth,
   }: {
     extraPaddingTop?: number;
+    maxWidth?: number;
     noMaxWidth?: boolean;
   }) => ({
     margin: '0 auto',
     paddingBottom: th.spacing.lg,
     paddingTop: th.heights.nav + th.heights.pageHeader + extraPaddingTop,
-    width: noMaxWidth
-      ? `calc(${th.sizes.fill}-${th.spacing.xxl})`
-      : th.widths.maxContent,
+    width: noMaxWidth || maxWidth ? 'auto' : th.widths.maxContent,
   }),
 );
 
@@ -43,6 +43,7 @@ interface Props {
   enableShadow?: boolean;
   extraPaddingTop?: number;
   headerChildren?: React.ReactNode;
+  maxWidth?: number;
   noMaxWidth?: boolean;
   title?: string;
 }
@@ -55,22 +56,27 @@ const Page = ({
   enableShadow = true,
   extraPaddingTop,
   headerChildren,
+  maxWidth,
   noMaxWidth,
   title,
 }: Props) => {
   const scrollPosition = useScrollPosition();
   return (
-    <Content extraPaddingTop={extraPaddingTop} noMaxWidth={noMaxWidth}>
+    <Content
+      extraPaddingTop={extraPaddingTop}
+      maxWidth={maxWidth}
+      noMaxWidth={noMaxWidth}
+    >
       <Header shadow={enableShadow && scrollPosition.y < 0}>
         <l.Div
           maxWidth={
-            noMaxWidth
+            noMaxWidth || maxWidth
               ? `calc(${th.sizes.fill} - ${th.spacing.xl})`
               : th.widths.maxContent
           }
           mx="auto"
           width={
-            noMaxWidth
+            noMaxWidth || maxWidth
               ? `calc(${th.sizes.fill} - ${th.spacing.xl})`
               : th.sizes.fill
           }

@@ -15,7 +15,7 @@ import { Unpaid, VesselControl } from 'types';
 
 export const SALES_USER_CODES = ['AK', 'BS', 'GV', 'MF', 'NP', 'SS'];
 
-export const gridTemplateColumns = '60px repeat(7, 50px)';
+export const gridTemplateColumns = '80px repeat(7, 50px)';
 
 export const UnpaidsBySalesAssoc = ({
   isAllApproved,
@@ -151,7 +151,7 @@ const UnpaidsManager = ({ handleChange, vesselControl }: Props) => {
 
   return (
     <l.Grid alignCenter gridTemplateColumns={gridTemplateColumns}>
-      <l.Flex alignCenter>
+      <l.Flex alignCenter ml={th.spacing.sm}>
         <StatusIndicator
           color={!isPartialApproved ? 'transparent' : undefined}
           halfSelected={isAllApproved}

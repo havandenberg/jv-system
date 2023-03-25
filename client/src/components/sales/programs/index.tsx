@@ -1104,6 +1104,7 @@ const Programs = () => {
           setEditing={setEditing}
         />
       }
+      noMaxWidth
       title={`${isCustomers ? 'Customer' : 'Shipper'} Programs`}
     >
       <ScrollSync>
