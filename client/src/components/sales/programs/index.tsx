@@ -105,6 +105,7 @@ const Programs = () => {
       programsView,
     },
   ] = useProgramsQueryParams();
+  const maxWidth = window.innerWidth - 64;
 
   const [{ startDate = formatDate(new Date()) }] = useDateRangeQueryParams();
   const selectedWeekNumber = getWeekNumber(
@@ -1111,7 +1112,7 @@ const Programs = () => {
         {({ onScroll, scrollLeft, scrollTop }) => (
           <>
             <GridWrapper relative>
-              <l.Div overflowX="hidden" width={1024}>
+              <l.Div overflowX="hidden" width={maxWidth}>
                 <l.Div
                   transform={`translateX(-${scrollLeft || 0}px)`}
                   width={gridWidth - 8}
@@ -1144,7 +1145,7 @@ const Programs = () => {
                   onScroll={onScroll}
                   rowCount={components.length}
                   rowHeight={36}
-                  width={1024}
+                  width={maxWidth}
                   cellRenderer={({ rowIndex, key, style }) => {
                     const component = components[rowIndex];
                     const isLast = rowIndex === components.length - 1;

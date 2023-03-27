@@ -9,11 +9,10 @@ const {
   isDateLessThanOrEqualTo,
 } = require('../../utils/date');
 
-const VESSEL_CONTROLS = (startDate, endDate) => gql`
+const VESSEL_CONTROLS = (endDate) => gql`
   query VESSEL_CONTROLS {
     vesselControls(filter: {
       dueDate: {
-        greaterThanOrEqualTo: ${startDate},
         lessThanOrEqualTo: ${endDate}
       }
     }) {
@@ -174,15 +173,16 @@ const sendUnpaidsNotificationEmails = () => {
 
   const startOfWeek = startOfISOWeek(new Date());
   const endOfWeek = endOfISOWeek(new Date());
-  const startDate = add(startOfWeek, { weeks: -2 });
   const endDate = add(endOfWeek, { weeks: 1 });
 
   gqlClient
-    .request(
-      VESSEL_CONTROLS(`"${formatDate(startDate)}"`, `"${formatDate(endDate)}"`),
-    )
+    .request(VESSEL_CONTROLS(`"${formatDate(endDate)}"`))
     .then(async (data) => {
-      const vesselControls = data.vesselControls.nodes;
+      const vesselControls = (data.vesselControls.nodes || []).filter(
+        (vesselControl) =>
+          !vesselControl.isLiquidated &&
+          vesselControl.vessel.vesselCode !== 'CCC',
+      );
 
       const unpaidRemindersInfo = vesselControls.reduce(
         (acc, vesselControl) => {

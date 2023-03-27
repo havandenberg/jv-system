@@ -50,7 +50,6 @@ export const ProgramWrapper = styled(l.Grid)(
 
 export const NewProgramRow = ({
   handleNewProgram,
-  hasPrograms,
   id,
   isCustomers,
 }: {

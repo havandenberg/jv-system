@@ -44,7 +44,7 @@ if (process.env.REACT_APP_IS_PRODUCTION === 'true') {
   cron.schedule('24 0 * * *', fetchPsaCherryPallets);
   cron.schedule('26 0 * * *', fetchPsaApplePallets);
 
-  // cron.schedule('0 8 * * *', sendUnpaidsReminders);
+  cron.schedule('0 8 * * *', sendUnpaidsReminders);
   // cron.schedule('26 0 * * *', sendProjectionReminders);
   cron.schedule('0 1 * * *', generateVesselControlsAndUnpaids);
 

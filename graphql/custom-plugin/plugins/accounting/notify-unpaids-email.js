@@ -97,7 +97,7 @@ const extendSchemaPlugin = makeExtendSchemaPlugin({
   resolvers: {
     Mutation: {
       sendUnpaidsNotificationEmails: async (_query, args) => {
-        const { startOfWeek, endOfWeek, unpaidReminders } = args.input;
+        const { unpaidReminders } = args.input;
         const results = [];
         for (const reminder of unpaidReminders) {
           const {
@@ -113,7 +113,7 @@ const extendSchemaPlugin = makeExtendSchemaPlugin({
           await sendEmail({
             ccRecipients:
               process.env.REACT_APP_IS_PRODUCTION === 'true'
-                ? ['jpaap@jacvandenberg.com']
+                ? ['jpaap@jacvandenberg.com', 'ashin@jacvandenberg.com']
                 : [],
             toRecipients:
               process.env.REACT_APP_IS_PRODUCTION === 'true'
