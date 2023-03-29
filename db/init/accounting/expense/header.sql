@@ -76,7 +76,7 @@ CREATE FUNCTION accounting.expense_header_vessel(IN e accounting.expense_header)
     PARALLEL UNSAFE
     COST 100
 AS $BODY$
-  SELECT * FROM product.vessel v WHERE v.vessel_code = e.vessel_code LIMIT 1;
+  SELECT * FROM product.vessel v WHERE v.vessel_code = e.vessel_code AND v.is_pre = FALSE LIMIT 1;
 $BODY$;
 
 CREATE FUNCTION accounting.expense_header_vessel_discharge_date(IN e accounting.expense_header)
@@ -86,7 +86,7 @@ CREATE FUNCTION accounting.expense_header_vessel_discharge_date(IN e accounting.
     PARALLEL UNSAFE
     COST 100
 AS $BODY$
-  SELECT discharge_date FROM product.vessel v WHERE v.vessel_code = e.vessel_code ORDER BY v.discharge_date DESC
+  SELECT discharge_date FROM product.vessel v WHERE v.vessel_code = e.vessel_code AND v.is_pre = FALSE ORDER BY v.discharge_date DESC
 $BODY$;
 
 CREATE FUNCTION accounting.expense_header_items(IN e accounting.expense_header)

@@ -495,7 +495,7 @@ const Expenses = () => {
                       <div>
                         <ty.LinkText
                           hover="false"
-                          to={`/inventory/vessels/${vesselCode}`}
+                          to={`/inventory/vessels/${vesselCode}?isPre=0`}
                         >
                           {vessel.vesselName}
                         </ty.LinkText>

@@ -270,7 +270,9 @@ const Details = () => {
                       fontSize={th.fontSizes.caption}
                       hover="false"
                       pl={th.spacing.sm}
-                      to={`/inventory/vessels/${item.vessel.vesselCode}`}
+                      to={`/inventory/vessels/${item.vessel.vesselCode}?isPre=${
+                        item.vessel.isPre ? 1 : 0
+                      }`}
                     >
                       {item.vessel.vesselCode}
                     </ty.LinkText>

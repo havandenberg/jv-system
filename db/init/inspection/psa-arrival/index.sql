@@ -159,7 +159,7 @@ CREATE FUNCTION inspection.psa_arrival_report_vessel(IN r inspection.psa_arrival
   PARALLEL UNSAFE
   COST 100
 AS $BODY$
-  SELECT * FROM product.vessel v WHERE v.vessel_code = r.arrival_code order by v.vessel_code DESC LIMIT 1
+  SELECT * FROM product.vessel v WHERE v.vessel_code = r.arrival_code AND v.is_pre = FALSE order by v.vessel_code DESC LIMIT 1
 $BODY$;
 
 CREATE FUNCTION inspection.psa_arrival_report_commodity_list(IN r inspection.psa_arrival_report)

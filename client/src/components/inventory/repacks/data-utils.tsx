@@ -74,7 +74,7 @@ export const indexListLabels: (
       vessel ? (
         <ty.LinkText
           hover="false"
-          to={`/inventory/vessels/${vessel?.vesselCode}`}
+          to={`/inventory/vessels/${vessel?.vesselCode}?isPre=0`}
           ml={th.spacing.sm}
         >
           {vessel.vesselCode}

@@ -1,5 +1,5 @@
-query VESSEL_DETAILS($vesselCode: String!) {
-  vessels(condition: { vesselCode: $vesselCode }) {
+query VESSEL_DETAILS($vesselCode: String!, $isPre: Boolean!) {
+  vessels(condition: { vesselCode: $vesselCode, isPre: $isPre }) {
     nodes {
       arrivalDate
       arrivalPort
@@ -65,6 +65,7 @@ query VESSEL_DETAILS($vesselCode: String!) {
             dischargeDate
             vesselCode
             vesselName
+            isPre
           }
           warehouse {
             id

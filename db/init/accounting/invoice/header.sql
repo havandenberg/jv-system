@@ -163,7 +163,7 @@ CREATE FUNCTION accounting.invoice_header_total_amounts_by_vessel_and_shipper(IN
 AS $BODY$
   SELECT CONCAT(v.vessel_code, ',', s.id, ',', SUM((ii.unit_sell_price + ii.delivery_charge - ii.volume_discount_amount) * ii.picked_qty), ',', SUM(ii.credit_amount)) FROM accounting.invoice_item ii
   LEFT JOIN product.pallet p ON p.pallet_id = ii.pallet_id
-  LEFT JOIN product.vessel v ON v.vessel_code = p.vessel_code
+  LEFT JOIN product.vessel v ON v.vessel_code = p.vessel_code AND v.is_pre = FALSE
   LEFT JOIN directory.shipper s ON s.id = p.shipper_id
     WHERE ii.order_id = i.order_id
       AND ii.back_order_id = i.back_order_id

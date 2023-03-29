@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { add } from 'date-fns';
 
 import { LabelInfo } from 'components/column-label';
+import { formatDate } from 'components/date-range-picker';
 import DateTimePicker from 'components/date-time-picker';
 import { DEFAULT_VESSEL_CONTROL_DAYS_UNTIL_DUE } from 'components/directory/shippers/data-utils';
 import EditableCell from 'components/editable-cell';
@@ -114,15 +115,18 @@ export const listLabels: (
     isDate: true,
     allowOverflow: true,
     getValue: ({ dateSent, ...rest }) => {
-      const value = dateSent ? new Date(dateSent) : null;
+      const value = dateSent ? new Date(dateSent.replace(/-/g, '/')) : null;
       return (
         <l.Div cursor="text">
           <LocalDateTimePicker
             onChange={(date: Date) => {
+              console.log(date);
               handleChange({
                 ...rest,
                 dateSent:
-                  !date || (date as any)?.type === 'change' ? undefined : date,
+                  !date || (date as any)?.type === 'change'
+                    ? undefined
+                    : formatDate(date),
               });
             }}
             value={value}
@@ -158,7 +162,7 @@ export const listLabels: (
         <ty.LinkText
           hover="false"
           target="_blank"
-          to={`/inventory/vessels/${vessel.vesselCode}`}
+          to={`/inventory/vessels/${vessel.vesselCode}?isPre=0`}
         >
           {vessel.vesselCode}
         </ty.LinkText>

@@ -59,7 +59,7 @@ CREATE FUNCTION product.pallet_vessel(IN p product.pallet)
     PARALLEL UNSAFE
     COST 100
 AS $BODY$
-  SELECT * FROM product.vessel v WHERE v.vessel_code = p.vessel_code LIMIT 1
+  SELECT * FROM product.vessel v WHERE v.vessel_code = p.vessel_code AND v.is_pre = FALSE LIMIT 1
 $BODY$;
 
 CREATE FUNCTION product.pallet_product(IN p product.pallet)

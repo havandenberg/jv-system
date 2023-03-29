@@ -89,7 +89,7 @@ CREATE FUNCTION operations.repack_header_vessel(IN r operations.repack_header)
 AS $BODY$
   SELECT v.* FROM operations.repack_header_items(r) i
     JOIN product.pallet p ON p.pallet_id = i.pallet_id
-    JOIN product.vessel v ON p.vessel_code = v.vessel_code
+    JOIN product.vessel v ON p.vessel_code = v.vessel_code AND v.is_pre = FALSE
     ORDER BY v.id DESC LIMIT 1;
 $BODY$;
 

@@ -1,8 +1,9 @@
 const { gql } = require('../../api');
+const { onError } = require('../../utils');
 
 const INVENTORY_ITEM_LIST = gql`
   query INVENTORY_ITEM_LIST {
-     inventoryItems {
+    inventoryItems {
       nodes {
         id
         productId
@@ -23,6 +24,7 @@ const INVENTORY_ITEM_LIST = gql`
         coast
         storageRank
         warehouseId
+        isPre
       }
     }
   }
@@ -48,10 +50,14 @@ const getUpdatedInventoryItem = (inventoryItem, db2InventoryItem, id) => ({
   ...inventoryItem,
   id,
   productId: db2InventoryItem['PROD#X'],
-  locationId: db2InventoryItem['PLOC#X'].trimEnd() || db2InventoryItem['SRTWHX'].trimEnd(),
+  locationId:
+    db2InventoryItem['PLOC#X'].trimEnd() ||
+    db2InventoryItem['SRTWHX'].trimEnd(),
   vesselCode: db2InventoryItem['BOAT#X'],
   jvLotNumber: db2InventoryItem['JVLOTX'],
-  shipperId: db2InventoryItem['SHPR#X'].trimEnd() || db2InventoryItem['CSHPRX'].trimEnd(),
+  shipperId:
+    db2InventoryItem['SHPR#X'].trimEnd() ||
+    db2InventoryItem['CSHPRX'].trimEnd(),
   palletsReceived: `${db2InventoryItem['PRCVX']}`,
   palletsCommitted: `${db2InventoryItem['PCOMX']}`,
   palletsOnHand: `${db2InventoryItem['PONHX']}`,
@@ -65,6 +71,7 @@ const getUpdatedInventoryItem = (inventoryItem, db2InventoryItem, id) => ({
   coast: db2InventoryItem['REGX'] ? 'WC' : 'EC',
   storageRank: db2InventoryItem['INVWKX'],
   warehouseId: db2InventoryItem['SRTWHX'],
+  isPre: db2InventoryItem.isPre,
 });
 
 const getInventoryItemId = (db2InventoryItem, inventoryItems) => {
@@ -72,27 +79,45 @@ const getInventoryItemId = (db2InventoryItem, inventoryItems) => {
     (it) =>
       it.productId === db2InventoryItem['PROD#X'].trimEnd() &&
       it.locationId ===
-        (db2InventoryItem['PLOC#X'].trimEnd() || db2InventoryItem['SRTWHX'].trimEnd()) &&
+        (db2InventoryItem['PLOC#X'].trimEnd() ||
+          db2InventoryItem['SRTWHX'].trimEnd()) &&
       it.vesselCode === db2InventoryItem['BOAT#X'].trimEnd() &&
       it.jvLotNumber === db2InventoryItem['JVLOTX'].trimEnd() &&
       it.shipperId ===
-        (db2InventoryItem['SHPR#X'].trimEnd() || db2InventoryItem['CSHPRX'].trimEnd()),
+        (db2InventoryItem['SHPR#X'].trimEnd() ||
+          db2InventoryItem['CSHPRX'].trimEnd()) &&
+      it.isPre === db2InventoryItem.isPre,
   );
 
   return (
     inventoryItem?.id ||
-    `${db2InventoryItem['PROD#X'].trimEnd()}-${(
-      db2InventoryItem['PLOC#X'].trimEnd() || db2InventoryItem['SRTWHX'].trimEnd()
-    )}-${db2InventoryItem['BOAT#X'].trimEnd()}-${db2InventoryItem[
+    `${db2InventoryItem['PROD#X'].trimEnd()}-${
+      db2InventoryItem['PLOC#X'].trimEnd() ||
+      db2InventoryItem['SRTWHX'].trimEnd()
+    }-${db2InventoryItem['BOAT#X'].trimEnd()}-${db2InventoryItem[
       'JVLOTX'
-    ].trimEnd()}-${(
-      db2InventoryItem['SHPR#X'].trimEnd() || db2InventoryItem['CSHPRX'].trimEnd()
-    )}`
+    ].trimEnd()}-${
+      db2InventoryItem['SHPR#X'].trimEnd() ||
+      db2InventoryItem['CSHPRX'].trimEnd()
+    }-${db2InventoryItem.isPre}`
   );
 };
 
 const inventoryItemOptions = {
-  db2Query: `select * from JVFIL.ORDP730X union select * from JVPREFIL.ORDP730X;`,
+  getDB2Items: async (db) => {
+    const realItems = await db
+      .query('select * from JVFIL.ORDP730X;')
+      .catch(onError);
+    const preItems = await db
+      .query('select * from JVPREFIL.ORDP730X;')
+      .catch(onError);
+    const items = [
+      ...realItems.map((v) => ({ ...v, isPre: false })),
+      ,
+      ...preItems.map((v) => ({ ...v, isPre: true })),
+    ];
+    return items;
+  },
   listQuery: INVENTORY_ITEM_LIST,
   deleteQuery: BULK_DELETE_INVENTORY_ITEM,
   upsertQuery: BULK_UPSERT_INVENTORY_ITEM,

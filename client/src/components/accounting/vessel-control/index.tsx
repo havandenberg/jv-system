@@ -6,6 +6,7 @@ import { ScrollSync } from 'react-virtualized';
 import api from 'api';
 import ResetImg from 'assets/images/reset';
 import { getSortedItems } from 'components/column-label';
+import { formatDate } from 'components/date-range-picker';
 import { ResetButton } from 'components/inventory/inventory/use-filters';
 import ListItem from 'components/list-item';
 import { BasicModal } from 'components/modal';
@@ -152,7 +153,11 @@ const VesselControlLog = () => {
             ],
             vesselControlItem,
           ),
-          dateSent: vesselControlItem.dateSent || null,
+          dateSent: vesselControlItem.dateSent
+            ? formatDate(
+                new Date(vesselControlItem.dateSent.replace(/-/g, '/')),
+              )
+            : null,
           id: vesselControlItem.id || null,
           shipperId: vesselControlItem.shipper?.id,
           vesselCode: vesselControlItem.vessel?.vesselCode,
@@ -281,14 +286,14 @@ const VesselControlLog = () => {
 
   const toggleLiquidatedStatus = () => {
     switch (liquidatedStatus) {
-      case undefined:
-        setQueryParams({ liquidatedStatus: 'unliquidated' });
-        break;
       case 'unliquidated':
+        setQueryParams({ liquidatedStatus: 'all' });
+        break;
+      case 'all':
         setQueryParams({ liquidatedStatus: 'liquidated' });
         break;
       default:
-        setQueryParams({ liquidatedStatus: undefined });
+        setQueryParams({ liquidatedStatus: 'unliquidated' });
     }
   };
 

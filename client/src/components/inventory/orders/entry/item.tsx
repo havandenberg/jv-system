@@ -1015,7 +1015,9 @@ const NewOrderEntryItem = ({
               <ty.LinkText
                 ellipsis
                 hover="false"
-                to={`/inventory/vessels/${updatedItem.vessel.vesselCode}`}
+                to={`/inventory/vessels/${
+                  updatedItem.vessel.vesselCode
+                }?isPre=${updatedItem.vessel.isPre ? 1 : 0}`}
               >
                 {updatedItem.vessel.vesselCode}
               </ty.LinkText>

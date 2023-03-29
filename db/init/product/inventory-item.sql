@@ -17,10 +17,11 @@ CREATE TABLE product.inventory_item (
   special_lot_number TEXT,
   coast TEXT,
   storage_rank TEXT,
-  warehouse_id TEXT
+  warehouse_id TEXT,
+  is_pre BOOLEAN
 );
 
-CREATE INDEX ON product.inventory_item (product_id, location_id, vessel_code, jv_lot_number, shipper_id);
+CREATE INDEX ON product.inventory_item (product_id, location_id, vessel_code, jv_lot_number, shipper_id, is_pre);
 
 CREATE FUNCTION product.inventory_item_vessel(IN i product.inventory_item)
     RETURNS product.vessel
@@ -29,7 +30,7 @@ CREATE FUNCTION product.inventory_item_vessel(IN i product.inventory_item)
     PARALLEL UNSAFE
     COST 100
 AS $BODY$
-  SELECT * FROM product.vessel v WHERE v.vessel_code = i.vessel_code ORDER BY v.discharge_date DESC LIMIT 1
+  SELECT * FROM product.vessel v WHERE v.vessel_code = i.vessel_code AND v.is_pre = i.is_pre ORDER BY v.discharge_date DESC LIMIT 1
 $BODY$;
 
 CREATE FUNCTION product.inventory_item_vessel_inv_flag(IN i product.inventory_item)
@@ -39,7 +40,7 @@ CREATE FUNCTION product.inventory_item_vessel_inv_flag(IN i product.inventory_it
     PARALLEL UNSAFE
     COST 100
 AS $BODY$
-  SELECT inv_flag FROM product.vessel v WHERE v.vessel_code = i.vessel_code ORDER BY v.discharge_date DESC
+  SELECT inv_flag FROM product.vessel v WHERE v.vessel_code = i.vessel_code AND v.is_pre = i.is_pre ORDER BY v.discharge_date DESC
 $BODY$;
 
 CREATE FUNCTION product.inventory_item_vessel_discharge_date(IN i product.inventory_item)
@@ -49,7 +50,7 @@ CREATE FUNCTION product.inventory_item_vessel_discharge_date(IN i product.invent
     PARALLEL UNSAFE
     COST 100
 AS $BODY$
-  SELECT discharge_date FROM product.vessel v WHERE v.vessel_code = i.vessel_code ORDER BY v.discharge_date DESC
+  SELECT discharge_date FROM product.vessel v WHERE v.vessel_code = i.vessel_code AND v.is_pre = i.is_pre ORDER BY v.discharge_date DESC
 $BODY$;
 
 CREATE FUNCTION product.inventory_item_product(IN i product.inventory_item)
@@ -182,7 +183,8 @@ AS $$
         special_lot_number,
         coast,
         storage_rank,
-        warehouse_id
+        warehouse_id,
+        is_pre
       )
         VALUES (
           COALESCE(i.id, (select nextval('product.inventory_item_id_seq'))),
@@ -203,7 +205,8 @@ AS $$
 					i.special_lot_number,
 					i.coast,
           i.storage_rank,
-					i.warehouse_id
+					i.warehouse_id,
+          i.is_pre
         )
       ON CONFLICT (id) DO UPDATE SET
 			  product_id=EXCLUDED.product_id,
@@ -223,7 +226,8 @@ AS $$
 			  special_lot_number=EXCLUDED.special_lot_number,
 			  coast=EXCLUDED.coast,
 			  storage_rank=EXCLUDED.storage_rank,
-			  warehouse_id=EXCLUDED.warehouse_id
+			  warehouse_id=EXCLUDED.warehouse_id,
+        is_pre=EXCLUDED.is_pre
     	RETURNING * INTO vals;
     	RETURN NEXT vals;
 	END LOOP;

@@ -17,7 +17,7 @@ CREATE FUNCTION accounting.unpaid_vessel(IN u accounting.unpaid)
   PARALLEL UNSAFE
   COST 100
 AS $BODY$
-  SELECT * FROM product.vessel v WHERE v.vessel_code = u.vessel_code ORDER BY v.discharge_date DESC LIMIT 1
+  SELECT * FROM product.vessel v WHERE v.vessel_code = u.vessel_code AND v.is_pre = FALSE ORDER BY v.discharge_date DESC LIMIT 1
 $BODY$;
 
 CREATE FUNCTION accounting.unpaid_shipper(IN u accounting.unpaid)

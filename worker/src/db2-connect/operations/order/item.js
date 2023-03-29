@@ -1,4 +1,5 @@
 const { gql } = require('../../../api');
+const { onError } = require('../../../utils');
 
 const ORDER_ITEM_LIST = gql`
   query ORDER_ITEM_LIST {
@@ -20,6 +21,7 @@ const ORDER_ITEM_LIST = gql`
         jvLotNumber
         specialLotNumber
         shipperId
+        isPre
         notes
       }
     }
@@ -74,11 +76,16 @@ const getUpdatedOrderItem = (orderItem, db2OrderItem, id) => ({
   isBundle: !!db2OrderItem['SORDB'],
   boxCount: `${db2OrderItem['ORDQTB']}`,
   productId: db2OrderItem['ITEMNB'],
-  locationId: db2OrderItem['SWHS#B'],
+  locationId: db2OrderItem['isPre']
+    ? db2OrderItem['SRTWHB']
+    : db2OrderItem['SWHS#B'],
   vesselCode: db2OrderItem['BOAT#B'],
   jvLotNumber: db2OrderItem['JVLOTB'],
   specialLotNumber: db2OrderItem['LOTSPB'],
-  shipperId: db2OrderItem['SHPIDB'],
+  shipperId: db2OrderItem['isPre']
+    ? db2OrderItem['CSHPRB']
+    : db2OrderItem['SHPIDB'],
+  isPre: db2OrderItem['isPre'],
 });
 
 const getOrderItemId = (db2OrderItem, orderItems) => {
@@ -96,7 +103,20 @@ const getOrderItemId = (db2OrderItem, orderItems) => {
 };
 
 const orderItemOptions = {
-  db2Query: `select * from JVFIL.ORDP120B;`,
+  getDB2Items: async (db) => {
+    const realOrderItems = await db
+      .query('select * from JVFIL.ORDP120B;')
+      .catch(onError);
+    const preOrderItems = await db
+      .query('select * from JVPREFIL.ORDP120B;')
+      .catch(onError);
+    const orderItems = [
+      ...realOrderItems.map((v) => ({ ...v, isPre: false })),
+      ,
+      ...preOrderItems.map((v) => ({ ...v, isPre: true })),
+    ];
+    return orderItems;
+  },
   listQuery: ORDER_ITEM_LIST,
   deleteQuery: BULK_DELETE_ORDER_ITEM,
   upsertQuery: BULK_UPSERT_ORDER_ITEM,

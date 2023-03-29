@@ -23,7 +23,7 @@ AS $BODY$
     LEFT JOIN product.pallet p ON p.vessel_code = v.vessel_code
     LEFT JOIN directory.shipper s ON s.id = p.shipper_id
     LEFT JOIN accounting.vessel_control vc ON vc.vessel_code = v.vessel_code AND vc.shipper_id = s.id
-      WHERE v.vessel_code NOT LIKE '9%'
+      WHERE v.vessel_code NOT LIKE '9%' AND v.is_pre = FALSE
       GROUP BY v.id, s.id, vc.id
       ORDER BY v.discharge_date + COALESCE(s.vessel_control_days_until_due, 45)::INTEGER DESC, v.vessel_code, s.shipper_name
 $BODY$;
@@ -35,7 +35,7 @@ CREATE FUNCTION accounting.vessel_control_vessel(IN vc accounting.vessel_control
   PARALLEL UNSAFE
   COST 100
 AS $BODY$
-  SELECT * FROM product.vessel v WHERE v.vessel_code = vc.vessel_code ORDER BY v.discharge_date DESC LIMIT 1
+  SELECT * FROM product.vessel v WHERE v.vessel_code = vc.vessel_code AND v.is_pre = FALSE ORDER BY v.discharge_date DESC LIMIT 1
 $BODY$;
 
 CREATE FUNCTION accounting.vessel_control_pallets(IN vc accounting.vessel_control)

@@ -44,7 +44,7 @@ const getUpdatedVessel = (vessel, db2Vessel, id) => ({
   ...vessel,
   id,
   vesselCode: db2Vessel['BOAT#Z'],
-  preVesselCode: !db2Vessel['CNTRYZ']
+  preVesselCode: db2Vessel.isPre
     ? db2Vessel['BOAT#Z']
     : vessel.preVesselCode || '',
   vesselName: db2Vessel['BNAMEZ'],
@@ -66,16 +66,18 @@ const getUpdatedVessel = (vessel, db2Vessel, id) => ({
     db2Vessel['DISYYZ'],
   ),
   coast: db2Vessel['PAYTYZ'] ? 'WC' : 'EC',
-  isPre: !db2Vessel['CNTRYZ'],
+  isPre: db2Vessel.isPre,
   invFlag: !!db2Vessel['INVFGZ'],
 });
 
 const getVesselId = (db2Vessel, vessels) => {
   const vessel = Object.values(vessels).find(
-    (it) => it.vesselCode === db2Vessel['BOAT#Z'].trimEnd(),
+    (it) =>
+      it.vesselCode === db2Vessel['BOAT#Z'].trimEnd() &&
+      it.isPre === db2Vessel.isPre,
   );
 
-  return vessel?.vesselCode || `${db2Vessel['BOAT#Z'].trimEnd()}`;
+  return vessel?.id || `${db2Vessel['BOAT#Z'].trimEnd()}-${db2Vessel.isPre}`;
 };
 
 const vesselOptions = {
@@ -89,11 +91,14 @@ const vesselOptions = {
     const vessels = sortBy(
       (v) => v['BOAT#Z'],
       [
-        ...realVessels.filter((v) => {
-          const vesselCode = parseInt(v['BOAT#Z'], 10);
-          return isNaN(vesselCode) || vesselCode < 700 || vesselCode > 899;
-        }),
-        ...preVessels,
+        ...realVessels
+          .filter((v) => {
+            const vesselCode = parseInt(v['BOAT#Z'], 10);
+            return isNaN(vesselCode) || vesselCode < 700 || vesselCode > 899;
+          })
+          .map((v) => ({ ...v, isPre: false })),
+        ,
+        ...preVessels.map((v) => ({ ...v, isPre: true })),
       ],
     );
     return vessels;

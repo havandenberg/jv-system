@@ -58,7 +58,7 @@ export const listLabels: (
         <ty.LinkText
           hover="false"
           target="_blank"
-          to={`/inventory/vessels/${vessel.vesselCode}`}
+          to={`/inventory/vessels/${vessel.vesselCode}?isPre=0`}
         >
           {vessel.vesselCode}
         </ty.LinkText>

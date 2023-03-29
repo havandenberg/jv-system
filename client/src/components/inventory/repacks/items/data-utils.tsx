@@ -35,7 +35,7 @@ export const listLabels: RepackItemLabelInfo[] = [
       pallet ? (
         <ty.LinkText
           hover="false"
-          to={`/inventory/vessels/${pallet.vesselCode}`}
+          to={`/inventory/vessels/${pallet.vesselCode}?isPre=0`}
         >
           {pallet.vesselCode}
         </ty.LinkText>

@@ -100,7 +100,7 @@ const getOrderMasterId = (db2OrderMaster, orderMasters) => {
 };
 
 const orderMasterOptions = {
-  db2Query: `select * from JVFIL.ORDP100A;`,
+  db2Query: `select * from JVFIL.ORDP100A union select * from JVPREFIL.ORDP100A;`,
   listQuery: ORDER_MASTER_LIST,
   deleteQuery: BULK_DELETE_ORDER_MASTER,
   upsertQuery: BULK_UPSERT_ORDER_MASTER,

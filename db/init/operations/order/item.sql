@@ -15,6 +15,7 @@ CREATE TABLE operations.order_item (
   jv_lot_number TEXT,
   special_lot_number TEXT,
   shipper_id TEXT,
+  is_pre BOOLEAN,
   notes TEXT
 );
 
@@ -46,6 +47,7 @@ AS $BODY$
     AND i.vessel_code = o.vessel_code
     AND i.jv_lot_number = o.jv_lot_number
     AND i.shipper_id = o.shipper_id
+    AND i.is_pre = o.is_pre
   LIMIT 1;
 $BODY$;
 
@@ -66,7 +68,7 @@ CREATE FUNCTION operations.order_item_vessel(IN o operations.order_item)
     PARALLEL UNSAFE
     COST 100
 AS $BODY$
-  SELECT * FROM product.vessel v WHERE v.vessel_code = o.vessel_code LIMIT 1
+  SELECT * FROM product.vessel v WHERE v.vessel_code = o.vessel_code AND v.is_pre = o.is_pre LIMIT 1
 $BODY$;
 
 CREATE FUNCTION operations.order_item_search_text(IN o operations.order_item)
@@ -110,6 +112,7 @@ AS $$
         jv_lot_number,
         special_lot_number,
         shipper_id,
+        is_pre,
         notes
       )
         VALUES (
@@ -129,6 +132,7 @@ AS $$
           oi.jv_lot_number,
           oi.special_lot_number,
           oi.shipper_id,
+          oi.is_pre,
           oi.notes
         )
       ON CONFLICT (id) DO UPDATE SET
@@ -147,6 +151,7 @@ AS $$
 			  jv_lot_number=EXCLUDED.jv_lot_number,
         special_lot_number=EXCLUDED.special_lot_number,
 			  shipper_id=EXCLUDED.shipper_id,
+        is_pre=EXCLUDED.is_pre,
 			  notes=EXCLUDED.notes
     	RETURNING * INTO vals;
     	RETURN NEXT vals;

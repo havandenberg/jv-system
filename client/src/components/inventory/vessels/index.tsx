@@ -55,7 +55,7 @@ const Vessels = () => {
       //   </l.AreaLink>,
       // ]}
       breadcrumbs={breadcrumbs}
-      extraPaddingTop={115}
+      extraPaddingTop={111}
       headerChildren={
         <>
           <l.Flex alignCenter mb={th.spacing.lg}>
@@ -127,7 +127,9 @@ const Vessels = () => {
                     data={item}
                     gridTemplateColumns={gridTemplateColumns}
                     listLabels={listLabels}
-                    to={`/inventory/vessels/${item.vesselCode}`}
+                    to={`/inventory/vessels/${item.vesselCode}?isPre=${
+                      item.isPre ? 1 : 0
+                    }`}
                   />
                 </div>
               )

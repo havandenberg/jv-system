@@ -23,15 +23,20 @@ import {
 } from '../inventory/utils';
 import { baseLabels } from './data-utils';
 import { SORT_ORDER } from 'hooks/use-columns';
+import { BooleanParam, useQueryParam } from 'use-query-params';
 
-export const breadcrumbs = (id: string, isInventory: boolean) => [
+export const breadcrumbs = (
+  id: string,
+  isPre: boolean,
+  isInventory: boolean,
+) => [
   {
     text: isInventory ? 'Inventory' : 'Vessels',
     to: `/inventory/vessels`,
   },
   {
     text: 'Vessel',
-    to: `/inventory/vessels/${id}`,
+    to: `/inventory/vessels/${id}?isPre=${isPre ? 1 : 0}`,
   },
 ];
 
@@ -52,8 +57,9 @@ const Details = () => {
   const [secondaryDetailsIndex, setSecondaryDetailsIndex] = useQueryValue(
     'secondaryDetailsIndex',
   );
+  const [isPre] = useQueryParam('isPre', BooleanParam);
 
-  const { data, error, loading } = api.useVessel(id);
+  const { data, error, loading } = api.useVessel(id, !!isPre);
   const vessels = (data?.nodes || []) as Vessel[];
   const vessel = vessels[vessels.length - 1];
   const inventoryItems = vessel
@@ -159,14 +165,14 @@ const Details = () => {
                 : getUpdateActions().editAction,
             ]),
       ]}
-      breadcrumbs={breadcrumbs(id, isInventory)}
+      breadcrumbs={breadcrumbs(id, !!vessel?.isPre, isInventory)}
       title={
         vessel
           ? `${vessel.vesselName} (${vessel.vesselCode})` || 'Vessel'
           : 'Loading...'
       }
     >
-      {data ? (
+      {vessels && vessel ? (
         <l.Div pb={th.spacing.xl}>
           <BaseData<Vessel>
             data={vessel}
@@ -200,7 +206,7 @@ const Details = () => {
           />
         </l.Div>
       ) : (
-        <DataMessage data={data || []} error={error} loading={loading} />
+        <DataMessage data={vessels || []} error={error} loading={loading} />
       )}
     </Page>
   );

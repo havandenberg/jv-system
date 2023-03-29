@@ -157,14 +157,23 @@ export const getDetailedFilteredItems = (
   items: InventoryItem[],
   secondaryDetailsIndex: string,
 ) =>
-  items.filter(
-    (item) =>
+  items.filter((item) => {
+    console.log(
+      [
+        `${item.vessel?.id}-${item.shipper?.id}`,
+        `${item.vessel?.id}-${item.shipper?.id}-${item.product?.species?.id}`,
+      ],
+      secondaryDetailsIndex,
+      item.vessel?.isPre || !item.pallets || item.pallets.totalCount > 0,
+    );
+    return (
       [
         `${item.vessel?.id}-${item.shipper?.id}`,
         `${item.vessel?.id}-${item.shipper?.id}-${item.product?.species?.id}`,
       ].includes(secondaryDetailsIndex) &&
-      (!item.pallets || item.pallets.totalCount > 0),
-  );
+      (item.vessel?.isPre || !item.pallets || item.pallets.totalCount > 0)
+    );
+  });
 
 export const isPreInventoryItem = (item: InventoryItem) => !!item.vessel?.isPre;
 

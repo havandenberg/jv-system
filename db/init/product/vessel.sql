@@ -13,7 +13,7 @@ CREATE TABLE product.vessel (
   inv_flag BOOLEAN
 );
 
-CREATE INDEX ON product.vessel (vessel_code, discharge_date);
+CREATE INDEX ON product.vessel (vessel_code, discharge_date, is_pre);
 
 CREATE FUNCTION product.vessel_country(IN v product.vessel)
     RETURNS directory.country
@@ -25,6 +25,16 @@ AS $BODY$
   SELECT * FROM directory.country c WHERE c.id = v.country_id
 $BODY$;
 
+CREATE FUNCTION product.vessel_original_arrival_port(IN v product.vessel)
+    RETURNS TEXT
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT p.original_location_id FROM product.pallet p WHERE p.vessel_code = v.vessel_code LIMIT 1
+$BODY$;
+
 CREATE FUNCTION product.vessel_warehouse(IN v product.vessel)
     RETURNS directory.warehouse
     LANGUAGE 'sql'
@@ -32,7 +42,7 @@ CREATE FUNCTION product.vessel_warehouse(IN v product.vessel)
     PARALLEL UNSAFE
     COST 100
 AS $BODY$
-  SELECT * FROM directory.warehouse w WHERE w.id = v.arrival_port
+  SELECT * FROM directory.warehouse w WHERE w.id = COALESCE((SELECT product.vessel_original_arrival_port(v)), v.arrival_port)
 $BODY$;
 
 CREATE FUNCTION product.vessel_arrival_port_distinct_values()
@@ -42,10 +52,10 @@ CREATE FUNCTION product.vessel_arrival_port_distinct_values()
     PARALLEL UNSAFE
     COST 100
 AS $BODY$
-  SELECT DISTINCT CONCAT(w.warehouse_name, ' (', v.arrival_port, ')')
+  SELECT DISTINCT CONCAT(w.warehouse_name, ' (', w.id, ')')
   FROM product.vessel v
   LEFT JOIN directory.warehouse w
-  ON w.id = v.arrival_port;
+  ON w.id = COALESCE((SELECT product.vessel_original_arrival_port(v)), v.arrival_port);
 $BODY$;
 
 CREATE FUNCTION product.vessel_inventory_items(IN v product.vessel)
@@ -55,7 +65,7 @@ CREATE FUNCTION product.vessel_inventory_items(IN v product.vessel)
     PARALLEL UNSAFE
     COST 100
 AS $BODY$
-  SELECT * FROM product.inventory_item i WHERE i.vessel_code = v.vessel_code order by v.id DESC
+  SELECT * FROM product.inventory_item i WHERE i.vessel_code = v.vessel_code AND i.is_pre = v.is_pre ORDER BY v.id DESC
 $BODY$;
 
 CREATE FUNCTION product.vessel_pallets(IN v product.vessel)
@@ -107,7 +117,7 @@ CREATE FUNCTION product.vessel_inspection_vessel_name(IN v product.vessel)
     PARALLEL UNSAFE
     COST 100
 AS $BODY$
-  SELECT CONCAT(r.arrival_name, ' (', r.arrival_code, ')') FROM inspection.psa_arrival_report r WHERE r.arrival_code = v.vessel_code LIMIT 1;
+  SELECT CONCAT(r.arrival_name, ' (', r.arrival_code, ')') FROM inspection.psa_arrival_report r WHERE r.arrival_code = v.vessel_code AND v.is_pre = FALSE LIMIT 1;
 $BODY$;
 
 CREATE FUNCTION product.bulk_upsert_vessel(

@@ -104,7 +104,9 @@ const InventoryVessels = ({ vessels }: Props) => {
                   <l.Div key={idy} mb={th.spacing.xs} mx={th.spacing.tn}>
                     <l.AreaLink
                       title={`${vessel.vesselName} (${vessel.vesselCode})`}
-                      to={`/inventory/vessels/${vessel.vesselCode}`}
+                      to={`/inventory/vessels/${vessel.vesselCode}?isPre=${
+                        vessel.isPre ? 1 : 0
+                      }`}
                     >
                       <VesselLink isPre={!!vessel.isPre}>
                         <ty.SmallText>

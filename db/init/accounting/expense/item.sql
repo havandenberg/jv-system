@@ -70,7 +70,7 @@ CREATE FUNCTION accounting.expense_item_vessel(IN e accounting.expense_item)
     PARALLEL UNSAFE
     COST 100
 AS $BODY$
-  SELECT * FROM product.vessel v WHERE v.vessel_code = e.vessel_code LIMIT 1;
+  SELECT * FROM product.vessel v WHERE v.vessel_code = e.vessel_code AND v.is_pre = FALSE LIMIT 1;
 $BODY$;
 
 CREATE FUNCTION accounting.bulk_upsert_expense_item(

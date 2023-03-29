@@ -97,7 +97,7 @@ export const listLabels: OrderItemLabelInfo[] = [
       inventoryItem ? (
         <ty.LinkText
           hover="false"
-          to={`/inventory/vessels/${inventoryItem.vessel?.vesselCode}`}
+          to={`/inventory/vessels/${inventoryItem.vessel?.vesselCode}?isPre=0`}
         >
           {inventoryItem.vessel?.vesselCode}
         </ty.LinkText>
