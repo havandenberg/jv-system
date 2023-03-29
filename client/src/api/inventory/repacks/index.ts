@@ -167,5 +167,8 @@ export const useUpsertRepackQueues = (orderByOverride?: string) =>
         query: REPACK_QUEUES_LIST_QUERY,
         variables: useVariables(false, orderByOverride),
       },
+      {
+        query: NEW_REPACK_QUEUE_LIST_QUERY,
+      },
     ],
   });

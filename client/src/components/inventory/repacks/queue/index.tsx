@@ -247,7 +247,10 @@ const RepackQueueList = () => {
     setState((prev) => ({
       ...prev,
       changes: changes.map((rq) => {
-        if (!!prev.selectedItems[repackStyleKey]?.includes(rq.orderId)) {
+        if (
+          !!prev.selectedItems[repackStyleKey]?.includes(rq.orderId) &&
+          repackStyleKey === rq.repackStyleId
+        ) {
           return {
             ...rq,
             repackStyleId,
@@ -360,6 +363,7 @@ const RepackQueueList = () => {
       }).then(() => {
         setState((prev) => ({
           ...initialState,
+          loadingNewItems: false,
           newItemNextId: prev.newItemNextId,
           changes: changes.filter(
             (change) => !pluck('id', validChanges).includes(change.id),
@@ -607,7 +611,7 @@ const RepackQueueList = () => {
                   }
                   ml={th.spacing.sm}
                 >
-                  {newRepackQueues.length || '-'}
+                  {!loading ? newRepackQueues.length || '-' : '-'}
                 </ty.BodyText>
               </l.Flex>
             </l.Div>
@@ -623,7 +627,7 @@ const RepackQueueList = () => {
                   }
                   ml={th.spacing.xs}
                 >
-                  {updatedItems.length || '-'}
+                  {!loading ? updatedItems.length || '-' : '-'}
                 </ty.BodyText>
               </l.Flex>
             </l.Div>

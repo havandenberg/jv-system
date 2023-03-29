@@ -61,7 +61,7 @@ const tabs: (species: CommonSpecies, search: string) => Tab[] = (
     to: `/inventory/products/${species?.id}/sizes${search}`,
   },
   {
-    id: 'packTypes',
+    id: 'pack-types',
     text: 'Pack Types',
     to: `/inventory/products/${species?.id}/pack-types${search}`,
   },
@@ -141,7 +141,7 @@ const CommonSpeciesDetails = () => {
           'replaceIn',
         );
       }
-    } else if (selectedTabId === 'packTypes') {
+    } else if (selectedTabId === 'pack-types') {
       if (sortBy !== 'packTypeName') {
         setSortQueryParams(
           {
@@ -163,7 +163,7 @@ const CommonSpeciesDetails = () => {
             sizes={(data?.commonSizes.nodes || []) as CommonSize[]}
           />
         );
-      case 'packTypes':
+      case 'pack-types':
         return (
           <PackTypeList
             baseUrl={`/inventory/products/${speciesId}`}
