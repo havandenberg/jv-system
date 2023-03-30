@@ -63,7 +63,7 @@ export const listLabels: (
   {
     defaultSortOrder: SORT_ORDER.ASC,
     key: 'dueDate',
-    label: 'Due Date',
+    label: 'Due',
     sortable: true,
     sortKey: 'dueDate',
     customSortBy: ({ shipper, vessel }) => {

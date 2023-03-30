@@ -52,10 +52,22 @@ export const useVesselControls = () => {
   const searchArray = search?.split(' ');
   const variables = useVariables();
   const [
-    { vessel, shipper, arrivalLocation, liquidatedStatus, vesselControlView },
+    {
+      vessel,
+      shipper,
+      arrivalLocation,
+      liquidatedStatus,
+      inStatus,
+      outStatus,
+      vesselControlView,
+    },
   ] = useVesselControlQueryParams();
   const isLiquidated = liquidatedStatus === 'liquidated';
   const isNotLiquidated = liquidatedStatus === 'unliquidated';
+  const isIn = inStatus === 'checked';
+  const isNotIn = inStatus === 'unchecked';
+  const isOut = outStatus === 'checked';
+  const isNotOut = outStatus === 'unchecked';
   const isDue = vesselControlView === 'due';
 
   const { data, loading, error } = useQuery<Query>(VESSEL_CONTROL_LIST_QUERY, {
@@ -85,6 +97,20 @@ export const useVesselControls = () => {
       isLiquidationStatusValid = isDue || !!vc.id;
     }
 
+    let isInStatusValid = true;
+    if (isIn) {
+      isInStatusValid = !!vc.approval1;
+    } else if (isNotIn) {
+      isInStatusValid = !vc.approval1;
+    }
+
+    let isOutStatusValid = true;
+    if (isOut) {
+      isOutStatusValid = !!vc.approval2;
+    } else if (isNotOut) {
+      isOutStatusValid = !vc.approval2;
+    }
+
     const vesselOption = `${vc.vessel?.vesselCode} - ${vc.vessel?.vesselName}`;
     const isVesselCodeValid = !vessel || vessel.includes(vesselOption);
     if (!vesselOptions.includes(vesselOption)) {
@@ -109,7 +135,9 @@ export const useVesselControls = () => {
       isSearchValid &&
       isShipperValid &&
       isArrivalLocationValid &&
-      isLiquidationStatusValid;
+      isLiquidationStatusValid &&
+      isInStatusValid &&
+      isOutStatusValid;
 
     return isValid;
   });

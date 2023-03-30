@@ -175,6 +175,8 @@ export const useExpensesQueryParams = () =>
 export const useVesselControlQueryParams = () =>
   useQuerySet({
     liquidatedStatus: StringParam,
+    inStatus: StringParam,
+    outStatus: StringParam,
     vessel: ArrayParam,
     shipper: ArrayParam,
     arrivalLocation: ArrayParam,

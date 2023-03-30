@@ -94,7 +94,8 @@ const VesselControlItem = ({
 const VesselControlLog = () => {
   const { Search } = useSearch({ paramName: 'vesselControlSearch' });
   const [{ sortBy, sortOrder }] = useSortQueryParams();
-  const [{ liquidatedStatus }, setQueryParams] = useVesselControlQueryParams();
+  const [{ liquidatedStatus, inStatus, outStatus }, setQueryParams] =
+    useVesselControlQueryParams();
   const maxWidth = window.innerWidth - 64;
 
   const {
@@ -297,11 +298,49 @@ const VesselControlLog = () => {
     }
   };
 
+  const toggleInStatus = () => {
+    switch (inStatus) {
+      case 'unchecked':
+        setQueryParams({ inStatus: 'all' });
+        break;
+      case 'all':
+        setQueryParams({ inStatus: 'checked' });
+        break;
+      default:
+        setQueryParams({ inStatus: 'unchecked' });
+    }
+  };
+
+  const toggleOutStatus = () => {
+    switch (outStatus) {
+      case 'unchecked':
+        setQueryParams({ outStatus: 'all' });
+        break;
+      case 'all':
+        setQueryParams({ outStatus: 'checked' });
+        break;
+      default:
+        setQueryParams({ outStatus: 'unchecked' });
+    }
+  };
+
   useEffect(() => {
     if (liquidatedStatus === undefined) {
       setQueryParams({ liquidatedStatus: 'unliquidated' }, 'replaceIn');
     }
   }, [liquidatedStatus, setQueryParams]);
+
+  useEffect(() => {
+    if (inStatus === undefined) {
+      setQueryParams({ inStatus: 'all' }, 'replaceIn');
+    }
+  }, [inStatus, setQueryParams]);
+
+  useEffect(() => {
+    if (outStatus === undefined) {
+      setQueryParams({ outStatus: 'all' }, 'replaceIn');
+    }
+  }, [outStatus, setQueryParams]);
 
   return (
     <Page
@@ -431,7 +470,31 @@ const VesselControlLog = () => {
                     status="warning"
                   />
                   {columnLabels.map((label, idx) =>
-                    idx === 4 ? (
+                    idx === 1 ? (
+                      <l.Flex alignCenter key="in" relative>
+                        <l.Div position="absolute" left={`-${th.spacing.md}`}>
+                          <LineItemCheckbox
+                            checked={inStatus === 'checked'}
+                            crossed={inStatus === 'unchecked'}
+                            onChange={toggleInStatus}
+                            status="success"
+                          />
+                        </l.Div>
+                        {label}
+                      </l.Flex>
+                    ) : idx === 2 ? (
+                      <l.Flex alignCenter key="out" relative>
+                        <l.Div position="absolute" left={`-${th.spacing.md}`}>
+                          <LineItemCheckbox
+                            checked={outStatus === 'checked'}
+                            crossed={outStatus === 'unchecked'}
+                            onChange={toggleOutStatus}
+                            status="success"
+                          />
+                        </l.Div>
+                        {label}
+                      </l.Flex>
+                    ) : idx === 4 ? (
                       <l.Flex alignCenter key="liq" relative>
                         <l.Div position="absolute" left={`-${th.spacing.md}`}>
                           <LineItemCheckbox
