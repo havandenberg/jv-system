@@ -119,11 +119,13 @@ const buildVesselControlItems = (vesselControls) =>
           (acc2, invoice) => {
             const salesUserCode = invoice?.salesUserCode;
             const orderId = invoice?.orderId;
+            const truckLoadId = invoice?.truckLoadId;
 
             if (
               !salesUserCode ||
               ['HS', 'JJ'].includes(salesUserCode) ||
-              !orderId
+              !orderId ||
+              !truckLoadId
             ) {
               return acc2;
             }
