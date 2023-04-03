@@ -12,6 +12,7 @@ CREATE TABLE directory.shipper (
 	projection_request_start_date DATE,
 	projection_request_end_date DATE,
   vessel_control_days_until_due NUMERIC,
+  psa_shipper_id TEXT
 );
 
 CREATE TABLE directory.shipper_person_contact (
@@ -32,6 +33,16 @@ AS $BODY$
   SELECT * FROM directory.vendor v WHERE v.id = s.id
 $BODY$;
 
+CREATE FUNCTION directory.shipper_psa_shipper_name(IN s directory.shipper)
+    RETURNS TEXT
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT exporter_name FROM inspection.psa_arrival_report i WHERE i.exporter_id = s.psa_shipper_id LIMIT 1
+$BODY$;
+
 CREATE FUNCTION directory.shipper_search_text(IN s directory.shipper)
     RETURNS text
     LANGUAGE 'sql'
@@ -41,6 +52,7 @@ CREATE FUNCTION directory.shipper_search_text(IN s directory.shipper)
 AS $BODY$
 SELECT CONCAT (
 		s.id,
+    s.psa_shipper_id,
 		s.shipper_name,
 		s.country_id,
 		c.country_name,

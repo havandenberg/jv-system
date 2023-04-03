@@ -1,6 +1,5 @@
 import { isAfter, isBefore } from 'date-fns';
 
-import { ARRIVAL_PORT_DISTINCT_VALUES_QUERY } from 'api/inventory/vessel';
 import { COUNTRY_LIST_QUERY } from 'api/directory/country';
 import { WAREHOUSE_LIST_ALL_QUERY } from 'api/directory/warehouse';
 import { LabelInfo } from 'components/column-label';
@@ -13,7 +12,15 @@ import ty from 'ui/typography';
 
 export type VesselLabelInfo = LabelInfo<Vessel>;
 
-export const listLabels: VesselLabelInfo[] = [
+export const listLabels: (
+  vesselCodeOptions: string[],
+  arrivalPortOptions: string[],
+  countryIdOptions: string[],
+) => VesselLabelInfo[] = (
+  vesselCodeOptions,
+  arrivalPortOptions,
+  countryIdOptions,
+) => [
   {
     key: 'dischargeDate',
     label: 'Available Date',
@@ -23,6 +30,14 @@ export const listLabels: VesselLabelInfo[] = [
     key: 'vesselCode',
     label: 'Code',
     sortable: true,
+    filterable: true,
+    filterPanelProps: {
+      customStyles: {
+        width: 500,
+      },
+      customOptions: vesselCodeOptions,
+      showSearch: true,
+    },
   },
   {
     defaultSortOrder: SORT_ORDER.ASC,
@@ -36,6 +51,10 @@ export const listLabels: VesselLabelInfo[] = [
     label: 'Country',
     sortable: true,
     filterable: true,
+    filterPanelProps: {
+      customOptions: countryIdOptions,
+      showSearch: true,
+    },
     getValue: ({ country }) =>
       country ? <ty.BodyText>{country.countryName}</ty.BodyText> : '',
   },
@@ -48,12 +67,9 @@ export const listLabels: VesselLabelInfo[] = [
     filterPanelProps: {
       customStyles: {
         left: -80,
-        width: 410,
+        width: 450,
       },
-      queryProps: {
-        query: ARRIVAL_PORT_DISTINCT_VALUES_QUERY,
-        queryName: 'vesselArrivalPortDistinctValues',
-      },
+      customOptions: arrivalPortOptions,
       showSearch: true,
     },
     getValue: ({ warehouse }) =>

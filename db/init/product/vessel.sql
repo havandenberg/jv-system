@@ -45,19 +45,6 @@ AS $BODY$
   SELECT * FROM directory.warehouse w WHERE w.id = COALESCE((SELECT product.vessel_original_arrival_port(v)), v.arrival_port)
 $BODY$;
 
-CREATE FUNCTION product.vessel_arrival_port_distinct_values()
-  RETURNS SETOF TEXT
-	LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-  SELECT DISTINCT CONCAT(w.warehouse_name, ' (', w.id, ')')
-  FROM product.vessel v
-  LEFT JOIN directory.warehouse w
-  ON w.id = COALESCE((SELECT product.vessel_original_arrival_port(v)), v.arrival_port);
-$BODY$;
-
 CREATE FUNCTION product.vessel_inventory_items(IN v product.vessel)
     RETURNS SETOF product.inventory_item
     LANGUAGE 'sql'
@@ -99,25 +86,14 @@ SELECT CONCAT (
 	) FROM product.vessel vv FULL JOIN directory.country c ON (v.country_id = c.id) WHERE v.id = vv.id
 $BODY$;
 
-CREATE FUNCTION product.vessel_distinct_values()
-  RETURNS SETOF TEXT
-	LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-  SELECT DISTINCT CONCAT(v.vessel_name, ' (', v.vessel_code, ')')
-  FROM product.vessel v;
-$BODY$;
-
-CREATE FUNCTION product.vessel_inspection_vessel_name(IN v product.vessel)
+CREATE FUNCTION product.vessel_inspection_vessel_description(IN v product.vessel)
     RETURNS TEXT
     LANGUAGE 'sql'
     STABLE
     PARALLEL UNSAFE
     COST 100
 AS $BODY$
-  SELECT CONCAT(r.arrival_name, ' (', r.arrival_code, ')') FROM inspection.psa_arrival_report r WHERE r.arrival_code = v.vessel_code AND v.is_pre = FALSE LIMIT 1;
+  SELECT CONCAT(r.arrival_code, ' - ', r.arrival_name) FROM inspection.psa_arrival_report r WHERE r.arrival_code = v.vessel_code ORDER BY r.report_date DESC LIMIT 1;
 $BODY$;
 
 CREATE FUNCTION product.bulk_upsert_vessel(

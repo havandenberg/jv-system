@@ -9,6 +9,10 @@ query PSA_ARRIVAL_INSPECTION_DETAILS($id: BigInt!) {
     reportDate
     reportUrl
     palletCount
+    shipper {
+      id
+      shipperName
+    }
     pictures {
       nodes {
         id

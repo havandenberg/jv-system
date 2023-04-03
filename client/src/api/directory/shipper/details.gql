@@ -30,6 +30,8 @@ query SHIPPER_DETAILS($id: String!, $orderBy: [PersonContactsOrderBy!]) {
     sendProjectionRequest
     shipperName
     vesselControlDaysUntilDue
+    psaShipperId
+    psaShipperName
     website
     vendor {
       id

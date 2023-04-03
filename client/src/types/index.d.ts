@@ -25061,6 +25061,7 @@ export type FkShipperIdShipperCreateInput = {
   projectionRequestStartDate?: Maybe<Scalars['Date']>;
   projectionRequestEndDate?: Maybe<Scalars['Date']>;
   vesselControlDaysUntilDue?: Maybe<Scalars['BigFloat']>;
+  psaShipperId?: Maybe<Scalars['String']>;
   countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
   shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
@@ -25135,6 +25136,7 @@ export type InventoryItem = Node & {
   coast?: Maybe<Scalars['String']>;
   storageRank?: Maybe<Scalars['String']>;
   warehouseId?: Maybe<Scalars['String']>;
+  isPre?: Maybe<Scalars['Boolean']>;
   country?: Maybe<Country>;
   packType?: Maybe<PackMaster>;
   /** Reads and enables pagination through a set of `Pallet`. */
@@ -25212,6 +25214,8 @@ export type InventoryItemCondition = {
   storageRank?: Maybe<Scalars['String']>;
   /** Checks for equality with the object’s `warehouseId` field. */
   warehouseId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `isPre` field. */
+  isPre?: Maybe<Scalars['Boolean']>;
 };
 
 /** A filter to be used against `InventoryItem` object types. All fields are combined with a logical ‘and.’ */
@@ -25254,6 +25258,8 @@ export type InventoryItemFilter = {
   storageRank?: Maybe<StringFilter>;
   /** Filter by the object’s `warehouseId` field. */
   warehouseId?: Maybe<StringFilter>;
+  /** Filter by the object’s `isPre` field. */
+  isPre?: Maybe<BooleanFilter>;
   /** Filter by the object’s `vesselDischargeDate` field. */
   vesselDischargeDate?: Maybe<DateFilter>;
   /** Filter by the object’s `vesselInvFlag` field. */
@@ -25287,6 +25293,7 @@ export type InventoryItemInput = {
   coast?: Maybe<Scalars['String']>;
   storageRank?: Maybe<Scalars['String']>;
   warehouseId?: Maybe<Scalars['String']>;
+  isPre?: Maybe<Scalars['Boolean']>;
 };
 
 /** Represents an update to a `InventoryItem`. Fields that are set will be updated. */
@@ -25310,6 +25317,7 @@ export type InventoryItemPatch = {
   coast?: Maybe<Scalars['String']>;
   storageRank?: Maybe<Scalars['String']>;
   warehouseId?: Maybe<Scalars['String']>;
+  isPre?: Maybe<Scalars['Boolean']>;
 };
 
 /** A connection to a list of `InventoryItem` values. */
@@ -25375,6 +25383,8 @@ export enum InventoryItemsOrderBy {
   StorageRankDesc = 'STORAGE_RANK_DESC',
   WarehouseIdAsc = 'WAREHOUSE_ID_ASC',
   WarehouseIdDesc = 'WAREHOUSE_ID_DESC',
+  IsPreAsc = 'IS_PRE_ASC',
+  IsPreDesc = 'IS_PRE_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
 }
@@ -33971,6 +33981,7 @@ export type OrderItem = Node & {
   shipperId?: Maybe<Scalars['String']>;
   notes?: Maybe<Scalars['String']>;
   specialLotNumber?: Maybe<Scalars['String']>;
+  isPre?: Maybe<Scalars['Boolean']>;
   inventoryItem?: Maybe<InventoryItem>;
   order?: Maybe<OrderMaster>;
   product?: Maybe<ProductMaster>;
@@ -34017,6 +34028,8 @@ export type OrderItemCondition = {
   notes?: Maybe<Scalars['String']>;
   /** Checks for equality with the object’s `specialLotNumber` field. */
   specialLotNumber?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `isPre` field. */
+  isPre?: Maybe<Scalars['Boolean']>;
 };
 
 /** A filter to be used against `OrderItem` object types. All fields are combined with a logical ‘and.’ */
@@ -34055,6 +34068,8 @@ export type OrderItemFilter = {
   notes?: Maybe<StringFilter>;
   /** Filter by the object’s `specialLotNumber` field. */
   specialLotNumber?: Maybe<StringFilter>;
+  /** Filter by the object’s `isPre` field. */
+  isPre?: Maybe<BooleanFilter>;
   /** Filter by the object’s `searchText` field. */
   searchText?: Maybe<StringFilter>;
   /** Checks for all expressions in this list. */
@@ -34084,6 +34099,7 @@ export type OrderItemInput = {
   shipperId?: Maybe<Scalars['String']>;
   notes?: Maybe<Scalars['String']>;
   specialLotNumber?: Maybe<Scalars['String']>;
+  isPre?: Maybe<Scalars['Boolean']>;
 };
 
 /** Represents an update to a `OrderItem`. Fields that are set will be updated. */
@@ -34105,6 +34121,7 @@ export type OrderItemPatch = {
   shipperId?: Maybe<Scalars['String']>;
   notes?: Maybe<Scalars['String']>;
   specialLotNumber?: Maybe<Scalars['String']>;
+  isPre?: Maybe<Scalars['Boolean']>;
 };
 
 /** A connection to a list of `OrderItem` values. */
@@ -34166,6 +34183,8 @@ export enum OrderItemsOrderBy {
   NotesDesc = 'NOTES_DESC',
   SpecialLotNumberAsc = 'SPECIAL_LOT_NUMBER_ASC',
   SpecialLotNumberDesc = 'SPECIAL_LOT_NUMBER_DESC',
+  IsPreAsc = 'IS_PRE_ASC',
+  IsPreDesc = 'IS_PRE_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
 }
@@ -41712,7 +41731,7 @@ export type PsaArrivalPicture = Node & {
   pictureDate?: Maybe<Scalars['Date']>;
   arrivalCode?: Maybe<Scalars['String']>;
   pictureDescription?: Maybe<Scalars['String']>;
-  exporterId?: Maybe<Scalars['BigInt']>;
+  exporterId?: Maybe<Scalars['String']>;
   palletId?: Maybe<Scalars['String']>;
   productCode?: Maybe<Scalars['String']>;
   varietyName?: Maybe<Scalars['String']>;
@@ -41733,7 +41752,7 @@ export type PsaArrivalPictureCondition = {
   /** Checks for equality with the object’s `pictureDescription` field. */
   pictureDescription?: Maybe<Scalars['String']>;
   /** Checks for equality with the object’s `exporterId` field. */
-  exporterId?: Maybe<Scalars['BigInt']>;
+  exporterId?: Maybe<Scalars['String']>;
   /** Checks for equality with the object’s `palletId` field. */
   palletId?: Maybe<Scalars['String']>;
   /** Checks for equality with the object’s `productCode` field. */
@@ -41753,7 +41772,7 @@ export type PsaArrivalPictureFilter = {
   /** Filter by the object’s `pictureDescription` field. */
   pictureDescription?: Maybe<StringFilter>;
   /** Filter by the object’s `exporterId` field. */
-  exporterId?: Maybe<BigIntFilter>;
+  exporterId?: Maybe<StringFilter>;
   /** Filter by the object’s `palletId` field. */
   palletId?: Maybe<StringFilter>;
   /** Filter by the object’s `productCode` field. */
@@ -41774,7 +41793,7 @@ export type PsaArrivalPictureInput = {
   pictureDate?: Maybe<Scalars['Date']>;
   arrivalCode?: Maybe<Scalars['String']>;
   pictureDescription?: Maybe<Scalars['String']>;
-  exporterId?: Maybe<Scalars['BigInt']>;
+  exporterId?: Maybe<Scalars['String']>;
   palletId?: Maybe<Scalars['String']>;
   productCode?: Maybe<Scalars['String']>;
   varietyName?: Maybe<Scalars['String']>;
@@ -41786,7 +41805,7 @@ export type PsaArrivalPicturePatch = {
   pictureDate?: Maybe<Scalars['Date']>;
   arrivalCode?: Maybe<Scalars['String']>;
   pictureDescription?: Maybe<Scalars['String']>;
-  exporterId?: Maybe<Scalars['BigInt']>;
+  exporterId?: Maybe<Scalars['String']>;
   palletId?: Maybe<Scalars['String']>;
   productCode?: Maybe<Scalars['String']>;
   varietyName?: Maybe<Scalars['String']>;
@@ -41846,7 +41865,7 @@ export type PsaArrivalReport = Node & {
   locationName?: Maybe<Scalars['String']>;
   arrivalCode?: Maybe<Scalars['String']>;
   arrivalName?: Maybe<Scalars['String']>;
-  exporterId?: Maybe<Scalars['BigInt']>;
+  exporterId?: Maybe<Scalars['String']>;
   exporterName?: Maybe<Scalars['String']>;
   /** Reads and enables pagination through a set of `PsaApplePallet`. */
   applePallets: PsaApplePalletsConnection;
@@ -41871,6 +41890,7 @@ export type PsaArrivalReport = Node & {
   pomegranatePallets: PsaPomegranatePalletsConnection;
   qualityRange?: Maybe<Scalars['String']>;
   searchText?: Maybe<Scalars['String']>;
+  shipper?: Maybe<Shipper>;
   /** Reads and enables pagination through a set of `PsaStoneFruitPallet`. */
   stoneFruitPallets: PsaStoneFruitPalletsConnection;
   varietyList?: Maybe<Array<Maybe<Scalars['String']>>>;
@@ -42009,7 +42029,7 @@ export type PsaArrivalReportCondition = {
   /** Checks for equality with the object’s `arrivalName` field. */
   arrivalName?: Maybe<Scalars['String']>;
   /** Checks for equality with the object’s `exporterId` field. */
-  exporterId?: Maybe<Scalars['BigInt']>;
+  exporterId?: Maybe<Scalars['String']>;
   /** Checks for equality with the object’s `exporterName` field. */
   exporterName?: Maybe<Scalars['String']>;
 };
@@ -42027,7 +42047,7 @@ export type PsaArrivalReportFilter = {
   /** Filter by the object’s `arrivalName` field. */
   arrivalName?: Maybe<StringFilter>;
   /** Filter by the object’s `exporterId` field. */
-  exporterId?: Maybe<BigIntFilter>;
+  exporterId?: Maybe<StringFilter>;
   /** Filter by the object’s `exporterName` field. */
   exporterName?: Maybe<StringFilter>;
   /** Filter by the object’s `commodityList` field. */
@@ -42055,7 +42075,7 @@ export type PsaArrivalReportInput = {
   locationName?: Maybe<Scalars['String']>;
   arrivalCode?: Maybe<Scalars['String']>;
   arrivalName?: Maybe<Scalars['String']>;
-  exporterId?: Maybe<Scalars['BigInt']>;
+  exporterId?: Maybe<Scalars['String']>;
   exporterName?: Maybe<Scalars['String']>;
 };
 
@@ -42066,7 +42086,7 @@ export type PsaArrivalReportPatch = {
   locationName?: Maybe<Scalars['String']>;
   arrivalCode?: Maybe<Scalars['String']>;
   arrivalName?: Maybe<Scalars['String']>;
-  exporterId?: Maybe<Scalars['BigInt']>;
+  exporterId?: Maybe<Scalars['String']>;
   exporterName?: Maybe<Scalars['String']>;
 };
 
@@ -44933,26 +44953,6 @@ export enum PsaGrapePalletsOrderBy {
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
 }
-
-/** A `String` edge in the connection. */
-export type PsaInspectionVesselDistinctValueEdge = {
-  __typename?: 'PsaInspectionVesselDistinctValueEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `String` at the end of the edge. */
-  node?: Maybe<Scalars['String']>;
-};
-
-/** A connection to a list of `String` values. */
-export type PsaInspectionVesselDistinctValuesConnection = {
-  __typename?: 'PsaInspectionVesselDistinctValuesConnection';
-  /** A list of `String` objects. */
-  nodes: Array<Maybe<Scalars['String']>>;
-  /** A list of edges which contains the `String` and cursor to aid in pagination. */
-  edges: Array<PsaInspectionVesselDistinctValueEdge>;
-  /** The count of *all* `String` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
 
 export type PsaLemonPallet = Node & {
   __typename?: 'PsaLemonPallet';
@@ -49579,10 +49579,7 @@ export type Query = Node & {
   warehouseDistinctValues?: Maybe<WarehouseDistinctValuesConnection>;
   /** Reads and enables pagination through a set of `ChileDepartureInspection`. */
   chileDepartureInspections?: Maybe<ChileDepartureInspectionsConnection>;
-  psaInspectionVesselDistinctValues?: Maybe<PsaInspectionVesselDistinctValuesConnection>;
   orderMasterCustomerDistinctValues?: Maybe<OrderMasterCustomerDistinctValuesConnection>;
-  vesselArrivalPortDistinctValues?: Maybe<VesselArrivalPortDistinctValuesConnection>;
-  vesselDistinctValues?: Maybe<VesselDistinctValuesConnection>;
   newRepackQueues?: Maybe<NewRepackQueuesConnection>;
   nextOrderNumber?: Maybe<Scalars['BigInt']>;
   /** Reads and enables pagination through a set of `VesselControl`. */
@@ -52070,40 +52067,7 @@ export type QueryChileDepartureInspectionsArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QueryPsaInspectionVesselDistinctValuesArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  filter?: Maybe<StringFilter>;
-};
-
-
-/** The root query type which gives access points into the data universe. */
 export type QueryOrderMasterCustomerDistinctValuesArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  filter?: Maybe<StringFilter>;
-};
-
-
-/** The root query type which gives access points into the data universe. */
-export type QueryVesselArrivalPortDistinctValuesArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['Cursor']>;
-  after?: Maybe<Scalars['Cursor']>;
-  filter?: Maybe<StringFilter>;
-};
-
-
-/** The root query type which gives access points into the data universe. */
-export type QueryVesselDistinctValuesArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
@@ -53508,6 +53472,7 @@ export type Shipper = Node & {
   projectionRequestStartDate?: Maybe<Scalars['Date']>;
   projectionRequestEndDate?: Maybe<Scalars['Date']>;
   vesselControlDaysUntilDue?: Maybe<Scalars['BigFloat']>;
+  psaShipperId?: Maybe<Scalars['String']>;
   /** Reads a single `Country` that is related to this `Shipper`. */
   country?: Maybe<Country>;
   /** Reads and enables pagination through a set of `ShipperProjectionVessel`. */
@@ -53522,6 +53487,7 @@ export type Shipper = Node & {
   shipperProjectionVesselInfos: ShipperProjectionVesselInfosConnection;
   /** Reads and enables pagination through a set of `ShipperProgram`. */
   shipperPrograms: ShipperProgramsConnection;
+  psaShipperName?: Maybe<Scalars['String']>;
   searchText?: Maybe<Scalars['String']>;
   vendor?: Maybe<Vendor>;
   /** Reads and enables pagination through a set of `Vessel`. */
@@ -54114,6 +54080,8 @@ export type ShipperCondition = {
   projectionRequestEndDate?: Maybe<Scalars['Date']>;
   /** Checks for equality with the object’s `vesselControlDaysUntilDue` field. */
   vesselControlDaysUntilDue?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `psaShipperId` field. */
+  psaShipperId?: Maybe<Scalars['String']>;
 };
 
 /** The `country` to be created by this mutation. */
@@ -54175,6 +54143,7 @@ export type ShipperCountryIdFkeyShipperCreateInput = {
   projectionRequestStartDate?: Maybe<Scalars['Date']>;
   projectionRequestEndDate?: Maybe<Scalars['Date']>;
   vesselControlDaysUntilDue?: Maybe<Scalars['BigFloat']>;
+  psaShipperId?: Maybe<Scalars['String']>;
   countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
   shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
@@ -54302,6 +54271,10 @@ export type ShipperFilter = {
   projectionRequestEndDate?: Maybe<DateFilter>;
   /** Filter by the object’s `vesselControlDaysUntilDue` field. */
   vesselControlDaysUntilDue?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `psaShipperId` field. */
+  psaShipperId?: Maybe<StringFilter>;
+  /** Filter by the object’s `psaShipperName` field. */
+  psaShipperName?: Maybe<StringFilter>;
   /** Filter by the object’s `searchText` field. */
   searchText?: Maybe<StringFilter>;
   /** Filter by the object’s `shipperProjectionVessels` relation. */
@@ -54353,6 +54326,7 @@ export type ShipperInput = {
   projectionRequestStartDate?: Maybe<Scalars['Date']>;
   projectionRequestEndDate?: Maybe<Scalars['Date']>;
   vesselControlDaysUntilDue?: Maybe<Scalars['BigFloat']>;
+  psaShipperId?: Maybe<Scalars['String']>;
   countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
   shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
@@ -54492,6 +54466,7 @@ export type ShipperPatch = {
   projectionRequestStartDate?: Maybe<Scalars['Date']>;
   projectionRequestEndDate?: Maybe<Scalars['Date']>;
   vesselControlDaysUntilDue?: Maybe<Scalars['BigFloat']>;
+  psaShipperId?: Maybe<Scalars['String']>;
   countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
   shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
@@ -54722,6 +54697,7 @@ export type ShipperPersonContactShipperIdFkeyShipperCreateInput = {
   projectionRequestStartDate?: Maybe<Scalars['Date']>;
   projectionRequestEndDate?: Maybe<Scalars['Date']>;
   vesselControlDaysUntilDue?: Maybe<Scalars['BigFloat']>;
+  psaShipperId?: Maybe<Scalars['String']>;
   countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
   shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
@@ -54825,6 +54801,8 @@ export enum ShipperPersonContactsOrderBy {
   ShipperByShipperIdProjectionRequestEndDateDesc = 'SHIPPER_BY_SHIPPER_ID__PROJECTION_REQUEST_END_DATE_DESC',
   ShipperByShipperIdVesselControlDaysUntilDueAsc = 'SHIPPER_BY_SHIPPER_ID__VESSEL_CONTROL_DAYS_UNTIL_DUE_ASC',
   ShipperByShipperIdVesselControlDaysUntilDueDesc = 'SHIPPER_BY_SHIPPER_ID__VESSEL_CONTROL_DAYS_UNTIL_DUE_DESC',
+  ShipperByShipperIdPsaShipperIdAsc = 'SHIPPER_BY_SHIPPER_ID__PSA_SHIPPER_ID_ASC',
+  ShipperByShipperIdPsaShipperIdDesc = 'SHIPPER_BY_SHIPPER_ID__PSA_SHIPPER_ID_DESC',
   PersonContactByPersonContactIdIdAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__ID_ASC',
   PersonContactByPersonContactIdIdDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__ID_DESC',
   PersonContactByPersonContactIdFirstNameAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__FIRST_NAME_ASC',
@@ -56225,6 +56203,7 @@ export type ShipperProgramShipperIdFkeyShipperCreateInput = {
   projectionRequestStartDate?: Maybe<Scalars['Date']>;
   projectionRequestEndDate?: Maybe<Scalars['Date']>;
   vesselControlDaysUntilDue?: Maybe<Scalars['BigFloat']>;
+  psaShipperId?: Maybe<Scalars['String']>;
   countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
   shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
@@ -56403,6 +56382,8 @@ export enum ShipperProgramsOrderBy {
   ShipperByShipperIdProjectionRequestEndDateDesc = 'SHIPPER_BY_SHIPPER_ID__PROJECTION_REQUEST_END_DATE_DESC',
   ShipperByShipperIdVesselControlDaysUntilDueAsc = 'SHIPPER_BY_SHIPPER_ID__VESSEL_CONTROL_DAYS_UNTIL_DUE_ASC',
   ShipperByShipperIdVesselControlDaysUntilDueDesc = 'SHIPPER_BY_SHIPPER_ID__VESSEL_CONTROL_DAYS_UNTIL_DUE_DESC',
+  ShipperByShipperIdPsaShipperIdAsc = 'SHIPPER_BY_SHIPPER_ID__PSA_SHIPPER_ID_ASC',
+  ShipperByShipperIdPsaShipperIdDesc = 'SHIPPER_BY_SHIPPER_ID__PSA_SHIPPER_ID_DESC',
   CustomerByCustomerIdIdAsc = 'CUSTOMER_BY_CUSTOMER_ID__ID_ASC',
   CustomerByCustomerIdIdDesc = 'CUSTOMER_BY_CUSTOMER_ID__ID_DESC',
   CustomerByCustomerIdCustomerNameAsc = 'CUSTOMER_BY_CUSTOMER_ID__CUSTOMER_NAME_ASC',
@@ -57746,6 +57727,7 @@ export type ShipperProjectionProductShipperIdFkeyShipperCreateInput = {
   projectionRequestStartDate?: Maybe<Scalars['Date']>;
   projectionRequestEndDate?: Maybe<Scalars['Date']>;
   vesselControlDaysUntilDue?: Maybe<Scalars['BigFloat']>;
+  psaShipperId?: Maybe<Scalars['String']>;
   countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
   shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
@@ -57910,6 +57892,8 @@ export enum ShipperProjectionProductsOrderBy {
   ShipperByShipperIdProjectionRequestEndDateDesc = 'SHIPPER_BY_SHIPPER_ID__PROJECTION_REQUEST_END_DATE_DESC',
   ShipperByShipperIdVesselControlDaysUntilDueAsc = 'SHIPPER_BY_SHIPPER_ID__VESSEL_CONTROL_DAYS_UNTIL_DUE_ASC',
   ShipperByShipperIdVesselControlDaysUntilDueDesc = 'SHIPPER_BY_SHIPPER_ID__VESSEL_CONTROL_DAYS_UNTIL_DUE_DESC',
+  ShipperByShipperIdPsaShipperIdAsc = 'SHIPPER_BY_SHIPPER_ID__PSA_SHIPPER_ID_ASC',
+  ShipperByShipperIdPsaShipperIdDesc = 'SHIPPER_BY_SHIPPER_ID__PSA_SHIPPER_ID_DESC',
   CommonSpeciesByCommonSpeciesIdIdAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__ID_ASC',
   CommonSpeciesByCommonSpeciesIdIdDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__ID_DESC',
   CommonSpeciesByCommonSpeciesIdSpeciesNameAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__SPECIES_NAME_ASC',
@@ -58053,6 +58037,7 @@ export type ShipperProjectionShipperIdFkeyShipperCreateInput = {
   projectionRequestStartDate?: Maybe<Scalars['Date']>;
   projectionRequestEndDate?: Maybe<Scalars['Date']>;
   vesselControlDaysUntilDue?: Maybe<Scalars['BigFloat']>;
+  psaShipperId?: Maybe<Scalars['String']>;
   countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
   shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
@@ -58768,6 +58753,8 @@ export enum ShipperProjectionVesselInfosOrderBy {
   ShipperByShipperIdProjectionRequestEndDateDesc = 'SHIPPER_BY_SHIPPER_ID__PROJECTION_REQUEST_END_DATE_DESC',
   ShipperByShipperIdVesselControlDaysUntilDueAsc = 'SHIPPER_BY_SHIPPER_ID__VESSEL_CONTROL_DAYS_UNTIL_DUE_ASC',
   ShipperByShipperIdVesselControlDaysUntilDueDesc = 'SHIPPER_BY_SHIPPER_ID__VESSEL_CONTROL_DAYS_UNTIL_DUE_DESC',
+  ShipperByShipperIdPsaShipperIdAsc = 'SHIPPER_BY_SHIPPER_ID__PSA_SHIPPER_ID_ASC',
+  ShipperByShipperIdPsaShipperIdDesc = 'SHIPPER_BY_SHIPPER_ID__PSA_SHIPPER_ID_DESC',
   ShipperProjectionEntriesByVesselInfoIdCountAsc = 'SHIPPER_PROJECTION_ENTRIES_BY_VESSEL_INFO_ID__COUNT_ASC',
   ShipperProjectionEntriesByVesselInfoIdCountDesc = 'SHIPPER_PROJECTION_ENTRIES_BY_VESSEL_INFO_ID__COUNT_DESC'
 }
@@ -58900,6 +58887,7 @@ export type ShipperProjectionVesselShipperIdFkeyShipperCreateInput = {
   projectionRequestStartDate?: Maybe<Scalars['Date']>;
   projectionRequestEndDate?: Maybe<Scalars['Date']>;
   vesselControlDaysUntilDue?: Maybe<Scalars['BigFloat']>;
+  psaShipperId?: Maybe<Scalars['String']>;
   countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
   shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
@@ -59131,6 +59119,8 @@ export enum ShipperProjectionVesselsOrderBy {
   ShipperByShipperIdProjectionRequestEndDateDesc = 'SHIPPER_BY_SHIPPER_ID__PROJECTION_REQUEST_END_DATE_DESC',
   ShipperByShipperIdVesselControlDaysUntilDueAsc = 'SHIPPER_BY_SHIPPER_ID__VESSEL_CONTROL_DAYS_UNTIL_DUE_ASC',
   ShipperByShipperIdVesselControlDaysUntilDueDesc = 'SHIPPER_BY_SHIPPER_ID__VESSEL_CONTROL_DAYS_UNTIL_DUE_DESC',
+  ShipperByShipperIdPsaShipperIdAsc = 'SHIPPER_BY_SHIPPER_ID__PSA_SHIPPER_ID_ASC',
+  ShipperByShipperIdPsaShipperIdDesc = 'SHIPPER_BY_SHIPPER_ID__PSA_SHIPPER_ID_DESC',
   VesselByVesselIdIdAsc = 'VESSEL_BY_VESSEL_ID__ID_ASC',
   VesselByVesselIdIdDesc = 'VESSEL_BY_VESSEL_ID__ID_DESC',
   VesselByVesselIdVesselCodeAsc = 'VESSEL_BY_VESSEL_ID__VESSEL_CODE_ASC',
@@ -59226,6 +59216,8 @@ export enum ShipperProjectionsOrderBy {
   ShipperByShipperIdProjectionRequestEndDateDesc = 'SHIPPER_BY_SHIPPER_ID__PROJECTION_REQUEST_END_DATE_DESC',
   ShipperByShipperIdVesselControlDaysUntilDueAsc = 'SHIPPER_BY_SHIPPER_ID__VESSEL_CONTROL_DAYS_UNTIL_DUE_ASC',
   ShipperByShipperIdVesselControlDaysUntilDueDesc = 'SHIPPER_BY_SHIPPER_ID__VESSEL_CONTROL_DAYS_UNTIL_DUE_DESC',
+  ShipperByShipperIdPsaShipperIdAsc = 'SHIPPER_BY_SHIPPER_ID__PSA_SHIPPER_ID_ASC',
+  ShipperByShipperIdPsaShipperIdDesc = 'SHIPPER_BY_SHIPPER_ID__PSA_SHIPPER_ID_DESC',
   ShipperProjectionVesselInfosByProjectionIdCountAsc = 'SHIPPER_PROJECTION_VESSEL_INFOS_BY_PROJECTION_ID__COUNT_ASC',
   ShipperProjectionVesselInfosByProjectionIdCountDesc = 'SHIPPER_PROJECTION_VESSEL_INFOS_BY_PROJECTION_ID__COUNT_DESC'
 }
@@ -59458,6 +59450,8 @@ export enum ShippersOrderBy {
   ProjectionRequestEndDateDesc = 'PROJECTION_REQUEST_END_DATE_DESC',
   VesselControlDaysUntilDueAsc = 'VESSEL_CONTROL_DAYS_UNTIL_DUE_ASC',
   VesselControlDaysUntilDueDesc = 'VESSEL_CONTROL_DAYS_UNTIL_DUE_DESC',
+  PsaShipperIdAsc = 'PSA_SHIPPER_ID_ASC',
+  PsaShipperIdDesc = 'PSA_SHIPPER_ID_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
   CountryByCountryIdIdAsc = 'COUNTRY_BY_COUNTRY_ID__ID_ASC',
@@ -71221,9 +71215,10 @@ export type Vessel = Node & {
   /** Reads and enables pagination through a set of `ShipperProjectionVessel`. */
   shipperProjectionVessels: ShipperProjectionVesselsConnection;
   country?: Maybe<Country>;
-  inspectionVesselName?: Maybe<Scalars['String']>;
+  inspectionVesselDescription?: Maybe<Scalars['String']>;
   /** Reads and enables pagination through a set of `InventoryItem`. */
   inventoryItems: InventoryItemsConnection;
+  originalArrivalPort?: Maybe<Scalars['String']>;
   /** Reads and enables pagination through a set of `Pallet`. */
   pallets: PalletsConnection;
   searchText?: Maybe<Scalars['String']>;
@@ -71274,26 +71269,6 @@ export type VesselShippersByShipperProjectionVesselVesselIdAndShipperIdArgs = {
   orderBy?: Maybe<Array<ShippersOrderBy>>;
   condition?: Maybe<ShipperCondition>;
   filter?: Maybe<ShipperFilter>;
-};
-
-/** A `String` edge in the connection. */
-export type VesselArrivalPortDistinctValueEdge = {
-  __typename?: 'VesselArrivalPortDistinctValueEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `String` at the end of the edge. */
-  node?: Maybe<Scalars['String']>;
-};
-
-/** A connection to a list of `String` values. */
-export type VesselArrivalPortDistinctValuesConnection = {
-  __typename?: 'VesselArrivalPortDistinctValuesConnection';
-  /** A list of `String` objects. */
-  nodes: Array<Maybe<Scalars['String']>>;
-  /** A list of edges which contains the `String` and cursor to aid in pagination. */
-  edges: Array<VesselArrivalPortDistinctValueEdge>;
-  /** The count of *all* `String` you could get from the connection. */
-  totalCount: Scalars['Int'];
 };
 
 /** A condition to be used against `Vessel` object types. All fields are tested for equality and combined with a logical ‘and.’ */
@@ -71497,26 +71472,6 @@ export enum VesselControlsOrderBy {
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
 }
 
-/** A `String` edge in the connection. */
-export type VesselDistinctValueEdge = {
-  __typename?: 'VesselDistinctValueEdge';
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']>;
-  /** The `String` at the end of the edge. */
-  node?: Maybe<Scalars['String']>;
-};
-
-/** A connection to a list of `String` values. */
-export type VesselDistinctValuesConnection = {
-  __typename?: 'VesselDistinctValuesConnection';
-  /** A list of `String` objects. */
-  nodes: Array<Maybe<Scalars['String']>>;
-  /** A list of edges which contains the `String` and cursor to aid in pagination. */
-  edges: Array<VesselDistinctValueEdge>;
-  /** The count of *all* `String` you could get from the connection. */
-  totalCount: Scalars['Int'];
-};
-
 /** A filter to be used against `Vessel` object types. All fields are combined with a logical ‘and.’ */
 export type VesselFilter = {
   /** Filter by the object’s `id` field. */
@@ -71543,8 +71498,10 @@ export type VesselFilter = {
   preVesselCode?: Maybe<StringFilter>;
   /** Filter by the object’s `invFlag` field. */
   invFlag?: Maybe<BooleanFilter>;
-  /** Filter by the object’s `inspectionVesselName` field. */
-  inspectionVesselName?: Maybe<StringFilter>;
+  /** Filter by the object’s `inspectionVesselDescription` field. */
+  inspectionVesselDescription?: Maybe<StringFilter>;
+  /** Filter by the object’s `originalArrivalPort` field. */
+  originalArrivalPort?: Maybe<StringFilter>;
   /** Filter by the object’s `searchText` field. */
   searchText?: Maybe<StringFilter>;
   /** Filter by the object’s `shipperProjectionVessels` relation. */
@@ -74023,6 +73980,7 @@ export type UpdateShipperOnShipperForShipperCountryIdFkeyPatch = {
   projectionRequestStartDate?: Maybe<Scalars['Date']>;
   projectionRequestEndDate?: Maybe<Scalars['Date']>;
   vesselControlDaysUntilDue?: Maybe<Scalars['BigFloat']>;
+  psaShipperId?: Maybe<Scalars['String']>;
   countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
   shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
@@ -74045,6 +74003,7 @@ export type UpdateShipperOnShipperPersonContactForShipperPersonContactShipperIdF
   projectionRequestStartDate?: Maybe<Scalars['Date']>;
   projectionRequestEndDate?: Maybe<Scalars['Date']>;
   vesselControlDaysUntilDue?: Maybe<Scalars['BigFloat']>;
+  psaShipperId?: Maybe<Scalars['String']>;
   countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
   shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
@@ -74067,6 +74026,7 @@ export type UpdateShipperOnShipperProgramForShipperProgramShipperIdFkeyPatch = {
   projectionRequestStartDate?: Maybe<Scalars['Date']>;
   projectionRequestEndDate?: Maybe<Scalars['Date']>;
   vesselControlDaysUntilDue?: Maybe<Scalars['BigFloat']>;
+  psaShipperId?: Maybe<Scalars['String']>;
   countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
   shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
@@ -74089,6 +74049,7 @@ export type UpdateShipperOnShipperProjectionForShipperProjectionShipperIdFkeyPat
   projectionRequestStartDate?: Maybe<Scalars['Date']>;
   projectionRequestEndDate?: Maybe<Scalars['Date']>;
   vesselControlDaysUntilDue?: Maybe<Scalars['BigFloat']>;
+  psaShipperId?: Maybe<Scalars['String']>;
   countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
   shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
@@ -74111,6 +74072,7 @@ export type UpdateShipperOnShipperProjectionProductForShipperProjectionProductSh
   projectionRequestStartDate?: Maybe<Scalars['Date']>;
   projectionRequestEndDate?: Maybe<Scalars['Date']>;
   vesselControlDaysUntilDue?: Maybe<Scalars['BigFloat']>;
+  psaShipperId?: Maybe<Scalars['String']>;
   countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
   shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
@@ -74133,6 +74095,7 @@ export type UpdateShipperOnShipperProjectionVesselForShipperProjectionVesselShip
   projectionRequestStartDate?: Maybe<Scalars['Date']>;
   projectionRequestEndDate?: Maybe<Scalars['Date']>;
   vesselControlDaysUntilDue?: Maybe<Scalars['BigFloat']>;
+  psaShipperId?: Maybe<Scalars['String']>;
   countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
   shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
@@ -74155,6 +74118,7 @@ export type UpdateShipperOnShipperProjectionVesselInfoForFkShipperIdPatch = {
   projectionRequestStartDate?: Maybe<Scalars['Date']>;
   projectionRequestEndDate?: Maybe<Scalars['Date']>;
   vesselControlDaysUntilDue?: Maybe<Scalars['BigFloat']>;
+  psaShipperId?: Maybe<Scalars['String']>;
   countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
   shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;

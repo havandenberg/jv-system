@@ -14,9 +14,10 @@ import ty from 'ui/typography';
 
 import { InspectionTypes, SubInspectionsProps } from '..';
 import ListItem from '../list-item';
-import { listLabels } from './data-utils';
+import { listLabels as getListLabels } from './data-utils';
 
-export const gridTemplateColumns = '0.8fr 1.2fr 1.2fr 80px 75px 0.9fr 30px';
+export const gridTemplateColumns =
+  '0.8fr 0.6fr 1.2fr 1.2fr 80px 75px 0.9fr 30px';
 
 interface PsaArrivalInspection extends PsaArrivalReport {
   imageUrls?: string[] | null;
@@ -28,9 +29,10 @@ const PsaArrivalInspections = ({
   Search,
   TabBar,
 }: SubInspectionsProps) => {
-  const { data, loading, error } = api.usePsaArrivalInspections();
+  const { data, vesselOptions, shipperOptions, loading, error } =
+    api.usePsaArrivalInspections();
   const inspections = data
-    ? (data.nodes as PsaArrivalReport[]).map((report) => {
+    ? data.map((report) => {
         const imageUrls = report
           ? pluck('imageUrl', report.pictures.nodes as PsaArrivalPicture[]) ||
             []
@@ -40,6 +42,8 @@ const PsaArrivalInspections = ({
     : [];
 
   const { TabBar: CoastFilter } = useCoastTabBar();
+
+  const listLabels = getListLabels(vesselOptions, shipperOptions);
 
   const columnLabels = useColumns<PsaArrivalReport>(
     'reportDate',
@@ -52,7 +56,7 @@ const PsaArrivalInspections = ({
   return (
     <Page
       breadcrumbs={breadcrumbs}
-      extraPaddingTop={117}
+      extraPaddingTop={112}
       headerChildren={
         <>
           <l.Flex alignCenter mb={th.spacing.lg} justifyBetween>
@@ -68,7 +72,7 @@ const PsaArrivalInspections = ({
                   <ty.SmallText secondary>Search</ty.SmallText>
                   {!loading && (
                     <ty.SmallText secondary>
-                      Results: {data ? data.totalCount : '-'}
+                      Results: {data ? data.length : '-'}
                     </ty.SmallText>
                   )}
                 </l.Flex>
@@ -91,7 +95,7 @@ const PsaArrivalInspections = ({
               gridTemplateColumns={gridTemplateColumns}
               mb={th.spacing.sm}
               pl={th.spacing.sm}
-              pr={data ? (data.totalCount > 7 ? th.spacing.md : 0) : 0}
+              pr={data ? (data.length > 7 ? th.spacing.md : 0) : 0}
             >
               {columnLabels}
               <ty.SmallText px={th.spacing.sm} secondary>

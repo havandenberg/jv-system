@@ -2,19 +2,17 @@ import { useMutation, useQuery } from '@apollo/client';
 import { add, endOfISOWeek, startOfISOWeek } from 'date-fns';
 import { loader } from 'graphql.macro';
 import { equals } from 'ramda';
-import { ArrayParam } from 'use-query-params';
 
-import useFilteredQueryValues from 'api/hooks/use-filtered-query-values';
 import { getOrderByString, getSearchArray } from 'api/utils';
 import { formatDate } from 'components/date-range-picker';
 import { SORT_ORDER } from 'hooks/use-columns';
 import {
   useDateRangeQueryParams,
-  useQuerySet,
   useSearchQueryParam,
   useSortQueryParams,
+  useVesselsQueryParams,
 } from 'hooks/use-query-params';
-import { Mutation, Query } from 'types';
+import { Mutation, Query, Vessel } from 'types';
 
 const VESSEL_DETAILS_QUERY = loader('./details.gql');
 const VESSEL_LIST_BY_DEPARTURE_QUERY = loader('./departure-list.gql');
@@ -23,11 +21,6 @@ const VESSEL_CREATE_QUERY = loader('./create.gql');
 const VESSEL_UPDATE_QUERY = loader('./update.gql');
 const VESSEL_DELETE_QUERY = loader('./delete.gql');
 const LAST_PRE_VESSEL_CODE_QUERY = loader('./last-code.gql');
-
-export const ARRIVAL_PORT_DISTINCT_VALUES_QUERY = loader(
-  './arrival-port-distinct-values.gql',
-);
-export const VESSEL_DISTINCT_VALUES_QUERY = loader('./distinct-values.gql');
 
 interface VesselsOptions {
   isInventory?: boolean;
@@ -48,40 +41,7 @@ const useVariables = (options?: VesselsOptions) => {
   const formattedStartDate =
     startDate && new Date(startDate.replace(/-/g, '/'));
 
-  const [{ countryId, arrivalPort, coast }] = useQuerySet({
-    countryId: ArrayParam,
-    arrivalPort: ArrayParam,
-    coast: ArrayParam,
-  });
-
-  const filteredCountryIdValues = useFilteredQueryValues(countryId, {
-    columnName: 'country_id',
-    tableName: 'vessel',
-    schemaName: 'product',
-  });
-
-  const filteredArrivalPortValues = useFilteredQueryValues(
-    arrivalPort,
-    {
-      columnName: 'arrival_port',
-      tableName: 'vessel',
-      schemaName: 'product',
-    },
-    ARRIVAL_PORT_DISTINCT_VALUES_QUERY,
-    'vesselArrivalPortDistinctValues',
-  );
-  const filteredCoastValues = useFilteredQueryValues(coast, {
-    columnName: 'coast',
-    tableName: 'vessel',
-    schemaName: 'product',
-  });
-
   return {
-    countryId: [...filteredCountryIdValues, ...(countryId ? [] : [''])],
-    arrivalPort: filteredArrivalPortValues.map((val) =>
-      val.substring(val.lastIndexOf(' (') + 2, val.length - 1),
-    ),
-    coast: filteredCoastValues,
     orderBy: orderByOverride
       ? orderByOverride
       : isInventory
@@ -102,20 +62,23 @@ const useVariables = (options?: VesselsOptions) => {
         : new Date(),
     ),
     endDate: formatDate(
-      isInventory
+      isInventory || isProjections
         ? add(startDate ? formattedStartDate : new Date(), { weeks: 5 })
         : endDate
-        ? equals(startDate, endDate) || isProjections
-          ? endOfISOWeek(add(formattedStartDate, { weeks: 4 }))
+        ? equals(startDate, endDate)
+          ? endOfISOWeek(add(formattedStartDate, { weeks: 1 }))
           : new Date(endDate.replace(/-/g, '/'))
-        : add(new Date(), { years: 1 }),
+        : formattedStartDate || new Date(),
     ),
   };
 };
 
 export const useVessels = (options?: VesselsOptions) => {
-  const { isProjections } = options || {};
+  const { isInventory, isProjections } = options || {};
   const variables = useVariables(options);
+
+  const [{ countryId, arrivalPort, coast, vesselCode }] =
+    useVesselsQueryParams();
 
   const { data, error, loading } = useQuery<Query>(
     isProjections
@@ -126,8 +89,46 @@ export const useVessels = (options?: VesselsOptions) => {
     },
   );
 
+  const vessels = (data?.vessels?.nodes || []) as Vessel[];
+
+  const vesselCodeOptions: string[] = [];
+  const countryIdOptions: string[] = [];
+  const arrivalPortOptions: string[] = [];
+
+  const filteredVessels = vessels.filter((vessel) => {
+    const vesselCodeOption = `${vessel.vesselCode} - ${vessel.vesselName}`;
+    const isVesselCodeValid =
+      !vesselCode || vesselCode.includes(vesselCodeOption);
+    if (!vesselCodeOptions.includes(vesselCodeOption)) {
+      vesselCodeOptions.push(vesselCodeOption);
+    }
+
+    const arrivalPortOption = `${vessel.warehouse?.warehouseName} (${vessel.warehouse?.id})`;
+    const isArrivalPortValid =
+      !arrivalPort || arrivalPort.includes(arrivalPortOption);
+    if (!arrivalPortOptions.includes(arrivalPortOption)) {
+      arrivalPortOptions.push(arrivalPortOption);
+    }
+
+    const countryIdOption = vessel.country?.id || '';
+    const isCountryValid = !countryId || countryId.includes(countryIdOption);
+    if (!countryIdOptions.includes(countryIdOption)) {
+      countryIdOptions.push(countryIdOption);
+    }
+
+    const isCoastValid = coast.includes(vessel.coast);
+
+    const isValid =
+      isVesselCodeValid && isArrivalPortValid && isCoastValid && isCountryValid;
+
+    return isValid;
+  });
+
   return {
-    data: data ? data.vessels : undefined,
+    data: isInventory || isProjections ? vessels : filteredVessels,
+    vesselCodeOptions: vesselCodeOptions.sort(),
+    countryIdOptions: countryIdOptions.sort(),
+    arrivalPortOptions: arrivalPortOptions.sort(),
     error,
     loading,
   };

@@ -1,9 +1,6 @@
 query VESSEL_LIST(
   $orderBy: [VesselsOrderBy!]
   $search: [VesselFilter!]
-  $countryId: [String!]
-  $arrivalPort: [String!]
-  $coast: [String!]
   $endDate: Date
   $startDate: Date
 ) {
@@ -11,9 +8,6 @@ query VESSEL_LIST(
     condition: { invFlag: true }
     filter: {
       and: $search
-      countryId: { in: $countryId }
-      arrivalPort: { in: $arrivalPort }
-      coast: { in: $coast }
       dischargeDate: {
         greaterThanOrEqualTo: $startDate
         lessThanOrEqualTo: $endDate

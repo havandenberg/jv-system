@@ -121,4 +121,8 @@ export const baseLabels: ShipperLabelInfo[] = [
     validate: ({ vesselControlDaysUntilDue }) =>
       !vesselControlDaysUntilDue || !isNaN(Number(vesselControlDaysUntilDue)),
   },
+  {
+    key: 'psaShipperId',
+    label: 'PSA Shipper ID',
+  },
 ];

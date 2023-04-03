@@ -92,17 +92,15 @@ const Inventory = () => {
     loading: vesselsLoading,
     error: vesselsError,
   } = api.useVessels({ isInventory: true });
-  const vessels = ((vesselsData ? vesselsData.nodes : []) as Vessel[]).map(
-    (vessel) => {
-      if (!vessel.isPre || !USE_NEW_PRE_INVENTORY) {
-        return vessel;
-      }
+  const vessels = vesselsData.map((vessel) => {
+    if (!vessel.isPre || !USE_NEW_PRE_INVENTORY) {
+      return vessel;
+    }
 
-      const { preInventoryItems } = convertProjectionsToInventoryItems(vessel);
+    const { preInventoryItems } = convertProjectionsToInventoryItems(vessel);
 
-      return { ...vessel, inventoryItems: { nodes: preInventoryItems } };
-    },
-  );
+    return { ...vessel, inventoryItems: { nodes: preInventoryItems } };
+  });
 
   const preInventoryItems = USE_NEW_PRE_INVENTORY
     ? pluck(

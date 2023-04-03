@@ -61,6 +61,14 @@ const tabs: Tab[] = [
     id: 'sections',
     text: 'Sections',
   },
+  {
+    id: 'invoices',
+    text: 'Invoices',
+  },
+  {
+    id: 'repacks',
+    text: 'Repacks',
+  },
 ];
 
 const Details = () => {

@@ -32,7 +32,7 @@ export const breadcrumbs = (
 ) => [
   {
     text: isInventory ? 'Inventory' : 'Vessels',
-    to: `/inventory/vessels`,
+    to: isInventory ? '/inventory' : `/inventory/vessels`,
   },
   {
     text: 'Vessel',
@@ -134,36 +134,30 @@ const Details = () => {
   return (
     <Page
       actions={[
-        vessel && vessel.inspectionVesselName ? (
+        // editing
+        //   ? getUpdateActions().defaultActions
+        //   : getUpdateActions().editAction,
+        <b.Primary disabled ml={th.spacing.md}>
+          Projections
+        </b.Primary>,
+        vessel?.isPre ? (
+          <b.Primary disabled key="pre" ml={th.spacing.md}>
+            Convert to Real
+          </b.Primary>
+        ) : null,
+        vessel && vessel.inspectionVesselDescription ? (
           <l.AreaLink
-            key={0}
-            to={`/reports/inspections/arrival?arrivalName=${vessel.inspectionVesselName}`}
+            key="inspections"
+            ml={th.spacing.md}
+            to={`/reports/inspections/arrival?arrivalCode=${vessel.inspectionVesselDescription}`}
           >
             <b.Primary>Inspections</b.Primary>
           </l.AreaLink>
         ) : (
-          <b.Primary disabled key={0}>
+          <b.Primary disabled key="inspections" ml={th.spacing.md}>
             Inspections
           </b.Primary>
         ),
-        ...(isInventory || !vessel?.isPre
-          ? []
-          : [
-              vessel?.isPre ? (
-                <React.Fragment key="pre">
-                  {/* <l.AreaLink
-                        mx={th.spacing.md}
-                        to={`/sales/projections?coast=${data?.coast}&startDate=${data?.departureDate}&endDate=${data?.departureDate}&projectionsView=grid&vesselId=${data?.id}&projectionId=all`}
-                      >
-                        <b.Primary>View Projections</b.Primary>
-                      </l.AreaLink>
-                      <b.Primary mr={th.spacing.md}>Convert to Real</b.Primary> */}
-                </React.Fragment>
-              ) : null,
-              editing
-                ? getUpdateActions().defaultActions
-                : getUpdateActions().editAction,
-            ]),
       ]}
       breadcrumbs={breadcrumbs(id, !!vessel?.isPre, isInventory)}
       title={

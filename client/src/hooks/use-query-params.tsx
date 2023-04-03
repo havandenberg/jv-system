@@ -65,6 +65,21 @@ export const useIDQueryParam = () => useQueryValue(idParam);
 export const useSortQueryParams = (updateType?: UpdateType) =>
   useQuerySet(sortParamSet, updateType);
 
+export const usePsaInspectionQueryParams = () =>
+  useQuerySet({
+    exporterName: ArrayParam,
+    arrivalCode: ArrayParam,
+    coast: ArrayParam,
+  });
+
+export const useVesselsQueryParams = () =>
+  useQuerySet({
+    vesselCode: ArrayParam,
+    countryId: ArrayParam,
+    arrivalPort: ArrayParam,
+    coast: StringParam,
+  });
+
 export const useInventoryQueryParams = () =>
   useQuerySet({
     species: StringParam,

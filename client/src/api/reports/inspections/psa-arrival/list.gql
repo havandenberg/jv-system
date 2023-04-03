@@ -3,18 +3,10 @@ query PSA_ARRIVAL_INSPECTIONS_LIST(
   $orderBy: [PsaArrivalReportsOrderBy!]
   $search: [PsaArrivalReportFilter!]
   $startDate: Date
-  $exporterName: [String!]
-  $arrivalName: [String!]
-  $arrivalCode: [String!]
-  $locationName: [String!]
 ) {
   psaArrivalReports(
     filter: {
       and: $search
-      exporterName: { in: $exporterName }
-      arrivalName: { in: $arrivalName }
-      arrivalCode: { in: $arrivalCode }
-      locationName: { in: $locationName }
       or: {
         reportDate: {
           greaterThanOrEqualTo: $startDate
@@ -34,6 +26,10 @@ query PSA_ARRIVAL_INSPECTIONS_LIST(
       reportDate
       qualityRange
       conditionRange
+      shipper {
+        id
+        shipperName
+      }
       pictures {
         nodes {
           id

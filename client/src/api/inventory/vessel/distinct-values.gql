@@ -1,5 +1,0 @@
-query VESSEL_DISTINCT_VALUES {
-  vesselDistinctValues {
-    nodes
-  }
-}

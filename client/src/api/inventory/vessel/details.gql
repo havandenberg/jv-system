@@ -13,7 +13,7 @@ query VESSEL_DETAILS($vesselCode: String!, $isPre: Boolean!) {
       dischargeDate
       id
       invFlag
-      inspectionVesselName
+      inspectionVesselDescription
       inventoryItems {
         nodes {
           coast

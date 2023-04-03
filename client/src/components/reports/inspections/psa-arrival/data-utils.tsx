@@ -1,5 +1,3 @@
-import { loader } from 'graphql.macro';
-
 import { LabelInfo } from 'components/column-label';
 import { SORT_ORDER } from 'hooks/use-columns';
 import { mean, pluck } from 'ramda';
@@ -8,10 +6,6 @@ import ty from 'ui/typography';
 
 import { PsaConditionInfo, PsaQualityInfo } from './quality-condition-info';
 
-const VESSEL_DISTINCT_VALUES_QUERY = loader(
-  '../../../../api/reports/inspections/psa-arrival/vessel-distinct-values.gql',
-);
-
 export type ReportLabelInfo = LabelInfo<PsaArrivalReport>;
 
 const getRangeValue = (range: string) => {
@@ -19,7 +13,10 @@ const getRangeValue = (range: string) => {
   return values.length > 1 && values[0] === values[1] ? range[0] : range;
 };
 
-export const listLabels: ReportLabelInfo[] = [
+export const listLabels: (
+  vesselOptions: string[],
+  shipperOptions: string[],
+) => ReportLabelInfo[] = (vesselOptions, shipperOptions) => [
   {
     key: 'reportDate',
     label: 'Report Date',
@@ -27,34 +24,39 @@ export const listLabels: ReportLabelInfo[] = [
   },
   {
     defaultSortOrder: SORT_ORDER.ASC,
-    key: 'exporterName',
-    label: 'Exporter',
+    key: 'arrivalCode',
+    label: 'Vessel Code',
+    sortable: true,
     filterable: true,
     filterPanelProps: {
       customStyles: {
-        width: 350,
+        width: 500,
       },
+      customOptions: vesselOptions,
       showSearch: true,
     },
-    sortable: true,
+    getValue: (data) => <ty.BodyText>{data.arrivalCode || '-'}</ty.BodyText>,
   },
   {
     defaultSortOrder: SORT_ORDER.ASC,
     key: 'arrivalName',
     label: 'Vessel',
+    sortable: true,
+    getValue: (data) => <ty.BodyText>{data.arrivalName || '-'}</ty.BodyText>,
+  },
+  {
+    defaultSortOrder: SORT_ORDER.ASC,
+    key: 'exporterName',
+    label: 'Shipper',
     filterable: true,
     filterPanelProps: {
       customStyles: {
         width: 350,
       },
-      queryProps: {
-        query: VESSEL_DISTINCT_VALUES_QUERY,
-        queryName: 'psaInspectionVesselDistinctValues',
-      },
+      customOptions: shipperOptions,
       showSearch: true,
     },
     sortable: true,
-    getValue: (data) => `${data.arrivalName} (${data.arrivalCode})`,
   },
   {
     defaultSortOrder: SORT_ORDER.ASC,
@@ -64,7 +66,7 @@ export const listLabels: ReportLabelInfo[] = [
     getValue: (data) =>
       data.qualityRange ? getRangeValue(data.qualityRange) : '-',
     infoPanelProps: {
-      content: () => <PsaQualityInfo />,
+      content: <PsaQualityInfo />,
       customStyles: { width: 150 },
     },
   },
@@ -76,7 +78,7 @@ export const listLabels: ReportLabelInfo[] = [
     getValue: (data) =>
       data.conditionRange ? getRangeValue(data.conditionRange) : '-',
     infoPanelProps: {
-      content: () => <PsaConditionInfo />,
+      content: <PsaConditionInfo />,
       customStyles: { width: 150 },
     },
   },
@@ -90,14 +92,6 @@ export const baseLabels: ReportLabelInfo[] = [
   {
     key: 'id',
     label: 'Report ID',
-  },
-  {
-    key: 'exporterId',
-    label: 'Exporter Code',
-  },
-  {
-    key: 'exporterName',
-    label: 'Exporter Name',
   },
   {
     key: 'locationName',
@@ -121,6 +115,22 @@ export const baseLabels: ReportLabelInfo[] = [
   {
     key: 'arrivalName',
     label: 'Vessel Name',
+  },
+  {
+    key: 'exporterId',
+    label: 'Exporter Code',
+  },
+  {
+    key: 'exporterName',
+    label: 'Exporter Name',
+    getValue: ({ exporterId, shipper }) =>
+      shipper ? (
+        <ty.LinkText hover="false" to={`/directory/shippers/${shipper.id}`}>
+          {shipper.shipperName}
+        </ty.LinkText>
+      ) : (
+        <ty.BodyText>{exporterId}</ty.BodyText>
+      ),
   },
 ];
 

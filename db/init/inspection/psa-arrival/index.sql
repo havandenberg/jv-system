@@ -4,20 +4,24 @@ CREATE TABLE inspection.psa_arrival_report (
   location_name TEXT,
   arrival_code TEXT,
   arrival_name TEXT,
-  exporter_id BIGINT,
+  exporter_id TEXT,
   exporter_name TEXT
 );
+
+CREATE INDEX ON inspection.psa_arrival_report (report_date, arrival_code, exporter_id);
 
 CREATE TABLE inspection.psa_arrival_picture (
   id BIGINT PRIMARY KEY,
   picture_date DATE,
   arrival_code TEXT,
   picture_description TEXT,
-  exporter_id BIGINT,
+  exporter_id TEXT,
   pallet_id TEXT,
   product_code TEXT,
   variety_name TEXT
 );
+
+CREATE INDEX ON inspection.psa_arrival_picture (exporter_id, arrival_code, pallet_id);
 
 CREATE FUNCTION inspection.psa_arrival_report_pictures(IN r inspection.psa_arrival_report)
 	RETURNS setof inspection.psa_arrival_picture
@@ -160,6 +164,16 @@ CREATE FUNCTION inspection.psa_arrival_report_vessel(IN r inspection.psa_arrival
   COST 100
 AS $BODY$
   SELECT * FROM product.vessel v WHERE v.vessel_code = r.arrival_code AND v.is_pre = FALSE order by v.vessel_code DESC LIMIT 1
+$BODY$;
+
+CREATE FUNCTION inspection.psa_arrival_report_shipper(IN r inspection.psa_arrival_report)
+  RETURNS directory.shipper
+  LANGUAGE 'sql'
+  STABLE
+  PARALLEL UNSAFE
+  COST 100
+AS $BODY$
+  SELECT * FROM directory.shipper s WHERE s.psa_shipper_id = r.exporter_id LIMIT 1
 $BODY$;
 
 CREATE FUNCTION inspection.psa_arrival_report_commodity_list(IN r inspection.psa_arrival_report)
@@ -443,13 +457,3 @@ AS $BODY$
   );
 $BODY$;
 COMMENT ON FUNCTION inspection.psa_arrival_report_condition_range(r inspection.psa_arrival_report) IS E'@sortable';
-
-CREATE FUNCTION inspection.psa_inspection_vessel_distinct_values()
-  RETURNS SETOF TEXT
-	LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-  SELECT DISTINCT CONCAT(arrival_name, ' (', arrival_code, ')') from inspection.psa_arrival_report;
-$BODY$;

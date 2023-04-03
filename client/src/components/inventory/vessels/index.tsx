@@ -19,7 +19,7 @@ import th from 'ui/theme';
 import ty from 'ui/typography';
 
 import { ResetButton } from '../inventory/use-filters';
-import { listLabels } from './data-utils';
+import { listLabels as getListLabels } from './data-utils';
 
 export const breadcrumbs = [{ text: 'Vessels', to: `/inventory/vessels` }];
 
@@ -27,14 +27,26 @@ const gridTemplateColumns = '1fr 0.5fr 2fr 1fr 2fr 0.5fr 30px';
 
 const Vessels = () => {
   const { Search } = useSearch();
-  const { data, loading, error } = api.useVessels();
-  const items = data ? data.nodes : [];
+  const {
+    data: items,
+    vesselCodeOptions,
+    arrivalPortOptions,
+    countryIdOptions,
+    loading,
+    error,
+  } = api.useVessels();
 
   const { TabBar: CoastFilter, selectedTabId: coast } = useCoastTabBar();
 
   const { DateRangePicker, BackwardButton, ForwardButton } = useDateRange({
     maxDate: endOfISOWeek(add(new Date(), { weeks: 4 })),
   });
+
+  const listLabels = getListLabels(
+    vesselCodeOptions,
+    arrivalPortOptions,
+    countryIdOptions,
+  );
 
   const columnLabels = useColumns<Vessel>(
     'dischargeDate',
@@ -46,14 +58,14 @@ const Vessels = () => {
 
   return (
     <Page
-      // actions={[
-      //   <l.AreaLink
-      //     key="create"
-      //     to={`/inventory/vessels/create?coast=${coast}`}
-      //   >
-      //     <b.Success>Create</b.Success>
-      //   </l.AreaLink>,
-      // ]}
+      actions={[
+        <l.AreaLink
+          key="schedule"
+          to={`/inventory/vessels/schedule?coast=${coast}`}
+        >
+          <b.Success>Create</b.Success>
+        </l.AreaLink>,
+      ]}
       breadcrumbs={breadcrumbs}
       extraPaddingTop={111}
       headerChildren={
@@ -70,7 +82,7 @@ const Vessels = () => {
                 <ty.SmallText secondary>Search</ty.SmallText>
                 {!loading && (
                   <ty.SmallText secondary>
-                    Results: {data ? data.totalCount : '-'}
+                    Results: {!loading ? items.length : '-'}
                   </ty.SmallText>
                 )}
               </l.Flex>
@@ -105,7 +117,7 @@ const Vessels = () => {
               gridTemplateColumns={gridTemplateColumns}
               mb={th.spacing.sm}
               pl={th.spacing.sm}
-              pr={data ? (data.totalCount > 12 ? th.spacing.md : 0) : 0}
+              pr={!loading ? (items.length > 12 ? th.spacing.md : 0) : 0}
             >
               {columnLabels}
             </l.Grid>
@@ -114,10 +126,10 @@ const Vessels = () => {
       }
       title="Vessels"
     >
-      {!isEmpty(items) ? (
+      {!loading && !isEmpty(items) ? (
         <VirtualizedList
           height={582}
-          rowCount={data ? items.length : 0}
+          rowCount={items.length}
           rowRenderer={({ key, index, style }) => {
             const item = items[index];
             return (

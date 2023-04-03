@@ -48,6 +48,7 @@ const Details = () => {
     'shipperName',
     'groupId',
     'notes',
+    'psaShipperId',
     'website',
     'vesselControlDaysUntilDue',
   ];
@@ -80,24 +81,35 @@ const Details = () => {
           ? [
               <l.AreaLink
                 key="inventory"
-                mx={th.spacing.lg}
+                mx={th.spacing.md}
                 to={`/inventory/index?shipper=${data.id}`}
               >
                 <b.Primary>Inventory</b.Primary>
               </l.AreaLink>,
               <l.AreaLink
                 key="programs"
-                mr={th.spacing.lg}
+                mr={th.spacing.md}
                 to={`/sales/programs?shipperId=${data.id}&programsView=shippers`}
               >
                 <b.Primary>Programs</b.Primary>
               </l.AreaLink>,
               <l.AreaLink
                 key="projections"
+                mr={th.spacing.md}
                 to={`/sales/projections?shipperId=${data.id}`}
               >
                 <b.Primary disabled>Projections</b.Primary>
               </l.AreaLink>,
+              data.psaShipperName ? (
+                <l.AreaLink
+                  key="inspections"
+                  to={`/reports/inspections?exporterName=${data.psaShipperName}`}
+                >
+                  <b.Primary>Inspections</b.Primary>
+                </l.AreaLink>
+              ) : (
+                <b.Primary disabled>Inspections</b.Primary>
+              ),
             ]
           : []),
       ]}
