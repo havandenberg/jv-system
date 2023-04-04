@@ -28,20 +28,23 @@ export const usePsaArrivalInspections = () => {
   const [{ sortBy = 'reportDate', sortOrder = SORT_ORDER.DESC }] =
     useSortQueryParams();
   const [{ coast, exporterName, arrivalCode }] = usePsaInspectionQueryParams();
-  const [
-    {
-      startDate = formatDate(add(new Date(), { days: -30 })),
-      endDate = formatDate(new Date()),
-    },
-  ] = useDateRangeQueryParams();
+  const [{ startDate, endDate }] = useDateRangeQueryParams();
+  const formattedStartDate = formatDate(
+    add(startDate ? new Date(startDate.replace(/-/g, '/')) : new Date(), {
+      months: startDate === endDate ? -6 : 0,
+    }),
+  );
+  const formattedEndDate = formatDate(
+    endDate ? new Date(endDate.replace(/-/g, '/')) : new Date(),
+  );
   const orderBy = getOrderByString(sortBy, sortOrder);
 
   const { data, error, loading } = useQuery<Query>(INSPECTIONS_LIST_QUERY, {
     variables: {
-      endDate,
       orderBy,
       search: getSearchArray(search),
-      startDate,
+      startDate: formattedStartDate,
+      endDate: formattedEndDate,
     },
   });
 
@@ -68,9 +71,10 @@ export const usePsaArrivalInspections = () => {
     }
 
     const isCoastValid =
-      coast === 'EC'
+      !coast ||
+      (coast.includes('EC')
         ? inspection.locationName === 'PSA-USEC'
-        : inspection.locationName === 'PSA-USWC';
+        : inspection.locationName === 'PSA-USWC');
 
     const isValid = isVesselValid && isShipperValid && isCoastValid;
 

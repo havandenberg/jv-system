@@ -52,11 +52,12 @@ const Details = () => {
   ) as ChileDepartureInspectionPallet[];
   const reportData = pallets[0];
   const imageUrls = data ? data.imageUrls || [] : [];
-  const { Lightbox, openLightbox } = useLightbox(
-    imageUrls,
-    reportData ? `${reportData.lotId}` : undefined,
-    `${api.baseURL}/`,
-  );
+
+  const slides = imageUrls.map((imageUrl) => ({
+    src: `${api.baseURL}/${imageUrl}`,
+    title: reportData.lotId,
+  }));
+  const { Lightbox, openLightbox } = useLightbox(slides);
 
   const featuredValues = reportData
     ? getFeaturedValues(data as ChileDepartureInspection)

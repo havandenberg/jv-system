@@ -95,13 +95,17 @@ const Details = () => {
         pallet && pallet.psaArrivalReport
           ? [
               <l.AreaLink
-                key={0}
+                key="inspection"
                 to={`/reports/inspections/arrival/${pallet.psaArrivalReport.id}`}
               >
                 <b.Primary>Inspection</b.Primary>
               </l.AreaLink>,
             ]
-          : []
+          : [
+              <b.Primary disabled key="inspection">
+                Inspection
+              </b.Primary>,
+            ]
       }
       breadcrumbs={breadcrumbs(palletId, vesselId, itemId, search)}
       title={pallet ? 'Pallet' : 'Loading...'}

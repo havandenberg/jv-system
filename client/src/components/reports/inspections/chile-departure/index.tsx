@@ -12,15 +12,11 @@ import th from 'ui/theme';
 import ty from 'ui/typography';
 
 import { gridTemplateColumns, InspectionTypes, SubInspectionsProps } from '..';
+import Header from '../header';
 import ListItem from '../list-item';
 import { listLabels } from './data-utils';
 
-const ChileDepartureInspections = ({
-  breadcrumbs,
-  DateRangePicker,
-  Search,
-  TabBar,
-}: SubInspectionsProps) => {
+const ChileDepartureInspections = ({ breadcrumbs }: SubInspectionsProps) => {
   const { data, loading, error } = api.useChileDepartureInspections();
   const inspections = data ? data.nodes : [];
 
@@ -35,35 +31,22 @@ const ChileDepartureInspections = ({
   return (
     <Page
       breadcrumbs={breadcrumbs}
-      extraPaddingTop={101}
+      extraPaddingTop={112}
       headerChildren={
         <>
-          <l.Flex alignCenter mb={th.spacing.sm} justifyBetween>
-            <l.Flex>
-              {Search}
-              <l.Div width={th.spacing.md} />
-              {DateRangePicker}
-              <l.Div width={th.spacing.md} />
-            </l.Flex>
-            {TabBar}
-          </l.Flex>
+          <Header dataCount={inspections.length} loading={loading} />
           {!loading && (
-            <>
-              <ty.SmallText mb={th.spacing.md} pl={th.spacing.sm} secondary>
-                Results: {data ? data.totalCount : '-'}
+            <l.Grid
+              gridTemplateColumns={gridTemplateColumns}
+              mb={th.spacing.sm}
+              pl={th.spacing.sm}
+              pr={data ? (data.totalCount > 7 ? th.spacing.md : 0) : 0}
+            >
+              {columnLabels}
+              <ty.SmallText px={th.spacing.sm} secondary>
+                Images
               </ty.SmallText>
-              <l.Grid
-                gridTemplateColumns={gridTemplateColumns}
-                mb={th.spacing.sm}
-                pl={th.spacing.sm}
-                pr={data ? (data.totalCount > 7 ? th.spacing.md : 0) : 0}
-              >
-                {columnLabels}
-                <ty.SmallText px={th.spacing.sm} secondary>
-                  Images
-                </ty.SmallText>
-              </l.Grid>
-            </>
+            </l.Grid>
           )}
         </>
       }
@@ -75,13 +58,20 @@ const ChileDepartureInspections = ({
           rowHeight={74}
           rowRenderer={({ key, index, style }) => {
             const item = inspections[index];
+            const slides = item
+              ? (item.imageUrls || []).map((imageUrl) => ({
+                  src: `${api.baseURL}/${imageUrl}`,
+                  title: item.lotNumber,
+                }))
+              : [];
+
             return (
               item && (
                 <div key={key} style={style}>
                   <ListItem<ChileDepartureInspection>
                     data={item}
-                    lightboxTitle={`${item.lotNumber}`}
                     listLabels={listLabels}
+                    slides={slides}
                     slug={`${InspectionTypes.CHILE_DEPARTURE}/${item.lotNumber}`}
                   />
                 </div>

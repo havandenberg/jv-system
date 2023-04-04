@@ -219,13 +219,7 @@ CREATE FUNCTION product.pallet_psa_arrival_report(IN p product.pallet)
     COST 100
 AS $BODY$
   SELECT
-    par.id,
-    par.report_date,
-    par.location_name,
-    par.arrival_code,
-    par.arrival_name,
-    par.exporter_id,
-    par.exporter_name
+    par.*
   FROM inspection.psa_arrival_report par
   JOIN inspection.psa_arrival_picture pap
     ON pap.exporter_id = par.exporter_id

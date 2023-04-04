@@ -45,11 +45,14 @@ const Details = () => {
     startDate && endDate ? `?startDate=${startDate}&endDate=${endDate}` : '';
   const { data, error, loading } = api.usePeruDepartureInspection(id);
   const reportData = data && data.nodes[0];
-  const { Lightbox, openLightbox } = useLightbox(
-    reportData ? reportData.imageUrls || [] : [],
-    reportData ? reportData.containerId : undefined,
-    `${api.baseURL}/`,
-  );
+
+  const slides = reportData
+    ? (reportData.imageUrls || []).map((imageUrl) => ({
+        src: `${api.baseURL}/${imageUrl}`,
+        title: reportData.containerId,
+      }))
+    : [];
+  const { Lightbox, openLightbox } = useLightbox(slides);
 
   const featuredValues = reportData ? getFeaturedValues(reportData) : [];
   const avgQualityData = reportData ? getAvgQualityChartLabels(reportData) : [];

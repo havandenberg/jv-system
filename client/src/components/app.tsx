@@ -2,7 +2,6 @@ import React from 'react';
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 import { ThemeProvider } from '@emotion/react';
 import styled from '@emotion/styled';
-import 'react-image-lightbox/style.css';
 import {
   BrowserRouter as Router,
   Redirect,

@@ -1,60 +1,40 @@
 import { useState } from 'react';
-import Lightbox from 'react-image-lightbox';
+import Lightbox, { Slide } from 'yet-another-react-lightbox';
+import Captions from 'yet-another-react-lightbox/plugins/captions';
+import Thumbnails from 'yet-another-react-lightbox/plugins/thumbnails';
+import Zoom from 'yet-another-react-lightbox/plugins/zoom';
+import 'yet-another-react-lightbox/styles.css';
+import 'yet-another-react-lightbox/plugins/captions.css';
+import 'yet-another-react-lightbox/plugins/thumbnails.css';
 
 const initialState = {
-  isOpen: false,
-  photoIndex: 0,
+  open: false,
+  index: 0,
 };
 
-const useLightbox = (
-  imageUrls: string[],
-  title?: string,
-  baseSrc?: string,
-  titleList?: string[],
-) => {
-  const [{ isOpen, photoIndex }, setState] = useState(initialState);
+const useLightbox = (slides: Slide[]) => {
+  const [{ open, index }, setState] = useState(initialState);
 
   const closeLightbox = () => {
-    setState((prevState) => ({ ...prevState, isOpen: false }));
+    setState(initialState);
   };
 
   const openLightbox = (index: number) => {
-    setState((prevState) => ({
-      ...prevState,
-      isOpen: true,
-      photoIndex: index,
-    }));
+    setState({
+      open: true,
+      index,
+    });
   };
 
-  const nextIndex = () =>
-    photoIndex < imageUrls.length - 1 ? photoIndex + 1 : 0;
-
-  const prevIndex = () =>
-    photoIndex > 0 ? photoIndex - 1 : imageUrls.length - 1;
-
-  const handleNextPhoto = () => {
-    setState((prevState) => ({ ...prevState, photoIndex: nextIndex() }));
-  };
-
-  const handlePrevPhoto = () => {
-    setState((prevState) => ({ ...prevState, photoIndex: prevIndex() }));
-  };
-
-  const LightboxComponent = () =>
-    isOpen ? (
-      <Lightbox
-        animationDuration={0}
-        imageCaption={imageUrls[photoIndex]}
-        imagePadding={80}
-        imageTitle={titleList ? titleList[photoIndex] || title : title}
-        mainSrc={`${baseSrc || ''}${imageUrls[photoIndex]}`}
-        nextSrc={`${baseSrc || ''}${imageUrls[nextIndex()]}`}
-        prevSrc={`${baseSrc || ''}${imageUrls[prevIndex()]}`}
-        onCloseRequest={closeLightbox}
-        onMoveNextRequest={handleNextPhoto}
-        onMovePrevRequest={handlePrevPhoto}
-      />
-    ) : null;
+  const LightboxComponent = () => (
+    <Lightbox
+      index={index}
+      open={open}
+      plugins={[Captions, Thumbnails, Zoom]}
+      slides={slides}
+      close={closeLightbox}
+    />
+  );
 
   return { Lightbox: LightboxComponent, openLightbox };
 };

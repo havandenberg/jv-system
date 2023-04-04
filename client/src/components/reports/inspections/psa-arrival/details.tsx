@@ -1,13 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { pluck, times } from 'ramda';
 import { Document, Page as PdfPage } from 'react-pdf/dist/esm/entry.webpack';
-import {
-  Redirect,
-  Route,
-  Switch,
-  useLocation,
-  useParams,
-} from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { StringParam } from 'use-query-params';
 
 import api from 'api';
@@ -77,12 +71,10 @@ const tabs: (
   {
     id: 'report',
     text: 'Report',
-    to: `/reports/inspections/arrival/${id}/report${search}`,
   },
   {
     id: 'pallets',
     text: `Pallets${palletCount ? ' (' + palletCount + ')' : ''}`,
-    to: `/reports/inspections/arrival/${id}/pallets${search}`,
   },
 ];
 
@@ -94,7 +86,6 @@ const Details = () => {
   const [{ startDate, endDate }] = useDateRangeQueryParams();
   const dateParams =
     startDate && endDate ? `?startDate=${startDate}&endDate=${endDate}` : '';
-  const baseUrl = `/reports/inspections/${InspectionTypes.ARRIVAL}/:id`;
 
   const {
     data: comVarData,
@@ -153,10 +144,13 @@ const Details = () => {
     ? data.palletCount
     : 0;
 
-  const { TabBar } = useTabBar({
+  const { TabBar, selectedTabId } = useTabBar({
     tabs: tabs(id, palletCount, search),
-    isRoute: true,
+    isRoute: false,
+    defaultTabId: 'report',
+    paramName: 'inspectionView',
   });
+  const isReport = selectedTabId === 'report';
 
   const palletIds = comVarData
     ? pluck(
@@ -323,95 +317,83 @@ const Details = () => {
         <l.Flex alignStart flex={1}>
           <l.Div flex={8}>
             <BaseData<PsaArrivalReport> data={data} labels={baseLabels} />
-            <l.Div height={th.spacing.md} />
+            <l.Div height={th.spacing.lg} />
             <TabBar />
             <l.Div height={th.spacing.lg} />
-            <Switch>
-              <Route
-                exact
-                path={`${baseUrl}/report`}
-                render={() => (
-                  <Document
-                    file={`${api.baseURL}${data.reportUrl}`}
-                    onLoadSuccess={onLoadSuccess}
-                  >
-                    {times(
-                      (idx) => (
-                        <PdfPage
-                          key={idx}
-                          pageNumber={idx + 1}
-                          height={933}
-                          width={721}
-                        />
-                      ),
-                      numPages,
-                    )}
-                  </Document>
-                )}
-              />
-              <Route
-                exact
-                path={`${baseUrl}/pallets`}
-                render={() => (
-                  <>
-                    <l.Flex alignCenter mb={th.spacing.lg}>
-                      <ty.BodyText mr={th.spacing.md}>Commodity:</ty.BodyText>
-                      <Select
-                        onChange={(e) => {
-                          setComVarQuery({
-                            commodity: e.target.value,
-                            variety: undefined,
-                          });
-                        }}
-                        value={commodity || ''}
-                      >
-                        {(comVarData && comVarData.commodityList
-                          ? comVarData.commodityList.length > 0
-                            ? comVarData.commodityList
-                            : ['-']
-                          : ['Loading...']
-                        ).map((key) => (
-                          <option key={key} value={`${key}`}>
-                            {key}
-                          </option>
-                        ))}
-                      </Select>
-                      <ty.BodyText ml={th.spacing.lg} mr={th.spacing.md}>
-                        Variety:
-                      </ty.BodyText>
-                      <Select
-                        onChange={(e) => {
-                          setComVarQuery({ variety: e.target.value });
-                        }}
-                        value={variety || ''}
-                      >
-                        {(comVarData && comVarData.varietyList
-                          ? comVarData.varietyList.length > 0
-                            ? comVarData.varietyList
-                            : ['-']
-                          : ['Loading...']
-                        ).map((key) => (
-                          <option key={key} value={`${key}`}>
-                            {key}
-                          </option>
-                        ))}
-                      </Select>
-                    </l.Flex>
-                    {((comVarData &&
-                      comVarData.commodityList &&
-                      comVarData.commodityList.length > 0) ||
-                      loading) && <FeaturedValues values={featuredValues} />}
-                    <l.Div height={th.spacing.lg} />
-                    <PsaArrivalPallets
-                      inspection={comVarData}
-                      loading={comVarLoading}
-                      error={comVarError}
+            {isReport ? (
+              <Document
+                file={`${api.baseURL}${data.reportUrl}`}
+                onLoadSuccess={onLoadSuccess}
+              >
+                {times(
+                  (idx) => (
+                    <PdfPage
+                      key={idx}
+                      pageNumber={idx + 1}
+                      height={933}
+                      width={721}
                     />
-                  </>
+                  ),
+                  numPages,
                 )}
-              />
-              <Redirect to={`${baseUrl}/report${search}`} />
-            </Switch>
+              </Document>
+            ) : (
+              <>
+                <l.Flex alignCenter mb={th.spacing.lg}>
+                  <ty.BodyText mr={th.spacing.md}>Commodity:</ty.BodyText>
+                  <Select
+                    onChange={(e) => {
+                      setComVarQuery({
+                        commodity: e.target.value,
+                        variety: undefined,
+                      });
+                    }}
+                    value={commodity || ''}
+                  >
+                    {(comVarData && comVarData.commodityList
+                      ? comVarData.commodityList.length > 0
+                        ? comVarData.commodityList
+                        : ['-']
+                      : ['Loading...']
+                    ).map((key) => (
+                      <option key={key} value={`${key}`}>
+                        {key}
+                      </option>
+                    ))}
+                  </Select>
+                  <ty.BodyText ml={th.spacing.lg} mr={th.spacing.md}>
+                    Variety:
+                  </ty.BodyText>
+                  <Select
+                    onChange={(e) => {
+                      setComVarQuery({ variety: e.target.value });
+                    }}
+                    value={variety || ''}
+                  >
+                    {(comVarData && comVarData.varietyList
+                      ? comVarData.varietyList.length > 0
+                        ? comVarData.varietyList
+                        : ['-']
+                      : ['Loading...']
+                    ).map((key) => (
+                      <option key={key} value={`${key}`}>
+                        {key}
+                      </option>
+                    ))}
+                  </Select>
+                </l.Flex>
+                {((comVarData &&
+                  comVarData.commodityList &&
+                  comVarData.commodityList.length > 0) ||
+                  loading) && <FeaturedValues values={featuredValues} />}
+                <l.Div height={th.spacing.lg} />
+                <PsaArrivalPallets
+                  inspection={comVarData}
+                  loading={comVarLoading}
+                  error={comVarError}
+                />
+              </>
+            )}
           </l.Div>
           <l.Div width={th.spacing.lg} />
           <l.Div flex={3}>

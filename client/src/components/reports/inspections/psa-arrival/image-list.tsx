@@ -1,5 +1,4 @@
 import React from 'react';
-import { pluck } from 'ramda';
 
 import api from 'api';
 import useLightbox from 'hooks/use-lightbox';
@@ -13,31 +12,25 @@ const ImageList = ({
 }: {
   data: { pictures: { nodes: Maybe<PsaArrivalPicture>[] } };
 }) => {
-  const imageUrls =
-    data && data.pictures
-      ? pluck('imageUrl', data.pictures.nodes as PsaArrivalPicture[]) || []
-      : [];
-  const titleList =
-    data && data.pictures
-      ? (data.pictures.nodes as PsaArrivalPicture[]).map(
-          (picture) => `${picture.pictureDescription}`,
-        )
-      : undefined;
+  const slides = data
+    ? ((data.pictures.nodes || []) as PsaArrivalPicture[]).map(
+        ({ imageUrl, palletId, pictureDescription }) => ({
+          description: pictureDescription,
+          src: `${api.baseURL}/${imageUrl}`,
+          title: palletId,
+        }),
+      )
+    : [];
 
-  const { Lightbox, openLightbox } = useLightbox(
-    imageUrls,
-    '',
-    `${api.baseURL}/`,
-    titleList,
-  );
+  const { Lightbox, openLightbox } = useLightbox(slides);
 
   return (
     <>
       <ty.CaptionText mb={th.spacing.md} secondary>
-        Images ({imageUrls.length || '-'})
+        Images ({slides.length || '-'})
       </ty.CaptionText>
       <l.Flex column pr={th.spacing.tn}>
-        {imageUrls.map((imageUrl: string, idx: number) => (
+        {slides.map(({ src }, idx: number) => (
           <l.Div
             cursor="pointer"
             key={idx}
@@ -51,7 +44,7 @@ const ImageList = ({
               width={th.sizes.fill}
               py={th.spacing.tn}
               mr={th.spacing.tn}
-              src={`${api.baseURL}/${imageUrl}`}
+              src={src}
             />
           </l.Div>
         ))}

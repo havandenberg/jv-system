@@ -1,11 +1,13 @@
 import React from 'react';
-import { Redirect, Route, Switch, useLocation } from 'react-router-dom';
+import {
+  Redirect,
+  Route,
+  Switch,
+  useLocation,
+  useParams,
+} from 'react-router-dom';
 
 import { BreadcrumbProps } from 'components/nav/breadcrumbs';
-import { useTabBar } from 'components/tab-bar';
-import useDateRange from 'hooks/use-date-range';
-import { useDateRangeQueryParams } from 'hooks/use-query-params';
-import useSearch from 'hooks/use-search';
 
 import ChileDepartureInspections from './chile-departure';
 import ChileInspectionDetails from './chile-departure/details';
@@ -26,105 +28,56 @@ export enum InspectionTypes {
   CHILE_DEPARTURE = 'd-chile',
 }
 
-const tabs = (queryParams: string) => [
-  {
-    id: InspectionTypes.ARRIVAL,
-    text: 'PSA',
-    to: `/reports/inspections/${InspectionTypes.ARRIVAL}${queryParams}`,
-  },
-  {
-    id: InspectionTypes.CHILE_DEPARTURE,
-    text: 'QIMA',
-    to: `/reports/inspections/${InspectionTypes.CHILE_DEPARTURE}${queryParams}`,
-  },
-  {
-    id: InspectionTypes.PERU_DEPARTURE,
-    text: 'Peru',
-    to: `/reports/inspections/${InspectionTypes.PERU_DEPARTURE}${queryParams}`,
-  },
-];
-
 export interface SubInspectionsProps {
   breadcrumbs: BreadcrumbProps[];
-  DateRangePicker: React.ReactNode;
-  Search: React.ReactNode;
-  TabBar: React.ReactNode;
 }
 
 const Inspections = () => {
   const { search } = useLocation();
-  const { Search } = useSearch();
-  const [{ startDate: startDateQuery, endDate }] = useDateRangeQueryParams();
-  const { TabBar, selectedTabId } = useTabBar({
-    tabs: tabs(
-      startDateQuery && endDate
-        ? `?startDate=${startDateQuery}&endDate=${endDate}`
-        : '',
-    ),
-    isRoute: true,
-  });
-  const isArrival = InspectionTypes.ARRIVAL === selectedTabId;
-  const { DateRangePicker } = useDateRange({
-    allowEmpty: true,
-    placeholder: isArrival ? 'Last 30 days' : 'All dates',
-  });
+  const { routeTabId } = useParams<{ routeTabId: string }>();
+  const isArrival = routeTabId === InspectionTypes.ARRIVAL;
+  const isChileDeparture = routeTabId === InspectionTypes.CHILE_DEPARTURE;
+  const isPeruDeparture = routeTabId === InspectionTypes.PERU_DEPARTURE;
 
-  const components = {
-    DateRangePicker,
-    Search,
-    TabBar: <TabBar />,
-  };
+  const listComponent = () =>
+    isArrival ? (
+      <PsaArrivalInspections
+        breadcrumbs={breadcrumbs(InspectionTypes.ARRIVAL, search)}
+      />
+    ) : isChileDeparture ? (
+      <ChileDepartureInspections
+        breadcrumbs={breadcrumbs(InspectionTypes.CHILE_DEPARTURE, search)}
+      />
+    ) : isPeruDeparture ? (
+      <PeruDepartureInspections
+        breadcrumbs={breadcrumbs(InspectionTypes.PERU_DEPARTURE, search)}
+      />
+    ) : null;
+
+  const detailsComponent = () =>
+    isArrival ? (
+      <PsaInspectionDetails />
+    ) : isChileDeparture ? (
+      <ChileInspectionDetails />
+    ) : isPeruDeparture ? (
+      <PeruInspectionDetails />
+    ) : null;
+
+  const palletDetailsComponent = () =>
+    isArrival ? <PsaArrivalPalletDetails /> : null;
 
   return (
     <Switch>
       <Route
-        exact
-        path={`/reports/inspections/${InspectionTypes.PERU_DEPARTURE}/:id`}
-        component={PeruInspectionDetails}
+        path={`/reports/inspections/:routeTabId/:reportId/pallets/:id`}
+        render={palletDetailsComponent}
       />
       <Route
-        path={`/reports/inspections/${InspectionTypes.PERU_DEPARTURE}`}
-        render={() => (
-          <PeruDepartureInspections
-            breadcrumbs={breadcrumbs(InspectionTypes.PERU_DEPARTURE, search)}
-            {...components}
-          />
-        )}
+        path={`/reports/inspections/:routeTabId/:id`}
+        render={detailsComponent}
       />
-      <Route
-        exact
-        path={`/reports/inspections/${InspectionTypes.CHILE_DEPARTURE}/:id`}
-        component={ChileInspectionDetails}
-      />
-      <Route
-        path={`/reports/inspections/${InspectionTypes.CHILE_DEPARTURE}`}
-        render={() => (
-          <ChileDepartureInspections
-            breadcrumbs={breadcrumbs(InspectionTypes.CHILE_DEPARTURE, search)}
-            {...components}
-          />
-        )}
-      />
-      <Route
-        path={`/reports/inspections/${InspectionTypes.ARRIVAL}/:reportId/pallets/:id`}
-        component={PsaArrivalPalletDetails}
-      />
-      <Route
-        path={`/reports/inspections/${InspectionTypes.ARRIVAL}/:id/:routeTabId?`}
-        component={PsaInspectionDetails}
-      />
-      <Route
-        path={`/reports/inspections/${InspectionTypes.ARRIVAL}`}
-        render={() => (
-          <PsaArrivalInspections
-            breadcrumbs={breadcrumbs(InspectionTypes.ARRIVAL, search)}
-            {...components}
-          />
-        )}
-      />
-      <Redirect
-        to={`/reports/inspections/${InspectionTypes.ARRIVAL}${search}`}
-      />
+      <Route path={`/reports/inspections/:routeTabId`} render={listComponent} />
+      <Redirect to={`/reports/inspections/arrival${search}`} />
     </Switch>
   );
 };

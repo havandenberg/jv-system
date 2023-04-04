@@ -1,6 +1,6 @@
 import React from 'react';
+import { Slide } from 'yet-another-react-lightbox/*';
 
-import api from 'api';
 import Chevron from 'assets/images/chevron';
 import { baseDataTransforms } from 'components/base-data';
 import { LabelInfo } from 'components/column-label';
@@ -12,30 +12,25 @@ import ty from 'ui/typography';
 
 import { gridTemplateColumns as defaultGridTemplateColumns } from '.';
 
-const ListItem = <T extends { imageUrls?: string[] | null }>({
+const ListItem = <T extends {}>({
   data,
   gridTemplateColumns,
-  lightboxTitle,
   listLabels,
+  slides,
   slug,
-  titleList,
 }: {
   data: T;
   gridTemplateColumns?: string;
-  lightboxTitle: string;
   listLabels: LabelInfo<T>[];
+  slides: Slide[];
   slug: string;
-  titleList?: string[];
 }) => {
   const [{ startDate, endDate }] = useDateRangeQueryParams();
   const dateParams =
     startDate && endDate ? `?startDate=${startDate}&endDate=${endDate}` : '';
-  const { Lightbox, openLightbox } = useLightbox(
-    data.imageUrls || [],
-    lightboxTitle,
-    `${api.baseURL}/`,
-    titleList,
-  );
+
+  const { Lightbox, openLightbox } = useLightbox(slides);
+
   return (
     <l.Div mb={th.spacing.sm}>
       <l.AreaLink to={`/reports/inspections/${slug}${dateParams}`}>
@@ -69,7 +64,7 @@ const ListItem = <T extends { imageUrls?: string[] | null }>({
               },
             )}
             <l.Flex overflow="hidden" px={th.spacing.sm}>
-              {(data.imageUrls || []).map((imageUrl, idx) => (
+              {slides.map(({ src }, idx) => (
                 <l.Flex
                   alignCenter
                   cursor="pointer"
@@ -84,7 +79,7 @@ const ListItem = <T extends { imageUrls?: string[] | null }>({
                     height={60}
                     py={th.spacing.tn}
                     mr={th.spacing.tn}
-                    src={`${api.baseURL}/${imageUrl}`}
+                    src={src}
                   />
                 </l.Flex>
               ))}
