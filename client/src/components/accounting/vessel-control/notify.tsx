@@ -193,6 +193,7 @@ const NotifyUnpaids = ({
                         flag: unpaid?.invoice?.flag || '',
                         customerName:
                           unpaid?.invoice?.billingCustomer?.customerName || '',
+                        truckLoadId: unpaid?.invoice?.truckLoadId || '',
                       })),
                   },
                 },

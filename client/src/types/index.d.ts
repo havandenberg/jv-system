@@ -60728,6 +60728,7 @@ export type UnpaidReminderInput = {
   customerName: Scalars['String'];
   flag: Scalars['String'];
   isUrgent: Scalars['Boolean'];
+  truckLoadId: Scalars['String'];
 };
 
 export type UnpaidRemindersInput = {

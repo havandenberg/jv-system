@@ -11,6 +11,7 @@ import ListItem from 'components/list-item';
 import { BasicModal } from 'components/modal';
 import { DataMessage } from 'components/page/message';
 import Page from 'components/page';
+import StatusIndicator from 'components/status-indicator';
 import { useActiveUser } from 'components/user/context';
 import VirtualizedList from 'components/virtualized-list';
 import useColumns, { SORT_ORDER } from 'hooks/use-columns';
@@ -81,7 +82,8 @@ const Unpaids = () => {
   const { Search } = useSearch({ paramName: 'unpaidSearch' });
   const [{ sortBy, sortOrder }] = useSortQueryParams();
 
-  const [{ salesUserCode, showLiq }, setParams] = useUnpaidsQueryParams();
+  const [{ salesUserCode, showLiq, status }, setParams] =
+    useUnpaidsQueryParams();
 
   const {
     data: unpaids,
@@ -211,6 +213,12 @@ const Unpaids = () => {
     }
   }, [showLiq, setParams]);
 
+  useEffect(() => {
+    if (status === undefined) {
+      setParams({ status: 'all' }, 'replaceIn');
+    }
+  }, [status, setParams]);
+
   return (
     <Page
       actions={
@@ -293,6 +301,38 @@ const Unpaids = () => {
                   setParams({ showLiq: !showLiq });
                 }}
                 status="success"
+              />
+            </l.Div>
+            <l.Div mr={th.spacing.md}>
+              <ty.SmallText mb={th.spacing.sm} secondary>
+                Urg
+              </ty.SmallText>
+              <StatusIndicator
+                onClick={() => {
+                  setParams(
+                    { status: status === 'urgent' ? 'all' : 'urgent' },
+                    'replaceIn',
+                  );
+                }}
+                title="Show only urgent unpaids"
+                selected={status === 'urgent'}
+                status="warning"
+              />
+            </l.Div>
+            <l.Div mr={th.spacing.lg}>
+              <ty.SmallText mb={th.spacing.sm} secondary>
+                Alert
+              </ty.SmallText>
+              <StatusIndicator
+                onClick={() => {
+                  setParams(
+                    { status: status === 'alert' ? 'all' : 'alert' },
+                    'replaceIn',
+                  );
+                }}
+                title="Show only alerted unpaids"
+                selected={status === 'alert'}
+                status="error"
               />
             </l.Div>
             <div>

@@ -33,16 +33,6 @@ AS $BODY$
   SELECT * FROM directory.vendor v WHERE v.id = s.id
 $BODY$;
 
-CREATE FUNCTION directory.shipper_psa_shipper_name(IN s directory.shipper)
-    RETURNS TEXT
-    LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-  SELECT exporter_name FROM inspection.psa_arrival_report i WHERE i.exporter_id = s.psa_shipper_id LIMIT 1
-$BODY$;
-
 CREATE FUNCTION directory.shipper_search_text(IN s directory.shipper)
     RETURNS text
     LANGUAGE 'sql'

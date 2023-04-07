@@ -55,7 +55,7 @@ export const usePsaArrivalInspections = () => {
   const shipperOptions: string[] = [];
 
   const filteredData = inspections.filter((inspection) => {
-    const vesselOption = `${inspection.arrivalCode} - ${inspection.arrivalName}`;
+    const vesselOption = `${inspection.vessel?.vesselCode} - ${inspection.vessel?.vesselName}`;
     const isVesselValid = !arrivalCode || arrivalCode.includes(vesselOption);
     if (!vesselOptions.includes(vesselOption)) {
       vesselOptions.push(vesselOption);
@@ -63,7 +63,7 @@ export const usePsaArrivalInspections = () => {
 
     const shipperOption = inspection.shipper
       ? `${inspection.shipper.shipperName} (${inspection.shipper.id})`
-      : `${inspection.exporterId}`;
+      : `${inspection.exporterName}`;
     const isShipperValid =
       !exporterName || exporterName.includes(shipperOption);
     if (!shipperOptions.includes(shipperOption)) {

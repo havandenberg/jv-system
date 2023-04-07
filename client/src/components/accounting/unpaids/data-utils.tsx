@@ -275,6 +275,7 @@ export const listLabels: (
             );
           })
           ?.split(',')[3] || '0';
+      const hasCredit = totalCreditAmount && totalCreditAmount !== '0';
       const loading = !invoice?.totalAmountsByVesselAndShipper;
       return (
         <ty.BodyText
@@ -282,10 +283,17 @@ export const listLabels: (
             invoice?.creditCode === '2' ? th.colors.status.errorAlt : undefined
           }
           textAlign={loading ? 'center' : 'right'}
+          title={
+            hasCredit
+              ? invoice?.creditCode === '2'
+                ? 'Due to product condition'
+                : 'Due to market conditions'
+              : undefined
+          }
         >
           {loading
             ? '...'
-            : totalCreditAmount && totalCreditAmount !== '0'
+            : hasCredit
             ? formatCurrency(parseFloat(totalCreditAmount), true)
             : '-'}
         </ty.BodyText>

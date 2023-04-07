@@ -25,6 +25,7 @@ export const useUnpaids = () => {
       loadId,
       salesUserCode,
       showLiq,
+      status,
       vesselCode,
       customer,
       shipper,
@@ -65,6 +66,13 @@ export const useUnpaids = () => {
               );
 
             const isLiqValid = showLiq || !rest.isLiquidated;
+            const isStatusValid =
+              status === 'all' ||
+              (status === 'urgent'
+                ? !!unpaid?.isUrgent
+                : status === 'alert'
+                ? !!unpaid?.invoice?.flag
+                : true);
             const isVesselCodeValid =
               !vesselCode || vesselCode.includes(rest.vessel?.vesselCode);
             const isLoadIdValid =
@@ -86,6 +94,7 @@ export const useUnpaids = () => {
               unpaid &&
               isSearchValid &&
               isLiqValid &&
+              isStatusValid &&
               isVesselCodeValid &&
               isLoadIdValid &&
               isInvoiceIdValid &&

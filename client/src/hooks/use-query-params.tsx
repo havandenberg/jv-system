@@ -202,6 +202,7 @@ export const useUnpaidsQueryParams = () =>
   useQuerySet({
     salesUserCode: StringParam,
     showLiq: BooleanParam,
+    status: StringParam,
     vesselCode: ArrayParam,
     loadId: ArrayParam,
     invoiceId: ArrayParam,

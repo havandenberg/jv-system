@@ -123,13 +123,13 @@ export const baseLabels: ReportLabelInfo[] = [
   {
     key: 'exporterName',
     label: 'Exporter Name',
-    getValue: ({ exporterId, shipper }) =>
+    getValue: ({ exporterName, shipper }) =>
       shipper ? (
         <ty.LinkText hover="false" to={`/directory/shippers/${shipper.id}`}>
           {shipper.shipperName}
         </ty.LinkText>
       ) : (
-        <ty.BodyText>{exporterId}</ty.BodyText>
+        <ty.BodyText>{exporterName}</ty.BodyText>
       ),
   },
 ];

@@ -4,9 +4,11 @@ const { onError, sendEmail } = require('../../utils');
 const getUnpaidsContent = (unpaids, vesselCode, shipperName, baseUrl) =>
   `${unpaids
     .map(
-      ({ invoiceId, customerName, flag, isUrgent }) => `
+      ({ invoiceId, customerName, flag, isUrgent, truckLoadId }) => `
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      - <a href="${baseUrl}&vesselCode=${vesselCode}&invoiceId=${invoiceId}&unpaidSearch=${shipperName}">${invoiceId}</a>
+      - Invoice #: <a href="${baseUrl}&vesselCode=${vesselCode}&invoiceId=${invoiceId}&unpaidSearch=${shipperName}">${invoiceId}</a> - Load #: <a href="${
+        process.env.REACT_APP_CLIENT_URL
+      }/inventory/truck-loads/${truckLoadId}">${truckLoadId}</a>
         - ${customerName}
       ${
         isUrgent
@@ -28,7 +30,7 @@ const getUnpaidsShipperContent = (shippers, vesselCode, baseUrl) =>
     .map(
       ({ shipperId, shipperName, unpaids }) => `
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        - <a href="${baseUrl}&vesselCode=${vesselCode}&unpaidSearch=${shipperName}">${shipperId} - ${shipperName}</a>
+        - Shipper: <a href="${baseUrl}&vesselCode=${vesselCode}&unpaidSearch=${shipperName}">${shipperName} (${shipperId})</a>
         <br />
         ${getUnpaidsContent(unpaids, vesselCode, shipperName, baseUrl)}`,
     )
@@ -42,9 +44,9 @@ const getUnpaidsVesselContent = (unpaids, header, baseUrl) =>
             .map(
               ({ dueDate, shipDate, vesselName, vesselCode, shippers }) => `
                 &nbsp;&nbsp;&nbsp;&nbsp;
-                - <a href="${baseUrl}&vesselCode=${vesselCode}">${vesselCode} - ${vesselName}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                - Vessel: <a href="${baseUrl}&vesselCode=${vesselCode}">${vesselCode} - ${vesselName}</a>&nbsp;&nbsp;&nbsp;&nbsp;
                 Due: ${dueDate}&nbsp;&nbsp;&nbsp;&nbsp;
-                Shipped: ${shipDate}
+                Shipped on: ${shipDate}
                 <br />
                 ${getUnpaidsShipperContent(
                   shippers,
@@ -63,6 +65,7 @@ const extendSchemaPlugin = makeExtendSchemaPlugin({
       customerName: String!
       flag: String!
       isUrgent: Boolean!
+      truckLoadId: String!
     }
     input UnpaidShipperInput {
       shipperId: String!
