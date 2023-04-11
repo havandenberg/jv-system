@@ -53487,7 +53487,6 @@ export type Shipper = Node & {
   shipperProjectionVesselInfos: ShipperProjectionVesselInfosConnection;
   /** Reads and enables pagination through a set of `ShipperProgram`. */
   shipperPrograms: ShipperProgramsConnection;
-  psaShipperName?: Maybe<Scalars['String']>;
   searchText?: Maybe<Scalars['String']>;
   vendor?: Maybe<Vendor>;
   /** Reads and enables pagination through a set of `Vessel`. */
@@ -54273,8 +54272,6 @@ export type ShipperFilter = {
   vesselControlDaysUntilDue?: Maybe<BigFloatFilter>;
   /** Filter by the object’s `psaShipperId` field. */
   psaShipperId?: Maybe<StringFilter>;
-  /** Filter by the object’s `psaShipperName` field. */
-  psaShipperName?: Maybe<StringFilter>;
   /** Filter by the object’s `searchText` field. */
   searchText?: Maybe<StringFilter>;
   /** Filter by the object’s `shipperProjectionVessels` relation. */
@@ -71216,7 +71213,6 @@ export type Vessel = Node & {
   /** Reads and enables pagination through a set of `ShipperProjectionVessel`. */
   shipperProjectionVessels: ShipperProjectionVesselsConnection;
   country?: Maybe<Country>;
-  inspectionVesselDescription?: Maybe<Scalars['String']>;
   /** Reads and enables pagination through a set of `InventoryItem`. */
   inventoryItems: InventoryItemsConnection;
   originalArrivalPort?: Maybe<Scalars['String']>;
@@ -71499,8 +71495,6 @@ export type VesselFilter = {
   preVesselCode?: Maybe<StringFilter>;
   /** Filter by the object’s `invFlag` field. */
   invFlag?: Maybe<BooleanFilter>;
-  /** Filter by the object’s `inspectionVesselDescription` field. */
-  inspectionVesselDescription?: Maybe<StringFilter>;
   /** Filter by the object’s `originalArrivalPort` field. */
   originalArrivalPort?: Maybe<StringFilter>;
   /** Filter by the object’s `searchText` field. */

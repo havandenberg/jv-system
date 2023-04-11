@@ -51,7 +51,7 @@ export const listLabels: (
     filterable: true,
     filterPanelProps: {
       customStyles: {
-        width: 350,
+        width: 450,
       },
       customOptions: shipperOptions,
       showSearch: true,

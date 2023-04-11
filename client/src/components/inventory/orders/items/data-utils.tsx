@@ -30,6 +30,7 @@ export const listLabels: (backOrderId?: string) => OrderItemLabelInfo[] = (
     key: 'lineId',
     label: 'Line ID',
     sortable: true,
+    customSortBy: (data) => (data ? parseInt(data.lineId, 10) : ''),
   },
   {
     defaultSortOrder: SORT_ORDER.ASC,

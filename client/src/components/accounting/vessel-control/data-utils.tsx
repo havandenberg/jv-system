@@ -120,7 +120,6 @@ export const listLabels: (
         <l.Div cursor="text">
           <LocalDateTimePicker
             onChange={(date: Date) => {
-              console.log(date);
               handleChange({
                 ...rest,
                 dateSent:

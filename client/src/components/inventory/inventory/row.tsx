@@ -13,6 +13,7 @@ import { InventoryItem } from 'types';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
+import { hexColorWithTransparency } from 'ui/utils';
 
 import { gridTemplateColumns } from '.';
 import { categoryTypeOrder } from './header';
@@ -236,6 +237,7 @@ const InventoryRow = ({
   const categoryType = categoryTypes
     ? categoryTypesArray[categoryTypesArray.length - 1]
     : '';
+  const isDistressed = categoryId === 'distressed';
 
   const getItemsLink = (
     detailsIndex: number,
@@ -326,34 +328,35 @@ const InventoryRow = ({
       ? `${existingCategoriesParam}&`
       : '';
 
-    const nextCategoryType =
-      defaultInvSortKey ||
-      categoryTypeOrder
-        .filter((type) => type !== categoryType)
-        .find((type) => {
-          switch (type) {
-            case 'variety':
-              return !variety;
-            case 'size':
-              return !size;
-            case 'label':
-              return !label;
-            case 'packType':
-              return !packType;
-            case 'plu':
-              return !plu;
-            case 'shipper':
-              return !shipper;
-            case 'countryOfOrigin':
-              return !countryOfOrigin;
-            case 'program':
-              return !program;
-            case 'sizePackType':
-              return !sizePackType;
-            default:
-              return !species;
-          }
-        });
+    const nextCategoryType = isDistressed
+      ? 'distressed'
+      : defaultInvSortKey ||
+        categoryTypeOrder
+          .filter((type) => type !== categoryType)
+          .find((type) => {
+            switch (type) {
+              case 'variety':
+                return !variety;
+              case 'size':
+                return !size;
+              case 'label':
+                return !label;
+              case 'packType':
+                return !packType;
+              case 'plu':
+                return !plu;
+              case 'shipper':
+                return !shipper;
+              case 'countryOfOrigin':
+                return !countryOfOrigin;
+              case 'program':
+                return !program;
+              case 'sizePackType':
+                return !sizePackType;
+              default:
+                return !species;
+            }
+          });
 
     const getNextTagString = () => {
       switch (categoryType) {
@@ -370,9 +373,23 @@ const InventoryRow = ({
       }
     };
 
-    const slug = `?${restQueryString}${detailsQueryString}${existingCategoriesParamString}${categoryType}=${encodeURIComponent(
-      newValue || '',
-    )}&categoryTypes=${categoryTypes},${nextCategoryType}${getNextTagString()}&view=items`;
+    const distressedIndex = categoryTypesArray.length - 1;
+    const nextCategoryString = isDistressed
+      ? `categoryTypes=${categoryTypesArray
+          .slice(0, distressedIndex)
+          .concat([
+            'distressed',
+            ...categoryTypesArray.slice(
+              distressedIndex,
+              categoryTypesArray.length,
+            ),
+          ])
+          .join(',')}`
+      : `${categoryType}=${encodeURIComponent(
+          newValue || '',
+        )}&categoryTypes=${categoryTypes},${nextCategoryType}`;
+
+    const slug = `?${restQueryString}${detailsQueryString}${existingCategoriesParamString}${nextCategoryString}${getNextTagString()}&view=items`;
 
     return {
       available: `/inventory/orders${slug}`,
@@ -451,7 +468,13 @@ const InventoryRow = ({
       )}
       <ty.CaptionText
         bold
-        color={isTotal ? th.colors.text.default : th.colors.brand.primaryAccent}
+        color={
+          isDistressed
+            ? th.colors.status.errorAlt
+            : isTotal
+            ? th.colors.text.default
+            : th.colors.brand.primaryAccent
+        }
         ml={tagLink ? 22 : 0}
         transition="none"
       >
@@ -485,9 +508,9 @@ const InventoryRow = ({
     <l.Grid
       alignCenter
       background={
-        isTotal
-          ? th.colors.brand.containerBackground
-          : index % 2 === 0
+        isDistressed
+          ? hexColorWithTransparency(th.colors.status.error, 0.2)
+          : index % 2 === 0 || isTotal
           ? th.colors.brand.containerBackground
           : undefined
       }

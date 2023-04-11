@@ -137,7 +137,7 @@ const Details = () => {
         // editing
         //   ? getUpdateActions().defaultActions
         //   : getUpdateActions().editAction,
-        <b.Primary disabled ml={th.spacing.md}>
+        <b.Primary disabled key="projections" ml={th.spacing.md}>
           Projections
         </b.Primary>,
         vessel?.isPre ? (
@@ -145,11 +145,11 @@ const Details = () => {
             Convert to Real
           </b.Primary>
         ) : null,
-        vessel && vessel.inspectionVesselDescription ? (
+        vessel ? (
           <l.AreaLink
             key="inspections"
             ml={th.spacing.md}
-            to={`/reports/inspections/arrival?arrivalCode=${vessel.inspectionVesselDescription}`}
+            to={`/reports/inspections/arrival?arrivalCode=${vessel.vesselCode}%20-%20${vessel.vesselName}`}
           >
             <b.Primary>Inspections</b.Primary>
           </l.AreaLink>

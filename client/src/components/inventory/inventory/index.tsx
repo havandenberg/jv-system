@@ -118,7 +118,8 @@ const Inventory = () => {
   } = api.useCommonSpecieses();
   const commonSpecieses = (productsData?.nodes || []) as CommonSpecies[];
 
-  const loading = itemsLoading || vesselsLoading || productsLoading;
+  const loading =
+    !rest.coast || itemsLoading || vesselsLoading || productsLoading;
   const error = itemsError || vesselsError || productsError;
 
   const allItems = [...items, ...preInventoryItems] as InventoryItem[];
@@ -128,6 +129,9 @@ const Inventory = () => {
   const categoryType = categoryTypes
     ? categoryTypesArray[categoryTypesArray.length - 1]
     : '';
+  const isDistressed = categoryTypes
+    ? categoryTypesArray.includes('distressed')
+    : false;
 
   const {
     components,
@@ -183,18 +187,33 @@ const Inventory = () => {
     },
   };
 
+  const nonDistressedCategories = Object.keys(groupedItems.categories).filter(
+    (key) => key !== 'distressed',
+  );
+
   const categories = [
+    ...(!species || isDistressed || !groupedItems.categories.distressed
+      ? []
+      : [
+          buildCategories(groupedItems.categories, {
+            ...buildCategoriesParams,
+            isDistressed: true,
+            isTag: false,
+          })('distressed'),
+        ]),
     ...Object.keys(groupedItems.tags).map(
       buildCategories(groupedItems.tags, {
         ...buildCategoriesParams,
+        isDistressed: false,
         isTag: true,
       }),
     ),
     ...sortBy(
       ({ text }) => (text === 'Other' ? 'zzzzzzz' : text),
-      Object.keys(groupedItems.categories).map(
+      nonDistressedCategories.map(
         buildCategories(groupedItems.categories, {
           ...buildCategoriesParams,
+          isDistressed: false,
           isTag: false,
         }),
       ),

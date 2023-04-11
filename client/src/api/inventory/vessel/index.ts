@@ -116,7 +116,7 @@ export const useVessels = (options?: VesselsOptions) => {
       countryIdOptions.push(countryIdOption);
     }
 
-    const isCoastValid = coast.includes(vessel.coast);
+    const isCoastValid = !coast || coast.includes(vessel.coast);
 
     const isValid =
       isVesselCodeValid && isArrivalPortValid && isCoastValid && isCountryValid;

@@ -13,7 +13,6 @@ import useColumns, { SORT_ORDER } from 'hooks/use-columns';
 import useDateRange from 'hooks/use-date-range';
 import useSearch from 'hooks/use-search';
 import { Vessel } from 'types';
-import b from 'ui/button';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
@@ -58,14 +57,7 @@ const Vessels = () => {
 
   return (
     <Page
-      actions={[
-        <l.AreaLink
-          key="schedule"
-          to={`/inventory/vessels/schedule?coast=${coast}`}
-        >
-          <b.Success>Create</b.Success>
-        </l.AreaLink>,
-      ]}
+      actions={[]}
       breadcrumbs={breadcrumbs}
       extraPaddingTop={111}
       headerChildren={

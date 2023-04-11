@@ -170,6 +170,7 @@ const Header = ({
       program:
         program === 'no program' ? 'No Program' : program || 'All Programs',
       sizePackType,
+      distressed: 'Distressed',
     };
 
     const breadcrumbs: BreadcrumbProps[] = [
@@ -180,7 +181,12 @@ const Header = ({
       },
       ...(categoryTypesArray
         ? categoryTypesArray.slice(0, -1).map((type, idx) => {
-            const newCategoryTypesArray = categoryTypesArray.slice(0, idx + 2);
+            const newCategoryTypesArray =
+              categoryTypesArray[idx + 1] === 'distressed'
+                ? categoryTypesArray
+                    .filter((newType) => newType !== 'distressed')
+                    .slice(0, idx + 2)
+                : categoryTypesArray.slice(0, idx + 2);
             const existingCategoriesParam = newCategoryTypesArray
               .slice(0, -1)
               .map((type) => {
@@ -220,6 +226,8 @@ const Header = ({
                     )}`;
                   case 'sizePackType':
                     return `sizePackType=${encodeURIComponent(sizePackType)}`;
+                  case 'distressed':
+                    return '';
                   default:
                     const speciesTagString = speciesTag
                       ? `&speciesTag=${encodeURIComponent(speciesTag)}`
@@ -229,6 +237,7 @@ const Header = ({
                     )}${speciesTagString}`;
                 }
               })
+              .filter((value) => !!value)
               .join('&');
             return {
               active:
@@ -244,6 +253,10 @@ const Header = ({
                   : `/inventory/index?${restParamString}${existingCategoriesParam}&categoryTypes=${newCategoryTypesArray.join(
                       ',',
                     )}`,
+              customStyles:
+                type === 'distressed'
+                  ? { color: th.colors.status.errorAlt }
+                  : undefined,
             };
           })
         : []),

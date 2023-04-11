@@ -157,23 +157,14 @@ export const getDetailedFilteredItems = (
   items: InventoryItem[],
   secondaryDetailsIndex: string,
 ) =>
-  items.filter((item) => {
-    console.log(
-      [
-        `${item.vessel?.id}-${item.shipper?.id}`,
-        `${item.vessel?.id}-${item.shipper?.id}-${item.product?.species?.id}`,
-      ],
-      secondaryDetailsIndex,
-      item.vessel?.isPre || !item.pallets || item.pallets.totalCount > 0,
-    );
-    return (
+  items.filter(
+    (item) =>
       [
         `${item.vessel?.id}-${item.shipper?.id}`,
         `${item.vessel?.id}-${item.shipper?.id}-${item.product?.species?.id}`,
       ].includes(secondaryDetailsIndex) &&
-      (item.vessel?.isPre || !item.pallets || item.pallets.totalCount > 0)
-    );
-  });
+      (item.vessel?.isPre || !item.pallets || item.pallets.totalCount > 0),
+  );
 
 export const isPreInventoryItem = (item: InventoryItem) => !!item.vessel?.isPre;
 
@@ -391,6 +382,7 @@ export const buildCategories =
       categoryTypeOrder,
       categoryTypes,
       commonSpecieses,
+      isDistressed,
       isTag,
       params,
     }: {
@@ -401,6 +393,7 @@ export const buildCategories =
       categoryTypeOrder: string[];
       categoryTypes?: string;
       commonSpecieses: CommonSpecies[];
+      isDistressed: boolean;
       isTag: boolean;
       params: {
         species?: string;
@@ -416,6 +409,7 @@ export const buildCategories =
         varietyTag?: string;
         sizeTag?: string;
         packTypeTag?: string;
+        label?: string;
       };
     },
   ) =>
@@ -434,6 +428,7 @@ export const buildCategories =
       countryOfOrigin,
       program,
       sizePackType,
+      label,
     } = params;
     const otherCategory = {
       id: 'other',
@@ -447,7 +442,7 @@ export const buildCategories =
       },
       shipperName: 'Other',
       countryName: 'Other',
-      customerSpecial: { customerName: 'No Program' },
+      customerSpecial: { customerName: 'no program' },
       commonSpeciesTags: { nodes: [] },
       commonVarietyTags: { nodes: [] },
       commonSizeTags: { nodes: [] },
@@ -468,22 +463,30 @@ export const buildCategories =
     const commonSpecies = commonSpecieses.find(
       (cs) => cs && cs.productSpeciesId === item.product?.species?.id,
     );
-    const commonSpeciesTag = commonSpecies?.commonSpeciesTags?.nodes[0];
+    const commonSpeciesTag = commonSpecies?.commonSpeciesTags?.nodes.find(
+      (tag) => tag?.tagText === key,
+    );
     const commonVariety =
       commonSpecies?.commonVarieties?.nodes.find(
         (cv) => cv && cv.productVarietyId === item.product?.variety?.id,
       ) || otherCategory;
-    const commonVarietyTag = commonVariety?.commonVarietyTags?.nodes[0];
+    const commonVarietyTag = commonVariety?.commonVarietyTags?.nodes.find(
+      (tag) => tag?.tagText === key,
+    );
     const commonSize =
       item.sizes?.nodes[0]?.commonSizes?.nodes.find(
         (cs) => cs && cs.productSizeId === item.sizes?.nodes[0]?.id,
       ) || otherCategory;
-    const commonSizeTag = commonSize?.commonSizeTags?.nodes[0];
+    const commonSizeTag = commonSize?.commonSizeTags?.nodes.find(
+      (tag) => tag?.tagText === key,
+    );
     const commonPackType =
       item.packType?.commonPackTypes?.nodes.find(
         (cpt) => cpt && cpt.packMasterId === item.packType?.id,
       ) || otherCategory;
-    const commonPackTypeTag = commonPackType?.commonPackTypeTags?.nodes[0];
+    const commonPackTypeTag = commonPackType?.commonPackTypeTags?.nodes.find(
+      (tag) => tag?.tagText === key,
+    );
 
     const getId = () => {
       switch (categoryType) {
@@ -511,7 +514,7 @@ export const buildCategories =
           return isTag ? commonSpeciesTag?.tagText : itemSpecies.id;
       }
     };
-    const id = getId();
+    const id = isDistressed ? 'distressed' : getId();
 
     const getText = () => {
       switch (categoryType) {
@@ -549,7 +552,7 @@ export const buildCategories =
             : itemSpecies.speciesDescription;
       }
     };
-    const text = getText() || 'Other';
+    const text = isDistressed ? 'Distressed' : getText() || 'Other';
 
     const restParams = values(
       mapObjIndexed((value, key) => (value ? `${key}=${value}` : ''), rest),
@@ -577,6 +580,8 @@ export const buildCategories =
             return !!program;
           case 'sizePackType':
             return !!sizePackType;
+          case 'label':
+            return !!label;
           default:
             return !!species;
         }
@@ -644,37 +649,54 @@ export const buildCategories =
     };
     const defaultInvSortKey = getDefaultNextSortKey() || '';
 
-    const nextCategoryType =
-      (!params[defaultInvSortKey as keyof typeof params] &&
-        defaultInvSortKey) ||
-      categoryTypeOrder
-        .filter((type) => type !== categoryType)
-        .find((type) => {
-          switch (type) {
-            case 'variety':
-              return !variety;
-            case 'size':
-              return !size;
-            case 'packType':
-              return !packType;
-            case 'plu':
-              return !plu;
-            case 'shipper':
-              return !shipper;
-            case 'countryOfOrigin':
-              return !countryOfOrigin;
-            case 'program':
-              return !program;
-            case 'sizePackType':
-              return !sizePackType;
-            default:
-              return !species;
-          }
-        });
+    const nextCategoryType = isDistressed
+      ? 'distressed'
+      : (!params[defaultInvSortKey as keyof typeof params] &&
+          defaultInvSortKey) ||
+        categoryTypeOrder
+          .filter((type) => type !== categoryType)
+          .find((type) => {
+            switch (type) {
+              case 'variety':
+                return !variety;
+              case 'size':
+                return !size;
+              case 'packType':
+                return !packType;
+              case 'plu':
+                return !plu;
+              case 'shipper':
+                return !shipper;
+              case 'countryOfOrigin':
+                return !countryOfOrigin;
+              case 'program':
+                return !program;
+              case 'sizePackType':
+                return !sizePackType;
+              case 'label':
+                return !label;
+              default:
+                return !species;
+            }
+          });
 
-    const nextCategoryString = `${categoryType}=${encodeURIComponent(
-      id || '',
-    )}&categoryTypes=${categoryTypes},${nextCategoryType}`;
+    const categoryTypesArray = categoryTypes?.split(',') || [];
+    const distressedIndex = categoryTypesArray.length - 1;
+
+    const nextCategoryString = isDistressed
+      ? `categoryTypes=${categoryTypesArray
+          .slice(0, distressedIndex)
+          .concat([
+            'distressed',
+            ...categoryTypesArray.slice(
+              distressedIndex,
+              categoryTypesArray.length,
+            ),
+          ])
+          .join(',')}`
+      : `${categoryType}=${encodeURIComponent(
+          id || '',
+        )}&categoryTypes=${categoryTypes},${nextCategoryType}`;
 
     const getTagText = () => {
       switch (categoryType) {

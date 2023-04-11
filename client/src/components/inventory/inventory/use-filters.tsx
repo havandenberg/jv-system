@@ -141,8 +141,12 @@ const useInventoryFilters = ({
     program,
     detailsIndex,
     secondaryDetailsIndex,
+    categoryTypes,
   } = selectedFilters;
 
+  const isTopLevel = categoryTypes?.split(',').length <= 1;
+  const shouldSplitDistressed =
+    !isTopLevel && !categoryTypes?.includes('distressed');
   const inventoryStartDateIndex = getInventoryStartDayIndex(startDate);
   const isStorage = parseInt(detailsIndex) === 13 - inventoryStartDateIndex;
   const isTotal = parseInt(detailsIndex) === 14 - inventoryStartDateIndex;
@@ -169,7 +173,7 @@ const useInventoryFilters = ({
         commonVarietyTags: { nodes: [] },
         commonSizeTags: { nodes: [] },
         commonPackTypeTags: { nodes: [] },
-        customerSpecial: { customerName: 'No Program' },
+        customerSpecial: { customerName: 'no program' },
       };
       const itemSpecies = item.product?.species || otherCategory;
       const itemVariety = item.product?.variety || otherCategory;
@@ -192,6 +196,8 @@ const useInventoryFilters = ({
       const commonPackTypeTags = (commonSpecies?.commonPackTypes?.nodes.find(
         (cpt) => cpt && cpt.packMasterId === itemPackType?.id,
       )?.commonPackTypeTags?.nodes || []) as CommonProductTag[];
+
+      const isDistressed = item.jvLotNumber?.[0] === 'D';
 
       const detailsValid =
         !detailsIndex ||
@@ -267,48 +273,78 @@ const useInventoryFilters = ({
         switch (categoryType) {
           case 'variety':
             return {
-              categoryKey: itemVariety.id,
+              categoryKey:
+                shouldSplitDistressed && isDistressed
+                  ? 'distressed'
+                  : itemVariety.id,
               tags: commonVarietyTags,
             };
           case 'size':
             return {
-              categoryKey: `${itemSize.combineDescription}`,
+              categoryKey:
+                shouldSplitDistressed && isDistressed
+                  ? 'distressed'
+                  : `${itemSize.combineDescription}`,
               tags: commonSizeTags,
             };
           case 'label':
             return {
-              categoryKey: `${itemPackType.label?.labelCode}`,
+              categoryKey:
+                shouldSplitDistressed && isDistressed
+                  ? 'distressed'
+                  : `${itemPackType.label?.labelCode}`,
             };
           case 'packType':
             return {
-              categoryKey: `${itemPackType.packDescription}`,
+              categoryKey:
+                shouldSplitDistressed && isDistressed
+                  ? 'distressed'
+                  : `${itemPackType.packDescription}`,
               tags: commonPackTypeTags,
             };
           case 'plu':
             return {
-              categoryKey: `${!!item.plu}`,
+              categoryKey:
+                shouldSplitDistressed && isDistressed
+                  ? 'distressed'
+                  : `${!!item.plu}`,
             };
           case 'shipper':
             return {
-              categoryKey: itemShipper.id,
+              categoryKey:
+                shouldSplitDistressed && isDistressed
+                  ? 'distressed'
+                  : itemShipper.id,
             };
           case 'countryOfOrigin':
             return {
-              categoryKey: itemCountryOfOrigin.id,
+              categoryKey:
+                shouldSplitDistressed && isDistressed
+                  ? 'distressed'
+                  : itemCountryOfOrigin.id,
             };
           case 'program':
             return {
-              categoryKey: `${
-                itemPackType.customerSpecial?.customerName || 'no program'
-              }`,
+              categoryKey:
+                shouldSplitDistressed && isDistressed
+                  ? 'distressed'
+                  : `${
+                      itemPackType.customerSpecial?.customerName || 'no program'
+                    }`,
             };
           case 'sizePackType':
             return {
-              categoryKey: `${itemSize.id} - ${itemPackType.packDescription}`,
+              categoryKey:
+                shouldSplitDistressed && isDistressed
+                  ? 'distressed'
+                  : `${itemSize.id} - ${itemPackType.packDescription}`,
             };
           default:
             return {
-              categoryKey: itemSpecies.id,
+              categoryKey:
+                shouldSplitDistressed && isDistressed
+                  ? 'distressed'
+                  : itemSpecies.id,
               tags: commonSpeciesTags,
             };
         }
@@ -339,6 +375,7 @@ const useInventoryFilters = ({
 
       if (
         selectedFilters.coast === item.coast &&
+        (isTopLevel || shouldSplitDistressed || isDistressed) &&
         (!location || location === item.warehouse?.id) &&
         (!shipper || shipper === item.shipper?.id) &&
         (!countryOfOrigin || countryOfOrigin === item.country?.id) &&

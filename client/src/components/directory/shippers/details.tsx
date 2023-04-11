@@ -100,10 +100,10 @@ const Details = () => {
               >
                 <b.Primary disabled>Projections</b.Primary>
               </l.AreaLink>,
-              data.psaShipperName ? (
+              data.psaShipperId ? (
                 <l.AreaLink
                   key="inspections"
-                  to={`/reports/inspections?exporterName=${data.psaShipperName}`}
+                  to={`/reports/inspections?exporterName=${data.shipperName}%20%28${data.id}%29`}
                 >
                   <b.Primary>Inspections</b.Primary>
                 </l.AreaLink>

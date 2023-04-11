@@ -30,6 +30,10 @@ query PSA_ARRIVAL_INSPECTIONS_LIST(
         id
         shipperName
       }
+      vessel {
+        vesselCode
+        vesselName
+      }
       pictures(first: 5) {
         nodes {
           id
