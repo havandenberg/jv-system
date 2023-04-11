@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useMemo, useState } from 'react';
 import { isEmpty, pick } from 'ramda';
 import { ClipLoader } from 'react-spinners';
 import { ScrollSync } from 'react-virtualized';
@@ -17,11 +17,12 @@ import { useTabBar } from 'components/tab-bar';
 import { GridWrapper, VirtualizedGrid } from 'components/virtualized-list';
 import useColumns, { SORT_ORDER } from 'hooks/use-columns';
 import useDateRange from 'hooks/use-date-range';
-import useSearch from 'hooks/use-search';
+import usePrevious from 'hooks/use-previous';
 import {
   useSortQueryParams,
   useVesselControlQueryParams,
 } from 'hooks/use-query-params';
+import useSearch from 'hooks/use-search';
 import { Unpaid, VesselControl } from 'types';
 import b from 'ui/button';
 import { LineItemCheckbox } from 'ui/checkbox';
@@ -139,36 +140,42 @@ const VesselControlLog = () => {
     setChanges([]);
   };
 
+  const upsertLoadingSlices: string[] = useMemo(() => [], []);
+  const previousUpsertLoadingSlices = usePrevious(upsertLoadingSlices);
+
   const handleUpdate = () => {
-    upsertVesselControls({
-      variables: {
-        vesselControls: changes.map((vesselControlItem) => ({
-          ...pick(
-            [
-              'approval1',
-              'approval2',
-              'id',
-              'isLiquidated',
-              'notes1',
-              'notes2',
-            ],
-            vesselControlItem,
-          ),
-          dateSent: vesselControlItem.dateSent
-            ? formatDate(
-                new Date(vesselControlItem.dateSent.replace(/-/g, '/')),
-              )
-            : null,
-          id: vesselControlItem.id || null,
-          shipperId: vesselControlItem.shipper?.id,
-          vesselCode: vesselControlItem.vessel?.vesselCode,
-        })),
-      },
-    })
-      .then(() => {
+    const iterations = Math.ceil(changes.length / 50);
+    for (let i = 0; i < iterations; i++) {
+      const changesSlice = changes.slice(i * 50, (i + 1) * 50);
+      upsertLoadingSlices.push(`${i}-loading`);
+      upsertVesselControls({
+        variables: {
+          vesselControls: changesSlice.map((vesselControlItem) => ({
+            ...pick(
+              [
+                'approval1',
+                'approval2',
+                'id',
+                'isLiquidated',
+                'notes1',
+                'notes2',
+              ],
+              vesselControlItem,
+            ),
+            dateSent: vesselControlItem.dateSent
+              ? formatDate(
+                  new Date(vesselControlItem.dateSent.replace(/-/g, '/')),
+                )
+              : null,
+            id: vesselControlItem.id || null,
+            shipperId: vesselControlItem.shipper?.id,
+            vesselCode: vesselControlItem.vessel?.vesselCode,
+          })),
+        },
+      }).then(() => {
         upsertUnpaids({
           variables: {
-            unpaids: changes
+            unpaids: changesSlice
               .map((vesselControlItem) =>
                 vesselControlItem.unpaids.nodes.map((unpaid) => ({
                   ...pick(['isUrgent', 'isApproved', 'notes'], unpaid),
@@ -181,11 +188,24 @@ const VesselControlLog = () => {
               .flat(),
           },
         }).then(() => {
-          setChanges([]);
+          upsertLoadingSlices.splice(
+            upsertLoadingSlices.indexOf(`${i}-loading`),
+            1,
+          );
         });
-      })
-      .then(handleCancel);
+      });
+    }
   };
+
+  useEffect(() => {
+    if (
+      previousUpsertLoadingSlices &&
+      previousUpsertLoadingSlices.length > 0 &&
+      upsertLoadingSlices.length === 0
+    ) {
+      handleCancel();
+    }
+  }, [previousUpsertLoadingSlices, upsertLoadingSlices]);
 
   const { TabBar } = useTabBar({
     tabs: dateRangeTabs,

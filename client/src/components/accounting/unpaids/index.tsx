@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useMemo, useState } from 'react';
 import { isEmpty, pick } from 'ramda';
 import { ClipLoader } from 'react-spinners';
 import { ScrollSync } from 'react-virtualized';
@@ -15,6 +15,7 @@ import StatusIndicator from 'components/status-indicator';
 import { useActiveUser } from 'components/user/context';
 import VirtualizedList from 'components/virtualized-list';
 import useColumns, { SORT_ORDER } from 'hooks/use-columns';
+import usePrevious from 'hooks/use-previous';
 import {
   useSortQueryParams,
   useUnpaidsQueryParams,
@@ -125,23 +126,42 @@ const Unpaids = () => {
     setChanges([]);
   };
 
+  const upsertLoadingSlices: string[] = useMemo(() => [], []);
+  const previousUpsertLoadingSlices = usePrevious(upsertLoadingSlices);
+
   const handleUpdate = () => {
-    upsertUnpaids({
-      variables: {
-        unpaids: changes.map((unpaid) => ({
-          ...pick(['isUrgent', 'isApproved', 'notes'], unpaid),
-          vesselCode: unpaid.vessel?.vesselCode,
-          shipperId: unpaid.shipper?.id,
-          invoiceId: unpaid.invoice?.invoiceId,
-          id: unpaid?.id || null,
-        })),
-      },
-    })
-      .then(() => {
-        setChanges([]);
-      })
-      .then(handleCancel);
+    const iterations = Math.ceil(changes.length / 50);
+    for (let i = 0; i < iterations; i++) {
+      const changesSlice = changes.slice(i * 50, (i + 1) * 50);
+      upsertLoadingSlices.push(`${i}-loading`);
+      upsertUnpaids({
+        variables: {
+          unpaids: changesSlice.map((unpaid) => ({
+            ...pick(['isUrgent', 'isApproved', 'notes'], unpaid),
+            vesselCode: unpaid.vessel?.vesselCode,
+            shipperId: unpaid.shipper?.id,
+            invoiceId: unpaid.invoice?.invoiceId,
+            id: unpaid?.id || null,
+          })),
+        },
+      }).then(() => {
+        upsertLoadingSlices.splice(
+          upsertLoadingSlices.indexOf(`${i}-loading`),
+          1,
+        );
+      });
+    }
   };
+
+  useEffect(() => {
+    if (
+      previousUpsertLoadingSlices &&
+      previousUpsertLoadingSlices.length > 0 &&
+      upsertLoadingSlices.length === 0
+    ) {
+      handleCancel();
+    }
+  }, [previousUpsertLoadingSlices, upsertLoadingSlices]);
 
   const listLabels = getListLabels(
     handleChange,
