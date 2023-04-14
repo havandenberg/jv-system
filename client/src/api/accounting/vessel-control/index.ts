@@ -8,9 +8,11 @@ import {
   useDateRangeQueryParams,
   useQueryValue,
   useSearchQueryParam,
+  useUnpaidsQueryParams,
   useVesselControlQueryParams,
 } from 'hooks/use-query-params';
 import { Mutation, Query, VesselControl } from 'types';
+import { isNullableType } from 'graphql';
 
 export const VESSEL_CONTROL_DETAILS_QUERY = loader('./details.gql');
 export const VESSEL_CONTROL_LIST_QUERY = loader('./list.gql');
@@ -20,6 +22,7 @@ const UNPAIDS_NOTIFY = loader('./notify.gql');
 export const useVariables = (isUnpaids?: boolean) => {
   const [search] = useQueryValue('vesselControlSearch');
   const [vesselControlView] = useQueryValue('vesselControlView');
+  const [{ showLiq }] = useUnpaidsQueryParams();
   const isDue = vesselControlView === 'due';
 
   const [{ startDate, endDate }] = useDateRangeQueryParams();
@@ -34,8 +37,10 @@ export const useVariables = (isUnpaids?: boolean) => {
 
   return {
     vesselControlFilter:
-      isUnpaids || search
+      (isUnpaids && showLiq) || search
         ? undefined
+        : isUnpaids
+        ? { isLiquidated: { isNull: true } }
         : {
             [isDue ? 'dueDate' : 'dateSent']: {
               greaterThanOrEqualTo:

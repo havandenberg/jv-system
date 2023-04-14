@@ -52,10 +52,6 @@ export const listLabels: PalletLabelInfo[] = [
     label: 'Box Qty',
   },
   {
-    key: 'orderId',
-    label: 'Order ID',
-  },
-  {
     key: 'shipped',
     label: 'Shipped',
     getValue: ({ shipped }) => (
@@ -86,10 +82,6 @@ export const inventoryListLabels: PalletLabelInfo[] = [
   {
     key: 'currentBoxQuantity',
     label: 'Current Box Qty',
-  },
-  {
-    key: 'orderId',
-    label: 'Order ID',
   },
   {
     key: 'shipped',
@@ -139,6 +131,15 @@ export const baseLabels: PalletLabelInfo[] = [
     label: 'Container ID',
   },
   {
+    key: 'shipped',
+    label: 'Shipped',
+    getValue: ({ shipped }) => (
+      <l.Flex alignCenter justifyBetween>
+        <StatusIndicator status={shipped ? 'success' : 'error'} />
+      </l.Flex>
+    ),
+  },
+  {
     key: 'warehouse',
     label: 'Location',
     getValue: ({ warehouse }) =>
@@ -149,10 +150,6 @@ export const baseLabels: PalletLabelInfo[] = [
       ) : (
         ''
       ),
-  },
-  {
-    key: 'packDate',
-    label: 'Pack Date',
   },
   {
     key: 'product',
@@ -197,6 +194,10 @@ export const baseLabels: PalletLabelInfo[] = [
   {
     key: 'growerId',
     label: 'Grower',
+  },
+  {
+    key: 'packDate',
+    label: 'Pack Date',
   },
   {
     key: 'age',

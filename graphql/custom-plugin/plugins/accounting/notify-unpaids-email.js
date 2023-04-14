@@ -126,10 +126,14 @@ const extendSchemaPlugin = makeExtendSchemaPlugin({
           const baseUrl = `${process.env.REACT_APP_CLIENT_URL}/accounting/unpaids?salesUserCode=${userCode}`;
 
           await sendEmail({
-            ccRecipients: false
-              ? ['jpaap@jacvandenberg.com', 'ashin@jacvandenberg.com']
-              : [],
-            toRecipients: false ? [email] : ['hvandenberg@jacvandenberg.com'],
+            ccRecipients:
+              process.env.REACT_APP_IS_PRODUCTION === 'true'
+                ? ['jpaap@jacvandenberg.com', 'ashin@jacvandenberg.com']
+                : [],
+            toRecipients:
+              process.env.REACT_APP_IS_PRODUCTION === 'true'
+                ? [email]
+                : ['hvandenberg@jacvandenberg.com'],
             body: `Dear ${firstName},<br /><br />
                 ${args.input.message ? args.input.message + '<br /><br />' : ''}
                 Please review the following list of unpaids. <a href="${baseUrl}">Complete unpaids here.</a><br /><br />

@@ -4,21 +4,27 @@ import { isEmpty } from 'ramda';
 import ListItem from 'components/list-item';
 import { DataMessage } from 'components/page/message';
 import useColumns, { SORT_ORDER } from 'hooks/use-columns';
-import { RepackHeader } from 'types';
+import { InvoiceHeader } from 'types';
 import l from 'ui/layout';
 import th from 'ui/theme';
 
 import { listLabels } from './data-utils';
 
-const gridTemplateColumns = `1fr 1fr 100px 100px 100px 2fr 30px`;
+const gridTemplateColumns = 'repeat(5, 0.8fr) 2.5fr 1fr 30px';
 
-const RepackList = ({ items }: { items: RepackHeader[] }) => {
-  const columnLabels = useColumns<RepackHeader>(
-    'repackDate',
+const InvoiceList = ({
+  invoices,
+  palletId,
+}: {
+  invoices: InvoiceHeader[];
+  palletId?: string;
+}) => {
+  const columnLabels = useColumns<InvoiceHeader>(
+    'invoiceDate',
     SORT_ORDER.DESC,
     listLabels,
-    'operations',
-    'repack_header',
+    'accounting',
+    'invoice-header',
   );
 
   return (
@@ -30,26 +36,28 @@ const RepackList = ({ items }: { items: RepackHeader[] }) => {
       >
         {columnLabels}
       </l.Grid>
-      {!isEmpty(items) ? (
-        items.map(
-          (item, idx) =>
-            item && (
-              <ListItem
-                data={item}
+      {!isEmpty(invoices) ? (
+        invoices.map(
+          (invoice, idx) =>
+            invoice && (
+              <ListItem<InvoiceHeader>
+                data={invoice}
                 gridTemplateColumns={gridTemplateColumns}
                 key={idx}
                 listLabels={listLabels}
-                to={`/inventory/repacks/${item.repackCode}?runNumber=${item.runNumber}&repackView=items`}
+                to={`/accounting/invoices/${invoice.orderId}${
+                  palletId ? '?palletId=' + palletId : ''
+                }`}
               />
             ),
         )
       ) : (
         <DataMessage
-          data={items}
+          data={invoices}
           error={null}
           loading={false}
           emptyProps={{
-            header: 'No repacks found',
+            header: 'No invoices found',
           }}
         />
       )}
@@ -57,4 +65,4 @@ const RepackList = ({ items }: { items: RepackHeader[] }) => {
   );
 };
 
-export default RepackList;
+export default InvoiceList;

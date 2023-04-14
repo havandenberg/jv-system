@@ -1,14 +1,14 @@
 import React from 'react';
 import { differenceInDays } from 'date-fns';
-import { isEmpty, sortBy as sortByFunc } from 'ramda';
+import { isEmpty, pluck, sortBy as sortByFunc } from 'ramda';
 
 import { getSortedItems } from 'components/column-label';
 import { OrderItemInvoiceItem } from 'components/inventory/orders/data-utils';
 import ListItem from 'components/list-item';
 import { DataMessage } from 'components/page/message';
 import useColumns, { SORT_ORDER } from 'hooks/use-columns';
-import { useSortQueryParams } from 'hooks/use-query-params';
-import { InvoiceHeader, InvoiceItem, OrderItem } from 'types';
+import { useQueryValue } from 'hooks/use-query-params';
+import { InvoiceHeader, InvoiceItem, OrderItem, Pallet } from 'types';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
@@ -34,7 +34,8 @@ const List = ({
   rejectedInvoices,
   originalInvoice,
 }: Props) => {
-  const [{ sortBy, sortOrder }] = useSortQueryParams();
+  const [palletId] = useQueryValue('palletId');
+
   const columnLabels = useColumns<OrderItem>(
     'lineId',
     SORT_ORDER.ASC,
@@ -51,22 +52,27 @@ const List = ({
     'invoice_item',
   );
 
-  const sortedItems = getSortedItems(listLabels, items, sortBy, sortOrder);
+  const sortedItems = getSortedItems(
+    listLabels,
+    items,
+    'lineId',
+    SORT_ORDER.ASC,
+  );
 
   const rejectedLoadId = rejectedInvoices?.[0]?.truckLoadId;
 
   const sortedRejectedItems = getSortedItems(
     listLabels,
     rejectedItems,
-    sortBy,
-    sortOrder,
+    'lineId',
+    SORT_ORDER.ASC,
   );
 
   const sortedDeletedItems = getSortedItems(
     listLabels,
     deletedItems,
-    sortBy,
-    sortOrder,
+    'lineId',
+    SORT_ORDER.ASC,
   );
 
   return (
@@ -115,6 +121,15 @@ const List = ({
             return (
               <ListItem
                 data={item}
+                defaultOpen={
+                  !!(
+                    palletId &&
+                    pluck(
+                      'palletId',
+                      invoiceItems.map((ii) => ii.pallet) as Pallet[],
+                    ).includes(palletId)
+                  )
+                }
                 gridTemplateColumns={gridTemplateColumns}
                 highlightColor={th.colors.status.errorAlt}
                 isHighlight
@@ -187,6 +202,15 @@ const List = ({
           return (
             <ListItem
               data={item}
+              defaultOpen={
+                !!(
+                  palletId &&
+                  pluck(
+                    'palletId',
+                    invoiceItems.map((ii) => ii.pallet) as Pallet[],
+                  ).includes(palletId)
+                )
+              }
               gridTemplateColumns={gridTemplateColumns}
               highlightColor={th.colors.status.warningSecondary}
               isHighlight={
@@ -221,6 +245,9 @@ const List = ({
                     >
                       <ListItem<InvoiceItem>
                         data={item as InvoiceItem}
+                        customStyles={{
+                          wrapper: { background: th.colors.background },
+                        }}
                         gridTemplateColumns={itemGridTemplateColumns}
                         listLabels={itemListLabels}
                       />
@@ -257,6 +284,15 @@ const List = ({
             return (
               <ListItem
                 data={item}
+                defaultOpen={
+                  !!(
+                    palletId &&
+                    pluck(
+                      'palletId',
+                      invoiceItems.map((ii) => ii.pallet) as Pallet[],
+                    ).includes(palletId)
+                  )
+                }
                 gridTemplateColumns={gridTemplateColumns}
                 highlightColor={th.colors.status.errorAlt}
                 isHalfHighlight

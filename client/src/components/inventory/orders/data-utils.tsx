@@ -539,10 +539,9 @@ const convertInvoiceItemsToOrderItems = (
           ),
           boxCount:
             (currentItem?.boxCount ? parseInt(currentItem?.boxCount, 10) : 0) +
-              parseInt(item.pickedQty, 10) >
-            0
+            (parseInt(item.pickedQty, 10) > 0
               ? parseInt(item.pickedQty, 10)
-              : 0,
+              : 0),
           palletCount:
             (currentItem?.palletCount
               ? parseInt(currentItem?.palletCount)

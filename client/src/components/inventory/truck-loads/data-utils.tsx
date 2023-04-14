@@ -105,7 +105,7 @@ export const indexListLabels: (
           {customers.map(
             (customer) =>
               customer && (
-                <ty.Span mr={th.spacing.sm}>
+                <ty.Span key={customer.id} mr={th.spacing.sm}>
                   {customer.customerName} ({customer.id})
                 </ty.Span>
               ),
@@ -267,6 +267,7 @@ export const indexBaseLabels: (
           (invoiceHeaders?.nodes || []).map((invoice) => (
             <ty.LinkText
               hover="false"
+              key={invoice?.orderId}
               mr={th.spacing.sm}
               to={`/accounting/invoices/${invoice?.orderId}`}
             >

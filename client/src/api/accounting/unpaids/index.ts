@@ -88,9 +88,9 @@ export const useUnpaids = () => {
             const isSalesUserValid =
               !salesUserCode ||
               salesUserCode === 'all' ||
-              salesUserCode === 'BS'
+              (salesUserCode === 'BS'
                 ? ['BS', 'CP'].includes(unpaid?.invoice?.salesUserCode || 'x')
-                : unpaid?.invoice?.salesUserCode === salesUserCode;
+                : unpaid?.invoice?.salesUserCode === salesUserCode);
 
             const isValid =
               unpaid &&

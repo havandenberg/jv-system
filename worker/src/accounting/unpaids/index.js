@@ -34,7 +34,7 @@ const ALL_VESSEL_CONTROLS = gql`
         pallets {
           nodes {
             id
-            invoiceHeaders {
+            invoices {
               nodes {
                 id
                 actualShipDate
@@ -115,7 +115,7 @@ const buildVesselControlItems = (vesselControls) =>
     .map((vesselControl) => {
       const pallets = vesselControl.pallets?.nodes || [];
       const groupedPallets = pallets.reduce((acc, pallet) => {
-        const newValues = pallet.invoiceHeaders.nodes?.reduce(
+        const newValues = pallet.invoices.nodes?.reduce(
           (acc2, invoice) => {
             const salesUserCode = invoice?.salesUserCode;
             const orderId = invoice?.orderId;

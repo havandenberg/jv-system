@@ -39,7 +39,7 @@ const Pallets = () => {
   return (
     <Page
       breadcrumbs={breadcrumbs()}
-      extraPaddingTop={103}
+      extraPaddingTop={95}
       headerChildren={
         <>
           <l.Flex alignCenter mb={th.spacing.sm} justifyBetween>

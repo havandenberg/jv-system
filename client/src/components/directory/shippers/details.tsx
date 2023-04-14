@@ -108,7 +108,9 @@ const Details = () => {
                   <b.Primary>Inspections</b.Primary>
                 </l.AreaLink>
               ) : (
-                <b.Primary disabled>Inspections</b.Primary>
+                <b.Primary disabled key="inspections">
+                  Inspections
+                </b.Primary>
               ),
             ]
           : []),

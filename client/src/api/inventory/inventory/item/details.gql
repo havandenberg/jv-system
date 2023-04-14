@@ -13,7 +13,6 @@ query INVENTORY_ITEM_DETAILS($id: BigInt!) {
         currentBoxQuantity
         growerId
         id
-        orderId
         palletId
         packDate
         shipped

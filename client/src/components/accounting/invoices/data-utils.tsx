@@ -8,6 +8,69 @@ import { formatDate } from 'components/date-range-picker';
 
 export type InvoiceHeaderLabelInfo = LabelInfo<InvoiceHeader>;
 
+export const listLabels: InvoiceHeaderLabelInfo[] = [
+  {
+    key: 'orderId',
+    label: 'Order ID',
+  },
+  {
+    key: 'invoiceId',
+    label: 'Invoice ID',
+  },
+  {
+    key: 'truckLoadId',
+    label: 'Load ID',
+    getValue: ({ truckLoad, truckLoadId }) =>
+      truckLoad || truckLoadId ? (
+        <ty.LinkText
+          hover="false"
+          to={`/inventory/truck-loads/${
+            truckLoad?.loadId || truckLoadId
+          }?truckLoadView=pallets`}
+        >
+          {truckLoad?.loadId || truckLoadId}
+        </ty.LinkText>
+      ) : (
+        <ty.BodyText>-</ty.BodyText>
+      ),
+  },
+  {
+    key: 'customerPo',
+    label: 'Customer PO',
+  },
+  {
+    key: 'invoiceDate',
+    label: 'Invoice Date',
+    getValue: ({ invoiceDate }) =>
+      formatDate(new Date(invoiceDate.replace(/-/g, '/'))),
+  },
+  {
+    key: 'billingCustomerId',
+    label: 'Customer',
+    getValue: ({ billingCustomer }) =>
+      billingCustomer ? (
+        <ty.LinkText
+          hover="false"
+          to={`/directory/customers/${billingCustomer.id}`}
+        >
+          {billingCustomer.id} - {billingCustomer.customerName}
+        </ty.LinkText>
+      ) : (
+        ''
+      ),
+  },
+  {
+    key: 'salesUserCode',
+    label: 'Sales Assoc.',
+    getValue: ({ salesUser }) =>
+      salesUser ? (
+        <ty.BodyText>{salesUser.personContact?.firstName}</ty.BodyText>
+      ) : (
+        ''
+      ),
+  },
+];
+
 export const baseLabels: InvoiceHeaderLabelInfo[] = [
   {
     key: 'orderId',

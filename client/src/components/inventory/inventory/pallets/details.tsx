@@ -2,16 +2,21 @@ import React from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 
 import api from 'api';
+import InvoiceList from 'components/accounting/invoices/list';
 import BaseData from 'components/base-data';
+import RepackList from 'components/inventory/repacks/list';
 import Page from 'components/page';
 import { DataMessage } from 'components/page/message';
-import StatusIndicator from 'components/status-indicator';
 import { Tab, useTabBar } from 'components/tab-bar';
-import { Pallet, PalletSection as PalletSectionType } from 'types';
+import {
+  InvoiceHeader,
+  Pallet,
+  PalletSection as PalletSectionType,
+  RepackHeader,
+} from 'types';
 import b from 'ui/button';
 import l from 'ui/layout';
 import th from 'ui/theme';
-import ty from 'ui/typography';
 
 import { baseLabels } from './data-utils';
 import PalletSection from './section';
@@ -26,7 +31,7 @@ const breadcrumbs = (
     vesselId
       ? {
           text: 'Vessels',
-          to: `/inventory/vessels${search}`,
+          to: `/inventory/vessels`,
         }
       : {
           text: 'Inventory',
@@ -39,7 +44,7 @@ const breadcrumbs = (
             vesselId ? 'vessels/' + vesselId + '/' : ''
           }items/${itemId}${search}`,
         }
-      : { text: 'Pallets', to: `/inventory/pallets${search}` },
+      : { text: 'Pallets', to: `/inventory/pallets` },
     {
       text: 'Pallet',
       to: `/inventory/${vesselId ? 'vessels/' + vesselId + '/' : ''}${
@@ -56,18 +61,22 @@ const breadcrumbs = (
   return crumbs;
 };
 
-const tabs: Tab[] = [
+const tabs: (
+  sectionsCount: number,
+  invoicesCount: number,
+  repacksCount: number,
+) => Tab[] = (sectionsCount, invoicesCount, repacksCount) => [
   {
     id: 'sections',
-    text: 'Sections',
+    text: `Sections (${sectionsCount})`,
   },
   {
     id: 'invoices',
-    text: 'Invoices',
+    text: `Invoices (${invoicesCount})`,
   },
   {
     id: 'repacks',
-    text: 'Repacks',
+    text: `Repacks (${repacksCount})`,
   },
 ];
 
@@ -80,14 +89,16 @@ const Details = () => {
   }>();
   const { data, error, loading } = api.usePallet(palletId);
   const pallet = ((data?.nodes || []) as Pallet[])[0] || null;
-  const palletSections = (pallet?.palletSections.nodes ||
-    []) as PalletSectionType[];
+  const sections = (pallet?.palletSections.nodes || []) as PalletSectionType[];
+  const invoices = (pallet?.invoices.nodes || []) as InvoiceHeader[];
+  const repacks = (pallet?.repacks.nodes || []) as RepackHeader[];
 
-  const { TabBar } = useTabBar({ tabs });
+  const { TabBar, selectedTabId } = useTabBar({
+    tabs: tabs(sections.length, invoices.length, repacks.length),
+  });
 
-  const hasOrder = ![undefined, null, '0'].includes(pallet?.orderId);
-  const hasBackOrder =
-    hasOrder && ![undefined, null, '0'].includes(pallet?.backOrderId);
+  const isSections = selectedTabId === 'sections';
+  const isInvoices = selectedTabId === 'invoices';
 
   return (
     <Page
@@ -113,69 +124,29 @@ const Details = () => {
       {data ? (
         pallet && (
           <>
-            <l.Flex mb={th.spacing.md}>
-              <l.Flex
-                alignCenter
-                bg={th.colors.brand.containerBackground}
-                border={th.borders.primary}
-                borderRadius={th.borderRadii.default}
-                p={th.spacing.md}
-              >
-                <ty.CaptionText mr={th.spacing.md}>
-                  {pallet.shipped ? 'Invoice' : 'Order'} ID:
-                </ty.CaptionText>
-                {hasOrder ? (
-                  <ty.LinkText
-                    hover="false"
-                    mr={th.spacing.lg}
-                    to={`/${
-                      pallet.shipped
-                        ? 'accounting/invoices'
-                        : 'inventory/orders'
-                    }/${pallet.orderId}?`}
-                  >
-                    {pallet.orderId}
-                  </ty.LinkText>
-                ) : (
-                  <ty.BodyText mr={th.spacing.lg}>-</ty.BodyText>
-                )}
-                <ty.CaptionText mr={th.spacing.md}>
-                  Back Order ID:
-                </ty.CaptionText>
-                {hasBackOrder ? (
-                  <ty.LinkText
-                    hover="false"
-                    to={`/inventory/orders/${pallet.orderId}?backOrderId=${pallet.backOrderId}`}
-                    mr={th.spacing.lg}
-                  >
-                    {pallet.backOrderId}
-                  </ty.LinkText>
-                ) : (
-                  <ty.BodyText mr={th.spacing.lg}>-</ty.BodyText>
-                )}
-                <ty.CaptionText mr={th.spacing.md}>Shipped:</ty.CaptionText>
-                <StatusIndicator
-                  status={pallet.shipped ? 'success' : 'error'}
-                />
-              </l.Flex>
-            </l.Flex>
             <BaseData<Pallet> data={pallet} labels={baseLabels} />
             <l.Div my={th.spacing.lg}>
               <TabBar />
             </l.Div>
-            {palletSections.length > 0 ? (
-              palletSections.map((section, idx) => (
-                <PalletSection key={idx} section={section} />
-              ))
+            {isSections ? (
+              sections.length > 0 ? (
+                sections.map((section, idx) => (
+                  <PalletSection key={idx} section={section} />
+                ))
+              ) : (
+                <DataMessage
+                  data={sections}
+                  error={error}
+                  loading={false}
+                  emptyProps={{
+                    header: 'No sections found',
+                  }}
+                />
+              )
+            ) : isInvoices ? (
+              <InvoiceList invoices={invoices} palletId={palletId} />
             ) : (
-              <DataMessage
-                data={palletSections}
-                error={error}
-                loading={false}
-                emptyProps={{
-                  header: 'No sections found',
-                }}
-              />
+              <RepackList items={repacks} />
             )}
             <l.Div height={th.spacing.xxl} />
           </>

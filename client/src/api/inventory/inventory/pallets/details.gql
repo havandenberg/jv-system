@@ -12,6 +12,36 @@ query PALLET_DETAILS($palletId: String!) {
       growerId
       hatch
       id
+      invoices {
+        nodes {
+          id
+          orderId
+          invoiceId
+          truckLoadId
+          billingCustomer {
+            id
+            customerName
+          }
+          invoiceDate
+          customerPo
+          salesUser {
+            personContact {
+              firstName
+            }
+          }
+        }
+      }
+      repacks {
+        nodes {
+          id
+          repackCode
+          runNumber
+          repackDate
+          repackStyleId
+          boxesIn
+          boxesOut
+        }
+      }
       jvLotNumber
       locationId
       oldPackCode

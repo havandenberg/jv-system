@@ -1,19 +1,18 @@
 import React, { useState } from 'react';
 import { sortBy } from 'ramda';
 
+import InfoPanel from 'components/info-panel';
 import StatusIndicator from 'components/status-indicator';
+import { Unpaid, VesselControl } from 'types';
 import { LineItemCheckbox } from 'ui/checkbox';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
-
 import { hexColorWithTransparency } from 'ui/utils';
 
 import { getUnpaidsInfo } from '../unpaids/data-utils';
-import InfoPanel from 'components/info-panel';
-import { Unpaid, VesselControl } from 'types';
 
-export const SALES_USER_CODES = ['AK', 'BS', 'GV', 'MF', 'NP', 'SS'];
+export const SALES_USER_CODES = ['AK', 'BS', 'GV', 'JS', 'MF', 'NP', 'SS'];
 
 export const gridTemplateColumns = '80px repeat(7, 50px)';
 

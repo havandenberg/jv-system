@@ -148,19 +148,7 @@ AS $BODY$
   SELECT * FROM directory.warehouse w WHERE w.id = p.original_location_id
 $BODY$;
 
-CREATE FUNCTION product.pallet_order_master(IN p product.pallet)
-    RETURNS operations.order_master
-    LANGUAGE 'sql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100
-AS $BODY$
-  SELECT * FROM operations.order_master o
-    WHERE CAST (o.order_id AS TEXT) = p.order_id
-    AND CAST (o.back_order_id AS TEXT) = p.back_order_id
-$BODY$;
-
-CREATE FUNCTION product.pallet_invoice_headers(IN p product.pallet)
+CREATE FUNCTION product.pallet_invoices(IN p product.pallet)
     RETURNS setof accounting.invoice_header
     LANGUAGE 'sql'
     STABLE
@@ -171,6 +159,19 @@ AS $BODY$
     JOIN accounting.invoice_header i ON ii.order_id = i.order_id
       AND ii.back_order_id = i.back_order_id
     WHERE p.pallet_id = ii.pallet_id
+$BODY$;
+
+CREATE FUNCTION product.pallet_repacks(IN p product.pallet)
+    RETURNS setof operations.repack_header
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT r.* FROM operations.repack_item ri
+    JOIN operations.repack_header r ON ri.repack_code = r.repack_code
+      AND ri.run_number = r.run_number
+    WHERE p.pallet_id = ri.pallet_id
 $BODY$;
 
 CREATE FUNCTION product.pallet_search_text(IN p product.pallet)

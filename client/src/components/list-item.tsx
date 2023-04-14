@@ -6,7 +6,7 @@ import Chevron from 'assets/images/chevron';
 import { baseDataTransforms } from 'components/base-data';
 import { LabelInfo } from 'components/column-label';
 import { LineItemCheckbox } from 'ui/checkbox';
-import l from 'ui/layout';
+import l, { DivProps } from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 
@@ -21,8 +21,10 @@ const Wrapper = styled(l.Flex)({
 
 const ListItem = <T extends {}>({
   content,
+  customStyles,
   error,
   data,
+  defaultOpen,
   gridTemplateColumns,
   highlightColor,
   hoverable,
@@ -40,7 +42,11 @@ const ListItem = <T extends {}>({
   to,
 }: {
   content?: React.ReactNode;
+  customStyles?: {
+    wrapper?: DivProps;
+  };
   data: T;
+  defaultOpen?: boolean;
   error?: boolean;
   gridTemplateColumns: string;
   highlightColor?: string;
@@ -60,7 +66,7 @@ const ListItem = <T extends {}>({
 }) => {
   const clickable = !!onClick || !!to;
 
-  const [isLocalOpen, setIsLocalOpen] = React.useState(false);
+  const [isLocalOpen, setIsLocalOpen] = React.useState(!!defaultOpen);
 
   const isOpen = isOpenProp !== undefined ? isOpenProp : isLocalOpen;
   const setIsOpen = handleToggleOpen || setIsLocalOpen;
@@ -156,6 +162,7 @@ const ListItem = <T extends {}>({
       isHighlight={isHighlight}
       isHalfHighlight={isHalfHighlight}
       selected={selected}
+      {...(customStyles?.wrapper || {})}
     >
       {content ? (
         <Expandable

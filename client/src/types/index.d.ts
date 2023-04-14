@@ -36796,14 +36796,15 @@ export type Pallet = Node & {
   containerId?: Maybe<Scalars['String']>;
   temperatureRecording?: Maybe<Scalars['String']>;
   /** Reads and enables pagination through a set of `InvoiceHeader`. */
-  invoiceHeaders: InvoiceHeadersConnection;
-  orderMaster?: Maybe<OrderMaster>;
+  invoices: InvoiceHeadersConnection;
   originalLocation?: Maybe<Warehouse>;
   packType?: Maybe<PackMaster>;
   /** Reads and enables pagination through a set of `PalletSection`. */
   palletSections: PalletSectionsConnection;
   product?: Maybe<ProductMaster>;
   psaArrivalReport?: Maybe<PsaArrivalReport>;
+  /** Reads and enables pagination through a set of `RepackHeader`. */
+  repacks: RepackHeadersConnection;
   searchText?: Maybe<Scalars['String']>;
   shipper?: Maybe<Shipper>;
   /** Reads and enables pagination through a set of `ProductSize`. */
@@ -36813,7 +36814,7 @@ export type Pallet = Node & {
 };
 
 
-export type PalletInvoiceHeadersArgs = {
+export type PalletInvoicesArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
@@ -36830,6 +36831,16 @@ export type PalletPalletSectionsArgs = {
   before?: Maybe<Scalars['Cursor']>;
   after?: Maybe<Scalars['Cursor']>;
   filter?: Maybe<PalletSectionFilter>;
+};
+
+
+export type PalletRepacksArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  filter?: Maybe<RepackHeaderFilter>;
 };
 
 

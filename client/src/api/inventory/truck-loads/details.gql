@@ -144,7 +144,6 @@ query TRUCK_LOAD_DETAILS($truckLoadId: String!) {
           growerId
           id
           locationId
-          orderId
           palletId
           packDate
           shipped

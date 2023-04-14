@@ -181,7 +181,7 @@ const Details = () => {
             <TabBar />
           </l.Flex>
           {isRuns ? (
-            <RepackList baseUrl="/inventory/repacks/" items={filteredRepacks} />
+            <RepackList items={filteredRepacks} />
           ) : hasItems ? (
             <RepackItemList items={items} />
           ) : (
