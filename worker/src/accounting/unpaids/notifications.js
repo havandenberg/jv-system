@@ -113,12 +113,18 @@ const getUnpaidVesselInputList = (vesselsInput) =>
     })),
   );
 
-const getUnpaidsContent = (unpaids, vesselCode, shipperName, baseUrl) =>
+const getUnpaidsContent = (
+  unpaids,
+  vesselCode,
+  shipperId,
+  shipperName,
+  baseUrl,
+) =>
   `${unpaids
     .map(
       ({ invoiceId, customerName, flag, isUrgent, truckLoadId }) => `
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      - Invoice #: <a href="${baseUrl}&vesselCode=${vesselCode}&invoiceId=${invoiceId}&unpaidSearch=${shipperName}">${invoiceId}</a> - Load #: <a href="${
+      - Invoice #: <a href="${baseUrl}&vesselCode=${vesselCode}&shipper=${shipperName}%20%28${shipperId}%29&invoiceId=${invoiceId}">${invoiceId}</a> - Load #: <a href="${
         process.env.REACT_APP_CLIENT_URL
       }/inventory/truck-loads/${truckLoadId}">${truckLoadId}</a>
         - ${customerName}
@@ -142,9 +148,15 @@ const getUnpaidsShipperContent = (shippers, vesselCode, baseUrl) =>
     .map(
       ({ shipperId, shipperName, unpaids }) => `
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        - Shipper: <a href="${baseUrl}&vesselCode=${vesselCode}&unpaidSearch=${shipperName}">${shipperName} (${shipperId})</a>
+        - Shipper: <a href="${baseUrl}&vesselCode=${vesselCode}&shipper=${shipperName}%20%28${shipperId}%29">${shipperName} (${shipperId})</a>
         <br />
-        ${getUnpaidsContent(unpaids, vesselCode, shipperName, baseUrl)}`,
+        ${getUnpaidsContent(
+          unpaids,
+          vesselCode,
+          shipperId,
+          shipperName,
+          baseUrl,
+        )}`,
     )
     .join('')}`;
 
@@ -181,9 +193,7 @@ const sendUnpaidsNotificationEmails = () => {
     .request(VESSEL_CONTROLS(`"${formatDate(endDate)}"`))
     .then(async (data) => {
       const vesselControls = (data.vesselControls.nodes || []).filter(
-        (vesselControl) =>
-          !vesselControl.isLiquidated &&
-          vesselControl.vessel.vesselCode !== 'CCC',
+        (vesselControl) => !vesselControl.isLiquidated,
       );
 
       const unpaidRemindersInfo = vesselControls.reduce(
@@ -212,7 +222,12 @@ const sendUnpaidsNotificationEmails = () => {
 
           const newValues = unpaids.reduce((acc2, unpaid) => {
             const invoice = unpaid?.invoice;
-            const salesUserCode = invoice?.salesUser?.userCode || 'UNK';
+
+            if (!invoice.salesUser) {
+              return acc2;
+            }
+
+            const salesUserCode = invoice?.salesUser?.userCode;
 
             return {
               ...acc2,
@@ -295,14 +310,10 @@ const sendUnpaidsNotificationEmails = () => {
           .run(
             'CreateItem',
             ewsArgs({
-              ccRecipients:
-                process.env.REACT_APP_IS_PRODUCTION === 'true'
-                  ? ['jpaap@jacvandenberg.com', 'ashin@jacvandenberg.com']
-                  : [],
-              toRecipients:
-                process.env.REACT_APP_IS_PRODUCTION === 'true'
-                  ? [email]
-                  : ['hvandenberg@jacvandenberg.com'],
+              ccRecipients: false
+                ? ['jpaap@jacvandenberg.com', 'ashin@jacvandenberg.com']
+                : [],
+              toRecipients: false ? [email] : ['hvandenberg@jacvandenberg.com'],
               body: `Dear ${firstName},<br /><br />
               Please review the following list of unpaids. <a href="${baseUrl}">Complete unpaids here.</a><br /><br />
               ${getUnpaidsVesselContent(pastUnpaids, 'Past Due:', baseUrl)}

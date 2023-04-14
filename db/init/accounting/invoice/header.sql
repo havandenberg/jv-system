@@ -75,7 +75,10 @@ CREATE FUNCTION accounting.invoice_header_sales_user(IN i accounting.invoice_hea
     PARALLEL UNSAFE
     COST 100
 AS $BODY$
-  SELECT * FROM public.user u WHERE u.user_code = i.sales_user_code;
+  SELECT * FROM public.user u WHERE
+    CASE WHEN i.sales_user_code = 'CP' THEN u.user_code = 'BS'
+      ELSE u.user_code = i.sales_user_code
+      END;
 $BODY$;
 
 CREATE FUNCTION accounting.invoice_header_items(IN i accounting.invoice_header)

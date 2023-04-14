@@ -107,10 +107,11 @@ const fetchPictures = (dateTime) =>
               .request(CREATE_PSA_ARRIVAL_PICTURE, {
                 input: {
                   psaArrivalPicture: {
+                    ...rest,
                     id: pictureId,
                     pictureDescription: description,
                     pictureDate: dateTime,
-                    ...rest,
+                    exporterId: `${picture.exporterId}`,
                   },
                 },
               })
@@ -196,7 +197,11 @@ const fetchArrivalReports = (dateTime) =>
             gqlClient
               .request(CREATE_PSA_ARRIVAL_REPORT, {
                 input: {
-                  psaArrivalReport: { ...report, reportDate: dateTime },
+                  psaArrivalReport: {
+                    ...report,
+                    exporterId: `${report.exporterId}`,
+                    reportDate: dateTime,
+                  },
                 },
               })
               .then(() => {

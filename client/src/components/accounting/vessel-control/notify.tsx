@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { endOfISOWeek, isBefore, startOfISOWeek } from 'date-fns';
 import { groupBy, mapObjIndexed, sortBy } from 'ramda';
 
 import api from 'api';
 import { formatDate } from 'components/date-range-picker';
 import { BasicModal } from 'components/modal';
-import usePrevious from 'hooks/use-previous';
 import { Unpaid, VesselControl } from 'types';
-import { LineItemCheckbox } from 'ui/checkbox';
 import { TextArea } from 'ui/input';
 import l from 'ui/layout';
 import th from 'ui/theme';
@@ -49,38 +47,39 @@ const NotifyUnpaids = ({
 }: {
   vesselControls: VesselControl[];
 }) => {
-  const previousVesselControls = usePrevious(vesselControls);
-
   const [handleNotify, { loading }] = api.useSendUnpaidsNotification();
-
-  const sortedVesselControls = sortBy(
-    (vc) => `${vc.vessel?.vesselCode}-${vc.shipper?.shipperName}`,
-    vesselControls,
-  );
 
   const groupedUnpaids = vesselControls.reduce(
     (acc, vesselControl) => {
+      const filteredUnpaids = (
+        (vesselControl?.unpaids.nodes || []) as Unpaid[]
+      ).filter(
+        (up) =>
+          !!up.invoice?.salesUser &&
+          up.invoice?.paidCode !== 'P' &&
+          !up.isApproved,
+      );
+
+      if (filteredUnpaids.length === 0) {
+        return acc;
+      }
+
       const groupedUnpaidsBySalesUser = groupBy(
         (up) =>
           `${vesselControl?.vessel?.vesselCode}-${vesselControl?.shipper?.id}-${up.invoice?.salesUserCode}`,
-        (vesselControl?.unpaids.nodes || []) as Unpaid[],
+        filteredUnpaids,
       );
+
       return {
         ...acc,
         ...mapObjIndexed((unpaids) => {
-          const ups = unpaids.filter((up) => !up.isApproved);
-          const up = ups[0];
-
-          const { isAllApproved, isPartialApproved } = getUnpaidsInfo(ups);
-
-          return ups.length > 0
-            ? {
-                isAllApproved,
-                isPartialApproved,
-                isLiquidated: up.vesselControl?.isLiquidated,
-                unpaids: ups,
-              }
-            : undefined;
+          const { isAllApproved, isPartialApproved } = getUnpaidsInfo(unpaids);
+          return {
+            isAllApproved,
+            isPartialApproved,
+            isLiquidated: vesselControl.isLiquidated,
+            unpaids,
+          };
         }, groupedUnpaidsBySalesUser),
       };
     },
@@ -94,13 +93,18 @@ const NotifyUnpaids = ({
     },
   );
 
-  const [message, setMessage] = useState('');
-
-  const [selectedItems, setSelectedItems] = useState<string[]>(
-    Object.keys(groupedUnpaids).filter(
-      (itemKey) => !groupedUnpaids[itemKey]?.isAllApproved,
+  const filteredVesselControls = sortBy(
+    (vc) => `${vc.vessel?.vesselCode}-${vc.shipper?.id}`,
+    vesselControls.filter((vc) =>
+      Object.keys(groupedUnpaids).reduce(
+        (acc, key) =>
+          acc || key.includes(`${vc.vessel?.vesselCode}-${vc.shipper?.id}`),
+        false,
+      ),
     ),
   );
+
+  const [message, setMessage] = useState('');
 
   const startOfWeek = startOfISOWeek(new Date());
   const endOfWeek = endOfISOWeek(new Date());
@@ -128,13 +132,6 @@ const NotifyUnpaids = ({
     const unpaidRemindersInfo = Object.keys(groupedUnpaids).reduce(
       (acc, itemKey) => {
         const [vesselCode, shipperId, salesUserCode] = itemKey.split('-');
-        if (
-          !salesUserCode ||
-          salesUserCode === 'UNK' ||
-          !selectedItems.includes(`${vesselCode}-${shipperId}-${salesUserCode}`)
-        ) {
-          return acc;
-        }
 
         const { shipper, vessel } =
           vesselControls.find(
@@ -185,16 +182,14 @@ const NotifyUnpaids = ({
                   [shipperId]: {
                     shipperId: shipper?.id || '',
                     shipperName: shipper?.shipperName || '',
-                    unpaids: unpaids
-                      .filter((unpaid) => unpaid?.invoice?.paidCode !== 'P')
-                      .map((unpaid) => ({
-                        isUrgent: !!unpaid?.isUrgent,
-                        invoiceId: unpaid?.invoice?.invoiceId || '',
-                        flag: unpaid?.invoice?.flag || '',
-                        customerName:
-                          unpaid?.invoice?.billingCustomer?.customerName || '',
-                        truckLoadId: unpaid?.invoice?.truckLoadId || '',
-                      })),
+                    unpaids: unpaids.map((unpaid) => ({
+                      isUrgent: !!unpaid?.isUrgent,
+                      invoiceId: unpaid?.invoice?.invoiceId || '',
+                      flag: unpaid?.invoice?.flag || '',
+                      customerName:
+                        unpaid?.invoice?.billingCustomer?.customerName || '',
+                      truckLoadId: unpaid?.invoice?.truckLoadId || '',
+                    })),
                   },
                 },
               },
@@ -242,32 +237,14 @@ const NotifyUnpaids = ({
     });
   };
 
-  const toggleSelectItem = (key: string) => {
-    if (selectedItems.includes(key)) {
-      setSelectedItems(selectedItems.filter((k) => k !== key));
-    } else {
-      setSelectedItems([...selectedItems, key]);
-    }
-  };
-
-  useEffect(() => {
-    if (previousVesselControls !== vesselControls) {
-      setSelectedItems(
-        Object.keys(groupedUnpaids).filter(
-          (itemKey) => !groupedUnpaids[itemKey]?.isAllApproved,
-        ),
-      );
-    }
-  }, [vesselControls, previousVesselControls, groupedUnpaids]);
-
   return (
     <BasicModal
       title="Notify Unpaids"
       content={
         <>
           <ty.BodyText mb={th.spacing.lg}>
-            Send unpaids reminders for {vesselControls.length} boat-shippers.
-            Add comments below, or leave blank.
+            Send unpaids reminders for {filteredVesselControls.length}{' '}
+            boat-shippers. Add comments below, or leave blank.
           </ty.BodyText>
           <l.Flex justifyCenter mb={th.spacing.lg}>
             <TextArea
@@ -286,7 +263,7 @@ const NotifyUnpaids = ({
             height={400}
             overflowY="auto"
           >
-            {sortedVesselControls.map((vesselControl, idx) => (
+            {filteredVesselControls.map((vesselControl, idx) => (
               <l.Div
                 key={idx}
                 borderBottom={th.borders.disabled}
@@ -294,16 +271,6 @@ const NotifyUnpaids = ({
                 pb={th.spacing.md}
               >
                 <l.Flex alignCenter mb={12}>
-                  {!!vesselControl?.isLiquidated && (
-                    <l.Div mr={th.spacing.md}>
-                      <LineItemCheckbox
-                        checked
-                        disabled
-                        onChange={() => {}}
-                        status="success"
-                      />
-                    </l.Div>
-                  )}
                   <ty.BodyText>
                     <ty.Span bold>{vesselControl?.vessel?.vesselCode}</ty.Span>{' '}
                     - {vesselControl?.vessel?.vesselName}
@@ -328,14 +295,6 @@ const NotifyUnpaids = ({
                       unpaidsInfo && (
                         <l.Flex key={itemKey} alignCenter>
                           <UnpaidsBySalesAssoc {...unpaidsInfo} />
-                          <l.Div width={th.spacing.sm} />
-                          <LineItemCheckbox
-                            checked={selectedItems.includes(itemKey)}
-                            onChange={() => {
-                              toggleSelectItem(itemKey);
-                            }}
-                            status="warning"
-                          />
                           <ty.BodyText ml={th.spacing.sm}>
                             {salesUserCode}
                           </ty.BodyText>
@@ -355,7 +314,6 @@ const NotifyUnpaids = ({
       confirmProps={{ status: th.colors.status.success }}
       confirmLoading={loading}
       handleConfirm={handleNotifyUnpaids}
-      triggerDisabled={selectedItems.length === 0}
       triggerText="Notify"
       triggerProps={{ status: th.colors.status.warning }}
     />

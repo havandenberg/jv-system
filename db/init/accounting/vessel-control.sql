@@ -23,7 +23,7 @@ AS $BODY$
     LEFT JOIN product.pallet p ON p.vessel_code = v.vessel_code
     LEFT JOIN directory.shipper s ON s.id = p.shipper_id
     LEFT JOIN accounting.vessel_control vc ON vc.vessel_code = v.vessel_code AND vc.shipper_id = s.id
-      WHERE v.vessel_code NOT LIKE '9%' AND v.is_pre = FALSE
+      WHERE v.vessel_code NOT LIKE '9%' AND v.is_pre = FALSE AND v.vessel_code NOT IN ('CCC', 'EXC', 'E23')
       GROUP BY v.id, s.id, vc.id
       ORDER BY v.discharge_date + COALESCE(s.vessel_control_days_until_due, 45)::INTEGER DESC, v.vessel_code, s.shipper_name
 $BODY$;
