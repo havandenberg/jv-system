@@ -17,6 +17,7 @@ import { Mutation, Query, Vessel } from 'types';
 const VESSEL_DETAILS_QUERY = loader('./details.gql');
 const VESSEL_LIST_BY_DEPARTURE_QUERY = loader('./departure-list.gql');
 const VESSEL_LIST_BY_DISCHARGE_QUERY = loader('./discharge-list.gql');
+const VESSEL_SCHEDULE_QUERY = loader('./schedule.gql');
 const VESSEL_CREATE_QUERY = loader('./create.gql');
 const VESSEL_UPDATE_QUERY = loader('./update.gql');
 const VESSEL_DELETE_QUERY = loader('./delete.gql');
@@ -59,7 +60,7 @@ const useVariables = (options?: VesselsOptions) => {
           : equals(startDate, endDate)
           ? add(formattedStartDate, { weeks: -4 })
           : formattedStartDate
-        : new Date(),
+        : add(new Date(), { months: -5 }),
     ),
     endDate: formatDate(
       isInventory || isProjections
@@ -68,7 +69,7 @@ const useVariables = (options?: VesselsOptions) => {
         ? equals(startDate, endDate)
           ? endOfISOWeek(add(formattedStartDate, { weeks: 1 }))
           : new Date(endDate.replace(/-/g, '/'))
-        : formattedStartDate || new Date(),
+        : formattedStartDate || add(new Date(), { weeks: 5 }),
     ),
   };
 };
@@ -161,12 +162,15 @@ export const useCreateVessel = () => {
   });
 };
 
-export const useUpdateVessel = (id: string) =>
+export const useUpdateVessel = (vesselCode: string, isPre?: boolean) =>
   useMutation<Mutation>(VESSEL_UPDATE_QUERY, {
     refetchQueries: [
       {
         query: VESSEL_DETAILS_QUERY,
-        variables: { id },
+        variables: {
+          vesselCode,
+          isPre,
+        },
       },
     ],
   });
@@ -188,6 +192,22 @@ export const useLastPreVesselCode = () => {
   const { data, error, loading } = useQuery<Query>(LAST_PRE_VESSEL_CODE_QUERY);
   return {
     data: data ? data.vessels?.nodes[0]?.preVesselCode : undefined,
+    error,
+    loading,
+  };
+};
+
+export const useVesselSchedule = () => {
+  const { data, error, loading } = useQuery<Query>(VESSEL_SCHEDULE_QUERY, {
+    variables: {
+      orderBy: 'ARRIVAL_DATE_DESC',
+      startDate: formatDate(add(new Date(), { weeks: -4 })),
+      endDate: formatDate(add(new Date(), { months: 2 })),
+    },
+  });
+
+  return {
+    data: data ? data.vessels : undefined,
     error,
     loading,
   };

@@ -15,7 +15,7 @@ import { inventoryListLabels } from './data-utils';
 const gridTemplateColumns = 'repeat(2, 1.5fr) repeat(3, 1fr) 80px 30px';
 
 const PalletList = ({
-  baseUrl,
+  baseUrl = '/inventory',
   pallets,
   originalLoad,
 }: {

@@ -2,7 +2,7 @@ const { add, endOfISOWeek, isBefore, startOfISOWeek } = require('date-fns');
 const { mergeDeepLeft, sortBy } = require('ramda');
 
 const { gql, gqlClient } = require('../../api');
-const { ews, ewsArgs, onError } = require('../../utils/server');
+const { ews, ewsCreateAndSendArgs, onError } = require('../../utils/server');
 const {
   formatDate,
   isDateGreaterThanOrEqualTo,
@@ -309,7 +309,7 @@ const sendUnpaidsNotificationEmails = () => {
         await ews
           .run(
             'CreateItem',
-            ewsArgs({
+            ewsCreateAndSendArgs({
               ccRecipients:
                 process.env.REACT_APP_IS_PRODUCTION === 'true'
                   ? ['jpaap@jacvandenberg.com', 'ashin@jacvandenberg.com']

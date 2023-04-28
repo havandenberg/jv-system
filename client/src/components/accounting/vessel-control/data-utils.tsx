@@ -54,11 +54,13 @@ export const listLabels: (
   vesselOptions: string[],
   shipperOptions: string[],
   arrivalOptions: string[],
+  countryOptions: string[],
 ) => VesselControlLabelInfo[] = (
   handleChange,
   vesselOptions,
   shipperOptions,
   arrivalOptions,
+  countryOptions,
 ) => [
   {
     defaultSortOrder: SORT_ORDER.ASC,
@@ -277,6 +279,14 @@ export const listLabels: (
   {
     key: 'vessel',
     label: 'Country',
+    sortKey: 'country',
+    filterable: true,
+    filterPanelProps: {
+      customOptions: countryOptions || [],
+      portalId: 'vessel-control-portal',
+      portalTop: -4,
+      portalLeft: 938,
+    },
     getValue: ({ vessel }) => (
       <ty.BodyText>{vessel?.country?.countryName || '-'}</ty.BodyText>
     ),

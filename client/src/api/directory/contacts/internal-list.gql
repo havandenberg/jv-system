@@ -15,6 +15,8 @@ query INTERNAL_CONTACT_LIST(
       isPrimary
       homeExtension
       workExtension
+      location
+      roles
     }
     totalCount
   }

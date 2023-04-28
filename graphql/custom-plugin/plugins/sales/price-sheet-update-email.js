@@ -24,6 +24,7 @@ const extendSchemaPlugin = makeExtendSchemaPlugin({
                   'gvandenberg@jacvandenberg.com',
                   'hvandenberg@jacvandenberg.com',
                   'mfarris@jacvandenberg.com',
+                  'michael@jacvandenberg.com',
                   'npaap@jacvandenberg.com',
                   'sstedman@jacvandenberg.com',
                   'jstair@jacvandenberg.com',

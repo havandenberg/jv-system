@@ -1,4 +1,5 @@
-const { gql } = require('../../api');
+const { gql, gqlClient } = require('../../api');
+const { onError } = require('../../utils');
 
 const PALLET_LIST = gql`
   query PALLET_LIST {
@@ -54,6 +55,17 @@ const BULK_DELETE_PALLET = gql`
   }
 `;
 
+const BUILD_NEW_CONTAINERS = gql`
+  mutation BUILD_NEW_CONTAINERS {
+    generateNewContainers(input: { clientMutationId: "" }) {
+      clientMutationId
+      containers {
+        id
+      }
+    }
+  }
+`;
+
 const getUpdatedPallet = (pallet, db2Pallet, id) => ({
   ...pallet,
   id,
@@ -99,6 +111,18 @@ const palletOptions = {
   getUpdatedItem: getUpdatedPallet,
   useIndexAsId: true,
   chunkSize: 100,
+  onComplete: async () => {
+    console.log(`\nGenerating new containers at: ${new Date().toString()}\n`);
+
+    await gqlClient
+      .request(BUILD_NEW_CONTAINERS)
+      .then(({ generateNewContainers: { containers } }) => {
+        console.log(
+          `\n${containers.length} new containers generated at ${new Date()}\n`,
+        );
+      })
+      .catch(onError);
+  },
 };
 
 const PALLET_SECTION_LIST = gql`

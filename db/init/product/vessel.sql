@@ -10,7 +10,9 @@ CREATE TABLE product.vessel (
   discharge_date DATE,
   coast TEXT,
   is_pre BOOLEAN,
-  inv_flag BOOLEAN
+  is_available BOOLEAN,
+  inv_flag BOOLEAN,
+  schedule_notes TEXT
 );
 
 CREATE INDEX ON product.vessel (vessel_code, discharge_date, is_pre);
@@ -65,6 +67,16 @@ AS $BODY$
   SELECT * FROM product.pallet p WHERE p.vessel_code = v.vessel_code
 $BODY$;
 
+CREATE FUNCTION product.vessel_containers(IN v product.vessel)
+    RETURNS SETOF product.container
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT * FROM product.container c WHERE c.vessel_code = v.vessel_code
+$BODY$;
+
 CREATE FUNCTION product.vessel_search_text(IN v product.vessel)
     RETURNS TEXT
     LANGUAGE 'sql'
@@ -82,7 +94,8 @@ SELECT CONCAT (
     CAST(v.departure_date AS TEXT),
     CAST(v.arrival_date AS TEXT),
     CAST(v.discharge_date AS TEXT),
-    v.coast
+    v.coast,
+    v.schedule_notes
 	) FROM product.vessel vv FULL JOIN directory.country c ON (v.country_id = c.id) WHERE v.id = vv.id
 $BODY$;
 
@@ -108,7 +121,9 @@ AS $$
         discharge_date,
         coast,
         is_pre,
-        inv_flag
+        is_available,
+        inv_flag,
+        schedule_notes
       )
         VALUES (
           COALESCE(v.id, (select nextval('product.vessel_id_seq'))),
@@ -122,7 +137,9 @@ AS $$
 					v.discharge_date,
 					v.coast,
           v.is_pre,
-          v.inv_flag
+          v.is_available,
+          v.inv_flag,
+          v.schedule_notes
         )
       ON CONFLICT (id) DO UPDATE SET
 			  vessel_code=EXCLUDED.vessel_code,
@@ -135,9 +152,11 @@ AS $$
 			  discharge_date=EXCLUDED.discharge_date,
 			  coast=EXCLUDED.coast,
 			  is_pre=EXCLUDED.is_pre,
-			  inv_flag=EXCLUDED.inv_flag
-    	RETURNING * INTO vals;
-    	RETURN NEXT vals;
+        is_available=EXCLUDED.is_available,
+			  inv_flag=EXCLUDED.inv_flag,
+        schedule_notes=EXCLUDED.schedule_notes
+      RETURNING * INTO vals;
+      RETURN NEXT vals;
 	END LOOP;
 	RETURN;
   END;

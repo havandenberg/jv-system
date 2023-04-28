@@ -251,7 +251,7 @@ const LoadNumberManager = () => {
   const {
     apiData: { data, loading: userDataLoading },
     roles: { isSalesAssoc },
-  } = useActiveUser({ getUsedLoadNumbers: true });
+  } = useActiveUser();
   const userId = data?.id;
   const userCode = data?.userCode;
   const userName = data?.personContact?.firstName;
@@ -350,15 +350,16 @@ const LoadNumberManager = () => {
         loadNumbers: [updatedLoadNumber],
         coast,
       },
-    }).then(() =>
-      refetch({
-        userId,
-        getUsedLoadNumbers: [true, false],
-      }),
-    )
-    .then(() => {
-      setIsGenerating(false);
-    });;
+    })
+      .then(() =>
+        refetch({
+          userId,
+          getUsedLoadNumbers: [true, false],
+        }),
+      )
+      .then(() => {
+        setIsGenerating(false);
+      });
   };
 
   useEffect(() => {

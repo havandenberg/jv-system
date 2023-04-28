@@ -1,35 +1,80 @@
-const ewsArgs = ({ ccRecipients = [], toRecipients = [], body, subject }) => ({
-  attributes: {
-    MessageDisposition: 'SendAndSaveCopy',
-  },
-  SavedItemFolderId: {
-    DistinguishedFolderId: {
-      attributes: {
-        Id: 'sentitems',
+const ewsArgs =
+  (messageDisposition) =>
+  ({ ccRecipients = [], toRecipients = [], body, subject }) => ({
+    attributes: {
+      MessageDisposition: messageDisposition,
+    },
+    SavedItemFolderId: {
+      DistinguishedFolderId: {
+        attributes: {
+          Id: 'sentitems',
+        },
       },
     },
-  },
-  Items: {
-    Message: {
-      ItemClass: 'IPM.Note',
-      Subject: subject,
-      Body: {
-        attributes: {
-          BodyType: 'HTML',
+    Items: {
+      Message: {
+        Subject: subject,
+        Body: {
+          attributes: {
+            BodyType: 'HTML',
+          },
+          $value: body,
         },
-        $value: body,
+        CcRecipients: {
+          Mailbox: ccRecipients.map((recipient) => ({
+            EmailAddress: recipient,
+          })),
+        },
+        ToRecipients: {
+          Mailbox: toRecipients.map((recipient) => ({
+            EmailAddress: recipient,
+          })),
+        },
+        IsRead: 'false',
       },
-      CcRecipients: {
-        Mailbox: ccRecipients.map((recipient) => ({ EmailAddress: recipient })),
+    },
+  });
+
+const ewsCreateAndSendArgs = ewsArgs('SendAndSaveCopy');
+const ewsCreateArgs = ewsArgs('SaveOnly');
+
+const ewsCreateAttachmentArgs = ({
+  parentItemId,
+  parentItemChangeKey,
+  name,
+  content,
+}) => ({
+  ParentItemId: {
+    attributes: {
+      Id: parentItemId,
+      ChangeKey: parentItemChangeKey,
+    },
+  },
+  Attachments: {
+    FileAttachment: {
+      Name: name,
+      Content: content,
+    },
+  },
+});
+
+const ewsSendArgs = ({ itemId, changeKey }) => ({
+  attributes: {
+    SaveItemToFolder: 'true',
+  },
+  ItemIds: {
+    ItemId: {
+      attributes: {
+        Id: itemId,
+        ChangeKey: changeKey,
       },
-      ToRecipients: {
-        Mailbox: toRecipients.map((recipient) => ({ EmailAddress: recipient })),
-      },
-      IsRead: 'false',
     },
   },
 });
 
 module.exports = {
-  ewsArgs,
+  ewsCreateAndSendArgs,
+  ewsCreateArgs,
+  ewsCreateAttachmentArgs,
+  ewsSendArgs,
 };

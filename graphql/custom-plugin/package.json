@@ -7,6 +7,7 @@
     "graphile-utils": "^4.11.2",
     "ibm_db": "^2.8.1",
     "node-fetch": "^2.6.1",
-    "postgraphile": "^4.11.0"
+    "postgraphile": "^4.11.0",
+    "xlsx": "^0.16.9"
   }
 }

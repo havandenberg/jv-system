@@ -21,20 +21,6 @@ import { vendorBreadcrumbs } from '../vendors/details';
 import { baseLabels } from './data-utils';
 import useContactCompanyInfo from './use-contact-company-info';
 
-const initialState = {
-  firstName: '',
-  lastName: '',
-  email: '',
-  secondaryEmail: '',
-  homePhone: '',
-  cellPhone: '',
-  workPhone: '',
-  workExtension: '',
-  roles: '',
-  isPrimary: true,
-  isInternal: false,
-};
-
 const CreatePersonContact = () => {
   const history = useHistory();
   const [{ customerId, shipperId, warehouseId, vendorId }] = useQuerySet({
@@ -43,6 +29,23 @@ const CreatePersonContact = () => {
     warehouseId: StringParam,
     vendorId: StringParam,
   });
+  const isInternal = !customerId && !shipperId && !warehouseId && !vendorId;
+
+  const initialState = {
+    firstName: '',
+    lastName: '',
+    email: '',
+    secondaryEmail: '',
+    homePhone: '',
+    cellPhone: '',
+    workPhone: '',
+    workExtension: '',
+    location: '',
+    roles: '',
+    isInternal,
+    isPrimary: !isInternal,
+  };
+
   const { data: customer } = api.useCustomer(customerId);
   const { data: shipper } = api.useShipper(shipperId);
   const { data: warehouse } = api.useWarehouse(warehouseId);
@@ -115,7 +118,7 @@ const CreatePersonContact = () => {
 
   const handleSave = () => {
     setSaveAttempt(true);
-    if (validateItem(changes, baseLabels(true, false))) {
+    if (validateItem(changes, baseLabels(true, isInternal))) {
       setLoading(true);
       handleCreate({
         variables: {
@@ -178,7 +181,7 @@ const CreatePersonContact = () => {
         data={changes}
         editing={true}
         handleChange={handleChange}
-        labels={baseLabels(true, false)}
+        labels={baseLabels(true, isInternal)}
         showValidation={saveAttempt}
       />
       <l.Div mt={th.spacing.lg}>{info}</l.Div>

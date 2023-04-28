@@ -209,6 +209,7 @@ const Cell = styled(Div)(
     hoverable,
     isHighlight,
     isHalfHighlight,
+    noCellBackground,
     selected,
   }: {
     clickable?: boolean;
@@ -217,14 +218,19 @@ const Cell = styled(Div)(
     hoverable?: boolean;
     isHighlight?: boolean;
     isHalfHighlight?: boolean;
+    noCellBackground?: boolean;
     selected?: boolean;
   }) => ({
-    backgroundColor: isHighlight
+    backgroundColor: noCellBackground
+      ? undefined
+      : isHighlight
       ? hexColorWithTransparency(highlightColor, 0.2)
       : selected
       ? th.colors.brand.containerBackgroundAccent
       : th.colors.brand.containerBackground,
-    background: isHalfHighlight
+    background: noCellBackground
+      ? undefined
+      : isHalfHighlight
       ? `repeating-linear-gradient( -45deg, ${hexColorWithTransparency(
           highlightColor,
           0.2,
@@ -238,21 +244,28 @@ const Cell = styled(Div)(
             : th.colors.brand.containerBackground
         } 15px)`
       : undefined,
-    border: error
+    border: noCellBackground
+      ? undefined
+      : error
       ? th.borders.error
       : selected
       ? th.borders.secondary
       : th.borders.disabled,
-    borderRadius: th.borderRadii.default,
-    paddingLeft: th.spacing.sm,
+    borderRadius: noCellBackground ? undefined : th.borderRadii.default,
+    paddingLeft: noCellBackground ? undefined : th.spacing.sm,
     transition: th.transitions.default,
     ':hover': {
-      backgroundColor: isHighlight
-        ? hexColorWithTransparency(highlightColor, 0.3)
-        : clickable || hoverable
-        ? th.colors.brand.containerBackgroundAccent
-        : undefined,
-      border: error
+      backgroundColor:
+        noCellBackground && !hoverable
+          ? undefined
+          : isHighlight
+          ? hexColorWithTransparency(highlightColor, 0.3)
+          : clickable || hoverable
+          ? th.colors.brand.containerBackgroundAccent
+          : undefined,
+      border: noCellBackground
+        ? undefined
+        : error
         ? th.borders.error
         : clickable || hoverable
         ? th.borders.secondary

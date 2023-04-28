@@ -176,7 +176,7 @@ const ShipperProjectionGrid = ({
     isProjections: true,
     orderByOverride: 'DISCHARGE_DATE_ASC',
   });
-  const vessels = ((vesselsData ? vesselsData.nodes : []) as Vessel[]).filter(
+  const vessels = ((vesselsData ? vesselsData : []) as Vessel[]).filter(
     (vessel) =>
       !selectedShipper ||
       vessel?.shipperProjectionVessels?.nodes?.some(

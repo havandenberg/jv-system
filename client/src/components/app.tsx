@@ -16,6 +16,7 @@ import Directory from 'components/directory';
 import { DirectorySelectionContextProvider } from 'components/directory/selection-context';
 import Footer from 'components/footer';
 import Inventory from 'components/inventory';
+import { ContainersSelectionContextProvider } from 'components/inventory/containers/selection-context';
 import { InventoryContextProvider } from 'components/inventory/inventory/context';
 import Nav from 'components/nav';
 import Reports from 'components/reports';
@@ -43,29 +44,31 @@ const App = () => (
       <QueryParamProvider ReactRouterRoute={Route}>
         <ThemeProvider theme={th}>
           <UserContextProvider>
-            <DirectorySelectionContextProvider>
-              <InventoryContextProvider>
-                <Main id="main">
-                  <Nav />
-                  <Switch>
-                    <Route exact path="/" component={Dashboard} />
-                    <Route path="/inventory" component={Inventory} />
-                    <Route path="/sales" component={Sales} />
-                    <Route path="/reports" component={Reports} />
-                    <Route
-                      path="/directory/:routeTabId?"
-                      component={Directory}
-                    />
-                    <Route path="/accounting" component={Accounting} />
-                    <Route path="/user" component={UserDashboard} />
-                    <Redirect to="/" />
-                  </Switch>
-                  <Footer />
-                  <ScrollToTop />
-                </Main>
-                <Global />
-              </InventoryContextProvider>
-            </DirectorySelectionContextProvider>
+            <ContainersSelectionContextProvider>
+              <DirectorySelectionContextProvider>
+                <InventoryContextProvider>
+                  <Main id="main">
+                    <Nav />
+                    <Switch>
+                      <Route exact path="/" component={Dashboard} />
+                      <Route path="/inventory" component={Inventory} />
+                      <Route path="/sales" component={Sales} />
+                      <Route path="/reports" component={Reports} />
+                      <Route
+                        path="/directory/:routeTabId?"
+                        component={Directory}
+                      />
+                      <Route path="/accounting" component={Accounting} />
+                      <Route path="/user" component={UserDashboard} />
+                      <Redirect to="/" />
+                    </Switch>
+                    <Footer />
+                    <ScrollToTop />
+                  </Main>
+                  <Global />
+                </InventoryContextProvider>
+              </DirectorySelectionContextProvider>
+            </ContainersSelectionContextProvider>
           </UserContextProvider>
         </ThemeProvider>
       </QueryParamProvider>

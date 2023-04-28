@@ -12,7 +12,6 @@ import {
   useVesselControlQueryParams,
 } from 'hooks/use-query-params';
 import { Mutation, Query, VesselControl } from 'types';
-import { isNullableType } from 'graphql';
 
 export const VESSEL_CONTROL_DETAILS_QUERY = loader('./details.gql');
 export const VESSEL_CONTROL_LIST_QUERY = loader('./list.gql');
@@ -61,6 +60,7 @@ export const useVesselControls = () => {
       vessel,
       shipper,
       arrivalLocation,
+      country,
       liquidatedStatus,
       inStatus,
       outStatus,
@@ -84,6 +84,7 @@ export const useVesselControls = () => {
   const vesselOptions: string[] = [];
   const shipperOptions: string[] = [];
   const arrivalOptions: string[] = [];
+  const countryOptions: string[] = [];
 
   const filteredData = vesselControls.filter((vc) => {
     const searchText = vesselControlSearchText(vc);
@@ -135,11 +136,18 @@ export const useVesselControls = () => {
       arrivalOptions.push(arrivalOption);
     }
 
+    const countryOption = vc.vessel?.country?.countryName || '';
+    const isCountryValid = !country || country.includes(countryOption);
+    if (!countryOptions.includes(countryOption)) {
+      countryOptions.push(countryOption);
+    }
+
     const isValid =
       isVesselCodeValid &&
       isSearchValid &&
       isShipperValid &&
       isArrivalLocationValid &&
+      isCountryValid &&
       isLiquidationStatusValid &&
       isInStatusValid &&
       isOutStatusValid;
@@ -152,6 +160,7 @@ export const useVesselControls = () => {
     vesselOptions: vesselOptions.sort(),
     shipperOptions: shipperOptions.sort(),
     arrivalOptions: arrivalOptions.sort(),
+    countryOptions: countryOptions.sort(),
     error,
     loading,
   };

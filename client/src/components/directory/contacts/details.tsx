@@ -110,6 +110,7 @@ const Details = () => {
     'workPhone',
     'workExtension',
     'roles',
+    'location',
     'isPrimary',
   ];
   const updateVariables = { id };

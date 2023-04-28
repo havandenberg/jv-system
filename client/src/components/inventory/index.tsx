@@ -31,6 +31,11 @@ import CreateCommonVariety from 'components/inventory/products/variety/create';
 import Vessels from 'components/inventory/vessels';
 import CreateVessel from 'components/inventory/vessels/create';
 import VesselDetails from 'components/inventory/vessels/details';
+import VesselSchedule from 'components/inventory/vessels/schedule';
+import Containers from 'components/inventory/containers';
+import ContainerDetails from 'components/inventory/containers/details';
+import ContainerSchedule from 'components/inventory/containers/schedule';
+import ContainerBulkEdit from './containers/bulk-edit';
 
 const InventoryTab = () => (
   <Switch>
@@ -90,8 +95,30 @@ const InventoryTab = () => (
       component={InventoryItemDetails}
     />
     <Route exact path="/inventory/vessels/create" component={CreateVessel} />
+    <Route
+      exact
+      path="/inventory/vessels/schedule"
+      component={VesselSchedule}
+    />
     <Route exact path="/inventory/vessels/:id" component={VesselDetails} />
     <Route exact path="/inventory/vessels" component={Vessels} />
+
+    <Route
+      exact
+      path="/inventory/containers/schedule"
+      component={ContainerSchedule}
+    />
+    <Route
+      exact
+      path="/inventory/containers/bulk-edit"
+      component={ContainerBulkEdit}
+    />
+    <Route
+      exact
+      path="/inventory/containers/:containerId"
+      component={ContainerDetails}
+    />
+    <Route exact path="/inventory/containers" component={Containers} />
 
     <Route exact path="/inventory/products" component={Products} />
     <Route

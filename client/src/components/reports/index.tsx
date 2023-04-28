@@ -1,10 +1,15 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 
 import Inspections from 'components/reports/inspections';
+import SalesReports from 'components/reports/sales';
 
 const Reports = () => (
-  <Route path="/reports/inspections/:routeTabId?" component={Inspections} />
+  <Switch>
+    <Route path="/reports/inspections/:routeTabId?" component={Inspections} />
+    <Route path="/reports/sales" component={SalesReports} />
+    <Redirect to="/reports/inspections" />
+  </Switch>
 );
 
 export default Reports;

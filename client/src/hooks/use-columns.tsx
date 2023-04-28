@@ -14,8 +14,8 @@ const useColumns = <T extends {}>(
   defaultSortBy: keyof T,
   defaultSortOrder: SortOrder = SORT_ORDER.DESC,
   labels: LabelInfo<T>[],
-  schemaName: string,
-  tableName: string,
+  schemaName?: string,
+  tableName?: string,
 ) => {
   const [{ sortBy, sortOrder }, setSortParams] = useSortQueryParams();
 

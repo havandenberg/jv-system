@@ -1,0 +1,60 @@
+query SALES_REPORT_INVENTORY_ITEMS($vesselCode: String!, $shipperId: String!) {
+  inventoryItems(
+    condition: { vesselCode: $vesselCode, shipperId: $shipperId }
+  ) {
+    nodes {
+      palletsOnHand
+      palletsAvailable
+      palletsReceived
+      plu
+      product {
+        id
+        species {
+          commonSpecies {
+            uiColor
+          }
+          speciesDescription
+        }
+        variety {
+          commonVariety {
+            uiColor
+          }
+          varietyDescription
+        }
+      }
+      sizes {
+        nodes {
+          jvDescription
+          combineDescription
+        }
+      }
+      packType {
+        packDescription
+        label {
+          labelName
+        }
+      }
+      pallets {
+        nodes {
+          id
+          palletId
+          currentBoxQuantity
+          receivedBoxQuantity
+          returnedBoxQuantity
+          invoiceItems {
+            nodes {
+              conditionCode
+              creditAmount
+              creditedQty
+              deliveryCharge
+              palletId
+              pickedQty
+              unitSellPrice
+              volumeDiscountAmount
+            }
+          }
+        }
+      }
+    }
+  }
+}

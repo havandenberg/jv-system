@@ -18,7 +18,9 @@ const VESSEL_LIST = gql`
         dischargeDate
         coast
         isPre
+        isAvailable
         invFlag
+        scheduleNotes
       }
     }
   }
@@ -42,6 +44,7 @@ const BULK_DELETE_VESSEL = gql`
 
 const getUpdatedVessel = (vessel, db2Vessel, id) => ({
   ...vessel,
+  isAvailable: vessel?.isAvailable || false,
   id,
   vesselCode: db2Vessel['BOAT#Z'],
   preVesselCode: db2Vessel.isPre

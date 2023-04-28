@@ -9,6 +9,7 @@ query INTERNAL_CONTACT_DETAILS($id: BigInt!) {
     imageSrc
     isPrimary
     lastName
+    location
     roles
     secondaryEmail
     workExtension

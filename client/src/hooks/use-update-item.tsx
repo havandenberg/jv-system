@@ -51,6 +51,7 @@ const useUpdateItem = <T,>({
   const handleCancel = (onCancel?: () => void) => {
     setChanges(data as T);
     setEditing(false);
+    setSaveAttempt(false);
     onCancel && onCancel();
   };
 

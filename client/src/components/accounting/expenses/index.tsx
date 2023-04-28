@@ -514,7 +514,7 @@ const Expenses = () => {
                 )}
               </l.Flex>
             </l.Div>
-            <l.Div width="35%">
+            <l.Div ml={th.spacing.md} width="35%">
               <ty.SmallText mb={th.spacing.xs} secondary>
                 Shipper
               </ty.SmallText>

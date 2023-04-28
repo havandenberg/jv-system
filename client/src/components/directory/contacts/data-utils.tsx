@@ -8,7 +8,9 @@ import ty from 'ui/typography';
 
 export type PersonContactLabelInfo = LabelInfo<PersonContact>;
 
-export const internalListLabels: PersonContactLabelInfo[] = [
+export const internalListLabels: (
+  locationOptions: string[],
+) => PersonContactLabelInfo[] = (locationOptions) => [
   {
     defaultSortOrder: SORT_ORDER.ASC,
     key: 'firstName',
@@ -28,11 +30,27 @@ export const internalListLabels: PersonContactLabelInfo[] = [
   },
   {
     key: 'homeExtension',
-    label: 'Home Extension',
+    label: 'Home Ext.',
   },
   {
     key: 'workExtension',
-    label: 'Work Extension',
+    label: 'Work Ext.',
+  },
+  {
+    defaultSortOrder: SORT_ORDER.ASC,
+    key: 'location',
+    label: 'Location',
+    sortable: true,
+    filterable: true,
+    filterPanelProps: {
+      customOptions: locationOptions,
+    },
+  },
+  {
+    defaultSortOrder: SORT_ORDER.ASC,
+    key: 'roles',
+    label: 'Role(s)',
+    sortable: true,
   },
 ];
 
@@ -214,8 +232,8 @@ export const baseLabels: (
       transformKey: 'email',
     },
     {
-      key: 'roles',
-      label: 'Role(s)',
+      key: 'location',
+      label: 'Location',
     },
     {
       key: 'homePhone',
@@ -239,6 +257,10 @@ export const baseLabels: (
     {
       key: 'workExtension',
       label: 'Work Extension',
+    },
+    {
+      key: 'roles',
+      label: 'Role(s)',
     },
     ...internalLabels,
   ];

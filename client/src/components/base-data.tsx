@@ -1,6 +1,7 @@
 import React from 'react';
 import { OperationVariables, useQuery } from '@apollo/client';
 import styled from '@emotion/styled';
+import { loader } from 'graphql.macro';
 import { pathOr } from 'ramda';
 
 import { getSearchArray } from 'api/utils';
@@ -13,6 +14,8 @@ import { formatPhoneNumber } from 'utils/format';
 
 import EditableCell, { EditableCellProps } from './editable-cell';
 import useItemSelector from './item-selector';
+
+const defaultQuery = loader('../api/base-data.gql');
 
 export const baseDataTransforms = {
   link: (val: any) =>
@@ -30,18 +33,22 @@ export const baseDataTransforms = {
 };
 
 export interface BaseDataItemSelectorProps {
+  customOptions?: any[];
+  customSearchKeys?: string[];
   errorLabel: string;
   getItemContent?: (item: any) => React.ReactNode;
   height?: number;
   nameKey?: string;
   offset?: string | number;
-  query: any;
-  queryName: string;
+  query?: any;
+  queryName?: string;
   queryVariables?: OperationVariables;
   width?: number;
 }
 
-const BaseDataItemSelector = <T extends {}>({
+export const BaseDataItemSelector = <T extends {}>({
+  customOptions,
+  customSearchKeys,
   editableCellProps,
   editing,
   errorLabel,
@@ -63,13 +70,28 @@ const BaseDataItemSelector = <T extends {}>({
   labelKey: keyof T;
   value: string;
 }) => {
-  const { data: itemSelectorData, loading } = useQuery<Query>(query, {
-    variables: {
-      search: getSearchArray(value) || '',
-      ...queryVariables,
+  const { data: itemSelectorData, loading } = useQuery<Query>(
+    query || defaultQuery,
+    {
+      variables: {
+        search: getSearchArray(value) || '',
+        ...queryVariables,
+      },
+      skip: !query,
     },
-  });
-  const allItems = () => pathOr([], [queryName, 'nodes'], itemSelectorData);
+  );
+
+  const allItems = () =>
+    customOptions?.filter(
+      (option) =>
+        !customSearchKeys ||
+        Object.keys(option)
+          .filter((key) => customSearchKeys.includes(key))
+          .map((optKey) => option[optKey] || '')
+          .join(',')
+          .toLowerCase()
+          .includes(value.toLowerCase()),
+    ) || (queryName ? pathOr([], [queryName, 'nodes'], itemSelectorData) : []);
 
   const { ItemSelector } = useItemSelector({
     allItems,
@@ -86,6 +108,7 @@ const BaseDataItemSelector = <T extends {}>({
     selectItem: (item: any) => {
       handleChange && handleChange(labelKey, item[nameKey || 'id']);
     },
+    selectedItem: value,
     width,
   });
 
@@ -108,6 +131,7 @@ const BaseDataItem = <T extends {}>({
   handleChange,
   label: {
     dropdownOptions,
+    editablCellProps,
     key,
     getValue,
     label,
@@ -116,6 +140,7 @@ const BaseDataItem = <T extends {}>({
     isDate,
     itemSelectorQueryProps,
     readOnly,
+    title,
     transformKey,
     transformValue,
     validate,
@@ -127,11 +152,15 @@ const BaseDataItem = <T extends {}>({
   const content = changes
     ? {
         dirty: changes[key] !== data[key],
-        value: `${
-          changes[key] === undefined ? data[key] || '' : changes[key] || ''
-        }`,
+        value: isBoolean
+          ? changes[key] === undefined
+            ? Boolean(data[key])
+            : Boolean(changes[key])
+          : `${
+              changes[key] === undefined ? data[key] || '' : changes[key] || ''
+            }`,
       }
-    : { dirty: false, value: `${data[key]}` };
+    : { dirty: false, value: isBoolean ? Boolean(data[key]) : `${data[key]}` };
   const isValid = !validate || validate(changes || data);
   const value =
     (transformKey
@@ -177,6 +206,8 @@ const BaseDataItem = <T extends {}>({
       handleChange &&
         handleChange(key, isBoolean ? e.target.checked : e.target.value);
     },
+    title: data && title ? title(data) : undefined,
+    ...editablCellProps,
   };
 
   return (
@@ -185,6 +216,7 @@ const BaseDataItem = <T extends {}>({
       pb={th.spacing.md}
       pr={th.spacing.sm}
       pt={th.spacing.sm}
+      title={data && title ? title(data) : undefined}
     >
       <ty.CaptionText mb={th.spacing.sm} secondary>
         {label}
@@ -196,7 +228,7 @@ const BaseDataItem = <T extends {}>({
           editing={isEditing}
           handleChange={handleChange}
           labelKey={key}
-          value={content.value}
+          value={`${content.value}`}
         />
       ) : (
         <EditableCell {...editableCellProps} />

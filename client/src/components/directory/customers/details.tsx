@@ -98,14 +98,15 @@ const Details = () => {
           ? [
               <l.AreaLink
                 key="programs"
-                mx={th.spacing.lg}
+                ml={th.spacing.lg}
+                mr={th.spacing.md}
                 to={`/sales/programs?customerId=${data.id}&programsView=customers`}
               >
                 <b.Primary>Programs</b.Primary>
               </l.AreaLink>,
               <l.AreaLink
                 key="orders"
-                mr={th.spacing.lg}
+                mr={th.spacing.md}
                 to={`/inventory/orders?billingCustomerId=${encodeURIComponent(
                   billingCustomerParam,
                 )}`}

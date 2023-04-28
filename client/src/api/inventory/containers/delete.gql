@@ -1,0 +1,5 @@
+mutation CONTAINER_DELETE($id: BigInt!) {
+  deleteContainer(input: { id: $id }) {
+    clientMutationId
+  }
+}

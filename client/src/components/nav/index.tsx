@@ -26,6 +26,9 @@ export const navItems: NavItemType[] = [
       { text: 'Inventory', to: 'index' },
       { text: 'Orders', to: 'orders' },
       { text: 'Vessels', to: 'vessels' },
+      { text: 'Vessel Schedule', to: 'vessels/schedule' },
+      { text: 'Containers', to: 'containers' },
+      { text: 'Container Schedule', to: 'containers/schedule' },
       { text: 'Truck Loads', to: 'truck-loads' },
       { text: 'Repacks', to: 'repacks' },
       { text: 'Products', to: 'products' },
@@ -34,6 +37,7 @@ export const navItems: NavItemType[] = [
       { text: 'Inventory', to: 'index' },
       { text: 'Orders', to: 'orders' },
       { text: 'Vessels', to: 'vessels' },
+      { text: 'Containers', to: 'containers' },
       { text: 'Truck Loads', to: 'truck-loads' },
       { text: 'Repacks', to: 'repacks' },
       { text: 'Products', to: 'products' },
@@ -80,13 +84,15 @@ export const navItems: NavItemType[] = [
   {
     baseUrl: '/reports',
     text: 'Reports',
-    to: '/reports/inspections',
+    to: '/reports',
     dashboardItems: [
       { text: 'Inspections', to: 'inspections' },
+      { text: 'Sales', to: 'sales' },
       // { text: 'Movement', to: 'movement' },
     ],
     secondaryItems: [
       { text: 'Inspections', to: 'inspections' },
+      { text: 'Sales', to: 'sales' },
       // { text: 'Movement', to: 'movement' },
     ],
   },
@@ -132,7 +138,9 @@ const Logo = styled(l.AreaLink)({
 
 const Nav = () => {
   const { pathname } = useLocation();
-  const activeItem = navItems.find((it) => pathname.includes(it.to));
+  const activeItem = navItems.find((it) => {
+    return `/${pathname.split('/')[1]}`?.includes(it.to);
+  });
   const activeBaseUrl = activeItem ? activeItem.baseUrl || activeItem.to : '';
   const activeSecondaryItems = activeItem && activeItem.secondaryItems;
 
@@ -181,7 +189,7 @@ const Nav = () => {
                 .filter((item) => !IS_PRODUCTION || !item.isDev)
                 .map((item, idx) => (
                   <NavItem
-                    active={pathname.includes(item.to)}
+                    active={`/${pathname.split('/')[1]}`?.includes(item.to)}
                     hover={hoverItem && hoverItem.to === item.to}
                     key={idx}
                     {...item}

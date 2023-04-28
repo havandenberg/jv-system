@@ -1,5 +1,6 @@
 import React from 'react';
-import { isEmpty } from 'ramda';
+import { isEmpty, pluck, uniqBy } from 'ramda';
+import { ArrayParam, useQueryParam } from 'use-query-params';
 
 import api from 'api';
 import ListItem from 'components/list-item';
@@ -10,20 +11,32 @@ import useColumns, { SORT_ORDER } from 'hooks/use-columns';
 import useSearch from 'hooks/use-search';
 import { PersonContact } from 'types';
 import { LineItemCheckbox } from 'ui/checkbox';
+import b from 'ui/button';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 
 import { breadcrumbs, SubDirectoryProps } from '..';
 import { useDirectorySelectionContext } from '../selection-context';
-import { internalListLabels as listLabels } from './data-utils';
+import { internalListLabels as getListLabels } from './data-utils';
 
-const gridTemplateColumns = '30px 1.5fr 2fr 3.5fr 2fr 2fr 30px';
+const gridTemplateColumns = '30px 1.5fr 1.5fr 3.5fr 1fr 1fr 1.3fr 1fr 30px';
 
 const ContactDirectory = ({ actions }: SubDirectoryProps) => {
   const { Search } = useSearch();
+  const [loc] = useQueryParam('location', ArrayParam);
+
   const { data, loading, error } = api.useInternalPersonContacts();
-  const items = data ? data.nodes : [];
+  const items = (data ? data.nodes : []) as PersonContact[];
+  const filteredItems = items.filter(
+    ({ location }) => !loc || loc.includes(location || 'UNK'),
+  );
+  const locationOptions = uniqBy(
+    (location) => location || 'zzzzzz',
+    pluck('location', items) as string[],
+  ).sort();
+
+  const listLabels = getListLabels(locationOptions);
 
   const columnLabels = useColumns<PersonContact>(
     'firstName',
@@ -46,7 +59,12 @@ const ContactDirectory = ({ actions }: SubDirectoryProps) => {
 
   return (
     <Page
-      actions={actions}
+      actions={[
+        <l.AreaLink key="create" mr={th.spacing.lg} to="/directory/create">
+          <b.Success>Create</b.Success>
+        </l.AreaLink>,
+        ...actions,
+      ]}
       breadcrumbs={breadcrumbs('internal')}
       extraPaddingTop={117}
       headerChildren={
@@ -75,8 +93,8 @@ const ContactDirectory = ({ actions }: SubDirectoryProps) => {
               pr={data ? (data.totalCount > 12 ? th.spacing.md : 0) : 0}
             >
               <LineItemCheckbox
-                checked={isAllInternalContactsSelected(items)}
-                onChange={() => toggleAllInternalContacts(items)}
+                checked={isAllInternalContactsSelected(filteredItems)}
+                onChange={() => toggleAllInternalContacts(filteredItems)}
               />
               {columnLabels}
             </l.Grid>
@@ -85,12 +103,12 @@ const ContactDirectory = ({ actions }: SubDirectoryProps) => {
       }
       title="JV Internal"
     >
-      {!isEmpty(items) ? (
+      {!isEmpty(filteredItems) ? (
         <VirtualizedList
           height={582}
-          rowCount={data ? items.length : 0}
+          rowCount={data ? filteredItems.length : 0}
           rowRenderer={({ key, index, style }) => {
-            const item = items[index];
+            const item = filteredItems[index];
             return (
               item && (
                 <div key={key} style={style}>
@@ -111,7 +129,7 @@ const ContactDirectory = ({ actions }: SubDirectoryProps) => {
         />
       ) : (
         <DataMessage
-          data={items}
+          data={filteredItems}
           error={error}
           loading={loading}
           emptyProps={{

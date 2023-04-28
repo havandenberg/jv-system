@@ -5,6 +5,9 @@ query PALLET_DETAILS($palletId: String!) {
       backOrderId
       billOfLading
       containerId
+      container {
+        containerId
+      }
       currentBoxQuantity
       dateTransferredToStorage
       deck

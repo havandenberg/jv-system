@@ -13,6 +13,32 @@ query VESSEL_DETAILS($vesselCode: String!, $isPre: Boolean!) {
       dischargeDate
       id
       invFlag
+      scheduleNotes
+      isAvailable
+      containers {
+        nodes {
+          id
+          containerId
+          containerDescription
+          releaseDate
+          releaseConfirmed
+          dischargeDate
+          dischargeConfirmed
+          isAvailable
+          warehouse {
+            id
+            warehouseName
+          }
+          vendor {
+            id
+            vendorName
+          }
+          vessel {
+            vesselCode
+            vesselName
+          }
+        }
+      }
       inventoryItems {
         nodes {
           coast

@@ -25,6 +25,7 @@ const db2UpdateItems = async (
     getId,
     chunkSize,
     useIndexAsId,
+    onComplete,
   },
 ) => {
   const uppercasePluralName =
@@ -167,6 +168,10 @@ const db2UpdateItems = async (
         updatedItems.length
       }, Deleted: ${idsToDelete.length}\n`,
     );
+  }
+
+  if (onComplete) {
+    await onComplete(db);
   }
 };
 

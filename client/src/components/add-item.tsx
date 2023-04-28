@@ -25,7 +25,11 @@ interface Props {
 
 const AddItem = ({ disabled, onClick, text }: Props) => (
   <Wrapper disabled={disabled} onClick={disabled ? undefined : onClick}>
-    <Add height={th.sizes.xs} width={th.sizes.xs} />
+    <Add
+      height={th.sizes.xs}
+      fill={th.colors.status.success}
+      width={th.sizes.xs}
+    />
     <ty.CaptionText ml={th.spacing.sm} secondary>
       {text}
     </ty.CaptionText>

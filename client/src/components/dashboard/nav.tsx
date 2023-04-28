@@ -14,14 +14,13 @@ const ItemWrapper = styled(l.Flex)({
   border: th.borders.disabled,
   boxShadow: th.shadows.boxLight,
   flexDirection: 'column',
-  height: 220,
+  height: 400,
   transition: th.transitions.default,
   '.title': {
     colors: th.colors.brand.secondary,
     transition: th.transitions.default,
   },
   ':hover': {
-    background: th.colors.brand.containerBackgroundAccent,
     border: th.borders.disabled,
     '.title': {
       color: th.colors.brand.primaryAccent,
@@ -45,7 +44,7 @@ const SecondaryItemWrapper = styled(l.Flex)({
 const DashboardNav = () => (
   <l.Grid
     gridGap={th.spacing.lg}
-    gridTemplateColumns="repeat(3, 1fr)"
+    gridTemplateColumns="repeat(5, 1fr)"
     justifyBetween
     width={th.sizes.fill}
   >
@@ -56,47 +55,37 @@ const DashboardNav = () => (
             <ty.LargeText
               className="title"
               color={th.colors.brand.primary}
-              mt={th.sizes.md}
+              my={th.sizes.md}
             >
               {it.text}
             </ty.LargeText>
+            {it.dashboardItems && (
+              <div>
+                {it.dashboardItems
+                  .filter((item) => !IS_PRODUCTION || !item.isDev)
+                  .map((i, idx) => {
+                    const pathname = `${it.baseUrl || it.to}/${i.to}`;
+                    return (
+                      !i.disabled && (
+                        <l.Div mb={th.spacing.sm}>
+                          <l.AreaLink key={idx} to={pathname}>
+                            <SecondaryItemWrapper>
+                              <ty.BodyText
+                                center
+                                color={th.colors.brand.secondary}
+                              >
+                                {i.text}
+                              </ty.BodyText>
+                            </SecondaryItemWrapper>
+                          </l.AreaLink>
+                        </l.Div>
+                      )
+                    );
+                  })}
+              </div>
+            )}
           </ItemWrapper>
         </l.AreaLink>
-        {it.dashboardItems && (
-          <l.Flex
-            alignCenter
-            bottom={40}
-            flexWrap="wrap"
-            left="50%"
-            justifyCenter
-            position="absolute"
-            transform="translateX(-50%)"
-            height={76}
-            width={300}
-          >
-            {it.dashboardItems
-              .filter((item) => !IS_PRODUCTION || !item.isDev)
-              .map((i, idx) => {
-                const pathname = `${it.baseUrl || it.to}/${i.to}`;
-                return (
-                  !i.disabled && (
-                    <l.AreaLink
-                      key={idx}
-                      mb={th.spacing.md}
-                      to={pathname}
-                      width={100}
-                    >
-                      <SecondaryItemWrapper>
-                        <ty.BodyText center color={th.colors.brand.secondary}>
-                          {i.text}
-                        </ty.BodyText>
-                      </SecondaryItemWrapper>
-                    </l.AreaLink>
-                  )
-                );
-              })}
-          </l.Flex>
-        )}
       </l.Div>
     ))}
   </l.Grid>

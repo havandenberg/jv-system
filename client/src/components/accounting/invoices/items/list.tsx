@@ -246,7 +246,7 @@ const List = ({
                       <ListItem<InvoiceItem>
                         data={item as InvoiceItem}
                         customStyles={{
-                          wrapper: { background: th.colors.background },
+                          cellWrapper: { background: th.colors.background },
                         }}
                         gridTemplateColumns={itemGridTemplateColumns}
                         listLabels={itemListLabels}

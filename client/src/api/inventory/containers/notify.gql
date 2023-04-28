@@ -1,0 +1,3 @@
+mutation CONTAINER_SCHEDULE_UPDATE_NOTIFY($data: String!, $message: String!) {
+  containerScheduleUpdateNotify(input: { data: $data, message: $message })
+}

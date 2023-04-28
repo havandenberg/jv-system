@@ -8,6 +8,7 @@ import {
   BaseDataItemSelectorProps,
   baseDataTransforms,
 } from 'components/base-data';
+import { EditableCellProps } from 'components/editable-cell';
 import InfoPanel, { InfoPanelProps } from 'components/info-panel';
 import FilterPanel, { FilterPanelProps } from 'components/filter-panel';
 import { SortOrder, SORT_ORDER } from 'hooks/use-columns';
@@ -58,6 +59,7 @@ export interface LabelInfo<T> {
     content?: React.ReactNode;
     value: string;
   }[];
+  editablCellProps?: Partial<EditableCellProps>;
   filterable?: boolean;
   getValue?: (data: T) => React.ReactNode;
   key: keyof T;
@@ -73,6 +75,7 @@ export interface LabelInfo<T> {
   show?: boolean;
   sortable?: boolean;
   sortKey?: string;
+  title?: (data: T) => string | undefined;
   transformKey?: keyof typeof baseDataTransforms;
   transformValue?: (val: any) => any;
   validate?: (val: any) => boolean;
@@ -127,8 +130,8 @@ interface Props<T> {
   sortOrder: SortOrder;
   handleSortChange: (sortKey: string, sortOrder?: SortOrder) => void;
   labelInfo: LabelInfo<T>;
-  schemaName: string;
-  tableName: string;
+  schemaName?: string;
+  tableName?: string;
 }
 
 const ColumnLabel = <T extends {}>({

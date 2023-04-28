@@ -129,6 +129,17 @@ export const baseLabels: PalletLabelInfo[] = [
   {
     key: 'containerId',
     label: 'Container ID',
+    getValue: ({ containerId, container }) =>
+      container ? (
+        <ty.LinkText
+          hover="false"
+          to={`/inventory/containers/${container.containerId}?containerView=pallets`}
+        >
+          {container.containerId}
+        </ty.LinkText>
+      ) : (
+        <ty.BodyText>{containerId || '-'}</ty.BodyText>
+      ),
   },
   {
     key: 'shipped',

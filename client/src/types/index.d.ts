@@ -1331,6 +1331,29 @@ export type BulkUpsertAgendaItemPayload = {
   query?: Maybe<Query>;
 };
 
+/** All input for the `bulkUpsertContainer` mutation. */
+export type BulkUpsertContainerInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  containers: Array<Maybe<ContainerInput>>;
+};
+
+/** The output of our `bulkUpsertContainer` mutation. */
+export type BulkUpsertContainerPayload = {
+  __typename?: 'BulkUpsertContainerPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  containers?: Maybe<Array<Maybe<Container>>>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
 /** All input for the `bulkUpsertCountry` mutation. */
 export type BulkUpsertCountryInput = {
   /**
@@ -11983,6 +12006,7 @@ export type ContactGroupPersonContactPersonContactIdFkeyPersonContactCreateInput
   isInternal: Scalars['Boolean'];
   roles?: Maybe<Scalars['String']>;
   homeExtension?: Maybe<Scalars['String']>;
+  location?: Maybe<Scalars['String']>;
   contactGroupPersonContactsUsingId?: Maybe<ContactGroupPersonContactPersonContactIdFkeyInverseInput>;
   usersUsingId?: Maybe<UserPersonContactIdFkeyInverseInput>;
   customerPersonContactsUsingId?: Maybe<CustomerPersonContactPersonContactIdFkeyInverseInput>;
@@ -12079,7 +12103,9 @@ export enum ContactGroupPersonContactsOrderBy {
   PersonContactByPersonContactIdRolesAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__ROLES_ASC',
   PersonContactByPersonContactIdRolesDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__ROLES_DESC',
   PersonContactByPersonContactIdHomeExtensionAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__HOME_EXTENSION_ASC',
-  PersonContactByPersonContactIdHomeExtensionDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__HOME_EXTENSION_DESC'
+  PersonContactByPersonContactIdHomeExtensionDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__HOME_EXTENSION_DESC',
+  PersonContactByPersonContactIdLocationAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__LOCATION_ASC',
+  PersonContactByPersonContactIdLocationDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__LOCATION_DESC'
 }
 
 /** A filter to be used against many `ContactGroupPersonContact` object types. All fields are combined with a logical ‘and.’ */
@@ -12207,6 +12233,584 @@ export enum ContactGroupsOrderBy {
   UserByUserIdDefaultCoastDesc = 'USER_BY_USER_ID__DEFAULT_COAST_DESC',
   ContactGroupPersonContactsByGroupIdCountAsc = 'CONTACT_GROUP_PERSON_CONTACTS_BY_GROUP_ID__COUNT_ASC',
   ContactGroupPersonContactsByGroupIdCountDesc = 'CONTACT_GROUP_PERSON_CONTACTS_BY_GROUP_ID__COUNT_DESC'
+}
+
+export type Container = Node & {
+  __typename?: 'Container';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  vesselCode: Scalars['String'];
+  containerId?: Maybe<Scalars['String']>;
+  vendorId?: Maybe<Scalars['String']>;
+  warehouseId?: Maybe<Scalars['String']>;
+  containerDescription?: Maybe<Scalars['String']>;
+  releaseDate?: Maybe<Scalars['Date']>;
+  releaseConfirmed?: Maybe<Scalars['Boolean']>;
+  dischargeDate?: Maybe<Scalars['Date']>;
+  dischargeConfirmed?: Maybe<Scalars['Boolean']>;
+  notes1?: Maybe<Scalars['String']>;
+  notes2?: Maybe<Scalars['String']>;
+  notes3?: Maybe<Scalars['String']>;
+  sentConfirmed?: Maybe<Scalars['Boolean']>;
+  isAvailable?: Maybe<Scalars['Boolean']>;
+  isNew?: Maybe<Scalars['Boolean']>;
+  isSchedule?: Maybe<Scalars['Boolean']>;
+  /** Reads and enables pagination through a set of `ContainerTreatment`. */
+  containerTreatments: ContainerTreatmentsConnection;
+  isVesselAvailable?: Maybe<Scalars['Boolean']>;
+  /** Reads and enables pagination through a set of `Pallet`. */
+  pallets: PalletsConnection;
+  searchText?: Maybe<Scalars['String']>;
+  vendor?: Maybe<Vendor>;
+  vessel?: Maybe<Vessel>;
+  warehouse?: Maybe<Warehouse>;
+};
+
+
+export type ContainerContainerTreatmentsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ContainerTreatmentsOrderBy>>;
+  condition?: Maybe<ContainerTreatmentCondition>;
+  filter?: Maybe<ContainerTreatmentFilter>;
+};
+
+
+export type ContainerPalletsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  filter?: Maybe<PalletFilter>;
+};
+
+/**
+ * A condition to be used against `Container` object types. All fields are tested
+ * for equality and combined with a logical ‘and.’
+ */
+export type ContainerCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `vesselCode` field. */
+  vesselCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `containerId` field. */
+  containerId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `vendorId` field. */
+  vendorId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `warehouseId` field. */
+  warehouseId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `containerDescription` field. */
+  containerDescription?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `releaseDate` field. */
+  releaseDate?: Maybe<Scalars['Date']>;
+  /** Checks for equality with the object’s `releaseConfirmed` field. */
+  releaseConfirmed?: Maybe<Scalars['Boolean']>;
+  /** Checks for equality with the object’s `dischargeDate` field. */
+  dischargeDate?: Maybe<Scalars['Date']>;
+  /** Checks for equality with the object’s `dischargeConfirmed` field. */
+  dischargeConfirmed?: Maybe<Scalars['Boolean']>;
+  /** Checks for equality with the object’s `notes1` field. */
+  notes1?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `notes2` field. */
+  notes2?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `notes3` field. */
+  notes3?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `sentConfirmed` field. */
+  sentConfirmed?: Maybe<Scalars['Boolean']>;
+  /** Checks for equality with the object’s `isAvailable` field. */
+  isAvailable?: Maybe<Scalars['Boolean']>;
+  /** Checks for equality with the object’s `isNew` field. */
+  isNew?: Maybe<Scalars['Boolean']>;
+  /** Checks for equality with the object’s `isSchedule` field. */
+  isSchedule?: Maybe<Scalars['Boolean']>;
+};
+
+/** The fields on `container` to look up the row to connect. */
+export type ContainerContainerPkeyConnect = {
+  id: Scalars['BigInt'];
+};
+
+/** The fields on `container` to look up the row to delete. */
+export type ContainerContainerPkeyDelete = {
+  id: Scalars['BigInt'];
+};
+
+/** A filter to be used against `Container` object types. All fields are combined with a logical ‘and.’ */
+export type ContainerFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `vesselCode` field. */
+  vesselCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `containerId` field. */
+  containerId?: Maybe<StringFilter>;
+  /** Filter by the object’s `vendorId` field. */
+  vendorId?: Maybe<StringFilter>;
+  /** Filter by the object’s `warehouseId` field. */
+  warehouseId?: Maybe<StringFilter>;
+  /** Filter by the object’s `containerDescription` field. */
+  containerDescription?: Maybe<StringFilter>;
+  /** Filter by the object’s `releaseDate` field. */
+  releaseDate?: Maybe<DateFilter>;
+  /** Filter by the object’s `releaseConfirmed` field. */
+  releaseConfirmed?: Maybe<BooleanFilter>;
+  /** Filter by the object’s `dischargeDate` field. */
+  dischargeDate?: Maybe<DateFilter>;
+  /** Filter by the object’s `dischargeConfirmed` field. */
+  dischargeConfirmed?: Maybe<BooleanFilter>;
+  /** Filter by the object’s `notes1` field. */
+  notes1?: Maybe<StringFilter>;
+  /** Filter by the object’s `notes2` field. */
+  notes2?: Maybe<StringFilter>;
+  /** Filter by the object’s `notes3` field. */
+  notes3?: Maybe<StringFilter>;
+  /** Filter by the object’s `sentConfirmed` field. */
+  sentConfirmed?: Maybe<BooleanFilter>;
+  /** Filter by the object’s `isAvailable` field. */
+  isAvailable?: Maybe<BooleanFilter>;
+  /** Filter by the object’s `isNew` field. */
+  isNew?: Maybe<BooleanFilter>;
+  /** Filter by the object’s `isSchedule` field. */
+  isSchedule?: Maybe<BooleanFilter>;
+  /** Filter by the object’s `isVesselAvailable` field. */
+  isVesselAvailable?: Maybe<BooleanFilter>;
+  /** Filter by the object’s `searchText` field. */
+  searchText?: Maybe<StringFilter>;
+  /** Filter by the object’s `containerTreatments` relation. */
+  containerTreatments?: Maybe<ContainerToManyContainerTreatmentFilter>;
+  /** Some related `containerTreatments` exist. */
+  containerTreatmentsExist?: Maybe<Scalars['Boolean']>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<ContainerFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<ContainerFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<ContainerFilter>;
+};
+
+/** An input for mutations affecting `Container` */
+export type ContainerInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  vesselCode: Scalars['String'];
+  containerId?: Maybe<Scalars['String']>;
+  vendorId?: Maybe<Scalars['String']>;
+  warehouseId?: Maybe<Scalars['String']>;
+  containerDescription?: Maybe<Scalars['String']>;
+  releaseDate?: Maybe<Scalars['Date']>;
+  releaseConfirmed?: Maybe<Scalars['Boolean']>;
+  dischargeDate?: Maybe<Scalars['Date']>;
+  dischargeConfirmed?: Maybe<Scalars['Boolean']>;
+  notes1?: Maybe<Scalars['String']>;
+  notes2?: Maybe<Scalars['String']>;
+  notes3?: Maybe<Scalars['String']>;
+  sentConfirmed?: Maybe<Scalars['Boolean']>;
+  isAvailable?: Maybe<Scalars['Boolean']>;
+  isNew?: Maybe<Scalars['Boolean']>;
+  isSchedule?: Maybe<Scalars['Boolean']>;
+  containerTreatmentsUsingId?: Maybe<ContainerTreatmentContainerIdFkeyInverseInput>;
+};
+
+/** The globally unique `ID` look up for the row to connect. */
+export type ContainerNodeIdConnect = {
+  /** The globally unique `ID` which identifies a single `container` to be connected. */
+  nodeId: Scalars['ID'];
+};
+
+/** The globally unique `ID` look up for the row to delete. */
+export type ContainerNodeIdDelete = {
+  /** The globally unique `ID` which identifies a single `container` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type ContainerOnContainerTreatmentForContainerTreatmentContainerIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `containerTreatment` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `containerTreatment` being updated. */
+  patch: ContainerTreatmentPatch;
+};
+
+/** The fields on `container` to look up the row to update. */
+export type ContainerOnContainerTreatmentForContainerTreatmentContainerIdFkeyUsingContainerPkeyUpdate = {
+  /** An object where the defined keys will be set on the `container` being updated. */
+  patch: UpdateContainerOnContainerTreatmentForContainerTreatmentContainerIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** Represents an update to a `Container`. Fields that are set will be updated. */
+export type ContainerPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  vesselCode?: Maybe<Scalars['String']>;
+  containerId?: Maybe<Scalars['String']>;
+  vendorId?: Maybe<Scalars['String']>;
+  warehouseId?: Maybe<Scalars['String']>;
+  containerDescription?: Maybe<Scalars['String']>;
+  releaseDate?: Maybe<Scalars['Date']>;
+  releaseConfirmed?: Maybe<Scalars['Boolean']>;
+  dischargeDate?: Maybe<Scalars['Date']>;
+  dischargeConfirmed?: Maybe<Scalars['Boolean']>;
+  notes1?: Maybe<Scalars['String']>;
+  notes2?: Maybe<Scalars['String']>;
+  notes3?: Maybe<Scalars['String']>;
+  sentConfirmed?: Maybe<Scalars['Boolean']>;
+  isAvailable?: Maybe<Scalars['Boolean']>;
+  isNew?: Maybe<Scalars['Boolean']>;
+  isSchedule?: Maybe<Scalars['Boolean']>;
+  containerTreatmentsUsingId?: Maybe<ContainerTreatmentContainerIdFkeyInverseInput>;
+};
+
+export type ContainerScheduleUpdateInput = {
+  message: Scalars['String'];
+  data: Scalars['String'];
+};
+
+/** A filter to be used against many `ContainerTreatment` object types. All fields are combined with a logical ‘and.’ */
+export type ContainerToManyContainerTreatmentFilter = {
+  /** Every related `ContainerTreatment` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<ContainerTreatmentFilter>;
+  /** Some related `ContainerTreatment` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<ContainerTreatmentFilter>;
+  /** No related `ContainerTreatment` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<ContainerTreatmentFilter>;
+};
+
+export type ContainerTreatment = Node & {
+  __typename?: 'ContainerTreatment';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  containerId: Scalars['BigInt'];
+  treatmentDate?: Maybe<Scalars['Date']>;
+  treatmentConfirmed?: Maybe<Scalars['Boolean']>;
+  treatmentResult?: Maybe<Scalars['String']>;
+  treatmentType: Scalars['String'];
+  treatmentNotes?: Maybe<Scalars['String']>;
+  /** Reads a single `Container` that is related to this `ContainerTreatment`. */
+  container?: Maybe<Container>;
+};
+
+/**
+ * A condition to be used against `ContainerTreatment` object types. All fields are
+ * tested for equality and combined with a logical ‘and.’
+ */
+export type ContainerTreatmentCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `containerId` field. */
+  containerId?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `treatmentDate` field. */
+  treatmentDate?: Maybe<Scalars['Date']>;
+  /** Checks for equality with the object’s `treatmentConfirmed` field. */
+  treatmentConfirmed?: Maybe<Scalars['Boolean']>;
+  /** Checks for equality with the object’s `treatmentResult` field. */
+  treatmentResult?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `treatmentType` field. */
+  treatmentType?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `treatmentNotes` field. */
+  treatmentNotes?: Maybe<Scalars['String']>;
+};
+
+/** The `container` to be created by this mutation. */
+export type ContainerTreatmentContainerIdFkeyContainerCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  vesselCode: Scalars['String'];
+  vendorId?: Maybe<Scalars['String']>;
+  warehouseId?: Maybe<Scalars['String']>;
+  containerDescription?: Maybe<Scalars['String']>;
+  releaseDate?: Maybe<Scalars['Date']>;
+  releaseConfirmed?: Maybe<Scalars['Boolean']>;
+  dischargeDate?: Maybe<Scalars['Date']>;
+  dischargeConfirmed?: Maybe<Scalars['Boolean']>;
+  notes1?: Maybe<Scalars['String']>;
+  notes2?: Maybe<Scalars['String']>;
+  notes3?: Maybe<Scalars['String']>;
+  sentConfirmed?: Maybe<Scalars['Boolean']>;
+  isAvailable?: Maybe<Scalars['Boolean']>;
+  isNew?: Maybe<Scalars['Boolean']>;
+  isSchedule?: Maybe<Scalars['Boolean']>;
+  containerTreatmentsUsingId?: Maybe<ContainerTreatmentContainerIdFkeyInverseInput>;
+};
+
+/** The `containerTreatment` to be created by this mutation. */
+export type ContainerTreatmentContainerIdFkeyContainerTreatmentCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  treatmentDate?: Maybe<Scalars['Date']>;
+  treatmentConfirmed?: Maybe<Scalars['Boolean']>;
+  treatmentResult?: Maybe<Scalars['String']>;
+  treatmentType: Scalars['String'];
+  treatmentNotes?: Maybe<Scalars['String']>;
+  containerToContainerId?: Maybe<ContainerTreatmentContainerIdFkeyInput>;
+};
+
+/** Input for the nested mutation of `container` in the `ContainerTreatmentInput` mutation. */
+export type ContainerTreatmentContainerIdFkeyInput = {
+  /** The primary key(s) for `container` for the far side of the relationship. */
+  connectById?: Maybe<ContainerContainerPkeyConnect>;
+  /** The primary key(s) for `container` for the far side of the relationship. */
+  connectByNodeId?: Maybe<ContainerNodeIdConnect>;
+  /** The primary key(s) for `container` for the far side of the relationship. */
+  deleteById?: Maybe<ContainerContainerPkeyDelete>;
+  /** The primary key(s) for `container` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<ContainerNodeIdDelete>;
+  /** The primary key(s) and patch data for `container` for the far side of the relationship. */
+  updateById?: Maybe<ContainerOnContainerTreatmentForContainerTreatmentContainerIdFkeyUsingContainerPkeyUpdate>;
+  /** The primary key(s) and patch data for `container` for the far side of the relationship. */
+  updateByNodeId?: Maybe<ContainerTreatmentOnContainerTreatmentForContainerTreatmentContainerIdFkeyNodeIdUpdate>;
+  /** A `ContainerInput` object that will be created and connected to this object. */
+  create?: Maybe<ContainerTreatmentContainerIdFkeyContainerCreateInput>;
+};
+
+/** Input for the nested mutation of `containerTreatment` in the `ContainerInput` mutation. */
+export type ContainerTreatmentContainerIdFkeyInverseInput = {
+  /** Flag indicating whether all other `containerTreatment` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `containerTreatment` for the far side of the relationship. */
+  connectById?: Maybe<Array<ContainerTreatmentContainerTreatmentPkeyConnect>>;
+  /** The primary key(s) for `containerTreatment` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<ContainerTreatmentNodeIdConnect>>;
+  /** The primary key(s) for `containerTreatment` for the far side of the relationship. */
+  deleteById?: Maybe<Array<ContainerTreatmentContainerTreatmentPkeyDelete>>;
+  /** The primary key(s) for `containerTreatment` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<ContainerTreatmentNodeIdDelete>>;
+  /** The primary key(s) and patch data for `containerTreatment` for the far side of the relationship. */
+  updateById?: Maybe<Array<ContainerTreatmentOnContainerTreatmentForContainerTreatmentContainerIdFkeyUsingContainerTreatmentPkeyUpdate>>;
+  /** The primary key(s) and patch data for `containerTreatment` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<ContainerOnContainerTreatmentForContainerTreatmentContainerIdFkeyNodeIdUpdate>>;
+  /** A `ContainerTreatmentInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<ContainerTreatmentContainerIdFkeyContainerTreatmentCreateInput>>;
+};
+
+/** The fields on `containerTreatment` to look up the row to connect. */
+export type ContainerTreatmentContainerTreatmentPkeyConnect = {
+  id: Scalars['BigInt'];
+};
+
+/** The fields on `containerTreatment` to look up the row to delete. */
+export type ContainerTreatmentContainerTreatmentPkeyDelete = {
+  id: Scalars['BigInt'];
+};
+
+/** A filter to be used against `ContainerTreatment` object types. All fields are combined with a logical ‘and.’ */
+export type ContainerTreatmentFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `containerId` field. */
+  containerId?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `treatmentDate` field. */
+  treatmentDate?: Maybe<DateFilter>;
+  /** Filter by the object’s `treatmentConfirmed` field. */
+  treatmentConfirmed?: Maybe<BooleanFilter>;
+  /** Filter by the object’s `treatmentResult` field. */
+  treatmentResult?: Maybe<StringFilter>;
+  /** Filter by the object’s `treatmentType` field. */
+  treatmentType?: Maybe<StringFilter>;
+  /** Filter by the object’s `treatmentNotes` field. */
+  treatmentNotes?: Maybe<StringFilter>;
+  /** Filter by the object’s `container` relation. */
+  container?: Maybe<ContainerFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<ContainerTreatmentFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<ContainerTreatmentFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<ContainerTreatmentFilter>;
+};
+
+/** An input for mutations affecting `ContainerTreatment` */
+export type ContainerTreatmentInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  containerId?: Maybe<Scalars['BigInt']>;
+  treatmentDate?: Maybe<Scalars['Date']>;
+  treatmentConfirmed?: Maybe<Scalars['Boolean']>;
+  treatmentResult?: Maybe<Scalars['String']>;
+  treatmentType: Scalars['String'];
+  treatmentNotes?: Maybe<Scalars['String']>;
+  containerToContainerId?: Maybe<ContainerTreatmentContainerIdFkeyInput>;
+};
+
+/** The globally unique `ID` look up for the row to connect. */
+export type ContainerTreatmentNodeIdConnect = {
+  /** The globally unique `ID` which identifies a single `containerTreatment` to be connected. */
+  nodeId: Scalars['ID'];
+};
+
+/** The globally unique `ID` look up for the row to delete. */
+export type ContainerTreatmentNodeIdDelete = {
+  /** The globally unique `ID` which identifies a single `containerTreatment` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type ContainerTreatmentOnContainerTreatmentForContainerTreatmentContainerIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `container` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `container` being updated. */
+  patch: ContainerPatch;
+};
+
+/** The fields on `containerTreatment` to look up the row to update. */
+export type ContainerTreatmentOnContainerTreatmentForContainerTreatmentContainerIdFkeyUsingContainerTreatmentPkeyUpdate = {
+  /** An object where the defined keys will be set on the `containerTreatment` being updated. */
+  patch: UpdateContainerTreatmentOnContainerTreatmentForContainerTreatmentContainerIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** Represents an update to a `ContainerTreatment`. Fields that are set will be updated. */
+export type ContainerTreatmentPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  containerId?: Maybe<Scalars['BigInt']>;
+  treatmentDate?: Maybe<Scalars['Date']>;
+  treatmentConfirmed?: Maybe<Scalars['Boolean']>;
+  treatmentResult?: Maybe<Scalars['String']>;
+  treatmentType?: Maybe<Scalars['String']>;
+  treatmentNotes?: Maybe<Scalars['String']>;
+  containerToContainerId?: Maybe<ContainerTreatmentContainerIdFkeyInput>;
+};
+
+/** A connection to a list of `ContainerTreatment` values. */
+export type ContainerTreatmentsConnection = {
+  __typename?: 'ContainerTreatmentsConnection';
+  /** A list of `ContainerTreatment` objects. */
+  nodes: Array<Maybe<ContainerTreatment>>;
+  /** A list of edges which contains the `ContainerTreatment` and cursor to aid in pagination. */
+  edges: Array<ContainerTreatmentsEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `ContainerTreatment` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `ContainerTreatment` edge in the connection. */
+export type ContainerTreatmentsEdge = {
+  __typename?: 'ContainerTreatmentsEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `ContainerTreatment` at the end of the edge. */
+  node?: Maybe<ContainerTreatment>;
+};
+
+/** Methods to use when ordering `ContainerTreatment`. */
+export enum ContainerTreatmentsOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  ContainerIdAsc = 'CONTAINER_ID_ASC',
+  ContainerIdDesc = 'CONTAINER_ID_DESC',
+  TreatmentDateAsc = 'TREATMENT_DATE_ASC',
+  TreatmentDateDesc = 'TREATMENT_DATE_DESC',
+  TreatmentConfirmedAsc = 'TREATMENT_CONFIRMED_ASC',
+  TreatmentConfirmedDesc = 'TREATMENT_CONFIRMED_DESC',
+  TreatmentResultAsc = 'TREATMENT_RESULT_ASC',
+  TreatmentResultDesc = 'TREATMENT_RESULT_DESC',
+  TreatmentTypeAsc = 'TREATMENT_TYPE_ASC',
+  TreatmentTypeDesc = 'TREATMENT_TYPE_DESC',
+  TreatmentNotesAsc = 'TREATMENT_NOTES_ASC',
+  TreatmentNotesDesc = 'TREATMENT_NOTES_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  ContainerByContainerIdIdAsc = 'CONTAINER_BY_CONTAINER_ID__ID_ASC',
+  ContainerByContainerIdIdDesc = 'CONTAINER_BY_CONTAINER_ID__ID_DESC',
+  ContainerByContainerIdVesselCodeAsc = 'CONTAINER_BY_CONTAINER_ID__VESSEL_CODE_ASC',
+  ContainerByContainerIdVesselCodeDesc = 'CONTAINER_BY_CONTAINER_ID__VESSEL_CODE_DESC',
+  ContainerByContainerIdContainerIdAsc = 'CONTAINER_BY_CONTAINER_ID__CONTAINER_ID_ASC',
+  ContainerByContainerIdContainerIdDesc = 'CONTAINER_BY_CONTAINER_ID__CONTAINER_ID_DESC',
+  ContainerByContainerIdVendorIdAsc = 'CONTAINER_BY_CONTAINER_ID__VENDOR_ID_ASC',
+  ContainerByContainerIdVendorIdDesc = 'CONTAINER_BY_CONTAINER_ID__VENDOR_ID_DESC',
+  ContainerByContainerIdWarehouseIdAsc = 'CONTAINER_BY_CONTAINER_ID__WAREHOUSE_ID_ASC',
+  ContainerByContainerIdWarehouseIdDesc = 'CONTAINER_BY_CONTAINER_ID__WAREHOUSE_ID_DESC',
+  ContainerByContainerIdContainerDescriptionAsc = 'CONTAINER_BY_CONTAINER_ID__CONTAINER_DESCRIPTION_ASC',
+  ContainerByContainerIdContainerDescriptionDesc = 'CONTAINER_BY_CONTAINER_ID__CONTAINER_DESCRIPTION_DESC',
+  ContainerByContainerIdReleaseDateAsc = 'CONTAINER_BY_CONTAINER_ID__RELEASE_DATE_ASC',
+  ContainerByContainerIdReleaseDateDesc = 'CONTAINER_BY_CONTAINER_ID__RELEASE_DATE_DESC',
+  ContainerByContainerIdReleaseConfirmedAsc = 'CONTAINER_BY_CONTAINER_ID__RELEASE_CONFIRMED_ASC',
+  ContainerByContainerIdReleaseConfirmedDesc = 'CONTAINER_BY_CONTAINER_ID__RELEASE_CONFIRMED_DESC',
+  ContainerByContainerIdDischargeDateAsc = 'CONTAINER_BY_CONTAINER_ID__DISCHARGE_DATE_ASC',
+  ContainerByContainerIdDischargeDateDesc = 'CONTAINER_BY_CONTAINER_ID__DISCHARGE_DATE_DESC',
+  ContainerByContainerIdDischargeConfirmedAsc = 'CONTAINER_BY_CONTAINER_ID__DISCHARGE_CONFIRMED_ASC',
+  ContainerByContainerIdDischargeConfirmedDesc = 'CONTAINER_BY_CONTAINER_ID__DISCHARGE_CONFIRMED_DESC',
+  ContainerByContainerIdNotes1Asc = 'CONTAINER_BY_CONTAINER_ID__NOTES1_ASC',
+  ContainerByContainerIdNotes1Desc = 'CONTAINER_BY_CONTAINER_ID__NOTES1_DESC',
+  ContainerByContainerIdNotes2Asc = 'CONTAINER_BY_CONTAINER_ID__NOTES2_ASC',
+  ContainerByContainerIdNotes2Desc = 'CONTAINER_BY_CONTAINER_ID__NOTES2_DESC',
+  ContainerByContainerIdNotes3Asc = 'CONTAINER_BY_CONTAINER_ID__NOTES3_ASC',
+  ContainerByContainerIdNotes3Desc = 'CONTAINER_BY_CONTAINER_ID__NOTES3_DESC',
+  ContainerByContainerIdSentConfirmedAsc = 'CONTAINER_BY_CONTAINER_ID__SENT_CONFIRMED_ASC',
+  ContainerByContainerIdSentConfirmedDesc = 'CONTAINER_BY_CONTAINER_ID__SENT_CONFIRMED_DESC',
+  ContainerByContainerIdIsAvailableAsc = 'CONTAINER_BY_CONTAINER_ID__IS_AVAILABLE_ASC',
+  ContainerByContainerIdIsAvailableDesc = 'CONTAINER_BY_CONTAINER_ID__IS_AVAILABLE_DESC',
+  ContainerByContainerIdIsNewAsc = 'CONTAINER_BY_CONTAINER_ID__IS_NEW_ASC',
+  ContainerByContainerIdIsNewDesc = 'CONTAINER_BY_CONTAINER_ID__IS_NEW_DESC',
+  ContainerByContainerIdIsScheduleAsc = 'CONTAINER_BY_CONTAINER_ID__IS_SCHEDULE_ASC',
+  ContainerByContainerIdIsScheduleDesc = 'CONTAINER_BY_CONTAINER_ID__IS_SCHEDULE_DESC'
+}
+
+/** A connection to a list of `Container` values. */
+export type ContainersConnection = {
+  __typename?: 'ContainersConnection';
+  /** A list of `Container` objects. */
+  nodes: Array<Maybe<Container>>;
+  /** A list of edges which contains the `Container` and cursor to aid in pagination. */
+  edges: Array<ContainersEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Container` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `Container` edge in the connection. */
+export type ContainersEdge = {
+  __typename?: 'ContainersEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `Container` at the end of the edge. */
+  node?: Maybe<Container>;
+};
+
+/** Methods to use when ordering `Container`. */
+export enum ContainersOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  VesselCodeAsc = 'VESSEL_CODE_ASC',
+  VesselCodeDesc = 'VESSEL_CODE_DESC',
+  ContainerIdAsc = 'CONTAINER_ID_ASC',
+  ContainerIdDesc = 'CONTAINER_ID_DESC',
+  VendorIdAsc = 'VENDOR_ID_ASC',
+  VendorIdDesc = 'VENDOR_ID_DESC',
+  WarehouseIdAsc = 'WAREHOUSE_ID_ASC',
+  WarehouseIdDesc = 'WAREHOUSE_ID_DESC',
+  ContainerDescriptionAsc = 'CONTAINER_DESCRIPTION_ASC',
+  ContainerDescriptionDesc = 'CONTAINER_DESCRIPTION_DESC',
+  ReleaseDateAsc = 'RELEASE_DATE_ASC',
+  ReleaseDateDesc = 'RELEASE_DATE_DESC',
+  ReleaseConfirmedAsc = 'RELEASE_CONFIRMED_ASC',
+  ReleaseConfirmedDesc = 'RELEASE_CONFIRMED_DESC',
+  DischargeDateAsc = 'DISCHARGE_DATE_ASC',
+  DischargeDateDesc = 'DISCHARGE_DATE_DESC',
+  DischargeConfirmedAsc = 'DISCHARGE_CONFIRMED_ASC',
+  DischargeConfirmedDesc = 'DISCHARGE_CONFIRMED_DESC',
+  Notes1Asc = 'NOTES1_ASC',
+  Notes1Desc = 'NOTES1_DESC',
+  Notes2Asc = 'NOTES2_ASC',
+  Notes2Desc = 'NOTES2_DESC',
+  Notes3Asc = 'NOTES3_ASC',
+  Notes3Desc = 'NOTES3_DESC',
+  SentConfirmedAsc = 'SENT_CONFIRMED_ASC',
+  SentConfirmedDesc = 'SENT_CONFIRMED_DESC',
+  IsAvailableAsc = 'IS_AVAILABLE_ASC',
+  IsAvailableDesc = 'IS_AVAILABLE_DESC',
+  IsNewAsc = 'IS_NEW_ASC',
+  IsNewDesc = 'IS_NEW_DESC',
+  IsScheduleAsc = 'IS_SCHEDULE_ASC',
+  IsScheduleDesc = 'IS_SCHEDULE_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  ContainerTreatmentsByContainerIdCountAsc = 'CONTAINER_TREATMENTS_BY_CONTAINER_ID__COUNT_ASC',
+  ContainerTreatmentsByContainerIdCountDesc = 'CONTAINER_TREATMENTS_BY_CONTAINER_ID__COUNT_DESC'
 }
 
 /** A connection to a list of `Country` values. */
@@ -13050,6 +13654,74 @@ export type CreateContactGroupPersonContactPayload = {
 /** The output of our create `ContactGroupPersonContact` mutation. */
 export type CreateContactGroupPersonContactPayloadContactGroupPersonContactEdgeArgs = {
   orderBy?: Maybe<Array<ContactGroupPersonContactsOrderBy>>;
+};
+
+/** All input for the create `Container` mutation. */
+export type CreateContainerInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `Container` to be created by this mutation. */
+  container: ContainerInput;
+};
+
+/** The output of our create `Container` mutation. */
+export type CreateContainerPayload = {
+  __typename?: 'CreateContainerPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `Container` that was created by this mutation. */
+  container?: Maybe<Container>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `Container`. May be used by Relay 1. */
+  containerEdge?: Maybe<ContainersEdge>;
+};
+
+
+/** The output of our create `Container` mutation. */
+export type CreateContainerPayloadContainerEdgeArgs = {
+  orderBy?: Maybe<Array<ContainersOrderBy>>;
+};
+
+/** All input for the create `ContainerTreatment` mutation. */
+export type CreateContainerTreatmentInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `ContainerTreatment` to be created by this mutation. */
+  containerTreatment: ContainerTreatmentInput;
+};
+
+/** The output of our create `ContainerTreatment` mutation. */
+export type CreateContainerTreatmentPayload = {
+  __typename?: 'CreateContainerTreatmentPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `ContainerTreatment` that was created by this mutation. */
+  containerTreatment?: Maybe<ContainerTreatment>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Container` that is related to this `ContainerTreatment`. */
+  container?: Maybe<Container>;
+  /** An edge for our `ContainerTreatment`. May be used by Relay 1. */
+  containerTreatmentEdge?: Maybe<ContainerTreatmentsEdge>;
+};
+
+
+/** The output of our create `ContainerTreatment` mutation. */
+export type CreateContainerTreatmentPayloadContainerTreatmentEdgeArgs = {
+  orderBy?: Maybe<Array<ContainerTreatmentsOrderBy>>;
 };
 
 /** All input for the create `Country` mutation. */
@@ -17545,6 +18217,7 @@ export type CustomerPersonContactPersonContactIdFkeyPersonContactCreateInput = {
   isInternal: Scalars['Boolean'];
   roles?: Maybe<Scalars['String']>;
   homeExtension?: Maybe<Scalars['String']>;
+  location?: Maybe<Scalars['String']>;
   contactGroupPersonContactsUsingId?: Maybe<ContactGroupPersonContactPersonContactIdFkeyInverseInput>;
   usersUsingId?: Maybe<UserPersonContactIdFkeyInverseInput>;
   customerPersonContactsUsingId?: Maybe<CustomerPersonContactPersonContactIdFkeyInverseInput>;
@@ -17661,7 +18334,9 @@ export enum CustomerPersonContactsOrderBy {
   PersonContactByPersonContactIdRolesAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__ROLES_ASC',
   PersonContactByPersonContactIdRolesDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__ROLES_DESC',
   PersonContactByPersonContactIdHomeExtensionAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__HOME_EXTENSION_ASC',
-  PersonContactByPersonContactIdHomeExtensionDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__HOME_EXTENSION_DESC'
+  PersonContactByPersonContactIdHomeExtensionDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__HOME_EXTENSION_DESC',
+  PersonContactByPersonContactIdLocationAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__LOCATION_ASC',
+  PersonContactByPersonContactIdLocationDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__LOCATION_DESC'
 }
 
 export type CustomerProgram = Node & {
@@ -20012,6 +20687,96 @@ export type DeleteContactGroupPersonContactPayload = {
 /** The output of our delete `ContactGroupPersonContact` mutation. */
 export type DeleteContactGroupPersonContactPayloadContactGroupPersonContactEdgeArgs = {
   orderBy?: Maybe<Array<ContactGroupPersonContactsOrderBy>>;
+};
+
+/** All input for the `deleteContainerByNodeId` mutation. */
+export type DeleteContainerByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `Container` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deleteContainer` mutation. */
+export type DeleteContainerInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['BigInt'];
+};
+
+/** The output of our delete `Container` mutation. */
+export type DeleteContainerPayload = {
+  __typename?: 'DeleteContainerPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `Container` that was deleted by this mutation. */
+  container?: Maybe<Container>;
+  deletedContainerNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `Container`. May be used by Relay 1. */
+  containerEdge?: Maybe<ContainersEdge>;
+};
+
+
+/** The output of our delete `Container` mutation. */
+export type DeleteContainerPayloadContainerEdgeArgs = {
+  orderBy?: Maybe<Array<ContainersOrderBy>>;
+};
+
+/** All input for the `deleteContainerTreatmentByNodeId` mutation. */
+export type DeleteContainerTreatmentByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `ContainerTreatment` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deleteContainerTreatment` mutation. */
+export type DeleteContainerTreatmentInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['BigInt'];
+};
+
+/** The output of our delete `ContainerTreatment` mutation. */
+export type DeleteContainerTreatmentPayload = {
+  __typename?: 'DeleteContainerTreatmentPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `ContainerTreatment` that was deleted by this mutation. */
+  containerTreatment?: Maybe<ContainerTreatment>;
+  deletedContainerTreatmentNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Container` that is related to this `ContainerTreatment`. */
+  container?: Maybe<Container>;
+  /** An edge for our `ContainerTreatment`. May be used by Relay 1. */
+  containerTreatmentEdge?: Maybe<ContainerTreatmentsEdge>;
+};
+
+
+/** The output of our delete `ContainerTreatment` mutation. */
+export type DeleteContainerTreatmentPayloadContainerTreatmentEdgeArgs = {
+  orderBy?: Maybe<Array<ContainerTreatmentsOrderBy>>;
 };
 
 /** All input for the `deleteCountryByNodeId` mutation. */
@@ -25087,6 +25852,28 @@ export type FkShipperIdShipperProjectionVesselInfoCreateInput = {
   shipperProjectionEntriesUsingId?: Maybe<ShipperProjectionEntryVesselInfoIdFkeyInverseInput>;
 };
 
+/** All input for the `generateNewContainers` mutation. */
+export type GenerateNewContainersInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+};
+
+/** The output of our `generateNewContainers` mutation. */
+export type GenerateNewContainersPayload = {
+  __typename?: 'GenerateNewContainersPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  containers?: Maybe<Array<Maybe<Container>>>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
 /** A filter to be used against Int fields. All fields are combined with a logical ‘and.’ */
 export type IntFilter = {
   /** Is null (if `true` is specified) or is not null (if `false` is specified). */
@@ -26624,6 +27411,10 @@ export type Mutation = {
   createCommonVarietyProductVariety?: Maybe<CreateCommonVarietyProductVarietyPayload>;
   /** Creates a single `CommonVarietyTag`. */
   createCommonVarietyTag?: Maybe<CreateCommonVarietyTagPayload>;
+  /** Creates a single `Container`. */
+  createContainer?: Maybe<CreateContainerPayload>;
+  /** Creates a single `ContainerTreatment`. */
+  createContainerTreatment?: Maybe<CreateContainerTreatmentPayload>;
   /** Creates a single `CustomerProgram`. */
   createCustomerProgram?: Maybe<CreateCustomerProgramPayload>;
   /** Creates a single `CustomerProgramEntry`. */
@@ -26930,6 +27721,14 @@ export type Mutation = {
   updateCommonVarietyTagByNodeId?: Maybe<UpdateCommonVarietyTagPayload>;
   /** Updates a single `CommonVarietyTag` using a unique key and a patch. */
   updateCommonVarietyTag?: Maybe<UpdateCommonVarietyTagPayload>;
+  /** Updates a single `Container` using its globally unique id and a patch. */
+  updateContainerByNodeId?: Maybe<UpdateContainerPayload>;
+  /** Updates a single `Container` using a unique key and a patch. */
+  updateContainer?: Maybe<UpdateContainerPayload>;
+  /** Updates a single `ContainerTreatment` using its globally unique id and a patch. */
+  updateContainerTreatmentByNodeId?: Maybe<UpdateContainerTreatmentPayload>;
+  /** Updates a single `ContainerTreatment` using a unique key and a patch. */
+  updateContainerTreatment?: Maybe<UpdateContainerTreatmentPayload>;
   /** Updates a single `CustomerProgram` using its globally unique id and a patch. */
   updateCustomerProgramByNodeId?: Maybe<UpdateCustomerProgramPayload>;
   /** Updates a single `CustomerProgram` using a unique key and a patch. */
@@ -27390,6 +28189,14 @@ export type Mutation = {
   deleteCommonVarietyTagByNodeId?: Maybe<DeleteCommonVarietyTagPayload>;
   /** Deletes a single `CommonVarietyTag` using a unique key. */
   deleteCommonVarietyTag?: Maybe<DeleteCommonVarietyTagPayload>;
+  /** Deletes a single `Container` using its globally unique id. */
+  deleteContainerByNodeId?: Maybe<DeleteContainerPayload>;
+  /** Deletes a single `Container` using a unique key. */
+  deleteContainer?: Maybe<DeleteContainerPayload>;
+  /** Deletes a single `ContainerTreatment` using its globally unique id. */
+  deleteContainerTreatmentByNodeId?: Maybe<DeleteContainerTreatmentPayload>;
+  /** Deletes a single `ContainerTreatment` using a unique key. */
+  deleteContainerTreatment?: Maybe<DeleteContainerTreatmentPayload>;
   /** Deletes a single `CustomerProgram` using its globally unique id. */
   deleteCustomerProgramByNodeId?: Maybe<DeleteCustomerProgramPayload>;
   /** Deletes a single `CustomerProgram` using a unique key. */
@@ -27713,6 +28520,7 @@ export type Mutation = {
   bulkDeleteShipperProgramEntryCustomerProgramEntry?: Maybe<BulkDeleteShipperProgramEntryCustomerProgramEntryPayload>;
   bulkDeleteShipperProjectionEntry?: Maybe<BulkDeleteShipperProjectionEntryPayload>;
   bulkDeleteVessel?: Maybe<BulkDeleteVesselPayload>;
+  bulkUpsertContainer?: Maybe<BulkUpsertContainerPayload>;
   bulkUpsertCustomerProgram?: Maybe<BulkUpsertCustomerProgramPayload>;
   bulkUpsertCustomerProgramEntry?: Maybe<BulkUpsertCustomerProgramEntryPayload>;
   bulkUpsertInventoryItem?: Maybe<BulkUpsertInventoryItemPayload>;
@@ -27744,6 +28552,7 @@ export type Mutation = {
   bulkUpsertShipperProjectionProduct?: Maybe<BulkUpsertShipperProjectionProductPayload>;
   bulkUpsertShipperProjectionVessel?: Maybe<BulkUpsertShipperProjectionVesselPayload>;
   bulkUpsertVessel?: Maybe<BulkUpsertVesselPayload>;
+  generateNewContainers?: Maybe<GenerateNewContainersPayload>;
   bulkUpsertAgendaItem?: Maybe<BulkUpsertAgendaItemPayload>;
   bulkUpsertPriceCategory?: Maybe<BulkUpsertPriceCategoryPayload>;
   bulkUpsertPriceEntry?: Maybe<BulkUpsertPriceEntryPayload>;
@@ -27872,6 +28681,10 @@ export type Mutation = {
   upsertCommonVarietyProductVariety?: Maybe<UpsertCommonVarietyProductVarietyPayload>;
   /** Upserts a single `CommonVarietyTag`. */
   upsertCommonVarietyTag?: Maybe<UpsertCommonVarietyTagPayload>;
+  /** Upserts a single `Container`. */
+  upsertContainer?: Maybe<UpsertContainerPayload>;
+  /** Upserts a single `ContainerTreatment`. */
+  upsertContainerTreatment?: Maybe<UpsertContainerTreatmentPayload>;
   /** Upserts a single `CustomerProgram`. */
   upsertCustomerProgram?: Maybe<UpsertCustomerProgramPayload>;
   /** Upserts a single `CustomerProgramEntry`. */
@@ -27998,6 +28811,7 @@ export type Mutation = {
   upsertUnpaid?: Maybe<UpsertUnpaidPayload>;
   /** Upserts a single `VesselControl`. */
   upsertVesselControl?: Maybe<UpsertVesselControlPayload>;
+  containerScheduleUpdateNotify: Scalars['String'];
   sendUnpaidsNotificationEmails: Scalars['String'];
   sendPriceSheetUpdateEmail: Scalars['String'];
   reviewShipperProjection: Scalars['String'];
@@ -28271,6 +29085,18 @@ export type MutationCreateCommonVarietyProductVarietyArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreateCommonVarietyTagArgs = {
   input: CreateCommonVarietyTagInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateContainerArgs = {
+  input: CreateContainerInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateContainerTreatmentArgs = {
+  input: CreateContainerTreatmentInput;
 };
 
 
@@ -29189,6 +30015,30 @@ export type MutationUpdateCommonVarietyTagByNodeIdArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateCommonVarietyTagArgs = {
   input: UpdateCommonVarietyTagInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateContainerByNodeIdArgs = {
+  input: UpdateContainerByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateContainerArgs = {
+  input: UpdateContainerInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateContainerTreatmentByNodeIdArgs = {
+  input: UpdateContainerTreatmentByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateContainerTreatmentArgs = {
+  input: UpdateContainerTreatmentInput;
 };
 
 
@@ -30573,6 +31423,30 @@ export type MutationDeleteCommonVarietyTagArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteContainerByNodeIdArgs = {
+  input: DeleteContainerByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteContainerArgs = {
+  input: DeleteContainerInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteContainerTreatmentByNodeIdArgs = {
+  input: DeleteContainerTreatmentByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteContainerTreatmentArgs = {
+  input: DeleteContainerTreatmentInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteCustomerProgramByNodeIdArgs = {
   input: DeleteCustomerProgramByNodeIdInput;
 };
@@ -31671,6 +32545,12 @@ export type MutationBulkDeleteVesselArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationBulkUpsertContainerArgs = {
+  input: BulkUpsertContainerInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationBulkUpsertCustomerProgramArgs = {
   input: BulkUpsertCustomerProgramInput;
 };
@@ -31853,6 +32733,12 @@ export type MutationBulkUpsertShipperProjectionVesselArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationBulkUpsertVesselArgs = {
   input: BulkUpsertVesselInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationGenerateNewContainersArgs = {
+  input: GenerateNewContainersInput;
 };
 
 
@@ -32355,6 +33241,18 @@ export type MutationUpsertCommonVarietyTagArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpsertContainerArgs = {
+  input: UpsertContainerInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpsertContainerTreatmentArgs = {
+  input: UpsertContainerTreatmentInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpsertCustomerProgramArgs = {
   input: UpsertCustomerProgramInput;
 };
@@ -32729,6 +33627,12 @@ export type MutationUpsertUnpaidArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpsertVesselControlArgs = {
   input: UpsertVesselControlInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationContainerScheduleUpdateNotifyArgs = {
+  input?: Maybe<ContainerScheduleUpdateInput>;
 };
 
 
@@ -36795,6 +37699,9 @@ export type Pallet = Node & {
   billOfLading?: Maybe<Scalars['String']>;
   containerId?: Maybe<Scalars['String']>;
   temperatureRecording?: Maybe<Scalars['String']>;
+  container?: Maybe<Container>;
+  /** Reads and enables pagination through a set of `InvoiceItem`. */
+  invoiceItems: InvoiceItemsConnection;
   /** Reads and enables pagination through a set of `InvoiceHeader`. */
   invoices: InvoiceHeadersConnection;
   originalLocation?: Maybe<Warehouse>;
@@ -36811,6 +37718,16 @@ export type Pallet = Node & {
   sizes: ProductSizesConnection;
   vessel?: Maybe<Vessel>;
   warehouse?: Maybe<Warehouse>;
+};
+
+
+export type PalletInvoiceItemsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  filter?: Maybe<InvoiceItemFilter>;
 };
 
 
@@ -37280,6 +38197,7 @@ export type PersonContact = Node & {
   isInternal: Scalars['Boolean'];
   roles?: Maybe<Scalars['String']>;
   homeExtension?: Maybe<Scalars['String']>;
+  location?: Maybe<Scalars['String']>;
   /** Reads and enables pagination through a set of `ContactGroupPersonContact`. */
   contactGroupPersonContacts: ContactGroupPersonContactsConnection;
   /** Reads and enables pagination through a set of `User`. */
@@ -37471,6 +38389,8 @@ export type PersonContactCondition = {
   roles?: Maybe<Scalars['String']>;
   /** Checks for equality with the object’s `homeExtension` field. */
   homeExtension?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `location` field. */
+  location?: Maybe<Scalars['String']>;
 };
 
 /** A connection to a list of `ContactGroup` values, with data from `ContactGroupPersonContact`. */
@@ -37547,6 +38467,8 @@ export type PersonContactFilter = {
   roles?: Maybe<StringFilter>;
   /** Filter by the object’s `homeExtension` field. */
   homeExtension?: Maybe<StringFilter>;
+  /** Filter by the object’s `location` field. */
+  location?: Maybe<StringFilter>;
   /** Filter by the object’s `searchText` field. */
   searchText?: Maybe<StringFilter>;
   /** Filter by the object’s `contactGroupPersonContacts` relation. */
@@ -37597,6 +38519,7 @@ export type PersonContactInput = {
   isInternal: Scalars['Boolean'];
   roles?: Maybe<Scalars['String']>;
   homeExtension?: Maybe<Scalars['String']>;
+  location?: Maybe<Scalars['String']>;
   contactGroupPersonContactsUsingId?: Maybe<ContactGroupPersonContactPersonContactIdFkeyInverseInput>;
   usersUsingId?: Maybe<UserPersonContactIdFkeyInverseInput>;
   customerPersonContactsUsingId?: Maybe<CustomerPersonContactPersonContactIdFkeyInverseInput>;
@@ -37723,6 +38646,7 @@ export type PersonContactPatch = {
   isInternal?: Maybe<Scalars['Boolean']>;
   roles?: Maybe<Scalars['String']>;
   homeExtension?: Maybe<Scalars['String']>;
+  location?: Maybe<Scalars['String']>;
   contactGroupPersonContactsUsingId?: Maybe<ContactGroupPersonContactPersonContactIdFkeyInverseInput>;
   usersUsingId?: Maybe<UserPersonContactIdFkeyInverseInput>;
   customerPersonContactsUsingId?: Maybe<CustomerPersonContactPersonContactIdFkeyInverseInput>;
@@ -37920,6 +38844,8 @@ export enum PersonContactsOrderBy {
   RolesDesc = 'ROLES_DESC',
   HomeExtensionAsc = 'HOME_EXTENSION_ASC',
   HomeExtensionDesc = 'HOME_EXTENSION_DESC',
+  LocationAsc = 'LOCATION_ASC',
+  LocationDesc = 'LOCATION_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
   ContactGroupPersonContactsByPersonContactIdCountAsc = 'CONTACT_GROUP_PERSON_CONTACTS_BY_PERSON_CONTACT_ID__COUNT_ASC',
@@ -49333,6 +50259,10 @@ export type Query = Node & {
   commonVarietyProductVarieties?: Maybe<CommonVarietyProductVarietiesConnection>;
   /** Reads and enables pagination through a set of `CommonVarietyTag`. */
   commonVarietyTags?: Maybe<CommonVarietyTagsConnection>;
+  /** Reads and enables pagination through a set of `Container`. */
+  containers?: Maybe<ContainersConnection>;
+  /** Reads and enables pagination through a set of `ContainerTreatment`. */
+  containerTreatments?: Maybe<ContainerTreatmentsConnection>;
   /** Reads and enables pagination through a set of `CustomerProgram`. */
   customerPrograms?: Maybe<CustomerProgramsConnection>;
   /** Reads and enables pagination through a set of `CustomerProgramEntry`. */
@@ -49505,6 +50435,8 @@ export type Query = Node & {
   commonVariety?: Maybe<CommonVariety>;
   commonVarietyProductVariety?: Maybe<CommonVarietyProductVariety>;
   commonVarietyTag?: Maybe<CommonVarietyTag>;
+  container?: Maybe<Container>;
+  containerTreatment?: Maybe<ContainerTreatment>;
   customerProgram?: Maybe<CustomerProgram>;
   customerProgramEntry?: Maybe<CustomerProgramEntry>;
   inventoryItem?: Maybe<InventoryItem>;
@@ -49582,6 +50514,7 @@ export type Query = Node & {
   invoiceItemHistory?: Maybe<InvoiceItemHistory>;
   unpaid?: Maybe<Unpaid>;
   vesselControl?: Maybe<VesselControl>;
+  baseData?: Maybe<Scalars['String']>;
   distinctValues?: Maybe<DistinctValuesConnection>;
   customerDistinctColumnValues?: Maybe<CustomerDistinctColumnValuesConnection>;
   customerDistinctValues?: Maybe<CustomerDistinctValuesConnection>;
@@ -49688,6 +50621,10 @@ export type Query = Node & {
   commonVarietyProductVarietyByNodeId?: Maybe<CommonVarietyProductVariety>;
   /** Reads a single `CommonVarietyTag` using its globally unique `ID`. */
   commonVarietyTagByNodeId?: Maybe<CommonVarietyTag>;
+  /** Reads a single `Container` using its globally unique `ID`. */
+  containerByNodeId?: Maybe<Container>;
+  /** Reads a single `ContainerTreatment` using its globally unique `ID`. */
+  containerTreatmentByNodeId?: Maybe<ContainerTreatment>;
   /** Reads a single `CustomerProgram` using its globally unique `ID`. */
   customerProgramByNodeId?: Maybe<CustomerProgram>;
   /** Reads a single `CustomerProgramEntry` using its globally unique `ID`. */
@@ -50406,6 +51343,32 @@ export type QueryCommonVarietyTagsArgs = {
   orderBy?: Maybe<Array<CommonVarietyTagsOrderBy>>;
   condition?: Maybe<CommonVarietyTagCondition>;
   filter?: Maybe<CommonVarietyTagFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryContainersArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ContainersOrderBy>>;
+  condition?: Maybe<ContainerCondition>;
+  filter?: Maybe<ContainerFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryContainerTreatmentsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ContainerTreatmentsOrderBy>>;
+  condition?: Maybe<ContainerTreatmentCondition>;
+  filter?: Maybe<ContainerTreatmentFilter>;
 };
 
 
@@ -51515,6 +52478,18 @@ export type QueryCommonVarietyTagArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
+export type QueryContainerArgs = {
+  id: Scalars['BigInt'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryContainerTreatmentArgs = {
+  id: Scalars['BigInt'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
 export type QueryCustomerProgramArgs = {
   id: Scalars['BigInt'];
 };
@@ -52409,6 +53384,18 @@ export type QueryCommonVarietyProductVarietyByNodeIdArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryCommonVarietyTagByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryContainerByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryContainerTreatmentByNodeIdArgs = {
   nodeId: Scalars['ID'];
 };
 
@@ -54639,6 +55626,7 @@ export type ShipperPersonContactPersonContactIdFkeyPersonContactCreateInput = {
   isInternal: Scalars['Boolean'];
   roles?: Maybe<Scalars['String']>;
   homeExtension?: Maybe<Scalars['String']>;
+  location?: Maybe<Scalars['String']>;
   contactGroupPersonContactsUsingId?: Maybe<ContactGroupPersonContactPersonContactIdFkeyInverseInput>;
   usersUsingId?: Maybe<UserPersonContactIdFkeyInverseInput>;
   customerPersonContactsUsingId?: Maybe<CustomerPersonContactPersonContactIdFkeyInverseInput>;
@@ -54838,7 +55826,9 @@ export enum ShipperPersonContactsOrderBy {
   PersonContactByPersonContactIdRolesAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__ROLES_ASC',
   PersonContactByPersonContactIdRolesDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__ROLES_DESC',
   PersonContactByPersonContactIdHomeExtensionAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__HOME_EXTENSION_ASC',
-  PersonContactByPersonContactIdHomeExtensionDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__HOME_EXTENSION_DESC'
+  PersonContactByPersonContactIdHomeExtensionDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__HOME_EXTENSION_DESC',
+  PersonContactByPersonContactIdLocationAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__LOCATION_ASC',
+  PersonContactByPersonContactIdLocationDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__LOCATION_DESC'
 }
 
 export type ShipperProgram = Node & {
@@ -59069,6 +60059,8 @@ export type ShipperProjectionVesselVesselIdFkeyVesselCreateInput = {
   isPre?: Maybe<Scalars['Boolean']>;
   preVesselCode?: Maybe<Scalars['String']>;
   invFlag?: Maybe<Scalars['Boolean']>;
+  scheduleNotes?: Maybe<Scalars['String']>;
+  isAvailable?: Maybe<Scalars['Boolean']>;
   shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselVesselIdFkeyInverseInput>;
 };
 
@@ -59153,6 +60145,10 @@ export enum ShipperProjectionVesselsOrderBy {
   VesselByVesselIdPreVesselCodeDesc = 'VESSEL_BY_VESSEL_ID__PRE_VESSEL_CODE_DESC',
   VesselByVesselIdInvFlagAsc = 'VESSEL_BY_VESSEL_ID__INV_FLAG_ASC',
   VesselByVesselIdInvFlagDesc = 'VESSEL_BY_VESSEL_ID__INV_FLAG_DESC',
+  VesselByVesselIdScheduleNotesAsc = 'VESSEL_BY_VESSEL_ID__SCHEDULE_NOTES_ASC',
+  VesselByVesselIdScheduleNotesDesc = 'VESSEL_BY_VESSEL_ID__SCHEDULE_NOTES_DESC',
+  VesselByVesselIdIsAvailableAsc = 'VESSEL_BY_VESSEL_ID__IS_AVAILABLE_ASC',
+  VesselByVesselIdIsAvailableDesc = 'VESSEL_BY_VESSEL_ID__IS_AVAILABLE_DESC',
   ShipperProjectionVesselInfosByVesselIdCountAsc = 'SHIPPER_PROJECTION_VESSEL_INFOS_BY_VESSEL_ID__COUNT_ASC',
   ShipperProjectionVesselInfosByVesselIdCountDesc = 'SHIPPER_PROJECTION_VESSEL_INFOS_BY_VESSEL_ID__COUNT_DESC'
 }
@@ -61707,6 +62703,102 @@ export type UpdateContactGroupPersonContactPayload = {
 /** The output of our update `ContactGroupPersonContact` mutation. */
 export type UpdateContactGroupPersonContactPayloadContactGroupPersonContactEdgeArgs = {
   orderBy?: Maybe<Array<ContactGroupPersonContactsOrderBy>>;
+};
+
+/** All input for the `updateContainerByNodeId` mutation. */
+export type UpdateContainerByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `Container` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `Container` being updated. */
+  patch: ContainerPatch;
+};
+
+/** All input for the `updateContainer` mutation. */
+export type UpdateContainerInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `Container` being updated. */
+  patch: ContainerPatch;
+  id: Scalars['BigInt'];
+};
+
+/** The output of our update `Container` mutation. */
+export type UpdateContainerPayload = {
+  __typename?: 'UpdateContainerPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `Container` that was updated by this mutation. */
+  container?: Maybe<Container>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `Container`. May be used by Relay 1. */
+  containerEdge?: Maybe<ContainersEdge>;
+};
+
+
+/** The output of our update `Container` mutation. */
+export type UpdateContainerPayloadContainerEdgeArgs = {
+  orderBy?: Maybe<Array<ContainersOrderBy>>;
+};
+
+/** All input for the `updateContainerTreatmentByNodeId` mutation. */
+export type UpdateContainerTreatmentByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `ContainerTreatment` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `ContainerTreatment` being updated. */
+  patch: ContainerTreatmentPatch;
+};
+
+/** All input for the `updateContainerTreatment` mutation. */
+export type UpdateContainerTreatmentInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `ContainerTreatment` being updated. */
+  patch: ContainerTreatmentPatch;
+  id: Scalars['BigInt'];
+};
+
+/** The output of our update `ContainerTreatment` mutation. */
+export type UpdateContainerTreatmentPayload = {
+  __typename?: 'UpdateContainerTreatmentPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `ContainerTreatment` that was updated by this mutation. */
+  containerTreatment?: Maybe<ContainerTreatment>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Container` that is related to this `ContainerTreatment`. */
+  container?: Maybe<Container>;
+  /** An edge for our `ContainerTreatment`. May be used by Relay 1. */
+  containerTreatmentEdge?: Maybe<ContainerTreatmentsEdge>;
+};
+
+
+/** The output of our update `ContainerTreatment` mutation. */
+export type UpdateContainerTreatmentPayloadContainerTreatmentEdgeArgs = {
+  orderBy?: Maybe<Array<ContainerTreatmentsOrderBy>>;
 };
 
 /** All input for the `updateCountryByNodeId` mutation. */
@@ -66762,6 +67854,62 @@ export type UpsertContactGroupPersonContactPayloadContactGroupPersonContactEdgeA
   orderBy?: Maybe<Array<ContactGroupPersonContactsOrderBy>>;
 };
 
+/** All input for the upsert `Container` mutation. */
+export type UpsertContainerInput = {
+  /** An arbitrary string value with no semantic meaning. Will be included in the payload verbatim. May be used to track mutations by the client. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `Container` to be upserted by this mutation. */
+  container: ContainerInput;
+};
+
+/** The output of our upsert `Container` mutation. */
+export type UpsertContainerPayload = {
+  __typename?: 'UpsertContainerPayload';
+  /** The exact same `clientMutationId` that was provided in the mutation input, unchanged and unused. May be used by a client to track mutations. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `Container` that were upserted by this mutation. */
+  container?: Maybe<Container>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `Container`. May be used by Relay 1. */
+  containerEdge?: Maybe<ContainersEdge>;
+};
+
+
+/** The output of our upsert `Container` mutation. */
+export type UpsertContainerPayloadContainerEdgeArgs = {
+  orderBy?: Maybe<Array<ContainersOrderBy>>;
+};
+
+/** All input for the upsert `ContainerTreatment` mutation. */
+export type UpsertContainerTreatmentInput = {
+  /** An arbitrary string value with no semantic meaning. Will be included in the payload verbatim. May be used to track mutations by the client. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `ContainerTreatment` to be upserted by this mutation. */
+  containerTreatment: ContainerTreatmentInput;
+};
+
+/** The output of our upsert `ContainerTreatment` mutation. */
+export type UpsertContainerTreatmentPayload = {
+  __typename?: 'UpsertContainerTreatmentPayload';
+  /** The exact same `clientMutationId` that was provided in the mutation input, unchanged and unused. May be used by a client to track mutations. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `ContainerTreatment` that were upserted by this mutation. */
+  containerTreatment?: Maybe<ContainerTreatment>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `Container` that is related to this `ContainerTreatment`. */
+  container?: Maybe<Container>;
+  /** An edge for our `ContainerTreatment`. May be used by Relay 1. */
+  containerTreatmentEdge?: Maybe<ContainerTreatmentsEdge>;
+};
+
+
+/** The output of our upsert `ContainerTreatment` mutation. */
+export type UpsertContainerTreatmentPayloadContainerTreatmentEdgeArgs = {
+  orderBy?: Maybe<Array<ContainerTreatmentsOrderBy>>;
+};
+
 /** All input for the upsert `Country` mutation. */
 export type UpsertCountryInput = {
   /** An arbitrary string value with no semantic meaning. Will be included in the payload verbatim. May be used to track mutations by the client. */
@@ -70169,6 +71317,7 @@ export type UserPersonContactIdFkeyPersonContactCreateInput = {
   isInternal: Scalars['Boolean'];
   roles?: Maybe<Scalars['String']>;
   homeExtension?: Maybe<Scalars['String']>;
+  location?: Maybe<Scalars['String']>;
   contactGroupPersonContactsUsingId?: Maybe<ContactGroupPersonContactPersonContactIdFkeyInverseInput>;
   usersUsingId?: Maybe<UserPersonContactIdFkeyInverseInput>;
   customerPersonContactsUsingId?: Maybe<CustomerPersonContactPersonContactIdFkeyInverseInput>;
@@ -70495,6 +71644,8 @@ export enum UsersOrderBy {
   PersonContactByPersonContactIdRolesDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__ROLES_DESC',
   PersonContactByPersonContactIdHomeExtensionAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__HOME_EXTENSION_ASC',
   PersonContactByPersonContactIdHomeExtensionDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__HOME_EXTENSION_DESC',
+  PersonContactByPersonContactIdLocationAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__LOCATION_ASC',
+  PersonContactByPersonContactIdLocationDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__LOCATION_DESC',
   ContactGroupsByUserIdCountAsc = 'CONTACT_GROUPS_BY_USER_ID__COUNT_ASC',
   ContactGroupsByUserIdCountDesc = 'CONTACT_GROUPS_BY_USER_ID__COUNT_DESC',
   UserMessagesByUserIdCountAsc = 'USER_MESSAGES_BY_USER_ID__COUNT_ASC',
@@ -70909,6 +72060,7 @@ export type VendorPersonContactPersonContactIdFkeyPersonContactCreateInput = {
   isInternal: Scalars['Boolean'];
   roles?: Maybe<Scalars['String']>;
   homeExtension?: Maybe<Scalars['String']>;
+  location?: Maybe<Scalars['String']>;
   contactGroupPersonContactsUsingId?: Maybe<ContactGroupPersonContactPersonContactIdFkeyInverseInput>;
   usersUsingId?: Maybe<UserPersonContactIdFkeyInverseInput>;
   customerPersonContactsUsingId?: Maybe<CustomerPersonContactPersonContactIdFkeyInverseInput>;
@@ -71117,7 +72269,9 @@ export enum VendorPersonContactsOrderBy {
   PersonContactByPersonContactIdRolesAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__ROLES_ASC',
   PersonContactByPersonContactIdRolesDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__ROLES_DESC',
   PersonContactByPersonContactIdHomeExtensionAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__HOME_EXTENSION_ASC',
-  PersonContactByPersonContactIdHomeExtensionDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__HOME_EXTENSION_DESC'
+  PersonContactByPersonContactIdHomeExtensionDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__HOME_EXTENSION_DESC',
+  PersonContactByPersonContactIdLocationAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__LOCATION_ASC',
+  PersonContactByPersonContactIdLocationDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__LOCATION_DESC'
 }
 
 /** A filter to be used against many `VendorPersonContact` object types. All fields are combined with a logical ‘and.’ */
@@ -71221,8 +72375,12 @@ export type Vessel = Node & {
   isPre?: Maybe<Scalars['Boolean']>;
   preVesselCode?: Maybe<Scalars['String']>;
   invFlag?: Maybe<Scalars['Boolean']>;
+  scheduleNotes?: Maybe<Scalars['String']>;
+  isAvailable?: Maybe<Scalars['Boolean']>;
   /** Reads and enables pagination through a set of `ShipperProjectionVessel`. */
   shipperProjectionVessels: ShipperProjectionVesselsConnection;
+  /** Reads and enables pagination through a set of `Container`. */
+  containers: ContainersConnection;
   country?: Maybe<Country>;
   /** Reads and enables pagination through a set of `InventoryItem`. */
   inventoryItems: InventoryItemsConnection;
@@ -71245,6 +72403,16 @@ export type VesselShipperProjectionVesselsArgs = {
   orderBy?: Maybe<Array<ShipperProjectionVesselsOrderBy>>;
   condition?: Maybe<ShipperProjectionVesselCondition>;
   filter?: Maybe<ShipperProjectionVesselFilter>;
+};
+
+
+export type VesselContainersArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  filter?: Maybe<ContainerFilter>;
 };
 
 
@@ -71305,6 +72473,10 @@ export type VesselCondition = {
   preVesselCode?: Maybe<Scalars['String']>;
   /** Checks for equality with the object’s `invFlag` field. */
   invFlag?: Maybe<Scalars['Boolean']>;
+  /** Checks for equality with the object’s `scheduleNotes` field. */
+  scheduleNotes?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `isAvailable` field. */
+  isAvailable?: Maybe<Scalars['Boolean']>;
 };
 
 export type VesselControl = Node & {
@@ -71506,6 +72678,10 @@ export type VesselFilter = {
   preVesselCode?: Maybe<StringFilter>;
   /** Filter by the object’s `invFlag` field. */
   invFlag?: Maybe<BooleanFilter>;
+  /** Filter by the object’s `scheduleNotes` field. */
+  scheduleNotes?: Maybe<StringFilter>;
+  /** Filter by the object’s `isAvailable` field. */
+  isAvailable?: Maybe<BooleanFilter>;
   /** Filter by the object’s `originalArrivalPort` field. */
   originalArrivalPort?: Maybe<StringFilter>;
   /** Filter by the object’s `searchText` field. */
@@ -71536,6 +72712,8 @@ export type VesselInput = {
   isPre?: Maybe<Scalars['Boolean']>;
   preVesselCode?: Maybe<Scalars['String']>;
   invFlag?: Maybe<Scalars['Boolean']>;
+  scheduleNotes?: Maybe<Scalars['String']>;
+  isAvailable?: Maybe<Scalars['Boolean']>;
   shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselVesselIdFkeyInverseInput>;
 };
 
@@ -71580,6 +72758,8 @@ export type VesselPatch = {
   isPre?: Maybe<Scalars['Boolean']>;
   preVesselCode?: Maybe<Scalars['String']>;
   invFlag?: Maybe<Scalars['Boolean']>;
+  scheduleNotes?: Maybe<Scalars['String']>;
+  isAvailable?: Maybe<Scalars['Boolean']>;
   shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselVesselIdFkeyInverseInput>;
 };
 
@@ -71689,6 +72869,10 @@ export enum VesselsOrderBy {
   PreVesselCodeDesc = 'PRE_VESSEL_CODE_DESC',
   InvFlagAsc = 'INV_FLAG_ASC',
   InvFlagDesc = 'INV_FLAG_DESC',
+  ScheduleNotesAsc = 'SCHEDULE_NOTES_ASC',
+  ScheduleNotesDesc = 'SCHEDULE_NOTES_DESC',
+  IsAvailableAsc = 'IS_AVAILABLE_ASC',
+  IsAvailableDesc = 'IS_AVAILABLE_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
   ShipperProjectionVesselsByVesselIdCountAsc = 'SHIPPER_PROJECTION_VESSELS_BY_VESSEL_ID__COUNT_ASC',
@@ -72161,6 +73345,7 @@ export type WarehousePersonContactPersonContactIdFkeyPersonContactCreateInput = 
   isInternal: Scalars['Boolean'];
   roles?: Maybe<Scalars['String']>;
   homeExtension?: Maybe<Scalars['String']>;
+  location?: Maybe<Scalars['String']>;
   contactGroupPersonContactsUsingId?: Maybe<ContactGroupPersonContactPersonContactIdFkeyInverseInput>;
   usersUsingId?: Maybe<UserPersonContactIdFkeyInverseInput>;
   customerPersonContactsUsingId?: Maybe<CustomerPersonContactPersonContactIdFkeyInverseInput>;
@@ -72364,7 +73549,9 @@ export enum WarehousePersonContactsOrderBy {
   PersonContactByPersonContactIdRolesAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__ROLES_ASC',
   PersonContactByPersonContactIdRolesDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__ROLES_DESC',
   PersonContactByPersonContactIdHomeExtensionAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__HOME_EXTENSION_ASC',
-  PersonContactByPersonContactIdHomeExtensionDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__HOME_EXTENSION_DESC'
+  PersonContactByPersonContactIdHomeExtensionDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__HOME_EXTENSION_DESC',
+  PersonContactByPersonContactIdLocationAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__LOCATION_ASC',
+  PersonContactByPersonContactIdLocationDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__LOCATION_DESC'
 }
 
 /** A filter to be used against many `WarehousePersonContact` object types. All fields are combined with a logical ‘and.’ */
@@ -73181,6 +74368,38 @@ export type UpdateContactGroupPersonContactOnContactGroupPersonContactForContact
   personContactToPersonContactId?: Maybe<ContactGroupPersonContactPersonContactIdFkeyInput>;
 };
 
+/** An object where the defined keys will be set on the `container` being updated. */
+export type UpdateContainerOnContainerTreatmentForContainerTreatmentContainerIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  vesselCode?: Maybe<Scalars['String']>;
+  vendorId?: Maybe<Scalars['String']>;
+  warehouseId?: Maybe<Scalars['String']>;
+  containerDescription?: Maybe<Scalars['String']>;
+  releaseDate?: Maybe<Scalars['Date']>;
+  releaseConfirmed?: Maybe<Scalars['Boolean']>;
+  dischargeDate?: Maybe<Scalars['Date']>;
+  dischargeConfirmed?: Maybe<Scalars['Boolean']>;
+  notes1?: Maybe<Scalars['String']>;
+  notes2?: Maybe<Scalars['String']>;
+  notes3?: Maybe<Scalars['String']>;
+  sentConfirmed?: Maybe<Scalars['Boolean']>;
+  isAvailable?: Maybe<Scalars['Boolean']>;
+  isNew?: Maybe<Scalars['Boolean']>;
+  isSchedule?: Maybe<Scalars['Boolean']>;
+  containerTreatmentsUsingId?: Maybe<ContainerTreatmentContainerIdFkeyInverseInput>;
+};
+
+/** An object where the defined keys will be set on the `containerTreatment` being updated. */
+export type UpdateContainerTreatmentOnContainerTreatmentForContainerTreatmentContainerIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  treatmentDate?: Maybe<Scalars['Date']>;
+  treatmentConfirmed?: Maybe<Scalars['Boolean']>;
+  treatmentResult?: Maybe<Scalars['String']>;
+  treatmentType?: Maybe<Scalars['String']>;
+  treatmentNotes?: Maybe<Scalars['String']>;
+  containerToContainerId?: Maybe<ContainerTreatmentContainerIdFkeyInput>;
+};
+
 /** An object where the defined keys will be set on the `country` being updated. */
 export type UpdateCountryOnShipperForShipperCountryIdFkeyPatch = {
   id?: Maybe<Scalars['String']>;
@@ -73646,6 +74865,7 @@ export type UpdatePersonContactOnContactGroupPersonContactForContactGroupPersonC
   isInternal?: Maybe<Scalars['Boolean']>;
   roles?: Maybe<Scalars['String']>;
   homeExtension?: Maybe<Scalars['String']>;
+  location?: Maybe<Scalars['String']>;
   contactGroupPersonContactsUsingId?: Maybe<ContactGroupPersonContactPersonContactIdFkeyInverseInput>;
   usersUsingId?: Maybe<UserPersonContactIdFkeyInverseInput>;
   customerPersonContactsUsingId?: Maybe<CustomerPersonContactPersonContactIdFkeyInverseInput>;
@@ -73670,6 +74890,7 @@ export type UpdatePersonContactOnCustomerPersonContactForCustomerPersonContactPe
   isInternal?: Maybe<Scalars['Boolean']>;
   roles?: Maybe<Scalars['String']>;
   homeExtension?: Maybe<Scalars['String']>;
+  location?: Maybe<Scalars['String']>;
   contactGroupPersonContactsUsingId?: Maybe<ContactGroupPersonContactPersonContactIdFkeyInverseInput>;
   usersUsingId?: Maybe<UserPersonContactIdFkeyInverseInput>;
   customerPersonContactsUsingId?: Maybe<CustomerPersonContactPersonContactIdFkeyInverseInput>;
@@ -73694,6 +74915,7 @@ export type UpdatePersonContactOnShipperPersonContactForShipperPersonContactPers
   isInternal?: Maybe<Scalars['Boolean']>;
   roles?: Maybe<Scalars['String']>;
   homeExtension?: Maybe<Scalars['String']>;
+  location?: Maybe<Scalars['String']>;
   contactGroupPersonContactsUsingId?: Maybe<ContactGroupPersonContactPersonContactIdFkeyInverseInput>;
   usersUsingId?: Maybe<UserPersonContactIdFkeyInverseInput>;
   customerPersonContactsUsingId?: Maybe<CustomerPersonContactPersonContactIdFkeyInverseInput>;
@@ -73718,6 +74940,7 @@ export type UpdatePersonContactOnUserForUserPersonContactIdFkeyPatch = {
   isInternal?: Maybe<Scalars['Boolean']>;
   roles?: Maybe<Scalars['String']>;
   homeExtension?: Maybe<Scalars['String']>;
+  location?: Maybe<Scalars['String']>;
   contactGroupPersonContactsUsingId?: Maybe<ContactGroupPersonContactPersonContactIdFkeyInverseInput>;
   usersUsingId?: Maybe<UserPersonContactIdFkeyInverseInput>;
   customerPersonContactsUsingId?: Maybe<CustomerPersonContactPersonContactIdFkeyInverseInput>;
@@ -73742,6 +74965,7 @@ export type UpdatePersonContactOnVendorPersonContactForVendorPersonContactPerson
   isInternal?: Maybe<Scalars['Boolean']>;
   roles?: Maybe<Scalars['String']>;
   homeExtension?: Maybe<Scalars['String']>;
+  location?: Maybe<Scalars['String']>;
   contactGroupPersonContactsUsingId?: Maybe<ContactGroupPersonContactPersonContactIdFkeyInverseInput>;
   usersUsingId?: Maybe<UserPersonContactIdFkeyInverseInput>;
   customerPersonContactsUsingId?: Maybe<CustomerPersonContactPersonContactIdFkeyInverseInput>;
@@ -73766,6 +74990,7 @@ export type UpdatePersonContactOnWarehousePersonContactForWarehousePersonContact
   isInternal?: Maybe<Scalars['Boolean']>;
   roles?: Maybe<Scalars['String']>;
   homeExtension?: Maybe<Scalars['String']>;
+  location?: Maybe<Scalars['String']>;
   contactGroupPersonContactsUsingId?: Maybe<ContactGroupPersonContactPersonContactIdFkeyInverseInput>;
   usersUsingId?: Maybe<UserPersonContactIdFkeyInverseInput>;
   customerPersonContactsUsingId?: Maybe<CustomerPersonContactPersonContactIdFkeyInverseInput>;
@@ -74836,6 +76061,8 @@ export type UpdateVesselOnShipperProjectionVesselForShipperProjectionVesselVesse
   isPre?: Maybe<Scalars['Boolean']>;
   preVesselCode?: Maybe<Scalars['String']>;
   invFlag?: Maybe<Scalars['Boolean']>;
+  scheduleNotes?: Maybe<Scalars['String']>;
+  isAvailable?: Maybe<Scalars['Boolean']>;
   shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselVesselIdFkeyInverseInput>;
 };
 

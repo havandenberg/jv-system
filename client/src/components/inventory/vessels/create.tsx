@@ -93,9 +93,9 @@ const CreateVessel = () => {
       actions={[
         <Fragment key={0}>
           <l.AreaLink to={cancelLink}>
-            <b.Primary width={88}>Cancel</b.Primary>
+            <b.Error width={88}>Cancel</b.Error>
           </l.AreaLink>
-          <b.Primary ml={th.spacing.md} onClick={handleSave} width={88}>
+          <b.Success ml={th.spacing.md} onClick={handleSave} width={88}>
             {createLoading ? (
               <l.Flex alignCenter justifyCenter>
                 <ClipLoader
@@ -106,7 +106,7 @@ const CreateVessel = () => {
             ) : (
               'Create'
             )}
-          </b.Primary>
+          </b.Success>
         </Fragment>,
       ]}
       breadcrumbs={breadcrumbs}

@@ -1,0 +1,5 @@
+mutation CONTAINER_CREATE($container: ContainerInput!) {
+  createContainer(input: { container: $container }) {
+    clientMutationId
+  }
+}

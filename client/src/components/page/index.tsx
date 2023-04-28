@@ -90,7 +90,12 @@ const Page = ({
             {(title || actions) && (
               <l.Flex alignCenter justifyBetween mb={th.spacing.md}>
                 {title && (
-                  <ty.TitleText mb={0} mr={th.spacing.lg} mt={th.spacing.sm}>
+                  <ty.TitleText
+                    mb={0}
+                    mr={th.spacing.lg}
+                    mt={th.spacing.sm}
+                    ellipsis
+                  >
                     {title}
                   </ty.TitleText>
                 )}

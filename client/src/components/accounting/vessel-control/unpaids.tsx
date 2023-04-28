@@ -12,9 +12,18 @@ import { hexColorWithTransparency } from 'ui/utils';
 
 import { getUnpaidsInfo } from '../unpaids/data-utils';
 
-export const SALES_USER_CODES = ['AK', 'BS', 'GV', 'JS', 'MF', 'NP', 'SS'];
+export const SALES_USER_CODES = [
+  'AK',
+  'BS',
+  'GV',
+  'JS',
+  'MF',
+  'MS',
+  'NP',
+  'SS',
+];
 
-export const gridTemplateColumns = '80px repeat(7, 50px)';
+export const gridTemplateColumns = '80px repeat(8, 50px)';
 
 export const UnpaidsBySalesAssoc = ({
   isAllApproved,

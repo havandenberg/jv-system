@@ -38,11 +38,11 @@ export interface FilterPanelProps {
 
 interface Props<T> extends FilterPanelProps {
   filterKey: keyof T;
-  schemaName: string;
+  schemaName?: string;
   showPanel: boolean;
   setShowPanel: (show: boolean) => void;
   sortKey?: string;
-  tableName: string;
+  tableName?: string;
   visible: boolean;
 }
 

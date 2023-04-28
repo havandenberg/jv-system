@@ -11,6 +11,7 @@ import * as contactDirectory from 'api/directory/contacts';
 import * as shipperDirectory from 'api/directory/shipper';
 import * as vendorDirectory from 'api/directory/vendor';
 import * as warehouseDirectory from 'api/directory/warehouse';
+import * as containers from 'api/inventory/containers';
 import * as inventory from 'api/inventory/inventory/item';
 import * as orders from 'api/inventory/orders';
 import * as pallets from 'api/inventory/inventory/pallets';
@@ -19,10 +20,11 @@ import * as inventoryProducts from 'api/inventory/inventory/products';
 import * as products from 'api/inventory/products';
 import * as truckLoads from 'api/inventory/truck-loads';
 import * as truckRates from 'api/inventory/truck-loads/rates';
-import * as vessels from 'api/inventory/vessel';
+import * as vessels from 'api/inventory/vessels';
 import * as chileDepartureInspections from 'api/reports/inspections/chile-departure';
 import * as peruDepartureInspections from 'api/reports/inspections/peru-departure';
 import * as psaArrivalInspections from 'api/reports/inspections/psa-arrival';
+import * as salesReports from 'api/reports/sales';
 import * as priceSheet from 'api/sales/price-sheet';
 import * as programs from 'api/sales/programs';
 import * as agenda from 'api/sales/agenda';
@@ -46,6 +48,7 @@ export default {
   ...calendar,
   ...chileDepartureInspections,
   ...contactDirectory,
+  ...containers,
   ...countryDirectory,
   ...customerDirectory,
   ...expenses,
@@ -62,6 +65,7 @@ export default {
   ...projections,
   ...psaArrivalInspections,
   ...repacks,
+  ...salesReports,
   ...shipperDirectory,
   ...truckLoads,
   ...truckRates,

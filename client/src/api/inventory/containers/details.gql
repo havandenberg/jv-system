@@ -1,0 +1,70 @@
+query CONTAINER_DETAILS($containerIds: [String!]) {
+  containers(
+    filter: { containerId: { in: $containerIds } }
+    orderBy: DISCHARGE_DATE_DESC
+  ) {
+    nodes {
+      id
+      containerId
+      containerDescription
+      releaseDate
+      releaseConfirmed
+      dischargeDate
+      dischargeConfirmed
+      isAvailable
+      isNew
+      notes1
+      notes2
+      notes3
+      sentConfirmed
+      warehouseId
+      warehouse {
+        id
+        warehouseName
+      }
+      vendorId
+      vendor {
+        id
+        vendorName
+      }
+      vesselCode
+      vessel {
+        id
+        arrivalDate
+        coast
+        dischargeDate
+        vesselCode
+        vesselName
+        warehouse {
+          id
+          warehouseName
+        }
+      }
+      containerTreatments {
+        nodes {
+          id
+          treatmentDate
+          treatmentConfirmed
+          treatmentResult
+          treatmentType
+          treatmentNotes
+        }
+      }
+      pallets {
+        nodes {
+          containerId
+          currentBoxQuantity
+          growerId
+          id
+          palletId
+          packDate
+          shipped
+          shipper {
+            id
+            shipperName
+          }
+        }
+      }
+    }
+  }
+}

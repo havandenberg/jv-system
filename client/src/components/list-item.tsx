@@ -3,14 +3,15 @@ import styled from '@emotion/styled';
 import Tooltip from 'react-tooltip';
 
 import Chevron from 'assets/images/chevron';
-import { baseDataTransforms } from 'components/base-data';
+import { BaseDataItemSelector, baseDataTransforms } from 'components/base-data';
 import { LabelInfo } from 'components/column-label';
+import EditableCell, { EditableCellProps } from 'components/editable-cell';
+import Expandable from 'components/expandable';
+import { BasicModal } from 'components/modal';
 import { LineItemCheckbox } from 'ui/checkbox';
 import l, { DivProps } from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
-
-import Expandable from './expandable';
 
 const Wrapper = styled(l.Flex)({
   '& .show': {
@@ -19,13 +20,51 @@ const Wrapper = styled(l.Flex)({
   },
 });
 
+export interface ListItemProps<T> {
+  changes?: T;
+  confirmRemove?: boolean;
+  content?: React.ReactNode;
+  customStyles?: {
+    noCellBackground?: boolean;
+    cellWrapper?: DivProps;
+    wrapper?: DivProps;
+  };
+  data: T;
+  defaultOpen?: boolean;
+  editing?: boolean;
+  error?: boolean;
+  gridTemplateColumns: string;
+  highlightColor?: string;
+  hoverable?: boolean;
+  index?: number;
+  isHighlight?: boolean;
+  isHalfHighlight?: boolean;
+  isOpen?: boolean;
+  listLabels: LabelInfo<T>[];
+  handleChange?: (field: keyof T, value: any) => void;
+  handleRemove?: () => void;
+  handleToggleOpen?: () => void;
+  offsetTop?: number;
+  onClick?: () => void;
+  onSelectItem?: () => void;
+  rowKey?: string | number;
+  selected?: boolean;
+  showValidation?: boolean;
+  to?: string;
+}
+
 const ListItem = <T extends {}>({
+  changes,
+  confirmRemove,
   content,
   customStyles,
-  error,
   data,
   defaultOpen,
+  editing,
+  error,
   gridTemplateColumns,
+  handleChange,
+  handleRemove = () => ({}),
   highlightColor,
   hoverable,
   index,
@@ -39,31 +78,9 @@ const ListItem = <T extends {}>({
   onSelectItem,
   rowKey,
   selected,
+  showValidation,
   to,
-}: {
-  content?: React.ReactNode;
-  customStyles?: {
-    wrapper?: DivProps;
-  };
-  data: T;
-  defaultOpen?: boolean;
-  error?: boolean;
-  gridTemplateColumns: string;
-  highlightColor?: string;
-  hoverable?: boolean;
-  index?: number;
-  isHighlight?: boolean;
-  isHalfHighlight?: boolean;
-  isOpen?: boolean;
-  listLabels: LabelInfo<T>[];
-  handleToggleOpen?: () => void;
-  offsetTop?: number;
-  onClick?: () => void;
-  onSelectItem?: () => void;
-  rowKey?: string | number;
-  selected?: boolean;
-  to?: string;
-}) => {
+}: ListItemProps<T>) => {
   const clickable = !!onClick || !!to;
 
   const [isLocalOpen, setIsLocalOpen] = React.useState(!!defaultOpen);
@@ -89,20 +106,89 @@ const ListItem = <T extends {}>({
           {
             allowClick,
             allowOverflow,
-            key,
+            dropdownOptions,
+            editablCellProps,
             getValue,
+            isBoolean,
+            isColor,
+            isDate,
+            itemSelectorQueryProps,
+            key,
+            readOnly,
             rowKey: itemRowKey,
+            title,
             transformKey,
+            transformValue,
+            validate,
           },
           idx,
         ) => {
           const value = transformKey
             ? baseDataTransforms[transformKey](data[key])
+            : transformValue
+            ? transformValue(data[key])
             : getValue
             ? getValue(data)
             : data[key];
           const localRowKey = itemRowKey ? itemRowKey(data) : rowKey;
           const keyIndex = `${String(key)}-${idx}-${localRowKey}`;
+
+          const content = changes
+            ? {
+                dirty: changes[key] !== data[key],
+                value: `${
+                  changes[key] === undefined
+                    ? data[key] || ''
+                    : changes[key] || ''
+                }`,
+              }
+            : { dirty: false, value: `${data[key]}` };
+          const isValid = !validate || validate(changes || data);
+          const isEditing = !!editing && !readOnly;
+
+          const cellInputProps = {
+            borderRadius: th.borderRadii.default,
+            height: th.sizes.icon,
+            fontSize: th.fontSizes.body,
+            padding: th.spacing.xs,
+            width: th.sizes.fill,
+          };
+
+          const selectInputProps = {
+            borderRadius: th.borderRadii.default,
+            fontSize: th.fontSizes.body,
+            padding: th.spacing.xs,
+            width: th.sizes.fill,
+          };
+
+          const editableCellProps: EditableCellProps = {
+            bypassLocalValue: true,
+            content,
+            defaultChildren: getValue ? (
+              getValue(data)
+            ) : (
+              <ty.BodyText>{value}</ty.BodyText>
+            ),
+            dropdownOptions,
+            editing: isEditing,
+            error: showValidation && !isValid,
+            height: 'auto',
+            inputProps: cellInputProps,
+            selectProps: selectInputProps,
+            isBoolean,
+            isColor,
+            isDate,
+            onChange: (e) => {
+              handleChange &&
+                handleChange(
+                  key,
+                  isBoolean ? e.target.checked : e.target.value,
+                );
+            },
+            title: data && title ? title(data) : undefined,
+            ...editablCellProps,
+          };
+
           return (
             <Wrapper
               alignCenter
@@ -110,20 +196,36 @@ const ListItem = <T extends {}>({
               overflow={allowOverflow ? 'visible' : 'hidden'}
               px={th.spacing.sm}
               py={th.spacing.xs}
+              title={data && title ? title(data) : undefined}
             >
-              <l.Div data-tip data-for={keyIndex} width={th.sizes.fill}>
-                <ty.BodyText
-                  nowrap
-                  onClick={(e: React.MouseEvent) => {
-                    !content &&
-                      (!onClick || !allowClick) &&
-                      e.stopPropagation();
-                  }}
-                  width={th.sizes.fill}
-                >
-                  {value || '-'}
-                </ty.BodyText>
-              </l.Div>
+              {editing ? (
+                itemSelectorQueryProps ? (
+                  <BaseDataItemSelector<T>
+                    {...itemSelectorQueryProps}
+                    editableCellProps={editableCellProps}
+                    editing={isEditing}
+                    handleChange={handleChange}
+                    labelKey={key}
+                    value={content.value}
+                  />
+                ) : (
+                  <EditableCell {...editableCellProps} />
+                )
+              ) : (
+                <l.Div data-tip data-for={keyIndex} width={th.sizes.fill}>
+                  <ty.BodyText
+                    nowrap
+                    onClick={(e: React.MouseEvent) => {
+                      !content &&
+                        (!onClick || !allowClick) &&
+                        e.stopPropagation();
+                    }}
+                    width={th.sizes.fill}
+                  >
+                    {value || '-'}
+                  </ty.BodyText>
+                </l.Div>
+              )}
               {localRowKey && (
                 <Tooltip
                   id={keyIndex}
@@ -162,9 +264,10 @@ const ListItem = <T extends {}>({
       isHighlight={isHighlight}
       isHalfHighlight={isHalfHighlight}
       selected={selected}
-      {...(customStyles?.wrapper || {})}
+      noCellBackground={customStyles?.noCellBackground}
+      {...(customStyles?.cellWrapper || {})}
     >
-      {content ? (
+      {content && !editing ? (
         <Expandable
           header={header}
           content={content}
@@ -179,13 +282,36 @@ const ListItem = <T extends {}>({
   );
 
   return (
-    <l.Div mb={th.spacing.sm} width={th.sizes.fill}>
-      {onClick || !to ? (
-        <l.Div onClick={onClick}>{components}</l.Div>
-      ) : (
-        <l.AreaLink to={to ? to : '#'}>{components}</l.AreaLink>
+    <l.Flex
+      mb={th.spacing.sm}
+      width={th.sizes.fill}
+      {...(customStyles?.wrapper || {})}
+    >
+      {editing && (
+        <BasicModal
+          title="Confirm Remove Treatment"
+          content={
+            <ty.BodyText>
+              Are you sure you want to remove this container treatment?
+            </ty.BodyText>
+          }
+          confirmText="Remove"
+          shouldConfirm={confirmRemove}
+          handleConfirm={handleRemove}
+          triggerType="remove-icon"
+          triggerProps={{ mr: th.spacing.sm }}
+        />
       )}
-    </l.Div>
+      {onClick || !to ? (
+        <l.Div onClick={onClick} width={th.sizes.fill}>
+          {components}
+        </l.Div>
+      ) : (
+        <l.AreaLink to={to ? to : '#'} width={th.sizes.fill}>
+          {components}
+        </l.AreaLink>
+      )}
+    </l.Flex>
   );
 };
 

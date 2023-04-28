@@ -152,7 +152,6 @@ const Details = () => {
             />
           ) : hasPallets ? (
             <PalletList
-              baseUrl={`/inventory`}
               pallets={pallets}
               originalLoad={truckLoad?.originalTruckLoad || undefined}
             />

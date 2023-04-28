@@ -1,0 +1,7 @@
+mutation CONTAINER_UPDATE($id: BigInt!, $updates: ContainerPatch!) {
+  updateContainer(input: { patch: $updates, id: $id }) {
+    container {
+      id
+    }
+  }
+}

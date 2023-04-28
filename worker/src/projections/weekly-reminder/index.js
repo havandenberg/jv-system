@@ -1,5 +1,5 @@
 const { gql, gqlClient } = require('../../api');
-const { ews, ewsArgs, onError } = require('../../utils/server');
+const { ews, ewsCreateAndSendArgs, onError } = require('../../utils/server');
 
 const PROJECTION_REMINDERS = gql`
   query PROJECTION_REMINDERS {
@@ -48,7 +48,7 @@ const sendProjectionReminders = () => {
         await ews
           .run(
             'CreateItem',
-            ewsArgs({
+            ewsCreateAndSendArgs({
               toRecipients: [shipperInfo.EmailAddress],
               body: `Hi ${shipperInfo.name},<br /><br />This is your weekly reminder to fill out the 4 week projections for Jac Vandenberg.<br /><br /><a href="${process.env.REACT_APP_CLIENT_URL}/sales/projections?shipperId=${shipperInfo.shipperId}&view=grid">Click here to complete your 4 week projection.</a><br /><br />Best,<br /><br />Jac. Vandenberg, Inc`,
               subject: 'Jac Vandenberg 4 Week Projection Reminder',

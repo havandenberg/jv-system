@@ -1,19 +1,23 @@
 import React from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import { BooleanParam, useQueryParam } from 'use-query-params';
 
 import api from 'api';
 import BaseData from 'components/base-data';
 import Page from 'components/page';
 import { DataMessage } from 'components/page/message';
 import { Tab, useTabBar } from 'components/tab-bar';
+import { useActiveUser } from 'components/user/context';
+import { SORT_ORDER } from 'hooks/use-columns';
 import { useQueryValue, useSortQueryParams } from 'hooks/use-query-params';
 import useUpdateItem from 'hooks/use-update-item';
-import { Country, InventoryItem, Vessel, Warehouse } from 'types';
+import { Container, Country, InventoryItem, Vessel, Warehouse } from 'types';
 import b from 'ui/button';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 
+import ContainerList from '../containers/list';
 import InventoryItemList from '../inventory/items/list';
 import InventoryListTotals from '../inventory/items/list-totals';
 import {
@@ -22,17 +26,11 @@ import {
   getGroupedItems,
 } from '../inventory/utils';
 import { baseLabels } from './data-utils';
-import { SORT_ORDER } from 'hooks/use-columns';
-import { BooleanParam, useQueryParam } from 'use-query-params';
 
-export const breadcrumbs = (
-  id: string,
-  isPre: boolean,
-  isInventory: boolean,
-) => [
+export const breadcrumbs = (id: string, isPre: boolean) => [
   {
-    text: isInventory ? 'Inventory' : 'Vessels',
-    to: isInventory ? '/inventory' : `/inventory/vessels`,
+    text: 'Vessels',
+    to: '/inventory/vessels',
   },
   {
     text: 'Vessel',
@@ -40,19 +38,28 @@ export const breadcrumbs = (
   },
 ];
 
-const tabs: Tab[] = [
+const tabs: (containersCount: number) => Tab[] = (containersCount) => [
   {
     id: 'inventoryItems',
     text: 'Inventory Items',
   },
+  ...(containersCount > 0
+    ? [
+        {
+          id: 'containers',
+          text: `Containers (${containersCount})`,
+        },
+      ]
+    : []),
 ];
 
 const Details = () => {
+  const {
+    roles: { isEditSchedule },
+  } = useActiveUser();
   const { id } = useParams<{
     id: string;
   }>();
-  const { pathname } = useLocation();
-  const isInventory = pathname.includes('inventory');
   const [{ sortBy }, setSortParams] = useSortQueryParams();
   const [secondaryDetailsIndex, setSecondaryDetailsIndex] = useQueryValue(
     'secondaryDetailsIndex',
@@ -65,6 +72,7 @@ const Details = () => {
   const inventoryItems = vessel
     ? (vessel.inventoryItems.nodes as InventoryItem[])
     : [];
+  const containers = vessel ? (vessel.containers.nodes as Container[]) : [];
 
   const { preInventoryItems } = convertProjectionsToInventoryItems(vessel);
 
@@ -74,22 +82,17 @@ const Details = () => {
   const { data: warehouseData } = api.useAllWarehouses('WAREHOUSE_NAME_ASC');
   const warehouses = warehouseData ? (warehouseData.nodes as Warehouse[]) : [];
 
-  const { TabBar } = useTabBar({ tabs });
+  const { TabBar, selectedTabId } = useTabBar({
+    tabs: tabs(containers.length),
+    isRoute: false,
+    paramName: 'vesselView',
+  });
+  const isInventoryItems =
+    selectedTabId === 'inventoryItems' || containers.length === 0;
 
-  const [handleUpdate] = api.useUpdateVessel(vessel?.id || 0);
+  const [handleUpdate] = api.useUpdateVessel(id, !!isPre);
 
-  const updateFields = [
-    'arrivalDate',
-    'arrivalPort',
-    'coast',
-    'countryId',
-    'departureDate',
-    'dischargeDate',
-    'isPre',
-    'vesselCode',
-    'vesselName',
-    'warehouseId',
-  ];
+  const updateFields = ['isAvailable', 'scheduleNotes'];
   const updateVariables = { id: vessel?.id || 0 };
 
   const [handleDelete] = api.useDeleteVessel();
@@ -107,6 +110,8 @@ const Details = () => {
       updateVariables,
       validationLabels: baseLabels(countries, warehouses),
     });
+
+  const updateActions = getUpdateActions();
 
   const items = inventoryItems.length > 0 ? inventoryItems : preInventoryItems;
 
@@ -134,10 +139,12 @@ const Details = () => {
   return (
     <Page
       actions={[
-        // editing
-        //   ? getUpdateActions().defaultActions
-        //   : getUpdateActions().editAction,
-        <b.Primary disabled key="projections" ml={th.spacing.md}>
+        isEditSchedule
+          ? editing
+            ? updateActions.defaultActions
+            : updateActions.editAction
+          : null,
+        <b.Primary disabled key="projections" ml={th.spacing.lg}>
           Projections
         </b.Primary>,
         vessel?.isPre ? (
@@ -159,7 +166,7 @@ const Details = () => {
           </b.Primary>
         ),
       ]}
-      breadcrumbs={breadcrumbs(id, !!vessel?.isPre, isInventory)}
+      breadcrumbs={breadcrumbs(id, !!vessel?.isPre)}
       title={
         vessel
           ? `${vessel.vesselName} (${vessel.vesselCode})` || 'Vessel'
@@ -189,15 +196,23 @@ const Details = () => {
                 </l.HoverButton>
               )}
             </l.Flex>
-            <InventoryListTotals
-              items={secondaryDetailsIndex ? filteredItems : items}
-              loading={loading}
-            />
+            {isInventoryItems ? (
+              <InventoryListTotals
+                items={secondaryDetailsIndex ? filteredItems : items}
+                loading={loading}
+              />
+            ) : (
+              <div />
+            )}
           </l.Flex>
-          <InventoryItemList
-            baseUrl={`/inventory/vessels/${id}`}
-            items={filteredItems}
-          />
+          {isInventoryItems ? (
+            <InventoryItemList
+              baseUrl={`/inventory/vessels/${id}`}
+              items={filteredItems}
+            />
+          ) : (
+            <ContainerList containers={containers} />
+          )}
         </l.Div>
       ) : (
         <DataMessage data={vessels || []} error={error} loading={loading} />

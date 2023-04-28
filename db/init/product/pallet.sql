@@ -30,7 +30,7 @@ CREATE TABLE product.pallet (
   temperature_recording TEXT
 );
 
-CREATE INDEX ON product.pallet (pallet_id, shipper_id, vessel_code);
+CREATE INDEX ON product.pallet (pallet_id, shipper_id, vessel_code, container_id);
 
 CREATE TABLE product.pallet_section (
   id BIGSERIAL PRIMARY KEY,
@@ -161,6 +161,17 @@ AS $BODY$
     WHERE p.pallet_id = ii.pallet_id
 $BODY$;
 
+CREATE FUNCTION product.pallet_invoice_items(IN p product.pallet)
+    RETURNS setof accounting.invoice_item
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT * FROM accounting.invoice_item ii
+    WHERE p.pallet_id = ii.pallet_id
+$BODY$;
+
 CREATE FUNCTION product.pallet_repacks(IN p product.pallet)
     RETURNS setof operations.repack_header
     LANGUAGE 'sql'
@@ -172,6 +183,16 @@ AS $BODY$
     JOIN operations.repack_header r ON ri.repack_code = r.repack_code
       AND ri.run_number = r.run_number
     WHERE p.pallet_id = ri.pallet_id
+$BODY$;
+
+CREATE FUNCTION product.pallet_container(IN p product.pallet)
+    RETURNS product.container
+    LANGUAGE 'sql'
+    STABLE
+    PARALLEL UNSAFE
+    COST 100
+AS $BODY$
+  SELECT * FROM product.container c WHERE p.container_id = c.container_id AND p.vessel_code = c.vessel_code;
 $BODY$;
 
 CREATE FUNCTION product.pallet_search_text(IN p product.pallet)

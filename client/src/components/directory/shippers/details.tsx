@@ -81,7 +81,8 @@ const Details = () => {
           ? [
               <l.AreaLink
                 key="inventory"
-                mx={th.spacing.md}
+                ml={th.spacing.lg}
+                mr={th.spacing.md}
                 to={`/inventory/index?shipper=${data.id}`}
               >
                 <b.Primary>Inventory</b.Primary>

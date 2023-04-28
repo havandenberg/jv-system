@@ -195,6 +195,7 @@ export const useVesselControlQueryParams = () =>
     vessel: ArrayParam,
     shipper: ArrayParam,
     arrivalLocation: ArrayParam,
+    country: ArrayParam,
     vesselControlView: StringParam,
   });
 

@@ -6,9 +6,11 @@ import { LabelInfo } from 'components/column-label';
 import StatusIndicator from 'components/status-indicator';
 import { SORT_ORDER } from 'hooks/use-columns';
 import { Country, Vessel, Warehouse } from 'types';
+import { LineItemCheckbox } from 'ui/checkbox';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
+import { formatShortDate } from 'utils/date';
 
 export type VesselLabelInfo = LabelInfo<Vessel>;
 
@@ -123,14 +125,17 @@ export const baseLabels: (
   {
     key: 'vesselCode',
     label: 'Vessel Code',
+    readOnly: true,
   },
   {
     key: 'vesselName',
     label: 'Vessel Name',
+    readOnly: true,
   },
   {
     key: 'countryId',
     label: 'Country Of Origin',
+    readOnly: true,
     itemSelectorQueryProps: {
       errorLabel: 'countries',
       getItemContent: ({ countryName, id }: Country) => (
@@ -154,6 +159,7 @@ export const baseLabels: (
   {
     key: 'arrivalPort',
     label: 'Port Of Arrival',
+    readOnly: true,
     itemSelectorQueryProps: {
       errorLabel: 'locations',
       getItemContent: ({ id, warehouseName }: Warehouse) => (
@@ -190,11 +196,13 @@ export const baseLabels: (
         value: 'WC',
       },
     ],
+    readOnly: true,
   },
   {
     key: 'dischargeDate',
     label: 'Available Date',
     isDate: true,
+    readOnly: true,
     validate: (vessel) => {
       const { arrival, departure, discharge } = getDateValidationArgs(vessel);
       return (
@@ -210,6 +218,7 @@ export const baseLabels: (
     key: 'arrivalDate',
     label: 'Arrival Date',
     isDate: true,
+    readOnly: true,
     validate: (vessel) => {
       const { arrival, departure, discharge } = getDateValidationArgs(vessel);
       return (
@@ -225,6 +234,7 @@ export const baseLabels: (
     key: 'departureDate',
     label: 'Departure Date',
     isDate: true,
+    readOnly: true,
     validate: (vessel) => {
       const { arrival, departure, discharge } = getDateValidationArgs(vessel);
       return (
@@ -240,6 +250,7 @@ export const baseLabels: (
     key: 'invFlag',
     label: 'Inv Flag',
     isBoolean: true,
+    readOnly: true,
     getValue: ({ invFlag }) => (
       <ty.BodyText>{!!invFlag ? 'Yes' : 'No'}</ty.BodyText>
     ),
@@ -258,5 +269,92 @@ export const baseLabels: (
       ) : (
         <ty.BodyText>-</ty.BodyText>
       ),
+  },
+  {
+    key: 'scheduleNotes',
+    label: 'Schedule Notes',
+    getValue: ({ scheduleNotes }) => (
+      <ty.BodyText>{scheduleNotes || '-'}</ty.BodyText>
+    ),
+  },
+  {
+    key: 'isAvailable',
+    label: 'Available',
+    getValue: ({ isAvailable }) => (
+      <LineItemCheckbox
+        checked={!!isAvailable}
+        disabled
+        onChange={() => ({})}
+      />
+    ),
+    isBoolean: true,
+  },
+];
+
+export const scheduleListLabels: VesselLabelInfo[] = [
+  {
+    defaultSortOrder: SORT_ORDER.ASC,
+    key: 'dischargeDate',
+    label: 'Available',
+    sortable: true,
+    getValue: ({ dischargeDate }) => (
+      <ty.BodyText>
+        {dischargeDate
+          ? formatShortDate(new Date(dischargeDate.replace(/-/g, '/')))
+          : '-'}
+      </ty.BodyText>
+    ),
+  },
+  {
+    defaultSortOrder: SORT_ORDER.ASC,
+    key: 'arrivalDate',
+    label: 'Arrival',
+    sortable: true,
+    getValue: ({ arrivalDate }) => (
+      <ty.BodyText>
+        {arrivalDate
+          ? formatShortDate(new Date(arrivalDate.replace(/-/g, '/')))
+          : '-'}
+      </ty.BodyText>
+    ),
+  },
+  {
+    defaultSortOrder: SORT_ORDER.ASC,
+    key: 'vesselCode',
+    label: 'Code',
+    sortable: true,
+  },
+  {
+    key: 'vesselName',
+    label: 'Vessel Name',
+  },
+  {
+    key: 'arrivalPort',
+    label: 'Arrival Port',
+    getValue: ({ warehouse }) => (
+      <ty.BodyText>
+        {warehouse ? `${warehouse.warehouseName} (${warehouse.id})` : ''}
+      </ty.BodyText>
+    ),
+  },
+  {
+    key: 'isPre',
+    label: 'PRE',
+    isBoolean: true,
+    getValue: ({ isPre }) =>
+      isPre ? (
+        <l.Flex alignCenter justifyCenter>
+          <StatusIndicator status="warning" />
+        </l.Flex>
+      ) : (
+        <ty.BodyText center>-</ty.BodyText>
+      ),
+  },
+  {
+    key: 'scheduleNotes',
+    label: 'Notes',
+    getValue: ({ scheduleNotes }) => (
+      <ty.BodyText>{scheduleNotes || '-'}</ty.BodyText>
+    ),
   },
 ];

@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useMemo, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { isEmpty, pick } from 'ramda';
 import { ClipLoader } from 'react-spinners';
 import { ScrollSync } from 'react-virtualized';
@@ -120,20 +120,20 @@ const Unpaids = () => {
     });
   };
 
-  const [upsertUnpaids, { loading: upsertLoading }] = api.useUpsertUnpaids();
+  const [upsertUnpaids] = api.useUpsertUnpaids();
 
   const handleCancel = () => {
     setChanges([]);
   };
 
-  const upsertLoadingSlices: string[] = useMemo(() => [], []);
+  const [upsertLoadingSlices, setUpsertLoadingSlices] = useState<string[]>([]);
   const previousUpsertLoadingSlices = usePrevious(upsertLoadingSlices);
 
   const handleUpdate = () => {
     const iterations = Math.ceil(changes.length / 50);
     for (let i = 0; i < iterations; i++) {
       const changesSlice = changes.slice(i * 50, (i + 1) * 50);
-      upsertLoadingSlices.push(`${i}-loading`);
+      setUpsertLoadingSlices((s) => [...s, `${i}-loading`]);
       upsertUnpaids({
         variables: {
           unpaids: changesSlice.map((unpaid) => ({
@@ -145,10 +145,7 @@ const Unpaids = () => {
           })),
         },
       }).then(() => {
-        upsertLoadingSlices.splice(
-          upsertLoadingSlices.indexOf(`${i}-loading`),
-          1,
-        );
+        setUpsertLoadingSlices((s) => s.filter((l) => l !== `${i}-loading`));
       });
     }
   };
@@ -259,10 +256,10 @@ const Unpaids = () => {
             />
           )}
           <b.Success
-            disabled={!isDirty || upsertLoading}
+            disabled={!isDirty || upsertLoadingSlices.length > 0}
             onClick={handleUpdate}
           >
-            {upsertLoading ? (
+            {upsertLoadingSlices.length > 0 ? (
               <l.Flex alignCenter justifyCenter>
                 <ClipLoader
                   color={th.colors.brand.secondary}
@@ -385,7 +382,7 @@ const Unpaids = () => {
           >
             {columnLabels.map((label, index) =>
               index === 11 ? (
-                <l.Flex alignCenter>
+                <l.Flex alignCenter key="approve-all">
                   {label}
                   <l.Div
                     ml={13}

@@ -21,7 +21,13 @@ const Wrapper = styled(l.Div)<Props & DivProps>(
       ? th.borders.warning
       : th.borders.secondary,
     borderRadius: th.borderRadii.default,
+    color: th.colors.text.default,
+    fontSize: th.fontSizes.body,
     fontWeight: dirty ? 'bold' : undefined,
+    input: {
+      fontSize: th.fontSizes.body,
+      color: th.colors.text.default,
+    },
   }),
   divPropsSet,
 );

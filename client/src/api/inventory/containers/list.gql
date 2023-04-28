@@ -1,0 +1,53 @@
+query CONTAINER_LIST(
+  $orderBy: [ContainersOrderBy!]
+  $search: [ContainerFilter!]
+  $dateFilter: DateFilter
+  $isSchedule: [Boolean!]
+  $isVesselAvailable: [Boolean!]
+) {
+  containers(
+    filter: {
+      and: $search
+      dischargeDate: $dateFilter
+      isSchedule: { in: $isSchedule }
+      isVesselAvailable: { in: $isVesselAvailable }
+    }
+    orderBy: $orderBy
+  ) {
+    nodes {
+      id
+      containerId
+      containerDescription
+      releaseDate
+      releaseConfirmed
+      dischargeDate
+      dischargeConfirmed
+      isAvailable
+      isNew
+      notes1
+      notes2
+      notes3
+      warehouse {
+        id
+        warehouseName
+      }
+      vendor {
+        id
+        vendorName
+      }
+      vessel {
+        id
+        arrivalDate
+        coast
+        dischargeDate
+        vesselCode
+        vesselName
+        warehouse {
+          id
+          warehouseName
+        }
+      }
+    }
+    totalCount
+  }
+}

@@ -41,9 +41,9 @@ import {
 } from './unpaids';
 
 const gridTemplateColumns =
-  '30px 1fr 0.5fr 0.5fr 1fr 0.5fr 0.8fr 2fr 2fr 1fr 0.8fr 2fr 1fr 0.7fr 0.7fr 0.7fr 430px 3fr 3fr';
+  '30px 1fr 0.5fr 0.5fr 1fr 0.5fr 0.8fr 2fr 2fr 1fr 0.8fr 2fr 1fr 0.7fr 0.7fr 0.7fr 490px 3fr 3fr';
 
-const VESSEL_CONTROL_LOG_WIDTH = 2078;
+const VESSEL_CONTROL_LOG_WIDTH = 2138;
 
 export const dateRangeTabs = [
   {
@@ -104,6 +104,7 @@ const VesselControlLog = () => {
     vesselOptions,
     shipperOptions,
     arrivalOptions,
+    countryOptions,
     loading,
     error,
   } = api.useVesselControls();
@@ -221,6 +222,7 @@ const VesselControlLog = () => {
     vesselOptions,
     shipperOptions,
     arrivalOptions,
+    countryOptions,
   );
 
   const columnLabels = useColumns<VesselControl>(
