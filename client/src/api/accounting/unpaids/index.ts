@@ -13,7 +13,7 @@ import { Mutation, Query, Unpaid, VesselControl } from 'types';
 
 import { useVariables, VESSEL_CONTROL_LIST_QUERY } from '../vessel-control';
 
-const UNPAIDS_UPSERT = loader('./upsert.gql');
+const UNPAIDS_UPDATE = loader('./update.gql');
 const UNPAIDS_INVOICE_DETAILS_QUERY = loader('./invoice.gql');
 
 export const useUnpaids = () => {
@@ -36,6 +36,7 @@ export const useUnpaids = () => {
     data: vesselControlsData,
     loading,
     error,
+    refetch,
   } = useQuery<Query>(VESSEL_CONTROL_LIST_QUERY, {
     variables,
   });
@@ -144,18 +145,11 @@ export const useUnpaids = () => {
     shipperOptions: shipperOptions.sort(),
     error,
     loading,
+    refetch,
   };
 };
 
-export const useUpsertUnpaids = () =>
-  useMutation<Mutation>(UNPAIDS_UPSERT, {
-    refetchQueries: [
-      {
-        query: VESSEL_CONTROL_LIST_QUERY,
-        variables: useVariables(true),
-      },
-    ],
-  });
+export const useUpdateUnpaid = () => useMutation<Mutation>(UNPAIDS_UPDATE);
 
 export const useUnpaidInvoiceDetails = (id: number) => {
   const { data, loading, error } = useQuery<Query>(

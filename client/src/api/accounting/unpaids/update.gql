@@ -1,0 +1,7 @@
+mutation UNPAIDS_UPDATE($id: BigInt!, $updates: UnpaidPatch!) {
+  updateUnpaid(input: { patch: $updates, id: $id }) {
+    unpaid {
+      id
+    }
+  }
+}

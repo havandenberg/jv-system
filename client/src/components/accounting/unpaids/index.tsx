@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import { isEmpty, pick } from 'ramda';
+import { isEmpty } from 'ramda';
 import { ClipLoader } from 'react-spinners';
 import { ScrollSync } from 'react-virtualized';
 
@@ -15,7 +15,6 @@ import StatusIndicator from 'components/status-indicator';
 import { useActiveUser } from 'components/user/context';
 import VirtualizedList from 'components/virtualized-list';
 import useColumns, { SORT_ORDER } from 'hooks/use-columns';
-import usePrevious from 'hooks/use-previous';
 import {
   useSortQueryParams,
   useUnpaidsQueryParams,
@@ -95,6 +94,7 @@ const Unpaids = () => {
     shipperOptions,
     loading,
     error,
+    refetch,
   } = api.useUnpaids();
 
   const [changes, setChanges] = useState<Unpaid[]>([]);
@@ -120,45 +120,33 @@ const Unpaids = () => {
     });
   };
 
-  const [upsertUnpaids] = api.useUpsertUnpaids();
+  const [updateUnpaid] = api.useUpdateUnpaid();
+  const [updateLoading, setUpdateLoading] = useState(false);
 
   const handleCancel = () => {
     setChanges([]);
+    setUpdateLoading(false);
   };
-
-  const [upsertLoadingSlices, setUpsertLoadingSlices] = useState<string[]>([]);
-  const previousUpsertLoadingSlices = usePrevious(upsertLoadingSlices);
 
   const handleUpdate = () => {
-    const iterations = Math.ceil(changes.length / 50);
-    for (let i = 0; i < iterations; i++) {
-      const changesSlice = changes.slice(i * 50, (i + 1) * 50);
-      setUpsertLoadingSlices((s) => [...s, `${i}-loading`]);
-      upsertUnpaids({
-        variables: {
-          unpaids: changesSlice.map((unpaid) => ({
-            ...pick(['isUrgent', 'isApproved', 'notes'], unpaid),
-            vesselCode: unpaid.vessel?.vesselCode,
-            shipperId: unpaid.shipper?.id,
-            invoiceId: unpaid.invoice?.invoiceId,
-            id: unpaid?.id || null,
-          })),
-        },
-      }).then(() => {
-        setUpsertLoadingSlices((s) => s.filter((l) => l !== `${i}-loading`));
-      });
-    }
-  };
+    const promises = [] as Promise<any>[];
+    setUpdateLoading(true);
+    changes.forEach((change) => {
+      promises.push(
+        updateUnpaid({
+          variables: {
+            id: change?.id || null,
+            updates: {
+              isApproved: change.isApproved,
+              notes: change.notes,
+            },
+          },
+        }),
+      );
+    });
 
-  useEffect(() => {
-    if (
-      previousUpsertLoadingSlices &&
-      previousUpsertLoadingSlices.length > 0 &&
-      upsertLoadingSlices.length === 0
-    ) {
-      handleCancel();
-    }
-  }, [previousUpsertLoadingSlices, upsertLoadingSlices]);
+    Promise.all(promises).then(refetch).then(handleCancel);
+  };
 
   const listLabels = getListLabels(
     handleChange,
@@ -256,10 +244,10 @@ const Unpaids = () => {
             />
           )}
           <b.Success
-            disabled={!isDirty || upsertLoadingSlices.length > 0}
+            disabled={!isDirty || updateLoading}
             onClick={handleUpdate}
           >
-            {upsertLoadingSlices.length > 0 ? (
+            {updateLoading ? (
               <l.Flex alignCenter justifyCenter>
                 <ClipLoader
                   color={th.colors.brand.secondary}

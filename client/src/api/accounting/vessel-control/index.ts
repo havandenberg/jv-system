@@ -15,7 +15,7 @@ import { Mutation, Query, VesselControl } from 'types';
 
 export const VESSEL_CONTROL_DETAILS_QUERY = loader('./details.gql');
 export const VESSEL_CONTROL_LIST_QUERY = loader('./list.gql');
-const VESSEL_CONTROLS_UPSERT = loader('./upsert.gql');
+const VESSEL_CONTROLS_UPDATE = loader('./update.gql');
 const UNPAIDS_NOTIFY = loader('./notify.gql');
 
 export const useVariables = (isUnpaids?: boolean) => {
@@ -75,9 +75,12 @@ export const useVesselControls = () => {
   const isNotOut = outStatus === 'unchecked';
   const isDue = vesselControlView === 'due';
 
-  const { data, loading, error } = useQuery<Query>(VESSEL_CONTROL_LIST_QUERY, {
-    variables,
-  });
+  const { data, loading, error, refetch } = useQuery<Query>(
+    VESSEL_CONTROL_LIST_QUERY,
+    {
+      variables,
+    },
+  );
 
   const vesselControls = (data?.vesselControls?.nodes || []) as VesselControl[];
 
@@ -163,18 +166,12 @@ export const useVesselControls = () => {
     countryOptions: countryOptions.sort(),
     error,
     loading,
+    refetch,
   };
 };
 
-export const useUpsertVesselControls = () =>
-  useMutation<Mutation>(VESSEL_CONTROLS_UPSERT, {
-    refetchQueries: [
-      {
-        query: VESSEL_CONTROL_LIST_QUERY,
-        variables: useVariables(),
-      },
-    ],
-  });
+export const useUpdateVesselControl = () =>
+  useMutation<Mutation>(VESSEL_CONTROLS_UPDATE, {});
 
 export const useSendUnpaidsNotification = () =>
   useMutation<Mutation>(UNPAIDS_NOTIFY);

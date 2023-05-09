@@ -1,5 +1,5 @@
-import React, { Fragment, useEffect, useMemo, useState } from 'react';
-import { isEmpty, pick } from 'ramda';
+import React, { Fragment, useEffect, useState } from 'react';
+import { isEmpty } from 'ramda';
 import { ClipLoader } from 'react-spinners';
 import { ScrollSync } from 'react-virtualized';
 
@@ -17,7 +17,6 @@ import { useTabBar } from 'components/tab-bar';
 import { GridWrapper, VirtualizedGrid } from 'components/virtualized-list';
 import useColumns, { SORT_ORDER } from 'hooks/use-columns';
 import useDateRange from 'hooks/use-date-range';
-import usePrevious from 'hooks/use-previous';
 import {
   useSortQueryParams,
   useVesselControlQueryParams,
@@ -107,6 +106,7 @@ const VesselControlLog = () => {
     countryOptions,
     loading,
     error,
+    refetch,
   } = api.useVesselControls();
 
   const [changes, setChanges] = useState<VesselControl[]>([]);
@@ -130,83 +130,81 @@ const VesselControlLog = () => {
     });
   };
 
-  const [upsertVesselControls, { loading: upsertVesselControlsLoading }] =
-    api.useUpsertVesselControls();
-  const [upsertUnpaids, { loading: upsertUnpaidsLoading }] =
-    api.useUpsertUnpaids();
-
-  const upsertLoading = upsertVesselControlsLoading || upsertUnpaidsLoading;
+  const [updateVesselControl] = api.useUpdateVesselControl();
+  const [updateUnpaid] = api.useUpdateUnpaid();
+  const [updateLoading, setUpdateLoading] = useState(false);
 
   const handleCancel = () => {
     setChanges([]);
+    setUpdateLoading(false);
   };
-
-  const upsertLoadingSlices: string[] = useMemo(() => [], []);
-  const previousUpsertLoadingSlices = usePrevious(upsertLoadingSlices);
 
   const handleUpdate = () => {
-    const iterations = Math.ceil(changes.length / 50);
-    for (let i = 0; i < iterations; i++) {
-      const changesSlice = changes.slice(i * 50, (i + 1) * 50);
-      upsertLoadingSlices.push(`${i}-loading`);
-      upsertVesselControls({
-        variables: {
-          vesselControls: changesSlice.map((vesselControlItem) => ({
-            ...pick(
-              [
-                'approval1',
-                'approval2',
-                'id',
-                'isLiquidated',
-                'notes1',
-                'notes2',
-              ],
-              vesselControlItem,
-            ),
-            dateSent: vesselControlItem.dateSent
-              ? formatDate(
-                  new Date(vesselControlItem.dateSent.replace(/-/g, '/')),
-                )
-              : null,
-            id: vesselControlItem.id || null,
-            shipperId: vesselControlItem.shipper?.id,
-            vesselCode: vesselControlItem.vessel?.vesselCode,
-          })),
-        },
-      }).then(() => {
-        upsertUnpaids({
-          variables: {
-            unpaids: changesSlice
-              .map((vesselControlItem) =>
-                vesselControlItem.unpaids.nodes.map((unpaid) => ({
-                  ...pick(['isUrgent', 'isApproved', 'notes'], unpaid),
-                  id: unpaid?.id || null,
-                  shipperId: unpaid?.shipperId || unpaid?.shipper?.id,
-                  vesselCode: unpaid?.vesselCode || unpaid?.vessel?.vesselCode,
-                  invoiceId: unpaid?.invoiceId || unpaid?.invoice?.invoiceId,
-                })),
-              )
-              .flat(),
-          },
-        }).then(() => {
-          upsertLoadingSlices.splice(
-            upsertLoadingSlices.indexOf(`${i}-loading`),
-            1,
-          );
-        });
-      });
-    }
-  };
+    const promises = [] as Promise<any>[];
 
-  useEffect(() => {
-    if (
-      previousUpsertLoadingSlices &&
-      previousUpsertLoadingSlices.length > 0 &&
-      upsertLoadingSlices.length === 0
-    ) {
-      handleCancel();
-    }
-  }, [previousUpsertLoadingSlices, upsertLoadingSlices]);
+    changes.forEach((vesselControlItem) => {
+      const { id, unpaids } = vesselControlItem;
+      const currentItem = vesselControls.find(
+        (item) => item.id === vesselControlItem.id,
+      );
+
+      promises.push(
+        updateVesselControl({
+          variables: {
+            id: id || null,
+            updates: {
+              ...(
+                [
+                  'approval1',
+                  'approval2',
+                  'isLiquidated',
+                  'notes1',
+                  'notes2',
+                ] as (keyof VesselControl)[]
+              ).reduce((acc, key) => {
+                if (
+                  currentItem &&
+                  currentItem[key] !== vesselControlItem[key]
+                ) {
+                  acc[key] = vesselControlItem[key];
+                }
+                return acc;
+              }, {} as Partial<VesselControl>),
+              dateSent:
+                currentItem?.dateSent === vesselControlItem.dateSent
+                  ? undefined
+                  : vesselControlItem.dateSent
+                  ? formatDate(
+                      new Date(vesselControlItem.dateSent.replace(/-/g, '/')),
+                    )
+                  : null,
+            },
+          },
+        }),
+      );
+
+      promises.push(
+        ...unpaids.nodes
+          .filter(
+            (unpaid) =>
+              unpaid?.isUrgent !==
+              currentItem?.unpaids.nodes.find((up) => up?.id === unpaid?.id)
+                ?.isUrgent,
+          )
+          .map((unpaid) =>
+            updateUnpaid({
+              variables: {
+                id: unpaid?.id || null,
+                updates: { isUrgent: !!unpaid?.isUrgent },
+              },
+            }),
+          ),
+      );
+    });
+
+    setUpdateLoading(true);
+    Promise.all(promises).then(refetch).then(handleCancel);
+  };
 
   const { TabBar } = useTabBar({
     tabs: dateRangeTabs,
@@ -384,10 +382,10 @@ const VesselControlLog = () => {
             />
           )}
           <b.Success
-            disabled={!isDirty || upsertLoading}
+            disabled={!isDirty || updateLoading}
             onClick={handleUpdate}
           >
-            {upsertLoading ? (
+            {updateLoading ? (
               <l.Flex alignCenter justifyCenter>
                 <ClipLoader
                   color={th.colors.brand.secondary}
