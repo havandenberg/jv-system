@@ -63,8 +63,14 @@ const useUpdateItem = <T,>({
     setChanges({ ...changes, ...updates } as T);
   };
 
+  const handleEdit = () => {
+    setEditing(true);
+  };
+
   const validate = () =>
     changes && validationLabels && validateItem(changes, validationLabels);
+
+  const isValid = validate();
 
   const handleSave = (onSave?: () => void) => {
     setSaveAttempt(true);
@@ -130,7 +136,7 @@ const useUpdateItem = <T,>({
     const saveAction = (
       <b.Success
         key="saveAction"
-        disabled={updateLoading}
+        disabled={updateLoading || (saveAttempt && !isValid)}
         onClick={() => {
           handleSave(onSave);
         }}
@@ -146,13 +152,7 @@ const useUpdateItem = <T,>({
       </b.Success>
     );
     const editAction = (
-      <b.Warning
-        key="editAction"
-        onClick={() => {
-          setEditing(true);
-        }}
-        width={88}
-      >
+      <b.Warning key="editAction" onClick={handleEdit} width={88}>
         Edit
       </b.Warning>
     );
@@ -204,6 +204,7 @@ const useUpdateItem = <T,>({
     editing,
     handleChange,
     handleChanges,
+    handleEdit,
     getUpdateActions,
     saveAttempt,
     setSaveAttempt,

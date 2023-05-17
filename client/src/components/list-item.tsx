@@ -23,6 +23,8 @@ const Wrapper = styled(l.Flex)({
 export interface ListItemProps<T> {
   changes?: T;
   confirmRemove?: boolean;
+  confirmRemoveText?: string;
+  confirmRemoveTitle?: string;
   content?: React.ReactNode;
   customStyles?: {
     noCellBackground?: boolean;
@@ -56,6 +58,8 @@ export interface ListItemProps<T> {
 const ListItem = <T extends {}>({
   changes,
   confirmRemove,
+  confirmRemoveText,
+  confirmRemoveTitle,
   content,
   customStyles,
   data,
@@ -64,7 +68,7 @@ const ListItem = <T extends {}>({
   error,
   gridTemplateColumns,
   handleChange,
-  handleRemove = () => ({}),
+  handleRemove,
   highlightColor,
   hoverable,
   index,
@@ -112,6 +116,8 @@ const ListItem = <T extends {}>({
             isBoolean,
             isColor,
             isDate,
+            isNumber,
+            isCurrency,
             itemSelectorQueryProps,
             key,
             readOnly,
@@ -162,7 +168,7 @@ const ListItem = <T extends {}>({
           };
 
           const editableCellProps: EditableCellProps = {
-            bypassLocalValue: true,
+            bypassLocalValue: !!itemSelectorQueryProps,
             content,
             defaultChildren: getValue ? (
               getValue(data)
@@ -178,6 +184,8 @@ const ListItem = <T extends {}>({
             isBoolean,
             isColor,
             isDate,
+            isNumber,
+            isCurrency,
             onChange: (e) => {
               handleChange &&
                 handleChange(
@@ -287,12 +295,13 @@ const ListItem = <T extends {}>({
       width={th.sizes.fill}
       {...(customStyles?.wrapper || {})}
     >
-      {editing && (
+      {editing && handleRemove && (
         <BasicModal
-          title="Confirm Remove Treatment"
+          title={confirmRemoveTitle || 'Confirm Remove'}
           content={
             <ty.BodyText>
-              Are you sure you want to remove this container treatment?
+              {confirmRemoveText ||
+                'Are you sure you want to remove this item?'}
             </ty.BodyText>
           }
           confirmText="Remove"

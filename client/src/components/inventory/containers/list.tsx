@@ -12,7 +12,7 @@ import th from 'ui/theme';
 
 import { listLabels } from './data-utils';
 
-const gridTemplateColumns = '1fr 120px repeat(3, 1fr) 1.5fr 80px 50px 30px';
+const gridTemplateColumns = '130px 100px 1fr 1fr 1.3fr 50px 30px';
 
 const ContainerList = ({ containers }: { containers: Container[] }) => {
   const [{ sortBy = 'dischargeDate', sortOrder = SORT_ORDER.DESC }] =

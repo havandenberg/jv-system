@@ -258,6 +258,11 @@ const Unpaids = () => {
               'Save'
             )}
           </b.Success>
+          {process.env.REACT_APP_IS_PRODUCTION === 'false' && (
+            <l.AreaLink ml={th.spacing.lg} to="/accounting/vessel-control">
+              <b.Primary>Control Log</b.Primary>
+            </l.AreaLink>
+          )}
         </Fragment>
       }
       extraPaddingTop={94}

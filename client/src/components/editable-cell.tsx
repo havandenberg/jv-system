@@ -11,6 +11,7 @@ import l, { DivProps, divPropsSet } from 'ui/layout';
 import th from 'ui/theme';
 import { TextProps, textPropsSet } from 'ui/typography';
 import { hexColorWithTransparency } from 'ui/utils';
+import { formatCurrency } from 'utils/format';
 
 import ColorPicker from './color-picker';
 import { formatDate } from './date-range-picker';
@@ -86,6 +87,9 @@ export interface EditableCellProps {
   }[];
   editing: boolean;
   error?: boolean;
+  getEditingValue?: (
+    localValue: string | boolean | number,
+  ) => string | number | boolean;
   handleHighlight?: () => void;
   highlight?: boolean;
   highlightColor?: string;
@@ -99,6 +103,8 @@ export interface EditableCellProps {
   isBoolean?: boolean;
   isColor?: boolean;
   isDate?: boolean;
+  isNumber?: boolean;
+  isCurrency?: boolean;
   onChange: React.ChangeEventHandler<HTMLInputElement>;
   showBorder?: boolean;
   secondaryHighlight?: boolean;
@@ -114,6 +120,7 @@ const EditableCell = ({
   dropdownOptions,
   editing,
   error,
+  getEditingValue,
   handleHighlight,
   height = EDITABLE_CELL_HEIGHT,
   highlight,
@@ -123,6 +130,8 @@ const EditableCell = ({
   isBoolean,
   isColor,
   isDate,
+  isNumber,
+  isCurrency,
   onChange,
   showBorder = true,
   secondaryHighlight,
@@ -261,7 +270,7 @@ const EditableCell = ({
 ${title}`
                 : '')
             }
-            type={isBoolean ? 'checkbox' : 'text'}
+            type={isBoolean ? 'checkbox' : isNumber ? 'number' : 'text'}
             onBlur={(e) => {
               if (localValue !== value) {
                 onChange(e);
@@ -276,7 +285,15 @@ ${title}`
                 value: isBoolean ? e.target.checked : e.target.value,
               });
             }}
-            value={localValue || (isBoolean ? false : '')}
+            value={
+              value === localValue
+                ? getEditingValue
+                  ? getEditingValue(localValue)
+                  : isCurrency
+                  ? formatCurrency(parseFloat(`${localValue}`))
+                  : localValue || (isBoolean ? false : '')
+                : localValue || (isBoolean ? false : '')
+            }
             textAlign="left"
             warning={warning}
             {...inputProps}

@@ -1,6 +1,12 @@
 const ibmdb = require('ibm_db');
 const { onError } = require('../utils');
 const db2UpdateItems = require('./update-items');
+const customerPaymentOptions = require('./accounting/customer-payment');
+const expenseHeaderOptions = require('./accounting/expense/header');
+const expenseItemOptions = require('./accounting/expense/item');
+const invoiceHeaderOptions = require('./accounting/invoice/header');
+const invoiceItemOptions = require('./accounting/invoice/item');
+const invoiceItemHistoryOptions = require('./accounting/invoice/item-history');
 const countryOptions = require('./directory/country');
 const customerOptions = require('./directory/customer');
 const customerVolumeDiscountOptions = require('./directory/customer/volume-discount');
@@ -16,12 +22,6 @@ const orderCommentOptions = require('./operations/order/comment');
 const repackHeaderOptions = require('./operations/repack/header');
 const repackItemOptions = require('./operations/repack/item');
 const truckLoadOptions = require('./operations/truck-load');
-const expenseHeaderOptions = require('./accounting/expense/header');
-const expenseItemOptions = require('./accounting/expense/item');
-const invoiceHeaderOptions = require('./accounting/invoice/header');
-const invoiceItemOptions = require('./accounting/invoice/item');
-const invoiceItemHistoryOptions = require('./accounting/invoice/item-history');
-const customerPaymentOptions = require('./accounting/customer-payment');
 const productMasterOptions = require('./product/master');
 const speciesOptions = require('./product/species');
 const varietyOptions = require('./product/variety');
@@ -31,6 +31,18 @@ const repackStyleOptions = require('./product/repack-style');
 
 const db2RunQuery = (tableName, db) => {
   switch (tableName) {
+    case 'accounting/customer-payment':
+      return db2UpdateItems(db, customerPaymentOptions);
+    case 'accounting/invoice/header':
+      return db2UpdateItems(db, invoiceHeaderOptions);
+    case 'accounting/invoice/item':
+      return db2UpdateItems(db, invoiceItemOptions);
+    case 'accounting/invoice/item-history':
+      return db2UpdateItems(db, invoiceItemHistoryOptions);
+    case 'accounting/expense/header':
+      return db2UpdateItems(db, expenseHeaderOptions);
+    case 'accounting/expense/item':
+      return db2UpdateItems(db, expenseItemOptions);
     case 'directory/country':
       return db2UpdateItems(db, countryOptions);
     case 'directory/customer':
@@ -63,18 +75,6 @@ const db2RunQuery = (tableName, db) => {
       return db2UpdateItems(db, repackItemOptions);
     case 'operations/truck-load':
       return db2UpdateItems(db, truckLoadOptions);
-    case 'accounting/invoice/header':
-      return db2UpdateItems(db, invoiceHeaderOptions);
-    case 'accounting/invoice/item':
-      return db2UpdateItems(db, invoiceItemOptions);
-    case 'accounting/invoice/item-history':
-      return db2UpdateItems(db, invoiceItemHistoryOptions);
-    case 'accounting/customer-payment':
-      return db2UpdateItems(db, customerPaymentOptions);
-    case 'accounting/expense/header':
-      return db2UpdateItems(db, expenseHeaderOptions);
-    case 'accounting/expense/item':
-      return db2UpdateItems(db, expenseItemOptions);
     case 'product/master':
       return db2UpdateItems(db, productMasterOptions);
     case 'product/species':

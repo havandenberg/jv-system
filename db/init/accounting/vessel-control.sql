@@ -10,7 +10,7 @@ CREATE TABLE accounting.vessel_control (
   notes_2 TEXT
 );
 
-CREATE INDEX ON accounting.vessel_control (vessel_code, shipper_id);
+CREATE INDEX ON accounting.vessel_control (vessel_code, shipper_id, is_liquidated);
 
 CREATE FUNCTION accounting.all_vessel_controls()
   RETURNS setof accounting.vessel_control
@@ -94,6 +94,30 @@ AS $BODY$
   SELECT * FROM accounting.unpaid u
     WHERE u.vessel_code = vc.vessel_code
       AND u.shipper_id = vc.shipper_id
+$BODY$;
+
+CREATE FUNCTION accounting.vessel_control_wires(IN vc accounting.vessel_control)
+  RETURNS setof accounting.wire_request
+  LANGUAGE 'sql'
+  STABLE
+  PARALLEL UNSAFE
+  COST 100
+AS $BODY$
+  SELECT * FROM accounting.wire_request w
+    WHERE vc.vessel_code IN (
+        SELECT vessel_code FROM accounting.wire_request_ocean_freight_item i WHERE i.wire_request_id = w.id)
+      AND vc.shipper_id IN (
+        SELECT shipper_id FROM accounting.wire_request_ocean_freight_item i WHERE i.wire_request_id = w.id)
+  UNION
+  SELECT * FROM accounting.wire_request w
+    WHERE vc.vessel_code IN (
+        SELECT vessel_code FROM accounting.wire_request_shipper_advance_item i WHERE i.wire_request_id = w.id)
+      AND vc.shipper_id = w.vendor_id
+  UNION
+  SELECT * FROM accounting.wire_request w
+    WHERE vc.vessel_code IN (
+        SELECT vessel_code FROM accounting.wire_request_shipper_advance_item i WHERE i.wire_request_id = w.id)
+      AND vc.shipper_id = w.vendor_id
 $BODY$;
 
 CREATE FUNCTION directory.bulk_upsert_vessel_control(

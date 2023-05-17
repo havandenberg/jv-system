@@ -19,11 +19,20 @@ import ty, { TextProps } from 'ui/typography';
 export const ARROW_SIDE_LENGTH = 14;
 
 const Wrapper = styled(l.Flex)(
-  ({ active, sortable }: { active?: boolean; sortable?: boolean }) => ({
+  ({
+    active,
+    labelStyles,
+    sortable,
+  }: {
+    active?: boolean;
+    labelStyles?: TextProps;
+    sortable?: boolean;
+  }) => ({
     cursor: sortable ? 'pointer' : 'default',
     '.label': {
       opacity: active && sortable ? 1 : th.opacities.secondary,
       transition: th.transitions.default,
+      ...labelStyles,
     },
     '.arrow': {
       opacity: active ? 1 : 0,
@@ -31,6 +40,7 @@ const Wrapper = styled(l.Flex)(
     ':hover': {
       '.label, .arrow': {
         opacity: sortable ? 1 : th.opacities.secondary,
+        ...labelStyles,
       },
     },
   }),
@@ -70,6 +80,8 @@ export interface LabelInfo<T> {
   isBoolean?: boolean;
   isColor?: boolean;
   isDate?: boolean;
+  isNumber?: boolean;
+  isCurrency?: boolean;
   readOnly?: boolean;
   rowKey?: (data: T) => string | number;
   show?: boolean;
@@ -161,6 +173,7 @@ const ColumnLabel = <T extends {}>({
     <l.Div relative>
       <Wrapper
         active={active}
+        labelStyles={customStyles?.label}
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
         onClick={

@@ -130,8 +130,6 @@ const ContainerSchedule = () => {
     (c) => containerData[`${c.containerId}-${c.vessel?.vesselCode}`] || c,
   );
 
-  console.log(containerData, updatedContainers);
-
   const groupedContainers = groupBy(
     ({ vessel }) => vessel?.vesselCode || 'UNK',
     updatedContainers,

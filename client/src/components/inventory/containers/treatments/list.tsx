@@ -104,6 +104,8 @@ const ContainerTreatmentList = ({
                 <ListItem<ContainerTreatment>
                   changes={treatmentChange}
                   confirmRemove={treatment.id >= 0}
+                  confirmRemoveText="Are you sure you want to remove this container treatment?"
+                  confirmRemoveTitle="Confirm Remove Treatment"
                   data={currentTreatment || treatment}
                   editing={editing}
                   gridTemplateColumns={gridTemplateColumns}

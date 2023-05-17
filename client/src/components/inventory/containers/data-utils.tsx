@@ -1,3 +1,4 @@
+import React, { Fragment } from 'react';
 import { omit, pluck, sortBy, uniq, uniqBy } from 'ramda';
 
 import { LabelInfo } from 'components/column-label';
@@ -16,7 +17,6 @@ import th from 'ui/theme';
 import ty from 'ui/typography';
 import { LineItemCheckbox } from 'ui/checkbox';
 import { formatShortDate } from 'utils/date';
-import { Fragment } from 'react';
 
 export type ContainerLabelInfo = LabelInfo<Container>;
 

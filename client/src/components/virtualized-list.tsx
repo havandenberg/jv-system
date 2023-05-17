@@ -58,7 +58,9 @@ const VirtualizedList = ({
   const [listScrollTop, setListScrollTop] = useQueryValue('listScrollTop');
   const previousListScrollTop = usePrevious(listScrollTop);
 
-  const [scrollTop, setScrollTop] = useState(listScrollTop || 0);
+  const [scrollTop, setScrollTop] = useState(
+    parseInt(listScrollTop || '0', 10),
+  );
   const showScrollTop = scrollTop > 64;
 
   const handleScrollToTop = () => {
@@ -86,7 +88,7 @@ const VirtualizedList = ({
 
   useEffect(() => {
     if (previousListScrollTop !== listScrollTop) {
-      setScrollTop(listScrollTop || 0);
+      setScrollTop(parseInt(listScrollTop || '0', 10));
     }
   }, [listScrollTop, setListScrollTop, previousListScrollTop]);
 
@@ -131,6 +133,7 @@ interface OptionalGridProps {
     (number | ((info: Index) => number));
   cellRenderer: GridCellRenderer;
   width?: number;
+  recomputeGridSizeOnChange?: any;
 }
 
 export const VirtualizedGrid = ({
@@ -140,13 +143,20 @@ export const VirtualizedGrid = ({
   onScroll,
   rowHeight = 36,
   width = 1024,
+  recomputeGridSizeOnChange,
   ...rest
 }: OptionalGridProps & Omit<GridProps, 'height' | 'rowHeight' | 'width'>) => {
   const ref = useRef<Grid>(null);
+  const previousRecomputeGridSizeOnChange = usePrevious(
+    recomputeGridSizeOnChange,
+  );
+
   const [listScrollTop, setListScrollTop] = useQueryValue('listScrollTop');
   const previousListScrollTop = usePrevious(listScrollTop);
 
-  const [scrollTop, setScrollTop] = useState(listScrollTop || 0);
+  const [scrollTop, setScrollTop] = useState(
+    parseInt(listScrollTop || '0', 10),
+  );
   const showScrollTop = scrollTop > 64;
 
   const handleScrollToTop = () => {
@@ -174,9 +184,19 @@ export const VirtualizedGrid = ({
 
   useEffect(() => {
     if (previousListScrollTop !== listScrollTop) {
-      setScrollTop(listScrollTop || 0);
+      setScrollTop(parseInt(listScrollTop || '0', 10));
     }
   }, [listScrollTop, setListScrollTop, previousListScrollTop]);
+
+  useEffect(() => {
+    if (previousRecomputeGridSizeOnChange !== recomputeGridSizeOnChange) {
+      ref.current?.recomputeGridSize();
+    }
+  }, [
+    listScrollTop,
+    recomputeGridSizeOnChange,
+    previousRecomputeGridSizeOnChange,
+  ]);
 
   return (
     <>

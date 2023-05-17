@@ -38,6 +38,7 @@ export interface BaseDataItemSelectorProps {
   errorLabel: string;
   getItemContent?: (item: any) => React.ReactNode;
   height?: number;
+  loading?: boolean;
   nameKey?: string;
   offset?: string | number;
   query?: any;
@@ -56,6 +57,7 @@ export const BaseDataItemSelector = <T extends {}>({
   handleChange,
   height = 150,
   labelKey,
+  loading,
   nameKey = '',
   offset,
   query,
@@ -70,7 +72,7 @@ export const BaseDataItemSelector = <T extends {}>({
   labelKey: keyof T;
   value: string;
 }) => {
-  const { data: itemSelectorData, loading } = useQuery<Query>(
+  const { data: itemSelectorData, loading: queryLoading } = useQuery<Query>(
     query || defaultQuery,
     {
       variables: {
@@ -101,7 +103,7 @@ export const BaseDataItemSelector = <T extends {}>({
     errorLabel,
     getItemContent,
     height,
-    loading,
+    loading: !!(queryLoading || loading),
     nameKey,
     offset,
     panelGap: 2,
@@ -138,6 +140,8 @@ const BaseDataItem = <T extends {}>({
     isBoolean,
     isColor,
     isDate,
+    isNumber,
+    isCurrency,
     itemSelectorQueryProps,
     readOnly,
     title,
@@ -186,7 +190,7 @@ const BaseDataItem = <T extends {}>({
   };
 
   const editableCellProps: EditableCellProps = {
-    bypassLocalValue: true,
+    bypassLocalValue: !!itemSelectorQueryProps,
     content,
     defaultChildren: getValue ? (
       getValue(data)
@@ -202,6 +206,8 @@ const BaseDataItem = <T extends {}>({
     isBoolean,
     isColor,
     isDate,
+    isNumber,
+    isCurrency,
     onChange: (e) => {
       handleChange &&
         handleChange(key, isBoolean ? e.target.checked : e.target.value);
