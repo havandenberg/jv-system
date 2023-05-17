@@ -1,0 +1,7 @@
+mutation WIRE_REQUEST_UPDATE($id: BigInt!, $updates: WireRequestPatch!) {
+  updateWireRequest(input: { patch: $updates, id: $id }) {
+    wireRequest {
+      id
+    }
+  }
+}

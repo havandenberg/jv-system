@@ -1,0 +1,95 @@
+query WIRE_REQUEST_DETAILS($id: BigInt!) {
+  wireRequest(id: $id) {
+    approvalDate
+    approvalUser {
+      id
+      personContact {
+        id
+        firstName
+        lastName
+      }
+      userCode
+    }
+    bankId
+    id
+    requestDate
+    wireNumber
+    wireType
+    vendorId
+    vendor {
+      id
+      vendorName
+    }
+    wireDate
+    isVerified
+    requestUser {
+      id
+      personContact {
+        id
+        firstName
+        lastName
+      }
+      userCode
+    }
+    sentDate
+    checkHeader {
+      checkDate
+      checkAmount
+      isReconciled
+      isVoid
+      checkStatus
+      invoiceId
+      remitToCode
+    }
+    wireRequestAccountOfSaleItems {
+      nodes {
+        id
+        billOfLading
+        vesselCode
+        vessel {
+          vesselCode
+          vesselName
+        }
+      }
+    }
+    wireRequestMiscItems {
+      nodes {
+        itemAmount
+        id
+        itemDescription
+      }
+    }
+    wireRequestOceanFreightItems {
+      nodes {
+        id
+        billOfLading
+        freightAmount
+        palletCount
+        receivedDate
+        shipperId
+        vesselCode
+        vessel {
+          vesselCode
+          vesselName
+        }
+        shipper {
+          id
+          shipperName
+        }
+      }
+    }
+    wireRequestShipperAdvanceItems {
+      nodes {
+        id
+        billOfLading
+        boxAmount
+        speciesId
+        vesselCode
+        vessel {
+          vesselCode
+          vesselName
+        }
+      }
+    }
+  }
+}

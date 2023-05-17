@@ -412,6 +412,9 @@ const VesselControlLog = () => {
               }
             />
           </l.Div>
+          <l.AreaLink ml={th.spacing.lg} to="/accounting/wire-control">
+            <b.Primary>Wire Log</b.Primary>
+          </l.AreaLink>
         </Fragment>
       }
       extraPaddingTop={72}

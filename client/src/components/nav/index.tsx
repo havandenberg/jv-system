@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom';
 import { StringParam } from 'use-query-params';
 
 import LogoImg from 'assets/images/jv-logo-white-no-text.png';
+import { useActiveUser } from 'components/user/context';
 import UserLogin from 'components/user/login';
 import { useQuerySet } from 'hooks/use-query-params';
 import l from 'ui/layout';
@@ -18,7 +19,7 @@ export interface NavItemType extends NavItemProps {
   dashboardItems?: NavItemProps[];
 }
 
-export const navItems: NavItemType[] = [
+export const getNavItems: (roles?: string[]) => NavItemType[] = (roles) => [
   {
     text: 'Inventory',
     to: '/inventory',
@@ -71,6 +72,18 @@ export const navItems: NavItemType[] = [
       },
       { text: 'Unpaids', to: 'unpaids' },
       { text: 'Expenses', to: 'expenses' },
+      {
+        isDev: true,
+        text: 'Wires',
+        to: 'wires',
+        visible: roles?.includes('isAccounting'),
+      },
+      {
+        isDev: true,
+        text: 'Checks',
+        to: 'checks',
+        visible: roles?.includes('isAccounting'),
+      },
     ],
     secondaryItems: [
       {
@@ -79,6 +92,18 @@ export const navItems: NavItemType[] = [
       },
       { text: 'Unpaids', to: 'unpaids' },
       { text: 'Expenses', to: 'expenses' },
+      {
+        isDev: true,
+        text: 'Wires',
+        to: 'wires',
+        visible: roles?.includes('isAccounting'),
+      },
+      {
+        isDev: true,
+        text: 'Checks',
+        to: 'checks',
+        visible: roles?.includes('isAccounting'),
+      },
     ],
   },
   {
@@ -137,7 +162,9 @@ const Logo = styled(l.AreaLink)({
 });
 
 const Nav = () => {
+  const { roles } = useActiveUser();
   const { pathname } = useLocation();
+  const navItems = getNavItems(Object.keys(roles));
   const activeItem = navItems.find((it) => {
     return `/${pathname.split('/')[1]}`?.includes(it.to);
   });

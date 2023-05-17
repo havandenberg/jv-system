@@ -23,6 +23,7 @@ const { db2UpdateTable } = require('.');
 // db2UpdateTable('accounting/invoice/header');
 // db2UpdateTable('accounting/invoice/item');
 // db2UpdateTable('accounting/invoice/item-history');
+// db2UpdateTable('accounting/check-header');
 // db2UpdateTable('accounting/customer-payment');
 
 // db2UpdateTable('accounting/expense/header');

@@ -1,0 +1,98 @@
+query WIRE_CONTROL_DETAILS($id: BigInt!) {
+  vesselControl(id: $id) {
+    id
+    isLiquidated
+    shipper {
+      id
+      commissionRate
+      shipperName
+    }
+    vessel {
+      id
+      arrivalDate
+      dischargeDate
+      vesselName
+      vesselCode
+      country {
+        id
+        countryName
+      }
+      warehouse {
+        id
+        warehouseName
+      }
+    }
+    pallets {
+      totalCount
+    }
+    wires {
+      nodes {
+        bankId
+        id
+        wireNumber
+        wireType
+        vendor {
+          id
+          vendorName
+        }
+        wireDate
+        isVerified
+        sentDate
+        checkHeader {
+          checkDate
+          checkAmount
+          isReconciled
+          isVoid
+          checkStatus
+          invoiceId
+        }
+        wireRequestAccountOfSaleItems {
+          nodes {
+            id
+            billOfLading
+            vesselCode
+          }
+        }
+        wireRequestMiscItems {
+          nodes {
+            itemAmount
+            id
+            itemDescription
+          }
+        }
+        wireRequestOceanFreightItems {
+          nodes {
+            id
+            billOfLading
+            freightAmount
+            palletCount
+            receivedDate
+            shipperId
+            vesselCode
+            vessel {
+              vesselCode
+              vesselName
+            }
+            shipper {
+              id
+              shipperName
+            }
+          }
+        }
+        wireRequestShipperAdvanceItems {
+          nodes {
+            id
+            billOfLading
+            boxAmount
+            speciesId
+            vesselCode
+            vessel {
+              vesselCode
+              vesselName
+            }
+          }
+        }
+      }
+    }
+  }
+}

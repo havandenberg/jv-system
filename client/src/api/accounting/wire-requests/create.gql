@@ -1,0 +1,5 @@
+mutation WIRE_REQUEST_CREATE($wireRequest: WireRequestInput!) {
+  createWireRequest(input: { wireRequest: $wireRequest }) {
+    clientMutationId
+  }
+}

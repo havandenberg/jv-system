@@ -503,6 +503,29 @@ export type BulkDeleteActiveInventoryItemPayload = {
   query?: Maybe<Query>;
 };
 
+/** All input for the `bulkDeleteCheckHeader` mutation. */
+export type BulkDeleteCheckHeaderInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  idsToDelete: Array<Maybe<Scalars['BigFloat']>>;
+};
+
+/** The output of our `bulkDeleteCheckHeader` mutation. */
+export type BulkDeleteCheckHeaderPayload = {
+  __typename?: 'BulkDeleteCheckHeaderPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  strings?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
 /** All input for the `bulkDeleteCountry` mutation. */
 export type BulkDeleteCountryInput = {
   /**
@@ -1327,6 +1350,29 @@ export type BulkUpsertAgendaItemPayload = {
    */
   clientMutationId?: Maybe<Scalars['String']>;
   agendaItems?: Maybe<Array<Maybe<AgendaItem>>>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+/** All input for the `bulkUpsertCheckHeader` mutation. */
+export type BulkUpsertCheckHeaderInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  checkHeaders: Array<Maybe<CheckHeaderInput>>;
+};
+
+/** The output of our `bulkUpsertCheckHeader` mutation. */
+export type BulkUpsertCheckHeaderPayload = {
+  __typename?: 'BulkUpsertCheckHeaderPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  checkHeaders?: Maybe<Array<Maybe<CheckHeader>>>;
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
 };
@@ -2854,6 +2900,196 @@ export enum CalendarEventsOrderBy {
   AllDayDesc = 'ALL_DAY_DESC',
   RruleAsc = 'RRULE_ASC',
   RruleDesc = 'RRULE_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
+}
+
+export type CheckHeader = Node & {
+  __typename?: 'CheckHeader';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  isReconciled?: Maybe<Scalars['Boolean']>;
+  checkStatus: Scalars['String'];
+  checkNumber: Scalars['String'];
+  vendorId: Scalars['String'];
+  remitToCode?: Maybe<Scalars['BigFloat']>;
+  invoiceAmount: Scalars['BigFloat'];
+  discountAmount: Scalars['BigFloat'];
+  checkAmount: Scalars['BigFloat'];
+  checkDate?: Maybe<Scalars['Date']>;
+  bankId: Scalars['String'];
+  invoiceId: Scalars['String'];
+  isVoid?: Maybe<Scalars['Boolean']>;
+  entryDate?: Maybe<Scalars['Date']>;
+  searchText?: Maybe<Scalars['String']>;
+  vendor?: Maybe<Vendor>;
+};
+
+/**
+ * A condition to be used against `CheckHeader` object types. All fields are tested
+ * for equality and combined with a logical ‘and.’
+ */
+export type CheckHeaderCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `isReconciled` field. */
+  isReconciled?: Maybe<Scalars['Boolean']>;
+  /** Checks for equality with the object’s `checkStatus` field. */
+  checkStatus?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `checkNumber` field. */
+  checkNumber?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `vendorId` field. */
+  vendorId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `remitToCode` field. */
+  remitToCode?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `invoiceAmount` field. */
+  invoiceAmount?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `discountAmount` field. */
+  discountAmount?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `checkAmount` field. */
+  checkAmount?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `checkDate` field. */
+  checkDate?: Maybe<Scalars['Date']>;
+  /** Checks for equality with the object’s `bankId` field. */
+  bankId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `invoiceId` field. */
+  invoiceId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `isVoid` field. */
+  isVoid?: Maybe<Scalars['Boolean']>;
+  /** Checks for equality with the object’s `entryDate` field. */
+  entryDate?: Maybe<Scalars['Date']>;
+};
+
+/** A filter to be used against `CheckHeader` object types. All fields are combined with a logical ‘and.’ */
+export type CheckHeaderFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `isReconciled` field. */
+  isReconciled?: Maybe<BooleanFilter>;
+  /** Filter by the object’s `checkStatus` field. */
+  checkStatus?: Maybe<StringFilter>;
+  /** Filter by the object’s `checkNumber` field. */
+  checkNumber?: Maybe<StringFilter>;
+  /** Filter by the object’s `vendorId` field. */
+  vendorId?: Maybe<StringFilter>;
+  /** Filter by the object’s `remitToCode` field. */
+  remitToCode?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `invoiceAmount` field. */
+  invoiceAmount?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `discountAmount` field. */
+  discountAmount?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `checkAmount` field. */
+  checkAmount?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `checkDate` field. */
+  checkDate?: Maybe<DateFilter>;
+  /** Filter by the object’s `bankId` field. */
+  bankId?: Maybe<StringFilter>;
+  /** Filter by the object’s `invoiceId` field. */
+  invoiceId?: Maybe<StringFilter>;
+  /** Filter by the object’s `isVoid` field. */
+  isVoid?: Maybe<BooleanFilter>;
+  /** Filter by the object’s `entryDate` field. */
+  entryDate?: Maybe<DateFilter>;
+  /** Filter by the object’s `searchText` field. */
+  searchText?: Maybe<StringFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<CheckHeaderFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<CheckHeaderFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<CheckHeaderFilter>;
+};
+
+/** An input for mutations affecting `CheckHeader` */
+export type CheckHeaderInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  isReconciled?: Maybe<Scalars['Boolean']>;
+  checkStatus: Scalars['String'];
+  checkNumber: Scalars['String'];
+  vendorId: Scalars['String'];
+  remitToCode?: Maybe<Scalars['BigFloat']>;
+  invoiceAmount: Scalars['BigFloat'];
+  discountAmount: Scalars['BigFloat'];
+  checkAmount: Scalars['BigFloat'];
+  checkDate?: Maybe<Scalars['Date']>;
+  bankId: Scalars['String'];
+  invoiceId: Scalars['String'];
+  isVoid?: Maybe<Scalars['Boolean']>;
+  entryDate?: Maybe<Scalars['Date']>;
+};
+
+/** Represents an update to a `CheckHeader`. Fields that are set will be updated. */
+export type CheckHeaderPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  isReconciled?: Maybe<Scalars['Boolean']>;
+  checkStatus?: Maybe<Scalars['String']>;
+  checkNumber?: Maybe<Scalars['String']>;
+  vendorId?: Maybe<Scalars['String']>;
+  remitToCode?: Maybe<Scalars['BigFloat']>;
+  invoiceAmount?: Maybe<Scalars['BigFloat']>;
+  discountAmount?: Maybe<Scalars['BigFloat']>;
+  checkAmount?: Maybe<Scalars['BigFloat']>;
+  checkDate?: Maybe<Scalars['Date']>;
+  bankId?: Maybe<Scalars['String']>;
+  invoiceId?: Maybe<Scalars['String']>;
+  isVoid?: Maybe<Scalars['Boolean']>;
+  entryDate?: Maybe<Scalars['Date']>;
+};
+
+/** A connection to a list of `CheckHeader` values. */
+export type CheckHeadersConnection = {
+  __typename?: 'CheckHeadersConnection';
+  /** A list of `CheckHeader` objects. */
+  nodes: Array<Maybe<CheckHeader>>;
+  /** A list of edges which contains the `CheckHeader` and cursor to aid in pagination. */
+  edges: Array<CheckHeadersEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `CheckHeader` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `CheckHeader` edge in the connection. */
+export type CheckHeadersEdge = {
+  __typename?: 'CheckHeadersEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `CheckHeader` at the end of the edge. */
+  node?: Maybe<CheckHeader>;
+};
+
+/** Methods to use when ordering `CheckHeader`. */
+export enum CheckHeadersOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  IsReconciledAsc = 'IS_RECONCILED_ASC',
+  IsReconciledDesc = 'IS_RECONCILED_DESC',
+  CheckStatusAsc = 'CHECK_STATUS_ASC',
+  CheckStatusDesc = 'CHECK_STATUS_DESC',
+  CheckNumberAsc = 'CHECK_NUMBER_ASC',
+  CheckNumberDesc = 'CHECK_NUMBER_DESC',
+  VendorIdAsc = 'VENDOR_ID_ASC',
+  VendorIdDesc = 'VENDOR_ID_DESC',
+  RemitToCodeAsc = 'REMIT_TO_CODE_ASC',
+  RemitToCodeDesc = 'REMIT_TO_CODE_DESC',
+  InvoiceAmountAsc = 'INVOICE_AMOUNT_ASC',
+  InvoiceAmountDesc = 'INVOICE_AMOUNT_DESC',
+  DiscountAmountAsc = 'DISCOUNT_AMOUNT_ASC',
+  DiscountAmountDesc = 'DISCOUNT_AMOUNT_DESC',
+  CheckAmountAsc = 'CHECK_AMOUNT_ASC',
+  CheckAmountDesc = 'CHECK_AMOUNT_DESC',
+  CheckDateAsc = 'CHECK_DATE_ASC',
+  CheckDateDesc = 'CHECK_DATE_DESC',
+  BankIdAsc = 'BANK_ID_ASC',
+  BankIdDesc = 'BANK_ID_DESC',
+  InvoiceIdAsc = 'INVOICE_ID_ASC',
+  InvoiceIdDesc = 'INVOICE_ID_DESC',
+  IsVoidAsc = 'IS_VOID_ASC',
+  IsVoidDesc = 'IS_VOID_DESC',
+  EntryDateAsc = 'ENTRY_DATE_ASC',
+  EntryDateDesc = 'ENTRY_DATE_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC'
 }
@@ -9179,6 +9415,7 @@ export type CommonSpeciesProductSpeciesIdFkeyProductSpeciesCreateInput = {
   defaultTemperature?: Maybe<Scalars['String']>;
   commonSpeciesUsingId?: Maybe<CommonSpeciesProductSpeciesIdFkeyInverseInput>;
   commonSpeciesProductSpeciesUsingId?: Maybe<CommonSpeciesProductSpeciesProductSpeciesIdFkeyInverseInput>;
+  shipperAdvancesUsingId?: Maybe<ShipperAdvanceSpeciesIdFkeyInverseInput>;
 };
 
 /** An input for mutations affecting `CommonSpeciesProductSpecies` */
@@ -9326,6 +9563,7 @@ export type CommonSpeciesProductSpeciesProductSpeciesIdFkeyProductSpeciesCreateI
   defaultTemperature?: Maybe<Scalars['String']>;
   commonSpeciesUsingId?: Maybe<CommonSpeciesProductSpeciesIdFkeyInverseInput>;
   commonSpeciesProductSpeciesUsingId?: Maybe<CommonSpeciesProductSpeciesProductSpeciesIdFkeyInverseInput>;
+  shipperAdvancesUsingId?: Maybe<ShipperAdvanceSpeciesIdFkeyInverseInput>;
 };
 
 /** The globally unique `ID` look up for the row to connect. */
@@ -13082,6 +13320,39 @@ export type CreateCalendarEventPayloadCalendarEventEdgeArgs = {
   orderBy?: Maybe<Array<CalendarEventsOrderBy>>;
 };
 
+/** All input for the create `CheckHeader` mutation. */
+export type CreateCheckHeaderInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `CheckHeader` to be created by this mutation. */
+  checkHeader: CheckHeaderInput;
+};
+
+/** The output of our create `CheckHeader` mutation. */
+export type CreateCheckHeaderPayload = {
+  __typename?: 'CreateCheckHeaderPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `CheckHeader` that was created by this mutation. */
+  checkHeader?: Maybe<CheckHeader>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `CheckHeader`. May be used by Relay 1. */
+  checkHeaderEdge?: Maybe<CheckHeadersEdge>;
+};
+
+
+/** The output of our create `CheckHeader` mutation. */
+export type CreateCheckHeaderPayloadCheckHeaderEdgeArgs = {
+  orderBy?: Maybe<Array<CheckHeadersOrderBy>>;
+};
+
 /** All input for the create `ChileDepartureInspectionPallet` mutation. */
 export type CreateChileDepartureInspectionPalletInput = {
   /**
@@ -15932,6 +16203,43 @@ export type CreateRepackStylePayloadRepackStyleEdgeArgs = {
   orderBy?: Maybe<Array<RepackStylesOrderBy>>;
 };
 
+/** All input for the create `ShipperAdvance` mutation. */
+export type CreateShipperAdvanceInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `ShipperAdvance` to be created by this mutation. */
+  shipperAdvance: ShipperAdvanceInput;
+};
+
+/** The output of our create `ShipperAdvance` mutation. */
+export type CreateShipperAdvancePayload = {
+  __typename?: 'CreateShipperAdvancePayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `ShipperAdvance` that was created by this mutation. */
+  shipperAdvance?: Maybe<ShipperAdvance>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `ProductSpecies` that is related to this `ShipperAdvance`. */
+  species?: Maybe<ProductSpecies>;
+  /** Reads a single `Shipper` that is related to this `ShipperAdvance`. */
+  shipper?: Maybe<Shipper>;
+  /** An edge for our `ShipperAdvance`. May be used by Relay 1. */
+  shipperAdvanceEdge?: Maybe<ShipperAdvancesEdge>;
+};
+
+
+/** The output of our create `ShipperAdvance` mutation. */
+export type CreateShipperAdvancePayloadShipperAdvanceEdgeArgs = {
+  orderBy?: Maybe<Array<ShipperAdvancesOrderBy>>;
+};
+
 /** All input for the create `Shipper` mutation. */
 export type CreateShipperInput = {
   /**
@@ -16796,6 +17104,179 @@ export type CreateWarehousePersonContactPayload = {
 /** The output of our create `WarehousePersonContact` mutation. */
 export type CreateWarehousePersonContactPayloadWarehousePersonContactEdgeArgs = {
   orderBy?: Maybe<Array<WarehousePersonContactsOrderBy>>;
+};
+
+/** All input for the create `WireRequestAccountOfSaleItem` mutation. */
+export type CreateWireRequestAccountOfSaleItemInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `WireRequestAccountOfSaleItem` to be created by this mutation. */
+  wireRequestAccountOfSaleItem: WireRequestAccountOfSaleItemInput;
+};
+
+/** The output of our create `WireRequestAccountOfSaleItem` mutation. */
+export type CreateWireRequestAccountOfSaleItemPayload = {
+  __typename?: 'CreateWireRequestAccountOfSaleItemPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `WireRequestAccountOfSaleItem` that was created by this mutation. */
+  wireRequestAccountOfSaleItem?: Maybe<WireRequestAccountOfSaleItem>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `WireRequest` that is related to this `WireRequestAccountOfSaleItem`. */
+  wireRequest?: Maybe<WireRequest>;
+  /** An edge for our `WireRequestAccountOfSaleItem`. May be used by Relay 1. */
+  wireRequestAccountOfSaleItemEdge?: Maybe<WireRequestAccountOfSaleItemsEdge>;
+};
+
+
+/** The output of our create `WireRequestAccountOfSaleItem` mutation. */
+export type CreateWireRequestAccountOfSaleItemPayloadWireRequestAccountOfSaleItemEdgeArgs = {
+  orderBy?: Maybe<Array<WireRequestAccountOfSaleItemsOrderBy>>;
+};
+
+/** All input for the create `WireRequest` mutation. */
+export type CreateWireRequestInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `WireRequest` to be created by this mutation. */
+  wireRequest: WireRequestInput;
+};
+
+/** All input for the create `WireRequestMiscItem` mutation. */
+export type CreateWireRequestMiscItemInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `WireRequestMiscItem` to be created by this mutation. */
+  wireRequestMiscItem: WireRequestMiscItemInput;
+};
+
+/** The output of our create `WireRequestMiscItem` mutation. */
+export type CreateWireRequestMiscItemPayload = {
+  __typename?: 'CreateWireRequestMiscItemPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `WireRequestMiscItem` that was created by this mutation. */
+  wireRequestMiscItem?: Maybe<WireRequestMiscItem>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `WireRequest` that is related to this `WireRequestMiscItem`. */
+  wireRequest?: Maybe<WireRequest>;
+  /** An edge for our `WireRequestMiscItem`. May be used by Relay 1. */
+  wireRequestMiscItemEdge?: Maybe<WireRequestMiscItemsEdge>;
+};
+
+
+/** The output of our create `WireRequestMiscItem` mutation. */
+export type CreateWireRequestMiscItemPayloadWireRequestMiscItemEdgeArgs = {
+  orderBy?: Maybe<Array<WireRequestMiscItemsOrderBy>>;
+};
+
+/** All input for the create `WireRequestOceanFreightItem` mutation. */
+export type CreateWireRequestOceanFreightItemInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `WireRequestOceanFreightItem` to be created by this mutation. */
+  wireRequestOceanFreightItem: WireRequestOceanFreightItemInput;
+};
+
+/** The output of our create `WireRequestOceanFreightItem` mutation. */
+export type CreateWireRequestOceanFreightItemPayload = {
+  __typename?: 'CreateWireRequestOceanFreightItemPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `WireRequestOceanFreightItem` that was created by this mutation. */
+  wireRequestOceanFreightItem?: Maybe<WireRequestOceanFreightItem>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `WireRequest` that is related to this `WireRequestOceanFreightItem`. */
+  wireRequest?: Maybe<WireRequest>;
+  /** An edge for our `WireRequestOceanFreightItem`. May be used by Relay 1. */
+  wireRequestOceanFreightItemEdge?: Maybe<WireRequestOceanFreightItemsEdge>;
+};
+
+
+/** The output of our create `WireRequestOceanFreightItem` mutation. */
+export type CreateWireRequestOceanFreightItemPayloadWireRequestOceanFreightItemEdgeArgs = {
+  orderBy?: Maybe<Array<WireRequestOceanFreightItemsOrderBy>>;
+};
+
+/** The output of our create `WireRequest` mutation. */
+export type CreateWireRequestPayload = {
+  __typename?: 'CreateWireRequestPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `WireRequest` that was created by this mutation. */
+  wireRequest?: Maybe<WireRequest>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `WireRequest`. May be used by Relay 1. */
+  wireRequestEdge?: Maybe<WireRequestsEdge>;
+};
+
+
+/** The output of our create `WireRequest` mutation. */
+export type CreateWireRequestPayloadWireRequestEdgeArgs = {
+  orderBy?: Maybe<Array<WireRequestsOrderBy>>;
+};
+
+/** All input for the create `WireRequestShipperAdvanceItem` mutation. */
+export type CreateWireRequestShipperAdvanceItemInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `WireRequestShipperAdvanceItem` to be created by this mutation. */
+  wireRequestShipperAdvanceItem: WireRequestShipperAdvanceItemInput;
+};
+
+/** The output of our create `WireRequestShipperAdvanceItem` mutation. */
+export type CreateWireRequestShipperAdvanceItemPayload = {
+  __typename?: 'CreateWireRequestShipperAdvanceItemPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `WireRequestShipperAdvanceItem` that was created by this mutation. */
+  wireRequestShipperAdvanceItem?: Maybe<WireRequestShipperAdvanceItem>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `WireRequest` that is related to this `WireRequestShipperAdvanceItem`. */
+  wireRequest?: Maybe<WireRequest>;
+  /** An edge for our `WireRequestShipperAdvanceItem`. May be used by Relay 1. */
+  wireRequestShipperAdvanceItemEdge?: Maybe<WireRequestShipperAdvanceItemsEdge>;
+};
+
+
+/** The output of our create `WireRequestShipperAdvanceItem` mutation. */
+export type CreateWireRequestShipperAdvanceItemPayloadWireRequestShipperAdvanceItemEdgeArgs = {
+  orderBy?: Maybe<Array<WireRequestShipperAdvanceItemsOrderBy>>;
 };
 
 
@@ -19932,6 +20413,50 @@ export type DeleteCalendarEventPayload = {
 /** The output of our delete `CalendarEvent` mutation. */
 export type DeleteCalendarEventPayloadCalendarEventEdgeArgs = {
   orderBy?: Maybe<Array<CalendarEventsOrderBy>>;
+};
+
+/** All input for the `deleteCheckHeaderByNodeId` mutation. */
+export type DeleteCheckHeaderByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `CheckHeader` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deleteCheckHeader` mutation. */
+export type DeleteCheckHeaderInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['BigInt'];
+};
+
+/** The output of our delete `CheckHeader` mutation. */
+export type DeleteCheckHeaderPayload = {
+  __typename?: 'DeleteCheckHeaderPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `CheckHeader` that was deleted by this mutation. */
+  checkHeader?: Maybe<CheckHeader>;
+  deletedCheckHeaderNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `CheckHeader`. May be used by Relay 1. */
+  checkHeaderEdge?: Maybe<CheckHeadersEdge>;
+};
+
+
+/** The output of our delete `CheckHeader` mutation. */
+export type DeleteCheckHeaderPayloadCheckHeaderEdgeArgs = {
+  orderBy?: Maybe<Array<CheckHeadersOrderBy>>;
 };
 
 /** All input for the `deleteChileDepartureInspectionPalletByNodeId` mutation. */
@@ -23940,6 +24465,54 @@ export type DeleteRepackStylePayloadRepackStyleEdgeArgs = {
   orderBy?: Maybe<Array<RepackStylesOrderBy>>;
 };
 
+/** All input for the `deleteShipperAdvanceByNodeId` mutation. */
+export type DeleteShipperAdvanceByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `ShipperAdvance` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deleteShipperAdvance` mutation. */
+export type DeleteShipperAdvanceInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['BigInt'];
+};
+
+/** The output of our delete `ShipperAdvance` mutation. */
+export type DeleteShipperAdvancePayload = {
+  __typename?: 'DeleteShipperAdvancePayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `ShipperAdvance` that was deleted by this mutation. */
+  shipperAdvance?: Maybe<ShipperAdvance>;
+  deletedShipperAdvanceNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `ProductSpecies` that is related to this `ShipperAdvance`. */
+  species?: Maybe<ProductSpecies>;
+  /** Reads a single `Shipper` that is related to this `ShipperAdvance`. */
+  shipper?: Maybe<Shipper>;
+  /** An edge for our `ShipperAdvance`. May be used by Relay 1. */
+  shipperAdvanceEdge?: Maybe<ShipperAdvancesEdge>;
+};
+
+
+/** The output of our delete `ShipperAdvance` mutation. */
+export type DeleteShipperAdvancePayloadShipperAdvanceEdgeArgs = {
+  orderBy?: Maybe<Array<ShipperAdvancesOrderBy>>;
+};
+
 /** All input for the `deleteShipperByNodeId` mutation. */
 export type DeleteShipperByNodeIdInput = {
   /**
@@ -25074,6 +25647,234 @@ export type DeleteWarehousePersonContactPayloadWarehousePersonContactEdgeArgs = 
   orderBy?: Maybe<Array<WarehousePersonContactsOrderBy>>;
 };
 
+/** All input for the `deleteWireRequestAccountOfSaleItemByNodeId` mutation. */
+export type DeleteWireRequestAccountOfSaleItemByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `WireRequestAccountOfSaleItem` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deleteWireRequestAccountOfSaleItem` mutation. */
+export type DeleteWireRequestAccountOfSaleItemInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['BigInt'];
+};
+
+/** The output of our delete `WireRequestAccountOfSaleItem` mutation. */
+export type DeleteWireRequestAccountOfSaleItemPayload = {
+  __typename?: 'DeleteWireRequestAccountOfSaleItemPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `WireRequestAccountOfSaleItem` that was deleted by this mutation. */
+  wireRequestAccountOfSaleItem?: Maybe<WireRequestAccountOfSaleItem>;
+  deletedWireRequestAccountOfSaleItemNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `WireRequest` that is related to this `WireRequestAccountOfSaleItem`. */
+  wireRequest?: Maybe<WireRequest>;
+  /** An edge for our `WireRequestAccountOfSaleItem`. May be used by Relay 1. */
+  wireRequestAccountOfSaleItemEdge?: Maybe<WireRequestAccountOfSaleItemsEdge>;
+};
+
+
+/** The output of our delete `WireRequestAccountOfSaleItem` mutation. */
+export type DeleteWireRequestAccountOfSaleItemPayloadWireRequestAccountOfSaleItemEdgeArgs = {
+  orderBy?: Maybe<Array<WireRequestAccountOfSaleItemsOrderBy>>;
+};
+
+/** All input for the `deleteWireRequestByNodeId` mutation. */
+export type DeleteWireRequestByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `WireRequest` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deleteWireRequest` mutation. */
+export type DeleteWireRequestInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['BigInt'];
+};
+
+/** All input for the `deleteWireRequestMiscItemByNodeId` mutation. */
+export type DeleteWireRequestMiscItemByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `WireRequestMiscItem` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deleteWireRequestMiscItem` mutation. */
+export type DeleteWireRequestMiscItemInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['BigInt'];
+};
+
+/** The output of our delete `WireRequestMiscItem` mutation. */
+export type DeleteWireRequestMiscItemPayload = {
+  __typename?: 'DeleteWireRequestMiscItemPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `WireRequestMiscItem` that was deleted by this mutation. */
+  wireRequestMiscItem?: Maybe<WireRequestMiscItem>;
+  deletedWireRequestMiscItemNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `WireRequest` that is related to this `WireRequestMiscItem`. */
+  wireRequest?: Maybe<WireRequest>;
+  /** An edge for our `WireRequestMiscItem`. May be used by Relay 1. */
+  wireRequestMiscItemEdge?: Maybe<WireRequestMiscItemsEdge>;
+};
+
+
+/** The output of our delete `WireRequestMiscItem` mutation. */
+export type DeleteWireRequestMiscItemPayloadWireRequestMiscItemEdgeArgs = {
+  orderBy?: Maybe<Array<WireRequestMiscItemsOrderBy>>;
+};
+
+/** All input for the `deleteWireRequestOceanFreightItemByNodeId` mutation. */
+export type DeleteWireRequestOceanFreightItemByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `WireRequestOceanFreightItem` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deleteWireRequestOceanFreightItem` mutation. */
+export type DeleteWireRequestOceanFreightItemInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['BigInt'];
+};
+
+/** The output of our delete `WireRequestOceanFreightItem` mutation. */
+export type DeleteWireRequestOceanFreightItemPayload = {
+  __typename?: 'DeleteWireRequestOceanFreightItemPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `WireRequestOceanFreightItem` that was deleted by this mutation. */
+  wireRequestOceanFreightItem?: Maybe<WireRequestOceanFreightItem>;
+  deletedWireRequestOceanFreightItemNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `WireRequest` that is related to this `WireRequestOceanFreightItem`. */
+  wireRequest?: Maybe<WireRequest>;
+  /** An edge for our `WireRequestOceanFreightItem`. May be used by Relay 1. */
+  wireRequestOceanFreightItemEdge?: Maybe<WireRequestOceanFreightItemsEdge>;
+};
+
+
+/** The output of our delete `WireRequestOceanFreightItem` mutation. */
+export type DeleteWireRequestOceanFreightItemPayloadWireRequestOceanFreightItemEdgeArgs = {
+  orderBy?: Maybe<Array<WireRequestOceanFreightItemsOrderBy>>;
+};
+
+/** The output of our delete `WireRequest` mutation. */
+export type DeleteWireRequestPayload = {
+  __typename?: 'DeleteWireRequestPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `WireRequest` that was deleted by this mutation. */
+  wireRequest?: Maybe<WireRequest>;
+  deletedWireRequestNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `WireRequest`. May be used by Relay 1. */
+  wireRequestEdge?: Maybe<WireRequestsEdge>;
+};
+
+
+/** The output of our delete `WireRequest` mutation. */
+export type DeleteWireRequestPayloadWireRequestEdgeArgs = {
+  orderBy?: Maybe<Array<WireRequestsOrderBy>>;
+};
+
+/** All input for the `deleteWireRequestShipperAdvanceItemByNodeId` mutation. */
+export type DeleteWireRequestShipperAdvanceItemByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `WireRequestShipperAdvanceItem` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** All input for the `deleteWireRequestShipperAdvanceItem` mutation. */
+export type DeleteWireRequestShipperAdvanceItemInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  id: Scalars['BigInt'];
+};
+
+/** The output of our delete `WireRequestShipperAdvanceItem` mutation. */
+export type DeleteWireRequestShipperAdvanceItemPayload = {
+  __typename?: 'DeleteWireRequestShipperAdvanceItemPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `WireRequestShipperAdvanceItem` that was deleted by this mutation. */
+  wireRequestShipperAdvanceItem?: Maybe<WireRequestShipperAdvanceItem>;
+  deletedWireRequestShipperAdvanceItemNodeId?: Maybe<Scalars['ID']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `WireRequest` that is related to this `WireRequestShipperAdvanceItem`. */
+  wireRequest?: Maybe<WireRequest>;
+  /** An edge for our `WireRequestShipperAdvanceItem`. May be used by Relay 1. */
+  wireRequestShipperAdvanceItemEdge?: Maybe<WireRequestShipperAdvanceItemsEdge>;
+};
+
+
+/** The output of our delete `WireRequestShipperAdvanceItem` mutation. */
+export type DeleteWireRequestShipperAdvanceItemPayloadWireRequestShipperAdvanceItemEdgeArgs = {
+  orderBy?: Maybe<Array<WireRequestShipperAdvanceItemsOrderBy>>;
+};
+
 /** A `String` edge in the connection. */
 export type DistinctValueEdge = {
   __typename?: 'DistinctValueEdge';
@@ -25827,6 +26628,7 @@ export type FkShipperIdShipperCreateInput = {
   projectionRequestEndDate?: Maybe<Scalars['Date']>;
   vesselControlDaysUntilDue?: Maybe<Scalars['BigFloat']>;
   psaShipperId?: Maybe<Scalars['String']>;
+  commissionRate?: Maybe<Scalars['BigFloat']>;
   countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
   shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
@@ -25834,6 +26636,7 @@ export type FkShipperIdShipperCreateInput = {
   shipperPersonContactsUsingId?: Maybe<ShipperPersonContactShipperIdFkeyInverseInput>;
   shipperProjectionVesselInfosUsingId?: Maybe<FkShipperIdInverseInput>;
   shipperProgramsUsingId?: Maybe<ShipperProgramShipperIdFkeyInverseInput>;
+  shipperAdvancesUsingId?: Maybe<ShipperAdvanceShipperIdFkeyInverseInput>;
 };
 
 /** The `shipperProjectionVesselInfo` to be created by this mutation. */
@@ -27347,6 +28150,8 @@ export type Mutation = {
   createPersonContact?: Maybe<CreatePersonContactPayload>;
   /** Creates a single `Shipper`. */
   createShipper?: Maybe<CreateShipperPayload>;
+  /** Creates a single `ShipperAdvance`. */
+  createShipperAdvance?: Maybe<CreateShipperAdvancePayload>;
   /** Creates a single `ShipperPersonContact`. */
   createShipperPersonContact?: Maybe<CreateShipperPersonContactPayload>;
   /** Creates a single `Vendor`. */
@@ -27523,6 +28328,8 @@ export type Mutation = {
   createTruckRate?: Maybe<CreateTruckRatePayload>;
   /** Creates a single `TruckRateCustomer`. */
   createTruckRateCustomer?: Maybe<CreateTruckRateCustomerPayload>;
+  /** Creates a single `CheckHeader`. */
+  createCheckHeader?: Maybe<CreateCheckHeaderPayload>;
   /** Creates a single `CustomerPayment`. */
   createCustomerPayment?: Maybe<CreateCustomerPaymentPayload>;
   /** Creates a single `ExpenseHeader`. */
@@ -27541,6 +28348,16 @@ export type Mutation = {
   createUnpaid?: Maybe<CreateUnpaidPayload>;
   /** Creates a single `VesselControl`. */
   createVesselControl?: Maybe<CreateVesselControlPayload>;
+  /** Creates a single `WireRequest`. */
+  createWireRequest?: Maybe<CreateWireRequestPayload>;
+  /** Creates a single `WireRequestAccountOfSaleItem`. */
+  createWireRequestAccountOfSaleItem?: Maybe<CreateWireRequestAccountOfSaleItemPayload>;
+  /** Creates a single `WireRequestMiscItem`. */
+  createWireRequestMiscItem?: Maybe<CreateWireRequestMiscItemPayload>;
+  /** Creates a single `WireRequestOceanFreightItem`. */
+  createWireRequestOceanFreightItem?: Maybe<CreateWireRequestOceanFreightItemPayload>;
+  /** Creates a single `WireRequestShipperAdvanceItem`. */
+  createWireRequestShipperAdvanceItem?: Maybe<CreateWireRequestShipperAdvanceItemPayload>;
   /** Updates a single `OrderNumber` using its globally unique id and a patch. */
   updateOrderNumberByNodeId?: Maybe<UpdateOrderNumberPayload>;
   /** Updates a single `OrderNumber` using a unique key and a patch. */
@@ -27593,6 +28410,10 @@ export type Mutation = {
   updateShipperByNodeId?: Maybe<UpdateShipperPayload>;
   /** Updates a single `Shipper` using a unique key and a patch. */
   updateShipper?: Maybe<UpdateShipperPayload>;
+  /** Updates a single `ShipperAdvance` using its globally unique id and a patch. */
+  updateShipperAdvanceByNodeId?: Maybe<UpdateShipperAdvancePayload>;
+  /** Updates a single `ShipperAdvance` using a unique key and a patch. */
+  updateShipperAdvance?: Maybe<UpdateShipperAdvancePayload>;
   /** Updates a single `ShipperPersonContact` using its globally unique id and a patch. */
   updateShipperPersonContactByNodeId?: Maybe<UpdateShipperPersonContactPayload>;
   /** Updates a single `ShipperPersonContact` using a unique key and a patch. */
@@ -27973,6 +28794,10 @@ export type Mutation = {
   updateTruckRateCustomerByNodeId?: Maybe<UpdateTruckRateCustomerPayload>;
   /** Updates a single `TruckRateCustomer` using a unique key and a patch. */
   updateTruckRateCustomer?: Maybe<UpdateTruckRateCustomerPayload>;
+  /** Updates a single `CheckHeader` using its globally unique id and a patch. */
+  updateCheckHeaderByNodeId?: Maybe<UpdateCheckHeaderPayload>;
+  /** Updates a single `CheckHeader` using a unique key and a patch. */
+  updateCheckHeader?: Maybe<UpdateCheckHeaderPayload>;
   /** Updates a single `CustomerPayment` using its globally unique id and a patch. */
   updateCustomerPaymentByNodeId?: Maybe<UpdateCustomerPaymentPayload>;
   /** Updates a single `CustomerPayment` using a unique key and a patch. */
@@ -28009,6 +28834,26 @@ export type Mutation = {
   updateVesselControlByNodeId?: Maybe<UpdateVesselControlPayload>;
   /** Updates a single `VesselControl` using a unique key and a patch. */
   updateVesselControl?: Maybe<UpdateVesselControlPayload>;
+  /** Updates a single `WireRequest` using its globally unique id and a patch. */
+  updateWireRequestByNodeId?: Maybe<UpdateWireRequestPayload>;
+  /** Updates a single `WireRequest` using a unique key and a patch. */
+  updateWireRequest?: Maybe<UpdateWireRequestPayload>;
+  /** Updates a single `WireRequestAccountOfSaleItem` using its globally unique id and a patch. */
+  updateWireRequestAccountOfSaleItemByNodeId?: Maybe<UpdateWireRequestAccountOfSaleItemPayload>;
+  /** Updates a single `WireRequestAccountOfSaleItem` using a unique key and a patch. */
+  updateWireRequestAccountOfSaleItem?: Maybe<UpdateWireRequestAccountOfSaleItemPayload>;
+  /** Updates a single `WireRequestMiscItem` using its globally unique id and a patch. */
+  updateWireRequestMiscItemByNodeId?: Maybe<UpdateWireRequestMiscItemPayload>;
+  /** Updates a single `WireRequestMiscItem` using a unique key and a patch. */
+  updateWireRequestMiscItem?: Maybe<UpdateWireRequestMiscItemPayload>;
+  /** Updates a single `WireRequestOceanFreightItem` using its globally unique id and a patch. */
+  updateWireRequestOceanFreightItemByNodeId?: Maybe<UpdateWireRequestOceanFreightItemPayload>;
+  /** Updates a single `WireRequestOceanFreightItem` using a unique key and a patch. */
+  updateWireRequestOceanFreightItem?: Maybe<UpdateWireRequestOceanFreightItemPayload>;
+  /** Updates a single `WireRequestShipperAdvanceItem` using its globally unique id and a patch. */
+  updateWireRequestShipperAdvanceItemByNodeId?: Maybe<UpdateWireRequestShipperAdvanceItemPayload>;
+  /** Updates a single `WireRequestShipperAdvanceItem` using a unique key and a patch. */
+  updateWireRequestShipperAdvanceItem?: Maybe<UpdateWireRequestShipperAdvanceItemPayload>;
   /** Deletes a single `OrderNumber` using its globally unique id. */
   deleteOrderNumberByNodeId?: Maybe<DeleteOrderNumberPayload>;
   /** Deletes a single `OrderNumber` using a unique key. */
@@ -28061,6 +28906,10 @@ export type Mutation = {
   deleteShipperByNodeId?: Maybe<DeleteShipperPayload>;
   /** Deletes a single `Shipper` using a unique key. */
   deleteShipper?: Maybe<DeleteShipperPayload>;
+  /** Deletes a single `ShipperAdvance` using its globally unique id. */
+  deleteShipperAdvanceByNodeId?: Maybe<DeleteShipperAdvancePayload>;
+  /** Deletes a single `ShipperAdvance` using a unique key. */
+  deleteShipperAdvance?: Maybe<DeleteShipperAdvancePayload>;
   /** Deletes a single `ShipperPersonContact` using its globally unique id. */
   deleteShipperPersonContactByNodeId?: Maybe<DeleteShipperPersonContactPayload>;
   /** Deletes a single `ShipperPersonContact` using a unique key. */
@@ -28441,6 +29290,10 @@ export type Mutation = {
   deleteTruckRateCustomerByNodeId?: Maybe<DeleteTruckRateCustomerPayload>;
   /** Deletes a single `TruckRateCustomer` using a unique key. */
   deleteTruckRateCustomer?: Maybe<DeleteTruckRateCustomerPayload>;
+  /** Deletes a single `CheckHeader` using its globally unique id. */
+  deleteCheckHeaderByNodeId?: Maybe<DeleteCheckHeaderPayload>;
+  /** Deletes a single `CheckHeader` using a unique key. */
+  deleteCheckHeader?: Maybe<DeleteCheckHeaderPayload>;
   /** Deletes a single `CustomerPayment` using its globally unique id. */
   deleteCustomerPaymentByNodeId?: Maybe<DeleteCustomerPaymentPayload>;
   /** Deletes a single `CustomerPayment` using a unique key. */
@@ -28477,6 +29330,26 @@ export type Mutation = {
   deleteVesselControlByNodeId?: Maybe<DeleteVesselControlPayload>;
   /** Deletes a single `VesselControl` using a unique key. */
   deleteVesselControl?: Maybe<DeleteVesselControlPayload>;
+  /** Deletes a single `WireRequest` using its globally unique id. */
+  deleteWireRequestByNodeId?: Maybe<DeleteWireRequestPayload>;
+  /** Deletes a single `WireRequest` using a unique key. */
+  deleteWireRequest?: Maybe<DeleteWireRequestPayload>;
+  /** Deletes a single `WireRequestAccountOfSaleItem` using its globally unique id. */
+  deleteWireRequestAccountOfSaleItemByNodeId?: Maybe<DeleteWireRequestAccountOfSaleItemPayload>;
+  /** Deletes a single `WireRequestAccountOfSaleItem` using a unique key. */
+  deleteWireRequestAccountOfSaleItem?: Maybe<DeleteWireRequestAccountOfSaleItemPayload>;
+  /** Deletes a single `WireRequestMiscItem` using its globally unique id. */
+  deleteWireRequestMiscItemByNodeId?: Maybe<DeleteWireRequestMiscItemPayload>;
+  /** Deletes a single `WireRequestMiscItem` using a unique key. */
+  deleteWireRequestMiscItem?: Maybe<DeleteWireRequestMiscItemPayload>;
+  /** Deletes a single `WireRequestOceanFreightItem` using its globally unique id. */
+  deleteWireRequestOceanFreightItemByNodeId?: Maybe<DeleteWireRequestOceanFreightItemPayload>;
+  /** Deletes a single `WireRequestOceanFreightItem` using a unique key. */
+  deleteWireRequestOceanFreightItem?: Maybe<DeleteWireRequestOceanFreightItemPayload>;
+  /** Deletes a single `WireRequestShipperAdvanceItem` using its globally unique id. */
+  deleteWireRequestShipperAdvanceItemByNodeId?: Maybe<DeleteWireRequestShipperAdvanceItemPayload>;
+  /** Deletes a single `WireRequestShipperAdvanceItem` using a unique key. */
+  deleteWireRequestShipperAdvanceItem?: Maybe<DeleteWireRequestShipperAdvanceItemPayload>;
   bulkCreateUserMessage?: Maybe<BulkCreateUserMessagePayload>;
   bulkUpsertUserBookmark?: Maybe<BulkUpsertUserBookmarkPayload>;
   bulkAddContactsToGroup?: Maybe<BulkAddContactsToGroupPayload>;
@@ -28578,12 +29451,14 @@ export type Mutation = {
   bulkUpsertRepackItem?: Maybe<BulkUpsertRepackItemPayload>;
   bulkUpsertRepackQueue?: Maybe<BulkUpsertRepackQueuePayload>;
   bulkUpsertTruckLoad?: Maybe<BulkUpsertTruckLoadPayload>;
+  bulkDeleteCheckHeader?: Maybe<BulkDeleteCheckHeaderPayload>;
   bulkDeleteCustomerPayment?: Maybe<BulkDeleteCustomerPaymentPayload>;
   bulkDeleteExpenseHeader?: Maybe<BulkDeleteExpenseHeaderPayload>;
   bulkDeleteExpenseItem?: Maybe<BulkDeleteExpenseItemPayload>;
   bulkDeleteInvoiceHeader?: Maybe<BulkDeleteInvoiceHeaderPayload>;
   bulkDeleteInvoiceItem?: Maybe<BulkDeleteInvoiceItemPayload>;
   bulkDeleteInvoiceItemHistory?: Maybe<BulkDeleteInvoiceItemHistoryPayload>;
+  bulkUpsertCheckHeader?: Maybe<BulkUpsertCheckHeaderPayload>;
   bulkUpsertCustomerPayment?: Maybe<BulkUpsertCustomerPaymentPayload>;
   bulkUpsertExpenseHeader?: Maybe<BulkUpsertExpenseHeaderPayload>;
   bulkUpsertExpenseHeaderReview?: Maybe<BulkUpsertExpenseHeaderReviewPayload>;
@@ -28617,6 +29492,8 @@ export type Mutation = {
   upsertPersonContact?: Maybe<UpsertPersonContactPayload>;
   /** Upserts a single `Shipper`. */
   upsertShipper?: Maybe<UpsertShipperPayload>;
+  /** Upserts a single `ShipperAdvance`. */
+  upsertShipperAdvance?: Maybe<UpsertShipperAdvancePayload>;
   /** Upserts a single `ShipperPersonContact`. */
   upsertShipperPersonContact?: Maybe<UpsertShipperPersonContactPayload>;
   /** Upserts a single `Vendor`. */
@@ -28793,6 +29670,8 @@ export type Mutation = {
   upsertTruckRate?: Maybe<UpsertTruckRatePayload>;
   /** Upserts a single `TruckRateCustomer`. */
   upsertTruckRateCustomer?: Maybe<UpsertTruckRateCustomerPayload>;
+  /** Upserts a single `CheckHeader`. */
+  upsertCheckHeader?: Maybe<UpsertCheckHeaderPayload>;
   /** Upserts a single `CustomerPayment`. */
   upsertCustomerPayment?: Maybe<UpsertCustomerPaymentPayload>;
   /** Upserts a single `ExpenseHeader`. */
@@ -28811,6 +29690,16 @@ export type Mutation = {
   upsertUnpaid?: Maybe<UpsertUnpaidPayload>;
   /** Upserts a single `VesselControl`. */
   upsertVesselControl?: Maybe<UpsertVesselControlPayload>;
+  /** Upserts a single `WireRequest`. */
+  upsertWireRequest?: Maybe<UpsertWireRequestPayload>;
+  /** Upserts a single `WireRequestAccountOfSaleItem`. */
+  upsertWireRequestAccountOfSaleItem?: Maybe<UpsertWireRequestAccountOfSaleItemPayload>;
+  /** Upserts a single `WireRequestMiscItem`. */
+  upsertWireRequestMiscItem?: Maybe<UpsertWireRequestMiscItemPayload>;
+  /** Upserts a single `WireRequestOceanFreightItem`. */
+  upsertWireRequestOceanFreightItem?: Maybe<UpsertWireRequestOceanFreightItemPayload>;
+  /** Upserts a single `WireRequestShipperAdvanceItem`. */
+  upsertWireRequestShipperAdvanceItem?: Maybe<UpsertWireRequestShipperAdvanceItemPayload>;
   containerScheduleUpdateNotify: Scalars['String'];
   sendUnpaidsNotificationEmails: Scalars['String'];
   sendPriceSheetUpdateEmail: Scalars['String'];
@@ -28893,6 +29782,12 @@ export type MutationCreatePersonContactArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreateShipperArgs = {
   input: CreateShipperInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateShipperAdvanceArgs = {
+  input: CreateShipperAdvanceInput;
 };
 
 
@@ -29425,6 +30320,12 @@ export type MutationCreateTruckRateCustomerArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateCheckHeaderArgs = {
+  input: CreateCheckHeaderInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreateCustomerPaymentArgs = {
   input: CreateCustomerPaymentInput;
 };
@@ -29475,6 +30376,36 @@ export type MutationCreateUnpaidArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreateVesselControlArgs = {
   input: CreateVesselControlInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateWireRequestArgs = {
+  input: CreateWireRequestInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateWireRequestAccountOfSaleItemArgs = {
+  input: CreateWireRequestAccountOfSaleItemInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateWireRequestMiscItemArgs = {
+  input: CreateWireRequestMiscItemInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateWireRequestOceanFreightItemArgs = {
+  input: CreateWireRequestOceanFreightItemInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateWireRequestShipperAdvanceItemArgs = {
+  input: CreateWireRequestShipperAdvanceItemInput;
 };
 
 
@@ -29631,6 +30562,18 @@ export type MutationUpdateShipperByNodeIdArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateShipperArgs = {
   input: UpdateShipperInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateShipperAdvanceByNodeIdArgs = {
+  input: UpdateShipperAdvanceByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateShipperAdvanceArgs = {
+  input: UpdateShipperAdvanceInput;
 };
 
 
@@ -30775,6 +31718,18 @@ export type MutationUpdateTruckRateCustomerArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateCheckHeaderByNodeIdArgs = {
+  input: UpdateCheckHeaderByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateCheckHeaderArgs = {
+  input: UpdateCheckHeaderInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateCustomerPaymentByNodeIdArgs = {
   input: UpdateCustomerPaymentByNodeIdInput;
 };
@@ -30879,6 +31834,66 @@ export type MutationUpdateVesselControlByNodeIdArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateVesselControlArgs = {
   input: UpdateVesselControlInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateWireRequestByNodeIdArgs = {
+  input: UpdateWireRequestByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateWireRequestArgs = {
+  input: UpdateWireRequestInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateWireRequestAccountOfSaleItemByNodeIdArgs = {
+  input: UpdateWireRequestAccountOfSaleItemByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateWireRequestAccountOfSaleItemArgs = {
+  input: UpdateWireRequestAccountOfSaleItemInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateWireRequestMiscItemByNodeIdArgs = {
+  input: UpdateWireRequestMiscItemByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateWireRequestMiscItemArgs = {
+  input: UpdateWireRequestMiscItemInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateWireRequestOceanFreightItemByNodeIdArgs = {
+  input: UpdateWireRequestOceanFreightItemByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateWireRequestOceanFreightItemArgs = {
+  input: UpdateWireRequestOceanFreightItemInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateWireRequestShipperAdvanceItemByNodeIdArgs = {
+  input: UpdateWireRequestShipperAdvanceItemByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateWireRequestShipperAdvanceItemArgs = {
+  input: UpdateWireRequestShipperAdvanceItemInput;
 };
 
 
@@ -31035,6 +32050,18 @@ export type MutationDeleteShipperByNodeIdArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteShipperArgs = {
   input: DeleteShipperInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteShipperAdvanceByNodeIdArgs = {
+  input: DeleteShipperAdvanceByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteShipperAdvanceArgs = {
+  input: DeleteShipperAdvanceInput;
 };
 
 
@@ -32179,6 +33206,18 @@ export type MutationDeleteTruckRateCustomerArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteCheckHeaderByNodeIdArgs = {
+  input: DeleteCheckHeaderByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteCheckHeaderArgs = {
+  input: DeleteCheckHeaderInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteCustomerPaymentByNodeIdArgs = {
   input: DeleteCustomerPaymentByNodeIdInput;
 };
@@ -32283,6 +33322,66 @@ export type MutationDeleteVesselControlByNodeIdArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteVesselControlArgs = {
   input: DeleteVesselControlInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteWireRequestByNodeIdArgs = {
+  input: DeleteWireRequestByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteWireRequestArgs = {
+  input: DeleteWireRequestInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteWireRequestAccountOfSaleItemByNodeIdArgs = {
+  input: DeleteWireRequestAccountOfSaleItemByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteWireRequestAccountOfSaleItemArgs = {
+  input: DeleteWireRequestAccountOfSaleItemInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteWireRequestMiscItemByNodeIdArgs = {
+  input: DeleteWireRequestMiscItemByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteWireRequestMiscItemArgs = {
+  input: DeleteWireRequestMiscItemInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteWireRequestOceanFreightItemByNodeIdArgs = {
+  input: DeleteWireRequestOceanFreightItemByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteWireRequestOceanFreightItemArgs = {
+  input: DeleteWireRequestOceanFreightItemInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteWireRequestShipperAdvanceItemByNodeIdArgs = {
+  input: DeleteWireRequestShipperAdvanceItemByNodeIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteWireRequestShipperAdvanceItemArgs = {
+  input: DeleteWireRequestShipperAdvanceItemInput;
 };
 
 
@@ -32893,6 +33992,12 @@ export type MutationBulkUpsertTruckLoadArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationBulkDeleteCheckHeaderArgs = {
+  input: BulkDeleteCheckHeaderInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationBulkDeleteCustomerPaymentArgs = {
   input: BulkDeleteCustomerPaymentInput;
 };
@@ -32925,6 +34030,12 @@ export type MutationBulkDeleteInvoiceItemArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationBulkDeleteInvoiceItemHistoryArgs = {
   input: BulkDeleteInvoiceItemHistoryInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationBulkUpsertCheckHeaderArgs = {
+  input: BulkUpsertCheckHeaderInput;
 };
 
 
@@ -33045,6 +34156,12 @@ export type MutationUpsertPersonContactArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpsertShipperArgs = {
   input: UpsertShipperInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpsertShipperAdvanceArgs = {
+  input: UpsertShipperAdvanceInput;
 };
 
 
@@ -33577,6 +34694,12 @@ export type MutationUpsertTruckRateCustomerArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpsertCheckHeaderArgs = {
+  input: UpsertCheckHeaderInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpsertCustomerPaymentArgs = {
   input: UpsertCustomerPaymentInput;
 };
@@ -33627,6 +34750,36 @@ export type MutationUpsertUnpaidArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpsertVesselControlArgs = {
   input: UpsertVesselControlInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpsertWireRequestArgs = {
+  input: UpsertWireRequestInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpsertWireRequestAccountOfSaleItemArgs = {
+  input: UpsertWireRequestAccountOfSaleItemInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpsertWireRequestMiscItemArgs = {
+  input: UpsertWireRequestMiscItemInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpsertWireRequestOceanFreightItemArgs = {
+  input: UpsertWireRequestOceanFreightItemInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpsertWireRequestShipperAdvanceItemArgs = {
+  input: UpsertWireRequestShipperAdvanceItemInput;
 };
 
 
@@ -40994,12 +42147,16 @@ export type ProductSpecies = Node & {
   commonSpecieses: CommonSpeciesConnection;
   /** Reads and enables pagination through a set of `CommonSpeciesProductSpecies`. */
   commonSpeciesProductSpecieses: CommonSpeciesProductSpeciesConnection;
+  /** Reads and enables pagination through a set of `ShipperAdvance`. */
+  shipperAdvancesBySpeciesId: ShipperAdvancesConnection;
   commonSpecies?: Maybe<CommonSpecies>;
   searchText?: Maybe<Scalars['String']>;
   /** Reads and enables pagination through a set of `CommonCategory`. */
   commonCategoriesByCommonSpeciesProductSpeciesIdAndCommonCategoryId: ProductSpeciesCommonCategoriesByCommonSpeciesProductSpeciesIdAndCommonCategoryIdManyToManyConnection;
   /** Reads and enables pagination through a set of `CommonSpecies`. */
   commonSpeciesByCommonSpeciesProductSpeciesProductSpeciesIdAndCommonSpeciesId: ProductSpeciesCommonSpeciesByCommonSpeciesProductSpeciesProductSpeciesIdAndCommonSpeciesIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `Shipper`. */
+  shippersByShipperAdvanceSpeciesIdAndShipperId: ProductSpeciesShippersByShipperAdvanceSpeciesIdAndShipperIdManyToManyConnection;
 };
 
 
@@ -41027,6 +42184,18 @@ export type ProductSpeciesCommonSpeciesProductSpeciesesArgs = {
 };
 
 
+export type ProductSpeciesShipperAdvancesBySpeciesIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperAdvancesOrderBy>>;
+  condition?: Maybe<ShipperAdvanceCondition>;
+  filter?: Maybe<ShipperAdvanceFilter>;
+};
+
+
 export type ProductSpeciesCommonCategoriesByCommonSpeciesProductSpeciesIdAndCommonCategoryIdArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
@@ -41048,6 +42217,18 @@ export type ProductSpeciesCommonSpeciesByCommonSpeciesProductSpeciesProductSpeci
   orderBy?: Maybe<Array<CommonSpeciesOrderBy>>;
   condition?: Maybe<CommonSpeciesCondition>;
   filter?: Maybe<CommonSpeciesFilter>;
+};
+
+
+export type ProductSpeciesShippersByShipperAdvanceSpeciesIdAndShipperIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShippersOrderBy>>;
+  condition?: Maybe<ShipperCondition>;
+  filter?: Maybe<ShipperFilter>;
 };
 
 /** A connection to a list of `CommonCategory` values, with data from `CommonSpecies`. */
@@ -41189,6 +42370,10 @@ export type ProductSpeciesFilter = {
   commonSpeciesProductSpecieses?: Maybe<ProductSpeciesToManyCommonSpeciesProductSpeciesFilter>;
   /** Some related `commonSpeciesProductSpecieses` exist. */
   commonSpeciesProductSpeciesesExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `shipperAdvancesBySpeciesId` relation. */
+  shipperAdvancesBySpeciesId?: Maybe<ProductSpeciesToManyShipperAdvanceFilter>;
+  /** Some related `shipperAdvancesBySpeciesId` exist. */
+  shipperAdvancesBySpeciesIdExist?: Maybe<Scalars['Boolean']>;
   /** Checks for all expressions in this list. */
   and?: Maybe<Array<ProductSpeciesFilter>>;
   /** Checks for any expressions in this list. */
@@ -41207,6 +42392,7 @@ export type ProductSpeciesInput = {
   defaultTemperature?: Maybe<Scalars['String']>;
   commonSpeciesUsingId?: Maybe<CommonSpeciesProductSpeciesIdFkeyInverseInput>;
   commonSpeciesProductSpeciesUsingId?: Maybe<CommonSpeciesProductSpeciesProductSpeciesIdFkeyInverseInput>;
+  shipperAdvancesUsingId?: Maybe<ShipperAdvanceSpeciesIdFkeyInverseInput>;
 };
 
 /** The globally unique `ID` look up for the row to update. */
@@ -41239,6 +42425,21 @@ export type ProductSpeciesOnCommonSpeciesProductSpeciesForCommonSpeciesProductSp
   id: Scalars['String'];
 };
 
+/** The globally unique `ID` look up for the row to update. */
+export type ProductSpeciesOnShipperAdvanceForShipperAdvanceSpeciesIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `shipperAdvance` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `shipperAdvance` being updated. */
+  patch: ShipperAdvancePatch;
+};
+
+/** The fields on `productSpecies` to look up the row to update. */
+export type ProductSpeciesOnShipperAdvanceForShipperAdvanceSpeciesIdFkeyUsingProductSpeciesPkeyUpdate = {
+  /** An object where the defined keys will be set on the `productSpecies` being updated. */
+  patch: UpdateProductSpeciesOnShipperAdvanceForShipperAdvanceSpeciesIdFkeyPatch;
+  id: Scalars['String'];
+};
+
 /** Methods to use when ordering `ProductSpecies`. */
 export enum ProductSpeciesOrderBy {
   Natural = 'NATURAL',
@@ -41259,7 +42460,9 @@ export enum ProductSpeciesOrderBy {
   CommonSpeciesByProductSpeciesIdCountAsc = 'COMMON_SPECIES_BY_PRODUCT_SPECIES_ID__COUNT_ASC',
   CommonSpeciesByProductSpeciesIdCountDesc = 'COMMON_SPECIES_BY_PRODUCT_SPECIES_ID__COUNT_DESC',
   CommonSpeciesProductSpeciesByProductSpeciesIdCountAsc = 'COMMON_SPECIES_PRODUCT_SPECIES_BY_PRODUCT_SPECIES_ID__COUNT_ASC',
-  CommonSpeciesProductSpeciesByProductSpeciesIdCountDesc = 'COMMON_SPECIES_PRODUCT_SPECIES_BY_PRODUCT_SPECIES_ID__COUNT_DESC'
+  CommonSpeciesProductSpeciesByProductSpeciesIdCountDesc = 'COMMON_SPECIES_PRODUCT_SPECIES_BY_PRODUCT_SPECIES_ID__COUNT_DESC',
+  ShipperAdvancesBySpeciesIdCountAsc = 'SHIPPER_ADVANCES_BY_SPECIES_ID__COUNT_ASC',
+  ShipperAdvancesBySpeciesIdCountDesc = 'SHIPPER_ADVANCES_BY_SPECIES_ID__COUNT_DESC'
 }
 
 /** Represents an update to a `ProductSpecies`. Fields that are set will be updated. */
@@ -41272,6 +42475,7 @@ export type ProductSpeciesPatch = {
   defaultTemperature?: Maybe<Scalars['String']>;
   commonSpeciesUsingId?: Maybe<CommonSpeciesProductSpeciesIdFkeyInverseInput>;
   commonSpeciesProductSpeciesUsingId?: Maybe<CommonSpeciesProductSpeciesProductSpeciesIdFkeyInverseInput>;
+  shipperAdvancesUsingId?: Maybe<ShipperAdvanceSpeciesIdFkeyInverseInput>;
 };
 
 /** The fields on `productSpecies` to look up the row to connect. */
@@ -41282,6 +42486,43 @@ export type ProductSpeciesProductSpeciesPkeyConnect = {
 /** The fields on `productSpecies` to look up the row to delete. */
 export type ProductSpeciesProductSpeciesPkeyDelete = {
   id: Scalars['String'];
+};
+
+/** A connection to a list of `Shipper` values, with data from `ShipperAdvance`. */
+export type ProductSpeciesShippersByShipperAdvanceSpeciesIdAndShipperIdManyToManyConnection = {
+  __typename?: 'ProductSpeciesShippersByShipperAdvanceSpeciesIdAndShipperIdManyToManyConnection';
+  /** A list of `Shipper` objects. */
+  nodes: Array<Maybe<Shipper>>;
+  /** A list of edges which contains the `Shipper`, info from the `ShipperAdvance`, and the cursor to aid in pagination. */
+  edges: Array<ProductSpeciesShippersByShipperAdvanceSpeciesIdAndShipperIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Shipper` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `Shipper` edge in the connection, with data from `ShipperAdvance`. */
+export type ProductSpeciesShippersByShipperAdvanceSpeciesIdAndShipperIdManyToManyEdge = {
+  __typename?: 'ProductSpeciesShippersByShipperAdvanceSpeciesIdAndShipperIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `Shipper` at the end of the edge. */
+  node?: Maybe<Shipper>;
+  /** Reads and enables pagination through a set of `ShipperAdvance`. */
+  shipperAdvances: ShipperAdvancesConnection;
+};
+
+
+/** A `Shipper` edge in the connection, with data from `ShipperAdvance`. */
+export type ProductSpeciesShippersByShipperAdvanceSpeciesIdAndShipperIdManyToManyEdgeShipperAdvancesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperAdvancesOrderBy>>;
+  condition?: Maybe<ShipperAdvanceCondition>;
+  filter?: Maybe<ShipperAdvanceFilter>;
 };
 
 /** A filter to be used against many `CommonSpecies` object types. All fields are combined with a logical ‘and.’ */
@@ -41302,6 +42543,16 @@ export type ProductSpeciesToManyCommonSpeciesProductSpeciesFilter = {
   some?: Maybe<CommonSpeciesProductSpeciesFilter>;
   /** No related `CommonSpeciesProductSpecies` matches the filter criteria. All fields are combined with a logical ‘and.’ */
   none?: Maybe<CommonSpeciesProductSpeciesFilter>;
+};
+
+/** A filter to be used against many `ShipperAdvance` object types. All fields are combined with a logical ‘and.’ */
+export type ProductSpeciesToManyShipperAdvanceFilter = {
+  /** Every related `ShipperAdvance` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<ShipperAdvanceFilter>;
+  /** Some related `ShipperAdvance` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<ShipperAdvanceFilter>;
+  /** No related `ShipperAdvance` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<ShipperAdvanceFilter>;
 };
 
 /** The globally unique `ID` look up for the row to connect. */
@@ -50195,6 +51446,8 @@ export type Query = Node & {
   personContacts?: Maybe<PersonContactsConnection>;
   /** Reads and enables pagination through a set of `Shipper`. */
   shippers?: Maybe<ShippersConnection>;
+  /** Reads and enables pagination through a set of `ShipperAdvance`. */
+  shipperAdvances?: Maybe<ShipperAdvancesConnection>;
   /** Reads and enables pagination through a set of `ShipperPersonContact`. */
   shipperPersonContacts?: Maybe<ShipperPersonContactsConnection>;
   /** Reads and enables pagination through a set of `Vendor`. */
@@ -50371,6 +51624,8 @@ export type Query = Node & {
   truckRates?: Maybe<TruckRatesConnection>;
   /** Reads and enables pagination through a set of `TruckRateCustomer`. */
   truckRateCustomers?: Maybe<TruckRateCustomersConnection>;
+  /** Reads and enables pagination through a set of `CheckHeader`. */
+  checkHeaders?: Maybe<CheckHeadersConnection>;
   /** Reads and enables pagination through a set of `CustomerPayment`. */
   customerPayments?: Maybe<CustomerPaymentsConnection>;
   /** Reads and enables pagination through a set of `ExpenseHeader`. */
@@ -50389,6 +51644,16 @@ export type Query = Node & {
   unpaids?: Maybe<UnpaidsConnection>;
   /** Reads and enables pagination through a set of `VesselControl`. */
   vesselControls?: Maybe<VesselControlsConnection>;
+  /** Reads and enables pagination through a set of `WireRequest`. */
+  wireRequests?: Maybe<WireRequestsConnection>;
+  /** Reads and enables pagination through a set of `WireRequestAccountOfSaleItem`. */
+  wireRequestAccountOfSaleItems?: Maybe<WireRequestAccountOfSaleItemsConnection>;
+  /** Reads and enables pagination through a set of `WireRequestMiscItem`. */
+  wireRequestMiscItems?: Maybe<WireRequestMiscItemsConnection>;
+  /** Reads and enables pagination through a set of `WireRequestOceanFreightItem`. */
+  wireRequestOceanFreightItems?: Maybe<WireRequestOceanFreightItemsConnection>;
+  /** Reads and enables pagination through a set of `WireRequestShipperAdvanceItem`. */
+  wireRequestShipperAdvanceItems?: Maybe<WireRequestShipperAdvanceItemsConnection>;
   orderNumber?: Maybe<OrderNumber>;
   user?: Maybe<User>;
   userByPin?: Maybe<User>;
@@ -50403,6 +51668,7 @@ export type Query = Node & {
   customerVolumeDiscount?: Maybe<CustomerVolumeDiscount>;
   personContact?: Maybe<PersonContact>;
   shipper?: Maybe<Shipper>;
+  shipperAdvance?: Maybe<ShipperAdvance>;
   shipperPersonContact?: Maybe<ShipperPersonContact>;
   vendor?: Maybe<Vendor>;
   vendorPersonContact?: Maybe<VendorPersonContact>;
@@ -50505,6 +51771,7 @@ export type Query = Node & {
   truckLoad?: Maybe<TruckLoad>;
   truckRate?: Maybe<TruckRate>;
   truckRateCustomer?: Maybe<TruckRateCustomer>;
+  checkHeader?: Maybe<CheckHeader>;
   customerPayment?: Maybe<CustomerPayment>;
   expenseHeader?: Maybe<ExpenseHeader>;
   expenseHeaderReview?: Maybe<ExpenseHeaderReview>;
@@ -50514,6 +51781,11 @@ export type Query = Node & {
   invoiceItemHistory?: Maybe<InvoiceItemHistory>;
   unpaid?: Maybe<Unpaid>;
   vesselControl?: Maybe<VesselControl>;
+  wireRequest?: Maybe<WireRequest>;
+  wireRequestAccountOfSaleItem?: Maybe<WireRequestAccountOfSaleItem>;
+  wireRequestMiscItem?: Maybe<WireRequestMiscItem>;
+  wireRequestOceanFreightItem?: Maybe<WireRequestOceanFreightItem>;
+  wireRequestShipperAdvanceItem?: Maybe<WireRequestShipperAdvanceItem>;
   baseData?: Maybe<Scalars['String']>;
   distinctValues?: Maybe<DistinctValuesConnection>;
   customerDistinctColumnValues?: Maybe<CustomerDistinctColumnValuesConnection>;
@@ -50557,6 +51829,8 @@ export type Query = Node & {
   personContactByNodeId?: Maybe<PersonContact>;
   /** Reads a single `Shipper` using its globally unique `ID`. */
   shipperByNodeId?: Maybe<Shipper>;
+  /** Reads a single `ShipperAdvance` using its globally unique `ID`. */
+  shipperAdvanceByNodeId?: Maybe<ShipperAdvance>;
   /** Reads a single `ShipperPersonContact` using its globally unique `ID`. */
   shipperPersonContactByNodeId?: Maybe<ShipperPersonContact>;
   /** Reads a single `Vendor` using its globally unique `ID`. */
@@ -50733,6 +52007,8 @@ export type Query = Node & {
   truckRateByNodeId?: Maybe<TruckRate>;
   /** Reads a single `TruckRateCustomer` using its globally unique `ID`. */
   truckRateCustomerByNodeId?: Maybe<TruckRateCustomer>;
+  /** Reads a single `CheckHeader` using its globally unique `ID`. */
+  checkHeaderByNodeId?: Maybe<CheckHeader>;
   /** Reads a single `CustomerPayment` using its globally unique `ID`. */
   customerPaymentByNodeId?: Maybe<CustomerPayment>;
   /** Reads a single `ExpenseHeader` using its globally unique `ID`. */
@@ -50751,6 +52027,16 @@ export type Query = Node & {
   unpaidByNodeId?: Maybe<Unpaid>;
   /** Reads a single `VesselControl` using its globally unique `ID`. */
   vesselControlByNodeId?: Maybe<VesselControl>;
+  /** Reads a single `WireRequest` using its globally unique `ID`. */
+  wireRequestByNodeId?: Maybe<WireRequest>;
+  /** Reads a single `WireRequestAccountOfSaleItem` using its globally unique `ID`. */
+  wireRequestAccountOfSaleItemByNodeId?: Maybe<WireRequestAccountOfSaleItem>;
+  /** Reads a single `WireRequestMiscItem` using its globally unique `ID`. */
+  wireRequestMiscItemByNodeId?: Maybe<WireRequestMiscItem>;
+  /** Reads a single `WireRequestOceanFreightItem` using its globally unique `ID`. */
+  wireRequestOceanFreightItemByNodeId?: Maybe<WireRequestOceanFreightItem>;
+  /** Reads a single `WireRequestShipperAdvanceItem` using its globally unique `ID`. */
+  wireRequestShipperAdvanceItemByNodeId?: Maybe<WireRequestShipperAdvanceItem>;
   db2Query: Scalars['String'];
 };
 
@@ -50927,6 +52213,19 @@ export type QueryShippersArgs = {
   orderBy?: Maybe<Array<ShippersOrderBy>>;
   condition?: Maybe<ShipperCondition>;
   filter?: Maybe<ShipperFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryShipperAdvancesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperAdvancesOrderBy>>;
+  condition?: Maybe<ShipperAdvanceCondition>;
+  filter?: Maybe<ShipperAdvanceFilter>;
 };
 
 
@@ -52075,6 +53374,19 @@ export type QueryTruckRateCustomersArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
+export type QueryCheckHeadersArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<CheckHeadersOrderBy>>;
+  condition?: Maybe<CheckHeaderCondition>;
+  filter?: Maybe<CheckHeaderFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
 export type QueryCustomerPaymentsArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
@@ -52192,6 +53504,71 @@ export type QueryVesselControlsArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
+export type QueryWireRequestsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<WireRequestsOrderBy>>;
+  condition?: Maybe<WireRequestCondition>;
+  filter?: Maybe<WireRequestFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryWireRequestAccountOfSaleItemsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<WireRequestAccountOfSaleItemsOrderBy>>;
+  condition?: Maybe<WireRequestAccountOfSaleItemCondition>;
+  filter?: Maybe<WireRequestAccountOfSaleItemFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryWireRequestMiscItemsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<WireRequestMiscItemsOrderBy>>;
+  condition?: Maybe<WireRequestMiscItemCondition>;
+  filter?: Maybe<WireRequestMiscItemFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryWireRequestOceanFreightItemsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<WireRequestOceanFreightItemsOrderBy>>;
+  condition?: Maybe<WireRequestOceanFreightItemCondition>;
+  filter?: Maybe<WireRequestOceanFreightItemFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryWireRequestShipperAdvanceItemsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<WireRequestShipperAdvanceItemsOrderBy>>;
+  condition?: Maybe<WireRequestShipperAdvanceItemCondition>;
+  filter?: Maybe<WireRequestShipperAdvanceItemFilter>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
 export type QueryOrderNumberArgs = {
   id: Scalars['BigInt'];
 };
@@ -52275,6 +53652,12 @@ export type QueryPersonContactArgs = {
 /** The root query type which gives access points into the data universe. */
 export type QueryShipperArgs = {
   id: Scalars['String'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryShipperAdvanceArgs = {
+  id: Scalars['BigInt'];
 };
 
 
@@ -52913,6 +54296,12 @@ export type QueryTruckRateCustomerArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
+export type QueryCheckHeaderArgs = {
+  id: Scalars['BigInt'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
 export type QueryCustomerPaymentArgs = {
   id: Scalars['BigInt'];
 };
@@ -52962,6 +54351,36 @@ export type QueryUnpaidArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryVesselControlArgs = {
+  id: Scalars['BigInt'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryWireRequestArgs = {
+  id: Scalars['BigInt'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryWireRequestAccountOfSaleItemArgs = {
+  id: Scalars['BigInt'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryWireRequestMiscItemArgs = {
+  id: Scalars['BigInt'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryWireRequestOceanFreightItemArgs = {
+  id: Scalars['BigInt'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryWireRequestShipperAdvanceItemArgs = {
   id: Scalars['BigInt'];
 };
 
@@ -53192,6 +54611,12 @@ export type QueryPersonContactByNodeIdArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryShipperByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryShipperAdvanceByNodeIdArgs = {
   nodeId: Scalars['ID'];
 };
 
@@ -53725,6 +55150,12 @@ export type QueryTruckRateCustomerByNodeIdArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
+export type QueryCheckHeaderByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
 export type QueryCustomerPaymentByNodeIdArgs = {
   nodeId: Scalars['ID'];
 };
@@ -53774,6 +55205,36 @@ export type QueryUnpaidByNodeIdArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryVesselControlByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryWireRequestByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryWireRequestAccountOfSaleItemByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryWireRequestMiscItemByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryWireRequestOceanFreightItemByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryWireRequestShipperAdvanceItemByNodeIdArgs = {
   nodeId: Scalars['ID'];
 };
 
@@ -54471,6 +55932,7 @@ export type Shipper = Node & {
   projectionRequestEndDate?: Maybe<Scalars['Date']>;
   vesselControlDaysUntilDue?: Maybe<Scalars['BigFloat']>;
   psaShipperId?: Maybe<Scalars['String']>;
+  commissionRate?: Maybe<Scalars['BigFloat']>;
   /** Reads a single `Country` that is related to this `Shipper`. */
   country?: Maybe<Country>;
   /** Reads and enables pagination through a set of `ShipperProjectionVessel`. */
@@ -54485,6 +55947,8 @@ export type Shipper = Node & {
   shipperProjectionVesselInfos: ShipperProjectionVesselInfosConnection;
   /** Reads and enables pagination through a set of `ShipperProgram`. */
   shipperPrograms: ShipperProgramsConnection;
+  /** Reads and enables pagination through a set of `ShipperAdvance`. */
+  shipperAdvances: ShipperAdvancesConnection;
   searchText?: Maybe<Scalars['String']>;
   vendor?: Maybe<Vendor>;
   /** Reads and enables pagination through a set of `Vessel`. */
@@ -54515,6 +55979,8 @@ export type Shipper = Node & {
   commonPackTypesByShipperProgramShipperIdAndCommonPackTypeId: ShipperCommonPackTypesByShipperProgramShipperIdAndCommonPackTypeIdManyToManyConnection;
   /** Reads and enables pagination through a set of `Customer`. */
   customersByShipperProgramShipperIdAndCustomerId: ShipperCustomersByShipperProgramShipperIdAndCustomerIdManyToManyConnection;
+  /** Reads and enables pagination through a set of `ProductSpecies`. */
+  productSpeciesByShipperAdvanceShipperIdAndSpeciesId: ShipperProductSpeciesByShipperAdvanceShipperIdAndSpeciesIdManyToManyConnection;
 };
 
 
@@ -54587,6 +56053,18 @@ export type ShipperShipperProgramsArgs = {
   orderBy?: Maybe<Array<ShipperProgramsOrderBy>>;
   condition?: Maybe<ShipperProgramCondition>;
   filter?: Maybe<ShipperProgramFilter>;
+};
+
+
+export type ShipperShipperAdvancesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperAdvancesOrderBy>>;
+  condition?: Maybe<ShipperAdvanceCondition>;
+  filter?: Maybe<ShipperAdvanceFilter>;
 };
 
 
@@ -54756,6 +56234,348 @@ export type ShipperCustomersByShipperProgramShipperIdAndCustomerIdArgs = {
   condition?: Maybe<CustomerCondition>;
   filter?: Maybe<CustomerFilter>;
 };
+
+
+export type ShipperProductSpeciesByShipperAdvanceShipperIdAndSpeciesIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ProductSpeciesOrderBy>>;
+  condition?: Maybe<ProductSpeciesCondition>;
+  filter?: Maybe<ProductSpeciesFilter>;
+};
+
+export type ShipperAdvance = Node & {
+  __typename?: 'ShipperAdvance';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  advanceAmount: Scalars['BigFloat'];
+  speciesId: Scalars['String'];
+  shipperId: Scalars['String'];
+  /** Reads a single `ProductSpecies` that is related to this `ShipperAdvance`. */
+  species?: Maybe<ProductSpecies>;
+  /** Reads a single `Shipper` that is related to this `ShipperAdvance`. */
+  shipper?: Maybe<Shipper>;
+};
+
+/**
+ * A condition to be used against `ShipperAdvance` object types. All fields are
+ * tested for equality and combined with a logical ‘and.’
+ */
+export type ShipperAdvanceCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `advanceAmount` field. */
+  advanceAmount?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `speciesId` field. */
+  speciesId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `shipperId` field. */
+  shipperId?: Maybe<Scalars['String']>;
+};
+
+/** A filter to be used against `ShipperAdvance` object types. All fields are combined with a logical ‘and.’ */
+export type ShipperAdvanceFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `advanceAmount` field. */
+  advanceAmount?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `speciesId` field. */
+  speciesId?: Maybe<StringFilter>;
+  /** Filter by the object’s `shipperId` field. */
+  shipperId?: Maybe<StringFilter>;
+  /** Filter by the object’s `species` relation. */
+  species?: Maybe<ProductSpeciesFilter>;
+  /** Filter by the object’s `shipper` relation. */
+  shipper?: Maybe<ShipperFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<ShipperAdvanceFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<ShipperAdvanceFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<ShipperAdvanceFilter>;
+};
+
+/** An input for mutations affecting `ShipperAdvance` */
+export type ShipperAdvanceInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  advanceAmount: Scalars['BigFloat'];
+  speciesId?: Maybe<Scalars['String']>;
+  shipperId?: Maybe<Scalars['String']>;
+  productSpeciesToSpeciesId?: Maybe<ShipperAdvanceSpeciesIdFkeyInput>;
+  shipperToShipperId?: Maybe<ShipperAdvanceShipperIdFkeyInput>;
+};
+
+/** The globally unique `ID` look up for the row to connect. */
+export type ShipperAdvanceNodeIdConnect = {
+  /** The globally unique `ID` which identifies a single `shipperAdvance` to be connected. */
+  nodeId: Scalars['ID'];
+};
+
+/** The globally unique `ID` look up for the row to delete. */
+export type ShipperAdvanceNodeIdDelete = {
+  /** The globally unique `ID` which identifies a single `shipperAdvance` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type ShipperAdvanceOnShipperAdvanceForShipperAdvanceShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `shipper` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `shipper` being updated. */
+  patch: ShipperPatch;
+};
+
+/** The fields on `shipperAdvance` to look up the row to update. */
+export type ShipperAdvanceOnShipperAdvanceForShipperAdvanceShipperIdFkeyUsingShipperAdvancePkeyUpdate = {
+  /** An object where the defined keys will be set on the `shipperAdvance` being updated. */
+  patch: UpdateShipperAdvanceOnShipperAdvanceForShipperAdvanceShipperIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type ShipperAdvanceOnShipperAdvanceForShipperAdvanceSpeciesIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `productSpecies` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `productSpecies` being updated. */
+  patch: ProductSpeciesPatch;
+};
+
+/** The fields on `shipperAdvance` to look up the row to update. */
+export type ShipperAdvanceOnShipperAdvanceForShipperAdvanceSpeciesIdFkeyUsingShipperAdvancePkeyUpdate = {
+  /** An object where the defined keys will be set on the `shipperAdvance` being updated. */
+  patch: UpdateShipperAdvanceOnShipperAdvanceForShipperAdvanceSpeciesIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** Represents an update to a `ShipperAdvance`. Fields that are set will be updated. */
+export type ShipperAdvancePatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  advanceAmount?: Maybe<Scalars['BigFloat']>;
+  speciesId?: Maybe<Scalars['String']>;
+  shipperId?: Maybe<Scalars['String']>;
+  productSpeciesToSpeciesId?: Maybe<ShipperAdvanceSpeciesIdFkeyInput>;
+  shipperToShipperId?: Maybe<ShipperAdvanceShipperIdFkeyInput>;
+};
+
+/** The fields on `shipperAdvance` to look up the row to connect. */
+export type ShipperAdvanceShipperAdvancePkeyConnect = {
+  id: Scalars['BigInt'];
+};
+
+/** The fields on `shipperAdvance` to look up the row to delete. */
+export type ShipperAdvanceShipperAdvancePkeyDelete = {
+  id: Scalars['BigInt'];
+};
+
+/** Input for the nested mutation of `shipper` in the `ShipperAdvanceInput` mutation. */
+export type ShipperAdvanceShipperIdFkeyInput = {
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  connectById?: Maybe<ShipperShipperPkeyConnect>;
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  connectByNodeId?: Maybe<ShipperNodeIdConnect>;
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  deleteById?: Maybe<ShipperShipperPkeyDelete>;
+  /** The primary key(s) for `shipper` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<ShipperNodeIdDelete>;
+  /** The primary key(s) and patch data for `shipper` for the far side of the relationship. */
+  updateById?: Maybe<ShipperOnShipperAdvanceForShipperAdvanceShipperIdFkeyUsingShipperPkeyUpdate>;
+  /** The primary key(s) and patch data for `shipper` for the far side of the relationship. */
+  updateByNodeId?: Maybe<ShipperAdvanceOnShipperAdvanceForShipperAdvanceShipperIdFkeyNodeIdUpdate>;
+  /** A `ShipperInput` object that will be created and connected to this object. */
+  create?: Maybe<ShipperAdvanceShipperIdFkeyShipperCreateInput>;
+};
+
+/** Input for the nested mutation of `shipperAdvance` in the `ShipperInput` mutation. */
+export type ShipperAdvanceShipperIdFkeyInverseInput = {
+  /** Flag indicating whether all other `shipperAdvance` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `shipperAdvance` for the far side of the relationship. */
+  connectById?: Maybe<Array<ShipperAdvanceShipperAdvancePkeyConnect>>;
+  /** The primary key(s) for `shipperAdvance` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<ShipperAdvanceNodeIdConnect>>;
+  /** The primary key(s) for `shipperAdvance` for the far side of the relationship. */
+  deleteById?: Maybe<Array<ShipperAdvanceShipperAdvancePkeyDelete>>;
+  /** The primary key(s) for `shipperAdvance` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<ShipperAdvanceNodeIdDelete>>;
+  /** The primary key(s) and patch data for `shipperAdvance` for the far side of the relationship. */
+  updateById?: Maybe<Array<ShipperAdvanceOnShipperAdvanceForShipperAdvanceShipperIdFkeyUsingShipperAdvancePkeyUpdate>>;
+  /** The primary key(s) and patch data for `shipperAdvance` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<ShipperOnShipperAdvanceForShipperAdvanceShipperIdFkeyNodeIdUpdate>>;
+  /** A `ShipperAdvanceInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<ShipperAdvanceShipperIdFkeyShipperAdvanceCreateInput>>;
+};
+
+/** The `shipperAdvance` to be created by this mutation. */
+export type ShipperAdvanceShipperIdFkeyShipperAdvanceCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  advanceAmount: Scalars['BigFloat'];
+  speciesId?: Maybe<Scalars['String']>;
+  productSpeciesToSpeciesId?: Maybe<ShipperAdvanceSpeciesIdFkeyInput>;
+  shipperToShipperId?: Maybe<ShipperAdvanceShipperIdFkeyInput>;
+};
+
+/** The `shipper` to be created by this mutation. */
+export type ShipperAdvanceShipperIdFkeyShipperCreateInput = {
+  id: Scalars['String'];
+  shipperName: Scalars['String'];
+  countryId?: Maybe<Scalars['String']>;
+  groupId?: Maybe<Scalars['String']>;
+  logoSrc?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
+  sendProjectionRequest?: Maybe<Scalars['Boolean']>;
+  projectionRequestStartDate?: Maybe<Scalars['Date']>;
+  projectionRequestEndDate?: Maybe<Scalars['Date']>;
+  vesselControlDaysUntilDue?: Maybe<Scalars['BigFloat']>;
+  psaShipperId?: Maybe<Scalars['String']>;
+  commissionRate?: Maybe<Scalars['BigFloat']>;
+  countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
+  shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
+  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
+  shipperProjectionsUsingId?: Maybe<ShipperProjectionShipperIdFkeyInverseInput>;
+  shipperPersonContactsUsingId?: Maybe<ShipperPersonContactShipperIdFkeyInverseInput>;
+  shipperProjectionVesselInfosUsingId?: Maybe<FkShipperIdInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramShipperIdFkeyInverseInput>;
+  shipperAdvancesUsingId?: Maybe<ShipperAdvanceShipperIdFkeyInverseInput>;
+};
+
+/** Input for the nested mutation of `productSpecies` in the `ShipperAdvanceInput` mutation. */
+export type ShipperAdvanceSpeciesIdFkeyInput = {
+  /** The primary key(s) for `productSpecies` for the far side of the relationship. */
+  connectById?: Maybe<ProductSpeciesProductSpeciesPkeyConnect>;
+  /** The primary key(s) for `productSpecies` for the far side of the relationship. */
+  connectByNodeId?: Maybe<ProductSpecyNodeIdConnect>;
+  /** The primary key(s) for `productSpecies` for the far side of the relationship. */
+  deleteById?: Maybe<ProductSpeciesProductSpeciesPkeyDelete>;
+  /** The primary key(s) for `productSpecies` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<ProductSpecyNodeIdDelete>;
+  /** The primary key(s) and patch data for `productSpecies` for the far side of the relationship. */
+  updateById?: Maybe<ProductSpeciesOnShipperAdvanceForShipperAdvanceSpeciesIdFkeyUsingProductSpeciesPkeyUpdate>;
+  /** The primary key(s) and patch data for `productSpecies` for the far side of the relationship. */
+  updateByNodeId?: Maybe<ShipperAdvanceOnShipperAdvanceForShipperAdvanceSpeciesIdFkeyNodeIdUpdate>;
+  /** A `ProductSpeciesInput` object that will be created and connected to this object. */
+  create?: Maybe<ShipperAdvanceSpeciesIdFkeyProductSpeciesCreateInput>;
+};
+
+/** Input for the nested mutation of `shipperAdvance` in the `ProductSpeciesInput` mutation. */
+export type ShipperAdvanceSpeciesIdFkeyInverseInput = {
+  /** Flag indicating whether all other `shipperAdvance` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `shipperAdvance` for the far side of the relationship. */
+  connectById?: Maybe<Array<ShipperAdvanceShipperAdvancePkeyConnect>>;
+  /** The primary key(s) for `shipperAdvance` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<ShipperAdvanceNodeIdConnect>>;
+  /** The primary key(s) for `shipperAdvance` for the far side of the relationship. */
+  deleteById?: Maybe<Array<ShipperAdvanceShipperAdvancePkeyDelete>>;
+  /** The primary key(s) for `shipperAdvance` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<ShipperAdvanceNodeIdDelete>>;
+  /** The primary key(s) and patch data for `shipperAdvance` for the far side of the relationship. */
+  updateById?: Maybe<Array<ShipperAdvanceOnShipperAdvanceForShipperAdvanceSpeciesIdFkeyUsingShipperAdvancePkeyUpdate>>;
+  /** The primary key(s) and patch data for `shipperAdvance` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<ProductSpeciesOnShipperAdvanceForShipperAdvanceSpeciesIdFkeyNodeIdUpdate>>;
+  /** A `ShipperAdvanceInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<ShipperAdvanceSpeciesIdFkeyShipperAdvanceCreateInput>>;
+};
+
+/** The `productSpecies` to be created by this mutation. */
+export type ShipperAdvanceSpeciesIdFkeyProductSpeciesCreateInput = {
+  id: Scalars['String'];
+  speciesDescription?: Maybe<Scalars['String']>;
+  secondaryDescription?: Maybe<Scalars['String']>;
+  fdaProductCode?: Maybe<Scalars['String']>;
+  fdaIndustryCode?: Maybe<Scalars['String']>;
+  defaultTemperature?: Maybe<Scalars['String']>;
+  commonSpeciesUsingId?: Maybe<CommonSpeciesProductSpeciesIdFkeyInverseInput>;
+  commonSpeciesProductSpeciesUsingId?: Maybe<CommonSpeciesProductSpeciesProductSpeciesIdFkeyInverseInput>;
+  shipperAdvancesUsingId?: Maybe<ShipperAdvanceSpeciesIdFkeyInverseInput>;
+};
+
+/** The `shipperAdvance` to be created by this mutation. */
+export type ShipperAdvanceSpeciesIdFkeyShipperAdvanceCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  advanceAmount: Scalars['BigFloat'];
+  shipperId?: Maybe<Scalars['String']>;
+  productSpeciesToSpeciesId?: Maybe<ShipperAdvanceSpeciesIdFkeyInput>;
+  shipperToShipperId?: Maybe<ShipperAdvanceShipperIdFkeyInput>;
+};
+
+/** A connection to a list of `ShipperAdvance` values. */
+export type ShipperAdvancesConnection = {
+  __typename?: 'ShipperAdvancesConnection';
+  /** A list of `ShipperAdvance` objects. */
+  nodes: Array<Maybe<ShipperAdvance>>;
+  /** A list of edges which contains the `ShipperAdvance` and cursor to aid in pagination. */
+  edges: Array<ShipperAdvancesEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `ShipperAdvance` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `ShipperAdvance` edge in the connection. */
+export type ShipperAdvancesEdge = {
+  __typename?: 'ShipperAdvancesEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `ShipperAdvance` at the end of the edge. */
+  node?: Maybe<ShipperAdvance>;
+};
+
+/** Methods to use when ordering `ShipperAdvance`. */
+export enum ShipperAdvancesOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  AdvanceAmountAsc = 'ADVANCE_AMOUNT_ASC',
+  AdvanceAmountDesc = 'ADVANCE_AMOUNT_DESC',
+  SpeciesIdAsc = 'SPECIES_ID_ASC',
+  SpeciesIdDesc = 'SPECIES_ID_DESC',
+  ShipperIdAsc = 'SHIPPER_ID_ASC',
+  ShipperIdDesc = 'SHIPPER_ID_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  ProductSpeciesBySpeciesIdIdAsc = 'PRODUCT_SPECIES_BY_SPECIES_ID__ID_ASC',
+  ProductSpeciesBySpeciesIdIdDesc = 'PRODUCT_SPECIES_BY_SPECIES_ID__ID_DESC',
+  ProductSpeciesBySpeciesIdSpeciesDescriptionAsc = 'PRODUCT_SPECIES_BY_SPECIES_ID__SPECIES_DESCRIPTION_ASC',
+  ProductSpeciesBySpeciesIdSpeciesDescriptionDesc = 'PRODUCT_SPECIES_BY_SPECIES_ID__SPECIES_DESCRIPTION_DESC',
+  ProductSpeciesBySpeciesIdSecondaryDescriptionAsc = 'PRODUCT_SPECIES_BY_SPECIES_ID__SECONDARY_DESCRIPTION_ASC',
+  ProductSpeciesBySpeciesIdSecondaryDescriptionDesc = 'PRODUCT_SPECIES_BY_SPECIES_ID__SECONDARY_DESCRIPTION_DESC',
+  ProductSpeciesBySpeciesIdFdaProductCodeAsc = 'PRODUCT_SPECIES_BY_SPECIES_ID__FDA_PRODUCT_CODE_ASC',
+  ProductSpeciesBySpeciesIdFdaProductCodeDesc = 'PRODUCT_SPECIES_BY_SPECIES_ID__FDA_PRODUCT_CODE_DESC',
+  ProductSpeciesBySpeciesIdFdaIndustryCodeAsc = 'PRODUCT_SPECIES_BY_SPECIES_ID__FDA_INDUSTRY_CODE_ASC',
+  ProductSpeciesBySpeciesIdFdaIndustryCodeDesc = 'PRODUCT_SPECIES_BY_SPECIES_ID__FDA_INDUSTRY_CODE_DESC',
+  ProductSpeciesBySpeciesIdDefaultTemperatureAsc = 'PRODUCT_SPECIES_BY_SPECIES_ID__DEFAULT_TEMPERATURE_ASC',
+  ProductSpeciesBySpeciesIdDefaultTemperatureDesc = 'PRODUCT_SPECIES_BY_SPECIES_ID__DEFAULT_TEMPERATURE_DESC',
+  ShipperByShipperIdIdAsc = 'SHIPPER_BY_SHIPPER_ID__ID_ASC',
+  ShipperByShipperIdIdDesc = 'SHIPPER_BY_SHIPPER_ID__ID_DESC',
+  ShipperByShipperIdShipperNameAsc = 'SHIPPER_BY_SHIPPER_ID__SHIPPER_NAME_ASC',
+  ShipperByShipperIdShipperNameDesc = 'SHIPPER_BY_SHIPPER_ID__SHIPPER_NAME_DESC',
+  ShipperByShipperIdCountryIdAsc = 'SHIPPER_BY_SHIPPER_ID__COUNTRY_ID_ASC',
+  ShipperByShipperIdCountryIdDesc = 'SHIPPER_BY_SHIPPER_ID__COUNTRY_ID_DESC',
+  ShipperByShipperIdGroupIdAsc = 'SHIPPER_BY_SHIPPER_ID__GROUP_ID_ASC',
+  ShipperByShipperIdGroupIdDesc = 'SHIPPER_BY_SHIPPER_ID__GROUP_ID_DESC',
+  ShipperByShipperIdLogoSrcAsc = 'SHIPPER_BY_SHIPPER_ID__LOGO_SRC_ASC',
+  ShipperByShipperIdLogoSrcDesc = 'SHIPPER_BY_SHIPPER_ID__LOGO_SRC_DESC',
+  ShipperByShipperIdNotesAsc = 'SHIPPER_BY_SHIPPER_ID__NOTES_ASC',
+  ShipperByShipperIdNotesDesc = 'SHIPPER_BY_SHIPPER_ID__NOTES_DESC',
+  ShipperByShipperIdWebsiteAsc = 'SHIPPER_BY_SHIPPER_ID__WEBSITE_ASC',
+  ShipperByShipperIdWebsiteDesc = 'SHIPPER_BY_SHIPPER_ID__WEBSITE_DESC',
+  ShipperByShipperIdSendProjectionRequestAsc = 'SHIPPER_BY_SHIPPER_ID__SEND_PROJECTION_REQUEST_ASC',
+  ShipperByShipperIdSendProjectionRequestDesc = 'SHIPPER_BY_SHIPPER_ID__SEND_PROJECTION_REQUEST_DESC',
+  ShipperByShipperIdProjectionRequestStartDateAsc = 'SHIPPER_BY_SHIPPER_ID__PROJECTION_REQUEST_START_DATE_ASC',
+  ShipperByShipperIdProjectionRequestStartDateDesc = 'SHIPPER_BY_SHIPPER_ID__PROJECTION_REQUEST_START_DATE_DESC',
+  ShipperByShipperIdProjectionRequestEndDateAsc = 'SHIPPER_BY_SHIPPER_ID__PROJECTION_REQUEST_END_DATE_ASC',
+  ShipperByShipperIdProjectionRequestEndDateDesc = 'SHIPPER_BY_SHIPPER_ID__PROJECTION_REQUEST_END_DATE_DESC',
+  ShipperByShipperIdVesselControlDaysUntilDueAsc = 'SHIPPER_BY_SHIPPER_ID__VESSEL_CONTROL_DAYS_UNTIL_DUE_ASC',
+  ShipperByShipperIdVesselControlDaysUntilDueDesc = 'SHIPPER_BY_SHIPPER_ID__VESSEL_CONTROL_DAYS_UNTIL_DUE_DESC',
+  ShipperByShipperIdPsaShipperIdAsc = 'SHIPPER_BY_SHIPPER_ID__PSA_SHIPPER_ID_ASC',
+  ShipperByShipperIdPsaShipperIdDesc = 'SHIPPER_BY_SHIPPER_ID__PSA_SHIPPER_ID_DESC',
+  ShipperByShipperIdCommissionRateAsc = 'SHIPPER_BY_SHIPPER_ID__COMMISSION_RATE_ASC',
+  ShipperByShipperIdCommissionRateDesc = 'SHIPPER_BY_SHIPPER_ID__COMMISSION_RATE_DESC'
+}
 
 /** A connection to a list of `CommonPackType` values, with data from `ShipperProgram`. */
 export type ShipperCommonPackTypesByShipperProgramShipperIdAndCommonPackTypeIdManyToManyConnection = {
@@ -55079,6 +56899,8 @@ export type ShipperCondition = {
   vesselControlDaysUntilDue?: Maybe<Scalars['BigFloat']>;
   /** Checks for equality with the object’s `psaShipperId` field. */
   psaShipperId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `commissionRate` field. */
+  commissionRate?: Maybe<Scalars['BigFloat']>;
 };
 
 /** The `country` to be created by this mutation. */
@@ -55141,6 +56963,7 @@ export type ShipperCountryIdFkeyShipperCreateInput = {
   projectionRequestEndDate?: Maybe<Scalars['Date']>;
   vesselControlDaysUntilDue?: Maybe<Scalars['BigFloat']>;
   psaShipperId?: Maybe<Scalars['String']>;
+  commissionRate?: Maybe<Scalars['BigFloat']>;
   countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
   shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
@@ -55148,6 +56971,7 @@ export type ShipperCountryIdFkeyShipperCreateInput = {
   shipperPersonContactsUsingId?: Maybe<ShipperPersonContactShipperIdFkeyInverseInput>;
   shipperProjectionVesselInfosUsingId?: Maybe<FkShipperIdInverseInput>;
   shipperProgramsUsingId?: Maybe<ShipperProgramShipperIdFkeyInverseInput>;
+  shipperAdvancesUsingId?: Maybe<ShipperAdvanceShipperIdFkeyInverseInput>;
 };
 
 /** A connection to a list of `Customer` values, with data from `ShipperProgram`. */
@@ -55270,6 +57094,8 @@ export type ShipperFilter = {
   vesselControlDaysUntilDue?: Maybe<BigFloatFilter>;
   /** Filter by the object’s `psaShipperId` field. */
   psaShipperId?: Maybe<StringFilter>;
+  /** Filter by the object’s `commissionRate` field. */
+  commissionRate?: Maybe<BigFloatFilter>;
   /** Filter by the object’s `searchText` field. */
   searchText?: Maybe<StringFilter>;
   /** Filter by the object’s `shipperProjectionVessels` relation. */
@@ -55296,6 +57122,10 @@ export type ShipperFilter = {
   shipperPrograms?: Maybe<ShipperToManyShipperProgramFilter>;
   /** Some related `shipperPrograms` exist. */
   shipperProgramsExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `shipperAdvances` relation. */
+  shipperAdvances?: Maybe<ShipperToManyShipperAdvanceFilter>;
+  /** Some related `shipperAdvances` exist. */
+  shipperAdvancesExist?: Maybe<Scalars['Boolean']>;
   /** Filter by the object’s `country` relation. */
   country?: Maybe<CountryFilter>;
   /** A related `country` exists. */
@@ -55322,6 +57152,7 @@ export type ShipperInput = {
   projectionRequestEndDate?: Maybe<Scalars['Date']>;
   vesselControlDaysUntilDue?: Maybe<Scalars['BigFloat']>;
   psaShipperId?: Maybe<Scalars['String']>;
+  commissionRate?: Maybe<Scalars['BigFloat']>;
   countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
   shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
@@ -55329,6 +57160,7 @@ export type ShipperInput = {
   shipperPersonContactsUsingId?: Maybe<ShipperPersonContactShipperIdFkeyInverseInput>;
   shipperProjectionVesselInfosUsingId?: Maybe<FkShipperIdInverseInput>;
   shipperProgramsUsingId?: Maybe<ShipperProgramShipperIdFkeyInverseInput>;
+  shipperAdvancesUsingId?: Maybe<ShipperAdvanceShipperIdFkeyInverseInput>;
 };
 
 /** The globally unique `ID` look up for the row to connect. */
@@ -55341,6 +57173,21 @@ export type ShipperNodeIdConnect = {
 export type ShipperNodeIdDelete = {
   /** The globally unique `ID` which identifies a single `shipper` to be deleted. */
   nodeId: Scalars['ID'];
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type ShipperOnShipperAdvanceForShipperAdvanceShipperIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `shipperAdvance` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `shipperAdvance` being updated. */
+  patch: ShipperAdvancePatch;
+};
+
+/** The fields on `shipper` to look up the row to update. */
+export type ShipperOnShipperAdvanceForShipperAdvanceShipperIdFkeyUsingShipperPkeyUpdate = {
+  /** An object where the defined keys will be set on the `shipper` being updated. */
+  patch: UpdateShipperOnShipperAdvanceForShipperAdvanceShipperIdFkeyPatch;
+  id: Scalars['String'];
 };
 
 /** The globally unique `ID` look up for the row to update. */
@@ -55462,6 +57309,7 @@ export type ShipperPatch = {
   projectionRequestEndDate?: Maybe<Scalars['Date']>;
   vesselControlDaysUntilDue?: Maybe<Scalars['BigFloat']>;
   psaShipperId?: Maybe<Scalars['String']>;
+  commissionRate?: Maybe<Scalars['BigFloat']>;
   countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
   shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
@@ -55469,6 +57317,7 @@ export type ShipperPatch = {
   shipperPersonContactsUsingId?: Maybe<ShipperPersonContactShipperIdFkeyInverseInput>;
   shipperProjectionVesselInfosUsingId?: Maybe<FkShipperIdInverseInput>;
   shipperProgramsUsingId?: Maybe<ShipperProgramShipperIdFkeyInverseInput>;
+  shipperAdvancesUsingId?: Maybe<ShipperAdvanceShipperIdFkeyInverseInput>;
 };
 
 export type ShipperPersonContact = Node & {
@@ -55694,6 +57543,7 @@ export type ShipperPersonContactShipperIdFkeyShipperCreateInput = {
   projectionRequestEndDate?: Maybe<Scalars['Date']>;
   vesselControlDaysUntilDue?: Maybe<Scalars['BigFloat']>;
   psaShipperId?: Maybe<Scalars['String']>;
+  commissionRate?: Maybe<Scalars['BigFloat']>;
   countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
   shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
@@ -55701,6 +57551,7 @@ export type ShipperPersonContactShipperIdFkeyShipperCreateInput = {
   shipperPersonContactsUsingId?: Maybe<ShipperPersonContactShipperIdFkeyInverseInput>;
   shipperProjectionVesselInfosUsingId?: Maybe<FkShipperIdInverseInput>;
   shipperProgramsUsingId?: Maybe<ShipperProgramShipperIdFkeyInverseInput>;
+  shipperAdvancesUsingId?: Maybe<ShipperAdvanceShipperIdFkeyInverseInput>;
 };
 
 /** The `shipperPersonContact` to be created by this mutation. */
@@ -55799,6 +57650,8 @@ export enum ShipperPersonContactsOrderBy {
   ShipperByShipperIdVesselControlDaysUntilDueDesc = 'SHIPPER_BY_SHIPPER_ID__VESSEL_CONTROL_DAYS_UNTIL_DUE_DESC',
   ShipperByShipperIdPsaShipperIdAsc = 'SHIPPER_BY_SHIPPER_ID__PSA_SHIPPER_ID_ASC',
   ShipperByShipperIdPsaShipperIdDesc = 'SHIPPER_BY_SHIPPER_ID__PSA_SHIPPER_ID_DESC',
+  ShipperByShipperIdCommissionRateAsc = 'SHIPPER_BY_SHIPPER_ID__COMMISSION_RATE_ASC',
+  ShipperByShipperIdCommissionRateDesc = 'SHIPPER_BY_SHIPPER_ID__COMMISSION_RATE_DESC',
   PersonContactByPersonContactIdIdAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__ID_ASC',
   PersonContactByPersonContactIdIdDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__ID_DESC',
   PersonContactByPersonContactIdFirstNameAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__FIRST_NAME_ASC',
@@ -55830,6 +57683,43 @@ export enum ShipperPersonContactsOrderBy {
   PersonContactByPersonContactIdLocationAsc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__LOCATION_ASC',
   PersonContactByPersonContactIdLocationDesc = 'PERSON_CONTACT_BY_PERSON_CONTACT_ID__LOCATION_DESC'
 }
+
+/** A connection to a list of `ProductSpecies` values, with data from `ShipperAdvance`. */
+export type ShipperProductSpeciesByShipperAdvanceShipperIdAndSpeciesIdManyToManyConnection = {
+  __typename?: 'ShipperProductSpeciesByShipperAdvanceShipperIdAndSpeciesIdManyToManyConnection';
+  /** A list of `ProductSpecies` objects. */
+  nodes: Array<Maybe<ProductSpecies>>;
+  /** A list of edges which contains the `ProductSpecies`, info from the `ShipperAdvance`, and the cursor to aid in pagination. */
+  edges: Array<ShipperProductSpeciesByShipperAdvanceShipperIdAndSpeciesIdManyToManyEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `ProductSpecies` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `ProductSpecies` edge in the connection, with data from `ShipperAdvance`. */
+export type ShipperProductSpeciesByShipperAdvanceShipperIdAndSpeciesIdManyToManyEdge = {
+  __typename?: 'ShipperProductSpeciesByShipperAdvanceShipperIdAndSpeciesIdManyToManyEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `ProductSpecies` at the end of the edge. */
+  node?: Maybe<ProductSpecies>;
+  /** Reads and enables pagination through a set of `ShipperAdvance`. */
+  shipperAdvancesBySpeciesId: ShipperAdvancesConnection;
+};
+
+
+/** A `ProductSpecies` edge in the connection, with data from `ShipperAdvance`. */
+export type ShipperProductSpeciesByShipperAdvanceShipperIdAndSpeciesIdManyToManyEdgeShipperAdvancesBySpeciesIdArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<ShipperAdvancesOrderBy>>;
+  condition?: Maybe<ShipperAdvanceCondition>;
+  filter?: Maybe<ShipperAdvanceFilter>;
+};
 
 export type ShipperProgram = Node & {
   __typename?: 'ShipperProgram';
@@ -57202,6 +59092,7 @@ export type ShipperProgramShipperIdFkeyShipperCreateInput = {
   projectionRequestEndDate?: Maybe<Scalars['Date']>;
   vesselControlDaysUntilDue?: Maybe<Scalars['BigFloat']>;
   psaShipperId?: Maybe<Scalars['String']>;
+  commissionRate?: Maybe<Scalars['BigFloat']>;
   countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
   shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
@@ -57209,6 +59100,7 @@ export type ShipperProgramShipperIdFkeyShipperCreateInput = {
   shipperPersonContactsUsingId?: Maybe<ShipperPersonContactShipperIdFkeyInverseInput>;
   shipperProjectionVesselInfosUsingId?: Maybe<FkShipperIdInverseInput>;
   shipperProgramsUsingId?: Maybe<ShipperProgramShipperIdFkeyInverseInput>;
+  shipperAdvancesUsingId?: Maybe<ShipperAdvanceShipperIdFkeyInverseInput>;
 };
 
 /** The `shipperProgram` to be created by this mutation. */
@@ -57382,6 +59274,8 @@ export enum ShipperProgramsOrderBy {
   ShipperByShipperIdVesselControlDaysUntilDueDesc = 'SHIPPER_BY_SHIPPER_ID__VESSEL_CONTROL_DAYS_UNTIL_DUE_DESC',
   ShipperByShipperIdPsaShipperIdAsc = 'SHIPPER_BY_SHIPPER_ID__PSA_SHIPPER_ID_ASC',
   ShipperByShipperIdPsaShipperIdDesc = 'SHIPPER_BY_SHIPPER_ID__PSA_SHIPPER_ID_DESC',
+  ShipperByShipperIdCommissionRateAsc = 'SHIPPER_BY_SHIPPER_ID__COMMISSION_RATE_ASC',
+  ShipperByShipperIdCommissionRateDesc = 'SHIPPER_BY_SHIPPER_ID__COMMISSION_RATE_DESC',
   CustomerByCustomerIdIdAsc = 'CUSTOMER_BY_CUSTOMER_ID__ID_ASC',
   CustomerByCustomerIdIdDesc = 'CUSTOMER_BY_CUSTOMER_ID__ID_DESC',
   CustomerByCustomerIdCustomerNameAsc = 'CUSTOMER_BY_CUSTOMER_ID__CUSTOMER_NAME_ASC',
@@ -58726,6 +60620,7 @@ export type ShipperProjectionProductShipperIdFkeyShipperCreateInput = {
   projectionRequestEndDate?: Maybe<Scalars['Date']>;
   vesselControlDaysUntilDue?: Maybe<Scalars['BigFloat']>;
   psaShipperId?: Maybe<Scalars['String']>;
+  commissionRate?: Maybe<Scalars['BigFloat']>;
   countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
   shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
@@ -58733,6 +60628,7 @@ export type ShipperProjectionProductShipperIdFkeyShipperCreateInput = {
   shipperPersonContactsUsingId?: Maybe<ShipperPersonContactShipperIdFkeyInverseInput>;
   shipperProjectionVesselInfosUsingId?: Maybe<FkShipperIdInverseInput>;
   shipperProgramsUsingId?: Maybe<ShipperProgramShipperIdFkeyInverseInput>;
+  shipperAdvancesUsingId?: Maybe<ShipperAdvanceShipperIdFkeyInverseInput>;
 };
 
 /** The `shipperProjectionProduct` to be created by this mutation. */
@@ -58892,6 +60788,8 @@ export enum ShipperProjectionProductsOrderBy {
   ShipperByShipperIdVesselControlDaysUntilDueDesc = 'SHIPPER_BY_SHIPPER_ID__VESSEL_CONTROL_DAYS_UNTIL_DUE_DESC',
   ShipperByShipperIdPsaShipperIdAsc = 'SHIPPER_BY_SHIPPER_ID__PSA_SHIPPER_ID_ASC',
   ShipperByShipperIdPsaShipperIdDesc = 'SHIPPER_BY_SHIPPER_ID__PSA_SHIPPER_ID_DESC',
+  ShipperByShipperIdCommissionRateAsc = 'SHIPPER_BY_SHIPPER_ID__COMMISSION_RATE_ASC',
+  ShipperByShipperIdCommissionRateDesc = 'SHIPPER_BY_SHIPPER_ID__COMMISSION_RATE_DESC',
   CommonSpeciesByCommonSpeciesIdIdAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__ID_ASC',
   CommonSpeciesByCommonSpeciesIdIdDesc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__ID_DESC',
   CommonSpeciesByCommonSpeciesIdSpeciesNameAsc = 'COMMON_SPECIES_BY_COMMON_SPECIES_ID__SPECIES_NAME_ASC',
@@ -59036,6 +60934,7 @@ export type ShipperProjectionShipperIdFkeyShipperCreateInput = {
   projectionRequestEndDate?: Maybe<Scalars['Date']>;
   vesselControlDaysUntilDue?: Maybe<Scalars['BigFloat']>;
   psaShipperId?: Maybe<Scalars['String']>;
+  commissionRate?: Maybe<Scalars['BigFloat']>;
   countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
   shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
@@ -59043,6 +60942,7 @@ export type ShipperProjectionShipperIdFkeyShipperCreateInput = {
   shipperPersonContactsUsingId?: Maybe<ShipperPersonContactShipperIdFkeyInverseInput>;
   shipperProjectionVesselInfosUsingId?: Maybe<FkShipperIdInverseInput>;
   shipperProgramsUsingId?: Maybe<ShipperProgramShipperIdFkeyInverseInput>;
+  shipperAdvancesUsingId?: Maybe<ShipperAdvanceShipperIdFkeyInverseInput>;
 };
 
 /** The `shipperProjection` to be created by this mutation. */
@@ -59753,6 +61653,8 @@ export enum ShipperProjectionVesselInfosOrderBy {
   ShipperByShipperIdVesselControlDaysUntilDueDesc = 'SHIPPER_BY_SHIPPER_ID__VESSEL_CONTROL_DAYS_UNTIL_DUE_DESC',
   ShipperByShipperIdPsaShipperIdAsc = 'SHIPPER_BY_SHIPPER_ID__PSA_SHIPPER_ID_ASC',
   ShipperByShipperIdPsaShipperIdDesc = 'SHIPPER_BY_SHIPPER_ID__PSA_SHIPPER_ID_DESC',
+  ShipperByShipperIdCommissionRateAsc = 'SHIPPER_BY_SHIPPER_ID__COMMISSION_RATE_ASC',
+  ShipperByShipperIdCommissionRateDesc = 'SHIPPER_BY_SHIPPER_ID__COMMISSION_RATE_DESC',
   ShipperProjectionEntriesByVesselInfoIdCountAsc = 'SHIPPER_PROJECTION_ENTRIES_BY_VESSEL_INFO_ID__COUNT_ASC',
   ShipperProjectionEntriesByVesselInfoIdCountDesc = 'SHIPPER_PROJECTION_ENTRIES_BY_VESSEL_INFO_ID__COUNT_DESC'
 }
@@ -59886,6 +61788,7 @@ export type ShipperProjectionVesselShipperIdFkeyShipperCreateInput = {
   projectionRequestEndDate?: Maybe<Scalars['Date']>;
   vesselControlDaysUntilDue?: Maybe<Scalars['BigFloat']>;
   psaShipperId?: Maybe<Scalars['String']>;
+  commissionRate?: Maybe<Scalars['BigFloat']>;
   countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
   shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
@@ -59893,6 +61796,7 @@ export type ShipperProjectionVesselShipperIdFkeyShipperCreateInput = {
   shipperPersonContactsUsingId?: Maybe<ShipperPersonContactShipperIdFkeyInverseInput>;
   shipperProjectionVesselInfosUsingId?: Maybe<FkShipperIdInverseInput>;
   shipperProgramsUsingId?: Maybe<ShipperProgramShipperIdFkeyInverseInput>;
+  shipperAdvancesUsingId?: Maybe<ShipperAdvanceShipperIdFkeyInverseInput>;
 };
 
 /** The `shipperProjectionVessel` to be created by this mutation. */
@@ -60121,6 +62025,8 @@ export enum ShipperProjectionVesselsOrderBy {
   ShipperByShipperIdVesselControlDaysUntilDueDesc = 'SHIPPER_BY_SHIPPER_ID__VESSEL_CONTROL_DAYS_UNTIL_DUE_DESC',
   ShipperByShipperIdPsaShipperIdAsc = 'SHIPPER_BY_SHIPPER_ID__PSA_SHIPPER_ID_ASC',
   ShipperByShipperIdPsaShipperIdDesc = 'SHIPPER_BY_SHIPPER_ID__PSA_SHIPPER_ID_DESC',
+  ShipperByShipperIdCommissionRateAsc = 'SHIPPER_BY_SHIPPER_ID__COMMISSION_RATE_ASC',
+  ShipperByShipperIdCommissionRateDesc = 'SHIPPER_BY_SHIPPER_ID__COMMISSION_RATE_DESC',
   VesselByVesselIdIdAsc = 'VESSEL_BY_VESSEL_ID__ID_ASC',
   VesselByVesselIdIdDesc = 'VESSEL_BY_VESSEL_ID__ID_DESC',
   VesselByVesselIdVesselCodeAsc = 'VESSEL_BY_VESSEL_ID__VESSEL_CODE_ASC',
@@ -60222,6 +62128,8 @@ export enum ShipperProjectionsOrderBy {
   ShipperByShipperIdVesselControlDaysUntilDueDesc = 'SHIPPER_BY_SHIPPER_ID__VESSEL_CONTROL_DAYS_UNTIL_DUE_DESC',
   ShipperByShipperIdPsaShipperIdAsc = 'SHIPPER_BY_SHIPPER_ID__PSA_SHIPPER_ID_ASC',
   ShipperByShipperIdPsaShipperIdDesc = 'SHIPPER_BY_SHIPPER_ID__PSA_SHIPPER_ID_DESC',
+  ShipperByShipperIdCommissionRateAsc = 'SHIPPER_BY_SHIPPER_ID__COMMISSION_RATE_ASC',
+  ShipperByShipperIdCommissionRateDesc = 'SHIPPER_BY_SHIPPER_ID__COMMISSION_RATE_DESC',
   ShipperProjectionVesselInfosByProjectionIdCountAsc = 'SHIPPER_PROJECTION_VESSEL_INFOS_BY_PROJECTION_ID__COUNT_ASC',
   ShipperProjectionVesselInfosByProjectionIdCountDesc = 'SHIPPER_PROJECTION_VESSEL_INFOS_BY_PROJECTION_ID__COUNT_DESC'
 }
@@ -60308,6 +62216,16 @@ export type ShipperShipperProjectionsByShipperProjectionVesselInfoShipperIdAndPr
   orderBy?: Maybe<Array<ShipperProjectionVesselInfosOrderBy>>;
   condition?: Maybe<ShipperProjectionVesselInfoCondition>;
   filter?: Maybe<ShipperProjectionVesselInfoFilter>;
+};
+
+/** A filter to be used against many `ShipperAdvance` object types. All fields are combined with a logical ‘and.’ */
+export type ShipperToManyShipperAdvanceFilter = {
+  /** Every related `ShipperAdvance` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<ShipperAdvanceFilter>;
+  /** Some related `ShipperAdvance` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<ShipperAdvanceFilter>;
+  /** No related `ShipperAdvance` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<ShipperAdvanceFilter>;
 };
 
 /** A filter to be used against many `ShipperPersonContact` object types. All fields are combined with a logical ‘and.’ */
@@ -60456,6 +62374,8 @@ export enum ShippersOrderBy {
   VesselControlDaysUntilDueDesc = 'VESSEL_CONTROL_DAYS_UNTIL_DUE_DESC',
   PsaShipperIdAsc = 'PSA_SHIPPER_ID_ASC',
   PsaShipperIdDesc = 'PSA_SHIPPER_ID_DESC',
+  CommissionRateAsc = 'COMMISSION_RATE_ASC',
+  CommissionRateDesc = 'COMMISSION_RATE_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
   CountryByCountryIdIdAsc = 'COUNTRY_BY_COUNTRY_ID__ID_ASC',
@@ -60475,7 +62395,9 @@ export enum ShippersOrderBy {
   ShipperProjectionVesselInfosByShipperIdCountAsc = 'SHIPPER_PROJECTION_VESSEL_INFOS_BY_SHIPPER_ID__COUNT_ASC',
   ShipperProjectionVesselInfosByShipperIdCountDesc = 'SHIPPER_PROJECTION_VESSEL_INFOS_BY_SHIPPER_ID__COUNT_DESC',
   ShipperProgramsByShipperIdCountAsc = 'SHIPPER_PROGRAMS_BY_SHIPPER_ID__COUNT_ASC',
-  ShipperProgramsByShipperIdCountDesc = 'SHIPPER_PROGRAMS_BY_SHIPPER_ID__COUNT_DESC'
+  ShipperProgramsByShipperIdCountDesc = 'SHIPPER_PROGRAMS_BY_SHIPPER_ID__COUNT_DESC',
+  ShipperAdvancesByShipperIdCountAsc = 'SHIPPER_ADVANCES_BY_SHIPPER_ID__COUNT_ASC',
+  ShipperAdvancesByShipperIdCountDesc = 'SHIPPER_ADVANCES_BY_SHIPPER_ID__COUNT_DESC'
 }
 
 /** A filter to be used against String fields. All fields are combined with a logical ‘and.’ */
@@ -61900,6 +63822,53 @@ export type UpdateCalendarEventPayload = {
 /** The output of our update `CalendarEvent` mutation. */
 export type UpdateCalendarEventPayloadCalendarEventEdgeArgs = {
   orderBy?: Maybe<Array<CalendarEventsOrderBy>>;
+};
+
+/** All input for the `updateCheckHeaderByNodeId` mutation. */
+export type UpdateCheckHeaderByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `CheckHeader` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `CheckHeader` being updated. */
+  patch: CheckHeaderPatch;
+};
+
+/** All input for the `updateCheckHeader` mutation. */
+export type UpdateCheckHeaderInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `CheckHeader` being updated. */
+  patch: CheckHeaderPatch;
+  id: Scalars['BigInt'];
+};
+
+/** The output of our update `CheckHeader` mutation. */
+export type UpdateCheckHeaderPayload = {
+  __typename?: 'UpdateCheckHeaderPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `CheckHeader` that was updated by this mutation. */
+  checkHeader?: Maybe<CheckHeader>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `CheckHeader`. May be used by Relay 1. */
+  checkHeaderEdge?: Maybe<CheckHeadersEdge>;
+};
+
+
+/** The output of our update `CheckHeader` mutation. */
+export type UpdateCheckHeaderPayloadCheckHeaderEdgeArgs = {
+  orderBy?: Maybe<Array<CheckHeadersOrderBy>>;
 };
 
 /** All input for the `updateChileDepartureInspectionPalletByNodeId` mutation. */
@@ -66116,6 +68085,57 @@ export type UpdateRepackStylePayloadRepackStyleEdgeArgs = {
   orderBy?: Maybe<Array<RepackStylesOrderBy>>;
 };
 
+/** All input for the `updateShipperAdvanceByNodeId` mutation. */
+export type UpdateShipperAdvanceByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `ShipperAdvance` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `ShipperAdvance` being updated. */
+  patch: ShipperAdvancePatch;
+};
+
+/** All input for the `updateShipperAdvance` mutation. */
+export type UpdateShipperAdvanceInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `ShipperAdvance` being updated. */
+  patch: ShipperAdvancePatch;
+  id: Scalars['BigInt'];
+};
+
+/** The output of our update `ShipperAdvance` mutation. */
+export type UpdateShipperAdvancePayload = {
+  __typename?: 'UpdateShipperAdvancePayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `ShipperAdvance` that was updated by this mutation. */
+  shipperAdvance?: Maybe<ShipperAdvance>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `ProductSpecies` that is related to this `ShipperAdvance`. */
+  species?: Maybe<ProductSpecies>;
+  /** Reads a single `Shipper` that is related to this `ShipperAdvance`. */
+  shipper?: Maybe<Shipper>;
+  /** An edge for our `ShipperAdvance`. May be used by Relay 1. */
+  shipperAdvanceEdge?: Maybe<ShipperAdvancesEdge>;
+};
+
+
+/** The output of our update `ShipperAdvance` mutation. */
+export type UpdateShipperAdvancePayloadShipperAdvanceEdgeArgs = {
+  orderBy?: Maybe<Array<ShipperAdvancesOrderBy>>;
+};
+
 /** All input for the `updateShipperByNodeId` mutation. */
 export type UpdateShipperByNodeIdInput = {
   /**
@@ -67322,6 +69342,249 @@ export type UpdateWarehousePersonContactPayloadWarehousePersonContactEdgeArgs = 
   orderBy?: Maybe<Array<WarehousePersonContactsOrderBy>>;
 };
 
+/** All input for the `updateWireRequestAccountOfSaleItemByNodeId` mutation. */
+export type UpdateWireRequestAccountOfSaleItemByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `WireRequestAccountOfSaleItem` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `WireRequestAccountOfSaleItem` being updated. */
+  patch: WireRequestAccountOfSaleItemPatch;
+};
+
+/** All input for the `updateWireRequestAccountOfSaleItem` mutation. */
+export type UpdateWireRequestAccountOfSaleItemInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `WireRequestAccountOfSaleItem` being updated. */
+  patch: WireRequestAccountOfSaleItemPatch;
+  id: Scalars['BigInt'];
+};
+
+/** The output of our update `WireRequestAccountOfSaleItem` mutation. */
+export type UpdateWireRequestAccountOfSaleItemPayload = {
+  __typename?: 'UpdateWireRequestAccountOfSaleItemPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `WireRequestAccountOfSaleItem` that was updated by this mutation. */
+  wireRequestAccountOfSaleItem?: Maybe<WireRequestAccountOfSaleItem>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `WireRequest` that is related to this `WireRequestAccountOfSaleItem`. */
+  wireRequest?: Maybe<WireRequest>;
+  /** An edge for our `WireRequestAccountOfSaleItem`. May be used by Relay 1. */
+  wireRequestAccountOfSaleItemEdge?: Maybe<WireRequestAccountOfSaleItemsEdge>;
+};
+
+
+/** The output of our update `WireRequestAccountOfSaleItem` mutation. */
+export type UpdateWireRequestAccountOfSaleItemPayloadWireRequestAccountOfSaleItemEdgeArgs = {
+  orderBy?: Maybe<Array<WireRequestAccountOfSaleItemsOrderBy>>;
+};
+
+/** All input for the `updateWireRequestByNodeId` mutation. */
+export type UpdateWireRequestByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `WireRequest` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `WireRequest` being updated. */
+  patch: WireRequestPatch;
+};
+
+/** All input for the `updateWireRequest` mutation. */
+export type UpdateWireRequestInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `WireRequest` being updated. */
+  patch: WireRequestPatch;
+  id: Scalars['BigInt'];
+};
+
+/** All input for the `updateWireRequestMiscItemByNodeId` mutation. */
+export type UpdateWireRequestMiscItemByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `WireRequestMiscItem` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `WireRequestMiscItem` being updated. */
+  patch: WireRequestMiscItemPatch;
+};
+
+/** All input for the `updateWireRequestMiscItem` mutation. */
+export type UpdateWireRequestMiscItemInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `WireRequestMiscItem` being updated. */
+  patch: WireRequestMiscItemPatch;
+  id: Scalars['BigInt'];
+};
+
+/** The output of our update `WireRequestMiscItem` mutation. */
+export type UpdateWireRequestMiscItemPayload = {
+  __typename?: 'UpdateWireRequestMiscItemPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `WireRequestMiscItem` that was updated by this mutation. */
+  wireRequestMiscItem?: Maybe<WireRequestMiscItem>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `WireRequest` that is related to this `WireRequestMiscItem`. */
+  wireRequest?: Maybe<WireRequest>;
+  /** An edge for our `WireRequestMiscItem`. May be used by Relay 1. */
+  wireRequestMiscItemEdge?: Maybe<WireRequestMiscItemsEdge>;
+};
+
+
+/** The output of our update `WireRequestMiscItem` mutation. */
+export type UpdateWireRequestMiscItemPayloadWireRequestMiscItemEdgeArgs = {
+  orderBy?: Maybe<Array<WireRequestMiscItemsOrderBy>>;
+};
+
+/** All input for the `updateWireRequestOceanFreightItemByNodeId` mutation. */
+export type UpdateWireRequestOceanFreightItemByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `WireRequestOceanFreightItem` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `WireRequestOceanFreightItem` being updated. */
+  patch: WireRequestOceanFreightItemPatch;
+};
+
+/** All input for the `updateWireRequestOceanFreightItem` mutation. */
+export type UpdateWireRequestOceanFreightItemInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `WireRequestOceanFreightItem` being updated. */
+  patch: WireRequestOceanFreightItemPatch;
+  id: Scalars['BigInt'];
+};
+
+/** The output of our update `WireRequestOceanFreightItem` mutation. */
+export type UpdateWireRequestOceanFreightItemPayload = {
+  __typename?: 'UpdateWireRequestOceanFreightItemPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `WireRequestOceanFreightItem` that was updated by this mutation. */
+  wireRequestOceanFreightItem?: Maybe<WireRequestOceanFreightItem>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `WireRequest` that is related to this `WireRequestOceanFreightItem`. */
+  wireRequest?: Maybe<WireRequest>;
+  /** An edge for our `WireRequestOceanFreightItem`. May be used by Relay 1. */
+  wireRequestOceanFreightItemEdge?: Maybe<WireRequestOceanFreightItemsEdge>;
+};
+
+
+/** The output of our update `WireRequestOceanFreightItem` mutation. */
+export type UpdateWireRequestOceanFreightItemPayloadWireRequestOceanFreightItemEdgeArgs = {
+  orderBy?: Maybe<Array<WireRequestOceanFreightItemsOrderBy>>;
+};
+
+/** The output of our update `WireRequest` mutation. */
+export type UpdateWireRequestPayload = {
+  __typename?: 'UpdateWireRequestPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `WireRequest` that was updated by this mutation. */
+  wireRequest?: Maybe<WireRequest>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `WireRequest`. May be used by Relay 1. */
+  wireRequestEdge?: Maybe<WireRequestsEdge>;
+};
+
+
+/** The output of our update `WireRequest` mutation. */
+export type UpdateWireRequestPayloadWireRequestEdgeArgs = {
+  orderBy?: Maybe<Array<WireRequestsOrderBy>>;
+};
+
+/** All input for the `updateWireRequestShipperAdvanceItemByNodeId` mutation. */
+export type UpdateWireRequestShipperAdvanceItemByNodeIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `WireRequestShipperAdvanceItem` to be updated. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `WireRequestShipperAdvanceItem` being updated. */
+  patch: WireRequestShipperAdvanceItemPatch;
+};
+
+/** All input for the `updateWireRequestShipperAdvanceItem` mutation. */
+export type UpdateWireRequestShipperAdvanceItemInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** An object where the defined keys will be set on the `WireRequestShipperAdvanceItem` being updated. */
+  patch: WireRequestShipperAdvanceItemPatch;
+  id: Scalars['BigInt'];
+};
+
+/** The output of our update `WireRequestShipperAdvanceItem` mutation. */
+export type UpdateWireRequestShipperAdvanceItemPayload = {
+  __typename?: 'UpdateWireRequestShipperAdvanceItemPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `WireRequestShipperAdvanceItem` that was updated by this mutation. */
+  wireRequestShipperAdvanceItem?: Maybe<WireRequestShipperAdvanceItem>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `WireRequest` that is related to this `WireRequestShipperAdvanceItem`. */
+  wireRequest?: Maybe<WireRequest>;
+  /** An edge for our `WireRequestShipperAdvanceItem`. May be used by Relay 1. */
+  wireRequestShipperAdvanceItemEdge?: Maybe<WireRequestShipperAdvanceItemsEdge>;
+};
+
+
+/** The output of our update `WireRequestShipperAdvanceItem` mutation. */
+export type UpdateWireRequestShipperAdvanceItemPayloadWireRequestShipperAdvanceItemEdgeArgs = {
+  orderBy?: Maybe<Array<WireRequestShipperAdvanceItemsOrderBy>>;
+};
+
 /** All input for the upsert `AgendaItem` mutation. */
 export type UpsertAgendaItemInput = {
   /** An arbitrary string value with no semantic meaning. Will be included in the payload verbatim. May be used to track mutations by the client. */
@@ -67374,6 +69637,33 @@ export type UpsertCalendarEventPayload = {
 /** The output of our upsert `CalendarEvent` mutation. */
 export type UpsertCalendarEventPayloadCalendarEventEdgeArgs = {
   orderBy?: Maybe<Array<CalendarEventsOrderBy>>;
+};
+
+/** All input for the upsert `CheckHeader` mutation. */
+export type UpsertCheckHeaderInput = {
+  /** An arbitrary string value with no semantic meaning. Will be included in the payload verbatim. May be used to track mutations by the client. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `CheckHeader` to be upserted by this mutation. */
+  checkHeader: CheckHeaderInput;
+};
+
+/** The output of our upsert `CheckHeader` mutation. */
+export type UpsertCheckHeaderPayload = {
+  __typename?: 'UpsertCheckHeaderPayload';
+  /** The exact same `clientMutationId` that was provided in the mutation input, unchanged and unused. May be used by a client to track mutations. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `CheckHeader` that were upserted by this mutation. */
+  checkHeader?: Maybe<CheckHeader>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `CheckHeader`. May be used by Relay 1. */
+  checkHeaderEdge?: Maybe<CheckHeadersEdge>;
+};
+
+
+/** The output of our upsert `CheckHeader` mutation. */
+export type UpsertCheckHeaderPayloadCheckHeaderEdgeArgs = {
+  orderBy?: Maybe<Array<CheckHeadersOrderBy>>;
 };
 
 /** All input for the upsert `ChileDepartureInspectionPallet` mutation. */
@@ -69722,6 +72012,37 @@ export type UpsertRepackStylePayloadRepackStyleEdgeArgs = {
   orderBy?: Maybe<Array<RepackStylesOrderBy>>;
 };
 
+/** All input for the upsert `ShipperAdvance` mutation. */
+export type UpsertShipperAdvanceInput = {
+  /** An arbitrary string value with no semantic meaning. Will be included in the payload verbatim. May be used to track mutations by the client. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `ShipperAdvance` to be upserted by this mutation. */
+  shipperAdvance: ShipperAdvanceInput;
+};
+
+/** The output of our upsert `ShipperAdvance` mutation. */
+export type UpsertShipperAdvancePayload = {
+  __typename?: 'UpsertShipperAdvancePayload';
+  /** The exact same `clientMutationId` that was provided in the mutation input, unchanged and unused. May be used by a client to track mutations. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `ShipperAdvance` that were upserted by this mutation. */
+  shipperAdvance?: Maybe<ShipperAdvance>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `ProductSpecies` that is related to this `ShipperAdvance`. */
+  species?: Maybe<ProductSpecies>;
+  /** Reads a single `Shipper` that is related to this `ShipperAdvance`. */
+  shipper?: Maybe<Shipper>;
+  /** An edge for our `ShipperAdvance`. May be used by Relay 1. */
+  shipperAdvanceEdge?: Maybe<ShipperAdvancesEdge>;
+};
+
+
+/** The output of our upsert `ShipperAdvance` mutation. */
+export type UpsertShipperAdvancePayloadShipperAdvanceEdgeArgs = {
+  orderBy?: Maybe<Array<ShipperAdvancesOrderBy>>;
+};
+
 /** All input for the upsert `Shipper` mutation. */
 export type UpsertShipperInput = {
   /** An arbitrary string value with no semantic meaning. Will be included in the payload verbatim. May be used to track mutations by the client. */
@@ -70442,6 +72763,149 @@ export type UpsertWarehousePersonContactPayload = {
 /** The output of our upsert `WarehousePersonContact` mutation. */
 export type UpsertWarehousePersonContactPayloadWarehousePersonContactEdgeArgs = {
   orderBy?: Maybe<Array<WarehousePersonContactsOrderBy>>;
+};
+
+/** All input for the upsert `WireRequestAccountOfSaleItem` mutation. */
+export type UpsertWireRequestAccountOfSaleItemInput = {
+  /** An arbitrary string value with no semantic meaning. Will be included in the payload verbatim. May be used to track mutations by the client. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `WireRequestAccountOfSaleItem` to be upserted by this mutation. */
+  wireRequestAccountOfSaleItem: WireRequestAccountOfSaleItemInput;
+};
+
+/** The output of our upsert `WireRequestAccountOfSaleItem` mutation. */
+export type UpsertWireRequestAccountOfSaleItemPayload = {
+  __typename?: 'UpsertWireRequestAccountOfSaleItemPayload';
+  /** The exact same `clientMutationId` that was provided in the mutation input, unchanged and unused. May be used by a client to track mutations. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `WireRequestAccountOfSaleItem` that were upserted by this mutation. */
+  wireRequestAccountOfSaleItem?: Maybe<WireRequestAccountOfSaleItem>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `WireRequest` that is related to this `WireRequestAccountOfSaleItem`. */
+  wireRequest?: Maybe<WireRequest>;
+  /** An edge for our `WireRequestAccountOfSaleItem`. May be used by Relay 1. */
+  wireRequestAccountOfSaleItemEdge?: Maybe<WireRequestAccountOfSaleItemsEdge>;
+};
+
+
+/** The output of our upsert `WireRequestAccountOfSaleItem` mutation. */
+export type UpsertWireRequestAccountOfSaleItemPayloadWireRequestAccountOfSaleItemEdgeArgs = {
+  orderBy?: Maybe<Array<WireRequestAccountOfSaleItemsOrderBy>>;
+};
+
+/** All input for the upsert `WireRequest` mutation. */
+export type UpsertWireRequestInput = {
+  /** An arbitrary string value with no semantic meaning. Will be included in the payload verbatim. May be used to track mutations by the client. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `WireRequest` to be upserted by this mutation. */
+  wireRequest: WireRequestInput;
+};
+
+/** All input for the upsert `WireRequestMiscItem` mutation. */
+export type UpsertWireRequestMiscItemInput = {
+  /** An arbitrary string value with no semantic meaning. Will be included in the payload verbatim. May be used to track mutations by the client. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `WireRequestMiscItem` to be upserted by this mutation. */
+  wireRequestMiscItem: WireRequestMiscItemInput;
+};
+
+/** The output of our upsert `WireRequestMiscItem` mutation. */
+export type UpsertWireRequestMiscItemPayload = {
+  __typename?: 'UpsertWireRequestMiscItemPayload';
+  /** The exact same `clientMutationId` that was provided in the mutation input, unchanged and unused. May be used by a client to track mutations. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `WireRequestMiscItem` that were upserted by this mutation. */
+  wireRequestMiscItem?: Maybe<WireRequestMiscItem>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `WireRequest` that is related to this `WireRequestMiscItem`. */
+  wireRequest?: Maybe<WireRequest>;
+  /** An edge for our `WireRequestMiscItem`. May be used by Relay 1. */
+  wireRequestMiscItemEdge?: Maybe<WireRequestMiscItemsEdge>;
+};
+
+
+/** The output of our upsert `WireRequestMiscItem` mutation. */
+export type UpsertWireRequestMiscItemPayloadWireRequestMiscItemEdgeArgs = {
+  orderBy?: Maybe<Array<WireRequestMiscItemsOrderBy>>;
+};
+
+/** All input for the upsert `WireRequestOceanFreightItem` mutation. */
+export type UpsertWireRequestOceanFreightItemInput = {
+  /** An arbitrary string value with no semantic meaning. Will be included in the payload verbatim. May be used to track mutations by the client. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `WireRequestOceanFreightItem` to be upserted by this mutation. */
+  wireRequestOceanFreightItem: WireRequestOceanFreightItemInput;
+};
+
+/** The output of our upsert `WireRequestOceanFreightItem` mutation. */
+export type UpsertWireRequestOceanFreightItemPayload = {
+  __typename?: 'UpsertWireRequestOceanFreightItemPayload';
+  /** The exact same `clientMutationId` that was provided in the mutation input, unchanged and unused. May be used by a client to track mutations. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `WireRequestOceanFreightItem` that were upserted by this mutation. */
+  wireRequestOceanFreightItem?: Maybe<WireRequestOceanFreightItem>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `WireRequest` that is related to this `WireRequestOceanFreightItem`. */
+  wireRequest?: Maybe<WireRequest>;
+  /** An edge for our `WireRequestOceanFreightItem`. May be used by Relay 1. */
+  wireRequestOceanFreightItemEdge?: Maybe<WireRequestOceanFreightItemsEdge>;
+};
+
+
+/** The output of our upsert `WireRequestOceanFreightItem` mutation. */
+export type UpsertWireRequestOceanFreightItemPayloadWireRequestOceanFreightItemEdgeArgs = {
+  orderBy?: Maybe<Array<WireRequestOceanFreightItemsOrderBy>>;
+};
+
+/** The output of our upsert `WireRequest` mutation. */
+export type UpsertWireRequestPayload = {
+  __typename?: 'UpsertWireRequestPayload';
+  /** The exact same `clientMutationId` that was provided in the mutation input, unchanged and unused. May be used by a client to track mutations. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `WireRequest` that were upserted by this mutation. */
+  wireRequest?: Maybe<WireRequest>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** An edge for our `WireRequest`. May be used by Relay 1. */
+  wireRequestEdge?: Maybe<WireRequestsEdge>;
+};
+
+
+/** The output of our upsert `WireRequest` mutation. */
+export type UpsertWireRequestPayloadWireRequestEdgeArgs = {
+  orderBy?: Maybe<Array<WireRequestsOrderBy>>;
+};
+
+/** All input for the upsert `WireRequestShipperAdvanceItem` mutation. */
+export type UpsertWireRequestShipperAdvanceItemInput = {
+  /** An arbitrary string value with no semantic meaning. Will be included in the payload verbatim. May be used to track mutations by the client. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `WireRequestShipperAdvanceItem` to be upserted by this mutation. */
+  wireRequestShipperAdvanceItem: WireRequestShipperAdvanceItemInput;
+};
+
+/** The output of our upsert `WireRequestShipperAdvanceItem` mutation. */
+export type UpsertWireRequestShipperAdvanceItemPayload = {
+  __typename?: 'UpsertWireRequestShipperAdvanceItemPayload';
+  /** The exact same `clientMutationId` that was provided in the mutation input, unchanged and unused. May be used by a client to track mutations. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The `WireRequestShipperAdvanceItem` that were upserted by this mutation. */
+  wireRequestShipperAdvanceItem?: Maybe<WireRequestShipperAdvanceItem>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** Reads a single `WireRequest` that is related to this `WireRequestShipperAdvanceItem`. */
+  wireRequest?: Maybe<WireRequest>;
+  /** An edge for our `WireRequestShipperAdvanceItem`. May be used by Relay 1. */
+  wireRequestShipperAdvanceItemEdge?: Maybe<WireRequestShipperAdvanceItemsEdge>;
+};
+
+
+/** The output of our upsert `WireRequestShipperAdvanceItem` mutation. */
+export type UpsertWireRequestShipperAdvanceItemPayloadWireRequestShipperAdvanceItemEdgeArgs = {
+  orderBy?: Maybe<Array<WireRequestShipperAdvanceItemsOrderBy>>;
 };
 
 export type User = Node & {
@@ -72500,6 +74964,8 @@ export type VesselControl = Node & {
   /** Reads and enables pagination through a set of `Unpaid`. */
   unpaids: UnpaidsConnection;
   vessel?: Maybe<Vessel>;
+  /** Reads and enables pagination through a set of `WireRequest`. */
+  wires: WireRequestsConnection;
 };
 
 
@@ -72520,6 +74986,16 @@ export type VesselControlUnpaidsArgs = {
   before?: Maybe<Scalars['Cursor']>;
   after?: Maybe<Scalars['Cursor']>;
   filter?: Maybe<UnpaidFilter>;
+};
+
+
+export type VesselControlWiresArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  filter?: Maybe<WireRequestFilter>;
 };
 
 /**
@@ -73639,6 +76115,1372 @@ export enum WarehousesOrderBy {
   CountryByCountryIdCmbIdDesc = 'COUNTRY_BY_COUNTRY_ID__CMB_ID_DESC',
   WarehousePersonContactsByWarehouseIdCountAsc = 'WAREHOUSE_PERSON_CONTACTS_BY_WAREHOUSE_ID__COUNT_ASC',
   WarehousePersonContactsByWarehouseIdCountDesc = 'WAREHOUSE_PERSON_CONTACTS_BY_WAREHOUSE_ID__COUNT_DESC'
+}
+
+export type WireRequest = Node & {
+  __typename?: 'WireRequest';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  bankId: Scalars['String'];
+  vendorId: Scalars['String'];
+  wireNumber?: Maybe<Scalars['String']>;
+  requestDate: Scalars['Date'];
+  wireDate: Scalars['Date'];
+  wireType: Scalars['String'];
+  approvalUserCode?: Maybe<Scalars['String']>;
+  approvalDate?: Maybe<Scalars['Date']>;
+  requestUserCode: Scalars['String'];
+  isVerified?: Maybe<Scalars['Boolean']>;
+  sentDate?: Maybe<Scalars['Date']>;
+  /** Reads and enables pagination through a set of `WireRequestOceanFreightItem`. */
+  wireRequestOceanFreightItems: WireRequestOceanFreightItemsConnection;
+  /** Reads and enables pagination through a set of `WireRequestShipperAdvanceItem`. */
+  wireRequestShipperAdvanceItems: WireRequestShipperAdvanceItemsConnection;
+  /** Reads and enables pagination through a set of `WireRequestAccountOfSaleItem`. */
+  wireRequestAccountOfSaleItems: WireRequestAccountOfSaleItemsConnection;
+  /** Reads and enables pagination through a set of `WireRequestMiscItem`. */
+  wireRequestMiscItems: WireRequestMiscItemsConnection;
+  approvalUser?: Maybe<User>;
+  checkHeader?: Maybe<CheckHeader>;
+  requestUser?: Maybe<User>;
+  searchText?: Maybe<Scalars['String']>;
+  vendor?: Maybe<Vendor>;
+};
+
+
+export type WireRequestWireRequestOceanFreightItemsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<WireRequestOceanFreightItemsOrderBy>>;
+  condition?: Maybe<WireRequestOceanFreightItemCondition>;
+  filter?: Maybe<WireRequestOceanFreightItemFilter>;
+};
+
+
+export type WireRequestWireRequestShipperAdvanceItemsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<WireRequestShipperAdvanceItemsOrderBy>>;
+  condition?: Maybe<WireRequestShipperAdvanceItemCondition>;
+  filter?: Maybe<WireRequestShipperAdvanceItemFilter>;
+};
+
+
+export type WireRequestWireRequestAccountOfSaleItemsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<WireRequestAccountOfSaleItemsOrderBy>>;
+  condition?: Maybe<WireRequestAccountOfSaleItemCondition>;
+  filter?: Maybe<WireRequestAccountOfSaleItemFilter>;
+};
+
+
+export type WireRequestWireRequestMiscItemsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['Cursor']>;
+  after?: Maybe<Scalars['Cursor']>;
+  orderBy?: Maybe<Array<WireRequestMiscItemsOrderBy>>;
+  condition?: Maybe<WireRequestMiscItemCondition>;
+  filter?: Maybe<WireRequestMiscItemFilter>;
+};
+
+export type WireRequestAccountOfSaleItem = Node & {
+  __typename?: 'WireRequestAccountOfSaleItem';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  wireRequestId: Scalars['BigInt'];
+  billOfLading: Scalars['String'];
+  vesselCode: Scalars['String'];
+  /** Reads a single `WireRequest` that is related to this `WireRequestAccountOfSaleItem`. */
+  wireRequest?: Maybe<WireRequest>;
+  vessel?: Maybe<Vessel>;
+};
+
+/**
+ * A condition to be used against `WireRequestAccountOfSaleItem` object types. All
+ * fields are tested for equality and combined with a logical ‘and.’
+ */
+export type WireRequestAccountOfSaleItemCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `wireRequestId` field. */
+  wireRequestId?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `billOfLading` field. */
+  billOfLading?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `vesselCode` field. */
+  vesselCode?: Maybe<Scalars['String']>;
+};
+
+/** A filter to be used against `WireRequestAccountOfSaleItem` object types. All fields are combined with a logical ‘and.’ */
+export type WireRequestAccountOfSaleItemFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `wireRequestId` field. */
+  wireRequestId?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `billOfLading` field. */
+  billOfLading?: Maybe<StringFilter>;
+  /** Filter by the object’s `vesselCode` field. */
+  vesselCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `wireRequest` relation. */
+  wireRequest?: Maybe<WireRequestFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<WireRequestAccountOfSaleItemFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<WireRequestAccountOfSaleItemFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<WireRequestAccountOfSaleItemFilter>;
+};
+
+/** An input for mutations affecting `WireRequestAccountOfSaleItem` */
+export type WireRequestAccountOfSaleItemInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  wireRequestId?: Maybe<Scalars['BigInt']>;
+  billOfLading: Scalars['String'];
+  vesselCode: Scalars['String'];
+  wireRequestToWireRequestId?: Maybe<WireRequestAccountOfSaleItemWireRequestIdFkeyInput>;
+};
+
+/** The globally unique `ID` look up for the row to connect. */
+export type WireRequestAccountOfSaleItemNodeIdConnect = {
+  /** The globally unique `ID` which identifies a single `wireRequestAccountOfSaleItem` to be connected. */
+  nodeId: Scalars['ID'];
+};
+
+/** The globally unique `ID` look up for the row to delete. */
+export type WireRequestAccountOfSaleItemNodeIdDelete = {
+  /** The globally unique `ID` which identifies a single `wireRequestAccountOfSaleItem` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type WireRequestAccountOfSaleItemOnWireRequestAccountOfSaleItemForWireRequestAccountOfSaleItemWireRequestIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `wireRequest` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `wireRequest` being updated. */
+  patch: WireRequestPatch;
+};
+
+/** The fields on `wireRequestAccountOfSaleItem` to look up the row to update. */
+export type WireRequestAccountOfSaleItemOnWireRequestAccountOfSaleItemForWireRequestAccountOfSaleItemWireRequestIdFkeyUsingWireRequestAccountOfSaleItemPkeyUpdate = {
+  /** An object where the defined keys will be set on the `wireRequestAccountOfSaleItem` being updated. */
+  patch: UpdateWireRequestAccountOfSaleItemOnWireRequestAccountOfSaleItemForWireRequestAccountOfSaleItemWireRequestIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** Represents an update to a `WireRequestAccountOfSaleItem`. Fields that are set will be updated. */
+export type WireRequestAccountOfSaleItemPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  wireRequestId?: Maybe<Scalars['BigInt']>;
+  billOfLading?: Maybe<Scalars['String']>;
+  vesselCode?: Maybe<Scalars['String']>;
+  wireRequestToWireRequestId?: Maybe<WireRequestAccountOfSaleItemWireRequestIdFkeyInput>;
+};
+
+/** The fields on `wireRequestAccountOfSaleItem` to look up the row to connect. */
+export type WireRequestAccountOfSaleItemWireRequestAccountOfSaleItemPkeyConnect = {
+  id: Scalars['BigInt'];
+};
+
+/** The fields on `wireRequestAccountOfSaleItem` to look up the row to delete. */
+export type WireRequestAccountOfSaleItemWireRequestAccountOfSaleItemPkeyDelete = {
+  id: Scalars['BigInt'];
+};
+
+/** Input for the nested mutation of `wireRequest` in the `WireRequestAccountOfSaleItemInput` mutation. */
+export type WireRequestAccountOfSaleItemWireRequestIdFkeyInput = {
+  /** The primary key(s) for `wireRequest` for the far side of the relationship. */
+  connectById?: Maybe<WireRequestWireRequestPkeyConnect>;
+  /** The primary key(s) for `wireRequest` for the far side of the relationship. */
+  connectByNodeId?: Maybe<WireRequestNodeIdConnect>;
+  /** The primary key(s) for `wireRequest` for the far side of the relationship. */
+  deleteById?: Maybe<WireRequestWireRequestPkeyDelete>;
+  /** The primary key(s) for `wireRequest` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<WireRequestNodeIdDelete>;
+  /** The primary key(s) and patch data for `wireRequest` for the far side of the relationship. */
+  updateById?: Maybe<WireRequestOnWireRequestAccountOfSaleItemForWireRequestAccountOfSaleItemWireRequestIdFkeyUsingWireRequestPkeyUpdate>;
+  /** The primary key(s) and patch data for `wireRequest` for the far side of the relationship. */
+  updateByNodeId?: Maybe<WireRequestAccountOfSaleItemOnWireRequestAccountOfSaleItemForWireRequestAccountOfSaleItemWireRequestIdFkeyNodeIdUpdate>;
+  /** A `WireRequestInput` object that will be created and connected to this object. */
+  create?: Maybe<WireRequestAccountOfSaleItemWireRequestIdFkeyWireRequestCreateInput>;
+};
+
+/** Input for the nested mutation of `wireRequestAccountOfSaleItem` in the `WireRequestInput` mutation. */
+export type WireRequestAccountOfSaleItemWireRequestIdFkeyInverseInput = {
+  /** Flag indicating whether all other `wireRequestAccountOfSaleItem` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `wireRequestAccountOfSaleItem` for the far side of the relationship. */
+  connectById?: Maybe<Array<WireRequestAccountOfSaleItemWireRequestAccountOfSaleItemPkeyConnect>>;
+  /** The primary key(s) for `wireRequestAccountOfSaleItem` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<WireRequestAccountOfSaleItemNodeIdConnect>>;
+  /** The primary key(s) for `wireRequestAccountOfSaleItem` for the far side of the relationship. */
+  deleteById?: Maybe<Array<WireRequestAccountOfSaleItemWireRequestAccountOfSaleItemPkeyDelete>>;
+  /** The primary key(s) for `wireRequestAccountOfSaleItem` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<WireRequestAccountOfSaleItemNodeIdDelete>>;
+  /** The primary key(s) and patch data for `wireRequestAccountOfSaleItem` for the far side of the relationship. */
+  updateById?: Maybe<Array<WireRequestAccountOfSaleItemOnWireRequestAccountOfSaleItemForWireRequestAccountOfSaleItemWireRequestIdFkeyUsingWireRequestAccountOfSaleItemPkeyUpdate>>;
+  /** The primary key(s) and patch data for `wireRequestAccountOfSaleItem` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<WireRequestOnWireRequestAccountOfSaleItemForWireRequestAccountOfSaleItemWireRequestIdFkeyNodeIdUpdate>>;
+  /** A `WireRequestAccountOfSaleItemInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<WireRequestAccountOfSaleItemWireRequestIdFkeyWireRequestAccountOfSaleItemCreateInput>>;
+};
+
+/** The `wireRequestAccountOfSaleItem` to be created by this mutation. */
+export type WireRequestAccountOfSaleItemWireRequestIdFkeyWireRequestAccountOfSaleItemCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  billOfLading: Scalars['String'];
+  vesselCode: Scalars['String'];
+  wireRequestToWireRequestId?: Maybe<WireRequestAccountOfSaleItemWireRequestIdFkeyInput>;
+};
+
+/** The `wireRequest` to be created by this mutation. */
+export type WireRequestAccountOfSaleItemWireRequestIdFkeyWireRequestCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  bankId: Scalars['String'];
+  vendorId: Scalars['String'];
+  wireNumber?: Maybe<Scalars['String']>;
+  requestDate: Scalars['Date'];
+  wireDate: Scalars['Date'];
+  wireType: Scalars['String'];
+  approvalUserCode?: Maybe<Scalars['String']>;
+  approvalDate?: Maybe<Scalars['Date']>;
+  requestUserCode: Scalars['String'];
+  isVerified?: Maybe<Scalars['Boolean']>;
+  sentDate?: Maybe<Scalars['Date']>;
+  wireRequestOceanFreightItemsUsingId?: Maybe<WireRequestOceanFreightItemWireRequestIdFkeyInverseInput>;
+  wireRequestShipperAdvanceItemsUsingId?: Maybe<WireRequestShipperAdvanceItemWireRequestIdFkeyInverseInput>;
+  wireRequestAccountOfSaleItemsUsingId?: Maybe<WireRequestAccountOfSaleItemWireRequestIdFkeyInverseInput>;
+  wireRequestMiscItemsUsingId?: Maybe<WireRequestMiscItemWireRequestIdFkeyInverseInput>;
+};
+
+/** A connection to a list of `WireRequestAccountOfSaleItem` values. */
+export type WireRequestAccountOfSaleItemsConnection = {
+  __typename?: 'WireRequestAccountOfSaleItemsConnection';
+  /** A list of `WireRequestAccountOfSaleItem` objects. */
+  nodes: Array<Maybe<WireRequestAccountOfSaleItem>>;
+  /** A list of edges which contains the `WireRequestAccountOfSaleItem` and cursor to aid in pagination. */
+  edges: Array<WireRequestAccountOfSaleItemsEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `WireRequestAccountOfSaleItem` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `WireRequestAccountOfSaleItem` edge in the connection. */
+export type WireRequestAccountOfSaleItemsEdge = {
+  __typename?: 'WireRequestAccountOfSaleItemsEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `WireRequestAccountOfSaleItem` at the end of the edge. */
+  node?: Maybe<WireRequestAccountOfSaleItem>;
+};
+
+/** Methods to use when ordering `WireRequestAccountOfSaleItem`. */
+export enum WireRequestAccountOfSaleItemsOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  WireRequestIdAsc = 'WIRE_REQUEST_ID_ASC',
+  WireRequestIdDesc = 'WIRE_REQUEST_ID_DESC',
+  BillOfLadingAsc = 'BILL_OF_LADING_ASC',
+  BillOfLadingDesc = 'BILL_OF_LADING_DESC',
+  VesselCodeAsc = 'VESSEL_CODE_ASC',
+  VesselCodeDesc = 'VESSEL_CODE_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  WireRequestByWireRequestIdIdAsc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__ID_ASC',
+  WireRequestByWireRequestIdIdDesc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__ID_DESC',
+  WireRequestByWireRequestIdBankIdAsc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__BANK_ID_ASC',
+  WireRequestByWireRequestIdBankIdDesc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__BANK_ID_DESC',
+  WireRequestByWireRequestIdVendorIdAsc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__VENDOR_ID_ASC',
+  WireRequestByWireRequestIdVendorIdDesc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__VENDOR_ID_DESC',
+  WireRequestByWireRequestIdWireNumberAsc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__WIRE_NUMBER_ASC',
+  WireRequestByWireRequestIdWireNumberDesc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__WIRE_NUMBER_DESC',
+  WireRequestByWireRequestIdRequestDateAsc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__REQUEST_DATE_ASC',
+  WireRequestByWireRequestIdRequestDateDesc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__REQUEST_DATE_DESC',
+  WireRequestByWireRequestIdWireDateAsc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__WIRE_DATE_ASC',
+  WireRequestByWireRequestIdWireDateDesc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__WIRE_DATE_DESC',
+  WireRequestByWireRequestIdWireTypeAsc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__WIRE_TYPE_ASC',
+  WireRequestByWireRequestIdWireTypeDesc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__WIRE_TYPE_DESC',
+  WireRequestByWireRequestIdApprovalUserCodeAsc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__APPROVAL_USER_CODE_ASC',
+  WireRequestByWireRequestIdApprovalUserCodeDesc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__APPROVAL_USER_CODE_DESC',
+  WireRequestByWireRequestIdApprovalDateAsc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__APPROVAL_DATE_ASC',
+  WireRequestByWireRequestIdApprovalDateDesc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__APPROVAL_DATE_DESC',
+  WireRequestByWireRequestIdRequestUserCodeAsc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__REQUEST_USER_CODE_ASC',
+  WireRequestByWireRequestIdRequestUserCodeDesc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__REQUEST_USER_CODE_DESC',
+  WireRequestByWireRequestIdIsVerifiedAsc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__IS_VERIFIED_ASC',
+  WireRequestByWireRequestIdIsVerifiedDesc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__IS_VERIFIED_DESC',
+  WireRequestByWireRequestIdSentDateAsc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__SENT_DATE_ASC',
+  WireRequestByWireRequestIdSentDateDesc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__SENT_DATE_DESC'
+}
+
+/**
+ * A condition to be used against `WireRequest` object types. All fields are tested
+ * for equality and combined with a logical ‘and.’
+ */
+export type WireRequestCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `bankId` field. */
+  bankId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `vendorId` field. */
+  vendorId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `wireNumber` field. */
+  wireNumber?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `requestDate` field. */
+  requestDate?: Maybe<Scalars['Date']>;
+  /** Checks for equality with the object’s `wireDate` field. */
+  wireDate?: Maybe<Scalars['Date']>;
+  /** Checks for equality with the object’s `wireType` field. */
+  wireType?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `approvalUserCode` field. */
+  approvalUserCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `approvalDate` field. */
+  approvalDate?: Maybe<Scalars['Date']>;
+  /** Checks for equality with the object’s `requestUserCode` field. */
+  requestUserCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `isVerified` field. */
+  isVerified?: Maybe<Scalars['Boolean']>;
+  /** Checks for equality with the object’s `sentDate` field. */
+  sentDate?: Maybe<Scalars['Date']>;
+};
+
+/** A filter to be used against `WireRequest` object types. All fields are combined with a logical ‘and.’ */
+export type WireRequestFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `bankId` field. */
+  bankId?: Maybe<StringFilter>;
+  /** Filter by the object’s `vendorId` field. */
+  vendorId?: Maybe<StringFilter>;
+  /** Filter by the object’s `wireNumber` field. */
+  wireNumber?: Maybe<StringFilter>;
+  /** Filter by the object’s `requestDate` field. */
+  requestDate?: Maybe<DateFilter>;
+  /** Filter by the object’s `wireDate` field. */
+  wireDate?: Maybe<DateFilter>;
+  /** Filter by the object’s `wireType` field. */
+  wireType?: Maybe<StringFilter>;
+  /** Filter by the object’s `approvalUserCode` field. */
+  approvalUserCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `approvalDate` field. */
+  approvalDate?: Maybe<DateFilter>;
+  /** Filter by the object’s `requestUserCode` field. */
+  requestUserCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `isVerified` field. */
+  isVerified?: Maybe<BooleanFilter>;
+  /** Filter by the object’s `sentDate` field. */
+  sentDate?: Maybe<DateFilter>;
+  /** Filter by the object’s `searchText` field. */
+  searchText?: Maybe<StringFilter>;
+  /** Filter by the object’s `wireRequestOceanFreightItems` relation. */
+  wireRequestOceanFreightItems?: Maybe<WireRequestToManyWireRequestOceanFreightItemFilter>;
+  /** Some related `wireRequestOceanFreightItems` exist. */
+  wireRequestOceanFreightItemsExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `wireRequestShipperAdvanceItems` relation. */
+  wireRequestShipperAdvanceItems?: Maybe<WireRequestToManyWireRequestShipperAdvanceItemFilter>;
+  /** Some related `wireRequestShipperAdvanceItems` exist. */
+  wireRequestShipperAdvanceItemsExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `wireRequestAccountOfSaleItems` relation. */
+  wireRequestAccountOfSaleItems?: Maybe<WireRequestToManyWireRequestAccountOfSaleItemFilter>;
+  /** Some related `wireRequestAccountOfSaleItems` exist. */
+  wireRequestAccountOfSaleItemsExist?: Maybe<Scalars['Boolean']>;
+  /** Filter by the object’s `wireRequestMiscItems` relation. */
+  wireRequestMiscItems?: Maybe<WireRequestToManyWireRequestMiscItemFilter>;
+  /** Some related `wireRequestMiscItems` exist. */
+  wireRequestMiscItemsExist?: Maybe<Scalars['Boolean']>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<WireRequestFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<WireRequestFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<WireRequestFilter>;
+};
+
+/** An input for mutations affecting `WireRequest` */
+export type WireRequestInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  bankId: Scalars['String'];
+  vendorId: Scalars['String'];
+  wireNumber?: Maybe<Scalars['String']>;
+  requestDate: Scalars['Date'];
+  wireDate: Scalars['Date'];
+  wireType: Scalars['String'];
+  approvalUserCode?: Maybe<Scalars['String']>;
+  approvalDate?: Maybe<Scalars['Date']>;
+  requestUserCode: Scalars['String'];
+  isVerified?: Maybe<Scalars['Boolean']>;
+  sentDate?: Maybe<Scalars['Date']>;
+  wireRequestOceanFreightItemsUsingId?: Maybe<WireRequestOceanFreightItemWireRequestIdFkeyInverseInput>;
+  wireRequestShipperAdvanceItemsUsingId?: Maybe<WireRequestShipperAdvanceItemWireRequestIdFkeyInverseInput>;
+  wireRequestAccountOfSaleItemsUsingId?: Maybe<WireRequestAccountOfSaleItemWireRequestIdFkeyInverseInput>;
+  wireRequestMiscItemsUsingId?: Maybe<WireRequestMiscItemWireRequestIdFkeyInverseInput>;
+};
+
+export type WireRequestMiscItem = Node & {
+  __typename?: 'WireRequestMiscItem';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  wireRequestId: Scalars['BigInt'];
+  itemDescription: Scalars['String'];
+  itemAmount: Scalars['BigFloat'];
+  /** Reads a single `WireRequest` that is related to this `WireRequestMiscItem`. */
+  wireRequest?: Maybe<WireRequest>;
+};
+
+/**
+ * A condition to be used against `WireRequestMiscItem` object types. All fields
+ * are tested for equality and combined with a logical ‘and.’
+ */
+export type WireRequestMiscItemCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `wireRequestId` field. */
+  wireRequestId?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `itemDescription` field. */
+  itemDescription?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `itemAmount` field. */
+  itemAmount?: Maybe<Scalars['BigFloat']>;
+};
+
+/** A filter to be used against `WireRequestMiscItem` object types. All fields are combined with a logical ‘and.’ */
+export type WireRequestMiscItemFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `wireRequestId` field. */
+  wireRequestId?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `itemDescription` field. */
+  itemDescription?: Maybe<StringFilter>;
+  /** Filter by the object’s `itemAmount` field. */
+  itemAmount?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `wireRequest` relation. */
+  wireRequest?: Maybe<WireRequestFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<WireRequestMiscItemFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<WireRequestMiscItemFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<WireRequestMiscItemFilter>;
+};
+
+/** An input for mutations affecting `WireRequestMiscItem` */
+export type WireRequestMiscItemInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  wireRequestId?: Maybe<Scalars['BigInt']>;
+  itemDescription: Scalars['String'];
+  itemAmount: Scalars['BigFloat'];
+  wireRequestToWireRequestId?: Maybe<WireRequestMiscItemWireRequestIdFkeyInput>;
+};
+
+/** The globally unique `ID` look up for the row to connect. */
+export type WireRequestMiscItemNodeIdConnect = {
+  /** The globally unique `ID` which identifies a single `wireRequestMiscItem` to be connected. */
+  nodeId: Scalars['ID'];
+};
+
+/** The globally unique `ID` look up for the row to delete. */
+export type WireRequestMiscItemNodeIdDelete = {
+  /** The globally unique `ID` which identifies a single `wireRequestMiscItem` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type WireRequestMiscItemOnWireRequestMiscItemForWireRequestMiscItemWireRequestIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `wireRequest` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `wireRequest` being updated. */
+  patch: WireRequestPatch;
+};
+
+/** The fields on `wireRequestMiscItem` to look up the row to update. */
+export type WireRequestMiscItemOnWireRequestMiscItemForWireRequestMiscItemWireRequestIdFkeyUsingWireRequestMiscItemPkeyUpdate = {
+  /** An object where the defined keys will be set on the `wireRequestMiscItem` being updated. */
+  patch: UpdateWireRequestMiscItemOnWireRequestMiscItemForWireRequestMiscItemWireRequestIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** Represents an update to a `WireRequestMiscItem`. Fields that are set will be updated. */
+export type WireRequestMiscItemPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  wireRequestId?: Maybe<Scalars['BigInt']>;
+  itemDescription?: Maybe<Scalars['String']>;
+  itemAmount?: Maybe<Scalars['BigFloat']>;
+  wireRequestToWireRequestId?: Maybe<WireRequestMiscItemWireRequestIdFkeyInput>;
+};
+
+/** Input for the nested mutation of `wireRequest` in the `WireRequestMiscItemInput` mutation. */
+export type WireRequestMiscItemWireRequestIdFkeyInput = {
+  /** The primary key(s) for `wireRequest` for the far side of the relationship. */
+  connectById?: Maybe<WireRequestWireRequestPkeyConnect>;
+  /** The primary key(s) for `wireRequest` for the far side of the relationship. */
+  connectByNodeId?: Maybe<WireRequestNodeIdConnect>;
+  /** The primary key(s) for `wireRequest` for the far side of the relationship. */
+  deleteById?: Maybe<WireRequestWireRequestPkeyDelete>;
+  /** The primary key(s) for `wireRequest` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<WireRequestNodeIdDelete>;
+  /** The primary key(s) and patch data for `wireRequest` for the far side of the relationship. */
+  updateById?: Maybe<WireRequestOnWireRequestMiscItemForWireRequestMiscItemWireRequestIdFkeyUsingWireRequestPkeyUpdate>;
+  /** The primary key(s) and patch data for `wireRequest` for the far side of the relationship. */
+  updateByNodeId?: Maybe<WireRequestMiscItemOnWireRequestMiscItemForWireRequestMiscItemWireRequestIdFkeyNodeIdUpdate>;
+  /** A `WireRequestInput` object that will be created and connected to this object. */
+  create?: Maybe<WireRequestMiscItemWireRequestIdFkeyWireRequestCreateInput>;
+};
+
+/** Input for the nested mutation of `wireRequestMiscItem` in the `WireRequestInput` mutation. */
+export type WireRequestMiscItemWireRequestIdFkeyInverseInput = {
+  /** Flag indicating whether all other `wireRequestMiscItem` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `wireRequestMiscItem` for the far side of the relationship. */
+  connectById?: Maybe<Array<WireRequestMiscItemWireRequestMiscItemPkeyConnect>>;
+  /** The primary key(s) for `wireRequestMiscItem` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<WireRequestMiscItemNodeIdConnect>>;
+  /** The primary key(s) for `wireRequestMiscItem` for the far side of the relationship. */
+  deleteById?: Maybe<Array<WireRequestMiscItemWireRequestMiscItemPkeyDelete>>;
+  /** The primary key(s) for `wireRequestMiscItem` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<WireRequestMiscItemNodeIdDelete>>;
+  /** The primary key(s) and patch data for `wireRequestMiscItem` for the far side of the relationship. */
+  updateById?: Maybe<Array<WireRequestMiscItemOnWireRequestMiscItemForWireRequestMiscItemWireRequestIdFkeyUsingWireRequestMiscItemPkeyUpdate>>;
+  /** The primary key(s) and patch data for `wireRequestMiscItem` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<WireRequestOnWireRequestMiscItemForWireRequestMiscItemWireRequestIdFkeyNodeIdUpdate>>;
+  /** A `WireRequestMiscItemInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<WireRequestMiscItemWireRequestIdFkeyWireRequestMiscItemCreateInput>>;
+};
+
+/** The `wireRequest` to be created by this mutation. */
+export type WireRequestMiscItemWireRequestIdFkeyWireRequestCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  bankId: Scalars['String'];
+  vendorId: Scalars['String'];
+  wireNumber?: Maybe<Scalars['String']>;
+  requestDate: Scalars['Date'];
+  wireDate: Scalars['Date'];
+  wireType: Scalars['String'];
+  approvalUserCode?: Maybe<Scalars['String']>;
+  approvalDate?: Maybe<Scalars['Date']>;
+  requestUserCode: Scalars['String'];
+  isVerified?: Maybe<Scalars['Boolean']>;
+  sentDate?: Maybe<Scalars['Date']>;
+  wireRequestOceanFreightItemsUsingId?: Maybe<WireRequestOceanFreightItemWireRequestIdFkeyInverseInput>;
+  wireRequestShipperAdvanceItemsUsingId?: Maybe<WireRequestShipperAdvanceItemWireRequestIdFkeyInverseInput>;
+  wireRequestAccountOfSaleItemsUsingId?: Maybe<WireRequestAccountOfSaleItemWireRequestIdFkeyInverseInput>;
+  wireRequestMiscItemsUsingId?: Maybe<WireRequestMiscItemWireRequestIdFkeyInverseInput>;
+};
+
+/** The `wireRequestMiscItem` to be created by this mutation. */
+export type WireRequestMiscItemWireRequestIdFkeyWireRequestMiscItemCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  itemDescription: Scalars['String'];
+  itemAmount: Scalars['BigFloat'];
+  wireRequestToWireRequestId?: Maybe<WireRequestMiscItemWireRequestIdFkeyInput>;
+};
+
+/** The fields on `wireRequestMiscItem` to look up the row to connect. */
+export type WireRequestMiscItemWireRequestMiscItemPkeyConnect = {
+  id: Scalars['BigInt'];
+};
+
+/** The fields on `wireRequestMiscItem` to look up the row to delete. */
+export type WireRequestMiscItemWireRequestMiscItemPkeyDelete = {
+  id: Scalars['BigInt'];
+};
+
+/** A connection to a list of `WireRequestMiscItem` values. */
+export type WireRequestMiscItemsConnection = {
+  __typename?: 'WireRequestMiscItemsConnection';
+  /** A list of `WireRequestMiscItem` objects. */
+  nodes: Array<Maybe<WireRequestMiscItem>>;
+  /** A list of edges which contains the `WireRequestMiscItem` and cursor to aid in pagination. */
+  edges: Array<WireRequestMiscItemsEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `WireRequestMiscItem` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `WireRequestMiscItem` edge in the connection. */
+export type WireRequestMiscItemsEdge = {
+  __typename?: 'WireRequestMiscItemsEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `WireRequestMiscItem` at the end of the edge. */
+  node?: Maybe<WireRequestMiscItem>;
+};
+
+/** Methods to use when ordering `WireRequestMiscItem`. */
+export enum WireRequestMiscItemsOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  WireRequestIdAsc = 'WIRE_REQUEST_ID_ASC',
+  WireRequestIdDesc = 'WIRE_REQUEST_ID_DESC',
+  ItemDescriptionAsc = 'ITEM_DESCRIPTION_ASC',
+  ItemDescriptionDesc = 'ITEM_DESCRIPTION_DESC',
+  ItemAmountAsc = 'ITEM_AMOUNT_ASC',
+  ItemAmountDesc = 'ITEM_AMOUNT_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  WireRequestByWireRequestIdIdAsc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__ID_ASC',
+  WireRequestByWireRequestIdIdDesc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__ID_DESC',
+  WireRequestByWireRequestIdBankIdAsc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__BANK_ID_ASC',
+  WireRequestByWireRequestIdBankIdDesc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__BANK_ID_DESC',
+  WireRequestByWireRequestIdVendorIdAsc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__VENDOR_ID_ASC',
+  WireRequestByWireRequestIdVendorIdDesc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__VENDOR_ID_DESC',
+  WireRequestByWireRequestIdWireNumberAsc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__WIRE_NUMBER_ASC',
+  WireRequestByWireRequestIdWireNumberDesc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__WIRE_NUMBER_DESC',
+  WireRequestByWireRequestIdRequestDateAsc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__REQUEST_DATE_ASC',
+  WireRequestByWireRequestIdRequestDateDesc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__REQUEST_DATE_DESC',
+  WireRequestByWireRequestIdWireDateAsc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__WIRE_DATE_ASC',
+  WireRequestByWireRequestIdWireDateDesc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__WIRE_DATE_DESC',
+  WireRequestByWireRequestIdWireTypeAsc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__WIRE_TYPE_ASC',
+  WireRequestByWireRequestIdWireTypeDesc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__WIRE_TYPE_DESC',
+  WireRequestByWireRequestIdApprovalUserCodeAsc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__APPROVAL_USER_CODE_ASC',
+  WireRequestByWireRequestIdApprovalUserCodeDesc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__APPROVAL_USER_CODE_DESC',
+  WireRequestByWireRequestIdApprovalDateAsc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__APPROVAL_DATE_ASC',
+  WireRequestByWireRequestIdApprovalDateDesc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__APPROVAL_DATE_DESC',
+  WireRequestByWireRequestIdRequestUserCodeAsc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__REQUEST_USER_CODE_ASC',
+  WireRequestByWireRequestIdRequestUserCodeDesc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__REQUEST_USER_CODE_DESC',
+  WireRequestByWireRequestIdIsVerifiedAsc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__IS_VERIFIED_ASC',
+  WireRequestByWireRequestIdIsVerifiedDesc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__IS_VERIFIED_DESC',
+  WireRequestByWireRequestIdSentDateAsc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__SENT_DATE_ASC',
+  WireRequestByWireRequestIdSentDateDesc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__SENT_DATE_DESC'
+}
+
+/** The globally unique `ID` look up for the row to connect. */
+export type WireRequestNodeIdConnect = {
+  /** The globally unique `ID` which identifies a single `wireRequest` to be connected. */
+  nodeId: Scalars['ID'];
+};
+
+/** The globally unique `ID` look up for the row to delete. */
+export type WireRequestNodeIdDelete = {
+  /** The globally unique `ID` which identifies a single `wireRequest` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+export type WireRequestOceanFreightItem = Node & {
+  __typename?: 'WireRequestOceanFreightItem';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  wireRequestId: Scalars['BigInt'];
+  billOfLading: Scalars['String'];
+  vesselCode: Scalars['String'];
+  shipperId: Scalars['String'];
+  palletCount: Scalars['BigFloat'];
+  freightAmount: Scalars['BigFloat'];
+  receivedDate: Scalars['Date'];
+  /** Reads a single `WireRequest` that is related to this `WireRequestOceanFreightItem`. */
+  wireRequest?: Maybe<WireRequest>;
+  shipper?: Maybe<Shipper>;
+  vessel?: Maybe<Vessel>;
+};
+
+/**
+ * A condition to be used against `WireRequestOceanFreightItem` object types. All
+ * fields are tested for equality and combined with a logical ‘and.’
+ */
+export type WireRequestOceanFreightItemCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `wireRequestId` field. */
+  wireRequestId?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `billOfLading` field. */
+  billOfLading?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `vesselCode` field. */
+  vesselCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `shipperId` field. */
+  shipperId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `palletCount` field. */
+  palletCount?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `freightAmount` field. */
+  freightAmount?: Maybe<Scalars['BigFloat']>;
+  /** Checks for equality with the object’s `receivedDate` field. */
+  receivedDate?: Maybe<Scalars['Date']>;
+};
+
+/** A filter to be used against `WireRequestOceanFreightItem` object types. All fields are combined with a logical ‘and.’ */
+export type WireRequestOceanFreightItemFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `wireRequestId` field. */
+  wireRequestId?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `billOfLading` field. */
+  billOfLading?: Maybe<StringFilter>;
+  /** Filter by the object’s `vesselCode` field. */
+  vesselCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `shipperId` field. */
+  shipperId?: Maybe<StringFilter>;
+  /** Filter by the object’s `palletCount` field. */
+  palletCount?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `freightAmount` field. */
+  freightAmount?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `receivedDate` field. */
+  receivedDate?: Maybe<DateFilter>;
+  /** Filter by the object’s `wireRequest` relation. */
+  wireRequest?: Maybe<WireRequestFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<WireRequestOceanFreightItemFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<WireRequestOceanFreightItemFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<WireRequestOceanFreightItemFilter>;
+};
+
+/** An input for mutations affecting `WireRequestOceanFreightItem` */
+export type WireRequestOceanFreightItemInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  wireRequestId?: Maybe<Scalars['BigInt']>;
+  billOfLading: Scalars['String'];
+  vesselCode: Scalars['String'];
+  shipperId: Scalars['String'];
+  palletCount: Scalars['BigFloat'];
+  freightAmount: Scalars['BigFloat'];
+  receivedDate: Scalars['Date'];
+  wireRequestToWireRequestId?: Maybe<WireRequestOceanFreightItemWireRequestIdFkeyInput>;
+};
+
+/** The globally unique `ID` look up for the row to connect. */
+export type WireRequestOceanFreightItemNodeIdConnect = {
+  /** The globally unique `ID` which identifies a single `wireRequestOceanFreightItem` to be connected. */
+  nodeId: Scalars['ID'];
+};
+
+/** The globally unique `ID` look up for the row to delete. */
+export type WireRequestOceanFreightItemNodeIdDelete = {
+  /** The globally unique `ID` which identifies a single `wireRequestOceanFreightItem` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type WireRequestOceanFreightItemOnWireRequestOceanFreightItemForWireRequestOceanFreightItemWireRequestIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `wireRequest` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `wireRequest` being updated. */
+  patch: WireRequestPatch;
+};
+
+/** The fields on `wireRequestOceanFreightItem` to look up the row to update. */
+export type WireRequestOceanFreightItemOnWireRequestOceanFreightItemForWireRequestOceanFreightItemWireRequestIdFkeyUsingWireRequestOceanFreightItemPkeyUpdate = {
+  /** An object where the defined keys will be set on the `wireRequestOceanFreightItem` being updated. */
+  patch: UpdateWireRequestOceanFreightItemOnWireRequestOceanFreightItemForWireRequestOceanFreightItemWireRequestIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** Represents an update to a `WireRequestOceanFreightItem`. Fields that are set will be updated. */
+export type WireRequestOceanFreightItemPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  wireRequestId?: Maybe<Scalars['BigInt']>;
+  billOfLading?: Maybe<Scalars['String']>;
+  vesselCode?: Maybe<Scalars['String']>;
+  shipperId?: Maybe<Scalars['String']>;
+  palletCount?: Maybe<Scalars['BigFloat']>;
+  freightAmount?: Maybe<Scalars['BigFloat']>;
+  receivedDate?: Maybe<Scalars['Date']>;
+  wireRequestToWireRequestId?: Maybe<WireRequestOceanFreightItemWireRequestIdFkeyInput>;
+};
+
+/** Input for the nested mutation of `wireRequest` in the `WireRequestOceanFreightItemInput` mutation. */
+export type WireRequestOceanFreightItemWireRequestIdFkeyInput = {
+  /** The primary key(s) for `wireRequest` for the far side of the relationship. */
+  connectById?: Maybe<WireRequestWireRequestPkeyConnect>;
+  /** The primary key(s) for `wireRequest` for the far side of the relationship. */
+  connectByNodeId?: Maybe<WireRequestNodeIdConnect>;
+  /** The primary key(s) for `wireRequest` for the far side of the relationship. */
+  deleteById?: Maybe<WireRequestWireRequestPkeyDelete>;
+  /** The primary key(s) for `wireRequest` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<WireRequestNodeIdDelete>;
+  /** The primary key(s) and patch data for `wireRequest` for the far side of the relationship. */
+  updateById?: Maybe<WireRequestOnWireRequestOceanFreightItemForWireRequestOceanFreightItemWireRequestIdFkeyUsingWireRequestPkeyUpdate>;
+  /** The primary key(s) and patch data for `wireRequest` for the far side of the relationship. */
+  updateByNodeId?: Maybe<WireRequestOceanFreightItemOnWireRequestOceanFreightItemForWireRequestOceanFreightItemWireRequestIdFkeyNodeIdUpdate>;
+  /** A `WireRequestInput` object that will be created and connected to this object. */
+  create?: Maybe<WireRequestOceanFreightItemWireRequestIdFkeyWireRequestCreateInput>;
+};
+
+/** Input for the nested mutation of `wireRequestOceanFreightItem` in the `WireRequestInput` mutation. */
+export type WireRequestOceanFreightItemWireRequestIdFkeyInverseInput = {
+  /** Flag indicating whether all other `wireRequestOceanFreightItem` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `wireRequestOceanFreightItem` for the far side of the relationship. */
+  connectById?: Maybe<Array<WireRequestOceanFreightItemWireRequestOceanFreightItemPkeyConnect>>;
+  /** The primary key(s) for `wireRequestOceanFreightItem` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<WireRequestOceanFreightItemNodeIdConnect>>;
+  /** The primary key(s) for `wireRequestOceanFreightItem` for the far side of the relationship. */
+  deleteById?: Maybe<Array<WireRequestOceanFreightItemWireRequestOceanFreightItemPkeyDelete>>;
+  /** The primary key(s) for `wireRequestOceanFreightItem` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<WireRequestOceanFreightItemNodeIdDelete>>;
+  /** The primary key(s) and patch data for `wireRequestOceanFreightItem` for the far side of the relationship. */
+  updateById?: Maybe<Array<WireRequestOceanFreightItemOnWireRequestOceanFreightItemForWireRequestOceanFreightItemWireRequestIdFkeyUsingWireRequestOceanFreightItemPkeyUpdate>>;
+  /** The primary key(s) and patch data for `wireRequestOceanFreightItem` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<WireRequestOnWireRequestOceanFreightItemForWireRequestOceanFreightItemWireRequestIdFkeyNodeIdUpdate>>;
+  /** A `WireRequestOceanFreightItemInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<WireRequestOceanFreightItemWireRequestIdFkeyWireRequestOceanFreightItemCreateInput>>;
+};
+
+/** The `wireRequest` to be created by this mutation. */
+export type WireRequestOceanFreightItemWireRequestIdFkeyWireRequestCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  bankId: Scalars['String'];
+  vendorId: Scalars['String'];
+  wireNumber?: Maybe<Scalars['String']>;
+  requestDate: Scalars['Date'];
+  wireDate: Scalars['Date'];
+  wireType: Scalars['String'];
+  approvalUserCode?: Maybe<Scalars['String']>;
+  approvalDate?: Maybe<Scalars['Date']>;
+  requestUserCode: Scalars['String'];
+  isVerified?: Maybe<Scalars['Boolean']>;
+  sentDate?: Maybe<Scalars['Date']>;
+  wireRequestOceanFreightItemsUsingId?: Maybe<WireRequestOceanFreightItemWireRequestIdFkeyInverseInput>;
+  wireRequestShipperAdvanceItemsUsingId?: Maybe<WireRequestShipperAdvanceItemWireRequestIdFkeyInverseInput>;
+  wireRequestAccountOfSaleItemsUsingId?: Maybe<WireRequestAccountOfSaleItemWireRequestIdFkeyInverseInput>;
+  wireRequestMiscItemsUsingId?: Maybe<WireRequestMiscItemWireRequestIdFkeyInverseInput>;
+};
+
+/** The `wireRequestOceanFreightItem` to be created by this mutation. */
+export type WireRequestOceanFreightItemWireRequestIdFkeyWireRequestOceanFreightItemCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  billOfLading: Scalars['String'];
+  vesselCode: Scalars['String'];
+  shipperId: Scalars['String'];
+  palletCount: Scalars['BigFloat'];
+  freightAmount: Scalars['BigFloat'];
+  receivedDate: Scalars['Date'];
+  wireRequestToWireRequestId?: Maybe<WireRequestOceanFreightItemWireRequestIdFkeyInput>;
+};
+
+/** The fields on `wireRequestOceanFreightItem` to look up the row to connect. */
+export type WireRequestOceanFreightItemWireRequestOceanFreightItemPkeyConnect = {
+  id: Scalars['BigInt'];
+};
+
+/** The fields on `wireRequestOceanFreightItem` to look up the row to delete. */
+export type WireRequestOceanFreightItemWireRequestOceanFreightItemPkeyDelete = {
+  id: Scalars['BigInt'];
+};
+
+/** A connection to a list of `WireRequestOceanFreightItem` values. */
+export type WireRequestOceanFreightItemsConnection = {
+  __typename?: 'WireRequestOceanFreightItemsConnection';
+  /** A list of `WireRequestOceanFreightItem` objects. */
+  nodes: Array<Maybe<WireRequestOceanFreightItem>>;
+  /** A list of edges which contains the `WireRequestOceanFreightItem` and cursor to aid in pagination. */
+  edges: Array<WireRequestOceanFreightItemsEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `WireRequestOceanFreightItem` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `WireRequestOceanFreightItem` edge in the connection. */
+export type WireRequestOceanFreightItemsEdge = {
+  __typename?: 'WireRequestOceanFreightItemsEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `WireRequestOceanFreightItem` at the end of the edge. */
+  node?: Maybe<WireRequestOceanFreightItem>;
+};
+
+/** Methods to use when ordering `WireRequestOceanFreightItem`. */
+export enum WireRequestOceanFreightItemsOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  WireRequestIdAsc = 'WIRE_REQUEST_ID_ASC',
+  WireRequestIdDesc = 'WIRE_REQUEST_ID_DESC',
+  BillOfLadingAsc = 'BILL_OF_LADING_ASC',
+  BillOfLadingDesc = 'BILL_OF_LADING_DESC',
+  VesselCodeAsc = 'VESSEL_CODE_ASC',
+  VesselCodeDesc = 'VESSEL_CODE_DESC',
+  ShipperIdAsc = 'SHIPPER_ID_ASC',
+  ShipperIdDesc = 'SHIPPER_ID_DESC',
+  PalletCountAsc = 'PALLET_COUNT_ASC',
+  PalletCountDesc = 'PALLET_COUNT_DESC',
+  FreightAmountAsc = 'FREIGHT_AMOUNT_ASC',
+  FreightAmountDesc = 'FREIGHT_AMOUNT_DESC',
+  ReceivedDateAsc = 'RECEIVED_DATE_ASC',
+  ReceivedDateDesc = 'RECEIVED_DATE_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  WireRequestByWireRequestIdIdAsc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__ID_ASC',
+  WireRequestByWireRequestIdIdDesc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__ID_DESC',
+  WireRequestByWireRequestIdBankIdAsc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__BANK_ID_ASC',
+  WireRequestByWireRequestIdBankIdDesc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__BANK_ID_DESC',
+  WireRequestByWireRequestIdVendorIdAsc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__VENDOR_ID_ASC',
+  WireRequestByWireRequestIdVendorIdDesc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__VENDOR_ID_DESC',
+  WireRequestByWireRequestIdWireNumberAsc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__WIRE_NUMBER_ASC',
+  WireRequestByWireRequestIdWireNumberDesc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__WIRE_NUMBER_DESC',
+  WireRequestByWireRequestIdRequestDateAsc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__REQUEST_DATE_ASC',
+  WireRequestByWireRequestIdRequestDateDesc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__REQUEST_DATE_DESC',
+  WireRequestByWireRequestIdWireDateAsc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__WIRE_DATE_ASC',
+  WireRequestByWireRequestIdWireDateDesc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__WIRE_DATE_DESC',
+  WireRequestByWireRequestIdWireTypeAsc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__WIRE_TYPE_ASC',
+  WireRequestByWireRequestIdWireTypeDesc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__WIRE_TYPE_DESC',
+  WireRequestByWireRequestIdApprovalUserCodeAsc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__APPROVAL_USER_CODE_ASC',
+  WireRequestByWireRequestIdApprovalUserCodeDesc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__APPROVAL_USER_CODE_DESC',
+  WireRequestByWireRequestIdApprovalDateAsc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__APPROVAL_DATE_ASC',
+  WireRequestByWireRequestIdApprovalDateDesc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__APPROVAL_DATE_DESC',
+  WireRequestByWireRequestIdRequestUserCodeAsc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__REQUEST_USER_CODE_ASC',
+  WireRequestByWireRequestIdRequestUserCodeDesc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__REQUEST_USER_CODE_DESC',
+  WireRequestByWireRequestIdIsVerifiedAsc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__IS_VERIFIED_ASC',
+  WireRequestByWireRequestIdIsVerifiedDesc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__IS_VERIFIED_DESC',
+  WireRequestByWireRequestIdSentDateAsc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__SENT_DATE_ASC',
+  WireRequestByWireRequestIdSentDateDesc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__SENT_DATE_DESC'
+}
+
+/** The globally unique `ID` look up for the row to update. */
+export type WireRequestOnWireRequestAccountOfSaleItemForWireRequestAccountOfSaleItemWireRequestIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `wireRequestAccountOfSaleItem` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `wireRequestAccountOfSaleItem` being updated. */
+  patch: WireRequestAccountOfSaleItemPatch;
+};
+
+/** The fields on `wireRequest` to look up the row to update. */
+export type WireRequestOnWireRequestAccountOfSaleItemForWireRequestAccountOfSaleItemWireRequestIdFkeyUsingWireRequestPkeyUpdate = {
+  /** An object where the defined keys will be set on the `wireRequest` being updated. */
+  patch: UpdateWireRequestOnWireRequestAccountOfSaleItemForWireRequestAccountOfSaleItemWireRequestIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type WireRequestOnWireRequestMiscItemForWireRequestMiscItemWireRequestIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `wireRequestMiscItem` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `wireRequestMiscItem` being updated. */
+  patch: WireRequestMiscItemPatch;
+};
+
+/** The fields on `wireRequest` to look up the row to update. */
+export type WireRequestOnWireRequestMiscItemForWireRequestMiscItemWireRequestIdFkeyUsingWireRequestPkeyUpdate = {
+  /** An object where the defined keys will be set on the `wireRequest` being updated. */
+  patch: UpdateWireRequestOnWireRequestMiscItemForWireRequestMiscItemWireRequestIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type WireRequestOnWireRequestOceanFreightItemForWireRequestOceanFreightItemWireRequestIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `wireRequestOceanFreightItem` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `wireRequestOceanFreightItem` being updated. */
+  patch: WireRequestOceanFreightItemPatch;
+};
+
+/** The fields on `wireRequest` to look up the row to update. */
+export type WireRequestOnWireRequestOceanFreightItemForWireRequestOceanFreightItemWireRequestIdFkeyUsingWireRequestPkeyUpdate = {
+  /** An object where the defined keys will be set on the `wireRequest` being updated. */
+  patch: UpdateWireRequestOnWireRequestOceanFreightItemForWireRequestOceanFreightItemWireRequestIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type WireRequestOnWireRequestShipperAdvanceItemForWireRequestShipperAdvanceItemWireRequestIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `wireRequestShipperAdvanceItem` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `wireRequestShipperAdvanceItem` being updated. */
+  patch: WireRequestShipperAdvanceItemPatch;
+};
+
+/** The fields on `wireRequest` to look up the row to update. */
+export type WireRequestOnWireRequestShipperAdvanceItemForWireRequestShipperAdvanceItemWireRequestIdFkeyUsingWireRequestPkeyUpdate = {
+  /** An object where the defined keys will be set on the `wireRequest` being updated. */
+  patch: UpdateWireRequestOnWireRequestShipperAdvanceItemForWireRequestShipperAdvanceItemWireRequestIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** Represents an update to a `WireRequest`. Fields that are set will be updated. */
+export type WireRequestPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  bankId?: Maybe<Scalars['String']>;
+  vendorId?: Maybe<Scalars['String']>;
+  wireNumber?: Maybe<Scalars['String']>;
+  requestDate?: Maybe<Scalars['Date']>;
+  wireDate?: Maybe<Scalars['Date']>;
+  wireType?: Maybe<Scalars['String']>;
+  approvalUserCode?: Maybe<Scalars['String']>;
+  approvalDate?: Maybe<Scalars['Date']>;
+  requestUserCode?: Maybe<Scalars['String']>;
+  isVerified?: Maybe<Scalars['Boolean']>;
+  sentDate?: Maybe<Scalars['Date']>;
+  wireRequestOceanFreightItemsUsingId?: Maybe<WireRequestOceanFreightItemWireRequestIdFkeyInverseInput>;
+  wireRequestShipperAdvanceItemsUsingId?: Maybe<WireRequestShipperAdvanceItemWireRequestIdFkeyInverseInput>;
+  wireRequestAccountOfSaleItemsUsingId?: Maybe<WireRequestAccountOfSaleItemWireRequestIdFkeyInverseInput>;
+  wireRequestMiscItemsUsingId?: Maybe<WireRequestMiscItemWireRequestIdFkeyInverseInput>;
+};
+
+export type WireRequestShipperAdvanceItem = Node & {
+  __typename?: 'WireRequestShipperAdvanceItem';
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
+  wireRequestId: Scalars['BigInt'];
+  billOfLading: Scalars['String'];
+  vesselCode: Scalars['String'];
+  speciesId: Scalars['String'];
+  boxAmount: Scalars['BigFloat'];
+  /** Reads a single `WireRequest` that is related to this `WireRequestShipperAdvanceItem`. */
+  wireRequest?: Maybe<WireRequest>;
+  species?: Maybe<ProductSpecies>;
+  vessel?: Maybe<Vessel>;
+};
+
+/**
+ * A condition to be used against `WireRequestShipperAdvanceItem` object types. All
+ * fields are tested for equality and combined with a logical ‘and.’
+ */
+export type WireRequestShipperAdvanceItemCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `wireRequestId` field. */
+  wireRequestId?: Maybe<Scalars['BigInt']>;
+  /** Checks for equality with the object’s `billOfLading` field. */
+  billOfLading?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `vesselCode` field. */
+  vesselCode?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `speciesId` field. */
+  speciesId?: Maybe<Scalars['String']>;
+  /** Checks for equality with the object’s `boxAmount` field. */
+  boxAmount?: Maybe<Scalars['BigFloat']>;
+};
+
+/** A filter to be used against `WireRequestShipperAdvanceItem` object types. All fields are combined with a logical ‘and.’ */
+export type WireRequestShipperAdvanceItemFilter = {
+  /** Filter by the object’s `id` field. */
+  id?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `wireRequestId` field. */
+  wireRequestId?: Maybe<BigIntFilter>;
+  /** Filter by the object’s `billOfLading` field. */
+  billOfLading?: Maybe<StringFilter>;
+  /** Filter by the object’s `vesselCode` field. */
+  vesselCode?: Maybe<StringFilter>;
+  /** Filter by the object’s `speciesId` field. */
+  speciesId?: Maybe<StringFilter>;
+  /** Filter by the object’s `boxAmount` field. */
+  boxAmount?: Maybe<BigFloatFilter>;
+  /** Filter by the object’s `wireRequest` relation. */
+  wireRequest?: Maybe<WireRequestFilter>;
+  /** Checks for all expressions in this list. */
+  and?: Maybe<Array<WireRequestShipperAdvanceItemFilter>>;
+  /** Checks for any expressions in this list. */
+  or?: Maybe<Array<WireRequestShipperAdvanceItemFilter>>;
+  /** Negates the expression. */
+  not?: Maybe<WireRequestShipperAdvanceItemFilter>;
+};
+
+/** An input for mutations affecting `WireRequestShipperAdvanceItem` */
+export type WireRequestShipperAdvanceItemInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  wireRequestId?: Maybe<Scalars['BigInt']>;
+  billOfLading: Scalars['String'];
+  vesselCode: Scalars['String'];
+  speciesId: Scalars['String'];
+  boxAmount: Scalars['BigFloat'];
+  wireRequestToWireRequestId?: Maybe<WireRequestShipperAdvanceItemWireRequestIdFkeyInput>;
+};
+
+/** The globally unique `ID` look up for the row to connect. */
+export type WireRequestShipperAdvanceItemNodeIdConnect = {
+  /** The globally unique `ID` which identifies a single `wireRequestShipperAdvanceItem` to be connected. */
+  nodeId: Scalars['ID'];
+};
+
+/** The globally unique `ID` look up for the row to delete. */
+export type WireRequestShipperAdvanceItemNodeIdDelete = {
+  /** The globally unique `ID` which identifies a single `wireRequestShipperAdvanceItem` to be deleted. */
+  nodeId: Scalars['ID'];
+};
+
+/** The globally unique `ID` look up for the row to update. */
+export type WireRequestShipperAdvanceItemOnWireRequestShipperAdvanceItemForWireRequestShipperAdvanceItemWireRequestIdFkeyNodeIdUpdate = {
+  /** The globally unique `ID` which identifies a single `wireRequest` to be connected. */
+  nodeId: Scalars['ID'];
+  /** An object where the defined keys will be set on the `wireRequest` being updated. */
+  patch: WireRequestPatch;
+};
+
+/** The fields on `wireRequestShipperAdvanceItem` to look up the row to update. */
+export type WireRequestShipperAdvanceItemOnWireRequestShipperAdvanceItemForWireRequestShipperAdvanceItemWireRequestIdFkeyUsingWireRequestShipperAdvanceItemPkeyUpdate = {
+  /** An object where the defined keys will be set on the `wireRequestShipperAdvanceItem` being updated. */
+  patch: UpdateWireRequestShipperAdvanceItemOnWireRequestShipperAdvanceItemForWireRequestShipperAdvanceItemWireRequestIdFkeyPatch;
+  id: Scalars['BigInt'];
+};
+
+/** Represents an update to a `WireRequestShipperAdvanceItem`. Fields that are set will be updated. */
+export type WireRequestShipperAdvanceItemPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  wireRequestId?: Maybe<Scalars['BigInt']>;
+  billOfLading?: Maybe<Scalars['String']>;
+  vesselCode?: Maybe<Scalars['String']>;
+  speciesId?: Maybe<Scalars['String']>;
+  boxAmount?: Maybe<Scalars['BigFloat']>;
+  wireRequestToWireRequestId?: Maybe<WireRequestShipperAdvanceItemWireRequestIdFkeyInput>;
+};
+
+/** Input for the nested mutation of `wireRequest` in the `WireRequestShipperAdvanceItemInput` mutation. */
+export type WireRequestShipperAdvanceItemWireRequestIdFkeyInput = {
+  /** The primary key(s) for `wireRequest` for the far side of the relationship. */
+  connectById?: Maybe<WireRequestWireRequestPkeyConnect>;
+  /** The primary key(s) for `wireRequest` for the far side of the relationship. */
+  connectByNodeId?: Maybe<WireRequestNodeIdConnect>;
+  /** The primary key(s) for `wireRequest` for the far side of the relationship. */
+  deleteById?: Maybe<WireRequestWireRequestPkeyDelete>;
+  /** The primary key(s) for `wireRequest` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<WireRequestNodeIdDelete>;
+  /** The primary key(s) and patch data for `wireRequest` for the far side of the relationship. */
+  updateById?: Maybe<WireRequestOnWireRequestShipperAdvanceItemForWireRequestShipperAdvanceItemWireRequestIdFkeyUsingWireRequestPkeyUpdate>;
+  /** The primary key(s) and patch data for `wireRequest` for the far side of the relationship. */
+  updateByNodeId?: Maybe<WireRequestShipperAdvanceItemOnWireRequestShipperAdvanceItemForWireRequestShipperAdvanceItemWireRequestIdFkeyNodeIdUpdate>;
+  /** A `WireRequestInput` object that will be created and connected to this object. */
+  create?: Maybe<WireRequestShipperAdvanceItemWireRequestIdFkeyWireRequestCreateInput>;
+};
+
+/** Input for the nested mutation of `wireRequestShipperAdvanceItem` in the `WireRequestInput` mutation. */
+export type WireRequestShipperAdvanceItemWireRequestIdFkeyInverseInput = {
+  /** Flag indicating whether all other `wireRequestShipperAdvanceItem` records that match this relationship should be removed. */
+  deleteOthers?: Maybe<Scalars['Boolean']>;
+  /** The primary key(s) for `wireRequestShipperAdvanceItem` for the far side of the relationship. */
+  connectById?: Maybe<Array<WireRequestShipperAdvanceItemWireRequestShipperAdvanceItemPkeyConnect>>;
+  /** The primary key(s) for `wireRequestShipperAdvanceItem` for the far side of the relationship. */
+  connectByNodeId?: Maybe<Array<WireRequestShipperAdvanceItemNodeIdConnect>>;
+  /** The primary key(s) for `wireRequestShipperAdvanceItem` for the far side of the relationship. */
+  deleteById?: Maybe<Array<WireRequestShipperAdvanceItemWireRequestShipperAdvanceItemPkeyDelete>>;
+  /** The primary key(s) for `wireRequestShipperAdvanceItem` for the far side of the relationship. */
+  deleteByNodeId?: Maybe<Array<WireRequestShipperAdvanceItemNodeIdDelete>>;
+  /** The primary key(s) and patch data for `wireRequestShipperAdvanceItem` for the far side of the relationship. */
+  updateById?: Maybe<Array<WireRequestShipperAdvanceItemOnWireRequestShipperAdvanceItemForWireRequestShipperAdvanceItemWireRequestIdFkeyUsingWireRequestShipperAdvanceItemPkeyUpdate>>;
+  /** The primary key(s) and patch data for `wireRequestShipperAdvanceItem` for the far side of the relationship. */
+  updateByNodeId?: Maybe<Array<WireRequestOnWireRequestShipperAdvanceItemForWireRequestShipperAdvanceItemWireRequestIdFkeyNodeIdUpdate>>;
+  /** A `WireRequestShipperAdvanceItemInput` object that will be created and connected to this object. */
+  create?: Maybe<Array<WireRequestShipperAdvanceItemWireRequestIdFkeyWireRequestShipperAdvanceItemCreateInput>>;
+};
+
+/** The `wireRequest` to be created by this mutation. */
+export type WireRequestShipperAdvanceItemWireRequestIdFkeyWireRequestCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  bankId: Scalars['String'];
+  vendorId: Scalars['String'];
+  wireNumber?: Maybe<Scalars['String']>;
+  requestDate: Scalars['Date'];
+  wireDate: Scalars['Date'];
+  wireType: Scalars['String'];
+  approvalUserCode?: Maybe<Scalars['String']>;
+  approvalDate?: Maybe<Scalars['Date']>;
+  requestUserCode: Scalars['String'];
+  isVerified?: Maybe<Scalars['Boolean']>;
+  sentDate?: Maybe<Scalars['Date']>;
+  wireRequestOceanFreightItemsUsingId?: Maybe<WireRequestOceanFreightItemWireRequestIdFkeyInverseInput>;
+  wireRequestShipperAdvanceItemsUsingId?: Maybe<WireRequestShipperAdvanceItemWireRequestIdFkeyInverseInput>;
+  wireRequestAccountOfSaleItemsUsingId?: Maybe<WireRequestAccountOfSaleItemWireRequestIdFkeyInverseInput>;
+  wireRequestMiscItemsUsingId?: Maybe<WireRequestMiscItemWireRequestIdFkeyInverseInput>;
+};
+
+/** The `wireRequestShipperAdvanceItem` to be created by this mutation. */
+export type WireRequestShipperAdvanceItemWireRequestIdFkeyWireRequestShipperAdvanceItemCreateInput = {
+  id?: Maybe<Scalars['BigInt']>;
+  billOfLading: Scalars['String'];
+  vesselCode: Scalars['String'];
+  speciesId: Scalars['String'];
+  boxAmount: Scalars['BigFloat'];
+  wireRequestToWireRequestId?: Maybe<WireRequestShipperAdvanceItemWireRequestIdFkeyInput>;
+};
+
+/** The fields on `wireRequestShipperAdvanceItem` to look up the row to connect. */
+export type WireRequestShipperAdvanceItemWireRequestShipperAdvanceItemPkeyConnect = {
+  id: Scalars['BigInt'];
+};
+
+/** The fields on `wireRequestShipperAdvanceItem` to look up the row to delete. */
+export type WireRequestShipperAdvanceItemWireRequestShipperAdvanceItemPkeyDelete = {
+  id: Scalars['BigInt'];
+};
+
+/** A connection to a list of `WireRequestShipperAdvanceItem` values. */
+export type WireRequestShipperAdvanceItemsConnection = {
+  __typename?: 'WireRequestShipperAdvanceItemsConnection';
+  /** A list of `WireRequestShipperAdvanceItem` objects. */
+  nodes: Array<Maybe<WireRequestShipperAdvanceItem>>;
+  /** A list of edges which contains the `WireRequestShipperAdvanceItem` and cursor to aid in pagination. */
+  edges: Array<WireRequestShipperAdvanceItemsEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `WireRequestShipperAdvanceItem` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `WireRequestShipperAdvanceItem` edge in the connection. */
+export type WireRequestShipperAdvanceItemsEdge = {
+  __typename?: 'WireRequestShipperAdvanceItemsEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `WireRequestShipperAdvanceItem` at the end of the edge. */
+  node?: Maybe<WireRequestShipperAdvanceItem>;
+};
+
+/** Methods to use when ordering `WireRequestShipperAdvanceItem`. */
+export enum WireRequestShipperAdvanceItemsOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  WireRequestIdAsc = 'WIRE_REQUEST_ID_ASC',
+  WireRequestIdDesc = 'WIRE_REQUEST_ID_DESC',
+  BillOfLadingAsc = 'BILL_OF_LADING_ASC',
+  BillOfLadingDesc = 'BILL_OF_LADING_DESC',
+  VesselCodeAsc = 'VESSEL_CODE_ASC',
+  VesselCodeDesc = 'VESSEL_CODE_DESC',
+  SpeciesIdAsc = 'SPECIES_ID_ASC',
+  SpeciesIdDesc = 'SPECIES_ID_DESC',
+  BoxAmountAsc = 'BOX_AMOUNT_ASC',
+  BoxAmountDesc = 'BOX_AMOUNT_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  WireRequestByWireRequestIdIdAsc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__ID_ASC',
+  WireRequestByWireRequestIdIdDesc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__ID_DESC',
+  WireRequestByWireRequestIdBankIdAsc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__BANK_ID_ASC',
+  WireRequestByWireRequestIdBankIdDesc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__BANK_ID_DESC',
+  WireRequestByWireRequestIdVendorIdAsc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__VENDOR_ID_ASC',
+  WireRequestByWireRequestIdVendorIdDesc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__VENDOR_ID_DESC',
+  WireRequestByWireRequestIdWireNumberAsc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__WIRE_NUMBER_ASC',
+  WireRequestByWireRequestIdWireNumberDesc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__WIRE_NUMBER_DESC',
+  WireRequestByWireRequestIdRequestDateAsc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__REQUEST_DATE_ASC',
+  WireRequestByWireRequestIdRequestDateDesc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__REQUEST_DATE_DESC',
+  WireRequestByWireRequestIdWireDateAsc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__WIRE_DATE_ASC',
+  WireRequestByWireRequestIdWireDateDesc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__WIRE_DATE_DESC',
+  WireRequestByWireRequestIdWireTypeAsc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__WIRE_TYPE_ASC',
+  WireRequestByWireRequestIdWireTypeDesc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__WIRE_TYPE_DESC',
+  WireRequestByWireRequestIdApprovalUserCodeAsc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__APPROVAL_USER_CODE_ASC',
+  WireRequestByWireRequestIdApprovalUserCodeDesc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__APPROVAL_USER_CODE_DESC',
+  WireRequestByWireRequestIdApprovalDateAsc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__APPROVAL_DATE_ASC',
+  WireRequestByWireRequestIdApprovalDateDesc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__APPROVAL_DATE_DESC',
+  WireRequestByWireRequestIdRequestUserCodeAsc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__REQUEST_USER_CODE_ASC',
+  WireRequestByWireRequestIdRequestUserCodeDesc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__REQUEST_USER_CODE_DESC',
+  WireRequestByWireRequestIdIsVerifiedAsc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__IS_VERIFIED_ASC',
+  WireRequestByWireRequestIdIsVerifiedDesc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__IS_VERIFIED_DESC',
+  WireRequestByWireRequestIdSentDateAsc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__SENT_DATE_ASC',
+  WireRequestByWireRequestIdSentDateDesc = 'WIRE_REQUEST_BY_WIRE_REQUEST_ID__SENT_DATE_DESC'
+}
+
+/** A filter to be used against many `WireRequestAccountOfSaleItem` object types. All fields are combined with a logical ‘and.’ */
+export type WireRequestToManyWireRequestAccountOfSaleItemFilter = {
+  /** Every related `WireRequestAccountOfSaleItem` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<WireRequestAccountOfSaleItemFilter>;
+  /** Some related `WireRequestAccountOfSaleItem` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<WireRequestAccountOfSaleItemFilter>;
+  /** No related `WireRequestAccountOfSaleItem` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<WireRequestAccountOfSaleItemFilter>;
+};
+
+/** A filter to be used against many `WireRequestMiscItem` object types. All fields are combined with a logical ‘and.’ */
+export type WireRequestToManyWireRequestMiscItemFilter = {
+  /** Every related `WireRequestMiscItem` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<WireRequestMiscItemFilter>;
+  /** Some related `WireRequestMiscItem` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<WireRequestMiscItemFilter>;
+  /** No related `WireRequestMiscItem` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<WireRequestMiscItemFilter>;
+};
+
+/** A filter to be used against many `WireRequestOceanFreightItem` object types. All fields are combined with a logical ‘and.’ */
+export type WireRequestToManyWireRequestOceanFreightItemFilter = {
+  /** Every related `WireRequestOceanFreightItem` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<WireRequestOceanFreightItemFilter>;
+  /** Some related `WireRequestOceanFreightItem` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<WireRequestOceanFreightItemFilter>;
+  /** No related `WireRequestOceanFreightItem` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<WireRequestOceanFreightItemFilter>;
+};
+
+/** A filter to be used against many `WireRequestShipperAdvanceItem` object types. All fields are combined with a logical ‘and.’ */
+export type WireRequestToManyWireRequestShipperAdvanceItemFilter = {
+  /** Every related `WireRequestShipperAdvanceItem` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: Maybe<WireRequestShipperAdvanceItemFilter>;
+  /** Some related `WireRequestShipperAdvanceItem` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: Maybe<WireRequestShipperAdvanceItemFilter>;
+  /** No related `WireRequestShipperAdvanceItem` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: Maybe<WireRequestShipperAdvanceItemFilter>;
+};
+
+/** The fields on `wireRequest` to look up the row to connect. */
+export type WireRequestWireRequestPkeyConnect = {
+  id: Scalars['BigInt'];
+};
+
+/** The fields on `wireRequest` to look up the row to delete. */
+export type WireRequestWireRequestPkeyDelete = {
+  id: Scalars['BigInt'];
+};
+
+/** A connection to a list of `WireRequest` values. */
+export type WireRequestsConnection = {
+  __typename?: 'WireRequestsConnection';
+  /** A list of `WireRequest` objects. */
+  nodes: Array<Maybe<WireRequest>>;
+  /** A list of edges which contains the `WireRequest` and cursor to aid in pagination. */
+  edges: Array<WireRequestsEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `WireRequest` you could get from the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** A `WireRequest` edge in the connection. */
+export type WireRequestsEdge = {
+  __typename?: 'WireRequestsEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']>;
+  /** The `WireRequest` at the end of the edge. */
+  node?: Maybe<WireRequest>;
+};
+
+/** Methods to use when ordering `WireRequest`. */
+export enum WireRequestsOrderBy {
+  Natural = 'NATURAL',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  BankIdAsc = 'BANK_ID_ASC',
+  BankIdDesc = 'BANK_ID_DESC',
+  VendorIdAsc = 'VENDOR_ID_ASC',
+  VendorIdDesc = 'VENDOR_ID_DESC',
+  WireNumberAsc = 'WIRE_NUMBER_ASC',
+  WireNumberDesc = 'WIRE_NUMBER_DESC',
+  RequestDateAsc = 'REQUEST_DATE_ASC',
+  RequestDateDesc = 'REQUEST_DATE_DESC',
+  WireDateAsc = 'WIRE_DATE_ASC',
+  WireDateDesc = 'WIRE_DATE_DESC',
+  WireTypeAsc = 'WIRE_TYPE_ASC',
+  WireTypeDesc = 'WIRE_TYPE_DESC',
+  ApprovalUserCodeAsc = 'APPROVAL_USER_CODE_ASC',
+  ApprovalUserCodeDesc = 'APPROVAL_USER_CODE_DESC',
+  ApprovalDateAsc = 'APPROVAL_DATE_ASC',
+  ApprovalDateDesc = 'APPROVAL_DATE_DESC',
+  RequestUserCodeAsc = 'REQUEST_USER_CODE_ASC',
+  RequestUserCodeDesc = 'REQUEST_USER_CODE_DESC',
+  IsVerifiedAsc = 'IS_VERIFIED_ASC',
+  IsVerifiedDesc = 'IS_VERIFIED_DESC',
+  SentDateAsc = 'SENT_DATE_ASC',
+  SentDateDesc = 'SENT_DATE_DESC',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  WireRequestOceanFreightItemsByWireRequestIdCountAsc = 'WIRE_REQUEST_OCEAN_FREIGHT_ITEMS_BY_WIRE_REQUEST_ID__COUNT_ASC',
+  WireRequestOceanFreightItemsByWireRequestIdCountDesc = 'WIRE_REQUEST_OCEAN_FREIGHT_ITEMS_BY_WIRE_REQUEST_ID__COUNT_DESC',
+  WireRequestShipperAdvanceItemsByWireRequestIdCountAsc = 'WIRE_REQUEST_SHIPPER_ADVANCE_ITEMS_BY_WIRE_REQUEST_ID__COUNT_ASC',
+  WireRequestShipperAdvanceItemsByWireRequestIdCountDesc = 'WIRE_REQUEST_SHIPPER_ADVANCE_ITEMS_BY_WIRE_REQUEST_ID__COUNT_DESC',
+  WireRequestAccountOfSaleItemsByWireRequestIdCountAsc = 'WIRE_REQUEST_ACCOUNT_OF_SALE_ITEMS_BY_WIRE_REQUEST_ID__COUNT_ASC',
+  WireRequestAccountOfSaleItemsByWireRequestIdCountDesc = 'WIRE_REQUEST_ACCOUNT_OF_SALE_ITEMS_BY_WIRE_REQUEST_ID__COUNT_DESC',
+  WireRequestMiscItemsByWireRequestIdCountAsc = 'WIRE_REQUEST_MISC_ITEMS_BY_WIRE_REQUEST_ID__COUNT_ASC',
+  WireRequestMiscItemsByWireRequestIdCountDesc = 'WIRE_REQUEST_MISC_ITEMS_BY_WIRE_REQUEST_ID__COUNT_DESC'
 }
 
 /** An object where the defined keys will be set on the `commonCategory` being updated. */
@@ -75159,6 +79001,7 @@ export type UpdateProductSpeciesOnCommonSpeciesForCommonSpeciesProductSpeciesIdF
   defaultTemperature?: Maybe<Scalars['String']>;
   commonSpeciesUsingId?: Maybe<CommonSpeciesProductSpeciesIdFkeyInverseInput>;
   commonSpeciesProductSpeciesUsingId?: Maybe<CommonSpeciesProductSpeciesProductSpeciesIdFkeyInverseInput>;
+  shipperAdvancesUsingId?: Maybe<ShipperAdvanceSpeciesIdFkeyInverseInput>;
 };
 
 /** An object where the defined keys will be set on the `productSpecies` being updated. */
@@ -75171,6 +79014,20 @@ export type UpdateProductSpeciesOnCommonSpeciesProductSpeciesForCommonSpeciesPro
   defaultTemperature?: Maybe<Scalars['String']>;
   commonSpeciesUsingId?: Maybe<CommonSpeciesProductSpeciesIdFkeyInverseInput>;
   commonSpeciesProductSpeciesUsingId?: Maybe<CommonSpeciesProductSpeciesProductSpeciesIdFkeyInverseInput>;
+  shipperAdvancesUsingId?: Maybe<ShipperAdvanceSpeciesIdFkeyInverseInput>;
+};
+
+/** An object where the defined keys will be set on the `productSpecies` being updated. */
+export type UpdateProductSpeciesOnShipperAdvanceForShipperAdvanceSpeciesIdFkeyPatch = {
+  id?: Maybe<Scalars['String']>;
+  speciesDescription?: Maybe<Scalars['String']>;
+  secondaryDescription?: Maybe<Scalars['String']>;
+  fdaProductCode?: Maybe<Scalars['String']>;
+  fdaIndustryCode?: Maybe<Scalars['String']>;
+  defaultTemperature?: Maybe<Scalars['String']>;
+  commonSpeciesUsingId?: Maybe<CommonSpeciesProductSpeciesIdFkeyInverseInput>;
+  commonSpeciesProductSpeciesUsingId?: Maybe<CommonSpeciesProductSpeciesProductSpeciesIdFkeyInverseInput>;
+  shipperAdvancesUsingId?: Maybe<ShipperAdvanceSpeciesIdFkeyInverseInput>;
 };
 
 /** An object where the defined keys will be set on the `productVariety` being updated. */
@@ -75199,6 +79056,49 @@ export type UpdateProductVarietyOnCommonVarietyProductVarietyForCommonVarietyPro
   commonVarietyProductVarietiesUsingId?: Maybe<CommonVarietyProductVarietyProductVarietyIdFkeyInverseInput>;
 };
 
+/** An object where the defined keys will be set on the `shipperAdvance` being updated. */
+export type UpdateShipperAdvanceOnShipperAdvanceForShipperAdvanceShipperIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  advanceAmount?: Maybe<Scalars['BigFloat']>;
+  speciesId?: Maybe<Scalars['String']>;
+  productSpeciesToSpeciesId?: Maybe<ShipperAdvanceSpeciesIdFkeyInput>;
+  shipperToShipperId?: Maybe<ShipperAdvanceShipperIdFkeyInput>;
+};
+
+/** An object where the defined keys will be set on the `shipperAdvance` being updated. */
+export type UpdateShipperAdvanceOnShipperAdvanceForShipperAdvanceSpeciesIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  advanceAmount?: Maybe<Scalars['BigFloat']>;
+  shipperId?: Maybe<Scalars['String']>;
+  productSpeciesToSpeciesId?: Maybe<ShipperAdvanceSpeciesIdFkeyInput>;
+  shipperToShipperId?: Maybe<ShipperAdvanceShipperIdFkeyInput>;
+};
+
+/** An object where the defined keys will be set on the `shipper` being updated. */
+export type UpdateShipperOnShipperAdvanceForShipperAdvanceShipperIdFkeyPatch = {
+  id?: Maybe<Scalars['String']>;
+  shipperName?: Maybe<Scalars['String']>;
+  countryId?: Maybe<Scalars['String']>;
+  groupId?: Maybe<Scalars['String']>;
+  logoSrc?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
+  sendProjectionRequest?: Maybe<Scalars['Boolean']>;
+  projectionRequestStartDate?: Maybe<Scalars['Date']>;
+  projectionRequestEndDate?: Maybe<Scalars['Date']>;
+  vesselControlDaysUntilDue?: Maybe<Scalars['BigFloat']>;
+  psaShipperId?: Maybe<Scalars['String']>;
+  commissionRate?: Maybe<Scalars['BigFloat']>;
+  countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
+  shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
+  shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
+  shipperProjectionsUsingId?: Maybe<ShipperProjectionShipperIdFkeyInverseInput>;
+  shipperPersonContactsUsingId?: Maybe<ShipperPersonContactShipperIdFkeyInverseInput>;
+  shipperProjectionVesselInfosUsingId?: Maybe<FkShipperIdInverseInput>;
+  shipperProgramsUsingId?: Maybe<ShipperProgramShipperIdFkeyInverseInput>;
+  shipperAdvancesUsingId?: Maybe<ShipperAdvanceShipperIdFkeyInverseInput>;
+};
+
 /** An object where the defined keys will be set on the `shipper` being updated. */
 export type UpdateShipperOnShipperForShipperCountryIdFkeyPatch = {
   id?: Maybe<Scalars['String']>;
@@ -75212,6 +79112,7 @@ export type UpdateShipperOnShipperForShipperCountryIdFkeyPatch = {
   projectionRequestEndDate?: Maybe<Scalars['Date']>;
   vesselControlDaysUntilDue?: Maybe<Scalars['BigFloat']>;
   psaShipperId?: Maybe<Scalars['String']>;
+  commissionRate?: Maybe<Scalars['BigFloat']>;
   countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
   shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
@@ -75219,6 +79120,7 @@ export type UpdateShipperOnShipperForShipperCountryIdFkeyPatch = {
   shipperPersonContactsUsingId?: Maybe<ShipperPersonContactShipperIdFkeyInverseInput>;
   shipperProjectionVesselInfosUsingId?: Maybe<FkShipperIdInverseInput>;
   shipperProgramsUsingId?: Maybe<ShipperProgramShipperIdFkeyInverseInput>;
+  shipperAdvancesUsingId?: Maybe<ShipperAdvanceShipperIdFkeyInverseInput>;
 };
 
 /** An object where the defined keys will be set on the `shipper` being updated. */
@@ -75235,6 +79137,7 @@ export type UpdateShipperOnShipperPersonContactForShipperPersonContactShipperIdF
   projectionRequestEndDate?: Maybe<Scalars['Date']>;
   vesselControlDaysUntilDue?: Maybe<Scalars['BigFloat']>;
   psaShipperId?: Maybe<Scalars['String']>;
+  commissionRate?: Maybe<Scalars['BigFloat']>;
   countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
   shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
@@ -75242,6 +79145,7 @@ export type UpdateShipperOnShipperPersonContactForShipperPersonContactShipperIdF
   shipperPersonContactsUsingId?: Maybe<ShipperPersonContactShipperIdFkeyInverseInput>;
   shipperProjectionVesselInfosUsingId?: Maybe<FkShipperIdInverseInput>;
   shipperProgramsUsingId?: Maybe<ShipperProgramShipperIdFkeyInverseInput>;
+  shipperAdvancesUsingId?: Maybe<ShipperAdvanceShipperIdFkeyInverseInput>;
 };
 
 /** An object where the defined keys will be set on the `shipper` being updated. */
@@ -75258,6 +79162,7 @@ export type UpdateShipperOnShipperProgramForShipperProgramShipperIdFkeyPatch = {
   projectionRequestEndDate?: Maybe<Scalars['Date']>;
   vesselControlDaysUntilDue?: Maybe<Scalars['BigFloat']>;
   psaShipperId?: Maybe<Scalars['String']>;
+  commissionRate?: Maybe<Scalars['BigFloat']>;
   countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
   shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
@@ -75265,6 +79170,7 @@ export type UpdateShipperOnShipperProgramForShipperProgramShipperIdFkeyPatch = {
   shipperPersonContactsUsingId?: Maybe<ShipperPersonContactShipperIdFkeyInverseInput>;
   shipperProjectionVesselInfosUsingId?: Maybe<FkShipperIdInverseInput>;
   shipperProgramsUsingId?: Maybe<ShipperProgramShipperIdFkeyInverseInput>;
+  shipperAdvancesUsingId?: Maybe<ShipperAdvanceShipperIdFkeyInverseInput>;
 };
 
 /** An object where the defined keys will be set on the `shipper` being updated. */
@@ -75281,6 +79187,7 @@ export type UpdateShipperOnShipperProjectionForShipperProjectionShipperIdFkeyPat
   projectionRequestEndDate?: Maybe<Scalars['Date']>;
   vesselControlDaysUntilDue?: Maybe<Scalars['BigFloat']>;
   psaShipperId?: Maybe<Scalars['String']>;
+  commissionRate?: Maybe<Scalars['BigFloat']>;
   countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
   shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
@@ -75288,6 +79195,7 @@ export type UpdateShipperOnShipperProjectionForShipperProjectionShipperIdFkeyPat
   shipperPersonContactsUsingId?: Maybe<ShipperPersonContactShipperIdFkeyInverseInput>;
   shipperProjectionVesselInfosUsingId?: Maybe<FkShipperIdInverseInput>;
   shipperProgramsUsingId?: Maybe<ShipperProgramShipperIdFkeyInverseInput>;
+  shipperAdvancesUsingId?: Maybe<ShipperAdvanceShipperIdFkeyInverseInput>;
 };
 
 /** An object where the defined keys will be set on the `shipper` being updated. */
@@ -75304,6 +79212,7 @@ export type UpdateShipperOnShipperProjectionProductForShipperProjectionProductSh
   projectionRequestEndDate?: Maybe<Scalars['Date']>;
   vesselControlDaysUntilDue?: Maybe<Scalars['BigFloat']>;
   psaShipperId?: Maybe<Scalars['String']>;
+  commissionRate?: Maybe<Scalars['BigFloat']>;
   countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
   shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
@@ -75311,6 +79220,7 @@ export type UpdateShipperOnShipperProjectionProductForShipperProjectionProductSh
   shipperPersonContactsUsingId?: Maybe<ShipperPersonContactShipperIdFkeyInverseInput>;
   shipperProjectionVesselInfosUsingId?: Maybe<FkShipperIdInverseInput>;
   shipperProgramsUsingId?: Maybe<ShipperProgramShipperIdFkeyInverseInput>;
+  shipperAdvancesUsingId?: Maybe<ShipperAdvanceShipperIdFkeyInverseInput>;
 };
 
 /** An object where the defined keys will be set on the `shipper` being updated. */
@@ -75327,6 +79237,7 @@ export type UpdateShipperOnShipperProjectionVesselForShipperProjectionVesselShip
   projectionRequestEndDate?: Maybe<Scalars['Date']>;
   vesselControlDaysUntilDue?: Maybe<Scalars['BigFloat']>;
   psaShipperId?: Maybe<Scalars['String']>;
+  commissionRate?: Maybe<Scalars['BigFloat']>;
   countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
   shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
@@ -75334,6 +79245,7 @@ export type UpdateShipperOnShipperProjectionVesselForShipperProjectionVesselShip
   shipperPersonContactsUsingId?: Maybe<ShipperPersonContactShipperIdFkeyInverseInput>;
   shipperProjectionVesselInfosUsingId?: Maybe<FkShipperIdInverseInput>;
   shipperProgramsUsingId?: Maybe<ShipperProgramShipperIdFkeyInverseInput>;
+  shipperAdvancesUsingId?: Maybe<ShipperAdvanceShipperIdFkeyInverseInput>;
 };
 
 /** An object where the defined keys will be set on the `shipper` being updated. */
@@ -75350,6 +79262,7 @@ export type UpdateShipperOnShipperProjectionVesselInfoForFkShipperIdPatch = {
   projectionRequestEndDate?: Maybe<Scalars['Date']>;
   vesselControlDaysUntilDue?: Maybe<Scalars['BigFloat']>;
   psaShipperId?: Maybe<Scalars['String']>;
+  commissionRate?: Maybe<Scalars['BigFloat']>;
   countryToCountryId?: Maybe<ShipperCountryIdFkeyInput>;
   shipperProjectionVesselsUsingId?: Maybe<ShipperProjectionVesselShipperIdFkeyInverseInput>;
   shipperProjectionProductsUsingId?: Maybe<ShipperProjectionProductShipperIdFkeyInverseInput>;
@@ -75357,6 +79270,7 @@ export type UpdateShipperOnShipperProjectionVesselInfoForFkShipperIdPatch = {
   shipperPersonContactsUsingId?: Maybe<ShipperPersonContactShipperIdFkeyInverseInput>;
   shipperProjectionVesselInfosUsingId?: Maybe<FkShipperIdInverseInput>;
   shipperProgramsUsingId?: Maybe<ShipperProgramShipperIdFkeyInverseInput>;
+  shipperAdvancesUsingId?: Maybe<ShipperAdvanceShipperIdFkeyInverseInput>;
 };
 
 /** An object where the defined keys will be set on the `shipperPersonContact` being updated. */
@@ -76119,4 +80033,122 @@ export type UpdateWarehousePersonContactOnWarehousePersonContactForWarehousePers
   personContactId?: Maybe<Scalars['BigInt']>;
   warehouseToWarehouseId?: Maybe<WarehousePersonContactWarehouseIdFkeyInput>;
   personContactToPersonContactId?: Maybe<WarehousePersonContactPersonContactIdFkeyInput>;
+};
+
+/** An object where the defined keys will be set on the `wireRequestAccountOfSaleItem` being updated. */
+export type UpdateWireRequestAccountOfSaleItemOnWireRequestAccountOfSaleItemForWireRequestAccountOfSaleItemWireRequestIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  billOfLading?: Maybe<Scalars['String']>;
+  vesselCode?: Maybe<Scalars['String']>;
+  wireRequestToWireRequestId?: Maybe<WireRequestAccountOfSaleItemWireRequestIdFkeyInput>;
+};
+
+/** An object where the defined keys will be set on the `wireRequestMiscItem` being updated. */
+export type UpdateWireRequestMiscItemOnWireRequestMiscItemForWireRequestMiscItemWireRequestIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  itemDescription?: Maybe<Scalars['String']>;
+  itemAmount?: Maybe<Scalars['BigFloat']>;
+  wireRequestToWireRequestId?: Maybe<WireRequestMiscItemWireRequestIdFkeyInput>;
+};
+
+/** An object where the defined keys will be set on the `wireRequestOceanFreightItem` being updated. */
+export type UpdateWireRequestOceanFreightItemOnWireRequestOceanFreightItemForWireRequestOceanFreightItemWireRequestIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  billOfLading?: Maybe<Scalars['String']>;
+  vesselCode?: Maybe<Scalars['String']>;
+  shipperId?: Maybe<Scalars['String']>;
+  palletCount?: Maybe<Scalars['BigFloat']>;
+  freightAmount?: Maybe<Scalars['BigFloat']>;
+  receivedDate?: Maybe<Scalars['Date']>;
+  wireRequestToWireRequestId?: Maybe<WireRequestOceanFreightItemWireRequestIdFkeyInput>;
+};
+
+/** An object where the defined keys will be set on the `wireRequest` being updated. */
+export type UpdateWireRequestOnWireRequestAccountOfSaleItemForWireRequestAccountOfSaleItemWireRequestIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  bankId?: Maybe<Scalars['String']>;
+  vendorId?: Maybe<Scalars['String']>;
+  wireNumber?: Maybe<Scalars['String']>;
+  requestDate?: Maybe<Scalars['Date']>;
+  wireDate?: Maybe<Scalars['Date']>;
+  wireType?: Maybe<Scalars['String']>;
+  approvalUserCode?: Maybe<Scalars['String']>;
+  approvalDate?: Maybe<Scalars['Date']>;
+  requestUserCode?: Maybe<Scalars['String']>;
+  isVerified?: Maybe<Scalars['Boolean']>;
+  sentDate?: Maybe<Scalars['Date']>;
+  wireRequestOceanFreightItemsUsingId?: Maybe<WireRequestOceanFreightItemWireRequestIdFkeyInverseInput>;
+  wireRequestShipperAdvanceItemsUsingId?: Maybe<WireRequestShipperAdvanceItemWireRequestIdFkeyInverseInput>;
+  wireRequestAccountOfSaleItemsUsingId?: Maybe<WireRequestAccountOfSaleItemWireRequestIdFkeyInverseInput>;
+  wireRequestMiscItemsUsingId?: Maybe<WireRequestMiscItemWireRequestIdFkeyInverseInput>;
+};
+
+/** An object where the defined keys will be set on the `wireRequest` being updated. */
+export type UpdateWireRequestOnWireRequestMiscItemForWireRequestMiscItemWireRequestIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  bankId?: Maybe<Scalars['String']>;
+  vendorId?: Maybe<Scalars['String']>;
+  wireNumber?: Maybe<Scalars['String']>;
+  requestDate?: Maybe<Scalars['Date']>;
+  wireDate?: Maybe<Scalars['Date']>;
+  wireType?: Maybe<Scalars['String']>;
+  approvalUserCode?: Maybe<Scalars['String']>;
+  approvalDate?: Maybe<Scalars['Date']>;
+  requestUserCode?: Maybe<Scalars['String']>;
+  isVerified?: Maybe<Scalars['Boolean']>;
+  sentDate?: Maybe<Scalars['Date']>;
+  wireRequestOceanFreightItemsUsingId?: Maybe<WireRequestOceanFreightItemWireRequestIdFkeyInverseInput>;
+  wireRequestShipperAdvanceItemsUsingId?: Maybe<WireRequestShipperAdvanceItemWireRequestIdFkeyInverseInput>;
+  wireRequestAccountOfSaleItemsUsingId?: Maybe<WireRequestAccountOfSaleItemWireRequestIdFkeyInverseInput>;
+  wireRequestMiscItemsUsingId?: Maybe<WireRequestMiscItemWireRequestIdFkeyInverseInput>;
+};
+
+/** An object where the defined keys will be set on the `wireRequest` being updated. */
+export type UpdateWireRequestOnWireRequestOceanFreightItemForWireRequestOceanFreightItemWireRequestIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  bankId?: Maybe<Scalars['String']>;
+  vendorId?: Maybe<Scalars['String']>;
+  wireNumber?: Maybe<Scalars['String']>;
+  requestDate?: Maybe<Scalars['Date']>;
+  wireDate?: Maybe<Scalars['Date']>;
+  wireType?: Maybe<Scalars['String']>;
+  approvalUserCode?: Maybe<Scalars['String']>;
+  approvalDate?: Maybe<Scalars['Date']>;
+  requestUserCode?: Maybe<Scalars['String']>;
+  isVerified?: Maybe<Scalars['Boolean']>;
+  sentDate?: Maybe<Scalars['Date']>;
+  wireRequestOceanFreightItemsUsingId?: Maybe<WireRequestOceanFreightItemWireRequestIdFkeyInverseInput>;
+  wireRequestShipperAdvanceItemsUsingId?: Maybe<WireRequestShipperAdvanceItemWireRequestIdFkeyInverseInput>;
+  wireRequestAccountOfSaleItemsUsingId?: Maybe<WireRequestAccountOfSaleItemWireRequestIdFkeyInverseInput>;
+  wireRequestMiscItemsUsingId?: Maybe<WireRequestMiscItemWireRequestIdFkeyInverseInput>;
+};
+
+/** An object where the defined keys will be set on the `wireRequest` being updated. */
+export type UpdateWireRequestOnWireRequestShipperAdvanceItemForWireRequestShipperAdvanceItemWireRequestIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  bankId?: Maybe<Scalars['String']>;
+  vendorId?: Maybe<Scalars['String']>;
+  wireNumber?: Maybe<Scalars['String']>;
+  requestDate?: Maybe<Scalars['Date']>;
+  wireDate?: Maybe<Scalars['Date']>;
+  wireType?: Maybe<Scalars['String']>;
+  approvalUserCode?: Maybe<Scalars['String']>;
+  approvalDate?: Maybe<Scalars['Date']>;
+  requestUserCode?: Maybe<Scalars['String']>;
+  isVerified?: Maybe<Scalars['Boolean']>;
+  sentDate?: Maybe<Scalars['Date']>;
+  wireRequestOceanFreightItemsUsingId?: Maybe<WireRequestOceanFreightItemWireRequestIdFkeyInverseInput>;
+  wireRequestShipperAdvanceItemsUsingId?: Maybe<WireRequestShipperAdvanceItemWireRequestIdFkeyInverseInput>;
+  wireRequestAccountOfSaleItemsUsingId?: Maybe<WireRequestAccountOfSaleItemWireRequestIdFkeyInverseInput>;
+  wireRequestMiscItemsUsingId?: Maybe<WireRequestMiscItemWireRequestIdFkeyInverseInput>;
+};
+
+/** An object where the defined keys will be set on the `wireRequestShipperAdvanceItem` being updated. */
+export type UpdateWireRequestShipperAdvanceItemOnWireRequestShipperAdvanceItemForWireRequestShipperAdvanceItemWireRequestIdFkeyPatch = {
+  id?: Maybe<Scalars['BigInt']>;
+  billOfLading?: Maybe<Scalars['String']>;
+  vesselCode?: Maybe<Scalars['String']>;
+  speciesId?: Maybe<Scalars['String']>;
+  boxAmount?: Maybe<Scalars['BigFloat']>;
+  wireRequestToWireRequestId?: Maybe<WireRequestShipperAdvanceItemWireRequestIdFkeyInput>;
 };

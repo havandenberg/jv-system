@@ -1,6 +1,7 @@
 const ibmdb = require('ibm_db');
 const { onError } = require('../utils');
 const db2UpdateItems = require('./update-items');
+const checkHeaderOptions = require('./accounting/check-header');
 const customerPaymentOptions = require('./accounting/customer-payment');
 const expenseHeaderOptions = require('./accounting/expense/header');
 const expenseItemOptions = require('./accounting/expense/item');
@@ -31,6 +32,8 @@ const repackStyleOptions = require('./product/repack-style');
 
 const db2RunQuery = (tableName, db) => {
   switch (tableName) {
+    case 'accounting/check-header':
+      return db2UpdateItems(db, checkHeaderOptions);
     case 'accounting/customer-payment':
       return db2UpdateItems(db, customerPaymentOptions);
     case 'accounting/invoice/header':

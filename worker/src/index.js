@@ -144,4 +144,6 @@ if (process.env.REACT_APP_IS_PRODUCTION === 'true') {
   cron.schedule('0 23 * * *', () =>
     db2UpdateTable('directory/customer/volume-discount'),
   );
+
+  cron.schedule('10 1 * * *', () => db2UpdateTable('accounting/check-header'));
 }

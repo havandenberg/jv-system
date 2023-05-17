@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from '@emotion/styled';
 
-import { navItems } from 'components/nav';
+import { getNavItems } from 'components/nav';
+import { useActiveUser } from 'components/user/context';
 import l from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
@@ -41,54 +42,67 @@ const SecondaryItemWrapper = styled(l.Flex)({
   },
 });
 
-const DashboardNav = () => (
-  <l.Grid
-    gridGap={th.spacing.lg}
-    gridTemplateColumns="repeat(5, 1fr)"
-    justifyBetween
-    width={th.sizes.fill}
-  >
-    {navItems.map((it, idx) => (
-      <l.Div key={idx} relative>
-        <l.AreaLink to={it.to}>
-          <ItemWrapper>
-            <ty.LargeText
-              className="title"
-              color={th.colors.brand.primary}
-              my={th.sizes.md}
-            >
-              {it.text}
-            </ty.LargeText>
-            {it.dashboardItems && (
-              <div>
-                {it.dashboardItems
-                  .filter((item) => !IS_PRODUCTION || !item.isDev)
-                  .map((i, idx) => {
-                    const pathname = `${it.baseUrl || it.to}/${i.to}`;
-                    return (
-                      !i.disabled && (
-                        <l.Div mb={th.spacing.sm}>
-                          <l.AreaLink key={idx} to={pathname}>
-                            <SecondaryItemWrapper>
-                              <ty.BodyText
-                                center
-                                color={th.colors.brand.secondary}
-                              >
-                                {i.text}
-                              </ty.BodyText>
-                            </SecondaryItemWrapper>
-                          </l.AreaLink>
-                        </l.Div>
-                      )
-                    );
-                  })}
-              </div>
-            )}
-          </ItemWrapper>
-        </l.AreaLink>
-      </l.Div>
-    ))}
-  </l.Grid>
-);
+const DashboardNav = () => {
+  const { roles } = useActiveUser();
+
+  const navItems = getNavItems(Object.keys(roles));
+
+  return (
+    <l.Grid
+      gridGap={th.spacing.lg}
+      gridTemplateColumns="repeat(5, 1fr)"
+      justifyBetween
+      width={th.sizes.fill}
+    >
+      {navItems.map(
+        (it, idx) =>
+          it.visible !== false && (
+            <l.Div key={idx} relative>
+              <l.AreaLink to={it.to}>
+                <ItemWrapper>
+                  <ty.LargeText
+                    className="title"
+                    color={th.colors.brand.primary}
+                    my={th.sizes.md}
+                  >
+                    {it.text}
+                  </ty.LargeText>
+                  {it.dashboardItems && (
+                    <div>
+                      {it.dashboardItems
+                        .filter(
+                          (item) =>
+                            (!IS_PRODUCTION || !item.isDev) &&
+                            item.visible !== false,
+                        )
+                        .map((i, idx) => {
+                          const pathname = `${it.baseUrl || it.to}/${i.to}`;
+                          return (
+                            !i.disabled && (
+                              <l.Div mb={th.spacing.sm}>
+                                <l.AreaLink key={idx} to={pathname}>
+                                  <SecondaryItemWrapper>
+                                    <ty.BodyText
+                                      center
+                                      color={th.colors.brand.secondary}
+                                    >
+                                      {i.text}
+                                    </ty.BodyText>
+                                  </SecondaryItemWrapper>
+                                </l.AreaLink>
+                              </l.Div>
+                            )
+                          );
+                        })}
+                    </div>
+                  )}
+                </ItemWrapper>
+              </l.AreaLink>
+            </l.Div>
+          ),
+      )}
+    </l.Grid>
+  );
+};
 
 export default DashboardNav;

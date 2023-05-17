@@ -1,0 +1,5 @@
+mutation WIRE_REQUEST_DELETE($id: BigInt!) {
+  deleteWireRequest(input: { id: $id }) {
+    clientMutationId
+  }
+}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import api from 'api';
@@ -7,14 +7,19 @@ import Page from 'components/page';
 import { DataMessage } from 'components/page/message';
 import { Tab, useTabBar } from 'components/tab-bar';
 import useUpdateItem from 'hooks/use-update-item';
-import { PersonContact, Shipper } from 'types';
+import { PersonContact, ProductSpecies, Shipper, ShipperAdvance } from 'types';
 import b from 'ui/button';
 import l from 'ui/layout';
 import th from 'ui/theme';
 
 import ContactList from '../contacts/list';
 import { useDirectorySelectionContext } from '../selection-context';
-import { baseLabels } from './data-utils';
+import {
+  baseLabels,
+  transformChangesOnUpdate,
+  validationLabels,
+} from './data-utils';
+import ShipperAdvanceList from './advances/list';
 
 export const shipperBreadcrumbs = (id: string) => [
   {
@@ -29,6 +34,10 @@ const tabs: Tab[] = [
     id: 'contacts',
     text: 'Contacts',
   },
+  {
+    id: 'advances',
+    text: 'Advance Rates',
+  },
 ];
 
 const Details = () => {
@@ -39,8 +48,17 @@ const Details = () => {
   const personContacts = data
     ? data.personContactsByShipperPersonContactShipperIdAndPersonContactId.nodes
     : [];
+  const advances = (data ? data.shipperAdvances.nodes : []) as ShipperAdvance[];
 
-  const { TabBar } = useTabBar({ tabs });
+  const { data: productSpeciesData } = api.useProductSpeciesList();
+  const speciesList = (productSpeciesData?.nodes || []) as ProductSpecies[];
+
+  const { TabBar, selectedTabId } = useTabBar({
+    tabs,
+    isRoute: false,
+    paramName: 'shipperView',
+  });
+  const isContacts = selectedTabId === 'contacts';
 
   const [handleUpdate] = api.useUpdateShipper(id);
 
@@ -51,15 +69,21 @@ const Details = () => {
     'psaShipperId',
     'website',
     'vesselControlDaysUntilDue',
+    'commissionRate',
   ];
   const updateVariables = { id };
 
-  const { changes, editing, handleChange, getUpdateActions } =
+  const [newItemNextId, setNewItemNextId] = useState(-1);
+
+  const { changes, editing, handleChange, getUpdateActions, saveAttempt } =
     useUpdateItem<Shipper>({
       data: data as Shipper,
       handleUpdate,
+      transformChangesOnUpdate: (changes) =>
+        transformChangesOnUpdate(changes as Shipper, advances),
       updateFields,
       updateVariables,
+      validationLabels: validationLabels(speciesList),
     });
 
   const [
@@ -72,6 +96,43 @@ const Details = () => {
   ] = useDirectorySelectionContext();
 
   const selectedShipper = selectedItems.shippers.find((c) => c.id === id);
+
+  const handleAddAdvance = () => {
+    const updatedItems = [
+      ...changes.shipperAdvances.nodes,
+      {
+        id: newItemNextId,
+        speciesId: '',
+        advanceAmount: '0',
+      },
+    ];
+    handleChange('shipperAdvances', {
+      ...changes?.shipperAdvances,
+      nodes: updatedItems,
+    });
+
+    setNewItemNextId(newItemNextId - 1);
+  };
+
+  const handleChangeAdvance = (updatedItem: ShipperAdvance) => {
+    const updatedItems = changes.shipperAdvances.nodes.map((item) =>
+      item?.id === updatedItem.id ? updatedItem : item,
+    );
+    handleChange('shipperAdvances', {
+      ...changes.shipperAdvances,
+      nodes: updatedItems,
+    });
+  };
+
+  const handleRemoveAdvance = (itemId: number) => {
+    const updatedItems = changes.shipperAdvances.nodes.filter(
+      (item) => item?.id !== itemId,
+    );
+    handleChange('shipperAdvances', {
+      ...changes.shipperAdvances,
+      nodes: updatedItems,
+    });
+  };
 
   return (
     <Page
@@ -130,22 +191,40 @@ const Details = () => {
           />
           <l.Flex alignCenter justifyBetween my={th.spacing.lg}>
             <TabBar />
-            <l.AreaLink
-              key={1}
-              ml={th.spacing.md}
-              to={`/directory/create?shipperId=${data.id}`}
-            >
-              <b.Success>Create</b.Success>
-            </l.AreaLink>
+            {isContacts && !editing ? (
+              <l.AreaLink
+                key={1}
+                ml={th.spacing.md}
+                to={`/directory/create?shipperId=${data.id}`}
+              >
+                <b.Success>Create</b.Success>
+              </l.AreaLink>
+            ) : (
+              <div />
+            )}
           </l.Flex>
-          <ContactList
-            baseUrl={`${id}`}
-            personContacts={personContacts as PersonContact[]}
-            selectedItem={selectedShipper}
-            selectContact={selectShipperPersonContact(data)}
-            toggleAllContacts={() => toggleAllShipperPersonContacts(data)}
-            isAllContactsSelected={isAllShipperPersonContactsSelected(data)}
-          />
+          {isContacts ? (
+            <ContactList
+              baseUrl={`${id}`}
+              personContacts={personContacts as PersonContact[]}
+              selectedItem={selectedShipper}
+              selectContact={selectShipperPersonContact(data)}
+              toggleAllContacts={() => toggleAllShipperPersonContacts(data)}
+              isAllContactsSelected={isAllShipperPersonContactsSelected(data)}
+            />
+          ) : (
+            <ShipperAdvanceList
+              advances={
+                (changes?.shipperAdvances.nodes || []) as ShipperAdvance[]
+              }
+              editing={editing}
+              handleAdd={handleAddAdvance}
+              handleChange={handleChangeAdvance}
+              handleRemove={handleRemoveAdvance}
+              saveAttempt={saveAttempt}
+              speciesList={speciesList}
+            />
+          )}
         </l.Div>
       ) : (
         <DataMessage data={data || []} error={error} loading={loading} />

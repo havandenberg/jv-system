@@ -1,9 +1,12 @@
 import { setup } from 'axios-cache-adapter';
 
+import * as checkHeaders from 'api/accounting/checks';
 import * as expenses from 'api/accounting/expenses';
 import * as invoices from 'api/accounting/invoices';
 import * as unpaids from 'api/accounting/unpaids';
-import * as vesselControls from 'api/accounting/vessel-control';
+import * as vesselControl from 'api/accounting/vessel-control';
+import * as wireControl from 'api/accounting/wire-control';
+import * as wireRequests from 'api/accounting/wire-requests';
 import * as groupDirectory from 'api/directory/group';
 import * as countryDirectory from 'api/directory/country';
 import * as customerDirectory from 'api/directory/customer';
@@ -46,6 +49,7 @@ export default {
   client: api,
   ...agenda,
   ...calendar,
+  ...checkHeaders,
   ...chileDepartureInspections,
   ...contactDirectory,
   ...containers,
@@ -72,7 +76,9 @@ export default {
   ...unpaids,
   ...user,
   ...vessels,
-  ...vesselControls,
+  ...vesselControl,
   ...vendorDirectory,
   ...warehouseDirectory,
+  ...wireControl,
+  ...wireRequests,
 };

@@ -12,7 +12,8 @@ CREATE TABLE directory.shipper (
 	projection_request_start_date DATE,
 	projection_request_end_date DATE,
   vessel_control_days_until_due NUMERIC,
-  psa_shipper_id TEXT
+  psa_shipper_id TEXT,
+  commission_rate NUMERIC
 );
 
 CREATE TABLE directory.shipper_person_contact (

@@ -38,6 +38,7 @@ export interface NavItemProps {
   text: string;
   to: string;
   search?: string;
+  visible?: boolean;
 }
 
 const NavItem = ({
@@ -48,20 +49,22 @@ const NavItem = ({
   setHover,
   text,
   to,
-}: NavItemProps) => (
-  <l.AreaLink to={disabled ? '#' : `${to}${search || ''}`}>
-    <Button
-      active={active}
-      cursor={disabled ? 'default' : 'pointer'}
-      disabled={disabled}
-      hover={hover}
-      onMouseEnter={() => setHover && setHover(to)}
-    >
-      <ty.DisplayText inverted fontSize={th.fontSizes.body}>
-        {text}
-      </ty.DisplayText>
-    </Button>
-  </l.AreaLink>
-);
+  visible = true,
+}: NavItemProps) =>
+  visible ? (
+    <l.AreaLink to={disabled ? '#' : `${to}${search || ''}`}>
+      <Button
+        active={active}
+        cursor={disabled ? 'default' : 'pointer'}
+        disabled={disabled}
+        hover={hover}
+        onMouseEnter={() => setHover && setHover(to)}
+      >
+        <ty.DisplayText inverted fontSize={th.fontSizes.body}>
+          {text}
+        </ty.DisplayText>
+      </Button>
+    </l.AreaLink>
+  ) : null;
 
 export default NavItem;

@@ -48,6 +48,26 @@ query VESSEL_DETAILS($vesselCode: String!, $isPre: Boolean!) {
           }
           id
           pallets {
+            nodes {
+              id
+              billOfLading
+              palletId
+              currentBoxQuantity
+              receivedBoxQuantity
+              returnedBoxQuantity
+              invoiceItems {
+                nodes {
+                  conditionCode
+                  creditAmount
+                  creditedQty
+                  deliveryCharge
+                  palletId
+                  pickedQty
+                  unitSellPrice
+                  volumeDiscountAmount
+                }
+              }
+            }
             totalCount
           }
           palletsAvailable

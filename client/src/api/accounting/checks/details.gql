@@ -1,0 +1,23 @@
+query CHECK_DETAILS($checkNumber: String!) {
+  checkHeaders(condition: { checkNumber: $checkNumber }) {
+    nodes {
+      id
+      checkAmount
+      checkDate
+      checkNumber
+      checkStatus
+      isReconciled
+      isVoid
+      vendor {
+        id
+        vendorName
+      }
+      bankId
+      discountAmount
+      entryDate
+      invoiceAmount
+      invoiceId
+      remitToCode
+    }
+  }
+}

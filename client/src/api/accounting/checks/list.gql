@@ -1,0 +1,32 @@
+query CHECK_LIST(
+  $search: [CheckHeaderFilter!]
+  $orderBy: [CheckHeadersOrderBy!]
+  $endDate: Date
+  $startDate: Date
+) {
+  checkHeaders(
+    filter: {
+      and: $search
+      checkDate: {
+        greaterThanOrEqualTo: $startDate
+        lessThanOrEqualTo: $endDate
+      }
+    }
+    orderBy: $orderBy
+  ) {
+    nodes {
+      id
+      checkAmount
+      checkDate
+      checkNumber
+      checkStatus
+      isReconciled
+      isVoid
+      vendor {
+        id
+        vendorName
+      }
+    }
+    totalCount
+  }
+}

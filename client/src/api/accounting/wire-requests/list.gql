@@ -1,0 +1,41 @@
+query WIRE_REQUEST_LIST(
+  $search: [WireRequestFilter!]
+  $orderBy: [WireRequestsOrderBy!]
+  $endDate: Date
+  $startDate: Date
+) {
+  wireRequests(
+    filter: {
+      and: $search
+      wireDate: {
+        greaterThanOrEqualTo: $startDate
+        lessThanOrEqualTo: $endDate
+      }
+    }
+    orderBy: $orderBy
+  ) {
+    nodes {
+      id
+      approvalDate
+      approvalUser {
+        id
+        personContact {
+          id
+          firstName
+          lastName
+        }
+        userCode
+      }
+      bankId
+      requestDate
+      wireNumber
+      wireType
+      vendor {
+        id
+        vendorName
+      }
+      wireDate
+    }
+    totalCount
+  }
+}

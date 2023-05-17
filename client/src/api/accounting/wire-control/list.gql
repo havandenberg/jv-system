@@ -1,0 +1,28 @@
+query WIRE_CONTROL_LIST($vesselControlFilter: VesselControlFilter) {
+  vesselControls(filter: $vesselControlFilter) {
+    nodes {
+      id
+      isLiquidated
+      shipper {
+        id
+        commissionRate
+        shipperName
+      }
+      vessel {
+        id
+        arrivalDate
+        dischargeDate
+        vesselName
+        vesselCode
+        country {
+          id
+          countryName
+        }
+        warehouse {
+          id
+          warehouseName
+        }
+      }
+    }
+  }
+}

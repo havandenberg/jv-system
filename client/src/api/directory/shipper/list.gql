@@ -44,6 +44,17 @@ query SHIPPER_LIST(
           reviewStatus
         }
       }
+      shipperAdvances {
+        nodes {
+          id
+          speciesId
+          species {
+            id
+            speciesDescription
+          }
+          advanceAmount
+        }
+      }
     }
     totalCount
   }

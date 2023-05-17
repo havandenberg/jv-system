@@ -199,6 +199,18 @@ export const useVesselControlQueryParams = () =>
     vesselControlView: StringParam,
   });
 
+export const useWireControlQueryParams = () =>
+  useQuerySet({
+    liquidatedStatus: StringParam,
+    vessel: ArrayParam,
+    shipper: ArrayParam,
+    arrivalLocation: ArrayParam,
+    country: ArrayParam,
+    wireControlView: StringParam,
+    scrollToVessel: StringParam,
+    scrollToShipper: StringParam,
+  });
+
 export const useUnpaidsQueryParams = () =>
   useQuerySet({
     salesUserCode: StringParam,
@@ -226,4 +238,10 @@ export const useRepackQueueQueryParams = () =>
     showShipped: BooleanParam,
     showNew: BooleanParam,
     warehouse: StringParam,
+  });
+
+export const useCheckQueryParams = () =>
+  useQuerySet({
+    vendorId: ArrayParam,
+    checkStatus: ArrayParam,
   });

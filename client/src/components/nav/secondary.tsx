@@ -42,20 +42,24 @@ const SecondaryNav = ({
       pt={th.spacing.tn}
       px={th.spacing.sm}
     >
-      {navItems.map(({ disabled, search: itemSearch, to, text }, idx) => {
-        const path = `${baseUrl}/${to}${itemSearch || ''}`;
-        const active = activePathname.includes(path);
-        return (
-          <l.AreaLink
-            key={idx}
-            to={disabled ? '#' : `${path}${itemSearch ? '' : search}`}
-          >
-            <NavItem active={active} disabled={disabled} px={th.sizes.icon}>
-              <ty.BodyText>{text}</ty.BodyText>
-            </NavItem>
-          </l.AreaLink>
-        );
-      })}
+      {navItems.map(
+        ({ disabled, search: itemSearch, to, text, visible }, idx) => {
+          const path = `${baseUrl}/${to}${itemSearch || ''}`;
+          const active = activePathname.includes(path);
+          return (
+            visible !== false && (
+              <l.AreaLink
+                key={idx}
+                to={disabled ? '#' : `${path}${itemSearch ? '' : search}`}
+              >
+                <NavItem active={active} disabled={disabled} px={th.sizes.icon}>
+                  <ty.BodyText>{text}</ty.BodyText>
+                </NavItem>
+              </l.AreaLink>
+            )
+          );
+        },
+      )}
     </l.Flex>
   );
 };

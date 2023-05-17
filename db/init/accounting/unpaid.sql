@@ -48,7 +48,7 @@ CREATE FUNCTION accounting.unpaid_is_paid(IN u accounting.unpaid)
   COST 100
 AS $BODY$
   SELECT CASE WHEN paid_code = 'P' THEN TRUE ELSE FALSE END
-  FROM accounting.invoice_header i WHERE i.invoice_id = u.invoice_id
+    FROM accounting.invoice_header i WHERE i.invoice_id = u.invoice_id
 $BODY$;
 
 CREATE FUNCTION accounting.unpaid_vessel_control(IN u accounting.unpaid)

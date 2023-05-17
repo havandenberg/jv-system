@@ -31,9 +31,21 @@ query SHIPPER_DETAILS($id: String!, $orderBy: [PersonContactsOrderBy!]) {
     shipperName
     vesselControlDaysUntilDue
     psaShipperId
+    commissionRate
     website
     vendor {
       id
+    }
+    shipperAdvances {
+      nodes {
+        id
+        speciesId
+        species {
+          id
+          speciesDescription
+        }
+        advanceAmount
+      }
     }
   }
 }
