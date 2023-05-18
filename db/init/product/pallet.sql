@@ -103,7 +103,7 @@ AS $BODY$
       AND b.variety_id = ''
       AND b.shipper_id = ''
     ))
-  ORDER BY jv_code, shipper_id DESC, species_id DESC, variety_id DESC;
+  ORDER BY jv_code, shipper_id, species_id, variety_id;
 $BODY$;
 
 CREATE FUNCTION product.pallet_pack_type(IN a product.pallet)
