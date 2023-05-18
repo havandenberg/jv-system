@@ -143,7 +143,10 @@ const ProgramEntryRow = <
       ))}
       <EntryRowText
         customStyles={{
-          color: availableCount < 0 ? th.colors.status.error : undefined,
+          color:
+            availableCount && availableCount < 0
+              ? th.colors.status.error
+              : undefined,
         }}
         isDirty={isDirty}
         value={availableCount}
@@ -171,18 +174,22 @@ const ProgramEntryRow = <
   );
 };
 
-const RowWrapper = styled(l.Flex)(({ allocated }: { allocated: boolean }) => ({
-  alignItems: 'center',
-  background: allocated
-    ? th.colors.brand.containerBackground
-    : th.colors.background,
-  borderRadius: th.borderRadii.default,
-  justifyContent: 'space-between',
-  transition: th.transitions.default,
-  ':hover': {
-    background: th.colors.brand.containerBackgroundAccent,
-  },
-}));
+const RowWrapper = styled(l.Flex)(
+  ({ allocated, index }: { allocated: boolean; index?: number }) => ({
+    alignItems: 'center',
+    background: allocated
+      ? th.colors.brand.containerBackgroundLight
+      : index && index % 2 === 0
+      ? th.colors.brand.containerBackgroundAccent
+      : th.colors.background,
+    borderRadius: th.borderRadii.default,
+    justifyContent: 'space-between',
+    transition: th.transitions.default,
+    ':hover': {
+      background: th.colors.brand.containerBackgroundAccent,
+    },
+  }),
+);
 
 export interface Props<
   T extends CustomerProgramEntry | ShipperProgramEntry,
@@ -830,6 +837,7 @@ const ProgramAllocateModal = <
                           )
                         }
                         key={item.id}
+                        index={index}
                         style={style}
                       >
                         <ProgramEntryRow

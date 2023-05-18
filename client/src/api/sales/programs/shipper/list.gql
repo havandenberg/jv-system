@@ -1,11 +1,10 @@
 query SHIPPER_PROGRAM_LIST(
-  $arrivalPort: String!
   $endDate: Date!
   $startDate: Date!
   $shipperId: String
 ) {
   shipperPrograms(
-    condition: { arrivalPort: $arrivalPort, shipperId: $shipperId }
+    condition: { shipperId: $shipperId }
     filter: {
       shipperProgramEntries: {
         some: {

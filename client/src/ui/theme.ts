@@ -6,9 +6,9 @@ export const colors = {
   black: '#00080F',
   white: '#FFFFFF',
   brand: {
-    containerBackgroundLight: 'rgba(3,41,74,0.025)',
+    containerBackgroundLight: 'rgba(3,41,74,0.15)',
     containerBackground: '#F3F4F6',
-    containerBackgroundAccent: 'rgba(3,41,74,0.15)',
+    containerBackgroundAccent: 'rgba(3,41,74,0.25)',
     primary: '#03294A',
     primaryAccent: '#064C89',
     secondary: 'rgba(3,41,74,0.7)',

@@ -106,6 +106,7 @@ const ProductIndex = () => {
                   <ListItem<ProductMaster>
                     data={item}
                     gridTemplateColumns={gridTemplateColumns}
+                    index={index}
                     listLabels={listLabels}
                     to={`/inventory/products/${item.id}`}
                   />

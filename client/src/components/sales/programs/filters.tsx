@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { ApolloError } from '@apollo/client';
+import { differenceInWeeks } from 'date-fns';
 import { equals } from 'ramda';
 
 import ResetImg from 'assets/images/reset';
@@ -32,6 +33,7 @@ export const viewTabs = [
 
 type Props = {
   isCustomers: boolean;
+  setWeekCount: (weekCount: number) => void;
   shippers: Shipper[];
   shipperDataError?: ApolloError;
   shipperDataLoading: boolean;
@@ -46,6 +48,7 @@ type Props = {
 
 const ProgramsFilters = ({
   isCustomers,
+  setWeekCount,
   shippers,
   shipperDataError,
   shipperDataLoading,
@@ -68,8 +71,10 @@ const ProgramsFilters = ({
   const { DateRangePicker, ForwardButton, BackwardButton, handleDateChange } =
     useDateRange({
       hideDefinedRanges: true,
-      singleSelection: true,
       offsetLeft: `-${th.spacing.md}`,
+      onDateClear: () => {
+        setWeekCount(24);
+      },
     });
 
   useKeyboardWeekChange(handleDateChange);
@@ -156,16 +161,15 @@ const ProgramsFilters = ({
           key: 'selection',
         },
       });
-    } else if (!equals(startDate, endDate)) {
-      handleDateChange({
-        selection: {
-          startDate: new Date(startDate.replace(/-/g, '/')),
-          endDate: new Date(startDate.replace(/-/g, '/')),
-          key: 'selection',
-        },
-      });
+    } else if (startDate && endDate && !equals(startDate, endDate)) {
+      setWeekCount(
+        differenceInWeeks(
+          new Date(endDate.replace(/-/g, '/')),
+          new Date(startDate.replace(/-/g, '/')),
+        ) + 1,
+      );
     }
-  }, [endDate, handleDateChange, startDate]);
+  }, [endDate, handleDateChange, setWeekCount, startDate]);
 
   return (
     <l.Flex mb={th.spacing.md}>
@@ -189,7 +193,7 @@ const ProgramsFilters = ({
       </l.Div>
       <div>
         <ty.SmallText mb={th.spacing.sm} secondary>
-          Week Of
+          Date Range
         </ty.SmallText>
         <l.Flex alignCenter>
           {DateRangePicker}
@@ -198,12 +202,13 @@ const ProgramsFilters = ({
         </l.Flex>
       </div>
       <ResetButton
-        ml={th.sizes.icon}
+        ml={20}
         mt={29}
         onClick={() => {
           clearShipperSearch();
           clearCustomerSearch();
           setEditing(false);
+          setWeekCount(24);
         }}
       >
         <l.AreaLink

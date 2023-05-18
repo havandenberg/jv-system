@@ -43,11 +43,13 @@ const WIRE_CONTROL_LOG_WIDTH = (wireControlView: string) =>
   wireControlView === 'ocean-freight' ? 1930 : 1200;
 
 const WireControlItem = ({
+  index,
   item,
   handleUpdateData,
   listLabels,
 }: {
   handleUpdateData: (updateKey: string, data: VesselControl) => void;
+  index: number;
   item: VesselControl;
   listLabels: VesselControlLabelInfo[];
 }) => {
@@ -67,6 +69,7 @@ const WireControlItem = ({
       data={wireControl}
       gridTemplateColumns={gridTemplateColumns(wireControlView)}
       hoverable
+      index={index}
       listLabels={listLabels}
       isHalfHighlight={!!item.isLiquidated}
       highlightColor={th.colors.status.success}
@@ -330,6 +333,7 @@ const WireControlLog = () => {
                           style={{ ...style, background: th.colors.background }}
                         >
                           <WireControlItem
+                            index={rowIndex}
                             item={wireControl.vesselControl}
                             handleUpdateData={handleUpdateData}
                             listLabels={listLabels(wireControl.wire?.id)}

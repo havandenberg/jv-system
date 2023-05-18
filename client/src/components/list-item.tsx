@@ -269,6 +269,7 @@ const ListItem = <T extends {}>({
       error={error}
       hoverable={hoverable}
       highlightColor={highlightColor}
+      index={index}
       isHighlight={isHighlight}
       isHalfHighlight={isHalfHighlight}
       selected={selected}

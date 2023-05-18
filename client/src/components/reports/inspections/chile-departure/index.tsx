@@ -70,6 +70,7 @@ const ChileDepartureInspections = ({ breadcrumbs }: SubInspectionsProps) => {
                 <div key={key} style={style}>
                   <ListItem<ChileDepartureInspection>
                     data={item}
+                    index={index}
                     listLabels={listLabels}
                     slides={slides}
                     slug={`${InspectionTypes.CHILE_DEPARTURE}/${item.lotNumber}`}

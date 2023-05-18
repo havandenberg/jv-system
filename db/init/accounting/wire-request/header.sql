@@ -25,7 +25,7 @@ AS $BODY$
   SELECT * FROM directory.vendor v WHERE v.id = w.vendor_id;
 $BODY$;
 
-CREATE FUNCTION accounting.wire_request_approval_user(IN w accounting.wire_request)=
+CREATE FUNCTION accounting.wire_request_approval_user(IN w accounting.wire_request)
     RETURNS public.user
     LANGUAGE 'sql'
     STABLE

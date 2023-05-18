@@ -35,11 +35,13 @@ const breadcrumbs = [
 ];
 
 const ContainerScheduleItem = ({
+  index,
   item,
   handleUpdateData,
   onSelectItem,
   selected,
 }: {
+  index: number;
   item: Container;
   handleUpdateData: (updateKey: string, containerData: Container) => void;
   onSelectItem: () => void;
@@ -66,6 +68,7 @@ const ContainerScheduleItem = ({
       key={item.containerId}
       listLabels={scheduleListLabels}
       highlightColor={th.colors.status.success}
+      index={index}
       isHighlight={!!item.isNew}
       isHalfHighlight={!!item.isAvailable}
       onSelectItem={onSelectItem}
@@ -219,9 +222,10 @@ const ContainerSchedule = () => {
               <ty.BodyText mx={th.spacing.sm}>|</ty.BodyText>
               <ty.BodyText>{vessel.warehouse?.warehouseName || ''}</ty.BodyText>
             </l.Flex>,
-            ...items.map((item) => (
+            ...items.map((item, index) => (
               <ContainerScheduleItem
                 key={item.containerId}
+                index={index}
                 item={
                   containerData[
                     `${item.containerId}-${item.vessel?.vesselCode}`

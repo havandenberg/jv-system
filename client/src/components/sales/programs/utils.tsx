@@ -41,7 +41,7 @@ import {
 } from './types';
 
 export const getGridProps = (weekCount: number, isCustomers: boolean) => {
-  const columnWidth = 70;
+  const columnWidth = 65;
   const firstColumnWidth = isCustomers ? 500 : 600;
   const gridTemplateColumns = `${firstColumnWidth}px repeat(${weekCount}, ${columnWidth}px)`;
   const gridWidth = firstColumnWidth + weekCount * columnWidth + 16;
@@ -254,6 +254,7 @@ export const useFilterAndGroupPrograms = <
   J extends CustomerProgramUpdate | ShipperProgramUpdate,
   L extends Customer | Shipper,
 >({
+  coast,
   commonSpecieses,
   commonSpeciesId,
   commonVarietyId,
@@ -265,12 +266,14 @@ export const useFilterAndGroupPrograms = <
   getProgramEntryValue,
   isCustomers,
   selectedCustomerOrShipper,
+  endDate,
   startDate,
   programProps,
   programs,
   vesselInfos,
   weekCount,
 }: {
+  coast: string;
   commonSpecieses: CommonSpecies[];
   commonSpeciesId: string[];
   commonVarietyId: string[];
@@ -288,6 +291,7 @@ export const useFilterAndGroupPrograms = <
   ) => { value: string; dirty: boolean };
   isCustomers: boolean;
   selectedCustomerOrShipper?: L;
+  endDate: string;
   startDate: string;
   programs: T[];
   programProps: Omit<
@@ -308,188 +312,243 @@ export const useFilterAndGroupPrograms = <
 
   const [, setProgramsQueryParams] = useProgramsQueryParams();
 
-  let grandProgramTotals = times(
+  let combinedGrandProgramTotals = times(
+    () => ({ total: 0, available: 0, projected: 0 }),
+    weekCount,
+  ) as ProgramTotal[];
+  let ecGrandProgramTotals = times(
+    () => ({ total: 0, available: 0, projected: 0 }),
+    weekCount,
+  ) as ProgramTotal[];
+  let wcGrandProgramTotals = times(
     () => ({ total: 0, available: 0, projected: 0 }),
     weekCount,
   ) as ProgramTotal[];
   const groupedPrograms = {} as GroupedPrograms<T>;
 
-  const filteredPrograms = programs.reduce((acc, program) => {
-    const isValid =
-      (selectedCustomerOrShipper?.id
-        ? (isCustomers
-            ? program.customerId
-            : (program as ShipperProgram).shipperId) ===
-          selectedCustomerOrShipper?.id
-        : true) &&
-      (editing ||
-        ((!commonSpeciesId ||
-          commonSpeciesId.some((id: string) =>
-            id === 'None'
-              ? !program.commonSpecies?.speciesName
-              : [
-                  program.commonSpecies?.speciesName,
-                  ...pluck(
-                    'tagText',
-                    (program.commonSpecies?.commonSpeciesTags?.nodes ||
-                      []) as CommonSpeciesTag[],
-                  ).map((tagText) => `${tagText} (tag)`),
-                ].includes(id),
-          )) &&
-          (!commonVarietyId ||
-            commonVarietyId.some((id: string) =>
+  const filterPrograms = (arrivalPort: string) =>
+    programs.reduce((acc, program) => {
+      const isCoastValid = program.arrivalPort === arrivalPort;
+      const isValid =
+        (selectedCustomerOrShipper?.id
+          ? (isCustomers
+              ? program.customerId
+              : (program as ShipperProgram).shipperId) ===
+            selectedCustomerOrShipper?.id
+          : true) &&
+        (editing ||
+          ((!commonSpeciesId ||
+            commonSpeciesId.some((id: string) =>
               id === 'None'
-                ? !program.commonVariety?.varietyName
+                ? !program.commonSpecies?.speciesName
                 : [
-                    program.commonVariety?.varietyName,
+                    program.commonSpecies?.speciesName,
                     ...pluck(
                       'tagText',
-                      (program.commonVariety?.commonVarietyTags?.nodes ||
-                        []) as CommonVarietyTag[],
+                      (program.commonSpecies?.commonSpeciesTags?.nodes ||
+                        []) as CommonSpeciesTag[],
                     ).map((tagText) => `${tagText} (tag)`),
                   ].includes(id),
             )) &&
-          (!commonSizeId ||
-            commonSizeId.some((id: string) =>
-              id === 'None'
-                ? !program.commonSize?.sizeName
-                : [
-                    program.commonSize?.sizeName,
-                    ...pluck(
-                      'tagText',
-                      (program.commonSize?.commonSizeTags?.nodes ||
-                        []) as CommonSizeTag[],
-                    ).map((tagText) => `${tagText} (tag)`),
-                  ].includes(id),
-            )) &&
-          (!commonPackTypeId ||
-            commonPackTypeId.some((id: string) =>
-              id === 'None'
-                ? !program.commonPackType?.packTypeName
-                : [
-                    program.commonPackType?.packTypeName,
-                    ...pluck(
-                      'tagText',
-                      (program.commonPackType?.commonPackTypeTags?.nodes ||
-                        []) as CommonPackTypeTag[],
-                    ).map((tagText) => `${tagText} (tag)`),
-                  ].includes(id),
-            )) &&
-          (isCustomers ||
-            !customerIdFilter ||
-            customerIdFilter.some((id: string) =>
-              id === 'None'
-                ? !program.customer?.customerName
-                : [program.customer?.customerName].includes(id),
-            )) &&
-          (program.id < 0 ||
-            (isCustomers
-              ? (((program as CustomerProgram).customerProgramEntries.nodes ||
-                  []) as CustomerProgramEntry[])
-              : (((program as ShipperProgram).shipperProgramEntries.nodes ||
-                  []) as ShipperProgramEntry[])
-            ).some((e) =>
+            (!commonVarietyId ||
+              commonVarietyId.some((id: string) =>
+                id === 'None'
+                  ? !program.commonVariety?.varietyName
+                  : [
+                      program.commonVariety?.varietyName,
+                      ...pluck(
+                        'tagText',
+                        (program.commonVariety?.commonVarietyTags?.nodes ||
+                          []) as CommonVarietyTag[],
+                      ).map((tagText) => `${tagText} (tag)`),
+                    ].includes(id),
+              )) &&
+            (!commonSizeId ||
+              commonSizeId.some((id: string) =>
+                id === 'None'
+                  ? !program.commonSize?.sizeName
+                  : [
+                      program.commonSize?.sizeName,
+                      ...pluck(
+                        'tagText',
+                        (program.commonSize?.commonSizeTags?.nodes ||
+                          []) as CommonSizeTag[],
+                      ).map((tagText) => `${tagText} (tag)`),
+                    ].includes(id),
+              )) &&
+            (!commonPackTypeId ||
+              commonPackTypeId.some((id: string) =>
+                id === 'None'
+                  ? !program.commonPackType?.packTypeName
+                  : [
+                      program.commonPackType?.packTypeName,
+                      ...pluck(
+                        'tagText',
+                        (program.commonPackType?.commonPackTypeTags?.nodes ||
+                          []) as CommonPackTypeTag[],
+                      ).map((tagText) => `${tagText} (tag)`),
+                    ].includes(id),
+              )) &&
+            (isCustomers ||
+              !customerIdFilter ||
+              customerIdFilter.some((id: string) =>
+                id === 'None'
+                  ? !program.customer?.customerName
+                  : [program.customer?.customerName].includes(id),
+              )))) &&
+        (program.id < 0 ||
+          (isCustomers
+            ? (((program as CustomerProgram).customerProgramEntries.nodes ||
+                []) as CustomerProgramEntry[])
+            : (((program as ShipperProgram).shipperProgramEntries.nodes ||
+                []) as ShipperProgramEntry[])
+          ).some(
+            (e) =>
               isDateGreaterThanOrEqualTo(
                 new Date(e.programDate.replace(/-/g, '/')),
                 startOfISOWeek(new Date(startDate.replace(/-/g, '/'))),
-              ),
-            ))));
+              ) &&
+              (startDate === endDate ||
+                isDateLessThanOrEqualTo(
+                  new Date(e.programDate.replace(/-/g, '/')),
+                  endOfISOWeek(new Date(endDate.replace(/-/g, '/'))),
+                )),
+          ));
 
-    const customerOrShipperKey =
-      (isCustomers
-        ? program.customer?.customerName ||
-          (selectedCustomerOrShipper as Customer)?.customerName
-        : (program as ShipperProgram).shipper?.shipperName) ||
-      (selectedCustomerOrShipper as Shipper)?.shipperName;
+      const customerOrShipperKey =
+        (isCustomers
+          ? program.customer?.customerName ||
+            (selectedCustomerOrShipper as Customer)?.customerName
+          : (program as ShipperProgram).shipper?.shipperName) ||
+        (selectedCustomerOrShipper as Shipper)?.shipperName;
 
-    if (!isValid || !customerOrShipperKey) {
-      return acc;
-    }
-
-    const commonSpecies = commonSpecieses.find(
-      (s) => s.id === program.commonSpeciesId,
-    );
-
-    const speciesKey = commonSpecies?.speciesName || 'UNK';
-
-    const productKey = `${program.commonSpeciesId}-${program.commonVarietyId}-${
-      program.commonSizeId
-    }-${program.commonPackTypeId}-${program.plu}${
-      isCustomers ? '' : `-${program.customerId}`
-    }`;
-
-    const programTotals = getProgramTotals(
-      (isCustomers
-        ? (program as CustomerProgram).customerProgramEntries.nodes
-        : (program as ShipperProgram).shipperProgramEntries.nodes
-      ).flat() as K[],
-      startDate || '',
-      weekCount,
-      getProgramEntryValue,
-      isCustomers
-        ? []
-        : vesselInfos.filter(
-            (vesselInfo) =>
-              program &&
-              vesselInfo.shipperId === (program as ShipperProgram).shipperId,
-          ),
-    );
-
-    grandProgramTotals = grandProgramTotals.map(
-      ({ total, available, projected }, idx) => ({
-        total: total + programTotals[idx].total,
-        available: (available || 0) + (programTotals[idx].available || 0),
-        projected: (projected || 0) + (programTotals[idx].projected || 0),
-      }),
-    );
-
-    if (groupedPrograms[customerOrShipperKey]) {
-      const programsBySpecies =
-        groupedPrograms[customerOrShipperKey][speciesKey];
-      if (programsBySpecies) {
-        if (programsBySpecies.programs[productKey]) {
-          programsBySpecies.programs[productKey] = [
-            ...programsBySpecies.programs[productKey],
-            program,
-          ];
-          programsBySpecies.programTotals = programsBySpecies.programTotals.map(
-            ({ total, available, projected }, idx) => ({
-              total: total + programTotals[idx].total,
-              available: (available || 0) + (programTotals[idx].available || 0),
-              projected: (projected || 0) + (programTotals[idx].projected || 0),
-            }),
-          );
-        } else {
-          programsBySpecies.programs[productKey] = [program];
-          programsBySpecies.programTotals = programsBySpecies.programTotals.map(
-            ({ total, available, projected }, idx) => ({
-              total: total + programTotals[idx].total,
-              available: (available || 0) + (programTotals[idx].available || 0),
-              projected: (projected || 0) + (programTotals[idx].projected || 0),
-            }),
-          );
-        }
-      } else {
-        groupedPrograms[customerOrShipperKey][speciesKey] = {
-          programs: {
-            [productKey]: [program],
-          },
-          programTotals,
-        };
+      if (!isValid || !customerOrShipperKey) {
+        return acc;
       }
-    } else {
-      groupedPrograms[customerOrShipperKey] = {
-        [speciesKey]: {
-          programs: {
-            [productKey]: [program],
-          },
-          programTotals,
-        },
-      };
-    }
 
-    return [...acc, program];
-  }, [] as T[]);
+      const commonSpecies = commonSpecieses.find(
+        (s) => s.id === program.commonSpeciesId,
+      );
+
+      const speciesKey = commonSpecies?.speciesName || 'UNK';
+
+      const productKey = `${program.commonSpeciesId}-${
+        program.commonVarietyId
+      }-${program.commonSizeId}-${program.commonPackTypeId}-${program.plu}${
+        isCustomers ? '' : `-${program.customerId}`
+      }`;
+
+      const programTotals = getProgramTotals(
+        (isCustomers
+          ? (program as CustomerProgram).customerProgramEntries.nodes
+          : (program as ShipperProgram).shipperProgramEntries.nodes
+        ).flat() as K[],
+        startDate || '',
+        weekCount,
+        getProgramEntryValue,
+        isCustomers
+          ? []
+          : vesselInfos.filter(
+              (vesselInfo) =>
+                program &&
+                vesselInfo.shipperId === (program as ShipperProgram).shipperId,
+            ),
+      );
+
+      if (isCoastValid) {
+        combinedGrandProgramTotals = combinedGrandProgramTotals.map(
+          ({ total, available, projected }, idx) => ({
+            total: total + programTotals[idx].total,
+            available: (available || 0) + (programTotals[idx].available || 0),
+            projected: (projected || 0) + (programTotals[idx].projected || 0),
+          }),
+        );
+      }
+      if (arrivalPort === 'EC' && isCoastValid) {
+        ecGrandProgramTotals = ecGrandProgramTotals.map(
+          ({ total, available, projected }, idx) => ({
+            total: total + programTotals[idx].total,
+            available: (available || 0) + (programTotals[idx].available || 0),
+            projected: (projected || 0) + (programTotals[idx].projected || 0),
+          }),
+        );
+      }
+      if (arrivalPort === 'WC' && isCoastValid) {
+        wcGrandProgramTotals = wcGrandProgramTotals.map(
+          ({ total, available, projected }, idx) => ({
+            total: total + programTotals[idx].total,
+            available: (available || 0) + (programTotals[idx].available || 0),
+            projected: (projected || 0) + (programTotals[idx].projected || 0),
+          }),
+        );
+      }
+
+      if (program.arrivalPort === coast && isCoastValid) {
+        if (groupedPrograms[customerOrShipperKey]) {
+          const programsBySpecies =
+            groupedPrograms[customerOrShipperKey][speciesKey];
+          if (programsBySpecies) {
+            if (programsBySpecies.programs[productKey]) {
+              programsBySpecies.programs[productKey] = [
+                ...programsBySpecies.programs[productKey],
+                program,
+              ];
+              programsBySpecies.programTotals =
+                programsBySpecies.programTotals.map(
+                  ({ total, available, projected }, idx) => ({
+                    total: total + programTotals[idx].total,
+                    available:
+                      (available || 0) + (programTotals[idx].available || 0),
+                    projected:
+                      (projected || 0) + (programTotals[idx].projected || 0),
+                  }),
+                );
+            } else {
+              programsBySpecies.programs[productKey] = [program];
+              programsBySpecies.programTotals =
+                programsBySpecies.programTotals.map(
+                  ({ total, available, projected }, idx) => ({
+                    total: total + programTotals[idx].total,
+                    available:
+                      (available || 0) + (programTotals[idx].available || 0),
+                    projected:
+                      (projected || 0) + (programTotals[idx].projected || 0),
+                  }),
+                );
+            }
+          } else {
+            groupedPrograms[customerOrShipperKey][speciesKey] = {
+              programs: {
+                [productKey]: [program],
+              },
+              programTotals,
+            };
+          }
+        } else {
+          groupedPrograms[customerOrShipperKey] = {
+            [speciesKey]: {
+              programs: {
+                [productKey]: [program],
+              },
+              programTotals,
+            },
+          };
+        }
+      }
+
+      if (program.arrivalPort !== coast) return acc;
+
+      return [...acc, program];
+    }, [] as T[]);
+
+  const ecFilteredPrograms = filterPrograms('EC');
+  const wcFilteredPrograms = filterPrograms('WC');
+
+  const filteredPrograms =
+    coast === 'EC' ? ecFilteredPrograms : wcFilteredPrograms;
+
+  const grandProgramTotals =
+    coast === 'EC' ? ecGrandProgramTotals : wcGrandProgramTotals;
 
   const duplicateProgramIds = (
     selectedCustomerOrShipper?.id
@@ -643,13 +702,17 @@ export const useFilterAndGroupPrograms = <
                 const programDetailRows = getProgramDetailRows({
                   editing,
                   gridTemplateColumns,
+                  changeHandlers: programProps.changeHandlers,
+                  newItemHandlers: programProps.newItemHandlers,
                   isCustomers,
                   program,
                   setProgramsQueryParams,
                   showAllocated: programProps.showAllocated,
+                  showPricing: programProps.showPricing,
                   startDate,
                   vesselInfos: programVesselInfos,
                   weekCount,
+                  valueGetters: programProps.valueGetters,
                 });
 
                 return {
@@ -732,6 +795,7 @@ export const useFilterAndGroupPrograms = <
     duplicateProgramIds,
     components,
     filteredPrograms,
+    combinedGrandProgramTotals,
     grandProgramTotals,
     groupedPrograms,
   };
@@ -930,10 +994,11 @@ export const getAllocatedPalletEntryTotalSets = <
             .map((alloc) => alloc && alloc.palletCount),
         );
       return (
-        entry &&
-        total !== undefined &&
-        total !== null &&
-        (name === 'Unalloc' ? entry.palletCount - total : total)
+        (entry &&
+          total !== undefined &&
+          total !== null &&
+          (name === 'Unalloc' ? entry.palletCount - total : total)) ||
+        undefined
       );
     }, weekCount);
 

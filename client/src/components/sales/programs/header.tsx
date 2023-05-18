@@ -116,8 +116,10 @@ interface Props {
   programs: (ShipperProgram | CustomerProgram)[];
   selectedWeekNumber: number;
   showAllocated: boolean;
+  showPricing: boolean;
   startDate: string;
   toggleShowAllocated: () => void;
+  toggleShowPricing: () => void;
   weekCount: number;
 }
 
@@ -130,8 +132,10 @@ const Header = ({
   programs,
   selectedWeekNumber,
   showAllocated,
+  showPricing,
   startDate,
   toggleShowAllocated,
+  toggleShowPricing,
   weekCount,
 }: Props) => {
   const { gridTemplateColumns, gridWidth } = getGridProps(
@@ -223,10 +227,21 @@ const Header = ({
             </ty.BodyText>
             {!editing && (
               <LineItemCheckbox
+                checked={showPricing}
+                label={
+                  <ty.SmallText ml={th.spacing.sm} mr={th.spacing.md} nowrap>
+                    Show pricing
+                  </ty.SmallText>
+                }
+                onChange={toggleShowPricing}
+              />
+            )}
+            {!editing && (
+              <LineItemCheckbox
                 checked={showAllocated}
                 label={
                   <ty.SmallText mx={th.spacing.sm} nowrap>
-                    Show details
+                    Show allocations
                   </ty.SmallText>
                 }
                 onChange={toggleShowAllocated}

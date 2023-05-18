@@ -56,6 +56,7 @@ export const dateRangeTabs = [
 ];
 
 const VesselControlItem = ({
+  index,
   item,
   listLabels,
   onSelectItem,
@@ -82,6 +83,7 @@ const VesselControlItem = ({
       gridTemplateColumns={gridTemplateColumns}
       hoverable
       listLabels={listLabels}
+      index={index}
       isHalfHighlight={!!item.isLiquidated}
       highlightColor={th.colors.status.success}
       offsetTop={scrollTop}

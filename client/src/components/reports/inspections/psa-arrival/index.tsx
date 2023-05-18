@@ -83,6 +83,7 @@ const PsaArrivalInspections = ({ breadcrumbs }: SubInspectionsProps) => {
                   <ListItem<PsaArrivalInspection>
                     data={item}
                     gridTemplateColumns={gridTemplateColumns}
+                    index={index}
                     listLabels={listLabels}
                     slug={`${InspectionTypes.ARRIVAL}/${item.id}`}
                     slides={slides}

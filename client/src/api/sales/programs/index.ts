@@ -39,7 +39,6 @@ const useVariables = (
       commonSizeId,
       commonPackTypeId,
       plu,
-      coast = 'EC',
       shipperId,
       customerId,
       startDate: startDateQuery,
@@ -57,14 +56,15 @@ const useVariables = (
   );
 
   return {
-    arrivalPort: coast,
     customerId: customerId || (weekCount === undefined ? null : undefined),
     shipperId: shipperId || (weekCount === undefined ? null : undefined),
     startDate: formatDate(min([allocateStartDate || startDate, startDate])),
     endDate: formatDate(
       max([
         allocateEndDate || endDate,
-        endOfISOWeek(add(endDate, { weeks: weekCount || 0 })),
+        endDateQuery === startDateQuery
+          ? endOfISOWeek(add(endDate, { weeks: weekCount || 0 }))
+          : endDate,
       ]),
     ),
     commonSpeciesId: commonSpeciesId || null,

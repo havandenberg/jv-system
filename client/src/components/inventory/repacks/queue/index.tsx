@@ -484,7 +484,7 @@ const RepackQueueList = () => {
           </l.Cell>
         ),
         ...repackQueuesByGroup.map(
-          (rq) =>
+          (rq, index) =>
             ({ scrollTop }: { scrollTop: number }) => {
               const selected = !!selectedItems[key]?.includes(rq.orderId);
               const showCheckbox =
@@ -510,6 +510,7 @@ const RepackQueueList = () => {
                     currentQueueItem={repackQueues.find(
                       (crq) => crq.id === rq?.id,
                     )}
+                    index={index}
                     item={rq}
                     repackStyleKey={packType?.packTypeDescription || undefined}
                     handleChange={handleChange}

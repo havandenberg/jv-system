@@ -135,6 +135,7 @@ const Vessels = () => {
                   <ListItem<Vessel>
                     data={item}
                     gridTemplateColumns={gridTemplateColumns}
+                    index={index}
                     listLabels={listLabels}
                     to={`/inventory/vessels/${item.vesselCode}?isPre=${
                       item.isPre ? 1 : 0

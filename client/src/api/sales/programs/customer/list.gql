@@ -1,11 +1,10 @@
 query CUSTOMER_PROGRAM_LIST(
-  $arrivalPort: String!
   $endDate: Date!
   $startDate: Date!
   $customerId: String
 ) {
   customerPrograms(
-    condition: { arrivalPort: $arrivalPort, customerId: $customerId }
+    condition: { customerId: $customerId }
     filter: {
       customerProgramEntries: {
         some: {
@@ -76,6 +75,7 @@ query CUSTOMER_PROGRAM_LIST(
           notes
           palletCount
           programDate
+          programPrice
           searchText
           customerProgram {
             id

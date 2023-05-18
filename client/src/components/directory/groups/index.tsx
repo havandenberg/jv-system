@@ -110,6 +110,7 @@ const GroupDirectory = ({ actions }: SubDirectoryProps) => {
                   <ListItem<ContactGroup>
                     data={item}
                     gridTemplateColumns={gridTemplateColumns}
+                    index={index}
                     listLabels={listLabels(!!activeUser)}
                     onSelectItem={() => selectGroup(item)}
                     selected={!!selectedItems.find((it) => it.id === item.id)}

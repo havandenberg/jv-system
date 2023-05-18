@@ -94,6 +94,7 @@ const ShipperDirectory = ({ actions }: SubDirectoryProps) => {
                   <ListItem<Shipper>
                     data={item}
                     gridTemplateColumns={gridTemplateColumns}
+                    index={index}
                     listLabels={listLabels}
                     onSelectItem={() => selectShipper(item)}
                     selected={!!selectedItems.find((it) => it.id === item.id)}

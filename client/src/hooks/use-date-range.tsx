@@ -16,8 +16,10 @@ import {
   isMondayOrWednesday,
 } from 'utils/date';
 
-const useDateRange = (props?: Omit<DateRangeProps, 'onClear'>) => {
-  const { allowEmpty, onDateChange, weekChangeType } = props || {};
+const useDateRange = (
+  props?: Omit<DateRangeProps, 'onClear'> & { onDateClear?: () => void },
+) => {
+  const { allowEmpty, onDateChange, onDateClear, weekChangeType } = props || {};
 
   const [
     { startDate: startDateQuery, endDate: endDateQuery },
@@ -72,36 +74,38 @@ const useDateRange = (props?: Omit<DateRangeProps, 'onClear'>) => {
     } else {
       setDateRangeParams(dateRangeParams, updateType);
     }
+    if (onDateClear) {
+      onDateClear();
+    }
     setSelectedDates(undefined);
   };
 
   const selectedWeekNumber = getWeekNumber(startDate);
 
   const handleWeekChange = (direction: number) => {
-    const getNewDate = () => {
+    const getNewDate = (date: Date) => {
       switch (weekChangeType) {
         case 'agenda':
-          if (isMonday(startDate)) {
-            return add(startDate, {
+          if (isMonday(date)) {
+            return add(date, {
               days: direction > 0 ? 2 : -5,
             });
           }
-          if (isWednesday(startDate)) {
-            return add(startDate, {
+          if (isWednesday(date)) {
+            return add(date, {
               days: direction > 0 ? 5 : -2,
             });
           }
-          return startDate;
+          return date;
         default:
-          return add(startDate, { weeks: direction > 0 ? 1 : -1 });
+          return add(date, { weeks: direction > 0 ? 1 : -1 });
       }
     };
-    let newDate = getNewDate();
 
     handleDateChange({
       selection: {
-        startDate: newDate,
-        endDate: newDate,
+        startDate: getNewDate(startDate),
+        endDate: getNewDate(endDate),
         key: 'selection',
       },
     });

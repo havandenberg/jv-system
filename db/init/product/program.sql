@@ -61,6 +61,7 @@ CREATE TABLE product.customer_program_entry (
 	notes TEXT,
 	program_date DATE,
 	pallet_count NUMERIC,
+	program_price NUMERIC,
 	customer_program_id BIGINT
 		REFERENCES product.customer_program(id)
 		ON DELETE CASCADE
@@ -247,6 +248,7 @@ AS $$
 				notes,
         program_date,
         pallet_count,
+        program_price,
         customer_program_id
       )
         VALUES (
@@ -255,6 +257,7 @@ AS $$
 				  e.notes,
           e.program_date,
           e.pallet_count,
+          e.program_price,
           e.customer_program_id
         )
       ON CONFLICT (id) DO UPDATE SET
@@ -262,6 +265,7 @@ AS $$
 				notes=EXCLUDED.notes,
         program_date=EXCLUDED.program_date,
         pallet_count=EXCLUDED.pallet_count,
+        program_price=EXCLUDED.program_price,
         customer_program_id=EXCLUDED.customer_program_id
     	RETURNING * INTO vals;
     	RETURN NEXT vals;

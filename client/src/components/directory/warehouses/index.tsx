@@ -94,6 +94,7 @@ const WarehouseDirectory = ({ actions }: SubDirectoryProps) => {
                   <ListItem<Warehouse>
                     data={item}
                     gridTemplateColumns={gridTemplateColumns}
+                    index={index}
                     listLabels={listLabels}
                     onSelectItem={() => selectWarehouse(item)}
                     selected={!!selectedItems.find((it) => it.id === item.id)}

@@ -19311,6 +19311,8 @@ export enum CustomerProgramEntriesOrderBy {
   CustomerProgramIdDesc = 'CUSTOMER_PROGRAM_ID_DESC',
   IsAdWeekAsc = 'IS_AD_WEEK_ASC',
   IsAdWeekDesc = 'IS_AD_WEEK_DESC',
+  ProgramPriceAsc = 'PROGRAM_PRICE_ASC',
+  ProgramPriceDesc = 'PROGRAM_PRICE_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
   CustomerProgramByCustomerProgramIdIdAsc = 'CUSTOMER_PROGRAM_BY_CUSTOMER_PROGRAM_ID__ID_ASC',
@@ -19345,6 +19347,7 @@ export type CustomerProgramEntry = Node & {
   palletCount?: Maybe<Scalars['BigFloat']>;
   customerProgramId?: Maybe<Scalars['BigInt']>;
   isAdWeek?: Maybe<Scalars['Boolean']>;
+  programPrice?: Maybe<Scalars['BigFloat']>;
   /** Reads a single `CustomerProgram` that is related to this `CustomerProgramEntry`. */
   customerProgram?: Maybe<CustomerProgram>;
   /** Reads and enables pagination through a set of `ShipperProgramEntryCustomerProgramEntry`. */
@@ -19395,6 +19398,8 @@ export type CustomerProgramEntryCondition = {
   customerProgramId?: Maybe<Scalars['BigInt']>;
   /** Checks for equality with the object’s `isAdWeek` field. */
   isAdWeek?: Maybe<Scalars['Boolean']>;
+  /** Checks for equality with the object’s `programPrice` field. */
+  programPrice?: Maybe<Scalars['BigFloat']>;
 };
 
 /** The fields on `customerProgramEntry` to look up the row to connect. */
@@ -19433,6 +19438,7 @@ export type CustomerProgramEntryCustomerProgramIdFkeyCustomerProgramEntryCreateI
   programDate?: Maybe<Scalars['Date']>;
   palletCount?: Maybe<Scalars['BigFloat']>;
   isAdWeek?: Maybe<Scalars['Boolean']>;
+  programPrice?: Maybe<Scalars['BigFloat']>;
   customerProgramToCustomerProgramId?: Maybe<CustomerProgramEntryCustomerProgramIdFkeyInput>;
   shipperProgramEntryCustomerProgramEntriesUsingId?: Maybe<ShipperProgramEntryCustomerPCustomerProgramEntryIdFkeyInverseInput>;
 };
@@ -19489,6 +19495,8 @@ export type CustomerProgramEntryFilter = {
   customerProgramId?: Maybe<BigIntFilter>;
   /** Filter by the object’s `isAdWeek` field. */
   isAdWeek?: Maybe<BooleanFilter>;
+  /** Filter by the object’s `programPrice` field. */
+  programPrice?: Maybe<BigFloatFilter>;
   /** Filter by the object’s `searchText` field. */
   searchText?: Maybe<StringFilter>;
   /** Filter by the object’s `shipperProgramEntryCustomerProgramEntries` relation. */
@@ -19515,6 +19523,7 @@ export type CustomerProgramEntryInput = {
   palletCount?: Maybe<Scalars['BigFloat']>;
   customerProgramId?: Maybe<Scalars['BigInt']>;
   isAdWeek?: Maybe<Scalars['Boolean']>;
+  programPrice?: Maybe<Scalars['BigFloat']>;
   customerProgramToCustomerProgramId?: Maybe<CustomerProgramEntryCustomerProgramIdFkeyInput>;
   shipperProgramEntryCustomerProgramEntriesUsingId?: Maybe<ShipperProgramEntryCustomerPCustomerProgramEntryIdFkeyInverseInput>;
 };
@@ -19569,6 +19578,7 @@ export type CustomerProgramEntryPatch = {
   palletCount?: Maybe<Scalars['BigFloat']>;
   customerProgramId?: Maybe<Scalars['BigInt']>;
   isAdWeek?: Maybe<Scalars['Boolean']>;
+  programPrice?: Maybe<Scalars['BigFloat']>;
   customerProgramToCustomerProgramId?: Maybe<CustomerProgramEntryCustomerProgramIdFkeyInput>;
   shipperProgramEntryCustomerProgramEntriesUsingId?: Maybe<ShipperProgramEntryCustomerPCustomerProgramEntryIdFkeyInverseInput>;
 };
@@ -58308,6 +58318,7 @@ export type ShipperProgramEntryCustomerPCustomerProgramEntryIdFkeyCustomerProgra
   palletCount?: Maybe<Scalars['BigFloat']>;
   customerProgramId?: Maybe<Scalars['BigInt']>;
   isAdWeek?: Maybe<Scalars['Boolean']>;
+  programPrice?: Maybe<Scalars['BigFloat']>;
   customerProgramToCustomerProgramId?: Maybe<CustomerProgramEntryCustomerProgramIdFkeyInput>;
   shipperProgramEntryCustomerProgramEntriesUsingId?: Maybe<ShipperProgramEntryCustomerPCustomerProgramEntryIdFkeyInverseInput>;
 };
@@ -58501,6 +58512,8 @@ export enum ShipperProgramEntryCustomerProgramEntriesOrderBy {
   CustomerProgramEntryByCustomerProgramEntryIdCustomerProgramIdDesc = 'CUSTOMER_PROGRAM_ENTRY_BY_CUSTOMER_PROGRAM_ENTRY_ID__CUSTOMER_PROGRAM_ID_DESC',
   CustomerProgramEntryByCustomerProgramEntryIdIsAdWeekAsc = 'CUSTOMER_PROGRAM_ENTRY_BY_CUSTOMER_PROGRAM_ENTRY_ID__IS_AD_WEEK_ASC',
   CustomerProgramEntryByCustomerProgramEntryIdIsAdWeekDesc = 'CUSTOMER_PROGRAM_ENTRY_BY_CUSTOMER_PROGRAM_ENTRY_ID__IS_AD_WEEK_DESC',
+  CustomerProgramEntryByCustomerProgramEntryIdProgramPriceAsc = 'CUSTOMER_PROGRAM_ENTRY_BY_CUSTOMER_PROGRAM_ENTRY_ID__PROGRAM_PRICE_ASC',
+  CustomerProgramEntryByCustomerProgramEntryIdProgramPriceDesc = 'CUSTOMER_PROGRAM_ENTRY_BY_CUSTOMER_PROGRAM_ENTRY_ID__PROGRAM_PRICE_DESC',
   ShipperProgramEntryByShipperProgramEntryIdIdAsc = 'SHIPPER_PROGRAM_ENTRY_BY_SHIPPER_PROGRAM_ENTRY_ID__ID_ASC',
   ShipperProgramEntryByShipperProgramEntryIdIdDesc = 'SHIPPER_PROGRAM_ENTRY_BY_SHIPPER_PROGRAM_ENTRY_ID__ID_DESC',
   ShipperProgramEntryByShipperProgramEntryIdNotesAsc = 'SHIPPER_PROGRAM_ENTRY_BY_SHIPPER_PROGRAM_ENTRY_ID__NOTES_ASC',
@@ -78396,6 +78409,7 @@ export type UpdateCustomerProgramEntryOnCustomerProgramEntryForCustomerProgramEn
   programDate?: Maybe<Scalars['Date']>;
   palletCount?: Maybe<Scalars['BigFloat']>;
   isAdWeek?: Maybe<Scalars['Boolean']>;
+  programPrice?: Maybe<Scalars['BigFloat']>;
   customerProgramToCustomerProgramId?: Maybe<CustomerProgramEntryCustomerProgramIdFkeyInput>;
   shipperProgramEntryCustomerProgramEntriesUsingId?: Maybe<ShipperProgramEntryCustomerPCustomerProgramEntryIdFkeyInverseInput>;
 };
@@ -78408,6 +78422,7 @@ export type UpdateCustomerProgramEntryOnShipperProgramEntryCustomerProgramEntryF
   palletCount?: Maybe<Scalars['BigFloat']>;
   customerProgramId?: Maybe<Scalars['BigInt']>;
   isAdWeek?: Maybe<Scalars['Boolean']>;
+  programPrice?: Maybe<Scalars['BigFloat']>;
   customerProgramToCustomerProgramId?: Maybe<CustomerProgramEntryCustomerProgramIdFkeyInput>;
   shipperProgramEntryCustomerProgramEntriesUsingId?: Maybe<ShipperProgramEntryCustomerPCustomerProgramEntryIdFkeyInverseInput>;
 };

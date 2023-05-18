@@ -15,12 +15,14 @@ import { gridTemplateColumns as defaultGridTemplateColumns } from '.';
 const ListItem = <T extends {}>({
   data,
   gridTemplateColumns,
+  index,
   listLabels,
   slides,
   slug,
 }: {
   data: T;
   gridTemplateColumns?: string;
+  index: number;
   listLabels: LabelInfo<T>[];
   slides: Slide[];
   slug: string;
@@ -34,7 +36,7 @@ const ListItem = <T extends {}>({
   return (
     <l.Div mb={th.spacing.sm}>
       <l.AreaLink to={`/reports/inspections/${slug}${dateParams}`}>
-        <l.Cell>
+        <l.Cell index={index}>
           <l.Grid
             gridTemplateColumns={
               gridTemplateColumns || defaultGridTemplateColumns

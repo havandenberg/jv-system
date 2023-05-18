@@ -94,6 +94,7 @@ const InventoryItems = ({ items }: Props) => {
                   secondaryDetailsIndex,
                   species === 'total',
                 )}
+                index={index}
                 listLabels={indexListLabels({
                   species,
                   variety,

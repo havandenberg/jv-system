@@ -81,6 +81,7 @@ const VesselSchedule = () => {
                     customStyles={{ wrapper: { width: '80%' } }}
                     data={vessel}
                     gridTemplateColumns={gridTemplateColumns}
+                    index={index}
                     listLabels={scheduleListLabels}
                     to={`/inventory/vessels/${vessel.vesselCode}`}
                   />

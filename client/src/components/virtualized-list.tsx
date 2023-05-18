@@ -46,7 +46,7 @@ interface OptionalListProps {
 }
 
 const VirtualizedList = ({
-  disableScrollTop,
+  disableScrollTop = true,
   disableScrollTracking,
   height = 650,
   onScroll,
@@ -137,7 +137,7 @@ interface OptionalGridProps {
 }
 
 export const VirtualizedGrid = ({
-  disableScrollTop,
+  disableScrollTop = true,
   disableScrollTracking,
   height = 650,
   onScroll,

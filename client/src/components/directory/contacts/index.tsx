@@ -115,6 +115,7 @@ const ContactDirectory = ({ actions }: SubDirectoryProps) => {
                   <ListItem<PersonContact>
                     data={item}
                     gridTemplateColumns={gridTemplateColumns}
+                    index={index}
                     listLabels={listLabels}
                     onSelectItem={() =>
                       item.email && selectInternalContact(item)

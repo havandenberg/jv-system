@@ -207,6 +207,7 @@ const Cell = styled(Div)(
     error,
     highlightColor = th.colors.status.error,
     hoverable,
+    index,
     isHighlight,
     isHalfHighlight,
     noCellBackground,
@@ -216,6 +217,7 @@ const Cell = styled(Div)(
     error?: boolean;
     highlightColor?: string;
     hoverable?: boolean;
+    index?: number;
     isHighlight?: boolean;
     isHalfHighlight?: boolean;
     noCellBackground?: boolean;
@@ -224,9 +226,14 @@ const Cell = styled(Div)(
     backgroundColor: noCellBackground
       ? undefined
       : isHighlight
-      ? hexColorWithTransparency(highlightColor, 0.2)
+      ? hexColorWithTransparency(
+          highlightColor,
+          index && index % 2 !== 0 ? 0.3 : 0.2,
+        )
       : selected
       ? th.colors.brand.containerBackgroundAccent
+      : index && index % 2 !== 0
+      ? th.colors.brand.containerBackgroundLight
       : th.colors.brand.containerBackground,
     background: noCellBackground
       ? undefined
@@ -234,13 +241,20 @@ const Cell = styled(Div)(
       ? `repeating-linear-gradient( -45deg, ${hexColorWithTransparency(
           highlightColor,
           0.2,
-        )}, ${hexColorWithTransparency(highlightColor, 0.2)} 5px, ${
+        )}, ${hexColorWithTransparency(
+          highlightColor,
+          index && index % 2 !== 0 ? 0.3 : 0.2,
+        )} 5px, ${
           selected
             ? th.colors.brand.containerBackgroundAccent
+            : index && index % 2 !== 0
+            ? th.colors.brand.containerBackgroundLight
             : th.colors.brand.containerBackground
         } 5px, ${
           selected
             ? th.colors.brand.containerBackgroundAccent
+            : index && index % 2 !== 0
+            ? th.colors.brand.containerBackgroundLight
             : th.colors.brand.containerBackground
         } 15px)`
       : undefined,
@@ -259,7 +273,7 @@ const Cell = styled(Div)(
         noCellBackground && !hoverable
           ? undefined
           : isHighlight
-          ? hexColorWithTransparency(highlightColor, 0.3)
+          ? hexColorWithTransparency(highlightColor, 0.4)
           : clickable || hoverable
           ? th.colors.brand.containerBackgroundAccent
           : undefined,

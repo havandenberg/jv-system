@@ -14,6 +14,7 @@ const RepackQueueItem = ({
   handleChange,
   handleSetUpdatedItem,
   hasValidPackType,
+  index,
   item,
   repackStyleKey,
   saveAttempt,
@@ -24,6 +25,7 @@ const RepackQueueItem = ({
   handleChange: (updatedItem: RepackQueue) => void;
   handleSetUpdatedItem: (updatedQueueItem: UpdatedQueueItem) => void;
   hasValidPackType: boolean;
+  index: number;
   item: RepackQueue;
   repackStyleKey?: string;
   saveAttempt: boolean;
@@ -169,6 +171,7 @@ const RepackQueueItem = ({
         invoiceWithFilteredItems,
         orderWithFilteredItems,
       )}
+      index={index}
       isHalfHighlight={isShipped}
       isHighlight={
         isNew || ((!!order || !!invoice) && (isCancelled || isDirty))

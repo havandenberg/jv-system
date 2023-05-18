@@ -164,6 +164,7 @@ const Repacks = () => {
                   <ListItem<RepackHeader>
                     data={item}
                     gridTemplateColumns={gridTemplateColumns}
+                    index={index}
                     listLabels={listLabels}
                     to={`/inventory/repacks/${item.repackCode}?repackView=${
                       (item.count || 0) > 1 ? 'runs' : 'items'

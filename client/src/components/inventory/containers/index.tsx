@@ -119,6 +119,7 @@ const Containers = () => {
                   <ListItem<Container>
                     data={item as Container}
                     gridTemplateColumns={gridTemplateColumns}
+                    index={index}
                     listLabels={listLabels}
                     to={`/inventory/containers/${item.containerId}`}
                   />

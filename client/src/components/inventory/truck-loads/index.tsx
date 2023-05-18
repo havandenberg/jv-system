@@ -169,6 +169,7 @@ const TruckLoads = () => {
                     data={item}
                     gridTemplateColumns={gridTemplateColumns}
                     highlightColor={th.colors.status.errorAlt}
+                    index={index}
                     isHighlight={isOverweight}
                     listLabels={indexListLabels(sortOrder, customerId)}
                     to={`/inventory/truck-loads/${item.loadId}?truckLoadView=${

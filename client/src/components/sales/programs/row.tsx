@@ -25,6 +25,7 @@ import l, { divPropsSet } from 'ui/layout';
 import th from 'ui/theme';
 import ty from 'ui/typography';
 import { hexColorWithTransparency } from 'ui/utils';
+import { formatCurrency } from 'utils/format';
 
 import ProgramNotes from './notes';
 import {
@@ -99,14 +100,18 @@ export const NewProgramRow = ({
 export const getProgramDetailRows = <
   T extends CustomerProgram | ShipperProgram,
 >({
+  changeHandlers: { handleCustomerProgramEntryChange },
   editing,
   gridTemplateColumns,
   isCustomers,
+  newItemHandlers: { handleNewCustomerProgramEntry },
   program,
   setProgramsQueryParams,
   showAllocated,
+  showPricing,
   startDate,
   weekCount,
+  valueGetters: { getCustomerProgramEntryValue },
   vesselInfos,
 }: {
   editing: boolean;
@@ -117,10 +122,14 @@ export const getProgramDetailRows = <
     newQuery: Partial<DecodedValueMap<QueryParamConfigMap>>,
   ) => void;
   showAllocated: boolean;
+  showPricing: boolean;
   startDate: string;
   vesselInfos: ShipperProjectionVesselInfo[];
   weekCount: number;
-}) => {
+} & Pick<
+  ProgramProps,
+  'changeHandlers' | 'newItemHandlers' | 'valueGetters'
+>) => {
   const entries = isCustomers
     ? (((program as CustomerProgram).customerProgramEntries?.nodes ||
         []) as CustomerProgramEntry[])
@@ -129,6 +138,31 @@ export const getProgramDetailRows = <
         | CustomerProgramEntry
         | ShipperProgramEntry
       )[]);
+
+  const pricingWeightedAvg = isCustomers
+    ? sum(
+        (entries as CustomerProgramEntry[]).map((entry) => {
+          const programPrice = getCustomerProgramEntryValue(
+            entry,
+            'programPrice',
+          ).value;
+          const palletCount = getCustomerProgramEntryValue(
+            entry,
+            'palletCount',
+          ).value;
+          return palletCount && programPrice
+            ? parseFloat(programPrice) * parseInt(palletCount, 10)
+            : 0;
+        }),
+      ) /
+      (entries as CustomerProgramEntry[]).reduce((acc, entry) => {
+        const palletCount = getCustomerProgramEntryValue(
+          entry,
+          'palletCount',
+        ).value;
+        return acc + (palletCount ? parseInt(palletCount, 10) : 0);
+      }, 0)
+    : 0;
 
   const allocatedPalletTotalSets = getAllocatedPalletEntryTotalSets(
     entries,
@@ -150,6 +184,148 @@ export const getProgramDetailRows = <
   const hasProjections = sum(projectedTotals.map((val) => val || 0)) > 0;
 
   return [
+    ...(isCustomers && (showPricing || editing)
+      ? [
+          <ProgramWrapper
+            gridTemplateColumns={gridTemplateColumns}
+            key="pricing"
+          >
+            <l.Flex alignCenter justifyBetween>
+              {program.notes ? (
+                <ty.SmallText
+                  ml={26}
+                  nowrap
+                  overflow="hidden"
+                  textOverflow="ellipsis"
+                  title={program.notes}
+                >
+                  {program.notes}
+                </ty.SmallText>
+              ) : (
+                <div />
+              )}
+              <l.Flex>
+                <ty.CaptionText>Pricing:</ty.CaptionText>
+                <ty.CaptionText
+                  bold
+                  pr={th.spacing.md}
+                  textAlign="right"
+                  width={th.spacing.xl}
+                >
+                  {pricingWeightedAvg
+                    ? formatCurrency(pricingWeightedAvg)
+                    : '-'}
+                </ty.CaptionText>
+              </l.Flex>
+            </l.Flex>
+            {times((index) => {
+              const entry = (entries as CustomerProgramEntry[]).find(
+                (e) =>
+                  e &&
+                  startOfISOWeek(
+                    new Date(e.programDate.replace(/-/g, '/')),
+                  ).toLocaleString() ===
+                    startOfISOWeek(
+                      add(
+                        new Date(
+                          startDate ? startDate.replace(/-/g, '/') : new Date(),
+                        ),
+                        { weeks: index },
+                      ),
+                    ).toLocaleString(),
+              );
+              const weekStartDate = startOfISOWeek(
+                add(
+                  new Date(
+                    startDate ? startDate.replace(/-/g, '/') : new Date(),
+                  ),
+                  {
+                    weeks: index,
+                  },
+                ),
+              );
+              const isEntryDirty =
+                getCustomerProgramEntryValue(entry, 'programPrice').value !==
+                entry?.programPrice;
+              const programPriceValue = !!entry?.programPrice
+                ? parseFloat(entry?.programPrice)
+                : 0;
+              const palletCount = getCustomerProgramEntryValue(
+                entry,
+                'palletCount',
+              );
+              const palletCountValue = palletCount?.value
+                ? parseInt(palletCount.value, 10)
+                : 0;
+              return palletCountValue ? (
+                editing ? (
+                  <l.Flex
+                    alignCenter
+                    height={`calc(${th.sizes.fill} - 6px)`}
+                    justifyCenter
+                    key={index}
+                    mx={th.spacing.tn}
+                  >
+                    <ty.BodyText mr={th.spacing.xs}>$</ty.BodyText>
+                    <EditableCell
+                      content={{
+                        dirty: entry?.id < 0 || isEntryDirty,
+                        value: entry?.programPrice,
+                      }}
+                      defaultChildren={null}
+                      editing={true}
+                      inputProps={{
+                        min: 0,
+                        textAlign: 'center',
+                        type: 'number',
+                      }}
+                      onChange={(e) => {
+                        entry
+                          ? handleCustomerProgramEntryChange({
+                              ...entry,
+                              programPrice: e.target.value,
+                            })
+                          : handleNewCustomerProgramEntry({
+                              id: 0,
+                              notes: '',
+                              palletCount: 0,
+                              programDate: formatDate(weekStartDate),
+                              programPrice: 0,
+                              customerProgramId: isCustomers
+                                ? program.id
+                                : undefined,
+                              customerProgram: isCustomers
+                                ? (program as CustomerProgram)
+                                : undefined,
+                            });
+                      }}
+                    />
+                  </l.Flex>
+                ) : (
+                  <l.Flex alignCenter key={index}>
+                    <ty.BodyText ml={th.spacing.xs} mr={th.spacing.tn}>
+                      $
+                    </ty.BodyText>
+                    <Cell
+                      alignCenter
+                      height={`calc(${th.sizes.fill} - 6px)`}
+                      justifyCenter
+                      mx={th.spacing.tn}
+                      flex={1}
+                    >
+                      <ty.CaptionText center mr={th.spacing.md}>
+                        {programPriceValue || '-'}
+                      </ty.CaptionText>
+                    </Cell>
+                  </l.Flex>
+                )
+              ) : (
+                <div />
+              );
+            }, weekCount)}
+          </ProgramWrapper>,
+        ]
+      : []),
     ...(!editing && showAllocated
       ? values(
           mapObjIndexed((item, id) => {
@@ -166,7 +342,7 @@ export const getProgramDetailRows = <
                 mt={isFirst ? th.spacing.xs : th.spacing.tn}
               >
                 <l.Flex alignCenter justifyBetween>
-                  {isFirst && program.notes ? (
+                  {isFirst && !showPricing && program.notes ? (
                     <ty.SmallText
                       ml={26}
                       nowrap
@@ -306,11 +482,18 @@ export const getProgramTotalRows = ({
   const projectedTotals = pluck('projected', programTotals || []);
   const hasProjections = sum(projectedTotals.map((val) => val || 0)) > 0;
 
-  const isGrand =
-    species === 'Net Grand' ||
-    species === 'Customers Grand' ||
-    species === 'Shippers Grand';
-  const isNetGrand = species === 'Net Grand';
+  const isGrand = [
+    'Combined Net Grand',
+    'EC Net Grand',
+    'WC Net Grand',
+    'Customers Grand',
+    'Shippers Grand',
+  ].includes(species);
+  const isNetGrand = [
+    'Combined Net Grand',
+    'EC Net Grand',
+    'WC Net Grand',
+  ].includes(species);
 
   const textColor = isNetGrand
     ? sum(totals) >= 0
@@ -338,7 +521,17 @@ export const getProgramTotalRows = ({
         </l.Flex>
         {totals.map((total, idx) => (
           <l.Flex alignCenter justifyCenter key={idx}>
-            <ty.CaptionText center color={textColor} mr={th.spacing.md}>
+            <ty.CaptionText
+              center
+              color={
+                isNetGrand
+                  ? total >= 0
+                    ? th.colors.status.success
+                    : th.colors.status.error
+                  : undefined
+              }
+              mr={th.spacing.md}
+            >
               {total === 0 ? '' : total}
             </ty.CaptionText>
           </l.Flex>

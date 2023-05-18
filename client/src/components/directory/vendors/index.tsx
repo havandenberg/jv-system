@@ -94,6 +94,7 @@ const VendorDirectory = ({ actions }: SubDirectoryProps) => {
                   <ListItem<Vendor>
                     data={item}
                     gridTemplateColumns={gridTemplateColumns}
+                    index={index}
                     listLabels={listLabels}
                     onSelectItem={() => selectVendor(item)}
                     selected={!!selectedItems.find((it) => it.id === item.id)}

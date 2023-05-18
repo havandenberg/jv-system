@@ -123,6 +123,7 @@ const Checks = () => {
                 <div key={key} style={style}>
                   <ListItem<CheckHeader>
                     data={item as CheckHeader}
+                    index={index}
                     gridTemplateColumns={gridTemplateColumns}
                     listLabels={listLabels}
                     to={`/accounting/checks/${item.checkNumber}`}

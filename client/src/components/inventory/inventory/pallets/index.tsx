@@ -76,6 +76,7 @@ const Pallets = () => {
                   <ListItem<Pallet>
                     data={item as Pallet}
                     gridTemplateColumns={gridTemplateColumns}
+                    index={index}
                     listLabels={listLabels}
                     to={`/inventory/pallets/${item.palletId}`}
                   />

@@ -53,6 +53,7 @@ export type CustomerProgramEntryUpdate = Pick<
   | 'notes'
   | 'programDate'
   | 'palletCount'
+  | 'programPrice'
   | 'customerProgramId'
   | 'customerProgram'
 >;
@@ -100,6 +101,7 @@ export type NewCustomerProgramEntry = Pick<
   | 'notes'
   | 'programDate'
   | 'palletCount'
+  | 'programPrice'
   | 'customerProgramId'
   | 'customerProgram'
 >;
@@ -137,6 +139,7 @@ export interface ProgramState {
   newItemNextIds: NewItemNextIds;
   removedItems: RemovedItems;
   showAllocated: boolean;
+  showPricing: boolean;
 }
 
 export interface ProgramProps {
@@ -182,6 +185,7 @@ export interface ProgramProps {
   setAllocateState: (state: AllocateState) => void;
   shipperPrograms: ShipperProgram[];
   showAllocated: boolean;
+  showPricing: boolean;
   valueGetters: {
     getShipperProgramValue: (
       shipperProgram: Maybe<ShipperProgram> | undefined,

@@ -89,6 +89,7 @@ const initialState: ProgramState = {
   newItemNextIds: initialNewItemNextIds,
   removedItems: initialRemovedItemsState,
   showAllocated: false,
+  showPricing: false,
 };
 
 const Programs = () => {
@@ -107,7 +108,9 @@ const Programs = () => {
   ] = useProgramsQueryParams();
   const maxWidth = window.innerWidth - 64;
 
-  const [{ startDate = formatDate(new Date()) }] = useDateRangeQueryParams();
+  const [
+    { startDate = formatDate(new Date()), endDate = formatDate(new Date()) },
+  ] = useDateRangeQueryParams();
   const selectedWeekNumber = getWeekNumber(
     new Date(startDate.replace(/-/g, '/')),
   );
@@ -139,8 +142,14 @@ const Programs = () => {
   };
 
   const [state, setState] = useState<ProgramState>(initialState);
-  const { changes, editing, newItemNextIds, removedItems, showAllocated } =
-    state;
+  const {
+    changes,
+    editing,
+    newItemNextIds,
+    removedItems,
+    showAllocated,
+    showPricing,
+  } = state;
   const hasChanges = reduce(
     (acc, key) => acc || changes[key].length > 0,
     false,
@@ -148,9 +157,9 @@ const Programs = () => {
   );
 
   const handleCancel = useCallback(() => {
-    setState({ ...initialState, showAllocated });
+    setState({ ...initialState, showAllocated, showPricing });
     setSaveAttempt(false);
-  }, [showAllocated]);
+  }, [showAllocated, showPricing]);
 
   const isCustomers = programsView === 'customers';
 
@@ -245,6 +254,13 @@ const Programs = () => {
     setState((prevState) => ({
       ...prevState,
       showAllocated: !showAllocated,
+    }));
+  };
+
+  const toggleShowPricing = () => {
+    setState((prevState) => ({
+      ...prevState,
+      showPricing: !showPricing,
     }));
   };
 
@@ -651,6 +667,7 @@ const Programs = () => {
     selectedWeekNumber,
     setAllocateState,
     showAllocated,
+    showPricing,
     updateLoading,
     valueGetters: {
       getShipperProgramValue,
@@ -663,6 +680,7 @@ const Programs = () => {
   };
 
   const filterAndGroupProgramsArgs = {
+    coast: coast || 'EC',
     commonSpecieses: specieses,
     commonSpeciesId,
     commonVarietyId,
@@ -673,6 +691,7 @@ const Programs = () => {
     getProgramValue,
     getProgramEntryValue,
     programProps,
+    endDate,
     startDate,
     vesselInfos,
     weekCount,
@@ -681,6 +700,7 @@ const Programs = () => {
   const {
     duplicateProgramIds: duplicateShipperProgramIds,
     grandProgramTotals: shipperGrandProgramTotals,
+    combinedGrandProgramTotals: shipperCombinedGrandProgramTotals,
     components: shipperProgramComponents,
   } = useFilterAndGroupPrograms<
     ShipperProgram,
@@ -697,6 +717,7 @@ const Programs = () => {
   const {
     duplicateProgramIds: duplicateCustomerProgramIds,
     grandProgramTotals: customerGrandProgramTotals,
+    combinedGrandProgramTotals: customerCombinedGrandProgramTotals,
     components: customerProgramComponents,
   } = useFilterAndGroupPrograms<
     CustomerProgram,
@@ -723,6 +744,23 @@ const Programs = () => {
           : (projected || 0) - (customerGrandProgramTotals[i].projected || 0),
     }),
   );
+  const combinedNetGrandProgramTotals = shipperCombinedGrandProgramTotals.map(
+    ({ total, available, projected }, i) => ({
+      total: total - customerCombinedGrandProgramTotals[i].total,
+      available:
+        available === null &&
+        customerCombinedGrandProgramTotals[i].available === null
+          ? null
+          : (available || 0) -
+            (customerCombinedGrandProgramTotals[i].available || 0),
+      projected:
+        projected === null &&
+        customerCombinedGrandProgramTotals[i].projected === null
+          ? null
+          : (projected || 0) -
+            (customerCombinedGrandProgramTotals[i].projected || 0),
+    }),
+  );
 
   const totalRowsProps = {
     editing,
@@ -746,10 +784,17 @@ const Programs = () => {
       : customerGrandProgramTotals,
     species: `${isCustomers ? 'Shippers' : 'Customers'} Grand`,
   });
+
   const netTotalRows = getProgramTotalRows({
     ...totalRowsProps,
     programTotals: netGrandProgramTotals,
-    species: 'Net Grand',
+    species: `${coast} Net Grand`,
+  });
+
+  const combinedNetTotalRows = getProgramTotalRows({
+    ...totalRowsProps,
+    programTotals: combinedNetGrandProgramTotals,
+    species: 'Combined Net Grand',
   });
 
   const totalComponents = [
@@ -769,7 +814,10 @@ const Programs = () => {
       : []),
     () => <div />,
     ...primaryTotalRows,
-    ...(commonSpeciesId ? [...secondaryTotalRows, ...netTotalRows] : []),
+    ...(commonSpeciesId
+      ? [...secondaryTotalRows, ...netTotalRows, ...combinedNetTotalRows]
+      : []
+    ).flat(),
     () => <div />,
     () => <div />,
   ];
@@ -988,6 +1036,7 @@ const Programs = () => {
                   notes: e.notes,
                   programDate: e.programDate,
                   palletCount: e.palletCount || 0,
+                  programPrice: e.programPrice || 0,
                   customerProgramId:
                     parseInt(e.customerProgram?.id, 10) > 0
                       ? e.customerProgram?.id
@@ -1093,6 +1142,7 @@ const Programs = () => {
       headerChildren={
         <ProgramsFilters
           isCustomers={isCustomers}
+          setWeekCount={setWeekCount}
           shippers={shippers as Shipper[]}
           shipperDataLoading={shipperDataLoading}
           shipperDataError={shipperDataError}
@@ -1129,8 +1179,10 @@ const Programs = () => {
                     }
                     selectedWeekNumber={selectedWeekNumber}
                     showAllocated={showAllocated}
+                    showPricing={showPricing}
                     startDate={startDate || ''}
                     toggleShowAllocated={toggleShowAllocated}
+                    toggleShowPricing={toggleShowPricing}
                     weekCount={weekCount}
                   />
                 </l.Div>
@@ -1143,6 +1195,7 @@ const Programs = () => {
                   columnWidth={gridWidth}
                   height={650}
                   onScroll={onScroll}
+                  recomputeGridSizeOnChange={`${startDate}-${endDate}`}
                   rowCount={components.length}
                   rowHeight={36}
                   width={maxWidth}

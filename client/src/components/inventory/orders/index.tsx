@@ -259,6 +259,7 @@ const Orders = () => {
                       <ListItem<OrderMasterInvoiceHeader>
                         data={item}
                         gridTemplateColumns={gridTemplateColumns}
+                        index={index}
                         listLabels={indexListLabels(isInvoices)}
                         to={`/${
                           isInvoices
@@ -299,6 +300,7 @@ const Orders = () => {
                       data={item}
                       gridTemplateColumns={gridTemplateColumns}
                       highlightColor={th.colors.status.warningSecondary}
+                      index={index}
                       isHighlight={
                         differenceInDays(
                           new Date(

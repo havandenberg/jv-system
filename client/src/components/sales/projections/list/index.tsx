@@ -111,6 +111,7 @@ const ShipperProjectionList = ({
                   <ListItem<ShipperProjection>
                     data={item}
                     gridTemplateColumns={gridTemplateColumns}
+                    index={index}
                     onClick={() => {
                       handleDateChange({
                         selection: {

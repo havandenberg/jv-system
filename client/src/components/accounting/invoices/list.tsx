@@ -44,6 +44,7 @@ const InvoiceList = ({
                 data={invoice}
                 gridTemplateColumns={gridTemplateColumns}
                 key={idx}
+                index={idx}
                 listLabels={listLabels}
                 to={`/accounting/invoices/${invoice.orderId}${
                   palletId ? '?palletId=' + palletId : ''

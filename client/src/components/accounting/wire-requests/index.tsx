@@ -135,6 +135,7 @@ const Wires = () => {
                   <ListItem<WireRequest>
                     data={item as WireRequest}
                     gridTemplateColumns={gridTemplateColumns}
+                    index={index}
                     listLabels={listLabels}
                     to={`/accounting/wires/${item.id}`}
                   />
