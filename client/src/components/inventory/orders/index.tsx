@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { differenceInDays } from 'date-fns';
 import { isEmpty, uniq } from 'ramda';
 import { useLocation } from 'react-router-dom';
+import { ScrollSync } from 'react-virtualized';
 
 import api from 'api';
 import { getSortedItems } from 'components/column-label';
@@ -9,7 +10,10 @@ import ListItem from 'components/list-item';
 import { DataMessage } from 'components/page/message';
 import Page from 'components/page';
 import { useActiveUser } from 'components/user/context';
-import VirtualizedList from 'components/virtualized-list';
+import VirtualizedList, {
+  GridWrapper,
+  VirtualizedGrid,
+} from 'components/virtualized-list';
 import useColumns, { SORT_ORDER } from 'hooks/use-columns';
 import {
   useOrdersQueryParams,
@@ -37,6 +41,8 @@ import {
 import { indexListLabels as itemIndexListLabels } from './items/data-utils';
 import useOrdersFilters from './use-filters';
 
+const ITEM_LIST_WIDTH = 1700;
+
 export const breadcrumbs = (isInvoices: boolean) => [
   {
     text: isInvoices ? 'Invoices' : 'Orders',
@@ -48,11 +54,12 @@ const orderMasterGridTemplateColumns = (isInvoices: boolean) =>
   `90px 90px${isInvoices ? ' 90px' : ''} 110px 1fr 3fr 100px 60px 30px`;
 
 const orderItemGridTemplateColumns =
-  '70px 1fr 70px 50px 1fr 80px 80px 40px 80px 50px 30px';
+  '70px 1fr 70px 50px 200px 100px 50px 80px 80px 80px 80px 80px 50px 50px 80px 30px 30px';
 
 const Orders = () => {
   const { pathname } = useLocation();
   const isInvoices = pathname.includes('accounting/invoices');
+  const maxWidth = window.innerWidth - 64;
 
   const {
     roles: { isSalesAssoc },
@@ -227,11 +234,11 @@ const Orders = () => {
           : undefined
       }
       breadcrumbs={breadcrumbs(isInvoices)}
-      extraPaddingTop={expanded ? 240 : 148}
+      extraPaddingTop={expanded ? (isOrders ? 240 : 220) : isOrders ? 148 : 128}
       headerChildren={
         <>
           {components}
-          {!loading && (
+          {!loading && isOrders && (
             <l.Grid
               gridTemplateColumns={gridTemplateColumns}
               mb={th.spacing.sm}
@@ -244,12 +251,13 @@ const Orders = () => {
         </>
       }
       title={isInvoices ? 'Customer Invoices' : 'Orders'}
+      noMaxWidth={!isOrders}
     >
       {!loading ? (
         isOrders ? (
           !isEmpty(sortedOrders) ? (
             <VirtualizedList
-              height={expanded ? 440 : 542}
+              height={expanded ? 480 : 582}
               rowCount={data ? sortedOrders.length : 0}
               rowRenderer={({ key, index, style }) => {
                 const item = sortedOrders[index];
@@ -288,70 +296,112 @@ const Orders = () => {
             />
           )
         ) : !isEmpty(sortedOrderItems) ? (
-          <VirtualizedList
-            height={expanded ? 440 : 542}
-            rowCount={data ? sortedOrderItems.length : 0}
-            rowRenderer={({ key, index, style }) => {
-              const item = sortedOrderItems[index] as OrderItemInvoiceItem;
-              return (
-                item && (
-                  <div key={key} style={style}>
-                    <ListItem<OrderItemInvoiceItem>
-                      data={item}
-                      gridTemplateColumns={gridTemplateColumns}
-                      highlightColor={th.colors.status.warningSecondary}
-                      index={index}
-                      isHighlight={
-                        differenceInDays(
-                          new Date(
-                            item.order?.expectedShipDate.replace(/-/g, '/'),
-                          ),
-                          new Date(
-                            item.inventoryItem?.vessel?.dischargeDate.replace(
-                              /-/g,
-                              '/',
-                            ),
-                          ),
-                        ) > 7
-                      }
-                      listLabels={itemIndexListLabels(
-                        selectedFilters,
-                        salesAssocOptions,
-                      )}
-                      to={`/${
-                        isInvoices ? 'accounting/invoices' : 'inventory/orders'
-                      }/${item.orderId}?${
-                        isInvoices
-                          ? ''
-                          : 'backOrderId=' + item?.backOrderId + '&'
-                      }&orderView=orderItems`}
-                    />
-                  </div>
-                )
-              );
-            }}
-          />
+          <ScrollSync>
+            {({ onScroll, scrollLeft }) => (
+              <GridWrapper>
+                <l.Div overflowX="hidden" width={maxWidth - 16}>
+                  <l.Grid
+                    alignCenter
+                    bg={th.colors.background}
+                    gridTemplateColumns={gridTemplateColumns}
+                    pb={th.spacing.sm}
+                    pl={th.spacing.sm}
+                    pt={th.spacing.tn}
+                    transform={`translateX(-${scrollLeft || 0}px)`}
+                    width={ITEM_LIST_WIDTH - 8}
+                    zIndex={5}
+                  >
+                    {columnLabels}
+                  </l.Grid>
+                </l.Div>
+                <l.Div
+                  transform={`translateX(-${scrollLeft}px)`}
+                  zIndex={2}
+                  relative
+                  id="order-items-portal"
+                />
+                <VirtualizedGrid
+                  columnCount={1}
+                  columnWidth={ITEM_LIST_WIDTH}
+                  onScroll={onScroll}
+                  height={expanded ? 480 : 582}
+                  width={maxWidth}
+                  rowCount={data ? sortedOrderItems.length : 0}
+                  cellRenderer={({ key, rowIndex, style }) => {
+                    const item = sortedOrderItems[
+                      rowIndex
+                    ] as OrderItemInvoiceItem;
+                    return (
+                      item && (
+                        <div key={key} style={style}>
+                          <ListItem<OrderItemInvoiceItem>
+                            data={item}
+                            gridTemplateColumns={gridTemplateColumns}
+                            highlightColor={th.colors.status.warningSecondary}
+                            index={rowIndex}
+                            isHighlight={
+                              differenceInDays(
+                                new Date(
+                                  item.order?.expectedShipDate.replace(
+                                    /-/g,
+                                    '/',
+                                  ),
+                                ),
+                                new Date(
+                                  item.inventoryItem?.vessel?.dischargeDate.replace(
+                                    /-/g,
+                                    '/',
+                                  ),
+                                ),
+                              ) > 7
+                            }
+                            listLabels={itemIndexListLabels(
+                              selectedFilters,
+                              salesAssocOptions,
+                            )}
+                            to={`/${
+                              isInvoices
+                                ? 'accounting/invoices'
+                                : 'inventory/orders'
+                            }/${item.orderId}?${
+                              isInvoices
+                                ? ''
+                                : 'backOrderId=' + item?.backOrderId + '&'
+                            }&orderView=orderItems`}
+                          />
+                        </div>
+                      )
+                    );
+                  }}
+                />
+              </GridWrapper>
+            )}
+          </ScrollSync>
         ) : (
+          <l.Div width={maxWidth}>
+            <DataMessage
+              data={sortedOrders}
+              error={error}
+              loading={loading}
+              emptyProps={{
+                header: `No ${isInvoices ? 'invoice' : 'order'} items found`,
+                text: 'Modify search parameters to view more results.',
+              }}
+            />
+          </l.Div>
+        )
+      ) : (
+        <l.Div width={isOrders ? undefined : maxWidth}>
           <DataMessage
             data={sortedOrders}
             error={error}
             loading={loading}
             emptyProps={{
-              header: `No ${isInvoices ? 'invoice' : 'order'} items found`,
+              header: `No ${isInvoices ? 'invoices' : 'orders'} found`,
               text: 'Modify search parameters to view more results.',
             }}
           />
-        )
-      ) : (
-        <DataMessage
-          data={sortedOrders}
-          error={error}
-          loading={loading}
-          emptyProps={{
-            header: `No ${isInvoices ? 'invoices' : 'orders'} found`,
-            text: 'Modify search parameters to view more results.',
-          }}
-        />
+        </l.Div>
       )}
     </Page>
   );

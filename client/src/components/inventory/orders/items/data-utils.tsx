@@ -3,8 +3,10 @@ import { format } from 'date-fns';
 import { CUSTOMER_DISTINCT_VALUES_QUERY } from 'api/directory/customer';
 import { LabelInfo } from 'components/column-label';
 import { getInventoryItemDescription } from 'components/inventory/inventory/utils';
+import StatusIndicator from 'components/status-indicator';
 import { SORT_ORDER } from 'hooks/use-columns';
 import { OrderItem } from 'types';
+import l from 'ui/layout';
 import ty from 'ui/typography';
 import { formatCurrency } from 'utils/format';
 
@@ -39,7 +41,9 @@ export const listLabels: (backOrderId?: string) => OrderItemLabelInfo[] = (
     label: 'Species',
     sortable: true,
     customSortBy: ({ inventoryItem }) =>
-      inventoryItem ? getInventoryItemDescription(inventoryItem) : '',
+      inventoryItem
+        ? getInventoryItemDescription(inventoryItem).description
+        : '',
     getValue: ({ inventoryItem }) =>
       inventoryItem ? (
         <ty.BodyText>
@@ -179,17 +183,26 @@ export const indexListLabels: (
     defaultSortOrder: SORT_ORDER.ASC,
     key: 'inventoryItem',
     sortKey: 'species',
-    label: 'Species',
+    label: 'Description',
     sortable: true,
     customSortBy: ({ inventoryItem }) =>
       inventoryItem
         ? getInventoryItemDescription(inventoryItem, selectedFilters)
+            .description
         : 'zzzzz',
     getValue: ({ inventoryItem }) =>
       inventoryItem ? (
-        <ty.BodyText>
-          {getInventoryItemDescription(inventoryItem, selectedFilters)}
-        </ty.BodyText>
+        <l.Grid
+          alignCenter
+          gridTemplateColumns="1fr 1fr 0.6fr repeat(3, 0.7fr)"
+        >
+          {getInventoryItemDescription(
+            inventoryItem,
+            selectedFilters,
+          ).descriptionItems.map((description) => (
+            <ty.BodyText ellipsis>{description}</ty.BodyText>
+          ))}
+        </l.Grid>
       ) : (
         ''
       ),
@@ -199,11 +212,11 @@ export const indexListLabels: (
     sortKey: 'lot',
     label: 'Lot #',
     sortable: true,
-    customSortBy: ({ inventoryItem }) =>
-      inventoryItem ? inventoryItem.jvLotNumber : 'zzzzz',
-    getValue: ({ inventoryItem }) =>
-      inventoryItem ? (
-        <ty.BodyText>{inventoryItem.jvLotNumber}</ty.BodyText>
+    customSortBy: (orderItem) =>
+      orderItem ? getOrderItemLotNumber(orderItem) : 'zzzzz',
+    getValue: (orderItem) =>
+      orderItem ? (
+        <ty.BodyText>{getOrderItemLotNumber(orderItem)}</ty.BodyText>
       ) : (
         ''
       ),
@@ -235,6 +248,9 @@ export const indexListLabels: (
         queryName: 'customerDistinctValues',
       },
       showSearch: true,
+      portalId: 'order-items-portal',
+      portalTop: -4,
+      portalLeft: 690,
     },
     customSortBy: ({ order }) =>
       order?.billingCustomer?.customerName.toLowerCase(),
@@ -246,6 +262,127 @@ export const indexListLabels: (
         ''
       );
     },
+  },
+  {
+    defaultSortOrder: SORT_ORDER.ASC,
+    key: 'order',
+    sortKey: 'billingCustomerCity',
+    label: 'City',
+    sortable: true,
+    customSortBy: ({ order }) => order?.billingCustomer?.city?.toLowerCase(),
+    getValue: ({ order }) => {
+      const { billingCustomer } = order || {};
+      return billingCustomer ? (
+        <ty.BodyText>{billingCustomer.city}</ty.BodyText>
+      ) : (
+        ''
+      );
+    },
+  },
+  {
+    key: 'palletCount',
+    label: 'Plts',
+    sortable: true,
+    customSortBy: ({ palletCount }) => parseInt(palletCount, 10) || 0,
+  },
+  {
+    key: 'unitSellPrice',
+    label: 'FOB Price',
+    sortable: true,
+    getValue: ({ unitSellPrice }) =>
+      unitSellPrice ? (
+        <ty.BodyText>{formatCurrency(parseFloat(unitSellPrice))}</ty.BodyText>
+      ) : (
+        ''
+      ),
+  },
+  {
+    defaultSortOrder: SORT_ORDER.ASC,
+    key: 'order',
+    sortKey: 'customerPo',
+    label: 'PO',
+    sortable: true,
+    customSortBy: ({ order }) => order?.customerPo,
+    getValue: ({ order }) => {
+      return <ty.BodyText>{order?.customerPo || '-'}</ty.BodyText>;
+    },
+  },
+  {
+    key: 'order',
+    label: 'Load #',
+    sortable: true,
+    customSortBy: ({ order }) => order?.truckLoadId,
+    getValue: ({ order }) => (
+      <ty.BodyText>{order?.truckLoadId || '-'}</ty.BodyText>
+    ),
+  },
+  {
+    key: 'order',
+    label: 'Ship Date',
+    sortKey: 'actualShipDate',
+    isDate: true,
+    sortable: true,
+    customSortBy: ({ order }) =>
+      order?.actualShipDate
+        ? new Date(order.actualShipDate.replace(/-/g, '/'))
+        : 'zzzzz',
+    getValue: ({ order }) =>
+      order?.actualShipDate ? (
+        <ty.BodyText>{order.actualShipDate.slice(5)}</ty.BodyText>
+      ) : (
+        ''
+      ),
+  },
+  {
+    key: 'order',
+    label: 'Del Date',
+    sortKey: 'expectedShipDate',
+    isDate: true,
+    sortable: true,
+    customSortBy: ({ order }) =>
+      order?.expectedShipDate
+        ? new Date(order.expectedShipDate.replace(/-/g, '/'))
+        : 'zzzzz',
+    getValue: ({ order }) =>
+      order?.expectedShipDate ? (
+        <ty.BodyText>{order.expectedShipDate.slice(5)}</ty.BodyText>
+      ) : (
+        ''
+      ),
+  },
+  {
+    defaultSortOrder: SORT_ORDER.ASC,
+    key: 'order',
+    label: 'Sls',
+    sortKey: 'salesUserCode',
+    sortable: true,
+    filterable: true,
+    filterPanelProps: {
+      customOptions: salesAssocOptions,
+      customStyles: {
+        width: 180,
+      },
+      portalId: 'order-items-portal',
+      portalTop: -4,
+      portalLeft: 1440,
+    },
+    customSortBy: ({ order }) => order?.salesUserCode || 'zzzzz',
+    getValue: ({ order }) =>
+      order ? <ty.BodyText>{order.salesUserCode}</ty.BodyText> : '',
+  },
+  {
+    defaultSortOrder: SORT_ORDER.ASC,
+    key: 'vesselCode',
+    label: 'Code',
+    sortable: true,
+    customSortBy: ({ inventoryItem }) =>
+      inventoryItem ? inventoryItem.vessel?.vesselCode : 'zzzzz',
+    getValue: ({ inventoryItem }) =>
+      inventoryItem ? (
+        <ty.BodyText>{inventoryItem.vessel?.vesselCode}</ty.BodyText>
+      ) : (
+        ''
+      ),
   },
   {
     key: 'vesselCode',
@@ -267,50 +404,22 @@ export const indexListLabels: (
       ),
   },
   {
-    key: 'order',
-    label: 'Ship Date',
-    sortKey: 'expectedShipDate',
-    isDate: true,
+    key: 'vesselCode',
+    label: 'P',
+    sortKey: 'isPre',
     sortable: true,
-    customSortBy: ({ order }) =>
-      order ? new Date(order.expectedShipDate.replace(/-/g, '/')) : 'zzzzz',
-    getValue: ({ order }) =>
-      order ? <ty.BodyText>{order.expectedShipDate.slice(5)}</ty.BodyText> : '',
-  },
-  {
-    key: 'palletCount',
-    label: 'Plts',
-    sortable: true,
-    customSortBy: ({ palletCount }) => parseInt(palletCount, 10) || 0,
-  },
-  {
-    key: 'unitSellPrice',
-    label: 'Price',
-    sortable: true,
-    getValue: ({ unitSellPrice }) =>
-      unitSellPrice ? (
-        <ty.BodyText>{formatCurrency(parseFloat(unitSellPrice))}</ty.BodyText>
+    customSortBy: ({ inventoryItem }) =>
+      !!inventoryItem?.vessel?.isPre
+        ? inventoryItem.vessel?.vesselCode
+        : 'zzzzz',
+    getValue: ({ inventoryItem }) =>
+      !!inventoryItem?.vessel?.isPre ? (
+        <l.Flex alignCenter justifyCenter>
+          <StatusIndicator status="warning" />
+        </l.Flex>
       ) : (
-        ''
+        <ty.BodyText>-</ty.BodyText>
       ),
-  },
-  {
-    defaultSortOrder: SORT_ORDER.ASC,
-    key: 'order',
-    label: 'Sls',
-    sortKey: 'salesUserCode',
-    sortable: true,
-    filterable: true,
-    filterPanelProps: {
-      customOptions: salesAssocOptions,
-      customStyles: {
-        left: '-124px',
-        width: 200,
-      },
-    },
-    customSortBy: ({ order }) => order?.salesUserCode || 'zzzzz',
-    getValue: ({ order }) =>
-      order ? <ty.BodyText>{order.salesUserCode}</ty.BodyText> : '',
   },
 ];
 
@@ -320,3 +429,8 @@ export const baseLabels: OrderItemLabelInfo[] = [
     label: 'Order ID',
   },
 ];
+
+export const getOrderItemLotNumber = (orderItem: OrderItem) =>
+  `${orderItem.jvLotNumber?.[0] || '0'}${orderItem.specialLotNumber || '00'}${
+    orderItem.jvLotNumber?.[3] || '0'
+  }${orderItem.jvLotNumber?.[4] || '0'}`;

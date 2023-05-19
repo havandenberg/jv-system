@@ -35,6 +35,7 @@ query ORDER_MASTER_LIST(
       }
       billingCustomer {
         id
+        city
         customerName
       }
       items {
@@ -106,8 +107,11 @@ query ORDER_MASTER_LIST(
             actualShipDate
             expectedShipDate
             salesUserCode
+            customerPo
+            truckLoadId
             billingCustomer {
               id
+              city
               customerName
             }
           }

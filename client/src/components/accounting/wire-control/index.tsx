@@ -309,7 +309,7 @@ const WireControlLog = () => {
                 transform={`translateX(-${scrollLeft}px)`}
                 zIndex={2}
                 relative
-                id="vessel-control-portal"
+                id="wire-control-portal"
               />
               {!isEmpty(wireControls) ? (
                 <VirtualizedGrid

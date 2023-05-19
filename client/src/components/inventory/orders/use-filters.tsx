@@ -241,12 +241,12 @@ const useOrdersFilters = ({
 
     const filteredOrderItems = orderItems.filter((orderItem) => {
       const item = orderItem.inventoryItem;
+      const itemSpecies = item?.product?.species || otherCategory;
 
-      if (!item) {
+      if (!item || itemSpecies.speciesDescription === 'Misc. Fee') {
         return false;
       }
 
-      const itemSpecies = item.product?.species || otherCategory;
       const itemVariety = item.product?.variety || otherCategory;
       const itemSize = item.sizes?.nodes[0] || otherCategory;
       const itemPackType = item.packType || otherCategory;

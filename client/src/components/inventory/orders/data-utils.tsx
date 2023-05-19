@@ -559,9 +559,12 @@ const convertInvoiceItemsToOrderItems = (
           invoiceId: invoiceHeader?.invoiceId,
           order: {
             orderId: invoiceHeader?.orderId,
+            customerPo: invoiceHeader?.customerPo,
+            truckLoadId: invoiceHeader?.truckLoadId,
             backOrderId: invoiceHeader?.backOrderId,
             invoiceId: invoiceHeader?.invoiceId,
-            expectedShipDate: invoiceHeader?.actualShipDate,
+            actualShipDate: invoiceHeader?.actualShipDate,
+            expectedShipDate: invoiceHeader?.expectedShipDate,
             salesUserCode: invoiceHeader?.salesUserCode,
             billingCustomer: invoiceHeader?.billingCustomer,
           } as OrderMasterInvoiceHeader,

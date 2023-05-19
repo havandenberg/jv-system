@@ -41,6 +41,7 @@ query INVOICE_HEADER_LIST(
       }
       billingCustomer {
         id
+        city
         customerName
       }
       items {
@@ -97,6 +98,7 @@ query INVOICE_HEADER_LIST(
               coast
               dischargeDate
               id
+              isPre
               vesselCode
             }
             warehouse {

@@ -764,18 +764,19 @@ export const getInventoryItemDescription = (
     packType?: boolean;
     plu?: boolean;
     label?: boolean;
-    program?: boolean;
   },
 ) => {
-  const { species, variety, size, packType, plu, label, program } =
-    options || {};
-  return `${
-    species ? '' : inventoryItem.product?.species?.speciesDescription + ', '
-  }${variety ? '' : inventoryItem.product?.variety?.varietyDescription + ', '}${
-    size ? '' : inventoryItem.sizes.nodes?.[0]?.combineDescription + ', '
-  }${packType ? '' : inventoryItem.packType?.packDescription + ', '}${
-    plu ? '' : (inventoryItem.plu ? 'PLU' : 'No PLU') + ', '
-  }${label ? '' : inventoryItem.packType?.label?.labelName + ', '}${
-    program ? '' : inventoryItem.packType?.customerSpecial?.customerName + ', '
-  }`;
+  const { species, variety, size, packType, plu, label } = options || {};
+  const descriptionItems = [
+    species ? '-' : inventoryItem.product?.species?.speciesDescription || '-',
+    variety ? '-' : inventoryItem.product?.variety?.varietyDescription || '-',
+    size ? '-' : inventoryItem.sizes.nodes?.[0]?.combineDescription || '-',
+    packType ? '-' : inventoryItem.packType?.packDescription || '-',
+    label ? '-' : inventoryItem.packType?.label?.labelName || '-',
+    plu ? '-' : inventoryItem.plu ? 'PLU' : 'No PLU',
+  ].filter((description) => !!description);
+  return {
+    descriptionItems,
+    description: descriptionItems.join(', '),
+  };
 };

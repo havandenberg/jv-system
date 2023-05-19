@@ -23,7 +23,9 @@ export const listLabels: OrderItemLabelInfo[] = [
     label: 'Species',
     sortable: true,
     customSortBy: ({ inventoryItem }) =>
-      inventoryItem ? getInventoryItemDescription(inventoryItem) : '',
+      inventoryItem
+        ? getInventoryItemDescription(inventoryItem).description
+        : '',
     getValue: ({ inventoryItem }) =>
       inventoryItem ? (
         <ty.BodyText>
