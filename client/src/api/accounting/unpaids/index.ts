@@ -1,4 +1,9 @@
-import { useMutation, useQuery } from '@apollo/client';
+import {
+  ApolloClient,
+  NormalizedCacheObject,
+  useMutation,
+  useQuery,
+} from '@apollo/client';
 import { loader } from 'graphql.macro';
 
 import {
@@ -166,3 +171,12 @@ export const useUnpaidInvoiceDetails = (id: number) => {
     loading,
   };
 };
+
+export const getUnpaidInvoiceDetails = (
+  gqlClient: ApolloClient<NormalizedCacheObject>,
+  id: string,
+) =>
+  gqlClient.query({
+    query: UNPAIDS_INVOICE_DETAILS_QUERY,
+    variables: { id },
+  });

@@ -28,7 +28,7 @@ import Global from 'ui/global';
 import l from 'ui/layout';
 import th from 'ui/theme';
 
-const client = new ApolloClient({
+export const client = new ApolloClient({
   uri: process.env.REACT_APP_DATABASE_API_URL,
   cache: new InMemoryCache(),
 });

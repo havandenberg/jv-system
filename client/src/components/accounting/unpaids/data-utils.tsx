@@ -238,8 +238,22 @@ export const listLabels: (
       `${vessel?.vesselCode}-${shipper?.id}-${invoice?.orderId}`,
   },
   {
+    defaultSortOrder: SORT_ORDER.DESC,
     key: 'invoice',
     label: 'Invoice Amt.',
+    sortable: true,
+    sortKey: 'invoiceAmount',
+    customSortBy: ({ invoice, shipper, vessel }) =>
+      parseFloat(
+        invoice?.totalAmountsByVesselAndShipper?.nodes
+          .find((value) => {
+            const [vesselCode, shipperId] = value?.split(',') || [];
+            return (
+              vesselCode === vessel?.vesselCode && shipperId === shipper?.id
+            );
+          })
+          ?.split(',')[2] || '0',
+      ),
     getValue: ({ invoice, shipper, vessel }) => {
       const totalAmount =
         invoice?.totalAmountsByVesselAndShipper?.nodes
@@ -263,8 +277,22 @@ export const listLabels: (
     },
   },
   {
+    defaultSortOrder: SORT_ORDER.DESC,
     key: 'invoice',
     label: 'Credit',
+    sortable: true,
+    sortKey: 'creditAmount',
+    customSortBy: ({ invoice, shipper, vessel }) =>
+      parseFloat(
+        invoice?.totalAmountsByVesselAndShipper?.nodes
+          .find((value) => {
+            const [vesselCode, shipperId] = value?.split(',') || [];
+            return (
+              vesselCode === vessel?.vesselCode && shipperId === shipper?.id
+            );
+          })
+          ?.split(',')[3] || '0',
+      ),
     getValue: ({ invoice, shipper, vessel }) => {
       const totalCreditAmount =
         invoice?.totalAmountsByVesselAndShipper?.nodes
@@ -301,8 +329,19 @@ export const listLabels: (
     },
   },
   {
+    defaultSortOrder: SORT_ORDER.DESC,
     key: 'invoice',
     label: 'Due',
+    sortable: true,
+    sortKey: 'dueAmount',
+    customSortBy: ({ invoice }) => {
+      const isPaidInFull = invoice && isInvoicePaidInFull(invoice);
+      const isUnpaid = invoice && isInvoiceUnpaid(invoice);
+      const netAmountDue = parseFloat(invoice?.netAmountDue) || 0;
+      return invoice && netAmountDue && !isPaidInFull && !isUnpaid
+        ? netAmountDue
+        : 0;
+    },
     getValue: ({ invoice }) => {
       const isPaidInFull = invoice && isInvoicePaidInFull(invoice);
       const isUnpaid = invoice && isInvoiceUnpaid(invoice);
@@ -383,8 +422,11 @@ export const listLabels: (
     allowOverflow: true,
   },
   {
+    defaultSortOrder: SORT_ORDER.ASC,
     key: 'notes',
     label: 'Notes',
+    sortable: true,
+    customSortBy: ({ notes }) => (notes ? notes.toLowerCase() : 'zzzzzzz'),
     getValue: ({ notes, ...rest }) => (
       <EditableCell
         content={{

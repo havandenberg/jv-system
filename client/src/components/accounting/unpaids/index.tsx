@@ -1,10 +1,11 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import { isEmpty } from 'ramda';
+import { isEmpty, uniq } from 'ramda';
 import { ClipLoader } from 'react-spinners';
 import { ScrollSync } from 'react-virtualized';
 
 import api from 'api';
 import ResetImg from 'assets/images/reset';
+import { client } from 'components/app';
 import { getSortedItems } from 'components/column-label';
 import { ResetButton } from 'components/inventory/inventory/use-filters';
 import ListItem from 'components/list-item';
@@ -15,12 +16,13 @@ import StatusIndicator from 'components/status-indicator';
 import { useActiveUser } from 'components/user/context';
 import VirtualizedList from 'components/virtualized-list';
 import useColumns, { SORT_ORDER } from 'hooks/use-columns';
+import usePrevious from 'hooks/use-previous';
 import {
   useSortQueryParams,
   useUnpaidsQueryParams,
 } from 'hooks/use-query-params';
 import useSearch from 'hooks/use-search';
-import { Unpaid } from 'types';
+import { InvoiceHeader, Unpaid } from 'types';
 import b from 'ui/button';
 import { LineItemCheckbox } from 'ui/checkbox';
 import { Select } from 'ui/input';
@@ -96,6 +98,7 @@ const Unpaids = () => {
     error,
     refetch,
   } = api.useUnpaids();
+  const prevLoading = usePrevious(loading);
 
   const [changes, setChanges] = useState<Unpaid[]>([]);
 
@@ -167,6 +170,34 @@ const Unpaids = () => {
 
   const isDirty = !isEmpty(changes);
 
+  const [invoiceData, setState] = useState<{
+    [key: string]: InvoiceHeader;
+  }>({});
+
+  useEffect(() => {
+    if (prevLoading && !loading) {
+      const uniqInvoiceIds = uniq(
+        unpaids.map((unpaid) => unpaid.invoice?.id || 0),
+      );
+      Promise.all(
+        uniqInvoiceIds.map((invoiceId) =>
+          api.getUnpaidInvoiceDetails(client, invoiceId),
+        ),
+      ).then((results) => {
+        setState(
+          results.reduce(
+            (acc, result) => ({
+              ...acc,
+              [`${result.data.invoiceHeader?.invoiceId}`]:
+                result.data?.invoiceHeader,
+            }),
+            {} as { [key: string]: InvoiceHeader },
+          ),
+        );
+      });
+    }
+  }, [prevLoading, loading, unpaids]);
+
   const updatedUnpaids = getSortedItems(
     listLabels,
     [
@@ -177,7 +208,14 @@ const Unpaids = () => {
             change.shipper?.id === unpaid.shipper?.id &&
             change.invoice?.invoiceId === unpaid.invoice?.invoiceId,
         );
-        return updatedUnpaidItem || unpaid;
+        return {
+          ...unpaid,
+          invoice: {
+            ...unpaid.invoice,
+            ...invoiceData[`${unpaid.invoice?.invoiceId}`],
+          },
+          ...updatedUnpaidItem,
+        };
       }),
     ],
     sortBy,
