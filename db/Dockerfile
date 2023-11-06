@@ -76,5 +76,6 @@ RUN sh -c "/var/lib/postgresql/sqllib/adm/db2licm -a /opt/ibm/db2/V11.5/db2consv
 
 ADD ./init /docker-entrypoint-initdb.d
 
+ADD ./migrations /db/migrations
 
 USER root
