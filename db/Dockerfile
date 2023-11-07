@@ -16,6 +16,11 @@ RUN apt update && apt install -y \
   make && \
   make install
 
+# add dbmate
+RUN apt install -y curl
+RUN curl -fsSL -o /usr/local/bin/dbmate https://github.com/amacneil/dbmate/releases/latest/download/dbmate-linux-amd64
+RUN chmod +x /usr/local/bin/dbmate
+
 RUN  yes yes | /db2/client/db2_install -f sysreq
 
 ENV DB2_HOME    /opt/ibm/db2/V11.5
@@ -70,5 +75,6 @@ RUN sh -c "/var/lib/postgresql/sqllib/adm/db2licm -a /opt/ibm/db2/V11.5/db2consv
 
 
 ADD ./init /docker-entrypoint-initdb.d
+
 
 USER root
