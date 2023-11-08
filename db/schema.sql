@@ -214,6 +214,141 @@ OPTIONS (
 
 
 --
+-- Name: check_header_view; Type: VIEW; Schema: accounting; Owner: -
+--
+
+CREATE VIEW accounting.check_header_view AS
+ SELECT ("ACPP600K"."CHKCDK" = 'V'::bpchar) AS is_reconciled,
+    "ACPP600K"."CHKSTK" AS check_status,
+    "ACPP600K"."CHKNOK" AS check_number,
+    "ACPP600K"."VEND#K" AS vendor_id,
+    "ACPP600K"."REMCDK" AS remit_to_code,
+    "ACPP600K"."INVAMK" AS invoice_amount,
+    "ACPP600K"."DSCNTK" AS discount_amount,
+    "ACPP600K"."CHKAMK" AS check_amount,
+    ((((("ACPP600K"."CHKMMK" || '-'::text) || "ACPP600K"."CHKDDK") || '-'::text) || "ACPP600K"."CHKYYK"))::date AS check_fate,
+    "ACPP600K"."BANK#K" AS bank_id,
+    "ACPP600K"."INVNOK" AS invoice_id,
+    ("ACPP600K"."VCHKCK" = '01'::bpchar) AS is_void,
+    ((((("ACPP600K"."RCDTMK" || '-'::text) || "ACPP600K"."RCDTDK") || '-'::text) || "ACPP600K"."RCDTYK"))::date AS entry_date
+   FROM db2_gdsapfil."ACPP600K";
+
+
+--
+-- Name: EXPP100A; Type: FOREIGN TABLE; Schema: db2_jvfil; Owner: -
+--
+
+CREATE FOREIGN TABLE db2_jvfil."EXPP100A" (
+    "VEND#A" character(8),
+    "VOCH#A" character(10),
+    "APINVA" character(10),
+    "ESTA" character(1),
+    "PAIDA" character(1),
+    "ARA" character(1),
+    "NOAPA" character(1),
+    "PROA" character(1),
+    "AMTA" numeric(9,2),
+    "DISCA" numeric(7,2),
+    "CHKA" numeric(6,0),
+    "ENTMMA" numeric(2,0),
+    "ENTDDA" numeric(2,0),
+    "ENTYYA" numeric(2,0),
+    "ENTCCA" numeric(1,0),
+    "EXPA" character(3),
+    "LOADA" character(6),
+    "LOTA" character(5),
+    "BOATA" character(3),
+    "ENTRYA" character(13)
+)
+SERVER as400
+OPTIONS (
+    schema 'JVFIL',
+    "table" 'EXPP100A'
+);
+
+
+--
+-- Name: expense_header_view; Type: VIEW; Schema: accounting; Owner: -
+--
+
+CREATE VIEW accounting.expense_header_view AS
+ SELECT "EXPP100A"."VEND#A" AS vendor_id,
+    "EXPP100A"."VOCH#A" AS voucher_id,
+    "EXPP100A"."APINVA" AS invoice_id,
+    ("EXPP100A"."ESTA" = 'Y'::bpchar) AS is_estimated,
+    "EXPP100A"."PAIDA" AS paid_code,
+    ("EXPP100A"."ARA" = 'R'::bpchar) AS receivable_cut,
+    ("EXPP100A"."NOAPA" = 'X'::bpchar) AS ap_hide,
+    ("EXPP100A"."PROA" = 'P'::bpchar) AS is_prorate,
+    "EXPP100A"."AMTA" AS expense_amount,
+    "EXPP100A"."CHKA" AS check_number,
+    ((((("EXPP100A"."ENTMMA" || '-'::text) || "EXPP100A"."ENTDDA") || '-'::text) || "EXPP100A"."ENTYYA"))::date AS entry_date,
+    "EXPP100A"."EXPA" AS expense_code,
+    "EXPP100A"."LOADA" AS truckload_id,
+    "EXPP100A"."BOATA" AS vessel_code,
+    "EXPP100A"."ENTRYA" AS customs_entry_code
+   FROM db2_jvfil."EXPP100A";
+
+
+--
+-- Name: EXPP120B; Type: FOREIGN TABLE; Schema: db2_jvfil; Owner: -
+--
+
+CREATE FOREIGN TABLE db2_jvfil."EXPP120B" (
+    "VEND#B" character(8),
+    "VOCH#B" character(10),
+    "SEQB" numeric(4,0),
+    "EXPB" character(3),
+    "NOAPB" character(1),
+    "PAIDB" character(1),
+    "QTYB" numeric(5,0),
+    "PRICEB" numeric(7,2),
+    "AMTB" numeric(9,2),
+    "PRORTB" numeric(4,2),
+    "BOATB" character(3),
+    "BOLB" character(6),
+    "EMB" numeric(2,0),
+    "PRODB" numeric(4,0),
+    "PID#B" character(12),
+    "SHPRB" character(7)
+)
+SERVER as400
+OPTIONS (
+    schema 'JVFIL',
+    "table" 'EXPP120B'
+);
+
+
+--
+-- Name: expense_item_view; Type: VIEW; Schema: accounting; Owner: -
+--
+
+CREATE VIEW accounting.expense_item_view AS
+ SELECT "EXPP120B"."VEND#B" AS vendor_id,
+    "EXPP120B"."VOCH#B" AS voucher_id,
+    "EXPP120B"."SEQB" AS sequence_id,
+    "EXPP120B"."QTYB" AS quantity,
+    "EXPP120B"."PRICEB" AS unit_price,
+    "EXPP120B"."AMTB" AS item_amount,
+    "EXPP120B"."BOLB" AS bill_of_lading_id,
+    "EXPP120B"."PRODB" AS product_code,
+    "EXPP120B"."PID#B" AS pallet_cd,
+    "EXPP120B"."SHPRB" AS shipper_id,
+    "EXPP120B"."EXPB" AS expense_code,
+    "EXPP120B"."BOATB" AS vessel_code
+   FROM db2_jvfil."EXPP120B";
+
+
+--
+-- Name: VIEW expense_item_view; Type: COMMENT; Schema: accounting; Owner: -
+--
+
+COMMENT ON VIEW accounting.expense_item_view IS '
+@foreignKey (voucher_id, vendor_id) references accounting.expense_header_view (voucher_id, vendor_id)|@foreignFieldName items
+';
+
+
+--
 -- Name: ACPP600KJ1; Type: FOREIGN TABLE; Schema: db2_gdsapfil; Owner: -
 --
 
@@ -6449,68 +6584,6 @@ OPTIONS (
 
 
 --
--- Name: EXPP100A; Type: FOREIGN TABLE; Schema: db2_jvfil; Owner: -
---
-
-CREATE FOREIGN TABLE db2_jvfil."EXPP100A" (
-    "VEND#A" character(8),
-    "VOCH#A" character(10),
-    "APINVA" character(10),
-    "ESTA" character(1),
-    "PAIDA" character(1),
-    "ARA" character(1),
-    "NOAPA" character(1),
-    "PROA" character(1),
-    "AMTA" numeric(9,2),
-    "DISCA" numeric(7,2),
-    "CHKA" numeric(6,0),
-    "ENTMMA" numeric(2,0),
-    "ENTDDA" numeric(2,0),
-    "ENTYYA" numeric(2,0),
-    "ENTCCA" numeric(1,0),
-    "EXPA" character(3),
-    "LOADA" character(6),
-    "LOTA" character(5),
-    "BOATA" character(3),
-    "ENTRYA" character(13)
-)
-SERVER as400
-OPTIONS (
-    schema 'JVFIL',
-    "table" 'EXPP100A'
-);
-
-
---
--- Name: EXPP120B; Type: FOREIGN TABLE; Schema: db2_jvfil; Owner: -
---
-
-CREATE FOREIGN TABLE db2_jvfil."EXPP120B" (
-    "VEND#B" character(8),
-    "VOCH#B" character(10),
-    "SEQB" numeric(4,0),
-    "EXPB" character(3),
-    "NOAPB" character(1),
-    "PAIDB" character(1),
-    "QTYB" numeric(5,0),
-    "PRICEB" numeric(7,2),
-    "AMTB" numeric(9,2),
-    "PRORTB" numeric(4,2),
-    "BOATB" character(3),
-    "BOLB" character(6),
-    "EMB" numeric(2,0),
-    "PRODB" numeric(4,0),
-    "PID#B" character(12),
-    "SHPRB" character(7)
-)
-SERVER as400
-OPTIONS (
-    schema 'JVFIL',
-    "table" 'EXPP120B'
-);
-
-
---
 -- Name: INVP200A; Type: FOREIGN TABLE; Schema: db2_jvfil; Owner: -
 --
 
@@ -10385,4 +10458,5 @@ CREATE EVENT TRIGGER postgraphile_watch_drop ON sql_drop
 --
 
 INSERT INTO public.schema_migrations (version) VALUES
-    ('20231108144453');
+    ('20231108144453'),
+    ('20231108171458');

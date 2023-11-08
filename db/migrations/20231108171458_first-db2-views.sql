@@ -1,5 +1,4 @@
--- db2_GDSAPFIL."ACPP600K" does not have an
--- id column
+-- migrate:up
 CREATE OR REPLACE VIEW accounting.check_header_view (
     is_reconciled,
     check_status,
@@ -92,3 +91,10 @@ CREATE OR REPLACE VIEW accounting.expense_item_view (
       "BOATB"
     FROM db2_JVFIL."EXPP120B"
   );
+
+comment on view accounting.expense_item_view is E'
+@foreignKey (voucher_id, vendor_id) references accounting.expense_header_view (voucher_id, vendor_id)|@foreignFieldName items
+';
+
+-- migrate:down
+
