@@ -1,6 +1,0 @@
-
-CREATE EXTENSION odbc_fdw;
-CREATE SERVER as400 FOREIGN DATA WRAPPER odbc_fdw OPTIONS (dsn 'AS400');
-GRANT USAGE ON FOREIGN SERVER as400 TO postgres;
--- update password before running
-CREATE USER MAPPING FOR PUBLIC SERVER as400 OPTIONS (odbc_UID 'HV', odbc_PWD '****');
