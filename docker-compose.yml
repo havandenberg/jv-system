@@ -11,6 +11,7 @@ services:
       - 5432:5432
     volumes:
       - db-data-2:/var/lib/postgresql/data
+      - ./db:/db
   db:
     container_name: jv-db
     image: postgres:13
