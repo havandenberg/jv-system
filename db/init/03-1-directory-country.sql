@@ -13,7 +13,7 @@ CREATE FUNCTION directory.country_search_text(IN c directory.country)
 AS $BODY$
 SELECT CONCAT (
 		c.id,
-		c.country_name
+		c.country_name,
 		c.cmb_id
 	) FROM directory.country cc WHERE c.id = cc.id
 $BODY$;

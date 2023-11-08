@@ -15,14 +15,6 @@ CREATE TABLE directory.customer (
 	sales_user_code TEXT
 );
 
-CREATE TABLE directory.customer_person_contact (
-  customer_id TEXT NOT NULL,
-  person_contact_id BIGINT NOT NULL,
-  PRIMARY KEY (customer_id, person_contact_id),
-  FOREIGN KEY (customer_id) REFERENCES directory.customer(id) ON UPDATE CASCADE ON DELETE CASCADE,
-  FOREIGN KEY (person_contact_id) REFERENCES directory.person_contact(id) ON UPDATE CASCADE ON DELETE CASCADE
-);
-
 CREATE FUNCTION directory.customer_country(IN c directory.customer)
     RETURNS directory.country
     LANGUAGE 'sql'

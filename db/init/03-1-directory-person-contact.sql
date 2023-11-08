@@ -16,6 +16,14 @@ CREATE TABLE directory.person_contact (
 	roles TEXT
 );
 
+CREATE TABLE directory.customer_person_contact (
+  customer_id TEXT NOT NULL,
+  person_contact_id BIGINT NOT NULL,
+  PRIMARY KEY (customer_id, person_contact_id),
+  FOREIGN KEY (customer_id) REFERENCES directory.customer(id) ON UPDATE CASCADE ON DELETE CASCADE,
+  FOREIGN KEY (person_contact_id) REFERENCES directory.person_contact(id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
 CREATE FUNCTION directory.person_contact_search_text(IN p directory.person_contact)
     RETURNS TEXT
     LANGUAGE 'sql'
