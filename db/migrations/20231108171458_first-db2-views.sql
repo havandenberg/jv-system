@@ -22,13 +22,16 @@ CREATE OR REPLACE VIEW accounting.check_header_view (
             "INVAMK",
             "DSCNTK",
             "CHKAMK",
-            date ("CHKMMK" || '-' || "CHKDDK" || '-' || "CHKYYK"),
+            -- TODO: parse dates
+            -- some of these dates are not valid ie month 00, day 00
+            ("CHKMMK" || '-' || "CHKDDK" || '-' || "CHKYYK"),
             "BANK#K",
             "INVNOK",
             "VCHKCK" = '01',
-            date ("RCDTMK" || '-' || "RCDTDK" || '-' || "RCDTYK")
+            ("RCDTMK" || '-' || "RCDTDK" || '-' || "RCDTYK")
         FROM db2_GDSAPFIL."ACPP600K"
     );
+
 CREATE OR REPLACE VIEW accounting.expense_header_view (
         vendor_id,
         voucher_id,
@@ -56,7 +59,8 @@ CREATE OR REPLACE VIEW accounting.expense_header_view (
             "PROA" = 'P',
             "AMTA",
             "CHKA",
-            date ("ENTMMA" || '-' || "ENTDDA" || '-' || "ENTYYA"),
+            -- TODO: parse dates
+            ("ENTMMA" || '-' || "ENTDDA" || '-' || "ENTYYA"),
             "EXPA",
             "LOADA",
             "BOATA",
