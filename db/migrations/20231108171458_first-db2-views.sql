@@ -8,7 +8,7 @@ CREATE OR REPLACE VIEW accounting.check_header_view (
         invoice_amount,
         discount_amount,
         check_amount,
-        check_fate,
+        check_date,
         bank_id,
         invoice_id,
         is_void,
