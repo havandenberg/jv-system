@@ -284,10 +284,20 @@ CREATE VIEW accounting.expense_header_view AS
     "EXPP100A"."CHKA" AS check_number,
     ((((("EXPP100A"."ENTMMA" || '-'::text) || "EXPP100A"."ENTDDA") || '-'::text) || "EXPP100A"."ENTYYA"))::date AS entry_date,
     "EXPP100A"."EXPA" AS expense_code,
-    "EXPP100A"."LOADA" AS truckload_id,
+    "EXPP100A"."LOADA" AS truck_load_id,
     "EXPP100A"."BOATA" AS vessel_code,
     "EXPP100A"."ENTRYA" AS customs_entry_code
    FROM db2_jvfil."EXPP100A";
+
+
+--
+-- Name: VIEW expense_header_view; Type: COMMENT; Schema: accounting; Owner: -
+--
+
+COMMENT ON VIEW accounting.expense_header_view IS '
+@foreignKey (vendor_id) references directory.vendor_view (id)|@fieldName vendor
+@foreignKey (vessel_code) references product.vessel_view (vessel_code)|@fieldName vessel
+';
 
 
 --
@@ -10410,6 +10420,98 @@ OPTIONS (
     schema 'JVPREFIL',
     "table" 'SLSO100A'
 );
+
+
+--
+-- Name: vendor_view; Type: VIEW; Schema: directory; Owner: -
+--
+
+CREATE VIEW directory.vendor_view AS
+ SELECT "ACPP100V"."VEND#V" AS id,
+    "ACPP100V"."VNAMEV" AS vendor_name,
+    "ACPP100V"."ADD1V" AS address1,
+    "ACPP100V"."ADD2V" AS address2,
+    "ACPP100V"."CITYV" AS city,
+    "ACPP100V"."STATEV" AS postal_state,
+    "ACPP100V"."ZIPCDV" AS zip_code,
+    "ACPP100V"."CNTRYV" AS country_id,
+    (((("ACPP100V"."ARECDV" || '.'::text) || "ACPP100V"."EXCHGV") || '.'::text) || "ACPP100V"."PHONEV") AS phone,
+    "ACPP100V"."ATTENV" AS attention,
+    "ACPP100V"."VTYPEV" AS vendor_type,
+    "ACPP100V"."GLCD1V" AS ledger_code,
+    "ACPP100V"."BANKV" AS bank_code,
+    "ACPP100V"."VCODEV" AS has1099,
+    "ACPP100V"."VDESCV" AS id1099,
+        CASE
+            WHEN ("ACPP100V"."VTEMPV" = ''::bpchar) THEN false
+            ELSE true
+        END AS is_temp
+   FROM db2_gdssyfil."ACPP100V";
+
+
+--
+-- Name: vessel_view; Type: VIEW; Schema: product; Owner: -
+--
+
+CREATE VIEW product.vessel_view AS
+ WITH vessel AS (
+         SELECT false AS bool,
+            "ORDP750Z"."BOAT#Z",
+            ''::text AS "?column?",
+            "ORDP750Z"."BNAMEZ",
+            "ORDP750Z"."ARVPTZ",
+            "ORDP750Z"."CNTRYZ",
+            public.parse_date("ORDP750Z"."DEPDDZ", "ORDP750Z"."DEPMMZ", "ORDP750Z"."DEPYYZ") AS parse_date,
+            public.parse_date("ORDP750Z"."ARVDDZ", "ORDP750Z"."ARVMMZ", "ORDP750Z"."ARVYYZ") AS parse_date,
+            public.parse_date("ORDP750Z"."DISDDZ", "ORDP750Z"."DISMMZ", "ORDP750Z"."DISYYZ") AS parse_date,
+                CASE
+                    WHEN ("ORDP750Z"."PAYTYZ" = 'W'::bpchar) THEN 'WC'::text
+                    ELSE 'EC'::text
+                END AS "case",
+            "ORDP750Z"."INVFGZ"
+           FROM db2_jvfil."ORDP750Z"
+        ), pre_vessel AS (
+         SELECT true AS bool,
+            "ORDP750Z"."BOAT#Z",
+            "ORDP750Z"."BOAT#Z",
+            "ORDP750Z"."BNAMEZ",
+            "ORDP750Z"."ARVPTZ",
+            "ORDP750Z"."CNTRYZ",
+            public.parse_date("ORDP750Z"."DEPDDZ", "ORDP750Z"."DEPMMZ", "ORDP750Z"."DEPYYZ") AS parse_date,
+            public.parse_date("ORDP750Z"."ARVDDZ", "ORDP750Z"."ARVMMZ", "ORDP750Z"."ARVYYZ") AS parse_date,
+            public.parse_date("ORDP750Z"."DISDDZ", "ORDP750Z"."DISMMZ", "ORDP750Z"."DISYYZ") AS parse_date,
+                CASE
+                    WHEN ("ORDP750Z"."PAYTYZ" = 'W'::bpchar) THEN 'WC'::text
+                    ELSE 'EC'::text
+                END AS "case",
+            "ORDP750Z"."INVFGZ"
+           FROM db2_jvprefil."ORDP750Z"
+        )
+ SELECT vessel.bool AS ispre,
+    vessel."BOAT#Z" AS vessel_code,
+    vessel."?column?" AS prevessel_code,
+    vessel."BNAMEZ" AS vessel_name,
+    vessel."ARVPTZ" AS arrival_port,
+    vessel."CNTRYZ" AS country_id,
+    vessel.parse_date AS departure_date,
+    vessel.parse_date_1 AS arrival_date,
+    vessel.parse_date_2 AS discharge_date,
+    vessel."case" AS coast,
+    vessel."INVFGZ" AS invflag
+   FROM vessel vessel(bool, "BOAT#Z", "?column?", "BNAMEZ", "ARVPTZ", "CNTRYZ", parse_date, parse_date_1, parse_date_2, "case", "INVFGZ")
+UNION
+ SELECT pre_vessel.bool AS ispre,
+    pre_vessel."BOAT#Z" AS vessel_code,
+    pre_vessel."BOAT#Z_1" AS prevessel_code,
+    pre_vessel."BNAMEZ" AS vessel_name,
+    pre_vessel."ARVPTZ" AS arrival_port,
+    pre_vessel."CNTRYZ" AS country_id,
+    pre_vessel.parse_date AS departure_date,
+    pre_vessel.parse_date_1 AS arrival_date,
+    pre_vessel.parse_date_2 AS discharge_date,
+    pre_vessel."case" AS coast,
+    pre_vessel."INVFGZ" AS invflag
+   FROM pre_vessel pre_vessel(bool, "BOAT#Z", "BOAT#Z_1", "BNAMEZ", "ARVPTZ", "CNTRYZ", parse_date, parse_date_1, parse_date_2, "case", "INVFGZ");
 
 
 SET default_table_access_method = heap;

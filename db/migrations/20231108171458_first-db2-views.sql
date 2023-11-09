@@ -1,4 +1,100 @@
 -- migrate:up
+
+CREATE OR REPLACE VIEW directory.vendor_view (
+        id,
+        vendor_name,
+        address1,
+        address2,
+        city,
+        postal_state,
+        zip_code,
+        country_id,
+        phone,
+        attention,
+        vendor_type,
+        ledger_code,
+        bank_code,
+        has1099,
+        id1099,
+        is_temp
+    ) as (
+        select "VEND#V",
+            "VNAMEV",
+            "ADD1V",
+            "ADD2V",
+            "CITYV",
+            "STATEV",
+            --TODO: parse zip code?
+            "ZIPCDV",
+            "CNTRYV",
+            --TODO: parse phone number?
+            "ARECDV" || '.' || "EXCHGV" || '.' || "PHONEV",
+            "ATTENV",
+            "VTYPEV",
+            "GLCD1V",
+            "BANKV",
+            "VCODEV",
+            "VDESCV",
+            case
+                when "VTEMPV" = '' then false
+                else true
+            end --TODO: parse string to boolean?
+        from db2_GDSSYFIL."ACPP100V"
+    );
+CREATE OR REPLACE VIEW product.vessel_view (
+        isPre,
+        vessel_code,
+        preVessel_code,
+        vessel_name,
+        arrival_port,
+        country_id,
+        departure_date,
+        arrival_date,
+        discharge_date,
+        coast,
+        invFlag
+    ) as (
+        with vessel as (
+            select false,
+                "BOAT#Z",
+                '',
+                "BNAMEZ",
+                "ARVPTZ",
+                "CNTRYZ",
+                -- TODO: parse dates
+                ("DEPMMZ" || '-' || "DEPDDZ" || '-' || "DEPYYZ"),
+                ("ARVMMZ" || '-' || "ARVDDZ" || '-' || "ARVYYZ"),
+                ("DISMMZ" || '-' || "DISDDZ" || '-' || "DISYYZ"),
+                case
+                    when "PAYTYZ" = 'W' then 'WC'
+                    else 'EC'
+                end,
+                "INVFGZ"
+            from db2_JVFIL."ORDP750Z"
+        ),
+        pre_vessel as (
+            select true,
+                "BOAT#Z",
+                "BOAT#Z",
+                "BNAMEZ",
+                "ARVPTZ",
+                "CNTRYZ",
+                ("DEPMMZ" || '-' || "DEPDDZ" || '-' || "DEPYYZ"),
+                ("ARVMMZ" || '-' || "ARVDDZ" || '-' || "ARVYYZ"),
+                ("DISMMZ" || '-' || "DISDDZ" || '-' || "DISYYZ"),
+                case
+                    when "PAYTYZ" = 'W' then 'WC'
+                    else 'EC'
+                end,
+                "INVFGZ"
+            from db2_JVPREFIL."ORDP750Z"
+        )
+        select *
+        from vessel
+        union
+        select *
+        from pre_vessel
+    );
 CREATE OR REPLACE VIEW accounting.check_header_view (
         is_reconciled,
         check_status,
@@ -31,7 +127,6 @@ CREATE OR REPLACE VIEW accounting.check_header_view (
             ("RCDTMK" || '-' || "RCDTDK" || '-' || "RCDTYK")
         FROM db2_GDSAPFIL."ACPP600K"
     );
-
 CREATE OR REPLACE VIEW accounting.expense_header_view (
         vendor_id,
         voucher_id,
@@ -45,7 +140,7 @@ CREATE OR REPLACE VIEW accounting.expense_header_view (
         check_number,
         entry_date,
         expense_code,
-        truckLoad_id,
+        truck_load_id,
         vessel_code,
         customs_entry_code
     ) as (
@@ -95,6 +190,11 @@ CREATE OR REPLACE VIEW accounting.expense_item_view (
             "BOATB"
         FROM db2_JVFIL."EXPP120B"
     );
+
+comment on view accounting.expense_header_view is E'
+@foreignKey (vendor_id) references directory.vendor_view (id)|@fieldName vendor
+@foreignKey (vessel_code) references product.vessel_view (vessel_code)|@fieldName vessel
+';
 comment on view accounting.expense_item_view is E'
 @foreignKey (voucher_id, vendor_id) references accounting.expense_header_view (voucher_id, vendor_id)|@foreignFieldName items
 ';
