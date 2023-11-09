@@ -199,3 +199,9 @@ comment on view accounting.expense_item_view is E'
 @foreignKey (voucher_id, vendor_id) references accounting.expense_header_view (voucher_id, vendor_id)|@foreignFieldName items
 ';
 -- migrate:down
+
+DROP VIEW directory.vendor_view;
+DROP VIEW product.vessel_view;
+DROP VIEW accounting.expense_header_view;
+DROP VIEW accounting.expense_item_view;
+DROP VIEW accounting.check_header_view;
