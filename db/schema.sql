@@ -150,6 +150,20 @@ $$;
 
 
 --
+-- Name: parse_date(numeric, numeric, numeric); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.parse_date(day numeric, month numeric, year numeric) RETURNS date
+    LANGUAGE sql
+    AS $$
+SELECT case
+        when day = 0
+        or month = 0 then null
+        else date (month || '-' || day || '-' || year)
+    end $$;
+
+
+--
 -- Name: as400; Type: SERVER; Schema: -; Owner: -
 --
 
@@ -226,11 +240,11 @@ CREATE VIEW accounting.check_header_view AS
     "ACPP600K"."INVAMK" AS invoice_amount,
     "ACPP600K"."DSCNTK" AS discount_amount,
     "ACPP600K"."CHKAMK" AS check_amount,
-    ((((("ACPP600K"."CHKMMK" || '-'::text) || "ACPP600K"."CHKDDK") || '-'::text) || "ACPP600K"."CHKYYK"))::date AS check_fate,
+    public.parse_date("ACPP600K"."CHKDDK", "ACPP600K"."CHKMMK", "ACPP600K"."CHKYYK") AS check_date,
     "ACPP600K"."BANK#K" AS bank_id,
     "ACPP600K"."INVNOK" AS invoice_id,
     ("ACPP600K"."VCHKCK" = '01'::bpchar) AS is_void,
-    ((((("ACPP600K"."RCDTMK" || '-'::text) || "ACPP600K"."RCDTDK") || '-'::text) || "ACPP600K"."RCDTYK"))::date AS entry_date
+    public.parse_date("ACPP600K"."RCDTDK", "ACPP600K"."RCDTMK", "ACPP600K"."RCDTYK") AS entry_date
    FROM db2_gdsapfil."ACPP600K";
 
 
@@ -282,7 +296,7 @@ CREATE VIEW accounting.expense_header_view AS
     ("EXPP100A"."PROA" = 'P'::bpchar) AS is_prorate,
     "EXPP100A"."AMTA" AS expense_amount,
     "EXPP100A"."CHKA" AS check_number,
-    ((((("EXPP100A"."ENTMMA" || '-'::text) || "EXPP100A"."ENTDDA") || '-'::text) || "EXPP100A"."ENTYYA"))::date AS entry_date,
+    public.parse_date("EXPP100A"."ENTDDA", "EXPP100A"."ENTMMA", "EXPP100A"."ENTYYA") AS entry_date,
     "EXPP100A"."EXPA" AS expense_code,
     "EXPP100A"."LOADA" AS truck_load_id,
     "EXPP100A"."BOATA" AS vessel_code,

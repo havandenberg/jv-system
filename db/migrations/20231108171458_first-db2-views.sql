@@ -1,5 +1,10 @@
 -- migrate:up
-
+CREATE OR REPLACE FUNCTION parse_date(day numeric, month numeric, year numeric) returns date AS $$
+SELECT case
+        when day = 0
+        or month = 0 then null
+        else date (month || '-' || day || '-' || year)
+    end $$ LANGUAGE SQL;
 CREATE OR REPLACE VIEW directory.vendor_view (
         id,
         vendor_name,
@@ -61,10 +66,9 @@ CREATE OR REPLACE VIEW product.vessel_view (
                 "BNAMEZ",
                 "ARVPTZ",
                 "CNTRYZ",
-                -- TODO: parse dates
-                ("DEPMMZ" || '-' || "DEPDDZ" || '-' || "DEPYYZ"),
-                ("ARVMMZ" || '-' || "ARVDDZ" || '-' || "ARVYYZ"),
-                ("DISMMZ" || '-' || "DISDDZ" || '-' || "DISYYZ"),
+                parse_date("DEPDDZ", "DEPMMZ", "DEPYYZ"),
+                parse_date("ARVDDZ", "ARVMMZ", "ARVYYZ"),
+                parse_date("DISDDZ", "DISMMZ", "DISYYZ"),
                 case
                     when "PAYTYZ" = 'W' then 'WC'
                     else 'EC'
@@ -79,9 +83,9 @@ CREATE OR REPLACE VIEW product.vessel_view (
                 "BNAMEZ",
                 "ARVPTZ",
                 "CNTRYZ",
-                ("DEPMMZ" || '-' || "DEPDDZ" || '-' || "DEPYYZ"),
-                ("ARVMMZ" || '-' || "ARVDDZ" || '-' || "ARVYYZ"),
-                ("DISMMZ" || '-' || "DISDDZ" || '-' || "DISYYZ"),
+                parse_date("DEPDDZ", "DEPMMZ", "DEPYYZ"),
+                parse_date("ARVDDZ", "ARVMMZ", "ARVYYZ"),
+                parse_date("DISDDZ", "DISMMZ", "DISYYZ"),
                 case
                     when "PAYTYZ" = 'W' then 'WC'
                     else 'EC'
@@ -95,6 +99,7 @@ CREATE OR REPLACE VIEW product.vessel_view (
         select *
         from pre_vessel
     );
+
 CREATE OR REPLACE VIEW accounting.check_header_view (
         is_reconciled,
         check_status,
@@ -118,13 +123,11 @@ CREATE OR REPLACE VIEW accounting.check_header_view (
             "INVAMK",
             "DSCNTK",
             "CHKAMK",
-            -- TODO: parse dates
-            -- some of these dates are not valid ie month 00, day 00
-            ("CHKMMK" || '-' || "CHKDDK" || '-' || "CHKYYK"),
+            parse_date("CHKDDK", "CHKMMK", "CHKYYK"),
             "BANK#K",
             "INVNOK",
             "VCHKCK" = '01',
-            ("RCDTMK" || '-' || "RCDTDK" || '-' || "RCDTYK")
+            parse_date("RCDTDK", "RCDTMK", "RCDTYK")
         FROM db2_GDSAPFIL."ACPP600K"
     );
 CREATE OR REPLACE VIEW accounting.expense_header_view (
@@ -154,8 +157,7 @@ CREATE OR REPLACE VIEW accounting.expense_header_view (
             "PROA" = 'P',
             "AMTA",
             "CHKA",
-            -- TODO: parse dates
-            ("ENTMMA" || '-' || "ENTDDA" || '-' || "ENTYYA"),
+            parse_date("ENTDDA", "ENTMMA", "ENTYYA"),
             "EXPA",
             "LOADA",
             "BOATA",
@@ -205,3 +207,4 @@ DROP VIEW product.vessel_view;
 DROP VIEW accounting.expense_header_view;
 DROP VIEW accounting.expense_item_view;
 DROP VIEW accounting.check_header_view;
+DROP FUNCTION parse_date(numeric, numeric, numeric);
