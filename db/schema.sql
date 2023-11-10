@@ -108,48 +108,6 @@ COMMENT ON EXTENSION odbc_fdw IS 'Foreign data wrapper for accessing remote data
 
 
 --
--- Name: notify_watchers_ddl(); Type: FUNCTION; Schema: postgraphile_watch; Owner: -
---
-
-CREATE FUNCTION postgraphile_watch.notify_watchers_ddl() RETURNS event_trigger
-    LANGUAGE plpgsql
-    AS $$
-begin
-  perform pg_notify(
-    'postgraphile_watch',
-    json_build_object(
-      'type',
-      'ddl',
-      'payload',
-      (select json_agg(json_build_object('schema', schema_name, 'command', command_tag)) from pg_event_trigger_ddl_commands() as x)
-    )::text
-  );
-end;
-$$;
-
-
---
--- Name: notify_watchers_drop(); Type: FUNCTION; Schema: postgraphile_watch; Owner: -
---
-
-CREATE FUNCTION postgraphile_watch.notify_watchers_drop() RETURNS event_trigger
-    LANGUAGE plpgsql
-    AS $$
-begin
-  perform pg_notify(
-    'postgraphile_watch',
-    json_build_object(
-      'type',
-      'drop',
-      'payload',
-      (select json_agg(distinct x.schema_name) from pg_event_trigger_dropped_objects() as x)
-    )::text
-  );
-end;
-$$;
-
-
---
 -- Name: parse_date(numeric, numeric, numeric); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -183,70 +141,6 @@ CREATE USER MAPPING FOR public SERVER as400 OPTIONS (
 
 
 SET default_tablespace = '';
-
---
--- Name: ACPP600K; Type: FOREIGN TABLE; Schema: db2_gdsapfil; Owner: -
---
-
-CREATE FOREIGN TABLE db2_gdsapfil."ACPP600K" (
-    "CHKCDK" character(1),
-    "CHKSTK" character(1),
-    "CHKNOK" numeric(6,0),
-    "VEND#K" character(8),
-    "REMCDK" numeric(3,0),
-    "VNAMEK" character(30),
-    "INVAMK" numeric(9,2),
-    "DSCNTK" numeric(9,2),
-    "CHKAMK" numeric(9,2),
-    "CHKMMK" numeric(2,0),
-    "CHKDDK" numeric(2,0),
-    "CHKYYK" numeric(2,0),
-    "UDTEMK" numeric(2,0),
-    "UDTEDK" numeric(2,0),
-    "UDTEYK" numeric(2,0),
-    "CO#K" numeric(2,0),
-    "DIV#K" numeric(2,0),
-    "BANK#K" character(2),
-    "INVNOK" character(10),
-    "INVSQK" numeric(2,0),
-    "VCHKCK" character(2),
-    "GLINK" character(1),
-    "GLRVK" character(1),
-    "GLACMK" numeric(2,0),
-    "GLACYK" numeric(2,0),
-    "RCDTMK" numeric(2,0),
-    "RCDTDK" numeric(2,0),
-    "RCDTYK" numeric(2,0),
-    "RCFLAG" character(1),
-    "PERNOK" numeric(2,0)
-)
-SERVER as400
-OPTIONS (
-    schema 'GDSAPFIL',
-    "table" 'ACPP600K'
-);
-
-
---
--- Name: check_header_view; Type: VIEW; Schema: accounting; Owner: -
---
-
-CREATE VIEW accounting.check_header_view AS
- SELECT ("ACPP600K"."CHKCDK" = 'V'::bpchar) AS is_reconciled,
-    "ACPP600K"."CHKSTK" AS check_status,
-    "ACPP600K"."CHKNOK" AS check_number,
-    "ACPP600K"."VEND#K" AS vendor_id,
-    "ACPP600K"."REMCDK" AS remit_to_code,
-    "ACPP600K"."INVAMK" AS invoice_amount,
-    "ACPP600K"."DSCNTK" AS discount_amount,
-    "ACPP600K"."CHKAMK" AS check_amount,
-    public.parse_date("ACPP600K"."CHKDDK", "ACPP600K"."CHKMMK", "ACPP600K"."CHKYYK") AS check_date,
-    "ACPP600K"."BANK#K" AS bank_id,
-    "ACPP600K"."INVNOK" AS invoice_id,
-    ("ACPP600K"."VCHKCK" = '01'::bpchar) AS is_void,
-    public.parse_date("ACPP600K"."RCDTDK", "ACPP600K"."RCDTMK", "ACPP600K"."RCDTYK") AS entry_date
-   FROM db2_gdsapfil."ACPP600K";
-
 
 --
 -- Name: EXPP100A; Type: FOREIGN TABLE; Schema: db2_jvfil; Owner: -
@@ -312,6 +206,131 @@ COMMENT ON VIEW accounting.expense_header_view IS '
 @foreignKey (vendor_id) references directory.vendor_view (id)|@fieldName vendor
 @foreignKey (vessel_code) references product.vessel_view (vessel_code)|@fieldName vessel
 ';
+
+
+--
+-- Name: expense_header_summary_view(text); Type: FUNCTION; Schema: accounting; Owner: -
+--
+
+CREATE FUNCTION accounting.expense_header_summary_view(vessel_code_param text) RETURNS SETOF accounting.expense_header_view
+    LANGUAGE sql STABLE
+    AS $$
+SELECT *
+FROM accounting.expense_header_view eh
+WHERE eh.vessel_code = vessel_code_param
+    OR vessel_code_param IN (
+        SELECT DISTINCT vessel_code
+        FROM accounting.expense_item_view ei
+        WHERE ei.voucher_id = eh.voucher_id
+            AND ei.vendor_id = eh.vendor_id
+    );
+$$;
+
+
+--
+-- Name: notify_watchers_ddl(); Type: FUNCTION; Schema: postgraphile_watch; Owner: -
+--
+
+CREATE FUNCTION postgraphile_watch.notify_watchers_ddl() RETURNS event_trigger
+    LANGUAGE plpgsql
+    AS $$
+begin
+  perform pg_notify(
+    'postgraphile_watch',
+    json_build_object(
+      'type',
+      'ddl',
+      'payload',
+      (select json_agg(json_build_object('schema', schema_name, 'command', command_tag)) from pg_event_trigger_ddl_commands() as x)
+    )::text
+  );
+end;
+$$;
+
+
+--
+-- Name: notify_watchers_drop(); Type: FUNCTION; Schema: postgraphile_watch; Owner: -
+--
+
+CREATE FUNCTION postgraphile_watch.notify_watchers_drop() RETURNS event_trigger
+    LANGUAGE plpgsql
+    AS $$
+begin
+  perform pg_notify(
+    'postgraphile_watch',
+    json_build_object(
+      'type',
+      'drop',
+      'payload',
+      (select json_agg(distinct x.schema_name) from pg_event_trigger_dropped_objects() as x)
+    )::text
+  );
+end;
+$$;
+
+
+--
+-- Name: ACPP600K; Type: FOREIGN TABLE; Schema: db2_gdsapfil; Owner: -
+--
+
+CREATE FOREIGN TABLE db2_gdsapfil."ACPP600K" (
+    "CHKCDK" character(1),
+    "CHKSTK" character(1),
+    "CHKNOK" numeric(6,0),
+    "VEND#K" character(8),
+    "REMCDK" numeric(3,0),
+    "VNAMEK" character(30),
+    "INVAMK" numeric(9,2),
+    "DSCNTK" numeric(9,2),
+    "CHKAMK" numeric(9,2),
+    "CHKMMK" numeric(2,0),
+    "CHKDDK" numeric(2,0),
+    "CHKYYK" numeric(2,0),
+    "UDTEMK" numeric(2,0),
+    "UDTEDK" numeric(2,0),
+    "UDTEYK" numeric(2,0),
+    "CO#K" numeric(2,0),
+    "DIV#K" numeric(2,0),
+    "BANK#K" character(2),
+    "INVNOK" character(10),
+    "INVSQK" numeric(2,0),
+    "VCHKCK" character(2),
+    "GLINK" character(1),
+    "GLRVK" character(1),
+    "GLACMK" numeric(2,0),
+    "GLACYK" numeric(2,0),
+    "RCDTMK" numeric(2,0),
+    "RCDTDK" numeric(2,0),
+    "RCDTYK" numeric(2,0),
+    "RCFLAG" character(1),
+    "PERNOK" numeric(2,0)
+)
+SERVER as400
+OPTIONS (
+    schema 'GDSAPFIL',
+    "table" 'ACPP600K'
+);
+
+
+--
+-- Name: check_header_view; Type: VIEW; Schema: accounting; Owner: -
+--
+
+CREATE VIEW accounting.check_header_view AS
+ SELECT ("ACPP600K"."CHKCDK" = 'V'::bpchar) AS is_reconciled,
+    "ACPP600K"."CHKSTK" AS check_status,
+    "ACPP600K"."CHKNOK" AS check_number,
+    "ACPP600K"."VEND#K" AS vendor_id,
+    "ACPP600K"."REMCDK" AS remit_to_code,
+    "ACPP600K"."INVAMK" AS invoice_amount,
+    "ACPP600K"."DSCNTK" AS discount_amount,
+    "ACPP600K"."CHKAMK" AS check_amount,
+    public.parse_date("ACPP600K"."CHKDDK", "ACPP600K"."CHKMMK", "ACPP600K"."CHKYYK") AS check_date,
+    "ACPP600K"."BANK#K" AS bank_id,
+    "ACPP600K"."INVNOK" AS invoice_id,
+    ("ACPP600K"."VCHKCK" = '01'::bpchar) AS is_void,
+    public.parse_date("ACPP600K"."RCDTDK", "ACPP600K"."RCDTMK", "ACPP600K"."RCDTYK") AS entry_date
+   FROM db2_gdsapfil."ACPP600K";
 
 
 --
@@ -10626,4 +10645,5 @@ CREATE EVENT TRIGGER postgraphile_watch_drop ON sql_drop
 
 INSERT INTO public.schema_migrations (version) VALUES
     ('20231108144453'),
-    ('20231108171458');
+    ('20231108171458'),
+    ('20231110160828');
