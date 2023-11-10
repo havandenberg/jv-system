@@ -99,7 +99,74 @@ CREATE OR REPLACE VIEW product.vessel_view (
         select *
         from pre_vessel
     );
-
+CREATE VIEW product.pallet_view (
+    vessel_code,
+    pallet_id,
+    product_id,
+    current_box_quantity,
+    received_box_quantity,
+    returned_box_quantity,
+    location_id,
+    room,
+    section,
+    row,
+    jv_lot_number,
+    shipper_id,
+    date_transferred_to_storage,
+    order_id,
+    back_order_id,
+    shipped,
+    age,
+    volume_discount_code,
+    original_location_id,
+    filler,
+    grower_id,
+    old_pack_code,
+    pack_date,
+    hatch,
+    deck,
+    bill_of_lading,
+    container_id,
+    temperature_recording
+) as (
+    SELECT "BOAT#V",
+        "PID#V",
+        "PROD#V",
+        "PBOXQV",
+        "RBOXQV",
+        "QTYRTV",
+        "PLOC#V",
+        "ROOMV",
+        "SECTV",
+        "ROWV",
+        "JVLOTV",
+        "SHPR#V",
+        "TRNCSV",
+        "ORD#V",
+        "BONBRV",
+        "SHPFGV" = 'Y',
+        "AGEDV",
+        "VOLDCV",
+        "ORGLCV",
+        "FILLER",
+        "GROWID",
+        "PACKG",
+        "PACKDT",
+        "HATCH",
+        "DECKS",
+        "PLBOL",
+        "CONTR",
+        "TEMP#J"
+    from db2_JVFIL."ORDP710V" as master
+        left join db2_JVFIL."ORDP710J" as secondary on master."PID#V" = secondary."PALID"
+);
+CREATE OR REPLACE VIEW directory.shipper_view (id, shipper_name, country_id, group_id) as (
+        SELECT "SHPR#K",
+            "VNAMEK",
+            "CNTRYK",
+            "CMBK"
+        from db2_JVFIL."INVP510K"
+    );
 CREATE OR REPLACE VIEW accounting.check_header_view (
         is_reconciled,
         check_status,
@@ -173,7 +240,7 @@ CREATE OR REPLACE VIEW accounting.expense_item_view (
         item_amount,
         bill_of_lading_id,
         product_code,
-        pallet_cd,
+        pallet_id,
         shipper_id,
         expense_code,
         vessel_code
@@ -192,19 +259,21 @@ CREATE OR REPLACE VIEW accounting.expense_item_view (
             "BOATB"
         FROM db2_JVFIL."EXPP120B"
     );
-
 comment on view accounting.expense_header_view is E'
 @foreignKey (vendor_id) references directory.vendor_view (id)|@fieldName vendor
 @foreignKey (vessel_code) references product.vessel_view (vessel_code)|@fieldName vessel
 ';
 comment on view accounting.expense_item_view is E'
 @foreignKey (voucher_id, vendor_id) references accounting.expense_header_view (voucher_id, vendor_id)|@foreignFieldName items
+@foreignKey (pallet_id) references product.pallet_view (pallet_id)|@fieldName pallet
+@foreignKey (shipper_id) references directory.shipper_view (id)|@fieldName shipper
 ';
 -- migrate:down
-
 DROP VIEW directory.vendor_view;
 DROP VIEW product.vessel_view;
 DROP VIEW accounting.expense_header_view;
 DROP VIEW accounting.expense_item_view;
 DROP VIEW accounting.check_header_view;
+DROP VIEW directory.shipper_view;
+DROP VIEW product.pallet_view;
 DROP FUNCTION parse_date(numeric, numeric, numeric);

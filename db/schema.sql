@@ -356,7 +356,7 @@ CREATE VIEW accounting.expense_item_view AS
     "EXPP120B"."AMTB" AS item_amount,
     "EXPP120B"."BOLB" AS bill_of_lading_id,
     "EXPP120B"."PRODB" AS product_code,
-    "EXPP120B"."PID#B" AS pallet_cd,
+    "EXPP120B"."PID#B" AS pallet_id,
     "EXPP120B"."SHPRB" AS shipper_id,
     "EXPP120B"."EXPB" AS expense_code,
     "EXPP120B"."BOATB" AS vessel_code
@@ -369,6 +369,8 @@ CREATE VIEW accounting.expense_item_view AS
 
 COMMENT ON VIEW accounting.expense_item_view IS '
 @foreignKey (voucher_id, vendor_id) references accounting.expense_header_view (voucher_id, vendor_id)|@foreignFieldName items
+@foreignKey (pallet_id) references product.pallet_view (pallet_id)|@fieldName pallet
+@foreignKey (shipper_id) references directory.shipper_view (id)|@fieldName shipper
 ';
 
 
@@ -10437,6 +10439,18 @@ OPTIONS (
 
 
 --
+-- Name: shipper_view; Type: VIEW; Schema: directory; Owner: -
+--
+
+CREATE VIEW directory.shipper_view AS
+ SELECT "INVP510K"."SHPR#K" AS id,
+    "INVP510K"."VNAMEK" AS shipper_name,
+    "INVP510K"."CNTRYK" AS country_id,
+    "INVP510K"."CMBK" AS group_id
+   FROM db2_jvfil."INVP510K";
+
+
+--
 -- Name: vendor_view; Type: VIEW; Schema: directory; Owner: -
 --
 
@@ -10461,6 +10475,43 @@ CREATE VIEW directory.vendor_view AS
             ELSE true
         END AS is_temp
    FROM db2_gdssyfil."ACPP100V";
+
+
+--
+-- Name: pallet_view; Type: VIEW; Schema: product; Owner: -
+--
+
+CREATE VIEW product.pallet_view AS
+ SELECT master."BOAT#V" AS vessel_code,
+    master."PID#V" AS pallet_id,
+    master."PROD#V" AS product_id,
+    master."PBOXQV" AS current_box_quantity,
+    master."RBOXQV" AS received_box_quantity,
+    master."QTYRTV" AS returned_box_quantity,
+    master."PLOC#V" AS location_id,
+    master."ROOMV" AS room,
+    master."SECTV" AS section,
+    master."ROWV" AS "row",
+    master."JVLOTV" AS jv_lot_number,
+    master."SHPR#V" AS shipper_id,
+    master."TRNCSV" AS date_transferred_to_storage,
+    master."ORD#V" AS order_id,
+    master."BONBRV" AS back_order_id,
+    (master."SHPFGV" = 'Y'::bpchar) AS shipped,
+    master."AGEDV" AS age,
+    master."VOLDCV" AS volume_discount_code,
+    master."ORGLCV" AS original_location_id,
+    secondary."FILLER" AS filler,
+    secondary."GROWID" AS grower_id,
+    secondary."PACKG" AS old_pack_code,
+    secondary."PACKDT" AS pack_date,
+    secondary."HATCH" AS hatch,
+    secondary."DECKS" AS deck,
+    secondary."PLBOL" AS bill_of_lading,
+    secondary."CONTR" AS container_id,
+    secondary."TEMP#J" AS temperature_recording
+   FROM (db2_jvfil."ORDP710V" master
+     LEFT JOIN db2_jvfil."ORDP710J" secondary ON ((master."PID#V" = secondary."PALID")));
 
 
 --
