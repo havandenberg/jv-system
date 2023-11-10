@@ -37,7 +37,7 @@ export const useExpensesSummary = (vesselCode: string, shipperId: string) => {
   );
 
   return {
-    data: data ? data.expenseHeaderSummary : undefined,
+    data: data ? data.expenseHeaderSummaryView : undefined,
     error,
     loading,
   };
