@@ -5,7 +5,7 @@ SELECT case
         or month = 0 then null
         else date (month || '-' || day || '-' || year)
     end $$ LANGUAGE SQL;
-CREATE OR REPLACE VIEW directory.vendor_view (
+CREATE MATERIALIZED VIEW directory.vendor_view (
         id,
         vendor_name,
         address1,
@@ -46,7 +46,7 @@ CREATE OR REPLACE VIEW directory.vendor_view (
             end --TODO: parse string to boolean?
         from db2_GDSSYFIL."ACPP100V"
     );
-CREATE OR REPLACE VIEW product.vessel_view (
+CREATE MATERIALIZED VIEW product.vessel_view (
         is_pre,
         vessel_code,
         pre_vessel_code,
@@ -99,7 +99,7 @@ CREATE OR REPLACE VIEW product.vessel_view (
         select *
         from pre_vessel
     );
-CREATE VIEW product.pallet_view (
+CREATE MATERIALIZED VIEW product.pallet_view (
     id,
     vessel_code,
     pallet_id,
@@ -162,14 +162,14 @@ CREATE VIEW product.pallet_view (
     from db2_JVFIL."ORDP710V" as master
         left join db2_JVFIL."ORDP710J" as secondary on master."PID#V" = secondary."PALID"
 );
-CREATE OR REPLACE VIEW directory.shipper_view (id, shipper_name, country_id, group_id) as (
+CREATE MATERIALIZED VIEW directory.shipper_view (id, shipper_name, country_id, group_id) as (
         SELECT "SHPR#K",
             "VNAMEK",
             "CNTRYK",
             "CMBK"
         from db2_JVFIL."INVP510K"
     );
-CREATE OR REPLACE VIEW accounting.check_header_view (
+CREATE MATERIALIZED VIEW accounting.check_header_view (
         is_reconciled,
         check_status,
         check_number,
@@ -199,7 +199,7 @@ CREATE OR REPLACE VIEW accounting.check_header_view (
             parse_date("RCDTDK", "RCDTMK", "RCDTYK")
         FROM db2_GDSAPFIL."ACPP600K"
     );
-CREATE OR REPLACE VIEW accounting.expense_header_view (
+CREATE MATERIALIZED VIEW accounting.expense_header_view (
         vendor_id,
         voucher_id,
         invoice_id,
@@ -240,8 +240,7 @@ CREATE OR REPLACE VIEW accounting.expense_header_view (
                     AND v.is_pre = FALSE
                 ORDER BY v.discharge_date DESC
                 limit 1
-            ),
-            (
+            ), (
                 SELECT is_available
                 FROM product.vessel v
                 WHERE v.vessel_code = "BOATA"
@@ -249,10 +248,9 @@ CREATE OR REPLACE VIEW accounting.expense_header_view (
                 ORDER BY v.discharge_date DESC
                 LIMIT 1
             )
-
         FROM db2_JVFIL."EXPP100A"
     );
-CREATE OR REPLACE VIEW accounting.expense_item_view (
+CREATE MATERIALIZED VIEW accounting.expense_item_view (
         id,
         vendor_id,
         voucher_id,
@@ -282,21 +280,24 @@ CREATE OR REPLACE VIEW accounting.expense_item_view (
             trim("BOATB")
         FROM db2_JVFIL."EXPP120B"
     );
-comment on view accounting.expense_header_view is E'
+
+comment on MATERIALIZED view accounting.expense_header_view is E'
 @foreignKey (vendor_id) references directory.vendor_view (id)|@fieldName vendor
 @foreignKey (vessel_code) references product.vessel_view (vessel_code)|@fieldName vessel
 ';
-comment on view accounting.expense_item_view is E'
+
+comment on MATERIALIZED view accounting.expense_item_view is E'
 @foreignKey (voucher_id, vendor_id) references accounting.expense_header_view (voucher_id, vendor_id)|@foreignFieldName items
 @foreignKey (pallet_id) references product.pallet_view (pallet_id)|@fieldName pallet
 @foreignKey (shipper_id) references directory.shipper_view (id)|@fieldName shipper
 ';
+
 -- migrate:down
-DROP VIEW directory.vendor_view;
-DROP VIEW product.vessel_view;
-DROP VIEW accounting.expense_header_view;
-DROP VIEW accounting.expense_item_view;
-DROP VIEW accounting.check_header_view;
-DROP VIEW directory.shipper_view;
-DROP VIEW product.pallet_view;
+DROP MATERIALIZED VIEW directory.vendor_view;
+DROP MATERIALIZED VIEW product.vessel_view;
+DROP MATERIALIZED VIEW accounting.expense_header_view;
+DROP MATERIALIZED VIEW accounting.expense_item_view;
+DROP MATERIALIZED VIEW accounting.check_header_view;
+DROP MATERIALIZED VIEW directory.shipper_view;
+DROP MATERIALIZED VIEW product.pallet_view;
 DROP FUNCTION parse_date(numeric, numeric, numeric);
