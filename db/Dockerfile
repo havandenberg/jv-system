@@ -16,6 +16,8 @@ RUN apt update && apt install -y \
   make && \
   make install
 
+RUN apt -y install postgresql-13-cron
+
 # add dbmate
 RUN apt install -y curl
 RUN curl -fsSL -o /usr/local/bin/dbmate https://github.com/amacneil/dbmate/releases/latest/download/dbmate-linux-amd64
