@@ -14,7 +14,7 @@ services:
       - ./db:/db
   db:
     container_name: jv-db
-    image: postgres:13
+    build: ./db
     env_file:
       - ./.env
     ports:
