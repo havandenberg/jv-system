@@ -260,7 +260,8 @@ CREATE MATERIALIZED VIEW accounting.expense_header_view (
             )
         FROM db2_JVFIL."EXPP100A"
     );
-CREATE MATERIALIZED VIEW accounting.expense_item_view (
+CREATE MATERIALIZED VIEW accounting.expense_item_view as (
+    with expense_items(
         id,
         vendor_id,
         voucher_id,
@@ -289,8 +290,12 @@ CREATE MATERIALIZED VIEW accounting.expense_item_view (
             "EXPB",
             trim("BOATB")
         FROM db2_JVFIL."EXPP120B"
-    );
-
+    )
+    select expense_items.*,
+        table_items.notes
+    from expense_items
+        left join accounting.expense_item table_items using(vendor_id, voucher_id, sequence_id)
+);
 comment on MATERIALIZED view accounting.expense_header_view is E'
 @foreignKey (vendor_id) references directory.vendor_view (id)|@fieldName vendor
 @foreignKey (vessel_code) references product.vessel_view (vessel_code)|@fieldName vessel
