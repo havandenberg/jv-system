@@ -42,3 +42,21 @@ creating database migrations with dbmate
 ```bash
 docker compose run db dbmate n <name-the-migration>
 ```
+
+# PG Cron
+
+Cron jobs running in PG can be monitored using the `cron.job_run_details` table, which stores run details for all past and current job executions.
+
+To select the average runtime for jobs grouped by job type, over the past 2 hours
+
+```sql
+with cron_runs as (
+	select command, end_time - start_time as delta
+	from cron.job_run_details
+	where end_time  > now() - interval '2 hours'
+	order by end_time DESC
+)
+select command, avg(delta), count(1)
+from cron_runs
+group by command;
+```
