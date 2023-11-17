@@ -1,10 +1,14 @@
 -- migrate:up
 CREATE OR REPLACE FUNCTION parse_date(day numeric, month numeric, year numeric) returns date AS $$
-SELECT case
-        when day = 0
-        or month = 0 then null
-        else date (month || '-' || day || '-' || year)
-    end $$ LANGUAGE SQL;
+BEGIN
+	RETURN date(month || '-' || day || '-' || year);
+exception
+WHEN OTHERS THEN
+	RETURN NULL;
+END;
+$$
+LANGUAGE plpgsql;
+
 CREATE MATERIALIZED VIEW directory.vendor_view (
         id,
         vendor_name,
