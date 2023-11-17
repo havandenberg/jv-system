@@ -14,6 +14,14 @@ Several applications are deployed inside the docker instance, that all work toge
 
 ![data flow](docs/jv-systems-data-flow.png)
 
+## Repo Layout
+
+* `/client` CRA application
+* `/data` static data fixtures
+* `/db` postgres docker image definition, includes SQL migrations
+* `/graphql` postgraphile docker image definition
+* `/server` express js web application
+* `/worker` express js web application, runs background jobs
 
 ## DBMate
 
