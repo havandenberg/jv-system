@@ -176,13 +176,25 @@ CREATE MATERIALIZED VIEW product.pallet_view as (
             shipper_id
         )
 );
-CREATE MATERIALIZED VIEW directory.shipper_view (id, shipper_name, country_id, group_id) as (
+CREATE MATERIALIZED VIEW directory.shipper_view (
+    id,
+    shipper_name,
+    country_id,
+    group_id,
+    vessel_control_days_until_due
+) as (
+    with db2_columns(id, shipper_name, country_id, group_id) as (
         SELECT "SHPR#K",
             "VNAMEK",
             "CNTRYK",
             "CMBK"
         from db2_JVFIL."INVP510K"
-    );
+    )
+    select db2_columns.*,
+        vessel_control_days_until_due
+    from db2_columns
+        join directory.shipper using(id)
+);
 CREATE MATERIALIZED VIEW accounting.check_header_view (
         is_reconciled,
         check_status,
