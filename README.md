@@ -1,5 +1,20 @@
 # Jac Vandenberg System
 
+## Deployment Architecture
+
+JV systems are deployed onto a docker instance running on a windows VM.
+Applications are available over the VPN by IP address only.
+Two environments are setup, UAT and Prod.
+
+![system architecture](docs/jv-systems-architecture.png)
+
+Several applications are deployed inside the docker instance, that all work together to support the main application.
+
+![docker setup](docs/jv-systems-docker-applications.png)
+
+![data flow](docs/jv-systems-data-flow.png)
+
+
 ## DBMate
 
 https://github.com/amacneil/dbmate
