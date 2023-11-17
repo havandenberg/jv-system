@@ -51,6 +51,54 @@ CREATE MATERIALIZED VIEW directory.vendor_view (
         from db2_GDSSYFIL."ACPP100V"
     );
 CREATE MATERIALIZED VIEW product.vessel_view (
+    id,
+    is_pre,
+    vessel_code,
+    pre_vessel_code,
+    vessel_name,
+    arrival_port,
+    country_id,
+    departure_date,
+    arrival_date,
+    discharge_date,
+    coast,
+    inv_flag
+) as (
+    with vessel as (
+        select false,
+            "BOAT#Z",
+            '',
+            "BNAMEZ",
+            "ARVPTZ",
+            "CNTRYZ",
+            parse_date("DEPDDZ", "DEPMMZ", "DEPYYZ"),
+            parse_date("ARVDDZ", "ARVMMZ", "ARVYYZ"),
+            parse_date("DISDDZ", "DISMMZ", "DISYYZ"),
+            case
+                when "PAYTYZ" = 'W' then 'WC'
+                else 'EC'
+            end,
+            "INVFGZ"
+        from db2_JVFIL."ORDP750Z"
+    ),
+    pre_vessel as (
+        select true,
+            "BOAT#Z",
+            "BOAT#Z",
+            "BNAMEZ",
+            "ARVPTZ",
+            "CNTRYZ",
+            parse_date("DEPDDZ", "DEPMMZ", "DEPYYZ"),
+            parse_date("ARVDDZ", "ARVMMZ", "ARVYYZ"),
+            parse_date("DISDDZ", "DISMMZ", "DISYYZ"),
+            case
+                when "PAYTYZ" = 'W' then 'WC'
+                else 'EC'
+            end,
+            "INVFGZ"
+        from db2_JVPREFIL."ORDP750Z"
+    ),
+    all_vessels(
         is_pre,
         vessel_code,
         pre_vessel_code,
@@ -63,46 +111,22 @@ CREATE MATERIALIZED VIEW product.vessel_view (
         coast,
         inv_flag
     ) as (
-        with vessel as (
-            select false,
-                "BOAT#Z",
-                '',
-                "BNAMEZ",
-                "ARVPTZ",
-                "CNTRYZ",
-                parse_date("DEPDDZ", "DEPMMZ", "DEPYYZ"),
-                parse_date("ARVDDZ", "ARVMMZ", "ARVYYZ"),
-                parse_date("DISDDZ", "DISMMZ", "DISYYZ"),
-                case
-                    when "PAYTYZ" = 'W' then 'WC'
-                    else 'EC'
-                end,
-                "INVFGZ"
-            from db2_JVFIL."ORDP750Z"
-        ),
-        pre_vessel as (
-            select true,
-                "BOAT#Z",
-                "BOAT#Z",
-                "BNAMEZ",
-                "ARVPTZ",
-                "CNTRYZ",
-                parse_date("DEPDDZ", "DEPMMZ", "DEPYYZ"),
-                parse_date("ARVDDZ", "ARVMMZ", "ARVYYZ"),
-                parse_date("DISDDZ", "DISMMZ", "DISYYZ"),
-                case
-                    when "PAYTYZ" = 'W' then 'WC'
-                    else 'EC'
-                end,
-                "INVFGZ"
-            from db2_JVPREFIL."ORDP750Z"
-        )
         select *
         from vessel
         union
         select *
         from pre_vessel
-    );
+    )
+    select concat(
+            all_vessels.is_pre,
+            '.',
+            all_vessels.vessel_code,
+            '.',
+            all_vessels.arrival_port
+        ) as id,
+        all_vessels.*
+    from all_vessels
+);
 CREATE MATERIALIZED VIEW product.pallet_view as (
     with pallets(
         vessel_code,
