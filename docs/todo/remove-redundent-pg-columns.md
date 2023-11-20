@@ -1,0 +1,1 @@
+remove redundent functions and columns that exist on the postgres database that are being replaced by FDW views.
