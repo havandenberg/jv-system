@@ -51813,7 +51813,7 @@ export type Query = Node & {
   /** Reads and enables pagination through a set of `ExpenseHeaderReview`. */
   expenseHeaderReviewsList?: Maybe<ExpenseHeaderReviewsConnection>;
   /** Reads and enables pagination through a set of `ExpenseHeader`. */
-  expenseHeaderSummary?: Maybe<ExpenseHeadersConnection>;
+  expenseHeaderSummaryView?: Maybe<ExpenseHeadersConnection>;
   expenseSummaryTruckLoadIds?: Maybe<ExpenseSummaryTruckLoadIdsConnection>;
   /** Reads a single `OrderNumber` using its globally unique `ID`. */
   orderNumberByNodeId?: Maybe<OrderNumber>;

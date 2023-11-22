@@ -788,8 +788,8 @@ const Expenses = () => {
                                     }}
                                     onChange={(e) => {
                                       handleNotesChange(
-                                        exp.voucherId || '',
                                         exp.vendorId || '',
+                                        exp.voucherId || '',
                                         expenseCode,
                                         e.target.value,
                                       );
